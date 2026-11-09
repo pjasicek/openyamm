@@ -99,6 +99,15 @@ struct GoblinwatchFactionFixture
             std::string error;
             REQUIRE_MESSAGE(monsters.loadActorProfiles(OpenYAMM::Tests::TestActorProfilesYaml, "mm7",
                 data.spellTable, error), error);
+            // A world that ships profiles of its own (Amber's) adds them.
+            const std::filesystem::path worldProfiles =
+                std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm7/actor_profiles.yml";
+            if (std::filesystem::is_regular_file(worldProfiles))
+            {
+                const auto bytes = readFixture(worldProfiles);
+                REQUIRE_MESSAGE(monsters.loadActorProfiles(std::string(bytes.begin(), bytes.end()), "mm7",
+                    data.spellTable, error), error);
+            }
         }
         const std::filesystem::path root = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm6/maps";
         std::optional<IndoorMapData> loadedMap = IndoorMapDataLoader{}.loadFromBytes(readFixture(root / "6d01.blv"));

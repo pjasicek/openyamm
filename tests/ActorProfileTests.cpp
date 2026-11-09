@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <sstream>
 #include <tuple>
 
 using namespace OpenYAMM::Game;
@@ -40,8 +41,17 @@ void writeProfileWorld(const std::filesystem::path &overlay)
 {
     const std::filesystem::path world = overlay / "worlds/mm7";
     std::filesystem::create_directories(world);
-    std::ofstream(world / "world.yml", std::ios::binary)
-        << readSourceFile("assets_dev/worlds/mm7/world.yml") << "\nactorProfiles: actor_profiles.yml\n";
+    // The test profiles replace any the world declares itself.
+    std::istringstream shipped(readSourceFile("assets_dev/worlds/mm7/world.yml"));
+    std::ostringstream manifest;
+    for (std::string line; std::getline(shipped, line);)
+    {
+        if (!line.starts_with("actorProfiles:"))
+        {
+            manifest << line << '\n';
+        }
+    }
+    std::ofstream(world / "world.yml", std::ios::binary) << manifest.str() << "actorProfiles: actor_profiles.yml\n";
     std::ofstream(world / "actor_profiles.yml", std::ios::binary) << OpenYAMM::Tests::TestActorProfilesYaml;
 }
 
