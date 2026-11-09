@@ -47,9 +47,8 @@ __pycache__/
 # assets_source submodule (openyamm-source-assets, see tools/ASSET_STORAGE.md).
 /assets_editor_dev/
 /data/
-# MM9 imports and the optional world payload are local for now.
+# MM9 imports (the original game extraction) are local.
 /mm9/
-/assets_dev/worlds/mm9/
 
 # Generation projects: level_generation/.gitignore tracks only their docs, scripts and small hand-written data.
 # Local animation source library (humanoid set, Mixamo and Meshy clips); only its README is tracked.
