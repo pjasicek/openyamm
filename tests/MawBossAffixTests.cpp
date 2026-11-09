@@ -36,6 +36,20 @@ std::string readSource(const std::string &path)
     return std::string((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
 }
 
+// The shipped map levels plus exclusiontest.blv excluding Swapper, inside the exclusions block a world may already
+// declare (Amber's Castle Amber) or in a new one.
+std::string withSwapperExclusion(std::string text)
+{
+    const std::string entry = "  exclusiontest.blv: [Swapper]\n";
+    const size_t key = text.find("\nboss_affix_exclusions:");
+    if (key == std::string::npos)
+    {
+        return text + "\nboss_affix_exclusions:\n" + entry;
+    }
+    const size_t lineEnd = text.find('\n', key + 1);
+    return text.insert(lineEnd == std::string::npos ? text.size() : lineEnd + 1, entry);
+}
+
 MawItemData installedItemData()
 {
     MawItemData data;
@@ -459,8 +473,7 @@ TEST_CASE("a map's boss affix exclusion removes Swapper from rolled, forced and 
 {
     MawMapLevels maps;
     std::string error;
-    REQUIRE_MESSAGE(maps.loadFromYaml(readSource("assets_dev/engine/rulesets/maw/data/map_levels.yml")
-        + "\nboss_affix_exclusions:\n  exclusiontest.blv: [Swapper]\n", error), error);
+    REQUIRE_MESSAGE(maps.loadFromYaml(withSwapperExclusion(readSource("assets_dev/engine/rulesets/maw/data/map_levels.yml")), error), error);
     CHECK_FALSE(maps.bossAffixAllowed("EXCLUSIONTEST.BLV", MawBossAffix::Swapper));
     CHECK(maps.bossAffixAllowed("control.blv", MawBossAffix::Swapper));
     CHECK(maps.bossAffixAllowed("exclusiontest.blv", MawBossAffix::Puller));
