@@ -92,12 +92,18 @@ struct OutdoorLightingData
     std::vector<Dependency> dependencies;
     std::vector<Probe> probes;
     std::unordered_map<uint64_t, std::vector<uint32_t>> probesByCell;
+    // The sky light an open point receives (brightest channel, linear): the 90th percentile of the terrain sky page,
+    // which is mostly open ground and water. Shaders measure a point's cover against it (bakedFogCoverShade); 0 when
+    // the bake has no sky page.
+    float openSkyIrradiance = 0.0f;
+
 
     bool hasBakedSources() const
     {
         return bakedSourcePages;
     }
     void indexProbes();
+    void measureOpenSky();
     std::vector<uint32_t> decodeDirectSunPage(uint32_t sunPageIndex) const;
     std::optional<Probe> sampleProbe(
         const std::array<float, 3> &position,
