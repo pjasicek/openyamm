@@ -503,3 +503,30 @@ TEST_CASE("outdoor lighting v5 validates direct-only pages and decodes them only
         CHECK_FALSE(loader.loadFromBytes(bytes, geometry, mapData, error));
     }
 }
+
+TEST_CASE("outdoor lighting measures the open sky on the terrain sky page for the fog over covered points")
+{
+    using namespace OpenYAMM::Game;
+    // RGBM4 texels as stored (B, G, R, M): light = channel / 255 * M / 255 * 4. M = 64 makes the scale 1.0039.
+    const auto texel = [](uint32_t channel) { return channel | (channel << 8) | (channel << 16) | (64u << 24); };
+    OutdoorLightingData lighting;
+    lighting.bakedSourcePages = true;
+    lighting.terrainPageIndex = 0;
+    lighting.atlasPages.resize(2);
+    // 85 open texels (0.35, the stock recipe's sky energy) and 15 under cover (0.02): the 90th percentile is open.
+    for (int index = 0; index < 100; ++index)
+    {
+        lighting.atlasPages[1].pixelsBgra.push_back(texel(index < 15 ? 5 : 89));
+    }
+    lighting.measureOpenSky();
+    CHECK(lighting.openSkyIrradiance == doctest::Approx(89.0f / 255.0f * 64.0f / 255.0f * 4.0f));
+
+    // Without paired sky pages (a combined lightmap) the shaders leave the fog as it is.
+    lighting.bakedSourcePages = false;
+    lighting.measureOpenSky();
+    CHECK_EQ(lighting.openSkyIrradiance, 0.0f);
+    lighting.bakedSourcePages = true;
+    lighting.atlasPages.resize(1);
+    lighting.measureOpenSky();
+    CHECK_EQ(lighting.openSkyIrradiance, 0.0f);
+}
