@@ -6,6 +6,23 @@ uniform vec4 u_bakedLighting[2];
 SAMPLER2D(s_texBakedSunDirect, 5);
 #endif
 
+// Distance fog takes the sky's colour, so a point the open sky cannot reach (a cave, a deep overhang) would fade into a
+// bright haze while the point itself is dark. The bake's sky page says how much of the open sky a point sees;
+// u_bakedLighting[1].w is the map's open-sky value (OutdoorLightingData::openSkyIrradiance, 0 for none). Below
+// FogCoverOpenShare of it the fog colour darkens with the point; at or above it the fog is exactly as before, so open
+// ground, walls and eaves keep their look.
+#define FogCoverOpenShare 0.25
+
+float bakedFogCoverShade(vec4 sky)
+{
+    if (u_bakedLighting[1].w <= 0.0)
+    {
+        return 1.0;
+    }
+    float seen = max(max(sky.r, sky.g), sky.b) * (sky.a * 4.0) / u_bakedLighting[1].w;
+    return smoothstep(0.0, FogCoverOpenShare, seen);
+}
+
 vec3 bakedSourceLighting(vec4 sun, vec4 sky)
 {
     return sun.rgb * (sun.a * 4.0) * u_bakedLighting[0].rgb

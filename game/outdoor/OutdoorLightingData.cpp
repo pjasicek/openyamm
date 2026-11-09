@@ -124,6 +124,31 @@ void OutdoorLightingData::indexProbes()
     }
 }
 
+void OutdoorLightingData::measureOpenSky()
+{
+    openSkyIrradiance = 0.0f;
+    const size_t skyPageIndex = size_t(terrainPageIndex) + 1;
+
+    if (!bakedSourcePages || skyPageIndex >= atlasPages.size() || atlasPages[skyPageIndex].pixelsBgra.empty())
+    {
+        return;
+    }
+
+    // RGBM4 texels (B, G, R, M bytes): linear light = channel / 255 * M / 255 * 4.
+    std::vector<float> brightest;
+    brightest.reserve(atlasPages[skyPageIndex].pixelsBgra.size());
+
+    for (const uint32_t texel : atlasPages[skyPageIndex].pixelsBgra)
+    {
+        const uint32_t channel = std::max({texel & 0xffu, (texel >> 8) & 0xffu, (texel >> 16) & 0xffu});
+        brightest.push_back(float(channel) / 255.0f * float(texel >> 24) / 255.0f * 4.0f);
+    }
+
+    const auto percentile = brightest.begin() + std::ptrdiff_t(brightest.size() * 9 / 10);
+    std::nth_element(brightest.begin(), percentile, brightest.end());
+    openSkyIrradiance = std::isfinite(*percentile) ? *percentile : 0.0f;
+}
+
 std::optional<OutdoorLightingData::Probe> OutdoorLightingData::sampleProbe(
     const std::array<float, 3> &position,
     const std::function<bool(const std::array<float, 3> &)> &visible) const
@@ -673,6 +698,7 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
     }
 
     result.indexProbes();
+    result.measureOpenSky();
     return result;
 }
 }

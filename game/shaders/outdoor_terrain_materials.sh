@@ -322,5 +322,8 @@ void main()
     float fogDistance = length(position - u_cameraPosition.xyz);
     float fogRatio = skyFogRatio(getFogRatio(fogDistance), position, fogDistance, u_fogDistances.z);
     vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, position), getFogAlpha(fogDistance));
+#if BAKED_SOURCES
+    fogColor.rgb *= bakedFogCoverShade(skySample);
+#endif
     gl_FragColor = mix(vec4(litColor, 1.0), fogColor, fogRatio);
 }
