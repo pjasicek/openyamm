@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <limits>
 
 namespace OpenYAMM::Game
 {
@@ -109,19 +110,67 @@ void OutdoorLightingData::indexProbes()
     constexpr float EnclosedAmbientShare = 0.02f;
     constexpr float EnclosedSunVisibility = 0.01f;
     probesByCell.clear();
+    enclosedProbesByCell.clear();
     for (uint32_t index = 0; index < probes.size(); ++index)
     {
         const Probe &probe = probes[index];
-
-        if (probe.sunVisibility < EnclosedSunVisibility && ambient(probe) < brightestAmbient * EnclosedAmbientShare)
-        {
-            continue;
-        }
-
         const int32_t x = int32_t(std::floor(probe.position[0] / 512.0f));
         const int32_t y = int32_t(std::floor(probe.position[1] / 512.0f));
-        probesByCell[probeCellKey(x, y)].push_back(index);
+        const bool enclosed =
+            probe.sunVisibility < EnclosedSunVisibility && ambient(probe) < brightestAmbient * EnclosedAmbientShare;
+        (enclosed ? enclosedProbesByCell : probesByCell)[probeCellKey(x, y)].push_back(index);
     }
+}
+
+bool OutdoorLightingData::nearestProbeEnclosed(const std::array<float, 3> &position) const
+{
+    if (!std::all_of(position.begin(), position.end(),
+            [](float value) { return std::isfinite(value) && std::abs(value) < 10000000.0f; }))
+    {
+        return false;
+    }
+
+    const int32_t cellX = int32_t(std::floor(position[0] / 512.0f));
+    const int32_t cellY = int32_t(std::floor(position[1] / 512.0f));
+    float nearestOpen = std::numeric_limits<float>::max();
+    float nearestEnclosed = std::numeric_limits<float>::max();
+
+    for (int32_t y = cellY - 1; y <= cellY + 1; ++y)
+    {
+        for (int32_t x = cellX - 1; x <= cellX + 1; ++x)
+        {
+            for (const auto *pIndex : {&probesByCell, &enclosedProbesByCell})
+            {
+                const auto found = pIndex->find(probeCellKey(x, y));
+
+                if (found == pIndex->end())
+                {
+                    continue;
+                }
+
+                float &nearest = pIndex == &probesByCell ? nearestOpen : nearestEnclosed;
+
+                for (uint32_t index : found->second)
+                {
+                    float distance = 0.0f;
+
+                    for (size_t axis = 0; axis < 3; ++axis)
+                    {
+                        const float delta = probes[index].position[axis] - position[axis];
+                        distance += delta * delta;
+                    }
+
+                    nearest = std::min(nearest, distance);
+                }
+            }
+        }
+    }
+
+    // Next to a wall the probe inside the building may be the nearer one: an open probe within two grid steps means
+    // the point is outdoors. Checked on the stock MM6-MM8 and Amber bakes: no outdoor point within 128 units of an
+    // open probe counts as enclosed.
+    constexpr float OpenProbeReach = 256.0f;
+    return nearestEnclosed < nearestOpen && nearestOpen > OpenProbeReach * OpenProbeReach;
 }
 
 void OutdoorLightingData::measureOpenSky()
