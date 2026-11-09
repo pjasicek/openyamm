@@ -1031,30 +1031,6 @@ ReplaceGlobalEvent(950, "MMMerge Blaster skill", function()
     end
 end)
 
-ReplaceGlobalEvent(1778, "MMMerge Verdant important matter", function()
-    CrossContinents.HandleVerdantIntro()
-end)
-
-ReplaceGlobalEvent(1781, "MMMerge Verdant dimension doors", function()
-    CrossContinents.ExplainDimensionDoors()
-end)
-
-ReplaceGlobalEvent(1782, "MMMerge Verdant Jadame", function()
-    CrossContinents.ExplainCurrentContinent(1)
-end)
-
-ReplaceGlobalEvent(1783, "MMMerge Verdant Antagarich", function()
-    CrossContinents.ExplainCurrentContinent(2)
-end)
-
-ReplaceGlobalEvent(1784, "MMMerge Verdant Enroth", function()
-    CrossContinents.ExplainCurrentContinent(3)
-end)
-
-ReplaceGlobalEvent(1788, "MMMerge Verdant connector stone", function()
-    CrossContinents.HandleConnectorStone()
-end)
-
 AppendGlobalEvent(513, function()
     MM7.SummonMalwickAmbush(false)
 end)

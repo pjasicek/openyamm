@@ -18,35 +18,6 @@ function MM8.SetMapFlag(name, enabled)
     MM8.SetMapVar(name, enabled and 1 or 0)
 end
 
-function MM8.OpenDimensionDoor()
-    if CrossContinents ~= nil
-        and CrossContinents.TryDimensionDoorContact ~= nil
-        and CrossContinents.TryDimensionDoorContact() then
-        return
-    end
-
-    evt.OpenDimensionDoor()
-end
-
-function MM8.PartyTile()
-    local x, y = evt.GetPartyPosition()
-    return math.floor(x / 512 + 64), math.floor(64 - y / 512)
-end
-
-function MM8.OpenDimensionDoorOnTile(tileX, tileY, latchName)
-    evt.ClearDimensionDoorOverlay()
-
-    local partyTileX, partyTileY = MM8.PartyTile()
-    local onTile = partyTileX == tileX and partyTileY == tileY
-
-    if onTile and not MM8.GetMapFlag(latchName) then
-        MM8.SetMapFlag(latchName, true)
-        MM8.OpenDimensionDoor()
-    elseif not onTile and MM8.GetMapFlag(latchName) then
-        MM8.SetMapFlag(latchName, false)
-    end
-end
-
 function MM8.HasCurrentPlayerSpell(spellId)
     return PlayerKnowsSpell(nil, spellId)
 end

@@ -1,8 +1,4 @@
--- MMMerge supplement: Tularean Forest Dimension Door and artifact battle repairs.
-
-RegisterEvent(504, "Dimension Door", function()
-    MM7.OpenDimensionDoor()
-end, "Dimension Door")
+-- MMMerge supplement: Tularean Forest artifact battle repairs.
 
 RemoveMapEvent(401)
 RegisterMapOnLoadEvent(401, "MMMerge Tularean artifact messenger", function()

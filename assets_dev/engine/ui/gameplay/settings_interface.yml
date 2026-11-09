@@ -492,7 +492,7 @@ elements:
     - id: SettingsInterfaceGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 492.8281
+      offset_y: 543.2702
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -509,7 +509,7 @@ elements:
     - id: SettingsInterfaceGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 662.5043
+      offset_y: 712.9464
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -920,10 +920,64 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsInterfaceContextActionPopupLabel
+    - id: SettingsInterfaceMapStyleLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 449.6361
+      width: 395.2
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Map style
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceMapStyleDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 465.8446
+      width: 395.2
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Where a world has painted maps (MM9), show them, or the line map drawn as you explore where the place has
+          one.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceMapStyleControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 457.5238
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{map_style}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+    - id: SettingsInterfaceContextActionPopupLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 500.0782
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -940,7 +994,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 465.8446
+      offset_y: 516.2867
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -957,7 +1011,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 447.4198
+      offset_y: 497.8619
       width: 70.4
       height: 32.158
       z_index: 10
@@ -969,7 +1023,7 @@ elements:
     - id: SettingsInterfacePartyFrameLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 518.4281
+      offset_y: 568.8702
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -986,7 +1040,7 @@ elements:
     - id: SettingsInterfacePartyFrameDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 534.6366
+      offset_y: 585.0787
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1003,7 +1057,7 @@ elements:
     - id: SettingsInterfacePartyFrameControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 516.2118
+      offset_y: 566.6539
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1015,7 +1069,7 @@ elements:
     - id: SettingsInterfaceItemButtonsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 557.3534
+      offset_y: 607.7955
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1032,7 +1086,7 @@ elements:
     - id: SettingsInterfaceItemButtonsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 573.5619
+      offset_y: 624.004
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1049,7 +1103,7 @@ elements:
     - id: SettingsInterfaceItemButtonsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 560.8955
+      offset_y: 611.3376
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1061,7 +1115,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 607.7955
+      offset_y: 658.2376
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1078,7 +1132,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 624.004
+      offset_y: 674.4461
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1095,7 +1149,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 611.3376
+      offset_y: 661.7797
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1107,7 +1161,7 @@ elements:
     - id: SettingsInterfaceRarityGlowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 688.1043
+      offset_y: 738.5464
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1124,7 +1178,7 @@ elements:
     - id: SettingsInterfaceRarityGlowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 704.3128
+      offset_y: 754.7549
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -1141,7 +1195,7 @@ elements:
     - id: SettingsInterfaceRarityGlowControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 690.2336
+      offset_y: 740.6757
       width: 110.9333
       height: 23.4667
       z_index: 10

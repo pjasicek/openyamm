@@ -153,6 +153,15 @@ settings:
   name: Quest markers
   type: toggle
   desc: Mark characters with quests to offer or complete, where the world has them.
+- id: map_style
+  section: interface
+  group: Exploration
+  name: Map style
+  type: select
+  options:
+  - [painted, Painted]
+  - [lines, Lines]
+  desc: Where a world has painted maps (MM9), show them, or the line map drawn as you explore where the place has one.
 - id: context_action_popup
   section: interface
   group: Exploration
@@ -742,6 +751,9 @@ bindings:
   group: Combat
 - id: quick_spell_4
   name: Cast quick spell 4
+  group: Combat
+- id: battle_orders
+  name: Battle orders
   group: Combat
 - id: cast
   name: Open spellbook

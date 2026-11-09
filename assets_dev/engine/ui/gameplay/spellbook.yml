@@ -301,22 +301,10 @@ elements:
           default: STXTu
           pressed: STXTd
           highlighted: STXTu
-      - id: SpellbookQuickCastButton
-        anchor: bottom_left
-        offset_x: 0
-        offset_y: -48
-        width: 36
-        height: 44
-        z_index: 60
-        interactive: true
-        asset:
-          default: STSSu
-          pressed: STSSd
-          highlighted: STSSu
       - id: SpellbookAttackCastButton
         anchor: bottom_left
         offset_x: 0
-        offset_y: -94
+        offset_y: -48
         width: 36
         height: 46
         z_index: 60
@@ -325,10 +313,12 @@ elements:
           default: GF-ASpell
           pressed: GF-ASpellD
           highlighted: GF-ASpell
-      - id: SpellbookQuickSpellSlot1
+        notes: The selected spell becomes the member's only attack order (the quick setup without Battle Orders);
+          again, or with no spell selected, the orders are cleared.
+      - id: SpellbookQuickCastButton
         anchor: bottom_left
         offset_x: 0
-        offset_y: -140
+        offset_y: -96
         width: 36
         height: 44
         z_index: 60
@@ -337,102 +327,21 @@ elements:
           default: STSSu
           pressed: STSSd
           highlighted: STSSu
-        notes: MMMerge's extra quick spell 1 (ExtraQuickSpells.lua); a click sets or clears the selected spell, the
-          Quick Spell 1 key casts it.
-        children:
-        - id: SpellbookQuickSpellSlot1Label
-          anchor: top_left
-          offset_x: 0
-          offset_y: 4
-          width: 36
-          height: 14
-          text:
-            value: '1'
-            font: SMALLNUM
-            color: '#ffffff'
-            align_x: center
-            align_y: middle
-      - id: SpellbookQuickSpellSlot2
+        notes: The selected spell becomes the member's Quick Cast; again, or with no spell selected, it is cleared.
+      - id: SpellbookBattleOrdersButton
         anchor: bottom_left
         offset_x: 0
-        offset_y: -186
+        offset_y: -142
         width: 36
         height: 44
         z_index: 60
         interactive: true
         asset:
-          default: STSSu
-          pressed: STSSd
-          highlighted: STSSu
-        notes: MMMerge's extra quick spell 2 (ExtraQuickSpells.lua); a click sets or clears the selected spell, the
-          Quick Spell 2 key casts it.
-        children:
-        - id: SpellbookQuickSpellSlot2Label
-          anchor: top_left
-          offset_x: 0
-          offset_y: 4
-          width: 36
-          height: 14
-          text:
-            value: '2'
-            font: SMALLNUM
-            color: '#ffffff'
-            align_x: center
-            align_y: middle
-      - id: SpellbookQuickSpellSlot3
-        anchor: bottom_left
-        offset_x: 0
-        offset_y: -232
-        width: 36
-        height: 44
-        z_index: 60
-        interactive: true
-        asset:
-          default: STSSu
-          pressed: STSSd
-          highlighted: STSSu
-        notes: MMMerge's extra quick spell 3 (ExtraQuickSpells.lua); a click sets or clears the selected spell, the
-          Quick Spell 3 key casts it.
-        children:
-        - id: SpellbookQuickSpellSlot3Label
-          anchor: top_left
-          offset_x: 0
-          offset_y: 4
-          width: 36
-          height: 14
-          text:
-            value: '3'
-            font: SMALLNUM
-            color: '#ffffff'
-            align_x: center
-            align_y: middle
-      - id: SpellbookQuickSpellSlot4
-        anchor: bottom_left
-        offset_x: 0
-        offset_y: -278
-        width: 36
-        height: 44
-        z_index: 60
-        interactive: true
-        asset:
-          default: STSSu
-          pressed: STSSd
-          highlighted: STSSu
-        notes: MMMerge's extra quick spell 4 (ExtraQuickSpells.lua); a click sets or clears the selected spell, the
-          Quick Spell 4 key casts it.
-        children:
-        - id: SpellbookQuickSpellSlot4Label
-          anchor: top_left
-          offset_x: 0
-          offset_y: 4
-          width: 36
-          height: 14
-          text:
-            value: '4'
-            font: SMALLNUM
-            color: '#ffffff'
-            align_x: center
-            align_y: middle
+          default: battle_orders_button
+          pressed: battle_orders_button_pressed
+          highlighted: battle_orders_button
+        notes: Opens the Battle Orders window (game/ui/GameplayBattleOrders.h); the attack orders and quick keys of
+          each member. A right click on a spell assigns it to a quick key or the orders.
       - id: SpellbookPageFireSpellTorchlight
         anchor: center
         offset_x: 74

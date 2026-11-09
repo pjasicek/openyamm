@@ -17,6 +17,8 @@ month_multipliers:
 # rain/snow set the chance; a snow chance only applies to maps bolster_maps.txt lets snow.
 # ash (falling volcanic ash) is the daily chance on that map alone: only maps listed with an ash chance get ash,
 # with or without a bolster_maps.txt row, and it has no month multiplier. No MM6-MM8 map has it.
+# fog: [small, average, dense] daily chances (percent) of an open-sky indoor map's fog day (open_sky_fog below); a fog
+# day runs from 3 am, blending in over the first hour. Outdoor maps ignore it (their fog is the scene's or MMerge's).
 maps:
   7out13.odm: {rain: 30}  # Tatalia: swamp and lowland humidity
   outc3.odm: {rain: 30}   # Mire of the Damned
@@ -30,9 +32,32 @@ maps:
   # switches them): Sturmford's covers the whole region (Rate 256, with 13 placed thunder sounds: a standing storm),
   # Frosgard's its valley (Rate 100) and Frosgard City's 31 its streets (Rate 200). always: that kind every hour at
   # about this peak (the usual variation round it); no other MM9 map rains or snows in MM9 (the rolls apply there).
-  sturmford.blv: {always: rain, peak: 0.85}
-  frosgard.blv: {always: snow, peak: 0.4}
+  sturmford.blv: {always: rain, peak: 0.85, fog: [20, 15, 10]}
+  frosgard.blv: {always: snow, peak: 0.4, fog: [8, 4, 2]}
   frosgardcity.blv: {always: snow, peak: 0.55}
+  # MM9 fog days (user 2026-11-09): often in Sturmford and Drangheim, never in Guberland, seldom elsewhere. Frosgard
+  # City keeps MM9's own fog (scene fog), so it rolls none.
+  sturmfordcity.blv: {fog: [20, 15, 10]}
+  drangheim.blv: {fog: [20, 15, 10]}
+  drangheimcity.blv: {fog: [20, 15, 10]}
+  afterworld.blv: {fog: [8, 4, 2]}
+  arslegardcity.blv: {fog: [8, 4, 2]}
+  bootcamp.blv: {fog: [8, 4, 2]}
+  isleofashes.blv: {fog: [8, 4, 2]}
+  lindisfarne.blv: {fog: [8, 4, 2]}
+  mountainpass.blv: {fog: [8, 4, 2]}
+  thjorgard.blv: {fog: [8, 4, 2]}
+  thjorgardcity.blv: {fog: [8, 4, 2]}
+  thronheim.blv: {fog: [8, 4, 2]}
+  thronheimcity.blv: {fog: [8, 4, 2]}
+  yorwick.blv: {fog: [8, 4, 2]}
+
+# An open sky's fog levels (maps fog chances): a linear fade into the sky's fog colour from near to far (world units),
+# never farther than the clear view's own fade; the sky hazes more the nearer far is.
+open_sky_fog:
+  small: [3072, 14336]
+  average: [1024, 8192]
+  dense: [0, 4096]
 
 # A spell's peak intensity (0-1) is picked by weight; wind and fog scale with it.
 intensities:

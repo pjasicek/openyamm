@@ -713,7 +713,7 @@ classes:
 #   ladder_expert, ladder_master, ladder_grandmaster   the levels a self-taught skill gains its masteries at
 #   school_cut                the share of hits a Death Knight's Blood or Unholy (or a Shaman's Air) takes off
 #   school_damage             a class's flat melee damage from the school
-#   elemental_progress        an Elementalist's progress to the next spell of the school, in percent
+#   elemental_progress_line   an Elementalist's progress to the next spell of the school, naming it (a line)
 #   dragon_leech              a dragon's bite leech from Regeneration (its own paragraph; empty for other races)
 #   armor_items               the worn armour's Armor Class and the skill's bonuses (a paragraph; empty without it)
 skills:
@@ -858,10 +858,12 @@ skills:
     master: "Half again as much"
     grandmaster: "Twice as much"
   Learning:
-    append: >-
-      At your current skill, spells deal +<good>{asc_damage_base}</> % base damage and
-      +<good>{asc_damage_scaling}</> % damage per point of skill, and heal +<good>{asc_heal_base}</> % base and
-      +<good>{asc_heal_scaling}</> % per point. Mana costs change by {asc_mana_change} ({asc_cc_mana_change} for control spells), and casting takes <bad>{asc_cast}</> % longer.
+    append: |-
+      Current bonuses:
+      Spell damage: +<good>{asc_damage_base}</> % base, +<good>{asc_damage_scaling}</> % per point of skill
+      Healing: +<good>{asc_heal_base}</> % base, +<good>{asc_heal_scaling}</> % per point of skill
+      Mana cost: {asc_mana_change}; control spells: {asc_cc_mana_change}
+      Cast time: <bad>+{asc_cast} %</>
   Perception:
     normal: "{table}; traps and lava hurt 10 % less"
     expert: "{table}; traps and lava hurt 30 % less"
@@ -912,8 +914,8 @@ class_skills:
       grandmaster: "Effects vary per spell"
     BodyMagic:
       description: >-
-        Blood, only for Death Knights: physical damage taken falls by <good>{school_cut:1}</> %, and your blows leech life. Its
-        mastery unlocks Blood Leech, Regeneration, Asphyxiate and Superior Blood Leech.
+        Blood, only for Death Knights: physical damage taken falls by <good>{school_cut:1}</> %. Its mastery unlocks Blood
+        Leech, Regeneration, Asphyxiate and Superior Blood Leech; while Blood Leech is on, your blows leech life.
       normal: "Effects vary per spell"
       expert: "Effects vary per spell"
       master: "Effects vary per spell"
@@ -962,11 +964,21 @@ class_skills:
       master: "Maximum energy +30"
       grandmaster: "Maximum energy +40"
   dragon:
+    DragonAbility:
+      description: >-
+        Dragons are powerful creatures with innate abilities. Like the racial abilities of Dark Elves and Vampires,
+        Dragon abilities are cast like spells but acquired like skills: Fear from the start, then Breath Weapon, Flight
+        and Wing Buffet at Expert, Master and Grandmaster.
+
+        Breath damage is 20 + 2 per level (up to level {dragon_level_cap}), raised by 3, 4, 5 or 6 % per point of
+        Dragon Ability at Novice, Expert, Master or Grandmaster. Each point also makes the breath 1.5 % slower and
+        1.5 % stronger. While Dragon Ability is at least as high as Fangs, bites throw monsters back.
     Unarmed:
       description: >-
         Dragons use their fangs to deal atrocious damage to enemies. Damage is 30 + 2 per level (up to level
         {dragon_level_cap}); the Fangs skill raises it by a percentage of mastery and skill level. Each point also
-        makes the bite 1.5 % slower and 1.5 % stronger, so fewer, heavier bites deal the same damage over time.
+        makes the bite 1.5 % slower and 1.5 % stronger, so fewer, heavier bites deal the same damage over time. While
+        Dragon Ability is at least as high as Fangs, each bite also throws the monster back.
       normal: "Attack +2, damage +4 % per point"
       expert: "Attack +3, damage +6 % per point"
       master: "Attack +4, damage +8 % per point"
@@ -1065,24 +1077,40 @@ class_skills:
   elementalist:
     FireMagic:
       append: >-
-        Offensive spells cast from the quick or attack spell build stacks and turn it into another known spell of the
-        same kind: single target, shotgun or area. R switches the rotation on the skills page; it is {rotation}.
-        Elementalists learn spells by casting them: <good>{elemental_progress:1}</> % of the way to the next Fire spell.
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
     AirMagic:
       append: >-
-        Offensive spells cast from the quick or attack spell build stacks and turn it into another known spell of the
-        same kind: single target, shotgun or area. R switches the rotation on the skills page; it is {rotation}.
-        Elementalists learn spells by casting them: <good>{elemental_progress:1}</> % of the way to the next Air spell.
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
     WaterMagic:
       append: >-
-        Offensive spells cast from the quick or attack spell build stacks and turn it into another known spell of the
-        same kind: single target, shotgun or area. R switches the rotation on the skills page; it is {rotation}.
-        Elementalists learn spells by casting them: <good>{elemental_progress:1}</> % of the way to the next Water spell.
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
     EarthMagic:
       append: >-
-        Offensive spells cast from the quick or attack spell build stacks and turn it into another known spell of the
-        same kind: single target, shotgun or area. R switches the rotation on the skills page; it is {rotation}.
-        Elementalists learn spells by casting them: <good>{elemental_progress:1}</> % of the way to the next Earth spell.
+        Offensive spells cast from the quick or attack spell build Elemental stacks, and each cast turns that spell
+        into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
+        and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
+        stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
+        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+
+        Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
 
 # Stat popups (zzMaw-Stats.lua BuildStatInformationBox), keyed by the character screen's stat names. `append` adds a
 # paragraph to the stat table's text, `description` replaces it. Numbers are measured against the party's total level
@@ -1097,7 +1125,7 @@ class_skills:
 #   physical_cut, total_cut   the percent of a physical blow armour takes off, and with avoiding blows
 #   fire_cut ... body_cut     the percent each resistance takes off a hit
 #   hp_regen, sp_regen        hit points and spell points regained per second (faster out of combat)
-#   levels_mm6, levels_mm7, levels_mm8, levels_total   the levels banked in each world
+#   levels_mm6, levels_mm7, levels_mm8, levels_mm9, levels_total   the levels banked in each world
 stats:
   Might:
     append: "Melee and bow damage +<good>{might_bonus:1}</> %."
@@ -1142,8 +1170,9 @@ stats:
   Level:
     append: >-
       Levels banked: <value>{levels_total:1}</> in all; <value>{levels_mm6:1}</> in Enroth, <value>{levels_mm7:1}</> in Antagarich, <value>{levels_mm8:1}</>
-      in Jadame. Monsters grow with the levels banked in the other worlds: bolster level <value>{bolster_mm6}</> in
-      Enroth, <value>{bolster_mm7}</> in Antagarich, <value>{bolster_mm8}</> in Jadame.
+      in Jadame, <value>{levels_mm9:1}</> in Chedian. Monsters grow with the levels banked in the other worlds: bolster
+      level <value>{bolster_mm6}</> in Enroth, <value>{bolster_mm7}</> in Antagarich, <value>{bolster_mm8}</> in Jadame,
+      <value>{bolster_mm9}</> in Chedian.
   FireResistance:
     append: "Against level <value>{reference_level}</> monsters it takes <good>{fire_cut:1}</> % off fire hits."
   AirResistance:

@@ -1213,8 +1213,8 @@ elements:
 - id: OutdoorFlyBuffIcon
   anchor_space: screen
   anchor: top_left
-  width: 32
-  height: 32
+  width: 48
+  height: 48
   scale:
     min: 0.6
     max: 8
@@ -1222,12 +1222,38 @@ elements:
   z_index: 200
   asset:
     default: sp21a10
-  notes: Separate flight indicator for Fly or Levitate; positioned beside the skull and animated while flying.
+  notes: Fly indicator (spell21), animated while flying; the movement indicators line up beside the skull.
+- id: OutdoorLevitateBuffIcon
+  anchor_space: screen
+  anchor: top_left
+  width: 48
+  height: 48
+  scale:
+    min: 0.6
+    max: 8
+    reference_width: 965
+  z_index: 200
+  asset:
+    default: sp109-01
+  notes: Levitate indicator, MM8's own sp109 animation; it stands for the Water Walk Levitate applies.
+- id: OutdoorFleetFootBuffIcon
+  anchor_space: screen
+  anchor: top_left
+  width: 48
+  height: 48
+  scale:
+    min: 0.6
+    max: 8
+    reference_width: 965
+  z_index: 200
+  asset:
+    default: fleetfoot01
+  notes: MM9's Fleet Foot indicator (its winged boot, worlds/mm9/icons_x2), animated while the buff lasts.
 - id: OutdoorWaterWalkBuffIcon
   anchor_space: screen
   anchor: top_left
-  width: 32
-  height: 32
+  width: 48
+  height: 48
   scale:
     min: 0.6
     max: 8
@@ -1235,7 +1261,7 @@ elements:
   z_index: 200
   asset:
     default: sp27a10
-  notes: Separate animated Water Walk indicator; positioned beside the flight indicator.
+  notes: Water Walk indicator (spell27), animated while on water; not shown for the Water Walk Levitate applies.
 - id: ObsidianPartyBuffStrip
   anchor: top_left
   offset_x: 14.933333

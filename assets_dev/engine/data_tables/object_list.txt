@@ -539,3 +539,6 @@ explosion	null	12001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,N
 Breath Weapon 2	spell100	12010	16	16	768	4000	853	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
 explosion	spell100x	12011	16	16	8	0	861	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
 MM9 Treasure Bag	bag01	19001	49	60	0	0	17877	0x00000000	0	0	0	NoGravity
+MM9 Thrown Knife	3DAGGER	19010	16	16	640	3072	17527	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+MM9 Thrown Axe	3AXE	19011	16	16	640	3072	17529	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+MM9 Thrown Egg	3EGG	19012	16	16	640	1536	17616	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept

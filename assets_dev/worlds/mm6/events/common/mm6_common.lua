@@ -368,16 +368,6 @@ function MM6.RepairStoneTemple()
     evt.EnterHouse(1442)
 end
 
-function MM6.OpenDimensionDoor()
-    if CrossContinents ~= nil
-        and CrossContinents.TryDimensionDoorContact ~= nil
-        and CrossContinents.TryDimensionDoorContact() then
-        return
-    end
-
-    evt.OpenDimensionDoor()
-end
-
 function MM6.RunNewSorpigalVolcanoSequence()
     evt.PlaySound(18090)
 

@@ -34,9 +34,15 @@ projectiles:
   - {object: 9010, model: engine/models/projectile_toxic_cloud.glb, length: 79}  # Toxic Cloud (a green skull in smoke)
   - {object: 2100, model: engine/models/projectile_starburst.glb, length: 126}   # Starburst star (flipbook flames)
   - {object: 1080, model: engine/models/projectile_meteor.glb, length: 126}      # Meteor Shower (flipbook flames)
-  - {object: 307, model: engine/models/projectile_dagger.glb, length: 66,        # Thrown dagger (party, MM9 knives)
+  - {object: 307, model: engine/models/projectile_dagger.glb, length: 66,        # Thrown dagger (party)
      spin: {axis: side, degrees_per_second: 720}}
-  - {object: 309, model: engine/models/projectile_axe.glb, length: 110,          # Thrown axe (party, MM9 axes)
+  - {object: 309, model: engine/models/projectile_axe.glb, length: 110,          # Thrown axe (party)
      spin: {axis: side, degrees_per_second: 540}}
-  - {object: 384, model: engine/models/projectile_egg.glb, length: 52,           # MM9 egg
+  - {object: 384, model: engine/models/projectile_egg.glb, length: 52,           # Egg
+     spin: {axis: side, degrees_per_second: 360}}
+  - {object: 19010, model: engine/models/projectile_dagger.glb, length: 66,      # MM9 thrown knife (MM9Knife)
+     spin: {axis: side, degrees_per_second: 720}}
+  - {object: 19011, model: engine/models/projectile_axe.glb, length: 110,        # MM9 thrown axe (MM9Axe)
+     spin: {axis: side, degrees_per_second: 540}}
+  - {object: 19012, model: engine/models/projectile_egg.glb, length: 52,         # MM9 egg (MM9Egg)
      spin: {axis: side, degrees_per_second: 360}}

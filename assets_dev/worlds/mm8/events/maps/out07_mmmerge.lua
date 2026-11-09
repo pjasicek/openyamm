@@ -46,18 +46,6 @@ ReplaceMapEvent(455, "Tree", function()
     MM8.TryExchangeGem(GemExchangeEntries)
 end, "Tree")
 
-RegisterEvent(500, "Dimension Door", function()
-    MM8.OpenDimensionDoor()
-end, "Dimension Door")
-
-RegisterMapOnLoadEvent(901, "MMMerge Dimension Door tile reset", function()
-    MM8.SetMapFlag("DimensionDoorTileActive", false)
-end)
-
-RegisterMapTimerEvent(902, 1, function()
-    MM8.OpenDimensionDoorOnTile(43, 98, "DimensionDoorTileActive")
-end, "MMMerge Dimension Door tile")
-
 -- The Unicorn King (actor 0, unique name 7) walks Murmurwoods only on June 24 from 9 to 17 o'clock, as the original
 -- executable hardcodes (MM8-Rel.exe 0x48059e, 0x47b4f1); the rest of the year it is hidden and inert. A slain one
 -- stays.

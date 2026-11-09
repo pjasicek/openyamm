@@ -20,10 +20,10 @@ ReplaceMapEvent(16, "New Sorpigal Coach Company", function()
     evt.EnterHouse(470)
 end, "New Sorpigal Coach Company")
 
+-- The northwest fountain also opens the dimensional travel, as in MMerge (without its Verdant quest gate; the user,
+-- 2026-11-09), besides the town's pedestal (event 1777).
 AppendMapEvent(140, function()
-    if not evt.Cmp(MapVar(50), 1) then
-        MM6.OpenDimensionDoor()
-    end
+    evt.OpenDimensionDoor()
 end)
 
 ReplaceMapEvent(220, "Volcano", function()
@@ -35,3 +35,9 @@ MM6.RegisterDragonTowerTimer(230, -6152, -9208, 2700, 1180)
 ReplaceMapEvent(231, "Dragon Tower", function()
     MM6.TryDisableDragonTower(1180, 84, 42)
 end)
+
+-- The dimensional travel pedestal and its orb (../../maps/oute3_dimensional_travel.scene.yml): the four continents'
+-- portals.
+RegisterEvent(1777, "Dimensional Travel", function()
+    evt.OpenDimensionDoor()
+end, "Dimensional Travel")

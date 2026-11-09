@@ -15,6 +15,9 @@ credits:
   - Thor Thunderfist, skill limit removal
   - With thanks to GrayFace and Rodril
 contentSchemaVersion: 1
+# The worlds MAW plays in: its four continents, Jadame, Antagarich, Enroth and Chedian (MM9: the user, 2026-11-09;
+# devdocs/maw/MM9_SUPPORT.md). A world left out here is greyed out at a new game and has no dimension door portal.
+worlds: [mm6, mm7, mm8, mm9]
 # The player's guide, linked from the Rules panel and the journal's Progress tab.
 guide_url: https://jasicek.net/openyamm/maw-guide/
 # The ids MAW's own rows take (the quests and topics it adds, its boss names, the Lich Troll portrait); a world may not

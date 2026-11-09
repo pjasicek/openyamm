@@ -1,0 +1,20 @@
+# MAW's rows on MM9 people (devdocs/maw/MM9_SUPPORT.md, the user, 2026-11-09), read by GameDataLoader for MAW games:
+# Mm9RudeDialogueTable::rulesetRows, offered on the person's first page before the row that ends the talk.
+#
+# topics: a MAW global event (events/Global_maw.lua) as a row. Chedian's counterpart of the Oracle, Judge Grey and the
+#   Seer is Hjordisa the Hag (RUDE 132, Guberland): the skill reset and the Dimensional Maps quest.
+# bounties: a Jarl's bounty office for his region (MAW's town bounties, BountyHunt.lua). MM9's cities are maps of
+#   their own, so the hunt is posted in the city and its target placed when the party next enters the region; MAW's
+#   rule that the area must be cleared first reads the region. Arslegard has no region and no bounty.
+format_version: 1
+topics:
+  - {npc: 132, event: 10010, label: Skill reset}
+  - {npc: 132, event: 10011, label: Reset skills}
+  - {npc: 132, event: 10040, label: Dimensional Maps}
+bounties:
+  - {npc: 45, map: sturmford.blv}    # Bjarni Thorvaldssen, Sturmford
+  - {npc: 180, map: frosgard.blv}    # Tryygva Ravenlocks, Frosgard
+  - {npc: 127, map: guberland.blv}   # Markel the Great, Guberland
+  - {npc: 87, map: drangheim.blv}    # Sigmund the Stressed, Drangheim
+  - {npc: 3, map: thjorgard.blv}     # Sven Forkbeard, Thjorgard
+  - {npc: 239, map: thronheim.blv}   # Kira the Cold, Thronheim

@@ -246,6 +246,85 @@ elements:
         color: '#e8d1a4'
         scale: 1
       notes: Fondamento open topic row; no plate. Keep live choices and action conditions.
+  # Reset popup of a map transition whose rules offer to reset the cleared dungeon (MAW), centred over the scene;
+  # GameplayDialogueRenderer draws it only then, above the ordinary OK and Close.
+  - id: DialogueResetPopup
+    anchor: top_left
+    offset_x: 83
+    offset_y: 113
+    width: 310
+    height: 172
+    z_index: 300
+    notes: 'Obsidian panel frame of the reset popup.'
+  - id: DialogueResetPopupTitle
+    anchor: top_left
+    offset_x: 93
+    offset_y: 123
+    width: 290
+    height: 22
+    z_index: 300
+    text:
+      value: Reset Dungeon
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: top
+      scale: 0.5
+  - id: DialogueResetPopupText
+    anchor: top_left
+    offset_x: 97
+    offset_y: 150
+    width: 282
+    height: 88
+    z_index: 300
+    text:
+      value: '{reset_prompt}'
+      font: Create
+      color: '#e5dcc7'
+      align_x: center
+      align_y: top
+      scale: 1
+    notes: 'The ruleset''s reset offer, wrapped and centred.'
+  - id: DialogueResetPopupResetButton
+    anchor: top_left
+    offset_x: 118
+    offset_y: 245
+    width: 110
+    height: 30
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_close_normal
+      highlighted: obsidian_button_close_hover
+      pressed: obsidian_button_close_pressed
+      selected: obsidian_button_close_selected
+    text:
+      value: Reset
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: DialogueResetPopupCancelButton
+    anchor: top_left
+    offset_x: 248
+    offset_y: 245
+    width: 110
+    height: 30
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_close_normal
+      highlighted: obsidian_button_close_hover
+      pressed: obsidian_button_close_pressed
+      selected: obsidian_button_close_selected
+    text:
+      value: Cancel
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
   - id: DialogueGoodbyeButton
     anchor: bottom_right
     offset_x: -37
@@ -283,6 +362,51 @@ elements:
     notes: 'Shop stock reroll of a ruleset that has one (MAW); drawn by the shop overlay with its live price.'
     text:
       value: New stock
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  # Sell trash's buttons in the merchant panel's free space, under the name: Sell trash where Cancel comes, so that a
+  # double click does not sell the pick at once, and the two-line "Sell N items / for G gold" above it.
+  - id: DialogueShopSellTrashConfirmButton
+    anchor: bottom_right
+    offset_x: -32
+    offset_y: -238
+    width: 120
+    height: 42
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_rest_normal
+      highlighted: obsidian_button_rest_hover
+      pressed: obsidian_button_rest_pressed
+      selected: obsidian_button_rest_selected
+    notes: 'Sells the Sell trash pick, two lines with its live count and price; drawn while picking.'
+    text:
+      value: Sell trash
+      font: Fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.416667
+  - id: DialogueShopSellTrashButton
+    anchor: bottom_right
+    offset_x: -32
+    offset_y: -202
+    width: 120
+    height: 30
+    z_index: 300
+    interactive: true
+    asset:
+      default: obsidian_button_rest_normal
+      highlighted: obsidian_button_rest_hover
+      pressed: obsidian_button_rest_pressed
+      selected: obsidian_button_rest_selected
+    notes: 'Sell trash on the sell screen of a ruleset with item rarities (MAW): starts the pick; Cancel while
+      picking ends it without selling.'
+    text:
+      value: Sell trash
       font: Fondamento
       color: '#e8d1a4'
       align_x: center

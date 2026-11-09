@@ -1,0 +1,16 @@
+# MAW's pack reserve for MM9's bathhouse (tools/maw/mm9_pack_reserve.py writes this file; do not edit): copies of
+# its packs' members for MAW's denser difficulties, by rising from_factor (devdocs/maw/MM9_BALANCE_DESIGN.md).
+format_version: 1
+kind: indoor_scene_overlay
+initial_state:
+  pack_reserve:
+    scene_actors: 36
+    scene_check: "9e0c3b7e9ad24cad"
+    max_factor: 2.0
+    monsters: 18
+    actors:
+      - {"from_factor":1.0556,"actor":{"actor_index":36,"name":"Colloidal Warrior","npc_id":0,"attributes":524288,"hp":684,"hostility_type":4,"monster_info_id":9235,"monster_id":9235,"radius":157,"height":358,"move_speed":256,"position":{"x":15217,"y":-3978,"z":-818},"initial_yaw_units":512,"immobile":false,"sprite_ids":[0,0,0,0],"sector_id":6,"current_action_animation":0,"carried_item_id":0,"group":0,"ally":0,"unique_name_index":0,"draw_scale":1.0,"mm9_ai":{"sight":3379,"hearing":922,"runaway_chance":0.25}}}
+      - {"from_factor":1.1111,"actor":{"actor_index":39,"name":"Colloidal Warrior","npc_id":0,"attributes":524288,"hp":684,"hostility_type":4,"monster_info_id":9235,"monster_id":9235,"radius":157,"height":358,"move_speed":256,"position":{"x":15193,"y":1846,"z":-818},"initial_yaw_units":512,"immobile":false,"sprite_ids":[0,0,0,0],"sector_id":17,"current_action_animation":0,"carried_item_id":0,"group":0,"ally":0,"unique_name_index":0,"draw_scale":1.0,"mm9_ai":{"sight":3379,"hearing":922,"runaway_chance":0.25}}}
+      - {"from_factor":1.1667,"actor":{"actor_index":37,"name":"Colloidal Warrior","npc_id":0,"attributes":524288,"hp":684,"hostility_type":4,"monster_info_id":9235,"monster_id":9235,"radius":157,"height":358,"move_speed":256,"position":{"x":15133,"y":-4383,"z":-818},"initial_yaw_units":512,"immobile":false,"sprite_ids":[0,0,0,0],"sector_id":6,"current_action_animation":0,"carried_item_id":0,"group":0,"ally":0,"unique_name_index":0,"draw_scale":1.0,"mm9_ai":{"sight":3379,"hearing":922,"runaway_chance":0.25}}}
+      - {"from_factor":1.2222,"actor":{"actor_index":40,"name":"Colloidal Warrior","npc_id":0,"attributes":524288,"hp":684,"hostility_type":4,"monster_info_id":9235,"monster_id":9235,"radius":157,"height":358,"move_speed":256,"position":{"x":15059,"y":1103,"z":-818},"initial_yaw_units":512,"immobile":false,"sprite_ids":[0,0,0,0],"sector_id":17,"current_action_animation":0,"carried_item_id":0,"group":0,"ally":0,"unique_name_index":0,"draw_scale":1.0,"mm9_ai":{"sight":3379,"hearing":922,"runaway_chance":0.25}}}
+      - {"from_factor":1.2778,"actor":{"actor_index":38,"name":"Colloidal Warrior","npc_id":0,"attributes":524288,"hp":684,"hostility_type":4,"monster_info_id":9235,"monster_id":9235,"radius":157,"height":358,"move_speed":256,"position":{"x":16036,"y":-3888,"z":-818},"initial_yaw_units":512,"immobile":false,"sprite_ids":[0,0,0,0],"sector_id":6,"current_action_animation":0,"carried_item_id":0,"group":0,"ally":0,"unique_name_index":0,"draw_scale":1.0,"mm9_ai":{"sight":3379,"hearing":922,"runaway_chance":0.25}}}

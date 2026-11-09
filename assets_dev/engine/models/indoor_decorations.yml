@@ -20,6 +20,15 @@ decorations:
     height: 74
     mount: wall
   # Outdoor models reused as they are (the same native sprites; their outdoor bindings' fields).
+  # MAW's teleporter, the pedestal under the air orb, as Chedian's dimensional travel pedestal in Sturmford City's
+  # open-sky BLV (level_generation/projects/mm9r_sturmfordcity); no MM6-MM8 dungeon places either (2026-11-09).
+  - name: ped06
+    model: engine/models/mm6_deco_pedestal.glb
+    height: 150
+  - name: dec57
+    model: engine/models/mm8_deco_air_orb.glb
+    height: 79
+    z_offset: -9
   - name: smlbarel
     model: engine/models/mm6_deco_keg.glb
     height: 89

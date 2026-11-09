@@ -1,0 +1,212 @@
+# MAW in MM9 (Chedian): the single source of every MM9 number MAW uses (devdocs/maw/MM9_BALANCE_DESIGN.md).
+# Edit this file, not anything derived from it; run `python3 tools/maw/mm9_balance.py` after each edit (it checks this
+# file against MM9's tables and scenes, writes item_bases.yml and the review page) and add a changelog line. Testers
+# quote the version.
+#
+# maps: every MM9 map, by file name.
+#   stage            the route position (tutorial, act1, early_clans, clans, late_side, war, finale, arena)
+#   band             MAW's low/mid/high B levels (devdocs/maw/BALANCE_MODEL.md section 7): the 1st/2nd/3rd native
+#                    family (the map's encounter pictures) is pinned to them, other families pulled halfway in
+#   horizontal_starter, madness_start, madness_level    as data/map_levels.yml's lists
+#   natives          up to three families (pictures without the tier letter) in place of the map table's
+#                    encounter pictures, where those miss what the scene places
+#   story_bands      [{qbit, band}]: the band once the party has the quest bit (the last reached one wins)
+#   density          the map's own factor on the file's `density` (1 by default)
+#   arrivals         spots the map's teleports put the party, kept clear of reserve copies (start points, transitions
+#                    and other maps' MoveToMap are found by the tool)
+#   reserve_lua_groups   groups the map's Lua only turns or wakes as a whole: their members may take copies
+#   completion_exclude   monster rows, names, pictures or families ("MM9 Sea Monster": its A/B/C) that do not count
+#                    toward the map's clearing, besides the file-wide list below
+# Bands and their derivation: devdocs/maw/mm9_drafts/map_levels_draft.yml (levels each band gives, free/horizontal).
+
+version: 2
+changelog:
+  - {version: 1, date: 2026-11-09, note: "first bands: MM9's acts on MAW's MM7 stages; arena as MAW's; Frosgard City's battle; natives of six maps; density; Thjorad Mine x3; regions ~90 monsters, Ta'Sar, Honks, arrivals"}
+  - {version: 2, date: 2026-11-09, note: "the rebuild grows Thjorad Mine 1.4x and the Tomb 2x for every game; Thjorad Mine's MAW density 3.0 -> 2.1 on top (still ~3x MM9's)"}
+
+# The sea's creatures guard the water: a party may leave them (the user, 2026-11-09).
+completion_exclude: ["MM9 Sea Monster", "MM9 Jellyspore"]
+
+# Monster density by difficulty: the share of MM9's (already grown) monsters a map holds, its pack reserve
+# (rulesets/maw/maps/<stem>_zz_maw.scene.yml, tools/maw/mm9_pack_reserve.py) adding up to 2x. MAW's own group sizes
+# raise whole MM7 and MM8 maps by x1.2 at Hard and x1.4 at Nightmare, 80 % of the groups' growth; the challenge modes
+# follow the same rule (the user, 2026-11-09). A challenge mode's factor replaces the difficulty's; a map's own
+# `density` multiplies either.
+density:
+  difficulty: {easy: 1.0, normal: 1.0, maw: 1.0, hard: 1.2, hell: 1.2, nightmare: 1.4}
+  challenge: {doom: 1.6, road_to_insanity: 1.8, beyond_madness: 2.0}
+
+maps:
+  # Ravensford: tutorial (no act); MM9 original 7 monsters, levels 1–50.
+  # Ravensford tutorial (MM9 start, world.yml). Only 5 Lobbers placed; no encounter pictures, so no Progress card
+  # entry. bolster_maps row 9080 (continent 5, no bolster) added 2026-11-09.
+  bootcamp.blv: {stage: tutorial, band: [1, 1, 2], horizontal_starter: true, madness_start: true, madness_level: 4}
+  # Isle of Ashes: act 1 prologue, standard party level 6; MM9 original 46 monsters, levels 2–65.
+  # Start island like out01 [3,4,4] / 7out01 [4,4,4]. Jellyspores are swimmers; Lich King and Sea Monster are lone
+  # set pieces, pulled halfway down into the band.
+  isleofashes.blv: {stage: act1, band: [3, 3, 4], horizontal_starter: true, madness_start: true, madness_level: 4}
+  # Sturmford City: act 1 prologue, standard party level 6; MM9 original 0 monsters, levels –.
+  # CITY, no monsters. Band only sets the drop/chest level fallback (mapDropLevel); same as its region.
+  sturmfordcity.blv: {stage: act1, band: [4, 6, 9]}
+  # Sturmford: act 1 prologue, standard party level 6; MM9 original 56 monsters, levels 2–25.
+  # Harmondale's role (7out02 [6,11.5,17]) at MM9's smaller act-1 scale; Basilisks (B23) stay a step above the band
+  # (16).
+  sturmford.blv: {stage: act1, band: [4, 6, 9], madness_level: 27}
+  # Beet Hoven: act 1 prologue, standard party level 6; MM9 original 82 monsters, levels 3–16.
+  # Sewers under Sturmford City, the first dungeon (MM6 sewer [4,10,12], d05 [5,6,7]). Horizontal starter.
+  beethoven.blv: {stage: act1, band: [5, 7, 10], horizontal_starter: true, madness_level: 38}
+  # Anskram Keep: act 1 prologue, standard party level 6; MM9 original 47 monsters, levels 4–19.
+  # Act 1 story dungeon, Castle Harmondale's role (7d29 [5,6,6]) one step later. Horizontal starter.
+  anskramkeep.blv: {stage: act1, band: [7, 9, 12], horizontal_starter: true, madness_level: 50}
+  # Drangheim City: act 2 early clans, standard party level 17; MM9 original 1 monsters, levels 22–22.
+  # CITY, no monsters (exit to Kluso's House). Band = its region's.
+  drangheimcity.blv: {stage: early_clans, band: [9, 12, 15]}
+  # Drangheim: act 2 early clans, standard party level 17; MM9 original 32 monsters, levels 5–22.
+  # Second region; three natives fill low/mid/high. Ravenshore's role (out02 [14,14,17]) slightly lower.
+  # A region: about 90 monsters at MAW, as MM6-MM8's outdoor maps of its level hold more (the user, 2026-11-09).
+  drangheim.blv: {stage: early_clans, band: [9, 12, 15], madness_level: 62, density: 2.8}
+  # Drangheim Prison: act 2 early clans, standard party level 17; MM9 original 72 monsters, levels 6–33.
+  # Story dungeon (Ivsar). Hostiles are 50 Nagates (low slot); the guards are peaceful until the alarm and take the
+  # high slot.
+  drangheimprison.blv: {stage: early_clans, band: [12, 14, 17], madness_level: 75}
+  # Guberland City: act 2 early clans, standard party level 17; MM9 original 0 monsters, levels –.
+  # CITY, no monsters. Peaceful quest hub (Markel, keg, Orb of Linking bank). Band = region's.
+  guberlandcity.blv: {stage: early_clans, band: [10, 13, 16]}
+  # Guberland: act 2 early clans, standard party level 17; MM9 original 40 monsters, levels 3–25.
+  # Peaceful-quest region: Ivan the Smart's trivia, the Gathering games (Whack-a-Honky), Thorir, Nicolai, Atli's
+  # watch. Light monsters (Dragonflies, Highwaymen).
+  # A region: about 90 monsters at MAW, as MM6-MM8's outdoor maps of its level hold more (the user, 2026-11-09).
+  guberland.blv: {stage: early_clans, band: [10, 13, 16], madness_level: 88, density: 2.5}
+  # Thjorad Mine: act 2 early clans, standard party level 17; MM9 original 57 monsters, levels 10–24.
+  # Story dungeon (Sven's mine). All hostiles are Troglodytes (high slot, 18).
+  # The mine's rooms hold one to three Troglodytes each in MM9: under MAW three times that (the user, 2026-11-09).
+  # The rebuild now grows it 1.4x for every game, as the rest of its act (the user, 2026-11-09), so MAW's 2.1 on top
+  # keeps about 3x MM9's.
+  thjoradmine.blv: {stage: early_clans, band: [15, 15, 18], natives: [MM9 Troglodyte], density: 2.1, madness_level: 101}
+  # Thjorgard City: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  # CITY, no monsters (exit to The Arena). Band = region's.
+  thjorgardcity.blv: {stage: early_clans, band: [14, 17, 21]}
+  # Thjorgard: act 2 clans, standard party level 33; MM9 original 31 monsters, levels 7–50.
+  # The Thing's games; Gezzampts on top. Between Guberland and Lindisfarne.
+  # A region: about 90 monsters at MAW, as MM6-MM8's outdoor maps of its level hold more (the user, 2026-11-09).
+  thjorgard.blv: {stage: early_clans, band: [14, 17, 21], madness_level: 115, density: 2.0}
+  # Ta'Sar Academy: act 2 early clans, standard party level 17; MM9 original 20 monsters, levels 11–39.
+  # Book of Rules; hostile guards (low slot). The single Venomous Dagrell (B59) is pulled to 40.
+  # More students to fight (the user, 2026-11-09).
+  tasaracademy.blv: {stage: early_clans, band: [16, 18, 22], madness_level: 129, density: 1.5}
+  # Lindisfarne: act 2 clans, standard party level 33; MM9 original 26 monsters, levels 18–35.
+  # Open region of act 2 (Thjorad retrieval, Dragon's Lair entrance). Three natives 20/25/32.
+  # A region: about 90 monsters at MAW, as MM6-MM8's outdoor maps of its level hold more (the user, 2026-11-09).
+  lindisfarne.blv: {stage: clans, band: [20, 25, 32], madness_level: 143, density: 1.6}
+  # Lindisfarne Monastery: act 2 clans, standard party level 33; MM9 original 27 monsters, levels 25–50.
+  # Monks are all placed peaceful (Thjorad puzzle, relic quest); band matters only if they are attacked and for
+  # loot. Monk family alone takes the low slot.
+  lindisfarnemonastery.blv: {stage: clans, band: [24, 28, 32], madness_level: 158}
+  # Chasm of the Dead: act 2 clans, standard party level 33; MM9 original 173 monsters, levels 10–40.
+  # Crona Kiga (Drangheim's pledge). Story reaches it right after the prison, but 126 Skeleton Warriors (B33) put it
+  # with act 2's harder half (standard: party 33). Deferrable: the pledges can be done in any order.
+  # The revolving wall's two landings and the rim the pit returns the party to (map Lua CARRY_*, RIM).
+  chasmofthedead.blv: {stage: clans, band: [20, 24, 30], madness_level: 172, arrivals: [[2125, -4547, -4419], [2560, -4547, -4419], [6707, 16507, -5324]]}
+  # Frosgard City: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  # CITY. No placed monsters, but the finale's Frosgard City battle (Tamur Leng, frosgardcity.lua summon rows
+  # be finale-level (chests would then roll higher too).
+  # The Battle of Frosgard (BattleMan.scr, MM9 key 104, playthrough segment 59: after the Afterworld's six
+  # fires, Standard party level about 64): the Horde (A 34, B 44, C 54, not a native family, so pulled
+  # halfway to the band's low end) at 45 / 55 / 65 with no banks, about 0.7 x a MAW party of the stage,
+  # MM9's own ratio. Before the battle the city keeps its region's band (its chests' loot level).
+  frosgardcity.blv: {stage: clans, band: [24, 28, 32], story_bands: [{qbit: 90104, band: [66, 72, 78]}]}
+  # Frosgard: act 2 clans, standard party level 33; MM9 original 36 monsters, levels 13–40.
+  # Northern region: Gezzampt/Bigfoot/Wolf natives. Ice-breaking and Yanmir quests.
+  # A region: about 90 monsters at MAW, as MM6-MM8's outdoor maps of its level hold more (the user, 2026-11-09).
+  frosgard.blv: {stage: clans, band: [24, 28, 32], madness_level: 187, density: 1.8}
+  # Dungeon of Secrets: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  # NO MONSTERS (Chadwick's puzzle, 10,000 XP). Band only for loot level.
+  dungeonofsecrets.blv: {stage: clans, band: [28, 32, 36]}
+  # Yanmir's Fort: act 2 clans, standard party level 33; MM9 original 66 monsters, levels 12–70.
+  yanmirsfort.blv: {stage: clans, band: [28, 32, 38], natives: [MM9 Thrall, MM9 Ice Lobber, MM9 Bigfoot], madness_level: 233}
+  # Thronheim City: act 2 clans, standard party level 33; MM9 original 1 monsters, levels 50–50.
+  thronheimcity.blv: {stage: clans, band: [24, 28, 34]}
+  # Thronheim: act 2 clans, standard party level 33; MM9 original 44 monsters, levels 15–33.
+  # Gezzampt/Basilisk/Nosferatu natives. Inventa Storca and the Connecting Tunnels start here.
+  # A region: about 90 monsters at MAW, as MM6-MM8's outdoor maps of its level hold more (the user, 2026-11-09).
+  thronheim.blv: {stage: clans, band: [24, 28, 34], madness_level: 202, density: 1.6}
+  # Mountain Pass: act 2 clans, standard party level 33; MM9 original 76 monsters, levels 4–51.
+  # Thjorgard-Thronheim pass (Kira's quest). 42 Imps take the low slot at 24.
+  mountainpass.blv: {stage: clans, band: [24, 30, 36], madness_level: 218}
+  # Inventa Storca: act 2 clans, standard party level 33; MM9 original 34 monsters, levels 7–65.
+  # and 2 Lich Kings (-> 52), pulled halfway into the band. Side dungeon.
+  # Natives: the map table's encounter pictures name families its scene does not place (Inventa Storca: Zombies, no
+  # liches), so balance.yml names them (2026-11-09, the user: the liches are the map's own). Inventa Storca's top rises
+  # to 48 so its Liches (A rows, B 55) sit at 38 and its Lich Kings at about 56, the map's threat.
+  inventastorca.blv: {stage: clans, band: [28, 33, 48], natives: [MM9 Icky, MM9 Highwayman, MM9 Lich], madness_level: 249}
+  # Dook's Castle: act 2 clans, standard party level 33; MM9 original 47 monsters, levels 15–51.
+  # Markel's Dook quest; Half Orc/Trellborg natives. Side dungeon off Guberland.
+  dookscastle.blv: {stage: clans, band: [30, 34, 40], madness_level: 265}
+  # Ruined Temple: act 2 clans, standard party level 33; MM9 original 15 monsters, levels 16–79.
+  # Colloidal genie's wish; Dagrells (B59) on top at 42. Side dungeon off Frosgard.
+  ruinedtemple.blv: {stage: clans, band: [32, 36, 42], natives: [MM9 Skeleton, MM9 Skeleton Warrior, MM9 Dagrell], madness_level: 280}
+  # Kluso's House: act 2 late side dungeon, measured at the war's party level 51; MM9 original 20 monsters, levels 33–65.
+  # Assassin promotion; 19 sleeping guards (no growth by the user's rule). MM9 originals 33-65; standard places it
+  # at the war's level. Like d14 [42,42,42].
+  klusoshouse.blv: {stage: late_side, band: [40, 44, 48], madness_level: 297}
+  # Training Hall: act 2 late side dungeon, measured at the war's party level 51; MM9 original 22 monsters, levels 22–60.
+  traininghall.blv: {stage: late_side, band: [40, 46, 54], madness_level: 313}
+  # Verhoffin Ruins: act 2 late side dungeon, measured at the war's party level 51; MM9 original 30 monsters, levels 17–65.
+  # Writ of Fate (story, act 3), entered from the Isle of Ashes. Banshees mid slot 50; Zombies pulled up to 28.
+  verhoffinruins.blv: {stage: late_side, band: [44, 50, 56], natives: [MM9 Zombie, MM9 Skeleton Warrior, MM9 Banshee], madness_level: 329}
+  # Lich Lab: act 2 late side dungeon, measured at the war's party level 51; MM9 original 147 monsters, levels 11–79.
+  # Lich promotion; the largest dungeon (172 hostiles). Lich Kings (uniques) at 62.
+  lichlab.blv: {stage: late_side, band: [46, 52, 58], madness_level: 346}
+  # Connecting Tunnel: act 3 war, standard party level 51; MM9 original 38 monsters, levels 20–79.
+  connectingtunnels.blv: {stage: war, band: [48, 52, 58], madness_level: 362}
+  # Yorwick: act 3 war, standard party level 51; MM9 original 48 monsters, levels 20–55.
+  # War region: Ghosts on top (60). Lich Lab and Wizard's Lab start here.
+  yorwick.blv: {stage: war, band: [50, 54, 60], madness_level: 379}
+  # Wizard's Lab: act 3 war, standard party level 51; MM9 original 59 monsters, levels 16–75.
+  # Eyes (60 of them) on top at 62. Side dungeon off Yorwick.
+  wizardslab.blv: {stage: war, band: [52, 57, 62], madness_level: 396}
+  # Dark Passageway: act 3 war, standard party level 51; MM9 original 41 monsters, levels 44–70.
+  # Wyrde's puzzle dungeon (Capstone route), act 3 end.
+  darkpassageway.blv: {stage: war, band: [56, 62, 68], madness_level: 413}
+  # Arslegard City: act 4 finale, standard party level 64; MM9 original 1 monsters, levels 200–200.
+  # band gives the city's loot level and Njam's pull; consider a world: mm9 monster patch for Njam's base level
+  # instead.
+  arslegardcity.blv: {stage: war, band: [60, 65, 70]}
+  # The Bathhouse: act 3 war, standard party level 51; MM9 original 15 monsters, levels 15–70.
+  # Ebora's Bathhouse (Concubine, scripted boss at 60). Single native Colloidal at 60.
+  bathhouse.blv: {stage: war, band: [60, 65, 70], madness_level: 430}
+  # Temple of Honk: act 4 finale, standard party level 64; MM9 original 10 monsters, levels 70–75.
+  # Honks placed peaceful (congregation, counted when hostile), Elder Honk family at 70-80; Geese (own family, B90)
+  # The Honks (group 1) turn hostile together (HonkHostility.inc): their copies turn with them.
+  templeofhonk.blv: {stage: finale, band: [70, 75, 80], natives: [MM9 Honk, MM9 Honk Female], madness_level: 448, reserve_lua_groups: [1]}
+  # Hall of the Gods: act 4 finale, standard party level 64; MM9 original 0 monsters, levels –.
+  # NO HOSTILE MONSTERS (the gods; Great Honk 100 peaceful). Band only for loot level.
+  hallofthegods.blv: {stage: finale, band: [80, 85, 90]}
+  # The Afterworld: act 4 finale, standard party level 64; MM9 original 0 monsters, levels –.
+  # SPECIAL: no placed hostiles; the Six Fires summon Horde/Zombie/Ghoul bad guys and Banshee allies
+  afterworld.blv: {stage: finale, band: [75, 80, 85], madness_level: 465}
+  # Thousand Terrors: act 4 finale, standard party level 64; MM9 original 114 monsters, levels 11–200.
+  # Tomb of a Thousand Terrors, the final dungeon (Njam). Eye/Terror/Demon 80/88/96, like MAW's last dungeons
+  # (d35-d39 [85,90,100], hive [80,90,100]).
+  1000terrors.blv: {stage: finale, band: [80, 88, 96], madness_level: 482}
+  # Dragon's Lair: act 4 finale, standard party level 64; MM9 original 2 monsters, levels 39–500.
+  dragonstadium.blv: {stage: finale, band: [90, 95, 100], madness_level: 500}
+  # The Arena: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  # SPECIAL: no placed monsters; Arena fights summon MM9 rows picked by the party's mean level (thearena.lua
+  # pickMonster). Wide band [1,45,90] keeps every summoned family inside [low, high] (no pull) so free progression
+  # leaves the picks at their table level plus the party bolster. Not a MAW arena (mawArenaMap is d42/7d05/zarena).
+  # Left out of madness levels.
+  # Picks its fighters by the party's mean level from MM9's table, as MMMerge's arenas do: MAW's arena rules
+  # (mawArenaMap: no bolster, nothing in Beyond Madness) and their band and madness level.
+  thearena.blv: {stage: arena, band: [1, 1, 1], madness_level: 1}
+
+# MM9's ordinary weapons and armour as MAW base items (tools/maw/mm9_balance.py writes item_bases.yml): MM9's quality
+# on MAW's rungs (the MM9 balance set qualities 1-4 and 5 equal to MM6-MM8 tiers 1-4 and 6), the item's own dice, the
+# slot's MAW armour scaled by the piece's MM9 armour. The strongest MM9 piece of each kind and quality (its own damage
+# or armour) does `best` times the damage or armour of its MAW peers, `best_at_top_quality` at quality 5 (the user:
+# some MM9 items 10-15 % ahead, an incentive, not over the top). overrides: item id -> {rung, dice, two_handed, ac,
+# reference_ac, strength}.
+items:
+  rung_by_quality: {1: 1, 2: 2.25, 3: 3.5, 4: 4.75, 5: 6}
+  strength: {best: 1.10, best_at_top_quality: 1.15}
+  overrides: {}
