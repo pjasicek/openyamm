@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import re
 import struct
@@ -30,6 +31,10 @@ from bake_assets import (bake_texture_paths, dependency_file, dependency_name, l
 sys.path.insert(0, str(ROOT / 'util'))
 from map_export import parse_odm_file
 
+
+# A Python 3 with PyYAML for the helpers Blender's own Python cannot run (it bundles no PyYAML); OPENYAMM_PYTHON3
+# names another one, e.g. MSYS2's on Windows.
+PYTHON3 = os.environ.get('OPENYAMM_PYTHON3', '/usr/bin/python3')
 
 # The glTF importer turns glTF's Y-up space into Blender's Z-up one: Blender = GLTF_TO_BLENDER @ glTF.
 GLTF_TO_BLENDER = Matrix(((1, 0, 0, 0), (0, 0, -1, 0), (0, 1, 0, 0), (0, 0, 0, 1)))
@@ -167,7 +172,7 @@ def main():
     native = parse_odm_file(source)['payload']
     # Read the same scene metadata as runtime; Blender does not bundle PyYAML.
     metadata = json.loads(subprocess.check_output([
-        '/usr/bin/python3', '-c',
+        PYTHON3, '-c',
         'import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1]))))',
         str(source.with_suffix('.scene.yml'))], text=True))
     if metadata.get('mechanisms') or metadata.get('scene_profile', 'classic_odm') != 'classic_odm':
@@ -207,7 +212,7 @@ def main():
         recipe_data[stage+'_producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
         recipe_data[stage+'_backend'] = bpy.app.version_string
     (out / recipe.name).write_text(json.dumps(recipe_data, sort_keys=True, indent=2)+'\n')
-    deps[str(recipe.relative_to(assets))] = fnv((out / recipe.name).read_bytes())
+    deps[recipe.relative_to(assets).as_posix()] = fnv((out / recipe.name).read_bytes())
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False)
     scene = bpy.context.scene
@@ -422,7 +427,7 @@ def main():
         effective_profile = out / 'effective_profile.json'
         effective_profile.write_text(json.dumps(profile, indent=2) + '\n')
         decoration_report = json.loads(subprocess.check_output([
-            '/usr/bin/python3', str(Path(__file__).with_name('bake_decorations.py')),
+            PYTHON3, str(Path(__file__).with_name('bake_decorations.py')),
             '--profile', str(effective_profile), '--output', str(out / 'decoration_masks'), '--assets', str(assets)],
             text=True))
         for path in decoration_report['dependencies']:
@@ -684,7 +689,7 @@ def main():
         if cursor != len(retained):
             raise ValueError('Invalid installed extension length')
         # The atlas bake keeps its provenance. Only the recipe hash and model probes change.
-        old_dependencies[str(recipe.relative_to(assets))] = deps[str(recipe.relative_to(assets))]
+        old_dependencies[recipe.relative_to(assets).as_posix()] = deps[recipe.relative_to(assets).as_posix()]
         deps = old_dependencies
     faces = b''.join(struct.pack('<QIIHHI', (r['model']<<32)|r['face'], r['model'],r['face'],r['page'],
                                 int(r['page'] != 65535), sum(len(q['uvs']) for q in records[:i]))

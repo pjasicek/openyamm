@@ -21,14 +21,15 @@ def native_texture_file(asset_root, name):
 
 def dependency_name(asset_root, path, extra_sources=()):
     """How a bake records a file it read: relative to the runtime tree; source art in assets_source and the extra
-    roots keeps the same relative path, and a native archive texture its package path (worlds/<world>/textures/...)."""
+    roots keeps the same relative path, and a native archive texture its package path (worlds/<world>/textures/...).
+    Always with forward slashes, so a bake made on Windows records the same names as one made elsewhere."""
     archive = asset_root.parent / 'assets_source' / 'textures' / 'native_mm6_mm8'
     if path.is_relative_to(archive):
         parts = path.relative_to(archive).parts
         if len(parts) == 3 and parts[1] == 'textures':
-            return str(Path('worlds') / parts[0] / 'textures' / parts[2])
+            return (Path('worlds') / parts[0] / 'textures' / parts[2]).as_posix()
     base = next((root for root in source_roots(asset_root, extra_sources) if path.is_relative_to(root)), asset_root)
-    return str(path.relative_to(base))
+    return path.relative_to(base).as_posix()
 
 
 def dependency_file(asset_root, name, extra_sources=()):
