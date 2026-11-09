@@ -530,3 +530,33 @@ TEST_CASE("outdoor lighting measures the open sky on the terrain sky page for th
     lighting.measureOpenSky();
     CHECK_EQ(lighting.openSkyIrradiance, 0.0f);
 }
+
+TEST_CASE("outdoor lighting tells a closed space from a wall's far side by the nearest probes")
+{
+    using namespace OpenYAMM::Game;
+    OutdoorLightingData lighting;
+    const auto probe = [](float x, bool open)
+    {
+        OutdoorLightingData::Probe result;
+        result.position = {x, 0.0f, 96.0f};
+        result.sky = open ? std::array<float, 3>{0.35f, 0.35f, 0.35f} : std::array<float, 3>{};
+        result.sunVisibility = open ? 1.0f : 0.0f;
+        return result;
+    };
+    // Open ground up to x = 0, then a closed space (a cave, or a building) on the 128-unit probe grid.
+    for (int step = -4; step <= 12; ++step)
+    {
+        lighting.probes.push_back(probe(float(step) * 128.0f, step <= 0));
+    }
+    lighting.indexProbes();
+    CHECK_FALSE(lighting.probesByCell.empty());
+    CHECK_FALSE(lighting.enclosedProbesByCell.empty());
+
+    // Deep inside: an enclosed probe is nearest and no open one is within two grid steps.
+    CHECK(lighting.nearestProbeEnclosed({1024.0f, 0.0f, 96.0f}));
+    // Just across the wall from the open ground (the party beside a house): still outdoors.
+    CHECK_FALSE(lighting.nearestProbeEnclosed({100.0f, 0.0f, 96.0f}));
+    CHECK_FALSE(lighting.nearestProbeEnclosed({-200.0f, 0.0f, 96.0f}));
+    // Out of the map's probes altogether: not enclosed.
+    CHECK_FALSE(lighting.nearestProbeEnclosed({50000.0f, 50000.0f, 96.0f}));
+}
