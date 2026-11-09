@@ -1,0 +1,3429 @@
+# The MM9 world's indoor (BLV) decoration models (extends engine/models/indoor_decorations.yml; see its header).
+# Written by level_generation/props/mm9_anskramkeep_claude/scripts/tables.py.
+decorations:
+  # --- MM9 Anskram Keep props (level_generation/props/mm9_anskramkeep_claude/) ---
+  - name: mm9_barrel
+    model: worlds/mm9/models/mm9_deco_barrel.glb
+    height: 122.9
+    yaw: facing
+  - name: mm9_barrel03
+    model: worlds/mm9/models/mm9_deco_barrel03.glb
+    height: 122.9
+    yaw: facing
+  - name: mm9_bed
+    model: worlds/mm9/models/mm9_deco_bed.glb
+    height: 122.8
+    yaw: facing
+  - name: mm9_bedmedium
+    model: worlds/mm9/models/mm9_deco_bedmedium.glb
+    height: 99.2
+    yaw: facing
+  - name: mm9_bedmedium_x120
+    model: worlds/mm9/models/mm9_deco_bedmedium.glb
+    height: 103.5
+    yaw: facing
+  - name: mm9_bookcase02ew
+    model: worlds/mm9/models/mm9_deco_bookcase02ew.glb
+    height: 316.8
+    yaw: facing
+  - name: mm9_bookcase02ns
+    model: worlds/mm9/models/mm9_deco_bookcase02ns.glb
+    height: 316.8
+    yaw: facing
+  - name: mm9_chair
+    model: worlds/mm9/models/mm9_deco_chair.glb
+    height: 119.3
+    yaw: facing
+  - name: mm9_chair02
+    model: worlds/mm9/models/mm9_deco_chair02.glb
+    height: 133.0
+    yaw: facing
+  - name: mm9_chest
+    model: worlds/mm9/models/mm9_deco_chest.glb
+    height: 44.7
+    yaw: facing
+  - name: mm9_chest1
+    model: worlds/mm9/models/mm9_deco_chest1.glb
+    height: 35.8
+    yaw: facing
+  - name: mm9_crate
+    model: worlds/mm9/models/mm9_deco_crate.glb
+    height: 122.9
+    yaw: facing
+  - name: mm9_crate_x200
+    model: worlds/mm9/models/mm9_deco_crate.glb
+    height: 245.8
+    yaw: facing
+  - name: mm9_desk01
+    model: worlds/mm9/models/mm9_deco_desk01.glb
+    height: 98.7
+    yaw: facing
+  - name: mm9_desk01ns
+    model: worlds/mm9/models/mm9_deco_desk01ns.glb
+    height: 98.7
+    yaw: facing
+  - name: mm9_dresserns
+    model: worlds/mm9/models/mm9_deco_dresserns.glb
+    height: 141.5
+    yaw: facing
+  - name: mm9_scroll
+    model: worlds/mm9/models/mm9_deco_scroll.glb
+    height: 46.6
+    yaw: facing
+  - name: mm9_tablebench
+    model: worlds/mm9/models/mm9_deco_tablebench.glb
+    height: 54.9
+    yaw: facing
+  - name: mm9_tableround
+    model: worlds/mm9/models/mm9_deco_tableround.glb
+    height: 92.1
+    yaw: facing
+  - name: mm9_trashpile
+    model: worlds/mm9/models/mm9_deco_trashpile.glb
+    height: 38.3
+    yaw: facing
+  - name: mm9_walltorch
+    model: worlds/mm9/models/mm9_deco_walltorch.glb
+    height: 104.4
+    yaw: facing
+  - name: mm9_weaponrack
+    model: worlds/mm9/models/mm9_deco_weaponrack.glb
+    height: 276.9
+    yaw: facing
+  - name: mm9_weaponscabinet01
+    model: worlds/mm9/models/mm9_deco_weaponscabinet01.glb
+    height: 261.8
+    yaw: facing
+  - name: mm9_weaponscabinet04
+    model: worlds/mm9/models/mm9_deco_weaponscabinet04.glb
+    height: 261.8
+    yaw: facing
+  - name: mm9_gatefire
+    model: worlds/mm9/models/mm9_deco_gatefire.glb
+    height: 130.7
+    yaw: facing
+  # --- MM9 Temple of Honk props (level_generation/props/mm9_templeofhonk_claude/) ---
+  - name: mm9_bench04
+    model: worlds/mm9/models/mm9_deco_bench04.glb
+    height: 62.0
+    yaw: facing
+  - name: mm9_benchstone01
+    model: worlds/mm9/models/mm9_deco_benchstone01.glb
+    height: 111.4
+    yaw: facing
+  - name: mm9_benchstone02
+    model: worlds/mm9/models/mm9_deco_benchstone02.glb
+    height: 56.8
+    yaw: facing
+  - name: mm9_bookcase01ew
+    model: worlds/mm9/models/mm9_deco_bookcase01ew.glb
+    height: 243.5
+    yaw: facing
+  - name: mm9_bookcase01ns
+    model: worlds/mm9/models/mm9_deco_bookcase01ns.glb
+    height: 243.5
+    yaw: facing
+  - name: mm9_bookflat
+    model: worlds/mm9/models/mm9_deco_bookflat.glb
+    height: 8.6
+    yaw: facing
+  - name: mm9_booktilt15
+    model: worlds/mm9/models/mm9_deco_booktilt15.glb
+    height: 18.2
+    yaw: facing
+  - name: mm9_brazier
+    model: worlds/mm9/models/mm9_deco_brazier.glb
+    height: 183.6
+    yaw: facing
+  - name: mm9_cabinet01ns
+    model: worlds/mm9/models/mm9_deco_cabinet01ns.glb
+    height: 242.5
+    yaw: facing
+  - name: mm9_cabinet04
+    model: worlds/mm9/models/mm9_deco_cabinet04.glb
+    height: 104.2
+    yaw: facing
+  - name: mm9_chairdesk01
+    model: worlds/mm9/models/mm9_deco_chairdesk01.glb
+    height: 118.6
+    yaw: facing
+  - name: mm9_chairdesk03
+    model: worlds/mm9/models/mm9_deco_chairdesk03.glb
+    height: 122.1
+    yaw: facing
+  - name: mm9_chest3
+    model: worlds/mm9/models/mm9_deco_chest3.glb
+    height: 63.0
+    yaw: facing
+  - name: mm9_desk03
+    model: worlds/mm9/models/mm9_deco_desk03.glb
+    height: 159.0
+    yaw: facing
+  - name: mm9_goldenhonk
+    model: worlds/mm9/models/mm9_deco_goldenhonk.glb
+    height: 73.1
+    yaw: facing
+  - name: mm9_hangingbowl
+    model: worlds/mm9/models/mm9_deco_hangingbowl.glb
+    height: 58.0
+    yaw: facing
+  - name: mm9_hangingbowl2
+    model: worlds/mm9/models/mm9_deco_hangingbowl2.glb
+    height: 87.4
+    yaw: facing
+  - name: mm9_harp
+    model: worlds/mm9/models/mm9_deco_harp.glb
+    height: 197.4
+    yaw: facing
+  - name: mm9_key2
+    model: worlds/mm9/models/mm9_deco_key2.glb
+    height: 1.3
+    yaw: facing
+  - name: mm9_table02
+    model: worlds/mm9/models/mm9_deco_table02.glb
+    height: 83.8
+    yaw: facing
+  - name: mm9_tapestry_bayeux2_2
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux2_2.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux2_end
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux2_end.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux2_link
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux2_link.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux2_start
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux2_start.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux_2
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux_2.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux_end
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux_end.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux_link
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux_link.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bayeux_start
+    model: worlds/mm9/models/mm9_deco_tapestry_bayeux_start.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_flower
+    model: worlds/mm9/models/mm9_deco_tapestry_flower.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_olive
+    model: worlds/mm9/models/mm9_deco_tapestry_olive.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_purple
+    model: worlds/mm9/models/mm9_deco_tapestry_purple.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_redblack
+    model: worlds/mm9/models/mm9_deco_tapestry_redblack.glb
+    height: 376.9
+    yaw: facing
+  # --- MM9 Lich Lab props (level_generation/props/mm9_lichlab_claude/) ---
+  - name: mm9_bagherbs
+    model: worlds/mm9/models/mm9_deco_bagherbs.glb
+    height: 20.8
+    yaw: facing
+  - name: mm9_barrel_x100
+    model: worlds/mm9/models/mm9_deco_barrel.glb
+    height: 81.9
+    yaw: facing
+  - name: mm9_beaker01
+    model: worlds/mm9/models/mm9_deco_beaker01.glb
+    height: 25.6
+    yaw: facing
+  - name: mm9_blackchest
+    model: worlds/mm9/models/mm9_deco_blackchest.glb
+    height: 70.8
+    yaw: facing
+  - name: mm9_bookstack01
+    model: worlds/mm9/models/mm9_deco_bookstack01.glb
+    height: 42.5
+    yaw: facing
+  - name: mm9_booktilt
+    model: worlds/mm9/models/mm9_deco_booktilt.glb
+    height: 25.9
+    yaw: facing
+  - name: mm9_burner
+    model: worlds/mm9/models/mm9_deco_burner.glb
+    height: 63.6
+    yaw: facing
+  - name: mm9_cauldron01
+    model: worlds/mm9/models/mm9_deco_cauldron01.glb
+    height: 138.5
+    yaw: facing
+  - name: mm9_chair03
+    model: worlds/mm9/models/mm9_deco_chair03.glb
+    height: 137.0
+    yaw: facing
+  - name: mm9_chest1_x100
+    model: worlds/mm9/models/mm9_deco_chest1.glb
+    height: 44.7
+    yaw: facing
+  - name: mm9_cookpot
+    model: worlds/mm9/models/mm9_deco_cookpot.glb
+    height: 145.2
+    yaw: facing
+  - name: mm9_crate_x150
+    model: worlds/mm9/models/mm9_deco_crate.glb
+    height: 184.3
+    yaw: facing
+  - name: mm9_flayingbench
+    model: worlds/mm9/models/mm9_deco_flayingbench.glb
+    height: 116.3
+    yaw: facing
+  - name: mm9_headsmansblock
+    model: worlds/mm9/models/mm9_deco_headsmansblock.glb
+    height: 78.2
+    yaw: facing
+  - name: mm9_jar
+    model: worlds/mm9/models/mm9_deco_jar.glb
+    height: 22.9
+    yaw: facing
+  - name: mm9_jarbroken
+    model: worlds/mm9/models/mm9_deco_jarbroken.glb
+    height: 19.2
+    yaw: facing
+  - name: mm9_lichengine
+    model: worlds/mm9/models/mm9_deco_lichengine.glb
+    height: 1134.6
+    yaw: facing
+  - name: mm9_logs
+    model: worlds/mm9/models/mm9_deco_logs.glb
+    height: 42.4
+    yaw: facing
+  - name: mm9_pew3ns
+    model: worlds/mm9/models/mm9_deco_pew3ns.glb
+    height: 124.6
+    yaw: facing
+  - name: mm9_pillory
+    model: worlds/mm9/models/mm9_deco_pillory.glb
+    height: 165.0
+    yaw: facing
+  - name: mm9_podium01
+    model: worlds/mm9/models/mm9_deco_podium01.glb
+    height: 137.8
+    yaw: facing
+  - name: mm9_scroll2
+    model: worlds/mm9/models/mm9_deco_scroll2.glb
+    height: 12.4
+    yaw: facing
+  - name: mm9_scroll3
+    model: worlds/mm9/models/mm9_deco_scroll3.glb
+    height: 11.6
+    yaw: facing
+  - name: mm9_scrolldouble
+    model: worlds/mm9/models/mm9_deco_scrolldouble.glb
+    height: 10.5
+    yaw: facing
+  - name: mm9_shelfitem01
+    model: worlds/mm9/models/mm9_deco_shelfitem01.glb
+    height: 56.8
+    yaw: facing
+  - name: mm9_shelfitem02
+    model: worlds/mm9/models/mm9_deco_shelfitem02.glb
+    height: 24.9
+    yaw: facing
+  - name: mm9_shelfitem02_x200
+    model: worlds/mm9/models/mm9_deco_shelfitem02.glb
+    height: 49.8
+    yaw: facing
+  - name: mm9_shelfitem03
+    model: worlds/mm9/models/mm9_deco_shelfitem03.glb
+    height: 59.5
+    yaw: facing
+  - name: mm9_shelfitem05
+    model: worlds/mm9/models/mm9_deco_shelfitem05.glb
+    height: 29.7
+    yaw: facing
+  - name: mm9_shelfitem05_x150
+    model: worlds/mm9/models/mm9_deco_shelfitem05.glb
+    height: 44.5
+    yaw: facing
+  - name: mm9_skeletoncage
+    model: worlds/mm9/models/mm9_deco_skeletoncage.glb
+    height: 228.7
+    yaw: facing
+  - name: mm9_skeletonsitting
+    model: worlds/mm9/models/mm9_deco_skeletonsitting.glb
+    height: 83.1
+    yaw: facing
+  - name: mm9_skeletonstatue
+    model: worlds/mm9/models/mm9_deco_skeletonstatue.glb
+    height: 256.0
+    yaw: facing
+  - name: mm9_skeletonstatue_x150
+    model: worlds/mm9/models/mm9_deco_skeletonstatue.glb
+    height: 384.0
+    yaw: facing
+  - name: mm9_skeletonstatue_x300
+    model: worlds/mm9/models/mm9_deco_skeletonstatue.glb
+    height: 767.9
+    yaw: facing
+  - name: mm9_switch02
+    model: worlds/mm9/models/mm9_deco_switch02.glb
+    height: 62.1
+    yaw: facing
+  - name: mm9_table01
+    model: worlds/mm9/models/mm9_deco_table01.glb
+    height: 84.1
+    yaw: facing
+  - name: mm9_table01ns
+    model: worlds/mm9/models/mm9_deco_table01ns.glb
+    height: 84.1
+    yaw: facing
+  - name: mm9_throne
+    model: worlds/mm9/models/mm9_deco_throne.glb
+    height: 267.9
+    yaw: facing
+  - name: mm9_torturecage01
+    model: worlds/mm9/models/mm9_deco_torturecage01.glb
+    height: 319.5
+    yaw: facing
+  - name: mm9_torturecrusher01
+    model: worlds/mm9/models/mm9_deco_torturecrusher01.glb
+    height: 198.3
+    yaw: facing
+  - name: mm9_torturecrusher02
+    model: worlds/mm9/models/mm9_deco_torturecrusher02.glb
+    height: 198.3
+    yaw: facing
+  - name: mm9_torturerack01
+    model: worlds/mm9/models/mm9_deco_torturerack01.glb
+    height: 143.8
+    yaw: facing
+  - name: mm9_torturewheel01
+    model: worlds/mm9/models/mm9_deco_torturewheel01.glb
+    height: 319.0
+    yaw: facing
+  - name: mm9_torturewheel02
+    model: worlds/mm9/models/mm9_deco_torturewheel02.glb
+    height: 319.0
+    yaw: facing
+  # --- MM9 Lich Lab props (level_generation/props/mm9_lichlab_claude/) ---
+  - name: mm9_gatefire_unlit
+    model: worlds/mm9/models/mm9_deco_gatefire.glb
+    height: 130.7
+    yaw: facing
+  # --- MM9 Anskram Keep props (level_generation/props/mm9_anskramkeep_claude/) ---
+  - name: mm9_spikepit
+    model: worlds/mm9/models/mm9_deco_spikepit.glb
+    height: 227.7
+    yaw: facing
+  # --- MM9 Beethoven props (level_generation/props/mm9_beethoven_claude/) ---
+  - name: mm9_bonepile
+    model: worlds/mm9/models/mm9_deco_bonepile.glb
+    height: 31.4
+    yaw: facing
+  - name: mm9_coffinfancy
+    model: worlds/mm9/models/mm9_deco_coffinfancy.glb
+    height: 124.3
+    yaw: facing
+  - name: mm9_coffinraised
+    model: worlds/mm9/models/mm9_deco_coffinraised.glb
+    height: 152.6
+    yaw: facing
+  - name: mm9_hangingbowl1
+    model: worlds/mm9/models/mm9_deco_hangingbowl1.glb
+    height: 116.0
+    yaw: facing
+  - name: mm9_jar01
+    model: worlds/mm9/models/mm9_deco_jar01.glb
+    height: 44.8
+    yaw: facing
+  - name: mm9_jar01side
+    model: worlds/mm9/models/mm9_deco_jar01side.glb
+    height: 23.7
+    yaw: facing
+  - name: mm9_jar02
+    model: worlds/mm9/models/mm9_deco_jar02.glb
+    height: 45.3
+    yaw: facing
+  - name: mm9_jar03
+    model: worlds/mm9/models/mm9_deco_jar03.glb
+    height: 55.0
+    yaw: facing
+  - name: mm9_jar04
+    model: worlds/mm9/models/mm9_deco_jar04.glb
+    height: 40.0
+    yaw: facing
+  - name: mm9_jar04side
+    model: worlds/mm9/models/mm9_deco_jar04side.glb
+    height: 29.7
+    yaw: facing
+  - name: mm9_jar05
+    model: worlds/mm9/models/mm9_deco_jar05.glb
+    height: 47.7
+    yaw: facing
+  - name: mm9_jar06
+    model: worlds/mm9/models/mm9_deco_jar06.glb
+    height: 51.4
+    yaw: facing
+  - name: mm9_manuscript
+    model: worlds/mm9/models/mm9_deco_manuscript.glb
+    height: 78.2
+    yaw: facing
+  - name: mm9_sconcetorch
+    model: worlds/mm9/models/mm9_deco_sconcetorch.glb
+    height: 112.7
+    yaw: facing
+  - name: mm9_urngargoyle
+    model: worlds/mm9/models/mm9_deco_urngargoyle.glb
+    height: 106.5
+    yaw: facing
+  - name: mm9_well_x100
+    model: worlds/mm9/models/mm9_deco_well.glb
+    height: 255.3
+    yaw: facing
+  # --- MM9 Chasm of the Dead props (level_generation/props/mm9_chasmofthedead_claude/) ---
+  - name: mm9_altar1
+    model: worlds/mm9/models/mm9_deco_altar1.glb
+    height: 200.8
+    yaw: facing
+  - name: mm9_blackchest_x80
+    model: worlds/mm9/models/mm9_deco_blackchest.glb
+    height: 56.6
+    yaw: facing
+  - name: mm9_bluebowl
+    model: worlds/mm9/models/mm9_deco_bluebowl.glb
+    height: 77.3
+    yaw: facing
+  - name: mm9_bluebrazier
+    model: worlds/mm9/models/mm9_deco_bluebrazier.glb
+    height: 183.6
+    yaw: facing
+  - name: mm9_bluesconce
+    model: worlds/mm9/models/mm9_deco_bluesconce.glb
+    height: 163.4
+    yaw: facing
+  - name: mm9_bluetorch
+    model: worlds/mm9/models/mm9_deco_bluetorch.glb
+    height: 112.7
+    yaw: facing
+  - name: mm9_boxornamental
+    model: worlds/mm9/models/mm9_deco_boxornamental.glb
+    height: 48.3
+    yaw: facing
+  - name: mm9_chair1
+    model: worlds/mm9/models/mm9_deco_chair1.glb
+    height: 167.3
+    yaw: facing
+  - name: mm9_chest5
+    model: worlds/mm9/models/mm9_deco_chest5.glb
+    height: 63.0
+    yaw: facing
+  - name: mm9_cronakiga
+    model: worlds/mm9/models/mm9_deco_cronakiga.glb
+    height: 21.0
+    yaw: facing
+  - name: mm9_cup1
+    model: worlds/mm9/models/mm9_deco_cup1.glb
+    height: 20.4
+    yaw: facing
+  - name: mm9_goblet
+    model: worlds/mm9/models/mm9_deco_goblet.glb
+    height: 28.6
+    yaw: facing
+  - name: mm9_jar01_x150
+    model: worlds/mm9/models/mm9_deco_jar01.glb
+    height: 67.2
+    yaw: facing
+  - name: mm9_jar04_x150
+    model: worlds/mm9/models/mm9_deco_jar04.glb
+    height: 60.1
+    yaw: facing
+  - name: mm9_lichinstructions
+    model: worlds/mm9/models/mm9_deco_lichinstructions.glb
+    height: 11.9
+    yaw: facing
+  - name: mm9_mummyew
+    model: worlds/mm9/models/mm9_deco_mummyew.glb
+    height: 46.9
+    yaw: facing
+  - name: mm9_pillarstand
+    model: worlds/mm9/models/mm9_deco_pillarstand.glb
+    height: 88.1
+    yaw: facing
+  - name: mm9_sarcophagus
+    model: worlds/mm9/models/mm9_deco_sarcophagus.glb
+    height: 68.0
+    yaw: facing
+  - name: mm9_sarcophagus_x150
+    model: worlds/mm9/models/mm9_deco_sarcophagus.glb
+    height: 102.0
+    yaw: facing
+  - name: mm9_sarcophagusns
+    model: worlds/mm9/models/mm9_deco_sarcophagusns.glb
+    height: 68.0
+    yaw: facing
+  - name: mm9_sarcophagusns_x150
+    model: worlds/mm9/models/mm9_deco_sarcophagusns.glb
+    height: 102.0
+    yaw: facing
+  - name: mm9_sarcophagusns3
+    model: worlds/mm9/models/mm9_deco_sarcophagusns3.glb
+    height: 136.0
+    yaw: facing
+  - name: mm9_sarcophagusvert
+    model: worlds/mm9/models/mm9_deco_sarcophagusvert.glb
+    height: 193.8
+    yaw: facing
+  - name: mm9_statueguardian
+    model: worlds/mm9/models/mm9_deco_statueguardian.glb
+    height: 303.6
+    yaw: facing
+  - name: mm9_statueguardianew
+    model: worlds/mm9/models/mm9_deco_statueguardianew.glb
+    height: 121.5
+    yaw: facing
+  - name: mm9_statueguardianew_x50
+    model: worlds/mm9/models/mm9_deco_statueguardianew.glb
+    height: 151.8
+    yaw: facing
+  - name: mm9_statueguardianew_x60
+    model: worlds/mm9/models/mm9_deco_statueguardianew.glb
+    height: 182.2
+    yaw: facing
+  - name: mm9_statueguardianew_x100
+    model: worlds/mm9/models/mm9_deco_statueguardianew.glb
+    height: 303.6
+    yaw: facing
+  - name: mm9_treasurechute
+    model: worlds/mm9/models/mm9_deco_treasurechute.glb
+    height: 404.2
+    yaw: facing
+  - name: mm9_treasurepile
+    model: worlds/mm9/models/mm9_deco_treasurepile.glb
+    height: 296.8
+    yaw: facing
+  - name: mm9_tumbler1
+    model: worlds/mm9/models/mm9_deco_tumbler1.glb
+    height: 32.5
+    yaw: facing
+  - name: mm9_urn1
+    model: worlds/mm9/models/mm9_deco_urn1.glb
+    height: 79.7
+    yaw: facing
+  - name: mm9_urn2
+    model: worlds/mm9/models/mm9_deco_urn2.glb
+    height: 134.9
+    yaw: facing
+  # --- MM9 Chasm of the Dead props (level_generation/props/mm9_chasmofthedead_claude/) ---
+  - name: mm9_altar1flip
+    model: worlds/mm9/models/mm9_deco_altar1flip.glb
+    height: 200.8
+    yaw: facing
+  - name: mm9_pillarfallen
+    model: worlds/mm9/models/mm9_deco_pillarfallen.glb
+    height: 41.0
+    yaw: facing
+  - name: mm9_urn2tip1
+    model: worlds/mm9/models/mm9_deco_urn2tip1.glb
+    height: 113.8
+    yaw: facing
+  - name: mm9_urn2tip2
+    model: worlds/mm9/models/mm9_deco_urn2tip2.glb
+    height: 126.7
+    yaw: facing
+  # --- MM9 Drangheim Prison props (level_generation/props/mm9_drangheimprison_claude/) ---
+  - name: mm9_anvil
+    model: worlds/mm9/models/mm9_deco_anvil.glb
+    height: 79.7
+    yaw: facing
+  - name: mm9_axerusty
+    model: worlds/mm9/models/mm9_deco_axerusty.glb
+    height: 8.9
+    yaw: facing
+  - name: mm9_barrel03_x100
+    model: worlds/mm9/models/mm9_deco_barrel03.glb
+    height: 81.9
+    yaw: facing
+  - name: mm9_bed_x125
+    model: worlds/mm9/models/mm9_deco_bed.glb
+    height: 127.9
+    yaw: facing
+  - name: mm9_bedmedium2
+    model: worlds/mm9/models/mm9_deco_bedmedium2.glb
+    height: 86.3
+    yaw: facing
+  - name: mm9_bedwall
+    model: worlds/mm9/models/mm9_deco_bedwall.glb
+    height: 81.0
+    yaw: facing
+  - name: mm9_bench01
+    model: worlds/mm9/models/mm9_deco_bench01.glb
+    height: 57.8
+    yaw: facing
+  - name: mm9_bucket01
+    model: worlds/mm9/models/mm9_deco_bucket01.glb
+    height: 32.4
+    yaw: facing
+  - name: mm9_cabinet04ns
+    model: worlds/mm9/models/mm9_deco_cabinet04ns.glb
+    height: 104.2
+    yaw: facing
+  - name: mm9_cabinet05ns
+    model: worlds/mm9/models/mm9_deco_cabinet05ns.glb
+    height: 263.1
+    yaw: facing
+  - name: mm9_canvassack
+    model: worlds/mm9/models/mm9_deco_canvassack.glb
+    height: 26.2
+    yaw: facing
+  - name: mm9_chairdesk02
+    model: worlds/mm9/models/mm9_deco_chairdesk02.glb
+    height: 119.7
+    yaw: facing
+  - name: mm9_coalbin
+    model: worlds/mm9/models/mm9_deco_coalbin.glb
+    height: 86.0
+    yaw: facing
+  - name: mm9_cot_x100
+    model: worlds/mm9/models/mm9_deco_cot.glb
+    height: 68.0
+    yaw: facing
+  - name: mm9_hangingbowl2_x100
+    model: worlds/mm9/models/mm9_deco_hangingbowl2.glb
+    height: 116.6
+    yaw: facing
+  - name: mm9_ironingots
+    model: worlds/mm9/models/mm9_deco_ironingots.glb
+    height: 48.9
+    yaw: facing
+  - name: mm9_lumberstone02
+    model: worlds/mm9/models/mm9_deco_lumberstone02.glb
+    height: 54.5
+    yaw: facing
+  - name: mm9_lumberstone03
+    model: worlds/mm9/models/mm9_deco_lumberstone03.glb
+    height: 43.0
+    yaw: facing
+  - name: mm9_ropecoil
+    model: worlds/mm9/models/mm9_deco_ropecoil.glb
+    height: 11.2
+    yaw: facing
+  - name: mm9_sack03
+    model: worlds/mm9/models/mm9_deco_sack03.glb
+    height: 38.3
+    yaw: facing
+  - name: mm9_shelfitem06
+    model: worlds/mm9/models/mm9_deco_shelfitem06.glb
+    height: 35.4
+    yaw: facing
+  - name: mm9_shelfitem07
+    model: worlds/mm9/models/mm9_deco_shelfitem07.glb
+    height: 25.0
+    yaw: facing
+  - name: mm9_shelfitem08
+    model: worlds/mm9/models/mm9_deco_shelfitem08.glb
+    height: 45.9
+    yaw: facing
+  - name: mm9_shieldbroken02
+    model: worlds/mm9/models/mm9_deco_shieldbroken02.glb
+    height: 5.6
+    yaw: facing
+  - name: mm9_skeletondebris01
+    model: worlds/mm9/models/mm9_deco_skeletondebris01.glb
+    height: 47.5
+    yaw: facing
+  - name: mm9_skeletondebris02
+    model: worlds/mm9/models/mm9_deco_skeletondebris02.glb
+    height: 57.7
+    yaw: facing
+  - name: mm9_stove
+    model: worlds/mm9/models/mm9_deco_stove.glb
+    height: 238.3
+    yaw: facing
+  - name: mm9_suitofarmor01
+    model: worlds/mm9/models/mm9_deco_suitofarmor01.glb
+    height: 199.7
+    yaw: facing
+  - name: mm9_swordbroken
+    model: worlds/mm9/models/mm9_deco_swordbroken.glb
+    height: 5.0
+    yaw: facing
+  - name: mm9_tablebench2
+    model: worlds/mm9/models/mm9_deco_tablebench2.glb
+    height: 90.7
+    yaw: facing
+  - name: mm9_tableround2
+    model: worlds/mm9/models/mm9_deco_tableround2.glb
+    height: 92.0
+    yaw: facing
+  - name: mm9_tableround3
+    model: worlds/mm9/models/mm9_deco_tableround3.glb
+    height: 92.3
+    yaw: facing
+  - name: mm9_tapestryold01
+    model: worlds/mm9/models/mm9_deco_tapestryold01.glb
+    height: 282.7
+    yaw: facing
+  - name: mm9_tapestryold02
+    model: worlds/mm9/models/mm9_deco_tapestryold02.glb
+    height: 282.7
+    yaw: facing
+  - name: mm9_trashpile_x150
+    model: worlds/mm9/models/mm9_deco_trashpile.glb
+    height: 57.5
+    yaw: facing
+  - name: mm9_weaponrack_x100
+    model: worlds/mm9/models/mm9_deco_weaponrack.glb
+    height: 184.6
+    yaw: facing
+  - name: mm9_weaponrackns
+    model: worlds/mm9/models/mm9_deco_weaponrackns.glb
+    height: 184.6
+    yaw: facing
+  - name: mm9_weaponscabinet02
+    model: worlds/mm9/models/mm9_deco_weaponscabinet02.glb
+    height: 242.5
+    yaw: facing
+  # --- MM9 Drangheim Prison props (level_generation/props/mm9_drangheimprison_claude/) ---
+  - name: mm9_barrellying
+    model: worlds/mm9/models/mm9_deco_barrellying.glb
+    height: 71.2
+    yaw: facing
+  - name: mm9_bedmedium2r270
+    model: worlds/mm9/models/mm9_deco_bedmedium2r270.glb
+    height: 119.7
+    yaw: facing
+  - name: mm9_bedmedium2r90
+    model: worlds/mm9/models/mm9_deco_bedmedium2r90.glb
+    height: 119.7
+    yaw: facing
+  # --- MM9 Drangheim Prison props (level_generation/props/mm9_drangheimprison_claude/) ---
+  - name: mm9_axerusty_x100
+    model: worlds/mm9/models/mm9_deco_axerusty.glb
+    height: 117.5
+    yaw: facing
+  # --- MM9 Verhoffin Ruins props (level_generation/props/mm9_verhoffinruins_claude/) ---
+  - name: mm9_capstone
+    model: worlds/mm9/models/mm9_deco_capstone.glb
+    height: 27.9
+    yaw: facing
+  - name: mm9_greatbookfake
+    model: worlds/mm9/models/mm9_deco_greatbookfake.glb
+    height: 15.2
+    yaw: facing
+  - name: mm9_key1
+    model: worlds/mm9/models/mm9_deco_key1.glb
+    height: 1.7
+    yaw: facing
+  - name: mm9_manacles
+    model: worlds/mm9/models/mm9_deco_manacles.glb
+    height: 50.7
+    yaw: facing
+  - name: mm9_minelantern
+    model: worlds/mm9/models/mm9_deco_minelantern.glb
+    height: 73.7
+    yaw: facing
+  - name: mm9_sconce1
+    model: worlds/mm9/models/mm9_deco_sconce1.glb
+    height: 68.1
+    yaw: facing
+  - name: mm9_skeletondebris03
+    model: worlds/mm9/models/mm9_deco_skeletondebris03.glb
+    height: 49.4
+    yaw: facing
+  - name: mm9_weaponscabinet01_x75
+    model: worlds/mm9/models/mm9_deco_weaponscabinet01.glb
+    height: 196.3
+    yaw: facing
+  - name: mm9_writ
+    model: worlds/mm9/models/mm9_deco_writ.glb
+    height: 10.6
+    yaw: facing
+  # --- MM9 Ruined Temple props (level_generation/props/mm9_ruinedtemple_claude/) ---
+  - name: mm9_chandelier3
+    model: worlds/mm9/models/mm9_deco_chandelier3.glb
+    height: 58.8
+    yaw: facing
+  - name: mm9_genielamp
+    model: worlds/mm9/models/mm9_deco_genielamp.glb
+    height: 27.6
+    yaw: facing
+  - name: mm9_skeletonlaying
+    model: worlds/mm9/models/mm9_deco_skeletonlaying.glb
+    height: 30.6
+    yaw: facing
+  - name: mm9_stonedebris04
+    model: worlds/mm9/models/mm9_deco_stonedebris04.glb
+    height: 60.1
+    yaw: facing
+  - name: mm9_stonedebris05
+    model: worlds/mm9/models/mm9_deco_stonedebris05.glb
+    height: 59.1
+    yaw: facing
+  - name: mm9_tapestry_bannergeo3
+    model: worlds/mm9/models/mm9_deco_tapestry_bannergeo3.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tapestry_bannergeo3_x250
+    model: worlds/mm9/models/mm9_deco_tapestry_bannergeo3.glb
+    height: 471.2
+    yaw: facing
+  - name: mm9_torchmetal
+    model: worlds/mm9/models/mm9_deco_torchmetal.glb
+    height: 112.7
+    yaw: facing
+  - name: mm9_treeoflife
+    model: worlds/mm9/models/mm9_deco_treeoflife.glb
+    height: 61.5
+    yaw: facing
+  # --- MM9 Verhoffin Ruins props (level_generation/props/mm9_verhoffinruins_claude/) ---
+  - name: mm9_chairdesk03p270
+    model: worlds/mm9/models/mm9_deco_chairdesk03p270.glb
+    height: 56.5
+    yaw: facing
+  - name: mm9_chairdesk03p90
+    model: worlds/mm9/models/mm9_deco_chairdesk03p90.glb
+    height: 56.5
+    yaw: facing
+  - name: mm9_scrollp268
+    model: worlds/mm9/models/mm9_deco_scrollp268.glb
+    height: 9.7
+    yaw: facing
+  - name: mm9_tableround2p60
+    model: worlds/mm9/models/mm9_deco_tableround2p60.glb
+    height: 149.9
+    yaw: facing
+  - name: mm9_weaponscabinet02tip
+    model: worlds/mm9/models/mm9_deco_weaponscabinet02tip.glb
+    height: 233.5
+    yaw: facing
+  # --- MM9 Klusos House props (level_generation/props/mm9_klusoshouse_claude/) ---
+  - name: mm9_basketfruit
+    model: worlds/mm9/models/mm9_deco_basketfruit.glb
+    height: 49.2
+    yaw: facing
+  - name: mm9_basketveggies
+    model: worlds/mm9/models/mm9_deco_basketveggies.glb
+    height: 44.8
+    yaw: facing
+  - name: mm9_bed02
+    model: worlds/mm9/models/mm9_deco_bed02.glb
+    height: 324.9
+    yaw: facing
+  - name: mm9_cabinet01
+    model: worlds/mm9/models/mm9_deco_cabinet01.glb
+    height: 242.5
+    yaw: facing
+  - name: mm9_cabinet02
+    model: worlds/mm9/models/mm9_deco_cabinet02.glb
+    height: 266.4
+    yaw: facing
+  - name: mm9_cabinet02ns
+    model: worlds/mm9/models/mm9_deco_cabinet02ns.glb
+    height: 266.4
+    yaw: facing
+  - name: mm9_cabinet03
+    model: worlds/mm9/models/mm9_deco_cabinet03.glb
+    height: 296.1
+    yaw: facing
+  - name: mm9_cabinet03ns
+    model: worlds/mm9/models/mm9_deco_cabinet03ns.glb
+    height: 296.1
+    yaw: facing
+  - name: mm9_cabinet05
+    model: worlds/mm9/models/mm9_deco_cabinet05.glb
+    height: 263.1
+    yaw: facing
+  - name: mm9_dirk
+    model: worlds/mm9/models/mm9_deco_dirk.glb
+    height: 27.5
+    yaw: facing
+  - name: mm9_dresserfancy
+    model: worlds/mm9/models/mm9_deco_dresserfancy.glb
+    height: 141.5
+    yaw: facing
+  - name: mm9_dresserfancyns
+    model: worlds/mm9/models/mm9_deco_dresserfancyns.glb
+    height: 141.5
+    yaw: facing
+  - name: mm9_logsburning_x150
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 159.9
+    yaw: facing
+  - name: mm9_pew2ns
+    model: worlds/mm9/models/mm9_deco_pew2ns.glb
+    height: 134.0
+    yaw: facing
+  - name: mm9_pitcher01
+    model: worlds/mm9/models/mm9_deco_pitcher01.glb
+    height: 41.4
+    yaw: facing
+  - name: mm9_platestack1
+    model: worlds/mm9/models/mm9_deco_platestack1.glb
+    height: 11.1
+    yaw: facing
+  - name: mm9_platestack2
+    model: worlds/mm9/models/mm9_deco_platestack2.glb
+    height: 7.6
+    yaw: facing
+  - name: mm9_shelfitem06_x200
+    model: worlds/mm9/models/mm9_deco_shelfitem06.glb
+    height: 47.2
+    yaw: facing
+  - name: mm9_shield3
+    model: worlds/mm9/models/mm9_deco_shield3.glb
+    height: 90.1
+    yaw: facing
+  - name: mm9_stovens
+    model: worlds/mm9/models/mm9_deco_stovens.glb
+    height: 238.3
+    yaw: facing
+  - name: mm9_table01ns_x120
+    model: worlds/mm9/models/mm9_deco_table01ns.glb
+    height: 100.9
+    yaw: facing
+  - name: mm9_tableround5
+    model: worlds/mm9/models/mm9_deco_tableround5.glb
+    height: 69.3
+    yaw: facing
+  - name: mm9_tabletrestle2
+    model: worlds/mm9/models/mm9_deco_tabletrestle2.glb
+    height: 92.5
+    yaw: facing
+  - name: mm9_wallcandle
+    model: worlds/mm9/models/mm9_deco_wallcandle.glb
+    height: 80.4
+    yaw: facing
+  # --- MM9 Bathhouse props (level_generation/props/mm9_bathhouse_claude/) ---
+  - name: mm9_benchstone02_x150
+    model: worlds/mm9/models/mm9_deco_benchstone02.glb
+    height: 85.2
+    yaw: facing
+  - name: mm9_gatefire_x8
+    model: worlds/mm9/models/mm9_deco_gatefire.glb
+    height: 10.8
+    yaw: facing
+  - name: mm9_gatefire_x33
+    model: worlds/mm9/models/mm9_deco_gatefire.glb
+    height: 43.5
+    yaw: facing
+  - name: mm9_pew3
+    model: worlds/mm9/models/mm9_deco_pew3.glb
+    height: 149.5
+    yaw: facing
+  - name: mm9_towelrack
+    model: worlds/mm9/models/mm9_deco_towelrack.glb
+    height: 174.0
+    yaw: facing
+  - name: mm9_urngargoyle_x150
+    model: worlds/mm9/models/mm9_deco_urngargoyle.glb
+    height: 159.8
+    yaw: facing
+  # --- MM9 Verhoffin Ruins props (level_generation/props/mm9_verhoffinruins_claude/) ---
+  - name: mm9_pentafire_red
+    model: worlds/mm9/models/mm9_deco_pentafire_red.glb
+    height: 44.9
+    yaw: facing
+  - name: mm9_pentafire_yellow
+    model: worlds/mm9/models/mm9_deco_pentafire_yellow.glb
+    height: 44.9
+    yaw: facing
+  - name: mm9_pentafire_blue
+    model: worlds/mm9/models/mm9_deco_pentafire_blue.glb
+    height: 44.9
+    yaw: facing
+  - name: mm9_pentafire_green
+    model: worlds/mm9/models/mm9_deco_pentafire_green.glb
+    height: 44.9
+    yaw: facing
+  - name: mm9_pentafire_orange
+    model: worlds/mm9/models/mm9_deco_pentafire_orange.glb
+    height: 44.9
+    yaw: facing
+  # --- MM9 Verhoffin Ruins props (level_generation/props/mm9_verhoffinruins_claude/) ---
+  - name: mm9_bedmedium2onside
+    model: worlds/mm9/models/mm9_deco_bedmedium2onside.glb
+    height: 119.7
+    yaw: facing
+  # --- MM9 Inventa Storca props (level_generation/props/mm9_inventastorca_claude/) ---
+  - name: mm9_bench03
+    model: worlds/mm9/models/mm9_deco_bench03.glb
+    height: 58.6
+    yaw: facing
+  - name: mm9_orblinking
+    model: worlds/mm9/models/mm9_deco_orblinking.glb
+    height: 53.2
+    yaw: facing
+  - name: mm9_treasurebag
+    model: worlds/mm9/models/mm9_deco_treasurebag.glb
+    height: 27.4
+    yaw: facing
+  # --- MM9 Dook's Castle props (level_generation/props/mm9_dookscastle_claude/) ---
+  - name: mm9_bedmedium_x100
+    model: worlds/mm9/models/mm9_deco_bedmedium.glb
+    height: 86.3
+    yaw: facing
+  - name: mm9_bedornate
+    model: worlds/mm9/models/mm9_deco_bedornate.glb
+    height: 336.5
+    yaw: facing
+  - name: mm9_bookcase02ew_x100
+    model: worlds/mm9/models/mm9_deco_bookcase02ew.glb
+    height: 211.2
+    yaw: facing
+  - name: mm9_boxornamental_x150
+    model: worlds/mm9/models/mm9_deco_boxornamental.glb
+    height: 72.4
+    yaw: facing
+  - name: mm9_cabinet02_x125
+    model: worlds/mm9/models/mm9_deco_cabinet02.glb
+    height: 333.1
+    yaw: facing
+  - name: mm9_cards
+    model: worlds/mm9/models/mm9_deco_cards.glb
+    height: 0.2
+    yaw: facing
+  - name: mm9_desk01_x120
+    model: worlds/mm9/models/mm9_deco_desk01.glb
+    height: 118.4
+    yaw: facing
+  - name: mm9_dresserfancyns_x150
+    model: worlds/mm9/models/mm9_deco_dresserfancyns.glb
+    height: 212.3
+    yaw: facing
+  - name: mm9_hangingbowl_x200
+    model: worlds/mm9/models/mm9_deco_hangingbowl.glb
+    height: 154.6
+    yaw: facing
+  - name: mm9_shield1
+    model: worlds/mm9/models/mm9_deco_shield1.glb
+    height: 90.1
+    yaw: facing
+  - name: mm9_shield2
+    model: worlds/mm9/models/mm9_deco_shield2.glb
+    height: 90.1
+    yaw: facing
+  - name: mm9_shield3r
+    model: worlds/mm9/models/mm9_deco_shield3r.glb
+    height: 90.1
+    yaw: facing
+  - name: mm9_shield4
+    model: worlds/mm9/models/mm9_deco_shield4.glb
+    height: 90.1
+    yaw: facing
+  - name: mm9_suitofarmor02
+    model: worlds/mm9/models/mm9_deco_suitofarmor02.glb
+    height: 260.5
+    yaw: facing
+  - name: mm9_tapestry_banner4
+    model: worlds/mm9/models/mm9_deco_tapestry_banner4.glb
+    height: 471.2
+    yaw: facing
+  - name: mm9_throne_x120
+    model: worlds/mm9/models/mm9_deco_throne.glb
+    height: 321.5
+    yaw: facing
+  - name: mm9_weaponracknew
+    model: worlds/mm9/models/mm9_deco_weaponracknew.glb
+    height: 184.6
+    yaw: facing
+  # --- MM9 Training Hall props (level_generation/props/mm9_traininghall_claude/) ---
+  - name: mm9_hangingbowl1_x100
+    model: worlds/mm9/models/mm9_deco_hangingbowl1.glb
+    height: 77.3
+    yaw: facing
+  - name: mm9_lumberdebris02
+    model: worlds/mm9/models/mm9_deco_lumberdebris02.glb
+    height: 24.9
+    yaw: facing
+  - name: mm9_lumberdebris03
+    model: worlds/mm9/models/mm9_deco_lumberdebris03.glb
+    height: 34.5
+    yaw: facing
+  - name: mm9_lumberdebris05
+    model: worlds/mm9/models/mm9_deco_lumberdebris05.glb
+    height: 86.5
+    yaw: facing
+  - name: mm9_spindummy
+    model: worlds/mm9/models/mm9_deco_spindummy.glb
+    height: 256.8
+    yaw: facing
+  - name: mm9_strawdummy
+    model: worlds/mm9/models/mm9_deco_strawdummy.glb
+    height: 265.8
+    yaw: facing
+  - name: mm9_trainingmount
+    model: worlds/mm9/models/mm9_deco_trainingmount.glb
+    height: 195.0
+    yaw: facing
+  # --- MM9 Tasar Academy props (level_generation/props/mm9_tasaracademy_claude/) ---
+  - name: mm9_bagherbs1
+    model: worlds/mm9/models/mm9_deco_bagherbs1.glb
+    height: 24.9
+    yaw: facing
+  - name: mm9_book
+    model: worlds/mm9/models/mm9_deco_book.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_bookcase02ew_x120
+    model: worlds/mm9/models/mm9_deco_bookcase02ew.glb
+    height: 253.4
+    yaw: facing
+  - name: mm9_bookcase02ns_x120
+    model: worlds/mm9/models/mm9_deco_bookcase02ns.glb
+    height: 253.4
+    yaw: facing
+  - name: mm9_bookrulestilt
+    model: worlds/mm9/models/mm9_deco_bookrulestilt.glb
+    height: 42.2
+    yaw: facing
+  - name: mm9_candle
+    model: worlds/mm9/models/mm9_deco_candle.glb
+    height: 56.5
+    yaw: facing
+  - name: mm9_chandelier
+    model: worlds/mm9/models/mm9_deco_chandelier.glb
+    height: 816.4
+    yaw: facing
+  - name: mm9_crate_x125
+    model: worlds/mm9/models/mm9_deco_crate.glb
+    height: 153.6
+    yaw: facing
+  - name: mm9_dwarfaxeonside
+    model: worlds/mm9/models/mm9_deco_dwarfaxeonside.glb
+    height: 8.1
+    yaw: facing
+  - name: mm9_forge
+    model: worlds/mm9/models/mm9_deco_forge.glb
+    height: 321.0
+    yaw: facing
+  - name: mm9_gobletfancy02
+    model: worlds/mm9/models/mm9_deco_gobletfancy02.glb
+    height: 70.0
+    yaw: facing
+  - name: mm9_grindingwheel
+    model: worlds/mm9/models/mm9_deco_grindingwheel.glb
+    height: 96.5
+    yaw: facing
+  - name: mm9_ironingots_x150
+    model: worlds/mm9/models/mm9_deco_ironingots.glb
+    height: 73.3
+    yaw: facing
+  - name: mm9_pew
+    model: worlds/mm9/models/mm9_deco_pew.glb
+    height: 129.7
+    yaw: facing
+  - name: mm9_podium
+    model: worlds/mm9/models/mm9_deco_podium.glb
+    height: 136.7
+    yaw: facing
+  - name: mm9_ropecoil_x75
+    model: worlds/mm9/models/mm9_deco_ropecoil.glb
+    height: 8.4
+    yaw: facing
+  - name: mm9_scroll1
+    model: worlds/mm9/models/mm9_deco_scroll1.glb
+    height: 17.1
+    yaw: facing
+  - name: mm9_scrollpickup
+    model: worlds/mm9/models/mm9_deco_scrollpickup.glb
+    height: 8.4
+    yaw: facing
+  - name: mm9_shelfitem03_x150
+    model: worlds/mm9/models/mm9_deco_shelfitem03.glb
+    height: 44.6
+    yaw: facing
+  - name: mm9_smithhammer
+    model: worlds/mm9/models/mm9_deco_smithhammer.glb
+    height: 16.0
+    yaw: facing
+  - name: mm9_spikepit_x100
+    model: worlds/mm9/models/mm9_deco_spikepit.glb
+    height: 175.1
+    yaw: facing
+  - name: mm9_suitofarmor02_x150
+    model: worlds/mm9/models/mm9_deco_suitofarmor02.glb
+    height: 325.6
+    yaw: facing
+  - name: mm9_weaponrack_new
+    model: worlds/mm9/models/mm9_deco_weaponrack_new.glb
+    height: 276.9
+    yaw: facing
+  # --- MM9 Lindisfarne Monastery props (level_generation/props/mm9_lindisfarnemonastery_claude/) ---
+  - name: mm9_bell
+    model: worlds/mm9/models/mm9_deco_bell.glb
+    height: 355.3
+    yaw: facing
+  - name: mm9_bell_x90
+    model: worlds/mm9/models/mm9_deco_bell.glb
+    height: 319.8
+    yaw: facing
+  - name: mm9_bell_x85
+    model: worlds/mm9/models/mm9_deco_bell.glb
+    height: 302.0
+    yaw: facing
+  - name: mm9_bell_x75
+    model: worlds/mm9/models/mm9_deco_bell.glb
+    height: 266.5
+    yaw: facing
+  - name: mm9_bell_x70
+    model: worlds/mm9/models/mm9_deco_bell.glb
+    height: 248.7
+    yaw: facing
+  - name: mm9_benchlarge1ns
+    model: worlds/mm9/models/mm9_deco_benchlarge1ns.glb
+    height: 177.0
+    yaw: facing
+  - name: mm9_bookcase01ew2
+    model: worlds/mm9/models/mm9_deco_bookcase01ew2.glb
+    height: 243.5
+    yaw: facing
+  - name: mm9_chairdesk03b
+    model: worlds/mm9/models/mm9_deco_chairdesk03b.glb
+    height: 122.1
+    yaw: facing
+  - name: mm9_desk03b
+    model: worlds/mm9/models/mm9_deco_desk03b.glb
+    height: 159.0
+    yaw: facing
+  - name: mm9_pew2
+    model: worlds/mm9/models/mm9_deco_pew2.glb
+    height: 111.7
+    yaw: facing
+  - name: mm9_podium02
+    model: worlds/mm9/models/mm9_deco_podium02.glb
+    height: 133.5
+    yaw: facing
+  - name: mm9_reliquary
+    model: worlds/mm9/models/mm9_deco_reliquary.glb
+    height: 55.9
+    yaw: facing
+  - name: mm9_thjorad
+    model: worlds/mm9/models/mm9_deco_thjorad.glb
+    height: 114.0
+    yaw: facing
+  - name: mm9_tree04
+    model: worlds/mm9/models/mm9_deco_tree04.glb
+    height: 1280.9
+    yaw: facing
+  - name: mm9_washtubtable
+    model: worlds/mm9/models/mm9_deco_washtubtable.glb
+    height: 113.2
+    yaw: facing
+  # --- MM9 Thjorad Mine props (level_generation/props/mm9_thjoradmine_claude/) ---
+  - name: mm9_anvil_x60
+    model: worlds/mm9/models/mm9_deco_anvil.glb
+    height: 47.8
+    yaw: facing
+  - name: mm9_barrel_x125
+    model: worlds/mm9/models/mm9_deco_barrel.glb
+    height: 102.4
+    yaw: facing
+  - name: mm9_boiler
+    model: worlds/mm9/models/mm9_deco_boiler.glb
+    height: 183.8
+    yaw: facing
+  - name: mm9_box02pantry
+    model: worlds/mm9/models/mm9_deco_box02pantry.glb
+    height: 12.2
+    yaw: facing
+  - name: mm9_bucket01_x90
+    model: worlds/mm9/models/mm9_deco_bucket01.glb
+    height: 29.1
+    yaw: facing
+  - name: mm9_bucket02
+    model: worlds/mm9/models/mm9_deco_bucket02.glb
+    height: 32.4
+    yaw: facing
+  - name: mm9_dwarfaxeonside_x200
+    model: worlds/mm9/models/mm9_deco_dwarfaxeonside.glb
+    height: 10.9
+    yaw: facing
+  - name: mm9_machinepartbroken
+    model: worlds/mm9/models/mm9_deco_machinepartbroken.glb
+    height: 81.9
+    yaw: facing
+  - name: mm9_minecart
+    model: worlds/mm9/models/mm9_deco_minecart.glb
+    height: 99.7
+    yaw: facing
+  - name: mm9_minecart_x150
+    model: worlds/mm9/models/mm9_deco_minecart.glb
+    height: 149.5
+    yaw: facing
+  - name: mm9_minelantern02
+    model: worlds/mm9/models/mm9_deco_minelantern02.glb
+    height: 73.2
+    yaw: facing
+  - name: mm9_oillamp
+    model: worlds/mm9/models/mm9_deco_oillamp.glb
+    height: 47.5
+    yaw: facing
+  - name: mm9_stonedebris05thjorad
+    model: worlds/mm9/models/mm9_deco_stonedebris05thjorad.glb
+    height: 59.1
+    yaw: facing
+  - name: mm9_stool01
+    model: worlds/mm9/models/mm9_deco_stool01.glb
+    height: 57.1
+    yaw: facing
+  - name: mm9_tableroundplain
+    model: worlds/mm9/models/mm9_deco_tableroundplain.glb
+    height: 92.1
+    yaw: facing
+  - name: mm9_thjoradbin
+    model: worlds/mm9/models/mm9_deco_thjoradbin.glb
+    height: 85.7
+    yaw: facing
+  - name: mm9_thjoradbin_x200
+    model: worlds/mm9/models/mm9_deco_thjoradbin.glb
+    height: 171.4
+    yaw: facing
+  - name: mm9_trashpile_x200
+    model: worlds/mm9/models/mm9_deco_trashpile.glb
+    height: 76.6
+    yaw: facing
+  - name: mm9_weaponscabinet01_x90
+    model: worlds/mm9/models/mm9_deco_weaponscabinet01.glb
+    height: 235.6
+    yaw: facing
+  - name: mm9_woodbin
+    model: worlds/mm9/models/mm9_deco_woodbin.glb
+    height: 73.5
+    yaw: facing
+  # --- MM9 Thjorad Mine props (level_generation/props/mm9_thjoradmine_claude/) ---
+  - name: mm9_machinepartwhole
+    model: worlds/mm9/models/mm9_deco_machinepartwhole.glb
+    height: 81.9
+    yaw: facing
+  # --- MM9 Yanmir's Fort props (level_generation/props/mm9_yanmirsfort_claude/) ---
+  - name: mm9_bedornate_x300
+    model: worlds/mm9/models/mm9_deco_bedornate.glb
+    height: 807.7
+    yaw: facing
+  - name: mm9_blackchest_x300
+    model: worlds/mm9/models/mm9_deco_blackchest.glb
+    height: 212.3
+    yaw: facing
+  - name: mm9_chair_x125
+    model: worlds/mm9/models/mm9_deco_chair.glb
+    height: 149.1
+    yaw: facing
+  - name: mm9_chairdesk03_x125
+    model: worlds/mm9/models/mm9_deco_chairdesk03.glb
+    height: 152.6
+    yaw: facing
+  - name: mm9_chairdesk03p270_x125
+    model: worlds/mm9/models/mm9_deco_chairdesk03p270.glb
+    height: 70.6
+    yaw: facing
+  - name: mm9_chairp270
+    model: worlds/mm9/models/mm9_deco_chairp270.glb
+    height: 83.4
+    yaw: facing
+  - name: mm9_chestrusty01
+    model: worlds/mm9/models/mm9_deco_chestrusty01.glb
+    height: 57.1
+    yaw: facing
+  - name: mm9_chestrusty01_x200
+    model: worlds/mm9/models/mm9_deco_chestrusty01.glb
+    height: 114.3
+    yaw: facing
+  - name: mm9_clawlampp180
+    model: worlds/mm9/models/mm9_deco_clawlampp180.glb
+    height: 99.6
+    yaw: facing
+  - name: mm9_clawlampp180_x300
+    model: worlds/mm9/models/mm9_deco_clawlampp180.glb
+    height: 149.4
+    yaw: facing
+  - name: mm9_clawtorchr180
+    model: worlds/mm9/models/mm9_deco_clawtorchr180.glb
+    height: 283.7
+    yaw: facing
+  - name: mm9_crate_x120
+    model: worlds/mm9/models/mm9_deco_crate.glb
+    height: 147.5
+    yaw: facing
+  - name: mm9_crateice
+    model: worlds/mm9/models/mm9_deco_crateice.glb
+    height: 122.9
+    yaw: facing
+  - name: mm9_crateice_x110
+    model: worlds/mm9/models/mm9_deco_crateice.glb
+    height: 135.2
+    yaw: facing
+  - name: mm9_crateice_x120
+    model: worlds/mm9/models/mm9_deco_crateice.glb
+    height: 147.5
+    yaw: facing
+  - name: mm9_crateice_x200
+    model: worlds/mm9/models/mm9_deco_crateice.glb
+    height: 245.8
+    yaw: facing
+  - name: mm9_dresserfancyns_x225
+    model: worlds/mm9/models/mm9_deco_dresserfancyns.glb
+    height: 318.4
+    yaw: facing
+  - name: mm9_key2_x300
+    model: worlds/mm9/models/mm9_deco_key2.glb
+    height: 3.9
+    yaw: facing
+  - name: mm9_pew3_x100
+    model: worlds/mm9/models/mm9_deco_pew3.glb
+    height: 124.6
+    yaw: facing
+  - name: mm9_stool01p90
+    model: worlds/mm9/models/mm9_deco_stool01p90.glb
+    height: 49.6
+    yaw: facing
+  - name: mm9_stool02
+    model: worlds/mm9/models/mm9_deco_stool02.glb
+    height: 147.3
+    yaw: facing
+  - name: mm9_tableround3_x90
+    model: worlds/mm9/models/mm9_deco_tableround3.glb
+    height: 83.1
+    yaw: facing
+  - name: mm9_tableroundplain_x95
+    model: worlds/mm9/models/mm9_deco_tableroundplain.glb
+    height: 87.5
+    yaw: facing
+  - name: mm9_throne_x250
+    model: worlds/mm9/models/mm9_deco_throne.glb
+    height: 669.8
+    yaw: facing
+  # --- MM9 Dark Passageway props (level_generation/props/mm9_darkpassageway_claude/) ---
+  - name: mm9_bush03
+    model: worlds/mm9/models/mm9_deco_bush03.glb
+    height: 113.4
+    yaw: facing
+  - name: mm9_bush03_x300
+    model: worlds/mm9/models/mm9_deco_bush03.glb
+    height: 226.7
+    yaw: facing
+  - name: mm9_bush05
+    model: worlds/mm9/models/mm9_deco_bush05.glb
+    height: 245.3
+    yaw: facing
+  - name: mm9_clawtorch
+    model: worlds/mm9/models/mm9_deco_clawtorch.glb
+    height: 77.7
+    yaw: facing
+  - name: mm9_crystal
+    model: worlds/mm9/models/mm9_deco_crystal.glb
+    height: 66.0
+    yaw: facing
+  - name: mm9_icebanshee
+    model: worlds/mm9/models/mm9_deco_icebanshee.glb
+    height: 73.3
+    yaw: facing
+  - name: mm9_icelich
+    model: worlds/mm9/models/mm9_deco_icelich.glb
+    height: 74.0
+    yaw: facing
+  - name: mm9_iceskeleton
+    model: worlds/mm9/models/mm9_deco_iceskeleton.glb
+    height: 69.5
+    yaw: facing
+  - name: mm9_iceskeletonwarrior
+    model: worlds/mm9/models/mm9_deco_iceskeletonwarrior.glb
+    height: 77.4
+    yaw: facing
+  - name: mm9_iceterror
+    model: worlds/mm9/models/mm9_deco_iceterror.glb
+    height: 102.2
+    yaw: facing
+  - name: mm9_icezombie
+    model: worlds/mm9/models/mm9_deco_icezombie.glb
+    height: 69.1
+    yaw: facing
+  - name: mm9_logsburning_x100
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 106.6
+    yaw: facing
+  - name: mm9_runestone
+    model: worlds/mm9/models/mm9_deco_runestone.glb
+    height: 190.4
+    yaw: facing
+  - name: mm9_stonebanshee
+    model: worlds/mm9/models/mm9_deco_stonebanshee.glb
+    height: 366.7
+    yaw: facing
+  - name: mm9_tree01b
+    model: worlds/mm9/models/mm9_deco_tree01b.glb
+    height: 1400.0
+    yaw: facing
+  - name: mm9_tree01b_x70
+    model: worlds/mm9/models/mm9_deco_tree01b.glb
+    height: 1088.9
+    yaw: facing
+  - name: mm9_tree02
+    model: worlds/mm9/models/mm9_deco_tree02.glb
+    height: 1280.9
+    yaw: facing
+  - name: mm9_tree02_x70
+    model: worlds/mm9/models/mm9_deco_tree02.glb
+    height: 1195.5
+    yaw: facing
+  - name: mm9_tree02_x30
+    model: worlds/mm9/models/mm9_deco_tree02.glb
+    height: 512.4
+    yaw: facing
+  - name: mm9_tree05
+    model: worlds/mm9/models/mm9_deco_tree05.glb
+    height: 891.8
+    yaw: facing
+  - name: mm9_tree06
+    model: worlds/mm9/models/mm9_deco_tree06.glb
+    height: 693.1
+    yaw: facing
+  # --- MM9 Thousand Terrors props (level_generation/props/mm9_1000terrors_claude/) ---
+  - name: mm9_brazierbowl
+    model: worlds/mm9/models/mm9_deco_brazierbowl.glb
+    height: 71.7
+    yaw: facing
+  - name: mm9_coffinraised_x150
+    model: worlds/mm9/models/mm9_deco_coffinraised.glb
+    height: 190.8
+    yaw: facing
+  - name: mm9_dragonpharoah
+    model: worlds/mm9/models/mm9_deco_dragonpharoah.glb
+    height: 439.2
+    yaw: facing
+  - name: mm9_genielamp_x150
+    model: worlds/mm9/models/mm9_deco_genielamp.glb
+    height: 41.4
+    yaw: facing
+  - name: mm9_sconce1torch
+    model: worlds/mm9/models/mm9_deco_sconce1torch.glb
+    height: 68.1
+    yaw: facing
+  - name: mm9_scrollp90
+    model: worlds/mm9/models/mm9_deco_scrollp90.glb
+    height: 8.6
+    yaw: facing
+  - name: mm9_skulls1000a
+    model: worlds/mm9/models/mm9_deco_skulls1000a.glb
+    height: 739.3
+    yaw: facing
+  - name: mm9_skulls1000b
+    model: worlds/mm9/models/mm9_deco_skulls1000b.glb
+    height: 739.3
+    yaw: facing
+  - name: mm9_sorcererstatue
+    model: worlds/mm9/models/mm9_deco_sorcererstatue.glb
+    height: 200.0
+    yaw: facing
+  - name: mm9_switch03
+    model: worlds/mm9/models/mm9_deco_switch03.glb
+    height: 167.8
+    yaw: facing
+  - name: mm9_terrorlight1
+    model: worlds/mm9/models/mm9_deco_terrorlight1.glb
+    height: 93.5
+    yaw: facing
+  - name: mm9_treasurechute_x90
+    model: worlds/mm9/models/mm9_deco_treasurechute.glb
+    height: 363.8
+    yaw: facing
+  - name: mm9_treasureopening
+    model: worlds/mm9/models/mm9_deco_treasureopening.glb
+    height: 246.5
+    yaw: facing
+  # --- MM9 Connecting Tunnels props (level_generation/props/mm9_connectingtunnels_claude/) ---
+  - name: mm9_blackchest_x95
+    model: worlds/mm9/models/mm9_deco_blackchest.glb
+    height: 67.2
+    yaw: facing
+  - name: mm9_minelantern02plain
+    model: worlds/mm9/models/mm9_deco_minelantern02plain.glb
+    height: 73.2
+    yaw: facing
+  - name: mm9_sack01
+    model: worlds/mm9/models/mm9_deco_sack01.glb
+    height: 80.7
+    yaw: facing
+  - name: mm9_sack02
+    model: worlds/mm9/models/mm9_deco_sack02.glb
+    height: 25.8
+    yaw: facing
+  - name: mm9_skeletonlayingprop
+    model: worlds/mm9/models/mm9_deco_skeletonlayingprop.glb
+    height: 30.6
+    yaw: facing
+  - name: mm9_stonedebris01ls
+    model: worlds/mm9/models/mm9_deco_stonedebris01ls.glb
+    height: 58.5
+    yaw: facing
+  - name: mm9_stonedebris02
+    model: worlds/mm9/models/mm9_deco_stonedebris02.glb
+    height: 59.0
+    yaw: facing
+  - name: mm9_stonedebris04ls
+    model: worlds/mm9/models/mm9_deco_stonedebris04ls.glb
+    height: 60.1
+    yaw: facing
+  - name: mm9_stonedebris05ls
+    model: worlds/mm9/models/mm9_deco_stonedebris05ls.glb
+    height: 59.1
+    yaw: facing
+  # --- MM9 Connecting Tunnels props (level_generation/props/mm9_connectingtunnels_claude/) ---
+  - name: mm9_barrelp356
+    model: worlds/mm9/models/mm9_deco_barrelp356.glb
+    height: 85.6
+    yaw: facing
+  - name: mm9_cratep356
+    model: worlds/mm9/models/mm9_deco_cratep356.glb
+    height: 131.9
+    yaw: facing
+  - name: mm9_crater355
+    model: worlds/mm9/models/mm9_deco_crater355.glb
+    height: 132.7
+    yaw: facing
+  - name: mm9_lumberstone03p10
+    model: worlds/mm9/models/mm9_deco_lumberstone03p10.glb
+    height: 50.3
+    yaw: facing
+  - name: mm9_sack01p350r356
+    model: worlds/mm9/models/mm9_deco_sack01p350r356.glb
+    height: 79.8
+    yaw: facing
+  - name: mm9_stonedebris01lsp350
+    model: worlds/mm9/models/mm9_deco_stonedebris01lsp350.glb
+    height: 65.8
+    yaw: facing
+  - name: mm9_stonedebris02p350
+    model: worlds/mm9/models/mm9_deco_stonedebris02p350.glb
+    height: 62.2
+    yaw: facing
+  - name: mm9_stonedebris04lsp350
+    model: worlds/mm9/models/mm9_deco_stonedebris04lsp350.glb
+    height: 77.9
+    yaw: facing
+  - name: mm9_stonedebris04lsp7
+    model: worlds/mm9/models/mm9_deco_stonedebris04lsp7.glb
+    height: 73.1
+    yaw: facing
+  - name: mm9_stonedebris05lsp350
+    model: worlds/mm9/models/mm9_deco_stonedebris05lsp350.glb
+    height: 77.0
+    yaw: facing
+  # --- MM9 Thousand Terrors props (level_generation/props/mm9_1000terrors_claude/) ---
+  - name: mm9_waterorb
+    model: worlds/mm9/models/mm9_deco_waterorb.glb
+    height: 41.0
+    yaw: facing
+  # --- MM9 Dungeon of Secrets props (level_generation/props/mm9_dungeonofsecrets_claude/) ---
+  - name: mm9_clawlampp180_x100
+    model: worlds/mm9/models/mm9_deco_clawlampp180.glb
+    height: 49.8
+    yaw: facing
+  - name: mm9_sconce2
+    model: worlds/mm9/models/mm9_deco_sconce2.glb
+    height: 97.8
+    yaw: facing
+  # --- MM9 The Arena props (level_generation/props/mm9_thearena_claude/) ---
+  - name: mm9_tapestry_banner6
+    model: worlds/mm9/models/mm9_deco_tapestry_banner6.glb
+    height: 188.5
+    yaw: facing
+  - name: mm9_tapestry_banner6_x150
+    model: worlds/mm9/models/mm9_deco_tapestry_banner6.glb
+    height: 282.7
+    yaw: facing
+  - name: mm9_torchrust
+    model: worlds/mm9/models/mm9_deco_torchrust.glb
+    height: 112.7
+    yaw: facing
+  # --- MM9 Hall of the Gods props (level_generation/props/mm9_hallofthegods_claude/) ---
+  - name: mm9_dragonbrazier2
+    model: worlds/mm9/models/mm9_deco_dragonbrazier2.glb
+    height: 372.6
+    yaw: facing
+  - name: mm9_dragonpharoah_x150
+    model: worlds/mm9/models/mm9_deco_dragonpharoah.glb
+    height: 658.8
+    yaw: facing
+  - name: mm9_frestatue
+    model: worlds/mm9/models/mm9_deco_frestatue.glb
+    height: 1587.7
+    yaw: facing
+  - name: mm9_krohnstatue
+    model: worlds/mm9/models/mm9_deco_krohnstatue.glb
+    height: 1944.4
+    yaw: facing
+  - name: mm9_lionstatue
+    model: worlds/mm9/models/mm9_deco_lionstatue.glb
+    height: 312.6
+    yaw: facing
+  - name: mm9_njamstatue
+    model: worlds/mm9/models/mm9_deco_njamstatue.glb
+    height: 1616.5
+    yaw: facing
+  - name: mm9_skraelosstatue
+    model: worlds/mm9/models/mm9_deco_skraelosstatue.glb
+    height: 1580.7
+    yaw: facing
+  - name: mm9_torchmetalorange
+    model: worlds/mm9/models/mm9_deco_torchmetalorange.glb
+    height: 338.0
+    yaw: facing
+  - name: mm9_wyrdmaturestatue
+    model: worlds/mm9/models/mm9_deco_wyrdmaturestatue.glb
+    height: 1590.4
+    yaw: facing
+  - name: mm9_wyrdoldstatue
+    model: worlds/mm9/models/mm9_deco_wyrdoldstatue.glb
+    height: 1478.5
+    yaw: facing
+  - name: mm9_wyrdyoungstatue
+    model: worlds/mm9/models/mm9_deco_wyrdyoungstatue.glb
+    height: 1591.1
+    yaw: facing
+  # --- MM9 Dragon Stadium props (level_generation/props/mm9_dragonstadium_claude/) ---
+  - name: mm9_skeletonlayingprop_x150
+    model: worlds/mm9/models/mm9_deco_skeletonlayingprop.glb
+    height: 45.9
+    yaw: facing
+  # --- MM9 Dark Passageway props (level_generation/props/mm9_darkpassageway_claude/) ---
+  - name: mm9_clawtorchlit
+    model: worlds/mm9/models/mm9_deco_clawtorchlit.glb
+    height: 77.7
+    yaw: facing
+  # --- MM9 Sturmford City props (level_generation/props/mm9_sturmfordcity_claude/) ---
+  - name: mm9_barrelbeet
+    model: worlds/mm9/models/mm9_deco_barrelbeet.glb
+    height: 122.9
+    yaw: facing
+  - name: mm9_barstool1
+    model: worlds/mm9/models/mm9_deco_barstool1.glb
+    height: 122.1
+    yaw: facing
+  - name: mm9_beaker01_x75
+    model: worlds/mm9/models/mm9_deco_beaker01.glb
+    height: 19.2
+    yaw: facing
+  - name: mm9_beaker01_x50
+    model: worlds/mm9/models/mm9_deco_beaker01.glb
+    height: 12.8
+    yaw: facing
+  - name: mm9_bed_x150
+    model: worlds/mm9/models/mm9_deco_bed.glb
+    height: 153.5
+    yaw: facing
+  - name: mm9_bedmediumplain
+    model: worlds/mm9/models/mm9_deco_bedmediumplain.glb
+    height: 86.3
+    yaw: facing
+  - name: mm9_bedornate_x100
+    model: worlds/mm9/models/mm9_deco_bedornate.glb
+    height: 269.2
+    yaw: facing
+  - name: mm9_beetrack
+    model: worlds/mm9/models/mm9_deco_beetrack.glb
+    height: 111.2
+    yaw: facing
+  - name: mm9_bjarnisitting
+    model: worlds/mm9/models/mm9_deco_bjarnisitting.glb
+    height: 152.9
+    yaw: facing
+  - name: mm9_bookcase01ew_x125
+    model: worlds/mm9/models/mm9_deco_bookcase01ew.glb
+    height: 304.4
+    yaw: facing
+  - name: mm9_bookcase01ns_x125
+    model: worlds/mm9/models/mm9_deco_bookcase01ns.glb
+    height: 304.4
+    yaw: facing
+  - name: mm9_bookcase01ns_x150
+    model: worlds/mm9/models/mm9_deco_bookcase01ns.glb
+    height: 365.3
+    yaw: facing
+  - name: mm9_bowl04
+    model: worlds/mm9/models/mm9_deco_bowl04.glb
+    height: 7.4
+    yaw: facing
+  - name: mm9_broom
+    model: worlds/mm9/models/mm9_deco_broom.glb
+    height: 152.9
+    yaw: facing
+  - name: mm9_bush03_x100
+    model: worlds/mm9/models/mm9_deco_bush03.glb
+    height: 75.6
+    yaw: facing
+  - name: mm9_candelabra
+    model: worlds/mm9/models/mm9_deco_candelabra.glb
+    height: 96.1
+    yaw: facing
+  - name: mm9_catstanddown
+    model: worlds/mm9/models/mm9_deco_catstanddown.glb
+    height: 21.6
+    yaw: facing
+  - name: mm9_chairskin1
+    model: worlds/mm9/models/mm9_deco_chairskin1.glb
+    height: 119.3
+    yaw: facing
+  - name: mm9_chandelier2
+    model: worlds/mm9/models/mm9_deco_chandelier2.glb
+    height: 137.5
+    yaw: facing
+  - name: mm9_clawlampup
+    model: worlds/mm9/models/mm9_deco_clawlampup.glb
+    height: 49.8
+    yaw: facing
+  - name: mm9_coatrack
+    model: worlds/mm9/models/mm9_deco_coatrack.glb
+    height: 92.3
+    yaw: facing
+  - name: mm9_cup02
+    model: worlds/mm9/models/mm9_deco_cup02.glb
+    height: 13.0
+    yaw: facing
+  - name: mm9_dragontrophy
+    model: worlds/mm9/models/mm9_deco_dragontrophy.glb
+    height: 199.9
+    yaw: facing
+  - name: mm9_dresser
+    model: worlds/mm9/models/mm9_deco_dresser.glb
+    height: 141.5
+    yaw: facing
+  - name: mm9_erccsitting
+    model: worlds/mm9/models/mm9_deco_erccsitting.glb
+    height: 153.2
+    yaw: facing
+    z_offset: -40.4
+  - name: mm9_forge_x100
+    model: worlds/mm9/models/mm9_deco_forge.glb
+    height: 356.7
+    yaw: facing
+  - name: mm9_hangingbowl1_x200
+    model: worlds/mm9/models/mm9_deco_hangingbowl1.glb
+    height: 154.6
+    yaw: facing
+  - name: mm9_jacobsladder
+    model: worlds/mm9/models/mm9_deco_jacobsladder.glb
+    height: 248.0
+    yaw: facing
+  - name: mm9_kegbeer
+    model: worlds/mm9/models/mm9_deco_kegbeer.glb
+    height: 113.6
+    yaw: facing
+  - name: mm9_lamppost4
+    model: worlds/mm9/models/mm9_deco_lamppost4.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_lanternwall1
+    model: worlds/mm9/models/mm9_deco_lanternwall1.glb
+    height: 68.1
+    yaw: facing
+  - name: mm9_logs_x150
+    model: worlds/mm9/models/mm9_deco_logs.glb
+    height: 63.7
+    yaw: facing
+  - name: mm9_mug1
+    model: worlds/mm9/models/mm9_deco_mug1.glb
+    height: 19.0
+    yaw: facing
+  - name: mm9_peasantm2innkeeper
+    model: worlds/mm9/models/mm9_deco_peasantm2innkeeper.glb
+    height: 132.4
+    yaw: facing
+  - name: mm9_peasantms2bconv
+    model: worlds/mm9/models/mm9_deco_peasantms2bconv.glb
+    height: 153.4
+    yaw: facing
+    z_offset: -41.3
+  - name: mm9_peasantms2bwriting
+    model: worlds/mm9/models/mm9_deco_peasantms2bwriting.glb
+    height: 152.1
+    yaw: facing
+  - name: mm9_peasantms2csitting
+    model: worlds/mm9/models/mm9_deco_peasantms2csitting.glb
+    height: 153.4
+    yaw: facing
+    z_offset: -39.7
+  - name: mm9_peasantms2dlisten
+    model: worlds/mm9/models/mm9_deco_peasantms2dlisten.glb
+    height: 153.4
+    yaw: facing
+    z_offset: -45.2
+  - name: mm9_peasantms2dsitting2
+    model: worlds/mm9/models/mm9_deco_peasantms2dsitting2.glb
+    height: 152.8
+    yaw: facing
+  - name: mm9_pew2ns_x100
+    model: worlds/mm9/models/mm9_deco_pew2ns.glb
+    height: 111.7
+    yaw: facing
+  - name: mm9_pewns
+    model: worlds/mm9/models/mm9_deco_pewns.glb
+    height: 129.7
+    yaw: facing
+  - name: mm9_pitcher01_x75
+    model: worlds/mm9/models/mm9_deco_pitcher01.glb
+    height: 31.1
+    yaw: facing
+  - name: mm9_podium01_x85
+    model: worlds/mm9/models/mm9_deco_podium01.glb
+    height: 117.1
+    yaw: facing
+  - name: mm9_portalwhole
+    model: worlds/mm9/models/mm9_deco_portalwhole.glb
+    height: 91.9
+    yaw: facing
+  - name: mm9_portalclean
+    model: worlds/mm9/models/mm9_deco_portalclean.glb
+    height: 91.9
+    yaw: facing
+  - name: mm9_sack01beet
+    model: worlds/mm9/models/mm9_deco_sack01beet.glb
+    height: 161.4
+    yaw: facing
+  - name: mm9_sack03_x200
+    model: worlds/mm9/models/mm9_deco_sack03.glb
+    height: 76.6
+    yaw: facing
+  - name: mm9_scrollpickup_x100
+    model: worlds/mm9/models/mm9_deco_scrollpickup.glb
+    height: 7.0
+    yaw: facing
+  - name: mm9_shelfitem03f
+    model: worlds/mm9/models/mm9_deco_shelfitem03f.glb
+    height: 58.1
+    yaw: facing
+  - name: mm9_shelfitem09d
+    model: worlds/mm9/models/mm9_deco_shelfitem09d.glb
+    height: 17.1
+    yaw: facing
+  - name: mm9_shelfitem09sg
+    model: worlds/mm9/models/mm9_deco_shelfitem09sg.glb
+    height: 4.1
+    yaw: facing
+  - name: mm9_shield1flat
+    model: worlds/mm9/models/mm9_deco_shield1flat.glb
+    height: 10.5
+    yaw: facing
+  - name: mm9_shield2flat
+    model: worlds/mm9/models/mm9_deco_shield2flat.glb
+    height: 10.5
+    yaw: facing
+  - name: mm9_shieldrustyp90
+    model: worlds/mm9/models/mm9_deco_shieldrustyp90.glb
+    height: 180.3
+    yaw: facing
+  - name: mm9_strawdummy2c
+    model: worlds/mm9/models/mm9_deco_strawdummy2c.glb
+    height: 265.8
+    yaw: facing
+  - name: mm9_strawdummy2l
+    model: worlds/mm9/models/mm9_deco_strawdummy2l.glb
+    height: 265.8
+    yaw: facing
+  - name: mm9_strawdummy2r
+    model: worlds/mm9/models/mm9_deco_strawdummy2r.glb
+    height: 265.8
+    yaw: facing
+  - name: mm9_tableround_x75
+    model: worlds/mm9/models/mm9_deco_tableround.glb
+    height: 69.1
+    yaw: facing
+  - name: mm9_trainingarchery1
+    model: worlds/mm9/models/mm9_deco_trainingarchery1.glb
+    height: 188.5
+    yaw: facing
+  - name: mm9_tree04_x100
+    model: worlds/mm9/models/mm9_deco_tree04.glb
+    height: 1707.9
+    yaw: facing
+  - name: mm9_vials
+    model: worlds/mm9/models/mm9_deco_vials.glb
+    height: 76.3
+    yaw: facing
+  - name: mm9_weaponracknewg2
+    model: worlds/mm9/models/mm9_deco_weaponracknewg2.glb
+    height: 255.1
+    yaw: facing
+  - name: mm9_weaponracknewg3
+    model: worlds/mm9/models/mm9_deco_weaponracknewg3.glb
+    height: 276.9
+    yaw: facing
+  - name: mm9_winebottle04
+    model: worlds/mm9/models/mm9_deco_winebottle04.glb
+    height: 50.9
+    yaw: facing
+  - name: mm9_winerack
+    model: worlds/mm9/models/mm9_deco_winerack.glb
+    height: 227.4
+    yaw: facing
+  # --- MM9 Thronheim City props (level_generation/props/mm9_thronheimcity_claude/) ---
+  - name: mm9_bagherbs1_x200
+    model: worlds/mm9/models/mm9_deco_bagherbs1.glb
+    height: 33.2
+    yaw: facing
+  - name: mm9_benchlarge1
+    model: worlds/mm9/models/mm9_deco_benchlarge1.glb
+    height: 177.0
+    yaw: facing
+  - name: mm9_chandelier2_x75
+    model: worlds/mm9/models/mm9_deco_chandelier2.glb
+    height: 103.1
+    yaw: facing
+  - name: mm9_coatrack2
+    model: worlds/mm9/models/mm9_deco_coatrack2.glb
+    height: 209.9
+    yaw: facing
+  - name: mm9_flowerboxew
+    model: worlds/mm9/models/mm9_deco_flowerboxew.glb
+    height: 138.9
+    yaw: facing
+  - name: mm9_flowerboxns
+    model: worlds/mm9/models/mm9_deco_flowerboxns.glb
+    height: 138.9
+    yaw: facing
+  - name: mm9_foradsit
+    model: worlds/mm9/models/mm9_deco_foradsit.glb
+    height: 145.8
+    yaw: facing
+  - name: mm9_herbrack1
+    model: worlds/mm9/models/mm9_deco_herbrack1.glb
+    height: 166.8
+    yaw: facing
+  - name: mm9_jar02_x150
+    model: worlds/mm9/models/mm9_deco_jar02.glb
+    height: 67.9
+    yaw: facing
+  - name: mm9_jar03_x150
+    model: worlds/mm9/models/mm9_deco_jar03.glb
+    height: 82.5
+    yaw: facing
+  - name: mm9_jar05_x150
+    model: worlds/mm9/models/mm9_deco_jar05.glb
+    height: 71.5
+    yaw: facing
+  - name: mm9_jar06_x150
+    model: worlds/mm9/models/mm9_deco_jar06.glb
+    height: 77.0
+    yaw: facing
+  - name: mm9_kegbeer_x100
+    model: worlds/mm9/models/mm9_deco_kegbeer.glb
+    height: 75.8
+    yaw: facing
+  - name: mm9_kirashield
+    model: worlds/mm9/models/mm9_deco_kirashield.glb
+    height: 119.2
+    yaw: facing
+  - name: mm9_lamppost3
+    model: worlds/mm9/models/mm9_deco_lamppost3.glb
+    height: 349.4
+    yaw: facing
+  - name: mm9_markeldie2
+    model: worlds/mm9/models/mm9_deco_markeldie2.glb
+    height: 38.5
+    yaw: facing
+  - name: mm9_markelsit
+    model: worlds/mm9/models/mm9_deco_markelsit.glb
+    height: 149.5
+    yaw: facing
+  - name: mm9_pew2_x110
+    model: worlds/mm9/models/mm9_deco_pew2.glb
+    height: 122.8
+    yaw: facing
+  - name: mm9_pew2_x120
+    model: worlds/mm9/models/mm9_deco_pew2.glb
+    height: 134.0
+    yaw: facing
+  - name: mm9_plateset2
+    model: worlds/mm9/models/mm9_deco_plateset2.glb
+    height: 4.4
+    yaw: facing
+  - name: mm9_pottedplant1
+    model: worlds/mm9/models/mm9_deco_pottedplant1.glb
+    height: 60.5
+    yaw: facing
+  - name: mm9_pottedplant2
+    model: worlds/mm9/models/mm9_deco_pottedplant2.glb
+    height: 63.2
+    yaw: facing
+  - name: mm9_pottedplant3
+    model: worlds/mm9/models/mm9_deco_pottedplant3.glb
+    height: 63.0
+    yaw: facing
+  - name: mm9_shelfitem02mp
+    model: worlds/mm9/models/mm9_deco_shelfitem02mp.glb
+    height: 30.4
+    yaw: facing
+  - name: mm9_shelfitem03f_x150
+    model: worlds/mm9/models/mm9_deco_shelfitem03f.glb
+    height: 43.6
+    yaw: facing
+  - name: mm9_shield3flat
+    model: worlds/mm9/models/mm9_deco_shield3flat.glb
+    height: 10.5
+    yaw: facing
+  - name: mm9_shield4flat
+    model: worlds/mm9/models/mm9_deco_shield4flat.glb
+    height: 10.5
+    yaw: facing
+  - name: mm9_sigmundsit
+    model: worlds/mm9/models/mm9_deco_sigmundsit.glb
+    height: 136.2
+    yaw: facing
+  - name: mm9_steinfancy01
+    model: worlds/mm9/models/mm9_deco_steinfancy01.glb
+    height: 31.2
+    yaw: facing
+  - name: mm9_suitofarmor01plain
+    model: worlds/mm9/models/mm9_deco_suitofarmor01plain.glb
+    height: 239.7
+    yaw: facing
+  - name: mm9_svensitting
+    model: worlds/mm9/models/mm9_deco_svensitting.glb
+    height: 143.3
+    yaw: facing
+  - name: mm9_tableround5_x100
+    model: worlds/mm9/models/mm9_deco_tableround5.glb
+    height: 92.4
+    yaw: facing
+  - name: mm9_tapestry_banner8
+    model: worlds/mm9/models/mm9_deco_tapestry_banner8.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_tryggvasit
+    model: worlds/mm9/models/mm9_deco_tryggvasit.glb
+    height: 151.1
+    yaw: facing
+  - name: mm9_weaponracknsnewg1
+    model: worlds/mm9/models/mm9_deco_weaponracknsnewg1.glb
+    height: 276.9
+    yaw: facing
+  - name: mm9_weaponracknsnewg3
+    model: worlds/mm9/models/mm9_deco_weaponracknsnewg3.glb
+    height: 276.9
+    yaw: facing
+  # --- MM9 Drangheim City props (level_generation/props/mm9_drangheimcity_claude/) ---
+  - name: mm9_barstool2
+    model: worlds/mm9/models/mm9_deco_barstool2.glb
+    height: 122.1
+    yaw: facing
+  - name: mm9_benchstone02_x120
+    model: worlds/mm9/models/mm9_deco_benchstone02.glb
+    height: 68.2
+    yaw: facing
+  - name: mm9_bookcase02ns_x100
+    model: worlds/mm9/models/mm9_deco_bookcase02ns.glb
+    height: 211.2
+    yaw: facing
+  - name: mm9_box01
+    model: worlds/mm9/models/mm9_deco_box01.glb
+    height: 29.5
+    yaw: facing
+  - name: mm9_box02
+    model: worlds/mm9/models/mm9_deco_box02.glb
+    height: 12.2
+    yaw: facing
+  - name: mm9_cart01
+    model: worlds/mm9/models/mm9_deco_cart01.glb
+    height: 95.2
+    yaw: facing
+  - name: mm9_cart02
+    model: worlds/mm9/models/mm9_deco_cart02.glb
+    height: 167.9
+    yaw: facing
+  - name: mm9_cart02nohay
+    model: worlds/mm9/models/mm9_deco_cart02nohay.glb
+    height: 167.9
+    yaw: facing
+  - name: mm9_clover
+    model: worlds/mm9/models/mm9_deco_clover.glb
+    height: 14.1
+    yaw: facing
+  - name: mm9_hitchingpost
+    model: worlds/mm9/models/mm9_deco_hitchingpost.glb
+    height: 253.5
+    yaw: facing
+  - name: mm9_jug1
+    model: worlds/mm9/models/mm9_deco_jug1.glb
+    height: 59.5
+    yaw: facing
+  - name: mm9_logsburning_x70
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 74.6
+    yaw: facing
+  - name: mm9_logsburning_x200
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 213.2
+    yaw: facing
+  - name: mm9_pillarstand_x150
+    model: worlds/mm9/models/mm9_deco_pillarstand.glb
+    height: 132.1
+    yaw: facing
+  - name: mm9_platestack1set1
+    model: worlds/mm9/models/mm9_deco_platestack1set1.glb
+    height: 11.1
+    yaw: facing
+  - name: mm9_platestack2set1
+    model: worlds/mm9/models/mm9_deco_platestack2set1.glb
+    height: 7.6
+    yaw: facing
+  - name: mm9_shelfitem03hc
+    model: worlds/mm9/models/mm9_deco_shelfitem03hc.glb
+    height: 43.6
+    yaw: facing
+  - name: mm9_shelfitem09
+    model: worlds/mm9/models/mm9_deco_shelfitem09.glb
+    height: 17.3
+    yaw: facing
+  - name: mm9_shelfitem09g
+    model: worlds/mm9/models/mm9_deco_shelfitem09g.glb
+    height: 16.4
+    yaw: facing
+  - name: mm9_suitofarmor01_x120
+    model: worlds/mm9/models/mm9_deco_suitofarmor01.glb
+    height: 239.7
+    yaw: facing
+  - name: mm9_tapestry_banner2
+    model: worlds/mm9/models/mm9_deco_tapestry_banner2.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_weaponrackg1
+    model: worlds/mm9/models/mm9_deco_weaponrackg1.glb
+    height: 221.5
+    yaw: facing
+  - name: mm9_weaponrackg2
+    model: worlds/mm9/models/mm9_deco_weaponrackg2.glb
+    height: 204.1
+    yaw: facing
+  - name: mm9_winebottle
+    model: worlds/mm9/models/mm9_deco_winebottle.glb
+    height: 64.8
+    yaw: facing
+  - name: mm9_winebottle02
+    model: worlds/mm9/models/mm9_deco_winebottle02.glb
+    height: 64.8
+    yaw: facing
+  - name: mm9_winebottle03
+    model: worlds/mm9/models/mm9_deco_winebottle03.glb
+    height: 56.8
+    yaw: facing
+  - name: mm9_winebottle05
+    model: worlds/mm9/models/mm9_deco_winebottle05.glb
+    height: 51.3
+    yaw: facing
+  # --- MM9 Thjorgard City props (level_generation/props/mm9_thjorgardcity_claude/) ---
+  - name: mm9_barrel_x50
+    model: worlds/mm9/models/mm9_deco_barrel.glb
+    height: 41.0
+    yaw: facing
+  - name: mm9_basket01
+    model: worlds/mm9/models/mm9_deco_basket01.glb
+    height: 58.8
+    yaw: facing
+  - name: mm9_bed_x100
+    model: worlds/mm9/models/mm9_deco_bed.glb
+    height: 102.3
+    yaw: facing
+  - name: mm9_bedmediumew
+    model: worlds/mm9/models/mm9_deco_bedmediumew.glb
+    height: 103.5
+    yaw: facing
+  - name: mm9_bookkey
+    model: worlds/mm9/models/mm9_deco_bookkey.glb
+    height: 1.8
+    yaw: facing
+  - name: mm9_chandelier3_x75
+    model: worlds/mm9/models/mm9_deco_chandelier3.glb
+    height: 44.1
+    yaw: facing
+  - name: mm9_clawlampupblue
+    model: worlds/mm9/models/mm9_deco_clawlampupblue.glb
+    height: 74.7
+    yaw: facing
+  - name: mm9_desk02ns
+    model: worlds/mm9/models/mm9_deco_desk02ns.glb
+    height: 91.5
+    yaw: facing
+  - name: mm9_dresserfancy_x120
+    model: worlds/mm9/models/mm9_deco_dresserfancy.glb
+    height: 169.8
+    yaw: facing
+  - name: mm9_herbrack2
+    model: worlds/mm9/models/mm9_deco_herbrack2.glb
+    height: 99.3
+    yaw: facing
+  - name: mm9_lamppost2
+    model: worlds/mm9/models/mm9_deco_lamppost2.glb
+    height: 349.4
+    yaw: facing
+  - name: mm9_lantern2
+    model: worlds/mm9/models/mm9_deco_lantern2.glb
+    height: 77.7
+    yaw: facing
+  - name: mm9_logs_x120
+    model: worlds/mm9/models/mm9_deco_logs.glb
+    height: 50.9
+    yaw: facing
+  - name: mm9_logs_x125
+    model: worlds/mm9/models/mm9_deco_logs.glb
+    height: 53.0
+    yaw: facing
+  - name: mm9_plateset1
+    model: worlds/mm9/models/mm9_deco_plateset1.glb
+    height: 2.9
+    yaw: facing
+  - name: mm9_podium01_x80
+    model: worlds/mm9/models/mm9_deco_podium01.glb
+    height: 110.2
+    yaw: facing
+  - name: mm9_sack01_x200
+    model: worlds/mm9/models/mm9_deco_sack01.glb
+    height: 161.4
+    yaw: facing
+  - name: mm9_scrollpickup_x150
+    model: worlds/mm9/models/mm9_deco_scrollpickup.glb
+    height: 10.5
+    yaw: facing
+  - name: mm9_shelfitem03hwc
+    model: worlds/mm9/models/mm9_deco_shelfitem03hwc.glb
+    height: 44.6
+    yaw: facing
+  - name: mm9_shelfitem07hbread
+    model: worlds/mm9/models/mm9_deco_shelfitem07hbread.glb
+    height: 25.0
+    yaw: facing
+  - name: mm9_shelfitem07hfruit
+    model: worlds/mm9/models/mm9_deco_shelfitem07hfruit.glb
+    height: 23.8
+    yaw: facing
+  - name: mm9_shelfitem07hpie
+    model: worlds/mm9/models/mm9_deco_shelfitem07hpie.glb
+    height: 25.0
+    yaw: facing
+  - name: mm9_shelfitem08hbasket
+    model: worlds/mm9/models/mm9_deco_shelfitem08hbasket.glb
+    height: 45.9
+    yaw: facing
+  - name: mm9_shelfitem08hbottle
+    model: worlds/mm9/models/mm9_deco_shelfitem08hbottle.glb
+    height: 45.9
+    yaw: facing
+  - name: mm9_shelfitem08honions
+    model: worlds/mm9/models/mm9_deco_shelfitem08honions.glb
+    height: 45.9
+    yaw: facing
+  - name: mm9_shelfitem08hsack
+    model: worlds/mm9/models/mm9_deco_shelfitem08hsack.glb
+    height: 44.5
+    yaw: facing
+  - name: mm9_suitofarmor01gold
+    model: worlds/mm9/models/mm9_deco_suitofarmor01gold.glb
+    height: 239.7
+    yaw: facing
+  - name: mm9_table01_x120
+    model: worlds/mm9/models/mm9_deco_table01.glb
+    height: 100.9
+    yaw: facing
+  - name: mm9_tapestry_banner6_x200
+    model: worlds/mm9/models/mm9_deco_tapestry_banner6.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_weaponracknsnewg2
+    model: worlds/mm9/models/mm9_deco_weaponracknsnewg2.glb
+    height: 255.1
+    yaw: facing
+  - name: mm9_weaponscabinet03
+    model: worlds/mm9/models/mm9_deco_weaponscabinet03.glb
+    height: 121.1
+    yaw: facing
+  # --- MM9 Arslegard City props (level_generation/props/mm9_arslegardcity_claude/) ---
+  - name: mm9_clansoldierhelmet
+    model: worlds/mm9/models/mm9_deco_clansoldierhelmet.glb
+    height: 39.4
+    yaw: facing
+  - name: mm9_dookmilitiahelmet
+    model: worlds/mm9/models/mm9_deco_dookmilitiahelmet.glb
+    height: 50.9
+    yaw: facing
+  - name: mm9_horsestatue3
+    model: worlds/mm9/models/mm9_deco_horsestatue3.glb
+    height: 560.6
+    yaw: facing
+  - name: mm9_horsestatue3_x200
+    model: worlds/mm9/models/mm9_deco_horsestatue3.glb
+    height: 747.5
+    yaw: facing
+  - name: mm9_kegbeer_x200
+    model: worlds/mm9/models/mm9_deco_kegbeer.glb
+    height: 151.5
+    yaw: facing
+  - name: mm9_lamppost1
+    model: worlds/mm9/models/mm9_deco_lamppost1.glb
+    height: 348.3
+    yaw: facing
+  - name: mm9_plate1p80
+    model: worlds/mm9/models/mm9_deco_plate1p80.glb
+    height: 78.2
+    yaw: facing
+  - name: mm9_platestack1_x200
+    model: worlds/mm9/models/mm9_deco_platestack1.glb
+    height: 22.3
+    yaw: facing
+  - name: mm9_platestack2_x200
+    model: worlds/mm9/models/mm9_deco_platestack2.glb
+    height: 15.1
+    yaw: facing
+  - name: mm9_steinfancy01_x200
+    model: worlds/mm9/models/mm9_deco_steinfancy01.glb
+    height: 62.4
+    yaw: facing
+  - name: mm9_tree05_x100
+    model: worlds/mm9/models/mm9_deco_tree05.glb
+    height: 1274.0
+    yaw: facing
+  - name: mm9_tree06_x100
+    model: worlds/mm9/models/mm9_deco_tree06.glb
+    height: 990.2
+    yaw: facing
+  - name: mm9_weaponrackg1_x150
+    model: worlds/mm9/models/mm9_deco_weaponrackg1.glb
+    height: 276.9
+    yaw: facing
+  # --- MM9 Frosgard City props (level_generation/props/mm9_thjorgardcity_claude/) ---
+  - name: mm9_cot
+    model: worlds/mm9/models/mm9_deco_cot.glb
+    height: 81.6
+    yaw: facing
+  - name: mm9_dogsitting
+    model: worlds/mm9/models/mm9_deco_dogsitting.glb
+    height: 96.4
+    yaw: facing
+  - name: mm9_hangingbowl_x100
+    model: worlds/mm9/models/mm9_deco_hangingbowl.glb
+    height: 77.3
+    yaw: facing
+  - name: mm9_herbrack1_x200
+    model: worlds/mm9/models/mm9_deco_herbrack1.glb
+    height: 222.4
+    yaw: facing
+  - name: mm9_logsburning_x250
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 266.5
+    yaw: facing
+  - name: mm9_maypole
+    model: worlds/mm9/models/mm9_deco_maypole.glb
+    height: 465.3
+    yaw: facing
+  - name: mm9_maypoleold
+    model: worlds/mm9/models/mm9_deco_maypoleold.glb
+    height: 465.0
+    yaw: facing
+  - name: mm9_mug1_x100
+    model: worlds/mm9/models/mm9_deco_mug1.glb
+    height: 25.3
+    yaw: facing
+  - name: mm9_plateset2p1
+    model: worlds/mm9/models/mm9_deco_plateset2p1.glb
+    height: 4.4
+    yaw: facing
+  - name: mm9_spikepit_x150
+    model: worlds/mm9/models/mm9_deco_spikepit.glb
+    height: 262.7
+    yaw: facing
+  - name: mm9_tapestry_banner1
+    model: worlds/mm9/models/mm9_deco_tapestry_banner1.glb
+    height: 376.9
+    yaw: facing
+  - name: mm9_vikingship
+    model: worlds/mm9/models/mm9_deco_vikingship.glb
+    height: 995.5
+    yaw: facing
+  - name: mm9_weaponracknsusedg2
+    model: worlds/mm9/models/mm9_deco_weaponracknsusedg2.glb
+    height: 255.1
+    yaw: facing
+  - name: mm9_weaponracknsusedg3
+    model: worlds/mm9/models/mm9_deco_weaponracknsusedg3.glb
+    height: 276.9
+    yaw: facing
+  - name: mm9_weaponscabinet03s3
+    model: worlds/mm9/models/mm9_deco_weaponscabinet03s3.glb
+    height: 121.1
+    yaw: facing
+  - name: mm9_winebottle_x100
+    model: worlds/mm9/models/mm9_deco_winebottle.glb
+    height: 43.2
+    yaw: facing
+  # --- MM9 Guberland City props (level_generation/props/mm9_guberlandcity_claude/) ---
+  - name: mm9_pottedplant1_x250
+    model: worlds/mm9/models/mm9_deco_pottedplant1.glb
+    height: 75.6
+    yaw: facing
+  - name: mm9_pottedplant2_x250
+    model: worlds/mm9/models/mm9_deco_pottedplant2.glb
+    height: 79.0
+    yaw: facing
+  - name: mm9_prize
+    model: worlds/mm9/models/mm9_deco_prize.glb
+    height: 61.8
+    yaw: facing
+  - name: mm9_seamonster
+    model: worlds/mm9/models/mm9_deco_seamonster.glb
+    height: 32.2
+    yaw: facing
+  - name: mm9_suitofarmor02aged
+    model: worlds/mm9/models/mm9_deco_suitofarmor02aged.glb
+    height: 260.5
+    yaw: facing
+  - name: mm9_tapestry_banner7
+    model: worlds/mm9/models/mm9_deco_tapestry_banner7.glb
+    height: 282.7
+    yaw: facing
+  - name: mm9_weaponscabinet02ns
+    model: worlds/mm9/models/mm9_deco_weaponscabinet02ns.glb
+    height: 242.5
+    yaw: facing
+  # --- MM9 Thjorgard City props (level_generation/props/mm9_thjorgardcity_claude/) ---
+  - name: mm9_chandelier3orange
+    model: worlds/mm9/models/mm9_deco_chandelier3orange.glb
+    height: 58.8
+    yaw: facing
+  - name: mm9_chandelier3orange_x75
+    model: worlds/mm9/models/mm9_deco_chandelier3orange.glb
+    height: 44.1
+    yaw: facing
+  - name: mm9_statbarrel
+    model: engine/models/mm6_deco_barrel.glb
+    height: 122.9
+  - name: mm9_statbarrel_x100
+    model: engine/models/mm6_deco_barrel.glb
+    height: 81.9
+  - name: mm9v_6tree18_2400
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 2400.0
+  - name: mm9v_6tree18_1700
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1700.0
+  - name: mm9v_tree60_1700
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1700.0
+  - name: mm9v_6tree18_3425
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 3425.0
+  - name: mm9v_tree60_3425
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 3425.0
+  - name: mm9v_tree60_2400
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 2400.0
+  - name: mm9v_bush02_75
+    model: engine/models/mm7_deco_bush02.glb
+    height: 75.0
+  - name: mm9v_flower03_50
+    model: engine/models/mm7_deco_flower03.glb
+    lod_pixels:
+    - 500
+    - 220
+    - 100
+    height: 50.0
+  - name: mm9v_bush03_100
+    model: engine/models/mm7_deco_bush03.glb
+    height: 100.0
+  - name: mm9v_flower10_25
+    model: engine/models/mm7_deco_flower10.glb
+    lod_pixels:
+    - 500
+    - 220
+    - 100
+    height: 25.0
+  - name: mm9v_flower04_50
+    model: engine/models/mm7_deco_flower04.glb
+    lod_pixels:
+    - 500
+    - 220
+    - 100
+    height: 50.0
+  - name: mm9v_flower10_50
+    model: engine/models/mm7_deco_flower10.glb
+    lod_pixels:
+    - 500
+    - 220
+    - 100
+    height: 50.0
+  - name: mm9v_flower04_25
+    model: engine/models/mm7_deco_flower04.glb
+    lod_pixels:
+    - 500
+    - 220
+    - 100
+    height: 25.0
+  - name: mm9v_tree29_1275
+    model: engine/models/mm8_deco_tree29.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1275.0
+  - name: mm9v_tree30_1375
+    model: engine/models/mm8_deco_tree30.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1375.0
+  - name: mm9v_tree30_1275
+    model: engine/models/mm8_deco_tree30.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1275.0
+  - name: mm9v_tree60_1200
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1200.0
+  - name: mm9v_tree60_1275
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1275.0
+  - name: mm9v_tree29_1650
+    model: engine/models/mm8_deco_tree29.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1650.0
+  - name: mm9v_tree30_1650
+    model: engine/models/mm8_deco_tree30.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1650.0
+  - name: mm9v_tree30_1000
+    model: engine/models/mm8_deco_tree30.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1000.0
+  - name: mm9v_tree60_1375
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1375.0
+  - name: mm9v_tree30_1200
+    model: engine/models/mm8_deco_tree30.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1200.0
+  - name: mm9v_tree60_1000
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1000.0
+  - name: mm9v_tree29_1900
+    model: engine/models/mm8_deco_tree29.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1900.0
+  - name: mm9v_tree60_1975
+    model: engine/models/mm7_deco_tree60.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1975.0
+  - name: mm9v_tree29_2300
+    model: engine/models/mm8_deco_tree29.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 2300.0
+  - name: mm9v_tree30_1900
+    model: engine/models/mm8_deco_tree30.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1900.0
+  - name: mm9v_tree29_2800
+    model: engine/models/mm8_deco_tree29.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 2800.0
+  - name: mm9v_tree36_525
+    model: engine/models/mm7_deco_tree36.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 525.0
+  - name: mm9v_tree36_1550
+    model: engine/models/mm7_deco_tree36.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1550.0
+  - name: mm9v_snotre05_1100
+    model: engine/models/mm6_deco_snotre05.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1100.0
+  - name: mm9v_tree36_675
+    model: engine/models/mm7_deco_tree36.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 675.0
+  - name: mm9v_snotre01_525
+    model: engine/models/mm6_deco_snotre01.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 525.0
+  - name: mm9v_tree36_1100
+    model: engine/models/mm7_deco_tree36.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1100.0
+  - name: mm9v_snotre01_1550
+    model: engine/models/mm6_deco_snotre01.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1550.0
+  - name: mm9v_snotre01_1100
+    model: engine/models/mm6_deco_snotre01.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1100.0
+  - name: mm9v_snotre05_1550
+    model: engine/models/mm6_deco_snotre05.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1550.0
+  - name: mm9v_snotre05_675
+    model: engine/models/mm6_deco_snotre05.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 675.0
+  - name: mm9v_snotre01_675
+    model: engine/models/mm6_deco_snotre01.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 675.0
+  - name: mm9v_tree28_1550
+    model: engine/models/mm8_deco_tree28.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1550.0
+  - name: mm9v_tree28_1050
+    model: engine/models/mm8_deco_tree28.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1050.0
+  - name: mm9v_6tree27_1550
+    model: engine/models/mm6_deco_tree27.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1550.0
+  - name: mm9v_6tree27_1050
+    model: engine/models/mm6_deco_tree27.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1050.0
+  - name: mm9v_flower03_25
+    model: engine/models/mm7_deco_flower03.glb
+    lod_pixels:
+    - 500
+    - 220
+    - 100
+    height: 25.0
+  - name: mm9_lamppost2_x140
+    model: worlds/mm9/models/mm9_deco_lamppost2.glb
+    height: 489.1
+    yaw: facing
+  - name: mm9_coalbin_x150
+    model: worlds/mm9/models/mm9_deco_coalbin.glb
+    height: 129.0
+    yaw: facing
+  - name: mm9_stool02_x100
+    model: worlds/mm9/models/mm9_deco_stool02.glb
+    height: 98.2
+    yaw: facing
+  - name: mm9_shelfitem07_x100
+    model: worlds/mm9/models/mm9_deco_shelfitem07.glb
+    height: 16.7
+    yaw: facing
+  - name: mm9_logsburning_x65
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 69.3
+    yaw: facing
+  - name: mm9_logsburning_x75
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 79.9
+    yaw: facing
+  - name: mm9_shelfitem02_x150
+    model: worlds/mm9/models/mm9_deco_shelfitem02.glb
+    height: 37.3
+    yaw: facing
+  - name: mm9_herbrack1_x100
+    model: worlds/mm9/models/mm9_deco_herbrack1.glb
+    height: 111.2
+    yaw: facing
+  - name: mm9_logsburning_x120
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 127.9
+    yaw: facing
+  - name: mm9_chest1_x150
+    model: worlds/mm9/models/mm9_deco_chest1.glb
+    height: 67.1
+    yaw: facing
+  - name: mm9_chest3_x150
+    model: worlds/mm9/models/mm9_deco_chest3.glb
+    height: 94.5
+    yaw: facing
+  - name: mm9_blackchest_x150
+    model: worlds/mm9/models/mm9_deco_blackchest.glb
+    height: 106.2
+    yaw: facing
+  - name: mm9_chest5_x150
+    model: worlds/mm9/models/mm9_deco_chest5.glb
+    height: 94.5
+    yaw: facing
+  - name: mm9_chest_x150
+    model: worlds/mm9/models/mm9_deco_chest.glb
+    height: 67.1
+    yaw: facing
+  - name: mm9_woodshed02
+    model: worlds/mm9/models/mm9_deco_woodshed02.glb
+    height: 288.8
+    yaw: facing
+  - name: mm9_woodshed01_x95
+    model: worlds/mm9/models/mm9_deco_woodshed01.glb
+    height: 354.0
+    yaw: facing
+  - name: mm9_stone
+    model: worlds/mm9/models/mm9_deco_stone.glb
+    height: 15.4
+    yaw: facing
+  - name: mm9_stonered_x200
+    model: worlds/mm9/models/mm9_deco_stonered.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_stoneblue_x200
+    model: worlds/mm9/models/mm9_deco_stoneblue.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_stoneyellow_x200
+    model: worlds/mm9/models/mm9_deco_stoneyellow.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_stoneorange_x200
+    model: worlds/mm9/models/mm9_deco_stoneorange.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_stonegreen_x200
+    model: worlds/mm9/models/mm9_deco_stonegreen.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_stone_x200
+    model: worlds/mm9/models/mm9_deco_stone.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_toyboatpirate_x200
+    model: worlds/mm9/models/mm9_deco_toyboatpirate.glb
+    height: 92.0
+    yaw: facing
+  - name: mm9_toyboatred_x200
+    model: worlds/mm9/models/mm9_deco_toyboatred.glb
+    height: 92.0
+    yaw: facing
+  - name: mm9_toyboatgreen_x200
+    model: worlds/mm9/models/mm9_deco_toyboatgreen.glb
+    height: 92.0
+    yaw: facing
+  - name: mm9_bellnobeam_x20
+    model: worlds/mm9/models/mm9_deco_bellnobeam.glb
+    height: 71.1
+    yaw: facing
+  - name: mm9_bannercw_x50
+    model: worlds/mm9/models/mm9_deco_bannercw.glb
+    height: 121.3
+    yaw: facing
+  - name: mm9_farmerplow
+    model: worlds/mm9/models/mm9_deco_farmerplow.glb
+    height: 88.6
+    yaw: facing
+  - name: mm9_girldolly
+    model: worlds/mm9/models/mm9_deco_girldolly.glb
+    height: 8.9
+    yaw: facing
+  - name: mm9_greatbook
+    model: worlds/mm9/models/mm9_deco_greatbook.glb
+    height: 15.2
+    yaw: facing
+  - name: mm9_windmillp335
+    model: worlds/mm9/models/mm9_deco_windmillp335.glb
+    height: 1588.2
+    yaw: facing
+  - name: mm9_hairbrush
+    model: worlds/mm9/models/mm9_deco_hairbrush.glb
+    height: 6.5
+    yaw: facing
+  - name: mm9_bannerc_x50
+    model: worlds/mm9/models/mm9_deco_bannerc.glb
+    height: 121.3
+    yaw: facing
+  - name: mm9_dwarfaxe_x150
+    model: worlds/mm9/models/mm9_deco_dwarfaxe.glb
+    height: 70.8
+    yaw: facing
+  - name: mm9_penancequest
+    model: worlds/mm9/models/mm9_deco_penancequest.glb
+    height: 134.1
+    yaw: facing
+  - name: mm9_broadswordp170
+    model: worlds/mm9/models/mm9_deco_broadswordp170.glb
+    height: 72.0
+    yaw: facing
+  - name: mm9_longswordp170
+    model: worlds/mm9/models/mm9_deco_longswordp170.glb
+    height: 90.4
+    yaw: facing
+  - name: mm9_arrowp78
+    model: worlds/mm9/models/mm9_deco_arrowp78.glb
+    height: 62.1
+    yaw: facing
+  - name: mm9_arrowp133
+    model: worlds/mm9/models/mm9_deco_arrowp133.glb
+    height: 48.4
+    yaw: facing
+  - name: mm9_arrowp76
+    model: worlds/mm9/models/mm9_deco_arrowp76.glb
+    height: 61.8
+    yaw: facing
+  - name: mm9_axerustyp128r90
+    model: worlds/mm9/models/mm9_deco_axerustyp128r90.glb
+    height: 30.5
+    yaw: facing
+  - name: mm9_arrowp63
+    model: worlds/mm9/models/mm9_deco_arrowp63.glb
+    height: 57.3
+    yaw: facing
+  - name: mm9_longswordp173
+    model: worlds/mm9/models/mm9_deco_longswordp173.glb
+    height: 91.2
+    yaw: facing
+  - name: mm9_haybale01
+    model: worlds/mm9/models/mm9_deco_haybale01.glb
+    height: 54.0
+    yaw: facing
+  - name: mm9_portalbroken
+    model: worlds/mm9/models/mm9_deco_portalbroken.glb
+    height: 92.0
+    yaw: facing
+  - name: mm9_lantern1_x200
+    model: worlds/mm9/models/mm9_deco_lantern1.glb
+    height: 92.6
+    yaw: facing
+  - name: mm9_longswordrunep170
+    model: worlds/mm9/models/mm9_deco_longswordrunep170.glb
+    height: 90.4
+    yaw: facing
+  # --- MM9 Wizard's Lab props (level_generation/props/mm9_wizardslab_claude/) ---
+  - name: mm9_barstool2_x110
+    model: worlds/mm9/models/mm9_deco_barstool2.glb
+    height: 134.3
+    yaw: facing
+  - name: mm9_chair02_x110
+    model: worlds/mm9/models/mm9_deco_chair02.glb
+    height: 146.3
+    yaw: facing
+  - name: mm9_clawlampupblue_x100
+    model: worlds/mm9/models/mm9_deco_clawlampupblue.glb
+    height: 49.8
+    yaw: facing
+  - name: mm9_desk03b_x120
+    model: worlds/mm9/models/mm9_deco_desk03b.glb
+    height: 190.8
+    yaw: facing
+  - name: mm9_herbrack1_x175
+    model: worlds/mm9/models/mm9_deco_herbrack1.glb
+    height: 194.6
+    yaw: facing
+  - name: mm9_herbrack2_x165
+    model: worlds/mm9/models/mm9_deco_herbrack2.glb
+    height: 81.9
+    yaw: facing
+  - name: mm9_relic
+    model: worlds/mm9/models/mm9_deco_relic.glb
+    height: 1.0
+    yaw: facing
+  - name: mm9_ropecoilcauldron
+    model: worlds/mm9/models/mm9_deco_ropecoilcauldron.glb
+    height: 22.4
+    yaw: facing
+  - name: mm9_ropecoilcauldron_x300
+    model: worlds/mm9/models/mm9_deco_ropecoilcauldron.glb
+    height: 33.6
+    yaw: facing
+  - name: mm9_scroll1_x85
+    model: worlds/mm9/models/mm9_deco_scroll1.glb
+    height: 14.6
+    yaw: facing
+  - name: mm9_scroll2_x115
+    model: worlds/mm9/models/mm9_deco_scroll2.glb
+    height: 9.5
+    yaw: facing
+  - name: mm9_scroll3_x115
+    model: worlds/mm9/models/mm9_deco_scroll3.glb
+    height: 8.9
+    yaw: facing
+  - name: mm9_scrolldouble_x115
+    model: worlds/mm9/models/mm9_deco_scrolldouble.glb
+    height: 8.0
+    yaw: facing
+  - name: mm9_shelfitem01_x100
+    model: worlds/mm9/models/mm9_deco_shelfitem01.glb
+    height: 28.4
+    yaw: facing
+  - name: mm9_shelfitem01_x120
+    model: worlds/mm9/models/mm9_deco_shelfitem01.glb
+    height: 34.1
+    yaw: facing
+  - name: mm9_shelfitem02_x120
+    model: worlds/mm9/models/mm9_deco_shelfitem02.glb
+    height: 29.9
+    yaw: facing
+  - name: mm9_shelfitem02ha
+    model: worlds/mm9/models/mm9_deco_shelfitem02ha.glb
+    height: 27.3
+    yaw: facing
+  - name: mm9_shelfitem03_x100
+    model: worlds/mm9/models/mm9_deco_shelfitem03.glb
+    height: 29.7
+    yaw: facing
+  - name: mm9_shelfitem03_x110
+    model: worlds/mm9/models/mm9_deco_shelfitem03.glb
+    height: 32.7
+    yaw: facing
+  - name: mm9_shelfitem03_x120
+    model: worlds/mm9/models/mm9_deco_shelfitem03.glb
+    height: 35.7
+    yaw: facing
+  - name: mm9_shelfitem05_x115
+    model: worlds/mm9/models/mm9_deco_shelfitem05.glb
+    height: 34.1
+    yaw: facing
+  - name: mm9_shelfitem05_x120
+    model: worlds/mm9/models/mm9_deco_shelfitem05.glb
+    height: 35.6
+    yaw: facing
+  - name: mm9_shelfitem06_x100
+    model: worlds/mm9/models/mm9_deco_shelfitem06.glb
+    height: 23.6
+    yaw: facing
+  - name: mm9_shelfitem06_x120
+    model: worlds/mm9/models/mm9_deco_shelfitem06.glb
+    height: 28.3
+    yaw: facing
+  - name: mm9_skeletonlaying1
+    model: worlds/mm9/models/mm9_deco_skeletonlaying1.glb
+    height: 30.6
+    yaw: facing
+  - name: mm9_table01_x125
+    model: worlds/mm9/models/mm9_deco_table01.glb
+    height: 105.1
+    yaw: facing
+  - name: mm9_terrorlight1_x100
+    model: worlds/mm9/models/mm9_deco_terrorlight1.glb
+    height: 62.3
+    yaw: facing
+  - name: mm9_torchmetalorange_x100
+    model: worlds/mm9/models/mm9_deco_torchmetalorange.glb
+    height: 112.7
+    yaw: facing
+  - name: mm9_torchmetalunlit
+    model: worlds/mm9/models/mm9_deco_torchmetalunlit.glb
+    height: 78.4
+    yaw: facing
+  - name: mm9_vials_x120
+    model: worlds/mm9/models/mm9_deco_vials.glb
+    height: 91.6
+    yaw: facing
+  - name: mm9_cauldron01_x100
+    model: worlds/mm9/models/mm9_deco_cauldron01.glb
+    height: 69.2
+    yaw: facing
+  - name: mm9_weaponrack_new_x100
+    model: worlds/mm9/models/mm9_deco_weaponrack_new.glb
+    height: 184.6
+    yaw: facing
+  - name: mm9_suitofarmor01plain_x100
+    model: worlds/mm9/models/mm9_deco_suitofarmor01plain.glb
+    height: 199.7
+    yaw: facing
+  - name: mm9_brazierbowl_x400
+    model: worlds/mm9/models/mm9_deco_brazierbowl.glb
+    height: 143.4
+    yaw: facing
+  # Beethoven Hall's coffin rubble (mm9r_beethoven/convert.py places it where a coffin breaks; the isle's model)
+  - name: mm9_stonedebris03
+    model: worlds/mm9/models/mm9_deco_stonedebris03.glb
+    height: 50.6
+    yaw: facing
+  - name: mm9_statstoneyellow
+    model: worlds/mm9/models/mm9_deco_statstoneyellow.glb
+    height: 220.7
+    yaw: facing
+  - name: mm9_statstoneplain
+    model: worlds/mm9/models/mm9_deco_statstoneplain.glb
+    height: 220.7
+    yaw: facing
+  - name: mm9_statstonepurple
+    model: worlds/mm9/models/mm9_deco_statstonepurple.glb
+    height: 220.7
+    yaw: facing
+  - name: mm9_statstonegreen
+    model: worlds/mm9/models/mm9_deco_statstonegreen.glb
+    height: 220.7
+    yaw: facing
+  - name: mm9_sigmundseated
+    model: worlds/mm9/models/mm9_deco_sigmundseated.glb
+    height: 138.3
+    yaw: facing
+  - name: mm9_clansoldierdeadb
+    model: worlds/mm9/models/mm9_deco_clansoldierdeadb.glb
+    height: 79.8
+    yaw: facing
+  - name: mm9_skeletonfigure
+    model: worlds/mm9/models/mm9_deco_skeletonfigure.glb
+    height: 173.0
+    yaw: facing
+  - name: mm9_skeletonwarriorfigure
+    model: worlds/mm9/models/mm9_deco_skeletonwarriorfigure.glb
+    height: 194.5
+    yaw: facing
+  - name: mm9_dragonflyfigure
+    model: worlds/mm9/models/mm9_deco_dragonflyfigure.glb
+    height: 131.4
+    yaw: facing
+  - name: mm9_eyefigure
+    model: worlds/mm9/models/mm9_deco_eyefigure.glb
+    height: 295.3
+    yaw: facing
+  - name: mm9_troglodytefigure
+    model: worlds/mm9/models/mm9_deco_troglodytefigure.glb
+    height: 120.0
+    yaw: facing
+  - name: mm9_lizardorcfigure
+    model: worlds/mm9/models/mm9_deco_lizardorcfigure.glb
+    height: 183.5
+    yaw: facing
+  - name: mm9_gezzamptfigure
+    model: worlds/mm9/models/mm9_deco_gezzamptfigure.glb
+    height: 234.9
+    yaw: facing
+  - name: mm9_nosferatufigure
+    model: worlds/mm9/models/mm9_deco_nosferatufigure.glb
+    height: 174.0
+    yaw: facing
+  - name: mm9_jellysporefigure
+    model: worlds/mm9/models/mm9_deco_jellysporefigure.glb
+    height: 182.1
+    yaw: facing
+  - name: mm9_clansoldierdead2b
+    model: worlds/mm9/models/mm9_deco_clansoldierdead2b.glb
+    height: 65.5
+    yaw: facing
+  - name: mm9_clansoldierdeada
+    model: worlds/mm9/models/mm9_deco_clansoldierdeada.glb
+    height: 79.8
+    yaw: facing
+  - name: mm9_tryggvaseated
+    model: worlds/mm9/models/mm9_deco_tryggvaseated.glb
+    height: 153.4
+    yaw: facing
+  - name: mm9_battlewitchp136
+    model: worlds/mm9/models/mm9_deco_battlewitchp136.glb
+    height: 73.8
+    yaw: facing
+  - name: mm9_battlewitchp89
+    model: worlds/mm9/models/mm9_deco_battlewitchp89.glb
+    height: 45.3
+    yaw: facing
+  - name: mm9_bjarniseated
+    model: worlds/mm9/models/mm9_deco_bjarniseated.glb
+    height: 153.7
+    yaw: facing
+  - name: mm9_kiradead
+    model: worlds/mm9/models/mm9_deco_kiradead.glb
+    height: 36.9
+    yaw: facing
+  - name: mm9_runestonegm
+    model: worlds/mm9/models/mm9_deco_runestonegm.glb
+    height: 190.4
+    yaw: facing
+  # --- MM9 The Arena props (level_generation/props/mm9_thearena_claude/) ---
+  - name: mm9_peasantfs2bconv1
+    model: worlds/mm9/models/mm9_deco_peasantfs2bconv1.glb
+    height: 146.2
+    yaw: facing
+    z_offset: -50.4
+  - name: mm9_peasantms1alisten
+    model: worlds/mm9/models/mm9_deco_peasantms1alisten.glb
+    height: 152.0
+    yaw: facing
+    z_offset: -49.6
+  - name: mm9_peasantms1blisten
+    model: worlds/mm9/models/mm9_deco_peasantms1blisten.glb
+    height: 152.0
+    yaw: facing
+    z_offset: -49.6
+  - name: mm9_peasantms2alisten
+    model: worlds/mm9/models/mm9_deco_peasantms2alisten.glb
+    height: 153.4
+    yaw: facing
+    z_offset: -49.1
+  - name: mm9_peasantms2blisten
+    model: worlds/mm9/models/mm9_deco_peasantms2blisten.glb
+    height: 153.4
+    yaw: facing
+    z_offset: -49.1
+  - name: mm9_peasantms2clisten
+    model: worlds/mm9/models/mm9_deco_peasantms2clisten.glb
+    height: 153.4
+    yaw: facing
+    z_offset: -49.1
+  - name: mm9_greenmanstree
+    model: worlds/mm9/models/mm9_deco_greenmanstree.glb
+    height: 3302.3
+    yaw: facing
+  - name: mm9_goosefigure
+    model: worlds/mm9/models/mm9_deco_goosefigure.glb
+    height: 81.5
+    yaw: facing
+  # --- MM9 flat letters (level_generation/props/mm9_outdoor_regions_claude/scripts/scrollflat.py) ---
+  - name: mm9_scrollflat
+    model: worlds/mm9/models/mm9_deco_scrollflat.glb
+    height: 8.6
+    yaw: facing
+  # --- MM9 shared object rules (level_generation/props/mm9_outdoor_regions_claude/scripts/converter_rows.py) ---
+  - name: mm9_gatefire_x208
+    model: worlds/mm9/models/mm9_deco_gatefire.glb
+    height: 271.9
+    yaw: facing
+  - name: mm9_gatefire_x25
+    model: worlds/mm9/models/mm9_deco_gatefire.glb
+    height: 32.7
+    yaw: facing
+  - name: mm9v_6tree18_500
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 500.0
+  - name: mm9v_6tree18_1200
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1200.0
+  - name: mm9v_6tree18_1550
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1550.0
+  - name: mm9v_6tree18_1100
+    model: engine/models/mm6_deco_tree18.glb
+    lod_pixels:
+    - 650
+    - 320
+    - 180
+    height: 1100.0
+  # --- MM9 Dark Passageway props (level_generation/props/mm9_darkpassageway_claude/) ---
+  - name: mm9_mirror
+    model: worlds/mm9/models/mm9_deco_mirror.glb
+    height: 163.8
+    yaw: facing
+  # --- MM9 Dark Passageway props (level_generation/props/mm9_darkpassageway_claude/) ---
+  - name: mm9_barrelwater
+    model: worlds/mm9/models/mm9_deco_barrelwater.glb
+    height: 122.9
+    yaw: facing

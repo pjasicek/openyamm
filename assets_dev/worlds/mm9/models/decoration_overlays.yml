@@ -1,0 +1,25 @@
+# The MM9 world's decoration overlays (extends engine/models/decoration_overlays.yml; see its header).
+# Written by level_generation/projects/mm9r_common/stat_barrels.py: MM9's stat barrels (class Barrel) are
+# MM6's barrel with bigbarel's liquids by state (empty, then red Might, yellow Accuracy, blue Personality,
+# orange Intellect, green Endurance, purple Speed and white Luck; Global.lua events 268-275).
+overlays:
+  - name: mm9_statbarrel
+    states:
+      - null
+      - engine/models/mm6_deco_barrel_liquid_red.glb
+      - engine/models/mm6_deco_barrel_liquid_yellow.glb
+      - engine/models/mm6_deco_barrel_liquid_blue.glb
+      - engine/models/mm6_deco_barrel_liquid_orange.glb
+      - engine/models/mm6_deco_barrel_liquid_green.glb
+      - engine/models/mm6_deco_barrel_liquid_purple.glb
+      - engine/models/mm6_deco_barrel_liquid_white.glb
+  - name: mm9_statbarrel_x100
+    states:
+      - null
+      - engine/models/mm6_deco_barrel_liquid_red.glb
+      - engine/models/mm6_deco_barrel_liquid_yellow.glb
+      - engine/models/mm6_deco_barrel_liquid_blue.glb
+      - engine/models/mm6_deco_barrel_liquid_orange.glb
+      - engine/models/mm6_deco_barrel_liquid_green.glb
+      - engine/models/mm6_deco_barrel_liquid_purple.glb
+      - engine/models/mm6_deco_barrel_liquid_white.glb

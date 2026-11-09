@@ -1,0 +1,72 @@
+# The MM9 world's decoration models (extends engine/models/decorations.yml; see its header). Written by
+# level_generation/props/mm9_isleofashes_claude/scripts/tables.py.
+decorations:
+  # --- MM9 Isle of Ashes props (level_generation/props/mm9_isleofashes_claude/) ---
+  - name: mm9_book
+    model: worlds/mm9/models/mm9_deco_book.glb
+    height: 30.8
+    yaw: facing
+  - name: mm9_coatrack
+    model: worlds/mm9/models/mm9_deco_coatrack.glb
+    height: 92.3
+    yaw: facing
+  - name: mm9_cookpot
+    model: worlds/mm9/models/mm9_deco_cookpot.glb
+    height: 145.2
+    yaw: facing
+  - name: mm9_cot
+    model: worlds/mm9/models/mm9_deco_cot.glb
+    height: 81.6
+    yaw: facing
+  - name: mm9_dresser
+    model: worlds/mm9/models/mm9_deco_dresser.glb
+    height: 141.5
+    yaw: facing
+  - name: mm9_logsburning
+    model: worlds/mm9/models/mm9_deco_logsburning.glb
+    height: 79.9
+    yaw: facing
+  - name: mm9_podium
+    model: worlds/mm9/models/mm9_deco_podium.glb
+    height: 136.7
+    yaw: facing
+  - name: mm9_roundtable
+    model: worlds/mm9/models/mm9_deco_roundtable.glb
+    height: 92.4
+    yaw: facing
+  - name: mm9_shipwreck
+    model: worlds/mm9/models/mm9_deco_shipwreck.glb
+    height: 1407.5
+    yaw: facing
+  - name: mm9_skull
+    model: worlds/mm9/models/mm9_deco_skull.glb
+    height: 18.5
+    yaw: facing
+  - name: mm9_statstone
+    model: worlds/mm9/models/mm9_deco_statstone.glb
+    height: 220.7
+    yaw: facing
+  - name: mm9_stonedebris02
+    model: worlds/mm9/models/mm9_deco_stonedebris02.glb
+    height: 59.0
+    yaw: facing
+  - name: mm9_stonedebris02_x150
+    model: worlds/mm9/models/mm9_deco_stonedebris02.glb
+    height: 88.4
+    yaw: facing
+  - name: mm9_stonedebris03
+    model: worlds/mm9/models/mm9_deco_stonedebris03.glb
+    height: 50.6
+    yaw: facing
+  - name: mm9_stool
+    model: worlds/mm9/models/mm9_deco_stool.glb
+    height: 118.5
+    yaw: facing
+  - name: mm9_vikingship
+    model: worlds/mm9/models/mm9_deco_vikingship.glb
+    height: 995.5
+    yaw: facing
+  - name: mm9_well
+    model: worlds/mm9/models/mm9_deco_well.glb
+    height: 255.3
+    yaw: facing
