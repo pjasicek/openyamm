@@ -1,0 +1,52 @@
+id: mm9.ai.dormant
+title: MM9 dormant starts - coffin mummies woken by a trigger and a hit, a hanging Icky woken as it fidgets
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The mummies stand in their coffins with the party in view and notice
+        nothing; the trigger at 4 s wakes the first, the party's hit at 12 s the second (MummyAwaken.scr OnDamage
+        WakeUp: the hit itself is lost); each gets up with its Wakeup clip (4.37 s, which MM9 never plays:
+        MM9_ANIMATION_AUDIT.md P3), then looks for a target at its next update and notices the party. The Icky hangs, fidgets every 2-10 s, and wakes when it sees the party
+        during a fidget or hears the woken mummy's alert, then drops for its Launch clip.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: dormant.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - damage_actor: {actor_index: last-1, amount: 1}
+  - advance_runtime: {seconds: 10}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, before: 4, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_detect, before: 4, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wake, detail: woken, after: 4, before: 4.2, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, after: 4.05, before: 8.3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party, after: 8.3, before: 9, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "main=Wakeup", after: 4, before: 4.1, min_count: 1}
+  # From the coffin pose straight into the Wakeup clip (no stand between).
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "main=Standing", after: 3.9, before: 8.3, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, before: 12, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: wake, detail: woken, after: 12, before: 12.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: retarget, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, target: party, after: 16.3, before: 17, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: "main=Wakeup", after: 12, before: 12.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: fidget, detail: hang, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: wake, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: fly_pass, min_count: 1}

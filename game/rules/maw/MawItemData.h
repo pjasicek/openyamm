@@ -6,6 +6,11 @@
 #include <utility>
 #include <vector>
 
+namespace YAML
+{
+class Node;
+}
+
 namespace OpenYAMM::Game
 {
 // One artifact a MAW drop can turn into (rulesets/maw/data/items.yml, devdocs/maw/data/artifacts.yml).
@@ -59,6 +64,8 @@ struct MawBaseItem
     bool twoHanded = false;
     int baseArmorClass = 0;
     int referenceArmorClass = 0;
+    // A world's item a step stronger than its MM6-MM8 peers (MM9's: up to 1.15): its weapon damage and armour.
+    double strength = 1;
 };
 
 // The MAW ruleset's item data: base items, legendary affix texts and the artifacts.
@@ -66,6 +73,10 @@ class MawItemData
 {
 public:
     bool loadFromYaml(const std::string &text, std::string &errorMessage);
+    // A world's base items (rulesets/maw/worlds/<world>/item_bases.yml, written by tools/maw/mm9_balance.py from
+    // its balance.yml), after items.yml: `bases` as there, with an optional sixth value, the strength. An id items.yml
+    // or another world already gives is an error.
+    bool loadWorldBases(const std::string &text, std::string &errorMessage);
     const std::vector<MawArtifact> &artifacts() const;
     const MawArtifact *artifact(uint32_t itemId) const;
     // Null for anything but a base item MAW rolls.
@@ -74,6 +85,8 @@ public:
     const std::string &legendaryAffixText(int affixId) const;
 
 private:
+    bool loadBases(const YAML::Node &bases, bool worldBases, std::string &errorMessage);
+
     std::vector<MawArtifact> m_artifacts;
     std::unordered_map<uint32_t, size_t> m_artifactIndex;
     std::unordered_map<int, std::string> m_legendaryAffixTexts;

@@ -78,6 +78,8 @@ public:
     const MawGameState &state() const;
     void setState(const MawGameState &state);
     const MawMapLevels &mapLevels() const;
+    // The story bands' quest bits the party has reached (MawMapLevels::band); the map's monster levels follow.
+    void updateStoryBands(const Party &party);
     const MawItemData &itemData() const;
     const MawCraftingData &craftingData() const;
     const MawTextData &textData() const;
@@ -103,6 +105,9 @@ public:
     void setCurrentMap(const std::string &mapFileName);
     // The last outdoor map set as the current one, lowercase (runtime only: empty after loading a save indoors).
     const std::string &lastOutdoorMap() const;
+    // Whether MAW's outdoor rules hold on a map: an ODM, or a BLV its world declares open to the sky (MM9's regions
+    // and cities, world.yml openAirMaps).
+    bool outdoorMap(const std::string &mapFileName) const;
     // Where teachers teach, for the skill popups' trainer hints (the session's tables; empty without them).
     const MawTrainerHints &trainerHints() const;
     void setTrainerHints(MawTrainerHints hints);
@@ -213,6 +218,41 @@ public:
     // A map's monster level as the Journal's Progress tab shows it: the mean level of its own B-tier families at the
     // current banks, and the part of it the map's resets add (0 for a map without native families).
     std::pair<int, int> mapLevelSummary(const MonsterTable &monsterTable, const MapStatsEntry &map) const;
+
+    // MAW's map table with every world's maps (map_levels.yml and the worlds' balance files), each map's level as the
+    // Progress tab counts it under each progression, whatever this game's options (`ruleset maplevels`): free with no
+    // levels banked elsewhere and with `bankedLevels`, horizontal, Beyond Madness. Maps without native families are 0.
+    struct MapLevelRow
+    {
+        std::string fileName;
+        std::string name;
+        uint32_t continentId = 0;
+        std::array<double, 3> band = {};
+        bool horizontalStarter = false;
+        int madnessLevel = 0;
+        int freeLevel = 0;
+        int freeBankedLevel = 0;
+        int horizontalLevel = 0;
+        int madnessMapLevel = 0;
+    };
+    std::vector<MapLevelRow> mapLevelTable(const MonsterTable &monsterTable, double bankedLevels) const;
+
+    // Each listed map's native families, A, B and C, as this game's options and banks make them (`ruleset
+    // mapmonsters`): the numbers MAW gives a fresh spawn of each (level, hit points, armour, attack damage).
+    struct MapMonsterRow
+    {
+        std::string fileName;
+        uint32_t continentId = 0;
+        std::string family;
+        int monsterId = 0;
+        std::string name;
+        uint8_t tier = 0;
+        int level = 0;
+        int maxHp = 0;
+        int armorClass = 0;
+        float attackDamage = 0.0f;
+    };
+    std::vector<MapMonsterRow> mapMonsterTable(const MonsterTable &monsterTable, const Party *pParty) const;
 
 private:
     MawMonsterLevelInputs monsterLevelInputs(const MapStatsEntry &map) const;

@@ -376,10 +376,14 @@ def install(project: Path) -> str:
     if excluded:
         scene["terrain"]["exclude_faces"] = excluded
     # Grass tufts over the grass layers (devdocs/INDOOR_OPEN_SKY.md "Terrain"): New Sorpigal's meadow by default
-    # (region_grass), `terrain: {grass: <decoration file path> | none}` in overrides.yml to choose or leave them out.
+    # (region_grass), `terrain: {grass: <decoration file path> | none}` in overrides.yml to choose or leave them out
+    # (whatever the player's terrain decoration setting). Without the default, its generated file goes.
     grass = overrides["terrain"].get("grass") or region_grass(stem)
     if grass != "none":
         scene["terrain"]["grass"] = grass
+    generated = f"worlds/mm9/terrain_decorations/{stem}_blv.yml"
+    if overrides["terrain"].get("grass") and grass != generated:
+        review_root.remove(generated)
     review_root.install(scene_path, (json.dumps(scene, indent=1) + "\n").encode())
     return (f"terrain: {len(faces)} faces, {len(textures)} textures -> layers {layers}; "
             f"{len(excluded)} under the terrain drawn as faces {excluded[:12]}{' ...' if len(excluded) > 12 else ''}")

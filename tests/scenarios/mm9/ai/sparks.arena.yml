@@ -1,0 +1,21 @@
+# AI arena: monster Sparks volleys (MM9_SPELL_MAPPING.md section 6, G3). Monster 0 is an Initiate (9123, Sparks at
+# Expert: 5 sparks), monster 1 a Winged Aberration (9161, Sparks at Grandmaster: 9 sparks). The scenario makes each
+# cast once at the party; a cast fires the volley of its mastery over a 60 degree fan.
+name: mm9_sparks
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9123
+    position: [-400, 700, 1]
+    yaw_degrees: 270
+    hostile: false
+  - monster_id: 9161
+    position: [400, 700, 1]
+    yaw_degrees: 270
+    hostile: false

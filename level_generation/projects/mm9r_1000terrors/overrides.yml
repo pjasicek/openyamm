@@ -13,6 +13,13 @@ map:
                                       # BrightScale (0.75-0.9 on the blue lights), so light_scale about 1/0.85
   split_minor_rooms: true
   thin_walls: true
+  # Forced arrivals (pack growth, ../mm9r_common/dungeon/density.py): where the party is put down keeps MM9's monsters
+  # plus at most `copies` grown ones within `radius` (height counted double), so a party is not set down among a grown
+  # pack (user, 2026-11-09). The map has no teleporters: the walk-in from Arslegard City (StartPoint0) and the drop
+  # through the trap doors into the water pit (Rotating Lever 17; the doors' boxes span x 937-1920, y -12396..-11412).
+  density_arrivals:
+  - {name: StartPoint0, at: [5202, -16630, -142], radius: 2400, copies: 2}
+  - {name: TrapDoorPit, at: [1428, -11904, -2946], radius: 2400, copies: 1}
 models:
   BoardObj1: static   # WorldObject, 6 polys
   BoardObj0: static   # WorldObject, 6 polys

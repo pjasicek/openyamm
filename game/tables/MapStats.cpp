@@ -931,6 +931,27 @@ bool MapStats::applyWorldOwnership(const std::vector<std::pair<std::string, std:
     return true;
 }
 
+bool MapStats::applyOpenAirMaps(const std::string &worldId, const std::vector<std::string> &fileNames)
+{
+    for (const std::string &fileName : fileNames)
+    {
+        MapStatsEntry *pEntry = findMutableByFileName(fileName);
+        const std::string normalizedFileName = normalizeFileName(fileName);
+
+        if (pEntry == nullptr || pEntry->worldId != normalizeWorldId(worldId)
+            || !normalizedFileName.ends_with(".blv"))
+        {
+            std::cerr << "world.yml openAirMaps of " << worldId << ": " << fileName
+                      << " is not a BLV map of that world\n";
+            return false;
+        }
+
+        pEntry->openAir = true;
+    }
+
+    return true;
+}
+
 std::vector<std::pair<std::string, std::string>> MapStats::legacyCanonicalIdRenames() const
 {
     std::vector<std::pair<std::string, std::string>> renames;

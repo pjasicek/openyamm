@@ -1790,6 +1790,29 @@ std::optional<IndoorMoveState> IndoorMovementController::airborneStateAt(
     return state;
 }
 
+bool IndoorMovementController::hasFloorAt(float x, float y, float z, float maxRise, float maxDrop) const
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return false;
+    }
+
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    IndoorBodyDimensions point;
+    point.radius = 0.0f;
+    return sampleSupportedFloor(
+        runtimeCache.vertices,
+        m_runtimeGeometryCache.geometryCache,
+        x,
+        y,
+        z,
+        maxRise,
+        maxDrop,
+        point,
+        std::nullopt,
+        &runtimeCache.nonBlockingMechanismFaceMask).hasFloor;
+}
+
 // A step-up lifts a body walking onto a tread as soon as its lower sphere meets the tread's edge, with its centre still
 // up to a radius short of the tread. Support was otherwise tested at the centre alone, so the body lost the tread on
 // the next step: it dipped between the treads of a stair, and one that stopped there sank back down the edge or, lifted

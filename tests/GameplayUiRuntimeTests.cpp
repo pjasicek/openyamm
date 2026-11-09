@@ -37,8 +37,7 @@ TEST_CASE("dimensional travel shows four portals with a column of the screen as 
     Game::GameplayUiRuntime ui;
     ui.bindDataRepository(&data);
     ui.bindAssetFileSystem(&assets);
-    CHECK_FALSE(ui.ensureDimensionDoorDestinationsLoaded(1, false));
-    REQUIRE(ui.ensureDimensionDoorDestinationsLoaded(1, true));
+    REQUIRE(ui.ensureDimensionDoorDestinationsLoaded());
     // Chedian's portal is offered only with the MM9 world installed (1.22 ships without it).
     const bool mm9Mounted = Game::isWorldPackageMounted(assets, "mm9");
     REQUIRE_EQ(ui.townPortalDestinations().size(), mm9Mounted ? 4 : 3);
@@ -105,6 +104,54 @@ TEST_CASE("dimensional travel shows four portals with a column of the screen as 
         REQUIRE(pEntry != nullptr);
         CHECK_EQ(pEntry->worldId, pWorldId);
     }
+}
+
+TEST_CASE("town portal loads every continent's map and starts on the current map's")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::GameDataRepository data;
+    data.bind(loader);
+    Game::GameplayUiRuntime ui;
+    ui.bindDataRepository(&data);
+    ui.bindAssetFileSystem(&assets);
+    const bool mm9Mounted = Game::isWorldPackageMounted(assets, "mm9");
+
+    // New Sorpigal (Enroth): the continents in the order the worlds came out, Chedian only with MM9 installed.
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("oute3.odm", ""));
+    const std::vector<Game::GameplayTownPortalContinent> &continents = ui.townPortalContinents();
+    REQUIRE_EQ(continents.size(), mm9Mounted ? 4u : 3u);
+    CHECK_EQ(continents[0].label, "Enroth");
+    CHECK_EQ(continents[1].label, "Antagarich");
+    CHECK_EQ(continents[2].label, "Jadame");
+    CHECK_EQ(ui.townPortalHomeContinentIndex(), 0u);
+    CHECK_EQ(ui.townPortalContinentIndex(), 0u);
+    CHECK_EQ(ui.townPortalBackgroundTextureName(), "tpenroth");
+    REQUIRE_EQ(ui.townPortalDestinations().size(), 6u);
+    CHECK_EQ(ui.townPortalDestinations()[3].label, "New Sorpigal");
+
+    // Switching to Jadame shows its map and towns; the cast stays from New Sorpigal.
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("oute3.odm", "townport"));
+    CHECK_EQ(ui.townPortalContinentIndex(), 2u);
+    CHECK_EQ(ui.townPortalBackgroundTextureName(), "townport");
+    const auto shadowspire = std::find_if(ui.townPortalDestinations().begin(), ui.townPortalDestinations().end(),
+        [](const Game::GameplayTownPortalDestination &candidate) { return candidate.label == "Shadowspire"; });
+    REQUIRE(shadowspire != ui.townPortalDestinations().end());
+    CHECK_EQ(shadowspire->mapName, "out06.odm");
+    CHECK_EQ(shadowspire->unlockQBitId, 305u);
+
+    // A continent that is not on offer falls back to the current map's.
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("oute3.odm", "TPGlobal"));
+    CHECK_EQ(ui.townPortalContinentIndex(), 0u);
+
+    // From Jadame its own map comes first.
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("out01.odm", ""));
+    CHECK_EQ(ui.townPortalBackgroundTextureName(), "townport");
+    CHECK_EQ(ui.townPortalContinentIndex(), ui.townPortalHomeContinentIndex());
 }
 
 TEST_CASE("the press that opens a chest or dialogue is consumed before the overlay reacts to it")

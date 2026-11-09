@@ -415,7 +415,7 @@ struct IndoorMapData
     // country is no room of a dungeon; every MM6-MM8 map keeps it.
     bool actorNeighbourWakes = true;
     // Scene `actor_detection: {provoke_radius: N}`: how far a provoking party hit provokes an MM9 loop monster's
-    // friends on this map, instead of the world's mm9Provoke radius (MM9_MONSTER_AI_PLAN.md "Awareness of the party").
+    // friends on this map, instead of the monster's own alert radius (MM9_MONSTER_AI_PLAN.md "Awareness of the party").
     std::optional<float> actorProvokeRadius;
     // Scene `static_lights: {sides: front}`: a static light adds nothing to a face it stands behind (more than
     // IndoorStaticLightBehindTolerance behind the face's plane), so a room's lights no longer show on the outside of

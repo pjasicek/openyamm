@@ -1,0 +1,57 @@
+# MM9 playthrough, segment 23: the Thjorad Mine's hard rock (guide: Chapter I, "Break through the hard rock"). Out of
+# Thjorgard City by the dock gate to the mine east of it; inside, Ketil Strongpick in the room east of the entrance
+# sends the party down the first corridor to the right; the long east tunnel is walked to the wall of hard rock in
+# front of Ebora's chamber. The blocks are broken one by one until the quest sound (key 36 after the tenth); Ebora,
+# freed, taunts the party and vanishes in a column of fire (the ebora_free cinematic).
+# Research: prep/20_34_thjorgard_guberland.md (segment 21 there).
+#   python3 tests/playthrough/mm9/run.py 23
+id: mm9.playthrough.23_mine_hard_rock
+title: "MM9 playthrough 23: Thjorad Mine, Ketil and the hard rock"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/22_thjorgard_sven.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90003], qbit_clear: [90036, 99509]}
+
+  # The dock gate (Thjorgarddocks), then the mine's entrance (ExitTrigger5) from the mine's own arrival point.
+  - set_pose: {map: thjorgardcity.blv, x: 655, y: -400, z: -19, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 655, y: -819, z: -19, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - set_pose: {map: thjorgard.blv, x: -16893, y: 12425, z: 4449, yaw: -0.35, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -16534, y: 12292, z: 4598, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjoradmine.blv}
+
+  # Ketil Strongpick in the room east of the entrance passage (the passage's diagonal side corridor).
+  - walk_to: {via: [[2785, -2300, -900], [3000, -1950, -900], [3350, -1950, -900], [4300, -2230, -982]], x: 4600, y: -2415, z: -982, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - interact_actor: {actor_index: 44}
+  - select_topic: {match_label: "Sven Forkbeard sent us to find out why you are not working."}
+  - select_topic: {match_label: "I don't think he'll accept that answer."}
+  - select_topic: {match_label: "We'll give it a try."}
+  - select_topic: {match_label: "Where is this section?"}
+  - select_topic: {match_label: "Goodbye."}
+  - assert: {qbit_set: [99509]}
+
+  # The long east tunnel to its end: the hard rock.
+  - walk_to: {x: 24000, y: -1250, z: -1395, z_tolerance: 250, timeout_seconds: 600, clear_hostiles: 1500}
+  - play_lua:
+      max_seconds: 60
+      source: |
+        local broken = 0
+        for i = 0, 11 do
+          if qbit(90036) then break end
+          click(38000 + i); wait(0.3); broken = broken + 1
+        end
+        if not qbit(90036) then error("the hard rock still stands after " .. broken .. " blocks") end
+        log("the hard rock gives way after " .. broken .. " blocks; Ebora is free")
+        wait(14)
+        log("Ebora taunts the party and vanishes (EboraFree " .. mapvar("EboraFree") .. ")")
+  - assert: {state_dump_named_map_var: {name: EboraFree, value: 4}}
+  - save_game: {name: "23 the hard rock", path: output/playthrough/mm9/checkpoints/23_mine_hard_rock.oysav}

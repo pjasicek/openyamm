@@ -1,0 +1,42 @@
+# MM9 promotion playthrough, segment 32: the silver book to Johannes Bem (guide: side_c.yml "find-verhoffin-s-diary",
+# step 4). The Raider from the Isle of Ashes to Thjorgard (outdoors the party is moved), the city's west gate,
+# Johannes in Bembridge University: "About that book you were looking for.", "We found a silver one." (key 286), "So
+# did that book work for you?" (key 293: the wrong book; the right one is under a floor in Drangheim Village). The
+# talk's close (NPC4.scr :toMageOne, thjorgardcity.lua) takes the silver book (10242) and gives the Book Key (10244)
+# and key 288.
+#   python3 tests/playthrough/mm9/promotions/run.py 32
+id: mm9.promotions.32_johannes_book_key
+title: "MM9 promotions 32: the silver book is the wrong one; Johannes gives the Book Key"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/31_verhoffin_fake_book.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: isleofashes.blv, qbit_set: [90004, 90281, 90290], qbit_clear: [90286, 90288, 90293]}
+
+  - travel: {map: thjorgard.blv, days: 4}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  - set_pose: {map: thjorgardcity.blv, x: 5079, y: 12250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "About that book you were looking for."}
+  - select_topic: {match_label: "We found a silver one."}
+  - select_topic: {match_label: "So did that book work for you?"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90286, 90293, 90288]}
+  - play_lua:
+      source: |
+        if has_item(10242) then error("Johannes did not take the silver book") end
+        if not has_item(10244) and held() ~= 10244 then error("no Book Key") end
+        log("the silver book taken; the Book Key (10244) in hand")
+  # The Book Key comes on the cursor: the player puts it into the packs (an item on the cursor stops attacks).
+  - play_lua: {source: 'if held() == 10244 and not stow() then error("the Book Key does not fit the packs") end if held() ~= 0 then error("cursor holds " .. held()) end'}
+  - save_game: {name: "32 the Book Key", path: output/playthrough/mm9/promotions/checkpoints/32_johannes_book_key.oysav}

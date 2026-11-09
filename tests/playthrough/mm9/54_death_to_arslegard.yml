@@ -1,0 +1,17 @@
+# MM9 playthrough, segment 4: "Arslegard is the home of the dead, and the only way there is to die" (guide: Chapter
+# II, "Get your army back"). The party is knocked out (combat is not what this tests, and the save's party, a
+# debug "God", cannot lose a fair fight); the game's own defeat then runs: MM9 wakes a defeated party in Arslegard
+# City (world.yml partyDeath), where Chapter III begins.
+#   python3 tests/playthrough/mm9/run.py 54
+id: mm9.playthrough.54_death_to_arslegard
+title: "MM9 playthrough 54: the party falls in Yorwick and wakes in Arslegard City"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/53_connecting_tunnels.oysav}
+  - setup_shortcut: {kind: immortal, value: false}
+  - assert: {qbit_set: [90097]}
+  - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
+  - advance_runtime: {seconds: 2}
+  - save_game: {name: "04 Arslegard City", path: output/playthrough/mm9/checkpoints/54_death_to_arslegard.oysav}

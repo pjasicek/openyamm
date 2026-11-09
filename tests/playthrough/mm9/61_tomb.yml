@@ -1,0 +1,325 @@
+# MM9 playthrough, segment 11: Njam's house and the Tomb of a Thousand Terrors to the end of the game (guide: Chapter
+# V, "The Tomb of a Thousand Terrors"). Arslegard is crossed by placing the party: Njam's door opens with his key, the
+# letter on his desk gives his plan away and Njam charges. The Tomb is walked (walk_to) from its door to the win
+# switch: the bolt corridor and the sealed room (the Stairs Key, puzzle wall A), north over the water hall's stones
+# by running jumps (the normal Jump key; each logged as JUMP), down the spiral stair, the crypts, the chess board, the
+# north-west gate (the Maze Key), the wind maze and its ramps, the gear lift and the top level's demon hall. Njam
+# appears now and then (no blow hurts him): the party waits until he vanishes, as a player does. The switch freezes
+# Njam; the gods' epilogue in the Hall of the Gods gives the second Writ of Fate and the completion key 109.
+# Research, coordinates and the route's risks: prep/09_11_frosgard_krohn_tomb.md.
+#   python3 tests/playthrough/mm9/run.py 61
+id: mm9.playthrough.61_tomb
+title: "MM9 playthrough 61: Njam's house, the Tomb of a Thousand Terrors walked, Njam frozen, the game won"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/60_krohn.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: hallofthegods.blv, qbit_set: [90108, 90191], qbit_clear: [90470, 90109]}
+
+  # Out of the hall by its west door into Arslegard, by the north side of the throne hall (Philip, who wanders in
+  # its middle, stops a walk down the centre line).
+  - walk_to: {via: [[5300, 3900, 676], [2600, 3900, 676]], x: -7700, y: 2949, z: 1, timeout_seconds: 300, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: arslegardcity.blv}
+
+  # Njam's house in the middle of the city: Njam's Key opens the front door; the letter on the desk; one step further
+  # in and Njam charges out (key 470, 22 500 experience). He is not fought here.
+  - set_pose: {map: arslegardcity.blv, x: 7670, y: -10450, z: -491, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(231); wait(2); log("Njam''s door: " .. status())'}
+  - walk_to: {x: 7352, y: -9780, z: -491, timeout_seconds: 30}
+  # The letter lies on the desk (a world item since openyamm-15's R11 promotion, 2026-11-08): the use key takes it.
+  - pick_up: {item_id: 10575}
+  - play_lua:
+      source: |
+        log("Njam's Struggle: a switch on the Tomb's top level locks its victim in a Frost Shell")
+  - walk_to: {x: 7326, y: -9026, z: -486, radius: 20, timeout_seconds: 30}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90470]}
+
+  # The Tomb's double door at the city's far west end.
+  - set_pose: {map: arslegardcity.blv, x: -500, y: -6542, z: -424, yaw: 3.1416, pitch: 0}
+  - walk_to: {x: -1100, y: -6542, z: -424, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: 1000terrors.blv}
+
+  # Entry level: north, east to the water hall's west gate (a portcullis: click, it rises 307 at 26 a second).
+  - walk_to: {x: 10650, y: -12265, z: -128, timeout_seconds: 300, clear_hostiles: 1500}
+  - play_lua: {source: "click(117); wait(12.5)"}
+  - walk_to: {x: 11959, y: -12265, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+
+  # South through the water hall by swimming: down into the water west of the stones, along the west wall, up the
+  # pool's south ramp to the secret door into the south hall (clicked from outside its swing).
+  - walk_to: {via: [[12250, -13000, -387], [12250, -16000, -387], [12540, -16100, -387], [12540, -18000, -374]], x: 13300, y: -18020, z: -239, plan: false, timeout_seconds: 120, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  # Monsters open this door too (its scene `ai_open`), and it closes 5 s after opening; a click while it moves does
+  # nothing. The party waits for it to stop, opens it if it is shut, and goes through while it stands open.
+  - play_lua: {source: "open_door(122, 93)"}
+  - walk_to: {x: 14100, y: -18020, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+
+  # The south hall, then west down the bolt corridor (its floor plates set off the wall shooters) to the secret
+  # bricks at its end; past them the wall slams shut behind the party and the sealed room's monsters come.
+  - walk_to: {x: 13900, y: -22770, z: -128, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 10400, y: -22770, z: -128, plan: false, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "click(114); wait(2)"}
+  - walk_to: {x: 9300, y: -22770, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 7300, y: -22774, z: -66, timeout_seconds: 120, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 3}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 3}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 3}
+  - clear_hostiles: {radius: 4000}
+  # Njam showed himself in the room when the wall fell: wait until he vanishes (20-60 s).
+  - play_lua: {source: 'wait(61); log("Njam has vanished")'}
+  - clear_hostiles: {radius: 4000}
+  - play_lua:
+      source: |
+        if mapvar("OpenStairGate") ~= 1 then error("the Lesser Demon's death did not open the inner stair gate") end
+        loot_chest(42)
+        if not has_item(10600) then error("no Stairs Key from the chest") end
+        log("the Stairs Key from the chest; the Lesser Demon's death opened the stair gate")
+
+  # Puzzle wall A: a click pushes a block and its four neighbours; all sixteen in opens it. The pull resets it.
+  - walk_to: {x: 9500, y: -22770, z: -128, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(360); wait(1.5)
+        for _, block in ipairs({302, 304, 311, 313}) do click(block); wait(0.3) end
+        wait(1.5)
+        if mapvar("ButtonTriggerState") ~= 2 then error("puzzle wall A did not open") end
+        log("puzzle wall A: top row third, second row first, third row fourth, bottom row second")
+  - walk_to: {x: 9950, y: -22770, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - play_lua: {source: "click(114); wait(2)"}
+  - walk_to: {x: 10600, y: -22770, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+
+  # Back north: the south water gate, then over the stones by six running jumps. Each stone sinks about a second
+  # after it is touched (MM9's weighted lifts), so each jump follows the landing at once.
+  - walk_to: {x: 14180, y: -17100, z: -128, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "click(123); wait(12.5)"}
+  - walk_to: {x: 14180, y: -15700, z: -128, plan: false, radius: 24, timeout_seconds: 10}
+  - play_lua: {source: 'log("JUMP from (14180, -15700) heading 89.8: the first stone north of the south floor")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.75
+      start: {map: 1000terrors.blv, x: 14180, y: -15700, z: -128, yaw_degrees: 89.8, pitch: 0}
+      expect_stop: {map: 1000terrors.blv, x: 14182, y: -15145, z: -128, yaw_degrees: 89.8, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 60
+  - advance_runtime: {seconds: 0.3}
+  - walk_to: {x: 13990, y: -14950, z: -128, plan: false, radius: 24, timeout_seconds: 10}
+  - play_lua: {source: 'log("JUMP from (13990, -14950) heading 118.9: north-west to the next stone")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.75
+      start: {map: 1000terrors.blv, x: 13990, y: -14950, z: -128, yaw_degrees: 118.9, pitch: 0}
+      expect_stop: {map: 1000terrors.blv, x: 13691, y: -14408, z: -128, yaw_degrees: 118.9, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 60
+  - advance_runtime: {seconds: 0.3}
+  - walk_to: {x: 13490, y: -14200, z: -128, plan: false, radius: 24, timeout_seconds: 10}
+  - play_lua: {source: 'log("JUMP from (13490, -14200) heading 135.3: north-west again")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.75
+      start: {map: 1000terrors.blv, x: 13490, y: -14200, z: -128, yaw_degrees: 135.3, pitch: 0}
+      expect_stop: {map: 1000terrors.blv, x: 12954, y: -13670, z: -128, yaw_degrees: 135.3, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 60
+  - advance_runtime: {seconds: 0.3}
+  - walk_to: {x: 13150, y: -13470, z: -128, plan: false, radius: 24, timeout_seconds: 10}
+  - play_lua: {source: 'log("JUMP from (13150, -13470) heading 84.7: north")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.75
+      start: {map: 1000terrors.blv, x: 13150, y: -13470, z: -128, yaw_degrees: 84.7, pitch: 0}
+      expect_stop: {map: 1000terrors.blv, x: 13200, y: -12933, z: -128, yaw_degrees: 84.7, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 60
+  - advance_runtime: {seconds: 0.3}
+  - walk_to: {x: 13000, y: -12730, z: -128, plan: false, radius: 24, timeout_seconds: 10}
+  - play_lua: {source: 'log("JUMP from (13000, -12730) heading 118.7: north-west to the stone before the west floor")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.75
+      start: {map: 1000terrors.blv, x: 13000, y: -12730, z: -128, yaw_degrees: 118.7, pitch: 0}
+      expect_stop: {map: 1000terrors.blv, x: 12708, y: -12196, z: -128, yaw_degrees: 118.7, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 60
+  - advance_runtime: {seconds: 0.3}
+  - walk_to: {x: 12500, y: -12196, z: -128, plan: false, radius: 24, timeout_seconds: 10}
+  - play_lua: {source: 'log("JUMP from (12500, -12196) heading 180.0: west onto the west floor")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.75
+      start: {map: 1000terrors.blv, x: 12500, y: -12196, z: -128, yaw_degrees: 180.0, pitch: 0}
+      expect_stop: {map: 1000terrors.blv, x: 11930, y: -12196, z: -128, yaw_degrees: 180.0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 200
+      tolerance_z: 60
+  - advance_runtime: {seconds: 0.3}
+  - walk_to: {x: 11100, y: -12265, z: -128, plan: false, timeout_seconds: 20}
+  - play_lua: {source: "click(117); wait(12.5)"}
+  - walk_to: {x: 10600, y: -12265, z: -128, plan: false, timeout_seconds: 20}
+
+  # North up the central corridor; Njam shows himself there: wait until he vanishes.
+  - walk_to: {via: [[9892, -12361, -128], [9512, -12880, -128], [9101, -13065, -128], [8218, -12616, -128]], x: 8000, y: -9700, z: -128, timeout_seconds: 200, clear_hostiles: 1500}
+  - walk_to: {x: 8000, y: -9200, z: -128, plan: false, timeout_seconds: 20, clear_hostiles: 1500}
+  - play_lua: {source: 'wait(61); log("Njam has vanished")'}
+  - walk_to: {x: 8000, y: -7300, z: -128, timeout_seconds: 120, clear_hostiles: 1500}
+  # The inner stair gate stands open (the Lesser Demon's death); the Stairs Key opens the outer one, which shuts
+  # again about ten seconds after it opens. Then down the spiral stair.
+  - play_lua: {source: 'click(369); wait(13.8); log("stair gate: " .. status())'}
+  - walk_to: {x: 8462, y: -6322, z: -2092, z_tolerance: 100, timeout_seconds: 200, clear_hostiles: 1500}
+  - walk_to: {x: 8310, y: -8450, z: -2079, z_tolerance: 100, timeout_seconds: 200, clear_hostiles: 1500}
+
+  # The crypts: two double doors (clicked from outside their swing), the trap-door strip (never its lever), down
+  # into the crypt shallows and east to the chess room's doors.
+  - play_lua: {source: "click(106); wait(3.2)"}
+  - walk_to: {x: 8310, y: -9300, z: -2079, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 6850, y: -11904, z: -2079, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "click(107); wait(3.2)"}
+  - walk_to: {x: 6150, y: -11904, z: -2079, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {via: [[2200, -12150, -2550], [1430, -12150, -2570], [1430, -13800, -2570]], x: 1430, y: -14400, z: -3062, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 3450, y: -15345, z: -2755, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: "click(112); click(113); wait(3.5)"}
+  - walk_to: {via: [[4300, -15345, -2755]], x: 6450, y: -16350, z: -2749, timeout_seconds: 60, clear_hostiles: 1500}
+
+  # The chess board: in at the south-west corner, east along the bottom rows past the bishop, north to the bridge
+  # (one square a piece attacks on the way; never the two squares in front of the pawn at the west edge).
+  - walk_to: {via: [[6735, -16350, -2749], [7411, -16350, -2749], [7411, -16105, -2749], [7636, -16105, -2749], [7755, -15990, -2749], [7861, -15860, -2749], [7861, -15614, -2749], [8087, -15614, -2749], [8087, -15368, -2749], [8312, -15368, -2749], [8835, -15368, -2755]], x: 9700, y: -15600, z: -2662, plan: false, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        log("chess: " .. mapvar("ChessHits") .. " hit(s), pawn queened: " .. mapvar("QueenedChessPiece1"))
+        if mapvar("QueenedChessPiece1") ~= 0 then error("the pawn became a Terror") end
+        loot_chest(53)
+        if not has_item(10599) then error("no Maze Key from the chest") end
+        log("the Maze Key from the chest east of the board")
+  # Njam showed himself by the chest: wait until he vanishes, then back over the board the same way.
+  - play_lua: {source: 'wait(61); log("Njam has vanished")'}
+  - walk_to: {via: [[8312, -15368, -2749], [8087, -15368, -2749], [8087, -15614, -2749], [7861, -15614, -2749], [7861, -15860, -2749], [7755, -15990, -2749], [7636, -16105, -2749], [7411, -16105, -2749], [7411, -16350, -2749], [6735, -16350, -2749]], x: 6400, y: -16000, z: -2749, plan: false, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 4300, y: -15345, z: -2755, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: "click(112); click(113); wait(3.5)"}
+  - walk_to: {x: 3300, y: -15345, z: -2755, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+
+  # Through the crypts to the far north-west: the note before the locked gate, and the Maze Key opens it. Njam shows
+  # himself on the way: wait until he vanishes.
+  - walk_to: {x: -706, y: -3900, z: -2570, z_tolerance: 120, timeout_seconds: 600, clear_hostiles: 1500}
+  - play_lua: {source: 'wait(61); log("Njam has vanished")'}
+  # The note lies in front of the gate (a world item since openyamm-15's R11 promotion): walk up and take it.
+  - walk_to: {x: -707, y: -3228, z: -2374, plan: false, radius: 20, timeout_seconds: 30, clear_hostiles: 1500}
+  - pick_up: {item_id: 10598}
+  - play_lua:
+      source: |
+        click(367); wait(3)
+        log("the north-west gate: " .. status())
+  - walk_to: {x: -706, y: -2700, z: -2324, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+
+  # The wind maze: through the maze floor, up its two ramps to the walkways, round to the east side, south and up the
+  # ledge and the zigzag ramps (no jump, no wind), out by the gate onto the entry level's west wing.
+  - walk_to: {via: [[-706, -1100, -2324], [-578, -972, -2324], [-546, -972, -2324], [-322, -748, -2324], [-322, -684, -2324], [-98, -460, -2324], [414, -460, -2324], [894, 20, -2324], [1886, 20, -2324], [1886, -172, -2324], [2110, -396, -2324], [2366, -396, -2324], [2622, -140, -2324], [2622, 436, -2324], [2654, 468, -2324], [2622, 500, -2324], [-66, 500, -2324], [-98, 468, -2324], [-322, 468, -2324], [-354, 500, -2324], [-354, 1364, -2186], [-450, 1460, -2186], [-461, 1500, -2186], [-461, 2364, -2079], [-333, 2492, -2079], [147, 2492, -2079], [179, 2460, -2079], [179, 2172, -2079], [403, 1948, -2079], [1651, 1948, -2079], [1651, 2012, -2079], [1875, 2236, -2079], [2131, 2236, -2079], [2131, 1916, -2079], [2355, 1692, -2079], [3347, 1692, -2079], [3379, 1724, -2079], [3379, 3356, -2079], [3379, 3612, -2079], [3731, 3964, -2068], [3891, 4124, -2077], [4371, 4604, -2079], [4435, 4604, -2079], [4531, 4508, -2079], [4531, 4220, -2079], [4563, 4188, -2079], [4563, -452, -2079], [3539, -1476, -2079], [3340, -1500, -2079], [2124, -2716, -2079], [-148, -2716, -1417], [-372, -2940, -1341], [-372, -3068, -1341], [-340, -3100, -1341], [1996, -3100, -641]], x: 2284, y: -3388, z: -604, plan: false, radius: 40, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: 150, y: -3500, z: -128, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: "click(116); wait(3)"}
+  - walk_to: {x: 276, y: -4300, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+
+  # South past the two fireball plates (Njam shows himself on the way: wait), to the gear lift; its lever sends the
+  # lift with the party up to the top level.
+  - walk_to: {x: 1500, y: -8172, z: -138, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua: {source: 'wait(61); log("Njam has vanished")'}
+  - walk_to: {x: 4823, y: -12560, z: -123, timeout_seconds: 300, clear_hostiles: 1500}
+  - walk_to: {x: 4823, y: -13100, z: -82, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - play_lua: {source: 'click(364); wait(14); log("the gear lift: up")'}
+  - assert: {party_position: {x: 4823, y: -13000, radius: 300, z_min: 2200, z_max: 2300}}
+
+  # Top level: south, west through the double door (EDoor), the south foyer's locked door (Krohn's task opens it),
+  # north to the octagon (four demon statues come alive) and east up the ramp into the demon hall.
+  - walk_to: {x: 4823, y: -17700, z: 2253, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  # The double door is met square on, a little off its middle seam (a click there meets a leaf): a stuck walk clicks
+  # it open whether a monster left it open or not.
+  - walk_to: {x: 4650, y: -18315, z: 2253, radius: 20, timeout_seconds: 60, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 2500}
+  # Open it unless a monster left it open. Its two leaves can be out of step (one open or closing, the other shut:
+  # a monster opens one leaf, each closes on its own timer), and a click swings each leaf the other way, so the
+  # doorway stays half shut; a player waits until both leaves have shut, then clicks (ISSUE logged when it happens).
+  - play_lua:
+      source: |
+        for tick = 1, 60 do
+          local a, b = door_state(5), door_state(6)
+          if a == "open" and b == "open" then break end
+          if a == "closed" and b == "closed" then click(119); wait(2.5)
+          else
+            if tick == 1 then log("ISSUE: EDoor's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut") end
+            wait(0.5)
+          end
+        end
+        log("EDoor: " .. door_state(5) .. " " .. door_state(6))
+  - walk_to: {x: 4000, y: -18315, z: 2253, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 690, y: -17850, z: 2253, timeout_seconds: 60, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(368); wait(3.2)"}
+  - walk_to: {x: 690, y: -17250, z: 2253, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 4400, y: -11800, z: 2304, timeout_seconds: 200, clear_hostiles: 2500}
+  - walk_to: {x: 7500, y: -11700, z: 2777, timeout_seconds: 120, clear_hostiles: 3000}
+
+  # The demon hall: its demons and floating eyes bring more; after the third comes a Greater Demon, whose death
+  # opens the double gate on the north side.
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 4}
+  - play_lua:
+      source: |
+        if mapvar("EndDemonDead") ~= 1 then error("the end Greater Demon is not dead") end
+        log("the end Greater Demon is dead; the double gate opens")
+
+  # The switch behind the gate: Njam rushes in and is frozen; the party finds itself in the Hall of the Gods.
+  - walk_to: {x: 8294, y: -9700, z: 2777, timeout_seconds: 60, clear_hostiles: 3000}
+  - walk_to: {via: [[8294, -9300, 2806]], x: 8800, y: -9300, z: 2806, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'click(370); wait(1); log("the switch: Njam is frozen")'}
+  - advance_runtime: {seconds: 45, follow_map_move: true}
+  - assert: {map: hallofthegods.blv}
+
+  # The gods gather for the epilogue and give the second Writ of Fate: the game is won.
+  - advance_runtime: {seconds: 120, follow_map_move: true}
+  - assert: {qbit_set: [90109]}
+  - play_lua:
+      source: |
+        if not has_item(10394) then error("no Writ of Fate from the epilogue") end
+        log("the epilogue's Writ of Fate; key 109: the game is won")
+  - save_game: {name: "11 The game won", path: output/playthrough/mm9/checkpoints/61_tomb.oysav}

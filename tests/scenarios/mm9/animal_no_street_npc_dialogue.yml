@@ -1,0 +1,50 @@
+# MM9's animals and townsfolk without DoRude get no MMerge street-NPC dialogue; MM6's peasants still do (2026-11-07
+# playtest bug: Sturmford City's dogs, group 3 with no NPC and no RUDE id, answered with npc_group.txt group 3's MM8
+# news "There is no way back to the village of Blood Drop!" and a stand-in portrait). MM9's world.yml streetNpcs: false
+# turns MMerge's group news and generated NPCs off in MM9 (DOG.scr has no OnUse; a use without DoRude opens nothing).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/animal_no_street_npc_dialogue.yml --scenario-no-color
+id: mm9.animal_no_street_npc_dialogue
+title: "MM9 dogs say nothing; Bjarni's RUDE talk opens; an MM6 New Sorpigal peasant still gets a generated NPC"
+world: mm6
+mode: faithful
+tags: [mm9, mm6, world_switch, dialogue, npc]
+steps:
+  # MM6: New Sorpigal's actor 0 (an unnamed peasant, group 85) talks as a generated street NPC.
+  - new_game_flow:
+      continent: enroth
+      start_map: oute3.odm
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - assert:
+      actor_dialog_started: {kind: npc_talk, actor_index: 0}
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - assert:
+      dialog: {active: false}
+  # MM9: Sturmford City's two dogs (actors 13 and 16) refuse the use; Bjarni Herjolfssen (actor 1, RUDE 46) still talks.
+  - load_map:
+      map: sturmfordcity.blv
+  - advance_runtime: {seconds: 1}
+  - interact_actor: {actor_index: 13, activated: false}
+  - assert:
+      dialog: {active: false}
+  - interact_actor: {actor_index: 16, activated: false}
+  - assert:
+      dialog: {active: false}
+  - interact_actor: {actor_index: 1}
+  - assert:
+      actor_dialog_started: {kind: mm9_rude, source_id: 46}
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  # Back in MM6 the street NPCs are on again.
+  - load_map:
+      map: oute3.odm
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - assert:
+      actor_dialog_started: {kind: npc_talk, actor_index: 0}
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - assert:
+      dialog: {active: false}

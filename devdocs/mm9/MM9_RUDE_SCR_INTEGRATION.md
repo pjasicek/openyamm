@@ -117,7 +117,71 @@ absent and must never grant, remove, or test an unrelated item with a colliding 
 MM9 spellbooks and spell scrolls are excluded. Their dialogue/content references must use the existing OpenYAMM spell,
 spellbook, and spell-scroll set. Do not add MM9 spells as part of this work.
 
+The items MM9 placed in its maps for a script to give (givetake.scr, bootgive.scr, skillbook.scr, orb.scr and the quest
+pickups' scripts) are the scenes' world items, picked up as any ground item; the script's other effects run as the
+item's pickup event ([MM9 placed items](../mm9_rework/PLACED_ITEMS_PLAN.md)). A party that lost a quest item gets it
+back from Hjordisa the Hag (RUDE 132): `worlds/mm9/dialogue/lost_items.yml` names her and the items, and her first page
+offers "We've lost something." (`Mm9RudeDialogueTable::isLostItemKeeper`). An item a script takes (`MM9.takeItem`) is
+handed in and never given back.
+
 ## Promotions And Classes
+
+**User decision, 2026-11-05: own line, by tier** (replaces the fixed table below). MM9's tree has two tiers: Fighter ->
+Mercenary (-> Gladiator, Assassin) or Crusader (-> Paladin, Ranger); Initiate -> Scholar (-> Mage, Lich) or Healer (->
+Priest, Druid) (mm9/extracted/DATA/DATA/GAMETEXT.txt). An MM9 first-tier promotion (Mercenary, Crusader, Scholar,
+Healer) gives an eligible character its own MMerge class's first promotion; a second-tier one (Gladiator, Assassin,
+Paladin, Ranger, Mage, Lich, Priest, Druid) its second. Might quests (the Mercenary and Crusader lines) promote might
+class lines, magic quests (the Scholar and Healer lines) magic class lines; a character already at or past the tier, or
+of the other kind, is not promoted. The mapping (approved by the user, 2026-11-05: "lets us play any classes"): each MM9 quest promotes the MMerge lines
+of its theme, so every line can be promoted fully in the MM9 world. Character creation is unchanged (MMerge races and
+base classes in every world; no MM9 Fighter or Initiate).
+MM9 is deliberately a wildcard world (user, 2026-11-05, asked again after the comparison): the MM6-MM8 worlds
+promote only their native classes (Global_mm6_mmmerge.lua, Global_mm7_mmmerge.lua, Global_mm8_promotions.lua: a Troll
+travels to Jadame), MM9 promotes every line, Jadame's racial classes included.
+
+| MM9 quest | Tier | Promotes (from -> to) |
+| --- | --- | --- |
+| Mercenary | 1 | Knight -> Cavalier, Thief -> Rogue, Archer -> WarriorMage |
+| Crusader | 1 | Paladin -> Crusader, Ranger -> Hunter, Monk -> Initiate |
+| Scholar | 1 | Sorcerer -> Wizard |
+| Healer | 1 | Cleric -> Priest, Druid -> GreatDruid |
+| Gladiator | 2 | Cavalier -> Champion, Initiate -> Master, Minotaur -> MinotaurLord, Troll -> WarTroll, Dragon -> GreatWyrm |
+| Assassin | 2 | Rogue -> Assassin, Vampire -> Nosferatu |
+| Paladin | 2 | Crusader -> Hero |
+| Ranger | 2 | Hunter -> RangerLord, WarriorMage -> MasterArcher |
+| Mage | 2 | Wizard -> ArchMage |
+| Lich | 2 | Wizard -> Lich |
+| Priest | 2 | Priest -> PriestLight |
+| Druid | 2 | GreatDruid -> ArchDruid, DarkElf -> Patriarch |
+
+User corrections (2026-11-05): Jadame's racial classes have no first promotion (class_extra.txt: they start at step
+1), so their one promotion comes from a second-tier quest: Minotaur, Troll and Dragon from the champion's (Gladiator),
+Vampire from the Assassin's, Dark Elf from the Druid's. The Necromancer cannot start in MM9 (as in MM6/MM7): no row
+(an MM8 Necromancer is promoted in Jadame).
+
+Rules: completing a quest promotes every party member whose class is a "from" of its row, at once (MMerge's way);
+MM9's per-character keys 401-448 are not used. Classes promoted in another world simply continue (an MM7 Cavalier goes
+to Gladiator).
+
+Any order (the user, 2026-11-08; `worlds/mm9/dialogue/promotions.yml`): every promotion quest is offered to any party
+at any time, and pays its experience and gold whoever it promotes. The map converters give the quest keys without an
+eligibility check (Tjolnir's 206, Gray Slemnir's 250-252, Tymon's 201). The second tier's accept rows that MM9 opened
+only after the first tier's promotion lose that required key at load (`waived_required_keys`: Gladiator and Assassin
+on 127, Ranger and Paladin on 137, Mage on 205, Priest and Druid on 213). `added_rows` adds rows MM9's dialogue lacks,
+in its CSV form after the original rows: Fridleif's "We've completed all the labors." on his first page, since MM9 had
+it only on the page a labour's hand-in leads to and a "Thanks." after the last hand-in lost the Gladiator promotion
+for good (`tests/scenarios/mm9/gladiator_labours_completion.yml`). Lich Lab's engine pays its reward on the
+first working strike, whoever it changes. Once a quest is done (its `done_key`), its promoter's first page keeps
+"Promote our eligible characters." (engine: `Mm9PromotionService`, the shared Lua event `Mm9PromotionServiceEventId`
+in `mm9_common.lua`): the members eligible now are promoted, with no experience or gold, and the dialogue names them.
+So a party of Knights can do the Gladiator labours first (rewards only), become Cavaliers later, and come back to
+Fridleif to be made Champions (`tests/scenarios/mm9/promotion_any_order.yml`). The Mercenary topic stays with
+Thorfinn of Thronheim, since Atli Sigmundssen leaves Guberland when the quest is done; the Lich has no topic (the
+engine works at any time).
+Light/dark: MM9 has none; Mage and Lich are the Sorcerer line's two, Assassin the Thief line's dark one, the rest take
+the light promotion (the other dark promotions stay in MM6-MM8). One data table (`MM9.Promotions`) serves the quests'
+promotions and the promoters' standing topic; the maps' promotion handlers call it without the per-character keys.
+
 
 Do not create a separate MM9 party/class runtime. Initially, MM9 `GivePromo` operations map into the existing shared
 OpenYAMM class set through an explicit data-owned compatibility table. Preserve the raw MM9 promotion token in
@@ -140,8 +204,8 @@ The initial nearest-mechanics mapping is:
 | Priest | High Priest |
 | Druid | Arch Druid |
 
-Promotion eligibility and RUDE visibility checks must use the same compatibility data as reward application. An
-ineligible promotion must not overwrite a character class silently.
+Promotion eligibility must use the same compatibility data as reward application. An ineligible promotion must not
+overwrite a character class silently.
 
 This mapping may be refined when testing exposes a better correspondence. If authentic MM9 character creation or
 class progression is implemented later, additional canonical MM9 class entries may be added deliberately to the
@@ -151,20 +215,81 @@ shared class registry. Do not introduce them implicitly as a side effect of dial
 
 Use only the existing OpenYAMM skill set and mastery levels. Do not add MM9-only skills.
 
-Direct MM9 skills map to their OpenYAMM equivalents. Composite MM9 skills use explicit groups:
+**User decision, 2026-11-05: no composite skills.** The MM9 world teaches the MM6-MM8 skills separately, as the other
+worlds do: Sword, Dagger, Axe, Mace, Staff, Spear, Shield, Bow, Throwing, Leather, Chain and Plate Armor, and the seven
+schools Fire, Air, Water, Earth, Spirit, Mind and Body (MM9 has no Mind or Body: they are taught too). An MM9 trainer
+teaches the separate skills its MM9 skill covers (Blade: Sword, Dagger, Axe; Cudgel: Mace, Staff; Spear: Spear; Armor:
+Leather, Chain, Plate; Elemental: Fire, Air, Water, Earth), each as its own topic with the shared mastery training;
+skills or masteries MM9 never offered (Mind, Body, any missing Expert/Master/Grandmaster tier of a split skill) get
+added MM9-world trainer NPCs (the user: "we might add more teachers npcs"). MM9 items already carry the separate skills
+(tools/mm9_import_discovery/import_mm9_items.py `normalized_skill`: Blade -> Dagger/Axe/Sword, Cudgel -> Staff/Mace,
+Armor -> Leather/Chain/Plate by subtype).
 
-| MM9 skill | OpenYAMM skill operation |
+**Implemented (2026-11-05, D2 in [the final rebuild work](../mm9_rework/FINAL_REBUILD_WORK.md)).**
+`tools/mm9_import_discovery/generate_mm9_skill_trainers.py` writes `worlds/mm9/data_tables/skill_trainers.txt` (115
+services, one per RUDE `-4` row) whose `SharedSkills` lists the separate skills of the row; the generator's
+`SKILL_GROUPS` holds the MM9 split and `ADDED_SKILLS` the MM6-MM8 skills given to the closest MM9 trainers. The row's
+MM9 sentence ("We'd like to become Experts in Blade.") stays the topic. Since 2026-11-06 (the talk hides the party)
+its answer lists the trainer's skills ("Expert Axe", with how many members can learn it), then one row per party member
+for the chosen skill ("Aslaug: Become Expert in Axe for 2000 gold", or that member's reason, muted); a single-skill
+trainer goes straight to the member rows. Each lesson goes through the shared single-skill training
+(`evaluateSkillMasteryTraining`, `applySkillMasteryTraining`, given the member): its own price, rank requirement and
+class/race cap from the shared tables, charged alone. The composite group transaction
+and the hard-coded RUDE payload mapping in the runtime are gone: the trainer table is the only owner, and its loader
+rejects unknown or repeated skill names.
+
+| MM9 trainers (E/M in two towns, GM in a third) | Separate skills taught |
 | --- | --- |
-| Blade | Dagger, Sword, and Axe topics |
-| Cudgel | Mace |
-| Spear | Staff and Spear topics |
-| Armor | Leather Armor, Chain Armor, and Plate Armor topics |
-| Elemental | Fire Magic, Air Magic, Water Magic, and Earth Magic topics |
+| Blade | Sword, Dagger, Axe |
+| Cudgel | Mace, Staff |
+| Armor | Leather Armor, Chain Armor, Plate Armor |
+| Elemental | Fire, Air, Water, Earth Magic |
+| Spirit | Spirit Magic, **Mind Magic, Body Magic** (MM9's Spirit is MM6-MM8's self magic) |
+| Disarm Trap | Disarm Traps, **Stealing** |
+| Body Building | Bodybuilding, **Regeneration** |
+| Identify Item | Identify Item, **Alchemy** |
+| the other 15 MM9 skills | their one skill each (Spear, Bow, Throwing, Shield, Light, Merchant, Learning...) |
 
-Composite MM9 trainer labels expand into separate OpenYAMM topics. Each expanded topic uses the shared mastery-training
-evaluation and transaction independently, including its normal skill-level prerequisite, class/race cap, gold cost,
-and already-learned result. For example, Expert Elemental exposes Expert Fire, Air, Water, and Earth Magic; a character
-may buy only the schools permitted by the active shared class and race tables.
+Every MM9 skill has an Expert, a Master and a Grandmaster trainer, so every skill above is taught at all three
+masteries. The generator's audit (`worlds/mm9/import/skill_trainer_audit.yml` `coverage`) lists the trainers of every
+MM6-MM8 skill and mastery, and generation fails when a trainable skill mastery has no trainer and no reviewed reason.
+
+**Racial abilities (the user, 2026-11-09).** The MM8 racial abilities (**Dark Elf, Vampire, Dragon**) are taught by
+racial trainers, listed in `worlds/mm9/dialogue/racial_trainers.yml`: every training hall's keeper up to Master, and
+Arslegard's hall (The Pummeled Fist) and Jenn Harrise in Yorwick (which has no hall) up to Grandmaster. Their first
+page keeps "We want to train our racial abilities.", which lists one row per member: the racial ability that member
+knows at their next mastery, capped at the trainer's, through the shared single-skill mastery training (its price,
+rank and class/race caps); a member at the trainer's cap whose class can go further is sent to a grandmaster
+(`GameplayDialogController.cpp` `mm9RacialLesson`). A Vampire, Dark Elf or Dragon by race starts with the ability.
+
+Not taught in the MM9 world (no MM9 trainer fits; a proposal, nothing placed): **Blaster**, Expert to Grandmaster. The
+proposal is a trainer NPC in Thjorgard, the town of MM9's weapon Grandmasters, at MMerge's 2000/5000/10000 gold
+(teacher topics 971-973). It needs a placed actor (before the rebuild) and a world-owned dialogue with `-4` rows outside
+MM9's RUDE ids, so its services stay table rows with a RUDE owner.
+
+**Normal: the venues teach (user decision, 2026-11-06).** MM9's venues offer the shared MM6-MM8 "Learn Skills" menu,
+so every skill the MM9 world trains has a Normal source there. `generate_mm9_vendors.py` writes each venue's list into
+the `learn_skills` column of `vendors.txt` and `service_venues.txt` (canonical skill names separated by `|`; the
+temples' and training halls' `can_learn_skills` is 1 exactly when the list is not empty); `HouseTable` loads it into
+`offeredSkills` and rejects unknown, composite or repeated names, and a world vendor with skills shows "Learn Skills"
+beside its Buy options. The price is the shared one (merchant base × 500 gold).
+
+| Venue | Teaches at Normal |
+| --- | --- |
+| Weapon shops | Sword, Dagger, Axe, Mace, Staff, Spear, Bow, Throwing |
+| Armor shops | Leather, Chain, Plate Armor, Shield |
+| Magic shops, by MM9 school | Elemental: Fire, Air, Water, Earth; Spirit: Spirit, Mind, Body; Light; Dark; All: all nine; each also Meditation, Learning |
+| Temples | Regeneration, Meditation, Unarmed, Dodging |
+| Training halls | Armsmaster, Bodybuilding, Unarmed, Dodging |
+| Apothecaries | Alchemy, Identify Monster |
+| General stores | Merchant, Repair Item, Perception, Disarm Traps, Stealing |
+| Libraries | Learning, Identify Item, Identify Monster |
+
+MM9's skill books stay as they are (`import_mm9_items.py` `SKILL_BOOK_TARGETS`: composite groups at Normal, Blade ->
+Sword and Dagger, Cudgel -> Mace, Armor -> all three, Elemental -> all four), sold in the libraries and found as loot.
+The inns teach what the general stores do (Merchant, Repair Item, Perception, Disarm Traps, Stealing; the user,
+2026-11-06; "Services" below). The racial abilities' Expert to Grandmaster come from the racial trainers above; Blaster
+stays untaught.
 
 MM9 spell identities are not imported. Spell learning, spellbooks, and spell scrolls continue to use the OpenYAMM
 spell catalogue.
@@ -184,6 +309,25 @@ The final dialogue path includes all observed RUDE service operations through sh
 Services may be delivered incrementally, but a service opcode is not complete merely because its name is displayed.
 It must perform the transaction, update state, and return to or close dialogue according to recovered behavior.
 
+**State (2026-11-06).** A RUDE service row of a venue opens that venue as a shared house (`GameplayDialogController`:
+the RUDE dialogue is suspended and restored when the house closes); the venues are rows of `service_venues.txt` and
+`vendors.txt`, written by `tools/mm9_import_discovery/generate_mm9_vendors.py` from MMIXSHOPS and the RUDE rows that
+reach them.
+
+| Opcode | Service | State |
+| --- | --- | --- |
+| -2 | shop | the 48 vendors: buy, sell, identify, repair, Learn Skills |
+| -3 | training | the 8 training halls: the shared level training (no level cap), Learn Skills |
+| -4 | skill training | the 115 trainer rows (`skill_trainers.txt`), "Skills And Mastery" |
+| -5 | travel | the boat and coach routes (`transport_routes.txt`) |
+| -6 | bank | the 7 banks (Bank of Thjorgaard ... Bank of Arslegaard): the shared bank |
+| -7 | inn | the 7 inns: the MM6-MM8 tavern (rent a room: rest to dawn; fill the packs; Learn Skills). An inn's tavern value is its MMIXSHOPS merchant base × 10 (12 Sturmford, Drangheim; 20 Guberland; 25 Thronheim; 30 Thjorgard; 35 Frosgard; 40 Arslegard, within MM6-MM8's 6-60): food to that many days, a room value²/10 and the food value³/100 gold before the merchant discount; its skills keep the merchant base. The Stumbling Hero's innkeeper is NPC339 (MMIXSHOPS: 338) |
+| -8, -16 | healer, donation | the 7 temples and the Thronheim midwife (healing only) |
+| -14 | quest handoff | closes the dialogue; the hooks give the quest |
+| -10, -11 | hire, dismiss | the 15 hirelings' rows (`hirelings.txt`): fee, hire key, limits; [MM9 hirelings plan](MM9_HIRELINGS_PLAN.md) phase 7 |
+| -13 | item combine | **open**: NPC418 |
+| -15 | hireling service | the hireling's own service, once a day: NPC179 Town Portal, NPC238 heal, NPC308 heal and cure (hirelings plan phase 7) |
+
 ## Verification Gates
 
 Completion requires focused automated coverage proving at least:
@@ -194,6 +338,6 @@ Completion requires focused automated coverage proving at least:
 - each dialogue actor resolves the correct source-object-specific script and parameters;
 - `OnRudeExit` executes exactly once on every close path;
 - item, gold, experience, promotion, and skill rewards survive save/load;
-- composite skill learning/mastery is atomic and affects the complete mapped group;
+- every trainer service teaches each of its separate skills through the shared single-skill mastery training;
 - every reachable service opcode has implemented behavior or a specific visible unavailable result; and
 - the generated dialogue/SCR coverage report contains no silently ignored reachable operation.

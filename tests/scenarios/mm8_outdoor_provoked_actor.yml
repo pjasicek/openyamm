@@ -9,7 +9,9 @@ steps:
         Outdoors only monsters within 5632 units of the party run full AI (MM8 0x40151a), so in MM8 a monster shot
         from farther off takes the hit and stands. OpenYAMM wakes it: a party hit keeps it active out to the 10240
         engagement range until it comes within the full-AI range, ahead of the village crowd in the 48 active slots. A
-        pirate beside it that was not hit stays put. The party's shots and targeted spells reach 8192.
+        pirate beside it that was not hit stays put. The party's own shots and targeted spells reach only 5120
+        (mm8_party_hit_reach.yml), so the hit here is a direct one (damage_actor), as for a monster the party hit from
+        nearer and then backed off from beyond the full-AI range.
   - new_game_flow:
       start_map: out01.odm
   # The party starts near (3760, 7696); both pirates are about 7000 units east of it.
@@ -25,7 +27,5 @@ steps:
       actor_visible: {actor_index: last, far: {x: 10760, y: 7696, min_distance: 500}, report_state: true}
   - assert:
       actor_visible: {actor_index: last-1, near: {x: 10760, y: 9696, max_distance: 4}, report_state: true}
-  # Outdoors the party's targeted spells reach 8192 (its shots fizzle there too): beyond, the cast is refused.
-  - cast_spell: {member_index: 0, spell_id: 35, skill: 1, mastery: 1, actor_index: last-1, expect: applied}
-  - spawn_actor: {monster_id: 10, x: 13260, y: 7696, z: 900}
-  - cast_spell: {member_index: 0, spell_id: 35, skill: 1, mastery: 1, actor_index: last, expect: refused}
+  # The party's targeted spells reach 5120: the pirate left standing about 7000 away refuses one.
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 1, mastery: 1, actor_index: last-1, expect: refused}

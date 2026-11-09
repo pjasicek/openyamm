@@ -123,6 +123,7 @@ jobs:
           - profile: android
             assets: |
               /assets_cooked/android/
+              !/assets_cooked/android/worlds/mm9/
               /assets_dev/_legacy/sprites_original/
               /assets_dev/engine/
               /assets_dev/worlds/mm6/

@@ -39,11 +39,12 @@ REFERENCE_IDS_BY_PROFILE = {
     "small_shield": range(104, 109),
 }
 
-MANUAL_ANCHOR_OVERRIDES = {
-    # Imperial Star has a short diagonal handle and a detached lower flail head. Column-density shaft detection
-    # selects the head, so keep the grip explicitly on the handle.
-    75: ([11, 80], "short diagonal flail handle selected explicitly"),
-}
+# Per raw item: ([x, y], reason) where silhouette detection cannot find the grip. None since the 2026-11-05 icons
+# (Imperial Star's diagonal handle, the last entry, is upright now).
+MANUAL_ANCHOR_OVERRIDES: dict[int, tuple[list[int], str]] = {}
+
+# Icons are read from x2 packages and measured at the logical (x1) scale that Equip X/Y use.
+ICON_SCALE = 2
 
 
 @dataclass(frozen=True)
@@ -112,22 +113,27 @@ def find_icon(icon_root: Path, icon_name: str) -> Path:
 
 
 def item_mask(path: Path) -> Image.Image:
+    """The item's opaque pixels at logical scale: the coverage of an x2 icon is halved, then thresholded."""
     source = Image.open(path).convert("RGBA")
 
     if path.suffix.casefold() == ".png":
-        return source.getchannel("A").point(lambda alpha: 255 if alpha > 8 else 0)
+        coverage = source.getchannel("A")
+    else:
+        coverage = Image.new("L", source.size, 0)
+        source_pixels = source.load()
+        coverage_pixels = coverage.load()
 
-    result = Image.new("L", source.size, 0)
-    source_pixels = source.load()
-    result_pixels = result.load()
+        for y in range(source.height):
+            for x in range(source.width):
+                red, green, blue, _alpha = source_pixels[x, y]
+                is_cyan_key = red < 80 and green > 170 and blue > 170
+                coverage_pixels[x, y] = 0 if is_cyan_key else 255
 
-    for y in range(source.height):
-        for x in range(source.width):
-            red, green, blue, _alpha = source_pixels[x, y]
-            is_cyan_key = red < 80 and green > 170 and blue > 170
-            result_pixels[x, y] = 0 if is_cyan_key else 255
+    if ICON_SCALE != 1:
+        logical = tuple(-(-size // ICON_SCALE) for size in coverage.size)
+        coverage = coverage.resize(logical, Image.Resampling.LANCZOS)
 
-    return result
+    return coverage.point(lambda alpha: 255 if alpha > 8 else 0)
 
 
 def width_profile(mask: Image.Image, sample_count: int = 32) -> list[float]:
@@ -314,6 +320,8 @@ def write_previews(
 
         for index, (item, icon_path, anchor, reference) in enumerate(profile_entries):
             source = Image.open(icon_path).convert("RGBA")
+            logical = tuple(-(-size // ICON_SCALE) for size in source.size)
+            source = source.convert("RGBa").resize(logical, Image.Resampling.LANCZOS).convert("RGBA")
             scale = min(3, max(1, min(240 // source.height, 140 // source.width)))
             shown = source.resize((source.width * scale, source.height * scale), Image.Resampling.NEAREST)
             cell_x = index % column_count * cell_width
@@ -338,9 +346,9 @@ def write_previews(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mm9-items", type=Path, default=Path("assets_dev/worlds/mm9/data_tables/items.txt"))
-    parser.add_argument("--mm9-icons", type=Path, default=Path("assets_dev/worlds/mm9/icons"))
+    parser.add_argument("--mm9-icons", type=Path, default=Path("assets_dev/worlds/mm9/icons_x2"))
     parser.add_argument("--engine-items", type=Path, default=Path("assets_dev/engine/data_tables/items.txt"))
-    parser.add_argument("--engine-icons", type=Path, default=Path("assets_dev/engine/icons"))
+    parser.add_argument("--engine-icons", type=Path, default=Path("assets_dev/engine/icons_x2"))
     parser.add_argument("--preview-dir", type=Path)
     args = parser.parse_args()
 

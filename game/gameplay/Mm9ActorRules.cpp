@@ -248,6 +248,11 @@ Mm9AiPlacement mm9PartySenses(const Mm9AiPlacement &placement, const Mm9PartyAwa
         senses.sight *= awareness.sightScale;
     }
 
+    if (!dormant && awareness.sightMax > 0.0f)
+    {
+        senses.sight = std::min(senses.sight, awareness.sightMax);
+    }
+
     return senses;
 }
 

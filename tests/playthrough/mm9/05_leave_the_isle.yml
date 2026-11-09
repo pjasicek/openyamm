@@ -1,0 +1,78 @@
+# MM9 playthrough, segment 05: off the Isle of Ashes (guide: Prologue, "Find a way off the island", "Kill the Bone
+# Thrashers"). Forad joins the party (his hire row: keys 29 and 371), Yrsa hands over the Turret Key ("How do we
+# through that door?", the line as MM9 spells it: key 469), the party is placed on the slope above the bunker by the
+# Verhoffin Ruins (three Bone Thrashers rise in front of its door and die), the key opens the double door
+# (DOORLOCK.scr: the key is used up), the chest is taken and the book on the lectern plays the cinematic
+# book_sinking: the islet with the Lich King sinks (key 28, 5200 experience) and the boat carries the party to
+# Sturmford's dock in four days. Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 05
+id: mm9.playthrough.05_leave_the_isle
+title: "MM9 playthrough 05: Forad joins, the Turret Key, the bunker's book sinks the Lich and the boat sails"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/03_isle_yrsa.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: isleofashes.blv, qbit_set: [90001, 90027], qbit_clear: [90029, 90469, 90028]}
+
+  # Forad: Yrsa sent us; the Bone Thrashers block the only boat lane; he joins.
+  - set_pose: {map: isleofashes.blv, x: 2171, y: -7300, z: 147, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "Our boat crashed on its way to Mendossus."}
+  - select_topic: {match_label: "Yes.  Yrsa sent us to find you"}
+  - select_topic: {match_label: "She has charged us with a quest, and we need your help."}
+  - select_topic: {match_label: "It is our destiny to unite the six clans against Tamur Leng."}
+  - select_topic: {match_label: "What is that?"}
+  - select_topic: {match_label: "Fair enough.  We'll take care of them then."}
+  - select_topic: {match_label: "Welcome Aboard."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90029, 90371], actor_visible: {actor_index: 13, hidden: true}}
+
+  # Yrsa: the locked door. The Turret Key.
+  - set_pose: {map: isleofashes.blv, x: 1950, y: -16486, z: 420, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'wait(6); click(30769); wait(1.5)'}
+  - walk_to: {x: 2650, y: -16486, z: 420, plan: false, timeout_seconds: 30}
+  - interact_actor: {actor_index: 12}
+  - select_topic: {match_label: "How do we through that door?"}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90469]}
+  - play_lua: {source: 'if not has_item(10568) then error("no Turret Key from Yrsa") end; log("the Turret Key is in the pack")'}
+  - play_lua: {source: 'wait(6); click(30769); wait(1.5)'}
+  - walk_to: {x: 1950, y: -16486, z: 420, plan: false, timeout_seconds: 30}
+
+  # The bunker below the ruins' tower: the slope above its door (the Bone Thrashers of Trigger2 rise there).
+  - set_pose: {map: isleofashes.blv, x: -983, y: 3950, z: 180, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -983, y: 4350, z: 100, timeout_seconds: 60, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        click(30498); wait(2.5)
+        if has_item(10568) then error("the Turret Key was not used on the bunker door") end
+        log("the Turret Key opens the bunker's double door and is used up")
+  - assert: {state_dump_named_map_var: {name: Isle.BunkerOpen, value: 1}}
+  - walk_to: {x: -960, y: 5250, z: 30, plan: false, timeout_seconds: 30, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        click(43); wait(0.5)
+        if not take_chest() then error("the bunker's chest did not open") end
+        close()
+        log("the bunker's chest is emptied: " .. status())
+
+  # The book on the lectern plays the cinematic (17 s): the gun on the bunker, the islet sinks with the Lich King,
+  # the boat; four days to Sturmford's dock (StartPoint0). The click and the cinematic stay in one step: the
+  # cinematic waits for the next frame, and --reload's save in between would drop it (the harness lets a reload run
+  # while evt.PlayCinematic's request is pending; a player cannot save there).
+  - play_lua:
+      source: |
+        log("ISSUE run.py --reload: a reload between the book's click and its cinematic's start drops the queued cinematic (saveBlockedReason ignores EventRuntimeState::pendingCinematic); the click waits for the cinematic to start in its own step")
+        click(30495)
+        wait(1)
+        log("the book on the lectern: the cinematic starts")
+  - advance_runtime: {seconds: 25, follow_map_move: true}
+  - assert: {map: sturmford.blv, qbit_set: [90028]}
+  - save_game: {name: "05 Sturmford", path: output/playthrough/mm9/checkpoints/05_leave_the_isle.oysav}

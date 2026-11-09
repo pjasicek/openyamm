@@ -3,7 +3,7 @@
 scripts/blib.py, paths pointed at this project): Dark Passageway's build (Yanmir's Fort's: asset frame = the raw
 import mirrored in X, clean, faces wound to agree with the ABC's authored normals, open pieces on a double-sided copy
 of their material, normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only
-from 250 triangles: the native ABC LOD when its count is near, else a collapse decimation; one material per MM9 skin;
+from 1000 triangles: the native ABC LOD when its count is near, else a collapse decimation; one material per MM9 skin;
 closed pieces wound outwards).
 
 Here only `sconce2`, the 20 Torch-class wall sconces (a demon's head with horns on the wall, SCONCE2 / Sconce2.dtx):
@@ -34,7 +34,7 @@ import props_table  # noqa: E402
 blib.HERE, blib.WORK, blib.TEX = HERE, os.path.join(HERE, 'work'), os.path.join(HERE, 'textures')
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 SPECS = {name: {} for name in props_table.built_props()}
 SPECS.update({name: {"tilt": tilt} for name, tilt in props_table.TILTS.items() if name in SPECS})
 ORB_RADIUS_M = 5.5 * 2.56 / blib.UNITS_PER_METRE

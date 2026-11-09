@@ -1,0 +1,35 @@
+# MM9 playthrough, segment 40: Thronheim's pledge and the war council called (guide: Chapter I, Thronheim's reports, "The
+# war council"). Thjorgard back to Thronheim (the pass again, three days; outdoors the party is moved), the land gate,
+# Kira: the Honkies gone (78, 146: 12 500 experience, 7 000 gold), the pass found (81, 152: 12 500, 12 000), she joins
+# (82), and with all six clans the council is called in her hall (83, 179: 12 500, 6 000).
+#   python3 tests/playthrough/mm9/run.py 40
+id: mm9.playthrough.40_kira_pledge
+title: "MM9 playthrough 40: Kira joins; the clans are united and the war council is called"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/39_mountain_pass.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgard.blv, qbit_set: [90077, 90080, 90178], qbit_clear: [90078, 90081, 90082, 90083]}
+
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  - set_pose: {map: thronheimcity.blv, x: -11182, y: 16500, z: 3278, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "The Honkies have left."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "We have found the Mountain Pass."}
+  - select_topic: {match_label: "We have done as you asked.  Now will you join us?"}
+  - select_topic: {match_label: "The clans are united.  It is time for the war council"}
+  - select_topic: {match_label: "Tell them to meet here in two weeks."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90078, 90081, 90082, 90083, 90146, 90152, 90179], qbit_clear: [90084]}
+  - save_game: {name: "40 the war council called", path: output/playthrough/mm9/checkpoints/40_kira_pledge.oysav}

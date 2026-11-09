@@ -296,7 +296,9 @@ enum class GameplayDialoguePointerTargetType
 {
     None,
     Action,
-    CloseButton
+    CloseButton,
+    // Cancel of the popup that offers to reset a cleared dungeon (transitionResetPopupOpen).
+    ResetPopupCancel
 };
 
 struct GameplayDialoguePointerTarget
@@ -329,10 +331,13 @@ enum class GameplaySpellbookPointerTargetType
     SchoolButton,
     SpellButton,
     CloseButton,
+    // The selected spell becomes the active member's Quick Cast; again, or with no spell selected, clears it.
     QuickCastButton,
+    // The selected spell becomes the active member's only attack order (GameplayBattleOrders::assignAttackSpell);
+    // again, or with no spell selected, clears the orders.
     AttackCastButton,
-    // One of MMMerge's four extra quick spell slots (ExtraQuickSpells.lua); `slot` says which.
-    QuickSpellSlotButton
+    // Opens the Battle Orders window (game/ui/GameplayBattleOrders.h).
+    BattleOrdersButton
 };
 
 struct GameplaySpellbookPointerTarget
@@ -340,7 +345,6 @@ struct GameplaySpellbookPointerTarget
     GameplaySpellbookPointerTargetType type = GameplaySpellbookPointerTargetType::None;
     GameplayUiController::SpellbookSchool school = GameplayUiController::SpellbookSchool::Fire;
     uint32_t spellId = 0;
-    size_t slot = 0;
 
     bool operator==(const GameplaySpellbookPointerTarget &other) const = default;
 };
@@ -367,11 +371,31 @@ struct GameplayTownPortalDestination
     uint32_t hitHeight = 0;
 };
 
+// One continent's Town Portal map: a `town_portal_switch.txt` group with the destinations this installation offers.
+struct GameplayTownPortalContinent
+{
+    std::string groupName;
+    // English; localized where it is drawn.
+    std::string label;
+    std::string backgroundTextureName;
+    std::vector<GameplayTownPortalDestination> destinations;
+};
+
+// The Town Portal screen's continent buttons, `TownPortalContinentButton1` to `...4` in town_portal.yml, one per
+// continent in GameplayUiRuntime's order; a continent with no unlocked town shows its map with nothing to choose.
+constexpr size_t TownPortalContinentButtonCount = 4;
+
+inline std::string townPortalContinentButtonId(size_t slot)
+{
+    return "TownPortalContinentButton" + std::to_string(slot + 1);
+}
+
 enum class GameplayUtilitySpellPointerTargetType
 {
     None,
     Close,
     TownPortalDestination,
+    TownPortalContinent,
     LloydSetTab,
     LloydRecallTab,
     LloydSlot,
@@ -559,7 +583,6 @@ enum class GameplayHudPointerTargetType
     RestButton,
     BooksButton,
     InventoryButton,
-    DimensionDoorButton,
     QuickReferenceButton,
     StatisticsButton,
     QuickCastButton,

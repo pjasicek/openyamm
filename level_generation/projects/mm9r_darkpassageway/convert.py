@@ -73,6 +73,11 @@ HINT_TARGET = {"PerceptionBrush0": "MountainForestDoor", "PerceptionBrush1": "Pa
 # decorations do not move natively: each statue has a copy at the bridge's other pose, and the map shows the one
 # matching its bridge (cogs STATUE_COG + 2 k: the DAT pose, + 2 k + 1: the other).
 STATUE_COG = 410
+# The desert's mirrors are decorations (mirrors.json, written by the props project's mirror_source.py from Mirror0-3,
+# whose overrides.yml rule is skip) so the map can turn them: cog MIRROR_COG + k, evt.AimDecoration.
+MIRROR_COG = 420
+MIRRORS_JSON = PROJECT / "mirrors.json"
+MIRROR_TURN_SPEED = 180             # degrees a second (PassageMirror.scr :Rotate: Rotate 0,1,0, 10, 180)
 STATUE_BRIDGE = {"SwitchCreature0": 0, "SwitchCreature1": 1, "SwitchCreature2": 2, "SwitchCreature3": 3}
 COG_NJAM = 401
 KILL_HOOK = 96
@@ -144,6 +149,9 @@ DIVE_ARRIVAL_LT = (-3752.0, -1300.0, -8424.0)
 # Native x range, y range, the ceiling's height and the raised one; every PhysicsBSP vertex there at that height moves.
 CROUCH_SLOT = ((-13271.0, -13107.0), (-21627.0, -20972.0), -573.0, -470.0)
 CARPET_SHIFT_LT = (476.0, 524.0)
+# Lowered by this much (and its lift lengthened to match, overrides.yml move_lt) so a party that fell into the pit
+# jumps onto it: its top was 123-144 over the pit floor, over the party's jump (90); now 46-67 (2026-11-09).
+CARPET_DROP_LT = 30.0
 CARPET_PLANK_LT = ((-7730.0, 12.0, -6730.0), (-7630.0, 12.0, -6630.0))
 EXIT_SLAB_LT = {"x": (150.0, 234.0), "y": (-224.0, -100.0), "z": (2438.0, 2522.0)}
 FIRE_DAMAGE = 10                    # FlameDamage PoisonGas: Damage 10 (per second)
@@ -183,6 +191,16 @@ LIGHT_GAINS: list = [
     ((-2100, -300, 1050, -500, 1000, 2900), (1.45, 1.45, 1.45)),     # the curved corridor
     ((-500, -300, 2150, 300, 600, 2900), (2.6, 2.2, 2.2)),           # the Wyrde's room: MM9's warm 0.33 / 0.22
 ]
+
+
+def njam_speed() -> int:
+    """Njam's row speed (monster_data.txt Spd): the cameo walks."""
+    table = ROOT / "assets_dev/worlds/mm9/data_tables/monster_data.txt"
+    for line in table.read_text(encoding="latin-1").splitlines():
+        cells = line.split("\t")
+        if cells[0] == str(NJAM_ROW):
+            return int(cells[13])
+    raise SystemExit(f"monster_data.txt has no row {NJAM_ROW}")
 
 
 def swimming(build) -> bool:
@@ -286,7 +304,6 @@ class DarkPassageway(dungeon.Hooks):
     generator = "mm9r_darkpassageway"
     mover_events = {"ElevatorObj": (EV_CARPET, "click"), "Painting": (EV_PAINTING, "click"),
                     "Switch": (EV_SWITCH_EXIT, "click"), "TeleportDoor1": (EV_TELEPORT_DOOR1, "click"),
-                    **{name: (event, "click") for name, event in EV_MIRROR.items()},
                     **{name: (event, "click") for name, event in EV_LOCKED.items()}}
 
     # --- before the voxels and movers ---------------------------------------------------------------------------
@@ -299,7 +316,7 @@ class DarkPassageway(dungeon.Hooks):
         def polygons(name):
             out = original(name)
             if name == "ElevatorObj":
-                shift = np.array([CARPET_SHIFT_LT[0], 0.0, CARPET_SHIFT_LT[1]])
+                shift = np.array([CARPET_SHIFT_LT[0], -CARPET_DROP_LT, CARPET_SHIFT_LT[1]])
                 return [Polygon(p.points + shift, p.keys, p.texture, (p.mapping[0] + shift,) + tuple(p.mapping[1:]),
                                 p.flags, p.model, p.role, notes=dict(p.notes)) for p in out]
             if name != "FlameCage":
@@ -374,6 +391,11 @@ class DarkPassageway(dungeon.Hooks):
                 content.entity(f"{entry['source_name']}_Moved", entry["decoration"],
                                (entry["x"], entry["y"], entry["z"] + shift), entry["yaw_degrees"],
                                primary=STATUE_COG + 2 * k + 1, secondary=events[entry["source_name"]])
+        import json
+        for entry in json.loads(MIRRORS_JSON.read_text()):
+            k = int(entry["source_name"][len("Mirror"):])
+            content.entity(entry["source_name"], entry["decoration"], (entry["x"], entry["y"], entry["z"]),
+                           entry["yaw_degrees"], primary=MIRROR_COG + k, secondary=EV_MIRROR[entry["source_name"]])
         self.place_perception_hints(build)
         levels = {content.owner(np.array(point, float)): level for point, level in ROOM_LEVELS}
         self.room_ambient = levels
@@ -422,11 +444,13 @@ class DarkPassageway(dungeon.Hooks):
                             for name in ["GemLight0", "Gemstone", *MIRRORS, "BeamReceiver1"]}
         self.mirror_facing = {}
         for name in MIRRORS:
-            # The mirror's face: the normal of its Icebolt (mirror glass) polygon, as the direction its counter 0
-            # sends the light; PassageMirror.scr turns it clockwise 10 degrees a click.
-            glass = next(p for p in source.polygons(name) if "icebolt" in p.texture.lower())
-            n = glass.normal
-            self.mirror_facing[name] = math.degrees(math.atan2(n[2], n[0]))
+            # The direction its counter 0 sends the light: the object's own facing (its DAT Rotation yaw; LithTech's
+            # forward is (sin yaw, 0, cos yaw), native (x, z) -> angle 90 - yaw), which PassageLaser.scr's GetFaceDir
+            # reads; PassageMirror.scr turns it clockwise 10 degrees a click. Not its glass: the DAT keeps the brush in
+            # world space, the glass of all four facing the same way, and the targets (330, 10, 340, 50) aim the light
+            # at the next mirror (and Mirror3's at BeamReceiver1) only from these facings (0, 180, 0, 180).
+            yaw = math.degrees(float(source.properties(name)["Rotation"][1]))
+            self.mirror_facing[name] = 90.0 - yaw
 
     def scale_lights(self, build) -> None:
         """BLV light colour = MM9 colour x BrightScale (Ruined Temple lesson); the bake-only lights the same, with the
@@ -536,9 +560,13 @@ class DarkPassageway(dungeon.Hooks):
         # Njam the Meddler's cameo (SpawnNjamCameo.scr on SpawnNjam0): hidden until Trigger1 spawns him.
         njam = source.by_name["spawnnjam0"]
         njam_base = {"name": "Njam the Meddler", "attributes": 0, "hp": 6600, "hostility_type": 0,
-                     "monster_info_id": NJAM_ROW, "monster_id": NJAM_ROW, "radius": 40, "height": 180, "move_speed": 0}
+                     "monster_info_id": NJAM_ROW, "monster_id": NJAM_ROW, "radius": 40, "height": 180,
+                     "move_speed": njam_speed()}
         record = content.actor(njam, njam_base, sector_of_room, hidden=True, friendly=True,
                                floor_query_lt=njam["properties"]["Pos"][1] + 24)
+        # SpawnNjamCameo.scr spawns him with NjamCameo.scr: his behaviour's cameo mode (worlds/mm9/behaviors/njam.lua)
+        # and MM9's wander; he stands until the map's Lua shows him (evt.SetActorImmobile)
+        record["mm9_ai"] = content.mm9_ai({"ScriptName": "scripts\\NjamCameo.scr"}, NJAM_ROW - 9000)
         record["immobile"] = True
         self.actor_index["Njam"] = record["actor_index"]
         out.append(record)
@@ -655,6 +683,7 @@ class DarkPassageway(dungeon.Hooks):
             "    if length > 6000 then return end",
             "    local k = math.max(64 / length, 0.05)",
             f"    local shot = evt.FireMissile(\"Fire\", e[1] + dx * k, e[2] + dy * k, e[3] + dz * k, x, y, z, {EYE_DAMAGE}, \"Energy\", 0)",
+            "    if shot then MM9.launchSound(\"KBYellowLine\", e[1], e[2], e[3]) end",
             "    set(\"EyeShots\", var(\"EyeShots\") + (shot and 1 or 0))",
             "end",
             f"handlers[{T_EYES}] = function()",
@@ -756,14 +785,17 @@ class DarkPassageway(dungeon.Hooks):
             "-- The mirror puzzle in the desert (PassageMirror.scr \"<angle> <next> <beam>\", PassageLaser.scr,",
             "-- PassageGemstone.scr \"CageTerror 0 5\"): a click on a mirror turns it 10 degrees clockwise (its counter + 1,",
             "-- mod 36). A click on the gemstone shines its light (GemLight0) at Mirror0; a mirror whose counter is its",
-            "-- target angle / 10 passes it on to the next, the last to the gemstone, which then releases the six cage",
-            "-- terrors (their cage doors Door1-6 unlock and open, they come out after the door's open time) and opens",
-            "-- DesertDoor0. The mirrors themselves do not turn here (no rotation by steps natively): the beams show where",
-            "-- each one points (README: Deviations).",
+            "-- target angle / 10 passes it on to the next, the last to BeamReceiver1, and the gemstone then releases the",
+            "-- six cage terrors (their cage doors Door1-6 unlock and open, they come out after the door's open time) and",
+            "-- opens",
+            "-- DesertDoor0. Each mirror is a decoration (cog MIRROR_COG + k) turned by evt.AimDecoration, 10 degrees a",
+            "-- click at MM9's 180 degrees a second: MirrorTurns<k> counts every click (the aim keeps turning the same way",
+            "-- past a full turn), and the map's load puts each back at its angle (decoration aims are not saved).",
             f"local MIRRORS = {{{', '.join(mirror_rows)}}}",
             f"local GEM_LIGHT = {lua.point(self.beam_points['GemLight0'])}",
             f"local CAGES = {{{cages}}}",
             "local function mirrorCount(k) return var(\"Mirror\" .. k) end",
+            f"local function aimMirror(k, speed) evt.AimDecoration({MIRROR_COG} + k - 1, -10 * var(\"MirrorTurns\" .. k), speed) end",
             "local function beamFrom(k)",
             "    local m = MIRRORS[k]",
             "    local a = math.rad(m.facing - mirrorCount(k) * 10)",
@@ -791,14 +823,17 @@ class DarkPassageway(dungeon.Hooks):
             "    for k = 1, 4 do",
             "        local m = MIRRORS[k]",
             "        evt.Beam(\"PassageBeam\" .. k, \"openyamm:fx/arc_beam\", from[1], from[2], from[3], m.at[1], m.at[2], m.at[3], 1.5)",
-            "        if mirrorCount(k) ~= m.target then",
+            "        -- PassageMirror.scr :GiveFocus: a mirror turned 70-290 degrees from its facing sends no light on",
+            "        local count = mirrorCount(k)",
+            "        if count > 6 and count < 30 then return end",
+            "        if count ~= m.target then",
             "            local to = beamFrom(k)",
             "            evt.Beam(\"PassageBeamLost\", \"openyamm:fx/arc_beam\", m.at[1], m.at[2], m.at[3], to[1], to[2], to[3], 1.5)",
             "            return",
             "        end",
             "        from = m.at",
             "    end",
-            "    local g = MIRRORS[4].next",
+            f"    local g = {lua.point(self.beam_points['BeamReceiver1'])}   -- Mirror3's light ends at BeamReceiver1",
             "    evt.Beam(\"PassageBeam5\", \"openyamm:fx/arc_beam\", from[1], from[2], from[3], g[1], g[2], g[3], 1.5)",
             "    release()",
             "end",
@@ -806,6 +841,8 @@ class DarkPassageway(dungeon.Hooks):
         for k, name in enumerate(MIRRORS):
             lines.append(f"handlers[{EV_MIRROR[name]}] = function()   -- {name} :Rotate")
             lines.append(f"    set(\"Mirror{k + 1}\", (var(\"Mirror{k + 1}\") + 1) % 36)")
+            lines.append(f"    set(\"MirrorTurns{k + 1}\", var(\"MirrorTurns{k + 1}\") + 1)")
+            lines.append(f"    aimMirror({k + 1}, {MIRROR_TURN_SPEED})")
             lines.append("    sound(\"door/doorslidestone.wav\")")
             lines.append(f"    evt.StatusText(tr(\"The mirror turns ({{degrees}} degrees).\", "
                          f"{{degrees = var(\"Mirror{k + 1}\") * 10}}))")
@@ -816,20 +853,27 @@ class DarkPassageway(dungeon.Hooks):
             "    openG(\"DesertDoor0\")",
             "end",
             "",
-            "-- Njam the Meddler's cameo (Trigger1 -> SpawnNjam0 Spawn: SpawnNjamCameo.scr): after two seconds of magic he",
-            "-- appears, wanders 10-20 s (NjamCameo.scr) and vanishes.",
+            "-- Njam the Meddler's cameo (Trigger1 -> SpawnNjam0 Spawn: SpawnNjamCameo.scr): a second later the effect and",
+            "-- Windup10 at the spawner (:Onspawn2), two more and he appears with the town portal sound (:Appear) and walks",
+            "-- (NjamCameo.scr: BaseWanderForceStartUp), 10-20 s later he goes (:Vanish2: his behaviour's departure,",
+            "-- worlds/mm9/behaviors/njam.lua cameo). A hit sends him away at once (NjamCameo.scr OnDamage: the behaviour).",
             f"local NJAM = {actor['Njam']}",
             f"handlers[{T_NJAM}] = function()",
             f"    if not fired({T_NJAM}) then return end",
-            "    if var(\"NjamShown\") == 0 then",
-            "        set(\"NjamShown\", 1)",
+            "    local stage = var(\"NjamStage\")",
+            "    if stage == 1 then",
+            "        set(\"NjamStage\", 2)",
+            "        MM9.clientFx(NJAM, \"mm9:GreaterDemon\"); sound(\"magic/windup10.wav\")",
+            f"        arm({T_NJAM}, 2)",
+            "    elseif stage == 2 then",
+            "        set(\"NjamStage\", 3); set(\"NjamShown\", 1)",
             "        sound(\"spells/TownPortal.wav\")",
             "        evt.SetMonsterBit(NJAM, MonsterBits.Invisible, false)",
-            f"        arm({T_NJAM}, 15)",
-            "    else",
-            "        sound(\"magic/teleport.wav\")",
-            "        MM9.clientFx(NJAM, \"mm9:GreaterDemon\")   -- :Vanish2: DoClientFX hNjam, GreaterDemon",
-            "        MM9.removeActor(NJAM)",
+            "        evt.SetActorImmobile(NJAM, false)",
+            f"        arm({T_NJAM}, evt.RandomBetween(10, 20))",
+            "    elseif stage == 3 then",
+            "        set(\"NjamStage\", 4)",
+            "        if MM9.actorAlive(NJAM) then evt.TriggerActor(NJAM, \"vanish\") end",
             "    end",
             "end",
             "",
@@ -892,9 +936,8 @@ class DarkPassageway(dungeon.Hooks):
             "TriggerAttack0": ("true", "closeG(\"ForestDoor0\"); set(\"ForestLocked\", 1); "
                                f"arm({T_WARRIOR}, 1.5); sound(\"door/doorslammetal01.wav\")", False),
             "TriggerBansheeOff0": ("true", "set(\"EyesOff\", 1)", False),
-            # SpawnNjamCameo.scr :Onspawn2: DoClientFX g_hMyObject, GreaterDemon at SpawnNjam0, where Njam waits hidden
-            "Trigger1": ("true", f"arm({T_NJAM}, 2); sound(\"magic/windup10.wav\"); "
-                         f"MM9.clientFx({actor['Njam']}, \"mm9:GreaterDemon\")", False),
+            # SpawnNjam0's Spawn (SpawnNjamCameo.scr :Onspawn: wait 1 -> :Onspawn2), where Njam waits hidden
+            "Trigger1": ("true", f"set(\"NjamStage\", 1); arm({T_NJAM}, 1)", False),
             "ExitTrigger0": ("var(\"ExitOn0\") == 1", "exitStep(0)", True),
             "ExitTrigger1": ("var(\"ExitOn1\") == 1", "exitStep(1)", True),
             "ExitTrigger2": ("var(\"ExitOn2\") == 1", "exitStep(2)", True),
@@ -958,8 +1001,10 @@ class DarkPassageway(dungeon.Hooks):
             "    updateHints()",
             "    if var(\"ExitInit\") == 0 then set(\"ExitInit\", 1); set(\"ExitOn2\", 1) end",
             "    placeBridges(puzzleState())",
+            "    for k = 1, 4 do aimMirror(k, 0) end",
             "    if var(\"PuzzleSolved\") == 1 then openG(\"TeleportDoor0\") end",
-            "    if var(\"NjamShown\") == 1 then MM9.removeActor(NJAM) end",
+            "    if var(\"NjamShown\") == 1 then MM9.removeActor(NJAM)",
+            f"    elseif var(\"NjamStage\") == 2 then set(\"NjamStage\", 1); arm({T_NJAM}, 1) end   -- saved mid-spawn",
             "    if var(\"AdventurerDead\") == 1 then MM9.removeActor(ADVENTURER) end",
             f"    evt.StartTimer({T_POLL}, seconds(0.25))",
             f"    evt.StartTimer({T_EYES}, seconds(1))",

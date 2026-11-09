@@ -2,7 +2,7 @@
 <Prop>_LOD1, ...) and work/<prop>_meta.json from the raw converter GLBs, with the isle props project's helpers (its
 scripts/blib.py, paths pointed at this project). This is Lindisfarne Monastery's build (asset frame = the raw import
 mirrored in X, clean, faces wound to the ABC's authored normals, open pieces on a double-sided copy of their material,
-normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only from 250 triangles,
+normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only from 1000 triangles,
 the native ABC LOD when its count is near, else a collapse decimation; one material per MM9 skin, cut-out skins,
 specs.json turns, props_table.POSES models posed, TILTS baked in) with the Anskram/Tasar flame cards added: camera-facing
 cards of the shared CC0 Flame02 flipbook (finish.py gives them the 'card' billboard) on a seat: the top 12 % of LOD0
@@ -39,7 +39,7 @@ exec(_source.replace(_line, _line + "        arm.animation_data.action_slot = bp
      blib.__dict__)
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 SPECS = {name: {} for name in props_table.built_props()}
 SPECS.update({name: {"tilt": tilt, "lods": False} for name, tilt in props_table.TILTS.items()})
 SPECS.update({name: {"tilt": tilt} for name, tilt in props_table.TILTS.items()})

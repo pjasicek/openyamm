@@ -94,6 +94,9 @@ struct MapStatsEntry
     std::optional<MapEdgeTransition> westTransition;
     MapRuntimeRestrictions runtimeRestrictions = {};
     std::optional<MapArenaDefinition> arena;
+    // A BLV its world declares open to the sky (world.yml openAirMaps): spells follow the outdoor rules there
+    // (IGameplayWorldRuntime::isOpenAirMap). False for every other map.
+    bool openAir = false;
 
     const std::optional<MapEdgeTransition> *edgeTransition(MapBoundaryEdge edge) const;
     std::optional<MapEdgeTransition> *edgeTransition(MapBoundaryEdge edge);
@@ -115,6 +118,8 @@ public:
     // Assigns each map without an explicit world column to the world package that ships its file
     // (pairs of world id and file name found under worlds/<world>/maps). A file shipped by two worlds is an error.
     bool applyWorldOwnership(const std::vector<std::pair<std::string, std::string>> &worldMapFiles);
+    // Marks the world's maps open to the sky (world.yml openAirMaps). A name that is no BLV of that world is an error.
+    bool applyOpenAirMaps(const std::string &worldId, const std::vector<std::string> &fileNames);
     // Canonical ids that older saves used for maps whose world is now resolved differently (legacy, current).
     std::vector<std::pair<std::string, std::string>> legacyCanonicalIdRenames() const;
     const std::vector<MapStatsEntry> &getEntries() const;

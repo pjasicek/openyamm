@@ -1146,8 +1146,290 @@
   "thjoradmine": {
    "project": "mm9r_thjoradmine",
    "chapter": 2,
-   "factor": 1.0,
-   "packs": []
+   "factor": 1.4,
+   "packs": [
+    {
+     "members": [
+      "AB_Troglodyte5"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 6
+    },
+    {
+     "members": [
+      "AB_Troglodyte4",
+      "AB_Troglodyte3",
+      "AB_Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte1",
+      "AB_Troglodyte0"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "TroglodyteGnoll4",
+      "TroglodyteGnoll5"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 3
+    },
+    {
+     "members": [
+      "TroglodyteGnoll6",
+      "Troglodyte0",
+      "TroglodyteWren0"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 8
+    },
+    {
+     "members": [
+      "Troglodyte1",
+      "Troglodyte2",
+      "Troglodyte3",
+      "Troglodyte4",
+      "TroglodyteWren1"
+     ],
+     "add": 2,
+     "target": 7,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "TroglodyteWren2"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "TroglodyteWren3",
+      "TroglodyteWren4",
+      "Troglodyte5"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Troglodyte6"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Troglodyte8",
+      "TroglodyteGnoll8",
+      "TroglodyteWren5"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 10
+    },
+    {
+     "members": [
+      "Troglodyte9",
+      "TroglodyteWren6",
+      "TroglodyteGnoll9"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 7
+    },
+    {
+     "members": [
+      "Troglodyte10",
+      "TroglodyteWren7",
+      "TroglodyteGnoll10"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte6",
+      "AB_Troglodyte8"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte7"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte9",
+      "AB_Troglodyte10",
+      "AB_Troglodyte11"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte12",
+      "AB_Troglodyte14"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte13"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte15"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte16",
+      "AB_Troglodyte17"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte18",
+      "AB_Troglodyte19",
+      "AB_Troglodyte20"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte21",
+      "AB_Troglodyte22",
+      "AB_Troglodyte23"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte24",
+      "AB_Troglodyte25"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "AB_Troglodyte26"
+     ],
+     "add": 1,
+     "target": 2,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker0Troglodyte0",
+      "SpawnMarker0Troglodyte1",
+      "SpawnMarker0Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker1Troglodyte0",
+      "SpawnMarker1Troglodyte1",
+      "SpawnMarker1Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker2Troglodyte0",
+      "SpawnMarker2Troglodyte1"
+     ],
+     "add": 1,
+     "target": 3,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker3Troglodyte0",
+      "SpawnMarker3Troglodyte1",
+      "SpawnMarker3Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker4Troglodyte0",
+      "SpawnMarker4Troglodyte1",
+      "SpawnMarker4Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker5Troglodyte0",
+      "SpawnMarker5Troglodyte1",
+      "SpawnMarker5Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    },
+    {
+     "members": [
+      "SpawnMarker6Troglodyte0",
+      "SpawnMarker6Troglodyte1",
+      "SpawnMarker6Troglodyte2"
+     ],
+     "add": 1,
+     "target": 4,
+     "capacity": 12
+    }
+   ]
   },
   "tasaracademy": {
    "project": "mm9r_tasaracademy",
@@ -4426,23 +4708,23 @@
   "1000terrors": {
    "project": "mm9r_1000terrors",
    "chapter": 4,
-   "factor": 5.0,
+   "factor": 2.0,
    "packs": [
     {
      "members": [
       "DesertTerror3",
       "DesertTerror6"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "LesserDemon10"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 11
     },
     {
@@ -4450,40 +4732,40 @@
       "LesserDemon3",
       "Eye6"
      ],
-     "add": 8,
-     "target": 10,
+     "add": 2,
+     "target": 4,
      "capacity": 10
     },
     {
      "members": [
       "LesserDemon6"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
      "members": [
       "LesserDemon7"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
      "members": [
       "LesserDemon8"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
      "members": [
       "LesserDemon9"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
@@ -4491,48 +4773,48 @@
       "Oculus3",
       "Eye27"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "Oculus4"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 11
     },
     {
      "members": [
       "Orbus0"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
      "members": [
       "Orbus1"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
      "members": [
       "ReptilianTerror0"
      ],
-     "add": 4,
-     "target": 5,
+     "add": 1,
+     "target": 2,
      "capacity": 5
     },
     {
      "members": [
       "LesserDemon15"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 2,
+     "target": 3,
      "capacity": 12
     },
     {
@@ -4551,8 +4833,8 @@
       "Eye20",
       "Eye21"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
@@ -4560,24 +4842,24 @@
       "LesserDemon4",
       "LesserDemon5"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "SeaMonsterMale1"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 7
     },
     {
      "members": [
       "SeaMonsterMale0"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 8
     },
     {
@@ -4587,16 +4869,16 @@
       "Eye26",
       "Orbus15"
      ],
-     "add": 8,
-     "target": 12,
+     "add": 4,
+     "target": 8,
      "capacity": 12
     },
     {
      "members": [
       "Orbus16"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
@@ -4604,72 +4886,72 @@
       "Orbus17",
       "ReptilianTerror1"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "Orbus22"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Oculus2"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus2"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 9
     },
     {
      "members": [
       "Orbus24"
      ],
-     "add": 3,
-     "target": 4,
+     "add": 1,
+     "target": 2,
      "capacity": 4
     },
     {
      "members": [
       "Eye10"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye7"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Oculus10"
      ],
-     "add": 2,
-     "target": 3,
+     "add": 1,
+     "target": 2,
      "capacity": 3
     },
     {
      "members": [
       "Orbus23"
      ],
-     "add": 3,
-     "target": 4,
+     "add": 1,
+     "target": 2,
      "capacity": 4
     },
     {
@@ -4677,8 +4959,8 @@
       "DesertTerror4",
       "LesserDemon11"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
@@ -4686,16 +4968,16 @@
       "Oculus6",
       "Oculus12"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "Orbus4"
      ],
-     "add": 3,
-     "target": 4,
+     "add": 1,
+     "target": 2,
      "capacity": 4
     },
     {
@@ -4706,8 +4988,8 @@
       "LesserDemon13",
       "LesserDemon14"
      ],
-     "add": 7,
-     "target": 12,
+     "add": 5,
+     "target": 10,
      "capacity": 12
     },
     {
@@ -4715,24 +4997,24 @@
       "DesertTerror0",
       "Eye15"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 11
     },
     {
      "members": [
       "DesertTerror1"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "LesserDemon0"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
@@ -4740,24 +5022,24 @@
       "LesserDemon12",
       "Orbus19"
      ],
-     "add": 4,
-     "target": 6,
+     "add": 2,
+     "target": 4,
      "capacity": 6
     },
     {
      "members": [
       "AmphibiousTerror0"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus10"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
@@ -4765,16 +5047,16 @@
       "LesserDemon1",
       "Eye22"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "DesertTerror5"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
@@ -4783,8 +5065,8 @@
       "Eye23",
       "Orbus11"
      ],
-     "add": 9,
-     "target": 12,
+     "add": 3,
+     "target": 6,
      "capacity": 12
     },
     {
@@ -4792,80 +5074,80 @@
       "ReptilianTerror3",
       "Orbus12"
      ],
-     "add": 9,
-     "target": 11,
+     "add": 2,
+     "target": 4,
      "capacity": 12
     },
     {
      "members": [
       "Eye2"
      ],
-     "add": 6,
-     "target": 7,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye17"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Oculus0"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus6"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye13"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye14"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye4"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus5"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye12"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
@@ -4873,88 +5155,88 @@
       "Eye16",
       "Orbus7"
      ],
-     "add": 7,
-     "target": 9,
+     "add": 2,
+     "target": 4,
      "capacity": 9
     },
     {
      "members": [
       "Oculus1"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus8"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus20"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye0"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye18"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye19"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus9"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Eye24"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     },
     {
      "members": [
       "Orbus21"
      ],
-     "add": 4,
-     "target": 5,
+     "add": 1,
+     "target": 2,
      "capacity": 5
     },
     {
      "members": [
       "Orbus18"
      ],
-     "add": 5,
-     "target": 6,
+     "add": 1,
+     "target": 2,
      "capacity": 12
     }
    ]

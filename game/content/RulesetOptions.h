@@ -102,6 +102,10 @@ struct RulesetOptions
     // Fixed at new game, like the randomizer.
     RulesetChallengeMode challengeMode = RulesetChallengeMode::None;
     bool randomizer = false;
+    // Random loot (drops, chests) rolls weapons, armour, jewellery and artifacts from every mounted world's items; off,
+    // only from the map's own world, as its shops do (ItemGenerator::shopPoolAllows). Fixed at new game; the one
+    // option Standard games read too (devdocs/LOOT_POOL.md).
+    bool otherWorldsLoot = true;
     RulesetPreferences preferences;
 
     // Nightmare and the Doom modes cannot be left once chosen; Austerity keeps a changeable difficulty.
@@ -109,7 +113,7 @@ struct RulesetOptions
     bool operator==(const RulesetOptions &) const = default;
 };
 
-// The ruleset of one game. Standard games ignore the options.
+// The ruleset of one game. Standard games ignore the options but otherWorldsLoot.
 // The key of a ruleset's package among a save's required content packages: "rulesets/<id>".
 inline const std::string RulesetContentPackagePrefix = "rulesets/";
 

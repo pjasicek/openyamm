@@ -1,0 +1,98 @@
+# MM9 promotion playthrough 76, block E: the Paladin promotion (guide: side_b.yml find-itlor-a-job, its last step).
+# Sturmford to Lindisfarne by sea; the monastery walked to Grehgknak the Right again (actor 1, RUDE 282): "We have
+# completed our Crusades." (needs keys 157, the Oords, and 235, Sven's reward) and "Thank you." (key 236). The talk's
+# close (lindisfarnemonastery.lua 50409) pays 37 500 experience to each member and 5 000 gold, promotes every
+# Crusader to Hero (this party has none) and gives the done key 237. Checked: the gains against the values before
+# the talk, every member's class unchanged, and Grehgknak's first page then keeps "Promote our eligible characters."
+# (which promotes nobody here). The checkpoint stays beside him for segment 77's class table.
+# Research: prep/E_paladin_druid.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 76
+id: mm9.promotions.76_lindisfarne_crusades_done
+title: "MM9 promotions 76: the Crusades reported to Grehgknak: the Paladin rewards, nobody promoted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/74_sturmford_oords.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmfordcity.blv, qbit_set: [90157, 90235], qbit_clear: [90236, 90237]}
+
+  # The boat to Lindisfarne; the monastery's door.
+  - travel: {map: lindisfarne.blv, days: 4}
+  - set_pose: {map: lindisfarne.blv, x: -11250, y: -21240, z: 2734, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -11749, y: -21240, z: 2734, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarnemonastery.blv, state_dump_named_map_var: {name: MonksHostile, value: 0}}
+
+  # The nave, the crossing, the east transept's door, Grehgknak (as in segment 70).
+  - walk_to: {x: -330, y: 1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(1) == s and door_state(2) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 101 never shut") end
+        click(101)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 101 did not open") end
+  - walk_to: {via: [[-100, 1700, 1], [150, 2300, 1], [150, 5000, 1]], x: -100, y: 5600, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(3) == s and door_state(4) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 102 never shut") end
+        click(102)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 102 did not open") end
+  - walk_to: {via: [[-100, 6300, 1], [-100, 6700, 1], [600, 6700, 1]], x: 2350, y: 6390, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(37) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 105 never shut") end
+        click(105)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 105 did not open") end
+  - walk_to: {x: 3000, y: 6390, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 3700, y: 5200, z: -40, radius: 250, z_tolerance: 200, timeout_seconds: 120}
+
+  # The values before the report (gold, each member's experience, the classes), remembered for the check.
+  - play_lua:
+      source: |
+        local c = classes()
+        local n = 0 for _ in c:gmatch("%S+") do n = n + 1 end
+        remember("gold", gold()) remember("classes", c) remember("members", n)
+        for i = 0, n - 1 do remember("xp" .. i, experience(i)) end
+        log("CLASSES before: " .. c .. "; gold " .. gold())
+  - interact_actor: {actor_index: 1}
+  - assert: {dialog: {active: true, source_id: 282, action_label_absent: "Promote our eligible characters."}}
+  - select_topic: {match_label: "We have completed our Crusades."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90236, 90237], state_dump_named_map_var: {name: MonksHostile, value: 0}}
+  - play_lua:
+      source: |
+        local GOLD, XP = 5000, 37500
+        local c = classes()
+        log("CLASSES after: " .. c .. "; gold " .. gold())
+        if gold() - recall("gold") ~= GOLD then error("gold rose by " .. (gold() - recall("gold")) .. ", not " .. GOLD) end
+        for i = 0, recall("members") - 1 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= XP then error("member " .. i .. "'s experience rose by " .. xp .. ", not " .. XP) end
+        end
+        if c ~= recall("classes") then error("classes changed: " .. recall("classes") .. " -> " .. c) end
+  - play_lua: {source: 'log("Grehgknak paid 5 000 gold and 37 500 experience to each member; nobody promoted (no Crusader)")'}
+
+  # Done: his first page keeps "Promote our eligible characters.", and it has nobody to promote here.
+  - interact_actor: {actor_index: 1}
+  - assert: {dialog: {active: true, source_id: 282, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua: {source: 'log("CLASSES after the promotion topic: " .. classes())'}
+  - save_game: {name: "P76 Paladin quest done", path: output/playthrough/mm9/promotions/checkpoints/76_lindisfarne_crusades_done.oysav}

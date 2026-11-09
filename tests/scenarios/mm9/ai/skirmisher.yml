@@ -1,0 +1,52 @@
+id: mm9.ai.skirmisher
+title: MM9 skirmishers close in on MM9's crawler loop, strafe and evade around a standing party (BaseMelee footwork)
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). The arena hides The Arena's
+        own actors, spawns two Skeletoids and traces their decisions; monster 1 always strafes and evades. Since phase
+        2 their footwork sits on MM9's crawler loop: monster 1 taunts as it notices the party (40 %), and both wait to
+        arrive as their attack recovers.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: skirmisher.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: party, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: taunt_detect, target: party, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: throttle, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 2}
+  # Its own data (strafe 0.8, evade 0.4) strafes and evades within 20 s in this seeded run.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: strafe_attack, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: evade, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: strafe_attack, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: evade, min_count: 3}
+  # Every strike of the always-evading monster ends in an evade (the party stands, so never a circle).
+  - assert:
+      ai_trace: {arena_monster: 1, decision: circle, max_count: 0}
+  - assert:
+      ai_trace: {event: died, max_count: 0}
+  # Animation (MM9_ANIMATION_AUDIT.md): strikes on the run swing over the run (MM9's Top track), evades backpedal with
+  # the BackpedalRun clip (never the run reversed), and the legs no longer flicker between the attack and the run.
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: "main=Running layer=AttackMelee", min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: "main=BackpedalRun", min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: "blend=", max_in_window: {count: 3, seconds: 0.3}}
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: "blend=", max_in_window: {count: 3, seconds: 0.3}}

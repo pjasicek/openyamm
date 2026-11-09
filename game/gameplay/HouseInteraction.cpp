@@ -241,6 +241,10 @@ std::string noConditionToActText(const Character &member)
     return Engine::tr("{name} is in no condition to do anything", {{"name", member.name}});
 }
 
+// Normal temple donations improve reputation by this much, down to the first Friendly value.
+constexpr int TempleDonationReputationStep = 10;
+constexpr int TempleDonationReputationFloor = -6;
+
 int templeDonationTriggerIndexFromGameMinutes(float currentGameMinutes)
 {
     return dayOfMonthFromGameMinutes(currentGameMinutes) % 7;
@@ -2265,9 +2269,14 @@ HouseActionResult performHouseAction(
                 {
                     addStoredCurrentLocationReputation(*pWorldRuntime, 2);
                 }
-                else if (pWorldRuntime->currentLocationReputation() > -5)
+                else if (pWorldRuntime->currentLocationReputation() > TempleDonationReputationFloor)
                 {
-                    addStoredCurrentLocationReputation(*pWorldRuntime, -1);
+                    // OpenYAMM change: vanilla gives 1 point and stops at -5 (Neutral). A donation now repairs
+                    // TempleDonationReputationStep points down to Friendly, so robbed sarcophagi can be atoned.
+                    const int reputation = pWorldRuntime->currentLocationReputation();
+                    const int improvedReputation =
+                        std::max(TempleDonationReputationFloor, reputation - TempleDonationReputationStep);
+                    addStoredCurrentLocationReputation(*pWorldRuntime, improvedReputation - reputation);
                 }
 
                 if (EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState())

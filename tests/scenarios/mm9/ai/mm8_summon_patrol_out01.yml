@@ -1,0 +1,23 @@
+id: mm9.ai.mm8_summon_patrol_out01
+title: An outdoor script summon walks the patrol it was given (evt.SummonMonstersById patrol, MM6-MM8 AI)
+world: mm8
+mode: faithful
+tags: [mm8, actors, ai, arena, regression]
+steps:
+  - note:
+      text: >-
+        A peaceful MM8 Lizardman Peasant summoned by a map script with a two-waypoint patrol walks out to its far waypoint
+        (the waypoint is its home while nothing is in reach); before, a runtime spawn's patrol did not exist.
+  - new_game_flow:
+      start_map: out01.odm
+  - ai_arena: {path: mm8_summon_patrol_out01.arena.yml}
+  - lua_event:
+      source: >-
+        evt.SummonMonstersById({monster = 1, x = 4960, y = 7696, z = 0, radius = 0, hostile = false,
+        patrol = {{4960, 7696, 0}, {4260, 7696, 0}}})
+  - advance_runtime: {seconds: 8}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {actor_index: last, decision: return_home, detail: patrol, min_count: 1}
+  - assert:
+      actor_visible: {actor_index: last, far: {x: 4960, y: 7696, min_distance: 400}}

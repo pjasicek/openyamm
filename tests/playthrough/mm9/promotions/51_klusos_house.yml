@@ -1,0 +1,35 @@
+# MM9 promotion playthrough, segment 51: the knife from Kluso's House (guide: side_a.yml steal-the-knife). The house
+# is its own map, walked: from the front door (StartPoint0) south-west through the hall, killing the Guard Captains
+# awake on the ground floor, the library's double door (RotatingDoor0, event 110) clicked, to the mantle: the
+# "knife" is the Blackheart (a dagger, item 29), a world item whose pickup (event 75) gives key 223 and rings the
+# alarm: the hidden guards appear and the sleepers upstairs wake (they die). Back out by the front door
+# (ExitTrigger1, its prompt) into Drangheim City. The black chest beside the mantle (Black's Heart, the Chedian Chain)
+# is optional and left shut. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 51
+id: mm9.promotions.51_klusos_house
+title: "MM9 promotions 51: Kluso's House walked, the Blackheart taken, out by the front door"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/50_atli_tasks.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: klusoshouse.blv, qbit_set: [90222, 90225], qbit_clear: [90223]}
+
+  # The hall, then the library's double door, then the mantle.
+  - walk_to: {x: -130, y: -560, z: -20, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'for t = 1, 20 do if door_state(21) == "closed" and door_state(22) == "closed" then break end; wait(0.5) end; click(110); wait(1.5); log("library door: " .. door_state(21) .. " " .. door_state(22))'}
+  - walk_to: {x: -900, y: -950, z: 1, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - pick_up: {item_id: 10029, reach: 400}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90223]}
+  - play_lua: {source: 'if not has_item(10029) then error("no Blackheart in the packs") end; log("the Blackheart (the knife) is in the pack; the alarm rings")'}
+
+  # The alarm's guards die; back to the front door and out.
+  - clear_hostiles: {radius: 5000}
+  - walk_to: {x: 850, y: 840, z: 42, timeout_seconds: 90, clear_hostiles: 2500}
+  - walk_to: {x: 1000, y: 840, z: 42, plan: false, timeout_seconds: 20, clear_hostiles: 2500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv, qbit_set: [90223]}
+  - save_game: {name: "51 the Blackheart", path: output/playthrough/mm9/promotions/checkpoints/51_klusos_house.oysav}

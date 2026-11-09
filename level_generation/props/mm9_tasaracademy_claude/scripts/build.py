@@ -2,7 +2,7 @@
 ...) and work/<prop>_meta.json with the Anskram Keep's build (../mm9_anskramkeep_claude/scripts/build.py, run here
 with its paths pointed at this project and this project's PROPS): the isle's blib (asset frame = the raw import
 mirrored in X, clean, faces wound to the ABC's authored normals, open pieces on a double-sided copy of the material,
-smooth within 40 degrees, COLOR_0 occlusion, base centre at the origin), LODs from 250 triangles (native ABC LOD when
+smooth within 40 degrees, COLOR_0 occlusion, base centre at the origin), LODs from 1000 triangles (native ABC LOD when
 its count is near, else a collapse decimation), flame cards of the shared CC0 flipbook.
 
 Additions over the Anskram build, kept here: the tilted book has its placement pitch baked in (decorations turn about

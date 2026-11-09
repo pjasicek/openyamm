@@ -9,6 +9,7 @@
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
+#include "game/gameplay/ReputationRuntime.h"
 #include "game/gameplay/TravelRuntime.h"
 #include "game/items/AlchemyBenchRuntime.h"
 #include "game/items/ItemGenerator.h"
@@ -758,54 +759,6 @@ uint64_t fnv1a64(const std::vector<uint8_t> &bytes)
 
     return hash;
 }
-}
-
-TEST_CASE("Verdant dimensional travel topic hands off from dialogue to the travel selector")
-{
-    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
-    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
-    const std::vector<uint8_t> supportBytes =
-        readBinaryFileBytes(sourceRoot / "assets_dev/engine/scripts/common/event_support.lua");
-    const std::vector<uint8_t> crossContinentsBytes =
-        readBinaryFileBytes(sourceRoot / "assets_dev/engine/events/common/cross_continents_common.lua");
-    std::string error;
-    const std::optional<OpenYAMM::Game::ScriptedEventProgram> program =
-        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
-            std::string(supportBytes.begin(), supportBytes.end()) + "\n"
-                + std::string(crossContinentsBytes.begin(), crossContinentsBytes.end()),
-            "@Verdant dimensional travel",
-            OpenYAMM::Game::ScriptedEventScope::Global,
-            error);
-    REQUIRE_MESSAGE(program.has_value(), error.c_str());
-    OpenYAMM::Tests::RegressionGameData verdantData = gameData;
-    verdantData.globalEventProgram = program;
-
-    OpenYAMM::Tests::HouseDialogueTestHarness harness(verdantData);
-    harness.eventRuntimeState().namedGlobalVars["MMerge.CrossContinents.GotMainQuest"] = 1;
-    harness.eventRuntimeState().namedGlobalVars["MMerge.CrossContinents.GotConnectorStone"] = 1;
-    harness.eventRuntimeState().activeHookContext = OpenYAMM::Game::EventRuntimeState::ActiveHookContext{};
-    harness.eventRuntimeState().activeHookContext->kind = OpenYAMM::Game::EventRuntimeHookKind::NpcEnter;
-    harness.eventRuntimeState().activeHookContext->npcId = 803;
-    OpenYAMM::Game::EventRuntime eventRuntime = {};
-    REQUIRE(eventRuntime.executeHooks(
-        std::nullopt, program, OpenYAMM::Game::EventRuntimeHookKind::NpcEnter,
-        harness.eventRuntimeState(), &harness.party()));
-    harness.eventRuntimeState().activeHookContext.reset();
-    const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(803);
-    const std::optional<size_t> travelIndex = findActionIndexByLabel(dialog, "Dimensional travel");
-    REQUIRE(travelIndex.has_value());
-    CHECK_FALSE(dialogHasActionLabel(dialog, "Time Travel Guide"));
-    CHECK_EQ(harness.eventRuntimeState().npcTopicOverrides.at(803)[1], 0u);
-    CHECK_EQ(harness.eventRuntimeState().npcTopicOverrides.at(803)[2], 1788u);
-    const OpenYAMM::Game::GameplayDialogController::Result result =
-        harness.executeActiveDialogAction(*travelIndex);
-    CHECK(result.shouldCloseActiveDialog);
-    CHECK_FALSE(result.shouldOpenPendingEventDialog);
-    CHECK(harness.eventRuntimeState().pendingDimensionDoorOverlay);
-    harness.executeAndPresent(*travelIndex);
-    CHECK(harness.uiController().eventDialog().content.actions.empty());
-    CHECK_FALSE(harness.eventRuntimeState().pendingDialogueContext.has_value());
-    CHECK(harness.eventRuntimeState().pendingDimensionDoorOverlay);
 }
 
 TEST_CASE("dread pirate stanley false report keeps multiline npc text")
@@ -7631,6 +7584,86 @@ TEST_CASE("temple donate applies oe reputation gating and buffs")
     CHECK_EQ(
         harness.eventRuntimeState().spellFxRequests.front().spellId,
         OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Bless));
+}
+
+TEST_CASE("temple donations repair a bad reputation in steps of ten down to friendly")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pTempleHouse = gameData.houseTable.get(TempleHouseId);
+
+    REQUIRE(pTempleHouse != nullptr);
+
+    harness.party().addGold(5000);
+    const auto donate = [&]()
+    {
+        const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
+            OpenYAMM::Game::HouseActionOption{OpenYAMM::Game::HouseActionId::TempleDonate, "Donate", "", true, ""},
+            *pTempleHouse,
+            harness.party(),
+            &gameData.classSkillTable,
+            &harness.worldRuntime());
+        CHECK(result.succeeded);
+    };
+
+    harness.worldRuntime().setCurrentLocationReputation(600);
+    donate();
+    CHECK_EQ(harness.worldRuntime().currentLocationReputation(), 590);
+
+    harness.worldRuntime().setCurrentLocationReputation(1);
+    donate();
+    CHECK_EQ(harness.worldRuntime().currentLocationReputation(), -6);
+    CHECK_EQ(OpenYAMM::Game::reputationLevel(-6), OpenYAMM::Game::ReputationLevel::Friendly);
+
+    donate();
+    CHECK_EQ(harness.worldRuntime().currentLocationReputation(), -6);
+
+    harness.worldRuntime().setCurrentLocationReputation(-20);
+    donate();
+    CHECK_EQ(harness.worldRuntime().currentLocationReputation(), -20);
+}
+
+TEST_CASE("temple donations bless a fifth party member too")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pTempleHouse = gameData.houseTable.get(TempleHouseId);
+    const OpenYAMM::Game::RosterEntry *pExtraMember = gameData.rosterTable.get(3);
+
+    REQUIRE(pTempleHouse != nullptr);
+    REQUIRE(pExtraMember != nullptr);
+    REQUIRE(harness.party().recruitRosterMember(*pExtraMember));
+    REQUIRE(harness.party().members().size() == 5);
+    REQUIRE(harness.party().setActiveMemberIndex(4));
+
+    harness.party().addGold(5000);
+    harness.worldRuntime().advanceGameMinutes(24.0f * 60.0f);
+    harness.worldRuntime().setCurrentLocationReputation(-25);
+
+    for (int donationIndex = 0; donationIndex < 3; ++donationIndex)
+    {
+        const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
+            OpenYAMM::Game::HouseActionOption{
+                OpenYAMM::Game::HouseActionId::TempleDonate,
+                "Donate",
+                "",
+                true,
+                ""},
+            *pTempleHouse,
+            harness.party(),
+            &gameData.classSkillTable,
+            &harness.worldRuntime());
+
+        CHECK(result.succeeded);
+    }
+
+    CHECK_EQ(harness.eventRuntimeState().dialogueState.templeDonationCounters[4], 3);
+
+    const OpenYAMM::Game::PartyBuffState *pFeatherFall =
+        harness.party().partyBuff(OpenYAMM::Game::PartyBuffId::FeatherFall);
+
+    REQUIRE(pFeatherFall != nullptr);
+    CHECK(pFeatherFall->active());
 }
 
 TEST_CASE("empty house after departure")

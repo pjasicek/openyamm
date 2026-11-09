@@ -67,14 +67,19 @@ enum class LegendaryAffix : uint16_t
     MeleeSkills = 33,
 };
 
+// A world's item rows (world.yml idRanges items: MM9's 10000+).
+constexpr uint32_t MawWorldItemRows = 10000;
+
 // The rarity an item shows. An equipment item MAW never rolled (placed in a chest, sold in a shop, carried from the
 // start) ranks as Common plus one tier per enchantment, as MAW's tooltip colours its name (zzMaw-Items.lua:1722-1749)
-// and its loot filter ranks it (IT:933-944).
-MawRarity mawShownRarity(const InventoryItem &item)
+// and its loot filter ranks it (IT:933-944): MM6-MM8's weapons and armour (MAW's id ranges, the Blasters included) and
+// a world's that MAW gives a base (MM9's, rulesets/maw/worlds/mm9/item_bases.yml).
+MawRarity mawShownRarity(const InventoryItem &item, const MawItemData &data)
 {
     const MawRarity rarity = MawRarity(item.rulesetFields.lootRarity);
     const uint32_t id = item.objectDescriptionId;
-    const bool baseItem = (id >= 1 && id <= 151) || (id >= 803 && id <= 936) || (id >= 1603 && id <= 1736);
+    const bool baseItem = (id >= 1 && id <= 151) || (id >= 803 && id <= 936) || (id >= 1603 && id <= 1736)
+        || (id >= MawWorldItemRows && data.baseItem(id) != nullptr);
 
     if (rarity != MawRarity::None || !baseItem)
     {
@@ -88,9 +93,9 @@ MawRarity mawShownRarity(const InventoryItem &item)
 // The rarity an item's name is coloured by: MAW keeps the tiers from Ancient up and otherwise counts the item's
 // enchantments (MawCore/Tooltip.lua:364-391), so an item rolled or crafted Common and enchanted later shows them
 // (OY-438). The loot filter keeps ranking by mawShownRarity.
-MawRarity mawNameRarity(const InventoryItem &item)
+MawRarity mawNameRarity(const InventoryItem &item, const MawItemData &data)
 {
-    const MawRarity shown = mawShownRarity(item);
+    const MawRarity shown = mawShownRarity(item, data);
 
     if (shown == MawRarity::None || shown >= MawRarity::Ancient)
     {
@@ -911,10 +916,29 @@ constexpr uint32_t FirstSealedBookId = 971;
 constexpr std::array<const char *, 9> SealedBookSchools = {
     "Fire", "Air", "Water", "Earth", "Spirit", "Mind", "Body", "Light", "Dark"};
 
-// The school (1-9) of a spellbook that is sealed when found: the MM8 (400-498), MM7 (1202-1300) and MM6 (1902-2018)
-// books, 11 a school (13 for MM6); 0 for any other item.
-int sealableBookSchool(uint32_t itemId)
+// The spell (1-99) a world's spellbook teaches (MM9's 10901+: mod1 "S<spell>"); 0 for any other item.
+int worldBookSpell(const ItemDefinition &book)
 {
+    if (book.itemId < MawWorldItemRows || book.equipStat != "Book" || book.mod1.size() < 2 || book.mod1[0] != 'S')
+    {
+        return 0;
+    }
+
+    const int spell = std::atoi(book.mod1.c_str() + 1);
+    return spell >= 1 && spell <= 99 ? spell : 0;
+}
+
+// The school (1-9) of a spellbook that is sealed when found: the MM8 (400-498), MM7 (1202-1300) and MM6 (1902-2018)
+// books, 11 a school (13 for MM6), and a world's books by their spell; 0 for any other item.
+int sealableBookSchool(const ItemDefinition &book)
+{
+    const uint32_t itemId = book.itemId;
+
+    if (const int spell = worldBookSpell(book); spell > 0)
+    {
+        return (spell - 1) / 11 + 1;
+    }
+
     if (itemId >= 400 && itemId <= 498)
     {
         return int(itemId - 399 + 10) / 11;
@@ -943,9 +967,16 @@ int sealedBookSchool(const InventoryItem &item)
 }
 
 // A spellbook's place in its school, 1 (the first spell) to 11; MM6's thirteen books per school share places with their
-// neighbours (getBookTier). 0 for any other item.
-int spellbookTier(uint32_t itemId)
+// neighbours (getBookTier); a world's book by its spell. 0 for any other item.
+int spellbookTier(const ItemDefinition &book)
 {
+    const uint32_t itemId = book.itemId;
+
+    if (const int spell = worldBookSpell(book); spell > 0)
+    {
+        return (spell - 1) % 11 + 1;
+    }
+
     if (itemId >= 400 && itemId <= 498)
     {
         return int(itemId - 400) % 11 + 1;
@@ -980,7 +1011,7 @@ void MawItemRules::rollPlainItem(
     const ItemDefinition &itemDefinition,
     const ItemGenerationRequest &request) const
 {
-    if (const int school = sealableBookSchool(item.objectDescriptionId);
+    if (const int school = sealableBookSchool(itemDefinition);
         school > 0 && request.mode != ItemGenerationMode::Shop)
     {
         item.rulesetFields.craftState = uint16_t(item.objectDescriptionId);
@@ -1439,7 +1470,8 @@ std::optional<MawWeaponDamage> MawItemRules::weaponDamage(
         itemPower = mawItemPower(int(celestialLevel(wearerLevel)), MawRarity::Celestial, 24);
     }
 
-    return mawWeaponDamage(itemPower * 5.0, pBase->twoHanded, pBase->rung, pBase->diceCount, quality);
+    return mawWeaponDamage(
+        itemPower * 5.0, pBase->twoHanded, pBase->rung, pBase->diceCount, quality * pBase->strength);
 }
 
 std::optional<int> MawItemRules::weaponGuardBase(
@@ -1509,7 +1541,7 @@ std::optional<int> MawItemRules::armorClass(
         itemPower = mawItemPower(int(celestialLevel(wearerLevel)), MawRarity::Celestial, 24);
     }
 
-    return mawArmorClass(pBase->baseArmorClass, pBase->referenceArmorClass, itemPower, quality);
+    return mawArmorClass(pBase->baseArmorClass, pBase->referenceArmorClass, itemPower, quality * pBase->strength);
 }
 
 std::optional<ItemBaseStats> MawItemRules::baseStats(
@@ -1930,7 +1962,7 @@ int MawItemRules::shopBuyValue(
 
     // Road to Insanity: spellbooks cost 5, 10 or 20 times as much in shops from the 5th, 8th and 11th of their school
     // (zzMaw-Items.lua:2306-2324).
-    if (const int tier = spellbookTier(itemDefinition.itemId);
+    if (const int tier = spellbookTier(itemDefinition);
         tier > 0 && mawModelConfig(m_rules.options(), 5).insanityMode)
     {
         const int multiplier = tier == 11 ? 20 : tier >= 8 ? 10 : tier >= 5 ? 5 : 1;
@@ -2080,7 +2112,7 @@ bool MawItemRules::inventorySearch() const
 
 std::optional<uint32_t> MawItemRules::nameColor(const InventoryItem &item) const
 {
-    switch (mawNameRarity(item))
+    switch (mawNameRarity(item, m_rules.itemData()))
     {
         case MawRarity::Uncommon:
             return 0x1eff00;
@@ -2396,18 +2428,38 @@ std::optional<int> MawItemRules::merchantValue(const Character &member) const
     return std::min(7 + value, 100);
 }
 
+namespace
+{
+// MM6-MM8's magic shops (wands, jewellery) and alchemists sell MAW's crafting materials; MM9's "Magic" vendors sell
+// spellbooks only, and its apothecaries (rings, amulets, potions, scrolls) take the alchemist's and magic shop's place.
+bool magicShop(const HouseEntry &house)
+{
+    return house.type == "Magic Shop" && house.vendorStockProfile == VendorStockProfile::None;
+}
+
+bool sellsCraftingMaterials(const HouseEntry &house)
+{
+    return magicShop(house) || house.type == "Alchemist" || house.type == "Apothecary Shop";
+}
+}
+
+bool MawItemRules::rollsFixedShopStock() const
+{
+    return true;
+}
+
 std::optional<int> MawItemRules::shopRerollCost(const Party &, const HouseEntry &house) const
 {
-    if (house.type != "Weapon Shop" && house.type != "Armor Shop" && house.type != "Magic Shop")
+    if (house.type != "Weapon Shop" && house.type != "Armor Shop" && !magicShop(house))
     {
         return std::nullopt;
     }
 
-    // MMMerge's continents: Jadame (MM8) 1, Antagarich (MM7) 2, Enroth (MM6) 3.
-    const uint32_t continent = house.worldId == "mm7" ? 2 : house.worldId == "mm6" ? 3 : 1;
+    // MMMerge's continents: Jadame (MM8) 1, Antagarich (MM7) 2, Enroth (MM6) 3; MAW's Chedian (MM9) 5.
+    const uint32_t continent = house.worldId == "mm7" ? 2 : house.worldId == "mm6" ? 3 : house.worldId == "mm9" ? 5 : 1;
     const MawGameState &state = m_rules.state();
-    const double ownLevel = state.continentLevels[MawGameState::continentIndex(continent)];
-    const double partyLevel = state.levelOutside(4) - std::min(ownLevel / 2, 54.0);
+    const double ownLevel = state.levelOn(continent);
+    const double partyLevel = state.totalLevel() - std::min(ownLevel / 2, 54.0);
     const int strength = std::min(int(ownLevel / 18) + 2, 5);
     const int tier = int(std::floor(std::max(0.0, partyLevel) / 15)) + strength;
     return tier * tier * 250;
@@ -2422,7 +2474,7 @@ void MawItemRules::adjustShopStock(
 {
     const MawCraftingData &crafting = m_rules.craftingData();
 
-    if ((house.type != "Magic Shop" && house.type != "Alchemist") || crafting.gemTiers() <= 0
+    if (!sellsCraftingMaterials(house) || crafting.gemTiers() <= 0
         || m_rules.lootConfig().austerity)
     {
         return;
@@ -2449,7 +2501,7 @@ void MawItemRules::adjustShopStock(
     const double specialChance =
         std::min(std::pow(std::max(0, party.gold()) / crafting.shopSpecialGold(), 0.7), 1.0);
     const std::vector<double> &bonusWeights = crafting.shopGemTierBonusWeights();
-    const double bankedLevel = m_rules.state().levelOutside(4);
+    const double bankedLevel = m_rules.state().totalLevel();
 
     for (InventoryItem &item : stock)
     {
@@ -2521,7 +2573,7 @@ std::optional<std::string> MawItemRules::useTravelItem(Party &, const InventoryI
     std::string mapFileName = pMap->fileName;
     std::transform(mapFileName.begin(), mapFileName.end(), mapFileName.begin(),
         [](unsigned char character) { return char(std::tolower(character)); });
-    const std::vector<int16_t> &families = data.families(mapFileName.ends_with(".blv"));
+    const std::vector<int16_t> &families = data.families(!m_rules.outdoorMap(mapFileName));
     MawDimensionRun run;
     run.affixes = map.activeAffixes();
     run.power = map.power;
@@ -2555,6 +2607,13 @@ std::optional<LootFilterFacts> MawItemRules::lootFilterFacts(
     // Items without a price (the blasters, Wetsuit, quest artifacts) are never filtered; MAW's chest filter sold the
     // Control Center's blasters for nothing (DEVIATIONS 182).
     if (itemDefinition.value <= 0)
+    {
+        return std::nullopt;
+    }
+
+    // Crafting gems, cubes and the other Workbench materials carry the Gem stat but are no gems to sell: never
+    // filtered, and Sell trash never picks them.
+    if (m_rules.gameRules().crafting.isMaterial(item))
     {
         return std::nullopt;
     }
@@ -2601,7 +2660,7 @@ std::optional<LootFilterFacts> MawItemRules::lootFilterFacts(
         return std::nullopt;
     }
 
-    const MawRarity rarity = mawShownRarity(item);
+    const MawRarity rarity = mawShownRarity(item, m_rules.itemData());
     facts.rarity = std::min(int(rarity), LootFilterRarityCount);
     facts.itemLevel = item.rulesetFields.dropLevel;
     facts.alwaysKept = rarity >= MawRarity::Legendary || item.rulesetFields.legendaryAffixId != 0

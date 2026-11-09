@@ -1,0 +1,32 @@
+{
+  "world": "mm9",
+  "map": "traininghall.blv",
+  "units_per_texel": 16,
+  "page_size": 4096,
+  "padding": 2,
+  "samples": 64,
+  "bounces": 3,
+  "light_size": 24,
+  "direct_scale": 0.9,
+  "bounce_scale": 6.0,
+  "ambient_scale": 0.6,
+  "blur_radius": 2,
+  "dirlights": true,
+  "max_lighting": 1,
+  "emitters": [
+    {
+      "textures": [
+        "CLOUVKSJD0"
+      ],
+      "colour": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "strength": 1.0,
+      "display": 1.1,
+      "outward": false
+    }
+  ],
+  "sky_scale": 0.4
+}

@@ -1,0 +1,44 @@
+id: mm9.ai.njam
+title: MM9 Njam - the 1000 Terrors hunter (physical immunity, vanish at his threshold), the chase and the cut-scene Njam
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, boss]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Njam1000 hunts the party from the start; a physical hit does nothing
+        (CanDamage FALSE); spell hits at 6 s and 8 s bring him below his threshold and he vanishes a second after
+        (traced at the aggressive tick). NjamChase stands until its Chase trigger at 12 s, then hunts; NjamFreeze never
+        takes a target.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: njam.arena.yml}
+  - advance_runtime: {seconds: 4}
+  - damage_actor: {actor_index: last-2, amount: 500, tier: physical, expect: refused}
+  - advance_runtime: {seconds: 2}
+  - damage_actor: {actor_index: last-2, amount: 2500, tier: spell}
+  - advance_runtime: {seconds: 2}
+  - damage_actor: {actor_index: last-2, amount: 3000, tier: spell}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: hunt party start, before: 0.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: target, target: party, before: 0.3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, event: damaged, before: 5.9, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: vanish hp, after: 6, before: 8.3, min_count: 1, max_count: 1}
+  - assert:
+      actor_visible: {actor_index: last-2, hidden: true}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: script, detail: hunt party trigger, after: 12, before: 12.2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, before: 12, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, target: party, after: 12, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: detect, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: pursue, max_count: 0}

@@ -321,6 +321,14 @@ TEST_CASE("an MM9 hireling attacks in reach with attack 1, beyond it with attack
     CHECK(OpenYAMM::Game::chooseMm9HirelingAction(meleeOnly, true, true, 50).kind == Mm9HirelingActionKind::Melee);
     CHECK(OpenYAMM::Game::chooseMm9HirelingAction(meleeOnly, true, false, 50).kind == Mm9HirelingActionKind::None);
 
+    // Turn-based, the command swings attack 1 at the air rather than leaving the turn unspent.
+    action = OpenYAMM::Game::chooseMm9HirelingAction(melee, false, false, 50, true);
+    CHECK(action.kind == Mm9HirelingActionKind::Melee);
+    CHECK(action.pAttack == &melee.attack1);
+    CHECK(OpenYAMM::Game::chooseMm9HirelingAction(meleeOnly, true, false, 50, true).kind
+        == Mm9HirelingActionKind::Melee);
+    CHECK(OpenYAMM::Game::chooseMm9HirelingAction(melee, true, false, 50, true).kind == Mm9HirelingActionKind::Ranged);
+
     // The first spell up to spell1_share_percent, then the second; in reach or not, aimed or not.
     const Mm9Hireling caster = casterRow();
     action = OpenYAMM::Game::chooseMm9HirelingAction(caster, true, true, 60);

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import unittest
 
-from tools.mm9_import_discovery.mm9_scr_to_lua import ScrCompileError, compile_rude_exit
+from tools.mm9_import_discovery.mm9_scr_to_lua import ScrCompileError, compile_rude_exit, load_quest_xp_profile
 
 
 class Mm9ScrToLuaTests(unittest.TestCase):
@@ -34,6 +34,28 @@ exit
         self.assertIn("MM9.giveKey(496)", lua)
         self.assertIn('MM9.giveItem(579, "NPC436.scr:9")', lua)
         self.assertNotIn("if not MM9.giveItem", lua)
+
+    def test_emits_only_the_variables_the_routines_use(self) -> None:
+        source = """
+#number g_nTemp
+#number g_nUnused = 7
+#number talking = 0
+:OnRude
+HasKey 475 g_nTemp
+talking = 1
+exit
+:Main
+OnRudeExit OnRude
+exit
+"""
+        compiled = compile_rude_exit(source, "NPC436.scr", 207)
+
+        self.assertIsNotNone(compiled)
+        assert compiled is not None
+        lua = "\n".join(compiled.lua_lines)
+        self.assertIn('state["g_ntemp"] = MM9.scrValue(207, "g_ntemp", 0)', lua)
+        self.assertIn('MM9.setScrValue(207, "talking", state["talking"])', lua)
+        self.assertNotIn("g_nunused", lua)
 
     def test_missing_item_operations_do_not_abort_later_state_changes(self) -> None:
         source = """
@@ -187,6 +209,45 @@ AddTrigger Use, OnUse
         self.assertIn('if state["unconscious"]==1 then', lua)
         self.assertIn("MM9.openRude(132)", lua)
 
+    def test_compiles_dorude_use_rewards_then_opens_the_object_dialogue(self) -> None:
+        source = """
+#number Talking
+:OnUse
+givekey 480
+haskey 365 g_ntemp
+if (g_ntemp==FALSE)
+    givekey 365
+    giveexp 800
+endif
+Set Talking, TRUE
+Stop
+Gosub BasewanderStop
+getparam 0 g_hobject
+FaceObject g_hobject 200 DoNothing
+playanim bow DoNothing
+exit
+:Main
+AddTrigger Use, OnUse
+"""
+        include = """
+:BaseWanderStop
+stop
+exit
+"""
+        self.assertIsNone(compile_rude_exit(source, "YRSA.scr", 46))
+        compiled = compile_rude_exit(
+            source, "YRSA.scr", 46, include_sources=[("BASEWANDER.inc", include)], dorude_id=1)
+
+        self.assertIsNotNone(compiled)
+        assert compiled is not None
+        self.assertEqual(compiled.use_event_id, 53046)
+        lua = "\n".join(compiled.lua_lines)
+        self.assertIn("MM9.giveKey(480)", lua)
+        self.assertIn("MM9.giveExperience(800)", lua)
+        self.assertIn('MM9.excludedActorOperation("external routine basewanderstop")', lua)
+        self.assertNotIn("routine_basewanderstop()", lua)
+        self.assertTrue(lua.rstrip().endswith('MM9.openRude(1)\nend, "MM9 RUDE Use 46")'))
+
     def test_compiles_found_player_entry_point(self) -> None:
         source = """
 #number bSpokeTo
@@ -217,6 +278,69 @@ OnPostStartWorld Init
         self.assertIn('MM9.setScrValue(207, "bspoketo", state["bspoketo"])', lua)
         self.assertIn("MM9.openRude(436)", lua)
         self.assertIn('MM9.playSound("voices\\\\npc\\\\NPC_249.wav")', lua)
+
+
+    def test_balances_quest_experience_from_the_profile(self) -> None:
+        source = """
+:OnRude
+gosub Gladiator
+gosub Labor
+exit
+:Gladiator
+HasKey 26 g_nTemp
+if (g_nTemp==TRUE)
+    GiveExp 63000
+endif
+exit
+:Labor
+GiveExp 63000
+exit
+:Main
+OnRudeExit OnRude
+exit
+"""
+        profile = {("npc61.scr", "gladiator", 63000): 37500}
+        compiled = compile_rude_exit(source, "NPC61.scr", 61, quest_xp_profile=profile)
+
+        assert compiled is not None
+        lua = "\n".join(compiled.lua_lines)
+        self.assertIn("MM9.giveExperience(37500) -- MM9 GiveExp 63000, mm9_quest_xp_profile.yml", lua)
+        # Only the profiled routine changes; the same amount elsewhere in the script keeps its original value.
+        self.assertIn("MM9.giveExperience(63000)", lua)
+
+    def test_balances_quest_experience_in_an_included_routine(self) -> None:
+        source = """
+#include United.inc
+:OnRude
+gosub united
+exit
+:Main
+OnRudeExit OnRude
+exit
+"""
+        include = """
+:united
+Haskey 83, g_nTemp
+if (g_nTemp==1)
+    GiveKey 179
+    GiveExp 26500
+endif
+exit
+"""
+        profile = {("united.inc", "united", 26500): 18750}
+        compiled = compile_rude_exit(
+            source, "NPC87.scr", 87, [("United.inc", include)], quest_xp_profile=profile)
+
+        assert compiled is not None
+        self.assertIn("MM9.giveExperience(18750) -- MM9 GiveExp 26500", "\n".join(compiled.lua_lines))
+
+    def test_quest_experience_profile_loads(self) -> None:
+        profile = load_quest_xp_profile()
+
+        self.assertGreater(len(profile), 0)
+        for (script, routine, original), xp in profile.items():
+            self.assertTrue(script.endswith((".scr", ".inc")), script)
+            self.assertLess(xp, original, (script, routine))
 
 
 if __name__ == "__main__":

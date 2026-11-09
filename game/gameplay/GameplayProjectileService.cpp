@@ -2122,15 +2122,19 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
     }
 
     // In turn-based mode a party shot the queue waits on is removed once it is more than 5120 from the party
-    // (MM8 0x472d20; OE SpriteObject::updateObjects).
-    if (facts.turnBasedActive && projectile.turnBasedPendingAction)
+    // (MM8 0x472d20; OE SpriteObject::updateObjects). The party's hit reach does the same in real time.
+    constexpr float TurnBasedObjectRange = 5120.0f;
+    const float shotReach = facts.turnBasedActive && projectile.turnBasedPendingAction
+        ? TurnBasedObjectRange
+        : projectile.sourceKind == ProjectileState::SourceKind::Party ? facts.partyShotReach : 0.0f;
+
+    if (shotReach > 0.0f)
     {
-        constexpr float TurnBasedObjectRange = 5120.0f;
         const float dx = projectile.x - facts.partyPosition.x;
         const float dy = projectile.y - facts.partyPosition.y;
         const float dz = projectile.z - facts.partyPosition.z;
 
-        if (dx * dx + dy * dy + dz * dz > TurnBasedObjectRange * TurnBasedObjectRange)
+        if (dx * dx + dy * dy + dz * dz > shotReach * shotReach)
         {
             result.expireProjectile = true;
             return result;

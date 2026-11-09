@@ -1285,3 +1285,34 @@ TEST_CASE("in turn-based mode a party shot the queue waits on vanishes beyond 51
     unwaited.turnBasedPendingAction = false;
     CHECK_FALSE(service.updateProjectileFrame(unwaited, facts).expireProjectile);
 }
+
+TEST_CASE("the party's hit reach makes real-time party shots vanish beyond it")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileState projectile = makePartyProjectile(10);
+    projectile.lifetimeTicks = 768;
+    projectile.x = 6000.0f;
+    projectile.velocityX = 4000.0f;
+
+    GameplayProjectileService::ProjectileFrameFacts facts = {};
+    facts.deltaSeconds = 1.0f / 128.0f;
+    facts.partyPosition = {0.0f, 0.0f, 0.0f};
+
+    // Without a reach (monster shots), the shot keeps flying.
+    GameplayProjectileService::ProjectileState unlimitedShot = projectile;
+    CHECK_FALSE(service.updateProjectileFrame(unlimitedShot, facts).expireProjectile);
+
+    // The party's: 5120, the yellow alert and turn-based reach (GameplayActorService::partyHitReach).
+    facts.partyShotReach = 5120.0f;
+    GameplayProjectileService::ProjectileState farShot = projectile;
+    CHECK(service.updateProjectileFrame(farShot, facts).expireProjectile);
+
+    GameplayProjectileService::ProjectileState nearShot = projectile;
+    nearShot.x = 5000.0f;
+    CHECK_FALSE(service.updateProjectileFrame(nearShot, facts).expireProjectile);
+
+    // A monster's missile is not the party's shot.
+    GameplayProjectileService::ProjectileState monsterShot = projectile;
+    monsterShot.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Actor;
+    CHECK_FALSE(service.updateProjectileFrame(monsterShot, facts).expireProjectile);
+}

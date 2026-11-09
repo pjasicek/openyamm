@@ -1,0 +1,18 @@
+id: mm9.ai.perception_placed_sight
+title: A placed MM9 monster facing the party sees it at its sight range, not beyond
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). Drangheim Prison's Nagate
+        Elder (actor 39) faces about 215 degrees; the party stands 1 444 units along that facing, 0.94 of its 1 536
+        sight and beyond its 369 hearing (MM9_AI_NATIVE_RE.md section 5.3). It notices the party on its first AI step.
+  - new_game_flow:
+      start_map: drangheimprison.blv
+  - ai_arena: {path: perception_placed_sight.arena.yml}
+  - advance_runtime: {seconds: 1}
+  - ai_trace_dump: {actor_index: 39, decisions_only: true}
+  - assert:
+      ai_trace: {actor_index: 39, decision: detect, target: party, before: 0.1, min_count: 1}

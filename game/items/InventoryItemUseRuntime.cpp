@@ -21,11 +21,8 @@ constexpr int MinutesPerDay = 24 * 60;
 constexpr int DaysPerMonth = 28;
 constexpr uint32_t GreenAppleItemId = 655;
 constexpr uint32_t HorseshoeItemId = 656;
-constexpr uint32_t DimensionDoorScrollItemId = 190;
 // A spell scroll casts at skill 7, Master, as in MMerge (ExtraEvents.lua PlayerCastSpell; the original games used 5).
 constexpr uint32_t ScrollSpellSkillLevel = 7;
-constexpr uint32_t ChargedConnectorStoneItemId = 624;
-constexpr uint32_t DischargedConnectorStoneItemId = 625;
 constexpr uint32_t DeckOfFateItemId = 2067;
 constexpr uint32_t ExtraPotionPlayerBitBase = 200000;
 
@@ -655,11 +652,7 @@ bool isFoodItem(const InventoryItem &item, const ItemDefinition &itemDefinition)
 
 std::optional<SoundId> instrumentSoundId(const ItemDefinition &itemDefinition)
 {
-    if (itemNameContains(itemDefinition, "lute"))
-    {
-        return SoundId::LuteGuitar;
-    }
-
+    // The flutes first: "flute" and "pan flute" contain "lute".
     if (itemNameContains(itemDefinition, "faerie pipes")
         || itemNameContains(itemDefinition, "pan flute")
         || itemNameContains(itemDefinition, "panflute"))
@@ -667,14 +660,19 @@ std::optional<SoundId> instrumentSoundId(const ItemDefinition &itemDefinition)
         return SoundId::PanFlute;
     }
 
-    if (itemNameContains(itemDefinition, "trumpet"))
-    {
-        return SoundId::Trumpet;
-    }
-
     if (itemNameEquals(itemDefinition, "flute"))
     {
         return SoundId::Flute;
+    }
+
+    if (itemNameContains(itemDefinition, "lute"))
+    {
+        return SoundId::LuteGuitar;
+    }
+
+    if (itemNameContains(itemDefinition, "trumpet"))
+    {
+        return SoundId::Trumpet;
     }
 
     return std::nullopt;
@@ -888,17 +886,6 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::None;
     }
 
-    if (item.objectDescriptionId == DimensionDoorScrollItemId)
-    {
-        return InventoryItemUseAction::UseDimensionDoorScroll;
-    }
-
-    if (item.objectDescriptionId == ChargedConnectorStoneItemId
-        || item.objectDescriptionId == DischargedConnectorStoneItemId)
-    {
-        return InventoryItemUseAction::UseConnectorStone;
-    }
-
     if (lowerAscii(pItemDefinition->useAction) == "learnskill")
     {
         return InventoryItemUseAction::LearnSkill;
@@ -1074,32 +1061,6 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.handled = true;
             result.consumed = true;
             result.spellId = *spellId;
-            result.spellSkillLevelOverride = ScrollSpellSkillLevel;
-            result.spellSkillMasteryOverride = SkillMastery::Master;
-            result.spellBypassRequiredMastery = true;
-            return result;
-        }
-
-        case InventoryItemUseAction::UseDimensionDoorScroll:
-        {
-            if (!canUseSpellItem(*pTargetMember))
-            {
-                return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
-            }
-
-            if (context.underwater)
-            {
-                return makeFailure(result.action, Engine::tr("You can not do that while you are underwater!"));
-            }
-
-            if (pTargetMember->recoverySecondsRemaining > 0.0f)
-            {
-                return makeFailure(result.action, Engine::tr("That player is not active"));
-            }
-
-            result.handled = true;
-            result.consumed = true;
-            result.spellId = spellIdValue(SpellId::TownPortal);
             result.spellSkillLevelOverride = ScrollSpellSkillLevel;
             result.spellSkillMasteryOverride = SkillMastery::Master;
             result.spellBypassRequiredMastery = true;
@@ -1516,12 +1477,6 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             return makeFailure(result.action, itemCannotBeUsedStatusText(*pItemDefinition));
         }
 
-        case InventoryItemUseAction::UseConnectorStone:
-        {
-            result.handled = true;
-            return result;
-        }
-
         case InventoryItemUseAction::Equip:
         case InventoryItemUseAction::None:
         default:
@@ -1529,6 +1484,11 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             return makeFailure(result.action, itemCannotBeUsedStatusText(*pItemDefinition));
         }
     }
+}
+
+std::optional<SoundId> InventoryItemUseRuntime::instrumentSound(const ItemDefinition &itemDefinition)
+{
+    return instrumentSoundId(itemDefinition);
 }
 
 std::optional<uint32_t> InventoryItemUseRuntime::scrollSpellId(const ItemDefinition &itemDefinition)

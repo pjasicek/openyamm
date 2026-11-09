@@ -1,4 +1,5 @@
 #include "game/ui/GameplayPartyOverlayRenderer.h"
+#include "game/ui/GameplayBattleOrders.h"
 #include "engine/Localization.h"
 #include "engine/Utf8Text.h"
 #include "game/ui/CalendarText.h"
@@ -37,6 +38,7 @@
 #include "game/ui/GameplayJournalProgress.h"
 #include "game/ui/GameplayJournalTrainers.h"
 #include "game/party/SkillData.h"
+#include "game/party/WorldSpells.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
@@ -1646,7 +1648,7 @@ size_t quickReferenceSkillCount(const Character &character)
     return count;
 }
 
-std::string quickReferenceSpellName(const Character &character, const SpellTable *pSpellTable, const SpellRules &rules)
+std::string quickReferenceSpellName(const Character &character, const SpellTable *pSpellTable, const Party *pParty)
 {
     if (character.quickSpellName.empty())
     {
@@ -1654,9 +1656,9 @@ std::string quickReferenceSpellName(const Character &character, const SpellTable
     }
 
     const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findByName(character.quickSpellName, spellKnownBy(character)) : nullptr;
-    const std::string ruleName = pSpell != nullptr ? rules.spellName(character, *pSpell) : std::string();
+    const std::string ruleName = pSpell != nullptr ? partySpellName(pParty, character, *pSpell) : std::string();
 
-    // A class's own name for the spell replaces the table's short name.
+    // A class's or a world's own name for the spell (MAW's, MM9's Fleet Foot) replaces the table's short name.
     if (pSpell != nullptr && ruleName != pSpell->name)
     {
         return Engine::localizeKnown(ruleName);
@@ -3436,9 +3438,11 @@ void GameplayPartyOverlayRenderer::renderQuickReferenceOverlay(GameplayScreenRun
         renderMemberRow(
             memberIndex,
             13,
-            quickReferenceSpellName(character, context.spellTable(), gameRulesFor(pParty).spells),
+            quickReferenceSpellName(character, context.spellTable(), pParty),
             defaultColor);
     }
+
+    GameplayBattleOrders::renderQuickReferenceOrders(context, width, height);
 
     const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
     const EventRuntimeState *pEventRuntimeState =
@@ -5244,6 +5248,23 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
             context.submitHudTexturedQuad(*texture, drawResolved.x, drawResolved.y, drawResolved.width, drawResolved.height);
         }
 
+        // Every continent this installation has towns on; Dimension Door's single map has no buttons.
+        const std::vector<GameplayTownPortalContinent> &continents = context.townPortalContinents();
+
+        for (size_t index = 0; continents.size() > 1 && index < continents.size()
+             && index < TownPortalContinentButtonCount; ++index)
+        {
+            const std::string label = Engine::localize(continents[index].label);
+            GameplayUiSkin::renderButton(
+                context,
+                townPortalContinentButtonId(index),
+                width,
+                height,
+                index == context.townPortalContinentIndex(),
+                true,
+                &label);
+        }
+
         const GameplayScreenRuntime::HudLayoutElement *pCloseLayout =
             context.findHudLayoutElement("TownPortalCloseButton");
 
@@ -5864,7 +5885,61 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(GameplayScreenRuntime 
         return;
     }
 
-    renderLayoutPrimaryAsset(pSchoolDefinition->pPageLayoutId);
+    // A class with its own spellbook look (MAW's Death Knight and Thief lines) draws its own page, tabs and spell
+    // pictures; everything else is the standard book.
+    const SpellbookSkin *pSkin = activeSpellbookSkin(context.partyReadOnly());
+    const SpellbookSkinPage *pSkinPage = activeSpellbookSkinPage(context.partyReadOnly(), spellbook.school);
+    const auto renderSkinAsset =
+        [&resolvedRoot, &loadHudTexture, &submitTexturedQuad](const char *pAsset, const SpellbookSkinRect &rect)
+        {
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = loadHudTexture(pAsset);
+
+            if (texture)
+            {
+                const GameplayScreenRuntime::ResolvedHudLayoutElement screen =
+                    spellbookSkinScreenRect(*resolvedRoot, rect);
+                submitTexturedQuad(*texture, screen.x, screen.y, screen.width, screen.height);
+            }
+        };
+
+    if (pSkinPage != nullptr)
+    {
+        renderSkinAsset(pSkinPage->pPageAsset, {0, 0, 640, 480});
+    }
+    else
+    {
+        renderLayoutPrimaryAsset(pSchoolDefinition->pPageLayoutId);
+    }
+
+    const std::vector<SpellbookSkinTab> skinTabs = pSkin != nullptr
+        ? spellbookSkinTabs(*pSkin, [&context](SpellbookSchool school)
+            {
+                return context.activeMemberHasSpellbookSchool(school);
+            })
+        : std::vector<SpellbookSkinTab>();
+
+    for (const SpellbookSkinTab &tab : skinTabs)
+    {
+        const bool isActive = tab.school == spellbook.school;
+
+        if (tab.pPage != nullptr)
+        {
+            renderSkinAsset(isActive ? tab.pPage->pTabSelectedAsset : tab.pPage->pTabAsset, tab.rect);
+            continue;
+        }
+
+        // Another school (a racial page): its standard tab art at the stacked place.
+        const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(tab.school);
+        const GameplayScreenRuntime::HudLayoutElement *pLayout =
+            pDefinition != nullptr ? context.findHudLayoutElement(pDefinition->pButtonLayoutId) : nullptr;
+
+        if (pLayout != nullptr)
+        {
+            const std::string &asset =
+                isActive && !pLayout->pressedAsset.empty() ? pLayout->pressedAsset : pLayout->primaryAsset;
+            renderSkinAsset(asset.c_str(), tab.rect);
+        }
+    }
 
     bool hasAnySpellbookSchool = false;
 
@@ -5879,6 +5954,11 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(GameplayScreenRuntime 
 
     for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
     {
+        if (!skinTabs.empty())
+        {
+            break;
+        }
+
         if (!context.activeMemberHasSpellbookSchool(definition.school)
             && !(definition.school == GameplayUiController::SpellbookSchool::Fire && !hasAnySpellbookSchool))
         {
@@ -5982,26 +6062,27 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(GameplayScreenRuntime 
         };
 
     renderInteractiveButton("SpellbookCloseButton");
-    renderInteractiveButton("SpellbookQuickCastButton");
     renderInteractiveButton("SpellbookAttackCastButton");
+    renderInteractiveButton("SpellbookQuickCastButton");
+    renderInteractiveButton("SpellbookBattleOrdersButton");
 
-    // MMMerge's extra quick spell slots, numbered (ExtraQuickSpells.lua).
-    for (size_t slot = 1; slot <= ExtraQuickSpellSlotCount; ++slot)
+    if (pSkinPage != nullptr)
     {
-        const std::string layoutId = "SpellbookQuickSpellSlot" + std::to_string(slot);
-        renderInteractiveButton(layoutId);
-        const GameplayScreenRuntime::HudLayoutElement *pLabel = context.findHudLayoutElement(layoutId + "Label");
-        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> labelRect = pLabel != nullptr
-            ? context.resolveHudLayoutElement(layoutId + "Label", width, height, pLabel->width, pLabel->height)
-            : std::nullopt;
-
-        if (labelRect)
+        for (const SpellbookSkinSpell &spell : pSkinPage->spells)
         {
-            context.renderLayoutLabel(*pLabel, *labelRect, pLabel->labelText);
+            if (!context.activeMemberKnowsSpell(spell.spellId))
+            {
+                continue;
+            }
+
+            const bool isHighlighted = spellbook.selectedSpellId == spell.spellId
+                || GameplayHudCommon::isPointerInsideResolvedElement(
+                    spellbookSkinScreenRect(*resolvedRoot, spell.rect), mouseX, mouseY);
+            renderSkinAsset(isHighlighted ? spell.pHighlightedAsset : spell.pAsset, spell.rect);
         }
     }
 
-    for (uint32_t spellOffset = 0; spellOffset < pSchoolDefinition->spellCount; ++spellOffset)
+    for (uint32_t spellOffset = 0; pSkinPage == nullptr && spellOffset < pSchoolDefinition->spellCount; ++spellOffset)
     {
         const uint32_t spellOrdinal = spellOffset + 1;
         const uint32_t spellId = pSchoolDefinition->firstSpellId + spellOffset;
@@ -6164,11 +6245,13 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(GameplayScreenRuntime 
         "SpellbookSelectLabel",
         hasSelectedSpell && pActiveMember != nullptr
             ? Engine::tr("Select {spell}", {{"spell",
-                Engine::localizeKnown(gameRulesFor(pParty).spells.spellName(*pActiveMember, *pSelectedSpell))}})
+                Engine::localizeKnown(partySpellName(pParty, *pActiveMember, *pSelectedSpell))}})
             : std::string());
     renderSpellbookTopLabel(
         "SpellbookCasterName",
         pActiveMember != nullptr ? pActiveMember->name : std::string());
+    GameplayBattleOrders::renderSpellMenu(context, width, height);
+    GameplayBattleOrders::render(context, width, height);
 }
 
 void GameplayPartyOverlayRenderer::renderHeldInventoryItem(GameplayScreenRuntime &context, int width, int height)

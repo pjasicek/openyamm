@@ -1,0 +1,123 @@
+# MM9 playthrough, segment 13: Ivsar Forktooth out of Drangheim Prison (guide: Chapter I, Sturmford, "Rescue Ivsar
+# Forktooth"). Out of Drangheim City to the prison's front door (outdoors the party is placed). The prison is walked:
+# the clerk's Visitor's Pass ("We want to get into the prison.", "Alright.", "No.", "No.", "Uhhh, no.": key 5007,
+# item 446), the two gate guards step aside when told "We want to get in." (MM9's people are solid here: they stand
+# in the only way past the counter), the entry and hall doors, the stairs up three storeys and the stair tower to the
+# top floor; the guard station's levers 205 (Ivsar's cell) and 203 (Antoni's); Ivsar ("We've come to take you back
+# to Sturmford.", "We've been sent by Bjarni Thorvaldssen to rescue you.": key 17) slips out and the alarm sounds
+# (key 5006: the guards turn hostile and die). Out the same way; Ivsar waits outside and heads for Sturmford's tavern
+# (key 242). Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 13
+id: mm9.playthrough.13_drangheim_prison
+title: "MM9 playthrough 13: a Visitor's Pass, the top floor's levers and Ivsar Forktooth freed"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/11_drangheim_sigmund.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheimcity.blv, qbit_set: [90012], qbit_clear: [90017, 90242, 95007]}
+
+  # Out of the city by its gate, to the prison's front door in the region's south-west.
+  - set_pose: {map: drangheimcity.blv, x: 10000, y: -4178, z: 1010, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9667, y: -4178, z: 1311, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - set_pose: {map: drangheim.blv, x: -8359, y: -16250, z: 1989, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8359, y: -16583, z: 1989, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimprison.blv}
+
+  # Between the gate guards to the clerk's counter (Guard2, actor 54, RUDE 426): the Visitor's Pass.
+  - walk_to: {via: [[-2171, -7000, -2231]], x: -2171, y: -6550, z: -2231, plan: false, timeout_seconds: 30}
+  - interact_actor: {actor_index: 54}
+  - select_topic: {match_label: "We want to get into the prison."}
+  - select_topic: {match_label: "Alright."}
+  - select_topic: {match_label: "No."}
+  - select_topic: {match_label: "No."}
+  - select_topic: {match_label: "Uhhh, no."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [95007], qbit_clear: [95006]}
+  - play_lua: {source: 'if not has_item(10446) then error("no Visitor''s Pass from the clerk") end; log("the Visitor''s Pass is in the pack")'}
+  # The gate guards (actors 52 and 53, RUDE 425) let a pass holder by: each steps aside.
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want to get in."}
+  - select_topic: {match_label: "Alright.  Anything else?"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 53}
+  - select_topic: {match_label: "We want to get in."}
+  - select_topic: {match_label: "Alright.  Anything else?"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {state_dump_named_map_var: {name: AsideGuard0, value: 1}}
+
+  # Round the counter to the entry door, through the hall's double door, up the stairs: the main storey, the middle
+  # cells, the stair tower to the top floor (its elevator door).
+  - walk_to: {via: [[-2171, -6950, -2231]], x: -2171, y: -6250, z: -2231, timeout_seconds: 30}
+  - play_lua: {source: 'click(123); wait(2.5)'}
+  - walk_to: {via: [[-2023, -5943, -2229], [-2007, -5191, -2232]], x: -1250, y: -4250, z: -2232, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'click(116); wait(1.5)'}
+  - walk_to: {via: [[-935, -3895, -2229]], x: -1383, y: -3447, z: -2232, plan: false, timeout_seconds: 30}
+  - walk_to: {via: [[-2007, -3447, -2232], [-2295, -3159, -2232], [-2343, -2439, -2232]], x: -2535, y: -1639, z: -1905, timeout_seconds: 60}
+  - walk_to: {via: [[-2807, -1335, -1905], [-3527, -1319, -1905], [-3655, -1255, -1905]], x: -3655, y: -407, z: -1577, timeout_seconds: 60}
+  - walk_to: {via: [[-3847, -215, -1577], [-4391, 456, -1577], [-4295, 776, -1577], [-2695, 776, -1065], [-2695, 1352, -1065],
+              [-5127, 1352, -451], [-5255, 1128, -410]], x: -4903, y: 776, z: -410, timeout_seconds: 90}
+  - walk_to: {x: -4500, y: 776, z: -250, timeout_seconds: 30}
+  - play_lua: {source: 'click(122); wait(2)'}
+  - walk_to: {via: [[-4007, 776, -82], [-3799, 616, -82], [-3495, 600, -82]], x: -3271, y: 488, z: -82, timeout_seconds: 60}
+
+  # The guard station (its door swings shut 5 s after it opens, and the guards open it too: the party waits for it
+  # to close, then clicks it from the landing): lever 205 opens Ivsar's cell, 203 Antoni's.
+  - walk_to: {x: -3080, y: 480, z: -82, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'wait(6); click(103); wait(2.5)'}
+  - walk_to: {via: [[-3250, 330, -82], [-3600, 330, -82]], x: -3550, y: 0, z: -82, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'click(205); wait(1); click(203); wait(1)'}
+  - walk_to: {x: -3600, y: 330, z: -82, plan: false, timeout_seconds: 20}
+  - play_lua: {source: 'wait(6); click(103); wait(2.5)'}
+
+  # Along the cell corridor (south of the guard there) into Ivsar's cell, the last on the south side.
+  - walk_to: {via: [[-3250, 280, -82], [-3000, 20, -82], [-1800, 20, -82]], x: -1147, y: 20, z: -82, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -1147, y: -342, z: -82, plan: false, timeout_seconds: 30}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "We've come to take you back to Sturmford."}
+  - select_topic: {match_label: "We've been sent by Bjarni Thorvaldssen to rescue you."}
+  - select_topic: {match_label: "Let's go."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90017, 95006], actor_visible: {actor_index: 41, hidden: true}}
+
+  # The alarm: every guard turns hostile (they die: combat is not tested). Out the same way.
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {via: [[-1147, 20, -82]], x: -3100, y: 150, z: -82, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'wait(6); click(103); wait(2.5)'}
+  - walk_to: {via: [[-3300, 300, -82], [-3300, 500, -82], [-3300, 650, -82], [-3835, 650, -82]], x: -3950, y: 776, z: -82, plan: false,
+              timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'wait(6); click(122); wait(2)'}
+  - walk_to: {via: [[-4007, 776, -82], [-4400, 776, -200], [-4903, 776, -410], [-5255, 1128, -410], [-5127, 1352, -451], [-2695, 1352, -1065],
+              [-2695, 776, -1065], [-4295, 776, -1577], [-4391, 456, -1577], [-3847, -215, -1577], [-3655, -407, -1577], [-3655, -1255, -1905],
+              [-3527, -1319, -1905], [-2807, -1335, -1905], [-2535, -1639, -1905], [-2343, -2439, -2232], [-2295, -3159, -2232],
+              [-2007, -3447, -2232], [-1383, -3447, -2232]], x: -935, y: -3800, z: -2232, plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - play_lua: {source: 'click(116); wait(1.5)'}
+  - walk_to: {via: [[-942, -4150, -2232], [-1303, -4295, -2232], [-2007, -5191, -2232]], x: -2023, y: -5700, z: -2232, plan: false,
+              timeout_seconds: 30, clear_hostiles: 2000}
+  # The entry door: the fleeing guards leave it open or shut; the party walks at it and opens it if it is shut.
+  - walk_to: {via: [[-2171, -6100, -2232], [-2171, -6300, -2232], [-1800, -6300, -2232], [-1800, -6950, -2232], [-2171, -7000, -2232]],
+              x: -2171, y: -7322, z: -2104, plan: false, timeout_seconds: 60, clear_hostiles: 2000, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+
+  # Ivsar waits outside and speaks up as soon as he sees the party.
+  - advance_runtime: {seconds: 2.5, present_dialogs: true}
+  - select_topic: {match_label: "What is it, General?"}
+  - select_topic: {match_label: "We're supposed to take you to see Bjarni."}
+  - select_topic: {match_label: "Very well."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90242]}
+  - save_game: {name: "13 Ivsar freed", path: output/playthrough/mm9/checkpoints/13_drangheim_prison.oysav}

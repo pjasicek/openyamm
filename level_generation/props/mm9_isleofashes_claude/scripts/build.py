@@ -25,7 +25,7 @@ import blib  # noqa: E402
 blib.SKIP_BONE_SHAPES = True
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 # Per prop: alpha (cut-out skin), flame (cards: [(x, width, bottom, top, mirrored)], in units of the model's
 # footprint width / height above the base, or absolute metres with 'abs'), tilt (the book's placement pitch/roll,
 # baked: its yaw stays the placement's), orb (the stat stone's sphere on its own scrolling material).

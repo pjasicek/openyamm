@@ -126,7 +126,9 @@ std::optional<size_t> specialEnchantSlotIndex(const std::string &equipStat)
     return static_cast<size_t>(std::distance(EquipStats.begin(), statIt));
 }
 
-constexpr size_t MaxLedgerStockPageSlots = 64;
+// A ledger page's sanity limit: MM9 restocks with 15 rolls per range, and its biggest spellbook shop (Rober's Magic,
+// Lindisfarne) stocks 74 books.
+constexpr size_t MaxLedgerStockPageSlots = 128;
 
 size_t expectedVendorStockSlotCount(VendorStockProfile profile)
 {
@@ -721,6 +723,7 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
     m_vendorAliases.clear();
+    m_serviceAliases.clear();
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -1030,7 +1033,7 @@ bool HouseTable::appendVendorRows(
         const auto validatePageLayout = [&](const std::vector<HouseEntry::DeterministicStockPage> &pages) -> bool
         {
             // A shelf holds a fixed number of slots; the ledger scrolls, so a page may hold any number of items
-            // up to MaxLedgerStockPageSlots (MM9 restocks with 15 rolls per range).
+            // up to MaxLedgerStockPageSlots.
             const bool ledger = entry.shopBuyView == ShopBuyView::Ledger;
             const size_t expectedSlotCount = expectedVendorStockSlotCount(entry.vendorStockProfile);
             for (size_t pageOrdinal = 0; pageOrdinal < pages.size(); ++pageOrdinal)
@@ -1270,6 +1273,42 @@ bool HouseTable::validateVendorStock(
         }
     }
     return true;
+}
+
+size_t HouseTable::removeSpecialEnchantsTheRulesetDoesNotRoll(
+    const ItemTable &itemTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable)
+{
+    size_t removed = 0;
+    const auto removeFrom = [&](std::vector<HouseEntry::DeterministicStockPage> &pages)
+    {
+        for (HouseEntry::DeterministicStockPage &page : pages)
+        {
+            for (HouseEntry::DeterministicStockItem &stockItem : page.items)
+            {
+                const ItemDefinition *pItem = itemTable.get(stockItem.itemId);
+                const SpecialItemEnchantEntry *pEnchant = stockItem.specialEnchantId != 0
+                    ? specialItemEnchantTable.get(stockItem.specialEnchantId)
+                    : nullptr;
+                const std::optional<size_t> slotIndex =
+                    pItem != nullptr ? specialEnchantSlotIndex(pItem->equipStat) : std::nullopt;
+
+                if (pEnchant != nullptr && slotIndex && pEnchant->slotWeights[*slotIndex] <= 0)
+                {
+                    stockItem.specialEnchantId = 0;
+                    ++removed;
+                }
+            }
+        }
+    };
+
+    for (auto &[vendorId, entry] : m_entries)
+    {
+        removeFrom(entry.deterministicStandardStockPages);
+        removeFrom(entry.deterministicSpecialStockPages);
+    }
+
+    return removed;
 }
 
 bool HouseTable::loadAnimationRows(const std::vector<std::vector<std::string>> &rows)

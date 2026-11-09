@@ -1,0 +1,40 @@
+# MM9's regions and cities are BLVs open to the sky (world.yml openAirMaps): their spells follow the outdoor rules, so
+# Meteor Shower, Starburst and Armageddon work there and Inferno does not; a dungeon keeps the indoor rules (the user,
+# 2026-11-09; devdocs/INDOOR_OPEN_SKY.md "Spells"). The party stands on Isle of Ashes' sea (a flat floor at z -985,
+# x 9096, y -13000 to 2000) with Water Walk, a Horde Leader (570 HP) 1500 north of it for Meteor Shower and another
+# 7800 away for Armageddon.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/open_air_spells.yml --scenario-no-color
+id: mm9.open_air_spells
+title: "MM9: outdoor spells on a BLV open to the sky, indoor ones refused; a dungeon keeps the indoor rules"
+world: mm9
+mode: faithful
+tags: [mm9, spells, projectiles]
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+  - cast_spell: {member_index: 0, spell_id: 27, skill: 10, mastery: 3}
+  - set_pose: {map: isleofashes.blv, x: 9096, y: -6000, z: -985, yaw_degrees: 90, pitch: 0}
+  - cast_spell: {member_index: 0, spell_id: 10, skill: 10, mastery: 4, expect: refused}
+  - spawn_actor: {monster_id: 9131, x: 9096, y: -4500, z: -985}
+  - cast_spell: {member_index: 0, spell_id: 9, skill: 10, mastery: 4, target_point: [9096, -4500, -985]}
+  - advance_runtime: {seconds: 4}
+  - assert:
+      actor_count: {name: Horde Leader, hurt: true, min: 1}
+  # Starburst's 20 stars fall around the point (a monster walks out of their spread, so the stars are counted).
+  - cast_spell: {member_index: 0, spell_id: 22, skill: 10, mastery: 4, target_point: [9096, -3000, -985]}
+  - assert:
+      projectiles: {source: party, min_count: 20}
+  - advance_runtime: {seconds: 4}
+  # Armageddon hurts every monster on the map: one far beyond its strikes' reach, unhurt so far, too.
+  - spawn_actor: {monster_id: 9131, x: 9096, y: 1800, z: -985}
+  - assert:
+      actor_count: {name: Horde Leader, hurt: true, max: 1}
+  - cast_spell: {member_index: 0, spell_id: 98, skill: 10, mastery: 4}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_count: {name: Horde Leader, hurt: true, min: 2}
+  # A dungeon: the indoor rules.
+  - set_pose: {map: verhoffinruins.blv, x: -1230, y: -5969, z: -327, yaw_degrees: 103, pitch: 0}
+  - cast_spell: {member_index: 0, spell_id: 9, skill: 10, mastery: 4, target_point: [-1230, -5469, -327],
+                expect: refused}
+  - cast_spell: {member_index: 0, spell_id: 98, skill: 10, mastery: 4, expect: refused}

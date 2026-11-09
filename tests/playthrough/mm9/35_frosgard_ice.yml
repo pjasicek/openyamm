@@ -1,0 +1,87 @@
+# MM9 playthrough, segment 35: Frosgard's frozen docks (guide: Chapter I, "Frosgard: Jarl Tryygva Ravenlocks", "Break up
+# the ice that surrounds the docks"). Guberland to Frosgard (no boat sails there while the harbour is frozen: by sea to
+# Thronheim, then five days north on foot; outdoors the party is moved), the road gate, Tryygva's two tasks, Bodvar's
+# powder barrel delivered onto the ice, the barrel set off from the pier (a click stands in for the shot: the barrel's
+# event), the floes break (cinematic break_ice), Tryygva's reward for the ice. Research: prep/35_50_frosgard_thronheim_council.md.
+#   python3 tests/playthrough/mm9/run.py 35
+id: mm9.playthrough.35_frosgard_ice
+title: "MM9 playthrough 35: Tryygva's tasks taken, the powder barrel breaks the ice at Frosgard's docks"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/30_markel_joins.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: guberlandcity.blv, qbit_set: [90038, 90051, 90034, 90063], qbit_clear: [90067, 90071, 90072, 90074, 90178]}
+
+  # To Frosgard and in by the road gate (ExitTrigger2).
+  - travel: {map: frosgard.blv, days: 8}
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv}
+
+  # Tryygva Ravenlocks in the City Hall: both tasks (keys 67, 68, 71).
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1638, z: 45, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 5}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "But without your help, the Chedian will perish!"}
+  - select_topic: {match_label: "Perhaps we could help?"}
+  - select_topic: {match_label: "Tell us about the frost giant."}
+  - select_topic: {match_label: "What can we do to help?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "Tell us about the frozen sea."}
+  - select_topic: {match_label: "What can we do?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90067, 90068, 90071]}
+
+  # Bodvar Elvissen, the powder maker: the delivery onto the ice (keys 1021, 1022; the barrel shows on the ice).
+  - set_pose: {map: frosgardcity.blv, x: 15611, y: -1966, z: 4, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 25}
+  - select_topic: {match_label: "What do you do all the way out here?"}
+  - select_topic: {match_label: "Say, you wouldn't mind making a delivery would you?"}
+  - select_topic: {match_label: "On the ice just outside the dock."}
+  - select_topic: {match_label: "Thanks for the tip."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [91021, 91022]}
+
+  # The pier: out to 800 from the barrel (its burst reaches 512), set it off; the cannon under the ice fires and the
+  # floes sink (break_ice, 16.3 s): key 72, 8 000 experience.
+  - set_pose: {map: frosgardcity.blv, x: 4260, y: -10486, z: -81, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 4260, y: -11000, z: -81, plan: false, radius: 60, timeout_seconds: 20}
+  - play_lua:
+      max_seconds: 40
+      source: |
+        click(232); wait(18)
+        local s = status()
+        if not qbit(90072) then error("the ice did not break: " .. s) end
+        log("the barrel: " .. s)
+  - assert: {qbit_set: [90072]}
+
+  # The dockmaster's boat schedule now that the docks are free (key 378).
+  - set_pose: {map: frosgardcity.blv, x: 4551, y: -10650, z: -81, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 8}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90378]}
+
+  # Tryygva pays for the ice (keys 73, 175).
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1638, z: 45, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 5}
+  - select_topic: {match_label: "The ice has been cleared from the docks."}
+  - select_topic: {match_label: "The boats should be coming very soon."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90073, 90175], qbit_clear: [90069, 90074]}
+  - save_game: {name: "35 Frosgard's ice broken", path: output/playthrough/mm9/checkpoints/35_frosgard_ice.oysav}

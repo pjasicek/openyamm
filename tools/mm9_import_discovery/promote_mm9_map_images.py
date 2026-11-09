@@ -30,18 +30,28 @@ EXTERIOR_MAPS = {
 SKIPPED_MAPS = {"greatgate"}
 
 
+# MM9 picks a floor image by the player object's height, which is its body centre: the player model's
+# static_model half height is 33 LT (devdocs/mm9_rework/MM9_PLAYER_SLOPE_RE.md). The catalog's bands are party foot
+# heights, so the thresholds are lowered by that much.
+PLAYER_HALF_HEIGHT_LT = 33.0
+
+
 @dataclass(frozen=True)
 class ImageVariant:
     suffix: str
+    # Band of the player's centre height in LT: shown when minimum < y <= maximum. A floor whose band is split lists
+    # its image once per range; the catalog takes the first variant that matches.
     minimum_source_y: float | None = None
     maximum_source_y: float | None = None
 
 
+# The floor images, from MM9's map screen (cshell.dll 0x100208a0; thresholds at 0x100c051c-0x100c055c). Bands not
+# listed fall to the last, unbounded variant.
 FLOOR_VARIANTS = {
     "1000terrors": (
-        ImageVariant("A", maximum_source_y=512.0),
-        ImageVariant("B", minimum_source_y=512.0, maximum_source_y=1728.0),
-        ImageVariant("C", minimum_source_y=1728.0),
+        ImageVariant("A", minimum_source_y=512.0, maximum_source_y=1728.0),
+        ImageVariant("B", minimum_source_y=-256.0, maximum_source_y=512.0),
+        ImageVariant("C"),
     ),
     "bathhouse": (
         ImageVariant("A", minimum_source_y=-384.0, maximum_source_y=400.0),
@@ -52,18 +62,18 @@ FLOOR_VARIANTS = {
         ImageVariant("B"),
     ),
     "drangheimprison": (
-        ImageVariant("A", maximum_source_y=-416.0),
-        ImageVariant("B", minimum_source_y=-416.0, maximum_source_y=176.0),
-        ImageVariant("C", minimum_source_y=176.0),
+        ImageVariant("A", minimum_source_y=-416.0, maximum_source_y=176.0),
+        ImageVariant("B", minimum_source_y=-1024.0, maximum_source_y=-416.0),
+        ImageVariant("C"),
     ),
     "klusoshouse": (
         ImageVariant("A", minimum_source_y=-32.0, maximum_source_y=144.0),
         ImageVariant("B"),
     ),
     "lichlab": (
-        ImageVariant("A", maximum_source_y=256.0),
+        ImageVariant("A", minimum_source_y=656.0, maximum_source_y=1448.0),
         ImageVariant("B", minimum_source_y=256.0, maximum_source_y=656.0),
-        ImageVariant("C", minimum_source_y=656.0),
+        ImageVariant("C"),
     ),
     "traininghall": (
         ImageVariant("A", minimum_source_y=-105.0, maximum_source_y=1521.0),
@@ -166,9 +176,9 @@ def build_catalog(
             ])
 
             if variant.minimum_source_y is not None:
-                lines.append(f"        minimum_z: {format_float(variant.minimum_source_y * scale)}")
+                lines.append(f"        minimum_z: {format_float((variant.minimum_source_y - PLAYER_HALF_HEIGHT_LT) * scale)}")
             if variant.maximum_source_y is not None:
-                lines.append(f"        maximum_z: {format_float(variant.maximum_source_y * scale)}")
+                lines.append(f"        maximum_z: {format_float((variant.maximum_source_y - PLAYER_HALF_HEIGHT_LT) * scale)}")
 
     return "\n".join(lines) + "\n"
 

@@ -179,7 +179,8 @@ def overlay_model_textures(entries, source, overlay):
 def select_surface_textures(entries, profile, android_world):
     """World surface textures (tools/cook_surface_textures.py). Every package keeps textures/ (the .act palettes; the
     original BMPs are source art in assets_source). Desktop ships the BC7 x4 tier (textures_x4/*.oytex); android
-    ships its ASTC x2 tier from assets_cooked/android instead. Images that runtime code reads as images
+    ships its ASTC x2 tier from assets_cooked/android instead. MM9's native-only faces are cooked in the x1 folder
+    (textures/*.oytex), BC7 in assets_dev and ASTC in the android overlay. Images that runtime code reads as images
     (hwsplat04.png) stay in their tier folder. The surface material maps of the x4 tier (tools/surface_materials.py)
     ship on desktop only."""
     keep_tier = "textures_x4/" if profile == "desktop" else "textures_x2/"
@@ -188,10 +189,13 @@ def select_surface_textures(entries, profile, android_world):
             del entries[name]
         elif name.startswith("surface_materials_x") and profile != "desktop":
             del entries[name]
+        elif name.startswith("textures/") and name.endswith(".oytex") and profile != "desktop":
+            del entries[name]
     if profile != "desktop" and android_world is not None:
-        overlay = android_world / "textures_x2"
-        for path in sorted(overlay.glob("*.oytex")) if overlay.is_dir() else []:
-            entries["textures_x2/" + path.name] = path
+        for tier in ("textures_x2", "textures"):
+            overlay = android_world / tier
+            for path in sorted(overlay.glob("*.oytex")) if overlay.is_dir() else []:
+                entries[f"{tier}/{path.name}"] = path
 
 
 def verify_surface_cook(assets_root, profile):

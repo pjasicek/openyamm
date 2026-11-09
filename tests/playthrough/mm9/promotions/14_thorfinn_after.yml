@@ -1,0 +1,37 @@
+# MM9 promotion playthrough, segment 14: back to Thorfinn Skullsplitter after the Mercenary promotion (RUDE 240).
+# To Thronheim, the land gate, the tavern: "Atli's on his way to Thronheim." (key 127's row), and his first page now
+# keeps "Promote our eligible characters." (dialogue/promotions.yml, done key 127), which finds nobody: the Knight and
+# the Thief are already a Cavalier and a Rogue. Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 14
+id: mm9.promotions.14_thorfinn_after
+title: "MM9 promotions 14: Thorfinn hears of Atli and keeps the Mercenary promotion, with nobody left to promote"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/13_atli_boat.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90127]}
+  - play_lua: {source: 'remember("gold", gold()); remember("classes", classes()); log("CLASSES: " .. classes())'}
+
+  # To Thronheim, into the city by the land gate.
+  - travel: {map: thronheim.blv, days: 4}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Thorfinn in the tavern.
+  - set_pose: {map: thronheimcity.blv, x: 11851, y: 2440, z: 3124, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 6}
+  - assert: {dialog: {active: true, source_id: 240, action_label_present: "Promote our eligible characters.", action_label_absent: "About the promotion?"}}
+  - select_topic: {match_label: "Atli's on his way to Thronheim."}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'if classes() ~= recall("classes") or gold() ~= recall("gold") then error("Thorfinn changed something: " .. classes() .. ", gold " .. gold()) end'}
+  - save_game: {name: "P14 Thorfinn after", path: output/playthrough/mm9/promotions/checkpoints/14_thorfinn_after.oysav}

@@ -1,0 +1,30 @@
+# AI arena: MM9's alerts (AICommon.inc AlertTick, BaseCrawl.inc OnAlert). A Grey Wolf (9114) faces the party and
+# notices it; its alert reaches 1 229 units (its row's AlertRadius x Scale). Skeletoid 1 stands within that, facing
+# away (the party beyond its hearing and behind its view), and joins on the wolf's alert; Skeletoid 2, beyond the
+# wolf's radius, joins on Skeletoid 1's (1 536: a cascade). A Bird (9093) within the wolf's radius ignores every alert:
+# BaseFly.inc reads the alerter, a friend (MM9 quirk). See README.md.
+name: mm9_alarm
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+# MM9's own perception of the party (its alerts as MM9 plays them), not the world's actorAwareness.
+party_awareness: mm9
+trace: true
+monsters:
+  - monster_id: 9114
+    position: [0, -500, 1]
+    yaw_degrees: 270
+  - monster_id: 9183
+    position: [-800, 300, 1]
+    yaw_degrees: 90
+  - monster_id: 9183
+    position: [-300, 1100, 1]
+    yaw_degrees: 90
+  - monster_id: 9093
+    position: [-300, 300, 200]
+    yaw_degrees: 90

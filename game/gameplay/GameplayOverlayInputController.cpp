@@ -55,6 +55,114 @@ int effectiveReputationForView(const GameplayScreenRuntime &view)
         : 0;
 }
 
+bool pointerOnLayoutElement(const GameplayScreenRuntime &view, const std::string &id, int screenWidth,
+    int screenHeight, float mouseX, float mouseY)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> rect =
+        view.resolveHudLayoutElement(id, screenWidth, screenHeight, 0, 0);
+    return rect && view.isPointerInsideResolvedElement(*rect, mouseX, mouseY);
+}
+
+// A click on the sell screen for Sell trash (HouseServiceRuntime::findSellTrash): its button starts the pick and, as
+// Cancel, ends it; the confirm button above sells it; and while picking an item under the pointer joins or leaves it. False when the click
+// is not Sell trash's, so that it sells the item.
+bool handleSellTrashClick(GameplayScreenRuntime &view, const HouseEntry &houseEntry,
+    const std::optional<GameplayHudOverlaySupport::InventoryCell> &cell, int screenWidth, int screenHeight,
+    float mouseX, float mouseY)
+{
+    GameplayUiController::InventoryNestedOverlayState &overlay = view.inventoryNestedOverlay();
+    Party *pParty = view.party();
+
+    if (pParty == nullptr || view.itemTable() == nullptr || !HouseServiceRuntime::offersSellTrash(*pParty, houseEntry))
+    {
+        return false;
+    }
+
+    const auto playError = [&view]()
+    {
+        if (view.audioSystem() != nullptr)
+        {
+            view.audioSystem()->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+        }
+    };
+
+    // Sell trash starts the pick; the same button is Cancel while picking.
+    if (pointerOnLayoutElement(view, "DialogueShopSellTrashButton", screenWidth, screenHeight, mouseX, mouseY))
+    {
+        overlay.sellTrashPicking = !overlay.sellTrashPicking;
+        overlay.sellTrashItems = overlay.sellTrashPicking
+            ? HouseServiceRuntime::findSellTrash(*pParty, *view.itemTable(), houseEntry)
+            : std::vector<BagItemRef>();
+
+        if (overlay.sellTrashPicking && overlay.sellTrashItems.empty())
+        {
+            view.setStatusBarEvent(Engine::tr("Nothing here counts as trash; click items to add them."));
+        }
+
+        return true;
+    }
+
+    if (!overlay.sellTrashPicking)
+    {
+        return false;
+    }
+
+    if (pointerOnLayoutElement(view, "DialogueShopSellTrashConfirmButton", screenWidth, screenHeight, mouseX, mouseY))
+    {
+        if (overlay.sellTrashItems.empty())
+        {
+            playError();
+            return true;
+        }
+
+        std::string statusText;
+        const size_t sold = HouseServiceRuntime::trySellTrash(*pParty, *view.itemTable(),
+            *view.standardItemEnchantTable(), *view.specialItemEnchantTable(), houseEntry, overlay.sellTrashItems,
+            statusText, effectiveReputationForView(view));
+        overlay.sellTrashPicking = false;
+        overlay.sellTrashItems.clear();
+
+        if (sold > 0)
+        {
+            view.markHouseShopTransactionPerformed(houseEntry.id);
+            view.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::ItemSold, true);
+            view.setStatusBarEvent(statusText);
+        }
+
+        return true;
+    }
+
+    const size_t memberIndex = pParty->activeMemberIndex();
+    const InventoryItem *pItem = cell && memberIndex < pParty->members().size()
+        ? InventoryBags::itemInBagAt(pParty->members()[memberIndex], cell->bag, cell->gridX, cell->gridY)
+        : nullptr;
+
+    if (pItem == nullptr)
+    {
+        // Elsewhere on the screen: no sale while picking.
+        return cell.has_value();
+    }
+
+    const BagItemRef ref = {memberIndex, cell->bag, pItem->gridX, pItem->gridY};
+    const auto picked = std::find(overlay.sellTrashItems.begin(), overlay.sellTrashItems.end(), ref);
+
+    if (picked != overlay.sellTrashItems.end())
+    {
+        overlay.sellTrashItems.erase(picked);
+    }
+    else if (HouseServiceRuntime::canSellTrashItem(*pParty, *view.itemTable(), houseEntry, *pItem))
+    {
+        overlay.sellTrashItems.push_back(ref);
+    }
+    else
+    {
+        playError();
+        view.setStatusBarEvent(Engine::tr("That item cannot be sold here."));
+    }
+
+    return true;
+}
+
 // A Ledger shop's list scrolls by whole rows: the wheel moves one, the scrollbar track pages and its thumb drags.
 void scrollHouseShopLedger(GameplayScreenRuntime &view, const GameplayHouseShopLedgerView &ledger,
     const GameplayInputFrame &input)
@@ -760,9 +868,11 @@ InventoryItem chestItemAsInventoryItem(const GameplayChestItemState &chestItem)
     return item;
 }
 
+} // namespace
+
 // Takes all gold, then (unless goldOnly) every item that fits somewhere in the party (largest first), each into a bag
 // tagged for it as a ground pickup goes; the rest stays in the chest.
-void takeAllActiveChestItems(GameplayScreenRuntime &view, bool goldOnly)
+void GameplayOverlayInputController::takeAllActiveChestItems(GameplayScreenRuntime &view, bool goldOnly)
 {
     IGameplayWorldRuntime *pWorldRuntime = view.worldRuntime();
     Party *pParty = view.party();
@@ -862,7 +972,6 @@ void takeAllActiveChestItems(GameplayScreenRuntime &view, bool goldOnly)
         view.setStatusBarEvent(status);
     }
 }
-} // namespace
 
 bool GameplayOverlayInputController::handleRestOverlayInput(
     GameplayScreenRuntime &view,
@@ -3616,11 +3725,14 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         return;
     }
 
+    // The reset popup takes no keys but Esc (its Cancel).
+    const bool resetPopupOpen = transitionResetPopupOpen(view.activeEventDialog());
+
     if (mm9Talk && !view.activeEventDialog().actions.empty())
     {
         handleMm9TalkKeys(view, input);
     }
-    else if (!view.activeEventDialog().actions.empty() && !isResidentSelectionMode)
+    else if (!view.activeEventDialog().actions.empty() && !isResidentSelectionMode && !resetPopupOpen)
     {
         if (pKeyboardState[SDL_SCANCODE_UP])
         {
@@ -3668,7 +3780,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
     const bool acceptPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
 
-    if (acceptPressed && !isResidentSelectionMode)
+    if (acceptPressed && !isResidentSelectionMode && !resetPopupOpen)
     {
         if (!view.interactionState().eventDialogAcceptLatch)
         {
@@ -4012,7 +4124,17 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
             GameplayHudOverlaySupport::nestedInventoryCellAt(view, screenWidth, screenHeight, dialogMouseX,
                 dialogMouseY);
 
-        if (cell && isLeftMousePressed && !view.interactionState().inventoryNestedOverlayItemClickLatch)
+        const bool clickStarted =
+            isLeftMousePressed && !view.interactionState().inventoryNestedOverlayItemClickLatch;
+
+        if (clickStarted
+            && view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
+            && handleSellTrashClick(view, *pDialogueHouseEntry, cell, screenWidth, screenHeight, dialogMouseX,
+                dialogMouseY))
+        {
+            view.interactionState().inventoryNestedOverlayItemClickLatch = true;
+        }
+        else if (cell && clickStarted)
         {
             const uint8_t gridX = cell->gridX;
             const uint8_t gridY = cell->gridY;
@@ -4153,6 +4275,36 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         {
             if (screenWidth <= 0 || screenHeight <= 0)
             {
+                return {};
+            }
+
+            // The reset popup is modal: only its Reset and Cancel answer.
+            if (transitionResetPopupOpen(view.activeEventDialog()))
+            {
+                const std::vector<EventDialogAction> &actions = view.activeEventDialog().actions;
+                const auto resetAction = std::find_if(actions.begin(), actions.end(),
+                    [](const EventDialogAction &action)
+                    {
+                        return action.kind == EventDialogActionKind::MapTransitionReset;
+                    });
+                const auto inside = [&](const char *pLayoutId)
+                {
+                    const std::optional<GameplayResolvedHudLayoutElement> rect =
+                        view.resolveHudLayoutElement(pLayoutId, screenWidth, screenHeight, 0, 0);
+                    return rect && view.isPointerInsideResolvedElement(*rect, mouseX, mouseY);
+                };
+
+                if (resetAction != actions.end() && inside("DialogueResetPopupResetButton"))
+                {
+                    return {GameplayDialoguePointerTargetType::Action,
+                        size_t(std::distance(actions.begin(), resetAction))};
+                }
+
+                if (inside("DialogueResetPopupCancelButton"))
+                {
+                    return {GameplayDialoguePointerTargetType::ResetPopupCancel, 0};
+                }
+
                 return {};
             }
 
@@ -4548,6 +4700,11 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                 view.handleDialogueCloseRequest();
                 latchGameplayMenuEscape(view);
             }
+            else if (target.type == GameplayDialoguePointerTargetType::ResetPopupCancel)
+            {
+                dismissTransitionResetPopup(view.activeEventDialog());
+                view.eventDialogSelectionIndex() = 0;
+            }
         });
 
     const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
@@ -4560,7 +4717,12 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
             const std::optional<size_t> exitAction =
                 mm9Talk ? GameplayMm9TalkBar::exitAction(view.activeEventDialog()) : std::nullopt;
 
-            if (exitAction)
+            if (transitionResetPopupOpen(view.activeEventDialog()))
+            {
+                dismissTransitionResetPopup(view.activeEventDialog());
+                view.eventDialogSelectionIndex() = 0;
+            }
+            else if (exitAction)
             {
                 view.eventDialogSelectionIndex() = *exitAction;
                 view.executeActiveDialogAction();

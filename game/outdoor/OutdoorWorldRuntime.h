@@ -2,6 +2,7 @@
 
 #include "game/gameplay/ActorBehaviorRuntime.h"
 #include "game/gameplay/ActorInspectPreviewAnimation.h"
+#include "game/gameplay/ArmageddonSpell.h"
 #include "game/gameplay/GameplayActorHitFeedback.h"
 #include "game/gameplay/GameplayActorModifiers.h"
 #include "game/gameplay/GameplayActorShields.h"
@@ -224,6 +225,8 @@ public:
     struct MapActorState
     {
         uint32_t actorId = 0;
+        // The monster that last hit it; it fights that one back (not saved).
+        std::optional<uint32_t> lastActorAttackerId;
         int16_t monsterId = 0;
         int16_t npcId = 0;
         int32_t mm9RudeId = 0;
@@ -327,12 +330,9 @@ public:
         // The party made it hostile (hit it or its faction), so a hit on it still alerts its friendly faction; an
         // actor hostile on its own (map, template, event) alerts none.
         bool angeredByParty = false;
-        // A party hit woke it beyond the full-AI range: it acts out to the engagement range until it comes within
-        // the full-AI range or loses the party (MM8 leaves an outdoor monster shot from afar standing).
+        // A party hit woke it: it acts out to the engagement range until it comes within the full-AI range or loses
+        // the party, so backing off after a shot does not leave it standing beyond the full-AI range as in MM8.
         bool provokedByParty = false;
-        // The distance of the party's last hit when beyond the native missile reach: it may shoot back from there
-        // (0 for the native reach), until it loses the party.
-        float provokedAttackReach = 0.0f;
         ActorAiState aiState = ActorAiState::Standing;
         ActorAnimation animation = ActorAnimation::Standing;
         float animationTimeTicks = 0.0f;
@@ -532,6 +532,8 @@ public:
         bool isExpired = false;
         std::string semanticSourceId;
         bool semanticPlacedPickup = false;
+        // A placed item's authored pose (MapWorldItemSource::poseDegrees), radians.
+        std::optional<WorldItemPose> semanticPose;
         uint32_t semanticLootContainerId = 0;
         bool semanticLootContainer = false;
     };
@@ -572,23 +574,6 @@ public:
         float y = 0.0f;
         float z = 0.0f;
         bool positional = true;
-    };
-
-    struct ArmageddonState
-    {
-        float remainingSeconds = 0.0f;
-        uint32_t skillLevel = 0;
-        SkillMastery skillMastery = SkillMastery::None;
-        uint32_t casterMemberIndex = 0;
-        uint32_t shakeStepsRemaining = 0;
-        uint32_t shakeSequence = 0;
-        float cameraShakeYawRadians = 0.0f;
-        float cameraShakePitchRadians = 0.0f;
-
-        bool active() const
-        {
-            return remainingSeconds > 0.0f;
-        }
     };
 
     struct BloodSplatState
@@ -976,8 +961,10 @@ public:
     bool takeWorldItem(size_t worldItemIndex, WorldItemState &item);
     bool hasCustomWorldItemActivation(size_t worldItemIndex) const override;
     bool activateCustomWorldItem(size_t worldItemIndex) override;
-    bool isSemanticWorldItem(size_t worldItemIndex) const;
-    bool activateSemanticWorldItem(size_t worldItemIndex);
+    // A scene's placed world item the party took: recorded, its quest bits set, its pickup event run.
+    void onPlacedWorldItemTaken(const std::string &sourceId);
+    // A scene's placed world item shown but not yet takeable (MapWorldItemSource::pickupQBits).
+    bool placedWorldItemLocked(const WorldItemState &worldItem) const;
     bool activateSemanticLootContainer(size_t worldItemIndex);
     bool spawnWorldItem(
         const InventoryItem &item,
@@ -1055,12 +1042,14 @@ public:
     void teleportParty(float x, float y, float footZ) override;
     float partyEyeZ() const override;
     float partyEngagementRange() const override;
+    float partyHitReach() const override;
     float gameplayCameraYawRadians() const override;
     float gameplayCameraPitchRadians() const override;
     float gameplayViewAspectRatio() const override;
     bool partyIsAirborneForRest() const override;
     bool partyIsFlyingForEventChecks() const override;
     bool partyIsActivelyFlyingForHud() const override;
+    bool partyIsWalkingOnWaterForHud() const override;
     bool partyNeedsTurnBasedPhysicsUpdate() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump(float verticalVelocity = 0.0f, float lift = 1.0f) override;
@@ -1580,6 +1569,9 @@ private:
         float maximumZ,
         std::vector<size_t> &candidateFaceIndices) const;
     void updateWorldItems(float deltaSeconds);
+    // Lowers resting items that hover above their floor (map data placed some in the air) onto it, as the original
+    // lets them fall; items at rest never run the fall step.
+    void settleRestingWorldItems();
     // One sub-step of a moving item: gravity, its sphere chain against walls (none: it moves as a point), its floor,
     // water.
     void stepWorldItem(
@@ -1973,7 +1965,7 @@ private:
     int weatherDayIndexForMinutes(float gameMinutes) const;
     void resetDailySpellCounters();
     void updateArmageddon(float deltaSeconds, float partyX, float partyY, float partyZ);
-    void spawnArmageddonStrikes(float elapsedBefore, float elapsedAfter, float partyX, float partyY, float partyZ);
+    void spawnArmageddonStrikes(const ArmageddonStep &step, float partyX, float partyY, float partyZ);
     void resolveArmageddonDetonation(float partyX, float partyY, float partyZ);
     void refreshAtmosphereState();
 };

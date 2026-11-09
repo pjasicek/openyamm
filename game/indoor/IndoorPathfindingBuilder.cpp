@@ -2,6 +2,8 @@
 
 #include "game/FaceEnums.h"
 
+#include <algorithm>
+
 namespace OpenYAMM::Game
 {
 namespace
@@ -56,7 +58,8 @@ IndoorPathMapBuildResult IndoorPathfindingBuilder::buildPathMap(
     const std::vector<IndoorVertex> &vertices,
     const MapDeltaData *pMapDeltaData,
     IndoorFaceGeometryCache *pGeometryCache,
-    float spatialGridCellSize
+    float spatialGridCellSize,
+    const std::vector<uint32_t> &openAiDoorIds
 )
 {
     IndoorFaceGeometryCache localGeometryCache;
@@ -100,9 +103,14 @@ IndoorPathMapBuildResult IndoorPathfindingBuilder::buildPathMap(
             continue;
         }
 
-        // A door MM9 monsters open (scene `ai_open`) does not block their routes, as MM9's rails run through doors:
-        // walking into it shut, they open it (BaseDoor.inc; MM9_MONSTER_AI_PLAN.md phase 4a).
-        if (findIndoorAiDoorByFace(indoorMapData, faceIndex) != nullptr)
+        // A shut door MM9 monsters open (scene `ai_open`) does not block their routes, as MM9's rails run through
+        // doors: walking into it, they open it (BaseDoor.inc; MM9_MONSTER_AI_PLAN.md phase 4a). Open, it stands where
+        // it swung or slid to and blocks there: Thjorad Mine's slag extractor hatch, swung open across the corridor,
+        // had Hjarrand walk into it for ever on his way back to MMarker1.
+        const IndoorAiDoor *pAiDoor = findIndoorAiDoorByFace(indoorMapData, faceIndex);
+
+        if (pAiDoor != nullptr
+            && std::find(openAiDoorIds.begin(), openAiDoorIds.end(), pAiDoor->doorId) == openAiDoorIds.end())
         {
             ++result.skippedFaceCount;
             continue;

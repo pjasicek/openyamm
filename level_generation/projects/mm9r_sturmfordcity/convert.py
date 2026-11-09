@@ -53,6 +53,12 @@ GUARD_CLASS = "PoorTownGuard1"
 GUARD_ROW = 9107                    # MM9 107 Town Guard (L20): MM9's PoorTownGuard1 (Sturmguard.scr)
 GUARD_RUDE = 425
 GROUP_TOWNSFOLK, GROUP_GUARDS, GROUP_ANIMALS = 1, 2, 3
+# Chedian's dimensional travel pedestal (not MM9's; the user, 2026-11-09): MAW's teleporter, the ped06 pedestal under
+# the dec57 orb 160 units up (engine/rulesets/maw/maps/oute3_zz_maw.scene.yml), on the lawn east of the south sewer
+# hatch, native units. A Dimension Door to Chedian lands the party 224 units east of it, facing it
+# (game/gameplay/GameplayPartyOverlayInputController.cpp, resolveDimensionDoorLanding).
+PEDESTAL = (1529, 54, 19702)
+PEDESTAL_ORB_LIFT = 160
 
 
 def float_property(value) -> float:
@@ -76,7 +82,15 @@ class SturmfordCity(CityHooks):
         else:
             print("note: props.json is missing; no decorations or chests placed")
         self.well(build)
+        self.pedestal(build)
         self.points = citylua.marker_points(build)
+
+    def pedestal(self, build) -> None:
+        """The dimensional travel pedestal and its orb: a click on either opens the dimensional travel (citylua.py)."""
+        x, y, z = PEDESTAL
+        event = citylua.EV_DIMENSIONAL_TRAVEL
+        build.content.entity("DimensionalTravelPedestal", "ped06", (x, y, z), 0, secondary=event)
+        build.content.entity("DimensionalTravelOrb", "dec57", (x, y, z + PEDESTAL_ORB_LIFT), 0, secondary=event)
 
     def well(self, build) -> None:
         """The well's water: the top face of MM9's Wellwater volume (BlueWater, ShowSurface, SurfaceAlpha 0.8,

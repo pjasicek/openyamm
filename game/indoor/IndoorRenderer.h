@@ -989,6 +989,10 @@ private:
     IndoorDaylightLight m_frameDaylight;
     // The open air's lights' scale this frame (indoorOpenAirLightScale; u_indoorDaylight[0].w), 1 without daylight.
     float m_frameOpenAirLightScale = 1.0f;
+    // The terrain faces' mean static vertex light (rebuildAllTexturedBatches): the lamps' share and the open air's
+    // lights' at noon, which their grass adds to its daylight (renderTerrainGrass).
+    float m_terrainLampLight = 0.0f;
+    float m_terrainOpenAirLight = 0.0f;
     bgfx::UniformHandle m_indoorDaylightUniformHandle = BGFX_INVALID_HANDLE;
     std::array<bgfx::ProgramHandle, 6> m_indoorFogProgramHandles = {{
         BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE,

@@ -7,14 +7,21 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-INCLUDED_SOUND_DIRECTORIES = {
-    "ambient",
-    "door",
-    "events",
-    "pickupitems",
-    "weapons",
-}
+# Every MM9 sound (SOUNDS/): ambience, monsters, doors, events, items, weapons, the scripts' magic and spell sounds,
+# the player's (footsteps, winces, splashes), gibs and the battle music. A world must not miss a sound one of its scripts,
+# effects or placements names. Files at the root of SOUNDS/ whose name the engine's audio root already has are left to
+# the engine's.
 SHARED_SOUND_PATHS = {"events/quest.wav"}
+# Names MM9's scripts play that MM9 never shipped (silent in MM9 too), given the nearest MM9 recording under the name the
+# script uses (2026-11-08; the user's choice): script name -> SOUNDS/ file. vo/irequireassistance.wav (Drangheim Prison's
+# guard calling for help) has none: no MM9 recording says it.
+SCRIPT_SOUND_STAND_INS = {
+    "animsounds/dragonredrattack3.wav": "ANIMSOUNDS/DRAGON/RATTACK3.wav",  # KingKong.scr (Thjorad Mine's cages)
+    "events/rockfall.wav": "EVENTS/RUBBLECRASH.wav",                      # Tasar Academy's crack, Verhoffin's busts
+    "events/doorbreak.wav": "EVENTS/SHATTERWOOD02.wav",                   # Verhoffin Ruins' bolt
+    "ambient/fountain_20.wav": "AMBIENT/WATER/FOUNTAIN.wav",              # Verhoffin Ruins' fountain
+    "weapons/swordhit01.wav": "WEAPONS/FLESHHIT01.wav",                   # Dark Passageway's ambush
+}
 
 
 @dataclass(frozen=True)
@@ -45,15 +52,23 @@ def selected_audio_imports(
             normalized_relative = lowercase_relative(relative)
             if normalized_relative.as_posix() in SHARED_SOUND_PATHS:
                 continue
-            root_sound_is_available = len(relative.parts) == 1 and relative.name.lower() not in engine_root_names
-            if root_sound_is_available or relative.parts[0].lower() in INCLUDED_SOUND_DIRECTORIES:
-                imports.append(AudioImport(source, normalized_relative))
+            if len(relative.parts) == 1 and relative.name.lower() in engine_root_names:
+                continue
+            imports.append(AudioImport(source, normalized_relative))
 
-    npc_voice_root = voices_root / "NPC"
-    if npc_voice_root.is_dir():
-        for source in npc_voice_root.rglob("*.wav"):
-            relative = Path("voices") / "npc" / source.relative_to(npc_voice_root)
-            imports.append(AudioImport(source, lowercase_relative(relative)))
+    for name, source in SCRIPT_SOUND_STAND_INS.items():
+        if (sounds_root / source).is_file():
+            imports.append(AudioImport(sounds_root / source, Path(name)))
+
+    # The NPCs' greetings, and the cutscenes' voices (VOICES/CINEMA: the council, Sven's speech, the first-sight
+    # scenes; devdocs/mm9_rework/MM9_CUTSCENES.md), at MM9's own relative paths.
+    for folder in ("NPC", "CINEMA"):
+        voice_root = voices_root / folder
+        if voice_root.is_dir():
+            for source in voice_root.rglob("*"):
+                if source.is_file() and source.suffix.lower() == ".wav":
+                    relative = Path("voices") / folder.lower() / source.relative_to(voice_root)
+                    imports.append(AudioImport(source, lowercase_relative(relative)))
 
     imports.sort(key=lambda entry: entry.destination_relative.as_posix())
     destinations: dict[Path, Path] = {}
@@ -89,7 +104,7 @@ def import_audio(imports: list[AudioImport], output_root: Path, check: bool) -> 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Import non-monster, non-player, non-spell MM9 world audio into an OpenYAMM world package.")
+        description="Import every MM9 sound and the NPC and cutscene voices into the MM9 world package.")
     parser.add_argument(
         "--sounds-root",
         type=Path,

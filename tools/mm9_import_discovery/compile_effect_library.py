@@ -20,6 +20,15 @@ from inspect_assets import read_fxf  # noqa: E402
 
 EMISSION_SHAPES = ("point", "plane", "sphere", "plane_in", "plane_out", "cone", "circle")
 MM9_TO_OPENYAMM_SCALE = 2.56
+# Recipes whose emitters MM9 anchors to a body node (UpdatePos 2-9: hands, feet, head, user nodes) that the rework's
+# scripts play anyway (DoClientFX in Wizard's Lab and Dragon Stadium; devdocs/mm9_rework/scr_audit/client_fx.md). OpenYAMM
+# effects have no body anchors: their anchored emitters emit at the effect's origin, which the caller places (the
+# shooter or the apprentice's chest for the dots, the dragon's snout for its smoke).
+ORIGIN_ANCHOR_RECIPES = frozenset({"bluedots", "greenyeldots", "dragon smoke"})
+
+
+def body_anchored(group: dict) -> bool:
+    return any(int(properties(key).get("UpdatePos", 0)) >= 2 for key in group["keys"])
 
 
 def world_vector(value: list[float]) -> list[float]:
@@ -361,6 +370,11 @@ def compile_group(group: dict, bindings: dict[str, dict]) -> dict:
     duration_seconds = max(
         [source_phase_seconds, *(float(key["end"]) for key in group["keys"])],
     )
+    anchor_fallback = {}
+    if body_anchored(group):
+        if group["name"] not in ORIGIN_ANCHOR_RECIPES:
+            raise ValueError(f"effect {group['name']} anchors emitters to body nodes")
+        anchor_fallback = {"anchor_fallback": "origin"}
     return {
         "id": effect_id(group["name"]),
         "source_name": group["name"],
@@ -369,6 +383,7 @@ def compile_group(group: dict, bindings: dict[str, dict]) -> dict:
         "duration_seconds": duration_seconds,
         "compatibility_profile": "mm9_native_60hz",
         "support": "supported",
+        **anchor_fallback,
         "capabilities": sorted({component["type"] for component in components}),
         "components": components,
     }

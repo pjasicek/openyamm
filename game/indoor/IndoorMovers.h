@@ -127,13 +127,15 @@ inline constexpr float IndoorLadderRunClimbSpeed = 288.0f;
 inline constexpr float IndoorLadderHoldGap = 4.0f;
 inline constexpr float IndoorLadderTopEntryDrop = 16.0f;
 
-// A `grabAtTop` ladder: a standing body within reach of `top_exit`, at its height, walking toward the strip's top.
+// A `grabAtTop` ladder: a standing body at `top_exit`'s height, within reach of the strip's top edge, walking toward
+// the spot where the climb starts (`indoorLadderTopEntryPosition`).
 bool indoorLadderCanGrabAtTop(
     const IndoorLadder &ladder,
     const IndoorMoverBody &body,
     float desiredVelocityX,
     float desiredVelocityY);
-// Where a body taken at the top is held (x, y and foot height): in front of the strip, just under its top.
+// Where a body taken at the top is held (x, y and foot height): in front of the strip, just under its top, across from
+// where the body stands along the strip (a body's radius inside its ends).
 bx::Vec3 indoorLadderTopEntryPosition(const IndoorLadder &ladder, const IndoorMoverBody &body);
 
 struct IndoorLadderClimbStep

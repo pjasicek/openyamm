@@ -51,7 +51,8 @@ def main():
         except ValueError:
             continue
         for loop, (u, v) in zip(f.loops, uv):
-            loop[uvl].uv = (u, 1.0 - v)
+            # centred in one frame of the flipbook (waterorb_flipbook.py): MM9's mapping spans -0.12..0.12
+            loop[uvl].uv = (u + 0.5, 0.5 - v)
     me = bpy.data.meshes.new('Waterorb')
     bm.to_mesh(me)
     bm.free()

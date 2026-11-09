@@ -89,6 +89,9 @@ public:
         std::optional<size_t> targetActorIndex) const;
     // Why NPC followers will not join in this house (0 outdoors), or nothing when they do. Standard: they do.
     virtual std::optional<FollowerHireRefusal> followerHireRefusal(uint32_t houseId) const;
+    // Why a paid MM9 hireling will not join, or nothing when it does (MAW: as its followers, from Doom up; story
+    // companions always join). Standard: it does.
+    virtual std::optional<FollowerHireRefusal> paidHirelingRefusal() const;
 };
 
 const ClassRules &standardClassRules();

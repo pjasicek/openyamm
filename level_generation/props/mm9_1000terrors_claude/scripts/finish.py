@@ -22,9 +22,10 @@ ORB = {'emissive': [0.08, 0.20, 0.62], 'extras': {'openyamm_flicker': [0.15, 3.0
 # The water orbs (build_waterorb.py): MM9's translucent WorldObjects (Alpha 0.4) over the blue candle lights:
 # alpha-blended, base colour factor alpha 0.4 (x the opaque water123 frame), single-sided, a faint blue emission
 # (MM9 lightmapped them from the blue light inside; a BLV light inside lights only their back faces here) and the
-# TerrorLight orbs' slow flicker.
+# TerrorLight orbs' slow flicker. Its texture is water123.spr's ten frames at 15 a second (waterorb_flipbook.py, a
+# 5 x 2 flipbook; 2026-11-09: before, frame 0 only).
 WATERORB = {'alpha': 'BLEND', 'opacity': 0.4, 'emissive': [0.02, 0.08, 0.35],
-            'extras': {'openyamm_flicker': [0.15, 3.0], 'openyamm_specular': 0.0}}
+            'extras': {'openyamm_flicker': [0.15, 3.0], 'openyamm_specular': 0.0, 'openyamm_flipbook': [5, 2, 15]}}
 OPACITY = {'waterorb': 0.4}
 _write_glb = isle_finish.link.write_glb
 

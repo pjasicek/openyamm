@@ -1,0 +1,192 @@
+# MM9 playthrough, segment 8: Hanndl reads the Writ, Skraelos and the Six Fires of Penance (guide: Chapter III, "Back
+# to Arslegard: the Great Gate"; Chapter IV, "The Afterworld: Skraelos"). The party woke in Arslegard City with the
+# Writ; Hanndl's scene opens the Great Gate on its own. The city is crossed by placing the party at the Hall of the
+# Gods; the hall is walked. In the Afterworld (a region: the party is placed) each fire is Skraelos' task in turn:
+# Guilt (the vision, the answer "Yes."), Confession (each Jarl's own line), Suffering (the Questioner's seven
+# answers), Retribution (Forad Darre's death), Absolution (the five swords) and Rebirth (the blazing fire, back to
+# the hall). Research: prep/06_08_guberland_verhoffin_afterworld.md.
+#   python3 tests/playthrough/mm9/run.py 58
+id: mm9.playthrough.58_six_fires
+title: "MM9 playthrough 58: through Hanndl's gate to Skraelos, light the Six Fires of Penance and report"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/57_verhoffin_writ.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: arslegardcity.blv, qbit_set: [90100], qbit_clear: [99515, 90101]}
+
+  # Hanndl at the peephole reads the Writ and opens the Great Gate (WritMan.scr, cinematic gate_writ, about 28 s).
+  - advance_runtime: {seconds: 40}
+  - assert: {qbit_set: [99515]}
+
+  # Across the city (placed) to the Hall of the Gods' entrance in the south-east.
+  - set_pose: {map: arslegardcity.blv, x: 19800, y: -11703, z: 493, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 20300, y: -11703, z: 493, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: hallofthegods.blv}
+
+  # Up the hall to Skraelos in the throne hall.
+  - walk_to: {x: 4715, y: 1802, z: 677, radius: 150, timeout_seconds: 300}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "We've come to ask for the return of our warriors."}
+  - select_topic: {match_label: "Our Writ of Fate says it is our destiny to stop Tamur Leng!"}
+  - select_topic: {match_label: "We will do whatever is required."}
+  - select_topic: {match_label: "What are the Six Fires of Penance?"}
+  - select_topic: {match_label: "Yes."}
+  # "Goodbye." ends the talk; its exit hook asks to take the party to the Afterworld.
+  - select_topic: {match_label: "Goodbye."}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: afterworld.blv}
+  - assert: {qbit_set: [90101, 90379]}
+  # Skraelos greets the party on arrival (his OnFoundPlayer talk).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 336}}
+
+  # Guilt: "What do we do now?" shows the vision.
+  - select_topic: {match_label: "What do we do now?"}
+  - select_topic: {match_label: "Our Guilt?!"}
+  # The vision's end reopens his talk (afterworld.lua, afterworld_guilt's "greeting").
+  - advance_runtime: {seconds: 16, present_dialogs: true}
+  - assert: {qbit_set: [90381]}
+  - assert: {dialog: {active: true, source_id: 336}}
+  - select_topic: {match_label: "How were we to know that Forad Darre was a traitor?"}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "We will do this."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90382]}
+
+  # Confession: each Jarl hears his own apology (Markel two lines).
+  - set_pose: {map: afterworld.blv, x: 4201, y: 7800, z: 1051, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 6}
+  - select_topic: {match_label: "Bjarni, forgive us."}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: afterworld.blv, x: -2432, y: 3728, z: 1051, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 5}
+  - select_topic: {match_label: "It is our fault you are dead."}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: afterworld.blv, x: 11375, y: 2628, z: 1173, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 7}
+  - select_topic: {match_label: "We are sorry, Sigmund."}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: afterworld.blv, x: 10486, y: -1671, z: 1051, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "Why are you here?"}
+  - select_topic: {match_label: "Yes, that is true."}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: afterworld.blv, x: 3066, y: -5256, z: 1051, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "We failed you Tryygva, and we are sorry."}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: afterworld.blv, x: -6584, y: -6942, z: 1055, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 3}
+  - select_topic: {match_label: "Kira, you are dead, and we are responsible for it."}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [90501, 90502, 90503, 90504, 90505, 90506]}
+
+  # Back to Skraelos: his click sees the six confessions (the fire of Confession); then Suffering: the Questioner.
+  - set_pose: {map: afterworld.blv, x: 1731, y: -2225, z: 1168, yaw: 0.9, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 1}
+  - assert: {qbit_set: [90383]}
+  - select_topic: {match_label: "We have confessed our guilt."}
+  # His answer offers "Yes, but how...?", which ends the talk; its exit hook brings the Questioner.
+  - select_topic: {match_label: "Yes, but how...?"}
+  - assert: {dialog: {active: true, source_id: 432}}
+  - select_topic: {match_label: "You, my lord."}
+  - select_topic: {match_label: "To serve you, my lord."}
+  - select_topic: {match_label: "We encouraged others to trust our misjudgement."}
+  - select_topic: {match_label: "We owe those we betrayed."}
+  - select_topic: {match_label: "We must pay the price of our failure."}
+  - select_topic: {match_label: "The ultimate price, my lord."}
+  - select_topic: {match_label: "Yes, my lord."}
+  - assert: {qbit_set: [90385]}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90491]}
+
+  # Retribution: Forad Darre and ghostly Horde warriors rise to the north-east and east; Forad's death is enough.
+  - set_pose: {map: afterworld.blv, x: 1731, y: -2225, z: 1168, yaw: 0.9, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We have known suffering."}
+  - select_topic: {match_label: "We will do this."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90386, 95021]}
+  - set_pose: {map: afterworld.blv, x: 6233, y: 2363, z: 1108, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 2.0}
+  - assert: {qbit_set: [90387]}
+
+  # Absolution: the fallen Jarls' swords stand among the dead on the battlefield north of Skraelos.
+  - set_pose: {map: afterworld.blv, x: 1731, y: -2225, z: 1168, yaw: 0.9, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We have slain the soldiers."}
+  - select_topic: {match_label: "We will do this."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90388, 90492]}
+  - set_pose: {map: afterworld.blv, x: 3800, y: 5300, z: 1060, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 4000}
+  # The swords lie among the dead (world items since openyamm-15's R11 promotion, 2026-11-08): the party walks up
+  # to each and picks it up with the use key.
+  - set_pose: {map: afterworld.blv, x: 3209, y: 5474, z: 1071, yaw: 0, pitch_degrees: -30}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {}
+  - play_lua: {source: 'wait(0.2); if not has_item(10563) then error("no sword of Sven after picking it up") end; log("the sword of Sven taken")'}
+  - set_pose: {map: afterworld.blv, x: 4028, y: 5474, z: 1013, yaw: 0, pitch_degrees: -30}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {}
+  - play_lua: {source: 'wait(0.2); if not has_item(10564) then error("no sword of Bjarni after picking it up") end; log("the sword of Bjarni taken")'}
+  - set_pose: {map: afterworld.blv, x: 4028, y: 4819, z: 1050, yaw: 0, pitch_degrees: -30}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {}
+  - play_lua: {source: 'wait(0.2); if not has_item(10565) then error("no sword of Sigmund after picking it up") end; log("the sword of Sigmund taken")'}
+  - set_pose: {map: afterworld.blv, x: 3373, y: 6129, z: 1050, yaw: 0, pitch_degrees: -30}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {}
+  - play_lua: {source: 'wait(0.2); if not has_item(10566) then error("no sword of Tryygva after picking it up") end; log("the sword of Tryygva taken")'}
+  - set_pose: {map: afterworld.blv, x: 4028, y: 5802, z: 1013, yaw: 0, pitch_degrees: -30}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {}
+  - play_lua: {source: 'wait(0.2); if not has_item(10567) then error("no sword of Kira after picking it up") end; log("the sword of Kira taken")'}
+  - set_pose: {map: afterworld.blv, x: 1731, y: -2225, z: 1168, yaw: 0.9, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 1}
+  - assert: {qbit_set: [90389]}
+  - select_topic: {match_label: "We have collected the swords."}
+  - select_topic: {match_label: "We will do this."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90390]}
+
+  # Rebirth: into the blazing fire north-west of Skraelos, which leads to the Hall of the Gods.
+  - set_pose: {map: afterworld.blv, x: -2941, y: 4700, z: 1700, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 2.0}
+  - walk_to: {x: -2941, y: 5160, z: 1554, timeout_seconds: 40, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: hallofthegods.blv}
+  - assert: {qbit_set: [90391, 90102]}
+
+  # In the hall, back up to Skraelos: "We have lit the Six Fires of Penance."
+  - walk_to: {x: 4715, y: 1802, z: 677, radius: 150, timeout_seconds: 300}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We have lit the Six Fires of Penance."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Farewell."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90103, 90189]}
+  - save_game: {name: "08 Six Fires lit", path: output/playthrough/mm9/checkpoints/58_six_fires.oysav}

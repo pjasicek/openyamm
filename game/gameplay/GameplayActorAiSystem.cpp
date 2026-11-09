@@ -2656,7 +2656,10 @@ void applyActiveMovementCommit(
         && (update.state.crowdSideLockRemainingSeconds.value_or(actor.runtime.crowdSideLockRemainingSeconds) > 0.0f
             || update.state.crowdRetreatRemainingSeconds.value_or(actor.runtime.crowdRetreatRemainingSeconds) > 0.0f);
 
-    if (actor.stats.canFly)
+    // A flyer climbs or sinks toward its target only when it has one: without a target its position is (0, 0, 0), and
+    // idle MM9 Ickies rose into Beethoven's ceilings toward height 0 (floors at -1900 to -3100) and through them.
+    if (actor.stats.canFly
+        && (actor.target.currentKind != ActorAiTargetKind::None || actor.target.hasCurrentMovementPosition))
     {
         const float verticalTargetDelta =
             movementTargetPosition.z + actor.status.climbAboveTarget - actor.world.targetZ;
@@ -4730,13 +4733,19 @@ bool mm9HasRangedAttack(const ActorAiFacts &actor, const ActorAiFrameFacts &fram
     return pProfile != nullptr && pProfile->ranged == Mm9AiRanged::Walker && mm9RangedAbility(actor, frame, 1.0f);
 }
 
+// The farthest a monster shoots or casts at its target: MM8's 5120, at the party no farther than the party's own hit
+// reach (MM9's 3800), so the party can answer every shot.
+float monsterRangedAttackReach(bool targetIsParty, const ActorAiFrameFacts &frame)
+{
+    return targetIsParty ? std::min(MaximumRangedAttackDistance, frame.partyHitReach) : MaximumRangedAttackDistance;
+}
+
 // Range.inc's RangeAttackRange: its placement's sight less 5 LT, within the engine's ranged reach.
-float mm9ActorRangeAttackRange(const ActorAiFacts &actor)
+float mm9ActorRangeAttackRange(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
 {
     const float sight = actor.movement.mm9Placement ? actor.movement.mm9Placement->sight : Mm9AiPlacement{}.sight;
-    const float reach = actor.target.currentKind == ActorAiTargetKind::Party
-        ? std::max(MaximumRangedAttackDistance, actor.target.partyAttackReach) : MaximumRangedAttackDistance;
-    return mm9RangeAttackRange(sight, reach);
+    return mm9RangeAttackRange(
+        sight, monsterRangedAttackReach(actor.target.currentKind == ActorAiTargetKind::Party, frame));
 }
 
 // A ranged holder by placement (ranged_type 2 on a Range.inc walker) follows a target it struck; the Evil Sorcerers
@@ -6101,7 +6110,7 @@ bool AI_Mm9Engage(ActorAiCommandContext &ai, const ActorEngagementState &engagem
     {
         state.shotCheckSeconds = mm9ShotCheckSeconds(holder, mm9Roll(actor, state, Mm9ShotTimerSalt));
 
-        if (ready && !engagement.inMeleeRange && distance <= mm9ActorRangeAttackRange(actor))
+        if (ready && !engagement.inMeleeRange && distance <= mm9ActorRangeAttackRange(actor, frame))
         {
             const float chance = mm9ShotChance(lineOfSight ? Mm9ShotLine::Target : Mm9ShotLine::Blocked);
             const float roll = chance > 0.0f ? mm9Roll(actor, state, Mm9ShotRollSalt) : -1.0f;
@@ -6182,7 +6191,7 @@ bool AI_Mm9Engage(ActorAiCommandContext &ai, const ActorEngagementState &engagem
 
     // Range.inc's ShouldRunAfter: within its range attack range, 5 s after its last shot and with a clear shot, it does
     // not run after its target (the next shot check shoots).
-    if (canShoot && distance < mm9ActorRangeAttackRange(actor))
+    if (canShoot && distance < mm9ActorRangeAttackRange(actor, frame))
     {
         if (state.sinceShotSeconds < 0.0f)
         {
@@ -6401,7 +6410,7 @@ bool AI_Mm9FlierShotCheck(ActorAiCommandContext &ai, bool afterBackOff)
     }
 
     if (!actorAttackReady(actor, frame) || !mm9RangedAbility(actor, frame, 1.0f)
-        || distance > mm9ActorRangeAttackRange(actor))
+        || distance > mm9ActorRangeAttackRange(actor, frame))
     {
         return false;
     }
@@ -6725,7 +6734,7 @@ bool AI_Mm9TurretEngage(ActorAiCommandContext &ai)
         return true;
     }
 
-    if (mm9EdgeDistance(actor, frame) > mm9ActorRangeAttackRange(actor))
+    if (mm9EdgeDistance(actor, frame) > mm9ActorRangeAttackRange(actor, frame))
     {
         AI_Mm9Wait(ai, ActorAiDecisionKind::Hold, "out_of_range");
         return true;
@@ -8412,9 +8421,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
     abilityInput.movementAllowed = actor.movement.movementAllowed;
     abilityInput.targetIsActor = engagement.targetIsActor;
     abilityInput.targetEdgeDistance = actor.target.currentEdgeDistance;
-    abilityInput.rangedAttackReach = engagement.targetIsParty
-        ? std::max(MaximumRangedAttackDistance, actor.target.partyAttackReach)
-        : MaximumRangedAttackDistance;
+    abilityInput.rangedAttackReach = monsterRangedAttackReach(engagement.targetIsParty, *pFrame);
     abilityInput.inMeleeRange = engagement.inMeleeRange;
     abilityInput.chooseRandomAbility = true;
     abilityInput.applyAbilityConstraints = true;

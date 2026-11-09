@@ -1,0 +1,26 @@
+# Missiles strike destructible props, and area impacts damage every standing destructible in their radius
+# (devdocs/INDOOR_DESTRUCTIBLES.md). On Frosgard City an event Fire Bolt at the powder barrel (DestructableProp0,
+# destructible 607) breaks it (before: the bolt flew through it); an event Fireball bursting on the floor beside
+# DestructableProp1 (45) breaks it by its blast without touching it, and one bursting between the two breakable
+# walls DestructableBrush12/13 (7, 8) breaks both.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/destructibles/frosgard_props_missiles_area.yml
+id: mm9.destructibles.frosgard_props_missiles_area
+title: A Fire Bolt breaks the Frosgard powder barrel; Fireball blasts break a prop and two walls they do not touch
+world: mm9
+mode: faithful
+tags: [mm9, destructibles, combat]
+steps:
+  - load_map: {map: frosgardcity.blv}
+  - advance_runtime: {seconds: 1}
+  - console: {line: destructible 607 state, expect_contains: standing}
+  - console: {line: projectile spell 2 3660 -11796 -280 4260 -11796 -280, expect_contains: Spell cast}
+  - advance_runtime: {seconds: 2}
+  - console: {line: destructible 607 state, expect_contains: broken}
+  - console: {line: destructible 45 state, expect_contains: standing}
+  - console: {line: projectile spell 6 15502 -2062 160 16302 -2062 -60, expect_contains: Spell cast}
+  - advance_runtime: {seconds: 2}
+  - console: {line: destructible 45 state, expect_contains: broken}
+  - console: {line: projectile spell 6 12288 2431 166 12288 3031 166, expect_contains: Spell cast}
+  - advance_runtime: {seconds: 2}
+  - console: {line: destructible 7 state, expect_contains: broken}
+  - console: {line: destructible 8 state, expect_contains: broken}

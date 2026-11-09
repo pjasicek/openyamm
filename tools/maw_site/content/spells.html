@@ -1,0 +1,1102 @@
+<h2 id="spell-kinds">Three kinds of spell</h2>
+<ul>
+  <li><strong>Cast spells</strong> (damage, heals, crowd control, travel) cost spell points each time; their power and
+    cost grow with Ascension.</li>
+  <li><strong>Auras</strong> are the old buffs: no cost, no duration, a share of the holder's maximum SP reserved while
+    held (see <a href="#combat">Combat &amp; auras</a> for the reservation table). An aura counts the holder's trained
+    school skill up to 50 (75 for Day of the Gods, Day of Protection and Hour of Power).</li>
+  <li><strong>Crowd control</strong> always lands except Stun; the monster's resistance shortens it instead.</li>
+</ul>
+
+<h2 id="ascension">Ascension</h2>
+<p>The old Learning skill, renamed. It gives no experience; it is one dial for every damage spell, heal and control
+  spell (s = Ascension skill):</p>
+<div class="tbl"><table>
+  <thead><tr><th></th><th>Formula</th><th>s = 10</th><th>s = 20</th><th>s = 30</th></tr></thead>
+  <tbody>
+    <tr><td>Damage per skill point (dice)</td><td>(1 + 0.02 s) × 1.02<sup>s</sup></td><td>×1.46</td><td>×2.08</td><td>×2.9</td></tr>
+    <tr><td>Flat damage</td><td>(1 + 0.01 s²) × 1.02<sup>s</sup></td><td>×2.4</td><td>×7.4</td><td>×18.1</td></tr>
+    <tr><td>Healing per point</td><td>(1 + 0.02 s) × 1.015<sup>s</sup></td><td>×1.39</td><td>×1.89</td><td>×2.5</td></tr>
+    <tr><td>Flat healing</td><td>(1 + 0.01 s²) × 1.015<sup>s</sup></td><td>×2.3</td><td>×6.7</td><td>×15.6</td></tr>
+    <tr><td>SP cost</td><td>(1 + 0.125 s) × 1.04<sup>s</sup>, −12.5 % per Ascension mastery rank</td><td>×3.3</td><td>×7.7</td><td>×15.4</td></tr>
+    <tr><td>Cast time</td><td>1.015<sup>s</sup></td><td>×1.16</td><td>×1.35</td><td>×1.56</td></tr>
+  </tbody>
+</table></div>
+<p>After Ascension every damage spell is multiplied by 0.7 (MAW's balance pass of November 2026), then by 1 + (the
+  higher of Intellect and Personality) ÷ 1000, and it can crit. Weapon damage enchantments add to spells too (40 % for
+  area spells). Auras, utility, travel, summons and cures do not ascend. Elementalists ascend from the average of their
+  four elements, Shamans from their seven schools; Death Knights and Assassins do not ascend.</p>
+
+<h2 id="crowd-control">Crowd control</h2>
+<ul>
+  <li>Duration = the spell's base × 50 / 65 / 80 / 100 % (Novice to Grandmaster), longer with Ascension, shorter
+    with the monster's resistance; doubled for a party of one.</li>
+  <li>A monster controlled for long in the last 20 seconds gets shorter effects (past 15 %) and then brief immunity
+    (past 60 %). Slow, Dark Grasp and Shrinking Ray are exempt. Bosses take half duration; Unstoppable bosses none.</li>
+  <li>Quick-casting a control spell with nothing under the cursor picks the visible hostile whose effect ends
+    soonest.</li>
+</ul>
+<p>The tables give each spell's cost in SP before Ascension (N / E / M / GM when it differs) or the aura's weight.
+  Damage is per point of skill in the school, before Ascension and the 0.7 factor.</p>
+<h2 id="fire-magic">Fire Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Torch Light</td>
+<td>Novice</td>
+<td>Aura, 5 SP</td>
+<td><strong>Aura.</strong> Light around the party, brighter with each mastery.</td>
+</tr>
+<tr>
+<td>Fire Bolt</td>
+<td>Novice</td>
+<td>2</td>
+<td>8 + 1–2 per skill point.</td>
+</tr>
+<tr>
+<td>Fire Resistance</td>
+<td>Novice</td>
+<td>Aura, weight 60</td>
+<td><strong>Aura.</strong> Party Fire resistance (10 + level/4) × (1 + 2 % per skill point), and +10 % Intellect plus 1 % per 5 points (at most 20 %).</td>
+</tr>
+<tr>
+<td>Fire Aura</td>
+<td>Novice</td>
+<td>Aura, weight 90</td>
+<td><strong>Aura.</strong> Every weapon in the party burns: each blow and arrow adds 10 / 15 / 20 / 25 % (N/E/M/GM) of the weapon's level damage as fire, at least 3 / 6 / 12 / 24 (doubled on two-handed weapons). The weapons in hand add it to damage spells too, 40 % on area spells.</td>
+</tr>
+<tr>
+<td>Haste</td>
+<td>Expert</td>
+<td>Aura, weight 120</td>
+<td><strong>Aura.</strong> Attacks and spells recover 10 % + 0.2 % per skill point faster (20 % at 50). No weakness when it ends.</td>
+</tr>
+<tr>
+<td>Fireball</td>
+<td>Expert</td>
+<td>8</td>
+<td>1–8 per skill point to everything near the impact.</td>
+</tr>
+<tr>
+<td>Fire Spike</td>
+<td>Expert</td>
+<td>10</td>
+<td>Mine: 1–10 per skill point, ×1.33 at Master, ×1.67 at Grandmaster; 5 spikes at most. Recovery 100.</td>
+</tr>
+<tr>
+<td>Immolation</td>
+<td>Master</td>
+<td>Aura, weight 40</td>
+<td><strong>Aura.</strong> Burns nearby monsters for 10 + 1–30 per skill point each tick, scaled by Ascension. (MAW's own code dealt a flat 10; OpenYAMM follows MAW's tooltip.)</td>
+</tr>
+<tr>
+<td>Meteor Shower</td>
+<td>Master</td>
+<td>40</td>
+<td>Outdoors only. Each meteor: 2 + 1 per skill point; the per-point part does not grow with Ascension. Cost 40, recovery 200 (180 at GM).</td>
+</tr>
+<tr>
+<td>Inferno</td>
+<td>Master</td>
+<td>50</td>
+<td>Indoors only. Every monster in sight: 12 + 1–7 per skill point. Cost 50.</td>
+</tr>
+<tr>
+<td>Incinerate</td>
+<td>Grandmaster</td>
+<td>30</td>
+<td>19 + 1–21 per skill point on one target.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Fire Bolt is MAW's efficient workhorse: the flat 8 grows fastest with Ascension, so it stays cheap per point of damage at every level.</p>
+<h2 id="air-magic">Air Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wizard Eye</td>
+<td>Novice</td>
+<td>Aura, 5 SP</td>
+<td><strong>Aura.</strong> The minimap shows monsters and points of interest, more with each mastery.</td>
+</tr>
+<tr>
+<td>Feather Fall</td>
+<td>Novice</td>
+<td>2</td>
+<td>Unchanged: a timed spell.</td>
+</tr>
+<tr>
+<td>Air Resistance</td>
+<td>Novice</td>
+<td>Aura, weight 60</td>
+<td><strong>Aura.</strong> Party Air resistance (10 + level/4) × (1 + 2 % per point), and +10–20 % Speed.</td>
+</tr>
+<tr>
+<td>Sparks</td>
+<td>Novice</td>
+<td>4 / 8 / 10 / 12</td>
+<td>Each spark 1–4 per skill point. Cost rises with mastery: 4 / 8 / 10 / 12.</td>
+</tr>
+<tr>
+<td>Jump</td>
+<td>Expert</td>
+<td>5</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>Expert</td>
+<td>Aura, weight 75</td>
+<td><strong>Aura.</strong> Magic damage your party takes is cut by 15 % + 0.3 % per skill point (30 % at most).</td>
+</tr>
+<tr>
+<td>Chain Lightning</td>
+<td>Expert</td>
+<td>10 / 10 / 20 / 30</td>
+<td>Replaces Lightning Bolt. 12 + 1–8 per skill point, always hits, then leaps to the nearest hostile monster: 1 / 2 / 3 / 4 targets at N/E/M/GM, each leap with the first bolt's damage. Cost 10 / 10 / 20 / 30, recovery 100 / 80 / 100 / 120.</td>
+</tr>
+<tr>
+<td>Invisibility</td>
+<td>Master</td>
+<td>15</td>
+<td>Master: 22.5 minutes + 1.5 per skill point; Grandmaster: 45 minutes + 3 per point. In Road to Insanity and Beyond Madness it ends when an enemy reaches melee range.</td>
+</tr>
+<tr>
+<td>Implosion</td>
+<td>Master</td>
+<td>20</td>
+<td>20 + 1–12 per skill point.</td>
+</tr>
+<tr>
+<td>Fly</td>
+<td>Master</td>
+<td>25</td>
+<td>Still a timed spell (not an aura). On Hard and harder, and in Austerity, attacking a monster turns it into Feather Fall, except on a few maps. A solo party's Fly scroll lasts 7 hours and is kept.</td>
+</tr>
+<tr>
+<td>Starburst</td>
+<td>Grandmaster</td>
+<td>60</td>
+<td>Outdoors only. 20 stars, each 7 + 1 per skill point; the per-point part does not grow with Ascension. Cost 60, recovery 140.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="water-magic">Water Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Awaken</td>
+<td>Novice</td>
+<td>1</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Poison Spray</td>
+<td>Novice</td>
+<td>2 / 4 / 5 / 6</td>
+<td>5 + 1–3 per skill point per shot. Cost 2 / 4 / 5 / 6.</td>
+</tr>
+<tr>
+<td>Water Resistance</td>
+<td>Novice</td>
+<td>Aura, weight 60</td>
+<td><strong>Aura.</strong> Party Water resistance (10 + level/4) × (1 + 2 % per point), and +10–20 % Luck.</td>
+</tr>
+<tr>
+<td>Ice Bolt</td>
+<td>Novice</td>
+<td>4</td>
+<td>6 + 1–7 per skill point.</td>
+</tr>
+<tr>
+<td>Water Walk</td>
+<td>Expert</td>
+<td>Aura, 20 SP</td>
+<td><strong>Aura.</strong> Walk on water while held.</td>
+</tr>
+<tr>
+<td>Empower Magic</td>
+<td>Expert</td>
+<td>Aura, weight 150</td>
+<td><strong>Aura.</strong> Replaces Recharge Item. Your party's damage spells deal 15 % + 0.3 % per skill point more (30 % at 50). See the note below the table.</td>
+</tr>
+<tr>
+<td>Acid Burst</td>
+<td>Expert</td>
+<td>10</td>
+<td>4 + 1–14 per skill point, always hits.</td>
+</tr>
+<tr>
+<td>Enchant Item</td>
+<td>Master</td>
+<td>15</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Town Portal</td>
+<td>Master</td>
+<td>20</td>
+<td>Refused with enemies near in Nightmare, Doom, Road to Insanity and Beyond Madness. A solo party keeps the scroll.</td>
+</tr>
+<tr>
+<td>Ice Blast</td>
+<td>Master</td>
+<td>25</td>
+<td>Each of the 7 shards 6 + 1–6 per skill point.</td>
+</tr>
+<tr>
+<td>Lloyd's Beacon</td>
+<td>Grandmaster</td>
+<td>30</td>
+<td>As Town Portal: refused with enemies near in Nightmare, Doom, Road to Insanity and Beyond Madness. A solo party keeps the scroll.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Empower Magic:</strong> OpenYAMM uses the 15 % + 0.3 % per point that MAW's tooltip promises. MAW's own code read Haste's numbers (10 % + 0.2 %).</p>
+<h2 id="earth-magic">Earth Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stun</td>
+<td>Novice</td>
+<td>1</td>
+<td><strong>Crowd control.</strong> Crowd control with a success roll (the only one): the higher your Earth skill against the monster's level and resistance, the likelier it holds; bosses resist more. Knocks back.</td>
+</tr>
+<tr>
+<td>Slow</td>
+<td>Novice</td>
+<td>2</td>
+<td><strong>Crowd control.</strong> Halves speed and doubles the monster's recovery: 6 / 7.8 / 9.6 / 12 s at N/E/M/GM (1/4 speed at Master, 1/8 at GM).</td>
+</tr>
+<tr>
+<td>Earth Resistance</td>
+<td>Novice</td>
+<td>Aura, weight 60</td>
+<td><strong>Aura.</strong> Party Earth resistance (10 + level/4) × (1 + 2 % per point), and +10–20 % Endurance.</td>
+</tr>
+<tr>
+<td>Deadly Swarm</td>
+<td>Novice</td>
+<td>4</td>
+<td>8 + 1–5 per skill point.</td>
+</tr>
+<tr>
+<td>Stone Skin</td>
+<td>Expert</td>
+<td>Aura, weight 75</td>
+<td><strong>Aura.</strong> Party Armor Class (20 + level/4) × (1 + 2 % per skill point).</td>
+</tr>
+<tr>
+<td>Blades</td>
+<td>Expert</td>
+<td>8</td>
+<td>7 + 1–7 per skill point; the only physical spell.</td>
+</tr>
+<tr>
+<td>Stone to Flesh</td>
+<td>Expert</td>
+<td>10</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Rock Blast</td>
+<td>Master</td>
+<td>15</td>
+<td>8 + 1–8 per skill point.</td>
+</tr>
+<tr>
+<td>Telekinesis</td>
+<td>Master</td>
+<td>20</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Death Blossom</td>
+<td>Master</td>
+<td>50</td>
+<td>Outdoors only. Each shard 4 + 1–2 per skill point. Cost 50, recovery 180 (160 at GM).</td>
+</tr>
+<tr>
+<td>Mass Distortion</td>
+<td>Grandmaster</td>
+<td>30</td>
+<td>15 % + 0.5 % per skill point of the target's current hit points, less on harder difficulties. Its cost grows with the caster's level, not the table.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Stun</strong> and <strong>Slow</strong> are crowd control: their duration follows the crowd-control rule above, and Slow and Mass Distortion skip the old resistance roll.</p>
+<h2 id="spirit-magic">Spirit Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detect Life</td>
+<td>Novice</td>
+<td>1</td>
+<td>Unchanged: a timed spell.</td>
+</tr>
+<tr>
+<td>Bless</td>
+<td>Novice</td>
+<td>Aura, weight 75</td>
+<td><strong>Aura.</strong> Party attack (20 + level/4) × (1 + 2 % per point), +10–20 % Accuracy, and +5 % to +10 % chance to hit.</td>
+</tr>
+<tr>
+<td>Fate</td>
+<td>Novice</td>
+<td>Aura, weight 75</td>
+<td><strong>Aura.</strong> Critical chance +5 % + 0.1 % per skill point (10 % at 50).</td>
+</tr>
+<tr>
+<td>Turn Undead</td>
+<td>Novice</td>
+<td>4</td>
+<td><strong>Crowd control.</strong> All visible undead flee: 5 / 6.5 / 8 / 10 s at N/E/M/GM.</td>
+</tr>
+<tr>
+<td>Remove Curse</td>
+<td>Expert</td>
+<td>5 / 10 / 20 (E/M/GM)</td>
+<td>Now also a heal: Expert 10 + 4 HP per skill point, Master 20 + 6, Grandmaster 30 + 8; cures Curse. Cost 5 / 10 / 20.</td>
+</tr>
+<tr>
+<td>Preservation</td>
+<td>Novice</td>
+<td>Aura, weight 120</td>
+<td><strong>Aura.</strong> Every member's soul is bound to the body (delays death).</td>
+</tr>
+<tr>
+<td>Heroism</td>
+<td>Expert</td>
+<td>Aura, weight 120</td>
+<td><strong>Aura.</strong> Melee damage +15 % + 0.3 % per skill point (30 % at 50).</td>
+</tr>
+<tr>
+<td>Spirit Lash</td>
+<td>Master</td>
+<td>15</td>
+<td>20 + 2–16 per skill point to monsters around the caster. Range 384 at Master.</td>
+</tr>
+<tr>
+<td>Raise Dead</td>
+<td>Master</td>
+<td>20</td>
+<td>Grandmaster also removes Eradication.</td>
+</tr>
+<tr>
+<td>Shared Life</td>
+<td>Master</td>
+<td>25 / 40 (M/GM)</td>
+<td>Pools the party's HP, adds 7 (Master) or 9 (GM) per two skill points minus 3 (4) per point, and shares it out evenly; nobody can die from it. Cost 25 / 40.</td>
+</tr>
+<tr>
+<td>Resurrection</td>
+<td>Grandmaster</td>
+<td>100</td>
+<td>Grandmaster: heals 150 + 21 HP per skill point and raises the dead and eradicated. Cost 100, recovery 300.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="mind-magic">Mind Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meditation</td>
+<td>Novice</td>
+<td>Aura, weight 120</td>
+<td><strong>Aura.</strong> Replaces Telepathy. Your party regains SP over time, more with bigger pools, your level and Mind skill, and much faster out of combat. Gives nothing to Dragons, Assassins (Thief line) and Death Knights.</td>
+</tr>
+<tr>
+<td>Remove Fear</td>
+<td>Novice</td>
+<td>2</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Mind Resistance</td>
+<td>Novice</td>
+<td>Aura, weight 60</td>
+<td><strong>Aura.</strong> Party Mind resistance (10 + level/4) × (1 + 2 % per point), and +10–20 % Personality.</td>
+</tr>
+<tr>
+<td>Mind Blast</td>
+<td>Novice</td>
+<td>4</td>
+<td>12 + 1–6 per skill point. Recovery 120 / 110 / 100 / 90.</td>
+</tr>
+<tr>
+<td>Charm</td>
+<td>Expert</td>
+<td>5</td>
+<td><strong>Crowd control.</strong> Calms one monster: 13 / 16 / 20 s at E/M/GM. Cost 5.</td>
+</tr>
+<tr>
+<td>Cure Paralysis</td>
+<td>Expert</td>
+<td>8</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Berserk</td>
+<td>Expert</td>
+<td>10</td>
+<td><strong>Crowd control.</strong> One monster attacks the nearest creature: 5.9 / 7.2 / 9 s at E/M/GM.</td>
+</tr>
+<tr>
+<td>Mass Fear</td>
+<td>Master</td>
+<td>40</td>
+<td><strong>Crowd control.</strong> Everything in sight flees: 4.8 / 6 s at M/GM. Cost 40, recovery 200.</td>
+</tr>
+<tr>
+<td>Cure Insanity</td>
+<td>Master</td>
+<td>20</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Psychic Shock</td>
+<td>Master</td>
+<td>25</td>
+<td>25 + 1–25 per skill point.</td>
+</tr>
+<tr>
+<td>Enslave</td>
+<td>Grandmaster</td>
+<td>30</td>
+<td><strong>Crowd control.</strong> Grandmaster: one monster fights for you for 10 s.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="body-magic">Body Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cure Weakness</td>
+<td>Novice</td>
+<td>1</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Heal</td>
+<td>Novice</td>
+<td>2 / 4 / 6 / 8</td>
+<td>Heals 4 / 8 / 12 / 16 + 2 / 3 / 4 / 6 HP per skill point; Personality adds more. Cost 2 / 4 / 6 / 8.</td>
+</tr>
+<tr>
+<td>Body Resistance</td>
+<td>Novice</td>
+<td>Aura, weight 60</td>
+<td><strong>Aura.</strong> Party Body resistance (10 + level/4) × (1 + 2 % per point), and +10–20 % Might.</td>
+</tr>
+<tr>
+<td>Harm</td>
+<td>Novice</td>
+<td>4</td>
+<td>4 + 1–4 per skill point.</td>
+</tr>
+<tr>
+<td>Regeneration</td>
+<td>Expert</td>
+<td>Aura, weight 120</td>
+<td><strong>Aura.</strong> Your party regains HP over time, more with bigger HP pools, your level and Body skill, and much faster out of combat.</td>
+</tr>
+<tr>
+<td>Cure Poison</td>
+<td>Expert</td>
+<td>8</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Hammerhands</td>
+<td>Expert</td>
+<td>Aura, weight 75</td>
+<td><strong>Aura.</strong> Unarmed damage +15 % + 0.3 % per skill point (30 % at 50).</td>
+</tr>
+<tr>
+<td>Greater Heal</td>
+<td>Master</td>
+<td>15 / 25 (M/GM)</td>
+<td>Replaces Cure Disease. Heals 25 + 7 HP per skill point (Master) or 40 + 10 (GM), and cures Disease. Cost 15 / 25.</td>
+</tr>
+<tr>
+<td>Protection from Magic</td>
+<td>Master</td>
+<td>Aura, weight 180</td>
+<td><strong>Aura.</strong> Party immune to Poison, Disease, Stone, Paralysis, Weakness, Death and Eradication from spells and monster abilities, and to Unconscious.</td>
+</tr>
+<tr>
+<td>Flying Fist</td>
+<td>Master</td>
+<td>25</td>
+<td>20 + 1–5 per skill point.</td>
+</tr>
+<tr>
+<td>Power Cure</td>
+<td>Grandmaster</td>
+<td>30</td>
+<td>Grandmaster: heals every member 15 + 4 HP per skill point (Personality adds more).</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Heals and Personality:</strong> every heal is multiplied by 1 + Personality / (1000 + 3 × level), at most 4000 in the divisor. Heals never crit. Quick-casting Heal, Greater Heal or Remove Curse picks the member who needs it most.</p>
+<h2 id="light-magic">Light Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Light Bolt</td>
+<td>Novice</td>
+<td>5</td>
+<td>12 + 1–2 per skill point; double against undead.</td>
+</tr>
+<tr>
+<td>Destroy Undead</td>
+<td>Novice</td>
+<td>50</td>
+<td>Undead only: 45 + 1–45 per skill point. Cost 50.</td>
+</tr>
+<tr>
+<td>Dispel Magic</td>
+<td>Novice</td>
+<td>15</td>
+<td>Unchanged (it cannot strip monsters' hold on your auras, which come straight back).</td>
+</tr>
+<tr>
+<td>Paralyze</td>
+<td>Novice</td>
+<td>20</td>
+<td><strong>Crowd control.</strong> Holds one monster: 3 / 3.9 / 4.8 / 6 s at N/E/M/GM, half as long on bosses.</td>
+</tr>
+<tr>
+<td>Summon Wisp</td>
+<td>Novice</td>
+<td>25 / 50 / 75 / 100</td>
+<td>Cost 25 / 50 / 75 / 100 by mastery. With the summon cap reached, Master keeps up to 3 wisps, Grandmaster 5.</td>
+</tr>
+<tr>
+<td>Day of the Gods</td>
+<td>Expert</td>
+<td>Aura, weight 200</td>
+<td><strong>Aura.</strong> All seven stats +10 % + 1 % per 7 skill points (20 % at skill 70; Light counts up to 75). Does not add to the resistance auras' stat bonus.</td>
+</tr>
+<tr>
+<td>Prismatic Light</td>
+<td>Expert</td>
+<td>35</td>
+<td>Indoors only. 30 + 2–6 per skill point to all in sight.</td>
+</tr>
+<tr>
+<td>Day of Protection</td>
+<td>Master</td>
+<td>Aura, weight 150</td>
+<td><strong>Aura.</strong> All six resistances (10 + level/4) × (1 + 2 % per 1.4 points); a stronger single resistance aura counts instead.</td>
+</tr>
+<tr>
+<td>Hour of Power</td>
+<td>Master</td>
+<td>Aura, weight 300</td>
+<td><strong>Aura.</strong> Haste, Shield, Stone Skin and Fate at two thirds of your Light skill (counted up to 75); each the stronger of this and the spell's own aura.</td>
+</tr>
+<tr>
+<td>Sunray</td>
+<td>Master</td>
+<td>50</td>
+<td>60 + 1–60 per skill point. Outdoors only by day; indoors any time.</td>
+</tr>
+<tr>
+<td>Divine Intervention</td>
+<td>Grandmaster</td>
+<td>55</td>
+<td>Unchanged.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A Priest of the Light holding Day of the Gods, Day of Protection and Hour of Power needs more than 100 % of his mana: give one of them to another caster.</p>
+<h2 id="dark-magic">Dark Magic</h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reanimate</td>
+<td>Novice</td>
+<td>10</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Toxic Cloud</td>
+<td>Novice</td>
+<td>15</td>
+<td>15 + 1–9 per skill point.</td>
+</tr>
+<tr>
+<td>Vampiric Aura</td>
+<td>Novice</td>
+<td>Aura, weight 150</td>
+<td><strong>Aura.</strong> Replaces Vampiric Weapon. Party attacks heal: 5 % of melee damage, 2.5 % of missile and spell damage.</td>
+</tr>
+<tr>
+<td>Shrinking Ray</td>
+<td>Novice</td>
+<td>25</td>
+<td><strong>Crowd control.</strong> Shrinks the target (monster damage ×0.7) for 8 s at any mastery, plus 1 / 2 / 3 more monsters near it at E/M/GM.</td>
+</tr>
+<tr>
+<td>Shrapmetal</td>
+<td>Expert</td>
+<td>30</td>
+<td>Each piece 1–7 per skill point.</td>
+</tr>
+<tr>
+<td>Control Undead</td>
+<td>Expert</td>
+<td>35</td>
+<td><strong>Crowd control.</strong> One undead fights for you: 13 / 16 / 20 s at E/M/GM.</td>
+</tr>
+<tr>
+<td>Pain Reflection</td>
+<td>Expert</td>
+<td>Aura, weight 10</td>
+<td><strong>Aura.</strong> Monsters that hit you take the same damage.</td>
+</tr>
+<tr>
+<td>Dark Grasp</td>
+<td>Master</td>
+<td>45</td>
+<td><strong>Crowd control.</strong> No missiles or spells, slowed, armour and damage cut: 9.6 / 12 s at M/GM.</td>
+</tr>
+<tr>
+<td>Dragon Breath</td>
+<td>Master</td>
+<td>50</td>
+<td>1–28 per skill point to the target and those near it.</td>
+</tr>
+<tr>
+<td>Armageddon</td>
+<td>Master</td>
+<td>55</td>
+<td>50 + 1 per skill point to everything on the map, your party included; three times a day, outdoors. The flat 50 now grows with Ascension.</td>
+</tr>
+<tr>
+<td>Souldrinker</td>
+<td>Grandmaster</td>
+<td>60</td>
+<td>25 + 1–5 per skill point to all in sight, given to your party as healing.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="death-knight-frost-blood-and-unholy">Death Knight: Frost, Blood and Unholy</h2>
+<p>Death Knights do not use the normal spellbook: their Water, Body and Dark Magic become <strong>Frost</strong>, <strong>Blood</strong> and
+<strong>Unholy</strong>, and each mastery of a school gives one spell. Costs are fixed (no Ascension), the cast takes as long
+as a weapon blow, and the damage spells deal a share of your <strong>weapon damage</strong>. Their mana is a fixed pool
+(60 / 80 / 100 for Death Knight / Death Lord / Lich King) that every melee hit refills by 10 / 15 / 20 (×1.5 on a
+kill). Spell books cannot teach them. Toggle spells are switched on and off from the spellbook or quick cast, and
+charge their cost on every melee hit instead.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>School, mastery</th>
+<th>Cost</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Icy Touch</td>
+<td>Frost, Novice</td>
+<td>15</td>
+<td>100 % of weapon damage (120 % from Master); from Expert it slows the target to 1/2 speed for 2 s (1/4 at Grandmaster).</td>
+</tr>
+<tr>
+<td>Water Walk</td>
+<td>Frost, Expert</td>
+<td>0</td>
+<td>Aura: walk on water (reserves nothing).</td>
+</tr>
+<tr>
+<td>Frostbite</td>
+<td>Frost, Master</td>
+<td>30</td>
+<td>150 % of weapon damage, 200 % at Grandmaster: the strongest single-target spell.</td>
+</tr>
+<tr>
+<td>Ice Bomb</td>
+<td>Frost, Grandmaster</td>
+<td>50</td>
+<td>A bomb that shatters into shards, each 75 % of weapon damage; best on big foes and groups.</td>
+</tr>
+<tr>
+<td>Blood Leech</td>
+<td>Blood, Novice</td>
+<td>6 per hit</td>
+<td>Toggle: every melee hit heals you (more with Blood skill, mastery and maximum HP).</td>
+</tr>
+<tr>
+<td>Regeneration</td>
+<td>Blood, Expert</td>
+<td>0</td>
+<td>The Regeneration aura (reserves nothing).</td>
+</tr>
+<tr>
+<td>Asphyxiate</td>
+<td>Blood, Master</td>
+<td>70</td>
+<td>110 % of weapon damage (140 % at Grandmaster) and stuns the target 4 s (2 s on bosses).</td>
+</tr>
+<tr>
+<td>Superior Blood Leech</td>
+<td>Blood, Grandmaster</td>
+<td>12 per hit</td>
+<td>Toggle: twice Blood Leech's healing.</td>
+</tr>
+<tr>
+<td>Vampiric Aura</td>
+<td>Unholy, Novice</td>
+<td>0</td>
+<td>The Vampiric aura: party attacks heal 5 % of melee, 2.5 % of missile and spell damage (reserves nothing).</td>
+</tr>
+<tr>
+<td>Death Coil</td>
+<td>Unholy, Expert</td>
+<td>30</td>
+<td>100 % of weapon damage (120 % at Grandmaster), and heals you for 20 % of what it took from the target's bar, 30 % from Unholy Master.</td>
+</tr>
+<tr>
+<td>Death Grasp</td>
+<td>Unholy, Master</td>
+<td>15 per hit</td>
+<td>Toggle: each hit holds the monster in Dark Grasp for 2 s (deals 30 % less, half speed, melee only).</td>
+</tr>
+<tr>
+<td>Death Breath</td>
+<td>Unholy, Grandmaster</td>
+<td>100</td>
+<td>60 % of weapon damage to every monster in the area; safe in close combat.</td>
+</tr>
+</tbody>
+</table></div>
+<p>MAW's sheet lists other percentages for some of these (Frostbite 120 %, Ice Bomb 50 %, Asphyxiate 120 %, Death
+Breath 40 %); the table follows the numbers MAW's code and OpenYAMM use. Besides spells, Frost and Unholy add flat
+melee damage, Frost adds attack speed, Blood cuts physical damage taken and adds melee leech, and Unholy cuts magic
+damage taken (see <a href="#classes">Classes</a>).</p>
+<figure><img src="img/spellbook_deathknight.jpg" alt="A Death Knight's spellbook"><figcaption>A Death Knight's spellbook: Frost, Blood and Unholy.</figcaption></figure>
+<h2 id="assassin-thief-line-combat-subtlety-poisons-and-assassination">Assassin (Thief line): Combat, Subtlety, Poisons and Assassination</h2>
+<p>Thieves, Rogues, Assassins and Spies turn Fire, Air, Water and Earth Magic into <strong>Combat</strong>, <strong>Subtlety</strong>,
+<strong>Poisons</strong> and <strong>Assassination</strong>. Their mana is <strong>energy</strong> (60 / 70 / 80 / 80, refilled quickly), their blows
+build <strong>combo points</strong> (up to 5, shown over the portrait), and damage spells spend combo points to deal a share of
+a melee blow. Each school knows its first spell untrained and one more per mastery. No Ascension; a spell takes two
+weapon blows' time. Their auras reserve nothing.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>School, mastery</th>
+<th>Cost</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Torch Light</td>
+<td>Combat, untrained</td>
+<td>1 energy</td>
+<td>Light aura.</td>
+</tr>
+<tr>
+<td>Fire Aura</td>
+<td>Combat, Novice</td>
+<td>0</td>
+<td>The Fire Aura aura (weapons add fire damage).</td>
+</tr>
+<tr>
+<td>Haste</td>
+<td>Combat, Expert</td>
+<td>0</td>
+<td>The Haste aura.</td>
+</tr>
+<tr>
+<td>Fireball</td>
+<td>Combat, Master</td>
+<td>5 combo</td>
+<td>100 % of a melee blow to everything near the impact.</td>
+</tr>
+<tr>
+<td>Fire Spike</td>
+<td>Combat, Grandmaster</td>
+<td>3 combo</td>
+<td>A mine dealing 250 % of a melee blow.</td>
+</tr>
+<tr>
+<td>Wizard Eye</td>
+<td>Subtlety, untrained</td>
+<td>1 energy</td>
+<td>Minimap aura.</td>
+</tr>
+<tr>
+<td>Shield</td>
+<td>Subtlety, untrained</td>
+<td>0</td>
+<td>The Shield aura.</td>
+</tr>
+<tr>
+<td>Jump</td>
+<td>Subtlety, Novice</td>
+<td>5 energy</td>
+<td>Jump.</td>
+</tr>
+<tr>
+<td>Chain Lightning</td>
+<td>Subtlety, Expert</td>
+<td>5 combo</td>
+<td>150 % of a melee blow, leaping to further monsters.</td>
+</tr>
+<tr>
+<td>Fly</td>
+<td>Subtlety, Master</td>
+<td>25 energy</td>
+<td>Fly.</td>
+</tr>
+<tr>
+<td>Invisibility</td>
+<td>Subtlety, Grandmaster</td>
+<td>15 energy</td>
+<td>Invisibility.</td>
+</tr>
+<tr>
+<td>Poison Spray</td>
+<td>Poisons, untrained</td>
+<td>3 combo</td>
+<td>75 % of a melee blow per shot.</td>
+</tr>
+<tr>
+<td>Water Walk</td>
+<td>Poisons, Novice</td>
+<td>0</td>
+<td>Water Walk aura.</td>
+</tr>
+<tr>
+<td>Acid Burst</td>
+<td>Poisons, Expert</td>
+<td>3 combo</td>
+<td>300 % of a melee blow, always hits.</td>
+</tr>
+<tr>
+<td>Town Portal</td>
+<td>Poisons, Master</td>
+<td>20 energy</td>
+<td>Town Portal.</td>
+</tr>
+<tr>
+<td>Lloyd's Beacon</td>
+<td>Poisons, Grandmaster</td>
+<td>30 energy</td>
+<td>Lloyd's Beacon.</td>
+</tr>
+<tr>
+<td>Stun</td>
+<td>Assassination, untrained</td>
+<td>3 combo</td>
+<td>150 % of a melee blow and a stun.</td>
+</tr>
+<tr>
+<td>Stone Skin</td>
+<td>Assassination, Novice</td>
+<td>0</td>
+<td>The Stone Skin aura.</td>
+</tr>
+<tr>
+<td>Blades</td>
+<td>Assassination, Expert</td>
+<td>3 combo</td>
+<td>300 % of a melee blow as physical damage.</td>
+</tr>
+<tr>
+<td>Telekinesis</td>
+<td>Assassination, Master</td>
+<td>0</td>
+<td>Telekinesis.</td>
+</tr>
+<tr>
+<td>Mass Distortion</td>
+<td>Assassination, Grandmaster</td>
+<td>4 combo</td>
+<td>400 % of a melee blow.</td>
+</tr>
+</tbody>
+</table></div>
+<p>MAW's sheet lists Torch Light, Wizard Eye, Shield, Poison Spray and Stun as "Novice"; in play they need no training
+at all. The schools' passive perks (energy cost of blows, attack speed stacks, energy regeneration, flat damage)
+are on the Classes page.</p>
+<figure><img src="img/spellbook_assassin.jpg" alt="An Assassin's spellbook"><figcaption>An Assassin's finishers cost combo points.</figcaption></figure>
+<h2 id="elementalist-learning-by-casting">Elementalist: learning by casting</h2>
+<p>The Elementalist uses the ordinary Fire, Air, Water and Earth spells (the tables above) but <strong>learns them by
+casting</strong>, not from books or teachers' spell lists. Every hit of one of your own offensive spells (1–44) on a hostile
+monster adds progress to that school (more for higher spells, stronger monsters and bigger parties; area spells a
+third). Each next spell of the school unlocks at a progress threshold (500, 1 500, 5 000, 10 000 … 320 000) and at
+the school mastery it needs: spells 1–4 of a school Novice, 5–7 Expert, 8–10 Master, the eleventh Grandmaster.
+Fire Bolt, Sparks, Poison Spray and Deadly Swarm are always known.</p>
+<ul>
+<li><strong>Stacks</strong>: every offensive cast adds a stack (shown over the portrait): +10 % damage per stack, casting starts
+  50 % slower and speeds up 5 % per stack, and the cost rises 7.5 % per stack. Stacks halve after a pause and reset
+  on a melee or arrow hit.</li>
+<li><strong>Rotation</strong>: after each cast the quick spell and attack spell switch to a random known spell of the same kind
+  (single target, short-range, area). <strong>R</strong> on the skills page switches the rotation off and on.</li>
+<li><strong>Ascension</strong> comes from the average of the four element skills, at Grandmaster mastery; the class cannot learn
+  Ascension itself.</li>
+</ul>
+<h2 id="racial-abilities">Racial abilities</h2>
+<p>The racial schools are spells the race always casts from spell points.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Spell</th>
+<th>Race, mastery</th>
+<th>Cost</th>
+<th>What it does in MAW</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Glamour</td>
+<td>Dark Elf, Novice</td>
+<td>5</td>
+<td>Party buff that raises shop prices you get (merchant bonus).</td>
+</tr>
+<tr>
+<td>Travelers' Boon</td>
+<td>Dark Elf, Expert</td>
+<td>10</td>
+<td>Travel buff (unchanged).</td>
+</tr>
+<tr>
+<td>Blind</td>
+<td>Dark Elf, Master</td>
+<td>15</td>
+<td>Blinds a monster (unchanged).</td>
+</tr>
+<tr>
+<td>Darkfire Bolt</td>
+<td>Dark Elf, Grandmaster</td>
+<td>20</td>
+<td>46 + 1–28 per skill point, resisted by the lower of Fire and Dark. Cost 20.</td>
+</tr>
+<tr>
+<td>Lifedrain</td>
+<td>Vampire, Novice</td>
+<td>5 / 5 / 10 / 15</td>
+<td>1–22 per skill point, ×1.67 at Master, ×2.33 at Grandmaster; heals the vampire by a third of the damage.</td>
+</tr>
+<tr>
+<td>Levitate</td>
+<td>Vampire, Expert</td>
+<td>10</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Charm</td>
+<td>Vampire, Master</td>
+<td>15</td>
+<td><strong>Crowd control.</strong> Charms a small group near the target: 16 / 20 s at M/GM (OpenYAMM reads the Vampire Ability mastery; MAW wrongly read the Dark Elf one).</td>
+</tr>
+<tr>
+<td>Mistform</td>
+<td>Vampire, Grandmaster</td>
+<td>30</td>
+<td>Physical damage taken −75 %; no physical attacks while in mist.</td>
+</tr>
+<tr>
+<td>Fear</td>
+<td>Dragon, Novice</td>
+<td>15 / 15 / 25 / 30</td>
+<td><strong>Crowd control.</strong> Opponents flee: 4 s at Novice, 8 s from Expert (Dragon Ability mastery), without Ascension or resistance; at Master all nearby, at GM all in view. Recovery 120.</td>
+</tr>
+<tr>
+<td>Flame Blast</td>
+<td>Dragon, Expert</td>
+<td>25 / 40 / 50 / 60</td>
+<td>An exploding breath: 70 % of breath damage, 85 % at Master, 100 % at Grandmaster.</td>
+</tr>
+<tr>
+<td>Flight</td>
+<td>Dragon, Master</td>
+<td>15</td>
+<td>Flight (unchanged).</td>
+</tr>
+<tr>
+<td>Wing Buffet</td>
+<td>Dragon, Grandmaster</td>
+<td>30</td>
+<td>Knocks monsters back (unchanged).</td>
+</tr>
+</tbody>
+</table></div>

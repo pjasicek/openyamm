@@ -324,6 +324,9 @@ public:
     // also misses an actor whose MM9 script is immune to physical damage (self:setMm9{immune = "physical"}).
     float speedMultiplier(size_t actorIndex, uint32_t actorId) const;
     bool invulnerable(size_t actorIndex, ShieldAttackTier tier) const;
+    // Whether an actor runs a script: one is attached, or its monster row has a default one (behaviors.yml monsters)
+    // that attaches at its first step. A ruleset leaves such actors as they are (MAW makes no boss of them).
+    bool scripted(size_t actorIndex, int16_t monsterId) const;
     // An MM9 map trigger sent to a scripted actor (MM9's Trigger <object>, <message>; an arena's `trigger` event): its
     // script's onTrigger runs at the next step. False without a script.
     bool trigger(size_t actorIndex, const std::string &message);

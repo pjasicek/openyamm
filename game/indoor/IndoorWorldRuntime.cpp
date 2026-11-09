@@ -11,6 +11,7 @@
 #include "game/gameplay/Mm9ActorRules.h"
 
 #include "game/gameplay/ActorAiTrace.h"
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/gameplay/ScriptedActorMoves.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/gameplay/ActorVocalizationRules.h"
@@ -3162,6 +3163,8 @@ GameplayActorTargetPolicyState buildIndoorActorTargetPolicyState(
     state.height = height;
     state.hostileToParty = hostileToParty;
     state.controlMode = spellEffects.controlMode;
+    state.actorId = aiState.actorId;
+    state.lastActorAttackerId = aiState.lastActorAttackerId;
     return state;
 }
 
@@ -3824,6 +3827,7 @@ void IndoorWorldRuntime::dropRestingWorldItemsToFloor()
             || spriteObject.velocityX != 0
             || spriteObject.velocityY != 0
             || spriteObject.velocityZ != 0
+            || spriteObject.semanticPlacedPickup
             || spriteObjectContainedItemId(spriteObject.rawContainingItem) == 0)
         {
             continue;
@@ -3892,7 +3896,11 @@ void IndoorWorldRuntime::materializeSemanticWorldItems()
 
     for (const MapWorldItemSource &source : m_itemSourceData.worldItems)
     {
-        if (sourceAlreadyMaterialized(source.sourceId))
+        if (sourceAlreadyMaterialized(source.sourceId)
+            || std::find(
+                   pMapDeltaData->takenWorldItems.begin(),
+                   pMapDeltaData->takenWorldItems.end(),
+                   source.sourceId) != pMapDeltaData->takenWorldItems.end())
         {
             continue;
         }
@@ -3939,7 +3947,7 @@ void IndoorWorldRuntime::materializeSemanticWorldItems()
         spriteObject.semanticSourceId = source.sourceId;
         spriteObject.semanticPlacedPickup = true;
         writeIndoorHeldItem(spriteObject, item);
-        pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+        appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
     }
 
     size_t bagObjectDescriptionId = m_pObjectTable->entries().size();
@@ -3979,7 +3987,7 @@ void IndoorWorldRuntime::materializeSemanticWorldItems()
         spriteObject.semanticSourceId = source.sourceId;
         spriteObject.semanticLootContainerId = source.containerId;
         spriteObject.semanticLootContainer = true;
-        pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+        appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
     }
 
     synchronizeSemanticWorldItemVisibility();
@@ -3988,10 +3996,12 @@ void IndoorWorldRuntime::materializeSemanticWorldItems()
 void IndoorWorldRuntime::synchronizeSemanticWorldItemVisibility()
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
-    if (pMapDeltaData == nullptr || m_pParty == nullptr)
+    if (m_itemSourceData.worldItems.empty() || pMapDeltaData == nullptr || m_pParty == nullptr)
     {
         return;
     }
+
+    m_placedWorldItemRevision = m_pParty->dialogueEligibilityRevision();
 
     for (MapDeltaSpriteObject &object : pMapDeltaData->spriteObjects)
     {
@@ -4009,6 +4019,15 @@ void IndoorWorldRuntime::synchronizeSemanticWorldItemVisibility()
             });
         const bool available = sourceIt != m_itemSourceData.worldItems.end()
             && worldItemPolicyAvailable(*sourceIt, *m_pParty);
+        object.semanticPickupLocked = sourceIt != m_itemSourceData.worldItems.end()
+            && !worldItemPickupAllowed(*sourceIt, *m_pParty);
+        object.semanticPose.reset();
+        if (sourceIt != m_itemSourceData.worldItems.end() && sourceIt->poseDegrees)
+        {
+            constexpr float DegreesToRadians = 3.14159265358979f / 180.0f;
+            object.semanticPose = std::array<float, 3>{(*sourceIt->poseDegrees)[0] * DegreesToRadians,
+                (*sourceIt->poseDegrees)[1] * DegreesToRadians, (*sourceIt->poseDegrees)[2] * DegreesToRadians};
+        }
         if (available && object.semanticPolicyHidden)
         {
             object.attributes &= ~SpriteAttrRemoved;
@@ -4071,6 +4090,10 @@ void IndoorWorldRuntime::initialize(
     }
     m_pPartyRuntime = pPartyRuntime;
     m_pMapDeltaData = pMapDeltaData;
+    if (m_pMapDeltaData != nullptr && *m_pMapDeltaData)
+    {
+        assignSpriteObjectKeys(**m_pMapDeltaData);
+    }
     m_pEventRuntimeState = pEventRuntimeState;
     if (m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() && m_pParty != nullptr)
     {
@@ -4118,6 +4141,7 @@ void IndoorWorldRuntime::initialize(
     m_activatedIndoorSectorMask.clear();
     m_bloodSplats.clear();
     m_fireSpikeTraps.clear();
+    m_armageddonState = {};
     m_immolationTickAccumulatorGameMinutes = 0.0f;
     m_immolationTickSequence = 0;
     ++m_bloodSplatRevision;
@@ -4221,6 +4245,10 @@ void IndoorWorldRuntime::initialize(
     }
     m_pPartyRuntime = pPartyRuntime;
     m_pMapDeltaData = pMapDeltaData;
+    if (m_pMapDeltaData != nullptr && *m_pMapDeltaData)
+    {
+        assignSpriteObjectKeys(**m_pMapDeltaData);
+    }
     m_pEventRuntimeState = pEventRuntimeState;
     if (m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() && m_pParty != nullptr)
     {
@@ -4263,6 +4291,7 @@ void IndoorWorldRuntime::initialize(
     m_activatedIndoorSectorMask.clear();
     m_bloodSplats.clear();
     m_fireSpikeTraps.clear();
+    m_armageddonState = {};
     ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = 0.0f;
     m_actorHitFeedback.clear();
@@ -4900,10 +4929,10 @@ std::shared_ptr<const PathMap> IndoorWorldRuntime::indoorPathMap() const
             const IndoorMapData *pIndoorMapData = m_pIndoorMapData;
             m_pendingPathMap.generation = runtimeGeometry.pathMapGeneration;
             m_pendingPathMap.map = std::async(std::launch::async,
-                [pIndoorMapData, vertices = runtimeGeometry.vertices, attributes]()
+                [pIndoorMapData, vertices = runtimeGeometry.vertices, attributes, openAiDoors = openIndoorAiDoorIds()]()
                 {
-                    IndoorPathMapBuildResult result = IndoorPathfindingBuilder::buildPathMap(
-                        *pIndoorMapData, vertices, attributes.get(), nullptr, IndoorPathSpatialGridCellSize);
+                    IndoorPathMapBuildResult result = IndoorPathfindingBuilder::buildPathMap(*pIndoorMapData,
+                        vertices, attributes.get(), nullptr, IndoorPathSpatialGridCellSize, openAiDoors);
                     return std::make_shared<PathMap>(std::move(result.pathMap));
                 });
         }
@@ -4920,7 +4949,8 @@ std::shared_ptr<const PathMap> IndoorWorldRuntime::indoorPathMap() const
                 runtimeGeometry.vertices,
                 mapDeltaData(),
                 &runtimeGeometry.geometryCache,
-                IndoorPathSpatialGridCellSize);
+                IndoorPathSpatialGridCellSize,
+                openIndoorAiDoorIds());
         runtimeGeometry.pathMapSnapshot = std::make_shared<PathMap>(std::move(buildResult.pathMap));
         runtimeGeometry.pathMapValid = true;
 
@@ -4938,9 +4968,95 @@ std::shared_ptr<const PathMap> IndoorWorldRuntime::indoorPathMap() const
     return runtimeGeometry.pathMapSnapshot;
 }
 
+std::shared_ptr<const PathMap> IndoorWorldRuntime::currentIndoorPathMap()
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return nullptr;
+    }
+
+    RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+
+    if (m_pendingPathMap.map.valid())
+    {
+        m_pendingPathMap.map.wait();
+        adoptPendingIndoorPathMap();
+    }
+
+    if (!runtimeGeometry.pathMapValid && runtimeGeometry.pathMapSnapshot != nullptr)
+    {
+        // Changed again since: built here (indoorPathMap's own build) rather than handed back stale.
+        runtimeGeometry.pathMapSnapshot = nullptr;
+        m_actorPathRuntime.clear();
+    }
+
+    return indoorPathMap();
+}
+
+bool IndoorWorldRuntime::indoorDoorShut(uint32_t doorId) const
+{
+    uint16_t doorState = static_cast<uint16_t>(EvtMechanismState::Closed);
+
+    if (const MapDeltaData *pMapDeltaData = mapDeltaData())
+    {
+        for (const MapDeltaDoor &door : pMapDeltaData->doors)
+        {
+            if (door.doorId == doorId)
+            {
+                doorState = door.state;
+            }
+        }
+    }
+
+    if (const EventRuntimeState *pEventRuntimeState = eventRuntimeState())
+    {
+        if (const auto mechanism = pEventRuntimeState->mechanisms.find(doorId);
+            mechanism != pEventRuntimeState->mechanisms.end())
+        {
+            doorState = mechanism->second.state;
+        }
+    }
+
+    // IsClosed: shut, or swinging shut.
+    return doorState == static_cast<uint16_t>(EvtMechanismState::Closed)
+        || doorState == static_cast<uint16_t>(EvtMechanismState::Closing);
+}
+
+std::vector<uint32_t> IndoorWorldRuntime::openIndoorAiDoorIds() const
+{
+    std::vector<uint32_t> doorIds;
+
+    if (m_pIndoorMapData == nullptr)
+    {
+        return doorIds;
+    }
+
+    for (const IndoorAiDoor &door : m_pIndoorMapData->aiDoors)
+    {
+        if (!indoorDoorShut(door.doorId))
+        {
+            doorIds.push_back(door.doorId);
+        }
+    }
+
+    return doorIds;
+}
+
 bool IndoorWorldRuntime::indoorActorPathfindingEnabled() const
 {
     return m_pGameplayView != nullptr && m_pGameplayView->settingsSnapshot().indoorPathfinding;
+}
+
+const MapPresentation *IndoorWorldRuntime::activeMapPresentation() const
+{
+    if (m_pIndoorMapData == nullptr || !m_pIndoorMapData->mapPresentation)
+    {
+        return nullptr;
+    }
+
+    // A map built without outlines (MM9's cities and regions) has only its painted map.
+    const bool linesChosen = m_pGameplayView != nullptr && !m_pGameplayView->settingsSnapshot().paintedMaps;
+    return linesChosen && !m_pIndoorMapData->outlines.empty() ? nullptr : &*m_pIndoorMapData->mapPresentation;
 }
 
 // A flyer's feet at footZ below a target it aims at (aimZ), lowered to fit its body under the ceiling there: aimed at a
@@ -5777,6 +5893,7 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(
     ActorAiFrameFacts facts = {};
     facts.meleeVerticalReach =
         m_pGameplayActorService != nullptr ? m_pGameplayActorService->meleeVerticalReach() : 0.0f;
+    facts.partyHitReach = partyHitReach();
     facts.deltaSeconds = deltaSeconds;
     facts.fixedStepSeconds = ActorUpdateStepSeconds;
     facts.party.collisionRadius = PartyCollisionRadius;
@@ -6968,6 +7085,7 @@ void IndoorWorldRuntime::applyMm9Requests(const ActorAiFrameResult &result)
         if (request.turnOnParty)
         {
             setMapActorHostilityFromEvent(update.actorIndex, true);
+            alertMapActorToParty(update.actorIndex);
         }
 
         // A dormant start woke by itself (a call, a target noticed): it alone, not its group.
@@ -7259,12 +7377,12 @@ bool IndoorWorldRuntime::debugFireActorProjectile(
     return applyIndoorActorProjectileRequest(request);
 }
 
-bool IndoorWorldRuntime::castIndoorMeteorShower(
+bool IndoorWorldRuntime::spawnIndoorFallingShots(
     const GameplayProjectileService::ProjectileSpawnRequest &baseRequest,
-    const ActorProjectileRequest &projectileRequest)
+    const std::vector<GameplayProjectileService::AreaSpellProjectileShot> &shots,
+    const GameplayWorldPoint &target)
 {
     constexpr float MinimumFallHeight = 160.0f;
-    const GameplayWorldPoint &target = projectileRequest.target;
     int16_t targetSectorId = -1;
 
     if (m_pIndoorMapData != nullptr)
@@ -7274,13 +7392,6 @@ bool IndoorWorldRuntime::castIndoorMeteorShower(
             &runtimeGeometry.geometryCache, {target.x, target.y, target.z}, -1);
     }
 
-    const std::vector<GameplayProjectileService::AreaSpellProjectileShot> shots =
-        m_pGameplayProjectileService->buildMeteorShowerProjectileShots(
-            static_cast<uint32_t>(projectileRequest.skillMastery),
-            m_pGameplayProjectileService->nextProjectileId(),
-            target.x,
-            target.y,
-            target.z);
     bool spawnedAny = false;
 
     for (const GameplayProjectileService::AreaSpellProjectileShot &shot : shots)
@@ -7453,11 +7564,20 @@ bool IndoorWorldRuntime::applyIndoorActorProjectileRequest(const ActorProjectile
     spawnRequest.sectorId = sourceState.sectorId;
     spawnRequest.allowInstantImpact = true;
 
-    // Meteor Shower (indoor_meteor_shower monsters only, applyIndoorMeteorShowerRule) rains down on the target, as
-    // outdoors, each meteor from as high as the room's ceiling allows.
+    // Meteor Shower (indoor_meteor_shower monsters, or any on a map open to the sky: applyIndoorMeteorShowerRule)
+    // rains down on the target, as outdoors, each meteor from as high as the room's ceiling allows.
     if (isSpellId(projectileRequest.spellId, SpellId::MeteorShower))
     {
-        return castIndoorMeteorShower(spawnRequest, projectileRequest);
+        const GameplayWorldPoint &target = projectileRequest.target;
+        return spawnIndoorFallingShots(
+            spawnRequest,
+            m_pGameplayProjectileService->buildMeteorShowerProjectileShots(
+                static_cast<uint32_t>(projectileRequest.skillMastery),
+                m_pGameplayProjectileService->nextProjectileId(),
+                target.x,
+                target.y,
+                target.z),
+            target);
     }
 
     // A monster's Sparks is a volley over a fan (monsterSpellProjectileCount, monsterSpellVolleyTarget).
@@ -7907,6 +8027,7 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
     facts.partyCollisionHeight = PartyCollisionHeight;
     facts.canHitParty = pPartyMoveState != nullptr;
     facts.turnBasedActive = m_turnBasedActorFacts.mode != ActorTurnBasedMode::RealTime;
+    facts.partyShotReach = partyHitReach();
 
     GameplayProjectileService::ProjectilePartyImpactDamageInput damageInput = {};
     damageInput.sourceKind = projectile.sourceKind;
@@ -8947,6 +9068,11 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
 
                         if (projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Actor)
                         {
+                            if (actorHit.actorIndex < m_mapActorAiStates.size())
+                            {
+                                m_mapActorAiStates[actorHit.actorIndex].lastActorAttackerId = projectile.sourceId;
+                            }
+
                             noteMm9ActorHit(actorHit.actorIndex, ActorAiTargetKind::Actor,
                                 actorIndexForActorId(projectile.sourceId), previousHp - targetActor.hp);
                         }
@@ -9065,6 +9191,12 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
         m_pGameplayProjectileService->expireProjectile(projectile, frameResult.endPoint);
     }
 
+    // A copy: spawning the children below may move the projectile list.
+    const std::optional<GameplayProjectileService::ProjectileState> deathBlossom =
+        frameResult.deathBlossomFalloutPoint
+            ? std::optional<GameplayProjectileService::ProjectileState>(projectile)
+            : std::nullopt;
+
     for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
     {
         GameplayProjectileService::ProjectileSpawnRequest childSpawnRequest = spawnRequest;
@@ -9080,6 +9212,65 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
     if (chainRequest)
     {
         m_pGameplayProjectileService->spawnProjectile(*chainRequest);
+    }
+
+    if (deathBlossom)
+    {
+        spawnIndoorDeathBlossomFallout(*deathBlossom, *frameResult.deathBlossomFalloutPoint);
+    }
+}
+
+// Death Blossom bursts where it strikes into shards that fall around the point, as outdoors
+// (OutdoorWorldRuntime::spawnDeathBlossomFalloutProjectiles; the party casts it only on a map open to the sky).
+void IndoorWorldRuntime::spawnIndoorDeathBlossomFallout(
+    const GameplayProjectileService::ProjectileState &projectile,
+    const GameplayWorldPoint &point)
+{
+    constexpr int ShardObjectId = 4092;
+    constexpr int ShardImpactObjectId = 4091;
+    IndoorResolvedProjectileDefinition definition = {};
+
+    if (m_pGameplayProjectileService == nullptr
+        || m_pObjectTable == nullptr
+        || !fillIndoorProjectileDefinitionFromObject(ShardObjectId, ShardImpactObjectId, *m_pObjectTable, definition))
+    {
+        return;
+    }
+
+    const uint16_t objectSpriteFrameIndex = resolveRuntimeProjectileSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        definition.objectSpriteId,
+        definition.objectSpriteName);
+    const std::vector<GameplayProjectileService::ProjectileSpawnResult> shards =
+        m_pGameplayProjectileService->spawnDeathBlossomFalloutProjectiles(
+            projectile,
+            buildIndoorGameplayProjectileDefinition(definition, objectSpriteFrameIndex),
+            point.x,
+            point.y,
+            point.z);
+
+    for (const GameplayProjectileService::ProjectileSpawnResult &shard : shards)
+    {
+        const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
+            m_pGameplayProjectileService->buildProjectileSpawnEffects(shard);
+
+        if (!spawnEffects.accepted)
+        {
+            continue;
+        }
+
+        if (spawnEffects.playReleaseAudio && spawnEffects.releaseAudioRequest)
+        {
+            pushIndoorProjectileAudioEvent(*spawnEffects.releaseAudioRequest);
+        }
+
+        if (spawnEffects.spawnInstantImpact)
+        {
+            spawnIndoorProjectileImpactVisual(
+                shard.projectile,
+                {spawnEffects.impactX, spawnEffects.impactY, spawnEffects.impactZ},
+                false);
+        }
     }
 }
 
@@ -9968,7 +10159,7 @@ bool IndoorWorldRuntime::updateWorldItemsStep(
                 geometryCache,
                 worldItemSphereChain(
                     m_pItemTable->groundModel(containedItemId),
-                    worldItemYawRadians(uint32_t(objectIndex))),
+                    worldItemYawRadians(spriteObject.objectKey)),
                 segmentStart,
                 segmentEnd,
                 spriteObject.sectorId)
@@ -10138,7 +10329,13 @@ bool IndoorWorldRuntime::updateWorldItemsStep(
 
 void IndoorWorldRuntime::updateWorldItems(float deltaSeconds)
 {
-    synchronizeSemanticWorldItemVisibility();
+    // The placed world items' gates are quest bits: evaluated again only when they change.
+    if (!m_itemSourceData.worldItems.empty()
+        && m_pParty != nullptr
+        && m_pParty->dialogueEligibilityRevision() != m_placedWorldItemRevision)
+    {
+        synchronizeSemanticWorldItemVisibility();
+    }
 
     if (deltaSeconds <= 0.0f || m_pIndoorMapData == nullptr)
     {
@@ -10967,7 +11164,6 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     {
         ActorMm9WorldFacts &world = aiState.mm9World;
         world.doorAhead = false;
-        const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
 
         for (const IndoorMoveDebugInfo *pInfo : {&moveDebugInfo, &verticalMoveDebugInfo})
         {
@@ -10975,39 +11171,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
                 ? findIndoorAiDoorByFace(*m_pIndoorMapData, pInfo->hitFaceIndex) : nullptr;
             const float normalLength = length2d(pInfo->hitNormal.x, pInfo->hitNormal.y);
 
-            if (pAiDoor == nullptr || normalLength <= 0.001f || world.doorAhead)
-            {
-                continue;
-            }
-
-            uint16_t doorState = static_cast<uint16_t>(EvtMechanismState::Closed);
-            const MapDeltaDoor *pDoor = nullptr;
-
-            for (const MapDeltaDoor &door : pMapDeltaData->doors)
-            {
-                if (door.doorId == pAiDoor->doorId)
-                {
-                    pDoor = &door;
-                }
-            }
-
-            if (pDoor != nullptr)
-            {
-                doorState = pDoor->state;
-            }
-
-            if (pEventRuntimeState != nullptr)
-            {
-                if (const auto mechanism = pEventRuntimeState->mechanisms.find(pAiDoor->doorId);
-                    mechanism != pEventRuntimeState->mechanisms.end())
-                {
-                    doorState = mechanism->second.state;
-                }
-            }
-
-            // IsClosed: shut, or swinging shut.
-            if (doorState != static_cast<uint16_t>(EvtMechanismState::Closed)
-                && doorState != static_cast<uint16_t>(EvtMechanismState::Closing))
+            if (pAiDoor == nullptr || normalLength <= 0.001f || world.doorAhead || !indoorDoorShut(pAiDoor->doorId))
             {
                 continue;
             }
@@ -12129,6 +12293,11 @@ bool IndoorWorldRuntime::isIndoorMap() const
     return true;
 }
 
+bool IndoorWorldRuntime::isOpenAirMap() const
+{
+    return m_map && m_map->openAir;
+}
+
 bool IndoorWorldRuntime::allowsLloydsBeacon() const
 {
     return !m_map || m_map->runtimeRestrictions.allowLloydsBeacon;
@@ -12275,6 +12444,11 @@ float IndoorWorldRuntime::partyEngagementRange() const
     return m_pGameplayActorService != nullptr
         ? m_pGameplayActorService->configuredPartyEngagementRange()
         : GameplayActorService::MaximumPartyEngagementRange;
+}
+
+float IndoorWorldRuntime::partyHitReach() const
+{
+    return m_pGameplayActorService != nullptr ? m_pGameplayActorService->partyHitReach() : PartyYellowAlertDistance;
 }
 
 GameplayWorldPoint IndoorWorldRuntime::chooseBountyHuntSpawnPoint(uint32_t seed) const
@@ -12987,6 +13161,7 @@ void IndoorWorldRuntime::updateWorld(float deltaSeconds)
     updateWorldItems(deltaSeconds);
     updateIndoorProjectiles(deltaSeconds);
     updateFireSpikeTraps(deltaSeconds);
+    updateArmageddon(deltaSeconds);
     runPendingDestructibleEvents();
     runPendingScriptedActorArrivals();
     updateMm9FoundPlayerEvents(deltaSeconds);
@@ -13338,6 +13513,11 @@ bool IndoorWorldRuntime::monsterNeverStaggers(int16_t monsterId) const
 
 void IndoorWorldRuntime::applyIndoorMeteorShowerRule(ActorAiFrameFacts &facts) const
 {
+    if (isOpenAirMap())
+    {
+        return;
+    }
+
     const auto apply = [this](ActorAiFacts &actor)
     {
         const MonsterModifierSet *pModifiers =
@@ -14454,6 +14634,9 @@ bool IndoorWorldRuntime::launchParty(float headingRadians, float horizontalSpeed
     return true;
 }
 
+// An event's hostility (a group's Hostile bit, a relation switch) changes only the actor's attitude: as in MM8, it
+// notices the party by its own senses afterwards. Marking it as having seen the party woke whole dungeons on load
+// (d20 sets its every monster hostile on entry) and sent them after the party through the walls.
 void IndoorWorldRuntime::setMapActorHostilityFromEvent(size_t actorIndex, bool hostileToParty)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -14469,9 +14652,7 @@ void IndoorWorldRuntime::setMapActorHostilityFromEvent(size_t actorIndex, bool h
     if (hostileToParty)
     {
         actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Hostile)
-            | static_cast<uint32_t>(EvtActorAttribute::Aggressor)
-            | static_cast<uint32_t>(EvtActorAttribute::Active)
-            | static_cast<uint32_t>(EvtActorAttribute::FullAi);
+            | static_cast<uint32_t>(EvtActorAttribute::Aggressor);
     }
     else
     {
@@ -14480,16 +14661,41 @@ void IndoorWorldRuntime::setMapActorHostilityFromEvent(size_t actorIndex, bool h
             | static_cast<uint32_t>(EvtActorAttribute::Nearby));
     }
 
-    const bool detectedParty = hostileToParty;
-
     if (actorIndex < m_mapActorAiStates.size())
     {
         MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
         aiState.angeredByParty = false;
         aiState.hostileToParty = hostileToParty;
-        aiState.hasDetectedParty = detectedParty;
         aiState.spellEffects.hostileToParty = hostileToParty;
-        aiState.spellEffects.hasDetectedParty = detectedParty;
+
+        if (!hostileToParty)
+        {
+            aiState.hasDetectedParty = false;
+            aiState.spellEffects.hasDetectedParty = false;
+        }
+    }
+}
+
+// A script that sends the actor at the party (evt.SetActorTarget, an MM9 guard's AddEnemy Player): it knows where the
+// party is, as one that has seen it.
+void IndoorWorldRuntime::alertMapActorToParty(size_t actorIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return;
+    }
+
+    syncMapActorAiStates();
+    pMapDeltaData->actors[actorIndex].attributes |= static_cast<uint32_t>(EvtActorAttribute::Nearby)
+        | static_cast<uint32_t>(EvtActorAttribute::Active);
+
+    if (actorIndex < m_mapActorAiStates.size())
+    {
+        MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+        aiState.hasDetectedParty = true;
+        aiState.spellEffects.hasDetectedParty = true;
     }
 }
 
@@ -14881,6 +15087,7 @@ bool IndoorWorldRuntime::setMapActorTarget(size_t actorIndex, std::optional<size
     if (!targetActorIndex)
     {
         setMapActorHostilityFromEvent(actorIndex, true);
+        alertMapActorToParty(actorIndex);
     }
 
     if (mm9Loop)
@@ -15258,7 +15465,7 @@ void IndoorWorldRuntime::collectWorldItemPresentationStates(
         }
 
         GameplayWorldItemPresentationState state = {};
-        state.key = uint32_t(objectIndex);
+        state.key = spriteObject.objectKey;
         state.itemId = spriteObjectContainedItemId(spriteObject.rawContainingItem);
         state.x = float(spriteObject.x);
         state.y = float(spriteObject.y);
@@ -15266,10 +15473,17 @@ void IndoorWorldRuntime::collectWorldItemPresentationStates(
         state.sectorId = spriteObject.sectorId;
         state.moving = spriteObject.velocityX != 0 || spriteObject.velocityY != 0 || spriteObject.velocityZ != 0;
         state.floating = (pObjectEntry->flags & ObjectDescNoGravity) != 0;
+        if (spriteObject.semanticPose)
+        {
+            state.pose = WorldItemPose{
+                (*spriteObject.semanticPose)[0], (*spriteObject.semanticPose)[1], (*spriteObject.semanticPose)[2]};
+        }
         InventoryItem item = {};
         const ItemDefinition *pItemDefinition =
             m_pItemTable != nullptr ? m_pItemTable->get(state.itemId) : nullptr;
-        if (pItemDefinition != nullptr && readIndoorHeldItem(spriteObject, m_pItemTable, item))
+        // a placed item shown but not yet takeable draws no sparkle (MapWorldItemSource::pickupQBits)
+        if (pItemDefinition != nullptr && !spriteObject.semanticPickupLocked
+            && readIndoorHeldItem(spriteObject, m_pItemTable, item))
         {
             state.sparkle = worldItemSparkle(item, *pItemDefinition, ItemEnchantRuntime::itemValue(
                 item, *pItemDefinition, m_pParty != nullptr ? m_pParty->standardItemEnchantTable() : nullptr,
@@ -16203,6 +16417,35 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
     }
     spawnRequest.allowInstantImpact = true;
 
+    // Meteor Shower and Starburst rain down around the target, as outdoors (the party casts them only on a map open to
+    // the sky: isOpenAirMap).
+    const GameplayWorldPoint target = {request.targetX, request.targetY, request.targetZ};
+
+    if (isSpellId(request.spellId, SpellId::MeteorShower))
+    {
+        return spawnIndoorFallingShots(
+            spawnRequest,
+            m_pGameplayProjectileService->buildMeteorShowerProjectileShots(
+                static_cast<uint32_t>(request.skillMastery),
+                m_pGameplayProjectileService->nextProjectileId(),
+                target.x,
+                target.y,
+                target.z),
+            target);
+    }
+
+    if (isSpellId(request.spellId, SpellId::Starburst))
+    {
+        return spawnIndoorFallingShots(
+            spawnRequest,
+            m_pGameplayProjectileService->buildStarburstProjectileShots(
+                m_pGameplayProjectileService->nextProjectileId(),
+                target.x,
+                target.y,
+                target.z),
+            target);
+    }
+
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
         m_pGameplayProjectileService->spawnProjectile(spawnRequest);
     const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
@@ -16278,6 +16521,13 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     const SpellId resolvedSpellId = spellIdFromValue(spellId);
 
     if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    {
+        return false;
+    }
+
+    // The party's hit reach refuses farther monsters, as outdoors.
+    if (length3d(partyX - float(actor.x), partyY - float(actor.y), partyZ - float(actor.z)) - float(actor.radius)
+        > partyHitReach())
     {
         return false;
     }
@@ -17153,7 +17403,7 @@ std::vector<size_t> IndoorWorldRuntime::spawnMonsters(const GameplayMonsterSpawn
 
     for (uint32_t index = 0; index < request.count; ++index)
     {
-        const int16_t monsterId = gameplaySpawnMonsterId(request, rng);
+        const int16_t monsterId = gameplaySpawnMonsterId(request, rng, m_pMonsterTable);
         const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(monsterId);
         const MonsterEntry *pMonsterEntry = m_pMonsterTable->findById(monsterId);
 
@@ -17355,11 +17605,147 @@ bool IndoorWorldRuntime::tryStartArmageddon(
     SkillMastery skillMastery,
     std::string &failureText)
 {
-    (void)casterMemberIndex;
-    (void)skillLevel;
-    (void)skillMastery;
-    failureText = Engine::tr("Spell failed");
-    return false;
+    // About the outdoor quake's two degrees, as the shared smooth tremor (CameraShake), over the spell's time.
+    constexpr float ArmageddonShakeIntensity = 1.5f;
+
+    if (!startArmageddon(m_armageddonState, m_pParty, casterMemberIndex, skillLevel, skillMastery, failureText))
+    {
+        return false;
+    }
+
+    if (EventRuntimeState *pEventRuntimeState = eventRuntimeState())
+    {
+        EventRuntimeState::CameraShakeRequest shake = {};
+        shake.intensity = ArmageddonShakeIntensity;
+        shake.seconds = ArmageddonDurationSeconds;
+        pEventRuntimeState->cameraShakeRequests.push_back(shake);
+    }
+
+    return true;
+}
+
+void IndoorWorldRuntime::updateArmageddon(float deltaSeconds)
+{
+    if (!m_armageddonState.active() || m_pPartyRuntime == nullptr || deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
+    const GameplayWorldPoint partyFeet = {moveState.x, moveState.y, moveState.footZ};
+    const uint32_t mapSeed = m_map ? static_cast<uint32_t>(m_map->id) : 0;
+    const ArmageddonStep step = advanceArmageddon(m_armageddonState, deltaSeconds, mapSeed);
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    // The meteors and strikes are presentation only (the enhanced spell effects), each meteor on the floor under it.
+    if (m_pRenderer != nullptr && m_pIndoorMapData != nullptr)
+    {
+        const uint32_t spellId = spellIdValue(SpellId::Armageddon);
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+
+        for (const ArmageddonMeteor &meteor : armageddonMeteors(m_armageddonState, step, mapSeed, partyFeet.x,
+                 partyFeet.y))
+        {
+            const IndoorFloorSample floor = sampleIndoorFloor(*m_pIndoorMapData, runtimeGeometry.vertices, meteor.x,
+                meteor.y, partyFeet.z, 2000.0f, 4000.0f, std::nullopt, nullptr, &runtimeGeometry.geometryCache);
+
+            if (floor.hasFloor)
+            {
+                m_pRenderer->worldFxSystem().spawnSpellImpactEffect(spellId, meteor.x, meteor.y, floor.height,
+                    meteor.seed);
+            }
+        }
+
+        if (armageddonStrikesDue(step) && pMapDeltaData != nullptr)
+        {
+            GameplayActorService fallbackActorService = {};
+            const GameplayActorService &actorService =
+                m_pGameplayActorService != nullptr ? *m_pGameplayActorService : fallbackActorService;
+            size_t strikes = 0;
+
+            for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size()
+                    && actorIndex < m_mapActorAiStates.size() && strikes < ArmageddonMaxActorStrikes;
+                ++actorIndex)
+            {
+                const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+                const float deltaX = aiState.preciseX - partyFeet.x;
+                const float deltaY = aiState.preciseY - partyFeet.y;
+
+                if (indoorActorUnavailableForCombat(pMapDeltaData->actors[actorIndex], aiState, actorService)
+                    || deltaX * deltaX + deltaY * deltaY > ArmageddonStrikeRange * ArmageddonStrikeRange)
+                {
+                    continue;
+                }
+
+                m_pRenderer->worldFxSystem().spawnSpellImpactEffect(spellId, aiState.preciseX, aiState.preciseY,
+                    aiState.preciseZ, armageddonStrikeSeed(m_armageddonState, aiState.actorId));
+                ++strikes;
+            }
+        }
+    }
+
+    if (!step.detonate)
+    {
+        return;
+    }
+
+    resolveArmageddonDetonation(partyFeet);
+    m_armageddonState = {};
+}
+
+void IndoorWorldRuntime::resolveArmageddonDetonation(const GameplayWorldPoint &partyFeet)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (m_pParty == nullptr || pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    const uint32_t spellId = spellIdValue(SpellId::Armageddon);
+    const CombatDamageType damageType = GameMechanics::spellCombatDamageType(spellId, m_pSpellTable);
+    GameplayActorService fallbackActorService = {};
+    const GameplayActorService &actorService =
+        m_pGameplayActorService != nullptr ? *m_pGameplayActorService : fallbackActorService;
+
+    for (size_t actorIndex = 0;
+        actorIndex < pMapDeltaData->actors.size() && actorIndex < m_mapActorAiStates.size();
+        ++actorIndex)
+    {
+        MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
+        if (indoorActorUnavailableForCombat(actor, m_mapActorAiStates[actorIndex], actorService))
+        {
+            continue;
+        }
+
+        const int beforeHp = actor.hp;
+        const int damage = armageddonMonsterDamage(m_armageddonState, m_pParty, m_pSpellTable);
+
+        if (!applyPartyAttackMeleeDamage(actorIndex, damage, damageType, partyFeet, ShieldAttackTier::Spell))
+        {
+            continue;
+        }
+
+        if (m_pGameplayCombatController != nullptr)
+        {
+            m_pGameplayCombatController->recordPartyProjectileActorImpact(
+                0,
+                m_armageddonState.casterMemberIndex,
+                m_mapActorAiStates[actorIndex].actorId,
+                damage,
+                static_cast<int>(spellId),
+                true,
+                beforeHp > 0 && actor.hp <= 0);
+        }
+
+        if (actor.hp > 0)
+        {
+            stunActor(actorIndex, 1.0f);
+        }
+    }
+
+    applyArmageddonToParty(m_armageddonState, *m_pParty);
 }
 
 void IndoorWorldRuntime::beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor)
@@ -17693,7 +18079,7 @@ bool IndoorWorldRuntime::spawnMonsterDeathDropItem(
     spriteObject.initialZ = spriteObject.z;
     writeIndoorHeldItem(spriteObject, item);
 
-    pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+    appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
 
     if (gameplayDebugTraceItemLooksQuestRelevant(item.objectDescriptionId, m_pItemTable))
     {
@@ -17866,6 +18252,12 @@ bool IndoorWorldRuntime::applyActorMeleeAttackToMapActor(
 
     const int previousHp = targetActor.hp;
     targetActor.hp = std::max(0, targetActor.hp - appliedDamage);
+    if (sourceActorIndex < m_mapActorAiStates.size() && attackRequest.targetActorIndex < m_mapActorAiStates.size())
+    {
+        m_mapActorAiStates[attackRequest.targetActorIndex].lastActorAttackerId =
+            m_mapActorAiStates[sourceActorIndex].actorId;
+    }
+
     noteMm9ActorHit(attackRequest.targetActorIndex, ActorAiTargetKind::Actor, sourceActorIndex,
         previousHp - targetActor.hp);
 
@@ -18679,12 +19071,14 @@ void IndoorWorldRuntime::placeRulesetMapMonsters()
     for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
     {
         MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats = findIndoorActorStats(m_pMonsterTable, actor);
         placements.push_back(MapMonsterPlacement{
-            .pStats = findIndoorActorStats(m_pMonsterTable, actor),
+            .pStats = pStats,
             .named = actor.uniqueNameIndex != 0 || actor.npcId != 0,
             .hostile = actorIndex < m_mapActorAiStates.size() && m_mapActorAiStates[actorIndex].hostileToParty,
             .pFacts = &actor.rulesetFacts,
             .uniqueNameId = actor.uniqueNameIndex,
+            .scripted = pStats != nullptr && m_actorBehaviors.scripted(actorIndex, int16_t(pStats->id)),
         });
     }
 
@@ -18841,13 +19235,17 @@ bool IndoorWorldRuntime::mapKillProgress(MapKillProgress &progress) const
     progress = {};
     progress.mapFileName = m_map->fileName;
     progress.continentId = m_map->mergedContinentId;
-    progress.indoor = true;
+    // A BLV open to the sky (MM9's regions and cities) counts as outdoors, as its spells do.
+    progress.indoor = !isOpenAirMap();
+
+    const MonsterRules &monsterRules = gameRulesFor(m_pParty).monsters;
 
     for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
     {
         const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats = findIndoorActorStats(m_pMonsterTable, actor);
 
-        if (findIndoorActorStats(m_pMonsterTable, actor) == nullptr)
+        if (pStats == nullptr || !monsterRules.countsForMapCompletion(*m_map, *pStats))
         {
             continue;
         }
@@ -18863,6 +19261,7 @@ bool IndoorWorldRuntime::mapKillProgress(MapKillProgress &progress) const
         {
             const bool hidden = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0;
             ++(hidden ? progress.hiddenMonsters : progress.countedMonsters);
+            progress.remainingActors.push_back(actorIndex);
         }
     }
 
@@ -19068,9 +19467,15 @@ void IndoorWorldRuntime::provokeMm9Actors(size_t actorIndex)
 
     MapActorAiState &victim = m_mapActorAiStates[actorIndex];
     victim.mm9Provoked = pMapDeltaData->actors[actorIndex].hp > 0;
+    // Its friends that it sees within the world's provoke radius (world.yml mm9Provoke radius; undeclared: its alert
+    // radius, MM9's AlertRadius x Scale, mostly 3072) come with it, whether or not they perceive the party; a map may
+    // set its own radius.
+    const std::optional<Mm9AiProfile> victimProfile = mm9ActorProfile(actorIndex);
+    const float worldRadius = mm9PartyAwareness().provokeRadius;
     const float radius = m_pIndoorMapData != nullptr && m_pIndoorMapData->actorProvokeRadius
         ? *m_pIndoorMapData->actorProvokeRadius
-        : mm9PartyAwareness().provokeRadius;
+        : worldRadius > 0.0f ? worldRadius
+        : victimProfile ? victimProfile->alertRadius : 0.0f;
 
     if (radius <= 0.0f || m_pPartyRuntime == nullptr)
     {
@@ -19080,7 +19485,6 @@ void IndoorWorldRuntime::provokeMm9Actors(size_t actorIndex)
     const GameplayActorService fallbackActorService = {};
     const GameplayActorService *pActorService =
         m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
-    const std::optional<Mm9AiProfile> victimProfile = mm9ActorProfile(actorIndex);
     const MapDeltaActor &victimActor = pMapDeltaData->actors[actorIndex];
     const GameplayWorldPoint victimEye = {victim.preciseX, victim.preciseY,
         mm9EyeZ(victim.preciseZ, float(victim.collisionHeight), victimProfile ? victimProfile->eyeBelowTop : 0.0f)};
@@ -19991,8 +20395,7 @@ bool IndoorWorldRuntime::hasCustomWorldItemActivation(size_t worldItemIndex) con
         return false;
     }
 
-    const MapDeltaSpriteObject &object = pMapDeltaData->spriteObjects[worldItemIndex];
-    return object.semanticPlacedPickup || object.semanticLootContainer;
+    return pMapDeltaData->spriteObjects[worldItemIndex].semanticLootContainer;
 }
 
 bool IndoorWorldRuntime::activateCustomWorldItem(size_t worldItemIndex)
@@ -20004,62 +20407,39 @@ bool IndoorWorldRuntime::activateCustomWorldItem(size_t worldItemIndex)
     }
 
     return pMapDeltaData->spriteObjects[worldItemIndex].semanticLootContainer
-        ? activateSemanticLootContainer(worldItemIndex)
-        : activateSemanticWorldItem(worldItemIndex);
+        && activateSemanticLootContainer(worldItemIndex);
 }
 
-bool IndoorWorldRuntime::activateSemanticWorldItem(size_t worldItemIndex)
+void IndoorWorldRuntime::onPlacedWorldItemTaken(const std::string &sourceId)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
-    if (pMapDeltaData == nullptr
-        || worldItemIndex >= pMapDeltaData->spriteObjects.size()
-        || m_pParty == nullptr
-        || m_pItemTable == nullptr)
-    {
-        return false;
-    }
-
-    const MapDeltaSpriteObject &object = pMapDeltaData->spriteObjects[worldItemIndex];
     const auto sourceIt = std::find_if(
         m_itemSourceData.worldItems.begin(),
         m_itemSourceData.worldItems.end(),
-        [&object](const MapWorldItemSource &source)
+        [&sourceId](const MapWorldItemSource &source)
         {
-            return source.sourceId == object.semanticSourceId;
+            return source.sourceId == sourceId;
         });
-    InventoryItem randomPoolItem = {};
-    if (sourceIt == m_itemSourceData.worldItems.end()
-        || !readIndoorHeldItem(object, m_pItemTable, randomPoolItem)
-        || !worldItemPolicyAvailable(*sourceIt, *m_pParty))
+    if (pMapDeltaData == nullptr || sourceIt == m_itemSourceData.worldItems.end())
     {
-        return false;
+        return;
     }
 
-    if (!sourceIt->onPickupEvent.empty())
+    pMapDeltaData->takenWorldItems.push_back(sourceId);
+    if (m_pParty != nullptr)
     {
-        const uint32_t eventId = 30000u + sourceIt->sourceObjectIndex;
+        for (uint32_t qbit : sourceIt->setQBits)
+        {
+            m_pParty->setQuestBit(qbit, true);
+        }
+    }
+
+    if (sourceIt->pickupEvent != 0)
+    {
         size_t previousMessageCount = 0;
-        return eventId <= std::numeric_limits<uint16_t>::max()
-            && executeMapEvent(static_cast<uint16_t>(eventId), previousMessageCount);
-    }
-
-    if (!applyWorldItemPolicyActions(*sourceIt, randomPoolItem, *m_pParty, *m_pItemTable))
-    {
-        return false;
-    }
-
-    if (sourceIt->consumeOnSuccess)
-    {
-        pMapDeltaData->spriteObjects.erase(
-            pMapDeltaData->spriteObjects.begin() + static_cast<std::ptrdiff_t>(worldItemIndex));
+        executeMapEvent(sourceIt->pickupEvent, previousMessageCount);
     }
     synchronizeSemanticWorldItemVisibility();
-    m_pParty->requestSound(SoundId::Gold);
-    if (m_pGameplayView != nullptr)
-    {
-        m_pGameplayView->setStatusBarEvent(formatWorldItemPickupStatusText(randomPoolItem, *m_pItemTable));
-    }
-    return true;
 }
 
 bool IndoorWorldRuntime::activateSemanticLootContainer(size_t worldItemIndex)
@@ -20182,7 +20562,28 @@ bool IndoorWorldRuntime::takeWorldItemInspectState(size_t worldItemIndex, Gamepl
         return false;
     }
 
+    const MapDeltaSpriteObject &object = pMapDeltaData->spriteObjects[worldItemIndex];
+    const std::string placedSourceId = object.semanticPlacedPickup ? object.semanticSourceId : std::string();
+    if (!placedSourceId.empty() && m_pParty != nullptr)
+    {
+        // shown but not yet takeable (MapWorldItemSource::pickupQBits): the click does nothing
+        const auto sourceIt = std::find_if(
+            m_itemSourceData.worldItems.begin(),
+            m_itemSourceData.worldItems.end(),
+            [&placedSourceId](const MapWorldItemSource &source)
+            {
+                return source.sourceId == placedSourceId;
+            });
+        if (sourceIt != m_itemSourceData.worldItems.end() && !worldItemPickupAllowed(*sourceIt, *m_pParty))
+        {
+            return false;
+        }
+    }
     pMapDeltaData->spriteObjects.erase(pMapDeltaData->spriteObjects.begin() + std::ptrdiff_t(worldItemIndex));
+    if (!placedSourceId.empty())
+    {
+        onPlacedWorldItemTaken(placedSourceId);
+    }
     return true;
 }
 
@@ -20284,7 +20685,7 @@ bool IndoorWorldRuntime::dropHeldItemToWorld(const GameplayHeldItemDropRequest &
     spriteObject.initialZ = spriteObject.z;
     writeIndoorHeldItem(spriteObject, request.item);
 
-    pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+    appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
     return true;
 }
 
@@ -20303,9 +20704,9 @@ bool IndoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state)
         pWizardEyeBuff != nullptr ? pWizardEyeBuff->skillMastery : SkillMastery::None;
     const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
 
-    if (m_pIndoorMapData != nullptr && m_pIndoorMapData->mapPresentation)
+    if (const MapPresentation *pPresentation = activeMapPresentation())
     {
-        if (!applyMapPresentationToMinimapState(*m_pIndoorMapData->mapPresentation, moveState.footZ, state))
+        if (!applyMapPresentationToMinimapState(*pPresentation, moveState.footZ, state))
         {
             return false;
         }
@@ -20333,7 +20734,7 @@ void IndoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimap
 
     if (m_pIndoorMapData == nullptr
         || m_pPartyRuntime == nullptr
-        || m_pIndoorMapData->mapPresentation)
+        || activeMapPresentation() != nullptr)
     {
         return;
     }
@@ -21306,7 +21707,7 @@ bool IndoorWorldRuntime::summonEventPayload(
             spriteObject.velocityY = static_cast<int16_t>(std::lround(std::sin(angleRadians) * speed));
         }
 
-        pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+        appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
         spawnedAny = true;
     }
 
@@ -22062,7 +22463,7 @@ bool IndoorWorldRuntime::spawnLootContainer(const std::string &sourceId)
     spriteObject.semanticSourceId = sourceIt->sourceId;
     spriteObject.semanticLootContainerId = containerId;
     spriteObject.semanticLootContainer = true;
-    pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+    appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
 
     const uint32_t eventId = 30000u + sourceIt->sourceObjectIndex;
     setFacetBit(eventId, faceAttributeBit(FaceAttribute::Invisible), true);
@@ -23132,11 +23533,14 @@ IndoorWorldRuntime::Snapshot IndoorWorldRuntime::snapshot() const
         m_searchableLootPropState.searchedSourceIds.end());
     std::sort(snapshot.searchedLootPropSourceIds.begin(), snapshot.searchedLootPropSourceIds.end());
     snapshot.actorBehaviors = m_actorBehaviors.snapshot();
+    snapshot.armageddon = m_armageddonState;
     return snapshot;
 }
 
 void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
+    // the scene restored its map state (its placed items' runtime-only pickup locks unset): evaluate them again
+    m_placedWorldItemRevision = 0;
     m_actorShields.clear();
     m_actorModifiers.clear();
     m_appliedRelationRevision = UINT64_MAX;
@@ -23163,6 +23567,7 @@ void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     }
     m_activatedIndoorSectorMask = snapshot.activatedIndoorSectorMask;
     m_fireSpikeTraps = snapshot.fireSpikeTraps;
+    m_armageddonState = snapshot.armageddon;
     m_searchableLootPropState.searchedSourceIds = {
         snapshot.searchedLootPropSourceIds.begin(),
         snapshot.searchedLootPropSourceIds.end()};
@@ -23363,6 +23768,7 @@ void IndoorWorldRuntime::applyMapReentryReset()
         m_pGameplayProjectileService->clearActiveProjectiles();
     }
     m_fireSpikeTraps.clear();
+    m_armageddonState = {};
 
     m_runtimeGeometryCache.sectorFaceGridValid = false;
     // another map or state: no previous path map to keep using
@@ -24025,7 +24431,7 @@ bool IndoorWorldRuntime::materializeTreasureSpawn(size_t spawnIndex, const Indoo
         writeRawItemUInt32(spriteObject.rawContainingItem, 0x0c, treasure->goldAmount);
     }
 
-    pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+    appendSpriteObject(*pMapDeltaData, std::move(spriteObject));
     return true;
 }
 
@@ -24047,6 +24453,22 @@ void IndoorWorldRuntime::materializeInitialMonsterSpawns()
     }
 
     RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+
+    // The rules' share of the pack reserve (MAW's density in MM9), right after the scene's actors: the k-th appended
+    // actor is reserve entry k, which the profile refresh of a load relies on.
+    const double densityFactor = gameRulesFor(m_pParty).monsters.packDensityFactor(*m_map);
+
+    for (const MapDeltaPackReserveActor &reserve : pMapDeltaData->packReserve)
+    {
+        if (reserve.fromFactor > densityFactor + 1e-6)
+        {
+            break;
+        }
+
+        MapDeltaActor actor = reserve.actor;
+        actor.diagnosticSourceActorIndex = pMapDeltaData->actors.size();
+        pMapDeltaData->actors.push_back(std::move(actor));
+    }
 
     for (size_t spawnIndex = 0; spawnIndex < m_pIndoorMapData->spawns.size(); ++spawnIndex)
     {

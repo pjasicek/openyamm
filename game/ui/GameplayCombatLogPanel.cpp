@@ -1,5 +1,6 @@
 #include "game/ui/GameplayCombatLogPanel.h"
 #include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 
 #include "game/gameplay/CombatLog.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -252,9 +253,10 @@ std::vector<Segment> templateSegments(std::string_view pattern, std::initializer
     return segments;
 }
 
-// "Gerrard shoots Goblin 58!", short for the corner: the party's names ivory, monsters coral, the amount yellow with
+// A hit as a sentence, "Gerrard shoots Goblin 58!": the party's names ivory, monsters coral, the amount yellow with
 // an orange "!" for a critical hit. A killing blow says "kills" in red; a cast names its spell ("Lys Fire Bolt on
-// Goblin 96", "Lys Fireball kills 3 monsters 512"). The names arrive as the player reads them.
+// Goblin 96", "Lys Fireball kills 3 monsters 512"). The names arrive as the player reads them. A loot line is
+// always this; a hit's row is the compact HitRow, and its sentence heads the details a click opens.
 std::vector<Segment> hitSegments(const CombatLogEntry &entry)
 {
     // "Filtered: Uncommon Longsword -> 312 gold", the rarity in its colour.
@@ -313,6 +315,162 @@ std::vector<Segment> hitSegments(const CombatLogEntry &entry)
     }
 
     return segments;
+}
+
+// The line glyphs (level_generation/ui/maw_combat_log_20261024/make_glyphs.py), white, tinted when drawn.
+constexpr const char *MeleeGlyph = "combat_log_melee";
+constexpr const char *ShootGlyph = "combat_log_shoot";
+constexpr const char *KillGlyph = "combat_log_kill";
+
+// A hit's one-line row, for a corner about 26 characters wide: who, how, whom, and the amount right-aligned so it is
+// never cut ("Cauri <bow> Skeleton Lord    58!", "Lys Fireball 3 monsters  <skull>512"). How is a sword or bow glyph
+// in place of the verb, or the spell's name in its colour; a killing blow puts a red skull before the amount.
+struct HitRow
+{
+    std::string attacker;
+    uint32_t attackerColor = PartyColor;
+    const char *pGlyph = nullptr;
+    std::string spell;
+    std::string target;
+    uint32_t targetColor = MonsterColor;
+    std::string amount;
+    bool critical = false;
+    bool killed = false;
+};
+
+HitRow hitRow(const CombatLogEntry &entry)
+{
+    const bool dealt = entry.kind == CombatLogKind::Dealt;
+    HitRow row;
+    row.attacker = entry.attacker;
+    row.attackerColor = dealt ? PartyColor : MonsterColor;
+    row.spell = entry.spell;
+    row.pGlyph = !entry.spell.empty() ? nullptr : entry.verb == "shoots" ? ShootGlyph : MeleeGlyph;
+    row.target = entry.target;
+    row.targetColor = dealt ? MonsterColor : PartyColor;
+    row.amount = std::to_string(entry.amount);
+    row.critical = entry.critical;
+    row.killed = entry.killed;
+    return row;
+}
+
+// A name's shorter forms, longest first: "Dark Elf Priestess", "D.E. Priestess", "Priestess". A count ("3 monsters")
+// and a one-word name have only themselves.
+std::vector<std::string> shortForms(const std::string &name)
+{
+    std::vector<std::string> words;
+    size_t begin = 0;
+
+    while (begin < name.size())
+    {
+        const size_t space = name.find(' ', begin);
+        const size_t end = space == std::string::npos ? name.size() : space;
+
+        if (end > begin)
+        {
+            words.push_back(name.substr(begin, end - begin));
+        }
+
+        begin = end + 1;
+    }
+
+    if (words.size() < 2 || std::isdigit(static_cast<unsigned char>(words.front().front())))
+    {
+        return {name};
+    }
+
+    std::string initials;
+
+    for (size_t index = 0; index + 1 < words.size(); ++index)
+    {
+        const size_t letter = std::max<size_t>(1, Engine::Utf8::decode(words[index], 0).size);
+        initials += words[index].substr(0, letter) + ".";
+    }
+
+    return {name, initials + " " + words.back(), words.back()};
+}
+
+// Shortens the row's names until its left part fits `available`: each step takes the widest field that has a
+// shorter form to its next one. When none is left, the widest field is cut with "...".
+void fitHitRow(const TextStyle &style, HitRow &row, float glyphWidth, float available)
+{
+    std::array<std::string *, 3> fields = {&row.attacker, &row.spell, &row.target};
+    std::array<std::vector<std::string>, 3> forms;
+    std::array<size_t, 3> chosen = {0, 0, 0};
+
+    for (size_t index = 0; index < fields.size(); ++index)
+    {
+        forms[index] = shortForms(*fields[index]);
+    }
+
+    const float space = textWidth(style, " ");
+    const auto leftWidth = [&]()
+    {
+        float width = 0;
+        int parts = 0;
+
+        for (const std::string *pField : fields)
+        {
+            if (!pField->empty())
+            {
+                width += textWidth(style, *pField);
+                ++parts;
+            }
+        }
+
+        if (row.pGlyph != nullptr)
+        {
+            width += glyphWidth;
+            ++parts;
+        }
+
+        return width + float(std::max(0, parts - 1)) * space;
+    };
+
+    float width = leftWidth();
+
+    while (width > available)
+    {
+        size_t widest = fields.size();
+        float widestWidth = 0;
+
+        for (size_t index = 0; index < fields.size(); ++index)
+        {
+            const float fieldWidth = textWidth(style, *fields[index]);
+
+            if (chosen[index] + 1 < forms[index].size() && fieldWidth > widestWidth)
+            {
+                widest = index;
+                widestWidth = fieldWidth;
+            }
+        }
+
+        if (widest == fields.size())
+        {
+            break;
+        }
+
+        *fields[widest] = forms[widest][++chosen[widest]];
+        width = leftWidth();
+    }
+
+    if (width <= available)
+    {
+        return;
+    }
+
+    std::string *pWidest = fields[0];
+
+    for (std::string *pField : fields)
+    {
+        if (textWidth(style, *pField) > textWidth(style, *pWidest))
+        {
+            pWidest = pField;
+        }
+    }
+
+    const float room = std::max(0.0f, textWidth(style, *pWidest) - (width - available) - textWidth(style, "..."));
+    *pWidest = GameplayHudCommon::clampHudTextToWidth(*style.pFont, *pWidest, room / style.scale) + "...";
 }
 
 // "Rolled 612 -> Monster resistance -92 -> Dimension affix -8 -> 512".
@@ -476,11 +634,39 @@ void GameplayCombatLogPanel::render(GameplayScreenRuntime &context, int width, i
         context.gameplayUiRuntime().submitHudQuadBatch(
             std::span<const GameplayHudBatchQuad>(m_textQuads.data(), m_textQuads.size()), m_textFilter);
     }
+
+    if (!m_glyphQuads.empty())
+    {
+        context.gameplayUiRuntime().submitHudQuadBatch(
+            std::span<const GameplayHudBatchQuad>(m_glyphQuads.data(), m_glyphQuads.size()));
+    }
+}
+
+void GameplayCombatLogPanel::appendGlyph(GameplayScreenRuntime &context, const char *pName, float x, float y,
+    float size, uint32_t tint)
+{
+    const std::optional<GameplayHudTextureHandle> handle =
+        context.gameplayUiRuntime().ensureHudTextureLoaded(pName);
+
+    if (!handle)
+    {
+        return;
+    }
+
+    GameplayHudBatchQuad quad;
+    quad.textureHandle = handle->textureHandle;
+    quad.x = std::round(x);
+    quad.y = std::round(y);
+    quad.width = size;
+    quad.height = size;
+    quad.tintAbgr = tint;
+    m_glyphQuads.push_back(quad);
 }
 
 void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const CombatLog &log)
 {
     m_textQuads.clear();
+    m_glyphQuads.clear();
     m_fills.clear();
     m_fillQuads.clear();
     m_entryRects.clear();
@@ -567,16 +753,21 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
     const float stageIndent = 12 * scale;
     const float stageWidth = area.width - stageIndent - 6 * scale;
 
-    // A block per hit, newest last: its line and, when open, its wrapped damage steps under it.
+    // A block per hit, newest last: its row and, when open, its whole sentence and wrapped damage steps under it.
     struct Block
     {
         const CombatLogEntry *pEntry = nullptr;
-        // A hit keeps to one line; a loot line wraps so its gold shows.
+        // A hit is one compact row; a loot line wraps so its gold shows.
+        std::optional<HitRow> row;
         std::vector<std::vector<Segment>> lines;
         std::vector<std::vector<Segment>> stageLines;
         float height = 0;
     };
 
+    const float rowLeft = area.x + 2 * scale;
+    const float rowRight = area.x + area.width - 2 * scale;
+    const float glyphSize = std::round(lineStyle.lineHeight * 0.95f);
+    const float space = textWidth(lineStyle, " ");
     std::vector<Block> blocks;
     float used = 0;
     size_t shownCount = 0;
@@ -585,15 +776,31 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
     {
         Block block;
         block.pEntry = shown[index];
-        block.lines = block.pEntry->kind == CombatLogKind::Loot
-            ? wrapSegments(lineStyle, hitSegments(*block.pEntry), area.width - 4 * scale)
-            : std::vector<std::vector<Segment>>{hitSegments(*block.pEntry)};
+        const bool loot = block.pEntry->kind == CombatLogKind::Loot;
+
+        if (loot)
+        {
+            block.lines = wrapSegments(lineStyle, hitSegments(*block.pEntry), area.width - 4 * scale);
+        }
+        else
+        {
+            HitRow row = hitRow(*block.pEntry);
+            const float amountWidth = textWidth(lineStyle, row.amount) + (row.critical ? textWidth(lineStyle, "!") : 0)
+                + (row.killed ? glyphSize + 1 * scale : 0);
+            fitHitRow(lineStyle, row, glyphSize, rowRight - rowLeft - amountWidth - 2 * space);
+            block.row = std::move(row);
+            block.lines.resize(1);
+        }
+
         block.height = float(block.lines.size()) * (lineStyle.lineHeight + lineGap);
 
-        // A loot line has no damage steps to open.
-        if (block.pEntry->id == m_openEntry && block.pEntry->kind != CombatLogKind::Loot)
+        // A loot line has no damage steps to open. A hit opens its whole sentence, then its steps.
+        if (block.pEntry->id == m_openEntry && !loot)
         {
-            block.stageLines = wrapSegments(stageStyle, stageSegments(*block.pEntry), stageWidth);
+            block.stageLines = wrapSegments(stageStyle, hitSegments(*block.pEntry), stageWidth);
+            std::vector<std::vector<Segment>> steps = wrapSegments(stageStyle, stageSegments(*block.pEntry),
+                stageWidth);
+            block.stageLines.insert(block.stageLines.end(), steps.begin(), steps.end());
             block.height += float(block.stageLines.size()) * (stageStyle.lineHeight + lineGap) + 2 * lineGap;
         }
 
@@ -620,10 +827,49 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
             m_fills.push_back({row, OpenLineColor});
         }
 
-        for (size_t line = 0; line < block.lines.size(); ++line)
+        if (block.row)
         {
-            appendLine(m_textQuads, lineStyle, block.lines[line], area.x + 2 * scale,
-                y + float(line) * (lineStyle.lineHeight + lineGap), area.x + area.width - 2 * scale);
+            const HitRow &row = *block.row;
+            const float glyphY = y + std::round((lineStyle.lineHeight - glyphSize) / 2);
+            float x = appendText(m_textQuads, lineStyle, row.attacker, rowLeft, y, row.attackerColor) + space;
+
+            if (row.pGlyph != nullptr)
+            {
+                appendGlyph(context, row.pGlyph, x, glyphY, glyphSize, BodyColor);
+                x += glyphSize + space;
+            }
+
+            if (!row.spell.empty())
+            {
+                x = appendText(m_textQuads, lineStyle, row.spell, x, y, SpellColor) + space;
+            }
+
+            appendText(m_textQuads, lineStyle, row.target, x, y, row.targetColor);
+
+            // The amount right-aligned: a kill's skull, the number, a critical hit's "!".
+            float right = rowRight;
+
+            if (row.critical)
+            {
+                right -= textWidth(lineStyle, "!");
+                appendText(m_textQuads, lineStyle, "!", right, y, CritColor);
+            }
+
+            right -= textWidth(lineStyle, row.amount);
+            appendText(m_textQuads, lineStyle, row.amount, right, y, AmountColor);
+
+            if (row.killed)
+            {
+                appendGlyph(context, KillGlyph, right - 1 * scale - glyphSize, glyphY, glyphSize, KillColor);
+            }
+        }
+        else
+        {
+            for (size_t line = 0; line < block.lines.size(); ++line)
+            {
+                appendLine(m_textQuads, lineStyle, block.lines[line], rowLeft,
+                    y + float(line) * (lineStyle.lineHeight + lineGap), rowRight);
+            }
         }
 
         m_entryRects.push_back({row, entry.id});

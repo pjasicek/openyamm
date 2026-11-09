@@ -1,0 +1,30 @@
+<title>MM9 Chedian Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<div class="shell">
+  <header class="topbar">
+    <button class="menu-btn" id="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <a class="brand" href="#home">MM9 <span>Chedian Guide</span></a>
+  </header>
+  <nav class="side" id="side" aria-label="Sections">
+    <a class="brand side-brand" href="#home">MM9 <span>Chedian Guide</span></a>
+    <div class="search">
+      <input id="search" type="search" placeholder="Search NPCs, quests, items…" autocomplete="off" aria-label="Search the guide">
+      <div class="search-results" id="search-results" hidden></div>
+    </div>
+    <div id="nav"></div>
+  </nav>
+  <main class="main" id="main" tabindex="-1"></main>
+</div>
+<dialog class="map-dialog" id="map-dialog" aria-label="Map">
+  <div class="dlg-head">
+    <h2 id="dlg-title">Map</h2>
+    <a id="dlg-open" href="#maps">Open map page</a>
+    <button type="button" class="icon-btn" id="dlg-close" aria-label="Close map">✕</button>
+  </div>
+  <div id="dlg-body"></div>
+</dialog>
+<script src="data/guide.js"></script>
+<script src="app.js"></script>

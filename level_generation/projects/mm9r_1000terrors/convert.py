@@ -147,6 +147,10 @@ class ThousandTerrors(dungeon.Hooks):
     # ACTOR lists every placed monster by DAT name for the messages (`go`) and the win's clean-up, not scripted
     # behaviour of each: pack growth copies them and adds the copies to it (dungeon/density.py)
     density_lua_directories = ("ACTOR",)
+    # KIND names every placed actor too ("actor"), for send's dispatch: not scripting, and the copies need no entry (no
+    # message names them). The only actors the map's messages do name are the fly-past critters (TRIGGERS' `go`,
+    # FLY_LEAVE), dormant until then: they stay scripted and are never copied, so no copy needs waking or removing.
+    density_lua_name_tables = ("KIND",)
     mover_events = {
         **{f"{root}{k}": (EV_BLOCK_BASE + 16 * pad + k, "click")
            for pad, root in enumerate(PADS.values()) for k in range(16)},
@@ -447,7 +451,8 @@ class ThousandTerrors(dungeon.Hooks):
                 target = lua.point(self.points[params[0]])
             interval = as_float(p.get("ShootInterval")) or 1.0
             shooter_lines.append(f"    {name_key(o['name'])} = {{at = {lua.point(self.points[o['name']])}, missile = "
-                                 f"\"{missile}\", kind = \"{damage_type}\", damage = {int(p.get('DamageAmt') or 50)}, "
+                                 f"\"{missile}\", projectile = {lua_str(str(p.get('ProjectileName') or ''))}, "
+                                 f"kind = \"{damage_type}\", damage = {int(p.get('DamageAmt') or 50)}, "
                                  f"every = {max(1, round(interval * 4))}, burst = {burst}, target = {target}, "
                                  f"stop = {stop}}},")
         statue_lines = []
@@ -599,6 +604,7 @@ class ThousandTerrors(dungeon.Hooks):
             "    if s.target == nil and length > 4000 then return end",
             "    local k = math.min(64 / length, 0.33)",
             "    local shot = evt.FireMissile(s.missile, s.at[1] + dx * k, s.at[2] + dy * k, s.at[3] + dz * k, x, y, z, s.damage, s.kind, 0)",
+            "    if shot then MM9.launchSound(s.projectile, s.at[1], s.at[2], s.at[3]) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (shot and 1 or 0))",
             "end",
             "local function shooterOn(name)",
@@ -839,10 +845,12 @@ class ThousandTerrors(dungeon.Hooks):
             f"handlers[{EV_LIFT_LEVER0}] = function() for _, id in ipairs(GROUPS.LowerLever0) do evt.SetDoorState(id, DoorAction.Trigger) end lift() end",
             "-- HiddenButton1 (Button, OpenTriggers: lock itself, TreasureDoor and TreasureDoor0 open).",
             f"handlers[{EV_HIDDEN_BUTTON}] = function() if not locked(\"HiddenButton1\") then openGroup(\"HiddenButton1\") end end",
-            f"-- ToLowerTombGate (DoorLock.scr \"599\"): opens for a party with item {tomb_item}.",
+            f"-- ToLowerTombGate (DoorLock.scr \"599\"): opens for a party with item {tomb_item}. The gate has no Open or",
+            "-- CloseTriggers and shuts by itself (CloseWaitTime), so a click toggles the gate itself, not the script's open",
+            "-- flag (which its auto-close never cleared: a click after it shut did nothing).",
             f"handlers[{EV_TOMB_GATE}] = function()",
             f"    if MM9.hasItem({tomb_item}, \"1000terrors:DoorLock\") == 1 or MM9.hasItem({tomb_item}, \"1000terrors:DoorLock\") == true then",
-            "        useGroup(\"ToLowerTombGate\")",
+            "        for _, id in ipairs(GROUPS.ToLowerTombGate) do evt.SetDoorState(id, DoorAction.Trigger) end",
             "    else evt.StatusText(\"Locked\") end",
             "end",
             f"-- StairGate0 (Door, PushOpen, AITriggerable, CloseWaitTime {gate0_wait:g}; DoorLock.scr \"{ITEM_STAIRS_KEY}; 1\"):",
@@ -976,19 +984,19 @@ class ThousandTerrors(dungeon.Hooks):
             "    end",
             "    onSquare = square ~= nil",
             "    if tick % 4 == 0 and not isOpen(\"StairGate0\") then     -- every actor, the spawned ones too",
-            "        local index = 0",
+            "        local scan = 0   -- not `index`: pack growth's Lua scan (density.py) takes every `index` for one",
             "        while true do",
-            "            local ax, ay, az = evt.GetMapActorPosition(index)",
+            "            local ax, ay, az = evt.GetMapActorPosition(scan)",
             "            if ax == nil then break end",
             "            -- south of the gates a monster reaches StairGate0 only through an open StairGate",
             "            if math.abs(ax - GATE0[1]) < GATE0_REACH and math.abs(ay - GATE0[2]) < GATE0_REACH",
             "                    and math.abs(az - GATE0[3]) < GATE0_REACH and (ay > GATE0[2] or isOpen(\"StairGate\"))",
-            "                    and evt.IsMapActorHostile(index) then",
+            "                    and evt.IsMapActorHostile(scan) then",
             "                openGate0()",
             "                set(\"Gate0ByMonster\", 1)",
             "                break",
             "            end",
-            "            index = index + 1",
+            "            scan = scan + 1",
             "        end",
             "    end",
             "    for name, f in pairs(firing) do",

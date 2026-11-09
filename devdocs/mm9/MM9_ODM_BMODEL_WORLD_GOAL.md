@@ -25,7 +25,8 @@ ODM BModel world cannot represent the required behavior.
   use it.
 - Do not add per-face or per-actor checks for the new profile to classic hot loops. Select the resource/runtime path
   once at map load or once per render pass.
-- Do not allocate MM9 chunk, navigation, or mechanism resources for classic maps.
+- Do not allocate MM9 chunk or cooked navigation resources for classic maps. Mechanism resources exist only for maps
+  whose scene declares a `mechanisms` section (see [Mechanisms on classic ODM scenes](#mechanisms-on-classic-odm-scenes)).
 - Keep final collision, picking, actor movement, projectiles, decals, lighting, and gameplay systems shared.
 - Keep MM9 BModel-world content and packaging desktop-only for now. Do not add MM9 assets or startup configuration to
   Android builds until Android support is explicitly requested later.
@@ -47,6 +48,8 @@ Supported values:
 - `scene_profile: classic_odm`
   - Default when omitted.
   - Uses the current BModel resource construction, rendering, collision, and pathfinding paths unchanged.
+  - May declare typed BModel `mechanisms` (doors, lifts, switches); destructibles and trigger volumes still require
+    `bmodel_world`.
 - `scene_profile: bmodel_world`
   - Explicitly enables MM9-style spatial render chunks, typed dynamic BModel mechanisms, and cooked navigation.
 - `environment.location_type: exterior`
@@ -220,6 +223,55 @@ Implementation order:
 5. Track unsupported source mechanism classes explicitly and resolve them map-by-map or class-by-class.
 
 Lua should activate and condition mechanisms; it should not own their geometry or duplicate their motion definitions.
+
+### Mechanisms On Classic ODM Scenes
+
+Since 2026-10-29 a `classic_odm` scene (no `scene_profile`, as in the MM9 rework maps built as native ODMs) may carry
+the same top-level `mechanisms` sequence as a BModel world. The schema is identical; for example a hinged hut door:
+
+```yaml
+mechanisms:
+  - mechanism_id: 900042        # runtime id, used by evt.SetOutdoorModelMechanismState(900042, 0|1|2)
+    event_id: 30042             # map event of the door's clickable faces (their cog_triggered_number)
+    source_object_index: 42
+    source_class: "RotatingDoor"
+    source_name: "HutDoor"
+    kind: "rotating_door"       # linear_door, weighted_lift, rotating_door, ...
+    binding:
+      target_kind: "odm_bmodel"
+      bmodel_index: 12
+      bmodel_name: "HutDoor"
+    motion:
+      rotation:                 # or linear: {delta_openyamm: {x, y, z}}
+        pivot_openyamm: {x: 1008, y: -64, z: 0}
+        rotation_angles_openyamm_deg: {x: 0, y: 0, z: 90}
+      move_time_ms: 1800
+    activation:
+      start_open: false
+      open_away: true           # swing away from the opener; the chosen direction is saved
+    sounds:
+      open_start: "Door/door01open.wav"
+      close_stop: "Door/door01close.wav"
+```
+
+The door's faces stay in the ODM at their closed position and are listed in `bmodel_faces.interactive_faces` with the
+clickable attribute and `cog_triggered_number: 30042`; the map Lua registers event 30042 and calls
+`evt.SetOutdoorModelMechanismState(900042, 2)` (0 open, 1 close, 2 toggle). Mechanisms live in the base scene: the
+`_authored.scene.yml` overlay does not read a `mechanisms` section.
+
+Runtime behaviour on a classic map:
+
+- The mechanism definitions are built at load exactly as for BModel worlds. A map without the section builds none,
+  and every per-frame mechanism path returns on the empty mechanism map, so MM6-MM8 maps are unchanged.
+- The classic renderer leaves mechanism BModels out of its static draw groups and draws them per frame with the shared
+  runtime transform; collision, picking, LOS, floor support and party carrying use the same transform.
+- Actor pathing uses the classic grid path map, which is built from the transformed collision faces. It is rebuilt
+  once when a mechanism settles at an endpoint (not while it moves), and the actors' planned routes are dropped then,
+  as indoors. The same rule now applies to BModel worlds.
+- Saves keep the mechanism state and the open-away direction; restoring a save (or revisiting the map) re-places every
+  mechanism's collision at its restored state, for both profiles.
+- Limits: the outdoor lighting bake treats a door as static at its closed position (baked shadows and lightmaps do
+  not follow it), and water reflections show the static BModels only.
 
 ## Navigation For BModel Worlds
 

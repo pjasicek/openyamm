@@ -151,6 +151,37 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
 
         manifest.partyDeath.directionYawUnits = deathNode["yaw"] ? deathNode["yaw"].as<int>() : 0;
         manifest.partyDeath.movie = scalarStringOrDefault(deathNode, "movie", {});
+
+        if (const YAML::Node whenNode = deathNode["when"])
+        {
+            const YAML::Node otherwiseNode = deathNode["otherwise"];
+
+            if (!whenNode.IsSequence() || whenNode.size() == 0 || !otherwiseNode || !otherwiseNode.IsMap()
+                || !otherwiseNode["reloadAutosave"] || !otherwiseNode["reloadAutosave"].as<bool>())
+            {
+                errorMessage = "world.yml partyDeath when needs a non-empty list and otherwise: {reloadAutosave: true}";
+                return false;
+            }
+
+            for (const YAML::Node &conditionNode : whenNode)
+            {
+                WorldPartyDeathCondition condition;
+
+                if (const YAML::Node setNode = conditionNode["qbits"])
+                {
+                    condition.qbits = setNode.as<std::vector<uint32_t>>();
+                }
+
+                if (const YAML::Node clearNode = conditionNode["notQbits"])
+                {
+                    condition.notQbits = clearNode.as<std::vector<uint32_t>>();
+                }
+
+                manifest.partyDeath.when.push_back(std::move(condition));
+            }
+
+            manifest.partyDeath.otherwiseMovie = scalarStringOrDefault(otherwiseNode, "movie", {});
+        }
     }
 
     const YAML::Node qbitsNode = root["qbits"];
@@ -273,13 +304,14 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
 
             if (!sightNode.IsMap() || (allRoundNode && !allRoundNode.IsScalar()))
             {
-                errorMessage = "world.yml actorAwareness mm9Sight must be a map of allRound and scale";
+                errorMessage = "world.yml actorAwareness mm9Sight must be a map of allRound, scale and max";
                 return false;
             }
 
             manifest.actorAwareness.mm9SightAllRound = allRoundNode && allRoundNode.as<bool>();
 
-            if (!readNonNegative(sightNode, "scale", manifest.actorAwareness.mm9SightScale, "mm9Sight scale"))
+            if (!readNonNegative(sightNode, "scale", manifest.actorAwareness.mm9SightScale, "mm9Sight scale")
+                || !readNonNegative(sightNode, "max", manifest.actorAwareness.mm9SightMax, "mm9Sight max"))
             {
                 return false;
             }
@@ -633,6 +665,17 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         manifest.formations = formationsNode.as<bool>();
     }
 
+    if (const YAML::Node fleetFootNode = root["fleetFoot"])
+    {
+        if (!fleetFootNode.IsScalar())
+        {
+            errorMessage = "world.yml fleetFoot must be true or false";
+            return false;
+        }
+
+        manifest.fleetFoot = fleetFootNode.as<bool>();
+    }
+
     if (const YAML::Node combatLogNode = root["combatLog"])
     {
         if (!combatLogNode.IsScalar())
@@ -655,15 +698,35 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         manifest.chestArtifactsOnly = chestArtifactsNode.as<bool>();
     }
 
-    if (const YAML::Node markersNode = root["treasureMarkersItemsOnly"])
+    if (const YAML::Node groundGoldNode = root["groundGoldByItemTier"])
     {
-        if (!markersNode.IsScalar())
+        if (!groundGoldNode.IsScalar())
         {
-            errorMessage = "world.yml treasureMarkersItemsOnly must be true or false";
+            errorMessage = "world.yml groundGoldByItemTier must be true or false";
             return false;
         }
 
-        manifest.treasureMarkersItemsOnly = markersNode.as<bool>();
+        manifest.groundGoldByItemTier = groundGoldNode.as<bool>();
+    }
+
+    if (const YAML::Node openAirNode = root["openAirMaps"])
+    {
+        if (!openAirNode.IsSequence())
+        {
+            errorMessage = "world.yml openAirMaps must be a list of map file names";
+            return false;
+        }
+
+        for (const YAML::Node &mapNode : openAirNode)
+        {
+            if (!mapNode.IsScalar() || mapNode.as<std::string>().empty())
+            {
+                errorMessage = "world.yml openAirMaps must be a list of map file names";
+                return false;
+            }
+
+            manifest.openAirMaps.push_back(toLowerCopy(mapNode.as<std::string>()));
+        }
     }
 
     const YAML::Node dependenciesNode = root["dependencies"];

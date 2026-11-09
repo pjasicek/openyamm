@@ -24,9 +24,9 @@ enum class CombatLogFilter : uint8_t
 };
 
 // The docked combat log (devdocs/maw/GAPS.md H.3, level_generation/ui/maw_combat_log_20261024/, layout A): a titled
-// panel above the party frame with All / Dealt / Taken filters, the last hits newest at the bottom ("9:39 Gerrard
-// shoots Goblin for 58 damage (CRIT!)", each part in its colour), a scrollbar, and a clicked hit's damage steps under
-// it. The text is laid out into glyph quads once and kept; a frame resubmits them and lays them out again only when the
+// panel above the party frame with All / Dealt / Taken filters, the last hits newest at the bottom as compact rows
+// ("Gerrard <bow> Goblin   58!": names shortened to fit, the amount right-aligned, each part in its colour), a
+// scrollbar, and a clicked hit's whole sentence and damage steps under it. The text is laid out into glyph quads once and kept; a frame resubmits them and lays them out again only when the
 // log gains a hit, the view scrolls, filters or opens a hit, or the panel moves or rescales. Closed, or with the
 // combat_log setting off, it draws and costs nothing.
 class GameplayCombatLogPanel
@@ -65,6 +65,8 @@ private:
 
     bool shows(const CombatLogEntry &entry) const;
     void layOut(GameplayScreenRuntime &context, const CombatLog &log);
+    // A line glyph (combat_log_*), tinted, into m_glyphQuads.
+    void appendGlyph(GameplayScreenRuntime &context, const char *pName, float x, float y, float size, uint32_t tint);
 
     bool m_open = false;
     size_t m_scroll = 0;
@@ -85,6 +87,8 @@ private:
     std::vector<Fill> m_fills;
     std::vector<GameplayHudBatchQuad> m_fillQuads;
     std::vector<GameplayHudBatchQuad> m_textQuads;
+    // The line glyphs (sword, bow, skull), drawn after the text.
+    std::vector<GameplayHudBatchQuad> m_glyphQuads;
     TextureFilterProfile m_textFilter = TextureFilterProfile::Text;
     std::vector<std::pair<GameplayResolvedHudLayoutElement, uint32_t>> m_entryRects;
     std::vector<std::pair<GameplayResolvedHudLayoutElement, CombatLogFilter>> m_filterRects;

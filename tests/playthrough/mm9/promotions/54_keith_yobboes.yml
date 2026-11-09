@@ -1,0 +1,63 @@
+# MM9 promotion playthrough, segment 54: the Crusader task taken and the Yobboe Gang wiped out (guide: side_a.yml
+# defeat-the-yobboes, return-the-plow/-dolly/-herbs). Keith Bloodaxe in Drangheim City's temple (actor 7, RUDE 89):
+# "We have come seeking promotions." -> "Yes.  Some of us would like to become Crusaders." -> "What is the task?" ->
+# "We will accept this task." (key 128). Out by the city's west gate (ExitTrigger0, its prompt) into the region; the
+# party is placed by the Yobboe camp (outdoors) and the gang dies there (three Bandits, four Cutpurses, actors 25-31:
+# the sixth death gives key 129 and 6 000 experience, drangheim.lua handler 601). The three things the gang took are
+# world items behind the camp that exist only with key 128: the Midwife's Bag of Herbs (372, key 131), the Farmer's
+# Plow (371, key 130) and the Dolly (370, key 132), picked up. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 54
+id: mm9.promotions.54_keith_yobboes
+title: "MM9 promotions 54: Keith Bloodaxe's task; the Yobboes defeated, their loot picked up"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/52_atli_assassin.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheimcity.blv, qbit_clear: [90128, 90129, 90137]}
+
+  # Keith Bloodaxe in the temple.
+  - set_pose: {map: drangheimcity.blv, x: 14909, y: -5750, z: 1486, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 7}
+  - select_topic: {match_label: "We have come seeking promotions."}
+  - select_topic: {match_label: "Yes.  Some of us would like to become Crusaders."}
+  - select_topic: {match_label: "What is the task?"}
+  - select_topic: {match_label: "We will accept this task."}
+  - select_topic: {match_label: "Goodbye"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90128]}
+
+  # Out of the city by the west gate.
+  - set_pose: {map: drangheimcity.blv, x: 10000, y: -4178, z: 1010, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9667, y: -4178, z: 1311, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+
+  # The Yobboe camp (outdoors the party is placed by it): the gang dies.
+  - set_pose: {map: drangheim.blv, x: 2000, y: -11700, z: 1435, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'for i = 0, 3 do remember("xp" .. i, experience(i)) end'}
+  - clear_hostiles: {radius: 3000, min: 6}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90129], state_dump_named_map_var: {name: YobboesDown, value: 6}}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("member " .. i .. " experience +" .. gain .. " (6 000 for the gang, plus the kills)")
+          if gain < 6000 then error("member " .. i .. " gained only " .. gain) end
+        end
+
+  # Behind the camp: the herbs, the plow and the dolly.
+  - walk_to: {x: 2440, y: -12050, z: 1434, z_tolerance: 300, timeout_seconds: 30, clear_hostiles: 2000}
+  - pick_up: {item_id: 10372, reach: 400}
+  - pick_up: {item_id: 10371, reach: 400}
+  - pick_up: {item_id: 10370, reach: 400}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90130, 90131, 90132]}
+  - play_lua: {source: 'for _, id in ipairs({10370, 10371, 10372}) do if not has_item(id) then error("item " .. id .. " is not in the packs") end end; log("the Plow, the Herbs and the Dolly are in the packs")'}
+  - save_game: {name: "54 Yobboes", path: output/playthrough/mm9/promotions/checkpoints/54_keith_yobboes.oysav}

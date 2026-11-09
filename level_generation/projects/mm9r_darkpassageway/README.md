@@ -65,9 +65,9 @@ python3 level_generation/projects/mm9r_darkpassageway/tools/pages.py review/v02_
 | Air | sealed (`leaked_to_border` 0) once ExitReset (a relay box in the rock), the six Terrors MM9 parks over the roofs at y 64 and the two Specters inside the ramp's slab are out of the seeds; 8 seeded components: the passage's worlds are joined only by teleporters (MM9's design), plus the painting's hidden room |
 | Rooms | **29 + sector 0** (27 with swimming since 2026-11-06: the tube room, the tube, the shaft and the ocean hall are one room; Water): the start room and the lake, the lake's far landing, the canyon corridor, the canyon, the mountain corridor and room, the forest, the hidden room, the forest's teleporter, the path, the tube room, the ocean hall, the pillared room and its shaft, the desert, six cages, the trap corridor, the spike room, the desert arrival, the exit room, the curved corridor, the Wyrde's room; faces per sector median 40, largest 1 180 (the desert's dunes) |
 | Portals | **22 faces**: 18 doorways from door leaves (VisBSP has no UserPortals here), 4 archway cuts (`canyon_corridor`, `pillar_passage`, `wyrde_room`, `path_tube`); every portal joins two rooms; floor check 0 LT² |
-| Movers | **44 mechanisms**: 5 bridges, 4 spike flaps, the painting, the hidden double door, 6 cage doors, 4 mirrors, the carpet, the teleporter cage, the riser, ramp and switch, the flame cage (its invisible slab and glass parts), 14 plain doors with their invisible parts |
+| Movers | **40 mechanisms**: 5 bridges, 4 spike flaps, the painting, the hidden double door, 6 cage doors, the carpet, the teleporter cage, the riser, ramp and switch, the flame cage (its invisible slab and glass parts), 14 plain doors with their invisible parts |
 | Lights | 120 `Light` -> **76 BLV lights** (colour x BrightScale x zone gain); 44 over the four-per-point cap bake only; 11 `DirLight`s as bake spots; at most 4 per floor point (`content.json`) |
-| Decorations | **113**: 109 from the props project (4 claw torches, 7 crystals, 51 bushes, 25 trees, the rune stone, logs, barrel, scroll, 6 ice statuettes, 4 stone banshees, 7 chests, the spike pit) and the 4 bridge statues' second poses |
+| Decorations | **117**: 109 from the props project (4 claw torches, 7 crystals, 51 bushes, 25 trees, the rune stone, logs, barrel, scroll, 6 ice statuettes, 4 stone banshees, 7 chests, the spike pit), the 4 bridge statues' second poses and the 4 desert mirrors (`mm9_mirror`, `mirrors.json`) |
 | Actors | **44**: Specter 16, Apparition 3, Desert / Reptilian / Amphibious Terror 18, Terror 1, Colloidal Warrior 1, Sea Monster 2 (at MM9's body sizes), the Wyrde, the adventurer, Njam (hidden) |
 | Ladders | **3**: Ladder5, Ladder1, Ladder0 |
 | Translucent faces | 71 since the liquid shader: the flame cage (60), perception hints (10), the ladder rungs; the 244 water tiles are liquid faces (Water) |
@@ -87,7 +87,7 @@ python3 level_generation/projects/mm9r_darkpassageway/tools/pages.py review/v02_
 | `SpikeDoor1-4` (RotatingDoor, 85 about x) | rotating trap flaps (`bodies: push`, `carry`) opened by SpikeTrigger1; the pit's Ladder0 out |
 | `Painting` (RotatingDoor, 90 about y) | a rotating mover; its click opens DoubleDoor40 (MM9's OpenTriggers) |
 | `Bridge0-4` (WorldObject, DarkP_RaisingBridge.scr) | linear movers, 160 LT between their markers at 180 LT/s (`slide`) |
-| `Mirror0-3` (WorldObject, PassageMirror.scr) | movers that never move (a 1 LT `slide`), so a click runs the mirror's event |
+| `Mirror0-3` (WorldObject, PassageMirror.scr) | not built as geometry (overrides.yml `skip`): the `mm9_mirror` decoration from their brush (the props project's `mirror_source.py`, `build_mirror.py`), placed from `mirrors.json` with cogs 420-423 and the mirror's click event; the map turns it (evt.AimDecoration) |
 | `ElevatorObj` (MagicCarpet.scr) | a linear lift up the canyon's pit (below: Deviations) |
 | `DB_TeleporterCage0` (DestructableBrush, 1000 HP) | a mover that drops under the island when the female sea monster dies (her DeathTriggerTarget) |
 | `WorldObject0-22`, `InvisibleBrush` WorldObject2-5 (the desert's invisible walls), `WorldObject6-17` (the ocean's) | static (invisible collision where MM9 has it); WorldObject22, the ramp's slab south of the desert arrival, keeps Specter9/10 inside it in MM9 |
@@ -114,8 +114,8 @@ python3 level_generation/projects/mm9r_darkpassageway/tools/pages.py review/v02_
 | **The magic carpet**: `MagicCarpet.scr "0"` on ElevatorObj | a click on the carpet lifts it to the statue ledge's height; 8 s at the top, then it sinks back (Deviations) |
 | **The forest**: TriggerDoor0, TriggerAttack0, `DarkP_Warrior.scr` (ColloidalWarrior0, DeathTriggerTarget TeleportDoor1 UnLock), `DarkP_NPCDie.scr` (NPCAdventurer0), ForestDoor0, TeleportDoor1 (OpenTrigger: TeleportDoor0 Lock) | TriggerDoor0 unlocks and opens ForestDoor0 (AutoTrigger); TriggerAttack0 shuts and locks it, and 1.5 s later the warrior's blow removes the adventurer and the warrior wakes (dormant until then); its death (monster killed hook) unlocks TeleportDoor1, whose opening locks TeleportDoor0 |
 | **The painting**: Painting (RotatingDoor) with OpenTriggers DoubleDoorL40 open, Painting lock, PerceptionBrush1 off | a click (or on its hint) swings the painting, opens the double door, turns the hint off |
-| **The mirror puzzle**: `PassageMirror.scr` on Mirror0-3 ("330 Mirror1", "10 Mirror2", "340 Mirror3", "50 Gemstone"), `PassageLaser.scr` (GemLight0, LightBeam0-3), `PassageGemstone.scr "CageTerror 0 5"`, `DP_CageMonster.scr` on CageTerror0-5 (Door1-6), DesertDoor0 | a click turns a mirror 10 degrees (counter + 1 mod 36, status text); a click on the gemstone shines its light: beams (`evt.Beam`, arc beam) from GemLight0 to Mirror0 and on through every mirror on its target; a mirror off target sends the beam its own way and stops it; all four on target: the light reaches the gemstone, the cage doors open and the Terrors wake after the doors' open time (3.2 s), DesertDoor0 opens |
-| **Njam's cameo**: Trigger1 -> SpawnNjam0 Spawn (`SpawnNjamCameo.scr`, `NjamCameo.scr`) | Njam the Meddler (hidden friendly actor) appears 2 s later with the town portal sound, is removed 15 s later |
+| **The mirror puzzle**: `PassageMirror.scr` on Mirror0-3 ("330 Mirror1", "10 Mirror2", "340 Mirror3", "50 Gemstone"), `PassageLaser.scr` (GemLight0, LightBeam0-3), `PassageGemstone.scr "CageTerror 0 5"`, `DP_CageMonster.scr` on CageTerror0-5 (Door1-6), DesertDoor0 | a click turns a mirror 10 degrees clockwise at MM9's 180 degrees a second (counter + 1 mod 36, status text; `evt.AimDecoration` to -10 x MirrorTurns<k>, every click counted, re-applied at load since aims are not saved); a click on the gemstone shines its light: beams (`evt.Beam`, arc beam) from GemLight0 to Mirror0 and on through every mirror on its target; a mirror off target sends the beam its own way and stops it, one turned 70-290 degrees sends none (PassageMirror.scr :GiveFocus); all four on target: the light reaches BeamReceiver1 and the gemstone releases the cages, the cage doors open and the Terrors wake after the doors' open time (3.2 s), DesertDoor0 opens |
+| **Njam's cameo**: Trigger1 -> SpawnNjam0 Spawn (`SpawnNjamCameo.scr`, `NjamCameo.scr`) | MM9's timing: 1 s later the GreaterDemon effect and Windup10 at the spawner, 2 s later Njam the Meddler (hidden friendly actor, `mm9_ai` script `njamcameo.scr`) appears with the town portal sound and wanders (BaseWanderForceStartUp; `evt.SetActorImmobile` frees him); 10-20 s later the map sends him "vanish" (`evt.TriggerActor`). His behaviour's cameo mode (`worlds/mm9/behaviors/njam.lua`): passive, and a hit sends him away at once (NjamCameo.scr OnDamage); leaving is the effect and Windup10, then the teleport sound and gone a second later (2026-11-09; before, a hit started a fight with a level-200 monster) |
 | **The spike trap**: SpikeTrigger1, SpikeDoor1-4 (OpenTrigger lock), Spikes1 (PropDamager, DamagePerSecond 100, OneTimeDamage) | stepping on the flaps tips all four into the pit (they stay open); the spike damage is the fall (Deviations) |
 | **The ocean's cage**: SeaMonsterFemale0 DeathTriggerTarget DB_TeleporterCage0 Destroy | her death drops the cage under the island |
 | **The exit room**: ExitTrigger0-3 (one on at a time: 2 -> 0 -> 1 -> 3), ExitRiser (Locked), ExitRamp, Switch -> ExitReset | MM9's on/off chain on polled boxes; the last raises the riser 228 LT and runs out the ramp; the Switch resets all |
@@ -178,15 +178,27 @@ under it. Sheets `review/liquid/` (before swimming).
   0 or sticks, then falls back: the party steers it from the pit's bottom to the statue's ledge. Native linear movers
   carry the party up and down but not sideways, so the carpet sits in the pit's corner under the ledge (moved 476 / 524
   LT from its DAT spot, `CARPET_SHIFT_LT`), rises straight to the ledge's height (12 LT) and an invisible plank
-  (`CARPET_PLANK_LT`, 100 x 100 LT at 12 LT) bridges the last 90 LT to the ledge; 8 s at the top, it sinks back.
+  (`CARPET_PLANK_LT`, 100 x 100 LT at 12 LT) bridges the last 90 LT to the ledge; 8 s at the top, it sinks back. It
+  rests 30 LT lower than MM9's (`CARPET_DROP_LT`, its lift 2546 LT instead of 2516; 2026-11-09): its top was 123-144
+  over the pit floor, out of the party's jump (about 90), so a party that fell into the pit was stuck. Now it is 67 over
+  the floor: walking stops at its edge, a jump lands on it (`scenario_scripted.yml`).
 - **The statues ride their bridges** as two decorations each (one per pose), swapped by cog when the bridge moves
   (decorations do not move natively).
-- **The mirrors do not turn**: a mirror's counter turns on a click (status text gives its angle), and the gemstone's
-  beams show where each mirror points; MM9 rotates the mirror model 10 degrees a click (no stepped rotation natively).
+- **The mirrors' light** leaves along each mirror's own facing (its DAT Rotation: 0, 180, 0, 180 degrees), turned
+  clockwise 10 degrees a click, as PassageLaser.scr's GetFaceDir reads it; the targets 330, 10, 340, 50 then aim it at
+  the next mirror and BeamReceiver1 (2026-11-09: it left along the glass normal, 90 degrees off, so a mirror that
+  looked right sent the beam astray). The solution: Mirror0 330, Mirror1 10, Mirror2 340, Mirror3 50 (33, 1, 34 and 5
+  clicks from 0). The glass does not face the light's way (the brush is in world space): MM9's look.
+- **The mirrors' pivot** is the brush's box centre, 1 LT (2.6 units) from MM9's Pos (2026-11-09: before, the mirrors were
+  movers that never moved and only the beams showed their angle). The DAT keeps a WorldObject's brush in world space, so
+  all four take facing 0 whatever their Rotation (90 or 270).
 - **The spike pit** hurts by the fall (173 LT); Spikes1's one-time 100 damage is not added.
 - **The banshee eyes** fire the engine's missile (`evt.FireMissile`, 5 damage) at the party once a second while awake,
-  standing in for MM9's KBYellowLine Shooters.
-- **Njam's cameo**: he appears and vanishes; NjamCameo.scr's wandering and his "vanish on touch" are not carried.
+  standing in for MM9's KBYellowLine Shooters; each shot plays KBYellowLine's launch sound at its eye
+  (`MM9.launchSound`, PROJECTILE.txt; 2026-11-09). Its impact sound (KBYellowLineImpact.wav) is not carried.
+- **Njam's cameo**: a hit sends him away, as MM9's OnDamage; a click or touch (MM9's Use and TouchNotify) does not: the
+  behaviours have no click or touch hook. The first hit's damage lands (no hit can kill him: 6 600 HP; then he is
+  invulnerable).
 - **ExitPoint's box** reaches 40 LT toward the room and 12 LT down to the floor: the native exit tests the party's centre,
   which the water barrel on the exit (Prop36, non-solid in MM9) keeps outside MM9's box.
 - **Light colours**: x BrightScale and zone gains fitted to MM9's lightmaps (Baked lighting).
@@ -269,9 +281,9 @@ corridor, the mountain rooms).
 
 - MM9's player light (`PlayerLightOn`): not reproduced as a light; the per-room ambient floor stands in for it (Baked
   lighting). A camera light would light only near the party and leave the far ends dark, as MM9 does.
-- Leaving the tube's volume through its bottom (engine; ShaftExit stands in); the stepped turning of the mirrors; the
+- Leaving the tube's volume through its bottom (engine; ShaftExit stands in); the
   carpet's steering; Spikes1's damage; MM9's monster models (the Wyrde and the adventurer use engine bodies).
-- `AmbientSound` (115), the fireflies (`CClientFX`), the barrel's water skin on the exit.
+- `AmbientSound` (115), the fireflies (`CClientFX`).
 - Done 2026-10-31 by the props project (`../../props/mm9_darkpassageway_claude/README.md`, "Fixes"): the ice
   statuettes are translucent (blended Icebolt), the four claw torches (CandleProp0-3) are the new `mm9_clawtorchlit`
   (row 2453) with blue flames rising from the orb between the talons (`mm9_clawtorch` stays flameless for Dungeon of

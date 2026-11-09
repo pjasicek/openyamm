@@ -1211,6 +1211,14 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "map_style"))
+    {
+        if (*value == "painted" || *value == "lines")
+        {
+            settings.paintedMaps = *value == "painted";
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "party_frame"))
     {
         parseBoolValue(*value, settings.partyFrame);
@@ -2481,6 +2489,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("enemy_health_bar_values", settings.enemyHealthBarValues);
     serializer.add("enemy_health_bar_damage_trail", boolValue(settings.enemyHealthBarDamageTrail));
     serializer.add("quest_markers", boolValue(settings.questMarkers));
+    serializer.add("map_style", settings.paintedMaps ? "painted" : "lines");
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");
     serializer.add("party_frame", boolValue(settings.partyFrame));
     serializer.add("quick_item_rings", boolValue(settings.quickItemRings));

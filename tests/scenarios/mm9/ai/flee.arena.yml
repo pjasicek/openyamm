@@ -1,0 +1,44 @@
+# AI arena: MM9's flight (BaseRun.inc). Two Grey Wolves (9114) fight a party standing still: monster 0 is a runner
+# (placement runaway_chance 1) with a hiding place in the west pen, out of the party's sight behind the pen's shut door;
+# monster 1 never runs. Monsters 2-5 are Bandits (9101, a model with a Cower clip) that run too, to hiding places in
+# the east pen: those that roll MM9's 10 in 101 cower in place instead. Monster 6, a Bandit idling in the west pen
+# beyond every alert radius, hears the hiding wolf's help calls and comes out. See README.md.
+name: mm9_flee
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9114
+    position: [-400, 600, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 1, hiding_places: [[-1800, 0, 1]]}
+  - monster_id: 9114
+    position: [400, 600, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0}
+  - monster_id: 9101
+    position: [1250, 300, 1]
+    yaw_degrees: 225
+    mm9_ai: {runaway_chance: 1, hiding_places: [[1800, 100, 1]]}
+  - monster_id: 9101
+    position: [1250, -300, 1]
+    yaw_degrees: 180
+    mm9_ai: {runaway_chance: 1, hiding_places: [[1800, -100, 1]]}
+  - monster_id: 9101
+    position: [1300, 0, 1]
+    yaw_degrees: 180
+    mm9_ai: {runaway_chance: 1, hiding_places: [[1750, 0, 1]]}
+  - monster_id: 9101
+    position: [1200, 600, 1]
+    yaw_degrees: 225
+    mm9_ai: {runaway_chance: 1, hiding_places: [[1850, 0, 1]]}
+  - monster_id: 9101
+    position: [-1850, 100, 1]
+    yaw_degrees: 180
+    mm9_ai: {sight: 1000, hearing: 369, wander: aimless, wander_leash: 100, wander_wait: [2, 4], wander_time: [1, 2]}

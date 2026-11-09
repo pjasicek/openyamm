@@ -10,8 +10,9 @@ generated). The shared converter is the package [`dungeon/`](dungeon/), generali
 into the isolated review root `output/mm9_rework/assets_dev` ([`review_root.py`](review_root.py)); `assets_dev` is
 written only for the MM9 world's decoration rows and prop models (below, under a lock).
 
-User decisions that apply to every dungeon (2026-10-29): proper BLVs; the MM6–MM8 line minimap (MM9's painted map is
-dropped from the review root's `worlds/mm9/ui/maps/catalog.yml`); our own baked indoor lighting from the map's lights
+User decisions that apply to every dungeon (2026-10-29): proper BLVs; MM9's painted map on the minimap and journal map,
+one image per floor picked by the party's height as in MM9, with the MM6–MM8 line map as the Map style setting's
+alternative (2026-11-09, superseding the line map only: [painted maps](#painted-maps-2026-11-09)); our own baked indoor lighting from the map's lights
 (MM9's lightmaps only as a reference); props as 3D decorations in the MM9 world's decoration contribution; MM9
 scripted objects as native events; MM9's placements now, MM6–MM8 density later.
 
@@ -1108,9 +1109,36 @@ identical outputs). Cities: [CITY_PLAYBOOK.md](CITY_PLAYBOOK.md).
 - **`Hooks.extra_portals(build)`** (`build.Build.geometry`): a map's extra portals after the doorways, archway cuts and
   rect portals, before the rooms are labelled; a portal may carry `cells` (its barrier voxels). The city module
   (`city/structure.py`) gives its street cuts and roof-line portals this way.
-- **`map: {painted_minimap: true}`** (`tables.catalog_text`, `package.SourcePackage`): the map keeps its painted MM9
-  minimap entry in the catalog (the indoor minimap draws it instead of lines) and the compiler makes no outlines
-  (`generate_outlines: false`), so the 7 000-outline save bitset does not limit the map.
+- **`map: {painted_minimap: true}`** (`package.SourcePackage`): painted map only: the compiler makes no outlines
+  (`generate_outlines: false`), so the 7 000-outline save bitset does not limit the map. Since 2026-11-09 every map
+  keeps its painted map entry (below); the setting now only decides the outline pass.
+
+## Painted maps (2026-11-09)
+
+User request: MM9's painted maps everywhere, the dungeons included, at 2× with Real-ESRGAN, switching floors as MM9
+does, with an option to choose the map style, and tested that the coordinates fit.
+
+- **Catalog** (`tables.catalog_text`): every map's entry from the old import's catalog (`original_tables/catalog.yml`:
+  the DAT header's bounds, MM9's floor thresholds from cshell.dll lowered by the player's 33 LT half height), moved by
+  the project's offset, its texture the 2× PNG. Width and height stay the native sizes: they set the zoom. The
+  variants are MM9's floor images: `minimum_z < party foot z <= maximum_z` picks one (`resolveMapPresentationVariant`).
+- **Measured bounds** (`original_tables/map_image_fit.yml`): ten maps whose painting does not match MM9's own bounds
+  (Lindisfarne Monastery about 4 % narrow and 11 px off, Yanmir's Fort and Thjorad Mine about 1-3 % short, Dragon
+  Stadium, Ruined Temple, Kluso's House, Temple of Honk, Training Hall, Thjorgard City, Thronheim City by 1-5 px) carry
+  bounds fitted to the rebuilt walls; MM9 itself places the party with the same error there. Refit with
+  `tools/mm9_import_discovery/check_mm9_map_images.py --refine original_tables/map_image_fit.yml <map>`, only for a
+  map with drawn walls, and look at its overlay before keeping it.
+- **Check**: `python3 -B tools/mm9_import_discovery/check_mm9_map_images.py [maps]` loads each map in the game,
+  projects its floors (by floor band) and wall feet through the catalog onto the image and searches the best match:
+  FAIL when the entry is wrong (calibrated by moving every entry 8 px and 3 %: all dungeons and inked cities fail),
+  check when a small offset may remain (look at `output/mm9_map_image_fit/<map>_<n>.png`). The painted regions
+  (Bootcamp, Guberland, Lindisfarne, Sturmford, Yorwick, Frosgard City) have too little ink to judge automatically
+  and always show as check; their overlays were looked at on 2026-11-09. Run it after a conversion that moves a map
+  (a new offset) or changes its floors.
+- **Outlines**: dungeons keep the outline pass (no `painted_minimap`), so their BLVs, lighting bakes and saves are
+  unchanged and the Map style setting can show the line map there.
+- **Images**: `level_generation/minimaps/mm9_esrgan_20261109/` (54 maps, `realesr-animevideov3` direct 2×, the
+  MM7/MM8 minimap recipe), installed as `worlds/mm9/ui/maps/<map>.png` in assets_dev and both review roots.
 
 ## Package change: monster barriers and the rail check (2026-11-02)
 
@@ -1255,3 +1283,29 @@ pose, from four causes, all fixed in the package:
   the Dead's pit hatch had been the pit's: a party standing on it was placed in the pit and saw nothing of the
   corridor (a player's report). Stat `flat_movers_owned_by_room_over_top`: Anskram Keep 3, Chasm, Drangheim Prison and
   Inventa Storca 1 each.
+
+## Package change: a door that locks itself as it opens never auto-closes (2026-11-09)
+
+MM9 refuses to close a locked door: StartClosing returns while `Locked` is set
+([MM9_DOOR_OPEN_RE.md](../../../devdocs/mm9_rework/MM9_DOOR_OPEN_RE.md) §3), so its CloseWaitTime never shuts a door
+that is locked while open. Our auto-close (`auto_close_seconds`) is the engine's and does not see the map Lua's locks.
+Thousand Terrors' MiddleDoor4/5 lock themselves as they open (OpenTrigger `Lock`; TrigSorcStatueOn3 unlocks and uses
+them, TrigSorcStatueOff3 unlocks and shuts them again): with the auto-close the door shut 5 s after opening and locked
+behind a party in the treasure room beyond, which has no other way out (a player's save, 2026-11-09).
+
+`movers.locks_itself`: a door group whose own OpenTriggers send `Lock` to a member (or a member's DoubleDoorName, which
+passes the lock on) gets no auto-close; stat `self_locking_no_auto_close`. In the MM9 DATs that is MiddleDoor4/5,
+Beethoven's maze levers Lever5/6 (they now stay pulled), Chasm of the Dead's HSP1/2/7 plates (the map Lua shuts them
+after 1.3 s, as before), the Dungeon of Secrets' self-locking gplates (they stay down) and Thjorad Mine's refinery
+handle (an invisible part). Rebuilt and installed for those five maps: BLV and Lua unchanged, the scene differs by
+the removed `auto_close_seconds` (and the empty `pickup_qbits` lists the converter now writes).
+
+A door locked by *another* object while it is open would need the same rule at run time. The MM9 DATs have no such
+case that matters: every other sender closes the door first and then locks it (Verhoffin Ruins' water trap, Wizard's
+Lab's super eye, Dark Passageway's forest ambush, the Dungeon of Secrets' entrance), or the door is a trap blade.
+`door_trap_audit.py` lists, for every built map, the doorway doors that shut by themselves and that the party may not
+reopen with a click, and the doorway doors another object closes or locks, with the rooms they join (a room with one
+portal is a dead end) and every sender. Its first run (2026-11-09, 38 and 35 entries, each read against the map's Lua)
+found no other room the party can be shut into: the rest are doors kept locked for good, keys that stay unlocked once
+used, buttons or levers on both sides, a script's own timers, or MM9's designed trap rooms with their way out. Run it
+after a rebuild that touches doors or their wiring.

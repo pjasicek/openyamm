@@ -236,6 +236,111 @@ std::optional<float> intersectWorldItemPickBox(
     return entry;
 }
 
+namespace
+{
+using Matrix3 = std::array<std::array<float, 3>, 3>;
+
+// The pose's rotation matrix (rows): Rz(yaw) * Rx(pitch) * Ry(roll).
+Matrix3 poseMatrix(const WorldItemPose &pose)
+{
+    const float cy = std::cos(pose.yaw), sy = std::sin(pose.yaw);
+    const float cp = std::cos(pose.pitch), sp = std::sin(pose.pitch);
+    const float cr = std::cos(pose.roll), sr = std::sin(pose.roll);
+    const Matrix3 z = {{{cy, -sy, 0.0f}, {sy, cy, 0.0f}, {0.0f, 0.0f, 1.0f}}};
+    const Matrix3 x = {{{1.0f, 0.0f, 0.0f}, {0.0f, cp, -sp}, {0.0f, sp, cp}}};
+    const Matrix3 y = {{{cr, 0.0f, sr}, {0.0f, 1.0f, 0.0f}, {-sr, 0.0f, cr}}};
+    const auto multiply = [](const Matrix3 &a, const Matrix3 &b)
+    {
+        Matrix3 result = {};
+        for (size_t row = 0; row < 3; ++row)
+        {
+            for (size_t column = 0; column < 3; ++column)
+            {
+                result[row][column] = a[row][0] * b[0][column] + a[row][1] * b[1][column] + a[row][2] * b[2][column];
+            }
+        }
+        return result;
+    };
+    return multiply(multiply(z, x), y);
+}
+
+std::array<float, 3> turnedBy(const Matrix3 &m, const std::array<float, 3> &v)
+{
+    return {m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
+            m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
+            m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2]};
+}
+
+std::array<float, 3> turnedBackBy(const Matrix3 &m, const std::array<float, 3> &v)
+{
+    return {m[0][0] * v[0] + m[1][0] * v[1] + m[2][0] * v[2],
+            m[0][1] * v[0] + m[1][1] * v[1] + m[2][1] * v[2],
+            m[0][2] * v[0] + m[1][2] * v[1] + m[2][2] * v[2]};
+}
+}
+
+std::array<float, 4> worldItemPoseRotation(const WorldItemPose &pose)
+{
+    const Matrix3 m = poseMatrix(pose);
+    const float trace = m[0][0] + m[1][1] + m[2][2];
+    if (trace > 0.0f)
+    {
+        const float s = std::sqrt(trace + 1.0f) * 2.0f;
+        return {(m[2][1] - m[1][2]) / s, (m[0][2] - m[2][0]) / s, (m[1][0] - m[0][1]) / s, 0.25f * s};
+    }
+    if (m[0][0] > m[1][1] && m[0][0] > m[2][2])
+    {
+        const float s = std::sqrt(1.0f + m[0][0] - m[1][1] - m[2][2]) * 2.0f;
+        return {0.25f * s, (m[0][1] + m[1][0]) / s, (m[0][2] + m[2][0]) / s, (m[2][1] - m[1][2]) / s};
+    }
+    if (m[1][1] > m[2][2])
+    {
+        const float s = std::sqrt(1.0f + m[1][1] - m[0][0] - m[2][2]) * 2.0f;
+        return {(m[0][1] + m[1][0]) / s, 0.25f * s, (m[1][2] + m[2][1]) / s, (m[0][2] - m[2][0]) / s};
+    }
+    const float s = std::sqrt(1.0f + m[2][2] - m[0][0] - m[1][1]) * 2.0f;
+    return {(m[0][2] + m[2][0]) / s, (m[1][2] + m[2][1]) / s, 0.25f * s, (m[1][0] - m[0][1]) / s};
+}
+
+std::array<float, 3> turnByWorldItemPose(const WorldItemPose &pose, const std::array<float, 3> &local)
+{
+    return turnedBy(poseMatrix(pose), local);
+}
+
+std::array<float, 3> worldItemPosedOrigin(
+    const ItemModelBinding &binding,
+    const WorldItemPose &pose,
+    const std::array<float, 3> &position)
+{
+    const Matrix3 m = poseMatrix(pose);
+    float lowest = std::numeric_limits<float>::max();
+    for (size_t index = 0; index < 8; ++index)
+    {
+        const std::array<float, 3> corner = {
+            (index & 1) != 0 ? binding.boundsMax[0] : binding.boundsMin[0],
+            (index & 2) != 0 ? binding.boundsMax[1] : binding.boundsMin[1],
+            (index & 4) != 0 ? binding.boundsMax[2] : binding.boundsMin[2]};
+        lowest = std::min(lowest, turnedBy(m, corner)[2]);
+    }
+    return {position[0], position[1], position[2] - lowest};
+}
+
+std::optional<float> intersectPosedWorldItemPickBox(
+    const ItemModelBinding &binding,
+    const WorldItemPose &pose,
+    const std::array<float, 3> &position,
+    const std::array<float, 3> &rayOrigin,
+    const std::array<float, 3> &rayDirection)
+{
+    // The ray in the item's own frame: turned back by the pose about the posed origin; then the unturned box test.
+    const Matrix3 m = poseMatrix(pose);
+    const std::array<float, 3> origin = worldItemPosedOrigin(binding, pose, position);
+    const std::array<float, 3> localStart = turnedBackBy(
+        m, {rayOrigin[0] - origin[0], rayOrigin[1] - origin[1], rayOrigin[2] - origin[2]});
+    const std::array<float, 3> localDirection = turnedBackBy(m, rayDirection);
+    return intersectWorldItemPickBox(binding, 0.0f, {0.0f, 0.0f, 0.0f}, localStart, localDirection);
+}
+
 std::array<float, 3> reflectWorldItemVelocity(const std::array<float, 3> &velocity, const std::array<float, 3> &normal)
 {
     const float speed = std::sqrt(velocity[0] * velocity[0] + velocity[1] * velocity[1] + velocity[2] * velocity[2]);

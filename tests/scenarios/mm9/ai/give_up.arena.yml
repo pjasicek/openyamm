@@ -1,0 +1,22 @@
+# AI arena: MM9 target loss. A Grey Wolf (9114) and an Evil Apprentice (9156, placement sight 1000) notice the party;
+# the scenario then moves the party behind The Arena's gate (out of sight and reach: the wolf waits, both lose it after
+# 8 s), and back into the pit beyond the apprentice's range attack range (it holds without an attack and gives up
+# after 30 s). See README.md.
+name: mm9_give_up
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9114
+    position: [300, 600, 1]
+    yaw_degrees: 270
+  - monster_id: 9156
+    position: [0, 50, 1]
+    yaw_degrees: 270
+    mm9_ai: {sight: 1000}

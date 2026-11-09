@@ -165,6 +165,12 @@ public:
     {
         m_formations = enabled;
     }
+    // Whether the active world casts MM9's Fleet Foot from Fly's slot (world.yml fleetFoot), handed to the party for
+    // each map it enters.
+    void setFleetFoot(bool enabled)
+    {
+        m_fleetFoot = enabled;
+    }
     // The active world's Hum (world.yml hum), handed to the party for each map it enters.
     void setWorldHum(const WorldHumDefinition &hum)
     {
@@ -400,6 +406,7 @@ private:
     bool m_npcFollowers = true;
     bool m_worldCombatLog = true;
     bool m_formations = false;
+    bool m_fleetFoot = false;
     WorldHumDefinition m_worldHum;
     WorldFloorBurnDefinition m_worldFloorBurn;
     std::vector<uint32_t> m_worldObjectiveQBits;

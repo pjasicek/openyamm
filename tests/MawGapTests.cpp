@@ -2996,6 +2996,43 @@ TEST_CASE("A dragon's Regeneration popup shows its bite leech (L5.4)")
     CHECK(std::stod(unlearned.substr(value + 7, next - value - 7)) > 0);
 }
 
+TEST_CASE("Dragon Ability and an Elementalist's schools have MAW's own popups")
+{
+    REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(), OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    MawTextData texts;
+    std::string error;
+    REQUIRE_MESSAGE(texts.loadFromYaml(readSource("assets_dev/engine/rulesets/maw/data/texts.yml"), error), error);
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData(), MawPromotionData{}, MawCraftingData{}, texts);
+    rules.setSpellTable(&gameData.spellTable);
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    party.setRules(&rules.gameRules());
+    Character &member = *party.member(0);
+    const SkillRules &skills = rules.gameRules().skills;
+
+    member.className = "Dragon";
+    member.raceId = 5;
+    member.skills["DragonAbility"] = {"DragonAbility", 5, SkillMastery::Expert};
+    const std::string dragon = skills.skillTooltip(party, member, "DragonAbility", {}).description;
+    CHECK(dragon.find("Breath damage is 20 + 2 per level (up to level 600)") != std::string::npos);
+    CHECK(dragon.find('{') == std::string::npos);
+
+    // A new Elementalist knows the first two tiers; the third (Fire Resistance, Air Resistance) comes next.
+    member.className = "Elementalist";
+    member.raceId = 0;
+    member.skills["FireMagic"] = {"FireMagic", 5, SkillMastery::Normal};
+    member.skills["AirMagic"] = {"AirMagic", 5, SkillMastery::Normal};
+    member.rulesetState.elementalProgress = {250, 0, 0, 320000};
+    const std::string fire = skills.skillTooltip(party, member, "FireMagic", {}).description;
+    CHECK(fire.find("Progress toward learning Fire Resistance: ") != std::string::npos);
+    CHECK(fire.find("50 %") != std::string::npos);
+    CHECK(skills.skillTooltip(party, member, "AirMagic", {}).description.find("learning Air Resistance")
+        != std::string::npos);
+    member.skills["EarthMagic"] = {"EarthMagic", 5, SkillMastery::Normal};
+    CHECK(skills.skillTooltip(party, member, "EarthMagic", {}).description.find("taught every spell")
+        != std::string::npos);
+}
+
 TEST_CASE("The armour skills' popups show the worn armour's numbers (L5.4)")
 {
     REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(), OpenYAMM::Tests::regressionGameDataFailure().c_str());

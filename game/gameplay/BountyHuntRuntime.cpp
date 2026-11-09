@@ -61,6 +61,15 @@ void writeRuntimeBountyHuntEntry(EventRuntimeState &state, const std::string &pr
     {
         state.namedGlobalVars.erase(prefix + ".BossAffix");
     }
+
+    if (entry.pending)
+    {
+        state.namedGlobalVars[prefix + ".Pending"] = 1;
+    }
+    else
+    {
+        state.namedGlobalVars.erase(prefix + ".Pending");
+    }
 }
 
 BountyHuntEntry readRuntimeBountyHuntEntry(const EventRuntimeState &state, const std::string &prefix)
@@ -71,6 +80,7 @@ BountyHuntEntry readRuntimeBountyHuntEntry(const EventRuntimeState &state, const
     entry.done = namedGlobalVarValue(state, prefix + ".Done") != 0;
     entry.claimed = namedGlobalVarValue(state, prefix + ".Claimed") != 0;
     entry.bossAffix = uint8_t(std::clamp(namedGlobalVarValue(state, prefix + ".BossAffix"), 0, 255));
+    entry.pending = namedGlobalVarValue(state, prefix + ".Pending") != 0;
     return entry;
 }
 
@@ -256,7 +266,7 @@ bool markRuntimeBountyHuntMonsterKilled(
 
         if (!killedByParty && gameRulesFor(worldRuntime.party()).monsters.bountyCancelledByOtherKill())
         {
-            for (const char *pField : {".Month", ".MonsterId", ".Done", ".Claimed", ".BossAffix"})
+            for (const char *pField : {".Month", ".MonsterId", ".Done", ".Claimed", ".BossAffix", ".Pending"})
             {
                 pEventRuntimeState->namedGlobalVars.erase(currentPrefix + pField);
             }
@@ -366,11 +376,79 @@ BountyHuntClaimResult claimBountyHuntReward(
     return result;
 }
 
+namespace
+{
+uint32_t bountyHuntSeed(const std::string &prefix, uint32_t month)
+{
+    return static_cast<uint32_t>(std::hash<std::string>{}(prefix)) ^ static_cast<uint32_t>(month * 1103515245u);
+}
+
+// Places the hunt's target on the current map (the rules' boss, else the monster itself) and its journal note.
+void placeBountyHuntTarget(IGameplayWorldRuntime &worldRuntime, Party *pParty, BountyHuntEntry &entry, uint32_t seed)
+{
+    const GameplayWorldPoint spawnPoint = worldRuntime.chooseBountyHuntSpawnPoint(seed);
+    const std::optional<BountyTarget> target = gameRulesFor(pParty).monsters.spawnBountyTarget(
+        worldRuntime, spawnPoint.x, spawnPoint.y, spawnPoint.z, seed);
+
+    if (!target)
+    {
+        worldRuntime.summonHostileMonsterById(
+            entry.monsterId, 1, spawnPoint.x, spawnPoint.y, spawnPoint.z, BountyHuntGroup);
+        return;
+    }
+
+    entry.monsterId = target->monsterId;
+    entry.bossAffix = target->bossAffix;
+    const EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+    if (!target->mapNote.empty() && pParty != nullptr && pEventRuntimeState != nullptr)
+    {
+        JournalMapNote note;
+        note.id = BountyMapNoteId;
+        note.x = int32_t(std::lround(spawnPoint.x));
+        note.y = int32_t(std::lround(spawnPoint.y));
+        note.mapFileName = lowercaseMapName(pEventRuntimeState->mapFileName);
+        note.text = target->mapNote;
+        pParty->setJournalMapNote(note);
+    }
+}
+}
+
+void spawnPendingBountyHunt(IGameplayWorldRuntime &worldRuntime, Party *pParty)
+{
+    EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    const std::string prefix = bountyHuntVarPrefix(worldRuntime);
+    BountyHuntEntry entry = readRuntimeBountyHuntEntry(*pEventRuntimeState, prefix);
+
+    if (!entry.pending)
+    {
+        return;
+    }
+
+    // A hunt whose month passed before the party came stays unplaced; its office posts a new one.
+    entry.pending = false;
+    const uint32_t currentMonth = monthFromGameMinutes(worldRuntime.gameMinutes());
+
+    if (entry.month == currentMonth && !entry.done)
+    {
+        placeBountyHuntTarget(worldRuntime, pParty, entry, bountyHuntSeed(prefix, entry.month));
+    }
+
+    writeRuntimeBountyHuntEntry(*pEventRuntimeState, prefix, entry);
+}
+
 BountyHuntInteractionResult performBountyHuntInteraction(
     IGameplayWorldRuntime &worldRuntime,
     Party *pParty,
     bool awardGold,
-    const NpcDialogTable *pNpcDialogTable)
+    const NpcDialogTable *pNpcDialogTable,
+    const BountyHuntRemoteMap *pRemoteMap)
 {
     BountyHuntInteractionResult result = {};
     const MonsterTable *pMonsterTable = worldRuntime.monsterTable();
@@ -390,7 +468,8 @@ BountyHuntInteractionResult performBountyHuntInteraction(
     }
 
     const uint32_t currentMonth = monthFromGameMinutes(worldRuntime.gameMinutes());
-    const std::string prefix = bountyHuntVarPrefix(worldRuntime);
+    const std::string prefix =
+        pRemoteMap != nullptr ? "MMerge.BountyHunt." + pRemoteMap->mapName : bountyHuntVarPrefix(worldRuntime);
     BountyHuntEntry entry = readRuntimeBountyHuntEntry(*pEventRuntimeState, prefix);
 
     if (entry.monsterId <= 0 || bountyHuntEntryExpired(entry, currentMonth))
@@ -440,26 +519,22 @@ BountyHuntInteractionResult performBountyHuntInteraction(
             }
         }
 
-        if (const std::optional<std::string> refusal = rules.bountyRefusal(worldRuntime))
+        const std::optional<std::string> refusal = pRemoteMap != nullptr
+            ? rules.bountyRefusalForMap(pRemoteMap->mapFileName, pRemoteMap->mapName)
+            : rules.bountyRefusal(worldRuntime);
+
+        if (refusal)
         {
             result.messages.push_back(*refusal);
             return result;
         }
 
-        const uint32_t seed =
-            static_cast<uint32_t>(std::hash<std::string>{}(prefix))
-            ^ static_cast<uint32_t>(currentMonth * 1103515245u);
-        const GameplayWorldPoint spawnPoint = worldRuntime.chooseBountyHuntSpawnPoint(seed);
-        const std::optional<BountyTarget> target =
-            rules.spawnBountyTarget(worldRuntime, spawnPoint.x, spawnPoint.y, spawnPoint.z, seed);
-        const bool spawned = target.has_value();
-        std::optional<int16_t> monsterId;
+        // The target: the rules' pick (MAW's arena families) or one of the map's bounty monsters, by the hunt's seed,
+        // which placing it uses again, so a hunt posted for another map is placed as the same monster.
+        const uint32_t seed = bountyHuntSeed(prefix, currentMonth);
+        std::optional<int16_t> monsterId = rules.bountyTargetMonster(*pMonsterTable, seed);
 
-        if (spawned)
-        {
-            monsterId = target->monsterId;
-        }
-        else
+        if (!monsterId)
         {
             monsterId = chooseBountyHuntMonsterId(
                 *pMonsterTable,
@@ -477,30 +552,14 @@ BountyHuntInteractionResult performBountyHuntInteraction(
         entry = {};
         entry.month = currentMonth;
         entry.monsterId = *monsterId;
-        entry.bossAffix = spawned ? target->bossAffix : 0;
+        entry.pending = pRemoteMap != nullptr;
+
+        if (!entry.pending)
+        {
+            placeBountyHuntTarget(worldRuntime, pParty, entry, seed);
+        }
+
         writeRuntimeBountyHuntEntry(*pEventRuntimeState, prefix, entry);
-
-        if (spawned && !target->mapNote.empty() && pParty != nullptr)
-        {
-            JournalMapNote note;
-            note.id = BountyMapNoteId;
-            note.x = int32_t(std::lround(spawnPoint.x));
-            note.y = int32_t(std::lround(spawnPoint.y));
-            note.mapFileName = lowercaseMapName(pEventRuntimeState->mapFileName);
-            note.text = target->mapNote;
-            pParty->setJournalMapNote(note);
-        }
-
-        if (!spawned)
-        {
-            worldRuntime.summonHostileMonsterById(
-                entry.monsterId,
-                1,
-                spawnPoint.x,
-                spawnPoint.y,
-                spawnPoint.z,
-                BountyHuntGroup);
-        }
     }
 
     const MonsterTable::MonsterStatsEntry *pTableStats = pMonsterTable->findStatsById(entry.monsterId);

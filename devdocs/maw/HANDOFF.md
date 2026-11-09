@@ -107,6 +107,16 @@ In order. GAPS.md and DEVIATIONS.md hold the details of each row.
       kinds without rarity, gold or a greyed drop, and the preset tried on this session's last 50 drops. Its small
       text is Alegreya SemiBold (the user's request, 2026-10-25; `isIndependentOutlineFont` in
       `game/ui/MenuScreenBase.cpp`). The custom rules (view A2) are not started.
+    - **Sell trash** (ours, 2026-11-09, user request; no study): a shop's sell screen has a Sell trash button
+      (`DialogueShopSellTrashButton` in `dialogue.yml`, only where `ItemRules::lootFilter` exists). It picks the whole
+      party's trash in every bag (`isSellTrash` in `game/rules/LootFilter.cpp` against the mean party level: Common
+      and Uncommon weapons and armour, Rare 10+ and Epic 20+ levels below; Common jewellery, Uncommon 10+ and Rare
+      20+ below; every gem; never what the loot filter always keeps, unidentified items or what the shop does not
+      buy), lights it in gold and dims the rest, and a click on an item adds or removes it. The button becomes Cancel,
+      and the two-line `DialogueShopSellTrashConfirmButton` above it ("Sell N items / for G gold") sells the pick
+      (`HouseServiceRuntime::findSellTrash`, `trySellTrash`). Not saved. Crafting gems, the Crafting Cube and the other
+      Workbench materials carry the Gem stat, so `MawItemRules::lootFilterFacts` leaves out everything
+      `CraftingRules::isMaterial` names: neither the loot filter nor Sell trash ever takes them (user, 2026-11-10).
     - **Potion quick-slots** (the radial, both rulesets, potions and scrolls only, weakest bottle first;
       [study](../../level_generation/ui/maw_potion_radial_20261025/README.md)). Core (A): `Character::quickItemSlots`
       (six `QuickItemSlot {itemId, bottleRule}`, save 125); `game/items/QuickItemSlots.*` (`canHold`, `findItem`,
@@ -156,7 +166,16 @@ In order. GAPS.md and DEVIATIONS.md hold the details of each row.
     refused attack spell (an Assassin short of combo points) attacks with the weapon instead, as quick cast does.
     Peasant has its own class icon (a straw hat, `maw_class_icons_20261025/`). A player's guide for MAW is hosted at
     https://jasicek.net/openyamm/maw-guide/ (`/var/www/html/openyamm/maw-guide/` on the server); `ruleset.yml`'s
-    `guide_url` links it from the Rules panel (top right) and the journal's Progress tab header.
+    `guide_url` links it from the Rules panel (top right) and the journal's Progress tab header. Its source is
+    `tools/maw_site/` (generated from the ruleset and world data, prose in `content/`; see its README), published
+    with `tools/maw_site/deploy.sh`. A rule change that the guide states should update its fragment.
+    `ruleset.yml`'s `worlds` (2026-11-09) lists the worlds a ruleset plays in (none listed: every world). MAW lists
+    mm6, mm7 and mm8: the user does not allow MAW with MM9 yet. Under MAW the new-game screen greys out Chedian, the
+    dimension door offers no Chedian portal, and a save whose ruleset does not play in its world is refused. Loading a
+    save of another ruleset first switches to the save's world, so its tables load with that world's (an MM8 MAW save
+    loaded while MM9 was active failed on MM9's vendor stock). MAW in MM9 is being made (2026-11-09):
+    [MM9_SUPPORT.md](MM9_SUPPORT.md) (what is built) and [MM9_BALANCE_DESIGN.md](MM9_BALANCE_DESIGN.md) (the user's
+    decisions, the balance file, what is next).
 
 13. **Map progress bar** (2026-10-25, the user approved option A of the
     [study](../../level_generation/ui/maw_map_progress_20261025/README.md#native-integration-2026-10-25)): a 5 px

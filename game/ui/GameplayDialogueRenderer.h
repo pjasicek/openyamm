@@ -83,6 +83,17 @@ public:
         const std::vector<std::string> &dialogueBodyLines);
 
 private:
+    // The popup over the scene that offers to reset a cleared dungeon on the way in (transitionResetPopupOpen).
+    static void renderTransitionResetPopup(GameplayScreenRuntime &view, int width, int height, bool renderAboveHud);
+    // The sell screen's Sell trash button (Cancel while picking) and the pick's confirm button
+    // (HouseServiceRuntime::offersSellTrash); none while the merchant's offer for a hovered item shows.
+    static void renderSellTrashButtons(
+        GameplayScreenRuntime &view,
+        int width,
+        int height,
+        const HouseEntry &houseEntry,
+        bool offerShown,
+        bool renderAboveHud);
     static void submitTextureHandleQuad(
         GameplayScreenRuntime &context,
         bgfx::TextureHandle textureHandle,

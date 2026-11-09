@@ -229,17 +229,18 @@ def njam_freeze_win(frame: Frame, objects: Objects, actor: dict, points: dict, a
     scene.step(0.0, "win", f"""
 if MM9.hasKey(109) == 0 then MM9.giveExperience(WIN_EXPERIENCE) end
 MM9.playSound("sounds/events/quest.wav")
--- :DestroyMonsters: up to {DESTROY_MAX} monsters within {DESTROY_RADIUS_LT} LT of the switch, not Njam
-local removed, index = 0, 0
+-- :DestroyMonsters: up to {DESTROY_MAX} monsters within {DESTROY_RADIUS_LT} LT of the switch, not Njam (`scan`, not
+-- `index`: pack growth's Lua scan, density.py, takes every `index` for one)
+local removed, scan = 0, 0
 while removed < {DESTROY_MAX} do
-    local ax, ay, az = evt.GetMapActorPosition(index)
+    local ax, ay, az = evt.GetMapActorPosition(scan)
     if ax == nil then break end
-    if index ~= ACTOR.Njam and index ~= ACTOR.NjamtheMeddler0 and evt.IsMapActorHostile(index)
+    if scan ~= ACTOR.Njam and scan ~= ACTOR.NjamtheMeddler0 and evt.IsMapActorHostile(scan)
             and (ax - {wx}) ^ 2 + (ay - {wy}) ^ 2 + (az - {wz}) ^ 2 < {int(round(radius))} ^ 2 then
-        MM9.removeActor(index)
+        MM9.removeActor(scan)
         removed = removed + 1
     end
-    index = index + 1
+    scan = scan + 1
 end""", note="OnUse: GiveExp 234000 (without key 109), quest.wav, DestroyMonsters")
     sx, sy, sz = (int(round(c)) for c in stop)
     scene.step(t_ball, "ball", f'evt.SpawnWorldEffect("mm9:Njam_lightball_for_cutscene", {sx}, {sy}, {sz + 160}, 1)',

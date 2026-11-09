@@ -1,0 +1,53 @@
+# MM9 playthrough, segment 25: the refinery's broken part (guide: Chapter I, "Fix the refinery machine"). From the
+# mine back into Thjorgard City by its west gate: Hjarrand Fixer in his house in the south-west is paid 1 000 gold to
+# look at the machine (key 362; he leaves for the mine), and Gunnar Thjorsmith, the armour merchant west of the
+# centre, trades the broken Slag Extractor for the spare he made long ago (key 9513; item 10398 for 10399).
+# Research: prep/20_34_thjorgard_guberland.md (segment 23 there).
+#   python3 tests/playthrough/mm9/run.py 25
+id: mm9.playthrough.25_hjarrand_gunnar
+title: "MM9 playthrough 25: Hjarrand hired, Gunnar's spare Slag Extractor"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/24_mine_cave_in.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgard.blv, qbit_set: [90005, 99512], qbit_clear: [90362, 99513]}
+  - play_lua: {source: 'if not has_item(10398) then error("no Broken Slag Extractor") end'}
+
+  # Thjorgard City's west gate.
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Hjarrand Fixer wants money; 1 000 gold is enough (taken when the talk ends; 500 or less he refuses).
+  - set_pose: {map: thjorgardcity.blv, x: -6390, y: 1250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 21}
+  - select_topic: {match_label: "One of the machines in the Refinery is broken."}
+  - select_topic: {match_label: "They say you're the only one who could fix it."}
+  - select_topic: {match_label: "We'll pay you 1,000 gold"}
+  - select_topic: {match_label: "Alright!  Let's go."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90360, 90362], qbit_clear: [90363]}
+
+  # Gunnar Thjorsmith's shop.
+  - set_pose: {map: thjorgardcity.blv, x: -2048, y: 11250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 32}
+  - select_topic: {match_label: "We were wondering if you could help us."}
+  - select_topic: {match_label: "We need a replacement Slag Extractor."}
+  - select_topic: {match_label: "Sounds like a deal!"}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [99513, 99514]}
+  - play_lua:
+      source: |
+        if has_item(10398) then error("Gunnar did not take the broken part") end
+        if not has_item(10399) then error("no Slag Extractor from Gunnar") end
+        log("Gunnar swaps the broken part for a new Slag Extractor")
+  - save_game: {name: "25 Hjarrand and Gunnar", path: output/playthrough/mm9/checkpoints/25_hjarrand_gunnar.oysav}

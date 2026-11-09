@@ -162,6 +162,15 @@ Thorolf's and Randver's walks and town-portal effect (they vanish at once); the 
 vanish sounds (not imported); the 24 PerceptionBrushes (red hints on gates and locked doors; not built, as no
 gameplay hangs on them here); MM9's ambient sounds.
 
+Added, not MM9's (the user, 2026-11-09): Chedian's **dimensional travel pedestal**, as on the other continents. MAW's
+teleporter (the `ped06` pedestal under the `dec57` orb, engine indoor bindings) stands on the lawn east of the south
+sewer hatch (`convert.py` `PEDESTAL`); a click or Use on either runs event 250, which opens the
+four portals (`evt.OpenDimensionDoor()`; no quest gate since Verdant's removal, 2026-11-09). A Dimension Door
+to Chedian lands the party 224 units east of it, facing it, once the Isle of Ashes is left (key 28); before that at
+Ravensford's new-game start (`resolveDimensionDoorLanding`, GameplayPartyOverlayInputController.cpp). The rebuild
+changed only the BLV's decorations, so the lightmap transfer carried the bake over unchanged
+(`lightmap_transfer.py ... --install`, `carried_over: true`).
+
 ## Quality gates
 
 1. **Every DAT world model has a rule** (195 + PhysicsBSP); skipped with reasons: the sky box and the TOD star shell,

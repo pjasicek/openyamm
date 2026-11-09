@@ -254,11 +254,13 @@ std::vector<Group> overviewGroups(const PlaythroughStatistics &statistics, float
                 {Engine::tr("Damage taken"), count(t.damageTakenTotal()), IvoryColor, "taken"},
                 {Engine::tr("Largest hit"), count(largestHit), GoldColor, "biggest"},
                 {Engine::tr("Spells cast"), count(t.spellsCast), IvoryColor, "spells"}}},
+        // Losses count undone play too: a player reloads after exactly these, and MM9's early game over reloads the
+        // autosave by itself, so the timeline would hide nearly all of them.
         {Engine::tr("Losses"),
-            {{Engine::tr("Deaths"), count(t.deaths), lossColor(t.deaths), "deaths"},
-                {Engine::tr("Eradications"), count(t.eradications), lossColor(t.eradications), "deaths"},
-                {Engine::tr("Party wipes"), count(t.partyWipes), lossColor(t.partyWipes), "wipes"},
-                {Engine::tr("Temple healings"), count(t.templeHeals), IvoryColor, "temple"}}},
+            {{Engine::tr("Deaths"), count(l.deaths), lossColor(l.deaths), "deaths"},
+                {Engine::tr("Eradications"), count(l.eradications), lossColor(l.eradications), "deaths"},
+                {Engine::tr("Party wipes"), count(l.partyWipes), lossColor(l.partyWipes), "wipes"},
+                {Engine::tr("Temple healings"), count(l.templeHeals), IvoryColor, "temple"}}},
     };
     thirdColumn = {
         {Engine::tr("Exploration"),
@@ -479,6 +481,7 @@ void renderPartyTab(GameplayScreenRuntime &context, const Rect &root, const Play
         uint64_t PlaythroughMemberCounters::*pField = nullptr;
         bool share = false;
         bool lowerIsBetter = false;
+        bool lifetime = false; // Losses, as on the Overview.
     };
 
     static const std::array<PartyRow, 10> Rows = {{
@@ -489,8 +492,8 @@ void renderPartyTab(GameplayScreenRuntime &context, const Rect &root, const Play
         {Engine::trNoop("Damage taken"), &PlaythroughMemberCounters::damageTaken, false, true},
         {Engine::trNoop("Spells cast"), &PlaythroughMemberCounters::spellsCast, false, false},
         {Engine::trNoop("Healing given"), &PlaythroughMemberCounters::healingGiven, false, false},
-        {Engine::trNoop("Knocked out"), &PlaythroughMemberCounters::knockouts, false, true},
-        {Engine::trNoop("Deaths"), &PlaythroughMemberCounters::deaths, false, true},
+        {Engine::trNoop("Knocked out"), &PlaythroughMemberCounters::knockouts, false, true, true},
+        {Engine::trNoop("Deaths"), &PlaythroughMemberCounters::deaths, false, true, true},
         {Engine::trNoop("Experience"), &PlaythroughMemberCounters::experience, false, false},
     }};
 
@@ -520,17 +523,18 @@ void renderPartyTab(GameplayScreenRuntime &context, const Rect &root, const Play
         fillRect(context, toScreen(root, left + 4.0f, y, tableWidth - 8.0f, 1.0f / root.scale), GroupInnerColor);
         drawText(context, root, "Arrus", HeadingScale, IvoryColor, Engine::tr(partyRow.label), left + 8.0f, y + 3.0f,
             labelWidth - 10.0f);
+        const PlaythroughCounters &counters = partyRow.lifetime ? statistics.lifetime() : t;
         uint64_t best = 0;
 
         for (uint64_t id : ids)
         {
-            const PlaythroughMemberCounters *pCounters = memberCounters(t, id);
+            const PlaythroughMemberCounters *pCounters = memberCounters(counters, id);
             best = std::max(best, pCounters != nullptr ? pCounters->*partyRow.pField : 0);
         }
 
         for (size_t column = 0; column < ids.size(); ++column)
         {
-            const PlaythroughMemberCounters *pCounters = memberCounters(t, ids[column]);
+            const PlaythroughMemberCounters *pCounters = memberCounters(counters, ids[column]);
             const uint64_t value = pCounters != nullptr ? pCounters->*partyRow.pField : 0;
             const float x = left + labelWidth + float(column) * cellWidth;
 
@@ -807,6 +811,11 @@ Breakdown buildBreakdown(const std::string &id, const PlaythroughStatistics &sta
     {
         return row(Engine::tr("Including undone play"), count(lifetimeValue));
     };
+    // The losses show the lifetime; their breakdowns end with the timeline instead.
+    const auto inTimeline = [&](uint64_t timelineValue)
+    {
+        return row(Engine::tr("In this timeline"), count(timelineValue));
+    };
     Breakdown breakdown;
     std::vector<BreakdownLine> &lines = breakdown.lines;
 
@@ -1031,59 +1040,61 @@ Breakdown buildBreakdown(const std::string &id, const PlaythroughStatistics &sta
 
             for (const Character &member : pParty->members())
             {
-                const PlaythroughMemberCounters *pCounters = memberCounters(t, member.statsMemberId);
+                const PlaythroughMemberCounters *pCounters = memberCounters(l, member.statsMemberId);
                 const uint64_t eradications = pCounters != nullptr ? pCounters->eradications : 0;
                 lines.push_back(row(member.name, count(pCounters != nullptr ? pCounters->deaths : 0),
                     eradications > 0 ? Engine::tr("{count} erad.", {{"count", count(eradications)}}) : std::string()));
             }
         }
 
-        if (!t.deathCauses.empty())
+        if (!l.deathCauses.empty())
         {
             lines.push_back(section(Engine::tr("Deadliest")));
 
-            for (const auto &[cause, deaths] : topEntries(t.deathCauses, 3))
+            for (const auto &[cause, deaths] : topEntries(l.deathCauses, 3))
             {
                 lines.push_back(row(Engine::Utf8::capitalizedFirst(recordedText(cause)), count(deaths)));
             }
         }
 
-        if (!t.deathLog.empty())
+        if (!l.deathLog.empty())
         {
             lines.push_back(section(Engine::tr("Latest")));
 
-            for (size_t index = 0; index < std::min<size_t>(3, t.deathLog.size()); ++index)
+            for (size_t index = 0; index < std::min<size_t>(3, l.deathLog.size()); ++index)
             {
-                const PlaythroughLogEntry &entry = t.deathLog[t.deathLog.size() - 1 - index];
+                const PlaythroughLogEntry &entry = l.deathLog[l.deathLog.size() - 1 - index];
                 lines.push_back(row(entry.member, Engine::Utf8::capitalizedFirst(recordedText(entry.cause)),
                     dayText(entry.day)));
             }
         }
 
         lines.push_back(rule());
-        lines.push_back(undone(l.deaths + l.eradications));
+        lines.push_back(inTimeline(t.deaths + t.eradications));
     }
     else if (id == "wipes")
     {
         breakdown.title = Engine::tr("Party wipes");
 
-        for (size_t index = 0; index < std::min<size_t>(4, t.wipeLog.size()); ++index)
+        for (size_t index = 0; index < std::min<size_t>(4, l.wipeLog.size()); ++index)
         {
-            const PlaythroughLogEntry &entry = t.wipeLog[t.wipeLog.size() - 1 - index];
+            const PlaythroughLogEntry &entry = l.wipeLog[l.wipeLog.size() - 1 - index];
             lines.push_back(row(mapName(pContext, entry.map), std::string(), dayText(entry.day)));
         }
 
         lines.push_back(rule());
-        lines.push_back(row(Engine::tr("Gold lost"), count(t.goldSpent[size_t(GoldReason::Defeat)])));
+        lines.push_back(row(Engine::tr("Gold lost"), count(l.goldSpent[size_t(GoldReason::Defeat)])));
         lines.push_back(row(Engine::tr("Loads after a wipe"), count(l.loadsAfterWipe)));
-        lines.push_back(undone(l.partyWipes));
+        lines.push_back(inTimeline(t.partyWipes));
     }
     else if (id == "temple")
     {
         breakdown.title = Engine::tr("Temples");
-        lines.push_back(row(Engine::tr("Healings"), count(t.templeHeals)));
-        lines.push_back(row(Engine::tr("Donations"), count(t.donations)));
-        lines.push_back(row(Engine::tr("Gold paid"), count(t.goldSpent[size_t(GoldReason::Temple)])));
+        lines.push_back(row(Engine::tr("Healings"), count(l.templeHeals)));
+        lines.push_back(row(Engine::tr("Donations"), count(l.donations)));
+        lines.push_back(row(Engine::tr("Gold paid"), count(l.goldSpent[size_t(GoldReason::Temple)])));
+        lines.push_back(rule());
+        lines.push_back(inTimeline(t.templeHeals));
     }
     else if (id == "tp")
     {

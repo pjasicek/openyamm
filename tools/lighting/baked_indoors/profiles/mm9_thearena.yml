@@ -1,0 +1,47 @@
+{
+  "world": "mm9",
+  "map": "thearena.blv",
+  "units_per_texel": 16,
+  "page_size": 4096,
+  "padding": 2,
+  "samples": 64,
+  "bounces": 3,
+  "light_size": 24,
+  "direct_scale": 0.85,
+  "bounce_scale": 1.0,
+  "ambient_scale": 0.55,
+  "blur_radius": 2,
+  "dirlights": true,
+  "max_lighting": 1,
+  "emitters": [
+    {
+      "textures": [
+        "sky04"
+      ],
+      "colour": [
+        1.0,
+        0.97,
+        0.9
+      ],
+      "strength": 1.0,
+      "display": 1.1,
+      "outward": false
+    }
+  ],
+  "sky_scale": 0.1,
+  "glass": [
+    {
+      "textures": [
+        "AREN2OMA14",
+        "ARENKTMM54",
+        "ARENV1YII0"
+      ],
+      "colour": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "display": 1.0
+    }
+  ]
+}

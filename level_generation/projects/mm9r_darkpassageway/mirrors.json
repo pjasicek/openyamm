@@ -1,0 +1,42 @@
+[
+ {
+  "source_name": "Mirror0",
+  "decoration": "mm9_mirror",
+  "x": -6548.5,
+  "y": -13104.6,
+  "z": -396.8,
+  "yaw_degrees": 0.0,
+  "fit_worst_units": 0.0,
+  "script_params": "330 Mirror1 LightBeam0"
+ },
+ {
+  "source_name": "Mirror1",
+  "decoration": "mm9_mirror",
+  "x": -3113.0,
+  "y": -11138.6,
+  "z": -396.8,
+  "yaw_degrees": 0.0,
+  "fit_worst_units": 0.0,
+  "script_params": "10 Mirror2 LightBeam1"
+ },
+ {
+  "source_name": "Mirror2",
+  "decoration": "mm9_mirror",
+  "x": -6881.3,
+  "y": -10483.2,
+  "z": -396.8,
+  "yaw_degrees": 0.0,
+  "fit_worst_units": 0.0,
+  "script_params": "340 Mirror3 LightBeam2"
+ },
+ {
+  "source_name": "Mirror3",
+  "decoration": "mm9_mirror",
+  "x": -3031.0,
+  "y": -9131.5,
+  "z": -396.8,
+  "yaw_degrees": 0.0,
+  "fit_worst_units": 0.0,
+  "script_params": "50 Gemstone LightBeam3"
+ }
+]

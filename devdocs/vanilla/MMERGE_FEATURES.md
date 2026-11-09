@@ -15,7 +15,7 @@ Ease: **D** data-driven (swap or empty a table), **H** hard-coded (needs a code 
 | Continents (tracking, change events) | `MapStats.cpp:679` sets `mergedContinentId`; fallback map-id ranges 0-61 / 62-136 / 137-203 in `GameplayDialogController.cpp:769-781` | `bolster_maps.txt` + hard-coded ranges | D/H |
 | Continent settings (reputation, followers, news, death map and movie, skies, loading screens) | `ReputationRuntime.cpp:57`, `EventDialogContent.cpp:263-295`, `GameApplication.cpp:1747, 11922`, `GameplayDialogController.cpp:1990` | `continent_settings.txt` (row 4 "Between time" is MMerge-only) | D |
 | Town Portal switch | `GameplayUiRuntime.cpp:133-146` picks the group by **map-id range**; loader `:680-715` | `town_portal_switch.txt` (`townport`, `Antagrich`, `TPEnroth`, `TPGlobal`) | D table, H selection |
-| Dimension Door, connector stones, Verdant | `GameplayUiRuntime.cpp:717+` (`TPGlobal`), unlocked by `MMerge.CrossContinents.GotMainQuest` (`GameplayScreenRuntime.cpp:4086-4102`); item ids in `GameplayItemService.cpp:33-41, 280`, `InventoryItemUseRuntime.cpp:21-24` | C++ constants + `events/common/cross_continents_common.lua` | H, easy to gate |
+| Dimensional travel (Verdant, the connector stones, the Dimension Door scroll and MMerge's travel spots were removed on 2026-11-09) | `GameplayUiRuntime.cpp` (`TPGlobal`), opened by the towns' pedestals (`evt.OpenDimensionDoor`, event 1777 in New Sorpigal, Ravenshore and Harmondale; Sturmford City's 250) and MMerge's town fountains (oute3 140, out02 104, 7d29 65031), with no quest; the Town Portal continent buttons | world scene overlays `<map>_dimensional_travel.scene.yml`, `7d29_dimension_travel.scene.yml` | D, easy to gate |
 | Outdoor travels (map-edge links) | `MapStats::applyMergedOutdoorTravels` (`MapStats.cpp:813`) | `outdoor_travels.txt`, including cross-world edges (`7out02` to `out11`, `out14`, `7out15`) | D |
 | Boats and stables | `HouseTable.cpp:1340-1390` | `house_rules.txt`, `transport_locations.txt` (QBit-gated cross-world rows, e.g. QBits 1192, 223, 610) | D |
 | Adaptive monster stats (bolster) | `game/gameplay/GameplayBolsterRuntime.cpp` (new spells, summons, replication at `:755-790`); setting `[features] bolster_monsters` | `bolster_maps.txt`, `bolster_monsters.txt`; `bolster_formulas.txt` is loaded but unused | D toggle, H formulas |
@@ -62,10 +62,10 @@ Ease: **D** data-driven (swap or empty a table), **H** hard-coded (needs a code 
   per world.
 - **Artifacts** are unique across all three games in MMerge (`reference/mmmerge/Scripts/Global/ExtraArtifacts.lua:22-30`)
   and the artifacts-found limit is removed.
-- **QBits.** MMerge's cross-continent and extra quests sit around 1537-1792, plus 783/784 and 1104/1105
-  (`cross_continents_common.lua:15-19, 318-327`).
-- **NPCs and houses.** Verdant (NPC 803) and the meeting-spot houses 185, 641 and 1195 are MMerge-only.
-- **Metaquests and quest additions.** Cross Continents and Verdant; Enroth Grandmaster teachers
+- **QBits.** MMerge's cross-continent and extra quests sit around 1537-1792, plus 783/784 and 1104/1105.
+- **NPCs and houses.** Verdant (NPC 803) and the meeting-spot houses 185, 641 and 1195 are MMerge-only; Verdant's
+  scripts are removed (2026-11-09), her table rows stay unused.
+- **Metaquests and quest additions.** Enroth Grandmaster teachers
   (`Global_mm6_mmmerge.lua:18-64`); MMerge's Enroth Dark Arts, Saving Goobers and Dragon Hatchling quests (no match
   found in our event scripts). The repository root has `MMERGE_QUEST_COMPLETION_INVENTORY.pdf`.
 - **Cross-world travel rows.** `transport_locations.txt` rows 79-81 and 96-100, the cross-world edges in
@@ -77,8 +77,8 @@ Ease: **D** data-driven (swap or empty a table), **H** hard-coded (needs a code 
 
 1. **Data swap** (a ruleset table override): continent settings, character selection, race skills, outdoor travels,
    house rules and transport, news topics, teacher autonotes, bolster off.
-2. **Small code gates:** skip `_mmmerge` overlays and `cross_continents_common.lua`; disable Dimension Door,
-   connector stones and Verdant; choose Town Portal groups and continent ids by `worldId` instead of map-id ranges
+2. **Small code gates:** skip `_mmmerge` overlays and the dimensional travel pedestals and fountains; hide the Town Portal
+   continent buttons; choose Town Portal groups and continent ids by `worldId` instead of map-id ranges
    (`GameplayUiRuntime.cpp:133`, `GameplayDialogController.cpp:769`); filter bounty hunts by world; make monster
    stealing a ruleset rule.
 3. **Deep:** the class and promotion tree, party size, spell rules and spell table (see [RULES.md](RULES.md) and

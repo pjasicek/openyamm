@@ -1,0 +1,53 @@
+guild_id: '1563263436400623696'
+checkpoints:
+  '1563263444684111966':
+    name: '#general'
+    last: '1568549745784262717'
+    date: '2026-11-07'
+  '1563589096608370698':
+    name: '#maw'
+    last: '1568436092988825621'
+    date: '2026-11-07'
+  '1563532826832535633':
+    name: '#bug-report'
+    last: '1568363329292861473'
+    date: '2026-11-07'
+  '1563589245061308518':
+    name: '#bug-report-maw'
+    last: '1569070689586118736'
+    date: '2026-11-08'
+  '1563533122488766614':
+    name: '#feature-requests'
+    last: '1568544296280264737'
+    date: '2026-11-07'
+  '1563558479380086954':
+    name: '#faq'
+    last: '1563958223952810180'
+    date: '2026-11-07'
+  '1564211115653857291':
+    name: '#releases'
+    last: '1567955899392196609'
+    date: '2026-11-07'
+  '1565682544471572481':
+    name: '#mm9'
+    last: '1568555651616080015'
+    date: '2026-11-07'
+  '1566574247621431367':
+    name: '#brainstorming'
+    last: '1568008313117999338'
+    date: '2026-11-07'
+runs:
+- date: '2026-11-07'
+  messages: 4385
+  channels: all
+  note: 'First full triage of all channels (2026-10-24 to 2026-11-07): 448 items from 7 channel agents, cross-channel duplicates
+    merged'
+- date: '2026-11-07'
+  messages: 7
+  channels: all
+  note: 'Late messages: mods-folder question added to OY-48; mm9 chat skipped'
+- date: '2026-11-08'
+  messages: 79
+  channels:
+  - bug-report-maw
+  note: 'bug-report-maw only: OY-449..468 logged, OY-337 sources and commit'

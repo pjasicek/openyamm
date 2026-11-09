@@ -1,0 +1,56 @@
+# MM9 playthrough, segment 19: Drangheim's pledge (guide: Chapter I, Drangheim, the reports). Out of Sturmford City
+# by its north gate, the road to Drangheim, into Drangheim City; Jarl Sigmund hears that Anskram Keep's defences are
+# down (key 49: 16500 experience, 7000 gold) and sees the Crona Kiga (key 50: 12500 experience, 10000 gold, the Kiga
+# taken), then joins the alliance (key 51). Sturmford (38) and Drangheim (51) have pledged: two of the six clans.
+# Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 19
+id: mm9.playthrough.19_drangheim_pledge
+title: "MM9 playthrough 19: Sigmund hears both reports and joins the alliance"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/17_sturmford_pledge.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmfordcity.blv, qbit_set: [90038, 90047, 90048], qbit_clear: [90049, 90050, 90051]}
+
+  # Out by the north gate (ExitN), then the road to Drangheim and its city gate.
+  - set_pose: {map: sturmfordcity.blv, x: 11141, y: 14300, z: 19723, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11346, y: 14541, z: 19907, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+  - set_pose: {map: sturmford.blv, x: -3215, y: 20900, z: 760, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -3215, y: 22165, z: 1311, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+
+  # Sigmund: the defences, the Crona Kiga, the pledge.
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5390, z: 1476, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We've disabled Anskram Keep's defenses."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "We've got the Crona Kiga."}
+  - select_topic: {match_label: "Certainly."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Now that we've done both tasks for you, will you join us?"}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "We have much to do, yet.  We'll let you know."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90049, 90050, 90051, 90171, 90170, 90038]}
+  - play_lua:
+      source: |
+        if has_item(10390) then error("Sigmund did not take the Crona Kiga") end
+        log("Sturmford (key 38) and Drangheim (key 51) have pledged to the alliance")
+  - save_game: {name: "19 Drangheim pledged", path: output/playthrough/mm9/checkpoints/19_drangheim_pledge.oysav}

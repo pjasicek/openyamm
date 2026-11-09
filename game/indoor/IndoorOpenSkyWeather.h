@@ -48,8 +48,13 @@ public:
     // Sounds play at the audibility (WeatherAudio: 1 in the open, less under cover, 0 under water), which the
     // sound follows over a fraction of a second, as when walking through a door.
     void update(double gameMinutes, float elapsedSeconds, GameAudioSystem *pAudio, float audibility);
-    // The sky follows the shown weather, as an outdoor map's.
+    // The sky follows the shown weather, as an outdoor map's; a fog day hazes it toward its fog colour.
     void applyToSky(SkyInputs &inputs) const;
+    // The day's fog (weather.yml fog chances, open_sky_fog distances) at the last update; not foggy on a clear day.
+    const WeatherOpenSkyFog &fog() const
+    {
+        return m_fog;
+    }
     // Rain and snow round the camera into a transparent view after the world; skipped while not shown.
     // Under cover the distant rain curtain is left out (it would hang inside the room).
     void render(uint16_t viewId, const std::array<float, 3> &camera, float yawRadians, const float *pProjection,
@@ -60,6 +65,11 @@ public:
     void shutdown(GameAudioSystem *pAudio, bool gpuAlive);
     // The debug console's `weather rain|snow <0-1>`, `clear` and `auto` (none: the rolled weather). Not saved.
     void setDebugPrecipitation(std::optional<PrecipitationKind> kind, float intensity);
+    // The debug console's `weather fog none|small|average|dense` and `fog auto` (none: the rolled fog). Not saved.
+    void setDebugFog(std::optional<WeatherFogLevel> level)
+    {
+        m_debugFog = level;
+    }
     // The rolled weather now, before the fades, for `weather status`.
     WeatherSample targetSample() const
     {
@@ -93,6 +103,8 @@ private:
     float m_wetness = 0.0f;
     std::optional<PrecipitationKind> m_debugPrecipitation;
     float m_debugIntensity = 0.0f;
+    std::optional<WeatherFogLevel> m_debugFog;
+    WeatherOpenSkyFog m_fog = {};
     WeatherSample m_lastTarget = {};
     WeatherRoofMap m_roofMap;
     bool m_roofMapUploaded = false;

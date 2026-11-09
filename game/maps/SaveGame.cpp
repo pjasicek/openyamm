@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 164;
+constexpr uint32_t SaveVersion = 172;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -185,7 +185,7 @@ constexpr uint32_t SaveVersionSpellbookSchool = 130;
 constexpr uint32_t SaveVersionGuildSchoolShelves = 131;
 // An outdoor monster the party hit beyond the full-AI range stays awake (OutdoorWorldRuntime provokedByParty).
 constexpr uint32_t SaveVersionOutdoorProvokedActors = 132;
-// ...and may shoot back from the distance of the hit (OutdoorWorldRuntime provokedAttackReach).
+// ...and may shoot back from the distance of the hit (provokedAttackReach, dropped in version 169).
 constexpr uint32_t SaveVersionOutdoorProvokedAttackReach = 133;
 // A character's implant sockets (Character::implants, Hesper).
 constexpr uint32_t SaveVersionCharacterImplants = 134;
@@ -270,6 +270,25 @@ constexpr uint32_t SaveVersionMapLayoutIdentity = 162;
 constexpr uint32_t SaveVersionPlaythroughStatistics = 163;
 // A placed actor's posed flag (MapDeltaActor::posed: MM9's posed props, never moved); older saves have none.
 constexpr uint32_t SaveVersionActorPosed = 164;
+// The scene's placed world items the party took (MapDeltaData::takenWorldItems); older saves have none.
+constexpr uint32_t SaveVersionTakenWorldItems = 165;
+// The indoor party's swim memory (whether it has been under water, a surface jump in flight); older saves guess it.
+constexpr uint32_t SaveVersionPartySwimMemory = 166;
+// Each character's battle orders (game/party/BattleOrders.h) replace the single attack spell, which older saves turn
+// into one order (setAttackSpell).
+constexpr uint32_t SaveVersionBattleOrders = 167;
+// The party buff of MM9's Fleet Foot (PartyBuffId::FleetFoot, the last); older saves have one party buff fewer.
+constexpr uint32_t SaveVersionFleetFootBuff = 168;
+// Outdoor monsters no longer keep the reach of a far hit (provokedAttackReach, versions 133-168): the party hits no
+// farther than monsters shoot (GameplayActorService::partyHitReach).
+constexpr uint32_t SaveVersionNoProvokedAttackReach = 169;
+// An indoor map's Armageddon in progress (IndoorWorldRuntime::Snapshot::armageddon: a BLV open to the sky); older saves
+// have none.
+constexpr uint32_t SaveVersionIndoorArmageddon = 170;
+// A sprite object's key (MapDeltaSpriteObject::objectKey); older saves have none and the indoor runtime assigns them.
+constexpr uint32_t SaveVersionSpriteObjectKeys = 171;
+// RulesetOptions::otherWorldsLoot; older games keep loot from every world.
+constexpr uint32_t SaveVersionOtherWorldsLoot = 172;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -400,6 +419,8 @@ private:
 void writeValue(BinaryWriter &writer, const HiredNpcFollower &value);
 void writeValue(BinaryWriter &writer, const WorldCompletionRecord &value);
 bool readValue(BinaryReader &reader, WorldCompletionRecord &value);
+void writeValue(BinaryWriter &writer, const ArmageddonState &value);
+bool readValue(BinaryReader &reader, ArmageddonState &value);
 void writeValue(BinaryWriter &writer, const MawDimensionRun &value);
 bool readValue(BinaryReader &reader, MawDimensionRun &value);
 void writeValue(BinaryWriter &writer, const MawMapVisit &value);
@@ -1439,6 +1460,38 @@ bool readValue(BinaryReader &reader, TimedPrimaryStatBonus &value)
         && readValue(reader, value.remainingSeconds);
 }
 
+void writeValue(BinaryWriter &writer, const BattleOrderDistance &value)
+{
+    writeValue(writer, value.minimum);
+    writeValue(writer, value.maximum);
+}
+
+bool readValue(BinaryReader &reader, BattleOrderDistance &value)
+{
+    return readValue(reader, value.minimum)
+        && readValue(reader, value.maximum);
+}
+
+void writeValue(BinaryWriter &writer, const BattleOrder &value)
+{
+    writeValue(writer, value.kind);
+    writeValue(writer, value.spellName);
+    writeValue(writer, value.enabled);
+    writeValue(writer, value.distance);
+    writeValue(writer, value.allyHealthBelowPercent);
+    writeValue(writer, value.keepSpellPointsPercent);
+}
+
+bool readValue(BinaryReader &reader, BattleOrder &value)
+{
+    return readValue(reader, value.kind)
+        && readValue(reader, value.spellName)
+        && readValue(reader, value.enabled)
+        && readValue(reader, value.distance)
+        && readValue(reader, value.allyHealthBelowPercent)
+        && readValue(reader, value.keepSpellPointsPercent);
+}
+
 void writeValue(BinaryWriter &writer, const Character &value)
 {
     writeValue(writer, value.name);
@@ -1472,7 +1525,6 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.maxSpellPoints);
     writeValue(writer, value.spellPoints);
     writeValue(writer, value.quickSpellName);
-    writeValue(writer, value.attackSpellName);
     writeValue(writer, value.knownSpellIds);
     writeValue(writer, value.baseResistances);
     writeValue(writer, value.permanentBonuses);
@@ -1508,6 +1560,8 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.implants);
     writeValue(writer, value.conditionExpireGameMinutes);
     writeValue(writer, value.statsMemberId);
+    writeValue(writer, value.battleOrders);
+    writeValue(writer, value.battleOrderFallback);
 }
 
 // Saves before SaveVersionWideExperience hold a character's experience in 32 bits.
@@ -1531,7 +1585,9 @@ bool readCharacterExperience(BinaryReader &reader, uint64_t &experience)
 
 bool readValue(BinaryReader &reader, Character &value)
 {
-    return readValue(reader, value.name)
+    // Before battle orders the attack spell sat after the quick spell.
+    std::string legacyAttackSpellName;
+    const bool read = readValue(reader, value.name)
         && readValue(reader, value.role)
         && readValue(reader, value.className)
         && readValue(reader, value.portraitTextureName)
@@ -1562,7 +1618,8 @@ bool readValue(BinaryReader &reader, Character &value)
         && readValue(reader, value.maxSpellPoints)
         && readValue(reader, value.spellPoints)
         && readValue(reader, value.quickSpellName)
-        && (reader.version() < SaveVersionAttackSpell || readValue(reader, value.attackSpellName))
+        && (reader.version() < SaveVersionAttackSpell || reader.version() >= SaveVersionBattleOrders
+            || readValue(reader, legacyAttackSpellName))
         && readValue(reader, value.knownSpellIds)
         && readValue(reader, value.baseResistances)
         && readValue(reader, value.permanentBonuses)
@@ -1600,7 +1657,16 @@ bool readValue(BinaryReader &reader, Character &value)
         && (reader.version() < SaveVersionSpellbookSchool || readValue(reader, value.spellbookSchool))
         && (reader.version() < SaveVersionCharacterImplants || readValue(reader, value.implants))
         && (reader.version() < SaveVersionConditionExpiry || readValue(reader, value.conditionExpireGameMinutes))
-        && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.statsMemberId));
+        && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.statsMemberId))
+        && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrders))
+        && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrderFallback));
+
+    if (read && reader.version() < SaveVersionBattleOrders)
+    {
+        setAttackSpell(legacyAttackSpellName, value.battleOrders, value.battleOrderFallback);
+    }
+
+    return read;
 }
 
 void writeValue(BinaryWriter &writer, const PartyBuffState &value)
@@ -1748,6 +1814,22 @@ bool readWorldCompletions(BinaryReader &reader, Party::Snapshot &value)
 }
 
 // Older saves store only the character buffs that existed before the potion buffs.
+bool readPartyBuffs(BinaryReader &reader, std::array<PartyBuffState, PartyBuffCount> &partyBuffs)
+{
+    const size_t storedCount =
+        reader.version() < SaveVersionFleetFootBuff ? size_t(PartyBuffId::FleetFoot) : PartyBuffCount;
+
+    for (size_t buffIndex = 0; buffIndex < storedCount; ++buffIndex)
+    {
+        if (!readValue(reader, partyBuffs[buffIndex]))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool readCharacterBuffs(
     BinaryReader &reader,
     std::array<std::array<CharacterBuffState, CharacterBuffCount>, 5> &characterBuffs)
@@ -1874,7 +1956,7 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
     return readValue(reader, value.members)
         && readValue(reader, value.adventurersInnMembers)
         && readValue(reader, value.activeMemberIndex)
-        && readValue(reader, value.partyBuffs)
+        && readPartyBuffs(reader, value.partyBuffs)
         && readCharacterBuffs(reader, value.characterBuffs)
         && readValue(reader, value.gold)
         && readValue(reader, value.bankGold)
@@ -2010,13 +2092,34 @@ void writeValue(BinaryWriter &writer, const IndoorPartyRuntime::Snapshot &value)
     writeValue(writer, value.movementState);
     writeValue(writer, value.movementAccumulatorSeconds);
     writeValue(writer, value.pendingJumpRequested);
+    const IndoorSwimMemory swimMemory = value.swimMemory.value_or(IndoorSwimMemory{});
+    writeValue(writer, swimMemory.wasSubmerged);
+    writeValue(writer, swimMemory.surfaceJump);
 }
 
 bool readValue(BinaryReader &reader, IndoorPartyRuntime::Snapshot &value)
 {
-    return readValue(reader, value.movementState)
-        && readValue(reader, value.movementAccumulatorSeconds)
-        && readValue(reader, value.pendingJumpRequested);
+    if (!readValue(reader, value.movementState)
+        || !readValue(reader, value.movementAccumulatorSeconds)
+        || !readValue(reader, value.pendingJumpRequested))
+    {
+        return false;
+    }
+
+    if (reader.version() < SaveVersionPartySwimMemory)
+    {
+        return true;
+    }
+
+    IndoorSwimMemory swimMemory = {};
+
+    if (!readValue(reader, swimMemory.wasSubmerged) || !readValue(reader, swimMemory.surfaceJump))
+    {
+        return false;
+    }
+
+    value.swimMemory = swimMemory;
+    return true;
 }
 
 void writeValue(BinaryWriter &writer, const GameplayActorSpellEffectState &value)
@@ -2467,6 +2570,7 @@ void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
     writeValue(writer, value.searchedLootPropSourceIds);
     writeValue(writer, value.actorBehaviors);
     writeValue(writer, value.mapActorRevealedLoot);
+    writeValue(writer, value.armageddon);
 }
 
 bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
@@ -2490,7 +2594,8 @@ bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
         && (reader.version() < SaveVersionMm9ItemSourceState
             || readValue(reader, value.searchedLootPropSourceIds))
         && (reader.version() < SaveVersionActorBehaviors || readValue(reader, value.actorBehaviors))
-        && (reader.version() < SaveVersionActorRevealedLoot || readValue(reader, value.mapActorRevealedLoot));
+        && (reader.version() < SaveVersionActorRevealedLoot || readValue(reader, value.mapActorRevealedLoot))
+        && (reader.version() < SaveVersionIndoorArmageddon || readValue(reader, value.armageddon));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorPartyRuntime::Snapshot &value)
@@ -3565,6 +3670,7 @@ void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
     writeValue(writer, value.semanticLootContainer);
     writeValue(writer, value.semanticPolicyHidden);
     writeValue(writer, value.heldItem);
+    writeValue(writer, value.objectKey);
 }
 
 bool readValue(BinaryReader &reader, MapDeltaSpriteObject &value)
@@ -3602,7 +3708,8 @@ bool readValue(BinaryReader &reader, MapDeltaSpriteObject &value)
                 && readValue(reader, value.semanticPlacedPickup)
                 && readValue(reader, value.semanticLootContainer)
                 && readValue(reader, value.semanticPolicyHidden)))
-        && (reader.version() < SaveVersionIndoorHeldItems || readValue(reader, value.heldItem));
+        && (reader.version() < SaveVersionIndoorHeldItems || readValue(reader, value.heldItem))
+        && (reader.version() < SaveVersionSpriteObjectKeys || readValue(reader, value.objectKey));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaDoor &value)
@@ -3698,6 +3805,7 @@ void writeValue(BinaryWriter &writer, const MapDeltaData &value)
     writeValue(writer, value.eventVariables);
     writeValue(writer, value.locationTime);
     writeValue(writer, value.mm9Barrels);
+    writeValue(writer, value.takenWorldItems);
 }
 
 bool readValue(BinaryReader &reader, MapDeltaData &value)
@@ -3716,7 +3824,8 @@ bool readValue(BinaryReader &reader, MapDeltaData &value)
         && readValue(reader, value.doorsData)
         && readValue(reader, value.eventVariables)
         && readValue(reader, value.locationTime)
-        && (reader.version() < SaveVersionMm9Barrels || readValue(reader, value.mm9Barrels));
+        && (reader.version() < SaveVersionMm9Barrels || readValue(reader, value.mm9Barrels))
+        && (reader.version() < SaveVersionTakenWorldItems || readValue(reader, value.takenWorldItems));
 }
 
 void writeValue(BinaryWriter &writer, const ScriptedEventTimerDefinition &value)
@@ -4054,13 +4163,21 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.rulesetFacts);
     writeValue(writer, value.summonerMemberIndex);
     writeValue(writer, value.provokedByParty);
-    writeValue(writer, value.provokedAttackReach);
     writeValue(writer, value.dormant);
     writeValue(writer, value.angeredByParty);
     writeValue(writer, value.nearby);
     writeValue(writer, value.mm9Ai);
     writeValue(writer, value.drawScale);
     writeValue(writer, value.patrolPoints);
+}
+
+// Versions 133-168 saved the reach of a far hit after provokedByParty; it is read and dropped.
+bool skipProvokedAttackReach(BinaryReader &reader)
+{
+    float provokedAttackReach = 0.0f;
+    return reader.version() < SaveVersionOutdoorProvokedAttackReach
+        || reader.version() >= SaveVersionNoProvokedAttackReach
+        || readValue(reader, provokedAttackReach);
 }
 
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
@@ -4218,7 +4335,7 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionActorRulesetFacts || readValue(reader, value.rulesetFacts))
         && (reader.version() < SaveVersionActorSummoner || readValue(reader, value.summonerMemberIndex))
         && (reader.version() < SaveVersionOutdoorProvokedActors || readValue(reader, value.provokedByParty))
-        && (reader.version() < SaveVersionOutdoorProvokedAttackReach || readValue(reader, value.provokedAttackReach))
+        && skipProvokedAttackReach(reader)
         && (reader.version() < SaveVersionActorDormant || readValue(reader, value.dormant))
         && (reader.version() < SaveVersionActorAngeredByParty || readValue(reader, value.angeredByParty))
         && (reader.version() < SaveVersionOutdoorNearby || readValue(reader, value.nearby))
@@ -4366,7 +4483,7 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::WorldItemState &value)
                 && readValue(reader, value.semanticLootContainer)));
 }
 
-void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ArmageddonState &value)
+void writeValue(BinaryWriter &writer, const ArmageddonState &value)
 {
     writeValue(writer, value.remainingSeconds);
     writeValue(writer, value.skillLevel);
@@ -4378,7 +4495,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ArmageddonState
     writeValue(writer, value.cameraShakePitchRadians);
 }
 
-bool readValue(BinaryReader &reader, OutdoorWorldRuntime::ArmageddonState &value)
+bool readValue(BinaryReader &reader, ArmageddonState &value)
 {
     return readValue(reader, value.remainingSeconds)
         && readValue(reader, value.skillLevel)
@@ -4916,6 +5033,7 @@ void writeValue(BinaryWriter &writer, const RulesetSelection &value)
     writeValue(writer, value.options.preferences.disintegration);
     writeValue(writer, value.options.preferences.trainerHints);
     writeValue(writer, value.options.preferences.bowDisabled);
+    writeValue(writer, value.options.otherWorldsLoot);
 }
 
 bool readLootFilter(BinaryReader &reader, RulesetLootFilter &filter)
@@ -4953,6 +5071,7 @@ bool readValue(BinaryReader &reader, RulesetSelection &value)
             || readValue(reader, value.options.preferences.trainerHints))
         && (reader.version() < SaveVersionBowDisabled
             || readValue(reader, value.options.preferences.bowDisabled))
+        && (reader.version() < SaveVersionOtherWorldsLoot || readValue(reader, value.options.otherWorldsLoot))
         && !value.id.empty()
         && rulesetOptionsValid(value.options);
 }

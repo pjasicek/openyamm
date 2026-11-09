@@ -267,7 +267,7 @@ TEST_CASE("Obsidian buffs sort all active effects by expiry with stable ties")
     party.restoreSnapshot(snapshot);
     const auto buffs = sortedGameplayBuffs(party);
     REQUIRE(buffs.size() == PartyBuffCount);
-    CHECK(buffs.front() == PartyBuffId::Levitate);
+    CHECK(buffs.front() == PartyBuffId::FleetFoot);
     CHECK(buffs.back() == PartyBuffId::TorchLight);
     snapshot.partyBuffs[0].remainingSeconds = 1;
     snapshot.partyBuffs[1].remainingSeconds = 1;
@@ -288,7 +288,8 @@ TEST_CASE("Obsidian ordinary party buffs keep their panels or movement indicator
     {
         snapshot.partyBuffs[i].remainingSeconds = 1;
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
-        if (i == size_t(PartyBuffId::Fly) || i == size_t(PartyBuffId::WaterWalk) || i == size_t(PartyBuffId::Levitate))
+        if (i == size_t(PartyBuffId::Fly) || i == size_t(PartyBuffId::WaterWalk) || i == size_t(PartyBuffId::Levitate)
+            || i == size_t(PartyBuffId::FleetFoot))
         {
             CHECK(definition.presentation == GameplayBuffPresentation::Movement);
             CHECK(gameplayBuffPanelLayoutId(definition.presentation) == nullptr);
@@ -305,20 +306,32 @@ TEST_CASE("Obsidian ordinary party buffs keep their panels or movement indicator
     CHECK(gameplayBuffPanelLayoutId(GameplayBuffPresentation::Special) == nullptr);
 }
 
-TEST_CASE("Obsidian flight indicator handles Levitate without adding a duplicate skull badge")
+TEST_CASE("Obsidian movement indicators line up Fly, Levitate, Water Walk and Fleet Foot")
 {
+    const auto buffs = [](const Party &party)
+    {
+        std::vector<PartyBuffId> result;
+        for (const GameplayMovementIndicator &indicator : gameplayMovementIndicators(party))
+        {
+            result.push_back(indicator.buff);
+        }
+        return result;
+    };
     Party party;
-    CHECK_FALSE(gameplayFlightBuff(party));
+    CHECK(buffs(party).empty());
     Party::Snapshot snapshot = party.snapshot();
     snapshot.partyBuffs[size_t(PartyBuffId::Levitate)].remainingSeconds = 60;
+    snapshot.partyBuffs[size_t(PartyBuffId::WaterWalk)].remainingSeconds = 60;
+    snapshot.partyBuffs[size_t(PartyBuffId::WaterWalk)].spellId = spellIdValue(SpellId::Levitate);
     party.restoreSnapshot(snapshot);
-    CHECK(gameplayFlightBuff(party) == PartyBuffId::Levitate);
+    // Levitate's own Water Walk shows only as Levitate.
+    CHECK(buffs(party) == std::vector<PartyBuffId>{PartyBuffId::Levitate});
     snapshot.partyBuffs[size_t(PartyBuffId::Fly)].remainingSeconds = 60;
+    snapshot.partyBuffs[size_t(PartyBuffId::WaterWalk)].spellId = spellIdValue(SpellId::WaterWalk);
+    snapshot.partyBuffs[size_t(PartyBuffId::FleetFoot)].remainingSeconds = 60;
     party.restoreSnapshot(snapshot);
-    CHECK(gameplayFlightBuff(party) == PartyBuffId::Fly);
-    snapshot.partyBuffs[size_t(PartyBuffId::Levitate)].remainingSeconds = 0;
-    party.restoreSnapshot(snapshot);
-    CHECK(gameplayFlightBuff(party) == PartyBuffId::Fly);
+    CHECK(buffs(party) == std::vector<PartyBuffId>{
+        PartyBuffId::Fly, PartyBuffId::Levitate, PartyBuffId::WaterWalk, PartyBuffId::FleetFoot});
 }
 
 TEST_CASE("Obsidian vertical meters and damage trails remain anchored at the bottom")

@@ -1,4 +1,6 @@
 #include "game/rules/maw/MawClassRules.h"
+
+#include "game/mm9/Mm9HirelingTable.h"
 #include "engine/Localization.h"
 
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -171,13 +173,15 @@ std::string mawClassLine(const std::string &className)
 
 double MawClassRules::promotionFactor(const ClassMultiplierEntry &entry) const
 {
-    // Two or three worlds' promotions completed make the kind's final classes Elder or Ultimate (CL:62-108).
-    const int worlds = entry.promotionStep == 2 ? m_rules.promotionWorlds(entry.classKind) : 0;
+    // Two or three worlds' promotions completed make the kind's final classes Elder or Ultimate (CL:62-108); all four
+    // (Chedian's too) make them Supreme, x1.75 (ours, the user 2026-11-09: DEVIATIONS 183).
+    const int worlds = entry.promotionStep == 2 ? std::min(m_rules.promotionWorlds(entry.classKind), 4) : 0;
     return worlds >= 2 ? 0.75 + 0.25 * worlds : 1.0;
 }
 
-// The engine keeps HP and SP per level in bytes: Lua's 2.5 for the Elemental Adept (CL:606) stores 2, and an Elder or
-// Ultimate factor (x1.25, x1.5) truncates to a whole number (CL:97-98, RemoveClassLimits.lua:140-147; CLS-5).
+// The engine keeps HP and SP per level in bytes: Lua's 2.5 for the Elemental Adept (CL:606) stores 2, and an Elder,
+// Ultimate or Supreme factor (x1.25, x1.5, x1.75) truncates to a whole number (CL:97-98, RemoveClassLimits.lua:140-147;
+// CLS-5).
 double MawClassRules::healthPerLevel(const ClassMultiplierEntry &entry) const
 {
     return std::floor(double(entry.healthPerLevel) * promotionFactor(entry));
@@ -319,7 +323,8 @@ std::string MawClassRules::displayName(const Party &party, const Character &memb
         ? party.classMultiplierTable()->get(canonicalClassName(member.className))
         : nullptr;
     const int worlds = pEntry != nullptr && pEntry->promotionStep == 2 ? m_rules.promotionWorlds(pEntry->classKind) : 0;
-    return worlds >= 3 ? Engine::tr("Ultimate {class}", {{"class", name}})
+    return worlds >= 4 ? Engine::tr("Supreme {class}", {{"class", name}})
+        : worlds == 3  ? Engine::tr("Ultimate {class}", {{"class", name}})
         : worlds == 2  ? Engine::tr("Elder {class}", {{"class", name}})
                        : name;
 }
@@ -394,6 +399,8 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
     const float deltaSeconds = m_pendingSeconds;
     m_pendingSeconds = 0;
     updatePromotions(party);
+    m_rules.updateStoryBands(party);
+    scaleHirelings(party);
 
     // Austerity: Identify Monster 10 Grandmaster for everyone on each map, none after a respec until the next.
     if (m_rules.options().challengeMode == RulesetChallengeMode::Austerity)
@@ -560,7 +567,7 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
 
     const int hour = world.currentHour();
     // MAW's hour is fractional, so its `hour > 21` starts the night at 21:00 (CLS-6).
-    const bool vampireNight = (hour >= 21 || hour < 5 || world.isIndoorMap()) && world.mapName() != "7d25.blv";
+    const bool vampireNight = (hour >= 21 || hour < 5 || !world.isOpenAirMap()) && world.mapName() != "7d25.blv";
 
     for (size_t memberIndex = 0; memberIndex < party.members().size() && vampireNight; ++memberIndex)
     {
@@ -572,6 +579,60 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
             party.applyCharacterBuff(
                 memberIndex, CharacterBuffId::Preservation, 10, 0, 0, 0, SkillMastery::None, uint32_t(memberIndex));
         }
+    }
+}
+
+void MawClassRules::scaleHirelings(Party &party) const
+{
+    const Mm9HirelingTable *pTable = party.mm9HirelingTable();
+
+    if (pTable == nullptr || party.hirelings().empty() || party.members().empty())
+    {
+        return;
+    }
+
+    double memberLevels = 0;
+
+    for (const Character &member : party.members())
+    {
+        memberLevels += member.level;
+    }
+
+    const double partyLevel = memberLevels / double(party.members().size());
+    MawBalanceModel &model = m_rules.model(int(party.members().size()));
+    std::vector<uint32_t> rudeIds;
+
+    for (const Mm9PartyHireling &hireling : party.hirelings())
+    {
+        rudeIds.push_back(hireling.rudeId);
+    }
+
+    for (uint32_t rudeId : rudeIds)
+    {
+        Mm9PartyHireling *pHireling = party.findHireling(rudeId);
+        const Mm9Hireling *pRow = pTable->find(rudeId);
+
+        if (pHireling == nullptr || pRow == nullptr || pRow->level == 0)
+        {
+            continue;
+        }
+
+        const double rowLevel = pRow->level;
+        const double level = std::max(rowLevel, std::floor(partyLevel));
+        Character &character = pHireling->character;
+        const int maxHealth = std::max(1, int(std::lround(pRow->hitPoints * model.health(level) / model.health(rowLevel))));
+
+        if (character.maxHealth != maxHealth && character.maxHealth > 0)
+        {
+            character.health = int(std::lround(double(character.health) * maxHealth / character.maxHealth));
+        }
+
+        character.maxHealth = maxHealth;
+        character.level = uint32_t(level);
+        character.armorClassModifier =
+            pRow->armorClass + int(std::lround(model.armorClass(level) - model.armorClass(rowLevel)));
+        pHireling->rulesDamageScale = float(model.power(level) / model.power(rowLevel));
+        pHireling->rulesSkillScale = float(model.skill(level) / std::max(1.0, model.skill(rowLevel)));
     }
 }
 
@@ -1074,6 +1135,11 @@ std::optional<FollowerHireRefusal> MawClassRules::followerHireRefusal(uint32_t h
 
     return FollowerHireRefusal{Engine::tr("Following you would be foolish"),
         Engine::tr("I wouldn't join in your reckless adventure, not even for all the wealth in the world.")};
+}
+
+std::optional<FollowerHireRefusal> MawClassRules::paidHirelingRefusal() const
+{
+    return followerHireRefusal(0);
 }
 
 std::vector<uint32_t> MawClassRules::mercenaryClassKinds(uint32_t continentId, std::vector<uint32_t>) const

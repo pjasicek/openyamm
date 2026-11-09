@@ -265,6 +265,7 @@ class AnskramKeep(dungeon.Hooks):
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    local k = math.max(64 / length, 0.33)",
             "    local fired = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, \"Fire\", 0)",
+            "    if fired then MM9.launchSound(\"FireBolt\", sx, sy, sz) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (fired and 1 or 0))",
             "end",
             "local function partyIn(x0, y0, x1, y1)",

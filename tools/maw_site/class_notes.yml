@@ -1,0 +1,150 @@
+# Hand-kept parts of the MAW guide's class data (tools/maw_site/classes.py), by class kind (class_extra.txt Kind).
+# Everything a table holds (HP and SP per level, mastery caps, promotion quests) is generated; this file has only the
+# line's name, its group and the rules the tables cannot show. Sources: devdocs/maw/CLASSES_SPELLS_SPEC.md §5-6 and
+# the code it points to (game/rules/maw/MawClassRules.*, MawCombatRules.*, MawSkillFormulas.*, MawClassSpells.*).
+# Keep notes technical and short: numbers and rules, no flavour, no build advice.
+
+shared:
+  - "Spell points come from Personality, counted twice: SP = base + SP per level × (level + 2 × Personality effect). Intellect gives no SP; it raises spell damage and spell crit damage."
+  - "HP = base + HP per level × (level + Endurance effect + Body Building skill × mastery), Grandmaster counting 5."
+  - "Meditation adds no SP of its own: it counts only in Enlightenment's base and in mana regeneration."
+  - "Stat effect: from 25 up, every 5 points of a stat add 1, with no cap."
+
+kinds:
+  1:
+    name: Archer
+    group: classic
+    notes:
+      - "Bow skill adds 4 % damage per point (melee weapon skills 2 %)."
+  2:
+    name: Cleric
+    group: classic
+    notes:
+      - "The final tier is Priest of the Light, Priest of the Dark or High Priest (High Priest has both Light and Dark)."
+  3:
+    name: Dark Elf
+    group: racial
+    notes:
+      - "Starts at the first tier: one promotion, to Patriarch."
+      - "Weapons, the four elements and Dark Elf Ability share the cheaper-second-skill set."
+  4:
+    name: Dragon
+    group: racial
+    notes:
+      - "Fights with Fangs (Unarmed) and wears Scales (Dodging); weapons and armour are forbidden to the dragon race. Melee and breath damage come from an effective level, not from weapons."
+      - "Fixed SP pool of 60 (Great Wyrm 120), refilled by 10 SP a bite (20 for a Great Wyrm) and by 2 SP a second (5 for a Great Wyrm), twice as fast 20 s after it last fell and four times again with no enemy near. Items add no SP; items' other bonuses count ×3."
+      - "Flame Blast costs 25/40/50/60 SP by mastery; Dragon Fear 15/15/25/30."
+      - "Cannot dodge; Meditation is removed. Fire resistance +100 and +2 per level."
+  5:
+    name: Druid
+    group: classic
+    notes:
+      - "The only classic line with all seven elemental and self schools at Grandmaster."
+  6:
+    name: Knight
+    group: classic
+    notes:
+      - "Supreme Armsmaster (Black Knight and Champion): at Grandmaster Armsmaster with 30 trained points (50 in Road to Insanity, 70 in Beyond Madness), each melee weapon skill gains +1 per 10 Armsmaster, up to twice its trained level."
+      - "Knight Charge (a party of one Knight, Cavalier, Black Knight or Champion; unbound key): dashes at a monster 500–3000 units away and paralyses it 3/4/5 s by tier (diminishing returns); cooldown 25 s."
+  7:
+    name: Minotaur
+    group: racial
+    notes:
+      - "Starts at the first tier: one promotion, to Minotaur Lord."
+      - "The minotaur race holds two-handed axes in one hand and pairs axes (see Races); it cannot use daggers."
+  8:
+    name: Monk
+    group: classic
+    notes:
+      - "No Armsmaster in MAW. Spells only from the first promotion on."
+  9:
+    name: Paladin
+    group: classic
+    notes: []
+  10:
+    name: Ranger
+    group: classic
+    notes:
+      - "Has spell points from the first tier (5 + 1 per level) and trains all seven elemental and self schools."
+  11:
+    name: Thief
+    line_name: Assassin (Thief line)
+    group: new
+    notes:
+      - "Schools renamed: Combat (Fire), Subtlety (Air), Poisons (Water), Assassination (Earth). Spell books cannot teach it; it knows one spell more per school mastery."
+      - "Energy instead of SP: 60/70/80 by tier, +10 per Assassination mastery rank; items, level and Personality add nothing. Its auras reserve nothing."
+      - "A melee blow costs 45/40/35/30 energy by Combat mastery and first rolls 10 % + 1 % per Combat point to refund 15 (arrows: half the cost and half the chance). Only blows on hostile monsters pay. Energy regenerates 8/10/12/14 per second by Poisons mastery; a kill returns 10/15/20/25 by Subtlety mastery."
+      - "A paid blow adds 1 combo point (arrow 0.5, kill 1; at most 5) and a Subtlety stack (+0.5 % attack speed per point each, at most 5, lost 8 s after the last paid blow)."
+      - "Assassination adds 2/3/4/5 flat damage per point by mastery, cut by 20 % per other living monster near the target (at most 80 %). Poisons adds water damage of 0.1 % of the target's current HP per point (at least the skill)."
+      - "Damage spells cost combo points (3–5) and deal 75–400 % of a melee blow; they take twice the weapon's swing time."
+  12:
+    name: Troll
+    group: racial
+    notes:
+      - "Starts at the first tier: one promotion, to War Troll."
+      - "The troll race: Regeneration, Mace and Staff +3 (+1 per 10 trained levels), Regeneration mastery +1, Water and Earth resistance +25 and +1 per level."
+  13:
+    name: Vampire
+    group: racial
+    notes:
+      - "Starts at the first tier: one promotion, to Nosferatu."
+      - "The vampire race leeches 5 % of melee and 2.5 % of ranged and spell damage as HP, doubled for the Vampire and Nosferatu classes; immune to Mind; Preservation held at night and in dungeons."
+  14:
+    name: Sorcerer
+    group: classic
+    notes:
+      - "The final tier is Arch Mage, Dark ArchMage or Master Wizard."
+  15:
+    name: Necromancer
+    group: classic
+    notes:
+      - "Starts at the first tier of the Sorcerer's family: one promotion, to Lich."
+      - "A Lich quest (Antagarich's Halfgild Wynac, Jadame's Vetrinus) transforms the character fully; MAW's cross-continent rule changes only the class."
+  16:
+    name: Peasant
+    group: other
+    notes:
+      - "No promotion, no magic; every skill stops at Novice."
+  17:
+    name: Seraphim
+    group: new
+    notes:
+      - "Mind adds holy melee damage of skill × (mastery + 1) / 2 (1/1.5/2/2.5 per point)."
+      - "Body: every physical melee hit heals the most wounded member by round(skill^1.3 × mastery × 2 × weapon speed × (1 + Personality / 1000)), and wakes the unconscious."
+      - "Light: +0.5/1/1.5/2 % attack speed per point by mastery; two-handed swords are held in one hand, so a shield fits. Swords cannot be dual-wielded."
+      - "Spirit takes a flat amount off every hit after resistances (at most 75 % of it)."
+      - "Divine Protection: a killing blow instead leaves 1 HP and heals 25 % of maximum HP; once per 5 minutes."
+  18:
+    name: Death Knight
+    group: new
+    notes:
+      - "Schools renamed: Frost (Water), Blood (Body), Unholy (Dark). Spell books cannot teach it; its twelve spells come with school mastery."
+      - "Fixed SP pool of 60/80/100 by tier; items add no SP. Each physical melee hit restores 10/15/20 SP (×1.5 on a kill). Its auras reserve nothing."
+      - "Its damage spells deal a share of a weapon blow (Icy Touch, Frostbite, Ice Bomb, Asphyxiate, Death Coil, Death Breath) and recover like an attack."
+      - "Frost and Unholy each add up to 1 flat melee damage per point; Frost adds 1 % attack speed per point. Blood divides physical damage taken by 1 + skill/100 and adds 10 % melee leech; Unholy divides other damage taken the same way."
+  19:
+    name: Shaman
+    group: new
+    notes:
+      - "Each school is a melee perk: Fire adds fire damage of 0.1 % of the target's HP per point; Air divides all damage taken by 1 + skill/100; Water takes a flat amount off each hit; Earth adds skill × mastery / 2 flat damage; Spirit multiplies melee damage by 1 + skill/100; Mind returns skill^1.25 SP and Body heals per melee hit."
+      - "Spell damage × (1 + sum of the seven schools / 200), heals per point × (1 + sum / 400); its spell cost reads the seven schools' average as Ascension."
+  20:
+    name: Elementalist
+    group: new
+    notes:
+      - "Learns Fire, Air, Water and Earth spells by hitting monsters with its own; each spell tier unlocks at a progress threshold and needs a school mastery. Spell books cannot teach it; it always knows Fire Bolt, Sparks, Poison Spray and Deadly Swarm."
+      - "Casts 50 % slower at first. Each offensive cast adds a stack: damage ×(1 + 0.1 per stack), cast delay ×1.5 / (1 + 0.05 per stack); stacks halve after a pause and reset on a melee or bow hit."
+      - "Rotation (R on the skills page): each quick-cast slot swaps to a random known spell of its kind after a cast."
+      - "Ascension is the average of its four schools, read at Grandmaster."
+
+# Race rules the race tables do not show (MawClassRules.cpp raceNotes, CLASSES_SPELLS_SPEC.md §6.4), by race.
+races:
+  Vampire:
+    - "Leeches 5 % of melee and 2.5 % of ranged and spell damage as HP, twice that as a Vampire or Nosferatu."
+    - "Preservation held at night (21:00 to 05:00) and in dungeons."
+  Minotaur:
+    - "Holds two-handed axes in one hand; one-handed axes go in the off hand from Axe Expert, two-handed ones from Axe Master (a paired two-handed axe loses 10 % of its damage)."
+  Dwarf:
+    - "One-handed axes go in the off hand from Axe Expert."
+  Dragon:
+    - "Fights with Fangs and wears Scales whatever its class; item bonuses count ×3; cannot dodge."

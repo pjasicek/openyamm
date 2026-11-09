@@ -178,7 +178,8 @@ TEST_CASE("MM9 RUDE transport route charges advances time and queues an exact ar
     party.setQuestBit(90073, true);
     OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime;
     worldRuntime.bindParty(&party);
-    // Day 0 is a Monday, the route's weekday.
+    // Day 0 is a Monday, the route's weekday; the party boards at 15:30.
+    worldRuntime.advanceGameMinutes(15.5f * 60.0f);
     OpenYAMM::Game::EventRuntimeState eventRuntimeState;
     worldRuntime.bindEventRuntimeState(&eventRuntimeState);
     OpenYAMM::Game::GameplayUiController uiController;
@@ -204,13 +205,13 @@ TEST_CASE("MM9 RUDE transport route charges advances time and queues an exact ar
     CHECK(dialog.actions[0].kind == OpenYAMM::Game::EventDialogActionKind::Mm9RudeTransportRoute);
     CHECK(dialog.actions[1].kind == OpenYAMM::Game::EventDialogActionKind::Mm9RudeTransportSchedule);
     const int goldBefore = party.gold();
-    const float minutesBefore = worldRuntime.gameMinutes();
 
     const OpenYAMM::Game::GameplayDialogController::Result result =
         controller.executeActiveDialogAction(context);
     CHECK(result.shouldCloseActiveDialog);
     CHECK(party.gold() < goldBefore);
-    CHECK_EQ(worldRuntime.gameMinutes(), minutesBefore + 2.0f * 24.0f * 60.0f);
+    // Two days at sea: Wednesday at 6:00.
+    CHECK_EQ(worldRuntime.gameMinutes(), doctest::Approx(2.0f * 24.0f * 60.0f + 6.0f * 60.0f));
     REQUIRE(eventRuntimeState.pendingMapMove.has_value());
     CHECK(eventRuntimeState.pendingMapMove->mapName == "sturmford.odm");
     CHECK_EQ(eventRuntimeState.pendingMapMove->x, 100);
@@ -285,8 +286,8 @@ TEST_CASE("MM9 dock Schedule opens the popup and a later departure waits for its
     party.setQuestBit(90073, true);
     OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime;
     worldRuntime.bindParty(&party);
-    // A Saturday: the Monday boat is two days away.
-    worldRuntime.advanceGameMinutes(5.0f * 24.0f * 60.0f);
+    // A Saturday at 3:00: the Monday boat is two days away.
+    worldRuntime.advanceGameMinutes(5.0f * 24.0f * 60.0f + 3.0f * 60.0f);
     OpenYAMM::Game::EventRuntimeState eventRuntimeState;
     worldRuntime.bindEventRuntimeState(&eventRuntimeState);
     OpenYAMM::Game::GameplayUiController uiController;
@@ -320,11 +321,11 @@ TEST_CASE("MM9 dock Schedule opens the popup and a later departure waits for its
     dialog.actions = {departure};
     selectionIndex = 0;
     const int foodBefore = party.food();
-    const float minutesBefore = worldRuntime.gameMinutes();
     const OpenYAMM::Game::GameplayDialogController::Result result = controller.executeActiveDialogAction(context);
     CHECK(result.shouldCloseActiveDialog);
     CHECK_EQ(party.food(), foodBefore - 2);
-    CHECK_EQ(worldRuntime.gameMinutes(), doctest::Approx(minutesBefore + 4.0f * 24.0f * 60.0f));
+    // Saturday, two days' wait to Monday, two days at sea: Wednesday (day 9) at 6:00.
+    CHECK_EQ(worldRuntime.gameMinutes(), doctest::Approx(9.0f * 24.0f * 60.0f + 6.0f * 60.0f));
     REQUIRE(eventRuntimeState.pendingMapMove.has_value());
     CHECK(eventRuntimeState.pendingMapMove->mapName == "sturmford.odm");
 

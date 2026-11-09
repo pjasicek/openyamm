@@ -1,0 +1,34 @@
+# AI arena: evt.SetActorTarget (devdocs/ACTOR_SCRIPTING_INVESTIGATION.md "Script API"; scr_audit monsters_ai.md gap 6).
+# Monster 0, a Grey Wolf caged (dormant until a trigger) facing away from the party with hearing 50, notices nothing
+# until the 3 s event wakes it and sets it on the party (DP_CAGEMONSTER.scr: BaseInit with the party as target).
+# Monster 1, a Grey Wolf, and monster 2, a Horde Grunt, stand as friends (MM9's default) until the 3 s event sets the
+# wolf on the grunt (Dragon.scr's GetMe), which takes its attacker. See README.md.
+name: mm9_set_target
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9114
+    position: [-600, 1000, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {hearing: 50, runaway_chance: 0, dormant: {until: trigger, pose: caged}}
+  - monster_id: 9114
+    position: [600, 900, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {hearing: 50, runaway_chance: 0}
+  - monster_id: 9129
+    position: [600, 1100, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {hearing: 50, runaway_chance: 0}
+events:
+  - {at: 3, target: [0, party], note: the cage monster let loose on the party}
+  - {at: 3, target: [1, 2], note: the wolf sent at the grunt}

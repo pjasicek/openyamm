@@ -1,6 +1,7 @@
 #include "game/ui/GameplayBuffHud.h"
 #include "engine/Localization.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
+#include "game/ui/GameplayBattleOrders.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -11,6 +12,7 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellSchool.h"
+#include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/GameplayHudCommon.h"
@@ -181,7 +183,7 @@ std::string personalBuffName(
 
     if (pSpell != nullptr)
     {
-        const std::string name = gameRulesFor(&party).spells.spellName(member, *pSpell);
+        const std::string name = partySpellName(&party, member, *pSpell);
 
         if (name != pSpell->name)
         {
@@ -1296,7 +1298,7 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
             : nullptr)
     {
         overlay.quickSpellText = Engine::localize(
-            gameRulesFor(context.partyReadOnly()).spells.spellName(*pCharacter, *pQuickSpell), "spell");
+            partySpellName(context.partyReadOnly(), *pCharacter, *pQuickSpell), "spell");
     }
     overlay.activeSpells.clear();
 
@@ -1366,6 +1368,16 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
         return;
     }
 
+    // Not over the Battle Orders window or the spell menu; and not before a right click would have opened the menu.
+    const GameplayUiController::SpellbookSpellMenuState &spellMenu = context.spellbookReadOnly().spellMenu;
+
+    if (GameplayBattleOrders::isOpen(context) || GameplayBattleOrders::spellMenuOpen(context)
+        || (spellMenu.rightPressSpellId != 0
+            && SDL_GetTicks() - spellMenu.rightPressTicks < GameplayBattleOrders::SpellMenuClickMilliseconds))
+    {
+        return;
+    }
+
     const float mouseX = pInput->pointerX;
     const float mouseY = pInput->pointerY;
 
@@ -1374,6 +1386,35 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
     if (pDefinition == nullptr || !context.activeMemberHasSpellbookSchool(context.spellbookReadOnly().school))
     {
         return;
+    }
+
+    // A class with its own spellbook look (MAW's Death Knight and Thief lines) has its spell pictures elsewhere on the
+    // page: the spell under the pointer there, or none.
+    const SpellbookSkinPage *pSkinPage =
+        activeSpellbookSkinPage(context.partyReadOnly(), context.spellbookReadOnly().school);
+    uint32_t skinSpellId = 0;
+    GameplayScreenRuntime::ResolvedHudLayoutElement skinSpellRect;
+
+    if (pSkinPage != nullptr)
+    {
+        const GameplayScreenRuntime::HudLayoutElement *pRootLayout =
+            context.findHudLayoutElement(SpellbookRootLayoutId);
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> root = pRootLayout != nullptr
+            ? context.resolveHudLayoutElement(
+                SpellbookRootLayoutId, width, height, pRootLayout->width, pRootLayout->height)
+            : std::nullopt;
+
+        for (const SpellbookSkinSpell &spell : pSkinPage->spells)
+        {
+            if (root && context.activeMemberKnowsSpell(spell.spellId)
+                && GameplayHudCommon::isPointerInsideResolvedElement(
+                    spellbookSkinScreenRect(*root, spell.rect), mouseX, mouseY))
+            {
+                skinSpellId = spell.spellId;
+                skinSpellRect = spellbookSkinScreenRect(*root, spell.rect);
+                break;
+            }
+        }
     }
 
     for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
@@ -1385,25 +1426,35 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
             continue;
         }
 
-        const uint32_t spellOrdinal = spellOffset + 1;
-        const std::string layoutId = spellbookSpellLayoutId(context.spellbookReadOnly().school, spellOrdinal);
-        const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+        GameplayScreenRuntime::ResolvedHudLayoutElement sourceRect = skinSpellRect;
 
-        if (pLayout == nullptr)
+        if (pSkinPage != nullptr)
         {
-            continue;
+            if (spellId != skinSpellId)
+            {
+                continue;
+            }
         }
-
-        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = context.resolveHudLayoutElement(
-            layoutId,
-            width,
-            height,
-            pLayout->width,
-            pLayout->height);
-
-        if (!resolved || !GameplayHudCommon::isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
+        else
         {
-            continue;
+            const uint32_t spellOrdinal = spellOffset + 1;
+            const std::string layoutId = spellbookSpellLayoutId(context.spellbookReadOnly().school, spellOrdinal);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr)
+            {
+                continue;
+            }
+
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
+                context.resolveHudLayoutElement(layoutId, width, height, pLayout->width, pLayout->height);
+
+            if (!resolved || !GameplayHudCommon::isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
+            {
+                continue;
+            }
+
+            sourceRect = *resolved;
         }
 
         const SpellEntry *pSpellEntry = context.spellTable()->findById(spellId);
@@ -1445,7 +1496,7 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
             : std::max(0, spellInspectManaCostForMastery(*pSpellEntry, casterMastery));
         overlay.hasManaCost = true;
         const SpellTooltipText text = pActiveMember != nullptr
-            ? rules.spells.spellTooltip(*pParty, *pActiveMember, *pSpellEntry)
+            ? partySpellTooltip(*pParty, *pActiveMember, *pSpellEntry)
             : SpellTooltipText {pSpellEntry->name, pSpellEntry->description,
                   {pSpellEntry->normalText, pSpellEntry->expertText, pSpellEntry->masterText,
                       pSpellEntry->grandmasterText}};
@@ -1463,10 +1514,10 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
         overlay.expert = masteryLine(1, Engine::tr("Expert"));
         overlay.master = masteryLine(2, Engine::tr("Master"));
         overlay.grandmaster = masteryLine(3, Engine::tr("Grand Master"));
-        overlay.sourceX = resolved->x;
-        overlay.sourceY = resolved->y;
-        overlay.sourceWidth = std::max(1.0f, resolved->width);
-        overlay.sourceHeight = std::max(1.0f, resolved->height);
+        overlay.sourceX = sourceRect.x;
+        overlay.sourceY = sourceRect.y;
+        overlay.sourceWidth = std::max(1.0f, sourceRect.width);
+        overlay.sourceHeight = std::max(1.0f, sourceRect.height);
         return;
     }
 }

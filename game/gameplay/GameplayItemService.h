@@ -52,11 +52,6 @@ public:
     // Merges three gems of the chosen tier into one of the next, once or (`all`) as often as the gems allow.
     bool combineGems(GameplayScreenRuntime &runtime, bool all);
 
-    void updateConnectorStoneRecharge(
-        Party &party,
-        EventRuntimeState &eventRuntimeState,
-        float gameMinutes);
-
     void updateReadableScrollOverlayForHeldItem(
         GameplayScreenRuntime &runtime,
         size_t memberIndex,

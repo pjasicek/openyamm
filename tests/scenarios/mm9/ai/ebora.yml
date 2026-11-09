@@ -1,0 +1,56 @@
+id: mm9.ai.ebora
+title: MM9 Ebora - the passive bath boss, her concubines' launch, her escape; the mine's Ebora freed by a trigger
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, boss]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The concubines launch on first sight of the party and fight it; Ebora
+        launches once and never fights, and a physical hit does nothing. The party kills a concubine at 8 s, 11 s and
+        14 s: two taunts, then her escape (Launch, CastSpell, the column of fire, gone a second later). The mine's
+        Ebora stands until FreeAtLast at 22 s and is gone 13 s later.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: ebora.arena.yml}
+  - advance_runtime: {seconds: 5}
+  - damage_actor: {actor_index: last-4, amount: 500, tier: physical, expect: refused}
+  - advance_runtime: {seconds: 3}
+  - damage_actor: {actor_index: last-3, amount: 5000, tier: spell}
+  - advance_runtime: {seconds: 3}
+  - damage_actor: {actor_index: last-2, amount: 5000, tier: spell}
+  - advance_runtime: {seconds: 3}
+  - damage_actor: {actor_index: last-1, amount: 5000, tier: spell}
+  - advance_runtime: {seconds: 22}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: found_player launch, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, event: damaged, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: script, detail: found_player launch, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: dead_concubine 1 text 9, after: 8, before: 8.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: dead_concubine 2 text 10, after: 11, before: 11.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: escape concubines, after: 14, before: 14.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: column_of_fire, after: 16, before: 17.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: script, detail: gone, after: 17, before: 18.5, min_count: 1}
+  - assert:
+      actor_visible: {actor_index: last-4, hidden: true}
+  - assert:
+      ai_trace: {arena_monster: 4, decision: script, detail: free_at_last trigger, after: 22, before: 22.3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 4, decision: script, detail: gone, after: 34, before: 36, min_count: 1}
+  - assert:
+      actor_visible: {actor_index: last, hidden: true}

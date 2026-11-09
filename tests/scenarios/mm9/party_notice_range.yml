@@ -1,0 +1,22 @@
+# MM9 monsters see the party half again as far as their placement says, but before contact no farther than 4275
+# (world.yml actorAwareness mm9Sight max): the 3800 engagement range and 12.5 % more, as MM6-MM8's outdoor full-AI
+# range (5632) passes their yellow alert (5120) (the user, 2026-11-09). A spawned Horde Leader has MM9's default sight,
+# 3379, which the 1.5 scale alone would carry to 5068. On Isle of Ashes' flat sea (mm9/party_hit_reach.yml) one 4700
+# from the party does not notice it; one 3700 away does (it then alerts the first, so that one is checked first).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/party_notice_range.yml --scenario-no-color
+id: mm9.party_notice_range
+title: "MM9: monsters notice the party no farther than 4275 before contact"
+world: mm9
+mode: faithful
+tags: [mm9, ai, perception]
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+  - cast_spell: {member_index: 0, spell_id: 27, skill: 10, mastery: 3}
+  - set_pose: {map: isleofashes.blv, x: 9096, y: -13000, z: -985, yaw_degrees: 90, pitch: 0}
+  - spawn_actor: {monster_id: 9131, x: 9000, y: -8300, z: -985}
+  - advance_runtime: {seconds: 4}
+  - assert: {actor_visible: {actor_index: last, combat_targeting_party: false, near: {x: 9096, y: -8300, max_distance: 4}}}
+  - spawn_actor: {monster_id: 9131, x: 9000, y: -9300, z: -985}
+  - advance_runtime: {seconds: 4}
+  - assert: {actor_visible: {actor_index: last, combat_targeting_party: true}}

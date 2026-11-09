@@ -1,0 +1,21 @@
+id: mm8.mad_necromancers_lab_entry_aggro
+title: "Mad Necromancer's Lab: the load event's Hostile bit does not send the far monsters after the party"
+world: mm8
+mode: faithful
+tags: [mm8, indoor, actors, regression]
+steps:
+  - note:
+      text: >-
+        d20's load event 5 sets group 10 (every monster of the lab) Hostile. That changes only their attitude: the
+        monsters notice the party by their own senses. When the event also marked them as having seen the party, the
+        whole lab came for the party through the walls. The party waits at the entrance; the monsters spawned around
+        (-400, 5200), more than 5000 units away behind walls, must still be there a minute later.
+  - new_game_flow: {start_map: out01.odm}
+  - load_map: {map: d20.blv}
+  - set_pose: {map: d20.blv, x: -900, y: -127, z: 1, yaw_degrees: 0}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {hostile: true, near: [-400, 5200, 1200], min: 4}
+  - advance_runtime: {seconds: 60}
+  - assert:
+      actor_count: {hostile: true, near: [-400, 5200, 1200], min: 4}

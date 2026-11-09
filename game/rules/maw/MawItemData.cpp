@@ -21,6 +21,59 @@ std::vector<std::pair<std::string, double>> readBudget(const YAML::Node &node)
 }
 }
 
+bool MawItemData::loadBases(const YAML::Node &bases, bool worldBases, std::string &errorMessage)
+{
+    for (const auto &entry : bases)
+    {
+        const YAML::Node &row = entry.second;
+        const uint32_t itemId = entry.first.as<uint32_t>();
+
+        if (!row.IsSequence() || row.size() < 5 || row.size() > (worldBases ? 6u : 5u))
+        {
+            errorMessage = "base item " + std::to_string(itemId) + " must be [rung, dice, two-handed, AC, reference AC"
+                + (worldBases ? ", strength]" : "]");
+            return false;
+        }
+
+        if (worldBases && m_baseItems.contains(itemId))
+        {
+            errorMessage = "base item " + std::to_string(itemId) + " is given twice";
+            return false;
+        }
+
+        MawBaseItem item;
+        item.rung = row[0].as<double>();
+        item.diceCount = row[1].as<int>();
+        item.twoHanded = row[2].as<int>() != 0;
+        item.baseArmorClass = row[3].as<int>();
+        item.referenceArmorClass = row[4].as<int>();
+        item.strength = row.size() > 5 ? row[5].as<double>() : 1.0;
+
+        if (item.strength < 1 || item.strength > 1.25)
+        {
+            errorMessage = "base item " + std::to_string(itemId) + " has a strength outside 1-1.25";
+            return false;
+        }
+
+        m_baseItems[itemId] = item;
+    }
+
+    return true;
+}
+
+bool MawItemData::loadWorldBases(const std::string &text, std::string &errorMessage)
+{
+    try
+    {
+        return loadBases(YAML::Load(text)["bases"], true, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("item_bases.yml: ") + exception.what();
+        return false;
+    }
+}
+
 bool MawItemData::loadFromYaml(const std::string &text, std::string &errorMessage)
 {
     try
@@ -32,24 +85,9 @@ bool MawItemData::loadFromYaml(const std::string &text, std::string &errorMessag
             m_legendaryAffixTexts[entry.first.as<int>()] = entry.second.as<std::string>();
         }
 
-        for (const auto &entry : root["bases"])
+        if (!loadBases(root["bases"], false, errorMessage))
         {
-            const YAML::Node &row = entry.second;
-
-            if (!row.IsSequence() || row.size() != 5)
-            {
-                errorMessage = "base item " + entry.first.as<std::string>() + " must be [rung, dice, two-handed, AC, "
-                    "reference AC]";
-                return false;
-            }
-
-            MawBaseItem item;
-            item.rung = row[0].as<double>();
-            item.diceCount = row[1].as<int>();
-            item.twoHanded = row[2].as<int>() != 0;
-            item.baseArmorClass = row[3].as<int>();
-            item.referenceArmorClass = row[4].as<int>();
-            m_baseItems[entry.first.as<uint32_t>()] = item;
+            return false;
         }
 
         for (const auto &entry : root["artifacts"])

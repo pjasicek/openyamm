@@ -91,10 +91,8 @@ std::optional<GameplayTreasureSpawnResult> generateTreasureSpawnItem(
 
     if (resolvedTreasureLevel != RandomTreasureMaxLevel)
     {
-        // MM6-MM8: 20% nothing, 40% a gold heap, 40% an item; a world.yml treasureMarkersItemsOnly world, always the item.
-        const int roll = itemTable.treasureMarkersItemsOnly(worldId)
-            ? 99
-            : std::uniform_int_distribution<int>(0, 99)(rng);
+        // 20% nothing, 40% a gold heap, 40% an item, as MM6-MM8 (MM9 too: the user, 2026-11-09).
+        const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
 
         if (roll < 20)
         {
@@ -103,7 +101,11 @@ std::optional<GameplayTreasureSpawnResult> generateTreasureSpawnItem(
 
         if (roll < 60)
         {
-            result.goldAmount = uint32_t(std::max(0, generateGoldAmount(treasureLevel, rng)));
+            // By the marker's own level, as MM6-MM8; world.yml groundGoldByItemTier: by its item's tier.
+            const int goldLevel = itemTable.groundGoldByItemTier(worldId)
+                ? std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels)
+                : treasureLevel;
+            result.goldAmount = uint32_t(std::max(0, generateGoldAmount(goldLevel, rng)));
             const uint32_t goldHeapItemId =
                 result.goldAmount <= 200 ? GoldHeapSmallItemId : GoldHeapLargeItemId;
             result.item = ItemGenerator::makeInventoryItem(goldHeapItemId, itemTable, ItemGenerationMode::ChestLoot);

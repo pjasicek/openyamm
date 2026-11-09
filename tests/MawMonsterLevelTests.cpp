@@ -85,7 +85,6 @@ TEST_CASE("MAW monster levels follow the Ravenshore worked example")
     const MawMapLevels mapLevels = exampleMapLevels();
     MawMonsterLevelInputs inputs;
     inputs.mapFileName = "out02.odm";
-    inputs.mapName = "Ravenshore";
     inputs.encounterPictures = {"Human Mercenary", "Centaur", "Dire Wolf"};
     const std::vector<int> ids = {85, 86, 87, 100, 101, 102, 193, 194, 195};
 
@@ -110,7 +109,6 @@ TEST_CASE("MAW monster levels on a Beyond Madness fixed-level map")
 {
     MawMonsterLevelInputs inputs;
     inputs.mapFileName = "6d03.blv";
-    inputs.mapName = "Shadow Guild Hideout";
     inputs.encounterPictures = {"BThief", "FighterLeath", "0"};
     inputs.horizontalProgression = true;
     inputs.madness = true;
@@ -120,8 +118,134 @@ TEST_CASE("MAW monster levels on a Beyond Madness fixed-level map")
     CHECK_EQ(levelsOf(resolveMawMonsterLevels(exampleMonsters(), exampleMapLevels(), inputs),
                       {637, 638, 639, 538, 539, 540}),
              std::vector<int>{31, 39, 51, 35, 47, 59});
-    CHECK_EQ(mawFamilyBId(637), 638);
-    CHECK_EQ(mawFamilyBId(639), 638);
+    CHECK_EQ(mawMonsterFamily(nullptr, 637).row(2), 638);
+    CHECK_EQ(mawMonsterFamily(nullptr, 639).row(2), 638);
+}
+
+TEST_CASE("MAW reads a world's monster families by picture and gives them map levels")
+{
+    std::vector<std::vector<std::string>> rows;
+    // MAW's own triple, a row of MMMerge's later ones, and MM9-like rows off MAW's id % 3 grid: a townsperson, a
+    // family whose A row sits at id % 3 == 0, and a family without an A row.
+    rows.push_back(monsterRow(85, "Dire Wolf A", 9));
+    rows.push_back(monsterRow(86, "Dire Wolf B", 14));
+    rows.push_back(monsterRow(87, "Dire Wolf C", 19));
+    rows.push_back(monsterRow(901, "custom:crusader_green", 5));
+    rows.push_back(monsterRow(9074, "MM9 74 Townsfolk Child", 1));
+    rows.push_back(monsterRow(9075, "MM9 Dragonfly A", 6));
+    rows.push_back(monsterRow(9076, "MM9 Dragonfly B", 10));
+    rows.push_back(monsterRow(9077, "MM9 Dragonfly C", 14));
+    rows.push_back(monsterRow(9100, "MM9 Pod B", 20));
+    rows.push_back(monsterRow(9101, "MM9 Pod C", 24));
+    // A family whose rows lie apart (MM9's Honk: A 9216, B 9187, C 9188).
+    rows.push_back(monsterRow(9187, "MM9 Honk B", 75));
+    rows.push_back(monsterRow(9188, "MM9 Honk C", 80));
+    rows.push_back(monsterRow(9216, "MM9 Honk A", 70));
+    MonsterTable monsters;
+    REQUIRE(monsters.loadStatsFromRows(rows));
+
+    // MAW's rows keep their triples by id.
+    const MawMonsterFamily wolf = mawMonsterFamily(&monsters, 87);
+    CHECK_EQ(wolf.tier, 3);
+    CHECK_EQ(wolf.row(1), 85);
+    CHECK_EQ(wolf.row(2), 86);
+
+    const MawMonsterFamily mite = mawMonsterFamily(&monsters, 9075);
+    CHECK_EQ(mite.tier, 1);
+    CHECK_EQ(mite.row(2), 9076);
+    CHECK_EQ(mite.row(3), 9077);
+    CHECK_EQ(mawMonsterFamily(&monsters, 9077).tier, 3);
+    CHECK_EQ(mawMonsterFamily(&monsters, 9077).row(1), 9075);
+
+    // A row without a tier is a family of its own at tier B.
+    const MawMonsterFamily child = mawMonsterFamily(&monsters, 9074);
+    CHECK_EQ(child.tier, 2);
+    CHECK_EQ(child.row(2), 9074);
+    CHECK_EQ(child.row(3), 9074);
+
+    const MawMonsterFamily honk = mawMonsterFamily(&monsters, 9216);
+    CHECK_EQ(honk.tier, 1);
+    CHECK_EQ(honk.row(2), 9187);
+    CHECK_EQ(honk.row(3), 9188);
+
+    // A family without an A row falls back to its B row.
+    const MawMonsterFamily pod = mawMonsterFamily(&monsters, 9101);
+    CHECK_EQ(pod.tier, 3);
+    CHECK_EQ(pod.row(2), 9100);
+    CHECK_EQ(pod.row(1), 9100);
+
+    MawMonsterLevelInputs inputs;
+    inputs.mapFileName = "out02.odm";
+    inputs.encounterPictures = {"MM9 Dragonfly", "Dire Wolf", "0"};
+    inputs.partyLevel = 100;
+    const std::unordered_map<int, int> levels = resolveMawMonsterLevels(monsters, exampleMapLevels(), inputs);
+    // The world's rows climb with the party as MAW's do; MMMerge's later rows keep their table levels.
+    CHECK(levels.at(9076) > 100);
+    CHECK(levels.at(9077) > levels.at(9076));
+    CHECK(levels.at(9074) > 100);
+    CHECK_FALSE(levels.contains(901));
+
+    CHECK(mawArenaMap("D42.blv"));
+    CHECK(mawArenaMap("7d05.blv"));
+    CHECK(mawArenaMap("thearena.blv"));
+    CHECK_FALSE(mawArenaMap("isleofashes.blv"));
+}
+
+TEST_CASE("a world's MAW balance adds its maps, story bands and completion exclusions")
+{
+    MawMapLevels mapLevels = exampleMapLevels();
+    std::string error;
+    REQUIRE_MESSAGE(mapLevels.loadWorldBalance(
+                        "completion_exclude: [\"MM9 Sea Monster\"]\n"
+                        "maps:\n"
+                        "  isleofashes.blv: {band: [3, 3, 4], horizontal_starter: true, madness_start: true,"
+                        " madness_level: 4}\n"
+                        "  frosgardcity.blv: {band: [24, 28, 32], story_bands: [{qbit: 90104, band: [66, 72, 78]}],"
+                        " completion_exclude: [9107, Horde Grunt]}\n"
+                        "  inventastorca.blv: {band: [28, 33, 48], natives: [MM9 Icky, MM9 Highwayman, MM9 Lich]}\n",
+                        error),
+        error);
+    CHECK(mapLevels.lists("isleofashes.blv"));
+    CHECK(mapLevels.isHorizontalStarterMap("isleofashes.blv"));
+    CHECK(mapLevels.isMadnessStartingMap("isleofashes.blv"));
+    CHECK_EQ(mapLevels.madnessLevel("isleofashes.blv"), 4);
+    REQUIRE(mapLevels.natives("InventaStorca.blv") != nullptr);
+    CHECK_EQ((*mapLevels.natives("inventastorca.blv"))[2], "MM9 Lich");
+    CHECK(mapLevels.natives("isleofashes.blv") == nullptr);
+
+    // The story band waits for its quest bit.
+    CHECK(mapLevels.band("frosgardcity.blv") == std::array<double, 3>{24, 28, 32});
+    CHECK_EQ(mapLevels.storyBandQBits(), std::vector<uint32_t>{90104});
+    CHECK(mapLevels.setReachedStoryQBits({90104}));
+    CHECK_FALSE(mapLevels.setReachedStoryQBits({90104}));
+    CHECK(mapLevels.band("FrosgardCity.blv") == std::array<double, 3>{66, 72, 78});
+
+    // Left out of the clearing: the file's families on every map, a map's own rows and names.
+    MonsterTable::MonsterStatsEntry seaMonster;
+    seaMonster.id = 9178;
+    seaMonster.name = "Sea Monster Female";
+    seaMonster.pictureName = "MM9 Sea Monster B";
+    MonsterTable::MonsterStatsEntry guard;
+    guard.id = 9107;
+    guard.pictureName = "MM9 107 Town Guard";
+    MonsterTable::MonsterStatsEntry grunt;
+    grunt.id = 9129;
+    grunt.name = "Horde Grunt";
+    grunt.pictureName = "MM9 Horde A";
+    MonsterTable::MonsterStatsEntry seaSerpent = seaMonster;
+    seaSerpent.pictureName = "MM9 Sea Monsters B";
+    CHECK_FALSE(mapLevels.countsForCompletion("isleofashes.blv", seaMonster));
+    CHECK(mapLevels.countsForCompletion("isleofashes.blv", guard));
+    CHECK(mapLevels.countsForCompletion("isleofashes.blv", seaSerpent));
+    CHECK_FALSE(mapLevels.countsForCompletion("frosgardcity.blv", guard));
+    CHECK_FALSE(mapLevels.countsForCompletion("frosgardcity.blv", grunt));
+    CHECK_FALSE(mapLevels.countsForCompletion("frosgardcity.blv", seaMonster));
+    // Maps of MAW's own list are untouched.
+    CHECK(mapLevels.countsForCompletion("out02.odm", seaMonster));
+
+    // A map both lists is an error.
+    MawMapLevels twice = exampleMapLevels();
+    CHECK_FALSE(twice.loadWorldBalance("maps:\n  out02.odm: {band: [1, 2, 3]}\n", error));
 }
 
 TEST_CASE("the installed MAW map levels load")

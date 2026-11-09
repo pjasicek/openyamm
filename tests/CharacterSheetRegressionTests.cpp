@@ -54,6 +54,26 @@ TEST_CASE("character sheet uses equipped items for combat and armor class")
     CHECK_EQ(summary.armorClass.base, 26);
 }
 
+TEST_CASE("character sheet shows negative hit points below zero")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Character character = {};
+    character.level = 3;
+    character.endurance = 14;
+    character.maxHealth = 31;
+    character.health = -20;
+
+    OpenYAMM::Game::CharacterSheetSummary summary =
+        OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(character, &gameData.itemTable);
+
+    CHECK_EQ(summary.health.current, -20);
+
+    character.health = 500;
+    summary = OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(character, &gameData.itemTable);
+    CHECK_EQ(summary.health.current, summary.health.maximum);
+}
+
 TEST_CASE("monster incoming attack hit chance uses armor class and monster level")
 {
     std::mt19937 lowLevelRng(1234u);

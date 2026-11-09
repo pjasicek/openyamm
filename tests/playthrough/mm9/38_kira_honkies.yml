@@ -1,0 +1,96 @@
+# MM9 playthrough, segment 38: Kira the Cold's tasks and the Honkies (guide: Chapter I, "Thronheim: Kira the Cold",
+# "Rid Thronheim of Honk worshippers"). Frosgard to Thronheim by sea (The Racing Fire, three days, now that the docks
+# are free), the land gate, Kira in her hall (her two tasks: keys 75, 76, 79), the dock gate, Moenach the dockmaster
+# agrees to ship the Honkies off to Beldonia (139, 145), back in, and the three Honk missionaries are talked into
+# going to the docks; each leaves when his talk closes, the third gives key 77 and 8 000 experience. Nobody is hurt.
+#   python3 tests/playthrough/mm9/run.py 38
+id: mm9.playthrough.38_kira_honkies
+title: "MM9 playthrough 38: Kira's tasks; the Honkies sent to the docks without a blow"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/37_tryygva_pledge.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgardcity.blv, qbit_set: [90074], qbit_clear: [90075, 90077, 90145]}
+
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Kira the Cold in her hall.
+  - set_pose: {map: thronheimcity.blv, x: -11182, y: 16500, z: 3278, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "There is an army marching towards Thronheim as we speak."}
+  - select_topic: {match_label: "They are too strong for you."}
+  - select_topic: {match_label: "We've been to see Yrsa the Troll on the Isle of Ashes."}
+  - select_topic: {match_label: "Yrsa sent us to unite the Six Clans against them."}
+  - select_topic: {match_label: "We will."}
+  - select_topic: {match_label: "Name your task.  We shall prove our worth."}
+  - select_topic: {match_label: "What is the first task?"}
+  - select_topic: {match_label: "How?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "What is the second task?"}
+  - select_topic: {match_label: "We will find the Mountain Pass for you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  # Her click saw the five other clans' pledges (34, 38, 51, 63, 74): key 178.
+  - assert: {qbit_set: [90075, 90076, 90079, 90178]}
+
+  # Out by the dock gate to Moenach A'Tryht on the pier.
+  - set_pose: {map: thronheimcity.blv, x: 2089, y: 14600, z: 3093, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 2089, y: 15073, z: 3093, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - set_pose: {map: thronheim.blv, x: 7438, y: 14976, z: 1281, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 45}
+  - select_topic: {match_label: "We'd like to ask you a favor."}
+  - select_topic: {match_label: "We need to send some people away."}
+  - select_topic: {match_label: "Perhaps."}
+  - select_topic: {match_label: "We'd like to send them to Beldonia."}
+  - select_topic: {match_label: "Thanks."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90139, 90145]}
+
+  # Back in by the dock gate; the three Honkies near the land gate.
+  - set_pose: {map: thronheim.blv, x: 4900, y: 15222, z: 1281, yaw: 3.1416, pitch: 0}
+  - walk_to: {x: 4484, y: 15222, z: 1281, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+  - set_pose: {map: thronheimcity.blv, x: 13235, y: 6390, z: 3093, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We'd like you to tell us about the Great Honk."}
+  - select_topic: {match_label: "Great! Why don't you meet us at the docks?"}
+  - select_topic: {match_label: "Some friends of ours also want to hear."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90142]}
+  - set_pose: {map: thronheimcity.blv, x: 9630, y: 6717, z: 3093, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 3}
+  - select_topic: {match_label: "We want to know more about the Honkies."}
+  - select_topic: {match_label: "Our friends also would like to hear."}
+  - select_topic: {match_label: "They work on the docks."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90143]}
+  - set_pose: {map: thronheimcity.blv, x: 12907, y: 6717, z: 3093, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 2}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "We have friends at the docks who would like to hear about you."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90144, 90077]}
+  - save_game: {name: "38 the Honkies gone", path: output/playthrough/mm9/checkpoints/38_kira_honkies.oysav}

@@ -4,6 +4,8 @@
 #include "game/mm9/Mm9HirelingServices.h"
 #include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/Party.h"
+#include "game/rules/maw/MawClassRules.h"
+#include "game/rules/maw/MawRules.h"
 #include "game/tables/ItemTable.h"
 
 #include <filesystem>
@@ -357,4 +359,58 @@ TEST_CASE("MM9 story companions join free, take no wage, and come and go by scri
     CHECK(party.addHirelingByRudeId(309));
     CHECK_EQ(party.hirelings().size(), 3u);
     CHECK_FALSE(party.addHirelingByRudeId(253));
+}
+
+TEST_CASE("MAW scales MM9's hirelings to the party's level and keeps paid ones away from Doom up")
+{
+    using OpenYAMM::Game::MawClassRules;
+    using OpenYAMM::Game::MawMapLevels;
+    using OpenYAMM::Game::MawRules;
+    using OpenYAMM::Game::RulesetChallengeMode;
+    using OpenYAMM::Game::RulesetOptions;
+
+    const Mm9Hireling *pHrolf = worldTable().find(42);
+    REQUIRE(pHrolf != nullptr);
+    Party party = makeParty(5000);
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    party.setRules(&rules.gameRules());
+    REQUIRE_EQ(OpenYAMM::Game::hireMm9Hireling(party, *pHrolf), Mm9HireOutcome::Hired);
+    const auto &classes = dynamic_cast<const MawClassRules &>(rules.gameRules().classes);
+
+    // A party below the row's level leaves the hireling as the row has it.
+    for (size_t index = 0; index < party.members().size(); ++index)
+    {
+        party.member(index)->level = 5;
+    }
+    classes.scaleHirelings(party);
+    const OpenYAMM::Game::Mm9PartyHireling *pHireling = party.findHireling(42);
+    REQUIRE(pHireling != nullptr);
+    CHECK_EQ(pHireling->character.level, pHrolf->level);
+    CHECK_EQ(pHireling->character.maxHealth, pHrolf->hitPoints);
+    CHECK(pHireling->rulesDamageScale == doctest::Approx(1.0f));
+
+    // At the party's level it keeps its share of MAW's expected character: more damage, health and armour, the
+    // health it had kept as a share.
+    party.findHireling(42)->character.health = pHrolf->hitPoints / 2;
+    for (size_t index = 0; index < party.members().size(); ++index)
+    {
+        party.member(index)->level = uint32_t(pHrolf->level + 30);
+    }
+    classes.scaleHirelings(party);
+    CHECK_EQ(pHireling->character.level, pHrolf->level + 30);
+    CHECK(pHireling->character.maxHealth > pHrolf->hitPoints);
+    CHECK(pHireling->character.health * 2 == doctest::Approx(pHireling->character.maxHealth).epsilon(0.02));
+    CHECK(pHireling->character.armorClassModifier > pHrolf->armorClass);
+    CHECK(pHireling->rulesDamageScale > 1.2f);
+
+    // Doom and up: paid retainers refuse, story companions join.
+    RulesetOptions doom;
+    doom.challengeMode = RulesetChallengeMode::Doom;
+    MawRules doomRules(doom, MawMapLevels{});
+    Party doomParty = makeParty(5000);
+    doomParty.setRules(&doomRules.gameRules());
+    CHECK_EQ(OpenYAMM::Game::hireMm9Hireling(doomParty, *pHrolf), Mm9HireOutcome::Declines);
+    const Mm9Hireling *pForad = worldTable().find(2);
+    REQUIRE(pForad != nullptr);
+    CHECK_EQ(OpenYAMM::Game::hireMm9Hireling(doomParty, *pForad), Mm9HireOutcome::Hired);
 }

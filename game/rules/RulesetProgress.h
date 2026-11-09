@@ -37,7 +37,7 @@ struct RulesetProgressMap
     bool completedOnce = false;
     // Game days until its monsters refill (none: never, or not visited).
     std::optional<int> refillInDays;
-    // What its town hall offers (a reset), if anything.
+    // The reset its entrance dialog offers, if any.
     std::optional<std::string> resetOffer;
     // The party is on it; this month's town bounty target is on it; a dimension run is open on it.
     bool current = false;

@@ -1,0 +1,127 @@
+# MM9 promotion playthrough 70, block E (Paladin, Druid): the Three Crusades taken (guide: side_b.yml
+# stop-jarl-sven-s-assassination). Block E is its own branch: it starts after Krohn's task (key 108, the main run's
+# 60_krohn), because from the war council (key 40) until 108 every Jarl is away (thjorgardcity.lua:252,
+# frosgardcity.lua:320; MM9's NPC3.scr/NPC180.scr :Init do the same), and both quests need a Jarl: Sven for the
+# first crusade, Tryygva for the runestone. 00_after_krohn.oysav is a copy of the main run's 60_krohn.oysav.
+# Out of the Hall of the Gods into Arslegard, over the bridge to Thjorgard, the Sea's Fang to Lindisfarne; the
+# monastery is walked (never hurt a monk: they all turn hostile): the nave, the crossing, the east transept's door,
+# Grehgknak the Right (actor 1, RUDE 282) south of the east wing. His talk accepts all three crusades (key 153, and
+# 228: the talk's close gives the Letter, item 10419, and key 229). MM9 offered them only to a party that had the
+# Crusader promotion (key 137, waived: dialogue/promotions.yml). Out by the narthex.
+# Research: prep/E_paladin_druid.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 70
+id: mm9.promotions.70_lindisfarne_grehgknak
+title: "MM9 promotions 70: Grehgknak the Right gives the Three Crusades and the letter"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/00_after_krohn.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: hallofthegods.blv, qbit_set: [90040, 90108], qbit_clear: [90153, 90228, 90229, 90236, 90237]}
+  - play_lua: {source: 'log("CLASSES at the branch start: " .. classes())'}
+
+  # Out of the hall by its west door into Arslegard (as the main run's 61), the bridge north of the Great Gate to
+  # Thjorgard, the Sea's Fang to Lindisfarne (outdoors the party is moved).
+  - walk_to: {via: [[5300, 3900, 676], [2600, 3900, 676]], x: -7700, y: 2949, z: 1, timeout_seconds: 300, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: arslegardcity.blv}
+  - set_pose: {map: arslegardcity.blv, x: 14418, y: 2500, z: -82, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: 14418, y: 3100, z: -82, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - travel: {map: lindisfarne.blv, days: 4}
+
+  # The monastery's door (ExitTrigger0) at the island's south end.
+  - set_pose: {map: lindisfarne.blv, x: -11250, y: -21240, z: 2734, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -11749, y: -21240, z: 2734, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarnemonastery.blv, state_dump_named_map_var: {name: MonksHostile, value: 0}}
+
+  # The narthex, the nave's doors (101), the crossing's doors (102), east through the crossing to the east
+  # transept's door (105) and through it; Grehgknak stands south of the east wing. The nave is walked in along its east
+  # side and out along its west side: the monk Bred Gagii (actor 7) wanders it (within 1311 of (-348, 4035)) and
+  # pinned the party on its centre line and east side in reload runs. The nave and crossing doors close by themselves
+  # 10 s after opening (monks open them too): the party waits until they are shut, then opens them fresh.
+  - walk_to: {x: -330, y: 1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(1) == s and door_state(2) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 101 never shut") end
+        click(101)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 101 did not open") end
+  - walk_to: {via: [[-100, 1700, 1], [150, 2300, 1], [150, 5000, 1]], x: -100, y: 5600, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(3) == s and door_state(4) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 102 never shut") end
+        click(102)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 102 did not open") end
+  - walk_to: {via: [[-100, 6300, 1], [-100, 6700, 1], [600, 6700, 1]], x: 2350, y: 6390, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(37) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 105 never shut") end
+        click(105)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 105 did not open") end
+  - walk_to: {x: 3000, y: 6390, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 3700, y: 5200, z: -40, radius: 250, z_tolerance: 200, timeout_seconds: 120}
+
+  # Grehgknak: the Three Crusades, the first (save Jarl Sven: the letter), the other two (damn a family, then save it).
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "Do you have any interesting tasks for a party of adventurers?"}
+  - select_topic: {match_label: "Yes. Please tell us what you have for us."}
+  - select_topic: {match_label: "Tell us of the Three Crusades."}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "How are we going to do that?"}
+  - select_topic: {match_label: "Alright, what are the other crusades?"}
+  - select_topic: {match_label: "What? That's terrible!"}
+  - select_topic: {match_label: "What family do I have to ruin?"}
+  - select_topic: {match_label: "We will do this."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90153, 90228, 90229], state_dump_named_map_var: {name: MonksHostile, value: 0}}
+  - play_lua: {source: 'if not has_item(10419) then error("no letter from Grehgknak") end log("the Letter is in the pack")'}
+
+  # Out the way the party came: the east wing, the crossing, the nave, the narthex.
+  - walk_to: {x: 3000, y: 6390, z: 1, z_tolerance: 200, timeout_seconds: 60}
+  - walk_to: {via: [[2350, 6390, 1], [600, 6700, 1]], x: -100, y: 6700, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -100, y: 6300, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(3) == s and door_state(4) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 102 never shut") end
+        click(102)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 102 did not open") end
+  - walk_to: {via: [[-100, 5600, 1], [-650, 5000, 1], [-650, 2300, 1]], x: -100, y: 1700, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(1) == s and door_state(2) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 101 never shut") end
+        click(101)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 101 did not open") end
+  - walk_to: {via: [[-330, 1000, 1]], x: -328, y: -1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -328, y: -1393, z: 1, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarne.blv}
+  - save_game: {name: "P70 Three Crusades", path: output/playthrough/mm9/promotions/checkpoints/70_lindisfarne_grehgknak.oysav}

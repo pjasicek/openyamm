@@ -1,0 +1,30 @@
+id: mm9.ai.placement_script
+title: MM9 placement script wins - a Ghast placed with KingKong.scr never casts, one on its row's script does
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, spells]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Both Ghasts notice the party and close in. The one on its row's
+        baserange.scr checks a shot every 1-2.5 s out of reach and casts Fear (100 - Att% 0) at each; in reach it
+        strikes. The one placed with KingKong.scr (Lich Lab, Verhoffin Ruins, Thjorad Mine, Inventa Storca) runs
+        BaseMelee without Range.inc: once its trigger frees it, it checks no shots and only strikes.
+  # A party for the monsters to strike (the arena keeps it invulnerable).
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: placement_script.arena.yml}
+  - advance_runtime: {seconds: 30}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: wake, detail: woken, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_spell, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_ranged, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: shot_check, max_count: 0}

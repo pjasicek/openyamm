@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cook MM6-MM8 world surface textures (BLV/ODM face textures) into GPU block-compressed .oytex files.
+"""Cook MM6-MM9 world surface textures (BLV/ODM face textures) into GPU block-compressed .oytex files.
 
 Sources live in assets_source/worlds/<world>/textures_x2 and textures_x4 (Git LFS; tex.py install writes the x4
 masters there). Each profile cooks one tier into the runtime tree:
@@ -11,12 +11,23 @@ Face textures with an x4 master but no x2 file (terrain tiles that also cover BM
 Android from the x4 master without its largest level, which is the runtime's own half-size mip; packages carry no x1
 or x4 surface textures to fall back to, so such faces would not draw at all.
 
+MM9 (NATIVE_WORLDS) also cooks its native-only faces: a face texture with no x4 master draws its 1x native (fire,
+slime, sky ceilings, invisible helpers, animated frame groups, ...), so each x1 source without an x4 master cooks at
+its own size, in the profile's codec, into the x1 folder:
+
+  desktop  assets_source/worlds/mm9/textures/<stem>.bmp -> assets_dev/worlds/mm9/textures/<stem>.oytex              BC7
+  android  the same                                     -> assets_cooked/android/worlds/mm9/textures/<stem>.oytex  ASTC
+
+The x1 tier's scale comes from its folder (assetScaleTierFromResolvedPath), so the faces keep their logical size, and
+the runtime takes the x1 file when the preferred tier has none. MM6-MM8 have an x4 master for every face they draw;
+their x1-only sources (terrain tiles, unused bitmaps) stay uncooked.
+
 The map loader prefers the cooked file in each scale tier (Engine::findCookedOrImageAssetPath) and uploads its blocks
 and stored mip chain directly, so nothing is decoded, keyed or filtered at load. The original x1 BMPs are source art
 too, in assets_source/worlds/<w>/textures: the lighting bake reads them (bounce colour, cutout shadows) and records
 their hashes, which tools/lighting/stale_bakes.py and the development stale check resolve there. Only the .act
-palettes stay in assets_dev/worlds/<w>/textures. A few images read as images rather than surfaces stay beside the
-cooked files in assets_dev (the blood splat decal, hwsplat04.png).
+palettes (and MM9's cooked x1 files) stay in assets_dev/worlds/<w>/textures. A few images read as images rather than
+surfaces stay beside the cooked files in assets_dev (the blood splat decal, hwsplat04.png).
 
 The cook reproduces the BModel upload exactly: the magenta key becomes transparent (MapAssetLoader's decode), mips are
 the runtime's box filter on raw texel values (prepareBgraMipChain, no sRGB, no cutout coverage), and the texture keeps
@@ -31,7 +42,7 @@ liquid's colour, so the runtime never loads their art.
   tools/cook_surface_textures.py --force                        re-cook everything
   The desktop profile also cooks and verifies the surface material maps (tools/surface_materials.py).
   options: --only 'mm6/t1*'  --sources ROOT (default assets_source)  --output ROOT (default per profile)
-           --world NAME (repeatable; default mm6, mm7 and mm8: a staged world such as hesper names itself)
+           --world NAME (repeatable; default mm6 to mm9: a staged world such as hesper names itself)
 
 A world whose source folder is missing (sources not pulled) is skipped: its cooked files are neither re-cooked nor
 removed. Receipts: assets_source/.cook-cache/surface_textures/<output root path>.json. A texture re-cooks when its
@@ -56,7 +67,7 @@ import yaml
 import surface_materials
 
 ROOT = Path(__file__).resolve().parent.parent
-WORLDS = ("mm6", "mm7", "mm8")
+WORLDS = ("mm6", "mm7", "mm8", "mm9")
 SOURCE_SUFFIXES = (".png", ".bmp", ".pcx")  # the runtime's candidate order (findImageAssetPath)
 PROFILES = {
     # profile: (tier folder, codec, default output root)
@@ -66,6 +77,9 @@ PROFILES = {
 # Cooker job columns after input/output and codec: semantic, alpha cutoff, mips, max size, linear channels; the
 # source hash and the job kind follow per texture.
 FULL_SIZE = 8192
+# Worlds whose faces without an x4 master draw their 1x native, which therefore cooks in the x1 folder.
+NATIVE_WORLDS = ("mm9",)
+NATIVE_TIER = "textures"
 
 
 def job_settings(max_size):
@@ -125,9 +139,19 @@ def sources_by_stem(source_dir, is_liquid):
             for stem, paths in by_stem.items()}
 
 
+def output_dirs(output_root, world, profile):
+    """The folders whose cooked files the surface cook owns for one world: the profile's tier, and the x1 folder of
+    NATIVE_WORLDS."""
+    dirs = [output_root / "worlds" / world / PROFILES[profile][0]]
+    if world in NATIVE_WORLDS:
+        dirs.append(output_root / "worlds" / world / NATIVE_TIER)
+    return dirs
+
+
 def world_pairs(sources_root, output_root, profile, only, worlds):
     """{world: {cooked path: (source path, max size)}} for worlds whose source folder exists. Android adds the x4
-    masters of face textures without an x2 file, capped at half their size."""
+    masters of face textures without an x2 file, capped at half their size. NATIVE_WORLDS add their x1 sources
+    without an x4 master, cooked into the x1 folder."""
     tier = PROFILES[profile][0]
     is_liquid = liquid_face_matcher()
     result = {}
@@ -146,6 +170,14 @@ def world_pairs(sources_root, output_root, profile, only, worlds):
             if only and not any(fnmatch.fnmatch(f"{world}/{source.stem.lower()}", pattern) for pattern in only):
                 continue
             pairs[output_root / "worlds" / world / tier / (source.stem + ".oytex")] = (source, max_size)
+        if world in NATIVE_WORLDS:
+            natives = sources_by_stem(sources_root / "worlds" / world / NATIVE_TIER, is_liquid)
+            masters = sources_by_stem(sources_root / "worlds" / world / "textures_x4", is_liquid)
+            for stem in sorted(natives.keys() - masters.keys()):
+                if only and not any(fnmatch.fnmatch(f"{world}/{stem}", pattern) for pattern in only):
+                    continue
+                pairs[output_root / "worlds" / world / NATIVE_TIER / (natives[stem].stem + ".oytex")] = (
+                    natives[stem], FULL_SIZE)
         result[world] = pairs
     return result
 
@@ -196,9 +228,9 @@ def cook(sources_root, output_root, profile, cooker, only, force, plan, world_na
             else:
                 source_hash = sha256(source)
             pending.append((source, target, max_size, source_hash, {**settings, "source_sha256": source_hash}))
-        output_dir = output_root / "worlds" / world / tier
-        if not only and output_dir.is_dir():
-            orphans += sorted(set(output_dir.glob("*.oytex")) - set(pairs))
+        for output_dir in output_dirs(output_root, world, profile) if not only else ():
+            if output_dir.is_dir():
+                orphans += sorted(set(output_dir.glob("*.oytex")) - set(pairs))
     print(f"{profile}: {current} surface textures, {len(pending)} to cook, {len(orphans)} orphaned cooked files",
           flush=True)
     if plan:
@@ -255,10 +287,10 @@ def verify(sources_root, output_root, profile, cooker, only, world_names, requir
                     problems.append(f"stale {target.relative_to(output_root)} (source changed)")
             except ValueError as error:
                 problems.append(f"invalid {target.relative_to(output_root)}: {error}")
-        output_dir = output_root / "worlds" / world / tier
-        if not only and output_dir.is_dir():
-            problems += [f"orphaned {path.relative_to(output_root)}"
-                         for path in sorted(set(output_dir.glob("*.oytex")) - set(pairs))]
+        for output_dir in output_dirs(output_root, world, profile) if not only else ():
+            if output_dir.is_dir():
+                problems += [f"orphaned {path.relative_to(output_root)}"
+                             for path in sorted(set(output_dir.glob("*.oytex")) - set(pairs))]
     for start in range(0, len(paths), 256):
         result = subprocess.run([str(cooker), "--verify", *map(str, paths[start:start + 256])],
                                 text=True, capture_output=True)
@@ -286,7 +318,7 @@ def main():
     parser.add_argument("--plan", action="store_true")
     parser.add_argument("--verify", action="store_true")
     parser.add_argument("--force", action="store_true")
-    parser.add_argument("--world", action="append", help="world to cook (repeatable; default mm6, mm7, mm8)")
+    parser.add_argument("--world", action="append", help="world to cook (repeatable; default mm6 to mm9)")
     args = parser.parse_args()
     world_names = tuple(args.world or WORLDS)
     output = args.output or ROOT / PROFILES[args.profile][2]

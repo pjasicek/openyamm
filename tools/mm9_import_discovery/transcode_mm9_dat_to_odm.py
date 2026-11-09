@@ -4465,14 +4465,19 @@ def read_mm9_npc_replacements(
                 continue
 
             role = (row.get("Monster Name") or "").strip()
-            object_class = object_class_overrides.get(source_number, "")
-            if not object_class:
-                object_class = mm9_npc_object_class(
+            # object_class_override: the DAT classes MM9's maps place this row's actor as, separated by "|" where
+            # several do (Forad Darre is ForadDarreNPC on the Isle of Ashes and ForadDarre in Frosgard City)
+            override = object_class_overrides.get(source_number, "")
+            if override:
+                object_classes = [name.strip() for name in override.split("|") if name.strip()]
+            else:
+                derived = mm9_npc_object_class(
                     role,
                     (row.get("Type/Picture") or "").strip(),
                     named_actor=source_number >= 246,
                 )
-            if object_class is None:
+                object_classes = [derived] if derived is not None else []
+            if not object_classes:
                 continue
 
             descriptor_size = descriptor_sizes.get(legacy_actor_id)
@@ -4480,19 +4485,20 @@ def read_mm9_npc_replacements(
                 raise ValueError(
                     f"MM9 NPC replacement {source_number} references missing legacy actor {legacy_actor_id}")
 
-            replacement = Mm9NpcReplacement(
-                source_number=source_number,
-                object_class=object_class,
-                role=role,
-                hit_points=int((row.get("HP") or "0").strip() or "0"),
-                legacy_actor_id=legacy_actor_id,
-                height=descriptor_size[0],
-                radius=descriptor_size[1],
-            )
-            existing = result.get(object_class)
-            if existing is not None and existing != replacement:
-                raise ValueError(f"ambiguous MM9 NPC object class {object_class}")
-            result[object_class] = replacement
+            for object_class in object_classes:
+                replacement = Mm9NpcReplacement(
+                    source_number=source_number,
+                    object_class=object_class,
+                    role=role,
+                    hit_points=int((row.get("HP") or "0").strip() or "0"),
+                    legacy_actor_id=legacy_actor_id,
+                    height=descriptor_size[0],
+                    radius=descriptor_size[1],
+                )
+                existing = result.get(object_class)
+                if existing is not None and existing != replacement:
+                    raise ValueError(f"ambiguous MM9 NPC object class {object_class}")
+                result[object_class] = replacement
 
     return result
 
@@ -4564,6 +4570,28 @@ def mm9_npc_rude_id(values: dict[str, Any]) -> int:
     return 0
 
 
+def mm9_ai_actor_line(values: dict[str, Any], dat_world: DatWorld, scale: float, cache: dict,
+                      row: int | None = None) -> list[str]:
+    """The actor's `mm9_ai` map (mm9_ai_placement.py; devdocs/mm9_rework/monster_ai/PROFILE.md) as one YAML flow
+    line, for a placed object with MM9 AI properties; none otherwise. row: its MONSTERS.txt row."""
+    if "SightDistance" not in values and "HearingDistance" not in values:
+        return []
+    from mm9_ai_placement import placement_ai
+    if "markers" not in cache:
+        cache["markers"] = {}
+        cache["marker_properties"] = {}
+        for world_object in dat_world.objects:
+            object_values = property_map_cased(world_object)
+            name, position = object_values.get("Name"), object_values.get("Pos")
+            if isinstance(name, str) and name and isinstance(position, list) and len(position) == 3:
+                cache["markers"].setdefault(name.lower(), position)
+                cache["marker_properties"].setdefault(name.lower(), object_values)
+        cache["scripts"] = {}
+    placement = placement_ai(values, cache["markers"], lambda position: lt_vec_to_odm_tuple(position, scale),
+                             cache["scripts"], row, cache["marker_properties"], lt_rotation_to_openyamm_yaw_degrees)
+    return [f"      mm9_ai: {json.dumps(placement, separators=(', ', ': '))}"]
+
+
 def build_mm9_npc_actor_lines(
     dat_world: DatWorld,
     scale: float,
@@ -4574,6 +4602,7 @@ def build_mm9_npc_actor_lines(
 ) -> list[str]:
     lines: list[str] = []
     excluded_indices = excluded_source_object_indices or set()
+    mm9_ai_cache: dict = {}
     for object_index, world_object in enumerate(dat_world.objects):
         if object_index in excluded_indices:
             continue
@@ -4608,6 +4637,7 @@ def build_mm9_npc_actor_lines(
             f"      mm9_can_receive_damage: {yaml_scalar(can_receive_damage)}",
             f"      mm9_civilian: {yaml_scalar(not is_guard)}",
             f"      mm9_guard: {yaml_scalar(is_guard)}",
+            *mm9_ai_actor_line(values, dat_world, scale, mm9_ai_cache, replacement.source_number),
             f"      initial_yaw_units: {lt_rotation_to_openyamm_yaw_units(rotation)}",
             f"      immobile: {yaml_scalar(rude_id > 0)}",
             "      attributes: 0",
@@ -4810,6 +4840,7 @@ def build_mm9_monster_actor_lines(
     emitted_source_object_indices: set[int] | None = None,
 ) -> list[str]:
     lines: list[str] = []
+    mm9_ai_cache: dict = {}
     for object_index, world_object in enumerate(dat_world.objects):
         values = property_map_cased(world_object)
         if bool(values.get("CacheOnly", 0)):
@@ -4826,7 +4857,8 @@ def build_mm9_monster_actor_lines(
         if not isinstance(rotation, list) or len(rotation) < 2:
             rotation = [0.0, 0.0, 0.0, 0.0]
 
-        attributes = ACTOR_ATTRIBUTE_AGGRESSOR
+        # Hostility 0 rows (the harmless MM9 animals) are placed friendly, without the aggressor bit.
+        attributes = ACTOR_ATTRIBUTE_AGGRESSOR if replacement.hostility != 0 else 0
         if not bool(values.get("Visible", 1)):
             attributes |= ACTOR_ATTRIBUTE_INVISIBLE
         x, y, z = lt_vec_to_odm_tuple(position, scale)
@@ -4840,6 +4872,7 @@ def build_mm9_monster_actor_lines(
             "      mm9_can_receive_damage: true",
             "      mm9_civilian: false",
             "      mm9_guard: false",
+            *mm9_ai_actor_line(values, dat_world, scale, mm9_ai_cache, replacement.source_number),
             f"      initial_yaw_units: {lt_rotation_to_openyamm_yaw_units(rotation)}",
             "      immobile: false",
             f"      attributes: {attributes}",

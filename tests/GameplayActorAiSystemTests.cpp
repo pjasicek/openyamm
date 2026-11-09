@@ -390,6 +390,45 @@ TEST_CASE("shared actor service makes a berserk monster and every other monster 
     CHECK_FALSE(service.resolveActorTargetPolicy(berserkActor, otherActor).canTarget);
 }
 
+TEST_CASE("shared actor service makes a monster fight back the monster that last hit it")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState victim = {};
+    victim.monsterId = 1;
+    victim.actorId = 0;
+    victim.hostileToParty = true;
+    victim.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState attacker = {};
+    attacker.monsterId = 2;
+    attacker.actorId = 7;
+    attacker.hostileToParty = true;
+    attacker.height = 128;
+
+    // No faction feud: they ignore each other until one is hit.
+    CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
+
+    victim.lastActorAttackerId = 7;
+    const OpenYAMM::Game::GameplayActorTargetPolicyResult strikeBack =
+        service.resolveActorTargetPolicy(victim, attacker);
+    CHECK(strikeBack.canTarget);
+    CHECK_EQ(strikeBack.relationToTarget, 4);
+
+    // Only that attacker, and never one of its own group.
+    OpenYAMM::Game::GameplayActorTargetPolicyState bystander = attacker;
+    bystander.actorId = 8;
+    CHECK_FALSE(service.resolveActorTargetPolicy(victim, bystander).canTarget);
+
+    victim.group = 3;
+    attacker.group = 3;
+    CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
+}
+
 TEST_CASE("shared actor service respects runtime party hostility overrides")
 {
     MonsterTable monsterTable = {};
@@ -561,13 +600,16 @@ TEST_CASE("shared actor AI uses a missile attack outside melee range when the me
     CHECK(*update.animation.animationState == ActorAiAnimationState::AttackRanged);
 }
 
-TEST_CASE("shared actor AI closes in on a far party with only a missile, unless a hit lets it shoot back from there")
+TEST_CASE("shared actor AI closes in on a far party with only a missile")
 {
-    // A Great Wyrm: one missile attack, no blow to fall back on. Beyond the 5120 missile reach it used to shoot.
-    const auto updateAt = [](float edgeDistance, float partyAttackReach)
+    // A Great Wyrm: one missile attack, no blow to fall back on. Beyond the 5120 missile reach it used to shoot; the
+    // party's hits reach no farther, so a hit never lets it shoot from beyond. A world's shorter party reach (MM9's
+    // 4096) shortens its reach at the party too.
+    const auto updateAt = [](float edgeDistance, float partyHitReach = 5120.0f)
     {
         GameplayActorAiSystem system;
         ActorAiFrameFacts frame = makeFrame();
+        frame.partyHitReach = partyHitReach;
         ActorAiFacts actor = makeActor(12, 109);
         actor.world.active = true;
         actor.identity.hostilityType = 4;
@@ -584,7 +626,6 @@ TEST_CASE("shared actor AI closes in on a far party with only a missile, unless 
         actor.target.currentCanSense = true;
         actor.target.currentHasAttackLineOfSight = true;
         actor.target.partyCanSenseActor = true;
-        actor.target.partyAttackReach = partyAttackReach;
         frame.activeActors.push_back(actor);
         const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
         REQUIRE_EQ(result.actorUpdates.size(), 1u);
@@ -592,9 +633,11 @@ TEST_CASE("shared actor AI closes in on a far party with only a missile, unless 
         return *result.actorUpdates.front().state.motionState;
     };
 
-    CHECK(updateAt(7000.0f, 0.0f) == ActorAiMotionState::Pursuing);
-    CHECK(updateAt(7000.0f, 7128.0f) == ActorAiMotionState::Attacking);
-    CHECK(updateAt(4000.0f, 0.0f) == ActorAiMotionState::Attacking);
+    CHECK(updateAt(7000.0f) == ActorAiMotionState::Pursuing);
+    CHECK(updateAt(5200.0f) == ActorAiMotionState::Pursuing);
+    CHECK(updateAt(4000.0f) == ActorAiMotionState::Attacking);
+    CHECK(updateAt(4500.0f, 4096.0f) == ActorAiMotionState::Pursuing);
+    CHECK(updateAt(4000.0f, 4096.0f) == ActorAiMotionState::Attacking);
 }
 
 TEST_CASE("shared actor AI returns to standing presentation when attack impact resolves")

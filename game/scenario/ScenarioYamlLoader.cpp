@@ -62,7 +62,7 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"homing_ends", {"source_monster_id", "hit", "min_count", "max_count", "report"}},
     {"party_health", {"full"}},
     {"item_set_bonus", {"member_index", "set_id", "active"}},
-    {"actor_count", {"name", "monster_id", "boss", "shrunk", "hurt", "hostile", "min", "max"}},
+    {"actor_count", {"name", "monster_id", "boss", "shrunk", "hurt", "hostile", "near", "min", "max"}},
     {"buff", {"spell_id", "present", "member_index", "remaining_min", "remaining_max"}},
     {"turn_based", {"active", "stage", "front_member", "actor_index", "actor_queued", "actor_effect", "effect_min",
         "effect_max", "report"}},
@@ -168,13 +168,16 @@ const std::vector<StepKeys> &stepKeyTable()
             "damage_ratio", "applied_ratio", "recovery_ratio", "min_hit_rate", "max_hit_rate", "min_average",
             "max_average", "report", "attack_spell", "min_weapon_attacks", "max_weapon_attacks"}},
         {ScenarioStepKind::SetRuleset, {"options"}},
-        {ScenarioStepKind::RulesetBanks, {"mm8", "mm7", "mm6", "other", "completed_maps", "dimension_quest_done"}},
+        {ScenarioStepKind::RulesetBanks, {"mm8", "mm7", "mm6", "mm9", "completed_maps", "dimension_quest_done"}},
         {ScenarioStepKind::ConsoleCommand, {"line", "expect_contains"}},
         {ScenarioStepKind::WalkTo, concatKeys({PoseKeys, {"to", "via", "radius", "timeout_seconds", "clear_hostiles",
-            "expect_map", "plan", "node_limit", "close_dialogs", "expect"}})},
+            "expect_map", "plan", "node_limit", "close_dialogs", "expect", "z_tolerance"}})},
         {ScenarioStepKind::ClearHostiles, {"radius", "min"}},
         {ScenarioStepKind::PlayLua, {"source", "max_seconds"}},
-        {ScenarioStepKind::PartyDefeat, {"wait_seconds", "knock_out", "expect_map"}},
+        {ScenarioStepKind::PartyDefeat, {"wait_seconds", "knock_out", "expect_map", "expect_game_over"}},
+        {ScenarioStepKind::Reload, {"name", "expect_blocked"}},
+        {ScenarioStepKind::PickUp, {"item_id", "reach"}},
+        {ScenarioStepKind::Climb, {"ladder", "down", "timeout_seconds"}},
         {ScenarioStepKind::QuickLoad, {"save", "expect", "expect_status"}},
         {ScenarioStepKind::GrantItem, {"item_id", "count", "member_index", "power", "state", "enchant",
             "second_enchant", "special", "rarity", "drop_level", "item_power", "charges", "identified", "equip",
@@ -184,7 +187,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::RightClickPortrait, {"item_id", "carrier_index", "member_index", "inventory", "release",
             "expect"}},
         {ScenarioStepKind::CastSpell, {"member_index", "spell_id", "skill", "mastery", "actor_index", "target_member",
-            "scroll", "expect"}},
+            "target_point", "scroll", "expect"}},
         {ScenarioStepKind::PartyCharge, {"actor_index", "status", "advance_seconds", "min_moved"}},
         {ScenarioStepKind::Craft, {"member_index", "target_item_id", "worn_slot", "material_item_id", "all",
             "choice", "expect"}},
@@ -536,6 +539,24 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "walk_to")
     {
         kind = ScenarioStepKind::WalkTo;
+        return true;
+    }
+
+    if (value == "climb")
+    {
+        kind = ScenarioStepKind::Climb;
+        return true;
+    }
+
+    if (value == "pick_up")
+    {
+        kind = ScenarioStepKind::PickUp;
+        return true;
+    }
+
+    if (value == "reload")
+    {
+        kind = ScenarioStepKind::Reload;
         return true;
     }
 

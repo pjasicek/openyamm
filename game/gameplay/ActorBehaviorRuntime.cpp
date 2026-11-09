@@ -2057,6 +2057,12 @@ float ActorBehaviorRuntime::incomingDamageMultiplier(size_t actorIndex, const Ga
         ? multiplier : 1.0f;
 }
 
+bool ActorBehaviorRuntime::scripted(size_t actorIndex, int16_t monsterId) const
+{
+    return m_instances.contains(actorIndex)
+        || (m_pCatalog != nullptr && m_pCatalog->defaultBehaviorForMonster(monsterId) != nullptr);
+}
+
 bool ActorBehaviorRuntime::invulnerable(size_t actorIndex, ShieldAttackTier tier) const
 {
     const auto iterator = m_instances.find(actorIndex);

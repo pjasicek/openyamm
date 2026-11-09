@@ -244,7 +244,7 @@ steps:
     seconds: 7.0
 - assert:
     mechanism:
-      id: 42
+      id: 38
       state: open
 - assert:
     mechanism:
@@ -574,7 +574,7 @@ steps:
     seconds: 1.0
 - assert:
     mechanism:
-      id: 43
+      id: 39
       state: closed
 - note:
     text: 'The canyon statue (DarkP_CanyonSwitch.scr): a click from its ledge wakes the banshee eyes in pairs and opens the
@@ -621,13 +621,70 @@ steps:
       name: EyesOff
       value: 1
 - note:
+    text: 'The magic carpet from the pit''s floor (lowered for it, README Deviations): walking stops at its edge, a running
+      jump lands on it.'
+- movement_segment:
+    input: forward
+    seconds: 0.6
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -19917
+      y: -17740
+      z: -6554
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -19917
+      y: -17537
+      z: -6554
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 20
+    tolerance_z: 4
+- movement_segment:
+    input: forward
+    jump: true
+    seconds: 0.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: darkpassageway.blv
+      x: -19917
+      y: -17740
+      z: -6554
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: darkpassageway.blv
+      x: -19917
+      y: -17360
+      z: -6487
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 150
+    tolerance_z: 120
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -19917
+      y: -17336
+      radius: 200
+      z_min: -6490
+      z_max: -6484
+- note:
     text: 'The magic carpet (MagicCarpet.scr): a click from the carpet lifts it from the pit''s floor to the statue''s ledge
       (12 LT); from its top the party walks onto the ledge.'
 - set_pose:
     map: darkpassageway.blv
     x: -19917
     y: -17336
-    z: -6409
+    z: -6486
     yaw: 0.0
     pitch: -1.3
 - advance_runtime:
@@ -671,7 +728,7 @@ steps:
     text: 'The spike trap (SpikeTrigger1): stepping onto the flaps tips all four down into the pit.'
 - assert:
     mechanism:
-      id: 37
+      id: 33
       state: closed
 - set_pose:
     map: darkpassageway.blv
@@ -690,10 +747,11 @@ steps:
     seconds: 1.5
 - assert:
     mechanism:
-      id: 37
+      id: 33
       state: open
 - note:
-    text: 'Njam the Meddler''s cameo (Trigger1): he appears two seconds later.'
+    text: 'Njam the Meddler''s cameo (Trigger1): the effect a second later, he appears two more later and walks; after 10-20
+      s the map sends him away (stage 4).'
 - set_pose:
     map: darkpassageway.blv
     x: -7864
@@ -702,11 +760,21 @@ steps:
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
-    seconds: 3.0
+    seconds: 3.5
 - assert:
     state_dump_named_map_var:
       name: NjamShown
       value: 1
+- assert:
+    state_dump_named_map_var:
+      name: NjamStage
+      value: 3
+- advance_runtime:
+    seconds: 21.0
+- assert:
+    state_dump_named_map_var:
+      name: NjamStage
+      value: 4
 - note:
     text: 'The scroll (Givetake.scr ''483''), a world item, picked up: the Scrap of Book.'
 - set_pose:

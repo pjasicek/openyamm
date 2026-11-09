@@ -50,7 +50,7 @@ class GenerateMm9DestructibleBrushInventoryTests(unittest.TestCase):
     def test_checked_in_inventory_is_complete_and_current(self) -> None:
         root = Path(__file__).resolve().parents[2]
         expected = generate_mm9_destructible_brush_inventory.generate_document(
-            root / "assets_dev/worlds/mm9/maps")
+            root / "assets_editor_dev/worlds/mm9/maps")
         actual = (root / "devdocs/mm9/MM9_DESTRUCTIBLE_BRUSH_INVENTORY.md").read_text(encoding="utf-8")
         self.assertEqual(actual, expected)
         self.assertIn("## Map coverage", actual)

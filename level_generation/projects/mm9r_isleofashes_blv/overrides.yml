@@ -9,6 +9,9 @@ map:
   # outdoor_blv.py swimmer_foot; the three far-sea spores moved into the near box)
   # The sea is swum (MM9's BlueWater0 as water_volumes; outdoor_blv.py swimmable_sea): seabed kept, surface non-solid
   swim: true
+  # The user's play-test (2026-11-09): the grown packs and their Skeletoids and Bone Thrashers rising again stopped
+  # the party's progress. 20% fewer grown copies (density.py scale_adds); every raisable actor keeps its rise
+  density_scale: 0.8
   monster_classes: [DragonFlyMite, JellySpore, BoneThrasher, Skeletoid, DragonFly, FireDragonFly, SkullThrowerSmall,
                     SeaMonsterMale]
   painted_minimap: true               # MM9's painted map (catalog entry kept), no outline pass
@@ -74,6 +77,8 @@ terrain:
     ashrock2: grass_patches   # scrub with pale rock patches
     ashdirt3: dirt            # earth with low green plants
   slope: cliff_layered
+  # No grass tufts, flowers or bushes: the meadow does not fit the volcanic isle (the user, 2026-11-09)
+  grass: none
 
 # Ground treasure hints (dungeon/treasure.py, devdocs/mm9_rework/GROUND_TREASURE_PLAN.md section 4): DAT
 # objects whose surroundings count as secrets or bosses (bonus markers), rewarding set dressing, and places

@@ -1,0 +1,46 @@
+# MM9 playthrough, segment 29: Thjorgard's pledge (guide: Chapter I, Thjorgard, the reports). The Raider from
+# Lindisfarne to Thjorgard (two days; outdoors the party is moved), the city's west gate, Sven in his castle: Thjorad
+# handed over, the mine producing again (East Mine, West Mine and the refinery), and he joins the coalition. The
+# rewards come when the talk closes (key 163: 12 000 experience, 6 000 gold, Thjorad taken; key 177: 22 500, 3 000).
+# Research: prep/20_34_thjorgard_guberland.md (segment 26 there).
+#   python3 tests/playthrough/mm9/run.py 29
+id: mm9.playthrough.29_sven_joins
+title: "MM9 playthrough 29: Thjorad and the mine reported; Sven joins the alliance"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/28_tasar_book_of_rules.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lindisfarne.blv, qbit_set: [90031, 90035, 90036, 90037], qbit_clear: [90032, 90033, 90034]}
+  - play_lua: {source: 'if not has_item(10197) then error("no Thjorad") end'}
+
+  # The Raider to Thjorgard; the city's west gate.
+  - travel: {map: thjorgard.blv, days: 2}
+  - set_pose: {map: thjorgard.blv, x: -9300, y: 4392, z: 1951, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -8790, y: 4392, z: 1951, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgardcity.blv}
+
+  # Sven.
+  - set_pose: {map: thjorgardcity.blv, x: 82, y: 20480, z: 3608, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 50}
+  - select_topic: {match_label: "We've retrieved Thjorad."}
+  - select_topic: {match_label: "Here you are."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Your mine is once again producing Thjorad"}
+  - select_topic: {match_label: "That is working also."}
+  - select_topic: {match_label: "We've completed both your quests.  Will you join us now?"}
+  - select_topic: {match_label: "Great!"}
+  - select_topic: {match_label: "Certainly, but we have much work to do before then."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90032, 90033, 90034, 90163, 90177]}
+  - play_lua:
+      source: |
+        if has_item(10197) then error("Sven did not take Thjorad") end
+        log("Sturmford (38), Drangheim (51) and Thjorgard (34) have pledged")
+  - save_game: {name: "29 Thjorgard pledged", path: output/playthrough/mm9/checkpoints/29_sven_joins.oysav}

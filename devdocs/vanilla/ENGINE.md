@@ -79,7 +79,7 @@ There is no ruleset, profile, game mode or campaign concept in the code. Everyth
   are global user settings, not per save.
 - `continent_settings.txt` (MMerge's per-continent rules: reputation, followers, news, death maps, skies, loading
   screens) is the closest thing to a profile today.
-- `namedGlobalVars` already carries flags such as `MMerge.CrossContinents.GotMainQuest`.
+- `namedGlobalVars` already carries flags such as `MMerge.CrossContinents.DragonJoined` (the MM7 hatchling).
 
 ## Hard-coded merged-base assumptions
 

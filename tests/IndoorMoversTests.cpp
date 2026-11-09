@@ -620,7 +620,7 @@ TEST_CASE("ladder: a leaning ladder climbs out from under an overhang that stops
     CHECK(highest > 690.0f);
 }
 
-TEST_CASE("ladder: a grab_at_top ladder is taken from its top exit and climbed down by walking on")
+TEST_CASE("ladder: a grab_at_top ladder is taken at the edge by its top and climbed down by walking on")
 {
     IndoorLadder ladder;
     ladder.bottom = {0.0f, 0.0f, 0.0f};
@@ -628,21 +628,26 @@ TEST_CASE("ladder: a grab_at_top ladder is taken from its top exit and climbed d
     ladder.facingDegrees = 0.0f;
     ladder.width = 120.0f;
     ladder.reach = 48.0f;
-    // The exit is on a floor beside the top, to its left.
+    // The exit is on a floor beside the top, to its left, far enough back that the party walks toward the edge first.
     ladder.topExit = {260.0f, 200.0f, 560.0f};
     const IndoorMoverBody atExit = {260.0f, 200.0f, 560.0f, 37.0f, 160.0f};
-    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atExit, 0.0f, -300.0f));
     ladder.grabAtTop = true;
-    CHECK(indoorLadderCanGrabAtTop(ladder, atExit, 0.0f, -300.0f));
-    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atExit, 0.0f, 300.0f));
-    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atExit, 0.0f, 0.0f));
-    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, {260.0f, 400.0f, 560.0f, 37.0f, 160.0f}, 0.0f, -300.0f));
-    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, {260.0f, 200.0f, 300.0f, 37.0f, 160.0f}, 0.0f, -300.0f));
-    // Held in front of the line just under the top.
-    const bx::Vec3 hold = indoorLadderTopEntryPosition(ladder, atExit);
+    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atExit, 0.0f, -300.0f));
+    // Near the edge: within reach of the strip's top edge (here 40 back and 40 past its end).
+    const IndoorMoverBody atEdge = {260.0f, 100.0f, 560.0f, 37.0f, 160.0f};
+    ladder.grabAtTop = false;
+    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atEdge, 0.0f, -300.0f));
+    ladder.grabAtTop = true;
+    CHECK(indoorLadderCanGrabAtTop(ladder, atEdge, 0.0f, -300.0f));
+    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atEdge, 0.0f, 300.0f));
+    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, atEdge, 0.0f, 0.0f));
+    CHECK_FALSE(indoorLadderCanGrabAtTop(ladder, {260.0f, 100.0f, 300.0f, 37.0f, 160.0f}, 0.0f, -300.0f));
+    // Held in front of the line just under the top, across from the body but a radius inside the strip's end.
+    const bx::Vec3 hold = indoorLadderTopEntryPosition(ladder, atEdge);
     CHECK(hold.z == doctest::Approx(600.0f - IndoorLadderTopEntryDrop));
     CHECK(hold.x == doctest::Approx(292.0f - 41.0f));
-    CHECK(hold.y == doctest::Approx(0.0f));
+    CHECK(hold.y == doctest::Approx(60.0f - 37.0f));
+    CHECK(indoorLadderTopEntryPosition(ladder, {250.0f, 10.0f, 560.0f, 37.0f, 160.0f}).y == doctest::Approx(10.0f));
     // Walking on (away from the exit) descends along the line, walking back toward it climbs; neither strafes.
     const float step = 1.0f / 128.0f;
     const IndoorMoverBody held = {hold.x, hold.y, hold.z, 37.0f, 160.0f};

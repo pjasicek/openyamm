@@ -1,0 +1,35 @@
+# AI arena: the world's awareness of party hits (worlds/mm9/world.yml actorAwareness mm9Provoke range and radius:
+# friends within the radius that the hit monster sees; MM9_MONSTER_AI_PLAN.md "Awareness of the party"). Three
+# Skeletoids (9183) at the pit's north end face away, with short senses (sight 300, x 1.5: 450; hearing 100), so none
+# can perceive the party at the south end. The party first hits Skeletoid 2 from the entry corridor, 4 837 units away
+# (beyond the provoke range): it takes no target. From the pit's south end (2 400 away) it hits Skeletoid 0: provoked,
+# it holds the party, runs at it and strikes; Skeletoid 1, 100 units beside it (within the provoke radius, 128), is
+# provoked with it and comes though it never perceives the party; Skeletoid 2, 700 units off, is beyond the radius and
+# is not provoked. The Embalmed Mummy (9145) in its coffin 150 units behind Skeletoid 0 (dormant until a trigger)
+# sleeps through it all. See README.md.
+name: mm9_provoke
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -3686, 1]
+  yaw_degrees: 90
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9183
+    position: [0, 1100, 1]
+    yaw_degrees: 90
+    mm9_ai: {sight: 300, hearing: 100, runaway_chance: 0}
+  - monster_id: 9183
+    position: [100, 1100, 1]
+    yaw_degrees: 90
+    mm9_ai: {sight: 300, hearing: 100, runaway_chance: 0}
+  - monster_id: 9183
+    position: [-700, 1100, 1]
+    yaw_degrees: 90
+    mm9_ai: {sight: 300, hearing: 100, runaway_chance: 0}
+  - monster_id: 9145
+    position: [0, 1250, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, dormant: {until: trigger, pose: coffin}}

@@ -51,3 +51,24 @@ TEST_CASE("a map refill keeps the scene actors that do not respawn (MM9's Should
     CHECK_EQ(refilled.actors[2].x, 640);
     CHECK_FALSE(refilled.actors[2].respawnsOnRefill);
 }
+
+TEST_CASE("sprite object keys stay with their objects when an earlier object is taken")
+{
+    using OpenYAMM::Game::MapDeltaData;
+    using OpenYAMM::Game::MapDeltaSpriteObject;
+
+    MapDeltaData data = {};
+    data.spriteObjects.resize(3);           // a map's authored objects, or a save from before keys
+    data.spriteObjects[1].objectKey = 7;
+    OpenYAMM::Game::assignSpriteObjectKeys(data);
+    CHECK_EQ(data.spriteObjects[0].objectKey, 8u);
+    CHECK_EQ(data.spriteObjects[1].objectKey, 7u);
+    CHECK_EQ(data.spriteObjects[2].objectKey, 9u);
+
+    data.spriteObjects.erase(data.spriteObjects.begin());   // the party takes the first
+    CHECK_EQ(data.spriteObjects[0].objectKey, 7u);
+    CHECK_EQ(data.spriteObjects[1].objectKey, 9u);
+
+    OpenYAMM::Game::appendSpriteObject(data, MapDeltaSpriteObject{});
+    CHECK_EQ(data.spriteObjects[2].objectKey, 10u);
+}

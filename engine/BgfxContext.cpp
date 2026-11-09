@@ -10,6 +10,7 @@
 #include <dlfcn.h>
 #endif
 
+#include <algorithm>
 #include <cstdarg>
 #include <cstdint>
 #include <cstring>
@@ -18,13 +19,17 @@
 #include <mutex>
 #include <optional>
 #include <utility>
+#include <vector>
 
 namespace OpenYAMM::Engine
 {
 namespace
 {
 std::mutex g_screenshotMutex;
-std::optional<BgfxContext::ScreenshotCapture> g_screenshotCapture;
+// Finished captures not yet consumed, oldest first. A video capture keeps a few frames in flight; an abandoned capture
+// (timed out) is dropped once the list is full.
+constexpr size_t ScreenshotCaptureLimit = 8;
+std::vector<BgfxContext::ScreenshotCapture> g_screenshotCaptures;
 bool g_bgfxInitialized = false;
 
 bgfx::RendererType::Enum selectRendererType(bool useNoopRenderer)
@@ -166,7 +171,13 @@ public:
         }
 
         std::scoped_lock lock(g_screenshotMutex);
-        g_screenshotCapture = std::move(capture);
+
+        if (g_screenshotCaptures.size() >= ScreenshotCaptureLimit)
+        {
+            g_screenshotCaptures.erase(g_screenshotCaptures.begin());
+        }
+
+        g_screenshotCaptures.push_back(std::move(capture));
     }
 
     void captureBegin(uint32_t, uint32_t, uint32_t, bgfx::TextureFormat::Enum, bool) override
@@ -332,13 +343,16 @@ std::optional<BgfxContext::ScreenshotCapture> BgfxContext::consumeScreenshot(con
 {
     std::scoped_lock lock(g_screenshotMutex);
 
-    if (!g_screenshotCapture || g_screenshotCapture->token != token)
+    const auto found = std::find_if(g_screenshotCaptures.begin(), g_screenshotCaptures.end(),
+        [&token](const ScreenshotCapture &capture) { return capture.token == token; });
+
+    if (found == g_screenshotCaptures.end())
     {
         return std::nullopt;
     }
 
-    std::optional<ScreenshotCapture> capture = std::move(g_screenshotCapture);
-    g_screenshotCapture.reset();
+    std::optional<ScreenshotCapture> capture = std::move(*found);
+    g_screenshotCaptures.erase(found);
     return capture;
 }
 

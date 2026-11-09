@@ -2,6 +2,7 @@
 
 #include "game/tables/HouseTable.h"
 #include "game/gameplay/HouseInteraction.h"
+#include "game/items/InventoryBags.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -160,6 +161,41 @@ public:
         uint8_t gridY,
         std::string &statusText,
         ShopItemServiceResult *pResult = nullptr,
+        int effectiveReputation = 0);
+    // Sell trash, on the sell screen of a ruleset with item rarities (MAW, ItemRules::lootFilterFacts): the rules pick
+    // the trash (isSellTrash), the player adds and removes items, and the pick is sold at once.
+    static bool offersSellTrash(const Party &party, const HouseEntry &houseEntry);
+    // What the rules pick from every member's bags: identified items this shop buys and the rules let go.
+    static std::vector<BagItemRef> findSellTrash(
+        const Party &party,
+        const ItemTable &itemTable,
+        const HouseEntry &houseEntry);
+    // Whether the player can add the item to the pick: the shop buys it and the rules let it go.
+    static bool canSellTrashItem(
+        const Party &party,
+        const ItemTable &itemTable,
+        const HouseEntry &houseEntry,
+        const InventoryItem &item);
+    // The item a pick refers to, while it still begins at that cell; none once it is gone.
+    static const InventoryItem *sellTrashItem(const Party &party, const BagItemRef &ref);
+    // The gold the pick brings.
+    static int sellTrashPrice(
+        const Party &party,
+        const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
+        const HouseEntry &houseEntry,
+        const std::vector<BagItemRef> &items,
+        int effectiveReputation = 0);
+    // Sells the pick ("Sold 12 items for 3400 gold."); returns how many were sold.
+    static size_t trySellTrash(
+        Party &party,
+        const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
+        const HouseEntry &houseEntry,
+        const std::vector<BagItemRef> &items,
+        std::string &statusText,
         int effectiveReputation = 0);
     static bool tryIdentifyInventoryItem(
         Party &party,

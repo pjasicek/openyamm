@@ -1,0 +1,32 @@
+# The party's shots and targeted spells reach no farther than MM9's engagement range, 3800 (world.yml actorAwareness
+# partyEngagementRange; GameplayActorService::partyHitReach), where its HUD turns yellow and its hits provoke, in place
+# of every other world's 5120 (the user, 2026-11-09). Isle of Ashes is a BLV open to the sky: its sea
+# (x 9096, z -985) is a flat floor from y -13000 to 2000, so the distances are along the floor. The party walks on it
+# with Water Walk. A Horde Leader (570 HP) 4100 away (within the 4096 the range was before): Slow is refused and a
+# Fire Bolt vanishes before it. Another 3300 away, from the sea's far end: Slow takes and the bolt hurts it.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/party_hit_reach.yml --scenario-no-color
+id: mm9.party_hit_reach
+title: "MM9: party shots and targeted spells stop at the 3800 engagement range, in a BLV map"
+world: mm9
+mode: faithful
+tags: [mm9, combat, spells, projectiles]
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+  - cast_spell: {member_index: 0, spell_id: 27, skill: 10, mastery: 3}
+  # Beyond the reach: 4100 north of the party.
+  - set_pose: {map: isleofashes.blv, x: 9096, y: -13000, z: -985, yaw_degrees: 90, pitch: 0}
+  - spawn_actor: {monster_id: 9131, x: 9000, y: -8900, z: -985}
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 10, mastery: 3, actor_index: last, expect: refused}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 3, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {name: Horde Leader, hurt: true, max: 0}
+  # Within the reach: 3300 south of the party at the sea's north end, far from the first.
+  - set_pose: {map: isleofashes.blv, x: 9096, y: 2000, z: -985, yaw_degrees: -90, pitch: 0}
+  - spawn_actor: {monster_id: 9131, x: 9000, y: -1300, z: -985}
+  - cast_spell: {member_index: 0, spell_id: 35, skill: 10, mastery: 3, actor_index: last}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 3, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {name: Horde Leader, hurt: true, min: 1, max: 1}

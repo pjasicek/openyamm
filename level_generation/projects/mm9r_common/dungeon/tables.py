@@ -4,7 +4,9 @@ The map's rows in the review root's shared tables and the install of the built m
 - engine/data_tables/map_stats.txt: the row of the old map names the BLV;
 - worlds/mm9/data_tables/map_transitions.txt: exits from the map and arrivals into it (moved into the BLV's frame by
   overrides.yml `offset`; arrivals land on the floor; overrides.yml `exits` can reach an exit volume down to a floor);
-- worlds/mm9/ui/maps/catalog.yml: the map's painted MM9 minimap entry is removed (the BLV line map replaces it).
+- worlds/mm9/ui/maps/catalog.yml: the map's painted MM9 map (its 2x image, bounds and floor heights) in the BLV's
+  frame. Every map keeps it (user, 2026-11-09); the Map style setting picks it or the line map where the BLV has
+  outlines.
 
 Shared tables are changed only inside `flock -x locks/review_tables.lock` (fcntl on the same file), read and
 written with newline="" (map_stats mixes CRLF and LF rows: every line keeps its own ending), and installed with
@@ -18,6 +20,8 @@ import os
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
+
+import yaml
 
 import review_root
 
@@ -53,8 +57,10 @@ def read_lines(path: Path) -> list[str]:
 
 def map_stats_text(project, current_text: str) -> str:
     """The current map_stats.txt with the old map's rows (by id, from the frozen original) naming the BLV, with the
-    balance's treasure level where it sets one (tools/mm9_import_discovery/mm9_chest_balance.py MAP_TREASURE_LEVEL)."""
-    from mm9_chest_balance import MAP_STATS_TREASURE_COLUMN, MAP_TREASURE_LEVEL
+    balance's treasure level and disarm difficulty where it sets them (tools/mm9_import_discovery/mm9_chest_balance.py
+    MAP_TREASURE_LEVEL, MAP_DISARM_DIFFICULTY)."""
+    from mm9_chest_balance import (MAP_DISARM_DIFFICULTY, MAP_STATS_LOCK_COLUMN, MAP_STATS_TREASURE_COLUMN,
+                                   MAP_TREASURE_LEVEL)
     replacements = {}
     for line in read_lines(ORIGINAL_TABLES / "map_stats.txt"):
         cells = line.split("\t")
@@ -62,6 +68,8 @@ def map_stats_text(project, current_text: str) -> str:
             cells[2] = project.map
             if project.stem in MAP_TREASURE_LEVEL:
                 cells[MAP_STATS_TREASURE_COLUMN] = str(MAP_TREASURE_LEVEL[project.stem])
+            if project.stem in MAP_DISARM_DIFFICULTY:
+                cells[MAP_STATS_LOCK_COLUMN] = str(MAP_DISARM_DIFFICULTY[project.stem])
             replacements[cells[0]] = "\t".join(cells)
     if not replacements:
         raise SystemExit(f"map_stats.txt has no row for {project.old_map}")
@@ -175,6 +183,8 @@ def transitions_text(project, polygons, current_text: str, facings: dict | None 
 
 # The old import's painted-map catalog: world bounds and floor heights in the old map's frame (LT x 2.56).
 ORIGINAL_CATALOG = ORIGINAL_TABLES / "catalog.yml"
+# Bounds measured against the rebuilt map where MM9's painting does not match MM9's own bounds (same frame).
+MAP_IMAGE_FIT = ORIGINAL_TABLES / "map_image_fit.yml"
 
 
 def _catalog_entries(text: str) -> tuple[list[str], dict[str, list[str]]]:
@@ -190,33 +200,50 @@ def _catalog_entries(text: str) -> tuple[list[str], dict[str, list[str]]]:
     return header, entries
 
 
+def _fitted_entry(stem: str, lines: list[str]) -> list[str]:
+    """The entry with its world bounds replaced by the measured ones in map_image_fit.yml, if the map has them."""
+    fitted = (yaml.safe_load(MAP_IMAGE_FIT.read_text()) or {}).get("maps", {}) if MAP_IMAGE_FIT.exists() else {}
+    if stem not in fitted:
+        return lines
+    bounds = fitted[stem]["world_bounds"]
+    out = []
+    for line in lines:
+        key = line.strip().partition(":")[0]
+        if key in bounds:
+            indent = line[:len(line) - len(line.lstrip())]
+            line = f"{indent}{key}: {bounds[key]:.2f}".rstrip("0").rstrip(".")
+        out.append(line)
+    return out
+
+
 def _offset_entry(lines: list[str], offset) -> list[str]:
     """A catalog entry moved into the BLV's frame: the converter places every point at old - offset, so the painted
-    map's bounds (x, y) and floor heights (z) move by the same amount."""
+    map's bounds (x, y) and floor heights (z) move by the same amount. The texture is the 2x PNG
+    (level_generation/minimaps/mm9_esrgan_20261109); width and height stay the native sizes, which set the zoom."""
     keys = {"min_x": 0, "max_x": 0, "min_y": 1, "max_y": 1, "minimum_z": 2, "maximum_z": 2}
     out = []
     for line in lines:
         key, _, value = line.strip().partition(": ")
+        indent = line[:len(line) - len(line.lstrip())]
         if key in keys and value:
-            indent = line[:len(line) - len(line.lstrip())]
             moved = f"{float(value) - offset[keys[key]]:.2f}".rstrip("0").rstrip(".")
             line = f"{indent}{key}: {moved}"
+        elif key == "- texture" and value.endswith(".pcx"):
+            line = f"{indent}- texture: {value[:-4]}.png"
         out.append(line)
     return out
 
 
 def catalog_text(project, current_text: str) -> str:
-    """The current minimap catalog without the map's entry (its painted MM9 map). A map with `map: {painted_minimap:
-    true}` (an MM9 city or exterior, ../CITY_PLAYBOOK.md) keeps its entry, rewritten from the old import's catalog
-    and moved by the project's offset: the indoor minimap then draws the painted map (IndoorWorldRuntime: a map
-    presentation replaces the line map) and places the party on it by those bounds."""
+    """The current minimap catalog with the map's entry (its painted MM9 map) rewritten from the old import's catalog
+    and moved by the project's offset: the indoor minimap and the journal map draw the painted map (IndoorWorldRuntime;
+    the Map style setting may choose the line map instead where the BLV has outlines) and place the party on it by
+    those bounds. Checked against the built floors by tools/mm9_import_discovery/check_mm9_map_images.py, whose
+    --refine measures the bounds of the maps MM9 painted off its own extent (map_image_fit.yml)."""
     header, entries = _catalog_entries(current_text)
-    if project.overrides["map"].get("painted_minimap"):
-        _, original = _catalog_entries(ORIGINAL_CATALOG.read_text())
-        entries[project.stem] = _offset_entry(original[project.stem], project.offset)
-    else:
-        entries.pop(project.stem, None)
-    return "\n".join(header + [line for lines in entries.values() for line in lines]) + "\n"
+    _, original = _catalog_entries(ORIGINAL_CATALOG.read_text())
+    entries[project.stem] = _offset_entry(_fitted_entry(project.stem, original[project.stem]), project.offset)
+    return "\n".join(header + [line for stem in sorted(entries) for line in entries[stem]]) + "\n"
 
 
 TABLES = {"engine/data_tables/map_stats.txt": "stats", "worlds/mm9/data_tables/map_transitions.txt": "transitions",

@@ -1,0 +1,32 @@
+# AI arena: MM9 dormant starts (MM9_MONSTER_AI_PLAN.md phase 4b). Monsters 0 and 1, an Embalmed and a Canopic Mummy,
+# stand in their coffins (placement dormant: MummyAwaken.scr, until a trigger, pose coffin) in the party's view:
+# they notice nothing. A timed event wakes the first at 4 s (the map trigger's evt.WakeActor); the scenario hits the
+# second at 12 s, which wakes it (MummyAwaken.scr OnDamage WakeUp). Monster 2, a Flying Icky, hangs (its row's
+# FlyingIcky.scr start: disturbed, hang): it notices the party only while it plays its hanging fidget (every 2-10 s),
+# or an alert wakes it; it drops and launches (Launch), then fights on BaseFly. See README.md.
+name: mm9_dormant
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 9145
+    position: [-350, 300, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, dormant: {until: trigger, pose: coffin}}
+  - monster_id: 9144
+    position: [350, 300, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, dormant: {until: trigger, pose: coffin}}
+  - monster_id: 9088
+    position: [0, 900, 500]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, hearing: 50}
+events:
+  - {at: 4, wake: 0, note: the mummy's awaken trigger}

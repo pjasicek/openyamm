@@ -1,0 +1,18 @@
+# AI arena: a placed MM9 monster looks where its placement faces (MM9_AI_NATIVE_RE.md section 5.4). Ruined Temple's
+# map actors are kept (clear_actors: false). The party stands 700 units from the Skeleton (actor 0, yaw 1130 units,
+# about 199 degrees) along its placement facing, in plain view, out of its 369 hearing and within its 1 536 sight. MM9
+# sees it at once. See README.md.
+name: mm9_perception_placed_yaw
+world: mm9
+map: ruinedtemple.blv
+asset_root: output/mm9_rework/assets_dev
+clear_actors: false
+party:
+  position: [-433, -1820, -2416]
+  yaw_degrees: 19
+  pitch_degrees: -3
+  invulnerable: true
+# MM9's own perception of the party (MM9's sight measured), not the world's actorAwareness.
+party_awareness: mm9
+trace: true
+monsters: []

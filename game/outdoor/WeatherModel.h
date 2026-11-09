@@ -50,6 +50,18 @@ struct WeatherMapChances
     // time (Sturmford's rain, Frosgard's snow). Only a kind the map can have; it replaces the daily rolls.
     PrecipitationKind always = PrecipitationKind::None;
     float alwaysPeak = 0.5f;
+    // Daily chances of small, average and dense fog (weather.yml `fog: [small, average, dense]`, percent). Only the
+    // open sky of an indoor map rolls them (IndoorOpenSkyWeather); outdoor maps keep their scene's and MMerge's fog.
+    std::optional<std::array<float, 3>> fogPercent;
+};
+
+// The fog levels a daily fog roll picks (weather.yml `open_sky_fog`).
+enum class WeatherFogLevel : uint8_t
+{
+    None = 0,
+    Small = 1,
+    Average = 2,
+    Dense = 3,
 };
 
 constexpr std::array<float, 3> DefaultRainColor = {0.7f, 0.76f, 0.84f};
@@ -121,6 +133,8 @@ struct WeatherRules
         {2500.0f, 12000.0f}};
     // flakes beside snow and ash (e.g. ember): looks a map's ash_look names, each starting from the ash look.
     std::unordered_map<std::string, WeatherFlakeLook> namedFlakes;
+    // An open sky's small, average and dense fog as a linear fade into the fog colour: [near, far] world units.
+    std::array<std::array<float, 2>, 3> openSkyFog = {{{3072.0f, 14336.0f}, {1024.0f, 8192.0f}, {0.0f, 4096.0f}}};
 
     bool loadFromYaml(const std::string &yamlText, std::string &errorMessage);
     // A named intensity level ("light", "medium", "heavy", "very_heavy"), if defined.
@@ -145,6 +159,8 @@ struct WeatherMapSettings
     // Rain or snow all the time at this peak (weather.yml always), none: the daily rolls.
     PrecipitationKind always = PrecipitationKind::None;
     float alwaysPeak = 0.5f;
+    // Daily chances of small, average and dense fog (percent; weather.yml fog).
+    std::array<float, 3> fogChancePercent = {};
 };
 
 WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t mapId,
@@ -208,6 +224,22 @@ struct WeatherFogDistances
     int32_t weakDistance = 0;
     int32_t strongDistance = 0;
 };
+
+// The fog level a day rolls (weather.yml fog chances). A fog day runs from 3 am to 3 am, as an outdoor map's daily fog.
+WeatherFogLevel rollDailyFog(const WeatherMapSettings &settings, int fogDayIndex);
+int weatherFogDayIndex(double gameMinutes);
+
+// An open sky's fog at a moment as a linear fade [near, far]: the day's level (open_sky_fog), blended from the day
+// before's over the first hour after 3 am. Not foggy on a clear day.
+struct WeatherOpenSkyFog
+{
+    bool foggy = false;
+    float nearDistance = 0.0f;
+    float farDistance = 0.0f;
+};
+
+WeatherOpenSkyFog sampleOpenSkyFog(const WeatherRules &rules, const WeatherMapSettings &settings, double gameMinutes,
+    std::optional<WeatherFogLevel> forcedLevel = std::nullopt);
 
 // MMerge ladder fog (8192 / position, 16192 / position above a third of the ladder), faded in over one ladder step.
 WeatherFogDistances weatherLadderFog(float position, int stateCount);

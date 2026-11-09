@@ -61,10 +61,11 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
     const std::string currentMap = query.currentMap ? lowercaseName(query.currentMap->mapFileName) : std::string();
     const int today = gameDay(query.gameMinutes);
 
-    // Enroth, Antagarich and Jadame, as the worlds came out (map table continents 3, 2 and 1).
-    const std::array<std::pair<uint32_t, std::string_view>, 3> continents = {{{3, Engine::trNoop("Enroth")},
-        {2, Engine::trNoop("Antagarich")}, {1, Engine::trNoop("Jadame")}}};
-    const std::array<const char *, 3> worlds = {"MM6", "MM7", "MM8"};
+    // Enroth, Antagarich, Jadame and Chedian, as the worlds came out (map table continents 3, 2, 1 and 5). Chedian's
+    // card shows only while it has maps: with MM9 installed and its maps given MAW levels.
+    const std::array<std::pair<uint32_t, std::string_view>, 4> continents = {{{3, Engine::trNoop("Enroth")},
+        {2, Engine::trNoop("Antagarich")}, {1, Engine::trNoop("Jadame")}, {5, Engine::trNoop("Chedian")}}};
+    const std::array<const char *, 4> worlds = {"MM6", "MM7", "MM8", "MM9"};
 
     for (size_t continentIndex = 0; continentIndex < continents.size(); ++continentIndex)
     {
@@ -72,7 +73,7 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
         RulesetProgressContinent continent;
         continent.name = continentName;
         continent.world = worlds[continentIndex];
-        continent.levelsBanked = state.continentLevels[MawGameState::continentIndex(continentId)];
+        continent.levelsBanked = state.levelOn(continentId);
 
         for (const MapStatsEntry &map : pMapTable->getEntries())
         {
@@ -169,7 +170,10 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
             }
         }
 
-        summary.continents.push_back(std::move(continent));
+        if (continentId != 5 || !continent.maps.empty())
+        {
+            summary.continents.push_back(std::move(continent));
+        }
     }
 
     const MawDimensionQuest &quest = state.dimensionQuest;

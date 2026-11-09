@@ -2540,7 +2540,7 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
 
     summary.health.baseMaximum = character.maxHealth + character.permanentBonuses.maxHealth;
     summary.health.maximum = calculateEffectiveCharacterMaxHealth(character);
-    summary.health.current = std::clamp(character.health, 0, std::max(0, summary.health.maximum));
+    summary.health.current = std::min(character.health, std::max(0, summary.health.maximum));
 
     summary.spellPoints.baseMaximum = character.maxSpellPoints + character.permanentBonuses.maxSpellPoints;
     summary.spellPoints.maximum = calculateEffectiveCharacterMaxSpellPoints(character);

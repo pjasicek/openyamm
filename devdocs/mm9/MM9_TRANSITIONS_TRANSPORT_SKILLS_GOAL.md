@@ -2,6 +2,32 @@
 
 ## Status
 
+**Checked 2026-11-06 on the review root (`output/mm9_rework/assets_dev`).**
+
+- Map exits: `map_transitions.txt` (105 rows, 44 source maps) names only maps that exist. The positioned-transition
+  runtime runs indoors and outdoors (confirmation, cancel without retrigger, travel days). All 31 rebuilt indoor maps
+  pass their `scenario_doors_exits.yml`; Wizard's Lab has exits but no scenario. Of the 46 exits from outdoor maps, 38
+  pass `--headless-verify-mm9-positioned-transition` (it needs `--world mm9`, else it cannot find MM9's table); 7 never
+  asked for confirmation and Isle of Ashes object 485 retriggered while the party stood inside. Those outdoor maps are
+  being rebuilt as open-air BLVs (`devdocs/mm9_rework/OUTDOOR_BLV_ALL.md`), whose converter rewrites their exit rows
+  and boat arrivals (`outdoor_blv.py rewrite_transport`) as each map installs; recheck the outdoor exits after that.
+- Dock travel stays in the MM9 talk (user decision 2026-11-06): a dock's passage row (one click from the NPC's first
+  menu, e.g. Annud's "We'd like passage.") offers today's boat and a **Schedule** row, which opens the shared transport
+  Schedule popup (`GameplayTransportSchedule`, centred over the talk) with the dock's week from `transport_routes.txt`
+  (`buildMm9TransportSchedule`): a later departure waits for its day and eats a food a day, as at MM6-MM8 docks.
+  Route conditions (raw quest keys, NPC 209's ice) apply to both. The routes' MM9 day index now follows the shared
+  calendar (Monday is MM9's day 2), so a dock sails its Monday boat on the day the game calls Monday; before, it sailed
+  the Saturday boat then.
+- Walking between regions (user decision 2026-11-06): an exit with days on the road whose maps are both top-level
+  areas in map_stats (area 0; `mm9RegionWalk`), such as Sturmford to Drangheim, is MM6-MM8's journey between outdoor
+  maps: it costs `Mm9RegionWalkFood` (5) food whatever its days, guides shorten the road, and the dialogue reads "It
+  will take 2 days to travel to Drangheim." / "Do you wish to leave Sturmford?". Other exits with days (Yorwick into
+  the Connecting Tunnels) state their days and cost a food a day. On the main assets mid-conversion, the converted
+  regions' exit volumes do not yet meet the new geometry (Sturmford object 25 floats about 400 units above the road;
+  Mountain Pass object 122 lies off the map), so this was checked by unit tests, not in play.
+
+The original plan follows.
+
 Planned from a source and runtime audit. MM9 DAT import already discovers positioned exit volumes, MM9 item import
 already emits most Normal-skill books, and RUDE import already exposes travel and mastery-training service opcodes.
 Those records are not yet connected end to end to shared OpenYAMM map-transition, transport, shop, or mastery-training
@@ -338,6 +364,9 @@ teacher row is available only when the active character:
 - is permitted that mastery by the shared class/race cap;
 - satisfies the row's MM9 dialogue conditions; and
 - can pay the single source-defined charge.
+
+Superseded for trainers by the user's decision of 2026-11-05 (`MM9_RUDE_SCR_INTEGRATION.md` "Skills And Mastery"):
+each MM9 trainer teaches every separate skill on its own, with no composite transaction. The original plan follows.
 
 Composite skills follow `MM9_RUDE_SCR_INTEGRATION.md`:
 

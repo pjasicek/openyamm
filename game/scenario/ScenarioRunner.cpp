@@ -6,6 +6,7 @@
 #include "game/debug/AiArena.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -38,6 +39,7 @@ extern "C"
 #include <iomanip>
 #include <iostream>
 #include <limits>
+#include <map>
 #include <memory>
 #include <optional>
 #include <random>
@@ -77,6 +79,8 @@ struct ScenarioExecutionContext
     };
 
     std::unordered_map<std::string, Checkpoint> checkpoints;
+    // play_lua's remember(key, value): kept for the later play_lua steps of the run.
+    std::unordered_map<std::string, std::string> playMemory;
     std::unordered_map<std::string, std::filesystem::path> saveGamePaths;
     // party_attack results by their record name.
     std::unordered_map<std::string, ScenarioPartyAttackResult> attackRecords;
@@ -2448,6 +2452,92 @@ bool executeRecordedEvent(
     return true;
 }
 
+// A party member's `battle_orders: {fallback: weapon|hold, orders: [...]}` (devdocs/BATTLE_ORDERS.md). Each order is
+// `{spell: <table name>}`, `{melee: true}` or `{shoot: true}`, with optional `distance: [min, max]`, `ally_hp_below`
+// and `keep_sp` (percent) and `enabled`.
+bool readScenarioBattleOrders(
+    ScenarioExecutionContext &context,
+    const YAML::Node &node,
+    Character &member,
+    std::string &failure)
+{
+    if (!node.IsMap() || !node["orders"] || !node["orders"].IsSequence() || node["orders"].size() > BattleOrderLimit)
+    {
+        failure = "battle_orders needs an 'orders' list of at most " + std::to_string(BattleOrderLimit);
+        return false;
+    }
+
+    const std::string fallback = node["fallback"].as<std::string>("weapon");
+
+    if (fallback != "weapon" && fallback != "hold")
+    {
+        failure = "battle_orders fallback must be weapon or hold";
+        return false;
+    }
+
+    std::vector<BattleOrder> orders;
+
+    for (const YAML::Node &orderNode : node["orders"])
+    {
+        BattleOrder order;
+
+        if (!orderNode.IsMap() || int(bool(orderNode["spell"])) + int(bool(orderNode["melee"]))
+            + int(bool(orderNode["shoot"])) != 1)
+        {
+            failure = "a battle order needs exactly one of spell, melee or shoot";
+            return false;
+        }
+
+        if (orderNode["spell"])
+        {
+            const SpellEntry *pSpell =
+                context.gameDataLoader.getSpellTable().findByName(orderNode["spell"].as<std::string>());
+
+            if (pSpell == nullptr)
+            {
+                failure = "unknown battle order spell " + orderNode["spell"].as<std::string>();
+                return false;
+            }
+
+            order.kind = BattleOrderKind::Spell;
+            order.spellName = pSpell->name;
+        }
+        else
+        {
+            order.kind = orderNode["melee"] ? BattleOrderKind::Melee : BattleOrderKind::Shoot;
+        }
+
+        order.enabled = orderNode["enabled"].as<bool>(true);
+
+        if (const YAML::Node distance = orderNode["distance"])
+        {
+            if (!distance.IsSequence() || distance.size() != 2)
+            {
+                failure = "battle order distance must be [min, max]";
+                return false;
+            }
+
+            order.distance = BattleOrderDistance{distance[0].as<uint16_t>(), distance[1].as<uint16_t>()};
+        }
+
+        if (orderNode["ally_hp_below"])
+        {
+            order.allyHealthBelowPercent = uint8_t(std::clamp(orderNode["ally_hp_below"].as<int>(), 1, 100));
+        }
+
+        if (orderNode["keep_sp"])
+        {
+            order.keepSpellPointsPercent = uint8_t(std::clamp(orderNode["keep_sp"].as<int>(), 0, 100));
+        }
+
+        orders.push_back(std::move(order));
+    }
+
+    member.battleOrders = std::move(orders);
+    member.battleOrderFallback = fallback == "hold" ? BattleOrderFallback::Hold : BattleOrderFallback::Weapon;
+    return true;
+}
+
 bool readScenarioPartySeed(
     ScenarioExecutionContext &context,
     const YAML::Node &node,
@@ -2525,6 +2615,12 @@ bool readScenarioPartySeed(
                 }
                 member.learnSpell(spellId);
             }
+        }
+        if (memberNode["battle_orders"] && !readScenarioBattleOrders(context, memberNode["battle_orders"], member,
+                                                                     failure))
+        {
+            failure = "party fixture member " + member.name + ": " + failure;
+            return false;
         }
         seed.members.push_back(std::move(member));
     }
@@ -2652,6 +2748,12 @@ bool readScenarioRuleset(
     if (node["bow_disabled"])
     {
         ruleset.options.preferences.bowDisabled = node["bow_disabled"].as<bool>();
+    }
+
+    // other_worlds_loot: random loot rolls equipment from every mounted world's items (on by default; any ruleset).
+    if (node["other_worlds_loot"])
+    {
+        ruleset.options.otherWorldsLoot = node["other_worlds_loot"].as<bool>();
     }
 
     // loot_filter: the loot filter's preset (off, soft, regular, strict, very_strict); loot_filter_ground: filtered
@@ -3195,7 +3297,7 @@ bool runTravel(
         }
 
         std::string failure;
-        if (!context.runtimeDriver->advanceGameMinutes(travelMinutes, failure)
+        if (!context.runtimeDriver->travelDays(travelMinutes / (24.0f * 60.0f), failure)
             || !context.runtimeDriver->loadMap(mapFileName, failure))
         {
             failures.push_back(stepLocation(step) + ": " + failure);
@@ -3662,7 +3764,7 @@ bool runRulesetBanks(
     }
 
     const std::array<double, 4> levels = {step.payload["mm8"].as<double>(0), step.payload["mm7"].as<double>(0),
-        step.payload["mm6"].as<double>(0), step.payload["other"].as<double>(0)};
+        step.payload["mm6"].as<double>(0), step.payload["mm9"].as<double>(0)};
     std::string failure;
 
     if (!context.runtimeDriver->setRulesetBanks(levels, failure))
@@ -3785,6 +3887,10 @@ bool runWalkTo(
     }
 
     request.arriveRadius = step.payload["radius"].as<float>(request.arriveRadius);
+    if (step.payload["z_tolerance"])
+    {
+        request.zTolerance = step.payload["z_tolerance"].as<float>();
+    }
     request.timeoutSeconds = step.payload["timeout_seconds"].as<float>(request.timeoutSeconds);
     request.clearHostilesRadius = step.payload["clear_hostiles"].as<float>(0.0f);
     request.expectMap = step.payload["expect_map"].as<std::string>("");
@@ -3839,7 +3945,9 @@ bool runWalkTo(
 // play_lua: {source, max_seconds}: a player's reasoning over a puzzle or a game, in Lua, run in the scenario (not as a
 // map event), so it may wait and react: click(event_id) runs the map event a click on its prop runs; wait(seconds)
 // lets the world run; status() returns the status lines shown since the last call (" | " between them); qbit(id),
-// has_item(item_id) and mapvar(name) read the state; log(text) prints. A script should decide only from what the
+// has_item(item_id) and mapvar(name) read the state; held() is the item on the cursor (0: none), item_count(item_id) the packs' count of it and pack_items() every pack item ("id x count"), discard(item_id) drops one from the packs (a player making room), door_state(id) is a door's state (as seen);
+// take_chest() presses the open chest's Take All and close() Escape
+// (false when nothing was open); log(text) prints. A script should decide only from what the
 // player sees (status lines, its own keys and items); mapvar is for checks. A Lua error or error() fails the step.
 struct ScenarioPlayContext
 {
@@ -3860,9 +3968,31 @@ int scenarioPlayClick(lua_State *pLuaState)
     const lua_Integer eventId = luaL_checkinteger(pLuaState, 1);
     std::string failure;
 
+    // A talk that greets the party meanwhile (a found-player talk, again after a load) is closed first, as a player
+    // closes it before clicking on.
+    for (int dismissed = 0; dismissed < 3 && !play.pContext->runtimeDriver->saveBlockedReason().empty(); ++dismissed)
+    {
+        if (!play.pContext->runtimeDriver->advanceRuntime(0.05f, failure, true))
+        {
+            break;
+        }
+
+        const ScenarioDialogSnapshot dialog = play.pContext->runtimeDriver->activeDialogSnapshot();
+
+        if (!dialog.active)
+        {
+            break;
+        }
+
+        std::cout << "PLAY dismissed \"" << dialog.title << "\" before click(" << eventId << ")\n";
+        play.pContext->runtimeDriver->closeDialog(failure);
+    }
+
     if (!play.pContext->runtimeDriver->executeMapEvent(uint16_t(eventId), failure))
     {
-        return luaL_error(pLuaState, "click(%d): %s", int(eventId), failure.c_str());
+        const std::string blocked = play.pContext->runtimeDriver->saveBlockedReason();
+        return luaL_error(pLuaState, "click(%d): %s%s", int(eventId), failure.c_str(),
+            blocked.empty() ? "" : (" (" + blocked + ")").c_str());
     }
 
     return 0;
@@ -3948,6 +4078,240 @@ int scenarioPlayMapVar(lua_State *pLuaState)
     return 1;
 }
 
+// The party members' class names in order, separated by spaces ("Knight Cleric Thief Sorcerer").
+int scenarioPlayClasses(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    std::string text;
+
+    if (pParty != nullptr)
+    {
+        for (const Character &member : pParty->members())
+        {
+            text += (text.empty() ? "" : " ") + member.className;
+        }
+    }
+
+    lua_pushstring(pLuaState, text.c_str());
+    return 1;
+}
+
+// The party for a log line: the active member's index, then each member's name, actual Might, recovery and condition
+// bits.
+int scenarioPlayParty(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    std::string text;
+
+    if (pParty != nullptr)
+    {
+        text = "active " + std::to_string(pParty->activeMemberIndex()) + ":";
+
+        for (const Character &member : pParty->members())
+        {
+            const int might = GameMechanics::resolveCharacterDisplayedActualPrimaryStat(
+                member,
+                uint32_t(EvtVariable::ActualMight),
+                pParty->itemTable(),
+                pParty->standardItemEnchantTable(),
+                pParty->specialItemEnchantTable());
+            text += " " + member.name + " (might " + std::to_string(might) + ", recovery "
+                + scenarioFloat(member.recoverySecondsRemaining) + " s, conditions " + member.conditions.to_string()
+                + ")";
+        }
+    }
+
+    lua_pushstring(pLuaState, text.c_str());
+    return 1;
+}
+
+// A party member's conditions (index from 0), space-separated names ("Weak Insane"; "" when none).
+int scenarioPlayConditions(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    const Character *pMember = pParty != nullptr ? pParty->member(size_t(luaL_checkinteger(pLuaState, 1))) : nullptr;
+    std::string text;
+
+    if (pMember != nullptr)
+    {
+        for (const auto &[pName, condition] : CharacterConditionNames)
+        {
+            if (pMember->conditions.test(size_t(condition)))
+            {
+                text += (text.empty() ? "" : " ") + std::string(pName);
+            }
+        }
+    }
+
+    lua_pushstring(pLuaState, text.c_str());
+    return 1;
+}
+
+// The party's gold.
+int scenarioPlayGold(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    lua_pushinteger(pLuaState, pParty != nullptr ? lua_Integer(pParty->gold()) : 0);
+    return 1;
+}
+
+// remember(key, value) keeps a value (as text) for later play_lua steps of the run; recall(key) gives it back (nil:
+// never remembered). Numbers come back as numbers.
+int scenarioPlayRemember(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const std::string key = luaL_checkstring(pLuaState, 1);
+    play.pContext->playMemory[key] = luaL_tolstring(pLuaState, 2, nullptr);
+    return 0;
+}
+
+int scenarioPlayRecall(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const auto iterator = play.pContext->playMemory.find(luaL_checkstring(pLuaState, 1));
+
+    if (iterator == play.pContext->playMemory.end())
+    {
+        lua_pushnil(pLuaState);
+    }
+    else if (lua_stringtonumber(pLuaState, iterator->second.c_str()) == 0)
+    {
+        lua_pushstring(pLuaState, iterator->second.c_str());
+    }
+
+    return 1;
+}
+
+// A party member's experience (index from 0).
+int scenarioPlayExperience(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    const Character *pMember = pParty != nullptr ? pParty->member(size_t(luaL_checkinteger(pLuaState, 1))) : nullptr;
+    lua_pushinteger(pLuaState, pMember != nullptr ? lua_Integer(pMember->experience) : 0);
+    return 1;
+}
+
+int scenarioPlayItemCount(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    lua_pushinteger(pLuaState,
+        pParty != nullptr ? pParty->inventoryItemCount(uint32_t(luaL_checkinteger(pLuaState, 1))) : 0);
+    return 1;
+}
+
+int scenarioPlayPackItems(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    std::map<uint32_t, uint32_t> counts;
+
+    if (pParty != nullptr)
+    {
+        for (const Character &member : pParty->members())
+        {
+            for (const InventoryItem &item : member.inventory)
+            {
+                counts[item.objectDescriptionId] += std::max<uint32_t>(1, item.quantity);
+            }
+        }
+    }
+
+    std::string text;
+
+    for (const auto &[itemId, count] : counts)
+    {
+        text += (text.empty() ? "" : " ") + std::to_string(itemId) + "x" + std::to_string(count);
+    }
+
+    lua_pushstring(pLuaState, text.c_str());
+    return 1;
+}
+
+int scenarioPlayDiscard(lua_State *pLuaState)
+{
+    // A player dropping a spare item out of the packs to make room (gone, not a quest step).
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    Party *pParty = play.pContext->runtimeDriver->party();
+    lua_pushboolean(pLuaState, pParty != nullptr && pParty->removeItem(uint32_t(luaL_checkinteger(pLuaState, 1))));
+    return 1;
+}
+
+// A player putting the item on the cursor into the packs (the game's own placement, the active member first, then the
+// others): true when placed; false when the cursor is empty or the item fits nobody.
+int scenarioPlayStow(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    lua_pushboolean(pLuaState, play.pContext->runtimeDriver->placeHeldItemInAnyMemberInventory());
+    return 1;
+}
+
+std::string scenarioMechanismStateText(uint16_t state);
+
+int scenarioPlayDoorState(lua_State *pLuaState)
+{
+    // What a player sees of a door: "open", "closed", "opening", "closing" ("none": no such door).
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const EventRuntimeState *pState = play.pContext->runtimeDriver->eventRuntimeState();
+    const uint32_t doorId = uint32_t(luaL_checkinteger(pLuaState, 1));
+    std::string text = "none";
+
+    if (pState != nullptr)
+    {
+        const auto found = pState->mechanisms.find(doorId);
+
+        if (found != pState->mechanisms.end())
+        {
+            text = scenarioMechanismStateText(found->second.state);
+        }
+    }
+
+    lua_pushstring(pLuaState, text.c_str());
+    return 1;
+}
+
+int scenarioPlayHeld(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    lua_pushinteger(pLuaState, play.pContext->runtimeDriver->heldCursorItemId());
+    return 1;
+}
+
+int scenarioPlayTakeChest(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    std::string failure;
+    lua_pushboolean(pLuaState, play.pContext->runtimeDriver->takeAllFromOpenChest(failure));
+    return 1;
+}
+
+int scenarioPlayClose(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    std::string failure;
+    lua_pushboolean(pLuaState, play.pContext->runtimeDriver->closeDialog(failure));
+    return 1;
+}
+
+// clear_hostiles(radius): kills the party's enemies within the radius (the run's rule), returns how many.
+int scenarioPlayClearHostiles(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    size_t killed = 0;
+    std::string failure;
+    if (!play.pContext->runtimeDriver->killHostilesNear(float(luaL_optnumber(pLuaState, 1, 2048.0)), killed, failure))
+    {
+        return luaL_error(pLuaState, "clear_hostiles: %s", failure.c_str());
+    }
+    lua_pushinteger(pLuaState, lua_Integer(killed));
+    return 1;
+}
+
 int scenarioPlayLog(lua_State *pLuaState)
 {
     std::cout << "PLAY " << luaL_checkstring(pLuaState, 1) << '\n';
@@ -3981,16 +4345,57 @@ bool runPlayLua(
     luaL_requiref(pLuaState, LUA_TABLIBNAME, luaopen_table, 1);
     luaL_requiref(pLuaState, LUA_MATHLIBNAME, luaopen_math, 1);
     lua_settop(pLuaState, 0);
-    const std::array<std::pair<const char *, lua_CFunction>, 7> functions = {{
+    const std::array<std::pair<const char *, lua_CFunction>, 23> functions = {{
+        {"clear_hostiles", scenarioPlayClearHostiles}, {"party", scenarioPlayParty}, {"held", scenarioPlayHeld},
+        {"stow", scenarioPlayStow}, {"conditions", scenarioPlayConditions},
+        {"item_count", scenarioPlayItemCount}, {"pack_items", scenarioPlayPackItems},
+        {"classes", scenarioPlayClasses}, {"experience", scenarioPlayExperience}, {"gold", scenarioPlayGold},
+        {"remember", scenarioPlayRemember}, {"recall", scenarioPlayRecall},
+        {"discard", scenarioPlayDiscard}, {"door_state", scenarioPlayDoorState},
         {"click", scenarioPlayClick}, {"wait", scenarioPlayWait}, {"status", scenarioPlayStatus},
         {"qbit", scenarioPlayQBit}, {"has_item", scenarioPlayHasItem}, {"mapvar", scenarioPlayMapVar},
-        {"log", scenarioPlayLog}}};
+        {"take_chest", scenarioPlayTakeChest}, {"close", scenarioPlayClose}, {"log", scenarioPlayLog}}};
 
     for (const auto &[pName, function] : functions)
     {
         lua_pushlightuserdata(pLuaState, &play);
         lua_pushcclosure(pLuaState, function, 1);
         lua_setglobal(pLuaState, pName);
+    }
+
+    // open_door(event_id, door_id): a player's way through a door that closes by itself or that monsters also open
+    // (a click while it moves does nothing): wait until it stops, click its event if it is shut, wait until it opens.
+    // A monster in its swing holds an opening door, so the party's enemies near it are killed while it waits.
+    // loot_chest(event_id): opens a chest and takes all; a trap the party cannot disarm goes off on the first click
+    // and leaves the chest shut, so it clicks again, as a player does.
+    static constexpr std::string_view PlayPreludeSource = R"lua(
+local function settledDoor(door)
+  for _ = 1, 120 do
+    local state = door_state(door)
+    if state == "open" or state == "closed" then return state end
+    clear_hostiles(1500)
+    wait(0.25)
+  end
+  error("door " .. door .. " never stopped moving: " .. door_state(door), 3)
+end
+function open_door(event, door)
+  if settledDoor(door) == "closed" then click(event) end
+  if settledDoor(door) ~= "open" then error("door " .. door .. " did not open from event " .. event, 2) end
+end
+function loot_chest(event)
+  for _ = 1, 3 do
+    click(event); wait(1)
+    if take_chest() then close(); return end
+  end
+  error("chest event " .. event .. " never opened: " .. status(), 2)
+end
+)lua";
+
+    if (luaL_loadbuffer(pLuaState, PlayPreludeSource.data(), PlayPreludeSource.size(), "=play_prelude") != LUA_OK
+        || lua_pcall(pLuaState, 0, 0, 0) != LUA_OK)
+    {
+        failures.push_back(stepLocation(step) + ": play_lua prelude: " + std::string(lua_tostring(pLuaState, -1)));
+        return false;
     }
 
     const std::string chunkName = "@" + stepLocation(step);
@@ -4033,13 +4438,170 @@ bool runPartyDefeat(
     }
 
     syncContextFromRuntime(context);
-    std::cout << "DEFEAT the party woke on " << context.runtimeDriver->currentMapFileName() << '\n';
-    const std::string expected = step.payload["expect_map"].as<std::string>("");
+    const bool gameOver = destination == "game over";
+    const bool expectGameOver = step.payload["expect_game_over"].as<bool>(false);
+
+    if (gameOver)
+    {
+        // The world's game over (world.yml partyDeath `when`); the game would show its movie and load the autosave.
+        std::cout << "DEFEAT game over (the autosave would load)\n";
+    }
+    else
+    {
+        std::cout << "DEFEAT the party woke on " << context.runtimeDriver->currentMapFileName() << '\n';
+    }
+
+    if (gameOver != expectGameOver)
+    {
+        failures.push_back(stepLocation(step) + (gameOver ? ": the defeat was a game over" : ": the party woke on "
+            + context.runtimeDriver->currentMapFileName() + ", expected a game over"));
+        return false;
+    }
+
+    const std::string expected = gameOver ? std::string() : step.payload["expect_map"].as<std::string>("");
 
     if (!expected.empty() && lowerAscii(expected) != lowerAscii(context.runtimeDriver->currentMapFileName()))
     {
         failures.push_back(stepLocation(step) + ": the party woke on " + context.runtimeDriver->currentMapFileName()
             + ", expected " + expected);
+        return false;
+    }
+
+    return true;
+}
+
+// reload: {name}: saves the game and loads it straight back, as a player who saves and reloads there would
+// (tests/playthrough/mm9/run.py --reload inserts it to find state a save and load loses), then dismisses what greets
+// the party on arrival. Skipped, and said so, while a player could not save: a dialogue, a chest, a cinematic or a map
+// move in progress.
+bool runReload(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    const std::string blocked = context.runtimeDriver->saveBlockedReason();
+    // expect_blocked: the reload must be refused, its reason containing this text (a map that forbids saving).
+    const std::string expectBlocked =
+        step.payload.IsMap() ? step.payload["expect_blocked"].as<std::string>("") : std::string();
+
+    if (!expectBlocked.empty() && blocked.find(expectBlocked) == std::string::npos)
+    {
+        failures.push_back(stepLocation(step) + ": reload expected to be refused (\"" + expectBlocked + "\"), "
+            + (blocked.empty() ? std::string("but the party could save") : "but: " + blocked));
+        return false;
+    }
+
+    if (!blocked.empty())
+    {
+        std::cout << "RELOAD skipped at step " << step.stepIndex << ": " << blocked << '\n';
+        return true;
+    }
+
+    std::error_code errorCode;
+    std::filesystem::create_directories(context.saveGameRootPath, errorCode);
+    const std::filesystem::path path = context.saveGameRootPath / "reload.oysav";
+    std::string failure;
+
+    if (!context.runtimeDriver->saveGameToPath(path, "reload", failure)
+        || !context.runtimeDriver->loadGameFromPath(path, failure))
+    {
+        failures.push_back(stepLocation(step) + ": reload: " + failure);
+        return false;
+    }
+
+    // As a player who has just loaded: what greets the party on arrival (a found-player talk) opens and is dismissed.
+    for (int dismissed = 0; dismissed < 3; ++dismissed)
+    {
+        if (!context.runtimeDriver->advanceRuntime(0.5f, failure, true))
+        {
+            failures.push_back(stepLocation(step) + ": reload: " + failure);
+            return false;
+        }
+
+        const ScenarioDialogSnapshot dialog = context.runtimeDriver->activeDialogSnapshot();
+
+        if (!dialog.active)
+        {
+            break;
+        }
+
+        std::cout << "RELOAD dismissed \"" << dialog.title << "\" after the load\n";
+        context.runtimeDriver->closeDialog(failure);
+    }
+
+    syncContextFromRuntime(context);
+    std::cout << "RELOAD ok at step " << step.stepIndex << " on " << context.runtimeDriver->currentMapFileName() << '\n';
+    return true;
+}
+
+// climb: {ladder, down, timeout_seconds}: walks to a ladder and climbs it with the movement keys
+// (ScenarioRuntimeDriver::climbLadder); the party must leave it at its other end.
+bool runClimb(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    std::vector<std::string> trail;
+    std::string failure;
+    const bool climbed = context.runtimeDriver->climbLadder(step.payload["ladder"].as<std::string>(""),
+        step.payload["down"].as<bool>(false), step.payload["timeout_seconds"].as<float>(30.0f), trail, failure);
+    syncContextFromRuntime(context);
+
+    for (const std::string &line : trail)
+    {
+        std::cout << "CLIMB " << line << '\n';
+    }
+
+    if (!climbed)
+    {
+        failures.push_back(stepLocation(step) + ": climb: " + failure);
+        return false;
+    }
+
+    return true;
+}
+
+// pick_up: {item_id, reach}: takes an item lying in the map as a player does (ScenarioRuntimeDriver::pickUpWorldItem):
+// within reach (default 400) of the party's eye, the camera turned at it, the use key; the item must reach the party.
+bool runPickUp(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    const uint32_t itemId = step.payload["item_id"].as<uint32_t>(0);
+    std::string log;
+    std::string failure;
+
+    if (!context.runtimeDriver->pickUpWorldItem(itemId, step.payload["reach"].as<float>(400.0f), log, failure))
+    {
+        failures.push_back(stepLocation(step) + ": pick_up: " + failure);
+        return false;
+    }
+
+    std::string advanceFailure;
+    context.runtimeDriver->advanceRuntime(0.2f, advanceFailure);
+    syncContextFromRuntime(context);
+    std::cout << "PICKUP " << log << '\n';
+    const Party *pParty = context.runtimeDriver->party();
+
+    if (pParty == nullptr || !pParty->hasItemAnywhere(itemId))
+    {
+        failures.push_back(stepLocation(step) + ": pick_up: item " + std::to_string(itemId) + " did not reach the party");
         return false;
     }
 
@@ -4219,6 +4781,18 @@ bool runCastSpell(
     if (step.payload["target_member"])
     {
         request.targetMemberIndex = step.payload["target_member"].as<size_t>();
+    }
+
+    if (const YAML::Node pointNode = step.payload["target_point"])
+    {
+        if (!pointNode.IsSequence() || pointNode.size() != 3)
+        {
+            failures.push_back(stepLocation(step) + ": cast_spell target_point must be [x, y, z]");
+            return false;
+        }
+
+        request.targetPoint = std::array<float, 3>{pointNode[0].as<float>(), pointNode[1].as<float>(),
+            pointNode[2].as<float>()};
     }
 
     bool cast = false;
@@ -5032,8 +5606,7 @@ bool assertDimensionDoor(
 
     bool success = true;
 
-    for (const auto &[pKey, actual] : {std::pair("pending", pState->pendingDimensionDoorOverlay),
-             std::pair("without_quest", pState->pendingDimensionDoorWithoutQuest)})
+    for (const auto &[pKey, actual] : {std::pair("pending", pState->pendingDimensionDoorOverlay)})
     {
         if (node[pKey] && node[pKey].as<bool>() != actual)
         {
@@ -6454,6 +7027,20 @@ bool runAnswerInput(
 
     ScenarioInputPromptAnswerResult answerResult = {};
     std::string failure;
+
+    // A bank's amount box (Deposit, Withdraw) is the house's own input, not an event prompt: typed and confirmed there.
+    if (context.runtimeDriver->houseBankInputActive())
+    {
+        if (!context.runtimeDriver->answerHouseBankInput(text, failure))
+        {
+            failures.push_back(stepLocation(step) + ": " + failure);
+            return false;
+        }
+
+        syncContextFromRuntime(context);
+        std::cout << "BANK entered " << text << '\n';
+        return true;
+    }
 
     if (!context.runtimeDriver->answerPendingInputPrompt(text, answerResult, failure))
     {
@@ -9237,7 +9824,7 @@ bool assertAiTrace(
             : std::find(decisions.begin(), decisions.end(), entry.name) != decisions.end();
 
         if ((!actorIndex || entry.actorIndex == *actorIndex) && entry.decision == !decisions.empty() && nameMatches
-            && (target.empty() || entry.target == target)
+            && (target.empty() || entry.target == target || entry.target.starts_with(target + ":"))
             && (detail.empty() || entry.detail.find(detail) != std::string::npos)
             && entry.timeSeconds >= after && entry.timeSeconds <= before)
         {
@@ -9311,7 +9898,8 @@ bool assertAiTrace(
     return true;
 }
 
-// actor_count: {name, monster_id, boss, shrunk, hurt, hostile, min, max}: the living actors of the map that match.
+// actor_count: {name, monster_id, boss, shrunk, hurt, hostile, near: [x, y, radius], min, max}: the living actors of the
+// map that match; `near` keeps those standing within `radius` of (x, y).
 bool assertActorCount(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -9342,6 +9930,14 @@ bool assertActorCount(
     const std::optional<bool> hurt = optionalFlag("hurt");
     // Hostile to the party.
     const std::optional<bool> hostile = optionalFlag("hostile");
+    const YAML::Node nearNode = countNode["near"];
+
+    if (nearNode && (!nearNode.IsSequence() || nearNode.size() != 3))
+    {
+        failures.push_back(stepLocation(step) + ": actor_count near must be [x, y, radius]");
+        return false;
+    }
+
     size_t matches = 0;
 
     for (size_t actorIndex = 0; actorIndex < context.runtimeDriver->mapActorCount(); ++actorIndex)
@@ -9362,7 +9958,10 @@ bool assertActorCount(
             && (!boss || (inspectState.rulesetFacts.bossAffix != 0) == *boss)
             && (!shrunk || (inspectState.shrinkRemainingSeconds > 0.0f) == *shrunk)
             && (!hurt || (inspectState.currentHp < inspectState.maxHp) == *hurt)
-            && (!hostile || (hasRuntimeState && runtimeState.hostileToParty == *hostile)))
+            && (!hostile || (hasRuntimeState && runtimeState.hostileToParty == *hostile))
+            && (!nearNode || (hasRuntimeState
+                && std::hypot(runtimeState.preciseX - nearNode[0].as<float>(),
+                    runtimeState.preciseY - nearNode[1].as<float>()) <= nearNode[2].as<float>())))
         {
             ++matches;
         }
@@ -11471,6 +12070,15 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::PlayLua:
             stepSuccess = runPlayLua(context, step, result.failures);
+            break;
+        case ScenarioStepKind::Climb:
+            stepSuccess = runClimb(context, step, result.failures);
+            break;
+        case ScenarioStepKind::PickUp:
+            stepSuccess = runPickUp(context, step, result.failures);
+            break;
+        case ScenarioStepKind::Reload:
+            stepSuccess = runReload(context, step, result.failures);
             break;
         case ScenarioStepKind::PartyDefeat:
             stepSuccess = runPartyDefeat(context, step, result.failures);

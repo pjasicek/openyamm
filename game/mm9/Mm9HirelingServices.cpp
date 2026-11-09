@@ -5,6 +5,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/Party.h"
+#include "game/rules/GameRules.h"
 
 #include <algorithm>
 #include <array>
@@ -52,6 +53,11 @@ Mm9HireOutcome hireMm9Hireling(Party &party, const Mm9Hireling &row)
     if (!party.canAddHireling(row))
     {
         return Mm9HireOutcome::Refused;
+    }
+
+    if (row.kind == Mm9HirelingKind::Paid && party.rules().classes.paidHirelingRefusal())
+    {
+        return Mm9HireOutcome::Declines;
     }
 
     const int fee = row.kind == Mm9HirelingKind::Paid ? std::max(0, row.hireFee) : 0;

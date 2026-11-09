@@ -723,15 +723,10 @@ void GameplayScreenController::updateRestOverlayProgress(
     {
         IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
         pWorldRuntime->advanceGameMinutes(advancedMinutes);
-        EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
         Party *pParty = context.party();
         if (pParty != nullptr)
         {
             pParty->advanceTimedStates(advancedMinutes * 60.0f);
-        }
-        if (pEventRuntimeState != nullptr && pParty != nullptr)
-        {
-            context.itemService().updateConnectorStoneRecharge(*pParty, *pEventRuntimeState, pWorldRuntime->gameMinutes());
         }
         restScreen.remainingMinutes = std::max(0.0f, restScreen.remainingMinutes - advancedMinutes);
     }
@@ -1071,7 +1066,8 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
 
     // Keys typed into the journal or inventory search are text, not journal shortcuts.
     const bool journalTyping = GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
-        || GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly());
+        || GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly());
     const bool mapShortcutPressed = !journalTyping
         && (input.isScancodeHeld(SDL_SCANCODE_M) || input.action(KeyboardAction::MapBook).held)
         && !(input.action(KeyboardAction::SkillManaShield).held

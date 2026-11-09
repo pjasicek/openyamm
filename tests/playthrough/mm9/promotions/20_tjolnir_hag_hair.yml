@@ -1,0 +1,89 @@
+# MM9 promotion playthrough, segment 20: the Healer quest taken and the Old Hag's hair (guide: side_b.yml
+# heal-nutty-nurtigan). To Guberland (outdoors the party is moved), the city gate; in the temple Tjolnir the
+# Super-neat (RUDE 128) gives the quest (his exit: key 2083 -> 206); at Eye of Newt Skarphedinn Njalssen (RUDE 142)
+# wants a lock of the Old Hag's hair. Out of the city to Hjordisa the Hag's stool on the shore: the Lock of Hair
+# (item 240) lies there as a world item and is picked up. Back to Skarphedinn: his click with the hair gives key 207,
+# "We've got a lock of the hag's hair." (208) and his exit takes the hair and starts the potion's two hours.
+# Research: prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 20
+id: mm9.promotions.20_tjolnir_hag_hair
+title: "MM9 promotions 20: Tjolnir's Healer quest, Skarphedinn's cure, the Old Hag's hair handed in"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/15_champion.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_clear: [90206, 90207, 90208, 90211, 90213, 92083]}
+  - play_lua:
+      source: |
+        log("CLASSES at the start: " .. classes())
+        if has_item(10240) or has_item(10558) then error("the hair or the potion is already in the packs") end
+
+  # To Guberland (from Sturmford, where block A ends, by sea), the city gate.
+  - travel: {map: guberland.blv, days: 3}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+
+  # Tjolnir the Super-neat in the temple on the city's west side.
+  - set_pose: {map: guberlandcity.blv, x: -4751, y: -6950, z: 62, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 11}
+  - select_topic: {match_label: "We are seeking promotion from Initiate to Healer."}
+  - select_topic: {match_label: "We have worthy Initiates."}
+  - select_topic: {match_label: "What do you want us to do?"}
+  - select_topic: {match_label: "We will take this quest."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [92083, 90206]}
+
+  # Skarphedinn Njalssen in Eye of Newt, the apothecary at the city's south-east.
+  - set_pose: {map: guberlandcity.blv, x: 2499, y: -12800, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 19}
+  - select_topic: {match_label: "We've come to speak to you about Nutty Nurtigan."}
+  - select_topic: {match_label: "We need a way to cure him."}
+  - select_topic: {match_label: "It will be done."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90478], qbit_clear: [90207]}
+
+  # Out by the city gate (its only one); Hjordisa the Hag's stool on the south-east shore: the Lock of Hair.
+  - set_pose: {map: guberlandcity.blv, x: -655, y: -287, z: -9, yaw: 1.5708, pitch: 0}
+  - walk_to: {x: -655, y: -41, z: -9, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+  - set_pose: {map: guberland.blv, x: 13850, y: -21200, z: 160, yaw: -0.785, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 3000}
+  - pick_up: {item_id: 10240}
+  - play_lua:
+      source: |
+        if not has_item(10240) then error("no Lock of Hair") end
+        log("the Old Hag's Lock of Hair is in the pack")
+
+  # Back to the city and Skarphedinn: the hair handed in, the potion ready in two hours.
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+  - set_pose: {map: guberlandcity.blv, x: 2499, y: -12800, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 19}
+  - select_topic: {match_label: "We've got a lock of the hag's hair."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90207, 90208], qbit_clear: [90209]}
+  - play_lua:
+      source: |
+        if has_item(10240) then error("Skarphedinn did not take the hair") end
+        if mapvar("PotionReadyAt") <= 0 then error("the potion was not started") end
+        log("Skarphedinn took the hair; the potion is ready two hours on")
+  - save_game: {name: "20 the hag's hair", path: output/playthrough/mm9/promotions/checkpoints/20_tjolnir_hag_hair.oysav}

@@ -1,0 +1,20 @@
+# AI arena: the reposition modifier's back-off. An Evil Sorcerer (9157) posted at (0, 600) casts at the party; at 4 s
+# the party runs at it (about 600 units a second) and stops 350 units short, outside its reach. Rushed within its
+# 640 trigger distance, the sorcerer backpedals 384 units to a spot the world found room for (its backpedal clip),
+# then casts. See README.md.
+name: mm9_reposition_rush
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9157
+    position: [0, 600, 1]
+    yaw_degrees: 270
+events:
+  - {at: 4, party_walk: {to: [0, 250, 1], seconds: 1.9}}

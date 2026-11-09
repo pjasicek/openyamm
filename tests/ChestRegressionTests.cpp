@@ -1026,35 +1026,79 @@ TEST_CASE("chest open requests are one-shot transient event outputs")
     CHECK(runtimeState.openedChestIds.empty());
 }
 
-TEST_CASE("a treasure-markers-items-only world's markers always give an item")
+TEST_CASE("treasure marker gold follows the marker level, or the item tier in a groundGoldByItemTier world")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Game::ItemTable itemTable = gameData.itemTable;
-    int items = 0;
-    int goldOrNothing = 0;
+    itemTable.setGroundGoldByItemTierWorlds({"mm9"});
 
-    for (uint32_t spawnIndex = 0; spawnIndex < 200; ++spawnIndex)
+    // A level-3 marker on a treasure level 1 map gives T2 items: MM8's gold heaps are level 3's (200-500), MM9's T2's
+    // (100-200).
+    for (const std::string worldId : {"mm8", "mm9"})
     {
-        const std::optional<OpenYAMM::Game::GameplayTreasureSpawnResult> plain =
-            OpenYAMM::Game::generateTreasureSpawnItem(
-                3, 3, 4321, 0, spawnIndex, itemTable, gameData.standardItemEnchantTable,
-                gameData.specialItemEnchantTable, nullptr, "mm8", {});
-        goldOrNothing += !plain.has_value() || plain->isGold ? 1 : 0;
+        const uint32_t lowest = worldId == "mm9" ? 100u : 200u;
+        const uint32_t highest = worldId == "mm9" ? 200u : 500u;
+        int heaps = 0;
+
+        for (uint32_t spawnIndex = 0; spawnIndex < 300; ++spawnIndex)
+        {
+            const std::optional<OpenYAMM::Game::GameplayTreasureSpawnResult> marker =
+                OpenYAMM::Game::generateTreasureSpawnItem(
+                    3, 1, 4321, 0, spawnIndex, itemTable, gameData.standardItemEnchantTable,
+                    gameData.specialItemEnchantTable, nullptr, worldId, {});
+
+            if (marker && marker->isGold)
+            {
+                INFO("world=" << worldId << " gold=" << marker->goldAmount);
+                CHECK(marker->goldAmount >= lowest);
+                CHECK(marker->goldAmount <= highest);
+                ++heaps;
+            }
+        }
+
+        CHECK(heaps > 80);
     }
+}
 
-    itemTable.setTreasureMarkersItemsOnlyWorlds({"mm8"});
+TEST_CASE("treasure markers give nothing, a gold heap or an item, as MM6-MM8, in every world")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
 
-    for (uint32_t spawnIndex = 0; spawnIndex < 200; ++spawnIndex)
+    for (const std::string worldId : {"mm8", "mm9"})
     {
-        const std::optional<OpenYAMM::Game::GameplayTreasureSpawnResult> marker =
-            OpenYAMM::Game::generateTreasureSpawnItem(
-                3, 3, 4321, 0, spawnIndex, itemTable, gameData.standardItemEnchantTable,
-                gameData.specialItemEnchantTable, nullptr, "mm8", {});
-        REQUIRE(marker.has_value());
-        CHECK_FALSE(marker->isGold);
-        items += marker->item.objectDescriptionId != 0 ? 1 : 0;
-    }
+        int nothing = 0;
+        int gold = 0;
+        int items = 0;
 
-    CHECK_EQ(items, 200);
-    CHECK_GT(goldOrNothing, 80);
+        for (uint32_t spawnIndex = 0; spawnIndex < 1000; ++spawnIndex)
+        {
+            const std::optional<OpenYAMM::Game::GameplayTreasureSpawnResult> marker =
+                OpenYAMM::Game::generateTreasureSpawnItem(
+                    3, 3, 4321, 0, spawnIndex, gameData.itemTable, gameData.standardItemEnchantTable,
+                    gameData.specialItemEnchantTable, nullptr, worldId, {});
+
+            if (!marker)
+            {
+                ++nothing;
+            }
+            else if (marker->isGold)
+            {
+                CHECK_GT(marker->goldAmount, 0u);
+                ++gold;
+            }
+            else
+            {
+                CHECK_NE(marker->item.objectDescriptionId, 0u);
+                ++items;
+            }
+        }
+
+        // 20% / 40% / 40% over 1000 rolls.
+        CHECK(nothing > 140);
+        CHECK(nothing < 260);
+        CHECK(gold > 340);
+        CHECK(gold < 460);
+        CHECK(items > 340);
+        CHECK(items < 460);
+    }
 }

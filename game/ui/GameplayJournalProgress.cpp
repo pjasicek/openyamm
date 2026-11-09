@@ -59,7 +59,6 @@ constexpr std::array<std::string_view, JournalProgressFilterCount> FilterNames =
 // The layout in the page's logical units (518 x 456, JournalProgressPage).
 constexpr float CardTop = 58;
 constexpr float CardHeight = 76;
-constexpr float CardWidth = 166;
 constexpr float CardGap = 7;
 constexpr float ChipTop = 140;
 constexpr float ChipHeight = 15;
@@ -73,6 +72,13 @@ constexpr float RowHeight = 18;
 constexpr float LegendTop = 410;
 constexpr float DetailLeft = 342;
 constexpr float DetailRight = 515;
+
+// The continents' cards share the row from ListLeft to DetailRight: 166 wide for three, narrower for Chedian's fourth.
+float continentCardWidth(size_t cardCount)
+{
+    const float count = float(std::max<size_t>(cardCount, 1));
+    return (DetailRight - ListLeft - CardGap * (count - 1)) / count;
+}
 constexpr float DetailTop = 140;
 constexpr float DetailBottom = 404;
 constexpr float FooterTop = 436;
@@ -102,7 +108,7 @@ enum class MapFlag : uint8_t
 };
 
 constexpr std::array<std::string_view, 6> MapFlagNames = {Engine::trNoop("Cleared since its refill"),
-    Engine::trNoop("The town hall offers a reset"), Engine::trNoop("Refilled: cleared once, its monsters are back"),
+    Engine::trNoop("Its entrance offers a reset"), Engine::trNoop("Refilled: cleared once, its monsters are back"),
     Engine::trNoop("Completion reward waiting"), Engine::trNoop("This month's bounty target"),
     Engine::trNoop("A dimension run is open")};
 constexpr std::array<std::string_view, 6> MapFlagShortNames = {Engine::trNoop("cleared"), Engine::trNoop("reset"),
@@ -536,9 +542,11 @@ JournalProgressTarget journalProgressTargetAt(
         return {JournalProgressTargetKind::Guide, 0};
     }
 
+    const float cardWidth = continentCardWidth(journal.progress->continents.size());
+
     for (size_t index = 0; index < journal.progress->continents.size(); ++index)
     {
-        if (pageRect(page, ListLeft + index * (CardWidth + CardGap), CardTop, CardWidth, CardHeight).contains(x, y))
+        if (pageRect(page, ListLeft + index * (cardWidth + CardGap), CardTop, cardWidth, CardHeight).contains(x, y))
         {
             return {JournalProgressTargetKind::Continent, index};
         }
@@ -618,20 +626,22 @@ void renderJournalProgress(
     }
 
     // The continents' cards.
+    const float cardWidth = continentCardWidth(summary.continents.size());
+
     for (size_t index = 0; index < summary.continents.size(); ++index)
     {
         const RulesetProgressContinent &continent = summary.continents[index];
-        const float x = ListLeft + index * (CardWidth + CardGap);
+        const float x = ListLeft + index * (cardWidth + CardGap);
         const bool selected = index == journal.progressContinent;
-        const Rect card = paint.rect(x, CardTop, CardWidth, CardHeight);
+        const Rect card = paint.rect(x, CardTop, cardWidth, CardHeight);
         paint.fill(card, selected ? SelectedFill : PanelFill);
         paint.frame(card, selected ? SelectedBorder : PanelBorder);
         paint.text("Fondamento", 13, Label, Engine::localizeKnown(continent.name), x + 7, CardTop + 3);
-        paint.text(TextFont, 8, Muted, continent.world, x + CardWidth - 7, CardTop + 6, 2);
+        paint.text(TextFont, 8, Muted, continent.world, x + cardWidth - 7, CardTop + 6, 2);
         const auto row = [&](float y, const std::string &key, const std::string &value, uint32_t colour)
         {
             paint.text(TextFont, TextHeight, Body, key, x + 7, y);
-            paint.text(TextFont, TextHeight, colour, value, x + CardWidth - 7, y, 2);
+            paint.text(TextFont, TextHeight, colour, value, x + cardWidth - 7, y, 2);
         };
         row(CardTop + 21, Engine::tr("Monster levels"),
             continent.levelHigh > 0
@@ -641,7 +651,7 @@ void renderJournalProgress(
             "+" + std::to_string(int(std::lround(continent.levelsBanked))), Amount);
         row(CardTop + 45, Engine::tr("Maps cleared"),
             std::to_string(continent.mapsCleared) + " / " + std::to_string(continent.maps.size()), Ivory);
-        const float barWidth = CardWidth - 14;
+        const float barWidth = cardWidth - 14;
         paint.fill(paint.rect(x + 7, CardTop + 62, barWidth, 6), BarTrack);
         const float share = continent.maps.empty() ? 0.0f : float(continent.mapsCleared) / continent.maps.size();
         paint.fill(paint.rect(x + 7, CardTop + 62, barWidth * share, 6), BarGold);
@@ -790,7 +800,7 @@ void renderJournalProgress(
 
         if (map.resetOffer)
         {
-            note(Engine::tr("The town hall offers a reset: {offer}", {{"offer", *map.resetOffer}}), Body);
+            note(Engine::tr("Entering it offers a reset: {offer}", {{"offer", *map.resetOffer}}), Body);
         }
         else if (!map.completedOnce)
         {

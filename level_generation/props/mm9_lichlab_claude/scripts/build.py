@@ -2,7 +2,7 @@
 and work/<prop>_meta.json from the raw converter GLBs, with the isle props project's helpers (its scripts/blib.py,
 paths pointed at this project), as the Anskram props project builds its own: asset frame (the raw import mirrored in
 X), clean, faces wound to agree with the ABC's authored normals, open pieces on a double-sided copy of their material,
-normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only from 250 triangles
+normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only from 1000 triangles
 (the native ABC LOD when its count is near, else a collapse decimation).
 
 Differences from the Anskram build: a model keeps one material per MM9 skin (the skeleton statue and its base, the
@@ -33,7 +33,7 @@ blib.HERE, blib.WORK, blib.TEX = HERE, os.path.join(HERE, 'work'), os.path.join(
 blib.SKIP_BONE_SHAPES = True
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 SPECS = {name: {} for name in props_table.built_props()}
 # The three shooting books lie on their lecterns at LithTech pitch 0.4712 (27 degrees), roll 0.
 SPECS['booktilt'] = {'tilt': (0.4712388813495636, 0.0), 'lods': False}

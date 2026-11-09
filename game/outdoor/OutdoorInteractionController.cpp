@@ -4133,13 +4133,21 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            // The item's model box, turned as it lies (GROUND_ITEMS_3D_BEHAVIOUR.md section 5).
-            const std::optional<float> pickDistance = intersectWorldItemPickBox(
-                OutdoorWorldRuntime::worldItemModel(view.data().itemTable(), *pWorldItem),
-                worldItemYawRadians(pWorldItem->worldItemId),
-                {pWorldItem->x, pWorldItem->y, pWorldItem->z},
-                {rayOrigin.x, rayOrigin.y, rayOrigin.z},
-                {rayDirection.x, rayDirection.y, rayDirection.z});
+            // The item's model box, turned as it lies (GROUND_ITEMS_3D_BEHAVIOUR.md section 5) or as its authored pose
+            // turns it.
+            const std::optional<float> pickDistance = pWorldItem->semanticPose
+                ? intersectPosedWorldItemPickBox(
+                    OutdoorWorldRuntime::worldItemModel(view.data().itemTable(), *pWorldItem),
+                    *pWorldItem->semanticPose,
+                    {pWorldItem->x, pWorldItem->y, pWorldItem->z},
+                    {rayOrigin.x, rayOrigin.y, rayOrigin.z},
+                    {rayDirection.x, rayDirection.y, rayDirection.z})
+                : intersectWorldItemPickBox(
+                    OutdoorWorldRuntime::worldItemModel(view.data().itemTable(), *pWorldItem),
+                    worldItemYawRadians(pWorldItem->worldItemId),
+                    {pWorldItem->x, pWorldItem->y, pWorldItem->z},
+                    {rayOrigin.x, rayOrigin.y, rayOrigin.z},
+                    {rayDirection.x, rayDirection.y, rayDirection.z});
             const float distance = pickDistance.value_or(0.0f);
 
             if (pickDistance
@@ -5014,11 +5022,6 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
     if (pWorldItem->semanticLootContainer)
     {
         return view.m_pOutdoorWorldRuntime->activateSemanticLootContainer(inspectHit.bModelIndex);
-    }
-
-    if (view.m_pOutdoorWorldRuntime->isSemanticWorldItem(inspectHit.bModelIndex))
-    {
-        return view.m_pOutdoorWorldRuntime->activateSemanticWorldItem(inspectHit.bModelIndex);
     }
 
     const ItemDefinition *pItemDefinition = view.data().itemTable().get(pWorldItem->item.objectDescriptionId);

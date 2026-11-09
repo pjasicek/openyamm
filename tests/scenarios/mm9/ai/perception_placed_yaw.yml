@@ -1,0 +1,19 @@
+id: mm9.ai.perception_placed_yaw
+title: A placed MM9 monster sees the party in front of its placement facing
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). Ruined Temple's Skeleton
+        (actor 0) faces about 199 degrees; the party stands 700 units along that facing in plain view. It failed while
+        indoor map actors started at yaw 0 instead of their placement yaw (MM9_AI_NATIVE_RE.md section 5.4, fixed).
+  - new_game_flow:
+      start_map: ruinedtemple.blv
+  - ai_arena: {path: perception_placed_yaw.arena.yml}
+  - advance_runtime: {seconds: 2}
+  - ai_trace_dump: {actor_index: 0, decisions_only: true}
+  # It takes the party (detect or taunt_detect) and alerts: send_alert follows either.
+  - assert:
+      ai_trace: {actor_index: 0, decision: send_alert, target: party, min_count: 1}

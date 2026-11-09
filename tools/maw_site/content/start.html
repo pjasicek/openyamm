@@ -1,0 +1,80 @@
+<h2 id="what-is-maw">What MAW is</h2>
+<p>MAW is a rebalance of the merged Might and Magic 6–8 world by Malekith, Rawsugar and the MAW team. Monsters scale
+  with a model of a typical party at each map's level, buffs become auras that hold mana instead of running out, and
+  every drop is rolled with a rarity, an item level and enchantments. It adds four class lines (Seraphim, Death
+  Knight, Shaman, Elementalist), reworks the Thief line into the Assassin and adds crafting.</p>
+<p>OpenYAMM plays MAW as an optional ruleset, based on MAW commit <span class="num">8fbb48d1</span> (4 November 2026).
+  The <a href="#deviations">Deviations</a> page lists where it knowingly plays differently.</p>
+
+<h2 id="turn-it-on">Turning it on</h2>
+<ol>
+  <li><strong>New Game → Choose Starting Continent</strong>: switch the ruleset from <em>Standard MMMerge</em> to
+    <em>MAW</em>.</li>
+  <li>Open <strong>Rules…</strong> and pick difficulty, progression and (optionally) a challenge mode.</li>
+  <li>Each save remembers its ruleset. A MAW save does not load without the MAW package.</li>
+</ol>
+<p>MAW plays on four continents: Enroth (MM6), Antagarich (MM7), Jadame (MM8) and Chedian (MM9). A Chedian game
+  starts at Ravensford (Bootcamp); Sturmford City's dimensional pedestal links it to the others.</p>
+
+<h2 id="difficulty">Difficulty</h2>
+<p>Monster numbers relative to MAW difficulty for a level-100 party. "Groups" is monsters per spawn group, "Loot" the
+  bonus to rare-item odds.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Difficulty</th><th>Monster HP</th><th>Monster damage</th><th>Groups</th><th>Loot</th><th>Also</th></tr></thead>
+  <tbody>
+    <tr><td>Easy</td><td>×0.50</td><td>×0.50</td><td>1–3</td><td>—</td><td>No bosses</td></tr>
+    <tr><td>Normal</td><td>×0.75</td><td>×0.70</td><td>1–3</td><td>—</td><td>No bosses</td></tr>
+    <tr><td><strong>MAW</strong></td><td>×1.00</td><td>×1.00</td><td>1–3</td><td>—</td><td>The intended game: bosses on every map</td></tr>
+    <tr><td>Hard</td><td>×1.27</td><td>×1.12</td><td>1–4</td><td>+10 %</td><td>Attacking while flying ends Fly on most maps</td></tr>
+    <tr><td>Hell</td><td>×1.55</td><td>×1.24</td><td>1–4</td><td>+20 %</td><td>As Hard; outdoor melee monsters can gain a ranged attack</td></tr>
+    <tr><td>Nightmare</td><td>×1.90</td><td>×1.45</td><td>2–4</td><td>+40 %</td><td>See below. Cannot be lowered later</td></tr>
+  </tbody>
+</table></div>
+<p><strong>Nightmare</strong> adds: saving costs food; Town Portal and Lloyd's Beacon are refused near enemies; a
+  dungeon left below 65 % cleared raises its dead; a member knocked below minus their full HP dies outright, below
+  twice that is eradicated. Difficulty can be changed mid-game in <strong>Settings → Rules</strong>, except out of
+  Nightmare.</p>
+<div class="note">Normal uses MAW's in-between numbers; in the original mod Easy and Normal play the same by mistake.
+  Nightmare needs no typed "yes".</div>
+
+<h2 id="challenge-modes">Challenge modes</h2>
+<p>Chosen at the start and permanent. Doom, Road to Insanity and Beyond Madness each build on the one before.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Mode</th><th>Adds</th><th>Masteries need</th></tr></thead>
+  <tbody>
+    <tr><td>Doom</td><td>Nightmare's rules, stronger monsters, larger groups, more bosses, monster hits can cause
+      conditions. Items must be identified before wearing, locked chests need Disarm Trap, hirelings refuse to join.
+      Teachers charge more. Starts with 5,000 gold and bonus experience</td><td>6 / 12 / 20</td></tr>
+    <tr><td>Road to Insanity</td><td>Doom, tougher still. Maps never refill or reset; outdoor maps need 100 % to
+      complete; dungeons cap the food you carry; one bounty at a time; risen monsters give no experience; a heavy
+      overkill can disintegrate a character. Teachers, training and spellbooks cost far more; loot is stronger and gems
+      drop more often</td><td>8 / 16 / 25</td></tr>
+    <tr><td>Beyond Madness</td><td>Road to Insanity, and every character (recruits too) starts at level 1. Always
+      Horizontal; maps have fixed levels up to about 500; no mercenaries; the Arena and bounties pay nothing. Every
+      death counts, including loading or quitting soon after a hit</td><td>10 / 24 / 40</td></tr>
+    <tr><td>Austerity</td><td>Any difficulty. No Legendary or Celestial items, no crafting rewards, weaker
+      enchantments and reagents, flatter bosses, a minimum armour value from the armour skills</td><td>by progression</td></tr>
+  </tbody>
+</table></div>
+<div class="warn">Nightmare and every challenge mode are for the whole game. You can always raise a difficulty later,
+  so start lower if unsure.</div>
+<div class="tip">Take the challenge modes in order: Road to Insanity only once Doom feels comfortable, Beyond Madness
+  after that. Austerity is balanced around MAW difficulty; on Nightmare or higher it gets harsh fast. From Nightmare
+  up you cannot kite as before: pull a few monsters at a time.</div>
+
+<h2 id="solo">Playing solo</h2>
+<p>A party of one is not a mode: these rules switch on while one character is in the party.</p>
+<ul>
+  <li>Quest and map-completion experience × 5 ÷ party size: a lone hero gets five times as much.</li>
+  <li>Permanent Wizard Eye and Torch Light, no mana.</li>
+  <li>Jump, Fly, Water Walk, Town Portal and Lloyd's Beacon scrolls are not used up. A Fly scroll lasts seven hours.</li>
+  <li>Identify Item, Merchant, Repair, Perception, Disarm Traps, Identify Monster and Alchemy reach Expert, Master
+    and Grandmaster on their own at 4, 7 and 10, whatever the class allows.</li>
+  <li>Crowd control lasts twice as long; a successful Cover halves the hit; poison and disease hurt half as much.</li>
+  <li>Five tabs of four bags instead of four bags.</li>
+</ul>
+
+<h2 id="preferences">Preferences</h2>
+<p>In <strong>Settings → Rules</strong>, changeable any time: homing projectiles (on; yours and theirs), friendly fire
+  (off), the loot filter (see <a href="#loot">Loot</a>), trainer hints in skill tooltips (off), and in Road to
+  Insanity and Beyond Madness, disintegration.</p>

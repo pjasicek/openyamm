@@ -1,0 +1,24 @@
+id: mm9.ai.sight_all_round
+title: An MM9 monster sees the party all round, half again as far as its placement, and a sleeper keeps MM9's senses
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Skeletoid 0, its back to the party 800 away (sight 600 x 1.5), notices it
+        on its first step; Skeletoid 1, facing it 1 000 away, does not; the mummy dormant until sighted, its back to the
+        party 600 away, keeps MM9's half view and never wakes.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: sight_all_round.arena.yml}
+  - advance_runtime: {seconds: 2}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: party, before: 0.05, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: detect, before: 1.5, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: taunt_detect, before: 1.5, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: wake, max_count: 0}

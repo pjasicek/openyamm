@@ -1,0 +1,41 @@
+id: mm9.ai.give_up
+title: MM9 monsters lose a party out of sight after 8 s and give up on one they cannot attack after 30 s
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). At 4 s the party stands behind the gate: the wolf cannot reach it (it
+        waits, trying again every 1.5 s) and both lose it 8 s later. Back in the pit at 18 s, both notice it again; the
+        Evil Apprentice, its range attack range 987, holds without an attack and gives up 30 s after it took the party
+        (MAX_CHASE_TIME), then takes it again a second later (MM9 searches once a second).
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: give_up.arena.yml}
+  - advance_runtime: {seconds: 4}
+  - set_pose: {map: thearena.blv, x: 0, y: -3000, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 14}
+  - set_pose: {map: thearena.blv, x: 0, y: -1300, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 36}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: unreachable, after: 4, before: 12, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, after: 11.5, before: 12.5, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, after: 17, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, after: 18, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: give_up, after: 11.5, before: 12.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: give_up, after: 47.5, before: 48.5, min_count: 1}
+  # Its target search takes the party again (the 40 % roll taunts this time).
+  - assert:
+      ai_trace: {arena_monster: 1, decision: taunt_detect, after: 48.5, before: 49.5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_spell, after: 18, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: pursue, max_count: 0}

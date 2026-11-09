@@ -765,7 +765,7 @@ TEST_CASE("MAW Assassins lose their Assassination bonus to a crowd and without e
     CHECK(double(blow(1, 0)) == doctest::Approx(alone * (200.0 - 48) / 200).epsilon(0.02));
 }
 
-TEST_CASE("MAW names final classes promoted on two or three worlds Elder and Ultimate (L6.5)")
+TEST_CASE("MAW names final classes promoted on two, three or four worlds Elder, Ultimate and Supreme (L6.5)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     ClassMultiplierTable multipliers;
@@ -786,6 +786,9 @@ TEST_CASE("MAW names final classes promoted on two or three worlds Elder and Ult
     CHECK_EQ(classes.displayName(party, party.members()[0]), "Cleric");
     rules.setPromotionWorlds({{2, 3}});
     CHECK_EQ(classes.displayName(party, party.members()[1]), "Ultimate Priest of the Light");
+    // All four, Chedian's too: Supreme (ours, DEVIATIONS 183).
+    rules.setPromotionWorlds({{2, 4}});
+    CHECK_EQ(classes.displayName(party, party.members()[1]), "Supreme Priest of the Light");
     CHECK_EQ(standardClassRules().displayName(party, party.members()[1]), "Priest of the Light");
 }
 
@@ -939,6 +942,11 @@ public:
     bool isIndoorMap() const override
     {
         return indoor;
+    }
+
+    bool isOpenAirMap() const override
+    {
+        return !indoor;
     }
 
     std::vector<std::array<float, 4>> pushes;
@@ -1478,7 +1486,7 @@ TEST_CASE("MAW's Spell Power row counts a healing quick spell, as MAW's calcPowe
     party.setRules(&rules.gameRules());
     Character &healer = *party.member(1);
     healer.skills["BodyMagic"] = {"BodyMagic", 10, SkillMastery::Expert};
-    healer.attackSpellName.clear();
+    healer.battleOrders.clear();
     healer.quickSpellName = "Heal";
     const SkillRules &skills = rules.gameRules().skills;
 

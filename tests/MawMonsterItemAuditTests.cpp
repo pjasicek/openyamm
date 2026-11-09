@@ -396,3 +396,77 @@ TEST_CASE("MAW keeps the Hall under the Hill's unicorns at 1-3 on every difficul
     CHECK_EQ(hall.encounter3.maxCount, 3);
     CHECK(other.encounter3.maxCount > 3);
 }
+
+TEST_CASE("an MM9 Jarl posts his region's bounty and its target appears when the party enters the region")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    std::vector<std::string> row(38);
+    row[0] = "195";
+    row[1] = "Human Mercenary C";
+    row[2] = "Human Mercenary C";
+    row[3] = "10";   // within an empty party's reach (Standard: level 20)
+    row[4] = "100";
+    row[10] = "Short";
+    row[11] = "Normal";
+    row[17] = "Phys";
+    row[18] = "1d6";
+    MonsterTable monsterTable;
+    REQUIRE(monsterTable.loadStatsFromRows({row}));
+    const BountyHuntRemoteMap region = {"Sturmford", "sturmford.blv"};
+
+    // MAW: the region, not the city, must be cleared first.
+    {
+        MawRules rules(RulesetOptions{}, MawMapLevels{});
+        Party party = mawTestParty(rules);
+        OpenYAMM::Tests::PartySpellTestWorldRuntime city = {};
+        EventRuntimeState state = {};
+        city.bindParty(&party);
+        city.bindEventRuntimeState(&state);
+        city.bindMonsterTable(&monsterTable);
+        city.setMapName("Sturmford City");
+        const BountyHuntInteractionResult refused = performBountyHuntInteraction(city, &party, true, nullptr, &region);
+        REQUIRE_EQ(refused.messages.size(), 1u);
+        CHECK_NE(refused.messages.front().find("Sturmford"), std::string::npos);
+        CHECK_FALSE(state.namedGlobalVars.contains("MMerge.BountyHunt.Sturmford.MonsterId"));
+        rules.state().clearedSinceRefill.insert("sturmford.blv");
+        performBountyHuntInteraction(city, &party, true, nullptr, &region);
+        CHECK_EQ(state.namedGlobalVars["MMerge.BountyHunt.Sturmford.Pending"], 1);
+    }
+
+    // Posted in the city: the hunt is the region's, waiting; nothing appears in the city.
+    Party party = {};
+    OpenYAMM::Tests::PartySpellTestWorldRuntime city = {};
+    EventRuntimeState state = {};
+    city.bindParty(&party);
+    city.bindEventRuntimeState(&state);
+    city.bindMonsterTable(&monsterTable);
+    city.setMapName("Sturmford City");
+    const BountyHuntInteractionResult posted = performBountyHuntInteraction(city, &party, true, nullptr, &region);
+    REQUIRE_EQ(posted.messages.size(), 1u);
+    CHECK(posted.succeeded);
+    CHECK_EQ(state.namedGlobalVars["MMerge.BountyHunt.Sturmford.MonsterId"], 195);
+    CHECK_EQ(state.namedGlobalVars["MMerge.BountyHunt.Sturmford.Pending"], 1);
+    CHECK(city.hostileSummonRequests().empty());
+    spawnPendingBountyHunt(city, &party);
+    CHECK(city.hostileSummonRequests().empty());
+
+    // Entering the region places the target once.
+    OpenYAMM::Tests::PartySpellTestWorldRuntime regionWorld = {};
+    regionWorld.bindParty(&party);
+    regionWorld.bindEventRuntimeState(&state);
+    regionWorld.bindMonsterTable(&monsterTable);
+    regionWorld.setMapName("Sturmford");
+    spawnPendingBountyHunt(regionWorld, &party);
+    REQUIRE_EQ(regionWorld.hostileSummonRequests().size(), 1u);
+    CHECK_EQ(regionWorld.hostileSummonRequests().front().monsterId, 195);
+    CHECK_FALSE(state.namedGlobalVars.contains("MMerge.BountyHunt.Sturmford.Pending"));
+    spawnPendingBountyHunt(regionWorld, &party);
+    CHECK_EQ(regionWorld.hostileSummonRequests().size(), 1u);
+
+    // Slain in the region, the Jarl pays it.
+    markRuntimeBountyHuntMonsterKilled(regionWorld, 195, &monsterTable);
+    CHECK_EQ(state.namedGlobalVars["MMerge.BountyHunt.Sturmford.Done"], 1);
+    const int goldBefore = party.gold();
+    performBountyHuntInteraction(city, &party, true, nullptr, &region);
+    CHECK_GT(party.gold(), goldBefore);
+}

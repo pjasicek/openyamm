@@ -62,12 +62,19 @@ public:
     // checkMapCompletition's progress (zzMaw-Monsters.lua:2568-2796) for the HUD's bar: mawMapProgress on the map's
     // kills, revival state, reward and dimension run, or the Endless Arena's wave in d42.
     std::optional<RulesetMapProgress> mapProgress(const IGameplayWorldRuntime &world) const override;
+    bool countsForMapCompletion(const MapStatsEntry &map, const MonsterTable::MonsterStatsEntry &stats) const override;
+    double packDensityFactor(const MapStatsEntry &map) const override;
+    bool keepsUsedBarrelsThroughRefill() const override;
     // The bolster level is getPartyLevel() - 4, never below 0 (zzMaw-Monsters.lua:418-422).
     RulesetScriptInfo scriptInfo(uint32_t continentId) const override;
     // BountyHunt.lua: round(level + the levels banked on the three continents) x 100.
     uint32_t bountyReward(const MonsterTable::MonsterStatsEntry &stats) const override;
     // "You need to clear the area COMPLETELY first."
     std::optional<std::string> bountyRefusal(const IGameplayWorldRuntime &world) const override;
+    // The region must be cleared since it last refilled.
+    std::optional<std::string> bountyRefusalForMap(
+        const std::string &mapFileName, const std::string &mapName) const override;
+    std::optional<int16_t> bountyTargetMonster(const MonsterTable &monsterTable, uint32_t seed) const override;
     // A C-tier boss of a random arena family, raised by the banked levels less 2/3 of its B level, with 5-15 of its
     // kin around it, marked "Bounty" on the map and named after its affix.
     std::optional<BountyTarget> spawnBountyTarget(
@@ -188,9 +195,6 @@ private:
     // The map whose arrival was last announced (flight maps from Hard up).
     mutable std::string m_announcedMap;
 };
-
-// The tier of a monster id in its A/B/C family: 1, 2 or 3.
-uint8_t mawMonsterTier(int monsterId);
 
 // A monster's damage before the attack's own ratio (getMonsterDamage): the model's damage at its family level for the
 // damage kind, scaled by its tier and boss multiplier. Physical attacks are sized against armour, every other kind

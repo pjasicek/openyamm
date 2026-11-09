@@ -1,11 +1,13 @@
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "engine/Localization.h"
 
+#include "game/gameplay/GameplayLootFilter.h"
 #include "game/gameplay/GameplayWorldItemPolicy.h"
 
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/StealingRuntime.h"
 #include "game/items/ItemEnchantTables.h"
+#include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -172,6 +174,26 @@ bool isShopItemFamilyAllowed(const HouseEntry &houseEntry, const ItemDefinition 
     }
 
     return false;
+}
+
+// MM9's apothecaries and general stores also buy the MM6-MM8 kinds that MM9 has no shop of its own for (potions,
+// reagents, spell scrolls, wands, gems, ore): a party that brings them into MM9 (MAW's Chedian) can sell them. Their
+// stock stays MM9's.
+bool buysOtherWorldsMagicItem(const HouseEntry &houseEntry, const ItemDefinition &itemDefinition)
+{
+    if (houseEntry.vendorStockProfile != VendorStockProfile::Mm9Apothecary
+        && houseEntry.vendorStockProfile != VendorStockProfile::Mm9GeneralStore)
+    {
+        return false;
+    }
+
+    return itemDefinition.equipStat == "Bottle"
+        || itemDefinition.equipStat == "Reagent"
+        || itemDefinition.equipStat == "Herb"
+        || itemDefinition.equipStat == "Sscroll"
+        || itemDefinition.equipStat == "WeaponW"
+        || itemDefinition.equipStat == "Gem"
+        || itemDefinition.equipStat == "Ore";
 }
 
 bool isArmorShopBottomRowItem(const ItemDefinition &itemDefinition)
@@ -1050,6 +1072,47 @@ Party::HouseStockState &ensureHouseStockGenerated(
             state.refreshSequence,
             party.objectivesDone());
         state.spellbookStock.clear();
+        const ItemRules &fixedStockRules = gameRulesFor(&party).items;
+
+        if (fixedStockRules.rollsFixedShopStock())
+        {
+            // The vendor keeps its items; the rules roll their power and enchantments as shop stock at its tiers.
+            std::mt19937 rng = createStockRng(party, houseEntry, state);
+            const ItemRollTables tables{itemTable, standardItemEnchantTable, specialItemEnchantTable};
+            const auto roll = [&](std::vector<InventoryItem> &stock, int tier)
+            {
+                ItemGenerationRequest request;
+                request.treasureLevel = std::clamp(tier, 1, 6);
+                request.mode = ItemGenerationMode::Shop;
+                request.worldId = houseEntry.worldId.empty() ? houseEntry.packageId : houseEntry.worldId;
+
+                for (InventoryItem &item : stock)
+                {
+                    const ItemDefinition *pDefinition = itemTable.get(item.objectDescriptionId);
+
+                    if (pDefinition == nullptr || ItemRuntime::isRareItem(*pDefinition))
+                    {
+                        continue;
+                    }
+
+                    if (!ItemEnchantRuntime::isEnchantable(*pDefinition))
+                    {
+                        fixedStockRules.rollPlainItem(item, *pDefinition, request);
+                        continue;
+                    }
+
+                    item.standardEnchantId = 0;
+                    item.standardEnchantPower = 0;
+                    item.specialEnchantId = 0;
+                    fixedStockRules.rollEnchantments(item, *pDefinition, tables, request, &party, rng);
+                }
+
+                fixedStockRules.adjustShopStock(stock, houseEntry, party, itemTable, rng);
+            };
+            roll(state.standardStock, houseEntry.standardStockTier);
+            roll(state.specialStock, houseEntry.specialStockTier);
+        }
+
         return state;
     }
 
@@ -1513,7 +1576,8 @@ bool HouseServiceRuntime::canSellItemToHouse(
     return supportsEquipmentSell(houseEntry)
         && pItemDefinition->value > 0
         && (houseEntry.vendorStockProfile == VendorStockProfile::None
-            || isShopItemFamilyAllowed(houseEntry, *pItemDefinition));
+            || isShopItemFamilyAllowed(houseEntry, *pItemDefinition)
+            || buysOtherWorldsMagicItem(houseEntry, *pItemDefinition));
 }
 
 std::string HouseServiceRuntime::buildBuyHoverText(
@@ -1959,6 +2023,142 @@ bool HouseServiceRuntime::tryStealStockItem(
     }
 
     return false;
+}
+
+bool HouseServiceRuntime::offersSellTrash(const Party &party, const HouseEntry &houseEntry)
+{
+    return supportsEquipmentSell(houseEntry) && party.rules().items.lootFilter() != nullptr;
+}
+
+std::vector<BagItemRef> HouseServiceRuntime::findSellTrash(
+    const Party &party,
+    const ItemTable &itemTable,
+    const HouseEntry &houseEntry)
+{
+    std::vector<BagItemRef> result;
+
+    if (!offersSellTrash(party, houseEntry))
+    {
+        return result;
+    }
+
+    const ItemRules &rules = party.rules().items;
+    const int bagCount = rules.bagCount(party);
+    const int partyLevel = meanPartyLevel(&party);
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        const Character &member = party.members()[memberIndex];
+
+        for (int bag = 0; bag < bagCount; ++bag)
+        {
+            for (const InventoryItem &item : InventoryBags::itemsInBag(member, uint8_t(bag)))
+            {
+                const ItemDefinition *pDefinition = itemTable.get(item.objectDescriptionId);
+
+                if (pDefinition == nullptr || !item.identified || !canSellTrashItem(party, itemTable, houseEntry, item))
+                {
+                    continue;
+                }
+
+                const std::optional<LootFilterFacts> facts = rules.lootFilterFacts(item, *pDefinition);
+
+                if (facts && isSellTrash(*facts, partyLevel))
+                {
+                    result.push_back({memberIndex, uint8_t(bag), item.gridX, item.gridY});
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+bool HouseServiceRuntime::canSellTrashItem(
+    const Party &party,
+    const ItemTable &itemTable,
+    const HouseEntry &houseEntry,
+    const InventoryItem &item)
+{
+    return canSellItemToHouse(itemTable, houseEntry, item) && !party.rules().items.sellRefusal(party, item);
+}
+
+const InventoryItem *HouseServiceRuntime::sellTrashItem(const Party &party, const BagItemRef &ref)
+{
+    if (ref.memberIndex >= party.members().size())
+    {
+        return nullptr;
+    }
+
+    const InventoryItem *pItem =
+        InventoryBags::itemInBagAt(party.members()[ref.memberIndex], ref.bag, ref.gridX, ref.gridY);
+    return pItem != nullptr && pItem->gridX == ref.gridX && pItem->gridY == ref.gridY ? pItem : nullptr;
+}
+
+int HouseServiceRuntime::sellTrashPrice(
+    const Party &party,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const HouseEntry &houseEntry,
+    const std::vector<BagItemRef> &items,
+    int effectiveReputation)
+{
+    int total = 0;
+
+    for (const BagItemRef &ref : items)
+    {
+        if (const InventoryItem *pItem = sellTrashItem(party, ref))
+        {
+            total += sellPrice(party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, *pItem,
+                effectiveReputation);
+        }
+    }
+
+    return total;
+}
+
+size_t HouseServiceRuntime::trySellTrash(
+    Party &party,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const HouseEntry &houseEntry,
+    const std::vector<BagItemRef> &items,
+    std::string &statusText,
+    int effectiveReputation)
+{
+    statusText.clear();
+    const int bagCount = party.rules().items.bagCount(party);
+    const int goldBefore = party.gold();
+    size_t sold = 0;
+
+    for (const BagItemRef &ref : items)
+    {
+        if (sellTrashItem(party, ref) == nullptr)
+        {
+            continue;
+        }
+
+        InventoryBags::withBagOpen(party, ref.memberIndex, ref.bag, bagCount,
+            [&]()
+            {
+                std::string itemStatus;
+                ShopItemServiceResult result = ShopItemServiceResult::None;
+                trySellInventoryItem(party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry,
+                    ref.memberIndex, ref.gridX, ref.gridY, itemStatus, &result, effectiveReputation);
+                sold += result == ShopItemServiceResult::Success ? 1 : 0;
+                return true;
+            });
+    }
+
+    if (sold > 0)
+    {
+        statusText = Engine::trn("Sold {count} item for {gold} gold.", "Sold {count} items for {gold} gold.",
+            int(sold), {{"count", int(sold)}, {"gold", party.gold() - goldBefore}});
+    }
+
+    return sold;
 }
 
 bool HouseServiceRuntime::trySellInventoryItem(

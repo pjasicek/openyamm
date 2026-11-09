@@ -2,7 +2,7 @@
 work/<prop>_meta.json from the raw converter GLBs, with the isle props project's helpers (its scripts/blib.py, paths
 pointed at this project): asset frame (the raw import mirrored in X), clean, faces wound to agree with the ABC's
 authored normals, open pieces on a double-sided copy of the material, normals smooth within 40 degrees, COLOR_0
-vertex occlusion, base centre at the origin; LODs only from 250 triangles (the native ABC LOD when its count is near,
+vertex occlusion, base centre at the origin; LODs only from 1000 triangles (the native ABC LOD when its count is near,
 else a collapse decimation). The wall torch gets the shared CC0 flame flipbook cards at its head.
 Usage: blender --background --python build.py -- [prop ...]"""
 import json
@@ -23,7 +23,9 @@ blib.HERE, blib.WORK, blib.TEX = HERE, os.path.join(HERE, 'work'), os.path.join(
 blib.SKIP_BONE_SHAPES = True
 
 SMOOTH = 40.0
-LOD_MIN = 250
+# No LODs below 1000 triangles (was 250 until 2026-11-09): they save next to nothing, and decimating a simple prop breaks
+# its shape (the raised coffin's LOD2 caved in its lid and tore its sides).
+LOD_MIN = 1000
 PROPS = {name: {} for name in (
     'barrel', 'barrel03', 'bed', 'bedmedium', 'bookcase02ew', 'bookcase02ns', 'chair02', 'chest', 'chest1', 'crate',
     'desk01', 'desk01ns', 'dresserns', 'scroll', 'tablebench', 'tableround', 'trashpile', 'weaponrack',

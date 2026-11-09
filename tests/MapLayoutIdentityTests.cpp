@@ -194,3 +194,20 @@ TEST_CASE("a save keeps each map state's layout identity")
     CHECK_EQ(restored->indoorSceneStates.at("d02.blv").mapLayoutIdentity, 0x5678u);
     CHECK_EQ(restored->outdoorWorldStates.at("out01.odm").mapLayoutIdentity, 0x9abcu);
 }
+
+TEST_CASE("a save keeps the indoor party's swim memory, so a load in the water swims on as before")
+{
+    // Found by the MM9 playthrough's save-and-load run (2026-11-08): a party wading on the Dark Passageway's sunken
+    // bridge had never been under water; the load guessed it had, so its jump held it at the surface under the rail.
+    GameSaveData save;
+    save.currentSceneKind = SceneKind::Indoor;
+    save.mapFileName = "d01.blv";
+    save.hasIndoorSceneState = true;
+    save.indoorScene.partyRuntime.swimMemory = IndoorSwimMemory{.wasSubmerged = false, .surfaceJump = true};
+    std::string error;
+    const std::optional<GameSaveData> restored = roundTrip(save, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    REQUIRE(restored->indoorScene.partyRuntime.swimMemory.has_value());
+    CHECK_FALSE(restored->indoorScene.partyRuntime.swimMemory->wasSubmerged);
+    CHECK(restored->indoorScene.partyRuntime.swimMemory->surfaceJump);
+}

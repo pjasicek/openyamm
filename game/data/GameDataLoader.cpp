@@ -412,7 +412,6 @@ std::vector<std::string> buildLuaWorldCommonPathCandidates(const std::string &wo
 {
     std::vector<std::string> candidates = {
         "events/common/world_common.lua",
-        "events/common/cross_continents_common.lua",
         "events/common/common.lua",
     };
 
@@ -2466,6 +2465,23 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         }
     }
 
+    std::vector<WorldManifest> mountedWorlds;
+    std::string manifestError;
+
+    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, manifestError))
+    {
+        std::cerr << "Failed to resolve the open-air maps: " << manifestError << '\n';
+        return false;
+    }
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        if (!m_mapStats.applyOpenAirMaps(manifest.id, manifest.openAirMaps))
+        {
+            return false;
+        }
+    }
+
     m_mapRegistry.initialize(m_mapStats.getEntries());
     return true;
 }
@@ -2803,6 +2819,13 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
         {
             std::cerr << "Failed to compose vendor tables: " << vendorError << '\n';
             return false;
+        }
+        // A world's fixed stock is rolled against the Standard enchantment table; under a ruleset that stops rolling
+        // an enchantment on a slot (MAW, special_item_enchants.txt), that slot's stock is sold without it. Standard
+        // keeps the strict check below.
+        if (!m_activeRuleset.isStandard())
+        {
+            m_houseTable.removeSpecialEnchantsTheRulesetDoesNotRoll(m_itemTable, m_specialItemEnchantTable);
         }
         if (!m_houseTable.validateVendorStock(
                 m_itemTable,
@@ -3988,6 +4011,11 @@ bool GameDataLoader::loadRulesetData(const Engine::AssetFileSystem &assetFileSys
     m_mawTextData.reset();
     m_npcDialogTable.setExtraHouses({});
 
+    if (m_pMm9RudeDialogueTable)
+    {
+        m_pMm9RudeDialogueTable->clearRulesetRows();
+    }
+
     if (m_activeRuleset.id != MawRulesetId)
     {
         return true;
@@ -4004,8 +4032,6 @@ bool GameDataLoader::loadRulesetData(const Engine::AssetFileSystem &assetFileSys
         return false;
     }
 
-    m_mawMapLevels = std::move(mapLevels);
-
     const std::string itemPath = rulesetPackageRoot(m_activeRuleset.id) + "data/items.yml";
     const std::optional<std::string> itemText = assetFileSystem.readTextFile(itemPath);
     MawItemData itemData;
@@ -4015,6 +4041,49 @@ bool GameDataLoader::loadRulesetData(const Engine::AssetFileSystem &assetFileSys
         std::cerr << "Failed to load " << itemPath << (error.empty() ? "" : ": " + error) << '\n';
         return false;
     }
+
+    // A mounted world's MAW balance (rulesets/maw/worlds/<world>/: balance.yml, the single source of its numbers,
+    // and item_bases.yml, which tools/maw/mm9_balance.py writes from it); a world without them plays MAW's defaults.
+    std::vector<WorldManifest> mountedWorlds;
+
+    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, error))
+    {
+        std::cerr << "Failed to resolve the worlds' MAW balance: " << error << '\n';
+        return false;
+    }
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        const std::string worldRoot = rulesetPackageRoot(m_activeRuleset.id) + "worlds/" + manifest.id + "/";
+
+        if (const std::optional<std::string> balanceText = assetFileSystem.readTextFile(worldRoot + "balance.yml");
+            balanceText && !mapLevels.loadWorldBalance(*balanceText, error))
+        {
+            std::cerr << "Failed to load " << worldRoot << "balance.yml: " << error << '\n';
+            return false;
+        }
+
+        if (const std::optional<std::string> basesText = assetFileSystem.readTextFile(worldRoot + "item_bases.yml");
+            basesText && !itemData.loadWorldBases(*basesText, error))
+        {
+            std::cerr << "Failed to load " << worldRoot << "item_bases.yml: " << error << '\n';
+            return false;
+        }
+
+        // Its rows on MM9 people (the skill reset and Dimensional Maps on Hjordisa the Hag, the Jarls' bounties).
+        if (const std::optional<std::string> dialogueText = assetFileSystem.readTextFile(worldRoot + "dialogue.yml");
+            dialogueText && m_pMm9RudeDialogueTable
+            && !m_pMm9RudeDialogueTable->loadRulesetRowsText(worldRoot + "dialogue.yml", *dialogueText))
+        {
+            for (const std::string &rowError : m_pMm9RudeDialogueTable->errors())
+            {
+                std::cerr << "Failed to load MAW's MM9 dialogue rows: " << rowError << '\n';
+            }
+            return false;
+        }
+    }
+
+    m_mawMapLevels = std::move(mapLevels);
 
     m_mawItemData = std::move(itemData);
 
@@ -4776,7 +4845,7 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
     }
 
     std::unordered_set<std::string> chestArtifactsOnlyWorlds;
-    std::unordered_set<std::string> treasureMarkersItemsOnlyWorlds;
+    std::unordered_set<std::string> groundGoldByItemTierWorlds;
 
     for (const WorldManifest &manifest : mountedWorlds)
     {
@@ -4785,14 +4854,14 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
             chestArtifactsOnlyWorlds.insert(manifest.id);
         }
 
-        if (manifest.treasureMarkersItemsOnly)
+        if (manifest.groundGoldByItemTier)
         {
-            treasureMarkersItemsOnlyWorlds.insert(manifest.id);
+            groundGoldByItemTierWorlds.insert(manifest.id);
         }
     }
 
     m_itemTable.setChestArtifactsOnlyWorlds(std::move(chestArtifactsOnlyWorlds));
-    m_itemTable.setTreasureMarkersItemsOnlyWorlds(std::move(treasureMarkersItemsOnlyWorlds));
+    m_itemTable.setGroundGoldByItemTierWorlds(std::move(groundGoldByItemTierWorlds));
 
     ItemModelBindings groundModels;
     std::string groundModelError;

@@ -1,0 +1,900 @@
+{
+ "map": "dragonstadium",
+ "settings": {
+  "WorldInfo": "AmbientLight 45 45 45",
+  "WorldProperties": {
+   "LightScale": [
+    255.0,
+    255.0,
+    255.0
+   ],
+   "NightLightScale": [
+    255.0,
+    255.0,
+    255.0
+   ],
+   "PlayerLightOn": 1,
+   "DynamicLightDist": 2500.0,
+   "EnableFog": 0,
+   "FogColor": [
+    127.0,
+    127.0,
+    127.0
+   ]
+  },
+  "AmbientLight": [
+   45.0,
+   45.0,
+   45.0
+  ]
+ },
+ "shots": [
+  {
+   "shot": "s1_floor_southwest",
+   "eye_lt": [
+    1469.9,
+    -1.6,
+    380.1
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 32.9,
+    "pred_median": 24.4,
+    "pred_rgb": [
+     34,
+     32,
+     34
+    ],
+    "lm_rgb": [
+     157,
+     158,
+     158
+    ],
+    "lm_luma": 157.5,
+    "tex_luma": 60.2,
+    "tex_rgb": [
+     60,
+     60,
+     63
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 11.6,
+     "pred_median": 11.2,
+     "pred_rgb": [
+      11,
+      12,
+      12
+     ],
+     "lm_rgb": [
+      41,
+      41,
+      41
+     ],
+     "lm_luma": 41.0,
+     "tex_luma": 72.1,
+     "tex_rgb": [
+      68,
+      73,
+      77
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 37.2,
+     "pred_median": 32.9,
+     "pred_rgb": [
+      39,
+      37,
+      38
+     ],
+     "lm_rgb": [
+      176,
+      177,
+      177
+     ],
+     "lm_luma": 176.5,
+     "tex_luma": 58.8,
+     "tex_rgb": [
+      59,
+      58,
+      62
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 49.8,
+     "pred_median": 47.7,
+     "pred_rgb": [
+      53,
+      49,
+      51
+     ],
+     "lm_rgb": [
+      255,
+      255,
+      255
+     ],
+     "lm_luma": 255.0,
+     "tex_luma": 49.8,
+     "tex_rgb": [
+      53,
+      49,
+      51
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 1764,
+     "pred_luma": 47.4,
+     "pred_median": 45.7,
+     "pred_rgb": [
+      50,
+      46,
+      49
+     ],
+     "lm_rgb": [
+      239,
+      239,
+      239
+     ],
+     "lm_luma": 239.4,
+     "tex_luma": 51.5,
+     "tex_rgb": [
+      54,
+      51,
+      53
+     ],
+     "share": 0.57
+    },
+    "wall": {
+     "n": 1121,
+     "pred_luma": 13.5,
+     "pred_median": 11.4,
+     "pred_rgb": [
+      13,
+      14,
+      14
+     ],
+     "lm_rgb": [
+      48,
+      48,
+      48
+     ],
+     "lm_luma": 48.0,
+     "tex_luma": 71.3,
+     "tex_rgb": [
+      68,
+      72,
+      77
+     ],
+     "share": 0.36
+    },
+    "ceiling": {
+     "n": 187,
+     "pred_luma": 12.5,
+     "pred_median": 12.0,
+     "pred_rgb": [
+      12,
+      13,
+      14
+     ],
+     "lm_rgb": [
+      42,
+      42,
+      42
+     ],
+     "lm_luma": 41.8,
+     "tex_luma": 76.2,
+     "tex_rgb": [
+      72,
+      77,
+      82
+     ],
+     "share": 0.06
+    }
+   },
+   "textures": {
+    "cave_wall_lava": {
+     "n": 1660,
+     "pred_luma": 49.6,
+     "pred_median": 47.7,
+     "pred_rgb": [
+      52,
+      49,
+      51
+     ],
+     "lm_rgb": [
+      251,
+      251,
+      251
+     ],
+     "lm_luma": 251.4,
+     "tex_luma": 50.2,
+     "tex_rgb": [
+      53,
+      49,
+      51
+     ],
+     "share": 0.54
+    },
+    "rough_cliff_t": {
+     "n": 1412,
+     "pred_luma": 13.3,
+     "pred_median": 11.5,
+     "pred_rgb": [
+      13,
+      13,
+      14
+     ],
+     "lm_rgb": [
+      47,
+      47,
+      47
+     ],
+     "lm_luma": 47.1,
+     "tex_luma": 72.0,
+     "tex_rgb": [
+      68,
+      73,
+      77
+     ],
+     "share": 0.46
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "ObjectLight",
+     "name": "ObjectLight0",
+     "distance": 724,
+     "radius": 3500,
+     "colour": [
+      255,
+      255,
+      255
+     ],
+     "bright_scale": 0.8,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light0",
+     "distance": 2435,
+     "radius": 450,
+     "colour": [
+      67,
+      95,
+      118
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "StaticSunLight",
+     "name": "DirLight0",
+     "distance": 2442,
+     "radius": null,
+     "colour": null,
+     "bright_scale": 1.0,
+     "inside": null,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light2",
+     "distance": 2915,
+     "radius": 375,
+     "colour": [
+      92,
+      131,
+      163
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light1",
+     "distance": 3079,
+     "radius": 375,
+     "colour": [
+      92,
+      131,
+      163
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    }
+   ]
+  },
+  {
+   "shot": "s1_alt_closer",
+   "eye_lt": [
+    1200.0,
+    -1.6,
+    150.0
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 32.1,
+    "pred_median": 24.0,
+    "pred_rgb": [
+     33,
+     32,
+     33
+    ],
+    "lm_rgb": [
+     156,
+     156,
+     156
+    ],
+    "lm_luma": 155.9,
+    "tex_luma": 60.0,
+    "tex_rgb": [
+     60,
+     60,
+     63
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 11.5,
+     "pred_median": 10.9,
+     "pred_rgb": [
+      11,
+      12,
+      12
+     ],
+     "lm_rgb": [
+      41,
+      41,
+      41
+     ],
+     "lm_luma": 41.0,
+     "tex_luma": 71.5,
+     "tex_rgb": [
+      68,
+      72,
+      77
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 35.2,
+     "pred_median": 30.5,
+     "pred_rgb": [
+      36,
+      35,
+      36
+     ],
+     "lm_rgb": [
+      172,
+      172,
+      172
+     ],
+     "lm_luma": 171.7,
+     "tex_luma": 59.1,
+     "tex_rgb": [
+      59,
+      59,
+      62
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 49.6,
+     "pred_median": 48.3,
+     "pred_rgb": [
+      52,
+      49,
+      51
+     ],
+     "lm_rgb": [
+      255,
+      255,
+      255
+     ],
+     "lm_luma": 255.0,
+     "tex_luma": 49.6,
+     "tex_rgb": [
+      52,
+      49,
+      51
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 1743,
+     "pred_luma": 46.4,
+     "pred_median": 45.4,
+     "pred_rgb": [
+      49,
+      46,
+      48
+     ],
+     "lm_rgb": [
+      238,
+      238,
+      238
+     ],
+     "lm_luma": 238.2,
+     "tex_luma": 51.1,
+     "tex_rgb": [
+      53,
+      50,
+      53
+     ],
+     "share": 0.57
+    },
+    "wall": {
+     "n": 1255,
+     "pred_luma": 13.4,
+     "pred_median": 11.4,
+     "pred_rgb": [
+      13,
+      14,
+      14
+     ],
+     "lm_rgb": [
+      48,
+      48,
+      48
+     ],
+     "lm_luma": 48.3,
+     "tex_luma": 71.8,
+     "tex_rgb": [
+      68,
+      72,
+      77
+     ],
+     "share": 0.41
+    },
+    "ceiling": {
+     "n": 74,
+     "pred_luma": 12.1,
+     "pred_median": 12.1,
+     "pred_rgb": [
+      11,
+      12,
+      13
+     ],
+     "lm_rgb": [
+      43,
+      43,
+      43
+     ],
+     "lm_luma": 42.8,
+     "tex_luma": 72.2,
+     "tex_rgb": [
+      68,
+      73,
+      77
+     ],
+     "share": 0.02
+    }
+   },
+   "textures": {
+    "cave_wall_lava": {
+     "n": 1642,
+     "pred_luma": 48.2,
+     "pred_median": 46.9,
+     "pred_rgb": [
+      51,
+      47,
+      50
+     ],
+     "lm_rgb": [
+      250,
+      250,
+      250
+     ],
+     "lm_luma": 249.5,
+     "tex_luma": 49.4,
+     "tex_rgb": [
+      52,
+      48,
+      51
+     ],
+     "share": 0.53
+    },
+    "rough_cliff_t": {
+     "n": 1430,
+     "pred_luma": 13.6,
+     "pred_median": 11.5,
+     "pred_rgb": [
+      13,
+      14,
+      15
+     ],
+     "lm_rgb": [
+      48,
+      48,
+      48
+     ],
+     "lm_luma": 48.4,
+     "tex_luma": 72.3,
+     "tex_rgb": [
+      69,
+      73,
+      78
+     ],
+     "share": 0.47
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "ObjectLight",
+     "name": "ObjectLight0",
+     "distance": 463,
+     "radius": 3500,
+     "colour": [
+      255,
+      255,
+      255
+     ],
+     "bright_scale": 0.8,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light0",
+     "distance": 2137,
+     "radius": 450,
+     "colour": [
+      67,
+      95,
+      118
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "StaticSunLight",
+     "name": "DirLight0",
+     "distance": 2381,
+     "radius": null,
+     "colour": null,
+     "bright_scale": 1.0,
+     "inside": null,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light2",
+     "distance": 2699,
+     "radius": 375,
+     "colour": [
+      92,
+      131,
+      163
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light1",
+     "distance": 2816,
+     "radius": 375,
+     "colour": [
+      92,
+      131,
+      163
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    }
+   ]
+  },
+  {
+   "shot": "s1_alt_north",
+   "eye_lt": [
+    1300.0,
+    -1.6,
+    800.0
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 31.0,
+    "pred_median": 24.0,
+    "pred_rgb": [
+     32,
+     31,
+     32
+    ],
+    "lm_rgb": [
+     158,
+     158,
+     158
+    ],
+    "lm_luma": 158.2,
+    "tex_luma": 58.3,
+    "tex_rgb": [
+     58,
+     58,
+     61
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 11.7,
+     "pred_median": 11.5,
+     "pred_rgb": [
+      11,
+      12,
+      13
+     ],
+     "lm_rgb": [
+      41,
+      41,
+      41
+     ],
+     "lm_luma": 41.0,
+     "tex_luma": 72.8,
+     "tex_rgb": [
+      69,
+      73,
+      79
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 35.9,
+     "pred_median": 33.7,
+     "pred_rgb": [
+      37,
+      35,
+      37
+     ],
+     "lm_rgb": [
+      179,
+      179,
+      179
+     ],
+     "lm_luma": 178.7,
+     "tex_luma": 56.6,
+     "tex_rgb": [
+      57,
+      56,
+      59
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 45.6,
+     "pred_median": 43.1,
+     "pred_rgb": [
+      49,
+      45,
+      46
+     ],
+     "lm_rgb": [
+      255,
+      255,
+      255
+     ],
+     "lm_luma": 255.0,
+     "tex_luma": 45.6,
+     "tex_rgb": [
+      49,
+      45,
+      46
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 1835,
+     "pred_luma": 43.8,
+     "pred_median": 43.1,
+     "pred_rgb": [
+      47,
+      43,
+      44
+     ],
+     "lm_rgb": [
+      235,
+      235,
+      235
+     ],
+     "lm_luma": 235.4,
+     "tex_luma": 49.1,
+     "tex_rgb": [
+      52,
+      48,
+      50
+     ],
+     "share": 0.6
+    },
+    "wall": {
+     "n": 969,
+     "pred_luma": 12.1,
+     "pred_median": 11.5,
+     "pred_rgb": [
+      11,
+      12,
+      13
+     ],
+     "lm_rgb": [
+      44,
+      44,
+      44
+     ],
+     "lm_luma": 44.4,
+     "tex_luma": 71.6,
+     "tex_rgb": [
+      68,
+      72,
+      77
+     ],
+     "share": 0.32
+    },
+    "ceiling": {
+     "n": 268,
+     "pred_luma": 11.8,
+     "pred_median": 12.0,
+     "pred_rgb": [
+      11,
+      12,
+      13
+     ],
+     "lm_rgb": [
+      41,
+      41,
+      41
+     ],
+     "lm_luma": 41.2,
+     "tex_luma": 73.1,
+     "tex_rgb": [
+      69,
+      74,
+      80
+     ],
+     "share": 0.09
+    }
+   },
+   "textures": {
+    "cave_wall_lava": {
+     "n": 1674,
+     "pred_luma": 46.8,
+     "pred_median": 45.4,
+     "pred_rgb": [
+      50,
+      46,
+      47
+     ],
+     "lm_rgb": [
+      254,
+      254,
+      254
+     ],
+     "lm_luma": 253.6,
+     "tex_luma": 47.0,
+     "tex_rgb": [
+      50,
+      46,
+      47
+     ],
+     "share": 0.54
+    },
+    "rough_cliff_t": {
+     "n": 1398,
+     "pred_luma": 12.1,
+     "pred_median": 11.6,
+     "pred_rgb": [
+      11,
+      12,
+      13
+     ],
+     "lm_rgb": [
+      44,
+      44,
+      44
+     ],
+     "lm_luma": 44.0,
+     "tex_luma": 71.8,
+     "tex_rgb": [
+      68,
+      72,
+      78
+     ],
+     "share": 0.46
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "ObjectLight",
+     "name": "ObjectLight0",
+     "distance": 772,
+     "radius": 3500,
+     "colour": [
+      255,
+      255,
+      255
+     ],
+     "bright_scale": 0.8,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "StaticSunLight",
+     "name": "DirLight0",
+     "distance": 2451,
+     "radius": null,
+     "colour": null,
+     "bright_scale": 1.0,
+     "inside": null,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light0",
+     "distance": 2792,
+     "radius": 450,
+     "colour": [
+      67,
+      95,
+      118
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light2",
+     "distance": 3338,
+     "radius": 375,
+     "colour": [
+      92,
+      131,
+      163
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light1",
+     "distance": 3473,
+     "radius": 375,
+     "colour": [
+      92,
+      131,
+      163
+     ],
+     "bright_scale": 0.15,
+     "inside": false,
+     "extra": {}
+    }
+   ]
+  }
+ ]
+}

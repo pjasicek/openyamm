@@ -737,6 +737,37 @@ std::optional<MapDeltaData> MapDeltaDataLoader::loadIndoorFromBytes(
     return mapDeltaData;
 }
 
+namespace
+{
+uint32_t nextSpriteObjectKey(const MapDeltaData &mapDeltaData)
+{
+    uint32_t highest = 0;
+    for (const MapDeltaSpriteObject &spriteObject : mapDeltaData.spriteObjects)
+    {
+        highest = std::max(highest, spriteObject.objectKey);
+    }
+    return highest + 1;
+}
+}
+
+void appendSpriteObject(MapDeltaData &mapDeltaData, MapDeltaSpriteObject spriteObject)
+{
+    spriteObject.objectKey = nextSpriteObjectKey(mapDeltaData);
+    mapDeltaData.spriteObjects.push_back(std::move(spriteObject));
+}
+
+void assignSpriteObjectKeys(MapDeltaData &mapDeltaData)
+{
+    uint32_t nextKey = nextSpriteObjectKey(mapDeltaData);
+    for (MapDeltaSpriteObject &spriteObject : mapDeltaData.spriteObjects)
+    {
+        if (spriteObject.objectKey == 0)
+        {
+            spriteObject.objectKey = nextKey++;
+        }
+    }
+}
+
 size_t keepActorsThroughRefill(const MapDeltaData &saved, MapDeltaData &refilled)
 {
     size_t kept = 0;

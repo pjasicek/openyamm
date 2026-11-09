@@ -71,6 +71,17 @@ def native(build, name: str) -> list[int]:
     return [int(round(v)) for v in build.project.native(obj(build, name)["properties"]["Pos"])]
 
 
+def on_floor(build, name: str) -> list[int]:
+    """A DAT object's position dropped onto the rebuilt floor under it: where a scripted teleport puts an actor, which
+    the game places only on a floor within 16 units (IndoorWorldRuntime::placeMapActorAt). MarkerTo hangs 23 units over
+    the rebuilt shore, so the Lich's Skeletoids never left his islet (found 2026-11-09)."""
+    pos = obj(build, name)["properties"]["Pos"]
+    floor = build.content.floor_at(pos[0], pos[2], pos[1] + 400)
+    if floor is None:
+        raise SystemExit(f"{MAP}: no floor under {name}")
+    return [int(round(v)) for v in build.project.native([pos[0], floor, pos[2]])]
+
+
 def lua_point(p) -> str:
     return "{" + ", ".join(str(int(round(v))) for v in p) + "}"
 
@@ -205,7 +216,7 @@ def extend(hooks, build, script) -> None:
         f"local BOOK = {lua_point(native(build, 'Book'))}",
         f"local SPAWN_LOCATION = {lua_point(native(build, location))}",
         f"local MARKER_FROM = {lua_point(native(build, 'MarkerFrom'))}",
-        f"local MARKER_TO = {lua_point(native(build, 'MarkerTo'))}",
+        f"local MARKER_TO = {lua_point(on_floor(build, 'MarkerTo'))}   -- on the rebuilt shore (on_floor)",
         *[f"local {const(f'ExplosionEffect{k}')} = {lua_point(native(build, f'ExplosionEffect{k}'))}" for k in range(5)],
         f"local SHOOTER, SHOOTER_AIM = {lua_point(native(build, 'Shooter'))}, {lua_point(aim)}",
         f"local SHOOTER0, FORT_WALL0_AT = {lua_point(native(build, 'Shooter0'))}, {lua_point(native(build, 'FortWall0'))}",
@@ -262,17 +273,25 @@ def extend(hooks, build, script) -> None:
         "end",
         "-- Isle_SpawnCreature.scr:60-75 Teleport: at MarkerTo (the mainland's shore) with a column of fire, then BaseInit",
         "-- and BaseWanderStartup (the shared AI). Each tick a running Skeletoid that has arrived (or whose run a reload",
-        "-- lost, or that takes too long) teleports.",
+        "-- lost, or that takes too long) teleports; it counts as fighting only once the game has moved it. Saves from",
+        "-- before 2026-11-09 hold Skeletoids marked fighting that never left MarkerFrom (MarkerTo over the floor): they",
+        "-- teleport too.",
+        "local function strandedAtMarkerFrom(a)",
+        "    local x, y = evt.GetMapActorPosition(a)",
+        "    return x ~= nil and math.abs(x - MARKER_FROM[1]) < 300 and math.abs(y - MARKER_FROM[2]) < 300",
+        "end",
         "local function updateSkeletoids()",
         "    for slot = 1, var(\"Isle.SummonCount\") do",
         "        local a = var(\"Isle.Skeletoid.\" .. slot) - 1",
+        "        local state = var(\"Isle.SkeletoidState.\" .. slot)",
         "        local elapsed = (ticks() - var(\"Isle.SkeletoidSince.\" .. slot)) * TICK_SECONDS",
-        "        if a >= 0 and var(\"Isle.SkeletoidState.\" .. slot) == 1",
-        "                and (not evt.IsActorMoving(a) or elapsed >= SKELETOID_RUN_SECONDS) then",
+        "        if a >= 0 and ((state == 1 and (not evt.IsActorMoving(a) or elapsed >= SKELETOID_RUN_SECONDS))",
+        "                or (state == 2 and strandedAtMarkerFrom(a))) then",
         "            evt.StopActorMove(a)",
-        "            evt.SetMapActorPosition(a, MARKER_TO[1], MARKER_TO[2], MARKER_TO[3])",
-        "            evt.SpawnWorldEffect(\"mm9:column_of_fire\", MARKER_TO[1], MARKER_TO[2], MARKER_TO[3], EFFECT_SCALE)",
-        "            set(\"Isle.SkeletoidState.\" .. slot, 2)",
+        "            if evt.SetMapActorPosition(a, MARKER_TO[1], MARKER_TO[2], MARKER_TO[3]) then",
+        "                evt.SpawnWorldEffect(\"mm9:column_of_fire\", MARKER_TO[1], MARKER_TO[2], MARKER_TO[3], EFFECT_SCALE)",
+        "                set(\"Isle.SkeletoidState.\" .. slot, 2)",
+        "            end",
         "        end",
         "    end",
         "end",
@@ -329,10 +348,12 @@ def extend(hooks, build, script) -> None:
         "local function shooterOn()",
         "    evt.FireMissile(\"Fire\", SHOOTER[1], SHOOTER[2], SHOOTER[3], SHOOTER_AIM[1], SHOOTER_AIM[2], SHOOTER_AIM[3], 5,",
         "        \"Fire\", 0)",
+        "    MM9.launchSound(\"FireBolt\", SHOOTER[1], SHOOTER[2], SHOOTER[3])",
         "end",
         "local function shooter0On()",
         "    evt.FireMissile(\"Fire\", SHOOTER0[1], SHOOTER0[2], SHOOTER0[3], FORT_WALL0_AT[1], FORT_WALL0_AT[2],",
         "        FORT_WALL0_AT[3], 500, \"Fire\", 0)",
+        "    MM9.launchSound(\"FireBolt\", SHOOTER0[1], SHOOTER0[2], SHOOTER0[3])",
         "end",
         "",
         "-- IS_BOAT.scr:33-44 OnMove: the boat shows and sails to BoatMarker's x at 100 (MoveToPos x, its own height,",

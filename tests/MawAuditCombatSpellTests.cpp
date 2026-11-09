@@ -1629,7 +1629,7 @@ TEST_CASE("Skill popups show the numbers the rules use (TXT-2-5, TXT-2-6, TXT-2-
     CHECK(plainText(popup(0, "MindMagic").description).find("restores 42 spell points") != std::string::npos);
     CHECK_EQ(popup(1, "WaterMagic").masteryLines[3], "You regenerate 14 energy per second");
     // A Death Knight has no Ascension: no mana cut for a trained Learning.
-    CHECK(plainText(popup(2, "Learning").description).find("Mana costs change by +0 %") != std::string::npos);
+    CHECK(plainText(popup(2, "Learning").description).find("Mana cost: +0 %") != std::string::npos);
 
     // Holding a staff, only the Staff popup names a paralyse chance.
     uint32_t staff = 0;

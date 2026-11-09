@@ -1,0 +1,37 @@
+id: mm9.ai.civilians_monster
+title: An MM9 townsperson attacked by a monster runs to a town guard, whose help call makes the guard fight it
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Until 4 s the Horde Grunt and Bjarni are friends (MM9's default); the
+        timed event sets the grunt on him; he runs to the northern guard calling for help; the guard (its enemy list:
+        AIBase) takes the grunt from the help call and fights it. The guard by the grunt is no refuge.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: civilians_monster.arena.yml}
+  - advance_runtime: {seconds: 30}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: detect, before: 4, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: taunt_detect, before: 4, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee_decision, detail: hit, after: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: hide, detail: guard marker 7, after: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: call_help, detail: hide, after: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: help, detail: take, target: actor:6, after: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: turn_hostile, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_melee, target: actor:6, after: 4, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: help, max_count: 0}

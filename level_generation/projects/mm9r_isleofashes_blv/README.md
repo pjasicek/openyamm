@@ -265,3 +265,24 @@ and the review root).
   (07:21) has him at -91 deg after the talk, and hired (key 29), so hidden.
 - **Fixed: the greeting voices.** `regionlua.py`: Forad's Use (53061) plays his GreetingSound before his dialogue, and
   Annud Redeye gets a Use handler (53747) that plays his (NPC_138) and opens RUDE 138, as MM9's NPC use does.
+
+## User play-test 2026-11-09: too many monsters, rising again; chests too rich
+
+- **Fewer grown copies**: `overrides.yml` `density_scale: 0.8` (shared `dungeon/density.py` `scale_adds`): 26 copies
+  instead of 32 (the 3-copy pack adds 2, five 2-copy packs add 1).
+- **Resurrection kept**: every Skeletoid and Bone Thrasher keeps its one rise (34 after the cut). A cap to 4
+  (`resurrections: 4`) was built and installed, then withdrawn the same day at the user's call: the fewer copies should
+  be enough.
+- **Chests at T1**: `mm9_chest_balance.py` `TIERS` isleofashes (1, 1): the three chests roll record level 1 (T1 only)
+  instead of 2 (T1-T2). The floor treasure follows the map's chest tiers: 7 markers T1, the bonus one T2.
+- Rebuilt and installed 12:44 and again without the cap; the scene differs from the morning's by actors, `spawns` and
+  `loot_containers` only (BLV, Lua and cinematics identical). `scenario_lifecycle.yml` passes.
+
+## The Lich's Skeletoids reach the shore (2026-11-09)
+
+MarkerTo, where each summoned Skeletoid teleports (Isle_SpawnCreature.scr Teleport), hung 23 units over the rebuilt
+shore. The game places a teleported actor only on a floor within 16 units (`IndoorWorldRuntime::placeMapActorAt`),
+so every Skeletoid stayed on the Lich's islet, marked as fighting, and the map's progress stopped short of 100 %.
+`regionlua.py` now writes MarkerTo on the floor under it (`on_floor`), marks a Skeletoid fighting only once the move
+took, and moves the ones older saves left stranded at MarkerFrom. Scenario:
+`tests/scenarios/mm9/isle_lich_skeletoids_reach_shore.yml`.

@@ -173,6 +173,24 @@ void MawRules::setState(const MawGameState &state)
     m_monsterLevels = {};
 }
 
+void MawRules::updateStoryBands(const Party &party)
+{
+    std::unordered_set<uint32_t> reached;
+
+    for (uint32_t qbit : m_mapLevels.storyBandQBits())
+    {
+        if (party.hasQuestBit(qbit))
+        {
+            reached.insert(qbit);
+        }
+    }
+
+    if (m_mapLevels.setReachedStoryQBits(std::move(reached)))
+    {
+        m_monsterLevels = {};
+    }
+}
+
 const MawMapLevels &MawRules::mapLevels() const
 {
     return m_mapLevels;
@@ -258,7 +276,7 @@ void MawRules::setCurrentMap(const std::string &mapFileName)
 {
     m_currentMap = lowercase(mapFileName);
 
-    if (m_currentMap.ends_with(".odm"))
+    if (outdoorMap(m_currentMap))
     {
         m_lastOutdoorMap = m_currentMap;
     }
@@ -267,6 +285,19 @@ void MawRules::setCurrentMap(const std::string &mapFileName)
 const std::string &MawRules::lastOutdoorMap() const
 {
     return m_lastOutdoorMap;
+}
+
+bool MawRules::outdoorMap(const std::string &mapFileName) const
+{
+    const std::string file = lowercase(mapFileName);
+
+    if (file.ends_with(".odm"))
+    {
+        return true;
+    }
+
+    const MapStatsEntry *pMap = m_pMapTable != nullptr ? m_pMapTable->findByFileName(file) : nullptr;
+    return pMap != nullptr && pMap->openAir;
 }
 
 const MawTrainerHints &MawRules::trainerHints() const
@@ -368,7 +399,7 @@ double MawRules::mapDropLevel() const
     }
 
     // Otherwise 7/8 of a party level plus 1/8 of the band's sum (staticMapDropLevel, MON:1897-1924): the band's sum
-    // where the map has a band; in horizontal progression 3/4 of the three continents' banks; else the banks of the
+    // where the map has a band; in horizontal progression 3/4 of all the continents' banks; else the banks of the
     // other continents plus half this one's, at most 54 (resets add 20 each); Beyond Madness the map's own level; a
     // dimension map its power x 10 + 20.
     const std::array<double, 3> band = m_mapLevels.band(file);
@@ -386,11 +417,11 @@ double MawRules::mapDropLevel() const
     }
     else if (m_options.progression == RulesetProgression::Horizontal)
     {
-        partyLevel = 0.75 * (m_state.totalLevel() - m_state.continentLevels[3]);
+        partyLevel = 0.75 * m_state.totalLevel();
     }
     else
     {
-        partyLevel += std::min((m_state.continentLevels[MawGameState::continentIndex(continentId)] + reset) / 2, 54.0);
+        partyLevel += std::min((m_state.levelOn(continentId) + reset) / 2, 54.0);
         mapLevel = 0;
     }
 
@@ -521,8 +552,7 @@ bool MawRules::madnessRewardlessMap(const std::string &mapFileName) const
     }
 
     const std::string file = lowercase(mapFileName);
-    return file == "zarena.blv" || file == "d42.blv" || file == "7d05.blv"
-        || (m_bountyLevel.has_value() && file == lowercase(m_currentMap));
+    return mawArenaMap(file) || (m_bountyLevel.has_value() && file == lowercase(m_currentMap));
 }
 
 int MawRules::partyStaffResistance() const
@@ -640,8 +670,14 @@ MawMonsterLevelInputs MawRules::monsterLevelInputs(const MapStatsEntry &map) con
 {
     MawMonsterLevelInputs inputs;
     inputs.mapFileName = lowercase(map.fileName);
-    inputs.mapName = map.name;
     inputs.encounterPictures = {map.encounter1.pictureName, map.encounter2.pictureName, map.encounter3.pictureName};
+
+    // A world's balance file may name the map's natives itself (MM9's encounter pictures do not always match the
+    // monsters its scenes place).
+    if (const std::array<std::string, 3> *pNatives = m_mapLevels.natives(map.fileName))
+    {
+        inputs.encounterPictures = *pNatives;
+    }
     inputs.horizontalProgression = m_options.progression == RulesetProgression::Horizontal;
     inputs.madness = m_options.challengeMode == RulesetChallengeMode::BeyondMadness;
     inputs.austerity = m_options.challengeMode == RulesetChallengeMode::Austerity;
@@ -661,33 +697,49 @@ MawMonsterLevelInputs MawRules::monsterLevelInputs(const MapStatsEntry &map) con
     return inputs;
 }
 
+namespace
+{
+// The mean level of a map's native families' B rows (the Progress tab's map level); 0 without natives.
+int nativeMeanLevel(
+    const MonsterTable &monsterTable, const MawMapLevels &mapLevels, const MawMonsterLevelInputs &inputs)
+{
+    const std::unordered_map<int, int> levels = resolveMawMonsterLevels(monsterTable, mapLevels, inputs);
+    double sum = 0;
+    int count = 0;
+
+    for (const std::string &picture : inputs.encounterPictures)
+    {
+        const MonsterTable::MonsterStatsEntry *pFamilyB = nullptr;
+
+        for (int id = 1; id <= MawMonsterRows && !picture.empty() && pFamilyB == nullptr; ++id)
+        {
+            const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(int16_t(id));
+            pFamilyB = pStats != nullptr && pStats->pictureName == picture + " B" ? pStats : nullptr;
+        }
+
+        // A world's family (MM9's "MM9 Thrall" encounters).
+        if (pFamilyB == nullptr && !picture.empty())
+        {
+            const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsByPictureName(picture + " B");
+            pFamilyB = pStats != nullptr && pStats->id >= MawWorldMonsterRows ? pStats : nullptr;
+        }
+
+        if (pFamilyB != nullptr)
+        {
+            const auto level = levels.find(pFamilyB->id);
+            sum += level != levels.end() ? level->second : pFamilyB->level;
+            ++count;
+        }
+    }
+
+    return count > 0 ? int(std::lround(sum / count)) : 0;
+}
+}
+
 std::pair<int, int> MawRules::mapLevelSummary(const MonsterTable &monsterTable, const MapStatsEntry &map) const
 {
     MawMonsterLevelInputs inputs = monsterLevelInputs(map);
-    const auto nativeMean = [&](const std::unordered_map<int, int> &levels)
-    {
-        double sum = 0;
-        int count = 0;
-
-        for (const std::string &picture : inputs.encounterPictures)
-        {
-            for (int id = 1; id <= MawMonsterRows && !picture.empty(); ++id)
-            {
-                const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(int16_t(id));
-
-                if (pStats != nullptr && pStats->pictureName == picture + " B")
-                {
-                    const auto level = levels.find(id);
-                    sum += level != levels.end() ? level->second : pStats->level;
-                    ++count;
-                    break;
-                }
-            }
-        }
-
-        return count > 0 ? int(std::lround(sum / count)) : 0;
-    };
-    const int level = nativeMean(resolveMawMonsterLevels(monsterTable, m_mapLevels, inputs));
+    const int level = nativeMeanLevel(monsterTable, m_mapLevels, inputs);
 
     if (inputs.resetCount == 0 || level == 0)
     {
@@ -695,7 +747,113 @@ std::pair<int, int> MawRules::mapLevelSummary(const MonsterTable &monsterTable, 
     }
 
     inputs.resetCount = 0;
-    return {level, level - nativeMean(resolveMawMonsterLevels(monsterTable, m_mapLevels, inputs))};
+    return {level, level - nativeMeanLevel(monsterTable, m_mapLevels, inputs)};
+}
+
+std::vector<MawRules::MapLevelRow> MawRules::mapLevelTable(const MonsterTable &monsterTable, double bankedLevels) const
+{
+    std::vector<MapLevelRow> rows;
+
+    if (m_pMapTable == nullptr)
+    {
+        return rows;
+    }
+
+    for (const MapStatsEntry &map : m_pMapTable->getEntries())
+    {
+        const std::string file = lowercase(map.fileName);
+
+        if (!m_mapLevels.lists(file) || map.name == "pending")
+        {
+            continue;
+        }
+
+        MawMonsterLevelInputs inputs = monsterLevelInputs(map);
+        inputs.horizontalProgression = false;
+        inputs.madness = false;
+        inputs.austerity = false;
+        inputs.resetCount = 0;
+        inputs.dimensionPower.reset();
+        inputs.bountyLevel.reset();
+        inputs.partyLevel = 0;
+
+        MapLevelRow row;
+        row.fileName = file;
+        row.name = map.name;
+        row.continentId = map.mergedContinentId;
+        row.band = m_mapLevels.band(file);
+        row.horizontalStarter = m_mapLevels.isHorizontalStarterMap(file);
+        row.madnessLevel = m_mapLevels.madnessLevel(file);
+        row.freeLevel = nativeMeanLevel(monsterTable, m_mapLevels, inputs);
+        inputs.partyLevel = bankedLevels;
+        row.freeBankedLevel = nativeMeanLevel(monsterTable, m_mapLevels, inputs);
+        inputs.partyLevel = 0;
+        inputs.horizontalProgression = true;
+        row.horizontalLevel = nativeMeanLevel(monsterTable, m_mapLevels, inputs);
+        inputs.horizontalProgression = false;
+        inputs.madness = true;
+        row.madnessMapLevel = nativeMeanLevel(monsterTable, m_mapLevels, inputs);
+        rows.push_back(std::move(row));
+    }
+
+    return rows;
+}
+
+std::vector<MawRules::MapMonsterRow> MawRules::mapMonsterTable(
+    const MonsterTable &monsterTable, const Party *pParty) const
+{
+    std::vector<MapMonsterRow> rows;
+
+    if (m_pMapTable == nullptr)
+    {
+        return rows;
+    }
+
+    for (const MapStatsEntry &map : m_pMapTable->getEntries())
+    {
+        const std::string file = lowercase(map.fileName);
+
+        if (!m_mapLevels.lists(file) || map.name == "pending")
+        {
+            continue;
+        }
+
+        for (const std::string &picture : monsterLevelInputs(map).encounterPictures)
+        {
+            const MonsterTable::MonsterStatsEntry *pFamilyB =
+                picture.empty() ? nullptr : monsterTable.findStatsByPictureName(picture + " B");
+
+            if (pFamilyB == nullptr)
+            {
+                continue;
+            }
+
+            const MawMonsterFamily family = mawMonsterFamily(&monsterTable, pFamilyB->id);
+
+            for (int tier = 1; tier <= 3; ++tier)
+            {
+                const int monsterId = family.rows[size_t(tier - 1)];
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    monsterId != 0 ? monsterTable.findStatsById(int16_t(monsterId)) : nullptr;
+
+                if (pStats == nullptr)
+                {
+                    continue;
+                }
+
+                GameplayBolsterRuntimeContext context;
+                context.pMap = &map;
+                context.pMonsterTable = &monsterTable;
+                context.pParty = pParty;
+                const GameplayMonsterBolsterResult result = m_gameRules.monsters.resolveMonster(
+                    context, *pStats, monsterTable.findById(int16_t(monsterId)));
+                rows.push_back({file, map.mergedContinentId, picture, monsterId, pStats->name, uint8_t(tier),
+                    result.rulesetFacts.level, result.maxHp, result.armorClass, result.rulesetFacts.attack1Damage});
+            }
+        }
+    }
+
+    return rows;
 }
 
 double MawRules::mapBolster(const MapStatsEntry &map) const

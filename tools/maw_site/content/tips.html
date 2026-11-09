@@ -1,0 +1,121 @@
+<h2 id="hud">Reading the screen</h2>
+<h3>Portraits</h3>
+<ul>
+  <li><strong>Split arcs:</strong> HP wraps the left of each portrait (green from 66 %, yellow above 33 %, red at
+    33 % or below), mana the right.</li>
+  <li><strong>Reserved mana:</strong> mana held by auras is a dark hatched band at the end of the mana arc, with a gold
+    mark where the free pool ends. A Legendary 32 wearer's hatching is on the HP arc instead.</li>
+  <li><strong>Assassin combo points:</strong> five ruby gems outside the HP arc; half a point lights half a gem. Hover
+    them for the finishers you can afford.</li>
+  <li><strong>Elementalist stacks:</strong> ten amber gems and a number; past 10 stacks they turn pale gold.</li>
+</ul>
+
+<h3>Map progress bar</h3>
+<p>A thin channel along the top of the party frame fills violet as you clear the map. Its tab reads, for example,
+  <span class="num">38.5 % · 112 / 292</span>: the share cleared, then monsters slain out of those needed. It turns
+  gold once the map is complete. Where the dead can rise (Nightmare and the Doom modes), a mark at 65 % stays red until
+  you pass it.</p>
+
+<h3>Potions and scrolls</h3>
+<p>The party frame's end ornaments carry two sockets: <strong>scrolls</strong> on the left, <strong>potions</strong>
+  on the right (also <strong>T</strong> and <strong>V</strong>). Each opens a paused list of what the party carries,
+  for the active member; click a portrait to change who drinks. The potion list previews what the hovered potion
+  restores or cures and marks potions that would do nothing now. Right-click a row to put it on a quick slot;
+  <strong>N</strong> uses slot 1. The older per-portrait potion rings are a setting, off by default.</p>
+
+<h3>Aura panel</h3>
+<p>Click the party buff icons at the upper left (or bind <strong>Open Auras</strong>) for every held aura: who holds
+  it, what it reserves and what each member really gets. States: <strong>Active</strong>, <strong>Partly
+  used</strong>, <strong>Adds nothing</strong> (a stronger source covers it), <strong>Suspended</strong> (holder down)
+  and <strong>Blessing</strong> (temple, scroll or pedestal; reserves nothing). <strong>Release</strong> is free;
+  <strong>Move to</strong> recasts it from another member.</p>
+<figure><img src="img/aurapanel.jpg" alt="The aura panel listing held auras, holders, reservations and states"><figcaption>The aura panel. "Adds nothing" is mana spent for nothing.</figcaption></figure>
+
+<h3>Character screen</h3>
+<ul>
+  <li>The stats page shows <strong>Melee, Ranged and Spell Power</strong> (damage per second) and
+    <strong>Vitality</strong> (effective health), and each resistance as the share of damage it removes against
+    monsters of your level. Stat names are coloured: Might red, Intellect orange, Personality blue, Endurance green,
+    Accuracy yellow, Speed violet, Luck white.</li>
+  <li>Item popups show how Power and Vitality would change if you wore the item: the quickest way to compare gear.</li>
+  <li>Each skill row's <strong>"N pts"</strong> tag is the real cost of the next point after the second-skill
+    discount; hover it to see which skills share it.</li>
+  <li>Hold <strong>Left Alt</strong> to outline items in their rarity colour (or set Item rarity glow to always on in
+    Settings → Interface).</li>
+</ul>
+
+<h3>Journal</h3>
+<ul>
+  <li><strong>Progress</strong> tab: your mode and total level, a card per continent (monster levels, levels banked,
+    maps cleared), and every map with its clear bar and flags (cleared, reset, refilled, reward waiting, bounty,
+    dimension run).</li>
+  <li><strong>Notes › Trainers</strong>: a searchable trainer finder per continent, with the trainer's house on its
+    map. It lists the teachers you have met; any tavern sells that continent's <strong>Ledger of Teachers</strong>
+    for 2,000 gold, which names them all.</li>
+  <li>With <strong>Trainer hints</strong> on (Settings → Rules), a skill's tooltip names the next mastery's
+    requirement and the nearest teacher you know.</li>
+</ul>
+<figure><img src="img/journal.jpg" alt="The journal's Progress tab"><figcaption>The journal's Progress tab.</figcaption></figure>
+
+<h3>Bags and loot</h3>
+<ul>
+  <li>Four bags a character; <strong>1–4</strong> zoom one. Tag a bag as the crafting bag (<strong>Shift+B</strong>
+    or the hammer) or the alchemy bag (the potion button): matching pickups go there even while it is closed.</li>
+  <li><strong>Sort</strong> sorts the open bag, Shift+Sort all that member's bags, Ctrl+Sort the party's. <strong>A</strong>
+    on the inventory page makes the current member the alchemist who receives alchemy items.</li>
+  <li><strong>Gather Loot (G)</strong> pulls up to 30 corpses and 30 crafting items or dimension maps from anywhere on
+    the map to the party.</li>
+  <li>The <strong>loot filter</strong> (Settings → Rules) turns unwanted drops into gold (40 % of their value). See
+    <a href="#loot">Loot</a>.</li>
+</ul>
+<figure><img src="img/bags.jpg" alt="The inventory with four bags and the bag tag buttons"><figcaption>Four bags; the hammer and potion buttons tag a crafting and an alchemy bag.</figcaption></figure>
+
+<h2 id="keys">Keys</h2>
+<div class="tbl"><table>
+  <thead><tr><th>Key</th><th>Does</th></tr></thead>
+  <tbody>
+    <tr><td>G</td><td>Gather Loot</td></tr>
+    <tr><td>1–4 · Shift+B</td><td>Zoom a bag · tag the open bag as the crafting bag</td></tr>
+    <tr><td>A</td><td>Make the current member the alchemist (inventory page)</td></tr>
+    <tr><td>P · M · R</td><td>Cover · Mana Shield · Elementalist rotation on or off (skills page)</td></tr>
+    <tr><td>R</td><td>Release every aura (spellbook)</td></tr>
+    <tr><td>V · T · N</td><td>Potions · Scrolls · use quick slot 1</td></tr>
+    <tr><td>Left Alt</td><td>Show item rarity</td></tr>
+    <tr><td>F5–F8</td><td>Quick spells 1–4</td></tr>
+    <tr><td>unbound</td><td>Open Workbench, Open Progress, Open Auras, Knight Charge, Unstuck, quick slots 2–6: bind
+      them in the Keyboard settings</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="hidden-rules">Rules the game does not spell out</h2>
+<ul>
+  <li><strong>Pull, don't charge.</strong> Monsters move faster than you and most of their missiles home in. Strafing
+    at a walk is not enough: run sideways.</li>
+  <li><strong>Regeneration out of combat:</strong> HP and SP regeneration doubles after 20 seconds without a loss and
+    again with no enemy near. Wait between fights instead of resting.</li>
+  <li><strong>No immunities:</strong> monster resistances are capped, so every element hurts every monster; nothing
+    resists Energy (blasters).</li>
+  <li><strong>Weapon enchantments feed spells:</strong> elemental damage enchantments on your weapons add to your
+    damage spells (less for area spells).</li>
+  <li><strong>Quick-cast control spreads itself:</strong> quick-casting Slow, the Charms, Berserk, Paralyze and the like
+    without a target picks the visible hostile whose effect ends soonest. Quick heals go to whoever needs them most.</li>
+  <li><strong>Crowd control wears thin:</strong> a monster controlled for long in the last 20 seconds gets shorter
+    effects, then brief immunity. Spread control over the pack.</li>
+  <li><strong>Disease</strong> makes a character take 25 / 50 / 100 % more damage by stage. Cure it before a fight.</li>
+  <li><strong>Saving costs food</strong> on Nightmare and in the challenge modes (more indoors and near enemies),
+    except on a map you have completed. Autosaves are free.</li>
+  <li><strong>Hard and up:</strong> attacking while flying ends Fly (it turns into Feather Fall), except on maps made
+    for flying, which say so on arrival.</li>
+  <li><strong>Antagarich pays more:</strong> kills on its maps give twice the experience, up to +1,000 a kill.</li>
+  <li><strong>Loot is fixed:</strong> a corpse's drop and every craft's result are set in advance; reloading does not
+    reroll them.</li>
+  <li><strong>Bad-luck protection:</strong> every failed roll for a Primordial, Legendary, Celestial, artifact or
+    special material makes the next one likelier.</li>
+  <li><strong>Utility skills are shared:</strong> the best member's Identify Item, Merchant, Repair, Disarm Traps,
+    Identify Monster and Alchemy count for everyone. Repair mends broken items by itself every few minutes.</li>
+  <li><strong>Humans</strong> reach one mastery higher than their class allows in the utility skills.</li>
+  <li><strong>Stat shrines</strong> (Enroth) answer in any month: the first prayer gives the party +10, later ones
+    +3.</li>
+  <li><strong>Barrels and cauldrons</strong> that raised a stat stay empty for good.</li>
+  <li><strong>Vampires</strong> are under Preservation at night (21:00–05:00) and in dungeons.</li>
+</ul>

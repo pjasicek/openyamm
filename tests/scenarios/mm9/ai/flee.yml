@@ -1,0 +1,71 @@
+id: mm9.ai.flee
+title: MM9 runners flee to a hiding place out of the party's sight or cower; the hiding one calls for help
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). At 3 s the runners take a hit leaving at most twice it in health
+        (ShouldRunAway): the wolf runs to its hiding place in the west pen (out of the party's sight behind the shut
+        door), opens the pen door on the way, calls for help every 1.5 s and on arrival, turns round and drops the
+        party; the idle Bandit in the pen (beyond every alert, too short-sighted to see the party) takes the party
+        from its help call. Bandit 4 rolls MM9's 10 in 101 and cowers in place while the party stays in sight; the
+        other Bandits run to the east pen. The second wolf never runs and rolls MM9's wince at 20 % health.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: flee.arena.yml}
+  - advance_runtime: {seconds: 3}
+  - damage_actor: {actor_index: last-6, amount: 50}
+  - damage_actor: {actor_index: last-5, amount: 50}
+  - damage_actor: {actor_index: last-4, amount: 70}
+  - damage_actor: {actor_index: last-3, amount: 70}
+  - damage_actor: {actor_index: last-2, amount: 70}
+  - damage_actor: {actor_index: last-1, amount: 70}
+  - advance_runtime: {seconds: 3}
+  - damage_actor: {actor_index: last-5, amount: 50}
+  - advance_runtime: {seconds: 22}
+  - ai_trace_dump: {decisions_only: true}
+  # The wolf: flight to its hiding place, the door, help calls, arrival.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee_decision, detail: hurt, target: party, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: hide, detail: run marker 0, after: 2.9, before: 3.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: open_door, detail: marker 5, after: 3, before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: call_help, detail: hide, after: 3, before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: hide, detail: arrived, after: 3, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, detail: fled, after: 3, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, after: 3, before: 7, max_count: 0}
+  # The helper joins on the help call (it perceives nothing itself and hears no alert).
+  - assert:
+      ai_trace: {arena_monster: 6, decision: help, detail: take, target: party, after: 3, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 6, decision: alert, before: 10, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 6, decision: detect, before: 10, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 6, decision: taunt_detect, before: 10, max_count: 0}
+  # A Bandit cowers (10 in 101) and keeps cowering while the party stays in sight; the others hide.
+  - assert:
+      ai_trace: {arena_monster: 4, decision: cower, detail: start, after: 2.9, before: 3.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 4, decision: cower, detail: end, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 4, decision: attack_melee, after: 3.1, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: hide, detail: run, after: 2.9, before: 3.1, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: hide, detail: arrived, min_count: 1}
+  # The wolf that never runs fights on and winces.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: flee_decision, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: wince, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, after: 3, min_count: 3}

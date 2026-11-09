@@ -112,7 +112,7 @@ class GenerateMm9TransitionsTests(unittest.TestCase):
 
     def test_guberland_gate_mechanisms_remain_separate_from_exit_volume(self) -> None:
         repository_root = Path(__file__).resolve().parents[2]
-        maps_root = repository_root / "assets_dev/worlds/mm9/maps"
+        maps_root = repository_root / "assets_editor_dev/worlds/mm9/maps"
         with (repository_root / "assets_dev/worlds/mm9/data_tables/map_transitions.txt").open(
                 encoding="utf-8", newline="") as stream:
             transition = next(

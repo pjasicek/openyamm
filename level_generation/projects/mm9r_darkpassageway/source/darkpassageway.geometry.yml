@@ -558,10 +558,6 @@
     "MECH_Door1",
     "MECH_Door2",
     "MECH_Door3",
-    "MECH_Mirror0",
-    "MECH_Mirror1",
-    "MECH_Mirror2",
-    "MECH_Mirror3",
     "LIGHT_Light18",
     "LIGHT_Light22",
     "LIGHT_Light74",
@@ -574,7 +570,11 @@
     "LIGHT_Light39",
     "LIGHT_Light37",
     "DECOR_Gemstone",
-    "DECOR_BeamReceiver1"
+    "DECOR_BeamReceiver1",
+    "DECOR_Mirror0",
+    "DECOR_Mirror1",
+    "DECOR_Mirror2",
+    "DECOR_Mirror3"
    ],
    "min_ambient_light_level": 30
   },
@@ -1396,42 +1396,6 @@
    }
   },
   {
-   "id": "Mirror0",
-   "source_node": "MECH_Mirror0",
-   "flags": [],
-   "trigger": {
-    "event_id": 210,
-    "type": "click"
-   }
-  },
-  {
-   "id": "Mirror1",
-   "source_node": "MECH_Mirror1",
-   "flags": [],
-   "trigger": {
-    "event_id": 211,
-    "type": "click"
-   }
-  },
-  {
-   "id": "Mirror2",
-   "source_node": "MECH_Mirror2",
-   "flags": [],
-   "trigger": {
-    "event_id": 212,
-    "type": "click"
-   }
-  },
-  {
-   "id": "Mirror3",
-   "source_node": "MECH_Mirror3",
-   "flags": [],
-   "trigger": {
-    "event_id": 213,
-    "type": "click"
-   }
-  },
-  {
    "id": "MountainForestDoor",
    "source_node": "MECH_MountainForestDoor",
    "flags": [],
@@ -2031,7 +1995,7 @@
      -0.0,
      -1.0
     ],
-    "move_length": 6441,
+    "move_length": 6518,
     "open_speed": 1280,
     "close_speed": 1280
    }
@@ -2217,93 +2181,13 @@
    }
   },
   {
-   "id": "Mirror0",
-   "kind": "linear",
-   "source_nodes": [
-    "MECH_Mirror0"
-   ],
-   "door": {
-    "door_id": 31,
-    "initial_state": "closed",
-    "source_pose": "closed",
-    "direction": [
-     -0.0,
-     -0.0,
-     1.0
-    ],
-    "move_length": 3,
-    "open_speed": 64,
-    "close_speed": 64
-   }
-  },
-  {
-   "id": "Mirror1",
-   "kind": "linear",
-   "source_nodes": [
-    "MECH_Mirror1"
-   ],
-   "door": {
-    "door_id": 32,
-    "initial_state": "closed",
-    "source_pose": "closed",
-    "direction": [
-     -0.0,
-     -0.0,
-     1.0
-    ],
-    "move_length": 3,
-    "open_speed": 64,
-    "close_speed": 64
-   }
-  },
-  {
-   "id": "Mirror2",
-   "kind": "linear",
-   "source_nodes": [
-    "MECH_Mirror2"
-   ],
-   "door": {
-    "door_id": 33,
-    "initial_state": "closed",
-    "source_pose": "closed",
-    "direction": [
-     -0.0,
-     -0.0,
-     1.0
-    ],
-    "move_length": 3,
-    "open_speed": 64,
-    "close_speed": 64
-   }
-  },
-  {
-   "id": "Mirror3",
-   "kind": "linear",
-   "source_nodes": [
-    "MECH_Mirror3"
-   ],
-   "door": {
-    "door_id": 34,
-    "initial_state": "closed",
-    "source_pose": "closed",
-    "direction": [
-     -0.0,
-     -0.0,
-     1.0
-    ],
-    "move_length": 3,
-    "open_speed": 64,
-    "close_speed": 64
-   }
-  },
-  {
    "id": "MountainForestDoor",
    "kind": "linear",
    "source_nodes": [
     "MECH_MountainForestDoor"
    ],
    "door": {
-    "door_id": 35,
+    "door_id": 31,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2323,7 +2207,7 @@
     "MECH_Painting"
    ],
    "door": {
-    "door_id": 36,
+    "door_id": 32,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2343,7 +2227,7 @@
     "MECH_SpikeDoor1"
    ],
    "door": {
-    "door_id": 37,
+    "door_id": 33,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2363,7 +2247,7 @@
     "MECH_SpikeDoor2"
    ],
    "door": {
-    "door_id": 38,
+    "door_id": 34,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2383,7 +2267,7 @@
     "MECH_SpikeDoor3"
    ],
    "door": {
-    "door_id": 39,
+    "door_id": 35,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2403,7 +2287,7 @@
     "MECH_SpikeDoor4"
    ],
    "door": {
-    "door_id": 40,
+    "door_id": 36,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2423,7 +2307,7 @@
     "MECH_Switch"
    ],
    "door": {
-    "door_id": 41,
+    "door_id": 37,
     "initial_state": "open",
     "source_pose": "closed",
     "direction": [
@@ -2443,7 +2327,7 @@
     "MECH_TeleportDoor0"
    ],
    "door": {
-    "door_id": 42,
+    "door_id": 38,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2463,7 +2347,7 @@
     "MECH_TeleportDoor1"
    ],
    "door": {
-    "door_id": 43,
+    "door_id": 39,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2483,7 +2367,7 @@
     "MECH_TrapRoomDoor1"
    ],
    "door": {
-    "door_id": 44,
+    "door_id": 40,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2503,7 +2387,7 @@
     "MECH_TrapRoomDoor2"
    ],
    "door": {
-    "door_id": 45,
+    "door_id": 41,
     "initial_state": "closed",
     "source_pose": "closed",
     "direction": [
@@ -2917,7 +2801,7 @@
    "id": "Prop36",
    "kind": "decoration",
    "source_node": "DECOR_Prop36",
-   "decoration_list_id": 2017,
+   "decoration_list_id": 2814,
    "event_id_primary": 0,
    "event_id_secondary": 0
   },
@@ -3439,6 +3323,38 @@
    "event_id_primary": 417,
    "event_id_secondary": 204,
    "facing": 70
+  },
+  {
+   "id": "Mirror0",
+   "kind": "decoration",
+   "source_node": "DECOR_Mirror0",
+   "decoration_list_id": 2813,
+   "event_id_primary": 420,
+   "event_id_secondary": 210
+  },
+  {
+   "id": "Mirror1",
+   "kind": "decoration",
+   "source_node": "DECOR_Mirror1",
+   "decoration_list_id": 2813,
+   "event_id_primary": 421,
+   "event_id_secondary": 211
+  },
+  {
+   "id": "Mirror2",
+   "kind": "decoration",
+   "source_node": "DECOR_Mirror2",
+   "decoration_list_id": 2813,
+   "event_id_primary": 422,
+   "event_id_secondary": 212
+  },
+  {
+   "id": "Mirror3",
+   "kind": "decoration",
+   "source_node": "DECOR_Mirror3",
+   "decoration_list_id": 2813,
+   "event_id_primary": 423,
+   "event_id_secondary": 213
   }
  ],
  "lights": [

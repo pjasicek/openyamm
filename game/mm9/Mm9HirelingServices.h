@@ -21,6 +21,8 @@ enum class Mm9HireOutcome : uint8_t
     Refused,
     // The party lacks the hire fee: the active member's "not enough gold" line.
     NotEnoughGold,
+    // The rules keep paid retainers away (ClassRules::paidHirelingRefusal: MAW's Doom and up); its line is shown.
+    Declines,
 };
 
 // RUDE -10: charges the row's fee (story companions have none), adds the hireling and sets its hire key, which

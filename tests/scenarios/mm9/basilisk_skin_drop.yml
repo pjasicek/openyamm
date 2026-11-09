@@ -1,0 +1,21 @@
+# Fridleif's first Gladiatorial Labor needs a Basilisk Skin (raw 380; a King Basilisk's 591), and MM9's basilisks carry
+# none here (mm9_common.lua, the MM9 basilisk skin kill hook; the user, 2026-11-08). A basilisk killed while nobody
+# carries a skin has one in its corpse; the next one, the skin in the pack, has none.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/basilisk_skin_drop.yml --scenario-no-color
+id: mm9.basilisk_skin_drop
+title: "The first basilisk killed without a Basilisk Skin in the packs leaves one in its corpse; the next does not"
+world: mm9
+mode: faithful
+tags: [mm9, quests, loot]
+steps:
+  - new_game_flow:
+      start_map: sturmford.blv
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 9150, near_party: true}
+  - combat_loot: {actor_index: last, expected_item_id: 10380}
+  - assert:
+      inventory_any_member: [{item_id: 10380, count: 1}]
+  - spawn_actor: {monster_id: 9150, near_party: true}
+  - combat_loot: {actor_index: last}
+  - assert:
+      inventory_any_member: [{item_id: 10380, count: 1}]

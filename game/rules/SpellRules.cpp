@@ -140,6 +140,11 @@ bool SpellRules::tabCyclesSpellbookSchools() const
     return false;
 }
 
+const SpellbookSkin *SpellRules::spellbookSkin(const Character &) const
+{
+    return nullptr;
+}
+
 bool SpellRules::sunrayWorksIndoors() const
 {
     return false;

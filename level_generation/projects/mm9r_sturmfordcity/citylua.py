@@ -23,6 +23,7 @@ from quest_xp import balanced_experience, experience_note
 
 LETTERS = ROOT / "mm9/extracted/DATA/DATA/BOOK AND SCROLL TEXT.csv"
 EV_LOAD, EV_LOCKED, EV_JAIL_DOOR = 1, 230, 231
+EV_DIMENSIONAL_TRAVEL = 250         # the dimensional travel pedestal and its orb (convert.py PEDESTAL)
 T_POLL = 260
 T_ERCC = 261                        # Ercc's second line, as he passes out (ErccSpeech.scr :OnPassOut)
 ERCC_PASSOUT_SECONDS = 66           # his ercc01a-c animations (66.0 s) and ercc01.wav (66.4 s): then he passes out
@@ -150,6 +151,9 @@ def map_script(hooks, build) -> str:
         "",
     ]
     script.add(lines, (EV_LOCKED, "Locked door", "Door"), (EV_JAIL_DOOR, "Jail door", "Door"))
+    script.add(["-- Chedian's dimensional travel pedestal (not MM9's: the user, 2026-11-09), as on the other continents.",
+                f"handlers[{EV_DIMENSIONAL_TRAVEL}] = function() evt.OpenDimensionDoor() end", ""],
+               (EV_DIMENSIONAL_TRAVEL, "Dimensional Travel", "Dimensional Travel"))
     toggles = ["-- Hatches, the grate, the tavern's back door and the bar's flap: a click opens or shuts them."]
     for group, event in TOGGLE_GROUPS.items():
         leaves = [m["node"][5:] for m in build.movers if m["group"] == group]

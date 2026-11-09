@@ -11,6 +11,16 @@ map:
   split_minor_rooms: true              # every polygon is split at a portal plane it crosses (playbook gotchas)
   thin_walls: true
   model_lighting: {light_scale: 2.5}   # MM9's model lighting for decorations/actors; BLV lights carry colour x BrightScale (median 0.4)
+  # Forced arrivals (pack growth, ../mm9r_common/dungeon/density.py): the one-way teleporters' landings keep MM9's
+  # monsters plus at most `copies` grown ones within `radius` (height counted double; 3 400: the Terrors' and Specters'
+  # sight, so the copies do not just move to the landing room's far end); the rest go to other packs (user,
+  # 2026-11-09). Teleporter0 is the ocean cage's (after the sea monster fight).
+  density_arrivals:
+  - {name: Teleporter0, at: [-7864, -18678, -817], radius: 3400, copies: 2}
+  - {name: DesertTeleporter, at: [-5243, -1454, -754], radius: 3400, copies: 2}
+  - {name: ForestTeleporter, at: [-15401, -9708, 2], radius: 3400, copies: 2}
+  - {name: LakeTeleporter, at: [-19323, -10394, -1309], radius: 3400, copies: 3}       # no more than before the quotas
+  - {name: MountainTeleporter, at: [-18801, -22036, -326], radius: 3400, copies: 3}    # (the others' copies moved here)
 models:
   # --- linear doors (MM9 Door: MoveDir, MoveDist, Speed)
   ExitRoomTempleDoor0: {group: ExitRoomTempleDoor, motion: dat, doorway: true}
@@ -53,12 +63,12 @@ models:
   # --- static world objects
   Switch: {group: Switch, motion: rotate, start_open: true}   # the exit room's reset switch (-> ExitReset)
   FlameDamage: skip                   # PoisonGas volume (MM9 volumes draw no brush): a polled fire box (convert.py)
-  ElevatorObj: {group: ElevatorObj, motion: slide, move_lt: [0, 2516, 0], speed: 1280, click: false}   # MagicCarpet.scr (convert.py)
+  ElevatorObj: {group: ElevatorObj, motion: slide, move_lt: [0, 2546, 0], speed: 1280, click: false}   # MagicCarpet.scr (convert.py; 2516 + CARPET_DROP_LT)
   DB_TeleporterCage0: {group: DB_TeleporterCage0, motion: slide, move_lt: [0, -140, 0], speed: 2048, click: false}   # broken by the sea monster's death (convert.py)
-  Mirror0: {group: Mirror0, motion: slide, move_lt: [0, -1, 0], speed: 64}   # PassageMirror.scr: a click turns it (convert.py)
-  Mirror1: {group: Mirror1, motion: slide, move_lt: [0, -1, 0], speed: 64}   # PassageMirror.scr: a click turns it (convert.py)
-  Mirror2: {group: Mirror2, motion: slide, move_lt: [0, -1, 0], speed: 64}   # PassageMirror.scr: a click turns it (convert.py)
-  Mirror3: {group: Mirror3, motion: slide, move_lt: [0, -1, 0], speed: 64}   # PassageMirror.scr: a click turns it (convert.py)
+  Mirror0: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  Mirror1: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  Mirror2: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
+  Mirror3: skip                       # PassageMirror.scr: a decoration the map turns (mirrors.json, convert.py)
   TubeRoomWater: skip                  # DirtyWater volumes: their surfaces are the map's own faces (convert.py)
   TubeRoomWater0: skip
   BlueWater0: skip

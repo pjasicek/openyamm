@@ -66,7 +66,9 @@ A party attack with no actor under the crosshair (or the cursor) used to go to t
 (`chooseFallbackRangedTarget`). A standing destructible face, BModel or prop under the crosshair now wins
 (`GameplayActionController::crosshairDestructibleOverridesFallback`): the bow, crossbow, thrown, blaster or wand shot
 flies at the crosshair's hit point and breaks it on impact, unless the fallback hostile is within blow reach (407
-units; then the member strikes it as before). An attack spell or quick cast missile (Fire Bolt, Lightning Bolt ...)
+units; then the member strikes it as before). A destructible under the crosshair within blow reach takes a blow
+from a member who also carries a bow (2026-11-09; before, the bow fired because only an actor in reach counted). An
+attack spell or quick cast missile (Fire Bolt, Lightning Bolt ...)
 with no actor under the crosshair flies there too (`GameplaySpellService::resolveCursorDestructiblePoint`, which
 picks with `pickPartyAttackTarget`, through `standingDestructibleHitPoint`). Indoors and outdoors alike; a broken or
 damage-disabled destructible does not count. `tests/scenarios/mm9/destructibles/sturmford_chain_crosshair.yml`.

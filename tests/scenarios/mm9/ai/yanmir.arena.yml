@@ -1,0 +1,28 @@
+# AI arena: Yanmir (MM9_MONSTER_AI_PLAN.md phase 5, worlds/mm9/behaviors/yanmir.lua) on thearena.blv. Monster 0,
+# Yanmir, awake (the map's Squish trigger already sent), short-sighted here (sight 700, hearing 1 600) so that he
+# does not notice the party at first. Monsters 1 and 2, Ice Lobbercicles (his "bugs", friends of his), stand within
+# 500 LT of him, as short-sighted. 3 s after he starts he picks a bug at random, squashes it and wipes his shoe; then
+# the next. At 24 s the party steps up to him: he takes it, with his 45 s chase limit. See README.md.
+name: mm9_yanmir
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -5
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9206
+    position: [0, 600, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, sight: 700, hearing: 1600}
+  - monster_id: 9105
+    position: [500, 1000, 1]
+    yaw_degrees: 180
+    mm9_ai: {runaway_chance: 0, sight: 200, hearing: 20}
+  - monster_id: 9105
+    position: [-600, 400, 1]
+    yaw_degrees: 0
+    mm9_ai: {runaway_chance: 0, sight: 200, hearing: 20}

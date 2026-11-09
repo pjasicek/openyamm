@@ -1,0 +1,23 @@
+{
+  "world": "mm9",
+  "map": "yanmirsfort.blv",
+  "units_per_texel": 16,
+  "page_size": 4096,
+  "padding": 2,
+  "samples": 128,
+  "bounces": 3,
+  "light_size": 24,
+  "direct_scale": 2.6,
+  "bounce_scale": 1.5,
+  "ambient_scale": 0.2,
+  "blur_radius": 2,
+  "dirlights": true,
+  "max_lighting": 1,
+  "emitters": [],
+  "sky_scale": 0.0,
+  "texture_lights": {
+    "per_polygon": true,
+    "scale": 2.0,
+    "offset_lt": 8
+  }
+}

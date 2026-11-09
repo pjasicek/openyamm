@@ -16,6 +16,17 @@ class ItemTable;
 class Party;
 struct Character;
 
+// An item of a member's bag, by the cell it begins at.
+struct BagItemRef
+{
+    size_t memberIndex = 0;
+    uint8_t bag = 0;
+    uint8_t gridX = 0;
+    uint8_t gridY = 0;
+
+    bool operator==(const BagItemRef &) const = default;
+};
+
 // Several bags per character (MAW's multibag, zzMaw-MultiBag.lua; ItemRules::bagCount): the inventory is the open
 // bag, the others wait in the character's ruleset state, each on a grid of its own. Event and quest item checks and the
 // Workbench see every bag (Party::inventoryItemCount, removeItem, removeItemFromMember; CraftingRuntime,

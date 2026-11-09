@@ -1,0 +1,53 @@
+# MM9 playthrough, segment 11: Drangheim, Jarl Sigmund the Stressed (guide: Chapter I, "Drangheim"). From Anskram
+# Keep's gate passage the party takes the road north-west out of Sturmford (ExitTrigger3, two days) to Drangheim,
+# walks into the city by its gate, cleanses the Town Portal altar in Sigmund's room (key 5013) and, placed beside
+# him on the town hall's upper floor (actor 20, RUDE 87), tells him of the Beldonian Hordes (key 43) and takes both
+# his tasks: Anskram Keep's defences (key 44; the Trap Key, item 596, when the talk closes) and the Crona Kiga from
+# the Chasm of the Dead (key 46). Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 11
+id: mm9.playthrough.11_drangheim_sigmund
+title: "MM9 playthrough 11: the road to Drangheim and Jarl Sigmund's two tasks"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/09_anskram_keep.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmford.blv, qbit_set: [90012, 90039], qbit_clear: [90043, 90044, 90046]}
+
+  # The road to Drangheim leaves Sturmford in the north-west (outdoors the party is placed before it).
+  - set_pose: {map: sturmford.blv, x: -3215, y: 20900, z: 760, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -3215, y: 22165, z: 1311, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+
+  # Drangheim City's gate.
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+
+  # Sigmund's room on the town hall's upper floor (from the hill district): the altar, then Sigmund.
+  - set_pose: {map: drangheimcity.blv, x: 18964, y: -5800, z: 1476, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(330); wait(0.5); log("the altar: " .. status())'}
+  - assert: {qbit_set: [95013]}
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5390, z: 1476, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We have come seeking your aid."}
+  - select_topic: {match_label: "The Beldonian Hordes are marching to Chedian."}
+  - select_topic: {match_label: "Join us!  We are trying to unite the Clans against them."}
+  - select_topic: {match_label: "What do you need done?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "What else do you need done?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90043, 90044, 90046]}
+  - play_lua: {source: 'if not has_item(10596) then error("no Trap Key from Sigmund") end; log("the Trap Key is in the pack")'}
+  - save_game: {name: "11 Sigmund", path: output/playthrough/mm9/checkpoints/11_drangheim_sigmund.oysav}

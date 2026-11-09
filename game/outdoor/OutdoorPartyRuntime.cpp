@@ -44,7 +44,7 @@ void OutdoorPartyRuntime::update(
 {
     m_movementStatusText.clear();
     OutdoorMovementInput rulesInput = input;
-    rulesInput.movementSpeedScale *= m_party.rulesMovementMultiplier();
+    rulesInput.movementSpeedScale *= m_party.movementMultiplier();
     m_movementDriver.update(rulesInput, deltaSeconds, pPerformanceDiagnostics);
 
     uint64_t stageBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;

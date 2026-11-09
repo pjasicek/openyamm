@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayInputController.h"
 #include "engine/Localization.h"
+#include "game/ui/GameplayBattleOrders.h"
 #include "game/ui/GameplayFormationBuilder.h"
 #include "game/ui/GameplayLootSummaryRenderer.h"
 
@@ -179,10 +180,11 @@ void GameplayInputController::handleStandardUiHotkeys(
     GameplayScreenRuntime &context,
     const GameplayStandardUiHotkeyConfig &config)
 {
-    // Letters typed into the alchemy bench, inventory or journal search are text, not hotkeys; each handles Escape
-    // itself.
+    // Letters typed into the alchemy bench, inventory, journal or Battle Orders search are text, not hotkeys; each
+    // handles Escape itself.
     if (GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
-        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly()))
+        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly()))
     {
         return;
     }
@@ -263,7 +265,12 @@ void GameplayInputController::handleStandardUiHotkeys(
 
         if (spellbookActive)
         {
-            context.closeSpellbookOverlay();
+            // The Battle Orders window and the spell menu take their own Escape (the spellbook's input).
+            if (!GameplayBattleOrders::isOpen(context) && !GameplayBattleOrders::spellMenuOpen(context))
+            {
+                context.closeSpellbookOverlay();
+            }
+
             context.interactionState().menuToggleLatch = true;
             return;
         }
@@ -399,6 +406,24 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !houseBankInputActive
         && !formationBuilderOpen
         && !config.blockSpellbookToggle;
+
+    // The Battle Orders key opens the window over the book (the book with it), and closes it again.
+    if (isActionNewlyPressed(context, KeyboardAction::BattleOrders, config.pInputFrame, config.pKeyboardState))
+    {
+        if (GameplayBattleOrders::isOpen(context))
+        {
+            GameplayBattleOrders::close(context);
+        }
+        else if (context.spellbookReadOnly().active)
+        {
+            GameplayBattleOrders::open(context, false);
+        }
+        else if (canToggleSpellbook)
+        {
+            context.openSpellbookOverlay();
+            GameplayBattleOrders::open(context, true);
+        }
+    }
 
     if (isActionNewlyPressed(context, KeyboardAction::Cast, config.pInputFrame, config.pKeyboardState))
     {
@@ -633,7 +658,8 @@ void GameplayInputController::handleSharedGameplayHotkeys(
 {
     if (config.pKeyboardState == nullptr
         || GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
-        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly()))
+        || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly()))
     {
         context.interactionState().alwaysRunToggleLatch = false;
         context.interactionState().adventurersInnToggleLatch = false;

@@ -60,6 +60,9 @@ class Hooks:
     # Lua tables of the map script that list placed actors by DAT name for its messages, not as scripted behaviour of
     # each: pack growth's Lua scan does not follow them and adds the copies to them (density.py)
     density_lua_directories: tuple = ()
+    # Lua tables that name every placed actor by DAT name (with its kind, say) but take no copies: pack growth's Lua
+    # scan does not read them as scripting either (1000 Terrors' KIND; density.lua_name_tables)
+    density_lua_name_tables: tuple = ()
 
     def extra_seeds(self, build) -> list:
         """Extra air seed points (LithTech) beyond starts, lights, chests, triggers and monsters."""

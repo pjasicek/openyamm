@@ -1972,6 +1972,11 @@ std::string rulesetOptionsSummary(const RulesetOptions &options)
     }
     return summary;
 }
+
+std::string otherWorldsLootSummary(bool otherWorldsLoot)
+{
+    return otherWorldsLoot ? Engine::tr("Loot from every world") : Engine::tr("Each world's own loot");
+}
 } // namespace
 
 void NewGameScreen::loadRulesets()
@@ -2064,13 +2069,20 @@ void NewGameScreen::drawRulesetSwitch()
     const RulesetDefinition &ruleset = chosenRulesetDefinition();
     const std::string summary =
         Engine::localize(ruleset.panel.summary.empty() ? ruleset.description : ruleset.panel.summary);
-    if (ruleset.isStandard())
+    // Standard's only option is the loot of other worlds, offered when a mounted world has items of its own.
+    if (ruleset.isStandard() && !worldLootChoice())
     {
         label("ContinentSelectionRulesetSummary", summary);
         label("ContinentSelectionFooterNote", Engine::tr(ContinentHint));
         return;
     }
-    label("ContinentSelectionRulesetOptions", rulesetOptionsSummary(m_ruleset.options));
+    std::string options = ruleset.isStandard() ? otherWorldsLootSummary(m_ruleset.options.otherWorldsLoot)
+                                               : rulesetOptionsSummary(m_ruleset.options);
+    if (!ruleset.isStandard() && !m_ruleset.options.otherWorldsLoot && worldLootChoice())
+    {
+        options += " · " + otherWorldsLootSummary(false);
+    }
+    label("ContinentSelectionRulesetOptions", options);
     label("ContinentSelectionFooterNote", summary);
     if (action("ContinentSelectionRulesButton"))
     {
@@ -2079,6 +2091,11 @@ void NewGameScreen::drawRulesetSwitch()
         m_rulesContentHeight = 0;
         m_rulesPanelOpen = true;
     }
+}
+
+bool NewGameScreen::worldLootChoice() const
+{
+    return m_pGameData != nullptr && m_pGameData->itemTable().hasWorldLootPools();
 }
 
 MenuScreenBase::Rect NewGameScreen::rulesRect(const std::string &id, float y) const
@@ -2165,7 +2182,8 @@ void NewGameScreen::drawRulesPanel()
     // Doom, Road to Insanity and Beyond Madness set the difficulty; Austerity keeps the chosen one.
     const bool challengeDifficulty = rulesetChallengeModeDifficulty(draft.challengeMode).has_value();
     label("RulesetRulesNote",
-          challengeDifficulty
+          choices.difficulties.empty() ? Engine::tr("Chosen once for the whole adventure.")
+          : challengeDifficulty
               ? Engine::tr("{challenge} sets the difficulty for the whole adventure; preferences can change.",
                            {{"challenge", challengeName}})
           : draft.difficultyLocked()
@@ -2195,61 +2213,68 @@ void NewGameScreen::drawRulesPanel()
     scrollViewport(viewport, m_rulesContentHeight, m_rulesScroll);
     setDesignClip(viewport);
 
-    // Left column: the difficulty table, the chosen level's rules and the credits.
-    label("RulesetRulesDifficultyLabel", upperCopy(Engine::tr("Difficulty")), 0, -m_rulesScroll);
-    label("RulesetRulesDifficultyNote",
-          challengeDifficulty ? Engine::tr("Fixed by {challenge}", {{"challenge", challengeName}}) : "", 0,
-          -m_rulesScroll);
-    label("RulesetRulesColumnLevel", upperCopy(Engine::tr("Level")), 0, -m_rulesScroll);
-    std::vector<Rect> columns;
-    for (size_t column = 0; column < panel.difficultyColumns.size(); ++column)
+    // Left column: the difficulty table, the chosen level's rules and the credits. A ruleset without difficulties
+    // (Standard) shows its summary there instead.
+    const bool difficulties = !choices.difficulties.empty();
+    if (difficulties)
     {
-        const std::string id = "RulesetRulesColumn" + std::to_string(column);
-        if (m_designLayouts.findElement(id) == nullptr)
+        label("RulesetRulesDifficultyLabel", upperCopy(Engine::tr("Difficulty")), 0, -m_rulesScroll);
+        label("RulesetRulesDifficultyNote",
+              challengeDifficulty ? Engine::tr("Fixed by {challenge}", {{"challenge", challengeName}}) : "", 0,
+              -m_rulesScroll);
+        label("RulesetRulesColumnLevel", upperCopy(Engine::tr("Level")), 0, -m_rulesScroll);
+        std::vector<Rect> columns;
+        for (size_t column = 0; column < panel.difficultyColumns.size(); ++column)
         {
-            break;
+            const std::string id = "RulesetRulesColumn" + std::to_string(column);
+            if (m_designLayouts.findElement(id) == nullptr)
+            {
+                break;
+            }
+            label(id, upperCopy(Engine::localize(panel.difficultyColumns[column])), 0, -m_rulesScroll);
+            columns.push_back(designRect(id));
         }
-        label(id, upperCopy(Engine::localize(panel.difficultyColumns[column])), 0, -m_rulesScroll);
-        columns.push_back(designRect(id));
-    }
-    const UiLayoutManager::LayoutElement *pValue = m_designLayouts.findElement("RulesetRulesRowValue");
-    const float valueSize = fontHeight(pValue->fontName) * pValue->textScale;
-    for (size_t index = 0; index < choices.difficulties.size(); ++index)
-    {
-        const RulesetDifficulty difficulty = choices.difficulties[index];
-        const float y = float(index) * RulesRowPitch;
-        const bool selected = draft.difficulty == difficulty;
-        const Rect row = rulesRect("RulesetRulesRow", y);
-        if (button("difficulty-" + std::string(rulesetDifficultyId(difficulty)), row, "", "save_row",
-                   !challengeDifficulty, selected))
+        const UiLayoutManager::LayoutElement *pValue = m_designLayouts.findElement("RulesetRulesRowValue");
+        const float valueSize = fontHeight(pValue->fontName) * pValue->textScale;
+        for (size_t index = 0; index < choices.difficulties.size(); ++index)
         {
-            draft.difficulty = difficulty;
+            const RulesetDifficulty difficulty = choices.difficulties[index];
+            const float y = float(index) * RulesRowPitch;
+            const bool selected = draft.difficulty == difficulty;
+            const Rect row = rulesRect("RulesetRulesRow", y);
+            if (button("difficulty-" + std::string(rulesetDifficultyId(difficulty)), row, "", "save_row",
+                       !challengeDifficulty, selected))
+            {
+                draft.difficulty = difficulty;
+            }
+            const uint32_t color = selected ? RulesSelectedText : 0;
+            label("RulesetRulesRowName", Engine::tr(rulesetDifficultyName(difficulty)), color, y - m_rulesScroll);
+            const auto text = panel.difficulties.find(difficulty);
+            for (size_t column = 0; text != panel.difficulties.end() && column < columns.size()
+                                    && column < text->second.values.size();
+                 ++column)
+            {
+                textInRect({columns[column].x, row.y, columns[column].width, row.height},
+                           Engine::localize(text->second.values[column]),
+                           pValue->fontName, valueSize, color ? color : pValue->textColorAbgr, true);
+            }
+            RulesetOptions probe;
+            probe.difficulty = difficulty;
+            label("RulesetRulesRowMark",
+                  difficulty == choices.defaultDifficulty ? Engine::tr("default")
+                  : probe.difficultyLocked()             ? Engine::tr("locks")
+                                                         : "",
+                  selected ? RulesSelectedText : 0, y - m_rulesScroll);
         }
-        const uint32_t color = selected ? RulesSelectedText : 0;
-        label("RulesetRulesRowName", Engine::tr(rulesetDifficultyName(difficulty)), color, y - m_rulesScroll);
-        const auto text = panel.difficulties.find(difficulty);
-        for (size_t column = 0; text != panel.difficulties.end() && column < columns.size()
-                                && column < text->second.values.size();
-             ++column)
-        {
-            textInRect({columns[column].x, row.y, columns[column].width, row.height},
-                       Engine::localize(text->second.values[column]),
-                       pValue->fontName, valueSize, color ? color : pValue->textColorAbgr, true);
-        }
-        RulesetOptions probe;
-        probe.difficulty = difficulty;
-        label("RulesetRulesRowMark",
-              difficulty == choices.defaultDifficulty ? Engine::tr("default")
-              : probe.difficultyLocked()             ? Engine::tr("locks")
-                                                     : "",
-              selected ? RulesSelectedText : 0, y - m_rulesScroll);
     }
     const UiLayoutManager::LayoutElement *pRow = m_designLayouts.findElement("RulesetRulesRow");
     const size_t rowCount = std::max<size_t>(1, choices.difficulties.size());
-    const float detailY = pRow->gapY + float(rowCount - 1) * RulesRowPitch + pRow->height + 6 * RulesPixel;
+    const float detailY =
+        difficulties ? pRow->gapY + float(rowCount - 1) * RulesRowPitch + pRow->height + 6 * RulesPixel : 8 * RulesPixel;
     const auto detail = panel.difficulties.find(draft.difficulty);
-    const std::string description =
-        Engine::localize(detail != panel.difficulties.end() ? detail->second.description : "");
+    const std::string description = difficulties
+        ? Engine::localize(detail != panel.difficulties.end() ? detail->second.description : "")
+        : Engine::localize(panel.summary.empty() ? ruleset.description : panel.summary);
     const std::string warning = Engine::localize(detail != panel.difficulties.end() ? detail->second.warning : "");
     const UiLayoutManager::LayoutElement *pDetailText = m_designLayouts.findElement("RulesetRulesDetailText");
     const float detailSize = fontHeight(pDetailText->fontName) * pDetailText->textScale;
@@ -2266,7 +2291,8 @@ void NewGameScreen::drawRulesPanel()
     box.height = detailHeight * unit;
     drawSolidRect(box, RulesDetailFill);
     drawSolidRect({box.x, box.y, 2 * RulesPixel * unit, box.height}, RulesDetailEdge);
-    label("RulesetRulesDetailTitle", Engine::tr(rulesetDifficultyName(draft.difficulty)), 0,
+    label("RulesetRulesDetailTitle",
+          difficulties ? Engine::tr(rulesetDifficultyName(draft.difficulty)) : Engine::localize(ruleset.name), 0,
           detailY - m_rulesScroll);
     const float descriptionHeight = drawRulesText("RulesetRulesDetailText", description, detailY);
     drawRulesText("RulesetRulesDetailText", warning, detailY + descriptionHeight + 4 * RulesPixel, RulesWarningText);
@@ -2371,6 +2397,16 @@ void NewGameScreen::drawRulesPanel()
         }
         y += RulesSectionGap;
     }
+    if (worldLootChoice())
+    {
+        y = section(Engine::tr("Loot"), Engine::tr("Chosen once · fixed for the adventure"), y);
+        y = drawRulesSetting("other-worlds-loot", Engine::tr("Loot from other worlds"),
+                             Engine::tr("Drops and chests can hold weapons, armour and jewellery from every world. "
+                                        "Off: each world's own, as its shops sell."),
+                             false, draft.otherWorldsLoot ? "On" : "Off", true, true, y, activated);
+        draft.otherWorldsLoot = draft.otherWorldsLoot != activated;
+        y += RulesSectionGap;
+    }
     if (choices.preferences)
     {
         RulesetPreferences &preferences = draft.preferences;
@@ -2455,10 +2491,14 @@ bool NewGameScreen::continentOffered(const std::string &continentKey) const
     std::string startMap = trimCopy(pSetting->deathMap1);
     std::transform(startMap.begin(), startMap.end(), startMap.begin(),
                    [](unsigned char character) { return char(std::tolower(character)); });
-    // A continent of a world this installation lacks (Chedian without MM9) stays on screen, greyed out.
+    // A continent of a world this installation lacks (Chedian without MM9), or one the chosen ruleset does not play in
+    // (MAW's `worlds`), stays on screen, greyed out.
     const MapStatsEntry *pMap = m_pGameData->mapStats().findByFileName(startMap);
+    const auto rulesetIt = std::find_if(m_rulesets.begin(), m_rulesets.end(),
+                                        [this](const RulesetDefinition &ruleset) { return ruleset.id == m_ruleset.id; });
     return pMap != nullptr && isWorldPackageMounted(assetFileSystem(), pMap->worldId)
-        && assetFileSystem().exists("worlds/" + pMap->worldId + "/maps/" + startMap);
+        && assetFileSystem().exists("worlds/" + pMap->worldId + "/maps/" + startMap)
+        && (rulesetIt == m_rulesets.end() || rulesetIt->supportsWorld(pMap->worldId));
 }
 
 void NewGameScreen::drawContinentSelection(float deltaSeconds)

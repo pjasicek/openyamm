@@ -40,7 +40,8 @@ public:
     // The counters MAW prints over the portraits (zzClasses.lua:640-650, 693-702), shown as gems: five for the
     // Assassin's combo points, ten for the Elementalist's stacks (at 10 the cast delay is back to normal).
     PortraitCounter portraitCounter(const Character &member) const override;
-    // A final step promoted on two worlds reads "Elder", on three "Ultimate" (zzClasses.lua:96-104).
+    // A final step promoted on two worlds reads "Elder", on three "Ultimate" (zzClasses.lua:96-104), on all four
+    // "Supreme" (ours: Chedian is MAW's fourth world).
     std::string displayName(const Party &party, const Character &member) const override;
     // A kind's promotion completed on any world promotes every member of that kind to its final step (one of
     // several final classes, picked once per character from the save's seed); MAW's own kinds also take the mid step
@@ -72,12 +73,17 @@ public:
         std::optional<size_t> targetActorIndex) const override;
     // Doom and the modes after it: followers join only in houses 1466 and 1486 (NPCFollowers.lua:248-253, 490-497).
     std::optional<FollowerHireRefusal> followerHireRefusal(uint32_t houseId) const override;
+    std::optional<FollowerHireRefusal> paidHirelingRefusal() const override;
 
     // The promotions part of update(): no world needed.
     void updatePromotions(Party &party) const;
+    // MM9's hirelings at the party's level: each keeps the share of MAW's expected character it has at its row's
+    // level (damage, health, armour, spell skill), at the party's mean level when that is higher.
+    void scaleHirelings(Party &party) const;
 
 private:
-    // The class's HP and SP per level: the table's, MAW's Lua override, times Elder (x1.25) or Ultimate (x1.5).
+    // The class's HP and SP per level: the table's, MAW's Lua override, times Elder (x1.25), Ultimate (x1.5) or Supreme
+    // (x1.75).
     double healthPerLevel(const ClassMultiplierEntry &entry) const;
     double manaPerLevel(const ClassMultiplierEntry &entry) const;
     double promotionFactor(const ClassMultiplierEntry &entry) const;

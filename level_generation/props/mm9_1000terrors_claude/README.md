@@ -81,7 +81,9 @@ Meshy, no Codex, no Real-ESRGAN: every model is MM9's own mesh with its skin x4 
   multiplies the texture by the base colour factor (`fs_model.sc` `u_modelMaterial[0]`), as the flame cards rely on.
   Placed under the WorldObject names (`source_object` null), yaw 0, x/y at the box centre and z at the box bottom
   (a decoration's origin is its base centre); each checked against its own DAT points: median 0.03-0.07 units. No
-  collision (MM9: not Solid; their `DamagePerSecond` 10 is not carried). Only frame 0 of the 10-frame sprite.
+  collision (MM9: not Solid; their `DamagePerSecond` 10 is not carried). The texture is the sprite's ten frames at its
+  15 a second (`scripts/waterorb_flipbook.py`, a 5 x 2 flipbook; `build_waterorb.py` centres the UVs in one frame;
+  2026-11-09: before, frame 0 only).
 - **LeverHand** (`PeasantM1.ABC`, WG_hand.scr): not placed: its Init clears `Visible`; it is shown only by the
   WinGame cutscene (`SC07_Shot1`), which is not built.
 - **TerrorLight lamps**: MM9's `Flame` socket (the one-triangle `Glow-Node`) is the orb's centre, so its blue flame
@@ -123,7 +125,8 @@ Meshy, no Codex, no Real-ESRGAN: every model is MM9's own mesh with its skin x4 
 cd level_generation/props/mm9_1000terrors_claude
 python3 scripts/props_table.py && python3 scripts/convert_all.py && python3 scripts/textures.py
 blender --background --factory-startup --python scripts/build.py
-python3 scripts/waterorb_source.py                # the water orbs' DAT geometry (frame 0 skin x4 in textures/)
+python3 scripts/waterorb_source.py                # the water orbs' DAT geometry
+python3 scripts/waterorb_flipbook.py              # their texture: water123.spr's ten frames, a 5 x 2 flipbook
 blender --background --factory-startup --python scripts/build_waterorb.py
 python3 scripts/finish.py --install && python3 scripts/finish.py waterorb --install
 python3 scripts/tables.py --apply                 # takes mm9r_common/locks/mm9_decorations.lock itself

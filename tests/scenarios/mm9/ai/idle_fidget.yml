@@ -1,0 +1,36 @@
+id: mm9.ai.idle_fidget
+title: MM9 monsters fidget once 5-12 s after entering idle, a clip picked among their model's
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, animation]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). Both stand idle for 70 s. Each fidgets first 5-12 s after it entered
+        idle, then again 5-12 s after each fidget ends (AIBase::SetAnimState arms the timer as the fidget's end sets
+        idle again), so never two within 5 s, each time one of its model's clips: the Commoner's Fidget, Fidget2 or
+        Fidget3 (Fidget4 is its fourth, rolled less often here), the fidget's variant and its clip's length in the trace.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: idle_fidget.arena.yml}
+  - advance_runtime: {seconds: 70}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {decision: fidget, before: 4.99, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: fidget, detail: idle, after: 5, before: 12.05, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: fidget, detail: idle, after: 5, before: 12.05, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: fidget, min_count: 4, max_count: 9, max_in_window: {count: 1, seconds: 5}}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: fidget, min_count: 4, max_count: 9, max_in_window: {count: 1, seconds: 5}}
+  # More than one of its clips: the binding's own (variant 0, the Bored clip) and its fidget<n> script clips.
+  - assert:
+      ai_trace: {arena_monster: 1, decision: fidget, detail: variant 0, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: fidget, detail: variant 2, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: main=Fidget3, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, event: anim, detail: main=Fidget2, min_count: 1}

@@ -1,0 +1,34 @@
+# MM9 promotion playthrough, segment 03: the first labour's Basilisk Skin (guide: side_a.yml kill-a-basilisk).
+# Out of Sturmford City by the north gate (ExitN, its prompt) into the region; the basilisks graze outside Anskram
+# Keep's front (actors 15-17, 72-74). MM9's basilisks carry no skin here, so mm9_common.lua (the 2026-11-08 rule,
+# RegisterMonsterKilledHook 49991) puts one in the corpse of a basilisk killed while nobody carries a skin and
+# Fridleif has not seen one (keys 215, 218). The party kills one and searches its corpse (combat_loot: the party's
+# blow, then a click on the corpse). Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 03
+id: mm9.promotions.03_basilisk_skin
+title: "MM9 promotions 03: a basilisk killed outside Anskram Keep, its skin from the corpse"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/01_fridleif_labours.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmfordcity.blv, qbit_set: [90214], qbit_clear: [90215, 90218]}
+  - play_lua: {source: 'if has_item(10380) or has_item(10591) then error("a basilisk skin already in the packs") end'}
+
+  # Out by the north gate.
+  - set_pose: {map: sturmfordcity.blv, x: 11000, y: 14541, z: 19723, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11346, y: 14541, z: 19907, z_tolerance: 500, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+
+  # Outside Anskram Keep's front: a basilisk killed and its corpse searched.
+  - set_pose: {map: sturmford.blv, x: 18300, y: 17168, z: 1154, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "actor count 9150"}
+  - combat_loot: {actor_index: 15, expected_item_id: 10380}
+  - play_lua: {source: 'if not has_item(10380) then error("no Basilisk Skin from the corpse") end; log("the basilisk skin is in the packs: " .. status())'}
+  - clear_hostiles: {radius: 3000}
+  - save_game: {name: "P03 Basilisk skin", path: output/playthrough/mm9/promotions/checkpoints/03_basilisk_skin.oysav}

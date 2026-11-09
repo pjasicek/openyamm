@@ -30,6 +30,8 @@ struct MapMonsterPlacement
     ActorRulesetFacts *pFacts = nullptr;
     // The place_mon name of a unique monster (0 for none).
     int32_t uniqueNameId = 0;
+    // The actor runs a Lua behaviour (MM9's Dragon King, Njam): never a boss either.
+    bool scripted = false;
 };
 
 // A slain monster whose carried loot the rules size.
@@ -163,6 +165,12 @@ public:
     virtual uint32_t bountyReward(const MonsterTable::MonsterStatsEntry &stats) const;
     // Why the town gives no new bounty yet (MAW: the town is not cleared); nothing when it may.
     virtual std::optional<std::string> bountyRefusal(const IGameplayWorldRuntime &world) const;
+    // The same for a hunt posted on another map (an MM9 Jarl's region), by its file and name.
+    virtual std::optional<std::string> bountyRefusalForMap(
+        const std::string &mapFileName, const std::string &mapName) const;
+    // The monster this month's target will be, by the hunt's seed, as spawnBountyTarget picks it; nothing leaves the
+    // pick to the engine (Standard).
+    virtual std::optional<int16_t> bountyTargetMonster(const MonsterTable &monsterTable, uint32_t seed) const;
     // Chooses and places this month's target near the point; nothing leaves both to the engine (Standard).
     virtual std::optional<BountyTarget> spawnBountyTarget(
         IGameplayWorldRuntime &world,
@@ -217,6 +225,15 @@ public:
     // The map's clearing progress the HUD's progress bar shows (MAW: the slain share against its threshold, the
     // revival mark, dimension runs and the Endless Arena). Standard: none, so no bar.
     virtual std::optional<RulesetMapProgress> mapProgress(const IGameplayWorldRuntime &world) const;
+    // Whether a monster of the map counts toward its clearing (MAW: not those a world's balance file leaves out, as
+    // MM9's sea monsters). Standard: every one.
+    virtual bool countsForMapCompletion(const MapStatsEntry &map, const MonsterTable::MonsterStatsEntry &stats) const;
+    // How much of a map's pack reserve joins it at a fill (MapDeltaData::packReserve: the entries whose fromFactor this
+    // reaches; MAW: its difficulty's density in MM9). Standard: 1, none.
+    virtual double packDensityFactor(const MapStatsEntry &map) const;
+    // Whether a refill leaves the map's used MM9 barrels empty (MAW's used barrels, DEVIATIONS 57: what raised a stat
+    // stays empty). Standard: a refill fills them again.
+    virtual bool keepsUsedBarrelsThroughRefill() const;
     // Just before the party leaves the map (MAW's Nightmare: the slain of an indoor map rise again). Standard: nothing.
     virtual void leaveMap(IGameplayWorldRuntime &world) const;
     // A barrel or cauldron of the map (its decor var, left in `emptyState`) raised a party member's base stat or

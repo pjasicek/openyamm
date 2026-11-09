@@ -13,7 +13,7 @@ The default game loads `assets_dev`; CI creates release ZIPs from those assets.
 | `assets_dev/engine/icons_x2/obsidian_*.oytex`, `assets_cooked/android/engine/icons_x2/` | Prebuilt BC7 and ASTC Obsidian HUD art (and ASTC face atlases) in normal Git; the Obsidian PNG sources are in `assets_source/engine/icons_x2` (`ASSET_COOKING_PLAN.md` §10) |
 | `assets_source/` | Submodule [openyamm-source-assets](https://github.com/pjasicek/openyamm-source-assets) (private, plain Git, shallow): the source assets below |
 | `assets_source/worlds/mm*/models`, `assets_source/engine/models` | 3D model sources (creatures, attachments, decorations, satchels; `tools/install_model.py`) |
-| `assets_source/worlds/mm*/textures*`, `terrain_x2`, `assets_source/engine/terrain` | Original MM6–MM8 BMPs, the x2/x4 surface masters the build cooks and the native terrain tiles `tools/terrain_materials.py` reads |
+| `assets_source/worlds/mm*/textures*`, `terrain_x2`, `assets_source/engine/terrain` | Original MM6–MM9 BMPs, the x2/x4 surface masters the build cooks and the native terrain tiles `tools/terrain_materials.py` reads |
 | `assets_source/engine/terrain_materials`, `assets_source/engine/effects` | Packed terrain material sources (raw CC0 downloads stay local) and generated effect frames |
 | `assets_source/creatures/`, `assets_source/engine/sprites_new/` | Local only (ignored by the submodule): the restored x2 sprite creature bank and its exports |
 | `assets_editor_dev/` | Local editor overlays |
@@ -34,7 +34,7 @@ The current Android profile contains all 60 MM6 families in 402 files (419.1 MB)
 Removing 1,046.6 MB of cooking inputs from normal Git while adding this profile
 reduces the current tracked payload by 627.5 MB. Local inputs remain intact.
 
-MM6–MM8 surface textures are cooked per platform (desktop BC7 x4 into `assets_dev`, Android ASTC x2 into
+MM6–MM9 surface textures are cooked per platform (desktop BC7 x4 into `assets_dev`, Android ASTC x2 into
 `assets_cooked/android`; see `ASSET_COOKING_PLAN.md` §9). Their sources, including the original x1 BMPs the lighting
 bakes record as dependencies, live in `assets_source` under the same relative paths; `assets_dev/worlds/mm*/textures`
 keeps only the `.act` palettes.

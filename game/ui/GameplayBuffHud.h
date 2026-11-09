@@ -2,9 +2,11 @@
 
 #include "engine/Localization.h"
 #include "game/party/Party.h"
+#include "game/party/SpellIds.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include <algorithm>
 #include <array>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -155,7 +157,9 @@ inline constexpr std::array<GameplayBuffHudDefinition, PartyBuffCount> GameplayB
     {Engine::trNoop("Immolation").data(),
         "obsidian_buff_sbf08a", GameplayBuffPresentation::Hero, &GameplayBuffHudFlames},
     {Engine::trNoop("Glamour").data(), "obsidian_buff_sbde01a", GameplayBuffPresentation::Hero, nullptr, 46, 46},
-    {Engine::trNoop("Levitate").data(), "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement}
+    {Engine::trNoop("Levitate").data(), "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement},
+    // MM9's own indicator (worlds/mm9/icons_x2): the buff exists only in that world.
+    {Engine::trNoop("Fleet Foot").data(), "fleetfoot01", GameplayBuffPresentation::Movement}
 }};
 
 inline const char *gameplayBuffPanelLayoutId(GameplayBuffPresentation presentation)
@@ -170,17 +174,42 @@ inline const char *gameplayBuffPanelLayoutId(GameplayBuffPresentation presentati
     return nullptr;
 }
 
-inline std::optional<PartyBuffId> gameplayFlightBuff(const Party &party)
+struct GameplayMovementIndicator
 {
+    const char *pLayoutId = nullptr;
+    PartyBuffId buff = PartyBuffId::Fly;
+};
+
+// The movement indicators beside the skull, left to right without gaps: Fly, Levitate, Water Walk and MM9's Fleet
+// Foot, each while active. Levitate applies Water Walk too; that one is Levitate's own and shows only as Levitate (the
+// buff keeps the spell that applied it last, so a Water Walk cast afterwards shows).
+inline std::vector<GameplayMovementIndicator> gameplayMovementIndicators(const Party &party)
+{
+    std::vector<GameplayMovementIndicator> indicators;
+
     if (party.hasPartyBuff(PartyBuffId::Fly))
     {
-        return PartyBuffId::Fly;
+        indicators.push_back({"OutdoorFlyBuffIcon", PartyBuffId::Fly});
     }
+
     if (party.hasPartyBuff(PartyBuffId::Levitate))
     {
-        return PartyBuffId::Levitate;
+        indicators.push_back({"OutdoorLevitateBuffIcon", PartyBuffId::Levitate});
     }
-    return std::nullopt;
+
+    const PartyBuffState *pWaterWalk = party.partyBuff(PartyBuffId::WaterWalk);
+
+    if (pWaterWalk != nullptr && pWaterWalk->active() && pWaterWalk->spellId != spellIdValue(SpellId::Levitate))
+    {
+        indicators.push_back({"OutdoorWaterWalkBuffIcon", PartyBuffId::WaterWalk});
+    }
+
+    if (party.hasPartyBuff(PartyBuffId::FleetFoot))
+    {
+        indicators.push_back({"OutdoorFleetFootBuffIcon", PartyBuffId::FleetFoot});
+    }
+
+    return indicators;
 }
 
 extern const std::array<const char *, CharacterBuffCount> GameplayPersonalBuffNames;

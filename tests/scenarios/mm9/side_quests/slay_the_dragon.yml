@@ -1,0 +1,64 @@
+# MM9 side quest "Slay the Dragon" (guide: Side quests, Thjorgard / Lindisfarne), its last stage: the Dragon King in
+# the Dragon's Lair (dragonstadium.blv) on Lindisfarne. The earlier stages are their own scenarios:
+# survive_the_training_hall.yml (Snorri, keys 8, 483, 301, 484) and retrieve_the_missing_relic.yml (Leffery, keys
+# 338-342, 485). Walking up the lair's entry tunnel crosses DragonTrigger: the dragon shows and wakes, and Winged
+# Mutants fly in after 45 s, 90 s more and so on (dragonstadium.lua handlers 60, 96, 97). Killed by the party, he gives
+# key 472 and the Super Guber Award (item 577; MM9's Dragon.scr :OnDeath), which ends the quest in the journal.
+# Played: the region is outdoors (placed at the lair's mouth, walked in); the lair is walked; the party is immortal
+# and enemies near it die (combat is not what this tests). Research: prep/C_dragon_wizards_lab.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py slay_the_dragon
+id: mm9.side_quests.slay_the_dragon
+title: "MM9 side quest: the Dragon's Lair walked, the Dragon King slain for the Super Guber Award"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: lindisfarne.blv
+      party:
+        gold: 3000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 30, skills: [{name: Sword, level: 10, mastery: 2}, {name: Shield, level: 6, mastery: 2}], equipment: {main_hand: 1, off_hand: 99}}
+          - {name: Hrothgar, class: Cleric, level: 30, skills: [{name: Mace, level: 6, mastery: 2}], equipment: {main_hand: 66}}
+          - {name: Grisha, class: Thief, level: 30, skills: [{name: Dagger, level: 6, mastery: 2}, {name: Bow, level: 6, mastery: 2}], equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 30, skills: [{name: Staff, level: 6, mastery: 2}, {name: FireMagic, level: 6, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  # Story state: Abbot Leffery has his relic back (key 485, the journal's "Leffery Caid has the relic. Perhaps now you
+  # will meet the dragon in his cave in Lindisfarne."). Nothing in the lair tests it (neither did MM9: DragonTrigger
+  # is a plain trigger and Dragon.scr checks no key), so this only puts the quest at its last stage.
+  - lua_event: {source: "evt.SetQuestBit(90485)"}
+  - assert: {qbit_set: [90485], qbit_clear: [90472]}
+
+  # The lair's mouth (ExitTrigger2) in Lindisfarne's north-west hills (on the map art; -y is up there).
+  - set_pose: {map: lindisfarne.blv, x: 14947, y: -15950, z: 205, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 14947, y: -16356, z: 512, z_tolerance: 800, plan: false, timeout_seconds: 20, expect: dialog}
+  - assert: {dialog: {active: true, source_id: 125}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: dragonstadium.blv}
+  - assert: {state_dump_named_map_var: {name: DragonAwake, value: 0}}
+
+  # Up the entry tunnel through DragonTrigger: the Dragon King shows in the middle of the lair and wakes.
+  - walk_to: {x: 1802, y: -4400, z: -163, z_tolerance: 400, timeout_seconds: 60}
+  - advance_runtime: {seconds: 1}
+  - assert: {state_dump_named_map_var: {name: DragonAwake, value: 1}}
+  - play_lua: {source: 'log("DragonTrigger crossed: the Dragon King wakes")'}
+
+  # To him; he dies as the party comes near (clear_hostiles), and so do the Winged Mutants.
+  - walk_to: {x: 1864, y: -500, z: -163, z_tolerance: 400, timeout_seconds: 60, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90472], state_dump_named_map_var: {name: DragonDead, value: 1}}
+  - play_lua:
+      source: |
+        if not has_item(10577) then error("no Super Guber Award") end
+        log("the Dragon King is dead: key 472 and the Super Guber Award")
+
+  # Out the way the party came (ExitTrigger0 at the tunnel's foot) to Lindisfarne.
+  - walk_to: {x: 2345, y: -6636, z: -163, z_tolerance: 600, timeout_seconds: 90, clear_hostiles: 2500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarne.blv, qbit_set: [90472]}

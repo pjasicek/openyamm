@@ -828,15 +828,6 @@ bool GameplaySpellService::tryOpenSelectionUi(
 
     if (isSpellId(request.spellId, SpellId::TownPortal))
     {
-        if (runtime.shouldTownPortalCastOpenDimensionDoor())
-        {
-            runtime.openDimensionDoorOverlay(
-                request.casterMemberIndex,
-                request.spellId,
-                Engine::tr("You feel high magic presence here."));
-            return true;
-        }
-
         if (!runtime.ensureTownPortalDestinationsLoaded())
         {
             runtime.setStatusBarEvent(Engine::tr("Town Portal data missing"));

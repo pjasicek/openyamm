@@ -119,3 +119,9 @@ rect_portals:
 treasure:
   bonus_near: [SkeletonMaster0, SkeletonMaster1, SkeletonMaster2]
   themed_near: [CoffinRaised3, CoffinRaised5, CoffinRaised7, CoffinRaised9, CoffinRaised15, BonePile0, BonePile1, BonePile2]
+
+# Ludwig's manuscript (dungeon/pickups.py scene_entry `placement`): MM9 sank it 24 units under the lower sewers' slime
+# (surface -1191 LT, about -3049; the item at walkway height, -3073), where the 0.8-opacity slime hid it almost
+# completely (the user, 2026-11-09). It floats on the surface instead, flat (pose), its underside 2 units above it.
+pickups:
+  Manuscript: {pose: [0, 0, 0], offset: [0, 0, 26]}

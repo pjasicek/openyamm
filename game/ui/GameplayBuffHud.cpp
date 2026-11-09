@@ -1,4 +1,6 @@
 #include "game/ui/GameplayBuffHud.h"
+
+#include "game/party/WorldSpells.h"
 #include "engine/Localization.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -36,7 +38,7 @@ std::vector<GameplayAuraLine> gameplayUnslottedAuraLines(
     for (const uint32_t spellId : rules.heldAurasWithoutBuffSlot(party))
     {
         const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findById(int(spellId)) : nullptr;
-        lines.push_back({pSpell != nullptr ? Engine::localize(rules.spellName(member, *pSpell), "spell")
+        lines.push_back({pSpell != nullptr ? Engine::localize(partySpellName(&party, member, *pSpell), "spell")
                                     : Engine::tr("Aura"),
             rules.heldBuffText(party, spellId).value_or(Engine::tr("Held"))});
     }
@@ -311,17 +313,13 @@ std::optional<GameplayBuffHudEntry> gameplayMovementBuffAtPoint(GameplayScreenRu
     {
         return std::nullopt;
     }
-    for (const char *pId : {"OutdoorFlyBuffIcon", "OutdoorWaterWalkBuffIcon"})
+    for (const GameplayMovementIndicator &indicator : gameplayMovementIndicators(*pParty))
     {
-        const std::optional<PartyBuffId> buff = std::string_view(pId) == "OutdoorFlyBuffIcon"
-            ? gameplayFlightBuff(*pParty)
-            : pParty->hasPartyBuff(PartyBuffId::WaterWalk)
-                ? std::optional<PartyBuffId>(PartyBuffId::WaterWalk) : std::nullopt;
         const std::optional<GameplayResolvedHudLayoutElement> rect =
-            buff ? context.resolveHudLayoutElement(pId, width, height, 0, 0) : std::nullopt;
+            context.resolveHudLayoutElement(indicator.pLayoutId, width, height, 0, 0);
         if (rect && GameplayHudCommon::isPointerInsideResolvedElement(*rect, x, y))
         {
-            return GameplayBuffHudEntry{*buff, *rect};
+            return GameplayBuffHudEntry{indicator.buff, *rect};
         }
     }
     return std::nullopt;

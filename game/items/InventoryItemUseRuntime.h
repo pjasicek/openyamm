@@ -34,8 +34,6 @@ enum class InventoryItemUseAction : uint8_t
     PlayInstrument,
     UseTempleInABottle,
     UseReagent,
-    UseDimensionDoorScroll,
-    UseConnectorStone,
     // An item whose use action is grantTechPoints (Hesper's Engrams): its VarA in tech points to the target.
     GrantTechPoints,
     // Personal energy shields (use actions useShieldCell, useShieldBurst; Party::chargePersonalShield and
@@ -128,6 +126,8 @@ public:
         const InventoryItemUseContext &context = {});
     // The spell a spell scroll casts (its Mod1 "S<id>"); none for other items.
     static std::optional<uint32_t> scrollSpellId(const ItemDefinition &itemDefinition);
+    // The sound an instrument plays when used; none for other items.
+    static std::optional<SoundId> instrumentSound(const ItemDefinition &itemDefinition);
     static PotionPreview previewPotion(
         const Party &party,
         size_t memberIndex,

@@ -1,0 +1,125 @@
+# MM9 playthrough, segment 24: the cave-in and the refinery (guide: Chapter I, "Find the cave-in", "Fix the refinery
+# machine"). Back from the hard rock to Gudrek the Miner at the crossing north of the entrance; he leads the party to
+# the dangerous section, stopping whenever it falls more than 655 behind (it keeps pace with him), and the party walks
+# onto the crack: the floor gives way into the flooded cavern (key 35). The cavern's tunnel is climbed to its end,
+# where a cave wall (the "Rock") is broken; rooms 58, 54, 49, 47 and 30 lead round to the loop north of the refinery,
+# whose stub down to the refinery is nailed shut (BarWall1: six spikes pulled). Through the refinery's north door,
+# down its spiral to Njal Bjarnissen (key 5: Hjarrand Fixer must be fetched), west through the lift gate to the slag
+# extractor: its hatch, the broken part (key 9512). Out of the mine by the east gate and the entrance.
+# The guide's "pull the spikes of any boarded doorway" out of the cavern is the cave wall, then BarWall1.
+# Research: prep/20_34_thjorgard_guberland.md (segment 22 there).
+#   python3 tests/playthrough/mm9/run.py 24
+id: mm9.playthrough.24_mine_cave_in
+title: "MM9 playthrough 24: Gudrek's cave-in, the way back up, Njal, the broken slag extractor"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/23_mine_hard_rock.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjoradmine.blv, qbit_set: [90036], qbit_clear: [90035, 99510, 90005, 99512]}
+
+  # Back west to Gudrek at the crossing north of the entrance.
+  - walk_to: {x: 2683, y: -200, z: -982, z_tolerance: 200, timeout_seconds: 300, clear_hostiles: 1500}
+  - interact_actor: {actor_index: 42}
+  - select_topic: {match_label: "Sven Svenssen sent us to inspect the mines."}
+  - select_topic: {match_label: "Why do you say that?"}
+  - select_topic: {match_label: "Why is that?"}
+  - select_topic: {match_label: "Maybe we should go have a look."}
+  - select_topic: {match_label: "Where is it?"}
+  - select_topic: {match_label: "OK."}
+  - assert: {qbit_set: [99510]}
+
+  # Following Gudrek: north into the miners' room, east along the corridor's middle (a miner stands in its mouth),
+  # waiting for him to come up after each stretch.
+  - walk_to: {x: 2683, y: 900, z: -982, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'wait(8)'}
+  - walk_to: {x: 2900, y: 1600, z: -982, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'wait(8)'}
+  - walk_to: {x: 3700, y: 1650, z: -982, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'wait(8)'}
+  - walk_to: {x: 4600, y: 1650, z: -1100, z_tolerance: 400, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'wait(8)'}
+  - walk_to: {x: 5000, y: 1650, z: -1352, z_tolerance: 400, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'wait(8)'}
+  - walk_to: {x: 5450, y: 1650, z: -1352, z_tolerance: 400, plan: false, timeout_seconds: 30}
+  - play_lua:
+      max_seconds: 60
+      source: |
+        for i = 1, 25 do if qbit(99511) then break end; wait(2) end
+        if not qbit(99511) then error("Gudrek did not reach the dangerous section") end
+        log("Gudrek stops at the edge of the dangerous section")
+  - interact_actor: {actor_index: 42}
+  - select_topic: {match_label: "Is this it?"}
+  - select_topic: {match_label: "Alright."}
+
+  # Past Gudrek onto the big crack: the floor gives way.
+  - walk_to: {via: [[6000, 1650, -1352], [6700, 1900, -1352]], x: 7300, y: 2500, z: -1352, z_tolerance: 2000, plan: false, timeout_seconds: 30}
+  - advance_runtime: {seconds: 3}
+  - assert: {qbit_set: [90035], state_dump_named_map_var: {name: BrokenCaveIn, value: 1}}
+
+  # The flooded cavern: its troglodytes, then the long tunnel climbing from its north side.
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {via: [[7472, 4865, 0], [7753, 5876, 0], [7472, 6551, 0], [7079, 7169, 0], [6685, 6888, 0], [6124, 6213, 0], [5674, 5989, 0], [5112, 6551, 0], [4663, 7112, 0], [3764, 7674, 0], [2753, 8011, 0], [1742, 7730, 0], [618, 7506, 0], [-506, 7449, 0], [-955, 7787, 0], [-955, 8910, 0], [-1629, 9135, 0], [-2978, 9022, 0], [-3750, 8450, 0], [-4157, 8011, 0]], x: -4326, y: 7225, z: 573, z_tolerance: 5000, plan: false, timeout_seconds: 300, clear_hostiles: 1500}
+  # The tunnel's end is closed by a cave wall: it breaks (all five pieces) on a blow.
+  - walk_to: {via: [[-4900, 7250, 655]], x: -5263, y: 6800, z: 655, z_tolerance: 400, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(102); wait(1)
+        if mapvar("CaveWall") ~= 1 then error("the cave wall did not break") end
+        log("the cave wall at the tunnel's end breaks")
+  # Round by the old west rooms (58, 54, 49, 47, 30) and the arc corridor to the loop north of the refinery.
+  - walk_to: {via: [[-5300, 6800, 655], [-5200, 6300, 655], [-5500, 5250, 655], [-6500, 5150, 655], [-7200, 4500, 655], [-7550, 3600, 655], [-7550, 2800, 655], [-7550, 2450, 655], [-8700, 2450, 655]], x: -8800, y: 1800, z: 655, z_tolerance: 3000, plan: false, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: -8800, y: 0, z: 655, z_tolerance: 900, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {via: [[-7000, 0, 0], [-5200, 700, 0], [-5050, 1300, 0], [-4900, 2000, 0], [-4600, 2800, 0], [-4300, 3400, 0], [-3500, 4200, 0], [-2900, 4700, 0], [-2100, 5000, 0], [-1000, 5420, 0], [0, 5520, 0]], x: 0, y: 4750, z: 0, z_tolerance: 3000, plan: false, timeout_seconds: 200, clear_hostiles: 1500}
+
+  # BarWall1: boards nailed across the stub with six spikes; the barricade falls when the sixth is pulled.
+  - play_lua:
+      source: |
+        click(65); wait(0.5)
+        log("the barricade is nailed shut; pulling its six spikes")
+        for e = 76, 81 do click(e); wait(0.3) end
+        wait(3)
+        if mapvar("BarWall1Open") ~= 1 then error("BarWall1 did not fall") end
+        log("the barricade falls")
+  - walk_to: {x: 0, y: 1900, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  # The refinery's north door (its handle), then down the spiral to the tank's floor.
+  - play_lua: {source: 'click(61); wait(1)'}
+  - walk_to: {via: [[0, 900, 0]], x: 300, y: -123, z: -654, z_tolerance: 800, timeout_seconds: 120, clear_hostiles: 1500}
+  - interact_actor: {actor_index: 43}
+  - select_topic: {match_label: "Sven Forkbeard sent us to find out why you've stopped working."}
+  - select_topic: {match_label: "What is wrong with it?"}
+  - select_topic: {match_label: "What does that mean?"}
+  - select_topic: {match_label: "So this has happened before?"}
+  - select_topic: {match_label: "Someone had to fix it then, right?"}
+  - select_topic: {match_label: "Where can we find Hjarrand Fixer?"}
+  - select_topic: {match_label: "We will find him, and bring him back to fix the machine."}
+  - select_topic: {match_label: "Goodbye."}
+  - assert: {qbit_set: [90005]}
+
+  # Up the spiral (it runs north, west, then south between the tank walls) to the west gate; its lever lifts Door0.
+  - walk_to: {via: [[300, 0, -654], [400, 350, -655], [100, 560, -655], [-250, 500, -600], [-480, 300, -450], [-560, 0, -280], [-530, -250, -150], [-450, -480, -30], [-350, -650, 0], [-550, -950, 0], [-900, -700, 0], [-1100, -250, 0]], x: -1200, y: 0, z: 1, z_tolerance: 900, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(62); wait(4)'}
+  - walk_to: {via: [[-2000, 0, 1], [-2700, 0, 1]], x: -2593, y: 978, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 60}
+  # The slag extractor: its hatch, and the broken part inside.
+  - play_lua:
+      source: |
+        click(69); wait(2)
+        click(130); wait(0.5)
+        if not has_item(10398) then error("no Broken Slag Extractor") end
+        log("the hatch opens; the Broken Slag Extractor is in the pack")
+  - assert: {qbit_set: [99512]}
+
+  # Out: the west gate, the tank's floor (north of Njal), the east gate, the crossing, the entrance.
+  - walk_to: {via: [[-2700, 0, 1]], x: -2000, y: 0, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(62); wait(4)'}
+  - walk_to: {x: 500, y: -123, z: -654, z_tolerance: 200, timeout_seconds: 120}
+  - walk_to: {via: [[500, 100, -654], [800, 110, -654], [1000, 0, -654]], x: 1350, y: -150, z: -691, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua: {source: 'click(63); wait(4)'}
+  - walk_to: {x: 2683, y: 0, z: -982, z_tolerance: 300, plan: false, timeout_seconds: 60, clear_hostiles: 1500}
+  - walk_to: {x: 2785, y: -2785, z: -900, z_tolerance: 300, timeout_seconds: 120, clear_hostiles: 1500}
+  - walk_to: {x: 2785, y: -3195, z: -900, z_tolerance: 300, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - save_game: {name: "24 the cave-in and the broken part", path: output/playthrough/mm9/checkpoints/24_mine_cave_in.oysav}

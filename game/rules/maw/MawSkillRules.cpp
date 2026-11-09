@@ -16,6 +16,7 @@
 #include "game/rules/maw/MawSkillFormulas.h"
 #include "game/rules/maw/MawSpellFormulas.h"
 #include "game/rules/maw/MawTexts.h"
+#include "game/tables/SpellTable.h"
 
 #include <algorithm>
 #include <array>
@@ -558,15 +559,35 @@ SkillTooltipText MawSkillRules::skillTooltip(
     // Dragons' Fangs and Scales grow with the level up to 600, 900 in Beyond Madness.
     values["dragon_level_cap"] =
         m_rules.options().challengeMode == RulesetChallengeMode::BeyondMadness ? 900 : 600;
+    // An Elementalist's casting progress in the school, named by the spell it reaches next (SkillTooltip.lua).
     static constexpr std::array<const char *, 4> ElementSchools = {"FireMagic", "AirMagic", "WaterMagic", "EarthMagic"};
+    std::string elementalProgress;
 
     for (size_t school = 0; school < ElementSchools.size(); ++school)
     {
-        if (canonicalSkill == ElementSchools[school])
+        if (canonicalSkill != ElementSchools[school])
         {
-            values["elemental_progress"] =
-                mawElementalistNextSpellPercent(character.rulesetState.elementalProgress[school]);
+            continue;
         }
+
+        const double progress = character.rulesetState.elementalProgress[school];
+        const std::optional<uint32_t> nextSpell = mawElementalistNextSpell(school, progress);
+        const SpellEntry *pNext = nextSpell && m_rules.spellTable() != nullptr
+            ? m_rules.spellTable()->findById(int(*nextSpell))
+            : nullptr;
+
+        if (pNext == nullptr)
+        {
+            elementalProgress =
+                Engine::tr("Casting has taught every spell of this school; each still needs its mastery.");
+            break;
+        }
+
+        std::ostringstream percent;
+        percent << mawRound(mawElementalistNextSpellPercent(progress) * 10) / 10;
+        elementalProgress = Engine::tr("Progress toward learning {spell}: <good>{percent} %</>",
+            {{"spell", Engine::localize(m_rules.gameRules().spells.spellName(character, *pNext), "spell")},
+                {"percent", percent.str()}});
     }
 
     // A Mace's or Staff's paralyse chance at the party's level, Retaliation's coefficients, Supreme's level
@@ -675,6 +696,7 @@ SkillTooltipText MawSkillRules::skillTooltip(
         {"asc_cc_mana_change", costChange("asc_cc_mana")},
         {"stun_line", stunLine},
         {"dragon_leech", dragonLeech},
+        {"elemental_progress_line", elementalProgress},
         {"armor_items", armorItems},
         {"cover_state", state(character.rulesetState.coverDisabled)},
         {"mana_shield_state", state(character.rulesetState.manaShieldDisabled)},
@@ -897,12 +919,14 @@ std::string MawSkillRules::statTooltip(
     values["levels_mm8"] = state.continentLevels[0];
     values["levels_mm7"] = state.continentLevels[1];
     values["levels_mm6"] = state.continentLevels[2];
+    values["levels_mm9"] = state.continentLevels[3];
     values["levels_total"] = state.totalLevel();
     // Each world's bolster level, as MAW's popup shows it: the levels banked in the other worlds, less 4
     // (zzMaw-Stats.lua:458-466, TXT-2-9).
     values["bolster_mm8"] = std::max(state.levelOutside(1) - 4, 0.0);
     values["bolster_mm7"] = std::max(state.levelOutside(2) - 4, 0.0);
     values["bolster_mm6"] = std::max(state.levelOutside(3) - 4, 0.0);
+    values["bolster_mm9"] = std::max(state.levelOutside(5) - 4, 0.0);
 
     std::string text = pEntry->description ? mawFillText(*pEntry->description, values) : table;
 

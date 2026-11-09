@@ -23,6 +23,7 @@
 #include "game/party/SpellSchool.h"
 #include "game/rules/GameRules.h"
 #include "game/party/SpellIds.h"
+#include "game/party/WorldSpells.h"
 #include "game/StringUtils.h"
 
 #include <algorithm>
@@ -3626,6 +3627,16 @@ float Party::rulesMovementMultiplier() const
     return m_rulesMovementMultiplier;
 }
 
+void Party::setSpellMovementMultiplier(float multiplier)
+{
+    m_spellMovementMultiplier = std::max(multiplier, 1.0f);
+}
+
+float Party::movementMultiplier() const
+{
+    return m_rulesMovementMultiplier * m_spellMovementMultiplier;
+}
+
 const GameRules &Party::rules() const
 {
     return m_pRules != nullptr ? *m_pRules : standardGameRules();
@@ -5478,6 +5489,48 @@ void Party::setFormationTargetingActive(bool active)
 bool Party::formationTargetingActive() const
 {
     return m_formationTargetingActive;
+}
+
+void Party::setFleetFootWorld(bool active)
+{
+    m_fleetFootWorld = active;
+
+    if (!active)
+    {
+        m_partyBuffs[size_t(PartyBuffId::FleetFoot)] = {};
+        m_spellMovementMultiplier = 1.0f;
+        return;
+    }
+
+    // A Fly the party brings into MM9 (a Town Portal, Lloyd's Beacon or dimensional travel from MM6-MM8) becomes Fleet
+    // Foot for the time it has left, at its caster's mastery's speed (the user, 2026-11-09).
+    PartyBuffState &fly = m_partyBuffs[size_t(PartyBuffId::Fly)];
+
+    if (fly.active())
+    {
+        PartyBuffState &fleetFoot = m_partyBuffs[size_t(PartyBuffId::FleetFoot)];
+        const float remainingSeconds = std::max(fleetFoot.remainingSeconds, fly.remainingSeconds);
+        fleetFoot = fly;
+        fleetFoot.remainingSeconds = remainingSeconds;
+        fleetFoot.power = fleetFootSpeedPercent(fly.skillMastery);
+        fly = {};
+        rebuildMagicalBonusesFromBuffs();
+    }
+}
+
+bool Party::fleetFootWorld() const
+{
+    return m_fleetFootWorld;
+}
+
+void Party::setOtherWorldsLoot(bool active)
+{
+    m_otherWorldsLoot = active;
+}
+
+bool Party::otherWorldsLoot() const
+{
+    return m_otherWorldsLoot;
 }
 
 int32_t Party::formationCell(size_t combatantIndex) const
@@ -7930,6 +7983,15 @@ void Party::applyPartyBuff(
     SkillMastery skillMastery,
     uint32_t casterMemberIndex)
 {
+    // MM9 has no Fly: whatever grants it there (the Dragon's Flight, a scroll, a potion, an event's buff) grants Fleet
+    // Foot, with MM9's speed and, from a skill, MM9's duration (the user, 2026-11-09; game/party/WorldSpells.h).
+    if (buffId == PartyBuffId::Fly && m_fleetFootWorld)
+    {
+        buffId = PartyBuffId::FleetFoot;
+        durationSeconds = skillLevel > 0 ? fleetFootDurationSeconds(skillLevel, skillMastery) : durationSeconds;
+        power = fleetFootSpeedPercent(skillMastery);
+    }
+
     PartyBuffState &buff = m_partyBuffs[static_cast<size_t>(buffId)];
     buff.remainingSeconds = std::max(buff.remainingSeconds, std::max(0.0f, durationSeconds));
     buff.spellId = spellId;
@@ -8013,6 +8075,7 @@ bool Party::clearDispellableBuffs()
              PartyBuffId::DetectLife,
              PartyBuffId::WaterWalk,
              PartyBuffId::Fly,
+             PartyBuffId::FleetFoot,
              PartyBuffId::Invisibility,
              PartyBuffId::Stoneskin,
              PartyBuffId::DayOfGods,
@@ -8060,6 +8123,7 @@ bool Party::hasDispellableBuffs() const
              PartyBuffId::DetectLife,
              PartyBuffId::WaterWalk,
              PartyBuffId::Fly,
+             PartyBuffId::FleetFoot,
              PartyBuffId::Invisibility,
              PartyBuffId::Stoneskin,
              PartyBuffId::DayOfGods,

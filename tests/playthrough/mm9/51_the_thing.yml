@@ -1,0 +1,192 @@
+# MM9 playthrough, segment 1: Yrsa's errand at the Thing (guide: Chapter II, "Yrsa's errand: the Thing").
+# From segment 50's save after the war council (Yrsa's errand taken: keys 93 and 185) to the Stuffed Dragon in the pack.
+# Outdoors the party is placed beside each person or game, as the user allowed; every game is played through its
+# own clicks by a Lua player that decides from what a player sees (status lines, the board, the raised goose).
+#   python3 tests/playthrough/mm9/run.py 51
+id: mm9.playthrough.51_the_thing
+title: "MM9 playthrough 51: win all six games at the Thing for Bikki's prize"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/50_after_council.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90093, 90185], qbit_clear: [90094, 97106]}
+
+  # Thronheim to Thjorgard (by boat or the Mountain Pass; outdoors the party is moved).
+  - travel: {map: thjorgard.blv, days: 2}
+
+  # The Huckster by the bell tower sells tickets: twelve batches of ten (40 gold each), the rule book with the first.
+  # The Thing's games take some; the rest go on to Guberland's fair, where the party has no gold after its death and
+  # the bell (won on Might, about half the strikes for this party) needs some thirty strikes for its six prizes.
+  - set_pose: {map: thjorgard.blv, x: 14725, y: -4205, z: 3200, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: "We want a batch of tickets."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        if not has_item(10557) then error("no tickets after buying twelve batches") end
+        if not has_item(10594) then error("no Game Instructions with the first tickets") end
+        log("tickets bought: " .. status())
+
+  # Ding the Bell: click the strike plate at the foot of the tower until it rings (Might decides).
+  - play_lua:
+      max_seconds: 300
+      source: |
+        for try = 1, 40 do
+          if qbit(97104) then break end
+          click(102); wait(4.5)
+          log("bell, try " .. try .. ": " .. status())
+        end
+        if not qbit(97104) then error("the bell never rang") end
+
+  # Strongarm the Half-orc: click him until he is beaten.
+  - play_lua:
+      max_seconds: 120
+      source: |
+        for try = 1, 40 do
+          if qbit(97105) then break end
+          click(53117); wait(0.5)
+          log("strongarm, try " .. try .. ": " .. status())
+        end
+        if not qbit(97105) then error("the half-orc was never beaten") end
+
+  # Whack-a-Honky: pull the lever, then click each goose the moment it rises (8 hits in 10 seconds).
+  - play_lua:
+      max_seconds: 200
+      source: |
+        for game = 1, 6 do
+          if qbit(97103) then break end
+          click(104)
+          local hits = 0
+          for tick = 1, 180 do
+            wait(0.1)
+            local up = mapvar("HonkUp")         -- the goose a player sees up
+            if mapvar("HonkState") == 2 and up > 0 then click(645 + up); hits = hits + 1 end
+            if mapvar("HonkState") == 0 and tick > 20 then break end
+          end
+          log("whack-a-honky, game " .. game .. " (" .. hits .. " clicks): " .. status())
+        end
+        if not qbit(97103) then error("whack-a-honky never won") end
+
+  # Stones: place yellow stones next to your own; win when blue has no legal square. The player looks at the
+  # board and takes the square that leaves blue the fewest moves.
+  - play_lua:
+      max_seconds: 120
+      source: |
+        local OFFSETS = {-5, 1, 7, -6, 6, -7, -1, 5}
+        local function legal(b, i, c)
+          if b[i] ~= 0 then return false end
+          for n, o in ipairs(OFFSETS) do
+            local j = i + o
+            local edge = ((i + 1) % 6 == 0 and n <= 3) or (i % 6 == 0 and n >= 6) or j < 0 or j > 35
+            if not edge and b[j] == c then return true end
+          end
+          return false
+        end
+        local function moves(b, c) local k = 0; for i = 0, 34 do if legal(b, i, c) then k = k + 1 end end; return k end
+        for game = 1, 30 do
+          if qbit(97100) then break end
+          for move = 1, 36 do
+            local b = {}
+            for i = 0, 35 do b[i] = mapvar("St" .. i) end
+            local best, bestScore = nil, nil
+            for i = 0, 35 do
+              if legal(b, i, 1) then
+                b[i] = 1
+                local score = moves(b, 2) * 100 - moves(b, 1)
+                b[i] = 0
+                if bestScore == nil or score < bestScore then best, bestScore = i, score end
+              end
+            end
+            if best == nil then error("no legal square for yellow on a running board") end
+            click(600 + best); wait(0.2)
+            local s = status()
+            if s:find("wins") then log("stones, game " .. game .. ": " .. s); break end
+          end
+        end
+        if not qbit(97100) then error("stones never won") end
+
+  # Runestones: pick a colour, paint the stones not yet known right, pull the lever; flames mark the right ones.
+  - play_lua:
+      max_seconds: 600
+      source: |
+        for round = 1, 30 do
+          if qbit(97102) then break end
+          local known = {}
+          for colour = 0, 4 do
+            click(636 + colour)
+            for slot = 1, 4 do if not known[slot] then click(640 + slot) end end
+            status()
+            click(103); wait(1.0)
+            local s = status()
+            if qbit(97102) then log("runestones, round " .. round .. ": " .. s); break end
+            if s:find("You Lost") then log("runestones, round " .. round .. " lost: " .. s); break end
+            local flames = s:match("Flames burn by stone ([%d, ]+)")
+            if flames then for d in flames:gmatch("%d") do known[tonumber(d)] = true end end
+          end
+        end
+        if not qbit(97102) then error("runestones never won") end
+
+  # The boat race: ask the second Huckster at the pond, agree, then click the party's boat each time it stops.
+  - set_pose: {map: thjorgard.blv, x: 17650, y: -846, z: 3209, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: "What sort of game is this?"}
+  - select_topic: {match_label: "Sure!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      max_seconds: 120
+      source: |
+        for tick = 1, 300 do
+          if qbit(97101) then break end
+          click(645); wait(0.25)
+          local s = status()
+          if s:find("You Lost") then error("the boat race was lost: " .. s) end
+        end
+        if not qbit(97101) then error("the boat race never ended in a win") end
+        log("boat race won")
+
+  # All six games won on Yrsa's errand: the Stuffed Dragon, 10 000 experience, key 94.
+  - advance_runtime: {seconds: 3}
+  - assert: {qbit_set: [97100, 97101, 97102, 97103, 97104, 97105, 97106, 90094]}
+  - play_lua:
+      source: |
+        if not has_item(10395) then error("no Stuffed Dragon in the pack") end
+        log("the Stuffed Dragon is in the pack")
+  - save_game: {name: "01 The Thing won", path: output/playthrough/mm9/checkpoints/51_the_thing.oysav}

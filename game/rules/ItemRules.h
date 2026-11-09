@@ -168,6 +168,10 @@ public:
     virtual std::optional<int> merchantValue(const Character &member) const;
     // What rerolling a shop's stock costs, or nothing when its stock cannot be rerolled (Standard).
     virtual std::optional<int> shopRerollCost(const Party &party, const HouseEntry &house) const;
+    // Whether a vendor's fixed stock (a world's vendor_stock: MM9's shops) is rolled by the rules as shop stock: the
+    // vendor keeps its items, the rules give them their power and enchantments, as on the other shops (MAW). Standard:
+    // no, the stock is sold as written.
+    virtual bool rollsFixedShopStock() const;
     // Changes a shop's freshly rolled stock (MAW: magic shops and alchemists sell crafting materials). Standard:
     // nothing.
     virtual void adjustShopStock(

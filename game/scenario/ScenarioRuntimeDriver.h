@@ -7,6 +7,7 @@
 #include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/party/Party.h"
 
+#include <array>
 #include <cstddef>
 #include <filesystem>
 #include <optional>
@@ -78,6 +79,7 @@ struct ScenarioWalkRequest
 {
     std::vector<ScenarioPose> points;           // the hand-placed waypoints, the last one the target
     float arriveRadius = 64.0f;
+    std::optional<float> zTolerance;            // arrival also needs the feet this near the target's height
     float timeoutSeconds = 180.0f;
     float clearHostilesRadius = 0.0f;           // kills the party's enemies this near every half second (0: none)
     std::string expectMap;                      // arriving on this map ends the walk (an exit on the way)
@@ -140,6 +142,8 @@ struct ScenarioSpellCastRequest
     SkillMastery mastery = SkillMastery::None;
     std::optional<size_t> actorIndex;
     std::optional<size_t> targetMemberIndex;
+    // A ground point (Meteor Shower, Starburst and the other spells cast at the ground).
+    std::optional<std::array<float, 3>> targetPoint;
     bool scroll = false;
 };
 
@@ -256,6 +260,25 @@ public:
     // once), then the game's defeat: the respawn at the world's death destination (its movie skipped); `destination`
     // is the map it woke on.
     bool defeatParty(float waitSeconds, bool knockOut, std::string &destination, std::string &failure);
+    // Why a player could not save now (a dialogue, a chest, a cinematic or a map move in progress), empty when
+    // they could.
+    std::string saveBlockedReason();
+    // Climbs a ladder of the map (its scene id) as a player does: walks to its foot (down: to its top exit), faces it
+    // and holds the movement keys until the ladder's own rules let go of the party at the other end. Down needs a
+    // ladder that can be taken from its top. `trail` gets what happened.
+    bool climbLadder(const std::string &ladderId, bool down, float timeoutSeconds, std::vector<std::string> &trail,
+        std::string &failure);
+    // Picks up an item lying in the map as a player does: the nearest of this id within `reach` of the party's eye,
+    // the camera turned at it, the use key pressed (the game's pick). `log` says what happened.
+    bool pickUpWorldItem(uint32_t itemId, float reach, std::string &log, std::string &failure);
+    // A bank's amount box (house Deposit or Withdraw) is open.
+    bool houseBankInputActive();
+    // Types the amount into the bank's box and confirms it, as Enter does (GameplayScreenRuntime::confirmHouseBankInput).
+    bool answerHouseBankInput(const std::string &text, std::string &failure);
+    // The item on the cursor (0: none).
+    uint32_t heldCursorItemId();
+    // The open chest's Take All: false when no chest is open.
+    bool takeAllFromOpenChest(std::string &failure);
     // The Immortal cheat for this run only: settings.ini is not written.
     bool setPartyImmortal(bool immortal, std::string &failure);
     bool waterStatus(ScenarioWaterStatus &status, std::string &failure);
@@ -296,6 +319,9 @@ public:
     bool advanceRuntime(float seconds, std::string &failure, bool presentDialogs = false,
         bool followMapMove = false);
     bool advanceGameMinutes(float minutes, std::string &failure);
+    // The days of a journey as the game's own travel passes them (applyTravelDaysSideEffects): the party rests on the
+    // road, so they are not days without rest.
+    bool travelDays(float days, std::string &failure);
     // The turn engine of the running game (turn_based_turns, assert turn_based).
     const TurnBasedCombatRuntime &turnBasedCombat() const;
     // Plays `turns` turn-based turns from the live input path: the party presses Pass whenever it may (each ready
@@ -362,6 +388,8 @@ public:
         std::string &failure);
     bool takeInventoryItemToCursor(size_t memberIndex, uint8_t gridX, uint8_t gridY, std::string &failure);
     bool placeHeldItemInInventory(std::string &failure);
+    // The cursor item into the first member's packs it fits, the active member first (a player drops it on a portrait).
+    bool placeHeldItemInAnyMemberInventory();
     // A MAW game's banked levels by world (Jadame, Antagarich, Enroth, other); false outside MAW.
     bool setRulesetBanks(const std::array<double, 4> &levels, std::string &failure);
     // The MAW rules of the game, or null outside MAW.

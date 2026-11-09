@@ -1,0 +1,33 @@
+id: mm9.ai.lua_summon
+title: evt.SummonMonstersById keeps an MM9 placement - a wander path and a Greater Demon's spawn-in
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        A map script summons a Skeletoid with a two-marker wander path (as 1000 Terrors' Spawner DefaultSpawn paths)
+        and a Greater Demon with ScriptParams 1 (its spawn-in): the Skeletoid walks to its second marker, the demon hides,
+        plays Spawn and Aware, then fights. Before, both had MM9's placement defaults (no path, no spawn-in).
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: lua_summon.arena.yml}
+  - lua_event:
+      source: >-
+        evt.SummonMonstersById({monster = 9183, x = -800, y = 1100, z = 1, radius = 0, hostile = false,
+        mm9 = {sight = 300, hearing = 50, wander = "path", path = {{-800, 1100, 1}, {0, 1100, 1}},
+        wander_wait = {1, 1}}})
+        evt.SummonMonstersById({monster = 9242, x = 500, y = 600, z = 1, radius = 0, yawDegrees = 270,
+        mm9 = {runaway_chance = 0, script_params = "1"}})
+  - advance_runtime: {seconds: 16}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {actor_index: last-1, decision: patrol, detail: marker 1, min_count: 1}
+  - assert:
+      ai_trace: {actor_index: last-1, decision: marker_reached, detail: marker 1, min_count: 1}
+  - assert:
+      ai_trace: {actor_index: last, decision: spawn_in, detail: hidden, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {actor_index: last, decision: spawn_in, detail: begin, min_count: 1}
+  - assert:
+      ai_trace: {actor_index: last, decision: pursue, target: party, min_count: 1}

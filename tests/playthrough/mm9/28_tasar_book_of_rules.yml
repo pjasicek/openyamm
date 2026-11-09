@@ -1,0 +1,275 @@
+# MM9 playthrough, segment 28: the Book of Rules (guide: Chapter I, "Get the Book of Rules from the Ta'Sar Academy").
+# Lindisfarne's north-east corner (not the south-west, as the guide has it): the academy, whose soldiers and students
+# are hostile to the party (the user's decision, 2026-11-08: they die as the party passes). South past the arena, down
+# the corridor to the east hall, west into the round library tower. The note on the middle table says to put the books
+# back where they belong; four textbooks are taken one at a time (the next only once the one before is on its table)
+# and laid on the tables whose signs name their subjects: Offense (first gallery, north), Strategy (top gallery, west),
+# Defense (first gallery, south), Intelligence (top gallery, east). The ladders up the central column are climbed with
+# the `climb` step (CLIMB lines); the way down is a drop through the holes beside them. With the
+# fourth book the top gallery's south door opens: a scroll in a reversed alphabet points to the rotating bookshelf in
+# the next room; the south hall's bookcase turns on its sticking-out book, and the Book of Rules lies on its podium
+# (a world item: picked up; key 59). Out the way the party came. Research: prep/20_34_thjorgard_guberland.md (29 there).
+#   python3 tests/playthrough/mm9/run.py 28
+id: mm9.playthrough.28_tasar_book_of_rules
+title: "MM9 playthrough 28: the Ta'Sar Academy's library puzzle and the Book of Rules"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/27_monastery_thjorad.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lindisfarne.blv, qbit_set: [90057], qbit_clear: [90059, 90166, 99516]}
+
+  # The academy's front door (ExitTrigger1) at the island's north-east.
+  - set_pose: {map: lindisfarne.blv, x: 12400, y: 21932, z: 3736, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12889, y: 21932, z: 3932, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: tasaracademy.blv}
+
+  # The entrance hall's east door, the trophy room, its south door, the corridor south past the arena, the east hall,
+  # the corridor west to the library tower (doors by explicit clicks: a stuck walk's click toggles a pair shut again).
+  - walk_to: {x: 3400, y: -60, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(19), door_state(20)
+        if a == "closed" and b == "closed" then click(109); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the trophy room's door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(19) == "closed" and door_state(20) == "closed" then break end; wait(0.5) end
+          click(109); wait(2)
+        end
+        if door_state(19) ~= "open" or door_state(20) ~= "open" then error("the trophy room's door did not open") end
+  - walk_to: {x: 4300, y: -60, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4950, y: -800, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(13), door_state(14)
+        if a == "closed" and b == "closed" then click(106); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the trophy room's south door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(13) == "closed" and door_state(14) == "closed" then break end; wait(0.5) end
+          click(106); wait(2)
+        end
+        if door_state(13) ~= "open" or door_state(14) ~= "open" then error("the trophy room's south door did not open") end
+  - walk_to: {x: 4950, y: -1300, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 3600, y: -6550, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(11), door_state(12)
+        if a == "closed" and b == "closed" then click(105); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the east hall's west door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(11) == "closed" and door_state(12) == "closed" then break end; wait(0.5) end
+          click(105); wait(2)
+        end
+        if door_state(11) ~= "open" or door_state(12) ~= "open" then error("the east hall's west door did not open") end
+  - walk_to: {x: 4300, y: -6550, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4250, y: -7450, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(21), door_state(22)
+        if a == "closed" and b == "closed" then click(110); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the library corridor's door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(21) == "closed" and door_state(22) == "closed" then break end; wait(0.5) end
+          click(110); wait(2)
+        end
+        if door_state(21) ~= "open" or door_state(22) ~= "open" then error("the library corridor's door did not open") end
+  - walk_to: {x: 3500, y: -7450, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2550, y: -7450, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(25), door_state(26)
+        if a == "closed" and b == "closed" then click(112); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the library's door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(25) == "closed" and door_state(26) == "closed" then break end; wait(0.5) end
+          click(112); wait(2)
+        end
+        if door_state(25) ~= "open" or door_state(26) ~= "open" then error("the library's door did not open") end
+  - walk_to: {x: 1800, y: -7450, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 1500, y: -7950, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        click(264); wait(0.5)
+        log("Gavin's Instructions: put these books back where they belong, then the Book of Rules is not difficult to find")
+  - press_action: {action: escape}
+
+  # Book 1, "Weapons of the Ursanian Empire": Offense, on the first gallery's north side.
+  - play_lua:
+      source: |
+        click(230); wait(0.5)
+        if not has_item(10435) then error("Weapons of the Ursanian Empire could not be taken from the Start table") end
+        log("Weapons of the Ursanian Empire taken from the Start table")
+  - walk_to: {via: [[1600, -7700, 0], [1600, -7450, 0], [1300, -7450, 0]], x: 1269, y: -7330, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - climb: {ladder: Ladder0}
+  - walk_to: {via: [[1150, -7450, 553], [850, -7450, 553], [650, -6900, 553], [900, -6450, 553]], x: 1281, y: -6500, z: 533, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(220); wait(0.5)
+        if not qbit(99501) then error("the Offense table did not take Weapons of the Ursanian Empire") end
+        log("Weapons of the Ursanian Empire goes on the Offense table")
+  - walk_to: {via: [[900, -6450, 533], [650, -6900, 533], [850, -7450, 533], [1270, -7450, 533]], x: 1270, y: -7320, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - advance_runtime: {seconds: 2}
+
+  # Book 2, "A Study in Tactical Strategy": Strategy, on the top gallery's west side (round by the south).
+  - walk_to: {via: [[1300, -7450, 0], [1600, -7450, 0], [1600, -7750, 0]], x: 1500, y: -7950, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(231); wait(0.5)
+        if not has_item(10436) then error("A Study in Tactical Strategy could not be taken from the Start table") end
+        log("A Study in Tactical Strategy taken from the Start table")
+  - walk_to: {via: [[1600, -7700, 0], [1600, -7450, 0], [1300, -7450, 0]], x: 1269, y: -7330, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - climb: {ladder: Ladder0}
+  - walk_to: {x: 1269, y: -7540, z: 553, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - climb: {ladder: Ladder1}
+  - walk_to: {via: [[2100, -8100, 1065], [1700, -8450, 1065], [900, -8450, 1065], [500, -8100, 1065]], x: 480, y: -7650, z: 1065, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(221); wait(0.5)
+        if not qbit(99502) then error("the Strategy table did not take A Study in Tactical Strategy") end
+        log("A Study in Tactical Strategy goes on the Strategy table")
+  - walk_to: {via: [[500, -8100, 1065], [900, -8450, 1065], [1700, -8450, 1065], [2100, -8100, 1065], [2050, -7600, 1065], [1700, -7450, 1065], [1300, -7450, 1065]], x: 1270, y: -7590, z: 533, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {via: [[1270, -7450, 533]], x: 1270, y: -7320, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - advance_runtime: {seconds: 2}
+
+  # Book 3, "Fortifications and their Use": Defense, on the first gallery's south side.
+  - walk_to: {via: [[1300, -7450, 0], [1600, -7450, 0], [1600, -7750, 0]], x: 1500, y: -7950, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(232); wait(0.5)
+        if not has_item(10437) then error("Fortifications and their Use could not be taken from the Start table") end
+        log("Fortifications and their Use taken from the Start table")
+  - walk_to: {via: [[1600, -7700, 0], [1600, -7450, 0], [1300, -7450, 0]], x: 1269, y: -7330, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - climb: {ladder: Ladder0}
+  - walk_to: {via: [[450, -7800, 533], [700, -8300, 533]], x: 1312, y: -8400, z: 533, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(222); wait(0.5)
+        if not qbit(99503) then error("the Defense table did not take Fortifications and their Use") end
+        log("Fortifications and their Use goes on the Defense table")
+  - walk_to: {via: [[700, -8300, 533], [450, -7800, 533], [450, -7450, 533], [850, -7450, 533], [1270, -7450, 533]], x: 1270, y: -7320, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - advance_runtime: {seconds: 2}
+
+  # Book 4, "Methodology of Acquiring Information": Intelligence, on the top gallery's east side. The south door opens.
+  - walk_to: {via: [[1300, -7450, 0], [1600, -7450, 0], [1600, -7750, 0]], x: 1500, y: -7950, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(233); wait(0.5)
+        if not has_item(10438) then error("Methodology of Acquiring Information could not be taken from the Start table") end
+        log("Methodology of Acquiring Information taken from the Start table")
+  - walk_to: {via: [[1600, -7700, 0], [1600, -7450, 0], [1300, -7450, 0]], x: 1269, y: -7330, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - climb: {ladder: Ladder0}
+  - walk_to: {x: 1269, y: -7540, z: 553, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - climb: {ladder: Ladder1}
+  - walk_to: {x: 2216, y: -7650, z: 1065, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(224); wait(0.5)
+        if not qbit(99504) then error("the Intelligence table did not take Methodology of Acquiring Information") end
+        log("Methodology of Acquiring Information goes on the Intelligence table")
+  - assert: {qbit_set: [99516]}
+
+  # The small room behind the opened door: the coded scroll (a=z, b=y ...).
+  - walk_to: {via: [[2100, -8100, 1065], [1700, -8450, 1065], [1270, -8450, 1065], [1270, -8800, 1065]], x: 1250, y: -9150, z: 1065, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(269); wait(0.5)
+        local coded = "Blf xzm urmw gsv Yllp lu Ifovh yvsrmw gsv ilgzgrmt yllphsvou rm gsv mvcg illn."
+        local plain = coded:gsub("%a", function(c)
+          local base = c:match("%l") and 97 or 65
+          return string.char(base + 25 - (c:byte() - base))
+        end)
+        log("the scroll, decoded: " .. plain)
+  - press_action: {action: escape}
+
+  # Down through the column's holes, out of the tower by its south stairs into the south hall.
+  - walk_to: {via: [[1270, -8800, 1065], [1270, -8450, 1065], [1700, -8450, 1065], [2100, -8100, 1065], [2050, -7600, 1065], [1700, -7450, 1065], [1300, -7450, 1065]], x: 1270, y: -7590, z: 533, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {via: [[1270, -7450, 533]], x: 1270, y: -7320, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {via: [[1300, -7450, 0], [1600, -7450, 0], [1600, -8100, 0], [1270, -8450, 0], [1270, -8700, 100]], x: 1270, y: -9350, z: 329, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  # The bookcase in the hall's west wall: the book that sticks out at eye level turns it.
+  - walk_to: {x: 245, y: -9354, z: 329, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(201); wait(6)
+        if mapvar("BookcaseTurns") < 1 then error("the bookcase did not turn") end
+        log("the book sticking out of the bookcase is pressed: the bookcase turns")
+  - walk_to: {via: [[0, -9450, 329]], x: -1017, y: -9474, z: 329, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60}
+  - pick_up: {item_id: 10391, reach: 400}
+  - assert: {qbit_set: [90059], qbit_clear: [90166]}
+  - play_lua: {source: 'log("the Book of Rules is in the pack")'}
+
+  # Out: back through the bookcase room, the south hall, the library, its door, the corridor, the east hall, the
+  # corridor north, the trophy room, the entrance hall.
+  - walk_to: {via: [[0, -9450, 329], [1270, -9350, 329], [1270, -8700, 100], [1270, -8450, 0]], x: 1600, y: -8100, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {via: [[1600, -7450, 0]], x: 1800, y: -7450, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(25), door_state(26)
+        if a == "closed" and b == "closed" then click(112); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the library's door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(25) == "closed" and door_state(26) == "closed" then break end; wait(0.5) end
+          click(112); wait(2)
+        end
+        if door_state(25) ~= "open" or door_state(26) ~= "open" then error("the library's door did not open") end
+  - walk_to: {via: [[2550, -7450, 0]], x: 3500, y: -7450, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(21), door_state(22)
+        if a == "closed" and b == "closed" then click(110); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the library corridor's door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(21) == "closed" and door_state(22) == "closed" then break end; wait(0.5) end
+          click(110); wait(2)
+        end
+        if door_state(21) ~= "open" or door_state(22) ~= "open" then error("the library corridor's door did not open") end
+  - walk_to: {x: 4250, y: -7450, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4300, y: -6550, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(11), door_state(12)
+        if a == "closed" and b == "closed" then click(105); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the east hall's west door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(11) == "closed" and door_state(12) == "closed" then break end; wait(0.5) end
+          click(105); wait(2)
+        end
+        if door_state(11) ~= "open" or door_state(12) ~= "open" then error("the east hall's west door did not open") end
+  - walk_to: {x: 3600, y: -6550, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4950, y: -1300, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(13), door_state(14)
+        if a == "closed" and b == "closed" then click(106); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the trophy room's south door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(13) == "closed" and door_state(14) == "closed" then break end; wait(0.5) end
+          click(106); wait(2)
+        end
+        if door_state(13) ~= "open" or door_state(14) ~= "open" then error("the trophy room's south door did not open") end
+  - walk_to: {x: 4950, y: -800, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4300, y: -60, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - play_lua:
+      source: |
+        local a, b = door_state(19), door_state(20)
+        if a == "closed" and b == "closed" then click(109); wait(2)
+        elseif a ~= "open" or b ~= "open" then
+          log("ISSUE the trophy room's door's leaves out of step (" .. a .. ", " .. b .. "); waiting for both to shut")
+          for i = 1, 20 do if door_state(19) == "closed" and door_state(20) == "closed" then break end; wait(0.5) end
+          click(109); wait(2)
+        end
+        if door_state(19) ~= "open" or door_state(20) ~= "open" then error("the trophy room's door did not open") end
+  - walk_to: {x: 3400, y: -60, z: 0, z_tolerance: 2000, radius: 20, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2621, y: 655, z: 0, z_tolerance: 200, timeout_seconds: 200, clear_hostiles: 2000}
+  - walk_to: {x: 2621, y: 1065, z: 1, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarne.blv}
+  - play_lua: {source: 'if not has_item(10391) then error("the Book of Rules is gone") end'}
+  - save_game: {name: "28 the Book of Rules", path: output/playthrough/mm9/checkpoints/28_tasar_book_of_rules.oysav}

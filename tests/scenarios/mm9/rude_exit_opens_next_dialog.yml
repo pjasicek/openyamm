@@ -1,0 +1,28 @@
+# A talk whose exit hook opens the next dialogue keeps it (2026-11-08): Skraelos' exit (hallofthegods.lua, event
+# 50125) asks to take the party to the Afterworld; ending the talk (its "Goodbye." line, or Escape) used to drop that
+# prompt, so the party stayed in the hall (found by the MM9 playthrough, tests/playthrough/mm9/).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/rude_exit_opens_next_dialog.yml --scenario-no-color
+id: mm9.rude_exit_opens_next_dialog
+title: "MM9 talk exit: Skraelos' travel prompt to the Afterworld opens when his talk closes"
+world: mm9
+mode: faithful
+tags: [mm9, dialogue]
+steps:
+  - load_map: {map: hallofthegods.blv}
+  - console: {line: "qbit set 90100"}
+  - set_pose: {map: hallofthegods.blv, x: 4715, y: 1802, z: 677, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "We've come to ask for the return of our warriors."}
+  - select_topic: {match_label: "Our Writ of Fate says it is our destiny to stop Tamur Leng!"}
+  - select_topic: {match_label: "We will do whatever is required."}
+  - select_topic: {match_label: "What are the Six Fires of Penance?"}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "Goodbye."}
+  - assert:
+      qbit_set: [90101, 90379]
+      dialog: {active: true, text_contains: ""}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: afterworld.blv}

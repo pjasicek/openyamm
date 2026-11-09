@@ -1,0 +1,15 @@
+# MAW's map table with every installed world's maps (`ruleset maplevels`), for tools/maw/mm9_balance.py --levels:
+#   ./build/game/openyamm --headless-run-scenario tools/maw/maw_map_levels.scenario.yml
+# Run from the repository root; writes output/maw_map_levels.tsv and output/maw_map_monsters.tsv. Not a test (tests/scenarios/ holds those).
+id: tools.maw_map_levels
+title: MAW map table for the MM9 balance review
+world: mm8
+mode: faithful
+tags: [tools, maw]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - console: {line: "ruleset maplevels output/maw_map_levels.tsv 50", expect_contains: "maps written"}
+  # Each map's native families as a fresh MAW party meets them (no levels banked), for the comparisons.
+  - console: {line: "ruleset mapmonsters output/maw_map_monsters.tsv", expect_contains: "monsters written"}

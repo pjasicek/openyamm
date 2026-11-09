@@ -2,6 +2,7 @@
 
 #include "game/gameplay/ActorBehaviorRuntime.h"
 #include "game/gameplay/ActorInspectPreviewAnimation.h"
+#include "game/gameplay/ArmageddonSpell.h"
 #include "game/gameplay/GameplayActorHitFeedback.h"
 #include "game/gameplay/GameplayActorModifiers.h"
 #include "game/gameplay/GameplayActorShields.h"
@@ -67,6 +68,8 @@ public:
     struct MapActorAiState
     {
         uint32_t actorId = 0;
+        // The monster that last hit it; it fights that one back (not saved).
+        std::optional<uint32_t> lastActorAttackerId;
         int16_t monsterId = 0;
         std::string displayName;
         uint16_t spriteFrameIndex = 0;
@@ -247,6 +250,8 @@ public:
         GameplayProjectileService::Snapshot projectileState;
         std::vector<std::string> searchedLootPropSourceIds;
         ActorBehaviorRuntime::Snapshot actorBehaviors;
+        // On a map open to the sky (isOpenAirMap), the only indoor maps where the party casts it.
+        ArmageddonState armageddon;
     };
 
     IndoorWorldRuntime() = default;
@@ -331,6 +336,7 @@ public:
     }
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     bool isIndoorMap() const override;
+    bool isOpenAirMap() const override;
     bool partyClimbingLadder() const override;
     bool partySwimming() const override;
     std::optional<float> partyBreathFraction() const override;
@@ -384,6 +390,7 @@ public:
     void teleportParty(float x, float y, float footZ) override;
     float partyEyeZ() const override;
     float partyEngagementRange() const override;
+    float partyHitReach() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
     float gameplayCameraYawRadians() const override;
     float gameplayCameraPitchRadians() const override;
@@ -774,9 +781,12 @@ public:
     bool healMapActor(size_t actorIndex, int amount) override;
     ActorRulesetFacts *mutableActorRulesetFacts(size_t actorIndex) override;
 
-    bool castIndoorMeteorShower(
+    // Meteor Shower's and Starburst's shots fall on their landing points around the target, each from as high up to
+    // its own height as the room above where it lands leaves clear.
+    bool spawnIndoorFallingShots(
         const GameplayProjectileService::ProjectileSpawnRequest &baseRequest,
-        const ActorProjectileRequest &projectileRequest);
+        const std::vector<GameplayProjectileService::AreaSpellProjectileShot> &shots,
+        const GameplayWorldPoint &target);
     // A line longer than maximumRange (0: the shared detection range, 5 120) never counts as clear.
     bool hasIndoorCombatLineOfSight(
         const GameplayWorldPoint &from,
@@ -791,10 +801,18 @@ public:
     std::vector<IndoorCylinderCollision> decorationMovementColliders() const;
     std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;
 
-    // The monsters' walk map (the scenarios' walk_to plans the party's route on it); null until it is built.
+    // The monsters' walk map; null until it is built. After a door moves it is the previous map until the rebuild
+    // off the main thread lands.
     std::shared_ptr<const PathMap> indoorPathMap() const;
+    // The walk map as the geometry stands now (the scenarios' walk_to plans the party's route on it): a rebuild in
+    // flight is waited for, and a map changed since is built at once.
+    std::shared_ptr<const PathMap> currentIndoorPathMap();
 
 private:
+    // Whether a door is shut (closed or closing: MM9's IsClosed), from its runtime mechanism state.
+    bool indoorDoorShut(uint32_t doorId) const;
+    // The scene's `ai_open` doors that are not shut: their faces stand in the monsters' walk map.
+    std::vector<uint32_t> openIndoorAiDoorIds() const;
     std::string mapWorldId() const;
     const ActorRulesetFacts &actorRulesetFacts(size_t actorIndex) const;
     // Homing for the missiles a party member just fired at an actor, when the rules make them home (MAW).
@@ -924,6 +942,8 @@ private:
     float flyingFootZUnderCeiling(float x, float y, float aimZ, float footZ, float collisionHeight) const;
     void carryRestingObjectsOnMovedFloors(const std::vector<std::pair<const MapDeltaDoor *, float>> &floorMoves);
     bool indoorActorPathfindingEnabled() const;
+    // The painted map the minimap and journal map draw, or null for the line map (the Map style setting).
+    const MapPresentation *activeMapPresentation() const;
     bool logIndoorPathfindingEnabled() const;
     bool actorAiPerformanceDiagnosticsEnabled() const;
     void logActorAiPerformanceDiagnostics(uint32_t currentTick);
@@ -1002,8 +1022,15 @@ private:
         GameplayProjectileService::ProjectileState &projectile,
         const GameplayProjectileService::ProjectileFrameFacts &facts,
         const GameplayProjectileService::ProjectileFrameResult &frameResult);
+    void spawnIndoorDeathBlossomFallout(
+        const GameplayProjectileService::ProjectileState &projectile,
+        const GameplayWorldPoint &point);
     void updateIndoorProjectiles(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds);
+    // Armageddon on a map open to the sky (game/gameplay/ArmageddonSpell.h): the quake, its meteors and strikes, then
+    // the damage to every monster on the map and to the party.
+    void updateArmageddon(float deltaSeconds);
+    void resolveArmageddonDetonation(const GameplayWorldPoint &partyFeet);
     void applyFireSpikeTrapTriggerResult(
         FireSpikeTrapState &trap,
         const GameplayProjectileService::FireSpikeTrapTriggerResult &result);
@@ -1029,7 +1056,8 @@ private:
     void materializeSemanticWorldItems();
     void dropRestingWorldItemsToFloor();
     void synchronizeSemanticWorldItemVisibility();
-    bool activateSemanticWorldItem(size_t worldItemIndex);
+    // A scene's placed world item the party took: recorded, its quest bits set, its pickup event run.
+    void onPlacedWorldItemTaken(const std::string &sourceId);
     bool activateSemanticLootContainer(size_t worldItemIndex);
     void removeDepletedSemanticLootContainer(uint32_t containerId);
     ChestViewState buildChestView(uint32_t chestId) const;
@@ -1099,6 +1127,7 @@ private:
     void spawnImmediateSpellImpactVisual(size_t actorIndex, uint32_t spellId);
     void updateIndoorJournalRevealIfNeeded();
     void setMapActorHostilityFromEvent(size_t actorIndex, bool hostileToParty);
+    void alertMapActorToParty(size_t actorIndex);
     void updateYellFleeing(float deltaSeconds);
     // Energy shields: regeneration and presentation per actor step, and the QBit-switched relations of the world
     // add-on (MonsterRelationAddOns) applied to the map's actors whenever they change and after every load.
@@ -1122,7 +1151,8 @@ private:
     bool steerIndoorHomingProjectile(GameplayProjectileService::ProjectileState &projectile, float deltaSeconds);
     bool monsterNeverStaggers(int16_t monsterId) const;
     // The original game drops a monster's Meteor Shower indoors: only a monster with the indoor_meteor_shower
-    // modifier keeps it castable here, so the others pick another attack.
+    // modifier keeps it castable here, so the others pick another attack. A map open to the sky (isOpenAirMap) keeps
+    // every monster's.
     void applyIndoorMeteorShowerRule(ActorAiFrameFacts &facts) const;
     // A party hit on the actor alerts its faction within 4096 (MM8 0x439278); friendly actors only when
     // alertsFriendlyActors (the victim was friendly or angered by the party).
@@ -1244,6 +1274,8 @@ private:
     float m_actorUpdateAccumulatorSeconds = 0.0f;
     float m_projectileUpdateAccumulatorSeconds = 0.0f;
     float m_worldItemUpdateAccumulatorSeconds = 0.0f;
+    // The party's quest-bit revision the placed world items' visibility was last evaluated at.
+    uint64_t m_placedWorldItemRevision = 0;
     float m_immolationTickAccumulatorGameMinutes = 0.0f;
     uint32_t m_immolationTickSequence = 0;
     bool m_scenarioPartyActorCollisionEnabled = true;
@@ -1261,6 +1293,7 @@ private:
     size_t m_lastIndoorJournalRevealFaceCount = 0;
     size_t m_lastIndoorJournalRevealOutlineCount = 0;
     std::vector<FireSpikeTrapState> m_fireSpikeTraps;
+    ArmageddonState m_armageddonState = {};
     mutable RuntimeGeometryCache m_runtimeGeometryCache;
     // The monsters' path map rebuilt off the main thread after a door settles or a wall breaks (indoorPathMap): until it
     // lands the monsters keep the previous map. Region-sized maps took 50-250 ms on the main thread (2026-11-05).

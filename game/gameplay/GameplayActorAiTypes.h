@@ -984,9 +984,6 @@ struct ActorTargetFacts
     float currentVelocityX = 0.0f;
     float currentVelocityY = 0.0f;
     bool partyCanSenseActor = false;
-    // How far it may shoot or cast at the party: beyond the native reach when the party hit it from farther away
-    // (outdoors), 0 for the native reach.
-    float partyAttackReach = 0.0f;
     std::vector<ActorTargetCandidateFacts> candidates;
 };
 
@@ -1364,6 +1361,9 @@ struct ActorAiFrameFacts
     ActorTurnBasedFrameFacts turnBased = {};
     // The world's melee vertical reach (GameplayActorService::meleeVerticalReach; 0: melee ignores height).
     float meleeVerticalReach = 0.0f;
+    // The party's hit reach (GameplayActorService::partyHitReach: 5120, MM9's 3800): monsters shoot and cast at the
+    // party from no farther, so the party can always answer.
+    float partyHitReach = 5120.0f;
     std::vector<ActorAiFacts> backgroundActors;
     std::vector<ActorAiFacts> activeActors;
 };

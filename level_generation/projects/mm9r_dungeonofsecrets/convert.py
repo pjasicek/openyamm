@@ -77,7 +77,11 @@ NON_SOLID = {"Blade", "Axe Mover", "Top Axe", "Bottom Axe", "gtrap7a", "gtrap7b"
 # MM9 TouchToOpen doors (a touch opens them): the double-axe trap's two plates and the elevator's floor.
 TOUCH_OPEN = ["doubleaxe upper trigger", "doubleaxe lower trigger", "elevator"]
 MISSILES = {"firebolt": "Fire"}
-PUSH_LIFT = 160                     # native upward speed of a knockback hop (evt.Jump needs the party airborne)
+# A knockback throws the party along MM9's Current: up to PUSH_MAX_SPEED native units a second for PUSH_SECONDS (the
+# flight of the hop it once was, 160 up under gravity 1280), as evt.PushParty's dash. evt.Jump's horizontal speed
+# lasted one movement step on the ground (9 units).
+PUSH_MAX_SPEED = 1200
+PUSH_SECONDS = 0.25
 PARTY_RADIUS = 37                   # native: polled boxes grow by the party's radius (MM9 tests the party's box)
 PARTY_HEIGHT = 170
 AXE_SLIDE_LT = 88.0
@@ -359,7 +363,8 @@ class DungeonOfSecrets(dungeon.Hooks):
                 "at": project.native(at).round().astype(int).tolist(),
                 "to": project.native(at + forward * 1500.0).round().astype(int).tolist(),
                 "damage": int(round(float(p.get("DamageAmt", 5)))), "every": as_float(p.get("ShootInterval")) or 4.0,
-                "missile": MISSILES.get(str(p.get("ProjectileName", "")).lower(), "Fire")}
+                "missile": MISSILES.get(str(p.get("ProjectileName", "")).lower(), "Fire"),
+                "projectile": str(p.get("ProjectileName") or "")}
 
     def scale_lights(self, build) -> None:
         """BLV light colour = MM9 colour x BrightScale (Ruined Temple lesson: MM9 weights each Light by it, 0.2-1.0
@@ -503,7 +508,8 @@ class DungeonOfSecrets(dungeon.Hooks):
                                          + messages(o["properties"], "CloseTriggerTarget", "CloseTrigger", 0, 3)
                                          if t not in kinds})
         shooter_lines = [f"    [{lua_str(n)}] = {{at = {lua.point(s['at'])}, to = {lua.point(s['to'])}, "
-                         f"damage = {s['damage']}, every = {s['every']:.2f}, missile = {lua_str(s['missile'])}}},"
+                         f"damage = {s['damage']}, every = {s['every']:.2f}, missile = {lua_str(s['missile'])}, "
+                         f"projectile = {lua_str(s['projectile'])}}},"
                          for n, s in sorted(self.shooters.items())]
         damage_lines = [f"    [{lua_str(n)}] = {{box = {lua_box(d['box'])}, on = {'true' if d['on'] else 'false'}, "
                         f"damage = {d['damage']}, push = {{{d['push'][0]:.0f}, {d['push'][1]:.0f}}}}},"
@@ -598,13 +604,15 @@ class DungeonOfSecrets(dungeon.Hooks):
             "local firing = {}",
             "local function fire(name)",
             "    local s = SHOOTER[name]",
-            "    evt.FireMissile(s.missile, s.at[1], s.at[2], s.at[3], s.to[1], s.to[2], s.to[3], s.damage, s.missile, 0)",
+            "    if evt.FireMissile(s.missile, s.at[1], s.at[2], s.at[3], s.to[1], s.to[2], s.to[3], s.damage, s.missile, 0) then",
+            "        MM9.launchSound(s.projectile, s.at[1], s.at[2], s.at[3])",
+            "    end",
             "    set(\"Shots\", var(\"Shots\") + 1)",
             "    set(\"Shot\" .. key(name), var(\"Shot\" .. key(name)) + 1)",
             "end",
             "",
             "-- DamageBrush knockbacks (Damage, Current): while on, the party in the box takes Damage once and is thrown",
-            "-- along Current (evt.Jump: a hop with that horizontal speed).",
+            f"-- along Current (evt.PushParty: Current's speed, at most {PUSH_MAX_SPEED}, for {PUSH_SECONDS} s).",
             "local hitBy = {}",
             "local function damageOn(name) return var(\"D\" .. key(name)) == 1 or (var(\"D\" .. key(name)) == 0 and DAMAGE[name].on) end",
             "",
@@ -751,8 +759,7 @@ class DungeonOfSecrets(dungeon.Hooks):
             "            set(\"Knocked\" .. key(name), var(\"Knocked\" .. key(name)) + 1)",
             "            local speed = math.sqrt(d.push[1] * d.push[1] + d.push[2] * d.push[2])",
             "            if speed > 1 then",
-            "                local angle = math.floor(math.atan(d.push[2], d.push[1]) / (2 * math.pi) * 2048 + 0.5) % 2048",
-            f"                evt.Jump(math.floor(math.min(speed, 1200)) * 65536 + angle, {PUSH_LIFT})",
+            f"                evt.PushParty(d.push[1], d.push[2], math.min(speed, {PUSH_MAX_SPEED}) * {PUSH_SECONDS})",
             "            end",
             "        elseif not damageOn(name) then hitBy[name] = nil end",
             "    end",

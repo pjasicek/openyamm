@@ -12,8 +12,10 @@
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/MercenaryRecruitmentRuntime.h"
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/items/InventoryBags.h"
 #include "game/maps/MapIdentity.h"
+#include "game/party/WorldSpells.h"
 #include "game/rules/RandomStreams.h"
 #include "game/rules/maw/MawRulesFactory.h"
 #include "game/ui/GameplayFormationBuilder.h"
@@ -321,6 +323,7 @@ void GameSession::setPartyState(const Party &party)
 {
     m_partyState = party;
     m_partyState->setRules(rulesetGameRules());
+    m_partyState->setOtherWorldsLoot(m_ruleset.options.otherWorldsLoot);
     m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
@@ -328,6 +331,7 @@ void GameSession::setPartyState(Party &&party)
 {
     m_partyState = std::move(party);
     m_partyState->setRules(rulesetGameRules());
+    m_partyState->setOtherWorldsLoot(m_ruleset.options.otherWorldsLoot);
     m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
@@ -406,6 +410,7 @@ void GameSession::setRuleset(const RulesetSelection &ruleset)
     if (m_partyState)
     {
         m_partyState->setRules(rulesetGameRules());
+        m_partyState->setOtherWorldsLoot(ruleset.options.otherWorldsLoot);
     }
 
     bindGameRules(m_pMawRules ? &m_pMawRules->gameRules() : nullptr);
@@ -414,6 +419,11 @@ void GameSession::setRuleset(const RulesetSelection &ruleset)
 void GameSession::setRulesetOptions(const RulesetOptions &options)
 {
     m_ruleset.options = options;
+
+    if (m_partyState)
+    {
+        m_partyState->setOtherWorldsLoot(options.otherWorldsLoot);
+    }
 
     if (m_pMawRules)
     {
@@ -652,6 +662,7 @@ void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
             pParty->setObjectiveQBits(m_worldObjectiveQBits);
             pParty->setNpcFollowersActive(m_npcFollowers);
             pParty->setFormationTargetingActive(m_formations);
+            pParty->setFleetFootWorld(m_fleetFoot);
             if (!m_npcFollowers)
             {
                 // The map loaded its followers before the party knew the world has none (Party::applyGlobalNpcStateTo).
@@ -1133,6 +1144,11 @@ void GameSession::updateGameplay(
 
             if (Party *pParty = pWorldRuntime->party())
             {
+                // MM9's Fleet Foot: its speed, the speed-up a quarter larger while no hostile is near.
+                const PartyBuffState *pFleetFoot = pParty->partyBuff(PartyBuffId::FleetFoot);
+                pParty->setSpellMovementMultiplier(pFleetFoot != nullptr
+                    ? fleetFootSpeedMultiplier(pFleetFoot->power, partyHasGreenAlert(*pWorldRuntime))
+                    : 1.0f);
                 pParty->rules().spells.updateAuras(*pParty, deltaSeconds);
                 // Turn-based combat regenerates once per completed turn (GameplayController).
                 if (!m_turnBasedCombatRuntime.active())
@@ -2338,6 +2354,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
 
     if (m_partyState)
     {
+        m_partyState->setOtherWorldsLoot(m_ruleset.options.otherWorldsLoot);
         m_partyState->setStatistics(&m_playthroughStatistics);
         migrateBlazenRescueRosterUnlock(*m_partyState);
 

@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -61,7 +62,8 @@ struct MawMapVisit
 // were completed or reset. Saved with MAW games only.
 struct MawGameState
 {
-    // Continents in MMMerge's order: Jadame (MM8), Antagarich (MM7), Enroth (MM6) and the rest. Levels are fractional.
+    // MAW's four continents: Jadame (MM8), Antagarich (MM7), Enroth (MM6) and Chedian (MM9), map table continents 1,
+    // 2, 3 and 5. Levels are fractional.
     static constexpr size_t ContinentCount = 4;
 
     std::array<double, ContinentCount> continentLevels = {};
@@ -126,11 +128,13 @@ struct MawGameState
     // The holder of an aura no party member holds (MAW's string holders: Temple, scroll or pedestal).
     static constexpr uint32_t FixedAuraHolder = 0xFFFFFFFFu;
 
-    // The bank index of a continent id from the map table (1-3; anything else is "other").
-    static size_t continentIndex(uint32_t continentId);
+    // The bank index of a continent id from the map table (1, 2, 3 or 5); none for any other id.
+    static std::optional<size_t> continentIndex(uint32_t continentId);
 
     void addBankedExperience(double experience, uint32_t continentId);
     double totalLevel() const;
+    // The levels banked on this continent (0 for an id that is none of the four).
+    double levelOn(uint32_t continentId) const;
     // The levels banked on every continent except this one (MAW getPartyLevel).
     double levelOutside(uint32_t continentId) const;
     int resetCount(const std::string &mapFileName) const;

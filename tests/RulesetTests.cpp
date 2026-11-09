@@ -124,6 +124,10 @@ void writeBytes(const std::filesystem::path &path, const std::vector<uint8_t> &b
 // The layout identities of minimalSave's current outdoor and indoor states (save version 162).
 constexpr uint64_t OutdoorLayoutMarker = 0x0dd0a11ce0dd0a11ull;
 constexpr uint64_t IndoorLayoutMarker = 0x0bb1a5e0bb1a5e01ull;
+// The time left of the party's last buff (MM9's Fleet Foot, version 168), which older saves lack.
+constexpr float FleetFootBuffMarker = 4321.875f;
+// The time left of the indoor state's Armageddon (version 170), which older saves lack.
+constexpr float IndoorArmageddonMarker = 6543.125f;
 
 OpenYAMM::Game::GameSaveData minimalSave()
 {
@@ -132,6 +136,8 @@ OpenYAMM::Game::GameSaveData minimalSave()
     save.saveName = "ruleset check";
     save.outdoorWorld.mapLayoutIdentity = OutdoorLayoutMarker;
     save.indoorScene.mapLayoutIdentity = IndoorLayoutMarker;
+    save.party.partyBuffs[size_t(OpenYAMM::Game::PartyBuffId::FleetFoot)].remainingSeconds = FleetFootBuffMarker;
+    save.indoorScene.worldRuntime.armageddon.remainingSeconds = IndoorArmageddonMarker;
     return save;
 }
 
@@ -332,6 +338,60 @@ TEST_CASE("ruleset definitions reject invalid packages")
         "maw"));
 }
 
+TEST_CASE("a ruleset's table contributions name an engine table or a world's table")
+{
+    std::string error;
+    const std::optional<RulesetDefinition> ruleset = OpenYAMM::Game::parseRulesetDefinition(
+        "id: maw\nname: MAW\ntables:\n"
+        "  - {table: monster_data.txt, mode: override, path: patches/monster_data.txt}\n"
+        "  - {world: mm9, table: data_tables/monster_data.txt, mode: override, path: worlds/mm9/monster_data.txt}\n"
+        "  - {world: mm9, table: data_tables/vendor_stock.txt, mode: replace, path: worlds/mm9/vendor_stock.txt}\n",
+        "maw", error);
+    REQUIRE_MESSAGE(ruleset.has_value(), error);
+
+    const std::vector<const OpenYAMM::Game::RulesetTableContribution *> engine =
+        ruleset->findTables("engine/data_tables/monster_data.txt");
+    REQUIRE_EQ(engine.size(), 1u);
+    CHECK_EQ(engine.front()->path, "patches/monster_data.txt");
+
+    const std::vector<const OpenYAMM::Game::RulesetTableContribution *> world =
+        ruleset->findTables("worlds/mm9/data_tables/monster_data.txt");
+    REQUIRE_EQ(world.size(), 1u);
+    CHECK_EQ(world.front()->world, "mm9");
+    CHECK_EQ(world.front()->path, "worlds/mm9/monster_data.txt");
+    CHECK_EQ(ruleset->findTables("worlds/mm9/data_tables/vendor_stock.txt").size(), 1u);
+
+    // Another world's table of the same name, and the engine path of a world's table, are left alone.
+    CHECK(ruleset->findTables("worlds/mm8/data_tables/monster_data.txt").empty());
+    CHECK(ruleset->findTables("engine/data_tables/data_tables/monster_data.txt").empty());
+
+    CHECK_FALSE(OpenYAMM::Game::parseRulesetDefinition(
+        "id: maw\nname: MAW\ntables:\n  - {world: ../mm9, table: data_tables/a.txt, mode: override, path: a.txt}\n",
+        "maw", error).has_value());
+    // The same patch may name the engine table and a world's table of the same name.
+    CHECK(OpenYAMM::Game::parseRulesetDefinition(
+        "id: maw\nname: MAW\ntables:\n  - {table: a.txt, mode: override, path: b.txt}\n"
+        "  - {world: mm9, table: a.txt, mode: override, path: b.txt}\n",
+        "maw", error).has_value());
+}
+
+TEST_CASE("a ruleset plays in the worlds it lists, or in every world")
+{
+    std::string error;
+    const std::optional<RulesetDefinition> limited = OpenYAMM::Game::parseRulesetDefinition(
+        "id: maw\nname: MAW\nworlds: [mm6, mm7, mm8]\n", "maw", error);
+    REQUIRE_MESSAGE(limited.has_value(), error);
+    CHECK(limited->supportsWorld("mm8"));
+    CHECK_FALSE(limited->supportsWorld("mm9"));
+    CHECK(OpenYAMM::Game::standardRulesetDefinition().supportsWorld("mm9"));
+    // MAW's four continents: Jadame, Antagarich, Enroth and Chedian (devdocs/maw/MM9_SUPPORT.md).
+    for (const char *pWorld : {"mm6", "mm7", "mm8", "mm9"})
+    {
+        CHECK(parseMaw().supportsWorld(pWorld));
+    }
+    CHECK_FALSE(OpenYAMM::Game::parseRulesetDefinition("id: maw\nname: MAW\nworlds: mm8\n", "maw", error).has_value());
+}
+
 TEST_CASE("rulesets offer only their listed options")
 {
     const RulesetDefinition maw = parseMaw();
@@ -435,6 +495,7 @@ TEST_CASE("saves keep the ruleset and its options")
     save.ruleset.options.preferences.friendlyFire = true;
     save.ruleset.options.preferences.trainerHints = true;
     save.ruleset.options.preferences.bowDisabled = true;
+    save.ruleset.options.otherWorldsLoot = false;
     save.ruleset.options.preferences.lootFilter =
         OpenYAMM::Game::rulesetLootFilterWithPreset(RulesetLootFilterPreset::VeryStrict, true);
     save.ruleset.options.preferences.lootFilter.goldKinds |= 1u << unsigned(OpenYAMM::Game::RulesetLootKind::Gems);
@@ -449,6 +510,14 @@ TEST_CASE("saves keep the ruleset and its options")
     REQUIRE_MESSAGE(standard.has_value(), error);
     CHECK(standard->ruleset.isStandard());
     CHECK(standard->ruleset == RulesetSelection{});
+
+    // Standard games keep the choice of other worlds' loot too.
+    OpenYAMM::Game::GameSaveData ownLoot = minimalSave();
+    ownLoot.ruleset.options.otherWorldsLoot = false;
+    const std::optional<OpenYAMM::Game::GameSaveData> ownLootRestored = roundTrip(ownLoot, error);
+    REQUIRE_MESSAGE(ownLootRestored.has_value(), error);
+    CHECK(ownLootRestored->ruleset.isStandard());
+    CHECK_FALSE(ownLootRestored->ruleset.options.otherWorldsLoot);
 }
 
 TEST_CASE("saves with out-of-range ruleset options are refused")
@@ -512,6 +581,23 @@ void eraseMapLayoutIdentities(std::vector<uint8_t> &bytes)
     eraseBytes(bytes, findValue(bytes, IndoorLayoutMarker), sizeof(uint64_t));
 }
 
+// Saves before version 168 have one party buff fewer: cuts minimalSave's last (Fleet Foot), its time left, spell id,
+// skill level, mastery, power and caster.
+void eraseFleetFootBuff(std::vector<uint8_t> &bytes)
+{
+    eraseBytes(bytes, findValue(bytes, FleetFootBuffMarker),
+        sizeof(float) + 2 * sizeof(uint32_t) + sizeof(std::underlying_type_t<OpenYAMM::Game::SkillMastery>)
+            + sizeof(int) + sizeof(uint32_t));
+}
+
+// Saves before version 170 have no indoor Armageddon: cuts minimalSave's, its time left, skill level, mastery, caster,
+// shake steps and sequence, and shake yaw and pitch.
+void eraseIndoorArmageddon(std::vector<uint8_t> &bytes)
+{
+    eraseBytes(bytes, findValue(bytes, IndoorArmageddonMarker),
+        3 * sizeof(float) + 4 * sizeof(uint32_t) + sizeof(std::underlying_type_t<OpenYAMM::Game::SkillMastery>));
+}
+
 // Saves from version 140 lead with the summary block (its size, the map, the time, the ruleset, the name and the
 // preview); older ones keep the map after the scene kind, the time before the camera yaw, the ruleset before the
 // random root seed and the name and preview at the end. Moves them back, for a save then stamped with an older version.
@@ -558,6 +644,22 @@ void eraseMm9HirelingCount(std::vector<uint8_t> &bytes, const std::string &marke
     eraseBytes(bytes, offset, sizeof(uint64_t));
 }
 
+// Saves before version 172 have no choice of other worlds' loot (RulesetOptions::otherWorldsLoot): cuts the ruleset's
+// last byte, at the end of the summary block before the name and preview.
+void eraseOtherWorldsLoot(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
+{
+    constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
+    uint32_t summarySize = 0;
+    std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
+    const size_t nameAndPreviewSize =
+        sizeof(uint64_t) + save.saveName.size() + sizeof(uint64_t) + save.previewBmp.size();
+    const size_t offset = HeaderSize + sizeof(summarySize) + summarySize - nameAndPreviewSize - sizeof(bool);
+    REQUIRE_EQ(bytes[offset], save.ruleset.options.otherWorldsLoot ? 1 : 0);
+    eraseBytes(bytes, offset, sizeof(bool));
+    --summarySize;
+    std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
+}
+
 void moveSummaryToLegacyPlaces(
     std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save, float yawMarker, uint64_t seedMarker)
 {
@@ -582,10 +684,10 @@ void moveSummaryToLegacyPlaces(
     const std::vector<uint8_t> map = piece(0, mapSize);
     const std::vector<uint8_t> minutes = piece(mapSize, minutesSize);
     const size_t rulesetOffset = mapSize + minutesSize;
-    // Without its last two bytes, the trainer hints and bow preferences of versions 152 and 154, which no summary-less
-    // save has.
+    // Without its last three bytes, the trainer hints, the bow preference and the choice of other worlds' loot of
+    // versions 152, 154 and 172, which no summary-less save has.
     const std::vector<uint8_t> ruleset =
-        piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize - 2 * sizeof(bool));
+        piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize - 3 * sizeof(bool));
     const std::vector<uint8_t> nameAndPreview = piece(summary.size() - nameAndPreviewSize, nameAndPreviewSize);
 
     bytes.insert(bytes.end(), nameAndPreview.begin(), nameAndPreview.end());
@@ -635,6 +737,8 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
     // The held item ends with the bonus timer, the hardened flag, the ruleset-fields byte and the Workshop mod (136).
     eraseBytes(bytes, findValue(bytes, heldItemMarker) + sizeof(float) + 1, 1 + sizeof(uint16_t));
     eraseMapLayoutIdentities(bytes);
+    eraseFleetFootBuff(bytes);
+    eraseIndoorArmageddon(bytes);
     const uint32_t previousVersion = 95;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -688,6 +792,8 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
     eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
     eraseMapLayoutIdentities(bytes);
+    eraseFleetFootBuff(bytes);
+    eraseIndoorArmageddon(bytes);
     const uint32_t previousVersion = 139;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -720,6 +826,7 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     // The summary block holds the map, the time, the ruleset, the name and the preview; the Bow preference (version
     // 154) is the ruleset's last byte, after the trainer hints (152). Cut it and stamp version 153.
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseOtherWorldsLoot(bytes, save);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     uint32_t summarySize = 0;
     std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
@@ -733,6 +840,8 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
     eraseMm9HirelingCount(bytes, completionMarker);
     eraseMapLayoutIdentities(bytes);
+    eraseFleetFootBuff(bytes);
+    eraseIndoorArmageddon(bytes);
     const uint32_t previousVersion = 153;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -761,8 +870,11 @@ TEST_CASE("saves before the MM9 hirelings load with none")
 
     // Cut the party's hireling count (version 157) and stamp version 154 (before the last outdoor map, 155).
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseOtherWorldsLoot(bytes, save);
     eraseMm9HirelingCount(bytes, completionMarker);
     eraseMapLayoutIdentities(bytes);
+    eraseFleetFootBuff(bytes);
+    eraseIndoorArmageddon(bytes);
     const uint32_t previousVersion = 154;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -796,6 +908,7 @@ TEST_CASE("saves before the MM9 formation load without member cells and with neu
 
     // Cut the party's formation cell count (version 158) and stamp version 157.
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseOtherWorldsLoot(bytes, save);
     std::array<uint8_t, sizeof(cellMarker)> markerBytes = {};
     std::memcpy(markerBytes.data(), &cellMarker, sizeof(cellMarker));
     const auto markerIt = std::search(bytes.begin(), bytes.end(), markerBytes.begin(), markerBytes.end());
@@ -813,6 +926,8 @@ TEST_CASE("saves before the MM9 formation load without member cells and with neu
         sizeof(float) * hireling.character.conditionExpireGameMinutes.size() + sizeof(uint64_t));
     erasePlaythroughStatistics(bytes);
     eraseMapLayoutIdentities(bytes);
+    eraseFleetFootBuff(bytes);
+    eraseIndoorArmageddon(bytes);
     const uint32_t previousVersion = 157;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -1430,6 +1545,12 @@ TEST_CASE("the MAW ruleset's every table contribution reaches a loader")
 
     for (const OpenYAMM::Game::RulesetTableContribution &table : maw->tables)
     {
+        // A world's tables are read only while that world is active (the default world here is MM8's).
+        if (!table.world.empty() && table.world != "mm8")
+        {
+            continue;
+        }
+
         CAPTURE(table.table);
         CHECK(data.appliedRulesetContributions().contains(table.path));
     }

@@ -115,6 +115,11 @@ std::optional<FollowerHireRefusal> ClassRules::followerHireRefusal(uint32_t) con
     return std::nullopt;
 }
 
+std::optional<FollowerHireRefusal> ClassRules::paidHirelingRefusal() const
+{
+    return std::nullopt;
+}
+
 const ClassRules &standardClassRules()
 {
     static const ClassRules Rules;

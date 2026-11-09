@@ -619,21 +619,29 @@ bool indoorLadderCanGrabAtTop(
         return false;
     }
 
-    const float fromExitX = body.x - ladder.topExit[0];
-    const float fromExitY = body.y - ladder.topExit[1];
+    // Near the hole's edge: within reach of the strip's top edge (its width), not anywhere around the top exit.
+    const IndoorLadderFrame frame = indoorLadderFrame(ladder);
+    const bx::Vec3 line = indoorLadderLinePoint(ladder, ladder.top[2]);
+    const bx::Vec3 offset = {body.x - line.x, body.y - line.y, 0.0f};
+    const float halfWidth = ladder.width * 0.5f;
+    const float lateral = moverDot(offset, frame.side);
+    const float beyondEnd = std::max(0.0f, std::fabs(lateral) - halfWidth);
+    const float depth = moverDot(offset, frame.facing);
     const float reach = ladder.reach + body.radius;
 
-    if (fromExitX * fromExitX + fromExitY * fromExitY > reach * reach)
+    if (depth * depth + beyondEnd * beyondEnd > reach * reach)
     {
         return false;
     }
 
-    const float toTopX = ladder.top[0] - body.x;
-    const float toTopY = ladder.top[1] - body.y;
-    const float distance = std::sqrt(toTopX * toTopX + toTopY * toTopY);
+    // Walking toward the spot where the climb starts.
+    const bx::Vec3 entry = indoorLadderTopEntryPosition(ladder, body);
+    const float toEntryX = entry.x - body.x;
+    const float toEntryY = entry.y - body.y;
+    const float distance = std::sqrt(toEntryX * toEntryX + toEntryY * toEntryY);
     const float speed = std::sqrt(desiredVelocityX * desiredVelocityX + desiredVelocityY * desiredVelocityY);
     return speed >= 1.0f && distance >= 1.0f
-        && (desiredVelocityX * toTopX + desiredVelocityY * toTopY) >= 0.5f * speed * distance;
+        && (desiredVelocityX * toEntryX + desiredVelocityY * toEntryY) >= 0.5f * speed * distance;
 }
 
 bx::Vec3 indoorLadderTopEntryPosition(const IndoorLadder &ladder, const IndoorMoverBody &body)
@@ -642,7 +650,14 @@ bx::Vec3 indoorLadderTopEntryPosition(const IndoorLadder &ladder, const IndoorMo
     const float footZ = std::max(ladder.bottom[2], ladder.top[2] - IndoorLadderTopEntryDrop);
     const bx::Vec3 line = indoorLadderLinePoint(ladder, footZ);
     const float holdDistance = body.radius + IndoorLadderHoldGap;
-    return {line.x - frame.facing.x * holdDistance, line.y - frame.facing.y * holdDistance, footZ};
+    // Where along the strip the body arrives, kept a body's radius inside its ends.
+    const float lateralLimit = std::max(0.0f, ladder.width * 0.5f - body.radius);
+    const float lateral = std::clamp(
+        moverDot({body.x - line.x, body.y - line.y, 0.0f}, frame.side), -lateralLimit, lateralLimit);
+    return {
+        line.x - frame.facing.x * holdDistance + frame.side.x * lateral,
+        line.y - frame.facing.y * holdDistance + frame.side.y * lateral,
+        footZ};
 }
 
 IndoorLadderClimbStep indoorLadderClimbStep(

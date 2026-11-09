@@ -634,7 +634,7 @@ bool MawTestPartyCatalog::loadFromYaml(const std::string &text, std::string &err
 
             if (!stageEntry.banks.empty() && stageEntry.banks.size() != MawGameState::ContinentCount)
             {
-                errorMessage = "stage " + stageEntry.id + ": banks are MM8, MM7, MM6 and other";
+                errorMessage = "stage " + stageEntry.id + ": banks are MM8, MM7, MM6 and MM9";
                 return false;
             }
 

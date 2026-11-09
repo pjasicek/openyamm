@@ -67,6 +67,12 @@ void addInitialStateLayout(LayoutHasher &hasher, const std::optional<MapDeltaDat
 
     hasher.add(uint64_t(1));
     hasher.add(uint64_t(initialState->actors.size()));
+    // A ruleset's pack reserve (MapDeltaData::packReserve): a regenerated one resets the map, a difficulty change not.
+    // Maps without one keep the identity they had.
+    if (!initialState->packReserve.empty())
+    {
+        hasher.add(uint64_t(initialState->packReserve.size()));
+    }
     hasher.add(uint64_t(initialState->spriteObjects.size()));
     hasher.add(uint64_t(initialState->chests.size()));
 

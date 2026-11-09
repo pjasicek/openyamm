@@ -33,7 +33,8 @@ Implement every MM9 item-selling vendor through shared OpenYAMM shop systems so 
 - selecting an MM9 RUDE shop row temporarily hides the RUDE overlay;
 - the standard MM6-MM8-style shop dialogue opens over the live gameplay scene;
 - no looping house video, empty video frame, or dark video placeholder is rendered;
-- the vendor root offers `Buy Standard`, `Buy Special`, and `Display Equipment` where enabled by its profile;
+- the vendor root offers `Buy` (one merchant list, as in MM9; see "Restock size" below) and `Display Equipment`
+  where enabled by its profile;
 - nested buy, sell, identify, and repair behavior uses shared gameplay transactions;
 - closing the vendor returns to the exact suspended RUDE conversation;
 - `OnRudeExit` does not run when entering or leaving the vendor and runs exactly once when RUDE itself closes;
@@ -238,6 +239,73 @@ Armor reuse their corresponding layouts. `Mm9Apothecary` uses the six-by-two gen
 four-by-two general shelf, and `Mm9Library` uses the six-by-two book shelf. Rendering and pointer hit-testing must use
 the same profile mapping and slot geometry; a valid stock page must never become invisible because its MM9 display
 type has no legacy MM6-MM8 house-type match.
+
+These shelves now serve only vendors whose `buy_view` is `Shelf` (absent or empty). MM9 vendors use the ledger below.
+
+### Buy view: the ledger (2026-11-05)
+
+Every MM9 vendor row has `buy_view` `Ledger` (vendors.txt column 35, written by `generate_mm9_vendors.py`; other
+values are a load error). Buy then lists the stock as MM9's merchant screen did
+(`MERCHANT-COORDS.txt`): one scrolling row per kind of item in the shop overlay frame, with icon, name, a count of
+identical copies, the inspect popup's type and stat lines and the shop's buy price, filtered by MM9's merchant tabs
+(Weapons, Armor, Gloves/Boots, Jewelry, Potions/Misc, plus Books). Sell, Identify, Repair, Display Equipment, the
+vendor root and the transactions are unchanged; a click buys the row's first copy through the shared buy and steal
+path, hovering gives the merchant's price line and held RMB inspects. Pure model and geometry:
+`game/ui/HouseShopLedger.{h,cpp}` (tests in `tests/HouseShopLedgerTests.cpp`); drawing:
+`game/ui/GameplayHouseShopLedgerRenderer.cpp`; text styles: `DialogueShopLedger*` in `engine/ui/gameplay/dialogue.yml`.
+Design study, original MM9 stock research and mockups: `level_generation/ui/mm9_shop_buy_study_20261105/`.
+
+Sorting (2026-11-06, user request): clicking the Wares heading sorts the list by type (merchant tab order, then the
+type line, so swords and axes group; spellbooks by school, then spell order), clicking Price by the buy price. A
+second click on the same heading reverses it and a third restores the stock's order; a brass triangle marks the
+direction and hovering a heading says what a click does. Equal rows keep the stock's order. The choice lasts for the
+shop visit only (`HouseShopOverlayState::ledgerSort`, reset when the overlay opens); MM9's screen had no sorting.
+
+#### Restock size and one list: MM9's rolls (2026-11-06)
+
+The original game rolls 30 items per restock, 15 from each treasure range, with independent picks, into one merchant
+container (`object.lto` `fcn.100b8310`; details in the study README); its merchant screen has no Standard/Special
+split. `generate_mm9_vendors.py` (stock generation version 2) now does the same: each restock page holds 30 rolls in
+the `standard` lane, slots 0-14 from the first range (with the former Standard quality rules and concat percentage)
+and 15-29 from the second (the former Special rules). A roll picks a treasure level in the range, turns it into an
+item level with MM9's weights (`fcn.100468d0`), restricted to the item levels the range admits, and picks a seeded
+random candidate of that level, so copies occur and the ledger groups them. Candidate filters are unchanged; a vendor
+has as many pages as the larger of its two former page counts.
+
+The pages are no longer padded to the shelf sizes: for a Ledger vendor the loader accepts 1-64 items per page and no
+special rows, while Shelf vendors keep both lanes and the exact sizes of `expectedVendorStockSlotCount`. The runtime
+slot count of a vendor-table shop is the size of its largest page. A vendor-table shop without special pages offers a
+single `Buy` (the Standard stock mode) instead of `Buy Standard` and `Buy Special`, and its ledger heading reads
+"Wares". A restock now offers 2-25 different items (2 at the one-school magic shops whose range admits only two
+spellbooks; libraries 9-14, armour 8-21, weapons 7-20), against 2-12 per list before. A saved game keeps its current
+stock until the next restock; a saved Special stock of an MM9 shop is no longer reachable.
+
+#### Spellbook shops: one book per spell, school tabs (2026-11-06)
+
+A magic shop stocks each spell at most once per restock (user decision 2026-11-06): a roll that lands on a stocked
+spell takes an unstocked one of the nearest level, and the page ends when every spell is stocked. Since 2026-11-08 the
+shops sell MM9's own books (`tools/mm9_import_discovery/mm9_spellbooks.py`, items 10901-10999, one per spell, World:mm9)
+instead of MM6's: four book designs by the mastery the spell needs (Normal, Expert, Master, Grandmaster), the same for
+every school, with the MM6 books' shop tiers, so the shops stock the same spells (stock generation version 6). They
+also drop as random loot in MM9, weighted like the same spell's MM8 book. A shop of more schools stocks more books: its
+ranges must admit six spells for each school it sells (`SPELLBOOK_SPELLS_PER_SCHOOL`; All 9 schools, Elemental 4,
+Spirit 3, Light and Dark 1), else they take the next tier up, then down, instead of copies (`spellbook_vendor`), and
+each range rolls up to three books per school (at least MM9's 15). So the first-tier shops of every school
+(Magical Touches, The Mage's Hand) offer spells 1-6 of each school, four Normal and two Expert, 54 books; Fre's Rain
+24, Frigg's Sprit 18, the one-school shops of Guberland 6, Arslegard's Light and Dark shops 7 (Expert to Grandmaster).
+These pools are small enough that each restock now stocks all of them. Spirit shops sell Spirit, Mind and Body books,
+the three MM6-MM8 schools MM9's Spirit merged, as they teach them; Elemental shops already sold all four elements.
+
+Since 2026-11-09 (user decision, stock generation version 7) three shops also stock every Expert and Master book of
+some schools on each restock, whatever their ranges (`SPELLBOOK_STOCKED_SCHOOLS`): Frosgard's Darkened Towers the Dark
+books and The Free Spirit the Spirit, Mind and Body books, and Lindisfarne's Rober's Magic the Fire, Air, Water, Earth
+and Light books (Town Portal and Fly among them; the Grandmaster books, Lloyd's Beacon among them, stay in
+Arslegard). They open the list and the rolls skip them, so Rober's Magic holds 74 books, Darkened Towers 8 and The Free
+Spirit 24; the ledger's page limit is 128 (`MaxLedgerStockPageSlots`).
+
+In the ledger, a stock of spellbooks only is listed in spell order (school by school, Normal to Grandmaster), its tabs
+are All and the schools it holds (the chips narrow to share the bar, so nine schools fit), and each book's second line
+is its school and the mastery the spell needs ("Fire Magic - Expert") instead of "Book of Learning".
 
 ### Transaction capabilities
 
@@ -583,7 +651,7 @@ Add a deterministic importer/auditor under `tools/mm9_import_discovery/` that:
 - validates library coverage and class/race-usable skill-book mappings;
 - validates magic-shop school coverage against existing OpenYAMM spellbooks;
 - computes deterministic concat coverage and deviation;
-- validates slot counts against the selected shop visual layout;
+- validates slot counts against the selected shop visual layout (Shelf vendors; Ledger vendors take 15 rolls);
 - emits source provenance for every normalized field;
 - fails on duplicate aliases, unresolved candidates, or nondeterministic ordering; and
 - regenerates byte-identical output from identical inputs.
@@ -744,7 +812,8 @@ This goal is complete only when:
 
 ## Explicit Non-Goals
 
-- Recreating the original MM9 merchant inventory screen.
+- Recreating the original MM9 merchant inventory screen as a whole (its two-book Buy/Sell layout). Only its scrolling
+  merchant list returned, as the ledger Buy view above.
 - Adding MM9 spell identities, spell scroll definitions, potions, runestones, or wands as a second catalogue.
 - Making artifacts, relics, set pieces, or quest equipment ordinary vendor stock.
 - Runtime parsing of extracted MM9 design files.

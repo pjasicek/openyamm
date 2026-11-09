@@ -2674,7 +2674,7 @@ def run_generation(args: argparse.Namespace) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate lossless MM9 map event sidecars and generated Lua.")
-    parser.add_argument("--maps-root", type=Path, default=Path("assets_dev/worlds/mm9/maps"))
+    parser.add_argument("--maps-root", type=Path, default=Path("assets_editor_dev/worlds/mm9/maps"))
     parser.add_argument("--scripts-root", type=Path, default=Path("mm9/extracted/SCRIPTS/SCRIPTS"))
     parser.add_argument("--events-root", type=Path, default=Path("assets_dev/worlds/mm9/events/maps"))
     parser.add_argument("--source-sounds-root", type=Path, default=Path("mm9/extracted/SOUNDS/SOUNDS"))

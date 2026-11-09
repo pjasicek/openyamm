@@ -1,0 +1,75 @@
+<h2 id="how-promotion-works">How promotion works</h2>
+<p>Every class belongs to a <strong>line</strong> (Knight → Cavalier → Champion or Black Knight is the Knight line).
+  Lines have two or three tiers; the last is the <strong>final tier</strong>.</p>
+<ul>
+  <li><strong>Any continent works.</strong> Every continent has promotion quests for every line: each line uses
+    the quests of one classic line there. The new lines borrow the Cleric's (Seraphim), Knight's (Death Knight),
+    Druid's (Shaman) and Sorcerer's (Elementalist) quests; the table below lists each line's quests.</li>
+  <li><strong>The final quest promotes the whole line.</strong> Finish your line's final promotion quest on any
+    continent and every member of that line goes straight to the final tier, from any earlier tier. That includes
+    characters who join later.</li>
+  <li><strong>Anyone can finish it.</strong> Members of other classes get the "Honorary" version, and it still counts
+    for your line. On Jadame, an award given to any member counts.</li>
+  <li><strong>New lines' middle tier.</strong> For Seraphim, Death Knight, Shaman and Elementalist, the first-tier
+    quest of the borrowed line on Enroth or Antagarich promotes tier 1 to tier 2. On Chedian, MM9's first-tier
+    quests do it: Healer (Seraphim, Shaman), Mercenary (Death Knight), Scholar (Elementalist).</li>
+  <li><strong>Chedian</strong> (MM9) counts as a fourth continent. Each line's final step there is the closest MM9
+    second-tier quest: Gladiator (Knight, Monk, Minotaur, Troll, Dragon, Death Knight), Assassin (Thief line,
+    Vampire), Paladin, Ranger (Ranger, Archer), Priest (Cleric, Seraphim), Druid (Druid, Dark Elf, Shaman), Mage or
+    Lich (Sorcerer, Necromancer; Elementalist Mage only). MM9 offers every promotion quest at any time, in any
+    order.</li>
+  <li><strong>Two final classes?</strong> A character the quest itself promotes gets that quest's class. A
+    character promoted by the line rule gets one of the line's final classes by a draw. The draw is fixed per
+    character, so reloading does not change it.</li>
+</ul>
+<div class="note">MAW drew the final class again every time it checked, so its players saved and reloaded for the class
+  they wanted. OpenYAMM fixes the draw per character and counts any member's award.</div>
+
+<h2 id="stacking">Stacking: Elder and Ultimate</h2>
+<p>Completing your line's final promotion on more than one continent raises its final classes' HP and SP per level.
+  The line's class name gets the prefix.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Final promotions done on</th><th>Title</th><th>HP and SP per level</th></tr></thead>
+  <tbody>
+    <tr><td>1 continent</td><td>—</td><td>× 1</td></tr>
+    <tr><td>2 continents</td><td>Elder</td><td>× 1.25, rounded down</td></tr>
+    <tr><td>3 or 4 continents</td><td>Ultimate</td><td>× 1.5, rounded down (a fourth adds nothing)</td></tr>
+  </tbody>
+</table></div>
+<ul>
+  <li>Only the per-level gains change. Base HP and SP, stats and skills do not.</li>
+  <li>It works on the whole line at once and applies immediately, also to characters already at level 100.</li>
+  <li>It counts continents, not quests: two lines that share a continent's quest both count it.</li>
+  <li>All four continents count, Chedian included. MM9's first-tier quests (Mercenary, Crusader, Scholar, Healer)
+    promote only whoever they promote, except for the four new lines above.</li>
+</ul>
+
+<h3>Worked examples</h3>
+<p>HP = base HP + HP per level × (level + Endurance effect + Bodybuilding bonus). SP = base SP + SP per level ×
+  (level + 2 × Personality effect). A stat's effect from 25 up is the stat ÷ 5.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Character</th><th>Per level</th><th>Normal</th><th>Elder</th><th>Ultimate</th></tr></thead>
+  <tbody>
+    <tr><td>Champion, level 100, Endurance 60 (effect 12), no Bodybuilding</td><td>HP 8 → 10 → 12</td>
+      <td>35 + 8 × 112 = <strong>931</strong></td><td>35 + 10 × 112 = <strong>1,155</strong></td>
+      <td>35 + 12 × 112 = <strong>1,379</strong></td></tr>
+    <tr><td>Lich, level 100, Personality 60 (effect 12, counted twice)</td><td>SP 6 → 7 → 9</td>
+      <td>25 + 6 × 124 = <strong>769</strong></td><td>25 + 7 × 124 = <strong>893</strong></td>
+      <td>25 + 9 × 124 = <strong>1,141</strong></td></tr>
+    <tr><td>Master Archer, SP per level 3</td><td>SP 3 → 3 → 4</td><td colspan="3">Elder gives the Archer no SP
+      (3 × 1.25 = 3.75, rounded down); Ultimate gives +1 per level</td></tr>
+  </tbody>
+</table></div>
+<div class="tip">Rounding down hurts small numbers: a class with 3 or fewer per level gains nothing from Elder in that
+  pool. Classes with 4 or 8 per level gain the most from Elder.</div>
+
+<h2 id="what-a-tier-gives">What a promotion gives</h2>
+<ul>
+  <li>Higher HP and SP per level (the class table lists each tier).</li>
+  <li>Higher mastery caps: most lines open Grandmaster in their main skills only on the final tier.</li>
+  <li>For some lines, class perks tied to the final tier (Supreme Armsmaster for Black Knights and Champions, the
+    Elementalist's 8 SP per level as Master of Elements).</li>
+</ul>
+
+<h2 id="quests">Promotion quests by line</h2>
+<div data-guide="promotion-table"></div>

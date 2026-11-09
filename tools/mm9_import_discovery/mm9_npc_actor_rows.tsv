@@ -1,0 +1,119 @@
+mm9_source_number	legacy_actor_id	note
+54	373	Shopkeeper Human2 MaleC A (PeasantM6 body, PeasantM6b skin): DAT class ShopkeeperHuman2MaleA, e.g. Annud Redeye on the Isle of Ashes; 3D model mm9_annud
+252	586	Forad Darre (ForadDarre body): the Isle of Ashes' story NPC who joins the party, and the Afterworld's Retribution fight, both from this one row (each map's actor sets its own hostility); 3D model mm9_forad
+254	307	Yrsa the Troll (Yrsa body): Isle of Ashes wise woman; 3D model mm9_yrsa
+269	466	Hen (hen.abc, hen.dtx): farmyard animal, MM6-MM8 Chicken A as the fallback visual; 3D model mm9_hen
+270	467	Rooster (rooster.abc, rooster.dtx): farmyard animal, MM6-MM8 Chicken B as the fallback visual; 3D model mm9_rooster
+267	124	Cow (cow.abc, cow.dtx): MM9 farm animal; MM8 Gorgon A (bull) is the closest legacy cattle silhouette; 3D model mm9_cow
+268	109	Goat (goat.abc, goat.dtx): MM9 farm animal; MM7 Unicorn A is the closest legacy horned hoofed quadruped; 3D model mm9_goat
+297	125	Brown Cow (cow.abc, cowbrown.dtx): MM9 farm animal; MM8 Gorgon B (bull) keeps the second cow rank; 3D model mm9_cow
+258	469	Bori (sheep.abc, no skin named: MM9 has no SHEEP.dtx, so the sheep1.dtx Ewe skin): placeholder NPC row on the sheep model, MM6-MM8 zdog A as the fallback visual; 3D model mm9_sheep
+259	469	Ratatosk (sheep.abc, no skin named, basemelee.scr: fights): placeholder NPC row on the sheep model, MM6-MM8 zdog A as the fallback visual; 3D model mm9_sheep
+272	469	Ewe (sheep.abc, sheep1.dtx): farmyard animal, MM6-MM8 zdog A as the fallback visual; 3D model mm9_sheep
+273	470	Ram (ram.abc = the sheep body + horns, sheep2.dtx + ramhornblack.dtx): farmyard animal, MM6-MM8 zdog B as the fallback visual; 3D model mm9_ram
+293	466	Goose (goose.abc, goose.dtx, duck.scr): farmyard animal, MM6-MM8 Chicken A as the fallback visual; 3D model mm9_goose
+262	467	The Great Honk (goose.abc, goosebrown.dtx, Scale 1.5, basemelee.scr: fights): the God's Pet goose, MM6-MM8 Chicken B as the fallback visual; 3D model mm9_goose
+271	471	Pig (pig.abc, pig.dtx, pig.scr): farmyard animal, MM6-MM8 zdog C as the fallback visual; 3D model mm9_pig
+227	178	Fish (FISH.abc, fish.dtx; fish.scr, no hostility): Temple of Honk pool fish; MM8 School of Fish (non-combatant) A as the legacy visual; 3D model mm9_fish
+299	472	mouse (mouse.abc, mouse1.dtx is not in the game data; cat.scr, Hostility 2): ambient animal, MM6-MM8 zrat A as the fallback visual; 3D model mm9_mouse, skin mouse_a
+300	474	evil mouse (mouse.abc, mouse3.dtx is not in the game data; cat.scr, Hostility 2): ambient animal, MM6-MM8 zrat C as the fallback visual; 3D model mm9_mouse, skin mouse_c
+294	463	cat (cat.abc, cat.dtx, cat.scr): town animal, legacy Cat A as the fallback visual; 3D model mm9_cat
+295	469	dog (dog.abc, dog.dtx, dog.scr): town animal, legacy zdog A as the fallback visual; 3D model mm9_dog
+107	553	Town Guard (guard.abc, Guard1): policeman.scr; 3D model mm9_guard, tier A
+108	538	Town Guard (dookmilitia.abc, DookMilitia1): policeman.scr; 3D model mm9_dookmilitia, tier A
+109	555	Town Guard (guard.abc, Guard3): policeman.scr; 3D model mm9_guard, tier C
+110	536	Town Guard (ClanSoldier.abc, ClanSoldier2): policeman.scr; 3D model mm9_clansoldier, tier B
+15	331	Commoner, Peasant Elf FemaleA A (PeasantF8 body, PeasantF8b skin): DAT class CommonerElfFemaleA; 3D model mm9_peasantf8, tier pf8_b
+16	332	Commoner, Peasant Elf FemaleA B (PeasantF8 body, PeasantF8a skin): DAT class CommonerElfFemaleB; 3D model mm9_peasantf8, tier pf8_a
+21	331	Prisoner, Peasant Elf FemaleD A (PeasantF8 body, PeasantF8b skin, Transparent 1): no DAT placement; 3D model mm9_peasantf8, tier pf8_b
+22	340	Commoner, Peasant Elf MaleA A (PeasantM1d body, PeasantM1c skin): DAT class CommonerElfMaleA; 3D model mm9_pm1d, tier pm1d_c
+28	342	Prisoner, Peasant Elf MaleD A (PeasantM1d body, PeasantM1d skin): no DAT placement found in the rebuilt maps; 3D model mm9_pm1d, tier pm1d_d
+51	368	Commoner, Peasant Human2 MaleA B (PeasantM7 body, PeasantM7b skin): DAT class CommonerHuman2MaleB; 3D model mm9_peasantm7, tier pm7_b
+53	371	Town, Peasant Human2 MaleB B (PeasantM7 body, PeasantM7a skin): DAT class TownHuman2MaleB; 3D model mm9_peasantm7, tier pm7_a
+43	358	Commoner, Peasant Human1 MaleA A (PeasantM1 body, PeasantM1a skin): DAT class CommonerHumanMaleA; 3D model mm9_peasantm1, tier pm1_a
+56	375	Prisoner, Peasant Human2 MaleD A (PeasantM1 body, PeasantM1b skin): no DAT placement found in the rebuilt maps; 3D model mm9_peasantm1, tier pm1_b
+296	358	RailTest (PeasantM1 body, PeasantM1a skin, Princess.scr): test row, no placement; 3D model mm9_peasantm1, tier pm1_a
+44	359	Commoner, Peasant Human1 MaleA B (PeasantM2 body, PeasantM2b skin): DAT class CommonerHuman1MaleB; 3D model mm9_peasantm2, tier pm2_b
+50	367	Commoner, Peasant Human2 MaleA A (PeasantM2 body, PeasantM2a skin): DAT class CommonerHuman2MaleA; 3D model mm9_peasantm2, tier pm2_a
+8	322	Commoner, Peasant Dwarf MaleA A (PeasantDM1 body, PeasantDM1a skin): DAT class CommonerDwarfMaleA; 3D model mm9_peasantdm1, tier pdm1_a
+13	329	Shopkeeper, Peasant Dwarf MaleC B (PeasantDM1 body, PeasantDM1b skin): DAT class ShopkeeperDwarfMaleB; 3D model mm9_peasantdm1, tier pdm1_b
+14	329	Shopkeeper, Peasant Dwarf MaleC B (PeasantDM1 body, PeasantDM1b skin; duplicate of row 13): 3D model mm9_peasantdm1, tier pdm1_b
+57	439	Commoner, Peasant Half-Orc Male A (PeasantHOM1 body, PeasantHOM1a skin): DAT class CommonerHalfOrcMaleA; 3D model mm9_phom1, tier phom1_a
+58	442	Town, Peasant Half-Orc Male B (PeasantHOM1 body, PeasantHOM1b skin): no DAT placement found in the rebuilt maps; 3D model mm9_phom1, tier phom1_b
+60	447	Prisoner, Peasant Half-Orc Male D (PeasantHOM1 body, PeasantHOM1a skin): no DAT placement found in the rebuilt maps; 3D model mm9_phom1, tier phom1_a
+29	349	Commoner, Peasant Human1 FemaleA A (PeasantF1 body, PeasantF1b skin): DAT class CommonerHumanFemaleA; 3D model mm9_peasantf1, tier pf1_b
+33	355	Shopkeeper, Peasant Human1 FemaleC A (PeasantF1 body, PeasantF1a skin): DAT class ShopkeeperHumanFemaleA; 3D model mm9_peasantf1, tier pf1_a
+34	356	Shopkeeper, Peasant Human1 FemaleC B (PeasantF5 body, PeasantF5a skin): DAT class ShopkeeperHuman1FemaleB, no placement in the rebuilt maps; 3D model mm9_peasantf5, tier pf5_a
+36	376	Commoner, Peasant Human2 FemaleA A (PeasantF5 body, PeasantF5b skin): DAT class CommonerHuman2FemaleA; 3D model mm9_peasantf5, tier pf5_b
+41	383	Shopkeeper, Peasant Human2 FemaleC B (PeasantF5 body, PeasantF5a skin): DAT class ShopkeeperHuman2FemaleB, no placement in the rebuilt maps; 3D model mm9_peasantf5, tier pf5_a
+251	255	Kira the Cold (Kira.abc, KiraPlate skin, NPCbase.scr): Jarl of Thronheim, DAT class KiratheCold (Thronheim City NPC239.scr and ARG_Kira.scr, Afterworld KiratheCold0); legacy Fighter Chain C as the fallback visual; 3D model mm9_kira
+246	586	Bjarni Thorvaldssen (BJARNI body and skin, PeasantMale skeleton): Jarl of Sturmford; DAT class BjarniThorvaldssen in Afterworld (NPCbase) and Thronheim City (ARG_Bjarni.scr, the Argument scene); 3D model mm9_bjarni
+250	607	Tryggva Ravenlocks (TRYGGVA body and skin, PeasantMale skeleton): Jarl of Frosgard; DAT class TryggvaRavenlocks in Frosgard City (NPC180.scr, sits), Thronheim City (ARG_Tryygva.scr, the Argument scene) and Afterworld (NPCbase); 3D model mm9_tryggva
+249	520	Sven Svenssen (Sven.abc, sven skin, NPCbase.scr, Scale 1.25): Jarl of Arslegard, DAT objects Afterworld SvenSvenssen0 (NPCbase), Arslegard SvenSvenssen0 (NPC3.scr), The Arena SvenArena (SvenArena.scr), Thronheim Sven/SvenProp on Sven_ARG.abc (ARG_Sven.scr, PropAnim Sit); legacy Dwarf A as the fallback visual; 3D model mm9_sven
+9	323	Commoner, Peasant Dwarf MaleA B (PeasantDM2 body, PeasantDM2a skin): DAT class CommonerDwarfMaleB; 3D model mm9_peasantdm2, tier pdm2_a
+248	579	Markel the Great (MARKEL body and skin, PeasantMale skeleton): merchant of Guberland; DAT class MarkeltheGreat in Guberland City (NPC127.scr), Afterworld (NPCbase) and Thronheim City (ARG_Markel.scr, the Argument scene); legacy Merchant C as the fallback visual; 3D model mm9_markel
+23	341	Commoner, Peasant Elf MaleA B (ForadDarre body + elf ears = PeasantM8d, PeasantM8d skin); DAT class CommonerElfMaleB; 3D model mm9_peasantm8d
+69	166	Commoner Child, Peasant Human Child A (PeasantBoy1 body, PeasantBoy1 skin): DAT class CommonerChildHumanChildA; 3D model mm9_peasantboy, tier pboy_a
+70	167	Townsfolk Child, Peasant Human Child B (PeasantBoy2 = PeasantBoy1 body, PeasantBoy3 skin): no placed DAT object; 3D model mm9_peasantboy, tier pboy_b
+73	340	Commoner Child, Peasant Elf Child A (PeasantBoy1e = PeasantBoy1 body + elf ears, PeasantBoy2 skin): DAT class CommonerChildElfChildA; 3D model mm9_peasantboy, tier pboy_e + attachment mm9_peasantboy_elfears
+245	307	Old Hag, Hjordisa (hag.abc = the Yrsa body with bell sleeves, hag skin; NPC132.scr): DAT object OldHag in Guberland; 3D model mm9_hag
+35	357	Prisoner, Peasant Human1 FemaleD A (PeasantF3 body = PeasantF1 + veil and braids, PeasantF3b skin): no DAT placement found in the rebuilt maps; 3D model mm9_peasantf3, tier pf3_b
+40	382	Shopkeeper, Peasant Human2 FemaleC A (PeasantF3 body = PeasantF1 + veil and braids, PeasantF3a skin): DAT class ShopkeeperHuman2FemaleA; 3D model mm9_peasantf3, tier pf3_a
+59	445	Shopkeeper, Peasant Half-Orc Male C (PeasantHOM2 body = PeasantHOM1 mesh, PeasantHOM2a skin): DAT class ShopkeeperHalfOrcMaleC not placed (the one half-orc shopkeeper object is ShopKeeperHalfOrcMaleA); 3D model mm9_phom1, tier phom2_a
+25	344	Town, Peasant Elf MaleB B (PeasantM7d body = PeasantM7 + elf ears, PeasantM7d skin): DAT class TownElfMaleB; 3D model mm9_peasantm7d, tier pm7d_d
+27	347	Shopkeeper, Peasant Elf MaleC B (PeasantM7d body, PeasantM7c skin): DAT class ShopkeeperElfMaleB; 3D model mm9_peasantm7d, tier pm7d_c
+260	555	Hanndl the Gate Keeper (PeasantM6 body without the bell cuffs = Hanndl.abc, Hanndl skin); Arslegard City, the Great Gate, the Hall of the Gods; 3D model mm9_hanndl
+71	595	Commoner Child, Peasant Human2 Child A (PeasantGirl2 body, PeasantGirl2 skin): DAT class CommonerChildHuman2ChildA; 3D model mm9_peasantgirl, tier pg_g2
+72	596	Townsfolk Child, Peasant Human2 Child B (PeasantGirl3 = PeasantGirl2 body, PeasantGirl3 skin): no placed DAT object; 3D model mm9_peasantgirl, tier pg_g3
+74	331	Townsfolk Child, Peasant Elf Child B (PeasantGirl1e = PeasantGirl2 body + elf ears, PeasantGirl1 skin): no placed DAT object; 3D model mm9_peasantgirl1e, tier pg_g1e
+55	374	Shopkeeper, Peasant Human2 MaleC B (ForadDarre body = PeasantM8, PeasantM8a skin); DAT class ShopkeeperHuman2MaleB; 3D model mm9_peasantm8
+264	380	Wyrde of the Knowing (Verdandi) (wyrd_mature.ABC = the wyrd_young mesh, wyrdmature skin, basemelee.scr): DAT WyrdeoftheKnowing in the Hall of the Gods; 3D model mm9_wyrde, tier wy_mature
+265	384	Wyrde of the Unknown (Morgan) (wyrd_young.ABC, wyrdyoung skin, basemelee.scr): DAT class WyrdeoftheUnknown in the Hall of the Gods; 3D model mm9_wyrde, tier wy_young
+24	343	Town, Peasant Elf MaleB A (PeasantM2d body = PeasantM2 + elf ears, PeasantM2c skin): DAT class TownElfMaleA; 3D model mm9_peasantm2d, tier pm2d_c
+26	346	Shopkeeper, Peasant Elf MaleC A (PeasantM2d body, PeasantM2d skin): DAT class ShopkeeperElfMaleA; 3D model mm9_peasantm2d, tier pm2d_d
+45	361	Town, Peasant Human1 MaleB A (PeasantM3 body, PeasantM3b skin): DAT class TownHumanMaleA; 3D model mm9_peasantm3, tier pm3_b
+52	370	Town, Peasant Human2 MaleB A (PeasantM3 body, PeasantM3a skin): DAT class TownHuman2MaleA; 3D model mm9_peasantm3, tier pm3_a
+47	364	Shopkeeper, Peasant Human1 MaleC A (PeasantM6 body, PeasantM6a skin): DAT class ShopkeeperHuman1MaleA; 3D model mm9_annud, tier pm6_a (region mask + ramp: mustard tunic where Annud's M6b is red; Annud's own face)
+132	403	Clan Soldier (ClanSoldier.abc, ClanSoldier1 + Clanshield1; basemelee.scr): 3D model mm9_clansoldier, tier clan_b (nearest by design: ClanSoldier1 is the chain hauberk of ClanSoldier2, which row 110 draws as clan_b)
+133	404	Clan Corporal (ClanSoldier.abc, ClanSoldier6 + Clanshield2; basemelee.scr): 3D model mm9_clansoldier, tier clan_b (nearest by design: the same chain hauberk as ClanSoldier2 / row 110)
+134	405	Clan Sergeant (ClanSoldier.abc, ClanSoldier9 + Clanshield3; basemelee.scr): 3D model mm9_clansoldier, tier clan_b (nearest by design: plate-strip lamellar under a chain mantle = Beldonian2)
+292	405	Tamur Leng (ClanSoldier.abc, BeldonianDragon + BeldDragnSword + Beldshield3; basemelee.scr): 3D model mm9_clansoldier, tier clan_c (nearest by design: dark breastplate and red-white lamellar skirt = Beldonian3); no dragon sword model
+303	538	Phantom Fighter (dookmilitia.abc, no skin named and no DOOKMILITIA.dtx; basecrawl.scr): no DAT placement, no script spawns it; 3D model mm9_dookmilitia, tier dook_a (user decision 2026-11-02), MM6 Thug as row 102/108
+17	334	Town, Peasant Elf FemaleB A (PeasantF6 body = PeasantF5 + hair bob, braid and elf ears, PeasantF6a skin): DAT class TownElfFemaleA; 3D model mm9_peasantf6, tier pf6_a
+19	337	Shopkeeper, Peasant Elf FemaleC A (PeasantF6 body, PeasantF6b skin): DAT class ShopkeeperElfFemaleA; 3D model mm9_peasantf6, tier pf6_b
+10	325	Town, Peasant Dwarf MaleB A (PeasantDM4 body, PeasantDM4a skin): DAT class TownDwarfMaleA; 3D model mm9_peasantdm4 (one skin, no tiers)
+1	313	Commoner, Peasant Dwarf FemaleA A (PeasantDF1 body, PeasantDF1a skin): DAT class CommonerDwarfFemaleA; 3D model mm9_peasantdf1, tier pdf1_a
+2	314	Commoner, Peasant Dwarf FemaleA B (PeasantDF2 body, PeasantDF2b skin): DAT class CommonerDwarfFemaleB; 3D model mm9_peasantdf2, tier pdf2_b
+3	316	Town, Peasant Dwarf FemaleB A (PeasantDF4 body, PeasantDF4b skin): DAT class no placed object; 3D model mm9_peasantdf4, tier pdf4_b
+5	319	Shopkeeper, Peasant Dwarf FemaleC A (PeasantDF1 body, PeasantDF1b skin): DAT class no placed object; 3D model mm9_peasantdf1, tier pdf1_b
+6	320	Shopkeeper, Peasant Dwarf FemaleC B (PeasantDF4 body, PeasantDF4a skin): DAT class ShopKeeperDwarfFemaleB; 3D model mm9_peasantdf4, tier pdf4_a
+4	317	Town, Peasant Dwarf FemaleB B (PeasantDF3 body, PeasantDF3a skin): DAT class TownDwarfFemaleB; 3D model mm9_peasantdf3, tier pdf3_a
+7	318	Prisoner, Peasant Dwarf FemaleD A (PeasantDF3 body, PeasantDF3b skin): DAT class no placed object; 3D model mm9_peasantdf3, tier pdf3_b
+11	326	Town, Peasant Dwarf MaleB B (PeasantDM3 body, PeasantDM3b skin): DAT class TownDwarfMaleB; 3D model mm9_peasantdm3, tier pdm3_b
+12	328	Shopkeeper, Peasant Dwarf MaleC A (PeasantDM3 body, PeasantDM3a skin): DAT class ShopkeeperDwarfMaleA; 3D model mm9_peasantdm3, tier pdm3_a
+30	350	Commoner, Peasant Human1 FemaleA B (PeasantF4 body = PeasantF1 + long hood and bell sleeves, PeasantF4a skin): DAT class CommonerHumanFemaleB; 3D model mm9_peasantf4, tier pf4_a
+37	377	Commoner, Peasant Human2 FemaleA B (PeasantF4 body = PeasantF1 + long hood and bell sleeves, PeasantF4a skin): DAT class CommonerHuman2FemaleB; 3D model mm9_peasantf4, tier pf4_a
+42	384	Prisoner, Peasant Human2 FemaleD A (PeasantF4 body = PeasantF1 + long hood and bell sleeves, PeasantF4b skin): no DAT placement found in the rebuilt maps; 3D model mm9_peasantf4, tier pf4_b
+49	366	Prisoner, Peasant Human1 MaleD A (PeasantM4 body = PeasantM8/ForadDarre reshaped, PeasantM4a skin); DAT class PrisonerHumanMaleA; 3D model mm9_peasantm4
+18	335	Town, Peasant Elf FemaleB B (PeasantF7 body, PeasantF7a skin): DAT class TownElfFemaleB; 3D model mm9_peasantf7, tier pf7_a
+20	338	Shopkeeper, Peasant Elf FemaleC B (PeasantF7 body, PeasantF7b skin): DAT class ShopkeeperElfFemaleB; 3D model mm9_peasantf7, tier pf7_b
+46	362	Town, Peasant Human1 MaleB B (PeasantM5 body = Markel reshaped, PeasantM5b skin); DAT class TownHumanMaleB; 3D model mm9_peasantm5, tier pm5_b
+48	365	Shopkeeper, Peasant Human1 MaleC B (PeasantM5 body = Markel reshaped, PeasantM5a skin); DAT class ShopkeeperHumanMaleB; 3D model mm9_peasantm5, tier pm5_a
+31	352	Town, Peasant Human1 FemaleB A (PeasantF2 body, PeasantF2a skin): DAT class TownHumanFemaleA; 3D model mm9_peasantf2, tier pf2_a
+32	353	Town, Peasant Human1 FemaleB B (PeasantF2 body, PeasantF2b skin): DAT class TownHumanFemaleB; 3D model mm9_peasantf2, tier pf2_b
+38	379	Town, Peasant Human2 FemaleB A (PeasantF2 body, PeasantF2a skin): DAT class TownHuman2FemaleA; 3D model mm9_peasantf2, tier pf2_a
+39	380	Town, Peasant Human2 FemaleB B (PeasantF2 body, PeasantF2b skin): DAT class TownHuman2FemaleB; 3D model mm9_peasantf2, tier pf2_b
+67	313	Commoner Child, Peasant Dwarf Child A (PeasantDboy1 body, DwarfBoy1 skin): DAT class CommonerChildDwarfChildA (YanmirChild.scr); 3D model mm9_peasantdboy, tier pdboy_a
+68	322	Townsfolk Child, Peasant Dwarf Child B (PeasantDboy1 body, DwarfBoy2 skin): no placed DAT object; 3D model mm9_peasantdboy, tier pdboy_b
+61	430	Commoner, Peasant Half-Orc Female A (PeasantHOF1 body, PeasantHOF1a skin): DAT class CommonerHalfOrcFemaleA; 3D model mm9_peasanthof1, tier phof1_a
+62	433	Town, Peasant Half-Orc Female B (PeasantHOF1 body, PeasantHOF1a skin): DAT class no placed object; 3D model mm9_peasanthof1, tier phof1_a
+63	436	Shopkeeper, Peasant Half-Orc Female C (PeasantHOF1 body, PeasantHOF1b skin): DAT class ShopKeeperHalfOrcFemaleA; 3D model mm9_peasanthof1, tier phof1_b
+64	438	Prisoner, Peasant Half-Orc Female D (PeasantHOF2 body, PeasantHOF1c skin): DAT class no placed object; 3D model mm9_peasanthof2, tier phof2_c
+263	376	Wyrde of the Known (Igrid) (wyrd_old.abc, wyrdold skin, basemelee.scr): DAT WyrdeoftheKnown in the Hall of the Gods and Dark Passageway (NPC338.scr); 3D model mm9_wyrdold
+247	403	Sigmund the Stressed (sigmund.abc + child model sigmund_child.ABC, sigmund skin, FHP skeleton): Jarl of Drangheim; DAT class SigmundtheStressed in Drangheim City (NPCbase), Afterworld (NPC87.scr) and Thronheim City (ARG_Sigmund.scr, the Argument scene); legacy Swordsman A as the fallback visual; 3D model mm9_sigmund
+274	292	Scholar (scholar.abc, scholar1 skin, basecrawl.scr, Bembridge Scholar A); 3D model mm9_scholar, tier sc_a
+275	294	Master Scholar (scholar.abc, scholar3 skin, basecrawl.scr, Bembridge Scholar B); 3D model mm9_scholar, tier sc_b
+255	565	Krohn (KROHN.abc, Krohn skin + KrohnSword/KrohnSpear, own 64-joint Bip01 skeleton): the god in the Hall of the Gods; DAT class Krohn with NPC335.scr (quest, loopanim stand) and WG_NPC335.scr (the win-game cutscene: Krohn01-05, SC7_22_Krohn), the statue prop Krohnstat (PropAnim statue, sculpt skins); legacy Armored Death Knight as the fallback visual; 3D model mm9_krohn
+256	352	Fre (FRE.abc = PeasantF4 body with a hair cap and a braid instead of the hood, Fre skin): Hall of the Gods goddess, DAT object Fre (NPC337.scr); 3D model mm9_fre
+266	451	The Green Man (GREENMAN.abc, greenman skin + Greenmanstaff, own 56-joint Bip01 skeleton with five-finger hands and a staff bone): druid promotion NPC; DAT object GreenMan0 in Frosgard (NPC221.scr: BaseWander, Rude promotes to Druid; GreenMan.scr: never winces); legacy Treant A as the fallback visual; 3D model mm9_greenman
+257	568	Skraelos (SKRAELOS.abc, skraelos skin, NPCbase.scr): Afterworld confessor; DAT Skraelos in the Afterworld and the Hall of the Gods (NPC336.scr, WG_NPC336.scr); legacy Lich A as the fallback visual; 3D model mm9_skraelos

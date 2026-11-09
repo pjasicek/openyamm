@@ -1,0 +1,46 @@
+# MM9 playthrough, segment 39: the Mountain Pass, walked (guide: Chapter I, "Find the Mountain Pass"). Out by Thronheim
+# City's land gate, to the pass's entrance on Thronheim's east side (three days), and through the whole pass on foot:
+# south down the western valley, round the loop at the bottom and up the long eastern branch to the Thjorgard exit.
+# Its two step triggers (Trigger1 past the entrance, Trigger0 two thirds up the eastern branch) find the pass: key 80,
+# 12 500 experience. The monsters' path map cannot route this open-air map (prep risk 1: partial plans over the
+# mountainsides), so the legs follow via points along the valley floor, worked out from the map's geometry
+# (walkable slopes only, clear of walls and trees), with plan: false.
+#   python3 tests/playthrough/mm9/run.py 39
+id: mm9.playthrough.39_mountain_pass
+title: "MM9 playthrough 39: the Mountain Pass walked from Thronheim to Thjorgard"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/38_kira_honkies.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thronheimcity.blv, qbit_set: [90079], qbit_clear: [90080, 90176]}
+
+  # Out by the land gate, to the pass's entrance (thronheim ExitTrigger0).
+  - set_pose: {map: thronheimcity.blv, x: 14500, y: 82, z: 3093, yaw: 0, pitch: 0}
+  - walk_to: {x: 14950, y: 82, z: 3093, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - set_pose: {map: thronheim.blv, x: -17306, y: 14100, z: 2600, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - walk_to: {x: -17306, y: 14679, z: 2600, z_tolerance: 600, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: mountainpass.blv}
+
+  # The western valley to Trigger1.
+  - walk_to: {via: [[-19360, 19744, 0], [-19488, 18848, 0], [-19744, 18464, 0], [-19744, 16224, 0], [-19552, 16032, 0], [-19232, 15840, 0], [-18336, 15840, 0], [-17696, 16672, 0], [-16736, 16928, 0], [-16288, 17376, 0], [-14752, 17376, 0], [-14624, 16928, 0], [-14240, 16544, 0], [-14240, 16160, 0], [-13408, 15200, 0], [-13408, 14816, 0], [-13024, 14304, 0], [-12064, 13408, 0]], x: -11552, y: 13344, z: 0, plan: false, radius: 120, z_tolerance: 300, timeout_seconds: 300, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: 'if mapvar("PassSteps") ~= 1 then error("Trigger1 not stepped on") end'}
+  # South, round the loop at the bottom and up the eastern branch to Trigger0.
+  - walk_to: {via: [[-6368, 13344, 0], [-6240, 13216, 0], [-5408, 13216, 0], [-5216, 13024, 0], [-5216, 11488, 0], [-6368, 10336, 0], [-6368, 9696, 0], [-6752, 9312, 0], [-6816, 8736, 0], [-7136, 8416, 0], [-7136, 6944, 0], [-7456, 6304, 0], [-7712, 5280, 0], [-7904, 4832, 0], [-8352, 4384, 0], [-8352, 4128, 0], [-8736, 3744, 0], [-8736, 3296, 0], [-9184, 2848, 0], [-9184, 2080, 0], [-9568, 1696, 0], [-9568, -3104, 17], [-9952, -3488, 60], [-9952, -4320, 126], [-10336, -4704, 133], [-10336, -5088, 161], [-11232, -5984, 161], [-11808, -6816, 176], [-11936, -7200, 189], [-11936, -8672, 152], [-12384, -9120, 152], [-12384, -10336, 231], [-12768, -10720, 231], [-12768, -11488, 400], [-13152, -11872, 433], [-13152, -14496, 640], [-11104, -16544, 916], [-8224, -16544, 1394], [-6624, -15072, 1604], [-5536, -15072, 1874], [-5088, -14624, 1874], [2976, -14624, 1081], [3296, -14944, 1077], [3936, -14944, 990], [4192, -14816, 973], [6688, -14816, 843], [7072, -14432, 792], [7392, -14432, 677], [7840, -13984, 469], [8160, -13920, 441], [8608, -13472, 421], [10080, -13472, 417], [11744, -11808, 372], [12256, -11680, 258], [13728, -10336, 84], [14816, -9248, 0], [15136, -8672, 0], [15776, -8032, 0], [15968, -7200, 0], [15968, -5728, 12], [16352, -5344, 0]], x: 16416, y: -4832, z: 0, plan: false, radius: 120, z_tolerance: 300, timeout_seconds: 900, clear_hostiles: 1500}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90080], qbit_clear: [90176]}
+  # On north to the Thjorgard exit (three days to Thjorgard).
+  - walk_to: {via: [[16416, -1696, 0], [16032, -1312, 0], [16032, 288, 0], [15648, 672, 0], [15648, 2720, 0], [15264, 3104, 0], [15264, 5088, 0], [14816, 5536, 0], [14816, 9248, 0], [17696, 12128, 0], [18080, 12128, 0], [18528, 12576, 0], [18912, 12576, 0], [19296, 12960, 0], [20448, 12960, 0], [20768, 12640, 0], [21216, 12640, 0], [21408, 12448, 0], [22176, 12448, 0], [22368, 12256, 0]], x: 23840, y: 12192, z: 0, plan: false, radius: 120, z_tolerance: 300, timeout_seconds: 600, clear_hostiles: 1500}
+  - walk_to: {x: 24000, y: 13269, z: 0, z_tolerance: 900, plan: false, timeout_seconds: 60, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+  - save_game: {name: "39 the Mountain Pass", path: output/playthrough/mm9/checkpoints/39_mountain_pass.oysav}

@@ -11,6 +11,7 @@
 #include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplaySpeechRules.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/tables/ItemTable.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 
@@ -1341,4 +1342,21 @@ TEST_CASE("actor audio owns four moving voices and replaces only quieter actors"
     CHECK(audio.playActorSound(0, worldSound(1030), {8192, 0, 0}) != 0);
     audio.stopAllPlayback();
     CHECK_FALSE(audio.isSoundInstancePlaying(ui));
+}
+
+TEST_CASE("instruments play their own sound and a flute is not a lute")
+{
+    const auto instrumentSound = [](const std::string &name)
+    {
+        OpenYAMM::Game::ItemDefinition definition;
+        definition.name = name;
+        return OpenYAMM::Game::InventoryItemUseRuntime::instrumentSound(definition);
+    };
+
+    CHECK(instrumentSound("Flute") == OpenYAMM::Game::SoundId::Flute);
+    CHECK(instrumentSound("Pan Flute") == OpenYAMM::Game::SoundId::PanFlute);
+    CHECK(instrumentSound("Faerie Pipes") == OpenYAMM::Game::SoundId::PanFlute);
+    CHECK(instrumentSound("Lute") == OpenYAMM::Game::SoundId::LuteGuitar);
+    CHECK(instrumentSound("Trumpet") == OpenYAMM::Game::SoundId::Trumpet);
+    CHECK_FALSE(instrumentSound("Iron Longsword").has_value());
 }

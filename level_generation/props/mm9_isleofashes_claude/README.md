@@ -57,7 +57,7 @@ names are `mm9_<prop>`; each binding uses `yaw: facing`.
    pieces such as the cookpot's fire socket), faces wound to agree with the ABC's authored normals, open pieces
    (sails, ropes, chains, cloth, thin planks) on a double-sided copy of the material, closed pieces single-sided,
    normals smooth within 40 degrees (hard beyond), COLOR_0 vertex occlusion, base centre at the origin. LODs only
-   from 250 triangles (guidelines: skip LODs for simple assets): about 50 % / 25 %, the native ABC LOD when its
+   from 1000 triangles (guidelines: skip LODs for simple assets): about 50 % / 25 %, the native ABC LOD when its
    count is near, else a collapse decimation; the cookpot keeps one LOD (a 25 % pot collapses).
 5. `finish.py [--install]`: alpha modes, double-sided, unlit flame (`openyamm_billboard: "card"`, which turns a flame
    about its own centre and keeps an off-axis torch's flame on its head; `openyamm_flipbook [16, 4, 30]`), orb extras (`openyamm_pulse [0.35, 2.5]`, `openyamm_uv_scroll [0.04, 0]`, emissive), LOD linking

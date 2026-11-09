@@ -2,6 +2,7 @@
 
 #include "game/data/GameDataLoader.h"
 
+#include <algorithm>
 #include <cassert>
 
 namespace OpenYAMM::Game
@@ -19,6 +20,7 @@ const T &requireBound(const T *pValue)
 void GameDataRepository::clear()
 {
     m_rulesetGuideUrl.clear();
+    m_rulesetWorlds.clear();
     m_pMapStats = nullptr;
     m_pMonsterTable = nullptr;
     m_pMonsterProjectileTable = nullptr;
@@ -140,6 +142,7 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pMawDimensionData = loader.mawDimensionData();
     m_pMawTextData = loader.mawTextData();
     m_rulesetGuideUrl = loader.activeRuleset().guideUrl;
+    m_rulesetWorlds = loader.activeRuleset().worlds;
     m_pMergedReagentSettingTable = &loader.getMergedReagentSettingTable();
     m_pMergedComplexItemPictureTable = &loader.getMergedComplexItemPictureTable();
     m_pMergedTeacherTopicTable = &loader.getMergedTeacherTopicTable();
@@ -441,6 +444,12 @@ const MawDimensionData *GameDataRepository::mawDimensionData() const
 const std::string &GameDataRepository::rulesetGuideUrl() const
 {
     return m_rulesetGuideUrl;
+}
+
+bool GameDataRepository::rulesetSupportsWorld(const std::string &worldId) const
+{
+    return m_rulesetWorlds.empty() || std::find(m_rulesetWorlds.begin(), m_rulesetWorlds.end(), worldId)
+        != m_rulesetWorlds.end();
 }
 
 const MawTextData *GameDataRepository::mawTextData() const

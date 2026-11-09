@@ -1,0 +1,42 @@
+# MM9's friendly NPCs are solid (the user, 2026-11-07): walking into Forad Darre at the Isle of Ashes bridge stops the
+# party in front of him, as MM9 does. MM9's world.yml friendlyActorsBlockParty: true; MM6-MM8 keep their rule, where the
+# party walks through friendly actors (HeadlessOutdoorDiagnostics party_movement_ignores_friendly_actor_3_collision).
+# His pose and the party's are level_generation/projects/mm9r_isleofashes_blv/forad_talk.yml's; he stands about
+# 282 units east of the party's start (2171, -7506); the party stops against him at x 2073, and without actor collision
+# walks on down the bridge's far ramp to x 2646 in one second.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/friendly_npc_blocks_party.yml --scenario-no-color
+id: mm9.friendly_npc_blocks_party
+title: "MM9: Forad Darre stops the party walking into him; without actor collision it walks on past him"
+world: mm9
+mode: faithful
+tags: [mm9, movement, collision, npc]
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+  - assert:
+      actor_visible:
+        actor_index: 13
+        name: Forad Darre
+        report_state: true
+        hidden: false
+  # Two seconds of walking east into him: the party stops against his body, short of his position.
+  - movement_segment:
+      input: forward
+      seconds: 2.0
+      start: {map: isleofashes.blv, x: 1889.129, y: -7518.290, z: 177.097, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: isleofashes.blv, x: 2073, y: -7518, z: 146, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 24
+      tolerance_z: 64
+  - assert:
+      dialog: {active: false}
+  # The same walk with actor collision off, for one second, passes him: only his body stopped the party.
+  - movement_segment:
+      input: forward
+      seconds: 1.0
+      actor_collision: false
+      start: {map: isleofashes.blv, x: 1889.129, y: -7518.290, z: 177.097, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: isleofashes.blv, x: 2646, y: -7518, z: -38, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 48
+      tolerance_z: 48

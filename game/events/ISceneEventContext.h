@@ -178,6 +178,15 @@ public:
         return false;
     }
 
+    // evt.PushParty: the world runtimes' IGameplayWorldRuntime::dashParty (same signature, one override serves both).
+    virtual bool dashParty(float directionX, float directionY, float distance)
+    {
+        (void)directionX;
+        (void)directionY;
+        (void)distance;
+        return false;
+    }
+
     virtual bool setMapActorPosition(size_t actorIndex, float x, float y, float z)
     {
         (void)actorIndex;

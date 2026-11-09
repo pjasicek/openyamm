@@ -93,7 +93,7 @@ Review: [`review/v02_compare.jpg`](review/v02_compare.jpg) (43 views, MM9 origin
 | `Sliding Panels`, `Blade` (the blade under the stair, 1080 deg) | a linear mover and a rotating one (one turn: Deviations) |
 | `entrance gate`, `entrance button`, `exit gate`, `elevator` (TouchToOpen, 320 LT), `water grate` (+ its invisible `water grate opener`) | movers; the button and the grate take a click; the elevator opens when the party stands on its column |
 | `ratdoortrigger` (an invisible relay Door) | an invisible mover in the Lua (its `_INV` part) |
-| `knockback01-24` (DamageBrush: Damage, Current) | polled boxes: while on, the party in the box takes Damage once and is thrown along Current (`evt.Jump`) |
+| `knockback01-24` (DamageBrush: Damage, Current) | polled boxes: while on, the party in the box takes Damage once and is pushed along Current (`evt.PushParty`) |
 | `Trigger` (123) | polled boxes (any part of the party in the box, on entry) or relays, with StartOn, SendDelay, ActivationCount and their messages 1-10 |
 | `Shooter` (80: FireBolt, 5 damage, every 4 s) | `evt.FireMissile` from the object along its rotation, while on |
 | `ClearWater0` (Water115.spr, SurfaceAlpha 0.3) | its top as non-solid translucent faces at 0.3 over the flooded pool room (16 runs of 32 LT tiles): the party wades |
@@ -155,7 +155,10 @@ about 0.17 s headless).
 - **The blade under the stair** turns one turn at MM9's speed (MM9: three; a rotating mover turns at most 360).
 - **Non-solid MM9 movers** (axe traps, the blade, the axes and their carrier, the spinning wheels) are untouchable faces
   (scene `face_attribute_overrides`); MM9's DamageBrush knockbacks do the hitting.
-- **Knockbacks** hit once per on-period with MM9's Damage and throw the party along Current (a hop, `evt.Jump`).
+- **Knockbacks** hit once per on-period with MM9's Damage and push the party along Current: Current's speed (at most
+  1200 native units a second) for 0.25 s, so about 300 units for the axes' 2048, through `evt.PushParty` (a dash
+  against the world's collision). Until 2026-11-09 they were an `evt.Jump` hop, whose horizontal speed a grounded
+  party lost after one movement step: the throw moved it 9 units.
 - **Chadwick's body** is MM9's size (209 tall) on the peasant row: the row's 120 would hide him under the booth's counter.
 - **The trial resets on every map load** (NPC417.scr :Init runs on world start and mini-save load in MM9; :Init2 on a
   full save load keeps it). A save loaded mid-trial would restart it here, so **saving is forbidden in the dungeon**

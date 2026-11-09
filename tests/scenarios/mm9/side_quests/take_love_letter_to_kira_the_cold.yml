@@ -1,0 +1,105 @@
+# MM9 side quest "Take Love Letter to Kira the Cold" (guide: Side quests, Sturmford, take-love-letter-to-kira-the-cold;
+# tools/mm9_site/story/side_a.yml). From a new game in Sturmford City: no story state is needed (Bjarni offers the
+# errand while neither key 22 nor key 40, the Jarls away at the war council, is set). Jarl Bjarni Thorvaldssen (actor
+# 56, RUDE 45) on his throne asks for it (key 22) and hands over the Love Letter (item 10247, key 150) when the talk
+# closes (Bjarni.scr). Sturmford's dock has no boat to Thronheim: the Dragon Passage to Drangheim (1 day), the Black
+# Hammer to Guberland (1) and the Flying Bird to Thronheim (5) are one `travel` of seven days here. Through Thronheim
+# City's land gate to Kira the Cold (actor 41, RUDE 239) in her hall: her first line sets key 23, and the close takes
+# the letter and pays 12 000 experience (key 147; NPC239.scr). Out by the dock gate, the Raider home (4 days), in by
+# Sturmford City's north-east gate, and Bjarni hears her answer: "...smiled." (key 25) pays 12 500 experience and
+# 2 000 gold (key 151). Cities and regions: the party is placed by each person and gate; gates are walked into.
+# Research: prep/A_sturmford_drangheim.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py take_love_letter
+id: mm9.side_quests.take_love_letter_to_kira_the_cold
+title: "MM9 side quest: Take Love Letter to Kira the Cold (Bjarni, Kira, back)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: sturmfordcity.blv, gold: 10000, qbit_clear: [90022, 90023, 90024, 90025, 90147, 90150, 90151]}
+
+  # Jarl Bjarni on his throne in the palace.
+  - set_pose: {map: sturmfordcity.blv, x: 7000, y: 8192, z: 19743, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "Is there anything we can do for you?"}
+  - select_topic: {match_label: "What can we do for you?"}
+  - select_topic: {match_label: "Of course.  We would be happy to aid you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90022, 90150]}
+  - play_lua: {source: 'if not has_item(10247) then error("no Love Letter from Bjarni") end; log("the Love Letter is in the pack")'}
+
+  # Out by the north-east gate; by sea to Thronheim (no direct boat: Drangheim, Guberland, then the Flying Bird).
+  - set_pose: {map: sturmfordcity.blv, x: 11141, y: 14300, z: 19723, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11346, y: 14541, z: 19907, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+  - travel: {map: thronheim.blv, days: 7}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Kira the Cold in her hall: the letter and her answer; she keeps the letter.
+  - set_pose: {map: thronheimcity.blv, x: -11182, y: 16500, z: 3278, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "We've been sent by Bjarni Thorvaldssen"}
+  - select_topic: {match_label: "He gave us this letter to give to you."}
+  - select_topic: {match_label: "He seems quite taken with you."}
+  - select_topic: {match_label: "What should we tell him for you?"}
+  - select_topic: {match_label: "Alright.  So we should tell him the truth."}
+  - select_topic: {match_label: "Sorry to bother you"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90023, 90147], runtime_event_variable: {id: 13, member_index: 0, value: 12000}}
+  - play_lua: {source: 'if has_item(10247) then error("Kira did not keep the letter") end; log("Kira kept the letter")'}
+
+  # Home: the dock gate, the Raider to Sturmford (4 days), Sturmford City's north-east gate.
+  - set_pose: {map: thronheimcity.blv, x: 2089, y: 14600, z: 3093, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2089, y: 15073, z: 3093, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # Bjarni hears her answer (either answer pays the same; the party tells him she smiled).
+  - set_pose: {map: sturmfordcity.blv, x: 7000, y: 8192, z: 19743, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "We have come with a response from Kira the Cold."}
+  - select_topic: {match_label: "She, uhh, she..smiled."}
+  - select_topic: {match_label: "Thanks."}
+  - select_topic: {match_label: "Sorry to bother you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90025, 90151], qbit_clear: [90024], gold: 12000,
+             runtime_event_variable: {id: 13, member_index: 0, value: 24500}}

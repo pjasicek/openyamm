@@ -1116,7 +1116,7 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             {
                 // Traps, chest traps and event missiles: MAW's trap damage indoors and for anything but physical
                 // and water hits outdoors (falls and drowning keep their own); Sparks deals a third (DM:1623-1652).
-                const bool indoor = m_rules.currentMap().ends_with(".blv");
+                const bool indoor = !m_rules.outdoorMap(m_rules.currentMap());
 
                 if (indoor || (hit.type != CombatDamageType::Physical && hit.type != CombatDamageType::Water))
                 {
@@ -1843,10 +1843,21 @@ MawPowerReport mawPowerReport(
             rules.auraSkill(5, &character)),
         weaponExtra(heldWeapons(character, itemTable, false, true)));
 
-    // The attack spell, else the quick spell: its average with Intellect or Personality, the Shaman's schools and the
-    // spell crit, plus the weapons' enchantments and Fire Aura as a spell carries them, per its recovery.
-    const std::string &spellName = !character.attackSpellName.empty() ? character.attackSpellName
-                                                                      : character.quickSpellName;
+    // The first spell of the battle orders, else the quick spell: its average with Intellect or Personality, the
+    // Shaman's schools and the spell crit, plus the weapons' enchantments and Fire Aura as a spell carries them, per its
+    // recovery.
+    const std::string *pOrderSpell = nullptr;
+
+    for (const BattleOrder &order : character.battleOrders)
+    {
+        if (order.enabled && order.kind == BattleOrderKind::Spell && !order.spellName.empty())
+        {
+            pOrderSpell = &order.spellName;
+            break;
+        }
+    }
+
+    const std::string &spellName = pOrderSpell != nullptr ? *pOrderSpell : character.quickSpellName;
     const SpellEntry *pSpell = rules.spellTable() != nullptr && !spellName.empty()
         ? rules.spellTable()->findByName(spellName)
         : nullptr;
@@ -2352,8 +2363,9 @@ void MawCombatRules::summonBossFamilyMember(
         return;
     }
 
-    const int16_t familyA = int16_t((summonerState.monsterId - 1) / 3 * 3 + 1);
-    const int16_t monsterId = std::uniform_real_distribution<double>(0, 1)(rng) < 0.75 ? familyA : familyA + 1;
+    const MawMonsterFamily family = mawMonsterFamily(world.monsterTable(), summonerState.monsterId);
+    const int16_t monsterId =
+        int16_t(std::uniform_real_distribution<double>(0, 1)(rng) < 0.75 ? family.row(1) : family.row(2));
     // Halfway to the party, at MAW's summon speed 350.
     GameplayMonsterSpawnRequest request;
     request.monsterId = monsterId;
@@ -3058,7 +3070,7 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
     }
 
     // The Doom modes, indoors: a struck monster wakes the ones within 256 units and shows them on the map (DM:217-230).
-    if (hit.pWorld != nullptr && hit.targetActorIndex && hit.pWorld->isIndoorMap()
+    if (hit.pWorld != nullptr && hit.targetActorIndex && !hit.pWorld->isOpenAirMap()
         && mawModelConfig(m_rules.options(), int(party.members().size())).doomMode)
     {
         hit.pWorld->revealActorsAround(*hit.targetActorIndex, 256.0f);

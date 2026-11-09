@@ -200,6 +200,11 @@ public:
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         std::string &errorMessage) const;
+    // A ruleset that no longer rolls a special enchantment on a slot (MAW's Undead Slaying weapons) takes it off the
+    // fixed stock of that slot: the item is sold plain. Returns how many stock items lost their enchantment.
+    size_t removeSpecialEnchantsTheRulesetDoesNotRoll(
+        const ItemTable &itemTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable);
     bool applyHouseRules(
         const MergedHouseRuleTable &houseRules,
         const MergedTransportLocationTable &transportLocations,

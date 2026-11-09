@@ -26,7 +26,9 @@ The validated 30-column key groups are:
 - c26-c30: keys removed by ordinary rows.
 
 Service rows (`next < -1`) reuse action-side tail fields as opcode-specific parameters, so c16-c20 and c26-c30 must
-not be applied to them as generic key mutations.
+not be applied to them as generic key mutations. The hire (-10) and dismiss (-11) services are the exception: their
+tails keep the key meaning (Forad Darre's hire rows in `NPC2.rude` grant 29 and 371, which `FORAD.scr`, `YRSA.scr`,
+`ISLEASHESBOOK.scr` and journal entry 10 of `NPC997.rude` test; every dismissal removes the hire key it requires).
 
 The implementation must:
 
@@ -40,6 +42,22 @@ The implementation must:
 - keep RUDE state in normal world/save state rather than a separate MM9 engine mode.
 
 ## Presentation
+
+**Superseded 2026-11-04**: the talk is the Carved Obsidian conversation bar the user chose (proposal A of
+[the talk dialogue study](../../level_generation/ui/mm9_talk_dialogue_study_20261102/README.md), native section):
+TTF text rasterized at its drawn size, every choice shown (two columns from seven), the speaker's live 3D head in the
+ring (the talk camera was removed 2026-11-06). Since 2026-11-06 a talk hides the party basebar and the bar stands where
+it was; a trainer lists its lessons per member, so nothing in a talk needs the active member. The bitmap popup below is
+the earlier plan, kept for its references.
+
+**Talking props (2026-11-06).** A posed RUDEProp (a decoration whose click event runs `MM9.openRude`: Sturmford City's
+innkeeper, Ludwig, the drinkers; Thronheim City's council; the Arena's spectators) shows its own decoration model in
+the ring, framed like a speaking actor's head and shoulders (its head taken as the top 14 % of the posed mesh,
+`talkPortraitStaticFigureFrame`). The speaker is the actor the talk was opened on, else the clicked decoration
+(`DialogueRuntimeState::mm9RudeSourceDecorationKey`, kept across a venue the talk opens), else the nearest actor of the
+RUDE id (`findMm9DialogueSpeaker`); the same speaker fills the house dialogue's portrait. A speaker without a model still
+shows initials. Code: `Mm9DialogueSpeaker`, `ActorModelPreview::renderDecoration`,
+`WorldFxSystem::syncDecorationTalkPortrait`, `DecorationModelSet::portraitModel`; tests `TalkPortraitTests.cpp`.
 
 Use the original MM9-style lower-screen NPC popup:
 

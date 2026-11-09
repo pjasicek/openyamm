@@ -75,13 +75,6 @@ const char *activeGameplayButtonLayoutId(
     return pWideId;
 }
 
-void openDimensionDoorOverlay(GameplayScreenRuntime &context)
-{
-    const Party *pParty = context.partyReadOnly();
-    const size_t casterMemberIndex = pParty != nullptr ? pParty->activeMemberIndex() : 0;
-    context.openDimensionDoorOverlay(casterMemberIndex, spellIdValue(SpellId::TownPortal));
-}
-
 size_t hiredFollowerCount(const GameplayScreenRuntime &context)
 {
     const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
@@ -602,13 +595,6 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 {
                     activeGameplayButtonLayoutId(
                         context,
-                        "OutdoorButtonDimensionDoor",
-                        "OutdoorStandardButtonDimensionDoor"),
-                    GameplayHudPointerTargetType::DimensionDoorButton
-                },
-                {
-                    activeGameplayButtonLayoutId(
-                        context,
                         "OutdoorButtonQuickReference",
                         "OutdoorStandardButtonQuickReference"),
                     GameplayHudPointerTargetType::QuickReferenceButton
@@ -742,9 +728,6 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 break;
             case GameplayHudPointerTargetType::InventoryButton:
                 context.toggleCharacterInventoryScreen();
-                break;
-            case GameplayHudPointerTargetType::DimensionDoorButton:
-                openDimensionDoorOverlay(context);
                 break;
             case GameplayHudPointerTargetType::QuickReferenceButton:
                 context.openQuickReferenceOverlay();

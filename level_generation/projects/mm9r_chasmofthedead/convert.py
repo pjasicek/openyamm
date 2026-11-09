@@ -311,14 +311,16 @@ class Chasm(dungeon.Hooks):
             "    local x, y, z = evt.GetPartyPosition()",
             "    return inBox(b, x, y, z)",
             "end",
-            "-- A Shooter sits in its wall or ceiling: the bolt starts a third of the way to the party's chest.",
-            "local function shoot(sx, sy, sz, damage, kind)",
+            "-- A Shooter sits in its wall or ceiling: the bolt starts a third of the way to the party's chest;",
+            "-- `projectile` is its MM9 ProjectileName (the launch sound).",
+            "local function shoot(sx, sy, sz, damage, kind, projectile)",
             "    local x, y, z = evt.GetPartyPosition()",
             "    z = z + 100",
             "    local dx, dy, dz = x - sx, y - sy, z - sz",
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    local k = math.max(64 / length, 0.33)",
             "    local shot = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, kind, 0)",
+            "    if shot then MM9.launchSound(projectile, sx, sy, sz) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (shot and 1 or 0))",
             "end",
             "local function hurt(amount) evt.DamagePlayer(Players.All, const.Damage.Physical, amount) end",
@@ -337,7 +339,7 @@ class Chasm(dungeon.Hooks):
                       f"    if var(\"{plate}\") == 1 then return end",
                       f"    set(\"{plate}\", 1)",
                       f"    openGroup(\"{plate}\")",
-                      f"    shoot({', '.join(map(str, pos[shooter]))}, {BOLT_DAMAGE}, \"Fire\")",
+                      f"    shoot({', '.join(map(str, pos[shooter]))}, {BOLT_DAMAGE}, \"Fire\", \"FireBolt\")",
                       f"    arm({reset}, 1.1)",
                       "end",
                       f"handlers[{reset}] = function()",
@@ -354,7 +356,7 @@ class Chasm(dungeon.Hooks):
         for plate, shutters in HIDDEN_PLATES.items():
             event, reset = EV_HIDDEN_PLATE[plate], T_HIDDEN_PLATE[plate]
             shots = [f"    openGroup(\"{s}\"); shoot({', '.join(map(str, pos[HIDDEN_SHOOTER[s]]))}, {BOLT_DAMAGE}, "
-                     f"\"Fire\")" for s in shutters]
+                     f"\"Fire\", \"FireBolt\")" for s in shutters]
             lines += [f"handlers[{event}] = function()   -- {plate}",
                       f"    if var(\"{plate}\") == 1 then return end",
                       f"    set(\"{plate}\", 1)",
@@ -691,7 +693,7 @@ class Chasm(dungeon.Hooks):
                   f"handlers[{EV_DAIS}] = function()",
                   "    if var(\"DaisShot\") == 1 then return end",
                   "    set(\"DaisShot\", 1)",
-                  f"    shoot({', '.join(map(str, pos['Shooter0']))}, {DAIS_DAMAGE}, \"Dark\")",
+                  f"    shoot({', '.join(map(str, pos['Shooter0']))}, {DAIS_DAMAGE}, \"Dark\", \"PurpleThingy\")",
                   "end"]
         script.add([], (EV_CRONA, "Crona Kiga", None),
                    (EV_DAIS, "Dais shooter", None))

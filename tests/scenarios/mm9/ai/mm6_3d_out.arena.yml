@@ -1,0 +1,28 @@
+# AI arena: MM6 3D monsters on MM6's AI (the presentation's MM6-MM8 check, MM9_ANIMATION_AUDIT.md "Generalised
+# presentation"): two MM6 barbarians (Barbarian A, 478: melee, bandits of the default humanoid route), an archer
+# (BArcher A, 475: a bow, its arrow from the model's release socket) and a thief (BThief A, 637: fast, near the
+# walk/run boundary), all humans and so not at war with each other, against a party standing on New Sorpigal's green
+# (oute3.odm, the outdoor runtime). See README.md.
+name: mm6_3d_out
+world: mm6
+map: oute3.odm
+party:
+  position: [-9728, -11319, 161]
+  yaw_degrees: 0
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 478
+    position: [-8528, -11319, 200]
+    yaw_degrees: 180
+  - monster_id: 478
+    position: [-8628, -10819, 200]
+    yaw_degrees: 200
+  - monster_id: 475
+    position: [-8228, -11819, 200]
+    yaw_degrees: 160
+  - monster_id: 637
+    position: [-8328, -10519, 200]
+    yaw_degrees: 220

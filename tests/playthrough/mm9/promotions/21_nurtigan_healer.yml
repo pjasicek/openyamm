@@ -1,0 +1,89 @@
+# MM9 promotion playthrough, segment 21: the potion, Nutty Nurtigan cured and the Healer promotion (guide: side_b.yml
+# heal-nutty-nurtigan). The party waits out the potion's two hours at the rest screen in the city (the map's poll gives
+# key 209 once they pass), Skarphedinn hands over the potion ("We've returned for the potion.": 210; his exit gives
+# item 558 and key 373, which unlocks Nurtigan's sickroom, RotatingDoor3 by Markel's palace). The sickroom door is
+# clicked open; Nurtigan drinks it ("Here, Nurtigan.  Drink this.", "Feeling any better?": 211; his exit takes the
+# potion). Tjolnir: "We've healed Nurtigan." (212); his exit pays 16 500 experience to every member and 1 000 gold,
+# gives key 213 and promotes the Cleric (member 1 in this party) to Priest (MM9.Promotions.healer). Research:
+# prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 21
+id: mm9.promotions.21_nurtigan_healer
+title: "MM9 promotions 21: the potion, Nurtigan cured, Tjolnir's Healer promotion (Cleric -> Priest)"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/20_tjolnir_hag_hair.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: guberlandcity.blv, qbit_set: [90206, 90207, 90208], qbit_clear: [90209, 90210, 90211, 90213]}
+
+  # Two hours and a bit at the rest screen in the city (Wait), then Skarphedinn again.
+  - console: {line: "rest wait 130", expect_contains: "Resting"}
+  - advance_runtime: {seconds: 15}
+  - console: {line: "rest close"}
+  - advance_runtime: {seconds: 4}
+  - assert: {qbit_set: [90209]}
+  - set_pose: {map: guberlandcity.blv, x: 2499, y: -12800, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 19}
+  - select_topic: {match_label: "We've returned for the potion."}
+  - select_topic: {match_label: "Thanks."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90210, 90373]}
+  - play_lua: {source: 'if not has_item(10558) then error("no potion") end; log("the potion for Nurtigan is in the pack")'}
+
+  # Nurtigan's sickroom (the Idiot's Box beside Markel's palace): its door opens now, Nurtigan drinks.
+  - set_pose: {map: guberlandcity.blv, x: -250, y: -7962, z: 11, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        click(231); wait(2)
+        log("sickroom door: " .. door_state(68))
+        if door_state(68) ~= "open" then error("the sickroom door did not open") end
+  - interact_actor: {actor_index: 44}
+  - select_topic: {match_label: "Here, Nurtigan.  Drink this."}
+  - select_topic: {match_label: "Feeling any better?"}
+  - select_topic: {match_label: "Promise us you'll not try to woo every girl you meet."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90211]}
+  - play_lua: {source: 'if has_item(10558) then error("Nurtigan did not drink the potion") end; log("Nurtigan is cured")'}
+
+  # Tjolnir: the Healer promotion.
+  - set_pose: {map: guberlandcity.blv, x: -4751, y: -6950, z: 62, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        remember("classes", classes()); remember("gold", gold())
+        local x = {}
+        for i = 0, 3 do remember("xp" .. i, experience(i)); x[#x + 1] = tostring(experience(i)) end
+        log("CLASSES before: " .. classes() .. "; EXPERIENCE before: " .. table.concat(x, " ") .. "; GOLD before: " .. gold())
+  - interact_actor: {actor_index: 11}
+  - select_topic: {match_label: "We've healed Nurtigan."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90212, 90213]}
+  # The Healer line (MM9.Promotions.healer): every Cleric a Priest, every Druid a Great Druid, the rest unchanged; the
+  # party's Cleric (member 1) a Priest; 16 500 experience to every member and 1 000 gold.
+  - play_lua:
+      source: |
+        local LINE = {cleric = "priest", druid = "greatdruid"}
+        local function key(n) return (string.gsub(string.lower(n), "[%s_%-]", "")) end
+        local before, now = {}, {}
+        for c in string.gmatch(recall("classes"), "%S+") do before[#before + 1] = c end
+        for c in string.gmatch(classes(), "%S+") do now[#now + 1] = c end
+        local x = {}
+        for i = 1, #before do
+          local want = LINE[key(before[i])] or key(before[i])
+          if key(now[i]) ~= want then error("member " .. (i - 1) .. ": " .. before[i] .. " became " .. now[i] .. ", not " .. want) end
+          local gained = experience(i - 1) - recall("xp" .. (i - 1))
+          if gained ~= 16500 then error("member " .. (i - 1) .. " gained " .. gained .. " experience, not 16 500") end
+          x[#x + 1] = tostring(experience(i - 1))
+        end
+        if key(now[2]) ~= "priest" then error("member 1 is a " .. now[2] .. ", not a Priest") end
+        if gold() - recall("gold") ~= 1000 then error("Tjolnir paid " .. (gold() - recall("gold")) .. " gold, not 1 000") end
+        log("CLASSES after: " .. classes() .. "; EXPERIENCE after: " .. table.concat(x, " ") .. "; GOLD after: " .. gold())
+        log("Healer: the Cleric is a Priest, the others unchanged; +16 500 experience each, +1 000 gold")
+  - save_game: {name: "21 Healer", path: output/playthrough/mm9/promotions/checkpoints/21_nurtigan_healer.oysav}

@@ -116,8 +116,10 @@ No map has new or removed chests, chest contents, map variables or face-attribut
 
 As built (2026-10-24, the user's design, DEVIATIONS 49): each town has one pedestal (`ped06` under a `dec57` orb,
 event 1777) at New Sorpigal (-7592, -1203, 1044), Ravenshore (18472, -543, 65) and Harmondale (-16635, 14521, 711),
-which opens the dimensional travel destinations through `evt.OpenDimensionDoor(true)`, before the Cross Continents
-quest. The sites and events below are MAW's own.
+which opens the dimensional travel destinations (`evt.OpenDimensionDoor()`). Since Verdant's removal (2026-11-09) the
+pedestals are every ruleset's: `worlds/<world>/maps/<map>_dimensional_travel.scene.yml` and event 1777 in the world's
+`<map>_mmmerge.lua`, no quest gate, beside MMerge's town fountains (New Sorpigal 140, Ravenshore 104, Castle
+Harmondale's courtyard water 65031). The sites and events below are MAW's own.
 
 All three sites use the same three events. Each map overlay must register them (event ids 1777, 1888 and 2666 are
 free in our generated oute3, out02 and 7out02 events):

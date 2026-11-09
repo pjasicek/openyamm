@@ -1,0 +1,51 @@
+# MM9 promotion playthrough, segment 01: Fridleif Gjukissen's Gladiator labours taken by a Knight who is still a
+# Knight (guide: side_a.yml kill-a-basilisk; MM9 offered them only after the Mercenary promotion, key 127: waived,
+# dialogue/promotions.yml). The party travels to Sturmford, walks into the city by its land gate (ExitTrigger0, its
+# prompt) and, placed beside Fridleif on the town hall's upper floor (actor 31, RUDE 61), says "We have heard that you
+# can promote Mercenaries.", "Yes, we have members who would like to be Gladiators.", asks the three labours and takes
+# them all (key 214). Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 01
+id: mm9.promotions.01_fridleif_labours
+title: "MM9 promotions 01: Fridleif's three Gladiator labours taken by Knights who are not Cavaliers"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/00_start.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_clear: [90127, 90214, 90026, 90221]}
+  - play_lua: {source: 'log("CLASSES at the start: " .. classes()); if classes() ~= "Knight Cleric Thief Sorcerer" then error("unexpected classes") end'}
+
+  # To Sturmford (by boat or the road; outdoors the party is moved), into the city by the land gate.
+  - travel: {map: sturmford.blv, days: 4}
+  - set_pose: {map: sturmford.blv, x: 8090, y: -3312, z: 252, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: -3312, z: 400, z_tolerance: 500, radius: 10, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # The party comes as the main run left it. Its journeys pass the days resting on the road (`travel`, as the game's
+  # travel does), so no member is Dead, Weak or Insane and the temple has nothing to heal; a condition here means the
+  # main run's party is hurt again (Beathag A'Dorad, actor 0 at Sturmford's temple, heals it).
+  - play_lua: {source: 'for i = 0, 3 do if conditions(i) ~= "" then error("member " .. i .. " arrives " .. conditions(i) .. ": heal at the temple first") end end log("the party arrives healthy")'}
+
+  # Fridleif, the clerk on the town hall's upper floor.
+  - set_pose: {map: sturmfordcity.blv, x: 5560, y: 4603, z: 20565, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 31}
+  - assert: {dialog: {active: true, source_id: 61, action_label_absent: "Promote our eligible characters."}}
+  - select_topic: {match_label: "We have heard that you can promote Mercenaries."}
+  - select_topic: {match_label: "Yes, we have members who would like to be Gladiators."}
+  - select_topic: {match_label: "What is the first labor?"}
+  - select_topic: {match_label: "Where can we find the Basilisk?"}
+  - select_topic: {match_label: "What is the second labor?"}
+  - select_topic: {match_label: "What do you want us to do?"}
+  - select_topic: {match_label: "What is the third labor?"}
+  - select_topic: {match_label: "Where is the Arena?"}
+  - select_topic: {match_label: "We shall do all of these things."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90214], qbit_clear: [90215, 90216, 90217, 90026]}
+  - play_lua: {source: 'log("CLASSES after taking the labours: " .. classes()); if classes() ~= "Knight Cleric Thief Sorcerer" then error("classes changed") end'}
+  - save_game: {name: "P01 Fridleif's labours", path: output/playthrough/mm9/promotions/checkpoints/01_fridleif_labours.oysav}

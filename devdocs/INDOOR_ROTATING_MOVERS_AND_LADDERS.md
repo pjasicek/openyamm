@@ -288,18 +288,25 @@ ladders:
 
 - **Grab**: a grounded body in front of the strip (from the strip back to `reach` plus its radius, within the strip's
   width and height) moving toward it within 60° of `facing_degrees` attaches. Falling past a ladder does not grab it
-  (unless it has `grab_in_air`), and only a ladder with `grab_at_top` is entered from its top (below; Anskram's stand
-  under hatches and do not need it).
+  (unless it has `grab_in_air`), and only a ladder with `grab_at_top` is entered from its top (below).
 - **Climb**: while attached, gravity is off and movement uses the flying branch of `resolveMove` with vertical
   velocity from input: forward or Fly Up climbs, back or Fly Down descends (192 per second, running 288), strafe moves
   along the strip; the body is held just in front of it. Collision stays on: a shut hatch or ceiling stops the climb.
-- **Leave**: climbing past the strip's top places the party at `top_exit`; descending onto the floor detaches it;
+- **Leave**: climbing past the strip's top glides the party onto `top_exit` (below); descending onto the floor detaches it;
   jump lets go; strafing past the strip's end lets go. Letting go is a fall from that height, no more.
-- **Taking it at the top** (`grab_at_top: true`, opt-in): a standing body within `reach` plus its radius of `top_exit`,
-  at its height (±48), walking toward the strip's top within 60°, is placed on the strip 16 under its top, held in front
-  of it (refused when that spot is outside the map or inside a face). On such a ladder, movement that is neither
+- **Taking it at the top** (`grab_at_top: true`, opt-in; MM9's converters set it by default, below): a standing body at
+  `top_exit`'s height (±48), within `reach` plus its radius of the strip's top edge (the hole's edge, not anywhere
+  around `top_exit`, which can lie 150 back), walking within 60° toward its hold spot, glides onto the strip 16 under
+  its top, held in front of it across from where it stood (a radius inside the strip's ends; refused when that spot is
+  outside the map or inside a face, and when a floor lies over it within 32 of the party's feet: the way down is a
+  hole, and a shut trap's floor over a pit's ladder, Anskram's pivot traps and the Chasm's, covers it). On such a ladder, movement that is neither
   toward nor away from the strip climbs when it points toward `top_exit` and descends when it points away, so walking on
   from the exit carries the party down and walking back brings it up; strafing then does not let go (jump does).
+- **The glide at the top** (2026-11-09): getting on at the top and climbing off it both move the party there over a
+  short eased glide (about walking speed, at least 0.2 s), across at the higher end's height and then down, or up and
+  then across, so it never cuts the floor's edge. Until 2026-11-09 both were a jump of up to about 200 units (Dark
+  Passageway's Ladder5, whose `top_exit` is 154 behind the strip). Input is ignored during the glide, which counts as
+  climbing (`IndoorPartyRuntime::climbingLadder`); a teleport ends it.
 - **Floor portals**: a climb (or a fall) passes a horizontal portal like any other. Over the hole the upper room has no
   floor face and the lower room's bounds end at the portal, so the eye's sector lookup (`findIndoorSectorForPoint`) finds
   nothing and refuses the move. Native BLVs mark such a room with sector flag `0x8`, which makes its floor portals count
@@ -357,8 +364,13 @@ ladder leans takes its bottom and top from the rung faces, as Drangheim's `conve
   mechanism hover and every list-based query see it as they see any face in the closed pose), takes facet type 0 so
   its kind follows its normal, and with an extra room gets it as `roomBehindNumber` and joins that room's lists.
 - **`rotation.py`** (used by `movers.py` and Anskram's `convert.py`): `rotating_mover`, `swing_room` (the other room,
-  from poses sampled every 15°), `ladder_records`, `rectangle_portals`. The `mover` block goes on the compiled door
-  record in the scene (`build.py`). A trap's or hatch's mover is not solid in the voxel pass, so its pit's air floods
+  from poses sampled every 15°), `ladder_records`, `grabs_at_top`, `rectangle_portals`. The `mover` block goes on the
+  compiled door record in the scene (`build.py`). MM9's ladders are taken at the top, as in MM9 (2026-11-09):
+  `ladder_records` writes `grab_at_top` unless the top exit lies mostly on the climber's side of the strip (a hole
+  climbed out of backwards, where walking from the exit to the top reads as climbing up and the party would climb
+  straight back out); an `overrides.yml` ladder's `grab_at_top: true/false` overrides that. Maps that write their own
+  ladders (Drangheim City, Dark Passageway, the Training Hall but its jump-only poles) use the same `grabs_at_top`. A
+  shut hatch or trapdoor over a ladder's top refuses the grab (the hold spot collides with it). A trap's or hatch's mover is not solid in the voxel pass, so its pit's air floods
   from the corridor; `rect_portals` in `overrides.yml` cut the pit off as a room at the floor plane.
 - **`survey.py`** suggests `rotate` for `RotatingDoor` instead of `rise`/`nudge`.
 
@@ -443,7 +455,7 @@ plate is on the whole cross, so its handler checks that the party stands on the 
 Differences from the first design, all in the sections above: easing is for rotating movers only; `push` is not swept
 against the world; rotation carries the party only and does not turn its facing; a rotating face stays in the sector
 list of its stored pose instead of all three (a face in the ceiling list loses its door hover); the lightmap keeps the
-UV offset for linear doors and adds `currentToStored` for rotations; ladders have no glide at the top, are grabbed only
+UV offset for linear doors and adds `currentToStored` for rotations; ladders glide only at the top (getting on there and climbing off), are grabbed only
 from the ground (or in the air with `grab_in_air`) and from their top only with `grab_at_top`, and a save on one
 restores a fall. The editor writes `mover` blocks and
 `ladders` back but does not preview a rotation (its viewport moves doors linearly).

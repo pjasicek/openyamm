@@ -145,7 +145,20 @@ void rotateElementalistSpells(
     bool indoor)
 {
     const SpellEntry *pCast = spellTable.findById(int(spellId));
-    std::array<std::string *, 2> slots = {&member.quickSpellName, &member.attackSpellName};
+    // The second slot is the battle order that names the cast spell (the attack spell before orders).
+    std::string noOrder;
+    std::string *pOrderSpell = &noOrder;
+
+    for (BattleOrder &order : member.battleOrders)
+    {
+        if (pCast != nullptr && order.kind == BattleOrderKind::Spell && order.spellName == pCast->name)
+        {
+            pOrderSpell = &order.spellName;
+            break;
+        }
+    }
+
+    std::array<std::string *, 2> slots = {&member.quickSpellName, pOrderSpell};
 
     for (size_t slot = 0; slot < slots.size(); ++slot)
     {
@@ -1203,7 +1216,7 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
     {
         const bool firstUpdate = m_auraMap.empty();
         const std::string &map = m_rules.currentMap();
-        const bool outdoor = map.size() > 4 && map.compare(map.size() - 4, 4, ".odm") == 0;
+        const bool outdoor = m_rules.outdoorMap(map);
         m_auraMap = map;
 
         for (auto it = fixedMaps.begin(); it != fixedMaps.end() && !firstUpdate;)
@@ -1624,6 +1637,11 @@ std::optional<std::string> MawSpellRules::removeAllBuffs(Party &) const
 bool MawSpellRules::tabCyclesSpellbookSchools() const
 {
     return true;
+}
+
+const SpellbookSkin *MawSpellRules::spellbookSkin(const Character &member) const
+{
+    return mawClassSpellbookSkin(member.className);
 }
 
 bool MawSpellRules::protectionFromMagicRaisesResistances() const

@@ -50,11 +50,13 @@ both.
 
 | Shown as the main number | Copy |
 | --- | --- |
-| Kills, damage, largest hit, spells, experience, levels, deaths, eradications, wipes, temple, travel, maps, chests, gold, artifacts, the Party tab | Timeline |
+| Kills, damage, largest hit, spells, experience, levels, travel, maps, chests, gold, artifacts, the Party tab | Timeline |
 | Real time played, turn-based time, sessions, saves, loads, loads after a wipe | Lifetime (real time spent cannot be undone) |
+| Deaths, eradications, party wipes, temple healings, the Party tab's knocked out and deaths | Lifetime (players reload after exactly these, and MM9's early game over reloads the autosave itself) |
 | Game time | The current world clock |
 
-- **Breakdowns.** Each timeline statistic's breakdown ends with "Including undone play: N", from the lifetime.
+- **Breakdowns.** Each timeline statistic's breakdown ends with "Including undone play: N", from the lifetime. The
+  losses' breakdowns are built from the lifetime and end with "In this timeline: N" instead.
 - **Undone by loading.** The Time breakdown shows lifetime real time minus timeline real time.
 - **Rates per hour** divide timeline results by lifetime time played, so reloading lowers the pace.
 - **Another branch.** Loading a save of another branch shows exactly that branch's timeline.

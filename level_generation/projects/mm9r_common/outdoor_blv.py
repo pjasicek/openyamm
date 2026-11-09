@@ -722,8 +722,45 @@ class OutdoorBlvHooks(CityHooks):
                 actor["ally"] = NPC_PEACEFUL_ALLY       # a non-peasant picture row: a peasant family's relations
             self.npc_actor[o["name"]], self.npc_rude[o["name"]] = actor["actor_index"], rude
             out.append(actor)
+        out += self.added_people(build, sector_of_room)
         build.stats["npcs"] = len(out)
         build.stats["npcs_without_floor"] = floating
+        return out
+
+    def added_people(self, build, sector_of_room: dict) -> list[dict]:
+        """People MM9 does not have (overrides.yml `outdoor.added_people`; Yorwick's spellbook seller, the user,
+        2026-11-09): each {name, rude, row, filename, like, at: [x, y, z] native, yaw: degrees} is a friendly,
+        immobile townsperson with its RUDE dialogue (a world-owned NPC<rude>.rude) on the MM9 townsfolk row `row`
+        (mm9_npc_actor_rows.tsv: its engine row 9000 + row and 3D model) with the body of model `filename`, placed
+        as the DAT person `like` (its AI properties and script) without its greeting. It has no DAT object, so no
+        mm9_source_object_index (no RUDE exit callback)."""
+        from mm9_monster_bodies import native_body
+        from dungeon.bodies import mm9_bodies
+        from dungeon.content import mm9_npc_actor_rows
+        out = []
+        for entry in self.settings(build).get("added_people") or []:
+            like = build.source.by_name[entry["like"].lower()]
+            x, y, z = entry["at"]
+            pos = [float(v) for v in build.project.lt_from_native((x, y, z))]
+            properties = dict(like["properties"], Name=entry["name"], Pos=pos, Filename=entry["filename"],
+                              ScriptParams="", GreetingSound="")
+            row = int(entry["row"])
+            if row not in mm9_npc_actor_rows():
+                raise SystemExit(f"added person {entry['name']}: row {row} is no MM9 townsfolk row with a model")
+            person = {"index": None, "class": like["class"], "name": entry["name"], "properties": properties}
+            base = {"name": entry["name"], "attributes": 0, "hp": 20, "hostility_type": 0,
+                    "monster_info_id": 9000 + row, "monster_id": 9000 + row, "radius": 43, "height": 120,
+                    "move_speed": 0}
+            extents = mm9_bodies().model_extents(entry["filename"])
+            if extents is not None:
+                base["height"], base["radius"] = native_body(extents[1], 1.0)
+            actor = build.content.actor(person, base, sector_of_room, group=NPC_GROUP, friendly=True,
+                                        floor_query_lt=pos[1] + 24)
+            actor["initial_yaw_units"] = int(round(float(entry["yaw"]) % 360 / 360 * 2048)) % 2048
+            actor["mm9_rude_id"] = int(entry["rude"])
+            actor["immobile"] = True
+            actor["mm9_civilian"] = True     # as a DAT townsperson switched to its own MM9 row (content.actor)
+            out.append(actor)
         return out
 
     # >>> swimmers (2026-11-04; mm9_jelly/seamon_claude READMEs, devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md)

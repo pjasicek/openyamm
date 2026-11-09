@@ -171,6 +171,8 @@ public:
         float footZ,
         const IndoorBodyDimensions &body
     ) const;
+    // Whether a floor lies under the point (x, y) from maxRise above z to maxDrop below it: the point alone, no footprint.
+    bool hasFloorAt(float x, float y, float z, float maxRise, float maxDrop) const;
     const IndoorMapData *indoorMapData() const
     {
         return m_pIndoorMapData;

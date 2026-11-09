@@ -1,0 +1,62 @@
+# MM9 promotion playthrough, segment 56: the Crusader task reported (guide: side_a.yml defeat-the-yobboes). Back into
+# Drangheim City by its gate; Keith Bloodaxe (actor 7, RUDE 89): "We have completed the task." (needs keys 129, 133,
+# 134, 135; gives 136) -> "Thank you." -> "Goodbye."; the talk's exit (drangheimcity.lua handler 50320, NPC89.scr)
+# gives key 137, 16 500 experience to every member and 5 000 gold, and promotes by MM9.Promotions.crusader (Paladin,
+# Ranger, Monk): this party has none, so nobody changes. Keith's first page then keeps "Promote our eligible
+# characters.", which has nobody to promote. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 56
+id: mm9.promotions.56_keith_crusader
+title: "MM9 promotions 56: Keith Bloodaxe's task reported; rewards, nobody promoted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/55_villagers_items.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheim.blv, qbit_set: [90128, 90129, 90133, 90134, 90135], qbit_clear: [90136, 90137]}
+
+  # Drangheim City's gate.
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+
+  # Keith Bloodaxe in the temple.
+  - set_pose: {map: drangheimcity.blv, x: 14909, y: -5750, z: 1486, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log("CLASSES before: " .. classes())
+        remember("classes", classes())
+        remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+  - interact_actor: {actor_index: 7}
+  - assert: {dialog: {action_label_absent: "Promote our eligible characters."}}
+  - select_topic: {match_label: "We have completed the task."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90136, 90137]}
+  - play_lua:
+      source: |
+        log("CLASSES after: " .. classes())
+        if classes() ~= recall("classes") then error("the Crusader quest changed the classes: " .. classes()) end
+        local paid = gold() - recall("gold")
+        log("gold +" .. paid)
+        if paid ~= 5000 then error("Keith paid " .. paid .. " gold, not 5000") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("member " .. i .. " experience +" .. gain)
+          if gain ~= 16500 then error("member " .. i .. " gained " .. gain .. " experience, not 16500") end
+        end
+
+  # Keith keeps the promotion topic; nobody in this party is eligible.
+  - interact_actor: {actor_index: 7}
+  - assert: {dialog: {action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: 'if classes() ~= recall("classes") then error("classes changed: " .. classes()) end; log("CLASSES unchanged: " .. classes())'}
+  - save_game: {name: "56 Crusader task done", path: output/playthrough/mm9/promotions/checkpoints/56_keith_crusader.oysav}

@@ -1,0 +1,235 @@
+# MM9 guide, main story chapters III-V (tools/mm9_site/story/BRIEF.md). Sources: the rework's map scripts
+# (darkpassageway, guberland, verhoffinruins, arslegardcity, hallofthegods, afterworld, frosgardcity, 1000terrors),
+# RUDE 3, 133, 309, 334, 335, 336, 338, 378, 432 and the Jarls' confession rows, and the official MM9 hint book.
+chapters:
+  - id: 3
+    title: "III: Hallenhalt"
+    intro: "Killed, you reach Arslegard, the city of the gods, but its gatekeeper wants a Writ of Fate. Cross the Dark Passageway to the Wyrde, trade for the Capstone of Order in Guberland, set it in the Verhoffin Ruins to receive the Writ, then die once more to show it at the gate."
+    sections:
+      - title: "Arslegard and the Dark Passageway: the Wyrde of the Unknown"
+        intro: "The only road to Arslegard is death. The first time, Hanndl turns you away and drops you into the Dark Passageway, a gauntlet that ends at the Wyrde of the Unknown."
+        giver: {map: darkpassageway, npc: "Wyrde of the Unknown"}
+        quests:
+          - quest: get-a-writ-of-fate
+            requires: "Sven's last words in Yorwick (end of Chapter II)."
+            steps:
+              - "Let the party die: lose a fight or drown. A defeated party wakes at Arslegard's Great Gate. Hanndl looks through the peephole, refuses you without a Writ of Fate and drops you at the start of the Dark Passageway (18,500 experience)."
+              - "In the start room take the scroll (Scrap of Book, a riddle about the undead). To the south a bridge with five moving sections has four statues along it, from north to south: Skeleton, Zombie, Lich, Banshee. Touch them in this order: Skeleton, Banshee, Lich, Zombie, Banshee, Lich, Zombie, Skeleton. When every section is level the door at the south end opens; walk into the crystal beyond it."
+              - "In the canyon touch the small ice statue: it opens the canyon doors, but the banshee statues' eyes wake two at a time and shoot at you. Run through the doors; a spot beside the next crystal turns the eyes off. If you fall into the pit, click the magic carpet at its bottom to ride back up."
+              - "In the forest the door slams and locks behind you. A Colloidal Warrior strikes down the adventurer standing there and turns on you; killing it unlocks the door to the next crystal. Click the painting on the wall to open a hidden room with three chests."
+              - "The path leads down to the tube room: drop into its water, swim east into the flooded tube and let the current in the shaft beyond carry you down into the lake hall. Swim to the island, climb out at its lowest edge and kill the sea monster: the cage around the crystal on the island opens."
+              - "In the desert a gemstone shines on four mirrors in turn: first the mirror due west of it, then the light zigzags east and west and back to the gemstone. Each click turns a mirror 10 degrees clockwise and the status line shows its angle. Set them, in the order the light reaches them, to 330 (33 clicks), 10 (1 click), 340 (34 clicks) and 50 (5 clicks), then click the gemstone. Six Terrors break out of their cages and the desert door to the north opens."
+              - "Past a spike trap and a crystal you reach a room with four floor plates. Step on them north-east, south-west, south-east, then north-west (marked with three, one, two and four lines). The last plate rises and a ramp runs out to the upper door; the plate sinks again about fifteen seconds after it rises, so cross the ramp as soon as it is out. The switch resets the plates. Fight up the corridor past the Specters to the Wyrde."
+              - "Tell the Wyrde of the Unknown “We've come seeking a Writ of Fate.”, then “What is it?”, “Why the Isle of Ashes?” and “We will do this.” (18,500 experience). The flame cage around the portal behind her sinks; the portal is the floating barrel against the rock behind her: walk into it to reach Guberland's dock."
+            tips:
+              - "One route is enough. This note closes as soon as any one of three things happens: you talk to the Wyrde, Thorir Mouth hands you the Capstone of Order in Guberland, or you set the Capstone on the headsman's block in the Verhoffin Ruins. The Wyrde only explains the errand: Thorir's trade and the block need nothing but Hanndl's refusal. A party with its own way out of the Dark Passageway (Town Portal, or a Lloyd's Beacon set earlier) can go straight to Guberland."
+              - "From Hanndl's refusal until you hold the Writ of Fate, a defeat ends the game and your autosave loads: Hanndl lets no one in twice without the Writ. Save before the Dark Passageway's traps and fights."
+              - "If the bridge leaves you stranded, return to the start and touch the small Terror statue there to reset every section."
+              - "Until you have talked to the Wyrde, the flames around her portal burn anyone who steps in (10 fire damage a second)."
+            reward: "18,500 experience for Hanndl's refusal and 18,500 from the Wyrde."
+            figures:
+              - img: darkpassageway_mirrors.webp
+                caption: "The desert from above: the light leaves the gemstone (G) westward and zigzags through the four mirrors to the crystal by the north door (C). Each label gives the angle the status line must show and the clicks from a mirror at 0."
+              - img: darkpassageway_mirrors_light.webp
+                caption: "Solved, seen from the south: the light passes every mirror and reaches the crystal."
+            maps:
+              - map: darkpassageway
+                show: [quest, teleporter, door, trap, lever, chest, exit]
+                focus: "Wyrde"
+                caption: "The bridge runs south from the start (north-west). The mirrors fill the desert room in the east; the plates and the Wyrde are in the north-east."
+              - map: arslegardcity
+                show: [quest, exit]
+                focus: "Hanndl"
+                caption: "Hanndl keeps the Great Gate in the north of the city, where a defeated party wakes."
+
+      - title: "Guberland and the Verhoffin Ruins: the Capstone of Order"
+        intro: "Thorir Mouth at the Gathering, the fair south of Guberland City, owns the Capstone of Order. He trades it for a full set of the fair's prizes."
+        giver: {map: guberland, npc: "Thorir Mouth"}
+        quests:
+          - quest: take-the-capstone-of-order-to-the-verhoffin-ruins
+            requires: "Hanndl's refusal at the Great Gate."
+            steps:
+              - "The portal leaves you at Guberland's dock; the Gathering is the fairground just south of it. Ask Thorir Mouth “Do you give out any prizes?”: he wants the wooden sword, wooden shield, fur cap, cloth gloves, quilted armor and fuzzy slippers."
+              - "Buy tickets from the ticket master (5 gold each, or ten for 40; the rule book comes with the first). The defeat took the gold you carried: withdraw what you banked at Guberland City's bank (Ottar Gizurssen), and tickets left over from Thjorgard's Thing work here too. Each game takes a ticket and each win gives one of the six prizes at random, so expect duplicates: a full set takes about fifteen wins."
+              - "Arm wrestling: click Mata Abyomi. Your active character's Might plus 9-50 must reach his 1-40, so Might 31 or more always wins. Ding the Bell: click the strike plate. Might plus 40-60 must beat 60-80, so Might 41 or more always rings it."
+              - "Whack-a-Honky: pull the switch, wait for the five-count, then click eight geese as they pop up within ten seconds. Runes: pick a colour button, click the four stones to paint them, then pull the lever. It tells you which runes are right; you have four tries. Stones (against the player at the board): you may only place a stone next to one of your own, and whoever cannot move loses. Build a line toward him and then wall him in."
+              - "With all six prizes in your packs, tell Thorir “We've got your set of prizes.”: he takes them and gives you the Capstone of Order (18,500 experience)."
+              - "Sail to the Isle of Ashes: The Flying Bird leaves Guberland's dock on Tuesdays (3 days, 20 gold). The Sea's Fang sails from Thjorgard on Saturdays, The Raider from Thronheim on Mondays. The stair down to the Verhoffin Ruins is in the middle of the isle."
+            tips:
+              - "Make your strongest character the active one, and raise Might with spells or potions. The two Might games are then sure wins and the cheapest source of prizes."
+            reward: "The Capstone of Order and 18,500 experience."
+            maps:
+              - map: guberland
+                show: [npc, transport, lever]
+                focus: "Thorir"
+                caption: "The Gathering, south of the walled city, with the ticket master, the game masters and the dock."
+              - map: isleofashes
+                show: [exit]
+                focus: "Verhoffin"
+                caption: "The stair to the Verhoffin Ruins is in the middle of the isle."
+
+          - quest: pick-up-the-writ-of-fate
+            requires: "The Capstone of Order."
+            steps:
+              - "In the ruins, head west to the open floor at the south-west end of the great cave. A pentagram is laid into it in front of the torture chamber's locked double door. If you come up the corridor from the south instead, a bolted door blocks the way: break the bolt with weapons."
+              - "Step on the pentagram's centre and five coloured flames light. Then walk the points in the colour order from the Scrap of Diary letter (red, yellow, blue, green, orange): south-east, north, south, north-east, then the west point in front of the door. That traces a star. A wrong point resets the puzzle; the fifth unlocks the door and swings one leaf open."
+              - "Inside, a paddle on the floor plate swings out and can knock you into the electrified pit (5 damage a second; climb out by the ledge). Beyond the pit, at the west end, stands the headsman's block. Click it with the Capstone in your packs (18,500 experience): the capstone settles on it and the Writ appears on the table behind."
+              - "Click the Writ to take the Writ of Fate (18,500 experience)."
+            tips:
+              - "Don't click the open door: that swings the other leaf too and turns on two fire-bolt shooters (20 damage every 4 seconds) aimed at anyone in the chamber. A second click turns them off."
+              - "Loot the black chest in the south-west corner by the block."
+              - "The valve room in the east floods when you turn a valve and drowns the party. The button on the wall drains it."
+            reward: "The Writ of Fate and 18,500 experience."
+            maps:
+              - map: verhoffinruins
+                show: [objective, chest, trap, breakable, exit]
+                focus: "Headsman"
+                caption: "Entrance stair in the south; the pentagram floor and the torture chamber with the block and the writ in the west."
+
+      - title: "Back to Arslegard: the Great Gate"
+        intro: "Hanndl lets in anyone who carries a Writ of Fate. Death is still the only way back to the city."
+        giver: {map: arslegardcity, npc: "Hanndl"}
+        quests:
+          - quest: return-to-arslegard
+            requires: "The Writ of Fate."
+            steps:
+              - "Let the party die again. Standing in the electrified pit in front of the block will do it, or lose any fight. You wake at the Great Gate."
+              - "Hanndl reads your Writ and opens the Great Gate (22,500 experience). From then on a click on the gate opens it."
+              - "Set a Lloyd's Beacon inside the city. Arslegard's exits lead only to Thjorgard (the bridge north of the gate, or a jump off the edge into the clouds), and there is no other way back in."
+              - "Cross the city to the entrance of the Hall of the Gods in the south-east corner. Skraelos waits at the far east end of the hall."
+            reward: "22,500 experience."
+            maps:
+              - map: arslegardcity
+                show: [quest, exit]
+                focus: "Hanndl"
+                caption: "The Great Gate in the north; the Hall of the Gods entrance in the south-east corner."
+              - map: hallofthegods
+                show: [quest, exit]
+                focus: "Skraelos"
+                caption: "Skraelos and Krohn stand at the east end of the hall."
+
+  - id: 4
+    title: "IV: The Six Fires of Penance"
+    intro: "Skraelos will send the slain clan armies back if you light the Six Fires of Penance for them in the Afterworld. Then Sven Forkbeard leads the army against the Horde at Frosgard City."
+    sections:
+      - title: "The Afterworld: Skraelos"
+        intro: "Each fire is a task Skraelos sets in turn; report to him after each one. The six braziers beside him light up as you go."
+        giver: {map: hallofthegods, npc: "Skraelos"}
+        quests:
+          - quest: light-the-six-fires-of-penance
+            requires: "The Writ shown at the Great Gate."
+            steps:
+              - "In the Hall of the Gods tell Skraelos “We need your help.”, then “We've come to ask for the return of our warriors.”, “Our Writ of Fate says...”, “We will do whatever is required.”, “What are the Six Fires of Penance?” and “Yes.”. He takes you to the Afterworld."
+              - "Guilt: Skraelos stands beside you. Ask “What do we do now?” and watch the vision. Then ask “How were we to know that Forad Darre was a traitor?” and answer “Yes.” when he asks whether you are responsible. Answering “No” throws you out to the Hall and puts out every fire; talk to Skraelos there to start again."
+              - "Confession: the six Jarls appear around the Afterworld. Bjarni is far to the north, Sven to the north-west, Sigmund to the north-east, Markel to the east, Tryggva just south and Kira to the south-west. Apologise to each with the line that names them. Markel needs two lines: ask why he is here, then “Yes, that is true.”. Click Skraelos (22,500 experience), then say “We have confessed our guilt.”"
+              - "Suffering: the Questioner poisons and diseases the party, then asks seven questions. Answer “You, my lord.”, “To serve you, my lord.”, “We encouraged others to trust our misjudgement.”, “We owe those we betrayed.”, “We must pay the price of our failure.”, “The ultimate price, my lord. Our lives.” and “Yes, my lord.”. The fire lights and the conditions are cured (22,500 experience). After a wrong answer, talk to Skraelos to be questioned again."
+              - "Retribution: say “We have known suffering.”. Forad Darre and ghostly Horde warriors appear to the north-east and east. Killing Forad is enough. Report “We have slain the soldiers.” (22,500 experience)."
+              - "Absolution: the fallen Jarls' swords stand upright among the dead on the battlefield north of Skraelos, and more monsters rise there. Take the five black-hilted swords: Sven's (there from the start), Bjarni's, Sigmund's, Tryygva's and Kira's. Click Skraelos to hand them over (22,500 experience), then say “We have collected the swords.”"
+              - "Rebirth: walk into the blazing fire north-west of Skraelos. It takes you to the Hall of the Gods (22,500 experience). Tell Skraelos “We have lit the Six Fires of Penance.”: your soldiers return and Sven waits outside (22,500 experience)."
+            tips:
+              - "Markel the Great has no sword (Kira killed him), so there are five swords, not six."
+            reward: "22,500 experience for each fire and 22,500 for the army's return."
+            maps:
+              - map: afterworld
+                show: [quest, monster, exit, objective]
+                focus: "Skraelos"
+                caption: "Skraelos in the middle; the battlefield with the swords to the north, the inferno to the north-west."
+              - map: hallofthegods
+                show: [quest, exit]
+                focus: "Skraelos"
+                caption: "The Hall of the Gods: report to Skraelos at the east end."
+
+      - title: "Sven Forkbeard and the Battle of Frosgard"
+        intro: "Sven has the army back on its feet; the Horde has turned north against Frosgard City."
+        giver: {map: arslegardcity, npc: "Sven Forkbeard"}
+        quests:
+          - quest: speak-to-sven-forkbeard
+            requires: "The Six Fires lit and reported to Skraelos."
+            steps:
+              - "Leave the Hall of the Gods by its west door. Sven Forkbeard stands in the square west of the Hall's entrance, in the south-east of Arslegard."
+              - "Tell him “Sven! It is good to see you!”, then “Gather the army. We shall make for Frosgard immediately!”."
+              - "Leave Arslegard for Thjorgard by the bridge north of the Great Gate, or by jumping off the city's edge into the clouds."
+            maps:
+              - map: arslegardcity
+                show: [quest, exit]
+                focus: "Sven"
+                caption: "Sven waits west of the Hall of the Gods' entrance."
+
+          - quest: lead-army-against-the-beldonian-hordes
+            requires: "Sven told to gather the army."
+            steps:
+              - "Travel to Frosgard City. From Thjorgard's dock the Sea's Fang sails there on Wednesdays (3 days); The Raider sails from Thronheim on Sundays and The Flying Bird from Guberland on Fridays. You can also go overland to Frosgard and walk into the city."
+              - "Your arrival starts the battle. Horde warriors attack from several sides and the clan soldiers fight with you. Crossing the line south of the square brings a second wave. Tryggva is away."
+              - "Forad Darre and Tamur Leng stand by Tryggva's longhouse on the east side of town. Talking to Forad turns him on you; killing him is optional (18,500 experience)."
+              - "Tell Tamur Leng “We have come to end this, Tamur Leng!”, then “The traitor is finished.”, “You are beaten! What makes you think you will escape?”, “Destiny? What are you talking about?”, “That cannot be! We are destined to stop you!”, “WE have a Writ of Fate!!” and “Come with us!”. Tamur joins the party (22,500 experience)."
+            tips:
+              - "Finish the battle, Tamur and the messenger who appears after him (next chapter) before you leave Frosgard City. The city hides Tamur and that messenger whenever it loads again."
+            reward: "22,500 experience, and Tamur Leng joins you; 18,500 more for Forad Darre."
+            maps:
+              - map: frosgardcity
+                show: [hireling, quest, exit, transport]
+                focus: "Tamur"
+                caption: "Tamur Leng and Forad Darre stand by Tryggva's longhouse on the east side of town."
+
+  - id: 5
+    title: "V: Njam the Meddler"
+    intro: "Tamur Leng carries a Writ of Fate too. Krohn sees that both writs are forgeries by Njam the Meddler and sends you to lure Njam into the Tomb of a Thousand Terrors and freeze him there."
+    sections:
+      - title: "Two Writs of Fate: before Krohn"
+        intro: "A messenger summons you and Tamur Leng to the Hall of the Gods."
+        giver: {map: frosgardcity, npc: "Tamur Leng"}
+        quests:
+          - quest: find-out-why-you-and-tamur-leng-have-writs-of-fate
+            requires: "Tamur Leng has joined you."
+            steps:
+              - "As Tamur joins, Thorolf Ratatoskssen appears a short walk away (see the map); go and talk to him. Ask “What is it?”: you and Tamur are summoned to stand before Krohn. Answer “What? Why?” and “Very well. We shall go.”; he vanishes."
+              - "Return to Arslegard by your Lloyd's Beacon, or by dying again (you wake at the Great Gate)."
+              - "Walk to the Hall of the Gods in the south-east of the city. Krohn stands at the east end, beside Skraelos."
+            maps:
+              - map: frosgardcity
+                show: [quest, hireling]
+                focus: "Tamur"
+                caption: "Thorolf appears by Tamur on the east side of town."
+
+          - quest: stand-before-krohn
+            requires: "Thorolf's summons."
+            steps:
+              - "Tell Krohn “As you have summoned us, so we have come.”, then “We have a Writ of Fate! It says we're supposed to stop him!” and “Yes sir!”: the writs are Njam's work."
+              - "Continue with “Njam the Meddler?”, “What task?”, “How are we supposed to get him to follow us?” and “We will do this for you.”."
+              - "Closing the talk gives Njam's Key (22,500 experience). If you forget the task, “About Njam again..” repeats it."
+            reward: "Njam's Key and 22,500 experience."
+            maps:
+              - map: hallofthegods
+                show: [quest, exit]
+                focus: "Krohn"
+                caption: "Krohn at the east end of the Hall of the Gods."
+
+      - title: "The Tomb of a Thousand Terrors"
+        intro: "Njam's house is in the middle of Arslegard and the Tomb's door is at the city's far west end. The Tomb has three levels: you go down from the entry level, come back up into a sealed part of it and ride a lift to the top."
+        giver: {map: hallofthegods, npc: "Krohn"}
+        quests:
+          - quest: imprison-njam-the-meddler-in-the-tomb-of-1000-terrors
+            requires: "Krohn's task and Njam's Key."
+            steps:
+              - "Njam's house is in the middle of Arslegard, its front door on the south side. Open it with Njam's Key. The letter on the desk to the left (Njam's Struggle) gives his plan away: a switch on the Tomb's top level locks its victim in a Frost Shell. Step further in and Njam charges out of his inner room (22,500 experience). Run west across the green field to the double door at the far west end of the city and go in."
+              - "Entry level: from the entrance go north, then east into the water hall. Cross it southward: the stepping stones sink a moment after you land, so either hop them with quick running jumps or swim along the west wall and climb the pool's south ramp to the secret door into the south hall. Run west over the floor plates in the corridor that follows: they set off bolts from the walls. Click the bricks at the corridor's end to open them. In the room beyond the wall slams shut behind you and monsters pour in. Kill them all, including the Lesser Demon, whose death opens the inner stair gate, and take the Stairs Key from the chest."
+              - "To get out, solve the 4 x 4 button wall. A click pushes a block and its four neighbours in or out, and all sixteen must be in. Click the third block of the top row, the first of the second row, the fourth of the third row and the second of the bottom row (the mirror image works too). The pull beside the wall resets the blocks."
+              - "Go back north past the entrance to the spiral stair, open its gates and climb down to the lowest level. Avoid the giant skulls that fire down the corridors. The chess room is in the south-east; enter it from the west. Each time you step from a safe square onto a square a piece attacks, the party takes 60 damage. Never step on the two squares at the board's west edge diagonally in front of the pawn: the pawn becomes a Terror. A safe line, counting from the north, runs west to east like this: square 4 at the west edge, then diagonally to 5 in the second column and 6 in the third, straight to 6 in the fourth, diagonally to 5 in the fifth, straight to 5 in the sixth, diagonally to 4 in the seventh and straight to 4 in the eighth. Take the Maze Key from the chest east of the board and come back the same way."
+              - "In the far north-west of the lowest level a note (“Care for a nice game of chess?”) lies in front of a locked gate; the Maze Key opens it. Work through the maze beyond, a floor of walls with ramps up to walkways (no wind blows here, whatever its name). Its far side leads by a ledge and a ramp up to a part of the entry level you could not reach before. Run south past two fireball plates to the lever, which sends the gear lift up to the top level."
+              - "On the top level the lift does not lead into the demon hall east of it. Go south, then west through the double door (if one leaf is open and the other shut, wait for both to close before clicking) and the locked door of the south foyer, which Krohn's task opens. Then go north to the octagon, where four demon statues come alive, and east up the ramp into the demon hall. Killing its demons and floating eyes brings more, and after the third comes a Greater Demon in the middle of the hall. Its death opens the double gate on the north side. Click the switch behind it: Njam rushes in and is frozen in the Frost Shell (22,500 experience), and you find yourself in the Hall of the Gods."
+              - "There the gods gather for the epilogue and give you a second Writ of Fate, and the game is won. Krohn answers “We have imprisoned Njam.” with thanks; you can keep playing."
+            tips:
+              - "Njam appears now and then all over the Tomb. No blow hurts him; run and he vanishes after 20 to 60 seconds."
+              - "The Tomb only checks Krohn's task. Leading Njam to its door is worth the experience but is not required."
+              - "Lesser Demons in the Tomb rise again as Greater Demons when they die."
+              - "The two button walls in the east of the entry level take the same solution and guard treasure."
+            reward: "22,500 experience for Njam's chase and 22,500 for the switch; the epilogue's Writ of Fate."
+            maps:
+              - map: arslegardcity
+                show: [door, exit, monster]
+                focus: "Njam Door 0"
+                caption: "Njam's house in the middle of the city; the Tomb's door at the far west end, past the green field."
+              - map: 1000terrors
+                show: [chest, door, lever, exit, trap, secret]
+                focus: "Stair Gate 0"
+                caption: "Entry level: the spiral stair's gates in the north, the sealed room with the Stairs Key in the south, the wind maze gate and the lift lever in the west."

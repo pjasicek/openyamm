@@ -96,7 +96,7 @@ TEST_CASE("MAW's Progress tab lists each continent's maps with their state, leve
     MawRules rules(RulesetOptions{}, data.mapLevels);
     rules.setMapTable(&data.maps);
     MawGameState &state = rules.state();
-    state.continentLevels[MawGameState::continentIndex(3)] = 12;
+    state.continentLevels[*MawGameState::continentIndex(3)] = 12;
     state.completedMaps.insert("oute3.odm");
     state.clearedSinceRefill.insert("oute3.odm");
     state.mapResetCounts["6d01.blv"] = 2;
@@ -216,4 +216,44 @@ TEST_CASE("MAW records the map the party leaves and counts dimension runs and bo
     CHECK_EQ(rules.state().bountiesClaimed, 1);
     const MonsterRules standard;
     standard.bountyClaimed();
+}
+
+TEST_CASE("MAW's map table gives every listed map's level under each progression (ruleset maplevels)")
+{
+    const ProgressData data;
+    MawRules rules(RulesetOptions{}, data.mapLevels);
+    rules.setMapTable(&data.maps);
+    // The table ignores this game's banks and options.
+    rules.state().continentLevels[0] = 30;
+
+    const std::vector<MawRules::MapLevelRow> rows = rules.mapLevelTable(data.monsters, 50);
+    const auto find = [&rows](const std::string &file)
+    {
+        const auto found = std::find_if(rows.begin(), rows.end(),
+            [&file](const MawRules::MapLevelRow &row) { return row.fileName == file; });
+        REQUIRE(found != rows.end());
+        return *found;
+    };
+
+    // Ravenshore: Jadame, band [14, 14, 17]; its natives climb with the banks and sit far higher in horizontal.
+    const MawRules::MapLevelRow ravenshore = find("out02.odm");
+    CHECK_EQ(ravenshore.continentId, 1u);
+    CHECK(ravenshore.band == std::array<double, 3>{14, 14, 17});
+    CHECK(ravenshore.freeLevel > 0);
+    CHECK(ravenshore.freeBankedLevel > ravenshore.freeLevel + 40);
+    CHECK(ravenshore.horizontalLevel > ravenshore.freeLevel + 10);
+    CHECK(ravenshore.madnessMapLevel > 0);
+
+    // Dagger Wound Island starts horizontal progression: no x2.5 there.
+    const MawRules::MapLevelRow daggerWound = find("out01.odm");
+    CHECK(daggerWound.horizontalStarter);
+    CHECK(daggerWound.horizontalLevel < 2 * std::max(daggerWound.freeLevel, 4));
+
+    // Every listed map, each of the three MM6-MM8 continents.
+    CHECK(rows.size() > 150);
+    for (uint32_t continent : {1u, 2u, 3u})
+    {
+        CHECK(std::any_of(rows.begin(), rows.end(),
+            [continent](const MawRules::MapLevelRow &row) { return row.continentId == continent; }));
+    }
 }

@@ -1,0 +1,149 @@
+chapters:
+  - id: 1
+    title: "I: The Six Clans of the Chedian"
+    sections:
+      - title: "Thjorgard: Jarl Sven Forkbeard"
+        intro: "Sven Forkbeard sits in the castle at the north end of Thjorgard City. Tell him 'We've come to speak to you about Tamur Leng', then 'We are trying to unite the six Clans' and 'Yes. We need to unite ALL the Clans', and accept both of his tasks. You can do them in either order; he joins once both are done."
+        giver: {map: thjorgardcity, npc: "Sven Forkbeard"}
+        quests:
+          - quest: retrieve-thjorad-from-lindisfarne
+            steps:
+              - "Sail to Lindisfarne. The Sea's Fang leaves the Thjorgard dock on Fridays (4 days, 20 gold). The monastery is the large building on the hill north of the village, north-west of the docks."
+              - "The monks are friendly. Thjorad, a relic hammer, is on display at the far east end of the east wing, the building on the north side of the courtyard. Four monks guard it while Brother Kennet builds its case. Clicking it does nothing yet: the guards leave it only when the bells ring the call to prayer."
+              - "Climb to the bell floor above the crossing, where the nave meets the transepts. Take a ladder in a north corner of either transept up to the gallery, the next ladder up to the attic, then the ladder beside the crossing up to the bell floor. Five bell ropes hang there in a row running east to west."
+              - "Number the ropes 1 to 5 from the east end, so rope 1 is the one farthest from the ladder you came up. Pull them in the order 1, 5, 2, 4, 3: the east end, the west end, second from the east, second from the west, then the middle. A wrong rope resets the sequence, so start again from rope 1. When it is right, the bells peal (2,000 XP) and the four guards walk to the north end of the nave to pray."
+              - "Go back to the east wing and click Thjorad to take it (1,000 XP). It is a two-handed artifact maul, so you can wield it until you hand it over."
+              - "Return to Sven: 'We've retrieved Thjorad', then 'Here you are'. He keeps the hammer."
+            tips:
+              - "You can also click the bells themselves. They hang in a north-south row, and the order is the same: the south end, the north end, second from the south, second from the north, then the middle."
+              - "Do not hurt any monk. The alarm turns the whole monastery hostile, and they are tough fighters. Thjorad comes free, but you lose the abbot's and Grehgknak's quests, including the Paladin promotion."
+              - "You can take Thjorad before Sven asks for it. He accepts it anyway ('We've retrieved it already!')."
+              - "Lindisfarne's Evil Sorcerers and Thrall Masters are among the most dangerous monsters this early. Head straight for the monastery."
+            reward: "12,000 XP and 6,000 gold from Sven (plus 3,000 XP for the bells and the pickup)."
+            maps:
+              - map: lindisfarnemonastery
+                show: [exit, ladder, door, promoter]
+                focus: "Rope 1"
+                caption: "The bell ropes hang above the crossing (rope 1 is the east one). Thjorad stands at the far east end of the north-east building."
+              - map: lindisfarne
+                show: [exit, transport]
+                focus: "Monastery"
+                caption: "The monastery is north of the village and the dock."
+
+          - quest: find-out-why-the-elemental-thjorad-production-has-stopped
+            steps:
+              - "The Thjorad Mine is just east of Thjorgard City, past the docks. There are three problems, one per foreman, and you can solve them in any order. Tell each foreman that Sven sent you."
+              - "Ketil Strongpick (the hard rock) is in the room to the right of the entrance passage. Gudrek the Miner (the cave-in) stands at the first crossing due north of the entrance. Njal Bjarnissen (the refinery) is in the round refinery west of Gudrek's crossing."
+              - "The mine's doors: each lift gate of the refinery rises with the lever beside it. A boarded doorway opens once you pull all six spikes nailed into it (click each spike)."
+              - "When the journal says the East Mine, West Mine and Refinery are working, return to Sven: 'Your mine is once again producing Thjorad', then 'That is working also'."
+              - "With Thjorad also delivered, ask him 'We've completed both your quests. Will you join us now?' and Thjorgard joins the alliance."
+            tips:
+              - "The abandoned south part of the mine holds most of the Elemental Thjorad. Its obstacles are boarded doors, a mine cart, a steam valve and a falling torch that sets off a chain of exploding barrels (100 fire damage to anyone close). Gunnar Thjorsmith in the city pays 700, 1,500 or 3,000 gold for a Lump, Chunk or Lode."
+              - "The tremors that shake the mine every few minutes are harmless."
+            reward: "22,500 XP and 3,000 gold from Sven."
+            maps:
+              - map: thjoradmine
+                show: [exit, npc, quest, objective]
+                focus: "Gudrek the Miner"
+                caption: "The entrance is in the south. Ketil is east of it, Gudrek north of it and the refinery west of Gudrek."
+              - map: thjorgardcity
+                show: [quest, vendor, exit]
+                focus: "Sven"
+                caption: "Sven's castle is at the north end of the city."
+
+          - quest: find-the-cave-in
+            steps:
+              - "Talk to Gudrek the Miner at the crossing north of the entrance: 'Sven Svenssen sent us to inspect the mines', then 'Why do you say that?', 'Why is that?', 'Maybe we should go have a look' and 'Where is it?'. He walks to the edge of the dangerous section, north-east of his crossing."
+              - "Talk to him there ('Is this it?'), then walk past him onto the big crack in the floor. The floor gives way and you drop into a flooded cavern (5,000 XP)."
+              - "You wade on the water. About a dozen troglodytes and troglodyte gnolls live down here, so fight them on the shallows."
+              - "There is no way back up through the hole. Leave by the cavern's north exit: a long tunnel climbs back to the loop north of the refinery. Pull the six spikes of any boarded doorway in your way."
+              - "Optional: tell Gudrek 'We've found your cave in'."
+            tips:
+              - "Gudrek is not required: walking onto the crack is enough."
+            reward: "5,000 XP."
+            maps:
+              - map: thjoradmine
+                show: [npc, objective, door, exit]
+                focus: "CaveIn"
+                caption: "The crack is just east of where Gudrek stops."
+
+          - quest: break-through-the-hard-rock
+            steps:
+              - "Talk to Ketil Strongpick in the room east of the entrance passage: 'Sven Forkbeard sent us to find out why you are not working', then 'I don't think he'll accept that answer', 'We'll give it a try' and 'Where is this section?'. His directions: take the first corridor to the right and follow it until it ends."
+              - "The tunnel winds a long way east. Troglodytes appear behind you at several spots, ten at most in all. Near the far end, three troglodyte gnolls break out of cages in the walls as you walk past."
+              - "The tunnel ends at a wall of twelve hard-rock blocks, which glow red for a party with Perception 8. Each block breaks with a single hit, melee or missile, or a click. Break ten of them (5,000 XP)."
+              - "A demoness, Ebora, is freed. She taunts you and vanishes in a column of fire. She does not fight; leave her alone (level 99)."
+              - "Optional: tell Ketil 'We cleared out your rock'."
+            reward: "5,000 XP."
+            maps:
+              - map: thjoradmine
+                show: [objective, npc, exit]
+                focus: "Hard rock"
+                caption: "The hard rock is at the end of the long east tunnel."
+
+          - quest: fix-the-refinery-machine
+            steps:
+              - "In the round refinery, talk to Njal Bjarnissen: 'Sven Forkbeard sent us to find out why you've stopped working', then follow his lines to 'We will find him, and bring him back to fix the machine'. He sends you for Hjarrand Fixer."
+              - "Hjarrand lives in a house in the south-west of Thjorgard City, near the temple. Say 'One of the machines in the Refinery is broken', then 'They say you're the only one who could fix it', and offer '1,000 gold'. He refuses 500 or less; 2,000 also works. Carry the gold, because it is taken when the dialogue closes. If you were short, come back and say 'We have the money'. He then leaves for the mine."
+              - "Back in the mine, the slag extractor machine stands in the room just west of the refinery, through the refinery's west lift gate. Hjarrand waits there. Ask 'Is the machine fixed yet?' and he marks the broken spot."
+              - "Click the hatch on the machine to open it, then take the Broken Slag Extractor from inside."
+              - "In Thjorgard City, Gunnar Thjorsmith runs Gunnar's Accoutrements, the armour shop on the west side of the city centre. Say 'We were wondering if you could help us', 'We need a replacement Slag Extractor' and 'Sounds like a deal!'. He swaps the broken part for a new Slag Extractor."
+              - "Return to the machine and click its base with the new part in your packs. The part goes in (5,000 XP). Optional: tell Njal 'We've fixed the Slag Extractor'."
+            tips:
+              - "The hatch opens and the broken part can be taken without Hjarrand. Gunnar's trade only needs the broken part, so paying Hjarrand is optional."
+            reward: "5,000 XP."
+            maps:
+              - map: thjoradmine
+                show: [objective, npc, lever, door, exit]
+                focus: "Slag extractor"
+                caption: "The refinery with its two lift gates, and the machine room west of it."
+              - map: thjorgardcity
+                show: [quest, vendor]
+                focus: "Hjarrand"
+                caption: "Hjarrand's house is in the south-west; Gunnar's armour shop is west of the centre."
+
+      - title: "Guberland: Jarl Markel the Great"
+        intro: "Markel the Great holds court in the hall at the centre of Guberland City. Say 'We need your help', then 'We need to unite the clans against Tamur Leng', and accept both tasks ('What is the first thing...' and 'What is the second thing...', each answered with 'We will do this for you'). Guberland is a day's sail from Drangheim on the Black Hammer (Mondays, Wednesdays, Saturdays)."
+        giver: {map: guberlandcity, npc: "Markel the Great"}
+        quests:
+          - quest: get-the-book-of-rules-from-the-ta-sar-academy
+            steps:
+              - "Sail to Lindisfarne. The Flying Bird leaves the Guberland dock on Mondays (3 days). The Ta'Sar Academy is at the far south-west of the island, a long walk from the village."
+              - "The academy's guards and students are friendly, and the fights in the arena are among themselves. Go south past the arena and along the corridor to the east hall, then west into the round library tower."
+              - "On the library's ground floor, the table in the middle holds four textbooks and a note. Place the books one at a time, in this order: you can only pick up the next book once the one before it is on its table. Ladders in the central column lead to the first and top galleries, and each table has a sign naming its subject. Click a table with its book in your packs: 'Weapons of the Ursanian Empire' on Offense (first gallery, north side), 'A Study in Tactical Strategy' on Strategy (top gallery, west), 'Fortifications and their Use' on Defense (first gallery, south), 'Methodology of Acquiring Information' on Intelligence (top gallery, east)."
+              - "When the fourth book is down, the locked door on the south side of the top gallery swings open. In the small room behind it, read the scroll on the table. It is coded with a reversed alphabet (a=z, b=y and so on) and says: 'You can find the Book of Rules behind the rotating bookshelf in the next room.'"
+              - "Climb down and take the stairs on the library's south side into the south hall. A bookcase stands in its west wall, and one book sticks out slightly at eye level (it glows for a party with Perception 10). Press that book: the bookcase turns and opens the octagonal room behind it. Click the Book of Rules on its podium (5,000 XP)."
+              - "Return to Markel: 'We've got the Book of Rules', then 'Here.'."
+            tips:
+              - "A book put on the wrong table can be picked up again."
+              - "The book puzzle only gives the clue: the bookcase turns and the Book of Rules can be taken at any time."
+              - "The small round room north of the library has trap doors over a spike pit (40 damage). If you fall, follow the tunnel and break the cracked wall (25 HP) into the west side of the library."
+              - "In the trophy room in the north-east, drinking from the goblets is harmless. The right one, on the south side of the ring and the west one of the southern pair, gives the drinker +10 Might for a while."
+              - "You can take the book before Markel asks. He takes it anyway ('We've already got that book')."
+            reward: "10,000 XP and 3,000 gold from Markel."
+            maps:
+              - map: tasaracademy
+                show: [exit, objective, lever, secret, trap, breakable, ladder]
+                focus: "Book of Rules"
+                caption: "The library tower in the south-west; the south hall's bookcase hides the Book of Rules."
+              - map: lindisfarne
+                show: [exit, transport]
+                focus: "Ta'Sar"
+                caption: "The academy is at the south-west corner of Lindisfarne."
+
+          - quest: beat-ivan-the-smart-at-trivia
+            requires: "Markel's second task accepted: Ivan accepts a contest only after that."
+            steps:
+              - "The Gathering is the fair on the beach south-west of Guberland City, south of the dock. Ivan the Smart stands in the middle of it."
+              - "Say 'Is that so? Perhaps you would like to have a contest?', then 'Yes.', 'If you wish.' and 'Alright, ask your questions.'"
+              - "The answers in order: 'Sturmford and Drangheim' (the two nations most often at war), 'Verhoffin' (caused the Great Cataclysm), 'Hallenhalt' (where dead warriors go), 'Hubris' (the first Ursanian Emperor), 'Making Magic Items' (what Elemental Thjorad is used for) and 'He was murdered by his personal guards' (how Emperor Trislan died). Then say 'Alright, let's have it.' and answer 'Ivan the Smart' (the smartest man ever)."
+              - "Say 'As a token of good faith, we'll let you live.' and 'See you around.'. As the dialogue closes you get the Victory Certificate (5,000 XP)."
+              - "Return to Markel: 'We've beaten Ivan the Smart', then 'We did. He gave us this letter to prove it.'. With the Book of Rules also delivered, ask 'Now that we've done these things for you, will you join us?' and Guberland joins."
+            tips:
+              - "A wrong answer only ends the contest. Talk to Ivan again to start over."
+            reward: "5,000 XP from Ivan; 16,500 XP and 3,000 gold from Markel."
+            maps:
+              - map: guberland
+                show: [quest, transport, exit]
+                focus: "Ivan"
+                caption: "The Gathering is on the beach south of the dock."

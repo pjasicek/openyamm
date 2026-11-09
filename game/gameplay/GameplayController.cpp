@@ -98,16 +98,6 @@ bool GameplayController::advanceGameMinutes(float minutes)
 
     if (m_pSession != nullptr)
     {
-        EventRuntimeState *pEventRuntimeState = m_pRuntime->eventRuntimeState();
-
-        if (pEventRuntimeState != nullptr)
-        {
-            m_pSession->gameplayItemService().updateConnectorStoneRecharge(
-                m_pRuntime->party(),
-                *pEventRuntimeState,
-                m_pSession->gameMinutes() + minutes);
-        }
-
         synchronizeSessionFromRuntime();
     }
 

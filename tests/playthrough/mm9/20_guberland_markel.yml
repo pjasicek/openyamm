@@ -1,0 +1,39 @@
+# MM9 playthrough, segment 20: Guberland's tasks (guide: Chapter I, "Guberland: Jarl Markel the Great"). The Black
+# Hammer from Drangheim (a day; outdoors the party is moved), the road up to Guberland City's gate, and Jarl Markel in
+# his hall: the Book of Rules from the Ta'Sar Academy (key 57) and a contest with Ivan the Smart (key 58).
+# Research: prep/20_34_thjorgard_guberland.md.
+#   python3 tests/playthrough/mm9/run.py 20
+id: mm9.playthrough.20_guberland_markel
+title: "MM9 playthrough 20: to Guberland; Markel's two tasks"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/19_drangheim_pledge.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheimcity.blv, qbit_set: [90038, 90051], qbit_clear: [90056, 90057, 90058, 90002, 90003]}
+
+  # The Black Hammer to Guberland's dock (one day), then the city gate (ExitTriggerGuberland) up the road.
+  - travel: {map: guberland.blv, days: 1}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+
+  # Markel the Great sits in the hall at the city's south end.
+  - set_pose: {map: guberlandcity.blv, x: -2722, y: -9175, z: 23, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "We need to unite the clans against Tamur Leng."}
+  - select_topic: {match_label: "What is the first thing you need done?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "What is the second thing you need done?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90056, 90057, 90058], qbit_clear: [90059, 90060]}
+  - play_lua: {source: 'log("Markel: the Book of Rules from the Ta''Sar Academy, and beat Ivan the Smart at the Gathering")'}
+  - save_game: {name: "20 Markel's tasks", path: output/playthrough/mm9/checkpoints/20_guberland_markel.oysav}

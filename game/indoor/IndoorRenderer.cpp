@@ -342,6 +342,7 @@ struct RuntimeActorBillboard
 struct RuntimeSpriteObjectBillboard
 {
     size_t objectIndex = static_cast<size_t>(-1);
+    uint32_t objectKey = 0;
     int x = 0;
     int y = 0;
     int z = 0;
@@ -664,6 +665,7 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
 
         RuntimeSpriteObjectBillboard billboard = {};
         billboard.objectIndex = objectIndex;
+        billboard.objectKey = spriteObject.objectKey;
         billboard.x = spriteObject.x;
         billboard.y = spriteObject.y;
         billboard.z = spriteObject.z;
@@ -9848,7 +9850,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 const bool hovered = contextHighlighted
                     || (spriteOutlineEnabled && hoveredWorldItemIndex
                         && *hoveredWorldItemIndex == billboard.objectIndex);
-                m_worldFxSystem.setItemModelOutline(uint32_t(billboard.objectIndex), hovered
+                m_worldFxSystem.setItemModelOutline(billboard.objectKey, hovered
                     ? (contextHighlighted ? contextActionHighlightOutlineColor() : hoveredIndoorWorldItemOutlineColor())
                     : 0);
                 continue;
@@ -11428,6 +11430,13 @@ void IndoorRenderer::updateFrameDaylightAndFog()
         m_frameFog.enabled = true;
         m_frameFog.nearDistance = m_outdoorViewDistance * 0.875f;
         m_frameFog.farDistance = m_outdoorViewDistance;
+        // A fog day (weather.yml fog chances) closes the fade in; the sky hazes with it (applyToSky).
+        if (const WeatherOpenSkyFog &dayFog = m_openSkyWeather.fog(); dayFog.foggy)
+        {
+            m_frameFog.nearDistance = std::min(m_frameFog.nearDistance, dayFog.nearDistance);
+            m_frameFog.farDistance = std::max(std::min(m_frameFog.farDistance, dayFog.farDistance),
+                m_frameFog.nearDistance + 1.0f);
+        }
         m_outdoorSkyFog = {};
         if (m_skyRenderer.isReady() && !m_skyRenderer.state().frame().presetName.empty())
         {
@@ -12000,17 +12009,29 @@ void IndoorRenderer::renderTerrainGrass(uint16_t viewId, const bx::Vec3 &eye, co
     {
         return;
     }
-    // Lit as the terrain under it: the open sky's daylight as one brightness (the outdoor grass shader takes no
-    // colour), the sun's direction scaled by its strength; no effect lights; the scene's fog or the sky haze.
+    // Lit as one brightness (the outdoor grass shader takes no colour) that follows the flat terrain under it through
+    // the day: the outdoor grass's noon light (OutdoorGrassNoonLight, the shader's cap) times the terrain's light now
+    // over its light at noon. The terrain's light: the faces' daylight, min(ambient + sun x min(1, gain x N.L), 1)
+    // with N up, and the terrain's mean vertex light with its open-air share by the hour, at most 2 as the faces'.
+    // It goes in as the shader's ambient with no sun direction: through the sun term the gain multiplied the sun's
+    // strength, so the grass sat at the cap until dusk while the ground darkened through the afternoon (Sturmford at
+    // 18:10: three times the ground). No effect lights; the scene's fog or the sky haze.
+    constexpr float OutdoorGrassNoonLight = 0.85f;
     const auto luma = [](const std::array<float, 3> &rgb)
     {
         return 0.2126f * rgb[0] + 0.7152f * rgb[1] + 0.0722f * rgb[2];
     };
-    const float sun = luma({m_frameDaylight.sun[0], m_frameDaylight.sun[1], m_frameDaylight.sun[2]})
-        * m_frameDaylight.sunGain;
-    const std::array<float, 4> sunlight = {m_frameDaylight.sunDirection[0] * sun,
-        m_frameDaylight.sunDirection[1] * sun, m_frameDaylight.sunDirection[2] * sun,
-        luma({m_frameDaylight.ambient[0], m_frameDaylight.ambient[1], m_frameDaylight.ambient[2]})};
+    const auto terrainLight = [this, &luma](const IndoorDaylightLight &light, float openAirLightScale)
+    {
+        const float facing = std::clamp(light.sunDirection[2] * light.sunGain, 0.0f, 1.0f);
+        const float daylight = std::min(luma(light.ambient) + luma(light.sun) * facing, 1.0f);
+        return std::min(daylight + m_terrainLampLight + m_terrainOpenAirLight * openAirLightScale, 2.0f);
+    };
+    const float noonLight = terrainLight(evaluateIndoorDaylight(m_daylight, 12.0f * 60.0f), 1.0f);
+    const float brightness = noonLight > 0.001f
+        ? OutdoorGrassNoonLight * terrainLight(m_frameDaylight, m_frameOpenAirLightScale) / noonLight
+        : OutdoorGrassNoonLight;
+    const std::array<float, 4> sunlight = {0.0f, 0.0f, 0.0f, brightness};
     const std::array<float, 4> fxLightParams = {0.0f, 1.0f, 1.0f, 0.0f};
     const std::array<float, 4> camera = {eye.x, eye.y, eye.z, 0.0f};
     for (const TerrainDecorationPatch &patch : m_terrainGrassDraws)
@@ -12424,6 +12445,9 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         runtimeMapDeltaData() ? &*runtimeMapDeltaData() : nullptr,
         eventRuntimeState ? &eventRuntimeState.value() : nullptr);
 
+    double terrainLampLight = 0.0;
+    double terrainOpenAirLight = 0.0;
+    size_t terrainVertexCount = 0;
     for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
     {
         const IndoorFace &face = m_pIndoorMapData->faces[faceIndex];
@@ -12586,6 +12610,19 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         if (terrainFace)
         {
             applyTerrainVertices(faceIndex, faceMesh.vertices);
+            // The terrain's vertex light for its grass (renderTerrainGrass): the doubled bake's luminance, as the shader
+            // takes it, split into the lamps' share and the open air's lights' (alpha: 1 less their share).
+            for (const TexturedVertex &vertex : faceMesh.vertices)
+            {
+                const uint32_t abgr = vertex.bakedLightAbgr;
+                const float light = 2.0f / 255.0f
+                    * (0.2126f * float(abgr & 0xffu) + 0.7152f * float((abgr >> 8) & 0xffu)
+                        + 0.0722f * float((abgr >> 16) & 0xffu));
+                const float openAirShare = 1.0f - float(abgr >> 24) / 255.0f;
+                terrainLampLight += light * (1.0f - openAirShare);
+                terrainOpenAirLight += light * openAirShare;
+                ++terrainVertexCount;
+            }
         }
 
         m_faceBatchIndices[faceIndex] = static_cast<int32_t>(batchIndex);
@@ -12610,6 +12647,9 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             m_faceSubdivisionTriangles[faceIndex] = std::move(faceMesh.triangles);
         }
     }
+
+    m_terrainLampLight = terrainVertexCount > 0 ? float(terrainLampLight / double(terrainVertexCount)) : 0.0f;
+    m_terrainOpenAirLight = terrainVertexCount > 0 ? float(terrainOpenAirLight / double(terrainVertexCount)) : 0.0f;
 
     // Each group's batches, one after another in its vertex buffer and index list.
     std::vector<std::vector<TexturedVertex>> groupVertices(m_texturedDrawGroups.size());
@@ -15487,13 +15527,26 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
             if (object.containedItemId != 0 && m_pItemTable != nullptr)
             {
-                // An item is its model: the model's box, turned as it lies (GROUND_ITEMS_3D_BEHAVIOUR.md section 5).
-                const std::optional<float> itemDistance = intersectWorldItemPickBox(
-                    m_pItemTable->groundModel(object.containedItemId),
-                    worldItemYawRadians(uint32_t(object.objectIndex)),
-                    {float(object.x), float(object.y), float(object.z)},
-                    {rayOrigin.x, rayOrigin.y, rayOrigin.z},
-                    {rayDirection.x, rayDirection.y, rayDirection.z});
+                // An item is its model: the model's box, turned as it lies (GROUND_ITEMS_3D_BEHAVIOUR.md section 5), or
+                // as its authored pose turns it (a placed item leaning on a wall).
+                const std::optional<MapDeltaData> &deltaForPose = runtimeMapDeltaData();
+                const std::optional<std::array<float, 3>> pose =
+                    deltaForPose && object.objectIndex < deltaForPose->spriteObjects.size()
+                        ? deltaForPose->spriteObjects[object.objectIndex].semanticPose
+                        : std::nullopt;
+                const std::optional<float> itemDistance = pose
+                    ? intersectPosedWorldItemPickBox(
+                        m_pItemTable->groundModel(object.containedItemId),
+                        WorldItemPose{(*pose)[0], (*pose)[1], (*pose)[2]},
+                        {float(object.x), float(object.y), float(object.z)},
+                        {rayOrigin.x, rayOrigin.y, rayOrigin.z},
+                        {rayDirection.x, rayDirection.y, rayDirection.z})
+                    : intersectWorldItemPickBox(
+                        m_pItemTable->groundModel(object.containedItemId),
+                        worldItemYawRadians(object.objectKey),
+                        {float(object.x), float(object.y), float(object.z)},
+                        {rayOrigin.x, rayOrigin.y, rayOrigin.z},
+                        {rayDirection.x, rayDirection.y, rayDirection.z});
 
                 if (itemDistance && (*itemDistance < bestDistance || bestHit.kind == "face"))
                 {

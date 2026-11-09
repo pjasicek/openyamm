@@ -343,8 +343,24 @@ def scripted(m: Map) -> dict:
     carpet, low, high = m.model("ElevatorObj")
     cx = carpet[0] + convert.CARPET_SHIFT_LT[0] * SCALE
     cy = carpet[1] + convert.CARPET_SHIFT_LT[1] * SCALE
-    top = high[2]
+    top = high[2] - convert.CARPET_DROP_LT * SCALE
+    # From the pit's floor south of it: walking stops at its edge (over a step), a running jump lands on it.
+    south = cy - (high[1] - low[1]) / 2
+    pit = m.floors.z(cx, south - 240, top)
+    start = {"map": MAP, "x": int(round(cx)), "y": int(round(south - 240)), "z": int(round(pit)),
+             "yaw_degrees": 90.0, "pitch": 0}
+    on_carpet = {"assert": {"party_position": {"x": int(round(cx)), "y": int(round(cy)), "radius": 200,
+                                               "z_min": int(round(top)) - 3, "z_max": int(round(top)) + 3}}}
     steps += [
+        {"note": {"text": "The magic carpet from the pit's floor (lowered for it, README Deviations): walking stops at "
+                          "its edge, a running jump lands on it."}},
+        scenarios.movement(MAP, (cx, south - 240, pit), 90.0, 0.6, (cx, south - 37, pit), tolerance_xy=20,
+                           tolerance_z=4),
+        {"movement_segment": {"input": "forward", "jump": True, "seconds": 0.5, "actor_collision": False,
+                              "actor_ai": False, "start": start,
+                              "expect_stop": dict(start, y=int(round(south + 140)), z=int(round(top))),
+                              "loose_tolerance": True, "tolerance_xy": 150, "tolerance_z": 120}},
+        wait(1.0), on_carpet,
         {"note": {"text": "The magic carpet (MagicCarpet.scr): a click from the carpet lifts it from the pit's floor to "
                           "the statue's ledge (12 LT); from its top the party walks onto the ledge."}},
         {"set_pose": {"map": MAP, "x": int(round(cx)), "y": int(round(cy)), "z": int(round(top)) + 1,
@@ -359,8 +375,10 @@ def scripted(m: Map) -> dict:
         {"note": {"text": "The spike trap (SpikeTrigger1): stepping onto the flaps tips all four down into the pit."}},
         state(flap, "closed"), m.stand_in("SpikeTrigger1", z=-328), wait(0.6), var("SpikesOpen", 1), wait(1.5),
         state(flap, "open"),
-        {"note": {"text": "Njam the Meddler's cameo (Trigger1): he appears two seconds later."}},
-        m.stand_in("Trigger1"), wait(3.0), var("NjamShown", 1),
+        {"note": {"text": "Njam the Meddler's cameo (Trigger1): the effect a second later, he appears two more "
+                          "later and walks; after 10-20 s the map sends him away (stage 4)."}},
+        m.stand_in("Trigger1"), wait(3.5), var("NjamShown", 1), var("NjamStage", 3), wait(21.0),
+        var("NjamStage", 4),
         {"note": {"text": "The scroll (Givetake.scr '483'), a world item, picked up: the Scrap of Book."}},
         *scenarios.pick_up_steps(m.floors, MAP, m.scene, "Prop38", distances=(90, 120)),
         {"assert": {"inventory_any_member": [{"item_id": 10000 + convert.KEY_SCROLL_ITEM, "count": 1}]}},

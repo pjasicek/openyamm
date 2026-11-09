@@ -159,6 +159,8 @@ public:
         const Party &party,
         const ItemTable &itemTable,
         std::mt19937 &rng) const override;
+    // MM9's shops sell their own items at MAW's power and rarity.
+    bool rollsFixedShopStock() const override;
     // A dimension map (zzMaw-Maps.lua UseMouseItem): its map refills on the next visit with three random families,
     // denser by its affixes and at its power's level, and the party goes to its entrance.
     std::optional<std::string> useTravelItem(Party &party, const InventoryItem &item) const override;

@@ -1,0 +1,77 @@
+# MM9's painted maps whose drawing does not match MM9's own bounds (the DAT header's extent): bounds
+# measured against the rebuilt floors and walls by tools/mm9_import_discovery/check_mm9_map_images.py
+# --refine, in the old import's frame. dungeon/tables.py catalog_text uses them in place of catalog.yml's.
+# fit: the shift (first image's px) and scale that moved the bounds; identity/best: mean distance to
+# the ink before and after (px).
+format_version: 1
+maps:
+  dragonstadium:
+    fit:
+      best: 2.177
+      identity: 2.69
+      scale: [0.9625, 0.9975]
+      shift: [-4.0, 5.5]
+    world_bounds: {max_x: 9025.3, max_y: 6454.55, min_x: -4081.9, min_y: -8081.63}
+  klusoshouse:
+    fit:
+      best: 0.182
+      identity: 0.698
+      scale: [0.9925, 0.9925]
+      shift: [-1.5, -1.0]
+    world_bounds: {max_x: 1249.91, max_y: 8561.7, min_x: -5270.67, min_y: -9266.73}
+  lindisfarnemonastery:
+    fit:
+      best: 1.133
+      identity: 2.25
+      scale: [1.0425, 1.0025]
+      shift: [-10.75, 9.25]
+    world_bounds: {max_x: 7367.03, max_y: 12697.63, min_x: -4351.26, min_y: -15984.58}
+  ruinedtemple:
+    fit:
+      best: 0.795
+      identity: 1.812
+      scale: [0.985, 0.98]
+      shift: [2.0, -5.5]
+    world_bounds: {max_x: 2552.17, max_y: 6823.74, min_x: -3103.22, min_y: -3792.42}
+  templeofhonk:
+    fit:
+      best: 0.223
+      identity: 0.897
+      scale: [0.9925, 0.995]
+      shift: [0.0, -1.75]
+    world_bounds: {max_x: 5778.35, max_y: 8059.52, min_x: -5942.19, min_y: -868.32}
+  thjoradmine:
+    fit:
+      best: 0.563
+      identity: 1.721
+      scale: [0.995, 0.97]
+      shift: [1.25, -3.75]
+    world_bounds: {max_x: 31342.83, max_y: 9507.85, min_x: -13939.58, min_y: -19966.46}
+  thjorgardcity:
+    fit:
+      best: 0.639
+      identity: 1.076
+      scale: [0.9925, 0.9925]
+      shift: [-0.25, -2.25]
+    world_bounds: {max_x: 10406.03, max_y: 27052.19, min_x: -9073.18, min_y: -4477.72}
+  thronheimcity:
+    fit:
+      best: 0.362
+      identity: 1.193
+      scale: [1.0025, 1.0125]
+      shift: [1.5, 0.25]
+    world_bounds: {max_x: 17213.92, max_y: 18085.92, min_x: -12734.89, min_y: -3233.51}
+  traininghall:
+    fit:
+      best: 0.721
+      identity: 1.234
+      scale: [1.0, 0.9875]
+      shift: [-0.25, -2.75]
+    world_bounds: {max_x: 5534.56, max_y: 3504.53, min_x: -3927.2, min_y: -8939.01}
+  yanmirsfort:
+    fit:
+      best: 0.233
+      identity: 1.485
+      scale: [0.9975, 1.0075]
+      shift: [-1.0, 4.0]
+    world_bounds: {max_x: 21050.16, max_y: 10192.86, min_x: -10485.96, min_y: -22331.21}

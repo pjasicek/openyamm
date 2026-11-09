@@ -1,0 +1,26 @@
+# AI arena: MM9's wander layer (BaseWander.inc). A Skeletoid (9183) walks a three-marker path (placement wander: path,
+# its markers given here as a placement's are), waiting 1-2 s at each; a Grey Wolf (9114) wanders aimlessly on a 400
+# unit leash. Both see only 600 LT (a common MM9 placement), so the party at the south end goes unnoticed until the
+# scenario walks it up to them. See README.md.
+name: mm9_patrol
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+# MM9's own perception of the party (its patrol until the party steps up), not the world's actorAwareness.
+party_awareness: mm9
+trace: true
+monsters:
+  - monster_id: 9183
+    position: [-800, 1100, 1]
+    yaw_degrees: 0
+    mm9_ai: {sight: 1536, hearing: 369, wander: path, path: [[-800, 1100, 1], [800, 1100, 1], [0, 500, 1]],
+             wander_wait: [1, 2]}
+  - monster_id: 9114
+    position: [1100, 300, 1]
+    yaw_degrees: 0
+    mm9_ai: {sight: 1536, hearing: 369, wander: aimless, wander_leash: 400, wander_wait: [1, 2], wander_time: [2, 4]}

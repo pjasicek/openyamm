@@ -9,7 +9,7 @@ from import_mm9_world_audio import import_audio, selected_audio_imports
 
 
 class Mm9WorldAudioImportTests(unittest.TestCase):
-    def test_selects_world_audio_and_npc_voices_but_excludes_replaced_categories(self) -> None:
+    def test_selects_every_sound_and_npc_voices_but_not_pc_voices_or_engine_root_sounds(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             sounds = root / "SOUNDS"
@@ -28,7 +28,11 @@ class Mm9WorldAudioImportTests(unittest.TestCase):
                 sounds / "MAGIC" / "Cast.wav": b"magic",
                 sounds / "PLAYER" / "Step.wav": b"player",
                 sounds / "SPELLS" / "Fire.wav": b"spell",
+                sounds / "SPELLS" / "leggibLoop.wav": b"ambient-spell",
+                sounds / "MAGIC" / "WizardEyeLoop.wav": b"ambient-magic",
+                sounds / "ANIMSOUNDS" / "Zombie" / "Fidget1.wav": b"ambient-fidget",
                 voices / "NPC" / "NPC_249.wav": b"npc",
+                voices / "CINEMA" / "THEARGUMENT" / "01.WAV": b"cinema",
                 voices / "PC" / "Hero.wav": b"pc",
                 engine_audio / "DEFAULT.wav": b"engine-default",
             }
@@ -40,17 +44,27 @@ class Mm9WorldAudioImportTests(unittest.TestCase):
             relative_paths = {entry.destination_relative.as_posix() for entry in imports}
             self.assertEqual(relative_paths, {
                 "ambient/bird.wav",
+                "animsounds/troglodyte/attack.wav",
+                "animsounds/zombie/fidget1.wav",
+                "deathsounds/death.wav",
                 "door/open.wav",
+                "magic/cast.wav",
+                "magic/wizardeyeloop.wav",
                 "pickupitems/gold.wav",
+                "player/step.wav",
+                "spells/fire.wav",
+                "spells/leggibloop.wav",
+                "voices/cinema/theargument/01.wav",
                 "voices/npc/npc_249.wav",
                 "weapons/bow.wav",
             })
 
             copied, unchanged = import_audio(imports, output, check=False)
-            self.assertEqual(copied, 5)
+            self.assertEqual(copied, 14)
             self.assertEqual(unchanged, 0)
             self.assertEqual((output / "voices/npc/npc_249.wav").read_bytes(), b"npc")
-            self.assertFalse((output / "spells/fire.wav").exists())
+            self.assertEqual((output / "spells/fire.wav").read_bytes(), b"spell")
+            self.assertFalse((output / "voices/pc/hero.wav").exists())
 
 
 if __name__ == "__main__":

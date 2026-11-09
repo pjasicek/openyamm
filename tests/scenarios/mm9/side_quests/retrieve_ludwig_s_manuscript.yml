@@ -1,0 +1,156 @@
+# MM9 side quest "Retrieve Ludwig's Manuscript" (guide: Side quests, Sturmford, retrieve-ludwig-s-manuscript;
+# tools/mm9_site/story/side_a.yml). From a new game in Sturmford City: no story state is needed. Ludwig Van (actor 49,
+# RUDE 47), hard of hearing, in the Beet Hoven north of the town hall, gives the task (key 14). In his cellar the
+# party opens the drain grate (event 242), drops down its shaft (GrateExit, prompt "OK") into the sewers (beethoven.blv,
+# the Sewergrate arrival) and walks: south along the channel to the round shaft of the Grand Entrance; down its long
+# ladder (Ladder0, logged CLIMB: forward takes it from the lip, back climbs down) into the flooded cavern; under the
+# shaft's south wall and up onto the catacombs' sill (logged SWIM); through the catacombs and Door21 into the tall room,
+# where the floor's trench drops the party into the tunnel below (logged DROP); west and south along the tunnel to the
+# manuscript, a world item (10248) picked up (key 16, Ludwigsmanuscript.scr). Back: the lower sewers to Ladder1 and up
+# to the catacombs, Door15 and Door10, the cavern swum to Ladder0 and up, the upper channels to SewerDoorE and ExitE
+# (prompt "OK"), Sturmford City's south-west corner. Ludwig takes the manuscript on the close: 10 500 experience, 2 000 gold
+# (keys 19, 116; LudwigVan.scr). The sewers are walked (no set_pose there); the city is placed.
+# Research: prep/A_sturmford_drangheim.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py retrieve_ludwig
+id: mm9.side_quests.retrieve_ludwig_s_manuscript
+title: "MM9 side quest: Retrieve Ludwig's Manuscript (Ludwig Van, the sewers walked)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: sturmfordcity.blv, gold: 10000, qbit_clear: [90014, 90016, 90019, 90110, 90116]}
+
+  # Ludwig at his writing desk.
+  - set_pose: {map: sturmfordcity.blv, x: 4306, y: 2201, z: 19743, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 49}
+  - select_topic: {match_label: "We'd like you ask you a few questions."}
+  - select_topic: {match_label: "You don't look that busy to us."}
+  - select_topic: {match_label: "What happened to your manuscript?"}
+  - select_topic: {match_label: "Why can't you go down there?"}
+  - select_topic: {match_label: "Perhaps we could go down there for you."}
+  - select_topic: {match_label: "Perhaps we could go down there for you!"}
+  - select_topic: {match_label: "We'll get your manuscript for you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90014], qbit_clear: [90016]}
+
+  # The drain grate in his cellar: a click opens it; the party steps onto the hole and drops to the exit.
+  - set_pose: {map: sturmfordcity.blv, x: 5376, y: 1689, z: 19753, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(242); wait(2.0); if door_state(4) ~= "open" then error("the grate did not open: " .. door_state(4)) end; log("the grate is open")'}
+  - walk_to: {x: 5600, y: 1689, z: 19005, z_tolerance: 60, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: beethoven.blv, party_position: {x: -1720, y: 2867, radius: 64}}
+
+  # South along the channel to the Grand Entrance's shaft; its lip.
+  - walk_to: {x: -1720, y: -2202, z: 102, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -1720, y: -2202, z: 102, radius: 24, plan: false, timeout_seconds: 10}
+  # Down the long ladder: forward takes it from the lip, back climbs down into the flooded cavern.
+  - play_lua: {source: 'log("CLIMB down Ladder0, the shaft of the Grand Entrance: forward from the lip takes it, back climbs down")'}
+  - movement_segment: {input: forward, seconds: 0.35, actor_collision: false, actor_ai: false,
+      start: {map: beethoven.blv, x: -1720, y: -2202, z: 102, yaw_degrees: 270, pitch: 0},
+      expect_stop: {map: beethoven.blv, x: -1720, y: -2290, z: 201, yaw_degrees: 270, pitch: 0},
+      loose_tolerance: true, tolerance_xy: 120, tolerance_z: 120}
+  - movement_segment: {input: backward, seconds: 18.0, actor_collision: false, actor_ai: false,
+      start: {map: beethoven.blv, x: -1720, y: -2290, z: 201, yaw_degrees: 270, pitch: 0},
+      expect_stop: {map: beethoven.blv, x: -1717, y: -1842, z: -2949, yaw_degrees: 270, pitch: 0},
+      loose_tolerance: true, tolerance_xy: 400, tolerance_z: 300}
+  # The ladder ends under the water: off its foot the party sinks to the cavern's bed, north of the shaft. The shaft's
+  # walls hang under the surface: the party swims south under the south wall, surfaces and climbs onto the sill of the
+  # catacombs' south corridor.
+  - assert: {water: {state: bed}}
+  - play_lua: {source: 'log("SWIM from the cavern''s bed under the shaft''s south wall to the catacombs'' sill")'}
+  - walk_to: {x: -1510, y: -2938, z: -2949, z_tolerance: 400, radius: 40, plan: false, timeout_seconds: 20}
+  - movement_segment: {input: none, seconds: 3.0, fly_up: true, actor_collision: false, actor_ai: false,
+      start: {map: beethoven.blv, x: -1510, y: -2938, z: -2949, yaw_degrees: 270, pitch: 0},
+      expect_stop: {map: beethoven.blv, x: -1510, y: -2938, z: -2141, yaw_degrees: 270, pitch: 0},
+      loose_tolerance: true, tolerance_xy: 200, tolerance_z: 300}
+  - assert: {water: {state: surface}}
+  - movement_segment: {input: forward, seconds: 0.6, jump: true, actor_collision: false, actor_ai: false,
+      start: {map: beethoven.blv, x: -1510, y: -2938, z: -2141, yaw_degrees: 270, pitch: 0},
+      expect_stop: {map: beethoven.blv, x: -1510, y: -3174, z: -1965, yaw_degrees: 270, pitch: 0},
+      loose_tolerance: true, tolerance_xy: 260, tolerance_z: 200}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {water: {state: dry}}
+
+  # Through the catacombs to Door21 (a double door that shuts after 3 s: clicked from in front, then walked through).
+  - walk_to: {x: -5488, y: -4600, z: -1884, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(109); wait(1.0); log("Door21: " .. door_state(17) .. ", " .. door_state(18))'}
+  - walk_to: {x: -5488, y: -5150, z: -1884, z_tolerance: 100, plan: false, timeout_seconds: 10, clear_hostiles: 2000}
+  # The tall room's trench (MM9's gap under the beam) opens onto the tunnel below, the bottle's way to the manuscript.
+  - play_lua: {source: 'log("DROP into the tall room''s trench (about 1 230 deep) onto the manuscript''s tunnel")'}
+  - walk_to: {x: -5567, y: -6538, z: -3113, z_tolerance: 100, plan: false, timeout_seconds: 15, clear_hostiles: 2000}
+  - walk_to: {x: -8521, y: -8249, z: -3111, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - pick_up: {item_id: 10248}
+  - assert: {qbit_set: [90016], qbit_clear: [90110]}
+
+  # Back up: the lower sewers to Ladder1, up to the catacombs, Door15 and Door10 west to east.
+  - walk_to: {x: -14418, y: -2611, z: -3112, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+  - climb: {ladder: Ladder1}
+  - walk_to: {x: -11730, y: -5044, z: -1884, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(104); wait(1.5); log("Door15: " .. door_state(7) .. ", " .. door_state(8))'}
+  - walk_to: {x: -11100, y: -5044, z: -1884, z_tolerance: 100, plan: false, timeout_seconds: 10, clear_hostiles: 2000}
+  - walk_to: {x: -9110, y: -4470, z: -1884, z_tolerance: 100, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(101); wait(1.5); log("Door10: " .. door_state(1) .. ", " .. door_state(2))'}
+  - walk_to: {x: -8500, y: -4470, z: -1884, z_tolerance: 100, plan: false, timeout_seconds: 10, clear_hostiles: 2000}
+  - walk_to: {x: -1551, y: -3189, z: -1966, z_tolerance: 100, timeout_seconds: 90, clear_hostiles: 2000}
+
+  # Into the water, under the shaft's south wall, up to the ladder's foot and up the shaft.
+  - play_lua: {source: 'log("SWIM from the sill under the shaft''s south wall to the ladder")'}
+  - walk_to: {x: -1720, y: -2684, z: -2140, z_tolerance: 300, radius: 40, plan: false, timeout_seconds: 10}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {water: {state: submerged}}
+  - walk_to: {x: -1720, y: -2420, z: -2304, z_tolerance: 300, radius: 30, plan: false, timeout_seconds: 10}
+  - movement_segment: {input: none, seconds: 2.0, fly_up: true, actor_collision: false, actor_ai: false,
+      start: {map: beethoven.blv, x: -1720, y: -2420, z: -2304, yaw_degrees: 270, pitch: 0},
+      expect_stop: {map: beethoven.blv, x: -1720, y: -2420, z: -2140, yaw_degrees: 270, pitch: 0},
+      loose_tolerance: true, tolerance_xy: 100, tolerance_z: 200}
+  - climb: {ladder: Ladder0, timeout_seconds: 30}
+
+  # The upper channels to the east exit: SewerDoorE (shuts after 5 s), then ExitE.
+  - walk_to: {x: 4450, y: 17572, z: 82, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 2000}
+  - play_lua: {source: 'click(114); wait(1.5); log("SewerDoorE: " .. door_state(34))'}
+  - walk_to: {x: 4956, y: 17572, z: 328, z_tolerance: 400, plan: false, timeout_seconds: 15, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+  - play_lua: {source: 'if not has_item(10248) then error("the manuscript is not in the pack") end; log("the manuscript is in the pack")'}
+
+  # Ludwig hears it at last; he takes the manuscript when the talk closes. (The sewers' kills gave experience too:
+  # the reward is checked as the change over the talk.)
+  - set_pose: {map: sturmfordcity.blv, x: 4306, y: 2201, z: 19743, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'remember("xp", experience(0)); remember("gold", gold())'}
+  - interact_actor: {actor_index: 49}
+  - select_topic: {match_label: "We've found your manuscript."}
+  - select_topic: {match_label: "WE FOUND YOUR MANUSCRIPT!!"}
+  - select_topic: {match_label: "You're welcome."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90019, 90116]}
+  - play_lua:
+      source: |
+        local xp, coins = experience(0) - recall("xp"), gold() - recall("gold")
+        if xp ~= 10500 or coins ~= 2000 then error("Ludwig's reward: " .. xp .. " experience, " .. coins .. " gold") end
+        if has_item(10248) then error("Ludwig did not take the manuscript") end
+        log("Ludwig took the manuscript: " .. xp .. " experience, " .. coins .. " gold")

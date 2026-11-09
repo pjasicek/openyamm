@@ -230,6 +230,14 @@ steps:
 - assert:
     qbit_set:
     - 90244
+- note:
+    text: The axe's DamageBrush (knockback10) pushed the party off the door, to native (4238, -410) (evt.PushParty; evt.Jump
+      moved it 9 units).
+- assert:
+    party_position:
+      x: 4238
+      y: -410
+      radius: 48
 - set_pose:
     map: dungeonofsecrets.blv
     x: 3789

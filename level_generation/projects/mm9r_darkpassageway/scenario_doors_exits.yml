@@ -187,7 +187,7 @@ steps:
     seconds: 1.0
 - assert:
     mechanism:
-      id: 42
+      id: 38
       state: closed
 - assert:
     state_dump_named_map_var:

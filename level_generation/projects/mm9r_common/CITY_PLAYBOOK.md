@@ -15,7 +15,7 @@ step and gotcha there applies) plus the pieces below. Worked example: [`../mm9r_
 | Hooks | `dungeon.Hooks` | `city.hooks.CityHooks` (`city/`), which adds the open air's portals, the sky faces and the open sky |
 | Open air | rooms behind doorways and archway cuts | the districts' open air divided automatically (`city/structure.py`): a roof line, street cuts, top portals |
 | Sky | skymarker faces drawn with a sky texture or the projected indoor sky | skymarker faces get `IndoorSky` and the scene opens to the sky: our Enhanced outdoor sky with the time of day behind them ([INDOOR_OPEN_SKY.md](../../../devdocs/INDOOR_OPEN_SKY.md)) |
-| Minimap | the line map (MM9's painted map dropped from the catalog) | MM9's painted city map (its catalog entry kept) and no outline pass: `map: {painted_minimap: true}` |
+| Minimap | MM9's painted map, or the line map by the Map style setting (2026-11-09) | MM9's painted city map only: no outline pass, `map: {painted_minimap: true}` |
 | People | monsters from MM9 rows; a few NPCs | 30-60 townsfolk from the old import's NPC records with MM9 bodies; RUDEProps as posed decorations whose click opens their dialogue |
 | Lighting | Cycles bake (deferred: classic lighting) | classic lighting (no bake), as the dungeons now ([MM9_LIGHTING_DECISION.md](../../../devdocs/mm9_rework/MM9_LIGHTING_DECISION.md)) |
 
@@ -177,8 +177,9 @@ below):
   regions' rule in `outdoor_blv.py` were earlier per-map copies of it. Inventa Storca and Yanmir's Fort carry flagged
   polygons (shaft walls, ice strips) but have no sky alias, so they keep their textures.
 - **Painted minimap**: already in the engine (`IndoorWorldRuntime`: an indoor map with a catalog entry draws it
-  instead of the line map). The converter's `map: {painted_minimap: true}` keeps the entry and turns the compiler's
-  outline pass off (`generate_outlines: false`), so the 7 000-outline save bitset no longer limits a city.
+  instead of the line map). Every map keeps its entry (2026-11-09, DUNGEON_PLAYBOOK.md "Painted maps"); the
+  converter's `map: {painted_minimap: true}` turns the compiler's outline pass off (`generate_outlines: false`), so
+  the 7 000-outline save bitset no longer limits a city and the Map style setting cannot pick a line map there.
 
 To build (specified, not in the pilot):
 

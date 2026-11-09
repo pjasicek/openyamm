@@ -1,0 +1,126 @@
+# MM9 promotion playthrough 80, block E: the Green Man's three tasks in Frosgard City (guide: side_c.yml
+# fix-the-maypole-in-the-center-of-town, get-a-promise-from-frosgard, get-tryygva-to-erect-a-runestone). In by the
+# road gate. Soxolf Tryygvassen the post-maker (actor 16, RUDE 190) fixes the maypole: when the talk closes he takes
+# 500 gold (key 268; frosgardcity.lua 50562); his pledge is a separate topic (key 269). Gudrun Fyridotir (17, 270),
+# Goti Egilssen (18, 271, the one pledger whose talk's close does not count), Tuathal A'Ghrie (19, 272), Tjorvi the
+# Bold (37, 273) and Jozka Dorcan (38, 274) pledge; a pledger's close with at most one of 269-274 missing gives key 277
+# (5 000 experience to each member). Jarl Tryygva Ravenlocks (actor 5, RUDE 180), home again since Krohn's task
+# (key 108; away from the war council, key 40, until then), agrees to carve the runestone (key 278).
+# Research: prep/E_paladin_druid.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 80
+id: mm9.promotions.80_frosgard_city_tasks
+title: "MM9 promotions 80: the maypole fixed, six pledges, Tryygva's runestone"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/78_frosgard_menja_green_man.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgard.blv, qbit_set: [90264, 90265, 90266], qbit_clear: [90267, 90268, 90269, 90277, 90278]}
+
+  # The city's road gate.
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv}
+
+  # Soxolf near the town centre: the maypole (500 gold when the talk closes).
+  - set_pose: {map: frosgardcity.blv, x: 1556, y: -682, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'remember("gold", gold()) log("gold before the maypole: " .. gold())'}
+  - interact_actor: {actor_index: 16}
+  - select_topic: {match_label: "What do you do?"}
+  - select_topic: {match_label: "We'd like you to fix it."}
+  - select_topic: {match_label: "Sure.  That's no problem."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90267, 90268]}
+  - play_lua: {source: 'local paid = recall("gold") - gold() log("Soxolf took " .. paid .. " gold; the new maypole stands") if paid ~= 500 then error("the maypole cost " .. paid .. ", not 500") end'}
+
+  # The pledges: Soxolf's own, then the others around the town centre.
+  - interact_actor: {actor_index: 16}
+  - select_topic: {match_label: "Frosgard needs your help."}
+  - select_topic: {match_label: "The Green Man requires a pledge from Frosgard."}
+  - select_topic: {match_label: "A pledge to not neglect him again."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Alright."}
+  - advance_runtime: {seconds: 0.5}
+
+  - set_pose: {map: frosgardcity.blv, x: 6881, y: -150, z: 45, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 17}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "We need a pledge from you."}
+  - select_topic: {match_label: "That you will remember the Green Man."}
+  - select_topic: {match_label: "Without him, your crops will fail."}
+  - select_topic: {match_label: "The Green Man will fix your crops."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+
+  - set_pose: {map: frosgardcity.blv, x: 7537, y: -1297, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 18}
+  - select_topic: {match_label: "We've come to get a pledge from you."}
+  - select_topic: {match_label: "The Green Man does not wish to be forgotten again."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+
+  - set_pose: {map: frosgardcity.blv, x: 10486, y: -1133, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 19}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "The Green Man needs a pledge from you."}
+  - select_topic: {match_label: "To not forget to celebrate him again."}
+  - select_topic: {match_label: "You won't starve anymore."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90269, 90270, 90271, 90272], qbit_clear: [90277]}
+
+  # The fifth pledge (Tjorvi): his talk's close counts five of the six and completes the task.
+  - set_pose: {map: frosgardcity.blv, x: 11305, y: -5393, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local n = 0 for _ in classes():gmatch("%S+") do n = n + 1 end
+        remember("members", n) for i = 0, n - 1 do remember("xp" .. i, experience(i)) end
+  - interact_actor: {actor_index: 37}
+  - select_topic: {match_label: "We need your help."}
+  - select_topic: {match_label: "The Green Man needs your help."}
+  - select_topic: {match_label: "It's time for another one.  He wants a pledge."}
+  - select_topic: {match_label: "That you will continue to have the festivals."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90273, 90277]}
+  - play_lua:
+      source: |
+        for i = 0, recall("members") - 1 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 5000 then error("member " .. i .. "'s experience rose by " .. xp .. ", not 5000") end
+        end
+        log("five pledges: the citizens have promised (5 000 experience to each member)")
+
+  # Jozka Dorcan's pledge is now offered no more (key 277 forbids every pledge row).
+  - set_pose: {map: frosgardcity.blv, x: 7864, y: -2526, z: 45, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 38}
+  - assert: {dialog: {active: true, source_id: 196, action_label_absent: "The Green Man needs your help."}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+
+  # Jarl Tryygva in the City Hall (here again since key 108): the runestone.
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1638, z: 45, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 5}
+  - assert: {dialog: {active: true, source_id: 180, action_label_present: "The Green Man asked you to do something for him."}}
+  - select_topic: {match_label: "The Green Man asked you to do something for him."}
+  - select_topic: {match_label: "He wants you to make a promise."}
+  - select_topic: {match_label: "A promise to remember to celebrate him."}
+  - select_topic: {match_label: "He wants you to carve it on a runestone."}
+  - select_topic: {match_label: "We will tell him that for you."}
+  - select_topic: {match_label: "You're welcome."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90268, 90277, 90278]}
+  - save_game: {name: "P80 the three tasks", path: output/playthrough/mm9/promotions/checkpoints/80_frosgard_city_tasks.oysav}

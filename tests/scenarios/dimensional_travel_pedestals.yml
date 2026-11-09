@@ -1,0 +1,31 @@
+id: dimensional_travel_pedestals
+title: "Dimensional travel: each town's pedestal and fountain opens the four continents' portals, in every ruleset"
+world: mm6
+mode: faithful
+tags: [travel, mm6, mm7, mm8]
+steps:
+  - note:
+      text: >-
+        Verdant and MMerge's other Dimension Door spots were removed on 2026-11-09: dimensional travel is the pedestal
+        and orb in New Sorpigal, Ravenshore and Harmondale (worlds/<world>/maps/<map>_dimensional_travel.scene.yml,
+        event 1777) and Sturmford City's, MMerge's town fountains (New Sorpigal's 140, Ravenshore's 104, Castle
+        Harmondale's courtyard water 65031), and the Town Portal continent buttons. No quest opens them first.
+  # Each map once: a map entered again restores its event state, and the harness never opens (so never clears) the
+  # pending travel. Both of New Sorpigal's and Ravenshore's events are run in ScriptedMapRegressionTests.cpp.
+  - new_game_flow:
+      start_map: oute3.odm
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 1777}
+  - assert: {dimension_door: {pending: true}}
+  - load_map: {map: out02.odm}
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 104}
+  - assert: {dimension_door: {pending: true}}
+  - load_map: {map: 7out02.odm}
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 1777}
+  - assert: {dimension_door: {pending: true}}
+  - load_map: {map: 7d29.blv}
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 65031}
+  - assert: {dimension_door: {pending: true}}

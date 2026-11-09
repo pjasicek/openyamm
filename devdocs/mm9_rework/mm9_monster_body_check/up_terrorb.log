@@ -1,0 +1,166 @@
+User data folder: /tmp/claude-1000/-home-pjasicek-github-OpenYAMM/12b8e39e-e9f2-4e03-ab9b-8914417ab28b/scratchpad/hl/userdata
+Scenario validated: mm9r.bodies_up_terrorb steps=46
+[34mScenario run: mm9r.bodies_up_terrorb[0m
+[34mDevelopment assets: /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev[0m
+[34mActive world: mm9[0m
+[34mMounted search paths:[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/maps[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/events[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/textures[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/textures_x4[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/_legacy[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/_legacy[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/_legacy[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/sprites[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/sprites[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/icons[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/audio[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm9/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/engine/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/music[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm6/videos[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm7/videos[0m
+[34m  /home/pjasicek/github/OpenYAMM/output/mm9_rework/assets_dev/worlds/mm8/videos[0m
+[33mRUN step 1/46 load_map yaml_line=9 map=1000terrors.blv[0m
+  indoor actors: total=114 map_delta=114 spawn=0 textured=114 missing=0
+  indoor sprite objects: total=0 textured=0 missing=0
+GameAudioSystem: missing music track Music/90018.mp3
+[36mLOAD data begin map=1000terrors.blv[0m
+[32mLOAD data complete map=1000terrors.blv[0m
+[32mPASS step 1[0m
+[33mRUN step 2/46 set_pose yaml_line=11 map=1000terrors.blv "Thousand Terrors"[0m
+[32mPASS step 2[0m
+[33mRUN step 3/46 spawn_actor yaml_line=18[0m
+[32mPASS step 3[0m
+[33mRUN step 4/46 advance_runtime yaml_line=25[0m
+[32mPASS step 4[0m
+[33mRUN step 5/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8968,-6236,-2079 yaw_degrees=0 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 5[0m
+[33mRUN step 6/46 set_pose yaml_line=32 map=1000terrors.blv "Thousand Terrors"[0m
+[32mPASS step 6[0m
+[33mRUN step 7/46 advance_runtime yaml_line=39[0m
+[32mPASS step 7[0m
+[33mRUN step 8/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=7893.3,-6773.64,-2002.06 yaw_degrees=-162.867 animation=1 hostile=true targeting_party=true aim_target=false
+[32mPASS step 8[0m
+[33mRUN step 9/46 advance_runtime yaml_line=42[0m
+[32mPASS step 9[0m
+[33mRUN step 10/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8017.52,-6388.2,-1572 yaw_degrees=-66.7959 animation=1 hostile=true targeting_party=true aim_target=false
+[32mPASS step 10[0m
+[33mRUN step 11/46 advance_runtime yaml_line=45[0m
+[32mPASS step 11[0m
+[33mRUN step 12/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=7757.63,-6079.32,-1265 yaw_degrees=3.47286 animation=1 hostile=true targeting_party=true aim_target=false
+[32mPASS step 12[0m
+[33mRUN step 13/46 advance_runtime yaml_line=48[0m
+[32mPASS step 13[0m
+[33mRUN step 14/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=7582.94,-6445.05,-957 yaw_degrees=103.581 animation=1 hostile=true targeting_party=true aim_target=false
+[32mPASS step 14[0m
+[33mRUN step 15/46 advance_runtime yaml_line=51[0m
+[32mPASS step 15[0m
+[33mRUN step 16/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=7806.58,-6549.54,-527 yaw_degrees=122.846 animation=1 hostile=true targeting_party=true aim_target=false
+[32mPASS step 16[0m
+[33mRUN step 17/46 advance_runtime yaml_line=54[0m
+[32mPASS step 17[0m
+[33mRUN step 18/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 18[0m
+[33mRUN step 19/46 advance_runtime yaml_line=57[0m
+[32mPASS step 19[0m
+[33mRUN step 20/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 20[0m
+[33mRUN step 21/46 advance_runtime yaml_line=60[0m
+[32mPASS step 21[0m
+[33mRUN step 22/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 22[0m
+[33mRUN step 23/46 advance_runtime yaml_line=63[0m
+[32mPASS step 23[0m
+[33mRUN step 24/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 24[0m
+[33mRUN step 25/46 advance_runtime yaml_line=66[0m
+[32mPASS step 25[0m
+[33mRUN step 26/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 26[0m
+[33mRUN step 27/46 advance_runtime yaml_line=69[0m
+[32mPASS step 27[0m
+[33mRUN step 28/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 28[0m
+[33mRUN step 29/46 advance_runtime yaml_line=72[0m
+Status text clear previous="Ariel evades damage" reason=expired
+[32mPASS step 29[0m
+[33mRUN step 30/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 30[0m
+[33mRUN step 31/46 advance_runtime yaml_line=75[0m
+[32mPASS step 31[0m
+[33mRUN step 32/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 32[0m
+[33mRUN step 33/46 advance_runtime yaml_line=78[0m
+[32mPASS step 33[0m
+[33mRUN step 34/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 34[0m
+[33mRUN step 35/46 advance_runtime yaml_line=81[0m
+[32mPASS step 35[0m
+[33mRUN step 36/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 36[0m
+[33mRUN step 37/46 advance_runtime yaml_line=84[0m
+[32mPASS step 37[0m
+[33mRUN step 38/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 38[0m
+[33mRUN step 39/46 advance_runtime yaml_line=87[0m
+[32mPASS step 39[0m
+[33mRUN step 40/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=2 hostile=true targeting_party=true aim_target=false
+[32mPASS step 40[0m
+[33mRUN step 41/46 advance_runtime yaml_line=90[0m
+[32mPASS step 41[0m
+[33mRUN step 42/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 42[0m
+[33mRUN step 43/46 advance_runtime yaml_line=93[0m
+[32mPASS step 43[0m
+[33mRUN step 44/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 44[0m
+[33mRUN step 45/46 advance_runtime yaml_line=96[0m
+[32mPASS step 45[0m
+[33mRUN step 46/46 assert yaml_line=27 actor_visible=index:114[0m
+ACTOR index=114 name=Desert Terror hp=525/525 dead=false risen=false boss=0 position=8103.18,-6550.65,-128 yaw_degrees=-90.5218 animation=0 hostile=true targeting_party=false aim_target=false
+[32mPASS step 46[0m
+Scenario passed: mm9r.bodies_up_terrorb
+exit 0

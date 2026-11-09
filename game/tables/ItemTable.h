@@ -206,12 +206,15 @@ public:
     // The item pool a world's shops stock equipment from (ItemGenerator::shopPoolAllows): its own package when it has
     // items, else the merged MM6-MM8 base, "engine". An empty world id has no pool.
     std::string lootPoolForWorld(const std::string &worldId) const;
+    // Whether a mounted world brings items of its own, so the game's choice of other worlds' loot changes anything
+    // (RulesetOptions::otherWorldsLoot).
+    bool hasWorldLootPools() const;
     // Worlds whose random artifacts come only from level-7 chest slots (world.yml chestArtifactsOnly).
     void setChestArtifactsOnlyWorlds(std::unordered_set<std::string> worldIds);
     bool chestArtifactsOnly(const std::string &worldId) const;
-    // Worlds whose treasure markers always give an item (world.yml treasureMarkersItemsOnly).
-    void setTreasureMarkersItemsOnlyWorlds(std::unordered_set<std::string> worldIds);
-    bool treasureMarkersItemsOnly(const std::string &worldId) const;
+    // Worlds whose treasure markers roll gold by their item tier (world.yml groundGoldByItemTier).
+    void setGroundGoldByItemTierWorlds(std::unordered_set<std::string> worldIds);
+    bool groundGoldByItemTier(const std::string &worldId) const;
     const ItemDefinition *get(uint32_t itemId) const;
     const ItemDefinition *resolvePackageSourceItemId(const std::string &packageId, uint32_t sourceItemId) const;
     const ItemDefinition *findBySpriteIndex(uint16_t spriteIndex) const;
@@ -238,7 +241,7 @@ private:
     std::unordered_set<std::string> m_itemPackageIds;
     // Lower-case world ids.
     std::unordered_set<std::string> m_chestArtifactsOnlyWorlds;
-    std::unordered_set<std::string> m_treasureMarkersItemsOnlyWorlds;
+    std::unordered_set<std::string> m_groundGoldByItemTierWorlds;
     std::vector<ItemModelBinding> m_groundModels;
     // By item id: index into m_groundModels, or -1 for the placeholder.
     std::vector<int32_t> m_groundModelIndexByItemId;

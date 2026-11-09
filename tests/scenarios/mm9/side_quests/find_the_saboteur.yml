@@ -1,0 +1,87 @@
+# MM9 side quest "Find the Saboteur" (guide: Side quests, Sturmford, find-the-saboteur; tools/mm9_site/story/side_a.yml).
+# Played in Sturmford City from a new game (no story state is needed: neither man's lines ask for a key). Bjarni
+# Herjolfssen (actor 1, RUDE 46) drinks in the tavern by the docks in the north-east; told how things break, the party
+# takes the task (key 13). Randver the Storm (actor 39, RUDE 51), one of the Jarl's scribes on the town hall's ground
+# floor, gives himself away about the town gates (key 15); when the talk closes he leaves by town portal (key 495,
+# 800 experience; Randverrun.scr). Back in the tavern Herjolfssen hears who it was (key 18) and pays on leaving
+# (key 471, 2 000 experience, 500 gold; SpiesLikeUs.scr). The party is placed beside each man (a city).
+# Research: prep/A_sturmford_drangheim.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py find_the_saboteur
+id: mm9.side_quests.find_the_saboteur
+title: "MM9 side quest: Find the Saboteur (Bjarni Herjolfssen, Randver the Storm)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: sturmfordcity.blv, gold: 10000, qbit_clear: [90013, 90015, 90018, 90471, 90495]}
+
+  # Before the task Randver only says he knows nothing: his telling questions need key 13.
+  - set_pose: {map: sturmfordcity.blv, x: 4634, y: 4275, z: 19744, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 39}
+  - select_topic: {match_label: "We'd like to ask you a few questions."}
+  - assert: {dialog: {active: true, source_id: 51, action_label_absent: "What do you know about Anskram Keep?"}}
+  - select_topic: {match_label: "Nevermind.  Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_clear: [90015, 90495]}
+
+  # Bjarni Herjolfssen in the tavern (north-east, by the docks).
+  - set_pose: {map: sturmfordcity.blv, x: -932, y: 715, z: 19757, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "Perhaps we can buy you a drink?"}
+  - select_topic: {match_label: "What's your trouble?"}
+  - select_topic: {match_label: "We'd be happy to help."}
+  - select_topic: {match_label: "You think someone's been deliberately breaking these things?"}
+  - select_topic: {match_label: "You can't do anything about it?"}
+  - select_topic: {match_label: "We will try to sniff out the spies for you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90013], qbit_clear: [90015, 90018]}
+
+  # Randver the Storm on the town hall's ground floor: Anskram Keep, "those" Sturmfordians, the lie, the sabotage.
+  - set_pose: {map: sturmfordcity.blv, x: 4634, y: 4275, z: 19744, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 39}
+  - select_topic: {match_label: "We'd like to ask you a few questions."}
+  - select_topic: {match_label: "What do you know about Anskram Keep?"}
+  - select_topic: {match_label: "'Those' Sturmfordians?  What do you mean?"}
+  - select_topic: {match_label: "Why do I think that you're lying to us?"}
+  - select_topic: {match_label: "What do you know about sabotage?"}
+  - select_topic: {match_label: "What?  What are you talking about?"}
+  - select_topic: {match_label: "What?"}
+  - advance_runtime: {seconds: 1.0}
+  # The talk's close: 800 experience and he is gone (town portal).
+  - assert: {qbit_set: [90015, 90495], runtime_event_variable: {id: 13, member_index: 0, value: 800}}
+  - play_lua: {source: 'log("Randver fled: " .. status())'}
+  - interact_actor: {actor_index: 39, activated: false}
+
+  # Back to Herjolfssen with the name.
+  - set_pose: {map: sturmfordcity.blv, x: -932, y: 715, z: 19757, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 1}
+  - select_topic: {match_label: "We've discovered who the saboteur is."}
+  - select_topic: {match_label: "A man named Randver the Storm."}
+  - select_topic: {match_label: "He disappeared."}
+  - select_topic: {match_label: "Good luck."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90018, 90471], gold: 10500, runtime_event_variable: {id: 13, member_index: 0, value: 2800}}

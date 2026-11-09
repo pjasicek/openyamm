@@ -45,7 +45,7 @@ HINTS = {'clawtorch': 'torch', 'clawtorchlit': 'torch', 'crystal': 'crystal', 'r
          'tree01b': 'tree', 'tree02': 'tree', 'tree05': 'tree', 'tree06': 'tree', 'iceskeleton': 'ice statue',
          'icezombie': 'ice statue', 'icelich': 'ice statue', 'icebanshee': 'ice statue', 'iceterror': 'ice statue',
          'iceskeletonwarrior': 'ice statue', 'stonebanshee': 'statue', 'chest5': 'chest', 'logsburning': 'burning logs',
-         'scroll': 'scroll', 'barrel': 'wooden barrel', 'spikepit': 'spikes'}
+         'scroll': 'scroll', 'barrelwater': 'portal', 'spikepit': 'spikes', 'mirror': 'mirror'}
 # The wall-hung claw torches: no collision (not Solid in MM9 either).
 NO_COLLISION = {'clawtorch', 'clawtorchlit'}
 # Trunk blockers (radius, height) at scale 1: the trees are not Solid in MM9 (walk-through canopies); two thirds of the
@@ -53,7 +53,11 @@ NO_COLLISION = {'clawtorch', 'clawtorchlit'}
 COLLISION = {'tree01b': (60, 250), 'tree02': (50, 250), 'tree05': (32, 250), 'tree06': (30, 250)}
 # Props that must not take the matching existing row (it carries a light): a new row at their scale.
 OWN_ROW = {'logsburning'}
-EXTRA = []
+# Not a DAT prop: the desert's four mirrors (DAT WorldObjects Mirror0-3, build_mirror.py), placed by the map converter
+# from ../../projects/mm9r_darkpassageway/mirrors.json (mirror_source.py) so the map can turn them. MM9's are Solid: a
+# cylinder of half the mirror's width (82 units wide, 15 deep), the circle it sweeps as it turns.
+EXTRA = [{'prop': 'mirror', 'decoration': 'mm9_mirror', 'scale': 1.0, 'height': 163.8, 'radius': 41,
+          'collision_height': 164, 'model': 'worlds/mm9/models/mm9_deco_mirror.glb', 'placements': []}]
 HEADER = ("# The MM9 world's indoor (BLV) decoration models (extends engine/models/indoor_decorations.yml; see its\n"
           "# header). Written by level_generation/props/mm9_anskramkeep_claude/scripts/tables.py.\ndecorations:\n")
 

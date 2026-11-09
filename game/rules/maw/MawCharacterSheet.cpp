@@ -75,9 +75,8 @@ int armsmasterMastery(const MawRules &rules, const Character &character)
 // half its own or that, whichever is lower; at most 600 (900 in Beyond Madness; MCC:707-741).
 double dragonLevel(const MawRules &rules, const Character &character)
 {
-    // MAW's getPartyLevel(4): the three continents' banks, the fourth's left out (MCC:730-741, CLS-10).
-    constexpr uint32_t FourthContinent = 4;
-    const double party = std::max(1.0, rules.state().levelOutside(FourthContinent)) + 1;
+    // MAW's getPartyLevel(4): every continent's bank (MCC:730-741, CLS-10; MMMerge's fourth bank held nothing).
+    const double party = std::max(1.0, rules.state().totalLevel()) + 1;
     double level = character.level;
 
     if (level / party > 1.2)

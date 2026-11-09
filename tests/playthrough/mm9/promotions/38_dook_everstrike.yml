@@ -1,0 +1,244 @@
+# MM9 promotion playthrough, segment 38: Everstrike, Fenja's first trial (guide: side_c.yml "find-everstrike"). From
+# Frosgard by sea to Guberland (outdoors the party is moved), the Dook's Castle in the north-west of Guberland (its
+# gate, ExitTrigger0 at (-13341, 17189)). The castle and its caverns are walked:
+# - the gate hall, north along the west corridor, round by the east hall (doors 03 and 02: the Dook's friendly guards
+#   stand and wander in the narrow corridor and stop a walk past them), north to the north-east room (door 04);
+# - the shield on its north wall (event 70): the secret door (doorslide) slides open on the room's south-west corner and
+#   every guard turns hostile (dookscastle.lua: the shield removes DOOK_HOSTILITY); the enemies near the party die;
+# - through the secret door, down the stair behind it into the caverns, round the loop cave and down the long winding
+#   caves to the lake cavern; across its rope bridges to the chest at the far east edge (TreasureChest0, event 46,
+#   trap 14): the first click sets the trap off (the party cannot disarm it), the second opens it; Everstrike
+#   (10184) taken with Take All;
+# - back over the bridges and up the caves, the secret door, the north-east room, the west corridor, the gate.
+# The rope bridges climb in steps of 82-110 units at each junction (rows of PhysicsBSP planks: -3235, -3143, -3041,
+# -2949, -2856, -2744, -2652, -2580 east of the hub; -3184, -3102, -3020, -2938, -2846, -2764 west of it). The party
+# steps 51 and walks off the side of each one; each is crossed with a running jump (JUMP lines; ISSUE logged: MM9's
+# player climbed such steps, see prep/D_mage_scholar_ranger.md). Where the Dook's business is concerned the party does
+# not need it: the shield opens the way whatever the Dook has said (side_b.yml convince-the-dook-to-leave-guberland is
+# not needed).
+#   python3 tests/playthrough/mm9/promotions/run.py 38
+id: mm9.promotions.38_dook_everstrike
+title: "MM9 promotions 38: the Dook's Castle and its caverns walked; Everstrike from the chest across the rope bridges"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/37_fenja_trials.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: frosgardcity.blv, qbit_set: [90238, 90239], qbit_clear: [90241]}
+  - play_lua: {source: 'if has_item(10184) then error("the party already has Everstrike") end'}
+
+  # By sea to Guberland; the Dook's Castle gate.
+  - travel: {map: guberland.blv, days: 6}
+  - set_pose: {map: guberland.blv, x: -13341, y: 16820, z: 121, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -13341, y: 17250, z: 328, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: dookscastle.blv}
+
+  # The gate hall and the west corridor; round the guards by the east hall (doors 03 and 02); the north-east room.
+  - walk_to: {x: 0, y: 4382, z: 450, timeout_seconds: 120}
+  - walk_to: {via: [[170, 4450, 450], [130, 5242, 450], [700, 5242, 450], [1500, 5300, 450], [1500, 6900, 450], [700, 6922, 450]], x: 100, y: 6922, z: 450, plan: false, timeout_seconds: 60}
+  - walk_to: {x: 0, y: 9093, z: 450, timeout_seconds: 40}
+  - walk_to: {x: 700, y: 9093, z: 450, timeout_seconds: 40}
+  - walk_to: {x: 2450, y: 9200, z: 450, timeout_seconds: 40}
+
+  # The shield: the secret door opens and the guards turn hostile.
+  - play_lua:
+      source: |
+        click(70); wait(2)
+        if mapvar("SecretOpen") ~= 1 then error("the shield did not open the secret door") end
+        log("the shield turns: the secret door slides open; the guards turn hostile (Hostile " .. mapvar("Hostile") .. ")")
+  - clear_hostiles: {radius: 5000}
+
+  # Through the secret door, down the stair into the caverns, the caves down to the lake cavern's bridges.
+  - walk_to: {via: [[1300, 7600, 410]], x: 570, y: 7600, z: 410, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {via: [[570, 7850, 410], [570, 8700, -81], [570, 9100, -100]], x: 500, y: 9600, z: -150, z_tolerance: 400, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 6550, y: 4440, z: -2700, z_tolerance: 300, timeout_seconds: 300, clear_hostiles: 2000}
+  # The rope bridges east, down to the hub platform, then up step by step to the chest's ledge.
+  - walk_to: {via: [[6900, 4438, -2764], [7860, 4425, -2949], [7920, 4280, -2990], [8500, 4040, -3031], [8560, 3940, -3080], [8960, 3950, -3143], [9340, 3920, -3200]], x: 9760, y: 3640, z: -3235, z_tolerance: 300, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 10050, y: 3660, z: -3235, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 1: a running jump up the 92-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 10050, y: 3660, z: -3235, yaw_degrees: 8, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 10450, y: 3720, z: -3143, yaw_degrees: 8, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 10930, y: 3890, z: -3143, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 2: a running jump up the 102-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 10930, y: 3890, z: -3143, yaw_degrees: 45, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 11150, y: 4110, z: -3041, yaw_degrees: 45, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11215, y: 4270, z: -3041, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 3: a running jump up the 92-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 11215, y: 4270, z: -3041, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 11215, y: 4520, z: -2949, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11150, y: 4800, z: -2949, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 4: a running jump up the 93-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 11150, y: 4800, z: -2949, yaw_degrees: 34, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 11420, y: 4970, z: -2856, yaw_degrees: 34, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {via: [[11600, 5110, -2856]], x: 11820, y: 5240, z: -2856, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 5: a running jump up the 112-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 11820, y: 5240, z: -2856, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 12080, y: 5232, z: -2744, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12230, y: 4930, z: -2744, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 6: a running jump up the 92-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 12230, y: 4930, z: -2744, yaw_degrees: -48, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 12480, y: 4620, z: -2652, yaw_degrees: -48, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {via: [[12700, 4540, -2652]], x: 12880, y: 4490, z: -2652, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP east 7: a running jump up the 72-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.55
+      start: {map: dookscastle.blv, x: 12880, y: 4490, z: -2652, yaw_degrees: -20, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 13120, y: 4400, z: -2580, yaw_degrees: -20, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'log("ISSUE the lake cavern rope bridges rise 82-110 units at each junction; the party steps 51 and needs a running jump at each (MM9 player climbed them)")'}
+  - walk_to: {x: 13120, y: 4330, z: -2580, z_tolerance: 60, plan: false, timeout_seconds: 10}
+
+  # Everstrike's chest: the trap goes off on the first click, the second opens it.
+  - play_lua:
+      source: |
+        click(46); wait(1)
+        if not take_chest() then
+          log("the chest's trap goes off (" .. status() .. "); opening it again")
+          click(46); wait(1)
+          if not take_chest() then error("the chest did not open") end
+        end
+        close()
+        if not has_item(10184) then error("no Everstrike in the chest") end
+        log("Everstrike (10184) is the party's")
+
+  # Back: down the bridges to the hub, up the western bridges, the caves, the secret door, the castle, the gate.
+  - walk_to: {via: [[12960, 4455, -2652], [12474, 4628, -2652], [12336, 4792, -2744], [12078, 5232, -2744], [11837, 5250, -2856], [11384, 4945, -2856], [11225, 4817, -2949], [11207, 4480, -2949], [11207, 4254, -3041], [11074, 4150, -3041], [10967, 3904, -3143], [10385, 3696, -3143]], x: 9760, y: 3640, z: -3235, z_tolerance: 200, plan: false, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 9550, y: 3850, z: -3235, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP west 1: a running jump up the 51-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.5
+      start: {map: dookscastle.blv, x: 9550, y: 3850, z: -3235, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 9200, y: 3870, z: -3184, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9150, y: 3900, z: -3184, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP west 2: a running jump up the 82-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.5
+      start: {map: dookscastle.blv, x: 9150, y: 3900, z: -3184, yaw_degrees: 175, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 8820, y: 3940, z: -3102, yaw_degrees: 175, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 8750, y: 3930, z: -3102, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP west 3: a running jump up the 82-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.5
+      start: {map: dookscastle.blv, x: 8750, y: 3930, z: -3102, yaw_degrees: 160, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 8420, y: 4040, z: -3020, yaw_degrees: 160, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7990, y: 4290, z: -3020, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP west 4: a running jump up the 82-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.5
+      start: {map: dookscastle.blv, x: 7990, y: 4290, z: -3020, yaw_degrees: 170, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 7700, y: 4380, z: -2938, yaw_degrees: 170, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7300, y: 4440, z: -2938, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP west 5: a running jump up the 92-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.5
+      start: {map: dookscastle.blv, x: 7300, y: 4440, z: -2938, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 6890, y: 4460, z: -2846, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6900, y: 4460, z: -2846, z_tolerance: 60, radius: 40, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'log("JUMP west 6: a running jump up the 82-unit step onto the next bridge")'}
+  - movement_segment:
+      input: forward
+      jump: true
+      seconds: 0.5
+      start: {map: dookscastle.blv, x: 6900, y: 4460, z: -2846, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: dookscastle.blv, x: 6700, y: 4440, z: -2764, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 570, y: 9300, z: -100, z_tolerance: 300, timeout_seconds: 300, clear_hostiles: 2000}
+  - walk_to: {via: [[570, 8700, -81], [570, 7850, 410], [570, 7600, 410]], x: 1300, y: 7600, z: 410, z_tolerance: 300, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {via: [[1300, 9093, 410], [700, 9093, 410], [100, 9093, 410], [100, 7966, 410], [100, 6922, 410], [100, 5242, 410]], x: 0, y: 4382, z: 410, plan: false, timeout_seconds: 120, clear_hostiles: 2000}
+  - walk_to: {x: 0, y: 1300, z: 40, timeout_seconds: 200, clear_hostiles: 2000}
+  - walk_to: {x: 0, y: 1100, z: 100, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+  - play_lua: {source: 'if not has_item(10184) then error("Everstrike was lost") end'}
+  - save_game: {name: "38 Everstrike", path: output/playthrough/mm9/promotions/checkpoints/38_dook_everstrike.oysav}

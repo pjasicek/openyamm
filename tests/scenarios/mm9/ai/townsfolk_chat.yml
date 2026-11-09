@@ -1,0 +1,52 @@
+id: mm9.ai.townsfolk_chat
+title: MM9 townsfolk chat - look, greet, walk over, take turns at Conv clips, part
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena, animation]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). NPCBase.inc's chats (MM9_AMBIENT_ANIMATION.md section 2.3): a second
+        after it appears the wanderer's first search is set up 5-15 s later; its search (5-10 s, once a second) finds
+        the townsperson in front of it, which accepts (hello) while it walks over (approach, giving up after 4-10 s).
+        On arrival (begin) they stand together for 10-30 s facing each other and take turns at one Conv clip each,
+        the wanderer first; then it ends the chat, the other says goodbye, both turn away (180 +- 45 degrees at 180 a
+        second) and the wanderer walks on. The one standing still never looks for anyone itself.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: townsfolk_chat.arena.yml}
+  - advance_runtime: {seconds: 12}
+  # Together: the wanderer faces the one it walked to.
+  - assert:
+      actor_visible: {actor_index: 5, faces: {x: 250, y: 300, within_degrees: 10}}
+  - advance_runtime: {seconds: 38}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: chat, detail: look, after: 6, before: 17, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: chat, detail: look, before: 5.99, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: chat, detail: approach, target: actor:6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: chat, detail: hello, target: actor:5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: chat, detail: begin, target: actor:6, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: chat, detail: begin, target: actor:5, min_count: 1, max_count: 1}
+  # Turns: the wanderer speaks first, then they alternate, one Conv clip each (variant and length in the trace).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: chat, detail: converse, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: chat, detail: converse, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: chat, detail: end, target: actor:6, after: 17, before: 48, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: chat, detail: goodbye, target: actor:5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: chat, detail: look, max_count: 0}
+  # The wanderer walks on after the chat.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: wander, after: 18, min_count: 1}
+  # The model plays the Conv clips (the Talk clip is one of them).
+  - assert:
+      ai_trace: {arena_monster: 0, event: anim, detail: main=Talk, min_count: 1}

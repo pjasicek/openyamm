@@ -33,3 +33,19 @@ MarySheep.scr / NPC312.scr :RuntoMe (`regionlua.py` `ewe()`): Ewe0 is an `outdoo
 timer (340) sends it after the party by `evt.MoveActorTo` (running when more than 1 200 units behind). Within 512 LT of
 Mary it gives key 466 and runs to her (EweFollow 2); her "Here's your sheep" row then gives 467 and the exit pays 468.
 It stands before the click and after (MM9: BaseWander, Cat.scr). Test: `scenario_sheep.yml`.
+
+## Hallvard's Tomes (2026-11-09)
+
+The user asked for a Yorwick seller of every Master and Grandmaster spellbook. MM9 has none, so the NPC is added:
+
+- Actor: overrides.yml `outdoor.added_people` (`outdoor_blv.py` `added_people`): Hallvard Ormssen, RUDE 500, the
+  shopkeeper row 47 (9047, the bell-sleeved PeasantM6 body, mm9_annud tier pm6_a), placed as Ulf (shopkeeper.scr) in
+  the corner of the stone hall's L facing the green (-13150, -19720). He has no DAT object, so no exit callback.
+- Dialogue: `worlds/mm9/dialogue/rude/NPC500.rude` and his NPCNAME.rude line, in Ulf's shape: news, Yorwick, where
+  his books come from, the shop row closed by the night key 5017 (map Lua), questions, farewell.
+- Shop: vendor 30500 from `tools/mm9_import_discovery/generate_mm9_vendors.py` `ADDED_VENDORS`: the 36 Master and
+  Grandmaster books (all nine schools) on every restock and nothing else (`SPELLBOOK_STOCKED_ONLY`), merchant base 4
+  as Ulf's Junk.
+- Adding him moved the 62 pack copies after him one actor index on, and 8 ground-treasure spots (treasure.py scores
+  spots by the friendly actors); the BLV and the map Lua are unchanged.
+- Test: `tests/scenarios/mm9/yorwick_hallvard_tomes.yml`.

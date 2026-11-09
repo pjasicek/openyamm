@@ -1,0 +1,23 @@
+# A talk a map timer opens names its speaker (2026-11-08, devdocs/mm9_rework/MM9_SPEAKERLESS_TALKS.md): Yrsa's
+# greeting after the war council (thronheimcity.lua timer 36040, ARG_Yrsa.scr :OnAppear) opened RUDE 1 without her
+# actor, so closing it skipped her exit (50230): no key 185 (quest done) and she stayed in the hall.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/speaker_timer_talk_runs_exit.yml --scenario-no-color
+id: mm9.speaker_timer_talk_runs_exit
+title: "MM9 talk from a timer: Yrsa's greeting after the council runs her exit when it closes"
+world: mm9
+mode: faithful
+tags: [mm9, dialogue]
+steps:
+  - load_map: {map: thronheimcity.blv}
+  - advance_runtime: {seconds: 0.5}
+  - lua_event: {source: 'evt.SetMapVar("YrsaAppear", 3)'}
+  - execute_event: {id: 36040}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      qbit_set: [90093]
+      dialog: {active: true, text_contains: ""}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      qbit_set: [90185]
+      actor_visible: {actor_index: 42, hidden: true}

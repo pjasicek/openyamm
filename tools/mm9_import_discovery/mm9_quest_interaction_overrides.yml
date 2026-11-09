@@ -67,9 +67,12 @@ scr_interactions:
   - interaction_id: mm9.scr.guberlandcity.811.priest_offers
     source_candidate_id: mm9.scr.guberlandcity.811
     granted_qbits: [90250, 90251, 90252]
-    predicate: {any_required_qbits: [90441, 90442, 90443, 90444]}
+    predicate: {forbidden_qbits: [90250, 90259, 90261]}
     source_lines: [85, 87, 88, 89, 93, 95, 96, 97, 101, 103, 104, 105, 109, 111, 112, 113]
-    reason: NPC129 exposes the three priest stages when any party member's persisted priest-promotion key is set.
+    reason: >-
+      NPC129 gives the three priest stages (250-252) once "We are seeking promotion." is asked; the quest is offered to
+      any party (dialogue/promotions.yml), so the offer stands while that row is shown (not 259) and 250 and 261 are not
+      held. MM9's per-character keys 441-444 are no longer set.
   - interaction_id: mm9.scr.guberlandcity.811.priest_handoff
     source_candidate_id: mm9.scr.guberlandcity.811
     granted_qbits: [90261]
@@ -79,9 +82,12 @@ scr_interactions:
   - interaction_id: mm9.scr.guberlandcity.813.healer_offer
     source_candidate_id: mm9.scr.guberlandcity.813
     granted_qbits: [90206]
-    predicate: {forbidden_qbits: [90206], any_required_qbits: [90437, 90438, 90439, 90440]}
+    predicate: {forbidden_qbits: [90206, 90211, 90213]}
     source_lines: [81, 82, 86, 88, 92, 94, 98, 100, 104, 106]
-    reason: NPC128 exposes the healer stage when any party member's persisted healer-promotion key is set.
+    reason: >-
+      NPC128 gives the healer stage (206) once "We are seeking promotion from Initiate to Healer." is asked; the quest
+      is offered to any party (dialogue/promotions.yml), so the offer stands while that row is shown (not 211) and 206
+      and 213 are not held. MM9's per-character keys 437-440 are no longer set.
   - interaction_id: mm9.scr.guberlandcity.814.bank_orbs
     source_candidate_id: mm9.scr.guberlandcity.814
     granted_qbits: [90337]
@@ -107,9 +113,12 @@ scr_interactions:
   - interaction_id: mm9.scr.thjorgardcity.1058.scholar_offer
     source_candidate_id: mm9.scr.thjorgardcity.1058
     granted_qbits: [90201]
-    predicate: {forbidden_qbits: [90201], any_required_qbits: [90425, 90426, 90427, 90428]}
+    predicate: {forbidden_qbits: [90201, 90205]}
     source_lines: [57, 58, 64, 66, 69, 71, 74, 76, 79, 81]
-    reason: NPC161 exposes the scholar stages when any party member's persisted scholar-promotion key is set.
+    reason: >-
+      NPC161 gives the scholar stage (201) once "We are seeking promotion to Scholar" is asked (that row hides at 201);
+      the quest is offered to any party (dialogue/promotions.yml), so the offer stands until 201 or 205. MM9's
+      per-character keys 425-428 are no longer set.
   - interaction_id: mm9.scr.thjorgardcity.1058.scholar_handoff
     source_candidate_id: mm9.scr.thjorgardcity.1058
     granted_qbits: [90205]
@@ -134,3 +143,321 @@ scr_interactions:
     predicate: {required_qbits: [90320], forbidden_qbits: [90321]}
     source_lines: [28, 29, 30, 31, 32]
     reason: NPC242's reward branch is a direct QBit-gated RUDE-exit completion.
+  # Scripted NPCs of the game's scenes that the editor import's event inventories lack (2026-11-08): their
+  # predicates follow the maps' Lua handlers, which are what the game runs.
+  - interaction_id: mm9.scr.darkpassageway.284.writ_of_fate
+    source_candidate_id: mm9.scr.darkpassageway.284
+    granted_qbits: [90187]
+    predicate: {forbidden_qbits: [90187]}
+    source_lines: [51, 52, 53, 54, 55, 56]
+    reason: >-
+      The Wyrde of the Unknown's first talk gives key 187 (and 476, the open cage). His second grant (188) needs item 396
+      carried (NPC338.scr:40-45), which a pure predicate cannot express, so it has no marker.
+  - interaction_id: mm9.scr.hallofthegods.125.six_fires
+    source_candidate_id: mm9.scr.hallofthegods.125
+    granted_qbits: [90189]
+    predicate: {required_qbits: [90103], forbidden_qbits: [90189]}
+    source_lines: [124, 125, 127, 128, 130]
+    reason: Skraelos in the Hall pays the six fires (key 103) once, with key 189 (hallofthegods.lua).
+  - interaction_id: mm9.scr.afterworld.94
+    source_candidate_id: mm9.scr.afterworld.94
+    classification: excluded
+    reason: >-
+      In the Afterworld Skraelos's exit only resets a failed trial (keys 379-392 taken, afterworld.lua); the six fires'
+      own steps are his dialogue rows, and the reward key 189 is given in the Hall of the Gods.
+  - interaction_id: mm9.scr.lindisfarnemonastery.408.missing_relic
+    source_candidate_id: mm9.scr.lindisfarnemonastery.408
+    granted_qbits: [90342]
+    predicate: {required_qbits: [90341], forbidden_qbits: [90342]}
+    source_lines: [26, 27, 28, 29, 30, 32]
+    reason: Abbot Leffery pays for the missing relic (key 341) once, with key 342.
+  - interaction_id: mm9.scr.lindisfarnemonastery.409.letter
+    source_candidate_id: mm9.scr.lindisfarnemonastery.409
+    granted_qbits: [90229]
+    predicate: {required_qbits: [90228], forbidden_qbits: [90229]}
+    source_lines: [107, 108, 109, 110, 111, 112]
+    reason: Grehgknak hands over his letter (item 419, key 229) once key 228 is held.
+  - interaction_id: mm9.scr.sturmfordcity.808.ivsar
+    source_candidate_id: mm9.scr.sturmfordcity.808
+    granted_qbits: [90117]
+    predicate: {required_qbits: [90021], forbidden_qbits: [90117]}
+    source_lines: [90, 91, 93, 94, 96]
+    reason: Jarl Bjarni pays for Ivsar's rescue (key 21) once, with key 117.
+  - interaction_id: mm9.scr.thearena.12
+    source_candidate_id: mm9.scr.thearena.12
+    classification: excluded
+    reason: >-
+      Key 217 (the Gladiator's third labour) comes from winning the Lord-level fight (thearena.lua fightWin), not from
+      the Arena Master's talk; his dialogue is a service (fights and wagers).
+  - interaction_id: mm9.scr.thjorgardcity.1066.payment_1000
+    source_candidate_id: mm9.scr.thjorgardcity.1066
+    granted_qbits: [90362]
+    predicate: {required_qbits: [90360], forbidden_qbits: [90362], minimum_gold: 1000}
+    source_lines: [128, 129, 131, 132, 134, 135, 137, 138]
+    reason: Hjarrand takes the agreed 1 000 gold (key 360) and gives key 362 when the party carries it.
+  - interaction_id: mm9.scr.thjorgardcity.1066.payment_2000
+    source_candidate_id: mm9.scr.thjorgardcity.1066
+    granted_qbits: [90362]
+    predicate: {required_qbits: [90361], forbidden_qbits: [90360, 90362], minimum_gold: 2000}
+    source_lines: [128, 129, 153, 154, 156, 157, 158, 159]
+    reason: Hjarrand takes the agreed 2 000 gold (key 361; 360 is checked first) and gives key 362 when it is carried.
+  - interaction_id: mm9.scr.thjoradmine.1399
+    source_candidate_id: mm9.scr.thjoradmine.1399
+    classification: excluded
+    reason: >-
+      In the mine Hjarrand is present only once paid (key 362); his talk starts his walk to the machine, where key 364
+      is given (thjoradmine.lua), so the dialogue grants no journal key.
+  - interaction_id: mm9.scr.thronheimcity.54.black_orb
+    source_candidate_id: mm9.scr.thronheimcity.54
+    granted_qbits: [90315]
+    predicate: {required_qbits: [90314], forbidden_qbits: [90315]}
+    source_lines: [27, 28, 29, 30, 31]
+    reason: Ealusaid pays for the Black Orb's inventor found (key 314) once, with key 315.
+  - interaction_id: mm9.scr.thronheimcity.56
+    source_candidate_id: mm9.scr.thronheimcity.56
+    classification: excluded
+    reason: &honk_exclusion >-
+      Key 77 is the side effect of persuading the last of the three Honks; each Honk's own persuasion is marked as a key
+      interaction (mm9.keys.thronheimcity.honk.*).
+  - interaction_id: mm9.scr.thronheimcity.57
+    source_candidate_id: mm9.scr.thronheimcity.57
+    classification: excluded
+    reason: *honk_exclusion
+  - interaction_id: mm9.scr.thronheimcity.58
+    source_candidate_id: mm9.scr.thronheimcity.58
+    classification: excluded
+    reason: *honk_exclusion
+key_interactions:
+  # Drangheim Prison's cook (NPC419.scr, dialogue 419) and his brother (NPC427.scr, dialogue 427): MM9 keeps the deal in
+  # keys 5004 (deal), 369 (Antoni freed, his talk) and 370 (his reward), with no journal entry; 5006 is the alarm.
+  - interaction_id: mm9.keys.drangheimprison.cook
+    rude_id: 419
+    map_id: drangheimprison
+    source_object_index: 1039
+    states:
+      available: {required_qbits: [], forbidden_qbits: [95004, 95006]}
+      in_progress: {required_qbits: [95004], forbidden_qbits: [90369]}
+    reason: The cook offers the deal (key 5004) until it is made or the alarm is up, then waits for his brother's rescue.
+  - interaction_id: mm9.keys.drangheimprison.antoni
+    rude_id: 427
+    map_id: drangheimprison
+    source_object_index: 1044
+    states:
+      ready: {required_qbits: [95004], forbidden_qbits: [90370]}
+    reason: With the cook's deal Antoni's talk frees him (key 369) and its close pays the reward once (key 370).
+  # Frosgard City's pledges for the Green Man (journal stage 90520: key 265 held, 277 not): each villager's root row
+  # "We need your help" asks for 265 and hides once its pledge key (269-276, one per slot, some slots with two
+  # villagers) or 277 (pledge.inc's reward) is set. The journal marks who starts and ends it, not whom to ask.
+  - interaction_id: mm9.keys.frosgardcity.pledge.190
+    rude_id: 190
+    map_id: frosgardcity
+    source_object_index: 562
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90269, 90277]}
+    reason: Soxolf Tryygvassen gives the Green Man's pledge (key 269) while the pledges are asked for (NPC190.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.191
+    rude_id: 191
+    map_id: frosgardcity
+    source_object_index: 563
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90270, 90277]}
+    reason: Gudrun Fyridotir gives the Green Man's pledge (key 270) while the pledges are asked for (NPC191.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.192
+    rude_id: 192
+    map_id: frosgardcity
+    source_object_index: 564
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90271, 90277]}
+    reason: Goti Egilssen gives the Green Man's pledge (key 271) while the pledges are asked for (NPC192.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.193
+    rude_id: 193
+    map_id: frosgardcity
+    source_object_index: 565
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90272, 90277]}
+    reason: Tuathal A'Ghrie gives the Green Man's pledge (key 272) while the pledges are asked for (NPC193.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.195
+    rude_id: 195
+    map_id: frosgardcity
+    source_object_index: 585
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90273, 90277]}
+    reason: Tjorvi the Bold gives the Green Man's pledge (key 273) while the pledges are asked for (NPC195.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.196
+    rude_id: 196
+    map_id: frosgardcity
+    source_object_index: 586
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90274, 90277]}
+    reason: Jozka Dorcan gives the Green Man's pledge (key 274) while the pledges are asked for (NPC196.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.197
+    rude_id: 197
+    map_id: frosgardcity
+    source_object_index: 567
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90275, 90277]}
+    reason: Rannveig the Elvish gives the Green Man's pledge (key 275) while the pledges are asked for (NPC197.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.199
+    rude_id: 199
+    map_id: frosgardcity
+    source_object_index: 569
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90276, 90277]}
+    reason: Erik the Fish-head gives the Green Man's pledge (key 276) while the pledges are asked for (NPC199.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.217
+    rude_id: 217
+    map_id: frosgardcity
+    source_object_index: 590
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90269, 90277]}
+    reason: Flosi Stickpoker gives the Green Man's pledge (key 269) while the pledges are asked for (NPC217.rude root row).
+  - interaction_id: mm9.keys.frosgardcity.pledge.218
+    rude_id: 218
+    map_id: frosgardcity
+    source_object_index: 595
+    states:
+      ready: {required_qbits: [90265], forbidden_qbits: [90270, 90277]}
+    reason: Pules Haji gives the Green Man's pledge (key 270) while the pledges are asked for (NPC218.rude root row).
+  # Steps of journal quests that no NPC marks (reviewed from MM9_KEY_DEAL_CANDIDATES.md, 2026-11-08): each condition
+  # mirrors the step NPC's root row and the stage's open key; the stage's completion key ends it.
+  - interaction_id: mm9.keys.frosgardcity.menja
+    rude_id: 182
+    map_id: frosgardcity
+    source_object_index: 594
+    states:
+      available: {required_qbits: [90213], forbidden_qbits: [90262]}
+      in_progress: {required_qbits: [90262], forbidden_qbits: [90264]}
+    reason: Menja sends healers who hold key 213 to find the Green Man (key 262, NPC182.rude:4-6) until he is found (key 264); stage 510 needs key 263, which MM9 never grants.
+  - interaction_id: mm9.keys.frosgardcity.nathi
+    rude_id: 188
+    map_id: frosgardcity
+    source_object_index: 561
+    states:
+      ready: {required_qbits: [90252], forbidden_qbits: [90257, 90261]}
+    reason: Nath'i teaches the Ritual of Consecration (keys 257/258, NPC188.rude:3,7) while journal stage 500 (key 252) is open.
+  - interaction_id: mm9.keys.sturmfordcity.injor
+    rude_id: 50
+    map_id: sturmfordcity
+    source_object_index: 842
+    states:
+      ready: {required_qbits: [90155], forbidden_qbits: [90156, 90236]}
+    reason: Injor takes Itlor on at the shop (key 156, NPC50.rude:3,13) while journal stage 450 (key 155) is open.
+  - interaction_id: mm9.keys.sturmfordcity.itlor
+    rude_id: 49
+    map_id: sturmfordcity
+    source_object_index: 824
+    states:
+      ready: {required_qbits: [90156], forbidden_qbits: [90157, 90236]}
+    reason: With Injor's job (key 156) Itlor hears of it (key 157, NPC49.rude:3,18) while journal stage 450 is open.
+  - interaction_id: mm9.keys.sturmfordcity.randver
+    rude_id: 51
+    map_id: sturmfordcity
+    source_object_index: 841
+    states:
+      ready: {required_qbits: [90013], forbidden_qbits: [90015, 90018]}
+    reason: Questioning Randver exposes the saboteur (key 15, NPC51.rude:2,6,21) while journal stage 580 (key 13) is open.
+  - interaction_id: mm9.keys.thjorgardcity.harris
+    rude_id: 416
+    map_id: thjorgardcity
+    source_object_index: 1047
+    states:
+      ready: {required_qbits: [90231], forbidden_qbits: [90232, 90233, 90235]}
+    reason: Confronting Harris with the letter (key 232, NPC416.rude:4; killing him sets 233) while journal stage 420 (key 231) is open.
+  - interaction_id: mm9.keys.thronheimcity.erlend
+    rude_id: 246
+    map_id: thronheimcity
+    source_object_index: 98
+    states:
+      ready: {required_qbits: [90316], forbidden_qbits: [90318, 90321]}
+    reason: Erlend takes the Scroll of Bad News (keys 318/319, NPC246.rude:3-4) while journal stage 660 (key 316) is open.
+  # Thronheim City's Honk missionaries (journal stage 172: the dock captain's plan, key 145, held and 77 not): each
+  # one's row asking about the Great Honk needs 145 and hides once its own key (142, 143, 144) is set.
+  - interaction_id: mm9.keys.thronheimcity.honk.271
+    rude_id: 271
+    map_id: thronheimcity
+    source_object_index: 56
+    states:
+      ready: {required_qbits: [90145], forbidden_qbits: [90142, 90077]}
+    reason: Muiredach A'Lanth is persuaded to the docks (key 142, NPC271.rude) while the dock plan (key 145) stands.
+  - interaction_id: mm9.keys.thronheimcity.honk.272
+    rude_id: 272
+    map_id: thronheimcity
+    source_object_index: 58
+    states:
+      ready: {required_qbits: [90145], forbidden_qbits: [90143, 90077]}
+    reason: Comgghan A'Feslo is persuaded to the docks (key 143, NPC272.rude) while the dock plan (key 145) stands.
+  - interaction_id: mm9.keys.thronheimcity.honk.279
+    rude_id: 279
+    map_id: thronheimcity
+    source_object_index: 57
+    states:
+      ready: {required_qbits: [90145], forbidden_qbits: [90144, 90077]}
+    reason: Yoltzin Tor is persuaded to the docks (key 144, NPC279.rude) while the dock plan (key 145) stands.
+  - interaction_id: mm9.keys.dungeonofsecrets.chadwick
+    rude_id: 417
+    map_id: dungeonofsecrets
+    source_object_index: 636
+    states:
+      available: {required_qbits: [90239], forbidden_qbits: [90243, 90245]}
+      ready: {required_qbits: [90245], forbidden_qbits: [90246]}
+    reason: >-
+      The Ranger's Trial (journal stage 470, key 239): Chadwick starts a run ("We are here for the trial", key 243,
+      cleared on every visit) and pays a clean run (key 245) through his reward row (246, then 247 on the exit).
+  - interaction_id: mm9.keys.guberlandcity.keg
+    rude_id: 141
+    map_id: guberlandcity
+    source_object_index: 836
+    states:
+      ready: {required_qbits: [90302], forbidden_qbits: [90304, 90305]}
+    reason: >-
+      The brewmaster's keg (journal stage 640, key 302) is sold to Aklai Dorka ("We have some beer we'd like to sell",
+      key 304; telling the truth sets 305 and ends the sale).
+  - interaction_id: mm9.keys.wizardslab.robinssen
+    rude_id: 55
+    map_id: wizardslab
+    source_object_index: 44
+    states:
+      ready: {required_qbits: [90311], forbidden_qbits: [90312, 90313]}
+    reason: >-
+      Robinssen sells the Black Orb (key 312 agreed, 313 and item 250 on the exit with 2 000 gold) while journal stage
+      650 (key 311) is open.
+  - interaction_id: mm9.keys.lindisfarnemonastery.robert
+    rude_id: 284
+    map_id: lindisfarnemonastery
+    source_object_index: 410
+    states:
+      ready: {required_qbits: [90254], forbidden_qbits: [90255]}
+    reason: >-
+      The new priest for Guberland: Robert Aefgil, present from the first 5:00 after the abbot agreed (key 254), leaves
+      with the party (key 255, NPC284.rude) for Gray Slemnir's temple.
+key_deal_reviews:
+  # Candidates of MM9_KEY_DEAL_CANDIDATES.md reviewed and left without a marker (2026-11-08).
+  - rude_id: 206
+    reason: "Orb of Linking install: needs item 252 in hand (NPC206.scr:39-43), not a key state; the other banks carry none either"
+  - rude_id: 110
+    reason: "key 5010 only marks the brawl cutscene as started (NPC110.scr)"
+  - rude_id: 214
+    reason: "key 111 is the Bob and Doug cutscene-played flag (NPC214.scr)"
+  - rude_id: 150
+    reason: "key 5020 is an ambient conversation flag (NPC150.scr, NPC151.scr)"
+  - rude_id: 429
+    reason: "game tickets (1001, 1010) and the boat-race minigame (7003, 7004): a service"
+  - rude_id: 58
+    reason: "keys 5002/5003 are the broken-window fine gating her healing service"
+  - rude_id: 30
+    reason: "key 9 (miners' union) is tested only by flavour rows"
+  # Reviewed with the game's scenes as the binding source (2026-11-08).
+  - rude_id: 338
+    reason: "key 476 opens the flame cage after the first talk; that talk's journal step is the SCR entry"
+  - rude_id: 425
+    reason: "keys 5018/5019 open and close the jail door: a service"
+  - rude_id: 426
+    reason: "keys 5006/5007 are the prison alarm and the guards' hostility"
+  - rude_id: 377
+    reason: "key 42 (Philip, 'Honk!') only unlocks a flavour row of NPC120"
+  - rude_id: 420
+    reason: "keys 9505/9506 make Anton Saleri play his organ song: flavour"
+  - rude_id: 435
+    reason: "keys 5022-5025 are the Genie's wishes: a service"
+  - rude_id: 430
+    reason: "keys 1004-1017 are arena fight levels and wagers: a service"

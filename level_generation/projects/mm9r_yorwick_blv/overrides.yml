@@ -59,6 +59,13 @@ outdoor:
   # Mary's ewe (MarySheep.scr, row 272): a person, not a monster, so that a click runs its 53000 event (regionlua.py:
   # it follows the party back to Mary); it stands where placed until then (MM9: WanderON)
   people: {Sven: {name: Sven Svenssen, monster_id: 9249}, Ewe0: {name: Ewe, monster_id: 9272}}
+  # Hallvard Ormssen, Hallvard's Tomes (the user, 2026-11-09): a seller of every Master and Grandmaster spellbook that
+  # MM9 does not have (RUDE 500, worlds/mm9/dialogue/rude/NPC500.rude; vendor 30500, generate_mm9_vendors.py
+  # ADDED_VENDORS). He stands in the corner of the stone hall's L facing the green, placed as Ulf (shopkeeper.scr) on
+  # the bell-sleeved shopkeeper (row 47, mm9_annud).
+  added_people:
+    - {name: Hallvard Ormssen, rude: 500, row: 47, filename: 'models\PeasantM6.abc',
+       like: CommonerFemale1, at: [-13150, -19720, 1120], yaw: 189}
 # Ground faces drawn from blended library materials (mm9r_common/terrain_blend.py; textures and shares from
 # mm9r_common/terrain_textures.py YORWICK): MM9 texture file stem -> material of terrain_materials_world.yml.
 terrain:

@@ -1,0 +1,28 @@
+# AI arena: a path's marker stops (BaseWander.inc OnWanderAtMarkerNext, monster_ai/MM9_AMBIENT_ANIMATION.md section 4
+# item 6). A Town Guard (9108: Fidget, Fidget2, Fidget3) walks a two-marker path, friendly, the party behind it out of
+# sight. Marker 1 has its own facing (south, -90 degrees), its own wait (4 s) and a looped clip (Fidget2); marker 0 has
+# none, so the placement's 1-1.5 s wait. See README.md.
+name: mm9_marker_stops
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 9108
+    position: [-300, 300, 1]
+    yaw_degrees: 0
+    hostile: false
+    mm9_ai:
+      sight: 600
+      hearing: 40
+      runaway_chance: 0
+      wander: path
+      path: [[-300, 300, 1], [300, 300, 1]]
+      wander_wait: [1, 1.5]
+      path_stops: [{point: 1, face: 270, wait: [4, 4], clip: fidget2, loop: true}]

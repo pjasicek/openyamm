@@ -122,7 +122,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Copy converted MM9 GLBs into DAT-native model_asset paths used by .scene.yml files."
     )
-    parser.add_argument("--model-assets", type=Path, default=Path("assets_dev/worlds/mm9/maps/guberland.model_assets.yml"))
+    parser.add_argument("--model-assets", type=Path, default=Path("assets_editor_dev/worlds/mm9/maps/guberland.model_assets.yml"))
     parser.add_argument("--source-models-root", type=Path, default=Path("assets_dev/worlds/mm9/models"))
     parser.add_argument(
         "--world-root",

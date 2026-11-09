@@ -1,0 +1,31 @@
+{
+  "world": "mm9",
+  "map": "thjoradmine.blv",
+  "units_per_texel": 16,
+  "page_size": 4096,
+  "padding": 2,
+  "samples": 128,
+  "bounces": 3,
+  "light_size": 24,
+  "direct_scale": 1.05,
+  "bounce_scale": 4.0,
+  "ambient_scale": 0.5,
+  "blur_radius": 2,
+  "dirlights": true,
+  "max_lighting": 1,
+  "emitters": [
+    {
+      "textures": [
+        "WATE27JPCX"
+      ],
+      "colour": [
+        0.45,
+        0.7,
+        0.75
+      ],
+      "strength": 0.05,
+      "display": 0.6,
+      "outward": false
+    }
+  ]
+}

@@ -225,6 +225,11 @@ std::optional<int> ItemRules::shopRerollCost(const Party &, const HouseEntry &) 
     return std::nullopt;
 }
 
+bool ItemRules::rollsFixedShopStock() const
+{
+    return false;
+}
+
 void ItemRules::adjustShopStock(
     std::vector<InventoryItem> &,
     const HouseEntry &,

@@ -367,11 +367,11 @@ def main() -> int:
     parser.add_argument("--shops", type=Path, default=Path("mm9/extracted/DATA/DATA/MMIXSHOPS.txt"))
     parser.add_argument("--rude-dir", type=Path, default=Path("mm9/extracted/RUDE/RUDE"))
     parser.add_argument("--books", type=Path, default=Path("mm9/extracted/DATA/DATA/BOOK AND SCROLL TEXT.csv"))
-    parser.add_argument("--maps-dir", type=Path, default=Path("assets_dev/worlds/mm9/maps"))
+    parser.add_argument("--maps-dir", type=Path, default=Path("assets_editor_dev/worlds/mm9/maps"))
     parser.add_argument("--recovery", type=Path,
                         default=Path("tools/mm9_import_discovery/mm9_transport_route_recovery.yml"))
     parser.add_argument("--output", type=Path,
-                        default=Path("assets_dev/worlds/mm9/data_tables/transport_routes.txt"))
+                        default=Path("level_generation/projects/mm9r_common/original_tables/transport_routes.txt"))
     parser.add_argument("--audit", type=Path,
                         default=Path("assets_dev/worlds/mm9/import/transport_route_audit.yml"))
     args = parser.parse_args()

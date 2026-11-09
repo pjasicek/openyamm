@@ -13,9 +13,12 @@ from typing import Iterable
 import yaml
 
 
+# MM9's 23 trainer skills in RUDE payload order (three payload ids per skill), each with the separate OpenYAMM skills
+# it covers (user decision 2026-11-05: no composite skills; MM9 Blade is Sword, Dagger and Axe, Cudgel is Mace and
+# Staff, Armor the three armour skills, Elemental the four elemental schools). Every skill is its own training choice.
 SKILL_GROUPS = [
-    ("Blade", "Sword|Dagger"),
-    ("Cudgel", "Mace"),
+    ("Blade", "Sword|Dagger|Axe"),
+    ("Cudgel", "Mace|Staff"),
     ("Spear", "Spear"),
     ("Bow", "Bow"),
     ("Thrown", "Throwing"),
@@ -38,6 +41,35 @@ SKILL_GROUPS = [
     ("BodyBuilding", "Bodybuilding"),
     ("Learning", "Learning"),
 ]
+# MM6-MM8 skills MM9 has no trainer for, taught by the MM9 trainers of the closest MM9 skill at the same masteries
+# (the user allows more MM9 teachers; these need no map change): MM9's Spirit school is MM6-MM8's self magic, Disarm
+# Trap is the thief's craft, Body Building the endurance skill and Identify Item the lore of items and potions.
+ADDED_SKILLS = {
+    "Spirit": "MindMagic|BodyMagic",
+    "DisarmTrap": "Stealing",
+    "BodyBuilding": "Regeneration",
+    "IdentifyItem": "Alchemy",
+}
+# Every MM6-MM8 skill MMerge's teachers train to Expert, Master and Grandmaster (assets_dev/engine/data_tables/
+# teacher_topics.txt skill ids 0-38) plus Throwing. The MM9 world trains each of them at each mastery, except the
+# reviewed exceptions below, which need new MM9 trainer NPCs (devdocs/mm9/MM9_RUDE_SCR_INTEGRATION.md "Skills And
+# Mastery").
+TRAINABLE_SKILLS = (
+    "Staff", "Sword", "Dagger", "Axe", "Spear", "Bow", "Mace", "Blaster", "Shield",
+    "LeatherArmor", "ChainArmor", "PlateArmor",
+    "FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic", "BodyMagic",
+    "LightMagic", "DarkMagic", "DarkElfAbility", "VampireAbility", "DragonAbility",
+    "IdentifyItem", "Merchant", "RepairItem", "Bodybuilding", "Meditation", "Perception", "Regeneration",
+    "DisarmTraps", "Dodging", "Unarmed", "IdentifyMonster", "Armsmaster", "Stealing", "Alchemy", "Learning",
+    "Throwing",
+)
+UNTAUGHT_SKILLS = {
+    "Blaster": "no MM9 skill or teacher is close; proposed new trainer NPC",
+    "DarkElfAbility": "MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)",
+    "VampireAbility": "MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)",
+    "DragonAbility": "MM8 racial ability; taught by the racial trainers (dialogue/racial_trainers.yml)",
+}
+MASTERIES = ("Expert", "Master", "Grandmaster")
 REGIONS = (
     "Sturmford", "Drangheim", "Thjorgard", "Guberland",
     "Thronheim", "Lindisfarne", "Frosgard", "Yorwick",
@@ -211,13 +243,20 @@ def audit_schedule_destinations(
     return "resolved", expected_markers, [], ""
 
 
+def trainer_skills(skill: str) -> tuple[str, str]:
+    """The separate skills MM9's skill covers and the MM6-MM8 skills added to its trainers."""
+    split_skills = dict(SKILL_GROUPS)[skill]
+    return split_skills, ADDED_SKILLS.get(skill, "")
+
+
 def topic_definition(raw_trainer_id: int, choice_slot: int) -> tuple[str, str, str, int]:
     if not 2006 <= raw_trainer_id <= 2074:
         raise GenerationError(f"trainer topic {raw_trainer_id} is outside 2006-2074")
     offset = raw_trainer_id - 2006
     skill_index = offset // 3
     variant = offset % 3
-    skill, shared_skills = SKILL_GROUPS[skill_index]
+    skill = SKILL_GROUPS[skill_index][0]
+    shared_skills = "|".join(filter(None, trainer_skills(skill)))
     if variant == 2:
         mastery = "Grandmaster"
         required_rank = 10
@@ -360,6 +399,8 @@ def generate(
             "source_line": service.source_line,
             "raw_trainer_id": service.raw_trainer_id,
             "skill": skill,
+            "split_skills": trainer_skills(skill)[0].split("|") if skill else [],
+            "added_skills": [name for name in trainer_skills(skill)[1].split("|") if name] if skill else [],
             "mastery": mastery,
             "expected_region": region,
             "source_display_names": display_names,
@@ -372,6 +413,8 @@ def generate(
             "schedule_destination_reason": schedule_reason,
             "errors": errors,
         })
+
+    coverage, untaught = skill_coverage(records)
 
     used_topics = {service.raw_trainer_id for service in services}
     unused_hints = sorted(set(hints) - used_topics)
@@ -407,18 +450,62 @@ def generate(
         }),
         "error_count": sum(len(record["errors"]) for record in audit_records),
         "unused_npc998_hints": unused_hints,
+        "untaught_skill_masteries": untaught,
     }
     audit = {
         "format_version": 1,
         "kind": "mm9_skill_trainer_audit",
         "generated_from": "RUDE -4 rows, NPC998 teacher hints, scene actors, and mundane-task scripts",
         "summary": summary,
+        "coverage": coverage,
         "records": audit_records,
     }
     if summary["error_count"] or unused_hints:
         raise GenerationError(
             f"trainer audit contains {summary['error_count']} errors and {len(unused_hints)} unused hints")
     return records, audit
+
+
+def skill_coverage(
+    records: list[dict[str, object]],
+) -> tuple[dict[str, dict[str, list[str]]], list[dict[str, str]]]:
+    """Which trainers teach each MM6-MM8 skill at each mastery, and the skill masteries nobody teaches."""
+    coverage: dict[str, dict[str, list[str]]] = {
+        skill: {mastery: [] for mastery in MASTERIES} for skill in TRAINABLE_SKILLS
+    }
+    for record in records:
+        mastery = str(record["TargetMastery"])
+        teacher = f"{str(record['SourceDisplayNames']).split('|')[0]} ({record['RudeId']}, {record['ExpectedRegion']})"
+        for skill in str(record["SharedSkills"]).split("|"):
+            if skill not in coverage or mastery not in MASTERIES:
+                raise GenerationError(f"{record['CanonicalId']}: unknown skill {skill!r} or mastery {mastery!r}")
+            if teacher not in coverage[skill][mastery]:
+                coverage[skill][mastery].append(teacher)
+    untaught = [
+        {"skill": skill, "mastery": mastery, "reason": UNTAUGHT_SKILLS.get(skill, "")}
+        for skill, masteries in coverage.items()
+        for mastery, teachers in masteries.items()
+        if not teachers
+    ]
+    return coverage, untaught
+
+
+def require_complete_coverage(audit: dict[str, object]) -> None:
+    """Every trainable skill mastery has an MM9 trainer or a reviewed reason why it has none."""
+    summary = audit["summary"]
+    unexplained = [
+        f"{entry['mastery']} {entry['skill']}"
+        for entry in summary["untaught_skill_masteries"]
+        if not entry["reason"]
+    ]
+    taught_exceptions = sorted(
+        skill for skill in UNTAUGHT_SKILLS
+        if any(audit["coverage"][skill][mastery] for mastery in MASTERIES)
+    )
+    if unexplained or taught_exceptions:
+        raise GenerationError(
+            f"no MM9 trainer teaches {', '.join(unexplained) or 'nothing missing'}; "
+            f"taught but listed as untaught: {', '.join(taught_exceptions) or 'none'}")
 
 
 def write_table(path: Path, records: list[dict[str, object]]) -> None:
@@ -431,14 +518,15 @@ def write_table(path: Path, records: list[dict[str, object]]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--rude-dir", type=Path, default=Path("mm9/extracted/RUDE/RUDE"))
-    parser.add_argument("--maps-dir", type=Path, default=Path("assets_dev/worlds/mm9/maps"))
+    parser.add_argument("--rude-dir", type=Path, default=Path("assets_dev/worlds/mm9/dialogue/rude"))
+    parser.add_argument("--maps-dir", type=Path, default=Path("assets_editor_dev/worlds/mm9/maps"))
     parser.add_argument("--scripts-dir", type=Path, default=Path("mm9/extracted/SCRIPTS/SCRIPTS"))
     parser.add_argument("--output", type=Path, default=Path("assets_dev/worlds/mm9/data_tables/skill_trainers.txt"))
     parser.add_argument("--audit", type=Path, default=Path("assets_dev/worlds/mm9/import/skill_trainer_audit.yml"))
     args = parser.parse_args()
     try:
         records, audit = generate(args.rude_dir, args.maps_dir, args.scripts_dir)
+        require_complete_coverage(audit)
         write_table(args.output, records)
         args.audit.parent.mkdir(parents=True, exist_ok=True)
         args.audit.write_text(yaml.safe_dump(audit, sort_keys=False, width=120), encoding="utf-8")

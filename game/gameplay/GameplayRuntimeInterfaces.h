@@ -411,6 +411,9 @@ struct GameplayActorTargetPolicyState
     uint16_t height = 0;
     bool hostileToParty = false;
     GameplayActorControlMode controlMode = GameplayActorControlMode::None;
+    uint32_t actorId = 0;
+    // The monster that last hit it (the original's lastCharacterIdToHit): it fights that one back at long range.
+    std::optional<uint32_t> lastActorAttackerId;
 };
 
 struct GameplayActorTargetPolicyResult
@@ -507,6 +510,8 @@ struct GameplayWorldItemPresentationState
     // A treasure bag holding loot rather than an item: it draws lootBagModelBinding().
     bool lootBag = false;
     WorldItemSparkle sparkle = WorldItemSparkle::None;
+    // A placed item's authored pose (a scene world item's `pose`): drawn turned so, resting on its position.
+    std::optional<WorldItemPose> pose;
 };
 
 // A projectile that ended (hit something or ran out of lifetime) and where it stopped, so its flight effect can
@@ -704,6 +709,13 @@ public:
         return GameplayWorldPoint{partyX() + 1024.0f, partyY(), partyFootZ()};
     }
     virtual bool isIndoorMap() const = 0;
+    // Whether the map lies open to the sky for spells: an outdoor map that is not enclosed, or a BLV its world declares
+    // open (world.yml openAirMaps, MapStatsEntry::openAir). Meteor Shower and the other outdoor spells work there,
+    // Inferno and Prismatic Light do not.
+    virtual bool isOpenAirMap() const
+    {
+        return !isIndoorMap();
+    }
     // The party is on a ladder (the flight arrows then climb it).
     virtual bool partyClimbingLadder() const
     {
@@ -781,6 +793,13 @@ public:
     {
         return 10240.0f;
     }
+    // How far from the party its shots, targeted spells and area spells reach a monster (GameplayActorService::
+    // partyHitReach): the yellow alert range, 5120, or a world's shorter one (MM9's 3800). Armageddon strikes the
+    // whole map.
+    virtual float partyHitReach() const
+    {
+        return 5120.0f;
+    }
     virtual float gameplayCameraYawRadians() const
     {
         return 0.0f;
@@ -803,6 +822,11 @@ public:
         return false;
     }
     virtual bool partyIsActivelyFlyingForHud() const
+    {
+        return false;
+    }
+    // The party stands on water it would otherwise drown in (Water Walk carries it).
+    virtual bool partyIsWalkingOnWaterForHud() const
     {
         return false;
     }

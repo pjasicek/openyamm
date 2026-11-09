@@ -1,0 +1,17 @@
+# AI arena: an MM9 swimmer (Jellyspore, 9168: BaseSwim.inc) in Isle of Ashes' sea, off the beach north-east of the
+# spores' bay. The party drops into the water: the spore notices it only once it is in the water, chases and strikes;
+# when the party walks out onto the beach it runs at once (BaseSwim.inc) and lets it go (MM9_MONSTER_AI_PLAN.md phase 3).
+name: mm9_jellyspore
+world: mm9
+map: isleofashes.blv
+asset_root: output/mm9_rework/isleofashes_blv_root
+party:
+  position: [-2900, 450, 300]
+  yaw_degrees: 225
+  pitch_degrees: -20
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9168
+    position: [-3700, -350, -450]
+    yaw_degrees: 45

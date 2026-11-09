@@ -1,0 +1,159 @@
+row	name	model	scale	anim	animDims	bindDims	allAnimsSame	mm9Radius	mm9Height	ourHeight	ourRadius	ourToHit
+54	Shopkeeper	PeasantM6.abc	1.0	MP_6a	12.0,34.0,12.0	12.0,34.0,12.0	1	31	174	110	44	0
+75	Dragonfly Mite	Dragonfly.abc	1.0	static_model	12.0,18.0,12.0	12.0,18.0,12.0	1	31	92	20	80	0
+76	Dragonfly	Dragonfly.abc	1.0	static_model	12.0,18.0,12.0	12.0,18.0,12.0	1	31	92	30	80	0
+77	Fire Dragonfly	Dragonfly.abc	1.0	static_model	12.0,18.0,12.0	12.0,18.0,12.0	1	31	92	50	80	0
+78	Imply	Imp.abc	1.0	stand	10.0,24.0,10.0	10.0,24.0,10.0	1	26	123	200	125	0
+79	Imp	Imp.abc	1.0	stand	10.0,24.0,10.0	10.0,24.0,10.0	1	26	123	200	125	0
+80	Imp Elder	Imp.abc	1.0	stand	10.0,24.0,10.0	10.0,24.0,10.0	1	26	123	200	125	0
+81	Nagate Hatchling	nagate.abc	1.0	stand	18.0,10.0,18.0	18.0,10.0,18.0	1	46	51	64	109	0
+82	Nagate	nagate.abc	1.5	stand	18.0,10.0,18.0	18.0,10.0,18.0	1	69	77	64	109	0
+83	Nagate Elder	nagate.abc	3.0	stand	18.0,10.0,18.0	18.0,10.0,18.0	1	138	154	64	109	0
+84	Lobber Pod	LobberPod.ABC	1.0	static_model	15.0,12.0,15.0	15.0,12.0,15.0	0	38	61	199	112	0
+85	Lobber Pod	LobberPod.ABC	2.0	static_model	15.0,12.0,15.0	15.0,12.0,15.0	0	77	123	199	112	0
+86	Lobber	lobber.abc	1.0	StandAir	15.0,31.0,15.0	15.0,31.0,15.0	1	38	159	199	112	0
+87	Airborne Icky	flyingicky.abc	0.5	ickysetup	12.0,10.0,12.0	12.0,10.0,12.0	1	15	26	96	105	0
+88	Flying Icky	flyingicky.abc	1.0	ickysetup	12.0,10.0,12.0	12.0,10.0,12.0	1	31	51	96	115	0
+89	Astral Icky	flyingicky.abc	2.0	ickysetup	12.0,10.0,12.0	12.0,10.0,12.0	1	61	102	96	125	0
+90	Field Thrall	Thrall.abc	1.0	stand	12.0,34.0,12.0	12.0,34.0,12.0	1	31	174	185	100	0
+91	Thrall	Thrall.abc	1.0	stand	12.0,34.0,12.0	12.0,34.0,12.0	1	31	174	185	100	0
+92	Thrall Master	Thrall.abc	1.0	stand	12.0,34.0,12.0	12.0,34.0,12.0	1	31	174	185	100	0
+93	Bird	crow.abc	1.0	stand	8.0,8.0,8.0	8.0,8.0,8.0	1	20	41	165	100	0
+94	Bird	crow.abc	1.25	stand	8.0,8.0,8.0	8.0,8.0,8.0	1	26	51	200	120	0
+95	Bird	crow.abc	1.5	stand	8.0,8.0,8.0	8.0,8.0,8.0	1	31	61	240	140	0
+96	Troglodyte	troglodyte.abc	0.8	static_model1	15.0,23.0,15.0	15.0,23.0,15.0	1	31	94	145	66	0
+97	Troglodyte Wren	troglodyte.abc	1.0	static_model1	15.0,23.0,15.0	15.0,23.0,15.0	1	38	118	145	66	0
+98	Troglodyte Gnoll	troglodyte.abc	1.25	static_model1	15.0,23.0,15.0	15.0,23.0,15.0	1	48	147	145	66	0
+99	Cutpurse	highwayman.abc	1.0	stand	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	162	52	0
+100	Burglar	highwayman.abc	1.0	stand	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	162	52	0
+101	Bandit	highwayman.abc	1.0	stand	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	162	52	0
+102	Half Orc Recruit	dookmilitia.abc	1.0	static_model	15.0,38.0,15.0	15.0,38.0,15.0	1	38	195	156	58	0
+103	Half Orc Soldier	dookmilitia.abc	1.0	static_model	15.0,38.0,15.0	15.0,38.0,15.0	1	38	195	156	58	0
+104	Half Orc Captain	dookmilitia.abc	1.0	static_model	15.0,38.0,15.0	15.0,38.0,15.0	1	38	195	156	58	0
+105	Ice Lobbercicle	LobberPod.ABC	2.0	static_model	15.0,12.0,15.0	15.0,12.0,15.0	0	77	123	199	112	0
+106	Ice Lobber	lobber.abc	1.0	StandAir	15.0,31.0,15.0	15.0,31.0,15.0	1	38	159	199	112	0
+107	Town Guard	guard.abc	1.0	guardsetup	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	158	47	0
+108	Town Guard	dookmilitia.abc	1.0	static_model	15.0,38.0,15.0	15.0,38.0,15.0	1	38	195	156	58	0
+109	Town Guard	guard.abc	1.0	guardsetup	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	158	47	0
+110	Town Guard	ClanSoldier.abc	1.0	clansetup02	15.0,38.0,15.0	15.0,38.0,15.0	0	38	195	155	58	0
+111	Guard	guard.abc	1.0	guardsetup	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	158	47	0
+112	Guard Segeant	guard.abc	1.0	guardsetup	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	158	47	0
+113	Guard Captain	guard.abc	1.0	guardsetup	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	158	47	0
+114	Grey Wolf	wolf.abc	0.4	static_model	34.0,45.0,34.0	34.0,45.0,34.0	1	35	92	160	100	0
+115	Red Wolf	wolf.abc	0.5	static_model	34.0,45.0,34.0	34.0,45.0,34.0	1	44	115	160	100	0
+116	Black Wolf	wolf.abc	0.5	static_model	34.0,45.0,34.0	34.0,45.0,34.0	1	44	115	160	100	0
+120	Dwarven Guard	dwarf.abc	1.0	static_model1	14.0,24.0,14.0	14.0,24.0,14.0	1	36	123	70	75	75
+121	Dwarven Soldier	dwarf.abc	1.0	static_model1	14.0,24.0,14.0	14.0,24.0,14.0	1	36	123	75	78	78
+122	Dwarven Commander	dwarf.abc	1.0	static_model1	14.0,24.0,14.0	14.0,24.0,14.0	1	36	123	80	82	82
+123	Initiate	monk.abc	1.0	static_model	11.0,36.0,11.0	11.0,36.0,11.0	0	28	184	157	44	0
+124	Monk	monk.abc	1.0	static_model	11.0,36.0,11.0	11.0,36.0,11.0	0	28	184	157	44	0
+125	Reverend Monk	monk.abc	1.0	static_model	11.0,36.0,11.0	11.0,36.0,11.0	0	28	184	157	44	0
+129	Horde Grunt	ClanSoldier.abc	1.0	clansetup02	15.0,38.0,15.0	15.0,38.0,15.0	0	38	195	155	58	0
+130	Horde Warrior	ClanSoldier.abc	1.0	clansetup02	15.0,38.0,15.0	15.0,38.0,15.0	0	38	195	155	58	0
+131	Horde Leader	ClanSoldier.abc	1.0	clansetup02	15.0,38.0,15.0	15.0,38.0,15.0	0	38	195	155	58	0
+135	Skeleton	skeleton.abc	1.0	static_model	15.0,35.0,15.0	15.0,35.0,15.0	1	38	179	170	60	0
+136	Skeleton Warrior	skeletonwarrior.abc	1.0	static_model	15.0,37.0,15.0	15.0,37.0,15.0	1	38	189	185	65	0
+137	Skeleton Master	skeletonwarrior.abc	1.0	static_model	15.0,37.0,15.0	15.0,37.0,15.0	1	38	189	200	70	0
+138	Shadow	ghost.abc	1.8	ghoststatic	12.0,32.0,12.0	12.0,32.0,12.0	1	55	295	128	64	0
+139	Apparition	ghost.abc	1.8	ghoststatic	12.0,32.0,12.0	12.0,32.0,12.0	1	55	295	128	64	0
+140	Specter	ghost.abc	1.8	ghoststatic	12.0,32.0,12.0	12.0,32.0,12.0	1	55	295	128	64	0
+144	Canopic Mummy	Mummy.abc	1.0	static_model	12.0,35.0,12.0	12.0,35.0,12.0	1	31	179	171	72	0
+145	Embalmed Mummy	Mummy.abc	1.0	static_model	12.0,35.0,12.0	12.0,35.0,12.0	1	31	179	171	72	0
+146	Petrified Mummy	Mummy.abc	1.0	static_model	12.0,35.0,12.0	12.0,35.0,12.0	1	31	179	171	72	0
+147	Dagrell	dagrell.abc	1.0	static_model	25.0,29.0,25.0	25.0,29.0,25.0	0	64	148	220	60	0
+148	Venomous Dagrell	dagrell.abc	1.0	static_model	25.0,29.0,25.0	25.0,29.0,25.0	0	64	148	220	60	0
+149	Spectre Dagrell	dagrell.abc	1.0	static_model	25.0,29.0,25.0	25.0,29.0,25.0	0	64	148	220	60	0
+150	Basilisk	basilisk.abc	1.0	static_model1	45.0,21.0,45.0	45.0,21.0,45.0	1	115	108	160	100	0
+151	Fibrase Basilisk	basilisk.abc	1.0	static_model1	45.0,21.0,45.0	45.0,21.0,45.0	1	115	108	160	100	0
+152	King Basilisk	basilisk.abc	1.0	static_model1	45.0,21.0,45.0	45.0,21.0,45.0	1	115	108	160	100	0
+153	Baron	Nobleman.abc	1.0	stand	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	154	62	0
+154	Viscount	Nobleman.abc	1.0	stand	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	154	62	0
+155	Count	Nobleman.abc	1.0	stand	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	154	62	0
+156	Evil Apprentice	EvilSorcerer.abc	1.0	static_model	15.0,37.0,15.0	15.0,37.0,15.0	1	38	189	182	66	0
+157	Evil Sorcerer	EvilSorcerer.abc	1.0	static_model	15.0,37.0,15.0	15.0,37.0,15.0	1	38	189	182	66	0
+158	Evil Grand Sorcerer	EvilSorcerer.abc	1.0	static_model	15.0,37.0,15.0	15.0,37.0,15.0	1	38	189	182	66	0
+159	Winged Oddity	WingedMutant.abc	1.0	static_model	18.0,26.0,18.0	18.0,26.0,18.0	1	46	133	200	120	0
+160	Winged Mutant	WingedMutant.abc	1.0	static_model	18.0,26.0,18.0	18.0,26.0,18.0	1	46	133	200	120	0
+161	Winged Aberration	WingedMutant.abc	1.0	static_model	18.0,26.0,18.0	18.0,26.0,18.0	1	46	133	200	120	0
+162	Fright	banshee.abc	1.0	bansetup	20.0,30.0,20.0	20.0,30.0,20.0	1	51	154	128	64	0
+163	Dread	banshee.abc	1.0	bansetup	20.0,30.0,20.0	20.0,30.0,20.0	1	51	154	128	64	0
+164	Terror	banshee.abc	1.0	bansetup	20.0,30.0,20.0	20.0,30.0,20.0	1	51	154	128	64	0
+165	Trellborg	trellborg.abc	1.0	setup	20.0,43.0,20.0	20.0,43.0,20.0	1	51	220	160	80	0
+166	Kin Trellborg	trellborg.abc	1.0	setup	20.0,43.0,20.0	20.0,43.0,20.0	1	51	220	160	80	0
+167	Ancient Trellborg	trellborg.abc	1.0	setup	20.0,43.0,20.0	20.0,43.0,20.0	1	51	220	160	80	0
+168	Jellyspore	jellyspore.abc	1.0	jellysetup	16.0,26.0,16.0	16.0,26.0,16.0	1	41	133	267	144	0
+169	Gelatinous Spore	jellyspore.abc	1.0	jellysetup	16.0,26.0,16.0	16.0,26.0,16.0	1	41	133	267	148	0
+170	Nettle Spore	jellyspore.abc	1.0	jellysetup	16.0,26.0,16.0	16.0,26.0,16.0	1	41	133	267	153	0
+171	Gezzamptling	gezzampt.abc	1.0	gezzexport	20.0,50.0,20.0	20.0,50.0,20.0	1	51	256	300	120	0
+172	Gezzampt	gezzampt.abc	1.0	gezzexport	20.0,50.0,20.0	20.0,50.0,20.0	1	51	256	350	140	0
+173	Gezzampt Elder	gezzampt.abc	1.0	gezzexport	20.0,50.0,20.0	20.0,50.0,20.0	1	51	256	450	180	0
+174	Ghast	ghoul.abc	1.0	static_model	14.0,37.0,14.0	14.0,37.0,14.0	1	36	189	173	55	0
+175	Ghoul	ghoul.abc	1.0	static_model	14.0,37.0,14.0	14.0,37.0,14.0	1	36	189	173	55	0
+176	Revenant	ghoul.abc	1.0	static_model	14.0,37.0,14.0	14.0,37.0,14.0	1	36	189	173	55	0
+177	Sea Monster Male	seamonster.abc	1.0	static_model	75.0,35.0,75.0	75.0,35.0,75.0	1	192	179	160	60	0
+178	Sea Monster Female	seamonster.abc	1.2	static_model	75.0,35.0,75.0	75.0,35.0,75.0	1	230	215	160	60	0
+180	Rotter	Zombie.abc	1.0	static_model	15.0,35.0,15.0	15.0,35.0,15.0	0	38	179	166	64	0
+181	Dripper	Zombie.abc	1.0	static_model	15.0,35.0,15.0	15.0,35.0,15.0	0	38	179	166	64	0
+182	Zombie	Zombie.abc	1.0	static_model	15.0,35.0,15.0	15.0,35.0,15.0	0	38	179	166	64	0
+183	Skeletoid	skeleton.abc	0.5	static_model	15.0,35.0,15.0	15.0,35.0,15.0	1	19	90	166	48	0
+184	Bone Thrasher	skeleton.abc	0.5	static_model	15.0,35.0,15.0	15.0,35.0,15.0	1	19	90	185	65	0
+185	Skull Thrower	skeleton.abc	0.5	static_model	15.0,35.0,15.0	15.0,35.0,15.0	1	19	90	166	48	0
+186	Honk	honkfemale.abc	1.0	femsetup	12.0,38.0,12.0	12.0,38.0,12.0	1	31	195	190	74	0
+187	Elder Honk	honkmale.abc	1.0	malsetup	12.0,35.0,12.0	12.0,35.0,12.0	0	31	179	190	74	0
+188	Honk Seer	honkmale.abc	1.0	malsetup	12.0,35.0,12.0	12.0,35.0,12.0	0	31	179	190	74	0
+189	Lizard-Orc	lizardorc.abc	1.0	static_model	15.0,32.0,15.0	15.0,32.0,15.0	0	38	164	160	60	0
+190	Lizard-Orc Warrior	lizardorc.abc	1.0	static_model	15.0,32.0,15.0	15.0,32.0,15.0	0	38	164	160	60	0
+191	Lizard-Orc Mage	lizardorc.abc	1.0	static_model	15.0,32.0,15.0	15.0,32.0,15.0	0	38	164	160	60	0
+192	Skeleton	skeleton.abc	1.0	static_model	15.0,35.0,15.0	15.0,35.0,15.0	1	38	179	170	60	0
+195	Bloodsucker	nosferatu.abc	1.0	static_model	12.0,33.0,12.0	12.0,33.0,12.0	1	31	169	176	68	0
+196	Annelid	nosferatu.abc	1.0	static_model	12.0,33.0,12.0	12.0,33.0,12.0	1	31	169	176	68	0
+197	Vampir	nosferatu.abc	1.0	static_model	12.0,33.0,12.0	12.0,33.0,12.0	1	31	169	176	68	0
+198	Bigfoot	bigfoot.abc	1.0	static_model	20.0,47.0,20.0	20.0,47.0,20.0	0	51	241	163	56	0
+199	Sasquatch	bigfoot.abc	1.0	static_model	20.0,47.0,20.0	20.0,47.0,20.0	0	51	241	165	56	0
+200	Yeti	bigfoot.abc	1.0	static_model	20.0,47.0,20.0	20.0,47.0,20.0	0	51	241	165	56	0
+204	Plain Giant	Giant.ABC	1.0	giantstatic	60.0,165.0,60.0	60.0,165.0,60.0	1	154	845	650	233	0
+205	Forest Giant	Giant.ABC	1.0	giantstatic	60.0,165.0,60.0	60.0,165.0,60.0	1	154	845	650	233	0
+206	Yanmir	Yanmir.ABC	1.0	stand	60.0,187.0,60.0	60.0,187.0,60.0	1	154	957	650	233	0
+207	Lich	lich.abc	1.2	static_model1	10.0,35.0,10.0	10.0,35.0,10.0	1	31	215	176	79	0
+208	Power Lich	lich.abc	1.2	static_model1	10.0,35.0,10.0	10.0,35.0,10.0	1	31	215	176	79	0
+209	Lich King	lichking.abc	1.35	static_model	12.0,30.0,12.0	12.0,30.0,12.0	1	41	207	176	79	0
+212	Dragon King	dragon.abc	1.0	gdsetup01	200.0,332.0,200.0	200.0,332.0,200.0	1	512	1700	400	300	0
+216	Honk	honkmale.abc	1.0	malsetup	12.0,35.0,12.0	12.0,35.0,12.0	0	31	179	190	74	0
+217	Elder Honk	honkfemale.abc	1.0	femsetup	12.0,38.0,12.0	12.0,38.0,12.0	1	31	195	190	74	0
+227	Fish	fish.abc	1.0	swim	10.0,16.0,16.0	10.0,16.0,16.0	1	41	82	160	60	0
+228	Eye	EvileyeTerror.abc	1.0	static_model1	20.0,51.0,20.0	20.0,51.0,20.0	1	51	261	267	144	0
+229	Orbus	EvileyeTerror.abc	1.0	static_model1	20.0,51.0,20.0	20.0,51.0,20.0	1	51	261	267	148	0
+230	Oculus	EvileyeTerror.abc	1.0	static_model1	20.0,51.0,20.0	20.0,51.0,20.0	1	51	261	267	153	0
+234	Colloidal Soldier	ColloidalWarrior.abc	1.5	static_model	35.0,40.0,35.0	35.0,40.0,35.0	1	134	307	177	63	0
+235	Colloidal Warrior	ColloidalWarrior.abc	1.75	static_model	35.0,40.0,35.0	35.0,40.0,35.0	1	157	358	177	63	0
+236	Colloidal Guardian	ColloidalWarrior.abc	2.0	static_model	35.0,40.0,35.0	35.0,40.0,35.0	1	179	410	177	63	0
+237	Amphibious Terror	Terror.abc	1.0	static_model	25.0,50.0,25.0	25.0,50.0,25.0	1	64	256	256	160	160
+238	Desert Terror	Terror.abc	1.0	static_model	25.0,50.0,25.0	25.0,50.0,25.0	1	64	256	256	175	175
+239	Reptilian Terror	Terror.abc	1.0	static_model	25.0,50.0,25.0	25.0,50.0,25.0	1	64	256	256	190	190
+241	Lesser Demon	stage1demon.abc	1.0	clopsetup	25.0,51.0,25.0	25.0,51.0,25.0	1	64	261	179	65	0
+242	Greater Demon	stage2demon.abc	1.0	skullsetup	28.0,67.0,28.0	28.0,67.0,28.0	1	72	343	179	65	0
+244	MagreebBaby	Magreeb.abc	0.7	static_model	30.0,35.0,30.0	30.0,35.0,30.0	1	54	125	220	60	0
+252	Forad Darre	ForadDarre.abc	1.0	ForadDarre	12.0,34.0,12.0	12.0,34.0,12.0	0	31	174	154	62	0
+254	Yrsa the Troll	Yrsa.abc	1.0	static	12.0,34.0,12.0	12.0,34.0,12.0	1	31	174	180	76	0
+258	Bori	sheep.abc	1.0	sheepsetup01	22.0,20.0,22.0	22.0,20.0,22.0	1	56	102	40	64	0
+259	Ratatosk	sheep.abc	1.0	sheepsetup01	22.0,20.0,22.0	22.0,20.0,22.0	1	56	102	40	64	0
+261	Njam the Meddler	Njam.abc	1.5	Njam	12.0,34.0,12.0	12.0,34.0,12.0	1	46	261	154	62	0
+262	The Great Honk	goose.abc	1.5	stand	10.0,16.0,15.0	10.0,16.0,15.0	1	58	123	40	64	0
+267	Cow	cow.abc	1.0	static_model	15.0,26.0,35.0	15.0,26.0,35.0	0	90	133	160	80	0
+268	Goat	goat.abc	1.0	static_model	17.0,17.0,17.0	17.0,17.0,17.0	1	44	87	160	60	0
+269	Hen	hen.abc	1.0	static_model	10.0,11.2,10.0	10.0,11.2,10.0	1	26	58	40	64	0
+270	Rooster	rooster.abc	1.0	static_model	10.0,15.0,10.0	10.0,15.0,10.0	1	26	77	40	64	0
+271	Pig	pig.abc	1.0	static_model	10.0,7.0,10.0	10.0,7.0,10.0	1	26	36	40	64	0
+272	Ewe	sheep.abc	1.0	sheepsetup01	22.0,20.0,22.0	22.0,20.0,22.0	1	56	102	40	64	0
+273	Ram	ram.abc	1.0	sheepsetup02	22.0,20.0,22.0	22.0,20.0,22.0	1	56	102	40	64	0
+276	Magreeb Spawn	Magreeb.abc	1.0	static_model	30.0,35.0,30.0	30.0,35.0,30.0	1	77	179	220	60	0
+277	Magreeb	Magreeb.abc	1.5	static_model	30.0,35.0,30.0	30.0,35.0,30.0	1	115	269	220	60	0
+278	Armored Magreeb	Magreeb.abc	1.75	static_model	30.0,35.0,30.0	30.0,35.0,30.0	1	134	314	220	60	0
+293	Goose	goose.abc	1.0	stand	10.0,16.0,15.0	10.0,16.0,15.0	1	38	82	40	64	0
+294	cat	cat.abc	2.5	static_model	5.0,10.0,5.0	5.0,10.0,5.0	1	32	128	40	64	0
+295	dog	dog.abc	1.0	static_model	19.0,19.0,19.0	19.0,19.0,19.0	1	49	97	40	64	0
+297	Brown Cow	cow.abc	1.0	static_model	15.0,26.0,35.0	15.0,26.0,35.0	0	90	133	160	80	0
+299	mouse	mouse.abc	1.0	stand	3.0,1.0,3.0	3.0,1.0,3.0	1	8	5	40	64	0
+300	evil mouse	mouse.abc	1.0	stand	3.0,1.0,3.0	3.0,1.0,3.0	1	8	5	40	64	0
+301	Ebora	ebora.abc	1.0	static_model00	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	200	120	0
+302	Concubine	ebora.abc	1.0	static_model00	15.0,36.0,15.0	15.0,36.0,15.0	1	38	184	200	120	0

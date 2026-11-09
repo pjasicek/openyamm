@@ -12,6 +12,7 @@
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
+#include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/SpellTable.h"
@@ -293,12 +294,27 @@ std::string spellWorldUnavailableText(SpellId spellId, bool indoorMap)
     }
 }
 
-std::optional<std::string> spellWorldAvailabilityFailure(SpellId spellId, bool indoorMap)
+// Whether the map's spells follow the indoor rules: every map but one open to the sky (an outdoor map, or a BLV its
+// world declares open: IGameplayWorldRuntime::isOpenAirMap).
+bool spellsIndoors(const IGameplayWorldRuntime &worldRuntime)
 {
-    if ((indoorMap && isSpellOutdoorOnly(spellId))
-        || (!indoorMap && isSpellIndoorOnly(spellId)))
+    return !worldRuntime.isOpenAirMap();
+}
+
+// The outdoor spells work on a map open to the sky, the indoor ones elsewhere. Fly also needs an outdoor map's
+// flight, which a BLV open to the sky has not; MM9's Fleet Foot in Fly's slot works anywhere.
+std::optional<std::string> spellWorldAvailabilityFailure(
+    const Party &party,
+    SpellId spellId,
+    const IGameplayWorldRuntime &worldRuntime)
+{
+    const bool indoors = spellsIndoors(worldRuntime);
+    const bool noFlight = spellId == SpellId::Fly && worldRuntime.isIndoorMap();
+
+    if (((indoors || noFlight) && isSpellOutdoorOnly(spellId) && !castsFleetFoot(party, spellIdValue(spellId)))
+        || (!indoors && isSpellIndoorOnly(spellId)))
     {
-        return spellWorldUnavailableText(spellId, indoorMap);
+        return spellWorldUnavailableText(spellId, indoors || noFlight);
     }
 
     return std::nullopt;
@@ -494,7 +510,8 @@ float secondsFromMinutes(float minutes)
     return minutes * 60.0f;
 }
 
-std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillMastery mastery)
+// With a party, the spell as its world casts it (MM9's Fleet Foot in Fly's slot); without, as the engine's.
+std::optional<BackendSpellRule> resolveBackendSpellRule(const Party *pParty, uint32_t spellId, SkillMastery mastery)
 {
 
     switch (spellIdFromValue(spellId))
@@ -569,7 +586,7 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return makeBackendSpellRule(
                 PartySpellCastTargetKind::None,
                 PartySpellCastEffectKind::PartyBuff,
-                PartyBuffId::Fly);
+                pParty != nullptr && castsFleetFoot(*pParty, spellId) ? PartyBuffId::FleetFoot : PartyBuffId::Fly);
         case SpellId::Starburst:
             return makeBackendSpellRule(PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile);
         case SpellId::Awaken:
@@ -847,7 +864,7 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return makeBackendSpellRule(
                 PartySpellCastTargetKind::None,
                 PartySpellCastEffectKind::PartyBuff,
-                PartyBuffId::Fly);
+                pParty != nullptr && castsFleetFoot(*pParty, spellId) ? PartyBuffId::FleetFoot : PartyBuffId::Fly);
         case SpellId::WingBuffet:
             return makeBackendSpellRule(PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect);
         default:
@@ -1449,7 +1466,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             Engine::tr("Not skilled enough"));
     }
 
-    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(request.spellId, skillMastery);
+    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(&party, request.spellId, skillMastery);
 
     if (!rule)
     {
@@ -1624,10 +1641,10 @@ PartySpellCastResult PartySpellSystem::castSpell(
     const SpellId spellId = spellIdFromValue(request.spellId);
     // Sunray indoors where the rules allow it (MAW), at any hour; outdoors it keeps its daylight check.
     const bool sunrayIndoors =
-        spellId == SpellId::Sunray && worldRuntime.isIndoorMap() && party.rules().spells.sunrayWorksIndoors();
+        spellId == SpellId::Sunray && spellsIndoors(worldRuntime) && party.rules().spells.sunrayWorksIndoors();
     const std::optional<std::string> worldAvailabilityFailure = sunrayIndoors
         ? std::nullopt
-        : spellWorldAvailabilityFailure(spellId, worldRuntime.isIndoorMap());
+        : spellWorldAvailabilityFailure(party, spellId, worldRuntime);
 
     if (worldAvailabilityFailure.has_value())
     {
@@ -1879,10 +1896,15 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 Engine::tr(HostileCreaturesNearbyText));
         }
 
-        const float durationSeconds =
-            spellRules.partyBuffSeconds(party, request.spellId, skillLevel, skillMastery, request.fromScroll)
-                .value_or(resolvePartyBuffDurationSeconds(request.spellId, skillLevel, skillMastery));
-        const int power = resolvePartyBuffPower(request.spellId, skillLevel, skillMastery);
+        // MM9's Fleet Foot keeps MM9's numbers whatever the ruleset does with Fly.
+        const bool fleetFoot = rule->partyBuffId == PartyBuffId::FleetFoot;
+        const float durationSeconds = fleetFoot
+            ? fleetFootDurationSeconds(skillLevel, skillMastery)
+            : spellRules.partyBuffSeconds(party, request.spellId, skillLevel, skillMastery, request.fromScroll)
+                  .value_or(resolvePartyBuffDurationSeconds(request.spellId, skillLevel, skillMastery));
+        const int power = fleetFoot
+            ? fleetFootSpeedPercent(skillMastery)
+            : resolvePartyBuffPower(request.spellId, skillLevel, skillMastery);
 
         if (spellId == SpellId::DayOfProtection
             || spellId == SpellId::HourOfPower
@@ -2968,6 +2990,17 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     continue;
                 }
 
+                // No farther than the party's shots reach (Souldrinker's sight reaches 10240 otherwise).
+                const float deltaX = actor.preciseX - sourceX;
+                const float deltaY = actor.preciseY - sourceY;
+                const float deltaZ = actor.preciseZ - footZ;
+
+                if (std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ) - float(actor.radius)
+                    > worldRuntime.partyHitReach())
+                {
+                    continue;
+                }
+
                 if (areaSpellAffectsVisibleCreatures(spellId))
                 {
                     const float actorTargetZ =
@@ -3093,7 +3126,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
     if (request.spendMana)
     {
         party.spendSpellPoints(request.casterMemberIndex, static_cast<int>(result.manaCost));
-        spellRules.afterCast(party, request.casterMemberIndex, request.spellId, spellTable, worldRuntime.isIndoorMap(),
+        spellRules.afterCast(party, request.casterMemberIndex, request.spellId, spellTable, spellsIndoors(worldRuntime),
             !request.quickCast);
     }
 
@@ -3113,7 +3146,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
         pStatistics != nullptr && !party.isHirelingCombatant(request.casterMemberIndex))
     {
         const StatMemberRef caster = party.statsMember(request.casterMemberIndex);
-        pStatistics->recordSpellCast(caster, spellRules.spellName(*pCaster, *pSpellEntry),
+        pStatistics->recordSpellCast(caster, partySpellName(&party, *pCaster, *pSpellEntry),
             request.spendMana ? result.manaCost : 0, request.fromScroll);
         pStatistics->recordHealing(caster, uint64_t(std::max(0, healedTotal)));
 
@@ -3148,7 +3181,7 @@ std::optional<uint32_t> PartySpellSystem::manaCost(
         return std::nullopt;
     }
 
-    if (!resolveBackendSpellRule(spellId, skillMastery))
+    if (!resolveBackendSpellRule(&party, spellId, skillMastery))
     {
         return std::nullopt;
     }
@@ -3524,9 +3557,17 @@ std::optional<size_t> PartySpellSystem::quickCastCharacterTarget(
     return target;
 }
 
+std::optional<PartyBuffId> PartySpellSystem::partyBuffOfSpell(const Party &party, uint32_t spellId)
+{
+    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(&party, spellId, SkillMastery::Grandmaster);
+    return rule && rule->effectKind == PartySpellCastEffectKind::PartyBuff
+        ? std::optional<PartyBuffId>(rule->partyBuffId)
+        : std::nullopt;
+}
+
 std::optional<PartySpellDescriptor> PartySpellSystem::describeSpell(uint32_t spellId)
 {
-    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(spellId, SkillMastery::Grandmaster);
+    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(nullptr, spellId, SkillMastery::Grandmaster);
 
     if (!rule)
     {
@@ -3537,6 +3578,27 @@ std::optional<PartySpellDescriptor> PartySpellSystem::describeSpell(uint32_t spe
     descriptor.spellId = spellId;
     descriptor.targetKind = rule->targetKind;
     descriptor.effectKind = rule->effectKind;
+
+    if (rule->effectKind == PartySpellCastEffectKind::PartyBuff)
+    {
+        descriptor.partyBuff = rule->partyBuffId;
+    }
+
     return descriptor;
+}
+
+bool PartySpellSystem::worldAllowsSpell(const Party &party, const IGameplayWorldRuntime &worldRuntime, uint32_t spellId)
+{
+    const SpellId spell = spellIdFromValue(spellId);
+    const bool sunrayIndoors =
+        spell == SpellId::Sunray && spellsIndoors(worldRuntime) && party.rules().spells.sunrayWorksIndoors();
+
+    if (!sunrayIndoors && spellWorldAvailabilityFailure(party, spell, worldRuntime))
+    {
+        return false;
+    }
+
+    return spell != SpellId::Sunray || sunrayIndoors
+        || (worldRuntime.currentHour() >= 5 && worldRuntime.currentHour() < 21);
 }
 }

@@ -496,17 +496,11 @@ public:
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const;
     bool ensureTownPortalDestinationsLoaded();
     bool ensureDimensionDoorDestinationsLoaded();
-    // The next Dimension Door overlay offers its destinations before the Cross Continents quest does (an event's
-    // evt.OpenDimensionDoor(true)); the spell and the HUD button open it with the quest's gate.
-    void setDimensionDoorWithoutQuest(bool withoutQuest);
-    bool shouldTownPortalCastOpenDimensionDoor() const;
-    bool openDimensionDoorOverlay(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        // Empty: "Choose Dimension Door destination".
-        const std::string &statusText = {});
     const std::string &townPortalBackgroundTextureName() const;
     const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
+    const std::vector<GameplayTownPortalContinent> &townPortalContinents() const;
+    size_t townPortalContinentIndex() const;
+    void selectTownPortalContinent(size_t continentIndex);
     std::string resolveMapLocationName(const std::string &mapFileName) const;
     float measureHudTextWidth(const std::string &fontName, const std::string &text) const;
     int hudFontHeight(const std::string &fontName) const;
@@ -587,7 +581,6 @@ private:
     void leaveHouseEntryAudio(bool playDoorSound);
 
     mutable CombatActorHealthBarRuntime m_enemyHealthBars;
-    bool m_dimensionDoorWithoutQuest = false;
     GameSession &m_session;
     GameAudioSystem *m_pAudioSystem = nullptr;
     uint32_t m_activeHouseAudioHostId = 0;

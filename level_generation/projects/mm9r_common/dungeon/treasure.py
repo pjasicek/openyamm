@@ -354,7 +354,7 @@ def apply(build, scene: dict) -> None:
     # --- selection ---------------------------------------------------------------------------------------------------
     bonus_spots = [c for c in candidates if c["secret"] or c["boss"]]
     hand = [dict(point=_xyz(p["at"]), cls=p.get("class", "main")) for p in hints.get("place") or []]
-    wanted = data.class_counts(max(0, count - len(hand)), bool(bonus_spots))
+    wanted = data.class_counts(stem, max(0, count - len(hand)), bool(bonus_spots))
     gap = REGION_STASH_GAP if outdoor else STASH_GAP
     chosen = [dict(point=p["point"], cls=p["cls"], sector=None, stash=None, reasons=["hand-placed"]) for p in hand]
     per_sector = Counter()

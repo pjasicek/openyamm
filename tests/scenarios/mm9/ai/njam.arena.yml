@@ -1,0 +1,30 @@
+# AI arena: Njam the Meddler (MM9_MONSTER_AI_PLAN.md phase 5, worlds/mm9/behaviors/njam.lua) on thearena.blv.
+# Monster 0 runs Njam1000.scr (SpawnNjam's spawn in the 1000 Terrors): he hunts the party at once, no physical blow
+# hurts him, and once spells bring his hit points below his rolled threshold (1 500-4 500) he vanishes. Monster 1 runs
+# NjamChase.scr: he stands until the map's Chase trigger (here at 12 s), then hunts the party too. Monster 2 runs
+# NjamFreeze.scr, a cut-scene actor: he never fights. See README.md.
+name: mm9_njam
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -5
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9261
+    position: [0, 500, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: njam1000.scr}
+  - monster_id: 9261
+    position: [-700, 700, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: njamchase.scr}
+  - monster_id: 9261
+    position: [700, 700, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, script: njamfreeze.scr}
+events:
+  - {at: 12, trigger: [1, Chase], note: NjamChase.scr's Chase (the map's trigger)}

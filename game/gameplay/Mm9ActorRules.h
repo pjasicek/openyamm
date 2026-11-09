@@ -184,15 +184,21 @@ struct Mm9PartyAwareness
     bool sightAllRound = false;
     // Its placement's sight times this.
     float sightScale = 1.0f;
+    // Its sight before contact goes no farther than this (0: no limit). MM9: 4275, its 3800 engagement range and
+    // 12.5 % more, as MM6-MM8's outdoor full-AI range (5632) passes their yellow alert (5120).
+    float sightMax = 0.0f;
     // A party hit from at most this far provokes it: it holds the party as far as this, wherever the party is, until
     // it loses it. A party hit from farther makes it take no target. 0: MM9's rule (every hit is a reason to take
     // the attacker, which it keeps only within its doubled sight).
+    // A provoking hit provokes too its awake friends within provokeRadius that it sees, so a friend beside it comes
+    // even without perceiving the party (IndoorWorldRuntime::provokeMm9Actors).
     float provokeRange = 0.0f;
-    // A provoking hit provokes its awake friends within this distance of it too (0: none).
+    // The provoked friends' distance from it, centre to centre (0: its own alert radius, Mm9AiProfile::alertRadius).
+    // A map's scene actor_detection provoke_radius wins over both.
     float provokeRadius = 0.0f;
 };
 
-// The placement as its senses find the party: sight scaled. A dormant start keeps MM9's senses.
+// The placement as its senses find the party: sight scaled, at most sightMax. A dormant start keeps MM9's senses.
 Mm9AiPlacement mm9PartySenses(const Mm9AiPlacement &placement, const Mm9PartyAwareness &awareness, bool dormant);
 
 // Whether the party counts as in front of it: always with all-round sight, unless it is dormant.

@@ -1,0 +1,299 @@
+# DRAFT: MAW monster level bands for the 44 MM9 (Chedian) maps, in rulesets/maw/data/map_levels.yml's format.
+# Not installed. Scale: MAW's own MM6-MM8 bands (start 3-6, early regions 10-20, middle 20-45, late 45-70, last
+# dungeons 80-100), with MM9's acts placed on the MAW bands of the MM7 stage the MM9 balance equates them with
+# (devdocs/mm9_rework/BALANCE_PLAN.md section 1: acts at party levels 6/17/33/51/64 against MM7's 6/21/37/54/68).
+# Natives = B rows of the map_stats encounter pictures (columns Mon1-3 Pic), sorted by B level into low/mid/high;
+# other families are pulled halfway into [low, high]. Each comment: standard act, MM9 original level range
+# (INVENTORY.md), natives -> slots, and the resulting B levels 'free / horizontal' for a party with no banks
+# (simulated from resolveMawMonsterLevels; * = native). Cities have no encounter pictures, so the Progress tab skips
+# them; their band only sets the loot/drop fallback and any scripted spawns.
+
+bands:
+  # Ravensford: tutorial (no act); MM9 original 7 monsters, levels 1–50.
+  #   Ravensford tutorial (MM9 start, world.yml). Only 5 Lobbers placed; no encounter pictures, so no Progress card
+  #   entry. bolster_maps row 9080 (continent 5, no bolster) added 2026-11-09.
+  #   levels: Lobber B2 x5 -> 2/2
+  bootcamp.blv: [1, 1, 2]
+  # Isle of Ashes: act 1 prologue, standard party level 6; MM9 original 46 monsters, levels 2–65.
+  #   natives: Dragonfly B3, Skeleton B3.
+  #   Start island like out01 [3,4,4] / 7out01 [4,4,4]. Jellyspores are swimmers; Lich King and Sea Monster are lone
+  #   set pieces, pulled halfway down into the band.
+  #   levels: Skull Thrower B2 x3 -> 2/2; Dragonfly* B3 x26 -> 3/3; Skeleton* B3 x33 -> 4/4; Jellyspore B20 x10 ->
+  #   12/12; Lich King B65 x1 -> 34/34; Sea Monster B70 x1 -> 37/37
+  isleofashes.blv: [3, 3, 4]
+  # Sturmford City: act 1 prologue, standard party level 6; MM9 original 0 monsters, levels –.
+  #   CITY, no monsters. Band only sets the drop/chest level fallback (mapDropLevel); same as its region.
+  #   levels: none hostile
+  sturmfordcity.blv: [4, 6, 9]
+  # Sturmford: act 1 prologue, standard party level 6; MM9 original 56 monsters, levels 2–25.
+  #   natives: Dragonfly B3, Thrall B12.
+  #   Harmondale's role (7out02 [6,11.5,17]) at MM9's smaller act-1 scale; Basilisks (B23) stay a step above the band
+  #   (16).
+  #   levels: Dragonfly* B3 x58 -> 4/5; Thrall* B12 x33 -> 9/10; Jellyspore B20 x5 -> 14/27; Basilisk B23 x6 -> 16/31
+  sturmford.blv: [4, 6, 9]
+  # Beet Hoven: act 1 prologue, standard party level 6; MM9 original 82 monsters, levels 3–16.
+  #   natives: Skeleton B3, Zombie B13.
+  #   Sewers under Sturmford City, the first dungeon (MM6 sewer [4,10,12], d05 [5,6,7]). Horizontal starter.
+  #   levels: Lobber B2 x26 -> 4/4; Skeleton* B3 x98 -> 5/5; Icky B11 x14 -> 10/10; Zombie* B13 x18 -> 10/10
+  beethoven.blv: [5, 7, 10]
+  # Anskram Keep: act 1 prologue, standard party level 6; MM9 original 47 monsters, levels 4–19.
+  #   natives: Imp B6, Nagate B10.
+  #   Act 1 story dungeon, Castle Harmondale's role (7d29 [5,6,6]) one step later. Horizontal starter.
+  #   levels: Imp* B6 x49 -> 7/7; Nagate* B10 x32 -> 12/12; Icky B11 x5 -> 11/11
+  anskramkeep.blv: [7, 9, 12]
+  # Drangheim City: act 2 early clans, standard party level 17; MM9 original 1 monsters, levels 22–22.
+  #   CITY, no monsters (exit to Kluso's House). Band = its region's.
+  #   levels: none hostile
+  drangheimcity.blv: [9, 12, 15]
+  # Drangheim: act 2 early clans, standard party level 17; MM9 original 32 monsters, levels 5–22.
+  #   natives: Dragonfly B3, Thrall B12, Highwayman B14.
+  #   Second region; three natives fill low/mid/high. Ravenshore's role (out02 [14,14,17]) slightly lower.
+  #   levels: Dragonfly* B3 x7 -> 9/18; Thrall* B12 x18 -> 12/21; Highwayman* B14 x7 -> 15/24
+  drangheim.blv: [9, 12, 15]
+  # Drangheim Prison: act 2 early clans, standard party level 17; MM9 original 72 monsters, levels 6–33.
+  #   natives: Nagate B10, Guard B19.
+  #   Story dungeon (Ivsar). Hostiles are 50 Nagates (low slot); the guards are peaceful until the alarm and take the
+  #   high slot.
+  #   levels: Nagate* B10 x50 -> 12/24
+  drangheimprison.blv: [12, 14, 17]
+  # Kluso's House: act 2 late side dungeon, measured at the war's party level 51; MM9 original 20 monsters, levels 33–65.
+  #   natives: Guard B19.
+  #   Assassin promotion; 19 sleeping guards (no growth by the user's rule). MM9 originals 33-65; standard places it
+  #   at the war's level. Like d14 [42,42,42].
+  #   levels: Guard* B19 x19 -> 40/97; Nobleman B55 x1 -> 52/120
+  klusoshouse.blv: [40, 44, 48]
+  # Guberland City: act 2 early clans, standard party level 17; MM9 original 0 monsters, levels –.
+  #   CITY, no monsters. Peaceful quest hub (Markel, keg, Orb of Linking bank). Band = region's.
+  #   levels: none hostile
+  guberlandcity.blv: [10, 13, 16]
+  # Guberland: act 2 early clans, standard party level 17; MM9 original 40 monsters, levels 3–25.
+  #   natives: Dragonfly B3, Highwayman B14.
+  #   Peaceful-quest region: Ivan the Smart's trivia, the Gathering games (Whack-a-Honky), Thorir, Nicolai, Atli's
+  #   watch. Light monsters (Dragonflies, Highwaymen).
+  #   levels: Dragonfly* B3 x20 -> 10/20; Highwayman* B14 x16 -> 16/26; Jellyspore B20 x4 -> 18/36
+  guberland.blv: [10, 13, 16]
+  # Thjorgard City: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  #   CITY, no monsters (exit to The Arena). Band = region's.
+  #   levels: none hostile
+  thjorgardcity.blv: [14, 17, 21]
+  # Thjorgard: act 2 clans, standard party level 33; MM9 original 31 monsters, levels 7–50.
+  #   natives: Icky B11, Highwayman B14, Gezzampt B20.
+  #   The Thing's games; Gezzampts on top. Between Guberland and Lindisfarne.
+  #   levels: Icky* B11 x9 -> 14/31; Highwayman* B14 x21 -> 17/34; Jellyspore B20 x4 -> 20/41; Gezzampt* B20 x14 ->
+  #   21/38; Magreeb B22 x1 -> 22/45; MagreebBaby B50 x1 -> 36/80
+  thjorgard.blv: [14, 17, 21]
+  # Thjorad Mine: act 2 early clans, standard party level 17; MM9 original 57 monsters, levels 10–24.
+  #   natives: Imp B6, Troglodyte B17.
+  #   Story dungeon (Sven's mine). All hostiles are Troglodytes (high slot, 18).
+  #   levels: Troglodyte* B17 x77 -> 18/32
+  thjoradmine.blv: [12, 15, 18]
+  # The Arena: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  #   SPECIAL: no placed monsters; Arena fights summon MM9 rows picked by the party's mean level (thearena.lua
+  #   pickMonster). Wide band [1,45,90] keeps every summoned family inside [low, high] (no pull) so free progression
+  #   leaves the picks at their table level plus the party bolster. Not a MAW arena (mawArenaMap is d42/7d05/zarena).
+  #   Left out of madness levels.
+  #   levels: none hostile
+  thearena.blv: [1, 45, 90]
+  # Ta'Sar Academy: act 2 early clans, standard party level 17; MM9 original 20 monsters, levels 11–39.
+  #   natives: Guard B19, Half Orc B24.
+  #   Book of Rules; hostile guards (low slot). The single Venomous Dagrell (B59) is pulled to 40.
+  #   levels: Guard* B19 x17 -> 16/35; Half Orc* B24 x2 -> 22/41; Dagrell B59 x1 -> 40/92
+  tasaracademy.blv: [16, 18, 22]
+  # Lindisfarne: act 2 clans, standard party level 33; MM9 original 26 monsters, levels 18–35.
+  #   natives: Thrall B12, Magreeb B22, Evil Sorcerer B35.
+  #   Open region of act 2 (Thjorad retrieval, Dragon's Lair entrance). Three natives 20/25/32.
+  #   levels: Thrall* B12 x29 -> 20/50; Magreeb* B22 x16 -> 25/54; Evil Sorcerer* B35 x12 -> 32/62
+  lindisfarne.blv: [20, 25, 32]
+  # Lindisfarne Monastery: act 2 clans, standard party level 33; MM9 original 27 monsters, levels 25–50.
+  #   natives: Monk B35.
+  #   Monks are all placed peaceful (Thjorad puzzle, relic quest); band matters only if they are attacked and for
+  #   loot. Monk family alone takes the low slot.
+  #   levels: none hostile
+  lindisfarnemonastery.blv: [24, 28, 32]
+  # Chasm of the Dead: act 2 clans, standard party level 33; MM9 original 173 monsters, levels 10–40.
+  #   natives: Imp B6, Zombie B13, Skeleton Warrior B33.
+  #   Crona Kiga (Drangheim's pledge). Story reaches it right after the prison, but 126 Skeleton Warriors (B33) put it
+  #   with act 2's harder half (standard: party 33). Deferrable: the pledges can be done in any order.
+  #   levels: Skeleton B3 x41 -> 12/20; Imp* B6 x12 -> 20/48; Zombie* B13 x21 -> 24/52; Mummy B30 x39 -> 30/66;
+  #   Skeleton Warrior* B33 x126 -> 30/58
+  chasmofthedead.blv: [20, 24, 30]
+  # Frosgard City: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  #   CITY. No placed monsters, but the finale's Frosgard City battle (Tamur Leng, frosgardcity.lua summon rows
+  #   9129-9131 Horde, 9107 allies) takes this band: Horde B44 lands at 38. Raise to [60,65,70] if that battle should
+  #   be finale-level (chests would then roll higher too).
+  #   levels: none hostile
+  frosgardcity.blv: [24, 28, 32]
+  # Frosgard: act 2 clans, standard party level 33; MM9 original 36 monsters, levels 13–40.
+  #   natives: Gezzampt B20, Bigfoot B28, Wolf B30.
+  #   Northern region: Gezzampt/Bigfoot/Wolf natives. Ice-breaking and Yanmir quests.
+  #   levels: Gezzampt* B20 x15 -> 24/57; Ice Lobber B20 x5 -> 22/46; Bigfoot* B28 x11 -> 28/61; Wolf* B30 x18 ->
+  #   32/65
+  frosgard.blv: [24, 28, 32]
+  # Dungeon of Secrets: act 2 clans, standard party level 33; MM9 original 0 monsters, levels –.
+  #   NO MONSTERS (Chadwick's puzzle, 10,000 XP). Band only for loot level.
+  #   levels: none hostile
+  dungeonofsecrets.blv: [28, 32, 36]
+  # Yanmir's Fort: act 2 clans, standard party level 33; MM9 original 66 monsters, levels 12–70.
+  #   natives: Bigfoot B28, Trellborg B35.
+  #   Frost giant Yanmir (scripted boss, B70 -> 54); Giants B60 -> 49. Act 2 hard end.
+  #   levels: Thrall B12 x19 -> 20/41; Ice Lobber B20 x14 -> 24/51; Bigfoot* B28 x27 -> 28/68; Giant B60 x4 -> 49/114;
+  #   Yanmir B70 x1 -> 54/126
+  yanmirsfort.blv: [28, 32, 38]
+  # Thronheim City: act 2 clans, standard party level 33; MM9 original 1 monsters, levels 50–50.
+  #   CITY. One hostile Terror placed (B50 -> 42). Honkies, Kira's tasks, the war council.
+  #   levels: Terror B50 x1 -> 42/96
+  thronheimcity.blv: [24, 28, 34]
+  # Thronheim: act 2 clans, standard party level 33; MM9 original 44 monsters, levels 15–33.
+  #   natives: Gezzampt B20, Basilisk B23, Nosferatu B33.
+  #   Gezzampt/Basilisk/Nosferatu natives. Inventa Storca and the Connecting Tunnels start here.
+  #   levels: Gezzampt* B20 x19 -> 24/58; Jellyspore B20 x5 -> 22/46; Basilisk* B23 x17 -> 28/62; Nosferatu* B33 x19
+  #   -> 34/68
+  thronheim.blv: [24, 28, 34]
+  # Mountain Pass: act 2 clans, standard party level 33; MM9 original 76 monsters, levels 4–51.
+  #   natives: Imp B6, Wolf B30, Winged Mutant B39.
+  #   Thjorgard-Thronheim pass (Kira's quest). 42 Imps take the low slot at 24.
+  #   levels: Imp* B6 x42 -> 24/60; Gezzampt B20 x7 -> 22/46; Bigfoot B28 x1 -> 28/61; Wolf* B30 x30 -> 30/66; Winged
+  #   Mutant* B39 x26 -> 36/72
+  mountainpass.blv: [24, 30, 36]
+  # Inventa Storca: act 2 clans, standard party level 33; MM9 original 34 monsters, levels 7–65.
+  #   natives: Skeleton B3, Zombie B13, Highwayman B14.
+  #   Encounter pictures are weak (Skeleton/Zombie/Highwayman, 10 actors); its real threat is 10 Liches (B55 -> 48)
+  #   and 2 Lich Kings (-> 52), pulled halfway into the band. Side dungeon.
+  #   levels: Skeleton* B3 x3 -> 28/70; Icky B11 x4 -> 20/40; Highwayman* B14 x3 -> 40/82; Lich B55 x10 -> 48/110;
+  #   Lich King B65 x2 -> 52/122
+  inventastorca.blv: [28, 33, 40]
+  # Dook's Castle: act 2 clans, standard party level 33; MM9 original 47 monsters, levels 15–51.
+  #   natives: Basilisk B23, Half Orc B24, Trellborg B35.
+  #   Markel's Dook quest; Half Orc/Trellborg natives. Side dungeon off Guberland.
+  #   levels: Basilisk* B23 x2 -> 30/73; Half Orc* B24 x21 -> 34/77; Trellborg* B35 x27 -> 40/83; Winged Mutant B39 x6
+  #   -> 39/88
+  dookscastle.blv: [30, 34, 40]
+  # Ruined Temple: act 2 clans, standard party level 33; MM9 original 15 monsters, levels 16–79.
+  #   natives: Skeleton Warrior B33, Dagrell B59.
+  #   Colloidal genie's wish; Dagrells (B59) on top at 42. Side dungeon off Frosgard.
+  #   levels: Skeleton B3 x6 -> 18/35; Skeleton Warrior* B33 x8 -> 32/78; Dagrell* B59 x6 -> 42/88
+  ruinedtemple.blv: [32, 36, 42]
+  # Training Hall: act 2 late side dungeon, measured at the war's party level 51; MM9 original 22 monsters, levels 22–60.
+  #   natives: Ghoul B27, Trellborg B35, Lizard-Orc B60.
+  #   Late side dungeon off Thjorgard (standard: war level). Lizard-Orcs B60 -> 54.
+  #   levels: Ghoul* B27 x17 -> 40/101; Trellborg* B35 x4 -> 46/107; Lizard-Orc* B60 x10 -> 54/115
+  traininghall.blv: [40, 46, 54]
+  # Verhoffin Ruins: act 2 late side dungeon, measured at the war's party level 51; MM9 original 30 monsters, levels 17–65.
+  #   natives: Mummy B30, Banshee B55, Lich B55.
+  #   Writ of Fate (story, act 3), entered from the Isle of Ashes. Banshees mid slot 50; Zombies pulled up to 28.
+  #   levels: Zombie B13 x13 -> 28/62; Skeleton Warrior B33 x7 -> 38/87; Banshee* B55 x22 -> 50/116
+  verhoffinruins.blv: [44, 50, 56]
+  # Lich Lab: act 2 late side dungeon, measured at the war's party level 51; MM9 original 147 monsters, levels 11–79.
+  #   natives: Skeleton Warrior B33, Eye B45, Lich B55.
+  #   Lich promotion; the largest dungeon (172 hostiles). Lich Kings (uniques) at 62.
+  #   levels: Ghoul B27 x2 -> 36/82; Skeleton Warrior* B33 x78 -> 46/115; Eye* B45 x27 -> 52/121; Lich* B55 x27 ->
+  #   58/127; Dagrell B59 x27 -> 58/137; Lich King B65 x11 -> 62/145
+  lichlab.blv: [46, 52, 58]
+  # Connecting Tunnel: act 3 war, standard party level 51; MM9 original 38 monsters, levels 20–79.
+  #   natives: Skeleton Warrior B33, Nosferatu B33, Dagrell B59.
+  #   Thronheim -> Yorwick, the war's first map. Nosferatu/SW/Dagrell 48-58.
+  #   levels: Nosferatu* B33 x28 -> 52/122; Skeleton Warrior* B33 x36 -> 48/118; Dagrell* B59 x23 -> 58/128
+  connectingtunnels.blv: [48, 52, 58]
+  # Yorwick: act 3 war, standard party level 51; MM9 original 48 monsters, levels 20–55.
+  #   natives: Nosferatu B33, Evil Sorcerer B35, Ghost B44.
+  #   War region: Ghosts on top (60). Lich Lab and Wizard's Lab start here.
+  #   levels: Nosferatu* B33 x19 -> 50/123; Evil Sorcerer* B35 x35 -> 54/127; Ghost* B44 x56 -> 60/133
+  yorwick.blv: [50, 54, 60]
+  # Wizard's Lab: act 3 war, standard party level 51; MM9 original 59 monsters, levels 16–75.
+  #   natives: Evil Sorcerer B35, Winged Mutant B39, Eye B45.
+  #   Eyes (60 of them) on top at 62. Side dungeon off Yorwick.
+  #   levels: Skeleton B3 x22 -> 28/60; Evil Sorcerer* B35 x29 -> 52/128; Winged Mutant* B39 x18 -> 57/134; Eye* B45
+  #   x60 -> 62/138; Sea Monster B70 x2 -> 66/156
+  wizardslab.blv: [52, 57, 62]
+  # Dark Passageway: act 3 war, standard party level 51; MM9 original 41 monsters, levels 44–70.
+  #   natives: Ghost B44, Terror B50, Colloidal B60.
+  #   Wyrde's puzzle dungeon (Capstone route), act 3 end.
+  #   levels: Ghost* B44 x45 -> 56/140; Terror* B50 x41 -> 62/146; Banshee B55 x5 -> 56/130; Colloidal* B60 x1 ->
+  #   68/152; Sea Monster B70 x2 -> 69/164
+  darkpassageway.blv: [56, 62, 68]
+  # Arslegard City: act 4 finale, standard party level 64; MM9 original 1 monsters, levels 200–200.
+  #   CITY. Only Njam the Meddler (scripted, B200, vanishes at a share of his HP) -> 135 free / 328 horizontal. The
+  #   band gives the city's loot level and Njam's pull; consider a world: mm9 monster patch for Njam's base level
+  #   instead.
+  #   levels: Njam the Meddler B200 x1 -> 135/328
+  arslegardcity.blv: [60, 65, 70]
+  # The Bathhouse: act 3 war, standard party level 51; MM9 original 15 monsters, levels 15–70.
+  #   natives: Colloidal B60.
+  #   Ebora's Bathhouse (Concubine, scripted boss at 60). Single native Colloidal at 60.
+  #   levels: Jellyspore B20 x17 -> 40/91; Colloidal* B60 x14 -> 60/148; Concubine B60 x3 -> 60/141; Demon B75 x1 ->
+  #   72/172
+  bathhouse.blv: [60, 65, 70]
+  # Temple of Honk: act 4 finale, standard party level 64; MM9 original 10 monsters, levels 70–75.
+  #   natives: Honk B75.
+  #   Honks placed peaceful (congregation, counted when hostile), Elder Honk family at 70-80; Geese (own family, B90)
+  #   -> 85. Optional heist dungeon.
+  #   levels: none hostile
+  templeofhonk.blv: [70, 75, 80]
+  # Hall of the Gods: act 4 finale, standard party level 64; MM9 original 0 monsters, levels –.
+  #   NO HOSTILE MONSTERS (the gods; Great Honk 100 peaceful). Band only for loot level.
+  #   levels: none hostile
+  hallofthegods.blv: [80, 85, 90]
+  # The Afterworld: act 4 finale, standard party level 64; MM9 original 0 monsters, levels –.
+  #   natives: Mummy B30, Horde B44, Banshee B55.
+  #   SPECIAL: no placed hostiles; the Six Fires summon Horde/Zombie/Ghoul bad guys and Banshee allies
+  #   (afterworld.lua), Forad Darre (scripted, B50 -> 62).
+  #   levels: Forad Darre B50 x1 -> 62/147
+  afterworld.blv: [75, 80, 85]
+  # Thousand Terrors: act 4 finale, standard party level 64; MM9 original 114 monsters, levels 11–200.
+  #   natives: Eye B45, Terror B50, Demon B75.
+  #   Tomb of a Thousand Terrors, the final dungeon (Njam). Eye/Terror/Demon 80/88/96, like MAW's last dungeons
+  #   (d35-d39 [85,90,100], hive [80,90,100]).
+  #   levels: Icky B11 x19 -> 46/105; Eye* B45 x62 -> 80/203; Terror* B50 x13 -> 88/211; Sea Monster B70 x2 -> 75/178;
+  #   Demon* B75 x16 -> 96/219
+  1000terrors.blv: [80, 88, 96]
+  # Dragon's Lair: act 4 finale, standard party level 64; MM9 original 2 monsters, levels 39–500.
+  #   SPECIAL optional superboss: the Dragon King (scripted, table B500) -> 300 in free progression (250 if unlisted),
+  #   Winged Mutant spawns -> 64. Decide whether the Dragon King keeps a fixed level (world: mm9 monster patch).
+  #   levels: Dragon King B500 x1 -> 300/741
+  dragonstadium.blv: [90, 95, 100]
+
+# MAW's starters are the start area and its first dungeons (out01+d05, 7out01+7d28+7d06+7d29, oute3+6d01+6d02):
+# horizontal progression keeps them at the free-progression level instead of about 2.5x the band.
+horizontal_starter_maps: [bootcamp.blv, isleofashes.blv, beethoven.blv, anskramkeep.blv]
+
+# Beyond Madness: M = round(500 (position / 34)^1.2) along the route below (MAW's formula, data/map_levels.yml),
+# the two starting maps at 4. Cities (no monsters), Dungeon of Secrets, Hall of the Gods and The Arena are left out
+# (they fall back to the horizontal rules with the party bolster). Route: act 1, the early clans, the clans' other
+# regions with their side dungeons, the late side dungeons, the war, the finale.
+madness:
+  starting_maps: [bootcamp.blv, isleofashes.blv]
+  levels:
+    bootcamp.blv: 4
+    isleofashes.blv: 4
+    sturmford.blv: 27
+    beethoven.blv: 38
+    anskramkeep.blv: 50
+    drangheim.blv: 62
+    drangheimprison.blv: 75
+    guberland.blv: 88
+    thjoradmine.blv: 101
+    thjorgard.blv: 115
+    tasaracademy.blv: 129
+    lindisfarne.blv: 143
+    lindisfarnemonastery.blv: 158
+    chasmofthedead.blv: 172
+    frosgard.blv: 187
+    thronheim.blv: 202
+    mountainpass.blv: 218
+    yanmirsfort.blv: 233
+    inventastorca.blv: 249
+    dookscastle.blv: 265
+    ruinedtemple.blv: 280
+    klusoshouse.blv: 297
+    traininghall.blv: 313
+    verhoffinruins.blv: 329
+    lichlab.blv: 346
+    connectingtunnels.blv: 362
+    yorwick.blv: 379
+    wizardslab.blv: 396
+    darkpassageway.blv: 413
+    bathhouse.blv: 430
+    templeofhonk.blv: 448
+    afterworld.blv: 465
+    1000terrors.blv: 482
+    dragonstadium.blv: 500

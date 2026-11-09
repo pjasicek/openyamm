@@ -173,6 +173,8 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_O, 0}, true},
     {KeyboardAction::Statistics, "statistics", Engine::trNoop("Statistics"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F1, 0}, true},
+    {KeyboardAction::BattleOrders, "battle_orders", Engine::trNoop("Battle Orders"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {}, true},
 }};
 
 const std::array<KeyboardScancodeName, 97> KeyboardScancodeNames = {{

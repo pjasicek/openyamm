@@ -98,7 +98,8 @@ Tunnel Terrors; these still have deliberate visual/role matches rather than plac
 
 Important selection notes:
 
-- Lobbers use the small MM6 Cactus family because they are weak hostile plants, not high-tier Nightmares.
+- Lobbers use the Treant family, the only hostile plant left after the MM6 Cactus rows were retired from the engine
+  tables (they were the small-plant match before). They are weak hostile plants, not high-tier Nightmares.
 - Thralls use the all-male primitive Cyclops family; the former Magyar family was female.
 - Militiamen use the male MM6 leather Bandit family, while the Beldonian Horde uses male MM6 ringmail fighters with
   swords and shields.
@@ -111,6 +112,28 @@ Important selection notes:
 The legacy preview generator resolves both lowercase `palNNN.act` and original mixed-case `PalNNN.act` files. This is
 required for correct MM8 rank colors; missing the mixed-case palettes previously produced misleading magenta previews
 for families such as Trolls and Lizardmen.
+
+## Family tier pictures
+
+Map-stats encounter slots and spawn points resolve a slot picture `<base>` to monsters by the pictures `<base> A`,
+`<base> B` and `<base> C`, as in MM6-MM8. The reviewed family table
+`tools/mm9_import_discovery/mm9_monster_families.yml` groups MM9 rows into such families: an id, a display name and the
+A/B/C tiers as MM9 source numbers. A family is normally one MONSTERS.txt body ordered by level (Dragonfly Mite,
+Dragonfly, Fire Dragonfly become `MM9 Dragonfly A/B/C`, runtime ids 9075-9077); two-row bodies are A/B families. The
+file comments every exception: the five-row skeleton body (spawns use Skeletoid, Bone Thrasher, Skeleton L16), the
+pods and lobbers split by element, the male and female Honk bodies, and the Lesser and Greater Demon pair.
+
+The generator writes `MM9 <family> A|B|C` into the monster_data picture column and the monster_descriptors
+InternalName of family rows; bosses and the remaining rows (Dragon King, Lich King, Njam, Yanmir, Ebora, Skull Thrower,
+Skeleton L40, MagreebBaby, Concubine) keep the unique `MM9 <n> <name>`. Model bindings in
+`assets_dev/worlds/mm9/models/actors.yml` key on these descriptor names, and imported maps place monsters by id.
+
+`tools/mm9_import_discovery/generate_mm9_map_stats_encounters.py` names the families in the MM9 rows of the engine
+`map_stats.txt` (world id `mm9`): each MAPSTATS.txt encounter monster becomes its family picture base, for example
+Isle of Ashes `Skeletoid`/`DragonFlyMite` become `MM9 Skeleton`/`MM9 Dragonfly`. Names match a MONSTERS.txt row
+(case, spaces and punctuation ignored, a repeated name meaning its first row) or a family name; source misspellings are
+listed as `mapstats_aliases`. It changes only the encounter picture and name columns, including MM9's fourth slot in
+the trailing columns, and keeps chances, difficulty and appear ranges. It fails if a MAPSTATS monster has no family.
 
 ## Regeneration
 
@@ -137,7 +160,9 @@ python3 tools/mm9_import_discovery/generate_mm9_monster_tables.py
 ```
 
 Normal `regenerate_mm9_maps.sh` runs the table generator before transcoding and mirrors the tables to the editor world
-unless `--no-editor-copy` is used.
+unless `--no-editor-copy` is used; it then runs `generate_mm9_map_stats_encounters.py` on the engine `map_stats.txt`
+next to the world root. Both tools replace their output files rather than rewriting them in place, so hard-linked
+staging copies keep their own version.
 
 The comparison generator rejects missing or extra source numbers, duplicate mappings, unknown merged actor ids, and
 missing preview images.

@@ -1,0 +1,19 @@
+# AI arena: an MM9 turret (Lobber, 9086: lobber.scr) in The Arena, facing away from a party 1 800 units behind it (out
+# of its hearing and its 180 degree view). It scans by turning; once it notices the party it plays Aware, launches
+# Lobber Pods (9084) while it can lob (its attack ready, fewer than five pods alive), then shoots
+# (MM9_MONSTER_AI_PLAN.md phase 3). See README.md.
+name: mm9_lobber
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  invulnerable: true
+# MM9's own perception of the party (its scan by turning), not the world's actorAwareness.
+party_awareness: mm9
+trace: true
+monsters:
+  - monster_id: 9086
+    position: [0, 900, 1]
+    yaw_degrees: 90

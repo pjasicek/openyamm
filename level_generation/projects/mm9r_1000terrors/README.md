@@ -280,7 +280,7 @@ world's completion) is given in the last step, with the change of level, as befo
 
 - Ambient sounds (28), the torches' and orbs' flicker sounds, the demons' spawn effects, the earthquake.
 - Monster reach in the south halls (above); the Terrors' body: MM9's is radius 64, ours 160-190 from the MM8 Behemoth stand-in rows, so they cannot take the spiral stair (a table decision, not applied); MM9's monster models (the stand-ins draw MM6-MM8 sprites).
-- A density and pack pass (PLAN.md: later); x4 textures last.
+- ~~A density and pack pass~~: done 2026-11-09 (below, "Pack growth"); x4 textures last.
 
 ## Not checked
 
@@ -356,3 +356,52 @@ WeightedLift15 sinks 164 (64 LT).
     -392 through -315 and -238 onto its top at -128, with the stone shut.
   - The playthrough's northbound crossing (segment 61) still passes, with each running jump following the landing at
     once.
+
+## Update 2026-11-09: the lightning corridor's doors stay open; the tomb gate's click
+
+A player's save had the party shut in the treasure room south of the lightning corridor (room_r05, TreasureChest9),
+whose only way out is MiddleDoor4. MiddleDoor4/5 lock themselves as they open and as they close (Open/CloseTrigger
+`Lock`); TrigSorcStatueOn3 unlocks and opens them and TrigSorcStatueOff3 unlocks and shuts them. MM9 never closes a
+locked door (MM9_DOOR_OPEN_RE.md §3), but our auto-close (CloseWaitTime 5) shut the door 5 s after it opened, and the
+lock then refused the click from inside. The shared converter now gives a door that locks itself as it opens no
+auto-close (`movers.locks_itself`, DUNGEON_PLAYBOOK "Package change: a door that locks itself as it opens never
+auto-closes"): both doors stay open while the party is in the corridor and its two rooms.
+
+ToLowerTombGate's click (event 367) toggled the script's open flag (`useGroup`), which the gate's own auto-close never
+cleared: after it shut, the next click did nothing and only a second one opened it. The gate has no Open/CloseTriggers;
+its click now triggers the gate itself.
+
+Rebuilt (`convert.py --scratch`): BLV identical; the scene differs by MiddleDoor4/5's `auto_close_seconds`, the Lua by
+handler 367; installed into `assets_dev` and the review root. A loaded save made before this resets the map's state
+(the scene changed) and starts the party at the start point. Checks (headless): through TrigSorcStatueOn3 both doors
+open and lock and are still open 9.5 s later; a party in either treasure room for 12 s finds its door open and walks
+out; TrigSorcStatueOff3 shuts both; a second pass through On3 opens them again. With the Maze Key the tomb gate opens
+on a click, shuts by itself and opens on the next click. `scenario_chests.yml` passes; `scenario_doors_exits.yml`
+(step 82, LowerDoor9 still opening) and `scenario_scripted.yml` (step 16, StairGate0 opens on its event since the
+2026-11-08 change) fail at the same steps with the files from before this change: stale since 2026-11-08, not rerun past them.
+
+Not changed: DestructableBrush4, a breakable panel beside MiddleDoor4 between the corridor and that room, has no portal
+over it (the converter's "seals rooms [9, 5]" note), so once broken the view through its hole is not drawn.
+
+## Pack growth (2026-11-09)
+
+Now at 2x (the user, 2026-11-09 evening: the finale's 5x piled ten times the monsters into the open halls): 93 copies,
+186 monsters, all placed (38 moved to other packs); at most 6 within 400 units. The first run's numbers below were at 5x.
+
+The shared pack growth (`../mm9r_common/dungeon/density.py`) now grows the Tomb: 319 of the 372 copies its targets want
+(113 of them moved to other packs), 412 monsters against the target of 465 (`work/density.json`). It placed none
+before for two reasons, both fixed here:
+- the map Lua names every actor in `KIND` (`"actor"`, for `send`'s dispatch) as well as in `ACTOR`: `KIND` is now a
+  `density_lua_name_tables` entry (a table that names actors without scripting them; it takes no copies);
+- two loops walk every actor with a variable called `index` (the StairGate0 check and the win switch's DestroyMonsters,
+  `cinematics_1000t.py`), and the Lua scan, which does not tell scopes apart, followed that name through every other
+  `index` of the script (913 indices): both loops now use `scan`.
+The only actors the map's messages name are the 19 fly-past critters (dormant, TRIGGERS' `go`, FLY_LEAVE): they stay
+scripted and are never copied, so no copy needs waking or removing with its member. The DEATH table's monsters stay
+scripted too. Forced arrivals (`overrides.yml` `density_arrivals`): StartPoint0 (the walk-in from Arslegard City, 2
+copies within 2 400) and the trap-door drop into the water pit (1 copy). The 53 unplaced: 36 of packs with only
+scripted members, 17 with no free spot. Clusters: at most 11 actors within 400 units (height doubled; p90 10), no copy
+in water, none added near the win switch. Installed 2026-11-09 21:28 (review root, then the scene and the Lua copied into `assets_dev`; BLV, lighting, bake and
+cinematics unchanged). The 28 treasure markers moved with the guards (`treasure.py` places by the monsters near).
+MAW's pack reserve then adds 106 copies, up to x1.25 (`tools/maw/mm9_pack_reserve.py 1000terrors`).
+

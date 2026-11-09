@@ -10,8 +10,6 @@
 
 namespace OpenYAMM::Game
 {
-namespace
-{
 int meanPartyLevel(const Party *pParty)
 {
     if (pParty == nullptr || pParty->members().empty())
@@ -27,7 +25,6 @@ int meanPartyLevel(const Party *pParty)
     }
 
     return total / int(pParty->members().size());
-}
 }
 
 FilteredLoot filterDroppedLoot(

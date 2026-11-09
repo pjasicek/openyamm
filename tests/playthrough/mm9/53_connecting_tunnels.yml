@@ -1,0 +1,34 @@
+# MM9 playthrough, segment 3: through the Connecting Tunnels to Yorwick (guide: Chapter II, "To Yorwick", "Meet army
+# in Yorwick"). The tunnels are walked as a player walks them: walk_to plans the route on the monsters' path map,
+# holds Forward, and when stuck aims further, jumps, steps aside, clicks what is ahead (a door, the rock fall) or
+# plans again. Every enemy within 1500 of the party dies (the playthrough does not test combat). Entering Yorwick
+# with Bikki's prize delivered plays the battlefield scene: Sven Forkbeard dying (key 97, 18 500 experience).
+#   python3 tests/playthrough/mm9/run.py 53
+id: mm9.playthrough.53_connecting_tunnels
+title: "MM9 playthrough 53: walk the Connecting Tunnels to Yorwick and see Sven's death"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/52_bikki_and_dain.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90095], qbit_clear: [90097]}
+
+  # Out of Thronheim City into the region, to the Connecting Tunnel exit (outdoors the party is moved).
+  - travel: {map: thronheim.blv, days: 0}
+  - set_pose: {map: thronheim.blv, x: 16168, y: -16700, z: 2090, yaw: -1.5708, pitch: 0}
+  - walk_to: {x: 16168, y: -17075, z: 2090, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+
+  # The tunnels, on foot, to the main exit to Yorwick (ExitTrigger0 in the far west).
+  - walk_to: {x: -17737, y: -7782, z: 1501, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+
+  # The battlefield scene plays on arrival.
+  - advance_runtime: {seconds: 90, follow_map_move: true}
+  - assert: {qbit_set: [90097]}
+  - save_game: {name: "03 Yorwick, Sven's death", path: output/playthrough/mm9/checkpoints/53_connecting_tunnels.oysav}

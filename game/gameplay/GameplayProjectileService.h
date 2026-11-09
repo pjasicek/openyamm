@@ -545,6 +545,9 @@ public:
         bool canHitParty = true;
         // Turn-based combat is on: a party shot the queue waits on vanishes once far from the party.
         bool turnBasedActive = false;
+        // The party's hit reach (GameplayActorService::partyHitReach): a party shot vanishes once farther from the
+        // party; 0 keeps the shot's own lifetime.
+        float partyShotReach = 0.0f;
         int nonPartyProjectileDamage = 0;
 
         std::vector<ProjectileAreaImpactActorFacts> areaActors;

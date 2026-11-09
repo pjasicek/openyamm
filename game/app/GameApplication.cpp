@@ -1,5 +1,6 @@
 #include "game/app/GameApplication.h"
 
+#include "game/gameplay/BountyHuntRuntime.h"
 #include "game/gameplay/PartyHostileAlert.h"
 #include "game/gameplay/ActorBehaviorRuntime.h"
 #include "game/gameplay/GameplayMonsterSpawn.h"
@@ -58,6 +59,7 @@
 #include <SDL3/SDL.h>
 #include <bgfx/bgfx.h>
 
+#include <fstream>
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -94,6 +96,7 @@ Mm9PartyAwareness worldMm9PartyAwareness(const WorldActorAwarenessDefinition &aw
     return Mm9PartyAwareness{
         .sightAllRound = awareness.mm9SightAllRound,
         .sightScale = awareness.mm9SightScale,
+        .sightMax = awareness.mm9SightMax,
         .provokeRange = awareness.mm9ProvokeRange,
         .provokeRadius = awareness.mm9ProvokeRadius,
     };
@@ -1522,12 +1525,16 @@ void refreshSavedLegacyMm9PlacementProfiles(GameSession &session, const MapAsset
         }
 
         saved.mm9Ai->settings.profile = {};
+        // Past the scene's actors stand the pack reserve's (MapDeltaData::packReserve), in its order.
+        const std::vector<MapDeltaPackReserveActor> &reserve = mapAssetInfo.indoorMapDeltaData->packReserve;
+        const MapDeltaActor *pScene = index < sceneActors.size() ? &sceneActors[index]
+            : index - sceneActors.size() < reserve.size()    ? &reserve[index - sceneActors.size()].actor
+                                                             : nullptr;
 
-        if (index < sceneActors.size() && sceneActors[index].mm9Ai
-            && sceneActors[index].mm9SourceObjectIndex == saved.mm9SourceObjectIndex
-            && sceneActors[index].mm9Ai->script == saved.mm9Ai->script)
+        if (pScene != nullptr && pScene->mm9Ai && pScene->mm9SourceObjectIndex == saved.mm9SourceObjectIndex
+            && pScene->mm9Ai->script == saved.mm9Ai->script)
         {
-            saved.mm9Ai->settings.profile = sceneActors[index].mm9Ai->settings.profile;
+            saved.mm9Ai->settings.profile = pScene->mm9Ai->settings.profile;
         }
     }
 }
@@ -2836,7 +2843,8 @@ Character buildFreshCreatedCharacter(
     }
 
     character.quickSpellName.clear();
-    character.attackSpellName.clear();
+    character.battleOrders.clear();
+    character.battleOrderFallback = BattleOrderFallback::Weapon;
     character.baseResistances = {};
     character.permanentBonuses = {};
     character.magicalBonuses = {};
@@ -3073,7 +3081,7 @@ void GameApplication::registerDebugConsoleCommands()
                 << "config get|set|toggle terrain_decorations, "
                 << "effect list|stats|rate|spawn|impact-rebind|pause|scrub|replay|stop, "
                 << "model list|spawn|play|pause|scrub|visible|markers|nodes|orbit|stop, "
-                << "memory, reload map, menu, ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <other>]";
+                << "memory, reload map, menu, ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <mm9>]";
             return commandResult(true, out.str());
         },
         .readOnly = true});
@@ -3096,8 +3104,8 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "ruleset",
         .description = "Show the game's ruleset; change its difficulty or MAW's level banks.",
-        .usage = "ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <other> | aura <member 1-5> <spell id>"
-                 " | counter <member 1-5> <amount>]",
+        .usage = "ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <mm9> | maplevels <file.tsv> [banked]"
+                 " | aura <member 1-5> <spell id> | counter <member 1-5> <amount>]",
         .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
             const RulesetSelection &selection = m_gameSession.ruleset();
@@ -3150,12 +3158,57 @@ void GameApplication::registerDebugConsoleCommands()
                     const std::optional<float> level = parseFloatArgument(context.args[continent + 1]);
                     if (!level || *level < 0)
                     {
-                        return commandResult(false, "Usage: ruleset banks <mm8> <mm7> <mm6> <other>");
+                        return commandResult(false, "Usage: ruleset banks <mm8> <mm7> <mm6> <mm9>");
                     }
                     state.continentLevels[continent] = *level;
                 }
                 pMawRules->setState(state);
                 return commandResult(true, describe() + " (monsters spawned from now on and on map load)");
+            }
+            if ((context.args.size() == 2 || context.args.size() == 3) && toLowerCopy(context.args[0]) == "maplevels"
+                && pMawRules != nullptr)
+            {
+                // MAW's map table with every installed world's maps and their levels under each progression, for
+                // the balance review (tools/maw/mm9_balance.py --levels).
+                const std::optional<float> banked =
+                    context.args.size() == 3 ? parseFloatArgument(context.args[2]) : std::optional<float>(50.0f);
+                std::ofstream output(context.args[1]);
+                if (!banked || !output)
+                {
+                    return commandResult(false, "Usage: ruleset maplevels <file.tsv> [levels banked elsewhere, 50]");
+                }
+                const std::vector<MawRules::MapLevelRow> rows =
+                    pMawRules->mapLevelTable(m_gameDataLoader.getMonsterTable(), *banked);
+                output << "continent\tmap\tname\tlow\tmid\thigh\thorizontal_starter\tmadness_level\tfree\tfree_banked"
+                          "\thorizontal\tmadness\n";
+                for (const MawRules::MapLevelRow &row : rows)
+                {
+                    output << row.continentId << '\t' << row.fileName << '\t' << row.name << '\t' << row.band[0] << '\t'
+                           << row.band[1] << '\t' << row.band[2] << '\t' << (row.horizontalStarter ? 1 : 0) << '\t'
+                           << row.madnessLevel << '\t' << row.freeLevel << '\t' << row.freeBankedLevel << '\t'
+                           << row.horizontalLevel << '\t' << row.madnessMapLevel << '\n';
+                }
+                return commandResult(true, std::to_string(rows.size()) + " maps written to " + context.args[1]);
+            }
+            if (context.args.size() == 2 && toLowerCopy(context.args[0]) == "mapmonsters" && pMawRules != nullptr)
+            {
+                // Every listed map's native families as this game makes them (its options and banks), for the
+                // balance review's comparisons (tools/maw/mm9_balance.py --levels).
+                std::ofstream output(context.args[1]);
+                if (!output)
+                {
+                    return commandResult(false, "Usage: ruleset mapmonsters <file.tsv>");
+                }
+                const std::vector<MawRules::MapMonsterRow> rows =
+                    pMawRules->mapMonsterTable(m_gameDataLoader.getMonsterTable(), activeParty());
+                output << "continent\tmap\tfamily\ttier\tmonster_id\tname\tlevel\thp\tarmor_class\tattack_damage\n";
+                for (const MawRules::MapMonsterRow &row : rows)
+                {
+                    output << row.continentId << '\t' << row.fileName << '\t' << row.family << '\t' << int(row.tier)
+                           << '\t' << row.monsterId << '\t' << row.name << '\t' << row.level << '\t' << row.maxHp
+                           << '\t' << row.armorClass << '\t' << row.attackDamage << '\n';
+                }
+                return commandResult(true, std::to_string(rows.size()) + " monsters written to " + context.args[1]);
             }
             if (context.args.size() == 3 && toLowerCopy(context.args[0]) == "aura")
             {
@@ -3199,7 +3252,8 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(true, "Counter set.");
             }
             return commandResult(false,
-                "Usage: ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <other> | aura <member 1-5> <spell id>"
+                "Usage: ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <mm9> | maplevels <file.tsv> [banked]"
+                " | aura <member 1-5> <spell id>"
                 " | counter <member 1-5> <amount>]");
         },
         .readOnlyWith = readOnlyConsoleActions(true, {})});
@@ -4318,12 +4372,56 @@ void GameApplication::registerDebugConsoleCommands()
         .name = "actor",
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
         .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly|boss]"
-            " | actor kill <radius>"
+            " | actor kill <radius> | actor remaining"
             " | actor behavior [<index> <behavior-id>] | actor damage <index|last> <amount> [tier]"
             " | actor shield <index|last> [points] | actor blink <index|last> | actor charge <index|last>"
             " | actor frenzy <index|last>",
         .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
         {
+            // actor remaining: the living monsters the map's progress still counts, nearest first, with where they
+            // stand ("hidden" for the invisible ones the progress keeps apart).
+            if (context.args.size() == 1 && toLowerCopy(context.args[0]) == "remaining")
+            {
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+                MapKillProgress progress;
+                if (pWorld == nullptr || !pWorld->mapKillProgress(progress))
+                {
+                    return commandResult(false, "No map progress here.");
+                }
+                struct Remaining
+                {
+                    float distance = 0;
+                    std::string line;
+                };
+                std::vector<Remaining> remaining;
+                for (const size_t actorIndex : progress.remainingActors)
+                {
+                    GameplayActorRulesView view;
+                    if (!pWorld->actorRulesView(actorIndex, view))
+                    {
+                        continue;
+                    }
+                    const MonsterTable::MonsterStatsEntry *pStats =
+                        pWorld->monsterTable() != nullptr ? pWorld->monsterTable()->findStatsById(view.monsterId) : nullptr;
+                    const float distance = std::hypot(view.preciseX - pWorld->partyX(), view.preciseY - pWorld->partyY());
+                    std::ostringstream line;
+                    line << "#" << actorIndex << " " << (pStats != nullptr ? pStats->name : "?") << " (" << view.monsterId
+                         << ") at " << int(view.preciseX) << " " << int(view.preciseY) << " " << int(view.preciseZ)
+                         << ", " << int(distance) << " away, hp " << view.currentHp << (view.isInvisible ? ", hidden" : "");
+                    remaining.push_back({distance, line.str()});
+                }
+                std::sort(remaining.begin(), remaining.end(),
+                          [](const Remaining &left, const Remaining &right) { return left.distance < right.distance; });
+                std::ostringstream out;
+                out << progress.mapFileName << ": " << progress.slainMonsters << " / " << progress.countedMonsters
+                    << " slain, " << remaining.size() << " left";
+                for (const Remaining &entry : remaining)
+                {
+                    out << "\n  " << entry.line;
+                }
+                return commandResult(true, out.str());
+            }
+
             if (!context.args.empty() && toLowerCopy(context.args[0]) == "spawn")
             {
                 // actor spawn <id> <count> <x> <y> <z> [group|friendly], or without a position:
@@ -4742,7 +4840,8 @@ void GameApplication::registerDebugConsoleCommands()
             screenRuntime.openRestOverlay();
             if (!screenRuntime.restScreenState().active)
             {
-                return commandResult(false, "The party cannot rest here now.");
+                // The game's reason, as its status bar shows it ("There are hostile enemies near!").
+                return commandResult(false, "The party cannot rest here now: " + screenRuntime.statusBarEventText());
             }
             screenRuntime.startRestAction(
                 mode == "heal" ? GameplayUiController::RestMode::Heal : GameplayUiController::RestMode::Wait,
@@ -4754,7 +4853,8 @@ void GameApplication::registerDebugConsoleCommands()
         .name = "weather",
         .description = "Show, force or forecast outdoor rain, snow, ash, wind and storms (not saved).",
         .usage = "weather [status | rain|snow|ash <0-1|light|medium|heavy|very_heavy> | clear | auto"
-            " | wind <degrees> <speed>|auto | storm <on|off|auto> | strike [near|middle|far] | forecast [hours]]",
+            " | wind <degrees> <speed>|auto | storm <on|off|auto> | strike [near|middle|far] | forecast [hours]"
+            " | fog none|small|average|dense|auto (open-sky indoor maps)]",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
             // An indoor map's weather over its open sky (scene `sky: {weather}`): rain, snow, clear, auto and status.
@@ -4787,10 +4887,19 @@ void GameApplication::registerDebugConsoleCommands()
                     weather.forceStrike(value == "near" ? LightningDistance::Near
                         : value == "far" ? LightningDistance::Far : LightningDistance::Middle);
                 }
+                else if (action == "fog" && (value == "none" || value == "small" || value == "average"
+                    || value == "dense" || value == "auto"))
+                {
+                    weather.setDebugFog(value == "auto" ? std::nullopt
+                        : value == "small" ? std::optional(WeatherFogLevel::Small)
+                        : value == "average" ? std::optional(WeatherFogLevel::Average)
+                        : value == "dense" ? std::optional(WeatherFogLevel::Dense)
+                        : std::optional(WeatherFogLevel::None));
+                }
                 else if (action != "status")
                 {
-                    return commandResult(false,
-                        "Usage on this map: weather rain|snow <0-1> | clear | auto | strike [near|middle|far]");
+                    return commandResult(false, "Usage on this map: weather rain|snow <0-1> | clear | auto"
+                        " | strike [near|middle|far] | fog none|small|average|dense|auto");
                 }
                 const WeatherSample sample = weather.targetSample();
                 const WeatherPresentation &shown = weather.presentation();
@@ -4803,7 +4912,9 @@ void GameApplication::registerDebugConsoleCommands()
                     + (sample.storm ? ", storm" : "") + "; shown rain " + std::to_string(shown.rainLevel())
                     + " snow " + std::to_string(shown.snowLevel()) + (shown.storm() ? " storm" : "")
                     + "; camera " + (covered ? "under cover" : "in the open") + ", sound "
-                    + std::to_string(weather.audibility()) + (weather.hasRoofMap() ? "" : "; no roof map"));
+                    + std::to_string(weather.audibility()) + (weather.hasRoofMap() ? "" : "; no roof map")
+                    + (weather.fog().foggy ? "; fog " + std::to_string(weather.fog().nearDistance) + "-"
+                        + std::to_string(weather.fog().farDistance) : "; no fog"));
             }
             if (m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
                 || m_pOutdoorWorldRuntime == nullptr)
@@ -6634,9 +6745,37 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "player",
         .description = "Create a level-1 player character and add it to the party.",
-        .usage = "player add <class-id|class-name> [name]",
+        .usage = "player add <class-id|class-name> [name] | player sheet",
         .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
+            // player sheet: each member's level, Might and combat rows as the character sheet shows them.
+            if (context.args.size() == 1 && toLowerCopy(context.args[0]) == "sheet")
+            {
+                Party *pSheetParty = activeParty();
+                if (pSheetParty == nullptr)
+                {
+                    return commandResult(false, "No active party.");
+                }
+                std::ostringstream out;
+                for (const Character &member : pSheetParty->members())
+                {
+                    const CharacterSheetSummary sheet = GameMechanics::buildCharacterSheetSummary(member,
+                        pSheetParty->itemTable(), pSheetParty->standardItemEnchantTable(),
+                        pSheetParty->specialItemEnchantTable());
+                    const auto skill = [&member](const char *pName)
+                    {
+                        const CharacterSkill *pSkill = member.findSkill(pName);
+                        return pSkill != nullptr ? std::to_string(pSkill->level) + "/" + std::to_string(int(pSkill->mastery))
+                                                 : std::string("-");
+                    };
+                    out << member.name << " (" << member.className << ") level " << member.level << ", might "
+                        << sheet.might.actual << ", unarmed " << skill("Unarmed") << ", dragon " << skill("DragonAbility")
+                        << ": attack " << sheet.combat.attack << " damage " << sheet.combat.meleeDamageText << ", shoot "
+                        << sheet.combat.shoot.value_or(0) << " damage " << sheet.combat.rangedDamageText << "\n";
+                }
+                return commandResult(true, out.str());
+            }
+
             if (context.args.size() < 2 || toLowerCopy(context.args[0]) != "add")
             {
                 return commandResult(false, "Usage: player add <class-id|class-name> [name]");
@@ -7462,7 +7601,7 @@ void GameApplication::registerDebugConsoleCommands()
             synchronizeSessionFromRuntime();
 
             m_pAssetFileSystem->refreshLookupCache();
-            if (!loadCurrentSessionMap(true))
+            if (!loadCurrentSessionMapKeepingHeldItem(true))
             {
                 return commandResult(false, "Reload failed.");
             }
@@ -8377,7 +8516,8 @@ bool GameApplication::applicationTextInputActive() const
     return (saveGameScreen.active && saveGameScreen.editActive)
         || gameplayScreenRuntime.houseBankState().inputActive()
         || GameplayUiController::characterScreenSearchActive(gameplayScreenRuntime.characterScreenReadOnly())
-        || GameplayUiController::journalSearchActive(gameplayScreenRuntime.journalScreenStateReadOnly());
+        || GameplayUiController::journalSearchActive(gameplayScreenRuntime.journalScreenStateReadOnly())
+        || GameplayUiController::spellbookSearchActive(gameplayScreenRuntime.spellbookReadOnly());
 }
 
 bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
@@ -9444,6 +9584,8 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
         actorAwareness.declared
             ? actorAwareness.partyEngagementRange
             : GameplayActorService::MaximumPartyEngagementRange);
+    m_gameSession.gameplayActorService().setWorldPartyHitReach(
+        actorAwareness.declared ? std::optional<float>(actorAwareness.partyEngagementRange) : std::nullopt);
     m_gameSession.gameplayActorService().setMm9PartyAwareness(worldMm9PartyAwareness(actorAwareness));
     m_gameSession.gameplayActorService().setMeleeVerticalReach(m_activeWorldManifest.actorCombat.meleeVerticalReach);
     m_gameSession.gameplayActorService().setLevelRadiusLimit(m_activeWorldManifest.actorMovement.levelRadiusLimit);
@@ -9452,6 +9594,7 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
     m_gameSession.setStreetNpcs(m_activeWorldManifest.streetNpcs);
     m_gameSession.setNpcFollowers(m_activeWorldManifest.npcFollowers);
     m_gameSession.setFormations(m_activeWorldManifest.formations);
+    m_gameSession.setFleetFoot(m_activeWorldManifest.fleetFoot);
     m_gameSession.setWorldCombatLog(m_activeWorldManifest.combatLog);
     m_gameSession.setWorldHum(m_activeWorldManifest.hum);
     m_gameSession.setWorldFloorBurn(m_activeWorldManifest.floorBurn);
@@ -9650,6 +9793,8 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
                 m_pOutdoorWorldRuntime.get());
             m_pOutdoorWorldRuntime->applyEventRuntimeState(true);
             m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+            // A bounty another map's office posted here (an MM9 Jarl's) gets its target now.
+            spawnPendingBountyHunt(*m_pOutdoorWorldRuntime, &m_pOutdoorPartyRuntime->party());
         }
 
         if (m_config.loadUniqueActorIndex.has_value()
@@ -9805,6 +9950,36 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
                 indoorMapDeltaDataForRuntime->locationTime = pSavedIndoorState->mapDeltaData->locationTime;
                 // MM9's ShouldRepopulate 0: those placements stay as the party left them.
                 keepActorsThroughRefill(*pSavedIndoorState->mapDeltaData, *indoorMapDeltaDataForRuntime);
+                indoorMapDeltaDataForRuntime->takenWorldItems = pSavedIndoorState->mapDeltaData->takenWorldItems;
+
+                // MAW's used barrels: an MM9 barrel drunk from stays empty through the refill.
+                if (boundGameRules().monsters.keepsUsedBarrelsThroughRefill())
+                {
+                    std::vector<MapDeltaMm9BarrelState> &barrels = indoorMapDeltaDataForRuntime->mm9Barrels;
+
+                    for (const MapDeltaMm9BarrelState &barrel : pSavedIndoorState->mapDeltaData->mm9Barrels)
+                    {
+                        const auto refilled = std::find_if(barrels.begin(), barrels.end(),
+                            [&barrel](const MapDeltaMm9BarrelState &state)
+                            {
+                                return state.sourceObjectIndex == barrel.sourceObjectIndex;
+                            });
+
+                        if (!barrel.used)
+                        {
+                            continue;
+                        }
+
+                        if (refilled != barrels.end())
+                        {
+                            *refilled = barrel;
+                        }
+                        else
+                        {
+                            barrels.push_back(barrel);
+                        }
+                    }
+                }
             }
         }
 
@@ -9898,6 +10073,8 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
                 pIndoorSceneRuntime->sceneEventContext());
             pIndoorSceneRuntime->worldRuntime().applyEventRuntimeState(true);
             pIndoorSceneRuntime->party().applyEventRuntimeState(*pEventRuntimeState, false);
+            // A bounty another map's office posted here (an MM9 Jarl's) gets its target now.
+            spawnPendingBountyHunt(pIndoorSceneRuntime->worldRuntime(), &pIndoorSceneRuntime->party());
         }
 
         if (m_config.loadUniqueActorIndex.has_value()
@@ -9918,6 +10095,7 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
 
         pIndoorSceneRuntime->partyRuntime().setMovementSpeedMultiplier(m_settings.movementSpeedMultiplier);
         pIndoorSceneRuntime->partyRuntime().setFaceWadeSpeeds(selectedMap->indoorFaceWadeSpeeds);
+        pIndoorSceneRuntime->partyRuntime().setOpenAir(selectedMap->map.openAir);
         pIndoorSceneRuntime->partyRuntime().setAlwaysRunEnabled(m_settings.alwaysRun);
         pIndoorSceneRuntime->partyRuntime().setCollisionTraceEnabled(
             m_settings.collisionTrace,
@@ -10013,6 +10191,7 @@ void GameApplication::bindPartyDependencies(Party &party)
 {
     const GameDataRepository &data = m_gameSession.data();
     party.setRules(m_gameSession.rulesetGameRules());
+    party.setOtherWorldsLoot(m_gameSession.ruleset().options.otherWorldsLoot);
     party.setItemTable(&data.itemTable());
     party.setJournalQuestTable(&data.journalQuestTable());
     party.setCharacterDollTable(&data.characterDollTable());
@@ -10023,6 +10202,7 @@ void GameApplication::bindPartyDependencies(Party &party)
     party.setMm9HirelingTable(&data.mm9HirelingTable());
     party.setNpcFollowersActive(m_activeWorldManifest.npcFollowers);
     party.setFormationTargetingActive(m_activeWorldManifest.formations);
+    party.setFleetFootWorld(m_activeWorldManifest.fleetFoot);
     party.setStatistics(&m_gameSession.playthroughStatistics());
 }
 
@@ -10178,6 +10358,27 @@ void GameApplication::synchronizeSessionFromRuntime()
             snapshot);
         m_gameSession.setCameraAngles(m_indoorRenderer.cameraYawRadians(), m_indoorRenderer.cameraPitchRadians());
     }
+}
+
+bool GameApplication::loadCurrentSessionMapKeepingHeldItem(
+    bool initializeView,
+    const std::function<void(int)> &progressCallback)
+{
+    const GameplayUiController::HeldInventoryItemState heldItem =
+        m_gameSession.gameplayScreenRuntime().heldInventoryItem();
+    const bool loaded = loadCurrentSessionMap(initializeView, progressCallback);
+
+    if (heldItem.active)
+    {
+        m_gameSession.gameplayScreenRuntime().heldInventoryItem() = heldItem;
+
+        if (m_pMapSceneRuntime != nullptr)
+        {
+            m_pMapSceneRuntime->party().setHeldItemForQueries(heldItem.item);
+        }
+    }
+
+    return loaded;
 }
 
 bool GameApplication::loadCurrentSessionMap(
@@ -11731,7 +11932,8 @@ SaveFoodCost GameApplication::saveFoodCost()
 
     const Party &party = *pWorld->party();
     const std::string &mapFileName = m_gameSession.currentMapFileName();
-    const bool indoor = m_gameSession.currentSceneKind() == SceneKind::Indoor;
+    // A BLV open to the sky (MM9's regions and cities) costs what an outdoor map does.
+    const bool indoor = !pWorld->isOpenAirMap();
     cost.food = party.rules().monsters.saveFoodCost(mapFileName, indoor, partyHasYellowAlert(*pWorld));
     cost.foodWithEnemiesNear = party.rules().monsters.saveFoodCost(mapFileName, indoor, true);
     cost.carried = party.food();
@@ -11814,6 +12016,33 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
         if (!validateRequiredContentPackageSchemas(*saveData, schemas, error))
         {
             return fail(error, false);
+        }
+    }
+
+    // A save plays in its own world under its own ruleset. A world the ruleset does not play in (MAW's `worlds`) is
+    // refused, and a save that switches rulesets activates its world first, so the ruleset's tables load with that
+    // world's (an MM8 save of MAW loaded while MM9 is active would otherwise load MAW over MM9's tables).
+    if (const MapStatsEntry *pSaveMap = m_gameDataLoader.getMapStats().findByFileName(saveData->mapFileName);
+        pSaveMap != nullptr && m_pAssetFileSystem != nullptr)
+    {
+        const std::optional<RulesetDefinition> saveRuleset =
+            loadRulesetDefinition(*m_pAssetFileSystem, saveData->ruleset.id, error);
+
+        if (!saveRuleset)
+        {
+            return fail(error, false);
+        }
+
+        if (!saveRuleset->supportsWorld(pSaveMap->worldId))
+        {
+            return fail("the " + saveRuleset->name + " ruleset does not play in world " + pSaveMap->worldId, false);
+        }
+
+        if (switchesRuleset
+            && normalizeWorldId(pSaveMap->worldId) != normalizeWorldId(m_pAssetFileSystem->getActiveWorldId())
+            && !activateWorldForMap(*pSaveMap))
+        {
+            return fail("could not switch to world " + pSaveMap->worldId, true);
         }
     }
 
@@ -12227,6 +12456,11 @@ std::optional<uint32_t> GameApplication::activeWorldContinentId() const
     if (activeWorldId == "mm6")
     {
         return 3u;
+    }
+
+    if (activeWorldId == "mm9")
+    {
+        return 5u;
     }
 
     return std::nullopt;
@@ -14005,7 +14239,7 @@ bool GameApplication::processPendingMapMove()
     m_gameSession.setCurrentMapFileName(targetMapName);
     renderLoadingOverlayProgress(15);
 
-    if (!loadCurrentSessionMap(
+    if (!loadCurrentSessionMapKeepingHeldItem(
             true,
             [this](int localProgress)
             {
@@ -14013,7 +14247,7 @@ bool GameApplication::processPendingMapMove()
             }))
     {
         m_gameSession.setCurrentMapFileName(previousMapFileName);
-        const bool previousMapRestored = loadCurrentSessionMap(
+        const bool previousMapRestored = loadCurrentSessionMapKeepingHeldItem(
             true,
             [this](int localProgress)
             {
@@ -14249,16 +14483,36 @@ bool GameApplication::processPendingPartyDefeat()
     if (m_pAssetFileSystem == nullptr
         || m_screenManager.activeScreen() != nullptr
         || m_pendingPartyDefeatRespawnMapFileName.has_value()
+        || m_pendingPartyDefeatReloadAutosave
         || !shouldTriggerPartyDefeat())
     {
         return false;
     }
 
     m_gameSession.playthroughStatistics().recordPartyWipe();
-    const MapStartDestination respawnDestination = resolvePartyDefeatRespawnDestination();
-    m_pendingPartyDefeatRespawnMapFileName = respawnDestination.mapFileName;
-    m_pendingPartyDefeatRespawnStart = respawnDestination.start;
-    const std::string cutsceneStem = resolvePartyDefeatCutsceneStem();
+    std::string cutsceneStem;
+
+    if (partyDefeatIsLost())
+    {
+        m_pendingPartyDefeatReloadAutosave = true;
+        const std::string &movie = m_activeWorldManifest.partyDeath.otherwiseMovie;
+        cutsceneStem = movie.empty() ? std::string() : resolveEventMovieStem(*m_pAssetFileSystem, movie);
+    }
+    else
+    {
+        const MapStartDestination respawnDestination = resolvePartyDefeatRespawnDestination();
+        m_pendingPartyDefeatRespawnMapFileName = respawnDestination.mapFileName;
+        m_pendingPartyDefeatRespawnStart = respawnDestination.start;
+        cutsceneStem = resolvePartyDefeatCutsceneStem();
+    }
+
+    // No movie (MM9's wake in Arslegard): straight on.
+    if (cutsceneStem.empty())
+    {
+        finishPartyDefeat();
+        return true;
+    }
+
     std::unique_ptr<CutsceneVideoScreen> pScreen = std::make_unique<CutsceneVideoScreen>(
         *m_pAssetFileSystem,
         &m_gameAudioSystem,
@@ -14468,8 +14722,6 @@ bool GameApplication::processPendingDimensionDoorOverlay()
     pRuntimeState->pendingDimensionDoorOverlay = false;
 
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
-    screenRuntime.setDimensionDoorWithoutQuest(pRuntimeState->pendingDimensionDoorWithoutQuest);
-    pRuntimeState->pendingDimensionDoorWithoutQuest = false;
 
     if (!screenRuntime.ensureDimensionDoorDestinationsLoaded())
     {
@@ -14490,7 +14742,7 @@ bool GameApplication::processPendingDimensionDoorOverlay()
 
 void GameApplication::handleCompletedPartyDefeatScreen()
 {
-    if (!m_pendingPartyDefeatRespawnMapFileName.has_value())
+    if (!m_pendingPartyDefeatRespawnMapFileName.has_value() && !m_pendingPartyDefeatReloadAutosave)
     {
         return;
     }
@@ -14505,6 +14757,24 @@ void GameApplication::handleCompletedPartyDefeatScreen()
     m_gameInputSystem.suppressMouseButtonsUntilReleased();
     m_screenManager.setActiveScreen(nullptr);
     m_gameSession.gameplayScreenRuntime().interactionState().menuToggleLatch = true;
+    finishPartyDefeat();
+}
+
+void GameApplication::finishPartyDefeat()
+{
+    if (m_pendingPartyDefeatReloadAutosave)
+    {
+        // MM9's game over (cshell.dll 0x10034460): the autosave; without one the main menu.
+        m_pendingPartyDefeatReloadAutosave = false;
+
+        if (!quickLoadFromPath(std::filesystem::path("saves") / "autosave.oysav", true))
+        {
+            openMainMenuScreen();
+        }
+
+        return;
+    }
+
     applyPartyDefeatConsequences();
     respawnPartyAfterDefeat(true);
     m_pendingPartyDefeatRespawnMapFileName.reset();
@@ -14513,7 +14783,7 @@ void GameApplication::handleCompletedPartyDefeatScreen()
 
 void GameApplication::handleCompletedEventMovieScreen()
 {
-    if (m_pendingPartyDefeatRespawnMapFileName.has_value())
+    if (m_pendingPartyDefeatRespawnMapFileName.has_value() || m_pendingPartyDefeatReloadAutosave)
     {
         return;
     }
@@ -14618,11 +14888,10 @@ std::string GameApplication::resolvePartyDefeatRespawnMapFileName() const
 GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnDestination() const
 {
     const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
-    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
     const WorldPartyDeathDefinition &worldDeath = m_activeWorldManifest.partyDeath;
 
     // A world's own death destination (world.yml partyDeath) for a defeat in one of its maps.
-    if (!worldDeath.mapFileName.empty() && pCurrentMap != nullptr && pCurrentMap->worldId == m_activeWorldManifest.id)
+    if (worldPartyDeathApplies())
     {
         return MapStartDestination{
             .mapFileName = toLowerCopy(worldDeath.mapFileName),
@@ -14732,18 +15001,12 @@ std::string GameApplication::resolvePartyDefeatCutsceneStem() const
         return PartyDefeatCutsceneStem;
     }
 
-    const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
-    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
     const WorldPartyDeathDefinition &worldDeath = m_activeWorldManifest.partyDeath;
 
-    if (!worldDeath.movie.empty() && pCurrentMap != nullptr && pCurrentMap->worldId == m_activeWorldManifest.id)
+    // A world's own destination shows its own movie, or none (MM9's wake in Arslegard).
+    if (worldPartyDeathApplies())
     {
-        const std::string resolvedMovieStem = resolveEventMovieStem(*m_pAssetFileSystem, worldDeath.movie);
-
-        if (!resolvedMovieStem.empty())
-        {
-            return resolvedMovieStem;
-        }
+        return worldDeath.movie.empty() ? std::string() : resolveEventMovieStem(*m_pAssetFileSystem, worldDeath.movie);
     }
 
     if (const MapStatsEntry *pContinentMap =
@@ -14765,6 +15028,41 @@ std::string GameApplication::resolvePartyDefeatCutsceneStem() const
     }
 
     return PartyDefeatCutsceneStem;
+}
+
+bool GameApplication::worldPartyDeathApplies() const
+{
+    const MapStatsEntry *pCurrentMap =
+        m_gameDataLoader.getMapStats().findByFileName(toLowerCopy(m_gameSession.currentMapFileName()));
+    return !m_activeWorldManifest.partyDeath.mapFileName.empty() && pCurrentMap != nullptr
+        && pCurrentMap->worldId == m_activeWorldManifest.id;
+}
+
+bool GameApplication::partyDefeatIsLost() const
+{
+    const WorldPartyDeathDefinition &worldDeath = m_activeWorldManifest.partyDeath;
+
+    if (!worldPartyDeathApplies() || worldDeath.when.empty() || m_pMapSceneRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const Party &party = m_pMapSceneRuntime->party();
+
+    for (const WorldPartyDeathCondition &condition : worldDeath.when)
+    {
+        const bool setHold = std::all_of(condition.qbits.begin(), condition.qbits.end(),
+            [&party](uint32_t qbit) { return party.hasQuestBit(qbit); });
+        const bool clearHold = std::none_of(condition.notQbits.begin(), condition.notQbits.end(),
+            [&party](uint32_t qbit) { return party.hasQuestBit(qbit); });
+
+        if (setHold && clearHold)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void GameApplication::applyPartyDefeatConsequences()
@@ -14808,7 +15106,7 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     beginLoadingOverlay();
     renderLoadingOverlayProgress(15);
 
-    if (!loadCurrentSessionMap(
+    if (!loadCurrentSessionMapKeepingHeldItem(
             initializeView,
             [this](int localProgress)
             {

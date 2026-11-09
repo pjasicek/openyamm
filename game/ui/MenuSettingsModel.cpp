@@ -58,6 +58,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.questMarkers ? "true" : "false";
     }
+    if (id == "map_style")
+    {
+        return settings.paintedMaps ? "painted" : "lines";
+    }
     if (id == "party_frame")
     {
         return settings.partyFrame ? "true" : "false";
@@ -385,6 +389,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.questMarkers = value == "true";
+        return true;
+    }
+    if (id == "map_style")
+    {
+        if (value != "painted" && value != "lines")
+        {
+            return false;
+        }
+        settings.paintedMaps = value == "painted";
         return true;
     }
     if (id == "party_frame")

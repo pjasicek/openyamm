@@ -170,7 +170,6 @@ TEST_CASE("MAW monster levels on a dimension map ignore the party's banks")
 
     MawMonsterLevelInputs inputs;
     inputs.mapFileName = "out02.odm";
-    inputs.mapName = "Ravenshore";
     inputs.encounterPictures = {"Human Mercenary", "Centaur", "Dire Wolf"};
     inputs.dimensionPower = 10;
     const std::vector<int> expected = {129, 134, 139, 131, 134, 138, 130, 137, 144};

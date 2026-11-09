@@ -65,16 +65,19 @@ Do not migrate the `*256.pcx` fonts or `*2.pcx` arrow variants unless visual val
 
 ## Audio Ownership
 
-`import_mm9_world_audio.py` imports MM9 ambient, door, scripted-event, pickup, weapon, root utility, and NPC voice WAVs
-into the MM9 world package. It excludes monster/actor animation banks, monster death/gib banks, MM9 player voices,
-magic/spell banks, battle music, and cinematic voices because those systems use OpenYAMM content or separate video.
+`import_mm9_world_audio.py` imports every MM9 sound (all of `SOUNDS/`: ambience, monster animation and death banks,
+doors, events, pickups, weapons, magic and spell banks, player sounds and footsteps, gibs, battle music; 2026-11-08: a
+world must not miss a sound its scripts, effects or placements name), the NPC voices and the cutscene voices into the
+MM9 world package. MM9's player-character voices (`VOICES/PC`) are the party's: `generate_mm9_pc_voices.py` converts
+them and makes them voice sets 79-96 ([MM9 PC voices](../mm9_rework/MM9_PC_VOICES.md)).
 Root filenames already owned by engine audio are not duplicated. MM9's explicit `QUEST.wav` script cue maps to the
 shared `SoundId::Quest`, so no second quest-notification asset is needed.
 
 The original `MM9-Song01.mp3` through `MM9-Song17.mp3` soundtrack is imported into the MM9 world's `music/` directory
-with globally unique track ids `90001-90017`. MM9 `map_stats.txt` rows store `90000 + original_music_track`, so the
-shared music player resolves the MM9 package without filename collisions with MM6-MM8 tracks. Original track 18 has no
-corresponding asset in the installed MM9 soundtrack and remains unavailable.
+with globally unique track ids `90001-90017` (`MM9-SongNN` is `900NN`). MAPSTATS "Music Track" counts CD tracks (the
+CD's track 1 was data), so Music Track N plays `MM9-Song(N-1)`: the MM9 `map_stats.txt` rows store
+`90000 + Music Track - 1` (`generate_mm9_map_stats_encounters.py`; Thousand Terrors' track 18 is `90017`, Song17;
+Temple of Honk, blank in MAPSTATS, gets Guberland's). See [MM9 ambient audio RE](../mm9_rework/MM9_AMBIENT_AUDIO_RE.md).
 
 ## Excluded For Now
 

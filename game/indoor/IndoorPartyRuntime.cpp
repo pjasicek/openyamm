@@ -23,6 +23,9 @@ constexpr float FallDamageDistance = 512.0f;
 constexpr float MaxAccumulatedMovementSeconds = 0.1f;
 constexpr float DefaultJumpVelocity = 480.0f;
 constexpr float DefaultJumpLift = 0.0f;
+// A floor this close to the party's feet over a ladder's hold spot covers the ladder's top (no grab there).
+constexpr float LadderCoverRise = 32.0f;
+constexpr float LadderCoverDrop = 32.0f;
 constexpr float PartyGravityPerSecond = 1280.0f;
 // MM9's water sounds (worlds/mm9/audio): the eye goes under, comes out, a drowning tick.
 constexpr const char *WaterSplashSound = "events/watersplash.wav";
@@ -174,6 +177,7 @@ void IndoorPartyRuntime::teleportPartyPosition(float x, float y, float z)
     m_pendingJumpVelocity.reset();
     m_pendingJumpLift = DefaultJumpLift;
     m_burningDamageTimerSeconds = 0.0f;
+    m_ladderGlide.reset();
     resetWaterState(false);
 }
 
@@ -225,7 +229,101 @@ void IndoorPartyRuntime::setLadderVerticalInput(int verticalInput)
 
 bool IndoorPartyRuntime::climbingLadder() const
 {
-    return m_ladderIndex.has_value();
+    return m_ladderIndex.has_value() || m_ladderGlide.has_value();
+}
+
+void IndoorPartyRuntime::startLadderGlide(float toX, float toY, float toFootZ, std::optional<size_t> ontoLadderIndex)
+{
+    // About walking speed, never so short that it reads as a jump.
+    constexpr float GlideSpeed = 448.0f;
+    constexpr float MinGlideSeconds = 0.2f;
+    LadderGlide glide;
+    glide.from = {m_movementState.x, m_movementState.y, m_movementState.footZ};
+    glide.to = {toX, toY, toFootZ};
+    // Across at the higher end's height, then down (onto a ladder), or up first, then across (off its top).
+    glide.corner = glide.from[2] >= glide.to[2]
+        ? std::array<float, 3>{glide.to[0], glide.to[1], glide.from[2]}
+        : std::array<float, 3>{glide.from[0], glide.from[1], glide.to[2]};
+    const float across = std::hypot(glide.to[0] - glide.from[0], glide.to[1] - glide.from[1]);
+    const float vertical = std::fabs(glide.to[2] - glide.from[2]);
+    glide.duration = std::max(MinGlideSeconds, (across + vertical) / GlideSpeed);
+    glide.ontoLadderIndex = ontoLadderIndex;
+    m_ladderGlide = glide;
+    m_ladderIndex.reset();
+    m_movementState.grounded = false;
+    m_movementState.supportFaceIndex = static_cast<size_t>(-1);
+    m_movementState.verticalVelocity = 0.0f;
+    m_movementState.fallStartZ = m_movementState.footZ;
+}
+
+void IndoorPartyRuntime::stepLadderGlide(const IndoorBodyDimensions &body)
+{
+    LadderGlide &glide = *m_ladderGlide;
+    glide.seconds += IndoorMovementStepSeconds;
+    m_pendingJumpRequested = false;
+
+    if (glide.seconds >= glide.duration)
+    {
+        const std::array<float, 3> to = glide.to;
+        const std::optional<size_t> ontoLadderIndex = glide.ontoLadderIndex;
+        m_ladderGlide.reset();
+
+        if (!ontoLadderIndex)
+        {
+            teleportPartyPosition(to[0], to[1], to[2]);
+            return;
+        }
+
+        const std::optional<IndoorMoveState> held = m_movementController.airborneStateAt(to[0], to[1], to[2], body);
+
+        if (held)
+        {
+            m_movementState = *held;
+        }
+
+        m_movementState.x = to[0];
+        m_movementState.y = to[1];
+        m_movementState.footZ = to[2];
+        m_movementState.fallStartZ = to[2];
+        m_ladderIndex = ontoLadderIndex;
+        return;
+    }
+
+    // Eased along the two legs by length.
+    const float progress = glide.seconds / glide.duration;
+    const float eased = progress * progress * (3.0f - 2.0f * progress);
+    const auto legLength = [](const std::array<float, 3> &a, const std::array<float, 3> &b)
+    {
+        return std::sqrt((b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] - a[1]) + (b[2] - a[2]) * (b[2] - a[2]));
+    };
+    const float first = legLength(glide.from, glide.corner);
+    const float total = first + legLength(glide.corner, glide.to);
+    const float travelled = eased * total;
+    const bool onFirst = travelled <= first || total - first < 1.0e-3f;
+    const std::array<float, 3> &start = onFirst ? glide.from : glide.corner;
+    const std::array<float, 3> &end = onFirst ? glide.corner : glide.to;
+    const float legFraction = onFirst
+        ? (first > 1.0e-3f ? travelled / first : 1.0f)
+        : (travelled - first) / (total - first);
+    const float x = start[0] + (end[0] - start[0]) * legFraction;
+    const float y = start[1] + (end[1] - start[1]) * legFraction;
+    const float footZ = start[2] + (end[2] - start[2]) * legFraction;
+
+    // Keep the sectors current where the body fits; a graze of the floor's edge on the way keeps the last ones.
+    const std::optional<IndoorMoveState> placed = m_movementController.airborneStateAt(x, y, footZ, body);
+
+    if (placed)
+    {
+        m_movementState = *placed;
+    }
+
+    m_movementState.x = x;
+    m_movementState.y = y;
+    m_movementState.footZ = footZ;
+    m_movementState.grounded = false;
+    m_movementState.verticalVelocity = 0.0f;
+    m_movementState.fallStartZ = footZ;
+    m_movementState.fallDistance = 0.0f;
 }
 
 bool IndoorPartyRuntime::stepOnLadder(
@@ -240,6 +338,12 @@ bool IndoorPartyRuntime::stepOnLadder(
     if (pMapData == nullptr || pMapData->ladders.empty())
     {
         return false;
+    }
+
+    if (m_ladderGlide)
+    {
+        stepLadderGlide(body);
+        return true;
     }
 
     const IndoorMoverBody moverBody = {
@@ -263,7 +367,7 @@ bool IndoorPartyRuntime::stepOnLadder(
 
     if (!m_ladderIndex && m_movementState.grounded && !m_pendingJumpRequested)
     {
-        // Walking from a ladder's top exit toward its top: the body is placed on the strip just under the top.
+        // Walking from a ladder's top exit toward its top: the body glides onto the strip just under the top.
         for (size_t index = 0; index < pMapData->ladders.size(); ++index)
         {
             const IndoorLadder &candidate = pMapData->ladders[index];
@@ -274,13 +378,22 @@ bool IndoorPartyRuntime::stepOnLadder(
             }
 
             const bx::Vec3 hold = indoorLadderTopEntryPosition(candidate, moverBody);
+
+            // The way down is through a hole: a floor where the party stands over the hold spot (a shut trap's floor,
+            // Anskram's pivot traps over their pits' ladders) covers the ladder.
+            if (m_movementController.hasFloorAt(
+                    hold.x, hold.y, m_movementState.footZ, LadderCoverRise, LadderCoverDrop))
+            {
+                continue;
+            }
+
             const std::optional<IndoorMoveState> held =
                 m_movementController.airborneStateAt(hold.x, hold.y, hold.z, body);
 
             if (held)
             {
-                m_movementState = *held;
-                m_ladderIndex = index;
+                startLadderGlide(hold.x, hold.y, hold.z, index);
+                stepLadderGlide(body);
                 return true;
             }
         }
@@ -311,8 +424,8 @@ bool IndoorPartyRuntime::stepOnLadder(
 
     if (step.exitTop)
     {
-        m_ladderIndex.reset();
-        teleportPartyPosition(ladder.topExit[0], ladder.topExit[1], ladder.topExit[2]);
+        startLadderGlide(ladder.topExit[0], ladder.topExit[1], ladder.topExit[2], std::nullopt);
+        stepLadderGlide(body);
         return true;
     }
 
@@ -395,11 +508,12 @@ void IndoorPartyRuntime::update(
         m_pendingImpulseVelocityZ = 0.0f;
     }
 
-    // The settings' speed, a ruleset's slow (MAW's dimension affix 25) and wading through a shallow liquid floor.
+    // The settings' speed, a ruleset's slow (MAW's dimension affix 25), a spell's speed-up (MM9's Fleet Foot) and
+    // wading through a shallow liquid floor.
     const size_t supportFace = m_movementState.supportFaceIndex;
     const float wadeSpeed = m_movementState.grounded && supportFace < m_faceWadeSpeeds.size()
         ? m_faceWadeSpeeds[supportFace] : 1.0f;
-    const float speedMultiplier = m_movementSpeedMultiplier * m_party.rulesMovementMultiplier() * wadeSpeed;
+    const float speedMultiplier = m_movementSpeedMultiplier * m_party.movementMultiplier() * wadeSpeed;
     // Scene water volumes (MM9's deep water): their tops where their movers stand now; nothing on any other map.
     const bool inWaterMap = waterActive();
 
@@ -425,7 +539,7 @@ void IndoorPartyRuntime::update(
         }
 
         if (inWaterMap
-            && stepInWater(m_movementSpeedMultiplier * m_party.rulesMovementMultiplier(), body, contactedActorIndices))
+            && stepInWater(m_movementSpeedMultiplier * m_party.movementMultiplier(), body, contactedActorIndices))
         {
             recordSteppedFloorFace(m_steppedFloorFaces, m_movementState);
             m_pendingJumpRequested = false;
@@ -657,7 +771,7 @@ void IndoorPartyRuntime::update(
         m_burningDamageTimerSeconds = 0.0f;
     }
 
-    effects.indoor = true;
+    effects.indoor = !m_openAir;
     m_party.applyMovementEffects(effects);
 
     if (inWaterMap)
@@ -1026,6 +1140,7 @@ IndoorPartyRuntime::Snapshot IndoorPartyRuntime::snapshot() const
     snapshot.pendingImpulseVelocityY = m_pendingImpulseVelocityY;
     snapshot.pendingImpulseVelocityZ = m_pendingImpulseVelocityZ;
     snapshot.alwaysRunEnabled = m_alwaysRunEnabled;
+    snapshot.swimMemory = m_swimMemory;
     return snapshot;
 }
 
@@ -1046,6 +1161,11 @@ void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_alwaysRunEnabled = snapshot.alwaysRunEnabled;
     m_movementController.invalidateRuntimeGeometryCache();
     resetWaterState(true);
+
+    if (snapshot.swimMemory)
+    {
+        m_swimMemory = *snapshot.swimMemory;
+    }
 }
 
 void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
@@ -1056,6 +1176,11 @@ void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
 void IndoorPartyRuntime::setFaceWadeSpeeds(std::vector<float> speeds)
 {
     m_faceWadeSpeeds = std::move(speeds);
+}
+
+void IndoorPartyRuntime::setOpenAir(bool openAir)
+{
+    m_openAir = openAir;
 }
 
 void IndoorPartyRuntime::setAlwaysRunEnabled(bool enabled)

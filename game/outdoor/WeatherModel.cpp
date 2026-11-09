@@ -27,6 +27,12 @@ constexpr float LadderFogStrongNumerator = 16192.0f;
 // Where ladder fog starts, it fades in from these distances.
 constexpr float LadderFogFadeWeak = 16384.0f;
 constexpr float LadderFogFadeStrong = 32768.0f;
+// A fog day starts at 3 am (as an outdoor map's daily fog) and the new day's fog blends in over the hour after.
+constexpr double FogDayStartMinutes = 180.0;
+constexpr float FogBlendMinutes = 60.0f;
+// A clear day's fog for blending into and out of a fog level: out of sight.
+constexpr float ClearFogNear = 65536.0f;
+constexpr float ClearFogFar = 131072.0f;
 
 // splitmix64: identical on every platform, unlike std:: distributions.
 class WeatherRandom
@@ -294,7 +300,7 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
         if (!parser.checkKeys(root, {"version", "chances", "month_multipliers", "maps", "intensities", "rain",
                 "snow", "cloud_lead", "cloud_linger", "variation", "event_intensity", "storm_threshold",
                 "strike_interval_seconds", "wet_minutes", "dry_minutes", "wind", "fade_seconds", "sounds", "ash",
-                "flakes"}, "weather"))
+                "flakes", "open_sky_fog"}, "weather"))
         {
             return false;
         }
@@ -341,7 +347,8 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                 float value = 0.0f;
 
                 if (!parser.checkKeys(entry.second,
-                        {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color", "always", "peak"}, where))
+                        {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color", "always", "peak", "fog"},
+                        where))
                 {
                     return false;
                 }
@@ -425,7 +432,35 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.ashPercent = value;
                 }
 
+                if (entry.second["fog"])
+                {
+                    std::array<float, 3> fog = {};
+
+                    if (!parser.readFloats(entry.second["fog"], fog, 0.0f, 100.0f, where + ".fog"))
+                    {
+                        return false;
+                    }
+
+                    if (fog[0] + fog[1] + fog[2] > 100.0f)
+                    {
+                        return parser.fail(where + ".fog chances add up to more than 100");
+                    }
+
+                    chances.fogPercent = fog;
+                }
+
                 rules.maps[mapName] = chances;
+            }
+        }
+
+        if (const YAML::Node fog = root["open_sky_fog"]; fog)
+        {
+            if (!parser.checkKeys(fog, {"small", "average", "dense"}, "open_sky_fog")
+                || !parser.readRange(fog, "small", rules.openSkyFog[0], 0.0f, 100000.0f, "open_sky_fog")
+                || !parser.readRange(fog, "average", rules.openSkyFog[1], 0.0f, 100000.0f, "open_sky_fog")
+                || !parser.readRange(fog, "dense", rules.openSkyFog[2], 0.0f, 100000.0f, "open_sky_fog"))
+            {
+                return false;
             }
         }
 
@@ -624,6 +659,7 @@ WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t
         settings.ashEnabled = settings.ashChancePercent > 0.0f;
         settings.dryLightningPercent = it->second.dryLightningPercent.value_or(0.0f);
         settings.rainColor = it->second.rainColor.value_or(DefaultRainColor);
+        settings.fogChancePercent = it->second.fogPercent.value_or(std::array<float, 3>{});
 
         // Only a kind the map can have (the scene's or bolster row's rain and snow).
         if ((it->second.always == PrecipitationKind::Rain && rainEnabled)
@@ -919,6 +955,78 @@ float weatherFogLadderPosition(int dryState, int stateCount, const WeatherSample
         ? std::clamp(sample.intensity / std::max(stormThreshold, 0.05f), 0.0f, 1.0f) : 0.0f;
     const float position = sample.cloudCover * overcast + precipitation * (storm - overcast);
     return std::max(dry, position);
+}
+
+int weatherFogDayIndex(double gameMinutes)
+{
+    return static_cast<int>(std::floor(std::max(gameMinutes - FogDayStartMinutes, 0.0) / MinutesPerDay));
+}
+
+WeatherFogLevel rollDailyFog(const WeatherMapSettings &settings, int fogDayIndex)
+{
+    const std::array<float, 3> &chances = settings.fogChancePercent;
+
+    if (chances[0] + chances[1] + chances[2] <= 0.0f)
+    {
+        return WeatherFogLevel::None;
+    }
+
+    // Its own stream, so the fog never changes the rain, snow and wind a day rolls.
+    const uint64_t seed = 0x464f47464f474647ull
+        ^ (static_cast<uint64_t>(settings.mapId) * 0x9e3779b97f4a7c15ull)
+        ^ (static_cast<uint64_t>(static_cast<uint32_t>(std::max(fogDayIndex, 0))) * 0xc2b2ae3d27d4eb4full);
+    WeatherRandom random(seed);
+    const float roll = random.unit() * 100.0f;
+
+    if (roll < chances[0])
+    {
+        return WeatherFogLevel::Small;
+    }
+
+    if (roll < chances[0] + chances[1])
+    {
+        return WeatherFogLevel::Average;
+    }
+
+    return roll < chances[0] + chances[1] + chances[2] ? WeatherFogLevel::Dense : WeatherFogLevel::None;
+}
+
+WeatherOpenSkyFog sampleOpenSkyFog(const WeatherRules &rules, const WeatherMapSettings &settings, double gameMinutes,
+    std::optional<WeatherFogLevel> forcedLevel)
+{
+    const auto distances = [&rules](WeatherFogLevel level) -> std::array<float, 2>
+    {
+        return level == WeatherFogLevel::None ? std::array<float, 2>{ClearFogNear, ClearFogFar}
+                                              : rules.openSkyFog[static_cast<size_t>(level) - 1];
+    };
+
+    WeatherOpenSkyFog fog;
+    std::array<float, 2> shown = {};
+
+    if (forcedLevel)
+    {
+        shown = distances(*forcedLevel);
+    }
+    else
+    {
+        const int day = weatherFogDayIndex(gameMinutes);
+        const std::array<float, 2> today = distances(rollDailyFog(settings, day));
+        const float sinceStart = static_cast<float>(
+            std::max(gameMinutes - FogDayStartMinutes, 0.0) - static_cast<double>(day) * MinutesPerDay);
+        const float blend = day > 0 ? std::clamp(sinceStart / FogBlendMinutes, 0.0f, 1.0f) : 1.0f;
+        const std::array<float, 2> before = blend < 1.0f ? distances(rollDailyFog(settings, day - 1)) : today;
+        shown = {before[0] + (today[0] - before[0]) * blend, before[1] + (today[1] - before[1]) * blend};
+    }
+
+    if (shown[1] >= ClearFogFar)
+    {
+        return fog;
+    }
+
+    fog.foggy = true;
+    fog.nearDistance = shown[0];
+    fog.farDistance = std::max(shown[1], shown[0] + 1.0f);
+    return fog;
 }
 
 WeatherFogDistances weatherLadderFog(float position, int stateCount)

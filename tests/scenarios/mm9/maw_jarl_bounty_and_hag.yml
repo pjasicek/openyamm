@@ -1,0 +1,45 @@
+# MAW in MM9 (rulesets/maw/worlds/mm9/dialogue.yml, the user, 2026-11-09): Jarl Bjarni (RUDE 45, Sturmford City's
+# throne room) has a bounty office for Sturmford, the region, which MAW opens only once Sturmford is cleared; Hjordisa
+# the Hag (RUDE 132, Guberland) offers MAW's skill reset and Dimensional Maps, as the Oracle, Judge Grey and the Seer
+# do. Standard games offer neither.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/maw_jarl_bounty_and_hag.yml --scenario-no-color
+id: mm9.maw_jarl_bounty_and_hag
+title: "MAW in MM9: the Jarls' bounties for their regions and the Hag's skill reset and Dimensional Maps"
+world: mm9
+mode: faithful
+tags: [mm9, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - setup_shortcut: {kind: immortal}
+  - set_pose: {map: sturmfordcity.blv, x: 7000, y: 8192, z: 19743, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - assert:
+      dialog: {action_label_present: "Bounty hunt"}
+  - select_topic: {match_label: "Bounty hunt"}
+  - assert:
+      dialog: {text_contains: "You need to clear Sturmford COMPLETELY first."}
+
+  - new_game_flow:
+      start_map: guberland.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - setup_shortcut: {kind: immortal}
+  - set_pose: {map: guberland.blv, x: 13500, y: -21027, z: 103, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 40}
+  - assert:
+      dialog: {action_label_present: "Dimensional Maps"}
+  - select_topic: {match_label: "Skill reset"}
+  - assert:
+      dialog: {text_contains: "forget every skill lesson"}
+
+  # Standard: neither.
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+  - set_pose: {map: sturmfordcity.blv, x: 7000, y: 8192, z: 19743, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - assert:
+      dialog: {action_label_absent: "Bounty hunt"}

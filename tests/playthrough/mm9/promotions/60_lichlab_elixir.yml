@@ -1,0 +1,90 @@
+# MM9 promotion playthrough, segment 60: the Elixir of Defedation brewed in the Lich Lab (guide: side_a.yml
+# become-a-lich). From Drangheim to Thronheim (outdoors the party is moved), the Connecting Tunnels walked to Yorwick
+# (as the main run's segment 53), the Lich Lab's entrance (Yorwick's ExitTrigger5, its prompt). The lab is walked
+# (its undead die): Level B (the entrance storey, z 1311) east through RotatingDoor176 (event 142) and the side room,
+# north through RotatingDoor138 (112) into the hall, RotatingDoor184 (150) into the storeroom: one Elixir Ingredients
+# (item 378) and one Jar (358), world items on its shelves. Back to the lobby, up the grand stair to Level A (z 2376),
+# RotatingDoor182 (148), the central room, RotatingDoor193 (159), the east room, RotatingDoor200 (166): the kitchen.
+# The cook pot (event 222) turns the ingredients into Elixir Fluid (561); the burner (223) turns fluid and jar into the
+# Elixir of Defedation (246), into the active member's pack: the party first selects the Wizard (member 3, by number
+# key), so the elixir is the Wizard's. Rotating doors shut by themselves after 5 s and a click on an
+# open one shuts it: each is clicked once it stands shut. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 60
+id: mm9.promotions.60_lichlab_elixir
+title: "MM9 promotions 60: to Yorwick; the Lich Lab's storeroom and kitchen: an Elixir of Defedation for the Wizard"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/58_chasm_lich_instructions.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_set: [90296], qbit_clear: [90299]}
+
+  # To Thronheim (outdoors the party is moved), the Connecting Tunnels on foot to Yorwick.
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 16168, y: -16700, z: 2090, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 16168, y: -17075, z: 2090, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+  - walk_to: {x: -17737, y: -7782, z: 1501, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+
+  # The Lich Lab's entrance in Yorwick's south-east (outdoors the party is placed before it).
+  - set_pose: {map: yorwick.blv, x: 16150, y: -20450, z: 1051, yaw: -2.5, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 15769, y: -20738, z: 1213, z_tolerance: 600, plan: false, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lichlab.blv}
+
+  # Level B: the side room east of the lobby, the hall, the storeroom.
+  - walk_to: {x: 550, y: -3930, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(54) == "closed" then break end; wait(0.5) end; click(142); wait(1.5)'}   # RotatingDoor176
+  - walk_to: {via: [[950, -3930, 1311]], x: 1536, y: -3328, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 1885, y: -2300, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(24) == "closed" then break end; wait(0.5) end; click(112); wait(1.5)'}   # RotatingDoor138
+  - walk_to: {x: 1885, y: -1700, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -163, y: 380, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(62) == "closed" then break end; wait(0.5) end; click(150); wait(1.5)'}   # RotatingDoor184
+  - walk_to: {via: [[-163, 800, 1311]], x: -150, y: 2250, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - pick_up: {item_id: 10378, reach: 400}
+  - walk_to: {x: -520, y: 2250, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - pick_up: {item_id: 10358, reach: 400}
+  - play_lua: {source: 'if item_count(10378) ~= 1 or item_count(10358) ~= 1 then error("want one Elixir Ingredients and one Jar") end; log("one Elixir Ingredients and one Jar from the storeroom")'}
+
+  # Back to the lobby and up the grand stair to Level A.
+  - walk_to: {x: -163, y: 800, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(62) == "closed" then break end; wait(0.5) end; click(150); wait(1.5)'}   # RotatingDoor184
+  - walk_to: {x: -163, y: 380, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 1885, y: -1500, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(24) == "closed" then break end; wait(0.5) end; click(112); wait(1.5)'}   # RotatingDoor138
+  - walk_to: {via: [[1885, -2300, 1311]], x: 1536, y: -3328, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 950, y: -3930, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(54) == "closed" then break end; wait(0.5) end; click(142); wait(1.5)'}   # RotatingDoor176
+  - walk_to: {via: [[550, -3930, 1311]], x: -1311, y: -3800, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {via: [[-1311, -3328, 1311]], x: -1311, y: -768, z: 2376, plan: false, z_tolerance: 300, timeout_seconds: 30, clear_hostiles: 2000}
+
+  # Level A: the central room, the east room, the kitchen.
+  - walk_to: {x: -1311, y: 500, z: 2376, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(60) == "closed" then break end; wait(0.5) end; click(148); wait(1.5)'}   # RotatingDoor182
+  - walk_to: {x: -1311, y: 1300, z: 2376, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -350, y: 1966, z: 2376, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(71) == "closed" then break end; wait(0.5) end; click(159); wait(1.5)'}   # RotatingDoor193
+  - walk_to: {via: [[100, 1966, 2376]], x: 650, y: 2700, z: 2376, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(78) == "closed" then break end; wait(0.5) end; click(166); wait(1.5)'}   # RotatingDoor200
+  - walk_to: {via: [[820, 2950, 2376], [820, 3450, 2376]], x: 650, y: 3700, z: 2376, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+
+  # The cook pot, then the burner with the Wizard selected.
+  - play_lua: {source: 'click(222); wait(0.5); if item_count(10561) ~= 1 or item_count(10378) ~= 0 then error("the cook pot gave no Elixir Fluid") end; log("the cook pot: Elixir Fluid")'}
+  - walk_to: {x: 1100, y: 4250, z: 2376, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  # The Wizard selected by number key (char_cycle skips a member still recovering).
+  - press_action: {action: select_member, member_index: 3}
+  - lua_event: {source: "if evt.GetCurrentPlayerIndex() ~= 3 then error('the Wizard is not selected: ' .. evt.GetCurrentPlayerIndex()) end"}
+  - play_lua: {source: 'click(223); wait(0.5); if item_count(10246) ~= 1 or item_count(10561) ~= 0 or item_count(10358) ~= 0 then error("the burner gave no Elixir of Defedation") end; log("the burner: an Elixir of Defedation")'}
+  - lua_event: {source: "for i = 0, 3 do if evt.PartyMemberHasItem(i, 10246) ~= (i == 3) then error('member ' .. i .. ' elixir: ' .. tostring(evt.PartyMemberHasItem(i, 10246))) end end"}
+  - play_lua: {source: 'log("the elixir is in the Wizard''s (member 3) pack")'}
+  - save_game: {name: "60 the elixir", path: output/playthrough/mm9/promotions/checkpoints/60_lichlab_elixir.oysav}

@@ -60,9 +60,10 @@ spell cast is not: `maw_assassin_attack_spell.yml`); `spawn_actor: {monster_id, 
 bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the party's live missiles instead of
 the actors' (`maw_bow_disabled.yml`).
 
-For spells and auras: `cast_spell: {member_index, spell_id, skill, mastery: 1-4, actor_index, target_member, scroll,
-expect}` casts through the party's spell system with full mana and no recovery (skill and mastery set the spell's
-school first; `scroll: true` reads it from a scroll at that power instead), and projectiles fly on with
+For spells and auras: `cast_spell: {member_index, spell_id, skill, mastery: 1-4, actor_index, target_member,
+target_point, scroll, expect}` casts through the party's spell system with full mana and no recovery (skill and mastery
+set the spell's school first; `scroll: true` reads it from a scroll at that power instead; `target_point: [x, y, z]` is
+the ground point of a spell cast at the ground, Meteor Shower or Starburst: `mm9/open_air_spells.yml`), and projectiles fly on with
 `advance_runtime`; `assert: {actor_count: {..., shrunk: bool, hurt: bool}}` also filters by Shrinking Ray and by
 missing HP; `assert: {buff: {spell_id, present, member_index}}` checks a party or member buff the spell set, and
 `assert: {condition: {name, present, member_index}}` a member's condition by its `party_attack` name (any member
@@ -70,9 +71,10 @@ without an index; `mm7/emerald_island_cast_off_rest.yml`).
 `party_charge: {actor_index, status, advance_seconds, min_moved}` runs the Knight Charge action at the actor: `status`
 is the line the rules must give ("none" without a charge), then the run advances and the party must have moved at
 least `min_moved` units (`maw_knight_charge.yml`). `assert: {actor_count: {..., hostile: bool}}` also filters by
-hostility to the party; `assert: {ruleset: {map_cleared: bool, map_slain_min: N}}` checks the current map's MAW
-clear state and slain count since its last refill; `assert: {dimension_door: {pending, without_quest}}` checks a
-pending Dimension Door (MAW's town pedestals open it without the Cross Continents quest). Event scripts can test
+hostility to the party, and `near: [x, y, radius]` by where the actors stand
+(`mm8/mad_necromancers_lab_entry_aggro.yml`); `assert: {ruleset: {map_cleared: bool, map_slain_min: N}}` checks the
+current map's MAW clear state and slain count since its last refill; `assert: {dimension_door: {pending}}` checks a
+pending Dimension Door (the towns' dimensional travel pedestals, `dimensional_travel_pedestals.yml`). Event scripts can test
 `evt.CheckMonstersKilled(ActorKillCheck.Hostile, 0, 0, false)`: every actor but the party's summons and allies
 (`maw_endless_arena_level.yml`). `setup_shortcut: {kind: set_global_var, name, value}` sets a named global event
 variable (MM7's cross-continent vars are `MMerge.CrossContinents.<name>`). `spawn_actor: {..., party_ally: true}`
@@ -109,18 +111,46 @@ same answer on every machine (`mm6/abandoned_temple_cage_trap.yml`).
 (`evt.SummonMonstersById`, `evt.SetActorTarget` ...); a Lua error fails the step (`mm9/ai/lua_summon.yml`). The console
 `destructible <id> state` reports a scene destructible's hp and whether it stands (`mm9/destructibles/`).
 
+Long story and quest runs are not routine tests: `mm9/side_quests/` (one scenario per MM9 side quest, its own
+`run.py`) and the chained `tests/playthrough/` segments take minutes each, so do not sweep them with the other
+scenarios; run them only as the [Playthrough playbook](../playthrough/PLAYBOOK.md) says (when asked, before a release,
+after a change that can break a story, and then only the affected ones).
+
 For playthroughs ([MM9 playthrough](../playthrough/mm9/README.md)): `walk_to: {x, y, z | to, via: [[x, y, z] | pose],
-radius, timeout_seconds, clear_hostiles, expect_map, plan, node_limit, close_dialogs, expect: arrived|dialog}` walks the
-party there with the movement keys on a route from the monsters' indoor path map (when stuck it aims further, jumps,
-steps aside, clicks what is ahead and plans again; it fails, naming the spot, after twelve tries in one place) and
-prints its trail (`WALK` lines); a dialogue an event opens on the way (an exit's prompt) ends it, which `expect: dialog`
-wants. `clear_hostiles: {radius, min}` kills the party's enemies near it. `play_lua: {source, max_seconds}` runs a
-player's reasoning in Lua: `click(event_id)`, `wait(seconds)`, `status()` (the status lines since the last call),
-`qbit(id)`, `has_item(item_id)`, `mapvar(name)`, `log(text)`. `party_defeat: {wait_seconds, knock_out, expect_map}`
-waits until nobody can act (`knock_out`: every member falls at once), then runs the game's defeat and respawn.
-`setup_shortcut: {kind: immortal, value}` is the Immortal cheat for the run only. `save_game: {name, path}` keeps the
-save at a path (relative to the working folder) after the run. `select_topic: {match_label}` without `action_id` picks
-the line by its text (exactly, else the one containing it) and, when missing, lists the lines offered.
+radius, z_tolerance, timeout_seconds, clear_hostiles, expect_map, plan, node_limit, close_dialogs, expect:
+arrived|dialog}` walks the party there with the movement keys on a route from the monsters' indoor path map (when stuck
+it aims further, jumps, steps aside, clicks what is ahead and plans again; it fails, naming the spot, after twelve tries
+in one place) and prints its trail (`WALK` lines); a dialogue an event opens on the way (an exit's prompt) ends it,
+which `expect: dialog` wants. `clear_hostiles: {radius, min}` kills the party's enemies near it. `play_lua: {source,
+max_seconds}` runs a player's reasoning in Lua: `click(event_id)`, `wait(seconds)`, `status()` (the status lines since
+the last call), `qbit(id)`, `has_item(item_id)`, `mapvar(name)`, `held()` (the item on the cursor, 0: none), `stow()` (puts the cursor item into the packs, the active member's first, as
+a player does; false when it fits nobody),
+`item_count(item_id)` (in the packs), `pack_items()` (every pack item), `discard(item_id)` (drops one from the packs),
+`door_state(id)` (open, closed, opening, closing), `take_chest()` (the open chest's Take All), `close()` (Escape),
+`classes()` (the members' class names, space-separated), `party()` (for a log line: the selected member's index and
+each member's name, actual Might and condition bits), `experience(index)` (a member's, from 0), `conditions(index)` (a member's condition names,
+space-separated), `gold()`,
+`remember(key, value)` and `recall(key)` (a value kept for the later `play_lua` steps of the run, such as the classes,
+experience or gold before a reward; nil when never remembered), `clear_hostiles(radius)` (kills the party's enemies
+near it, returns how many), `log(text)`. Two helpers are written in Lua over these: `open_door(event_id, door_id)`
+waits until a door stops moving (a click on a moving door does nothing; monsters open some doors and many close by
+themselves), clicks it if it is shut and waits until it stands open, killing enemies in its swing meanwhile;
+`loot_chest(event_id)` opens a chest and takes all, clicking again when a trap the party cannot disarm went off and
+left it shut.
+`party_defeat: {wait_seconds, knock_out, expect_map, expect_game_over}` waits until nobody can act (`knock_out`: every
+member falls at once), then runs the game's defeat and respawn; a defeat the world counts as lost (world.yml
+`partyDeath` `when`, MM9's game over) loads nothing headless (never the player's autosave), prints `DEFEAT game over`
+and passes only with `expect_game_over: true` (`mm9/defeat_arslegard_rule.yml`). `walk_to` goes on after a teleport
+on the same map (a move over 512 in one frame, or a same-map move event) from the route point nearest to where the
+party landed, so via points on the pad and the arrival as the target walk through a teleporter; when a friendly actor
+holds the party up it goes round it, waits for it or backs off instead of counting the spot as stuck. `setup_shortcut: {kind: immortal, value}` is the Immortal cheat for the
+run only. `save_game: {name, path}` keeps the save at a path (relative to the working folder) after the run.
+`select_topic: {match_label}` without `action_id` picks the line by its text (exactly, else the one containing it) and,
+when missing, lists the lines offered. `climb: {ladder, down, timeout_seconds}` walks to a scene ladder's foot (down:
+its top exit, which needs `grab_at_top`), faces it and climbs with the movement keys through the game's ladder rules; it
+fails unless the party takes hold within 3 s and lets go at the other end (`CLIMB` lines). `pick_up: {item_id, reach}`
+takes an item lying in the map: within `reach` (default 400) of the party's eye, the camera turned at it, the use key;
+the item must reach the party (`PICKUP` lines).
 
 For cinematics (devdocs/mm9_rework/MM9_CUTSCENES.md): `advance_runtime: {seconds, follow_map_move: true}` carries
 out a map move an event of the step asked for (a cinematic's last event, an exit), as the game's frame does; without
@@ -136,7 +166,8 @@ out), the drowning ticks taken on this map and its feet's height; the swim keys 
 For monster AI (AI arenas, [mm9/ai/README.md](mm9/ai/README.md)): `ai_arena: {path, log}` sets an arena up (the map's
 actors hidden, the arena's monsters spawned, the party placed, the decision trace on), `assert: {ai_trace:
 {actor_index | arena_monster, decision | event, target, min_count, max_count, within_seconds, after, before, report}}`
-(`decision` one name or a list, any of which matches) counts decision trace lines and `ai_trace_dump: {actor_index | arena_monster, decisions_only, last}` prints them.
+(`decision` one name or a list, any of which matches; `target` a whole target such as `actor:12` or its kind, `actor`)
+counts decision trace lines and `ai_trace_dump: {actor_index | arena_monster, decisions_only, last}` prints them.
 
 For turn-based combat ([TURN_BASED_COMBAT_AUDIT.md](../../devdocs/TURN_BASED_COMBAT_AUDIT.md), `turn_based/`):
 `press_action: combat` toggles turn-based mode, `turn_based_turns: {count, max_seconds}` plays turns through the input

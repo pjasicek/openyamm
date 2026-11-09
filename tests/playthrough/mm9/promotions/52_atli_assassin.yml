@@ -1,0 +1,52 @@
+# MM9 promotion playthrough, segment 52: the Assassin promotion (guide: side_a.yml steal-the-knife,
+# kill-guaire-a-velsi). Back in The Dancing Bard, Atli the Quick (actor 33, RUDE 88) hears "We have completed your
+# tasks." (needs keys 223 and 225, gives 226); the talk's exit (drangheimcity.lua handler 50347, NPC88.scr) gives key
+# 227, 37 500 experience to every member and 5 000 gold, and promotes the party by MM9.Promotions.assassin: the Rogue
+# (member 2) becomes an Assassin, nobody else changes. Atli's first page then keeps "Promote our eligible
+# characters.", which has no one left to promote. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 52
+id: mm9.promotions.52_atli_assassin
+title: "MM9 promotions 52: Atli's tasks reported; the Rogue becomes an Assassin"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/51_klusos_house.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: drangheimcity.blv, qbit_set: [90223, 90225], qbit_clear: [90226, 90227]}
+
+  - set_pose: {map: drangheimcity.blv, x: 16000, y: -3000, z: 431, yaw: -0.6, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log("CLASSES before: " .. classes())
+        if classes() ~= "Champion PriestLight Rogue Wizard" then error("unexpected classes: " .. classes()) end
+        remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+  - interact_actor: {actor_index: 33}
+  - assert: {dialog: {action_label_absent: "Promote our eligible characters."}}
+  - select_topic: {match_label: "We have completed your tasks."}
+  - select_topic: {match_label: "Thank you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90226, 90227]}
+  - play_lua:
+      source: |
+        log("CLASSES after: " .. classes())
+        if classes() ~= "Champion PriestLight Assassin Wizard" then error("the Assassin promotion gave: " .. classes()) end
+        local paid = gold() - recall("gold")
+        log("gold +" .. paid)
+        if paid ~= 5000 then error("Atli paid " .. paid .. " gold, not 5000") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          log("member " .. i .. " experience +" .. gain)
+          if gain ~= 37500 then error("member " .. i .. " gained " .. gain .. " experience, not 37500") end
+        end
+
+  # Atli keeps the promotion topic; nobody else is eligible.
+  - interact_actor: {actor_index: 33}
+  - assert: {dialog: {action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {text_contains: "No one among you can take this promotion now."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: 'if classes() ~= "Champion PriestLight Assassin Wizard" then error("classes changed: " .. classes()) end'}
+  - save_game: {name: "52 Assassin", path: output/playthrough/mm9/promotions/checkpoints/52_atli_assassin.oysav}

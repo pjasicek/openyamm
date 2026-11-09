@@ -73,6 +73,14 @@ public:
     void bindTables(const MonsterTable *pMonsterTable, const SpellTable *pSpellTable);
     void setPartyEngagementRange(float range);
     float configuredPartyEngagementRange() const;
+    // A world's shorter limit on the party's shots and targeted spells: its declared engagement range (world.yml
+    // actorAwareness partyEngagementRange, MM9's 3800), where its HUD turns yellow and its hits provoke. None for a
+    // world that declares no range (MM6-MM8).
+    void setWorldPartyHitReach(std::optional<float> reach);
+    // How far from the party its shots and targeted spells reach a monster, in every ruleset: the yellow alert range,
+    // 5120, as far as monsters shoot and cast at the party and as turn-based combat keeps shots; a world's shorter
+    // range (MM9's 3800) in its place. A shot vanishes beyond it and a targeted spell refuses a farther monster.
+    float partyHitReach() const;
     // How MM9 loop monsters perceive the party (world.yml actorAwareness mm9Sight, mm9Provoke).
     void setMm9PartyAwareness(const Mm9PartyAwareness &awareness);
     const Mm9PartyAwareness &mm9PartyAwareness() const;
@@ -219,6 +227,7 @@ private:
     const MonsterTable *m_pMonsterTable = nullptr;
     const SpellTable *m_pSpellTable = nullptr;
     float m_partyEngagementRange = MaximumPartyEngagementRange;
+    std::optional<float> m_worldPartyHitReach;
     Mm9PartyAwareness m_mm9PartyAwareness;
     float m_meleeVerticalReach = 0.0f;
     float m_levelRadiusLimit = 0.0f;

@@ -1,0 +1,72 @@
+# MM9 promotion playthrough 77, block E's class table (README "What is checked" 5): Grehgknak the Right
+# (Paladin, RUDE 282, actor 1) in Lindisfarne Monastery, beside whom segment 76 ended; then out of the monastery
+# on foot.
+# Each round gives the members a row's "from" classes (a logged test setup through SetPlayerClass, not a cheat
+# for a quest), picks the promoter's "Promote our eligible characters." (his quest is done) and asserts every
+# member's class; picked again, it has nobody left. Written by class_table.py for a 4-member party
+# (a four-class round is played in chunks of the party's size). The party's own classes are
+# put back at the end.
+#   python3 tests/playthrough/mm9/promotions/run.py 77
+id: mm9.promotions.77_lindisfarne_paladin_table
+title: "MM9 promotions 77: the class table at Grehgknak the Right"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/76_lindisfarne_crusades_done.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lindisfarnemonastery.blv, qbit_set: [90237], state_dump_named_map_var: {name: MonksHostile, value: 0}}
+  # The party's own classes, kept for the end (class ids in global variables; the names remembered for the check).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+
+  # Paladin: RUDE 282, actor 1.
+  # Round 1: Crusader Paladin Hunter Cavalier -> Hero Paladin Hunter Cavalier.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Crusader') then error('SetPlayerClass(0, Crusader)') end if not SetPlayerClass(1, 'Paladin') then error('SetPlayerClass(1, Paladin)') end if not SetPlayerClass(2, 'Hunter') then error('SetPlayerClass(2, Hunter)') end if not SetPlayerClass(3, 'Cavalier') then error('SetPlayerClass(3, Cavalier)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES Paladin round 1 set: " .. c) if c ~= "Crusader Paladin Hunter Cavalier" then error("expected Crusader Paladin Hunter Cavalier, got " .. c) end'}
+  - interact_actor: {actor_index: 1}
+  - assert: {dialog: {active: true, source_id: 282, action_label_present: "Promote our eligible characters."}}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "is now a"}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Paladin round 1 promoted: " .. c) if c ~= "Hero Paladin Hunter Cavalier" then error("expected Hero Paladin Hunter Cavalier, got " .. c) end'}
+  # Picked again: nobody left to promote.
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert: {dialog: {active: true, text_contains: "No one among you can take this promotion now."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES Paladin round 1 again: " .. c) if c ~= "Hero Paladin Hunter Cavalier" then error("expected Hero Paladin Hunter Cavalier, got " .. c) end'}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+
+  # Out the way the party came: the east wing, the crossing, the nave (along its west side: the monk Bred Gagii
+  # wanders its middle and east side), the narthex.
+  - walk_to: {x: 3000, y: 6390, z: 1, z_tolerance: 200, timeout_seconds: 60}
+  - walk_to: {via: [[2350, 6390, 1], [600, 6700, 1]], x: -100, y: 6700, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -100, y: 6300, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(3) == s and door_state(4) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 102 never shut") end
+        click(102)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 102 did not open") end
+  - walk_to: {via: [[-100, 5600, 1], [-650, 5000, 1], [-650, 2300, 1]], x: -100, y: 1700, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        -- the doors close by themselves 10 s after opening: wait for them to settle and shut, then open them fresh
+        local function all(s) return door_state(1) == s and door_state(2) == s end
+        for i = 1, 60 do if all("closed") then break end wait(0.5) end
+        if not all("closed") then error("door 101 never shut") end
+        click(101)
+        for i = 1, 10 do if all("open") then break end wait(0.5) end
+        if not all("open") then error("door 101 did not open") end
+  - walk_to: {via: [[-330, 1000, 1]], x: -328, y: -1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -328, y: -1393, z: 1, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarne.blv, qbit_set: [90237]}
+  - save_game: {name: "P77 Paladin class table", path: output/playthrough/mm9/promotions/checkpoints/77_lindisfarne_paladin_table.oysav}

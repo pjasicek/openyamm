@@ -2,6 +2,7 @@
 #include "engine/Localization.h"
 
 #include "game/party/PartySpellSystem.h"
+#include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayHudCommon.h"
 
 #include "game/app/GameSession.h"
@@ -48,34 +49,6 @@ constexpr int GameplayMinimapDefaultZoomStep = 1;
 constexpr int GameplayMinimapMaxZoomStep = 2;
 constexpr int DefaultJournalMapZoomStep = 0;
 constexpr float OeRestHostileAlertDistance = 5120.0f;
-constexpr float DimensionDoorTileSize = 512.0f;
-
-struct DimensionDoorRadiusTrigger
-{
-    const char *pMapName = nullptr;
-    float x = 0.0f;
-    float y = 0.0f;
-    float radius = 0.0f;
-};
-
-struct DimensionDoorTileTrigger
-{
-    const char *pMapName = nullptr;
-    int tileX = 0;
-    int tileY = 0;
-};
-
-constexpr std::array<DimensionDoorRadiusTrigger, 2> DimensionDoorRadiusTriggers = {{
-    {"out09.odm", -5121.0f, 98.0f, 1500.0f},
-    {"outb3.odm", -8384.0f, -13040.0f, 1500.0f},
-}};
-
-constexpr std::array<DimensionDoorTileTrigger, 4> DimensionDoorTileTriggers = {{
-    {"out01.odm", 63, 59},
-    {"out07.odm", 43, 98},
-    {"outb3.odm", 89, 47},
-    {"7out04.odm", 84, 94},
-}};
 
 const char *restModeTraceName(GameplayUiController::RestMode mode)
 {
@@ -99,32 +72,6 @@ bool isHouseInventoryOverlay(const GameplayUiController::InventoryNestedOverlayS
             || overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
             || overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify
             || overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopRepair);
-}
-
-std::string normalizedMapFileName(std::string mapName)
-{
-    std::replace(mapName.begin(), mapName.end(), '\\', '/');
-
-    const size_t slashIndex = mapName.find_last_of('/');
-
-    if (slashIndex != std::string::npos)
-    {
-        mapName = mapName.substr(slashIndex + 1);
-    }
-
-    return toLowerCopy(mapName);
-}
-
-bool mapNameMatches(const std::string &currentMapName, const char *pExpectedMapName)
-{
-    return normalizedMapFileName(currentMapName) == normalizedMapFileName(pExpectedMapName != nullptr ? pExpectedMapName : "");
-}
-
-bool partyIsOnDimensionDoorTile(float partyX, float partyY, const DimensionDoorTileTrigger &trigger)
-{
-    const int tileX = static_cast<int>(std::floor(partyX / DimensionDoorTileSize + 64.0f));
-    const int tileY = static_cast<int>(std::floor(64.0f - partyY / DimensionDoorTileSize));
-    return tileX == trigger.tileX && tileY == trigger.tileY;
 }
 
 bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
@@ -2039,15 +1986,10 @@ void GameplayScreenRuntime::completeRestAction(bool closeRestScreenAfterCompleti
     {
         IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
         pWorldRuntime->advanceGameMinutes(remainingMinutes);
-        EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
         Party *pParty = party();
         if (pParty != nullptr)
         {
             pParty->advanceTimedStates(remainingMinutes * 60.0f);
-        }
-        if (pEventRuntimeState != nullptr && pParty != nullptr)
-        {
-            itemService().updateConnectorStoneRecharge(*pParty, *pEventRuntimeState, pWorldRuntime->gameMinutes());
         }
     }
     const float afterGameMinutes = worldRuntime() != nullptr ? worldRuntime()->gameMinutes() : beforeGameMinutes;
@@ -3983,7 +3925,8 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
             }
         }
     }
-    if (layoutId == "OutdoorFlyBuffIcon" || layoutId == "OutdoorWaterWalkBuffIcon")
+    if (layoutId == "OutdoorFlyBuffIcon" || layoutId == "OutdoorLevitateBuffIcon"
+        || layoutId == "OutdoorWaterWalkBuffIcon" || layoutId == "OutdoorFleetFootBuffIcon")
     {
         const std::optional<ResolvedHudLayoutElement> skull =
             resolveHudLayoutElement("ObsidianSkullBuffPanel", screenWidth, screenHeight, 0, 0);
@@ -3991,9 +3934,23 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
         {
             rect->x = skull->x + skull->width + 7 * skull->scale;
             rect->y = skull->y + (skull->height - rect->height) * 0.5f;
-            if (layoutId == "OutdoorWaterWalkBuffIcon")
+
+            // The shown indicators line up beside the skull without gaps (gameplayMovementIndicators).
+            if (const Party *pParty = partyReadOnly())
             {
-                rect->x += rect->width + 4 * rect->scale;
+                size_t slot = 0;
+
+                for (const GameplayMovementIndicator &indicator : gameplayMovementIndicators(*pParty))
+                {
+                    if (layoutId == indicator.pLayoutId)
+                    {
+                        break;
+                    }
+
+                    ++slot;
+                }
+
+                rect->x += float(slot) * (rect->width + 4 * rect->scale);
             }
         }
     }
@@ -4664,95 +4621,14 @@ bool GameplayScreenRuntime::ensureTownPortalDestinationsLoaded()
         return ensureDimensionDoorDestinationsLoaded();
     }
 
-    return uiRuntime().ensureTownPortalDestinationsLoaded(m_session.currentMapFileName());
+    return uiRuntime().ensureTownPortalDestinationsLoaded(
+        m_session.currentMapFileName(),
+        utilitySpellOverlayReadOnly().townPortalContinent);
 }
 
 bool GameplayScreenRuntime::ensureDimensionDoorDestinationsLoaded()
 {
-    constexpr const char *CrossContinentsGotMainQuestVar = "MMerge.CrossContinents.GotMainQuest";
-    constexpr float MinutesPerDay = 24.0f * 60.0f;
-
-    const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
-    const float gameMinutes = pWorldRuntime != nullptr ? std::max(0.0f, pWorldRuntime->gameMinutes()) : 0.0f;
-    const uint32_t dayIndex = static_cast<uint32_t>(std::floor(gameMinutes / MinutesPerDay));
-    const EventRuntimeState *pEventRuntimeState =
-        pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
-    bool crossContinentsUnlocked = m_dimensionDoorWithoutQuest;
-
-    if (!crossContinentsUnlocked && pEventRuntimeState != nullptr)
-    {
-        const auto iterator = pEventRuntimeState->namedGlobalVars.find(CrossContinentsGotMainQuestVar);
-        crossContinentsUnlocked = iterator != pEventRuntimeState->namedGlobalVars.end() && iterator->second != 0;
-    }
-
-    return uiRuntime().ensureDimensionDoorDestinationsLoaded(dayIndex, crossContinentsUnlocked);
-}
-
-bool GameplayScreenRuntime::shouldTownPortalCastOpenDimensionDoor() const
-{
-    const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
-
-    if (pWorldRuntime == nullptr)
-    {
-        return false;
-    }
-
-    const std::string &mapName = pWorldRuntime->mapName();
-    const float x = pWorldRuntime->partyX();
-    const float y = pWorldRuntime->partyY();
-
-    for (const DimensionDoorRadiusTrigger &trigger : DimensionDoorRadiusTriggers)
-    {
-        if (!mapNameMatches(mapName, trigger.pMapName))
-        {
-            continue;
-        }
-
-        const float dx = x - trigger.x;
-        const float dy = y - trigger.y;
-
-        if (dx * dx + dy * dy <= trigger.radius * trigger.radius)
-        {
-            return true;
-        }
-    }
-
-    for (const DimensionDoorTileTrigger &trigger : DimensionDoorTileTriggers)
-    {
-        if (mapNameMatches(mapName, trigger.pMapName) && partyIsOnDimensionDoorTile(x, y, trigger))
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void GameplayScreenRuntime::setDimensionDoorWithoutQuest(bool withoutQuest)
-{
-    m_dimensionDoorWithoutQuest = withoutQuest;
-}
-
-bool GameplayScreenRuntime::openDimensionDoorOverlay(
-    size_t casterMemberIndex,
-    uint32_t spellId,
-    const std::string &statusText)
-{
-    m_dimensionDoorWithoutQuest = false;
-
-    if (!ensureDimensionDoorDestinationsLoaded())
-    {
-        setStatusBarEvent(Engine::tr("Dimension Door destinations unavailable"));
-        return false;
-    }
-
-    openUtilitySpellOverlay(
-        GameplayUiController::UtilitySpellOverlayMode::DimensionDoor,
-        spellId,
-        casterMemberIndex);
-    resetUtilitySpellOverlayInteractionState();
-    setStatusBarEvent(statusText.empty() ? Engine::tr("Choose Dimension Door destination") : statusText, 4.0f);
-    return true;
+    return uiRuntime().ensureDimensionDoorDestinationsLoaded();
 }
 
 const std::string &GameplayScreenRuntime::townPortalBackgroundTextureName() const
@@ -4763,6 +4639,29 @@ const std::string &GameplayScreenRuntime::townPortalBackgroundTextureName() cons
 const std::vector<GameplayTownPortalDestination> &GameplayScreenRuntime::townPortalDestinations() const
 {
     return uiRuntime().townPortalDestinations();
+}
+
+const std::vector<GameplayTownPortalContinent> &GameplayScreenRuntime::townPortalContinents() const
+{
+    return uiRuntime().townPortalContinents();
+}
+
+size_t GameplayScreenRuntime::townPortalContinentIndex() const
+{
+    return uiRuntime().townPortalContinentIndex();
+}
+
+void GameplayScreenRuntime::selectTownPortalContinent(size_t continentIndex)
+{
+    const std::vector<GameplayTownPortalContinent> &continents = uiRuntime().townPortalContinents();
+
+    if (continentIndex >= continents.size())
+    {
+        return;
+    }
+
+    utilitySpellOverlay().townPortalContinent = continents[continentIndex].groupName;
+    ensureTownPortalDestinationsLoaded();
 }
 
 std::string GameplayScreenRuntime::resolveMapLocationName(const std::string &mapFileName) const

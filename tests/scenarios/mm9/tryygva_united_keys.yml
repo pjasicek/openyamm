@@ -1,0 +1,28 @@
+# Tryygva's all-clans check (NPC180.scr, UNITED.inc :TryygvaInit): a click on him gives key 178 when the five OTHER
+# clans have pledged: Kira 82, Bjarni 38, Sigmund 51, Markel 63 and Sven 34. Until 2026-11-08 the converter used Sven's
+# list (74, Tryygva's own pledge, in place of 34), so he offered the council without Sven's pledge.
+id: mm9.tryygva_united_keys
+title: "Tryygva gives key 178 only with Sven's pledge (34), not for his own (74)"
+world: mm9
+mode: faithful
+tags: [mm9]
+steps:
+  - load_map: {map: frosgardcity.blv}
+  - setup_shortcut: {kind: set_qbit, id: 90082, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 90038, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 90051, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 90063, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 90074, value: true}
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1638, z: 45, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # Without Sven (34): no 178, and the council line is not offered.
+  - interact_actor: {actor_index: 5}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_clear: [90178]}
+  # With Sven's pledge: 178.
+  - setup_shortcut: {kind: set_qbit, id: 90034, value: true}
+  - interact_actor: {actor_index: 5}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90178]}

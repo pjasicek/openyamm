@@ -1,0 +1,46 @@
+# MM9 playthrough, segment 30: Guberland's pledge (guide: Chapter I, Guberland, the reports). The Sea's Fang from
+# Thjorgard to Guberland (four days; outdoors the party is moved), the city gate, Markel in his hall: the Book of Rules
+# and Ivan's Victory Certificate handed over, and he joins ("The leader has yet to be decided."). The rewards come when
+# the talk closes (key 167: 10 000 experience, 3 000 gold, the book taken; key 165: 16 500, 3 000, the certificate
+# taken). Four of the six clans have pledged. Research: prep/20_34_thjorgard_guberland.md (segment 30 there).
+#   python3 tests/playthrough/mm9/run.py 30
+id: mm9.playthrough.30_markel_joins
+title: "MM9 playthrough 30: the Book of Rules and Ivan reported; Markel joins the alliance"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/29_sven_joins.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90059, 90060, 90034], qbit_clear: [90061, 90062, 90063]}
+  - play_lua: {source: 'if not (has_item(10391) and has_item(10400)) then error("no Book of Rules or Victory Certificate") end'}
+
+  # The Sea's Fang to Guberland; the city gate.
+  - travel: {map: guberland.blv, days: 4}
+  - set_pose: {map: guberland.blv, x: 6131, y: -9700, z: 1651, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 6131, y: -9194, z: 1651, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberlandcity.blv}
+
+  # Markel.
+  - set_pose: {map: guberlandcity.blv, x: -2722, y: -9175, z: 23, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "We've got the Book of Rules."}
+  - select_topic: {match_label: "Here."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "We've beaten Ivan the Smart."}
+  - select_topic: {match_label: "We did.  He gave us this letter to prove it."}
+  - select_topic: {match_label: "Now that we've done these things for you, will you join us?"}
+  - select_topic: {match_label: "The leader has yet to be decided."}
+  - select_topic: {match_label: "We shall.  We'll be in touch."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90061, 90062, 90063, 90165, 90167, 90038, 90051, 90034]}
+  - play_lua:
+      source: |
+        if has_item(10391) or has_item(10400) then error("Markel did not take the book and the certificate") end
+        log("Sturmford (38), Drangheim (51), Thjorgard (34) and Guberland (63) have pledged: four of the six clans")
+  - save_game: {name: "30 Guberland pledged", path: output/playthrough/mm9/checkpoints/30_markel_joins.oysav}

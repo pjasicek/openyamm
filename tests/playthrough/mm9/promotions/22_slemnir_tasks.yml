@@ -1,0 +1,47 @@
+# MM9 promotion playthrough, segment 22: Tjolnir keeps the Healer topic; Gray Slemnir's three tasks (guide: side_b.yml
+# find-a-new-priest-for-the-new-temple). Tjolnir's first page offers "Promote our eligible characters." now that the
+# Healer quest is done (key 213, dialogue/promotions.yml) and, with the Priest made, has nobody to promote. Gray
+# Slemnir (RUDE 129, in the same temple) hears "We are seeking promotion." (key 2084), "We would like to be promoted."
+# (259; MM9 asked for the Healer promotion, 213, waived) and lists the three things (250, 251, 252): a young priest,
+# the Tree of Life from the Frosgard temple, and the Ritual of Consecration from Nath'i A'Mor. His exit gives the
+# three task keys. Research: prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 22
+id: mm9.promotions.22_slemnir_tasks
+title: "MM9 promotions 22: Tjolnir's standing topic; Gray Slemnir's three tasks for the new temple"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/21_nurtigan_healer.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: guberlandcity.blv, qbit_set: [90213], qbit_clear: [92084, 90250, 90251, 90252, 90259]}
+
+  # Tjolnir: the Healer topic stays; the Priest promoted, nobody is left for it.
+  - set_pose: {map: guberlandcity.blv, x: -4751, y: -6950, z: 62, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 11}
+  - assert:
+      dialog: {active: true, source_id: 128, action_label_present: "Promote our eligible characters."}
+  - select_topic: {match_label: "Promote our eligible characters."}
+  - assert:
+      dialog: {text_contains: "No one among you can take this promotion now."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'log("Tjolnir after the Healer quest: " .. classes())'}
+
+  # Gray Slemnir, the old high priest.
+  - set_pose: {map: guberlandcity.blv, x: -6226, y: -6450, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 9}
+  - select_topic: {match_label: "We are seeking promotion."}
+  - select_topic: {match_label: "We would like to be promoted."}
+  - select_topic: {match_label: "What is the first thing?"}
+  - select_topic: {match_label: "Where are we to find a new priest?"}
+  - select_topic: {match_label: "What is the second thing?"}
+  - select_topic: {match_label: "What is the final thing?"}
+  - select_topic: {match_label: "Where can we find him?"}
+  - select_topic: {match_label: "We will do these things."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [92084, 90259, 90250, 90251, 90252], qbit_clear: [90253, 90256, 90257, 90260]}
+  - play_lua: {source: 'log("Gray Slemnir: a young priest, the Tree of Life from Frosgard, the Ritual of Consecration from Nath''i A''Mor")'}
+  - save_game: {name: "22 Slemnir's tasks", path: output/playthrough/mm9/promotions/checkpoints/22_slemnir_tasks.oysav}

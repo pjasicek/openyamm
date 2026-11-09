@@ -1,5 +1,5 @@
 id: rulesets.maw_content
-title: "Ruleset - MAW content: the towns' dimensional travel pedestals and the edited maps' monsters"
+title: "Ruleset - MAW content: the edited maps' monsters"
 world: mm6
 mode: faithful
 tags: [rulesets, maw]
@@ -7,18 +7,8 @@ steps:
   - new_game_flow:
       start_map: oute3.odm
       ruleset: {id: maw, difficulty: maw, progression: free}
-  # Each town's pedestal opens the dimensional travel destinations, before the Cross Continents quest (DEVIATIONS 49).
-  - assert: {dimension_door: {pending: false}}
-  - execute_event: {id: 1777}
-  - assert: {dimension_door: {pending: true, without_quest: true}}
-  - load_map: {map: out02.odm}
-  - assert: {dimension_door: {pending: false}}
-  - execute_event: {id: 1777}
-  - assert: {dimension_door: {pending: true, without_quest: true}}
-  - load_map: {map: 7out02.odm}
-  - assert: {dimension_door: {pending: false}}
-  - execute_event: {id: 1777}
-  - assert: {dimension_door: {pending: true, without_quest: true}}
+  # The towns' dimensional travel pedestals (DEVIATIONS 49) are every ruleset's since 2026-11-09:
+  # ../dimensional_travel_pedestals.yml.
   - load_map: {map: d18.blv}
   - assert:
       actor_visible: {actor_index: 0, name: "Naga Empress"}

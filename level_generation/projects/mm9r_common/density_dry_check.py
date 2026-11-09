@@ -61,7 +61,7 @@ def check(stem: str, entry: dict) -> dict:
         _, result = density.grow(stem, actors, {}, [], None, set(), density.counted_today(stem))
         return dict(result, note="growth off")
     world = density.World(parse_blv_file(MAPS / f"{stem}.blv")["payload"], scene, density.liquid_textures())
-    directories = tuple(getattr(project_hooks(project), "density_lua_directories", ()))
+    directories = density.lua_name_tables(project_hooks(project))
     lua = (EVENTS / f"{stem}.lua").read_text()
     cinematics = MAPS / f"{stem}.cinematics.yml"
     references = density.References.of(

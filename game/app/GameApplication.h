@@ -215,6 +215,11 @@ private:
     bool loadCurrentSessionMap(
         bool initializeView,
         const std::function<void(int)> &progressCallback = {});
+    // loadCurrentSessionMap for the same game going on (a map move, the defeat's respawn): the item on the cursor
+    // belongs to the party and stays on it, as in the originals; the map's views clear the UI state on the way.
+    bool loadCurrentSessionMapKeepingHeldItem(
+        bool initializeView,
+        const std::function<void(int)> &progressCallback = {});
     bool activateWorldForMap(const MapStatsEntry &map);
     bool activateWorldForMapFileName(const std::string &mapFileName);
     bool applyCurrentSessionToRuntime(bool initializeView);
@@ -230,6 +235,7 @@ private:
     void applyRulesMapLeave();
     bool processPendingPartyDefeat();
     void handleCompletedPartyDefeatScreen();
+    void finishPartyDefeat();
     void handleCompletedEventMovieScreen();
     void handleCompletedWinGameScreen();
     void saveCompletionCertificateImage(
@@ -242,6 +248,9 @@ private:
     std::string resolvePartyDefeatRespawnMapFileName() const;
     MapStartDestination resolvePartyDefeatRespawnDestination() const;
     std::string resolvePartyDefeatCutsceneStem() const;
+    bool worldPartyDeathApplies() const;
+    // world.yml partyDeath `when`: no condition holds, so the defeat is lost (MM9: LoseGame, then the autosave).
+    bool partyDefeatIsLost() const;
     std::string partyDefeatContinentMapFileName() const;
     void applyPartyDefeatConsequences();
     bool respawnPartyAfterDefeat(bool initializeView);
@@ -420,6 +429,8 @@ private:
     int m_lastFrameHeight = 480;
     std::optional<std::string> m_pendingPartyDefeatRespawnMapFileName;
     std::optional<DebugMapJumpStart> m_pendingPartyDefeatRespawnStart;
+    // A lost defeat (world.yml partyDeath `otherwise`): its movie, then the autosave.
+    bool m_pendingPartyDefeatReloadAutosave = false;
     std::vector<CompletionCertificateDefinition> m_completionCertificates;
     bool m_completionCertificatesLoaded = false;
     // Certificates earned at once (a world and the grand one), shown one after another.

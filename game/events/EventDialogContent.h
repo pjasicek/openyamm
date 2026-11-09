@@ -70,6 +70,16 @@ enum class EventDialogActionKind
     Mm9RudeTransportSchedule,
     // An MM9 promoter's standing topic (Mm9PromotionService): promote the members eligible now.
     Mm9RudePromotionService,
+    // An MM9 lost-item keeper's standing topic (Mm9RudeDialogueTable::isLostItemKeeper): give back a lost item.
+    Mm9RudeLostItemService,
+    // An MM9 racial trainer's standing topic (Mm9RacialTrainer): a racial-ability lesson row per party member.
+    Mm9RudeRacialTrainerOffer,
+    // One member's racial-ability lesson (memberIndex the member).
+    Mm9RudeRacialTrainerLearn,
+    // A ruleset's row on an MM9 person (Mm9RulesetRow): id the global event it runs.
+    Mm9RudeRulesetEvent,
+    // A ruleset's bounty office on an MM9 person (Mm9RulesetRow): argument the map file the hunt is on.
+    Mm9RudeBountyOffice,
     // An event's choice box (AskChoiceWithAnswerSteps): id is the answer's index.
     EventChoice,
 };
@@ -150,7 +160,14 @@ struct EventDialogContent
     // The party's sentence the reply in `lines` answers (MM9 talk): quoted above it on the conversation bar.
     std::string echo;
     std::vector<EventDialogAction> actions;
+    // The rules' offer to reset the cleared dungeon on the way in (MAW): a transition shows it in a popup over the
+    // scene with its MapTransitionReset action and Cancel, before the ordinary OK and Close.
+    std::string resetPrompt;
 };
+
+bool transitionResetPopupOpen(const EventDialogContent &dialog);
+// Cancel of the reset popup: the dialog goes on as an ordinary transition without the reset.
+void dismissTransitionResetPopup(EventDialogContent &dialog);
 
 std::vector<uint32_t> collectSelectableResidentNpcIds(
     const HouseEntry &houseEntry,

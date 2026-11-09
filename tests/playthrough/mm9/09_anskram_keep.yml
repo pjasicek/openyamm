@@ -1,0 +1,340 @@
+# MM9 playthrough, segment 09: Anskram Keep cleared of its eight Imp gates (guide: Chapter I, Sturmford, "Clear out
+# Anskram Keep"). Out of Sturmford City by its north gate; outside the keep the party is placed at the weak section of
+# the SE tower's sea wall and breaks it with its weapons (destructible 199, 100 HP), walks up the tower's spiral stair
+# to the east wall walk, over the bridge to the keep's east terrace and in by the high door. The keep is walked:
+# every double and round door is clicked from outside its swing (they shut by themselves); each gate starts when the
+# party steps on its pad and sends five Imps one by one, which die (combat is not tested); the west corridor's
+# pivot trap (PivotWallTrap3, before gate 2) is sprung with one step onto its edge and back, and crossed on its turned
+# floor during its five-second wait, both ways; the airlock opens with its two levers. Eight gates: key 39. Out by
+# the ground-level door into the gate passage. Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 09
+id: mm9.playthrough.09_anskram_keep
+title: "MM9 playthrough 09: break into Anskram Keep and destroy its eight Imp gates"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/07_sturmford_bjarni.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmfordcity.blv, qbit_set: [90011], qbit_clear: [90039]}
+
+  # Out by the north gate (ExitN) to the region.
+  - set_pose: {map: sturmfordcity.blv, x: 11141, y: 14300, z: 19723, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 11346, y: 14541, z: 19907, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv}
+
+  # The weak wall of the SE tower, facing the sea (the Basilisks near it die): hit it until it gives.
+  - set_pose: {map: sturmford.blv, x: 20300, y: 14905, z: 1188, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 20090, y: 14905, z: 1188, plan: false, timeout_seconds: 20}
+  - console: {line: destructible 199 state, expect_contains: standing}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - console: {line: destructible 199 state, expect_contains: broken}
+
+  # Through the breach and up the tower's spiral (two turns, 1178 to 2120), north on the east wall walk, over the
+  # bridge to the keep's terrace and in by its high door (Anskramkeepback).
+  - walk_to: {x: 19700, y: 14905, z: 1182, plan: false, timeout_seconds: 30, clear_hostiles: 2500}
+  - walk_to: {x: 19250, y: 14850, z: 1149, timeout_seconds: 40}
+  - walk_to: {via: [[19250, 14720, 1178], [19450, 14650, 1219], [19650, 14650, 1300], [19820, 14660, 1382],
+              [19820, 14850, 1423], [19750, 15000, 1484], [19650, 15150, 1546], [19550, 15250, 1587],
+              [19400, 15270, 1628], [19250, 15050, 1628], [19250, 14850, 1628],
+              [19250, 14720, 1669], [19450, 14650, 1710], [19650, 14650, 1791], [19820, 14660, 1873],
+              [19820, 14850, 1914], [19750, 15000, 1975], [19650, 15150, 2037], [19550, 15250, 2078],
+              [19400, 15270, 2119], [19250, 15050, 2119], [19250, 14850, 2119]], x: 19400, y: 15300, z: 2120, radius: 60, plan: false,
+              timeout_seconds: 90}
+  - walk_to: {via: [[19600, 15500, 2120], [19600, 16650, 2120], [18900, 16700, 2202]], x: 18300, y: 16677, z: 2120,
+              timeout_seconds: 60, clear_hostiles: 2500}
+  - walk_to: {x: 17992, y: 16677, z: 2253, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: anskramkeep.blv}
+
+  # South end: the arrival strip's door, the south rooms and halls to the central hall, east to the junction.
+  - walk_to: {x: 0, y: 200, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(107); wait(2)'}
+  - walk_to: {x: 0, y: 5200, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 1800, y: 6390, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(111); wait(2)'}
+  - walk_to: {x: 4424, y: 6450, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  # Gate 4: the east barracks' north room (pad inside its door).
+  - play_lua: {source: 'click(127); wait(2)'}
+  - walk_to: {x: 5300, y: 7600, z: -491, timeout_seconds: 60, clear_hostiles: 2000, via: [[4816, 6718, -491]]}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90514]}
+  - walk_to: {x: 5100, y: 6718, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(127); wait(2)'}
+  - walk_to: {x: 4424, y: 6300, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  # Gate 5: the south room.
+  - play_lua: {source: 'click(123); wait(2)'}
+  - walk_to: {x: 5300, y: 5000, z: -491, timeout_seconds: 60, clear_hostiles: 2000, via: [[4816, 6062, -491]]}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90515]}
+  - walk_to: {x: 5100, y: 6062, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(123); wait(2)'}
+  - walk_to: {x: 4424, y: 6450, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  # Gate 1: up the east corridor to its pad, then through two doors to the closet by the central neck.
+  - walk_to: {x: 4424, y: 6750, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(102); wait(2)'}
+  - walk_to: {x: 4424, y: 8929, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 4400, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(119); wait(2)'}
+  - walk_to: {x: 3100, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(132); wait(2)'}
+  - walk_to: {x: 1900, y: 9100, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 100}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90511]}
+  - walk_to: {x: 2500, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(132); wait(2)'}
+  - walk_to: {x: 3700, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - play_lua: {source: 'click(119); wait(2)'}
+  - walk_to: {x: 4424, y: 8929, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - walk_to: {x: 4424, y: 7350, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(102); wait(2)'}
+  - walk_to: {x: 4424, y: 6450, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2450, y: 6390, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(111); wait(2)'}
+  # West: through the central hall to the west corridor. Gate 7 (the north barracks room, its pad in the doorway).
+  - walk_to: {x: 0, y: 6400, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -1800, y: 6390, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(113); wait(2)'}
+  - walk_to: {x: -4424, y: 6000, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -4688, y: 5407, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 30}
+  - play_lua: {source: 'click(117); wait(2)'}
+  - walk_to: {x: -5300, y: 6300, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 100}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90517]}
+  - walk_to: {x: -5050, y: 5407, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(117); wait(2)'}
+  - walk_to: {x: -4424, y: 5407, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  # Gate 6: the south room (its small pad crossed from the corridor; north of the second pivot trap).
+  - walk_to: {x: -4424, y: 4096, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -4700, y: 4096, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 20, plan: false}
+  - play_lua: {source: 'click(115); wait(2)'}
+  - walk_to: {x: -5300, y: 3000, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 100}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90516]}
+  - walk_to: {x: -5050, y: 4096, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(115); wait(2)'}
+  - walk_to: {x: -4424, y: 4096, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - walk_to: {x: -4424, y: 7950, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  # PivotWallTrap3 lies across the corridor before gate 2's pad: one step onto its south edge springs it (the floor
+  # turns down, the wall arm turns over it), the party steps back and crosses the turned floor in its 5 s wait.
+  - play_lua: {source: 'log("ISSUE save/load: a save while PivotWallTrap3 (rotating mover, door 83) swings under the party loads with the party 49 east and 133 lower (fallen off the edge); the step onto the trap and back is one walk so --reload does not save mid-swing")'}
+  - walk_to: {via: [[-4424, 8150, -491]], x: -4424, y: 7900, z: -491, radius: 20, plan: false, timeout_seconds: 20}
+  - assert: {state_dump_named_map_var: {name: PivotWallTrap3, value: 1}}
+  - advance_runtime: {seconds: 1.2}
+  - walk_to: {x: -4424, y: 8929, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 60, plan: false}
+  # Gate 2: through two doors to the closet west of the neck.
+  - walk_to: {x: -4400, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(110); wait(2)'}
+  - walk_to: {x: -3400, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(129); wait(2)'}
+  - walk_to: {x: -1900, y: 9100, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 100}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90512]}
+  - walk_to: {x: -2500, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(129); wait(2)'}
+  - walk_to: {x: -3700, y: 9011, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - play_lua: {source: 'click(110); wait(2)'}
+  - walk_to: {x: -4424, y: 8700, z: -491, timeout_seconds: 60, clear_hostiles: 2000, via: [[-4424, 9011, -491]], plan: false}
+  # Back over the trap the same way, from its north edge.
+  - walk_to: {via: [[-4424, 8310, -491]], x: -4424, y: 8600, z: -491, radius: 20, plan: false, timeout_seconds: 20}
+  - assert: {state_dump_named_map_var: {name: PivotWallTrap3, value: 1}}
+  - advance_runtime: {seconds: 1.2}
+  - walk_to: {x: -4424, y: 7700, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 60, plan: false}
+  # The airlock at the central hall's north end: the east lever (two panels slide), the west lever, then a click on
+  # the gate swaps its leaves.
+  - walk_to: {x: -4424, y: 6000, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -2450, y: 6390, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(113); wait(2)'}
+  - walk_to: {x: 0, y: 6400, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 0, y: 8600, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 550, y: 9009, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(71); wait(2)'}
+  - walk_to: {x: -550, y: 9014, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(72); wait(2)'}
+  - walk_to: {x: 0, y: 10300, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(89); wait(2)'}
+  - walk_to: {x: 0, y: 11200, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  # Gates 0 and 3: the closets off the north hall (their pads before the round doors).
+  # The closets' pads are crossed straight from the north (a small plate fires on a change of the floor under the
+  # party; one walked onto at an angle and stood on can stay silent, prep risk 4).
+  - walk_to: {x: 2100, y: 12230, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 2100, y: 11880, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - play_lua: {source: 'click(131); wait(2)'}
+  - walk_to: {x: 2565, y: 11400, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 100}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90510]}
+  - walk_to: {x: 2130, y: 11400, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(131); wait(2)'}
+  - walk_to: {x: 2130, y: 11960, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - walk_to: {x: -2100, y: 12230, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -2100, y: 11880, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - play_lua: {source: 'click(130); wait(2)'}
+  - walk_to: {x: -2565, y: 11300, z: -491, timeout_seconds: 60, clear_hostiles: 2000, radius: 100}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - advance_runtime: {seconds: 2}
+  - clear_hostiles: {radius: 3500}
+  - assert: {qbit_set: [90513]}
+  - walk_to: {x: -2130, y: 11400, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'click(130); wait(2)'}
+  - walk_to: {x: -2130, y: 11960, z: -491, timeout_seconds: 60, clear_hostiles: 2000, plan: false}
+  - assert: {qbit_set: [90039]}
+  # Out north round the shaft (its slabs fall once the gates are gone) by the ground-level door to the gate passage.
+  - walk_to: {x: -1300, y: 12000, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: -1300, y: 13600, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 0, y: 14500, z: -491, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {x: 0, y: 15973, z: -491, timeout_seconds: 60, clear_hostiles: 2000, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmford.blv, qbit_set: [90039]}
+  - save_game: {name: "09 Anskram Keep", path: output/playthrough/mm9/checkpoints/09_anskram_keep.oysav}

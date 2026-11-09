@@ -99,6 +99,28 @@ TEST_CASE("indoor pathfinding builder blocks at the scene's monster-only walls o
     CHECK_FALSE(barred.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
 }
 
+TEST_CASE("indoor pathfinding builder blocks at a door MM9 monsters open only while it stands open")
+{
+    IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-100, -100, 0}, {100, -100, 0}, {100, 100, 0}, {-100, 100, 0},
+        {0, -40, 0}, {0, 40, 0}, {0, 40, 120}, {0, -40, 120}
+    };
+    mapData.faces = {makeIndoorFace({0, 1, 2, 3}, 3), makeIndoorFace({4, 5, 6, 7}, 1)};
+    mapData.aiDoors = {OpenYAMM::Game::IndoorAiDoor{7, {7}, 1.0f}};
+    mapData.aiDoorFaces = {{uint16_t(1), 7u}};
+
+    // Shut, the monsters' routes run through it (they open it walking into it)...
+    const IndoorPathMapBuildResult shut = IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices);
+    CHECK_EQ(shut.skippedFaceCount, 1u);
+    CHECK(shut.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+    // ...open, its leaf stands where it swung to and blocks there (Thjorad Mine's slag extractor hatch).
+    const IndoorPathMapBuildResult open =
+        IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices, nullptr, nullptr, 512.0f, {7u});
+    CHECK_EQ(open.skippedFaceCount, 0u);
+    CHECK_FALSE(open.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+}
+
 TEST_CASE("indoor pathfinding builder keeps portals non-blocking")
 {
     IndoorMapData mapData = {};

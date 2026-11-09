@@ -159,6 +159,8 @@ struct PartySpellDescriptor
     uint32_t spellId = 0;
     PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
     PartySpellCastEffectKind effectKind = PartySpellCastEffectKind::Unsupported;
+    // The party buff a PartyBuff spell gives (at Grandmaster; its first, for a spell that gives several).
+    std::optional<PartyBuffId> partyBuff;
 };
 
 class PartySpellSystem
@@ -168,6 +170,8 @@ public:
     static constexpr const char *UnderwaterText = Engine::trNoop("You can't do that while underwater").data();
 
     static std::optional<PartySpellDescriptor> describeSpell(uint32_t spellId);
+    // The party buff the spell gives in the party's world (describeSpell's, but MM9's Fleet Foot for Fly's slot there).
+    static std::optional<PartyBuffId> partyBuffOfSpell(const Party &party, uint32_t spellId);
     // Mana an ordinary cast would spend, or nullopt when the caster lacks the skill for the spell.
     // What the spell costs this caster, under the party's rules.
     static std::optional<uint32_t> manaCost(
@@ -175,6 +179,9 @@ public:
         const Character &caster,
         const SpellTable &spellTable,
         uint32_t spellId);
+    // Whether the place and the hour let the spell be cast: the outdoor-only spells indoors (Sunray where the rules
+    // allow it), the indoor-only ones outdoors and Sunray outdoors at night fail with recovery (castSpell).
+    static bool worldAllowsSpell(const Party &party, const IGameplayWorldRuntime &worldRuntime, uint32_t spellId);
     // Whether a quick or attack cast of this spell on a member picks its own target (quickCastCharacterTarget): the
     // heals, cures and revivals. A buff on one member asks for its target.
     static bool hasQuickCastCharacterTarget(uint32_t spellId);

@@ -1,0 +1,33 @@
+# Anskram Keep's drawbridge chains break under a melee blow from the gatehouse chamber's floor (mm9r_sturmford_blv
+# README, Deviations, 2026-11-08: their hit boxes grown from MM9's 21 x 10 sliver to 96 x 96 across). A Knight looks
+# up at each chain from a step or two away and swings once; both broken, the drawbridge's barred door opens.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/destructibles/anskram_chain_melee.yml
+id: mm9.destructibles.anskram_chain_melee
+title: A sword blow from the chamber floor breaks each Anskram drawbridge chain
+world: mm9
+mode: faithful
+tags: [mm9, destructibles, combat]
+steps:
+  - new_game_flow:
+      start_map: sturmford.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ragnar
+            class: Knight
+            level: 10
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - set_pose: {map: sturmford.blv, x: 15700, y: 16350, z: 1628, yaw: -1.5708, pitch_degrees: 52}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: destructible 316 state, expect_contains: standing}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - console: {line: destructible 316 state, expect_contains: broken}
+  - set_pose: {map: sturmford.blv, x: 15700, y: 17000, z: 1628, yaw: 1.5708, pitch_degrees: 55}
+  - advance_runtime: {seconds: 2}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - console: {line: destructible 315 state, expect_contains: broken}

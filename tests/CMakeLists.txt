@@ -22,6 +22,7 @@ add_executable(openyamm_unit_tests
     RulesetTests.cpp
     MapLayoutIdentityTests.cpp
     PlaythroughStatisticsTests.cpp
+    BattleOrdersTests.cpp
     QuickItemSlotTests.cpp
     EffectSystemTests.cpp
     EnergyShieldTests.cpp
@@ -284,6 +285,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/BountyHuntRuntime.cpp
     ../game/gameplay/ActorNameText.cpp
     ../game/gameplay/ArenaRuntime.cpp
+    ../game/gameplay/ArmageddonSpell.cpp
     ../game/gameplay/AwardRuntime.cpp
     ../game/gameplay/MonsterSpellSupport.cpp
     ../game/gameplay/MercenaryRecruitmentRuntime.cpp
@@ -364,11 +366,13 @@ add_executable(openyamm_unit_tests
     ../game/items/ItemRuntime.cpp
     ../game/items/WorldItemShape.cpp
     ../game/party/Party.cpp
+    ../game/party/BattleOrders.cpp
     ../game/party/PlaythroughStatistics.cpp
     ../game/party/PlaythroughSeal.cpp
     ../game/party/EventSpellBuffs.cpp
     ../game/party/LloydsBeaconRuntime.cpp
     ../game/party/PartySpellSystem.cpp
+    ../game/party/WorldSpells.cpp
     ../game/party/SkillData.cpp
     ../game/party/SpellSchool.cpp
     ../game/tables/ChestTable.cpp
@@ -575,6 +579,7 @@ add_executable(openyamm_runtime_tests
     MonsterModifierWorldTests.cpp
     StealingInputRuntimeTests.cpp
     MapStateResetRuntimeTests.cpp
+    MawMm9ShopRuntimeTests.cpp
 )
 
 target_include_directories(openyamm_runtime_tests PRIVATE

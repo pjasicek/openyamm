@@ -12,6 +12,9 @@ class StandardItemEnchantTable;
 struct InventoryItem;
 struct ItemDefinition;
 
+// The members' mean level, which the loot filter and Sell trash weigh an item's level against.
+int meanPartyLevel(const Party *pParty);
+
 struct FilteredLoot
 {
     LootFilterVerdict verdict = LootFilterVerdict::Keep;

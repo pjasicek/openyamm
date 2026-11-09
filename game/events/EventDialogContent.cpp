@@ -1239,7 +1239,7 @@ EventDialogContent buildEventDialogContent(
                 ? gameRulesFor(pParty).monsters.mapResetOffer(transitionMapName)
                 : std::nullopt)
         {
-            dialog.lines.push_back(*resetOffer);
+            dialog.resetPrompt = *resetOffer;
             EventDialogAction resetAction = {};
             resetAction.kind = EventDialogActionKind::MapTransitionReset;
             resetAction.label = Engine::tr("Reset");
@@ -1981,5 +1981,20 @@ EventDialogContent buildEventDialogContent(
     }
 
     return dialog;
+}
+
+bool transitionResetPopupOpen(const EventDialogContent &dialog)
+{
+    return dialog.presentation == EventDialogPresentation::Transition && !dialog.resetPrompt.empty();
+}
+
+void dismissTransitionResetPopup(EventDialogContent &dialog)
+{
+    dialog.resetPrompt.clear();
+    std::erase_if(dialog.actions,
+        [](const EventDialogAction &action)
+        {
+            return action.kind == EventDialogActionKind::MapTransitionReset;
+        });
 }
 }

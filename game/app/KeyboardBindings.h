@@ -107,6 +107,8 @@ enum class KeyboardAction : uint8_t
     PartyFormation,
     // The playthrough statistics (the Quick Reference overlay's Statistics page). Every letter is taken: F1.
     Statistics,
+    // The Battle Orders window over the spellbook (game/ui/GameplayBattleOrders.h); unbound by default.
+    BattleOrders,
     Count
 };
 

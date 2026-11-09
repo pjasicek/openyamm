@@ -20,7 +20,8 @@ Mm9HirelingAction chooseMm9HirelingAction(
     const Mm9Hireling &row,
     bool hasTarget,
     bool targetInMeleeReach,
-    int spellRoll)
+    int spellRoll,
+    bool swingWithoutTarget)
 {
     Mm9HirelingAction action = {};
 
@@ -41,6 +42,11 @@ Mm9HirelingAction chooseMm9HirelingAction(
     {
         action.kind = Mm9HirelingActionKind::Ranged;
         action.pAttack = &row.attack2;
+    }
+    else if (swingWithoutTarget && attackDealsDamage(row.attack1))
+    {
+        action.kind = Mm9HirelingActionKind::Melee;
+        action.pAttack = &row.attack1;
     }
 
     return action;

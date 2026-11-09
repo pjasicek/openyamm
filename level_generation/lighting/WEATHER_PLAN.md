@@ -233,6 +233,12 @@ ask for it (no MM6-MM8 map does):
   forced rain, forced snow, dusk, night) differ from the pre-change captures only by the run-to-run animation (water,
   foliage, clouds, actors, drop seeds), at the same level as two pre-change runs against each other.
 
+## Open-sky fog days (2026-11-09)
+
+Indoor maps with an open sky and weather (MM9's regions and cities as BLVs) roll a daily fog from weather.yml's
+per-map `fog` chances and `open_sky_fog` distances; outdoor maps ignore both. See
+[INDOOR_OPEN_SKY.md](../../devdocs/INDOOR_OPEN_SKY.md) "Weather", "Fog days".
+
 ## Decisions
 
 - MM9: out of scope (2026-10-09).

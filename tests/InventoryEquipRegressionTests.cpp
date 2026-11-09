@@ -165,56 +165,30 @@ TEST_CASE("inventory item use spell scroll prepares a master cast")
     CHECK(result.consumed);
 }
 
-TEST_CASE("inventory item use Dimension Door scroll is usable despite gem equip stat")
+TEST_CASE("inventory item use: the Dimension Door scroll and Verdant's connector stones do nothing")
 {
+    // Dimensional travel is the towns' pedestals and fountains and the Town Portal continent buttons (Verdant removed,
+    // 2026-11-09): the scroll (a Gem item) and the stones are not usable: a use is refused and spends nothing.
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Game::Party party = makeRegressionParty(gameData);
 
-    OpenYAMM::Game::InventoryItem scroll = {};
-    scroll.objectDescriptionId = 190;
-
-    CHECK(
-        OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(scroll, gameData.itemTable)
-        == OpenYAMM::Game::InventoryItemUseAction::UseDimensionDoorScroll);
-
-    const OpenYAMM::Game::InventoryItemUseResult result = OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(
-        party,
-        0,
-        scroll,
-        gameData.itemTable,
-        &gameData.readableScrollTable);
-
-    REQUIRE(result.handled);
-    CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::UseDimensionDoorScroll);
-    CHECK_EQ(result.spellId, OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TownPortal));
-    CHECK(result.consumed);
-}
-
-TEST_CASE("inventory item use connector stones route through item service")
-{
-    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
-    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
-
-    for (uint32_t itemId : {624u, 625u})
+    for (uint32_t itemId : {190u, 624u, 625u})
     {
-        OpenYAMM::Game::InventoryItem stone = {};
-        stone.objectDescriptionId = itemId;
-
-        CHECK(
-            OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(stone, gameData.itemTable)
-            == OpenYAMM::Game::InventoryItemUseAction::UseConnectorStone);
+        OpenYAMM::Game::InventoryItem item = {};
+        item.objectDescriptionId = itemId;
 
         const OpenYAMM::Game::InventoryItemUseResult result =
             OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(
                 party,
                 0,
-                stone,
+                item,
                 gameData.itemTable,
                 &gameData.readableScrollTable);
 
-        REQUIRE(result.handled);
-        CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::UseConnectorStone);
+        CHECK(result.action != OpenYAMM::Game::InventoryItemUseAction::CastScroll);
         CHECK_FALSE(result.consumed);
+        CHECK_EQ(result.spellId, 0u);
+        CHECK_FALSE(result.statusText.empty());
     }
 }
 

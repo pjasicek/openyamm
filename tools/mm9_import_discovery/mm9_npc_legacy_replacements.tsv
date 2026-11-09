@@ -7,7 +7,7 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 6	320	high	Matching dwarf woman C/B family
 7	318	medium	Closest third dwarf-woman palette for prisoner D
 8	322	high	Matching dwarf man A/A family
-9	323	high	Matching dwarf man A/B family
+9	323	high	Matching dwarf man A/B family	CommonerDwarfMaleB|PrisonerDwarfMaleA
 10	325	high	Matching dwarf man B/A family
 11	326	high	Matching dwarf man B/B family
 12	328	high	Matching dwarf man C/A family
@@ -46,7 +46,7 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 47	364	high	Matching human1 man C/A family
 48	365	high	Matching human1 man C/B family
 49	366	medium	Closest third human1-man palette for prisoner D
-50	367	high	Matching human2 man A/A family
+50	367	high	Matching human2 man A/A family	CommonerHuman2MaleA|OldHag
 51	368	high	Matching human2 man A/B family
 52	370	high	Matching human2 man B/A family
 53	371	high	Matching human2 man B/B family
@@ -59,7 +59,7 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 60	447	low	Goblin peasant man C/C is the closest prisoner variant
 61	430	medium	Goblin peasant woman A/A is the closest half-orc civilian
 62	433	medium	Goblin peasant woman B/A is the closest half-orc civilian
-63	436	medium	Goblin peasant woman C/A is the closest half-orc civilian
+63	436	medium	Goblin peasant woman C/A is the closest half-orc civilian	ShopKeeperHalfOrcFemaleA
 64	438	low	Goblin peasant woman C/C is the closest prisoner variant
 67	313	low	No legacy child family; dwarf civilian preserves race and short stature
 68	322	low	No legacy child family; dwarf civilian preserves race and short stature
@@ -91,7 +91,7 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 249	520	medium	Dwarf A best preserves Sven's bearded Norse warrior silhouette
 250	607	medium	PeasantM1 A is the closest dark-haired tunic civilian
 251	255	high	Fighter Chain C closely matches Kira's plate armor
-252	586	medium	Nobleman A is the closest ornate male courtier	ForadDarreNPC
+252	586	medium	Nobleman A is the closest ornate male courtier	ForadDarreNPC|ForadDarre
 254	307	low	Female necromancer is the closest pale dark-clothed woman
 255	565	low	Armored Death Knight is the closest available divine warrior
 256	352	high	Human1 FemaleB A closely matches Fre's red formal dress
@@ -99,9 +99,9 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 260	555	low	Guard C is the closest gatekeeper substitute for Hanndl
 261	587	medium	Nobleman B best matches Njam's courtier silhouette
 262	468	medium	Chicken C is the closest existing Great Honk bird
-263	376	low	Green-robed human2 woman distinguishes the Young Fate
-264	380	low	Blue-robed human2 woman distinguishes the Middle Fate
-265	384	low	Red-robed human2 woman distinguishes the Old Fate
+263	376	low	Green-robed human2 woman distinguishes the Young Fate	WyrdeoftheKnown
+264	380	low	Blue-robed human2 woman distinguishes the Middle Fate	WyrdeoftheKnowing
+265	384	low	Red-robed human2 woman distinguishes the Old Fate	WyrdeoftheUnknown
 266	451	medium	Treant A is the closest existing Green Man nature actor
 267	301	low	Minotaur A is the only existing bovine actor family
 268	302	low	Minotaur B is the closest horned goat substitute

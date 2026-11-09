@@ -23,7 +23,7 @@ class GenerateMm9TransportRoutesTests(unittest.TestCase):
             ROOT / "mm9/extracted/DATA/DATA/MMIXSHOPS.txt",
             ROOT / "mm9/extracted/RUDE/RUDE",
             ROOT / "mm9/extracted/DATA/DATA/BOOK AND SCROLL TEXT.csv",
-            ROOT / "assets_dev/worlds/mm9/maps",
+            ROOT / "assets_editor_dev/worlds/mm9/maps",
             ROOT / "tools/mm9_import_discovery/mm9_transport_route_recovery.yml",
         )
 

@@ -1,9 +1,11 @@
 #pragma once
 
 #include "game/party/SkillData.h"
+#include "game/rules/SpellbookSkin.h"
 
 #include <array>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -44,6 +46,13 @@ double mawElementalistProgress(uint32_t spellId, int monsterLevel, int partyCoun
 std::vector<uint32_t> mawElementalistKnownSpells(const Character &character, bool insanity);
 // How far a school's casting progress is from its last spell threshold to the next, in percent; 100 past the last.
 double mawElementalistNextSpellPercent(double progress);
+// The spell a school's casting progress reaches next (school 0-3: Fire, Air, Water, Earth); none past the last.
+std::optional<uint32_t> mawElementalistNextSpell(size_t school, double progress);
+
+// The class's own spellbook look (Death Knight Frost, Blood and Unholy pages; Assassin Combat, Subtlety, Poisons and
+// Assassination pages), or null for a class with the standard book. Art: level_generation/ui/
+// maw_class_spellbooks_20261108 (devdocs/maw/CLASS_SPELLBOOKS.md).
+const SpellbookSkin *mawClassSpellbookSkin(const std::string &className);
 
 // A class school's own name (Death Knight Frost, Blood, Unholy; Assassin Combat, Subtlety, Poisons,
 // Assassination; a dragon-race character's Fangs and Scales), or nothing.

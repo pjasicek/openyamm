@@ -1,0 +1,642 @@
+map	actor	name	monster	old_height	old_radius	new_height	new_radius	flies	immobile	finding
+1000terrors	0	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	1	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	2	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	3	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	4	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	5	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	6	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	7	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	8	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	9	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	10	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	11	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	12	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	13	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	14	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	15	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	16	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	17	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	18	Flying Icky	9088	96	115	51	31	1	0	
+1000terrors	19	Desert Terror	9238	256	175	256	64	0	0	
+1000terrors	20	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	21	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	22	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	23	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	24	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	25	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	26	Oculus	9230	267	153	261	51	1	0	
+1000terrors	27	Oculus	9230	267	153	261	51	1	0	
+1000terrors	28	Orbus	9229	267	148	261	51	1	0	
+1000terrors	29	Orbus	9229	267	148	261	51	1	0	
+1000terrors	30	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #30 'Orbus' (2212, 1475, -2078) has a wall within its radius 148 (toward (2107, 1580))
+1000terrors	31	Reptilian Terror	9239	256	190	256	64	0	0	
+1000terrors	32	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	33	Desert Terror	9238	256	175	256	64	0	0	
+1000terrors	34	Reptilian Terror	9239	256	190	256	64	0	0	fit_fixed: actor #34 'Reptilian Terror' (819, -11960, -3245) has a wall within its radius 190 (toward (819, -12150))
+1000terrors	35	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #35 'Orbus' (164, -11878, -3245) has a wall within its radius 148 (toward (164, -11730))
+1000terrors	36	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #36 'Eye' (1802, -12288, -3245) has a wall within its radius 144 (toward (1946, -12288))
+1000terrors	37	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #37 'Eye' (2048, -11551, -2583) has a wall within its radius 144 (toward (2048, -11407))
+1000terrors	38	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #38 'Eye' (2171, -12288, -2564) has a wall within its radius 144 (toward (2171, -12432))
+1000terrors	39	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	40	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	41	Sea Monster Male	9177	160	60	179	192	0	0	
+1000terrors	42	Sea Monster Male	9177	160	60	179	192	0	0	
+1000terrors	43	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #43 'Orbus' (1741, -15299, -3061) has a wall within its radius 148 (toward (1889, -15299))
+1000terrors	44	Oculus	9230	267	153	261	51	1	0	fit_fixed: actor #44 'Oculus' (41, -15278, -3061) has a wall within its radius 153 (toward (41, -15125))
+1000terrors	45	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #45 'Eye' (1106, -15299, -3061) has a wall within its radius 144 (toward (1208, -15197))
+1000terrors	46	Orbus	9229	267	148	261	51	1	0	
+1000terrors	47	Orbus	9229	267	148	261	51	1	0	
+1000terrors	48	Orbus	9229	267	148	261	51	1	0	
+1000terrors	49	Reptilian Terror	9239	256	190	256	64	0	0	fit_fixed: actor #49 'Reptilian Terror' (164, -7782, -3061) overhangs an edge within its radius 190 (at (164, -7972))
+1000terrors	50	Orbus	9229	267	148	261	51	1	0	
+1000terrors	51	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #51 'Oculus' (-4915, -15483, -3061) has a wall within its radius 51 (toward (-4966, -15483))
+1000terrors	52	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #52 'Oculus' (-2171, 2867, -1952) has a wall within its radius 51 (toward (-2135, 2903))
+1000terrors	53	Orbus	9229	267	148	261	51	1	0	
+1000terrors	54	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #54 'Orbus' (2335, -2621, -2078) has a wall within its radius 148 (toward (2483, -2621))
+1000terrors	55	Orbus	9229	267	148	261	51	1	0	
+1000terrors	56	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #56 'Orbus' (369, 614, -2323) has a wall within its radius 148 (toward (369, 466))
+1000terrors	57	Orbus	9229	267	148	261	51	1	0	
+1000terrors	58	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #58 'Orbus' (6799, -11715, -2078) has a wall within its radius 148 (toward (6651, -11715))
+1000terrors	59	Orbus	9229	267	148	261	51	1	0	
+1000terrors	60	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #60 'Orbus' (-860, 1556, -2185) has a wall within its radius 148 (toward (-965, 1661))
+1000terrors	61	Oculus	9230	267	153	261	51	1	0	fit_fixed: actor #61 'Oculus' (246, -82, -2323) has a wall within its radius 153 (toward (138, 26))
+1000terrors	62	Oculus	9230	267	153	261	51	1	0	fit_fixed: actor #62 'Oculus' (-2294, 573, -2323) has a wall within its radius 153 (toward (-2186, 681))
+1000terrors	63	Orbus	9229	267	148	261	51	1	0	
+1000terrors	64	Desert Terror	9238	256	175	256	64	0	0	
+1000terrors	65	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	66	Oculus	9230	267	153	261	51	1	0	fit_fixed: actor #66 'Oculus' (287, -18801, 2254) has a wall within its radius 153 (toward (134, -18801))
+1000terrors	67	Orbus	9229	267	148	261	51	1	0	
+1000terrors	68	Greater Demon	9242	179	65	343	72	0	0	
+1000terrors	69	Oculus	9230	267	153	261	51	1	0	
+1000terrors	70	Oculus	9230	267	153	261	51	1	0	
+1000terrors	71	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	72	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	73	Oculus	9230	267	153	261	51	1	0	
+1000terrors	74	Desert Terror	9238	256	175	256	64	0	0	reach_party_start: False -> True
+1000terrors	75	Desert Terror	9238	256	175	256	64	0	0	
+1000terrors	76	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	77	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	78	Amphibious Terror	9237	256	160	256	64	0	0	reach_party_start: False -> True
+1000terrors	79	Orbus	9229	267	148	261	51	1	0	
+1000terrors	80	Lesser Demon	9241	179	65	261	64	0	0	
+1000terrors	81	Desert Terror	9238	256	175	256	64	0	0	
+1000terrors	82	Reptilian Terror	9239	256	190	256	64	0	0	
+1000terrors	83	Reptilian Terror	9239	256	190	256	64	0	0	
+1000terrors	84	Eye	9228	267	144	261	51	1	0	
+1000terrors	85	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #85 'Eye' (12861, -11162, -619) has a wall within its radius 144 (toward (12963, -11264))
+1000terrors	86	Oculus	9230	267	153	261	51	1	0	
+1000terrors	87	Orbus	9229	267	148	261	51	1	0	
+1000terrors	88	Eye	9228	267	144	261	51	1	0	
+1000terrors	89	Eye	9228	267	144	261	51	1	0	
+1000terrors	90	Eye	9228	267	144	261	51	1	0	
+1000terrors	91	Orbus	9229	267	148	261	51	1	0	
+1000terrors	92	Eye	9228	267	144	261	51	1	0	
+1000terrors	93	Eye	9228	267	144	261	51	1	0	
+1000terrors	94	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #94 'Orbus' (15073, -8950, -142) has a wall within its radius 148 (toward (15073, -8802))
+1000terrors	95	Orbus	9229	267	148	261	51	1	0	
+1000terrors	96	Oculus	9230	267	153	261	51	1	0	
+1000terrors	97	Eye	9228	267	144	261	51	1	0	
+1000terrors	98	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #98 'Orbus' (16302, -18698, -127) has a wall within its radius 148 (toward (16302, -18550))
+1000terrors	99	Eye	9228	267	144	261	51	1	0	
+1000terrors	100	Orbus	9229	267	148	261	51	1	0	
+1000terrors	101	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #101 'Orbus' (12943, -9441, -142) has a wall within its radius 148 (toward (12795, -9441))
+1000terrors	102	Eye	9228	267	144	261	51	1	0	
+1000terrors	103	Orbus	9229	267	148	261	51	1	0	
+1000terrors	104	Eye	9228	267	144	261	51	1	0	
+1000terrors	105	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #105 'Eye' (18924, -11551, -127) has a wall within its radius 144 (toward (18924, -11695))
+1000terrors	106	Eye	9228	267	144	261	51	1	0	fit_fixed: actor #106 'Eye' (17285, -12861, -127) has a wall within its radius 144 (toward (17285, -12717))
+1000terrors	107	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #107 'Orbus' (17285, -14418, -127) has a wall within its radius 148 (toward (17137, -14418))
+1000terrors	108	Eye	9228	267	144	261	51	1	0	
+1000terrors	109	Orbus	9229	267	148	261	51	1	0	fit_fixed: actor #109 'Orbus' (7373, -6554, -465) has a wall within its radius 148 (toward (7268, -6659))
+1000terrors	110	Orbus	9229	267	148	261	51	1	0	
+1000terrors	111	Njam the Meddler	9261	154	62	261	46	0	1	fit_problem_both: actor #111 'Njam the Meddler' (6083, -11786, 2564) stands under a ceiling 1 above it, lower than its height 261
+1000terrors	112	Desert Terror	9238	256	175	256	64	0	0	
+1000terrors	113	Njam the Meddler	9261	154	62	261	46	0	1	
+anskramkeep	0	Imp	9079	200	125	123	26	0	0	
+anskramkeep	1	Nagate Hatchling	9081	64	109	51	46	0	0	
+anskramkeep	2	Nagate Hatchling	9081	64	109	51	46	0	0	
+anskramkeep	3	Airborne Icky	9087	96	105	26	15	1	0	
+anskramkeep	4	Airborne Icky	9087	96	105	26	15	1	0	
+anskramkeep	5	Imp	9079	400	250	246	51	0	0	
+anskramkeep	6	Guard Segeant	9112	158	47	184	38	0	0	
+anskramkeep	7	Guard Segeant	9112	158	47	184	38	0	0	
+anskramkeep	8	Nagate Hatchling	9081	64	109	36	32	0	0	fit_fixed: actor #8 'Nagate Hatchling' (4147, 4925, -491) overhangs an edge within its radius 109 (at (4224, 5002)); reach_party_start: False -> True
+anskramkeep	9	Nagate Hatchling	9081	64	109	36	32	0	0	fit_fixed: actor #9 'Nagate Hatchling' (4147, 4823, -491) has a wall within its radius 109 (toward (4038, 4823)); reach_party_start: False -> True
+anskramkeep	10	Nagate Hatchling	9081	64	109	36	32	0	0	fit_fixed: actor #10 'Nagate Hatchling' (4137, 4721, -491) overhangs an edge within its radius 109 (at (4060, 4644)); reach_party_start: False -> True
+anskramkeep	11	Airborne Icky	9087	96	105	36	22	1	0	fit_fixed: actor #11 'Airborne Icky' (-2806, 3174, -327) has a wall within its radius 105 (toward (-2880, 3100))
+anskramkeep	12	Airborne Icky	9087	96	105	36	22	1	0	fit_fixed: actor #12 'Airborne Icky' (-2703, 3215, -327) has a wall within its radius 105 (toward (-2629, 3141))
+anskramkeep	13	Airborne Icky	9087	96	105	36	22	1	0	fit_fixed: actor #13 'Airborne Icky' (-2703, 3318, -327) has a wall within its radius 105 (toward (-2629, 3392))
+anskramkeep	14	Nagate Hatchling	9081	64	109	51	46	0	0	
+anskramkeep	15	Nagate Hatchling	9081	64	109	51	46	0	0	reach_party_start: False -> True
+anskramkeep	16	Nagate Elder	9083	64	109	154	138	0	0	
+anskramkeep	17	Imp Elder	9080	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	18	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	19	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	20	Imp Elder	9080	200	125	123	26	0	0	
+anskramkeep	21	Imply	9078	200	125	123	26	0	0	
+anskramkeep	22	Nagate Hatchling	9081	64	109	51	46	0	0	
+anskramkeep	23	Nagate Hatchling	9081	64	109	51	46	0	0	
+anskramkeep	24	Nagate Hatchling	9081	64	109	51	46	0	0	
+anskramkeep	25	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	26	Imply	9078	200	125	123	26	0	0	
+anskramkeep	27	Nagate Elder	9083	64	109	154	138	0	0	
+anskramkeep	28	Imp Elder	9080	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	29	Imp	9079	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	30	Imp	9079	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	31	Nagate Hatchling	9081	64	109	51	46	0	0	reach_party_start: False -> True
+anskramkeep	32	Nagate Hatchling	9081	64	109	51	46	0	0	reach_party_start: False -> True
+anskramkeep	33	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	34	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	35	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	36	Nagate Hatchling	9081	64	109	51	46	0	0	reach_party_start: False -> True
+anskramkeep	37	Nagate Hatchling	9081	64	109	51	46	0	0	reach_party_start: False -> True
+anskramkeep	38	Imply	9078	200	125	123	26	0	0	reach_party_start: False -> True
+anskramkeep	39	Imp Elder	9080	200	125	123	26	0	0	
+anskramkeep	40	Imp Elder	9080	200	125	123	26	0	0	
+anskramkeep	41	Imp Elder	9080	200	125	123	26	0	0	
+anskramkeep	42	Imp Elder	9080	200	125	123	26	0	0	
+anskramkeep	43	Imply	9078	200	125	123	26	0	0	
+anskramkeep	44	Imply	9078	200	125	123	26	0	0	
+anskramkeep	45	Imp	9079	200	125	123	26	0	0	
+anskramkeep	46	Imply	9078	200	125	123	26	0	0	
+beethoven	0	Lobber	9086	199	112	159	38	0	0	
+beethoven	1	Lobber	9086	199	112	159	38	0	0	
+beethoven	2	Lobber	9086	199	112	159	38	0	0	fit_fixed: actor #2 'Lobber' (3896, 18770, 1) overhangs an edge within its radius 112 (at (3975, 18849))
+beethoven	3	Lobber	9086	199	112	159	38	0	0	
+beethoven	4	Lobber	9086	199	112	159	38	0	0	
+beethoven	5	Lobber	9086	199	112	159	38	0	0	
+beethoven	6	Lobber	9086	199	112	159	38	0	0	
+beethoven	7	Lobber	9086	199	112	159	38	0	0	
+beethoven	8	Lobber	9086	199	112	159	38	0	0	
+beethoven	9	Lobber	9086	199	112	159	38	0	0	fit_fixed: actor #9 'Lobber' (-2360, -1152, 83) overhangs an edge within its radius 112 (at (-2439, -1073))
+beethoven	10	Lobber	9086	199	112	159	38	0	0	fit_problem_both: actor #10 'Lobber' (-1075, -1144, 83) overhangs an edge within its radius 38 (at (-1048, -1117))
+beethoven	11	Lobber	9086	199	112	159	38	0	0	
+beethoven	12	Lobber	9086	199	112	159	38	0	0	
+beethoven	13	Lobber	9086	199	112	159	38	0	0	
+beethoven	14	Lobber	9086	199	112	159	38	0	0	
+beethoven	15	Lobber	9086	199	112	159	38	0	0	
+beethoven	16	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	17	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	18	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	19	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	20	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	21	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	22	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	23	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	24	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	25	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	26	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	27	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	28	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	29	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	30	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	31	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	32	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	33	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	34	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	35	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	36	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	37	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	38	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	39	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	40	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	41	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	42	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	43	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	44	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	45	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	46	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	47	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	48	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	49	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	50	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	51	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	52	Bone Thrasher	9184	185	65	179	38	0	0	
+beethoven	53	Skeleton	9135	170	60	179	38	0	0	
+beethoven	54	Skeleton	9135	170	60	179	38	0	0	
+beethoven	55	Skeleton	9135	170	60	179	38	0	0	
+beethoven	56	Skeleton	9135	170	60	179	38	0	0	
+beethoven	57	Rotter	9180	166	64	179	38	0	0	
+beethoven	58	Rotter	9180	166	64	179	38	0	0	
+beethoven	59	Rotter	9180	166	64	179	38	0	0	
+beethoven	60	Skeleton	9135	170	60	179	38	0	0	fit_fixed: actor #60 'Skeleton' (-4055, 7578, -1637) overhangs an edge within its radius 60 (at (-3995, 7578))
+beethoven	61	Skeleton	9135	170	60	179	38	0	0	
+beethoven	62	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	63	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	64	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	65	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	66	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	67	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	68	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	69	Airborne Icky	9087	96	105	26	15	1	0	
+beethoven	70	Lobber Pod	9084	199	112	61	38	0	0	fit_problem_both: actor #70 'Lobber Pod' (-15498, 12170, 83) overhangs an edge within its radius 38 (at (-15460, 12170))
+beethoven	71	Lobber Pod	9085	199	112	123	77	0	0	fit_problem_both: actor #71 'Lobber Pod' (-15498, 11955, 83) overhangs an edge within its radius 77 (at (-15421, 11955))
+beethoven	72	Rotter	9180	166	64	179	38	0	0	
+beethoven	73	Rotter	9180	166	64	179	38	0	0	
+beethoven	74	Rotter	9180	166	64	179	38	0	0	
+beethoven	75	Rotter	9180	166	64	179	38	0	0	
+beethoven	76	Rotter	9180	166	64	179	38	0	0	
+beethoven	77	Rotter	9180	166	64	179	38	0	0	
+beethoven	78	Rotter	9180	166	64	179	38	0	0	
+beethoven	79	Skeleton	9135	170	60	179	38	0	0	
+beethoven	80	Skeleton	9135	170	60	179	38	0	0	
+beethoven	81	Skeleton	9135	170	60	179	38	0	0	
+beethoven	82	Skeleton	9135	170	60	179	38	0	0	
+beethoven	83	Rotter	9180	166	64	179	38	0	0	
+chasmofthedead	0	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #0 'Embalmed Mummy' (-10772, 3604, -2866) has a wall within its radius 72 (toward (-10823, 3655))
+chasmofthedead	1	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #1 'Embalmed Mummy' (-10772, 2335, -2866) has a wall within its radius 72 (toward (-10823, 2386))
+chasmofthedead	2	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #2 'Embalmed Mummy' (-9257, 2007, -2866) has a wall within its radius 72 (toward (-9308, 1956))
+chasmofthedead	3	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #3 'Embalmed Mummy' (-8233, 2949, -2866) has a wall within its radius 72 (toward (-8161, 2949))
+chasmofthedead	4	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #4 'Embalmed Mummy' (-8233, 4915, -2866) has a wall within its radius 72 (toward (-8161, 4915))
+chasmofthedead	5	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #5 'Embalmed Mummy' (-9257, 5284, -2866) has a wall within its radius 72 (toward (-9206, 5335))
+chasmofthedead	6	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #6 'Embalmed Mummy' (-10772, 4910, -2866) has a wall within its radius 72 (toward (-10823, 4961))
+chasmofthedead	7	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #7 'Embalmed Mummy' (9180, 12902, -5324) has a wall within its radius 72 (toward (9129, 12953))
+chasmofthedead	8	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #8 'Petrified Mummy' (9180, 12329, -5324) has a wall within its radius 72 (toward (9129, 12380))
+chasmofthedead	9	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #9 'Embalmed Mummy' (9180, 11796, -5324) has a wall within its radius 72 (toward (9129, 11847))
+chasmofthedead	10	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #10 'Embalmed Mummy' (11546, 12902, -5324) has a wall within its radius 72 (toward (11618, 12902))
+chasmofthedead	11	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #11 'Petrified Mummy' (11546, 12329, -5324) has a wall within its radius 72 (toward (11618, 12329))
+chasmofthedead	12	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #12 'Embalmed Mummy' (11546, 11796, -5324) has a wall within its radius 72 (toward (11618, 11796))
+chasmofthedead	13	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #13 'Embalmed Mummy' (1475, -19246, -5406) has a wall within its radius 72 (toward (1424, -19297))
+chasmofthedead	14	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #14 'Petrified Mummy' (2253, -19246, -5406) has a wall within its radius 72 (toward (2202, -19297))
+chasmofthedead	15	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #15 'Petrified Mummy' (3686, -19246, -5406) has a wall within its radius 72 (toward (3635, -19297))
+chasmofthedead	16	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #16 'Embalmed Mummy' (2908, -19246, -5406) has a wall within its radius 72 (toward (2857, -19297))
+chasmofthedead	17	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #17 'Petrified Mummy' (988, -17326, -5406) has a wall within its radius 72 (toward (937, -17275))
+chasmofthedead	18	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #18 'Embalmed Mummy' (988, -16548, -5406) has a wall within its radius 72 (toward (937, -16497))
+chasmofthedead	19	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #19 'Petrified Mummy' (988, -18760, -5406) has a wall within its radius 72 (toward (937, -18709))
+chasmofthedead	20	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #20 'Embalmed Mummy' (988, -17981, -5406) has a wall within its radius 72 (toward (937, -17930))
+chasmofthedead	21	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #21 'Petrified Mummy' (4173, -18760, -5406) has a wall within its radius 72 (toward (4245, -18760))
+chasmofthedead	22	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #22 'Embalmed Mummy' (4173, -17981, -5406) has a wall within its radius 72 (toward (4245, -17981))
+chasmofthedead	23	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #23 'Embalmed Mummy' (4173, -16548, -5406) has a wall within its radius 72 (toward (4245, -16548))
+chasmofthedead	24	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #24 'Petrified Mummy' (4173, -17326, -5406) has a wall within its radius 72 (toward (4245, -17326))
+chasmofthedead	25	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #25 'Embalmed Mummy' (1475, -16061, -5406) has a wall within its radius 72 (toward (1526, -16010))
+chasmofthedead	26	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #26 'Petrified Mummy' (3686, -16061, -5406) has a wall within its radius 72 (toward (3737, -16010))
+chasmofthedead	27	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #27 'Petrified Mummy' (-10772, 4301, -2866) has a wall within its radius 72 (toward (-10823, 4352))
+chasmofthedead	28	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #28 'Petrified Mummy' (-10772, 2949, -2866) has a wall within its radius 72 (toward (-10823, 3000))
+chasmofthedead	29	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #29 'Petrified Mummy' (-8233, 2340, -2866) has a wall within its radius 72 (toward (-8161, 2340))
+chasmofthedead	30	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #30 'Petrified Mummy' (-8233, 4301, -2866) has a wall within its radius 72 (toward (-8161, 4301))
+chasmofthedead	31	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #31 'Petrified Mummy' (-9789, 2007, -2866) has a wall within its radius 72 (toward (-9840, 1956))
+chasmofthedead	32	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #32 'Petrified Mummy' (-9789, 5284, -2866) has a wall within its radius 72 (toward (-9738, 5335))
+chasmofthedead	33	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #33 'Petrified Mummy' (10936, 11187, -5324) has a wall within its radius 72 (toward (10885, 11136))
+chasmofthedead	34	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #34 'Petrified Mummy' (9789, 11187, -5324) has a wall within its radius 72 (toward (9738, 11136))
+chasmofthedead	35	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #35 'Petrified Mummy' (-2376, 6636, -2375) has a wall within its radius 72 (toward (-2427, 6585))
+chasmofthedead	36	Petrified Mummy	9146	171	72	179	31	0	0	fit_fixed: actor #36 'Petrified Mummy' (-4096, 6636, -2375) has a wall within its radius 72 (toward (-4147, 6585))
+chasmofthedead	37	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #37 'Embalmed Mummy' (-2048, 6636, -2375) has a wall within its radius 72 (toward (-2099, 6585))
+chasmofthedead	38	Embalmed Mummy	9145	171	72	179	31	0	0	fit_fixed: actor #38 'Embalmed Mummy' (-3768, 6636, -2375) has a wall within its radius 72 (toward (-3819, 6585))
+chasmofthedead	39	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	40	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	41	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	42	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	43	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	44	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	45	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	46	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	47	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	48	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	49	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	50	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	51	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	52	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	53	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	54	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	55	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	56	Dripper	9181	166	64	179	38	0	0	
+chasmofthedead	57	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	58	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	59	Zombie	9182	166	64	179	38	0	0	
+chasmofthedead	60	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	61	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	62	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	63	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	64	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	65	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	66	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	67	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	68	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	69	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	70	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	71	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	72	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	73	Skeleton	9135	170	60	179	38	0	0	
+chasmofthedead	74	Imp Elder	9080	200	125	123	26	0	0	reach_party_start: False -> True
+chasmofthedead	75	Imp Elder	9080	200	125	123	26	0	0	reach_party_start: False -> True
+chasmofthedead	76	Imp Elder	9080	200	125	123	26	0	0	fit_fixed: actor #76 'Imp Elder' (-11756, 21955, 1578) overhangs an edge within its radius 125 (at (-11668, 22043)); reach_party_start: False -> True
+chasmofthedead	77	Imp Elder	9080	200	125	123	26	0	0	fit_fixed: actor #77 'Imp Elder' (-10895, 21135, 1578) has a wall within its radius 125 (toward (-10770, 21135)); reach_party_start: False -> True
+chasmofthedead	78	Imp Elder	9080	200	125	123	26	0	0	reach_party_start: False -> True
+chasmofthedead	79	Imp Elder	9080	200	125	123	26	0	0	reach_party_start: False -> True
+chasmofthedead	80	Imp Elder	9080	200	125	123	26	0	0	fit_fixed: actor #80 'Imp Elder' (-16957, 18022, 1578) has a wall within its radius 125 (toward (-17045, 18110)); reach_party_start: False -> True
+chasmofthedead	81	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	82	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	83	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	84	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	85	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	86	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	87	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	88	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	89	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	90	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	91	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	92	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	93	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	94	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	95	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	96	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	97	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	98	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	99	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	100	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	101	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	102	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	103	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	104	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	105	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	106	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	107	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	108	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	109	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	110	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	111	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	112	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	113	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	114	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	115	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	116	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	117	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	118	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	119	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	120	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	121	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	122	Skeleton Master	9137	200	70	189	38	0	0	
+chasmofthedead	123	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	124	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	125	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	126	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	127	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	128	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	129	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	130	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	131	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	132	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	133	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	134	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	135	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	136	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	137	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	138	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	139	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	140	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	141	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	142	Skeleton Warrior	9136	185	65	189	38	0	0	fit_fixed: actor #142 'Skeleton Warrior' (4506, -6144, -4423) has a wall within its radius 65 (toward (4460, -6190))
+chasmofthedead	143	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	144	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	145	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	146	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	147	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	148	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	149	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	150	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	151	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	152	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	153	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	154	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	155	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	156	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	157	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	158	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	159	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	160	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	161	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	162	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	163	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	164	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	165	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	166	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	167	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	168	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	169	Skeleton Warrior	9136	185	65	189	38	0	0	
+chasmofthedead	170	Skeleton Warrior	9136	185	65	189	38	0	0	
+drangheimprison	1	Nagate Hatchling	9081	51	46	38	35	0	0	
+drangheimprison	2	Nagate Hatchling	9081	51	46	38	35	0	0	
+drangheimprison	3	Nagate Hatchling	9081	51	46	38	35	0	0	
+drangheimprison	4	Nagate Hatchling	9081	51	46	38	35	0	0	
+drangheimprison	5	Nagate Hatchling	9081	51	46	38	35	0	0	
+drangheimprison	6	Nagate Hatchling	9081	51	46	38	35	0	0	
+drangheimprison	8	Nagate Hatchling	9081	51	46	41	37	0	0	
+drangheimprison	10	Nagate Hatchling	9081	51	46	56	51	0	0	
+drangheimprison	28	Nagate Hatchling	9081	51	46	41	37	0	0	
+drangheimprison	33	Nagate	9082	77	69	56	51	0	0	
+drangheimprison	34	Nagate	9082	77	69	41	37	0	0	
+drangheimprison	40	Guard	9111	158	47	184	38	0	0	
+drangheimprison	42	Cat0	9294	40	64	128	32	0	0	fit_problem_both: actor #42 'Cat0' (410, 41, -1893) stands on no floor (the floor below is at -3441)
+drangheimprison	43	Cow0	9267	160	80	133	90	0	0	
+drangheimprison	44	Guard	9111	158	47	184	38	0	0	
+drangheimprison	45	Guard	9111	158	47	184	38	0	0	
+drangheimprison	46	Guard	9111	158	47	184	38	0	0	
+drangheimprison	47	Guard Captain	9113	158	47	184	38	0	0	
+drangheimprison	48	Guard Segeant	9112	158	47	184	38	0	0	
+drangheimprison	49	Rooster1	9270	40	64	77	26	0	0	fit_problem_both: actor #49 'Rooster1' (410, 41, -1730) stands on no floor (the floor below is at -3441)
+drangheimprison	52	Guard	9111	158	47	184	38	0	1	
+drangheimprison	53	Guard	9111	158	47	184	38	0	1	
+drangheimprison	54	Guard	9111	158	47	184	38	0	1	fit_fixed: actor #54 'Guard' (-2191, -6339, -2231) overhangs an edge within its radius 47 (at (-2191, -6386))
+drangheimprison	56	Guard	9111	158	47	184	38	0	0	
+drangheimprison	57	Guard	9111	158	47	184	38	0	0	
+drangheimprison	58	Guard	9111	158	47	184	38	0	0	
+drangheimprison	60	Dwarven Guard	9120	70	75	123	36	0	0	
+drangheimprison	61	Guard	9111	158	47	184	38	0	0	fit_problem_both: actor #61 'Guard' (-2724, -5632, -2231) has a wall within its radius 38 (toward (-2697, -5659))
+drangheimprison	62	Guard Segeant	9112	158	47	184	38	0	0	
+drangheimprison	63	Guard	9111	158	47	184	38	0	0	
+drangheimprison	67	Guard	9111	158	47	184	38	0	0	
+drangheimprison	68	Guard	9111	158	47	184	38	0	0	
+drangheimprison	69	Guard	9111	158	47	184	38	0	0	
+drangheimprison	70	Guard	9111	158	47	184	38	0	0	
+drangheimprison	71	Guard	9111	158	47	184	38	0	0	
+inventastorca	0	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	1	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	2	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	5	Lich	9207	179	26	215	31	0	0	
+inventastorca	6	Lich	9207	179	26	215	31	0	0	
+inventastorca	7	Lich	9207	179	26	215	31	0	0	
+inventastorca	8	Lich	9207	179	26	215	31	0	0	
+inventastorca	12	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	13	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	14	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	15	Airborne Icky	9087	51	31	26	15	1	0	fit_fixed: actor #15 'Airborne Icky' (-221, -543, -1174) has a wall within its radius 31 (toward (-199, -521))
+inventastorca	16	Airborne Icky	9087	51	31	26	15	1	0	
+inventastorca	17	Lich	9207	179	26	215	31	0	0	
+inventastorca	18	Skeleton	9135	179	26	179	38	0	0	
+inventastorca	21	Lich	9207	154	31	215	31	0	0	
+inventastorca	28	Lich	9207	179	26	215	31	0	0	
+inventastorca	38	Lich	9207	200	40	233	33	0	0	
+lichlab	0	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #0 'Oculus' (-4260, 3604, -654) has a wall within its radius 51 (toward (-4209, 3604))
+lichlab	1	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #1 'Oculus' (-4260, 8847, -654) has a wall within its radius 51 (toward (-4209, 8847))
+lichlab	2	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #2 'Oculus' (819, 8847, -654) has a wall within its radius 51 (toward (870, 8847))
+lichlab	3	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #3 'Oculus' (819, 3604, -654) has a wall within its radius 51 (toward (870, 3604))
+lichlab	4	Oculus	9230	267	153	261	51	1	0	
+lichlab	5	Oculus	9230	267	153	261	51	1	0	
+lichlab	6	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #6 'Oculus' (-655, -4915, -1166) has a wall within its radius 51 (toward (-604, -4915))
+lichlab	7	Oculus	9230	267	153	261	51	1	0	
+lichlab	8	Oculus	9230	267	153	261	51	1	0	fit_fixed: actor #8 'Oculus' (1147, -2621, -900) has a wall within its radius 153 (toward (1300, -2621))
+lichlab	9	Oculus	9230	267	153	261	51	1	0	fit_problem_both: actor #9 'Oculus' (819, 6226, -654) has a wall within its radius 51 (toward (870, 6226))
+lichlab	10	Oculus	9230	267	153	261	51	1	0	fit_fixed: actor #10 'Oculus' (7209, 6062, -327) has a wall within its radius 153 (toward (7209, 6215))
+lichlab	11	Oculus	9230	267	153	261	51	1	0	
+lichlab	12	Oculus	9230	267	153	261	51	1	0	
+lichlab	13	Oculus	9230	267	153	261	51	1	0	
+lichlab	14	Oculus	9230	267	153	261	51	1	0	
+lichlab	15	Dagrell	9147	220	60	148	64	0	0	
+lichlab	16	Dagrell	9147	220	60	148	64	0	0	
+lichlab	17	Venomous Dagrell	9148	220	60	148	64	0	0	
+lichlab	18	Dagrell	9147	220	60	148	64	0	0	
+lichlab	19	Dagrell	9147	220	60	148	64	0	0	
+lichlab	20	Venomous Dagrell	9148	220	60	148	64	0	0	
+lichlab	21	Dagrell	9147	220	60	148	64	0	0	
+lichlab	22	Dagrell	9147	220	60	148	64	0	0	
+lichlab	23	Venomous Dagrell	9148	220	60	148	64	0	0	
+lichlab	24	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	25	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	26	Dagrell	9147	220	60	148	64	0	0	
+lichlab	27	Dagrell	9147	220	60	148	64	0	0	
+lichlab	28	Dagrell	9147	220	60	148	64	0	0	
+lichlab	29	Dagrell	9147	220	60	148	64	0	0	
+lichlab	30	Dagrell	9147	220	60	148	64	0	0	
+lichlab	31	Dagrell	9147	220	60	148	64	0	0	
+lichlab	32	Dagrell	9147	220	60	148	64	0	0	
+lichlab	33	Dagrell	9147	220	60	148	64	0	0	
+lichlab	34	Dagrell	9147	220	60	148	64	0	0	
+lichlab	35	Venomous Dagrell	9148	220	60	148	64	0	0	
+lichlab	36	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	37	Lich King	9209	211	95	184	37	0	0	reach_party_start: False -> True
+lichlab	38	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	39	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	40	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	41	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	42	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	43	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	44	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	45	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	46	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	47	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	48	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	49	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	50	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	51	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	52	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	53	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	54	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	55	Power Lich	9208	176	79	215	31	0	0	
+lichlab	56	Power Lich	9208	176	79	215	31	0	0	
+lichlab	57	Power Lich	9208	176	79	215	31	0	0	
+lichlab	58	Power Lich	9208	176	79	215	31	0	0	
+lichlab	59	Power Lich	9208	176	79	215	31	0	0	
+lichlab	60	Lich King	9209	211	95	184	37	0	0	
+lichlab	61	Lich King	9209	211	95	184	37	0	0	
+lichlab	62	Lich King	9209	211	95	184	37	0	0	
+lichlab	63	Lich King	9209	211	95	184	37	0	0	
+lichlab	64	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	65	Skeleton Master	9137	160	56	152	31	0	0	
+lichlab	66	Skeleton Master	9137	160	56	152	31	0	0	
+lichlab	67	Skeleton Master	9137	160	56	152	31	0	0	
+lichlab	68	Skeleton Master	9137	160	56	152	31	0	0	
+lichlab	69	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	70	Power Lich	9208	176	79	215	31	0	0	
+lichlab	71	Power Lich	9208	176	79	215	31	0	0	
+lichlab	72	Skeleton Master	9137	200	70	189	38	0	0	fit_problem_both: actor #72 'Skeleton Master' (-1475, 819, 1312) has a wall within its radius 38 (toward (-1437, 819))
+lichlab	73	Skeleton Master	9137	200	70	189	38	0	0	fit_problem_both: actor #73 'Skeleton Master' (-2458, 819, 1312) has a wall within its radius 38 (toward (-2420, 819))
+lichlab	74	Skeleton Master	9137	250	88	237	48	0	0	
+lichlab	75	Skeleton Master	9137	250	88	237	48	0	0	fit_problem_both: actor #75 'Skeleton Master' (-5571, 4915, 1312) has a wall within its radius 48 (toward (-5523, 4915))
+lichlab	76	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	77	Eye	9228	267	144	261	51	1	0	
+lichlab	78	Power Lich	9208	176	79	215	31	0	0	
+lichlab	79	Skeleton Master	9137	220	77	208	42	0	0	
+lichlab	80	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	81	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	82	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	83	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	84	Power Lich	9208	176	79	215	31	0	0	
+lichlab	85	Power Lich	9208	176	79	215	31	0	0	
+lichlab	86	Eye	9228	267	144	261	51	1	0	
+lichlab	87	Skeleton Master	9137	280	98	265	54	0	0	reach_party_start: False -> True
+lichlab	88	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	89	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	90	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	91	Eye	9228	267	144	261	51	1	0	
+lichlab	92	Eye	9228	267	144	261	51	1	0	fit_problem_both: actor #92 'Eye' (-737, 5489, 2049) has a wall within its radius 51 (toward (-686, 5489))
+lichlab	93	Skeleton Master	9137	200	70	189	38	0	0	fit_problem_both: actor #93 'Skeleton Master' (-737, 7045, 2049) has a wall within its radius 38 (toward (-699, 7045))
+lichlab	94	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	95	Lich	9207	176	79	215	31	0	0	
+lichlab	96	Lich	9207	176	79	215	31	0	0	
+lichlab	97	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	98	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	99	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	100	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	101	Lich	9207	176	79	215	31	0	0	
+lichlab	102	Lich	9207	176	79	215	31	0	0	
+lichlab	103	Lich	9207	176	79	215	31	0	0	
+lichlab	104	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	105	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	106	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	107	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	108	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	109	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	110	Skeleton Master	9137	200	70	189	38	0	0	
+lichlab	111	Power Lich	9208	176	79	215	31	0	0	
+lichlab	112	Power Lich	9208	176	79	215	31	0	0	
+lichlab	113	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	114	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	115	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	116	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	117	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	118	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	119	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	120	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	121	Flying Icky	9088	96	115	51	31	1	0	fit_fixed: actor #121 'Flying Icky' (1311, -1106, 331) has a wall within its radius 115 (toward (1392, -1187))
+lichlab	122	Flying Icky	9088	96	115	51	31	1	0	fit_fixed: actor #122 'Flying Icky' (1475, -983, 331) has a wall within its radius 115 (toward (1590, -983))
+lichlab	123	Flying Icky	9088	96	115	51	31	1	0	fit_fixed: actor #123 'Flying Icky' (1434, -1024, 331) has a wall within its radius 115 (toward (1549, -1024))
+lichlab	124	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	125	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	126	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	127	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	128	Flying Icky	9088	96	115	51	31	1	0	fit_fixed: actor #128 'Flying Icky' (1393, -1065, 331) has a wall within its radius 115 (toward (1508, -1065))
+lichlab	129	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	130	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	131	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	132	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	133	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	134	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	135	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	136	Flying Icky	9088	96	115	51	31	1	0	
+lichlab	137	Power Lich	9208	176	79	215	31	0	0	
+lichlab	138	Revenant	9176	173	55	189	36	0	0	
+lichlab	139	Ghast	9174	173	55	189	36	0	0	
+lichlab	140	Venomous Dagrell	9148	220	60	148	64	0	0	
+lichlab	141	Spectre Dagrell	9149	220	60	148	64	0	0	
+lichlab	142	Lich King	9209	211	95	184	37	0	0	reach_party_start: False -> True
+lichlab	143	Power Lich	9208	176	79	215	31	0	0	
+lichlab	144	Power Lich	9208	176	79	215	31	0	0	
+lichlab	145	Lich King	9209	211	95	184	37	0	0	reach_party_start: False -> True
+lichlab	146	Eye	9228	267	144	261	51	1	0	
+ruinedtemple	13	Colloidal Warrior	9235	177	63	193	84	0	1	
+templeofhonk	0	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	1	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	2	Elder Honk	9187	190	74	179	31	0	0	fit_fixed: actor #2 'Elder Honk' (5458, 3400, 452) overhangs an edge within its radius 74 (at (5406, 3452)); reach_party_start: False -> True
+templeofhonk	3	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	4	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	5	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	6	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	7	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	8	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	9	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	10	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	11	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	12	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	13	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	14	Honk	9216	190	74	179	31	0	0	reach_party_start: False -> True
+templeofhonk	15	Honk	9186	190	74	195	31	0	0	reach_party_start: False -> True
+templeofhonk	16	Honk	9186	190	74	195	31	0	0	
+templeofhonk	17	Honk	9216	190	74	179	31	0	0	
+thjoradmine	0	Troglodyte	9096	170	55	212	69	0	0	
+thjoradmine	46	Ebora	9301	200	120	184	38	0	1	
+thjoradmine	47	Cat3	9294	40	64	128	32	0	0	
+thjoradmine	48	Cat2	9294	40	64	128	32	0	0	
+thjoradmine	49	Cat1	9294	40	64	128	32	0	0	
+thjoradmine	50	Cat0	9294	40	64	128	32	0	0	
+thjoradmine	51	Cat4	9294	40	64	128	32	0	0	

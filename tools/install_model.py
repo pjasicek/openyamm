@@ -3,10 +3,12 @@
 
 The accepted GLB goes to assets_source/<scope>/models/<name>.glb, the authoritative source (scope: worlds/<world> or
 engine; --world-items uses engine/world_items, and with --world <world> a world's own ground items in
-worlds/<world>/world_items, such as MM9's). Decoration models of every world (<world>_deco_*.glb) are engine content and need --engine. A model matching COOKED_MODELS (decorations since 2026-10-12) is then cooked into assets_dev
-(tools/cook_models.py --only <path>). Any other model, until the switch to cooked models (ASSET_COOKING_PLAN.md
-section 12), gets an uncooked runtime copy at the same relative path in assets_dev, with hidden back faces culled
-(tools/model_backface_split.py).
+worlds/<world>/world_items, such as MM9's). Decoration models of the MM6-MM8 worlds (<world>_deco_*.glb) are engine
+content and need --engine; MM9's (mm9_deco_*.glb) are MM9 world content and need --world mm9 (only MM9 binds them,
+and MM9 ships as its own package). A model matching COOKED_MODELS (decorations since 2026-10-12) is then cooked into
+assets_dev (tools/cook_models.py --only <path>). Any other model, until the switch to cooked models
+(ASSET_COOKING_PLAN.md section 12), gets an uncooked runtime copy at the same relative path in assets_dev, with
+hidden back faces culled (tools/model_backface_split.py).
 
     tools/install_model.py <accepted.glb> [--world mm6 | --engine | --world-items [--world mm9]] [--name <file name>]
 
@@ -58,7 +60,11 @@ def main():
     if model.suffix.lower() != ".glb":
         raise SystemExit(f"{model}: not a .glb")
     name = args.name or model.name
-    if fnmatch.fnmatch(name, "mm*_deco_*.glb") and not args.engine:
+    if fnmatch.fnmatch(name, "mm9_deco_*.glb"):
+        if args.engine or args.world != "mm9" or args.world_items:
+            raise SystemExit(f"{name}: MM9's decoration models are MM9 world content (only MM9 binds them); "
+                             "use --world mm9")
+    elif fnmatch.fnmatch(name, "mm*_deco_*.glb") and not args.engine:
         raise SystemExit(f"{name}: decoration models are engine content (any world binds them); use --engine")
     if Path(name).name != name or Path(name).suffix.lower() != ".glb":
         raise SystemExit("--name must be a GLB filename, without directories")

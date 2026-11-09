@@ -594,6 +594,11 @@ int EngineApplication::run() const
             refreshRenderWindow = true;
         }
 
+        if (m_fixedFrameSeconds > 0.0f)
+        {
+            deltaSeconds = m_fixedFrameSeconds;
+        }
+
         uint64_t frameEventNanoseconds = 0;
 
         if (collectFrameTimings)
@@ -864,6 +869,11 @@ bool EngineApplication::applyDisplaySettings(WindowMode mode, int width, int hei
     m_pRunningContext->resize(m_pRunningWindow, pixelWidth, pixelHeight);
     return true;
 #endif
+}
+
+void EngineApplication::setFixedFrameSeconds(float seconds)
+{
+    m_fixedFrameSeconds = std::max(0.0f, seconds);
 }
 
 void EngineApplication::setMaxAnisotropy(uint8_t level)

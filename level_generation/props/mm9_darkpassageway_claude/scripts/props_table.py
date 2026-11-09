@@ -51,14 +51,15 @@ MODELS = {
     ('models/props/chest5.abc', 'skins/props/chest5.dtx'): 'chest5',
     ('models/props/logsburning.abc', 'skins/props/logsburning.dtx'): 'logsburning',
     ('models/props/scroll-open.abc', 'skins/props/scroll-open.dtx'): 'scroll',
-    # MM9 skins this barrel with a water sprite frame (water125_0000); Anskram's barrel has its own Barrel.dtx skin
-    ('models/props/barrel.abc', 'spritetextures/water/water125/water125_0000.dtx'): 'barrel',
+    # Dark Passageway's exit: MM9 skins this barrel (Prop36, at ExitPoint) with a water sprite frame (water125_0000), so
+    # it reads as the portal it is; built here with that skin (2026-11-09; before, Anskram's barrel and its wood skin)
+    ('models/props/barrel.abc', 'spritetextures/water/water125/water125_0000.dtx'): 'barrelwater',
     # the PropDamager spikes at the bottom of the spike trap pit (Spikes1; the map agent asked for it, 2026-10-31)
     ('models/props/spikepit.abc', 'skins/props/spikepit.dtx'): 'spikepit',
 }
 REUSED = {prop: PROPS_DIR / owner for prop, owner in {
     'chest5': 'mm9_chasmofthedead_claude', 'logsburning': 'mm9_isleofashes_claude', 'scroll': 'mm9_anskramkeep_claude',
-    'barrel': 'mm9_anskramkeep_claude', 'spikepit': 'mm9_anskramkeep_claude'}.items()}
+    'spikepit': 'mm9_anskramkeep_claude'}.items()}
 STATUES = {'iceskeleton', 'icezombie', 'icelich', 'icebanshee', 'iceterror', 'iceskeletonwarrior', 'stonebanshee'}
 # MM9 draws a fire at a CandleProp (here all four claw torches: Blue 1, StartOn 1), not at a Prop: the lit claw torch
 # is its own model with the orb flames (build.py ORB_FLAMES, 2026-10-31), so Dungeon of Secrets' 34 Prop claw torches

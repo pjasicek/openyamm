@@ -6,6 +6,7 @@
 #include "game/party/CharacterState.h"
 #include "game/events/EventDialogContent.h"
 #include "game/items/CraftingRuntime.h"
+#include "game/items/InventoryBags.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
@@ -309,11 +310,50 @@ public:
         float scrollOffset = 0.0f;
     };
 
+    // The Battle Orders window over the spellbook (game/ui/GameplayBattleOrders.h).
+    struct BattleOrdersWindowState
+    {
+        bool open = false;
+        // Opened by the Battle Orders key: closing the window closes the book too.
+        bool closesBook = false;
+        size_t memberIndex = 0;
+        std::optional<size_t> selectedOrder;
+        // The quick key a palette click fills: 0 Quick Cast, 1-4 Quick Spell 1-4.
+        std::optional<size_t> armedQuickSlot;
+        // The slider being dragged (GameplayBattleOrders' Slider) and, for the distance, which end.
+        int draggedSlider = -1;
+        bool draggingMaximum = false;
+        bool copyMenuOpen = false;
+        // The palette's first shown row of icons.
+        size_t paletteRow = 0;
+        // The palette's search: typed text filters the spells by name; while it has focus, keys are text.
+        std::string paletteSearch;
+        bool paletteSearchActive = false;
+        // Escape acts once per press: it clears the search, then closes the window.
+        bool escapeLatch = false;
+    };
+
+    // The short menu a right click on a spell in the spellbook opens: Quick Cast, the quick spells, the orders.
+    struct SpellbookSpellMenuState
+    {
+        bool open = false;
+        uint32_t spellId = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        // The spell under the right button when it went down, and when: a quick click opens the menu, a held one only
+        // inspects the spell.
+        uint32_t rightPressSpellId = 0;
+        uint64_t rightPressTicks = 0;
+        bool rightHeld = false;
+    };
+
     struct SpellbookState
     {
         bool active = false;
         SpellbookSchool school = SpellbookSchool::Fire;
         uint32_t selectedSpellId = 0;
+        BattleOrdersWindowState battleOrders;
+        SpellbookSpellMenuState spellMenu;
     };
 
     struct RestScreenState
@@ -587,6 +627,8 @@ public:
     static bool characterScreenSearchActive(const CharacterScreenState &screen);
     // Typing goes to the journal: its notes search, or a personal map note being written.
     static bool journalSearchActive(const JournalScreenState &screen);
+    // The Battle Orders window's palette search has focus: keys are text, not hotkeys.
+    static bool spellbookSearchActive(const SpellbookState &spellbook);
 
     struct InventoryNestedOverlayState
     {
@@ -595,6 +637,11 @@ public:
         uint32_t houseId = 0;
         // A shop's party inventory shows one bag at full size rather than the bag overview (several bags, desktop).
         bool bagZoomed = false;
+        // Sell trash (ShopSell, HouseServiceRuntime::findSellTrash): while picking, the picked items of the whole
+        // party are highlighted, a click on an item adds or removes it instead of selling it, and the button sells
+        // the pick.
+        bool sellTrashPicking = false;
+        std::vector<BagItemRef> sellTrashItems;
     };
 
     struct HouseShopOverlayState
@@ -663,6 +710,8 @@ public:
         bool bypassRequiredMastery = false;
         bool bypassGameplayCasterValidation = false;
         bool lloydRecallMode = false;
+        // The Town Portal map shown (a `town_portal_switch.txt` group); empty: the current map's continent.
+        std::string townPortalContinent;
         bool lloydSetPreviewCapturePending = false;
         bool lloydSetPreviewScreenshotRequested = false;
         uint32_t lloydSetPreviewStartedTicks = 0;

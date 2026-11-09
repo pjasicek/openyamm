@@ -42,9 +42,13 @@ Anskram flame cards and Yanmir's glowing claw orb). Same steps and outputs as th
 
 - **Reused** (same ABC and skin; GLBs and rows stay with their owners): Chasm of the Dead's `chest5` (row `mm9_chest5`,
   the 7 treasure chests); the isle's `logsburning` (its flame cards; a new unlit row, below); Anskram Keep's `scroll`
-  (`mm9_scroll`, Prop38) and `barrel` (`mm9_barrel`, Scale 1.5) and `spikepit` (`mm9_spikepit_x100`, the PropDamager
-  `Spikes1`, added at the map agent's request). **The barrel is shown with Anskram's own Barrel.dtx skin**: MM9 skins
-  this one barrel with a water sprite frame (`SpriteTextures\Water\water125\water125_0000.dtx`); not reproduced.
+  (`mm9_scroll`, Prop38) and `spikepit` (`mm9_spikepit_x100`, the PropDamager `Spikes1`, added at the map agent's
+  request).
+- **The exit's barrel** (Prop36 at ExitPoint, the portal behind the Wyrde): MM9 skins it with a water sprite frame
+  (`SpriteTextures\Water\water125\water125_0000.dtx`, one frame: static), so it reads as a portal. Built here as
+  `barrelwater` (Barrel.ABC with that skin x4, 192 triangles, double-sided), row **2815** `mm9_barrelwater` (hint
+  "portal", no collision: Prop36 is not Solid), 2026-11-09. Before, it reused Anskram's barrel with its wooden skin, and
+  players did not see the portal.
 - Rows **2383-2403** (21 rows) and **2453** (`mm9_clawtorchlit`, 2026-10-31) in
   `assets_dev/worlds/mm9/data_tables/decoration_data.txt`, sprites **26184-26204**, bindings in
   `worlds/mm9/models/indoor_decorations.yml`, appended in one run under `mm9r_common/locks/mm9_decorations.lock`. No
@@ -139,6 +143,30 @@ Anskram flame cards and Yanmir's glowing claw orb). Same steps and outputs as th
   foot, 250 units up at scale 1), Lindisfarne's rule. Remove it for MM9's walk-through behaviour. Bushes: none.
 - `Spikes1` (PropDamager): only the decoration; its damage is the map project's.
 
+## The desert mirrors (2026-11-09)
+
+MM9 turns each of the desert's four mirrors 10 degrees a click (PassageMirror.scr `:Rotate`: `Rotate 0,1,0, 10, 180`,
+clockwise at 180 degrees a second). As BLV movers they could not turn, so the map converter now skips their brushes
+(`Mirror0-3: skip` in the map's overrides.yml) and places this model four times, which the map script turns with
+`evt.AimDecoration`.
+
+- `scripts/mirror_source.py` reads the four WorldObject brushes from the DAT (the converter's reader and ring, MM9's
+  surface mapping) and checks they are one shape (0.00 units apart about their box centres). It writes
+  `work/mirror/mirror.json` (Mirror0's 36 triangles in LT about its box centre) and the placements in
+  `../../projects/mm9r_darkpassageway/mirrors.json` (worst DAT point off the placed model: 0.00). The DAT keeps a
+  WorldObject's brush in world space: the Rotation (90 for Mirror0/2, 270 for Mirror1/3) does not turn the geometry, so
+  every placement has facing 0.
+- `scripts/build_mirror.py` (Blender) builds it: each face wound to its DAT front (Newell of MM9's ring), flat shaded,
+  white COLOR_0, base centre at the origin. Two materials: `mirror` (the rusty frame, the map's x4 master of
+  refinerysolidrusta.dtx, `refixbtk8r`) and `mirror_glass` (Icebolt.dtx, the map's `icebh2sdfc` master, opaque: the
+  glass surface's flags 0x1081 have no transparency bit). `textures/mirror_basecolor.png` and
+  `mirror_glass_basecolor.png` are those masters as RGB.
+- `finish.py mirror --install`: 36 triangles, no LODs (a 36-triangle frame), 0 inverted closed parts;
+  `assets_source/worlds/mm9/models/mm9_deco_mirror.glb`.
+- Row **2814** `mm9_mirror` (sprite 26615, binding height 163.8), from `tables.py`'s `EXTRA`: collision radius 41 (half the
+  82-unit width: the circle it sweeps as it turns, not the half-depth rule of the other Solid props) and height 164.
+- The pivot is the box centre; MM9 turns about the object's Pos, 1 LT (2.6 units) away.
+
 ## Route (`scripts/`)
 
 ```sh
@@ -159,7 +187,6 @@ Blender 5's slotted actions left the posed import (and every LOD) in the first a
 
 ## Not done
 
-- MM9's water-skinned barrel (kept Anskram's barrel skin), as above.
 - Not looked at in game: the cut-out leaves at distance (the torches and ice statues were, 2026-10-31).
 
 ## Fixes (2026-10-31)

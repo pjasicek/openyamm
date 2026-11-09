@@ -23,14 +23,25 @@ struct WorldStartDefinition
     std::string introMovie;
 };
 
-// world.yml partyDeath: where a party defeated in this world wakes (MM9: Arslegard City's Great Gate, LoseMan.scr)
-// and the movie shown first; unset: MMerge's continent death maps (continent_settings.txt).
+// One condition of world.yml partyDeath `when`: every `qbits` bit set and every `notQbits` bit clear.
+struct WorldPartyDeathCondition
+{
+    std::vector<uint32_t> qbits;
+    std::vector<uint32_t> notQbits;
+};
+
+// world.yml partyDeath: where a party defeated in this world wakes (MM9: Arslegard City inside the Great Gate) and
+// the movie shown first (none when unset); unset: MMerge's continent death maps (continent_settings.txt). With `when`,
+// the destination applies only while one condition holds; otherwise the defeat is lost (MM9's game over): the
+// `otherwise` movie, then the autosave.
 struct WorldPartyDeathDefinition
 {
     std::string mapFileName;
     std::array<int, 3> position = {};
     int directionYawUnits = 0;
     std::string movie;
+    std::vector<WorldPartyDeathCondition> when;
+    std::string otherwiseMovie;
 };
 
 struct WorldQBitDefinition
@@ -55,9 +66,11 @@ struct WorldActorAwarenessDefinition
     float partyEngagementRange = 0.0f;
     bool declared = false;
     // How monsters on MM9's loop (an mm9_ai profile) perceive the party (Mm9PartyAwareness; MM9_MONSTER_AI_PLAN.md
-    // "Awareness of the party"): mm9Sight {allRound, scale} and mm9Provoke {range, radius}. Undeclared: MM9's rules.
+    // "Awareness of the party"): mm9Sight {allRound, scale, max} and mm9Provoke {range, radius}. Undeclared: MM9's
+    // rules.
     bool mm9SightAllRound = false;
     float mm9SightScale = 1.0f;
+    float mm9SightMax = 0.0f;
     float mm9ProvokeRange = 0.0f;
     float mm9ProvokeRadius = 0.0f;
 };
@@ -240,6 +253,9 @@ struct WorldManifest
     // world.yml formations: true places the party on MM9's formation grid, and monsters pick their victims by its
     // ranks (Party::setFormationTargetingActive). MM9; default false.
     bool formations = false;
+    // world.yml fleetFoot: true makes Fly's slot (Air, spell 21) this world's Fleet Foot, MM9's run-speed buff, under
+    // its name, texts and spellbook picture (game/party/WorldSpells.h). MM9, which has no Fly; default false.
+    bool fleetFoot = false;
     // world.yml combatLog: false hides the combat log in this world unless its setting is On (MM9, the user
     // 2026-11-06: the row under the minimap is the hireling rail's and the formation button's).
     bool combatLog = true;
@@ -247,10 +263,16 @@ struct WorldManifest
     // (no 5% roll on level-6 loot), and a level-7 slot with none left gives gold and a level-6 item instead of
     // nothing. MM9, whose black chests hold them (the user, 2026-11-06); default false.
     bool chestArtifactsOnly = false;
-    // world.yml treasureMarkersItemsOnly: true makes this world's treasure markers (type-2 spawns) always an item, never
-    // MM6-MM8's 20% nothing or 40% gold heap. MM9, whose markers were placed for items (the user, 2026-11-08);
-    // default false.
-    bool treasureMarkersItemsOnly = false;
+    // world.yml groundGoldByItemTier: true rolls a treasure marker's gold heap by the tier its item would have (the
+    // marker's level remapped by the map's, as chest slots do) instead of by the marker's own level (MM6-MM8). MM9,
+    // whose markers are raised to the level that gives exactly the map's item tiers, so their gold came a tier too rich
+    // (the user, 2026-11-09); default false.
+    bool groundGoldByItemTier = false;
+    // world.yml openAirMaps: this world's BLV maps that lie open to the sky (lowercase file names). Their spells follow
+    // the outdoor rules: Meteor Shower, Starburst, Death Blossom, Sunray and Armageddon work there, Inferno and
+    // Prismatic Light do not (MapStatsEntry::openAir, IGameplayWorldRuntime::isOpenAirMap). MM9, whose regions and
+    // cities are BLVs (the user, 2026-11-09); default none, so every BLV keeps the indoor rules.
+    std::vector<std::string> openAirMaps;
     uint32_t contentSchemaVersion = 1;
     std::vector<std::string> dependencies;
     std::vector<ContentIdRangeDefinition> idRanges;

@@ -1,9 +1,8 @@
 # Localization
 
-Showing OpenYAMM in other languages. Status (2026-11-08): the runtime, language packs with font, sound and video
-overlays, the tool, the Chinese and Russian packs, the event, layout, dialogue, item and spell hooks and about 870
-C++ texts are done; the rest of the C++ text, some table hooks and release download packs are next
-([Status](#status)).
+Showing OpenYAMM in other languages. Status (2026-11-08): the runtime, the tool, every text hook, the release
+language packs and seven languages (cs, de, es, fr, pl, ru by import plus Claude drafts; zh-cn by its translator) are
+done and committed; review of the drafts, a few new texts and a visual pass are next ([Status](#status)).
 
 This is our own design and code. Two outside proposals were reviewed (PR #25 with a Russian translation, and a patch
 series from Discord, `text-tables-and-language-packs.mbox`); we take ideas and content from them where listed under
@@ -455,8 +454,8 @@ many fonts and tables) are ignored. Points the import and review must handle:
    table reader. Topic 2164 in `npc_topic_text.txt` holds its first paragraph twice (an older translation on the id
    line and a newer one on the continuation line).
 7. **Fonts.** LXGW WenKai (SIL OFL) works with our `characters_file`. Their descriptors also use `glyph_scale`
-   (glyphs drawn smaller within the same line height), an engine change we do not have. The 25.8 MB TTF is subset
-   to the characters used before it goes into the pack.
+   (glyphs drawn smaller within the same line height), an engine change we do not have. The 25.8 MB TTF ships
+   unsubset (decided 2026-11-08: the download is only for players who choose Chinese).
 8. **Layouts and names.** Packs do not replace layouts. Decided 2026-11-08: the title stays OpenYAMM in every
    language; Chinese uses 魔法门重生 as the subtitle ("Universe of Might and Magic"), 整合版 for MMMerge and 重铸版
    for MAW wherever the interface names the rulesets; the credits keep the project names MMMerge and MAW.
@@ -528,6 +527,20 @@ Done (2026-11-07 and 08):
 - Simplified Chinese round 2 (2026-11-08, evening): the translator's `zh-cn-todo-2.po` and `zh-cn-todo-mm9-2.po`
   are imported (6,510 texts, MM9 included); zh-cn is at 98 %, the 274 left empty on purpose (internal ids, debug
   labels, ciphers, typed riddle answers). `import po` now takes placeholder-only patterns (`{year}年{month}{day}日`).
+- The Chinese translator's review (2026-11-08, night): short texts the pack import had crossed got contexts and
+  correct data (`trc("turn-based button", "End")` was taking the stat abbreviation, `trc("mastery letter", ...)` the
+  monster spell mastery letters, which had imported as "0"). The mastery letters are 普/专/智/宗 for N/E/M/GM (first
+  character of 普通/专家/智者/宗师; chosen by Claude as the translator did not answer, marked for review). Party
+  creation's wrap (`NewGameScreen::wrapTextToWidth`) now uses `Utf8::wrap`, which never cuts a colour code between
+  CJK characters (it showed the code's digits), and justified HUD lines carry an open colour code to each word.
+  Every character the pack uses is in its charset. Names: see item 8 of the Chinese import.
+- Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
+  `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
+  they stay with it), and the dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 650 MB from the
+  MMMerge archives; releases do not ship them yet, see the 1.22 note under Releases). Whether to commit those is the
+  user's decision.
+- Sizes, accepted as they are (2026-11-08): all languages' text goes into the one always-installed `languages` pack
+  (about 14 MB zipped; any text change downloads it again), and the Chinese font is not subset.
 - In-game sweep (2026-11-08): scripted tours (`debug.menu_input_tour_path`) through the title, Settings, credits,
   party creation, HUD, map, quick reference, statistics, rest, inventory, spellbook, a shop, a temple and a tavern in
   every language, with `OPENYAMM_UNTRANSLATED_TEXT_LOG` collecting lookups the language lacks: none left in cs, de,
@@ -535,11 +548,14 @@ Done (2026-11-07 and 08):
 
 Next:
 
+0. **New texts.** At the end of 2026-11-08 every language lacked 21 texts (9 C++ and 12 MM9 texts other sessions
+   added; zh-cn 296, mostly the ones left empty on purpose): run `extract`, `update`, then `report --list` and draft
+   them (`todo` / `import machine`) before a release.
 1. **Review** of the machine translations (`report` counts them; a reviewer edits the `.po` entry and removes the
    comment). Known points: MM9 names rendered differently across packets in some languages; random peasant names
    stay English in the Latin-script languages (names, on purpose).
 2. **Thousands separators** differ between corrected fan texts (de/es "5.000", cs/pl/fr "5000" or "10 000", ru
-   "50,000" as in English); decimals are settled (the point everywhere).
+   "50,000" as in English); decimals are settled (the point everywhere). Recommended: each language's own style.
 3. **Fonts**: single-channel atlases, glyphs on demand.
 4. **Releases**: a `qps` scenario in the release checks; Android language downloads; removing an installed language.
 5. A visual pass in each language for texts that do not fit (Settings rows, house service lists, tooltips).

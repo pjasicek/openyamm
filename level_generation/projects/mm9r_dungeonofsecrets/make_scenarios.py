@@ -168,7 +168,7 @@ SECTIONS = [
 ]
 
 
-def section_steps(m: Map, k: str, lever_side, run, door_side, past, late: bool = False) -> list:
+def section_steps(m: Map, k: str, lever_side, run, door_side, past, late: bool = False, pushed_to=None) -> list:
     g = m.groups
     lever = f"timer lever {k}"
     steps = [{"note": {"text": f"Section {k}: a click throws timer lever {k} (its axe trap locked while the lever creeps "
@@ -182,6 +182,10 @@ def section_steps(m: Map, k: str, lever_side, run, door_side, past, late: bool =
               var(f"Saxe_door_{k}", 2)]
     if late:
         steps += [var(f"Saxe_trap_{k}", 2), var("Traps", 1), has_key(244)]
+        if pushed_to is not None:
+            steps += [{"note": {"text": f"The axe's DamageBrush (knockback{k}) pushed the party off the door, to native "
+                                        f"({pushed_to[0]}, {pushed_to[1]}) (evt.PushParty; evt.Jump moved it 9 units)."}},
+                      {"assert": {"party_position": {"x": pushed_to[0], "y": pushed_to[1], "radius": 48}}}]
     else:
         steps += [var(f"Saxe_trap_{k}", 0), var("Traps", 0), state(g[f"axe_door_{k}"][0], "open")]
     steps.append(at(m, past[0], past[1], past[2]))
@@ -240,7 +244,7 @@ def traps(m: Map) -> dict:
               *[var(f"Hint{c}", 2) for c in m.report["scripted"]["hints"].values()]]
     # The late door: section 10.
     steps += [*m.click("entrance button", side=(1, 0), distance=110, query=0), wait(5.0),
-              *section_steps(m, "10", (0, -1), 0.0, (1, 0), (1480, -160, 100), late=True),
+              *section_steps(m, "10", (0, -1), 0.0, (1, 0), (1480, -160, 100), late=True, pushed_to=(4238, -410)),
               {"note": {"text": "The axe's DamageBrush (knockback10, Current 800 along x) threw the party."}},
               var("Knockedknockback10", 1), wait(4.0), var("Saxe_trap_10", 0)]
     # Section 1's fire plates.

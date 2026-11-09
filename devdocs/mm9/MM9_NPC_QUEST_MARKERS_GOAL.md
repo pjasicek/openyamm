@@ -34,11 +34,30 @@ The marker states are:
 | `Available` | gold `!` | A currently reachable dialogue path can offer or start a quest or quest stage. |
 | `Ready` | gold `?` | A currently reachable dialogue path can complete or hand in an active quest or quest stage. |
 
-When one NPC has several quest interactions in different states, render exactly one marker with this priority:
+When one NPC has several quest interactions in different states, render exactly one marker with this priority (see
+the trainer marker below for where `Trainer` falls):
 
 ```text
 Ready > Available > InProgress > None
 ```
+
+### Skill Trainer Marker (2026-11-06)
+
+A fourth state, `Trainer`, puts a blue open book (`worlds/mm9/sprites/trainer_marker_book.png`, drawn by
+`tools/mm9_import_discovery/generate_mm9_trainer_marker.py`, tinted with the interface's learnable-skill blue) over an
+MM9 skill trainer when one of its rows (`skill_trainers.txt`) is shown on some dialogue path and some party member
+could take one of its lessons through the shared `evaluateSkillMasteryTraining`: rank, class/race cap, current mastery
+and the stat requirements. Gold is left out, so the book also shows where the party can train once it has the money.
+The book goes away when nobody can learn anything more there.
+
+The full priority is `Ready > Available > Trainer > InProgress > None`: a trainer with a lesson is more useful than a
+quest that only waits. The same resolver and loaded-location cache compute it. Characters change skills, class and
+stats in many places, so instead of a party revision the session folds a signature of every member's class, race,
+base Intellect/Personality/Endurance and skill levels/masteries into the map stamp each update; an unchanged
+signature does no work.
+
+Screenshot tours pause gameplay updates, and the marker cache is rebuilt in the gameplay update, so a tour can show no
+markers at all; check markers with a single `debug.screenshot_path` capture instead.
 
 `InProgress` belongs to the intended handoff NPC for the active stage. Do not keep a grey `?` over the original quest
 giver when the quest is meant to be handed to a different NPC. Branching quests and stages with several valid handoff
@@ -97,6 +116,27 @@ ambiguous, unsupported, or reachable only through behavior that the compiler can
 
 Keep authored classification overrides separate from generated output. Overrides must name their source interaction,
 state why generation is insufficient, and remain narrow. Do not silently guess a marker state for unresolved content.
+
+A deal MM9 keeps in quest keys only, with no journal entry (Drangheim Prison's cook Aymril, dialogue 419, and his
+brother Antoni, 427: keys 5004, 369, 370), has no journal stage to mark. The overrides' `key_interactions` author its
+marker as `source_kind: keys`: up to three key conditions (`available`, `in_progress`, `ready`, each required and
+forbidden QBits) bound to one placed NPC; the runtime shows the first of ready, in progress and available that holds
+(`Mm9QuestMarkers.cpp`). Use them only for such journal-less deals. The generator writes the review list of
+candidates, [MM9_KEY_DEAL_CANDIDATES](../mm9_rework/MM9_KEY_DEAL_CANDIDATES.md): dialogues on placed NPCs that grant
+non-journal keys tested outside their own dialogue (another dialogue, map Lua or an MM9 script).
+A candidate reviewed and left without a marker (a cutscene flag, a service, flavour) goes in the overrides'
+`key_deal_reviews` with its reason, so the list shows it as reviewed. Most authored entries are steps of journal
+quests that no NPC marks (`ready` while the stage's open key is held). MM9 data quirk found in the review: journal
+stage 510 ("Find the Green Man") requires key 263, which MM9 never grants, so it never shows; Menja's entry marks the
+step instead.
+
+The NPC bindings come from the scenes the game loads (`assets_dev/worlds/mm9/maps/*.scene.yml`, which the converters
+write as JSON), not from the editor import: that import lacks the NPCs added or moved by the rework (all of Lindisfarne
+Monastery, the Afterworld, the Green Man, Thronheim City's council). Scripted NPCs that the editor import's event
+inventories (`dialogue_callbacks`) lack are scanned too, through their script's first dialogue-closing routine
+(`onrude`, `onrudeexit`, `onexit`). Author their SCR predicates from the map's Lua handler, which is what the game runs.
+Every MM9 promotion quest is offered to any party (`dialogue/promotions.yml`), so no offer may wait for MM9's
+per-character promotion keys 401-448, which are never set.
 
 The source audit performed while defining this goal found the following provisional baseline:
 

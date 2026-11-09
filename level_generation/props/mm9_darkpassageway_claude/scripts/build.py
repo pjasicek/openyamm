@@ -3,7 +3,7 @@
 scripts/blib.py, paths pointed at this project): Yanmir's Fort's build (Lindisfarne Monastery's: asset frame = the raw
 import mirrored in X, clean, faces wound to agree with the ABC's authored normals, open pieces on a double-sided copy
 of their material, normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only
-from 250 triangles: the native ABC LOD when its count is near, else a collapse decimation; one material per MM9 skin,
+from 1000 triangles: the native ABC LOD when its count is near, else a collapse decimation; one material per MM9 skin,
 so the trees keep bark and cut-out branch cards apart; closed pieces wound outwards; props_table.POSES models posed in
 their animation pose before baking).
 
@@ -40,7 +40,7 @@ blib.HERE, blib.WORK, blib.TEX = HERE, os.path.join(HERE, 'work'), os.path.join(
 blib.SKIP_BONE_SHAPES = True
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 SPECS = {name: {} for name in props_table.built_props()}
 SPECS.update({name: {"tilt": tilt} for name, tilt in props_table.TILTS.items() if name in SPECS})
 # The claws' orbs (radius 5.5 LT about the Glow-Node socket, metres here) and the torch's flame cards: (x offset,

@@ -216,10 +216,27 @@ public:
         m_currentHour = hour;
     }
 
+    // The party's hit reach (IGameplayWorldRuntime::partyHitReach): 5120, a world's shorter one (MM9's 3800).
+    void setPartyHitReach(float reach)
+    {
+        m_partyHitReach = reach;
+    }
+
+    float partyHitReach() const override
+    {
+        return m_partyHitReach;
+    }
+
     void setIndoorMap(bool indoorMap)
     {
         m_indoorMap = indoorMap;
         m_mapName = indoorMap ? "spell_test.blv" : "spell_test.odm";
+    }
+
+    // An indoor map its world declares open to the sky (world.yml openAirMaps).
+    void setOpenAirIndoorMap(bool openAir)
+    {
+        m_openAirIndoorMap = openAir;
     }
 
     void setMapName(std::string mapName)
@@ -351,6 +368,11 @@ public:
     bool isIndoorMap() const override
     {
         return m_indoorMap;
+    }
+
+    bool isOpenAirMap() const override
+    {
+        return !m_indoorMap || m_openAirIndoorMap;
     }
 
     float gameMinutes() const override
@@ -1213,6 +1235,8 @@ private:
     mutable std::vector<size_t> m_radiusQueryActorIndices;
     std::string m_mapName;
     bool m_indoorMap = false;
+    float m_partyHitReach = 5120.0f;
+    bool m_openAirIndoorMap = false;
     Game::Party *m_pParty = nullptr;
     Game::EventRuntimeState m_eventRuntimeState = {};
     Game::EventRuntimeState *m_pEventRuntimeState = nullptr;

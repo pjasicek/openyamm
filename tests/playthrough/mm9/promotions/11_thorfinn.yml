@@ -1,0 +1,36 @@
+# MM9 promotion playthrough, segment 11: the Mercenary promotion's errand from Thorfinn Skullsplitter (guide:
+# side_b.yml speak-to-atli-sigmundssen). To Thronheim, into the city by the land gate; Thorfinn sits in the tavern
+# (actor 6, RUDE 240): "We'd like to know about promotions.", "We have.", "We will do this." (key 124): find the
+# merchant Atli Sigmundssen in Guberland and guard his boat. Research: prep/A_gladiator_mercenary.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 11
+id: mm9.promotions.11_thorfinn
+title: "MM9 promotions 11: Thorfinn Skullsplitter sends the party to Atli Sigmundssen"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/09_gladiator_done.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {qbit_clear: [90124, 90125, 90127]}
+
+  # To Thronheim, into the city by the land gate.
+  - travel: {map: thronheim.blv, days: 4}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Thorfinn in the tavern.
+  - set_pose: {map: thronheimcity.blv, x: 11851, y: 2440, z: 3124, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 6}
+  - assert: {dialog: {active: true, source_id: 240, action_label_absent: "Promote our eligible characters."}}
+  - select_topic: {match_label: "We'd like to know about promotions."}
+  - select_topic: {match_label: "We have."}
+  - select_topic: {match_label: "We will do this."}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90124], qbit_clear: [90125, 90127]}
+  - save_game: {name: "P11 Thorfinn", path: output/playthrough/mm9/promotions/checkpoints/11_thorfinn.oysav}

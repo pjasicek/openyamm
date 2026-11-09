@@ -84,6 +84,21 @@ std::optional<RulesetMapProgress> MonsterRules::mapProgress(const IGameplayWorld
     return std::nullopt;
 }
 
+bool MonsterRules::countsForMapCompletion(const MapStatsEntry &, const MonsterTable::MonsterStatsEntry &) const
+{
+    return true;
+}
+
+double MonsterRules::packDensityFactor(const MapStatsEntry &) const
+{
+    return 1;
+}
+
+bool MonsterRules::keepsUsedBarrelsThroughRefill() const
+{
+    return false;
+}
+
 void MonsterRules::leaveMap(IGameplayWorldRuntime &) const
 {
 }
@@ -102,6 +117,16 @@ uint32_t MonsterRules::bountyReward(const MonsterTable::MonsterStatsEntry &stats
 }
 
 std::optional<std::string> MonsterRules::bountyRefusal(const IGameplayWorldRuntime &) const
+{
+    return std::nullopt;
+}
+
+std::optional<std::string> MonsterRules::bountyRefusalForMap(const std::string &, const std::string &) const
+{
+    return std::nullopt;
+}
+
+std::optional<int16_t> MonsterRules::bountyTargetMonster(const MonsterTable &, uint32_t) const
 {
     return std::nullopt;
 }

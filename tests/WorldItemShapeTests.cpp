@@ -204,3 +204,23 @@ TEST_CASE("every MM6-MM8 item has a ground model of its own")
     }
     CHECK(realItems > 1800);
 }
+
+TEST_CASE("a posed world item rests on its lowest point and is picked as it stands")
+{
+    OpenYAMM::Game::ItemModelBinding binding = {};
+    binding.boundsMin = {-10.0f, -20.0f, 0.0f};
+    binding.boundsMax = {10.0f, 20.0f, 4.0f};
+    // Pitched up a quarter turn: the item stands on its -y end, 40 units tall.
+    const OpenYAMM::Game::WorldItemPose pose = {0.0f, std::numbers::pi_v<float> / 2.0f, 0.0f};
+    const std::array<float, 3> origin = OpenYAMM::Game::worldItemPosedOrigin(binding, pose, {100.0f, 50.0f, 7.0f});
+    CHECK(origin[2] == doctest::Approx(27.0f));
+    // A horizontal ray along y at mid-height meets the standing box; one above its top does not.
+    CHECK(OpenYAMM::Game::intersectPosedWorldItemPickBox(binding, pose, {100.0f, 50.0f, 7.0f},
+        {100.0f, -100.0f, 27.0f}, {0.0f, 1.0f, 0.0f}).has_value());
+    CHECK_FALSE(OpenYAMM::Game::intersectPosedWorldItemPickBox(binding, pose, {100.0f, 50.0f, 7.0f},
+        {100.0f, -100.0f, 60.0f}, {0.0f, 1.0f, 0.0f}).has_value());
+    // The quaternion of a pure yaw is the yaw about z.
+    const std::array<float, 4> q = OpenYAMM::Game::worldItemPoseRotation({std::numbers::pi_v<float> / 2.0f, 0.0f, 0.0f});
+    CHECK(q[2] == doctest::Approx(std::sqrt(0.5f)));
+    CHECK(q[3] == doctest::Approx(std::sqrt(0.5f)));
+}

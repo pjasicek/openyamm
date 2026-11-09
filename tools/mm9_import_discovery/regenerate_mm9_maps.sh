@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Retired 2026-11-06: the old MM9 import (45 ODMs) is no longer the runtime world. assets_dev/worlds/mm9 holds the
+# rebuilt BLVs (devdocs/mm9_rework/README.md), the old import's inputs live in assets_editor_dev/worlds/mm9/maps and
+# its original tables in level_generation/projects/mm9r_common/original_tables. Running this script would write old
+# ODM maps, map Lua and old-frame exit rows over the rework. Set MM9_OLD_IMPORT=1 only to rebuild the old import into
+# a separate MM9_WORLD_ROOT.
+if [[ "${MM9_OLD_IMPORT:-}" != "1" ]]; then
+    echo "regenerate_mm9_maps.sh is retired (the MM9 rework replaced the old import); see the comment at its top" >&2
+    exit 2
+fi
+
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "${script_dir}/../.." && pwd)"
 cd "${repo_root}"
@@ -242,6 +252,14 @@ then
     "${python_bin}" tools/mm9_import_discovery/generate_mm9_monster_tables.py \
         --source-monsters "${extracted_root}/DATA/DATA/MONSTERS.txt" \
         --output-dir "${editor_world_root}/data_tables"
+fi
+engine_map_stats="${world_root%/worlds/mm9}/engine/data_tables/map_stats.txt"
+if [[ -f "${engine_map_stats}" ]]
+then
+    "${python_bin}" tools/mm9_import_discovery/generate_mm9_map_stats_encounters.py \
+        --source-monsters "${extracted_root}/DATA/DATA/MONSTERS.txt" \
+        --source-map-stats "${extracted_root}/DATA/DATA/MAPSTATS.txt" \
+        --map-stats "${engine_map_stats}"
 fi
 
 lower_stem() {

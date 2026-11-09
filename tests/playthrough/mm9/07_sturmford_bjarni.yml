@@ -1,0 +1,50 @@
+# MM9 playthrough, segment 07: Sturmford, Jarl Bjarni Thorvaldssen (guide: Chapter I, "Sturmford"). The boat from
+# the Isle of Ashes lands at the region's dock; the party walks into the city by the dock gate (ExitTrigger1, its
+# prompt), cleanses the Town Portal altar in the palace's entrance room (key 5012) and, placed in the throne room,
+# asks Bjarni (actor 56, RUDE 45) for help: the clans against Tamur Leng (key 20), the first thing (clear out
+# Anskram Keep: key 11) and the second (rescue Ivsar Forktooth from Drangheim's prison: key 12).
+# Research: prep/01_19_prologue_sturmford_drangheim.md.
+#   python3 tests/playthrough/mm9/run.py 07
+id: mm9.playthrough.07_sturmford_bjarni
+title: "MM9 playthrough 07: Sturmford City, the altar and Jarl Bjarni's two tasks"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/05_leave_the_isle.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: sturmford.blv, qbit_set: [90001, 90028], qbit_clear: [90020, 90011, 90012]}
+
+  # From the dock to the city's dock gate (outdoors the party is placed near it, then walks in).
+  - set_pose: {map: sturmford.blv, x: 1014, y: -12900, z: 260, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1014, y: -12589, z: 543, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: sturmfordcity.blv}
+
+  # The Town Portal altar in the palace's entrance room.
+  - set_pose: {map: sturmfordcity.blv, x: 4844, y: 8800, z: 19723, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: 'click(337); wait(0.5); log("the altar: " .. status())'}
+  - assert: {qbit_set: [95012]}
+
+  # Bjarni on his throne: the party is straight with him (the Hordes come from Beldonia), then both tasks.
+  - set_pose: {map: sturmfordcity.blv, x: 7000, y: 8192, z: 19743, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 56}
+  - select_topic: {match_label: "We know you are of great importance, and would like your help."}
+  - select_topic: {match_label: "We need your help to defeat Tamur Leng."}
+  - select_topic: {match_label: "He is the leader of the Hordes that will soon overrun us."}
+  - select_topic: {match_label: "They come from Beldonia.  We must unite the clans against them."}
+  - select_topic: {match_label: "What is the first thing you need?"}
+  - select_topic: {match_label: "How will we do that?"}
+  - select_topic: {match_label: "How do we get in?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "What is the second thing you need?"}
+  - select_topic: {match_label: "You want us to break into a prison?"}
+  - select_topic: {match_label: "We will do this for you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90020, 90011, 90012]}
+  - save_game: {name: "07 Bjarni", path: output/playthrough/mm9/checkpoints/07_sturmford_bjarni.oysav}

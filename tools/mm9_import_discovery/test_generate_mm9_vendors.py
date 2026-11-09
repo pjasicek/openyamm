@@ -8,6 +8,7 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import generate_mm9_skill_trainers
 import generate_mm9_vendors
 
 
@@ -22,7 +23,6 @@ class GenerateMm9VendorsTests(unittest.TestCase):
             world_manifest=self.root / "assets_dev/worlds/mm9/world.yml",
             rude_directory=self.root / "assets_dev/worlds/mm9/dialogue/rude",
             mm9_items=self.root / "assets_dev/worlds/mm9/data_tables/items.txt",
-            engine_items=self.root / "assets_dev/engine/data_tables/items.txt",
             special_enchants=self.root / "assets_dev/engine/data_tables/special_item_enchants.txt",
             output_directory=output_root / "data_tables",
             audit=output_root / "state/vendor_stock_audit.yml",
@@ -54,23 +54,45 @@ class GenerateMm9VendorsTests(unittest.TestCase):
 
             with (arguments.output_directory / "vendors.txt").open(encoding="utf-8", newline="") as source_file:
                 vendors = list(csv.DictReader(source_file, delimiter="\t"))
-            self.assertEqual(len(vendors), 48)
+            # MMIXSHOPS's 48 and the world's added shops (ADDED_VENDORS: Hallvard's Tomes, Yorwick)
+            self.assertEqual(len(vendors), 48 + len(generate_mm9_vendors.ADDED_VENDORS))
             self.assertEqual({row["source_type"] for row in vendors}, generate_mm9_vendors.SELLING_TYPES)
             self.assertEqual(sum(row["source_type"] == "Library" for row in vendors), 6)
-            self.assertEqual(sum(row["source_type"] == "Magic" for row in vendors), 15)
+            self.assertEqual(sum(row["source_type"] == "Magic" for row in vendors), 16)
             self.assertTrue(all(row["normalized_service_type"] == "Shop" for row in vendors))
             self.assertTrue(all(row["legacy_house_audio_policy"] == "Disabled" for row in vendors))
             self.assertTrue(all(row["legacy_house_video_policy"] == "Disabled" for row in vendors))
+            self.assertTrue(all(row["buy_view"] == "Ledger" for row in vendors))
 
             with (arguments.output_directory / "service_venues.txt").open(
                 encoding="utf-8", newline=""
             ) as source_file:
                 service_venues = list(csv.DictReader(source_file, delimiter="\t"))
-            self.assertEqual(len(service_venues), 16)
+            self.assertEqual(len(service_venues), 30)
             self.assertEqual(sum(row["service_type"] == "Training" for row in service_venues), 8)
             self.assertEqual(sum(row["service_type"] == "Temple" for row in service_venues), 8)
             self.assertTrue(all(row["training_max_level"] == "0" for row in service_venues))
-            self.assertTrue(all(row["can_learn_skills"] == "0" for row in service_venues))
+            self.assertEqual(sum(row["service_type"] == "Tavern" for row in service_venues), 7)
+            self.assertEqual(sum(row["service_type"] == "Bank" for row in service_venues), 7)
+            self.assertTrue(all((row["can_learn_skills"] == "1") == (row["service_type"] != "Bank")
+                                for row in service_venues))
+            inn = next(row for row in service_venues if row["source_service_id"] == "57")
+            self.assertEqual((inn["price_multiplier"], inn["skill_price_multiplier"]), ("12", "1.2"))
+            hall = next(row for row in service_venues if row["source_service_id"] == "62")
+            self.assertEqual((hall["price_multiplier"], hall["skill_price_multiplier"]), ("10", "1"))
+            fres_gift = next(row for row in service_venues if row["name"] == "Fre's Gift")
+            self.assertEqual((fres_gift["price_multiplier"], fres_gift["skill_price_multiplier"]), ("12", "1.2"))
+            self.assertTrue(any(row["source_service_id"] == "339" for row in service_venues))
+            temple = next(row for row in service_venues if row["service_type"] == "Temple")
+            self.assertEqual(temple["learn_skills"], "Regeneration|Meditation|Unarmed|Dodging")
+            spirit_shop = next(row for row in vendors if row["magic_school"] == "Spirit")
+            self.assertEqual(spirit_shop["learn_skills"], "SpiritMagic|MindMagic|BodyMagic|Meditation|Learning")
+            # every skill the MM9 world trains has a Normal source in some venue (Blaster and the racial abilities
+            # are the untaught exceptions; the racial classes start with theirs)
+            learnable = {skill for row in vendors + service_venues for skill in row["learn_skills"].split("|") if skill}
+            self.assertEqual(
+                learnable,
+                set(generate_mm9_skill_trainers.TRAINABLE_SKILLS) - set(generate_mm9_skill_trainers.UNTAUGHT_SKILLS))
             midwife = next(row for row in service_venues if row["source_service_id"] == "241")
             self.assertEqual(midwife["can_heal"], "1")
             self.assertEqual(midwife["can_donate"], "0")
@@ -84,7 +106,7 @@ class GenerateMm9VendorsTests(unittest.TestCase):
             self.assertTrue(all(int(row["item_id"]) > 0 for row in stock_rows))
 
             audit = json.loads(arguments.audit.read_text(encoding="utf-8"))
-            self.assertEqual(audit["vendor_count"], 48)
+            self.assertEqual(audit["vendor_count"], 48 + len(generate_mm9_vendors.ADDED_VENDORS))
             with arguments.shops.open(encoding="cp1252", newline="") as source_file:
                 source_rows = list(csv.reader(source_file, delimiter="\t"))
             self.assertEqual(audit["source_header"], source_rows[0])
@@ -119,7 +141,7 @@ class GenerateMm9VendorsTests(unittest.TestCase):
                 {row["disposition"] for row in audit["source_rows"]},
                 {"selling_vendor", "reachable_service_venue", "non_stock_service"},
             )
-            self.assertEqual(audit["service_venue_count"], 16)
+            self.assertEqual(audit["service_venue_count"], 30)
             self.assertEqual(audit["selling_vendors_without_rude_shop_row"], [138])
             self.assertEqual(audit["rude_shop_rows_without_selling_vendor"], [])
             self.assertEqual(audit["ordinary_effective_tier_cap"], 6)
@@ -132,11 +154,11 @@ class GenerateMm9VendorsTests(unittest.TestCase):
             self.assertEqual(audit["vendor_id_domain"]["begin"], 30000)
             self.assertEqual(audit["vendor_id_domain"]["end"], 30999)
             self.assertTrue(audit["vendor_id_domain"]["all_unique_and_in_range"])
-            self.assertEqual(len(audit["vendor_id_domain"]["validated_canonical_ids"]), 64)
+            self.assertEqual(len(audit["vendor_id_domain"]["validated_canonical_ids"]), 79)
             self.assertEqual(audit["balance_boundary"]["artifact_relic_reserved_tier"], 7)
             self.assertFalse(audit["balance_boundary"]["rare_and_set_rows_admitted"])
             self.assertEqual(audit["coverage"]["library_vendor_count"], 6)
-            self.assertEqual(audit["coverage"]["magic_vendor_count"], 15)
+            self.assertEqual(audit["coverage"]["magic_vendor_count"], 16)
             self.assertFalse(audit["coverage"]["missing_library_coverage"])
             self.assertFalse(audit["coverage"]["missing_magic_school_coverage"])
             self.assertTrue(all(
@@ -216,58 +238,52 @@ class GenerateMm9VendorsTests(unittest.TestCase):
                 for slot in concat_slots
             ))
 
+            spellbooks = [
+                item for item in generate_mm9_vendors.read_items(arguments.mm9_items, "utf-8", "mm9")
+                if item.equip_stat == "Book" and item.spellbook_mastery]
+            stocked_books = {
+                source_id: [
+                    item for item in spellbooks
+                    if generate_mm9_vendors.spell_school(item) in schools
+                    and item.spellbook_mastery in generate_mm9_vendors.SPELLBOOK_STOCKED_MASTERIES_BY_SHOP.get(
+                        source_id, generate_mm9_vendors.SPELLBOOK_STOCKED_MASTERIES)]
+                for source_id, schools in generate_mm9_vendors.SPELLBOOK_STOCKED_SCHOOLS.items()
+            }
             library_tier_sets = set()
             for vendor in audit["vendors"]:
-                minimum = max(1, vendor["raw_ranges"]["standard"][0])
-                maximum = max(1, vendor["raw_ranges"]["standard"][1])
-                admission_tiers = {
-                    slot["admission_tier"]
-                    for lane in vendor["lanes"].values()
-                    for slot in lane["slots"]
-                }
-                self.assertTrue(all(minimum <= tier <= maximum for tier in admission_tiers))
+                # Each shelf stocks within its own range (equipment shops: the tiers their chapter's treasure level
+                # yields, mm9_vendor_balance.py; the special shelf one level above the standard one), except the
+                # spellbooks some shops stock whatever their range (SPELLBOOK_STOCKED_SCHOOLS).
+                stocked_names = {
+                    item.name for item in stocked_books.get(vendor["source_vendor_id"], [])}
+                admission_tiers = set()
+                for lane_name, lane in vendor["lanes"].items():
+                    minimum = max(1, lane["stock_range"][0])
+                    maximum = max(1, lane["stock_range"][1])
+                    lane_tiers = {
+                        slot["admission_tier"] for slot in lane["slots"] if slot["item_name"] not in stocked_names}
+                    self.assertTrue(all(minimum <= tier <= maximum for tier in lane_tiers))
+                    admission_tiers |= lane_tiers
                 if vendor["profile"] == "Mm9Library":
                     library_tier_sets.add(tuple(sorted(admission_tiers)))
             self.assertGreaterEqual(len(library_tier_sets), 3)
 
             audit_by_source_id = {vendor["source_vendor_id"]: vendor for vendor in audit["vendors"]}
-            frosgard_weapon = audit_by_source_id[200]
-            frosgard_standard_qualities = {
-                slot["source_quality"] for slot in frosgard_weapon["lanes"]["standard"]["slots"]
-            }
-            frosgard_special_qualities = {
-                slot["source_quality"] for slot in frosgard_weapon["lanes"]["special"]["slots"]
-            }
-            self.assertEqual(frosgard_standard_qualities, {"Normal", "Good"})
-            self.assertEqual(frosgard_special_qualities, {"Good", "Excellent"})
-            arslegard_weapon = audit_by_source_id[340]
-            self.assertEqual(
-                {slot["source_quality"] for slot in arslegard_weapon["lanes"]["standard"]["slots"]},
-                {"Good"},
-            )
-            self.assertEqual(
-                {slot["source_quality"] for slot in arslegard_weapon["lanes"]["special"]["slots"]},
-                {"Excellent"},
-            )
-            sturmford_weapon_slots = [
-                slot
-                for lane in audit_by_source_id[53]["lanes"].values()
-                for slot in lane["slots"]
-            ]
-            self.assertTrue(all(slot["effective_tier"] <= 2 for slot in sturmford_weapon_slots))
-            l6_slots = [
-                (vendor, slot)
-                for vendor in audit["vendors"]
-                for lane in vendor["lanes"].values()
-                for slot in lane["slots"]
-                if slot["effective_tier"] == 6
-            ]
-            self.assertTrue(l6_slots)
-            self.assertTrue(all(
-                vendor["raw_ranges"]["standard"] == [3, 4]
-                for vendor, slot in l6_slots
-                if slot["source_quality"] != "NotApplicable"
-            ))
+            # Equipment shops stock by their chapter's treasure level (mm9_vendor_balance.py): Sturmford's weapon shop
+            # (chapter 1, level 1 like MM7's Harmondale) sells tier 1 on its standard shelf and up to tier 3 on its
+            # special shelf (level 2), with no special enchants.
+            sturmford_weapon = audit_by_source_id[53]
+            self.assertTrue({slot["admission_tier"] for slot in sturmford_weapon["lanes"]["standard"]["slots"]}
+                            <= {1, 2})
+            self.assertTrue({slot["admission_tier"] for slot in sturmford_weapon["lanes"]["special"]["slots"]}
+                            <= {1, 2, 3})
+            self.assertTrue(all(slot["runtime_mapping"]["special_enchant_id"] == 0
+                                for lane in sturmford_weapon["lanes"].values() for slot in lane["slots"]))
+            # Arslegard (chapter 5, level 5, special shelf 6): weapon specials at level 6's 50%.
+            arslegard_special = audit_by_source_id[340]["lanes"]["special"]["slots"]
+            self.assertTrue(arslegard_special)
+            enchanted = sum(slot["runtime_mapping"]["special_enchant_id"] != 0 for slot in arslegard_special)
+            self.assertTrue(0.3 * len(arslegard_special) <= enchanted <= 0.7 * len(arslegard_special))
             low_concat_lanes = [
                 lane
                 for vendor in audit["vendors"]
@@ -292,18 +308,10 @@ class GenerateMm9VendorsTests(unittest.TestCase):
                 and slot["runtime_mapping"]["special_enchant_id"] == 0
                 for slot in other_slots
             ))
-            armor_quality_slots = [
-                slot for slot in equipment_slots
-                if slot["quality_conversion"]["base_normalized_statistics"]["equipment_family"]
-                in (generate_mm9_vendors.ARMOR_STATS - {"Belt"})
-                and slot["source_quality"] != "Normal"
-            ]
-            self.assertTrue(armor_quality_slots)
+            # Standard enchants on equipment carry a power in the MM6-MM8 range of some treasure level (+1 to +25).
             self.assertTrue(all(
-                slot["runtime_mapping"]["standard_enchant_id"] == 10
-                and slot["quality_conversion"]["target_envelope"]["role_envelope"]
-                == "armor_class"
-                for slot in armor_quality_slots
+                1 <= slot["runtime_mapping"]["standard_enchant_power"] <= 25
+                for slot in equipment_slots if slot["runtime_mapping"]["standard_enchant_id"] != 0
             ))
             for vendor in audit["vendors"]:
                 self.assertEqual(vendor["runtime_price_multiplier"], vendor["source_merchant_base"])
@@ -312,7 +320,7 @@ class GenerateMm9VendorsTests(unittest.TestCase):
                 self.assertEqual(vendor["legacy_house_audio_policy"], "Disabled")
                 self.assertEqual(vendor["legacy_house_video_policy"], "Disabled")
                 self.assertEqual(vendor["source_pair_interpretation"],
-                                 "first_pair_standard_second_pair_special")
+                                 "both_pairs_one_merchant_list")
                 if vendor["source_vendor_id"] == 138:
                     self.assertFalse(vendor["opening_policy_provenance"])
                 else:
@@ -361,10 +369,6 @@ class GenerateMm9VendorsTests(unittest.TestCase):
                 item.item_id: item
                 for item in generate_mm9_vendors.read_items(arguments.mm9_items, "utf-8", "mm9")
             }
-            engine_items = {
-                item.item_id: item
-                for item in generate_mm9_vendors.read_items(arguments.engine_items, "cp1252", "engine")
-            }
             for vendor_id, vendor in vendor_by_id.items():
                 rows = stock_by_vendor[vendor_id]
                 if vendor["source_type"] == "Library":
@@ -374,14 +378,54 @@ class GenerateMm9VendorsTests(unittest.TestCase):
                         for row in rows
                     ))
                 if vendor["source_type"] == "Magic":
-                    school = generate_mm9_vendors.magic_school(vendor["merchandise"])
+                    # MM9's own spellbooks (mm9_spellbooks.py), never another world's.
                     self.assertTrue(all(
-                        generate_mm9_vendors.spell_school(engine_items[int(row["item_id"])]) == school
-                        or school == "All"
-                        or (school == "Elemental" and generate_mm9_vendors.spell_school(
-                            engine_items[int(row["item_id"])]) in {"Fire", "Air", "Water", "Earth"})
+                        10901 <= int(row["item_id"]) <= 10999
+                        and mm9_items[int(row["item_id"])].equip_stat == "Book"
+                        and "World:mm9" in mm9_items[int(row["item_id"])].content_flags
                         for row in rows
                     ))
+                    school = generate_mm9_vendors.magic_school(vendor["merchandise"])
+                    self.assertTrue(all(
+                        generate_mm9_vendors.spell_school(mm9_items[int(row["item_id"])]) == school
+                        or school == "All"
+                        or (school == "Elemental" and generate_mm9_vendors.spell_school(
+                            mm9_items[int(row["item_id"])]) in {"Fire", "Air", "Water", "Earth"})
+                        # MM9's Spirit school merges MM6-MM8 Spirit, Mind and Body.
+                        or (school == "Spirit" and generate_mm9_vendors.spell_school(
+                            mm9_items[int(row["item_id"])]) in {"Mind", "Body"})
+                        for row in rows
+                    ))
+                    # One book per spell on each restock page, six spells for each school the shop sells (user
+                    # decisions 2026-11-06).
+                    pages: dict[str, list[str]] = {}
+                    for row in rows:
+                        pages.setdefault(row["page"], []).append(
+                            mm9_items[int(row["item_id"])].skill_group)
+                    self.assertTrue(all(len(spells) == len(set(spells)) for spells in pages.values()))
+                    schools = generate_mm9_vendors.SCHOOL_COUNT_BY_MAGIC_SCHOOL[school]
+                    # A shop of only its stocked books (SPELLBOOK_STOCKED_ONLY) is checked below.
+                    stocked_only = int(vendor["source_vendor_id"]) in generate_mm9_vendors.SPELLBOOK_STOCKED_ONLY
+                    self.assertTrue(stocked_only or all(
+                        len(spells) >= generate_mm9_vendors.SPELLBOOK_SPELLS_PER_SCHOOL * schools
+                        for spells in pages.values()))
+
+            # Frosgard's and Lindisfarne's spellbook shops stock every Expert and Master book of their listed schools
+            # on each restock (user decision 2026-11-09).
+            for source_id, books in stocked_books.items():
+                self.assertTrue(books)
+                vendor_id = int(vendor_by_source_id[source_id]["vendor_id"])
+                pages: dict[str, set[int]] = {}
+                for row in stock_by_vendor[vendor_id]:
+                    pages.setdefault(row["page"], set()).add(int(row["item_id"]))
+                self.assertTrue(pages)
+                self.assertTrue(all({item.item_id for item in books} <= stocked for stocked in pages.values()))
+                if source_id in generate_mm9_vendors.SPELLBOOK_STOCKED_ONLY:
+                    # Hallvard's Tomes, Yorwick (the user, 2026-11-09): every Master and Grandmaster book, nothing else.
+                    self.assertTrue(all({item.item_id for item in books} == stocked for stocked in pages.values()))
+                    self.assertEqual(
+                        {item.spellbook_mastery for item in books}, {"master", "grandmaster"})
+                    self.assertEqual(len({item.skill_group for item in books}), len(books))
 
             library_item_ids = {
                 int(row["item_id"])

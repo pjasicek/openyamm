@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/tables/MonsterTable.h"
 #include "game/tables/Mm9MonsterAi.h"
 
 #include <array>
@@ -50,7 +51,11 @@ struct GameplayMonsterSpawnRequest
 };
 
 // The monster id of one spawned monster: the family's A, B or C as the weights pick, or the request's own id.
-int16_t gameplaySpawnMonsterId(const GameplayMonsterSpawnRequest &request, std::mt19937_64 &rng);
+// The monster a spawn makes: the request's own, or with tier weights a tier of its family drawn. MM6-MM8's rows come in
+// families of three by id (A at id % 3 == 1); a world's rows (MM9's 9000+) by their picture's tier letter ("MM9 Guard
+// A"), where they may lie apart. Without a monster table the id triples are used.
+int16_t gameplaySpawnMonsterId(
+    const GameplayMonsterSpawnRequest &request, std::mt19937_64 &rng, const MonsterTable *pMonsterTable = nullptr);
 // A random point within the request's radius of its centre.
 std::array<float, 2> gameplaySpawnOffset(const GameplayMonsterSpawnRequest &request, std::mt19937_64 &rng);
 std::mt19937_64 gameplaySpawnRng(const GameplayMonsterSpawnRequest &request);

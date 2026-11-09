@@ -63,6 +63,14 @@ The docked log (A) is built for both rulesets; the log window (B) is not yet.
   "kills" in red ("Thalia kills Goblin 197", "Lys Fireball kills 3 monsters 512"). The party's names are ivory,
   monsters coral, spells blue, amounts yellow. An area spell is one line with its total and no steps. Misses, heals
   and conditions are not logged.
+- Compact rows (user, 2026-11-10: the lines were cut off before their amount nearly every time): a hit is one row of
+  who, how and whom, with the amount right-aligned at the panel's edge so it is never cut. A sword or bow glyph
+  stands in for "hits" and "shoots"; a cast keeps its spell's name in blue (the spellbook's icons are a smear at line
+  height); a killing blow puts a red skull before the amount ("Kestrel <bow> Goblin   928!", "Lys Fireball
+  3 monsters <skull>512"). When a row is still too long, the widest name takes its next shorter form, "Skeleton
+  Warrior" -> "S. Warrior" -> "Warrior", until it fits, and only then is cut with "...". A click opens the whole
+  sentence above the damage steps. The glyphs are drawn by [make_glyphs.py](make_glyphs.py)
+  (`engine/icons_x2/combat_log_{melee,shoot,kill}.png`, white, tinted by the panel); loot lines are unchanged.
 - Cost: with the setting off nothing is recorded or worded. With it on the damage rules copy each hit's stage list,
   and the panel lays its text out into glyph quads only when a line arrives, the view scrolls, a line opens, the filter
   changes or the panel moves. Other frames resubmit two cached batches: the fills in palette colours (one draw) and

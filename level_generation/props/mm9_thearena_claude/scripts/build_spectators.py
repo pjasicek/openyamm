@@ -1,6 +1,6 @@
 """Blender: builds the Arena spectators' decoration GLBs (work/<prop>_export.glb, work/<prop>_meta.json) with Sturmford
 City's build (../mm9_sturmfordcity_claude/scripts/build.py: POSES models posed in their library animation at its first
-key before baking, one material per skin, opaque people, LODs from 250 triangles), run here on the spectator table
+key before baking, one material per skin, opaque people, LODs from 1000 triangles), run here on the spectator table
 (scripts/spectators.py) with this project's directories.
 Usage: blender --background --factory-startup --python scripts/build_spectators.py -- [prop ...]"""
 import os

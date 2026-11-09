@@ -5,6 +5,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/LootFilter.h"
 #include "game/rules/maw/MawCraftingRules.h"
 #include "game/rules/maw/MawItemRules.h"
 #include "game/rules/maw/MawRules.h"
@@ -113,6 +114,27 @@ CraftingContext context(int ownerLevel = 200)
     result.ownerLevel = ownerLevel;
     return result;
 }
+}
+
+TEST_CASE("a world's MAW base items load after MAW's own, with a strength")
+{
+    MawItemData data = installedItemData();
+    std::string error;
+    // MM9's, written by tools/maw/mm9_balance.py from rulesets/maw/worlds/mm9/balance.yml.
+    REQUIRE_MESSAGE(
+        data.loadWorldBases(readSource("assets_dev/engine/rulesets/maw/worlds/mm9/item_bases.yml"), error), error);
+    REQUIRE(data.baseItem(10002) != nullptr);
+    CHECK(data.baseItem(10002)->strength >= 1);
+
+    REQUIRE_MESSAGE(
+        data.loadWorldBases("bases:\n  19999: [6, 3, 1, 0, 0, 1.15]\n  19998: [1, 0, 0, 8, 30]\n", error), error);
+    REQUIRE(data.baseItem(19999) != nullptr);
+    CHECK(data.baseItem(19999)->strength == doctest::Approx(1.15));
+    CHECK(data.baseItem(19998)->strength == doctest::Approx(1));
+
+    // An id MAW or another world already gives, or a strength beyond 1.25, is refused.
+    CHECK_FALSE(data.loadWorldBases("bases:\n  1: [1, 2, 0, 0, 0]\n", error));
+    CHECK_FALSE(data.loadWorldBases("bases:\n  19997: [1, 2, 0, 0, 0, 1.5]\n", error));
 }
 
 TEST_CASE("MAW gem caps match CRAFTING.md §3.3 for every tier and slot")
@@ -662,4 +684,33 @@ TEST_CASE("a solo character tags bags past the eighth, each tag on its own (OY-3
     CHECK(OpenYAMM::Game::InventoryBags::toggleTag(solo, 24, OpenYAMM::Game::BagTag::Alchemy));
     CHECK(OpenYAMM::Game::InventoryBags::hasTag(solo, 24, OpenYAMM::Game::BagTag::Alchemy));
     CHECK_FALSE(OpenYAMM::Game::InventoryBags::hasTag(solo, 24, OpenYAMM::Game::BagTag::Crafting));
+}
+
+TEST_CASE("MAW crafting items: the loot filter never turns them into gold and Sell trash never picks them")
+{
+    RulesetOptions options;
+    options.preferences.lootFilter = rulesetLootFilterWithPreset(RulesetLootFilterPreset::VeryStrict);
+    options.preferences.lootFilter.goldKinds = 0xff;
+    const std::unique_ptr<MawRules> pRules = mawRules(options);
+    const ItemRules &items = pRules->gameRules().items;
+
+    ItemDefinition gemDefinition;
+    gemDefinition.equipStat = "Gem";
+    gemDefinition.value = 1000;
+    InventoryItem item;
+
+    // A crafting gem of tier 1 and the Crafting Cube carry the Gem stat; a plain gem is filtered as a gem.
+    for (const uint32_t craftingItemId : {1041u, 1070u})
+    {
+        gemDefinition.itemId = craftingItemId;
+        item.objectDescriptionId = craftingItemId;
+        CHECK_FALSE(items.lootFilterFacts(item, gemDefinition).has_value());
+    }
+
+    gemDefinition.itemId = 999;
+    item.objectDescriptionId = 999;
+    const std::optional<LootFilterFacts> plainGem = items.lootFilterFacts(item, gemDefinition);
+    REQUIRE(plainGem.has_value());
+    CHECK(evaluateLootFilter(options.preferences.lootFilter, *plainGem, 1) == LootFilterVerdict::Gold);
+    CHECK(isSellTrash(*plainGem, 1));
 }

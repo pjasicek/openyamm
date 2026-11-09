@@ -1,0 +1,53 @@
+# MM9 promotion playthrough, segment 24: the Ritual of Consecration (guide: side_b.yml learn-the-ritual-of-consecration).
+# From Lindisfarne to Frosgard by sea (The Dragon to Thjorgard, the Sea's Fang on to Frosgard's docks: about a week;
+# the party is moved), to Nath'i A'Mor near the corral by the training hall (RUDE 188): "We're looking for a priest."
+# (needs 252), "We need to learn the Ritual of Consecration.", "Yes, please teach us.", "Great!" (257). His exit gives
+# key 258, 5 000 experience to every member and the Ritual of Consecration (item 430). Research:
+# prep/C_healer_priest.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 24
+id: mm9.promotions.24_nathi_ritual
+title: "MM9 promotions 24: Nath'i A'Mor writes down the Ritual of Consecration"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/23_lindisfarne_priest.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lindisfarne.blv, qbit_set: [90252, 90073], qbit_clear: [90257, 90258]}
+
+  # By sea to Frosgard City's docks.
+  - travel: {map: frosgardcity.blv, days: 7}
+  - assert: {map: frosgardcity.blv}
+
+  # Nath'i A'Mor by the corral.
+  - set_pose: {map: frosgardcity.blv, x: 9339, y: 250, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local x = {}
+        local n = 0
+        for _ in string.gmatch(classes(), "%S+") do n = n + 1 end
+        remember("members", n)
+        for i = 0, n - 1 do remember("xp" .. i, experience(i)); x[#x + 1] = tostring(experience(i)) end
+        log("EXPERIENCE before: " .. table.concat(x, " "))
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "We're looking for a priest."}
+  - select_topic: {match_label: "We need to learn the Ritual of Consecration."}
+  - select_topic: {match_label: "Yes, please teach us."}
+  - select_topic: {match_label: "Great!"}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90257, 90258]}
+  - play_lua:
+      source: |
+        local x = {}
+        for i = 0, recall("members") - 1 do
+          local gained = experience(i) - recall("xp" .. i)
+          if gained ~= 5000 then error("member " .. i .. " gained " .. gained .. " experience, not 5 000") end
+          x[#x + 1] = tostring(experience(i))
+        end
+        log("EXPERIENCE after: " .. table.concat(x, " ") .. " (+5 000 each)")
+        if not has_item(10430) then error("no Ritual of Consecration") end
+        log("the Ritual of Consecration is in the pack")
+  - save_game: {name: "24 the Ritual", path: output/playthrough/mm9/promotions/checkpoints/24_nathi_ritual.oysav}

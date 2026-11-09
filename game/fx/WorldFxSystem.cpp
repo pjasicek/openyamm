@@ -3614,11 +3614,18 @@ void WorldFxSystem::syncItemModels(GameSession &session, float deltaSeconds)
         const float w = 1.0f + up[2];
         const float length = std::sqrt(up[1] * up[1] + up[0] * up[0] + w * w);
         const std::array<float, 4> tilt = {-up[1] / length, up[0] / length, 0.0f, w / length};
-        const std::array<float, 4> rotation = {
+        std::array<float, 4> rotation = {
             tilt[3] * yawRotation[0] + tilt[0] * yawRotation[3] + tilt[1] * yawRotation[2] - tilt[2] * yawRotation[1],
             tilt[3] * yawRotation[1] - tilt[0] * yawRotation[2] + tilt[1] * yawRotation[3] + tilt[2] * yawRotation[0],
             tilt[3] * yawRotation[2] + tilt[0] * yawRotation[1] - tilt[1] * yawRotation[0] + tilt[2] * yawRotation[3],
             tilt[3] * yawRotation[3] - tilt[0] * yawRotation[0] - tilt[1] * yawRotation[1] - tilt[2] * yawRotation[2]};
+        // An authored pose (a placed item leaning on a wall): turned so, its lowest point on its position.
+        const bool posed = item.pose.has_value() && !placeholder;
+        if (posed)
+        {
+            position = worldItemPosedOrigin(binding, *item.pose, {item.x, item.y, item.z});
+            rotation = worldItemPoseRotation(*item.pose);
+        }
         m_models.setTransform(model.handle, Engine::gltfModelPlacement(position, rotation, loaded.scale));
 
         const float dx = item.x - pWorld->partyX();
@@ -3643,9 +3650,14 @@ void WorldFxSystem::syncItemModels(GameSession &session, float deltaSeconds)
             // On the tilted resting plane, most of the way up the item.
             const float top = 0.7f * binding.boundsMax[2];
             const std::string &effect = SparkleEffects[size_t(item.sparkle)];
-            const EffectSpawnParams params = {.position = {position[0] + offsetX + up[0] * top,
+            EffectSpawnParams params = {.position = {position[0] + offsetX + up[0] * top,
                 position[1] + offsetY + up[1] * top,
                 position[2] - (up[0] * offsetX + up[1] * offsetY) / up[2] + up[2] * top}, .seed = item.key};
+            if (posed)
+            {
+                const std::array<float, 3> offset = turnByWorldItemPose(*item.pose, {localX, localY, top});
+                params.position = {position[0] + offset[0], position[1] + offset[1], position[2] + offset[2]};
+            }
             if (deltaSeconds > 0.0f || !sparkling)
             {
                 syncAmbientEffect(m_namedEffects, m_namedEffectLibrary, effect, model.sparkle, params, sparkling);

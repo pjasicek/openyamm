@@ -266,8 +266,8 @@ TEST_CASE("MM9 party awareness: the world's sight, view and provoke range")
 {
     using OpenYAMM::Game::Mm9PartyAwareness;
     const Mm9PartyAwareness mm9 = {};
-    const Mm9PartyAwareness world = {.sightAllRound = true, .sightScale = 1.5f, .provokeRange = 4096.0f,
-        .provokeRadius = 256.0f};
+    const Mm9PartyAwareness world = {.sightAllRound = true, .sightScale = 1.5f, .sightMax = 4608.0f,
+        .provokeRange = 4096.0f};
     OpenYAMM::Game::Mm9AiPlacement placement = {};
     placement.sight = 1536.0f;
     placement.hearing = 369.0f;
@@ -283,6 +283,14 @@ TEST_CASE("MM9 party awareness: the world's sight, view and provoke range")
     CHECK(OpenYAMM::Game::mm9PartySenses(placement, world, false).sight == doctest::Approx(2304.0f));
     CHECK(OpenYAMM::Game::mm9PartySenses(placement, world, false).hearing == doctest::Approx(369.0f));
     CHECK(OpenYAMM::Game::mm9PartySenses(placement, world, true).sight == doctest::Approx(1536.0f));
+    // No farther than 4608, the engagement range plus MM6-MM8's 512: MM9's default sight (3379) and a far one (6144)
+    // stop there; a dormant start keeps its own.
+    placement.sight = 3379.0f;
+    CHECK(OpenYAMM::Game::mm9PartySenses(placement, world, false).sight == doctest::Approx(4608.0f));
+    placement.sight = 6144.0f;
+    CHECK(OpenYAMM::Game::mm9PartySenses(placement, world, false).sight == doctest::Approx(4608.0f));
+    CHECK(OpenYAMM::Game::mm9PartySenses(placement, world, true).sight == doctest::Approx(6144.0f));
+    placement.sight = 1536.0f;
     CHECK(OpenYAMM::Game::mm9PartyInView(false, world, false));
     CHECK_FALSE(OpenYAMM::Game::mm9PartyInView(false, world, true));
     CHECK(OpenYAMM::Game::mm9PartyInView(true, world, true));
@@ -427,6 +435,37 @@ TEST_CASE("MM9 ranged walker shoots only at its shot checks, outside melee range
     const ActorAiUpdate blow = stepMm9(actor);
     CHECK_FALSE(findDecision(blow, ActorAiDecisionKind::ShotCheck));
     CHECK(findDecision(blow, ActorAiDecisionKind::AttackMelee).has_value());
+}
+
+TEST_CASE("MM9 ranged walker shoots at the party no farther than the party's hit reach")
+{
+    // A placement with a far sight (6144: Range.inc's range would be the engine's 5120) 4500 from the party: under
+    // MM8's 5120 it shoots; under MM9's 4096 party hit reach it does not, so the party can answer every shot.
+    ActorAiFacts actor = makeMm9Walker(Mm9AiArchetype::Skirmisher);
+    actor.tactics.mm9Profile->ranged = Mm9AiRanged::Walker;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.stats.attackConstraints.rangedCommitAllowed = true;
+    actor.stats.attack2Damage.diceRolls = 2;
+    actor.stats.attack2Damage.diceSides = 4;
+    actor.movement.mm9Placement->sight = 6144.0f;
+    actor.runtime.mm9.targetKind = ActorAiTargetKind::Party;
+    actor.runtime.mm9.partyContact = true;
+    actor.runtime.mm9.shotCheckSeconds = 0.0f;
+    actor.target.currentPosition = {4577.0f, 0.0f, 0.0f};
+    actor.target.currentDistance = 4577.0f;
+    actor.target.currentEdgeDistance = 4537.0f;
+    const auto shootsWithReach = [&actor](float partyHitReach)
+    {
+        ActorAiFrameFacts frame = makeMm9Frame(actor);
+        frame.party.position = {4577.0f, 0.0f, 0.0f};
+        frame.partyHitReach = partyHitReach;
+        const OpenYAMM::Game::ActorAiFrameResult result = GameplayActorAiSystem{}.updateActors(frame);
+        REQUIRE(result.actorUpdates.size() == 1);
+        return findDecision(result.actorUpdates.front(), ActorAiDecisionKind::AttackRanged).has_value();
+    };
+
+    CHECK(shootsWithReach(5120.0f));
+    CHECK_FALSE(shootsWithReach(4096.0f));
 }
 
 TEST_CASE("MM9 ranged walker with a projectile casts both its spells at its shot checks")

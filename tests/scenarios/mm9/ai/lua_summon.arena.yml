@@ -1,0 +1,12 @@
+# AI arena for lua_summon.yml: the pit cleared and the party placed; the monsters come from the scenario's
+# evt.SummonMonstersById (traced: every actor after the arena's). See README.md.
+name: mm9_lua_summon
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true

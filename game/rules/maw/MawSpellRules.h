@@ -94,6 +94,7 @@ public:
     // members' own potion copies; they never add up (game/rules/maw/MawAuraReport.cpp).
     std::optional<AuraReport> auraReport(const Party &party) const override;
     bool tabCyclesSpellbookSchools() const override;
+    const SpellbookSkin *spellbookSkin(const Character &member) const override;
     bool sunrayWorksIndoors() const override;
     float spiritLashRadius(SkillMastery mastery) const override;
     bool raiseDeadLiftsEradication(SkillMastery mastery) const override;

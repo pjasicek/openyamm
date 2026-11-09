@@ -17,4 +17,10 @@ bool actorRaisesPartyYellowAlert(
     float partyFootZ);
 bool partyHasYellowAlert(const IGameplayWorldRuntime &worldRuntime);
 bool partyHasRedAlert(const IGameplayWorldRuntime &worldRuntime);
+// The edge distance of the nearest living, visible hostile actor, whether or not it has seen the party; the float
+// maximum for none. The HUD's portrait gems read their colour from it.
+float nearestHostileDistanceToParty(const IGameplayWorldRuntime &worldRuntime);
+// The HUD's green state: no living, visible hostile within the world's engagement range or the yellow alert range,
+// whichever is shorter (MM9: 3800). MM9's Fleet Foot runs faster in it (game/party/WorldSpells.h).
+bool partyHasGreenAlert(const IGameplayWorldRuntime &worldRuntime);
 }

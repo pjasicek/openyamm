@@ -15,7 +15,7 @@ enum class Mm9HirelingActionKind : uint8_t
 {
     // Nothing reaches: the hireling is passed over.
     None,
-    // Attack 1 on the creature in melee reach.
+    // Attack 1 on the creature in melee reach, or swung at nothing (swingWithoutTarget).
     Melee,
     // Attack 2 (the retainers' Arrow) on a creature beyond reach.
     Ranged,
@@ -32,12 +32,15 @@ struct Mm9HirelingAction
 
 // MM9's choice (object@0x100b3940; chooseSpell object@0x10053210): a hireling with spells always casts, the first
 // spell when spellRoll (1-100) is at most its spell1_share_percent, else the second; otherwise attack 1 on a target in
-// melee reach, attack 2 on one beyond it, and nothing without a target or a fitting attack.
+// melee reach, attack 2 on one beyond it, and nothing without a target or a fitting attack. With swingWithoutTarget
+// (turn-based combat, where a hireling's turn waits for the command as a member's does) that nothing becomes attack 1
+// swung at the air, so the command always spends the turn.
 Mm9HirelingAction chooseMm9HirelingAction(
     const Mm9Hireling &row,
     bool hasTarget,
     bool targetInMeleeReach,
-    int spellRoll);
+    int spellRoll,
+    bool swingWithoutTarget = false);
 
 // A hireling's blow or shot uses the monster attack rules, as its numbers are a MONSTERS row: the row's dice (with the
 // party's damage buffs on the hireling, Heroism and Hammerhands), and the monster hit roll at the hireling's level

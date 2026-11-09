@@ -1,0 +1,28 @@
+# AI arena: the placement's ScriptName wins over its row's (MM9_MONSTER_AI_PLAN.md "Which ScriptName wins",
+# devdocs/mm9_rework/monster_ai/PROFILE.md "Placement scripts"). Two Ghasts (9174; row script baserange.scr: BaseMelee
+# with Range.inc, Fear N2 at every shot, Att% 0). Monster 0 has no placement script: it casts Fear at its shot checks
+# while it closes in. Monster 1 is placed as Lich Lab places its Ghast: KingKong.scr (BaseMelee without Range.inc),
+# caged until its trigger (the event at 1 s), with the profile override the converters write for it (ranged: none).
+# MM9 never makes it cast. See README.md.
+name: mm9_placement_script
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: 8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9174
+    position: [-500, 900, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0}
+  - monster_id: 9174
+    position: [500, 900, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0, dormant: {until: trigger, pose: caged}, profile: {ranged: none},
+             script: kingkong.scr, script_params: "LLGhastCage"}
+events:
+  - {at: 1, wake: 1}

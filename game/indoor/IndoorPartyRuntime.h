@@ -4,6 +4,7 @@
 #include "game/indoor/IndoorWater.h"
 #include "game/party/Party.h"
 
+#include <array>
 #include <optional>
 #include <string>
 #include <vector>
@@ -24,6 +25,9 @@ public:
         float pendingImpulseVelocityY = 0.0f;
         float pendingImpulseVelocityZ = 0.0f;
         bool alwaysRunEnabled = true;
+        // Whether the party has been under water and is in a surface jump (saved, so a load in the water swims on as
+        // before it); none: guessed on restore, as a placement in the water is.
+        std::optional<IndoorSwimMemory> swimMemory;
     };
 
     IndoorPartyRuntime(IndoorMovementController movementController, const ItemTable &itemTable);
@@ -96,6 +100,8 @@ public:
     void setMovementSpeedMultiplier(float multiplier);
     // Per face: the speed share while the party stands on it (shallow liquids it wades through); empty: none.
     void setFaceWadeSpeeds(std::vector<float> speeds);
+    // The map lies open to the sky (world.yml openAirMaps): its falls and other movement damage count as outdoors.
+    void setOpenAir(bool openAir);
     void setAlwaysRunEnabled(bool enabled);
     void setCollisionTraceEnabled(bool enabled, std::string mapName);
     bool alwaysRunEnabled() const;
@@ -118,6 +124,9 @@ private:
         bool runningMovement,
         const IndoorBodyDimensions &body,
         std::vector<size_t> &contactedActorIndices);
+    // Starts the short glide onto a ladder taken at its top or off its top onto the exit, and steps it.
+    void startLadderGlide(float toX, float toY, float toFootZ, std::optional<size_t> ontoLadderIndex);
+    void stepLadderGlide(const IndoorBodyDimensions &body);
     // One movement step swimming, at the surface or jumping out of it; false: the party walks or falls as on land
     // (dry, wading, walking on the bed, falling in before the eye goes under).
     bool stepInWater(
@@ -137,10 +146,24 @@ private:
     // Runtime only: a save made on a ladder restores the party falling from where it was.
     std::optional<size_t> m_ladderIndex;
     int m_ladderVerticalInput = 0;
+    // Runtime only: the party glides between the floor and a ladder's top instead of jumping there. Its path rises
+    // or falls at the higher end, so it never cuts through the edge of the floor.
+    struct LadderGlide
+    {
+        std::array<float, 3> from = {};
+        std::array<float, 3> corner = {};
+        std::array<float, 3> to = {};
+        float seconds = 0.0f;
+        float duration = 0.0f;
+        // The ladder the party holds at the end; none: it stands on the top exit.
+        std::optional<size_t> ontoLadderIndex;
+    };
+    std::optional<LadderGlide> m_ladderGlide;
     Party m_party;
     IndoorMoveState m_movementState = {};
     float m_movementSpeedMultiplier = 1.0f;
     std::vector<float> m_faceWadeSpeeds;
+    bool m_openAir = false;
     bool m_alwaysRunEnabled = true;
     bool m_runningMovement = false;
     bool m_collisionTraceEnabled = false;

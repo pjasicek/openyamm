@@ -1,0 +1,49 @@
+# MM9 promotion playthrough, segment 35: the Scholar promotion's task and the Magreeb (guide: side_c.yml
+# "study-a-magreeb", steps 1-3). Tymon the Nord in Bembridge University (RUDE 161): "We are seeking promotion to
+# Scholar" (key 2081), "Yes.", "We will do this."; the talk's close gives key 201 (thjorgardcity.lua NPC161.scr).
+# Out by the docks gate into Thjorgard; the adult Magreeb (actor 16, Scholarpromo.scr) grazes in the valley west of
+# the Frosgard road's start (-16934, -20179): the party walks toward it (outdoors the party may be placed: it starts
+# from the road's start, where the boats' travel lands), and on sighting the party within 1 536 it runs off and is
+# gone, with the quest sound (key 202; thjorgard.lua magreebTick). It is not attacked. A player saw a Magreeb with
+# olive-green chitin and orange claws (monster 9277 "MM9 Magreeb B": skin MAGREEB1, worlds/mm9/models/actors.yml).
+#   python3 tests/playthrough/mm9/promotions/run.py 35
+id: mm9.promotions.35_tymon_magreeb
+title: "MM9 promotions 35: Tymon's task; the Magreeb in Thjorgard sighted"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/34_johannes_mage_done.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: thjorgardcity.blv, qbit_set: [90294], qbit_clear: [90201, 90202, 90205]}
+
+  # Tymon the Nord (actor 13), beside Johannes in Bembridge University.
+  - set_pose: {map: thjorgardcity.blv, x: 4915, y: 12550, z: 1, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 13}
+  - select_topic: {match_label: "We are seeking promotion to Scholar"}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "We will do this."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90201], qbit_clear: [90202]}
+
+  # Out by the docks gate into Thjorgard.
+  - set_pose: {map: thjorgardcity.blv, x: 655, y: -400, z: -19, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 655, y: -819, z: 225, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thjorgard.blv}
+
+  # The Magreeb's valley: from the Frosgard road's start, walk west toward it until it has seen the party.
+  - set_pose: {map: thjorgard.blv, x: -12830, y: -19987, z: 3195, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -15500, y: -20150, z: 3190, z_tolerance: 800, plan: false, timeout_seconds: 60}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        for i = 1, 20 do if qbit(90202) then break end; wait(0.5) end
+        if not qbit(90202) then error("the Magreeb never saw the party") end
+        log("the Magreeb (olive-green chitin, orange claws) sees the party, runs off and is gone; the quest sound")
+  - assert: {qbit_set: [90201, 90202], qbit_clear: [90205]}
+  - save_game: {name: "35 the Magreeb", path: output/playthrough/mm9/promotions/checkpoints/35_tymon_magreeb.oysav}

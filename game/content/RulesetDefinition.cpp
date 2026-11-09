@@ -333,6 +333,7 @@ bool parseTables(const YAML::Node &tablesNode, std::vector<RulesetTableContribut
         }
 
         RulesetTableContribution table = {};
+        table.world = scalarString(tableNode, "world");
         table.table = scalarString(tableNode, "table");
         table.path = scalarString(tableNode, "path");
         const std::string mode = scalarString(tableNode, "mode");
@@ -357,7 +358,13 @@ bool parseTables(const YAML::Node &tablesNode, std::vector<RulesetTableContribut
             return false;
         }
 
-        if (!tablePaths.insert(table.table + '\n' + table.path).second)
+        if (!table.world.empty() && !isValidRulesetId(table.world))
+        {
+            errorMessage = "table '" + table.table + "' names an invalid world id '" + table.world + "'";
+            return false;
+        }
+
+        if (!tablePaths.insert(table.world + '\n' + table.table + '\n' + table.path).second)
         {
             errorMessage = "table '" + table.table + "' lists " + table.path + " twice";
             return false;
@@ -390,6 +397,11 @@ bool parseTables(const YAML::Node &tablesNode, std::vector<RulesetTableContribut
 bool RulesetDefinition::isStandard() const
 {
     return id == StandardRulesetId;
+}
+
+bool RulesetDefinition::supportsWorld(const std::string &worldId) const
+{
+    return worlds.empty() || std::find(worlds.begin(), worlds.end(), worldId) != worlds.end();
 }
 
 RulesetOptions RulesetDefinition::defaultOptions() const
@@ -430,20 +442,16 @@ bool RulesetDefinition::offers(const RulesetOptions &options) const
 }
 
 std::vector<const RulesetTableContribution *> RulesetDefinition::findTables(
-    const std::string &engineTableVirtualPath) const
+    const std::string &tableVirtualPath) const
 {
     std::vector<const RulesetTableContribution *> found;
 
-    if (!engineTableVirtualPath.starts_with(EngineDataTableRoot))
-    {
-        return found;
-    }
-
-    const std::string tableName = engineTableVirtualPath.substr(std::string(EngineDataTableRoot).size());
-
     for (const RulesetTableContribution &table : tables)
     {
-        if (table.table == tableName)
+        const std::string tablePath = table.world.empty() ? EngineDataTableRoot + table.table
+                                                          : "worlds/" + table.world + "/" + table.table;
+
+        if (tablePath == tableVirtualPath)
         {
             found.push_back(&table);
         }
@@ -552,6 +560,22 @@ std::optional<RulesetDefinition> parseRulesetDefinition(
                 }
 
                 definition.skillNames[skillName] = entry.second.as<std::string>();
+            }
+        }
+
+        const YAML::Node worldsNode = root["worlds"];
+
+        if (worldsNode)
+        {
+            if (!worldsNode.IsSequence())
+            {
+                errorMessage = "ruleset worlds must be a list of world ids";
+                return std::nullopt;
+            }
+
+            for (const YAML::Node &worldNode : worldsNode)
+            {
+                definition.worlds.push_back(worldNode.as<std::string>());
             }
         }
 

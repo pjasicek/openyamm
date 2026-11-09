@@ -1,0 +1,62 @@
+# MM9 promotion playthrough, segment 62: out of the Lich Lab (guide: side_a.yml become-a-lich). The way down in
+# segment 61 walked back up: the engine hall's south-east stair, the cross hall (RotatingDoor160 128), the ground
+# column (RotatingDoor158 126), up the east wing's stair, the east column (144, 147, 114), the north-east rooms (109,
+# 111, 154), the ring round the atrium, the hall (151), the side room (112, 142) and the lobby's exit (ExitTrigger0,
+# its prompt) into Yorwick. Research: prep/B_assassin_crusader_lich.md.
+#   python3 tests/playthrough/mm9/promotions/run.py 62
+id: mm9.promotions.62_lichlab_out
+title: "MM9 promotions 62: out of the Lich Lab to Yorwick"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/mm9/promotions/checkpoints/61_lichlab_engine.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: lichlab.blv, qbit_set: [90299]}
+  - play_lua: {source: 'if classes() ~= "Champion PriestLight Assassin Lich" then error("unexpected classes: " .. classes()) end'}
+
+  # Up the stair to the cross hall, east to the ground column, up the east wing's stair.
+  - walk_to: {via: [[-1075, 4669, -654]], x: 805, y: 4669, z: 0, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 1000, y: 4505, z: 0, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(40) == "closed" then break end; wait(0.5) end; click(128); wait(1.5)'}   # RotatingDoor160
+  - walk_to: {x: 1550, y: 4505, z: 0, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3400, y: 4096, z: 0, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(38) == "closed" then break end; wait(0.5) end; click(126); wait(1.5)'}   # RotatingDoor158
+  - walk_to: {x: 4150, y: 4096, z: 0, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 4763, y: 992, z: 0, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - walk_to: {via: [[6091, 617, 171], [7178, 913, 709], [6024, 1929, 1303], [4464, 1929, 1311]], x: 3768, y: 2250, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+
+  # North along the east column, through the north-east rooms into the ring.
+  - play_lua: {source: 'for t = 1, 24 do if door_state(56) == "closed" then break end; wait(0.5) end; click(144); wait(1.5)'}   # RotatingDoor178
+  - walk_to: {x: 3768, y: 2850, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3440, y: 3500, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(59) == "closed" then break end; wait(0.5) end; click(147); wait(1.5)'}   # RotatingDoor181
+  - walk_to: {x: 3440, y: 4150, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3700, y: 7024, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(26) == "closed" then break end; wait(0.5) end; click(114); wait(1.5)'}   # RotatingDoor146
+  - walk_to: {x: 4300, y: 7024, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 3600, y: 10404, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(21) == "closed" then break end; wait(0.5) end; click(109); wait(1.5)'}   # RotatingDoor135
+  - walk_to: {x: 3150, y: 10404, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 2950, y: 10150, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(23) == "closed" then break end; wait(0.5) end; click(111); wait(1.5)'}   # RotatingDoor137
+  - walk_to: {x: 2950, y: 9650, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 2400, y: 9011, z: 1311, z_tolerance: 200, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(66) == "closed" then break end; wait(0.5) end; click(154); wait(1.5)'}   # RotatingDoor188
+  - walk_to: {x: 1850, y: 9011, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+
+  # Round the ring to the hall, the side room, the lobby and out.
+  - walk_to: {x: -1966, y: 1000, z: 1311, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(63) == "closed" then break end; wait(0.5) end; click(151); wait(1.5)'}   # RotatingDoor185
+  - walk_to: {x: -1966, y: 350, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 20, clear_hostiles: 2000}
+  - walk_to: {x: 1885, y: -1700, z: 1311, z_tolerance: 200, timeout_seconds: 60, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(24) == "closed" then break end; wait(0.5) end; click(112); wait(1.5)'}   # RotatingDoor138
+  - walk_to: {via: [[1885, -2300, 1311]], x: 1536, y: -3328, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: 950, y: -3930, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - play_lua: {source: 'for t = 1, 24 do if door_state(54) == "closed" then break end; wait(0.5) end; click(142); wait(1.5)'}   # RotatingDoor176
+  - walk_to: {via: [[550, -3930, 1311]], x: -1311, y: -4200, z: 1311, z_tolerance: 200, plan: false, timeout_seconds: 30, clear_hostiles: 2000}
+  - walk_to: {x: -1311, y: -4600, z: 1311, z_tolerance: 300, plan: false, timeout_seconds: 20, clear_hostiles: 2000, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+  - save_game: {name: "62 out of the Lich Lab", path: output/playthrough/mm9/promotions/checkpoints/62_lichlab_out.oysav}

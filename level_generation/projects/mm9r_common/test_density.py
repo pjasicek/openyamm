@@ -267,3 +267,34 @@ def test_moved_copies_keep_their_monster_row():
     receiver = report["packs"][2]
     assert receiver["moved_in"] == 1 and receiver["copies"][0]["copy_of"] == "M2"
     assert report["packs"][1]["moved_in"] == 0
+
+
+def test_a_forced_arrival_keeps_its_quota_and_the_rest_move_to_other_packs():
+    # The arrival stands by M0 in room B; M1's pack in room A (beyond its 600-unit radius) takes the rest.
+    actors = [actor(0, 2500, 1000, sector=2), actor(1, 500, 1500)]
+    packs = [{"members": ["M0"], "add": 4, "capacity": 12}, {"members": ["M1"], "add": 1, "capacity": 12}]
+    arrivals = [{"name": "Landing", "at": [2500, 1100, 0], "radius": 900, "copies": 1}]
+    anchors = {f"M{a['actor_index']}": a["actor_index"] for a in actors}
+    copies, report = density.grow("testmap", actors, anchors, packs, world(), set(), arrivals=arrivals)
+    near = [c for c in copies if density.arrival_distance(arrivals[0], (c["position"]["x"], c["position"]["y"],
+                                                                        c["position"]["z"])) <= 900]
+    assert len(near) == 1
+    assert report["summary"]["arrivals"] == {"Landing": {"copies": 1, "quota": 1}}
+    a, b = report["packs"]
+    assert density.ARRIVAL_FULL in a["refused"]
+    assert len(copies) == 5 and b["moved_in"] == 3
+
+
+def test_pod_launchers_keep_their_quota_nearby_and_the_rest_grow_other_packs():
+    # Two Lobbers in room A wanting two copies each: the quota of three nearby lets one launcher copy stand, and the
+    # Thrall pack in room B (within the launchers' radius, but a Thrall is no launcher) takes the other three.
+    lobber = 9086
+    actors = [actor(0, 500, 1000, monster_info_id=lobber), actor(1, 1500, 600, monster_info_id=lobber),
+              actor(2, 2500, 1000, sector=2)]
+    packs = [{"members": ["M0"], "add": 2, "capacity": 12}, {"members": ["M1"], "add": 2, "capacity": 12},
+             {"members": ["M2"], "add": 0, "capacity": 12}]
+    copies, report = run(actors, packs)
+    assert sum(1 for c in copies if c["monster_info_id"] == lobber) == density.LAUNCHERS_PER_SPOT - 2
+    assert len(copies) == 4 and report["summary"]["unplaced_adds"] == 0
+    assert report["packs"][2]["moved_in"] == 3
+    assert any(density.LAUNCHERS_FULL in p.get("refused", {}) for p in report["packs"][:2])

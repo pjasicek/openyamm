@@ -2,8 +2,8 @@
 ...) and work/<prop>_meta.json from the raw converter GLBs, with the isle props project's helpers (its scripts/blib.py,
 paths pointed at this project): Lindisfarne Monastery's build (asset frame = the raw import mirrored in X, clean, faces
 wound to agree with the ABC's authored normals, open pieces on a double-sided copy of their material, normals smooth
-within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only from 250 triangles: the native ABC LOD
-when its count is near, else a collapse decimation; one material per MM9 skin; closed pieces wound outwards).
+within 40 degrees, COLOR_0 vertex occlusion, base centre at the origin; LODs only from 1000 triangles: the native ABC
+LOD when its count is near, else a collapse decimation; one material per MM9 skin; closed pieces wound outwards).
 
 Additions here:
   - tilted variants (props_table.TILTS: the hanging claw lamps' pitch pi, the claw torches' roll pi, the toppled chair
@@ -36,7 +36,7 @@ import props_table  # noqa: E402
 blib.HERE, blib.WORK, blib.TEX = HERE, os.path.join(HERE, 'work'), os.path.join(HERE, 'textures')
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 SPECS = {name: {} for name in props_table.built_props()}
 SPECS.update({name: {"tilt": tilt} for name, tilt in props_table.TILTS.items() if name in SPECS})
 # The claws' orbs (radius 5.5 LT about the Glow-Node socket, metres here) and the torch's flame cards: (x offset,

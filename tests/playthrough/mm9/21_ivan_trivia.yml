@@ -1,0 +1,49 @@
+# MM9 playthrough, segment 21: Ivan the Smart (guide: Chapter I, "Beat Ivan the Smart at trivia"). Out of Guberland
+# City by its gate; the Gathering lies north-west of the dock (the guide's "south of the dock" is wrong), and Ivan
+# stands in the middle of the fair. Six questions and the last one, answered as a player who read the lore would; the
+# talk's close gives the Victory Certificate (key 164, item 10400). Research: prep/20_34_thjorgard_guberland.md.
+#   python3 tests/playthrough/mm9/run.py 21
+id: mm9.playthrough.21_ivan_trivia
+title: "MM9 playthrough 21: Ivan the Smart beaten at trivia"
+world: mm9
+mode: faithful
+tags: [mm9, playthrough]
+steps:
+  - load_game: {path: output/playthrough/mm9/checkpoints/20_guberland_markel.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: guberlandcity.blv, qbit_set: [90058], qbit_clear: [90060, 90164]}
+
+  # Out by the city gate (ExitTrigger0, north of the arrival).
+  - set_pose: {map: guberlandcity.blv, x: -655, y: -287, z: -9, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -655, y: -41, z: 1, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: guberland.blv}
+
+  # Ivan at the Gathering.
+  - set_pose: {map: guberland.blv, x: 11563, y: 17880, z: 121, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 2000}
+  - interact_actor: {actor_index: 42}
+  - select_topic: {match_label: "Is that so?  Perhaps you would like to have a contest?"}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "If you wish."}
+  - select_topic: {match_label: "Alright, ask your questions."}
+  - select_topic: {match_label: "Sturmford and Drangheim"}
+  - select_topic: {match_label: "Verhoffin."}
+  - select_topic: {match_label: "Hallenhalt."}
+  - select_topic: {match_label: "Hubris."}
+  - select_topic: {match_label: "Making Magic Items."}
+  - select_topic: {match_label: "He was murdered by his personal guards."}
+  - select_topic: {match_label: "Alright, let's have it."}
+  - select_topic: {match_label: "Ivan the Smart"}
+  - select_topic: {match_label: "As a token of good faith, we'll let you live."}
+  - select_topic: {match_label: "See you around."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90060, 90164]}
+  - play_lua:
+      source: |
+        if not has_item(10400) then error("no Victory Certificate from Ivan") end
+        log("Ivan concedes: the Victory Certificate is in the pack")
+  - save_game: {name: "21 Ivan beaten", path: output/playthrough/mm9/checkpoints/21_ivan_trivia.oysav}

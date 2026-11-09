@@ -234,9 +234,11 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     // A boss's drop (rulesets that flag it, MAW) is always equipment that takes enchantments. A world with loot of
     // its own (loot.yml) rolls only the items it lists.
     const WorldLootTable *pWorldLoot = itemTable.worldLoot(request.worldId);
-    // Random loot rolls from one pool of every mounted world's items; a shop keeps its world's own equipment.
-    const std::string shopPool =
-        request.mode == ItemGenerationMode::Shop ? itemTable.lootPoolForWorld(request.worldId) : std::string();
+    // Random loot rolls from one pool of every mounted world's items; a shop keeps its world's own equipment, and so
+    // does loot in a game that turned other worlds' loot off (RulesetOptions::otherWorldsLoot).
+    const bool ownWorldOnly =
+        request.mode == ItemGenerationMode::Shop || (pParty != nullptr && !pParty->otherWorldsLoot());
+    const std::string shopPool = ownWorldOnly ? itemTable.lootPoolForWorld(request.worldId) : std::string();
     const std::function<bool(const ItemDefinition &)> filter =
         [&request, &callerFilter, pWorldLoot, &shopPool](const ItemDefinition &entry)
         {

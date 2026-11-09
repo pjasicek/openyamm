@@ -1,0 +1,16 @@
+# MM9 spellbook icons by mastery (tools/mm9_import_discovery/mm9_spellbooks.py), installed by import_mm9_items.py
+# as icons_x2/mm9_spellbook_<mastery>.png. Art: level_generation/ui/mm9_spellbooks_20261108/ (git-ignored),
+# written by its register_icons.py.
+icons:
+  normal:
+    source: level_generation/ui/mm9_spellbooks_20261108/normal/icon_x2.png
+    sha256: fb78fe8209ce856508f68ba9331059ce4fed579151f0105bcc27c3c60c7d07f7
+  expert:
+    source: level_generation/ui/mm9_spellbooks_20261108/expert/icon_x2.png
+    sha256: 9c208be8e26820087d677b86344c3c579852fd63ed3f841fea4f859ab9988756
+  master:
+    source: level_generation/ui/mm9_spellbooks_20261108/master/icon_x2.png
+    sha256: 00d1893e23e209de68a9111d72ab4a3ade010674fe9434e4a378a116a04c0c41
+  grandmaster:
+    source: level_generation/ui/mm9_spellbooks_20261108/grandmaster/icon_x2.png
+    sha256: c977106c6484c553c9b09ae25ea316218fcc2001b9e4998681a7ca03921e5d1b

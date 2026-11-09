@@ -1,0 +1,24 @@
+# AI arena: MM9 ranged holders (Range.inc type 2) against a party standing still. Monster 0 is an Evil Apprentice
+# (9156, EvilSorcerer.scr: never runs after anyone); monster 1 a Bandit (9101) whose placement sets ranged_type 2.
+# Both keep their places and check a shot every 0.2-0.4 s; the scenario then walks the party up to them. See README.md.
+name: mm9_holder
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9156
+    position: [-400, 700, 1]
+    yaw_degrees: 270
+  - monster_id: 9101
+    position: [400, 700, 1]
+    yaw_degrees: 270
+    mm9_ai: {ranged_type: 2}
+    # No evade: with MM9's recovery (ready 0.99 s after its clip) an evade would carry it off and its shot checks would
+    # throw before it follows the party's step back.
+    overrides: {evade_chance: 0}

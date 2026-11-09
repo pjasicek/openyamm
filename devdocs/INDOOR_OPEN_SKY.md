@@ -22,8 +22,8 @@ sky: {mode: open, sky_texture: plansky3}     # sky_texture and preset are option
   Without the block, sky faces keep the projected indoor sky (MM6–MM8 behaviour).
 - **Fog.** The sky stays clear unless the scene's fog has `sky` (0..1): then that share of the sky is drawn in the
   fog colour, as MM9 draws its fogged sky box (Frosgard City; [INDOOR_FOG.md](INDOOR_FOG.md) "The sky in fog").
-- **Weather** (opt-in `weather`, below "Weather"). **Not covered yet** (specified in the city playbook): outdoor-only
-  rules asking "open to the sky".
+- **Weather** (opt-in `weather`, below "Weather"). **Spells** follow the outdoor rules only on a map the world
+  declares open (below "Spells"); the scene's sky alone changes no gameplay rule.
 - **Cost.** One full-screen triangle per frame behind the scene, shading only the uncovered pixels (the outdoor sky's
   cost); the sky renderer and its textures are created only for a map that opens to the sky.
 
@@ -212,8 +212,20 @@ terrain:
   from the terrain's heights at the grid corners and the water volumes) tints the terrain's grass layers and the
   grass. The terrain faces take the grass's far colour and the shade under it from its foliage map
   (`terrainFoliageAlbedo` in terrain_material_layers.sh, shared with the outdoor terrain). No stones; no overhead fade
-  (no flying). The rank quadtree LOD and the renderer are the outdoor maps'; lit by the open sky's daylight as one
-  brightness, the scene's fog or sky haze, no effect lights. Built once on first draw.
+  (no flying). The rank quadtree LOD and the renderer are the outdoor maps'; the scene's fog or sky haze, no effect
+  lights. Built once on first draw. A region whose theme has no meadow sets `terrain: {grass: none}` in its
+  overrides.yml: the scene gets no `grass` and terrain_blend.py removes the region's file, so the map grows no
+  plants whatever the setting (the Isle of Ashes, 2026-11-09).
+- **Grass light** (`IndoorRenderer::renderTerrainGrass`, 2026-11-09): one brightness that follows the flat terrain
+  through the day, the outdoor grass's noon light (0.85, the outdoor shader's cap) times the terrain's light now over
+  its light at noon. The terrain's light is the faces' daylight with the normal up and the terrain faces' mean vertex
+  light (`m_terrainLampLight`, `m_terrainOpenAirLight`, from `rebuildAllTexturedBatches`) with its open-air share by
+  the hour. It goes in as the grass shader's ambient with no sun direction. Before, the sun went through the outdoor
+  shader's sun term with the gain multiplying the sun's strength, so the grass sat at the cap until dusk while the
+  ground darkened through the afternoon (user, Sturmford at 18:10: the grass three times the ground, about 1.5 at
+  noon). The fixed-pose sweep at Sturmford now holds 1.42-1.47 from 07:00 to 18:10 (1.69 at 20:00). The grass is one
+  brightness map-wide, so a place whose ground has less of MM9's open-air light than the mean reads brighter grass
+  than its ground at every hour; per-tuft light would need the grass instances to carry it.
 - **Smooth surface** (`IndoorTerrainSurface`): a point's normal averages the terrain triangles within 96 units with a
   falloff (the same on both sides of an edge), leaving creases over about 70 degrees; steepness averages over 192.
 - **Data** (`level_generation/projects/mm9r_common/terrain_blend.py`, run by the project's `convert.py` after the
@@ -265,13 +277,23 @@ the rain and thunder sounds (`WeatherAudio`) and the rain and snow (`WeatherRend
   those three maps that weather all the time; MM9 rains or snows nowhere else, and the rest roll (the user's decision:
   weather on every region, the Afterworld, the Isle of Ashes and the cities, `city: {weather}` in each city's
   overrides.yml).
+- **Fog days** (2026-11-09, the user's choice: often in Sturmford and Drangheim, never in Guberland, seldom
+  elsewhere). weather.yml `maps: {<stem>.blv: {fog: [small, average, dense]}}` gives the daily chances (percent) and
+  `open_sky_fog` each level's linear fade `[near, far]`. `rollDailyFog` rolls a fog day from 3 am (as the outdoor
+  maps' daily fog) on its own random stream, so it never changes the rain; `sampleOpenSkyFog` blends the new day's fog
+  in over the hour after 3 am. `IndoorOpenSkyWeather` samples it with the weather, `updateFrameDaylightAndFog` pulls
+  the outdoor view's fade in to it (never farther than the clear fade) and `applyToSky` hazes the sky
+  (`SkyInputs::foggy`, `fogStrongDistance` = the far distance, as an outdoor fog day). Only outdoor-view skies take
+  the closer fade; Frosgard City keeps MM9's own fog and lists no chances. Chances: Sturmford, Drangheim and their
+  cities 20/15/10, Guberland and its city none, every other open-sky MM9 map 8/4/2.
 - **Not yet:** splashes (no indoor floor query is handed to the renderer), the ladder fog and wet faces (the outdoor
   maps' `u_wetness` is not in the indoor face shaders).
 - Without `weather` nothing is created; MM6-MM8 BLVs never have it. A scene `preset` with weather would fix the sky
   against it: the converter drops the preset when it writes `weather`.
 - Console on such a map: `weather status` (rolled and shown weather, storm, the camera's cover and the sound's
-  share), `weather rain|snow <0-1>`, `clear`, `auto`, `strike [near|middle|far]`. Tests:
-  `tests/WeatherModelTests.cpp` ("always weather", "weather roof map").
+  share, the fog), `weather rain|snow <0-1>`, `clear`, `auto`, `strike [near|middle|far]`,
+  `fog none|small|average|dense|auto`. Tests: `tests/WeatherModelTests.cpp` ("always weather", "fog days",
+  "weather roof map").
 
 ## Footsteps
 
@@ -363,6 +385,27 @@ holds: 9 units of the plane, 16 of the bounds. Code: `IndoorMapData::portalNearR
 portal beside the camera". The debug console's `portals culling off` draws every sector with the whole view, for a
 reference render of what culling hides.
 
+
+## Spells
+
+A world lists its BLVs that lie open to the sky in `world.yml` (`openAirMaps: [isleofashes.blv, ...]`, MM9's regions
+and cities, 2026-11-09); every other BLV, and every MM6-MM8 map, keeps the indoor rules. On a listed map the spells
+follow the outdoor rules: Meteor Shower, Starburst, Death Blossom, Sunray and Armageddon work, Inferno and Prismatic
+Light do not ("Can't cast Inferno outdoors!"), and every monster keeps its Meteor Shower (indoors only an
+`indoor_meteor_shower` one does). Fly stays out: it needs an outdoor map's flight (MM9 casts Fleet Foot in its slot).
+
+- **How they fall.** Meteor Shower's and Starburst's shots come down on their landing points, each from as high up to
+  its own height as the room leaves clear above where it lands (`IndoorWorldRuntime::spawnIndoorFallingShots`, shared
+  with the monsters' Meteor Shower); under a low sky lid they start just under it. Death Blossom bursts into its falling
+  shards where it strikes, as outdoors (`spawnIndoorDeathBlossomFallout`).
+- **Armageddon.** The shared spell (`game/gameplay/ArmageddonSpell.h`, also the outdoor maps'): meteors around the party
+  on the floor under each, a strike on each nearby actor, then every monster on the map and the party take the damage.
+  Indoors the quake is the shared camera shake (`CameraShake`), and there is no red flash (the indoor view has no
+  screen overlay). Its state is saved with the indoor map (save version 170).
+
+Code: `WorldManifest::openAirMaps`, `MapStats::applyOpenAirMaps`, `MapStatsEntry::openAir`,
+`IGameplayWorldRuntime::isOpenAirMap` (outdoor: not enclosed), `PartySpellSystem.cpp` `spellWorldAvailabilityFailure`.
+Tests: "party spell backend gives a map open to the sky the outdoor spell gates".
 
 ## Monster wakes
 

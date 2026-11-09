@@ -19,7 +19,8 @@ actors, scene hook and Lua (build.py), on the compiled BLV:
   kill hooks' tables) or whose DAT name it quotes (a message target), whose group it addresses (lua_group_numbers:
   group bits, group kill checks, wakes), and whose index the map's cinematics name (actor, look_at_actor). A pack of
   only those places nothing and says so. A map's actor directory tables (Hooks.density_lua_directories: every monster by
-  DAT name, 1000 Terrors' ACTOR) are not read as scripting and take the copies; Hooks.grown lets a map Lua that
+  DAT name, 1000 Terrors' ACTOR) are not read as scripting and take the copies, nor are tables that only name every
+  actor (Hooks.density_lua_name_tables, 1000 Terrors' KIND); Hooks.grown lets a map Lua that
   counts its placed actors follow them (Yanmir's Fort's PLACED).
 - A copy stands 120-600 units from the member it copies, on the same floor (within FLOOR_STEP), in the member's
   sector, reached from it without crossing a wall or a pit, clear of walls, other actors, doors and movers (swept
@@ -34,6 +35,22 @@ actors, scene hook and Lua (build.py), on the compiled BLV:
 - Copies go after every existing actor (Lua refers to actors by index); their anchors are `<member>_grow<k>`.
   The packs' room check (a third of the free space where the pack stands) is the targets' `capacity`, which caps
   `add` already.
+
+- Forced arrivals (overrides.yml `map: {density_arrivals: [{name, at: [x, y, z], radius, copies}]}`): where a
+  teleporter or trap puts the party (Dark Passageway's one-way teleporters, Wizard's Lab's stations) at most `copies`
+  copies stand within `radius` (height counted double, as the packs' link), so a weak party is not dropped into a
+  grown pack with no way back (user, 2026-11-09). A spot past an arrival's quota is refused like any other, and the
+  pack's remaining copies move to the map's other packs.
+
+- Pod launchers (Lobbers and Ice Lobbers, modifiers.yml `pod_launch`): a copy of one is refused where
+  LAUNCHERS_PER_SPOT launchers, placed or copied, already stand within LAUNCHER_RADIUS (height counted double), since
+  each throws a pod every 5-10 s. Beethoven's Lua-named Lobbers had moved eight copies onto three Lobbers, two of them
+  in one room: nine launchers sent a swarm of pods at every visit (user, 2026-11-09). A refused launcher copy moves on
+  like any other and, once every launcher pack is at its quota, becomes a copy of the receiving pack's own mix.
+
+- A map's scale (overrides.yml `map: {density_scale: 0.8}`) shrinks every pack's `add` by that factor, the total
+  rounded and handed out by largest remainder in pack order (scale_adds: at 0.8 a 3 becomes 2, part of the 2s become
+  1 and the 1s stay), where a map's grown packs are too many to progress (Isle of Ashes, user 2026-11-09).
 
 overrides.yml `map: {density: false}` turns growth off for a map; `convert.py --no-density` for one run.
 """
@@ -65,6 +82,9 @@ FLUID, LAVA, UNTOUCHABLE = 0x10, 0x40000000, 0x20000000
 TRIGGER_ATTRIBUTES = 0x04000000 | 0x00080000 | 0x08000000    # pressure plate, touch, monster trigger
 FLOOR_TYPES = {3, 4}
 GRID = 512.0
+POD_LAUNCHERS = frozenset({9086, 9106})     # Lobber, Ice Lobber (modifiers.yml mm9_ai pod_launch)
+LAUNCHERS_PER_SPOT = 3
+LAUNCHER_RADIUS = 3072.0                    # the Lobbers' alert radius
 
 
 # --- The map's Lua: which actor indices it names -------------------------------------------------------------------
@@ -567,27 +587,67 @@ def map_packs(stem: str, anchors_path: Path = ANCHORS) -> list[dict]:
     return [pack for pack in entry.get("packs", []) if int(pack.get("add", 0)) > 0]
 
 
+def scale_adds(packs: list[dict], scale: float) -> list[dict]:
+    """The packs with each `add` scaled (module docstring): the scaled total rounded, its floors first, then one more
+    to each pack by largest remainder (pack order breaks ties); packs left with nothing are dropped."""
+    if scale == 1.0:
+        return packs
+    if not 0.0 <= scale <= 1.0:
+        raise SystemExit(f"pack growth: density_scale {scale} must be between 0 and 1")
+    exact = [int(pack["add"]) * scale for pack in packs]
+    adds = [math.floor(value) for value in exact]
+    rest = round(sum(exact)) - sum(adds)
+    for i in sorted(range(len(packs)), key=lambda i: (adds[i] - exact[i], i))[:rest]:
+        adds[i] += 1
+    return [dict(pack, add=add) for pack, add in zip(packs, adds) if add > 0]
+
+
 SCRIPTED_ONLY, NO_SPOT = "the pack's members are all scripted", "no free spot by the pack"
+ARRIVAL_FULL = "a forced arrival's quota of copies"
+LAUNCHERS_FULL = "the pod launchers' quota nearby"
+
+
+def arrival_distance(arrival: dict, spot: tuple) -> float:
+    """Distance from a forced arrival with height counted double (mm9_density_targets.packs_of's link)."""
+    x, y, z = arrival["at"]
+    return math.sqrt((spot[0] - x) ** 2 + (spot[1] - y) ** 2 + (2 * (spot[2] - z)) ** 2)
 
 
 def grow(stem: str, actors: list[dict], anchors: dict[str, int], packs: list[dict], world: World,
          lua_indices: set[int], counted_today: int | None = None,
-         references: References | None = None) -> tuple[list[dict], dict]:
+         references: References | None = None, arrivals=()) -> tuple[list[dict], dict]:
     """The copies for a map's packs (the caller appends them after `actors`) and the report. anchors: member anchor
     -> actor index of `actors`; counted_today: the map's counted monsters before growth (the targets' own count).
 
     First each pack places its own `add`. The copies a pack could not place (scripted members only, or no free spot)
     then go one at a time to the map's other growable packs (ordinary members, no spot refused yet), the one with the
     most room left first (capacity, the targets' room check, less its size after growth); what finds no room stays
-    unplaced and is reported with its reason."""
+    unplaced and is reported with its reason. arrivals: the map's forced arrivals (module docstring); a spot within
+    one whose quota is spent is refused."""
     by_index = {a["actor_index"]: a for a in actors}
     placed_actors = list(actors)
     copies, states = [], []
     next_index = max((a["actor_index"] for a in actors), default=-1) + 1
     copies_of: dict[str, int] = {}
+    near_arrival: Counter = Counter()
+
+    def arrivals_at(spot: tuple) -> list[str]:
+        return [a["name"] for a in arrivals if arrival_distance(a, spot) <= float(a["radius"])]
+
+    def arrival_full(spot: tuple) -> bool:
+        return any(near_arrival[a["name"]] >= int(a["copies"])
+                   for a in arrivals if arrival_distance(a, spot) <= float(a["radius"]))
 
     def row_of(anchor: str) -> int:
         return int(by_index[anchors[anchor]].get("monster_info_id", 0))
+
+    def launchers_full(member: dict, spot: tuple) -> bool:
+        if int(member.get("monster_info_id", 0)) not in POD_LAUNCHERS:
+            return False
+        near = sum(1 for other in placed_actors if int(other.get("monster_info_id", 0)) in POD_LAUNCHERS
+                   and arrival_distance({"at": tuple(other["position"][axis] for axis in "xyz")}, spot)
+                   <= LAUNCHER_RADIUS)
+        return near >= LAUNCHERS_PER_SPOT
 
     def next_row(rows: list[int], made: Counter) -> int:
         """The row furthest below its share of `rows` after one more copy (largest remainder; a tie goes to the larger
@@ -615,6 +675,10 @@ def grow(stem: str, actors: list[dict], anchors: dict[str, int], packs: list[dic
             member = by_index[anchors[anchor]]
             for x, y in candidates(member, member, f"{stem}|{anchor}|{n}"):
                 spot, reason = world.check(member, member, x, y, placed_actors)
+                if spot is not None and arrival_full(spot):
+                    spot, reason = None, ARRIVAL_FULL
+                if spot is not None and launchers_full(member, spot):
+                    spot, reason = None, LAUNCHERS_FULL
                 if spot is not None:
                     placed = (anchor, member, spot)
                     break
@@ -626,6 +690,7 @@ def grow(stem: str, actors: list[dict], anchors: dict[str, int], packs: list[dic
             state["full"] = True
             return False
         anchor, member, spot = placed
+        near_arrival.update(arrivals_at(spot))
         copies_of[anchor] = copies_of.get(anchor, 0) + 1
         state["made"][row_of(anchor)] += 1
         record = copy_record(member, next_index, spot)
@@ -710,6 +775,9 @@ def grow(stem: str, actors: list[dict], anchors: dict[str, int], packs: list[dic
                "packs_scripted_only": sum(1 for p in report_packs if p.get("note")),
                "wanted_adds": wanted_adds, "placed_adds": placed_adds, "moved_adds": moved,
                "unplaced_adds": wanted_adds - placed_adds, "unplaced_reasons": dict(unplaced)}
+    if arrivals:
+        summary["arrivals"] = {a["name"]: {"copies": near_arrival[a["name"]], "quota": int(a["copies"])}
+                               for a in arrivals}
     if counted_today is not None:
         summary.update(counted_today=counted_today, target_total=counted_today + wanted_adds,
                        placed_total=counted_today + placed_adds)
@@ -738,6 +806,13 @@ def liquid_textures() -> set[str]:
     return liquids.mm9_liquid_textures() | set(liquids.SURFACES)
 
 
+def lua_name_tables(hooks) -> tuple:
+    """The map Lua's tables that list placed actors by name without scripting them, which the Lua scan skips: the
+    directories that take the copies (Hooks.density_lua_directories) and the tables that only name them
+    (Hooks.density_lua_name_tables)."""
+    return tuple(getattr(hooks, "density_lua_directories", ())) + tuple(getattr(hooks, "density_lua_name_tables", ()))
+
+
 def add_to_directories(script: str, directories, placed: list[dict]) -> str:
     """The map Lua with the placed copies (density.json `copies` entries) added to its actor directory tables
     (Hooks.density_lua_directories), each defined on one line as `local NAME = {...}`."""
@@ -760,7 +835,8 @@ def apply(build, scene: dict, script: str) -> str:
     from .source import ROOT
     project, hooks = build.project, build.hooks
     enabled = project.overrides["map"].get("density", True) and build.grow_packs
-    packs = map_packs(project.stem) if enabled else []
+    packs = scale_adds(map_packs(project.stem), float(project.overrides["map"].get("density_scale", 1.0))) \
+        if enabled else []
     work = project.work / "density.json"
     if not packs:
         _, result = grow(project.stem, scene["initial_state"]["actors"], {}, [], None, set(),
@@ -776,9 +852,11 @@ def apply(build, scene: dict, script: str) -> str:
     report_actors = build.content.report["actors"]
     anchors = {entry["anchor"]: entry["actor_index"] for entry in report_actors}
     directories = tuple(getattr(hooks, "density_lua_directories", ()))
-    references = References.of(build.source, script, directories, installed_cinematics(project.stem))
+    named = lua_name_tables(hooks)
+    references = References.of(build.source, script, named, installed_cinematics(project.stem))
     copies, result = grow(project.stem, actors, anchors, packs, World(blv, scene, liquid_textures()),
-                          lua_actor_indices(script, directories), counted_today(project.stem), references)
+                          lua_actor_indices(script, named), counted_today(project.stem), references,
+                          project.overrides["map"].get("density_arrivals") or ())
     by_index = {entry["actor_index"]: entry for entry in report_actors}
     placed = [c for pack in result["packs"] for c in pack["copies"]]
     for entry in placed:

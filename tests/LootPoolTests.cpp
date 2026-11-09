@@ -2,6 +2,7 @@
 #include "game/content/ContentTableComposer.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/items/ItemGenerator.h"
+#include "game/party/Party.h"
 #include "game/tables/ItemTable.h"
 
 #include <doctest/doctest.h>
@@ -145,6 +146,43 @@ TEST_CASE("random loot rolls from every world's items and shops keep their world
     CHECK(rolled(ItemGenerationMode::MonsterLoot, "mm7") == std::set<uint32_t>{1, 3});
     CHECK(rolled(ItemGenerationMode::Shop, "mm9") == std::set<uint32_t>{3});
     CHECK(rolled(ItemGenerationMode::Shop, "mm7") == std::set<uint32_t>{1});
+}
+
+TEST_CASE("a game without other worlds' loot rolls equipment from its world's own pool, as a shop does")
+{
+    const ItemTable table = loadTable({weightRow("1", 10), weightRow("2", 10), weightRow("3", 10)});
+    const StandardItemEnchantTable standardEnchants;
+    const SpecialItemEnchantTable specialEnchants;
+    std::mt19937 rng(5);
+    Party party;
+    party.setItemTable(&table);
+
+    const auto rolled = [&](const std::string &world)
+    {
+        std::set<uint32_t> ids;
+        for (int roll = 0; roll < 300; ++roll)
+        {
+            const std::optional<InventoryItem> item = ItemGenerator::generateRandomInventoryItem(
+                table, standardEnchants, specialEnchants,
+                ItemGenerationRequest{
+                    .treasureLevel = 3, .mode = ItemGenerationMode::MonsterLoot, .allowRareItems = false,
+                    .worldId = world},
+                &party, rng);
+            if (item)
+            {
+                ids.insert(item->objectDescriptionId);
+            }
+        }
+        return ids;
+    };
+
+    // On by default: every world's sword. Off: the world's own sword; the potion is not equipment, from anywhere.
+    CHECK(party.otherWorldsLoot());
+    CHECK(rolled("mm9") == std::set<uint32_t>{1, 2, 3});
+    party.setOtherWorldsLoot(false);
+    CHECK(rolled("mm9") == std::set<uint32_t>{2, 3});
+    CHECK(rolled("mm7") == std::set<uint32_t>{1, 2});
+    CHECK(table.hasWorldLootPools());
 }
 
 TEST_CASE("an artifact or relic rolls only in its own world")

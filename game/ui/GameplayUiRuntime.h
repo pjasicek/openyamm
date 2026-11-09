@@ -84,7 +84,6 @@ struct GameplayHudLoopingAnimationState
 {
     bool initialized = false;
     bool advancing = false;
-    std::string animationName;
     uint32_t accumulatedSourceTicks = 0;
     uint32_t lastSourceTicks = 0;
 };
@@ -200,10 +199,16 @@ public:
     void clearRenderedInspectableHudItems();
     GameplayHudScreenState renderedInspectableHudScreenState() const;
     void setRenderedInspectableHudScreenState(GameplayHudScreenState state);
-    bool ensureTownPortalDestinationsLoaded(const std::string &currentMapFileName);
-    bool ensureDimensionDoorDestinationsLoaded(uint32_t dayIndex, bool crossContinentsUnlocked);
+    // Loads every continent's Town Portal map and shows `continentGroupName`'s (empty: the current map's continent).
+    bool ensureTownPortalDestinationsLoaded(
+        const std::string &currentMapFileName,
+        const std::string &continentGroupName);
+    bool ensureDimensionDoorDestinationsLoaded();
     const std::string &townPortalBackgroundTextureName() const;
     const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
+    const std::vector<GameplayTownPortalContinent> &townPortalContinents() const;
+    size_t townPortalContinentIndex() const;
+    size_t townPortalHomeContinentIndex() const;
 
     bool loadHudTexture(const std::string &textureName);
     bool loadItemIconTexture(const std::string &textureName);
@@ -248,7 +253,9 @@ public:
     std::optional<std::string> iconAnimationFrameTextureName(
         const std::string &animationName,
         std::optional<uint32_t> elapsedTicks = std::nullopt) const;
-    std::optional<std::string> flyBuffIconAnimationFrameTextureName(bool active, uint32_t tickDivisor);
+    // A movement indicator's frame (Fly, Levitate, Water Walk): the animation plays while the movement is in use and
+    // holds its frame otherwise, slowed to 50/128 of the data's pace as the original HUD does.
+    std::optional<std::string> movementIconAnimationFrameTextureName(const std::string &animationName, bool active);
     std::optional<GameplayHudTextureHandle> ensureSolidHudTextureLoaded(
         const std::string &textureName,
         uint32_t abgrColor);
@@ -474,8 +481,9 @@ private:
     std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     GameplayHudScreenState m_renderedInspectableHudScreenState = GameplayHudScreenState::Gameplay;
     std::string m_townPortalDestinationsMapFileName;
-    std::string m_townPortalBackgroundTextureName;
-    std::vector<GameplayTownPortalDestination> m_townPortalDestinations;
+    std::vector<GameplayTownPortalContinent> m_townPortalContinents;
+    size_t m_townPortalContinentIndex = 0;
+    size_t m_townPortalHomeContinentIndex = 0;
     bool m_townPortalDestinationsLoaded = false;
     GameplayHudRenderBackend m_hudRenderBackend;
     mutable HudArcMeshCache m_hudArcMeshCache;
@@ -488,7 +496,7 @@ private:
         BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
     std::vector<GameplayPortraitFxState> m_portraitFxStates;
     GameplayPortraitPresentationState m_portraitPresentationState;
-    GameplayHudLoopingAnimationState m_flyBuffIconAnimationState;
+    std::unordered_map<std::string, GameplayHudLoopingAnimationState> m_movementIconAnimationStates;
     HouseVideoPlayer m_houseVideoPlayer;
 };
 }

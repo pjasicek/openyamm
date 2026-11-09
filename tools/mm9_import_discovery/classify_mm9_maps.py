@@ -19,7 +19,7 @@ from transcode_mm9_dat_to_odm import LT_SURFACE_FLAG_INVISIBLE, DatWorld, WorldB
 
 
 DEFAULT_DAT_DIR = Path("mm9/extracted/WORLDS/WORLDS")
-DEFAULT_MAP_DIR = Path("assets_dev/worlds/mm9/maps")
+DEFAULT_MAP_DIR = Path("assets_editor_dev/worlds/mm9/maps")
 DEFAULT_REPORT_PATH = Path("docs/mm9/MM9_MAP_RUNTIME_CLASSIFICATION.md")
 
 HELPER_MODEL_NAMES = {"physicsbsp", "visbsp"}

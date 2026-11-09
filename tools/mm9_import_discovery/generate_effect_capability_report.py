@@ -10,7 +10,7 @@ import sys
 
 import yaml
 
-from compile_effect_library import effect_id, normalized_reference, properties
+from compile_effect_library import ORIGIN_ANCHOR_RECIPES, effect_id, normalized_reference, properties
 from convert_abc_model import read_abc, rigid_piece_node_indices
 
 
@@ -112,7 +112,8 @@ def generate_report(fxf_path: Path, manifest_path: Path, library_path: Path) -> 
                         "anchor": BODY_ANCHORS.get(mode, f"user_node_{mode}"),
                     }
                 )
-        if body_anchors:
+        anchor_fallback = bool(body_anchors) and group["name"] in ORIGIN_ANCHOR_RECIPES
+        if body_anchors and not anchor_fallback:
             blockers.append("needs_body_anchors")
 
         model_blockers, models = visible_model_blockers(group, bindings)
@@ -153,6 +154,7 @@ def generate_report(fxf_path: Path, manifest_path: Path, library_path: Path) -> 
                 "missingResources": missing_resources,
                 "unpackagedResources": unpackaged_resources,
                 "bodyAnchors": body_anchors,
+                **({"anchorFallback": "origin"} if anchor_fallback else {}),
                 "models": models,
                 "looping": "unsupported_until_native_continuous_key_semantics_are_implemented",
             }

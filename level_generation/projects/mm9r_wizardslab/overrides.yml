@@ -18,6 +18,14 @@ map:
   offset: [0, 0, 0]                   # the old map's frame (native x -22 077..5 578, y -717..17 323): fits int16
   ambient: 20
   model_lighting: false
+  # Forced arrivals (pack growth, ../mm9r_common/dungeon/density.py): the teleporter stations' landings keep MM9's
+  # monsters plus at most `copies` grown ones within `radius` (height counted double); the rest go to other packs
+  # (user, 2026-11-09).
+  density_arrivals:
+  - {name: TeleporterAtGreen, at: [-17654, 12431, -563], radius: 2000, copies: 3}
+  - {name: TeleporterAtWhite, at: [-41, 7168, 246], radius: 2000, copies: 2}
+  - {name: TeleporterAtRed, at: [-2949, 3236, 246], radius: 2000, copies: 2}
+  - {name: TeleporterAtYellow, at: [492, 10629, 246], radius: 2000, copies: 2}
   bright_scale_lights: true           # BLV light colour x BrightScale, as the cities (CITY_PLAYBOOK "Street lights")
   # No `fog`: WorldProperties EnableFog 0 and no Fog object (Source.fog writes nothing).
   swim: true                          # DirtyWater0 (the sea monsters' pool), DirtyWater1-3, the power waters

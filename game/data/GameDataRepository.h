@@ -115,6 +115,8 @@ public:
     const MergedPotionSettingTable &mergedPotionSettingTable() const;
     // The address of the active ruleset's player's guide (`guide_url`), empty for none.
     const std::string &rulesetGuideUrl() const;
+    // Whether the active ruleset plays in a world (its `worlds`; every world when it names none).
+    bool rulesetSupportsWorld(const std::string &worldId) const;
     // Null unless the MAW ruleset is active.
     const MawMapLevels *mawMapLevels() const;
     const MawItemData *mawItemData() const;
@@ -189,6 +191,7 @@ private:
     const MawDimensionData *m_pMawDimensionData = nullptr;
     const MawTextData *m_pMawTextData = nullptr;
     std::string m_rulesetGuideUrl;
+    std::vector<std::string> m_rulesetWorlds;
     const MergedReagentSettingTable *m_pMergedReagentSettingTable = nullptr;
     const MergedComplexItemPictureTable *m_pMergedComplexItemPictureTable = nullptr;
     const MergedTeacherTopicTable *m_pMergedTeacherTopicTable = nullptr;

@@ -134,6 +134,9 @@ struct MapDeltaSpriteObject
     int initialX = 0;
     int initialY = 0;
     int initialZ = 0;
+    // The object's identity while it exists (indoors: what an item's ground yaw and model are keyed by), unlike its index,
+    // which shifts when an object before it is taken. 0 until assigned (appendSpriteObject, assignSpriteObjectKeys).
+    uint32_t objectKey = 0;
     float lifetimeTickAccumulator = 0.0f;
     std::vector<uint8_t> rawContainingItem;
     // The item as the game made it (a drop, a monster's loot), with what the record's 0x24 bytes have no room for:
@@ -144,6 +147,11 @@ struct MapDeltaSpriteObject
     bool semanticPlacedPickup = false;
     bool semanticLootContainer = false;
     bool semanticPolicyHidden = false;
+    // Runtime only (not saved): a placed world item shown but not yet takeable (MapWorldItemSource::pickupQBits),
+    // set by the visibility sync; it draws no sparkle.
+    bool semanticPickupLocked = false;
+    // Runtime only: a placed world item's authored pose (yaw, pitch, roll radians; MapWorldItemSource::poseDegrees).
+    std::optional<std::array<float, 3>> semanticPose;
 };
 
 struct MapDeltaChest
@@ -200,6 +208,15 @@ struct MapDeltaMm9BarrelState
     bool used = false;
 };
 
+// One of a ruleset's extra pack members (MAW's density in MM9: a ruleset scene overlay's `pack_reserve`): a copy of a
+// pack's member, placed beside it by tools/maw/mm9_pack_reserve.py with the converter's placement rules. It joins the
+// map when the rules' density factor reaches `fromFactor` (MonsterRules::packDensityFactor).
+struct MapDeltaPackReserveActor
+{
+    MapDeltaActor actor;
+    float fromFactor = 0.0f;
+};
+
 struct MapDeltaData
 {
     MapDeltaLocationInfo locationInfo = {};
@@ -210,6 +227,10 @@ struct MapDeltaData
     std::vector<uint32_t> faceAttributes;
     std::vector<uint16_t> decorationFlags;
     std::vector<MapDeltaActor> actors;
+    // The map's pack reserve, by rising fromFactor, from its assets only (never saved): the first fill and each refill
+    // append those the rules' density factor reaches right after the scene's actors (before encounter spawns), so the
+    // k-th appended actor is always reserve entry k.
+    std::vector<MapDeltaPackReserveActor> packReserve;
     std::vector<MapDeltaSpriteObject> spriteObjects;
     std::vector<MapDeltaChest> chests;
     uint32_t doorSlotCount = 0;
@@ -218,9 +239,18 @@ struct MapDeltaData
     MapDeltaPersistentVariables eventVariables = {};
     MapDeltaLocationTime locationTime = {};
     std::vector<MapDeltaMm9BarrelState> mm9Barrels;
+    // The source ids of the scene's placed world items the party took (MapWorldItemSource): never placed again,
+    // through refills too.
+    std::vector<std::string> takenWorldItems;
 };
 
 void normalizeIndoorDoorTextureDeltas(MapDeltaData &mapDeltaData, const IndoorMapData &indoorMapData);
+
+// Appends an object under a key no present object has (MapDeltaSpriteObject::objectKey).
+void appendSpriteObject(MapDeltaData &mapDeltaData, MapDeltaSpriteObject spriteObject);
+
+// Gives each object without a key one, in order (a map's authored objects, a save from before keys).
+void assignSpriteObjectKeys(MapDeltaData &mapDeltaData);
 
 // A map refill places its scene actors anew (refilled, fresh from the scene); a scene actor with respawnsOnRefill false
 // takes back its record from the saved map (the same index, name and monster) instead. Returns how many it kept.

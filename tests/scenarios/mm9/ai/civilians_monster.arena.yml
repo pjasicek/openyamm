@@ -1,0 +1,40 @@
+# AI arena: an MM9 townsperson attacked by a monster (NPCBase.inc, PoliceMan.inc; MM9_MONSTER_AI_PLAN.md phase 4b).
+# Until a timed event at 4 s the Horde Grunt (monster 1) and Bjarni Thorvaldssen (monster 0, an NPCBase townsperson
+# with 1 200 hit points) are friends (MM9's default); the event sets the grunt on him (evt.SetMonsterRelation, as
+# MM9's HateNPC.scr AddEnemy NPC). He runs to the northern Town Guard (monster 2; the guard by the grunt, monster 3,
+# stands within 500 LT of his attacker, so it is no refuge), calling for help; the help call makes that guard take the
+# grunt (its enemy: AddEnemy AIBase). The guards see only 600 units ahead (north) and hear 20 LT; the grunt sees
+# 1 000 units ahead (north). See README.md.
+name: mm9_civilians_monster
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9246
+    position: [-200, -400, 1]
+    yaw_degrees: 0
+    hostile: false
+    mm9_ai: {runaway_chance: 0}
+  - monster_id: 9129
+    position: [-200, -1100, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {sight: 1000, hearing: 50, runaway_chance: 0}
+  - monster_id: 9107
+    position: [400, 900, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {sight: 600, hearing: 50}
+  - monster_id: 9107
+    position: [500, -1300, 1]
+    yaw_degrees: 0
+    hostile: false
+    mm9_ai: {sight: 600, hearing: 50}
+events:
+  - {at: 4, relation: [9129, 9246, 2], note: the grunt hates Bjarni (HateNPC.scr AddEnemy NPC)}

@@ -97,6 +97,40 @@ LootFilterVerdict evaluateLootFilter(const RulesetLootFilter &filter, const Loot
     return filter.leaveOnGround ? LootFilterVerdict::Ground : LootFilterVerdict::Gold;
 }
 
+bool isSellTrash(const LootFilterFacts &facts, int partyLevel)
+{
+    if (facts.alwaysKept)
+    {
+        return false;
+    }
+
+    if (facts.kind)
+    {
+        return *facts.kind == RulesetLootKind::Gems;
+    }
+
+    if (!facts.group || facts.rarity <= 0)
+    {
+        return false;
+    }
+
+    // Rarities up to alwaysUpTo always go, the next one 10+ levels below the party and the one after 20+ below.
+    const int alwaysUpTo = *facts.group == LootFilterGroup::Jewellery ? 1 : 2;
+    const int levelsBelow = facts.itemLevel > 0 ? partyLevel - facts.itemLevel : 0;
+
+    if (facts.rarity <= alwaysUpTo)
+    {
+        return true;
+    }
+
+    if (facts.rarity == alwaysUpTo + 1)
+    {
+        return levelsBelow >= 10;
+    }
+
+    return facts.rarity == alwaysUpTo + 2 && levelsBelow >= 20;
+}
+
 void RecentLootDrops::add(const RecentLootDrop &drop)
 {
     m_drops.push_back(drop);

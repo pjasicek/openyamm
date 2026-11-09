@@ -17,7 +17,14 @@ balance plan ([BALANCE_PLAN.md](mm9_rework/BALANCE_PLAN.md) section 3.5).
   unique "Special" items (Mace of the Sun, Clanker's Amulet and the like) are not artifacts and stay in the pool.
 - **Spellbooks** are world-flagged the same way: every world has its own book of each spell (MM6, MM7 and MM8 in the
   merged table, MM9's from `tools/mm9_import_discovery/mm9_spellbooks.py`), so a book drops only in its world.
-- Tests: `tests/LootPoolTests.cpp`; MM9's mix in `tests/Mm9RudeDialogueTests.cpp`.
+- **Per game: "Loot from other worlds"** (user, 2026-11-09; `RulesetOptions::otherWorldsLoot`, on by default, saved
+  from save version 172, older saves on). The new-game Rules panel offers it for every ruleset, Standard included,
+  when a mounted world has items of its own (`ItemTable::hasWorldLootPools`, so not in builds without MM9); it is fixed
+  for the adventure. Off, random loot keeps to the map's world pool as shops do (`shopPoolAllows`): MM6–MM8 maps roll
+  only the merged base's equipment (MM9's books are world-flagged anyway), so a MAW or Standard game that never goes
+  to Chedian plays as it did before MM9; MM9 maps roll MM9 equipment and the base's consumables. The party carries it
+  (`Party::otherWorldsLoot`, set from the session's ruleset); scenarios set `other_worlds_loot` in a ruleset step.
+- Tests: `tests/LootPoolTests.cpp`; MM9's mix in `tests/Mm9RudeDialogueTests.cpp`; the save in `tests/RulesetTests.cpp`.
 
 ## World random-treasure weights
 

@@ -4,6 +4,7 @@
 #include "game/gameplay/NpcFollowerTypes.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/outdoor/OutdoorMovementDriver.h"
+#include "game/party/BattleOrders.h"
 #include "game/party/CharacterRulesetState.h"
 #include "game/party/CharacterState.h"
 #include "game/party/InventoryItem.h"
@@ -139,7 +140,10 @@ struct Character
     std::array<std::string, ExtraQuickSpellSlotCount> extraQuickSpellNames;
     // The potion radial's six slots (QuickItemSlots): a kind of potion or scroll each.
     std::array<QuickItemSlot, QuickItemSlotCount> quickItemSlots = {};
-    std::string attackSpellName;
+    // Battle orders (game/party/BattleOrders.h): what Attack does, tried in order, then the fallback. Saved; they
+    // replace the single attack spell of older saves.
+    std::vector<BattleOrder> battleOrders;
+    BattleOrderFallback battleOrderFallback = BattleOrderFallback::Weapon;
     // The spellbook page the character last had open (a SpellbookSchool), or -1 before the first; it opens there.
     int32_t spellbookSchool = -1;
     std::unordered_set<uint32_t> knownSpellIds;
@@ -321,6 +325,9 @@ enum class PartyBuffId : uint8_t
     Immolation,
     Glamour,
     Levitate,
+    // MM9's Fleet Foot, cast from Fly's slot in a world whose world.yml says fleetFoot (game/party/WorldSpells.h):
+    // the party runs faster. Its power is the speed in percent (125 is a quarter faster).
+    FleetFoot,
     Count,
 };
 
@@ -428,6 +435,10 @@ struct Mm9PartyHireling
     float serviceReadyGameMinutes = 0.0f;
     // Its cell in the formation grid (Party::formationCell); -1 unset.
     int32_t formationCell = -1;
+    // What the rules make of its row (MAW: the party's level, MawClassRules::scaleHirelings), multiplying its attacks'
+    // damage and its spells' skill; 1 under Standard. Not saved: the rules set them again.
+    float rulesDamageScale = 1.0f;
+    float rulesSkillScale = 1.0f;
 };
 
 // The MM9 formation grid (MM9_HIRELINGS.md section 10): cells 0-8 row by row, 0-2 the front rank, 3-5 the middle,
@@ -582,6 +593,11 @@ public:
     // 1: none; not saved.
     void setRulesMovementMultiplier(float multiplier);
     float rulesMovementMultiplier() const;
+    // A spell's speed-up of the party's movement, set each frame (MM9's Fleet Foot: fleetFootSpeedMultiplier).
+    // 1: none; not saved.
+    void setSpellMovementMultiplier(float multiplier);
+    // What the party's walking and running speed is multiplied by: the ruleset's slow and the spell's speed-up.
+    float movementMultiplier() const;
     const GameRules &rules() const;
     // The session's playthrough statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md). A copy of the party does not
     // carry it, so trial copies never record; assigning another party's state keeps this party's binding.
@@ -716,6 +732,14 @@ public:
     // among the members as before and the cells are unused.
     void setFormationTargetingActive(bool active);
     bool formationTargetingActive() const;
+    // Whether the world casts MM9's Fleet Foot from Fly's slot (world.yml fleetFoot; game/party/WorldSpells.h).
+    // Entering another world ends a Fleet Foot the party still has, so it never runs outside MM9; entering MM9 turns a
+    // Fly into Fleet Foot for its remaining time.
+    void setFleetFootWorld(bool active);
+    bool fleetFootWorld() const;
+    // The game's RulesetOptions::otherWorldsLoot: whether random loot rolls equipment from other worlds' items.
+    void setOtherWorldsLoot(bool active);
+    bool otherWorldsLoot() const;
     int32_t formationCell(size_t combatantIndex) const;
     // Moves a combatant to an empty cell; false for an occupied or invalid cell.
     bool setFormationCell(size_t combatantIndex, int32_t cell);
@@ -1016,10 +1040,10 @@ public:
     const std::vector<PendingAudioRequest> &pendingAudioRequests() const;
     void clearPendingAudioRequests();
     void rebuildMagicalBonusesFromBuffs();
-
-private:
+    // The most members a party holds.
     static constexpr size_t MaxMembers = 5;
 
+private:
     uint8_t resolveInventoryWidth(uint32_t objectDescriptionId) const;
     uint8_t resolveInventoryHeight(uint32_t objectDescriptionId) const;
     void applyDefaultStartingSkills(Character &member) const;
@@ -1124,6 +1148,7 @@ private:
     uint32_t m_arcomageLossCount = 0;
     bool m_debugDamageImmune = false;
     float m_rulesMovementMultiplier = 1.0f;
+    float m_spellMovementMultiplier = 1.0f;
     bool m_debugUnlimitedMana = false;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::unordered_map<uint16_t, int32_t> m_eventVariables;
@@ -1146,6 +1171,9 @@ private:
     std::string m_lastOutdoorMapFileName;
     // World configuration like m_npcFollowersActive: not saved, not reset.
     bool m_formationTargetingActive = false;
+    bool m_fleetFootWorld = false;
+    // The game's choice like m_pRules: not saved here (the save's ruleset carries it), not reset.
+    bool m_otherWorldsLoot = true;
     PartyBuffState m_cartographerWizardEye = {};
     uint32_t m_heldItemIdForQueries = 0;
     std::vector<uint32_t> m_humQBits;

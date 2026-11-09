@@ -69,6 +69,32 @@ WorldItemPickBoxCorners worldItemPickBoxCorners(
     float yawRadians,
     const std::array<float, 3> &origin);
 
+// An authored pose for a placed item (a scene's world item `pose`: a shield leaning on a wall): turned by yaw about the
+// world's up axis, then pitch about its own x (across) axis, then roll about its own y (along) axis, radians. A posed
+// item rests with the lowest point of its turned box at its position; it is never fitted to the ground.
+struct WorldItemPose
+{
+    float yaw = 0.0f;
+    float pitch = 0.0f;
+    float roll = 0.0f;
+};
+// The pose's rotation as a quaternion (x, y, z, w).
+std::array<float, 4> worldItemPoseRotation(const WorldItemPose &pose);
+// A point of the item's own frame turned by the pose (an offset from the posed origin).
+std::array<float, 3> turnByWorldItemPose(const WorldItemPose &pose, const std::array<float, 3> &local);
+// Where the posed model's origin goes for an item at position: raised so the turned box's lowest point is there.
+std::array<float, 3> worldItemPosedOrigin(
+    const ItemModelBinding &binding,
+    const WorldItemPose &pose,
+    const std::array<float, 3> &position);
+// intersectWorldItemPickBox for a posed item at position: the pick box turned by the whole pose.
+std::optional<float> intersectPosedWorldItemPickBox(
+    const ItemModelBinding &binding,
+    const WorldItemPose &pose,
+    const std::array<float, 3> &position,
+    const std::array<float, 3> &rayOrigin,
+    const std::array<float, 3> &rayDirection);
+
 // An item's velocity after it strikes a wall or ceiling with the given unit normal (facing the item): the normal part
 // reflected, at least an eighth of its speed, as the native object bounce does; damping is the caller's.
 std::array<float, 3> reflectWorldItemVelocity(const std::array<float, 3> &velocity, const std::array<float, 3> &normal);

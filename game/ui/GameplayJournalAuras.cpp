@@ -1,4 +1,5 @@
 #include "game/ui/GameplayJournalAuras.h"
+#include "game/ui/GameplayObsidianPainter.h"
 
 #include "engine/Localization.h"
 #include "engine/Utf8Text.h"
@@ -6,6 +7,7 @@
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/SkillData.h"
+#include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/SpellTable.h"
 #include "game/ui/GameplayHudCommon.h"
@@ -103,18 +105,7 @@ constexpr std::array<std::string_view, 5> LegendTexts = {Engine::trNoop("full ef
     Engine::trNoop("a stronger source covers part"), Engine::trNoop("a stronger source covers all"),
     Engine::trNoop("holder down: off, still reserved"), Engine::trNoop("temple, scroll or pedestal; reserves nothing")};
 
-struct Rect
-{
-    float x = 0;
-    float y = 0;
-    float width = 0;
-    float height = 0;
-
-    bool contains(float pointX, float pointY) const
-    {
-        return pointX >= x && pointX < x + width && pointY >= y && pointY < y + height;
-    }
-};
+using Rect = GameplayObsidianRect;
 
 Rect pageRect(const GameplayResolvedHudLayoutElement &page, float x, float y, float width, float height)
 {
@@ -209,7 +200,7 @@ std::string spellName(const GameplayScreenRuntime &context, uint32_t spellId)
     }
 
     return pParty != nullptr && !pParty->members().empty()
-        ? gameRulesFor(pParty).spells.spellName(pParty->members().front(), *pSpell) : pSpell->name;
+        ? partySpellName(pParty, pParty->members().front(), *pSpell) : pSpell->name;
 }
 
 std::string memberName(const Party &party, std::optional<size_t> memberIndex)
@@ -287,185 +278,16 @@ std::string reservedText(const AuraReportEntry &entry, bool brief)
                              : Engine::tr("{points} spell points", {{"points", points}});
 }
 
-float fontScale(const GameplayScreenRuntime &context, const std::string &font, float logicalHeight, float scale)
-{
-    const int height = std::max(1, context.hudFontHeight(font));
-    const float wanted = logicalHeight * scale / float(height);
-    return wanted >= 1.0f ? GameplayHudCommon::snappedHudFontScale(wanted) : std::max(0.5f, wanted);
-}
 
-class Painter
+// The shared Obsidian drawing with the aura page's own pieces: pool bars, state pills and the hatch.
+class Painter : public GameplayObsidianPainter
 {
 public:
-    Painter(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &page)
-        : m_context(context)
-        , m_page(page)
-    {
-    }
+    using GameplayObsidianPainter::GameplayObsidianPainter;
 
-    Rect rect(float x, float y, float width, float height) const
-    {
-        return pageRect(m_page, x, y, width, height);
-    }
-
-    void fill(const Rect &rect, uint32_t colour) const
-    {
-        if (const std::optional<GameplayHudTextureHandle> texture = solid(colour);
-            texture && rect.width > 0 && rect.height > 0)
-        {
-            m_context.submitHudTexturedQuad(*texture, rect.x, rect.y, rect.width, rect.height);
-        }
-    }
-
-    void frame(const Rect &rect, uint32_t colour) const
-    {
-        const float line = std::max(1.0f, std::round(m_page.scale * 0.6f));
-        fill({rect.x, rect.y, rect.width, line}, colour);
-        fill({rect.x, rect.y + rect.height - line, rect.width, line}, colour);
-        fill({rect.x, rect.y, line, rect.height}, colour);
-        fill({rect.x + rect.width - line, rect.y, line, rect.height}, colour);
-    }
-
-    float width(const std::string &font, float height, const std::string &value) const
-    {
-        return m_context.measureHudTextWidth(font, value) * fontScale(m_context, font, height, m_page.scale)
-            / m_page.scale;
-    }
-
-    // Text with its top left at page units (x, y); align 0 left, 1 centred on x, 2 ending at x. Returns its width.
-    float text(const std::string &font, float height, uint32_t colour, const std::string &value, float x, float y,
-        int align = 0) const
-    {
-        if (value.empty())
-        {
-            return 0;
-        }
-
-        const float scale = fontScale(m_context, font, height, m_page.scale);
-        const float measured = m_context.measureHudTextWidth(font, value) * scale;
-        float left = m_page.x + x * m_page.scale;
-        left -= align == 1 ? measured / 2 : align == 2 ? measured : 0;
-        m_context.renderHudTextLine(font, colour, value, std::round(left), std::round(m_page.y + y * m_page.scale),
-            scale);
-        return measured / m_page.scale;
-    }
-
-    std::string fitted(const std::string &font, float height, const std::string &value, float available) const
-    {
-        if (width(font, height, value) <= available)
-        {
-            return value;
-        }
-
-        std::string result = value;
-
-        while (result.size() > 1)
-        {
-            // A whole character: shown names may be translated into letters of several bytes.
-            Engine::Utf8::popBack(result);
-
-            while (!result.empty() && result.back() == ' ')
-            {
-                result.pop_back();
-            }
-
-            if (width(font, height, result + "...") <= available)
-            {
-                return result + "...";
-            }
-        }
-
-        return result;
-    }
-
-    std::vector<std::string> wrapped(const std::string &font, float height, const std::string &value,
-        float available) const
-    {
-        const float scale = fontScale(m_context, font, height, m_page.scale);
-        return m_context.wrapHudTextToWidth(font, value, available * m_page.scale / scale);
-    }
-
-    void texture(const std::string &name, const Rect &rect, uint32_t tint = 0xffffffffu) const
-    {
-        const std::optional<GameplayHudTextureHandle> handle =
-            m_context.gameplayUiRuntime().ensureHudTextureLoaded(name);
-
-        if (!handle)
-        {
-            return;
-        }
-
-        if (tint == 0xffffffffu)
-        {
-            m_context.submitHudTexturedQuad(*handle, rect.x, rect.y, rect.width, rect.height);
-            return;
-        }
-
-        GameplayHudBatchQuad quad;
-        quad.textureHandle = handle->textureHandle;
-        quad.x = rect.x;
-        quad.y = rect.y;
-        quad.width = rect.width;
-        quad.height = rect.height;
-        quad.tintAbgr = tint;
-        m_context.submitHudQuadBatch({quad});
-    }
-
-    // A spell's icon fitted into the box, keeping its aspect: the spellbook's own lit icon for the spell (the icons
-    // are not numbered in spell order).
     void icon(uint32_t spellId, const Rect &box, bool dim) const
     {
-        const SpellbookSchoolUiDefinition *pSchool = findSpellbookSchoolUiDefinitionForSpellId(spellId);
-
-        if (pSchool == nullptr)
-        {
-            return;
-        }
-
-        const GameplayScreenRuntime::HudLayoutElement *pLayout = m_context.findHudLayoutElement(
-            spellbookSpellLayoutId(pSchool->school, spellId - pSchool->firstSpellId + 1));
-
-        if (pLayout == nullptr || (pLayout->hoverAsset.empty() && pLayout->primaryAsset.empty()))
-        {
-            return;
-        }
-
-        const std::string name = !pLayout->hoverAsset.empty() ? pLayout->hoverAsset : pLayout->primaryAsset;
-        const std::optional<GameplayHudTextureHandle> handle =
-            m_context.gameplayUiRuntime().ensureHudTextureLoaded(name);
-
-        if (!handle || handle->width <= 0 || handle->height <= 0)
-        {
-            return;
-        }
-
-        const float fit = std::min(box.width / handle->width, box.height / handle->height);
-        const float iconWidth = handle->width * fit;
-        const float iconHeight = handle->height * fit;
-        texture(name, {box.x + (box.width - iconWidth) / 2, box.y + (box.height - iconHeight) / 2, iconWidth,
-            iconHeight}, dim ? 0xff707070u : 0xffffffffu);
-    }
-
-    // A member's face in an oval with a brass rim, greyed while they are down.
-    void face(const Character &member, const Rect &box, bool down) const
-    {
-        const std::string name = m_context.resolvePortraitTextureName(member);
-        const std::optional<GameplayHudTextureHandle> handle =
-            m_context.gameplayUiRuntime().ensureHudTextureLoaded(name);
-        const float rim = std::max(1.0f, m_page.scale * 0.8f);
-        ellipse(solid(Brass), {box.x - rim, box.y - rim, box.width + 2 * rim, box.height + 2 * rim});
-
-        if (handle)
-        {
-            // The face's middle, as the portraits frame it.
-            m_context.gameplayUiRuntime().submitHudTexturedEllipse(handle->textureHandle, box.x, box.y, box.width,
-                box.height, 0.12f, 0.06f, 0.88f, 0.86f);
-        }
-
-        if (down)
-        {
-            ellipse(solid(Shade), box);
-        }
+        spellIcon(spellId, box, dim);
     }
 
     // A pool bar as the reserve study's option A: the fill, a hatched span for what the auras hold and a gold mark
@@ -533,82 +355,7 @@ public:
         return width(TextFont, SmallHeight, Engine::tr(StateNames[size_t(state)])) + 9;
     }
 
-    // A Carved Obsidian menu button (the study's omenu_button_small or _danger plates) with its Fondamento label.
-    void button(const Rect &box, const std::string &label, bool danger, bool enabled, bool hovered, bool pressed,
-        bool arrow = false) const
-    {
-        const std::string base = std::string("hud_x2/menus/omenu_button_") + (danger && enabled ? "danger_" : "small_");
-        const std::string state = !enabled ? "disabled" : pressed ? "pressed" : hovered ? "hover" : "default";
-        texture(base + state + ".png", box);
-        const float height = box.height / m_page.scale * 0.6f;
-        const float textWidth = width(TitleFont, height, label);
-        const float labelWidth = textWidth + (arrow ? 8 : 0);
-        const float x = (box.x - m_page.x) / m_page.scale + (box.width / m_page.scale - labelWidth) / 2;
-        const float y = (box.y - m_page.y) / m_page.scale + (box.height / m_page.scale - height) / 2 - 0.5f
-            + (pressed ? 0.6f : 0);
-        const uint32_t colour = !enabled ? abgr(0x8c8670) : hovered ? abgr(0xffefd4) : abgr(0xe8d1a4);
-        text(TitleFont, height, colour, label, x, y);
-
-        if (arrow)
-        {
-            const float ax = x + textWidth + 5;
-            const float ay = y + height * 0.45f;
-            lines({{ax - 2.2f, ay, ax, ay + 2.4f}, {ax, ay + 2.4f, ax + 2.2f, ay}}, colour, 1.1f);
-        }
-    }
-
 private:
-    struct Segment
-    {
-        float x1;
-        float y1;
-        float x2;
-        float y2;
-    };
-
-    std::optional<GameplayHudTextureHandle> solid(uint32_t colour) const
-    {
-        char name[40] = {};
-        std::snprintf(name, sizeof(name), "__journal_auras_%08x", colour);
-        return m_context.gameplayUiRuntime().ensureSolidHudTextureLoaded(name, colour);
-    }
-
-    void ellipse(const std::optional<GameplayHudTextureHandle> &texture, const Rect &box) const
-    {
-        if (texture)
-        {
-            m_context.gameplayUiRuntime().submitHudTexturedEllipse(texture->textureHandle, box.x, box.y, box.width,
-                box.height);
-        }
-    }
-
-    void lines(const std::vector<Segment> &segments, uint32_t colour, float lineWidth) const
-    {
-        const std::optional<GameplayHudTextureHandle> texture = solid(colour);
-
-        if (!texture)
-        {
-            return;
-        }
-
-        std::vector<GameplayHudBatchQuad> quads;
-
-        for (const Segment &segment : segments)
-        {
-            GameplayHudBatchQuad quad;
-            quad.textureHandle = texture->textureHandle;
-            quad.line = true;
-            quad.width = std::max(1.0f, lineWidth * m_page.scale);
-            quad.x = m_page.x + segment.x1 * m_page.scale;
-            quad.y = m_page.y + segment.y1 * m_page.scale;
-            quad.x2 = m_page.x + segment.x2 * m_page.scale;
-            quad.y2 = m_page.y + segment.y2 * m_page.scale;
-            quads.push_back(quad);
-        }
-
-        m_context.submitHudQuadBatch(quads);
-    }
-
     // The mana arcs' blue as a vertical gradient (GameplayUiSkin's Mana material).
     std::optional<GameplayHudTextureHandle> manaTexture() const
     {
@@ -714,9 +461,6 @@ private:
 
         m_context.submitHudQuadBatch(quads);
     }
-
-    GameplayScreenRuntime &m_context;
-    const GameplayResolvedHudLayoutElement &m_page;
 };
 
 std::optional<AuraReport> reportOf(const GameplayScreenRuntime &context)

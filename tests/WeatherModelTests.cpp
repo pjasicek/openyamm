@@ -568,6 +568,84 @@ TEST_CASE("a map's always weather rains or snows without a break, only where the
     CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  ash.blv: {always: ash}\n", errorMessage));
 }
 
+TEST_CASE("an open sky's fog days roll by weather.yml chances and blend in after 3 am")
+{
+    WeatherRules rules;
+    std::string errorMessage;
+    REQUIRE_MESSAGE(rules.loadFromYaml("version: 1\nmaps:\n  misty.blv: {fog: [30, 20, 10]}\n"
+        "  wet.blv: {always: rain, peak: 0.85, fog: [30, 20, 10]}\n"
+        "open_sky_fog: {small: [3000, 14000], average: [1000, 8000], dense: [0, 4000]}\n", errorMessage),
+        errorMessage);
+    const WeatherMapSettings misty = resolveWeatherMapSettings(rules, 9001, "misty.blv", true, false);
+    const WeatherMapSettings clear = resolveWeatherMapSettings(rules, 9002, "clear.blv", true, false);
+    CHECK(misty.fogChancePercent[2] == doctest::Approx(10.0f));
+    int counts[4] = {};
+
+    for (int day = 0; day < 2000; ++day)
+    {
+        const WeatherFogLevel level = rollDailyFog(misty, day);
+        ++counts[static_cast<size_t>(level)];
+        // Deterministic, and never on a map without chances.
+        REQUIRE(rollDailyFog(misty, day) == level);
+        REQUIRE(rollDailyFog(clear, day) == WeatherFogLevel::None);
+    }
+
+    CHECK(counts[1] > 500);
+    CHECK(counts[1] < 700);
+    CHECK(counts[2] > 330);
+    CHECK(counts[2] < 470);
+    CHECK(counts[3] > 140);
+    CHECK(counts[3] < 260);
+    CHECK(counts[0] > 700);
+
+    // Fog does not change a day's rain: the same plans with and without fog chances.
+    const WeatherMapSettings wet = resolveWeatherMapSettings(rules, 9001, "wet.blv", true, false);
+    WeatherMapSettings wetWithoutFog = wet;
+    wetWithoutFog.fogChancePercent = {};
+
+    for (int day = 0; day < 50; ++day)
+    {
+        CHECK(planWeatherDay(rules, wet, day).peak == planWeatherDay(rules, wetWithoutFog, day).peak);
+    }
+
+    // A fog day runs from 3 am to 3 am: the hour before it keeps the day before's.
+    CHECK(weatherFogDayIndex(5.0 * MinutesPerDay + 179.0) == 4);
+    CHECK(weatherFogDayIndex(5.0 * MinutesPerDay + 180.0) == 5);
+
+    // Find a dense day after a clear one: the fog closes in over the hour after 3 am.
+    int denseDay = -1;
+
+    for (int day = 1; day < 2000 && denseDay < 0; ++day)
+    {
+        if (rollDailyFog(misty, day) == WeatherFogLevel::Dense && rollDailyFog(misty, day - 1) == WeatherFogLevel::None)
+        {
+            denseDay = day;
+        }
+    }
+
+    REQUIRE(denseDay > 0);
+    const double start = denseDay * MinutesPerDay + 180.0;
+    CHECK_FALSE(sampleOpenSkyFog(rules, misty, start - 1.0).foggy);
+    const WeatherOpenSkyFog early = sampleOpenSkyFog(rules, misty, start + 10.0);
+    const WeatherOpenSkyFog half = sampleOpenSkyFog(rules, misty, start + 30.0);
+    const WeatherOpenSkyFog full = sampleOpenSkyFog(rules, misty, start + 60.0);
+    CHECK(early.foggy);
+    CHECK(early.farDistance > half.farDistance);
+    CHECK(half.farDistance > full.farDistance);
+    CHECK(full.nearDistance == doctest::Approx(0.0f));
+    CHECK(full.farDistance == doctest::Approx(4000.0f));
+    CHECK(sampleOpenSkyFog(rules, misty, start + 600.0).farDistance == doctest::Approx(4000.0f));
+
+    // The console's forced level wins; none is clear.
+    CHECK(sampleOpenSkyFog(rules, clear, start, WeatherFogLevel::Average).farDistance == doctest::Approx(8000.0f));
+    CHECK_FALSE(sampleOpenSkyFog(rules, misty, start + 60.0, WeatherFogLevel::None).foggy);
+
+    WeatherRules bad;
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  a.blv: {fog: [60, 30, 20]}\n", errorMessage));
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  a.blv: {fog: [10, 5]}\n", errorMessage));
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nopen_sky_fog: {dense: [4000, 0]}\n", errorMessage));
+}
+
 TEST_CASE("weather roof map: rain stops at the highest surface seen from the sky")
 {
     WeatherRoofMap roofMap;

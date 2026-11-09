@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -40,6 +41,8 @@ struct MapKillProgress
     int slainMonsters = 0;
     // Living hostile monsters the map hides (invisible), counted apart.
     int hiddenMonsters = 0;
+    // The living counted monsters, hidden ones included (actor indices): what is left to clear (`actor remaining`).
+    std::vector<size_t> remainingActors;
 };
 
 // How experience is earned and what training needs (devdocs/maw/HANDOFF.md §3.5). This class is the Standard

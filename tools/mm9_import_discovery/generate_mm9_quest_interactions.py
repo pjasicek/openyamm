@@ -14,6 +14,8 @@ import yaml
 
 from mm9_scr_to_lua import parse_scr
 
+YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
+
 
 MM9_QBIT_BASE = 90000
 KEY_COLUMNS = {
@@ -133,50 +135,27 @@ def remove_suffix(value: str, suffix: str) -> str:
     return value[:-len(suffix)] if suffix and value.endswith(suffix) else value
 
 
+def scene_actors(path: Path) -> list[dict[str, Any]]:
+    """The placed actors of a scene, in runtime order: the converters write JSON, older scenes are YAML."""
+    text = path.read_text(encoding="utf-8")
+    scene = json.loads(text) if text.lstrip().startswith("{") else yaml.load(text, Loader=YAML_LOADER)
+    return list(((scene or {}).get("initial_state") or {}).get("actors") or [])
+
+
 def scene_actor_bindings(path: Path) -> list[dict[str, int]]:
     bindings: list[dict[str, int]] = []
-    actor_index = -1
-    in_actors = False
-    actor_indent = -1
-    rude_id: int | None = None
-    source_object_index: int | None = None
-
-    def finish_actor() -> None:
-        if rude_id is None or rude_id <= 0:
-            return
+    for actor_index, actor in enumerate(scene_actors(path)):
+        rude_id = int(actor.get("mm9_rude_id") or 0)
+        if rude_id <= 0:
+            continue
+        source_object_index = actor.get("mm9_source_object_index")
         if source_object_index is None:
             raise ValueError(f"{path.as_posix()}: actor {actor_index} has RUDE {rude_id} without source identity")
         bindings.append({
             "actor_index": actor_index,
             "rude_id": rude_id,
-            "source_object_index": source_object_index,
+            "source_object_index": int(source_object_index),
         })
-
-    for line in path.read_text(encoding="utf-8").splitlines():
-        stripped = line.lstrip()
-        indent = len(line) - len(stripped)
-        if stripped == "actors:":
-            in_actors = True
-            actor_indent = indent + 2
-            continue
-        if in_actors and indent <= actor_indent - 2 and stripped and not stripped.startswith("#"):
-            finish_actor()
-            in_actors = False
-            rude_id = None
-            source_object_index = None
-        if not in_actors:
-            continue
-        if indent == actor_indent and stripped.startswith("- "):
-            finish_actor()
-            actor_index += 1
-            rude_id = None
-            source_object_index = None
-        elif indent == actor_indent + 2 and stripped.startswith("mm9_rude_id:"):
-            rude_id = int(stripped.split(":", 1)[1].strip())
-        elif indent == actor_indent + 2 and stripped.startswith("mm9_source_object_index:"):
-            source_object_index = int(stripped.split(":", 1)[1].strip())
-    if in_actors:
-        finish_actor()
     return bindings
 
 
@@ -251,9 +230,9 @@ def stage_transitions(row: RudeRow, stages: list[dict[str, Any]]) -> tuple[list[
     return starts, completes
 
 
-def load_overrides(path: Path) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
+def load_overrides(path: Path) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     if not path.is_file():
-        return {}, []
+        return {}, [], []
     document = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     overrides = document.get("overrides", [])
     result: dict[str, dict[str, Any]] = {}
@@ -282,7 +261,61 @@ def load_overrides(path: Path) -> tuple[dict[str, dict[str, Any]], list[dict[str
         if interaction_id in seen_scr_ids:
             raise ValueError(f"{path.as_posix()}: duplicate SCR interaction {interaction_id}")
         seen_scr_ids.add(interaction_id)
-    return result, scr_interactions
+    key_interactions = document.get("key_interactions", [])
+    if not isinstance(key_interactions, list):
+        raise ValueError(f"{path.as_posix()}: key_interactions must be a sequence")
+    for interaction in key_interactions:
+        states = interaction.get("states")
+        if (not isinstance(interaction.get("interaction_id"), str)
+                or not isinstance(interaction.get("rude_id"), int)
+                or not isinstance(interaction.get("map_id"), str)
+                or not isinstance(interaction.get("source_object_index"), int)
+                or not isinstance(states, dict) or not states
+                or set(states).difference({"available", "in_progress", "ready"})
+                or not isinstance(interaction.get("reason"), str) or not interaction["reason"].strip()):
+            raise ValueError(f"{path.as_posix()}: every key interaction needs interaction_id, rude_id, map_id, "
+                             "source_object_index, states (available, in_progress, ready) and reason")
+        for state in states.values():
+            if (not isinstance(state, dict) or set(state) != {"required_qbits", "forbidden_qbits"}
+                    or not all(isinstance(qbit, int) and qbit > 0 for key in state for qbit in state[key])):
+                raise ValueError(f"{path.as_posix()}: {interaction['interaction_id']}: a state is "
+                                 "{required_qbits, forbidden_qbits} of QBit ids")
+    return result, scr_interactions, key_interactions
+
+
+def load_key_deal_reviews(path: Path) -> dict[int, str]:
+    """The overrides' key_deal_reviews: candidates reviewed and left without a marker, with the reason."""
+    if not path.is_file():
+        return {}
+    reviews = (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("key_deal_reviews", [])
+    result: dict[int, str] = {}
+    for review in reviews:
+        if (not isinstance(review.get("rude_id"), int) or not isinstance(review.get("reason"), str)
+                or not review["reason"].strip() or review["rude_id"] in result):
+            raise ValueError(f"{path.as_posix()}: every key deal review needs a unique rude_id and a reason")
+        result[review["rude_id"]] = review["reason"].strip()
+    return result
+
+
+def key_interaction_record(authored: dict[str, Any], binding: dict[str, Any]) -> dict[str, Any]:
+    """A journal-less MM9 quest kept in quest keys only (a deal with no journal entry): its marker states are the
+    authored key conditions (Mm9QuestMarkers.cpp source_kind keys)."""
+    states = authored["states"]
+    return {
+        "id": authored["interaction_id"],
+        "source_kind": "keys",
+        "rude_id": authored["rude_id"],
+        "bindings": [{key: value for key, value in binding.items() if key != "rude_id"}],
+        "journal_entries": [],
+        "roles": (["offer"] if "available" in states else []) + (["handoff"] if "ready" in states else []),
+        "conditions": {"keys": states},
+        "effects": {"granted_qbits": [], "removed_qbits": []},
+        "non_qbit_dependencies": [],
+        "justification": "authored_key_states_for_journal_less_quest",
+        "classification": "authored_override",
+        "override_reason": authored["reason"],
+        "provenance": {"source": f"dialogue/rude/NPC{authored['rude_id']}.rude"},
+    }
 
 
 def interaction_record(
@@ -354,85 +387,124 @@ def callback_routine_lines(script_text: str, script_name: str, callback_routine:
     return source_lines
 
 
-def scr_candidates(
+def find_script(scripts_root: Path, script_name: str) -> Path:
+    script_path = scripts_root / script_name
+    if script_path.is_file():
+        return script_path
+    return next(
+        (candidate for candidate in scripts_root.glob("*.scr") if candidate.name.lower() == script_name.lower()),
+        script_path,
+    )
+
+
+# The routines MM9 runs when a dialogue closes, in the order a script is searched for one.
+RUDE_EXIT_ROUTINES = ("onrude", "onrudeexit", "onexit")
+
+
+def dialogue_callbacks(
     events_root: Path,
     scripts_root: Path,
-    journal_keys: set[int],
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    candidates: list[dict[str, Any]] = []
-    exclusions: list[dict[str, Any]] = []
+    bindings: list[dict[str, Any]],
+) -> list[tuple[str, str, dict[str, Any]]]:
+    """(map, inventory, callback) for every dialogue-closing script: the editor import's event inventories, plus the
+    scripted NPCs of the game's scenes that those inventories lack (their script's first RUDE-exit routine)."""
+    callbacks: list[tuple[str, str, dict[str, Any]]] = []
+    covered: set[tuple[str, int]] = set()
     for path in sorted(events_root.glob("*.events.yml")):
         text = path.read_text(encoding="utf-8")
         separator = "\ndialogue_callbacks:\n"
         if separator not in text:
             continue
+        map_id = remove_suffix(path.stem, ".events")
         callback_text = text.split(separator, 1)[1].split("\nunresolved:", 1)[0]
         callback_document = yaml.safe_load("dialogue_callbacks:\n" + callback_text) or {}
         for callback in callback_document.get("dialogue_callbacks", []):
-            script_name = str(callback.get("script_name", ""))
-            relevant_operations: list[dict[str, Any]] = []
-            script_path = scripts_root / script_name
-            if not script_path.is_file():
-                script_path = next(
-                    (
-                        candidate
-                        for candidate in scripts_root.glob("*.scr")
-                        if candidate.name.lower() == script_name.lower()
-                    ),
-                    script_path,
-                )
-            script_text = script_path.read_text(encoding="latin-1") if script_path.is_file() else ""
-            reachable_lines = callback_routine_lines(
-                script_text,
-                script_path.name if script_path.is_file() else script_name,
-                str(callback.get("callback_routine", "")),
+            callbacks.append((map_id, f"maps/{path.name}", callback))
+            covered.add((map_id, int(callback.get("source_object_index"))))
+    for binding in bindings:
+        script_name = str(binding.get("script_name", ""))
+        identity = (binding["map_id"], binding["source_object_index"])
+        if not script_name or identity in covered:
+            continue
+        script_path = find_script(scripts_root, script_name)
+        if not script_path.is_file():
+            continue
+        routines = parse_scr(script_path.read_text(encoding="latin-1"), script_path.name).routines
+        routine = next((name for name in RUDE_EXIT_ROUTINES if name in routines), "")
+        if routine:
+            covered.add(identity)
+            callbacks.append((binding["map_id"], binding["provenance"]["scene"], {
+                "source_object_index": binding["source_object_index"],
+                "script_name": script_name,
+                "callback_routine": routine,
+            }))
+    return callbacks
+
+
+def scr_candidates(
+    events_root: Path,
+    scripts_root: Path,
+    journal_keys: set[int],
+    bindings: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    candidates: list[dict[str, Any]] = []
+    exclusions: list[dict[str, Any]] = []
+    for map_id, inventory, callback in dialogue_callbacks(events_root, scripts_root, bindings):
+        script_name = str(callback.get("script_name", ""))
+        relevant_operations: list[dict[str, Any]] = []
+        script_path = find_script(scripts_root, script_name)
+        script_text = script_path.read_text(encoding="latin-1") if script_path.is_file() else ""
+        reachable_lines = callback_routine_lines(
+            script_text,
+            script_path.name if script_path.is_file() else script_name,
+            str(callback.get("callback_routine", "")),
+        )
+        unreachable_operations: list[dict[str, Any]] = []
+        for source_line, source_text in enumerate(script_text.splitlines(), start=1):
+            match = re.match(
+                r"^\s*(givekey|takekey)\s*,?\s*([0-9]+)(?:\s|,|;|$)",
+                source_text,
+                re.IGNORECASE,
             )
-            unreachable_operations: list[dict[str, Any]] = []
-            for source_line, source_text in enumerate(script_text.splitlines(), start=1):
-                match = re.match(
-                    r"^\s*(givekey|takekey)\s*,?\s*([0-9]+)(?:\s|,|;|$)",
-                    source_text,
-                    re.IGNORECASE,
-                )
-                if not match:
-                    continue
-                operation_qbit = MM9_QBIT_BASE + int(match.group(2))
-                if operation_qbit in journal_keys:
-                    operation = {
-                        "command": match.group(1).lower(),
-                        "qbit": operation_qbit,
-                        "source_line": source_line,
-                    }
-                    if source_line in reachable_lines:
-                        relevant_operations.append(operation)
-                    else:
-                        unreachable_operations.append(operation)
-            candidate_id = f"mm9.scr.{remove_suffix(path.stem, '.events')}.{callback.get('source_object_index')}"
-            if relevant_operations:
-                candidates.append({
-                    "id": candidate_id,
-                    "map_id": remove_suffix(path.stem, ".events"),
-                    "source_object_index": callback.get("source_object_index"),
-                    "script_name": script_name,
-                    "callback_routine": callback.get("callback_routine", ""),
-                    "relevant_operations": relevant_operations,
-                    "status": "unresolved",
-                    "reason": "SCR control-flow predicates are not yet represented as pure marker metadata",
-                    "provenance": {
-                        "event_inventory": f"maps/{path.name}",
-                        "source": script_path.as_posix() if script_path.is_file() else script_name,
-                    },
-                })
-            if unreachable_operations:
-                exclusions.append({
-                    "id": candidate_id + ".unreachable_operations",
-                    "reason": "journal-key operations are outside the registered RUDE-exit callback call graph",
-                    "relevant_operations": unreachable_operations,
-                    "provenance": {
-                        "event_inventory": f"maps/{path.name}",
-                        "source": script_path.as_posix() if script_path.is_file() else script_name,
-                    },
-                })
+            if not match:
+                continue
+            operation_qbit = MM9_QBIT_BASE + int(match.group(2))
+            if operation_qbit in journal_keys:
+                operation = {
+                    "command": match.group(1).lower(),
+                    "qbit": operation_qbit,
+                    "source_line": source_line,
+                }
+                if source_line in reachable_lines:
+                    relevant_operations.append(operation)
+                else:
+                    unreachable_operations.append(operation)
+        candidate_id = f"mm9.scr.{map_id}.{callback.get('source_object_index')}"
+        if relevant_operations:
+            candidates.append({
+                "id": candidate_id,
+                "map_id": map_id,
+                "source_object_index": callback.get("source_object_index"),
+                "script_name": script_name,
+                "callback_routine": callback.get("callback_routine", ""),
+                "relevant_operations": relevant_operations,
+                "status": "unresolved",
+                "reason": "SCR control-flow predicates are not yet represented as pure marker metadata",
+                "provenance": {
+                    "event_inventory": inventory,
+                    "source": script_path.as_posix() if script_path.is_file() else script_name,
+                },
+            })
+        if unreachable_operations:
+            exclusions.append({
+                "id": candidate_id + ".unreachable_operations",
+                "reason": "journal-key operations are outside the registered RUDE-exit callback call graph",
+                "relevant_operations": unreachable_operations,
+                "provenance": {
+                    "event_inventory": inventory,
+                    "source": script_path.as_posix() if script_path.is_file() else script_name,
+                },
+            })
     return candidates, exclusions
 
 
@@ -447,6 +519,199 @@ def literal_scr_journal_keys(scripts_root: Path, journal_keys: set[int]) -> set[
             if operation_qbit in journal_keys:
                 result.add(operation_qbit)
     return result
+
+
+# --- Key-only deals (the review list of journal-less quests: mm9_quest_interaction_overrides.yml key_interactions) ---
+
+SCR_HAS_KEY = re.compile(r"^\s*haskey\s*,?\s*([A-Za-z_][A-Za-z0-9_]*|[0-9]+)", re.IGNORECASE)
+SCR_GIVE_KEY = re.compile(r"^\s*givekey\s*,?\s*([A-Za-z_][A-Za-z0-9_]*|[0-9]+)", re.IGNORECASE)
+SCR_NUMBER = re.compile(r"^\s*#number\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*([0-9]+)", re.IGNORECASE)
+LUA_HAS_KEY = re.compile(r"MM9\.hasKey\(\s*([0-9]+)\s*\)")
+LUA_HAS_QBIT = re.compile(r"evt\.HasQuestBit\(\s*(9[0-9]{4})\s*\)")
+
+
+def scr_key_uses(scripts_root: Path) -> tuple[dict[int, set[str]], dict[str, set[int]]]:
+    """Every MM9 script's literal (or #number-constant) HasKey keys, by QBit, and each script's GiveKey keys."""
+    paths = sorted([*scripts_root.glob("*.scr"), *scripts_root.glob("*.inc")], key=lambda value: value.name.lower())
+    texts = {path: path.read_text(encoding="latin-1").splitlines() for path in paths}
+    constants: dict[str, int] = {}
+    for lines in texts.values():
+        for line in lines:
+            match = SCR_NUMBER.match(line)
+            if match:
+                constants.setdefault(match.group(1).lower(), int(match.group(2)))
+
+    def key_of(token: str) -> int | None:
+        value = int(token) if token.isdigit() else constants.get(token.lower())
+        return MM9_QBIT_BASE + value if value is not None and 1 <= value <= 9999 else None
+
+    tested: dict[int, set[str]] = {}
+    given: dict[str, set[int]] = {}
+    for path, lines in texts.items():
+        for line in lines:
+            for pattern, sink in ((SCR_HAS_KEY, "tested"), (SCR_GIVE_KEY, "given")):
+                match = pattern.match(line)
+                key = key_of(match.group(1)) if match else None
+                if key is None:
+                    continue
+                if sink == "tested":
+                    tested.setdefault(key, set()).add(path.name.lower())
+                else:
+                    given.setdefault(path.name.lower(), set()).add(key)
+    return tested, given
+
+
+def lua_key_tests(lua_root: Path) -> dict[int, set[str]]:
+    """The map and common Lua's literal MM9.hasKey / evt.HasQuestBit tests, by QBit."""
+    tested: dict[int, set[str]] = {}
+    for path in sorted(lua_root.rglob("*.lua")):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for match in LUA_HAS_KEY.finditer(text):
+            value = int(match.group(1))
+            if 1 <= value <= 9999:
+                tested.setdefault(MM9_QBIT_BASE + value, set()).add(path.relative_to(lua_root).as_posix())
+        for match in LUA_HAS_QBIT.finditer(text):
+            tested.setdefault(int(match.group(1)), set()).add(path.relative_to(lua_root).as_posix())
+    return tested
+
+
+def scene_actor_names(maps_root: Path) -> dict[tuple[str, int], str]:
+    """(map, source object index) to the placed NPC's name, read from the game's scenes."""
+    names: dict[tuple[str, int], str] = {}
+    for path in sorted(maps_root.glob("*.scene.yml")):
+        if path.name.endswith("_authored.scene.yml"):
+            continue
+        map_id = remove_suffix(path.name, ".scene.yml")
+        for actor in scene_actors(path):
+            if actor.get("name") and actor.get("mm9_source_object_index") is not None:
+                names[(map_id, int(actor["mm9_source_object_index"]))] = str(actor["name"])
+    return names
+
+
+def rude_texts(path: Path) -> list[tuple[str, str]]:
+    with path.open(newline="", encoding="latin-1") as source_file:
+        return [(columns[3], columns[4]) for columns in csv.reader(source_file)]
+
+
+def key_deal_candidates(
+    rude_root: Path,
+    scripts_root: Path,
+    lua_root: Path,
+    maps_root: Path,
+    journal_keys: set[int],
+    bindings_by_rude_id: dict[int, list[dict[str, Any]]],
+    marked_rude_ids: set[int],
+    authored_key_rude_ids: set[int],
+    reviews: dict[int, str] | None = None,
+) -> dict[str, Any]:
+    """Dialogues on placed NPCs that grant quest keys the journal does not use, with where each key is tested. A key
+    tested outside its own dialogue and NPC script (another dialogue, map Lua, another MM9 script) is a deal's step; one
+    tested only by its own dialogue is mostly a talked-once flag. Literal keys only: computed keys are not seen."""
+    graphs: dict[int, tuple[Path, list[RudeRow]]] = {}
+    for path in sorted(rude_root.glob("NPC[0-9]*.rude"), key=lambda value: value.name.lower()):
+        if path.name in {"NPC997.rude", "NPC998.rude", "NPC999.rude"}:
+            continue
+        rows = load_rude_file(path)
+        if rows:
+            graphs[rows[0].rude_id] = (path, rows)
+    scr_tested, scr_given = scr_key_uses(scripts_root)
+    lua_tested = lua_key_tests(lua_root)
+    names = scene_actor_names(maps_root)
+    rude_tested: dict[int, set[int]] = {}
+    for rude_id, (_, rows) in graphs.items():
+        for row in rows:
+            for key in row.required + row.forbidden:
+                rude_tested.setdefault(key, set()).add(rude_id)
+
+    candidates, self_only, counts = [], 0, {"placed_dialogues_granting_keys": 0}
+    for rude_id, (path, rows) in sorted(graphs.items()):
+        bindings = bindings_by_rude_id.get(rude_id, [])
+        own_script = f"npc{rude_id}.scr"
+        grants: dict[int, list[str]] = {}
+        texts = None
+        for row in rows:
+            for key in row.granted:
+                if key not in journal_keys:
+                    texts = texts or rude_texts(path)
+                    prompt = texts[row.row_index][0].strip()
+                    grants.setdefault(key, []).append(f"row {row.source_line}: \"{prompt[:60]}\"")
+        for key in sorted(scr_given.get(own_script, ())):
+            if key not in journal_keys:
+                grants.setdefault(key, []).append(f"{own_script}")
+        if not grants or not bindings:
+            continue
+        counts["placed_dialogues_granting_keys"] += 1
+        keys = []
+        for key, sources in sorted(grants.items()):
+            other_rude = sorted(rude_tested.get(key, set()) - {rude_id})
+            scripts = sorted(scr_tested.get(key, set()) - {own_script})
+            lua = sorted(lua_tested.get(key, set()))
+            cross = bool(other_rude or scripts or lua)
+            own = rude_id in rude_tested.get(key, set()) or own_script in scr_tested.get(key, set())
+            keys.append({"key": key - MM9_QBIT_BASE, "granted_by": sources, "tested_by_dialogues": other_rude,
+                         "tested_by_lua": lua, "tested_by_scripts": scripts, "tested_by_own_dialogue": own,
+                         "scope": "cross" if cross else "self" if own else "untested"})
+        if not any(entry["scope"] == "cross" for entry in keys):
+            self_only += 1
+            continue
+        candidates.append({
+            "rude_id": rude_id,
+            "npcs": [{"map_id": b["map_id"], "source_object_index": b["source_object_index"],
+                      "name": names.get((b["map_id"], b["source_object_index"]), "")} for b in bindings],
+            "journal_markers": rude_id in marked_rude_ids,
+            "authored_key_interaction": rude_id in authored_key_rude_ids,
+            "review": (reviews or {}).get(rude_id, ""),
+            "keys": keys,
+        })
+    counts.update(candidates=len(candidates), self_or_untested_only=self_only,
+                  without_any_marker=sum(1 for c in candidates if not c["journal_markers"]
+                                         and not c["authored_key_interaction"] and not c["review"]))
+    return {"counts": counts, "candidates": candidates}
+
+
+def key_deal_review_text(review: dict[str, Any]) -> str:
+    counts = review["counts"]
+    lines = [
+        "# MM9 key-only deal candidates",
+        "",
+        "Generated by `tools/mm9_import_discovery/generate_mm9_quest_interactions.py` (`--key-deal-review`); do not edit.",
+        "Each entry is a dialogue on a placed NPC that grants MM9 quest keys the journal does not use, where some key is",
+        "tested outside that dialogue and its NPC script: a step of a deal that may deserve a quest marker. Review each",
+        "against its dialogue and scripts; author real deals as `key_interactions` in",
+        "`tools/mm9_import_discovery/mm9_quest_interaction_overrides.yml` (devdocs/mm9/MM9_NPC_QUEST_MARKERS_GOAL.md).",
+        "Literal keys only: keys a script computes are not seen.",
+        "",
+        f"- Placed dialogues granting non-journal keys: {counts['placed_dialogues_granting_keys']}",
+        f"- Candidates (a key tested elsewhere): {counts['candidates']}, of which not reviewed and with no marker: "
+        f"{counts['without_any_marker']}",
+        f"- Left out (keys tested only by their own dialogue, or never): {counts['self_or_untested_only']}",
+        "",
+        "Status: **none** (no marker, not reviewed), **journal** (journal markers on other rows), **authored** (a key",
+        "interaction), **reviewed** (no marker on purpose: the overrides' `key_deal_reviews`).",
+        "",
+    ]
+    by_map: dict[str, list[dict[str, Any]]] = {}
+    for candidate in review["candidates"]:
+        by_map.setdefault(candidate["npcs"][0]["map_id"], []).append(candidate)
+    for map_id in sorted(by_map):
+        lines += [f"## {map_id}", ""]
+        for candidate in by_map[map_id]:
+            npcs = ", ".join(
+                f"{npc['name'] or '?'} ({npc['map_id']} #{npc['source_object_index']})" for npc in candidate["npcs"])
+            status = ("authored" if candidate["authored_key_interaction"]
+                      else f"reviewed** ({candidate['review']})" if candidate["review"]
+                      else "journal" if candidate["journal_markers"] else "none")
+            status = status if status.startswith("reviewed") else status + "**"
+            lines += [f"### Dialogue {candidate['rude_id']}: {npcs}", "", f"Status: **{status}", "",
+                      "| Key | Granted by | Tested elsewhere | Own dialogue |", "| --- | --- | --- | --- |"]
+            for key in candidate["keys"]:
+                elsewhere = ([f"NPC{value}.rude" for value in key["tested_by_dialogues"]] + key["tested_by_lua"]
+                             + key["tested_by_scripts"])
+                lines.append(f"| {key['key']} | {'; '.join(key['granted_by'])} | "
+                             f"{', '.join(elsewhere) if elsewhere else '-'} | "
+                             f"{'yes' if key['tested_by_own_dialogue'] else 'no'} |")
+            lines.append("")
+    return "\n".join(lines).rstrip("\n") + "\n"
 
 
 def scr_interaction_record(
@@ -545,7 +810,7 @@ def generate(
         for value in stage["required_qbits"] + stage["forbidden_qbits"]
     }
     bindings_by_rude_id, all_bindings = load_bindings(maps_root, raw_maps_root)
-    overrides, authored_scr_interactions = load_overrides(overrides_path)
+    overrides, authored_scr_interactions, authored_key_interactions = load_overrides(overrides_path)
     interactions: list[dict[str, Any]] = []
     exclusions: list[dict[str, Any]] = []
     unresolved: list[dict[str, Any]] = []
@@ -610,7 +875,7 @@ def generate(
     if unused_overrides:
         raise ValueError("unused quest-interaction overrides: " + ", ".join(unused_overrides))
 
-    scr_source_candidates, scr_source_exclusions = scr_candidates(events_root, scripts_root, journal_keys)
+    scr_source_candidates, scr_source_exclusions = scr_candidates(events_root, scripts_root, journal_keys, all_bindings)
     exclusions.extend(scr_source_exclusions)
     source_candidates_by_id = {candidate["id"]: candidate for candidate in scr_source_candidates}
     authored_by_candidate: dict[str, list[dict[str, Any]]] = {}
@@ -646,6 +911,12 @@ def generate(
             continue
         for authored in classified:
             interactions.append(scr_interaction_record(authored, candidate, binding, stages))
+    for authored in authored_key_interactions:
+        binding = bindings_by_identity.get((authored["map_id"], authored["source_object_index"]))
+        if binding is None or binding.get("rude_id") != authored["rude_id"]:
+            raise ValueError(f"{authored['interaction_id']}: no imported actor binding with dialogue "
+                             f"{authored['rude_id']} at {authored['map_id']} object {authored['source_object_index']}")
+        interactions.append(key_interaction_record(authored, binding))
 
     literal_scr_keys = literal_scr_journal_keys(scripts_root, journal_keys)
     scr_only_journal_keys = literal_scr_keys.difference(ordinary_granted_journal_keys)
@@ -698,7 +969,7 @@ def main() -> int:
     parser.add_argument("--rude-root", type=Path, default=Path("assets_dev/worlds/mm9/dialogue/rude"))
     parser.add_argument("--maps-root", type=Path, default=Path("assets_dev/worlds/mm9/maps"))
     parser.add_argument("--raw-maps-root", type=Path, default=Path("assets_editor_dev/worlds/mm9/maps"))
-    parser.add_argument("--events-root", type=Path, default=Path("assets_dev/worlds/mm9/maps"))
+    parser.add_argument("--events-root", type=Path, default=Path("assets_editor_dev/worlds/mm9/maps"))
     parser.add_argument("--scripts-root", type=Path, default=Path("mm9/extracted/SCRIPTS/SCRIPTS"))
     parser.add_argument(
         "--overrides",
@@ -715,6 +986,13 @@ def main() -> int:
         type=Path,
         default=Path("assets_dev/worlds/mm9/state/quest_interaction_coverage.yml"),
     )
+    parser.add_argument("--lua-root", type=Path, default=Path("assets_dev/worlds/mm9/events"))
+    parser.add_argument(
+        "--key-deal-review",
+        type=Path,
+        default=Path("devdocs/mm9_rework/MM9_KEY_DEAL_CANDIDATES.md"),
+        help="the review list of journal-less key deals (candidates for key_interactions)",
+    )
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     try:
@@ -726,10 +1004,20 @@ def main() -> int:
             args.scripts_root,
             args.overrides,
         )
+        stages = load_journal_stages(args.rude_root / "NPC997.rude")
+        review = key_deal_candidates(
+            args.rude_root, args.scripts_root, args.lua_root, args.maps_root,
+            {value for stage in stages for value in stage["required_qbits"] + stage["forbidden_qbits"]},
+            load_bindings(args.maps_root, args.raw_maps_root)[0],
+            {i["rude_id"] for i in metadata["interactions"] if i.get("source_kind") != "keys"},
+            {i["rude_id"] for i in metadata["interactions"] if i.get("source_kind") == "keys"},
+            load_key_deal_reviews(args.overrides),
+        )
     except (OSError, ValueError, yaml.YAMLError) as exception:
         print(exception)
         return 1
-    outputs = ((args.output, yaml_text(metadata)), (args.report, yaml_text(report)))
+    outputs = ((args.output, yaml_text(metadata)), (args.report, yaml_text(report)),
+               (args.key_deal_review, key_deal_review_text(review)))
     if args.check:
         stale = [str(path) for path, text in outputs if not path.is_file() or path.read_text(encoding="utf-8") != text]
         if stale:

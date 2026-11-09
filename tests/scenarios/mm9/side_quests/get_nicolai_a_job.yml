@@ -1,0 +1,107 @@
+# MM9 side quest "Get Nicolai a Job" (guide: Side quests, Guberland, get-nicolai-a-job; tools/mm9_site/story/side_b.yml).
+# From a new game in Drangheim City: no story state is needed (Nicolai's and Thorir's lines need only the quest's own
+# keys). Nicolai Ironfist (actor 30, RUDE 414), a deposed king at the south edge of the city, wants the circus (key 118).
+# Out of the city, the Black Hammer to Guberland (1 day): Thorir Mouth (actor 41, RUDE 133) at the Gathering needs a
+# trapeze star (key 119). The Flying Bird back to Drangheim (1 day): Nicolai takes the job (key 120). The Black Hammer
+# again: Thorir is told (key 121) and pays on the close, 16 500 experience and 5 000 gold (key 122; NPC133.scr). On the
+# next loads Nicolai is gone from Drangheim City and works at the Gathering (NPC414.scr :Init). Cities and regions:
+# the party is placed by each person and gate; gates are walked into. Research: prep/A_sturmford_drangheim.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py get_nicolai
+id: mm9.side_quests.get_nicolai_a_job
+title: "MM9 side quest: Get Nicolai a Job (Nicolai Ironfist, Thorir Mouth)"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: drangheimcity.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}, {name: Perception, level: 5, mastery: 1}],
+             equipment: {main_hand: 1, off_hand: 99, armor: 84}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66, off_hand: 99, armor: 84}}
+          - {name: Grisha, class: Thief, level: 28, portrait_id: 86, race_id: 8,
+             skills: [{name: Dagger, level: 10, mastery: 2}, {name: Bow, level: 10, mastery: 2}],
+             equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 28, portrait_id: 82, race_id: 7,
+             skills: [{name: Staff, level: 10, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_experience, value: 0}
+  - assert: {map: drangheimcity.blv, gold: 10000, qbit_clear: [90118, 90119, 90120, 90121, 90122]}
+
+  # Nicolai Ironfist at the south edge of the city.
+  - set_pose: {map: drangheimcity.blv, x: 16712, y: -282, z: 348, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 30}
+  - select_topic: {match_label: "We'd like to ask you a few questions."}
+  - select_topic: {match_label: "What do you know about duty?"}
+  - select_topic: {match_label: "You don't sound especially fond of your duty."}
+  - select_topic: {match_label: "What happened to duty?"}
+  - select_topic: {match_label: "Alright.  We'll find you a job."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90118], qbit_clear: [90119]}
+
+  # Out of the city; the Black Hammer to Guberland; Thorir at the Gathering.
+  - set_pose: {map: drangheimcity.blv, x: 10000, y: -4178, z: 1010, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9667, y: -4178, z: 1311, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - travel: {map: guberland.blv, days: 1}
+  - set_pose: {map: guberland.blv, x: 11977, y: 16984, z: 121, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 2000}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "You're not looking for any help, are you?"}
+  - select_topic: {match_label: "We may have just the person."}
+  - select_topic: {match_label: "We don't have time for games today."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90119], qbit_clear: [90120]}
+
+  # The Flying Bird to Drangheim; the city gate; Nicolai takes the job.
+  - travel: {map: drangheim.blv, days: 1}
+  - set_pose: {map: drangheim.blv, x: 11458, y: -4164, z: 757, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12032, y: -4164, z: 963, timeout_seconds: 30, expect: dialog, clear_hostiles: 2000}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheimcity.blv}
+  - set_pose: {map: drangheimcity.blv, x: 16712, y: -282, z: 348, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 30}
+  - select_topic: {match_label: "We've found you a job."}
+  - select_topic: {match_label: "At the Gathering in Guberland."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90120], qbit_clear: [90121]}
+
+  # Back to Guberland: Thorir hears that Nicolai took the job and pays.
+  - set_pose: {map: drangheimcity.blv, x: 10000, y: -4178, z: 1010, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 9667, y: -4178, z: 1311, timeout_seconds: 30, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: drangheim.blv}
+  - travel: {map: guberland.blv, days: 1}
+  - set_pose: {map: guberland.blv, x: 11977, y: 16984, z: 121, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 2000}
+  - interact_actor: {actor_index: 41}
+  - select_topic: {match_label: "Did Nicolai take the job?"}
+  - select_topic: {match_label: "We don't have time for games today."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90121, 90122], gold: 15000, runtime_event_variable: {id: 13, member_index: 0, value: 16500}}
+
+  # Nicolai shows at the Gathering from the next load of Guberland (NPC414.scr :Init runs on loads, as in MM9).
+  - reload: {}
+  - assert: {actor_visible: {actor_index: 62, hidden: false}}

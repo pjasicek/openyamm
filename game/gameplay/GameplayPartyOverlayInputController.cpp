@@ -13,6 +13,7 @@
 #include "game/gameplay/AwardRuntime.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryBags.h"
+#include "game/ui/GameplayBattleOrders.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/InventoryBagOverview.h"
 #include "game/items/InventoryItemUseRuntime.h"
@@ -416,28 +417,29 @@ std::optional<DimensionDoorLanding> resolveDimensionDoorLanding(
             false};
     }
 
-    // Chedian: the Isle of Ashes until the party has left it, then Sturmford where its boat lands
-    // (isleofashes.lua ExitTrigger1; transport_routes.txt mm9:transport/18 arrival, in the BLV's frame).
+    // Chedian: once the party has left the Isle of Ashes, beside Sturmford City's dimensional travel pedestal
+    // (level_generation/projects/mm9r_sturmfordcity), facing it; before that, Ravensford's new-game start
+    // (continent_settings.txt, Chedian's start map).
     if (destination.id == "TPGlobal:6")
     {
         if (pParty != nullptr && pParty->hasQuestBit(IsleOfAshesLeftQBit))
         {
             return DimensionDoorLanding{
-                "sturmford.blv",
-                7511,
-                -17581,
-                247,
+                "sturmfordcity.blv",
+                1752,
+                54,
+                19703,
                 180,
                 false};
         }
 
         return DimensionDoorLanding{
-            "isleofashes.blv",
-            0,
-            0,
-            0,
-            std::nullopt,
-            true};
+            "bootcamp.blv",
+            323,
+            -8494,
+            1291,
+            269,
+            false};
     }
 
     return std::nullopt;
@@ -951,6 +953,35 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     }
                 }
 
+                const size_t continentCount = context.townPortalContinents().size();
+
+                for (size_t index = 0; continentCount > 1 && index < continentCount
+                     && index < TownPortalContinentButtonCount; ++index)
+                {
+                    const std::string buttonId = townPortalContinentButtonId(index);
+                    const GameplayScreenRuntime::HudLayoutElement *pButtonLayout =
+                        context.findHudLayoutElement(buttonId);
+
+                    if (pButtonLayout == nullptr || !pButtonLayout->visible)
+                    {
+                        continue;
+                    }
+
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> buttonResolved =
+                        context.resolveHudLayoutElement(
+                            buttonId,
+                            screenWidth,
+                            screenHeight,
+                            pButtonLayout->width,
+                            pButtonLayout->height);
+
+                    if (buttonResolved.has_value()
+                        && context.isPointerInsideResolvedElement(*buttonResolved, pointerX, pointerY))
+                    {
+                        return {GameplayUtilitySpellPointerTargetType::TownPortalContinent, index};
+                    }
+                }
+
                 const GameplayScreenRuntime::HudLayoutElement *pBackgroundLayout =
                     context.findHudLayoutElement("TownPortalBackground");
 
@@ -1056,6 +1087,12 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     context.utilitySpellOverlay() = {};
                     context.resetUtilitySpellOverlayInteractionState();
                     context.setStatusBarEvent(Engine::tr("Spell cancelled"), 2.0f);
+                    return;
+                }
+
+                if (target.type == GameplayUtilitySpellPointerTargetType::TownPortalContinent)
+                {
+                    context.selectTownPortalContinent(target.index);
                     return;
                 }
 
@@ -1430,6 +1467,23 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     GameplayScreenRuntime &context,
     const GameplayInputFrame &input)
 {
+    // The Battle Orders window and the spell menu take the pointer and Escape over the book.
+    if (GameplayBattleOrders::isOpen(context))
+    {
+        GameplayBattleOrders::handleInput(context, input);
+        context.interactionState().closeOverlayLatch = true;
+        context.interactionState().spellbookClickLatch = input.leftMouseButton.held;
+        return;
+    }
+
+    if (GameplayBattleOrders::spellMenuOpen(context))
+    {
+        GameplayBattleOrders::handleSpellMenuInput(context, input);
+        context.interactionState().closeOverlayLatch = true;
+        context.interactionState().spellbookClickLatch = input.leftMouseButton.held;
+        return;
+    }
+
     const bool *pKeyboardState = input.keyboardState();
     const int screenWidth = input.screenWidth;
     const int screenHeight = input.screenHeight;
@@ -1504,9 +1558,38 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     const auto findSpellbookPointerTarget =
         [&context, screenWidth, screenHeight](float pointerX, float pointerY) -> GameplaySpellbookPointerTarget
         {
+            // A class with its own spellbook look (MAW's Death Knight and Thief lines) has its tabs and spell pictures
+            // elsewhere on the page; the schools and spells they stand for are the same.
+            const SpellbookSkin *pSkin = activeSpellbookSkin(context.party());
+            const SpellbookSkinPage *pSkinPage = activeSpellbookSkinPage(context.party(), context.spellbook().school);
+            const GameplayScreenRuntime::HudLayoutElement *pRootLayout =
+                pSkin != nullptr ? context.findHudLayoutElement(SpellbookRootLayoutId) : nullptr;
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> skinRoot = pRootLayout != nullptr
+                ? context.resolveHudLayoutElement(
+                    SpellbookRootLayoutId, screenWidth, screenHeight, pRootLayout->width, pRootLayout->height)
+                : std::nullopt;
+            const std::vector<SpellbookSkinTab> skinTabs = skinRoot
+                ? spellbookSkinTabs(*pSkin, [&context](SpellbookSchool school)
+                    {
+                        return context.activeMemberHasSpellbookSchool(school);
+                    })
+                : std::vector<SpellbookSkinTab>();
+
+            for (const SpellbookSkinTab &tab : skinTabs)
+            {
+                if (context.isPointerInsideResolvedElement(
+                        spellbookSkinScreenRect(*skinRoot, tab.rect), pointerX, pointerY))
+                {
+                    GameplaySpellbookPointerTarget target = {};
+                    target.type = GameplaySpellbookPointerTargetType::SchoolButton;
+                    target.school = tab.school;
+                    return target;
+                }
+            }
+
             for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
             {
-                if (!context.activeMemberHasSpellbookSchool(definition.school))
+                if (!skinTabs.empty() || !context.activeMemberHasSpellbookSchool(definition.school))
                 {
                     continue;
                 }
@@ -1582,27 +1665,20 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 return quickCastTarget;
             }
 
-            const GameplaySpellbookPointerTarget attackCastTarget =
-                resolveSimpleButtonTarget(
-                    "SpellbookAttackCastButton",
-                    GameplaySpellbookPointerTargetType::AttackCastButton);
+            const GameplaySpellbookPointerTarget attackCastTarget = resolveSimpleButtonTarget(
+                "SpellbookAttackCastButton", GameplaySpellbookPointerTargetType::AttackCastButton);
 
             if (attackCastTarget.type != GameplaySpellbookPointerTargetType::None)
             {
                 return attackCastTarget;
             }
 
-            for (size_t slot = 0; slot < ExtraQuickSpellSlotCount; ++slot)
-            {
-                const std::string layoutId = "SpellbookQuickSpellSlot" + std::to_string(slot + 1);
-                GameplaySpellbookPointerTarget slotTarget = resolveSimpleButtonTarget(
-                    layoutId.c_str(), GameplaySpellbookPointerTargetType::QuickSpellSlotButton);
+            const GameplaySpellbookPointerTarget ordersTarget = resolveSimpleButtonTarget(
+                "SpellbookBattleOrdersButton", GameplaySpellbookPointerTargetType::BattleOrdersButton);
 
-                if (slotTarget.type != GameplaySpellbookPointerTargetType::None)
-                {
-                    slotTarget.slot = slot;
-                    return slotTarget;
-                }
+            if (ordersTarget.type != GameplaySpellbookPointerTargetType::None)
+            {
+                return ordersTarget;
             }
 
             const SpellbookSchoolUiDefinition *pDefinition =
@@ -1610,6 +1686,25 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
             if (pDefinition == nullptr)
             {
+                return {};
+            }
+
+            if (pSkinPage != nullptr && skinRoot)
+            {
+                for (const SpellbookSkinSpell &spell : pSkinPage->spells)
+                {
+                    if (context.activeMemberKnowsSpell(spell.spellId)
+                        && context.isPointerInsideResolvedElement(
+                            spellbookSkinScreenRect(*skinRoot, spell.rect), pointerX, pointerY))
+                    {
+                        GameplaySpellbookPointerTarget target = {};
+                        target.type = GameplaySpellbookPointerTargetType::SpellButton;
+                        target.school = context.spellbook().school;
+                        target.spellId = spell.spellId;
+                        return target;
+                    }
+                }
+
                 return {};
             }
 
@@ -1723,21 +1818,28 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 return;
             }
 
-            // MMMerge's extra quick spells: the selected spell goes into the slot; the same spell again, or no spell
-            // selected, clears it (ExtraQuickSpells.lua SetSlotSpell).
-            if (target.type == GameplaySpellbookPointerTargetType::QuickSpellSlotButton)
+            if (target.type == GameplaySpellbookPointerTargetType::BattleOrdersButton)
             {
-                Character *pActiveMember = context.party() != nullptr ? context.party()->activeMember() : nullptr;
+                GameplayBattleOrders::open(context, false);
+                return;
+            }
 
-                if (pActiveMember == nullptr || context.spellTable() == nullptr
-                    || target.slot >= ExtraQuickSpellSlotCount)
+            // Quick Cast and Attack Spell, the quick setup without the Battle Orders window: the selected spell is
+            // set; the same spell again, or no spell selected, clears it.
+            if (target.type == GameplaySpellbookPointerTargetType::QuickCastButton
+                || target.type == GameplaySpellbookPointerTargetType::AttackCastButton)
+            {
+                Party *pParty = context.party();
+                Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+                const bool quickCast = target.type == GameplaySpellbookPointerTargetType::QuickCastButton;
+
+                if (pActiveMember == nullptr || context.spellTable() == nullptr)
                 {
-                    context.setStatusBarEvent(Engine::tr("Can't set quick spell"));
+                    context.setStatusBarEvent(
+                        quickCast ? Engine::tr("Can't set quick spell") : Engine::tr("Can't set attack spell"));
                     return;
                 }
 
-                std::string &slotSpellName = pActiveMember->extraQuickSpellNames[target.slot];
-                const uint32_t slotNumber = uint32_t(target.slot + 1);
                 const uint32_t selectedSpellId = context.spellbook().selectedSpellId;
                 const SpellEntry *pSpellEntry =
                     selectedSpellId != 0 ? context.spellTable()->findById(int(selectedSpellId)) : nullptr;
@@ -1748,195 +1850,56 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     return;
                 }
 
-                if (pSpellEntry == nullptr || slotSpellName == pSpellEntry->name)
+                const size_t memberIndex = pParty->activeMemberIndex();
+                const bool alreadySet = pSpellEntry != nullptr
+                    && (quickCast ? pActiveMember->quickSpellName == pSpellEntry->name
+                                  : isAttackSpell(pSpellEntry->name, pActiveMember->battleOrders,
+                                      pActiveMember->battleOrderFallback));
+                const SpellEntry *pAssigned = alreadySet ? nullptr : pSpellEntry;
+
+                if (pAssigned == nullptr)
                 {
-                    slotSpellName.clear();
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent(Engine::tr("Quick spell {slot} cleared", {{"slot", slotNumber}}));
-                    return;
-                }
-
-                slotSpellName = pSpellEntry->name;
-
-                if (context.audioSystem() != nullptr)
-                {
-                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
-                }
-
-                context.playSpeechReaction(context.partyReadOnly()->activeMemberIndex(), SpeechId::SetQuickSpell, true);
-                context.setStatusBarEvent(Engine::tr("Quick spell {slot} set to {spell}",
-                    {{"slot", slotNumber}, {"spell", Engine::localize(pSpellEntry->name, "spell")}}));
-                return;
-            }
-
-            if (target.type == GameplaySpellbookPointerTargetType::QuickCastButton)
-            {
-                if (context.party() == nullptr || context.spellTable() == nullptr)
-                {
-                    context.setStatusBarEvent(Engine::tr("Can't set quick spell"));
-                    return;
-                }
-
-                Character *pActiveMember = context.party()->activeMember();
-
-                if (pActiveMember == nullptr)
-                {
-                    context.setStatusBarEvent(Engine::tr("Can't set quick spell"));
-                    return;
-                }
-
-                if (context.spellbook().selectedSpellId == 0)
-                {
-                    pActiveMember->quickSpellName.clear();
                     context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent(Engine::tr("Quick spell cleared"));
-                    return;
                 }
 
-                const SpellEntry *pSpellEntry =
-                    context.spellTable()->findById(static_cast<int>(context.spellbook().selectedSpellId));
-
-                if (pSpellEntry == nullptr)
+                if (quickCast)
                 {
-                    context.setStatusBarEvent(Engine::tr("Can't set quick spell"));
-                    return;
+                    GameplayBattleOrders::assignQuickSlot(context, memberIndex, 0, pAssigned);
                 }
-
-                if (!pActiveMember->knowsSpell(context.spellbook().selectedSpellId))
+                else
                 {
-                    context.setStatusBarEvent(Engine::tr("Spell not learned"));
-                    return;
+                    GameplayBattleOrders::assignAttackSpell(context, memberIndex, pAssigned);
                 }
-
-                if (pActiveMember->quickSpellName == pSpellEntry->name)
-                {
-                    pActiveMember->quickSpellName.clear();
-                    context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent(Engine::tr("Quick spell cleared"));
-                    return;
-                }
-
-                pActiveMember->quickSpellName = pSpellEntry->name;
-
-                if (context.audioSystem() != nullptr)
-                {
-                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
-                }
-
-                context.playSpeechReaction(
-                    context.partyReadOnly()->activeMemberIndex(),
-                    SpeechId::SetQuickSpell,
-                    true);
-                const SpellRules &spellRules = gameRulesFor(context.party()).spells;
-                context.setStatusBarEvent(Engine::tr("Quick spell set to {spell}",
-                    {{"spell", Engine::localize(spellRules.spellName(*pActiveMember, *pSpellEntry), "spell")}}));
-                return;
-            }
-
-            if (target.type == GameplaySpellbookPointerTargetType::AttackCastButton)
-            {
-                if (context.party() == nullptr || context.spellTable() == nullptr)
-                {
-                    context.setStatusBarEvent(Engine::tr("Can't set attack spell"));
-                    return;
-                }
-
-                Character *pActiveMember = context.party()->activeMember();
-
-                if (pActiveMember == nullptr)
-                {
-                    context.setStatusBarEvent(Engine::tr("Can't set attack spell"));
-                    return;
-                }
-
-                if (context.spellbook().selectedSpellId == 0)
-                {
-                    pActiveMember->attackSpellName.clear();
-                    context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent(Engine::tr("Attack spell cleared"));
-                    return;
-                }
-
-                const SpellEntry *pSpellEntry =
-                    context.spellTable()->findById(static_cast<int>(context.spellbook().selectedSpellId));
-
-                if (pSpellEntry == nullptr)
-                {
-                    context.setStatusBarEvent(Engine::tr("Can't set attack spell"));
-                    return;
-                }
-
-                if (!pActiveMember->knowsSpell(context.spellbook().selectedSpellId))
-                {
-                    context.setStatusBarEvent(Engine::tr("Spell not learned"));
-                    return;
-                }
-
-                if (pActiveMember->attackSpellName == pSpellEntry->name)
-                {
-                    pActiveMember->attackSpellName.clear();
-                    context.spellbook().selectedSpellId = 0;
-
-                    if (context.audioSystem() != nullptr)
-                    {
-                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    context.setStatusBarEvent(Engine::tr("Attack spell cleared"));
-                    return;
-                }
-
-                pActiveMember->attackSpellName = pSpellEntry->name;
-
-                if (context.audioSystem() != nullptr)
-                {
-                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
-                }
-
-                context.playSpeechReaction(
-                    context.partyReadOnly()->activeMemberIndex(),
-                    SpeechId::SetQuickSpell,
-                    true);
-                context.setStatusBarEvent(Engine::tr("Attack spell set to {spell}",
-                    {{"spell", Engine::localize(pSpellEntry->name, "spell")}}));
             }
         });
 
-    // Hovering a quick spell slot names its spell (ExtraQuickSpells.lua ShowSlotSpellName).
-    const GameplaySpellbookPointerTarget hovered = findSpellbookPointerTarget(input.pointerX, input.pointerY);
-    const Character *pHoverMember =
-        context.partyReadOnly() != nullptr ? context.partyReadOnly()->activeMember() : nullptr;
+    // A quick right click on a known spell opens its menu (Quick Cast, the quick spells, the orders); a held one only
+    // inspects it (GameplayHudOverlaySupport::updateSpellInspectOverlay).
+    GameplayUiController::SpellbookSpellMenuState &spellMenu = context.spellbook().spellMenu;
 
-    if (hovered.type == GameplaySpellbookPointerTargetType::QuickSpellSlotButton && pHoverMember != nullptr
-        && hovered.slot < ExtraQuickSpellSlotCount)
+    // Followed by the button's held state, so a press or release on a frame this handler misses still counts.
+    if (input.rightMouseButton.held && !spellMenu.rightHeld)
     {
-        const std::string &spellName = pHoverMember->extraQuickSpellNames[hovered.slot];
-        context.setStatusBarHoverText(
-            Engine::tr("Quick spell {slot}: {spell}", {{"slot", int64_t(hovered.slot + 1)},
-                {"spell", spellName.empty() ? Engine::tr("None") : Engine::localize(spellName, "spell")}}));
+        spellMenu.rightHeld = true;
+        const GameplaySpellbookPointerTarget pressed = findSpellbookPointerTarget(input.pointerX, input.pointerY);
+        spellMenu.rightPressSpellId =
+            pressed.type == GameplaySpellbookPointerTargetType::SpellButton ? pressed.spellId : 0;
+        spellMenu.rightPressTicks = SDL_GetTicks();
+    }
+    else if (!input.rightMouseButton.held && spellMenu.rightHeld)
+    {
+        spellMenu.rightHeld = false;
+        const GameplaySpellbookPointerTarget released = findSpellbookPointerTarget(input.pointerX, input.pointerY);
+
+        if (spellMenu.rightPressSpellId != 0
+            && released.type == GameplaySpellbookPointerTargetType::SpellButton
+            && released.spellId == spellMenu.rightPressSpellId
+            && SDL_GetTicks() - spellMenu.rightPressTicks <= GameplayBattleOrders::SpellMenuClickMilliseconds)
+        {
+            GameplayBattleOrders::openSpellMenu(context, released.spellId, input.pointerX, input.pointerY);
+        }
+
+        spellMenu.rightPressSpellId = 0;
     }
 }
 
@@ -4287,16 +4250,24 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     // The Use key over a pack item does what dropping it on the paperdoll does: drinks, learns, casts or equips it; a
     // message scroll shows while the key is held. Whatever is left in hand (a refused item, a potion with drinks left,
-    // the equipment it replaced) goes back where the item lay, else anywhere in the pack.
+    // the equipment it replaced) goes back where the item lay, else anywhere in the pack. An item of the bag overview
+    // (MAW's multibag) is used with its bag open, as on that bag's full-size grid.
     const Character *pHoveredOwner = pParty != nullptr ? pParty->member(selectedPartyMemberIndex) : nullptr;
-    const InventoryItem *pHoveredPackItem =
-        pHoveredOwner != nullptr
-            && hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem
-            && !context.heldInventoryItem().active
-            && !isReadOnlyAdventurersInnView
-            && !isInventorySpellTargetMode
-            ? pHoveredOwner->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
-            : nullptr;
+    const bool hoveredOverviewItem = hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem;
+    const bool canUseHoveredItem = pHoveredOwner != nullptr
+        && (hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem || hoveredOverviewItem)
+        && !context.heldInventoryItem().active
+        && !isReadOnlyAdventurersInnView
+        && !isInventorySpellTargetMode;
+    const InventoryItem *pHoveredPackItem = nullptr;
+
+    if (canUseHoveredItem)
+    {
+        pHoveredPackItem = hoveredOverviewItem
+            ? InventoryBags::itemInBagAt(
+                *pHoveredOwner, hoveredCharacterTarget.bag, hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+            : pHoveredOwner->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY);
+    }
 
     if (useKeyHeld && pHoveredPackItem != nullptr)
     {
@@ -4320,28 +4291,49 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             const uint8_t originX = pHoveredPackItem->gridX;
             const uint8_t originY = pHoveredPackItem->gridY;
-            activateCharacterTarget(hoveredCharacterTarget, mouseX, mouseY);
-
-            if (context.heldInventoryItem().active)
-            {
-                GameplayCharacterPointerTarget dollTarget = {};
-                dollTarget.type = GameplayCharacterPointerTargetType::DollPanel;
-                // Left of the paperdoll's middle: a weapon goes to the main hand first.
-                activateCharacterTarget(dollTarget, 0.0f, mouseY);
-            }
-
-            Character *pOwner = pParty->member(selectedPartyMemberIndex);
-
-            if (context.heldInventoryItem().active && pOwner != nullptr)
-            {
-                const InventoryItem leftover = context.heldInventoryItem().item;
-
-                if (pOwner->addInventoryItemAt(leftover, originX, originY)
-                    || pParty->tryAutoPlaceItemInMemberInventory(selectedPartyMemberIndex, leftover))
+            // The item as the open bag's grid shows it: an overview item's bag is open while it is used.
+            GameplayCharacterPointerTarget itemTarget = hoveredCharacterTarget;
+            itemTarget.type = GameplayCharacterPointerTargetType::InventoryItem;
+            itemTarget.gridX = originX;
+            itemTarget.gridY = originY;
+            const auto useItem =
+                [&]() -> bool
                 {
-                    context.heldInventoryItem() = {};
-                    pParty->clearHeldItemForQueries();
-                }
+                    activateCharacterTarget(itemTarget, mouseX, mouseY);
+
+                    if (context.heldInventoryItem().active)
+                    {
+                        GameplayCharacterPointerTarget dollTarget = {};
+                        dollTarget.type = GameplayCharacterPointerTargetType::DollPanel;
+                        // Left of the paperdoll's middle: a weapon goes to the main hand first.
+                        activateCharacterTarget(dollTarget, 0.0f, mouseY);
+                    }
+
+                    Character *pOwner = pParty->member(selectedPartyMemberIndex);
+
+                    if (context.heldInventoryItem().active && pOwner != nullptr)
+                    {
+                        const InventoryItem leftover = context.heldInventoryItem().item;
+
+                        if (pOwner->addInventoryItemAt(leftover, originX, originY)
+                            || pParty->tryAutoPlaceItemInMemberInventory(selectedPartyMemberIndex, leftover))
+                        {
+                            context.heldInventoryItem() = {};
+                            pParty->clearHeldItemForQueries();
+                        }
+                    }
+
+                    return true;
+                };
+
+            if (hoveredOverviewItem)
+            {
+                InventoryBags::withBagOpen(*pParty, selectedPartyMemberIndex, hoveredCharacterTarget.bag,
+                    gameRulesFor(pParty).items.bagCount(*pParty), useItem);
+            }
+            else
+            {
+                useItem();
             }
 
             return;

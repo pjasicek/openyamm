@@ -1,0 +1,75 @@
+<h2 id="about">About this list</h2>
+<p>OpenYAMM reimplements MAW; it does not run MAW's scripts. It follows MAW commit <span class="num">8fbb48d1</span>
+  (4 November 2026). The project's full record has about 130 entries; below are the ones a player
+  notices. Most fix bugs in the original, the rest replace interface MAW built for its engine.</p>
+
+<h2 id="rules">Rules and balance</h2>
+<div class="tbl"><table>
+  <thead><tr><th>Area</th><th>In OpenYAMM</th></tr></thead>
+  <tbody>
+    <tr><td>Normal difficulty</td><td>Its own in-between numbers (about ×0.75 HP, ×0.70 damage). In MAW, Easy and Normal play the same by mistake</td></tr>
+    <tr><td>Choosing rules</td><td>One ruleset switch and a Rules panel at New Game; Nightmare is a row that says it cannot be lowered, no typed "yes"</td></tr>
+    <tr><td>Map bands</td><td>Two maps that shared a display name (Jadame's Temple of the Sun, zdtl02) keep the bands MAW wrote for them</td></tr>
+    <tr><td>Grandmaster Shield</td><td>Its 15 % cut applies once to every hit (MAW applied it twice to magic)</td></tr>
+    <tr><td>Training past level 863</td><td>Still costs gold (MAW's overflow made it free)</td></tr>
+    <tr><td>Boss conditions</td><td>Venomous, Plagueborn and Fixator respect condition immunities</td></tr>
+    <tr><td>Cover</td><td>One rule for every single-target monster attack; only conscious members cover; Master covers every spell</td></tr>
+    <tr><td>Retaliation</td><td>Spent on the next melee hit</td></tr>
+    <tr><td>Promotions</td><td>The final-class draw is fixed per character; any member's Jadame award counts; Elder and Ultimate multiply the per-level gains without renaming tables</td></tr>
+    <tr><td>Assassin energy</td><td>Only blows that land pay energy</td></tr>
+    <tr><td>Death Knight</td><td>Death Coil heals 30 % from Master; SP never goes below zero; Asphyxiate stuns 4 s (2 s on bosses)</td></tr>
+    <tr><td>Vampire Charm, Dragon Fear</td><td>Read their own racial ability's mastery</td></tr>
+    <tr><td>Power, Wisdom, Resilience Boost</td><td>Really give +10 + power to their stats (nothing in MAW)</td></tr>
+    <tr><td>Immolation</td><td>Burns for 10 + 1–30 per point as its tooltip says (MAW's code: a flat 10)</td></tr>
+    <tr><td>Empower Magic</td><td>15 % + 0.3 % per point, as its tooltip says</td></tr>
+    <tr><td>Chain Lightning</td><td>Leaps only to hostile monsters, with the first bolt's damage</td></tr>
+    <tr><td>Town Portal, Lloyd's Beacon</td><td>Refused near enemies on Nightmare and in every Doom mode, Grandmaster too</td></tr>
+    <tr><td>Off-hand daggers</td><td>Dual-wielding a dagger needs Dagger Expert</td></tr>
+    <tr><td>Clubs, two-handed axes</td><td>Clubs slow with item level like other weapons; two-handed axes always get the ×2 gem cap</td></tr>
+    <tr><td>Vampiric artifacts</td><td>Foulfang, Spiritslayer and Mordred really leech (10 % melee, 5 % ranged)</td></tr>
+    <tr><td>Antagarich experience</td><td>The double experience applies on Antagarich's maps, wherever the party trained</td></tr>
+    <tr><td>Risen monsters</td><td>Full experience on Nightmare and Doom, none in the Insanity modes; a quarter of the normal loot</td></tr>
+    <tr><td>Monster missiles</td><td>Home at 300° a second at any frame rate, so strafing on foot does not dodge them</td></tr>
+    <tr><td>Celestial items</td><td>Scale with the wearer up to level 600 (1,000 in Beyond Madness)</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="items">Items and crafting</h2>
+<div class="tbl"><table>
+  <thead><tr><th>Area</th><th>In OpenYAMM</th></tr></thead>
+  <tbody>
+    <tr><td>Loot</td><td>A corpse's drop is fixed by the save, the map visit and the monster: reloading does not reroll it</td></tr>
+    <tr><td>Chest artifacts</td><td>Placed artifacts stay (MAW re-rolled them on every load, quest rewards included)</td></tr>
+    <tr><td>Loot filter</td><td>Five presets with a level rule; filtered items pay their gold at once with a combat log line; priceless items are never filtered</td></tr>
+    <tr><td>Shop reroll</td><td>A "New stock" button with its price in the weapon, armour and magic shops of all three continents (MAW: a hidden R key)</td></tr>
+    <tr><td>Workbench</td><td>Every craft on one bench with an exact preview; reloading does not change results; risky crafts ask first; every refusal says why</td></tr>
+    <tr><td>Pandora's Cube</td><td>Refuses rings and amulets (MAW took the cube for nothing)</td></tr>
+    <tr><td>Archibald's Mirror</td><td>Base items only; the copy stays identified</td></tr>
+    <tr><td>Gem merging</td><td>On the Workbench, any tier, every bag, many at once</td></tr>
+    <tr><td>Crafting in shops</td><td>Every magic shop and every alchemist sells materials</td></tr>
+    <tr><td>Catalyst</td><td>Cannot be drunk (a drink with no effect)</td></tr>
+    <tr><td>Dimension maps</td><td>Dropped maps have 2–4 active affixes like the quest's; maps open their target in every mode</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="interface">Interface</h2>
+<div class="tbl"><table>
+  <thead><tr><th>Area</th><th>In OpenYAMM</th></tr></thead>
+  <tbody>
+    <tr><td>Keys</td><td>MAW's keys are rebindable in the Keyboard settings: Gather Loot on G (MAW's K is Fly Down here), Alchemist on A; Unstuck, Open Workbench and Knight Charge unbound</td></tr>
+    <tr><td>Bags</td><td>Four bags a character, shown together; a party of one has five tabs of four (MAW: five, and 25 solo)</td></tr>
+    <tr><td>Map progress</td><td>A bar in the party frame with the share and count, gold when complete</td></tr>
+    <tr><td>Stats page</td><td>Melee, Ranged and Spell Power and Vitality in four rows; MAW's coloured stat names</td></tr>
+    <tr><td>Auras</td><td>An aura panel with holders, reservations and states</td></tr>
+    <tr><td>Teleporters</td><td>One pedestal under a glowing orb in New Sorpigal, Ravenshore and Harmondale</td></tr>
+    <tr><td>Trainers</td><td>A journal trainer finder and a Ledger of Teachers in every tavern; MAW's trainer hints name only teachers you know</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="not-ported">Not ported</h2>
+<ul>
+  <li>MAW's Randomizer (shuffled artifacts and monsters).</li>
+  <li>The Saving Goobers quest (OpenYAMM has no base quest for it yet).</li>
+  <li>The damage recount window and MAW's own settings page: their pieces live where they belong (Workbench, Rules
+    panel, combat log).</li>
+</ul>

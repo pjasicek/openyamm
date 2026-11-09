@@ -1,0 +1,1 @@
+/home/pjasicek/github/OpenYAMM/tools/upscaling/realesrgan-ncnn-vulkan -i /home/pjasicek/github/OpenYAMM/level_generation/minimaps/mm9_esrgan_20261109/input -o /home/pjasicek/github/OpenYAMM/level_generation/minimaps/mm9_esrgan_20261109/raw -n realesr-animevideov3 -s 2 -m /home/pjasicek/github/OpenYAMM/tools/upscaling/models -g 0 -j 1:1:1 -t 0 -f png

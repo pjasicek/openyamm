@@ -61,6 +61,13 @@ target_compile_features(openyamm_indoor_source PUBLIC cxx_std_20)
 add_executable(mm9_compile_indoor_source mm9_compile_indoor_source_main.cpp)
 target_link_libraries(mm9_compile_indoor_source PRIVATE openyamm_indoor_source)
 
+# MM9 balance probe: engine-built reference parties against each chapter's monster packs
+# (devdocs/mm9_rework/BALANCE_PLAN.md section 4). Read-only.
+add_executable(openyamm_balance_probe balance_probe_main.cpp)
+target_include_directories(openyamm_balance_probe PRIVATE
+    ${CMAKE_SOURCE_DIR} ${OPENYAMM_BGFX_FETCH_SOURCE_DIR}/3rdparty)
+target_link_libraries(openyamm_balance_probe PRIVATE openyamm_game openyamm_engine yaml-cpp::yaml-cpp)
+
 # Read-only native save inspection for generated-map reward and persistence reviews.
 add_executable(openyamm_levelgen_inspect_save levelgen_inspect_save_main.cpp)
 target_include_directories(openyamm_levelgen_inspect_save PRIVATE

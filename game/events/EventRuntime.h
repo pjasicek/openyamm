@@ -322,7 +322,7 @@ struct EventRuntimeState
         uint32_t hostHouseId = 0;
         std::vector<DialogueMenuId> menuStack;
         std::optional<DialogueOfferState> currentOffer;
-        std::array<uint8_t, 4> templeDonationCounters = {};
+        std::array<uint8_t, Party::MaxMembers> templeDonationCounters = {};
         uint32_t trainingHouseId = 0;
         std::vector<uint32_t> trainingLevelsByMember;
         std::optional<SuspendedMm9RudeDialogue> suspendedMm9RudeDialogue;
@@ -702,8 +702,6 @@ struct EventRuntimeState
     std::unordered_set<uint32_t> unavailableNpcIds;
     std::vector<HiredNpcFollower> hiredNpcFollowers;
     bool pendingDimensionDoorOverlay = false;
-    // The pending Dimension Door opens before the Cross Continents quest allows it (MAW's town pedestals).
-    bool pendingDimensionDoorWithoutQuest = false;
     DialogueRuntimeState dialogueState;
     std::array<uint8_t, 125> decorVars = {};
     // decorVars still use the numbering of saves before MMerge's campfire list (SaveVersionMMergeCampfireDecorVars);

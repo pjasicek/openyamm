@@ -29,6 +29,9 @@ distant sea, plus the coverage mask of every liquid edge tile (`worlds/<world>/t
   `terrain_subdivision` times per cell. Heights are Catmull-Rom through every native vertex, kept within the cell's
   height range and softly capped to 32 units from the native triangles (`outdoorSmoothedTerrainHeight` in
   `OutdoorGeometryUtils`), so collision, actors and walls stay on the ground. Smooth per-vertex normals.
+  The smoothed surface can reach a building floor laid at a cell's highest vertex (Ravenshore's crystal plaza), so
+  `vs_outdoor_terrain_materials.sc` pushes terrain depth back by about 16 steps of a 24-bit buffer: the terrain loses
+  those ties instead of z-fighting and showing its dark baked light through the floor.
   Open-water cells are a separate index range, skipped while the water renderer draws the water.
 - **Materials**: two `Texture2DArray`s cooked from the library (BC7 desktop / ETC2 Android): albedo+height and
   normal(XY)+AO+roughness. Per layer: world-space repeat, height-blend contrast, normal strength, cavity

@@ -68,6 +68,11 @@ bool GameplayUiController::journalSearchActive(const JournalScreenState &screen)
             || (screen.view == JournalView::Map && screen.mapNoteEditing));
 }
 
+bool GameplayUiController::spellbookSearchActive(const SpellbookState &spellbook)
+{
+    return spellbook.active && spellbook.battleOrders.open && spellbook.battleOrders.paletteSearchActive;
+}
+
 bool GameplayUiController::characterScreenSupportsInspection(const CharacterScreenState &screen)
 {
     return screen.open;
@@ -462,6 +467,8 @@ void GameplayUiController::closeSpellbook()
     State &state = resolvedState();
     state.spellbook.active = false;
     state.spellbook.selectedSpellId = 0;
+    state.spellbook.battleOrders = {};
+    state.spellbook.spellMenu = {};
     state.spellInspectOverlay = {};
 }
 
@@ -491,6 +498,8 @@ void GameplayUiController::openInventoryNestedOverlay(InventoryNestedOverlayMode
     state.inventoryNestedOverlay.mode = mode;
     state.inventoryNestedOverlay.houseId = houseId;
     state.inventoryNestedOverlay.bagZoomed = false;
+    state.inventoryNestedOverlay.sellTrashPicking = false;
+    state.inventoryNestedOverlay.sellTrashItems.clear();
 }
 
 void GameplayUiController::closeInventoryNestedOverlay()
@@ -613,6 +622,7 @@ void GameplayUiController::openUtilitySpellOverlay(
     state.utilitySpellOverlay.bypassRequiredMastery = false;
     state.utilitySpellOverlay.bypassGameplayCasterValidation = false;
     state.utilitySpellOverlay.lloydRecallMode = lloydRecallMode;
+    state.utilitySpellOverlay.townPortalContinent.clear();
 }
 
 void GameplayUiController::closeUtilitySpellOverlay()

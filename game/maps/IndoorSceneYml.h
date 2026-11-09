@@ -83,6 +83,8 @@ struct IndoorSceneInitialState
     std::vector<IndoorSceneFaceAttributeOverride> faceAttributeOverrides;
     std::vector<IndoorSceneDecorationFlag> decorationFlags;
     std::vector<MapDeltaActor> actors;
+    // A ruleset overlay's pack reserve (MapDeltaData::packReserve).
+    std::vector<MapDeltaPackReserveActor> packReserve;
     std::vector<MapDeltaSpriteObject> spriteObjects;
     std::vector<MapDeltaChest> chests;
     std::vector<IndoorSceneDoor> doors;
@@ -136,7 +138,8 @@ struct IndoorSceneData
     float portalNearReach = 0.0f;
     // Scene `actor_detection: {wakes: none}` clears it.
     bool actorNeighbourWakes = true;
-    // Scene `actor_detection: {provoke_radius: N}`: the world's mm9Provoke radius for this map.
+    // Scene `actor_detection: {provoke_radius: N}`: the provoked friends' radius for this map, in place of the hit
+    // monster's alert radius.
     std::optional<float> actorProvokeRadius;
     // Scene `static_lights: {sides: front}`.
     bool staticLightsFrontOnly = false;

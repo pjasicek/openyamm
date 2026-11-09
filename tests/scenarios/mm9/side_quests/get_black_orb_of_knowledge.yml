@@ -1,0 +1,154 @@
+# MM9 side quest "Get Black Orb of Knowledge" (guide: Side quests, Thronheim). Ealusaid A'Norta a'thrakan in
+# Thronheim City (RUDE 241) wants a Black Orb of Knowledge (key 311). The Mad Wizard Robinssen sells his for 2 000 gold
+# in the Wizard's Lab in Yorwick: the blue crystal at the entrance hall's white teleporter sends the party to the
+# star hall, where he stands among Winged Aberrations and Oddities. His talk agrees the price (key 312); its close
+# takes the gold and gives the orb (item 250, key 313; wizardslab.lua handler 50044, MM9's NPC55.scr :BlackOrb).
+# Ealusaid's "We've got the Black Orb." -> "Not only did he have it, he invented it." (key 314); her talk's close
+# takes the orb and pays 10 000 gold and 18 500 experience (key 315; thronheimcity.lua handler 50054).
+# Played: Thronheim City, the region and Yorwick are placed (cities and outdoors); the Connecting Tunnels and the lab
+# are walked; walk_to steps onto each teleporter and goes on from where it lands. Research:
+# prep/C_dragon_wizards_lab.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py get_black_orb_of_knowledge
+id: mm9.side_quests.get_black_orb_of_knowledge
+title: "MM9 side quest: Ealusaid's Black Orb, bought from Robinssen in the Wizard's Lab's star hall"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  # 2 500 gold: the orb's 2 000 and some to spare.
+  - new_game_flow:
+      start_map: thronheimcity.blv
+      party:
+        gold: 2500
+        food: 30
+        members:
+          - {name: Ragnar, class: Knight, level: 30, skills: [{name: Sword, level: 10, mastery: 2}, {name: Shield, level: 6, mastery: 2}], equipment: {main_hand: 1, off_hand: 99}}
+          - {name: Hrothgar, class: Cleric, level: 30, skills: [{name: Mace, level: 6, mastery: 2}], equipment: {main_hand: 66}}
+          - {name: Grisha, class: Thief, level: 30, skills: [{name: Dagger, level: 6, mastery: 2}, {name: Bow, level: 6, mastery: 2}], equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 30, skills: [{name: Staff, level: 6, mastery: 2}, {name: FireMagic, level: 6, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  # No story state is needed: Ealusaid, the Connecting Tunnels, Yorwick and the lab test no key.
+  - assert: {map: thronheimcity.blv, gold: 2500, qbit_clear: [90311, 90312, 90313, 90314, 90315]}
+
+  # Ealusaid (actor 0) in her small temple in the city's north-east corner: "Hello. Did you need some healing?"
+  - set_pose: {map: thronheimcity.blv, x: 6308, y: -20, z: 3114, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true, source_id: 241}}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "Why not?"}
+  - select_topic: {match_label: "What's stopping you?"}
+  - select_topic: {match_label: "What can we do to help?"}
+  - select_topic: {match_label: "Where can we find one?"}
+  - select_topic: {match_label: "We will find it for you."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90311], qbit_clear: [90312]}
+
+  # Out by the land gate (ExitTrigger1) to the Thronheim region, to the Connecting Tunnel (ExitTrigger6); the tunnels
+  # walked through to Yorwick.
+  - set_pose: {map: thronheimcity.blv, x: 14500, y: 82, z: 3093, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 14950, y: 82, z: 3093, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - set_pose: {map: thronheim.blv, x: 16168, y: -16700, z: 2090, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 16168, y: -17075, z: 2090, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+  - walk_to: {x: -17737, y: -7782, z: 1501, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+
+  # The Wizard's Lab on Yorwick's south shore (ExitTrigger6).
+  - set_pose: {map: yorwick.blv, x: -6200, y: 17744, z: 1051, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -6575, y: 17744, z: 1254, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: wizardslab.blv}
+
+  # The white teleporter in the entrance hall: the blue crystal (blue4, event 254), then onto it from its east side,
+  # on the line to the star hall's arrival point (DestinationBlue).
+  - walk_to: {x: 300, y: 7168, z: 1, z_tolerance: 200, radius: 20, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(254); wait(0.5)
+        if mapvar("Dest5") ~= 1 then error("the white teleporter is not set for blue") end
+  - walk_to: {via: [[300, 7168, 1]], x: -16323, y: 8274, z: 204, z_tolerance: 300, radius: 150, plan: false, timeout_seconds: 30}
+
+  # South down the star hall to Robinssen (actor 57); its monsters die as the party comes.
+  - walk_to: {x: -16323, y: 5300, z: -165, z_tolerance: 300, timeout_seconds: 90, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 57}
+  - assert: {dialog: {active: true, source_id: 55}}
+  - select_topic: {match_label: "We've heard you are the Mad Wizard Robinssen."}
+  - select_topic: {match_label: "We were wondering if you could help us."}
+  - select_topic: {match_label: "We're sure you're not mad."}
+  - select_topic: {match_label: "We've heard you have a Black Orb of Knowledge."}
+  - select_topic: {match_label: "Do you have one?  If you do, we'd like to buy it from you."}
+  - select_topic: {match_label: "Name your price."}
+  - select_topic: {match_label: "That's pretty steep."}
+  - select_topic: {match_label: "Well, alright.  2000 gold it is."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90311, 90312, 90313], gold: 500}
+  - play_lua:
+      source: |
+        if not has_item(10250) then error("no Black Orb of Knowledge") end
+        log("2 000 gold to Robinssen: the Black Orb of Knowledge (key 313)")
+
+  # Back: the white crystal at the blue teleporter (white0, event 231), then onto it from the arrival side.
+  - walk_to: {x: -16323, y: 8230, z: 204, z_tolerance: 300, radius: 20, timeout_seconds: 90, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        click(231); wait(0.5)
+        if mapvar("Dest1") ~= 5 then error("the blue teleporter is not set for white") end
+        log("the white crystal at the blue teleporter; onto it from the arrival side")
+  - walk_to: {via: [[-16323, 8380, 204], [-16323, 8530, 204]], x: 164, y: 7168, z: 0, z_tolerance: 300, radius: 30,
+              plan: false, timeout_seconds: 30}
+  - assert: {party_position: {x: 164, y: 7400, radius: 600}}
+  - walk_to: {x: 3850, y: 7168, z: 1, z_tolerance: 400, timeout_seconds: 60, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+
+  # Yorwick's tunnel exit (ExitTrigger7), the tunnels walked back east, Thronheim's land gate (ExitTrigger2).
+  - set_pose: {map: yorwick.blv, x: -23768, y: -13565, z: 1052, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -23768, y: -13893, z: 1213, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+  - walk_to: {x: 17243, y: -3850, z: 1884, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - set_pose: {map: thronheim.blv, x: 1392, y: 6100, z: 1279, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1392, y: 6498, z: 1279, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheimcity.blv}
+
+  # Ealusaid. Experience set to a round number here (kills on the way add their own) to check the reward exactly.
+  - set_pose: {map: thronheimcity.blv, x: 6308, y: -20, z: 3114, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - setup_shortcut: {kind: set_experience, value: 1000000}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We've got the Black Orb."}
+  - select_topic: {match_label: "Not only did he have it, he invented it."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90311, 90312, 90313, 90314, 90315], gold: 10500}
+  - play_lua:
+      source: |
+        if has_item(10250) then error("Ealusaid did not take the orb") end
+        for i = 0, 3 do
+          if experience(i) ~= 1018500 then error("member " .. i .. " has " .. experience(i) .. " experience, not 1000000 + 18500") end
+        end
+        log("Ealusaid has the orb: 10 000 gold, 18 500 experience, key 315")

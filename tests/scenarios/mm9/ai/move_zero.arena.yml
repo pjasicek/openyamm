@@ -1,0 +1,33 @@
+# AI arena: rows whose MONSTERS.txt Move is 0 (MM9 never reads Move) against a party standing still. Monster 0 a
+# Magreeb (9277, Magreeb.scr: BaseCrawl), monster 1 Forad Darre (9252, basemelee.scr; the Afterworld's Retribution
+# fight): both walk at their MM9 velocities, close in and strike. Monster 2 a Lobber (9086, no velocity: the one kind
+# of row that stays Stationary) never moves. Monster 3 an Evil Apprentice placed as the Wizard's Lab places its
+# apprentices (WizardSummoner.scr, Range type 2 after the ritual): it keeps its place and casts. See README.md.
+name: mm9_move_zero
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9277
+    position: [-500, 900, 1]
+    yaw_degrees: 270
+    mm9_ai: {runaway_chance: 0}
+  - monster_id: 9252
+    position: [500, 900, 1]
+    yaw_degrees: 270
+    hostile: true
+    mm9_ai: {runaway_chance: 0}
+  - monster_id: 9086
+    position: [0, 1200, 1]
+    yaw_degrees: 270
+  - monster_id: 9156
+    position: [-900, 300, 1]
+    yaw_degrees: 300
+    mm9_ai: {runaway_chance: 0, script: wizardsummoner.scr,
+             script_params: "ShooterSummon0 SummonLocation SummoningGuy6"}

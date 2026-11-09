@@ -1,0 +1,36 @@
+# A party bow shot with no actor under the crosshair goes to the standing destructible there, not to the nearest
+# visible hostile (devdocs/INDOOR_DESTRUCTIBLES.md "Aiming"; the user's "I shoot the Sturmford chains and nothing
+# happens"). The crosshair is on DestructableBrush0 (destructible 315, a drawbridge chain over the courtyard); a
+# hostile Bird hovers in view, out of blow reach (about 520 away). With the chain already broken the same shot flies at
+# the Bird (checked by hand); before the fix it did so with the chain standing.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/destructibles/sturmford_chain_crosshair.yml
+id: mm9.destructibles.sturmford_chain_crosshair
+title: A bow shot at the Sturmford chain breaks it while a hostile is in view
+world: mm9
+mode: faithful
+tags: [mm9, destructibles, combat]
+steps:
+  - new_game_flow:
+      start_map: sturmford.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 30
+            skills:
+              - {name: Bow, level: 10, mastery: 2}
+            equipment: {}
+  - grant_item: {item_id: 56, equip: bow}
+  - set_pose: {map: sturmford.blv, x: 15135, y: 16677, z: 1152, yaw: 1.824, pitch: 0.937}
+  - spawn_actor: {monster_id: 9093, x: 15255, y: 17013, z: 1715}
+  - advance_runtime: {seconds: 0.2}
+  - assert:
+      actor_visible: {actor_index: last, dead: false}
+  - console: {line: destructible 315 state, expect_contains: standing}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  - advance_runtime: {seconds: 3}
+  - console: {line: destructible 315 state, expect_contains: broken}

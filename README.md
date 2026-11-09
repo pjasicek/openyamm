@@ -4,111 +4,154 @@ OpenYAMM is Open Yet Another Might and Magic: a modern C++ reimplementation of
 Might and Magic VI, VII, and VIII, inspired by MMMerge and built on an engine
 that started from Might and Magic VIII.
 
-It uses the original game data with HD artwork, a new HUD and menus, modern
-rendering, and UX improvements.
+It uses the original game data with HD artwork, 3D monsters, a new interface,
+modern rendering, and UX improvements.
+
+![A ship and its reflection at Emerald Island](res/showcase/world-emerald-island.webp)
 
 ## Status
 
 OpenYAMM is playable across Might and Magic VI, VII, and VIII, including
-continent travel between the games. Windows, Linux, and Android builds are
-supported.
+continent travel between the games. Windows, Linux, Android, macOS and iOS builds
+are supported.
 
 The games share combat, spells, dialogue, quests, inventory, party state, and
 save/load systems. Development is active, with ongoing work on gameplay
 compatibility, polish, tooling, and the editor.
 
+A rebuild of Might and Magic IX as a fourth continent is in progress. It is not
+part of the releases yet.
+
 ## Features
 
+- 3D animated monsters and NPCs across all the games
 - HD textures, items, equipment, portraits, and interface backgrounds
-- HD MM6 monsters
-- New Obsidian HUD, menus, inventory, dialogue, and journal screens
-- Indoor and outdoor water with reflections, lightmaps, and shadows
-- Modeled MM6 ships and HD decorations
+- Blended terrain, grass, a new sky, rain and snow
+- Water reflections, lightmaps, shadows, and 3D decorations
+- New spell and hit effects
+- New HUD, menus, inventory, dialogue, and journal screens
+- Real-time and turn-based combat, with battle orders for each party member
 - Enemy health bars, floating damage, and party recovery indicators
+- Interface in English, Czech, German, Spanish, French, Polish, Russian and Chinese
+- Optional MAW ruleset
 - Android touch controls and context actions
 
 ## Screenshots
 
-**New HUD**
+### Worlds
 
-![Obsidian gameplay HUD with a five-character party](res/showcase/gameplay-hud.webp)
+**New Sorpigal**
 
-**HD items and inventory**
+![New Sorpigal from above](res/showcase/world-new-sorpigal.webp)
 
-![God Lich inventory and equipped paperdoll](res/showcase/inventory.webp)
+**Dagger Wound Island at dusk**
 
-**Water and reflections**
+![Palm trees and huts on Dagger Wound Island under a red evening sky](res/showcase/world-dagger-wound.webp)
 
-![Outdoor water with bridge and sailboat reflections](res/showcase/water-shoreline.webp)
+**Snowfall in the Frozen Highlands**
 
-**HD MM6 monsters**
+![Snow falling on the town in the Frozen Highlands](res/showcase/world-frozen-highlands.webp)
 
-![HD MM6 hydra variants](res/showcase/creatures-hydras.webp)
+<details>
+<summary>More worlds</summary>
 
-**Android touch controls**
+**Free Haven**
 
-![Android gameplay in New Sorpigal with touch controls](res/showcase/android-gameplay.webp)
+![Free Haven and its harbor](res/showcase/world-free-haven.webp)
+
+**Shadowspire**
+
+![The town of Shadowspire under a grey sky](res/showcase/world-shadowspire.webp)
+
+**Ravenshore and its crystal**
+
+![The red crystal in the middle of Ravenshore](res/showcase/world-ravenshore.webp)
+
+</details>
+
+### Combat
+
+**Red dragon and wyrm in Dragonsand**
+
+![A Fireball bursting next to a flying red dragon, with a wyrm on the ground](res/showcase/combat-dragon.webp)
+
+**Meteor Shower on two Titans in the Bracada Desert**
+
+![Meteors falling around two Titans in front of a stone arch](res/showcase/combat-titans.webp)
+
+**Lightning Bolt through a goblin pack**
+
+![Lightning Bolt hitting goblins and a goblin shaman, with health bars and damage numbers](res/showcase/combat-goblins.webp)
+
+### Interface
+
+**Inventory**
+
+![Inventory and paperdoll of an Arch Mage](res/showcase/ui-inventory.webp)
+
+**Spellbook**
+
+![The Fire Magic page of the spellbook](res/showcase/ui-spellbook.webp)
+
+**Battle orders**
+
+![Battle Orders window with an Incinerate order and its conditions](res/showcase/ui-battle-orders.webp)
 
 <details>
 <summary>More interface screenshots</summary>
 
+**Party creation**
+
+![Party creation screen with attributes, skills and the paperdoll](res/showcase/menu-party-creation.webp)
+
 **Main menu**
 
-![New main menu](res/showcase/main-menu.webp)
+![Main menu](res/showcase/menu-main.webp)
 
-**Quest journal**
+**Choosing the starting continent**
 
-![Quest journal with restored fonts and navigation icons](res/showcase/journal-quests.webp)
+![Enroth, Antagarich, Jadame and Chedian as starting continents](res/showcase/menu-continents.webp)
 
-**HD equipment**
+**Quick reference**
 
-![HD plate armor and inventory items](res/showcase/equipment-plate.webp)
+![Quick reference with the party's level, HP, SP, attack and skills](res/showcase/ui-quick-reference.webp)
 
-**MM6 Town Portal**
+**Scrolls carried by the party**
 
-![HD Enroth Town Portal map](res/showcase/town-portal-mm6.webp)
+![Scroll list opened from the bottom bar](res/showcase/ui-scrolls.webp)
 
-**MM8 Town Portal**
+**Resting**
 
-![HD Jadame Town Portal map](res/showcase/town-portal-mm8.webp)
+![Rest screen with the hourglass](res/showcase/ui-rest.webp)
 
-**Recovery indicator and enemy health bars**
+**Dialogue**
 
-![Party recovery indicator after an attack, with goblin health bars](res/showcase/hud-recovery-combat.webp)
-
-</details>
-
-<details>
-<summary>More rendering and combat screenshots</summary>
-
-**Indoor water**
-
-![Water and reflections in the Tomb of VARN](res/showcase/water-varn.webp)
-
-**Lightmaps and shadows**
-
-![Lightmaps and shadows around buildings and a timber gate](res/showcase/lighting-street.webp)
-
-**HD decorations**
-
-![HD flowers, trees, and stonework in New Sorpigal](res/showcase/world-decorations.webp)
-
-**Modeled MM6 ships**
-
-![Modeled MM6 ships at the harbor](res/showcase/world-ships.webp)
-
-**HD MM6 dragon**
-
-![HD MM6 red dragon](res/showcase/creatures-dragon.webp)
-
-**Floating damage**
-
-![Floating damage number above a Thunder Lizard](res/showcase/combat-floating-damage.webp)
+![Conversation with S'ton at the start of Might and Magic VIII](res/showcase/ui-dialogue.webp)
 
 </details>
 
+### Might and Magic IX rebuild (in progress)
+
+**Thjorgard**
+
+![Cobbled plaza in front of the Thjorgard town hall](res/showcase/mm9-thjorgard.webp)
+
+**Skeleton Warriors in Thjorgard**
+
+![Skeleton Warriors hit by a Fireball in a Thjorgard street](res/showcase/combat-mm9-skeletons.webp)
+
+**The inn at Drangheim**
+
+![Innkeeper behind the bar of the Drangheim inn](res/showcase/mm9-drangheim-inn.webp)
+
+### Android
+
 <details>
-<summary>More Android screenshots</summary>
+<summary>Android screenshots</summary>
+
+**Touch controls**
+
+![Android gameplay in New Sorpigal with touch controls](res/showcase/android-gameplay.webp)
 
 **Shop interaction**
 

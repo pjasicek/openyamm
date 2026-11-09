@@ -2179,7 +2179,6 @@ TEST_CASE("mm6 Dragoons Caverns flour sack states use MMMerge food search and cl
 
     const std::string globalSource =
         loadSourceFileText("assets_dev/engine/scripts/common/event_support.lua") + "\n\n"
-        + loadSourceFileText("assets_dev/engine/events/common/cross_continents_common.lua") + "\n\n"
         + loadSourceFileText("assets_dev/worlds/mm6/events/common/mm6_common.lua") + "\n\n"
         + loadSourceFileText("assets_dev/engine/events/Global.lua") + "\n\n"
         + loadSourceFileText("assets_dev/worlds/mm6/events/Global_mm6_mmmerge.lua");

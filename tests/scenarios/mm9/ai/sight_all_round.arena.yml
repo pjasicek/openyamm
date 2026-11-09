@@ -1,0 +1,27 @@
+# AI arena: the world's sight (worlds/mm9/world.yml actorAwareness mm9Sight: all round, x 1.5; MM9_MONSTER_AI_PLAN.md
+# "Awareness of the party"). Skeletoid 0 (9183, sight 600, hearing 100) stands 800 units from the party with its back
+# to it: MM9's 180 degree view and its 100 of hearing miss the party, the world's 900 all round sees it. Skeletoid 1
+# (sight 600) faces the party 1 000 units away, beyond its 900. The Embalmed Mummy (9145, dormant until it sees the
+# party, as MM9's Sighted starts) 300 units away with its back to it keeps MM9's senses and sleeps on. See README.md.
+name: mm9_sight_all_round
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9183
+    position: [0, -500, 1]
+    yaw_degrees: 90
+    mm9_ai: {sight: 600, hearing: 100, runaway_chance: 0}
+  - monster_id: 9183
+    position: [-600, -500, 1]
+    yaw_degrees: 307
+    mm9_ai: {sight: 600, hearing: 100, runaway_chance: 0}
+  - monster_id: 9145
+    position: [600, -1300, 1]
+    yaw_degrees: 0
+    mm9_ai: {sight: 600, hearing: 100, runaway_chance: 0, dormant: {until: sighted, pose: stand}}

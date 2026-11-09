@@ -148,6 +148,31 @@ def message_targets(source) -> set:
     return names
 
 
+def locks_itself(source, members: list) -> bool:
+    """Whether a door group's own OpenTriggers lock it (`Lock` to a member or a member's DoubleDoorName, which passes
+    the lock on). MM9 refuses to close a locked door (StartClosing, devdocs/mm9_rework/MM9_DOOR_OPEN_RE.md §3), so such
+    a door never closes by its CloseWaitTime: it stays open until something unlocks and shuts it. Thousand Terrors'
+    MiddleDoor4/5 lock themselves as they open and TrigSorcStatueOff3 unlocks and shuts them; with the auto-close the
+    door shut and locked behind a party in the treasure room beyond, which had no other way out (2026-11-09)."""
+    names = set()
+    for name in members:
+        names.add(name.lower())
+        record = source.by_name.get(name.lower())
+        if record is not None and str(record["properties"].get("DoubleDoorName") or "").strip():
+            names.add(str(record["properties"]["DoubleDoorName"]).strip().lower())
+    for name in members:
+        record = source.by_name.get(name.lower())
+        if record is None:
+            continue
+        properties = record["properties"]
+        for key, value in properties.items():
+            match = re.fullmatch(r"OpenTriggerTarget(\d+)", key)
+            if (match and str(value).strip().lower() in names
+                    and str(properties.get(f"OpenTrigger{match.group(1)}") or "").strip().lower() == "lock"):
+                return True
+    return False
+
+
 def free_door(source, members: list, targets: set) -> bool:
     """An MM9 door the player works with USE and nothing else drives (MM9_DOOR_OPEN_RE.md: PushOpen doors toggle on
     USE; OPEN-wired gates are PushOpen 0): every member a Door or RotatingDoor with PushOpen, not Locked, and named by
@@ -340,6 +365,12 @@ def build_movers(source, plan: dict, package, rooms, stats: Counter, mover_event
                     open_direction = -open_direction
                 # a door that starts open (MM9 StartOpen, or authored apart) stays open until it is shut once
                 linear = linear_mover(properties) if not (shut_pose or start_open(rule, properties)) else None
+            if locks_itself(source, members):
+                # it locks itself as it opens, and MM9 never closes a locked door: no auto-close (locks_itself)
+                if spin is not None:
+                    spin["mover"].pop("auto_close_seconds", None)
+                linear = None
+                stats["self_locking_no_auto_close"] += 1
             event, trigger_type = 0, "click"
             if group in mover_events:
                 event, trigger_type = mover_events[group]

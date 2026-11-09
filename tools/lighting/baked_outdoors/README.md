@@ -134,6 +134,15 @@ python3 -m unittest discover -s tools/lighting -p 'test_bake*.py'
   and animated water use a fixed, dark water material for bounce; no water animation is baked.
   Sprites, grass meshes, transient effects and local lights do not cast permanent baked shadows.
   Maps with authored moving mechanisms or unsupported terrain attribute overrides are rejected.
+- Terrain under building floors: a flat native terrain triangle in the plane of a building floor and under it
+  (Ravenshore's crystal plaza, the same crystal in the Plane Between Planes, many building floors laid on flat
+  ground) coincides with the floor. Cycles' rays from the floor hit it at zero distance, so the floor baked black
+  there. The producer finds these triangles from the map on every bake (`terrain_triangles_on_floors` in
+  `bake_geometry.py`) and bakes them into the terrain page as a separate object invisible to other surfaces' rays
+  (shadow, diffuse, glossy, transmission). `report.json` lists them (`terrain_triangles_on_floors`) and the black
+  share of each floor over them (`floors_on_terrain`); the log warns about any floor more than 5 % black there.
+  Bakes made before 2026-11-09 (producer SHA-256 recorded in `<map>.bake.json`) lack this, and `stale_bakes.py`
+  does not detect it, because it compares sources, not the producer.
 - Probes: 512-unit XY grid, refined to 128 units around building bounds; terrain-relative heights
   96/384/1152. They sample upward-facing diffuse illumination. Four nearest samples are interpolated
   after geometry visibility checks. This approximates shelter; it is not a sharp character shadow map.

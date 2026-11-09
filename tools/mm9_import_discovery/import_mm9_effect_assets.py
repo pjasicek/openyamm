@@ -12,7 +12,7 @@ import yaml
 from PIL import Image
 
 from convert_effect_dtx import convert_effect_texture
-from compile_effect_library import compile_library, properties
+from compile_effect_library import ORIGIN_ANCHOR_RECIPES, body_anchored, compile_library, properties
 from convert_abc_model import convert_model
 from generate_effect_capability_report import (
     SUPPORTED_COMPONENTS,
@@ -122,7 +122,7 @@ def supported_effect_names(repository_root: Path, manifest_path: Path) -> list[s
             for reference in resource_references(group)
         ):
             continue
-        if any(int(properties(key).get("UpdatePos", 0)) >= 2 for key in group["keys"]):
+        if body_anchored(group) and group["name"] not in ORIGIN_ANCHOR_RECIPES:
             continue
         model_blockers, _ = visible_model_blockers(group, bindings)
         if model_blockers:

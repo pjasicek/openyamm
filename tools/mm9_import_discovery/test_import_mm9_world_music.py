@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from import_mm9_world_music import import_music, selected_music_imports
+from import_mm9_world_music import import_music, selected_music_imports, track_for_mapstats_music
 
 
 class Mm9WorldMusicImportTests(unittest.TestCase):
@@ -31,6 +31,13 @@ class Mm9WorldMusicImportTests(unittest.TestCase):
 
             copied, unchanged = import_music(imports, output, check=True)
             self.assertEqual((copied, unchanged), (0, 2))
+
+    def test_mapstats_music_track_n_is_song_n_minus_one(self) -> None:
+        self.assertEqual(track_for_mapstats_music(2), 90001)
+        self.assertEqual(track_for_mapstats_music(7), 90006)
+        self.assertEqual(track_for_mapstats_music(18), 90017)
+        self.assertEqual(track_for_mapstats_music(1), 0)
+        self.assertEqual(track_for_mapstats_music(0), 0)
 
 
 if __name__ == "__main__":

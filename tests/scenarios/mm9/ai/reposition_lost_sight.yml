@@ -1,0 +1,30 @@
+id: mm9.ai.reposition_lost_sight
+title: A repositioning Evil Sorcerer walks to a spot within its leash that sees where the party vanished, and casts
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root (README.md). The sorcerer casts at the party in the pit; at about 8.4 s the party
+        vanishes behind the east pen's west wall and stays there. About 2 s later (lost_sight_seconds) the sorcerer
+        asks for a spot that sees where it last saw the party (reposition note spot, within its leash), walks there,
+        sees the party (reposition_arrived sight) and casts again before MM9's 8 s TargetLostTime would drop it.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: reposition_lost_sight.arena.yml}
+  - advance_runtime: {seconds: 18}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, before: 6, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition, detail: spot, after: 9.5, before: 11.5, min_count: 1, report: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: reposition_arrived, detail: sight, after: 9.5, before: 13, min_count: 1,
+        report: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, after: 10, before: 13, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: give_up, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, max_count: 0}

@@ -60,6 +60,11 @@ struct RulesetPanelText
 // - Replace: the patch file replaces the whole table.
 struct RulesetTableContribution
 {
+    // An engine table below engine/data_tables/ (`table: items.txt`), or with `world` set, a table that world's
+    // package adds, by its path in world.yml (`world: mm9`, `table: data_tables/monster_data.txt`). A world's
+    // contribution applies only while that world's tables are read, so it does nothing when the world is not
+    // installed.
+    std::string world;
     std::string table;
     TableContributionMode mode = TableContributionMode::Override;
     std::string path;
@@ -88,14 +93,19 @@ struct RulesetDefinition
     std::vector<RulesetTableContribution> tables;
     // Skills the ruleset shows under another name (`skillNames`: canonical skill name -> display name).
     std::map<std::string, std::string> skillNames;
+    // The worlds the ruleset plays in (`worlds`: world ids), empty for every world. A world it leaves out is greyed
+    // out at a new game, has no dimension door, and is never entered or loaded under it.
+    std::vector<std::string> worlds;
 
     bool isStandard() const;
+    bool supportsWorld(const std::string &worldId) const;
     RulesetOptions defaultOptions() const;
     // Whether these options are among the choices and agree with the chosen challenge mode (preferences are always
     // allowed).
     bool offers(const RulesetOptions &options) const;
-    // The contributions to an engine table, in the order they apply (a generated patch, then hand-written ones).
-    std::vector<const RulesetTableContribution *> findTables(const std::string &engineTableVirtualPath) const;
+    // The contributions to an engine table (engine/data_tables/...) or a world's table (worlds/<id>/...), in the
+    // order they apply (a generated patch, then hand-written ones).
+    std::vector<const RulesetTableContribution *> findTables(const std::string &tableVirtualPath) const;
 };
 
 RulesetDefinition standardRulesetDefinition();

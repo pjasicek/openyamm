@@ -165,6 +165,9 @@ public:
         std::optional<size_t> targetActorIndex;
         size_t actingMemberIndex = 0;
         CharacterAttackResult attack = {};
+        // The acting member held (BattleOrderFallback::Hold): nothing was done. In real time every other ready
+        // combatant was tried too; in turn-based mode the caller passes the member's turn.
+        bool held = false;
     };
 
     // A held Attack or Quick Cast key repeats like an OS key repeat: first after a pause long enough that an ordinary
@@ -183,6 +186,8 @@ public:
         GameplayScreenState::AttackActionState &attackActionState,
         GameplayScreenState::QuickSpellState &quickSpellState,
         const AttackActionConfig &config);
+    // An Attack press: the active combatant's attack (a member's battle orders, game/party/BattleOrders.h); in real time
+    // a member who holds hands the press to the next ready combatant.
     static PartyAttackExecutionResult executePartyAttack(const PartyAttackConfig &config);
     // The Unstuck action (MAW's L key): lifts the party when its rules allow it now, else does nothing and says why.
     // True when the party was lifted.
@@ -203,5 +208,8 @@ public:
     // The gather key (MAW's K): brings the corpses and ground items the party's rules name in front of the party and
     // says how many came; on a completed map it first loots every satchel into the bags. Nothing in rules without it.
     static GatherLootResult gatherLoot(Party &party, IGameplayWorldRuntime &worldRuntime);
+
+private:
+    static PartyAttackExecutionResult executeActiveCombatantAttack(const PartyAttackConfig &config);
 };
 } // namespace OpenYAMM::Game

@@ -60,12 +60,75 @@ const std::vector<MawClassSpell> AssassinSpells = {
 };
 
 const std::vector<MawClassSpell> NoSpells;
+
+// The class spellbooks: per page the school's first spell id, the page and tab art, then each spell's pictures and
+// place in the 640 x 480 book. Written by level_generation/ui/maw_class_spellbooks_20261108/scripts/
+// install_runtime.py from the study's layout; the art is in engine/icons_x2 (maw_sbdk*, maw_sbas*, maw_stdk*,
+// maw_stas*), and the Assassin's ordinary spells keep their original pictures.
+const SpellbookSkin DeathKnightSpellbook = {{
+    {23, "maw_sbdk_frost", "maw_stdk_frost_d", "maw_stdk_frost_u", {
+        {26, "maw_sbdk26b", "maw_sbdk26a", {129.5f, 124.2f, 165.0f, 111.5f}},
+        {27, "maw_sbdk27b", "maw_sbdk27a", {57.5f, 279.2f, 215.0f, 145.5f}},
+        {29, "maw_sbdk29b", "maw_sbdk29a", {360.0f, 64.5f, 220.0f, 171.0f}},
+        {32, "maw_sbdk32b", "maw_sbdk32a", {360.0f, 267.0f, 220.0f, 170.0f}},
+    }},
+    {67, "maw_sbdk_blood", "maw_stdk_blood_d", "maw_stdk_blood_u", {
+        {68, "maw_sbdk68b", "maw_sbdk68a", {129.5f, 124.2f, 165.0f, 111.5f}},
+        {71, "maw_sbdk71b", "maw_sbdk71a", {57.5f, 270.8f, 215.0f, 162.5f}},
+        {76, "maw_sbdk76b", "maw_sbdk76a", {360.0f, 71.5f, 220.0f, 157.0f}},
+        {74, "maw_sbdk74b", "maw_sbdk74a", {372.8f, 262.0f, 194.5f, 180.0f}},
+    }},
+    {89, "maw_sbdk_unholy", "maw_stdk_unholy_d", "maw_stdk_unholy_u", {
+        {91, "maw_sbdk91b", "maw_sbdk91a", {129.5f, 115.0f, 165.0f, 130.0f}},
+        {90, "maw_sbdk90b", "maw_sbdk90a", {57.5f, 274.0f, 215.0f, 156.0f}},
+        {96, "maw_sbdk96b", "maw_sbdk96a", {360.0f, 66.8f, 220.0f, 166.5f}},
+        {97, "maw_sbdk97b", "maw_sbdk97a", {360.0f, 277.8f, 220.0f, 148.5f}},
+    }},
+}};
+
+const SpellbookSkin AssassinSpellbook = {{
+    {1, "maw_sbas_combat", "maw_stas_combat_d", "maw_stas_combat_u", {
+        {1, "sbf01b", "sbf01a", {150.0f, 110.0f, 124.0f, 140.0f}},
+        {4, "sbf02b", "sbf02a", {109.0f, 277.5f, 112.0f, 155.0f}},
+        {5, "sbf05b", "sbf05a", {399.5f, 44.5f, 141.0f, 121.0f}},
+        {6, "maw_sbas06b", "maw_sbas06a", {375.0f, 179.0f, 174.0f, 132.0f}},
+        {7, "maw_sbas07b", "maw_sbas07a", {382.8f, 319.0f, 174.5f, 132.0f}},
+    }},
+    {12, "maw_sbas_subtlety", "maw_stas_subtlety_d", "maw_stas_subtlety_u", {
+        {12, "sba01b", "sba01a", {151.0f, 117.5f, 128.0f, 115.0f}},
+        {17, "sba06b", "sba06a", {54.2f, 243.0f, 111.5f, 118.0f}},
+        {16, "sba05b", "sba05a", {161.2f, 346.2f, 107.5f, 117.5f}},
+        {18, "maw_sbas18b", "maw_sbas18a", {373.8f, 39.0f, 192.5f, 132.0f}},
+        {21, "sba10b", "sba10a", {395.8f, 179.0f, 132.5f, 132.0f}},
+        {19, "sba08b", "sba08a", {403.0f, 319.5f, 134.0f, 131.0f}},
+    }},
+    {23, "maw_sbas_poisons", "maw_stas_poisons_d", "maw_stas_poisons_u", {
+        {24, "maw_sbas24b", "maw_sbas24a", {129.5f, 124.8f, 165.0f, 110.5f}},
+        {27, "sbw05b", "sbw05a", {87.0f, 306.5f, 156.0f, 97.0f}},
+        {29, "maw_sbas29b", "maw_sbas29a", {372.0f, 39.0f, 196.0f, 132.0f}},
+        {31, "sbw09b", "sbw09a", {395.0f, 198.5f, 134.0f, 93.0f}},
+        {33, "sbw11b", "sbw11a", {423.5f, 319.0f, 93.0f, 132.0f}},
+    }},
+    {34, "maw_sbas_assassination", "maw_stas_assassination_d", "maw_stas_assassination_u", {
+        {34, "maw_sbas34b", "maw_sbas34a", {129.5f, 124.8f, 165.0f, 110.5f}},
+        {38, "sbe05b", "sbe05a", {93.5f, 290.5f, 143.0f, 129.0f}},
+        {39, "maw_sbas39b", "maw_sbas39a", {372.0f, 39.0f, 196.0f, 132.0f}},
+        {42, "sbe09b", "sbe09a", {380.5f, 211.0f, 163.0f, 68.0f}},
+        {44, "maw_sbas44b", "maw_sbas44a", {372.0f, 319.0f, 196.0f, 132.0f}},
+    }},
+}};
 }
 
 const std::vector<MawClassSpell> &mawClassSpells(const std::string &className)
 {
     const std::string line = mawClassLine(className);
     return line == "death_knight" ? DeathKnightSpells : line == "assassin" ? AssassinSpells : NoSpells;
+}
+
+const SpellbookSkin *mawClassSpellbookSkin(const std::string &className)
+{
+    const std::string line = mawClassLine(className);
+    return line == "death_knight" ? &DeathKnightSpellbook : line == "assassin" ? &AssassinSpellbook : nullptr;
 }
 
 const MawClassSpell *mawClassSpell(const std::string &className, uint32_t spellId)
@@ -207,6 +270,20 @@ double mawElementalistNextSpellPercent(double progress)
     }
 
     return 100;
+}
+
+std::optional<uint32_t> mawElementalistNextSpell(size_t school, double progress)
+{
+    // A spell of tier t needs the threshold t - 1, so the first threshold not reached opens tier index + 1.
+    for (size_t tier = 1; tier < ElementalistThresholds.size(); ++tier)
+    {
+        if (progress < ElementalistThresholds[tier])
+        {
+            return uint32_t(school * 11 + tier + 1);
+        }
+    }
+
+    return std::nullopt;
 }
 
 std::vector<uint32_t> mawElementalistKnownSpells(const Character &character, bool insanity)

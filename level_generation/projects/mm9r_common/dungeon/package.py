@@ -217,8 +217,9 @@ class SourcePackage:
             # map, 25 000 faces) did not finish in half an hour (outdoor_blv.py).
             self.metadata["source"]["import"]["generate_bsp"] = False
         if self.project.overrides["map"].get("painted_minimap"):
-            # A painted minimap (an MM9 city, ../CITY_PLAYBOOK.md) draws no line map: the compiler makes no outlines,
-            # so the save format's 7 000-outline bitset does not limit the map.
+            # Painted map only (the MM9 cities and regions, ../CITY_PLAYBOOK.md): the compiler makes no outlines, so
+            # the save format's 7 000-outline bitset does not limit the map, and the Map style setting cannot pick a
+            # line map. Every map has its painted map (tables.catalog_text); the dungeons keep their outlines.
             self.metadata["source"]["import"]["generate_outlines"] = False
 
     def material(self, texture: str) -> tuple[str, int, int]:

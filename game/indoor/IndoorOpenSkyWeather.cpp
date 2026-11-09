@@ -128,6 +128,7 @@ void IndoorOpenSkyWeather::configure(const std::optional<OutdoorWeatherProfile> 
     m_roofMapUploaded = false;
     m_roofMapUnusable = false;
     m_audibility = 0.0f;
+    m_fog = {};
 }
 
 void IndoorOpenSkyWeather::update(double gameMinutes, float elapsedSeconds, GameAudioSystem *pAudio, float audibility)
@@ -140,6 +141,7 @@ void IndoorOpenSkyWeather::update(double gameMinutes, float elapsedSeconds, Game
     const WeatherRules &rules = m_profile->weatherRules;
     const WeatherMapSettings &settings = m_profile->weatherMap;
     WeatherSample target = sampleRolledWeather(rules, settings, gameMinutes);
+    m_fog = sampleOpenSkyFog(rules, settings, gameMinutes, m_debugFog);
     // Wetness integrates hours of weather: resampled once per game minute, as the outdoor runtime does.
     const int64_t minute = static_cast<int64_t>(std::floor(gameMinutes));
 
@@ -199,6 +201,8 @@ void IndoorOpenSkyWeather::applyToSky(SkyInputs &inputs) const
     inputs.snowing = !inputs.raining && m_presentation.snowLevel() > ShownPrecipitationThreshold;
     inputs.precipitation = std::max(m_presentation.rainLevel(), m_presentation.snowLevel());
     inputs.lightningFlash = m_presentation.lightningFlash();
+    inputs.foggy = m_fog.foggy;
+    inputs.fogStrongDistance = m_fog.foggy ? m_fog.farDistance : 0.0f;
 }
 
 float IndoorOpenSkyWeather::rainRings() const

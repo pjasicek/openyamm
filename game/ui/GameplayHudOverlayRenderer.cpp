@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 #include <limits>
 #include <optional>
 #include <string>
@@ -559,13 +560,46 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
     // The grid shows the active member's open bag, or a shop the four bags at once; several bags have a button each.
     renderPartyBagButtons(view, width, height);
 
+    // Sell trash's pick (the sell screen): the picked items' cells are lit in gold under the icon and outlined over it,
+    // and the other items are dimmed.
+    const GameplayUiController::InventoryNestedOverlayState &overlay = view.inventoryNestedOverlay();
+    const bool sellTrashPicking =
+        overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell && overlay.sellTrashPicking;
+    const size_t activeMemberIndex = view.partyReadOnly()->activeMemberIndex();
+    const auto fillRect = [&view](float x, float y, float rectWidth, float rectHeight, uint32_t colorAbgr)
+    {
+        char name[40] = {};
+        std::snprintf(name, sizeof(name), "__sell_trash_%08x__", colorAbgr);
+        const std::optional<GameplayScreenRuntime::HudTextureHandle> texture =
+            view.gameplayUiRuntime().ensureSolidHudTextureLoaded(name, colorAbgr);
+
+        if (texture)
+        {
+            view.submitHudTexturedQuad(*texture, x, y, rectWidth, rectHeight);
+        }
+    };
+
     // One bag's items on its grid, each inspected in the bag it lies in.
     const auto renderBagItems =
-        [&view, isShopInventory](const std::vector<InventoryItem> &items, const InventoryGridMetrics &gridMetrics,
-            uint8_t bag)
+        [&](const std::vector<InventoryItem> &items, const InventoryGridMetrics &gridMetrics, uint8_t bag)
         {
             for (const InventoryItem &item : items)
             {
+                const bool picked = sellTrashPicking
+                    && std::find(overlay.sellTrashItems.begin(), overlay.sellTrashItems.end(),
+                           BagItemRef{activeMemberIndex, bag, item.gridX, item.gridY})
+                        != overlay.sellTrashItems.end();
+                const float cellsX = std::round(gridMetrics.x + float(item.gridX) * gridMetrics.cellWidth);
+                const float cellsY = std::round(gridMetrics.y + float(item.gridY) * gridMetrics.cellHeight);
+                const float cellsWidth = std::round(float(item.width) * gridMetrics.cellWidth);
+                const float cellsHeight = std::round(float(item.height) * gridMetrics.cellHeight);
+                const float line = std::max(1.0f, std::round(2.0f * gridMetrics.scale));
+
+                if (picked)
+                {
+                    fillRect(cellsX, cellsY, cellsWidth, cellsHeight, 0x6030a0d8u);
+                }
+
                 const ItemDefinition *pItemDefinition =
                     view.itemTable() != nullptr ? view.itemTable()->get(item.objectDescriptionId) : nullptr;
 
@@ -592,7 +626,18 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
                 // OE keeps status tints unchanged between Display, Sell, Identify, and Repair.
                 const ItemTintContext tintContext =
                     isShopInventory ? ItemTintContext::ShopInventory : ItemTintContext::Inventory;
-                const uint32_t tintColor = itemTintColorAbgr(&item, pItemDefinition, tintContext);
+                uint32_t tintColor = itemTintColorAbgr(&item, pItemDefinition, tintContext);
+
+                // While picking, what stays is dimmed and faded so that the pick stands out.
+                if (sellTrashPicking && !picked)
+                {
+                    const auto scaled = [tintColor](int shift, uint32_t percent)
+                    {
+                        return (((tintColor >> shift) & 0xffu) * percent / 100u) << shift;
+                    };
+                    tintColor = scaled(24, 60) | scaled(16, 40) | scaled(8, 40) | scaled(0, 40);
+                }
+
                 const bgfx::TextureHandle tintedTextureHandle =
                     view.gameplayUiRuntime().ensureHudTextureColorModulated(*itemTexture, tintColor);
 
@@ -602,10 +647,24 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
                     renderedTexture.textureHandle = tintedTextureHandle;
                 }
 
-                GameplayHudOverlaySupport::renderItemRarityGlow(
-                    view, item, *itemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height,
-                    gridMetrics.scale);
+                // What stays loses its rarity glow too: a bright outline would outshine the pick.
+                if (!sellTrashPicking || picked)
+                {
+                    GameplayHudOverlaySupport::renderItemRarityGlow(
+                        view, item, *itemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height,
+                        gridMetrics.scale);
+                }
+
                 view.submitHudTexturedQuad(renderedTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+
+                if (picked)
+                {
+                    const uint32_t gold = 0xff4cc0f0u;
+                    fillRect(cellsX, cellsY, cellsWidth, line, gold);
+                    fillRect(cellsX, cellsY + cellsHeight - line, cellsWidth, line, gold);
+                    fillRect(cellsX, cellsY + line, line, cellsHeight - 2 * line, gold);
+                    fillRect(cellsX + cellsWidth - line, cellsY + line, line, cellsHeight - 2 * line, gold);
+                }
 
                 GameplayRenderedInspectableHudItem inspectableItem = {};
                 inspectableItem.objectDescriptionId = pItemDefinition->itemId;

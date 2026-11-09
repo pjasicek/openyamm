@@ -1,0 +1,58 @@
+id: mm9r.bodies_seamonster
+title: seamonster
+world: mm9
+mode: faithful
+tags:
+- mm9
+- draft
+steps:
+- load_map:
+    map: 1000terrors.blv
+- set_pose:
+    map: 1000terrors.blv
+    x: 8520
+    y: -15600
+    z: -3337
+    yaw: -1.5708
+    pitch: 0
+- spawn_actor:
+    monster_id: 9177
+    count: 1
+    x: 8520
+    y: -16220
+    z: -3337
+    group: 77
+- advance_runtime:
+    seconds: 1.5
+- &id001
+  assert:
+    actor_visible:
+      actor_index: 114
+      report_state: true
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001
+- advance_runtime:
+    seconds: 1.5
+- *id001

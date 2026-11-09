@@ -182,3 +182,32 @@ TEST_CASE("recent loot drops keep the last 50")
     CHECK_EQ(recent.drops().front().partyLevel, 10);
     CHECK_EQ(recent.drops().back().partyLevel, 59);
 }
+
+TEST_CASE("Sell trash picks plain gear, gear far below the party and gems")
+{
+    using G = LootFilterGroup;
+    CHECK(isSellTrash(gear(G::Weapons, 1), 30));
+    CHECK(isSellTrash(gear(G::Armour, 2), 30));
+    CHECK_FALSE(isSellTrash(gear(G::Weapons, 3, 25), 30));
+    CHECK(isSellTrash(gear(G::Weapons, 3, 20), 30));
+    CHECK_FALSE(isSellTrash(gear(G::Armour, 4, 15), 30));
+    CHECK(isSellTrash(gear(G::Armour, 4, 10), 30));
+    CHECK_FALSE(isSellTrash(gear(G::Armour, 5, 1), 60));
+    // An item without a level never goes by the level rules.
+    CHECK_FALSE(isSellTrash(gear(G::Weapons, 3, 0), 60));
+
+    CHECK(isSellTrash(gear(G::Jewellery, 1), 30));
+    CHECK_FALSE(isSellTrash(gear(G::Jewellery, 2, 25), 30));
+    CHECK(isSellTrash(gear(G::Jewellery, 2, 20), 30));
+    CHECK_FALSE(isSellTrash(gear(G::Jewellery, 3, 15), 30));
+    CHECK(isSellTrash(gear(G::Jewellery, 3, 10), 30));
+    CHECK_FALSE(isSellTrash(gear(G::Jewellery, 4, 1), 60));
+
+    CHECK(isSellTrash(kind(RulesetLootKind::Gems), 1));
+    CHECK_FALSE(isSellTrash(kind(RulesetLootKind::Wands), 60));
+    CHECK_FALSE(isSellTrash(kind(RulesetLootKind::Reagents), 60));
+
+    LootFilterFacts kept = gear(G::Weapons, 1);
+    kept.alwaysKept = true;
+    CHECK_FALSE(isSellTrash(kept, 60));
+}

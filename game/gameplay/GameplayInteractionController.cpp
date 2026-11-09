@@ -1038,6 +1038,11 @@ void executePartyAttack(
             attackResult.actingMemberIndex,
             attackResult.attack.recoverySeconds);
     }
+    // A member whose battle orders hold passes the turn, as the Pass key does.
+    else if (turnBasedCombatRuntime.active() && attackResult.held)
+    {
+        runtime.passTurnBasedTurn();
+    }
 }
 
 void clearWorldInteractionFrameState(

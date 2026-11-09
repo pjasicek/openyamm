@@ -108,3 +108,47 @@ TEST_CASE("an MM6 map's SetFacetBit face reference changes that one face when it
     REQUIRE(scene.activateEvent(12, "face", 0));
     CHECK_EQ(world.mapDeltaData()->faceAttributes[2667] & untouchable, 0u);
 }
+
+TEST_CASE("an indoor map state restored from a save without sprite object keys gets one key per object")
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm8"));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "d24.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    REQUIRE(loaded.indoorMapData);
+    IndoorMapData map = *loaded.indoorMapData;
+    map.spawns.clear();
+    std::optional<MapDeltaData> delta = loaded.indoorMapDeltaData;
+    REQUIRE(delta);
+    delta->actors.clear();
+
+    Party party;
+    party.setItemTable(&data.getItemTable());
+    GameplayActorService actorService;
+    actorService.bindTables(&data.getMonsterTable(), &data.getSpellTable());
+    IndoorSceneRuntime scene(loaded.map.fileName, loaded.map, map,
+        data.getMonsterTable(), data.getMonsterProjectileTable(), data.getObjectTable(), data.getSpellTable(),
+        data.getItemTable(), data.getChestTable(), party, delta, loaded.eventRuntimeState,
+        loaded.localEventProgram, std::nullopt, &actorService, nullptr);
+
+    // Saves older than version 171 load their objects with key 0; unkeyed, ground items shared one model and were
+    // refitted to the floor every frame (MM9's Sturmford at 8 FPS).
+    IndoorSceneRuntime::Snapshot saved = scene.snapshot();
+    REQUIRE(saved.mapDeltaData);
+    saved.mapDeltaData->spriteObjects.resize(3);
+    for (MapDeltaSpriteObject &spriteObject : saved.mapDeltaData->spriteObjects)
+    {
+        spriteObject.objectKey = 0;
+    }
+    scene.restoreSnapshot(saved);
+
+    const std::vector<MapDeltaSpriteObject> &objects = scene.worldRuntime().mapDeltaData()->spriteObjects;
+    REQUIRE_EQ(objects.size(), 3u);
+    CHECK_NE(objects[0].objectKey, 0u);
+    CHECK_NE(objects[0].objectKey, objects[1].objectKey);
+    CHECK_NE(objects[1].objectKey, objects[2].objectKey);
+    CHECK_NE(objects[0].objectKey, objects[2].objectKey);
+}

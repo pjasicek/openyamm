@@ -68,6 +68,10 @@ const char *lootFilterKindName(RulesetLootKind kind);
 // A cell of the window's grid: "keep", "gold" or "gold if 20+ levels below".
 std::string lootFilterCellText(RulesetLootFilterPreset preset, LootFilterGroup group, int rarity);
 LootFilterVerdict evaluateLootFilter(const RulesetLootFilter &filter, const LootFilterFacts &facts, int partyLevel);
+// Whether a shop's Sell trash picks the item (MAW): Common and Uncommon weapons and armour, Rare ones 10+ levels below
+// the party and Epic ones 20+ below; Common jewellery, Uncommon 10+ below and Rare 20+ below; every gem. The player
+// changes the pick before selling; never anything the loot filter always keeps.
+bool isSellTrash(const LootFilterFacts &facts, int partyLevel);
 
 // A drop the filter saw this session, for the window's "your last 50 drops" (not saved).
 struct RecentLootDrop

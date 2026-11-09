@@ -1,0 +1,40 @@
+# A party that takes the Crona Kiga from the Chasm of the Dead before Sigmund asks for it (the pedestal then gives
+# key 169, not 48) still completes his task and gets Drangheim's pledge (mm9r_drangheimcity README, NPC87.scr
+# Deviation, 2026-11-08): "We've already retrieved that." gives 46, showing it ("Certainly.") and closing the talk
+# gives 50 (12 500 xp, 10 000 gold, the Kiga taken); with the defences done (49) Sigmund joins (51).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/crona_kiga_before_task.yml --scenario-no-color
+id: mm9.crona_kiga_before_task
+title: "MM9 Drangheim: the Crona Kiga taken before Sigmund's task still earns his pledge"
+world: mm9
+mode: faithful
+tags: [mm9, dialogue, quests]
+steps:
+  - load_map: {map: drangheimcity.blv}
+  - advance_runtime: {seconds: 0.5}
+  # The pedestal's state without the task (chasmofthedead.lua: key 169 and the Kiga); the defences already reported.
+  - console: {line: "qbit set 90169"}
+  - grant_item: {item_id: 10390}
+  - assert: {held_item: {active: false}}
+  - set_pose: {map: drangheimcity.blv, x: 19005, y: -5390, z: 1476, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "We have come seeking your aid."}
+  - select_topic: {match_label: "The Beldonian Hordes are marching to Chedian."}
+  - select_topic: {match_label: "Join us!  We are trying to unite the Clans against them."}
+  - select_topic: {match_label: "What else do you need done?"}
+  - select_topic: {match_label: "We've already retrieved that."}
+  - select_topic: {match_label: "Certainly."}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Thanks for your time."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90046, 90050, 90170]}
+  - play_lua: {source: 'if has_item(10390) then error("Sigmund did not take the Crona Kiga") end'}
+  - console: {line: "qbit set 90049"}
+  - interact_actor: {actor_index: 20}
+  - select_topic: {match_label: "Now that we've done both tasks for you, will you join us?"}
+  - select_topic: {match_label: "Yes."}
+  - select_topic: {match_label: "We have much to do, yet.  We'll let you know."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90051]}

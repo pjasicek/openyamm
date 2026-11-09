@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayActorService.h"
 
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/SpellTable.h"
@@ -127,6 +128,16 @@ void GameplayActorService::setPartyEngagementRange(float range)
 float GameplayActorService::configuredPartyEngagementRange() const
 {
     return m_partyEngagementRange;
+}
+
+void GameplayActorService::setWorldPartyHitReach(std::optional<float> reach)
+{
+    m_worldPartyHitReach = reach;
+}
+
+float GameplayActorService::partyHitReach() const
+{
+    return std::min(PartyYellowAlertDistance, m_worldPartyHitReach.value_or(PartyYellowAlertDistance));
 }
 
 void GameplayActorService::setMm9PartyAwareness(const Mm9PartyAwareness &awareness)
@@ -1036,18 +1047,21 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveFactionTargetPolicy
     // living creature"; the original makes it hostile at long range to all but its own group).
     const bool berserk = actor.controlMode == GameplayActorControlMode::Berserk
         || target.controlMode == GameplayActorControlMode::Berserk;
+    // A monster hit by another fights it back at long range, whatever their factions (MM6-MM8 lastCharacterIdToHit;
+    // OE Actor::FindClosestActor): how Evenmorn's gargoyles answer the ghosts.
+    const bool strikesBack = actor.lastActorAttackerId && *actor.lastActorAttackerId == target.actorId;
 
     const int factionRelation = m_pMonsterTable != nullptr
         ? m_pMonsterTable->getRelationBetweenMonsters(actorRelationMonsterId, targetRelationMonsterId)
         : 0;
     const bool hostileByFaction = factionRelation > 0;
 
-    if (!hostileByFaction && !hostileToSummon && !berserk)
+    if (!hostileByFaction && !hostileToSummon && !berserk && !strikesBack)
     {
         return result;
     }
 
-    if (hostileToSummon || berserk)
+    if (hostileToSummon || berserk || strikesBack)
     {
         if (!actorCanEngageActorTarget(m_pMonsterTable, actor, target))
         {

@@ -213,6 +213,7 @@ def map_script(hooks, build) -> str:
         f"    if left <= 0 or CANNON == nil then evt.StopTimer({T_CANNON}); return end",
         "    local to = CANNON_AT[evt.RandomBetween(1, #CANNON_AT)]",
         "    evt.FireMissile(\"Fire\", CANNON[1], CANNON[2], CANNON[3], to[1], to[2], to[3], 0, \"Fire\", 0)",
+        "    MM9.launchSound(\"FireBolt\", CANNON[1], CANNON[2], CANNON[3])",
         "    set(\"CannonShots\", left - 1)",
         f"    evt.StartTimer({T_CANNON}, seconds(0.4))",
         "end",
@@ -561,9 +562,10 @@ def bob_and_doug_scene(robert: int, douglas: int) -> cutscenes.Scene:
 
 
 def _bolt(frame, objects, shooter: str) -> str:
-    """A Shooter's FireBolt straight down (its DAT pitch is 90 degrees) onto the ice under it."""
+    """A Shooter's FireBolt straight down (its DAT pitch is 90 degrees) onto the ice under it, with its launch sound."""
     x, y, z = (int(round(v)) for v in frame.point(objects.named(shooter)["values"]["Pos"]))
-    return f'evt.FireMissile("Fire", {x}, {y}, {z}, {x}, {y}, {ICE_Z}, 0, "Fire", 0)'
+    return (f'evt.FireMissile("Fire", {x}, {y}, {z}, {x}, {y}, {ICE_Z}, 0, "Fire", 0); '
+            f'MM9.launchSound("FireBolt", {x}, {y}, {z})')
 
 
 ICE_Z = -348                        # the floes' surface (LT y -136)

@@ -11,8 +11,10 @@
 #include <array>
 #include <cctype>
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 #include <exception>
+#include <iostream>
 #include <limits>
 #include <sstream>
 #include <vector>
@@ -2292,6 +2294,201 @@ void applyIndoorSceneFaceOverride(const IndoorSceneFaceAttributeOverride &overri
     }
 }
 
+// One actor record of a scene (initial_state.actors, and a ruleset overlay's pack_reserve).
+bool parseIndoorSceneActorNode(
+    const YAML::Node &actorNode,
+    size_t actorIndex,
+    MapDeltaActor &actor,
+    std::string &errorMessage)
+{
+    if (!actorNode.IsMap())
+    {
+        errorMessage = "actor entry must be a map";
+        return false;
+    }
+
+    actor.diagnosticSourceActorIndex = actorIndex;
+
+    if (!readScalarNode(actorNode, "name", actor.name, errorMessage)
+        || !readScalarNode(actorNode, "npc_id", actor.npcId, errorMessage)
+        || !readScalarNode(actorNode, "mm9_rude_id", actor.mm9RudeId, errorMessage, false)
+        || !readScalarNode(
+            actorNode,
+            "mm9_source_object_index",
+            actor.mm9SourceObjectIndex,
+            errorMessage,
+            false)
+        || !readScalarNode(
+            actorNode,
+            "mm9_can_receive_damage",
+            actor.mm9CanReceiveDamage,
+            errorMessage,
+            false)
+        || !readScalarNode(actorNode, "respawns_on_refill", actor.respawnsOnRefill, errorMessage, false)
+        || !readScalarNode(actorNode, "mm9_civilian", actor.mm9Civilian, errorMessage, false)
+        || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
+        || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
+        || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
+        || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
+        || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)
+        || !readScalarNode(actorNode, "dormant", actor.dormant, errorMessage, false)
+        || !parsePatrolNode(actorNode["patrol"], actor.patrolPoints, errorMessage)
+        || !readScalarNode(actorNode, "keeps_height", actor.keepsHeight, errorMessage, false)
+        || !readScalarNode(actorNode, "posed", actor.posed, errorMessage, false)
+        || !readScalarNode(actorNode, "attributes", actor.attributes, errorMessage)
+        || !readScalarNode(actorNode, "hp", actor.hp, errorMessage)
+        || !readScalarNode(actorNode, "hostility_type", actor.hostilityType, errorMessage)
+        || !readScalarNode(actorNode, "monster_info_id", actor.monsterInfoId, errorMessage)
+        || !readScalarNode(actorNode, "monster_id", actor.monsterId, errorMessage)
+        || !readScalarNode(actorNode, "radius", actor.radius, errorMessage)
+        || !readScalarNode(actorNode, "height", actor.height, errorMessage)
+        || !readScalarNode(actorNode, "move_speed", actor.moveSpeed, errorMessage)
+        || !readScalarNode(actorNode, "sector_id", actor.sectorId, errorMessage)
+        || !readScalarNode(
+            actorNode,
+            "current_action_animation",
+            actor.currentActionAnimation,
+            errorMessage)
+        || !readScalarNode(actorNode, "group", actor.group, errorMessage)
+        || !readScalarNode(actorNode, "ally", actor.ally, errorMessage)
+        || !readScalarNode(actorNode, "unique_name_index", actor.uniqueNameIndex, errorMessage)
+        || !parsePositionNode(actorNode["position"], actor.x, actor.y, actor.z, errorMessage))
+    {
+        return false;
+    }
+
+    // An MM9 placement's AI settings (devdocs/mm9_rework/monster_ai/PROFILE.md).
+    if (const YAML::Node mm9AiNode = actorNode["mm9_ai"])
+    {
+        Mm9AiPlacementRecord mm9Ai;
+
+        if (!parseMm9AiPlacementNode(mm9AiNode, mm9Ai, errorMessage))
+        {
+            return false;
+        }
+
+        actor.mm9Ai = std::move(mm9Ai);
+    }
+
+    if (!readScalarNode(actorNode, "carried_item_id", actor.carriedItemId, errorMessage, false))
+    {
+        actor.carriedItemId = 0;
+    }
+
+    const YAML::Node spriteIdsNode = actorNode["sprite_ids"];
+
+    if (!spriteIdsNode || !spriteIdsNode.IsSequence() || spriteIdsNode.size() != actor.spriteIds.size())
+    {
+        errorMessage = "actor.sprite_ids must have exactly 4 entries";
+        return false;
+    }
+
+    for (size_t spriteIndex = 0; spriteIndex < actor.spriteIds.size(); ++spriteIndex)
+    {
+        if (!spriteIdsNode[spriteIndex].IsScalar())
+        {
+            errorMessage = "actor sprite_ids entries must be scalar";
+            return false;
+        }
+
+        try
+        {
+            actor.spriteIds[spriteIndex] = spriteIdsNode[spriteIndex].as<uint16_t>();
+        }
+        catch (const std::exception &exception)
+        {
+            errorMessage = std::string("could not parse actor sprite id: ") + exception.what();
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// The scene's actors as a ruleset overlay's pack reserve was made against them: FNV-1a 64 over
+// "monster_id,x,y,z;" of each actor in order, in hex (tools/maw/mm9_pack_reserve.py writes the same).
+std::string scenePackReserveCheck(const std::vector<MapDeltaActor> &actors)
+{
+    uint64_t hash = 0xcbf29ce484222325ull;
+
+    for (const MapDeltaActor &actor : actors)
+    {
+        const std::string text = std::to_string(actor.monsterId) + "," + std::to_string(actor.x) + ","
+            + std::to_string(actor.y) + "," + std::to_string(actor.z) + ";";
+
+        for (const char character : text)
+        {
+            hash ^= uint8_t(character);
+            hash *= 0x100000001b3ull;
+        }
+    }
+
+    char hex[17] = {};
+    std::snprintf(hex, sizeof(hex), "%016llx", static_cast<unsigned long long>(hash));
+    return hex;
+}
+
+// A ruleset overlay's `pack_reserve` (MapDeltaData::packReserve): {scene_actors, scene_check, actors: [{from_factor,
+// actor}]}. A reserve made against other scene actors (the map was rebuilt since) is not used, and says so: its
+// copies would stand where the new scene may have walls (tools/maw/mm9_balance.py --check finds it).
+bool applyScenePackReserve(const YAML::Node &node, IndoorSceneInitialState &initialState, std::string &errorMessage)
+{
+    try
+    {
+        const std::string check = node["scene_check"].as<std::string>("");
+
+        if (node["scene_actors"].as<size_t>(0) != initialState.actors.size()
+            || check != scenePackReserveCheck(initialState.actors))
+        {
+            std::cerr << "Scene pack reserve not used: made for other scene actors (" << check
+                      << "); rerun tools/maw/mm9_pack_reserve.py\n";
+            return true;
+        }
+
+        const YAML::Node actorsNode = node["actors"];
+
+        if (!actorsNode || !actorsNode.IsSequence())
+        {
+            errorMessage = "pack_reserve.actors must be a sequence";
+            return false;
+        }
+
+        initialState.packReserve.clear();
+        initialState.packReserve.reserve(actorsNode.size());
+        float previousFactor = 0.0f;
+
+        for (const YAML::Node &entry : actorsNode)
+        {
+            MapDeltaPackReserveActor reserve;
+            reserve.fromFactor = entry["from_factor"].as<float>();
+
+            if (reserve.fromFactor < previousFactor)
+            {
+                errorMessage = "pack_reserve.actors must rise by from_factor";
+                return false;
+            }
+
+            previousFactor = reserve.fromFactor;
+
+            if (!parseIndoorSceneActorNode(
+                    entry["actor"], initialState.actors.size() + initialState.packReserve.size(), reserve.actor,
+                    errorMessage))
+            {
+                return false;
+            }
+
+            initialState.packReserve.push_back(std::move(reserve));
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("pack_reserve: ") + exception.what();
+        return false;
+    }
+
+    return true;
+}
+
 std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
     const std::string &yamlText,
     std::string &errorMessage) const
@@ -2783,107 +2980,11 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
     for (size_t actorIndex = 0; actorIndex < actorsNode.size(); ++actorIndex)
     {
         const YAML::Node actorNode = actorsNode[actorIndex];
-
-        if (!actorNode.IsMap())
-        {
-            errorMessage = "actor entry must be a map";
-            return std::nullopt;
-        }
-
         MapDeltaActor actor = {};
-        actor.diagnosticSourceActorIndex = actorIndex;
 
-        if (!readScalarNode(actorNode, "name", actor.name, errorMessage)
-            || !readScalarNode(actorNode, "npc_id", actor.npcId, errorMessage)
-            || !readScalarNode(actorNode, "mm9_rude_id", actor.mm9RudeId, errorMessage, false)
-            || !readScalarNode(
-                actorNode,
-                "mm9_source_object_index",
-                actor.mm9SourceObjectIndex,
-                errorMessage,
-                false)
-            || !readScalarNode(
-                actorNode,
-                "mm9_can_receive_damage",
-                actor.mm9CanReceiveDamage,
-                errorMessage,
-                false)
-            || !readScalarNode(actorNode, "respawns_on_refill", actor.respawnsOnRefill, errorMessage, false)
-            || !readScalarNode(actorNode, "mm9_civilian", actor.mm9Civilian, errorMessage, false)
-            || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
-            || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
-            || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
-            || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
-            || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)
-            || !readScalarNode(actorNode, "dormant", actor.dormant, errorMessage, false)
-            || !parsePatrolNode(actorNode["patrol"], actor.patrolPoints, errorMessage)
-            || !readScalarNode(actorNode, "keeps_height", actor.keepsHeight, errorMessage, false)
-            || !readScalarNode(actorNode, "posed", actor.posed, errorMessage, false)
-            || !readScalarNode(actorNode, "attributes", actor.attributes, errorMessage)
-            || !readScalarNode(actorNode, "hp", actor.hp, errorMessage)
-            || !readScalarNode(actorNode, "hostility_type", actor.hostilityType, errorMessage)
-            || !readScalarNode(actorNode, "monster_info_id", actor.monsterInfoId, errorMessage)
-            || !readScalarNode(actorNode, "monster_id", actor.monsterId, errorMessage)
-            || !readScalarNode(actorNode, "radius", actor.radius, errorMessage)
-            || !readScalarNode(actorNode, "height", actor.height, errorMessage)
-            || !readScalarNode(actorNode, "move_speed", actor.moveSpeed, errorMessage)
-            || !readScalarNode(actorNode, "sector_id", actor.sectorId, errorMessage)
-            || !readScalarNode(
-                actorNode,
-                "current_action_animation",
-                actor.currentActionAnimation,
-                errorMessage)
-            || !readScalarNode(actorNode, "group", actor.group, errorMessage)
-            || !readScalarNode(actorNode, "ally", actor.ally, errorMessage)
-            || !readScalarNode(actorNode, "unique_name_index", actor.uniqueNameIndex, errorMessage)
-            || !parsePositionNode(actorNode["position"], actor.x, actor.y, actor.z, errorMessage))
+        if (!parseIndoorSceneActorNode(actorNode, actorIndex, actor, errorMessage))
         {
             return std::nullopt;
-        }
-
-        // An MM9 placement's AI settings (devdocs/mm9_rework/monster_ai/PROFILE.md).
-        if (const YAML::Node mm9AiNode = actorNode["mm9_ai"])
-        {
-            Mm9AiPlacementRecord mm9Ai;
-
-            if (!parseMm9AiPlacementNode(mm9AiNode, mm9Ai, errorMessage))
-            {
-                return std::nullopt;
-            }
-
-            actor.mm9Ai = std::move(mm9Ai);
-        }
-
-        if (!readScalarNode(actorNode, "carried_item_id", actor.carriedItemId, errorMessage, false))
-        {
-            actor.carriedItemId = 0;
-        }
-
-        const YAML::Node spriteIdsNode = actorNode["sprite_ids"];
-
-        if (!spriteIdsNode || !spriteIdsNode.IsSequence() || spriteIdsNode.size() != actor.spriteIds.size())
-        {
-            errorMessage = "actor.sprite_ids must have exactly 4 entries";
-            return std::nullopt;
-        }
-
-        for (size_t spriteIndex = 0; spriteIndex < actor.spriteIds.size(); ++spriteIndex)
-        {
-            if (!spriteIdsNode[spriteIndex].IsScalar())
-            {
-                errorMessage = "actor sprite_ids entries must be scalar";
-                return std::nullopt;
-            }
-
-            try
-            {
-                actor.spriteIds[spriteIndex] = spriteIdsNode[spriteIndex].as<uint16_t>();
-            }
-            catch (const std::exception &exception)
-            {
-                errorMessage = std::string("could not parse actor sprite id: ") + exception.what();
-                return std::nullopt;
-            }
         }
 
         sceneData.initialState.actors.push_back(std::move(actor));
@@ -3311,6 +3412,12 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         if (const YAML::Node actorOverridesNode = initialStateNode["actor_overrides"];
             actorOverridesNode
             && !applySceneActorOverrides(actorOverridesNode, sceneData.initialState.actors, errorMessage))
+        {
+            return false;
+        }
+
+        if (const YAML::Node packReserveNode = initialStateNode["pack_reserve"];
+            packReserveNode && !applyScenePackReserve(packReserveNode, sceneData.initialState, errorMessage))
         {
             return false;
         }
@@ -3810,6 +3917,7 @@ bool buildIndoorMapStateFromScene(
     }
 
     mapDeltaData.actors = sceneData.initialState.actors;
+    mapDeltaData.packReserve = sceneData.initialState.packReserve;
     mapDeltaData.spriteObjects = sceneData.initialState.spriteObjects;
     mapDeltaData.chests = sceneData.initialState.chests;
     mapDeltaData.eventVariables = sceneData.initialState.eventVariables;

@@ -1,0 +1,205 @@
+# MM9 side quest "Retrieve the Missing Relic" (guide: Side quests, Lindisfarne; the second stage of "Slay the Dragon").
+# Abbot Leffery Caid at Lindisfarne Monastery's main altar (RUDE 283) wants the Saint's Relic back from Ramnivar's lab
+# in Yorwick (key 338). The Wizard's Lab's rooms are joined by teleporters: in the entrance hall the yellow crystal
+# sets the white teleporter for the yellow corridor; the relic's bedroom is locked for good (DoubleDoor10), so the
+# party goes through the easternmost bedroom's closet (Teleporter1) into the relic room's closet, takes the relic from
+# the barrel (a world item; key 340) and leaves by that closet (Teleporter2). Back at the altar: "We've found your
+# relic." (keys 341, 485; the talk's close: the relic taken, 3 000 gold, 12 500 experience, key 342).
+# Played: Lindisfarne and Yorwick are outdoors (placed at the exits), the boats are `travel`; the monastery, the
+# Connecting Tunnels and the lab are walked; walk_to steps onto each teleporter (via points on the pad) and goes on
+# from where it lands (to the walk's target, the arrival). Research: prep/C_dragon_wizards_lab.md.
+#   python3 tests/scenarios/mm9/side_quests/run.py retrieve_the_missing_relic
+id: mm9.side_quests.retrieve_the_missing_relic
+title: "MM9 side quest: Leffery's relic from the Wizard's Lab, through the closet teleporters"
+world: mm9
+mode: faithful
+tags: [mm9, side_quests]
+steps:
+  - new_game_flow:
+      start_map: lindisfarne.blv
+      party:
+        gold: 3000
+        food: 30
+        members:
+          - {name: Ragnar, class: Knight, level: 30, skills: [{name: Sword, level: 10, mastery: 2}, {name: Shield, level: 6, mastery: 2}], equipment: {main_hand: 1, off_hand: 99}}
+          - {name: Hrothgar, class: Cleric, level: 30, skills: [{name: Mace, level: 6, mastery: 2}], equipment: {main_hand: 66}}
+          - {name: Grisha, class: Thief, level: 30, skills: [{name: Dagger, level: 6, mastery: 2}, {name: Bow, level: 6, mastery: 2}], equipment: {main_hand: 21, bow: 56}}
+          - {name: Aelwen, class: Sorcerer, level: 30, skills: [{name: Staff, level: 6, mastery: 2}, {name: FireMagic, level: 6, mastery: 2}], equipment: {main_hand: 79}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  # Story state: Snorri has sent the party to Leffery (key 484, the end of survive_the_training_hall.yml). Leffery's
+  # "We're here to summon the dragon." needs it; nothing else on the way tests a key.
+  - lua_event: {source: "evt.SetQuestBit(90484)"}
+  - assert: {qbit_set: [90484], qbit_clear: [90338, 90339, 90340, 90341, 90342, 90485]}
+
+  # Lindisfarne Monastery's door (ExitTrigger0), at the island's north-east (on the map art; -y is up there).
+  - set_pose: {map: lindisfarne.blv, x: -11250, y: -21240, z: 2734, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -11749, y: -21240, z: 2734, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarnemonastery.blv}
+
+  # The nave's doors (101), the crossing's (102), the choir to the main altar: Leffery (actor 0). Never hurt a monk.
+  # The nave's aisle is walked a little west of its east side between y 3800 and 4700: Bred Gagii (actor 7) wanders
+  # about (-348, 4035) and once stood on the aisle's east line after a reload.
+  - walk_to: {x: -330, y: 1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(101); wait(2)'}
+  - walk_to: {via: [[-100, 1700, 1], [-100, 3000, 1], [-250, 3800, 1], [-250, 4700, 1]], x: -100, y: 5600, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua: {source: 'click(102); wait(2)'}
+  - walk_to: {via: [[-100, 6300, 1]], x: -330, y: 6900, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -425, y: 11000, z: 103, z_tolerance: 300, timeout_seconds: 120}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true, source_id: 283}}
+  - select_topic: {match_label: "We're here to summon the dragon."}
+  - select_topic: {match_label: "Whatever it takes to summon the dragon."}
+  - select_topic: {match_label: "So what's the problem?"}
+  - select_topic: {match_label: "Where do you think the relic is?"}
+  - select_topic: {match_label: "Who is he?"}
+  - select_topic: {match_label: "We will retrieve the real relic for you."}
+  - select_topic: {match_label: "Goodbye."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90338], qbit_clear: [90340, 90341]}
+
+  # Out the way the party came (the doors close by themselves: open them again when shut).
+  - walk_to: {x: -330, y: 6900, z: 1, z_tolerance: 200, timeout_seconds: 120}
+  - walk_to: {x: -100, y: 6300, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        if door_state(3) ~= "open" or door_state(4) ~= "open" then click(102); wait(2) end
+  - walk_to: {via: [[-100, 5600, 1], [-250, 4700, 1], [-250, 3800, 1], [-100, 3000, 1]], x: -100, y: 1700, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(1) ~= "open" or door_state(2) ~= "open" then click(101); wait(2) end
+  - walk_to: {via: [[-330, 1000, 1]], x: -328, y: -1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -328, y: -1393, z: 1, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarne.blv}
+
+  # By boat to Thronheim (three days), then the Connecting Tunnel (ExitTrigger6) walked through to Yorwick.
+  - travel: {map: thronheim.blv, days: 3}
+  - set_pose: {map: thronheim.blv, x: 16168, y: -16700, z: 2090, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 16168, y: -17075, z: 2090, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+  - walk_to: {x: -17737, y: -7782, z: 1501, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+
+  # The Wizard's Lab on Yorwick's south shore (ExitTrigger6, a door west of its arrival point).
+  - set_pose: {map: yorwick.blv, x: -6200, y: 17744, z: 1051, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -6575, y: 17744, z: 1254, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: wizardslab.blv}
+
+  # The entrance hall to the east side of the white teleporter (its south and west sides are closed by the console
+  # rail; the five crystals stand on its west side). The yellow crystal (yellow4, event 250) sets it for the yellow
+  # corridor (DestinationYellow).
+  - walk_to: {x: 300, y: 7168, z: 1, z_tolerance: 200, radius: 20, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(250); wait(0.5)
+        if mapvar("Dest5") ~= 6 then error("the white teleporter is not set for yellow") end
+        log("the yellow crystal at the white teleporter; onto it from its east side")
+  - walk_to: {via: [[150, 7168, 0], [0, 7168, 0]], x: 492, y: 10834, z: 0, z_tolerance: 300, radius: 30,
+              plan: false, timeout_seconds: 30}
+
+  # East along the yellow corridor to the easternmost bedroom (DoubleDoor8, event 108), to its closet in the south
+  # wall (Closet1Door, event 101; Teleporter1 behind it).
+  - walk_to: {x: 4431, y: 11450, z: 1, z_tolerance: 200, timeout_seconds: 90, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(35) ~= "open" then click(108); wait(2) end
+  - walk_to: {x: 5222, y: 12060, z: 1, z_tolerance: 300, radius: 20, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(101); wait(1.5)
+        log("the east bedroom's closet opened (" .. door_state(15) .. "); into it")
+  - walk_to: {via: [[5222, 11910, 0], [5222, 11760, 0]], x: -1710, y: 13230, z: 0, z_tolerance: 300, radius: 30,
+              plan: false, timeout_seconds: 30}
+  - assert: {party_position: {x: -1710, y: 13000, radius: 600}}
+
+  # The relic room (its double door is locked for good): the Saint's Relic in the barrel.
+  - walk_to: {x: -860, y: 12550, z: 1, z_tolerance: 300, timeout_seconds: 60}
+  - pick_up: {item_id: 10368}
+  - assert: {qbit_set: [90338, 90340], qbit_clear: [90339]}
+  - play_lua:
+      source: |
+        if not has_item(10368) then error("no Saint's Relic") end
+        log("the Saint's Relic from the barrel (key 340)")
+
+  # Back by the room's closet (Teleporter2, its doors open) to the east bedroom.
+  - walk_to: {x: -1710, y: 13200, z: 1, z_tolerance: 300, radius: 20, timeout_seconds: 60}
+  - walk_to: {via: [[-1710, 13350, 0], [-1710, 13500, 0]], x: 5222, y: 12083, z: 0, z_tolerance: 300, radius: 30,
+              plan: false, timeout_seconds: 30}
+  - assert: {party_position: {x: 5222, y: 12300, radius: 600}}
+
+  # Out of the bedroom, west to the yellow teleporter; its white crystal (white5, event 255) sends the party back to
+  # the entrance hall, entered from its north side on the line to the hall's arrival point.
+  - walk_to: {x: 4431, y: 11800, z: 1, z_tolerance: 200, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(35) ~= "open" then click(108); wait(2) end
+  - walk_to: {x: 492, y: 10950, z: 1, z_tolerance: 300, timeout_seconds: 120, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        click(255); wait(0.5)
+        if mapvar("Dest6") ~= 5 then error("the yellow teleporter is not set for white") end
+  - walk_to: {via: [[492, 10950, 1]], x: 164, y: 7168, z: 1, z_tolerance: 300, radius: 150, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 3850, y: 7168, z: 1, z_tolerance: 400, timeout_seconds: 60, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: yorwick.blv}
+
+  # Yorwick's tunnel exit (ExitTrigger7), the tunnels walked back east, Thronheim, the boat to Lindisfarne.
+  - set_pose: {map: yorwick.blv, x: -23768, y: -13565, z: 1052, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -23768, y: -13893, z: 1213, z_tolerance: 400, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: connectingtunnels.blv}
+  - walk_to: {x: 17243, y: -3850, z: 1884, timeout_seconds: 900, clear_hostiles: 1500, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: thronheim.blv}
+  - travel: {map: lindisfarne.blv, days: 3}
+
+  # The monastery again, to Leffery.
+  - set_pose: {map: lindisfarne.blv, x: -11250, y: -21240, z: 2734, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -11749, y: -21240, z: 2734, z_tolerance: 600, plan: false, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: lindisfarnemonastery.blv}
+  - walk_to: {x: -330, y: 1000, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(1) ~= "open" or door_state(2) ~= "open" then click(101); wait(2) end
+  - walk_to: {via: [[-100, 1700, 1], [-100, 3000, 1], [-250, 3800, 1], [-250, 4700, 1]], x: -100, y: 5600, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(3) ~= "open" or door_state(4) ~= "open" then click(102); wait(2) end
+  - walk_to: {via: [[-100, 6300, 1]], x: -330, y: 6900, z: 1, z_tolerance: 200, plan: false, timeout_seconds: 60}
+  - walk_to: {x: -425, y: 11000, z: 103, z_tolerance: 300, timeout_seconds: 120}
+  # Experience set to a round number here (kills on the way add their own) to check the reward's 12 500 exactly.
+  - setup_shortcut: {kind: set_experience, value: 1000000}
+  - interact_actor: {actor_index: 0}
+  - select_topic: {match_label: "We've found your relic."}
+  - assert: {qbit_set: [90341, 90485], qbit_clear: [90342]}
+  - select_topic: {match_label: "Thank you."}
+  - select_topic: {match_label: "Not right now."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [90338, 90340, 90341, 90342, 90485], gold: 6000}
+  - play_lua:
+      source: |
+        if has_item(10368) then error("Leffery did not take the relic") end
+        for i = 0, 3 do
+          if experience(i) ~= 1012500 then error("member " .. i .. " has " .. experience(i) .. " experience, not 1000000 + 12500") end
+        end
+        log("Leffery has his relic: 3 000 gold, 12 500 experience, keys 341, 342, 485")

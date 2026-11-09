@@ -1,0 +1,39 @@
+id: mm9.ai.banshee
+title: An MM9 Banshee passes undead, backs off without swooping and shoots at FlyRange's checks
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). A Fright (Banshee.scr)
+        notices the party, passes it (its melee window), backs off for 0.6 s and goes straight back to its chase (no
+        swoop); FlyRange's shot checks roll every 0.3-1.3 s when its attack is ready. A pass is a blow (in reach MM9
+        always strikes); its shots are casts, which recover by Fear's own recovery (SPELL.txt at its mastery: 2.97 s
+        from the cast), so it often backs off not ready: 40 s for three passes. A shot after a back-off does not swoop either (RangeAttackDone's SwoopIn goes to SwoopDone).
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: banshee.arena.yml}
+  - advance_runtime: {seconds: 40}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: taunt_detect, detail: always, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: fly_pass, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: melee_window, detail: undead, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: back_off, detail: up, min_count: 3}
+  # Banshee.scr's SwoopIn goes straight to SwoopDone.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: swoop, max_count: 0}
+  # FlyRange's checks: 61 in 101 with a clear shot (a skip is traced as such).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, detail: chance 0.60, min_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: shot_check, detail: clear, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_spell, min_count: 4}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee, max_count: 0}

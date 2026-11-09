@@ -569,6 +569,235 @@ TEST_CASE("MM9 RUDE trainer topics list each skill, then a lesson row per party 
     CHECK(selectionIndex == 1);
 }
 
+TEST_CASE("a ruleset's rows on MM9 people: the Hag's MAW topics and a Jarl's bounty office for his region")
+{
+    using OpenYAMM::Game::EventDialogActionKind;
+    using OpenYAMM::Game::EventDialogChoiceMark;
+
+    OpenYAMM::Game::Mm9RudeDialogueTable table;
+    REQUIRE(table.loadDialogueText("NPC132.rude", rudeRow(132, 132, 1, "Not today.", "Goodbye.", -1)));
+    REQUIRE(table.loadDialogueText(
+        "NPC45.rude",
+        rudeRow(45, 45, 1, "News?", "None.", 2) + rudeRow(45, 45, 2, "Not today.", "Goodbye.", -1)
+            + rudeRow(45, 2, 1, "Thanks.", "Goodbye.", -1)));
+    REQUIRE(table.loadRulesetRowsText(
+        "dialogue.yml",
+        "format_version: 1\n"
+        "topics:\n"
+        "  - {npc: 132, event: 10010, label: Skill reset}\n"
+        "  - {npc: 132, event: 10040, label: Dimensional Maps}\n"
+        "bounties:\n"
+        "  - {npc: 45, map: sturmford.blv}\n"));
+
+    OpenYAMM::Game::Party party;
+    party.seed({});
+    OpenYAMM::Game::GameplayUiController uiController;
+    OpenYAMM::Game::EventRuntimeState eventRuntimeState;
+    OpenYAMM::Game::EventDialogContent dialog = {};
+    size_t selectionIndex = 0;
+    OpenYAMM::Tests::PartySpellTestWorldRuntime world = {};
+    world.bindParty(&party);
+    world.bindEventRuntimeState(&eventRuntimeState);
+    std::vector<std::string> monsterRow(38);
+    monsterRow[0] = "195";
+    monsterRow[1] = "Human Mercenary C";
+    monsterRow[2] = "Human Mercenary C";
+    monsterRow[3] = "10";
+    monsterRow[4] = "100";
+    monsterRow[10] = "Short";
+    monsterRow[11] = "Normal";
+    monsterRow[17] = "Phys";
+    monsterRow[18] = "1d6";
+    OpenYAMM::Game::MonsterTable monsterTable;
+    REQUIRE(monsterTable.loadStatsFromRows({monsterRow}));
+    world.bindMonsterTable(&monsterTable);
+    world.setMapName("Sturmford City");
+    OpenYAMM::Game::MapStatsEntry region = {};
+    region.name = "Sturmford";
+    region.fileName = "sturmford.blv";
+    const std::vector<OpenYAMM::Game::MapStatsEntry> maps = {region};
+    OpenYAMM::Game::GameplayDialogController::Context context = {
+        .uiController = uiController,
+        .eventRuntimeState = eventRuntimeState,
+        .activeEventDialog = dialog,
+        .selectionIndex = selectionIndex,
+        .pParty = &party,
+        .pWorldRuntime = &world,
+        .pMm9RudeDialogueTable = &table,
+        .pMapEntries = &maps,
+    };
+    const OpenYAMM::Game::GameplayDialogController controller;
+
+    // The Hag: both topics on her first page, before the row that ends the talk.
+    controller.openMm9RudeDialogue(context, 132);
+    REQUIRE(dialog.actions.size() == 3);
+    CHECK(dialog.actions[0].kind == EventDialogActionKind::Mm9RudeRulesetEvent);
+    CHECK(dialog.actions[0].id == 10010);
+    CHECK(dialog.actions[0].label == "Skill reset");
+    CHECK(dialog.actions[1].id == 10040);
+    CHECK(dialog.actions[2].choiceMark == EventDialogChoiceMark::Exit);
+
+    // The Jarl: the bounty office on his first page only; it posts the region's hunt, its target placed later.
+    controller.openMm9RudeDialogue(context, 45);
+    REQUIRE(dialog.actions.size() == 3);
+    CHECK(dialog.actions[1].kind == EventDialogActionKind::Mm9RudeBountyOffice);
+    CHECK(dialog.actions[1].argument == "sturmford.blv");
+    selectionIndex = 1;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.lines.size() == 1);
+    CHECK(dialog.actions.size() == 3);
+    CHECK(eventRuntimeState.namedGlobalVars.contains("MMerge.BountyHunt.Sturmford.Month"));
+    CHECK(eventRuntimeState.namedGlobalVars["MMerge.BountyHunt.Sturmford.Pending"] == 1);
+    CHECK(world.hostileSummonRequests().empty());
+    selectionIndex = 0;
+    controller.executeActiveDialogAction(context);
+    CHECK(table.rulesetRows(45).size() == 1);
+
+    // A row for someone without dialogue, or without its event, map or label, is an error.
+    OpenYAMM::Game::Mm9RudeDialogueTable stale;
+    REQUIRE(stale.loadDialogueText("NPC132.rude", rudeRow(132, 132, 1, "Not today.", "Goodbye.", -1)));
+    CHECK_FALSE(stale.loadRulesetRowsText(
+        "dialogue.yml", "format_version: 1\ntopics:\n  - {npc: 7, event: 10010, label: Skill reset}\n"));
+    CHECK_FALSE(stale.loadRulesetRowsText("dialogue.yml", "format_version: 1\nbounties:\n  - {npc: 132}\n"));
+    stale.clearRulesetRows();
+    CHECK(stale.rulesetRows(132).empty());
+}
+
+TEST_CASE("MM9 racial trainers offer each member their racial ability up to the trainer's mastery")
+{
+    using OpenYAMM::Game::EventDialogActionKind;
+    using OpenYAMM::Game::EventDialogChoiceMark;
+    using OpenYAMM::Game::SkillMastery;
+
+    // dialogue/racial_trainers.yml (the user, 2026-11-09): a training hall's keeper teaches up to Master, Arslegard's
+    // and a Yorwick grandmaster up to Grandmaster.
+    OpenYAMM::Game::Mm9RudeDialogueTable table;
+    REQUIRE(table.loadDialogueText(
+        "NPC21.rude",
+        rudeRow(21, 21, 1, "Yes.", "Very well.", -3)
+            + rudeRow(21, 21, 2, "News?", "None.", 2)
+            + rudeRow(21, 21, 3, "Not today.", "Goodbye.", -1)
+            + rudeRow(21, 2, 1, "Thanks.", "Goodbye.", -1)));
+    REQUIRE(table.loadDialogueText("NPC351.rude", rudeRow(351, 351, 1, "Not today.", "Goodbye.", -1)));
+    REQUIRE(table.loadRacialTrainersText(
+        "racial_trainers.yml",
+        "format_version: 1\n"
+        "skills: [DarkElfAbility, VampireAbility, DragonAbility]\n"
+        "trainers:\n"
+        "  - {rude: 21, mastery: Master}\n"
+        "  - {rude: 351, mastery: Grandmaster}\n"));
+    REQUIRE(table.racialTrainer(21) != nullptr);
+    CHECK(table.racialTrainer(21)->maxMastery == SkillMastery::Master);
+    CHECK(table.racialTrainer(22) == nullptr);
+
+    OpenYAMM::Game::ClassSkillTable classSkillTable;
+    REQUIRE(classSkillTable.loadCapsFromRows({
+        {"", "Vampire", "Knight"},
+        {"VampireAbility", "G", "-"},
+        {"DarkElfAbility", "-", "E"},
+    }));
+    OpenYAMM::Game::NpcDialogTable npcDialogTable;
+
+    OpenYAMM::Game::Character vampire = {};
+    vampire.name = "Ari";
+    vampire.className = "Vampire";
+    vampire.maxHealth = 10;
+    vampire.health = 10;
+    vampire.skills["VampireAbility"] = {"VampireAbility", 10, SkillMastery::Expert};
+    OpenYAMM::Game::Character darkElfKnight = vampire;
+    darkElfKnight.name = "Bryn";
+    darkElfKnight.className = "Knight";
+    darkElfKnight.skills.clear();
+    darkElfKnight.skills["DarkElfAbility"] = {"DarkElfAbility", 7, SkillMastery::Expert};
+    OpenYAMM::Game::Character human = darkElfKnight;
+    human.name = "Cai";
+    human.skills.clear();
+
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.gold = 50000;
+    seed.members = {vampire, darkElfKnight, human};
+    OpenYAMM::Game::Party party;
+    party.seed(seed);
+
+    OpenYAMM::Game::GameplayUiController uiController;
+    OpenYAMM::Game::EventRuntimeState eventRuntimeState;
+    OpenYAMM::Game::EventDialogContent dialog = {};
+    size_t selectionIndex = 0;
+    OpenYAMM::Game::GameplayDialogController::Context context = {
+        .uiController = uiController,
+        .eventRuntimeState = eventRuntimeState,
+        .activeEventDialog = dialog,
+        .selectionIndex = selectionIndex,
+        .pParty = &party,
+        .pClassSkillTable = &classSkillTable,
+        .pNpcDialogTable = &npcDialogTable,
+        .pMm9RudeDialogueTable = &table,
+    };
+    const OpenYAMM::Game::GameplayDialogController controller;
+    controller.openMm9RudeDialogue(context, 21);
+
+    // The topic stands on the first page before the row that ends the talk, and only there.
+    REQUIRE(dialog.actions.size() == 4);
+    CHECK(dialog.actions[2].kind == EventDialogActionKind::Mm9RudeRacialTrainerOffer);
+    CHECK(dialog.actions[2].label == "We want to train our racial abilities.");
+    CHECK(dialog.actions[3].choiceMark == EventDialogChoiceMark::Exit);
+
+    // A row per member: the vampire's lesson; the knight's class stops at Expert; the human has none.
+    selectionIndex = 2;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 4);
+    CHECK(dialog.actions[0].kind == EventDialogActionKind::Mm9RudeRacialTrainerLearn);
+    CHECK(dialog.actions[0].label == "Ari: Become Master in Vampire Ability for 2500 gold");
+    CHECK(dialog.actions[0].choiceTag == "Train \xC2\xB7 Master");
+    CHECK(dialog.actions[1].label == "Bryn: This skill level can not be learned by the Knight class.");
+    CHECK(dialog.actions[1].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(dialog.actions[2].label == "Cai: No racial ability to train.");
+    CHECK(dialog.actions[2].choiceMark == EventDialogChoiceMark::Locked);
+    CHECK(dialog.actions[3].kind == EventDialogActionKind::Mm9RudeSkillTrainerBack);
+    CHECK(selectionIndex == 0);
+
+    // Trained to Master; this hall teaches no further, so the vampire is sent to a grandmaster.
+    controller.executeActiveDialogAction(context);
+    CHECK(party.member(0)->findSkill("VampireAbility")->mastery == SkillMastery::Master);
+    CHECK(party.gold() == 47500);
+    REQUIRE(dialog.lines.size() == 1);
+    CHECK(dialog.lines[0] == "Ari is now a Master in Vampire Ability.");
+    CHECK(dialog.actions[0].label == "Ari: Seek a grandmaster to go further in Vampire Ability.");
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::Locked);
+
+    // A refused row trains nobody; Back returns to the talk.
+    selectionIndex = 1;
+    controller.executeActiveDialogAction(context);
+    CHECK(party.member(1)->findSkill("DarkElfAbility")->mastery == SkillMastery::Expert);
+    selectionIndex = 3;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 4);
+    CHECK(dialog.actions[2].kind == EventDialogActionKind::Mm9RudeRacialTrainerOffer);
+
+    // Arslegard's keeper teaches Grandmaster.
+    controller.openMm9RudeDialogue(context, 351);
+    REQUIRE(dialog.actions.size() == 2);
+    selectionIndex = 0;
+    controller.executeActiveDialogAction(context);
+    REQUIRE(dialog.actions.size() == 4);
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::None);
+    selectionIndex = 0;
+    controller.executeActiveDialogAction(context);
+    CHECK(party.member(0)->findSkill("VampireAbility")->mastery == SkillMastery::Grandmaster);
+
+    // A trainer without dialogue or a mastery, and an unknown skill, are errors.
+    OpenYAMM::Game::Mm9RudeDialogueTable stale;
+    REQUIRE(stale.loadDialogueText("NPC21.rude", rudeRow(21, 21, 1, "News?", "None.", -1)));
+    CHECK_FALSE(stale.loadRacialTrainersText(
+        "racial_trainers.yml",
+        "format_version: 1\n"
+        "skills: [VampireAbility, Vampirism]\n"
+        "trainers:\n"
+        "  - {rude: 21, mastery: Normal}\n"
+        "  - {rude: 4, mastery: Master}\n"));
+    CHECK(stale.errors().size() == 3);
+}
+
 TEST_CASE("MM9 actor activation opens the RUDE dialogue with the actor as its source")
 {
     OpenYAMM::Game::Mm9RudeDialogueTable table;
@@ -1808,7 +2037,8 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     const OpenYAMM::Game::MonsterProjectileEntry *pAxe =
         dataLoader.getMonsterProjectileTable().findByToken("MM9Axe");
     REQUIRE(pAxe != nullptr);
-    CHECK_EQ(pAxe->objectId, 309);
+    // Its own missile object (MM9's 100 ft/s for 5 s, no gravity), not the party's thrown-axe item object 309.
+    CHECK_EQ(pAxe->objectId, 19011);
 
     const OpenYAMM::Game::MonsterProjectileEntry *pSkull =
         dataLoader.getMonsterProjectileTable().findByToken("MM9Skull");

@@ -10,6 +10,7 @@
 #include "game/ui/GameplayUiRenderer.h"
 #include "game/ui/GameplayFormationBuilder.h"
 
+#include "game/gameplay/PartyHostileAlert.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -93,8 +94,6 @@ void renderBreathMeter(GameplayScreenRuntime &context, const GameplayResolvedHud
     }
 }
 constexpr float Pi = 3.14159265358979323846f;
-constexpr float OeMeleeAlertDistance = 307.2f;
-constexpr float OeYellowAlertDistance = 5120.0f;
 constexpr int EventNpcPortraitNativeWidth = 63;
 constexpr int EventNpcPortraitNativeHeight = 73;
 constexpr float EventNpcPortraitUvCropX = 2.0f;
@@ -194,42 +193,6 @@ int outdoorMinimapArrowIndex(float yawRadians)
     return (octant + 7) % 8;
 }
 
-float nearestHostileActorDistanceToParty(const IGameplayWorldRuntime *pWorldRuntime)
-{
-    if (pWorldRuntime == nullptr)
-    {
-        return std::numeric_limits<float>::max();
-    }
-
-    const float partyX = pWorldRuntime->partyX();
-    const float partyY = pWorldRuntime->partyY();
-    const float partyFootZ = pWorldRuntime->partyFootZ();
-    float nearestHostileDistance = std::numeric_limits<float>::max();
-
-    for (size_t actorIndex = 0; actorIndex < pWorldRuntime->mapActorCount(); ++actorIndex)
-    {
-        // The rules view, not the full runtime state: the HUD scans every actor each frame.
-        GameplayActorRulesView actorState = {};
-
-        if (!pWorldRuntime->actorRulesView(actorIndex, actorState)
-            || actorState.isDead
-            || actorState.isInvisible
-            || !actorState.hostileToParty)
-        {
-            continue;
-        }
-
-        const float deltaX = actorState.preciseX - partyX;
-        const float deltaY = actorState.preciseY - partyY;
-        const float deltaZ = actorState.preciseZ - partyFootZ;
-        const float centerDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-        const float edgeDistance = std::max(0.0f, centerDistance - static_cast<float>(actorState.radius));
-        nearestHostileDistance = std::min(nearestHostileDistance, edgeDistance);
-    }
-
-    return nearestHostileDistance;
-}
-
 PortraitAggroIndicator classifyPortraitAggroIndicator(
     const Character &member,
     float nearestHostileDistance,
@@ -250,12 +213,12 @@ PortraitAggroIndicator classifyPortraitAggroIndicator(
         return PortraitAggroIndicator::Green;
     }
 
-    if (nearestHostileDistance < OeMeleeAlertDistance)
+    if (nearestHostileDistance < PartyRedAlertDistance)
     {
         return PortraitAggroIndicator::Red;
     }
 
-    if (nearestHostileDistance < OeYellowAlertDistance)
+    if (nearestHostileDistance < PartyYellowAlertDistance)
     {
         return PortraitAggroIndicator::Yellow;
     }
@@ -751,7 +714,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         hasReadyMember = GameMechanics::canAct(member) && member.recoverySecondsRemaining <= 0;
     }
     const bool showSelection = isLimitedOverlayHud || hasReadyMember;
-    const float nearestHostile = nearestHostileActorDistanceToParty(context.worldRuntime());
+    const float nearestHostile = context.worldRuntime() != nullptr
+        ? nearestHostileDistanceToParty(*context.worldRuntime())
+        : std::numeric_limits<float>::max();
     const float engagementRange = context.worldRuntime() != nullptr ? context.worldRuntime()->partyEngagementRange()
         : 10240.0f;
     const size_t portraitCount = partyFrameHidden ? 0 : std::min(size_t{5}, members.size());
@@ -1163,28 +1128,35 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         std::string primaryAsset = pLayout->primaryAsset;
 
         const bool flyBuffIcon = normalizedRoleId == "outdoorflybufficon";
+        const bool levitateBuffIcon = normalizedRoleId == "outdoorlevitatebufficon";
         const bool waterWalkBuffIcon = normalizedRoleId == "outdoorwaterwalkbufficon";
-        if ((flyBuffIcon && !gameplayFlightBuff(party))
-            || (waterWalkBuffIcon && !party.hasPartyBuff(PartyBuffId::WaterWalk)))
+        const bool fleetFootBuffIcon = normalizedRoleId == "outdoorfleetfootbufficon";
+        const bool movementIcon = flyBuffIcon || levitateBuffIcon || waterWalkBuffIcon || fleetFootBuffIcon;
+        if (movementIcon)
         {
-            continue;
-        }
-        if (flyBuffIcon)
-        {
-            const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
-            const bool activelyFlying = pWorldRuntime != nullptr && pWorldRuntime->partyIsActivelyFlyingForHud();
-            const std::optional<std::string> animationFrame =
-                context.gameplayUiRuntime().flyBuffIconAnimationFrameTextureName(activelyFlying, 1);
+            const std::vector<GameplayMovementIndicator> indicators = gameplayMovementIndicators(party);
+            const bool shown = std::any_of(indicators.begin(), indicators.end(),
+                [&pLayout](const GameplayMovementIndicator &indicator) { return pLayout->id == indicator.pLayoutId; });
 
-            if (animationFrame)
+            if (!shown)
             {
-                primaryAsset = *animationFrame;
+                continue;
             }
-        }
-        else if (waterWalkBuffIcon)
-        {
+
+            // Fly animates while flying, Water Walk while on water, Levitate (MM8's sp109) and Fleet Foot (MM9's
+            // winged boot) while they last.
+            const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+            const bool moving = levitateBuffIcon || fleetFootBuffIcon
+                || (pWorldRuntime != nullptr
+                    && (flyBuffIcon ? pWorldRuntime->partyIsActivelyFlyingForHud()
+                                    : pWorldRuntime->partyIsWalkingOnWaterForHud()));
+            const char *pAnimationName = levitateBuffIcon ? "sp109"
+                : fleetFootBuffIcon                       ? "fleetfoot"
+                : flyBuffIcon                             ? "spell21"
+                                                          : "spell27";
             const std::optional<std::string> animationFrame =
-                context.gameplayUiRuntime().iconAnimationFrameTextureName("spell27");
+                context.gameplayUiRuntime().movementIconAnimationFrameTextureName(pAnimationName, moving);
+
             if (animationFrame)
             {
                 primaryAsset = *animationFrame;
@@ -1198,7 +1170,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
 
         const std::optional<GameplayResolvedHudLayoutElement> interactiveResolved =
             resolveLayout(context, layoutId, pLayout->width, pLayout->height, width, height);
-        const std::string *pAssetName = interactiveResolved && !flyBuffIcon && !waterWalkBuffIcon
+        const std::string *pAssetName = interactiveResolved && !movementIcon
             ? context.resolveInteractiveAssetName(*pLayout, *interactiveResolved,
                 characterMouseX, characterMouseY, isLeftMousePressed) : &primaryAsset;
         std::optional<GameplayHudTextureHandle> texture;

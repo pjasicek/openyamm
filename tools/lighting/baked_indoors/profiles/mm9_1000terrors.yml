@@ -1,0 +1,37 @@
+{
+  "world": "mm9",
+  "map": "1000terrors.blv",
+  "units_per_texel": 16,
+  "page_size": 4096,
+  "padding": 2,
+  "samples": 128,
+  "bounces": 3,
+  "light_size": 24,
+  "direct_scale": 2.0,
+  "bounce_scale": 0.5,
+  "ambient_scale": 1.1,
+  "blur_radius": 2,
+  "dirlights": true,
+  "max_lighting": 1,
+  "emitters": [
+    {
+      "textures": [
+        "sky04"
+      ],
+      "colour": [
+        0.8,
+        0.85,
+        1.0
+      ],
+      "strength": 0.6,
+      "display": 0.8,
+      "outward": false
+    }
+  ],
+  "sky_scale": 0.03,
+  "ambient_colour": [
+    0.75,
+    0.875,
+    1.0
+  ]
+}

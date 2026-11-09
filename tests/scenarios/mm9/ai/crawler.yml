@@ -1,0 +1,37 @@
+id: mm9.ai.crawler
+title: An MM9 crawler notices a standing party, times its run to its recovery and strikes from its own reach
+world: mm9
+mode: faithful
+tags: [mm9, actors, ai, arena]
+steps:
+  - note:
+      text: >-
+        Needs the MM9 review root: --asset-root output/mm9_rework/assets_dev (README.md). A Grey Wolf (BaseCrawl.inc)
+        notices the party, strikes; the party then jumps 1 300 units away and the wolf waits until its recovery will end
+        as it arrives (MM9's ShouldRunAfter) before it runs again.
+  # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
+  - new_game_flow:
+      start_map: thearena.blv
+  - ai_arena: {path: crawler.arena.yml}
+  - advance_runtime: {seconds: 3}
+  - set_pose: {map: thearena.blv, x: -1200, y: 400, z: 1, yaw_degrees: 0}
+  - advance_runtime: {seconds: 17}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: detect, target: party, min_count: 1, max_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: pursue, target: party, min_count: 2}
+  # After its first strike it waits out part of its recovery before the second run (arrival timing).
+  - assert:
+      ai_trace: {arena_monster: 0, decision: throttle, after: 3, before: 5, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, min_count: 5}
+  # A crawler has no BaseMelee footwork and MM8's ranged orbit never runs.
+  - assert:
+      ai_trace: {arena_monster: 0, decision: strafe_attack, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: evade, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: orbit, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: flee, max_count: 0}

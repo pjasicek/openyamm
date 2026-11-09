@@ -1,0 +1,30 @@
+# AI arena: a hand-placed Range.inc type 2 holder without the reposition modifier keeps MM9's holder. A Bandit (9101)
+# placed ranged_type 2 at (600, -600), where the lost-sight arena posts its sorcerer; the east pen's doors open; the
+# party walks into the pen's south-east corner, out of its sight, and later runs at it. It holds, never repositions or
+# backs off, and loses the party 8 s after it went out of sight. See README.md.
+name: mm9_reposition_unchanged
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -900, 1]
+  # Faces south-west, so that from the pen the window shows the pit (the party's facing does not matter to the AI).
+  yaw_degrees: 200
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - monster_id: 9101
+    position: [600, -600, 1]
+    yaw_degrees: 90
+    mm9_ai: {ranged_type: 2}
+    overrides: {evade_chance: 0}
+events:
+  # The pen's doors held open: since the 2026-11-05 rebuild they shut 5 s after opening (MM9's CloseWaitTime).
+  - {at: 0, door: {id: 3, hold: true}}
+  - {at: 0, door: {id: 4, hold: true}}
+  # Round the north of the pit, never closing on the monster: no back-off on the way.
+  - {at: 4, party_walk: {to: [-300, 300, 1], seconds: 1.5}}
+  - {at: 5.5, party_walk: {to: [1700, 100, 1], seconds: 2}}
+  - {at: 7.5, party_walk: {to: [1930, -170, 1], seconds: 0.5}}
+  - {at: 20, party_walk: {to: [900, -500, 1], seconds: 2}}

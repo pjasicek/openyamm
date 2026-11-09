@@ -433,12 +433,19 @@ TEST_CASE("party portrait frame defaults on and persists menu changes")
 
     {
         std::ofstream file(path);
-        file << "[gameplay]\nquest_markers=true\n";
+        file << "[gameplay]\nquest_markers=true\nmap_style=lines\n";
     }
     const std::optional<GameSettings> loaded = loadGameSettings(path, error);
     REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
     CHECK(loaded->partyFrame);
     CHECK(loaded->questMarkers);
+    CHECK_FALSE(loaded->paintedMaps);
+    CHECK(menuSettingValue(*loaded, "map_style") == "lines");
+    CHECK(menuSettingValue(GameSettings::createDefault(), "map_style") == "painted");
+    REQUIRE(setMenuSettingValue(settings, "map_style", "lines"));
+    const std::vector<SettingsEntry> linesEntries = settingsEntriesToSave(settings);
+    CHECK(std::find(linesEntries.begin(), linesEntries.end(), SettingsEntry{"gameplay", "map_style", "lines"})
+        != linesEntries.end());
     std::filesystem::remove(path);
 }
 

@@ -805,6 +805,7 @@ class VerhoffinRuins(dungeon.Hooks):
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    local k = math.max(64 / length, 0.1)",
             "    local shot = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, \"Fire\", 0)",
+            "    if shot then MM9.launchSound(\"FireBolt\", sx, sy, sz) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (shot and 1 or 0)); if shot then set(\"Shot\", 1) end",
             "end",
             f"handlers[{T_SHOOT}] = function()",

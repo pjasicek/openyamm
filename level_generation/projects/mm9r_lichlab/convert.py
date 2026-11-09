@@ -479,6 +479,7 @@ class LichLab(dungeon.Hooks):
                 f"handlers[{timer}] = function()",
                 f"    if var(\"{book}\") ~= 1 then evt.StopTimer({timer}) return end",
                 f"    evt.FireMissile(\"Fire\", {sx - 30}, {sy}, {sz}, {tx}, {ty}, {tz}, 0, \"Fire\", 0)",
+                f"    MM9.launchSound(\"FireBolt\", {sx}, {sy}, {sz})",
                 f"    set(\"{target}Hits\", var(\"{target}Hits\") + 1)",
                 f"    if var(\"{target}Hits\") >= {TARGET_SHOTS} then",
                 f"        evt.StopTimer({timer})",

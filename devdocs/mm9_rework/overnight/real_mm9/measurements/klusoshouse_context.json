@@ -1,0 +1,1754 @@
+{
+ "map": "klusoshouse",
+ "settings": {
+  "WorldInfo": "AmbientLight 60 60 60",
+  "WorldProperties": {
+   "LightScale": [
+    255.0,
+    255.0,
+    255.0
+   ],
+   "NightLightScale": [
+    255.0,
+    255.0,
+    255.0
+   ],
+   "PlayerLightOn": 1,
+   "DynamicLightDist": 2500.0,
+   "EnableFog": 0,
+   "FogColor": [
+    127.0,
+    127.0,
+    127.0
+   ]
+  },
+  "AmbientLight": [
+   60.0,
+   60.0,
+   60.0
+  ]
+ },
+ "shots": [
+  {
+   "shot": "r1_corridor_guard",
+   "eye_lt": [
+    -669.9,
+    238.7,
+    19.9
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 38.9,
+    "pred_median": 32.7,
+    "pred_rgb": [
+     44,
+     39,
+     24
+    ],
+    "lm_rgb": [
+     113,
+     111,
+     92
+    ],
+    "lm_luma": 109.8,
+    "tex_luma": 84.7,
+    "tex_rgb": [
+     95,
+     84,
+     63
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 33.4,
+     "pred_median": 27.7,
+     "pred_rgb": [
+      38,
+      33,
+      21
+     ],
+     "lm_rgb": [
+      92,
+      91,
+      79
+     ],
+     "lm_luma": 90.2,
+     "tex_luma": 90.7,
+     "tex_rgb": [
+      102,
+      90,
+      64
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 50.7,
+     "pred_median": 57.2,
+     "pred_rgb": [
+      57,
+      51,
+      30
+     ],
+     "lm_rgb": [
+      135,
+      132,
+      104
+     ],
+     "lm_luma": 130.7,
+     "tex_luma": 88.6,
+     "tex_rgb": [
+      99,
+      88,
+      66
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 32.6,
+     "pred_median": 32.6,
+     "pred_rgb": [
+      37,
+      33,
+      22
+     ],
+     "lm_rgb": [
+      111,
+      109,
+      93
+     ],
+     "lm_luma": 108.6,
+     "tex_luma": 75.0,
+     "tex_rgb": [
+      83,
+      74,
+      60
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 848,
+     "pred_luma": 35.7,
+     "pred_median": 34.6,
+     "pred_rgb": [
+      39,
+      36,
+      25
+     ],
+     "lm_rgb": [
+      115,
+      113,
+      95
+     ],
+     "lm_luma": 112.5,
+     "tex_luma": 80.6,
+     "tex_rgb": [
+      87,
+      80,
+      66
+     ],
+     "share": 0.28
+    },
+    "wall": {
+     "n": 1837,
+     "pred_luma": 38.6,
+     "pred_median": 25.9,
+     "pred_rgb": [
+      44,
+      39,
+      23
+     ],
+     "lm_rgb": [
+      111,
+      109,
+      90
+     ],
+     "lm_luma": 107.9,
+     "tex_luma": 81.6,
+     "tex_rgb": [
+      93,
+      81,
+      58
+     ],
+     "share": 0.6
+    },
+    "ceiling": {
+     "n": 387,
+     "pred_luma": 47.8,
+     "pred_median": 51.0,
+     "pred_rgb": [
+      53,
+      48,
+      30
+     ],
+     "lm_rgb": [
+      116,
+      115,
+      94
+     ],
+     "lm_luma": 113.3,
+     "tex_luma": 108.8,
+     "tex_rgb": [
+      118,
+      109,
+      81
+     ],
+     "share": 0.13
+    }
+   },
+   "textures": {
+    "dookinside": {
+     "n": 1103,
+     "pred_luma": 54.2,
+     "pred_median": 56.9,
+     "pred_rgb": [
+      59,
+      55,
+      33
+     ],
+     "lm_rgb": [
+      131,
+      127,
+      101
+     ],
+     "lm_luma": 125.8,
+     "tex_luma": 104.4,
+     "tex_rgb": [
+      111,
+      105,
+      80
+     ],
+     "share": 0.36
+    },
+    "thjorfloorbank": {
+     "n": 848,
+     "pred_luma": 35.7,
+     "pred_median": 34.6,
+     "pred_rgb": [
+      39,
+      36,
+      25
+     ],
+     "lm_rgb": [
+      115,
+      113,
+      95
+     ],
+     "lm_luma": 112.5,
+     "tex_luma": 80.6,
+     "tex_rgb": [
+      87,
+      80,
+      66
+     ],
+     "share": 0.28
+    },
+    "thjordoor3": {
+     "n": 492,
+     "pred_luma": 14.1,
+     "pred_median": 12.3,
+     "pred_rgb": [
+      20,
+      13,
+      7
+     ],
+     "lm_rgb": [
+      86,
+      86,
+      77
+     ],
+     "lm_luma": 85.1,
+     "tex_luma": 41.9,
+     "tex_rgb": [
+      59,
+      39,
+      24
+     ],
+     "share": 0.16
+    },
+    "thjorwoodpanel": {
+     "n": 352,
+     "pred_luma": 20.5,
+     "pred_median": 18.6,
+     "pred_rgb": [
+      29,
+      19,
+      9
+     ],
+     "lm_rgb": [
+      89,
+      88,
+      78
+     ],
+     "lm_luma": 87.7,
+     "tex_luma": 58.9,
+     "tex_rgb": [
+      82,
+      55,
+      30
+     ],
+     "share": 0.11
+    },
+    "klusoceiling": {
+     "n": 277,
+     "pred_luma": 55.6,
+     "pred_median": 61.3,
+     "pred_rgb": [
+      58,
+      57,
+      37
+     ],
+     "lm_rgb": [
+      112,
+      111,
+      92
+     ],
+     "lm_luma": 110.2,
+     "tex_luma": 128.1,
+     "tex_rgb": [
+      132,
+      130,
+      101
+     ],
+     "share": 0.09
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "Light",
+     "name": "Light139",
+     "distance": 86,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch64",
+     "distance": 89,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light140",
+     "distance": 94,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light131",
+     "distance": 171,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch60",
+     "distance": 185,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light130",
+     "distance": 191,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light147",
+     "distance": 253,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch68",
+     "distance": 271,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light148",
+     "distance": 275,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "CandleProp14",
+     "distance": 296,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light16",
+     "distance": 296,
+     "radius": 300,
+     "colour": [
+      255,
+      255,
+      159
+     ],
+     "bright_scale": 1.0,
+     "inside": true,
+     "extra": {}
+    }
+   ]
+  },
+  {
+   "shot": "r2_doorway",
+   "eye_lt": [
+    -560.2,
+    238.7,
+    150.0
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 33.9,
+    "pred_median": 30.6,
+    "pred_rgb": [
+     39,
+     34,
+     21
+    ],
+    "lm_rgb": [
+     104,
+     103,
+     88
+    ],
+    "lm_luma": 102.1,
+    "tex_luma": 81.9,
+    "tex_rgb": [
+     92,
+     81,
+     60
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 37.1,
+     "pred_median": 35.6,
+     "pred_rgb": [
+      42,
+      37,
+      23
+     ],
+     "lm_rgb": [
+      103,
+      101,
+      87
+     ],
+     "lm_luma": 100.6,
+     "tex_luma": 92.8,
+     "tex_rgb": [
+      103,
+      92,
+      67
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 31.5,
+     "pred_median": 24.3,
+     "pred_rgb": [
+      36,
+      31,
+      19
+     ],
+     "lm_rgb": [
+      99,
+      99,
+      85
+     ],
+     "lm_luma": 98.2,
+     "tex_luma": 76.8,
+     "tex_rgb": [
+      89,
+      75,
+      55
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 33.2,
+     "pred_median": 31.8,
+     "pred_rgb": [
+      38,
+      33,
+      21
+     ],
+     "lm_rgb": [
+      110,
+      108,
+      91
+     ],
+     "lm_luma": 107.3,
+     "tex_luma": 76.0,
+     "tex_rgb": [
+      85,
+      75,
+      58
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 480,
+     "pred_luma": 41.2,
+     "pred_median": 41.8,
+     "pred_rgb": [
+      46,
+      41,
+      27
+     ],
+     "lm_rgb": [
+      131,
+      129,
+      104
+     ],
+     "lm_luma": 127.4,
+     "tex_luma": 81.8,
+     "tex_rgb": [
+      89,
+      81,
+      66
+     ],
+     "share": 0.16
+    },
+    "wall": {
+     "n": 2547,
+     "pred_luma": 32.7,
+     "pred_median": 27.7,
+     "pred_rgb": [
+      37,
+      33,
+      20
+     ],
+     "lm_rgb": [
+      99,
+      98,
+      84
+     ],
+     "lm_luma": 97.1,
+     "tex_luma": 82.3,
+     "tex_rgb": [
+      93,
+      81,
+      59
+     ],
+     "share": 0.83
+    },
+    "ceiling": {
+     "n": 45,
+     "pred_luma": 25.6,
+     "pred_median": 22.1,
+     "pred_rgb": [
+      36,
+      24,
+      11
+     ],
+     "lm_rgb": [
+      113,
+      111,
+      92
+     ],
+     "lm_luma": 109.8,
+     "tex_luma": 59.4,
+     "tex_rgb": [
+      81,
+      56,
+      31
+     ],
+     "share": 0.01
+    }
+   },
+   "textures": {
+    "dookinside": {
+     "n": 1587,
+     "pred_luma": 42.4,
+     "pred_median": 43.4,
+     "pred_rgb": [
+      46,
+      43,
+      28
+     ],
+     "lm_rgb": [
+      105,
+      104,
+      88
+     ],
+     "lm_luma": 102.9,
+     "tex_luma": 103.5,
+     "tex_rgb": [
+      110,
+      104,
+      79
+     ],
+     "share": 0.52
+    },
+    "thjordoor3": {
+     "n": 713,
+     "pred_luma": 13.4,
+     "pred_median": 12.2,
+     "pred_rgb": [
+      19,
+      12,
+      7
+     ],
+     "lm_rgb": [
+      86,
+      86,
+      77
+     ],
+     "lm_luma": 85.6,
+     "tex_luma": 39.6,
+     "tex_rgb": [
+      56,
+      36,
+      23
+     ],
+     "share": 0.23
+    },
+    "thjorfloorbank": {
+     "n": 480,
+     "pred_luma": 41.2,
+     "pred_median": 41.8,
+     "pred_rgb": [
+      46,
+      41,
+      27
+     ],
+     "lm_rgb": [
+      131,
+      129,
+      104
+     ],
+     "lm_luma": 127.4,
+     "tex_luma": 81.8,
+     "tex_rgb": [
+      89,
+      81,
+      66
+     ],
+     "share": 0.16
+    },
+    "thjorwoodpanel": {
+     "n": 292,
+     "pred_luma": 25.6,
+     "pred_median": 24.1,
+     "pred_rgb": [
+      35,
+      24,
+      12
+     ],
+     "lm_rgb": [
+      98,
+      97,
+      83
+     ],
+     "lm_luma": 96.0,
+     "tex_luma": 67.6,
+     "tex_rgb": [
+      91,
+      64,
+      37
+     ],
+     "share": 0.1
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "Light",
+     "name": "Light147",
+     "distance": 143,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch68",
+     "distance": 161,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light148",
+     "distance": 165,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light131",
+     "distance": 166,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light130",
+     "distance": 172,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch60",
+     "distance": 179,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light149",
+     "distance": 209,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch69",
+     "distance": 222,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light150",
+     "distance": 225,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light139",
+     "distance": 243,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light19",
+     "distance": 394,
+     "radius": 500,
+     "colour": [
+      255,
+      255,
+      159
+     ],
+     "bright_scale": 1.0,
+     "inside": true,
+     "extra": {}
+    }
+   ]
+  },
+  {
+   "shot": "r3_dark_room_props",
+   "eye_lt": [
+    60.2,
+    239.5,
+    -139.8
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 22.1,
+    "pred_median": 25.8,
+    "pred_rgb": [
+     24,
+     22,
+     17
+    ],
+    "lm_rgb": [
+     58,
+     58,
+     58
+    ],
+    "lm_luma": 58.4,
+    "tex_luma": 97.0,
+    "tex_rgb": [
+     106,
+     97,
+     73
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 20.8,
+     "pred_median": 25.9,
+     "pred_rgb": [
+      24,
+      21,
+      15
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 93.2,
+     "tex_rgb": [
+      105,
+      92,
+      66
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 24.6,
+     "pred_median": 26.6,
+     "pred_rgb": [
+      26,
+      25,
+      20
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 110.3,
+     "tex_rgb": [
+      115,
+      111,
+      87
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 20.9,
+     "pred_median": 22.9,
+     "pred_rgb": [
+      23,
+      21,
+      16
+     ],
+     "lm_rgb": [
+      61,
+      61,
+      60
+     ],
+     "lm_luma": 61.1,
+     "tex_luma": 87.5,
+     "tex_rgb": [
+      98,
+      87,
+      66
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 1214,
+     "pred_luma": 20.7,
+     "pred_median": 22.6,
+     "pred_rgb": [
+      23,
+      21,
+      15
+     ],
+     "lm_rgb": [
+      61,
+      61,
+      59
+     ],
+     "lm_luma": 60.4,
+     "tex_luma": 87.6,
+     "tex_rgb": [
+      98,
+      87,
+      66
+     ],
+     "share": 0.4
+    },
+    "wall": {
+     "n": 1263,
+     "pred_luma": 21.9,
+     "pred_median": 25.4,
+     "pred_rgb": [
+      24,
+      22,
+      16
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 97.8,
+     "tex_rgb": [
+      107,
+      98,
+      73
+     ],
+     "share": 0.41
+    },
+    "ceiling": {
+     "n": 595,
+     "pred_luma": 25.6,
+     "pred_median": 28.0,
+     "pred_rgb": [
+      27,
+      26,
+      19
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 114.5,
+     "tex_rgb": [
+      122,
+      115,
+      87
+     ],
+     "share": 0.19
+    }
+   },
+   "textures": {
+    "tapestry_olive": {
+     "n": 1198,
+     "pred_luma": 20.7,
+     "pred_median": 22.7,
+     "pred_rgb": [
+      23,
+      21,
+      15
+     ],
+     "lm_rgb": [
+      61,
+      61,
+      59
+     ],
+     "lm_luma": 60.5,
+     "tex_luma": 87.5,
+     "tex_rgb": [
+      98,
+      87,
+      66
+     ],
+     "share": 0.39
+    },
+    "dookinside": {
+     "n": 1005,
+     "pred_luma": 24.2,
+     "pred_median": 26.6,
+     "pred_rgb": [
+      25,
+      24,
+      19
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 108.3,
+     "tex_rgb": [
+      114,
+      109,
+      85
+     ],
+     "share": 0.33
+    },
+    "klusoceiling": {
+     "n": 485,
+     "pred_luma": 28.6,
+     "pred_median": 28.5,
+     "pred_rgb": [
+      29,
+      29,
+      23
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 127.9,
+     "tex_rgb": [
+      132,
+      129,
+      101
+     ],
+     "share": 0.16
+    },
+    "thjorwoodpanel": {
+     "n": 368,
+     "pred_luma": 12.6,
+     "pred_median": 11.6,
+     "pred_rgb": [
+      18,
+      12,
+      6
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 56.5,
+     "tex_rgb": [
+      79,
+      53,
+      28
+     ],
+     "share": 0.12
+    },
+    "thjorfloorbank": {
+     "n": 16,
+     "pred_luma": 20.3,
+     "pred_median": 19.5,
+     "pred_rgb": [
+      22,
+      20,
+      17
+     ],
+     "lm_rgb": [
+      57,
+      57,
+      57
+     ],
+     "lm_luma": 57.0,
+     "tex_luma": 90.7,
+     "tex_rgb": [
+      97,
+      90,
+      75
+     ],
+     "share": 0.01
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "Light",
+     "name": "Light161",
+     "distance": 134,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch74",
+     "distance": 137,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light162",
+     "distance": 140,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "CandleProp16",
+     "distance": 179,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light18",
+     "distance": 179,
+     "radius": 400,
+     "colour": [
+      255,
+      255,
+      159
+     ],
+     "bright_scale": 1.0,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light144",
+     "distance": 265,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch66",
+     "distance": 266,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light154",
+     "distance": 269,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch71",
+     "distance": 269,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light143",
+     "distance": 281,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    }
+   ]
+  },
+  {
+   "shot": "r4_count_room",
+   "eye_lt": [
+    -389.8,
+    63.7,
+    969.9
+   ],
+   "rays": 3072,
+   "no_hit": 0,
+   "no_lightmap": 0,
+   "all": {
+    "n": 3072,
+    "pred_luma": 61.4,
+    "pred_median": 61.3,
+    "pred_rgb": [
+     68,
+     62,
+     36
+    ],
+    "lm_rgb": [
+     161,
+     161,
+     122
+    ],
+    "lm_luma": 158.2,
+    "tex_luma": 100.5,
+    "tex_rgb": [
+     110,
+     100,
+     76
+    ]
+   },
+   "bands": {
+    "upper": {
+     "n": 1024,
+     "pred_luma": 49.9,
+     "pred_median": 45.8,
+     "pred_rgb": [
+      56,
+      50,
+      29
+     ],
+     "lm_rgb": [
+      126,
+      125,
+      100
+     ],
+     "lm_luma": 123.6,
+     "tex_luma": 101.7,
+     "tex_rgb": [
+      112,
+      101,
+      75
+     ]
+    },
+    "middle": {
+     "n": 1024,
+     "pred_luma": 64.3,
+     "pred_median": 64.0,
+     "pred_rgb": [
+      69,
+      65,
+      39
+     ],
+     "lm_rgb": [
+      148,
+      148,
+      114
+     ],
+     "lm_luma": 145.5,
+     "tex_luma": 113.1,
+     "tex_rgb": [
+      120,
+      114,
+      87
+     ]
+    },
+    "lower": {
+     "n": 1024,
+     "pred_luma": 70.0,
+     "pred_median": 77.4,
+     "pred_rgb": [
+      80,
+      70,
+      39
+     ],
+     "lm_rgb": [
+      210,
+      210,
+      152
+     ],
+     "lm_luma": 205.5,
+     "tex_luma": 86.6,
+     "tex_rgb": [
+      97,
+      86,
+      66
+     ]
+    }
+   },
+   "kinds": {
+    "floor": {
+     "n": 1162,
+     "pred_luma": 67.7,
+     "pred_median": 71.8,
+     "pred_rgb": [
+      77,
+      68,
+      38
+     ],
+     "lm_rgb": [
+      204,
+      204,
+      148
+     ],
+     "lm_luma": 199.6,
+     "tex_luma": 86.1,
+     "tex_rgb": [
+      96,
+      85,
+      66
+     ],
+     "share": 0.38
+    },
+    "wall": {
+     "n": 1477,
+     "pred_luma": 61.2,
+     "pred_median": 63.6,
+     "pred_rgb": [
+      67,
+      62,
+      36
+     ],
+     "lm_rgb": [
+      144,
+      144,
+      111
+     ],
+     "lm_luma": 141.5,
+     "tex_luma": 108.1,
+     "tex_rgb": [
+      117,
+      108,
+      81
+     ],
+     "share": 0.48
+    },
+    "ceiling": {
+     "n": 433,
+     "pred_luma": 45.3,
+     "pred_median": 43.7,
+     "pred_rgb": [
+      49,
+      46,
+      29
+     ],
+     "lm_rgb": [
+      106,
+      105,
+      87
+     ],
+     "lm_luma": 104.0,
+     "tex_luma": 113.1,
+     "tex_rgb": [
+      121,
+      114,
+      86
+     ],
+     "share": 0.14
+    }
+   },
+   "textures": {
+    "klusoceiling": {
+     "n": 1282,
+     "pred_luma": 67.9,
+     "pred_median": 66.3,
+     "pred_rgb": [
+      71,
+      70,
+      42
+     ],
+     "lm_rgb": [
+      137,
+      137,
+      107
+     ],
+     "lm_luma": 134.6,
+     "tex_luma": 128.2,
+     "tex_rgb": [
+      132,
+      130,
+      101
+     ],
+     "share": 0.42
+    },
+    "tapestry_olive": {
+     "n": 1032,
+     "pred_luma": 69.6,
+     "pred_median": 77.0,
+     "pred_rgb": [
+      79,
+      70,
+      39
+     ],
+     "lm_rgb": [
+      208,
+      208,
+      151
+     ],
+     "lm_luma": 204.3,
+     "tex_luma": 86.7,
+     "tex_rgb": [
+      97,
+      86,
+      66
+     ],
+     "share": 0.34
+    },
+    "thjorwoodpanel": {
+     "n": 322,
+     "pred_luma": 29.5,
+     "pred_median": 27.9,
+     "pred_rgb": [
+      41,
+      28,
+      12
+     ],
+     "lm_rgb": [
+      125,
+      125,
+      100
+     ],
+     "lm_luma": 123.2,
+     "tex_luma": 59.1,
+     "tex_rgb": [
+      82,
+      55,
+      29
+     ],
+     "share": 0.1
+    },
+    "dookinside": {
+     "n": 222,
+     "pred_luma": 48.5,
+     "pred_median": 44.2,
+     "pred_rgb": [
+      55,
+      49,
+      28
+     ],
+     "lm_rgb": [
+      137,
+      136,
+      106
+     ],
+     "lm_luma": 133.7,
+     "tex_luma": 92.5,
+     "tex_rgb": [
+      102,
+      92,
+      68
+     ],
+     "share": 0.07
+    },
+    "thjorfloorbank": {
+     "n": 130,
+     "pred_luma": 52.4,
+     "pred_median": 48.6,
+     "pred_rgb": [
+      57,
+      53,
+      33
+     ],
+     "lm_rgb": [
+      165,
+      165,
+      125
+     ],
+     "lm_luma": 162.1,
+     "tex_luma": 81.7,
+     "tex_rgb": [
+      88,
+      81,
+      67
+     ],
+     "share": 0.04
+    }
+   },
+   "unlit_models": {},
+   "lights": [
+    {
+     "class": "CandleProp",
+     "name": "CandleProp13",
+     "distance": 176,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light15",
+     "distance": 176,
+     "radius": 500,
+     "colour": [
+      255,
+      255,
+      159
+     ],
+     "bright_scale": 1.0,
+     "inside": true,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light158",
+     "distance": 218,
+     "radius": 200,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Fire",
+     "name": "Fire4",
+     "distance": 221,
+     "radius": 80,
+     "colour": [
+      255,
+      190,
+      130
+     ],
+     "bright_scale": null,
+     "inside": false,
+     "extra": {
+      "LightMinRadius": 55.0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light129",
+     "distance": 395,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch59",
+     "distance": 396,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light128",
+     "distance": 412,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "Light",
+     "name": "Light137",
+     "distance": 529,
+     "radius": 250,
+     "colour": [
+      241,
+      235,
+      154
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    },
+    {
+     "class": "CandleProp",
+     "name": "WallTorch63",
+     "distance": 547,
+     "radius": null,
+     "colour": null,
+     "bright_scale": null,
+     "inside": null,
+     "extra": {
+      "StartOn": 1,
+      "Blue": 0
+     }
+    },
+    {
+     "class": "Light",
+     "name": "Light138",
+     "distance": 555,
+     "radius": 50,
+     "colour": [
+      231,
+      157,
+      90
+     ],
+     "bright_scale": 0.6,
+     "inside": false,
+     "extra": {}
+    }
+   ]
+  }
+ ]
+}

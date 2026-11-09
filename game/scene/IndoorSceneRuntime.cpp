@@ -586,6 +586,12 @@ IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
 void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_mapDeltaData = snapshot.mapDeltaData;
+    if (m_mapDeltaData)
+    {
+        // A map state kept from a save older than sprite object keys holds unkeyed objects; they would share one
+        // ground item model, rebuilt and refitted every frame.
+        assignSpriteObjectKeys(*m_mapDeltaData);
+    }
     if (m_mapDeltaData && m_pIndoorMapData != nullptr)
     {
         normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, *m_pIndoorMapData);

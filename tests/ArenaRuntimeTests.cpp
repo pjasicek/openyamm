@@ -346,7 +346,7 @@ TEST_CASE("MAW arena bouts in d42 draw by the six-fold arena levels, not the tab
     const auto distance = [&](int id)
     {
         const double base = monsters.findStatsById(int16_t(id))->level;
-        const double familyLevel = monsters.findStatsById(int16_t(Game::mawFamilyBId(id)))->level;
+        const double familyLevel = monsters.findStatsById(int16_t(Game::mawMonsterFamily(&monsters, id).row(2)))->level;
         const int level = int(std::lround(std::max(base * 6 - (base - familyLevel) * 6 * 0.8, 5.0)));
         return std::max({14 - level, level - 42, 0});
     };

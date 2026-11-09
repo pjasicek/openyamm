@@ -83,6 +83,7 @@ add_library(openyamm_game STATIC
     gameplay/BountyHuntRuntime.cpp
     gameplay/ActorNameText.cpp
     gameplay/ArenaRuntime.cpp
+    gameplay/ArmageddonSpell.cpp
     gameplay/AwardRuntime.cpp
     gameplay/GameplayBolsterRuntime.cpp
     gameplay/ActorBehaviorCatalog.cpp
@@ -308,11 +309,13 @@ add_library(openyamm_game STATIC
     outdoor/WeatherModel.cpp
     outdoor/WeatherPresentation.cpp
     party/Party.cpp
+    party/BattleOrders.cpp
     party/EventSpellBuffs.cpp
     party/LloydsBeaconRuntime.cpp
     party/PlaythroughStatistics.cpp
     party/PlaythroughSeal.cpp
     party/PartySpellSystem.cpp
+    party/WorldSpells.cpp
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
@@ -368,6 +371,7 @@ add_library(openyamm_game STATIC
     ui/GameplayAlchemyBenchView.cpp
     ui/GameplayLootSummaryRenderer.cpp
     ui/GameplayFormationBuilder.cpp
+    ui/GameplayBattleOrders.cpp
     ui/GameplayCraftingBenchRenderer.cpp
     ui/GameplayCraftingBenchView.cpp
     ui/GameplayJournalAuras.cpp

@@ -6857,22 +6857,12 @@ int luaClearFog(lua_State *pLuaState)
     return 0;
 }
 
-// evt.OpenDimensionDoor([withoutQuest]): opens the Dimension Door destinations; `true` offers them before the Cross
-// Continents quest does.
+// evt.OpenDimensionDoor(): opens the four continents' portals (the towns' dimensional travel pedestals and fountains).
 int luaOpenDimensionDoor(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     pRuntimeState->pendingDimensionDoorOverlay = true;
-    pRuntimeState->pendingDimensionDoorWithoutQuest = lua_toboolean(pLuaState, 1) != 0;
     pRuntimeState->lastActivationResult = "You feel high magic presence here.";
-    return 0;
-}
-
-int luaClearDimensionDoorOverlay(lua_State *pLuaState)
-{
-    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->pendingDimensionDoorOverlay = false;
-    pRuntimeState->pendingDimensionDoorWithoutQuest = false;
     return 0;
 }
 
@@ -8712,6 +8702,33 @@ int luaJump(lua_State *pLuaState)
     return luaSpecialJump(pLuaState);
 }
 
+// evt.PushParty(x, y, distance): pushes the party `distance` units along the direction (x, y) over a third of a
+// second, against the world's collision (the dash of a monster's push and MAW's Knight Charge). A grounded party
+// stays grounded, so the push lasts, unlike evt.Jump's horizontal speed, which a grounded party loses after one
+// step. MM9's DamageBrush knockbacks use it.
+int luaPushParty(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
+    {
+        return 0;
+    }
+
+    const float directionX = static_cast<float>(luaL_checknumber(pLuaState, 1));
+    const float directionY = static_cast<float>(luaL_checknumber(pLuaState, 2));
+    const float distance = static_cast<float>(luaL_checknumber(pLuaState, 3));
+    const float length = std::sqrt(directionX * directionX + directionY * directionY);
+
+    if (length <= 0.001f || distance <= 0.0f)
+    {
+        return 0;
+    }
+
+    pExecutionContext->pSceneEventContext->dashParty(directionX / length, directionY / length, distance);
+    return 0;
+}
+
 int luaIsTotalBountyInRange(lua_State *pLuaState)
 {
     const Party *pParty = readableParty(pLuaState);
@@ -10209,7 +10226,6 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetOutdoorSky", luaSetOutdoorSky);
     registerLuaFunction(pLuaState, "SetOutdoorFog", luaSetOutdoorFog);
     registerLuaFunction(pLuaState, "OpenDimensionDoor", luaOpenDimensionDoor);
-    registerLuaFunction(pLuaState, "ClearDimensionDoorOverlay", luaClearDimensionDoorOverlay);
     registerLuaFunction(pLuaState, "SetTexture", luaSetTexture);
     registerLuaFunction(pLuaState, "SetTextureOutdoors", luaSetTexture);
     registerLuaFunction(pLuaState, "SetOutdoorModelFacetTexture", luaSetOutdoorModelFacetTexture);
@@ -10323,6 +10339,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "CheckItemsCount", luaCheckItemsCount);
     registerLuaFunction(pLuaState, "RemoveItems", luaRemoveItems);
     registerLuaFunction(pLuaState, "Jump", luaJump);
+    registerLuaFunction(pLuaState, "PushParty", luaPushParty);
     registerLuaFunction(pLuaState, "IsTotalBountyInRange", luaIsTotalBountyInRange);
     registerLuaFunction(pLuaState, "CanPlayerAct", luaCanPlayerAct);
     registerLuaFunction(pLuaState, "RefundChestArtifacts", luaRefundChestArtifacts);

@@ -3,7 +3,7 @@
 (its scripts/blib.py, paths pointed at this project), as the Anskram props project builds its own: asset frame
 (the raw import mirrored in X), clean, faces wound to agree with the ABC's authored normals, open pieces on a
 double-sided copy of their material, normals smooth within 40 degrees, COLOR_0 vertex occlusion, base centre at the
-origin; LODs only from 250 triangles (the native ABC LOD when its count is near, else a collapse decimation).
+origin; LODs only from 1000 triangles (the native ABC LOD when its count is near, else a collapse decimation).
 
 Differences from the Anskram build (Dook's Castle's build, kept): a model keeps one material per MM9 skin (the tree's
 bark and branch cards: ABC material k -> textures/<prop>[_k]_basecolor.png); a skin with transparent texels is a
@@ -33,7 +33,7 @@ blib.HERE, blib.WORK, blib.TEX = HERE, os.path.join(HERE, 'work'), os.path.join(
 blib.SKIP_BONE_SHAPES = True
 
 SMOOTH = 40.0
-LOD_MIN = 250
+LOD_MIN = 1000
 SPECS = {name: {} for name in props_table.built_props()}
 SPECS.update({name: {"tilt": tilt, "lods": False} for name, tilt in props_table.TILTS.items()})
 SPECS.update(json.load(open(os.path.join(HERE, 'scripts', 'specs.json'))) if os.path.exists(

@@ -1,0 +1,26 @@
+# AI arena: MM9's idle fidget (AIBase::SetAnimState and the idle think, monster_ai/MM9_AMBIENT_ANIMATION.md section
+# 2.1). A Town Guard (9108: Fidget, Fidget2, Fidget3) and a Commoner (9001: Fidget, Fidget2-4) stand idle, no wander,
+# the party behind them out of sight: each fidgets once 5-12 s after it enters idle, a clip picked among its model's
+# (actors.yml fidget_variants), then idles again with a fresh wait. See README.md.
+name: mm9_idle_fidget
+world: mm9
+map: thearena.blv
+asset_root: output/mm9_rework/assets_dev
+party:
+  position: [0, -1300, 1]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+trace_animation: true
+monsters:
+  - monster_id: 9108
+    position: [-300, 300, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {sight: 600, hearing: 40}
+  - monster_id: 9001
+    position: [300, 300, 1]
+    yaw_degrees: 90
+    hostile: false
+    mm9_ai: {sight: 600, hearing: 40, runaway_chance: 0}

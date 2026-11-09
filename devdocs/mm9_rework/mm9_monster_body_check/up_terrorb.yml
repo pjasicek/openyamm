@@ -1,0 +1,98 @@
+id: mm9r.bodies_up_terrorb
+title: up_terrorb
+world: mm9
+mode: faithful
+tags:
+- mm9
+- draft
+steps:
+- load_map:
+    map: 1000terrors.blv
+- set_pose:
+    map: 1000terrors.blv
+    x: 9122
+    y: -6236
+    z: -2079
+    yaw: 0
+    pitch: 0
+- spawn_actor:
+    monster_id: 9238
+    count: 1
+    x: 8872
+    y: -6236
+    z: -2079
+    group: 77
+- advance_runtime:
+    seconds: 1.5
+- &id001
+  assert:
+    actor_visible:
+      actor_index: 114
+      report_state: true
+- set_pose:
+    map: 1000terrors.blv
+    x: 8100
+    y: -6900
+    z: -128
+    yaw: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
+- advance_runtime:
+    seconds: 2.0
+- *id001
