@@ -939,6 +939,11 @@ bool indoorPointInsideSectorBounds(
 }
 
 constexpr float IndoorInitialActorFloorSampleDrop = 4096.0f;
+// How far above or below a spawn's centre height the ground of a point beside it may lie: at least this, else the
+// spawn's radius (a slope as steep as walkable ground rises about as much as the distance from the centre).
+constexpr float SpawnGroundMinimumReach = 256.0f;
+// How far from an exact spawn point (radius 1 or less) its ground may lie.
+constexpr float SpawnPointGroundReach = 2048.0f;
 constexpr float IndoorWorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
 constexpr float IndoorWorldItemThrowSpeed = 200.0f;
 constexpr int MonsterDeathDropMinThrowSpeed = 200;
@@ -4564,11 +4569,22 @@ void IndoorWorldRuntime::adoptPendingIndoorPathMap()
 
     std::shared_ptr<PathMap> map = m_pendingPathMap.map.get();
     m_pendingPathMap.map = {};
+    std::shared_ptr<const PathMap> retiredMap = std::move(m_runtimeGeometryCache.pathMapSnapshot);
     m_runtimeGeometryCache.pathMapSnapshot = std::move(map);
     // Up to date unless the map changed again while it was built (then indoorPathMap builds once more).
     m_runtimeGeometryCache.pathMapValid = m_pendingPathMap.generation == m_runtimeGeometryCache.pathMapGeneration;
     // A rebuilt map starts its own revision sequence: routes and worker results of the previous one are dropped.
     m_actorPathRuntime.clear();
+
+    // Freeing a region-sized map took the main thread about 20 ms after a wall broke on Sturmford (2026-11-11).
+    if (retiredMap != nullptr)
+    {
+        m_pendingPathMap.retiredMap = std::async(std::launch::async,
+            [retiredMap = std::move(retiredMap)]() mutable
+            {
+                retiredMap.reset();
+            });
+    }
 }
 
 std::vector<uint32_t> IndoorWorldRuntime::refreshMechanismRuntimeGeometryCache(
@@ -7969,6 +7985,23 @@ bool IndoorWorldRuntime::projectileSourceIsFriendlyToActor(
     {
         facts.targetPartyControlled =
             m_pGameplayActorService->isPartyControlledActor(actor.spellEffects.controlMode);
+
+        if (facts.targetPartyControlled
+            && !projectile.fromSummonedMonster
+            && projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Actor)
+        {
+            // A shot whose shooter is gone came from the party's enemy: nobody else shoots near its summons.
+            const size_t sourceIndex = actorIndexForActorId(projectile.sourceId);
+            facts.sourceHostileToParty = sourceIndex >= m_mapActorAiStates.size();
+
+            if (!facts.sourceHostileToParty)
+            {
+                const MapActorAiState &source = m_mapActorAiStates[sourceIndex];
+                facts.sourceHostileToParty = source.spellEffects.controlMode != GameplayActorControlMode::None
+                    ? source.spellEffects.hostileToParty
+                    : source.hostileToParty;
+            }
+        }
         // The map's evt.SetMonsterRelation rows decide, as they do whom the shooter targets.
         const EventRuntimeState *pRelationEvents = eventRuntimeState();
         facts.sourceMonsterKnown = projectile.sourceMonsterId != 0;
@@ -8508,58 +8541,17 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
             if (bestCollision->kind == GameplayProjectileService::ProjectileFrameCollisionKind::Actor
                 && bestCollision->actorIndex < mapActorCount())
             {
-                GameplayActorInspectState inspectState = {};
-                facts.collision.actorId =
-                    bestCollision->actorIndex < m_mapActorAiStates.size()
-                        ? m_mapActorAiStates[bestCollision->actorIndex].actorId
-                        : static_cast<uint32_t>(bestCollision->actorIndex);
-                facts.collision.targetArmorClass =
-                    actorInspectState(bestCollision->actorIndex, 0, inspectState) ? inspectState.armorClass : 0;
-                facts.collision.pCombatRules = &gameRulesFor(m_pParty).combat;
-                facts.collision.damageMultiplier = 1;
-
-                // An arrow's "x2 against a kind of monster", as outdoors.
-                if (const MapDeltaData *pDeltaData = mapDeltaData();
-                    pDeltaData != nullptr && bestCollision->actorIndex < pDeltaData->actors.size()
-                    && m_pParty != nullptr && m_pGameplayProjectileService != nullptr
-                    && projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party)
-                {
-                    if (const MonsterTable::MonsterStatsEntry *pStats =
-                            findIndoorActorStats(m_pMonsterTable, pDeltaData->actors[bestCollision->actorIndex]))
-                    {
-                        facts.collision.damageMultiplier = m_pGameplayProjectileService->resolvePartyProjectileDamageMultiplier(
-                            projectile,
-                            m_pParty->member(projectile.sourcePartyMemberIndex),
-                            m_pItemTable,
-                            m_pParty->specialItemEnchantTable(),
-                            pStats->kindFlags,
-                            *facts.collision.pCombatRules);
-                    }
-                }
-                facts.collision.partyCount =
-                    m_pParty != nullptr ? int(std::max<size_t>(1, m_pParty->members().size())) : 1;
-                facts.collision.pShooter = m_pParty != nullptr
-                        && projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party
-                    ? m_pParty->member(projectile.sourcePartyMemberIndex)
-                    : nullptr;
-
-                if (bestCollision->actorIndex < m_mapActorAiStates.size())
-                {
-                    facts.collision.targetMonsterId = m_mapActorAiStates[bestCollision->actorIndex].monsterId;
-                }
-
-                if (const MapDeltaData *pDeltaData = mapDeltaData();
-                    pDeltaData != nullptr && bestCollision->actorIndex < pDeltaData->actors.size())
-                {
-                    facts.collision.targetFacts = pDeltaData->actors[bestCollision->actorIndex].rulesetFacts;
-                }
-                if (bestCollision->actorIndex < m_mapActorAiStates.size())
-                {
-                    const GameplayActorService actorService = {};
-                    facts.collision.halfIncomingMissileDamage =
-                        actorService.halveIncomingMissileDamage(
-                            m_mapActorAiStates[bestCollision->actorIndex].spellEffects);
-                }
+                const GameplayProjectileService::ProjectileDirectActorImpactInput directInput =
+                    buildProjectileDirectActorImpactInput(projectile, bestCollision->actorIndex);
+                facts.collision.actorId = directInput.actorId;
+                facts.collision.targetArmorClass = directInput.targetArmorClass;
+                facts.collision.pCombatRules = directInput.pCombatRules;
+                facts.collision.damageMultiplier = directInput.damageMultiplier;
+                facts.collision.partyCount = directInput.partyCount;
+                facts.collision.pShooter = directInput.pShooter;
+                facts.collision.targetMonsterId = directInput.targetMonsterId;
+                facts.collision.targetFacts = directInput.targetFacts;
+                facts.collision.halfIncomingMissileDamage = directInput.halfIncomingMissileDamage;
                 facts.collision.targetDistance =
                     length3d(
                         projectile.sourceX - bestCollision->point.x,
@@ -8571,6 +8563,55 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
     }
 
     return facts;
+}
+
+GameplayProjectileService::ProjectileDirectActorImpactInput IndoorWorldRuntime::buildProjectileDirectActorImpactInput(
+    const GameplayProjectileService::ProjectileState &projectile,
+    size_t actorIndex) const
+{
+    GameplayProjectileService::ProjectileDirectActorImpactInput input = {};
+    GameplayActorInspectState inspectState = {};
+    input.actorIndex = actorIndex;
+    input.actorId =
+        actorIndex < m_mapActorAiStates.size() ? m_mapActorAiStates[actorIndex].actorId : uint32_t(actorIndex);
+    input.targetArmorClass = actorInspectState(actorIndex, 0, inspectState) ? inspectState.armorClass : 0;
+    input.pCombatRules = &gameRulesFor(m_pParty).combat;
+    input.partyCount = m_pParty != nullptr ? int(std::max<size_t>(1, m_pParty->members().size())) : 1;
+    const bool partyMissile =
+        m_pParty != nullptr && projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party;
+    input.pShooter = partyMissile ? m_pParty->member(projectile.sourcePartyMemberIndex) : nullptr;
+
+    if (const MapDeltaData *pDeltaData = mapDeltaData();
+        pDeltaData != nullptr && actorIndex < pDeltaData->actors.size())
+    {
+        input.targetFacts = pDeltaData->actors[actorIndex].rulesetFacts;
+
+        // An arrow's "x2 against a kind of monster", as outdoors.
+        if (partyMissile && m_pGameplayProjectileService != nullptr)
+        {
+            if (const MonsterTable::MonsterStatsEntry *pStats =
+                    findIndoorActorStats(m_pMonsterTable, pDeltaData->actors[actorIndex]))
+            {
+                input.damageMultiplier = m_pGameplayProjectileService->resolvePartyProjectileDamageMultiplier(
+                    projectile,
+                    input.pShooter,
+                    m_pItemTable,
+                    m_pParty->specialItemEnchantTable(),
+                    pStats->kindFlags,
+                    *input.pCombatRules);
+            }
+        }
+    }
+
+    if (actorIndex < m_mapActorAiStates.size())
+    {
+        input.targetMonsterId = m_mapActorAiStates[actorIndex].monsterId;
+        const GameplayActorService actorService = {};
+        input.halfIncomingMissileDamage =
+            actorService.halveIncomingMissileDamage(m_mapActorAiStates[actorIndex].spellEffects);
+    }
+
+    return input;
 }
 
 void IndoorWorldRuntime::populateIndoorProjectileAreaImpact(
@@ -8992,7 +9033,14 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                 {
                     if (projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party)
                     {
-                        int appliedDamage = actorHit.damage;
+                        const int blastDamage = projectile.blastMaximumDamage > 0
+                                && m_pGameplayProjectileService != nullptr
+                            ? m_pGameplayProjectileService->partyBlastDamageToActor(
+                                projectile,
+                                actorHit.damage,
+                                buildProjectileDirectActorImpactInput(projectile, actorHit.actorIndex))
+                            : actorHit.damage;
+                        int appliedDamage = blastDamage;
                         const MonsterTable::MonsterStatsEntry *pStats =
                             m_pMonsterTable != nullptr
                                 ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(targetActor))
@@ -9003,10 +9051,10 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                             std::mt19937 rng(
                                 projectile.projectileId
                                 ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
-                                ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
+                                ^ static_cast<uint32_t>(std::max(0, blastDamage)));
                             appliedDamage = resolveDamageToMonster(
                                 gameRulesFor(m_pParty).combat,
-                                actorHit.damage,
+                                blastDamage,
                                 projectile.damageType,
                                 partyMissileResistance(
                                     *pStats, projectile.damageType, projectile.weakerOfPhysicalAndFire),
@@ -10607,6 +10655,11 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
                         collisionRadius * 0.35f,
                         IndoorGroundPathMinWaypointReachDistance,
                         IndoorGroundPathMaxWaypointReachDistance);
+            // A script's walk ends near its point: its route ends where the last waypoint's reach still arrives
+            // (Thjorad Mine's MMarker2 lies closer to the corridor's end wall than Hjarrand's radius: a route to the
+            // point itself only came by a long way round, dropping onto it from a ledge).
+            pathRequest.goalDistance =
+                std::max(0.0f, movementIntent.targetArrivalDistance - pathRequest.waypointReachDistance);
             pathRequest.nowSeconds = m_actorPathRuntimeSeconds;
             pathRequest.failedRetrySeconds = IndoorPathFailedRetrySeconds;
             pathRequest.directCheckIntervalSeconds = IndoorPathDirectCheckIntervalSeconds;
@@ -12192,7 +12245,16 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     // whose row the importer made stationary walks at its MM9 velocities (MM9 never reads the Move column); so does a
     // boss whose MM9 behaviour script drives it (phase 5: Njam, Ebora, her concubines).
     const bool mm9Scripted = mm9Profile && m_actorBehaviors.instance(actorIndex) != nullptr;
-    const bool mm9CivilianWalks = (mm9Civilian || mm9Scripted)
+    // An MM9 routine (Mm9AiPlacementRecord::routines) in effect: a map script's choice, else its `default`.
+    const EventRuntimeState *pRoutineEvents = eventRuntimeState();
+    const auto chosenRoutine = pRoutineEvents != nullptr ? pRoutineEvents->actorRoutines.find(uint32_t(actorIndex))
+                                                         : std::unordered_map<uint32_t, std::string>::const_iterator{};
+    const int16_t mm9Routine = actor.mm9Ai
+        ? mm9RoutineIndex(actor.mm9Ai->routines,
+            pRoutineEvents != nullptr && chosenRoutine != pRoutineEvents->actorRoutines.end() ? &chosenRoutine->second
+                                                                                             : nullptr)
+        : int16_t(-1);
+    const bool mm9CivilianWalks = (mm9Civilian || mm9Scripted || mm9Routine >= 0)
         && (mm9Profile->runSpeed > 0.0f || mm9Profile->walkSpeed > 0.0f);
     facts.movement.movementAllowed =
         (pStats->movementType != MonsterTable::MonsterMovementType::Stationary || mm9CivilianWalks)
@@ -12209,6 +12271,8 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
         facts.movement.mm9Placement = actor.mm9Ai->settings;
         facts.movement.mm9PathPoints = actor.mm9Ai->pathPoints;
         facts.movement.mm9PathStops = actor.mm9Ai->pathStops;
+        facts.movement.mm9Routines = actor.mm9Ai->routines;
+        facts.movement.mm9Routine = mm9Routine;
         facts.movement.mm9HidingPlaces = actor.mm9Ai->hidingPlaces;
         facts.movement.mm9Spawned = mm9SpawnedWithParam(*actor.mm9Ai);
     }
@@ -12300,7 +12364,12 @@ bool IndoorWorldRuntime::isOpenAirMap() const
 
 bool IndoorWorldRuntime::allowsLloydsBeacon() const
 {
-    return !m_map || m_map->runtimeRestrictions.allowLloydsBeacon;
+    return !m_map || (m_map->runtimeRestrictions.allowLloydsBeacon && !m_map->noTeleport);
+}
+
+bool IndoorWorldRuntime::allowsTownPortal() const
+{
+    return !m_map || !m_map->noTeleport;
 }
 
 bool IndoorWorldRuntime::allowsRest() const
@@ -12455,8 +12524,41 @@ GameplayWorldPoint IndoorWorldRuntime::chooseBountyHuntSpawnPoint(uint32_t seed)
 {
     if (m_pIndoorMapData != nullptr)
     {
-        const std::optional<bx::Vec3> point =
-            chooseIndoorBountyHuntSpawnPoint(*m_pIndoorMapData, mapDeltaData(), eventRuntimeState(), seed);
+        // Where the map placed its hostile walkers (their homes): ground the party reached to clear the map, which MAW
+        // asks before it posts a hunt. A random floor face of an open-air BLV could be a roof, a cliff-ringed peak or
+        // the sky shell under the terrain. Those away from the party when there are any, as the outdoor hunt's spot.
+        constexpr float MinimumPartyDistance = 4096.0f;
+        std::vector<bx::Vec3> farAnchors;
+        std::vector<bx::Vec3> nearAnchors;
+        const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+        if (pMapDeltaData != nullptr)
+        {
+            const size_t actorCount = std::min(pMapDeltaData->actors.size(), m_mapActorAiStates.size());
+
+            for (size_t actorIndex = 0; actorIndex < actorCount; ++actorIndex)
+            {
+                const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+                const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+                const MonsterTable::MonsterStatsEntry *pStats = findIndoorActorStats(m_pMonsterTable, actor);
+
+                if (actor.spawnedAfterFill || actor.posed || actor.immobile || actor.npcId != 0
+                    || !aiState.hostileToParty || pStats == nullptr || pStats->canFly || pStats->swims)
+                {
+                    continue;
+                }
+
+                const bx::Vec3 home = {aiState.homePreciseX, aiState.homePreciseY, aiState.homePreciseZ};
+                const float deltaX = home.x - partyX();
+                const float deltaY = home.y - partyY();
+                const bool awayFromParty =
+                    deltaX * deltaX + deltaY * deltaY >= MinimumPartyDistance * MinimumPartyDistance;
+                (awayFromParty ? farAnchors : nearAnchors).push_back(home);
+            }
+        }
+
+        const std::optional<bx::Vec3> point = chooseIndoorBountyHuntSpawnPoint(
+            *m_pIndoorMapData, pMapDeltaData, eventRuntimeState(), seed, farAnchors.empty() ? nearAnchors : farAnchors);
 
         if (point)
         {
@@ -12726,6 +12828,7 @@ void IndoorWorldRuntime::updateActorAi(float deltaSeconds)
                 m_mapActorAiStates[actorIndex].hostileToParty);
         }
         recordDiagnostics(m_actorAiPerformanceDiagnostics.spellEffectNanoseconds, spellEffectBeginTickCount);
+        hideExpiredSummons();
 
         m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
     }
@@ -13088,6 +13191,36 @@ void IndoorWorldRuntime::advanceTurnBasedActorTimers(float seconds)
         if (hasActiveActorSpellEffectOverride(aiState.spellEffects))
         {
             m_pGameplayActorService->updateSpellEffectTimers(aiState.spellEffects, seconds, aiState.hostileToParty);
+        }
+    }
+
+    hideExpiredSummons();
+}
+
+// A party member's summon whose time ran out is removed, as MM8 removes it (AIState Removed when its Summoned buff
+// expires): hidden, it no longer acts, leaves no corpse and no longer counts against its caster's summon limit.
+void IndoorWorldRuntime::hideExpiredSummons()
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    const uint32_t invisible = static_cast<uint32_t>(EvtActorAttribute::Invisible);
+
+    for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size() && actorIndex < m_mapActorAiStates.size();
+        ++actorIndex)
+    {
+        MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+
+        if (actor.summonerMemberIndex >= 0 && (actor.attributes & invisible) == 0
+            && aiState.motionState != ActorAiMotionState::Dead
+            && aiState.spellEffects.controlMode == GameplayActorControlMode::None)
+        {
+            actor.attributes |= invisible;
         }
     }
 }
@@ -14227,6 +14360,32 @@ bool IndoorWorldRuntime::setMapActorPosition(size_t actorIndex, float x, float y
     return true;
 }
 
+bool IndoorWorldRuntime::attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    attachHeldItem(pMapDeltaData->actors[actorIndex].heldItems, model, node);
+    return true;
+}
+
+bool IndoorWorldRuntime::detachMapActorItem(size_t actorIndex, const std::string &node)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    detachHeldItem(pMapDeltaData->actors[actorIndex].heldItems, node);
+    return true;
+}
+
 bool IndoorWorldRuntime::setMapActorImmobile(size_t actorIndex, bool immobile)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -14959,10 +15118,22 @@ int IndoorWorldRuntime::applyMonsterDamageEventHooks(
     pEventRuntimeState->activeHookContext = hookContext;
 
     const bool executed = executeEventHooks(EventRuntimeHookKind::MonsterDamage);
-    const int resolvedDamage =
-        executed && pEventRuntimeState->activeHookContext && pEventRuntimeState->activeHookContext->damageOverride
-            ? *pEventRuntimeState->activeHookContext->damageOverride
-            : damage;
+    int resolvedDamage = damage;
+
+    if (executed && pEventRuntimeState->activeHookContext && pEventRuntimeState->activeHookContext->damageOverride)
+    {
+        resolvedDamage = *pEventRuntimeState->activeHookContext->damageOverride;
+
+        // A script's lethal hit (evt.SetHookDamage with a huge value: an MM9 :OnDamage -> Die) takes what the actor
+        // has left, so the hit and its combat text show a real number instead of the script's sentinel.
+        const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+        if (pMapDeltaData != nullptr && actorIndex < pMapDeltaData->actors.size())
+        {
+            resolvedDamage = std::min(resolvedDamage, std::max(1, int(pMapDeltaData->actors[actorIndex].hp)));
+        }
+    }
+
     pEventRuntimeState->activeHookContext.reset();
     return std::max(0, resolvedDamage);
 }
@@ -15005,6 +15176,11 @@ void IndoorWorldRuntime::notifyMonsterKilledEventHooks(size_t actorIndex, int16_
 const std::optional<ScriptedEventProgram> *IndoorWorldRuntime::globalEventProgram() const
 {
     return m_pGlobalEventProgram;
+}
+
+const std::optional<ScriptedEventProgram> *IndoorWorldRuntime::localEventProgram() const
+{
+    return m_pLocalEventProgram;
 }
 
 bool IndoorWorldRuntime::mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const
@@ -15154,6 +15330,7 @@ bool IndoorWorldRuntime::fireEventMissile(const EventMissileRequest &request)
     spawnRequest.impactSoundIdOverride = pMissile->impactSoundId;
     spawnRequest.explosionRadius = request.radius;
     spawnRequest.eventMissile = true;
+    spawnRequest.eventMissileStrikesParty = request.strikesParty;
     spawnRequest.flightSeconds = request.flightSeconds;
     spawnRequest.sourceX = request.fromX;
     spawnRequest.sourceY = request.fromY;
@@ -15594,6 +15771,7 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     const MonsterEntry *pBodyEntry = m_pMonsterTable != nullptr ? m_pMonsterTable->findById(resolvedMonsterId) : nullptr;
     state.bodyHeight = actor.height != 0 ? actor.height : pBodyEntry != nullptr ? pBodyEntry->height : state.height;
     state.drawScale = actor.drawScale;
+    state.pHeldItems = &actor.heldItems;
     state.isDead = pAiState != nullptr
         ? pAiState->motionState == ActorAiMotionState::Dead
         : actor.hp <= 0;
@@ -15765,6 +15943,37 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
         state.scriptedClipSeconds = pAiState->mm9.markerClipSeconds;
         state.scriptedClipEnd = stop.loop ? GameplayRuntimeActorState::ScriptedClipEnd::Loop
                                           : GameplayRuntimeActorState::ScriptedClipEnd::Release;
+    }
+
+    // Its MM9 routine's clip step (ActorMm9State::routine) while it holds no target, and its items put down.
+    if (pAiState != nullptr && actor.mm9Ai && pAiState->mm9.routine >= 0
+        && size_t(pAiState->mm9.routine) < actor.mm9Ai->routines.size())
+    {
+        const Mm9AiRoutine &routine = actor.mm9Ai->routines[size_t(pAiState->mm9.routine)];
+        state.heldItemsHidden = pAiState->mm9.routineItemsHidden;
+        const Mm9AiRoutineStep *pStep =
+            pAiState->mm9.routineStep < routine.steps.size() ? &routine.steps[pAiState->mm9.routineStep] : nullptr;
+
+        if (state.scriptedClip.empty() && pAiState->mm9.targetKind == ActorAiTargetKind::None && pStep != nullptr
+            && pStep->kind == Mm9AiRoutineStep::Kind::Clip && pAiState->mm9.routineClip >= 0
+            && size_t(pAiState->mm9.routineClip) < pStep->clips.size()
+            && state.animationState == ActorAiAnimationState::Standing)
+        {
+            state.scriptedClip = pStep->clips[size_t(pAiState->mm9.routineClip)].clip;
+            state.scriptedClipSeconds = pAiState->mm9.routineSeconds;
+            state.scriptedClipEnd = GameplayRuntimeActorState::ScriptedClipEnd::Loop;
+        }
+    }
+
+    // Its placement's idle clip (Mm9AiPlacement::idleClip, its script's LoopAnim between walks) while it stands without
+    // a target, its AI awake or not (a far actor's AI sleeps, as MM9's: it stays at its chore).
+    if (state.scriptedClip.empty() && pAiState != nullptr && state.animationState == ActorAiAnimationState::Standing
+        && pAiState->mm9.targetKind == ActorAiTargetKind::None && actor.mm9Ai
+        && !actor.mm9Ai->settings.idleClip.empty())
+    {
+        state.scriptedClip = actor.mm9Ai->settings.idleClip;
+        state.scriptedClipSeconds = std::max(0.0f, state.animationTimeTicks) / 128.0f;
+        state.scriptedClipEnd = GameplayRuntimeActorState::ScriptedClipEnd::Loop;
     }
 
     // A townsperson's Conv clip in a chat (ActorMm9State::chatClip, ActorRuntimeFacts::convClips).
@@ -17412,20 +17621,44 @@ std::vector<size_t> IndoorWorldRuntime::spawnMonsters(const GameplayMonsterSpawn
             continue;
         }
 
-        // A random point inside a room, else the centre (pseudoSpawnpoint tries 20 times).
+        // A random point inside a room, else the centre (pseudoSpawnpoint tries 20 times). A point off the centre needs
+        // ground to stand on near the centre's height and takes it: on a slope the centre's height lies under the
+        // ground uphill, where the placement took the floor below (an open-air BLV's sky shell).
         std::array<float, 2> point = {request.x, request.y};
+        float pointZ = request.z;
 
         for (int attempt = 0; attempt < 20 && m_pIndoorMapData != nullptr; ++attempt)
         {
             const std::array<float, 2> candidate = gameplaySpawnOffset(request, rng);
             RuntimeGeometryCache &geometry = runtimeGeometryCache();
 
-            if (findIndoorSectorForPoint(*m_pIndoorMapData, geometry.vertices,
+            if (!findIndoorSectorForPoint(*m_pIndoorMapData, geometry.vertices,
                     {candidate[0], candidate[1], request.z + 64.0f}, &geometry.geometryCache, false))
             {
-                point = candidate;
-                break;
+                continue;
             }
+
+            // An exact point (radius 1: MAW's summon halfway to the party, at the two heights' mean) may lie far
+            // under a hill between them, so its ground is looked for further.
+            const float reach =
+                request.radius > 1.0f ? std::max(SpawnGroundMinimumReach, request.radius) : SpawnPointGroundReach;
+            const std::optional<float> groundZ = findIndoorStandingFloorHeight(*m_pIndoorMapData, geometry.vertices,
+                geometry.geometryCache, candidate[0], candidate[1], request.z, reach);
+
+            if (!groundZ)
+            {
+                // An exact point has one candidate: without ground there it stays at the requested height.
+                if (request.radius <= 1.0f)
+                {
+                    break;
+                }
+
+                continue;
+            }
+
+            pointZ = pStats->canFly ? std::max(request.z, *groundZ) : *groundZ;
+            point = candidate;
+            break;
         }
 
         if (m_pRenderer != nullptr)
@@ -17448,7 +17681,7 @@ std::vector<size_t> IndoorWorldRuntime::spawnMonsters(const GameplayMonsterSpawn
         actor.moveSpeed = static_cast<uint16_t>(pStats->speed);
         actor.x = int(std::lround(point[0]));
         actor.y = int(std::lround(point[1]));
-        actor.z = int(std::lround(request.z));
+        actor.z = int(std::lround(pointZ));
         actor.group = request.group;
         actor.uniqueNameIndex = request.uniqueNameIndex;
         actor.carriedItemId = request.carriedItemId;
@@ -17587,7 +17820,22 @@ bool IndoorWorldRuntime::summonHostileMonsterById(
         actor.moveSpeed = static_cast<uint16_t>(pStats->speed);
         actor.x = int(std::lround(x + std::cos(angleRadians) * radius));
         actor.y = int(std::lround(y + std::sin(angleRadians) * radius));
-        actor.z = int(std::lround(z));
+        float actorZ = z;
+
+        // On the ground beside the point, as spawnMonsters' offset points (uphill a slope's ground lies above it).
+        if (m_pIndoorMapData != nullptr)
+        {
+            RuntimeGeometryCache &geometry = runtimeGeometryCache();
+            const std::optional<float> groundZ = findIndoorStandingFloorHeight(*m_pIndoorMapData, geometry.vertices,
+                geometry.geometryCache, float(actor.x), float(actor.y), z, SpawnGroundMinimumReach);
+
+            if (groundZ)
+            {
+                actorZ = pStats->canFly ? std::max(z, *groundZ) : *groundZ;
+            }
+        }
+
+        actor.z = int(std::lround(actorZ));
         actor.group = group;
         actor.ally = 0u;
         pMapDeltaData->actors.push_back(std::move(actor));
@@ -18821,7 +19069,24 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
         return true;
     }
 
-    return m_pRenderer != nullptr && m_pRenderer->activateGameplayWorldHit(hit);
+    // A decoration's click: the chest it opens opens its lid (openChestDecoration).
+    EventRuntimeState *pEvents = eventRuntimeState();
+    const std::optional<uint32_t> previousKey = pEvents != nullptr ? pEvents->activeEventDecorationKey : std::nullopt;
+    if (pEvents != nullptr && hit.eventTarget && hit.eventTarget->targetKind == GameplayWorldEventTargetKind::Entity)
+    {
+        pEvents->activeEventDecorationKey = hit.eventTarget->eventIdPrimary != 0
+            ? uint32_t(hit.eventTarget->eventIdPrimary) : uint32_t(hit.eventTarget->targetIndex);
+    }
+    const bool activated = m_pRenderer != nullptr && m_pRenderer->activateGameplayWorldHit(hit);
+    if (pEvents != nullptr)
+    {
+        if (activated && pEvents->activeEventDecorationKey != previousKey && pEvents->activeEventDecorationKey)
+        {
+            ++pEvents->decorationUses[*pEvents->activeEventDecorationKey];
+        }
+        pEvents->activeEventDecorationKey = previousKey;
+    }
+    return activated;
 }
 
 bool IndoorWorldRuntime::activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)
@@ -20037,6 +20302,8 @@ bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPro
     spawnRequest.shieldModifiers = request.shieldModifiers;
     spawnRequest.weakerOfPhysicalAndFire = request.weakerOfPhysicalAndFire;
     spawnRequest.explosionRadius = request.explosionRadius;
+    spawnRequest.blastMinimumDamage = request.blastMinimumDamage;
+    spawnRequest.blastMaximumDamage = request.blastMaximumDamage;
     spawnRequest.critical = request.critical;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
@@ -21088,6 +21355,10 @@ bool IndoorWorldRuntime::tryPlaceActiveChestItemAt(const ChestItemState &item, u
 void IndoorWorldRuntime::closeActiveChestView()
 {
     m_activeChestView.reset();
+    if (EventRuntimeState *pEvents = eventRuntimeState())
+    {
+        closeChestDecoration(*pEvents);
+    }
 }
 
 IndoorWorldRuntime::CorpseViewState *IndoorWorldRuntime::activeCorpseView()
@@ -22116,6 +22387,7 @@ void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMask
             {
                 pMapDeltaData->chests[openedChestId].flags |= static_cast<uint16_t>(EvtChestFlag::Opened);
                 activateChestView(openedChestId);
+                openChestDecoration(*pEventRuntimeState, openedChestRequest);
             }
         }
     }
@@ -22249,7 +22521,13 @@ bool IndoorWorldRuntime::setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn
     if (changedAny)
     {
         ++pMapDeltaData->surfaceRevision;
-        invalidateRuntimeGeometryCache();
+        // No face moved: the geometry caches redo the changed faces alone (IndoorFaceGeometryCache::geometryForFace,
+        // IndoorMovementController::refreshChangedFaceAttributes). A hole may open a route: the path map is rebuilt.
+        if (logIndoorPathfindingEnabled())
+        {
+            std::cout << "[IndoorPathfinding] path_map_dirty reason=face_attributes clear_actor_paths=0\n";
+        }
+        markIndoorPathMapStale();
         m_indoorJournalRevealStateValid = false;
         m_cachedGameplayMinimapLinesValid = false;
     }
@@ -22736,6 +23014,17 @@ bool IndoorWorldRuntime::destroyIndoorDestructible(const IndoorDestructible &des
     pState->hp = 0;
     pState->destroyed = true;
     hideIndoorDestructible(destructible);
+
+    // An actor standing on one of its faces loses its floor and falls, also one that is idle (it moves only while
+    // airborne or moving): the monsters waiting on Verhoffin Ruins' ceiling slabs (KingKong.scr ForceFall).
+    for (MapActorAiState &aiState : m_mapActorAiStates)
+    {
+        if (aiState.grounded && indoorDestructibleOfFace(aiState.supportFaceIndex) == &destructible)
+        {
+            aiState.grounded = false;
+            aiState.supportFaceIndex = static_cast<size_t>(-1);
+        }
+    }
 
     if (!destructible.sound.empty())
     {

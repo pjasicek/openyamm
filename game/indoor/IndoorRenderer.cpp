@@ -4165,15 +4165,8 @@ void IndoorRenderer::render(
                 m_indoorPerformanceDiagnostics.mechanismTotalNanoseconds +=
                     SDL_GetTicksNS() - mechanismBeginTickCount;
             }
-
-            if (bgfx::getRendererType() != bgfx::RendererType::Noop
-                && m_indoorTextureSet
-                && texturedBatchesNeedFullRebuild()
-                && !rebuildDerivedGeometryResources()
-                && collectDiagnostics)
-            {
-                ++m_indoorPerformanceDiagnostics.movingUpdateFailures;
-            }
+            // A surface change made by the simulation (a destructible broken) is caught up below: in place, else
+            // rebuilt.
         }
     }
 
@@ -4186,8 +4179,8 @@ void IndoorRenderer::render(
         m_texturedBatchGeometryRevision = std::numeric_limits<uint64_t>::max();
     }
 
-    // A surface change an event made outside the simulation (evt.SetTexture or a face hidden from a click or the
-    // console) shows at once, not when a timer or a moving door next rebuilds the batches.
+    // A surface change (evt.SetTexture, a face hidden by a destructible, a click or the console) shows at once:
+    // changed face bits in place where they can be, else a rebuild.
     if (bgfx::getRendererType() != bgfx::RendererType::Noop
         && m_indoorTextureSet
         && m_texturedBatchGeometryRevision != currentTexturedBatchGeometryRevision()
@@ -4970,7 +4963,7 @@ void IndoorRenderer::render(
         // No splashes yet: the indoor floor query is not wired to the weather (WeatherGroundQuery left empty).
         m_openSkyWeather.render(translucentView, {eye.x, eye.y, eye.z}, m_cameraYawRadians, projectionMatrix,
             viewHeight, m_skyRenderer.isReady() ? &m_skyRenderer.frame() : nullptr, settings.weatherQuality, {},
-            weatherEyeCovered);
+            weatherEyeCovered, m_frameFog.enabled ? &m_frameFog.color : nullptr);
     }
     renderWaterTint(translucentView);
     // A cinematic draws no health bars (the HUD is hidden).
@@ -5691,10 +5684,12 @@ GameplayWorldHit IndoorRenderer::translateInspectHitToGameplayWorldHit(
     const std::optional<std::string> eventTargetStatusText = resolveEventTargetHoverStatusText(inspectHit);
     eventTargetHit.name =
         eventTargetStatusText && !eventTargetStatusText->empty() ? *eventTargetStatusText : inspectHit.name;
-    eventTargetHit.nameEventId = resolveInteractiveDecorationHitEventId(inspectHit).value_or(0);
+    const std::optional<uint16_t> interactiveEventId = resolveInteractiveDecorationHitEventId(inspectHit);
+    const uint16_t eventId = inspectHitEventId(inspectHit);
+    eventTargetHit.nameEventId = interactiveEventId.value_or(eventId);
+    eventTargetHit.nameEventIsLocal = !interactiveEventId;
     eventTargetHit.hitPoint = hitPoint;
     eventTargetHit.distance = inspectHit.distance;
-    const uint16_t eventId = inspectHitEventId(inspectHit);
     const bool allowGlobalEventMetadata = inspectHit.kind == "entity";
     eventTargetHit.openedChestIds =
         resolveIndoorOpenedChestIds(m_pSceneRuntime, eventId, allowGlobalEventMetadata);
@@ -8164,6 +8159,24 @@ void IndoorRenderer::updateDecorationModels(const std::vector<uint8_t> &visibleS
             return true;
         });
     }
+    // Animated decorations: their parts, whole moving models and skinned copies (evt.PlayDecorationClip, idle clips).
+    const EventRuntimeState *pClipEvents = eventRuntimeState ? &*eventRuntimeState : nullptr;
+    const DecorationModelSet::PartClip decorationClip =
+        [pClipEvents](uint32_t key, std::string &clipName, float &seconds, bool &loop)
+    {
+        return decorationClipFor(pClipEvents, key, clipName, seconds, loop);
+    };
+    const float decorationSeconds = float(SDL_GetTicks()) * 0.001f;
+    if (pClipEvents != nullptr && !pClipEvents->decorationUses.empty())
+    {
+        m_decorationModels.noteUses(billboards, [pClipEvents](uint32_t key)
+        {
+            const auto found = pClipEvents->decorationUses.find(key);
+            return found != pClipEvents->decorationUses.end() ? found->second : 0u;
+        }, decorationSeconds);
+    }
+    m_decorationModels.poseParts(billboards, decorationClip, decorationSeconds);
+    m_decorationModels.poseInstances(billboards, decorationClip, decorationSeconds, m_worldFxSystem.models());
     const GameplayWorldHit *pContextActionHit = selectedContextActionWorldHit(pContextActionState);
     std::vector<Engine::ModelStaticGroup> &groups = m_decorationModels.groups();
     for (size_t group = 0; group < groups.size(); ++group)
@@ -10613,6 +10626,47 @@ uint64_t IndoorRenderer::currentTexturedBatchGeometryRevision() const
         pEventRuntimeState != nullptr ? pEventRuntimeState->indoorLightRevision : 0).texturedBatchGeometry;
 }
 
+// What the textured batches read from the event state: texture overrides and the facet masks the map delta did not
+// take. Order-independent, so a revision bump that changed none of it (evt.SetFacetBit applied to the map delta)
+// leaves it equal.
+uint64_t IndoorRenderer::currentEventSurfaceSignature() const
+{
+    const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    const auto mix = [](uint64_t kind, uint64_t key, uint64_t value)
+    {
+        uint64_t hash = (kind * 0x9e3779b97f4a7c15ull) ^ (key * 0xc2b2ae3d27d4eb4full) ^ (value * 0x165667b19e3779f9ull);
+        hash ^= hash >> 31;
+        hash *= 0xbf58476d1ce4e5b9ull;
+        hash ^= hash >> 29;
+        return hash;
+    };
+    uint64_t signature = pEventRuntimeState->textureOverrides.size() * 3 + pEventRuntimeState->facetSetMasks.size() * 5
+        + pEventRuntimeState->facetClearMasks.size() * 7;
+
+    for (const auto &[cogNumber, textureName] : pEventRuntimeState->textureOverrides)
+    {
+        signature += mix(1, cogNumber, std::hash<std::string>{}(textureName));
+    }
+
+    for (const auto &[cogNumber, mask] : pEventRuntimeState->facetSetMasks)
+    {
+        signature += mix(2, cogNumber, mask);
+    }
+
+    for (const auto &[cogNumber, mask] : pEventRuntimeState->facetClearMasks)
+    {
+        signature += mix(3, cogNumber, mask);
+    }
+
+    return signature;
+}
+
 uint64_t IndoorRenderer::currentBakedStaticLightRevision() const
 {
     const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
@@ -11077,7 +11131,8 @@ bool IndoorRenderer::submitTexturedBatch(size_t batchIndex, uint16_t viewId,
     const IndoorFaceIndexRange range = m_faceDrawPlan.batchRange(uint32_t(batchIndex));
     const IndoorFaceGroupDraw draw = {batch.drawGroup, false, range.firstIndex, range.indexCount};
     return submitTexturedFaces(m_texturedDrawGroups[batch.drawGroup], draw, batch.translucent ? &batch : nullptr,
-        viewId, lights, pLightGrid, eye, yaw, pitch, width, height, secretFacesDetected, clipPlane, projectionScale);
+        viewId, lights, pLightGrid, eye, yaw, pitch, width, height, secretFacesDetected, clipPlane, false,
+        projectionScale);
 }
 
 size_t IndoorRenderer::submitMainViewFaces(const std::vector<uint8_t> &drawnBatches, int width, int height,
@@ -11101,13 +11156,41 @@ size_t IndoorRenderer::submitMainViewFaces(const std::vector<uint8_t> &drawnBatc
     // set adds nothing.
     const IndoorDrawLightSet faceAmbient = {};
     const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+    // The view draws in submission order, so the terrain's depth is in place before anything is shaded.
+    const bool terrainDepthWritten = bgfx::isValid(m_indoorTerrainDepthProgramHandle);
+    if (terrainDepthWritten)
+    {
+        for (const IndoorFaceGroupDraw &draw : m_faceDrawPlan.draws())
+        {
+            if (draw.group >= m_texturedDrawGroups.size() || !m_texturedDrawGroups[draw.group].terrain
+                || !drawableFaceFrame(m_texturedDrawGroups[draw.group], draw))
+            {
+                continue;
+            }
+            const TexturedDrawGroup &group = m_texturedDrawGroups[draw.group];
+            float modelMatrix[16];
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, group.vertexBufferHandle, 0, group.vertexCount);
+            if (draw.merged)
+            {
+                bgfx::setIndexBuffer(m_mergedFaceIndexBufferHandle, draw.firstIndex, draw.indexCount);
+            }
+            else
+            {
+                bgfx::setIndexBuffer(group.indexBufferHandle, draw.firstIndex, draw.indexCount);
+            }
+            bgfx::setState(BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_MSAA);
+            bgfx::submit(MainViewId, m_indoorTerrainDepthProgramHandle);
+        }
+    }
     size_t submitted = 0;
     for (const IndoorFaceGroupDraw &draw : m_faceDrawPlan.draws())
     {
         if (draw.group < m_texturedDrawGroups.size()
             && submitTexturedFaces(m_texturedDrawGroups[draw.group], draw, nullptr, MainViewId, faceAmbient,
                 &m_lightGrid, eye, m_cameraYawRadians, m_cameraPitchRadians, width, height, secretFacesDetected,
-                {0.0f, 0.0f, 0.0f, 0.0f}))
+                {0.0f, 0.0f, 0.0f, 0.0f}, terrainDepthWritten))
         {
             ++submitted;
         }
@@ -11115,30 +11198,37 @@ size_t IndoorRenderer::submitMainViewFaces(const std::vector<uint8_t> &drawnBatc
     return submitted;
 }
 
-bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const IndoorFaceGroupDraw &draw,
-    const TexturedBatch *pTranslucentBatch, uint16_t viewId, const IndoorDrawLightSet &lights,
-    const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width, int height,
-    bool secretFacesDetected, const std::array<float, 4> &clipPlane, float projectionScale)
+std::optional<size_t> IndoorRenderer::drawableFaceFrame(const TexturedDrawGroup &group,
+    const IndoorFaceGroupDraw &draw) const
 {
-    const std::array<float, 4> secretPulseParams = {secretFacesDetected ? 1.0f : 0.0f, m_elapsedTime, 0.0f, 0.0f};
     const bool indicesValid =
         draw.merged ? bgfx::isValid(m_mergedFaceIndexBufferHandle) : bgfx::isValid(group.indexBufferHandle);
     if (!bgfx::isValid(group.vertexBufferHandle) || group.frameTextureHandles.empty() || group.vertexCount == 0
         || draw.indexCount == 0 || !indicesValid)
     {
-        return false;
+        return std::nullopt;
     }
+    const size_t frameIndex =
+        frameIndexForAnimation(group.frameLengthTicks, group.animationLengthTicks, currentAnimationTicks());
+    if (frameIndex >= group.frameTextureHandles.size() || !bgfx::isValid(group.frameTextureHandles[frameIndex]))
+    {
+        return std::nullopt;
+    }
+    return frameIndex;
+}
 
-    const size_t frameIndex = frameIndexForAnimation(
-        group.frameLengthTicks,
-        group.animationLengthTicks,
-        currentAnimationTicks());
-
-    if (frameIndex >= group.frameTextureHandles.size()
-        || !bgfx::isValid(group.frameTextureHandles[frameIndex]))
+bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const IndoorFaceGroupDraw &draw,
+    const TexturedBatch *pTranslucentBatch, uint16_t viewId, const IndoorDrawLightSet &lights,
+    const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width, int height,
+    bool secretFacesDetected, const std::array<float, 4> &clipPlane, bool terrainDepthWritten, float projectionScale)
+{
+    const std::array<float, 4> secretPulseParams = {secretFacesDetected ? 1.0f : 0.0f, m_elapsedTime, 0.0f, 0.0f};
+    const std::optional<size_t> drawableFrame = drawableFaceFrame(group, draw);
+    if (!drawableFrame)
     {
         return false;
     }
+    const size_t frameIndex = *drawableFrame;
 
     float modelMatrix[16];
     bx::mtxIdentity(modelMatrix);
@@ -11258,6 +11348,11 @@ bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const I
 
     if (group.terrain)
     {
+        if (terrainDepthWritten)
+        {
+            // Its depth is already in the view (submitMainViewFaces): only the nearest terrain surface is shaded.
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA);
+        }
         // Stages 8, 9, 10 and 14 (the light grid keeps 11); no specular highlight on the indoor lighting.
         m_terrainMaterials.bind(m_terrainAntiTiling, 0.0f);
         // Stage 12: the grass's colour where its tufts have thinned out, as on the outdoor terrain.
@@ -11704,6 +11799,8 @@ bool IndoorRenderer::initializeTerrain(const Engine::AssetFileSystem &assets, co
     m_indoorTerrainSingleProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_single");
     m_indoorTerrainSingleFogProgramHandle =
         loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_single_fog");
+    // Optional: without it the terrain is shaded where each of its triangles passes the depth test, as before.
+    m_indoorTerrainDepthProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_depth");
     if (!bgfx::isValid(m_indoorTerrainProgramHandle) || !bgfx::isValid(m_indoorTerrainFogProgramHandle)
         || !bgfx::isValid(m_indoorTerrainSingleProgramHandle) || !bgfx::isValid(m_indoorTerrainSingleFogProgramHandle))
     {
@@ -11741,7 +11838,8 @@ void IndoorRenderer::destroyTerrainResources()
     m_terrainSurface.clear();
     m_terrainFaceMask.clear();
     for (bgfx::ProgramHandle *pHandle : {&m_indoorTerrainProgramHandle, &m_indoorTerrainFogProgramHandle,
-             &m_indoorTerrainSingleProgramHandle, &m_indoorTerrainSingleFogProgramHandle})
+             &m_indoorTerrainSingleProgramHandle, &m_indoorTerrainSingleFogProgramHandle,
+             &m_indoorTerrainDepthProgramHandle})
     {
         if (bgfx::isValid(*pHandle))
         {
@@ -12252,7 +12350,8 @@ void IndoorRenderer::addFaceDrawConflicts(std::span<const size_t> faceIndices)
     {
         return (uint64_t(uint32_t(x)) << 32) | uint32_t(y);
     };
-    // The faces' new bounds, each entered in its cells (an earlier entry of a moved face stays: harmless).
+    // The faces' new bounds, each entered in its cells. A moved face leaves the cells of its previous bounds first:
+    // movers update every frame, and stale entries would pile up in the cells and slow each later frame.
     std::vector<size_t> faces;
     for (size_t faceIndex : faceIndices)
     {
@@ -12270,6 +12369,22 @@ void IndoorRenderer::addFaceDrawConflicts(std::span<const size_t> faceIndices)
             continue;
         }
         FaceDrawBounds &bounds = m_faceDrawBounds[faceIndex];
+        if (bounds.valid)
+        {
+            const auto [oldFirstX, oldLastX] = cellRange(bounds.min.x, bounds.max.x);
+            const auto [oldFirstY, oldLastY] = cellRange(bounds.min.y, bounds.max.y);
+            for (int32_t x = oldFirstX; x <= oldLastX; ++x)
+            {
+                for (int32_t y = oldFirstY; y <= oldLastY; ++y)
+                {
+                    const auto cell = m_faceDrawGrid.find(cellKey(x, y));
+                    if (cell != m_faceDrawGrid.end())
+                    {
+                        std::erase(cell->second, uint32_t(faceIndex));
+                    }
+                }
+            }
+        }
         bounds.min = {batch.vertices[offset].x, batch.vertices[offset].y, batch.vertices[offset].z};
         bounds.max = bounds.min;
         for (uint32_t vertex = offset + 1; vertex < offset + count; ++vertex)
@@ -12724,6 +12839,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         m_builtFaceAttributes = builtDelta ? builtDelta->faceAttributes : std::vector<uint32_t>{};
         m_builtMapSurfaceRevision = builtDelta ? builtDelta->surfaceRevision : 0;
         m_builtEventSurfaceRevision = pBuiltEvents != nullptr ? pBuiltEvents->outdoorSurfaceRevision : 0;
+        m_builtEventSurfaceSignature = currentEventSurfaceSignature();
     }
     m_bakedStaticLightRevision = currentBakedStaticLightRevision();
     m_bakedStaticLightEnabledStates =
@@ -13059,9 +13175,24 @@ bool IndoorRenderer::updateFaceAttributeChanges()
     const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
 
     if (!m_pIndoorMapData || !mapDeltaData || m_texturedBatches.empty()
-        || m_builtFaceAttributes.size() != mapDeltaData->faceAttributes.size()
-        || (pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0) != m_builtEventSurfaceRevision
-        || mapDeltaData->surfaceRevision == m_builtMapSurfaceRevision)
+        || m_builtFaceAttributes.size() != mapDeltaData->faceAttributes.size())
+    {
+        return false;
+    }
+
+    // An event's surface change counts only when it changed what the batches read from the events: evt.SetFacetBit
+    // bumps the event revision too, though its bits went into the map delta (a destructible's destroyed event hiding
+    // a hint face rebuilt every batch of Sturmford, about 200 ms).
+    const uint64_t eventSurfaceRevision = pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
+    const bool eventSurfaceChanged = eventSurfaceRevision != m_builtEventSurfaceRevision;
+
+    // Neither revision moved: a full rebuild was asked for (baked lighting switched).
+    if (!eventSurfaceChanged && mapDeltaData->surfaceRevision == m_builtMapSurfaceRevision)
+    {
+        return false;
+    }
+
+    if (eventSurfaceChanged && currentEventSurfaceSignature() != m_builtEventSurfaceSignature)
     {
         return false;
     }
@@ -13165,6 +13296,7 @@ bool IndoorRenderer::updateFaceAttributeChanges()
     }
 
     m_builtMapSurfaceRevision = mapDeltaData->surfaceRevision;
+    m_builtEventSurfaceRevision = eventSurfaceRevision;
     m_texturedBatchGeometryRevision = currentTexturedBatchGeometryRevision();
     return true;
 }
@@ -13635,7 +13767,8 @@ bool IndoorRenderer::updateMechanismGeometryResourcesForDoorIds(
         return true;
     }
 
-    if (!m_indoorTextureSet || texturedBatchesNeedFullRebuild())
+    // Face bits changed with the move (a destructible broke and its event opened a door): in place where they can be.
+    if (!m_indoorTextureSet || (texturedBatchesNeedFullRebuild() && !updateFaceAttributeChanges()))
     {
         const uint64_t rebuildBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
         const bool rebuilt = rebuildDerivedGeometryResources();

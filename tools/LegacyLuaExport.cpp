@@ -12439,6 +12439,77 @@ void emitContextActionMetadataValue(
     stream << " }";
 }
 
+struct LearnedEventEffect
+{
+    uint32_t autonoteId = 0;
+    std::string effect;
+};
+
+// A fountain or well whose drink sets exactly one autonote and reports exactly one numeric effect ("+50 Might
+// (Temporary)") names that effect on its hover once the party has the autonote. Random, harmful and flavour-only
+// drinks ("Look Out!", "Your Wounds begin to Heal") have no learned effect.
+std::optional<LearnedEventEffect> learnedEffectForEvent(
+    const EvtEvent &event,
+    const StrTable &strTable,
+    const LegacyLuaExportLookups &lookups)
+{
+    const std::optional<ContextActionMetadata> contextAction = contextActionMetadataForEvent(event, strTable, lookups);
+
+    if (!contextAction || (contextAction->kind != "fountain" && contextAction->kind != "well"))
+    {
+        return std::nullopt;
+    }
+
+    std::vector<uint32_t> autonoteIds;
+    std::vector<std::string> effects;
+
+    for (const EvtInstruction &instruction : event.instructions)
+    {
+        if ((instruction.opcode == EvtOpcode::Add || instruction.opcode == EvtOpcode::Set) && instruction.value1)
+        {
+            const FormattedSelector selector = formatSelector(*instruction.value1, lookups.qbitRemaps);
+
+            if (selector.semantic == SelectorSemantic::Autonote)
+            {
+                autonoteIds.push_back(selector.index);
+            }
+        }
+
+        if (instruction.opcode != EvtOpcode::StatusText)
+        {
+            continue;
+        }
+
+        const std::optional<std::string> text = resolveInstructionText(instruction, strTable, lookups);
+
+        if (!text || normalizedContextTitle(*text).starts_with("refreshing"))
+        {
+            continue;
+        }
+
+        // "+30 Level temporary.  Look Out!" names its effect before the first full stop; Kriegspire's well quotes it.
+        std::string effect = text->substr(0, text->find('.'));
+        const size_t first = effect.find_first_not_of(" \"");
+        const size_t last = effect.find_last_not_of(" \"");
+        effect = first == std::string::npos ? std::string() : effect.substr(first, last - first + 1);
+        effects.push_back(effect);
+    }
+
+    sortAndUnique(autonoteIds);
+    sortAndUnique(effects);
+
+    if (autonoteIds.size() != 1 || effects.size() != 1
+        || std::none_of(effects.front().begin(), effects.front().end(), [](char character)
+            {
+                return std::isdigit(static_cast<unsigned char>(character)) != 0;
+            }))
+    {
+        return std::nullopt;
+    }
+
+    return LearnedEventEffect{autonoteIds.front(), effects.front()};
+}
+
 bool isPressureTrapSpell(uint32_t spellId)
 {
     // Only hostile trap spells; beneficial casts and map-wide effects are not pressure traps.
@@ -12703,6 +12774,22 @@ void emitMetadata(
         }
 
         stream << "    },\n";
+
+        std::ostringstream learnedEffectStream;
+
+        for (const EvtEvent &event : evtProgram.getEvents())
+        {
+            if (const std::optional<LearnedEventEffect> learned = learnedEffectForEvent(event, strTable, lookups))
+            {
+                learnedEffectStream << "    [" << event.eventId << "] = { autonote = " << learned->autonoteId
+                                    << ", effect = " << luaQuoted(learned->effect) << " },\n";
+            }
+        }
+
+        if (!learnedEffectStream.str().empty())
+        {
+            stream << "    learnedEffect = {\n" << learnedEffectStream.str() << "    },\n";
+        }
     }
 
     stream << "    textureNames = {";

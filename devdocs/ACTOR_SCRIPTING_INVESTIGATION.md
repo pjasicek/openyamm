@@ -298,6 +298,18 @@ scr_audit/monsters_ai.md gaps 6 and 7):
   order out though it neither sees the party nor shares its sector. Before, such an actor kept the order pending and
   stood still: the caged Desert Terror never walked to its wall, and the guards sent for it never left their post
   (`IndoorWorldRuntime::selectIndoorActiveActors`).
+- **A walk's route ends near its point; a stuck walk gives up** (2026-11-11). A walker arrives once its centre is within
+  its radius + 32 of the point (`ScriptedActorMoveArrivalDistance`), so indoors its route may end anywhere that close
+  less a waypoint's reach (`ActorMovementFacts::scriptedMoveArrivalDistance` -> `ActorMovementIntent::
+  targetArrivalDistance` -> `PathPlanRequest::goalDistance`). Before, the planner had to reach the point itself:
+  Thjorad Mine's MMarker2 lies 21 from the corridor's end wall, inside Hjarrand's 42, so with the slag extractor's hatch
+  open across the corridor the only route found was an 87-waypoint detour south and up the west ramp, dropping onto the
+  point from a ledge (the open leaf leaves the hall north of it free: the 17-waypoint route goes round its end). A route
+  held near a waypoint whose successor is out of reach is dropped after 2 s (`ActorPathRuntime`,
+  `WaypointBlockedSeconds`) and planned again from where the actor stands; before, it was kept for ever. A walker that
+  walks for 10 s without getting 32 from one spot (`ScriptedActorMoveGiveUpSeconds`; not while it attacks, is held by
+  a status, a script hold or turn-based play) gives up: its move ends without its arrival event, `evt.IsActorMoving`
+  turns false and the log says where it stopped. Test: `tests/scenarios/mm9/hjarrand_walks_past_open_hatch.yml`.
 - **`evt.SummonMonstersById{..., patrol = {{x, y, z}, ...}, mm9 = {...}}`**: every summoned monster gets a scene
   actor's `patrol` (it walks the waypoints in turn while nothing is in reach; outdoors saved from save version 160)
   and `mm9_ai` placement, read by the scene's own parser (`parseMm9AiPlacementNode`, so its keys and errors are the

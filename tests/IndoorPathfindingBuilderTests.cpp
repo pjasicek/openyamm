@@ -1,12 +1,18 @@
 #include "doctest/doctest.h"
 
+#include "engine/AssetFileSystem.h"
+#include "engine/AssetScaleTier.h"
 #include "game/FaceEnums.h"
+#include "game/data/GameDataLoader.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMovementController.h"
 #include "game/indoor/IndoorPathfindingBuilder.h"
 #include "game/pathfinding/ActorPathRuntime.h"
+#include "game/pathfinding/PathPlanner.h"
 #include "tests/RegressionMapLoader.h"
 
 #include <cmath>
+#include <filesystem>
 #include <utility>
 #include <vector>
 
@@ -746,16 +752,7 @@ TEST_CASE("naga vault actors enter the hallway over its low threshold")
 
 TEST_SUITE_END();
 
-#include "engine/AssetFileSystem.h"
-#include "engine/AssetScaleTier.h"
-#include "game/data/GameDataLoader.h"
-#include "game/indoor/IndoorGeometryUtils.h"
-#include <filesystem>
-#include "game/pathfinding/PathPlanner.h"
-
-#include <iostream>
-
-TEST_CASE("PROBE thjorad hatch")
+TEST_CASE("Thjorad Mine walkers climb the west ramp and walk round the open slag extractor hatch")
 {
     using namespace OpenYAMM::Game;
     OpenYAMM::Engine::AssetFileSystem assets;
@@ -765,71 +762,60 @@ TEST_CASE("PROBE thjorad hatch")
     REQUIRE(data.loadForHeadlessGameplay(assets));
     REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "thjoradmine.blv"));
     const MapAssetInfo &map = *data.getSelectedMap();
-    const IndoorMapData &geometry = *map.indoorMapData;
-    std::vector<IndoorVertex> vertices = geometry.vertices;
+    REQUIRE(map.indoorMapData);
+    REQUIRE(map.indoorMapDeltaData);
+    IndoorMapData geometry = *map.indoorMapData;
+
+    // The hatch (door 10) swung open across the corridor west of Door0.
+    constexpr uint32_t HatchDoorId = 10;
+    bool hatchFound = false;
+
     for (const MapDeltaDoor &door : map.indoorMapDeltaData->doors)
     {
-        if (door.doorId == 10)
+        if (door.doorId == HatchDoorId)
         {
-            applyIndoorMechanismDoorToVertices(door, findIndoorMoverDefinition(geometry, 10), float(door.moveLength),
-                1, vertices);
-            for (uint16_t faceId : door.faceIds)
-            {
-                std::cout << "face " << faceId << ":";
-                for (uint16_t v : geometry.faces[faceId].vertexIndices)
-                {
-                    std::cout << " (" << vertices[v].x << "," << vertices[v].y << "," << vertices[v].z << ")";
-                }
-                std::cout << "\n";
-            }
+            applyIndoorMechanismDoorToVertices(
+                door, findIndoorMoverDefinition(geometry, HatchDoorId), 0.0f, 1, geometry.vertices);
+            hatchFound = true;
         }
     }
-    const IndoorPathMapBuildResult build =
-        IndoorPathfindingBuilder::buildPathMap(geometry, vertices, nullptr, nullptr, 512.0f, {10u});
-    PathPlanRequest request = {};
-    request.source = {-2551.03f, 1064.52f, 0.0f};
-    request.target = {-3092.0f, 1065.0f, 0.0f};
-    request.object.radius = 42.0f;
-    request.object.height = 85.0f;
-    request.object.stepLength = 40.0f;
-    request.object.stepHeight = 40.0f;
-    request.object.dropHeight = 1000.0f;
-    request.object.riserHeight = 80.0f;
-    request.allowPartialPath = true;
-    request.allowDirect = false;
-    PathPlanner planner;
-    const PathPlanResult result = planner.plan(build.pathMap, request);
+
+    REQUIRE(hatchFound);
+
+    SUBCASE("Hjarrand's route from MMarker1 to MMarker2 passes north of the leaf and ends within his arrival")
     {
-        const PathWalkSegmentDebug d = build.pathMap.debugTraceWalkSegment(request.source, request.target, request.object);
-        std::cout << "direct reason=" << int(d.rejectReason) << " facet=" << d.blockedFacet << " at=(" << d.blockedPoint.x << "," << d.blockedPoint.y << ")\n";
-    }
-    std::cout << "status=" << int(result.status) << " nodes=" << result.analyzedNodeCount << "\n";
-    for (const PathPoint &point : result.waypoints)
-    {
-        std::cout << "  (" << point.x << "," << point.y << "," << point.z << ")\n";
-    }
-    for (float y : {1104.0f, 1144.0f, 1184.0f, 1224.0f})
-    {
-        for (float x : {-2551.0f, -2591.0f, -2631.0f, -2671.0f, -2711.0f})
+        const IndoorPathMapBuildResult build = IndoorPathfindingBuilder::buildPathMap(
+            geometry, geometry.vertices, nullptr, nullptr, 256.0f, {HatchDoorId});
+        PathPlanRequest request = {};
+        request.source = {-2551.0f, 1064.5f, 0.0f};
+        request.target = {-3092.0f, 1065.0f, 0.0f};
+        request.object.radius = 42.0f;
+        request.object.height = 85.0f;
+        request.object.stepLength = 40.0f;
+        request.object.stepHeight = 40.0f;
+        request.object.dropHeight = IndoorActorMaxDropHeight;
+        request.object.riserHeight = 80.0f;
+        request.allowPartialPath = true;
+        request.allowDirect = false;
+        // ScriptedActorMoveArrivalDistance past his radius, less a waypoint's reach (IndoorWorldRuntime).
+        request.goalDistance = 42.0f;
+        PathPlanner planner;
+        const PathPlanResult result = planner.plan(build.pathMap, request);
+        REQUIRE(result.status == PathPlanStatus::Success);
+        REQUIRE_FALSE(result.waypoints.empty());
+        CHECK(result.waypoints.size() < 30u);
+        const PathPoint &end = result.waypoints.back();
+        CHECK(std::hypot(end.x - request.target.x, end.y - request.target.y) <= request.goalDistance);
+
+        for (const PathPoint &waypoint : result.waypoints)
         {
-            const PathFloorSample floor = build.pathMap.floorAt({x, y, 40.0f});
-            std::cout << "floor (" << x << "," << y << ") has=" << floor.hasFloor << " void=" << floor.inVoid
-                << " z=" << floor.z << " facet=" << floor.facetIndex
-                << " walkE=" << build.pathMap.traceWalkSegment({x, y, 0.0f}, {x - 40.0f, y, 0.0f}, request.object)
-                << " walkN=" << build.pathMap.traceWalkSegment({x, y, 0.0f}, {x, y + 40.0f, 0.0f}, request.object)
-                << "\n";
-            const PathWalkSegmentDebug debug =
-                build.pathMap.debugTraceWalkSegment({x, y, 0.0f}, {x - 40.0f, y, 0.0f}, request.object);
-            std::cout << "   W reason=" << int(debug.rejectReason) << " facet=" << debug.blockedFacet
-                << " source=" << (debug.blockedFacet < build.pathMap.facets().size()
-                    ? build.pathMap.facets()[debug.blockedFacet].sourceId : -1)
-                << " at=(" << debug.blockedPoint.x << "," << debug.blockedPoint.y << "," << debug.blockedPoint.z << ")\n";
+            CHECK(std::fabs(waypoint.z) < 1.0f);
         }
     }
+
+    SUBCASE("a body at the foot of the ramp north of the landing walks up it")
     {
-        IndoorMapData moved = geometry;
-        moved.vertices = vertices;
-        const IndoorMovementController controller(moved, &*map.indoorMapDeltaData, nullptr);
+        const IndoorMovementController controller(geometry, &map.indoorMapDeltaData, nullptr);
         IndoorMoveState state = {};
         state.x = -3613.37f;
         state.y = 160.7f;
@@ -840,19 +826,16 @@ TEST_CASE("PROBE thjorad hatch")
         state.supportFaceIndex = 7685;
         state.grounded = true;
         const IndoorBodyDimensions body{42.0f, 85.0f};
-        for (int step = 0; step < 64; ++step)
+
+        for (int step = 0; step < 128; ++step)
         {
-            IndoorMoveDebugInfo debug = {};
-            const IndoorMoveState next = controller.resolveMove(state, body, -0.5956f * 192.0f, 0.8033f * 192.0f,
-                false, 1.0f / 128.0f, nullptr, 45, false, &debug, false, false, 420.0f, 1.0f, false, false, true,
-                true, true);
-            if (step % 8 == 0)
-            {
-                std::cout << "move (" << next.x << "," << next.y << "," << next.footZ << ") block="
-                    << int(debug.primaryBlockKind) << " face=" << int(debug.hitFaceIndex) << " tried="
-                    << debug.collisionResponseTried << " ok=" << debug.collisionResponseSucceeded << "\n";
-            }
-            state = next;
+            state = controller.resolveMove(state, body, -0.5956f * 192.0f, 0.8033f * 192.0f, false, 1.0f / 128.0f,
+                nullptr, 45, false, nullptr, false, false, 420.0f, 1.0f, false, false, true, true, true);
         }
+
+        INFO("position=" << state.x << "," << state.y << "," << state.footZ);
+        CHECK(state.y > 250.0f);
+        CHECK(state.footZ > 330.0f);
+        CHECK(state.grounded);
     }
 }

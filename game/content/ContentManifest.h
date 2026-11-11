@@ -33,13 +33,14 @@ struct WorldPartyDeathCondition
 // world.yml partyDeath: where a party defeated in this world wakes (MM9: Arslegard City inside the Great Gate) and
 // the movie shown first (none when unset); unset: MMerge's continent death maps (continent_settings.txt). With `when`,
 // the destination applies only while one condition holds; otherwise the defeat is lost (MM9's game over): the
-// `otherwise` movie, then the autosave.
+// `otherwise` movie, then the autosave. keepGold: the party wakes with its gold (MM9 takes none; MMerge takes it all).
 struct WorldPartyDeathDefinition
 {
     std::string mapFileName;
     std::array<int, 3> position = {};
     int directionYawUnits = 0;
     std::string movie;
+    bool keepGold = false;
     std::vector<WorldPartyDeathCondition> when;
     std::string otherwiseMovie;
 };
@@ -210,6 +211,9 @@ struct WorldManifest
     std::string sourceGame = "mm8";
     WorldStartDefinition start;
     WorldPartyDeathDefinition partyDeath;
+    // world.yml autosave: `departure` (default, MM8): the autosave is written on the map being left, before its exit
+    // runs; `arrival` (MM9, cshell.dll 0x100a6bb0): after the new map has loaded, and after a defeat's wake.
+    bool autosaveOnArrival = false;
     WorldQBitDefinition qbits;
     WorldPartyMovementDefinition partyMovement;
     WorldActorAwarenessDefinition actorAwareness;
@@ -273,6 +277,10 @@ struct WorldManifest
     // Prismatic Light do not (MapStatsEntry::openAir, IGameplayWorldRuntime::isOpenAirMap). MM9, whose regions and
     // cities are BLVs (the user, 2026-11-09); default none, so every BLV keeps the indoor rules.
     std::vector<std::string> openAirMaps;
+    // world.yml noTeleportMaps: this world's maps where Town Portal and Lloyd's Beacon fail (lowercase file names;
+    // MapStatsEntry::noTeleport). MM9: the maps its MAPSTATS.txt gives TownPortal -1 (object.lto 0x1008c7ce,
+    // 0x1008df77); default none.
+    std::vector<std::string> noTeleportMaps;
     uint32_t contentSchemaVersion = 1;
     std::vector<std::string> dependencies;
     std::vector<ContentIdRangeDefinition> idRanges;

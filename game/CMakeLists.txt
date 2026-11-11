@@ -28,6 +28,7 @@ add_library(openyamm_game STATIC
     debug/MawTestParties.cpp
     debug/GameImGuiBgfxRenderer.cpp
     debug/ScreenshotCaptureService.cpp
+    debug/VideoCapture.cpp
     debug/ScreenshotTour.cpp
     debug/AiArena.cpp
     debug/AiArenaOverlay.cpp
@@ -67,6 +68,7 @@ add_library(openyamm_game STATIC
     fx/WorldFxRenderResources.cpp
     fx/TalkPortraitFrame.cpp
     fx/ActorClipSounds.cpp
+    fx/ActorClipEffects.cpp
     fx/WorldFxSystem.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayActionController.cpp

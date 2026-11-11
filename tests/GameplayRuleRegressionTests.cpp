@@ -2255,32 +2255,57 @@ TEST_CASE("stat barrel and cauldron hover effects follow the autonotes their eve
             error);
     REQUIRE_MESSAGE(globalProgram.has_value(), error.c_str());
 
-    const OpenYAMM::Game::ScriptedEventProgram::LearnedEffect *pOrange = globalProgram->learnedEffect(272);
-    REQUIRE(pOrange != nullptr);
-    CHECK_EQ(pOrange->autonoteId, 18u);
-    CHECK_EQ(pOrange->effect, "+2 Intellect");
-    CHECK(globalProgram->learnedEffect(268) == nullptr);
-    CHECK(globalProgram->learnedEffect(276) == nullptr);
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram::LearnedEffect> orange = globalProgram->learnedEffect(272);
+    REQUIRE(orange.has_value());
+    CHECK_EQ(orange->autonoteId, 18u);
+    CHECK_EQ(orange->effect, "+2 Intellect");
+    CHECK_FALSE(globalProgram->learnedEffect(268).has_value());
+    CHECK_FALSE(globalProgram->learnedEffect(276).has_value());
 
     // Each effect must be gated by the autonote its own event sets, or the hover would reveal an untried barrel.
     for (uint16_t eventId = 269; eventId <= 280; ++eventId)
     {
-        const OpenYAMM::Game::ScriptedEventProgram::LearnedEffect *pEffect = globalProgram->learnedEffect(eventId);
+        const std::optional<OpenYAMM::Game::ScriptedEventProgram::LearnedEffect> effect =
+            globalProgram->learnedEffect(eventId);
 
         if (eventId == 276)
         {
             continue;
         }
 
-        REQUIRE_MESSAGE(pEffect != nullptr, eventId);
+        REQUIRE_MESSAGE(effect.has_value(), eventId);
         const std::string header = "RegisterGlobalEvent(" + std::to_string(eventId) + ",";
         const size_t begin = globalLua.find(header);
         REQUIRE_NE(begin, std::string::npos);
         const size_t end = globalLua.find("RegisterGlobalEvent(", begin + header.size());
         const std::string body = globalLua.substr(begin, end - begin);
-        CHECK_MESSAGE(body.find("SetAutonote(" + std::to_string(pEffect->autonoteId) + ")") != std::string::npos,
+        CHECK_MESSAGE(body.find("SetAutonote(" + std::to_string(effect->autonoteId) + ")") != std::string::npos,
             eventId);
     }
+}
+
+TEST_CASE("fountain and well hover effects come from the map's exported learned effects")
+{
+    const std::string mapLua = loadSourceFileText("assets_dev/worlds/mm7/events/maps/7out03.lua");
+    const std::string source =
+        loadSourceFileText("assets_dev/engine/scripts/common/event_support.lua") + "\n\n" + mapLua;
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> mapProgram =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            source,
+            "@events/maps/7out03.lua",
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+    REQUIRE_MESSAGE(mapProgram.has_value(), error.c_str());
+
+    // Steadwick's central fountain: +50 Might, recorded by autonote 267.
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram::LearnedEffect> fountain = mapProgram->learnedEffect(208);
+    REQUIRE(fountain.has_value());
+    CHECK_EQ(fountain->autonoteId, 267u);
+    CHECK_EQ(fountain->effect, "+50 Might (Temporary)");
+
+    // The well that gives gold to the poor reports no numeric effect, so its hover never changes.
+    CHECK_FALSE(mapProgram->learnedEffect(202).has_value());
 }
 
 TEST_CASE("food inventory items explicitly retain the eating sound")

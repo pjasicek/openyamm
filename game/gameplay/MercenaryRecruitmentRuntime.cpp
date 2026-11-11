@@ -1156,7 +1156,9 @@ std::optional<uint32_t> findMercenaryRecruitmentHouseId(
 
     for (const auto &[houseId, house] : houseTable.entries())
     {
-        if (house.mapId != static_cast<uint32_t>(std::max(0, map.id)))
+        // Actor-run services have no house lobby in which to place a generated recruit.
+        if (house.dialogueScenePolicy == DialogueScenePolicy::LiveGameplay
+            || house.mapId != static_cast<uint32_t>(std::max(0, map.id)))
         {
             continue;
         }

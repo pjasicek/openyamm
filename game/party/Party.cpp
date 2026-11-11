@@ -7343,9 +7343,24 @@ bool Party::setMemberClassName(size_t memberIndex, const std::string &className,
         applyLichState(*pMember);
     }
 
+    rules().skills.afterClassChanged(*pMember, m_pClassSkillTable);
     GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
     m_lastStatus = "class changed";
     return true;
+}
+
+void Party::grantClassChangeMasteries()
+{
+    for (Character &member : m_members)
+    {
+        rules().skills.afterClassChanged(member, m_pClassSkillTable);
+        GameMechanics::refreshCharacterBaseResources(member, false, m_pClassMultiplierTable);
+    }
+
+    for (AdventurersInnMember &member : m_adventurersInnMembers)
+    {
+        rules().skills.afterClassChanged(member.character, m_pClassSkillTable);
+    }
 }
 
 void Party::refreshMemberResources(size_t memberIndex)
@@ -7369,6 +7384,7 @@ bool Party::applyLichTransformation(size_t memberIndex)
     pMember->role = normalizeRoleName(pMember->className);
     applyLichIdentity(*pMember, m_pCharacterDollTable);
     applyLichState(*pMember);
+    rules().skills.afterClassChanged(*pMember, m_pClassSkillTable);
     GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
     m_lastStatus = "lich transformation applied";
     return true;

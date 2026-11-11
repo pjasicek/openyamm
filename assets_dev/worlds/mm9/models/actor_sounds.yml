@@ -1436,6 +1436,8 @@ actors:
     - {at: 0.5, sound: animsounds/dragon/rattack3}
     Death:
     - {at: 0.194, sound: animsounds/dragon/die1, voice: true}
+    - at: 1.944
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
     Fidget:
     - {at: 0.353, sound: animsounds/dragon/fidget1}
     Hit:
@@ -1448,6 +1450,8 @@ actors:
     - {at: 4.515, sound: animsounds/dragon/flap}
     - {at: 4.91, sound: animsounds/dragon/flap}
     - {at: 5.174, sound: animsounds/dragon/flap}
+    - at: 5.339
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
     Running:
     - {at: 0.0, sound: animsounds/dragon/fly}
     Taunt:
@@ -4994,16 +4998,26 @@ actors:
   clips:
     Walking:
     - {at: 0.402, footstep: true}
+    - at: 0.402
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     - {at: 0.939, footstep: true}
+    - at: 0.939
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Running:
     - {at: 0.39, footstep: true}
+    - at: 0.39
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     - {at: 0.78, footstep: true}
+    - at: 0.78
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Taunt:
     - {at: 0.195, sound: animsounds/giant/taunt, voice: true}
     Aware:
     - {at: 0.269, sound: animsounds/giant/aware}
     AttackMelee:
     - {at: 0.315, sound: animsounds/giant/hattack1}
+    - at: 0.472
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     AttackMelee2:
     - {at: 0.375, sound: animsounds/giant/hattack2}
     AttackRanged:
@@ -5015,8 +5029,14 @@ actors:
     - {at: 0.232, sound: animsounds/giant/wince2}
     Death:
     - {at: 0.251, sound: animsounds/giant/die1}
+    - at: 2.1
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
     Death2:
     - {at: 0.333, sound: animsounds/giant/die2}
+    - at: 0.667
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
+    - at: 1.167
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
 - descriptor: MM9 Giant B
   radius: 7680.0
   footstep_radius: 3584.0
@@ -5024,16 +5044,26 @@ actors:
   clips:
     Walking:
     - {at: 0.402, footstep: true}
+    - at: 0.402
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     - {at: 0.939, footstep: true}
+    - at: 0.939
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Running:
     - {at: 0.39, footstep: true}
+    - at: 0.39
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     - {at: 0.78, footstep: true}
+    - at: 0.78
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Taunt:
     - {at: 0.195, sound: animsounds/giant/taunt, voice: true}
     Aware:
     - {at: 0.269, sound: animsounds/giant/aware}
     AttackMelee:
     - {at: 0.315, sound: animsounds/giant/hattack1}
+    - at: 0.472
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     AttackMelee2:
     - {at: 0.375, sound: animsounds/giant/hattack2}
     AttackRanged:
@@ -5045,8 +5075,14 @@ actors:
     - {at: 0.232, sound: animsounds/giant/wince2}
     Death:
     - {at: 0.251, sound: animsounds/giant/die1}
+    - at: 2.1
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
     Death2:
     - {at: 0.333, sound: animsounds/giant/die2}
+    - at: 0.667
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
+    - at: 1.167
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
 - descriptor: MM9 206 Yanmir
   radius: 7680.0
   footstep_radius: 3584.0
@@ -5054,10 +5090,18 @@ actors:
   clips:
     Walking:
     - {at: 0.476, footstep: true}
+    - at: 0.476
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     - {at: 1.11, footstep: true}
+    - at: 1.11
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Running:
     - {at: 0.341, footstep: true}
+    - at: 0.341
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     - {at: 0.598, footstep: true}
+    - at: 0.598
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Fidget:
     - {at: 0.476, sound: animsounds/yanmir/fidget1}
     Taunt:
@@ -5067,20 +5111,28 @@ actors:
     AttackMelee:
     - {at: 0.0, sound: animsounds/yanmir/hattack1}
     - {at: 0.52, sound: animsounds/yanmir/fx_hattack1}
+    - at: 0.603
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     AttackMelee2:
     - {at: 0.122, sound: animsounds/yanmir/hattack2}
     - {at: 0.366, sound: animsounds/yanmir/fx_hattack2}
     StepOn:
     - {at: 0.357, sound: animsounds/yanmir/stepon}
+    - at: 0.603
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     AttackRanged:
     - {at: 0.293, sound: animsounds/yanmir/fx_rattack1}
     - {at: 0.405, sound: weapons/iceblastlaunch}
     AttackRanged2:
     - {at: 0.0, sound: animsounds/yanmir/rattack2}
+    - at: 0.745
+      shake: {near: 0.5, edge: 0.083, seconds: 1.9, radius: 15360.0}
     - {at: 0.745, footstep: true}
     KickDoor:
     - {at: 0.0, sound: animsounds/yanmir/kickdoor}
     - {at: 0.341, sound: animsounds/yanmir/fx_kickdoor}
+    - at: 0.488
+      shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072.0}
     Hit:
     - {at: 0.194, sound: animsounds/yanmir/wince1}
     Hit2:

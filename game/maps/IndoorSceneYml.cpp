@@ -166,6 +166,36 @@ bool parsePatrolNode(const YAML::Node &node, std::vector<std::array<int32_t, 3>>
     return true;
 }
 
+// A placed actor's held items (scene held_items): a list of {model, node}; absent is none.
+bool parseHeldItemsNode(const YAML::Node &node, std::vector<MapDeltaHeldItem> &items, std::string &errorMessage)
+{
+    items.clear();
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsSequence())
+    {
+        errorMessage = "held_items must be a list of {model, node}";
+        return false;
+    }
+
+    for (const YAML::Node &item : node)
+    {
+        if (!item.IsMap() || !item["model"] || !item["node"] || item.size() != 2)
+        {
+            errorMessage = "held_items must be a list of {model, node}";
+            return false;
+        }
+
+        items.push_back({item["model"].as<std::string>(), item["node"].as<std::string>()});
+    }
+
+    return true;
+}
+
 bool parseArenaDefinition(
     const YAML::Node &rootNode,
     std::optional<MapArenaDefinition> &definition,
@@ -2335,6 +2365,7 @@ bool parseIndoorSceneActorNode(
         || !parsePatrolNode(actorNode["patrol"], actor.patrolPoints, errorMessage)
         || !readScalarNode(actorNode, "keeps_height", actor.keepsHeight, errorMessage, false)
         || !readScalarNode(actorNode, "posed", actor.posed, errorMessage, false)
+        || !parseHeldItemsNode(actorNode["held_items"], actor.heldItems, errorMessage)
         || !readScalarNode(actorNode, "attributes", actor.attributes, errorMessage)
         || !readScalarNode(actorNode, "hp", actor.hp, errorMessage)
         || !readScalarNode(actorNode, "hostility_type", actor.hostilityType, errorMessage)

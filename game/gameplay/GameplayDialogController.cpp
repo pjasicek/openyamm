@@ -2145,7 +2145,7 @@ std::optional<SkillMasteryTrainingRequest> mm9RacialLesson(
 EventDialogContent buildMm9RudeContent(
     const Mm9RudeDialogueTable &table,
     const Mm9SkillTrainerTable *pSkillTrainerTable,
-    const Party &party,
+    Party &party,
     uint32_t rudeId,
     int32_t nodeId,
     const std::optional<std::string> &response,
@@ -2154,6 +2154,7 @@ EventDialogContent buildMm9RudeContent(
     EventDialogContent content = {};
     content.isActive = true;
     content.sourceId = rudeId;
+    discoverActorTeacher(party, rudeId);
     content.dialogueNodeId = nodeId;
     content.sourceActorIndex = sourceActorIndex;
     content.presentation = EventDialogPresentation::Mm9Rude;

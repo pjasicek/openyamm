@@ -3257,7 +3257,8 @@ bool OutdoorRenderer::ensureTerrainMaterials(OutdoorGameView &view)
             loadProgramHandle("vs_outdoor_terrain_materials", pFragment),
             loadProgramHandle("vs_outdoor_terrain_materials", shadowFragment.c_str()),
             loadProgramHandle("vs_outdoor_terrain_materials", singleFragment.c_str()),
-            loadProgramHandle("vs_outdoor_terrain_materials", singleShadowFragment.c_str()), error))
+            loadProgramHandle("vs_outdoor_terrain_materials", singleShadowFragment.c_str()),
+            loadProgramHandle("vs_outdoor_terrain_materials", "fs_outdoor_terrain_depth"), error))
     {
         std::cerr << "Terrain materials unavailable for " << map.fileName << ": " << error << '\n';
         return false;
@@ -3399,6 +3400,23 @@ void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const Outdoo
             return true;
         });
     }
+    // Animated decorations: their parts, whole moving models and skinned copies (evt.PlayDecorationClip, idle clips).
+    const DecorationModelSet::PartClip decorationClip =
+        [pEvents](uint32_t key, std::string &clipName, float &seconds, bool &loop)
+    {
+        return decorationClipFor(pEvents, key, clipName, seconds, loop);
+    };
+    const float decorationSeconds = float(SDL_GetTicks()) * 0.001f;
+    if (pEvents != nullptr && !pEvents->decorationUses.empty())
+    {
+        models.noteUses(billboards, [pEvents](uint32_t key)
+        {
+            const auto found = pEvents->decorationUses.find(key);
+            return found != pEvents->decorationUses.end() ? found->second : 0u;
+        }, decorationSeconds);
+    }
+    models.poseParts(billboards, decorationClip, decorationSeconds);
+    models.poseInstances(billboards, decorationClip, decorationSeconds, view.m_worldFxSystem.models());
     const bool baked = pBakedLighting != nullptr && pBakedLighting->hasBakedSources() && pAtmosphereState != nullptr;
     if (view.m_pDecorationModelProbeSource != pBakedLighting || view.m_decorationModelProbes.size() != billboards.size())
     {
@@ -4459,6 +4477,28 @@ void OutdoorRenderer::submitTerrainMaterials(OutdoorGameView &view, uint16_t vie
     const bool baked = view.m_gameSettings.lightmaps && lighting && lighting->hasBakedSources();
     const bgfx::ProgramHandle singleProgram = view.m_terrainMaterials.program(sunShadows, true);
     const bgfx::ProgramHandle program = view.m_terrainMaterials.program(sunShadows, false);
+    // The main view takes the terrain's depth first (colour masked, the same pixels cut), so its expensive shading
+    // runs once per pixel instead of for every hill behind a hill; the shaded pass then only tests the depth. The
+    // sequential view keeps this order.
+    const bgfx::ProgramHandle depthProgram = view.m_terrainMaterials.depthProgram();
+    const bool depthWritten = !reflection && bgfx::isValid(depthProgram);
+    if (depthWritten)
+    {
+        for (const OutdoorTerrainMaterials::Chunk &chunk : view.m_terrainMaterials.chunks())
+        {
+            const uint32_t indexCount = chunk.landIndexCount + (openWater ? chunk.waterIndexCount : 0);
+            if (indexCount == 0 || !frustum.intersectsBounds(chunk.boundsMin, chunk.boundsMax))
+            {
+                continue;
+            }
+            bgfx::setVertexBuffer(0, chunk.vertices);
+            bgfx::setIndexBuffer(chunk.indices, 0, indexCount);
+            view.m_waterRenderer.bindCoverage(4);
+            view.m_terrainMaterials.bindDepth();
+            bgfx::setState(BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA);
+            bgfx::submit(viewId, depthProgram);
+        }
+    }
     for (const OutdoorTerrainMaterials::Chunk &chunk : view.m_terrainMaterials.chunks())
     {
         // Open water draws through the water renderer when it is active.
@@ -4503,8 +4543,8 @@ void OutdoorRenderer::submitTerrainMaterials(OutdoorGameView &view, uint16_t vie
         view.m_terrainMaterials.bind(baked ? &*lighting : nullptr, directSun,
             view.m_gameSettings.terrainAntiTiling && !reflection, foliage, view.m_terrainDecorations.foliageParams(),
             view.m_gameSettings.terrainSpecular && !reflection ? TerrainSpecularStrength : 0.0f);
-        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_MSAA);
+        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | (depthWritten ? 0 : BGFX_STATE_WRITE_Z)
+            | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA);
         if (sunShadows)
         {
             view.m_modelRenderer.bindSunShadows();

@@ -98,6 +98,9 @@ SetMapMetadata({
     [502] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d34.blv", targetName = "The Red Dwarf Mines" },
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d25.blv", targetName = "Celeste" },
     },
+    learnedEffect = {
+    [461] = { autonote = 274, effect = "+25 Intellect and Personality (Temporary)" },
+    },
     textureNames = {},
     spriteNames = {"0"},
     castSpellIds = {},

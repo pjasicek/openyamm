@@ -541,6 +541,16 @@ Done (2026-11-07 and 08):
   creation's wrap (`NewGameScreen::wrapTextToWidth`) now uses `Utf8::wrap`, which never cuts a colour code between
   CJK characters (it showed the code's digits), and justified HUD lines carry an open colour code to each word.
   Every character the pack uses is in its charset. Names: see item 8 of the Chinese import.
+- New 2.0 texts and the Chinese 2.0 review (2026-11-11): the 182 texts added since 11-08 (Battle Orders, MAW guard
+  and skill lines, promotion and bounty dialogue, MM9) were drafted in every language; zh-cn skips the internal MM9
+  event titles. Russian "Normal"/"Expert" were the fan pack's "[Н]"/"[С]" and now read Обычный/Эксперт (the plain
+  entry is shared with the Normal difficulty). The zh-cn translators' review (`EET-CHN-Voiceover`, branch
+  `openyamm-zh121`, `upstream-patch/06-v2.0-review`, copy in `output/l10n/zh-cn-review-06/`) is imported with
+  `import po --replace`: their current terms (2,196 entries; Master 大师, letter 大), owner-matching names, the plain
+  wording for the 20 texts that are both a potion and a stat or spell, doubled characters, Escaton's riddles accepting
+  the numbers their question text asks for, and their review of every machine draft (no zh-cn draft is left to
+  review). `import po` now replaces a machine draft and drops its mark. The monster attack types (`monster_data.txt`
+  Type columns: Phys, Ener, Pois) are extracted and translated. The charset was regenerated for the new wording.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
   they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the

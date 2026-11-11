@@ -671,6 +671,51 @@ TEST_CASE("applyScriptedActorMoves steers a walker, queues its arrival and drops
     CHECK(state.scriptedActorMoves.contains(5));
 }
 
+TEST_CASE("applyScriptedActorMoves ends a walk that gets nowhere without its arrival")
+{
+    EventRuntimeState state = {};
+    state.scriptedActorMoves[1] = {{1000.0f, 0.0f, 0.0f}, 77, false};
+    state.scriptedActorMoves[2] = {{1000.0f, 0.0f, 0.0f}, 78, false};
+    state.scriptedActorMoves[3] = {{1000.0f, 0.0f, 0.0f}, 79, false};
+
+    const auto walkerAt = [](size_t index, float x, ActorAiMotionState motion)
+    {
+        ActorAiFacts actor = {};
+        actor.actorIndex = index;
+        actor.stats.currentHp = 10;
+        actor.stats.radius = 40;
+        actor.movement.position = {x, 0.0f, 0.0f};
+        actor.runtime.motionState = motion;
+        actor.runtime.animationState =
+            motion == ActorAiMotionState::Wandering ? ActorAiAnimationState::Walking : ActorAiAnimationState::Standing;
+        return actor;
+    };
+    constexpr float StepSeconds = 1.0f / 128.0f;
+    const int steps = int(ScriptedActorMoveGiveUpSeconds / StepSeconds) + 2;
+
+    for (int step = 0; step < steps; ++step)
+    {
+        ActorAiFrameFacts facts = {};
+        facts.fixedStepSeconds = StepSeconds;
+        // Actor 1 walks into a wall for good; actor 2 walks on; actor 3 stands (an attack, a status, a hold).
+        facts.activeActors = {walkerAt(1, 0.0f, ActorAiMotionState::Wandering),
+            walkerAt(2, 0.5f * float(step), ActorAiMotionState::Wandering),
+            walkerAt(3, 0.0f, ActorAiMotionState::Standing)};
+        applyScriptedActorMoves(state, facts);
+
+        if (step == 0)
+        {
+            CHECK_EQ(facts.activeActors[0].movement.scriptedMoveArrivalDistance,
+                doctest::Approx(40.0f + ScriptedActorMoveArrivalDistance));
+        }
+    }
+
+    CHECK_FALSE(state.scriptedActorMoves.contains(1));
+    CHECK(state.scriptedActorMoves.contains(2));
+    CHECK(state.scriptedActorMoves.contains(3));
+    CHECK(state.pendingActorArrivals.empty());
+}
+
 TEST_CASE("evt.SetActorTarget hands the world a party or actor target; SummonMonstersById keeps patrol and mm9")
 {
     const std::string source = eventSupportText() + "\n"

@@ -15,6 +15,7 @@ constexpr size_t MaxShortcutWaypointScan = 24;
 constexpr size_t MaxGroundShortcutWaypointScan = 6;
 constexpr float MaxGroundShortcutStepMultiplier = 6.0f;
 constexpr double WaypointStallSeconds = 0.35;
+constexpr double WaypointBlockedSeconds = 2.0;
 constexpr float WaypointProgressEpsilon = 2.0f;
 constexpr float RecoverySourceReachDistance = 4.0f;
 constexpr float RecoveryBestReachDistance = 16.0f;
@@ -431,6 +432,16 @@ ActorPathResolveResult ActorPathRuntime::resolveWaypointInternal(
     if (!result.planned)
     {
         result.stalledWaypointCount += advanceStalledWaypoint(pathMap, state, request);
+
+        if (state.replanHeldRoute)
+        {
+            state.replanHeldRoute = false;
+
+            if (request.allowPlan && !state.inProgress && state.failedUntilSeconds <= request.nowSeconds)
+            {
+                queuePlan(pathMap, pathMapSnapshot, state, request, result);
+            }
+        }
     }
 
     if (state.waypointIndex < state.waypoints.size())
@@ -628,6 +639,7 @@ bool ActorPathRuntime::queuePlan(
     planRequest.nodeLimit = request.nodeLimit;
     planRequest.mapRevision = static_cast<uint32_t>(request.mapRevision);
     planRequest.sourceSnapDistance = request.sourceSnapDistance;
+    planRequest.goalDistance = request.goalDistance;
     planRequest.allowDirect = request.allowDirect;
     planRequest.allowPartialPath = request.allowPartialPath;
     result.requested = true;
@@ -891,11 +903,15 @@ size_t ActorPathRuntime::advanceStalledWaypoint(
             state.waypoints[state.waypointIndex + 1],
             request.object))
     {
-        if (nearWaypoint)
+        // Near its waypoint it may still slide round the corner; one held there this long is stuck, and its route
+        // is dropped to be planned again from where it stands. Kept for ever, it held Hjarrand (Thjorad Mine) at a
+        // ramp's foot for good, his script's walk never ending.
+        if (nearWaypoint && request.nowSeconds - state.lastWaypointProgressSeconds < WaypointBlockedSeconds)
         {
             return 0;
         }
 
+        state.replanHeldRoute = nearWaypoint;
         state.waypointIndex = state.waypoints.size();
     }
     else

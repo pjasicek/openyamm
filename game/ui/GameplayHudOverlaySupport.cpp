@@ -1976,6 +1976,80 @@ void GameplayHudOverlaySupport::renderBagTagIcon(
     }
 }
 
+std::optional<GameplayHudOverlaySupport::SkillRotationSwitchRect> GameplayHudOverlaySupport::skillRotationSwitchRect(
+    GameplayScreenRuntime &context,
+    int width,
+    int height)
+{
+    const GameplayScreenRuntime::HudLayoutElement *pLevelLayout =
+        context.findHudLayoutElement("CharacterSkillsMagicLevelHeader");
+
+    if (pLevelLayout == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<GameplayResolvedHudLayoutElement> level = context.resolveHudLayoutElement(
+        "CharacterSkillsMagicLevelHeader", width, height, pLevelLayout->width, pLevelLayout->height);
+
+    if (!level)
+    {
+        return std::nullopt;
+    }
+
+    SkillRotationSwitchRect rect;
+    rect.scale = level->scale;
+    rect.right = level->x + level->width;
+    rect.gemX = rect.right - SkillSwitchGemWidth * rect.scale;
+    rect.labelLeft = rect.gemX - 4.0f * rect.scale
+        - context.measureHudTextWidth("Lucida", Engine::tr("Rotation")) * SkillRotationLabelScale * rect.scale;
+    rect.y = level->y;
+    rect.height = level->height;
+    return rect;
+}
+
+void GameplayHudOverlaySupport::renderSkillSwitchGem(
+    GameplayScreenRuntime &context,
+    bool on,
+    float x,
+    float centerY,
+    float scale,
+    const GameplayResolvedHudLayoutElement *pClip)
+{
+    // The portraits' aggro lamps: green while the switch is on, unlit while it is off.
+    const std::optional<GameplayHudTextureHandle> gem =
+        context.gameplayUiRuntime().ensureHudTextureLoaded(on ? "obsidian_aggro_explore" : "obsidian_aggro_unlit");
+
+    if (!gem)
+    {
+        return;
+    }
+
+    // The lamp's diamond fills the middle half of its texture's width (the rest is its shadow), so the texture is
+    // drawn twice the gem's width, centred on it.
+    const float quadWidth = 2.0f * SkillSwitchGemWidth * scale;
+    const float quadHeight = gem->width > 0 ? quadWidth * float(gem->height) / float(gem->width) : quadWidth;
+    GameplayHudBatchQuad quad;
+    quad.textureHandle = gem->textureHandle;
+    quad.x = std::round(x + SkillSwitchGemWidth * scale * 0.5f - quadWidth * 0.5f);
+    quad.y = std::round(centerY - quadHeight * 0.5f);
+    quad.width = std::round(quadWidth);
+    quad.height = std::round(quadHeight);
+
+    if (pClip != nullptr)
+    {
+        const float clipX = std::max(0.0f, std::round(pClip->x));
+        const float clipY = std::max(0.0f, std::round(pClip->y));
+        quad.clipped = true;
+        quad.scissorX = uint16_t(clipX);
+        quad.scissorY = uint16_t(clipY);
+        quad.scissorWidth = uint16_t(std::max(0.0f, std::round(pClip->x + pClip->width) - clipX));
+        quad.scissorHeight = uint16_t(std::max(0.0f, std::round(pClip->y + pClip->height) - clipY));
+    }
+
+    context.gameplayUiRuntime().submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(&quad, 1));
+}
+
 void GameplayHudOverlaySupport::renderBagTagMarks(
     GameplayScreenRuntime &context,
     const Character &character,

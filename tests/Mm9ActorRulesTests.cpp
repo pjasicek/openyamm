@@ -898,6 +898,27 @@ TEST_CASE("MM9 turret scans by turning while it has no target")
     CHECK(std::abs(turn.movementIntent.yawRadians) < 0.03f);
 }
 
+TEST_CASE("MM9 turret that flies by its row never climbs toward a target above it")
+{
+    // The Dragon King: Fly Y, placed free in an arena, holding a Winged Mutant 2 000 units above him.
+    ActorAiFacts actor = makeMm9Walker(Mm9AiArchetype::Turret);
+    actor.stats.canFly = true;
+    actor.target.currentKind = ActorAiTargetKind::Actor;
+    actor.target.currentActorIndex = 1;
+    actor.target.currentPosition = {600.0f, 0.0f, 2000.0f};
+    actor.runtime.mm9.targetKind = ActorAiTargetKind::Actor;
+    actor.runtime.mm9.targetActorIndex = 1;
+    actor.runtime.mm9.shotCheckSeconds = 0.5f;
+    const ActorAiUpdate rooted = stepMm9(actor);
+    CHECK_FALSE(rooted.movementIntent.applyMovement);
+    CHECK(rooted.movementIntent.desiredMoveZ == 0.0f);
+
+    // A flier holding the same target climbs.
+    actor.tactics.mm9Profile->archetype = Mm9AiArchetype::Flier;
+    const ActorAiUpdate flier = stepMm9(actor);
+    CHECK(flier.movementIntent.desiredMoveZ > 0.0f);
+}
+
 TEST_CASE("MM9 swimmer runs at once from a target out of the water")
 {
     ActorAiFacts actor = makeMm9Walker(Mm9AiArchetype::Swimmer);

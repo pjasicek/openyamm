@@ -904,6 +904,11 @@ void GameSession::logTurnBasedFrameTraceIfNeeded(
     m_turnBasedFrameTraceState.pendingActions = pendingActions;
 }
 
+void GameSession::setGameSpeed(float speed)
+{
+    m_gameSpeed = speed > 0.0f ? speed : 1.0f;
+}
+
 void GameSession::updateGameplay(
     const GameplayInputFrame &rawInput,
     float deltaSeconds,
@@ -1537,7 +1542,7 @@ bool GameSession::updateCinematics(const GameplayInputFrame &input, float deltaS
     // Overheard talk plays on while the party moves: no lock, no skip keys.
     if (!m_cinematicRuntime.takesOverView())
     {
-        m_cinematicRuntime.update(deltaSeconds, world);
+        m_cinematicRuntime.update(deltaSeconds / m_gameSpeed, world);
         return false;
     }
 
@@ -2373,6 +2378,11 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     if (m_partyState && saveData.sourceSaveVersion < SaveVersionFourMawBags)
     {
         InventoryBags::fitIntoBagCount(*m_partyState, m_partyState->rules().items.bagCount(*m_partyState));
+    }
+
+    if (m_partyState && saveData.sourceSaveVersion < SaveVersionClassChangeMasteries)
+    {
+        m_partyState->grantClassChangeMasteries();
     }
 
     // Saves from before the random streams get their root seed when first loaded.

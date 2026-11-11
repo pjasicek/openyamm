@@ -82,6 +82,9 @@ SetMapMetadata({
     [301] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d29.blv", targetName = "Castle Harmondale" },
     [302] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d21.blv", targetName = "White Cliff Cave" },
     },
+    learnedEffect = {
+    [218] = { autonote = 262, effect = "+ 10 Might (Temporary)" },
+    },
     textureNames = {"chb1", "chb1dl", "chb1dr", "chb1el", "chb1er", "chb1s", "chbw"},
     spriteNames = {"0", "7tree01", "7tree07", "7tree13", "7tree14", "7tree15", "7tree16", "7tree17", "7tree18", "7tree22", "7tree24", "7tree30", "tree37", "v77dec24"},
     castSpellIds = {2, 6, 15, 43},

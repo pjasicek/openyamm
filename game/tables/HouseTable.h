@@ -194,7 +194,8 @@ public:
     bool appendServiceVenueRows(
         const std::vector<std::vector<std::string>> &venueRows,
         const std::vector<std::vector<std::string>> &aliasRows,
-        std::string &errorMessage);
+        std::string &errorMessage,
+        const MapStats *pMapStats = nullptr);
     bool validateVendorStock(
         const ItemTable &itemTable,
         const StandardItemEnchantTable &standardItemEnchantTable,

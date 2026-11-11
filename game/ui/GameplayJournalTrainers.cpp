@@ -229,6 +229,8 @@ std::string trainerTown(const TrainerEntry &entry)
 
 std::string trainerHouse(const TrainerEntry &entry)
 {
+    if (entry.rudeId != 0)
+        return Engine::localize(entry.name);
     return entry.houseName.empty() ? Engine::tr("{name}'s home", {{"name", Engine::localize(entry.name)}})
                                    : Engine::localize(entry.houseName);
 }
@@ -475,9 +477,9 @@ private:
     const GameplayResolvedHudLayoutElement &m_page;
 };
 
-Rect tabRect(const GameplayResolvedHudLayoutElement &page, size_t index)
+Rect tabRect(const GameplayResolvedHudLayoutElement &page, size_t index, size_t count = TrainerContinents.size())
 {
-    const float width = (ContentWidth - 2 * TabGap) / 3;
+    const float width = (ContentWidth - float(count - 1) * TabGap) / float(count);
     return pageRect(page, ContentLeft + index * (width + TabGap), TabTop, width, TabHeight);
 }
 
@@ -503,15 +505,21 @@ Rect mapRect(const GameplayResolvedHudLayoutElement &page)
 }
 
 // The outdoor map transform of MM6-MM8 maps (OutdoorWorldRuntime::tryGetGameplayMinimapState), images square.
-GameplayMinimapState trainerMinimapState()
+GameplayMinimapState trainerMinimapState(const GameplayUiController::JournalScreenState &journal)
 {
-    return GameplayMinimapState{};
+    GameplayMinimapState state;
+    if (journal.trainerShown && journal.trainerShown->mapPresentation)
+    {
+        const TrainerEntry &entry = *journal.trainerShown;
+        applyMapPresentationToMinimapState(*entry.mapPresentation, entry.z, state);
+    }
+    return state;
 }
 
 GameplayJournalMapView trainerMapView(const GameplayUiController::JournalScreenState &journal)
 {
     GameplayJournalMapView view = {journal.trainerMapZoomStep, journal.trainerMapCenterX, journal.trainerMapCenterY};
-    clampGameplayJournalMapView(view, trainerMinimapState());
+    clampGameplayJournalMapView(view, trainerMinimapState(journal));
     return view;
 }
 
@@ -613,7 +621,8 @@ FinderModel buildModel(
 
     for (FinderRow &row : rows)
     {
-        if (model.blocks.empty() || model.blocks.back().skillName != row.skillName)
+        if (model.blocks.empty() || model.blocks.back().skillName != row.skillName
+            || model.blocks.back().rows.size() >= 16)
         {
             FinderBlock block;
             block.skillName = row.skillName;
@@ -777,12 +786,13 @@ void renderMap(
     paint.fill(area, MapFill);
     const std::string mapStem = entry.place
         ? std::filesystem::path(entry.place->markerMapFileName).stem().string() : std::string();
-    const std::optional<GameplayHudTextureHandle> image = mapStem.empty()
-        ? std::nullopt : context.gameplayUiRuntime().ensureHudTextureLoaded(mapStem);
+    const GameplayMinimapState state = trainerMinimapState(journal);
+    const std::string texture = state.textureName.empty() ? mapStem : state.textureName;
+    const std::optional<GameplayHudTextureHandle> image = texture.empty()
+        ? std::nullopt : context.gameplayUiRuntime().ensureHudTextureLoaded(texture);
 
     if (image && entry.place->kind != TrainerPlaceKind::Indoor)
     {
-        const GameplayMinimapState state = trainerMinimapState();
         // The shown view keeps to the image; the stored centre stays where the marker or the drag put it.
         const GameplayJournalMapView view = trainerMapView(journal);
         const GameplayJournalMapTransform transform =
@@ -821,8 +831,9 @@ void renderMap(
             paint.disc(cx, cy, 6.2f, MarkerRim);
             paint.disc(cx, cy, 4.6f, Marker);
 
-            const std::string label = entry.place->kind == TrainerPlaceKind::Entrance
+            const std::string fullLabel = entry.place->kind == TrainerPlaceKind::Entrance
                 ? Engine::tr("Entrance: {map}", {{"map", Engine::localize(entry.mapName)}}) : trainerHouse(entry);
+            const std::string label = paint.fitted(LabelFont, LabelText, fullLabel, MapSize - 14);
             const float labelWidth = paint.width(LabelFont, LabelText, label) + 10;
             const float labelHeight = LabelText + 6;
             const float labelX = std::clamp(cx - labelWidth / 2, MapLeft + 2, MapLeft + MapSize - labelWidth - 2);
@@ -845,6 +856,53 @@ void renderMap(
         MapTop - (frameSize - MapSize) / 2, frameSize, frameSize));
     renderStatus(paint, statusForMap(entry));
 }
+}
+
+bool journalOwnerTabsShown(const GameplayUiController::JournalScreenState &journal)
+{
+    return journal.view == GameplayUiController::JournalView::Quests
+        || (journal.view == GameplayUiController::JournalView::Notes
+            && journal.notesCategory != GameplayUiController::JournalNotesCategory::Trainer
+            && journal.notesCategory != GameplayUiController::JournalNotesCategory::Arcomage);
+}
+
+std::string journalOwner(const GameplayScreenRuntime &context,
+    const GameplayUiController::JournalScreenState &journal)
+{
+    uint32_t continent = journal.view == GameplayUiController::JournalView::Quests
+        ? journal.questContinent : journal.notesContinent;
+    if (continent == 0 && journal.view == GameplayUiController::JournalView::Notes
+        && journal.notesCategory == GameplayUiController::JournalNotesCategory::Potion)
+        return "Shared";
+    if (continent == 0)
+    {
+        const MapStatsEntry *map = context.mapStats().findByFileName(context.currentMapFileName());
+        continent = map != nullptr ? map->mergedContinentId : 4;
+    }
+    const std::string name = trainerContinentName(continent);
+    return name.empty() ? "Shared" : name;
+}
+
+uint32_t journalOwnerTargetAt(const GameplayResolvedHudLayoutElement &page, float x, float y)
+{
+    for (size_t i = 0; i < 5; ++i)
+        if (tabRect(page, i, 5).contains(x, y))
+            return i < TrainerContinents.size() ? TrainerContinents[i] : 4;
+    return 0;
+}
+
+void renderJournalOwners(GameplayScreenRuntime &context, const GameplayUiController::JournalScreenState &journal,
+    const GameplayResolvedHudLayoutElement &page, float x, float y)
+{
+    Painter paint(context, page);
+    const std::string selected = journalOwner(context, journal);
+    for (size_t i = 0; i < 5; ++i)
+    {
+        const std::string name = i < TrainerContinents.size() ? trainerContinentName(TrainerContinents[i]) : "Shared";
+        const Rect tab = tabRect(page, i, 5);
+        paint.button(tab, name == "Shared" ? Engine::tr("Shared") : Engine::localizeKnown(name),
+            name == selected, tab.contains(x, y), false);
+    }
 }
 
 uint32_t packJournalTrainerTarget(const JournalTrainerTarget &target)
@@ -900,7 +958,7 @@ JournalTrainerTarget journalTrainerTargetAt(
             return {JournalTrainerTargetKind::Continent, index};
         }
 
-        if (toggleRect(page, index).contains(x, y))
+        if (index < 3 && toggleRect(page, index).contains(x, y))
         {
             return {JournalTrainerTargetKind::Mastery, index};
         }
@@ -1011,7 +1069,7 @@ void dragJournalTrainerMap(
     float deltaY)
 {
     const Rect area = mapRect(page);
-    const GameplayMinimapState state = trainerMinimapState();
+    const GameplayMinimapState state = trainerMinimapState(journal);
     GameplayJournalMapView start = {journal.trainerMapZoomStep, startCenterX, startCenterY};
     clampGameplayJournalMapView(start, state);
     const GameplayJournalMapTransform transform = gameplayJournalMapTransform(start, &state, area.width, area.height);

@@ -920,6 +920,7 @@ void IndoorFaceGeometryCache::reset(size_t faceCount)
 {
     m_entryStates.assign(faceCount, 0);
     m_entries.resize(faceCount);
+    m_entryAttributes.assign(faceCount, 0);
 }
 
 void IndoorFaceGeometryCache::invalidateFace(size_t faceIndex)
@@ -932,15 +933,13 @@ void IndoorFaceGeometryCache::invalidateFace(size_t faceIndex)
 
 void IndoorFaceGeometryCache::setAttributeOverrides(const MapDeltaData *pMapDeltaData)
 {
-    const uint64_t attributeRevision = pMapDeltaData != nullptr ? pMapDeltaData->surfaceRevision : 0;
-
-    if (m_pAttributeOverrides == pMapDeltaData && m_attributeRevision == attributeRevision)
+    // The same delta with changed face bits keeps its entries: geometryForFace rebuilds the changed faces.
+    if (m_pAttributeOverrides == pMapDeltaData)
     {
         return;
     }
 
     m_pAttributeOverrides = pMapDeltaData;
-    m_attributeRevision = attributeRevision;
     std::fill(m_entryStates.begin(), m_entryStates.end(), 0);
 }
 
@@ -950,16 +949,22 @@ const IndoorFaceGeometryData *IndoorFaceGeometryCache::geometryForFace(
     size_t faceIndex
 )
 {
-    if (faceIndex >= m_entryStates.size() || faceIndex >= m_entries.size())
+    if (faceIndex >= m_entryStates.size() || faceIndex >= m_entries.size() || faceIndex >= indoorMapData.faces.size())
     {
         return nullptr;
     }
 
-    if (m_entryStates[faceIndex] == 0)
+    const uint32_t attributes =
+        m_pAttributeOverrides != nullptr && faceIndex < m_pAttributeOverrides->faceAttributes.size()
+            ? m_pAttributeOverrides->faceAttributes[faceIndex]
+            : indoorMapData.faces[faceIndex].attributes;
+
+    if (m_entryStates[faceIndex] == 0 || m_entryAttributes[faceIndex] != attributes)
     {
         const bool valid =
             buildIndoorFaceGeometry(indoorMapData, vertices, faceIndex, m_entries[faceIndex], m_pAttributeOverrides);
         m_entryStates[faceIndex] = valid ? 2 : 1;
+        m_entryAttributes[faceIndex] = attributes;
     }
 
     return m_entryStates[faceIndex] == 2 ? &m_entries[faceIndex] : nullptr;
@@ -1983,11 +1988,67 @@ IndoorFloorSample sampleIndoorFloorOnFace(
         pGeometryCache);
 }
 
+namespace
+{
+// Whether a creature can stand on a sampled floor: a walkable face, not one of an open-air map's sky faces.
+bool indoorFloorSampleStandable(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    const IndoorFloorSample &sample)
+{
+    if (!sample.hasFloor || !sample.isWalkable)
+    {
+        return false;
+    }
+
+    const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(indoorMapData, vertices, sample.faceIndex);
+    return pGeometry != nullptr && !hasFaceAttribute(pGeometry->attributes, FaceAttribute::IndoorSky);
+}
+}
+
+std::optional<float> findIndoorStandingFloorHeight(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    float x,
+    float y,
+    float z,
+    float reach)
+{
+    const IndoorFloorSample sample =
+        sampleIndoorFloor(indoorMapData, vertices, x, y, z, reach, reach, std::nullopt, nullptr, &geometryCache);
+
+    if (indoorFloorSampleStandable(indoorMapData, vertices, geometryCache, sample))
+    {
+        return sample.height;
+    }
+
+    // The nearest floor is no ground (the sky shell just under a point below the terrain): the nearest standable one
+    // above, else below.
+    std::optional<float> ground;
+
+    for (const bool above : {true, false})
+    {
+        const IndoorFloorSample sideSample = sampleIndoorFloor(indoorMapData, vertices, x, y, z, above ? reach : 0.0f,
+            above ? 0.0f : reach, std::nullopt, nullptr, &geometryCache);
+
+        if (indoorFloorSampleStandable(indoorMapData, vertices, geometryCache, sideSample)
+            && (!ground || std::fabs(sideSample.height - z) < std::fabs(*ground - z)))
+        {
+            ground = sideSample.height;
+        }
+    }
+
+    return ground;
+}
+
 std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
     const IndoorMapData &indoorMapData,
     const MapDeltaData *pIndoorMapDeltaData,
     const EventRuntimeState *pEventRuntimeState,
-    uint32_t seed)
+    uint32_t seed,
+    std::span<const bx::Vec3> anchors)
 {
     if (indoorMapData.sectors.empty() || indoorMapData.faces.empty())
     {
@@ -1998,10 +2059,37 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
     constexpr float BountyFloorSampleDrop = 512.0f;
     constexpr float BountyWallFloorSampleRise = 4096.0f;
     constexpr float BountyWallFloorSampleDrop = 4096.0f;
+    constexpr float BountyAnchorFloorReach = 256.0f;
     constexpr size_t RandomAttempts = 16;
     const std::vector<IndoorVertex> vertices =
         buildIndoorMechanismAdjustedVertices(indoorMapData, pIndoorMapDeltaData, pEventRuntimeState);
     IndoorFaceGeometryCache geometryCache(indoorMapData.faces.size());
+    std::mt19937 rng(seed);
+
+    // The anchors in the seed's order: the first with ground under it.
+    if (!anchors.empty())
+    {
+        std::vector<size_t> order(anchors.size());
+
+        for (size_t index = 0; index < order.size(); ++index)
+        {
+            order[index] = index;
+        }
+
+        std::shuffle(order.begin(), order.end(), rng);
+
+        for (size_t index : order)
+        {
+            const bx::Vec3 &anchor = anchors[index];
+            const std::optional<float> floorZ = findIndoorStandingFloorHeight(
+                indoorMapData, vertices, geometryCache, anchor.x, anchor.y, anchor.z, BountyAnchorFloorReach);
+
+            if (floorZ)
+            {
+                return bx::Vec3{anchor.x, anchor.y, *floorZ};
+            }
+        }
+    }
 
     const auto resolveFloorFace =
         [&](uint16_t faceId) -> std::optional<bx::Vec3>
@@ -2009,7 +2097,9 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
             const IndoorFaceGeometryData *pGeometry =
                 geometryCache.geometryForFace(indoorMapData, vertices, faceId);
 
-            if (pGeometry == nullptr)
+            if (pGeometry == nullptr
+                || !pGeometry->isWalkable
+                || hasFaceAttribute(pGeometry->attributes, FaceAttribute::IndoorSky))
             {
                 return std::nullopt;
             }
@@ -2065,7 +2155,7 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
                     nullptr,
                     &geometryCache);
 
-            if (!floorSample.hasFloor)
+            if (!indoorFloorSampleStandable(indoorMapData, vertices, geometryCache, floorSample))
             {
                 return std::nullopt;
             }
@@ -2092,8 +2182,6 @@ std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
             wallSectorIds.push_back(sectorId);
         }
     }
-
-    std::mt19937 rng(seed);
 
     const auto tryRandomFaceFromSectorList =
         [&](const std::vector<size_t> &sectorIds, bool useFloorFaces) -> std::optional<bx::Vec3>

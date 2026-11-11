@@ -2804,6 +2804,7 @@ void refreshOutdoorMapActorAiStaticFields(
         state.mm9Civilian = actor.mm9Civilian;
         state.mm9Guard = actor.mm9Guard;
         state.drawScale = actor.drawScale;
+        state.heldItems = actor.heldItems;
         state.proceduralDeathLoot = actor.proceduralDeathLoot;
         state.immobile = state.immobile || actor.immobile;
         state.alertStatusBit = (actor.attributes & ActorAlertStatusBit) != 0;
@@ -2885,6 +2886,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.mm9Civilian = actor.mm9Civilian;
     state.mm9Guard = actor.mm9Guard;
     state.drawScale = actor.drawScale;
+    state.heldItems = actor.heldItems;
     state.uniqueNameId = static_cast<uint32_t>(std::max(0, actor.uniqueNameIndex));
     state.group = actor.group;
     state.ally = actor.ally;
@@ -7055,8 +7057,11 @@ void OutdoorWorldRuntime::refreshRuntimeActorVisualResources()
     }
 }
 
-void OutdoorWorldRuntime::bindGlobalEventProgram(const std::optional<ScriptedEventProgram> *pGlobalEventProgram)
+void OutdoorWorldRuntime::bindEventPrograms(
+    const std::optional<ScriptedEventProgram> *pLocalEventProgram,
+    const std::optional<ScriptedEventProgram> *pGlobalEventProgram)
 {
+    m_pLocalEventProgram = pLocalEventProgram;
     m_pGlobalEventProgram = pGlobalEventProgram;
 }
 
@@ -7104,6 +7109,11 @@ bool OutdoorWorldRuntime::setMapActorBehavior(size_t actorIndex, const std::stri
 const std::optional<ScriptedEventProgram> *OutdoorWorldRuntime::globalEventProgram() const
 {
     return m_pGlobalEventProgram;
+}
+
+const std::optional<ScriptedEventProgram> *OutdoorWorldRuntime::localEventProgram() const
+{
+    return m_pLocalEventProgram;
 }
 
 void OutdoorWorldRuntime::updateWorldMovement(
@@ -8356,6 +8366,8 @@ void OutdoorWorldRuntime::advanceTurnBasedActorTimers(float seconds)
         m_pGameplayActorService->updateSpellEffectTimers(state, seconds, defaultHostileToParty);
         applyGameplayActorSpellEffectState(state, actor);
     }
+
+    hideExpiredSummons();
 }
 
 void OutdoorWorldRuntime::setTurnBasedActorMode(ActorTurnBasedMode mode)
@@ -8809,7 +8821,12 @@ bool OutdoorWorldRuntime::isUnderwaterMap() const
 
 bool OutdoorWorldRuntime::allowsLloydsBeacon() const
 {
-    return m_map.runtimeRestrictions.allowLloydsBeacon;
+    return m_map.runtimeRestrictions.allowLloydsBeacon && !m_map.noTeleport;
+}
+
+bool OutdoorWorldRuntime::allowsTownPortal() const
+{
+    return !m_map.noTeleport;
 }
 
 bool OutdoorWorldRuntime::allowsRest() const
@@ -10736,6 +10753,13 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         facts.movement.mm9PathStops = pRecord->pathStops;
         facts.movement.mm9HidingPlaces = pRecord->hidingPlaces;
         facts.movement.mm9Spawned = mm9SpawnedWithParam(*pRecord);
+        // Its MM9 routine: a map script's choice, else its `default`.
+        const EventRuntimeState *pRoutineEvents = eventRuntimeState();
+        const auto chosen = pRoutineEvents != nullptr ? pRoutineEvents->actorRoutines.find(uint32_t(actorIndex))
+                                                      : std::unordered_map<uint32_t, std::string>::const_iterator{};
+        facts.movement.mm9Routines = pRecord->routines;
+        facts.movement.mm9Routine = mm9RoutineIndex(pRecord->routines,
+            pRoutineEvents != nullptr && chosen != pRoutineEvents->actorRoutines.end() ? &chosen->second : nullptr);
     }
     {
         const GameplayActorService *pActorService = m_pGameplayActorService;
@@ -12605,6 +12629,22 @@ void OutdoorWorldRuntime::updateOutdoorInactiveAndInvalidActors(
                 continue;
             }
 
+            // Spell effects run out whether or not the actor's AI runs this step, as MM8's actor buffs expire on game
+            // time: a summon outside the active set would otherwise never leave (indoors every actor's run down).
+            if (m_turnBasedActorFacts.mode == ActorTurnBasedMode::RealTime && m_pGameplayActorService != nullptr)
+            {
+                GameplayActorSpellEffectState state = buildGameplayActorSpellEffectState(actor);
+
+                if (GameplayActorService::hasRunningSpellEffectTimer(state))
+                {
+                    const bool defaultHostileToParty = m_pMonsterTable->isHostileToParty(
+                        m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally));
+                    m_pGameplayActorService->updateSpellEffectTimers(
+                        state, ActorUpdateStepSeconds, defaultHostileToParty);
+                    applyGameplayActorSpellEffectState(state, actor);
+                }
+            }
+
             if (!pStats->canFly && actor.movementStateInitialized && actor.movementState.airborne)
             {
                 applyOutdoorActorPhysicsStep(actorIndex, *pStats, activeActorMask);
@@ -13061,7 +13101,22 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
         updateOutdoorInactiveAndInvalidActors(activeActorMask);
         applyActorFrameSideEffects(ActorUpdateStepSeconds, partyX, partyY, partyZ);
+        hideExpiredSummons();
         m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
+    }
+}
+
+// A party member's summon whose time ran out is removed, as MM8 removes it (AIState Removed when its Summoned buff
+// expires): hidden, it no longer acts, leaves no corpse and no longer counts against its caster's summon limit.
+void OutdoorWorldRuntime::hideExpiredSummons()
+{
+    for (MapActorState &actor : m_mapActors)
+    {
+        if (actor.summonerMemberIndex >= 0 && !actor.isDead && !actor.isInvisible
+            && actor.controlMode == ActorControlMode::None)
+        {
+            actor.isInvisible = true;
+        }
     }
 }
 
@@ -13735,6 +13790,23 @@ bool OutdoorWorldRuntime::projectileSourceIsFriendlyToActor(
     {
         facts.targetPartyControlled = m_pGameplayActorService->isPartyControlledActor(
             gameplayActorControlModeFromOutdoor(actor.controlMode));
+
+        if (facts.targetPartyControlled
+            && !projectile.fromSummonedMonster
+            && projectile.sourceKind == ProjectileState::SourceKind::Actor)
+        {
+            // A shot whose shooter is gone came from the party's enemy: nobody else shoots near its summons.
+            facts.sourceHostileToParty = true;
+
+            for (const MapActorState &source : m_mapActors)
+            {
+                if (source.actorId == projectile.sourceId)
+                {
+                    facts.sourceHostileToParty = source.hostileToParty;
+                    break;
+                }
+            }
+        }
         // The map's evt.SetMonsterRelation rows decide, as they do whom the shooter targets.
         const EventRuntimeState *pRelationEvents = eventRuntimeState();
         facts.sourceMonsterKnown = projectile.sourceMonsterId != 0;
@@ -15481,6 +15553,64 @@ GameplayProjectileService::ProjectileBounceSurfaceFacts OutdoorWorldRuntime::bui
     return facts;
 }
 
+void OutdoorWorldRuntime::removeAreaImpactHitsBehindCover(
+    GameplayProjectileService::ProjectileFrameResult &frameResult,
+    const ProjectileCollisionFacts &collision,
+    float partyX,
+    float partyY,
+    float partyZ) const
+{
+    if (!frameResult.areaImpact)
+    {
+        return;
+    }
+
+    GameplayProjectileService::ProjectileFrameAreaImpactResult &areaImpact = *frameResult.areaImpact;
+
+    if (!areaImpact.impact.hitParty && areaImpact.impact.actorHits.empty())
+    {
+        return;
+    }
+
+    // A blast on the ground or a wall looks out from just off the face it struck, so that face hides nothing.
+    constexpr float BlastSightOffset = 16.0f;
+    bx::Vec3 origin = {areaImpact.point.x, areaImpact.point.y, areaImpact.point.z};
+    const GameplayProjectileService::ProjectileBounceSurfaceFacts surface = buildProjectileBounceSurfaceFacts(collision);
+
+    if (surface.canBounce)
+    {
+        const bx::Vec3 normal = {surface.normalX, surface.normalY, surface.normalZ};
+        origin = bx::add(origin, bx::mul(normal, BlastSightOffset));
+    }
+    else if (collision.kind == ProjectileCollisionKind::Terrain)
+    {
+        origin.z += BlastSightOffset;
+    }
+
+    if (areaImpact.impact.hitParty
+        && !hasClearOutdoorLineOfSight(origin, {partyX, partyY, partyZ + m_partyCollisionHeight * 0.5f}))
+    {
+        areaImpact.impact.hitParty = false;
+    }
+
+    std::erase_if(
+        areaImpact.impact.actorHits,
+        [this, &origin](const GameplayProjectileService::ProjectileAreaImpactActorHit &hit)
+        {
+            if (hit.actorIndex >= m_mapActors.size())
+            {
+                return false;
+            }
+
+            const MapActorState &actor = m_mapActors[hit.actorIndex];
+            const bx::Vec3 target = {
+                actor.preciseX,
+                actor.preciseY,
+                actor.preciseZ + std::max(24.0f, float(actor.height) * 0.75f)};
+            return !hasClearOutdoorLineOfSight(origin, target);
+        });
+}
+
 void OutdoorWorldRuntime::applyProjectileFrameResult(
     ProjectileState &projectile,
     const ProjectileCollisionFacts &collision,
@@ -15760,7 +15890,13 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
             bool killed = false;
             if (projectile.sourceKind == ProjectileState::SourceKind::Party)
             {
-                int appliedDamage = actorHit.damage;
+                const int blastDamage = projectile.blastMaximumDamage > 0
+                    ? projectileService().partyBlastDamageToActor(
+                        projectile,
+                        actorHit.damage,
+                        buildProjectileDirectActorImpactInput(projectile, actorHit.actorIndex))
+                    : actorHit.damage;
+                int appliedDamage = blastDamage;
                 const MonsterTable::MonsterStatsEntry *pStats =
                     m_pMonsterTable != nullptr
                         ? m_pMonsterTable->findStatsById(m_mapActors[actorHit.actorIndex].monsterId)
@@ -15771,10 +15907,10 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     std::mt19937 rng(
                         projectile.projectileId
                         ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
-                        ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
+                        ^ static_cast<uint32_t>(std::max(0, blastDamage)));
                     appliedDamage = resolveDamageToMonster(
                         gameRulesFor(m_pParty).combat,
-                        actorHit.damage,
+                        blastDamage,
                         projectile.damageType,
                         partyMissileResistance(*pStats, projectile.damageType, projectile.weakerOfPhysicalAndFire),
                         monsterHourOfPowerResistanceBonus(m_mapActors[actorHit.actorIndex]),
@@ -16044,17 +16180,19 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
             ProjectileFrameWorldFacts worldFacts =
                 collectProjectileFrameFacts(projectile, ProjectileUpdateStepSeconds, partyX, partyY, partyZ);
             worldFacts.frame.pWards = &m_actorBehaviors.projectileWards();
-            const GameplayProjectileService::ProjectileFrameResult frameResult =
+            GameplayProjectileService::ProjectileFrameResult frameResult =
                 projectileService().updateProjectileFrame(projectile, worldFacts.frame);
 
             if (frameResult.wardBlock)
             {
                 // The ward stopped it before the world collision was reached.
                 m_actorBehaviors.recordWardBlock(*frameResult.wardBlock);
+                removeAreaImpactHitsBehindCover(frameResult, ProjectileCollisionFacts{}, partyX, partyY, partyZ);
                 applyProjectileFrameResult(projectile, ProjectileCollisionFacts{}, frameResult);
                 continue;
             }
 
+            removeAreaImpactHitsBehindCover(frameResult, worldFacts.collision, partyX, partyY, partyZ);
             applyProjectileFrameResult(projectile, worldFacts.collision, frameResult);
         }
 
@@ -16406,6 +16544,7 @@ void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMas
                 m_openedChests[chestId] = true;
                 m_chests[chestId].flags |= static_cast<uint16_t>(EvtChestFlag::Opened);
                 activateChestView(chestId);
+                openChestDecoration(*m_eventRuntimeState, openedChestRequest);
             }
         }
     }
@@ -16597,6 +16736,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.height = pActor->height;
     state.bodyHeight = pActor->height;
     state.drawScale = pActor->drawScale;
+    state.pHeldItems = &pActor->heldItems;
     state.isDead = pActor->isDead;
     state.isInvisible = pActor->isInvisible;
     state.hostileToParty = pActor->hostileToParty;
@@ -16683,6 +16823,37 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
         state.scriptedClipSeconds = pActor->mm9.markerClipSeconds;
         state.scriptedClipEnd = stop.loop ? GameplayRuntimeActorState::ScriptedClipEnd::Loop
                                           : GameplayRuntimeActorState::ScriptedClipEnd::Release;
+    }
+
+    // Its MM9 routine's clip step (ActorMm9State::routine) while it holds no target, and its items put down.
+    if (pMarkerRecord != nullptr && pActor->mm9.routine >= 0
+        && size_t(pActor->mm9.routine) < pMarkerRecord->routines.size())
+    {
+        const Mm9AiRoutine &routine = pMarkerRecord->routines[size_t(pActor->mm9.routine)];
+        state.heldItemsHidden = pActor->mm9.routineItemsHidden;
+        const Mm9AiRoutineStep *pStep =
+            pActor->mm9.routineStep < routine.steps.size() ? &routine.steps[pActor->mm9.routineStep] : nullptr;
+
+        if (state.scriptedClip.empty() && pActor->mm9.targetKind == ActorAiTargetKind::None && pStep != nullptr
+            && pStep->kind == Mm9AiRoutineStep::Kind::Clip && pActor->mm9.routineClip >= 0
+            && size_t(pActor->mm9.routineClip) < pStep->clips.size()
+            && state.animationState == ActorAiAnimationState::Standing)
+        {
+            state.scriptedClip = pStep->clips[size_t(pActor->mm9.routineClip)].clip;
+            state.scriptedClipSeconds = pActor->mm9.routineSeconds;
+            state.scriptedClipEnd = GameplayRuntimeActorState::ScriptedClipEnd::Loop;
+        }
+    }
+
+    // Its placement's idle clip (Mm9AiPlacement::idleClip, its script's LoopAnim between walks) while it stands without
+    // a target, its AI awake or not (a far actor's AI sleeps, as MM9's: it stays at its chore).
+    if (state.scriptedClip.empty() && state.animationState == ActorAiAnimationState::Standing
+        && pActor->mm9.targetKind == ActorAiTargetKind::None && pMarkerRecord != nullptr
+        && !pMarkerRecord->settings.idleClip.empty())
+    {
+        state.scriptedClip = pMarkerRecord->settings.idleClip;
+        state.scriptedClipSeconds = std::max(0.0f, state.animationTimeTicks) / 128.0f;
+        state.scriptedClipEnd = GameplayRuntimeActorState::ScriptedClipEnd::Loop;
     }
 
     // An MM9 idle fidget that picked a variant other than the binding's own fidget plays that script clip
@@ -19097,6 +19268,8 @@ bool OutdoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPr
     worldRequest.shieldModifiers = request.shieldModifiers;
     worldRequest.weakerOfPhysicalAndFire = request.weakerOfPhysicalAndFire;
     worldRequest.explosionRadius = request.explosionRadius;
+    worldRequest.blastMinimumDamage = request.blastMinimumDamage;
+    worldRequest.blastMaximumDamage = request.blastMaximumDamage;
     worldRequest.critical = request.critical;
     worldRequest.sourceX = request.source.x;
     worldRequest.sourceY = request.source.y;
@@ -20278,6 +20451,10 @@ bool OutdoorWorldRuntime::tryPlaceActiveChestItemAt(const ChestItemState &item, 
 void OutdoorWorldRuntime::closeActiveChestView()
 {
     m_activeChestView.reset();
+    if (EventRuntimeState *pEvents = eventRuntimeState())
+    {
+        closeChestDecoration(*pEvents);
+    }
 }
 
 OutdoorWorldRuntime::CorpseViewState *OutdoorWorldRuntime::activeCorpseView()
@@ -22504,6 +22681,40 @@ bool OutdoorWorldRuntime::wakeMapActors(std::optional<size_t> actorIndex, uint32
     return wokeAny;
 }
 
+bool OutdoorWorldRuntime::attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    attachHeldItem(m_mapActors[actorIndex].heldItems, model, node);
+
+    if (m_pOutdoorMapDeltaData != nullptr && actorIndex < m_pOutdoorMapDeltaData->actors.size())
+    {
+        attachHeldItem(m_pOutdoorMapDeltaData->actors[actorIndex].heldItems, model, node);
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::detachMapActorItem(size_t actorIndex, const std::string &node)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    detachHeldItem(m_mapActors[actorIndex].heldItems, node);
+
+    if (m_pOutdoorMapDeltaData != nullptr && actorIndex < m_pOutdoorMapDeltaData->actors.size())
+    {
+        detachHeldItem(m_pOutdoorMapDeltaData->actors[actorIndex].heldItems, node);
+    }
+
+    return true;
+}
+
 bool OutdoorWorldRuntime::setMapActorImmobile(size_t actorIndex, bool immobile)
 {
     if (actorIndex >= m_mapActors.size())
@@ -22617,6 +22828,7 @@ bool OutdoorWorldRuntime::fireEventMissile(const EventMissileRequest &request)
     spawnRequest.impactSoundIdOverride = pMissile->impactSoundId;
     spawnRequest.explosionRadius = request.radius;
     spawnRequest.eventMissile = true;
+    spawnRequest.eventMissileStrikesParty = request.strikesParty;
     spawnRequest.flightSeconds = request.flightSeconds;
     spawnRequest.sourceX = request.fromX;
     spawnRequest.sourceY = request.fromY;
@@ -22709,6 +22921,8 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.shieldModifiers = request.shieldModifiers;
     spawnRequest.weakerOfPhysicalAndFire = request.weakerOfPhysicalAndFire;
     spawnRequest.explosionRadius = request.explosionRadius;
+    spawnRequest.blastMinimumDamage = request.blastMinimumDamage;
+    spawnRequest.blastMaximumDamage = request.blastMaximumDamage;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     spawnRequest.sourceX = request.sourceX;
@@ -22798,7 +23012,24 @@ bool OutdoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
         return false;
     }
 
-    return OutdoorInteractionController::dispatchWorldActivation(*m_pInteractionView, hit);
+    // A decoration's click: the chest it opens opens its lid (openChestDecoration).
+    EventRuntimeState *pEvents = eventRuntimeState();
+    const std::optional<uint32_t> previousKey = pEvents != nullptr ? pEvents->activeEventDecorationKey : std::nullopt;
+    if (pEvents != nullptr && hit.eventTarget && hit.eventTarget->targetKind == GameplayWorldEventTargetKind::Entity)
+    {
+        pEvents->activeEventDecorationKey = hit.eventTarget->eventIdPrimary != 0
+            ? uint32_t(hit.eventTarget->eventIdPrimary) : uint32_t(hit.eventTarget->targetIndex);
+    }
+    const bool activated = OutdoorInteractionController::dispatchWorldActivation(*m_pInteractionView, hit);
+    if (pEvents != nullptr)
+    {
+        if (activated && pEvents->activeEventDecorationKey != previousKey && pEvents->activeEventDecorationKey)
+        {
+            ++pEvents->decorationUses[*pEvents->activeEventDecorationKey];
+        }
+        pEvents->activeEventDecorationKey = previousKey;
+    }
+    return activated;
 }
 
 bool OutdoorWorldRuntime::activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)

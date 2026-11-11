@@ -9,11 +9,13 @@ steps:
         Needs the MM9 review root (README.md). Woken at 1 s the Dragon King lands and taunts (his script holds him
         passive meanwhile), then holds the party: fire bolts at its 2 000 edge distance (between 230 and 1 800 LT), one
         every 2.1 s (his 1.0 s clip, the bolt at its key, and MM9's recovery from the clip's end). After his second
-        bolt he switches to the Winged Mutant (80 % for a nearer one), which fights him with blows in its passes (in
-        reach MM9 always strikes: MM9_AI_NATIVE_RE.md section 7.2.3) and so comes close enough for his breath, which
-        kills it at about 19 s; TargetDead takes the party again at once. At 24 s the party stands
-        close: under 200 LT he breathes (his first spell) or buffets with his wings (21 in 101, a push); at 34 s a
-        physical hit; at 40 s the party walks off beyond 1 800 LT, which he lets go (TargetTooFar).
+        bolt he switches to the Winged Mutant (80 % for a nearer one, +45 % for the last attacker: it has fought him
+        since it noticed him), which fights him with blows in its passes (in reach MM9 always strikes:
+        MM9_AI_NATIVE_RE.md section 7.2.3) and so comes close enough for his breath; he never leaves the floor (a
+        rooted turret: no flyer climb). At 24 s the party stands close; his bolt kills the mutant at about 24.5 s and
+        TargetDead takes the party again at once: under 200 LT he breathes (his first spell) or buffets with his wings
+        (21 in 101, a push); at 34 s a physical hit; at 40 s the party walks off beyond 1 800 LT, which he lets go
+        (TargetTooFar).
   # A party for the monsters to strike (the arena keeps it invulnerable): without one no blow or spell lands.
   - new_game_flow:
       start_map: dragonstadium.blv
@@ -42,13 +44,14 @@ steps:
       ai_trace: {arena_monster: 0, decision: script, detail: bolt party, after: 9.2, before: 14, min_count: 2}
   - assert:
       ai_trace: {arena_monster: 0, decision: attack_ranged, target: party, after: 9.2, before: 14, min_count: 2}
-  # He hates every AI: the Winged Mutant (which noticed him at once: IsFriend asks both sides) becomes his target.
+  # He hates every AI: the Winged Mutant (which noticed him at once: IsFriend asks both sides) becomes his target,
+  # the more likely as it has hit him (the last attacker).
   - assert:
       ai_trace: {arena_monster: 1, decision: taunt_detect, target: actor:1, before: 1, min_count: 1}
   - assert:
-      ai_trace: {arena_monster: 0, decision: script, detail: switch actor:2 first chance 80, after: 12, before: 12.6, min_count: 1}
+      ai_trace: {arena_monster: 0, decision: script, detail: switch actor:2 first chance 125, after: 12, before: 12.6, min_count: 1}
   # A flying target higher than his body's depth gets the fire-bolt clip for the breath (DoBreathAttack); a close one
-  # the wing buffet (21 in 101) and its push (the party, at 37 s).
+  # the wing buffet (21 in 101) and its push (the party, at 30 s).
   - assert:
       ai_trace: {arena_monster: 0, decision: script, detail: wing party distance, min_count: 1}
   - assert:
@@ -64,7 +67,7 @@ steps:
   - assert:
       ai_trace: {arena_monster: 0, decision: give_up, detail: dead, target: actor:2, min_count: 1}
   - assert:
-      ai_trace: {arena_monster: 0, decision: script, detail: switch party dead, after: 12.4, before: 24, min_count: 1}
+      ai_trace: {arena_monster: 0, decision: script, detail: switch party dead, after: 24, before: 25, min_count: 1}
   # TargetTooFar beyond 1 800 LT.
   - assert:
       ai_trace: {arena_monster: 0, decision: script, detail: too_far party, after: 40, before: 40.2, min_count: 1}

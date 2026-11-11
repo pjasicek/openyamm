@@ -32,6 +32,15 @@ animation's own name.
   `MonkSounds.inc` (`MonkBase`, `MonkGuardBasic`, `ThjoradMonk`, `WorkingMonk`): `OnPray` (key `PrayMumble`, on
   `MONK.abc`'s `pray` and `fidget1`; read as `pray` until 2026-11-10, so no prayer played) 4/10 `Pray1-4` then 2.2 s,
   else 20 s; `OnSweep` `Sweep` then 1 s; `OnWash` `Wash` at volume 10 and 1/10 `WashFidget` then 5 s.
+- Camera shakes (2026-11-11): three keys shake the view instead of playing a sound, `BigEQ`, `SmallEQ` and
+  `SmallerEQ` (`cshell.dll` dispatch `0x1005b16d` -> `0x1005d260`/`0x1005d2d0`/`0x1005d340` -> `0x100ab070`). Each
+  passes MM9 constants: radius 6000 / 1200 / 900, amplitude at the radius 1 / 1 / 0.5 and at the model 6 / 4 / 2
+  (linear between, nothing beyond the radius; the distance is the camera's to the model), full for 1.3 / 0.4 / 0.25 s,
+  then decaying by 10 / 20 / 30 per second (the EarthQuake client shake, MM9_CUTSCENES.md section 1). Only three
+  models key them: `DRAGON.abc` (`land` at touchdown, `die1`), `GIANT.abc` (`walk`, `run`, `Hattack1`: Small;
+  `die1`, `die2`: Big) and `YANMIR.abc` (`walk`, `run`, `HAttack1`, `KickDoor`, `StepOn`, `rAttack2`). MM9's
+  projectile table shakes too (`EQ` columns: lightning and the red and yellow beams within 35 units of the impact,
+  the player's EQ hammer and grenade within 360); those are not carried.
 - Not row sounds: map scripts' own `PlaySound` lines (Yanmir's patrol, the jukeboxes, cutscene `Voice*`/`Speak*` keys)
   belong to their maps' Lua; spells' sounds are the spell system's. `Foostep` (a typo in three models) matches no
   command and is silent in MM9 too.
@@ -61,6 +70,10 @@ animation's own name.
   row's step files in turn; script events roll their chance and hold their gates (events of one sound set share a
   gate, as MM9's per-script wait). Sounds are positional within the row's Voice Radius (FootRadius for steps) x 2.56,
   full within a quarter of it (the script sounds: their own radii); none starts beyond its radius.
+- **Shakes:** the EQ keys become `shake: {near, edge, seconds, radius}` events on the same clips: intensity amplitude
+  / 12 (the client's clamp, as the converters' EarthQuakes), seconds full + amplitude / decay, radius x 2.56. The
+  actor's clip events hand them to `WorldFxSystem::takeActorCameraShakes`, scaled by the party's distance as MM9's,
+  and the session's `CameraShake` plays them (indoors and outdoors, without audio too).
 - **Descriptor slots:** `monster_descriptors.txt` columns AttackSoundId, DeathSoundId, WinceSoundId and AwareSoundId of
   MM9 rows hold the first voice of the bound attack_melee, dying (else its death fall), hit and fidget clips
   (`mm9_monster_sound_slots.tsv`, read by `generate_mm9_monster_tables.py`); 0 where that clip has no MM9 sound.

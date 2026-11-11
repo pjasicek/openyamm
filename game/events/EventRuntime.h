@@ -385,6 +385,22 @@ struct EventRuntimeState
         float seconds = 0.0f;
     };
 
+    // evt.SpawnActorEffect(actor, effect[, socket[, seconds[, scale]]]): a named effect carried on a map actor, on a
+    // socket of its 3D model (an actors.yml animation.sockets name, or a node of the model) or, without a socket or a
+    // model, at the middle of its body; for seconds (0: until the effect ends by itself or the actor is gone). A
+    // comma-separated socket list ("palm_left,palm_right") carries one on each, sharing a hand effect's emitters as
+    // actors.yml clip effects do (actorClipEffectSocketAnchor).
+    // evt.StopActorEffect(actor[, effect]) (stop): ends the actor's carried effects, or those of one effect.
+    struct ActorEffectRequest
+    {
+        size_t actorIndex = 0;
+        std::string effectId;
+        std::string socket;
+        float seconds = 0.0f;
+        float scale = 1.0f;
+        bool stop = false;
+    };
+
     // evt.MoveActorTo: a map actor walks (or runs) to a point, whatever it would do by itself, and stops there; its
     // arrival runs arrivalEventId (0: none) with the hook context's actor index (ScriptedActorMoves.h).
     struct ScriptedActorMove
@@ -392,6 +408,10 @@ struct EventRuntimeState
         std::array<float, 3> point = {};
         uint16_t arrivalEventId = 0;
         bool run = false;
+        // Its progress (applyScriptedActorMoves): where it stood when it last got anywhere, and the seconds it has
+        // walked since without leaving that spot.
+        std::optional<std::array<float, 2>> progressAnchor;
+        float stuckSeconds = 0.0f;
     };
 
     // evt.SetActorTarget: the target an actor's MM9 loop takes at its next AI step (applyScriptedActorTargets): the
@@ -450,6 +470,16 @@ struct EventRuntimeState
         float turnElapsedSeconds = 0.0f;
     };
 
+    // evt.PlayDecorationClip: the clip a decoration's moving part plays (DecorationModelSet parts: a coffin's lid),
+    // keyed by cog as spriteOverrides; once (then held at its last frame) or looping. Runtime only, not saved: a map
+    // shows a part left open again from its own map variables on load (mode "end").
+    struct DecorationClip
+    {
+        std::string clip;
+        float seconds = 0.0f;
+        bool loop = false;
+    };
+
     struct WorldModelRequest
     {
         std::string assetPath;
@@ -505,6 +535,8 @@ struct EventRuntimeState
     {
         uint32_t chestId = 0;
         bool openedByTelekinesis = false;
+        // The sprite override key of the decoration whose click opened it (activeEventDecorationKey), if any.
+        std::optional<uint32_t> decorationKey;
     };
 
     struct PressurePlateTrigger
@@ -632,7 +664,11 @@ struct EventRuntimeState
     // Runtime only, not saved: a map that dims or lights a room sets it again from its own map variables on load.
     std::unordered_map<uint16_t, int16_t> sectorAmbientLevels;
     std::unordered_map<uint32_t, DecorationAim> decorationAims;
+    std::unordered_map<uint32_t, DecorationClip> decorationClips;
     std::unordered_map<uint32_t, ActorPresentation> actorPresentations;
+    // evt.SetActorRoutine: the MM9 routine a map actor runs, by actor index (Mm9AiRoutine::name; empty: none); an
+    // actor without an entry runs its `default`. Runtime only: a map script sets it again on load.
+    std::unordered_map<uint32_t, std::string> actorRoutines;
     // evt.MoveActorTo walks by map actor index, and the arrivals whose events the world runs at its next update.
     // Runtime only, not saved: a map that walks an actor walks it again from its own map variables on load.
     std::unordered_map<uint32_t, ScriptedActorMove> scriptedActorMoves;
@@ -718,6 +754,13 @@ struct EventRuntimeState
     std::vector<OpenedChestRequest> openedChestRequests;
     bool activeEventOpenedByTelekinesis = false;
     uint32_t activeEventSpellId = 0;
+    // The decoration (its sprite override key) whose click runs the current event, and the one whose chest is open
+    // now: a chest's lid (a decoration part with open and close clips) opens with its chest and closes with it.
+    std::optional<uint32_t> activeEventDecorationKey;
+    std::optional<uint32_t> openChestDecorationKey;
+    // How many times each decoration (its sprite override key) was used (a click that ran its event): a binding's
+    // use_clips steps through its clips on each use (a book's pages). Runtime only.
+    std::unordered_map<uint32_t, uint32_t> decorationUses;
     std::vector<InventoryItem> grantedItems;
     std::vector<uint32_t> grantedItemIds;
     bool clearHeldItemRequest = false;
@@ -734,6 +777,8 @@ struct EventRuntimeState
     std::vector<BeamRequest> beamRequests;
     // evt.StopBeam: names of beams to end.
     std::vector<std::string> beamStops;
+    // In call order: starts and stops.
+    std::vector<ActorEffectRequest> actorEffectRequests;
     std::vector<WorldModelRequest> worldModelRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
@@ -783,6 +828,13 @@ const std::unordered_map<uint32_t, int32_t> &historyEventTimesForActiveContinent
 
 // Turns the aimed decorations toward their aims and plays their recoils on by deltaSeconds.
 void advanceDecorationAims(EventRuntimeState &state, float deltaSeconds);
+void advanceDecorationClips(EventRuntimeState &state, float deltaSeconds);
+// A chest opened by a decoration's click plays the decoration's "open" clip, and its "close" clip when the chest view
+// closes (a part without them stays still).
+void openChestDecoration(EventRuntimeState &state, const EventRuntimeState::OpenedChestRequest &request);
+void closeChestDecoration(EventRuntimeState &state);
+// The clip the decorations with this sprite override key play (evt.PlayDecorationClip); false for none.
+bool decorationClipFor(const EventRuntimeState *pState, uint32_t key, std::string &clip, float &seconds, bool &loop);
 // Runs the actor presentations' clip and turn clocks by deltaSeconds.
 void advanceActorPresentations(EventRuntimeState &state, float deltaSeconds);
 // Starts a decoration's glide to offset (world units from its map position) over seconds (0: at once).

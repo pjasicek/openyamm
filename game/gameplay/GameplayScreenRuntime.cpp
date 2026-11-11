@@ -2319,6 +2319,8 @@ void GameplayScreenRuntime::openJournalOverlay()
     journalScreen.active = true;
     journalScreen.view = GameplayUiController::JournalView::Map;
     journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Potion;
+    journalScreen.questContinent = 0;
+    journalScreen.notesContinent = 0;
     journalScreen.questPage = 0;
     journalScreen.storyPage = 0;
     journalScreen.notesPage = 0;

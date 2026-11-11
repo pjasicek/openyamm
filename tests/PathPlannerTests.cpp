@@ -87,6 +87,35 @@ TEST_CASE("path planner routes ground movement around a wall")
     CHECK(std::fabs(result.waypoints.back().y - request.target.y) < 0.001f);
 }
 
+TEST_CASE("path planner ends a route within the goal distance of a point the body cannot reach")
+{
+    // A corridor's end wall at x 200; the point lies 10 from it, inside the body's 42 (Thjorad Mine's MMarker2 for
+    // Hjarrand), and a wall in the corridor stands between it and the start.
+    PathMap map;
+    map.setFacets({
+        makePlannerFloor(-200.0f, 200.0f, -200.0f, 200.0f, 0.0f),
+        makePlannerWall(200.0f, -200.0f, 200.0f, 0.0f, 200.0f),
+        makePlannerWall(60.0f, -80.0f, 80.0f, 0.0f, 200.0f)
+    });
+
+    PathPlanRequest request = makeRequest();
+    request.object.radius = 42.0f;
+    request.object.stepLength = 40.0f;
+    request.source = {0.0f, 0.0f, 0.0f};
+    request.target = {190.0f, 0.0f, 0.0f};
+    request.goalDistance = 42.0f;
+
+    PathPlanner planner;
+    const PathPlanResult result = planner.plan(map, request);
+
+    REQUIRE(result.status == PathPlanStatus::Success);
+    REQUIRE_FALSE(result.waypoints.empty());
+    const PathPoint &end = result.waypoints.back();
+    CHECK(std::hypot(end.x - request.target.x, end.y - request.target.y) <= request.goalDistance);
+    CHECK(end.x <= 200.0f - request.object.radius + 0.5f);
+    CHECK(result.waypoints.size() < 20u);
+}
+
 TEST_CASE("path planner snaps elevated ground target to floor")
 {
     PathMap map;

@@ -42,6 +42,20 @@ struct MapDeltaLocationTime
     std::array<uint8_t, 24> reserved = {};
 };
 
+// A rigid item an actor holds on one of its 3D model's nodes (scene held_items: MM9's AttachProp, a monk's broom, a
+// miner's axe): the item's model, its origin on the node.
+struct MapDeltaHeldItem
+{
+    std::string model;
+    std::string node;
+
+    bool operator==(const MapDeltaHeldItem &other) const = default;
+};
+
+// Puts the item on its node, replacing what the node held; detachHeldItem empties the node (empty: every node).
+void attachHeldItem(std::vector<MapDeltaHeldItem> &items, const std::string &model, const std::string &node);
+void detachHeldItem(std::vector<MapDeltaHeldItem> &items, const std::string &node);
+
 struct MapDeltaActor
 {
     std::string name;
@@ -67,6 +81,9 @@ struct MapDeltaActor
     // world never moves it, neither its initial placement nor collision pushes, nor gravity; it stays exactly where
     // placed, overlapping its seat. Indoors only. Its pose and facing come from its map script (evt.PlayActorClip).
     bool posed = false;
+    // Items it holds (scene held_items), drawn on its 3D model beside its binding's own attachments; map scripts change
+    // them (evt.AttachActorItem, evt.DetachActorItem). Saved with the map.
+    std::vector<MapDeltaHeldItem> heldItems;
     // A leash for this placement (scene leash_radius): it fights at most this far from where it was placed and walks
     // back there with no target, whatever its monster's tactics say (0: none).
     uint16_t leashRadius = 0;

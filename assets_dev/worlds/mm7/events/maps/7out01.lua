@@ -58,6 +58,11 @@ SetMapMetadata({
     [219] = { kind = "press_button", source = "title" },
     [220] = { kind = "secret_event", source = "heuristic", hidden = true },
     },
+    learnedEffect = {
+    [110] = { autonote = 258, effect = "+50 Fire Resistance temporary" },
+    [112] = { autonote = 259, effect = "+5 Hit points restored" },
+    [113] = { autonote = 260, effect = "+5 Spell points restored" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {43},

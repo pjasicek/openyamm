@@ -492,6 +492,9 @@ TrainerDirectory TrainerDirectory::buildFrom(
         }
     }
 
+    for (const TrainerEntry &entry : source.actorTeachers)
+        directory.m_skills[entry.skill][teacherSlot(entry.mastery)].push_back(entry);
+
     directory.m_pSource = std::move(pSource);
     return directory;
 }
@@ -503,7 +506,8 @@ TrainerDirectory TrainerDirectory::build(
     const HouseTable &houses,
     const MapStats &maps,
     TrainerPlaceTable places,
-    TeacherLedgerSettings ledger)
+    TeacherLedgerSettings ledger,
+    std::vector<TrainerEntry> actorTeachers)
 {
     TrainerDirectorySource source;
     const auto addTopic = [&](uint32_t topicId)
@@ -600,6 +604,7 @@ TrainerDirectory TrainerDirectory::build(
     }
 
     source.places = std::move(places);
+    source.actorTeachers = std::move(actorTeachers);
     return buildFrom(std::make_shared<const TrainerDirectorySource>(std::move(source)), {}, links, ledger);
 }
 
@@ -774,6 +779,8 @@ std::string trainerContinentName(uint32_t continent)
             return "Antagarich";
         case 3:
             return "Enroth";
+        case 5:
+            return "Chedian";
         default:
             return {};
     }
@@ -791,6 +798,16 @@ bool trainerKnown(const TrainerEntry &entry, const Party &party)
         return true;
     }
 
+    if (entry.rudeId != 0)
+    {
+        if (party.findJournalMapNote(entry.mapFileName, 90000 + entry.rudeId) != nullptr)
+            return true;
+        // Older saves already remember dialogue choices, including teacher offers.
+        for (size_t row = 0; row < entry.dialogueRowCount; ++row)
+            if (party.hasChosenMm9RudeRow(entry.rudeId, row))
+                return true;
+        return false;
+    }
     if (entry.autonoteId)
     {
         return party.hasAutonote(*entry.autonoteId);
@@ -799,6 +816,27 @@ bool trainerKnown(const TrainerEntry &entry, const Party &party)
     return entry.continent
         && party.findJournalMapNote(entry.mapFileName, teacherMapNoteId(*entry.continent, entry.mastery, entry.skillId))
             != nullptr;
+}
+
+void discoverActorTeacher(Party &party, uint32_t rudeId)
+{
+    if (party.trainerDirectory() == nullptr)
+        return;
+    for (const auto &[skill, masteries] : party.trainerDirectory()->skills())
+        for (const auto &entries : masteries)
+            for (const TrainerEntry &entry : entries)
+            {
+                if (entry.rudeId != rudeId || !entry.place
+                    || party.findJournalMapNote(entry.mapFileName, 90000 + rudeId) != nullptr)
+                    continue;
+                JournalMapNote note;
+                note.id = 90000 + rudeId;
+                note.mapFileName = entry.mapFileName;
+                note.x = entry.place->x;
+                note.y = entry.place->y;
+                note.text = entry.name;
+                party.setJournalMapNote(note);
+            }
 }
 
 bool trainerSearchMatches(const std::string &search, const std::vector<std::string> &fields)

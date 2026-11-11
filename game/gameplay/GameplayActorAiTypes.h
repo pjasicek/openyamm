@@ -573,6 +573,9 @@ struct ActorMm9State
     float idleFidgetWaitSeconds = 0.0f;
     int8_t fidgetVariant = -1;
     float fidgetSeconds = 0.0f;
+    // It stood in a looped script clip (its placement's idle clip, a marker's looped clip: MM9's LoopAnim), which never
+    // fidgets; the idle after it arms the fidget anew, as MM9's SetState(idle) from its script state does.
+    bool idleLooped = false;
     // Counts its idle rolls (their own counter: the rolls above keep their sequence).
     uint32_t idleRollCount = 0;
     // The party talked to it (the native NPC use, MM9_AMBIENT_ANIMATION.md section 2.4): it turns back to the facing it
@@ -601,6 +604,16 @@ struct ActorMm9State
     // (360 degrees a second) while it waits.
     int16_t markerStop = -1;
     float markerClipSeconds = 0.0f;
+    // Its routine (ActorMovementFacts::mm9Routine) under way: which, its step, the time in it, the step's length (a
+    // wait's roll, a clip's seconds), the clip it picked, whether it put its items down, and its rolls' counter.
+    int16_t routine = -1;
+    uint16_t routineStep = 0;
+    bool routineStepStarted = false;
+    float routineSeconds = 0.0f;
+    float routineStepLength = 0.0f;
+    int8_t routineClip = -1;
+    bool routineItemsHidden = false;
+    uint32_t routineRollCount = 0;
     bool markerTurn = false;
     float markerYawRadians = 0.0f;
 
@@ -1023,6 +1036,8 @@ struct ActorMovementFacts
     // A map script's walk (evt.MoveActorTo, applyScriptedActorMoves): it walks there (runs: scriptedMoveRun) whatever
     // it would do by itself, until the world ends the move on its arrival.
     std::optional<GameplayWorldPoint> scriptedMoveTarget;
+    // How close (level) its centre comes to that point to arrive (ScriptedActorMoveArrivalDistance past its radius).
+    float scriptedMoveArrivalDistance = 0.0f;
     bool scriptedMoveRun = false;
     bool hasHomeYaw = false;
     float homeYawRadians = 0.0f;
@@ -1033,6 +1048,10 @@ struct ActorMovementFacts
     std::span<const std::array<int32_t, 3>> mm9PathPoints;
     // The stops of that path with a marker's facing, wait or clip (Mm9AiPlacementRecord::pathStops).
     std::span<const Mm9AiPathStop> mm9PathStops;
+    // Its routines (Mm9AiPlacementRecord::routines) and the one it runs (an index; -1: none): its `default`, or the one
+    // a map script chose (EventRuntimeState::actorRoutines, mm9RoutineIndex).
+    std::span<const Mm9AiRoutine> mm9Routines;
+    int16_t mm9Routine = -1;
     std::span<const std::array<int32_t, 3>> mm9HidingPlaces;
     // Phase 4b: a townsperson on a stand-in row without an MM9 profile (scene mm9_civilian: the MM9 cities' people on
     // engine peasant rows) runs NPCBase.inc (mm9StandInCivilianProfile); MM9 spawned it with ScriptParams 1
@@ -1252,6 +1271,9 @@ struct ActorMovementIntent
     float actionSeconds = 0.0f;
     float moveSpeed = 0.0f;
     float targetEdgeDistance = 0.0f;
+    // A map script's walk (AI_ScriptedMove) ends once the actor's centre is this close to targetPosition (level): its
+    // route may end anywhere that close (0: it reaches the point).
+    float targetArrivalDistance = 0.0f;
     bool targetHasAttackLineOfSight = false;
     bool updateYaw = false;
     // The actor keeps yawRadians while it moves instead of turning to its movement (tactics' back-off: it steps back

@@ -2510,7 +2510,9 @@ bool OutdoorGameView::initialize(
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
     m_pOutdoorWorldRuntime->bindInteractionView(this);
-    m_pOutdoorWorldRuntime->bindGlobalEventProgram(&sceneRuntime.globalEventProgram());
+    m_pOutdoorWorldRuntime->bindEventPrograms(
+        &sceneRuntime.localEventProgram(),
+        &sceneRuntime.globalEventProgram());
     m_pOutdoorWorldRuntime->setWorldFxSystem(&m_worldFxSystem);
     m_gameSettings = settings;
     refreshViewDistanceCache();
@@ -3274,7 +3276,7 @@ void OutdoorGameView::shutdown()
         if (m_pOutdoorWorldRuntime != nullptr)
         {
             m_pOutdoorWorldRuntime->bindInteractionView(nullptr);
-            m_pOutdoorWorldRuntime->bindGlobalEventProgram(nullptr);
+            m_pOutdoorWorldRuntime->bindEventPrograms(nullptr, nullptr);
             m_pOutdoorWorldRuntime->setWorldFxSystem(nullptr);
         }
         m_pOutdoorWorldRuntime = nullptr;

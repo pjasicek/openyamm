@@ -28,6 +28,16 @@ std::vector<std::pair<std::string, std::array<uint32_t, 3>>> SkillRules::teacher
     return {};
 }
 
+std::optional<bool> SkillRules::skillSwitch(const Character &, const std::string &) const
+{
+    return std::nullopt;
+}
+
+std::optional<bool> SkillRules::toggleSkillSwitch(Character &, const std::string &) const
+{
+    return std::nullopt;
+}
+
 std::vector<std::string> SkillRules::extraHouseSkills(const std::string &) const
 {
     return {};
@@ -55,6 +65,10 @@ bool SkillRules::canRaiseSkill(const Character &character, const std::string &ca
 std::string SkillRules::afterSkillRaised(Character &, const std::string &, const ClassSkillTable *) const
 {
     return {};
+}
+
+void SkillRules::afterClassChanged(Character &, const ClassSkillTable *) const
+{
 }
 
 uint32_t SkillRules::masteryRequiredLevel(const std::string &, SkillMastery mastery) const

@@ -103,6 +103,14 @@ public:
         Character &character,
         const std::string &canonicalSkill,
         const ClassSkillTable *pClassSkillTable) const;
+    // After a promotion or another class change: the masteries granted without a teacher that the new class's limits
+    // now allow for skills already past their thresholds. Standard: none.
+    virtual void afterClassChanged(Character &character, const ClassSkillTable *pClassSkillTable) const;
+    // Whether the character's skill has an on/off switch on the skills page and whether it is on (MAW: Cover and Mana
+    // Shield). Standard: none.
+    virtual std::optional<bool> skillSwitch(const Character &character, const std::string &canonicalSkill) const;
+    // Flips the skill's switch and says whether it is on now; nothing for a skill without one.
+    virtual std::optional<bool> toggleSkillSwitch(Character &character, const std::string &canonicalSkill) const;
     // Skills a house teaches besides its own list (MAW: Cover at training halls, Mana Shield and Enlightenment at
     // magic shops). Standard: none.
     virtual std::vector<std::string> extraHouseSkills(const std::string &houseType) const;

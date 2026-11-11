@@ -662,6 +662,7 @@ private:
     EventRuntimeState *runtimeEventRuntimeState();
     const EventRuntimeState *runtimeEventRuntimeState() const;
     uint64_t currentTexturedBatchGeometryRevision() const;
+    uint64_t currentEventSurfaceSignature() const;
     uint64_t currentBakedStaticLightRevision() const;
     bool texturedBatchesNeedFullRebuild() const;
     void rebuildIndoorRenderMemberships();
@@ -680,15 +681,22 @@ private:
     // One draw of a group's faces: draw.indexCount indices from draw.firstIndex of the group's index buffer, or of
     // the main view's merged list (draw.merged). pTranslucentBatch: the translucent face drawn (its tint and opacity).
     // pLightGrid: the main view's grid for the faces' dynamic lights; without it they take `lights`.
+    // terrainDepthWritten: the view already holds the terrain's depth (the main view's pre-pass), so a terrain draw
+    // only tests it.
     bool submitTexturedFaces(const TexturedDrawGroup &group, const IndoorFaceGroupDraw &draw,
         const TexturedBatch *pTranslucentBatch, uint16_t viewId, const IndoorDrawLightSet &lights,
         const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width,
-        int height, bool secretFacesDetected, const std::array<float, 4> &clipPlane, float projectionScale = 1.0f);
+        int height, bool secretFacesDetected, const std::array<float, 4> &clipPlane, bool terrainDepthWritten,
+        float projectionScale = 1.0f);
+    // The animation frame a draw of the group shows, or nothing when the group cannot be drawn.
+    std::optional<size_t> drawableFaceFrame(const TexturedDrawGroup &group, const IndoorFaceGroupDraw &draw) const;
     // One batch's own draw (water reflections, translucent faces).
     bool submitTexturedBatch(size_t batchIndex, uint16_t viewId, const IndoorDrawLightSet &lights,
         const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width,
         int height, bool secretFacesDetected, const std::array<float, 4> &clipPlane, float projectionScale = 1.0f);
     // The main view's opaque face draws: the drawn batches merged per group (m_faceDrawPlan); returns the draws.
+    // The terrain's depth goes first (colour masked), so its expensive shading runs once per pixel instead of for
+    // every hill behind a hill, the seabed under the shore and the back faces.
     size_t submitMainViewFaces(const std::vector<uint8_t> &drawnBatches, int width, int height,
         bool secretFacesDetected);
     // The visible translucent batches, back to front, blended over the finished opaque scene.
@@ -922,6 +930,7 @@ private:
     bgfx::ProgramHandle m_indoorTerrainFogProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_indoorTerrainSingleProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_indoorTerrainSingleFogProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_indoorTerrainDepthProgramHandle = BGFX_INVALID_HANDLE;
     // The terrain's grass: its decoration file, the grass layers' density per weight texel (rows from the map's
     // north-west corner, as the weights) and the tufts, built on first use.
     std::string m_grassConfigPath;
@@ -1084,12 +1093,14 @@ private:
     std::unordered_set<BillboardTextureLookupKey, BillboardTextureLookupKeyHash>
         m_runtimeBillboardLoadWarningKeys;
     uint64_t m_texturedBatchGeometryRevision = std::numeric_limits<uint64_t>::max();
-    // The face attributes and the map and event surface revisions the textured batches were built with. A change of the
-    // map's revision alone (face bits set by the world: a destructible's faces hidden) updates the changed faces in
-    // place (updateFaceAttributeChanges); an event's surface change (evt.SetFacetBit, evt.SetTexture) rebuilds.
+    // The face attributes, the map and event surface revisions and the event surface signature the textured batches
+    // were built with. Changed face bits (a destructible's faces hidden, by the world or by evt.SetFacetBit) update the
+    // changed faces in place (updateFaceAttributeChanges); a change of what the batches read from the events
+    // (evt.SetTexture, a facet bit the map delta could not take) rebuilds.
     std::vector<uint32_t> m_builtFaceAttributes;
     uint64_t m_builtMapSurfaceRevision = 0;
     uint64_t m_builtEventSurfaceRevision = 0;
+    uint64_t m_builtEventSurfaceSignature = 0;
     uint64_t m_bakedStaticLightRevision = std::numeric_limits<uint64_t>::max();
     std::vector<uint8_t> m_bakedStaticLightEnabledStates;
     // Every sector's ambient level the vertices were baked with (evt.SetSectorAmbient changes it).

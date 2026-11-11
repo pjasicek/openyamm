@@ -213,7 +213,8 @@ struct Mm9AiPlacementProfile
     bool passive = false;
     // The skirmisher footwork (ActorTacticsFacts::skirmish) the script gives or takes.
     std::optional<Mm9AiFootwork> footwork;
-    // Saved before the profile existed (save version 149): the map's scene gives it when the map is next entered.
+    // Saved before the profile (save version 149), the placement's idle clip (173) or its routines (174) existed: the
+    // map's scene gives them when the map is next entered.
     bool fromScene = false;
 
     bool operator==(const Mm9AiPlacementProfile &other) const = default;
@@ -255,6 +256,9 @@ struct Mm9AiPlacement
     bool startsDead = false;
     // A unique boss or set-piece placement (Njam, Ebora, Yanmir, the Isle of Ashes Sea Monster ...).
     bool boss = false;
+    // The clip it loops whenever it stands idle, never fidgeting (its script's LoopAnim between walks: the Lindisfarne
+    // monks' prayers and chores); a binding's script clip role or the model's own clip name. Empty: stand and fidget.
+    std::string idleClip;
     // Its own script's profile fields over its row's.
     Mm9AiPlacementProfile profile;
 };
@@ -276,6 +280,63 @@ struct Mm9AiPathStop
     bool operator==(const Mm9AiPathStop &other) const = default;
 };
 
+// One step of a routine (scene mm9_ai.routines; MM9's scripted work and scenes: a miner's walk to the rock face and
+// its hammering, a training orc's drill, a ceremony): see Mm9AiRoutine.
+struct Mm9AiRoutineClip
+{
+    std::string clip;
+    float seconds = 0.0f;
+
+    bool operator==(const Mm9AiRoutineClip &other) const = default;
+};
+
+struct Mm9AiRoutineStep
+{
+    enum class Kind : uint8_t
+    {
+        // Walks (Run: runs) to point, by its own steering; a step it cannot finish in 40 s is given up.
+        Walk,
+        Run,
+        // Turns to faceYawRadians (map frame) at 360 degrees a second.
+        Face,
+        // Plays one of clips, picked uniformly, for its seconds (looping within them), standing without fidgets.
+        Clip,
+        // Stands idle for waitMinSeconds-waitMaxSeconds (its idle clip or its fidgets).
+        Wait,
+        // With chance it goes on with the next step; otherwise it skips the next skip steps (a chance group).
+        Chance,
+        // Puts its held items down (hide) or takes them up again until the routine changes (MM9's DetachProp and
+        // AttachProp around a miner's trip to the dump).
+        HideItems,
+        ShowItems,
+    };
+
+    Kind kind = Kind::Wait;
+    std::array<int32_t, 3> point = {};
+    float faceYawRadians = 0.0f;
+    std::vector<Mm9AiRoutineClip> clips;
+    float waitMinSeconds = 0.0f;
+    float waitMaxSeconds = 0.0f;
+    float chance = 1.0f;
+    uint16_t skip = 0;
+
+    bool operator==(const Mm9AiRoutineStep &other) const = default;
+};
+
+// A named list of steps the MM9 loop runs, round and round, while the actor holds no target: in place of its wander
+// and idle. `default` runs from the start; a map script switches to another or to none (evt.SetActorRoutine).
+struct Mm9AiRoutine
+{
+    std::string name;
+    std::vector<Mm9AiRoutineStep> steps;
+
+    bool operator==(const Mm9AiRoutine &other) const = default;
+};
+
+// The routine it runs, an index into routines (-1: none): the one a map script chose (pChosen; an empty name: none),
+// else its `default`.
+int16_t mm9RoutineIndex(const std::vector<Mm9AiRoutine> &routines, const std::string *pChosen);
+
 // A placed actor's record: its settings, the points its path and summons use and its MM9 placement script.
 struct Mm9AiPlacementRecord
 {
@@ -283,6 +344,8 @@ struct Mm9AiPlacementRecord
     std::vector<std::array<int32_t, 3>> pathPoints;
     // The stops of its path that have a marker's facing, wait or clip.
     std::vector<Mm9AiPathStop> pathStops;
+    // Its routines (scene mm9_ai.routines), in the scene's order.
+    std::vector<Mm9AiRoutine> routines;
     std::vector<std::array<int32_t, 3>> summonPoints;
     // Its named hiding places (HidingPlace0-2): MM9's ShouldRunAway lets only a monster with one flee by morale.
     std::vector<std::array<int32_t, 3>> hidingPlaces;

@@ -28,6 +28,11 @@ void SpellRules::afterCast(Party &, size_t, uint32_t, const SpellTable &, bool, 
 {
 }
 
+std::optional<bool> SpellRules::spellRotation(const Character &) const
+{
+    return std::nullopt;
+}
+
 std::optional<bool> SpellRules::toggleSpellRotation(Character &) const
 {
     return std::nullopt;

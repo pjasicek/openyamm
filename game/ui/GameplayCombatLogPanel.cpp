@@ -4,6 +4,7 @@
 
 #include "game/gameplay/CombatLog.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/rules/maw/MawMonsterInspect.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayUiRuntime.h"
@@ -333,7 +334,11 @@ struct HitRow
     std::string spell;
     std::string target;
     uint32_t targetColor = MonsterColor;
+    // The amount, shortened from 10000 as MAW's panels do ("99.5K"): the digits, then the K, M or B in yellow, orange
+    // or red.
     std::string amount;
+    std::string amountSuffix;
+    uint32_t suffixColor = AmountColor;
     bool critical = false;
     bool killed = false;
 };
@@ -349,6 +354,14 @@ HitRow hitRow(const CombatLogEntry &entry)
     row.target = entry.target;
     row.targetColor = dealt ? MonsterColor : PartyColor;
     row.amount = std::to_string(entry.amount);
+
+    if (entry.amount >= 10000)
+    {
+        row.amount = mawShortNumber(entry.amount, false);
+        row.amountSuffix = row.amount.substr(row.amount.size() - 1);
+        row.amount.pop_back();
+        row.suffixColor = row.amountSuffix == "B" ? KillColor : row.amountSuffix == "M" ? CritColor : AmountColor;
+    }
     row.critical = entry.critical;
     row.killed = entry.killed;
     return row;
@@ -785,7 +798,8 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
         else
         {
             HitRow row = hitRow(*block.pEntry);
-            const float amountWidth = textWidth(lineStyle, row.amount) + (row.critical ? textWidth(lineStyle, "!") : 0)
+            const float amountWidth = textWidth(lineStyle, row.amount + row.amountSuffix)
+                + (row.critical ? textWidth(lineStyle, "!") : 0)
                 + (row.killed ? glyphSize + 1 * scale : 0);
             fitHitRow(lineStyle, row, glyphSize, rowRight - rowLeft - amountWidth - 2 * space);
             block.row = std::move(row);
@@ -853,6 +867,12 @@ void GameplayCombatLogPanel::layOut(GameplayScreenRuntime &context, const Combat
             {
                 right -= textWidth(lineStyle, "!");
                 appendText(m_textQuads, lineStyle, "!", right, y, CritColor);
+            }
+
+            if (!row.amountSuffix.empty())
+            {
+                right -= textWidth(lineStyle, row.amountSuffix);
+                appendText(m_textQuads, lineStyle, row.amountSuffix, right, y, row.suffixColor);
             }
 
             right -= textWidth(lineStyle, row.amount);

@@ -54,6 +54,13 @@ SetMapMetadata({
     [261] = { kind = "shrine", source = "title" },
     [262] = { kind = "shrine", source = "title" },
     },
+    learnedEffect = {
+    [101] = { autonote = 434, effect = "+5000 Experience, -5000 Gold" },
+    [102] = { autonote = 435, effect = "+30 Level temporary" },
+    [103] = { autonote = 436, effect = "+10 Magic resistance permanent" },
+    [104] = { autonote = 437, effect = "+40 Armor class temporary" },
+    [105] = { autonote = 438, effect = "+5 Elemental resistance permanent" },
+    },
     textureNames = {},
     spriteNames = {"ped01"},
     castSpellIds = {},

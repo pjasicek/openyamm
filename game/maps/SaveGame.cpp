@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 172;
+constexpr uint32_t SaveVersion = 174;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -289,6 +289,14 @@ constexpr uint32_t SaveVersionIndoorArmageddon = 170;
 constexpr uint32_t SaveVersionSpriteObjectKeys = 171;
 // RulesetOptions::otherWorldsLoot; older games keep loot from every world.
 constexpr uint32_t SaveVersionOtherWorldsLoot = 172;
+// An MM9 placement's idle clip (Mm9AiPlacement::idleClip, scene mm9_ai.idle_clip); an older save's placements are
+// marked fromScene and take it, with the profile, from the map's scene when the map is next entered.
+constexpr uint32_t SaveVersionMm9IdleClip = 173;
+// A placed actor's held items (MapDeltaActor::heldItems, OutdoorWorldRuntime::MapActorState::heldItems) and an MM9
+// placement's routines (Mm9AiPlacementRecord::routines); an older save's placements are marked fromScene and take
+// their routines from the map's scene when the map is next entered.
+constexpr uint32_t SaveVersionActorHeldItems = 174;
+constexpr uint32_t SaveVersionMm9Routines = 174;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -3424,6 +3432,63 @@ bool readValue(BinaryReader &reader, Mm9AiPathStop &value)
         && readValue(reader, value.loop);
 }
 
+void writeValue(BinaryWriter &writer, const Mm9AiRoutineClip &value)
+{
+    writeValue(writer, value.clip);
+    writeValue(writer, value.seconds);
+}
+
+bool readValue(BinaryReader &reader, Mm9AiRoutineClip &value)
+{
+    return readValue(reader, value.clip) && readValue(reader, value.seconds);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9AiRoutineStep &value)
+{
+    writeValue(writer, value.kind);
+    writeValue(writer, value.point);
+    writeValue(writer, value.faceYawRadians);
+    writeValue(writer, value.clips);
+    writeValue(writer, value.waitMinSeconds);
+    writeValue(writer, value.waitMaxSeconds);
+    writeValue(writer, value.chance);
+    writeValue(writer, value.skip);
+}
+
+bool readValue(BinaryReader &reader, Mm9AiRoutineStep &value)
+{
+    return readValue(reader, value.kind)
+        && readValue(reader, value.point)
+        && readValue(reader, value.faceYawRadians)
+        && readValue(reader, value.clips)
+        && readValue(reader, value.waitMinSeconds)
+        && readValue(reader, value.waitMaxSeconds)
+        && readValue(reader, value.chance)
+        && readValue(reader, value.skip);
+}
+
+void writeValue(BinaryWriter &writer, const Mm9AiRoutine &value)
+{
+    writeValue(writer, value.name);
+    writeValue(writer, value.steps);
+}
+
+bool readValue(BinaryReader &reader, Mm9AiRoutine &value)
+{
+    return readValue(reader, value.name) && readValue(reader, value.steps);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaHeldItem &value)
+{
+    writeValue(writer, value.model);
+    writeValue(writer, value.node);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaHeldItem &value)
+{
+    return readValue(reader, value.model) && readValue(reader, value.node);
+}
+
 void writeValue(BinaryWriter &writer, const Mm9AiPlacementRecord &value)
 {
     const Mm9AiPlacement &settings = value.settings;
@@ -3454,6 +3519,8 @@ void writeValue(BinaryWriter &writer, const Mm9AiPlacementRecord &value)
     writeValue(writer, value.hidingPlaces);
     writeValue(writer, settings.profile);
     writeValue(writer, value.pathStops);
+    writeValue(writer, settings.idleClip);
+    writeValue(writer, value.routines);
 }
 
 bool readValue(BinaryReader &reader, Mm9AiPlacementRecord &value)
@@ -3486,7 +3553,11 @@ bool readValue(BinaryReader &reader, Mm9AiPlacementRecord &value)
         && (reader.version() < SaveVersionActorMm9HidingPlaces || readValue(reader, value.hidingPlaces))
         && (reader.version() < SaveVersionActorMm9PlacementProfile ? (settings.profile.fromScene = true)
             : readValue(reader, settings.profile))
-        && (reader.version() < SaveVersionMm9PathStops || readValue(reader, value.pathStops));
+        && (reader.version() < SaveVersionMm9PathStops || readValue(reader, value.pathStops))
+        && (reader.version() >= SaveVersionMm9IdleClip ? readValue(reader, settings.idleClip)
+                                                       : (settings.profile.fromScene = true))
+        && (reader.version() >= SaveVersionMm9Routines ? readValue(reader, value.routines)
+                                                       : (settings.profile.fromScene = true));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
@@ -3535,6 +3606,7 @@ void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
     writeValue(writer, value.mm9Ai);
     writeValue(writer, value.drawScale);
     writeValue(writer, value.posed);
+    writeValue(writer, value.heldItems);
 }
 
 bool readHitPoints(BinaryReader &reader, int32_t &value)
@@ -3632,7 +3704,8 @@ bool readValue(BinaryReader &reader, MapDeltaActor &value)
         && (reader.version() < SaveVersionActorPatrol || readValue(reader, value.patrolPoints))
         && (reader.version() < SaveVersionActorMm9AiPlacement || readValue(reader, value.mm9Ai))
         && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
-        && (reader.version() < SaveVersionActorPosed || readValue(reader, value.posed));
+        && (reader.version() < SaveVersionActorPosed || readValue(reader, value.posed))
+        && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
@@ -4169,6 +4242,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.mm9Ai);
     writeValue(writer, value.drawScale);
     writeValue(writer, value.patrolPoints);
+    writeValue(writer, value.heldItems);
 }
 
 // Versions 133-168 saved the reach of a far hit after provokedByParty; it is read and dropped.
@@ -4341,7 +4415,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionOutdoorNearby || readValue(reader, value.nearby))
         && (reader.version() < SaveVersionOutdoorSpawnMm9AiPlacement || readValue(reader, value.mm9Ai))
         && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
-        && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints));
+        && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints))
+        && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestItemState &value)

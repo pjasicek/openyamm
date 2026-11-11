@@ -952,6 +952,24 @@ bool MapStats::applyOpenAirMaps(const std::string &worldId, const std::vector<st
     return true;
 }
 
+bool MapStats::applyNoTeleportMaps(const std::string &worldId, const std::vector<std::string> &fileNames)
+{
+    for (const std::string &fileName : fileNames)
+    {
+        MapStatsEntry *pEntry = findMutableByFileName(fileName);
+
+        if (pEntry == nullptr || pEntry->worldId != normalizeWorldId(worldId))
+        {
+            std::cerr << "world.yml noTeleportMaps of " << worldId << ": " << fileName << " is not a map of that world\n";
+            return false;
+        }
+
+        pEntry->noTeleport = true;
+    }
+
+    return true;
+}
+
 std::vector<std::pair<std::string, std::string>> MapStats::legacyCanonicalIdRenames() const
 {
     std::vector<std::pair<std::string, std::string>> renames;

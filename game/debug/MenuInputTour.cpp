@@ -6,6 +6,7 @@
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 
 namespace OpenYAMM::Game
@@ -37,11 +38,12 @@ void holdActionsBoundToKey(GameplayInputFrame &input, const std::array<InputBind
 }
 } // namespace
 
-void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, IScreen *pScreen,
-                           ScreenshotCaptureService &captures,
+void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, GameplayInputFrame &input,
+                           IScreen *pScreen, ScreenshotCaptureService &captures,
                            const std::array<InputBinding, KeyboardActionCount> &bindings,
                            const ConsoleLineRunner &runConsoleLine)
 {
+    const uint64_t nowMilliseconds = nowNanoseconds / 1000000;
     if (path.empty() ||
         (m_loaded && m_index == m_steps.size() && !m_release && !m_exit && m_releaseKey == SDL_SCANCODE_UNKNOWN))
     {
@@ -96,6 +98,14 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
             {
                 step.seconds = value.as<float>();
             }
+            else if (kind == "console" && value.IsSequence())
+            {
+                // Several console lines run in the same frame (a recording and a cinematic starting together).
+                for (const YAML::Node &line : value)
+                {
+                    step.text += (step.text.empty() ? "" : "\n") + line.as<std::string>();
+                }
+            }
             else if (kind == "key" || kind == "key_down" || kind == "key_up" || kind == "text" || kind == "capture" ||
                      kind == "expect" || kind == "action" || kind == "action_down" || kind == "action_up" ||
                      kind == "console")
@@ -109,7 +119,7 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
             m_steps.push_back(std::move(step));
         }
         m_loaded = true;
-        m_nextTicks = SDL_GetTicks() + 2000;
+        m_nextTicks = nowMilliseconds + 2000;
     }
     const float scale = std::min(input.screenWidth / 1600.0f, input.screenHeight / 900.0f);
     input.pointerX = (input.screenWidth - 1600 * scale) / 2 + m_x * scale;
@@ -129,12 +139,12 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
     {
         input.actions[actionIndex].held = input.actions[actionIndex].held || m_heldActions[actionIndex];
     }
-    const uint64_t inputTicks = SDL_GetTicksNS();
+    const uint64_t inputTicks = nowNanoseconds;
     const float inputSeconds = m_lastInputTicks == 0 ? 0.0f : float(inputTicks - m_lastInputTicks) * 1.0e-9f;
     m_lastInputTicks = inputTicks;
     input.relativeMouseX += m_lookRateX * inputSeconds;
     input.relativeMouseY += m_lookRateY * inputSeconds;
-    if (SDL_GetTicks() < m_nextTicks)
+    if (nowMilliseconds < m_nextTicks)
     {
         return;
     }
@@ -142,7 +152,7 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
     {
         input.leftMouseButton = {false, false, true};
         m_release = false;
-        m_nextTicks = SDL_GetTicks() + 250;
+        m_nextTicks = nowMilliseconds + 250;
         return;
     }
     if (m_index == m_steps.size())
@@ -158,10 +168,10 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
     }
     const Step &step = m_steps[m_index++];
     std::cout << "Menu tour: " << m_index << ' ' << step.kind << ' ' << step.text << '\n';
-    m_nextTicks = SDL_GetTicks() + 350;
+    m_nextTicks = nowMilliseconds + 350;
     if (step.kind == "wait")
     {
-        m_nextTicks = SDL_GetTicks() + uint64_t(std::max(0.0f, step.seconds) * 1000);
+        m_nextTicks = nowMilliseconds + uint64_t(std::max(0.0f, step.seconds) * 1000);
     }
     else if (step.kind == "look_rate")
     {
@@ -181,7 +191,7 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
             input.leftMouseButton = {down, down, !down};
             m_pointerHeld = step.kind == "pointer_down";
             m_release = step.kind == "click";
-            m_nextTicks = SDL_GetTicks() + 90;
+            m_nextTicks = nowMilliseconds + 90;
         }
     }
     else if (step.kind == "right_down" || step.kind == "right_up")
@@ -211,7 +221,13 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
     }
     else if (step.kind == "console")
     {
-        runConsoleLine(step.text);
+        std::istringstream lines(step.text);
+        std::string line;
+
+        while (std::getline(lines, line))
+        {
+            runConsoleLine(line);
+        }
     }
     else if (step.kind == "wheel")
     {

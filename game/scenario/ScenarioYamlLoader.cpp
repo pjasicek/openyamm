@@ -187,7 +187,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::RightClickPortrait, {"item_id", "carrier_index", "member_index", "inventory", "release",
             "expect"}},
         {ScenarioStepKind::CastSpell, {"member_index", "spell_id", "skill", "mastery", "actor_index", "target_member",
-            "target_point", "scroll", "expect"}},
+            "target_point", "scroll", "expect", "expect_status"}},
         {ScenarioStepKind::PartyCharge, {"actor_index", "status", "advance_seconds", "min_moved"}},
         {ScenarioStepKind::Craft, {"member_index", "target_item_id", "worn_slot", "material_item_id", "all",
             "choice", "expect"}},

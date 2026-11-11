@@ -1797,6 +1797,17 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->targetKind == PartySpellCastTargetKind::UtilityUi)
     {
+        // A map that forbids them (world.yml noTeleportMaps, the scene's allow_lloyds_beacon): no window opens.
+        if ((spellId == SpellId::TownPortal && !worldRuntime.allowsTownPortal())
+            || (spellId == SpellId::LloydsBeacon && !worldRuntime.allowsLloydsBeacon()))
+        {
+            return makeFailureWithRecovery(
+                PartySpellCastStatus::Failed,
+                rule->targetKind,
+                rule->effectKind,
+                Engine::tr(SpellFailedText));
+        }
+
         if ((spellId == SpellId::TownPortal || spellId == SpellId::LloydsBeacon)
             && party.rules().monsters.teleportBlockedNearEnemies()
             && partyHasYellowAlert(worldRuntime))

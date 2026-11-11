@@ -317,6 +317,8 @@ private:
         uint64_t sectorFaceGridDoorSignature = 0;
         bool faceSectorListRanksBuilt = false;
         uint64_t surfaceRevision = 0;
+        // Every face's attributes the masks and support lists were built with (the delta's, else the map's).
+        std::vector<uint32_t> faceAttributes;
     };
     struct IndoorWallCollision
     {
@@ -400,6 +402,12 @@ private:
     };
 
     void refreshRuntimeGeometryCache() const;
+    // Face bits changed and no face moved: the masks and support lists redo the changed faces alone.
+    void refreshChangedFaceAttributes(const MapDeltaData &mapDeltaData) const;
+    void rebuildMechanismSupportFaceIds(const MapDeltaData &mapDeltaData) const;
+    bool faceIsCachedInvisibleSupportRamp(size_t faceId, const MapDeltaData *pMapDeltaData) const;
+    bool faceExcludedFromActorSupport(size_t faceId) const;
+    uint32_t effectiveFaceAttributes(size_t faceId, const MapDeltaData *pMapDeltaData) const;
     const RuntimeGeometryCache &runtimeGeometryCache() const;
     // A grounded body that stands still or heads onto a flat tread its footprint overlaps keeps standing on it.
     IndoorMoveState holdFootprintSupport(

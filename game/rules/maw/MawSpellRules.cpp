@@ -440,9 +440,19 @@ SpellTooltipText MawSpellRules::spellTooltip(const Party &party, const Character
     return text;
 }
 
-std::optional<bool> MawSpellRules::toggleSpellRotation(Character &member) const
+std::optional<bool> MawSpellRules::spellRotation(const Character &member) const
 {
     if (mawClassLine(member.className) != "elementalist")
+    {
+        return std::nullopt;
+    }
+
+    return !member.rulesetState.elementalRotationDisabled;
+}
+
+std::optional<bool> MawSpellRules::toggleSpellRotation(Character &member) const
+{
+    if (!spellRotation(member))
     {
         return std::nullopt;
     }

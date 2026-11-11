@@ -65,6 +65,7 @@ public:
         const SpellTable &spellTable,
         bool indoor,
         bool fromSpellbook) const override;
+    std::optional<bool> spellRotation(const Character &member) const override;
     std::optional<bool> toggleSpellRotation(Character &member) const override;
     // Applies every aura whose holder is conscious through the party's buffs, with MAW's strengths, and keeps each
     // holder's mana below its unreserved pool: every half second of play, and at once for a zero step.

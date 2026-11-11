@@ -1,10 +1,13 @@
 #include "game/mm9/Mm9SkillTrainer.h"
 
 #include "game/party/SkillData.h"
-
+#include "game/tables/MapStats.h"
 #include <algorithm>
 #include <charconv>
 #include <cctype>
+#include <cmath>
+#include <set>
+#include <stdexcept>
 #include <limits>
 #include <string_view>
 
@@ -261,4 +264,90 @@ void Mm9SkillTrainerTable::addError(size_t rowNumber, const std::string &message
 {
     m_errors.push_back("row " + std::to_string(rowNumber) + ": " + message);
 }
+
+bool buildMm9JournalTeachers(const std::vector<std::vector<std::string>> &places,
+    const Mm9SkillTrainerTable &lessons, const Mm9RudeDialogueTable &dialogue, const MapStats &maps,
+    const std::string &mapCatalog, std::vector<TrainerEntry> &entries, std::string &error)
+{
+    entries.clear();
+    error.clear();
+    std::unordered_map<std::string, MapPresentation> presentations;
+    std::set<std::pair<uint32_t, std::string>> seen;
+    try
+    {
+        for (const auto &row : places)
+        {
+            if (row.empty() || row[0] == "RudeId")
+                continue;
+            uint32_t rudeId = 0;
+            if (row.size() != 6 || row[1].empty() || !parseUnsigned(row[0], rudeId) || !dialogue.hasDialogue(rudeId))
+                throw std::runtime_error("invalid actor teacher identity");
+            const MapStatsEntry *map = maps.findByFileName(row[2]);
+            if (map == nullptr || map->mergedContinentId != 5 || !seen.emplace(rudeId, row[2]).second)
+                throw std::runtime_error("invalid or duplicate actor teacher map");
+            const auto coordinate = [](const std::string &value)
+            {
+                size_t used = 0;
+                const float result = std::stof(value, &used);
+                if (used != value.size() || !std::isfinite(result))
+                    throw std::runtime_error("invalid actor teacher coordinate");
+                return result;
+            };
+            TrainerEntry base;
+            base.rudeId = rudeId;
+            base.npcId = 90000 + rudeId;
+            base.dialogueRowCount = dialogue.rows(rudeId).size();
+            base.name = row[1];
+            base.mapFileName = map->fileName;
+            base.mapId = map->id;
+            base.mapName = map->name;
+            base.markerMapName = map->name;
+            base.continent = 5;
+            base.z = coordinate(row[5]);
+            base.place = TrainerPlace{0, map->fileName, TrainerPlaceKind::Door, map->fileName,
+                coordinate(row[3]), coordinate(row[4])};
+            auto presentation = presentations.find(map->fileName);
+            if (presentation == presentations.end())
+            {
+                const auto loaded = loadMapPresentationFromCatalog(mapCatalog, map->fileName, error);
+                if (!loaded || !error.empty() || loaded->variants.empty())
+                    throw std::runtime_error("missing painted map for " + map->fileName + ": " + error);
+                presentation = presentations.emplace(map->fileName, *loaded).first;
+            }
+            base.mapPresentation = presentation->second;
+            const auto add = [&](const std::string &skill, SkillMastery mastery, uint32_t rank, uint32_t gold)
+            {
+                TrainerEntry entry = base;
+                entry.skill = canonicalSkillName(skill);
+                const auto id = skillIdForSkillName(skill);
+                if (!id)
+                    throw std::runtime_error("unknown actor teacher skill " + skill);
+                entry.skillId = *id;
+                entry.mastery = mastery;
+                entry.requiredSkill = rank;
+                entry.requiredGold = gold;
+                entries.push_back(std::move(entry));
+            };
+            for (const auto &lesson : lessons.entries())
+                if (lesson.rudeId == rudeId)
+                    for (const auto &skill : lesson.topic.skillNames)
+                        add(skill, lesson.topic.targetMastery, lesson.requiredSkillRank, lesson.requiredGold);
+            if (const auto *racial = dialogue.racialTrainer(rudeId))
+                for (const auto &skill : dialogue.racialAbilitySkills())
+                    for (int mastery = int(SkillMastery::Expert); mastery <= int(racial->maxMastery); ++mastery)
+                        add(skill, SkillMastery(mastery), 0, 0);
+        }
+        for (const auto &lesson : lessons.entries())
+            if (std::none_of(entries.begin(), entries.end(), [&](const auto &entry) { return entry.rudeId == lesson.rudeId; }))
+                throw std::runtime_error("missing actor teacher " + std::to_string(lesson.rudeId));
+    }
+    catch (const std::exception &exception)
+    {
+        entries.clear();
+        error = exception.what();
+        return false;
+    }
+    return true;
+}
+
 }

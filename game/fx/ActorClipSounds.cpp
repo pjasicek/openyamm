@@ -73,7 +73,7 @@ std::shared_ptr<const ActorClipSounds> parseActorClipSounds(
                 const std::string name = key.first.as<std::string>();
                 if (name != "at" && name != "sound" && name != "sounds" && name != "footstep" && name != "voice"
                     && name != "chance" && name != "gate" && name != "miss_gate" && name != "volume"
-                    && name != "radius" && name != "inner")
+                    && name != "radius" && name != "inner" && name != "shake")
                 {
                     throw std::runtime_error("unknown actor sound event key: " + descriptor + " " + clipName + " "
                         + name);
@@ -96,9 +96,33 @@ std::shared_ptr<const ActorClipSounds> parseActorClipSounds(
                 event.sounds.insert(event.sounds.end(), names.begin(), names.end());
             }
             event.footstep = item["footstep"].as<bool>(false);
-            if (event.footstep == !event.sounds.empty() || (event.footstep && sounds->footsteps.empty()))
+            if (const YAML::Node shake = item["shake"])
             {
-                throw std::runtime_error("actor sound event needs sounds or a footstep (with footsteps): "
+                for (const auto &key : shake)
+                {
+                    const std::string name = key.first.as<std::string>();
+                    if (name != "near" && name != "edge" && name != "seconds" && name != "radius")
+                    {
+                        throw std::runtime_error("unknown actor sound shake key: " + descriptor + " " + clipName + " "
+                            + name);
+                    }
+                }
+                event.shake.intensity = shake["near"].as<float>();
+                event.shake.edgeIntensity = shake["edge"].as<float>(0.0f);
+                event.shake.seconds = shake["seconds"].as<float>();
+                event.shake.radius = positiveRadius(shake["radius"], descriptor, "shake radius");
+                const ActorClipSoundShake &read = event.shake;
+                if (!(read.intensity > 0.0f && read.intensity <= 10.0f) || !(read.edgeIntensity >= 0.0f)
+                    || !(read.edgeIntensity <= read.intensity) || !(read.seconds > 0.0f))
+                {
+                    throw std::runtime_error("actor sound shake out of range: " + descriptor + " " + clipName);
+                }
+            }
+            const bool shakeOnly = event.shake.radius > 0.0f && !event.footstep && event.sounds.empty();
+            if ((!shakeOnly && event.footstep == !event.sounds.empty())
+                || (event.footstep && sounds->footsteps.empty()))
+            {
+                throw std::runtime_error("actor sound event needs sounds, a footstep (with footsteps) or a shake: "
                     + descriptor + " " + clipName);
             }
             event.voice = item["voice"].as<bool>(false);
@@ -173,6 +197,7 @@ void advanceActorClipSounds(const ActorClipSounds &sounds, ActorClipSoundState &
                 state.gateUntil[gateKey] = state.clockSeconds + event.gateSeconds;
             }
             ActorClipSoundCue cue;
+            cue.shake = event.shake;
             cue.voice = event.voice;
             cue.volume = event.volume;
             if (event.footstep)
@@ -180,7 +205,7 @@ void advanceActorClipSounds(const ActorClipSounds &sounds, ActorClipSoundState &
                 cue.sound = sounds.footsteps[state.footstepIndex % sounds.footsteps.size()];
                 ++state.footstepIndex;
             }
-            else
+            else if (!event.sounds.empty())
             {
                 cue.sound = event.sounds.size() == 1 ? event.sounds.front()
                     : event.sounds[nextRandom(state.randomState) % event.sounds.size()];

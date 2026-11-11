@@ -62,6 +62,9 @@ SetMapMetadata({
     [223] = { kind = "obelisk", source = "title" },
     [261] = { kind = "shrine", source = "title" },
     },
+    learnedEffect = {
+    [100] = { autonote = 417, effect = "+2 Endurance permenant" },
+    },
     textureNames = {},
     spriteNames = {"ped04"},
     castSpellIds = {},

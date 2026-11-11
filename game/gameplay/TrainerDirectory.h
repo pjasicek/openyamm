@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/party/SkillData.h"
+#include "game/maps/MapPresentation.h"
 
 #include <array>
 #include <cstdint>
@@ -105,6 +106,11 @@ struct TrainerEntry
     std::string mapFileName;
     std::optional<TrainerPlace> place;
     std::string markerMapName;
+    // Actor teachers use a stable RUDE identity and their painted map, including its floor and world transform.
+    uint32_t rudeId = 0;
+    size_t dialogueRowCount = 0;
+    float z = 0;
+    std::optional<MapPresentation> mapPresentation;
 };
 
 // What a directory is built from: the session's tables, or a test's.
@@ -142,6 +148,7 @@ struct TrainerDirectorySource
     };
 
     std::vector<Npc> npcs;
+    std::vector<TrainerEntry> actorTeachers;
     // Every teacher topic, taught by anyone or not, by topic id.
     std::unordered_map<uint32_t, Topic> topics;
     // The ruleset's moved teachers: the houses where an NPC also teaches (MAW's npc_extra_houses.yml).
@@ -210,7 +217,8 @@ public:
         const HouseTable &houses,
         const MapStats &maps,
         TrainerPlaceTable places,
-        TeacherLedgerSettings ledger = {});
+        TeacherLedgerSettings ledger = {},
+        std::vector<TrainerEntry> actorTeachers = {});
 
     // [Expert, Master, Grandmaster] = where each mastery of the skill is taught. A skill some teacher topic names is
     // listed even when nobody teaches it.
@@ -267,7 +275,7 @@ std::vector<PickedTrainer> pickTrainers(
     std::optional<uint32_t> referenceMap);
 
 // The continents with trainer lists, in the finder's order: 1 Jadame, 2 Antagarich, 3 Enroth.
-constexpr std::array<uint32_t, 3> TrainerContinents = {1, 2, 3};
+constexpr std::array<uint32_t, 4> TrainerContinents = {1, 2, 3, 5};
 // "Jadame", "Antagarich", "Enroth"; empty for any other continent.
 std::string trainerContinentName(uint32_t continent);
 
@@ -278,6 +286,8 @@ uint32_t teacherMapNoteId(uint32_t continent, SkillMastery mastery, uint32_t ski
 // Whether the party knows the teacher: the continent's Ledger of Teachers, the teacher's autonote, or, for a teacher
 // without one (MM6's), the pin talking to it left on the journal map.
 bool trainerKnown(const TrainerEntry &entry, const Party &party);
+// Talking to an actor teacher records their position using the existing saved journal notes.
+void discoverActorTeacher(Party &party, uint32_t rudeId);
 
 // The trainer finder's search: every word of `search` (case-insensitive, split at spaces) is in one of the fields.
 bool trainerSearchMatches(const std::string &search, const std::vector<std::string> &fields);

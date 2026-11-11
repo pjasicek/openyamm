@@ -4,6 +4,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/PartyHostileAlert.h"
 #include "game/party/Party.h"
+#include "game/party/SpellSchool.h"
 #include "game/rules/maw/MawAuras.h"
 #include "game/rules/maw/MawCharacterSheet.h"
 #include "game/rules/maw/MawClassRules.h"
@@ -174,6 +175,41 @@ std::vector<std::pair<std::string, std::array<uint32_t, 3>>> MawSkillRules::teac
     return ladders;
 }
 
+std::optional<bool> MawSkillRules::skillSwitch(const Character &character, const std::string &canonicalSkill) const
+{
+    if (!character.hasSkill(canonicalSkill))
+    {
+        return std::nullopt;
+    }
+
+    if (canonicalSkill == "Cover")
+    {
+        return !character.rulesetState.coverDisabled;
+    }
+
+    if (canonicalSkill == "ManaShield")
+    {
+        return !character.rulesetState.manaShieldDisabled;
+    }
+
+    return std::nullopt;
+}
+
+std::optional<bool> MawSkillRules::toggleSkillSwitch(Character &character, const std::string &canonicalSkill) const
+{
+    const std::optional<bool> on = skillSwitch(character, canonicalSkill);
+
+    if (!on)
+    {
+        return std::nullopt;
+    }
+
+    bool &disabled = canonicalSkill == "Cover" ? character.rulesetState.coverDisabled
+                                               : character.rulesetState.manaShieldDisabled;
+    disabled = *on;
+    return !disabled;
+}
+
 std::vector<std::string> MawSkillRules::extraHouseSkills(const std::string &houseType) const
 {
     if (houseType == "Training")
@@ -242,7 +278,33 @@ std::string MawSkillRules::afterSkillRaised(
         return {};
     }
 
-    std::string status = restoreRememberedMastery(character, *pSkill, pClassSkillTable);
+    const std::string restored = restoreRememberedMastery(character, *pSkill, pClassSkillTable);
+    const std::string granted = grantLadderMastery(character, canonicalSkill, pClassSkillTable);
+    return !granted.empty() ? granted : restored;
+}
+
+void MawSkillRules::afterClassChanged(Character &character, const ClassSkillTable *pClassSkillTable) const
+{
+    // Cover first: reaching its cap may teach Retaliation, which then starts at 1 like a raise would.
+    for (const char *pSkill : {"Cover", "ManaShield", "Enlightenment", "Retaliation"})
+    {
+        grantLadderMastery(character, pSkill, pClassSkillTable);
+    }
+}
+
+std::string MawSkillRules::grantLadderMastery(
+    Character &character,
+    const std::string &canonicalSkill,
+    const ClassSkillTable *pClassSkillTable) const
+{
+    CharacterSkill *pSkill = character.findSkill(canonicalSkill);
+
+    if (pSkill == nullptr)
+    {
+        return {};
+    }
+
+    std::string status;
     const auto classCap = [&](const std::string &skillName)
     {
         return pClassSkillTable != nullptr
@@ -456,10 +518,17 @@ SkillTooltipText MawSkillRules::skillTooltip(
     const std::string line = mawClassLine(character.className);
     const std::optional<MawSkillTextEntry> entry = m_rules.textData().findSkill(line, canonicalSkill);
 
+    const auto footer = [&]()
+    {
+        const std::string preview = raisePreviewText(party, character, canonicalSkill);
+        const std::string hint = mawTrainerHintText(m_rules, party, character, canonicalSkill, skillMode());
+        return preview + (!preview.empty() && !hint.empty() ? "\n\n" : "") + hint;
+    };
+
     if (!entry)
     {
         SkillTooltipText text = table;
-        text.footer = mawTrainerHintText(m_rules, party, character, canonicalSkill, skillMode());
+        text.footer = footer();
         return text;
     }
 
@@ -673,6 +742,45 @@ SkillTooltipText MawSkillRules::skillTooltip(
         }
     }
 
+    // Staff, Sword and Spear: what the weapons of the skill in hand give now, as the character sheet counts them.
+    std::string guardLine;
+
+    if ((canonicalSkill == "Staff" || canonicalSkill == "Sword" || canonicalSkill == "Spear")
+        && party.itemTable() != nullptr)
+    {
+        int armorClass = 0;
+        int resistance = 0;
+        bool held = false;
+
+        for (const auto &[itemId, pState] :
+            {std::pair(character.equipment.mainHand, &character.equipmentRuntime.mainHand),
+                std::pair(character.equipment.offHand, &character.equipmentRuntime.offHand)})
+        {
+            const ItemDefinition *pItem = itemId != 0 && !pState->broken ? party.itemTable()->get(itemId) : nullptr;
+            const std::optional<MawWeaponGuard> guard = pItem != nullptr
+                    && canonicalSkillName(pItem->skillGroup) == canonicalSkill
+                ? mawWeaponGuard(m_rules, character, *pItem, pState->rulesetFields)
+                : std::nullopt;
+
+            if (guard)
+            {
+                held = true;
+                armorClass += guard->armorClass;
+                resistance += guard->resistance;
+            }
+        }
+
+        if (held)
+        {
+            guardLine = "\n\n"
+                + (canonicalSkill == "Staff"
+                        ? Engine::tr("Armor Class from this skill now: <value>+{armor}</>\n"
+                                     "Resistances it gives the party: <value>+{resistance}</>",
+                              {{"armor", armorClass}, {"resistance", resistance}})
+                        : Engine::tr("Armor Class from this skill now: <value>+{armor}</>", {{"armor", armorClass}}));
+        }
+    }
+
     const RulesetChallengeMode mode = m_rules.options().challengeMode;
     values["supreme_level"] = mode == RulesetChallengeMode::BeyondMadness ? 70
         : mode == RulesetChallengeMode::RoadToInsanity                    ? 50
@@ -698,6 +806,7 @@ SkillTooltipText MawSkillRules::skillTooltip(
         {"dragon_leech", dragonLeech},
         {"elemental_progress_line", elementalProgress},
         {"armor_items", armorItems},
+        {"guard_line", guardLine},
         {"cover_state", state(character.rulesetState.coverDisabled)},
         {"mana_shield_state", state(character.rulesetState.manaShieldDisabled)},
     };
@@ -723,8 +832,104 @@ SkillTooltipText MawSkillRules::skillTooltip(
         }
     }
 
-    text.footer = mawTrainerHintText(m_rules, party, character, canonicalSkill, skillMode());
+    text.footer = footer();
     return text;
+}
+
+std::string MawSkillRules::raisePreviewText(
+    const Party &party, const Character &character, const std::string &canonicalSkill) const
+{
+    std::optional<size_t> memberIndex;
+
+    for (size_t index = 0; index < party.members().size(); ++index)
+    {
+        if (&party.members()[index] == &character)
+        {
+            memberIndex = index;
+        }
+    }
+
+    const CharacterSkill *pSkill = character.findSkill(canonicalSkill);
+
+    if (!memberIndex || pSkill == nullptr || party.itemTable() == nullptr || !canRaiseSkill(character, canonicalSkill))
+    {
+        return {};
+    }
+
+    if (m_lastRaisePreview && m_lastRaisePreview->memberIndex == *memberIndex
+        && m_lastRaisePreview->skill == canonicalSkill && m_lastRaisePreview->level == pSkill->level
+        && m_lastRaisePreview->skillPoints == character.skillPoints
+        && m_lastRaisePreview->spell == mawPowerSpellName(character)
+        && m_lastRaisePreview->equipment == character.equipment
+        && m_lastRaisePreview->equipmentRuntime == character.equipmentRuntime)
+    {
+        return m_lastRaisePreview->text;
+    }
+
+    m_lastRaisePreview = RaisePreview{*memberIndex, canonicalSkill, pSkill->level, character.skillPoints,
+        mawPowerSpellName(character), character.equipment, character.equipmentRuntime, {}};
+
+    // The party as it is and with the point bought as the skills page buys it (the masteries it grants included):
+    // two copies, rebuilt alike (MawItemRules::comparisonLines).
+    Party baseline = party;
+    Party trial = party;
+
+    if (!trial.setActiveMemberIndex(*memberIndex) || !trial.increaseActiveMemberSkillLevel(canonicalSkill))
+    {
+        return {};
+    }
+
+    baseline.refreshDerivedState();
+    baseline.refreshMemberResources(*memberIndex);
+    trial.refreshMemberResources(*memberIndex);
+    const int partyCount = int(party.members().size());
+
+    // A school's point is measured on the member's own spell when it is of the school, else on the school's strongest
+    // known damage spell, named in the line (with no spell of its own a caster's Spell Power reads "-").
+    const SpellEntry *pOwnSpell = m_rules.spellTable() != nullptr && !mawPowerSpellName(character).empty()
+        ? m_rules.spellTable()->findByName(mawPowerSpellName(character))
+        : nullptr;
+    const bool ownSpellOfSchool =
+        pOwnSpell != nullptr && resolveMagicSkillName(uint32_t(pOwnSpell->id)) == canonicalSkill;
+    const std::optional<std::string> assumedSpell =
+        ownSpellOfSchool ? std::nullopt : mawStrongestSchoolSpell(m_rules, character, canonicalSkill);
+    const auto report = [&](const Party &source)
+    {
+        return mawPowerReport(m_rules, *source.member(*memberIndex), *source.itemTable(),
+            source.standardItemEnchantTable(), source.specialItemEnchantTable(), partyCount,
+            assumedSpell ? &*assumedSpell : nullptr);
+    };
+    const MawPowerReport before = report(baseline);
+    const MawPowerReport after = report(trial);
+    std::string lines;
+    const auto addLine = [&lines](const std::string &name, double before, double after)
+    {
+        const double change = before > 0 ? mawRound((after / before - 1) * 10000) / 100 : 0;
+
+        if (change == 0)
+        {
+            return;
+        }
+
+        std::ostringstream text;
+        text << (change > 0 ? "<good>+" : "<bad>") << change << "%</>";
+        lines += "\n" + Engine::tr("{name}: {change}", {{"name", name}, {"change", text.str()}});
+    };
+    addLine(Engine::tr("Melee Power"), before.melee, after.melee);
+    addLine(Engine::tr("Ranged Power"), before.ranged, after.ranged);
+    addLine(assumedSpell
+            ? Engine::tr("Spell Power ({spell})", {{"spell", Engine::localize(*assumedSpell, "spell")}})
+            : Engine::tr("Spell Power"),
+        before.spell, after.spell);
+    addLine(Engine::tr("Vitality"), before.vitality, after.vitality);
+
+    if (!lines.empty())
+    {
+        // The colour tags become the game's colour codes, as in the popup's other texts.
+        m_lastRaisePreview->text = mawFillText(Engine::tr("With one more point:") + lines, {}, {});
+    }
+
+    return m_lastRaisePreview->text;
 }
 
 std::string MawSkillRules::statTooltip(
@@ -827,7 +1032,8 @@ std::string MawSkillRules::statTooltip(
 
             if (!effect.empty() && mawWearsLegendaryAffix(character, affix))
             {
-                text += "\n - <value>" + Engine::localize(effect) + "</>";
+                // Added after the description was filled, so the colour tags are converted here.
+                text += mawFillText("\n - <value>" + Engine::localize(effect) + "</>", {});
                 anyLegendary = true;
             }
         }

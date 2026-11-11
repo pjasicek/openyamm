@@ -28,6 +28,10 @@ public:
     // The skill the action switches on or off on the open skills page (MAW's Cover, P, and Mana Shield, M) when the
     // party member shown has it; while it does, its key's other uses (Adventurer's Inn, map) wait.
     static std::optional<std::string> skillSwitchForAction(GameplayScreenRuntime &context, KeyboardAction action);
+    // Flips the shown character's skill switch (MAW's Cover and Mana Shield) or Elementalist rotation, with a status
+    // line; false when there is none to flip.
+    static bool toggleSkillSwitch(GameplayScreenRuntime &context, const std::string &skill);
+    static bool toggleSkillRotation(GameplayScreenRuntime &context);
     // Opens the Workbench (alchemy and crafting) on the open inventory, as its button does; false while an item is
     // held, which it says.
     static bool openWorkbench(GameplayScreenRuntime &context);

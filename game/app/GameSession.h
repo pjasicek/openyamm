@@ -212,6 +212,9 @@ public:
     Mm9QuestMarkerState questMarkerForActor(size_t actorIndex) const;
     const GameplayInputFrame *currentGameplayInputFrame() const;
     void bindCurrentGameplayInputFrame(const GameplayInputFrame *pInputFrame);
+    // Fast mode's factor on the gameplay delta (1 in scenarios): overheard talk runs its timeline at real pace,
+    // matching its real-time voices, while the party around it plays on fast.
+    void setGameSpeed(float speed);
     void updateGameplay(
         const GameplayInputFrame &input,
         float deltaSeconds,
@@ -454,6 +457,7 @@ private:
     TurnBasedFrameTraceState m_turnBasedFrameTraceState;
     std::optional<CinematicLibrary> m_mapCinematics;
     CinematicRuntime m_cinematicRuntime;
+    float m_gameSpeed = 1.0f;
     GameplayInputFrame m_cinematicInputFrame = {};
 };
 }

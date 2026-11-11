@@ -643,6 +643,28 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     return result;
 }
 
+bool GameplayActorService::hasRunningSpellEffectTimer(const GameplayActorSpellEffectState &state)
+{
+    return state.slowRemainingSeconds > 0.0f
+        || state.stunRemainingSeconds > 0.0f
+        || state.paralyzeRemainingSeconds > 0.0f
+        || state.fearRemainingSeconds > 0.0f
+        || state.blindRemainingSeconds > 0.0f
+        || state.controlRemainingSeconds > 0.0f
+        || state.shrinkRemainingSeconds > 0.0f
+        || state.darkGraspRemainingSeconds > 0.0f
+        || state.dayOfProtectionRemainingSeconds > 0.0f
+        || state.hourOfPowerRemainingSeconds > 0.0f
+        || state.painReflectionRemainingSeconds > 0.0f
+        || state.hammerhandsRemainingSeconds > 0.0f
+        || state.hasteRemainingSeconds > 0.0f
+        || state.shieldRemainingSeconds > 0.0f
+        || state.stoneskinRemainingSeconds > 0.0f
+        || state.blessRemainingSeconds > 0.0f
+        || state.fateRemainingSeconds > 0.0f
+        || state.heroismRemainingSeconds > 0.0f;
+}
+
 void GameplayActorService::updateSpellEffectTimers(
     GameplayActorSpellEffectState &state,
     float deltaSeconds,

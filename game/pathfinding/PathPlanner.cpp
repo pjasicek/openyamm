@@ -449,6 +449,17 @@ PathPlanResult PathPlanner::plan(const PathMap &map, const PathPlanRequest &requ
             return result;
         }
 
+        // Within the goal distance of the target (on its floor) the route ends here, short of it.
+        if (request.goalDistance > 0.0f
+            && openNode.nodeIndex != 0
+            && distance2d(currentPoint, target) <= request.goalDistance
+            && std::fabs(currentPoint.z - target.z) <= request.object.stepHeight)
+        {
+            result.status = PathPlanStatus::Success;
+            result.waypoints = rebuildPathToNode(nodes, openNode.nodeIndex);
+            return result;
+        }
+
         auto visitCandidate =
             [&](PathPoint candidate) -> void
         {

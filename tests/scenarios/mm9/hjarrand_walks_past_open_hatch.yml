@@ -2,6 +2,9 @@
 # Hjarrand still paces MMarker1 -> MMarker2 -> MMarker1 -> MMarker2 after "Is the machine fixed yet?", reaches the
 # machine and marks it (key 364). The monsters' walk map left out every `ai_open` door's faces, open ones too, so his
 # route back to MMarker1 ran straight into the open leaf and he walked into it for ever (playthrough segment 26).
+# With the leaf in the walk map, MMarker2 (21 from the corridor's end wall, inside his radius) had only an 87-waypoint
+# detour up the west ramp, where he stuck; his route now ends within his arrival of the point, round the leaf's north
+# end (devdocs/ACTOR_SCRIPTING_INVESTIGATION.md, 2026-11-11).
 #   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/hjarrand_walks_past_open_hatch.yml --scenario-no-color
 id: mm9.hjarrand_walks_past_open_hatch
 title: "MM9 Thjorad Mine: Hjarrand walks around the open slag extractor hatch and marks the machine"

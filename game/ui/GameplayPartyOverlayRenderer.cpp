@@ -1494,6 +1494,9 @@ struct InventoryItemScreenRect
     float height = 0.0f;
 };
 
+// A switched-off skill's name on the skills page (and the rotation label while the rotation is off).
+constexpr uint32_t SkillSwitchedOffText = 0xff8a9aa0u;
+
 struct CharacterSkillUiRow
 {
     std::string canonicalName;
@@ -1503,6 +1506,8 @@ struct CharacterSkillUiRow
     // The next raise's cost when the rules show it ("3 pts"), and whether shared skills lower it.
     std::string raiseCost;
     bool raiseCostShared = false;
+    // The row's on/off switch when the rules give the skill one (MAW's Cover and Mana Shield): whether it is on.
+    std::optional<bool> switchOn;
 };
 
 struct CharacterSkillUiData
@@ -1513,6 +1518,8 @@ struct CharacterSkillUiData
     std::vector<CharacterSkillUiRow> miscRows;
     // Shown only when the character has a technology skill, so home-world sheets are unchanged.
     std::vector<CharacterSkillUiRow> techRows;
+    // The Magic heading's rotation switch when the character has one (MAW's Elementalists): whether it is on.
+    std::optional<bool> rotationOn;
 };
 
 constexpr size_t AdventurersInnVisibleRows = 4;
@@ -2173,19 +2180,14 @@ std::string skillPageMasteryDisplayName(SkillMastery mastery)
     return Engine::localize(masteryDisplayName(mastery), "mastery");
 }
 
-// A skill page row's name: the skill, its mastery above Normal and whether the ruleset switched it off.
-std::string characterSkillRowLabel(const std::string &skillName, SkillMastery mastery, bool switchedOff)
+// A skill page row's name: the skill and its mastery above Normal.
+std::string characterSkillRowLabel(const std::string &skillName, SkillMastery mastery)
 {
     std::string label = Engine::localizeKnown(skillName, "skill");
 
     if (mastery != SkillMastery::None && mastery != SkillMastery::Normal)
     {
         label = Engine::tr("{skill} {mastery}", {{"skill", label}, {"mastery", skillPageMasteryDisplayName(mastery)}});
-    }
-
-    if (switchedOff)
-    {
-        label = Engine::tr("{skill} (off)", {{"skill", label}});
     }
 
     return label;
@@ -2314,18 +2316,20 @@ void appendCharacterSkillUiRows(
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = characterSkillRowLabel(skillRules.skillDisplayName(character, canonicalName), pSkill->mastery,
-            character.rulesetState.skillSwitchedOff(canonicalName));
-
+        row.label = characterSkillRowLabel(skillRules.skillDisplayName(character, canonicalName), pSkill->mastery);
         row.level = std::to_string(pSkill->level);
         row.upgradeable = skillRules.canRaiseSkill(character, canonicalName);
+        row.switchOn = skillRules.skillSwitch(character, canonicalName);
         setSkillRowRaiseCost(row, skillRules.skillRaiseCostDetail(character, canonicalName));
         rows.push_back(std::move(row));
         shownSkillNames.insert(canonicalName);
     }
 }
 
-CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, const SkillRules &skillRules)
+CharacterSkillUiData buildCharacterSkillUiData(
+    const Character *pCharacter,
+    const SkillRules &skillRules,
+    const SpellRules &spellRules)
 {
     CharacterSkillUiData data = {};
 
@@ -2379,11 +2383,10 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, cons
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = characterSkillRowLabel(skillRules.skillDisplayName(*pCharacter, canonicalName), skill.mastery,
-            pCharacter->rulesetState.skillSwitchedOff(canonicalName));
-
+        row.label = characterSkillRowLabel(skillRules.skillDisplayName(*pCharacter, canonicalName), skill.mastery);
         row.level = std::to_string(skill.level);
         row.upgradeable = skillRules.canRaiseSkill(*pCharacter, canonicalName);
+        row.switchOn = skillRules.skillSwitch(*pCharacter, canonicalName);
         setSkillRowRaiseCost(row, skillRules.skillRaiseCostDetail(*pCharacter, canonicalName));
         extraMiscRows.push_back(std::move(row));
     }
@@ -2397,6 +2400,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, cons
         });
 
     data.miscRows.insert(data.miscRows.end(), extraMiscRows.begin(), extraMiscRows.end());
+    data.rotationOn = spellRules.spellRotation(*pCharacter);
     return data;
 }
 
@@ -4600,7 +4604,19 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
     const GameplayScreenRuntime::HudLayoutElement *pTitleLayout = context.findHudLayoutElement("JournalTitleText");
     const GameplayScreenRuntime::HudLayoutElement *pTextLayout = context.findHudLayoutElement("JournalTextViewport");
     const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> titleResolved = resolveLayout("JournalTitleText");
-    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> textResolved = resolveLayout("JournalTextViewport");
+    std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> textResolved = resolveLayout("JournalTextViewport");
+    if (journalOwnerTabsShown(journalScreen))
+    {
+        if (const auto page = resolveLayout("JournalTrainerPage"))
+        {
+            renderJournalOwners(context, journalScreen, *page, mouseX, mouseY);
+            if (textResolved)
+            {
+                textResolved->y += 27 * textResolved->scale;
+                textResolved->height -= 27 * textResolved->scale;
+            }
+        }
+    }
     const std::optional<GameplayScreenRuntime::HudFontHandle> bodyFont =
         pTextLayout != nullptr ? context.findHudFont(pTextLayout->fontName) : std::nullopt;
 
@@ -4889,7 +4905,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
 
             if (pJournalQuestTable != nullptr && pParty != nullptr)
             {
-                questTexts = buildCurrentQuestTexts(*pJournalQuestTable, *pParty);
+                questTexts = buildCurrentQuestTexts(*pJournalQuestTable, *pParty, journalOwner(context, journalScreen));
 
                 for (std::string &questText : questTexts)
                 {
@@ -5005,13 +5021,15 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             // The typed text is matched against the notes as shown, in the interface language.
             const std::string search = Engine::Utf8::lower(journalScreen.notesSearch);
             std::vector<std::string> noteTexts;
+            const std::string owner = journalOwner(context, journalScreen);
             const JournalAutonoteTable *pJournalAutonoteTable = context.journalAutonoteTable();
 
             if (pJournalAutonoteTable != nullptr && pParty != nullptr)
             {
                 for (const JournalAutonoteEntry &entry : pJournalAutonoteTable->entries())
                 {
-                    if (!pParty->hasAutonote(entry.id))
+                    if (!pParty->hasAutonote(entry.id)
+                        || (entry.owner.empty() ? "Shared" : entry.owner) != owner)
                     {
                         continue;
                     }
@@ -8988,7 +9006,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         frameData = std::make_shared<CharacterOverlayFrameData>();
         frameData->pCharacter = pCharacter;
         frameData->page = characterScreen.page;
-        frameData->skillUiData = buildCharacterSkillUiData(pCharacter, gameRulesFor(context.partyReadOnly()).skills);
+        const GameRules &rules = gameRulesFor(context.partyReadOnly());
+        frameData->skillUiData = buildCharacterSkillUiData(pCharacter, rules.skills, rules.spells);
 
         if (pCharacter != nullptr)
         {
@@ -10936,8 +10955,13 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             }
 
             const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
+            // A group with a switch row starts every name right of the switches' gems.
+            const bool groupHasSwitch = std::any_of(rows.begin(), rows.end(),
+                [](const CharacterSkillUiRow &row) { return row.switchOn.has_value(); });
+            const float nameLeft = resolvedRegion->x
+                + (groupHasSwitch ? GameplayHudOverlaySupport::SkillSwitchIndent * resolvedRegion->scale : 0.0f);
             const float defaultNameWidth =
-                std::max(0.0f, resolvedLevelHeader->x - resolvedRegion->x - 6.0f * resolvedRegion->scale);
+                std::max(0.0f, resolvedLevelHeader->x - nameLeft - 6.0f * resolvedRegion->scale);
             // The raise cost tag sits just left of the level, in the gap before the right-aligned number.
             constexpr float RaiseCostScale = 0.7f;
             const std::vector<CharacterSkillUiRow> displayRows =
@@ -10946,7 +10970,10 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             for (size_t rowIndex = 0; rowIndex < displayRows.size(); ++rowIndex)
             {
                 const CharacterSkillUiRow &row = displayRows[rowIndex];
-                const uint32_t textColorAbgr = row.upgradeable ? GameplayUiSkin::Learnable : GameplayUiSkin::Ivory;
+                // A switched-off skill reads dimmed unless it can be raised.
+                const uint32_t textColorAbgr = row.upgradeable ? GameplayUiSkin::Learnable
+                    : row.switchOn == false                    ? SkillSwitchedOffText
+                                                               : GameplayUiSkin::Ivory;
                 const float levelRight = resolvedLevelHeader->x + resolvedLevelHeader->width;
                 const float raiseCostRight = levelRight
                     - (context.measureHudTextWidth("Lucida", row.level) + 8.0f) * resolvedLevelHeader->scale;
@@ -10954,8 +10981,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     - context.measureHudTextWidth("Lucida", row.raiseCost) * RaiseCostScale * resolvedRegion->scale;
                 const float nameWidth = row.raiseCost.empty()
                     ? defaultNameWidth
-                    : std::clamp(raiseCostLeft - resolvedRegion->x - 6.0f * resolvedRegion->scale, 0.0f,
-                          defaultNameWidth);
+                    : std::clamp(raiseCostLeft - nameLeft - 6.0f * resolvedRegion->scale, 0.0f, defaultNameWidth);
 
                 UiLayoutManager::LayoutElement nameLayout = {};
                 nameLayout.fontName = "Lucida";
@@ -10969,13 +10995,20 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 nameLayout.textAlignX = UiLayoutManager::TextAlignX::Left;
                 nameLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
                 GameplayResolvedHudLayoutElement nameResolved = {};
-                nameResolved.x = resolvedRegion->x;
+                nameResolved.x = nameLeft;
                 nameResolved.y = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
                 nameResolved.width = nameWidth;
                 nameResolved.height = rowHeightPixels;
                 nameResolved.scale = resolvedRegion->scale;
                 context.renderLayoutLabel(nameLayout, nameResolved, row.label, false,
                     skillViewport ? &*skillViewport : nullptr);
+
+                if (row.switchOn)
+                {
+                    GameplayHudOverlaySupport::renderSkillSwitchGem(context, *row.switchOn, resolvedRegion->x,
+                        nameResolved.y + rowHeightPixels * 0.5f, resolvedRegion->scale,
+                        skillViewport ? &*skillViewport : nullptr);
+                }
 
                 if (!row.raiseCost.empty())
                 {
@@ -11018,6 +11051,37 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
     renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
     renderSkillGroup("CharacterSkillsTechListRegion", "CharacterSkillsTechLevelHeader", skillUiData.techRows);
+
+    // An Elementalist's rotation switch, right-aligned on the Magic heading: "Rotation" and its gem.
+    if (skillUiData.rotationOn && characterScreen.page == GameplayUiController::CharacterPage::Skills)
+    {
+        const std::optional<GameplayHudOverlaySupport::SkillRotationSwitchRect> rotationSwitch =
+            GameplayHudOverlaySupport::skillRotationSwitchRect(context, width, height);
+        const UiLayoutManager::LayoutElement *pMagicListLayout =
+            context.findHudLayoutElement("CharacterSkillsMagicListRegion");
+
+        if (rotationSwitch && pMagicListLayout != nullptr && hasVisibleCharacterAncestors(*pMagicListLayout)
+            && shouldRenderInCurrentPass(pMagicListLayout->zIndex))
+        {
+            const float scale = rotationSwitch->scale;
+            UiLayoutManager::LayoutElement labelLayout = {};
+            labelLayout.fontName = "Lucida";
+            labelLayout.textScale = GameplayHudOverlaySupport::SkillRotationLabelScale;
+            labelLayout.textColorAbgr = *skillUiData.rotationOn ? GameplayUiSkin::Ivory : SkillSwitchedOffText;
+            labelLayout.textAlignX = UiLayoutManager::TextAlignX::Right;
+            labelLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
+            GameplayResolvedHudLayoutElement labelResolved = {};
+            labelResolved.x = rotationSwitch->labelLeft;
+            labelResolved.y = rotationSwitch->y;
+            labelResolved.width = rotationSwitch->gemX - 4.0f * scale - rotationSwitch->labelLeft;
+            labelResolved.height = rotationSwitch->height;
+            labelResolved.scale = scale;
+            context.renderLayoutLabel(labelLayout, labelResolved, Engine::tr("Rotation"), false,
+                skillViewport ? &*skillViewport : nullptr);
+            GameplayHudOverlaySupport::renderSkillSwitchGem(context, *skillUiData.rotationOn, rotationSwitch->gemX,
+                rotationSwitch->y + rotationSwitch->height * 0.5f, scale, skillViewport ? &*skillViewport : nullptr);
+        }
+    }
 
     if (!renderAboveHud && characterScreen.page == GameplayUiController::CharacterPage::Skills && skillViewport)
     {

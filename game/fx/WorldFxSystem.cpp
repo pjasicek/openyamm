@@ -15,6 +15,7 @@
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/ActorModelPresentation.h"
 #include "game/maps/ActorModelManifest.h"
+#include "game/maps/MapDeltaData.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/MonsterProjectileTable.h"
@@ -522,6 +523,29 @@ float WorldFxSystem::ActorModelBinding::gaitStride(ActorModelGait gait) const
         : gait == ActorModelGait::Run ? runStrideLength : sprintStrideLength;
 }
 
+std::array<uint32_t, 3> WorldFxSystem::ActorModelBinding::actionClips() const
+{
+    return {clips[size_t(ActorAiAnimationState::AttackMelee)], clips[size_t(ActorAiAnimationState::AttackRanged)],
+        castClip};
+}
+
+const std::vector<WorldFxSystem::ActorModelBinding::SocketEffect> *WorldFxSystem::ActorModelBinding::socketEffects(
+    int role, uint32_t clip) const
+{
+    if (role >= 0 && !actionEvents[size_t(role)].socketEffects.empty())
+    {
+        return &actionEvents[size_t(role)].socketEffects;
+    }
+    for (const ClipEvent &event : clipEvents)
+    {
+        if (event.clip == clip)
+        {
+            return &event.socketEffects;
+        }
+    }
+    return nullptr;
+}
+
 WorldFxSystem::WorldFxSystem()
 {
     m_namedEffects.setModelRuntime(
@@ -539,6 +563,7 @@ void WorldFxSystem::reset()
     m_waterRipples = {};
     m_namedEffects.clear();
     m_beams.clear();
+    m_scriptedActorEffects.clear();
     processNamedEffectAudio();
     for (const auto &[key, instanceId] : m_namedSoundInstances)
     {
@@ -1073,6 +1098,7 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                 }
                 sockets[socketEntry.first.as<std::string>()] = socket;
             }
+            binding.sockets = sockets;
             const auto findSocket = [&](const YAML::Node &name)
             {
                 const auto socket = sockets.find(name.as<std::string>());
@@ -1091,6 +1117,26 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                     binding.eyes[eye] = socket->second;
                 }
             }
+            // Named effects on sockets over a span of a clip (ActorClipEffect), resolved to the sockets.
+            const auto parseSocketEffects = [&](const YAML::Node &event, uint32_t clip, const std::string &role)
+            {
+                const std::vector<ActorClipEffect> effects = parseActorClipEffects(event,
+                    binding.asset->clips[clip].durationSeconds,
+                    [&](const std::string &name) { return sockets.contains(name); },
+                    [&](const std::string &id) { return m_namedEffectLibrary.find(id) != nullptr; },
+                    descriptor + " " + role);
+                std::vector<ActorModelBinding::SocketEffect> socketEffects;
+                for (const ActorClipEffect &effect : effects)
+                {
+                    ActorModelBinding::SocketEffect &socketEffect = socketEffects.emplace_back();
+                    socketEffect.effect = effect;
+                    for (size_t socket = 0; socket < effect.sockets.size(); ++socket)
+                    {
+                        socketEffect.sockets[socket] = sockets.at(effect.sockets[socket]);
+                    }
+                }
+                return socketEffects;
+            };
             // Action events, in ActionEvent order: the melee attack, ranged attack and cast clips.
             constexpr std::array<const char *, 3> EventRoles = {"attack_melee", "attack_ranged", "cast"};
             const YAML::Node events = animation["events"];
@@ -1100,7 +1146,33 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                 const auto roleIterator = std::find(EventRoles.begin(), EventRoles.end(), role);
                 if (roleIterator == EventRoles.end())
                 {
-                    throw std::runtime_error("unknown actor animation event role: " + role);
+                    // Another clip's event (a `clips` or `script_clips` role): socket effects only.
+                    const auto scriptClip = binding.scriptClips.find(role);
+                    const auto state = std::find(StateNames.begin(), StateNames.end(), std::string_view(role));
+                    if (scriptClip == binding.scriptClips.end() && state == StateNames.end())
+                    {
+                        throw std::runtime_error("unknown actor animation event role: " + role);
+                    }
+                    for (const auto &key : event.second)
+                    {
+                        const std::string name = key.first.as<std::string>();
+                        if (name != "effect" && (name != "effects" || !key.second.IsSequence()))
+                        {
+                            throw std::runtime_error("actor clip event takes only effect or a list of effects: "
+                                + descriptor + " " + role + " " + name);
+                        }
+                    }
+                    ActorModelBinding::ClipEvent clipEvent;
+                    clipEvent.clip = scriptClip != binding.scriptClips.end() ? scriptClip->second
+                        : binding.clips[size_t(state - StateNames.begin())];
+                    clipEvent.socketEffects = parseSocketEffects(event.second, clipEvent.clip, role);
+                    if (std::any_of(binding.clipEvents.begin(), binding.clipEvents.end(),
+                            [&](const ActorModelBinding::ClipEvent &other) { return other.clip == clipEvent.clip; }))
+                    {
+                        throw std::runtime_error("actor clip events name one clip twice: " + descriptor + " " + role);
+                    }
+                    binding.clipEvents.push_back(std::move(clipEvent));
+                    continue;
                 }
                 const size_t roleIndex = size_t(roleIterator - EventRoles.begin());
                 if ((roleIndex < 2 && attackClipOmitted[roleIndex])
@@ -1123,9 +1195,12 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                 for (const auto &key : event.second)
                 {
                     const std::string name = key.first.as<std::string>();
-                    // A melee blow launches nothing: it may glow (glow, glow_scale, color) but has no release.
+                    // A melee blow launches nothing: it may glow (glow, glow_scale, color) but has no release. Every
+                    // role may carry socket effects (effect, a list of effects); a map of effects per element is the
+                    // ranged attack's.
                     if (name != "impact" && name != "glow" && name != "glow_scale" && name != "color"
-                        && (roleIndex == 0 || (name != "release" && (roleIndex != 1 || name != "effects"))))
+                        && name != "effect" && (name != "effects" || (key.second.IsMap() && roleIndex != 1))
+                        && (roleIndex == 0 || name != "release"))
                     {
                         throw std::runtime_error("unknown actor animation event key: " + descriptor + " " + role + " "
                             + name);
@@ -1167,8 +1242,9 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                 {
                     throw std::runtime_error("actor melee glow requires a color: " + descriptor);
                 }
+                actionEvent.socketEffects = parseSocketEffects(event.second, clip, role);
                 // A ranged attack's named effects, per element, replace the glow while its missile winds up.
-                if (const YAML::Node effects = event.second["effects"])
+                if (const YAML::Node effects = event.second["effects"]; effects && !effects.IsSequence())
                 {
                     if (pStats == nullptr || !effects.IsMap() || actionEvent.glowCount == 0)
                     {
@@ -1243,6 +1319,257 @@ void WorldFxSystem::stopActorChargeFx(ActorModelInstance &model, EffectStopMode 
     {
         m_namedEffects.stop(effect, mode);
         effect = {};
+    }
+}
+
+void WorldFxSystem::stopActorSocketEffects(ActorModelInstance &model, EffectStopMode mode)
+{
+    for (EffectHandle &effect : model.socketEffectHandles)
+    {
+        if (effect != EffectHandle{})
+        {
+            m_namedEffects.stop(effect, mode);
+            effect = {};
+        }
+    }
+}
+
+void WorldFxSystem::selectActorSocketEffects(ActorModelInstance &model, const ActorModelBinding &binding, int role,
+    uint32_t clip, float timeSeconds, bool restart)
+{
+    const std::vector<ActorModelBinding::SocketEffect> *pEffects =
+        clip < binding.asset->clips.size() ? binding.socketEffects(role, clip) : nullptr;
+    // Another clip or role, or the clip starting over (a repeated attack, a loop), ends the play: its effects drain.
+    if (pEffects != model.pSocketEffects || clip != model.socketEffectClip || restart
+        || timeSeconds + 0.001f < model.socketEffectTime)
+    {
+        stopActorSocketEffects(model, EffectStopMode::Drain);
+        model.socketEffectsStarted = 0;
+    }
+    model.pSocketEffects = pEffects;
+    model.socketEffectClip = clip;
+    model.socketEffectRole = role;
+    model.socketEffectTime = timeSeconds;
+}
+
+void WorldFxSystem::syncActorSocketEffects(ActorModelInstance &model, float deltaSeconds, bool emitting)
+{
+    if (model.pSocketEffects == nullptr)
+    {
+        return;
+    }
+    const std::vector<ActorModelBinding::SocketEffect> &effects = *model.pSocketEffects;
+    if (model.socketEffectHandles.size() < effects.size() * ActorClipEffectMaxSockets)
+    {
+        model.socketEffectHandles.resize(effects.size() * ActorClipEffectMaxSockets);
+    }
+    for (size_t index = 0; index < effects.size(); ++index)
+    {
+        const ActorModelBinding::SocketEffect &socketEffect = effects[index];
+        const uint32_t bit = 1u << index;
+        const size_t socketCount = socketEffect.effect.sockets.size();
+        EffectHandle *pHandles = &model.socketEffectHandles[index * ActorClipEffectMaxSockets];
+        const float scale = model.fxScale * socketEffect.effect.scale;
+        if (actorClipEffectEmits(socketEffect.effect, model.socketEffectTime))
+        {
+            // Starts once per play, on an actor near enough to see.
+            if ((model.socketEffectsStarted & bit) == 0 && deltaSeconds > 0.0f && emitting)
+            {
+                model.socketEffectsStarted |= bit;
+                const EffectDefinition *pDefinition = m_namedEffectLibrary.find(socketEffect.effect.effectId);
+                for (size_t socket = 0; socket < socketCount; ++socket)
+                {
+                    if (const std::optional<std::array<float, 3>> point =
+                            actorSocketPoint(model, socketEffect.sockets[socket]))
+                    {
+                        EffectSpawnParams params;
+                        params.position = *point;
+                        params.scale = scale;
+                        params.seed = model.actorId * 31u + uint32_t(index * ActorClipEffectMaxSockets + socket);
+                        if (pDefinition != nullptr)
+                        {
+                            params.bodyAnchor = actorClipEffectSocketAnchor(*pDefinition, socketCount, socket);
+                        }
+                        pHandles[socket] = m_namedEffects.spawn(socketEffect.effect.effectId, params);
+                    }
+                }
+            }
+        }
+        else if ((model.socketEffectsStarted & bit) != 0)
+        {
+            // Past its end: it stops emitting and its particles finish.
+            for (size_t socket = 0; socket < socketCount; ++socket)
+            {
+                if (pHandles[socket] != EffectHandle{})
+                {
+                    m_namedEffects.stop(pHandles[socket], EffectStopMode::Drain);
+                    pHandles[socket] = {};
+                }
+            }
+        }
+        for (size_t socket = 0; socket < socketCount; ++socket)
+        {
+            if (pHandles[socket] == EffectHandle{})
+            {
+                continue;
+            }
+            const std::optional<std::array<float, 3>> point = actorSocketPoint(model, socketEffect.sockets[socket]);
+            if (!m_namedEffects.contains(pHandles[socket]) || !point)
+            {
+                m_namedEffects.stop(pHandles[socket], EffectStopMode::Drain);
+                pHandles[socket] = {};
+                continue;
+            }
+            m_namedEffects.setTransform(pHandles[socket], *point, {0.0f, 0.0f, 0.0f, 1.0f}, scale);
+        }
+    }
+}
+
+void WorldFxSystem::syncScriptedActorEffects(IGameplayWorldRuntime &world, float deltaSeconds)
+{
+    if (EventRuntimeState *pState = world.eventRuntimeState())
+    {
+        for (const EventRuntimeState::ActorEffectRequest &request : pState->actorEffectRequests)
+        {
+            if (request.stop)
+            {
+                for (auto effect = m_scriptedActorEffects.begin(); effect != m_scriptedActorEffects.end();)
+                {
+                    if (effect->actorIndex == request.actorIndex
+                        && (request.effectId.empty() || effect->effectId == request.effectId))
+                    {
+                        m_namedEffects.stop(effect->handle, EffectStopMode::Drain);
+                        effect = m_scriptedActorEffects.erase(effect);
+                    }
+                    else
+                    {
+                        ++effect;
+                    }
+                }
+                continue;
+            }
+            GameplayRuntimeActorState state;
+            if (!world.actorRuntimeState(request.actorIndex, state))
+            {
+                std::cerr << "Scripted actor effect has no map actor " << request.actorIndex << ": "
+                          << request.effectId << '\n';
+                continue;
+            }
+            // One effect on each socket of a comma-separated list; the sockets share a hand effect's emitters.
+            std::vector<std::string> sockets;
+            for (size_t start = 0; start <= request.socket.size();)
+            {
+                const size_t end = std::min(request.socket.find(',', start), request.socket.size());
+                sockets.push_back(request.socket.substr(start, end - start));
+                start = end + 1;
+            }
+            const EffectDefinition *pDefinition = m_namedEffectLibrary.find(request.effectId);
+            for (size_t socket = 0; socket < sockets.size(); ++socket)
+            {
+                ScriptedActorEffect effect;
+                effect.actorIndex = request.actorIndex;
+                effect.actorId = state.actorId;
+                effect.effectId = request.effectId;
+                effect.socket = sockets[socket];
+                effect.scale = request.scale;
+                effect.timed = request.seconds > 0.0f;
+                effect.remainingSeconds = request.seconds;
+                // A socket the actor's model lacks is an authoring error; an actor drawn as a sprite has no sockets.
+                const auto model = m_actorModels.find(request.actorIndex);
+                if (!effect.socket.empty() && model != m_actorModels.end() && model->second.pBinding != nullptr
+                    && !model->second.pBinding->sockets.contains(effect.socket)
+                    && !model->second.pBinding->asset->findNode(effect.socket))
+                {
+                    std::cerr << "Scripted actor effect socket not on the actor's model: " << effect.socket << " ("
+                              << request.effectId << ")\n";
+                }
+                const std::optional<std::array<float, 3>> point = scriptedActorEffectPoint(world, effect);
+                if (!point)
+                {
+                    continue;
+                }
+                EffectSpawnParams params;
+                params.position = *point;
+                params.scale = effect.scale;
+                params.seed = state.actorId + uint32_t(socket);
+                if (pDefinition != nullptr)
+                {
+                    params.bodyAnchor = actorClipEffectSocketAnchor(*pDefinition, sockets.size(), socket);
+                }
+                effect.handle = m_namedEffects.spawn(effect.effectId, params);
+                if (!m_namedEffects.contains(effect.handle))
+                {
+                    std::cerr << "Scripted actor effect spawn failed: " << effect.effectId << '\n';
+                    continue;
+                }
+                m_scriptedActorEffects.push_back(std::move(effect));
+            }
+        }
+        pState->actorEffectRequests.clear();
+    }
+    for (auto effect = m_scriptedActorEffects.begin(); effect != m_scriptedActorEffects.end();)
+    {
+        effect->remainingSeconds -= deltaSeconds;
+        if (!m_namedEffects.contains(effect->handle) || (effect->timed && effect->remainingSeconds <= 0.0f))
+        {
+            m_namedEffects.stop(effect->handle, EffectStopMode::Drain);
+            effect = m_scriptedActorEffects.erase(effect);
+        }
+        else
+        {
+            ++effect;
+        }
+    }
+}
+
+std::optional<std::array<float, 3>> WorldFxSystem::scriptedActorEffectPoint(const IGameplayWorldRuntime &world,
+    const ScriptedActorEffect &effect) const
+{
+    GameplayRuntimeActorState state;
+    if (!world.actorRuntimeState(effect.actorIndex, state) || state.actorId != effect.actorId || state.isInvisible)
+    {
+        return std::nullopt;
+    }
+    const auto model = m_actorModels.find(effect.actorIndex);
+    if (!effect.socket.empty() && model != m_actorModels.end() && model->second.pBinding != nullptr
+        && model->second.actorId == effect.actorId)
+    {
+        const ActorModelBinding &binding = *model->second.pBinding;
+        std::optional<ActorModelBinding::Socket> socket;
+        if (const auto named = binding.sockets.find(effect.socket); named != binding.sockets.end())
+        {
+            socket = named->second;
+        }
+        else if (const std::optional<uint32_t> node = binding.asset->findNode(effect.socket))
+        {
+            socket = ActorModelBinding::Socket{*node, {}};
+        }
+        if (socket)
+        {
+            if (const std::optional<std::array<float, 3>> point = actorSocketPoint(model->second, *socket))
+            {
+                return point;
+            }
+        }
+    }
+    const float height = float(state.bodyHeight > 0 ? state.bodyHeight : state.height);
+    return std::array<float, 3>{state.preciseX, state.preciseY, state.preciseZ + 0.5f * height};
+}
+
+void WorldFxSystem::updateScriptedActorEffects(const IGameplayWorldRuntime &world)
+{
+    for (auto effect = m_scriptedActorEffects.begin(); effect != m_scriptedActorEffects.end();)
+    {
+        const std::optional<std::array<float, 3>> point = scriptedActorEffectPoint(world, *effect);
+        if (!point)
+        {
+            // Its actor is gone (removed, turned invisible, another actor in its slot).
+            m_namedEffects.stop(effect->handle, EffectStopMode::Drain);
+            effect = m_scriptedActorEffects.erase(effect);
+            continue;
+        }
+        m_namedEffects.setTransform(effect->handle, *point, {0.0f, 0.0f, 0.0f, 1.0f}, effect->scale);
+        ++effect;
     }
 }
 
@@ -1464,6 +1791,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             && (instance->second.actorId != state.actorId || instance->second.monsterId != state.monsterId))
         {
             stopActorChargeFx(instance->second, EffectStopMode::Drain);
+            stopActorSocketEffects(instance->second, EffectStopMode::Drain);
             m_namedEffects.stop(instance->second.ambientEffect, EffectStopMode::Immediate);
             m_models.destroy(instance->second.handle);
             m_actorModels.erase(instance);
@@ -1477,6 +1805,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             instance = m_actorModels.emplace(index, ActorModelInstance{handle, state.actorId, state.monsterId}).first;
         }
         instance->second.syncPass = syncPass;
+        syncActorHeldItems(instance->second, binding, state);
         m_models.setOutlineColor(instance->second.handle, 0);
         m_models.setHitFlash(instance->second.handle, state.hitFlash);
         m_models.setEmissionMultiplier(instance->second.handle, state.emissionMultiplier);
@@ -1605,9 +1934,36 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         const bool scripted = scriptClip != UINT32_MAX && scriptClip < binding.asset->clips.size();
         const bool casting = !scripted && attacking && state.castingSpell && binding.castClip != UINT32_MAX;
+        // A script's or cinematic's clip that is an action role's clip (a summoner's cast in a cutscene) charges as
+        // that action does, from the clip's start until its impact marker (or its end).
+        ActorCharge scriptedCharge = ActorCharge::None;
+        float scriptedChargeTime = 0.0f;
+        float scriptedWindup = 0.0f;
+        if (scripted)
+        {
+            std::array<bool, 3> glows = {};
+            for (size_t role = 0; role < glows.size(); ++role)
+            {
+                glows[role] = binding.actionEvents[role].glowCount > 0;
+            }
+            const int role = actorActionRoleForClip(binding.actionClips(), glows, scriptClip);
+            if (role >= 0)
+            {
+                const float clipDuration = binding.asset->clips[scriptClip].durationSeconds;
+                const float impact = binding.actionEvents[size_t(role)].impactSeconds;
+                scriptedChargeTime = state.scriptedClipEnd == GameplayRuntimeActorState::ScriptedClipEnd::Loop
+                    && clipDuration > 0.0f ? wrapPeriod(scriptClipSeconds, clipDuration) : scriptClipSeconds;
+                scriptedWindup = std::max(0.1f, impact > 0.0f ? impact : clipDuration);
+                if (scriptedChargeTime < scriptedWindup)
+                {
+                    scriptedCharge = ActorCharge(role + 1);
+                }
+            }
+        }
         // A blow, ranged attack or spell charges at its glow sockets while it winds up (ActionEvent).
         const ActorCharge chargeRole = casting ? ActorCharge::Cast
-            : scripted || state.castingSpell ? ActorCharge::None
+            : scripted ? scriptedCharge
+            : state.castingSpell ? ActorCharge::None
             : state.animationState == ActorAiAnimationState::AttackRanged ? ActorCharge::Ranged
             : state.animationState == ActorAiAnimationState::AttackMelee && binding.actionEvents[0].glowCount > 0
                 ? ActorCharge::Melee : ActorCharge::None;
@@ -1630,12 +1986,15 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         const bool attackMoving = attacking && !teleported && model.attackLegs.moving && binding.upperBodyMask;
         const float elapsed = std::max(state.animationTimeTicks, 0.0f) / 128.0f;
+        const bool secondaryAttack = !scripted && state.secondaryAttack;
         if (chargeRole != ActorCharge::None && (chargeRole != model.chargeRole || restart
-                || model.secondaryAttack != state.secondaryAttack))
+                || model.secondaryAttack != secondaryAttack))
         {
-            // The charge builds until the action releases: its end, or its sprite's contact frame.
+            // The charge builds until the action releases: its end, or its sprite's contact frame (a scripted clip:
+            // its impact marker).
             stopActorChargeFx(model, EffectStopMode::Drain);
-            model.chargeDuration = std::max(0.1f, elapsed + state.actionSeconds - state.attackImpactLeadSeconds);
+            model.chargeDuration = scripted ? scriptedWindup
+                : std::max(0.1f, elapsed + state.actionSeconds - state.attackImpactLeadSeconds);
             model.chargeSpellId = casting ? state.castingSpellId : 0;
             model.chargeResolved = false;
             model.hasChargeOrigin = false;
@@ -1643,11 +2002,13 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         // The release may come as the action ends: the charge that was showing goes out then.
         const bool charged = chargeRole != ActorCharge::None || model.chargeRole != ActorCharge::None;
+        const bool scriptedRelease = scripted && model.scripted && model.chargeRole != ActorCharge::None
+            && chargeRole == ActorCharge::None;
         model.chargeRole = chargeRole;
-        model.secondaryAttack = state.secondaryAttack;
+        model.secondaryAttack = secondaryAttack;
         model.chargeProgress = chargeRole != ActorCharge::None
-            ? std::clamp(elapsed / model.chargeDuration, 0.0f, 1.0f) : 0.0f;
-        if (charged && state.attackImpactTriggered && !model.previousImpact)
+            ? std::clamp((scripted ? scriptedChargeTime : elapsed) / model.chargeDuration, 0.0f, 1.0f) : 0.0f;
+        if ((charged && !scripted && state.attackImpactTriggered && !model.previousImpact) || scriptedRelease)
         {
             model.pendingRelease = model.hasChargeOrigin && model.chargeOriginAge < 0.15f;
         }
@@ -1658,6 +2019,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             model.hasChargeOrigin = false;
         }
         uint32_t clip = scripted ? scriptClip : casting ? binding.castClip : binding.clips[animationIndex];
+        const uint32_t stateClip = clip;
         float time = std::max(state.animationTimeTicks, 0.0f) / 128.0f;
         const float duration = binding.asset->clips[clip].durationSeconds;
         if (scripted)
@@ -1792,7 +2154,10 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         {
             model.deathClipTime = -1.0f;
         }
-        if ((state.animationState == ActorAiAnimationState::Standing
+        // A scripted clip has its own end rule above (a loop wraps, a hold stays on its last frame): wrapping it as the
+        // stand would send a held clip back to its first frame.
+        if (!scripted
+            && (state.animationState == ActorAiAnimationState::Standing
                 || state.animationState == ActorAiAnimationState::Walking) && duration > 0)
         {
             time = wrapPeriod(time, duration);
@@ -1863,14 +2228,48 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         const float presentedTime = time;
         const Engine::ModelAnimationLayer presentedLayer = layer;
+        {
+            // Socket effects of the clip showing: the upper-body layer's over a gait, else the body's. A fight's action
+            // plays its role's; a follow-through keeps them; another clip (a script's or a cinematic's) plays the
+            // first action role's of that clip, else its clip event's.
+            const bool layerShows = presentedLayer.weight > 0.0f
+                && presentedLayer.clipIndex < binding.asset->clips.size();
+            const uint32_t effectClip = layerShows ? presentedLayer.clipIndex : clip;
+            const float effectTime = layerShows ? presentedLayer.timeSeconds : presentedTime;
+            int effectRole = -1;
+            if (attacking && !scripted && effectClip == stateClip)
+            {
+                effectRole = int(eventRole);
+            }
+            else if (!scripted && continuingFollow && effectClip == model.socketEffectClip)
+            {
+                effectRole = model.socketEffectRole;
+            }
+            else
+            {
+                std::array<bool, 3> hasEffects = {};
+                for (size_t role = 0; role < hasEffects.size(); ++role)
+                {
+                    hasEffects[role] = !binding.actionEvents[role].socketEffects.empty();
+                }
+                effectRole = actorActionRoleForClip(binding.actionClips(), hasEffects, effectClip);
+            }
+            selectActorSocketEffects(model, binding, effectRole, effectClip, effectTime,
+                (restart && !continuingFollow) || teleported);
+        }
         // Animation LOD: actors sample their clips at most 240 times a second, at 60 Hz beyond ~7 m, 15 Hz beyond
         // ~14 m and the native sprite rate (8 Hz) beyond ~28 m. Pose evaluation was a third of the main thread with a
         // crowd at high frame rates. A per-actor phase offset spreads the updates; root motion stays per frame, and an
-        // unchanged clip time only recomposes the joint hierarchy.
+        // unchanged clip time only recomposes the joint hierarchy. The distances are for a man-sized body: a larger
+        // one fills the screen as a man nearer would, so its distance counts in proportion (the Dragon King, 1 700
+        // tall, flies his whole landing inside his Land clip: sampled at 8 Hz across the arena he jumped).
         const float partyDistance = std::hypot(state.preciseX - world.partyX(), state.preciseY - world.partyY());
+        constexpr float LodReferenceBodyHeight = 200.0f;
+        const float lodDistance = partyDistance * LodReferenceBodyHeight
+            / std::max(LodReferenceBodyHeight, float(state.bodyHeight));
         const float sampleStep = !m_actorAnimationLod ? 0.0f
-            : partyDistance > 3000.0f ? 1.0f / 8.0f : partyDistance > 1500.0f ? 1.0f / 15.0f
-            : partyDistance > 750.0f ? 1.0f / 60.0f : 1.0f / 240.0f;
+            : lodDistance > 3000.0f ? 1.0f / 8.0f : lodDistance > 1500.0f ? 1.0f / 15.0f
+            : lodDistance > 750.0f ? 1.0f / 60.0f : 1.0f / 240.0f;
         if (sampleStep > 0.0f)
         {
             const float offset = sampleStep * wrapPeriod(float(model.actorId) * 0.618034f, 1.0f);
@@ -1942,13 +2341,14 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         model.previousState = uint8_t(presentedIndex);
         model.casting = casting;
         model.scripted = scripted;
-        model.previousImpact = state.attackImpactTriggered;
+        model.previousImpact = !scripted && state.attackImpactTriggered;
     }
     for (auto iterator = m_actorModels.begin(); iterator != m_actorModels.end();)
     {
         if (iterator->second.syncPass != syncPass)
         {
             stopActorChargeFx(iterator->second, EffectStopMode::Drain);
+            stopActorSocketEffects(iterator->second, EffectStopMode::Drain);
             m_namedEffects.stop(iterator->second.ambientEffect, EffectStopMode::Drain);
             m_models.destroy(iterator->second.handle);
             iterator = m_actorModels.erase(iterator);
@@ -2737,6 +3137,7 @@ bool WorldFxSystem::hasActorModel(size_t actorIndex) const
 
 void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx)
 {
+    updateScriptedActorEffects(world);
     if (m_actorModels.empty())
     {
         return;
@@ -2750,6 +3151,14 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
     size_t count = 0;
     for (auto &[index, model] : m_actorModels)
     {
+        if (model.pSocketEffects != nullptr)
+        {
+            // A cinematic's actor may stand far from the party, under its camera.
+            const float dx = model.previousX - world.partyX();
+            const float dy = model.previousY - world.partyY();
+            syncActorSocketEffects(model, deltaSeconds, m_models.isVisible(model.handle)
+                && (model.scripted || dx * dx + dy * dy < 4096.0f * 4096.0f));
+        }
         if (model.pBinding != nullptr && !model.pBinding->ambientEffect.empty())
         {
             const float dx = model.previousX - world.partyX();
@@ -2797,8 +3206,10 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
         const float dy = model.previousY - world.partyY();
         const float distanceSquared = dx * dx + dy * dy;
         // ponytail: eight nearby attachments use a camera cone; reuse render visibility if hidden-room FX costs grow.
-        const bool near = distanceSquared < 2048.0f * 2048.0f
-            && dx * forwardX + dy * forwardY > 0.4f * std::sqrt(distanceSquared) - 160.0f;
+        // A cinematic's actor charges under the cutscene's camera, which may look elsewhere than the party.
+        const bool near = (distanceSquared < 2048.0f * 2048.0f
+            && dx * forwardX + dy * forwardY > 0.4f * std::sqrt(distanceSquared) - 160.0f)
+            || (model.scripted && distanceSquared < 4096.0f * 4096.0f);
         if (!near || model.dying || model.previousState == uint8_t(ActorAiAnimationState::Dead)
             || model.pBinding == nullptr
             || (model.pBinding->eyeColorAbgr == 0 && model.chargeRole == ActorCharge::None && !model.pendingRelease))
@@ -3171,6 +3582,44 @@ void WorldFxSystem::bindNamedEffectAudio(GameAudioSystem *pAudioSystem)
     }
 }
 
+void WorldFxSystem::syncActorHeldItems(
+    ActorModelInstance &model, const ActorModelBinding &binding, const GameplayRuntimeActorState &state)
+{
+    const bool holds = state.pHeldItems != nullptr && !state.heldItemsHidden;
+    std::vector<std::string> keys;
+    for (size_t index = 0; holds && index < state.pHeldItems->size(); ++index)
+    {
+        const MapDeltaHeldItem &item = (*state.pHeldItems)[index];
+        keys.push_back(item.model + '\n' + item.node);
+    }
+    if (keys == model.heldItemKeys)
+    {
+        return;
+    }
+    model.heldItemKeys = keys;
+    std::vector<Engine::ModelAttachment> attachments = binding.attachments;
+    for (size_t index = 0; holds && index < state.pHeldItems->size(); ++index)
+    {
+        const MapDeltaHeldItem &item = (*state.pHeldItems)[index];
+        const Engine::ModelLoadResult carried = m_modelAssets.load(*m_pActorModelAssets, item.model);
+        const std::optional<uint32_t> node = binding.asset->findNode(item.node);
+        if (!carried || !node || !carried.asset->skins.empty())
+        {
+            std::cerr << "Held item not shown: " << item.model << " on node " << item.node
+                      << (carried ? (node ? " (a skinned model)" : " (no such node)") : " (" + carried.error + ")")
+                      << '\n';
+            continue;
+        }
+        attachments.push_back(Engine::ModelAttachment{carried.asset, *node, 0});
+    }
+    m_models.setAttachments(model.handle, attachments);
+}
+
+std::vector<std::pair<float, float>> WorldFxSystem::takeActorCameraShakes()
+{
+    return std::exchange(m_actorCameraShakes, {});
+}
+
 bool WorldFxSystem::actorPlaysClipSounds(size_t actorIndex) const
 {
     const auto model = m_actorModels.find(actorIndex);
@@ -3195,14 +3644,25 @@ void WorldFxSystem::presentActorClipSounds(ActorModelInstance &model, const Acto
     const bool layered = layer.weight > 0.0f && layer.clipIndex < clips.size();
     advanceActorClipSounds(*binding.clipSounds, state, 1, layered ? layer.clipIndex : UINT32_MAX, layer.timeSeconds,
         layered ? clips[layer.clipIndex].durationSeconds : 0.0f, deltaSeconds, m_actorClipSoundCues);
+    const float distance = std::hypot(position[0] - listener[0], position[1] - listener[1], position[2] - listener[2]);
+    for (const ActorClipSoundCue &cue : m_actorClipSoundCues)
+    {
+        // MM9's model-key quakes (cshell.dll 0x100ab070): full at the actor, linear down to the edge strength at the
+        // radius, none beyond.
+        if (cue.shake.radius > 0.0f && distance < cue.shake.radius)
+        {
+            const float intensity = cue.shake.intensity
+                + (cue.shake.edgeIntensity - cue.shake.intensity) * distance / cue.shake.radius;
+            m_actorCameraShakes.emplace_back(intensity, cue.shake.seconds);
+        }
+    }
     if (m_pNamedEffectAudioSystem == nullptr)
     {
         return;
     }
-    const float distance = std::hypot(position[0] - listener[0], position[1] - listener[1], position[2] - listener[2]);
     for (const ActorClipSoundCue &cue : m_actorClipSoundCues)
     {
-        if (distance > cue.outerRadius)
+        if (cue.sound.empty() || distance > cue.outerRadius)
         {
             continue;
         }

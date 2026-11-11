@@ -1483,6 +1483,30 @@ int mawFireAuraOnWeapon(
     return int(weaponFireAuraDamage(rules, wearer, held, false, 5));
 }
 
+std::optional<std::pair<int, int>> mawArtifactHitOnWeapon(
+    const MawRules &rules, const Character &wearer, const ItemDefinition &weapon, const InventoryItem &item)
+{
+    if (rules.itemTable() == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    EquippedItemRuntimeState state;
+    state.specialEnchantId = item.specialEnchantId;
+    state.rulesetFields = item.rulesetFields;
+    const HeldWeapon held = {&weapon, &state, weapon.equipStat == "Missile", &wearer};
+    const std::optional<MawEnchantRange> range = artifactHitRange(rules, wearer, *rules.itemTable(), held, 0, 5);
+
+    if (!range)
+    {
+        return std::nullopt;
+    }
+
+    // As a blow rolls it (MawCombatRules::meleeAttack).
+    const int minimum = int(mawRound(range->minimum));
+    return std::pair(minimum, std::max(minimum, int(mawRound(range->maximum))));
+}
+
 double mawSpearStackPercent(const MawRules &rules, const Character &attacker, const ItemTable &itemTable)
 {
     const ItemDefinition *pMainHand = attacker.equipment.mainHand != 0 ? itemTable.get(attacker.equipment.mainHand)
@@ -1773,7 +1797,8 @@ MawPowerReport mawPowerReport(
     const ItemTable &itemTable,
     const StandardItemEnchantTable *pStandardItemEnchantTable,
     const SpecialItemEnchantTable *pSpecialItemEnchantTable,
-    int partyCount)
+    int partyCount,
+    const std::string *pSpellName)
 {
     CharacterAttackOnMonster context;
     context.pCharacter = &character;
@@ -1846,18 +1871,7 @@ MawPowerReport mawPowerReport(
     // The first spell of the battle orders, else the quick spell: its average with Intellect or Personality, the
     // Shaman's schools and the spell crit, plus the weapons' enchantments and Fire Aura as a spell carries them, per its
     // recovery.
-    const std::string *pOrderSpell = nullptr;
-
-    for (const BattleOrder &order : character.battleOrders)
-    {
-        if (order.enabled && order.kind == BattleOrderKind::Spell && !order.spellName.empty())
-        {
-            pOrderSpell = &order.spellName;
-            break;
-        }
-    }
-
-    const std::string &spellName = pOrderSpell != nullptr ? *pOrderSpell : character.quickSpellName;
+    const std::string &spellName = pSpellName != nullptr ? *pSpellName : mawPowerSpellName(character);
     const SpellEntry *pSpell = rules.spellTable() != nullptr && !spellName.empty()
         ? rules.spellTable()->findByName(spellName)
         : nullptr;
@@ -1953,6 +1967,44 @@ MawPowerReport mawPowerReport(
     }
 
     return report;
+}
+
+const std::string &mawPowerSpellName(const Character &character)
+{
+    for (const BattleOrder &order : character.battleOrders)
+    {
+        if (order.enabled && order.kind == BattleOrderKind::Spell && !order.spellName.empty())
+        {
+            return order.spellName;
+        }
+    }
+
+    return character.quickSpellName;
+}
+
+std::optional<std::string> mawStrongestSchoolSpell(
+    const MawRules &rules, const Character &character, const std::string &canonicalSchool)
+{
+    if (rules.spellTable() == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    // A school's spells run from its first to its last by level, so the highest id is the strongest.
+    const SpellEntry *pBest = nullptr;
+
+    for (const uint32_t spellId : character.knownSpellIds)
+    {
+        const SpellEntry *pSpell = rules.spellTable()->findById(int(spellId));
+
+        if (pSpell != nullptr && (pBest == nullptr || pSpell->id > pBest->id)
+            && resolveMagicSkillName(spellId) == canonicalSchool && mawCasterSpellDice(rules, character, *pSpell))
+        {
+            pBest = pSpell;
+        }
+    }
+
+    return pBest != nullptr ? std::optional<std::string>(pBest->name) : std::nullopt;
 }
 
 std::optional<MawSpellDice> mawCasterSpellDice(const MawRules &rules, const Character &caster, const SpellEntry &spell)

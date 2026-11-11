@@ -228,7 +228,8 @@ class Script:
         between the bodies (16 LT is inside any body from centre to centre), so the talk fires once the party's feet
         are within the actor's radius + the party's + 16 LT of his. `run`: he runs to the party once he sees it within
         his SightDistance (the placement's mm9_ai sight). `armed` (a Lua expression) is the script's own gate; the
-        actor must be alive, shown and in sight (evt.ActorSeesParty). Once per visit, as the scripts' bTalking.
+        actor must be alive, shown and in sight (evt.ActorSeesParty). Once per visit, as the scripts' bTalking; a script
+        whose flag stays set for good (FORAD.scr) gates `armed` with its own map variable.
         `talk`: the Lua statements of the script's :Talk (its DoRude and voice); MM9.openRude takes the actor as its
         second argument, so that the dialogue's close runs his OnRudeExit event."""
         record = next(r for r in self.build.scene_actors if r["actor_index"] == actor)

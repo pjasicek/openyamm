@@ -104,6 +104,9 @@ SetMapMetadata({
     [502] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d08.blv", targetName = "The Tularean Caves" },
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "7d12.blv", targetName = "Clanker's Laboratory" },
     },
+    learnedEffect = {
+    [204] = { autonote = 269, effect = "+50 Earth Resistance (Temporary)" },
+    },
     textureNames = {},
     spriteNames = {"0", "7tree07", "7tree08", "7tree09", "7tree25", "7tree30", "tree26", "tree27", "tree37"},
     castSpellIds = {},

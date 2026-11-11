@@ -96,6 +96,10 @@ struct EffectSpriteEmitterDefinition
     bool randomRoll = false;
     float spinSpeed = 0.0f;
     EffectBlendMode blendMode = EffectBlendMode::Alpha;
+    // False for MM9's additive sprites (LithTech ONE/ONE): the light is the texture's colour times the vertex colour,
+    // weighted by neither the texture's alpha (its glow textures are already dark where transparent) nor the
+    // opacity, drawn from texels without the transparent-edge colour bleed and not into the bloom glow.
+    bool additiveTextureAlpha = true;
     EffectParticleSpace particleSpace = EffectParticleSpace::World;
     EffectSpriteAlignment alignment = EffectSpriteAlignment::CameraFacing;
     std::array<float, 3> planeRight = {1.0f, 0.0f, 0.0f};
@@ -104,6 +108,10 @@ struct EffectSpriteEmitterDefinition
     std::vector<EffectColorKey> colorKeys;
     std::vector<EffectScalarKey> scaleKeys;
     std::vector<EffectVectorKey> motionKeys;
+    // The body node MM9 puts this emitter on (`body_anchor`: left_hand, right_hand ...; empty: the effect's origin).
+    // It emits at the effect's origin like the others; a spawn may keep only one anchor's emitters
+    // (EffectSpawnParams::bodyAnchor).
+    std::string bodyAnchor;
 };
 
 struct EffectModelDefinition
@@ -143,6 +151,10 @@ struct EffectSpriteDefinition
     float stretchU = 1.0f;
     float stretchV = 1.0f;
     EffectBlendMode blendMode = EffectBlendMode::Additive;
+    // False for MM9's additive sprites (LithTech ONE/ONE): the light is the texture's colour times the vertex colour,
+    // weighted by neither the texture's alpha (its glow textures are already dark where transparent) nor the
+    // opacity, drawn from texels without the transparent-edge colour bleed and not into the bloom glow.
+    bool additiveTextureAlpha = true;
     EffectSpriteAlignment alignment = EffectSpriteAlignment::CameraFacing;
     std::array<float, 3> planeRight = {1.0f, 0.0f, 0.0f};
     std::array<float, 3> planeUp = {0.0f, 0.0f, 1.0f};

@@ -41,9 +41,9 @@ class MenuDesignScreen : public MenuScreenBase
     };
     Hotspot hotspot(const std::string &id, const Rect &rect, bool enabled = true);
     bool button(const std::string &id, const Rect &rect, const std::string &text, const std::string &skin = "button",
-                bool enabled = true, bool selected = false);
+                bool enabled = true, bool selected = false, const std::string &font = "fondamento");
     bool selectBox(const std::string &id, const Rect &rect, const std::string &value, bool enabled = true,
-                   float logicalSize = 11.52f);
+                   float logicalSize = 11.52f, const std::string &font = "menu_lucida");
     void skin(const std::string &name, const Rect &rect, bool sliced = false, float padding = 0);
     void outline(const Rect &rect, uint32_t color);
     void confirm(const std::string &title, const std::string &body, std::vector<std::string> choices,
@@ -55,6 +55,8 @@ class MenuDesignScreen : public MenuScreenBase
     void setModalBody(const std::string &text);
     // Release notes for the open confirmation: a left-aligned box between its title and body that scrolls when long.
     void setModalNotes(const std::string &text);
+    // The face of the open confirmation's choices (the language list draws every name in its own script).
+    void setModalChoiceFont(const std::string &font);
     void setTextEditing(bool editing);
     void setDesignClip(const std::optional<Rect> &rect);
     bool pointerInside(const Rect &rect) const;
@@ -105,6 +107,7 @@ class MenuDesignScreen : public MenuScreenBase
         std::vector<std::string> choiceIcons;
         std::string notes;
         float notesScroll = 0;
+        std::string choiceFont = "fondamento";
     };
     std::optional<Confirmation> m_confirmation;
     bool m_drawingConfirmation = false;

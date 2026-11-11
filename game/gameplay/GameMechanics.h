@@ -353,6 +353,8 @@ public:
         float targetDistance,
         std::mt19937 &rng,
         CharacterAttackTuning attackTuning = {});
+    // A Carnage bow's shot (the ExplosiveArrows item flag): a fire arrow that cannot miss and explodes where it strikes.
+    static void applyExplosiveArrows(const Character &character, CharacterAttackResult &attack);
     static SoundId resolveCharacterAttackSoundId(
         const Character &character,
         const ItemTable *pItemTable,

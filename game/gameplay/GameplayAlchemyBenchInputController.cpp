@@ -519,15 +519,6 @@ void GameplayAlchemyBenchInputController::handleInput(GameplayScreenRuntime &con
         return;
     }
 
-    if (!searchActive && newlyPressed(SDL_SCANCODE_E))
-    {
-        // The inventory key closes the whole character screen, as it does without the bench.
-        context.closeCharacterScreen();
-        interaction.menuToggleLatch = true;
-        interaction.closeOverlayLatch = true;
-        return;
-    }
-
     // Tab switches the Workbench's tabs (CRAFTING_BENCH_DESIGN.md §7). Toggles and steps count key presses, which
     // come once per press.
     if (!searchActive && input.scancodePressCount(SDL_SCANCODE_TAB) > 0

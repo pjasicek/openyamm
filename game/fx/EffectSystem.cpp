@@ -579,7 +579,7 @@ EffectHandle EffectSystem::spawn(const std::string &id, const EffectSpawnParams 
     slot.ribbonsStarted.assign(pDefinition->ribbons.size(), false);
     slot.definition = m_pLibrary->m_definitions.at(id);
     slot.random.state = params.seed;
-    slot.emitters.assign(pDefinition->spriteEmitters.size(), {});
+    resetEmitters(slot);
     slot.sounds.assign(pDefinition->sounds.size(), {});
     slot.models.clear();
     ++m_activeCount;
@@ -724,7 +724,7 @@ bool EffectSystem::restart(EffectHandle handle)
     pSlot->draining = false;
     pSlot->elapsedSeconds = 0.0f;
     pSlot->random.state = pSlot->transform.seed;
-    pSlot->emitters.assign(pSlot->definition->spriteEmitters.size(), {});
+    resetEmitters(*pSlot);
     pSlot->sounds.assign(pSlot->definition->sounds.size(), {});
     updateModels(*pSlot);
     updateFixedSprites(handle.index, *pSlot);
@@ -973,6 +973,24 @@ void EffectSystem::tickInstance(uint32_t slotIndex, Slot &slot, float stepSecond
     }
 }
 
+void EffectSystem::resetEmitters(Slot &slot)
+{
+    slot.emitters.assign(slot.definition->spriteEmitters.size(), {});
+    if (slot.transform.bodyAnchor.empty())
+    {
+        return;
+    }
+    for (size_t emitterIndex = 0; emitterIndex < slot.emitters.size(); ++emitterIndex)
+    {
+        const std::string &anchor = slot.definition->spriteEmitters[emitterIndex].bodyAnchor;
+        if (!anchor.empty() && anchor != slot.transform.bodyAnchor)
+        {
+            slot.emitters[emitterIndex].started = true;
+            slot.emitters[emitterIndex].finished = true;
+        }
+    }
+}
+
 void EffectSystem::startEmitter(Slot &slot, size_t emitterIndex)
 {
     const EffectSpriteEmitterDefinition &definition = slot.definition->spriteEmitters[emitterIndex];
@@ -1140,6 +1158,7 @@ void EffectSystem::spawnParticle(
     particle.stretchU = definition.stretchU;
     particle.stretchV = definition.stretchV;
     particle.blendMode = definition.blendMode;
+    particle.additiveTextureAlpha = definition.additiveTextureAlpha;
     if (definition.randomRoll)
     {
         particle.roll = (slot.random.signedValue() + 1.0f) * 3.14159265f;
@@ -1478,6 +1497,7 @@ void EffectSystem::updateFixedSprites(uint32_t slotIndex, Slot &slot)
         sprite.stretchV = definition.stretchV;
         sprite.spriteAnimationSeconds = componentSeconds;
         sprite.blendMode = definition.blendMode;
+        sprite.additiveTextureAlpha = definition.additiveTextureAlpha;
         sprite.alignment = definition.alignment;
         sprite.planeRight = definition.alignment == EffectSpriteAlignment::Velocity
             ? slot.travelDirection

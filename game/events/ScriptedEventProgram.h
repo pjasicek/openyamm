@@ -71,7 +71,7 @@ public:
     bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<std::string> getHint(uint16_t eventId) const;
     std::optional<std::string> summarizeEvent(uint16_t eventId) const;
-    const LearnedEffect *learnedEffect(uint16_t eventId) const;
+    std::optional<LearnedEffect> learnedEffect(uint16_t eventId) const;
     std::vector<uint32_t> getOpenedChestIds(uint16_t eventId) const;
     std::optional<ContextActionMetadata> getContextActionMetadata(uint16_t eventId) const;
 

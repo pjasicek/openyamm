@@ -103,6 +103,9 @@ SetMapMetadata({
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "d21.blv", targetName = "Vampire Crypt" },
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d49.blv", targetName = "Yaardrake's Cave" },
     },
+    learnedEffect = {
+    [101] = { autonote = 220, effect = "Intellect +2 (permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},

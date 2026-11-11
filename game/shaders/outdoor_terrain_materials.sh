@@ -2,6 +2,8 @@
 // Weights cover the 128x128 cell map; the two strongest layers blend by height, each sampled twice with a rotated
 // second projection to hide its repeat. The liquid renderer draws the liquid cells; liquid edge cells keep the
 // ground only where their native coverage mask leaves some.
+// TERRAIN_DEPTH_ONLY: the main view's depth pre-pass (OutdoorRenderer::submitTerrainMaterials): no colour, and it
+// leaves out exactly the pixels the shaded programs cut, so the shaded pass after it runs once per pixel.
 #include "common.sh"
 #include "world_clip.sh"
 #include "terrain_material_layers.sh"
@@ -128,6 +130,13 @@ vec3 shoreAlbedo(vec3 albedo, vec3 position, float shore)
     return albedo * (1.0 + max(web, fine * 0.45) * 1.5 * shallows);
 }
 
+// Liquid edge tiles without a seabed: the liquid alone where the native overlay was fully transparent. The coverage
+// masks have no mip levels.
+bool terrainLiquidEdgeCut(float waterKind, bool seabed, vec2 local, float tileLayer)
+{
+    return waterKind > 1.5 && !seabed && texture2DArray(s_texWaterCoverage, vec3(local, tileLayer)).r >= 0.999;
+}
+
 void main()
 {
     clipWorldPosition(v_worldPosition);
@@ -170,6 +179,13 @@ void main()
     {
         discard;
     }
+#if TERRAIN_DEPTH_ONLY
+    if (plain <= 0.999 && terrainLiquidEdgeCut(waterKind, seabed, local, tileLayer))
+    {
+        discard;
+    }
+    gl_FragColor = vec4_splat(0.0);
+#else
     if (plain > 0.999)
     {
         float layer = u_terrainShore.w;
@@ -182,9 +198,7 @@ void main()
     }
     else
     {
-        // Liquid edge tiles without a seabed: the liquid alone where the native overlay was fully transparent.
-        // The coverage masks have no mip levels.
-        if (waterKind > 1.5 && !seabed && texture2DArray(s_texWaterCoverage, vec3(local, tileLayer)).r >= 0.999)
+        if (terrainLiquidEdgeCut(waterKind, seabed, local, tileLayer))
         {
             discard;
         }
@@ -320,4 +334,5 @@ void main()
     float fogRatio = skyFogRatio(getFogRatio(fogDistance), position, fogDistance, u_fogDistances.z);
     vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, position), getFogAlpha(fogDistance));
     gl_FragColor = mix(vec4(litColor, 1.0), fogColor, fogRatio);
+#endif // !TERRAIN_DEPTH_ONLY
 }

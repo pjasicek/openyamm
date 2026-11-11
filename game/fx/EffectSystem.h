@@ -31,6 +31,9 @@ struct EffectSpawnParams
     std::array<float, 4> rotation = {0.0f, 0.0f, 0.0f, 1.0f};
     float scale = 1.0f;
     uint32_t seed = 9;
+    // Non-empty: only this body anchor's emitters (and the unanchored ones) emit, as MM9 puts each of an effect's
+    // anchored emitters on its own body node (EffectSpriteEmitterDefinition::bodyAnchor).
+    std::string bodyAnchor;
 };
 
 enum class EffectStopMode
@@ -60,6 +63,7 @@ struct EffectParticle
     float spriteAnimationSeconds = 0.0f;
     float lifetimeSeconds = 1.0f;
     EffectBlendMode blendMode = EffectBlendMode::Alpha;
+    bool additiveTextureAlpha = true;
     EffectParticleSpace particleSpace = EffectParticleSpace::World;
     EffectSpriteAlignment alignment = EffectSpriteAlignment::CameraFacing;
     std::array<float, 3> planeRight = {1.0f, 0.0f, 0.0f};
@@ -79,6 +83,7 @@ struct EffectFixedSprite
     float stretchV = 1.0f;
     float spriteAnimationSeconds = 0.0f;
     EffectBlendMode blendMode = EffectBlendMode::Additive;
+    bool additiveTextureAlpha = true;
     EffectSpriteAlignment alignment = EffectSpriteAlignment::CameraFacing;
     std::array<float, 3> planeRight = {1.0f, 0.0f, 0.0f};
     std::array<float, 3> planeUp = {0.0f, 0.0f, 1.0f};
@@ -255,6 +260,8 @@ private:
     void tick(float stepSeconds);
     void tickInstance(uint32_t slotIndex, Slot &slot, float stepSeconds);
     void startEmitter(Slot &slot, size_t emitterIndex);
+    // Fresh emitter states; those of another body anchor than the spawn's are finished before they start.
+    static void resetEmitters(Slot &slot);
     EmissionSample createEmissionSample(Slot &slot, const EffectSpriteEmitterDefinition &definition);
     std::array<float, 3> emitterCenter(const Slot &slot, const EffectSpriteEmitterDefinition &definition) const;
     EmissionSample nextEmissionSample(Slot &slot, const EffectSpriteEmitterDefinition &definition, EmitterState &state);

@@ -135,6 +135,43 @@ public:
         float width,
         float size);
 
+    // The on/off switch of a skills page row (MAW's Cover and Mana Shield) and of the Magic heading (an Elementalist's
+    // rotation), in logical pixels. A switch row's gem sits at the list's left edge and its name starts
+    // SkillSwitchIndent right of it (so do the other names of its group). A click from SkillSwitchReach left of the
+    // gem to its right edge flips the switch; the strip from the gem to the indent takes no clicks, so a slightly
+    // missed click neither flips the switch nor raises the skill. Touch reaches further into the column gap.
+    static constexpr float SkillSwitchGemWidth = 13.0f;
+    static constexpr float SkillSwitchIndent = 18.0f;
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
+    static constexpr float SkillSwitchReach = 10.0f;
+#else
+    static constexpr float SkillSwitchReach = 6.0f;
+#endif
+    static constexpr float SkillRotationLabelScale = 0.8f;
+    // The Magic heading's rotation switch: its "Rotation" label from labelLeft, then the gem at gemX, right-aligned
+    // with the magic levels. The label and the gem take clicks alike (a heading raises nothing).
+    struct SkillRotationSwitchRect
+    {
+        float labelLeft = 0;
+        float gemX = 0;
+        float right = 0;
+        float y = 0;
+        float height = 0;
+        float scale = 1;
+    };
+    static std::optional<SkillRotationSwitchRect> skillRotationSwitchRect(
+        GameplayScreenRuntime &context,
+        int width,
+        int height);
+    // The lit or unlit gem with its left edge at x, centred on centerY, clipped to pClip when given.
+    static void renderSkillSwitchGem(
+        GameplayScreenRuntime &context,
+        bool on,
+        float x,
+        float centerY,
+        float scale,
+        const GameplayResolvedHudLayoutElement *pClip);
+
     static void renderGameplayMouseLookOverlay(
         GameplayScreenRuntime &context,
         int width,

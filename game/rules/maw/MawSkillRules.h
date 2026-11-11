@@ -1,9 +1,11 @@
 #pragma once
 
+#include "game/party/CharacterState.h"
 #include "game/rules/SkillRules.h"
 #include "game/rules/maw/MawSkillFormulas.h"
 
 #include <optional>
+#include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -21,6 +23,9 @@ public:
     std::string skillDisplayName(const Character &character, const std::string &canonicalSkill) const override;
     uint32_t skillRaiseCost(const Character &character, const std::string &canonicalSkill) const override;
     // Cover at training halls, Mana Shield and Enlightenment at magic shops (skill_rules.yml `learned_at`).
+    // Cover and Mana Shield, once learned (P and M on the skills page, S:2175-2179 and S:2426-2430).
+    std::optional<bool> skillSwitch(const Character &character, const std::string &canonicalSkill) const override;
+    std::optional<bool> toggleSkillSwitch(Character &character, const std::string &canonicalSkill) const override;
     std::vector<std::string> extraHouseSkills(const std::string &houseType) const override;
     std::vector<std::pair<std::string, std::array<uint32_t, 3>>> teacherlessMasteryLadders() const override;
     // Alchemy 60, Cover 30, Mana Shield and Retaliation 50 (S:300-320).
@@ -31,6 +36,10 @@ public:
         Character &character,
         const std::string &canonicalSkill,
         const ClassSkillTable *pClassSkillTable) const override;
+    // A promotion raises the class's limits: Cover already at its cap teaches Retaliation, and the four new skills
+    // take the ladder masteries their levels reached under the old limit. MAW waits for the next "+" click (S:2506-2521);
+    // OpenYAMM grants them at once, so a skill at its level cap is not stuck.
+    void afterClassChanged(Character &character, const ClassSkillTable *pClassSkillTable) const override;
     uint32_t masteryRequiredLevel(const std::string &canonicalSkill, SkillMastery mastery) const override;
     int masteryTeacherCost(
         const Character &character,
@@ -121,12 +130,24 @@ public:
     MawPriceMode priceMode() const;
 
 private:
+    // What one more point of the skill changes in the member's Melee, Ranged and Spell Power and Vitality, as the
+    // equipment comparison shows a swap: the changed ones in percent, a paragraph for the skill popup's footer. Empty
+    // when the member cannot buy the point now or nothing changes.
+    std::string raisePreviewText(const Party &party, const Character &character, const std::string &canonicalSkill)
+        const;
+
     // A member's HP and SP per second from skills, auras and potions, before the out-of-combat multipliers.
     std::pair<double, double> regenerationPerSecond(const Party &party, size_t index) const;
     // A mastery a respec took comes back, one rank per raise, once the skill reaches that rank's requirement.
     std::string restoreRememberedMastery(
         Character &character,
         CharacterSkill &skill,
+        const ClassSkillTable *pClassSkillTable) const;
+    // Cover at its cap teaches Retaliation, and a ladder skill takes the mastery its level reached within the class's
+    // limit. Returns a status text, or nothing.
+    std::string grantLadderMastery(
+        Character &character,
+        const std::string &canonicalSkill,
         const ClassSkillTable *pClassSkillTable) const;
 
     // A switch to horizontal progression takes the masteries of skills 0-23 their levels no longer reach; the way
@@ -141,6 +162,22 @@ private:
     mutable std::optional<bool> m_horizontalApplied;
     // Runtime: time since the last regeneration tick.
     mutable float m_regenerationSeconds = 0.0f;
+
+    // The last raise preview, kept while the popup stays open on the same member, skill and gear.
+    struct RaisePreview
+    {
+        size_t memberIndex = 0;
+        std::string skill;
+        uint32_t level = 0;
+        uint32_t skillPoints = 0;
+        // The spell its Spell Power measures (mawPowerSpellName).
+        std::string spell;
+        CharacterEquipment equipment;
+        CharacterEquipmentRuntimeState equipmentRuntime;
+        std::string text;
+    };
+
+    mutable std::optional<RaisePreview> m_lastRaisePreview;
 };
 
 // The Shaman, Seraphim, Death Knight and Thief lines share only magic raise costs.

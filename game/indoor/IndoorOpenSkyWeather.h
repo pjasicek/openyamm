@@ -56,10 +56,11 @@ public:
         return m_fog;
     }
     // Rain and snow round the camera into a transparent view after the world; skipped while not shown.
-    // Under cover the distant rain curtain is left out (it would hang inside the room).
+    // Under cover the distant rain curtain is left out (it would hang inside the room). pHaze: the scene fog's colour
+    // this frame (display space), which the drops and flakes fall through; null without fog.
     void render(uint16_t viewId, const std::array<float, 3> &camera, float yawRadians, const float *pProjection,
         uint16_t viewHeight, const SkyFrameState *pSky, WeatherQuality quality, const WeatherGroundQuery &ground,
-        bool covered);
+        bool covered, const std::array<float, 3> *pHaze);
     // Its rain-ring strength for the water renderer (0 without rain).
     float rainRings() const;
     void shutdown(GameAudioSystem *pAudio, bool gpuAlive);

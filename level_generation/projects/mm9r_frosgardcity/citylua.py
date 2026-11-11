@@ -343,6 +343,7 @@ def map_script(hooks, build) -> str:
         "end",
         f"handlers[{rude_exit_event(o['ForadDarre'])}] = function()",
         f"    if has(104) then   -- Hate: AddEnemy Player; MM9's monster AI walks him at the party (placed still)",
+        "        set(\"ForadTalked\", 1)   -- bTalking stays set: he never opens his dialogue by himself again",
         f"        evt.ClearActorPresentation({a['ForadDarre']})   -- the bow's facing goes back to his AI",
         f"        evt.SetMonGroupBit({GROUP_FORAD}, MonsterBits.Hostile, true)",
         f"        evt.SetActorImmobile({a['ForadDarre']}, false)",
@@ -353,7 +354,8 @@ def map_script(hooks, build) -> str:
         "end",
         "-- Forad.scr :OnAppear (BattleMan.scr's Appear: battle() below shows him): OnFoundPlayer OnTarget 256 ->",
         "-- target the player, OnTargetWithinDist 16 :Talk: he opens his dialogue himself when the party comes near (the",
-        "-- approach talks' poll); with key 104 its close turns him on the party.",
+        "-- approach talks' poll); with key 104 its close turns him on the party. :Talk and :OnUse set bTalking, which",
+        "-- only :Forad (no 104) clears: after that close he never talks by himself again, on later visits too (ForadTalked).",
         "-- Forad.scr :OnDeath: once (key 494), 194 000 experience (capped) and the quest sound.",
         f"handlers[{EV_FORAD_DEATH}] = function(context)",
         f"    if context.actorIndex ~= {a['ForadDarre']} or has(494) then return end",
@@ -375,9 +377,10 @@ def map_script(hooks, build) -> str:
                   + (f"; MM9.removeActor({a[twin]})" if twin else ""),
                   "    elseif has(106) or has(83) then MM9.openRude(378) end",
                   "end"]
-    # Forad.scr :OnAppear -> :OnTarget -> OnTargetWithinDist 16 :Talk (stop, bTalking, DoRude 2; not :OnUse's key 480)
+    # Forad.scr :OnAppear -> :OnTarget -> OnTargetWithinDist 16 :Talk (stop, bTalking, DoRude 2; not :OnUse's key 480);
+    # :OnTarget exits while bTalking, which a close with 104 leaves set (ForadTalked): once, not once per visit
     script.approach_talk(a["ForadDarre"], f"MM9.openRude({hooks.rude['ForadDarre']}, {a['ForadDarre']})",
-                         armed="has(104)",
+                         armed="has(104) and var(\"ForadTalked\") == 0",
                          note="ForadDarre: FORAD.scr :OnAppear OnTargetWithinDist 16 :Talk")
     # NPC378.scr :OnFound: he runs to the party and talks (dungeon/lua.py thorolf_approaches)
     lua.thorolf_approaches(script, a, ("Thorolf0", "Thorolf1", "Thorolf2"))

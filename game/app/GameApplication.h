@@ -29,6 +29,7 @@
 #include "game/debug/DebugConsole.h"
 #include "game/debug/GameImGuiBgfxRenderer.h"
 #include "game/debug/ScreenshotCaptureService.h"
+#include "game/debug/VideoCapture.h"
 #include "game/debug/ScreenshotTour.h"
 #include "game/debug/MenuInputTour.h"
 #include "game/maps/SaveGame.h"
@@ -63,6 +64,8 @@ public:
 
 private:
   MenuInputTour m_menuInputTour;
+  // The menu tour's clock: the frames' summed time steps (unscaled), so its waits follow a video capture's fixed step.
+  uint64_t m_menuInputTourClockNanoseconds = 0;
   std::vector<uint8_t> m_menuSavePreviewBmp;
   struct DebugMapJumpStart
   {
@@ -224,7 +227,10 @@ private:
     bool activateWorldForMapFileName(const std::string &mapFileName);
     bool applyCurrentSessionToRuntime(bool initializeView);
     bool processPendingMapMove();
-    bool requestAutosaveBeforeMapMove();
+    // Requests an autosave, written once a frame has rendered its preview; never in headless (Noop renderer) runs.
+    bool requestAutosave();
+    // The map's world writes its autosave on arrival (world.yml autosave: arrival) rather than on departure.
+    bool worldAutosavesOnArrival(const std::string &mapFileName) const;
     bool activeViewSavePreviewCapturePending() const;
     bool processPendingCompletionCertificate();
     bool processPendingEventMovie();
@@ -258,7 +264,7 @@ private:
     void restoreSavedOutdoorWorldStateForSelectedMap();
     void updateQuickSaveInput();
     void updateDoubleSpeedInput();
-    float gameplayDeltaSeconds(float deltaSeconds) const;
+    float gameplaySpeed() const;
     void updateGameplayTraceSnapshotHotkeys();
     bool processPendingQuickSaveInput();
     bool quickSave();
@@ -458,6 +464,7 @@ private:
     std::vector<EffectHandle> m_debugEffectHandles;
     std::vector<Engine::ModelInstanceHandle> m_debugModelHandles;
     ScreenshotCaptureService m_screenshotCaptureService;
+    VideoCapture m_videoCapture;
     std::optional<ScreenshotTour> m_screenshotTour;
     ScreenshotTourStage m_screenshotTourStage = ScreenshotTourStage::NotStarted;
     size_t m_screenshotTourShotIndex = 0;

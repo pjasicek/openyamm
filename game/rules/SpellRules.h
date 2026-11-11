@@ -90,8 +90,9 @@ public:
         const SpellTable &spellTable,
         bool indoor,
         bool fromSpellbook) const;
-    // Switches the member's spell rotation (MAW's Elementalists) and says whether it is on now; nothing for a member
-    // without one.
+    // Whether the member's spell rotation (MAW's Elementalists) is on; nothing for a member without one.
+    virtual std::optional<bool> spellRotation(const Character &member) const;
+    // Switches the member's spell rotation and says whether it is on now; nothing for a member without one.
     virtual std::optional<bool> toggleSpellRotation(Character &member) const;
     // The recovery ticks the cast takes, from the table's.
     virtual int recoveryTicks(const CharacterSpellCast &cast, int tableTicks) const;

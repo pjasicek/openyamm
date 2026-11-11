@@ -51,28 +51,36 @@ constexpr uint32_t ThrowingDaggerProjectileObjectId = 307;
 constexpr uint32_t ThrowingAxeProjectileObjectId = 309;
 constexpr uint32_t BlasterProjectileObjectId = 555;
 
-// "Orange Barrel (+2 Intellect)": the effect of the hovered event once the party has the autonote recording it.
+// "Orange Barrel (+2 Intellect)", "Drink from the Fountain (+50 Might (Temporary))": the effect of the hovered event
+// once the party has the autonote recording it.
 void appendLearnedEventEffect(
     GameplayHoverStatusPayload &payload,
     const IGameplayWorldRuntime &worldRuntime,
     const GameplayScreenRuntime *pScreenRuntime)
 {
     const std::optional<GameplayEventTargetHit> &eventTarget = payload.worldHit.eventTarget;
-    const std::optional<ScriptedEventProgram> *pGlobalEventProgram = worldRuntime.globalEventProgram();
 
     if (pScreenRuntime == nullptr || !eventTarget || eventTarget->nameEventId == 0
-        || !payload.eventTargetStatusText || payload.eventTargetStatusText->empty()
-        || pGlobalEventProgram == nullptr || !*pGlobalEventProgram)
+        || !payload.eventTargetStatusText || payload.eventTargetStatusText->empty())
     {
         return;
     }
 
-    const ScriptedEventProgram::LearnedEffect *pEffect =
-        (*pGlobalEventProgram)->learnedEffect(eventTarget->nameEventId);
+    const std::optional<ScriptedEventProgram> *pProgram = eventTarget->nameEventIsLocal
+        ? worldRuntime.localEventProgram()
+        : worldRuntime.globalEventProgram();
 
-    if (pEffect != nullptr && pScreenRuntime->isAutonoteUnlocked(pEffect->autonoteId))
+    if (pProgram == nullptr || !*pProgram)
     {
-        *payload.eventTargetStatusText += " (" + pEffect->effect + ")";
+        return;
+    }
+
+    const std::optional<ScriptedEventProgram::LearnedEffect> effect =
+        (*pProgram)->learnedEffect(eventTarget->nameEventId);
+
+    if (effect && pScreenRuntime->isAutonoteUnlocked(effect->autonoteId))
+    {
+        *payload.eventTargetStatusText += " (" + effect->effect + ")";
     }
 }
 

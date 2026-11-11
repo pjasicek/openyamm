@@ -168,6 +168,184 @@ bool readPathStops(const YAML::Node &node, std::vector<Mm9AiPathStop> &stops, st
     return true;
 }
 
+// One routine's steps, a chance group's flattened after its Chance step.
+bool readRoutineSteps(const YAML::Node &node, const std::string &name, std::vector<Mm9AiRoutineStep> &steps,
+    std::string &error)
+{
+    constexpr float DegreesToRadians = 3.14159265f / 180.0f;
+    const std::string where = "mm9_ai.routines." + name;
+
+    if (!node.IsSequence())
+    {
+        error = where + " must be a list of steps";
+        return false;
+    }
+
+    const auto readPoint = [&](const YAML::Node &value, std::array<int32_t, 3> &point)
+    {
+        if (!value.IsSequence() || value.size() != 3 || !YAML::convert<int32_t>::decode(value[0], point[0])
+            || !YAML::convert<int32_t>::decode(value[1], point[1])
+            || !YAML::convert<int32_t>::decode(value[2], point[2]))
+        {
+            error = where + ": a walk needs an [x, y, z] point";
+            return false;
+        }
+
+        return true;
+    };
+    const auto readClip = [&](const YAML::Node &value, std::vector<Mm9AiRoutineClip> &clips)
+    {
+        Mm9AiRoutineClip clip;
+
+        if (!value.IsMap() || !value["clip"] || !value["seconds"] || value.size() != 2
+            || !readNumber(value["seconds"], "routines." + name + ".seconds", 0.01f, 3600.0f, clip.seconds, error))
+        {
+            error = where + ": a clip needs {clip, seconds}";
+            return false;
+        }
+
+        clip.clip = value["clip"].as<std::string>();
+        clips.push_back(std::move(clip));
+        return true;
+    };
+
+    for (const YAML::Node &entry : node)
+    {
+        Mm9AiRoutineStep step;
+
+        if (!entry.IsMap() || entry.size() == 0)
+        {
+            error = where + ": a step must be a map";
+            return false;
+        }
+
+        if (entry["walk"] || entry["run"])
+        {
+            step.kind = entry["walk"] ? Mm9AiRoutineStep::Kind::Walk : Mm9AiRoutineStep::Kind::Run;
+
+            if (entry.size() != 1 || !readPoint(entry["walk"] ? entry["walk"] : entry["run"], step.point))
+            {
+                error = error.empty() ? where + ": a walk takes only its point" : error;
+                return false;
+            }
+        }
+        else if (entry["face"])
+        {
+            step.kind = Mm9AiRoutineStep::Kind::Face;
+            step.faceYawRadians = entry["face"].as<float>() * DegreesToRadians;
+        }
+        else if (entry["clip"])
+        {
+            step.kind = Mm9AiRoutineStep::Kind::Clip;
+
+            if (!readClip(entry, step.clips))
+            {
+                return false;
+            }
+        }
+        else if (entry["clips"])
+        {
+            step.kind = Mm9AiRoutineStep::Kind::Clip;
+
+            if (!entry["clips"].IsSequence() || entry["clips"].size() == 0 || entry.size() != 1)
+            {
+                error = where + ": clips must be a list of {clip, seconds}";
+                return false;
+            }
+
+            for (const YAML::Node &clip : entry["clips"])
+            {
+                if (!readClip(clip, step.clips))
+                {
+                    return false;
+                }
+            }
+        }
+        else if (entry["wait"])
+        {
+            step.kind = Mm9AiRoutineStep::Kind::Wait;
+
+            if (!readRange(entry["wait"], "routines." + name + ".wait", step.waitMinSeconds, step.waitMaxSeconds,
+                    error))
+            {
+                return false;
+            }
+        }
+        else if (entry["chance"])
+        {
+            step.kind = Mm9AiRoutineStep::Kind::Chance;
+            std::vector<Mm9AiRoutineStep> group;
+
+            if (!entry["steps"] || entry.size() != 2
+                || !readNumber(entry["chance"], "routines." + name + ".chance", 0.0f, 1.0f, step.chance, error)
+                || !readRoutineSteps(entry["steps"], name, group, error))
+            {
+                error = error.empty() ? where + ": a chance group is {chance, steps}" : error;
+                return false;
+            }
+
+            step.skip = uint16_t(group.size());
+            steps.push_back(step);
+            steps.insert(steps.end(), group.begin(), group.end());
+            continue;
+        }
+        else if (entry["items"])
+        {
+            const std::string items = entry["items"].as<std::string>();
+
+            if (items != "hide" && items != "show")
+            {
+                error = where + ": items must be hide or show";
+                return false;
+            }
+
+            step.kind = items == "hide" ? Mm9AiRoutineStep::Kind::HideItems : Mm9AiRoutineStep::Kind::ShowItems;
+        }
+        else
+        {
+            error = where + ": unknown step " + entry.begin()->first.as<std::string>();
+            return false;
+        }
+
+        steps.push_back(std::move(step));
+    }
+
+    return true;
+}
+
+// routines: {name: [steps], ...} (Mm9AiRoutine).
+bool readRoutines(const YAML::Node &node, std::vector<Mm9AiRoutine> &routines, std::string &error)
+{
+    routines.clear();
+
+    if (!node.IsMap())
+    {
+        error = "mm9_ai.routines must map names to lists of steps";
+        return false;
+    }
+
+    for (YAML::const_iterator iterator = node.begin(); iterator != node.end(); ++iterator)
+    {
+        Mm9AiRoutine routine;
+        routine.name = iterator->first.as<std::string>();
+
+        if (!readRoutineSteps(iterator->second, routine.name, routine.steps, error))
+        {
+            return false;
+        }
+
+        if (routine.steps.empty())
+        {
+            error = "mm9_ai.routines." + routine.name + " has no steps";
+            return false;
+        }
+
+        routines.push_back(std::move(routine));
+    }
+
+    return true;
+}
+
 bool readPoints(const YAML::Node &node, const std::string &key, std::vector<std::array<int32_t, 3>> &points,
     std::string &error)
 {
@@ -366,11 +544,27 @@ bool Mm9AiPlacementRecord::operator==(const Mm9AiPlacementRecord &other) const
         && a.wanderTimeMaxSeconds == b.wanderTimeMaxSeconds && a.pathRandom == b.pathRandom
         && a.dormantUntil == b.dormantUntil && a.dormantPose == b.dormantPose && a.hostility == b.hostility
         && a.faction == b.faction && a.summoner == b.summoner && a.startsDead == b.startsDead && a.boss == b.boss
-        && a.profile == b.profile
-        && pathPoints == other.pathPoints && pathStops == other.pathStops && summonPoints == other.summonPoints
+        && a.idleClip == b.idleClip && a.profile == b.profile
+        && pathPoints == other.pathPoints && pathStops == other.pathStops && routines == other.routines
+        && summonPoints == other.summonPoints
         && hidingPlaces == other.hidingPlaces
         && summonClass == other.summonClass
         && script == other.script && scriptParams == other.scriptParams;
+}
+
+int16_t mm9RoutineIndex(const std::vector<Mm9AiRoutine> &routines, const std::string *pChosen)
+{
+    const std::string &name = pChosen != nullptr ? *pChosen : std::string("default");
+
+    for (size_t index = 0; !name.empty() && index < routines.size(); ++index)
+    {
+        if (routines[index].name == name)
+        {
+            return int16_t(index);
+        }
+    }
+
+    return -1;
 }
 
 const Mm9AiProfile &mm9StandInCivilianProfile()
@@ -549,6 +743,10 @@ bool parseMm9AiPlacementNode(const YAML::Node &node, Mm9AiPlacementRecord &recor
             {
                 ok = readPathStops(value, record.pathStops, error);
             }
+            else if (key == "routines")
+            {
+                ok = readRoutines(value, record.routines, error);
+            }
             else if (key == "path_random")
             {
                 ok = readFlag(value, key, settings.pathRandom, error);
@@ -598,6 +796,18 @@ bool parseMm9AiPlacementNode(const YAML::Node &node, Mm9AiPlacementRecord &recor
             else if (key == "boss")
             {
                 ok = readFlag(value, key, settings.boss, error);
+            }
+            else if (key == "idle_clip")
+            {
+                ok = value.IsScalar() && !value.as<std::string>().empty();
+                if (ok)
+                {
+                    settings.idleClip = value.as<std::string>();
+                }
+                else
+                {
+                    error = "mm9_ai.idle_clip must be a clip name";
+                }
             }
             else if (key == "profile")
             {

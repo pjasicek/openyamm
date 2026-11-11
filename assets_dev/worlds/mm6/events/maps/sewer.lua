@@ -42,6 +42,9 @@ SetMapMetadata({
     [27] = { kind = "open_door", source = "opcode" },
     [28] = { kind = "passage", source = "opcode", targetMap = "6t6.blv", targetName = "Supreme Temple of Baa" },
     },
+    learnedEffect = {
+    [19] = { autonote = 459, effect = "+10 Hit points restored" },
+    },
     textureNames = {},
     spriteNames = {"0"},
     castSpellIds = {90},

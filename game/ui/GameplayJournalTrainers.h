@@ -36,6 +36,13 @@ struct JournalTrainerTarget
     size_t index = 0;
 };
 
+bool journalOwnerTabsShown(const GameplayUiController::JournalScreenState &journal);
+std::string journalOwner(const GameplayScreenRuntime &context,
+    const GameplayUiController::JournalScreenState &journal);
+uint32_t journalOwnerTargetAt(const GameplayResolvedHudLayoutElement &page, float x, float y);
+void renderJournalOwners(GameplayScreenRuntime &context, const GameplayUiController::JournalScreenState &journal,
+    const GameplayResolvedHudLayoutElement &page, float x, float y);
+
 uint32_t packJournalTrainerTarget(const JournalTrainerTarget &target);
 JournalTrainerTarget unpackJournalTrainerTarget(uint32_t packed);
 

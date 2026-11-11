@@ -13,6 +13,7 @@
 // INDOOR_TERRAIN: the terrain faces of an open-air BLV (IndoorTerrainMaterials, devdocs/INDOOR_OPEN_SKY.md "Terrain"):
 // blended library ground materials (terrain_material_layers.sh) by world position instead of the face texture, lit
 // with the smooth ground normal the vertices carry in a_tangent (v_gradientU); v_texcoord0 = (steepness, meadow).
+// INDOOR_DEPTH_ONLY: the terrain's depth pre-pass, which writes no colour.
 // v_lightmapUv: read only by INDOOR_BAKED, but declared by every variant: shaderc keeps the $input lines of both
 // branches of an #if and takes the last, so Metal and SPIR-V lost it; vs_indoor_textured_lit passes zero.
 $input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo, v_color0, v_lightmapUv, v_gradientU, v_gradientV, v_faceInfo
@@ -248,6 +249,11 @@ vec3 surfaceIndoorColor(vec3 displayColor, SurfacePoint material, vec3 faceNorma
 
 void main()
 {
+#if INDOOR_DEPTH_ONLY
+    // The terrain's depth pre-pass in the main view (IndoorRenderer::submitMainViewFaces): depth alone, written with
+    // the colour masked, so the shaded pass after it runs once per pixel. The main view has no clip plane.
+    gl_FragColor = vec4_splat(0.0);
+#else
     clipWorldPosition(v_worldPosition);
     // v_texcoord1.x: 1 for a secret face, plus 2 for a face of the scene's `opaque_faces`; rounded first, as the
     // interpolated slot sits a hair off its whole value (an unrounded test speckled opaque faces with the pulse).
@@ -413,4 +419,5 @@ void main()
 #else
     gl_FragColor = vec4(color, textureColor.a);
 #endif
+#endif // !INDOOR_DEPTH_ONLY
 }

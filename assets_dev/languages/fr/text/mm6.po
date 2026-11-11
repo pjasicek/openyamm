@@ -24,14 +24,14 @@ msgstr ""
 "Je vous suis reconnaissant pour tout ce que vous avez fait pour moi et pour Enroth."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/common/mm6_common.lua:348 assets_dev/worlds/mm6/events/maps/outc2.lua:215
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:348 assets_dev/worlds/mm6/events/maps/outc2.lua:219
 msgid ""
 "You hand the Sacred Chalice to the monks of the temple who ensconce it in the main altar."
 msgstr ""
 "Vous donnez le Calice Sacré aux moines du temple qui le placent sur l'autel principal."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/common/mm6_common.lua:361 assets_dev/worlds/mm6/events/maps/outc2.lua:226
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:361 assets_dev/worlds/mm6/events/maps/outc2.lua:230
 msgid "The stone cutter and carpenter begin rebuilding the temple."
 msgstr ""
 "Le tailleur de pierres et le charpentier commence à reconstruire le temple."
@@ -165,8 +165,8 @@ msgstr "Cage"
 #: assets_dev/worlds/mm6/events/maps/6d03.lua:54 assets_dev/worlds/mm6/events/maps/6d16.lua:151 assets_dev/worlds/mm6/events/maps/6t1.lua:115
 #: assets_dev/worlds/mm6/events/maps/6t1.lua:139 assets_dev/worlds/mm6/events/maps/6t1.lua:155 assets_dev/worlds/mm6/events/maps/6t1.lua:62
 #: assets_dev/worlds/mm6/events/maps/6t1.lua:73 assets_dev/worlds/mm6/events/maps/6t1.lua:84 assets_dev/worlds/mm6/events/maps/6t1.lua:99
-#: assets_dev/worlds/mm6/events/maps/cd1.lua:109 assets_dev/worlds/mm6/events/maps/cd1.lua:96 assets_dev/worlds/mm6/events/maps/oute3.lua:378
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:148
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:109 assets_dev/worlds/mm6/events/maps/cd1.lua:96 assets_dev/worlds/mm6/events/maps/oute3.lua:383
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:151
 msgid "The door is locked."
 msgstr "La porte est fermée à clef."
 
@@ -547,7 +547,7 @@ msgstr "Vous n'êtes pas assez intelligent"
 #: assets_dev/worlds/mm6/events/maps/6d16.lua:352 assets_dev/worlds/mm6/events/maps/6d16.lua:354 assets_dev/worlds/mm6/events/maps/6d16.lua:356
 #: assets_dev/worlds/mm6/events/maps/6d16.lua:358 assets_dev/worlds/mm6/events/maps/6t2.lua:47 assets_dev/worlds/mm6/events/maps/6t2.lua:49
 #: assets_dev/worlds/mm6/events/maps/6t2.lua:51 assets_dev/worlds/mm6/events/maps/6t2.lua:53 assets_dev/worlds/mm6/events/maps/6t4.lua:104
-#: assets_dev/worlds/mm6/events/maps/6t4.lua:92 assets_dev/worlds/mm6/events/maps/sewer.lua:104 assets_dev/worlds/mm6/events/maps/sewer.lua:106
+#: assets_dev/worlds/mm6/events/maps/6t4.lua:92 assets_dev/worlds/mm6/events/maps/sewer.lua:107 assets_dev/worlds/mm6/events/maps/sewer.lua:109
 #: assets_dev/worlds/mm6/events/maps/zddb08.lua:745 assets_dev/worlds/mm6/events/maps/zddb08.lua:747
 msgid "Cabinet"
 msgstr "Placard"
@@ -578,12 +578,12 @@ msgid "Pool"
 msgstr "Fontaine"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/6d09.lua:271 assets_dev/worlds/mm6/events/maps/sewer.lua:183
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:271 assets_dev/worlds/mm6/events/maps/sewer.lua:186
 msgid "+10 Hit points restored."
 msgstr "+10 points de vie"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/6d09.lua:283 assets_dev/worlds/mm6/events/maps/oute2.lua:357
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:283 assets_dev/worlds/mm6/events/maps/oute2.lua:363
 msgid "+10 Spell points restored."
 msgstr "+10 points de sort"
 
@@ -1046,7 +1046,7 @@ msgstr "Autel de Force"
 #: assets_dev/worlds/mm6/events/maps/6t5.lua:108 assets_dev/worlds/mm6/events/maps/6t5.lua:125 assets_dev/worlds/mm6/events/maps/6t5.lua:134
 #: assets_dev/worlds/mm6/events/maps/6t5.lua:157 assets_dev/worlds/mm6/events/maps/6t5.lua:175 assets_dev/worlds/mm6/events/maps/6t5.lua:185
 #: assets_dev/worlds/mm6/events/maps/6t5.lua:203 assets_dev/worlds/mm6/events/maps/6t5.lua:213 assets_dev/worlds/mm6/events/maps/6t5.lua:231
-#: assets_dev/worlds/mm6/events/maps/6t5.lua:241 assets_dev/worlds/mm6/events/maps/6t5.lua:263 assets_dev/worlds/mm6/events/maps/sewer.lua:122
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:241 assets_dev/worlds/mm6/events/maps/6t5.lua:263 assets_dev/worlds/mm6/events/maps/sewer.lua:125
 msgid "Ouch!"
 msgstr "Aïe!"
 
@@ -1106,8 +1106,8 @@ msgid "Altar of the Moon"
 msgstr "Autel de Lune"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/6t6.lua:173 assets_dev/worlds/mm6/events/maps/6t6.lua:176 assets_dev/worlds/mm6/events/maps/sewer.lua:215
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:219
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:173 assets_dev/worlds/mm6/events/maps/6t6.lua:176 assets_dev/worlds/mm6/events/maps/sewer.lua:218
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:222
 msgid "Cylinder"
 msgstr "Cylindre"
 
@@ -1179,7 +1179,7 @@ msgid "Shrine of Earth"
 msgstr "Temple de la Terre"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/6t6.lua:300 assets_dev/worlds/mm6/events/maps/outb1.lua:261
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:300 assets_dev/worlds/mm6/events/maps/outb1.lua:268
 msgid "+10 Magic resistance permanent."
 msgstr "+10 résistance à la Magie (permanent)"
 
@@ -1543,62 +1543,70 @@ msgid "Memory module restored."
 msgstr "Module Mémoire Installé."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outa1.lua:43 assets_dev/worlds/mm6/events/maps/outa1.lua:47 assets_dev/worlds/mm6/events/maps/outa1.lua:49
-#: assets_dev/worlds/mm6/events/maps/outa1.lua:63 assets_dev/worlds/mm6/events/maps/outa2.lua:159 assets_dev/worlds/mm6/events/maps/outa2.lua:171
-#: assets_dev/worlds/mm6/events/maps/outa3.lua:40 assets_dev/worlds/mm6/events/maps/outa3.lua:44 assets_dev/worlds/mm6/events/maps/outb1.lua:256
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:266 assets_dev/worlds/mm6/events/maps/outb1.lua:268 assets_dev/worlds/mm6/events/maps/outb1.lua:276
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:278 assets_dev/worlds/mm6/events/maps/outb1.lua:291 assets_dev/worlds/mm6/events/maps/outb2.lua:763
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:774 assets_dev/worlds/mm6/events/maps/outb2.lua:776 assets_dev/worlds/mm6/events/maps/outb2.lua:785
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:787 assets_dev/worlds/mm6/events/maps/outb2.lua:797 assets_dev/worlds/mm6/events/maps/outb3.lua:129
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:142 assets_dev/worlds/mm6/events/maps/outb3.lua:144 assets_dev/worlds/mm6/events/maps/outb3.lua:160
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:162 assets_dev/worlds/mm6/events/maps/outb3.lua:172 assets_dev/worlds/mm6/events/maps/outc1.lua:390
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:399 assets_dev/worlds/mm6/events/maps/outc1.lua:401 assets_dev/worlds/mm6/events/maps/outc1.lua:409
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:411 assets_dev/worlds/mm6/events/maps/outc1.lua:419 assets_dev/worlds/mm6/events/maps/outc1.lua:421
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:429 assets_dev/worlds/mm6/events/maps/outc1.lua:431 assets_dev/worlds/mm6/events/maps/outc1.lua:441
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:443 assets_dev/worlds/mm6/events/maps/outc1.lua:453 assets_dev/worlds/mm6/events/maps/outc2.lua:724
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:734 assets_dev/worlds/mm6/events/maps/outc3.lua:682 assets_dev/worlds/mm6/events/maps/outc3.lua:695
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:448 assets_dev/worlds/mm6/events/maps/outd1.lua:458 assets_dev/worlds/mm6/events/maps/outd1.lua:460
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:463 assets_dev/worlds/mm6/events/maps/outd1.lua:465 assets_dev/worlds/mm6/events/maps/outd1.lua:478
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:480 assets_dev/worlds/mm6/events/maps/outd1.lua:493 assets_dev/worlds/mm6/events/maps/outd2.lua:666
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:679 assets_dev/worlds/mm6/events/maps/outd2.lua:681 assets_dev/worlds/mm6/events/maps/outd2.lua:694
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:373 assets_dev/worlds/mm6/events/maps/outd3.lua:381 assets_dev/worlds/mm6/events/maps/outd3.lua:383
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:388 assets_dev/worlds/mm6/events/maps/outd3.lua:390 assets_dev/worlds/mm6/events/maps/outd3.lua:400
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:528 assets_dev/worlds/mm6/events/maps/oute3.lua:538 assets_dev/worlds/mm6/events/maps/oute3.lua:540
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:550 assets_dev/worlds/mm6/events/maps/oute3.lua:552 assets_dev/worlds/mm6/events/maps/oute3.lua:561
-msgid "Drink from Fountain"
-msgstr "Boire dans Fontaine"
-
-# imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outa1.lua:58
-msgid "+50 Seven Statistic temporary."
-msgstr "+50 aux Caractéristiques (temporaire)."
-
-# imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outa1.lua:65 assets_dev/worlds/mm6/events/maps/outa1.lua:77 assets_dev/worlds/mm6/events/maps/outb1.lua:293
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:305 assets_dev/worlds/mm6/events/maps/outb3.lua:197 assets_dev/worlds/mm6/events/maps/outb3.lua:226
-#: assets_dev/worlds/mm6/events/maps/outc3.lua:717 assets_dev/worlds/mm6/events/maps/outc3.lua:746 assets_dev/worlds/mm6/events/maps/outd2.lua:726
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:738
-msgid "Pedestal"
-msgstr "Piédestal"
-
-# imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outa1.lua:99
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:102
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            Itotecthothesaip"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            Dsrsciamlg_ueiuyg."
 
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:22
+msgid "+50 Seven Statistic temporary"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outa2.lua:162 assets_dev/worlds/mm6/events/maps/outa2.lua:169
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:46 assets_dev/worlds/mm6/events/maps/outa1.lua:50 assets_dev/worlds/mm6/events/maps/outa1.lua:52
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:66 assets_dev/worlds/mm6/events/maps/outa2.lua:162 assets_dev/worlds/mm6/events/maps/outa2.lua:174
+#: assets_dev/worlds/mm6/events/maps/outa3.lua:40 assets_dev/worlds/mm6/events/maps/outa3.lua:44 assets_dev/worlds/mm6/events/maps/outb1.lua:263
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:273 assets_dev/worlds/mm6/events/maps/outb1.lua:275 assets_dev/worlds/mm6/events/maps/outb1.lua:283
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:285 assets_dev/worlds/mm6/events/maps/outb1.lua:298 assets_dev/worlds/mm6/events/maps/outb2.lua:770
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:781 assets_dev/worlds/mm6/events/maps/outb2.lua:783 assets_dev/worlds/mm6/events/maps/outb2.lua:792
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:794 assets_dev/worlds/mm6/events/maps/outb2.lua:804 assets_dev/worlds/mm6/events/maps/outb3.lua:134
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:147 assets_dev/worlds/mm6/events/maps/outb3.lua:149 assets_dev/worlds/mm6/events/maps/outb3.lua:165
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:167 assets_dev/worlds/mm6/events/maps/outb3.lua:177 assets_dev/worlds/mm6/events/maps/outc1.lua:398
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:407 assets_dev/worlds/mm6/events/maps/outc1.lua:409 assets_dev/worlds/mm6/events/maps/outc1.lua:417
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:419 assets_dev/worlds/mm6/events/maps/outc1.lua:427 assets_dev/worlds/mm6/events/maps/outc1.lua:429
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:437 assets_dev/worlds/mm6/events/maps/outc1.lua:439 assets_dev/worlds/mm6/events/maps/outc1.lua:449
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:451 assets_dev/worlds/mm6/events/maps/outc1.lua:461 assets_dev/worlds/mm6/events/maps/outc2.lua:728
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:738 assets_dev/worlds/mm6/events/maps/outc3.lua:685 assets_dev/worlds/mm6/events/maps/outc3.lua:698
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:454 assets_dev/worlds/mm6/events/maps/outd1.lua:464 assets_dev/worlds/mm6/events/maps/outd1.lua:466
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:469 assets_dev/worlds/mm6/events/maps/outd1.lua:471 assets_dev/worlds/mm6/events/maps/outd1.lua:484
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:486 assets_dev/worlds/mm6/events/maps/outd1.lua:499 assets_dev/worlds/mm6/events/maps/outd2.lua:672
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:685 assets_dev/worlds/mm6/events/maps/outd2.lua:687 assets_dev/worlds/mm6/events/maps/outd2.lua:700
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:378 assets_dev/worlds/mm6/events/maps/outd3.lua:386 assets_dev/worlds/mm6/events/maps/outd3.lua:388
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:393 assets_dev/worlds/mm6/events/maps/outd3.lua:395 assets_dev/worlds/mm6/events/maps/outd3.lua:405
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:533 assets_dev/worlds/mm6/events/maps/oute3.lua:543 assets_dev/worlds/mm6/events/maps/oute3.lua:545
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:555 assets_dev/worlds/mm6/events/maps/oute3.lua:557 assets_dev/worlds/mm6/events/maps/oute3.lua:566
+msgid "Drink from Fountain"
+msgstr "Boire dans Fontaine"
+
+# imported from FR (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:61
+msgid "+50 Seven Statistic temporary."
+msgstr "+50 aux Caractéristiques (temporaire)."
+
+# imported from FR (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:68 assets_dev/worlds/mm6/events/maps/outa1.lua:80 assets_dev/worlds/mm6/events/maps/outb1.lua:300
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:312 assets_dev/worlds/mm6/events/maps/outb3.lua:202 assets_dev/worlds/mm6/events/maps/outb3.lua:231
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:720 assets_dev/worlds/mm6/events/maps/outc3.lua:749 assets_dev/worlds/mm6/events/maps/outd2.lua:732
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:744
+msgid "Pedestal"
+msgstr "Piédestal"
+
+# imported from FR (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa2.lua:165 assets_dev/worlds/mm6/events/maps/outa2.lua:172
 msgid "+100 Power temporary."
 msgstr "+100 Puissance (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outa2.lua:179
+#: assets_dev/worlds/mm6/events/maps/outa2.lua:182
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            nhrh_aherheatvdi"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            a_dtan_mseS',ersm"
+
+#: assets_dev/worlds/mm6/events/maps/outa2.lua:42
+msgid "+100 Power temporary"
+msgstr ""
 
 # imported from FR (MMMerge localization)
 #: assets_dev/worlds/mm6/events/maps/outa3.lua:42
@@ -1613,80 +1621,121 @@ msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            nD_,cevu._oisrete"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:196
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:203
 msgid "You are not a follower of Baa.  Begone!"
 msgstr "Vous n'êtes pas un disciple de Baa. Allez-vous en!"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:214 assets_dev/worlds/mm6/events/maps/outb1.lua:216
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:221 assets_dev/worlds/mm6/events/maps/outb1.lua:223
 msgid "Demon Lair"
 msgstr "Poste des Démons"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:219
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:226
 msgid "You feel Strange."
 msgstr "Vous vous sentez bizarre."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:245
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:252
 msgid "+30 Level temporary.  Look Out!"
 msgstr "+30 Niveaux (temporaire).  Attention!"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:271
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:278
 msgid "+40 Armor class temporary."
 msgstr "+40 Classe d'Armure (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:286
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:293
 msgid "+5 Elemental resistance permanent."
 msgstr "+5 Résistance aux Eléments (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb1.lua:319
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:326
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            t_haat_lt__en_lc"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            srqsh_inDdllorzè_"
 
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:58
+msgid "\"+5000 Experience, -5000 Gold"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:59
+msgid "+30 Level temporary"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:222 assets_dev/worlds/mm6/events/maps/outb2.lua:285 assets_dev/worlds/mm6/events/maps/outb2.lua:348
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:411 assets_dev/worlds/mm6/events/maps/outb2.lua:474 assets_dev/worlds/mm6/events/maps/outb2.lua:537
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:600 assets_dev/worlds/mm6/events/maps/outc3.lua:167 assets_dev/worlds/mm6/events/maps/outc3.lua:230
-#: assets_dev/worlds/mm6/events/maps/outc3.lua:293 assets_dev/worlds/mm6/events/maps/outc3.lua:356 assets_dev/worlds/mm6/events/maps/outc3.lua:419
-#: assets_dev/worlds/mm6/events/maps/outc3.lua:482 assets_dev/worlds/mm6/events/maps/outc3.lua:545 assets_dev/worlds/mm6/events/maps/outd2.lua:166
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:241 assets_dev/worlds/mm6/events/maps/outd2.lua:304 assets_dev/worlds/mm6/events/maps/outd2.lua:367
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:430 assets_dev/worlds/mm6/events/maps/outd2.lua:493 assets_dev/worlds/mm6/events/maps/outd2.lua:556
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:60
+msgid "+10 Magic resistance permanent"
+msgstr "+10 résistance à la Magie (permanent)"
+
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:61
+msgid "+40 Armor class temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:62
+msgid "+5 Elemental resistance permanent"
+msgstr ""
+
+# imported from FR (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:229 assets_dev/worlds/mm6/events/maps/outb2.lua:292 assets_dev/worlds/mm6/events/maps/outb2.lua:355
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:418 assets_dev/worlds/mm6/events/maps/outb2.lua:481 assets_dev/worlds/mm6/events/maps/outb2.lua:544
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:607 assets_dev/worlds/mm6/events/maps/outc3.lua:170 assets_dev/worlds/mm6/events/maps/outc3.lua:233
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:296 assets_dev/worlds/mm6/events/maps/outc3.lua:359 assets_dev/worlds/mm6/events/maps/outc3.lua:422
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:485 assets_dev/worlds/mm6/events/maps/outc3.lua:548 assets_dev/worlds/mm6/events/maps/outd2.lua:172
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:247 assets_dev/worlds/mm6/events/maps/outd2.lua:310 assets_dev/worlds/mm6/events/maps/outd2.lua:373
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:436 assets_dev/worlds/mm6/events/maps/outd2.lua:499 assets_dev/worlds/mm6/events/maps/outd2.lua:562
 msgid "No one is here.  The Circus has moved."
 msgstr "Plus personne ici. Le cirque est parti."
 
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:74
+msgid "+50 Luck temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:75
+msgid "+5 Magic resistance permanent"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:747
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:754
 msgid "+50 Luck temporary."
 msgstr "+50 Chance (temporaire)."
 
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:76
+msgid "+5 Intellect and Personality permanent"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:756
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:763
 msgid "+5 Magic resistance permanent."
 msgstr "+5 Résistance Magie (permanent)."
 
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:77
+msgid "+30 Magic resistance temporary"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:769
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:776
 msgid "+5 Intellect and Personality permanent."
 msgstr "+5 Intelligence et Personnalité (permanent)."
 
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:78
+msgid "+50 Spell points restored"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:780
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:787
 msgid "+30 Magic resistance temporary."
 msgstr "+30 Résistance Magie (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:795
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:802
 msgid "+50 Spell points restored."
 msgstr "+50 Points de Sort."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb2.lua:827
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:834
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            hd_scawehSfdewee"
 msgstr ""
@@ -1698,174 +1747,226 @@ msgid "Blackshire guard hostility fixup"
 msgstr "Correctif d'hostilité des gardes de Blackshire"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:137
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:142
 msgid "+10 Elemental resistance permanent."
 msgstr "+10 Résistance aux Eléments (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:155
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:160
 msgid "+10 Seven statistics permanent."
 msgstr "+10 aux Caractéristiques (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:170
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:175
 msgid "+50 Hit points temporary."
 msgstr "+50 Points de Vie (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:174 assets_dev/worlds/mm6/events/maps/outb3.lua:195 assets_dev/worlds/mm6/events/maps/outb3_mmmerge.lua:49
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:179 assets_dev/worlds/mm6/events/maps/outb3.lua:200 assets_dev/worlds/mm6/events/maps/outb3_mmmerge.lua:49
 msgid "Shrine of the Gods"
 msgstr "Temple des Dieux"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:194 assets_dev/worlds/mm6/events/maps/outb3_mmmerge.lua:48
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:199 assets_dev/worlds/mm6/events/maps/outb3_mmmerge.lua:48
 msgid "+20 to all stats permanent."
 msgstr "+20 aux Caractéristiques (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outb3.lua:240
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:245
 msgid ""
 "\"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            erbthieaeuu,_o'd\""
 msgstr ""
 "\"La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            lga__ni_r_inl_gee\""
 
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:44
+msgid "+10 Elemental resistance permanent"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:45
+msgid "+10 Seven statistics permanent"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:46
+msgid "+50 Hit points temporary"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:206 assets_dev/worlds/mm6/events/maps/outc1.lua:207 assets_dev/worlds/mm6/events/maps/outc1.lua:208
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:214 assets_dev/worlds/mm6/events/maps/outc1.lua:215 assets_dev/worlds/mm6/events/maps/outc1.lua:216
 msgid "Rockham/Free Haven"
 msgstr "Rockham/Port Libre"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:372 assets_dev/worlds/mm6/events/maps/outc1.lua:384 assets_dev/worlds/mm6/events/maps/outc2.lua:718
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:380 assets_dev/worlds/mm6/events/maps/outc1.lua:392 assets_dev/worlds/mm6/events/maps/outc2.lua:722
 msgid "Look Out!"
 msgstr "Attention!"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:394
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:402
 msgid "+20 Accuracy and Speed temporary."
 msgstr "+20 Dextérité et Vitesse (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:404
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:412
 msgid "+20 Armor class temporary."
 msgstr "+20 Classe d'Armure (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:414
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:422
 msgid "+10 Level temporary."
 msgstr "+10 Niveaux (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:424
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:432
 msgid "+30 Might temporary."
 msgstr "+30 Force (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:436
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:444
 msgid "+5 Might permanent."
 msgstr "+5 Force (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:448
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:456
 msgid "+5 Endurance permanent."
 msgstr "+5 Endurance (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc1.lua:488
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:496
 msgid ""
 "\"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _ay,enis_nn_ans.\""
 msgstr ""
 "\"La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            eortddodnBleeea_r\""
 
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:85
+msgid "+20 Accuracy and Speed temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:86
+msgid "+20 Armor class temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:87
+msgid "+10 Level temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:88
+msgid "+30 Might temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:89
+msgid "+5 Might permanent"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:90
+msgid "+5 Endurance permanent"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:140
+msgid "+25 Hit points restored"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:632 assets_dev/worlds/mm6/events/maps/outc2.lua:633 assets_dev/worlds/mm6/events/maps/outc2.lua:634
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:636 assets_dev/worlds/mm6/events/maps/outc2.lua:637 assets_dev/worlds/mm6/events/maps/outc2.lua:638
 msgid "Guild of Water"
 msgstr "Guilde de l'Eau"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:648 assets_dev/worlds/mm6/events/maps/outc2.lua:649 assets_dev/worlds/mm6/events/maps/outc2.lua:650
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:656 assets_dev/worlds/mm6/events/maps/outc2.lua:657 assets_dev/worlds/mm6/events/maps/outc2.lua:658
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:652 assets_dev/worlds/mm6/events/maps/outc2.lua:653 assets_dev/worlds/mm6/events/maps/outc2.lua:654
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:660 assets_dev/worlds/mm6/events/maps/outc2.lua:661 assets_dev/worlds/mm6/events/maps/outc2.lua:662
 msgid "Rockham"
 msgstr "Rockham"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:672 assets_dev/worlds/mm6/events/maps/outc2.lua:673 assets_dev/worlds/mm6/events/maps/outc2.lua:674
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:676 assets_dev/worlds/mm6/events/maps/outc2.lua:677 assets_dev/worlds/mm6/events/maps/outc2.lua:678
 msgid "Whitecap"
 msgstr "White Cap"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:732
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:736
 msgid "+25 Hit points restored."
 msgstr "+25 Points de Vie."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:736 assets_dev/worlds/mm6/events/maps/outc2.lua:739 assets_dev/worlds/mm6/events/maps/oute2.lua:395
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:399 assets_dev/worlds/mm6/events/maps/oute2.lua:401 assets_dev/worlds/mm6/events/maps/oute2.lua:403
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:740 assets_dev/worlds/mm6/events/maps/outc2.lua:743 assets_dev/worlds/mm6/events/maps/oute2.lua:401
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:405 assets_dev/worlds/mm6/events/maps/oute2.lua:407 assets_dev/worlds/mm6/events/maps/oute2.lua:409
 msgid "Drink from Trough."
 msgstr "Boire dans Tonneau"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:738
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:742
 msgid "Hic…"
 msgstr "Hic…"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc2.lua:779
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:783
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            lg____gtS_cln;__"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            _ntruineia__vtgda"
 
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:66
+msgid "+2 Endurance permenant"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc3.lua:690
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:693
 msgid "+2 Endurance permenant."
 msgstr "+2 Endurance (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outc3.lua:760
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:763
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            aoflo'h.hbtid_p_"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            ps_o_g_setase_ne_"
 
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:104
+msgid "+20 Intellect and Personality temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:105
+msgid "+25 Spell points restored"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:441
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:447
 msgid "+20 Intellect and Personality temporary."
 msgstr "+20 Intelligence et Personnalité (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:456
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:462
 msgid "+25 Spell points restored."
 msgstr "+25 Points de Sort."
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:462
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:468
 msgid "WOW!"
 msgstr "OUAH !"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:473
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:479
 msgid "+2 Accuracy permanent."
 msgstr "+2 Dextérité (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:488
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:494
 msgid "+2 Speed permanent."
 msgstr "+2 Vitesse (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:517 assets_dev/worlds/mm6/events/maps/outd1.lua:538
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:523 assets_dev/worlds/mm6/events/maps/outd1.lua:544
 msgid "Circle of Stones"
 msgstr "Cercle de Pierres"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:562 assets_dev/worlds/mm6/events/maps/outd1.lua:576 assets_dev/worlds/mm6/events/maps/outd1.lua:590
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:512 assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua:12 assets_dev/worlds/mm6/events/maps/oute1.lua:145
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:673
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:568 assets_dev/worlds/mm6/events/maps/outd1.lua:582 assets_dev/worlds/mm6/events/maps/outd1.lua:596
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:517 assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua:12 assets_dev/worlds/mm6/events/maps/oute1.lua:149
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:678
 msgid "The Sword won't budge!"
 msgstr "L'Epée refuse de bouger"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd1.lua:609
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:615
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            nnaifnt_ieif_tu_"
 msgstr ""
@@ -1877,99 +1978,119 @@ msgid "Silver Cove guard hostility fixup"
 msgstr "Correctif d'hostilité des gardes de Baie Argentée"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:561 assets_dev/worlds/mm6/events/maps/outd2.lua:562 assets_dev/worlds/mm6/events/maps/outd2.lua:563
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:150 assets_dev/worlds/mm6/events/maps/outd3.lua:151 assets_dev/worlds/mm6/events/maps/outd3.lua:152
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:567 assets_dev/worlds/mm6/events/maps/outd2.lua:568 assets_dev/worlds/mm6/events/maps/outd2.lua:569
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:155 assets_dev/worlds/mm6/events/maps/outd3.lua:156 assets_dev/worlds/mm6/events/maps/outd3.lua:157
 msgid "Ironfist Castle"
 msgstr "Château Ironfist"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:565 assets_dev/worlds/mm6/events/maps/outd2.lua:566 assets_dev/worlds/mm6/events/maps/outd2.lua:567
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:571 assets_dev/worlds/mm6/events/maps/outd2.lua:572 assets_dev/worlds/mm6/events/maps/outd2.lua:573
 msgid "Freehaven"
 msgstr "Port Libre"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:569 assets_dev/worlds/mm6/events/maps/outd2.lua:570 assets_dev/worlds/mm6/events/maps/outd2.lua:571
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:575 assets_dev/worlds/mm6/events/maps/outd2.lua:576 assets_dev/worlds/mm6/events/maps/outd2.lua:577
 msgid "Circus (Winter)"
 msgstr "Cirque (Hiver)"
 
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:64
+msgid "+20 Might temporary"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:656
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:662
 msgid "+20 Might temporary."
 msgstr "+20 Force (temporaire)."
 
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:67
+msgid "+20 Spell points restored"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:674
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:680
 msgid "+2 Intellect permanent."
 msgstr "+2 Intelligence (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:689
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:695
 msgid "+2 Personality permanent."
 msgstr "+2 Personnalité (permanent)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:711 assets_dev/worlds/mm6/events/maps/outd2.lua:724
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:717 assets_dev/worlds/mm6/events/maps/outd2.lua:730
 msgid "Drink from Fountain of Magic"
 msgstr "Boire dans Fontaine"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:718
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:724
 msgid "+20 Spell points restored."
 msgstr "+20 Points de Sort"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/outd2.lua:746
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:752
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            d_re_e_Hpfotyhz_"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            yaovaeem_aaé_o;lé"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:173 assets_dev/worlds/mm6/events/maps/outd3.lua:192 assets_dev/worlds/mm6/events/maps/outd3.lua:439
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:178 assets_dev/worlds/mm6/events/maps/outd3.lua:197 assets_dev/worlds/mm6/events/maps/outd3.lua:444
 msgid ""
 "The prince has been kidnapped!  No visitors will be admitted until this crisis has been resolved!"
 msgstr ""
 "Le prince a été enlevé ! Aucun visiteur ne sera admis tant que cette crise n'aura pas été résolue !"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:185
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:190
 msgid ""
 "\"Well, thanks for sneaking me out of the Castle.  Sorry about the circus thing—I hope I wasn’t too much trouble to find.  I’ll go in myself so no one will see that it was you who kidnapped me.  Thanks again, and goodbye.  I’ll remember this, and I owe you a favor! \""
 msgstr ""
 "\"Eh bien, merci de m'avoir fait sortir du château en douce. Désolé pour cette histoire de cirque, j'espère que je n'ai pas été trop difficile à retrouver. Je vais rentrer seul pour que personne ne voie que c'est vous qui m'avez enlevé. Merci encore, et adieu. Je m'en souviendrai, je vous dois une faveur ! \""
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:376
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:381
 msgid "+10 Speed temporary."
 msgstr "+10 Vitesse (temporaire)."
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:386
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:391
 msgid "+10 Accuracy temporary."
 msgstr "+10 Précision (temporaire)."
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:398
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:403
 msgid "+10 Hit Points restored."
 msgstr "+10 Points de Vie rendus."
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:419 assets_dev/worlds/mm6/events/maps/outd3.lua:422 assets_dev/worlds/mm6/events/maps/outd3.lua:424
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:426 assets_dev/worlds/mm6/events/maps/outd3.lua:428 assets_dev/worlds/mm6/events/maps/outd3.lua:431
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:424 assets_dev/worlds/mm6/events/maps/outd3.lua:427 assets_dev/worlds/mm6/events/maps/outd3.lua:429
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:431 assets_dev/worlds/mm6/events/maps/outd3.lua:433 assets_dev/worlds/mm6/events/maps/outd3.lua:436
 msgid "Keep Off!"
 msgstr "Défense d'entrer !"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:482 assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua:86
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:487 assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua:86
 msgid "All Hit points restored."
 msgstr "Tous les Points de Vie sont rendus."
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm6/events/maps/outd3.lua:541
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:546
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _t_staoi_on_oiz_"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            surepdsorunclul'v"
+
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:82
+msgid "+10 Speed temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:83
+msgid "+10 Accuracy temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:84
+msgid "+10 Hit Points restored"
+msgstr ""
 
 # machine translation (Claude), review
 #: assets_dev/worlds/mm6/events/maps/outd3_1.lua:3
@@ -1977,116 +2098,153 @@ msgid "Castle Ironfist guard hostility fixup"
 msgstr "Correctif d'hostilité des gardes du Château des Ironfist"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute1.lua:116 assets_dev/worlds/mm6/events/maps/oute1.lua:127 assets_dev/worlds/mm6/events/maps/oute1.lua:129
-#: assets_dev/worlds/mm6/events/maps/oute1.lua:137 assets_dev/worlds/mm6/events/maps/oute2.lua:350 assets_dev/worlds/mm6/events/maps/oute2.lua:359
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:361 assets_dev/worlds/mm6/events/maps/oute2.lua:370 assets_dev/worlds/mm6/events/maps/oute2.lua:372
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:383
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:120 assets_dev/worlds/mm6/events/maps/oute1.lua:131 assets_dev/worlds/mm6/events/maps/oute1.lua:133
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:141 assets_dev/worlds/mm6/events/maps/oute2.lua:356 assets_dev/worlds/mm6/events/maps/oute2.lua:365
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:367 assets_dev/worlds/mm6/events/maps/oute2.lua:376 assets_dev/worlds/mm6/events/maps/oute2.lua:378
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:389
 msgid "Drink from Fountain."
 msgstr "Boire dans Fontaine."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute1.lua:122
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:126
 msgid "+20 Elemental resistance temporary."
 msgstr "+20 Résistance aux Eléments (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute1.lua:126 assets_dev/worlds/mm6/events/maps/oute1.lua:136
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:130 assets_dev/worlds/mm6/events/maps/oute1.lua:140
 msgid "Refreshing"
 msgstr "Rafraîchissant"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute1.lua:132
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:136
 msgid "+20 Magic resistance temporary."
 msgstr "+20 Résistance Magie (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute1.lua:159
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:163
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            oon_htfdorstusl_"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            __d_ie_re_thaseéé"
 
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:36
+msgid "+20 Elemental resistance temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:37
+msgid "+20 Magic resistance temporary"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:172
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:178
 msgid "Welcome to Misty Islands"
 msgstr "Bienvenue à Mist!"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:270 assets_dev/worlds/mm6/events/maps/oute2.lua:281 assets_dev/worlds/mm6/events/maps/oute2.lua:292
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:303 assets_dev/worlds/mm6/events/maps/oute2.lua:314 assets_dev/worlds/mm6/events/maps/oute2.lua:325
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:336 assets_dev/worlds/mm6/events/maps/oute2.lua:347
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:276 assets_dev/worlds/mm6/events/maps/oute2.lua:287 assets_dev/worlds/mm6/events/maps/oute2.lua:298
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:309 assets_dev/worlds/mm6/events/maps/oute2.lua:320 assets_dev/worlds/mm6/events/maps/oute2.lua:331
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:342 assets_dev/worlds/mm6/events/maps/oute2.lua:353
 msgid "There doesn't seem to be anymore apples."
 msgstr "Il ne semble plus y avoir de pommes."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:365
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:371
 msgid "+10 Intellect and Personality temporary."
 msgstr "+10 Intelligence et Personnalité (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:378
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:384
 msgid "+5 Elemental resistance temporary."
 msgstr "+5 Résistance aux Eléments (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:388
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:394
 msgid "+20 Luck temporary."
 msgstr "+20 Chance (temporaire)."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute2.lua:433
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:439
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            f_oteh__fe_h__e_"
 msgstr ""
 "La surface de l'Obélisque est chaude comme du sang. Un message apparaît lorsque vous retirez votre main:                                                                                                                                                            dN-lt_ctfd_o___nl"
+
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:71
+msgid "+10 Spell points restored"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:72
+msgid "+10 Intellect and Personality temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:73
+msgid "+5 Elemental resistance temporary"
+msgstr ""
+
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:74
+msgid "+20 Luck temporary"
+msgstr ""
 
 # machine translation (Claude), review
 #: assets_dev/worlds/mm6/events/maps/oute2_1.lua:3
 msgid "Misty Islands guard hostility fixup"
 msgstr "Correctif de l’hostilité des gardes des îles de Mist"
 
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:111
+msgid "+5 Hit points restored"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:121
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:112
+msgid "+5 Spell points restored"
+msgstr "+5 Points de Sort"
+
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:113
+msgid "+10 Might temporary"
+msgstr ""
+
+# imported from FR (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:126
 msgid "Welcome to New Sorpigal"
 msgstr "Bienvenue à Sorpigal La Nouvelle"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:359 assets_dev/worlds/mm6/events/maps/oute3.lua:361
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:364 assets_dev/worlds/mm6/events/maps/oute3.lua:366
 msgid "Rock"
 msgstr "Rocher"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:428 assets_dev/worlds/mm6/events/maps/oute3.lua:439 assets_dev/worlds/mm6/events/maps/oute3.lua:450
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:461 assets_dev/worlds/mm6/events/maps/oute3.lua:472 assets_dev/worlds/mm6/events/maps/oute3.lua:483
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:494 assets_dev/worlds/mm6/events/maps/oute3.lua:505 assets_dev/worlds/mm6/events/maps/oute3.lua:516
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:433 assets_dev/worlds/mm6/events/maps/oute3.lua:444 assets_dev/worlds/mm6/events/maps/oute3.lua:455
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:466 assets_dev/worlds/mm6/events/maps/oute3.lua:477 assets_dev/worlds/mm6/events/maps/oute3.lua:488
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:499 assets_dev/worlds/mm6/events/maps/oute3.lua:510 assets_dev/worlds/mm6/events/maps/oute3.lua:521
 msgid "You pick an apple."
 msgstr "Vous cueillez une pomme"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:536
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:541
 msgid "+5 Hit points restored."
 msgstr "+5 Points de Vie"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:548
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:553
 msgid "+5 Spell points restored."
 msgstr "+5 Points de Sort"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:555
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:560
 msgid "+10 Might temporary."
 msgstr "+10 Force (temporaire)"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:588 assets_dev/worlds/mm6/events/maps/oute3.lua:595 assets_dev/worlds/mm6/events/maps/oute3.lua:602
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:609 assets_dev/worlds/mm6/events/maps/oute3.lua:616 assets_dev/worlds/mm6/events/maps/oute3.lua:623
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:593 assets_dev/worlds/mm6/events/maps/oute3.lua:600 assets_dev/worlds/mm6/events/maps/oute3.lua:607
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:614 assets_dev/worlds/mm6/events/maps/oute3.lua:621 assets_dev/worlds/mm6/events/maps/oute3.lua:628
 msgid ""
 "Your purse feels much lighter as you foolishly throw your money into the well."
 msgstr ""
 "Votre bourse semble bien plus légère alors que vous jetez stupidement votre argent dans le puits."
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/oute3.lua:714
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:719
 msgid ""
 "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _nrh__tf__cehr__"
 msgstr ""
@@ -2379,20 +2537,24 @@ msgid "It's a short circuit!"
 msgstr "C'est un court-circuit!"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:108 assets_dev/worlds/mm6/events/maps/sewer.lua:144 assets_dev/worlds/mm6/events/maps/sewer.lua:227
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:231 assets_dev/worlds/mm6/events/maps/sewer.lua:233 assets_dev/worlds/mm6/events/maps/sewer.lua:237
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:239 assets_dev/worlds/mm6/events/maps/sewer.lua:243 assets_dev/worlds/mm6/events/maps/sewer.lua:245
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:249
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:111 assets_dev/worlds/mm6/events/maps/sewer.lua:147 assets_dev/worlds/mm6/events/maps/sewer.lua:230
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:234 assets_dev/worlds/mm6/events/maps/sewer.lua:236 assets_dev/worlds/mm6/events/maps/sewer.lua:240
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:242 assets_dev/worlds/mm6/events/maps/sewer.lua:246 assets_dev/worlds/mm6/events/maps/sewer.lua:248
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:252
 msgid "Sewer Grate"
 msgstr "Grille d'Egoût"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:111 assets_dev/worlds/mm6/events/maps/sewer.lua:132 assets_dev/worlds/mm6/events/maps/sewer.lua:136
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:114 assets_dev/worlds/mm6/events/maps/sewer.lua:135 assets_dev/worlds/mm6/events/maps/sewer.lua:139
 msgid "Something's stashed here!"
 msgstr "Quelque chose est caché ici!"
 
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:46
+msgid "+10 Hit points restored"
+msgstr ""
+
 # imported from FR (MMMerge localization)
-#: assets_dev/worlds/mm6/events/maps/sewer.lua:95 assets_dev/worlds/mm6/events/maps/sewer.lua:98
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:101 assets_dev/worlds/mm6/events/maps/sewer.lua:98
 msgid "Torch"
 msgstr "Torche"
 

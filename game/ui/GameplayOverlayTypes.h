@@ -438,6 +438,9 @@ enum class GameplayCharacterPointerTargetType
     AdventurersInnPortrait,
     StatRow,
     SkillRow,
+    // A switchable skill's on/off gem (skillName) and the Magic heading's rotation switch (MAW).
+    SkillSwitch,
+    SkillRotationSwitch,
     InventoryItem,
     InventoryCell,
     EquipmentSlot,
@@ -534,6 +537,7 @@ enum class GameplayJournalPointerTargetType
     AuraPanel,
     // The Trainers notes' finder targets (GameplayJournalTrainers.h), packed into noteId.
     TrainerFinder,
+    JournalContinent,
     PrevPageButton,
     NextPageButton,
     NotesPotionButton,

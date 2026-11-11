@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <limits>
 #include <optional>
 #include <set>
@@ -438,18 +439,50 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
     return true;
 }
 
+// Leaves an unchanged file alone and replaces a changed one with a new file: assets_dev files share their inodes with
+// hard-linked mirrors under output/, which an in-place write would change too.
 bool writeTextFile(const std::filesystem::path &path, const std::string &text)
 {
     std::filesystem::create_directories(path.parent_path());
-    std::ofstream outputStream(path);
 
-    if (!outputStream)
     {
-        return false;
+        std::ifstream existingStream(path, std::ios::binary);
+
+        if (existingStream)
+        {
+            const std::string existing(
+                (std::istreambuf_iterator<char>(existingStream)),
+                std::istreambuf_iterator<char>());
+
+            if (existing == text)
+            {
+                return true;
+            }
+        }
     }
 
-    outputStream << text;
-    return outputStream.good();
+    std::filesystem::path temporaryPath = path;
+    temporaryPath += ".tmp";
+
+    {
+        std::ofstream outputStream(temporaryPath, std::ios::binary);
+
+        if (!outputStream)
+        {
+            return false;
+        }
+
+        outputStream << text;
+
+        if (!outputStream.good())
+        {
+            return false;
+        }
+    }
+
+    std::error_code error;
+    std::filesystem::rename(temporaryPath, path, error);
+    return !error;
 }
 
 std::vector<std::string> buildLegacyScriptPathCandidates(

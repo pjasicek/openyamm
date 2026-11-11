@@ -178,6 +178,8 @@ struct CharacterSkillUiRow
     std::string level;
     bool upgradeable = false;
     bool interactive = false;
+    // The row's on/off switch when the rules give the skill one: whether it is on.
+    std::optional<bool> switchOn;
 };
 
 struct CharacterSkillUiData
@@ -577,18 +579,13 @@ std::string skillPageMasteryDisplayName(SkillMastery mastery)
 }
 
 // A skill page row's name as the renderer shows it (GameplayPartyOverlayRenderer), so the rows sort alike.
-std::string characterSkillRowLabel(const std::string &skillName, SkillMastery mastery, bool switchedOff)
+std::string characterSkillRowLabel(const std::string &skillName, SkillMastery mastery)
 {
     std::string label = Engine::localizeKnown(skillName, "skill");
 
     if (mastery != SkillMastery::None && mastery != SkillMastery::Normal)
     {
         label = Engine::tr("{skill} {mastery}", {{"skill", label}, {"mastery", skillPageMasteryDisplayName(mastery)}});
-    }
-
-    if (switchedOff)
-    {
-        label = Engine::tr("{skill} (off)", {{"skill", label}});
     }
 
     return label;
@@ -613,12 +610,11 @@ void appendCharacterSkillUiRows(
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = characterSkillRowLabel(skillRules.skillDisplayName(character, canonicalName), pSkill->mastery,
-            character.rulesetState.skillSwitchedOff(canonicalName));
-
+        row.label = characterSkillRowLabel(skillRules.skillDisplayName(character, canonicalName), pSkill->mastery);
         row.level = std::to_string(pSkill->level);
         row.upgradeable = skillRules.canRaiseSkill(character, canonicalName);
         row.interactive = row.upgradeable && allowUpgradeInteraction;
+        row.switchOn = skillRules.skillSwitch(character, canonicalName);
         rows.push_back(std::move(row));
         shownSkillNames.insert(canonicalName);
     }
@@ -690,6 +686,17 @@ std::string skillRaiseCostHoverText(
     return text;
 }
 
+// "Cover is on: click to switch it off (P)" for a skills page switch.
+std::string skillSwitchHoverText(GameplayScreenRuntime &context, const std::string &name, bool on, KeyboardAction action)
+{
+    const InputBinding &binding = context.settingsSnapshot().keyboard.bindings[keyboardActionIndex(action)];
+    const std::string text = on ? Engine::tr("{name} is on: click to switch it off", {{"name", name}})
+                                : Engine::tr("{name} is off: click to switch it on", {{"name", name}});
+    return binding.kind == InputBindingKind::None
+        ? text
+        : Engine::tr("{text} ({key})", {{"text", text}, {"key", inputBindingDisplayName(binding)}});
+}
+
 CharacterSkillUiData buildCharacterSkillUiData(
     const Character *pCharacter,
     bool allowUpgradeInteraction,
@@ -752,12 +759,11 @@ CharacterSkillUiData buildCharacterSkillUiData(
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = characterSkillRowLabel(skillRules.skillDisplayName(*pCharacter, canonicalName), skill.mastery,
-            pCharacter->rulesetState.skillSwitchedOff(canonicalName));
-
+        row.label = characterSkillRowLabel(skillRules.skillDisplayName(*pCharacter, canonicalName), skill.mastery);
         row.level = std::to_string(skill.level);
         row.upgradeable = skillRules.canRaiseSkill(*pCharacter, canonicalName);
         row.interactive = row.upgradeable && allowUpgradeInteraction;
+        row.switchOn = skillRules.skillSwitch(*pCharacter, canonicalName);
         extraMiscRows.push_back(std::move(row));
     }
 
@@ -2271,12 +2277,56 @@ std::optional<std::string> GameplayPartyOverlayInputController::skillSwitchForAc
 
     if (skillName.empty() || !context.characterScreenReadOnly().open
         || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Skills
-        || context.isAdventurersInnCharacterSourceActive() || pCharacter == nullptr || !pCharacter->hasSkill(skillName))
+        || context.isAdventurersInnCharacterSourceActive() || pCharacter == nullptr
+        || !gameRulesFor(context.partyReadOnly()).skills.skillSwitch(*pCharacter, skillName))
     {
         return std::nullopt;
     }
 
     return skillName;
+}
+
+bool GameplayPartyOverlayInputController::toggleSkillSwitch(GameplayScreenRuntime &context, const std::string &skill)
+{
+    Character *pCharacter = const_cast<Character *>(context.selectedCharacterScreenCharacter());
+
+    if (pCharacter == nullptr || context.isAdventurersInnCharacterSourceActive())
+    {
+        return false;
+    }
+
+    const std::optional<bool> on = gameRulesFor(context.partyReadOnly()).skills.toggleSkillSwitch(*pCharacter, skill);
+
+    if (!on)
+    {
+        return false;
+    }
+
+    const std::string name = Engine::localize(displaySkillName(skill), "skill");
+    context.setStatusBarEvent(
+        *on ? Engine::tr("{skill} enabled", {{"skill", name}}) : Engine::tr("{skill} disabled", {{"skill", name}}));
+    return true;
+}
+
+bool GameplayPartyOverlayInputController::toggleSkillRotation(GameplayScreenRuntime &context)
+{
+    Character *pCharacter = const_cast<Character *>(context.selectedCharacterScreenCharacter());
+
+    if (pCharacter == nullptr || context.isAdventurersInnCharacterSourceActive())
+    {
+        return false;
+    }
+
+    const std::optional<bool> on = gameRulesFor(context.partyReadOnly()).spells.toggleSpellRotation(*pCharacter);
+
+    if (!on)
+    {
+        return false;
+    }
+
+    context.setStatusBarEvent(
+        *on ? Engine::tr("Elementalist rotation enabled") : Engine::tr("Elementalist rotation disabled"));
+    return true;
 }
 
 void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
@@ -2365,15 +2415,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     {
         const std::optional<std::string> switchedSkill = skillSwitchForAction(context, action);
 
-        if (switchedSkill && pActiveCharacter != nullptr && !isReadOnlyAdventurersInnView && !searchTyping
-            && input.action(action).pressed)
+        if (switchedSkill && !isReadOnlyAdventurersInnView && !searchTyping && input.action(action).pressed)
         {
-            bool &disabled = *switchedSkill == "Cover" ? pActiveCharacter->rulesetState.coverDisabled
-                                                       : pActiveCharacter->rulesetState.manaShieldDisabled;
-            disabled = !disabled;
-            const std::string skill = Engine::localize(displaySkillName(*switchedSkill), "skill");
-            context.setStatusBarEvent(disabled ? Engine::tr("{skill} disabled", {{"skill", skill}})
-                                               : Engine::tr("{skill} enabled", {{"skill", skill}}));
+            toggleSkillSwitch(context, *switchedSkill);
         }
     }
 
@@ -2389,15 +2433,10 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     }
 
     // R on the skills page switches an Elementalist's spell rotation (MAW).
-    if (skillsPage && pActiveCharacter != nullptr && !isReadOnlyAdventurersInnView && !searchTyping
+    if (skillsPage && !isReadOnlyAdventurersInnView && !searchTyping
         && input.action(KeyboardAction::SkillRotation).pressed)
     {
-        if (const std::optional<bool> rotation =
-                gameRulesFor(context.partyReadOnly()).spells.toggleSpellRotation(*pActiveCharacter))
-        {
-            context.setStatusBarEvent(
-                *rotation ? Engine::tr("Elementalist rotation enabled") : Engine::tr("Elementalist rotation disabled"));
-        }
+        toggleSkillRotation(context);
     }
     if (!input.leftMouseButton.held)
     {
@@ -2467,14 +2506,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const bool useKeyBound = !searchTyping && useBinding.kind == InputBindingKind::Keyboard;
     const bool useKeyPressed = useKeyBound && isScancodeNewlyPressed(context, input, useBinding.scancode);
     const bool useKeyHeld = useKeyBound && input.isScancodeHeld(useBinding.scancode);
-    // E closes the screen; as the Use key it does so only when not used on a pack item.
-    const bool closeDeferredToUse = useKeyPressed && useBinding.scancode == SDL_SCANCODE_E;
-    // The Escape that closed the alchemy bench or cleared the item search keeps the screen open until it is released.
+    // Only Escape closes the screen (a missed Use press must not). The Escape that closed the alchemy bench or
+    // cleared the item search keeps the screen open until it is released.
     const bool closePressed = !searchTyping
-        && ((pKeyboardState != nullptr
-                && pKeyboardState[SDL_SCANCODE_ESCAPE]
-                && !context.interactionState().alchemyBenchEscapeLatch)
-            || (isScancodeNewlyPressed(context, input, SDL_SCANCODE_E) && !closeDeferredToUse));
+        && pKeyboardState != nullptr
+        && pKeyboardState[SDL_SCANCODE_ESCAPE]
+        && !context.interactionState().alchemyBenchEscapeLatch;
     const bool isInventorySpellTargetMode =
         context.utilitySpellOverlayReadOnly().active
         && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
@@ -3223,6 +3260,27 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     return {};
                 }
+
+                // The Magic heading's rotation switch: its label and gem, a little past the gem on the right.
+                if (pActiveCharacter != nullptr
+                    && gameRulesFor(context.partyReadOnly()).spells.spellRotation(*pActiveCharacter))
+                {
+                    if (const std::optional<GameplayHudOverlaySupport::SkillRotationSwitchRect> rotationSwitch =
+                            GameplayHudOverlaySupport::skillRotationSwitchRect(context, screenWidth, screenHeight))
+                    {
+                        const float reach = GameplayHudOverlaySupport::SkillSwitchReach * rotationSwitch->scale;
+
+                        if (pointerX >= rotationSwitch->labelLeft - reach && pointerX < rotationSwitch->right + reach
+                            && pointerY >= rotationSwitch->y && pointerY < rotationSwitch->y + rotationSwitch->height)
+                        {
+                            GameplayCharacterPointerTarget target = {};
+                            target.type = GameplayCharacterPointerTargetType::SkillRotationSwitch;
+                            target.page = GameplayUiController::CharacterPage::Skills;
+                            return target;
+                        }
+                    }
+                }
+
                 const auto findSkillRowTarget =
                     [&context, screenWidth, screenHeight, pointerX, pointerY, skillRowHeight](
                         const char *pRegionId,
@@ -3263,17 +3321,42 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         }
 
                         const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-                        const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
+                        const float rowRight = resolvedLevelHeader->x + resolvedLevelHeader->width;
+                        const float scale = resolvedRegion->scale;
 
                         for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
                         {
                             const CharacterSkillUiRow &row = rows[rowIndex];
                             const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
 
-                            if (pointerX >= resolvedRegion->x
-                                && pointerX < resolvedRegion->x + rowWidth
-                                && pointerY >= rowY
-                                && pointerY < rowY + rowHeightPixels)
+                            if (pointerY < rowY || pointerY >= rowY + rowHeightPixels)
+                            {
+                                continue;
+                            }
+
+                            // A switch row: its gem flips the switch, the strip up to the name takes no clicks and
+                            // only the rest of the row raises the skill.
+                            float rowLeft = resolvedRegion->x;
+
+                            if (row.switchOn)
+                            {
+                                const float gemRight =
+                                    resolvedRegion->x + GameplayHudOverlaySupport::SkillSwitchGemWidth * scale;
+
+                                if (pointerX >= resolvedRegion->x - GameplayHudOverlaySupport::SkillSwitchReach * scale
+                                    && pointerX < gemRight)
+                                {
+                                    GameplayCharacterPointerTarget target = {};
+                                    target.type = GameplayCharacterPointerTargetType::SkillSwitch;
+                                    target.page = GameplayUiController::CharacterPage::Skills;
+                                    target.skillName = row.canonicalName;
+                                    return target;
+                                }
+
+                                rowLeft = resolvedRegion->x + GameplayHudOverlaySupport::SkillSwitchIndent * scale;
+                            }
+
+                            if (pointerX >= rowLeft && pointerX < rowRight)
                             {
                                 GameplayCharacterPointerTarget target = {};
                                 target.type = GameplayCharacterPointerTargetType::SkillRow;
@@ -3292,7 +3375,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsWeaponsLevelHeader",
                     skillUiData.weaponRows);
 
-                if (weaponTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (weaponTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return weaponTarget;
                 }
@@ -3302,7 +3385,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsMagicLevelHeader",
                     skillUiData.magicRows);
 
-                if (magicTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (magicTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return magicTarget;
                 }
@@ -3312,7 +3395,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsArmorLevelHeader",
                     skillUiData.armorRows);
 
-                if (armorTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (armorTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return armorTarget;
                 }
@@ -3322,7 +3405,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsMiscLevelHeader",
                     skillUiData.miscRows);
 
-                if (miscTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (miscTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return miscTarget;
                 }
@@ -3332,7 +3415,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     "CharacterSkillsTechLevelHeader",
                     skillUiData.techRows);
 
-                if (techTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                if (techTarget.type != GameplayCharacterPointerTargetType::None)
                 {
                     return techTarget;
                 }
@@ -3352,6 +3435,19 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillRow && pActiveCharacter != nullptr
             ? skillRaiseCostHoverText(
                   *pActiveCharacter, hoveredCharacterTarget.skillName, gameRulesFor(context.partyReadOnly()).skills)
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillSwitch && pActiveCharacter != nullptr
+            ? skillSwitchHoverText(context,
+                  Engine::localize(displaySkillName(hoveredCharacterTarget.skillName), "skill"),
+                  gameRulesFor(context.partyReadOnly())
+                      .skills.skillSwitch(*pActiveCharacter, hoveredCharacterTarget.skillName)
+                      .value_or(false),
+                  hoveredCharacterTarget.skillName == "Cover" ? KeyboardAction::SkillCover
+                                                              : KeyboardAction::SkillManaShield)
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillRotationSwitch
+                && pActiveCharacter != nullptr
+            ? skillSwitchHoverText(context, Engine::tr("Elementalist rotation"),
+                  gameRulesFor(context.partyReadOnly()).spells.spellRotation(*pActiveCharacter).value_or(false),
+                  KeyboardAction::SkillRotation)
         : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryTabButton
             ? Engine::tr("Tab {tab} (Shift+{key})",
                 {{"tab", InventoryBagOverview::tabNumeral(hoveredCharacterTarget.bagButton)},
@@ -3789,6 +3885,26 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             if (target.type == GameplayCharacterPointerTargetType::InventoryBagOverviewButton)
             {
                 context.characterScreen().inventoryBagZoomed = false;
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::SkillSwitch)
+            {
+                if (!isReadOnlyAdventurersInnView)
+                {
+                    toggleSkillSwitch(context, target.skillName);
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::SkillRotationSwitch)
+            {
+                if (!isReadOnlyAdventurersInnView)
+                {
+                    toggleSkillRotation(context);
+                }
+
                 return;
             }
 
@@ -4336,12 +4452,6 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 useItem();
             }
 
-            return;
-        }
-
-        if (pHoveredPackItem == nullptr && closeDeferredToUse)
-        {
-            closeScreen();
             return;
         }
     }

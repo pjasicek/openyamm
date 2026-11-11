@@ -44,6 +44,9 @@ std::string lower(const std::string &value)
 
 // The catalog section whose rows are the ruleset options of the game in progress.
 constexpr const char *GameSection = "game";
+// The language list and the Language row draw each language's name in its own script, whatever the interface
+// language's faces cover (tools/language_names_font.py).
+constexpr const char *LanguageNamesFont = "menu_language_names";
 
 std::string rulesetSettingValue(const RulesetOptions &options, const std::string &id)
 {
@@ -241,9 +244,15 @@ void MainMenuScreen::loadCatalog()
         {
             continue;
         }
-        // English and the pseudo-language come from the catalog, the rest from the installed language packs.
+        // English and the pseudo-language come from the catalog, the rest from the installed language packs. The
+        // pseudo-language is a testing aid (`--set gameplay.language=qps`): listed only while it is the language.
         if (setting.id == "language")
         {
+            if (Engine::activeLanguageId() != Engine::PseudoLanguageId)
+            {
+                std::erase_if(setting.options,
+                              [](const auto &option) { return option.first == Engine::PseudoLanguageId; });
+            }
             for (const Engine::LanguagePack &pack : Engine::findLanguagePacks(assetFileSystem()))
             {
                 // A release language whose voices and videos are not downloaded yet: the next start fetches them.
@@ -1121,6 +1130,10 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
                     editSetting(setting, choices[size_t(index)].first);
                 }
             }, true);
+    if (setting.id == "language")
+    {
+        setModalChoiceFont(LanguageNamesFont);
+    }
 }
 
 void MainMenuScreen::drawSettings(float deltaSeconds)
@@ -1270,7 +1283,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                     display = name;
                 }
             }
-            if (selectBox(id, rect, display, enabled))
+            // The names face is drawn a size smaller to match menu_lucida's height.
+            const bool language = setting.id == "language";
+            if (selectBox(id, rect, display, enabled, language ? 9.0f : 11.52f,
+                          language ? LanguageNamesFont : "menu_lucida"))
             {
                 chooseSetting(setting);
             }

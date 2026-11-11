@@ -495,7 +495,7 @@ MenuDesignScreen::Hotspot MenuDesignScreen::hotspot(const std::string &id, const
 }
 
 bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std::string &text, const std::string &name,
-                              bool enabled, bool selected)
+                              bool enabled, bool selected, const std::string &font)
 {
     const bool available = enabled && (!modalOpen() || m_drawingConfirmation);
     const Hotspot input = hotspot(id, rect, enabled);
@@ -516,14 +516,14 @@ bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std
         Rect textRect = rect;
         textRect.x += 5 * designScale();
         textRect.width -= 10 * designScale();
-        textInRect(textRect, text, "fondamento", name == "button_square" ? 11.7f : 13.8667f,
+        textInRect(textRect, text, font, name == "button_square" ? 11.7f : 13.8667f,
                    enabled ? hovered ? 0xffc0f0ffu : 0xffa4d1e8u : 0xff6b777au, true);
     }
     return activated;
 }
 
 bool MenuDesignScreen::selectBox(const std::string &id, const Rect &rect, const std::string &value, bool enabled,
-                                float logicalSize)
+                                float logicalSize, const std::string &font)
 {
     const bool available = enabled && (!modalOpen() || m_drawingConfirmation);
     const bool hovered = available && pointerInside(rect);
@@ -535,7 +535,7 @@ bool MenuDesignScreen::selectBox(const std::string &id, const Rect &rect, const 
     skin("button_square_" + state, arrow, true, 6);
     const uint32_t color = !enabled ? 0xff6b777au : hovered ? 0xffc0f0ffu : 0xffc6dfeau;
     textInRect({rect.x + 9 * scale, rect.y, rect.width - arrow.width - 18 * scale, rect.height},
-               value, "menu_lucida", logicalSize, color);
+               value, font, logicalSize, color);
     const float centerX = arrow.x + arrow.width / 2;
     const float centerY = arrow.y + arrow.height / 2;
     drawTextureColor(ArtRoot + "chevron_down.png",
@@ -592,6 +592,13 @@ void MenuDesignScreen::setModalNotes(const std::string &text)
     {
         m_confirmation->notes = text;
         m_confirmation->notesScroll = 0;
+    }
+}
+void MenuDesignScreen::setModalChoiceFont(const std::string &font)
+{
+    if (m_confirmation)
+    {
+        m_confirmation->choiceFont = font;
     }
 }
 
@@ -828,7 +835,8 @@ void MenuDesignScreen::drawConfirmation()
         const bool hasIcon = index < int(m_confirmation->choiceIcons.size())
             && !m_confirmation->choiceIcons[index].empty();
         if (button("modal-" + std::to_string(index), rect, hasIcon ? "" : m_confirmation->choices[index],
-                   index == count - 1 && !list && !twoColumns ? "button_primary" : "button_quiet"))
+                   index == count - 1 && !list && !twoColumns ? "button_primary" : "button_quiet", true, false,
+                   m_confirmation->choiceFont))
         {
             selected = index;
         }
@@ -837,7 +845,7 @@ void MenuDesignScreen::drawConfirmation()
             drawTexture(m_confirmation->choiceIcons[index],
                         {rect.x + 8 * scale, rect.y + (rect.height - 28 * scale) / 2, 28 * scale, 28 * scale});
             textInRect({rect.x + 44 * scale, rect.y, rect.width - 52 * scale, rect.height},
-                       m_confirmation->choices[index], "fondamento", 13.8667f,
+                       m_confirmation->choices[index], m_confirmation->choiceFont, 13.8667f,
                        pointerInside(rect) ? 0xffc0f0ffu : 0xffa4d1e8u);
         }
     }

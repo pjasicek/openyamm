@@ -124,6 +124,9 @@ SetMapMetadata({
     [506] = { kind = "enter_dungeon", source = "opcode", targetMap = "d28.blv", targetName = "Tomb of Lord Brinne" },
     [507] = { kind = "enter_dungeon", source = "opcode", targetMap = "d45.blv", targetName = "Chapel of Eep" },
     },
+    learnedEffect = {
+    [101] = { autonote = 210, effect = "Might +25 (Temporary)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},

@@ -341,6 +341,7 @@ public:
     bool partySwimming() const override;
     std::optional<float> partyBreathFraction() const override;
     bool allowsLloydsBeacon() const override;
+    bool allowsTownPortal() const override;
     bool allowsRest() const override;
     float currentGameMinutes() const override;
     const MapDeltaData *mapDeltaData() const override;
@@ -435,6 +436,7 @@ public:
         std::optional<uint8_t> continueStep = std::nullopt) override;
     bool executeEventHooks(EventRuntimeHookKind kind) override;
     const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
+    const std::optional<ScriptedEventProgram> *localEventProgram() const override;
     EventRuntimeState *eventRuntimeState() override;
     ISceneEventContext *sceneEventContext() override
     {
@@ -450,6 +452,8 @@ public:
     bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override;
     // Moves an actor to stand at a point (feet at z) and makes it its home: evt.SetMapActorPosition indoors.
     bool setMapActorPosition(size_t actorIndex, float x, float y, float z) override;
+    bool attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node) override;
+    bool detachMapActorItem(size_t actorIndex, const std::string &node) override;
     bool killMapActor(size_t actorIndex) override;
     bool setMapActorHp(size_t actorIndex, int hp) override;
     bool setMapActorImmobile(size_t actorIndex, bool immobile) override;
@@ -809,6 +813,7 @@ public:
     std::shared_ptr<const PathMap> currentIndoorPathMap();
 
 private:
+    void hideExpiredSummons();
     // Whether a door is shut (closed or closing: MM9's IsClosed), from its runtime mechanism state.
     bool indoorDoorShut(uint32_t doorId) const;
     // The scene's `ai_open` doors that are not shut: their faces stand in the monsters' walk map.
@@ -1014,6 +1019,10 @@ private:
         float deltaSeconds,
         const std::vector<IndoorVertex> &projectileVertices,
         IndoorFaceGeometryCache &projectileGeometryCache) const;
+    // What a party missile's hit on a map actor depends on (all but the distance, which the caller sets).
+    GameplayProjectileService::ProjectileDirectActorImpactInput buildProjectileDirectActorImpactInput(
+        const GameplayProjectileService::ProjectileState &projectile,
+        size_t actorIndex) const;
     void populateIndoorProjectileAreaImpact(
         const GameplayProjectileService::ProjectileState &projectile,
         const GameplayProjectileService::ProjectileFrameFacts &facts,
@@ -1301,6 +1310,8 @@ private:
     {
         std::future<std::shared_ptr<PathMap>> map;
         uint64_t generation = 0;
+        // The map a landed one replaced, freed off the main thread (adoptPendingIndoorPathMap).
+        std::future<void> retiredMap;
     };
     mutable PendingPathMap m_pendingPathMap;
     std::optional<IndoorMovementController> m_actorMovementController;

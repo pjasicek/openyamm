@@ -46,30 +46,17 @@ int32_t namedGlobalVarValue(const EventRuntimeState &state, const std::string &n
     return iterator != state.namedGlobalVars.end() ? iterator->second : 0;
 }
 
+// Every field is written, a cleared one as 0, never erased: the session takes a map's global vars back by merging
+// (GameSession::mergeNamedGlobalVarsFromRuntime), so an erased Pending came back on the next map load and the target
+// was placed again each time the party re-entered its map that month (Guberland, 2026-11-11).
 void writeRuntimeBountyHuntEntry(EventRuntimeState &state, const std::string &prefix, const BountyHuntEntry &entry)
 {
     state.namedGlobalVars[prefix + ".Month"] = static_cast<int32_t>(entry.month);
     state.namedGlobalVars[prefix + ".MonsterId"] = static_cast<int32_t>(entry.monsterId);
     state.namedGlobalVars[prefix + ".Done"] = entry.done ? 1 : 0;
     state.namedGlobalVars[prefix + ".Claimed"] = entry.claimed ? 1 : 0;
-
-    if (entry.bossAffix != 0)
-    {
-        state.namedGlobalVars[prefix + ".BossAffix"] = entry.bossAffix;
-    }
-    else
-    {
-        state.namedGlobalVars.erase(prefix + ".BossAffix");
-    }
-
-    if (entry.pending)
-    {
-        state.namedGlobalVars[prefix + ".Pending"] = 1;
-    }
-    else
-    {
-        state.namedGlobalVars.erase(prefix + ".Pending");
-    }
+    state.namedGlobalVars[prefix + ".BossAffix"] = entry.bossAffix;
+    state.namedGlobalVars[prefix + ".Pending"] = entry.pending ? 1 : 0;
 }
 
 BountyHuntEntry readRuntimeBountyHuntEntry(const EventRuntimeState &state, const std::string &prefix)
@@ -266,11 +253,8 @@ bool markRuntimeBountyHuntMonsterKilled(
 
         if (!killedByParty && gameRulesFor(worldRuntime.party()).monsters.bountyCancelledByOtherKill())
         {
-            for (const char *pField : {".Month", ".MonsterId", ".Done", ".Claimed", ".BossAffix", ".Pending"})
-            {
-                pEventRuntimeState->namedGlobalVars.erase(currentPrefix + pField);
-            }
-
+            // No hunt (all fields 0, as writeRuntimeBountyHuntEntry clears them).
+            writeRuntimeBountyHuntEntry(*pEventRuntimeState, currentPrefix, BountyHuntEntry{});
             return false;
         }
     }

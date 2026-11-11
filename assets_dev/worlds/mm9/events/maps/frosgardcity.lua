@@ -212,6 +212,7 @@ handlers[53048] = function()
 end
 handlers[50048] = function()
     if has(104) then   -- Hate: AddEnemy Player; MM9's monster AI walks him at the party (placed still)
+        set("ForadTalked", 1)   -- bTalking stays set: he never opens his dialogue by himself again
         evt.ClearActorPresentation(0)   -- the bow's facing goes back to his AI
         evt.SetMonGroupBit(4, MonsterBits.Hostile, true)
         evt.SetActorImmobile(0, false)
@@ -222,7 +223,8 @@ handlers[50048] = function()
 end
 -- Forad.scr :OnAppear (BattleMan.scr's Appear: battle() below shows him): OnFoundPlayer OnTarget 256 ->
 -- target the player, OnTargetWithinDist 16 :Talk: he opens his dialogue himself when the party comes near (the
--- approach talks' poll); with key 104 its close turns him on the party.
+-- approach talks' poll); with key 104 its close turns him on the party. :Talk and :OnUse set bTalking, which
+-- only :Forad (no 104) clears: after that close he never talks by himself again, on later visits too (ForadTalked).
 -- Forad.scr :OnDeath: once (key 494), 194 000 experience (capped) and the quest sound.
 handlers[236] = function(context)
     if context.actorIndex ~= 0 or has(494) then return end
@@ -339,7 +341,7 @@ end
 -- within 16 LT of his body (OnTargetWithinDist / RunTo 16 -> DoRude). reach: the feet's distance at which
 -- he talks; sight > 0: he runs to the party once he sees it within that range. Once per visit.
 local APPROACH_TALKS = {
-    {actor = 0, reach = 140, sight = 0, armed = function() return has(104) end,
+    {actor = 0, reach = 140, sight = 0, armed = function() return has(104) and var("ForadTalked") == 0 end,
         talk = function() MM9.openRude(2, 0) end},   -- ForadDarre: FORAD.scr :OnAppear OnTargetWithinDist 16 :Talk
     {actor = 2, reach = 109, sight = 1536, armed = function() return not has(107) and (not has(84) or has(106)) end,
         talk = function() MM9.removeActor(3); MM9.openRude(378, 2); MM9.playSound("voices/npc/npc_378.wav") end},   -- Thorolf0: NPC378.scr :OnFound RunTo 16 :Talk

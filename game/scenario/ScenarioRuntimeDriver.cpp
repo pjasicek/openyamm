@@ -3368,7 +3368,10 @@ bool ScenarioRuntimeDriver::partyCharge(
     return true;
 }
 
-bool ScenarioRuntimeDriver::castSpell(const ScenarioSpellCastRequest &request, bool &cast, std::string &failure)
+bool ScenarioRuntimeDriver::castSpell(
+    const ScenarioSpellCastRequest &request,
+    PartySpellCastStatus &status,
+    std::string &failure)
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     Party *pParty = party();
@@ -3419,7 +3422,7 @@ bool ScenarioRuntimeDriver::castSpell(const ScenarioSpellCastRequest &request, b
 
     const PartySpellCastResult result = PartySpellSystem::castSpell(*pParty, *pWorldRuntime, spellTable, castRequest);
     pWorldRuntime->applyPendingSpellCastWorldEffects(result);
-    cast = result.status == PartySpellCastStatus::Succeeded;
+    status = result.status;
     pMember->recoverySecondsRemaining = 0;
     return true;
 }

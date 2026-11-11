@@ -3313,11 +3313,7 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
         applyMeleeWeaponEffects(character, equippedItems, result, rng);
     }
 
-    if (result.mode == CharacterAttackMode::Bow && character.equippedItemEffectFlags.contains("ExplosiveArrows"))
-    {
-        result.explosiveArrow = true;
-        result.damageType = CombatDamageType::Fire;
-    }
+    applyExplosiveArrows(character, result);
 
     if (!result.resolvesOnImpact)
     {
@@ -3325,6 +3321,15 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
     }
 
     return result;
+}
+
+void GameMechanics::applyExplosiveArrows(const Character &character, CharacterAttackResult &attack)
+{
+    if (attack.mode == CharacterAttackMode::Bow && character.equippedItemEffectFlags.contains("ExplosiveArrows"))
+    {
+        attack.explosiveArrow = true;
+        attack.damageType = CombatDamageType::Fire;
+    }
 }
 
 SoundId GameMechanics::resolveCharacterAttackSoundId(

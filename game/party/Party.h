@@ -925,8 +925,11 @@ public:
         EquipmentSlot slot,
         std::string &statusText);
     // Sets the class; becoming a Lich also makes the member undead unless `classOnly` (MAW's promotions change the
-    // class alone).
+    // class alone). The rules then grant the masteries the new class's limits allow (SkillRules::afterClassChanged).
     bool setMemberClassName(size_t memberIndex, const std::string &className, bool classOnly = false);
+    // Every member's and Adventurer's Inn character's class-change masteries, for saves from before promotions granted
+    // them (SaveVersionClassChangeMasteries).
+    void grantClassChangeMasteries();
     // Recomputes a member's maximum HP and SP from their class (after the rules' class numbers changed).
     void refreshMemberResources(size_t memberIndex);
     bool applyLichTransformation(size_t memberIndex);

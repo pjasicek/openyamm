@@ -55,13 +55,14 @@ public:
     };
 
     // Takes ownership of all programs, including on initialization failure: blended and single-material
-    // (SINGLE_MATERIAL), each without and with mesh sun shadows. renderedWater: the water renderer draws the terrain
-    // water, so a map with a shore gets a seabed and depth-faded water planes.
+    // (SINGLE_MATERIAL), each without and with mesh sun shadows, and the optional depth pre-pass (TERRAIN_DEPTH_ONLY;
+    // invalid: none). renderedWater: the water renderer draws the terrain water, so a map with a shore gets a seabed
+    // and depth-faded water planes.
     bool initialize(const Engine::AssetFileSystem &assets, const OutdoorMapData &map,
         const OutdoorTerrainMaterialConfig &config, const std::array<OutdoorTerrainTile, 256> &tiles,
         uint32_t subdivision, const OutdoorLightingData *pBakedLighting, bool renderedWater,
         bgfx::ProgramHandle program, bgfx::ProgramHandle shadowProgram, bgfx::ProgramHandle singleProgram,
-        bgfx::ProgramHandle singleShadowProgram, std::string &error);
+        bgfx::ProgramHandle singleShadowProgram, bgfx::ProgramHandle depthProgram, std::string &error);
     void shutdown(bool destroyResources = true);
     bool ready() const
     {
@@ -112,12 +113,19 @@ public:
         }
         return sunShadows ? m_shadowProgram : m_program;
     }
+    bgfx::ProgramHandle depthProgram() const
+    {
+        return m_depthProgram;
+    }
     // Binds stages 8-15 and the material uniforms, and with a seabed the caustics at stage 0. directSun: the bake's
     // direct-only sun page is bound at stage 5. foliage (stage 1): the grass decorations' colour with its
     // u_terrainFoliage values (TerrainDecorationRenderer::foliageMap/foliageParams); invalid when no grass is drawn.
     // specularStrength: the restrained sun and point-light highlight on smooth and wet ground (0: none).
     void bind(const OutdoorLightingData *pBakedLighting, bool directSun, bool antiTiling,
         bgfx::TextureHandle foliage, const std::array<float, 8> &foliageParams, float specularStrength) const;
+    // Binds what the depth pre-pass reads to leave out the cut pixels: the cells and the shore with its uniform (the
+    // liquid edge coverage at stage 4 is the water renderer's).
+    void bindDepth() const;
 
 private:
     // The material layers and images, read and decoded on the load workers before any GPU resource is created.
@@ -169,6 +177,7 @@ private:
     bgfx::ProgramHandle m_shadowProgram = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_singleProgram = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_singleShadowProgram = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_depthProgram = BGFX_INVALID_HANDLE;
     std::array<float, 4> m_shoreValues = {};
 };
 } // namespace OpenYAMM::Game

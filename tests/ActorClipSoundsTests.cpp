@@ -133,6 +133,32 @@ TEST_CASE("actor clip sounds refuse a clip the model does not have or an event p
     CHECK_THROWS_AS(parse("radius: 10\nloud: true\nclips: {}\n"), std::runtime_error);
 }
 
+TEST_CASE("actor clip shakes cue alone or with a sound and refuse bad strengths")
+{
+    const std::shared_ptr<const OpenYAMM::Game::ActorClipSounds> sounds = parse(R"(
+radius: 10
+clips:
+  Walking:
+  - {at: 0.4, shake: {near: 0.333, edge: 0.083, seconds: 0.6, radius: 3072}}
+  - {at: 0.4, sound: step}
+)");
+    ActorClipSoundState state;
+    std::vector<ActorClipSoundCue> cues;
+    OpenYAMM::Game::advanceActorClipSounds(*sounds, state, 0, 0, 0.0f, 1.0f, 0.0f, cues);
+    OpenYAMM::Game::advanceActorClipSounds(*sounds, state, 0, 0, 0.5f, 1.0f, 0.5f, cues);
+    REQUIRE(cues.size() == 2);
+    CHECK(cues[0].sound.empty());
+    CHECK(cues[0].shake.intensity == doctest::Approx(0.333f));
+    CHECK(cues[0].shake.edgeIntensity == doctest::Approx(0.083f));
+    CHECK(cues[0].shake.radius == doctest::Approx(3072.0f));
+    CHECK(cues[1].sound == "step");
+    CHECK(cues[1].shake.radius == 0.0f);
+    CHECK_THROWS_AS(parse("radius: 10\nclips:\n  Walking:\n  - {at: 0.4, shake: {near: 0.1, edge: 0.2, seconds: 1, "
+        "radius: 5}}\n"), std::runtime_error);
+    CHECK_THROWS_AS(parse("radius: 10\nclips:\n  Walking:\n  - {at: 0.4, shake: {near: 0.1, seconds: 1}}\n"),
+        std::runtime_error);
+}
+
 TEST_CASE("the MM9 world's monster sounds load into the world scope clear of the engine ids")
 {
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;

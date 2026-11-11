@@ -7,6 +7,14 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+#: assets_dev/engine/behaviors/bosses/necro_mage.lua:18
+msgid "openyamm:fx/arcane_pulse"
+msgstr ""
+
+#: assets_dev/engine/behaviors/bosses/necro_mage.lua:24
+msgid "openyamm:fx/shadow_ward"
+msgstr ""
+
 # machine translation (Claude), review
 #: assets_dev/engine/behaviors/bosses/necro_mage.lua:44
 msgid "The Necromancer wraps himself in a ward of shadow!"
@@ -37844,6 +37852,20 @@ msgstr "Przywódca jednorożców"
 msgid "Emerald Dragon"
 msgstr "Szmaragdowy smok"
 
+# machine translation (Claude), review
+#: assets_dev/engine/data_tables/monster_data.txt:116 assets_dev/engine/data_tables/monster_data.txt:117 assets_dev/engine/data_tables/monster_data.txt:118
+#: assets_dev/engine/data_tables/monster_data.txt:292 assets_dev/engine/data_tables/monster_data.txt:298 assets_dev/engine/data_tables/monster_data.txt:392
+#: assets_dev/engine/data_tables/monster_data.txt:393 assets_dev/engine/data_tables/monster_data.txt:394 assets_dev/engine/data_tables/monster_data.txt:461
+#: assets_dev/engine/data_tables/monster_data.txt:462 assets_dev/engine/data_tables/monster_data.txt:463 assets_dev/engine/data_tables/monster_data.txt:464
+#: assets_dev/engine/data_tables/monster_data.txt:465 assets_dev/engine/data_tables/monster_data.txt:466 assets_dev/engine/data_tables/monster_data.txt:514
+#: assets_dev/engine/data_tables/monster_data.txt:520 assets_dev/engine/data_tables/monster_data.txt:565 assets_dev/engine/data_tables/monster_data.txt:566
+#: assets_dev/engine/data_tables/monster_data.txt:567 assets_dev/engine/data_tables/monster_data.txt:568 assets_dev/engine/data_tables/monster_data.txt:574
+#: assets_dev/engine/data_tables/monster_data.txt:626 assets_dev/engine/data_tables/monster_data.txt:627 assets_dev/engine/data_tables/monster_data.txt:628
+#: assets_dev/engine/data_tables/monster_data.txt:637 assets_dev/engine/data_tables/monster_data.txt:651 assets_dev/engine/data_tables/monster_data.txt:652
+#: assets_dev/engine/data_tables/monster_data.txt:653
+msgid "Ener"
+msgstr "Energia"
+
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/monster_data.txt:117
 msgid "Sapphire Dragon"
@@ -39283,6 +39305,174 @@ msgstr "Królowa Kobr"
 msgid "Lizardman Peasant"
 msgstr "Jaszczuroczłek wieśniak"
 
+# machine translation (Claude), review
+#: assets_dev/engine/data_tables/monster_data.txt:10 assets_dev/engine/data_tables/monster_data.txt:100 assets_dev/engine/data_tables/monster_data.txt:104
+#: assets_dev/engine/data_tables/monster_data.txt:105 assets_dev/engine/data_tables/monster_data.txt:106 assets_dev/engine/data_tables/monster_data.txt:11
+#: assets_dev/engine/data_tables/monster_data.txt:110 assets_dev/engine/data_tables/monster_data.txt:111 assets_dev/engine/data_tables/monster_data.txt:112
+#: assets_dev/engine/data_tables/monster_data.txt:12 assets_dev/engine/data_tables/monster_data.txt:122 assets_dev/engine/data_tables/monster_data.txt:123
+#: assets_dev/engine/data_tables/monster_data.txt:124 assets_dev/engine/data_tables/monster_data.txt:125 assets_dev/engine/data_tables/monster_data.txt:126
+#: assets_dev/engine/data_tables/monster_data.txt:127 assets_dev/engine/data_tables/monster_data.txt:128 assets_dev/engine/data_tables/monster_data.txt:129
+#: assets_dev/engine/data_tables/monster_data.txt:13 assets_dev/engine/data_tables/monster_data.txt:130 assets_dev/engine/data_tables/monster_data.txt:137
+#: assets_dev/engine/data_tables/monster_data.txt:138 assets_dev/engine/data_tables/monster_data.txt:139 assets_dev/engine/data_tables/monster_data.txt:14
+#: assets_dev/engine/data_tables/monster_data.txt:140 assets_dev/engine/data_tables/monster_data.txt:141 assets_dev/engine/data_tables/monster_data.txt:142
+#: assets_dev/engine/data_tables/monster_data.txt:143 assets_dev/engine/data_tables/monster_data.txt:144 assets_dev/engine/data_tables/monster_data.txt:145
+#: assets_dev/engine/data_tables/monster_data.txt:146 assets_dev/engine/data_tables/monster_data.txt:147 assets_dev/engine/data_tables/monster_data.txt:148
+#: assets_dev/engine/data_tables/monster_data.txt:149 assets_dev/engine/data_tables/monster_data.txt:15 assets_dev/engine/data_tables/monster_data.txt:150
+#: assets_dev/engine/data_tables/monster_data.txt:151 assets_dev/engine/data_tables/monster_data.txt:155 assets_dev/engine/data_tables/monster_data.txt:156
+#: assets_dev/engine/data_tables/monster_data.txt:157 assets_dev/engine/data_tables/monster_data.txt:158 assets_dev/engine/data_tables/monster_data.txt:159
+#: assets_dev/engine/data_tables/monster_data.txt:16 assets_dev/engine/data_tables/monster_data.txt:160 assets_dev/engine/data_tables/monster_data.txt:161
+#: assets_dev/engine/data_tables/monster_data.txt:162 assets_dev/engine/data_tables/monster_data.txt:163 assets_dev/engine/data_tables/monster_data.txt:17
+#: assets_dev/engine/data_tables/monster_data.txt:170 assets_dev/engine/data_tables/monster_data.txt:171 assets_dev/engine/data_tables/monster_data.txt:172
+#: assets_dev/engine/data_tables/monster_data.txt:173 assets_dev/engine/data_tables/monster_data.txt:174 assets_dev/engine/data_tables/monster_data.txt:175
+#: assets_dev/engine/data_tables/monster_data.txt:176 assets_dev/engine/data_tables/monster_data.txt:177 assets_dev/engine/data_tables/monster_data.txt:178
+#: assets_dev/engine/data_tables/monster_data.txt:179 assets_dev/engine/data_tables/monster_data.txt:18 assets_dev/engine/data_tables/monster_data.txt:180
+#: assets_dev/engine/data_tables/monster_data.txt:181 assets_dev/engine/data_tables/monster_data.txt:182 assets_dev/engine/data_tables/monster_data.txt:183
+#: assets_dev/engine/data_tables/monster_data.txt:184 assets_dev/engine/data_tables/monster_data.txt:185 assets_dev/engine/data_tables/monster_data.txt:186
+#: assets_dev/engine/data_tables/monster_data.txt:187 assets_dev/engine/data_tables/monster_data.txt:188 assets_dev/engine/data_tables/monster_data.txt:189
+#: assets_dev/engine/data_tables/monster_data.txt:19 assets_dev/engine/data_tables/monster_data.txt:190 assets_dev/engine/data_tables/monster_data.txt:191
+#: assets_dev/engine/data_tables/monster_data.txt:192 assets_dev/engine/data_tables/monster_data.txt:193 assets_dev/engine/data_tables/monster_data.txt:197
+#: assets_dev/engine/data_tables/monster_data.txt:198 assets_dev/engine/data_tables/monster_data.txt:199 assets_dev/engine/data_tables/monster_data.txt:20
+#: assets_dev/engine/data_tables/monster_data.txt:200 assets_dev/engine/data_tables/monster_data.txt:201 assets_dev/engine/data_tables/monster_data.txt:202
+#: assets_dev/engine/data_tables/monster_data.txt:203 assets_dev/engine/data_tables/monster_data.txt:204 assets_dev/engine/data_tables/monster_data.txt:205
+#: assets_dev/engine/data_tables/monster_data.txt:206 assets_dev/engine/data_tables/monster_data.txt:207 assets_dev/engine/data_tables/monster_data.txt:208
+#: assets_dev/engine/data_tables/monster_data.txt:209 assets_dev/engine/data_tables/monster_data.txt:21 assets_dev/engine/data_tables/monster_data.txt:210
+#: assets_dev/engine/data_tables/monster_data.txt:211 assets_dev/engine/data_tables/monster_data.txt:212 assets_dev/engine/data_tables/monster_data.txt:213
+#: assets_dev/engine/data_tables/monster_data.txt:214 assets_dev/engine/data_tables/monster_data.txt:218 assets_dev/engine/data_tables/monster_data.txt:219
+#: assets_dev/engine/data_tables/monster_data.txt:22 assets_dev/engine/data_tables/monster_data.txt:220 assets_dev/engine/data_tables/monster_data.txt:221
+#: assets_dev/engine/data_tables/monster_data.txt:222 assets_dev/engine/data_tables/monster_data.txt:223 assets_dev/engine/data_tables/monster_data.txt:224
+#: assets_dev/engine/data_tables/monster_data.txt:225 assets_dev/engine/data_tables/monster_data.txt:226 assets_dev/engine/data_tables/monster_data.txt:23
+#: assets_dev/engine/data_tables/monster_data.txt:230 assets_dev/engine/data_tables/monster_data.txt:231 assets_dev/engine/data_tables/monster_data.txt:232
+#: assets_dev/engine/data_tables/monster_data.txt:233 assets_dev/engine/data_tables/monster_data.txt:234 assets_dev/engine/data_tables/monster_data.txt:235
+#: assets_dev/engine/data_tables/monster_data.txt:239 assets_dev/engine/data_tables/monster_data.txt:24 assets_dev/engine/data_tables/monster_data.txt:240
+#: assets_dev/engine/data_tables/monster_data.txt:241 assets_dev/engine/data_tables/monster_data.txt:25 assets_dev/engine/data_tables/monster_data.txt:251
+#: assets_dev/engine/data_tables/monster_data.txt:252 assets_dev/engine/data_tables/monster_data.txt:253 assets_dev/engine/data_tables/monster_data.txt:254
+#: assets_dev/engine/data_tables/monster_data.txt:255 assets_dev/engine/data_tables/monster_data.txt:256 assets_dev/engine/data_tables/monster_data.txt:257
+#: assets_dev/engine/data_tables/monster_data.txt:258 assets_dev/engine/data_tables/monster_data.txt:259 assets_dev/engine/data_tables/monster_data.txt:26
+#: assets_dev/engine/data_tables/monster_data.txt:260 assets_dev/engine/data_tables/monster_data.txt:261 assets_dev/engine/data_tables/monster_data.txt:262
+#: assets_dev/engine/data_tables/monster_data.txt:263 assets_dev/engine/data_tables/monster_data.txt:264 assets_dev/engine/data_tables/monster_data.txt:265
+#: assets_dev/engine/data_tables/monster_data.txt:266 assets_dev/engine/data_tables/monster_data.txt:267 assets_dev/engine/data_tables/monster_data.txt:268
+#: assets_dev/engine/data_tables/monster_data.txt:27 assets_dev/engine/data_tables/monster_data.txt:272 assets_dev/engine/data_tables/monster_data.txt:273
+#: assets_dev/engine/data_tables/monster_data.txt:274 assets_dev/engine/data_tables/monster_data.txt:275 assets_dev/engine/data_tables/monster_data.txt:276
+#: assets_dev/engine/data_tables/monster_data.txt:277 assets_dev/engine/data_tables/monster_data.txt:28 assets_dev/engine/data_tables/monster_data.txt:281
+#: assets_dev/engine/data_tables/monster_data.txt:282 assets_dev/engine/data_tables/monster_data.txt:283 assets_dev/engine/data_tables/monster_data.txt:284
+#: assets_dev/engine/data_tables/monster_data.txt:285 assets_dev/engine/data_tables/monster_data.txt:286 assets_dev/engine/data_tables/monster_data.txt:287
+#: assets_dev/engine/data_tables/monster_data.txt:288 assets_dev/engine/data_tables/monster_data.txt:289 assets_dev/engine/data_tables/monster_data.txt:29
+#: assets_dev/engine/data_tables/monster_data.txt:299 assets_dev/engine/data_tables/monster_data.txt:30 assets_dev/engine/data_tables/monster_data.txt:300
+#: assets_dev/engine/data_tables/monster_data.txt:301 assets_dev/engine/data_tables/monster_data.txt:302 assets_dev/engine/data_tables/monster_data.txt:303
+#: assets_dev/engine/data_tables/monster_data.txt:304 assets_dev/engine/data_tables/monster_data.txt:305 assets_dev/engine/data_tables/monster_data.txt:306
+#: assets_dev/engine/data_tables/monster_data.txt:307 assets_dev/engine/data_tables/monster_data.txt:308 assets_dev/engine/data_tables/monster_data.txt:309
+#: assets_dev/engine/data_tables/monster_data.txt:31 assets_dev/engine/data_tables/monster_data.txt:310 assets_dev/engine/data_tables/monster_data.txt:317
+#: assets_dev/engine/data_tables/monster_data.txt:318 assets_dev/engine/data_tables/monster_data.txt:319 assets_dev/engine/data_tables/monster_data.txt:32
+#: assets_dev/engine/data_tables/monster_data.txt:320 assets_dev/engine/data_tables/monster_data.txt:321 assets_dev/engine/data_tables/monster_data.txt:322
+#: assets_dev/engine/data_tables/monster_data.txt:323 assets_dev/engine/data_tables/monster_data.txt:324 assets_dev/engine/data_tables/monster_data.txt:325
+#: assets_dev/engine/data_tables/monster_data.txt:326 assets_dev/engine/data_tables/monster_data.txt:327 assets_dev/engine/data_tables/monster_data.txt:328
+#: assets_dev/engine/data_tables/monster_data.txt:329 assets_dev/engine/data_tables/monster_data.txt:33 assets_dev/engine/data_tables/monster_data.txt:330
+#: assets_dev/engine/data_tables/monster_data.txt:331 assets_dev/engine/data_tables/monster_data.txt:332 assets_dev/engine/data_tables/monster_data.txt:333
+#: assets_dev/engine/data_tables/monster_data.txt:334 assets_dev/engine/data_tables/monster_data.txt:335 assets_dev/engine/data_tables/monster_data.txt:336
+#: assets_dev/engine/data_tables/monster_data.txt:337 assets_dev/engine/data_tables/monster_data.txt:338 assets_dev/engine/data_tables/monster_data.txt:339
+#: assets_dev/engine/data_tables/monster_data.txt:34 assets_dev/engine/data_tables/monster_data.txt:340 assets_dev/engine/data_tables/monster_data.txt:341
+#: assets_dev/engine/data_tables/monster_data.txt:342 assets_dev/engine/data_tables/monster_data.txt:343 assets_dev/engine/data_tables/monster_data.txt:344
+#: assets_dev/engine/data_tables/monster_data.txt:345 assets_dev/engine/data_tables/monster_data.txt:346 assets_dev/engine/data_tables/monster_data.txt:347
+#: assets_dev/engine/data_tables/monster_data.txt:348 assets_dev/engine/data_tables/monster_data.txt:349 assets_dev/engine/data_tables/monster_data.txt:35
+#: assets_dev/engine/data_tables/monster_data.txt:350 assets_dev/engine/data_tables/monster_data.txt:351 assets_dev/engine/data_tables/monster_data.txt:352
+#: assets_dev/engine/data_tables/monster_data.txt:353 assets_dev/engine/data_tables/monster_data.txt:354 assets_dev/engine/data_tables/monster_data.txt:355
+#: assets_dev/engine/data_tables/monster_data.txt:356 assets_dev/engine/data_tables/monster_data.txt:357 assets_dev/engine/data_tables/monster_data.txt:358
+#: assets_dev/engine/data_tables/monster_data.txt:359 assets_dev/engine/data_tables/monster_data.txt:36 assets_dev/engine/data_tables/monster_data.txt:360
+#: assets_dev/engine/data_tables/monster_data.txt:361 assets_dev/engine/data_tables/monster_data.txt:362 assets_dev/engine/data_tables/monster_data.txt:363
+#: assets_dev/engine/data_tables/monster_data.txt:364 assets_dev/engine/data_tables/monster_data.txt:365 assets_dev/engine/data_tables/monster_data.txt:366
+#: assets_dev/engine/data_tables/monster_data.txt:367 assets_dev/engine/data_tables/monster_data.txt:368 assets_dev/engine/data_tables/monster_data.txt:369
+#: assets_dev/engine/data_tables/monster_data.txt:37 assets_dev/engine/data_tables/monster_data.txt:370 assets_dev/engine/data_tables/monster_data.txt:371
+#: assets_dev/engine/data_tables/monster_data.txt:372 assets_dev/engine/data_tables/monster_data.txt:373 assets_dev/engine/data_tables/monster_data.txt:374
+#: assets_dev/engine/data_tables/monster_data.txt:375 assets_dev/engine/data_tables/monster_data.txt:376 assets_dev/engine/data_tables/monster_data.txt:377
+#: assets_dev/engine/data_tables/monster_data.txt:378 assets_dev/engine/data_tables/monster_data.txt:379 assets_dev/engine/data_tables/monster_data.txt:38
+#: assets_dev/engine/data_tables/monster_data.txt:380 assets_dev/engine/data_tables/monster_data.txt:381 assets_dev/engine/data_tables/monster_data.txt:382
+#: assets_dev/engine/data_tables/monster_data.txt:383 assets_dev/engine/data_tables/monster_data.txt:384 assets_dev/engine/data_tables/monster_data.txt:385
+#: assets_dev/engine/data_tables/monster_data.txt:386 assets_dev/engine/data_tables/monster_data.txt:387 assets_dev/engine/data_tables/monster_data.txt:388
+#: assets_dev/engine/data_tables/monster_data.txt:389 assets_dev/engine/data_tables/monster_data.txt:39 assets_dev/engine/data_tables/monster_data.txt:390
+#: assets_dev/engine/data_tables/monster_data.txt:391 assets_dev/engine/data_tables/monster_data.txt:395 assets_dev/engine/data_tables/monster_data.txt:396
+#: assets_dev/engine/data_tables/monster_data.txt:397 assets_dev/engine/data_tables/monster_data.txt:40 assets_dev/engine/data_tables/monster_data.txt:401
+#: assets_dev/engine/data_tables/monster_data.txt:402 assets_dev/engine/data_tables/monster_data.txt:403 assets_dev/engine/data_tables/monster_data.txt:404
+#: assets_dev/engine/data_tables/monster_data.txt:405 assets_dev/engine/data_tables/monster_data.txt:406 assets_dev/engine/data_tables/monster_data.txt:407
+#: assets_dev/engine/data_tables/monster_data.txt:408 assets_dev/engine/data_tables/monster_data.txt:409 assets_dev/engine/data_tables/monster_data.txt:41
+#: assets_dev/engine/data_tables/monster_data.txt:410 assets_dev/engine/data_tables/monster_data.txt:411 assets_dev/engine/data_tables/monster_data.txt:412
+#: assets_dev/engine/data_tables/monster_data.txt:416 assets_dev/engine/data_tables/monster_data.txt:417 assets_dev/engine/data_tables/monster_data.txt:418
+#: assets_dev/engine/data_tables/monster_data.txt:419 assets_dev/engine/data_tables/monster_data.txt:42 assets_dev/engine/data_tables/monster_data.txt:420
+#: assets_dev/engine/data_tables/monster_data.txt:421 assets_dev/engine/data_tables/monster_data.txt:425 assets_dev/engine/data_tables/monster_data.txt:426
+#: assets_dev/engine/data_tables/monster_data.txt:427 assets_dev/engine/data_tables/monster_data.txt:428 assets_dev/engine/data_tables/monster_data.txt:429
+#: assets_dev/engine/data_tables/monster_data.txt:43 assets_dev/engine/data_tables/monster_data.txt:430 assets_dev/engine/data_tables/monster_data.txt:431
+#: assets_dev/engine/data_tables/monster_data.txt:432 assets_dev/engine/data_tables/monster_data.txt:433 assets_dev/engine/data_tables/monster_data.txt:434
+#: assets_dev/engine/data_tables/monster_data.txt:435 assets_dev/engine/data_tables/monster_data.txt:436 assets_dev/engine/data_tables/monster_data.txt:437
+#: assets_dev/engine/data_tables/monster_data.txt:438 assets_dev/engine/data_tables/monster_data.txt:439 assets_dev/engine/data_tables/monster_data.txt:44
+#: assets_dev/engine/data_tables/monster_data.txt:440 assets_dev/engine/data_tables/monster_data.txt:441 assets_dev/engine/data_tables/monster_data.txt:442
+#: assets_dev/engine/data_tables/monster_data.txt:443 assets_dev/engine/data_tables/monster_data.txt:444 assets_dev/engine/data_tables/monster_data.txt:445
+#: assets_dev/engine/data_tables/monster_data.txt:446 assets_dev/engine/data_tables/monster_data.txt:447 assets_dev/engine/data_tables/monster_data.txt:448
+#: assets_dev/engine/data_tables/monster_data.txt:449 assets_dev/engine/data_tables/monster_data.txt:45 assets_dev/engine/data_tables/monster_data.txt:450
+#: assets_dev/engine/data_tables/monster_data.txt:451 assets_dev/engine/data_tables/monster_data.txt:452 assets_dev/engine/data_tables/monster_data.txt:453
+#: assets_dev/engine/data_tables/monster_data.txt:454 assets_dev/engine/data_tables/monster_data.txt:455 assets_dev/engine/data_tables/monster_data.txt:456
+#: assets_dev/engine/data_tables/monster_data.txt:457 assets_dev/engine/data_tables/monster_data.txt:458 assets_dev/engine/data_tables/monster_data.txt:459
+#: assets_dev/engine/data_tables/monster_data.txt:46 assets_dev/engine/data_tables/monster_data.txt:460 assets_dev/engine/data_tables/monster_data.txt:467
+#: assets_dev/engine/data_tables/monster_data.txt:468 assets_dev/engine/data_tables/monster_data.txt:469 assets_dev/engine/data_tables/monster_data.txt:47
+#: assets_dev/engine/data_tables/monster_data.txt:470 assets_dev/engine/data_tables/monster_data.txt:471 assets_dev/engine/data_tables/monster_data.txt:472
+#: assets_dev/engine/data_tables/monster_data.txt:473 assets_dev/engine/data_tables/monster_data.txt:474 assets_dev/engine/data_tables/monster_data.txt:475
+#: assets_dev/engine/data_tables/monster_data.txt:476 assets_dev/engine/data_tables/monster_data.txt:477 assets_dev/engine/data_tables/monster_data.txt:478
+#: assets_dev/engine/data_tables/monster_data.txt:479 assets_dev/engine/data_tables/monster_data.txt:48 assets_dev/engine/data_tables/monster_data.txt:480
+#: assets_dev/engine/data_tables/monster_data.txt:481 assets_dev/engine/data_tables/monster_data.txt:482 assets_dev/engine/data_tables/monster_data.txt:483
+#: assets_dev/engine/data_tables/monster_data.txt:484 assets_dev/engine/data_tables/monster_data.txt:485 assets_dev/engine/data_tables/monster_data.txt:486
+#: assets_dev/engine/data_tables/monster_data.txt:487 assets_dev/engine/data_tables/monster_data.txt:49 assets_dev/engine/data_tables/monster_data.txt:491
+#: assets_dev/engine/data_tables/monster_data.txt:492 assets_dev/engine/data_tables/monster_data.txt:493 assets_dev/engine/data_tables/monster_data.txt:497
+#: assets_dev/engine/data_tables/monster_data.txt:498 assets_dev/engine/data_tables/monster_data.txt:499 assets_dev/engine/data_tables/monster_data.txt:5
+#: assets_dev/engine/data_tables/monster_data.txt:50 assets_dev/engine/data_tables/monster_data.txt:500 assets_dev/engine/data_tables/monster_data.txt:501
+#: assets_dev/engine/data_tables/monster_data.txt:502 assets_dev/engine/data_tables/monster_data.txt:503 assets_dev/engine/data_tables/monster_data.txt:504
+#: assets_dev/engine/data_tables/monster_data.txt:505 assets_dev/engine/data_tables/monster_data.txt:506 assets_dev/engine/data_tables/monster_data.txt:507
+#: assets_dev/engine/data_tables/monster_data.txt:508 assets_dev/engine/data_tables/monster_data.txt:51 assets_dev/engine/data_tables/monster_data.txt:52
+#: assets_dev/engine/data_tables/monster_data.txt:524 assets_dev/engine/data_tables/monster_data.txt:525 assets_dev/engine/data_tables/monster_data.txt:526
+#: assets_dev/engine/data_tables/monster_data.txt:53 assets_dev/engine/data_tables/monster_data.txt:530 assets_dev/engine/data_tables/monster_data.txt:531
+#: assets_dev/engine/data_tables/monster_data.txt:532 assets_dev/engine/data_tables/monster_data.txt:536 assets_dev/engine/data_tables/monster_data.txt:537
+#: assets_dev/engine/data_tables/monster_data.txt:538 assets_dev/engine/data_tables/monster_data.txt:539 assets_dev/engine/data_tables/monster_data.txt:54
+#: assets_dev/engine/data_tables/monster_data.txt:540 assets_dev/engine/data_tables/monster_data.txt:541 assets_dev/engine/data_tables/monster_data.txt:542
+#: assets_dev/engine/data_tables/monster_data.txt:543 assets_dev/engine/data_tables/monster_data.txt:544 assets_dev/engine/data_tables/monster_data.txt:545
+#: assets_dev/engine/data_tables/monster_data.txt:546 assets_dev/engine/data_tables/monster_data.txt:547 assets_dev/engine/data_tables/monster_data.txt:55
+#: assets_dev/engine/data_tables/monster_data.txt:554 assets_dev/engine/data_tables/monster_data.txt:555 assets_dev/engine/data_tables/monster_data.txt:556
+#: assets_dev/engine/data_tables/monster_data.txt:557 assets_dev/engine/data_tables/monster_data.txt:558 assets_dev/engine/data_tables/monster_data.txt:559
+#: assets_dev/engine/data_tables/monster_data.txt:56 assets_dev/engine/data_tables/monster_data.txt:560 assets_dev/engine/data_tables/monster_data.txt:561
+#: assets_dev/engine/data_tables/monster_data.txt:562 assets_dev/engine/data_tables/monster_data.txt:563 assets_dev/engine/data_tables/monster_data.txt:564
+#: assets_dev/engine/data_tables/monster_data.txt:565 assets_dev/engine/data_tables/monster_data.txt:566 assets_dev/engine/data_tables/monster_data.txt:567
+#: assets_dev/engine/data_tables/monster_data.txt:568 assets_dev/engine/data_tables/monster_data.txt:569 assets_dev/engine/data_tables/monster_data.txt:57
+#: assets_dev/engine/data_tables/monster_data.txt:570 assets_dev/engine/data_tables/monster_data.txt:571 assets_dev/engine/data_tables/monster_data.txt:575
+#: assets_dev/engine/data_tables/monster_data.txt:576 assets_dev/engine/data_tables/monster_data.txt:577 assets_dev/engine/data_tables/monster_data.txt:58
+#: assets_dev/engine/data_tables/monster_data.txt:581 assets_dev/engine/data_tables/monster_data.txt:582 assets_dev/engine/data_tables/monster_data.txt:583
+#: assets_dev/engine/data_tables/monster_data.txt:584 assets_dev/engine/data_tables/monster_data.txt:585 assets_dev/engine/data_tables/monster_data.txt:586
+#: assets_dev/engine/data_tables/monster_data.txt:590 assets_dev/engine/data_tables/monster_data.txt:591 assets_dev/engine/data_tables/monster_data.txt:592
+#: assets_dev/engine/data_tables/monster_data.txt:596 assets_dev/engine/data_tables/monster_data.txt:597 assets_dev/engine/data_tables/monster_data.txt:598
+#: assets_dev/engine/data_tables/monster_data.txt:599 assets_dev/engine/data_tables/monster_data.txt:6 assets_dev/engine/data_tables/monster_data.txt:600
+#: assets_dev/engine/data_tables/monster_data.txt:601 assets_dev/engine/data_tables/monster_data.txt:602 assets_dev/engine/data_tables/monster_data.txt:603
+#: assets_dev/engine/data_tables/monster_data.txt:604 assets_dev/engine/data_tables/monster_data.txt:605 assets_dev/engine/data_tables/monster_data.txt:606
+#: assets_dev/engine/data_tables/monster_data.txt:607 assets_dev/engine/data_tables/monster_data.txt:608 assets_dev/engine/data_tables/monster_data.txt:609
+#: assets_dev/engine/data_tables/monster_data.txt:610 assets_dev/engine/data_tables/monster_data.txt:611 assets_dev/engine/data_tables/monster_data.txt:612
+#: assets_dev/engine/data_tables/monster_data.txt:613 assets_dev/engine/data_tables/monster_data.txt:614 assets_dev/engine/data_tables/monster_data.txt:615
+#: assets_dev/engine/data_tables/monster_data.txt:616 assets_dev/engine/data_tables/monster_data.txt:617 assets_dev/engine/data_tables/monster_data.txt:618
+#: assets_dev/engine/data_tables/monster_data.txt:619 assets_dev/engine/data_tables/monster_data.txt:62 assets_dev/engine/data_tables/monster_data.txt:620
+#: assets_dev/engine/data_tables/monster_data.txt:621 assets_dev/engine/data_tables/monster_data.txt:622 assets_dev/engine/data_tables/monster_data.txt:623
+#: assets_dev/engine/data_tables/monster_data.txt:624 assets_dev/engine/data_tables/monster_data.txt:625 assets_dev/engine/data_tables/monster_data.txt:63
+#: assets_dev/engine/data_tables/monster_data.txt:632 assets_dev/engine/data_tables/monster_data.txt:633 assets_dev/engine/data_tables/monster_data.txt:634
+#: assets_dev/engine/data_tables/monster_data.txt:638 assets_dev/engine/data_tables/monster_data.txt:639 assets_dev/engine/data_tables/monster_data.txt:64
+#: assets_dev/engine/data_tables/monster_data.txt:640 assets_dev/engine/data_tables/monster_data.txt:641 assets_dev/engine/data_tables/monster_data.txt:642
+#: assets_dev/engine/data_tables/monster_data.txt:643 assets_dev/engine/data_tables/monster_data.txt:647 assets_dev/engine/data_tables/monster_data.txt:648
+#: assets_dev/engine/data_tables/monster_data.txt:649 assets_dev/engine/data_tables/monster_data.txt:65 assets_dev/engine/data_tables/monster_data.txt:650
+#: assets_dev/engine/data_tables/monster_data.txt:654 assets_dev/engine/data_tables/monster_data.txt:655 assets_dev/engine/data_tables/monster_data.txt:656
+#: assets_dev/engine/data_tables/monster_data.txt:657 assets_dev/engine/data_tables/monster_data.txt:658 assets_dev/engine/data_tables/monster_data.txt:659
+#: assets_dev/engine/data_tables/monster_data.txt:66 assets_dev/engine/data_tables/monster_data.txt:67 assets_dev/engine/data_tables/monster_data.txt:68
+#: assets_dev/engine/data_tables/monster_data.txt:69 assets_dev/engine/data_tables/monster_data.txt:7 assets_dev/engine/data_tables/monster_data.txt:70
+#: assets_dev/engine/data_tables/monster_data.txt:71 assets_dev/engine/data_tables/monster_data.txt:72 assets_dev/engine/data_tables/monster_data.txt:73
+#: assets_dev/engine/data_tables/monster_data.txt:8 assets_dev/engine/data_tables/monster_data.txt:83 assets_dev/engine/data_tables/monster_data.txt:84
+#: assets_dev/engine/data_tables/monster_data.txt:85 assets_dev/engine/data_tables/monster_data.txt:89 assets_dev/engine/data_tables/monster_data.txt:9
+#: assets_dev/engine/data_tables/monster_data.txt:90 assets_dev/engine/data_tables/monster_data.txt:91 assets_dev/engine/data_tables/monster_data.txt:92
+#: assets_dev/engine/data_tables/monster_data.txt:93 assets_dev/engine/data_tables/monster_data.txt:94 assets_dev/engine/data_tables/monster_data.txt:95
+#: assets_dev/engine/data_tables/monster_data.txt:96 assets_dev/engine/data_tables/monster_data.txt:97 assets_dev/engine/data_tables/monster_data.txt:98
+#: assets_dev/engine/data_tables/monster_data.txt:99
+msgid "Phys"
+msgstr "Fizyczne"
+
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/monster_data.txt:221 assets_dev/engine/data_tables/monster_data.txt:50
 msgid "Acolyte of the Sun"
@@ -39806,6 +39996,11 @@ msgstr "Czarownik"
 #: assets_dev/engine/data_tables/monster_data.txt:638
 msgid "Spider"
 msgstr "Pająk"
+
+# machine translation (Claude), review
+#: assets_dev/engine/data_tables/monster_data.txt:639 assets_dev/engine/data_tables/monster_data.txt:640
+msgid "Pois"
+msgstr "Trucizna"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/monster_data.txt:64
@@ -90812,6 +91007,50 @@ msgid ""
 msgstr ""
 "Tak jak podejrzewałem! Dobra robota. Teraz, gdy Wampir już nie żyje, Tatalia może spać spokojnie. Również Królowa Katarzyna jest wam wdzięczna i pracuje nad zacieśnieniem więzów pomiędzy Bracadą i Erathią."
 
+#: assets_dev/engine/events/Global_learned_effects.lua:10
+msgid "+2 Speed"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:11
+msgid "+2 Luck"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:12
+msgid "+2 Fire Resistance"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:13
+msgid "+2 Water Resistance"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:14
+msgid "+2 Air Resistance"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:15
+msgid "+2 Earth Resistance"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:5
+msgid "+2 Might"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:6
+msgid "+2 Accuracy"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:7
+msgid "+2 Personality"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:8
+msgid "+2 Intellect"
+msgstr ""
+
+#: assets_dev/engine/events/Global_learned_effects.lua:9
+msgid "+2 Endurance"
+msgstr ""
+
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/npc_topic.txt:1763 assets_dev/engine/data_tables/npc_topic.txt:1764 assets_dev/engine/data_tables/npc_topic.txt:1765
 #: assets_dev/engine/data_tables/npc_topic.txt:1766 assets_dev/engine/data_tables/npc_topic.txt:1767 assets_dev/engine/data_tables/npc_topic.txt:1768
@@ -97781,92 +98020,92 @@ msgid "Pseudo-language (testing)"
 msgstr "Pseudojęzyk (testy)"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10372
+#: game/app/GameApplication.cpp:10376
 msgid "immortal"
 msgstr "nieśmiertelność"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10373
+#: game/app/GameApplication.cpp:10377
 msgid "unlimited mana"
 msgstr "nieograniczone punkty magii"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10374
+#: game/app/GameApplication.cpp:10378
 msgid "start flying"
 msgstr "start w locie"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10375
+#: game/app/GameApplication.cpp:10379
 msgid "turbo movement"
 msgstr "turbo ruch"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10376
+#: game/app/GameApplication.cpp:10380
 msgid "movement speed"
 msgstr "prędkość ruchu"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10377
+#: game/app/GameApplication.cpp:10381
 msgid "time scale"
 msgstr "skala czasu"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:11587
+#: game/app/GameApplication.cpp:11591
 msgid "Fast mode (2x)"
 msgstr "Tryb szybki (2x)"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:11587
+#: game/app/GameApplication.cpp:11591
 msgid "Normal mode (1x)"
 msgstr "Tryb normalny (1x)"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:11900
+#: game/app/GameApplication.cpp:11904
 msgid "{warning} Press again to load."
 msgstr "{warning} Naciśnij ponownie, aby wczytać."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:11914
+#: game/app/GameApplication.cpp:11918
 msgid "You can't save here!"
 msgstr "Tutaj nie można zapisać gry!"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:11985
+#: game/app/GameApplication.cpp:11989
 msgid "Not enough food: saving here costs {food}"
 msgstr "Za mało jedzenia (koszt zapisu w tym miejscu: {food})"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12038
+#: game/app/GameApplication.cpp:12042
 msgid "Quick save failed!"
 msgstr "Szybki zapis nie powiódł się!"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12061
+#: game/app/GameApplication.cpp:12065
 msgid "Game Saved! {food} food ({left} left)"
 msgstr "Gra zapisana! Jedzenie: -{food} (zostało: {left})"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:659 game/app/GameApplication.cpp:12063
+#: assets_dev/engine/data_tables/english/Global.txt:659 game/app/GameApplication.cpp:12067
 msgid "Game Saved!"
 msgstr "Gra zapisana!"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12374
+#: game/app/GameApplication.cpp:12378
 msgid "The {ruleset} ruleset does not allow that change."
 msgstr "Zestaw zasad {ruleset} nie pozwala na tę zmianę."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12413
+#: game/app/GameApplication.cpp:12417
 msgid "{world} - Day {day}"
 msgstr "{world} - dzień {day}"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12767
+#: game/app/GameApplication.cpp:12771
 msgid "debug start"
 msgstr "start debugowania"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12905
+#: game/app/GameApplication.cpp:12909
 msgid "god lich party"
 msgstr "boska drużyna liszów"
 
@@ -97877,43 +98116,43 @@ msgstr "Obszar {map} zmienił się od czasu tego zapisu: zaczyna się od nowa"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:502 assets_dev/engine/ui/gameplay/statistics.yml:50 assets_dev/engine/ui/menu/settings_catalog.yml:174
-#: assets_dev/engine/ui/menu/settings_catalog.yml:180 assets_dev/engine/ui/menu/settings_catalog.yml:186 game/app/GameApplication.cpp:14620
+#: assets_dev/engine/ui/menu/settings_catalog.yml:180 assets_dev/engine/ui/menu/settings_catalog.yml:186 game/app/GameApplication.cpp:14624
 #: game/ui/screens/NewGameScreenPartySheet.cpp:1425 game/ui/screens/NewGameScreenPartySheet.cpp:2189
 msgid "Party"
 msgstr "Drużyna"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14892
+#: game/app/GameApplication.cpp:14896
 msgid "Dimension Door destinations unavailable"
 msgstr "Cele Wrót Wymiarów są niedostępne"
 
 # machine translation (Claude), review
-#: assets_dev/engine/data_tables/english/Global.txt:740 game/app/GameApplication.cpp:14903
+#: assets_dev/engine/data_tables/english/Global.txt:740 game/app/GameApplication.cpp:14907
 msgid "You feel high magic presence here."
 msgstr "Wyczuwacie tutaj obecność potężnej magii."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15031
+#: game/app/GameApplication.cpp:15035
 msgid "Certificate saved in the certificates folder"
 msgstr "Certyfikat zapisano w folderze certificates"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15353 game/ui/screens/ArcomageScreen.cpp:1295
+#: game/app/GameApplication.cpp:15357 game/ui/screens/ArcomageScreen.cpp:1295
 msgid "You have won {gold} gold!"
 msgstr "Wygrywasz {gold} szt. złota!"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:643 game/app/GameApplication.cpp:15354
+#: assets_dev/engine/data_tables/english/Global.txt:643 game/app/GameApplication.cpp:15358
 msgid "You won!"
 msgstr "Zwycięstwo!"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:644 game/app/GameApplication.cpp:15359
+#: assets_dev/engine/data_tables/english/Global.txt:644 game/app/GameApplication.cpp:15363
 msgid "You lost!"
 msgstr "Porażka!"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:642 game/app/GameApplication.cpp:15393
+#: assets_dev/engine/data_tables/english/Global.txt:642 game/app/GameApplication.cpp:15397
 msgid "A tie!"
 msgstr "Remis!"
 
@@ -98316,7 +98555,7 @@ msgid "History"
 msgstr "Historia"
 
 # machine translation (Claude), review
-#: game/app/KeyboardBindings.cpp:67 game/gameplay/GameplayInteractionController.cpp:252 game/ui/screens/NewGameScreenPartySheet.cpp:1812
+#: game/app/KeyboardBindings.cpp:67 game/gameplay/GameplayInteractionController.cpp:262 game/ui/screens/NewGameScreenPartySheet.cpp:1812
 msgid "Use"
 msgstr "Użyj"
 
@@ -98589,7 +98828,7 @@ msgid "Custom"
 msgstr "Własne"
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:1188 game/gameplay/GameplayDialogController.cpp:2093 game/gameplay/GameplayInteractionController.cpp:312
+#: game/events/EventDialogContent.cpp:1188 game/gameplay/GameplayDialogController.cpp:2093 game/gameplay/GameplayInteractionController.cpp:322
 #: game/ui/GameplayStatisticsScreen.cpp:1173
 msgid "Travel"
 msgstr "Podróż"
@@ -98703,7 +98942,7 @@ msgid "NPC interaction UI is not implemented yet."
 msgstr "Interfejs interakcji z NPC nie jest jeszcze zaimplementowany."
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:225 game/gameplay/GameplayInteractionController.cpp:229
+#: game/events/EventDialogContent.cpp:225 game/gameplay/GameplayInteractionController.cpp:239
 msgid "Talk"
 msgstr "Rozmawiaj"
 
@@ -98993,16 +99232,16 @@ msgid "You have already claimed this bounty."
 msgstr "Ta nagroda została już odebrana."
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:531
-#: game/gameplay/GameplayInteractionController.cpp:610 game/indoor/IndoorWorldRuntime.cpp:16206 game/indoor/IndoorWorldRuntime.cpp:19037
+#: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:541
+#: game/gameplay/GameplayInteractionController.cpp:620 game/indoor/IndoorWorldRuntime.cpp:16216 game/indoor/IndoorWorldRuntime.cpp:19047
 #: game/indoor/IndoorWorldRuntime.cpp:832 game/items/ItemRuntime.cpp:352 game/outdoor/OutdoorInteractionController.cpp:182
-#: game/outdoor/OutdoorInteractionController.cpp:5029 game/outdoor/OutdoorWorldRuntime.cpp:17418 game/ui/GameplayCraftingBenchRenderer.cpp:293
+#: game/outdoor/OutdoorInteractionController.cpp:5029 game/outdoor/OutdoorWorldRuntime.cpp:17426 game/ui/GameplayCraftingBenchRenderer.cpp:293
 msgid "item"
 msgstr "przedmiot"
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:532 game/indoor/IndoorWorldRuntime.cpp:16207
-#: game/indoor/IndoorWorldRuntime.cpp:833 game/outdoor/OutdoorInteractionController.cpp:190 game/outdoor/OutdoorWorldRuntime.cpp:17419
+#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:542 game/indoor/IndoorWorldRuntime.cpp:16217
+#: game/indoor/IndoorWorldRuntime.cpp:833 game/outdoor/OutdoorInteractionController.cpp:190 game/outdoor/OutdoorWorldRuntime.cpp:17427
 msgid "You found an item ({item})!"
 msgstr "Znajdujesz przedmiot ({item})!"
 
@@ -99030,10 +99269,10 @@ msgstr "({item}) i {gold} szt. złota"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:566 game/gameplay/CorpseLootRuntime.cpp:639 game/gameplay/GameplayHeldItemController.cpp:262
-#: game/gameplay/GameplayInteractionController.cpp:690 game/gameplay/GameplayPartyOverlayInputController.cpp:2021 game/gameplay/GameplayPartyOverlayInputController.cpp:4084
+#: game/gameplay/GameplayInteractionController.cpp:700 game/gameplay/GameplayPartyOverlayInputController.cpp:2021 game/gameplay/GameplayPartyOverlayInputController.cpp:4084
 #: game/gameplay/GameplayPartyOverlayInputController.cpp:4177 game/gameplay/GameplayPartyOverlayInputController.cpp:4211 game/gameplay/GameplayPartyOverlayInputController.cpp:4286
 #: game/gameplay/GameplayScreenRuntime.cpp:1743 game/gameplay/GameplayScreenRuntime.cpp:2643 game/gameplay/GameplayScreenRuntime.cpp:2677
-#: game/indoor/IndoorWorldRuntime.cpp:16193 game/outdoor/OutdoorWorldRuntime.cpp:17405
+#: game/indoor/IndoorWorldRuntime.cpp:16203 game/outdoor/OutdoorWorldRuntime.cpp:17413
 msgid "Pack is Full!"
 msgstr "Sakwy są pełne!"
 
@@ -99695,27 +99934,27 @@ msgid "You can't rest in turn-based mode!"
 msgstr "Nie można odpoczywać, gdy rozgrywka jest turowa"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1391
+#: game/gameplay/GameplayInteractionController.cpp:1401
 msgid "Get {item}"
 msgstr "Weź: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1397
+#: game/gameplay/GameplayInteractionController.cpp:1407
 msgid "{text} [missing 3D model for item {id} - please report]"
 msgstr "{text} [brak modelu 3D przedmiotu {id} – prosimy to zgłosić]"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:231
+#: game/gameplay/GameplayInteractionController.cpp:241
 msgid "Pick Up"
 msgstr "Podnieś"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:233 game/ui/screens/NewGameScreen.cpp:2402
+#: game/gameplay/GameplayInteractionController.cpp:243 game/ui/screens/NewGameScreen.cpp:2402
 msgid "Loot"
 msgstr "Łupy"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:235
+#: game/gameplay/GameplayInteractionController.cpp:245
 msgid "Open Chest"
 msgstr "Otwórz skrzynię"
 
@@ -99736,113 +99975,113 @@ msgstr "Otwórz skrzynię"
 #: assets_dev/engine/data_tables/house_data.txt:444 assets_dev/engine/data_tables/house_data.txt:445 assets_dev/engine/data_tables/house_data.txt:446
 #: assets_dev/engine/data_tables/house_data.txt:447 assets_dev/engine/data_tables/house_data.txt:448 assets_dev/engine/data_tables/house_data.txt:449
 #: assets_dev/engine/data_tables/house_data.txt:450 assets_dev/engine/data_tables/house_data.txt:451 assets_dev/engine/data_tables/house_data.txt:453
-#: game/gameplay/GameplayInteractionController.cpp:237
+#: game/gameplay/GameplayInteractionController.cpp:247
 msgid "Enter"
 msgstr "Wejdź"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:239
+#: game/gameplay/GameplayInteractionController.cpp:249
 msgid "Open Door"
 msgstr "Otwórz drzwi"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:241
+#: game/gameplay/GameplayInteractionController.cpp:251
 msgid "Press"
 msgstr "Naciśnij"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:243
+#: game/gameplay/GameplayInteractionController.cpp:253
 msgid "Use Lever"
 msgstr "Użyj dźwigni"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:247
+#: game/gameplay/GameplayInteractionController.cpp:257
 msgid "Drop Item"
 msgstr "Upuść przedmiot"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:82 assets_dev/engine/ui/gameplay/adventurers_inn.yml:96 assets_dev/engine/ui/gameplay/character.yml:229
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:37 assets_dev/engine/ui/gameplay/statistics.yml:70 game/gameplay/GameplayInteractionController.cpp:307
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:37 assets_dev/engine/ui/gameplay/statistics.yml:70 game/gameplay/GameplayInteractionController.cpp:317
 msgid "Exit"
 msgstr "Wyjście"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:317
+#: game/gameplay/GameplayInteractionController.cpp:327
 msgid "Passage"
 msgstr "Przejście"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:322
+#: game/gameplay/GameplayInteractionController.cpp:332
 msgid "Teleport"
 msgstr "Teleport"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:327
+#: game/gameplay/GameplayInteractionController.cpp:337
 msgid "Use Switch"
 msgstr "Użyj przełącznika"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:332
+#: game/gameplay/GameplayInteractionController.cpp:342
 msgid "Use Elevator"
 msgstr "Użyj windy"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:337
+#: game/gameplay/GameplayInteractionController.cpp:347
 msgid "Use Pedestal"
 msgstr "Użyj piedestału"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/decoration_data.txt:10 game/gameplay/GameplayInteractionController.cpp:342
+#: assets_dev/engine/data_tables/decoration_data.txt:10 game/gameplay/GameplayInteractionController.cpp:352
 msgid "Fountain"
 msgstr "Fontanna"
 
 # imported from PL (MMMerge localization)
-#: game/gameplay/GameplayInteractionController.cpp:347
+#: game/gameplay/GameplayInteractionController.cpp:357
 msgid "Well"
 msgstr "Studnia"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1316 game/gameplay/GameplayInteractionController.cpp:352
+#: assets_dev/engine/data_tables/npc_topic.txt:1316 game/gameplay/GameplayInteractionController.cpp:362
 msgid "Shrine"
 msgstr "Sanktuarium"
 
 # imported from PL (MMMerge localization)
-#: game/gameplay/GameplayInteractionController.cpp:357
+#: game/gameplay/GameplayInteractionController.cpp:367
 msgid "Obelisk"
 msgstr "ó_oi_tnw_"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:362
+#: game/gameplay/GameplayInteractionController.cpp:372
 msgid "Boost"
 msgstr "Wzmocnienie"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:367
+#: game/gameplay/GameplayInteractionController.cpp:377
 msgid "Read"
 msgstr "Czytaj"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:390
+#: game/gameplay/GameplayInteractionController.cpp:400
 msgid "{action} ({target})"
 msgstr "{action} ({target})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:454
+#: game/gameplay/GameplayInteractionController.cpp:464
 msgid "Pick"
 msgstr "Weź"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:549
+#: game/gameplay/GameplayInteractionController.cpp:559
 msgid "Drop {item}"
 msgstr "Upuść: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:581 game/gameplay/GameplayInteractionController.cpp:590
+#: game/gameplay/GameplayInteractionController.cpp:591 game/gameplay/GameplayInteractionController.cpp:600
 msgid "Can't drop {item}"
 msgstr "Nie można upuścić: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:594
+#: game/gameplay/GameplayInteractionController.cpp:604
 msgid "Dropped {item}"
 msgstr "Upuszczono: {item}"
 
@@ -101389,7 +101628,7 @@ msgid "You found {gold} gold (followers take {share})!"
 msgstr "Znajdujesz {gold} szt. złota (towarzysze zabierają {share})!"
 
 # machine translation (Claude), review
-#: game/gameplay/NpcFollowerRuntime.cpp:405 game/indoor/IndoorWorldRuntime.cpp:16161 game/outdoor/OutdoorWorldRuntime.cpp:17373
+#: game/gameplay/NpcFollowerRuntime.cpp:405 game/indoor/IndoorWorldRuntime.cpp:16171 game/outdoor/OutdoorWorldRuntime.cpp:17381
 msgid "You found {gold} gold!"
 msgstr "Znajdujesz {gold} szt. złota!"
 
@@ -101409,27 +101648,27 @@ msgid "You are drowning!"
 msgstr "Toniesz!"
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:16121 game/outdoor/OutdoorWorldRuntime.cpp:17333
+#: game/indoor/IndoorWorldRuntime.cpp:16131 game/outdoor/OutdoorWorldRuntime.cpp:17341
 msgid "You need Stealing skill."
 msgstr "Potrzebujesz biegłości Kradzież."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:16132 game/outdoor/OutdoorWorldRuntime.cpp:17344
+#: game/indoor/IndoorWorldRuntime.cpp:16142 game/outdoor/OutdoorWorldRuntime.cpp:17352
 msgid "Too far away."
 msgstr "Za daleko."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:16134 game/outdoor/OutdoorWorldRuntime.cpp:17346
+#: game/indoor/IndoorWorldRuntime.cpp:16144 game/outdoor/OutdoorWorldRuntime.cpp:17354
 msgid "Nothing to steal."
 msgstr "Nie ma czego ukraść."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:16136 game/outdoor/OutdoorWorldRuntime.cpp:17348
+#: game/indoor/IndoorWorldRuntime.cpp:16146 game/outdoor/OutdoorWorldRuntime.cpp:17356
 msgid "Caught stealing!"
 msgstr "Przyłapano was na kradzieży!"
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:16137 game/outdoor/OutdoorWorldRuntime.cpp:17349
+#: game/indoor/IndoorWorldRuntime.cpp:16147 game/outdoor/OutdoorWorldRuntime.cpp:17357
 msgid "Failed to steal."
 msgstr "Nie udało się ukraść."
 
@@ -101815,33 +102054,87 @@ msgid "Physical"
 msgstr "Fizyczna"
 
 # imported from fix_pl.po
-#: assets_dev/engine/data_tables/english/Global.txt:90 assets_dev/engine/ui/gameplay/actor_inspect.yml:197 assets_dev/engine/ui/gameplay/character.yml:969
-#: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:82 game/rules/maw/MawItemRules.cpp:2093
-#: game/rules/maw/MawItemRules.cpp:2475 game/rules/maw/MawItemRules.cpp:339 game/ui/GameplayHudOverlaySupport.cpp:320
-#: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:59
+#: assets_dev/engine/data_tables/english/Global.txt:90 assets_dev/engine/data_tables/monster_data.txt:107 assets_dev/engine/data_tables/monster_data.txt:108
+#: assets_dev/engine/data_tables/monster_data.txt:109 assets_dev/engine/data_tables/monster_data.txt:11 assets_dev/engine/data_tables/monster_data.txt:110
+#: assets_dev/engine/data_tables/monster_data.txt:114 assets_dev/engine/data_tables/monster_data.txt:131 assets_dev/engine/data_tables/monster_data.txt:132
+#: assets_dev/engine/data_tables/monster_data.txt:133 assets_dev/engine/data_tables/monster_data.txt:134 assets_dev/engine/data_tables/monster_data.txt:135
+#: assets_dev/engine/data_tables/monster_data.txt:136 assets_dev/engine/data_tables/monster_data.txt:160 assets_dev/engine/data_tables/monster_data.txt:164
+#: assets_dev/engine/data_tables/monster_data.txt:165 assets_dev/engine/data_tables/monster_data.txt:166 assets_dev/engine/data_tables/monster_data.txt:176
+#: assets_dev/engine/data_tables/monster_data.txt:177 assets_dev/engine/data_tables/monster_data.txt:178 assets_dev/engine/data_tables/monster_data.txt:206
+#: assets_dev/engine/data_tables/monster_data.txt:207 assets_dev/engine/data_tables/monster_data.txt:208 assets_dev/engine/data_tables/monster_data.txt:211
+#: assets_dev/engine/data_tables/monster_data.txt:216 assets_dev/engine/data_tables/monster_data.txt:229 assets_dev/engine/data_tables/monster_data.txt:242
+#: assets_dev/engine/data_tables/monster_data.txt:243 assets_dev/engine/data_tables/monster_data.txt:244 assets_dev/engine/data_tables/monster_data.txt:270
+#: assets_dev/engine/data_tables/monster_data.txt:278 assets_dev/engine/data_tables/monster_data.txt:279 assets_dev/engine/data_tables/monster_data.txt:280
+#: assets_dev/engine/data_tables/monster_data.txt:290 assets_dev/engine/data_tables/monster_data.txt:293 assets_dev/engine/data_tables/monster_data.txt:391
+#: assets_dev/engine/data_tables/monster_data.txt:422 assets_dev/engine/data_tables/monster_data.txt:480 assets_dev/engine/data_tables/monster_data.txt:481
+#: assets_dev/engine/data_tables/monster_data.txt:489 assets_dev/engine/data_tables/monster_data.txt:503 assets_dev/engine/data_tables/monster_data.txt:504
+#: assets_dev/engine/data_tables/monster_data.txt:505 assets_dev/engine/data_tables/monster_data.txt:506 assets_dev/engine/data_tables/monster_data.txt:507
+#: assets_dev/engine/data_tables/monster_data.txt:508 assets_dev/engine/data_tables/monster_data.txt:509 assets_dev/engine/data_tables/monster_data.txt:512
+#: assets_dev/engine/data_tables/monster_data.txt:518 assets_dev/engine/data_tables/monster_data.txt:521 assets_dev/engine/data_tables/monster_data.txt:533
+#: assets_dev/engine/data_tables/monster_data.txt:534 assets_dev/engine/data_tables/monster_data.txt:535 assets_dev/engine/data_tables/monster_data.txt:550
+#: assets_dev/engine/data_tables/monster_data.txt:563 assets_dev/engine/data_tables/monster_data.txt:573 assets_dev/engine/data_tables/monster_data.txt:576
+#: assets_dev/engine/data_tables/monster_data.txt:587 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/monster_data.txt:77
+#: assets_dev/engine/data_tables/monster_data.txt:78 assets_dev/engine/data_tables/monster_data.txt:79 assets_dev/engine/ui/gameplay/actor_inspect.yml:197
+#: assets_dev/engine/ui/gameplay/character.yml:969 game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:82
+#: game/rules/maw/MawItemRules.cpp:2093 game/rules/maw/MawItemRules.cpp:2475 game/rules/maw/MawItemRules.cpp:339
+#: game/ui/GameplayHudOverlaySupport.cpp:320 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:59
 msgid "Fire"
 msgstr "Ogień"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:9 assets_dev/engine/ui/gameplay/actor_inspect.yml:221 assets_dev/engine/ui/gameplay/character.yml:997
-#: game/mm9/Mm9HirelingHud.cpp:40 game/rules/maw/MawClassRules.cpp:83 game/rules/maw/MawItemRules.cpp:338
-#: game/ui/GameplayHudOverlaySupport.cpp:321 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:61
+#: assets_dev/engine/data_tables/english/Global.txt:9 assets_dev/engine/data_tables/monster_data.txt:112 assets_dev/engine/data_tables/monster_data.txt:115
+#: assets_dev/engine/data_tables/monster_data.txt:119 assets_dev/engine/data_tables/monster_data.txt:120 assets_dev/engine/data_tables/monster_data.txt:121
+#: assets_dev/engine/data_tables/monster_data.txt:152 assets_dev/engine/data_tables/monster_data.txt:153 assets_dev/engine/data_tables/monster_data.txt:154
+#: assets_dev/engine/data_tables/monster_data.txt:158 assets_dev/engine/data_tables/monster_data.txt:217 assets_dev/engine/data_tables/monster_data.txt:227
+#: assets_dev/engine/data_tables/monster_data.txt:236 assets_dev/engine/data_tables/monster_data.txt:237 assets_dev/engine/data_tables/monster_data.txt:238
+#: assets_dev/engine/data_tables/monster_data.txt:271 assets_dev/engine/data_tables/monster_data.txt:291 assets_dev/engine/data_tables/monster_data.txt:294
+#: assets_dev/engine/data_tables/monster_data.txt:390 assets_dev/engine/data_tables/monster_data.txt:413 assets_dev/engine/data_tables/monster_data.txt:414
+#: assets_dev/engine/data_tables/monster_data.txt:415 assets_dev/engine/data_tables/monster_data.txt:424 assets_dev/engine/data_tables/monster_data.txt:484
+#: assets_dev/engine/data_tables/monster_data.txt:490 assets_dev/engine/data_tables/monster_data.txt:494 assets_dev/engine/data_tables/monster_data.txt:495
+#: assets_dev/engine/data_tables/monster_data.txt:496 assets_dev/engine/data_tables/monster_data.txt:510 assets_dev/engine/data_tables/monster_data.txt:527
+#: assets_dev/engine/data_tables/monster_data.txt:528 assets_dev/engine/data_tables/monster_data.txt:529 assets_dev/engine/data_tables/monster_data.txt:549
+#: assets_dev/engine/data_tables/monster_data.txt:572 assets_dev/engine/data_tables/monster_data.txt:588 assets_dev/engine/data_tables/monster_data.txt:635
+#: assets_dev/engine/data_tables/monster_data.txt:636 assets_dev/engine/data_tables/monster_data.txt:644 assets_dev/engine/data_tables/monster_data.txt:645
+#: assets_dev/engine/data_tables/monster_data.txt:646 assets_dev/engine/data_tables/monster_data.txt:76 assets_dev/engine/data_tables/monster_data.txt:86
+#: assets_dev/engine/data_tables/monster_data.txt:87 assets_dev/engine/data_tables/monster_data.txt:88 assets_dev/engine/ui/gameplay/actor_inspect.yml:221
+#: assets_dev/engine/ui/gameplay/character.yml:997 game/mm9/Mm9HirelingHud.cpp:40 game/rules/maw/MawClassRules.cpp:83
+#: game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:321 game/ui/GameplayStatisticsScreen.cpp:61
+#: game/ui/HouseShopLedger.cpp:61
 msgid "Air"
 msgstr "Powietrze"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:243 assets_dev/engine/ui/gameplay/actor_inspect.yml:245 assets_dev/engine/ui/gameplay/character.yml:1025
-#: assets_dev/engine/ui/gameplay/settings_video.yml:519 assets_dev/engine/ui/menu/settings_catalog.yml:381 assets_dev/engine/ui/menu/settings_catalog.yml:387
-#: assets_dev/engine/ui/menu/settings_catalog.yml:400 assets_dev/engine/ui/menu/settings_catalog.yml:407 assets_dev/engine/ui/menu/settings_catalog.yml:413
-#: game/mm9/Mm9HirelingHud.cpp:41 game/rules/maw/MawClassRules.cpp:84 game/rules/maw/MawItemRules.cpp:340
-#: game/ui/GameplayHudOverlaySupport.cpp:322 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:63
+#: assets_dev/engine/data_tables/english/Global.txt:243 assets_dev/engine/data_tables/monster_data.txt:111 assets_dev/engine/data_tables/monster_data.txt:113
+#: assets_dev/engine/data_tables/monster_data.txt:12 assets_dev/engine/data_tables/monster_data.txt:159 assets_dev/engine/data_tables/monster_data.txt:173
+#: assets_dev/engine/data_tables/monster_data.txt:174 assets_dev/engine/data_tables/monster_data.txt:175 assets_dev/engine/data_tables/monster_data.txt:194
+#: assets_dev/engine/data_tables/monster_data.txt:195 assets_dev/engine/data_tables/monster_data.txt:196 assets_dev/engine/data_tables/monster_data.txt:215
+#: assets_dev/engine/data_tables/monster_data.txt:228 assets_dev/engine/data_tables/monster_data.txt:248 assets_dev/engine/data_tables/monster_data.txt:249
+#: assets_dev/engine/data_tables/monster_data.txt:250 assets_dev/engine/data_tables/monster_data.txt:269 assets_dev/engine/data_tables/monster_data.txt:314
+#: assets_dev/engine/data_tables/monster_data.txt:315 assets_dev/engine/data_tables/monster_data.txt:316 assets_dev/engine/data_tables/monster_data.txt:398
+#: assets_dev/engine/data_tables/monster_data.txt:399 assets_dev/engine/data_tables/monster_data.txt:400 assets_dev/engine/data_tables/monster_data.txt:423
+#: assets_dev/engine/data_tables/monster_data.txt:488 assets_dev/engine/data_tables/monster_data.txt:497 assets_dev/engine/data_tables/monster_data.txt:498
+#: assets_dev/engine/data_tables/monster_data.txt:499 assets_dev/engine/data_tables/monster_data.txt:511 assets_dev/engine/data_tables/monster_data.txt:513
+#: assets_dev/engine/data_tables/monster_data.txt:515 assets_dev/engine/data_tables/monster_data.txt:516 assets_dev/engine/data_tables/monster_data.txt:517
+#: assets_dev/engine/data_tables/monster_data.txt:519 assets_dev/engine/data_tables/monster_data.txt:522 assets_dev/engine/data_tables/monster_data.txt:548
+#: assets_dev/engine/data_tables/monster_data.txt:564 assets_dev/engine/data_tables/monster_data.txt:589 assets_dev/engine/data_tables/monster_data.txt:593
+#: assets_dev/engine/data_tables/monster_data.txt:594 assets_dev/engine/data_tables/monster_data.txt:595 assets_dev/engine/data_tables/monster_data.txt:629
+#: assets_dev/engine/data_tables/monster_data.txt:630 assets_dev/engine/data_tables/monster_data.txt:631 assets_dev/engine/data_tables/monster_data.txt:75
+#: assets_dev/engine/data_tables/monster_data.txt:80 assets_dev/engine/data_tables/monster_data.txt:81 assets_dev/engine/data_tables/monster_data.txt:82
+#: assets_dev/engine/ui/gameplay/actor_inspect.yml:245 assets_dev/engine/ui/gameplay/character.yml:1025 assets_dev/engine/ui/gameplay/settings_video.yml:519
+#: assets_dev/engine/ui/menu/settings_catalog.yml:381 assets_dev/engine/ui/menu/settings_catalog.yml:387 assets_dev/engine/ui/menu/settings_catalog.yml:400
+#: assets_dev/engine/ui/menu/settings_catalog.yml:407 assets_dev/engine/ui/menu/settings_catalog.yml:413 game/mm9/Mm9HirelingHud.cpp:41
+#: game/rules/maw/MawClassRules.cpp:84 game/rules/maw/MawItemRules.cpp:340 game/ui/GameplayHudOverlaySupport.cpp:322
+#: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:63
 msgid "Water"
 msgstr "Woda"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:73 assets_dev/engine/ui/gameplay/actor_inspect.yml:269 assets_dev/engine/ui/gameplay/character.yml:1053
-#: game/mm9/Mm9HirelingHud.cpp:42 game/rules/maw/MawClassRules.cpp:85 game/rules/maw/MawItemRules.cpp:338
-#: game/ui/GameplayHudOverlaySupport.cpp:323 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:65
+#: assets_dev/engine/data_tables/english/Global.txt:73 assets_dev/engine/data_tables/monster_data.txt:455 assets_dev/engine/data_tables/monster_data.txt:456
+#: assets_dev/engine/data_tables/monster_data.txt:457 assets_dev/engine/data_tables/monster_data.txt:523 assets_dev/engine/data_tables/monster_data.txt:578
+#: assets_dev/engine/data_tables/monster_data.txt:579 assets_dev/engine/data_tables/monster_data.txt:580 assets_dev/engine/ui/gameplay/actor_inspect.yml:269
+#: assets_dev/engine/ui/gameplay/character.yml:1053 game/mm9/Mm9HirelingHud.cpp:42 game/rules/maw/MawClassRules.cpp:85
+#: game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:323 game/ui/GameplayStatisticsScreen.cpp:61
+#: game/ui/HouseShopLedger.cpp:65
 msgid "Earth"
 msgstr "Ziemia"
 
@@ -101867,14 +102160,23 @@ msgid "Body"
 msgstr "Ciało"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:136 assets_dev/engine/ui/gameplay/actor_inspect.yml:365 game/mm9/Mm9HirelingHud.cpp:46
-#: game/rules/maw/MawItemRules.cpp:339 game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:73
+#: assets_dev/engine/data_tables/english/Global.txt:136 assets_dev/engine/data_tables/monster_data.txt:101 assets_dev/engine/data_tables/monster_data.txt:102
+#: assets_dev/engine/data_tables/monster_data.txt:103 assets_dev/engine/data_tables/monster_data.txt:245 assets_dev/engine/data_tables/monster_data.txt:246
+#: assets_dev/engine/data_tables/monster_data.txt:247 assets_dev/engine/data_tables/monster_data.txt:296 assets_dev/engine/data_tables/monster_data.txt:297
+#: assets_dev/engine/ui/gameplay/actor_inspect.yml:365 game/mm9/Mm9HirelingHud.cpp:46 game/rules/maw/MawItemRules.cpp:339
+#: game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:73
 msgid "Light"
 msgstr "Światło"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:57 assets_dev/engine/ui/gameplay/actor_inspect.yml:389 game/mm9/Mm9HirelingHud.cpp:47
-#: game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayStatisticsScreen.cpp:63 game/ui/HouseShopLedger.cpp:75
+#: assets_dev/engine/data_tables/english/Global.txt:57 assets_dev/engine/data_tables/monster_data.txt:167 assets_dev/engine/data_tables/monster_data.txt:168
+#: assets_dev/engine/data_tables/monster_data.txt:169 assets_dev/engine/data_tables/monster_data.txt:295 assets_dev/engine/data_tables/monster_data.txt:311
+#: assets_dev/engine/data_tables/monster_data.txt:312 assets_dev/engine/data_tables/monster_data.txt:313 assets_dev/engine/data_tables/monster_data.txt:551
+#: assets_dev/engine/data_tables/monster_data.txt:552 assets_dev/engine/data_tables/monster_data.txt:553 assets_dev/engine/data_tables/monster_data.txt:569
+#: assets_dev/engine/data_tables/monster_data.txt:570 assets_dev/engine/data_tables/monster_data.txt:571 assets_dev/engine/data_tables/monster_data.txt:59
+#: assets_dev/engine/data_tables/monster_data.txt:60 assets_dev/engine/data_tables/monster_data.txt:61 assets_dev/engine/ui/gameplay/actor_inspect.yml:389
+#: game/mm9/Mm9HirelingHud.cpp:47 game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayStatisticsScreen.cpp:63
+#: game/ui/HouseShopLedger.cpp:75
 msgid "Dark"
 msgstr "Ciemność"
 

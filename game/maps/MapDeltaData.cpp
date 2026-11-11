@@ -5,6 +5,17 @@
 
 namespace OpenYAMM::Game
 {
+void attachHeldItem(std::vector<MapDeltaHeldItem> &items, const std::string &model, const std::string &node)
+{
+    detachHeldItem(items, node);
+    items.push_back({model, node});
+}
+
+void detachHeldItem(std::vector<MapDeltaHeldItem> &items, const std::string &node)
+{
+    std::erase_if(items, [&node](const MapDeltaHeldItem &item) { return node.empty() || item.node == node; });
+}
+
 namespace
 {
 constexpr size_t OutdoorRevealMapBytes = 88 * 11 * 2;

@@ -100,9 +100,11 @@ public:
 private:
     const IndoorSectorFaceGrid *m_pSectorFaceGrid = nullptr;
     const MapDeltaData *m_pAttributeOverrides = nullptr;
-    uint64_t m_attributeRevision = 0;
     std::vector<uint8_t> m_entryStates;
     std::vector<IndoorFaceGeometryData> m_entries;
+    // The face attributes each entry was built with: a face whose bits changed since is rebuilt when next asked for,
+    // so a face hidden or made untouchable redoes that face alone.
+    std::vector<uint32_t> m_entryAttributes;
     std::vector<uint32_t> m_faceVisitStamps;
     uint32_t m_faceVisitStamp = 1;
 };
@@ -266,11 +268,28 @@ IndoorFloorSample sampleIndoorFloorOnFace(
     const std::vector<uint8_t> *pFaceExclusionMask = nullptr,
     IndoorFaceGeometryCache *pGeometryCache = nullptr
 );
+// The ground a creature stands on at (x, y) when it appears beside a point at height z: the floor nearest to z within
+// reach above or below (on a slope an offset point's ground lies above or below the centre's), if a creature can
+// stand there (walkable, not a sky face). Without it, a point under a slope's surface took the floor below it: on an
+// open-air BLV the sky shell under the terrain (Guberland's bounty, 2026-11-11).
+std::optional<float> findIndoorStandingFloorHeight(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    float x,
+    float y,
+    float z,
+    float reach
+);
+// A bounty target's spot on an indoor map (MAW's BountyHunt.lua NewBHSpawnPoint): by the seed, the ground under one of
+// the anchors (the caller's: where the map placed its walking monsters), else a random floor face's, else a wall room's
+// floor; always ground a creature can stand on (findIndoorStandingFloorHeight's rule).
 std::optional<bx::Vec3> chooseIndoorBountyHuntSpawnPoint(
     const IndoorMapData &indoorMapData,
     const MapDeltaData *pIndoorMapDeltaData,
     const EventRuntimeState *pEventRuntimeState,
-    uint32_t seed
+    uint32_t seed,
+    std::span<const bx::Vec3> anchors = {}
 );
 IndoorCeilingSample sampleIndoorCeiling(
     const IndoorMapData &indoorMapData,

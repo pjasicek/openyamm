@@ -826,10 +826,16 @@ std::string ScriptedEventProgram::localizedText(const std::string &english) cons
                                          : std::string());
 }
 
-const ScriptedEventProgram::LearnedEffect *ScriptedEventProgram::learnedEffect(uint16_t eventId) const
+std::optional<ScriptedEventProgram::LearnedEffect> ScriptedEventProgram::learnedEffect(uint16_t eventId) const
 {
     const auto iterator = m_learnedEffects.find(eventId);
-    return iterator != m_learnedEffects.end() ? &iterator->second : nullptr;
+
+    if (iterator == m_learnedEffects.end())
+    {
+        return std::nullopt;
+    }
+
+    return LearnedEffect{iterator->second.autonoteId, localizedText(iterator->second.effect)};
 }
 
 std::optional<std::string> ScriptedEventProgram::summarizeEvent(uint16_t eventId) const

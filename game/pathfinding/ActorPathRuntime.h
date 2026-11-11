@@ -32,6 +32,8 @@ struct ActorPathResolveRequest
     size_t nodeLimit = 8000;
     size_t mapRevision = 0;
     float sourceSnapDistance = 0.0f;
+    // PathPlanRequest::goalDistance.
+    float goalDistance = 0.0f;
     float planningRange = 12000.0f;
     float waypointReachDistance = 0.0f;
     double nowSeconds = 0.0;

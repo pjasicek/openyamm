@@ -1489,6 +1489,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     else
     {
         attack = buildRangedReleaseAttack(attackMode, attackProfile, rng);
+        GameMechanics::applyExplosiveArrows(*pAttacker, attack);
     }
 
     CharacterAttackOnMonster attackContext = {};
@@ -1544,6 +1545,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         && gameRulesFor(config.pParty).combat.callerHalvesWeakMissile(attack.mode))
     {
         attack.damage /= 2;
+        attack.minimumDamage /= 2;
+        attack.maximumDamage /= 2;
         result.attack = attack;
     }
 
@@ -1802,6 +1805,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                 .explosionRadius = attack.explosiveArrow
                     ? GameplayProjectileService::spellImpactDamageRadius(uint32_t(SpellId::Fireball))
                     : 0.0f,
+                .blastMinimumDamage = attack.explosiveArrow ? attack.minimumDamage : 0,
+                .blastMaximumDamage = attack.explosiveArrow ? attack.maximumDamage : 0,
                 .source = toRuntimeWorldPoint(rangedSource),
                 .target = toRuntimeWorldPoint(rangedTarget),
                 .turnBasedPendingAction =

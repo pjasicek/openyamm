@@ -100,7 +100,7 @@ struct CharacterRulesetState
     // The masteries a lone character's utility skills had before their solo ones replaced them (soloMiscMasteries),
     // given back when the party grows.
     std::unordered_map<std::string, SkillMastery> soloStoredMasteries;
-    // MAW's Cover and Mana Shield, switched off by the player.
+    // MAW's Cover and Mana Shield, switched off by the player (MawSkillRules::skillSwitch).
     bool coverDisabled = false;
     bool manaShieldDisabled = false;
     // An Elementalist's random rotation of the quick and attack spells, switched off by the player (R on the skills
@@ -146,12 +146,6 @@ struct CharacterRulesetState
     bool classToggleOn(uint32_t spellId) const
     {
         return std::find(classToggles.begin(), classToggles.end(), spellId) != classToggles.end();
-    }
-
-    // Whether the player switched the skill off (MAW's Cover and Mana Shield).
-    bool skillSwitchedOff(const std::string &canonicalSkill) const
-    {
-        return (canonicalSkill == "Cover" && coverDisabled) || (canonicalSkill == "ManaShield" && manaShieldDisabled);
     }
 
     bool empty() const

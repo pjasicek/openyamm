@@ -938,6 +938,48 @@ TEST_CASE("actor path runtime keeps a reached waypoint when the next waypoint wo
     CHECK(active.waypoint.z == doctest::Approx(firstWaypoint.z));
 }
 
+TEST_CASE("actor path runtime drops a route held near its waypoint and plans it again")
+{
+    PathMap map;
+    map.setFacets({
+        makeRuntimeFloor(-32.0f, 80.0f, -16.0f, 16.0f, 0.0f),
+        makeRuntimeFloor(48.0f, 80.0f, -16.0f, 160.0f, 0.0f)
+    });
+
+    ActorPathResolveRequest request = makeRuntimeRequest();
+    request.object.stepLength = 64.0f;
+    request.waypointReachDistance = 24.0f;
+    request.source = {0.0f, 0.0f, 0.0f};
+    request.target = {64.0f, 128.0f, 0.0f};
+    request.mapRevision = map.revision();
+    request.allowDirect = false;
+    request.directCheckIntervalSeconds = 100.0;
+    request.shortcutCheckIntervalSeconds = 100.0;
+
+    ActorPathRuntime runtime;
+    const ActorPathResolveResult planned = runtime.resolveWaypoint(map, request);
+    REQUIRE(planned.pathActive);
+    REQUIRE(planned.waypointCount >= 2u);
+
+    // Held 20 short of its first waypoint, where the second is out of a straight line's reach (Hjarrand at Thjorad
+    // Mine's ramp): it keeps the waypoint a while, then drops the route and plans it again from where it stands.
+    const PathPoint firstWaypoint = planned.waypoint;
+    request.source = {firstWaypoint.x - 20.0f, firstWaypoint.y, firstWaypoint.z};
+    REQUIRE(map.canReachDirectly(request.source, firstWaypoint, request.object));
+    const ActorPathResolveResult held = runtime.resolveWaypoint(map, request);
+    REQUIRE(held.pathActive);
+    request.nowSeconds = 1.0;
+    const ActorPathResolveResult stillHeld = runtime.resolveWaypoint(map, request);
+    REQUIRE(stillHeld.pathActive);
+    CHECK_EQ(stillHeld.stalledWaypointCount, 0u);
+    CHECK_EQ(stillHeld.waypointIndex, planned.waypointIndex);
+    request.nowSeconds = 2.5;
+    const ActorPathResolveResult replanned = runtime.resolveWaypoint(map, request);
+    CHECK_EQ(replanned.stalledWaypointCount, 1u);
+    CHECK(replanned.planned);
+    CHECK(replanned.pathActive);
+}
+
 TEST_CASE("actor path runtime skips a reached waypoint when the next waypoint remains directly reachable")
 {
     PathMap map;

@@ -70,6 +70,7 @@ bool JournalAutonoteTable::loadFromRows(const std::vector<std::vector<std::strin
         entry.id = static_cast<uint32_t>(parsedId);
         entry.text = getCell(row, 1);
         entry.category = parseCategory(getCell(row, 2));
+        entry.owner = getCell(row, 3);
 
         if (entry.text.empty())
         {

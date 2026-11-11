@@ -2168,8 +2168,21 @@ bool GameDataLoader::loadTrainerDirectory(const Engine::AssetFileSystem &assetFi
         return false;
     }
 
+    std::vector<TrainerEntry> actorTeachers;
+    if (m_pMm9SkillTrainerTable != nullptr)
+    {
+        const auto catalog = assetFileSystem.readTextFile("worlds/mm9/ui/maps/catalog.yml");
+        if (!catalog || !loadTextTableRows(assetFileSystem, "worlds/mm9/data_tables/trainer_places.txt", rows)
+            || !buildMm9JournalTeachers(rows, *m_pMm9SkillTrainerTable, getMm9RudeDialogueTable(), m_mapStats,
+                *catalog, actorTeachers, error))
+        {
+            std::cerr << "Failed to load Chedian journal teachers: " << error << '\n';
+            return false;
+        }
+    }
     m_trainerDirectory = TrainerDirectory::build(m_npcDialogTable, m_mergedTeacherTopicTable,
-        m_mergedTeacherAutonoteTable, m_houseTable, m_mapStats, std::move(places), std::move(ledger));
+        m_mergedTeacherAutonoteTable, m_houseTable, m_mapStats, std::move(places), std::move(ledger),
+        std::move(actorTeachers));
     return true;
 }
 
@@ -2476,7 +2489,8 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
 
     for (const WorldManifest &manifest : mountedWorlds)
     {
-        if (!m_mapStats.applyOpenAirMaps(manifest.id, manifest.openAirMaps))
+        if (!m_mapStats.applyOpenAirMaps(manifest.id, manifest.openAirMaps)
+            || !m_mapStats.applyNoTeleportMaps(manifest.id, manifest.noTeleportMaps))
         {
             return false;
         }
@@ -2855,7 +2869,7 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
         if (!m_houseTable.appendServiceVenueRows(
                 serviceVenueRows,
                 serviceVenueAliasRows,
-                serviceVenueError))
+                serviceVenueError, &m_mapStats))
         {
             std::cerr << "Failed to compose service venue tables: " << serviceVenueError << '\n';
             return false;

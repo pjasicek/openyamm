@@ -236,6 +236,8 @@ public:
         bool mm9Guard = false;
         // The scene actor's draw_scale (MapDeltaActor::drawScale); 0: none.
         float drawScale = 0.0f;
+        // The items it holds (MapDeltaActor::heldItems; evt.AttachActorItem, evt.DetachActorItem).
+        std::vector<MapDeltaHeldItem> heldItems;
         bool mm9FleeingFromParty = false;
         float mm9FleeRemainingSeconds = 0.0f;
         // A villager the party yelled at runs from it until this runs out (scareNearbyPeasants); not saved.
@@ -680,7 +682,9 @@ public:
     void setBolsterMonstersEnabled(bool enabled);
     void setPartyCollisionDimensions(float radius, float height);
     void bindInteractionView(OutdoorGameView *pView);
-    void bindGlobalEventProgram(const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
+    void bindEventPrograms(
+        const std::optional<ScriptedEventProgram> *pLocalEventProgram,
+        const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
     void bindActorBehaviorCatalog(const ActorBehaviorCatalog *pCatalog);
     ActorBehaviorRuntime *actorBehaviorRuntime() override;
     const ActorBehaviorRuntime *actorBehaviorRuntime() const override;
@@ -714,6 +718,7 @@ public:
     bool isIndoorMap() const override;
     bool isUnderwaterMap() const override;
     bool allowsLloydsBeacon() const override;
+    bool allowsTownPortal() const override;
     bool allowsRest() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
@@ -767,6 +772,8 @@ public:
     std::optional<uint32_t> corpseLootValue(size_t actorIndex) const override;
     std::optional<CorpseViewState> revealActorLoot(size_t actorIndex) override;
     bool setMapActorPosition(size_t actorIndex, float x, float y, float z) override;
+    bool attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node) override;
+    bool detachMapActorItem(size_t actorIndex, const std::string &node) override;
     bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
     bool isMapActorHostile(size_t actorIndex) const override;
     bool isMapActorDead(size_t actorIndex) const override;
@@ -1097,6 +1104,7 @@ public:
         std::optional<uint8_t> continueStep = std::nullopt) override;
     bool executeEventHooks(EventRuntimeHookKind kind) override;
     const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
+    const std::optional<ScriptedEventProgram> *localEventProgram() const override;
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
     bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
@@ -1319,6 +1327,8 @@ public:
         ShieldHitModifiers shieldModifiers;
         bool weakerOfPhysicalAndFire = false;
         float explosionRadius = 0.0f;
+        int blastMinimumDamage = 0;
+        int blastMaximumDamage = 0;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
@@ -1351,6 +1361,7 @@ public:
     uint64_t bloodSplatRevision() const;
 
 private:
+    void hideExpiredSummons();
     MonsterKillReward killReward(const MapActorState &actor, const MonsterTable::MonsterStatsEntry &stats) const;
     // After a kill: the ruleset's reward for clearing the map, if it has one.
     void rewardRulesetMapProgress();
@@ -1622,6 +1633,13 @@ private:
         float partyZ) const;
     GameplayProjectileService::ProjectileBounceSurfaceFacts buildProjectileBounceSurfaceFacts(
         const ProjectileCollisionFacts &collision) const;
+    // A blast reaches only the party and monsters in its line of sight, as indoors and in MM8.
+    void removeAreaImpactHitsBehindCover(
+        GameplayProjectileService::ProjectileFrameResult &frameResult,
+        const ProjectileCollisionFacts &collision,
+        float partyX,
+        float partyY,
+        float partyZ) const;
     void applyProjectileFrameResult(
         ProjectileState &projectile,
         const ProjectileCollisionFacts &collision,
@@ -1769,6 +1787,7 @@ private:
     uint64_t m_appliedRelationRevision = UINT64_MAX;
     GameplayCombatController *m_pGameplayCombatController = nullptr;
     GameplayFxService *m_pGameplayFxService = nullptr;
+    const std::optional<ScriptedEventProgram> *m_pLocalEventProgram = nullptr;
     const std::optional<ScriptedEventProgram> *m_pGlobalEventProgram = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;

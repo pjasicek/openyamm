@@ -5345,6 +5345,50 @@ int luaSetActorImmobile(lua_State *pLuaState)
     return 1;
 }
 
+// evt.SetActorRoutine(actorIndex[, name]): the MM9 routine (scene mm9_ai.routines) the map actor runs while it holds
+// no target, from its first step; no name (nil or ""): none, it wanders and idles by its placement. Without a call it
+// runs its `default`. Runtime only: a map script sets it again on load (a ceremony from the hour).
+int luaSetActorRoutine(lua_State *pLuaState)
+{
+    if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+    {
+        const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+        pRuntimeState->actorRoutines[uint32_t(actorIndex)] = luaL_optstring(pLuaState, 2, "");
+    }
+
+    return 0;
+}
+
+// evt.AttachActorItem(actorIndex, model, node): the actor holds the item's model on its model's node (MM9's
+// AttachProp), replacing what that node held; saved with the map. evt.DetachActorItem(actorIndex[, node]): it puts
+// down the node's item, or all it holds (DetachProp). Both return whether there is such an actor.
+int luaAttachActorItem(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const std::string model = luaL_checkstring(pLuaState, 2);
+    const std::string node = luaL_checkstring(pLuaState, 3);
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->attachMapActorItem(size_t(actorIndex), model, node));
+    return 1;
+}
+
+int luaDetachActorItem(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const std::string node = luaL_optstring(pLuaState, 2, "");
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->detachMapActorItem(size_t(actorIndex), node));
+    return 1;
+}
+
 // evt.KillMapActor(actorIndex): the living actor dies (ISceneEventContext::killMapActor). Returns whether it did.
 int luaKillMapActor(lua_State *pLuaState)
 {
@@ -6586,6 +6630,54 @@ int luaStopBeam(lua_State *pLuaState)
     return 0;
 }
 
+// evt.SpawnActorEffect(actorIndex, effect[, socket[, seconds[, scale]]]) and evt.StopActorEffect(actorIndex[, effect])
+// (EventRuntimeState::ActorEffectRequest): a named effect carried on a map actor's socket.
+int luaSpawnActorEffect(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    EventRuntimeState::ActorEffectRequest request;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    request.effectId = sanitizeEventString(luaL_checkstring(pLuaState, 2));
+    request.socket = sanitizeEventString(luaL_optstring(pLuaState, 3, ""));
+    request.seconds = float(luaL_optnumber(pLuaState, 4, 0.0));
+    request.scale = float(luaL_optnumber(pLuaState, 5, 1.0));
+    if (actorIndex < 0 || request.effectId.empty() || !std::isfinite(request.seconds) || request.seconds < 0.0f
+        || !std::isfinite(request.scale) || request.scale <= 0.0f)
+    {
+        return luaL_error(pLuaState,
+            "SpawnActorEffect: an actor, an effect, seconds of 0 or more and a positive scale");
+    }
+    request.actorIndex = size_t(actorIndex);
+    pRuntimeState->actorEffectRequests.push_back(std::move(request));
+    return 0;
+}
+
+int luaStopActorEffect(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    EventRuntimeState::ActorEffectRequest request;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    if (actorIndex < 0)
+    {
+        return luaL_error(pLuaState, "StopActorEffect: an actor index");
+    }
+    request.actorIndex = size_t(actorIndex);
+    request.effectId = sanitizeEventString(luaL_optstring(pLuaState, 2, ""));
+    request.stop = true;
+    pRuntimeState->actorEffectRequests.push_back(std::move(request));
+    return 0;
+}
+
 int luaSpawnWorldModel(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -7438,6 +7530,33 @@ int luaRecoilDecoration(lua_State *pLuaState)
     return 0;
 }
 
+// evt.PlayDecorationClip(cog, clip[, mode]): the moving part of the decorations with this cog (a coffin's lid) plays
+// its clip: mode "once" (default) plays it and holds its last frame, "loop" repeats it, "end" shows its last frame at
+// once (a part left open, shown again on load); an empty clip returns the part to rest. Runtime only.
+int luaPlayDecorationClip(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+    const uint32_t key = eventReferenceId(luaL_checkinteger(pLuaState, 1));
+    const std::string clip = sanitizeEventString(luaL_checkstring(pLuaState, 2));
+    const std::string mode = luaL_optstring(pLuaState, 3, "once");
+    if (mode != "once" && mode != "loop" && mode != "end")
+    {
+        return luaL_error(pLuaState, "PlayDecorationClip: mode is once, loop or end");
+    }
+    if (clip.empty())
+    {
+        pRuntimeState->decorationClips.erase(key);
+        return 0;
+    }
+    pRuntimeState->decorationClips[key] = {clip, mode == "end" ? std::numeric_limits<float>::max() : 0.0f,
+        mode == "loop"};
+    return 0;
+}
+
 // evt.DecorationAim(cog): the degrees it is turned from its map facing now.
 int luaDecorationAim(lua_State *pLuaState)
 {
@@ -7455,8 +7574,8 @@ int luaDecorationAim(lua_State *pLuaState)
     return 1;
 }
 
-// evt.FireMissile(missile, fromX, fromY, fromZ, toX, toY, toZ, damage, damageType, radius[, seconds]): returns
-// whether it flew (EventMissileRequest).
+// evt.FireMissile(missile, fromX, fromY, fromZ, toX, toY, toZ, damage, damageType, radius[, seconds[, strikesParty]]):
+// returns whether it flew (EventMissileRequest).
 int luaFireMissile(lua_State *pLuaState)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -7472,6 +7591,7 @@ int luaFireMissile(lua_State *pLuaState)
     request.damageType = sanitizeEventString(luaL_checkstring(pLuaState, 9));
     request.radius = static_cast<float>(luaL_checknumber(pLuaState, 10));
     request.flightSeconds = static_cast<float>(luaL_optnumber(pLuaState, 11, 0.0));
+    request.strikesParty = lua_toboolean(pLuaState, 12) != 0;
     const bool fired = pExecutionContext != nullptr && pExecutionContext->pSceneEventContext != nullptr
         && pExecutionContext->pSceneEventContext->fireEventMissile(request);
     lua_pushboolean(pLuaState, fired ? 1 : 0);
@@ -7949,6 +8069,7 @@ int luaSetChestBit(lua_State *pLuaState)
             EventRuntimeState::OpenedChestRequest{
                 .chestId = chestId,
                 .openedByTelekinesis = pRuntimeState->activeEventOpenedByTelekinesis,
+                .decorationKey = pRuntimeState->activeEventDecorationKey,
             });
     }
 
@@ -9325,6 +9446,7 @@ int luaOpenChest(lua_State *pLuaState)
         EventRuntimeState::OpenedChestRequest{
             .chestId = chestId,
             .openedByTelekinesis = pRuntimeState->activeEventOpenedByTelekinesis,
+            .decorationKey = pRuntimeState->activeEventDecorationKey,
         });
     return 0;
 }
@@ -10147,6 +10269,9 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "IsActorMoving", luaIsActorMoving);
     registerLuaFunction(pLuaState, "SetActorTarget", luaSetActorTarget);
     registerLuaFunction(pLuaState, "SetActorImmobile", luaSetActorImmobile);
+    registerLuaFunction(pLuaState, "AttachActorItem", luaAttachActorItem);
+    registerLuaFunction(pLuaState, "SetActorRoutine", luaSetActorRoutine);
+    registerLuaFunction(pLuaState, "DetachActorItem", luaDetachActorItem);
     registerLuaFunction(pLuaState, "SetMm9ActorCanReceiveDamage", luaSetMm9ActorCanReceiveDamage);
     registerLuaFunction(pLuaState, "GetMapActorPosition", luaGetMapActorPosition);
     registerLuaFunction(pLuaState, "TurnActor", luaTurnActor);
@@ -10234,6 +10359,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SkipCinematic", luaSkipCinematic);
     registerLuaFunction(pLuaState, "CameraShake", luaCameraShake);
     registerLuaFunction(pLuaState, "MoveDecoration", luaMoveDecoration);
+    registerLuaFunction(pLuaState, "PlayDecorationClip", luaPlayDecorationClip);
     registerLuaFunction(pLuaState, "PlayActorClip", luaPlayActorClip);
     registerLuaFunction(pLuaState, "FaceActorTo", luaFaceActorTo);
     registerLuaFunction(pLuaState, "ClearActorPresentation", luaClearActorPresentation);
@@ -10282,6 +10408,8 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "Beam", luaBeam);
     registerLuaFunction(pLuaState, "BeamToParty", luaBeamToParty);
     registerLuaFunction(pLuaState, "StopBeam", luaStopBeam);
+    registerLuaFunction(pLuaState, "SpawnActorEffect", luaSpawnActorEffect);
+    registerLuaFunction(pLuaState, "StopActorEffect", luaStopActorEffect);
     registerLuaFunction(pLuaState, "SimpleMessage", luaSimpleMessage);
     registerLuaFunction(pLuaState, "SummonItem", luaSummonItem);
     registerLuaFunction(pLuaState, "SummonObject", luaSummonObject);
@@ -12011,6 +12139,54 @@ void moveDecoration(EventRuntimeState &state, uint32_t key, const std::array<flo
     {
         aim.offset = offset;
     }
+}
+
+void advanceDecorationClips(EventRuntimeState &state, float deltaSeconds)
+{
+    for (auto &[key, clip] : state.decorationClips)
+    {
+        if (clip.seconds < std::numeric_limits<float>::max())
+        {
+            // Past any clip's end once it is far out; a looping clip wraps at its own length when drawn.
+            clip.seconds = std::min(clip.seconds + deltaSeconds, 1.0e6f);
+        }
+    }
+}
+
+void openChestDecoration(EventRuntimeState &state, const EventRuntimeState::OpenedChestRequest &request)
+{
+    closeChestDecoration(state);
+    if (request.decorationKey)
+    {
+        state.decorationClips[*request.decorationKey] = {"open", 0.0f, false};
+        state.openChestDecorationKey = request.decorationKey;
+    }
+}
+
+void closeChestDecoration(EventRuntimeState &state)
+{
+    if (state.openChestDecorationKey)
+    {
+        state.decorationClips[*state.openChestDecorationKey] = {"close", 0.0f, false};
+        state.openChestDecorationKey.reset();
+    }
+}
+
+bool decorationClipFor(const EventRuntimeState *pState, uint32_t key, std::string &clip, float &seconds, bool &loop)
+{
+    if (pState == nullptr)
+    {
+        return false;
+    }
+    const auto found = pState->decorationClips.find(key);
+    if (found == pState->decorationClips.end())
+    {
+        return false;
+    }
+    clip = found->second.clip;
+    seconds = found->second.seconds;
+    loop = found->second.loop;
+    return true;
 }
 
 void advanceActorPresentations(EventRuntimeState &state, float deltaSeconds)

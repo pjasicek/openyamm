@@ -1064,7 +1064,8 @@ bool HouseTable::appendVendorRows(
 bool HouseTable::appendServiceVenueRows(
     const std::vector<std::vector<std::string>> &venueRows,
     const std::vector<std::vector<std::string>> &aliasRows,
-    std::string &errorMessage)
+    std::string &errorMessage,
+    const MapStats *pMapStats)
 {
     errorMessage.clear();
     std::unordered_set<std::string> canonicalIds;
@@ -1114,6 +1115,16 @@ bool HouseTable::appendServiceVenueRows(
         entry.id = serviceId;
         entry.packageId = row[1];
         entry.sourceServiceId = sourceServiceId;
+        if (row.size() > 18 && !row[18].empty())
+        {
+            const MapStatsEntry *map = pMapStats != nullptr ? pMapStats->findByFileName(row[18]) : nullptr;
+            if (map == nullptr)
+            {
+                errorMessage = "unknown service venue map: " + row[18];
+                return false;
+            }
+            entry.mapId = map->id;
+        }
         entry.canonicalId = row[3];
         entry.name = row[4];
         entry.buildingName = row[5];

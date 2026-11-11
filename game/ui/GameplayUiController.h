@@ -434,6 +434,9 @@ public:
         size_t questPage = 0;
         size_t storyPage = 0;
         size_t notesPage = 0;
+        // 0 opens on the current continent (Shared for recipes); 4 is Shared.
+        uint32_t questContinent = 0;
+        uint32_t notesContinent = 0;
         // Case-insensitive filter over the notes of the selected category; typing goes to it while active.
         std::string notesSearch;
         bool notesSearchActive = false;

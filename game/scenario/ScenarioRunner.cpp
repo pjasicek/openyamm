@@ -2562,6 +2562,14 @@ bool readScenarioPartySeed(
         member.level = memberNode["level"].as<uint32_t>();
         member.portraitPictureId = memberNode["portrait_id"].as<uint32_t>(0);
         member.characterDataId = member.portraitPictureId + 1;
+        // The face pictures as party creation names them (the row's prefix: 9pc02- for an MM9 hero, pc40- for the
+        // gold dragon on row 75), not PC<id>-01.
+        if (const CharacterDollEntry *pDoll =
+                context.gameDataLoader.getCharacterDollTable().getCharacter(member.characterDataId);
+            pDoll != nullptr && !pDoll->facePicturesPrefix.empty())
+        {
+            member.portraitTextureName = pDoll->facePicturesPrefix + "01";
+        }
         member.raceId = memberNode["race_id"].as<uint32_t>(0);
         member.birthYear = 1140;
         member.might = memberNode["might"].as<uint32_t>(15);
@@ -4752,9 +4760,11 @@ bool runPartyCharge(
     return success;
 }
 
-// cast_spell: {member_index, spell_id, skill, mastery (1-4), actor_index, target_member, scroll, expect}: the member
-// casts the spell with full mana through the party's spell system; skill and mastery set the spell's school first
-// (with `scroll`: the scroll's power instead). Projectiles fly on with advance_runtime.
+// cast_spell: {member_index, spell_id, skill, mastery (1-4), actor_index, target_member, scroll, expect,
+// expect_status}: the member casts the spell with full mana through the party's spell system; skill and mastery set
+// the spell's school first (with `scroll`: the scroll's power instead). Projectiles fly on with advance_runtime.
+// expect_status names the outcome when "refused" is not precise enough: succeeded, failed (the spell failed) or
+// needs_window (Town Portal and Lloyd's Beacon before their window is used).
 bool runCastSpell(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -4795,17 +4805,40 @@ bool runCastSpell(
             pointNode[2].as<float>()};
     }
 
-    bool cast = false;
+    PartySpellCastStatus status = PartySpellCastStatus::Failed;
     std::string failure;
 
-    if (!context.runtimeDriver->castSpell(request, cast, failure))
+    if (!context.runtimeDriver->castSpell(request, status, failure))
     {
         failures.push_back(stepLocation(step) + ": " + failure);
         return false;
     }
 
     syncContextFromRuntime(context);
-    return checkExpectedOutcome(step, "cast_spell", cast, failures);
+
+    if (const YAML::Node expectStatusNode = step.payload["expect_status"])
+    {
+        const std::string expected = expectStatusNode.as<std::string>();
+        const std::string actual = status == PartySpellCastStatus::Succeeded ? "succeeded"
+            : status == PartySpellCastStatus::Failed                         ? "failed"
+            : status == PartySpellCastStatus::NeedUtilityUi                  ? "needs_window"
+                                                                             : "status " + std::to_string(int(status));
+
+        if (expected != "succeeded" && expected != "failed" && expected != "needs_window")
+        {
+            failures.push_back(
+                stepLocation(step) + ": cast_spell expect_status must be succeeded, failed or needs_window");
+            return false;
+        }
+
+        if (actual != expected)
+        {
+            failures.push_back(stepLocation(step) + ": cast_spell expected " + expected + " but was " + actual);
+            return false;
+        }
+    }
+
+    return checkExpectedOutcome(step, "cast_spell", status == PartySpellCastStatus::Succeeded, failures);
 }
 
 std::optional<EquipmentSlot> parseScenarioEquipmentSlot(const std::string &value);

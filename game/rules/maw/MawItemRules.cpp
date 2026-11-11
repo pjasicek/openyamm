@@ -11,6 +11,7 @@
 #include "game/party/SkillData.h"
 #include "game/rules/maw/MawAuras.h"
 #include "game/rules/maw/MawBalanceModel.h"
+#include "game/rules/maw/MawCharacterSheet.h"
 #include "game/rules/maw/MawClassRules.h"
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawCombatRules.h"
@@ -926,6 +927,17 @@ int worldBookSpell(const ItemDefinition &book)
 
     const int spell = std::atoi(book.mod1.c_str() + 1);
     return spell >= 1 && spell <= 99 ? spell : 0;
+}
+
+// The book whose price a spellbook takes: a world's book costs what MAW asks for its own (MM8) book of the same spell,
+// which MAW reprices (content/items_patch.txt), so MM9's books are not sold at MM9's lower prices; any other item is
+// its own.
+const ItemDefinition &pricedBook(const ItemDefinition &book, const ItemTable *pItemTable)
+{
+    const int spell = worldBookSpell(book);
+    const ItemDefinition *pMawBook =
+        spell > 0 && pItemTable != nullptr ? pItemTable->get(uint32_t(399 + spell)) : nullptr;
+    return pMawBook != nullptr && pMawBook->equipStat == "Book" && pMawBook->mod1 == book.mod1 ? *pMawBook : book;
 }
 
 // The school (1-9) of a spellbook that is sealed when found: the MM8 (400-498), MM7 (1202-1300) and MM6 (1902-2018)
@@ -1940,7 +1952,14 @@ int MawItemRules::itemValue(
         InventoryItem book = item;
         book.objectDescriptionId = pBook->itemId;
         book.rulesetFields.craftState = 0;
-        return ItemRules::itemValue(book, *pBook, pStandardTable, pSpecialTable, minimumValue);
+        return ItemRules::itemValue(
+            book, pricedBook(*pBook, m_rules.itemTable()), pStandardTable, pSpecialTable, minimumValue);
+    }
+
+    if (worldBookSpell(itemDefinition) > 0)
+    {
+        return ItemRules::itemValue(
+            item, pricedBook(itemDefinition, m_rules.itemTable()), pStandardTable, pSpecialTable, minimumValue);
     }
 
     if (pBase == nullptr || item.temporaryBonusRemainingSeconds > 0.0f)
@@ -2183,6 +2202,51 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
     const MawBaseItem *pBase = data.baseItem(itemDefinition.itemId);
     const ItemRulesetFields &fields = item.rulesetFields;
 
+    // A staff's or spear's guard, with what it gives the viewer when held: MAW keeps the guard hidden, so the skill
+    // popups could not be checked against anything (Discord, 2026-11-10). Swords show theirs only in the Sword skill
+    // popup.
+    const auto addGuardLine = [&]()
+    {
+        const std::string skill = canonicalSkillName(itemDefinition.skillGroup);
+
+        if (skill != "Staff" && skill != "Spear")
+        {
+            return;
+        }
+
+        const std::optional<MawWeaponGuard> held =
+            pViewer != nullptr ? mawWeaponGuard(m_rules, *pViewer, itemDefinition, fields) : std::nullopt;
+        const std::optional<int> guard = held ? std::optional<int>(held->guard)
+                                              : weaponGuardBase(itemDefinition, fields, 0);
+
+        if (!guard)
+        {
+            return;
+        }
+
+        std::string text;
+
+        if (held && held->resistance > 0)
+        {
+            text = Engine::tr(
+                "Guard {guard}: +{armor} Armor Class and +{resistance} resistances for the party when held",
+                {{"guard", *guard}, {"armor", held->armorClass}, {"resistance", held->resistance}});
+        }
+        else if (held && held->armorClass > 0)
+        {
+            text = Engine::tr("Guard {guard}: +{armor} Armor Class when held",
+                {{"guard", *guard}, {"armor", held->armorClass}});
+        }
+        else
+        {
+            text = Engine::tr("Guard {guard}: Armor Class from {skill} {mastery}",
+                {{"guard", *guard}, {"skill", Engine::localize(displaySkillName(skill), "skill")},
+                    {"mastery", Engine::tr("Expert")}});
+        }
+
+        lines.push_back({text, 0x96c8ff});
+    };
+
     // A dimension map: its level, what its affixes add to loot and density, then the affixes, the locked ones grey.
     if (const MapStatsEntry *pMap = dimensionMapTarget(item))
     {
@@ -2258,10 +2322,24 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
         }
 
         // Mordred and Spiritslayer, MAW's vampiric artifacts, hit for no extra damage: their line reads "Vampiric", as
-        // MAW's MawArtifactOnHitText has it (OY-428).
+        // MAW's MawArtifactOnHitText has it (OY-428); Snake hits for none either and only slows.
+        const std::optional<std::pair<int, int>> hit = pViewer != nullptr && pArtifact->onHitDamage > 0
+            ? mawArtifactHitOnWeapon(m_rules, *pViewer, itemDefinition, item)
+            : std::nullopt;
+
         if (!pArtifact->onHitType.empty() && pArtifact->onHitDamage <= 0)
         {
-            lines.push_back({Engine::tr("Vampiric"), 0xffbe5a});
+            lines.push_back({Engine::tr(pArtifact->onHitSlow ? "Slows its target on hit" : "Vampiric"), 0xffbe5a});
+        }
+        else if (!pArtifact->onHitType.empty() && hit)
+        {
+            // The range in the viewer's hands, as a blow rolls it (Discord, 2026-11-10: "Physical damage on hit" said
+            // nothing of how much).
+            lines.push_back(
+                {Engine::tr(pArtifact->onHitSlow ? "Adds {minimum}-{maximum} {kind} damage to every hit, slows"
+                                                 : "Adds {minimum}-{maximum} {kind} damage to every hit",
+                     {{"minimum", hit->first}, {"maximum", hit->second}, {"kind", Engine::tr(pArtifact->onHitType)}}),
+                    0xffbe5a});
         }
         else if (!pArtifact->onHitType.empty())
         {
@@ -2306,6 +2384,8 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
         {
             lines.push_back({Engine::tr("Swift"), 0x96c8ff});
         }
+
+        addGuardLine();
 
         // Who may wear it (artifactWearReq), red when the viewer may not.
         if (const std::optional<std::string> requirement = ItemRuntime::wearRequirementText(itemDefinition))
@@ -2374,6 +2454,11 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
         const bool twoHanded = pBase->twoHanded;
         const int recovery = mawItemRecovery(weaponBaseRecovery(skill), fields.itemPower * 5, twoHanded);
         lines.push_back({Engine::tr("Attack speed: {speed}", {{"speed", formatSpeed(recovery)}}), 0xffffff});
+
+        if (item.identified)
+        {
+            addGuardLine();
+        }
     }
 
     if (fields.qualityPercent > 0)

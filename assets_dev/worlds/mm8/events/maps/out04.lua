@@ -74,6 +74,9 @@ SetMapMetadata({
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "d15.blv", targetName = "Chain of Fire" },
     [506] = { kind = "enter_dungeon", source = "opcode", targetMap = "d48.blv", targetName = "Ilsingore's Cave" },
     },
+    learnedEffect = {
+    [101] = { autonote = 215, effect = "Endurance +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},

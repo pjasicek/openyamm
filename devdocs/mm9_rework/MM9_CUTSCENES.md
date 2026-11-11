@@ -109,6 +109,10 @@ Camera shake (EarthQuake objects and scripts):
 | isleofashes | Earthquake, Earthquake1 | never fired (ISLEASHESBOOK:177-178 commented out) |
 | wizardslab, yanmirsfort | QuakeSummon; DoorQuake0-9 | never fired (no sender; YANMIRPATROL.scr runs nowhere) |
 
+Model keys shake the view as well: the Dragon's landing and death, a Giant's and Yanmir's steps and blows (`BigEQ`,
+`SmallEQ`, `SmallerEQ`); they are clip events of those actors, see
+[MM9_MONSTER_SOUNDS.md](MM9_MONSTER_SOUNDS.md) section 1.
+
 ## 3. The OpenYAMM format
 
 A map's cinematics live beside it: `worlds/<world>/maps/<stem>.cinematics.yml`, loaded with the map

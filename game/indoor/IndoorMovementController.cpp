@@ -28,6 +28,8 @@ constexpr float GroundSnapSlack = 8.0f;
 constexpr float SquatBodyLeadingProbeDistance = 64.0f;
 constexpr float CoplanarFloorHeightTolerance = 1.0f;
 constexpr float FlatTreadNormalZ = 0.999f;
+// A walkable slope's edge this far above the feet is stepped onto (a flat tread only from GroundSnapSlack up).
+constexpr float SlopeFootStepSlack = 0.5f;
 constexpr float CylinderCollisionHorizontalEpsilon = 0.0001f;
 constexpr float SteepFloorUphillEpsilon = 0.01f;
 constexpr float IndoorMovementSubstepDistance = 24.0f;
@@ -810,6 +812,13 @@ void IndoorMovementController::applyMechanismGeometryUpdate(const std::vector<ui
     }
 }
 
+uint32_t IndoorMovementController::effectiveFaceAttributes(size_t faceId, const MapDeltaData *pMapDeltaData) const
+{
+    return pMapDeltaData != nullptr && faceId < pMapDeltaData->faceAttributes.size()
+        ? pMapDeltaData->faceAttributes[faceId]
+        : m_pIndoorMapData->faces[faceId].attributes;
+}
+
 void IndoorMovementController::refreshRuntimeGeometryCache() const
 {
     if (m_pIndoorMapData == nullptr)
@@ -830,180 +839,104 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
 
     const EventRuntimeState *pEventRuntimeState =
         m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
-
-    const bool wasValid = m_runtimeGeometryCache.valid;
-    const uint64_t previousSurfaceRevision = m_runtimeGeometryCache.surfaceRevision;
-    const bool supportFaceIdsNeedRefresh =
-        !wasValid
-        || previousSurfaceRevision != surfaceRevision;
-    m_runtimeGeometryCache.vertices = buildIndoorMechanismAdjustedVertices(
+    std::vector<IndoorVertex> vertices = buildIndoorMechanismAdjustedVertices(
         *m_pIndoorMapData,
         pMapDeltaData,
         pEventRuntimeState);
+
+    // Face bits changed and no face moved (a face hidden or made untouchable, a destructible broken): the changed faces
+    // alone are redone. Redoing every face's geometry for the masks cost a region-sized map 20-45 ms (2026-11-11).
+    if (m_runtimeGeometryCache.valid
+        && pMapDeltaData != nullptr
+        && m_runtimeGeometryCache.faceAttributes.size() == m_pIndoorMapData->faces.size()
+        && std::equal(vertices.begin(), vertices.end(), m_runtimeGeometryCache.vertices.begin(),
+            m_runtimeGeometryCache.vertices.end(),
+            [](const IndoorVertex &a, const IndoorVertex &b)
+            {
+                return a.x == b.x && a.y == b.y && a.z == b.z;
+            }))
+    {
+        refreshChangedFaceAttributes(*pMapDeltaData);
+        m_runtimeGeometryCache.surfaceRevision = surfaceRevision;
+        return;
+    }
+
+    m_runtimeGeometryCache.vertices = std::move(vertices);
     // OE updates moved mechanism vertices in-place, then floor and wall collision use that current geometry.
     // Do not add open/closed masking here: platforms, stairs, plates, and doors all need their moved faces sampled.
     m_runtimeGeometryCache.nonBlockingMechanismFaceMask.clear();
     m_runtimeGeometryCache.mechanismBlockingFaceMask.clear();
     m_runtimeGeometryCache.actorSupportFaceMask.clear();
-    if (supportFaceIdsNeedRefresh)
+    m_runtimeGeometryCache.mechanismSupportFaceIds.clear();
+    m_runtimeGeometryCache.sectorMechanismSupportFaceIds.clear();
+    m_runtimeGeometryCache.invisibleSupportRampFaceIds.clear();
+    m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
+    m_runtimeGeometryCache.actorBarrierFaceMask.clear();
+    if (m_blockedByActorBarriers && !m_pIndoorMapData->actorBarrierFaceIds.empty())
     {
-        m_runtimeGeometryCache.mechanismSupportFaceIds.clear();
-        m_runtimeGeometryCache.sectorMechanismSupportFaceIds.clear();
-        m_runtimeGeometryCache.invisibleSupportRampFaceIds.clear();
+        m_runtimeGeometryCache.actorBarrierFaceMask.assign(m_pIndoorMapData->faces.size(), 0);
+        for (uint16_t faceId : m_pIndoorMapData->actorBarrierFaceIds)
+        {
+            if (faceId < m_runtimeGeometryCache.actorBarrierFaceMask.size())
+            {
+                m_runtimeGeometryCache.actorBarrierFaceMask[faceId] = 1;
+            }
+        }
     }
-
-    if (!wasValid || previousSurfaceRevision != surfaceRevision)
+    m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+    // The grid places the faces no door moves by their bounds and those sliding doors move by their whole travel,
+    // so only another door layout (another map state) needs a new one: a face hidden, a moving door or a broken
+    // window keeps it (IndoorSectorFaceGrid.h).
+    const uint64_t doorLayoutSignature = indoorDoorLayoutSignature(pMapDeltaData);
+    if (!m_runtimeGeometryCache.sectorFaceGridBuilt
+        || m_runtimeGeometryCache.sectorFaceGridDoorSignature != doorLayoutSignature)
     {
-        m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
-        m_runtimeGeometryCache.actorBarrierFaceMask.clear();
-        if (m_blockedByActorBarriers && !m_pIndoorMapData->actorBarrierFaceIds.empty())
+        m_runtimeGeometryCache.sectorFaceGrid.build(
+            *m_pIndoorMapData, m_runtimeGeometryCache.vertices, pMapDeltaData);
+        m_runtimeGeometryCache.sectorFaceGridBuilt = true;
+        m_runtimeGeometryCache.sectorFaceGridDoorSignature = doorLayoutSignature;
+    }
+    m_runtimeGeometryCache.geometryCache.setSectorFaceGrid(&m_runtimeGeometryCache.sectorFaceGrid);
+    std::vector<std::vector<std::pair<int16_t, uint32_t>>> &ranks = m_runtimeGeometryCache.faceSectorListRanks;
+    // The sector lists are the map's own: built once.
+    if (!m_runtimeGeometryCache.faceSectorListRanksBuilt)
+    {
+        ranks.assign(m_pIndoorMapData->faces.size(), {});
+        for (size_t sectorId = 0; sectorId < m_pIndoorMapData->sectors.size(); ++sectorId)
         {
-            m_runtimeGeometryCache.actorBarrierFaceMask.assign(m_pIndoorMapData->faces.size(), 0);
-            for (uint16_t faceId : m_pIndoorMapData->actorBarrierFaceIds)
+            const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
+            uint32_t rank = 0;
+            for (const std::vector<uint16_t> *pList :
+                {&sector.floorFaceIds, &sector.wallFaceIds, &sector.ceilingFaceIds})
             {
-                if (faceId < m_runtimeGeometryCache.actorBarrierFaceMask.size())
+                for (uint16_t faceId : *pList)
                 {
-                    m_runtimeGeometryCache.actorBarrierFaceMask[faceId] = 1;
-                }
-            }
-        }
-        m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
-        // The grid places the faces no door moves by their bounds and those sliding doors move by their whole travel,
-        // so only another door layout (another map state) needs a new one: a face hidden, a moving door or a broken
-        // window keeps it (IndoorSectorFaceGrid.h).
-        const uint64_t doorLayoutSignature = indoorDoorLayoutSignature(pMapDeltaData);
-        if (!m_runtimeGeometryCache.sectorFaceGridBuilt
-            || m_runtimeGeometryCache.sectorFaceGridDoorSignature != doorLayoutSignature)
-        {
-            m_runtimeGeometryCache.sectorFaceGrid.build(
-                *m_pIndoorMapData, m_runtimeGeometryCache.vertices, pMapDeltaData);
-            m_runtimeGeometryCache.sectorFaceGridBuilt = true;
-            m_runtimeGeometryCache.sectorFaceGridDoorSignature = doorLayoutSignature;
-        }
-        m_runtimeGeometryCache.geometryCache.setSectorFaceGrid(&m_runtimeGeometryCache.sectorFaceGrid);
-        std::vector<std::vector<std::pair<int16_t, uint32_t>>> &ranks = m_runtimeGeometryCache.faceSectorListRanks;
-        // The sector lists are the map's own: built once.
-        if (!m_runtimeGeometryCache.faceSectorListRanksBuilt)
-        {
-            ranks.assign(m_pIndoorMapData->faces.size(), {});
-            for (size_t sectorId = 0; sectorId < m_pIndoorMapData->sectors.size(); ++sectorId)
-            {
-                const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
-                uint32_t rank = 0;
-                for (const std::vector<uint16_t> *pList :
-                    {&sector.floorFaceIds, &sector.wallFaceIds, &sector.ceilingFaceIds})
-                {
-                    for (uint16_t faceId : *pList)
+                    if (faceId < ranks.size())
                     {
-                        if (faceId < ranks.size())
-                        {
-                            ranks[faceId].push_back({static_cast<int16_t>(sectorId), rank});
-                        }
-                        ++rank;
+                        ranks[faceId].push_back({static_cast<int16_t>(sectorId), rank});
                     }
+                    ++rank;
                 }
             }
-            m_runtimeGeometryCache.faceSectorListRanksBuilt = true;
         }
+        m_runtimeGeometryCache.faceSectorListRanksBuilt = true;
     }
 
     m_runtimeGeometryCache.surfaceRevision = surfaceRevision;
     m_runtimeGeometryCache.geometryCache.setAttributeOverrides(pMapDeltaData);
 
-    if (supportFaceIdsNeedRefresh && pMapDeltaData != nullptr)
+    if (pMapDeltaData != nullptr)
     {
-        std::vector<uint8_t> seenMechanismSupportFaces(m_pIndoorMapData->faces.size(), 0);
-        const std::vector<std::vector<uint16_t>> neighboringSectorIds =
-            buildNeighboringIndoorSectorIds(*m_pIndoorMapData);
-        m_runtimeGeometryCache.sectorMechanismSupportFaceIds.assign(m_pIndoorMapData->sectors.size(), {});
-
-        for (const MapDeltaDoor &door : pMapDeltaData->doors)
-        {
-            // A carrying rotating mover's faces all may be floors at some point of its swing (the sampler checks).
-            const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId);
-            const bool rotatingCarrier = pMover != nullptr && pMover->carry && pMover->rotation;
-
-            if (!indoorDoorCarriesPartySupport(door) && !rotatingCarrier)
-            {
-                continue;
-            }
-
-            for (uint16_t faceId : door.faceIds)
-            {
-                if (faceId >= seenMechanismSupportFaces.size() || seenMechanismSupportFaces[faceId] != 0)
-                {
-                    continue;
-                }
-
-                seenMechanismSupportFaces[faceId] = 1;
-                const IndoorFaceGeometryData *pGeometry =
-                    m_runtimeGeometryCache.geometryCache.geometryForFace(
-                        *m_pIndoorMapData,
-                        m_runtimeGeometryCache.vertices,
-                        faceId);
-
-                if (pGeometry != nullptr
-                    && (rotatingCarrier || (pGeometry->kind == IndoorFaceKind::Floor && pGeometry->isWalkable)))
-                {
-                    m_runtimeGeometryCache.mechanismSupportFaceIds.push_back(faceId);
-
-                    std::vector<uint16_t> faceSectorIds;
-                    appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->sectorId);
-                    appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->backSectorId);
-
-                    for (uint16_t faceSectorId : faceSectorIds)
-                    {
-                        if (faceSectorId >= neighboringSectorIds.size())
-                        {
-                            continue;
-                        }
-
-                        for (uint16_t nearbySectorId : neighboringSectorIds[faceSectorId])
-                        {
-                            if (nearbySectorId < m_runtimeGeometryCache.sectorMechanismSupportFaceIds.size())
-                            {
-                                appendUniqueFaceId(
-                                    m_runtimeGeometryCache.sectorMechanismSupportFaceIds[nearbySectorId],
-                                    faceId);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        rebuildMechanismSupportFaceIds(*pMapDeltaData);
     }
 
-    if (supportFaceIdsNeedRefresh)
+    m_runtimeGeometryCache.faceAttributes.resize(m_pIndoorMapData->faces.size());
+    for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
     {
-        for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
+        m_runtimeGeometryCache.faceAttributes[faceId] = effectiveFaceAttributes(faceId, pMapDeltaData);
+
+        if (faceIsCachedInvisibleSupportRamp(faceId, pMapDeltaData))
         {
-            // Only an invisible face of the ramp type can be one (its geometry's attributes are these): the rest need
-            // no geometry here.
-            const IndoorFace &face = m_pIndoorMapData->faces[faceId];
-            const uint32_t attributes = pMapDeltaData != nullptr && faceId < pMapDeltaData->faceAttributes.size()
-                ? pMapDeltaData->faceAttributes[faceId]
-                : face.attributes;
-
-            if (!indoorFaceIsInvisibleSupportRamp(face, attributes))
-            {
-                continue;
-            }
-
-            const IndoorFaceGeometryData *pGeometry =
-                m_runtimeGeometryCache.geometryCache.geometryForFace(
-                    *m_pIndoorMapData,
-                    m_runtimeGeometryCache.vertices,
-                    faceId);
-
-            if (pGeometry == nullptr
-                || pGeometry->kind != IndoorFaceKind::Floor
-                || !pGeometry->isWalkable
-                || !indoorFaceIsInvisibleSupportRamp(m_pIndoorMapData->faces[faceId], pGeometry->attributes)
-                || faceId > std::numeric_limits<uint16_t>::max())
-            {
-                continue;
-            }
-
             m_runtimeGeometryCache.invisibleSupportRampFaceIds.push_back(static_cast<uint16_t>(faceId));
         }
     }
@@ -1011,22 +944,160 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     m_runtimeGeometryCache.actorSupportFaceMask.assign(m_pIndoorMapData->faces.size(), 0);
     for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
     {
-        const bool excludedByMechanism =
-            faceId < m_runtimeGeometryCache.nonBlockingMechanismFaceMask.size()
-            && m_runtimeGeometryCache.nonBlockingMechanismFaceMask[faceId] != 0;
-        const IndoorFaceGeometryData *pGeometry =
-            m_runtimeGeometryCache.geometryCache.geometryForFace(
-                *m_pIndoorMapData,
-                m_runtimeGeometryCache.vertices,
-                faceId);
-
-        if (excludedByMechanism || pGeometry == nullptr || !pGeometry->isWalkable)
-        {
-            m_runtimeGeometryCache.actorSupportFaceMask[faceId] = 1;
-        }
+        m_runtimeGeometryCache.actorSupportFaceMask[faceId] = faceExcludedFromActorSupport(faceId) ? 1 : 0;
     }
 
     m_runtimeGeometryCache.valid = true;
+}
+
+void IndoorMovementController::refreshChangedFaceAttributes(const MapDeltaData &mapDeltaData) const
+{
+    RuntimeGeometryCache &cache = m_runtimeGeometryCache;
+    std::vector<size_t> changedFaces;
+
+    for (size_t faceId = 0; faceId < m_pIndoorMapData->faces.size(); ++faceId)
+    {
+        const uint32_t attributes = effectiveFaceAttributes(faceId, &mapDeltaData);
+
+        if (attributes != cache.faceAttributes[faceId])
+        {
+            cache.faceAttributes[faceId] = attributes;
+            changedFaces.push_back(faceId);
+        }
+    }
+
+    // The geometry cache rebuilds a changed face when next asked for (IndoorFaceGeometryCache::geometryForFace).
+    cache.geometryCache.setAttributeOverrides(&mapDeltaData);
+
+    for (size_t faceId : changedFaces)
+    {
+        if (faceId < cache.actorSupportFaceMask.size())
+        {
+            cache.actorSupportFaceMask[faceId] = faceExcludedFromActorSupport(faceId) ? 1 : 0;
+        }
+
+        // The ramp list stays in face order, as a full build makes it.
+        std::vector<uint16_t> &ramps = cache.invisibleSupportRampFaceIds;
+        const std::vector<uint16_t>::iterator place = std::lower_bound(ramps.begin(), ramps.end(), faceId);
+        const bool listed = place != ramps.end() && *place == faceId;
+        const bool ramp = faceIsCachedInvisibleSupportRamp(faceId, &mapDeltaData);
+
+        if (listed && !ramp)
+        {
+            ramps.erase(place);
+        }
+        else if (!listed && ramp)
+        {
+            ramps.insert(place, static_cast<uint16_t>(faceId));
+        }
+    }
+
+    // A carrying door's face may have stopped or started to be a floor the party stands on.
+    for (const MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        for (uint16_t faceId : door.faceIds)
+        {
+            if (std::binary_search(changedFaces.begin(), changedFaces.end(), size_t(faceId)))
+            {
+                rebuildMechanismSupportFaceIds(mapDeltaData);
+                return;
+            }
+        }
+    }
+}
+
+void IndoorMovementController::rebuildMechanismSupportFaceIds(const MapDeltaData &mapDeltaData) const
+{
+    m_runtimeGeometryCache.mechanismSupportFaceIds.clear();
+    std::vector<uint8_t> seenMechanismSupportFaces(m_pIndoorMapData->faces.size(), 0);
+    const std::vector<std::vector<uint16_t>> neighboringSectorIds = buildNeighboringIndoorSectorIds(*m_pIndoorMapData);
+    m_runtimeGeometryCache.sectorMechanismSupportFaceIds.assign(m_pIndoorMapData->sectors.size(), {});
+    for (const MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        // A carrying rotating mover's faces all may be floors at some point of its swing (the sampler checks).
+        const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId);
+        const bool rotatingCarrier = pMover != nullptr && pMover->carry && pMover->rotation;
+
+        if (!indoorDoorCarriesPartySupport(door) && !rotatingCarrier)
+        {
+            continue;
+        }
+
+        for (uint16_t faceId : door.faceIds)
+        {
+            if (faceId >= seenMechanismSupportFaces.size() || seenMechanismSupportFaces[faceId] != 0)
+            {
+                continue;
+            }
+
+            seenMechanismSupportFaces[faceId] = 1;
+            const IndoorFaceGeometryData *pGeometry =
+                m_runtimeGeometryCache.geometryCache.geometryForFace(
+                    *m_pIndoorMapData,
+                    m_runtimeGeometryCache.vertices,
+                    faceId);
+
+            if (pGeometry != nullptr
+                && (rotatingCarrier || (pGeometry->kind == IndoorFaceKind::Floor && pGeometry->isWalkable)))
+            {
+                m_runtimeGeometryCache.mechanismSupportFaceIds.push_back(faceId);
+
+                std::vector<uint16_t> faceSectorIds;
+                appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->sectorId);
+                appendValidSectorId(*m_pIndoorMapData, faceSectorIds, pGeometry->backSectorId);
+
+                for (uint16_t faceSectorId : faceSectorIds)
+                {
+                    if (faceSectorId >= neighboringSectorIds.size())
+                    {
+                        continue;
+                    }
+
+                    for (uint16_t nearbySectorId : neighboringSectorIds[faceSectorId])
+                    {
+                        if (nearbySectorId < m_runtimeGeometryCache.sectorMechanismSupportFaceIds.size())
+                        {
+                            appendUniqueFaceId(
+                                m_runtimeGeometryCache.sectorMechanismSupportFaceIds[nearbySectorId],
+                                faceId);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+bool IndoorMovementController::faceIsCachedInvisibleSupportRamp(size_t faceId, const MapDeltaData *pMapDeltaData) const
+{
+    // Only an invisible face of the ramp type can be one (its geometry's attributes are these): the rest need no
+    // geometry here.
+    const IndoorFace &face = m_pIndoorMapData->faces[faceId];
+
+    if (!indoorFaceIsInvisibleSupportRamp(face, effectiveFaceAttributes(faceId, pMapDeltaData))
+        || faceId > std::numeric_limits<uint16_t>::max())
+    {
+        return false;
+    }
+
+    const IndoorFaceGeometryData *pGeometry =
+        m_runtimeGeometryCache.geometryCache.geometryForFace(
+            *m_pIndoorMapData, m_runtimeGeometryCache.vertices, faceId);
+    return pGeometry != nullptr
+        && pGeometry->kind == IndoorFaceKind::Floor
+        && pGeometry->isWalkable
+        && indoorFaceIsInvisibleSupportRamp(face, pGeometry->attributes);
+}
+
+bool IndoorMovementController::faceExcludedFromActorSupport(size_t faceId) const
+{
+    const bool excludedByMechanism =
+        faceId < m_runtimeGeometryCache.nonBlockingMechanismFaceMask.size()
+        && m_runtimeGeometryCache.nonBlockingMechanismFaceMask[faceId] != 0;
+    const IndoorFaceGeometryData *pGeometry =
+        m_runtimeGeometryCache.geometryCache.geometryForFace(
+            *m_pIndoorMapData, m_runtimeGeometryCache.vertices, faceId);
+    return excludedByMechanism || pGeometry == nullptr || !pGeometry->isWalkable;
 }
 
 const IndoorMovementController::RuntimeGeometryCache &IndoorMovementController::runtimeGeometryCache() const
@@ -3346,6 +3417,11 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
 
     // An airborne body that no move or slide can leave would hang forever: its feet below a steep slope it cannot
     // climb, or wedged between converging walls. Settle it at the nearest reachable valid position so it falls again.
+    // A lifted candidate is traced at its lift, which is how it clears the lip the lift is for. One over a walkable
+    // floor is preferred: a monster pressed against a tunnel's sloped side, its centre a few units past the crease
+    // where the floor ends, sat on the floor's edge with the slope against it; every move and every trace at its own
+    // height met that edge, and the nearest valid spot (beside it, still over the slope) dropped it back into the
+    // crease (Connecting Tunnels' dagrells, 2026-11-11).
     const auto tryRecoverStuckAirborne = [&](const IndoorMoveState &baseState) -> std::optional<IndoorMoveState>
     {
         // A body that cannot move sideways still falls: resolve the step again without the horizontal input.
@@ -3378,11 +3454,31 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         constexpr std::array<float, 6> RecoveryDistances = {{4.0f, 8.0f, 16.0f, 32.0f, 48.0f, 64.0f}};
         constexpr std::array<float, 2> RecoveryLifts = {{0.0f, GroundSnapSlack * 2.0f}};
         constexpr int RecoveryDirectionCount = 8;
+        std::optional<IndoorMoveState> unsupportedRecovery;
+
+        const auto recovered = [&](const IndoorMoveState &recoveredState) -> IndoorMoveState
+        {
+            if (pDebugInfo != nullptr)
+            {
+                pDebugInfo->collisionResponseTried = true;
+                pDebugInfo->collisionResponseSucceeded = true;
+                pDebugInfo->responseStep = {
+                    recoveredState.x - baseState.x,
+                    recoveredState.y - baseState.y,
+                    recoveredState.footZ - baseState.footZ
+                };
+            }
+
+            return recoveredState;
+        };
 
         for (float distance : RecoveryDistances)
         {
             for (float lift : RecoveryLifts)
             {
+                IndoorMoveState liftedState = baseState;
+                liftedState.footZ += lift;
+
                 for (int directionIndex = 0; directionIndex < RecoveryDirectionCount; ++directionIndex)
                 {
                     const float angle =
@@ -3390,40 +3486,56 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                     const float candidateX = baseState.x + std::cos(angle) * distance;
                     const float candidateY = baseState.y + std::sin(angle) * distance;
 
-                    if (recoveryTraceBlockedByFace(baseState, candidateX, candidateY))
+                    if (recoveryTraceBlockedByFace(liftedState, candidateX, candidateY))
                     {
                         continue;
                     }
 
                     IndoorMoveState recoveredState = {};
 
-                    if (tryResolvePosition(
+                    if (!tryResolvePosition(
                             baseState.x,
                             baseState.y,
                             candidateX,
                             candidateY,
-                            baseState.footZ + lift,
+                            liftedState.footZ,
                             0.0f,
                             recoveredState,
                             true,
                             nullptr,
                             nullptr))
                     {
-                        if (pDebugInfo != nullptr)
-                        {
-                            pDebugInfo->collisionResponseTried = true;
-                            pDebugInfo->collisionResponseSucceeded = true;
-                            pDebugInfo->responseStep = {
-                                recoveredState.x - baseState.x,
-                                recoveredState.y - baseState.y,
-                                recoveredState.footZ - baseState.footZ
-                            };
-                        }
+                        continue;
+                    }
 
-                        return recoveredState;
+                    const IndoorFloorSample floor = sampleSupportedFloor(
+                        vertices,
+                        geometryCache,
+                        candidateX,
+                        candidateY,
+                        recoveredState.footZ,
+                        MaximumRise,
+                        body.height + 1024.0f,
+                        body,
+                        preferredSectorId,
+                        &supportFaceMask);
+
+                    if (recoveredState.grounded || (floor.hasFloor && floor.isWalkable))
+                    {
+                        return recovered(recoveredState);
+                    }
+
+                    if (!unsupportedRecovery)
+                    {
+                        unsupportedRecovery = recoveredState;
                     }
                 }
             }
+        }
+
+        if (unsupportedRecovery)
+        {
+            return recovered(*unsupportedRecovery);
         }
 
         return std::nullopt;
@@ -4067,8 +4179,18 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                     nullptr);
             };
 
+            // A flat tread this close to the feet is the floor under them, but a walkable slope met at its foot (not
+            // the face under the feet, and walking up it) is climbed from there: a ramp made of thin triangles
+            // (Thjorad Mine's, north from the landing at x -3604) put an edge of the next one at the body's front at
+            // every step, a hit at no distance that a slide along the edge never cleared, and the body stood at the
+            // ramp's foot for good.
+            const bool climbsSlope = pNearestHitGeometry->normal.z < FlatTreadNormalZ
+                && nearestHit->faceIndex != iterativeState.supportFaceIndex
+                && stepX * pNearestHitGeometry->normal.x + stepY * pNearestHitGeometry->normal.y < 0.0f;
+            const float minimumStepDelta = climbsSlope ? SlopeFootStepSlack : GroundSnapSlack;
+
             if (pNearestHitGeometry->normal.z >= MaximumUphillSlopeNormalZ
-                && stepDelta >= GroundSnapSlack
+                && stepDelta >= minimumStepDelta
                 && stepDelta < MaximumStepUpFromCurrentFootZ
                 && liftsOntoTread())
             {

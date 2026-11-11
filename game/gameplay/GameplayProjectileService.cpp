@@ -556,6 +556,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.shieldModifiers = request.shieldModifiers;
         projectile.weakerOfPhysicalAndFire = request.weakerOfPhysicalAndFire;
         projectile.explosionRadius = request.explosionRadius;
+        projectile.blastMinimumDamage = request.blastMinimumDamage;
+        projectile.blastMaximumDamage = request.blastMaximumDamage;
         projectile.critical = request.critical;
         projectile.useActorHitChance = request.useActorHitChance;
         projectile.turnBasedPendingAction = request.turnBasedPendingAction;
@@ -615,6 +617,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.lifetimeTicks = std::max<uint32_t>(1, uint32_t(std::ceil(flightSeconds * ProjectileTicksPerSecond)));
         speed = flightDistance * ProjectileTicksPerSecond / float(projectile.lifetimeTicks);
         projectile.eventMissile = true;
+        projectile.eventMissileStrikesParty = request.eventMissileStrikesParty;
         projectile.targetX = request.targetX;
         projectile.targetY = request.targetY;
         projectile.targetZ = request.targetZ;
@@ -630,6 +633,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.shieldModifiers = request.shieldModifiers;
     projectile.weakerOfPhysicalAndFire = request.weakerOfPhysicalAndFire;
     projectile.explosionRadius = request.explosionRadius;
+    projectile.blastMinimumDamage = request.blastMinimumDamage;
+    projectile.blastMaximumDamage = request.blastMaximumDamage;
     projectile.critical = request.critical;
     projectile.useActorHitChance = request.useActorHitChance;
     projectile.turnBasedPendingAction = request.turnBasedPendingAction;
@@ -1105,6 +1110,8 @@ std::optional<GameplayProjectileService::ProjectileSpawnRequest> GameplayProject
     request.shieldModifiers = projectile.shieldModifiers;
     request.weakerOfPhysicalAndFire = projectile.weakerOfPhysicalAndFire;
     request.explosionRadius = projectile.explosionRadius;
+    request.blastMinimumDamage = projectile.blastMinimumDamage;
+    request.blastMaximumDamage = projectile.blastMaximumDamage;
     request.critical = projectile.critical;
     request.sourceX = struck.preciseX;
     request.sourceY = struck.preciseY;
@@ -1636,7 +1643,7 @@ GameplayProjectileService::buildProjectileAreaImpact(
         ? std::max(1, projectile.damage)
         : input.nonPartyProjectileDamage;
 
-    if (input.canHitParty && !projectile.eventMissile)
+    if (input.canHitParty && (!projectile.eventMissile || projectile.eventMissileStrikesParty))
     {
         const float partyCenterZ = input.partyZ + input.partyCollisionHeight * 0.5f;
         impact.hitParty = pointWithinExpandedCylinder(
@@ -1806,6 +1813,25 @@ GameplayProjectileService::buildProjectileDirectActorImpact(
     impact.damage = input.nonPartyProjectileDamage;
     impact.applyNonPartyProjectileDamage = input.nonPartyProjectileDamage > 0;
     return impact;
+}
+
+int GameplayProjectileService::partyBlastDamageToActor(
+    const ProjectileState &projectile,
+    int blastDamage,
+    const ProjectileDirectActorImpactInput &input) const
+{
+    if (projectile.sourceKind != ProjectileState::SourceKind::Party || projectile.blastMaximumDamage <= 0)
+    {
+        return blastDamage;
+    }
+
+    ProjectileState shot = projectile;
+    std::mt19937 rng(projectile.projectileId ^ static_cast<uint32_t>((input.actorId + 1) * 2246822519u));
+    const int minimumDamage = std::max(1, projectile.blastMinimumDamage);
+    shot.damage = std::uniform_int_distribution<int>(
+        minimumDamage, std::max(minimumDamage, projectile.blastMaximumDamage))(rng);
+    shot.useActorHitChance = false;
+    return buildProjectileDirectActorImpact(shot, input).damage;
 }
 
 void GameplayProjectileService::expireProjectile(
@@ -2373,7 +2399,8 @@ std::optional<GameplayProjectileService::ProjectileWardBlock> GameplayProjectile
 
 bool GameplayProjectileService::canProjectileCollideWithParty(const ProjectileState &projectile) const
 {
-    return projectile.sourceKind != ProjectileState::SourceKind::Party && !projectile.eventMissile;
+    return projectile.sourceKind != ProjectileState::SourceKind::Party
+        && (!projectile.eventMissile || projectile.eventMissileStrikesParty);
 }
 
 bool GameplayProjectileService::isProjectileSourceFriendlyToActor(
@@ -2388,6 +2415,13 @@ bool GameplayProjectileService::isProjectileSourceFriendlyToActor(
     if (projectile.fromSummonedMonster)
     {
         return !facts.targetHostileToParty || facts.targetPartyControlled;
+    }
+
+    // A party summon is the enemy of every monster hostile to the party, whatever their factions, as the AI targets
+    // it (resolveFactionTargetPolicy's hostileToSummon): their shots hit it.
+    if (facts.targetPartyControlled && facts.sourceHostileToParty)
+    {
+        return false;
     }
 
     if (!facts.sourceMonsterKnown)

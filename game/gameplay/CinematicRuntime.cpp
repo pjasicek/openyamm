@@ -312,9 +312,13 @@ public:
             {
                 shot.easing = CinematicEasing::Smooth;
             }
+            else if (name == "spline")
+            {
+                shot.easing = CinematicEasing::Spline;
+            }
             else
             {
-                return fail(where, "easing must be linear or smooth");
+                return fail(where, "easing must be linear, smooth or spline");
             }
         }
 
@@ -904,6 +908,51 @@ std::optional<GameplayWorldPoint> normalized(const GameplayWorldPoint &vector)
     return GameplayWorldPoint{vector.x / length, vector.y / length, vector.z / length};
 }
 
+// The spline's velocity at a key (units per second): the neighbours' difference over their time span; zero at the
+// first and last key and at a key with the same value as a neighbour (a hold).
+GameplayWorldPoint splineTangent(const std::vector<GameplayWorldPoint> &values, const std::vector<float> &times,
+    size_t index)
+{
+    const auto same = [&](size_t left, size_t right)
+    {
+        const GameplayWorldPoint &a = values[left];
+        const GameplayWorldPoint &b = values[right];
+        return std::abs(a.x - b.x) + std::abs(a.y - b.y) + std::abs(a.z - b.z) < 1.0e-3f;
+    };
+
+    if (index == 0 || index + 1 >= values.size() || same(index, index - 1) || same(index, index + 1)
+        || times[index + 1] <= times[index - 1])
+    {
+        return {};
+    }
+
+    const float span = times[index + 1] - times[index - 1];
+    const GameplayWorldPoint &next = values[index + 1];
+    const GameplayWorldPoint &previous = values[index - 1];
+    return {(next.x - previous.x) / span, (next.y - previous.y) / span, (next.z - previous.z) / span};
+}
+
+// The cubic Hermite between keys from and from + 1 at t (0..1 of the segment).
+GameplayWorldPoint splineAt(const std::vector<GameplayWorldPoint> &values, const std::vector<float> &times,
+    size_t from, float t)
+{
+    const size_t to = from + 1;
+    const float duration = times[to] - times[from];
+    const GameplayWorldPoint startTangent = splineTangent(values, times, from);
+    const GameplayWorldPoint endTangent = splineTangent(values, times, to);
+    const float t2 = t * t;
+    const float t3 = t2 * t;
+    const float h00 = 2.0f * t3 - 3.0f * t2 + 1.0f;
+    const float h10 = (t3 - 2.0f * t2 + t) * duration;
+    const float h01 = -2.0f * t3 + 3.0f * t2;
+    const float h11 = (t3 - t2) * duration;
+    const GameplayWorldPoint &p0 = values[from];
+    const GameplayWorldPoint &p1 = values[to];
+    return {h00 * p0.x + h10 * startTangent.x + h01 * p1.x + h11 * endTangent.x,
+        h00 * p0.y + h10 * startTangent.y + h01 * p1.y + h11 * endTangent.y,
+        h00 * p0.z + h10 * startTangent.z + h01 * p1.z + h11 * endTangent.z};
+}
+
 std::optional<GameplayWorldPoint> keyDirection(
     const CinematicCameraKey &key,
     const GameplayWorldPoint &eye,
@@ -1469,6 +1518,22 @@ void CinematicRuntime::updateCamera(const ICinematicWorld &world)
 
     CinematicCameraView view = {};
     view.eye = lerp(fromKey.position, toKey.position, t);
+    std::vector<float> times;
+    const bool spline = pShot->easing == CinematicEasing::Spline && to != from;
+
+    if (spline)
+    {
+        std::vector<GameplayWorldPoint> positions;
+
+        for (const CinematicCameraKey &key : pShot->keys)
+        {
+            times.push_back(key.atSeconds);
+            positions.push_back(key.position);
+        }
+
+        view.eye = splineAt(positions, times, from, t);
+    }
+
     const std::optional<GameplayWorldPoint> fromDirection = keyDirection(fromKey, view.eye, world);
     const std::optional<GameplayWorldPoint> toDirection = keyDirection(toKey, view.eye, world);
     std::optional<GameplayWorldPoint> direction;
@@ -1476,6 +1541,20 @@ void CinematicRuntime::updateCamera(const ICinematicWorld &world)
     if (fromDirection && toDirection)
     {
         direction = normalized(lerp(*fromDirection, *toDirection, t));
+    }
+
+    if (spline && fromDirection && toDirection)
+    {
+        // The aims along the same curve, each key's direction seen from the current eye.
+        std::vector<GameplayWorldPoint> directions;
+
+        for (const CinematicCameraKey &key : pShot->keys)
+        {
+            const std::optional<GameplayWorldPoint> keyAim = keyDirection(key, view.eye, world);
+            directions.push_back(keyAim ? *keyAim : *fromDirection);
+        }
+
+        direction = normalized(splineAt(directions, times, from, t));
     }
 
     direction = direction ? direction : (t < 0.5f ? fromDirection : toDirection);

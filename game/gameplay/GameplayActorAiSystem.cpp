@@ -1120,6 +1120,13 @@ bool mm9TurretLoopActive(const ActorAiFacts &actor, const ActorAiFrameFacts *pFr
     return mm9LoopActive(actor, pFrame) && actor.tactics.mm9Profile->archetype == Mm9AiArchetype::Turret;
 }
 
+// An MM9 turret (lobber.scr, Dragon.scr, MagicMine.scr) is rooted: MM9 never moves it, so it never climbs or sinks
+// toward its target as a flyer does, whatever its Fly column says (the Dragon King's is Y).
+bool mm9Rooted(const ActorAiFacts &actor)
+{
+    return actor.tactics.mm9Profile && actor.tactics.mm9Profile->archetype == Mm9AiArchetype::Turret;
+}
+
 // The edge distance from which its melee reaches its current target: an MM9 monster's own attack reach, else the
 // native constant (halved against actors).
 float meleeRangeForTarget(const ActorAiFacts &actor, const ActorAiFrameFacts *pFrame)
@@ -1548,28 +1555,6 @@ ActorEngagementState resolveActorEngagement(
         && !actorService.isPartyControlledActor(actor.identity.targetPolicy.controlMode)
         && partyIsVeryNearActor;
     return result;
-}
-
-bool hasActiveSpellEffectTimer(const GameplayActorSpellEffectState &state)
-{
-    return state.slowRemainingSeconds > 0.0f
-        || state.stunRemainingSeconds > 0.0f
-        || state.paralyzeRemainingSeconds > 0.0f
-        || state.fearRemainingSeconds > 0.0f
-        || state.blindRemainingSeconds > 0.0f
-        || state.controlRemainingSeconds > 0.0f
-        || state.shrinkRemainingSeconds > 0.0f
-        || state.darkGraspRemainingSeconds > 0.0f
-        || state.dayOfProtectionRemainingSeconds > 0.0f
-        || state.hourOfPowerRemainingSeconds > 0.0f
-        || state.painReflectionRemainingSeconds > 0.0f
-        || state.hammerhandsRemainingSeconds > 0.0f
-        || state.hasteRemainingSeconds > 0.0f
-        || state.shieldRemainingSeconds > 0.0f
-        || state.stoneskinRemainingSeconds > 0.0f
-        || state.blessRemainingSeconds > 0.0f
-        || state.fateRemainingSeconds > 0.0f
-        || state.heroismRemainingSeconds > 0.0f;
 }
 
 class ActorAiCommandContext
@@ -2099,6 +2084,7 @@ ActorMovementCommit buildActiveMovementCommit(
     const float verticalTargetDelta = movementTargetPosition.z - actor.world.targetZ;
     const bool flyingVerticalMove =
         actor.stats.canFly
+        && !mm9Rooted(actor)
         && std::abs(verticalTargetDelta) > 8.0f;
 
     result.resetCrowdSteering = !preserveCrowdSteering;
@@ -2657,8 +2643,9 @@ void applyActiveMovementCommit(
             || update.state.crowdRetreatRemainingSeconds.value_or(actor.runtime.crowdRetreatRemainingSeconds) > 0.0f);
 
     // A flyer climbs or sinks toward its target only when it has one: without a target its position is (0, 0, 0), and
-    // idle MM9 Ickies rose into Beethoven's ceilings toward height 0 (floors at -1900 to -3100) and through them.
-    if (actor.stats.canFly
+    // idle MM9 Ickies rose into Beethoven's ceilings toward height 0 (floors at -1900 to -3100) and through them. A
+    // rooted MM9 turret never climbs: the Dragon King (Fly Y) rose 1 800 units toward a Winged Mutant he held.
+    if (actor.stats.canFly && !mm9Rooted(actor)
         && (actor.target.currentKind != ActorAiTargetKind::None || actor.target.hasCurrentMovementPosition))
     {
         const float verticalTargetDelta =
@@ -2882,7 +2869,7 @@ void applyActiveSpellTimerUpdate(const ActorAiFacts &actor, const ActorAiFrameFa
     // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedActorTimers).
     if (!actor.world.active
         || update.state.spellEffects
-        || !hasActiveSpellEffectTimer(actor.status.spellEffects)
+        || !GameplayActorService::hasRunningSpellEffectTimer(actor.status.spellEffects)
         || frame.turnBased.mode != ActorTurnBasedMode::RealTime)
     {
         return;
@@ -6880,8 +6867,23 @@ void AI_Mm9IdleStand(ActorAiCommandContext &ai)
         }
     }
 
-    if (!state.idleLastStep || (state.fidgetVariant >= 0 && state.fidgetSeconds <= 0.0f))
+    // A looped script clip (MM9's LoopAnim: the placement's idle clip, a marker's looped clip) holds MM9's animator in
+    // its script state 0x11, whose think (0x1001c7e0) tracks or searches but never fidgets (MM9_AMBIENT_ANIMATION.md
+    // section 2.1). The world runtimes show the clip while it stands.
+    const std::span<const Mm9AiPathStop> stops = actor.movement.mm9PathStops;
+    if ((actor.movement.mm9Placement && !actor.movement.mm9Placement->idleClip.empty())
+        || (state.markerStop >= 0 && size_t(state.markerStop) < stops.size() && stops[size_t(state.markerStop)].loop))
     {
+        state.idleLooped = true;
+        state.fidgetVariant = -1;
+        state.fidgetSeconds = 0.0f;
+        AI_Stand(ai);
+        return;
+    }
+
+    if (!state.idleLastStep || state.idleLooped || (state.fidgetVariant >= 0 && state.fidgetSeconds <= 0.0f))
+    {
+        state.idleLooped = false;
         state.fidgetVariant = -1;
         state.fidgetSeconds = 0.0f;
         state.idleFidgetWaitSeconds = mm9IdleFidgetWaitSeconds(
@@ -7264,6 +7266,135 @@ bool AI_Mm9Chat(ActorAiCommandContext &ai, bool socializes, std::optional<Gamepl
     return false;
 }
 
+// Its routine (Mm9AiRoutine: MM9's scripted work and scenes, devdocs/mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md
+// section 4 item 9) while it holds no target: its steps in turn, round and round, in place of its wander. A clip step
+// stands without fidgets (MM9's LoopAnim and PlayAnim), a wait stands idle, a walk it cannot make (it may not move, or
+// 40 s pass) is given up. Returns where a walk heads.
+std::optional<GameplayWorldPoint> AI_Mm9Routine(ActorAiCommandContext &ai)
+{
+    constexpr uint32_t Mm9RoutineSalt = 0x5e1c9b37u;
+    constexpr float Mm9RoutineWalkGiveUpSeconds = 40.0f;
+    const ActorAiFacts &actor = ai.actor();
+    ActorMm9State &state = mm9State(ai);
+    const Mm9AiRoutine &routine = actor.movement.mm9Routines[size_t(actor.movement.mm9Routine)];
+    const float stepSeconds = ai.frame() != nullptr ? std::max(0.0f, ai.frame()->fixedStepSeconds) : 0.0f;
+    const bool canWalk = actor.movement.movementAllowed && actor.movement.effectiveMoveSpeed > 0.0f;
+
+    if (state.routine != actor.movement.mm9Routine)
+    {
+        state.routine = actor.movement.mm9Routine;
+        state.routineStep = 0;
+        state.routineStepStarted = false;
+        state.routineItemsHidden = false;
+    }
+
+    state.routineSeconds += stepSeconds;
+    const auto roll = [&]()
+    {
+        return mm9Unit(actor.actorId, state.routineRollCount++, Mm9RoutineSalt);
+    };
+    const auto next = [&](size_t count)
+    {
+        state.routineStep = uint16_t((state.routineStep + count) % routine.steps.size());
+        state.routineStepStarted = false;
+    };
+
+    // A step that takes no time (a chance, the items) or has ended hands on to the next in the same AI step, a lap at
+    // most.
+    for (size_t lap = 0; lap <= routine.steps.size(); ++lap)
+    {
+        if (state.routineStep >= routine.steps.size())
+        {
+            state.routineStep = 0;
+        }
+
+        const Mm9AiRoutineStep &step = routine.steps[state.routineStep];
+
+        if (!state.routineStepStarted)
+        {
+            state.routineStepStarted = true;
+            state.routineSeconds = 0.0f;
+            state.routineClip = -1;
+            state.routineStepLength = 0.0f;
+
+            if (step.kind == Mm9AiRoutineStep::Kind::Clip && !step.clips.empty())
+            {
+                state.routineClip = int8_t(std::min(int(roll() * float(step.clips.size())), int(step.clips.size()) - 1));
+                state.routineStepLength = step.clips[size_t(state.routineClip)].seconds;
+            }
+            else if (step.kind == Mm9AiRoutineStep::Kind::Wait)
+            {
+                state.routineStepLength = step.waitMinSeconds + roll() * (step.waitMaxSeconds - step.waitMinSeconds);
+            }
+        }
+
+        switch (step.kind)
+        {
+            case Mm9AiRoutineStep::Kind::Chance:
+                next(roll() < step.chance ? 1 : 1 + size_t(step.skip));
+                continue;
+            case Mm9AiRoutineStep::Kind::HideItems:
+            case Mm9AiRoutineStep::Kind::ShowItems:
+                state.routineItemsHidden = step.kind == Mm9AiRoutineStep::Kind::HideItems;
+                next(1);
+                continue;
+            case Mm9AiRoutineStep::Kind::Walk:
+            case Mm9AiRoutineStep::Kind::Run:
+            {
+                const GameplayWorldPoint point = {float(step.point[0]), float(step.point[1]), float(step.point[2])};
+
+                if (!canWalk || state.routineSeconds >= Mm9RoutineWalkGiveUpSeconds
+                    || mm9Distance2d(actor.movement.position, point.x, point.y)
+                        <= float(actor.stats.radius) + Mm9MarkerRadius + Mm9WanderMarkerRange)
+                {
+                    next(1);
+                    continue;
+                }
+
+                AI_Mm9MoveTo(ai, point,
+                    step.kind == Mm9AiRoutineStep::Kind::Run ? ActorAiMotionState::Pursuing
+                                                             : ActorAiMotionState::Wandering);
+                return point;
+            }
+            case Mm9AiRoutineStep::Kind::Face:
+                AI_Stand(ai);
+
+                if (AI_Mm9TurnToward(ai, step.faceYawRadians, Mm9MarkerTurnRadiansPerSecond))
+                {
+                    next(1);
+                    continue;
+                }
+
+                return std::nullopt;
+            case Mm9AiRoutineStep::Kind::Clip:
+                if (state.routineSeconds >= state.routineStepLength)
+                {
+                    next(1);
+                    continue;
+                }
+
+                // MM9's script animation state: no fidget, and a fresh fidget wait when it idles after it.
+                state.idleLooped = true;
+                state.fidgetVariant = -1;
+                state.fidgetSeconds = 0.0f;
+                AI_Stand(ai);
+                return std::nullopt;
+            case Mm9AiRoutineStep::Kind::Wait:
+                if (state.routineSeconds >= state.routineStepLength)
+                {
+                    next(1);
+                    continue;
+                }
+
+                AI_Mm9IdleStand(ai);
+                return std::nullopt;
+        }
+    }
+
+    AI_Stand(ai);
+    return std::nullopt;
+}
+
 // BaseWander.inc for a monster holding no target: a second after it appears its placement's wander starts; it waits
 // WanderWaitMin-Max (3-8 s), then walks its marker path (WalkTo the next marker, then waits again) or aimlessly
 // (turns 15-180 degrees, or toward where it started once beyond its leash, and walks WanderTimeMin-Max). Beyond its
@@ -7285,6 +7416,18 @@ std::optional<GameplayWorldPoint> AI_Mm9Idle(ActorAiCommandContext &ai)
     {
         state.wanderPhase = path || aimless ? Mm9WanderPhase::Waiting : Mm9WanderPhase::Off;
         state.wanderSeconds = -1.0f;
+    }
+
+    // A routine replaces its wander and its chats.
+    if (actor.movement.mm9Routine >= 0 && size_t(actor.movement.mm9Routine) < actor.movement.mm9Routines.size())
+    {
+        return AI_Mm9Routine(ai);
+    }
+
+    if (state.routine >= 0)
+    {
+        state.routine = -1;
+        state.routineItemsHidden = false;
     }
 
     // A townsperson's chats hold its wander while it walks to the other one, talks or turns away. Only NPCBase.inc
@@ -9229,6 +9372,7 @@ ActorAiUpdate AI_ScriptedMove(
     ai.setMeleePursuitActive(true);
     ActorAiUpdate update = finishActiveMovementCommand(ai);
     applyMm9MoveTarget(update, actor, point);
+    update.movementIntent.targetArrivalDistance = actor.movement.scriptedMoveArrivalDistance;
 
     if (actor.tactics.mm9Profile)
     {

@@ -2788,6 +2788,13 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 }
             }
 
+            if (journalOwnerTabsShown(journalScreen))
+            {
+                if (const auto page = resolveTrainerPage())
+                    if (const uint32_t continent = journalOwnerTargetAt(*page, pointerX, pointerY))
+                        return {GameplayJournalPointerTargetType::JournalContinent, continent};
+            }
+
             if (journalScreen.view == GameplayUiController::JournalView::Progress)
             {
                 const GameplayScreenRuntime::HudLayoutElement *pPage = view.findHudLayoutElement("JournalProgressPage");
@@ -3068,6 +3075,15 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 journalScreen.mapDragActive = false;
                 break;
 
+            case GameplayJournalPointerTargetType::JournalContinent:
+                if (journalScreen.view == GameplayUiController::JournalView::Quests)
+                    journalScreen.questContinent = target.noteId;
+                else
+                    journalScreen.notesContinent = target.noteId;
+                journalScreen.questPage = 0;
+                journalScreen.notesPage = 0;
+                break;
+
             case GameplayJournalPointerTargetType::ProgressContinent:
                 journalScreen.progressContinent = target.noteId;
                 journalScreen.progressSelectedMap.clear();
@@ -3110,30 +3126,35 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             case GameplayJournalPointerTargetType::NotesPotionButton:
                 journalScreen.view = GameplayUiController::JournalView::Notes;
                 journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Potion;
+                journalScreen.notesContinent = 0;
                 journalScreen.notesPage = 0;
                 break;
 
             case GameplayJournalPointerTargetType::NotesFountainButton:
                 journalScreen.view = GameplayUiController::JournalView::Notes;
                 journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Fountain;
+                journalScreen.notesContinent = 0;
                 journalScreen.notesPage = 0;
                 break;
 
             case GameplayJournalPointerTargetType::NotesObeliskButton:
                 journalScreen.view = GameplayUiController::JournalView::Notes;
                 journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Obelisk;
+                journalScreen.notesContinent = 0;
                 journalScreen.notesPage = 0;
                 break;
 
             case GameplayJournalPointerTargetType::NotesSeerButton:
                 journalScreen.view = GameplayUiController::JournalView::Notes;
                 journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Seer;
+                journalScreen.notesContinent = 0;
                 journalScreen.notesPage = 0;
                 break;
 
             case GameplayJournalPointerTargetType::NotesMiscButton:
                 journalScreen.view = GameplayUiController::JournalView::Notes;
                 journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Misc;
+                journalScreen.notesContinent = 0;
                 journalScreen.notesPage = 0;
                 break;
 

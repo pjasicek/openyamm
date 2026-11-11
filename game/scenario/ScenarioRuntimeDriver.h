@@ -421,8 +421,8 @@ public:
         bool &used,
         std::string &failure);
     // Casts the spell through the party's spell system with full mana and no recovery left (the rules' auras, heals
-    // and splashes, the world's projectiles); `cast` tells whether it succeeded.
-    bool castSpell(const ScenarioSpellCastRequest &request, bool &cast, std::string &failure);
+    // and splashes, the world's projectiles); `status` is the cast's outcome.
+    bool castSpell(const ScenarioSpellCastRequest &request, PartySpellCastStatus &status, std::string &failure);
     // The Knight Charge action at the actor (party_charge): the rules' status line, or nothing without a charge.
     bool partyCharge(std::optional<size_t> actorIndex, std::optional<std::string> &status, std::string &failure);
     // The Workbench's crafting with a material on the member's item (worn in `wornSlot`, else the first pack item of

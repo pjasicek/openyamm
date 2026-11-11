@@ -394,8 +394,8 @@ struct GameSettings
     bool enemyHealthBarDamageTrail = true;
     bool questMarkers = false;
     // Maps with a painted map (MM9's) show it on the minimap and the journal map; false shows the MM6-MM8 line map
-    // where the map also has outlines (MM9's dungeons). Maps without outlines always show the painted map.
-    bool paintedMaps = true;
+    // where the map also has outlines (MM9's dungeons, the default). Maps without outlines always show the painted map.
+    bool paintedMaps = false;
     // The load and save lists: false keeps Quicksave, Autosave, then the rest by name; true puts the newest first.
     bool saveListNewestFirst = false;
     // Obsidian basebar frame behind the gameplay party portraits; fullscreen overlays always draw their own strip.

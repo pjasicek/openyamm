@@ -2119,6 +2119,21 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         settings.indoorHoleView = text == "1" || text == "true" || text == "on" || text == "yes";
     }
 
+    // Launch-only: the surface texture tier (x1 draws the native textures, for before/after captures). Players have
+    // no such setting: the packages carry one cooked tier per platform. Never written back.
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "surface_textures"))
+    {
+        const std::optional<Engine::AssetScaleTier> tier = Engine::parseAssetScaleTier(trimCopy(*value));
+
+        if (!tier)
+        {
+            error = "surface_textures must be x1, x2 or x4.";
+            return std::nullopt;
+        }
+
+        settings.assetScaleProfile.textures = *tier;
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "debug", "time_scale"))
     {
         float parsed = 1.0f;

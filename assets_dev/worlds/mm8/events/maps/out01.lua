@@ -100,6 +100,10 @@ SetMapMetadata({
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d05.blv", targetName = "Abandoned Temple" },
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "eleme.blv", targetName = "Plane of Earth" },
     },
+    learnedEffect = {
+    [101] = { autonote = 206, effect = "Intellect +15 (Temporary)" },
+    [102] = { autonote = 207, effect = "Luck +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {6, 9, 136},

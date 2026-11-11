@@ -2031,7 +2031,9 @@ GameplayWorldHit OutdoorInteractionController::translateInspectHitToGameplayWorl
     const std::optional<std::string> eventTargetStatusText = resolveEventTargetHoverStatusText(view, inspectHit);
     eventTargetHit.name =
         eventTargetStatusText && !eventTargetStatusText->empty() ? *eventTargetStatusText : inspectHit.name;
-    eventTargetHit.nameEventId = resolveInteractiveDecorationHitEventId(view, inspectHit).value_or(0);
+    const std::optional<uint16_t> interactiveEventId = resolveInteractiveDecorationHitEventId(view, inspectHit);
+    eventTargetHit.nameEventId = interactiveEventId.value_or(inspectEventId(view, inspectHit));
+    eventTargetHit.nameEventIsLocal = !interactiveEventId;
     eventTargetHit.hitPoint = hitPoint;
     eventTargetHit.distance = inspectHit.distance;
     eventTargetHit.openedChestIds = resolveOpenedChestIds(view, inspectHit);

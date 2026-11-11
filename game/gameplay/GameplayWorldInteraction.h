@@ -129,8 +129,10 @@ struct GameplayEventTargetHit
     uint16_t specialTrigger = 0;
     uint32_t attributes = 0;
     std::string name;
-    // The global event whose title `name` is: an interactive decoration's current state (Orange Barrel), else 0.
+    // The event whose title `name` is: an interactive decoration's current state (Orange Barrel, a global event),
+    // else the map event of the hit face or decoration (Drink from the Fountain, nameEventIsLocal), else 0.
     uint16_t nameEventId = 0;
+    bool nameEventIsLocal = false;
     std::vector<uint32_t> openedChestIds;
     std::optional<GameplayEventTargetContextActionMetadata> contextActionMetadata;
     bx::Vec3 hitPoint = {0.0f, 0.0f, 0.0f};

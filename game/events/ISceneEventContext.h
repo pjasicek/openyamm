@@ -12,8 +12,9 @@ struct GameplayMonsterSpawnRequest;
 struct InventoryItem;
 
 // evt.FireMissile: a world missile (a monster_projectiles.yml token) from one point to another, over flightSeconds
-// (0: at its object's speed). It passes the party, whose damage the event deals itself, and bursts at the target, or on
-// whatever it strikes first, with damage of damageType to every actor within radius.
+// (0: at its object's speed). It bursts at the target, or on whatever it strikes first, with damage of damageType to
+// every actor within radius. It passes the party, whose damage the event deals itself, unless strikesParty: then it
+// strikes the party in its path like a monster's missile (a trap's bolt), with damage of damageType.
 struct EventMissileRequest
 {
     std::string missile;
@@ -27,6 +28,7 @@ struct EventMissileRequest
     std::string damageType;
     float radius = 0.0f;
     float flightSeconds = 0.0f;
+    bool strikesParty = false;
 };
 
 class ISceneEventContext
@@ -220,6 +222,24 @@ public:
     {
         (void)actorIndex;
         (void)immobile;
+        return false;
+    }
+
+    // evt.AttachActorItem / evt.DetachActorItem: MM9's AttachProp and DetachProp on a map actor's held items
+    // (MapDeltaActor::heldItems, saved with the map). Attaching puts the item's model on the node, replacing what the
+    // node held; detaching empties the node (an empty node: every node). False for no such actor.
+    virtual bool attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node)
+    {
+        (void)actorIndex;
+        (void)model;
+        (void)node;
+        return false;
+    }
+
+    virtual bool detachMapActorItem(size_t actorIndex, const std::string &node)
+    {
+        (void)actorIndex;
+        (void)node;
         return false;
     }
 

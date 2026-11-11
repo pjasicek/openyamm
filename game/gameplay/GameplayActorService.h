@@ -148,6 +148,8 @@ public:
         GameplayActorSpellEffectState &state,
         float deltaSeconds,
         bool defaultHostileToParty) const;
+    // Whether any of the actor's spell effects still counts down.
+    static bool hasRunningSpellEffectTimer(const GameplayActorSpellEffectState &state);
 
     bool isPartyControlledActor(GameplayActorControlMode controlMode) const;
     // pRelationOverrides: the map's evt.SetMonsterRelation rows, which replace the faction relation (as for targets).

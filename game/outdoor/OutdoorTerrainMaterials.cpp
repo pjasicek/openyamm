@@ -212,13 +212,14 @@ bool OutdoorTerrainMaterials::initialize(const Engine::AssetFileSystem &assets, 
     const OutdoorTerrainMaterialConfig &config, const std::array<OutdoorTerrainTile, 256> &tiles,
     uint32_t subdivision, const OutdoorLightingData *pBakedLighting, bool renderedWater,
     bgfx::ProgramHandle program, bgfx::ProgramHandle shadowProgram, bgfx::ProgramHandle singleProgram,
-    bgfx::ProgramHandle singleShadowProgram, std::string &error)
+    bgfx::ProgramHandle singleShadowProgram, bgfx::ProgramHandle depthProgram, std::string &error)
 {
     shutdown();
     m_program = program;
     m_shadowProgram = shadowProgram;
     m_singleProgram = singleProgram;
     m_singleShadowProgram = singleShadowProgram;
+    m_depthProgram = depthProgram;
     if (!bgfx::isValid(m_program) || !bgfx::isValid(m_shadowProgram) || !bgfx::isValid(m_singleProgram)
         || !bgfx::isValid(m_singleShadowProgram))
     {
@@ -320,6 +321,7 @@ void OutdoorTerrainMaterials::shutdown(bool destroyResources)
     release(m_shadowProgram);
     release(m_singleProgram);
     release(m_singleShadowProgram);
+    release(m_depthProgram);
     m_stats = {};
     m_smoothing = 0.0f;
     m_renderedHeights.clear();
@@ -374,6 +376,15 @@ void OutdoorTerrainMaterials::bind(const OutdoorLightingData *pBakedLighting, bo
         light[2] = pBakedLighting->sunDirection[2];
     }
     bgfx::setUniform(m_light, light.data());
+}
+
+void OutdoorTerrainMaterials::bindDepth() const
+{
+    const uint32_t clamp = BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP;
+    const uint32_t point = clamp | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT;
+    bgfx::setTexture(CellsStage, m_samplers[0], m_cells, point);
+    bgfx::setTexture(ShoreStage, m_samplers[2], m_shore, clamp);
+    bgfx::setUniform(m_shoreUniform, m_shoreValues.data());
 }
 
 bool OutdoorTerrainMaterials::createShore(const SourceImages &images, const OutdoorTerrainMaterialConfig &config,

@@ -75,6 +75,9 @@ struct GameSaveSummary
 // MAW games carry four bags a member from this version on; older saves fit theirs into four when loaded
 // (InventoryBags::fitIntoBagCount).
 constexpr uint32_t SaveVersionFourMawBags = 121;
+// A promotion grants MAW's ladder masteries (Cover, Mana Shield, Enlightenment, Retaliation) that the new class's limits
+// allow; members promoted in older saves get them when loaded (Party::grantClassChangeMasteries).
+constexpr uint32_t SaveVersionClassChangeMasteries = 174;
 
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyNpcRosters(GameSaveData &data);

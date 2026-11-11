@@ -152,6 +152,93 @@ float placementRandom(int x, int y, uint32_t salt)
     return float(hash & 0xffffffu) / float(0x1000000u);
 }
 
+// A rigid placement matrix (uniform scale) as a model transform.
+Engine::ModelTransform modelTransformOf(const Engine::ModelMatrix &m)
+{
+    Engine::ModelTransform transform;
+    const float scale = std::sqrt(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]);
+    transform.translation = {m[12], m[13], m[14]};
+    transform.scale = {scale, scale, scale};
+    if (scale <= 0.0f)
+    {
+        return transform;
+    }
+    const float r00 = m[0] / scale, r10 = m[1] / scale, r20 = m[2] / scale;
+    const float r01 = m[4] / scale, r11 = m[5] / scale, r21 = m[6] / scale;
+    const float r02 = m[8] / scale, r12 = m[9] / scale, r22 = m[10] / scale;
+    const float trace = r00 + r11 + r22;
+    std::array<float, 4> q = {};
+    if (trace > 0.0f)
+    {
+        const float t = std::sqrt(trace + 1.0f) * 2.0f;
+        q = {(r21 - r12) / t, (r02 - r20) / t, (r10 - r01) / t, 0.25f * t};
+    }
+    else if (r00 > r11 && r00 > r22)
+    {
+        const float t = std::sqrt(1.0f + r00 - r11 - r22) * 2.0f;
+        q = {0.25f * t, (r01 + r10) / t, (r02 + r20) / t, (r21 - r12) / t};
+    }
+    else if (r11 > r22)
+    {
+        const float t = std::sqrt(1.0f + r11 - r00 - r22) * 2.0f;
+        q = {(r01 + r10) / t, 0.25f * t, (r12 + r21) / t, (r02 - r20) / t};
+    }
+    else
+    {
+        const float t = std::sqrt(1.0f + r22 - r00 - r11) * 2.0f;
+        q = {(r02 + r20) / t, (r12 + r21) / t, 0.25f * t, (r10 - r01) / t};
+    }
+    transform.rotation = q;
+    return transform;
+}
+
+}
+
+bool DecorationModelSet::rigidMovingNode(Binding &binding, std::string &error)
+{
+    // One rigid mesh node (its LODs on it), moved by the clips.
+    std::optional<uint32_t> meshNode;
+    for (size_t node = 0; node < binding.asset->nodes.size(); ++node)
+    {
+        if (binding.asset->nodes[node].meshIndex >= 0)
+        {
+            meshNode = meshNode ? std::optional<uint32_t>(UINT32_MAX) : std::optional<uint32_t>(uint32_t(node));
+        }
+    }
+    if (!meshNode || *meshNode == UINT32_MAX || !binding.asset->skins.empty() || !binding.asset->staticBounds.valid)
+    {
+        error = "needs one rigid mesh node";
+        return false;
+    }
+    Engine::ModelPose rest;
+    Engine::resetModelPose(*binding.asset, rest);
+    Engine::evaluateModelHierarchy(*binding.asset, Engine::identityModelMatrix(), rest);
+    const Engine::ModelMatrix &matrix = rest.globalMatrices[*meshNode];
+    if (std::abs(Engine::determinant3x3(matrix)) < 1e-12f)
+    {
+        error = "its mesh node is degenerate at rest";
+        return false;
+    }
+    // The rest matrix is affine: its inverse from the inverse of its upper 3x3 and the moved origin.
+    Engine::ModelMatrix inverse = Engine::identityModelMatrix();
+    for (size_t column = 0; column < 3; ++column)
+    {
+        std::array<float, 3> axis = {};
+        axis[column] = 1.0f;
+        const std::array<float, 3> mapped = transformInverse(matrix, axis, false);
+        for (size_t row = 0; row < 3; ++row)
+        {
+            inverse[column * 4 + row] = mapped[row];
+        }
+    }
+    const std::array<float, 3> origin = transformInverse(matrix, {0.0f, 0.0f, 0.0f}, true);
+    for (size_t row = 0; row < 3; ++row)
+    {
+        inverse[12 + row] = origin[row];
+    }
+    binding.partNode = *meshNode;
+    binding.partRestInverse = inverse;
+    return true;
 }
 
 void DecorationModelSet::clear()
@@ -166,6 +253,10 @@ void DecorationModelSet::clear()
     m_wallFinder = {};
     m_unmountedBillboards.clear();
     m_swingingGroups.clear();
+    m_partGroups.clear();
+    m_selfAnimatedGroups.clear();
+    m_animatedGroups.clear();
+    m_useGroups.clear();
     m_turningBillboards.clear();
     m_settled = false;
 }
@@ -179,7 +270,7 @@ bool DecorationModelSet::raycast(size_t billboardIndex, const std::array<float, 
     }
     const Slot &slot = m_slots[billboardIndex];
     const Engine::ModelStaticGroup &group = m_groups[slot.group];
-    if (slot.index >= group.placements.size() || !group.placements[slot.index].visible)
+    if (slot.index >= group.placements.size() || slot.hidden)
     {
         return false;
     }
@@ -341,6 +432,7 @@ void DecorationModelSet::place(size_t billboardIndex, const DecorationBillboard 
     m_billboardIndices[binding].push_back(billboardIndex);
     m_slots[billboardIndex].group = int32_t(binding);
     m_slots[billboardIndex].index = uint32_t(group.placements.size() - 1);
+    placePart(billboardIndex);
 }
 
 std::optional<size_t> DecorationModelSet::removePlacement(size_t group, uint32_t index)
@@ -370,6 +462,7 @@ std::optional<size_t> DecorationModelSet::removePlacement(size_t group, uint32_t
 void DecorationModelSet::unplace(size_t billboardIndex)
 {
     unplaceOverlay(billboardIndex);
+    unplacePart(billboardIndex);
     Slot &slot = m_slots[billboardIndex];
     if (slot.group < 0)
     {
@@ -421,6 +514,217 @@ void DecorationModelSet::unplaceOverlay(size_t billboardIndex)
     slot.overlayGroup = -1;
 }
 
+void DecorationModelSet::placePart(size_t billboardIndex)
+{
+    Slot &slot = m_slots[billboardIndex];
+    if (slot.group < 0)
+    {
+        return;
+    }
+    for (const int32_t part : m_bindings[size_t(slot.group)].parts)
+    {
+        Engine::ModelStaticGroup &group = m_groups[size_t(part)];
+        Engine::ModelStaticPlacement placement;
+        placement.matrix = m_groups[size_t(slot.group)].placements[slot.index].matrix;
+        group.placements.push_back(placement);
+        m_restMatrices[size_t(part)].push_back(placement.matrix);
+        group.bounds.push_back(group.placementBounds(placement));
+        m_billboardIndices[size_t(part)].push_back(billboardIndex);
+        slot.parts.emplace_back(part, uint32_t(group.placements.size() - 1));
+    }
+}
+
+void DecorationModelSet::unplacePart(size_t billboardIndex)
+{
+    std::vector<std::pair<int32_t, uint32_t>> parts = std::move(m_slots[billboardIndex].parts);
+    m_slots[billboardIndex].parts.clear();
+    for (const auto &[group, index] : parts)
+    {
+        if (const std::optional<size_t> moved = removePlacement(size_t(group), index))
+        {
+            for (auto &entry : m_slots[*moved].parts)
+            {
+                if (entry.first == group)
+                {
+                    entry.second = index;
+                }
+            }
+        }
+    }
+}
+
+void DecorationModelSet::noteUses(const std::vector<DecorationBillboard> &billboards, const UseCount &uses,
+    float timeSeconds)
+{
+    for (const uint32_t group : m_useGroups)
+    {
+        const Binding &binding = m_bindings[group];
+        for (const size_t billboardIndex : m_billboardIndices[group])
+        {
+            Slot &slot = m_slots[billboardIndex];
+            const uint32_t count = billboardIndex < billboards.size()
+                ? uses(billboards[billboardIndex].spriteOverrideKey()) : 0;
+            if (count == slot.uses)
+            {
+                continue;
+            }
+            slot.useClip = (slot.useClip + int32_t(count - slot.uses)) % int32_t(binding.useClips.size());
+            slot.uses = count;
+            slot.useStart = timeSeconds;
+        }
+    }
+}
+
+bool DecorationModelSet::resolveClip(const Binding &binding, const Engine::ModelAsset &asset,
+    const DecorationBillboard *pBillboard, const Slot *pSlot, const PartClip &clip, float timeSeconds,
+    uint32_t &clipIndex, float &seconds) const
+{
+    std::string clipName;
+    bool loop = false;
+    std::optional<uint32_t> found;
+    if (pBillboard != nullptr && clip && clip(pBillboard->spriteOverrideKey(), clipName, seconds, loop))
+    {
+        found = asset.findClip(clipName);
+    }
+    if (!found && pSlot != nullptr && pSlot->useClip >= 0 && size_t(pSlot->useClip) < binding.useClips.size())
+    {
+        found = asset.findClip(binding.useClips[size_t(pSlot->useClip)]);
+        loop = false;
+        seconds = timeSeconds - pSlot->useStart;
+    }
+    if (!found && !binding.idleClip.empty())
+    {
+        found = asset.findClip(binding.idleClip);
+        loop = true;
+        // Each placement out of step with its neighbours (phase from its map position).
+        seconds = timeSeconds + (pBillboard != nullptr
+            ? placementRandom(pBillboard->x, pBillboard->y, 4) * 60.0f : 0.0f);
+    }
+    if (!found)
+    {
+        return false;
+    }
+    clipIndex = *found;
+    const float duration = asset.clips[clipIndex].durationSeconds;
+    seconds = duration <= 0.0f ? 0.0f
+        : loop ? std::fmod(std::max(0.0f, seconds), duration) : std::clamp(seconds, 0.0f, duration);
+    return true;
+}
+
+Engine::ModelMatrix DecorationModelSet::clipDelta(const Binding &moving, uint32_t clipIndex, float seconds)
+{
+    // The node's pose relative to its rest: the static draw already places the node at rest.
+    Engine::resetModelPose(*moving.asset, m_partPose);
+    Engine::evaluateModelClip(*moving.asset, clipIndex, seconds, m_partPose);
+    Engine::evaluateModelHierarchy(*moving.asset, Engine::identityModelMatrix(), m_partPose);
+    if (moving.partNode >= m_partPose.globalMatrices.size())
+    {
+        return Engine::identityModelMatrix();
+    }
+    return Engine::multiplyModelMatrices(m_partPose.globalMatrices[moving.partNode], moving.partRestInverse);
+}
+
+void DecorationModelSet::poseParts(const std::vector<DecorationBillboard> &billboards, const PartClip &clip,
+    float timeSeconds)
+{
+    // Whole models first (from their rest: they are still bindings), then the parts that follow their decoration.
+    for (const uint32_t group : m_selfAnimatedGroups)
+    {
+        const Binding &binding = m_bindings[group];
+        Engine::ModelStaticGroup &placements = m_groups[group];
+        for (size_t index = 0; index < placements.placements.size(); ++index)
+        {
+            const size_t billboardIndex = m_billboardIndices[group][index];
+            Engine::ModelStaticPlacement &placement = placements.placements[index];
+            placement.matrix = m_restMatrices[group][index];
+            uint32_t clipIndex = 0;
+            float seconds = 0.0f;
+            if (resolveClip(binding, *binding.asset, billboardIndex < billboards.size() ? &billboards[billboardIndex]
+                    : nullptr, &m_slots[billboardIndex], clip, timeSeconds, clipIndex, seconds))
+            {
+                placement.matrix = Engine::multiplyModelMatrices(placement.matrix,
+                    clipDelta(binding, clipIndex, seconds));
+            }
+            placements.bounds[index] = placements.placementBounds(placement);
+        }
+    }
+    for (const uint32_t partGroup : m_partGroups)
+    {
+        const Binding &part = m_bindings[partGroup];
+        Engine::ModelStaticGroup &placements = m_groups[partGroup];
+        const std::vector<size_t> &billboardIndices = m_billboardIndices[partGroup];
+        for (size_t index = 0; index < placements.placements.size(); ++index)
+        {
+            const size_t billboardIndex = billboardIndices[index];
+            const Slot &slot = m_slots[billboardIndex];
+            Engine::ModelStaticPlacement &placement = placements.placements[index];
+            // A part moves in its decoration's asset space: from the decoration's rest when the model itself moves.
+            placement.matrix = m_bindings[size_t(slot.group)].selfAnimated
+                ? m_restMatrices[size_t(slot.group)][slot.index]
+                : m_groups[size_t(slot.group)].placements[slot.index].matrix;
+            uint32_t clipIndex = 0;
+            float seconds = 0.0f;
+            if (resolveClip(m_bindings[size_t(slot.group)], *part.asset, billboardIndex < billboards.size()
+                    ? &billboards[billboardIndex] : nullptr, &slot, clip, timeSeconds, clipIndex, seconds))
+            {
+                placement.matrix = Engine::multiplyModelMatrices(placement.matrix,
+                    clipDelta(part, clipIndex, seconds));
+            }
+            placements.bounds[index] = placements.placementBounds(placement);
+        }
+    }
+}
+
+void DecorationModelSet::poseInstances(const std::vector<DecorationBillboard> &billboards, const PartClip &clip,
+    float timeSeconds, Engine::ModelInstanceSystem &models)
+{
+    for (const uint32_t group : m_animatedGroups)
+    {
+        const Binding &binding = m_bindings[group];
+        Engine::ModelStaticGroup &placements = m_groups[group];
+        for (size_t index = 0; index < placements.placements.size(); ++index)
+        {
+            const size_t billboardIndex = m_billboardIndices[group][index];
+            Slot &slot = m_slots[billboardIndex];
+            Engine::ModelStaticPlacement &placement = placements.placements[index];
+            // The static model stays for picking (raycast follows the slot's hidden state), never drawn.
+            placement.visible = false;
+            uint32_t clipIndex = 0;
+            float seconds = 0.0f;
+            const bool posed = resolveClip(binding, *binding.animatedAsset, billboardIndex < billboards.size()
+                    ? &billboards[billboardIndex] : nullptr, &slot, clip, timeSeconds, clipIndex, seconds);
+            const std::string clipName = posed ? binding.animatedAsset->clips[clipIndex].name : std::string();
+            // Back to rest: a fresh instance shows it.
+            if (slot.instance && !posed && !slot.instanceClip.empty())
+            {
+                models.destroy(*slot.instance);
+                slot.instance.reset();
+            }
+            if (!slot.instance || !models.contains(*slot.instance))
+            {
+                slot.instance = models.create(binding.animatedAsset, {});
+                slot.instanceClip.clear();
+                slot.instanceSeconds = -1.0f;
+            }
+            const Engine::ModelTransform transform = modelTransformOf(placement.matrix);
+            const Engine::ModelTransform *pCurrent = models.rootTransform(*slot.instance);
+            const bool unchanged = pCurrent != nullptr && *pCurrent == transform && clipName == slot.instanceClip
+                && seconds == slot.instanceSeconds;
+            if (posed && !unchanged)
+            {
+                models.sample(*slot.instance, clipIndex, seconds, transform);
+            }
+            else if (!posed)
+            {
+                models.setTransform(*slot.instance, transform);
+            }
+            slot.instanceClip = clipName;
+            slot.instanceSeconds = posed ? seconds : -1.0f;
+            models.setVisible(*slot.instance, !slot.hidden);
+        }
+    }
+}
+
 void DecorationModelSet::update(const std::vector<DecorationBillboard> &billboards, const ShownSprite &shownSprite)
 {
     for (size_t index = 0; index < billboards.size() && index < m_slots.size(); ++index)
@@ -466,6 +770,11 @@ void DecorationModelSet::update(const std::vector<DecorationBillboard> &billboar
         {
             m_groups[size_t(slot.overlayGroup)].placements[slot.overlayIndex].visible = !hidden;
         }
+        for (const auto &[group, partIndex] : slot.parts)
+        {
+            m_groups[size_t(group)].placements[partIndex].visible = !hidden;
+        }
+        slot.hidden = hidden;
     }
     m_settled = true;
 }
@@ -645,6 +954,43 @@ bool DecorationModelSet::loadStateOverlays(const Engine::AssetFileSystem &assets
     return true;
 }
 
+bool DecorationModelSet::loadParts(const Engine::AssetFileSystem &assets, const YAML::Node &entry,
+    const std::string &name, uint32_t served, std::string &error)
+{
+    if (!entry["parts"].IsSequence() || m_bindings[served].swingPeriod > 0.0f || m_bindings[served].turnSeconds > 0.0f
+        || m_bindings[served].mountWall)
+    {
+        error = "decoration model parts need a list and a still ground binding: " + name;
+        return false;
+    }
+    for (const YAML::Node &path : entry["parts"])
+    {
+        const Engine::ModelLoadResult loaded = m_assets.load(assets, path.as<std::string>());
+        if (!loaded)
+        {
+            error = loaded.error;
+            return false;
+        }
+        Binding part;
+        part.asset = loaded.asset;
+        part.lodPixels = m_bindings[served].lodPixels;
+        part.materialVariant = m_bindings[served].materialVariant;
+        if (!rigidMovingNode(part, error))
+        {
+            error = "decoration model part " + path.as<std::string>() + ": " + error + ": " + name;
+            return false;
+        }
+        m_bindings[served].parts.push_back(int32_t(m_bindings.size()));
+        m_bindings.push_back(std::move(part));
+        const Binding &added = m_bindings.back();
+        m_groups.push_back({added.asset, added.materialVariant, added.lodPixels, {}, {}, {}, {}});
+        m_billboardIndices.emplace_back();
+        m_restMatrices.emplace_back();
+        m_partGroups.push_back(uint32_t(m_bindings.size() - 1));
+    }
+    return true;
+}
+
 bool DecorationModelSet::load(const Engine::AssetFileSystem &assets, const std::string &worldId,
     const std::string &mapFile, const DecorationBillboardSet &decorations, std::string &error, WallFinder wallFinder)
 {
@@ -769,10 +1115,35 @@ bool DecorationModelSet::load(const Engine::AssetFileSystem &assets, const std::
                 error = "invalid decoration model placement: " + name;
                 return false;
             }
-            if (!binding.asset->skins.empty() || !binding.asset->clips.empty())
+            const bool still = binding.swingPeriod <= 0.0f && binding.turnSeconds <= 0.0f && !binding.mountWall;
+            if (!binding.asset->skins.empty())
             {
-                error = "decoration models must be static (no skin or animation): " + name;
+                error = "decoration models must be rigid (no skin; a skinned copy is its animated model): " + name;
                 return false;
+            }
+            // A model with clips moves as a whole (its one rigid mesh node).
+            if (!binding.asset->clips.empty())
+            {
+                if (!still || !rigidMovingNode(binding, error))
+                {
+                    error = "decoration model with clips: " + (still ? error : "needs a still ground binding") + ": "
+                        + name;
+                    return false;
+                }
+                binding.selfAnimated = true;
+            }
+            binding.idleClip = entry["idle"].as<std::string>("");
+            binding.useClips = entry["use_clips"].as<std::vector<std::string>>(std::vector<std::string>{});
+            if (entry["animated"])
+            {
+                const Engine::ModelLoadResult animated = m_assets.load(assets, entry["animated"].as<std::string>());
+                if (!animated || animated.asset->clips.empty() || !still || binding.selfAnimated)
+                {
+                    error = !animated ? animated.error
+                        : "decoration animated model needs clips, a still ground binding and a static model: " + name;
+                    return false;
+                }
+                binding.animatedAsset = animated.asset;
             }
             if (m_bindingBySprite.contains(pDecoration->spriteId))
             {
@@ -823,6 +1194,23 @@ bool DecorationModelSet::load(const Engine::AssetFileSystem &assets, const std::
                 {
                     m_swingingGroups.push_back(uint32_t(added));
                 }
+            }
+            if (m_bindings[index].selfAnimated)
+            {
+                m_selfAnimatedGroups.push_back(index);
+            }
+            if (m_bindings[index].animatedAsset)
+            {
+                m_animatedGroups.push_back(index);
+            }
+            if (!m_bindings[index].useClips.empty())
+            {
+                m_useGroups.push_back(index);
+            }
+            // Its moving parts draw into groups of their own, after the bindings they serve.
+            if (entry["parts"] && !loadParts(assets, entry, name, index, error))
+            {
+                return false;
             }
         }
     }

@@ -102,16 +102,20 @@ private:
 
     const Texture *loadTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &path);
     // A sprite read, decoded, packed and edge-bled without bgfx (safe on any thread); finishAtlas uploads it.
+    // rawTexels keeps the texels as stored, without the transparent-edge bleed, for additive light that ignores the
+    // texture's alpha (EffectSpriteDefinition::additiveTextureAlpha); it is cached apart from the bled atlas.
     struct PreparedAtlas;
     static PreparedAtlas prepareAtlas(
         const EffectResourceLibrary &effectResources,
         const Engine::AssetFileSystem &assetFileSystem,
-        const std::string &spriteResource);
+        const std::string &spriteResource,
+        bool rawTexels = false);
     const SpriteAtlas *finishAtlas(PreparedAtlas &prepared);
     const SpriteAtlas *loadAtlas(
         const EffectResourceLibrary &effectResources,
         const Engine::AssetFileSystem &assetFileSystem,
-        std::string_view spriteResource);
+        std::string_view spriteResource,
+        bool rawTexels);
     void renderRibbons(
         WorldFxRenderResources &resources,
         const EffectSystem &effects,

@@ -115,12 +115,18 @@ public:
         bool weakerOfPhysicalAndFire = false;
         // The radius its damage reaches around the impact when it is not the spell's (Carnage arrows); saved.
         float explosionRadius = 0.0f;
+        // A party shot's damage range, rolled again for each monster its blast reaches, as the original rolls the
+        // shooter's ranged damage for each (Carnage arrows); 0: the blast deals its one damage. Not saved.
+        int blastMinimumDamage = 0;
+        int blastMaximumDamage = 0;
         // A party missile or spell whose damage was a critical hit, for the status line and combat log where it
         // lands; not saved.
         bool critical = false;
         // An event's missile (evt.FireMissile): it passes the party, whose damage the event deals itself, and bursts
         // at its target when its flight time ends unless it strikes something first; saved.
         bool eventMissile = false;
+        // An event missile that strikes the party in its path (EventMissileRequest::strikesParty); not saved.
+        bool eventMissileStrikesParty = false;
         float targetX = 0.0f;
         float targetY = 0.0f;
         float targetZ = 0.0f;
@@ -205,11 +211,15 @@ public:
         bool weakerOfPhysicalAndFire = false;
         // The radius its damage reaches around the impact when it is not the spell's (Carnage arrows); not saved.
         float explosionRadius = 0.0f;
+        // ProjectileState::blastMinimumDamage and blastMaximumDamage.
+        int blastMinimumDamage = 0;
+        int blastMaximumDamage = 0;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
         // An event's missile (ProjectileState::eventMissile), reaching its target in flightSeconds (0: at the
         // object's speed).
         bool eventMissile = false;
+        bool eventMissileStrikesParty = false;
         float flightSeconds = 0.0f;
         bool useActorHitChance = false;
         bool turnBasedPendingAction = false;
@@ -599,6 +609,9 @@ public:
         bool eventSource = false;
         bool targetHostileToParty = false;
         bool targetPartyControlled = false;
+        // The shooting actor is the party's enemy (not looked up for a summon's shot or a target the party does not
+        // control).
+        bool sourceHostileToParty = false;
         bool sourceMonsterKnown = false;
         bool sourceMonsterFriendlyToTarget = false;
     };
@@ -902,6 +915,14 @@ public:
         const std::vector<ProjectileAreaImpactDestructibleFacts> &destructibles);
     ProjectileDirectActorImpact buildProjectileDirectActorImpact(
         const ProjectileState &projectile,
+        const ProjectileDirectActorImpactInput &input) const;
+    // What a party missile's blast deals one monster it reaches, before the monster's resistances. A shot with a
+    // blast damage range (Carnage) rolls it again for the monster and adds what a direct hit on it would (its bonus
+    // against the monster's kind, a Shield's halving), as MM8 deals each monster in the blast the shooter's ranged
+    // damage against it; other blasts deal `blastDamage`.
+    int partyBlastDamageToActor(
+        const ProjectileState &projectile,
+        int blastDamage,
         const ProjectileDirectActorImpactInput &input) const;
     void expireProjectile(
         ProjectileState &projectile,

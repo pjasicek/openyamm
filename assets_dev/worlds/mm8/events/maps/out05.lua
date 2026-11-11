@@ -81,6 +81,10 @@ SetMapMetadata({
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "d18.blv", targetName = "Naga Vault" },
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d44.blv", targetName = "Grand Temple of Eep" },
     },
+    learnedEffect = {
+    [102] = { autonote = 218, effect = "Fire Resistance +2 (Permanent)" },
+    [103] = { autonote = 219, effect = "Accuracy +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},

@@ -3,9 +3,11 @@
 #include "game/rules/CombatRules.h"
 #include "game/rules/maw/MawCombatFormulas.h"
 
+#include <optional>
 #include <random>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -248,13 +250,21 @@ std::pair<double, double> mawRetaliationCoefficients(
     const SpecialItemEnchantTable *pSpecialItemEnchantTable,
     int partyCount);
 
+// `pSpellName`: the spell its Spell Power measures instead of the character's own (mawPowerSpellName).
 MawPowerReport mawPowerReport(
     MawRules &rules,
     const Character &character,
     const ItemTable &itemTable,
     const StandardItemEnchantTable *pStandardItemEnchantTable,
     const SpecialItemEnchantTable *pSpecialItemEnchantTable,
-    int partyCount);
+    int partyCount,
+    const std::string *pSpellName = nullptr);
+// The spell the Spell Power row measures: the first spell of the battle orders, else the quick spell (empty: none).
+const std::string &mawPowerSpellName(const Character &character);
+// The highest known spell of a school MAW rolls the damage of (Incinerate before Fireball, never Torch Light), or
+// nothing: what a school's Spell Power can be measured on when the character's own spell is not of the school.
+std::optional<std::string> mawStrongestSchoolSpell(
+    const MawRules &rules, const Character &character, const std::string &canonicalSchool);
 
 // The dice and flat damage per point a MAW damage spell rolls for the caster (Ascension, Empower Magic, an
 // Elementalist's stacks), or nothing for a spell MAW leaves to the engine.
@@ -275,6 +285,10 @@ MawAttackDelay mawCharacterAttackDelay(
 double mawCharacterArmorImpairment(const Character &character, const ItemTable &itemTable);
 // What the held Fire Aura adds to every blow of this weapon in `wearer`'s hands (tooltipFireAura), or 0 without it.
 int mawFireAuraOnWeapon(
+    const MawRules &rules, const Character &wearer, const ItemDefinition &weapon, const InventoryItem &item);
+// An artifact's on-hit damage range in `wearer`'s hands against a target of no special kind (artifactHitRange), or
+// nothing for a weapon without one.
+std::optional<std::pair<int, int>> mawArtifactHitOnWeapon(
     const MawRules &rules, const Character &wearer, const ItemDefinition &weapon, const InventoryItem &item);
 // A Grandmaster spear blow's stack, in percent of physical damage its target takes from then on, until it dies:
 // (2 + 0.02 s) x the melee speed multiplier, x 1.5 with a halberd (DM:546-570, SkillTooltip.lua:187-197).

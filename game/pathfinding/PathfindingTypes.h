@@ -127,6 +127,9 @@ struct PathPlanRequest
     size_t nodeLimit = 8000;
     uint32_t mapRevision = 0;
     float sourceSnapDistance = 0.0f;
+    // A route may end at any point this close to the target (level), the arrival of a script's walk: a point that the
+    // body cannot reach exactly (closer to a wall than its radius) still has a short route (0: the target itself).
+    float goalDistance = 0.0f;
     bool allowPartialPath = false;
     bool allowDirect = true;
 };
@@ -206,6 +209,8 @@ struct ActorPathState
     float bestWaypointDistance = 0.0f;
     bool waypointProgressObserved = false;
     float targetMovedThreshold = 1024.0f;
+    // Its route was dropped where it stood held short of a waypoint (advanceStalledWaypoint): planned again at once.
+    bool replanHeldRoute = false;
     size_t progressWaypointIndex = 0;
     PathPoint lastSourcePosition;
     uint32_t mapRevision = 0;

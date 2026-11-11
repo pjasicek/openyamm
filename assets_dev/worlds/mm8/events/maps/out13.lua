@@ -87,6 +87,9 @@ SetMapMetadata({
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "d47.blv", targetName = "Old Loeb's Cave" },
     [506] = { kind = "enter_dungeon", source = "opcode", targetMap = "d33.blv", targetName = "Passage Under Regna" },
     },
+    learnedEffect = {
+    [101] = { autonote = 232, effect = "Speed +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {6, 9, 18, 43},

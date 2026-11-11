@@ -54,7 +54,7 @@ TABLE_TEXT_COLUMNS = {
     "house_data.txt": (2, [5, 6, 7, 23]),
     "items.txt": (2, [2, 10, 16]),
     "map_stats.txt": (3, [1]),
-    "monster_data.txt": (2, [1]),
+    "monster_data.txt": (2, [1, 17, 21]),   # name; attack 1 and 2 types (Phys, Ener ...), shown by Identify Monster
     "news_topics_profession.txt": (1, [1]),
     "npc.txt": (2, [1]),
     "npc_greet.txt": (1, [1, 2]),
@@ -619,7 +619,8 @@ def extract_lua_file(template, path, domain):
         if enclosing and re.search(r"Timer|OnLoad|Hook", max(enclosing)[1]):
             continue
         shown.update(index for index, (start, _, _) in enumerate(literals) if start == match.end())
-    for match in re.finditer(r"\b(?:targetName|title|hint|destinationName|completionText)\s*=\s*(?=[\"'])", text):
+    named_text = r"\b(?:targetName|title|hint|destinationName|completionText|effect)\s*=\s*(?=[\"'])"
+    for match in re.finditer(named_text, text):
         shown.update(index for index, (start, _, _) in enumerate(literals) if start == match.end())
 
     # Literals joined only with each other ("A long " .. "sentence") are one text: the game receives it whole.
@@ -715,7 +716,7 @@ def extract_patch(template, path, table, domain="engine"):
 # A world's own tables (worlds/<id>/data_tables), by header name: the row holding these names is the header.
 WORLD_TABLE_TEXT_COLUMNS = {
     "items.txt": {"Name", "Not identified name", "Notes"},
-    "monster_data.txt": {"Name"},
+    "monster_data.txt": {"Name", "Type"},
     "decoration_data.txt": {"Hint"},
     "readable_items.txt": {"message text", "Item Name"},
     "english/quests_overlay.txt": {"Quest Note Text"},
@@ -1253,6 +1254,10 @@ def cmd_check(arguments):
 # ----------------------------------------------------------------------------------------------------------------------
 # Import
 
+def _machine_draft(entry):
+    return any(line.startswith(MACHINE_MARK) for line in entry.translator)
+
+
 class Imported:
     def __init__(self, language, replace=False):
         self.language = language
@@ -1342,24 +1347,26 @@ class Imported:
                 added[domains.get(english, PENDING_DOMAIN)].append(entry)
                 entries = [entry]
             for entry in entries:
-                if entry.translated() and not (self.replace and entry.msgstr[0] != choice):
+                # A machine draft gives way to a translator's file (import po) and loses its review mark.
+                draft = self.identical and _machine_draft(entry)
+                if entry.translated() and not draft and not (self.replace and entry.msgstr[0] != choice):
                     if entry.msgstr[0] != choice:
                         self.review.append(f"kept the existing translation of {english[:80]!r}: "
                                            f"{entry.msgstr[0]!r}, not {choice!r}")
                     continue
                 entry.msgstr = [choice]
                 entry.flags.discard("fuzzy")
-                entry.translator = [line for line in entry.translator if not line.startswith("imported")] + \
-                                   [f"imported from {label}"]
+                entry.translator = [line for line in entry.translator
+                                    if not line.startswith(("imported", MACHINE_MARK))] + [f"imported from {label}"]
                 written += 1
         for (context, english), forms in sorted(self.plurals.items()):
             for entry in existing.get((context, english), []):
-                if entry.translated() and not self.replace:
+                if entry.translated() and not self.replace and not _machine_draft(entry):
                     continue
                 entry.msgstr = forms
                 entry.flags.discard("fuzzy")
-                entry.translator = [line for line in entry.translator if not line.startswith("imported")] + \
-                                   [f"imported from {label}"]
+                entry.translator = [line for line in entry.translator
+                                    if not line.startswith(("imported", MACHINE_MARK))] + [f"imported from {label}"]
                 written += 1
         for domain, entries in added.items():
             header, current = files.get(domain, ("", []))

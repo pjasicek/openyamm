@@ -7,13 +7,15 @@
 
 namespace OpenYAMM::Game
 {
-std::vector<std::string> buildCurrentQuestTexts(const JournalQuestTable &questTable, const Party &party)
+std::vector<std::string> buildCurrentQuestTexts(const JournalQuestTable &questTable, const Party &party,
+    std::string_view owner)
 {
     std::vector<std::string> questTexts;
 
     for (const JournalQuestEntry &entry : questTable.entries())
     {
-        if (questTable.isVisible(entry, party))
+        if ((owner.empty() || entry.owner == owner || (owner == "Shared" && entry.owner.empty()))
+            && questTable.isVisible(entry, party))
         {
             // Shown in the journal: the interface language's text of quests.txt.
             questTexts.push_back(Engine::localize(entry.text));

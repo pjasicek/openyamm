@@ -62,6 +62,23 @@ KEY_KINDS = {
     "playanimsound": "play", "speakanimsound": "speak", "playsoundfx": "fx", "playanimfx": "fx",
     "playdeathsound": "death", "footstep": "footstep", "flap": "flap",
 }
+# Camera shake keys (cshell.dll 0x1005b16d dispatch -> 0x100ab070): radius, amplitude at the radius and at the model,
+# seconds at full strength and decay per second (MM9 units). MM9's amplitude is edge + (near - edge)(1 - d / radius),
+# none beyond the radius. As the converters' EarthQuakes (devdocs/mm9_rework/MM9_CUTSCENES.md): our intensity is the
+# amplitude / 12 (the client's clamp), our seconds the full seconds + amplitude / decay.
+EQ_KEYS = {
+    "bigeq": (6000.0, 1.0, 6.0, 1.3, 10.0),
+    "smalleq": (1200.0, 1.0, 4.0, 0.4, 20.0),
+    "smallereq": (900.0, 0.5, 2.0, 0.25, 30.0),
+}
+
+
+def eq_shake(command: str) -> dict:
+    radius, edge, near, full, decay = EQ_KEYS[command]
+    return {"near": round(near / 12.0, 3), "edge": round(edge / 12.0, 3), "seconds": round(full + near / decay, 3),
+            "radius": round(radius * MM9_TO_OPENYAMM_COORDINATE_SCALE, 1)}
+
+
 # The footstep files precached per FootSound (object.lto 0x10008221: indices 0-4; the files start at 1).
 MAX_FOOTSTEPS = 4
 
@@ -387,6 +404,7 @@ class ClipEvent:
     sounds: tuple[str, ...] = ()
     script: ScriptSound | None = None
     missing: str = ""      # the file MM9 names, which it does not ship (silent in MM9 too)
+    shake: dict | None = None   # a camera shake (EQ_KEYS)
 
 
 @dataclass
@@ -413,6 +431,9 @@ def animation_events(animation: SourceAnimation, row: SoundRow, available: set[s
     for seconds, command in animation.keys:
         at = round(min(offset + seconds * scale, clip_seconds), 3)
         kind = KEY_KINDS.get(command)
+        if command in EQ_KEYS:
+            events.append(ClipEvent(at, "shake", shake=eq_shake(command)))
+            continue
         if kind == "footstep":
             if footsteps:
                 events.append(ClipEvent(at, kind))
@@ -560,6 +581,9 @@ def event_document(event: ClipEvent) -> dict:
     if event.kind == "footstep":
         document["footstep"] = True
         return document
+    if event.kind == "shake":
+        document["shake"] = dict(event.shake)
+        return document
     if len(event.sounds) == 1:
         document["sound"] = event.sounds[0]
     else:
@@ -595,9 +619,9 @@ def write_actor_sounds(path: Path, bindings: list[tuple[SoundRow, BindingSounds]
             entry["footstep_radius"] = round(row.foot_radius * MM9_TO_OPENYAMM_COORDINATE_SCALE, 1)
             entry["footsteps"] = list(sounds.footsteps)
         entry["clips"] = {
-            clip: [event_document(event) for event in events if event.sounds or event.kind == "footstep"]
+            clip: [event_document(event) for event in events if event.sounds or event.kind in ("footstep", "shake")]
             for clip, events in sounds.clips.items()
-            if any(event.sounds or event.kind == "footstep" for event in events)
+            if any(event.sounds or event.kind in ("footstep", "shake") for event in events)
         }
         actors.append(entry)
     header = (

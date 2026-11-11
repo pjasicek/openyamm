@@ -151,6 +151,7 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
 
         manifest.partyDeath.directionYawUnits = deathNode["yaw"] ? deathNode["yaw"].as<int>() : 0;
         manifest.partyDeath.movie = scalarStringOrDefault(deathNode, "movie", {});
+        manifest.partyDeath.keepGold = deathNode["keepGold"] && deathNode["keepGold"].as<bool>();
 
         if (const YAML::Node whenNode = deathNode["when"])
         {
@@ -183,6 +184,16 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
             manifest.partyDeath.otherwiseMovie = scalarStringOrDefault(otherwiseNode, "movie", {});
         }
     }
+
+    const std::string autosave = scalarStringOrDefault(root, "autosave", "departure");
+
+    if (autosave != "departure" && autosave != "arrival")
+    {
+        errorMessage = "world.yml autosave must be departure or arrival";
+        return false;
+    }
+
+    manifest.autosaveOnArrival = autosave == "arrival";
 
     const YAML::Node qbitsNode = root["qbits"];
     if (qbitsNode && qbitsNode.IsMap())
@@ -726,6 +737,26 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
             }
 
             manifest.openAirMaps.push_back(toLowerCopy(mapNode.as<std::string>()));
+        }
+    }
+
+    if (const YAML::Node noTeleportNode = root["noTeleportMaps"])
+    {
+        if (!noTeleportNode.IsSequence())
+        {
+            errorMessage = "world.yml noTeleportMaps must be a list of map file names";
+            return false;
+        }
+
+        for (const YAML::Node &mapNode : noTeleportNode)
+        {
+            if (!mapNode.IsScalar() || mapNode.as<std::string>().empty())
+            {
+                errorMessage = "world.yml noTeleportMaps must be a list of map file names";
+                return false;
+            }
+
+            manifest.noTeleportMaps.push_back(toLowerCopy(mapNode.as<std::string>()));
         }
     }
 

@@ -361,3 +361,16 @@ talked to, both hidden after a load with 107.
 the party. Checked headless (the click turns him -19 degrees to the party and plays `bow`). `scenario_scripted.yml`
 fails at its Thorolf step (step 80: Forad's dialogue 2 is the last started, not Thorolf's 378) with the Lua before this
 change too: an older failure, not from the bow.
+
+## Forad talks once (2026-11-11)
+
+`scenario_scripted.yml`'s Thorolf step failed because Forad's approach talk fired again: the map loaded with the party
+beside the hostile Forad, his dialogue opened by itself a second time and the open dialogue held the world still, so
+Thorolf never ran over (his `evt.MoveActorTo` stayed pending). In MM9, `Forad.scr :Talk` and `:OnUse` set `bTalking`,
+which only `:Forad` (the close without key 104) clears, and `:OnTarget` exits while it is set: after the battle's talk
+he never talks by himself again, on later visits too (MM9 keeps a script's variables in the save). `citylua.py` now
+sets the map variable `ForadTalked` in his dialogue's close with 104 and arms his approach talk only without it (the
+shared approach talks stay once per visit: Thorolf's `:OnRude` clears his `bTalking`). Map Lua only (`convert.py
+--scratch`: the runtime Lua differs by these lines; installed into `assets_dev` and the review root);
+`scenario_scripted.yml` passes.
+

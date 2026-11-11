@@ -33,6 +33,7 @@ class MergedBolsterMonsterTable;
 struct MapStatsEntry;
 struct WorldAmbientSound;
 struct GameplayMonsterSpawnRequest;
+struct MapDeltaHeldItem;
 struct MapKillProgress;
 struct GameplayMinimapState;
 struct GameplayMinimapLineState;
@@ -215,6 +216,10 @@ struct GameplayRuntimeActorState
     // Its 3D model's scale against its binding's (scene draw_scale); when set it replaces bodyHeight's ratio to the
     // descriptor's height. 0: none.
     float drawScale = 0.0f;
+    // The items it holds (MapDeltaActor::heldItems), owned by the world runtime for the frame; null or empty: none.
+    // heldItemsHidden: a routine put them down for now (Mm9AiRoutineStep hide_items).
+    const std::vector<MapDeltaHeldItem> *pHeldItems = nullptr;
+    bool heldItemsHidden = false;
     bool isDead = false;
     bool isInvisible = false;
     bool hostileToParty = false;
@@ -650,6 +655,9 @@ struct GameplayPartyAttackProjectileRequest
     bool weakerOfPhysicalAndFire = false;
     // The radius the missile's damage reaches around its impact (Carnage arrows); 0 strikes only what it hits.
     float explosionRadius = 0.0f;
+    // The shot's damage range, rolled again for each monster its blast reaches (Carnage arrows); 0: its one damage.
+    int blastMinimumDamage = 0;
+    int blastMaximumDamage = 0;
     GameplayWorldPoint source = {};
     GameplayWorldPoint target = {};
     bool turnBasedPendingAction = false;
@@ -736,6 +744,10 @@ public:
         return false;
     }
     virtual bool allowsLloydsBeacon() const
+    {
+        return true;
+    }
+    virtual bool allowsTownPortal() const
     {
         return true;
     }
@@ -926,6 +938,10 @@ public:
         return false;
     }
     virtual const std::optional<ScriptedEventProgram> *globalEventProgram() const = 0;
+    virtual const std::optional<ScriptedEventProgram> *localEventProgram() const
+    {
+        return nullptr;
+    }
     virtual const MapDeltaData *mapDeltaData() const
     {
         return nullptr;

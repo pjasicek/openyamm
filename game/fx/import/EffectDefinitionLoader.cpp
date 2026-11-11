@@ -244,7 +244,9 @@ bool parseEmitter(const YAML::Node &node, EffectSpriteEmitterDefinition &emitter
         !readOptional(node, "stretch_u", emitter.stretchU, error) ||
         !readOptional(node, "stretch_v", emitter.stretchV, error) ||
         !readOptional(node, "blend", blendMode, error) ||
+        !readOptional(node, "additive_texture_alpha", emitter.additiveTextureAlpha, error) ||
         !readOptional(node, "particle_space", particleSpace, error) ||
+        !readOptional(node, "body_anchor", emitter.bodyAnchor, error) ||
         !parseSpriteOrientation(node, emitter.alignment, emitter.planeRight, emitter.planeUp, error) ||
         !parseLink(node, emitter.link, error) ||
         !parseColorKeys(node["color_keys"], emitter.colorKeys, error) ||
@@ -320,6 +322,7 @@ bool parseSprite(const YAML::Node &node, EffectSpriteDefinition &sprite, std::st
         !readOptional(node, "stretch_u", sprite.stretchU, error) ||
         !readOptional(node, "stretch_v", sprite.stretchV, error) ||
         !readOptional(node, "blend", blendMode, error) ||
+        !readOptional(node, "additive_texture_alpha", sprite.additiveTextureAlpha, error) ||
         !parseSpriteOrientation(node, sprite.alignment, sprite.planeRight, sprite.planeUp, error) ||
         !parseLink(node, sprite.link, error) ||
         !parseColorKeys(node["color_keys"], sprite.colorKeys, error) ||

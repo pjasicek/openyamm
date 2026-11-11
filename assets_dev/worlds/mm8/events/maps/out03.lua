@@ -116,6 +116,10 @@ SetMapMetadata({
     [503] = { kind = "enter_dungeon", source = "opcode", targetMap = "d41.blv", targetName = "Dark Dwarf Compound" },
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "d11.blv", targetName = "Wasp Nest" },
     },
+    learnedEffect = {
+    [101] = { autonote = 212, effect = "Personality +25 (Temporary)" },
+    [102] = { autonote = 213, effect = "Might +2 (Permanent)" },
+    },
     textureNames = {},
     spriteNames = {},
     castSpellIds = {},

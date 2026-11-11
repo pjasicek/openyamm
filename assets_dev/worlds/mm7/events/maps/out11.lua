@@ -70,6 +70,9 @@ SetMapMetadata({
     [504] = { kind = "enter_dungeon", source = "opcode", targetMap = "mdr01.blv", targetName = "Barrow X" },
     [505] = { kind = "enter_dungeon", source = "opcode", targetMap = "mdk01.blv", targetName = "Barrow VII" },
     },
+    learnedEffect = {
+    [321] = { autonote = 282, effect = "+25 Fire Resistance (Temporary)" },
+    },
     textureNames = {},
     spriteNames = {"0", "7tree13", "7tree14", "7tree15", "7tree16", "7tree17", "7tree18", "7tree22", "7tree24", "7tree30", "tree37"},
     castSpellIds = {},

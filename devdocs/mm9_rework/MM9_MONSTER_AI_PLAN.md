@@ -572,7 +572,11 @@ townsfolk do.
   hates every AI: the generator writes `mm9_dragon` (row 212) hostile to `mm9_monsters` and `mm9_guards` (and the
   guards to him) in `worlds/mm9/relations.yml`; MM9's IsFriend asks both sides, so the monsters fight him back. No 30
   s give-up, no alerts (Dragon.scr includes no AICommon.inc). The trigger, the mutant spawns and the reward stay the
-  map's (`dragonstadium.lua`).
+  map's (`dragonstadium.lua`). He never moves (Dragon.scr has no move command; the map places him `immobile`), and a
+  turret is rooted (2026-11-11): his row's Fly Y gave him the shared flyer climb, which lifted an arena King placed
+  free 1 800 units toward the Winged Mutant he held and left him there once he held the party (beyond his sight from
+  up there, so it was never offered and he lost it). No MM9 turret climbs or sinks toward its target now. A flier
+  without a target still holds its height, as BaseFly.inc's ClearTarget only starts its wander.
 - **Njam** (`njam.lua`). `njam1000.scr` (SpawnNjam's spawns) and `njamtaunt.scr` (the placement the 1000 Terrors
   converter moves to the spawn markers): he targets the party at once, physical blows do nothing, and once his hit
   points fall below the threshold rolled at start (1 500-4 500) he vanishes (the test runs in ShouldRunAway: every 0.2

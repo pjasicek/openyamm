@@ -1484,9 +1484,10 @@ void renumberSavedLegacyCampFireDecorVars(GameSession &session, const MapAssetIn
     }
 }
 
-// A saved indoor map state from before the MM9 placement profiles (save version 149): each placed actor marked
-// fromScene takes its profile from the map's scene actor of the same index, when that one is the same placement
-// (source object and script).
+// A saved indoor map state from before the MM9 placement profiles (save version 149), idle clips (173) or routines
+// (174): each placed actor marked fromScene takes its profile, idle clip and routines from the map's scene actor of
+// the same index, when that one is
+// the same placement (source object and script); otherwise it keeps what it has (a save before 149 has no profile).
 void refreshSavedLegacyMm9PlacementProfiles(GameSession &session, const MapAssetInfo &mapAssetInfo)
 {
     if (!mapAssetInfo.indoorMapDeltaData)
@@ -1524,7 +1525,6 @@ void refreshSavedLegacyMm9PlacementProfiles(GameSession &session, const MapAsset
             continue;
         }
 
-        saved.mm9Ai->settings.profile = {};
         // Past the scene's actors stand the pack reserve's (MapDeltaData::packReserve), in its order.
         const std::vector<MapDeltaPackReserveActor> &reserve = mapAssetInfo.indoorMapDeltaData->packReserve;
         const MapDeltaActor *pScene = index < sceneActors.size() ? &sceneActors[index]
@@ -1535,6 +1535,8 @@ void refreshSavedLegacyMm9PlacementProfiles(GameSession &session, const MapAsset
             && pScene->mm9Ai->script == saved.mm9Ai->script)
         {
             saved.mm9Ai->settings.profile = pScene->mm9Ai->settings.profile;
+            saved.mm9Ai->settings.idleClip = pScene->mm9Ai->settings.idleClip;
+            saved.mm9Ai->routines = pScene->mm9Ai->routines;
         }
     }
 }
@@ -4374,6 +4376,7 @@ void GameApplication::registerDebugConsoleCommands()
         .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly|boss]"
             " | actor kill <radius> | actor remaining"
             " | actor behavior [<index> <behavior-id>] | actor damage <index|last> <amount> [tier]"
+            " | actor immobile <index|last> on|off"
             " | actor shield <index|last> [points] | actor blink <index|last> | actor charge <index|last>"
             " | actor frenzy <index|last>",
         .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
@@ -4542,6 +4545,27 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(true, "Shield "
                     + std::to_string(int(pShields->shieldPoints(size_t(*parsedIndex)))) + " (was "
                     + std::to_string(int(std::lround(state.shield.fraction * 100.0f))) + "%)");
+            }
+            if (context.args.size() == 3 && toLowerCopy(context.args[0]) == "immobile")
+            {
+                // The placement's immobile flag (evt.SetActorImmobile): the actor keeps its spot, e.g. a creature
+                // posed for a camera.
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+                ISceneEventContext *pScene = pWorld != nullptr ? pWorld->sceneEventContext() : nullptr;
+                if (pScene == nullptr || pWorld->mapActorCount() == 0)
+                {
+                    return commandResult(false, "No actors on the current map.");
+                }
+                const std::optional<int32_t> parsedIndex = toLowerCopy(context.args[1]) == "last"
+                    ? std::optional<int32_t>(int32_t(pWorld->mapActorCount() - 1))
+                    : parseInt32Argument(context.args[1]);
+                const std::string state = toLowerCopy(context.args[2]);
+                if (!parsedIndex || *parsedIndex < 0 || (state != "on" && state != "off")
+                    || !pScene->setMapActorImmobile(size_t(*parsedIndex), state == "on"))
+                {
+                    return commandResult(false, "Usage: actor immobile <index|last> on|off");
+                }
+                return commandResult(true, "Actor " + std::to_string(*parsedIndex) + " immobile " + state + ".");
             }
             if ((context.args.size() == 3 || context.args.size() == 4) && toLowerCopy(context.args[0]) == "damage")
             {
@@ -5496,7 +5520,7 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "cinematic",
         .description = "Play, skip or list the map's cinematics, or shake the camera.",
-        .usage = "cinematic list | play <id> [doneEventId] | skip | shake <intensity> <seconds>",
+        .usage = "cinematic list | play <id> [doneEventId] | load <file> | skip | shake <intensity> <seconds>",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
             const std::string action = context.args.empty() ? "list" : context.args[0];
@@ -5541,6 +5565,41 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(started, started ? "Playing " + context.args[1] : "No such cinematic.");
             }
 
+            // A cinematics file from anywhere (trailer cameras, tests): its cinematics join the map's, replacing those
+            // of the same id, until the map is left.
+            if (action == "load" && context.args.size() >= 2)
+            {
+                std::ifstream file(context.args[1], std::ios::binary);
+                std::stringstream text;
+                text << file.rdbuf();
+
+                if (!file)
+                {
+                    return commandResult(false, "Cannot read " + context.args[1]);
+                }
+
+                std::string error;
+                std::optional<CinematicLibrary> loaded = parseCinematicLibrary(text.str(), error);
+
+                if (!loaded)
+                {
+                    return commandResult(false, context.args[1] + ": " + error);
+                }
+
+                CinematicLibrary library = m_gameSession.mapCinematics().value_or(CinematicLibrary{});
+
+                for (CinematicDefinition &definition : loaded->cinematics)
+                {
+                    std::erase_if(library.cinematics, [&definition](const CinematicDefinition &existing)
+                        { return existing.id == definition.id; });
+                    library.cinematics.push_back(std::move(definition));
+                }
+
+                const size_t count = loaded->cinematics.size();
+                m_gameSession.setMapCinematics(std::move(library));
+                return commandResult(true, "Loaded " + std::to_string(count) + " cinematics from " + context.args[1]);
+            }
+
             if (action == "skip")
             {
                 IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
@@ -5570,9 +5629,48 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false,
-                "Usage: cinematic list | play <id> [doneEventId] | skip | shake <intensity> <seconds>");
+                "Usage: cinematic list | play <id> [doneEventId] | load <file> | skip | shake <intensity> <seconds>");
         },
         .readOnlyWith = readOnlyConsoleActions(true, {"list"})});
+
+    m_debugConsole.registerCommand({
+        .name = "video",
+        .description = "Record the frames into a video file through ffmpeg, on a fixed frame step (no sound).",
+        .usage = "video start <path.mp4> [fps] | stop | status",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::string action = context.args.empty() ? "status" : toLowerCopy(context.args[0]);
+
+            if (action == "start" && context.args.size() >= 2)
+            {
+                const std::optional<int32_t> fps =
+                    context.args.size() >= 3 ? parseInt32Argument(context.args[2]) : std::optional<int32_t>(60);
+                std::string error;
+
+                if (!fps || *fps < 1 || !m_videoCapture.start(context.args[1], uint32_t(*fps), error))
+                {
+                    return commandResult(false, fps ? error : "Invalid frames per second.");
+                }
+
+                m_engineApplication.setFixedFrameSeconds(1.0f / float(*fps));
+                return commandResult(true, m_videoCapture.status());
+            }
+
+            if (action == "stop")
+            {
+                m_videoCapture.stop();
+                m_engineApplication.setFixedFrameSeconds(0.0f);
+                return commandResult(true, m_videoCapture.status());
+            }
+
+            if (action == "status")
+            {
+                return commandResult(true, m_videoCapture.status());
+            }
+
+            return commandResult(false, "Usage: video start <path.mp4> [fps] | stop | status");
+        },
+        .readOnlyWith = readOnlyConsoleActions(true, {"start", "stop", "status"})});
 
     m_debugConsole.registerCommand({
         .name = "event",
@@ -5613,6 +5711,45 @@ void GameApplication::registerDebugConsoleCommands()
                 &m_pMapSceneRuntime->party(),
                 m_pMapSceneRuntime->sceneEventContext());
             return commandResult(executed, executed ? "Executed event " + std::to_string(*eventId) : "Event failed.");
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "lua",
+        .description = "Run a line of Lua as an event of the current map (event support loaded).",
+        .usage = "lua <code>",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (context.args.empty())
+            {
+                return commandResult(false, "Usage: lua <code>");
+            }
+            if (m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->eventRuntimeState() == nullptr
+                || m_pAssetFileSystem == nullptr)
+            {
+                return commandResult(false, "No active map runtime.");
+            }
+            std::string source;
+            for (const std::string &arg : context.args)
+            {
+                source += (source.empty() ? "" : " ") + arg;
+            }
+            // The code as one global event after the event support every map script has (as a scenario's lua_event).
+            constexpr uint16_t ConsoleLuaEventId = 65535;
+            const std::string text = m_pAssetFileSystem->readTextFile("scripts/common/event_support.lua").value_or("")
+                + "\n\nRegisterGlobalEvent(" + std::to_string(ConsoleLuaEventId) + ", \"console\", function()\n"
+                + source + "\nend)\n";
+            std::string error;
+            const std::optional<ScriptedEventProgram> program =
+                ScriptedEventProgram::loadFromLuaText(text, "@console_lua", ScriptedEventScope::Global, error);
+            if (!program)
+            {
+                return commandResult(false, "Lua does not load: " + error);
+            }
+            EventRuntime eventRuntime(&m_gameDataLoader.getHouseTable(), &m_gameDataLoader.getNpcDialogTable());
+            const bool executed = eventRuntime.executeEventById(std::nullopt, program, ConsoleLuaEventId,
+                *m_pMapSceneRuntime->eventRuntimeState(), &m_pMapSceneRuntime->party(),
+                m_pMapSceneRuntime->sceneEventContext());
+            return commandResult(executed, executed ? "Lua ran." : "Lua failed (see the log).");
         }});
 
     m_debugConsole.registerCommand({
@@ -5862,7 +5999,7 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "ledger",
-        .description = "Inspect or give the party's Ledgers of Teachers (1 Jadame, 2 Antagarich, 3 Enroth).",
+        .description = "Inspect or give the party's Ledgers of Teachers (1 Jadame, 2 Antagarich, 3 Enroth, 5 Chedian).",
         .usage = "ledger get | ledger set <continent|all>",
         .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
@@ -6588,8 +6725,8 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "skill",
-        .description = "Grant a skill or tech points to the active character.",
-        .usage = "skill set <skill-name> <level> [B|E|M|G] | skill techpoints <amount>",
+        .description = "Grant a skill, skill points or tech points to the active character.",
+        .usage = "skill set <skill-name> <level> [B|E|M|G] | skill points <amount> | skill techpoints <amount>",
         .callback = [activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
             Party *pParty = activeParty();
@@ -6602,7 +6739,7 @@ void GameApplication::registerDebugConsoleCommands()
 
             const std::string action = context.args.empty() ? std::string() : toLowerCopy(context.args[0]);
 
-            if (action == "techpoints" && context.args.size() == 2)
+            if ((action == "techpoints" || action == "points") && context.args.size() == 2)
             {
                 const std::optional<int32_t> amount = parseInt32Argument(context.args[1]);
 
@@ -6611,13 +6748,15 @@ void GameApplication::registerDebugConsoleCommands()
                     return commandResult(false, "Invalid amount.");
                 }
 
-                pMember->techPoints = static_cast<uint32_t>(*amount);
-                return commandResult(true, pMember->name + " techpoints=" + std::to_string(pMember->techPoints));
+                uint32_t &points = action == "points" ? pMember->skillPoints : pMember->techPoints;
+                points = static_cast<uint32_t>(*amount);
+                return commandResult(true, pMember->name + " " + action + "=" + std::to_string(points));
             }
 
             if (action != "set" || context.args.size() < 3)
             {
-                return commandResult(false, "Usage: skill set <skill-name> <level> [B|E|M|G] | skill techpoints <n>");
+                return commandResult(false,
+                    "Usage: skill set <skill-name> <level> [B|E|M|G] | skill points <n> | skill techpoints <n>");
             }
 
             const std::optional<uint32_t> skillId = skillIdForSkillName(context.args[1]);
@@ -8972,6 +9111,10 @@ bool GameApplication::syncActorModels(IGameplayWorldRuntime &world, float deltaS
     const std::optional<size_t> dialogueActorIndex = dialog.isActive && dialog.sourceActorIndex
         ? std::optional<size_t>(*dialog.sourceActorIndex) : std::nullopt;
     worldFx.syncActorModels(world, deltaSeconds, dialogueActorIndex, liveDeltaSeconds);
+    for (const auto &[intensity, seconds] : worldFx.takeActorCameraShakes())
+    {
+        m_gameSession.cinematicRuntime().shake().start(intensity, seconds);
+    }
     return true;
 }
 
@@ -11448,8 +11591,15 @@ void GameApplication::updateDoubleSpeedInput()
         m_doubleSpeedActive ? Engine::tr("Fast mode (2x)") : Engine::tr("Normal mode (1x)"));
 }
 
-float GameApplication::gameplayDeltaSeconds(float deltaSeconds) const
+float GameApplication::gameplaySpeed() const
 {
+    // A cinematic that takes the view plays at its authored pace: its voices and sounds are real-time audio, so fast
+    // mode would run its cues, clips and camera ahead of them (the next voice line starting over the last one).
+    if (m_gameSession.cinematicRuntime().takesOverView())
+    {
+        return 1.0f;
+    }
+
     float speed = m_doubleSpeedActive ? 2.0f : 1.0f;
 
     switch (m_gameSession.turnBasedCombatRuntime().speedPhase())
@@ -11466,7 +11616,7 @@ float GameApplication::gameplayDeltaSeconds(float deltaSeconds) const
             break;
     }
 
-    return deltaSeconds * speed;
+    return speed;
 }
 
 void GameApplication::updateGameplayTraceSnapshotHotkeys()
@@ -13124,8 +13274,9 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         mobileInspectControlEnabled,
         mobileLongPressInspectEnabled,
         touchControls);
-    m_menuInputTour.update(m_settings.menuInputTourPath, m_gameInputSystem.frame(), m_screenManager.activeScreen(),
-                           m_screenshotCaptureService, m_settings.keyboard.bindings,
+    m_menuInputTourClockNanoseconds += uint64_t(double(realDeltaSeconds) * 1.0e9);
+    m_menuInputTour.update(m_settings.menuInputTourPath, m_menuInputTourClockNanoseconds, m_gameInputSystem.frame(),
+                           m_screenManager.activeScreen(), m_screenshotCaptureService, m_settings.keyboard.bindings,
                            [this](const std::string &line)
                            {
                                runTourConsoleLine(line, "Menu tour console: ");
@@ -13315,7 +13466,9 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     }
 
     recordFrameDiagnostics(m_framePerformanceDiagnostics.pendingStateNanoseconds, pendingStateBeginTickCount);
-    const float scaledGameplayDeltaSeconds = gameplayDeltaSeconds(deltaSeconds);
+    const float gameSpeed = gameplaySpeed();
+    const float scaledGameplayDeltaSeconds = deltaSeconds * gameSpeed;
+    m_gameSession.setGameSpeed(gameSpeed);
 
     const bool screenshotTourActive = m_screenshotTourStage == ScreenshotTourStage::Settling
         || m_screenshotTourStage == ScreenshotTourStage::WaitingForCapture;
@@ -13387,9 +13540,11 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         worldFx.syncCorpseSatchels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         worldFx.syncShieldDomes(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         worldFx.syncBeams(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
+        worldFx.syncScriptedActorEffects(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         if (EventRuntimeState *pEvents = pWorldRuntime->eventRuntimeState())
         {
             advanceDecorationAims(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
+            advanceDecorationClips(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
             advanceActorPresentations(*pEvents, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         }
         updateMusicArea(pWorldRuntime->partyX(), pWorldRuntime->partyY());
@@ -13585,6 +13740,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 void GameApplication::updateScreenshotCaptureFrame()
 {
     m_screenshotCaptureService.update();
+    m_videoCapture.update();
 
     if (m_pMapSceneRuntime == nullptr || m_loadingOverlayActive)
     {
@@ -14150,11 +14306,13 @@ bool GameApplication::processPendingMapMove()
             && sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()));
 
     // Like the original, autosave on the map being left, before its leave events run. Travel that already spent
-    // its days, food or fare autosaves on arrival instead, so the save never holds a paid trip not yet taken.
+    // its days, food or fare autosaves on arrival instead, so the save never holds a paid trip not yet taken, and so
+    // does every move in a world that autosaves on arrival (MM9).
     if (!isSameMapTeleport
         && !autosaveRequested
         && !pendingMapMove->travelTimeApplied
-        && requestAutosaveBeforeMapMove())
+        && !worldAutosavesOnArrival(m_gameSession.currentMapFileName())
+        && requestAutosave())
     {
         m_mapMoveAwaitingAutosave = std::move(pendingMapMove);
         return false;
@@ -14343,11 +14501,21 @@ bool GameApplication::processPendingMapMove()
             pWorldRuntime->requestTravelAutosave();
         }
     }
+    else if (worldAutosavesOnArrival(targetMapName))
+    {
+        requestAutosave();
+    }
 
     return true;
 }
 
-bool GameApplication::requestAutosaveBeforeMapMove()
+bool GameApplication::worldAutosavesOnArrival(const std::string &mapFileName) const
+{
+    const MapStatsEntry *pMap = m_gameDataLoader.getMapStats().findByFileName(toLowerCopy(mapFileName));
+    return m_activeWorldManifest.autosaveOnArrival && pMap != nullptr && pMap->worldId == m_activeWorldManifest.id;
+}
+
+bool GameApplication::requestAutosave()
 {
     // The preview needs a rendered frame; the Noop renderer (headless runs) never produces one.
     if (bgfx::getRendererType() == bgfx::RendererType::Noop)
@@ -15073,7 +15241,9 @@ void GameApplication::applyPartyDefeatConsequences()
     }
 
     Party &party = m_pMapSceneRuntime->party();
-    const int carriedGold = party.gold();
+    // world.yml partyDeath keepGold: MM9's wake takes no gold (cshell.dll 0x100a4e50 only heals the party).
+    const bool keepGold = worldPartyDeathApplies() && m_activeWorldManifest.partyDeath.keepGold;
+    const int carriedGold = keepGold ? 0 : party.gold();
 
     if (carriedGold > 0)
     {
@@ -15125,6 +15295,13 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     synchronizeSessionFromRuntime();
     renderLoadingOverlayProgress(95);
     completeLoadingOverlay();
+
+    // MM9 autosaves after every load, the wake included (cshell.dll 0x100a4b89).
+    if (worldAutosavesOnArrival(*m_pendingPartyDefeatRespawnMapFileName))
+    {
+        requestAutosave();
+    }
+
     return true;
 }
 

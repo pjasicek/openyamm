@@ -38,6 +38,9 @@ enum class CinematicEasing : uint8_t
 {
     Linear,
     Smooth,     // smoothstep between keys
+    // One curve through all the keys (Catmull-Rom by their times): the camera glides through them at a continuous
+    // speed, at rest at the first and last key and at a key repeated (a hold).
+    Spline,
 };
 
 struct CinematicShot

@@ -218,7 +218,7 @@ float IndoorOpenSkyWeather::rainRings() const
 
 void IndoorOpenSkyWeather::render(uint16_t viewId, const std::array<float, 3> &camera, float yawRadians,
     const float *pProjection, uint16_t viewHeight, const SkyFrameState *pSky, WeatherQuality quality,
-    const WeatherGroundQuery &ground, bool covered)
+    const WeatherGroundQuery &ground, bool covered, const std::array<float, 3> *pHaze)
 {
     if (!m_profile || quality == WeatherQuality::Off
         || (m_presentation.rainLevel() <= 0.0f && m_presentation.snowLevel() <= 0.0f
@@ -270,10 +270,20 @@ void IndoorOpenSkyWeather::render(uint16_t viewId, const std::array<float, 3> &c
     }
 
     const float cloudDimming = 1.0f - 0.25f * m_presentation.cloudCover();
+    // In a scene's fog the drops and flakes are seen through its colour, which follows the daylight but not the
+    // cloud that dims the sky's light here, and MM9's fogs are brighter than its sky: lit by the sky alone, snow fell
+    // as dark specks through Frosgard City's grey fog and rain as dark streaks through Sturmford's. They take at least
+    // the light that makes rain as bright as the haze (snow brighter, ash darker).
+    constexpr float HazeLight = 1.3f;
 
-    for (float &channel : light)
+    for (size_t channel = 0; channel < 3; ++channel)
     {
-        channel = channel * cloudDimming + 0.9f * m_presentation.lightningFlash();
+        light[channel] *= cloudDimming;
+        if (pHaze != nullptr)
+        {
+            light[channel] = std::max(light[channel], (*pHaze)[channel] * HazeLight);
+        }
+        light[channel] += 0.9f * m_presentation.lightningFlash();
     }
 
     const WeatherRules &rules = m_profile->weatherRules;

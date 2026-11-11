@@ -20,6 +20,17 @@ namespace OpenYAMM::Game
 // Sounds keyed to the clips of an actor's 3D model (a world's models/actor_sounds.yml, next to its actors.yml). Might
 // and Magic IX keys every creature sound to an animation of its model (devdocs/mm9_rework/MM9_MONSTER_SOUNDS.md): the
 // attack grunt and weapon swish, the wince, the death scream and the body's fall, footsteps, wing flaps, idle chatter.
+// An event may also shake the camera (MM9's BigEQ, SmallEQ and SmallerEQ keys: a giant's step, a dragon landing).
+struct ActorClipSoundShake
+{
+    // Camera shake intensity (CameraShake: 1 a strong quake) at the actor, falling linearly to edgeIntensity at radius
+    // (world units) and none beyond; seconds as CameraShake::start.
+    float intensity = 0.0f;
+    float edgeIntensity = 0.0f;
+    float seconds = 0.0f;
+    float radius = 0.0f;
+};
+
 struct ActorClipSoundEvent
 {
     float atSeconds = 0.0f;
@@ -37,6 +48,8 @@ struct ActorClipSoundEvent
     // Audible radii (world units); negative: the binding's radius (footstep_radius for steps), full within a quarter.
     float innerRadius = -1.0f;
     float outerRadius = -1.0f;
+    // A camera shake with it (radius 0: none). An event may be a shake alone.
+    ActorClipSoundShake shake;
 };
 
 struct ActorClipSounds
@@ -53,10 +66,11 @@ struct ActorClipSounds
 std::shared_ptr<const ActorClipSounds> parseActorClipSounds(
     const YAML::Node &entry, const Engine::ModelAsset &asset, const std::string &descriptor);
 
-// A sound to play at the actor now.
+// A sound to play at the actor now (empty: none), and a camera shake (radius 0: none).
 struct ActorClipSoundCue
 {
     std::string sound;
+    ActorClipSoundShake shake;
     bool voice = false;
     float volume = 1.0f;
     float innerRadius = 0.0f;
