@@ -310,6 +310,7 @@ class GuberlandCity(CityHooks):
         names = read_mm9_npc_names(NPC_NAMES)
         bodies = mm9_bodies()
         out, self.actor, self.objects, self.rude = [], {}, {}, {}
+        self.players = {}           # the Guberland Players (citylua.PLAYERS): DAT name -> scene actor
         for o in source.objects:
             if o["class"] not in build.project.monster_classes:
                 continue
@@ -345,6 +346,8 @@ class GuberlandCity(CityHooks):
                 # relation table may set against the party: they take a peasant family's relations (Hall of the Gods).
                 actor["ally"] = PEACEFUL_ALLY
             self.actor[name], self.objects[name], self.rude[name] = actor["actor_index"], o["index"], rude
+            if name in citylua.PLAYERS:
+                self.players[name] = actor
             out.append(actor)
         self.seat_markel(out)
         return out

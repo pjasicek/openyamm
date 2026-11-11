@@ -130,7 +130,7 @@ Guberland's own:
 - **People (46 actors, all friendly).** The old import's 40 NPC records (names, rows, RUDE ids) with MM9's bodies;
   the three town guards (row 9107, no dialogue), the tavern keeper (NPC141, RUDE 141) and the two half-orc women
   (RUDE 428) the old import left out. They stand where MM9 placed them (MM9's wander rails, the guards' wall patrols
-  and the players' walks are not carried). The old import's "dog0" was an ambient dog sound: not placed.
+  are not carried; the players' show is, below). The old import's "dog0" was an ambient dog sound: not placed.
 - **Walk-in shops** (RUDE rows that open a shop): Siln Threki (weapons, 134) and Skallagrim Hrafnssen (135) in the
   two shops of the smithy block, Trian A'Lyrae (the magic shop, 137), Egil the Booknose (books, 146) and Skarphedinn
   Njalssen (the apothecary, 142) in the apothecary hall; Ottar Gizurssen keeps the bank (140). A click opens the
@@ -167,9 +167,17 @@ Guberland's own:
 | Book.scr, PropAnim.scr, Shopkeeper.scr, Narrator/Abriel/Trislan/Wilam/Ralof/Leffery.scr | cosmetic; see below |
 | WellMMIX (Well0) | MM9's well class (not traced, as Thjorgard): a click answers, no bonus |
 
-**Not carried:** the Guberland Players' show ("The Death of Emperor Trislan", Narrator.scr at 14:30 and 16:30: the
-curtain rises, six actors walk their markers and speak 28 voice lines, then bow; the voices are not imported; the
-actors stand on the stage and talk, and the curtain opens by a click); the blacksmith's and bell sounds (Trigger0/1,
+**The Guberland Players' show** ("The Death of Emperor Trislan", Narrator.scr at 14:30 and 16:30): the curtain
+opens, the 28 lines of THEPLAY.scr play at their speakers (`citylua.play_lines`), and since 2026-11-11 the players act
+it (`citylua.play_cues`, map timer 263, arrival events 270-275): Narrator.scr's and the five actors' walks to their
+markers (`evt.MoveActorTo`, the arrival faces whom MM9 targets), each speaker's conv clip looping while his line
+plays, Abriel's slap of Ralof and Ralof's of Trislan (attack, hit, FleshHit03/04), Trislan's play_death and
+play_getup, the cast lined up facing the hall for the bow (Ralof has no bow clip) and their walk off before the
+curtain closes. MM9 chains these on animation keys and walk arrivals; here they are cues at the same offsets on the
+lines' timeline. A load during a show puts the players back at their places (`playersHome`). Checked headless (walks,
+clips, slaps, death, bows) and in desktop captures (`output/held_items_check/guberlandcity/wide2/`, `close2/`;
+a capture tour must set the time to 14:27 or earlier: the show starts on the minute 14:30 itself). Not carried: the
+blacksmith's and bell sounds (Trigger0/1,
 Bell triggers), the ocean sound (OceanTrigger), MM9's ambient sounds; 9 PerceptionBrushes (door hints); the
 breakable windows; Nurtigan's walk; the sea monster's swim; voices.
 
@@ -248,6 +256,6 @@ None. No shared converter code was changed and no C++ was built. Map-local only:
   cause was the tour's clock (the indoor clock ran during the tour's hold, so a repeated `time:` jumped a day; four
   days without rest killed the party), not the city (`../mm9r_common/CITY_PLAYBOOK.md` "Daylight and fog").
 - **Facade windows** draw black where MM9 shows faint shards (texture alpha under the opaque faces' alpha test).
-- **Not carried:** the Guberland Players' show and its voices, Perception hints, breakable windows, the well's bonus,
+- **Not carried:** Perception hints, breakable windows, the well's bonus,
   MM9's wander rails and the guards' patrols, ambient sounds, the sea monster's swim.
 - **Townsfolk** draw as stand-in peasants until the MM9 town NPC models exist (another session).

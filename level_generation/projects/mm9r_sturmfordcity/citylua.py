@@ -407,8 +407,9 @@ def map_script(hooks, build) -> str:
         "        MM9.giveKey(113)",
         f"        evt.PlaySoundName(\"voices/cinema/ercc01.wav\", {at('RudeProp1')})",
         # :OnBlabber PlayAnim ercc01a, ercc01b, ercc01c, then ercc02 once (:Passout PlayAnim ercc02 DoNothing: he stays
-        # passed out)
-        f"        evt.PlayActorClip({a['RUDEProp1']}, {{\"ercc01a\", \"ercc01b\", \"ercc01c\", \"ercc02\"}}, \"hold\")",
+        # passed out: the townsman's ercc_out loops ercc02's last pose)
+        f"        evt.PlayActorClip({a['RUDEProp1']}, "
+        "{\"ercc01a\", \"ercc01b\", \"ercc01c\", \"ercc02\", \"ercc_out\"}, true)",
         "        set(\"ErccDue\", 1)",
         f"        evt.StartTimer({T_ERCC}, seconds({ERCC_PASSOUT_SECONDS}))",
         "    end",

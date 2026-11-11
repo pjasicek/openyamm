@@ -390,6 +390,15 @@ the final install.
       broken in the roots too): fix the converter, reconvert after the hold.
 
 ## Log
+- 2026-11-11 final reconversion before the release: all 44 maps rebuilt (`level_generation/projects/mm9r_common/
+  rebuild_all.sh`: convert, layout-only lighting base, lightmap transfer, 6 at a time through `lane.sh`; 44 ok),
+  promoted (`output/mm9_rework/promotion_final_20261111/`: the 234 per-map files, tables unchanged, backup there).
+  Before it, both review roots' owned tables (map_stats, transitions, transport, frames, liquids, catalog) reseeded
+  from assets_dev: since `world.yml`'s openAirMaps each root failed to load the other root's maps as BLVs. MAW pack
+  reserves rerun for the 7 maps whose scenes changed. Checks: `check_mm9_map_lua.py` 0, `stale_bakes.py` 0,
+  `mm9_balance.py --check` clean, Android cooks current; 246 of 262 map and MM9 scenarios pass, the 16 others fail
+  the same with the pre-promotion files (the current binary: other sessions' engine work); the main playthrough,
+  the promotion chain (segment 50 once flaky, passes on rerun) and the 16 side quests pass; release scenarios 12/12.
 - 2026-11-05 18:00: phase 1 built (openyamm, unit tests: my areas pass; 3 failures elsewhere: MM9 chest icons under
   the retired icons path, an MM9 sword equip offset, Hesper staged missiles: other sessions' work).
 - 2026-11-05 19:40: engine build with the exit-trigger changes (body touch, `Mm9ExitDisabled<idx>`), unit tests pass.

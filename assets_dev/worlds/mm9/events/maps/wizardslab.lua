@@ -267,8 +267,9 @@ end
 -- cinema is the cinematic summoning (cinematic_scenes), whose steps run the ritual's ticks below (each once,
 -- in order; a skip runs them at once). WizardSummoner.scr (six apprentices, friends of the party):
 -- :ConjureSpell (thunder, its shooter's sparklies and green dots, WizardEffect.scr), 2.5 s later
--- :FinishSpell (the shooter's bugs at SummonLocation) starts the next in the chain 0 -> 6 -> 1 -> 5 -> 2 ->
--- 4 -> the master. WizardMaster.scr (SummoningGuy3): :ConjureSpell (meteor, town portal, sparklies, column
+-- :FinishSpell (the shooter's lightning and bugs at SummonLocation: shoot) starts the next in the chain
+-- 0 -> 6 -> 1 -> 5 -> 2 -> 4 -> the master.
+-- WizardMaster.scr (SummoningGuy3): :ConjureSpell (meteor, town portal, sparklies, column
 -- of fire at SummonLocation), 2.5 s later :Summon spawns a Greater Demon (WizardDemon.scr: enemy of the
 -- sorcerers and the party), elemental blast and paralyze. The apprentices then fight it (AddEnemy
 -- GreaterDemon); one hurt by anything but the party dies at once (:OnDamage -> Die) and sends the master
@@ -280,25 +281,38 @@ end
 -- actor); after the demon is up any hit on an apprentice counts as the demon's (README).
 local SUMMONERS = {46, 52, 47, 51, 48, 50}
 local SUMMONER_OF = {[46] = 1, [52] = 2, [47] = 3, [51] = 4, [48] = 5, [50] = 6}
-local SUMMONER_AT = {{-7455, 14828, 1596}, {-8274, 14828, 1596}, {-7291, 14418, 1596}, {-8438, 14418, 1596}, {-7455, 14008, 1596}, {-8274, 14008, 1596}}
 local SUMMON_AT = {-7864, 14418, 1477}
 local SHOOTER_AT = {{-7455, 14828, 1760}, {-8274, 14828, 1760}, {-7291, 14418, 1760}, {-8438, 14418, 1760}, {-7455, 14008, 1760}, {-8274, 14008, 1760}}   -- their lightning's start
 local MASTER = 49
 local function summonerAlive(k)
     return not evt.CheckMonstersKilled(ActorKillCheck.Group, 21 + k - 1, 0, false)
 end
+-- Apprentice k's :FinishSpell (Trigger hShooter, shoot), run by the next tick (2.5 s after its :ConjureSpell,
+-- as the next caster starts): its shooter (ShooterSummon<k>, ProjectileName Lightning) fires at SummonLocation
+-- (PROJECTILE.txt Lightning: launch chainlight01, explosion Sparks with chainlight03; here an arc and MM9's
+-- Sparks explosion) and WizardEffect.scr :PlayShootEffect plays SPELL_BUGS at SummonLocation. A dead
+-- apprentice's :FinishSpell never comes.
+local function shoot(k, timed)
+    if not summonerAlive(k) then return end
+    local from = SHOOTER_AT[k]
+    evt.Beam("SummonBeam" .. k, "openyamm:fx/arc_beam", from[1], from[2], from[3], SUMMON_AT[1], SUMMON_AT[2], SUMMON_AT[3], 1.0)
+    fx("mm9:explosion_sparks", SUMMON_AT)
+    fx("mm9:bugs", SUMMON_AT)
+    if timed then sound("weapons/chainlight01.wav"); sound("weapons/chainlight03.wav") end
+end
 -- timed: timer 270 runs a summoning an old save left half-way (it plays the sounds the cinematic's cues play
 -- and arms the next tick)
 local function ritualStep(timed)
     local step = var("RitualStep")
+    if step >= 2 and step <= 7 then shoot(step - 1, timed) end
     if step >= 1 and step <= 6 then
         if not summonerAlive(step) then return end   -- MM9: a dead apprentice never starts the next
         if timed then sound("ambient/thunder/thunderlong.wav") end
-        fx("mm9:sparklies", SUMMONER_AT[step])
-        local from = SHOOTER_AT[step]   -- the shooter's lightning (ShooterSummon<k>, Lightning)
-        fx("mm9:greenyeldots", from)   -- WizardEffect.scr :PlayConjureEffect: DoClientFX hMe, SPELL_GREENDOTS
-        fx("mm9:bugs", SUMMON_AT)
-        evt.Beam("SummonBeam" .. step, "openyamm:fx/arc_beam", from[1], from[2], from[3], SUMMON_AT[1], SUMMON_AT[2], SUMMON_AT[3], 2.5)
+        -- WizardEffect.scr :PlayConjureEffect: DoClientFX hCaster (the apprentice), SPELL_SPARKLIES, on its
+        -- body; DoClientFX hMe (the shooter above it), SPELL_GREENDOTS. Its hands' dots are its clips' own DoFX
+        -- keys (fidget2 redyeldots, rattack1 greenyeldots: actors.yml events, played by the cinematic's cues).
+        MM9.actorFx(SUMMONERS[step], "mm9:sparklies")
+        fx("mm9:greenyeldots", SHOOTER_AT[step])
         set("RitualStep", step + 1)
         if timed then arm(270, 2.5) end
     elseif step == 7 then
@@ -313,7 +327,7 @@ local function ritualStep(timed)
         evt.SummonMonstersById({monster = 9242, x = SUMMON_AT[1], y = SUMMON_AT[2], z = SUMMON_AT[3], radius = 32, group = 28, count = 1})
         fx("mm9:elemental_blast", SUMMON_AT); fx("mm9:paralyze", SUMMON_AT)
         -- :Backup then :BeginBanish (the master steps back): DoClientFX hMe, SPELL_SPARKLIES and SPELL_BLUEFIRE
-        MM9.clientFx(MASTER, "mm9:sparklies"); MM9.clientFx(MASTER, "mm9:fireblue")
+        MM9.actorFx(MASTER, "mm9:sparklies"); MM9.actorFx(MASTER, "mm9:fireblue")
         for _, row in ipairs({9156, 9158}) do
             evt.SetMonsterRelation(9242, row, 2); evt.SetMonsterRelation(row, 9242, 2)
         end
@@ -367,7 +381,7 @@ handlers[281] = function(context)
     if SUMMONER_OF[index] == nil and index ~= MASTER then return end
     if var("DemonUp") == 0 or var("DemonGone") == 1 then betray(index) return end
     if SUMMONER_OF[index] ~= nil then   -- :OnDamage, not the party: DoClientFX hShooter (itself), SPELL_BLUEDOTS; Die
-        MM9.clientFx(index, "mm9:bluedots", 1, 110)
+        MM9.actorFx(index, "mm9:bluedots", "palm_left,palm_right")   -- its emitters on LHand1 and RHand1
         evt.SetHookDamage(100000)
     end
 end
@@ -430,9 +444,11 @@ local function volumes()
         local entered = inside and var("In" .. s.name) == 0
         set("In" .. s.name, inside and 1 or 0)
         if entered and var("Dest" .. k) > 0 then
-            local d = DESTINATIONS[var("Dest" .. k)]
+            local dest = var("Dest" .. k)
+            local d = DESTINATIONS[dest]
             set("Dest" .. k, 0)   -- TeleporterMulti.scr :ResetDestination
             teleport(d.at, d.yaw)
+            if dest == 3 then startRitual() end
             return
         end
     end

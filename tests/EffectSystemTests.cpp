@@ -717,3 +717,34 @@ TEST_CASE("EffectSystem beam ribbons run straight from the effect to its beam ta
     effects.update(1.0f / 60.0f);
     CHECK(effects.ribbons().empty());
 }
+
+TEST_CASE("EffectSystem spawn with a body anchor keeps only that anchor's emitters")
+{
+    using namespace OpenYAMM::Game;
+    std::shared_ptr<EffectDefinition> definition = makeDefinition();
+    definition->spriteEmitters.front().bodyAnchor = "left_hand";
+    EffectSpriteEmitterDefinition right = definition->spriteEmitters.front();
+    right.componentId = 7;
+    right.bodyAnchor = "right_hand";
+    definition->spriteEmitters.push_back(right);
+    EffectLibrary library;
+    std::string error;
+    REQUIRE(library.add(definition, error));
+
+    EffectSystem whole(&library);
+    whole.spawn("test:fire");
+    whole.update(1.0f / 60.0f);
+    CHECK_EQ(whole.particles().size(), 2);
+
+    EffectSystem split(&library);
+    EffectSpawnParams params;
+    params.bodyAnchor = "right_hand";
+    const EffectHandle handle = split.spawn("test:fire", params);
+    split.update(1.0f / 60.0f);
+    REQUIRE_EQ(split.particles().size(), 1);
+    CHECK_EQ(split.particles()[0].componentId, 7u);
+    REQUIRE(split.restart(handle));
+    split.update(1.0f / 60.0f);
+    CHECK(std::all_of(split.particles().begin(), split.particles().end(),
+        [](const EffectParticle &particle) { return particle.componentId == 7u; }));
+}

@@ -56,6 +56,9 @@ PEACEFUL_ALLY = 118                 # a peasant family's monster type: lends pea
 SCRIPT_RUDE = {"CommonerHumanMaleA1": 271, "CommonerHumanFemaleA0": 279, "CommonerHumanFemaleA1": 272,
                "Lt. Dain": 278, "YrsatheTroll0": 1}
 HONKS = ("CommonerHumanMaleA1", "CommonerHumanFemaleA0", "CommonerHumanFemaleA1")
+# Honkies.scr :Init: AttachProp HonkPamphlet.ABC on the Honk's `pamphlet` socket (scene held_items); its :Main runs
+# BaseWanderInit, so each walks the DAT's wander (WanderON) like a townsperson.
+HONK_PAMPHLET = {"model": "worlds/mm9/models/mm9_item_honkpamphlet.glb", "node": "Socket_pamphlet"}
 STAGE_TOP_LT = 900                  # the Argument cinema's stage under the city (not built): Kira's stage copy stands there
 EXTRA_GUARD_AT = "GuardSpawn1"      # Thronheimcity_BadAss.scr :GetExtraGuard spawns one guard here 6 s into the breakout
 FLOOR_SPLIT_AREA_LT2 = 20000        # floors at least this big are cut at the walls standing on them (split_floors_at_walls)
@@ -208,6 +211,9 @@ class ThronheimCity(CityHooks):
             if rude:
                 actor["mm9_rude_id"] = rude
             actor["immobile"] = not townsperson_walks(actor.get("mm9_ai") or {})
+            if name in HONKS:
+                actor["held_items"] = [dict(HONK_PAMPHLET)]
+                actor["immobile"] = (actor.get("mm9_ai") or {}).get("wander") not in ("aimless", "path")
             if o["class"] == GUARD_CLASS and str(p.get("ScriptParams") or "").split()[:1] != ["GetBadAss"]:
                 # Thronheimcity_Guard.scr :Main without GetBadAss: DisableWandering, GotoSleep (LoopAnim Sleep, no
                 # OnFoundTarget): asleep at its post until :OpenEyes (the breakout's GetExtraGuard, Guard1 only: the

@@ -144,6 +144,10 @@ These rules apply to all AI-generated contributions in this repository.
 - For baked lighting of native indoor maps (BLV lightmaps: opt-in `<map>.lighting` sidecars, Cycles producer
   `tools/lighting/bake_indoor.py`, also audited by `stale_bakes.py`), start with
   [Indoor baked lighting](devdocs/INDOOR_BAKED_LIGHTING.md).
+- For animated decorations (moving parts such as chest lids and bells, whole moving models, skinned copies of
+  banners and statues; `evt.PlayDecorationClip`, `idle`, `use_clips`, chest lids opening with their chests; MM9's
+  props split by `level_generation/props/mm9_prop_parts/`), start with
+  [Animated decorations](devdocs/ANIMATED_DECORATIONS.md).
 - For rotating movers (hinged doors, levers, pivot traps, hatches: a door's opt-in `mover` block in the scene) and
   climbable ladders in BLV maps (the scene's `ladders`), start with
   [Indoor rotating movers and ladders](devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).

@@ -486,11 +486,13 @@ def base_on_current(m: Map, cache: dict):
         if scene["sector_count"] != base["sector_count"]:
             raise SystemExit(f"{m.stem}: the rebuilt BLV has {scene['sector_count']} sectors, the bake "
                              f"{base['sector_count']}: bake it again (dungeon/lighting.py), then rerun")
-        charted = {}
+        charted, uncharted = {}, set()
         for face in base_scene["faces"]:
             record = base["faces"][face["index"]]
             if record is not None:
                 charted.setdefault(face_key(face), []).append((face["texture"].lower(), record))
+            else:
+                uncharted.add(face_key(face))
         faces, unmatched, used, retextured = [None] * scene["face_count"], [], 0, {}
         for face in scene["faces"]:
             records = charted.get(face_key(face))
@@ -501,6 +503,9 @@ def base_on_current(m: Map, cache: dict):
                 used += 1
                 if old_texture != texture:
                     retextured[f"{old_texture} -> {texture}"] = retextured.get(f"{old_texture} -> {texture}", 0) + 1
+            elif face_key(face) in uncharted:
+                # the bake charted no lightmap here (its skip_textures: the regions' terrain), so it has none now either
+                pass
             elif face["visible"] and not face["attributes"] & 0x00400000 and (
                     not face["mover"] or face.get("mover_receiver")):
                 unmatched.append({"index": face["index"], "texture": face["texture"], "points": face["points"][:3]})

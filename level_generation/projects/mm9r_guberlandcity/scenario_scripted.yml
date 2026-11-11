@@ -199,6 +199,40 @@ steps:
       id: 68
       state: open
 - note:
+    text: 'Markel''s awards (Prize0-5, world items, refused while Markel lives): with him dead (40) and Yrsa''s errand (93)
+      one is taken: the Stuffed Dragon and key 94, the prize won.'
+- setup_shortcut:
+    kind: set_qbit
+    id: 90040
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 90093
+    value: true
+- advance_runtime:
+    seconds: 0.2
+- set_pose:
+    map: guberlandcity.blv
+    x: -1044
+    y: -8684
+    z: 1
+    yaw: 1.5708
+    pitch: 0.1107
+- advance_runtime:
+    seconds: 0.2
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.3
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    qbit_set:
+    - 90094
+- assert:
+    inventory_any_member:
+    - item_id: 10395
+      count: 1
+- note:
     text: 'TownPortal.scr: TownPortal0 stands dirty (490 shown, its clean twin 491 hidden); the click cleanses it: key 5014,
       the dirty altar hides, the clean one shows.'
 - assert:

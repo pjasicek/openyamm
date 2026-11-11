@@ -8,7 +8,7 @@ scenes of every mm9r_* project.
 
 For each scene door: it has a `sounds` block (a door without one plays MM6-MM8's environment door loop); a mover's first
 part carries exactly the sounds its DAT object names (movers.door_sounds), its invisible and glass parts an empty block;
-every named sound exists in the MM9 world's audio. Exits 1 on any failure; prints a line per map.
+every named sound exists in the MM9 world's audio. A door whose overrides.yml rule names `sounds` carries exactly those. Exits 1 on any failure; prints a line per map.
 """
 
 from __future__ import annotations
@@ -102,7 +102,12 @@ def check(project: Path, assets: Path, sounds_on_disk: set[str], totals: Counter
             continue
         first = first_parts[mover["node"].removesuffix("_INV").split("_GLASS")[0]] == mover["door_id"]
         model = (mover.get("dat_models") or [None])[0]
-        if first and model in dat:
+        if first and mover.get("sounds_overridden"):
+            # overrides.yml gives this door its own sounds (movers.mover_sounds)
+            if block != mover["sounds"]:
+                failures.append(f"{label}: sounds {block} but overrides.yml names {mover['sounds']}")
+            counts["overridden"] += 1
+        elif first and model in dat:
             expected = door_sounds(dat[model])
             if block != expected:
                 failures.append(f"{label}: sounds {block} but its DAT object {model} names {expected}")

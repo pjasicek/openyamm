@@ -291,7 +291,7 @@ TEST_CASE("MAW bounty texts name the spawned boss and its map note goes with it 
     const BountyHuntInteractionResult plain = performBountyHuntInteraction(world, &party, true);
     REQUIRE_EQ(plain.messages.size(), 1u);
     CHECK_EQ(plain.messages.front().find("Omnipotent"), std::string::npos);
-    CHECK_FALSE(state.namedGlobalVars.contains("MMerge.BountyHunt.map_b.odm.BossAffix"));
+    CHECK_EQ(state.namedGlobalVars["MMerge.BountyHunt.map_b.odm.BossAffix"], 0);
 }
 
 TEST_CASE("MAW calls a bounty off when anyone but the party slays its target; Standard does not")
@@ -321,8 +321,9 @@ TEST_CASE("MAW calls a bounty off when anyone but the party slays its target; St
     CHECK_EQ(slain(true, true).at("MMerge.BountyHunt.map_b.odm.Done"), 1);
     // An ally, another monster or a trap: MAW drops the bounty (BountyHunt.lua:247-250), so the town offers a new one.
     const std::unordered_map<std::string, int32_t> dropped = slain(true, false);
-    CHECK_FALSE(dropped.contains("MMerge.BountyHunt.map_b.odm.MonsterId"));
-    CHECK_FALSE(dropped.contains("MMerge.BountyHunt.map_b.odm.Done"));
+    CHECK_EQ(dropped.at("MMerge.BountyHunt.map_b.odm.MonsterId"), 0);
+    CHECK_EQ(dropped.at("MMerge.BountyHunt.map_b.odm.Month"), 0);
+    CHECK_EQ(dropped.at("MMerge.BountyHunt.map_b.odm.Done"), 0);
     // Standard: any death fulfils it.
     CHECK_EQ(slain(false, false).at("MMerge.BountyHunt.map_b.odm.Done"), 1);
 }
@@ -451,6 +452,7 @@ TEST_CASE("an MM9 Jarl posts his region's bounty and its target appears when the
     CHECK(city.hostileSummonRequests().empty());
 
     // Entering the region places the target once.
+    std::unordered_map<std::string, int32_t> sessionGlobals = state.namedGlobalVars;
     OpenYAMM::Tests::PartySpellTestWorldRuntime regionWorld = {};
     regionWorld.bindParty(&party);
     regionWorld.bindEventRuntimeState(&state);
@@ -459,9 +461,28 @@ TEST_CASE("an MM9 Jarl posts his region's bounty and its target appears when the
     spawnPendingBountyHunt(regionWorld, &party);
     REQUIRE_EQ(regionWorld.hostileSummonRequests().size(), 1u);
     CHECK_EQ(regionWorld.hostileSummonRequests().front().monsterId, 195);
-    CHECK_FALSE(state.namedGlobalVars.contains("MMerge.BountyHunt.Sturmford.Pending"));
+    // Cleared as 0, not erased: the session merges a map's global vars back, so an erased key returned with the next
+    // map load and the target appeared again on every entry that month.
+    CHECK_EQ(state.namedGlobalVars.at("MMerge.BountyHunt.Sturmford.Pending"), 0);
     spawnPendingBountyHunt(regionWorld, &party);
     CHECK_EQ(regionWorld.hostileSummonRequests().size(), 1u);
+
+    // Leaving and entering again the same month: the session merges the map's globals back
+    // (GameSession::mergeNamedGlobalVarsFromRuntime) and gives them to the next load; the target stays placed once.
+    for (const auto &[name, value] : state.namedGlobalVars)
+    {
+        sessionGlobals[name] = value;
+    }
+
+    EventRuntimeState reentered = {};
+    reentered.namedGlobalVars = sessionGlobals;
+    OpenYAMM::Tests::PartySpellTestWorldRuntime regionAgain = {};
+    regionAgain.bindParty(&party);
+    regionAgain.bindEventRuntimeState(&reentered);
+    regionAgain.bindMonsterTable(&monsterTable);
+    regionAgain.setMapName("Sturmford");
+    spawnPendingBountyHunt(regionAgain, &party);
+    CHECK(regionAgain.hostileSummonRequests().empty());
 
     // Slain in the region, the Jarl pays it.
     markRuntimeBountyHuntMonsterKilled(regionWorld, 195, &monsterTable);

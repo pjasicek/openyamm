@@ -43,6 +43,10 @@ PROPS = citylua.PROPS
 OLD_SCENE = ROOT / "assets_editor_dev/worlds/mm9/maps/wizardslab.scene.yml"
 NPC_NAMES = ROOT / "mm9/extracted/RUDE/RUDE/NPCNAME.rude"
 
+# MM9's animated translucent station surfaces: (texture, opacity: the brush Alpha, two-sided) (scene()).
+SPR_SURFACES = [("sprites\\water\\water115flowing.spr", 0.5, True),   # the teleporter sheets (7 faces)
+                ("sprites\\water\\water123.spr", 0.65, False)]       # the 30 crystals (180 faces)
+
 PEACEFUL_ALLY = 118                 # a peasant family's monster type: lends peaceful relations (Thronheim City)
 # Robinssen's actor when the old import's record is missing: its Reverend Monk row (9125) as the old import placed it.
 ROBINSSEN_FALLBACK = {"name": "Robinssen", "attributes": 0, "hp": 525, "hostility_type": 0, "monster_info_id": 9125,
@@ -146,6 +150,29 @@ class WizardsLab(CityHooks):
         return actor
 
     # --- map script -------------------------------------------------------------------------------------------------
+    def scene(self, build, scene: dict) -> None:
+        """MM9's animated, translucent .spr surfaces of the stations (flags 0x4000 + 0x8, MM9_VISUAL_PROPERTIES.md): the
+        teleporter sheets (`teleporter effect*`, water115flowing.spr, brush Alpha 0.5, seen from both sides) and the
+        30 crystals (`yellow0` .. `blue5`, water123.spr, Alpha 0.65), drawn translucent and as their frame
+        sequences (the user, 2026-11-10: the portal and the buttons were static and opaque). The faces are found in
+        the compiled BLV by texture; the frames go to the texture frame table (perception.install_frames)."""
+        super().scene(build, scene)
+        sys.path.insert(0, str(ROOT))
+        from util.map_export import parse_blv_file
+        from dungeon import perception
+        blv = parse_blv_file(build.runtime / build.project.map)["payload"]
+        for texture, opacity, two_sided in SPR_SURFACES:
+            alias = build.source.aliases[texture]["alias"].lower()
+            faces = sorted(f["index"] for f in blv["faces"]
+                           if not f["is_portal"] and str(f.get("texture_name", "")).lower() == alias)
+            if not faces:
+                raise SystemExit(f"no faces with {texture} ({alias}) in the BLV")
+            scene.setdefault("translucent_faces", []).append(
+                {"faces": faces, "opacity": opacity, "tint": [1.0, 1.0, 1.0], "two_sided": two_sided})
+            build.stats[f"translucent_{alias}"] = len(faces)
+            if build.project.install:
+                perception.install_frames(build, texture)
+
     def map_script(self, build) -> str:
         return citylua.map_script(self, build)
 

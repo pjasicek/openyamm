@@ -14,8 +14,9 @@ steps:
 - execute_event: {id: 232}
 - advance_runtime: {seconds: 2.0}
 - console: {line: cinematic list, expect_contains: playing council_argument}
-- assert: {actor_visible: {actor_index: 44, hidden: false}}
-- assert: {actor_visible: {actor_index: 49, hidden: false}}
+- note: {text: "stage: Kira's stage actor (50) and the Jarls (45-49, Markel 46) shown, Kira the Cold (41) hidden"}
+- assert: {actor_visible: {actor_index: 50, hidden: false}}
+- assert: {actor_visible: {actor_index: 46, hidden: false}}
 - assert: {actor_visible: {actor_index: 41, hidden: true}}
 - assert: {qbit_clear: [90040, 90184]}
 - save_game: {name: mid_cinematic, expect_failure: true}
@@ -26,11 +27,11 @@ steps:
 - assert: {qbit_set: [90184, 90040, 90085, 90093]}
 - advance_runtime: {seconds: 140}
 - console: {line: cinematic list, expect_contains: playing council_argument}
-- assert: {actor_visible: {actor_index: 44, hidden: false}}
+- assert: {actor_visible: {actor_index: 50, hidden: false}}
 - advance_runtime: {seconds: 6}
-- note: {text: ":End2 (166.2 s): the stage actors gone, Kira the Cold back, Yrsa not yet"}
-- assert: {actor_visible: {actor_index: 44, hidden: true}}
-- assert: {actor_visible: {actor_index: 49, hidden: true}}
+- note: {text: ":End2 (166.2 s): Kira's stage actor gone, Markel dead (hidden), Kira the Cold back, no Yrsa yet"}
+- assert: {actor_visible: {actor_index: 50, hidden: true}}
+- assert: {actor_visible: {actor_index: 46, hidden: true}}
 - assert: {actor_visible: {actor_index: 41, hidden: false}}
 - assert: {actor_visible: {actor_index: 42, hidden: true}}
 - advance_runtime: {seconds: 8}

@@ -42,6 +42,14 @@ an x4 master); every BMP and PNG of them is a source in `assets_source/worlds/mm
 `textures/*.bmp` or `textures_x2/*.png` from a review root into `assets_dev`: put new natives in `assets_source` and let
 the build's surface cook make them.
 
+**State check, 2026-11-10**: every map's converter was rebuilt into a scratch folder and compared with `assets_dev`;
+all match. The same day installed the converters' pending changes (an empty `pickup_qbits` on 13 maps' world items,
+the camera gate in Arslegard City's and Thronheim City's cutscenes), the Tomb's growth at 2x and Thjorad Mine's at
+1.4x (BALANCE_PLAN.md 3.6), and the Isle of Ashes' Skeletoid teleport fix (its project README). Every lighting bake
+is current (`tools/lighting/stale_bakes.py`): Sturmford's was rebuilt (its BLV of 2026-11-08 had left 19 765 faces
+without a lightmap), the other 36 needed only their scene hash. MAW's pack reserves are current
+(`tools/maw/mm9_balance.py --check`).
+
 Pilots in progress (2026-10-30), all built into the isolated review root `output/mm9_rework/assets_dev`
 ([review_root.py](../../level_generation/projects/mm9r_common/review_root.py)):
 [Isle of Ashes](../../level_generation/projects/mm9r_isleofashes/README.md) (terrain, coast, structures, props, chests,

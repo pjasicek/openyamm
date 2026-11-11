@@ -11,8 +11,9 @@ outline workaround, the population (props.json from ../../props/mm9_lindisfarnem
 and MM9's scripted objects as native Lua, each citing its .scr (README.md, "Scripted objects"):
 - the monks' hostility (MonkHostility.inc): friendly until the party hurts or kills one; then the alarm bell rings and
   every monk turns hostile (and Thjorad can be taken);
-- the bell puzzle (LindisfarneBell.scr, LindisfarneBellController.scr, the five ropes' OpenTriggers): Bell1 to Bell5 in
-  order gives key 9507 and 2000 experience, the Thjorad monks go to pray and Thjorad can be taken;
+- the bell puzzle (LindisfarneBell.scr, LindisfarneBellController.scr, the five ropes' OpenTriggers): a used bell swings
+  (its Ring and Stop clips, the note on their model keys) and reports to the controller when it stops; Bell1 to Bell5
+  in order gives key 9507 and 2000 experience, the bells peal, the Thjorad monks go to pray and Thjorad can be taken;
 - Thjorad (Thjorad.scr): item 197 with key 31 (key 2 held) or 162, 1000 experience;
 - the organ (25 keys, each a Door playing its note; NPC420.scr: key 9506 plays the hymn);
 - the NPCs' dialogue ends (NPC282.scr Grehgknak: letter 419, the paladin promotion; NPC283.scr Abbot Leffery: the
@@ -51,9 +52,12 @@ EV_ROPE = {name: 90 + k for k, name in enumerate(ROPES, 1)}
 NOTES = ["C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1", "A1", "A#1", "B1",
          "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "E3"]
 EV_KEY = {note: 130 + k for k, note in enumerate(NOTES)}       # after the door groups (100 + k)
-T_RELEASE, T_FINALE, T_CLOCK = 260, 261, 262
+T_RELEASE, T_FINALE, T_CLOCK, T_ORGAN = 260, 261, 262, 263
+T_BELL = 270                        # + n: Bell<n>'s swing (its PlayAnim callbacks, model keys and Wait)
+HYMN_SECONDS = 24                   # NPC420.scr :Play: LoopAnim play, then Wait 1 24 OnExit
 DAMAGE_HOOK, KILL_HOOK = 96, 97
 COG_THJORAD = 300
+COG_BELL = 310                      # + n: Bell<n> (its ring and stop clips)
 GROUP_MONKS, GROUP_THJORAD, GROUP_ROBERT = 1, 2, 3
 
 # keys and items (raw MM9 numbers: keys are QBits 90000 + key, items MM9.ItemIds)
@@ -65,6 +69,9 @@ KEY_PALADIN_ASKED, KEY_PALADIN_DONE = 236, 237
 PALADIN_KEYS = [421, 422, 423, 424]
 ITEM_RELIC, KEY_RELIC_FOUND, KEY_RELIC_DONE = 368, 341, 342
 KEY_PRIEST_ASKED, KEY_PRIEST_READY, KEY_PRIEST_GONE = 253, 254, 255
+BELL_ABC = ROOT / "mm9/extracted/MODELS/MODELS/PROPS/BELL.abc"   # the bells' model (props.json source_model)
+BELL_WAIT = 3                       # LindisfarneBell.scr: OnUse's Wait 1, 3 and RingDone's Wait 1,3,StopDone (slot 1)
+FINALE_WAITS = [0.5, 0.5, 0.25, 0.25]   # LindisfarneBellController.scr :Finish, :1, :2, :3 (wait 1 .5 / .25)
 BELL_SOUNDS = {"Bell1": "churchbellring.wav", "Bell2": "churchbellring2.wav", "Bell3": "churchbellring3.wav",
                "Bell4": "churchbellring4.wav", "Bell5": "churchbellring5.wav"}  # LindisfarneBell.scr :BellSound
 NPC_SCRIPTS = {"npc282.scr": 282, "npc283.scr": 283, "npc284.scr": 284, "npc420.scr": 420}
@@ -72,6 +79,36 @@ NPC_SCRIPTS = {"npc282.scr": 282, "npc283.scr": 283, "npc284.scr": 284, "npc420.
 BODIES = {"models\\monk.abc": (11, 36), "models\\peasantmale.abc": (12, 34)}
 THJORAD_MARKERS = {"ThjoradMonk1": "Thjorad3", "ThjoradMonk2": "Thjorad2", "ThjoradMonk3": "Thjorad1",
                    "ThjoradMonk4": "Thjorad0"}                             # ThjoradMonk.scr ScriptParams p1
+# The clip a monk loops whenever it stands (scene mm9_ai.idle_clip), never fidgeting: MM9's LoopAnim holds its animator
+# in the script state, whose think has no fidget (devdocs/mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md section 2.1).
+# MonkGuardBasic.scr by its type p0: the prayer (0) waits between walks in a looped stand (BaseWanderStart:
+# LoopAnim sPauseName), the hoe (1) and broom (2) monks hoe and sweep at each stop (BaseWanderStopTick), the hammer (3)
+# and wash (4) monks stay at their work (StartWork); a chatting monk (-1) loops nothing and fidgets. ThjoradMonk.scr
+# loops its p0 (Pray, Hammer) and, after the bells (GoToPray), prays.
+MONK_IDLE_CLIPS = {0: "standing", 1: "hoe", 2: "sweep", 3: "hammer", 4: "wash"}
+# The tool MonkGuardBasic.scr :AttachTool gives a working monk (AttachProp <model> on its socket; scene held_items).
+# ThjoradMonk.scr attaches a hammer only to a monk without an NPC id, and all four have one.
+MONK_TOOLS = {1: ("mm9_item_monkhoe", "Hoe"), 2: ("mm9_item_monkbroom", "Broom"),
+              3: ("mm9_item_monkhammer", "Hammer"), 4: ("mm9_item_monkcloth", "Cloth")}
+
+
+def bell_schedule() -> list[tuple[float, str]]:
+    """A bell's use (LindisfarneBell.scr) as (seconds from the use, what): PlayAnim Ring, its model keys BellBing and
+    BellBong (OnBellBing, OnBellBong: the note), at its end (RingDone) PlayAnim Stop, whose keys play the note again,
+    and Wait 1,3,StopDone from Ring's end. Key times from the ABC's clips."""
+    sys.path.insert(0, str(ROOT / "tools/mm9_import_discovery"))
+    from convert_abc_model import read_abc
+    clips = {a.name.lower(): a for a in read_abc(BELL_ABC).animations}
+
+    def keys(clip: str, start: float) -> list[tuple[float, str]]:
+        return [(start + k.time_ms / 1000, "note") for k in clips[clip].keyframes
+                if k.event.lower() in ("bellbing", "bellbong")]
+
+    ring = clips["ring"].keyframes[-1].time_ms / 1000
+    out = [*keys("ring", 0.0), (ring, "stop"), *keys("stop", ring), (ring + BELL_WAIT, "done")]
+    if not keys("ring", 0.0) or ring + clips["stop"].keyframes[-1].time_ms / 1000 > ring + BELL_WAIT:
+        raise SystemExit(f"{BELL_ABC}: no bell keys in Ring, or Stop outlasts StopDone")
+    return out
 
 
 def rude_exit_event(index: int) -> int:
@@ -123,7 +160,8 @@ class LindisfarneMonastery(dungeon.Hooks):
         content = build.content
         if PROPS.exists():
             events = {"thjorad": EV_THJORAD, **EV_LETTER, **EV_BELL}
-            content.props(PROPS, events=events, cogs={"thjorad": COG_THJORAD})
+            cogs = {"thjorad": COG_THJORAD, **{f"Bell{n}": COG_BELL + n for n in range(1, 6)}}
+            content.props(PROPS, events=events, cogs=cogs)
         else:
             print("note: props.json is missing; no decorations placed")
         report = content.report["omitted"]
@@ -132,7 +170,7 @@ class LindisfarneMonastery(dungeon.Hooks):
         report.append({"anchor": "MONK_HOSTILITY", "class": "ScriptObject",
                        "reason": "MonkHostility.inc's link object: the map variable MonksHostile (README)"})
         self.points = {}
-        for name in (*THJORAD_MARKERS.values(),):
+        for name in (*THJORAD_MARKERS.values(), "E2"):
             p = build.source.properties(name)["Pos"]
             floor = content.floor_at(p[0], p[2], p[1] + 24)
             self.points[name] = build.project.native([p[0], floor, p[2]]).round().astype(int) + np.array([0, 0, 1])
@@ -168,7 +206,7 @@ class LindisfarneMonastery(dungeon.Hooks):
     def actors(self, build, sector_of_room: dict) -> list[dict]:
         content, source = build.content, build.source
         bases = content.monster_bases()
-        out, self.actor, self.object, self.rude = [], {}, {}, {}
+        out, self.actor, self.object, self.rude, self.idle_clip = [], {}, {}, {}, {}
         self.robert = None
         for o in source.objects:
             if o["name"] not in bases:
@@ -176,12 +214,15 @@ class LindisfarneMonastery(dungeon.Hooks):
             name, p = o["name"], o["properties"]
             script = str(p.get("ScriptName") or "").lower().replace("scripts\\", "")
             params = str(p.get("ScriptParams") or "").split()
-            rude, immobile, group, hidden = 0, False, GROUP_MONKS, False
+            rude, immobile, group, hidden, idle_clip, tool = 0, False, GROUP_MONKS, False, "", None
             if script == "monkguardbasic.scr":       # p0 type (-1 chat, 0 pray, 1 hoe, 2 broom, 3 hammer, 4 wash), p1 rude
                 rude = int(params[1])
                 immobile = int(params[0]) in (-1, 3, 4)      # only types 0-2 wander (BaseWanderInit)
+                idle_clip = MONK_IDLE_CLIPS.get(int(params[0]), "")
+                tool = MONK_TOOLS.get(int(params[0]))
             elif script == "thjoradmonk.scr":        # p0 animation, p1 prayer marker, p2 rude id
                 rude, immobile, group = int(params[2]), True, GROUP_THJORAD
+                idle_clip = params[0].lower()
             elif script in NPC_SCRIPTS:
                 rude, immobile = NPC_SCRIPTS[script], True
                 if script == "npc284.scr":           # Robert Aefgil: hidden and not solid until key 254
@@ -192,6 +233,11 @@ class LindisfarneMonastery(dungeon.Hooks):
                                   floor_query_lt=p["Pos"][1] + 24,
                                   radius=int(round(half * scale * SCALE)), height=int(round(2 * tall * scale * SCALE)))
             actor["mm9_source_object_index"] = o["index"]
+            if idle_clip:
+                actor["mm9_ai"]["idle_clip"] = idle_clip
+            self.idle_clip[name] = idle_clip
+            if tool:
+                actor["held_items"] = [{"model": f"worlds/mm9/models/{tool[0]}.glb", "node": f"Socket_{tool[1]}"}]
             if rude:
                 actor["mm9_rude_id"] = rude
             actor["immobile"] = immobile
@@ -227,8 +273,9 @@ class LindisfarneMonastery(dungeon.Hooks):
             f"    evt.SetMonGroupBit({GROUP_MONKS}, MonsterBits.Hostile, on)",
             f"    evt.SetMonGroupBit({GROUP_THJORAD}, MonsterBits.Hostile, on)",
             "    -- BecomeHostile's AddEnemy Player: MM9's monster AI walks the monks at the party, the ones placed still at",
-            "    -- their chores and prayers too",
-            "    if on then for i in pairs(MONKS) do evt.SetActorImmobile(i, false) end end",
+            "    -- their chores and prayers too; the Thjorad monks' prayer after the bells ends (ThjoradMonk.scr OnDamage:",
+            "    -- Playanim stand)",
+            "    if on then for i in pairs(MONKS) do evt.SetActorImmobile(i, false) evt.ClearActorPresentation(i) end end",
             "end",
             "local function alarm()",
             "    if hostile() then return end",
@@ -282,35 +329,75 @@ class LindisfarneMonastery(dungeon.Hooks):
             "end",
             "",
             "-- The bells (LindisfarneBell.scr; ScriptParams p2 picks the note): a pull on a rope (the rope Door's OpenTrigger0",
-            "-- 'use') or a click on the bell rings it; until key 9507 each ring reports to BellControl (StopDone: Trigger",
-            "-- BellControl Bell<n>). LindisfarneBellController.scr: Bell1 starts the order, each next bell must follow the",
-            "-- one before (else Reset); Bell5 after Bell4 runs :Finish.",
+            "-- 'use') or a click on the bell uses it. :OnUse (only while Counter is 0: BellBusy<n>) plays Ring; its model keys",
+            "-- BellBing and BellBong play the note; at its end (RingDone) Stop plays, whose keys play the note again, and",
+            f"-- Wait 1,{BELL_WAIT},StopDone: Counter 0 and, until key {KEY_BELLS}, Trigger BellControl Bell<n>. Each step "
+            "below is",
+            "-- (seconds from the use, what), the key times read from BELL.abc. The bell part and its clapper swing with the clips.",
+            "-- LindisfarneBellController.scr: :OnBell1 sets FirstBell; :OnBell<n> sets the next flag if the one before is set,",
+            "-- else :Reset clears all five; Bell5 after Bell4 runs :Finish.",
             "local BELL_SOUND = {" + ", ".join(f"[{n}] = \"events/{BELL_SOUNDS[f'Bell{n}']}\"" for n in range(1, 6)) + "}",
+            "local BELL_STEPS = {" + ", ".join(f"{{{t:.3f}, \"{what}\"}}" for t, what in bell_schedule()) + "}",
+            "local BELL_ORDER = {\"FirstBell\", \"SecondBell\", \"ThirdBell\", \"FourthBell\", \"FifthBell\"}",
+            "-- the Finish's peal: its waits before Bell2..Bell5 (wait 1 .5, 1 .5, 1 .25, 1 .25)",
+            "local FINALE_WAITS = {" + ", ".join(f"[{n + 2}] = {w}" for n, w in enumerate(FINALE_WAITS)) + "}",
+            "local useBell, peal",
             "local function finish()",
             f"    if MM9.hasKey({KEY_BELLS}) == 0 then MM9.giveExperience({balanced_experience(2000, KEY_BELLS)}) end",
             f"    MM9.giveKey({KEY_BELLS})",
             "    set(\"AtPrayer\", 1)",
             "    praying()",
             "    set(\"FinaleStep\", 1)",
-            f"    evt.StartTimer({T_FINALE}, seconds(0.5))",
+            "    peal()",
             "end",
-            "local function ring(n)",
-            "    evt.PlaySoundName(BELL_SOUND[n], 0, 0, 0)",
-            f"    if MM9.hasKey({KEY_BELLS}) == 1 then return end",
-            "    if n == 1 then set(\"BellStep\", 1)",
-            "    elseif var(\"BellStep\") == n - 1 then",
-            "        set(\"BellStep\", n)",
-            "        if n == 5 then finish() end",
-            "    else set(\"BellStep\", 0) end",
+            "local function control(n)   -- BellControl :OnBell<n>",
+            "    if n == 1 then set(BELL_ORDER[1], 1) return end",
+            "    if var(BELL_ORDER[n - 1]) ~= 1 then",
+            "        for k = 1, 5 do set(BELL_ORDER[k], 0) end   -- :Reset",
+            "        return",
+            "    end",
+            "    set(BELL_ORDER[n], 1)",
+            "    if n == 5 then finish() end",
             "end",
-            "-- The Finish's peal: Bell1 to Bell5 again, half a second apart (its wait 1 .5 chain).",
-            f"handlers[{T_FINALE}] = function()",
+            "useBell = function(n)   -- :OnUse",
+            "    if var(\"BellBusy\" .. n) ~= 0 then return end",
+            "    set(\"BellBusy\" .. n, 1)",
+            f"    evt.PlayDecorationClip({COG_BELL} + n, \"ring\")",
+            f"    evt.StartTimer({T_BELL} + n, seconds(BELL_STEPS[1][1]))",
+            "end",
+            "local function swing(n)   -- the bell's timer: step BellBusy<n> of BELL_STEPS",
+            "    local step = var(\"BellBusy\" .. n)",
+            "    local at = BELL_STEPS[step]",
+            "    if at == nil then",
+            f"        evt.StopTimer({T_BELL} + n)",
+            "        return",
+            "    end",
+            "    if at[2] == \"note\" then",
+            "        evt.PlaySoundName(BELL_SOUND[n], 0, 0, 0)",
+            "    elseif at[2] == \"stop\" then",
+            f"        evt.PlayDecorationClip({COG_BELL} + n, \"stop\")",
+            "    else   -- :StopDone (Stop has ended: back to rest)",
+            "        set(\"BellBusy\" .. n, 0)",
+            f"        evt.StopTimer({T_BELL} + n)",
+            f"        evt.PlayDecorationClip({COG_BELL} + n, \"\")",
+            f"        if MM9.hasKey({KEY_BELLS}) == 0 then control(n) end",
+            "        return",
+            "    end",
+            "    set(\"BellBusy\" .. n, step + 1)",
+            f"    evt.StartTimer({T_BELL} + n, seconds(BELL_STEPS[step + 1][1] - at[1]))",
+            "end",
+            "-- :Finish uses Bell1 to Bell5 again (Trigger use: a bell still swinging ignores it), FINALE_WAITS apart.",
+            "peal = function()",
             "    local step = var(\"FinaleStep\")",
-            "    if step < 1 or step > 5 then return end",
-            "    evt.PlaySoundName(BELL_SOUND[step], 0, 0, 0)",
+            "    if step < 1 or step > 5 then",
+            f"        evt.StopTimer({T_FINALE})",
+            "        return",
+            "    end",
+            "    useBell(step)",
             "    set(\"FinaleStep\", step + 1)",
-            f"    if step < 5 then evt.StartTimer({T_FINALE}, seconds(0.5)) end",
+            f"    if step < 5 then evt.StartTimer({T_FINALE}, seconds(FINALE_WAITS[step + 1])) else evt.StopTimer({T_FINALE}) end",
             "end",
+            f"handlers[{T_FINALE}] = function() peal() end",
         ]
         # the Thjorad monks walk to their prayer markers (ThjoradMonk.scr :OnGoToPray: WalkTo L_Marker)
         # A slain monk takes no GoToPray (MM9.receives) and, on a load, stays where it fell (MM9.actorAlive)
@@ -318,16 +405,20 @@ class LindisfarneMonastery(dungeon.Hooks):
                  f"\"lindisfarnemonastery\", \"{name}\", \"GoToPray\", {actor[name]}) then evt.SetMapActorPosition({actor[name]}, "
                  f"{', '.join(str(int(v)) for v in self.points[marker])}) end"
                  for name, marker in THJORAD_MARKERS.items()]
+        # ... and pray there (OnGoToPray: set Anim_1 Pray), the hammering one too, until the monks turn hostile
+        moves += [f"    if MM9.actorAlive({actor[name]}) and not hostile() then evt.PlayActorClip({actor[name]}, \"pray\", true) end"
+                  for name in THJORAD_MARKERS if self.idle_clip[name] != "pray"]
         lines[lines.index("local function finish()"):lines.index("local function finish()")] = [
             "local function praying(atLoad)   -- ThjoradMonk.scr :OnGoToPray (MM9 walks them; here they stand at the "
             "markers)",
             *moves, "end"]
         for n in range(1, 6):
-            lines.append(f"handlers[{EV_BELL[f'Bell{n}']}] = function() ring({n}) end   -- Bell{n}")
-            registrations.append((EV_BELL[f"Bell{n}"], "Bell", "Bell"))
+            lines.append(f"handlers[{EV_BELL[f'Bell{n}']}] = function() useBell({n}) end   -- Bell{n}")
+            lines.append(f"handlers[{T_BELL + n}] = function() swing({n}) end   -- Bell{n} swings")
+            registrations += [(EV_BELL[f"Bell{n}"], "Bell", "Bell"), (T_BELL + n, f"Bell{n} swing", None, "timer")]
         lines.append("-- The ropes: each pull lowers the rope (Door, 32 LT down; it rises again) and rings its bell.")
         for rope, bell in ROPES.items():
-            lines.append(f"handlers[{EV_ROPE[rope]}] = function() press(DOORS.{rope}, 2) ring({bell[4:]}) end   -- {rope}")
+            lines.append(f"handlers[{EV_ROPE[rope]}] = function() press(DOORS.{rope}, 2) useBell({bell[4:]}) end   -- {rope}")
             registrations.append((EV_ROPE[rope], "Rope", "Rope"))
         press = [
             "-- Pressed movers (the organ keys, the ropes) rise again a second (a rope two: 32 LT at 25 LT/s) after the last",
@@ -364,12 +455,24 @@ class LindisfarneMonastery(dungeon.Hooks):
         promote = "        MM9.promoteParty(\"Paladin\")"
         lines += [
             "",
-            f"-- The organ player (NPC420.scr :OnRude, :PlaySong, :Play): with key {KEY_HYMN} from his dialogue he plays the",
-            f"-- hymn (HeroesPipe441.wav, 24 s) and the key is taken.",
+            f"-- The organ player (NPC420.scr :OnRude, :PlaySong, :Play): with key {KEY_HYMN} from his dialogue he turns to the",
+            f"-- organ (FaceObject E2, 180 degrees a second) and plays the hymn (LoopAnim play, HeroesPipe441.wav, "
+            f"{HYMN_SECONDS} s), the key taken;",
+            "-- while he plays he does not talk (OnUse: bIsPlaying).",
             f"handlers[{rude_exit_event(organist)}] = function()",
             f"    if MM9.hasKey({KEY_HYMN}) == 0 then return end",
             f"    MM9.takeKey({KEY_HYMN})",
             "    evt.PlaySoundName(\"events/heroespipe441.wav\", 0, 0, 0)",
+            f"    evt.FaceActorTo({actor['CommonerElfMaleA0']}, {int(self.points['E2'][0])}, {int(self.points['E2'][1])}, 1)",
+            f"    evt.PlayActorClip({actor['CommonerElfMaleA0']}, \"play\", true)",
+            "    set(\"OrganPlaying\", 1)",
+            f"    evt.StartTimer({T_ORGAN}, seconds({HYMN_SECONDS}))",
+            "end",
+            f"handlers[{T_ORGAN}] = function()   -- :OnExit",
+            f"    evt.StopTimer({T_ORGAN})",
+            "    if var(\"OrganPlaying\") ~= 1 then return end",
+            f"    evt.ClearActorPresentation({actor['CommonerElfMaleA0']})",
+            "    set(\"OrganPlaying\", 0)",
             "end",
             "",
             f"-- Grehgknak the Right (NPC282.scr :OnRude): :giveletter (key {KEY_LETTER_ASKED} without {KEY_LETTER_GIVEN}: key "
@@ -432,7 +535,8 @@ class LindisfarneMonastery(dungeon.Hooks):
                           (rude_exit_event(grehgknak), "Grehgknak", None),
                           (rude_exit_event(abbot), "Abbot Leffery", None),
                           (EV_THJORAD, "Thjorad", "Thjorad"), (T_FINALE, "Bell peal", None, "timer"),
-                          (T_RELEASE, "Release", None, "timer"), (T_CLOCK, "Robert", None, "timer")]
+                          (T_RELEASE, "Release", None, "timer"), (T_CLOCK, "Robert", None, "timer"),
+                          (T_ORGAN, "Hymn", None, "timer")]
         for name, event in EV_LETTER.items():
             title, text = letter(LETTER_ID[name])
             lines.append(f"handlers[{event}] = function() evt.SimpleMessage({lua_string(title + chr(10) + chr(10) + text)}) "
@@ -447,6 +551,8 @@ class LindisfarneMonastery(dungeon.Hooks):
             f"    if var(\"ThjoradTaken\") == 1 then evt.SetSprite({COG_THJORAD}, false) end",
             f"    if MM9.hasKey({KEY_BELLS}) == 1 then set(\"AtPrayer\", 1) praying(true) end",
             "    robert()",
+            "    set(\"OrganPlaying\", 0)   -- a hymn a save cut short is over",
+            "    for n = 1, 5 do set(\"BellBusy\" .. n, 0) end   -- so is a bell's swing (its report to BellControl too)",
             "end",
             "",
         ]

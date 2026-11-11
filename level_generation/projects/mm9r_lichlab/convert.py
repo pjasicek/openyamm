@@ -48,6 +48,10 @@ EV_EXPLODE = {"TriggerExplodeL": 231, "TriggerExplodeR": 232}
 EV_BATS = {"LobbyBatTrigger0": 233, "LobbyBatTrigger1": 234, "RightWingBatTrigger0": 235,
            "RightWingBatTrigger1": 236, "LeftWingBatTrigger0": 237, "LeftWingBatTrigger1": 238}
 T_POD_STRIKE, T_POD_RAISE = 250, 251
+# LichEngineProp.scr: the lever's travel (its OpenTrigger "start" / CloseTrigger "finish" when it gets there) and the
+# end of the engine's startup or shutdown clip
+T_ENGINE_LEVER, T_ENGINE_CLIP = 266, 267
+ENGINE_CLIP_SECONDS = 3.5           # mm9_deco_lichengine.glb: startup and shutdown both last 3.5 s
 T_TRANSFORM = {"SkeletonDoorA": (252, 253), "SkeletonDoorA0": (254, 255)}
 T_BOOK = {"firebook2": 256, "firebook3": 257, "firebook4": 258}
 # PeasantTransformee.scr (Converter.scr's conscript): per chamber its spawn and walk timers and its arrival event
@@ -237,6 +241,11 @@ class LichLab(dungeon.Hooks):
         script.doors()
         script.chests()
         lines = []
+        # The switch's and the engine's clip keys: their entity indices (no SetSprite key of their own; a cog would be
+        # an event_id_primary written into the .blv)
+        switch_key, engine_key = self.entity_index(build, "lichswitch"), self.entity_index(build, "Lichengine")
+        lever = build.source.properties("RotatingDoor1")
+        lever_seconds = round(abs(lever["RotationAngles"][0]) / float(lever["Speed"]), 2)
         # The Transmutation Engine. Glow1 (GlowingLight, StartOn 0): the pod's scene pulsing light (dungeon/lights.py).
         from dungeon.lights import PULSING_LIGHT_KEY_BASE
         glow = PULSING_LIGHT_KEY_BASE + build.source.by_name["glow1"]["index"]
@@ -291,7 +300,11 @@ class LichLab(dungeon.Hooks):
             "    set(\"Transmuted\", var(\"Transmuted\") + changed)",
             "    return changed",
             "end",
+            "-- Switch.scr Onuse: each use plays the lever's Down, the next its Up (bUp), and triggers Engineglass1.",
             f"handlers[{EV_LICHSWITCH}] = function()   -- lichswitch",
+            "    local down = var(\"LichSwitchDown\") == 0",
+            "    set(\"LichSwitchDown\", down and 1 or 0)",
+            f"    evt.PlayDecorationClip({switch_key}, down and \"down\" or \"up\")",
             "    if var(\"PodClosed\") == 1 then return end",
             "    set(\"PodClosed\", 1)",
             "    openGroup(\"EnginePod1\")",
@@ -313,12 +326,48 @@ class LichLab(dungeon.Hooks):
             f"    evt.SetLight({glow}, false)   -- Engineglass1's CloseTrigger: Glow1 off",
             "    set(\"PodClosed\", 0)",
             "end",
-            f"handlers[{EV_ENGINE_LEVER}] = function() for _, id in ipairs(GROUPS.EngineLever) do evt.SetDoorState(id, DoorAction.Trigger) end end"
-            "   -- RotatingDoor1",
+            "",
+            "-- The Lich engine (LichEngineProp.scr on Lichengine): RotatingDoor1, the lever before it, sends it",
+            f"-- \"start\" once open and \"finish\" once shut again ({lever_seconds:g} s of travel). \"start\" at rest plays",
+            "-- startup, then loops spincycle; \"finish\" while it spins plays shutdown, then it stands at rest",
+            "-- (LoopAnim static_model).",
+            "-- Each message is heard only in its own state (the script removes the other's trigger): EngineSpin 0 rest,",
+            "-- 1 starting, 2 spinning, 3 stopping. EngineLeverOpen is where the lever was last sent (a click while it",
+            "-- swings turns it back).",
+            f"handlers[{EV_ENGINE_LEVER}] = function()   -- RotatingDoor1",
+            "    local open = var(\"EngineLeverOpen\") == 0",
+            "    set(\"EngineLeverOpen\", open and 1 or 0)",
+            "    for _, id in ipairs(GROUPS.EngineLever) do evt.SetDoorState(id, open and DoorAction.Open or DoorAction.Close) end",
+            f"    arm({T_ENGINE_LEVER}, {lever_seconds:g})",
+            "end",
+            f"handlers[{T_ENGINE_LEVER}] = function()   -- the lever is there: OpenTrigger start / CloseTrigger finish",
+            f"    if not fired({T_ENGINE_LEVER}) then return end",
+            "    local spin = var(\"EngineSpin\")",
+            "    if var(\"EngineLeverOpen\") == 1 and spin == 0 then",
+            "        set(\"EngineSpin\", 1)",
+            f"        evt.PlayDecorationClip({engine_key}, \"startup\")   -- PowerUp: PlayAnim startup, Spin",
+            f"        arm({T_ENGINE_CLIP}, {ENGINE_CLIP_SECONDS:g})",
+            "    elseif var(\"EngineLeverOpen\") == 0 and spin == 2 then",
+            "        set(\"EngineSpin\", 3)",
+            f"        evt.PlayDecorationClip({engine_key}, \"shutdown\")   -- PowerDown: PlayAnim shutdown, Stop",
+            f"        arm({T_ENGINE_CLIP}, {ENGINE_CLIP_SECONDS:g})",
+            "    end",
+            "end",
+            f"handlers[{T_ENGINE_CLIP}] = function()   -- startup or shutdown played out",
+            f"    if not fired({T_ENGINE_CLIP}) then return end",
+            "    if var(\"EngineSpin\") == 1 then",
+            "        set(\"EngineSpin\", 2)",
+            f"        evt.PlayDecorationClip({engine_key}, \"spincycle\", \"loop\")   -- Spin: LoopAnim spincycle",
+            "    elseif var(\"EngineSpin\") == 3 then",
+            "        set(\"EngineSpin\", 0)",
+            f"        evt.PlayDecorationClip({engine_key}, \"\")   -- Stop: LoopAnim static_model",
+            "    end",
+            "end",
             "",
         ]
         script.add([], (EV_LICHSWITCH, "Lich switch", "Switch"), (T_POD_STRIKE, "Engine strike", None, "timer"),
-                   (T_POD_RAISE, "Pod rises", None, "timer"), (EV_ENGINE_LEVER, "Lever", "Lever"))
+                   (T_POD_RAISE, "Pod rises", None, "timer"), (EV_ENGINE_LEVER, "Lever", "Lever"),
+                   (T_ENGINE_LEVER, "Engine lever", None, "timer"), (T_ENGINE_CLIP, "Engine clip", None, "timer"))
         # The elixir.
         lines += [
             "-- The elixir (Givetake.scr, ElixirCook.scr, GiveElixir.scr): the storeroom's herb bags (Elixir Ingredients,",
@@ -462,17 +511,27 @@ class LichLab(dungeon.Hooks):
         # The shooting range.
         lines += [
             "",
-            "-- The shooting range (ILSshootingbook.scr): a book starts its shooter, which fires a bolt at the straw",
-            "-- target in front of it every 1.5 s; ten bolts (50 HP, FireBolt 5) break the target (it sinks into the",
-            "-- floor) and the book closes. A second click stops and restarts the shooter, as MM9's Off/On.",
+            "-- The shooting range (ILSshootingbook.scr): a book's first use plays its OpenBook and starts its shooter,",
+            "-- which fires a bolt at the straw target in front of it every 1.5 s; ten bolts (50 HP, FireBolt 5) break",
+            "-- the target (it sinks into the floor), whose DeathTrigger sends the book Done. A use before that stops and",
+            "-- restarts the shooter (MM9's Off/On); the first use after it plays CloseBook and stops it for good.",
+            "-- Book var: 0 shut, 1 open and shooting, 2 done (target broken), 3 closed for good.",
         ]
         for book, (shooter, target) in BOOKS.items():
             timer = T_BOOK[book]
+            key = self.entity_index(build, book)
             sx, sy, sz = pos[shooter]
             tx, ty, tz = pos[target]
             lines += [
                 f"handlers[{EV_BOOK[book]}] = function()   -- {book} -> {shooter} -> {target}",
-                f"    if var(\"{book}\") == 2 then return end",
+                f"    local state = var(\"{book}\")",
+                "    if state == 3 then return end   -- Stopped",
+                "    if state == 2 then",
+                f"        evt.PlayDecorationClip({key}, \"closebook\")   -- Done: PlayAnim CloseBook, Stopped",
+                f"        set(\"{book}\", 3)",
+                "        return",
+                "    end",
+                f"    if state == 0 then evt.PlayDecorationClip({key}, \"openbook\") end   -- PlayAnim OpenBook",
                 f"    set(\"{book}\", 1)",
                 f"    evt.StartTimer({timer}, seconds(1.5))",
                 "end",
@@ -521,8 +580,9 @@ class LichLab(dungeon.Hooks):
             "",
             "-- The explosion lab (KingKong.scr on ExplodeGhast, ExplodeRevenant, ExplodeDagrell0/1): either touch",
             "-- trigger (they switch each other off: ForceBreak goes out once) makes each critter smash its own cage",
-            "-- front (it sinks away) and the fire behind that broken glass flares up (ExplodeSmoke0-3). A dead critter",
-            "-- takes no ForceBreak (MM9.receives): its cage stays standing and its fire unlit.",
+            "-- front (it sinks away) with a swing (BreakCage: PlayAnim hattack1, the attack_melee clip) and the fire",
+            "-- behind that broken glass flares up (ExplodeSmoke0-3). A dead critter takes no ForceBreak (MM9.receives):",
+            "-- its cage stays standing and its fire unlit. None has an ANIM_NAME (p1): nothing loops while caged.",
             f"local KINGKONG = {{{kingkong}}}   -- critter, its actor, its cage, its fire",
             "local function bustCages()",
             "    if var(\"CagesBroken\") == 1 then return end",
@@ -531,6 +591,7 @@ class LichLab(dungeon.Hooks):
             "        if MM9.receives(\"lichlab\", k[1], \"ForceBreak\", k[2]) then",
             "            set(\"Broken\" .. k[3], 1)",
             "            openGroup(k[3])",
+            "            evt.PlayActorClip(k[2], \"attack_melee\")",
             "            evt.SetSprite(k[4], true)",
             "        end",
             "    end",
@@ -567,8 +628,16 @@ class LichLab(dungeon.Hooks):
             "end",
         ]
         lines += [
-            "handlers[1] = function()   -- map load: the cage fires burn only once broken",
+            "handlers[1] = function()   -- map load: the cage fires burn only once broken; the switch and the engine as left",
             "    for _, k in ipairs(KINGKONG) do if var(\"Broken\" .. k[3]) == 0 then evt.SetSprite(k[4], false) end end",
+            f"    if var(\"LichSwitchDown\") == 1 then evt.PlayDecorationClip({switch_key}, \"down\", \"end\") end",
+            f"    for _, b in ipairs({{{', '.join(f'{{{chr(34)}{b}{chr(34)}, {self.entity_index(build, b)}}}' for b in BOOKS)}}}) do",
+            "        local state = var(b[1])",
+            "        if state == 1 or state == 2 then evt.PlayDecorationClip(b[2], \"openbook\", \"end\")",
+            "        elseif state == 3 then evt.PlayDecorationClip(b[2], \"closebook\", \"end\") end",
+            "    end",
+            f"    if var(\"EngineSpin\") == 1 or var(\"EngineSpin\") == 2 then evt.PlayDecorationClip({engine_key}, "
+            "\"spincycle\", \"loop\") end",
             "end",
         ]
         script.add(lines, (1, "Map load", None))
@@ -595,6 +664,15 @@ class LichLab(dungeon.Hooks):
             script.hooks.append(f'RegisterMonsterDamageHook({DAMAGE_HOOK}, "Lich Lab resurrect on hit", '
                                 f'handlers[{DAMAGE_HOOK}])')
         return script.finish(on_load=[1])
+
+    @staticmethod
+    def entity_index(build, anchor: str) -> int:
+        """A decoration's entity index in the BLV (its clip key when it has no event_id_primary)."""
+        entities = build.content.package.metadata["entities"]
+        index = next(i for i, e in enumerate(entities) if e["id"] == anchor)
+        if entities[index]["event_id_primary"]:
+            raise SystemExit(f"{anchor} has a SetSprite key: use it")
+        return index
 
     def report(self, build) -> dict:
         return {"scripted": {"pickups": self.pickups, "pod_box": self.pod_box,

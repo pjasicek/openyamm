@@ -115,7 +115,7 @@ steps:
       surface jump) and lands on the sand.'
 - movement_segment:
     input: forward
-    seconds: 1.0
+    seconds: 0.6
     actor_collision: false
     actor_ai: false
     start:

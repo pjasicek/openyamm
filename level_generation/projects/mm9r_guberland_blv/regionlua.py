@@ -24,7 +24,7 @@ dialogue 53000 + index (game/mm9/Mm9RudeDialogue.h). The behaviour spec of every
 
 The late guard (AtliGuard, WealthyTownGuard1: overrides.yml `outdoor.people` with the Guard row 9111 of his guard.abc
 model) stands at his post until relieved (key 197). Not here (work/scr_spec.md): the hag and TronPlayer's dialogue (not placed / no RUDE id: shared npcs()),
-Broccan's wander after the talk, the cower animation, PropAnim banners and the stat stone, NPC voices.
+Broccan's wander after the talk, PropAnim banners and the stat stone, NPC voices.
 """
 
 from __future__ import annotations
@@ -35,12 +35,14 @@ import wave
 from pathlib import Path
 
 import cutscenes
+from dungeon import lua
 from quest_xp import balanced_experience, experience_note
 
 EV_PROP = 330           # a scripted prop's click: EV_PROP + k
 COG_PROP = 400          # a prop's SetSprite key: COG_PROP + k
 T_POLL, T_BELL, T_SWITCH = 600, 601, 602
 T_HONK, T_HONK_END = 603, 604   # timers: whack-a-honky's countdown and geese, its ten seconds of play
+T_COWER = 605           # timer: the end of Mata's cower (ArmWrestle.scr :FinishCower)
 EV_GAME_PROP = 700      # the stones game's pieces and the geese: a click EV_GAME_PROP + k
 COG_GAME_PROP = 700     # and their SetSprite key COG_GAME_PROP + k
 PIECES = [f"Piece{k}" for k in range(36)]           # StonesPiece.scr, on Square0-35 (StonesSquare.scr "Piece<k> <k>")
@@ -141,6 +143,11 @@ def extend(hooks, build, script) -> None:
     events, cogs = prop_events(build)
     actor = getattr(hooks, "npc_actor", {})
     props = placed_props()
+    # ArmWrestle.scr :StartCower: Mata's clips and their length (cowerstart, cower five times, cowerstop)
+    mata = actor["CommonerHalfOrcMaleA0"]
+    clips = lua.model_clip_seconds(next(a["monster_id"] for a in build.content.report["actors"]
+                                        if a["actor_index"] == mata))
+    cower_seconds = round(clips["cowerstart"] + 5 * clips["cower"] + clips["cowerstop"], 1)
     lines = [
         "local function show(a, on) evt.SetMonsterBit(a, ActorAttribute.Invisible, on and 0 or 1) end",
         "",
@@ -394,19 +401,32 @@ def extend(hooks, build, script) -> None:
         "end",
         "",
         "-- ArmWrestle.scr (Mata Abyomi, RUDE 148) :OnUse (his dialogue opens too: DoRude 1): with a ticket, his",
-        "-- might (no ScriptParams: 0) + 1..40 against the character's Might + 9..50; a tie is the party's. The",
-        "-- cower animation of a beaten Mata is not carried.",
+        "-- might (no ScriptParams: 0) + 1..40 against the character's Might + 9..50; a tie is the party's.",
+        "-- A beaten Mata :StartCower: PlayAnim cowerstart, LoopAnim cower 5, PlayAnim cowerstop, his use (the game,",
+        f"-- not the dialogue) removed until it ends (:RemoveUse, :RestoreUse: {cower_seconds} s; runtime only).",
+        f"local MATA = {mata}",
+        "local mataCowers = false",
         f"handlers[{rude_use(build, 'CommonerHalfOrcMaleA0')}] = function()",
-        "    if ticket() then",
+        "    if not mataCowers and ticket() then",
         "        local his = MM9.random(1, 40)",
-        "        if might() + MM9.random(9, 50) >= his then gameWon(7115) else evt.StatusText(\"You lose.\") end",
+        "        if might() + MM9.random(9, 50) >= his then",
+        "            evt.PlayActorClip(MATA, {\"cowerstart\", \"cower\", \"cower\", \"cower\", \"cower\", \"cower\", "
+        "\"cowerstop\"}, false)",
+        f"            mataCowers = true; evt.StartTimer({T_COWER}, seconds({cower_seconds}))",
+        "            gameWon(7115)",
+        "        else evt.StatusText(\"You lose.\") end",
         "    end",
         "    MM9.openRude(148)",
+        "end",
+        f"handlers[{T_COWER}] = function()   -- :FinishCower -> :RestoreUse",
+        f"    evt.StopTimer({T_COWER})",
+        "    mataCowers = false",
         "end",
         "",
     ]
     registrations += [(rude_exit(build, "TicketMaster"), "Ticket master", None),
-                      (rude_use(build, "CommonerHalfOrcMaleA0"), "Mata Abyomi", None)]
+                      (rude_use(build, "CommonerHalfOrcMaleA0"), "Mata Abyomi", None),
+                      (T_COWER, "Mata's cower", None, "timer")]
 
     # --- ring the bell ---------------------------------------------------------------------------------------------
     plate_event, plate, _ = door_group(build, "Strikeplate1")

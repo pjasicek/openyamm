@@ -6,10 +6,10 @@ walk, run = sys.argv[1:3]
 s = open(p).read()
 BEGIN = '# MM9 Nosferatu body (level_generation/creatures/mm9_nosferatu_claude)'
 if BEGIN in s:
-    a = s.index(BEGIN); m = re.search(r'\n# (?!Bloodsucker|Annelid|Vampir|MM9 Nosferatu body)[^\n]*\n- descriptor:', s[a:]); b = a + m.start() + 1 if m else len(s)
+    a = s.index(BEGIN); m = re.search(r'\n# (?!Bloodsucker|Annelid|Vampir|MM9 Nosferatu body|One body paint and one head paint)', s[a:]); b = a + m.start() + 1 if m else len(s)
     s = s[:a] + s[b:]
 BLOCK = BEGIN + """: Meshy body and head on NOSFERATU.abc's skeleton (bound in the masters' A pose, clips are MM9's local rotations), 15 finger bones per side from the mesh, robe on a 48-bone lattice keyed per clip from MM9's legs and tail
-# One body paint and one head paint with region ramps. Events are MM9's: Hattack1 Rattack 0.333 s, RAttack1 RangeAttack 0.666 s on LHand1 (DoFX 1 greenyeldots from 0.266 s, waits for body anchors in the effect library).
+# One body paint and one head paint with region ramps. Events are MM9's: Hattack1 Rattack 0.333 s, RAttack1 RangeAttack 0.666 s on LHand1. DoFX n plays FX n of MONSTERS.txt (0-based, object.lto 0x1001af90): RAttack1 DoFX 1 greenyeldots on both palms 0.266-1.333 s; ResurrectSpell's DoFX 2 names no FX (nothing plays); FX0 bluedots is never played. ResurrectFX GreaterDemon at the pelvis as it rises (resurrect). No glow: MM9 has no light there.
 """
 for desc, skin, label in (('MM9 Nosferatu A', 'nos_a', 'Bloodsucker (row 195)'), ('MM9 Nosferatu B', 'nos_b', 'Annelid (row 196)'), ('MM9 Nosferatu C', 'nos_c', 'Vampir (row 197)')):
     BLOCK += f"""# {label}
@@ -27,10 +27,12 @@ for desc, skin, label in (('MM9 Nosferatu A', 'nos_a', 'Bloodsucker (row 195)'),
     sockets:
       palm_left: LHand1
       palm_right: RHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {{impact: 0.333}}
-      attack_ranged: {{impact: 0.666, glow: [palm_left, palm_right], release: palm_left}}
-      cast: {{impact: 0.666, glow: [palm_left, palm_right], release: palm_left}}
+      attack_ranged: {{impact: 0.666, release: palm_left, effect: {{id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}}}
+      cast: {{impact: 0.666, release: palm_left, effect: {{id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}}}
+      resurrect: {{effect: {{id: mm9:GreaterDemon, socket: body}}}}
   clips:
     standing: Standing
     walking: Walking

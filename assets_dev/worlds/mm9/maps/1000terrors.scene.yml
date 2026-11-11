@@ -11338,7 +11338,7 @@
     "position": {
      "x": 12616,
      "y": -14254,
-     "z": -128
+     "z": -127
     },
     "initial_yaw_units": 683,
     "immobile": false,
@@ -11947,7 +11947,7 @@
     "position": {
      "x": 14367,
      "y": -12278,
-     "z": -82
+     "z": -81
     },
     "initial_yaw_units": 1024,
     "immobile": false,
@@ -16212,7 +16212,10 @@
      "carry": false,
      "auto_close_seconds": 5.0
     },
-    "sounds": {}
+    "sounds": {
+     "open_start": "Ambient/metalcreak01.wav",
+     "close_stop": "Door/doorslammetal02.wav"
+    }
    },
    {
     "door_index": 2,

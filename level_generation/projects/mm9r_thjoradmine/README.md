@@ -233,7 +233,7 @@ overlights others; model lighting keeps every prop within x0.72-1.17 of the capt
   (2026-11-06); the click stays as a second route.
 - Movers that MM9 destroys drop out of sight; decorations do not move (the mine cart is swapped, the falling torches
   vanish with their holders).
-- The dwarves stand where MM9 places them; the miners do not walk to their ore and back.
+- The dwarves stand where MM9 places them, but the six miners (DwarvenMiner.scr) work: see "Miners" below.
 - Water jet, lava volume, perception lights: not built (above). Quakes and the cutscene camera: "Cinematics".
 
 ## Cinematics (2026-11-06)
@@ -284,3 +284,21 @@ old `_authored` overlay (Drangheim, Thjorgard, Boot Camp) needs the same; the sh
 
 Rebuilt 2026-10-31 14:54:18 (convert.py from the current shared converter, end 14:58:39): 1 down-facing faces of invisible collision brushes dropped (`work/invisible_bottoms.json`; the flat undersides of MM9's invisible ramp wedges and helper brushes resting at most the party's height over a floor, which stopped the party on stairs as invisible ceilings: `../mm9r_common/DUNGEON_PLAYBOOK.md`, "Package change: invisible brush bottoms"); the BLV now has 11075 faces. The rebuild also carries the converter's other changes of the day (monster collision sizes, water).
 Scenarios after the rebuild: `scenario_chests.yml` pass, `scenario_doors_exits.yml` pass, `scenario_machinery.yml` pass, `scenario_scripted.yml` pass.
+
+## Pack growth (2026-11-09)
+
+The user's call: the mine grows 1.4x like the rest of the clans act (`MAP_FACTOR` in
+`tools/mm9_import_discovery/mm9_density_targets.py`; it was an early map at 1.0x, then a few hours at 1.8x): 31 copies,
+108 counted monsters, all placed, at most 8 within 400 units. MAW adds its own on top
+(`rulesets/maw/worlds/mm9/balance.yml` density 2.1: about 227 at MAW difficulty).
+
+## Miners (2026-11-11)
+
+DwarvenMiner.scr as a routine (`convert.py` `miner_routine`): each miner (actors 6-8, 12-14) takes the pick
+(`mm9_item_dwarfaxe.glb` on `Socket_RHand1`), walks to the floor in front of his MineMarker/HarvMarker, faces the rock
+and plays hammer (7 in 9), rock or rub_beard; 1 in 10 he puts the pick away, walks to his dump marker, plays `dump`
+and comes back. Gudrek (42) and Ketil (44) hold MM9's MonkHammer (NPC8/NPC9.scr `AttachProp` on RHand1). Desktop
+captures after the axe fix (`output/held_items_check/thjoradmine/`): the pick by its handle in the right hand while
+hammering, rubbing the beard and walking, hidden on the dump trip; the hammers in Gudrek's and Ketil's fists by the
+handle behind the head. The routines run only near the party (the engine's active-actor range). Scenarios all pass;
+playthrough segments 23, 24 and 26 pass.

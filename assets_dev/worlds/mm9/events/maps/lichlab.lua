@@ -156,7 +156,11 @@ local function transmute()
     set("Transmuted", var("Transmuted") + changed)
     return changed
 end
+-- Switch.scr Onuse: each use plays the lever's Down, the next its Up (bUp), and triggers Engineglass1.
 handlers[200] = function()   -- lichswitch
+    local down = var("LichSwitchDown") == 0
+    set("LichSwitchDown", down and 1 or 0)
+    evt.PlayDecorationClip(3, down and "down" or "up")
     if var("PodClosed") == 1 then return end
     set("PodClosed", 1)
     openGroup("EnginePod1")
@@ -177,7 +181,43 @@ handlers[251] = function()   -- the pod rises
     evt.SetLight(41369, false)   -- Engineglass1's CloseTrigger: Glow1 off
     set("PodClosed", 0)
 end
-handlers[201] = function() for _, id in ipairs(GROUPS.EngineLever) do evt.SetDoorState(id, DoorAction.Trigger) end end   -- RotatingDoor1
+
+-- The Lich engine (LichEngineProp.scr on Lichengine): RotatingDoor1, the lever before it, sends it
+-- "start" once open and "finish" once shut again (3.6 s of travel). "start" at rest plays
+-- startup, then loops spincycle; "finish" while it spins plays shutdown, then it stands at rest
+-- (LoopAnim static_model).
+-- Each message is heard only in its own state (the script removes the other's trigger): EngineSpin 0 rest,
+-- 1 starting, 2 spinning, 3 stopping. EngineLeverOpen is where the lever was last sent (a click while it
+-- swings turns it back).
+handlers[201] = function()   -- RotatingDoor1
+    local open = var("EngineLeverOpen") == 0
+    set("EngineLeverOpen", open and 1 or 0)
+    for _, id in ipairs(GROUPS.EngineLever) do evt.SetDoorState(id, open and DoorAction.Open or DoorAction.Close) end
+    arm(266, 3.6)
+end
+handlers[266] = function()   -- the lever is there: OpenTrigger start / CloseTrigger finish
+    if not fired(266) then return end
+    local spin = var("EngineSpin")
+    if var("EngineLeverOpen") == 1 and spin == 0 then
+        set("EngineSpin", 1)
+        evt.PlayDecorationClip(129, "startup")   -- PowerUp: PlayAnim startup, Spin
+        arm(267, 3.5)
+    elseif var("EngineLeverOpen") == 0 and spin == 2 then
+        set("EngineSpin", 3)
+        evt.PlayDecorationClip(129, "shutdown")   -- PowerDown: PlayAnim shutdown, Stop
+        arm(267, 3.5)
+    end
+end
+handlers[267] = function()   -- startup or shutdown played out
+    if not fired(267) then return end
+    if var("EngineSpin") == 1 then
+        set("EngineSpin", 2)
+        evt.PlayDecorationClip(129, "spincycle", "loop")   -- Spin: LoopAnim spincycle
+    elseif var("EngineSpin") == 3 then
+        set("EngineSpin", 0)
+        evt.PlayDecorationClip(129, "")   -- Stop: LoopAnim static_model
+    end
+end
 
 -- The elixir (Givetake.scr, ElixirCook.scr, GiveElixir.scr): the storeroom's herb bags (Elixir Ingredients,
 -- 378) and jars (a Jar, 358) are world items; the kitchen's cook pot turns ingredients into Elixir Fluid
@@ -339,11 +379,20 @@ handlers[255] = function()   -- SkeletonDoorA0: the release
     set("AmbientSound" .. TRANSFORMERS.SkeletonDoorA0.panel, 2)   -- the switches' CloseTrigger1: PanelOn off
 end
 
--- The shooting range (ILSshootingbook.scr): a book starts its shooter, which fires a bolt at the straw
--- target in front of it every 1.5 s; ten bolts (50 HP, FireBolt 5) break the target (it sinks into the
--- floor) and the book closes. A second click stops and restarts the shooter, as MM9's Off/On.
+-- The shooting range (ILSshootingbook.scr): a book's first use plays its OpenBook and starts its shooter,
+-- which fires a bolt at the straw target in front of it every 1.5 s; ten bolts (50 HP, FireBolt 5) break
+-- the target (it sinks into the floor), whose DeathTrigger sends the book Done. A use before that stops and
+-- restarts the shooter (MM9's Off/On); the first use after it plays CloseBook and stops it for good.
+-- Book var: 0 shut, 1 open and shooting, 2 done (target broken), 3 closed for good.
 handlers[206] = function()   -- firebook2 -> shootfire1 -> Target19
-    if var("firebook2") == 2 then return end
+    local state = var("firebook2")
+    if state == 3 then return end   -- Stopped
+    if state == 2 then
+        evt.PlayDecorationClip(2, "closebook")   -- Done: PlayAnim CloseBook, Stopped
+        set("firebook2", 3)
+        return
+    end
+    if state == 0 then evt.PlayDecorationClip(2, "openbook") end   -- PlayAnim OpenBook
     set("firebook2", 1)
     evt.StartTimer(256, seconds(1.5))
 end
@@ -361,7 +410,14 @@ handlers[256] = function()
     end
 end
 handlers[207] = function()   -- firebook3 -> fireball1 -> Target16
-    if var("firebook3") == 2 then return end
+    local state = var("firebook3")
+    if state == 3 then return end   -- Stopped
+    if state == 2 then
+        evt.PlayDecorationClip(0, "closebook")   -- Done: PlayAnim CloseBook, Stopped
+        set("firebook3", 3)
+        return
+    end
+    if state == 0 then evt.PlayDecorationClip(0, "openbook") end   -- PlayAnim OpenBook
     set("firebook3", 1)
     evt.StartTimer(257, seconds(1.5))
 end
@@ -379,7 +435,14 @@ handlers[257] = function()
     end
 end
 handlers[208] = function()   -- firebook4 -> fireball2 -> Target6
-    if var("firebook4") == 2 then return end
+    local state = var("firebook4")
+    if state == 3 then return end   -- Stopped
+    if state == 2 then
+        evt.PlayDecorationClip(1, "closebook")   -- Done: PlayAnim CloseBook, Stopped
+        set("firebook4", 3)
+        return
+    end
+    if state == 0 then evt.PlayDecorationClip(1, "openbook") end   -- PlayAnim OpenBook
     set("firebook4", 1)
     evt.StartTimer(258, seconds(1.5))
 end
@@ -415,8 +478,9 @@ end
 
 -- The explosion lab (KingKong.scr on ExplodeGhast, ExplodeRevenant, ExplodeDagrell0/1): either touch
 -- trigger (they switch each other off: ForceBreak goes out once) makes each critter smash its own cage
--- front (it sinks away) and the fire behind that broken glass flares up (ExplodeSmoke0-3). A dead critter
--- takes no ForceBreak (MM9.receives): its cage stays standing and its fire unlit.
+-- front (it sinks away) with a swing (BreakCage: PlayAnim hattack1, the attack_melee clip) and the fire
+-- behind that broken glass flares up (ExplodeSmoke0-3). A dead critter takes no ForceBreak (MM9.receives):
+-- its cage stays standing and its fire unlit. None has an ANIM_NAME (p1): nothing loops while caged.
 local KINGKONG = {{"ExplodeGhast", 139, "CageGhast", 323}, {"ExplodeRevenant", 138, "CageRevenant", 322}, {"ExplodeDagrell0", 141, "CageSpectre", 320}, {"ExplodeDagrell1", 140, "CageVenomous", 321}}   -- critter, its actor, its cage, its fire
 local function bustCages()
     if var("CagesBroken") == 1 then return end
@@ -425,6 +489,7 @@ local function bustCages()
         if MM9.receives("lichlab", k[1], "ForceBreak", k[2]) then
             set("Broken" .. k[3], 1)
             openGroup(k[3])
+            evt.PlayActorClip(k[2], "attack_melee")
             evt.SetSprite(k[4], true)
         end
     end
@@ -451,8 +516,15 @@ handlers[95] = function()   -- any monster killed: the summoner's ghosts
         if killed < 10 then raiseGhost(evt.RandomBetween(1, 4, 1)) end
     end
 end
-handlers[1] = function()   -- map load: the cage fires burn only once broken
+handlers[1] = function()   -- map load: the cage fires burn only once broken; the switch and the engine as left
     for _, k in ipairs(KINGKONG) do if var("Broken" .. k[3]) == 0 then evt.SetSprite(k[4], false) end end
+    if var("LichSwitchDown") == 1 then evt.PlayDecorationClip(3, "down", "end") end
+    for _, b in ipairs({{"firebook2", 2}, {"firebook3", 0}, {"firebook4", 1}}) do
+        local state = var(b[1])
+        if state == 1 or state == 2 then evt.PlayDecorationClip(b[2], "openbook", "end")
+        elseif state == 3 then evt.PlayDecorationClip(b[2], "closebook", "end") end
+    end
+    if var("EngineSpin") == 1 or var("EngineSpin") == 2 then evt.PlayDecorationClip(129, "spincycle", "loop") end
 end
 -- DamageTriggerTarget (AutoResurrect.scr :OnResurrect): SkeletonMaster1 -> SkeletonMaster52.
 local RAISED_BY_HIT = {[53] = 36}
@@ -569,6 +641,8 @@ RegisterEvent(200, "Lich switch", handlers[200], "Switch")
 RegisterMapTimerEvent(250, seconds(3), handlers[250], "Engine strike", "", seconds(3))
 RegisterMapTimerEvent(251, seconds(3), handlers[251], "Pod rises", "", seconds(3))
 RegisterEvent(201, "Lever", handlers[201], "Lever")
+RegisterMapTimerEvent(266, seconds(3), handlers[266], "Engine lever", "", seconds(3))
+RegisterMapTimerEvent(267, seconds(3), handlers[267], "Engine clip", "", seconds(3))
 RegisterEvent(222, "Cook pot", handlers[222], "Cook pot")
 RegisterEvent(223, "Burner", handlers[223], "Burner")
 RegisterEvent(224, "Scroll", handlers[224], "Scroll")

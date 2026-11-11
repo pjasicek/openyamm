@@ -265,7 +265,7 @@ def build_checklist_rows(raw_rows):
             "Quest": clean_text(source["Quest Note Text"]),
             "Source Notes": clean_text(source["Notes"]),
             "Related QBits": related_qbits_for(source),
-            "Original Owner": clean_text(source["Owner"]),
+            "Original Owner": clean_text(source["Author"]),
             "Tester": "",
             "Build / Commit": "",
             "Test Date": "",

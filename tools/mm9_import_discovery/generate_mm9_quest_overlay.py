@@ -79,7 +79,7 @@ def generate_quest_overlay(source_path: Path) -> str:
             str(MM9_QBIT_BASE + entry_id),
             journal_text(row[3], row[4]),
             f"Generated from NPC997.rude row {source_row}, entry {entry_id}.",
-            "MM9",
+            "Chedian",
             ";".join(str(qbit) for qbit in required_qbits),
             ";".join(str(qbit) for qbit in forbidden_qbits),
         ])

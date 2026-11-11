@@ -87,10 +87,10 @@ steps:
 - set_pose:
     map: klusoshouse.blv
     x: -942
-    y: -976
+    y: -982
     z: 1
     yaw: -1.5708
-    pitch: -0.0931
+    pitch: -0.0798
 - advance_runtime:
     seconds: 0.2
 - press_interact: {}

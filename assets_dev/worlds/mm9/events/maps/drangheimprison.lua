@@ -68,6 +68,19 @@ end
 -- lets the party be while it holds the visitor's pass (key 5007) and has not raised the alarm (key
 -- 5006); the gate guards (GuardRude.scr) mind only the alarm.
 local INNER_GROUPS = {1, 3, 4, 6, 7, 8}
+-- The gate guards (GuardRude.scr :StartWork): 1 in 20 sleeps from the map's start (LoopAnim sleep)
+-- until a click wakes him (:OnUse :Wakeup, PlayAnim Stand) or the alarm sounds.
+local GATE = {Guard0 = {actor = 52, rude = 425}, Guard1 = {actor = 53, rude = 425}, Guard2 = {actor = 54, rude = 426}}
+local function wake(name)
+    if var("Asleep" .. name) == 0 then return end
+    set("Asleep" .. name, 0)
+    evt.ClearActorPresentation(GATE[name].actor)
+end
+local function rollSleep(name, step)
+    local asleep = MM9.hasKey(5006) == 0 and evt.RandomBetween(1, 20, step) == 1
+    set("Asleep" .. name, asleep and 1 or 0)
+    if asleep then evt.PlayActorClip(GATE[name].actor, "sleep", true) end
+end
 local function applyHostility()
     local alarm = MM9.hasKey(5006) == 1
     local visitor = MM9.hasKey(5007) == 1 and not alarm
@@ -76,9 +89,9 @@ local function applyHostility()
     evt.SetMonGroupBit(2, MonsterBits.Hostile, alarm)
     -- the alarm's AddEnemy Player: MM9's monster AI walks the gate guards from their posts at the party
     if alarm then
-        evt.SetActorImmobile(52, false)   -- Guard0
-        evt.SetActorImmobile(53, false)   -- Guard1
-        evt.SetActorImmobile(54, false)   -- Guard2
+        evt.SetActorImmobile(52, false); wake("Guard0")   -- Guard0
+        evt.SetActorImmobile(53, false); wake("Guard1")   -- Guard1
+        evt.SetActorImmobile(54, false); wake("Guard2")   -- Guard2
     end
 end
 local function alarm()    -- TurnHostilityOn, AlarmControl.scr OnAlarm
@@ -95,6 +108,7 @@ handlers[97] = function(context) if GUARD_MONSTERS[context.monsterId] and contex
 
 -- The gate guards (GuardRude.scr :OnRude, :OnMove): the alarm given in the talk goes off; with the pass Guard2
 -- (dialogue 426) hands over the Visitor's Pass item (446) and Guard0/1 step aside to their markers.
+handlers[54033] = function() wake("Guard0"); MM9.openRude(425, 52) end   -- Guard0 :OnUse
 handlers[51033] = function()   -- Guard0
     if MM9.hasKey(5006) == 1 then alarm() return end
     if MM9.hasKey(5007) == 0 then return end
@@ -102,6 +116,7 @@ handlers[51033] = function()   -- Guard0
     set("AsideGuard0", 1)
     evt.SetMapActorPosition(52, -1751, -6728, -2232)
 end
+handlers[54034] = function() wake("Guard1"); MM9.openRude(425, 53) end   -- Guard1 :OnUse
 handlers[51034] = function()   -- Guard1
     if MM9.hasKey(5006) == 1 then alarm() return end
     if MM9.hasKey(5007) == 0 then return end
@@ -109,6 +124,7 @@ handlers[51034] = function()   -- Guard1
     set("AsideGuard1", 1)
     evt.SetMapActorPosition(53, -2591, -6717, -2232)
 end
+handlers[54035] = function() wake("Guard2"); MM9.openRude(426, 54) end   -- Guard2 :OnUse
 handlers[51035] = function()   -- Guard2
     if MM9.hasKey(5006) == 1 then alarm() return end
     if MM9.hasKey(5007) == 0 then return end
@@ -219,21 +235,107 @@ handlers[261] = function()
         evt.PlaySoundName("events/metalmetal0" .. evt.RandomBetween(1, 5, 1) .. ".wav", -307, -2028, -399)
     end
 end
+-- His tool in his right hand (:AttachHammer, :AttachSword): the sword once he leaves the anvil (:CoolWeapon),
+-- the hammer again at the weapon rack (:OnReturnedWeapon). Polled every 0.5 s.
+local RACK = {-1292, -2150, -410}
+local SMITH_TOOLS = {[0] = "worlds/mm9/models/mm9_item_hammer.glb", [1] = "worlds/mm9/models/mm9_item_kirasword.glb"}
+handlers[263] = function()
+    evt.StartTimer(263, seconds(0.5))
+    if evt.CheckMonstersKilled(ActorKillCheck.Group, 5, 0, false) then return end
+    local x, y = evt.GetMapActorPosition(SMITH)
+    if x == nil then return end
+    local atAnvil, sword = smithAtAnvil(), var("SmithSword")
+    local want = sword
+    if sword == 0 and var("SmithAtAnvil") == 1 and not atAnvil then want = 1 end
+    if sword == 1 and (x - RACK[1]) ^ 2 + (y - RACK[2]) ^ 2 < 160 ^ 2 then want = 0 end
+    set("SmithAtAnvil", atAnvil and 1 or 0)
+    if want == sword then return end
+    set("SmithSword", want)
+    evt.DetachActorItem(SMITH, "Socket_RHand1")
+    evt.AttachActorItem(SMITH, SMITH_TOOLS[want], "Socket_RHand1")
+end
 
--- The interrogation (DrangheimInterrogator.scr; either TriggerBeatings pad, once): for each of the three
--- prisoners the warden's lever opens the cell and shuts it behind him, the doorman opens and shuts the
--- interrogation room, the beating sounds, and it runs back. It stops when the warden, the doorman or the
--- interrogator is dead or the alarm is up (MM9: OnObjectLinkBroken, hostility).
-local BEATEN = {{prisoner = 64, lever = DOORS.blever0, cell = DOORS.Celldoor14, home = {983, -4833, -2232}}, {prisoner = 65, lever = DOORS.blever2, cell = DOORS.Celldoor15, home = {287, -3789, -2232}}, {prisoner = 66, lever = DOORS.blever1, cell = DOORS.Celldoor16, home = {287, -4833, -2232}}}
+-- The interrogation (DrangheimInterrogator.scr; either TriggerBeatings pad, once). For each of the three
+-- prisoners: the interrogator walks to his cell's marker; the warden's lever opens the cell (aware); the
+-- interrogator calls him out (fidget2), he comes out and cowers; the interrogator signals (aware) and the cell
+-- shuts; the prisoner follows him along MarkerBeating<k+1>-9; the doorman opens the interrogation room at 8 and
+-- shuts it at 9; the beating sounds; the door opens and they walk back, the door shutting behind them; the
+-- cell opens, the interrogator sends him in (fidget1), he walks to his CellMarker and the cell shuts. It stops
+-- when the warden, the doorman or the interrogator is dead or the alarm is up (MM9: OnObjectLinkBroken,
+-- hostility). A walk not done in 25 s (or under way when the game was saved) ends at its point at once.
+local MARKERS = {[0] = {942, -4342, -2232}, [1] = {328, -4342, -2232}, [2] = {328, -4342, -2232}, [3] = {164, -4342, -2232}, [4] = {-655, -4342, -2232}, [5] = {-1556, -4342, -2232}, [6] = {-1884, -4669, -2232}, [7] = {-2130, -4997, -2232}, [8] = {-2130, -5571, -2232}, [9] = {-3031, -5489, -2232}}
+local BEATEN = {{prisoner = 64, lever = DOORS.blever0, cell = DOORS.Celldoor14, pick = {951, -4452, -2232}, home = {983, -4997, -2232}}, {prisoner = 65, lever = DOORS.blever2, cell = DOORS.Celldoor15, pick = {320, -4232, -2232}, home = {328, -3686, -2232}}, {prisoner = 66, lever = DOORS.blever1, cell = DOORS.Celldoor16, pick = {319, -4452, -2232}, home = {328, -4997, -2232}}}
+local INTERR, WARDEN, IN_ROOM = 63, 62, {-3200, -5489, -2232}
+local CELL_WAIT, DOOR_WAIT, BEAT_SECONDS, LEG_TIMEOUT = 3, 4, 8, 25
 local function beatingOff() return MM9.hasKey(5006) == 1 or evt.CheckMonstersKilled(ActorKillCheck.Group, 6, 0, false) or evt.CheckMonstersKilled(ActorKillCheck.Group, 7, 0, false) or evt.CheckMonstersKilled(ActorKillCheck.Group, 8, 0, false) end
 local function beatStep(delay) arm(260, delay) end
 local function openGroupInterr() open("RightDoor0"); open("LeftDoor0") end
 local function closeGroupInterr() close("RightDoor0"); close("LeftDoor0") end
+local function cellLever(b, opening)   -- DrangheimWarden.scr :OpenCell / :CloseCell
+    evt.PlayActorClip(WARDEN, "aware")
+    local action = opening and DoorAction.Open or DoorAction.Close
+    evt.SetDoorState(b.lever, action); evt.SetDoorState(b.cell, action)
+end
+local function route(from, to)   -- the markers between, one of two that stand on the same spot (1, 2) dropped
+    local out, step = {}, from <= to and 1 or -1
+    for i = from, to, step do
+        local m, last = MARKERS[i], out[#out]
+        if last == nil or m[1] ~= last[1] or m[2] ~= last[2] then out[#out + 1] = m end
+    end
+    return out
+end
+local function plan(k)   -- prisoner k (0-2): {run, wait} or a walk {i = point, p = point}
+    local b, steps = BEATEN[k + 1], {}
+    local function add(step) steps[#steps + 1] = step end
+    add({i = MARKERS[k]})
+    add({run = function() cellLever(b, true) end, wait = CELL_WAIT})
+    add({run = function() evt.PlayActorClip(INTERR, "fidget2") end, wait = 2})   -- ANIM_COMEOUT
+    add({p = b.pick})
+    add({run = function() evt.PlayActorClip(b.prisoner, "cower") end, wait = 1.2})
+    add({run = function() evt.PlayActorClip(INTERR, "aware"); cellLever(b, false) end, wait = CELL_WAIT})
+    local out = route(k, 8)
+    for n = 2, #out do add({i = out[n], p = out[n - 1]}) end
+    add({run = openGroupInterr, wait = DOOR_WAIT})
+    add({i = MARKERS[9], p = IN_ROOM})
+    add({run = closeGroupInterr, wait = DOOR_WAIT})
+    add({run = function() evt.PlaySoundName("events/beatdownmix8bit.wav", -3031, -5489, -2232) end, wait = BEAT_SECONDS})
+    add({run = openGroupInterr, wait = DOOR_WAIT})
+    local back = route(9, k)
+    for n = 2, #back do
+        add({i = back[n], p = back[n - 1]})
+        if n == 3 then add({run = closeGroupInterr, wait = 0.5}) end   -- both past the door (8)
+    end
+    add({run = function() cellLever(b, true) end, wait = CELL_WAIT})
+    add({run = function() evt.PlayActorClip(INTERR, "fidget") end, wait = 2})   -- ANIM_GOBACK
+    add({p = b.home})
+    add({run = function() cellLever(b, false) end, wait = 4})
+    return steps
+end
+local function walker(step) return step.i and INTERR or nil, step.p and BEATEN[var("BeatPrisoner")].prisoner or nil end
+local function runBeat()   -- the next step; each clip has ended by then (its step's wait): let them go
+    local k = var("BeatPrisoner")
+    for _, a in ipairs({INTERR, WARDEN, BEATEN[k].prisoner}) do evt.ClearActorPresentation(a) end
+    if beatingOff() then set("Beatings", 2) return end
+    local step = plan(k - 1)[var("BeatStep")]
+    if step == nil then   -- this prisoner is back: the next
+        if k >= #BEATEN then set("Beatings", 2) return end
+        set("BeatPrisoner", k + 1); set("BeatStep", 1)
+        return runBeat()
+    end
+    set("BeatWalk", var("BeatStep"))
+    set("BeatStep", var("BeatStep") + 1)
+    if step.run then step.run(); beatStep(step.wait) return end
+    local i, p = walker(step)
+    set("WaitI", i and 1 or 0); set("WaitP", p and 1 or 0)
+    if i then evt.ClearActorPresentation(i); evt.MoveActorTo(i, step.i[1], step.i[2], step.i[3], 254) end
+    if p then evt.ClearActorPresentation(p); evt.MoveActorTo(p, step.p[1], step.p[2], step.p[3], 255) end
+    beatStep(LEG_TIMEOUT)
+end
 local function startBeatings()
     if var("Beatings") ~= 0 then return end
     set("Beatings", 1)
     set("BeatPrisoner", 1)
-    set("BeatStep", 0)
+    set("BeatStep", 1)
     beatStep(1)
 end
 handlers[250] = function() startBeatings() end
@@ -241,38 +343,24 @@ handlers[251] = function() startBeatings() end
 handlers[233] = function() evt.StatusText("The door is locked.") end
 handlers[260] = function()
     if not fired(260) or var("Beatings") ~= 1 then return end
-    if beatingOff() then set("Beatings", 2) return end
-    local step, k = var("BeatStep"), var("BeatPrisoner")
-    local b = BEATEN[k]
-    set("BeatStep", step + 1)
-    if step == 0 then       -- the warden opens the cell
-        evt.SetDoorState(b.lever, DoorAction.Open); evt.SetDoorState(b.cell, DoorAction.Open); beatStep(3)
-    elseif step == 1 then   -- and shuts it behind the prisoner
-        evt.SetDoorState(b.lever, DoorAction.Close); evt.SetDoorState(b.cell, DoorAction.Close); beatStep(5)
-    elseif step == 2 then   -- the doorman opens the room
-        openGroupInterr(); beatStep(4)
-    elseif step == 3 then   -- shuts it; they are inside
-        closeGroupInterr()
-        evt.SetMapActorPosition(b.prisoner, -3200, -5489, -2232)
-        evt.SetMapActorPosition(63, -3031, -5489, -2232)
-        beatStep(3)
-    elseif step == 4 then   -- the beating
-        evt.PlaySoundName("events/beatdownmix8bit.wav", -3031, -5489, -2232)
-        beatStep(8)
-    elseif step == 5 then   -- the door opens again
-        openGroupInterr(); beatStep(4)
-    elseif step == 6 then   -- back to the cell
-        closeGroupInterr()
-        evt.SetDoorState(b.lever, DoorAction.Open); evt.SetDoorState(b.cell, DoorAction.Open)
-        evt.SetMapActorPosition(b.prisoner, b.home[1], b.home[2], b.home[3])
-        evt.SetMapActorPosition(63, 942, -4342, -2232)
-        beatStep(3)
-    else                    -- the cell shuts; the next prisoner
-        evt.SetDoorState(b.lever, DoorAction.Close); evt.SetDoorState(b.cell, DoorAction.Close)
-        set("BeatStep", 0)
-        if k == 3 then set("Beatings", 2) else set("BeatPrisoner", k + 1); beatStep(4) end
+    if var("WaitI") == 1 or var("WaitP") == 1 then   -- the walk took too long, or a load ended it: there
+        local step = plan(var("BeatPrisoner") - 1)[var("BeatWalk")]
+        local i, p = walker(step)
+        if i and var("WaitI") == 1 then evt.StopActorMove(i); evt.SetMapActorPosition(i, step.i[1], step.i[2], step.i[3]) end
+        if p and var("WaitP") == 1 then evt.StopActorMove(p); evt.SetMapActorPosition(p, step.p[1], step.p[2], step.p[3]) end
+        set("WaitI", 0); set("WaitP", 0)
     end
+    runBeat()
 end
+local function arrived(flag)
+    if var("Beatings") ~= 1 or var(flag) == 0 then return end
+    set(flag, 0)
+    if var("WaitI") == 1 or var("WaitP") == 1 then return end
+    evt.StopTimer(260); set("Armed260", 0)
+    runBeat()
+end
+handlers[254] = function() arrived("WaitI") end
+handlers[255] = function() arrived("WaitP") end
 
 -- The barracks guards (GuardToNegate.scr): enemies of the Nagate; the party at DDoor5 sets them off (MM9: they
 -- run to the barracks; here they call out and fight what they meet).
@@ -313,6 +401,10 @@ handlers[1] = function()   -- map load
     if var("AsideGuard0") == 1 then evt.SetMapActorPosition(52, -1751, -6728, -2232) end
     if var("AsideGuard1") == 1 then evt.SetMapActorPosition(53, -2591, -6717, -2232) end
     smithAtWork()
+    evt.StartTimer(263, seconds(0.5))
+    rollSleep("Guard0", 1)
+    rollSleep("Guard1", 2)
+    rollSleep("Guard2", 3)
     updateHints()
 end
 -- MM9's greeting voices (dungeon/voices.py): a click on these people plays their GreetingSound or the
@@ -372,8 +464,11 @@ RegisterEvent(43, "Chest", handlers[43], "Chest")
 RegisterEvent(44, "Chest", handlers[44], "Chest")
 RegisterEvent(45, "Chest", handlers[45], "Chest")
 RegisterEvent(46, "Chest", handlers[46], "Chest")
+RegisterEvent(54033, "Guard0", handlers[54033])
 RegisterEvent(51033, "Guard0", handlers[51033])
+RegisterEvent(54034, "Guard1", handlers[54034])
 RegisterEvent(51034, "Guard1", handlers[51034])
+RegisterEvent(54035, "Guard2", handlers[54035])
 RegisterEvent(51035, "Guard2", handlers[51035])
 RegisterEvent(51039, "Aymril Banito", handlers[51039])
 RegisterEvent(231, "Cell door", handlers[231], "Door")
@@ -408,12 +503,15 @@ RegisterEvent(221, "Lever", handlers[221], "Lever")
 RegisterEvent(222, "Lever", handlers[222], "Lever")
 RegisterEvent(232, "Grate", handlers[232], "Grate")
 RegisterMapTimerEvent(261, seconds(3), handlers[261], "Smith", "", seconds(3))
+RegisterMapTimerEvent(263, seconds(3), handlers[263], "Smith's tools", "", seconds(3))
 RegisterEvent(240, "Well lid", handlers[240], "Lid")
 RegisterEvent(241, "Hatch", handlers[241], "Hatch")
 RegisterEvent(250, "TriggerBeatings0", handlers[250])
 RegisterEvent(251, "TriggerBeatings1", handlers[251])
 RegisterEvent(233, "Door", handlers[233], "Door")
 RegisterMapTimerEvent(260, seconds(3), handlers[260], "Interrogation", "", seconds(3))
+RegisterEvent(254, "Interrogator arrives", handlers[254])
+RegisterEvent(255, "Prisoner arrives", handlers[255])
 RegisterEvent(252, "NagGuardTrigger0", handlers[252])
 RegisterMapTimerEvent(262, seconds(3), handlers[262], "Perception hints", "", seconds(3))
 RegisterEvent(1, "Map load", handlers[1])

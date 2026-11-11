@@ -3,11 +3,11 @@
     "bake": "output/mm9_rework/bakes/yanmirsfort",
     "carried_over": false,
     "geometry_hash": "5356722701257414",
-    "lighting_sha256": "938bd1c3553668c4e9b6488c84aca1fb1b867646c2393bcc25726052ee51cba9",
+    "lighting_sha256": "a7eb21f8bbbf463d3e8219ba9ac54b30af8a1f8f50c23da9fd6f7582def92138",
     "recipe": {
-      "backend": "5.2.2 LTS",
+      "backend": "5.3.0",
       "extra_lights": [],
-      "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
       "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
       "profile": {
         "ambient_colour": [
@@ -62,5 +62,5 @@
     "plane_tolerance_lt": 1.5
   },
   "producer": "mm9r_common/lightmap_transfer.py",
-  "producer_sha256": "8b9b0dd21f5d7be16f8b361eca93b138610cafe45ee68c34210f1867395ae9d6"
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
 }

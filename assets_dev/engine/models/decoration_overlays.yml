@@ -18,6 +18,17 @@ overlays:
       - engine/models/mm6_deco_barrel_liquid_green.glb
       - engine/models/mm6_deco_barrel_liquid_purple.glb
       - engine/models/mm6_deco_barrel_liquid_white.glb
+  # MM6's small barrel (MMerge's stat barrels include it; MM6 itself had none) uses the same open barrel model.
+  - name: smlbarel
+    states:
+      - null
+      - engine/models/mm6_deco_barrel_liquid_red.glb
+      - engine/models/mm6_deco_barrel_liquid_yellow.glb
+      - engine/models/mm6_deco_barrel_liquid_blue.glb
+      - engine/models/mm6_deco_barrel_liquid_orange.glb
+      - engine/models/mm6_deco_barrel_liquid_green.glb
+      - engine/models/mm6_deco_barrel_liquid_purple.glb
+      - engine/models/mm6_deco_barrel_liquid_white.glb
   # --- MM8 decorations ---
   # Stat barrel liquid by barrel state (Global.lua events 268-275): empty, then red Might, yellow Accuracy, blue
   # Personality, orange Intellect, green Endurance, purple Speed and white Luck. Drinking empties the barrel.

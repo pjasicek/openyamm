@@ -178,3 +178,13 @@ city:
   outdoor_view: true                 # view distance and haze as an outdoor map's, not MM9's grey fog (INDOOR_OPEN_SKY.md)
   view_distance_scale: 0.5           # 8 096 units at the default view distance setting (16 192), the user's choice
   half_steps: true                   # invisible half steps up standable 50-66 rises (CITY_PLAYBOOK "Raised floors")
+
+# Markel's awards (Prize0-5, the Stuffed Dragon on the shelf of his hall) are world items (dungeon/pickups.py
+# NAMED_PICKUPS): drawn standing and facing the hall as MM9 placed them (yaw 180), not at a random turn.
+pickups:
+  Prize0: {pose: [180, 0, 0]}
+  Prize1: {pose: [180, 0, 0]}
+  Prize2: {pose: [180, 0, 0]}
+  Prize3: {pose: [180, 0, 0]}
+  Prize4: {pose: [180, 0, 0]}
+  Prize5: {pose: [180, 0, 0]}

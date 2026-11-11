@@ -2,12 +2,12 @@
   "base": {
     "bake": "output/mm9_rework/bakes/yorwick",
     "carried_over": false,
-    "geometry_hash": "3b43ae43312336c3",
-    "lighting_sha256": "75602401cda9c5aec09a51c306342bb310c6965b4a19a3385396823e3fffe7b8",
+    "geometry_hash": "2fe7ab541167caf6",
+    "lighting_sha256": "0416a72c3df087e97e0ef3c39c5482d6e9be3bd260fb59e503aeec6e6c1b99c2",
     "recipe": {
-      "backend": "5.2.2 LTS",
+      "backend": "5.3.0",
       "extra_lights": [],
-      "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
       "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
       "profile": {
         "ambient_colour": [
@@ -67,5 +67,5 @@
     "plane_tolerance_lt": 1.5
   },
   "producer": "mm9r_common/lightmap_transfer.py",
-  "producer_sha256": "8b9b0dd21f5d7be16f8b361eca93b138610cafe45ee68c34210f1867395ae9d6"
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
 }

@@ -176,3 +176,9 @@ not rebuilt, so the 2026-11-04 LOD0 reduction stays.
   through the side panels in every seated clip (about 19.6 cm, the hinge ring cannot drape a horizontal thigh); front and
   back read correctly (`review/seated/clay_skirt.png`). Strips: `clay_a.png`, `clay_b.png`, `clay_ercc.png` (M2 body).
 - Rollback: `work/seated/before/mm9_peasantm2.glb` (the source before the graft).
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_Cup`, for Ercc's cup). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`). Since 2026-11-11 the held items project's `grip_clips.py` also closes the right hand round
+Ercc's cup in ercc01a-c, ercc02 and ercc_out, moves `Socket_Cup` into that fist and adds the still clip `ercc_sitting`
+(Ercc.ABC's own sitting pose, cup at the chest); a rebuild must run `add_sockets.py`, then `grip_clips.py`.

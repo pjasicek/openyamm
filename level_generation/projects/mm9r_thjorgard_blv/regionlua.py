@@ -34,15 +34,18 @@ event 50000 + the DAT object index, a click before the dialogue 53000 + index (g
   active character's Might + 9-50 against his 2 + 1-40 (key 7105).
 
 Not here (work/scr_spec.md): the stones player's own dialogue (his DAT row has no RUDE id), the boats' and the bell's
-other motions, the jumpers' leap and the ambush's chase (monster AI), the training hall's breakable wall
-(TrainingEnter.scr: destructible brushes), voices, posed figures and banners (PropAnim.scr), the unplaced stat stone,
-ambient sounds.
+other motions, the jumpers' leap arc (their clips are played) and the ambush's chase (monster AI), the training hall's
+breakable wall (TrainingEnter.scr: destructible brushes), voices, posed figures and banners (PropAnim.scr), the unplaced
+stat stone, ambient sounds.
 """
 
 from __future__ import annotations
 
 import json
+import math
 from collections import defaultdict
+
+from dungeon import lua
 from quest_xp import balanced_experience, experience_lua
 
 SCALE = 2.56                    # MM9 units -> engine units
@@ -130,8 +133,10 @@ def group_doors(build, group: str) -> list:
 def extend(hooks, build, script) -> None:
     events, cogs = prop_events(build)
     actors = defaultdict(list)                  # DAT name -> placed actor indices (the monsters and the people)
+    monster_of = {}                             # actor index -> its monster row (the clip lengths of its body)
     for record in build.content.report["actors"]:
         actors[record["anchor"]].append(record["actor_index"])
+        monster_of[record["actor_index"]] = record["monster_id"]
     npc = getattr(hooks, "npc_actor", {})
     registrations = []
     load = []
@@ -546,16 +551,27 @@ def extend(hooks, build, script) -> None:
     # --- the arm wrestler ----------------------------------------------------------------------------------------
     if "HalfOrcCaptain0" in npc:
         wrestle = rude_use(build, "HalfOrcCaptain0")
+        wrestler = npc["HalfOrcCaptain0"]
         lines += [
             "-- Armwrestle.scr \"2\" (HalfOrcCaptain0) :OnUse -> :StartMightGame: with a ticket, his 2 + 1-40 against the",
-            "-- active character's Might (GetAttribute 0) + 9-50; a tie wins. MM9 has him cower then.",
+            "-- active character's Might (GetAttribute 0) + 9-50; a tie wins. A win: :StartCower (PlayAnim cowerstart,",
+            "-- LoopAnim cower 5, PlayAnim cowerstop), his use removed until it ends (:RemoveUse, :RestoreUse). His body",
+            "-- (the Half Orc's) has only the loop, cower: five of it (MM9's DookMilitia.abc has no cowerstop either).",
+            f"local WRESTLER = {wrestler}",
             f"handlers[{wrestle}] = function()",
+            "    if var(\"Tick\") < var(\"WrestlerCowerUntil\") then return end   -- :RemoveUse while he cowers",
             "    if not ticket() then return end",
             "    local mine, theirs = 2 + rnd(1, 40), currentMight() + rnd(9, 50)",
-            "    if theirs >= mine then gameWon(7105) else gameLost() end",
+            "    if theirs >= mine then",
+            "        evt.PlayActorClip(WRESTLER, {\"cower\", \"cower\", \"cower\", \"cower\", \"cower\"}, false)",
+            f"        set(\"WrestlerCowerUntil\", var(\"Tick\") + "
+            f"{math.ceil(5 * lua.model_clip_seconds(monster_of[wrestler])['cower'] * 2)})",
+            "        gameWon(7105)",
+            "    else gameLost() end",
             "end",
             "",
         ]
+        load.append("    set(\"WrestlerCowerUntil\", 0)   -- the cower is not saved")
         registrations.append((wrestle, "Arm wrestler", None))
 
     # --- people: Hjarrand --------------------------------------------------------------------------------------------
@@ -624,21 +640,37 @@ def extend(hooks, build, script) -> None:
         high = [int(max(corners[0][i], corners[1][i])) for i in range(3)]
         margin = 64
         waits = ", ".join(f"{{{round(a * 2)}, {round(b * 2)}}}" for a, b in JUMPER_WAITS)
+        clips = lua.model_clip_seconds(monster_of[jumpers[0]])
+        jump_ticks = math.ceil((clips["lying_down"] + clips["jumping_down"]) * 2)   # half-second ticks
         lines += [
             "-- Thorgard_actor.scr / Jumper.inc (Jumper0-3, the bandits on the cliff): hidden, not solid, until",
             f"-- {JUMPER_TRIGGER} (once): Jumper0 GetPlayer at once, Jumper1-3 WaitGetPlayer (Jumper.inc 1-2.5 s; Jumper2",
             "-- 10-25 s, Jumper3 30-45 s, Thorgard_actor.scr :JumperWaitGetPlayer); then they appear and come for the party",
-            "-- (the leap is not carried; the monster AI takes them on sight). Their DeathTriggerTarget: Jumper0's death sends",
+            "-- (the leap's clips below; the monster AI takes them on sight). Their DeathTriggerTarget: Jumper0's death sends",
             "-- Jumper2 BuddyDead, Jumper1's Jumper3 (:SetupJumper AddTrigger BuddyDead, JumperGetPlayer: at once).",
             "-- Map vars JumpersSprung, JumperDue<k> (the tick it appears), JumperOut<k>.",
             f"local JUMPERS = {{{', '.join(map(str, jumpers))}}}   -- {', '.join(JUMPERS)}",
             f"local JUMPER_WAIT = {{{waits}}}   -- half-second ticks",
             "local JUMPER_NAMES = {" + ", ".join(f'"{name}"' for name in JUMPERS) + "}",
             "-- A slain jumper takes no GetPlayer, WaitGetPlayer or BuddyDead (MM9.receives); a wait it took still ends.",
+            "-- Jumper.inc :JumperGetPlayer (LoopAnim LyingDown while it rises, then :JumpAtTarget LoopAnim JumpingDown",
+            "-- until it lands): the two clips in turn, held in place meanwhile (the leap's arc is not carried);",
+            "-- map var JumperLands<k>: the tick it is free (a load frees it at once). Freed, it goes for the party",
+            "-- (JumpAtTarget's GetPlayer): on the cliff top it seldom sees the party below, and one left waiting there",
+            "-- stood on it for good (Jumper3 in the user's save, 2026-11-11); a load sets the free ones on it again.",
+            f"local JUMP_TICKS = {jump_ticks}",
             "local function jumpNow(k)",
             "    if var(\"JumperOut\" .. k) == 1 then return end",
             "    set(\"JumperOut\" .. k, 1); set(\"JumperDue\" .. k, 0)",
             "    show(JUMPERS[k], true)",
+            "    evt.SetActorImmobile(JUMPERS[k], true)",
+            "    evt.PlayActorClip(JUMPERS[k], {\"lying_down\", \"jumping_down\"}, false)",
+            "    set(\"JumperLands\" .. k, var(\"Tick\") + JUMP_TICKS)",
+            "end",
+            "local function jumperLands(k)",
+            "    set(\"JumperLands\" .. k, 0)",
+            "    evt.SetActorImmobile(JUMPERS[k], false)",
+            "    if MM9.actorAlive(JUMPERS[k]) then evt.SetActorTarget(JUMPERS[k], \"party\") end",
             "end",
             "local function jumperTick(tick)",
             "    if var(\"JumpersSprung\") == 0 then",
@@ -656,6 +688,8 @@ def extend(hooks, build, script) -> None:
             "    for k = 1, #JUMPERS do",
             "        local due = var(\"JumperDue\" .. k)",
             "        if due > 0 and tick >= due then jumpNow(k) end",
+            "        local lands = var(\"JumperLands\" .. k)",
+            "        if lands > 0 and tick >= lands then jumperLands(k) end",
             "    end",
             "end",
             f"handlers[{EV_JUMPER_KILLED}] = function(context)   -- a jumper's DeathTriggerTarget: BuddyDead",
@@ -667,6 +701,7 @@ def extend(hooks, build, script) -> None:
         ]
         load.append("    for k = 1, #JUMPERS do if var(\"JumperOut\" .. k) == 0 then show(JUMPERS[k], false) end end"
                     "   -- :SetupJumper")
+        load.append("    for k = 1, #JUMPERS do if var(\"JumperOut\" .. k) == 1 then jumperLands(k) end end")
         tick.append("    jumperTick(tick)")
         script.hooks.append(f'RegisterMonsterKilledHook({EV_JUMPER_KILLED}, "Jumper killed", '
                             f'handlers[{EV_JUMPER_KILLED}])')

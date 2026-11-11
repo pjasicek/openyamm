@@ -4619,8 +4619,8 @@
    "source_name": "Blackheart",
    "position": {
     "x": -942,
-    "y": -1126,
-    "z": 143
+    "y": -1132,
+    "z": 145
    },
    "item_id": 10029,
    "random_item_pool": [],
@@ -4630,7 +4630,12 @@
    ],
    "pickup_qbits": [],
    "set_qbits": [],
-   "pickup_event": 75
+   "pickup_event": 75,
+   "pose": {
+    "yaw": 0.0,
+    "pitch": -90.0,
+    "roll": 0.0
+   }
   }
  ],
  "ambient_sounds": [

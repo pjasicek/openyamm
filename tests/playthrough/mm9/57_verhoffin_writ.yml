@@ -1,6 +1,6 @@
 # MM9 playthrough, segment 7: the Capstone on the headsman's block in the Verhoffin Ruins, the Writ of Fate, and the
-# second death (guide: Chapter III, "Pick up the Writ of Fate", "Back to Arslegard"). The party has no gold for The
-# Flying Bird; it travels to the Isle of Ashes as the other boat trips do. The ruins are walked (walk_to): the bolted
+# second death (guide: Chapter III, "Pick up the Writ of Fate", "Back to Arslegard"). The party travels to the Isle of
+# Ashes as the other boat trips do. The ruins are walked (walk_to): the bolted
 # door is broken by hitting its bolt, the pentagram is walked in the order of the Scrap of Diary's colours (red,
 # yellow, blue, green, orange: south-east, north, south, north-east, west), and the party goes in by the leaf the
 # puzzle opens. Then into the electrified pit before the block, where the party is knocked out (the save's party
@@ -16,10 +16,9 @@ steps:
   - setup_shortcut: {kind: immortal}
   - assert: {qbit_set: [90098, 90188], qbit_clear: [90099, 90100]}
 
-  # Guberland to the Isle of Ashes (The Flying Bird, Tuesdays, 3 days; outdoors the party is moved). The fare is not
-  # paid: the party has had no gold since the first death.
+  # Guberland to the Isle of Ashes (The Flying Bird, Tuesdays, 3 days; outdoors the party is moved), as the other
+  # boat trips are travelled; the fare is not paid.
   - console: {line: "gold get"}
-  - play_lua: {source: 'log("NOTE: no gold for The Flying Bird fare (the first death took it); travel, as the other boat trips")'}
   - travel: {map: isleofashes.blv, days: 3}
   - assert: {map: isleofashes.blv}
 

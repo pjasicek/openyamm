@@ -228,7 +228,7 @@ def published_packs(manifests, profile):
     packs = {}
     for platform, manifest in manifests.items():
         if manifest and PLATFORMS[platform] == profile:
-            for pack in manifest["packs"]:
+            for pack in manifest_packs(manifest):
                 packs[(pack["content_id"], pack["package"], pack["mount"], pack.get("language", ""))] = pack
     return packs
 
@@ -408,7 +408,23 @@ def file_record(path, folder, name, suffix):
     return {"file": name, "url": f"{folder}/{sha256}{suffix}", "size": path.stat().st_size, "sha256": sha256}
 
 
+def manifest_packs(manifest):
+    """Every pack a manifest lists: its packs and, on desktop, the languages' optional packs."""
+    return [*manifest["packs"], *manifest.get("language_packs", [])]
+
+
 def build_manifest(platform, release, index, app_record, published, notes_url, notes):
+    """A desktop manifest lists the languages' optional packs apart, under language_packs: updaters before 2.0 read
+    only packs and know no language field, so they would download every language's sounds and videos. 2.0 and later
+    read both lists and fetch a language's packs only for the languages kept installed. The Android updater
+    (OpenYammUpdater.java) reads only packs and keeps getting the language fonts there."""
+    records = [{"id": pack["id"], "package": pack["package"], "mount": pack["mount"], "file": pack["file"],
+                "url": f"packs/{pack['sha256']}.zip", "size": pack["size"], "content_id": pack["content_id"],
+                "sha256": pack["sha256"], **({"language": pack["language"]} if pack.get("language") else {})}
+               for pack in index["packs"]]
+    apart = PLATFORMS[platform] == "desktop"
+    packs = [record for record in records if not (apart and record.get("language"))]
+    language_packs = [record for record in records if apart and record.get("language")]
     return {
         "schema": MANIFEST_SCHEMA,
         "channel": CHANNEL,
@@ -421,10 +437,8 @@ def build_manifest(platform, release, index, app_record, published, notes_url, n
         "notes_url": notes_url,
         "notes": notes,
         "app": app_record,
-        "packs": [{"id": pack["id"], "package": pack["package"], "mount": pack["mount"], "file": pack["file"],
-                   "url": f"packs/{pack['sha256']}.zip", "size": pack["size"], "content_id": pack["content_id"],
-                   "sha256": pack["sha256"], **({"language": pack["language"]} if pack.get("language") else {})}
-                  for pack in index["packs"]],
+        "packs": packs,
+        **({"language_packs": language_packs} if language_packs else {}),
     }
 
 
@@ -443,13 +457,13 @@ def protected_store_files(site, releases, manifests):
     referenced = set()
     for manifest in manifests:
         referenced.add(manifest["app"]["url"])
-        referenced.update(pack["url"] for pack in manifest["packs"])
+        referenced.update(pack["url"] for pack in manifest_packs(manifest))
     for release in releases[:KEEP_RELEASES]:
         for platform in PLATFORMS:
             manifest = site.fetch_json(f"history/{release}/{platform}.json")
             if manifest:
                 referenced.add(manifest["app"]["url"])
-                referenced.update(pack["url"] for pack in manifest["packs"])
+                referenced.update(pack["url"] for pack in manifest_packs(manifest))
     return sorted(referenced)
 
 
@@ -670,7 +684,7 @@ def upload(args):
     keep = set(plan["keep_store"])
     for platform in plan["platforms"]:
         manifest = json.loads((channels / f"{platform}.json").read_text())
-        urls = {manifest["app"]["url"], *(pack["url"] for pack in manifest["packs"])}
+        urls = {manifest["app"]["url"], *(pack["url"] for pack in manifest_packs(manifest))}
         if not urls <= keep:
             fail(f"the removal plan drops files {platform} references")
     if not args.remote.endswith(":"):

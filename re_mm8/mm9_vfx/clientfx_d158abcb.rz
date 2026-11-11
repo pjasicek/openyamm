@@ -1,0 +1,45 @@
+# clientfx.fxd SHA256 d158abcb6aef362f80441dfb7584c350445d4ebaa1f380cacb6f424fe5d862df
+# Preferred image base 0x10000000. Research labels, not original symbols. Read README first.
+f mm9fx.base_init 1 @ 0x100023a0
+f mm9fx.base_update 1 @ 0x10002f70
+f mm9fx.exports_count 1 @ 0x10009200
+f mm9fx.exports_reference 1 @ 0x10009230
+f mm9fx.set_detail 1 @ 0x100099b0
+f mm9fx.base_color 1 @ 0x1000a8c0
+f mm9fx.particle_scale 1 @ 0x1000abb0
+f mm9fx.model_init 1 @ 0x10014980
+f mm9fx.model_update 1 @ 0x10015370
+f mm9fx.null_init 1 @ 0x10015ba0
+f mm9fx.null_update 1 @ 0x10015e00
+f mm9fx.sound_init 1 @ 0x100171f0
+f mm9fx.sound_term 1 @ 0x10017b60
+f mm9fx.sound_update 1 @ 0x10017c60
+f mm9fx.combo_numeric_value 1 @ 0x10018ad0
+f mm9fx.sprite_init 1 @ 0x1001b0d0
+f mm9fx.sprite_update 1 @ 0x1001b680
+f mm9fx.random_tables_init 1 @ 0x1001bb30
+f mm9fx.particles_ctor 1 @ 0x1001bc90
+f mm9fx.particles_init 1 @ 0x1001c120
+f mm9fx.emission_switch 1 @ 0x1001cc35
+f mm9fx.emission_table 28 @ 0x1001d2e3
+f mm9fx.particles_update 1 @ 0x1001d920
+f mm9fx.particle_color 1 @ 0x1001e850
+CC EmissionType parses numeric first token using strtok and atoi. Saved dropdown labels do not select code. @ 0x1001c369
+CC Opcode3 is inward ring. Opcode4 outward ring. Opcode5 zero-origin cone velocity. Opcode6 shares plane branch1. @ 0x1001cc35
+CC Init scales WindDir by WindAmount without normalizing the vector. @ 0x1001d223
+CC Initial detail division of stored emission interval. Update divides again by current detail. @ 0x1001d2a3
+CC Current detail division. Keep separate from initial detail division. @ 0x1001da04
+CC Strict greater-than elapsed versus interval. One batch per Update, no catch-up loop. @ 0x1001da20
+CC Interpolate forced true even if property was false. @ 0x1001dab1
+CC Particle birth time is actual now. @ 0x1001dd5d
+CC OT_SPRITE3, visible1, rotated8 if Facing nonzero. Secondary additive4 only if AType equals1. @ 0x1001ddb0
+CC Last emission time set to now after single batch. @ 0x1001deb1
+CC RotateAdd accumulates per update without delta-time multiplication. @ 0x1001dffb
+CC Expire age greater-or-equal to lifespan minus float0.1. @ 0x1001e088
+CC Particle velocity times dt followed by stored wind times dt. @ 0x1001e14d
+CC Normalized age is compared with lifespan, not1. Native short-lifespan endpoint quirk. @ 0x1001e88b
+CC Alpha equals1 minus interpolated transparency divided by255. @ 0x1001ec2f
+CC Standalone Sprite collapses numeric Facing to bool with test/setnz. @ 0x1001b1f9
+CC Standalone Sprite always sets secondary additive4, unlike SpriteSystem. @ 0x1001b328
+CC Sound flags spatial0x2d2 or local0x2d0. Loop adds4. @ 0x10017754
+CC Sound handle killed on shutdown. @ 0x10017cc1

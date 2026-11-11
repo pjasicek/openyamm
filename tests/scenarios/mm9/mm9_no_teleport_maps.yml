@@ -1,0 +1,25 @@
+# Town Portal and Lloyd's Beacon fail on the MM9 maps world.yml noTeleportMaps lists (the Dark Passageway, the
+# Thousand Terrors and the Afterworld: MAPSTATS.txt TownPortal -1, object.lto 0x1008c7ce and 0x1008df77) and open
+# their windows elsewhere (Guberland, Thjorgard). Cast from scrolls, so no member needs the mana.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/mm9_no_teleport_maps.yml
+id: mm9.no_teleport_maps
+title: "MM9: Town Portal and Lloyd's Beacon fail in the Dark Passageway, Thousand Terrors and Afterworld only"
+world: mm9
+mode: faithful
+tags: [mm9, spells]
+steps:
+  - load_map: {map: guberland.blv}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 0, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - load_map: {map: darkpassageway.blv}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - cast_spell: {member_index: 0, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - load_map: {map: 1000terrors.blv}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - cast_spell: {member_index: 0, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - load_map: {map: afterworld.blv}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - cast_spell: {member_index: 0, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - load_map: {map: thjorgard.blv}
+  - cast_spell: {member_index: 0, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 0, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}

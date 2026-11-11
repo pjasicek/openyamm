@@ -2241,3 +2241,27 @@ TEST_CASE("an event's item removal takes an equipped item when no bag holds one 
     CHECK_EQ(pMember->equipment.bow, 0u);
     CHECK_FALSE(party.removeItemFromMember(0, 845));
 }
+
+TEST_CASE("journal ownership filters quest continents without changing quest conditions")
+{
+    using namespace OpenYAMM::Game;
+    JournalQuestTable table;
+    REQUIRE(table.loadFromRows({
+        {"1", "Jadame quest", "", "Jadame", "1", "2", "Original author"},
+        {"3", "Enroth quest", "", "Enroth"},
+        {"4", "Shared quest", "", "Shared"},
+        {"90001", "Chedian quest", "", "Chedian", "90002", "90003"},
+    }));
+    Party party;
+    for (uint32_t bit : {1u, 3u, 4u, 90002u})
+        party.setQuestBit(bit, true);
+    CHECK(buildCurrentQuestTexts(table, party, "Jadame") == std::vector<std::string>{"Jadame quest"});
+    CHECK(buildCurrentQuestTexts(table, party, "Enroth") == std::vector<std::string>{"Enroth quest"});
+    CHECK(buildCurrentQuestTexts(table, party, "Shared") == std::vector<std::string>{"Shared quest"});
+    CHECK(buildCurrentQuestTexts(table, party, "Chedian") == std::vector<std::string>{"Chedian quest"});
+    CHECK(buildCurrentQuestTexts(table, party, "Antagarich").empty());
+    CHECK_EQ(buildCurrentQuestTexts(table, party).size(), 4);
+    party.setQuestBit(2, true);
+    CHECK(buildCurrentQuestTexts(table, party, "Jadame").empty());
+    CHECK_EQ(buildCurrentQuestTexts(table, party).size(), 3);
+}

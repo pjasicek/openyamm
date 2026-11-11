@@ -20,7 +20,9 @@ from .geometry import (SIX, Polygon, VoxelGrid, air_regions, clip, corner_ring, 
 
 
 def leaf_rectangle(points: np.ndarray):
-    """The doorway rectangle of a door leaf set (closed pose): its mid-plane, a vertical and a horizontal axis."""
+    """The doorway rectangle of a door leaf set (closed pose): its mid-plane, a vertical and a horizontal axis. A flat
+    leaf (a ceiling slab or a hatch: less than half as tall as it is thick across) gets a horizontal rectangle, normal
+    up: Verhoffin's and Inventastorca's ceiling slabs the busts fall through (KingKong.scr ForceFall)."""
     flat = points - points.mean(0)
     horizontal = flat[:, [0, 2]]
     _, _, vt = np.linalg.svd(horizontal - horizontal.mean(0), full_matrices=False)
@@ -28,6 +30,13 @@ def leaf_rectangle(points: np.ndarray):
     normal = np.array([vt[1][0], 0.0, vt[1][1]])
     up = np.array([0.0, 1.0, 0.0])
     a = flat @ along
+    thickness = float((flat @ normal).max() - (flat @ normal).min())
+    if float(np.ptp(points[:, 1])) < 0.5 * thickness:
+        b = flat @ normal
+        centre = points.mean(0) + along * (a.max() + a.min()) / 2 + normal * (b.max() + b.min()) / 2
+        centre[1] = (points[:, 1].max() + points[:, 1].min()) / 2
+        return {"centre": centre, "normal": up, "axis_a": along, "half_a": (a.max() - a.min()) / 2,
+                "axis_b": normal, "half_b": (b.max() - b.min()) / 2}
     centre = points.mean(0) + along * (a.max() + a.min()) / 2
     y = points[:, 1]
     centre[1] = (y.max() + y.min()) / 2

@@ -3469,8 +3469,26 @@ actors:
     BackpedalRun:
     - {at: 0.083, footstep: true}
     - {at: 0.359, footstep: true}
+    Fidget:
+    - at: 0.244
+      sounds: [animsounds/monk/pray1, animsounds/monk/pray2, animsounds/monk/pray3, animsounds/monk/pray4]
+      chance: 0.4
+      gate: 2.2
+      miss_gate: 20.0
+      volume: 0.8
+      radius: 768.0
+      inner: 204.8
     Fidget2:
     - {at: 0.466, sound: animsounds/monk/fidget2, voice: true}
+    Pray:
+    - at: 0.249
+      sounds: [animsounds/monk/pray1, animsounds/monk/pray2, animsounds/monk/pray3, animsounds/monk/pray4]
+      chance: 0.4
+      gate: 2.2
+      miss_gate: 20.0
+      volume: 0.8
+      radius: 768.0
+      inner: 204.8
     Aware:
     - {at: 0.666, sound: animsounds/monk/aware}
     Taunt:
@@ -3526,8 +3544,26 @@ actors:
     BackpedalRun:
     - {at: 0.083, footstep: true}
     - {at: 0.359, footstep: true}
+    Fidget:
+    - at: 0.244
+      sounds: [animsounds/monk/pray1, animsounds/monk/pray2, animsounds/monk/pray3, animsounds/monk/pray4]
+      chance: 0.4
+      gate: 2.2
+      miss_gate: 20.0
+      volume: 0.8
+      radius: 768.0
+      inner: 204.8
     Fidget2:
     - {at: 0.466, sound: animsounds/monk/fidget2, voice: true}
+    Pray:
+    - at: 0.249
+      sounds: [animsounds/monk/pray1, animsounds/monk/pray2, animsounds/monk/pray3, animsounds/monk/pray4]
+      chance: 0.4
+      gate: 2.2
+      miss_gate: 20.0
+      volume: 0.8
+      radius: 768.0
+      inner: 204.8
     Aware:
     - {at: 0.666, sound: animsounds/monk/aware}
     Taunt:
@@ -3583,8 +3619,26 @@ actors:
     BackpedalRun:
     - {at: 0.083, footstep: true}
     - {at: 0.359, footstep: true}
+    Fidget:
+    - at: 0.244
+      sounds: [animsounds/monk/pray1, animsounds/monk/pray2, animsounds/monk/pray3, animsounds/monk/pray4]
+      chance: 0.4
+      gate: 2.2
+      miss_gate: 20.0
+      volume: 0.8
+      radius: 768.0
+      inner: 204.8
     Fidget2:
     - {at: 0.466, sound: animsounds/monk/fidget2, voice: true}
+    Pray:
+    - at: 0.249
+      sounds: [animsounds/monk/pray1, animsounds/monk/pray2, animsounds/monk/pray3, animsounds/monk/pray4]
+      chance: 0.4
+      gate: 2.2
+      miss_gate: 20.0
+      volume: 0.8
+      radius: 768.0
+      inner: 204.8
     Aware:
     - {at: 0.666, sound: animsounds/monk/aware}
     Taunt:

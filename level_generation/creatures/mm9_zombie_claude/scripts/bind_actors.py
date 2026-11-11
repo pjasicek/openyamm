@@ -8,6 +8,7 @@ if 'mm9_zombie.glb' in s:
 BLOCK = """# MM9 zombie body (level_generation/creatures/mm9_zombie_claude): Meshy body and head-only model on the original ZOMBIE.abc skeleton, fitted joint for joint (15 finger bones per side,
 # half-rotation helpers on hips, knees, elbows, shoulders, neck, head), MM9 clips in true handedness. MM9 has no run: Running is walk x1.5. Hattack2 hits at 0.618 s, rAttack2 RangeAttack 0.377 s
 # from MM9's RangeAttack node (left hand). Tiers: shared body and head sets with ramps; the torso part has one image per tier (bare chest, vest, mail).
+# ResurrectFX GreaterDemon at the pelvis as a corpse rises (Resurrect); the ResurrectSpell's DoFX 1 names FX1 (0-based), which the rows leave empty.
 """
 TPL = """# {who} (row {row})
 - descriptor: MM9 Zombie {t}
@@ -21,9 +22,11 @@ TPL = """# {who} (row {row})
     look: {{nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}}
     sockets:
       throw_hand: Bip01 L Finger11
+      body: Bip01 Pelvis
     events:
       attack_melee: {{impact: 0.618}}
       attack_ranged: {{impact: 0.377, release: throw_hand}}
+      resurrect: {{effect: {{id: mm9:GreaterDemon, socket: body}}}}
   clips:
     standing: Standing
     walking: Walking

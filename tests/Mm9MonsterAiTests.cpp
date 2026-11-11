@@ -265,6 +265,47 @@ TEST_CASE("an MM9 placement parses its path's marker stops")
               .find("unknown key") != std::string::npos);
 }
 
+TEST_CASE("an MM9 placement parses its idle clip")
+{
+    CHECK(placement("{wander: aimless}").settings.idleClip.empty());
+    CHECK_EQ(placement("{wander: aimless, idle_clip: hoe}").settings.idleClip, "hoe");
+    CHECK(placementError("{idle_clip: ''}").find("idle_clip") != std::string::npos);
+}
+
+TEST_CASE("an MM9 placement parses its routines, a chance group flattened after its chance step")
+{
+    using OpenYAMM::Game::Mm9AiRoutineStep;
+    const Mm9AiPlacementRecord record = placement(R"({routines: {default: [{walk: [1, 2, 3]}, {face: 90},
+        {clips: [{clip: hammer, seconds: 2.5}, {clip: rock, seconds: 1.5}]}, {wait: [1, 2]},
+        {chance: 0.1, steps: [{items: hide}, {run: [4, 5, 6]}, {clip: dump, seconds: 3}, {items: show}]}],
+        ceremony: [{clip: hattack1, seconds: 1}]}})");
+    REQUIRE_EQ(record.routines.size(), 2u);
+    CHECK_EQ(record.routines[0].name, "default");
+    const std::vector<Mm9AiRoutineStep> &steps = record.routines[0].steps;
+    REQUIRE_EQ(steps.size(), 9u);
+    CHECK(steps[0].kind == Mm9AiRoutineStep::Kind::Walk);
+    CHECK_EQ(steps[0].point[2], 3);
+    CHECK(steps[1].faceYawRadians == doctest::Approx(1.5707963f));
+    REQUIRE_EQ(steps[2].clips.size(), 2u);
+    CHECK_EQ(steps[2].clips[1].clip, "rock");
+    CHECK(steps[2].clips[1].seconds == doctest::Approx(1.5f));
+    CHECK(steps[3].waitMaxSeconds == doctest::Approx(2.0f));
+    CHECK(steps[4].kind == Mm9AiRoutineStep::Kind::Chance);
+    CHECK(steps[4].chance == doctest::Approx(0.1f));
+    CHECK_EQ(steps[4].skip, 4);
+    CHECK(steps[5].kind == Mm9AiRoutineStep::Kind::HideItems);
+    CHECK(steps[6].kind == Mm9AiRoutineStep::Kind::Run);
+    CHECK(steps[8].kind == Mm9AiRoutineStep::Kind::ShowItems);
+    CHECK_EQ(record.routines[1].name, "ceremony");
+    CHECK_EQ(OpenYAMM::Game::mm9RoutineIndex(record.routines, nullptr), 0);
+    const std::string ceremony = "ceremony";
+    const std::string none;
+    CHECK_EQ(OpenYAMM::Game::mm9RoutineIndex(record.routines, &ceremony), 1);
+    CHECK_EQ(OpenYAMM::Game::mm9RoutineIndex(record.routines, &none), -1);
+    CHECK(placementError("{routines: {default: [{dance: 1}]}}").find("unknown step") != std::string::npos);
+    CHECK(placementError("{routines: {default: [{clip: hammer}]}}").find("{clip, seconds}") != std::string::npos);
+}
+
 TEST_CASE("an MM9 placement parses the profile its own script decides")
 {
     const Mm9AiPlacementRecord record = placement(R"({"profile": {"archetype": "skirmisher", "ranged": "none",
@@ -490,6 +531,10 @@ TEST_CASE("saves keep a placed actor's MM9 AI settings")
     record.settings.dormantUntil = Mm9AiDormantUntil::Trigger;
     record.settings.dormantPose = Mm9AiDormantPose::Hang;
     record.settings.faction = Mm9AiFaction::Monk;
+    record.settings.idleClip = "hoe";
+    record.routines = {{"default", {Mm9AiRoutineStep{Mm9AiRoutineStep::Kind::Clip, {}, 0.0f, {{"hammer", 2.0f}}},
+        Mm9AiRoutineStep{Mm9AiRoutineStep::Kind::Chance, {}, 0.0f, {}, 0.0f, 0.0f, 0.1f, 1},
+        Mm9AiRoutineStep{Mm9AiRoutineStep::Kind::Walk, {1, 2, 3}}}}};
     record.pathPoints = {{1, 2, 3}, {4, 5, 6}};
     record.pathStops = {Mm9AiPathStop{1, true, 1.5f, true, 2.0f, 4.0f, "fidget2", true}};
     record.summonPoints = {{7, 8, 9}};
@@ -504,6 +549,7 @@ TEST_CASE("saves keep a placed actor's MM9 AI settings")
     record.settings.profile.footwork = Mm9AiFootwork{true, 0.5f, 0.3f, 1.25f};
     actor.mm9Ai = record;
     actor.drawScale = 1.25f;
+    actor.heldItems = {{"worlds/mm9/models/mm9_item_monkbroom.glb", "Broom"}};
     MapDeltaActor plain = {};
     plain.name = "Goblin";
 
@@ -526,6 +572,8 @@ TEST_CASE("saves keep a placed actor's MM9 AI settings")
     REQUIRE(loaded->actors[0].mm9Ai.has_value());
     CHECK(*loaded->actors[0].mm9Ai == record);
     CHECK(loaded->actors[0].drawScale == doctest::Approx(1.25f));
+    CHECK(loaded->actors[0].heldItems == actor.heldItems);
+    CHECK(loaded->actors[1].heldItems.empty());
     CHECK_FALSE(loaded->actors[1].mm9Ai.has_value());
     CHECK(loaded->actors[1].drawScale == 0.0f);
 }

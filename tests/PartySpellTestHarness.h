@@ -239,6 +239,12 @@ public:
         m_openAirIndoorMap = openAir;
     }
 
+    // A map where Town Portal and Lloyd's Beacon fail (world.yml noTeleportMaps).
+    void setNoTeleportMap(bool noTeleport)
+    {
+        m_noTeleportMap = noTeleport;
+    }
+
     void setMapName(std::string mapName)
     {
         m_mapName = std::move(mapName);
@@ -373,6 +379,16 @@ public:
     bool isOpenAirMap() const override
     {
         return !m_indoorMap || m_openAirIndoorMap;
+    }
+
+    bool allowsLloydsBeacon() const override
+    {
+        return !m_noTeleportMap;
+    }
+
+    bool allowsTownPortal() const override
+    {
+        return !m_noTeleportMap;
     }
 
     float gameMinutes() const override
@@ -1237,6 +1253,7 @@ private:
     bool m_indoorMap = false;
     float m_partyHitReach = 5120.0f;
     bool m_openAirIndoorMap = false;
+    bool m_noTeleportMap = false;
     Game::Party *m_pParty = nullptr;
     Game::EventRuntimeState m_eventRuntimeState = {};
     Game::EventRuntimeState *m_pEventRuntimeState = nullptr;

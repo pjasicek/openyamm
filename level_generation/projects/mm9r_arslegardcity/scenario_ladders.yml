@@ -20,7 +20,7 @@ steps:
       climbs it and steps off at [2760, -1458, 737].'
 - movement_segment:
     input: forward
-    seconds: 2.0
+    seconds: 2.5
     actor_collision: false
     actor_ai: false
     start:
@@ -45,7 +45,7 @@ steps:
       climbs it and steps off at [2760, 662, 737].'
 - movement_segment:
     input: forward
-    seconds: 2.0
+    seconds: 2.5
     actor_collision: false
     actor_ai: false
     start:

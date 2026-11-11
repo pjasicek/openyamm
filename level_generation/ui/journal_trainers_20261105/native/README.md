@@ -142,3 +142,54 @@ adds `--ruleset maw`):
   (`output/hesper_stage`) needs a restage (`stage.py` copies new engine tables) before `WorldMissileTests`' staged-Hesper
   case loads again.
 - Ranking of the finder list is alphabetical by skill, mastery, name; the hint keeps MAW's nearest-first ranking.
+
+## Continent journals and Chedian (2026-11-10)
+
+Quests and ordinary notes now have Jadame, Antagarich, Enroth, Chedian and Shared tabs, using the trainer tab art.
+They open on the current continent; recipes open on Shared. Changing continent resets pagination. Quest and note
+selections are independent, and the existing note search still applies within the selected continent/category.
+
+`english/quests.txt` column `Owner` now names the continent (or `Shared`), rather than the original developer.
+The old names are preserved in `Author`, after the required/forbidden QBit columns. Former simple-bit rows explicitly
+require that same bit; quest text and activation conditions are unchanged. MM9's overlay generator emits `Chedian`.
+`english/autonote.txt` has the same `Owner` column after Category. Recipes and general counters are Shared; the three
+obelisk puzzles and geographical notes belong to their own continent. Empty ownership on custom entries means Shared.
+This is table metadata, so existing saves need no migration.
+
+Chedian is continent **5** (4 is Between Time). Its finder reads lessons from the existing MM9 skill-trainer table
+and racial-ability definitions; composite source skills become their individual shared skills. The original
+`ActorOwnership: scheduled` labels in the source audit are historical: the rework has an empty teacher schedule table
+and places these teachers in the installed scenes. `generate_mm9_trainer_places.py` indexes those actual positions,
+including a teacher present on two maps, without loading other maps at runtime:
+
+```sh
+python3 tools/mm9_import_discovery/generate_mm9_trainer_places.py
+python3 tools/mm9_import_discovery/generate_mm9_trainer_places.py --check
+```
+
+Run it after moving teachers or rebuilding their maps. It fails if an ordinary or racial teacher has no position.
+The runtime validates identities, skills, maps, coordinates and painted-map availability. A clicked teacher uses
+that map's existing painted image, world bounds, axis directions and floor at the teacher's height. Zoom and drag
+use the same transform as the ordinary journal map. The marker labels the person. Long skill groups paginate rather
+than overflowing the page.
+
+Talking to an MM9 teacher records a normal saved journal pin (`90000 + RUDE id`, below the personal-note range).
+Existing dialogue-choice records also establish discovery for older saves. A Chedian tavern sells the same 2000-gold
+ledger and reveals its full directory. The service-venue table's appended `map` column binds each venue to its map;
+the loader validates this reference and uses the ordinary map-continent lookup. The debug command accepts `ledger set 5`.
+
+Focused coverage: `TrainerDirectoryTests` (MM9 locations, maps, racial lessons, discovery, old dialogue records,
+party overrides, ledger and snapshot), `PartyRegressionTests` (filtered conditional quests), and
+`tests/scenarios/journal/teacher_ledger_chedian.yml` (real dialogue discovery and tavern purchase/save/load).
+
+Validation: the development game and unit targets build; 39 focused journal/trainer/mercenary unit cases pass
+(4000 assertions); the Chedian, Jadame, Enroth, Emerald Island and MAW ledger scenarios and MM6–MM9 world-switch
+scenario pass. MM9 story segment 01 passes. Desktop OpenGL/NVIDIA captures are in
+`output/journal_continents_review/` (continent filters, recipes, all three obelisk puzzles, Chedian list and painted
+teacher map with zoom/drag). A wider unit selection still has unrelated stale shop-capacity and MM9 vendor-count,
+price and stock-version expectations in `HouseShopLedgerTests` and `Mm9RudeDialogueTests`.
+
+Chedian journal content follows the existing MM9 world-table lifecycle: it is loaded while MM9 is active. Its saved
+discoveries and ledger survive world switches. Other worlds do not load the MM9 dialogue/services just for this UI.
+Live actor service venues are excluded from generated house-lobby mercenary placement, so giving them map references
+does not inject MMerge recruits into MM9 talks.

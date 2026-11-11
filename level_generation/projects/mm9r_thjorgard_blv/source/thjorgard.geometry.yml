@@ -32,13 +32,6 @@
    "texture_height": 128
   },
   {
-   "id": "TRAI6V57OH",
-   "source_material": "TRAI6V57OH",
-   "texture": "TRAI6V57OH",
-   "texture_width": 128,
-   "texture_height": 128
-  },
-  {
    "id": "TRAIVHYGCA",
    "source_material": "TRAIVHYGCA",
    "texture": "TRAIVHYGCA",
@@ -128,6 +121,13 @@
    "texture": "sky04",
    "texture_width": 512,
    "texture_height": 512
+  },
+  {
+   "id": "TRAI6V57OH",
+   "source_material": "TRAI6V57OH",
+   "texture": "TRAI6V57OH",
+   "texture_width": 128,
+   "texture_height": 128
   },
   {
    "id": "FIRE6YTKLQ",
@@ -372,21 +372,7 @@
   {
    "id": "room_r01",
    "source_nodes": [
-    "ROOM_r01",
-    "TRIGGER_cog20485_r01",
-    "TRIGGER_cog20484_r01",
-    "TRIGGER_cog20483_r01",
-    "TRIGGER_cog20482_r01",
-    "TRIGGER_cog20481_r01",
-    "TRIGGER_cog20480_r01",
-    "TRIGGER_cog20479_r01",
-    "TRIGGER_hint_PerceptionBrush5_0",
-    "TRIGGER_hint_PerceptionBrush6_0",
-    "TRIGGER_hint_PerceptionBrush7_0",
-    "TRIGGER_hint_PerceptionBrush8_0",
-    "TRIGGER_hint_PerceptionBrush9_0",
-    "TRIGGER_hint_PerceptionBrush10_0",
-    "TRIGGER_hint_PerceptionBrush11_0"
+    "ROOM_r01"
    ],
    "min_ambient_light_level": 20
   },
@@ -398,13 +384,6 @@
     "TRIGGER_nonsolid_r02",
     "TRIGGER_shared_r01_r02",
     "TRIGGER_opaque_r02",
-    "TRIGGER_cog20485_r02",
-    "TRIGGER_cog20484_r02",
-    "TRIGGER_cog20483_r02",
-    "TRIGGER_cog20482_r02",
-    "TRIGGER_cog20481_r02",
-    "TRIGGER_cog20480_r02",
-    "TRIGGER_cog20479_r02",
     "TRIGGER_barrier_r02",
     "MECH_Riser1",
     "MECH_Strikeplate1",
@@ -413,6 +392,13 @@
     "MECH_cottage door",
     "MECH_mine cart door left",
     "MECH_mine cart door right",
+    "TRIGGER_cog20479_r02",
+    "TRIGGER_cog20480_r02",
+    "TRIGGER_cog20481_r02",
+    "TRIGGER_cog20482_r02",
+    "TRIGGER_cog20483_r02",
+    "TRIGGER_cog20484_r02",
+    "TRIGGER_cog20485_r02",
     "LIGHT_Light20",
     "LIGHT_Light72",
     "LIGHT_Light73",
@@ -653,6 +639,13 @@
     "TRIGGER_hint_PerceptionBrush4_0",
     "TRIGGER_hint_PerceptionBrush4_1",
     "TRIGGER_hint_PerceptionBrush4_2",
+    "TRIGGER_hint_PerceptionBrush5_0",
+    "TRIGGER_hint_PerceptionBrush6_0",
+    "TRIGGER_hint_PerceptionBrush7_0",
+    "TRIGGER_hint_PerceptionBrush8_0",
+    "TRIGGER_hint_PerceptionBrush9_0",
+    "TRIGGER_hint_PerceptionBrush10_0",
+    "TRIGGER_hint_PerceptionBrush11_0",
     "LIGHT_fire_Fire0",
     "LIGHT_fire_Fire1",
     "LIGHT_fire_Fire3"
@@ -660,50 +653,15 @@
    "min_ambient_light_level": 20
   }
  ],
- "portals": [],
+ "portals": [
+  {
+   "id": "TrainingWall",
+   "source_node": "PORTAL_TrainingWall",
+   "front_room": "room_r02",
+   "back_room": "room_r01"
+  }
+ ],
  "surfaces": [
-  {
-   "id": "cog20485_r01",
-   "source_node": "TRIGGER_cog20485_r01",
-   "flags": [],
-   "cog_number": 20485
-  },
-  {
-   "id": "cog20484_r01",
-   "source_node": "TRIGGER_cog20484_r01",
-   "flags": [],
-   "cog_number": 20484
-  },
-  {
-   "id": "cog20483_r01",
-   "source_node": "TRIGGER_cog20483_r01",
-   "flags": [],
-   "cog_number": 20483
-  },
-  {
-   "id": "cog20482_r01",
-   "source_node": "TRIGGER_cog20482_r01",
-   "flags": [],
-   "cog_number": 20482
-  },
-  {
-   "id": "cog20481_r01",
-   "source_node": "TRIGGER_cog20481_r01",
-   "flags": [],
-   "cog_number": 20481
-  },
-  {
-   "id": "cog20480_r01",
-   "source_node": "TRIGGER_cog20480_r01",
-   "flags": [],
-   "cog_number": 20480
-  },
-  {
-   "id": "cog20479_r01",
-   "source_node": "TRIGGER_cog20479_r01",
-   "flags": [],
-   "cog_number": 20479
-  },
   {
    "id": "invisible_r02",
    "source_node": "TRIGGER_invisible_r02",
@@ -728,48 +686,6 @@
    "id": "opaque_r02",
    "source_node": "TRIGGER_opaque_r02",
    "flags": []
-  },
-  {
-   "id": "cog20485_r02",
-   "source_node": "TRIGGER_cog20485_r02",
-   "flags": [],
-   "cog_number": 20485
-  },
-  {
-   "id": "cog20484_r02",
-   "source_node": "TRIGGER_cog20484_r02",
-   "flags": [],
-   "cog_number": 20484
-  },
-  {
-   "id": "cog20483_r02",
-   "source_node": "TRIGGER_cog20483_r02",
-   "flags": [],
-   "cog_number": 20483
-  },
-  {
-   "id": "cog20482_r02",
-   "source_node": "TRIGGER_cog20482_r02",
-   "flags": [],
-   "cog_number": 20482
-  },
-  {
-   "id": "cog20481_r02",
-   "source_node": "TRIGGER_cog20481_r02",
-   "flags": [],
-   "cog_number": 20481
-  },
-  {
-   "id": "cog20480_r02",
-   "source_node": "TRIGGER_cog20480_r02",
-   "flags": [],
-   "cog_number": 20480
-  },
-  {
-   "id": "cog20479_r02",
-   "source_node": "TRIGGER_cog20479_r02",
-   "flags": [],
-   "cog_number": 20479
   },
   {
    "id": "barrier_r02",
@@ -841,6 +757,48 @@
     "event_id": 106,
     "type": "click"
    }
+  },
+  {
+   "id": "cog20479_r02",
+   "source_node": "TRIGGER_cog20479_r02",
+   "flags": [],
+   "cog_number": 20479
+  },
+  {
+   "id": "cog20480_r02",
+   "source_node": "TRIGGER_cog20480_r02",
+   "flags": [],
+   "cog_number": 20480
+  },
+  {
+   "id": "cog20481_r02",
+   "source_node": "TRIGGER_cog20481_r02",
+   "flags": [],
+   "cog_number": 20481
+  },
+  {
+   "id": "cog20482_r02",
+   "source_node": "TRIGGER_cog20482_r02",
+   "flags": [],
+   "cog_number": 20482
+  },
+  {
+   "id": "cog20483_r02",
+   "source_node": "TRIGGER_cog20483_r02",
+   "flags": [],
+   "cog_number": 20483
+  },
+  {
+   "id": "cog20484_r02",
+   "source_node": "TRIGGER_cog20484_r02",
+   "flags": [],
+   "cog_number": 20484
+  },
+  {
+   "id": "cog20485_r02",
+   "source_node": "TRIGGER_cog20485_r02",
+   "flags": [],
+   "cog_number": 20485
   },
   {
    "id": "hint_PerceptionBrush1_0",

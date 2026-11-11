@@ -376,74 +376,41 @@ steps:
     tolerance_xy: 700
     tolerance_z: 40
 - note:
-    text: 'Ladder3: forward from its foot climbs to its top exit.'
-- movement_segment:
-    input: forward
-    seconds: 8.38
-    actor_collision: false
-    actor_ai: false
-    start:
-      map: lindisfarnemonastery.blv
-      x: -881
-      y: 6025
-      z: 2295
-      yaw_degrees: 270.0
-      pitch: 0
-    expect_stop:
-      map: lindisfarnemonastery.blv
-      x: -881
-      y: 6221
-      z: 3241
-      yaw_degrees: 270.0
-      pitch: 0
-    loose_tolerance: true
-    tolerance_xy: 700
-    tolerance_z: 40
+    text: 'Ladder3: climbed from its foot, the party lets go at its top exit (on the climber''s side: walking on would fall
+      back down the shaft).'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -881
+    y: 6025
+    z: 2295
+    yaw_degrees: 270.0
+    pitch: 0
+- climb:
+    ladder: Ladder3
+    timeout_seconds: 8.38
 - note:
-    text: 'Ladder4: forward from its foot climbs to its top exit.'
-- movement_segment:
-    input: forward
-    seconds: 8.63
-    actor_collision: false
-    actor_ai: false
-    start:
-      map: lindisfarnemonastery.blv
-      x: -2278
-      y: 7738
-      z: 1
-      yaw_degrees: 90.0
-      pitch: 0
-    expect_stop:
-      map: lindisfarnemonastery.blv
-      x: -2278
-      y: 7578
-      z: 988
-      yaw_degrees: 90.0
-      pitch: 0
-    loose_tolerance: true
-    tolerance_xy: 700
-    tolerance_z: 40
+    text: 'Ladder4: climbed from its foot, the party lets go at its top exit (on the climber''s side: walking on would fall
+      back down the shaft).'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: -2278
+    y: 7738
+    z: 1
+    yaw_degrees: 90.0
+    pitch: 0
+- climb:
+    ladder: Ladder4
+    timeout_seconds: 8.63
 - note:
-    text: 'Ladder5: forward from its foot climbs to its top exit.'
-- movement_segment:
-    input: forward
-    seconds: 8.63
-    actor_collision: false
-    actor_ai: false
-    start:
-      map: lindisfarnemonastery.blv
-      x: 1613
-      y: 7738
-      z: 1
-      yaw_degrees: 90.0
-      pitch: 0
-    expect_stop:
-      map: lindisfarnemonastery.blv
-      x: 1613
-      y: 7578
-      z: 988
-      yaw_degrees: 90.0
-      pitch: 0
-    loose_tolerance: true
-    tolerance_xy: 700
-    tolerance_z: 40
+    text: 'Ladder5: climbed from its foot, the party lets go at its top exit (on the climber''s side: walking on would fall
+      back down the shaft).'
+- set_pose:
+    map: lindisfarnemonastery.blv
+    x: 1613
+    y: 7738
+    z: 1
+    yaw_degrees: 90.0
+    pitch: 0
+- climb:
+    ladder: Ladder5
+    timeout_seconds: 8.63

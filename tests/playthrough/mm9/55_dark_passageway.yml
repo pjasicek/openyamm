@@ -34,30 +34,31 @@ steps:
   - advance_runtime: {seconds: 3}
 
   # The bridge: the four ice statues ride their sections (north to south Skeleton 201, Zombie 202, Lich 203,
-  # Banshee 204); each touch raises and sinks sections. The scroll's order. Stand on each deck's centre line.
+  # Banshee 204); each touch plays the statue's clip (2-3.7 s) and then raises and sinks sections. The scroll's order.
+  # Stand on each deck's centre line.
   - walk_to: {x: -19046, y: -1600, z: -1229, plan: false, timeout_seconds: 20}
-  - play_lua: {source: 'click(201); wait(3); log("Skeleton: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(201); wait(5); log("Skeleton: state " .. mapvar("Puzzle"))'}
   # Bridge0 sank with the party and Bridge1 rose: over the rail into the lake, south, and up onto Bridge3 (down).
   - walk_to: {via: [[-19046, -2750, -1638], [-18750, -2750, -1638], [-18200, -3300, -1638], [-18200, -6000, -1638],
               [-18300, -6500, -1638]], x: -18570, y: -6716, z: -1638, plan: false, timeout_seconds: 120}
   - advance_runtime: {seconds: 1}
-  - play_lua: {source: 'click(204); wait(3); log("Banshee: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(204); wait(6); log("Banshee: state " .. mapvar("Puzzle"))'}
   # From here on the party stays on the bridge: it drops onto sunk sections and rides raised ones.
   - walk_to: {via: [[-18473, -6400, -1638]], x: -18473, y: -5202, z: -1638, plan: false, timeout_seconds: 60}
-  - play_lua: {source: 'click(203); wait(3); log("Lich: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(203); wait(5); log("Lich: state " .. mapvar("Puzzle"))'}
   - walk_to: {via: [[-18500, -4850, -1229], [-18749, -3932, -1229]], x: -18966, y: -3153, z: -1229, plan: false,
               timeout_seconds: 60}
-  - play_lua: {source: 'click(202); wait(3); log("Zombie: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(202); wait(7); log("Zombie: state " .. mapvar("Puzzle"))'}
   - walk_to: {via: [[-18749, -3932, -1638], [-18500, -4850, -1638], [-18473, -6400, -1638]], x: -18570, y: -6716,
               z: -1638, plan: false, timeout_seconds: 60}
-  - play_lua: {source: 'click(204); wait(3); log("Banshee: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(204); wait(6); log("Banshee: state " .. mapvar("Puzzle"))'}
   - walk_to: {via: [[-18473, -6400, -1638]], x: -18473, y: -5202, z: -1638, plan: false, timeout_seconds: 60}
-  - play_lua: {source: 'click(203); wait(3); log("Lich: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(203); wait(5); log("Lich: state " .. mapvar("Puzzle"))'}
   - walk_to: {via: [[-18500, -4850, -1638], [-18749, -3932, -1638]], x: -18966, y: -3153, z: -1638, plan: false,
               timeout_seconds: 60}
-  - play_lua: {source: 'click(202); wait(3); log("Zombie: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(202); wait(7); log("Zombie: state " .. mapvar("Puzzle"))'}
   - walk_to: {via: [[-19046, -2800, -1638]], x: -19046, y: -1600, z: -1638, plan: false, timeout_seconds: 60}
-  - play_lua: {source: 'click(201); wait(4); log("Skeleton: state " .. mapvar("Puzzle"))'}
+  - play_lua: {source: 'click(201); wait(6); log("Skeleton: state " .. mapvar("Puzzle"))'}
   - assert: {state_dump_named_map_var: {name: PuzzleSolved, value: 1}}
   - advance_runtime: {seconds: 3}
   - assert: {mechanism: {id: 38, state: open}}   # TeleportDoor0 (the map Lua's DOORS)

@@ -133,3 +133,7 @@ project must re-run that reduction". Rollback: `before/mm9_honkf.glb`.
 In game (not installed; the binding regression and floor audit read the installed file); motion at normal speed (frames, gates
 and viewer stills only); LOD1-3 and shadow meshes by eye (numbers only); the collapse gate's exposed faces by eye; the two small
 arm/hand increases above (Death R 0.2 cm, Fidget2 R forearm 0.4 cm) by eye.
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_pamphlet`). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`).

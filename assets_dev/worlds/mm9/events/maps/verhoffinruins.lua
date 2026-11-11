@@ -286,30 +286,40 @@ handlers[153] = function()
 end
 handlers[154] = function() if fired(154) then set("DonePaddleTrigger", 0) end end
 
--- The busts (KingKong.scr "BreakOut<k>" :FallThrough on BustTrigger0/1's ForceFall): the monsters in the pocket
--- over the corridor's ceiling slab drop and attack. The slab stays (no breakable geometry); they appear under it.
--- Only the KingKong monster (the pocket's first) takes ForceFall and breaks the slab: dead, it takes none
--- (MM9.receives) and the others stay in their pocket.
+-- The busts (KingKong.scr "BreakOut<k>" :FallThrough on BustTrigger0/1's ForceFall): the trigger sends
+-- ForceFall to the pocket's KingKong monster (its first), which destroys the ceiling slab it stands on (a
+-- scene destructible: stone debris and MM9's crumble sound). Only alive does it take ForceFall (MM9.receives).
+-- A slab broken, by the bust or by the party's weapons (CanDamage, 100 HP), drops its pocket's monsters into
+-- the corridor, hostile, and its dust rises (its DeathTrigger: BreakOutDust<k> On).
 local BUSTS = {BustTrigger0 = 10, BustTrigger1 = 11}
 local KINGKONG = {BustTrigger0 = {"BustZombie0", 19}, BustTrigger1 = {"BustWraith0", 18}}
+local SLABS = {BustTrigger0 = 597, BustTrigger1 = 598}   -- DAT index: the destructible
 local function bust(name)
     local k = KINGKONG[name]
     if k ~= nil and not MM9.receives("verhoffinruins", k[1], "ForceFall", k[2]) then return end
-    evt.SetMonGroupBit(BUSTS[name], MonsterBits.Invisible, false)
-    evt.SetMonGroupBit(BUSTS[name], MonsterBits.Hostile, true)
-    evt.PlaySoundName("events/rockfall.wav", 0, 0, 0)
     set("Busted" .. name, 1)
+    evt.DestroyDestructible(SLABS[name])
+end
+handlers[226] = function()   -- BreakOut1 broken: the BustTrigger0 pocket's monsters fall
+    evt.SetMonGroupBit(10, MonsterBits.Invisible, false)
+    evt.SetMonGroupBit(10, MonsterBits.Hostile, true)
+    evt.SpawnWorldEffect("mm9:smoke", -2365, -5407, -225, 1)   -- BreakOutDust1
+end
+handlers[227] = function()   -- BreakOut0 broken: the BustTrigger1 pocket's monsters fall
+    evt.SetMonGroupBit(11, MonsterBits.Invisible, false)
+    evt.SetMonGroupBit(11, MonsterBits.Hostile, true)
+    evt.SpawnWorldEffect("mm9:smoke", -3215, -5366, -225, 1)   -- BreakOutDust0
 end
 
 -- The door's shooters (DoorShooter0/1: FireBolt, DamageAmt 20, every 4 s while on) at the far wall of the
--- torture chamber, aimed at a party inside it.
+-- torture chamber, aimed at a party inside it; a bolt strikes the party in its path (strikesParty).
 local function shoot(sx, sy, sz, damage)
     local x, y, z = evt.GetPartyPosition()
     z = z + 100
     local dx, dy, dz = x - sx, y - sy, z - sz
     local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))
     local k = math.max(64 / length, 0.1)
-    local shot = evt.FireMissile("Fire", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, "Fire", 0)
+    local shot = evt.FireMissile("Fire", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, "Fire", 0, 0, true)
     if shot then MM9.launchSound("FireBolt", sx, sy, sz) end
     set("ShotsFired", var("ShotsFired") + (shot and 1 or 0)); if shot then set("Shot", 1) end
 end
@@ -468,6 +478,8 @@ RegisterEvent(222, "Writ", handlers[222], "Writ")
 RegisterEvent(220, "Book", handlers[220], "Book")
 RegisterEvent(224, "Scrap of Diary", handlers[224], "Scroll")
 RegisterEvent(225, "Scrap of Diary", handlers[225], "Scroll")
+RegisterEvent(226, "BreakOut1 broken", handlers[226])
+RegisterEvent(227, "BreakOut0 broken", handlers[227])
 RegisterEvent(204, "Door", handlers[204], "Door")
 RegisterEvent(210, "Valve", handlers[210], "Valve")
 RegisterEvent(211, "Valve", handlers[211], "Valve")

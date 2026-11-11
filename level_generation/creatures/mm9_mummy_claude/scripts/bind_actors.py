@@ -8,7 +8,8 @@ if 'mm9_mummy.glb' in s:
     sys.exit('already bound')
 BLOCK = """# MM9 Mummy body (level_generation/creatures/mm9_mummy_claude): symmetric Meshy body and head on MUMMY.abc's skeleton (bound in the masters' A pose, clips are MM9's local rotations), five-finger
 # wrapped hands (15 bones per side), the long band as a rope solve on Bone04-08; MM9 clips, whole model mirrored to true handedness (band on the right forearm). Hattack1 Rattack 0.333 s, Rattack1 RangeAttack 0.333 s.
-# Tiers carry their own colour and normal images: they differ in pattern and face (README, deviation).
+# Tiers carry their own colour and normal images: they differ in pattern and face (README, deviation). ResurrectFX GreaterDemon at
+# the pelvis as a corpse rises (Resurrect). No glow: MM9 has no light there.
 """
 for desc, skin, label in (('MM9 Mummy A', 'mummy_a', 'Canopic Mummy (row 144)'), ('MM9 Mummy B', 'mummy_b', 'Embalmed Mummy (row 145)'), ('MM9 Mummy C', 'mummy_c', 'Petrified Mummy (row 146)')):
     BLOCK += f"""# {label}
@@ -25,10 +26,12 @@ for desc, skin, label in (('MM9 Mummy A', 'mummy_a', 'Canopic Mummy (row 144)'),
     look: {{nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}}
     sockets:
       cast_hand: Bip01 R Hand
+      body: Bip01 Pelvis
     events:
       attack_melee: {{impact: 0.333}}
-      attack_ranged: {{impact: 0.333, glow: [cast_hand], release: cast_hand}}
-      cast: {{impact: 0.333, glow: [cast_hand], release: cast_hand}}
+      attack_ranged: {{impact: 0.333, release: cast_hand}}
+      cast: {{impact: 0.333, release: cast_hand}}
+      resurrect: {{effect: {{id: mm9:GreaterDemon, socket: body}}}}
   clips:
     standing: Standing
     walking: Walking

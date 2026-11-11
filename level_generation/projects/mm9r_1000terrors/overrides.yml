@@ -264,7 +264,9 @@ models:
   WeightedLift10: {group: WeightedLift10, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
   WeightedLift15: {group: WeightedLift15, motion: dat, click: false}   # WeightedLift (TouchToOpen): sinks 160 LT under a touch, rises after 2 s (map Lua LIFTS)
   CoffinGate1: {group: CoffinGate1, motion: dat, doorway: true, portal: CoffinGatePortal1}
-  CoffinGate2: {group: CoffinGate2, motion: dat, doorway: true, portal: CoffinGatePortal2}
+  # MM9 names no sound for the coffin gates; CoffinGate2 sounds like ToLowerTombGate (the play-test of 2026-11-10)
+  CoffinGate2: {group: CoffinGate2, motion: dat, doorway: true, portal: CoffinGatePortal2,
+                sounds: {open_start: Ambient/metalcreak01.wav, close_stop: Door/doorslammetal02.wav}}
   ToWindMazeGate: {group: ToWindMazeGate, motion: dat, doorway: true, portal: ToWindMazePortal}
   StairGate: {group: StairGate, motion: dat, doorway: true, portal: StairGate}
   StairGate0: {group: StairGate0, motion: dat}   # Door, 6 polys

@@ -246,13 +246,19 @@ def main() -> int:
     click_door("StairGate0", steps)
     cx, cy, cz = (float(v) for v in door_centre(gate0))
     land = floors.z(cx, cy + 250, cz + 200)
-    # the party steps back first: a closing StairGate0 that touches a body opens again (ReopenOnContact 1, the
-    # mover's `bodies: reverse`, 2026-11-05)
+    # The gate shuts by itself (CloseWaitTime 10 after its rise), so its event only ever opens it: a second use keeps
+    # it rising. The party steps back first: a closing StairGate0 that touches a body opens again (ReopenOnContact 1,
+    # the mover's `bodies: reverse`, 2026-11-05). About 23 s on it has shut and its open flag cleared; a native
+    # monster drawn to the party reaches it about 28 s on, so the spawned demon pushes it before that.
     steps += [{"assert": {"mechanism": {"id": gate, "state": "closed"}}}, var("OpenStairGate0", 1),
-              {"note": {"text": "StairGate0 shut again by its event; a hostile Lesser Demon beside it pushes it open."}},
+              {"note": {"text": "A second use of StairGate0 keeps it rising; it shuts by itself (CloseWaitTime), and a "
+                                "hostile Lesser Demon beside it pushes it open."}},
               pose(cx, cy + 450, land, -math.pi / 2, 0),
               {"execute_event": {"id": convert.EV_STAIR_GATE0}}, wait(3.0),
-              {"assert": {"mechanism": {"id": gate0, "state": "closed"}}}, var("OpenStairGate0", 0)]
+              {"assert": {"mechanism": {"id": gate0, "state": "opening"}}}, var("OpenStairGate0", 1),
+              wait(24.0),
+              {"assert": {"mechanism": {"id": gate0, "state": "closed"}}}, var("OpenStairGate0", 0),
+              var("Gate0ByMonster", 0)]
     steps += [pose(cx, cy + 450, land, -math.pi / 2, 0),
               {"spawn_actor": {"monster_id": 9241, "count": 1, "x": round(cx), "y": round(cy + 200), "z": round(land),
                                "group": 77}},

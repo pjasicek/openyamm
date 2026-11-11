@@ -90,7 +90,7 @@ steps:
 - press_action:
     action: cancel_dialog
 - note:
-    text: 'SleepTrigger (DC_sargent.scr StartUp): the sargent wakes the four sleepers in turn.'
+    text: 'SleepTrigger (DC_sargent.scr StartUp): the sargent walks to the four sleepers in turn, wakes each and ends at SMkr1.'
 - set_pose:
     map: dookscastle.blv
     x: 0
@@ -133,11 +133,18 @@ steps:
       name: FiredSleepTrigger
       current: 1
 - advance_runtime:
-    seconds: 15
+    seconds: 40
 - assert:
     named_map_var_changed:
       name: SleepWoken
-      current: 5
+      current: 6
+- assert:
+    actor_visible:
+      actor_index: 42
+      near:
+        x: 82
+        y: 6922
+        max_distance: 120
 - note:
     text: 'ScurryTrigger1: its three small basilisks run off and vanish (ScurryCreature.scr Hide).'
 - assert:

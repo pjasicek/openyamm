@@ -219,10 +219,22 @@ the 30 views MM9 capture 122.9, after 123.9.
 - **Door textures**: the indoor renderer recomputes every mover face's UVs at MM6–MM8's one texel per unit, so the door
   leaves draw their texture about twice as dense as MM9 (an engine item, open; Anskram's doors too).
   (Superseded 2026-10-30: rigid door faces keep their stored texels, DUNGEON_PLAYBOOK "Mover face texels".)
-- No ceremony: MM9 walks the Honks along `CeremonyMarker` paths to the pulpit at 6:15 and 18:15 with bells and
-  brimstone (`HonkLeader.scr`, `HonkFollower.scr`), the accountant walks his `PathMarker` round at 7:00 and 19:00, and
-  four Honks chase two big geese; native actors stand at their DAT positions. The geese (`Goose`, MM9 row 293) have
-  no runtime monster row and are left out.
+- **The ceremony (2026-11-11)** runs on scene routines (`mm9_ai.routines`) the ceremony timer (map timer 154, every
+  3 s) switches from the game hour (`convert.py` `routines`, `ceremony_lines`): at 6:15 and 18:15 the bell rings and
+  the followers (`HonkFollower.scr`) walk their `CeremonyMarker` lists to the pulpit (`go`), face it and loop hattack1,
+  fidget1 or fidget2 at random (`worship`); from the first arrival the leader (`HonkLeader.scr`) paces between the
+  platform markers, faces the hall and plays prop-fidget1/2, fidget1 or prop-stand, a thunder at him every other
+  check (`preach`); between ceremonies he loops prop-stand (`idle_clip`). The end is 7:15 and 19:15, 30 minutes later
+  than MM9's 6:45/18:45: the walk from the entrance hall takes about 80 s (40 game minutes), so at MM9's end none
+  would have arrived. The followers then walk their lists back (`home`) and wander (aimless, MM9's WanderON with no
+  path). At 7:00 and 19:00 the accountant (`HonkAccountant.scr`) walks PathMarker0-13, plays prop-fidget1 at the far
+  end and walks back (`trip`). Routines are runtime only: the timer sets them again after a load (a follower within
+  400 of its pulpit marker worships at once). Not while the Honks are hostile. Checked headless (followers arrive
+  6:55, worship clips, leader `prop_fidget*`, home at 7:15; the accountant's round 19:00-20:26) and in desktop captures
+  (`output/held_items_check/templeofhonk/`: the followers in two groups at the pulpit, facing it, the leader at the
+  pulpit; the hall empty again from 7:20).
+- Four Honks chase two big geese in MM9: the geese (`Goose`, MM9 row 293) have no runtime monster row and are left
+  out.
 - MM9's `TriggerStartCeremony0–2` remove `HONK_CEREMONY`, which no MM9 script listens to: not built.
 - The pool's water is the engine's liquid shader (2026-10-31: `water115_mm9`, [shared helper](../mm9r_common/liquids.py); MM9
   animates Water115 at 0.9 alpha); the six `Fish` swim in it since 2026-11-06 (MM9 floats their centres 10 LT over
@@ -240,8 +252,8 @@ the 30 views MM9 capture 122.9, after 123.9.
 
 ## What remains
 
-The Honk creature art (MM9 Honk family: 3D creature work); the door-texture engine item; the ceremony and goose
-chase as native AI behaviour if wanted; animated water; `fish.scr`'s surface jump (FISH.abc has no Jump clip).
+The Honk creature art (MM9 Honk family: 3D creature work); the door-texture engine item; the goose chase as native AI
+behaviour if wanted; animated water; `fish.scr`'s surface jump (FISH.abc has no Jump clip).
 
 ## Rebuild 2026-10-31: invisible ramp bottoms
 

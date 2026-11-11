@@ -1085,6 +1085,10 @@ No combat changes.
 
 ### 6.5 Bounty hunt (`General/BountyHunt.lua` vs MMMerge)
 
+- **Chedian (ours, 2026-11-09)**: MM9's six Jarls keep the bounty office of their region (MM9_SUPPORT.md, "MAW's people
+  in Chedian"): the hunt is posted in the city under the region's name, its target placed when the party next enters
+  the region (`spawnPendingBountyHunt`), and the region, not the city, must be cleared first.
+
 - **Reward** = round(baseLevel + getTotalLevel-ish (`getPartyLevel(4)`))·100. MMMerge uses
   monster level·100.
 - **Monster** is picked from the arena's level-sorted C-tier table `monTbl` instead of the

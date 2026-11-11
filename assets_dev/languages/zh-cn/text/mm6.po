@@ -34,12 +34,12 @@ msgid "The stone cutter and carpenter begin rebuilding the temple."
 msgstr "石匠和木匠开始重建神庙。"
 
 # imported from zh-cn-todo-2.po
-#: assets_dev/worlds/mm6/events/common/mm6_common.lua:469
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:459
 msgid "+{amount} {stat} permanent"
 msgstr "{stat}永久+{amount}"
 
 # imported from zh-cn-todo-2.po
-#: assets_dev/worlds/mm6/events/common/mm6_common.lua:474
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:464
 msgid "Shrine of {name}"
 msgstr "{name}神殿"
 
@@ -287,7 +287,7 @@ msgstr "拉杆"
 
 # imported from packs (base v1.21)
 #: assets_dev/worlds/mm6/events/maps/6d05.lua:68 assets_dev/worlds/mm6/events/maps/6d05.lua:81 assets_dev/worlds/mm6/events/maps/6t3.lua:128
-#: assets_dev/worlds/mm6/events/maps/hive.lua:269 assets_dev/worlds/mm6/events/maps/hive.lua:82 assets_dev/worlds/mm6/events/maps/hive_mmmerge.lua:122
+#: assets_dev/worlds/mm6/events/maps/hive.lua:269 assets_dev/worlds/mm6/events/maps/hive.lua:82 assets_dev/worlds/mm6/events/maps/hive_mmmerge.lua:119
 #: assets_dev/worlds/mm6/events/maps/pyramid.lua:103 assets_dev/worlds/mm6/events/maps/pyramid.lua:148 assets_dev/worlds/mm6/events/maps/pyramid.lua:419
 msgid "The door is locked"
 msgstr "门是锁着的"
@@ -2057,6 +2057,11 @@ msgstr ""
 #: assets_dev/worlds/mm6/events/maps/oute3_1.lua:3
 msgid "New Sorpigal guard hostility fixup"
 msgstr "新索匹格 guard hostility fixup"
+
+# imported from packs (base v1.21)
+#: assets_dev/worlds/mm6/events/maps/oute3_mmmerge.lua:41 assets_dev/worlds/mm6/events/maps/oute3_mmmerge.lua:43
+msgid "Dimensional Travel"
+msgstr "次元旅行"
 
 # imported from packs (base v1.21)
 #: assets_dev/worlds/mm6/events/maps/pyramid.lua:101 assets_dev/worlds/mm6/events/maps/pyramid.lua:112

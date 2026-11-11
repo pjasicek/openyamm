@@ -489,11 +489,11 @@ local function use(g)
 end
 
 -- Shooters (MM9 Shooter: ProjectileName, DamageAmt, ShootInterval, aimed along the object's rotation): on, a
--- shot at once and one every ShootInterval until off.
+-- shot at once and one every ShootInterval until off; a shot strikes the party in its path (strikesParty).
 local firing = {}
 local function fire(name)
     local s = SHOOTER[name]
-    if evt.FireMissile(s.missile, s.at[1], s.at[2], s.at[3], s.to[1], s.to[2], s.to[3], s.damage, s.missile, 0) then
+    if evt.FireMissile(s.missile, s.at[1], s.at[2], s.at[3], s.to[1], s.to[2], s.to[3], s.damage, s.missile, 0, 0, true) then
         MM9.launchSound(s.projectile, s.at[1], s.at[2], s.at[3])
     end
     set("Shots", var("Shots") + 1)

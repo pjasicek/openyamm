@@ -716,25 +716,30 @@ classes:
 #   elemental_progress_line   an Elementalist's progress to the next spell of the school, naming it (a line)
 #   dragon_leech              a dragon's bite leech from Regeneration (its own paragraph; empty for other races)
 #   armor_items               the worn armour's Armor Class and the skill's bonuses (a paragraph; empty without it)
+#   guard_line                Staff, Sword, Spear: what the weapons of the skill in hand give now (a paragraph; empty
+#                             without one)
 skills:
   Staff:
     append: >-
       Each point raises the damage of the staff by 2 % (never less than 1 per point). At Grandmaster, Unarmed adds half
-      its skill to a staff's damage. From Expert, the staff also raises your Armor Class and the whole party's
-      resistances by the amounts below, counted as if you had 10 more points of skill. {stun_line}
+      its skill to a staff's damage. From Expert, a staff in hand also adds Armor Class, and as much to the whole
+      party's resistances: the percent below of the staff's guard (shown on the staff; it grows with the staff's
+      power) for each point of skill, counted as if you had 10 more points. {stun_line}{guard_line}
     normal: "Attack +1 per point"
-    expert: "Attack +2, Armor Class +2, resistances +2 per point"
-    master: "Attack +3, Armor Class +3, resistances +3 per point; a chance to paralyse for 2 s"
-    grandmaster: "Attack +4, Armor Class +4, resistances +4 per point; usable with Unarmed, paralysis lasts 4 s"
+    expert: "Attack +2 per point; Armor Class and party resistances 2 % of the guard per point"
+    master: "Attack +3 per point; Armor Class and party resistances 3 % of the guard per point; a chance to paralyse
+      for 2 s"
+    grandmaster: "Attack +4 per point; Armor Class and party resistances 4 % of the guard per point; usable with
+      Unarmed, paralysis lasts 4 s"
   Sword:
     append: >-
       Each point raises the damage of the sword, Armsmaster and special abilities by 2 % (never less than 1 per
-      point). From Master, the sword also raises your Armor Class by the amount below, counted as if you had 10 more
-      points of skill.
+      point). From Master, a sword in hand also adds Armor Class: the percent below of the sword's guard (shown on the
+      sword; it grows with the sword's power) for each point of skill, counted as if you had 10 more points.{guard_line}
     normal: "Attack +1 per point"
     expert: "Attack +2, speed +1 % per point"
-    master: "Attack +3, speed +1 %, Armor Class +1 per point; can dual wield"
-    grandmaster: "Attack +4, speed +2 %, Armor Class +2 per point"
+    master: "Attack +3, speed +1 % per point; Armor Class 1 % of the guard per point; can dual wield"
+    grandmaster: "Attack +4, speed +2 % per point; Armor Class 2 % of the guard per point"
   Dagger:
     append: >-
       Each point raises the damage of the dagger, Armsmaster and special abilities by 2 % (never less than 1 per
@@ -755,12 +760,12 @@ skills:
   Spear:
     append: >-
       Each point raises the damage of the spear, Armsmaster and special abilities by 2 % (never less than 1 per
-      point). From Expert, the spear also raises your Armor Class by the amount below, counted as if you had 10 more
-      points of skill.
+      point). From Expert, a spear in hand also adds Armor Class: the percent below of the spear's guard (shown on the
+      spear; it grows with the spear's power) for each point of skill, counted as if you had 10 more points.{guard_line}
     normal: "Attack +2 per point"
-    expert: "Attack +4, Armor Class +4 per point"
-    master: "Attack +6, Armor Class +6 per point; can hold with one hand"
-    grandmaster: "Attack +8, Armor Class +8 per point; each blow makes the target take {spear_stack}% more physical damage,
+    expert: "Attack +4 per point; Armor Class 4 % of the guard per point"
+    master: "Attack +6 per point; Armor Class 6 % of the guard per point; can hold with one hand"
+    grandmaster: "Attack +8 per point; Armor Class 8 % of the guard per point; each blow makes the target take {spear_stack}% more physical damage,
       stacking until it dies (half again with a halberd)"
   Bow:
     append: >-
@@ -887,11 +892,12 @@ skills:
   Cover:
     append: >-
       Current cover chance: <good>{cover_chance}</> %. Mastery comes by itself at <value>{ladder_expert}</>, <value>{ladder_master}</> and
-      <value>{ladder_grandmaster}</> points. Press P on the skills page to switch it: {cover_state}.
+      <value>{ladder_grandmaster}</> points. The gem beside its name on the skills page (or P) switches it:
+      {cover_state}.
   ManaShield:
     append: >-
-      Now each spell point absorbs <mana>{mana_efficiency:2}</> damage. Press M on the skills page to switch it:
-      {mana_shield_state}.
+      Now each spell point absorbs <mana>{mana_efficiency:2}</> damage. The gem beside its name on the skills
+      page (or M) switches it: {mana_shield_state}.
   Enlightenment:
     append: >-
       Mastery comes by itself at <value>{ladder_expert}</>, <value>{ladder_master}</> and <value>{ladder_grandmaster}</> points.
@@ -1081,7 +1087,7 @@ class_skills:
         into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
         and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
         stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
-        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
 
         Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
     AirMagic:
@@ -1090,7 +1096,7 @@ class_skills:
         into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
         and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
         stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
-        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
 
         Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
     WaterMagic:
@@ -1099,7 +1105,7 @@ class_skills:
         into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
         and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
         stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
-        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
 
         Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
     EarthMagic:
@@ -1108,7 +1114,7 @@ class_skills:
         into another known one of the same kind: single target, shotgun or area. Each stack adds 10 % spell damage
         and 5 % casting speed, and raises the mana cost by 7.5 % (Elementalists cast half again as slowly without
         stacks). A weapon hit spends them all, a cast from the spellbook starts again at one, and they halve once
-        you stop casting. R on the skills page turns the rotation and stacks on or off: {rotation}.
+        you stop casting. The Rotation gem on the skills page's Magic heading (or R) turns the rotation and stacks on or off: {rotation}.
 
         Elementalists learn spells by casting them at monsters instead of from books. {elemental_progress_line}
 

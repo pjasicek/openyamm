@@ -79,7 +79,8 @@ steps:
       id: 9
       state: closed
 - note:
-    text: 'The bank''s hatch (Bankdoor): a click opens it and the banker''s dialogue (RUDE 206).'
+    text: 'The bank''s hatch (Bankdoor): a click opens it and the banker''s dialogue (RUDE 206); the dialogue''s exit shuts
+      it (NPC206.scr :OnRude toggles bankdoor).'
 - execute_event:
     id: 231
 - advance_runtime:
@@ -88,6 +89,10 @@ steps:
     dialog:
       active: true
       source_id: 206
+- assert:
+    mechanism:
+      id: 2
+      state: opening
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -95,7 +100,7 @@ steps:
 - assert:
     mechanism:
       id: 2
-      state: open
+      state: closed
 - note:
     text: 'ExitTrigger0 (DAT object 46): the north gate road to the Frosgard wilderness.'
 - movement_segment:

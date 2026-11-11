@@ -353,3 +353,11 @@ Lua differs by these two lines; installed into `assets_dev` and the review root)
 between Tamur and the summons; here he stays until his talk. Verified headless (playthrough prep `tamur_reload.yml`):
 Tamur shown after a mid-battle load and talked into the party, Thorolf2 shown after a load between 106 and 107 and
 talked to, both hidden after a load with 107.
+
+## Forad's bow (2026-11-11)
+
+`Forad.scr :OnUse` turns him to the party (`FaceObject`) and plays `bow` once; `citylua.py` does the same on his click
+(`evt.FaceActorTo`, `evt.PlayActorClip(0, "bow")`), and clears that presentation when the battle's talk turns him on
+the party. Checked headless (the click turns him -19 degrees to the party and plays `bow`). `scenario_scripted.yml`
+fails at its Thorolf step (step 80: Forad's dialogue 2 is the last started, not Thorolf's 378) with the Lua before this
+change too: an older failure, not from the bow.

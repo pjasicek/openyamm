@@ -286,3 +286,8 @@ so every Skeletoid stayed on the Lich's islet, marked as fighting, and the map's
 `regionlua.py` now writes MarkerTo on the floor under it (`on_floor`), marks a Skeletoid fighting only once the move
 took, and moves the ones older saves left stranded at MarkerFrom. Scenario:
 `tests/scenarios/mm9/isle_lich_skeletoids_reach_shore.yml`.
+
+## The Lich's summoning gesture (2026-11-11)
+
+`Isle_Summoner.scr :SpawnCreature` plays `hattack1` at each spawn; `regionlua.py` plays the Lich King's `attack_melee`
+(MM9's Hattack1) in `lichSpawn`. Checked headless: TriggerStarters' two spawns set the clip.

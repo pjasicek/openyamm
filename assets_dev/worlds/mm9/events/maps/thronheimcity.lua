@@ -184,22 +184,31 @@ handlers[36050] = function()
 end
 
 -- HONKIES.scr (the three Honk missionaries, RUDE 271, 272, 279): with the dock captain's plan (key 145), each one
--- persuaded (142, 143, 144) leaves for the docks; the third gives key 77 and 8 000 experience. Gone on 77.
+-- persuaded (142, 143, 144) leaves for the docks (:Walk: runs to HonkyMarker, gone there: :OnShanghai);
+-- the third gives key 77 and 8 000 experience. Gone on 77 (a load removes the persuaded ones at once).
 -- (MM9 sends every Honk whose dialogue closes with 145 and any of the three keys; here only the persuaded one.)
+local HONKY_MARKER = {14664, 82, 3092}
+local function honkLeaves(actor, arrival)
+    local m = HONKY_MARKER
+    if not evt.MoveActorTo(actor, m[1], m[2], m[3], arrival, true) then MM9.removeActor(actor) end
+end
 local function honksDone()
     local n = 0
     for _, k in ipairs({142, 143, 144}) do if has(k) then n = n + 1 end end
     if n == 3 and not has(77) then reward(77, 8000, 0) end
 end
 handlers[50056] = function()
-    if has(145) and has(142) then MM9.removeActor(1); honksDone() end
+    if has(145) and has(142) then honkLeaves(1, 265); honksDone() end
 end
+handlers[265] = function() MM9.removeActor(1) end
 handlers[50058] = function()
-    if has(145) and has(143) then MM9.removeActor(3); honksDone() end
+    if has(145) and has(143) then honkLeaves(3, 266); honksDone() end
 end
+handlers[266] = function() MM9.removeActor(3) end
 handlers[50057] = function()
-    if has(145) and has(144) then MM9.removeActor(2); honksDone() end
+    if has(145) and has(144) then honkLeaves(2, 267); honksDone() end
 end
+handlers[267] = function() MM9.removeActor(2) end
 
 -- BANKORB.scr (Brynhildr the Money-wise, RUDE 243, "Thronheim"): the Orb of Linking. A click with the orb
 -- (item 252) after the quest (322) unlocks the row that installs it (330); the exit places it (331 -> 328) and
@@ -530,6 +539,9 @@ RegisterMapTimerEvent(36050, seconds(3), handlers[36050], "Knut", "", seconds(3)
 RegisterEvent(50056, "Honk", handlers[50056])
 RegisterEvent(50058, "Honk", handlers[50058])
 RegisterEvent(50057, "Honk", handlers[50057])
+RegisterEvent(265, "Honk", handlers[265])
+RegisterEvent(266, "Honk", handlers[266])
+RegisterEvent(267, "Honk", handlers[267])
 RegisterEvent(53059, "Bank", handlers[53059])
 RegisterEvent(50059, "Bank", handlers[50059])
 RegisterEvent(50054, "Ealusaid", handlers[50054])
@@ -614,10 +626,18 @@ MM9Cinematic.steps["council_argument"] = {
     { "war", function()
         war()   -- ARGUMENT.scr :Cam3 gosub War
     end },
+    { "kira_sheath", function()
+        evt.AttachActorItem(50, "worlds/mm9/models/mm9_item_kirasword.glb", "Socket_Sheath")
+    end },
+    { "kira_draw", function()
+        evt.DetachActorItem(50, "Socket_Sheath")
+        evt.AttachActorItem(50, "worlds/mm9/models/mm9_item_kirasword.glb", "Socket_RHand1")
+    end },
     { "end", function()
         -- :End gosub War; the hall as the scene left it: the posed Jarls back, Markel dead (NPC239.scr
         -- :OnKillMarkel), Kira the Cold at her place; ARG_Yrsa.scr :OnAppear: Yrsa 5 + 2 s later
         war()
+        evt.DetachActorItem(50)   -- her sword goes with her stage actor (MM9 drops props on a load)
         show(50, false)
         -- the Jarls back in their chairs, looping Sit (the scene's presentation ends with it)
         evt.PlayActorClip(49, "sit", true); evt.FaceActorTo(49, -11284, 16692, 0)   -- Bjarni Thorvaldssen: LoopAnim sit
@@ -638,7 +658,9 @@ MM9Cinematic.steps["council_argument"] = {
 RegisterEvent(36001, "Cinema council_argument: stage", function() MM9Cinematic.runStep("council_argument", 1) end)
 RegisterEvent(36002, "Cinema council_argument: forad", function() MM9Cinematic.runStep("council_argument", 2) end)
 RegisterEvent(36003, "Cinema council_argument: war", function() MM9Cinematic.runStep("council_argument", 3) end)
-RegisterEvent(36004, "Cinema council_argument: end", function() MM9Cinematic.runStep("council_argument", 4) end)
+RegisterEvent(36004, "Cinema council_argument: kira_sheath", function() MM9Cinematic.runStep("council_argument", 4) end)
+RegisterEvent(36005, "Cinema council_argument: kira_draw", function() MM9Cinematic.runStep("council_argument", 5) end)
+RegisterEvent(36006, "Cinema council_argument: end", function() MM9Cinematic.runStep("council_argument", 6) end)
 RegisterEvent(36000, "Cinema council_argument: done", function() MM9Cinematic.finish("council_argument") end)
 MM9Cinematic.play["council_argument"] = function()
     if evt.GetMapVar("Cinema.council_argument.started", 0) == 0 then

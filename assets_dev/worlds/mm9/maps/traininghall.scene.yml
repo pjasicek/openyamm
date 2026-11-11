@@ -389,7 +389,50 @@
      "runaway_chance": 0.25,
      "hostility": "friendly_until_provoked",
      "faction": "training",
-     "script": "th_trainingorcs.scr"
+     "script": "th_trainingorcs.scr",
+     "routines": {
+      "train": [
+       {
+        "face": 181.6
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       }
+      ]
+     }
     }
    },
    {
@@ -431,7 +474,51 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_trainingorcobserver.scr",
-     "script_params": "MarkerOrc0 MarkerOrc1 TrainingCommander"
+     "script_params": "MarkerOrc0 MarkerOrc1 TrainingCommander",
+     "routines": {
+      "train": [
+       {
+        "walk": [
+         205,
+         -2294,
+         0
+        ]
+       },
+       {
+        "face": 200.5
+       },
+       {
+        "wait": [
+         2.0,
+         2.0
+        ]
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       },
+       {
+        "walk": [
+         205,
+         -3031,
+         0
+        ]
+       },
+       {
+        "face": 152.3
+       },
+       {
+        "wait": [
+         2.0,
+         2.0
+        ]
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       }
+      ]
+     }
     }
    },
    {
@@ -472,7 +559,50 @@
      "runaway_chance": 0.25,
      "hostility": "friendly_until_provoked",
      "faction": "training",
-     "script": "th_trainingorcs.scr"
+     "script": "th_trainingorcs.scr",
+     "routines": {
+      "train": [
+       {
+        "face": 181.6
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       }
+      ]
+     }
     }
    },
    {
@@ -513,7 +643,50 @@
      "runaway_chance": 0.25,
      "hostility": "friendly_until_provoked",
      "faction": "training",
-     "script": "th_trainingorcs.scr"
+     "script": "th_trainingorcs.scr",
+     "routines": {
+      "train": [
+       {
+        "face": 181.6
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       }
+      ]
+     }
     }
    },
    {
@@ -554,7 +727,50 @@
      "runaway_chance": 0.25,
      "hostility": "friendly_until_provoked",
      "faction": "training",
-     "script": "th_trainingorcs.scr"
+     "script": "th_trainingorcs.scr",
+     "routines": {
+      "train": [
+       {
+        "face": 181.6
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack_melee",
+        "seconds": 0.73
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       },
+       {
+        "clip": "attack2",
+        "seconds": 0.8
+       }
+      ]
+     }
     }
    },
    {
@@ -595,7 +811,30 @@
      "runaway_chance": 0.25,
      "hostility": "friendly_until_provoked",
      "faction": "training",
-     "script": "th_trainingorccommander.scr"
+     "script": "th_trainingorccommander.scr",
+     "routines": {
+      "train": [
+       {
+        "face": 1.1
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget2",
+        "seconds": 1.7
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       }
+      ]
+     }
     }
    },
    {
@@ -637,7 +876,38 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_orcsgossip.scr",
-     "script_params": "Stand Stand Fidget1 Stand Stand Fidget1"
+     "script_params": "Stand Stand Fidget1 Stand Stand Fidget1",
+     "routines": {
+      "gossip": [
+       {
+        "face": 134.6
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       }
+      ]
+     }
     }
    },
    {
@@ -679,7 +949,38 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_orcsgossip.scr",
-     "script_params": "Fidget1 Fidget2 Taunt Fidget2 Fidget1 Stand"
+     "script_params": "Fidget1 Fidget2 Taunt Fidget2 Fidget1 Stand",
+     "routines": {
+      "gossip": [
+       {
+        "face": 329.8
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       },
+       {
+        "clip": "fidget2",
+        "seconds": 1.7
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       },
+       {
+        "clip": "fidget2",
+        "seconds": 1.7
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       }
+      ]
+     }
     }
    },
    {
@@ -720,7 +1021,30 @@
      "runaway_chance": 0.25,
      "hostility": "friendly_until_provoked",
      "faction": "training",
-     "script": "th_trainingorccommander.scr"
+     "script": "th_trainingorccommander.scr",
+     "routines": {
+      "train": [
+       {
+        "face": 139.2
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget2",
+        "seconds": 1.7
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.7
+       }
+      ]
+     }
     }
    },
    {
@@ -762,7 +1086,51 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_trainingorcobserver.scr",
-     "script_params": "BoxMarker0 BoxMarker1 BoxOrc0"
+     "script_params": "BoxMarker0 BoxMarker1 BoxOrc0",
+     "routines": {
+      "train": [
+       {
+        "walk": [
+         -2499,
+         -2212,
+         0
+        ]
+       },
+       {
+        "face": 246.4
+       },
+       {
+        "wait": [
+         2.0,
+         2.0
+        ]
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       },
+       {
+        "walk": [
+         -3236,
+         -2232,
+         0
+        ]
+       },
+       {
+        "face": 332.6
+       },
+       {
+        "wait": [
+         2.0,
+         2.0
+        ]
+       },
+       {
+        "clip": "fidget",
+        "seconds": 4.0
+       }
+      ]
+     }
     }
    },
    {
@@ -946,7 +1314,47 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_meantrellborg.scr",
-     "script_params": "d2lever JoustVictimTrellborg"
+     "script_params": "d2lever JoustVictimTrellborg",
+     "routines": {
+      "launch": [
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget3",
+        "seconds": 2.5
+       },
+       {
+        "clip": "fidget",
+        "seconds": 2.0
+       },
+       {
+        "clip": "taunt",
+        "seconds": 1.0
+       },
+       {
+        "face": 354.6
+       },
+       {
+        "wait": [
+         3600.0,
+         3600.0
+        ]
+       }
+      ],
+      "reset": [
+       {
+        "face": 228.9
+       },
+       {
+        "wait": [
+         3600.0,
+         3600.0
+        ]
+       }
+      ]
+     }
     }
    },
    {
@@ -988,7 +1396,37 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_jousttrellborg.scr",
-     "script_params": "Stand Aware Fidget2 Aware JoustMarker0"
+     "script_params": "Stand Aware Fidget2 Aware JoustMarker0",
+     "routines": {
+      "joust": [
+       {
+        "walk": [
+         1219,
+         -3523,
+         -696
+        ]
+       },
+       {
+        "face": 181.6
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "aware",
+        "seconds": 1.7
+       },
+       {
+        "clip": "fidget2",
+        "seconds": 2.5
+       },
+       {
+        "clip": "aware",
+        "seconds": 1.7
+       }
+      ]
+     }
     }
    },
    {
@@ -1030,7 +1468,37 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_jousttrellborg.scr",
-     "script_params": "Stand Stand Fidget1 Fidget2 JoustMarker1"
+     "script_params": "Stand Stand Fidget1 Fidget2 JoustMarker1",
+     "routines": {
+      "joust": [
+       {
+        "walk": [
+         666,
+         -3092,
+         -696
+        ]
+       },
+       {
+        "face": 293.9
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget",
+        "seconds": 2.0
+       },
+       {
+        "clip": "fidget2",
+        "seconds": 2.5
+       }
+      ]
+     }
     }
    },
    {
@@ -1072,7 +1540,67 @@
      "hostility": "friendly_until_provoked",
      "faction": "training",
      "script": "th_lookouttrellborg.scr",
-     "script_params": "LookOutMarker0 LookOutMarker1 MeanTrellborg JoustVictimTrellborg"
+     "script_params": "LookOutMarker0 LookOutMarker1 MeanTrellborg JoustVictimTrellborg",
+     "routines": {
+      "joust": [
+       {
+        "walk": [
+         1300,
+         -1802,
+         -696
+        ]
+       },
+       {
+        "face": 268.3
+       },
+       {
+        "wait": [
+         2.0,
+         2.0
+        ]
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget",
+        "seconds": 2.0
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "walk": [
+         -1352,
+         -1792,
+         -696
+        ]
+       },
+       {
+        "face": 252.8
+       },
+       {
+        "wait": [
+         2.0,
+         2.0
+        ]
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       },
+       {
+        "clip": "fidget",
+        "seconds": 2.0
+       },
+       {
+        "clip": "standing",
+        "seconds": 1.5
+       }
+      ]
+     }
     }
    },
    {

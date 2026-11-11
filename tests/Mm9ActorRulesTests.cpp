@@ -1708,6 +1708,109 @@ TEST_CASE("MM9 idle arms its fidget anew whenever it returns to idle")
     CHECK(update.state.mm9->idleFidgetWaitSeconds != doctest::Approx(armed));
 }
 
+TEST_CASE("MM9 idle with an idle clip loops it and never fidgets, and fidgets anew once the loop ends")
+{
+    // MM9's LoopAnim holds the animator in its script state 0x11, whose think (0x1001c7e0) never fidgets.
+    ActorAiFacts actor = makeMm9Walker();
+    actor.target = {};
+    actor.runtime.mm9.wanderSeconds = 0.0f;
+    actor.runtime.fidgetClips.count = 2;
+    actor.runtime.fidgetClips.seconds = {1.5f, 2.0f};
+    actor.movement.mm9Placement->idleClip = "pray";
+    CHECK(runMm9Idle(actor, 60.0f).empty());
+    CHECK(actor.runtime.mm9.idleThisStep);
+    CHECK(actor.runtime.mm9.idleLooped);
+    CHECK(actor.runtime.animationState == ActorAiAnimationState::Standing);
+
+    // Without it (its script's SetState(idle)) the fidget is armed anew: the first comes 5-12 s later.
+    actor.movement.mm9Placement->idleClip.clear();
+    const std::vector<Mm9IdleFidget> fidgets = runMm9Idle(actor, 30.0f);
+    REQUIRE_FALSE(fidgets.empty());
+    CHECK(fidgets[0].clock >= 4.95f);
+    CHECK(fidgets[0].clock <= 12.05f);
+}
+
+TEST_CASE("MM9 routine runs its steps in turn: a clip, a walk, a chance group, the items, round again")
+{
+    using OpenYAMM::Game::Mm9AiRoutine;
+    using OpenYAMM::Game::Mm9AiRoutineStep;
+    ActorAiFacts actor = makeMm9Walker();
+    actor.target = {};
+    actor.runtime.fidgetClips.count = 1;
+    actor.runtime.fidgetClips.seconds = {1.0f};
+    Mm9AiRoutineStep hammer;
+    hammer.kind = Mm9AiRoutineStep::Kind::Clip;
+    hammer.clips = {{"hammer", 1.0f}};
+    Mm9AiRoutineStep walk;
+    walk.kind = Mm9AiRoutineStep::Kind::Walk;
+    walk.point = {600, 0, 0};
+    Mm9AiRoutineStep never;
+    never.kind = Mm9AiRoutineStep::Kind::Chance;
+    never.chance = 0.0f;
+    never.skip = 1;
+    Mm9AiRoutineStep dump;
+    dump.kind = Mm9AiRoutineStep::Kind::Clip;
+    dump.clips = {{"dump", 1.0f}};
+    Mm9AiRoutineStep hide;
+    hide.kind = Mm9AiRoutineStep::Kind::HideItems;
+    Mm9AiRoutineStep rock;
+    rock.kind = Mm9AiRoutineStep::Kind::Clip;
+    rock.clips = {{"rock", 0.5f}};
+    const std::vector<Mm9AiRoutine> routines = {{"default", {hammer, walk, never, dump, hide, rock}}};
+    actor.movement.mm9Routines = routines;
+    actor.movement.mm9Routine = 0;
+    const auto run = [&](float seconds)
+    {
+        ActorAiUpdate update;
+
+        for (float clock = 0.0f; clock < seconds; clock += 1.0f / 128.0f)
+        {
+            update = stepMm9(actor);
+            CHECK_FALSE(findDecision(update, ActorAiDecisionKind::Fidget));
+            actor.runtime.mm9 = *update.state.mm9;
+            actor.runtime.motionState = update.state.motionState.value_or(actor.runtime.motionState);
+            actor.runtime.animationState = update.animation.animationState.value_or(actor.runtime.animationState);
+        }
+
+        return update;
+    };
+
+    // The clip: it stands for its second.
+    ActorAiUpdate update = run(0.5f);
+    CHECK(actor.runtime.mm9.routine == 0);
+    CHECK(actor.runtime.mm9.routineStep == 0);
+    CHECK(actor.runtime.mm9.routineClip == 0);
+    CHECK(update.animation.animationState == ActorAiAnimationState::Standing);
+
+    // Then the walk heads for its point, at a wander's walk.
+    update = run(0.6f);
+    CHECK(actor.runtime.mm9.routineStep == 1);
+    CHECK(update.movementIntent.targetPosition.x == doctest::Approx(600.0f));
+    CHECK(update.state.motionState == ActorAiMotionState::Wandering);
+
+    // There, the chance group (never) is skipped: the items go down and the last clip plays.
+    actor.movement.position = {600.0f, 0.0f, 0.0f};
+    run(0.1f);
+    CHECK(actor.runtime.mm9.routineStep == 5);
+    CHECK(actor.runtime.mm9.routineItemsHidden);
+
+    // After it, round again from the first step.
+    run(0.5f);
+    CHECK(actor.runtime.mm9.routineStep == 0);
+
+    // A routine changed (a map script's choice) starts from its first step with its items up.
+    const std::vector<Mm9AiRoutine> other = {{"ceremony", {rock}}, {"default", {hammer, hide, rock}}};
+    actor.movement.mm9Routines = other;
+    actor.movement.mm9Routine = 1;
+    run(1.1f);
+    CHECK(actor.runtime.mm9.routineStep == 2);
+    CHECK(actor.runtime.mm9.routineItemsHidden);
+    actor.movement.mm9Routine = 0;
+    run(0.1f);
+    CHECK(actor.runtime.mm9.routine == 0);
+    CHECK_FALSE(actor.runtime.mm9.routineItemsHidden);
+}
+
 TEST_CASE("MM9 townsperson turns back to its facing after a talk at 180 degrees a second")
 {
     constexpr float Pi = 3.14159265f;

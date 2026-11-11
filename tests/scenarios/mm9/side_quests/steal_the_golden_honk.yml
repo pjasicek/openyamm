@@ -148,8 +148,8 @@ steps:
   - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
   - setup_shortcut: {kind: immortal}
   - advance_runtime: {seconds: 1}
-  # The defeat costs the party its gold, as MM9's does.
-  - assert: {map: arslegardcity.blv, gold: 0}
+  # The defeat takes no gold, as MM9's does not (cshell.dll 0x100a4e50; world.yml partyDeath keepGold).
+  - assert: {map: arslegardcity.blv, gold: 10000}
   - play_lua:
       source: |
         if not has_item(10369) then error("the Golden Honk was lost in the defeat") end
@@ -173,11 +173,11 @@ steps:
   - select_topic: {match_label: "What sword?  What two Jarls?"}
   - select_topic: {match_label: "Thanks for your time."}
   - advance_runtime: {seconds: 0.5}
-  # The close pays: key 347, 10 000 gold, 22 500 experience (MM9's 80 000 on the
-  # rework's profile); the Golden Honk is taken.
+  # The close pays: key 347, 10 000 gold (on the 10 000 kept through the defeat), 22 500 experience (MM9's 80 000
+  # on the rework's profile); the Golden Honk is taken.
   - assert:
       qbit_set: [90346, 90347]
-      gold: 10000
+      gold: 20000
       runtime_event_variable: {id: 13, member_index: 0, value: 22500}
   - play_lua:
       source: |

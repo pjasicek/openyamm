@@ -27,7 +27,8 @@ import yaml
 
 import review_root
 
-from . import ambient, density, destructibles, objects, people, perception, tables, treasure, wall_splits, water
+from . import (ambient, density, destructibles, objects, people, perception, spr_surfaces, tables, treasure,
+               wall_splits, water)
 from .geometry import Polygon, drop_unshared_collinear, merge_coplanar, poly_ring, sample_polygon
 from .lights import MAX_LIGHTS_PER_POINT, build_lights, light_coverage, perception_lights, pulsing_lights
 from .movers import build_movers
@@ -683,6 +684,9 @@ class Build:
         from mm9_chest_balance import balance_loot_containers
         balance_loot_containers(project.stem, scene["loot_containers"])
         self.hooks.scene(self, scene)
+        # MM9's .spr surfaces animated and translucent where the map opts in (overrides.yml `spr_surfaces`), after
+        # the map's hooks and their liquids (dungeon/spr_surfaces.py)
+        spr_surfaces.apply(self, scene)
         self.merge_face_lists(scene)
         self.water_checks(scene)
         # Pack growth (density.py, BALANCE_PLAN.md 3.6): copies of the packs' own monsters after every placed actor,

@@ -54,6 +54,7 @@ cinematics:
       - {at: 3.715, actor: 111, action: "move", to: [8775.7, -11704.3, 2777], seconds: 3.547, note: "RunTo NJamMarker: the hall"}
       - {at: 6.229, fade: "in", seconds: 1, note: "NjamCam OnArrive2 ScreenFadeOut 1 + Shot2Cam ScreenFadein 1"}
       - {at: 6.229, sound: "sounds\\door\\cell_door_close.wav", note: "WG_Shot2Cam Play: WinMan switch (the lever down)"}
+      - {at: 6.229, event: 36005, note: "WG_Shot2Cam :OnPlay: WinMan switch (:onSwitch, on camera)"}
       - {at: 7.262, actor: 111, action: "clip", clip: "Standing", loop: true, note: ":OnArrive"}
       - {at: 8.262, sound: "sounds\\spells\\armsofearth01.wav", note: ":OnHandDone Armsofearth01"}
       - {at: 8.262, actor: 111, action: "clip", clip: "WinGame", loop: false, note: ":OnPanic PlayAnim njam_wingame"}

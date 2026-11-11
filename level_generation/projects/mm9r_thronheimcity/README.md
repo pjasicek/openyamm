@@ -139,7 +139,7 @@ cuts, floor area under another room's air 193 141 -> 99 887 LT², and the strip 
 | ARG_Unhide.scr | the council set (six Jarls, book, treaty) shown from 90 + 91 until 94; Markel alive only before 40 |
 | ARG_Yrsa.scr (Yrsa the Troll, RUDE 1) | after the council: a click gives 93 and opens RUDE 1; the exit gives 185 and she vanishes |
 | NPC239.scr (Kira the Cold, RUDE 239) | click: 178 with the five clan keys; exit: 147 (item 247 taken), 146, 152, 179, 181 (item 401 given); hidden on 40 unless 108; the 06:00 key 180 after 88 |
-| Honkies.scr (three Honk missionaries) | with the dock captain's plan (145) each persuaded one (142/143/144) leaves; the third gives 77 and 8 000 xp; gone on 77 |
+| Honkies.scr (three Honk missionaries) | each holds a Honk pamphlet (`held_items`: `mm9_item_honkpamphlet.glb` on `Socket_pamphlet`, :Init AttachProp) and wanders (BaseWanderInit); with the dock captain's plan (145) each persuaded one (142/143/144) runs to HonkyMarker at the docks and is gone there (:Walk, :OnShanghai; arrival events 265-267); the third gives 77 and 8 000 xp; gone on 77 |
 | BankOrb.scr (Brynhildr, 243) | the Orb of Linking: 330 on a click with the orb, the exit places it (331 -> 328); six orbs: 337, 20 000 xp, 15 000 gold |
 | NPC241.scr (Ealusaid) | 314 -> 315, 50 000 xp, 10 000 gold, the Black Orb (250) taken |
 | NPC242.scr (Dagfari), NPC246.scr (Erlend) | the Scroll of Bad News (251): 316 -> item + 317; 318 -> 319, item taken; 320 -> 321, 5 000 xp, 5 000 gold |
@@ -167,7 +167,11 @@ walls and Jarls agree to 8 LT), so the cameras (Camera0-11, CameraMarker0, KiraM
 six actors are moved into the hall and the scene plays there. `convert.py` places the stage actors at the end of the actor list
 (hidden, immobile, their MM9 rows 246-252 with the GLBs' Argument clips); the `stage` step swaps them in for the posed
 Jarl decorations (Sven keeps his: his model sits on its own chair, so he neither claps nor agrees) and hides Kira the
-Cold, the `end` step swaps back with Markel dead.
+Cold, the `end` step swaps back with Markel dead. Kira's sword (ARG_Kira.scr's AttachProp, 2026-11-11): the
+`kira_sheath` step hangs `mm9_item_kirasword.glb` on her `Socket_Sheath` as she stands, `kira_draw` moves it to
+`Socket_RHand1` at Sc2_Kira17's attach key (0.966 s, with DrawSword.wav), and the `end` step takes it off.
+Kira's seated clips are lowered 24 units onto her chair in the model (`mm9_kira_claude/scripts/seat_clips.py`,
+2026-11-11): MM9's sit keeps her standing hips, and the stage actor cannot go under the hall's floor.
 
 - Timing: Camera0's MoveToPos arrival (200.6 LT at 40), then the 24 :OnDone callbacks from the `.abc` key events of
   the Sc2_* animations (Done, Done2, Cam3), DrawSword.wav's end and 18.wav's end, and the script's waits (wait 1 4,
@@ -181,8 +185,8 @@ Cold, the `end` step swaps back with Markel dead.
   page turn, book, chair slide, claps at the Applause keys, sword, cflesh, Bjarni's "Yeah"; every actor animation as
   a clip cue with the GLB name (ArgumentShot1A, Sc2_MARKEL02 ..., Sit loops between), walks as move cues with Walking,
   faces; the treaty decoration (cog 406) lies before Bjarni and slides to Sigmund at 4 LT/s.
-- Not carried: subtitles (the lines' text is in no MM9 data file: only fragments in the script's comments), Kira's
-  sword prop, Markel's chair sliding back (the chair decoration has no cog), the book's open animation.
+- Not carried: subtitles (the lines' text is in no MM9 data file: only fragments in the script's comments),
+  Markel's chair sliding back (the chair decoration has no cog), the book's open animation.
 
 **Knut's rant** (KnutSpeech.scr, Ake.scr): not a cinematic (MM9 leaves the player in control for its 91 s; a cinematic
 locks input and saving): map timer 36050 polls; when the party first comes within Knut's sight (1536) he plays his talk
@@ -194,7 +198,9 @@ converter writes it and the installed scene with the stage actors (44-49) into
 `output/mm9_rework/cinematics_pilot_root`; then from `output/mm9_rework/cinematics_pilot_run` run
 `build/game/openyamm --world mm9 --headless-run-scenario <abs>/cinematic_council_argument_play.yml` (and `_skip.yml`,
 `knut_rant.yml`). Captures: `output/mm9_rework/cinematics_pilot_run/captures_council_argument/` (tour
-`tour_council_argument.yml`).
+`tour_council_argument.yml`). Since 2026-11-11 `cinematic_council_argument_play.yml` and `_skip.yml` check the installed
+map's actors (Kira's stage actor 50, Markel 46, Kira the Cold 41, Yrsa 42; the pilot root numbered the stage actors
+44-49) and pass against `assets_dev` (`./build/game/openyamm --headless-run-scenario <abs yml>` from the repository).
 
 ## Quality gates
 

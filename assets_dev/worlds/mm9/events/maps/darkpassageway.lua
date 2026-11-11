@@ -72,20 +72,47 @@ local function setPuzzle(state)
         MM9.playSound("sounds/events/quest.wav")
     end
 end
-local function hit(letter)
-    if var("PuzzleSolved") == 1 then return end
-    sound("spells/EnchantItem.wav")
-    setPuzzle(PUZZLE[letter][puzzleState()] or 0)
+-- The statues (animated decorations; each puzzle statue and its moved twin play together): at start
+-- PlayAnim fidget1 (the banshee awareAir, which BANSHEE.abc lacks: it stands at rest), its end held; a Use
+-- plays fidget1 (the banshee FidgetAir1) with EnchantItem.wav, and only the clip's end (PlayAnim's callback
+-- :TriggerScrObj) tells the manager: Hit<X>, or Reset for the terror (DarkP_BridgeReset.scr). A click while
+-- the clip plays is ignored (MM9 restarts it, still one trigger). The solved puzzle's Stop removes the Use.
+local STATUES = {
+    [0] = {cogs = {410, 411}, hit = "A", start = "fidget1", use = "fidget1", seconds = 2.033},   -- SwitchCreature0
+    [1] = {cogs = {412, 413}, hit = "B", start = "fidget1", use = "fidget1", seconds = 3.667},   -- SwitchCreature1
+    [2] = {cogs = {414, 415}, hit = "C", start = "fidget1", use = "fidget1", seconds = 2.000},   -- SwitchCreature2
+    [3] = {cogs = {416, 417}, hit = "D", use = "fidgetair1", seconds = 3.000},   -- SwitchCreature3
+    [4] = {cogs = {418}, start = "fidget1", use = "fidget1", seconds = 2.300},   -- SwitchCreature5
+}
+local function showStatue(k)   -- the pose it holds: the end of the last clip it played
+    local s = STATUES[k]
+    local clip = var("StatueUsed" .. k) == 1 and s.use or s.start
+    if clip then for _, cog in ipairs(s.cogs) do evt.PlayDecorationClip(cog, clip, "end") end end
 end
-handlers[201] = function() hit("A") end   -- SwitchCreature0
-handlers[202] = function() hit("B") end   -- SwitchCreature1
-handlers[203] = function() hit("C") end   -- SwitchCreature2
-handlers[204] = function() hit("D") end   -- SwitchCreature3
-handlers[205] = function()   -- SwitchCreature5: Reset
-    if var("PuzzleSolved") == 1 then return end
+local function useStatue(k)   -- :MoveMe
+    if var("PuzzleSolved") == 1 or var("StatueBusy" .. k) == 1 then return end
+    local s = STATUES[k]
+    set("StatueBusy" .. k, 1); set("StatueUsed" .. k, 1)
+    for _, cog in ipairs(s.cogs) do evt.PlayDecorationClip(cog, s.use) end
     sound("spells/EnchantItem.wav")
-    setPuzzle(14)
+    arm(430 + k, s.seconds)
 end
+local function statueDone(k)   -- :TriggerScrObj
+    set("StatueBusy" .. k, 0)
+    if var("PuzzleSolved") == 1 then return end
+    local s = STATUES[k]
+    setPuzzle(s.hit and (PUZZLE[s.hit][puzzleState()] or 0) or 14)
+end
+handlers[201] = function() useStatue(0) end   -- SwitchCreature0
+handlers[430] = function() if fired(430) then statueDone(0) end end
+handlers[202] = function() useStatue(1) end   -- SwitchCreature1
+handlers[431] = function() if fired(431) then statueDone(1) end end
+handlers[203] = function() useStatue(2) end   -- SwitchCreature2
+handlers[432] = function() if fired(432) then statueDone(2) end end
+handlers[204] = function() useStatue(3) end   -- SwitchCreature3
+handlers[433] = function() if fired(433) then statueDone(3) end end
+handlers[205] = function() useStatue(4) end   -- SwitchCreature5
+handlers[434] = function() if fired(434) then statueDone(4) end end
 handlers[221] = function()   -- TeleportDoor0: Locked until the puzzle is solved
     if var("PuzzleSolved") == 0 or var("TeleportDoor0Locked") == 1 then locked() return end
     openG("TeleportDoor0")
@@ -101,11 +128,15 @@ local function teleport(name)
     evt.MoveToMap(a[1][1], a[1][2], a[1][3], a[2], 0, 0, 0, 0)
 end
 
--- The canyon (DarkP_CanyonSwitch.scr on the ice statue SwitchCreature4): a click wakes the banshee statues'
--- eyes in pairs (BansheeAEye0/1, 2/3, 6/7, then 4/5: Shooters, KBYellowLine, 5 damage, one shot a second
--- at the party) and unlocks and opens the canyon doors (CanyonDoorL0/R0). TriggerBansheeOff0 by the mountain
--- teleporter turns every eye off.
-local EYES = {{-19446, -17439, 625}, {-19446, -17459, 625}, {-19446, -18749, 453}, {-19446, -18770, 453}, {-23276, -18422, 481}, {-23276, -18442, 481}, {-21821, -21309, 5}, {-21842, -21309, 5}}
+-- The canyon (DarkP_CanyonSwitch.scr on the ice statue SwitchCreature4, an animated decoration): a click
+-- plays Hattack2, Taunt, Rattack1 and Fidget1 in turn, each with EnchantItem.wav; each clip's end wakes a
+-- pair of the banshee statues' eyes (BansheeAEye0/1, 2/3, 6/7, then 4/5: Shooters, KBYellowLine, 5 damage,
+-- one shot a second at the party), the last one stops the statue (holding Fidget1's end), removes its Use
+-- and unlocks and opens the canyon doors (CanyonDoorL0/R0). At start it plays CastSpell, which
+-- SKELETONWARRIOR.abc lacks: it stands at rest. TriggerBansheeOff0 by the mountain teleporter turns every
+-- eye off. An eye's shot strikes the party in its path (FireMissile's strikesParty).
+local EYES = {{-19446, -17439, 625}, {-19446, -17459, 625}, {-19446, -18749, 453}, {-19446, -18770, 453}, {-21821, -21309, 5}, {-21842, -21309, 5}, {-23276, -18422, 481}, {-23276, -18442, 481}}   -- in the order they wake
+local CANYON = {{"hattack2", 0.900}, {"taunt", 0.900}, {"rattack1", 1.100}, {"fidget1", 1.700}}
 local function shoot(e)
     local x, y, z = evt.GetPartyPosition()
     z = z + 100
@@ -113,7 +144,7 @@ local function shoot(e)
     local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))
     if length > 6000 then return end
     local k = math.max(64 / length, 0.05)
-    local shot = evt.FireMissile("Fire", e[1] + dx * k, e[2] + dy * k, e[3] + dz * k, x, y, z, 5, "Energy", 0)
+    local shot = evt.FireMissile("Fire", e[1] + dx * k, e[2] + dy * k, e[3] + dz * k, x, y, z, 5, "Energy", 0, 0, true)
     if shot then MM9.launchSound("KBYellowLine", e[1], e[2], e[3]) end
     set("EyeShots", var("EyeShots") + (shot and 1 or 0))
 end
@@ -123,21 +154,24 @@ handlers[402] = function()
     if var("EyesOff") == 1 or on == 0 then return end
     for k = 1, math.min(on, 8) do shoot(EYES[k]) end
 end
-handlers[408] = function()   -- the statue's animations: a pair of eyes wakes at each
-    if not fired(408) then return end
+local function canyonClip(step)   -- :OnUse, :AnimateA-C
+    set("CanyonStep", step)
     sound("spells/EnchantItem.wav")
+    evt.PlayDecorationClip(419, CANYON[step][1])
+    arm(408, CANYON[step][2])
+end
+local function canyonOpen()   -- :Stop, :CanyonDoors
+    set("EyesOn", 8); set("CanyonOpen", 1); openG("CanyonDoor")
+end
+handlers[408] = function()   -- a clip's end: a pair of eyes wakes, then the next clip
+    if not fired(408) then return end
     set("EyesOn", math.min(8, var("EyesOn") + 2))
-    if var("EyesOn") < 8 then
-        arm(408, 1.2)
-    else
-        set("CanyonOpen", 1); openG("CanyonDoor")
-    end
+    if var("CanyonStep") < #CANYON then canyonClip(var("CanyonStep") + 1) else canyonOpen() end
 end
 handlers[206] = function()   -- SwitchCreature4 :OnUse
     if var("CanyonUsed") == 1 then return end
     set("CanyonUsed", 1)
-    sound("spells/EnchantItem.wav")
-    arm(408, 1.0)
+    canyonClip(1)
 end
 handlers[219] = function()   -- CanyonDoorL0/R0: Locked until the statue's call
     if var("CanyonOpen") == 0 then locked() return end
@@ -414,7 +448,14 @@ handlers[1] = function()   -- map load: what MM9 saves stays as it was left
     for cog, _ in pairs(HINTS) do set("Hint" .. cog, 0) end
     updateHints()
     if var("ExitInit") == 0 then set("ExitInit", 1); set("ExitOn2", 1) end
+    for k = 0, 4 do
+        -- a save taken while a statue's clip played: the manager hears it now
+        if var("StatueBusy" .. k) == 1 then set("Armed" .. (430 + k), 0); statueDone(k) end
+        showStatue(k)
+    end
     placeBridges(puzzleState())
+    if var("CanyonUsed") == 1 and var("CanyonOpen") == 0 then set("Armed408", 0); canyonOpen() end
+    if var("CanyonOpen") == 1 then evt.PlayDecorationClip(419, CANYON[#CANYON][1], "end") end
     for k = 1, 4 do aimMirror(k, 0) end
     if var("PuzzleSolved") == 1 then openG("TeleportDoor0") end
     if var("NjamShown") == 1 then MM9.removeActor(NJAM)
@@ -488,6 +529,11 @@ RegisterMapTimerEvent(405, seconds(3), handlers[405], "Timer", "", seconds(3))
 RegisterMapTimerEvent(406, seconds(3), handlers[406], "Timer", "", seconds(3))
 RegisterMapTimerEvent(407, seconds(3), handlers[407], "Timer", "", seconds(3))
 RegisterMapTimerEvent(408, seconds(3), handlers[408], "Timer", "", seconds(3))
+RegisterMapTimerEvent(430, seconds(3), handlers[430], "SwitchCreature0's clip ends", "", seconds(3))
+RegisterMapTimerEvent(431, seconds(3), handlers[431], "SwitchCreature1's clip ends", "", seconds(3))
+RegisterMapTimerEvent(432, seconds(3), handlers[432], "SwitchCreature2's clip ends", "", seconds(3))
+RegisterMapTimerEvent(433, seconds(3), handlers[433], "SwitchCreature3's clip ends", "", seconds(3))
+RegisterMapTimerEvent(434, seconds(3), handlers[434], "SwitchCreature5's clip ends", "", seconds(3))
 RegisterEvent(1, "Map load", handlers[1])
 RegisterEvent(53284, "Wyrde of the Unknown", handlers[53284])
 RegisterMapTimerEvent(904, seconds(3), handlers[904], "Perception lights", "", seconds(3))

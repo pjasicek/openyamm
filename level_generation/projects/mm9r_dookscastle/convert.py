@@ -35,7 +35,7 @@ import dungeon  # noqa: E402
 import review_root  # noqa: E402
 from dungeon import lua, tables, water  # noqa: E402
 from dungeon.geometry import Polygon  # noqa: E402
-from dungeon.source import ROOT, SCALE  # noqa: E402
+from dungeon.source import ROOT, SCALE, facing_degrees  # noqa: E402
 from dungeon.bodies import placed_body  # noqa: E402
 
 PROPS = PROJECT / "props.json"
@@ -79,8 +79,11 @@ EV_LETTERS = {"Prop5": (71, 492), "Prop6": (72, 493)}          # BookLetter.scr 
 EV_SCURRY = {"ScurryTrigger0": 74, "ScurryTrigger1": 75}
 DAMAGE_HOOK, KILL_HOOK = 96, 97
 T_POLL = 201
-T_WAKE = 200                        # DC_sargent.scr: the sargent walks to each sleeper in turn (about 3 s each)
-WAKE_SECONDS = 3
+T_WAKE = 200                        # DC_sargent.scr: the sargent's round (its waits and a watchdog), each second
+WAKE_SECONDS = 3                    # :WakeGuardUp Wait 0 3 WakeGuards
+EV_SARGENT_AT_START, EV_SARGENT_AT_SLEEPER, EV_SARGENT_AT_END = 210, 211, 212   # his walks' arrivals
+SARGENT_STOP = 100                  # native: he stops this far in front of a sleeper (MM9 WalkTo ... 10 LT; bodies collide)
+SARGENT_LEG_SECONDS = 20            # a walk not done in this time ends where it was going (a door or the party in the way)
 GROUP_GUARDS, GROUP_BARON, GROUP_SLEEPERS = 1, 2, 3
 GROUP_SCURRY = {"ScurryTrigger0": 4, "ScurryTrigger1": 5}
 SCURRY = {"ScurryTrigger0": ("ScurryBasilisk0", "ScurryBasilisk1", "ScurryBasilisk2"),
@@ -298,6 +301,23 @@ class DooksCastle(dungeon.Hooks):
         container = next(c["container_id"] for c in build.content.report["chests"] if c["anchor"] == DIVE_CHEST)
         guards = ", ".join(f"[{m}] = true" for m in sorted(self.guard_monsters))
         sleepers = ", ".join(map(str, self.sleepers))
+        # DC_sargent.scr's ScriptParams "HallwaySleeper 4 SMkr": the sleepers in its order and the markers
+        guard_name, count, marker_name = build.source.properties("SleepCaptain")["ScriptParams"].split()
+        order = [f"{guard_name}{k}" for k in range(int(count))]
+        stops = []
+        for name in order:
+            p = build.source.properties(name)
+            facing = np.radians(facing_degrees(p.get("Rotation")))
+            at = build.project.native([p["Pos"][0], build.content.floor_at(p["Pos"][0], p["Pos"][2], p["Pos"][1] + 24),
+                                       p["Pos"][2]])
+            stops.append(at + SARGENT_STOP * np.array([np.cos(facing), np.sin(facing), 0.0]) + np.array([0, 0, 1]))
+        smkr = []
+        for k in (0, 1):
+            p = build.source.properties(f"{marker_name}{k}")["Pos"]
+            smkr.append(build.project.native([p[0], build.content.floor_at(p[0], p[2], p[1] + 24), p[2]])
+                        + np.array([0, 0, 1]))
+        round_sleepers = ", ".join(str(actor[name]) for name in order)
+        round_stops = ", ".join(lua.point(stop) for stop in stops)
         lines = [
             "-- The guards (DookGuardBasic.scr, DC_sargent.scr, DookSleepGaurd.scr, all #include DookHostility.inc): they",
             "-- AddFriend Player while the ScriptObject DOOK_HOSTILITY stands; its removal (the secret door's",
@@ -332,25 +352,87 @@ class DooksCastle(dungeon.Hooks):
             "    hostility(false)",
             "end",
             "",
-            "-- SleepTrigger -> SleepCaptain StartUp (DC_sargent.scr): the sargent walks to HallwaySleeper0..3 in turn and",
-            f"-- wakes each (WakeUp: they cower, then stand watch). Here they wake one every {WAKE_SECONDS} s.",
-            "-- A dead sargent takes no StartUp, and once dead it walks to no more sleepers (MM9.receives).",
+            "-- SleepTrigger -> SleepCaptain StartUp (DC_sargent.scr): the sargent walks to SMkr0 (:StartUp), then to",
+            f"-- HallwaySleeper0..{len(order) - 1} in turn (:WakeGuards): at each he turns to it and wakes it (:WakeGuardUp, Trigger",
+            f"-- WakeUp: it cowers, then stands watch), waits {WAKE_SECONDS} s and goes on; then he walks to SMkr1 and stays (:dn).",
+            "-- MM9's PlayAnim aware there is not carried: his body (MM9's DookMilitia.abc too) has no such clip.",
+            "-- Map variable SleepWoken: 0 not started, k walking to sleeper k or waiting after it, "
+            f"{len(order) + 1} walking to SMkr1, {len(order) + 2} done.",
+            "-- A dead sargent takes no StartUp, and once dead it walks to no more sleepers (MM9.receives); the alarm",
+            "-- (DookHostility.inc AddEnemy) ends his round: he fights, and the alarm wakes every sleeper. Walks are not",
+            "-- saved: a load during the round, or a walk not done in "
+            f"{SARGENT_LEG_SECONDS} s, finishes it where it was going.",
             f"local CAPTAIN = {actor['SleepCaptain']}",
+            f"local ROUND = {{{round_sleepers}}}   -- HallwaySleeper0..{len(order) - 1}",
+            f"local ROUND_STOPS = {{{round_stops}}}   -- in front of each",
+            f"local SMKR0, SMKR1 = {lua.point(smkr[0])}, {lua.point(smkr[1])}",
+            "local round = {walking = false, wait = 0, ticks = 0}",
+            "local function roundOver() return var(\"Hostile\") == 1 or not MM9.actorAlive(CAPTAIN) end",
+            "local function sargentWalk(p, event)",
+            "    round.walking, round.ticks, round.event, round.point = true, 0, event, p",
+            "    evt.MoveActorTo(CAPTAIN, p[1], p[2], p[3], event)",
+            f"    evt.StartTimer({T_WAKE}, seconds(1))",
+            "end",
+            "local function wakeGuards()   -- :WakeGuards",
+            "    local step = var(\"SleepWoken\")",
+            f"    if step <= #ROUND then sargentWalk(ROUND_STOPS[step], {EV_SARGENT_AT_SLEEPER})",
+            f"    else set(\"SleepWoken\", #ROUND + 1); sargentWalk(SMKR1, {EV_SARGENT_AT_END}) end",
+            "end",
             f"handlers[{EV_SLEEP}] = function()",
             "    if var(\"SleepWoken\") ~= 0 then return end",
             "    if not MM9.receives(\"dookscastle\", \"SleepCaptain\", \"StartUp\", CAPTAIN) then return end",
             "    set(\"SleepWoken\", 1)",
-            f"    evt.StartTimer({T_WAKE}, seconds({WAKE_SECONDS}))",
+            f"    sargentWalk(SMKR0, {EV_SARGENT_AT_START})",
+            "end",
+            f"handlers[{EV_SARGENT_AT_START}] = function()",
+            "    round.walking = false",
+            "    if roundOver() or var(\"SleepWoken\") ~= 1 then return end",
+            "    wakeGuards()",
+            "end",
+            f"handlers[{EV_SARGENT_AT_SLEEPER}] = function()   -- :WakeGuardUp",
+            "    round.walking = false",
+            "    local step = var(\"SleepWoken\")",
+            "    if roundOver() or step < 1 or step > #ROUND then return end",
+            "    local x, y = evt.GetMapActorPosition(ROUND[step])",
+            "    if x ~= nil then evt.FaceActorTo(CAPTAIN, x, y, 0.5) end",
+            "    evt.WakeActor(ROUND[step])",
+            "    set(\"SleepWoken\", step + 1)",
+            f"    round.wait = {WAKE_SECONDS}",
+            f"    evt.StartTimer({T_WAKE}, seconds(1))",
+            "end",
+            f"handlers[{EV_SARGENT_AT_END}] = function()   -- :dn",
+            "    round.walking = false",
+            "    if var(\"SleepWoken\") == #ROUND + 1 then set(\"SleepWoken\", #ROUND + 2) end",
             "end",
             f"handlers[{T_WAKE}] = function()",
+            f"    evt.StopTimer({T_WAKE})",
             "    local step = var(\"SleepWoken\")",
-            "    if step == 0 or step > #SLEEPERS or not MM9.actorAlive(CAPTAIN) then",
-            f"        evt.StopTimer({T_WAKE}) return",
+            "    if step == 0 or step > #ROUND + 1 then return end",
+            "    if roundOver() then evt.StopActorMove(CAPTAIN) return end",
+            "    if round.walking then",
+            "        round.ticks = round.ticks + 1",
+            f"        if round.ticks >= {SARGENT_LEG_SECONDS} then",
+            "            local p = round.point",
+            "            evt.StopActorMove(CAPTAIN)",
+            "            evt.SetMapActorPosition(CAPTAIN, p[1], p[2], p[3])",
+            "            handlers[round.event]()",
+            "            return",
+            "        end",
+            "    elseif round.wait > 0 then",
+            "        round.wait = round.wait - 1",
+            "        if round.wait == 0 then wakeGuards() return end",
+            "    else",
+            "        return",
             "    end",
-            "    evt.WakeActor(SLEEPERS[step])",
-            "    set(\"SleepWoken\", step + 1)",
-            f"    if step + 1 <= #SLEEPERS then evt.StartTimer({T_WAKE}, seconds({WAKE_SECONDS})) else "
-            f"evt.StopTimer({T_WAKE}) end",
+            f"    evt.StartTimer({T_WAKE}, seconds(1))",
+            "end",
+            "local function finishRound()   -- a load during the round",
+            "    local step = var(\"SleepWoken\")",
+            "    if step == 0 or step > #ROUND + 1 then return end",
+            "    for k = math.max(step, 1), #ROUND do evt.WakeActor(ROUND[k]) end",
+            "    set(\"SleepWoken\", #ROUND + 2)",
+            "    if MM9.actorAlive(CAPTAIN) and var(\"Hostile\") ~= 1 then "
+            "evt.SetMapActorPosition(CAPTAIN, SMKR1[1], SMKR1[2], SMKR1[3]) end",
             "end",
             "",
             "-- The touch Triggers, polled four times a second (fire on any part of the party in the box, then Off).",
@@ -401,12 +483,15 @@ class DooksCastle(dungeon.Hooks):
             "-- Map load: the guards' hostility as saved (DookHostility.inc OnPostMiniSaveLoad), the secret door's state.",
             f"handlers[{EV_LOAD}] = function()",
             "    applyHostility()",
+            "    finishRound()",
             f"    evt.StartTimer({T_POLL}, seconds(0.25))",
             "    if var(\"SecretOpen\") == 1 then open(\"Tempbutton_INV\") open(\"doorslide\") end",
             "end",
             ""]
         script.add(lines, (DAMAGE_HOOK, "Guards hurt", None), (KILL_HOOK, "Guards killed", None),
                    (EV_BUTTON, "Shield", "Shield"), (EV_SLEEP, "SleepTrigger", None), (T_WAKE, "Wake", None, "timer"),
+                   (EV_SARGENT_AT_START, "Sargent", None), (EV_SARGENT_AT_SLEEPER, "Sargent", None),
+                   (EV_SARGENT_AT_END, "Sargent", None),
                    (T_POLL, "Trigger volumes", None, "timer"),
                    *[(e, n, None) for n, e in EV_SCURRY.items()], *([] if swim else [(EV_DIVE, "Dive", None)]),
                    *[(e, "Letter", "Letter") for e, _ in EV_LETTERS.values()], (EV_LOAD, "Map load", None))

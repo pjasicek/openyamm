@@ -75,16 +75,16 @@ local SHOOTERS = {
     FoyerShooter1 = {at = {3185, -17068, 2376}, missile = "Fire", projectile = "FireBolt", kind = "Fire", damage = 50, every = 4, burst = nil, target = nil, stop = nil},
 }
 local STATUES = {
-    SorceressStatue0 = "Sorc0Shooter",
-    SorceressStatue1 = "Sorc1Shooter",
-    SorceressStatue2 = "Sorc0Shooter0",
-    SorceressStatue3 = "Sorc1Shooter0",
-    SorceressStatue4 = "Sorc1Shooter1",
-    SorceressStatue5 = "Sorc1Shooter2",
-    SorceressStatue6 = "Sorc1Shooter3",
-    SorceressStatue7 = "Sorc0Shooter1",
+    SorceressStatue0 = {shooter = "Sorc0Shooter", cog = 1390},
+    SorceressStatue1 = {shooter = "Sorc1Shooter", cog = 1391},
+    SorceressStatue2 = {shooter = "Sorc0Shooter0", cog = 1392},
+    SorceressStatue3 = {shooter = "Sorc1Shooter0", cog = 1393},
+    SorceressStatue4 = {shooter = "Sorc1Shooter1", cog = 1394},
+    SorceressStatue5 = {shooter = "Sorc1Shooter2", cog = 1395},
+    SorceressStatue6 = {shooter = "Sorc1Shooter3", cog = 1396},
+    SorceressStatue7 = {shooter = "Sorc0Shooter1", cog = 1397},
 }
-local SKULLS = {["SkeletonHead"] = {"SkelHeadShooter0", "SkelHeadShooter1"}}
+local SKULLS = {["SkeletonHead"] = {cog = 1380, shooters = {"SkelHeadShooter0", "SkelHeadShooter1"}}}
 local SPAWNS = {
     SpawnLoc0 = {monster = 9241, at = {3718, -11837, 2306}},   -- LesserDemon
     SpawnLoc1 = {monster = 9241, at = {3265, -11344, 2472}},   -- LesserDemon
@@ -210,6 +210,24 @@ local FLY_LEAVE = {["FlyingCritter0"] = 4.8, ["FlyingCritter1"] = 4.4, ["FlyingC
 -- A scheduler on the 0.25 s poll (MM9's Wait): after(seconds, fn).
 local tick, tasks = 0, {}
 local function after(seconds, fn) table.insert(tasks, {at = tick + math.max(1, math.floor(seconds * 4 + 0.5)), fn = fn}) end
+-- 1000T_SorcStatues.scr: :Main2 plays fidget2 once (each statue holds its end); Go (:Start) sets bIsCasting
+-- (StatueCasting<name>), its shooter Go and :StartSequence: fidget2, then :Continue Taunt, then fidget2 ...
+-- while it casts; Stop (:TurnOff) clears it and the clip playing finishes. The clips (mm9_sorcererstatue's
+-- skinned copy) chain on the poll, each held until the tick after its end; the chains are runtime only, so
+-- map load starts them again. Its CastingSmoke (a Fire object) is not carried.
+local STATUE_CLIPS = {fidget2 = 2.366, taunt = 1.000}
+local statueChain = {}
+local function statueSequence(name, clip, chain)
+    if statueChain[name] ~= chain or var("StatueCasting" .. name) ~= 1 then return end
+    evt.PlayDecorationClip(STATUES[name].cog, clip)
+    after(STATUE_CLIPS[clip] + 0.125, function()
+        statueSequence(name, clip == "fidget2" and "taunt" or "fidget2", chain)
+    end)
+end
+local function statueCasting(name)
+    statueChain[name] = (statueChain[name] or 0) + 1
+    statueSequence(name, "fidget2", statueChain[name])
+end
 -- A weighted lift's touch: it starts after its MoveDelay and takes no new touch until it is back up.
 local liftIdleAt = {}
 local function touchLift(name)
@@ -239,7 +257,8 @@ local function useGroup(group) if isOpen(group) then closeGroup(group) else open
 
 -- Shooters (MM9 Shooter: ProjectileName, DamageAmt, ShootInterval): on, they fire at the party (a lightning
 -- shooter at its marker); a burst shooter (1000T_CircleShooter.scr, 1000T_SkHeadShooter.scr) fires its count
--- and stops, a circle shooter then triggers its stop trigger.
+-- and stops, a circle shooter then triggers its stop trigger. A shot strikes the party in its path
+-- (FireMissile's strikesParty).
 local firing = {}
 local function fire(name)
     local s = SHOOTERS[name]
@@ -250,7 +269,7 @@ local function fire(name)
     local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))
     if s.target == nil and length > 4000 then return end
     local k = math.min(64 / length, 0.33)
-    local shot = evt.FireMissile(s.missile, s.at[1] + dx * k, s.at[2] + dy * k, s.at[3] + dz * k, x, y, z, s.damage, s.kind, 0)
+    local shot = evt.FireMissile(s.missile, s.at[1] + dx * k, s.at[2] + dy * k, s.at[3] + dz * k, x, y, z, s.damage, s.kind, 0, 0, true)
     if shot then MM9.launchSound(s.projectile, s.at[1], s.at[2], s.at[3]) end
     set("ShotsFired", var("ShotsFired") + (shot and 1 or 0))
 end
@@ -343,6 +362,7 @@ local function pushBlock(pad, k)
     if row < 3 then setBlock(pad, k + 4, not pressed(pad, k + 4)) end
     for j = 0, 15 do if not pressed(pad, j) then return end end
     set(pad .. "State", 2)
+    MM9.playSound("sounds/door/doorlatch02.wav")   -- ButtonPuzzle.scr :MoveDoor, then :EndDoor 0.8 s later
     after(0.8, function()
         MM9.playSound("sounds/door/stonedoorslide02.wav")
         showPad(pad, false)
@@ -378,16 +398,28 @@ send = function(target, msg)
     elseif kind == "shooter" then
         if msg == "on" or msg == "go" then shooterOn(target) elseif msg == "off" or msg == "stop" then shooterOff(target) end
     elseif kind == "statue" then
-        if msg == "go" then shooterOn(STATUES[target]) elseif msg == "stop" then shooterOff(STATUES[target]) end
+        if msg == "go" then
+            shooterOn(STATUES[target].shooter)
+            set("StatueCasting" .. target, 1)
+            statueCasting(target)
+        elseif msg == "stop" then
+            shooterOff(STATUES[target].shooter)
+            set("StatueCasting" .. target, 0)
+        end
     elseif kind == "skull" then
-        -- 1000T_SkeletonHead.scr: Go turns the skull about (Rotate 180 at 180/s: :Start, ignored while it
-        -- turns), then :TurnOff sends both shooters Go (1000T_SkHeadShooter.scr: ScriptParams' count of shots,
-        -- one a second); Stop runs :TurnOff at once. The skull's turn is not shown (a decoration).
+        -- 1000T_SkeletonHead.scr: Go turns the skull about (:Start Rotate 0, 1, 0, 180, 180: half a turn
+        -- clockwise from above at 180/s, evt.AimDecoration; ignored while it turns), then :TurnOff sends both
+        -- shooters Go (1000T_SkHeadShooter.scr: ScriptParams' count of shots, one a second); Stop runs :TurnOff
+        -- at once. SkullTurns counts the half turns (aims are runtime only: map load puts it back).
         if (msg == "go" or msg == "stop") and var("SkullTurning" .. target) == 0 then
             set("SkullTurning" .. target, 1)
+            if msg == "go" then
+                set("SkullTurns" .. target, var("SkullTurns" .. target) + 1)
+                evt.AimDecoration(SKULLS[target].cog, -180 * var("SkullTurns" .. target), 180)
+            end
             after(msg == "go" and 1 or 0, function()
                 set("SkullTurning" .. target, 0)
-                for _, s in ipairs(SKULLS[target]) do shooterOn(s) end
+                for _, s in ipairs(SKULLS[target].shooters) do shooterOn(s) end
                 set("SkullGo" .. target, var("SkullGo" .. target) + 1)
             end)
         end
@@ -561,12 +593,26 @@ handlers[368] = function()
     for _, id in ipairs(GROUPS.FoyerDoorSouth) do evt.SetDoorState(id, DoorAction.Trigger) end
 end
 
+-- WinMan.scr :onSwitch, on each use and on WG_Shot2Cam's switch in the cinematic: PlayAnim up while bUp is
+-- FALSE, else Down, and bUp flips. bUp starts FALSE on a wheel at rest (up), so the first use shows only up's
+-- 200 ms blend, a twitch: nothing here. WinWheel: 0 never used, 1 up (bUp TRUE), 2 down (bUp FALSE); the
+-- clips are runtime only, so map load shows a wheel left down at the end of down.
+local function winSwitch()
+    if var("WinWheel") == 1 then
+        set("WinWheel", 2)
+        evt.PlayDecorationClip(1370, "down")
+    else
+        if var("WinWheel") == 2 then evt.PlayDecorationClip(1370, "up") end
+        set("WinWheel", 1)
+    end
+end
 -- The win switch (WinMan.scr :OnUse): nothing from beyond the wall (LT z below -3680); without key 108 it only
 -- throws the lightning (Lightning1/2, 7 s); with it the cinematic njam_freeze_win (cinematics_1000t.py).
 WIN_EXPERIENCE = 22500 -- MM9 GiveExp 234000, mm9_quest_xp_profile.yml
 handlers[370] = function()
     local _, py = evt.GetPartyPosition()
     if py < -9421 then return end
+    winSwitch()
     if MM9.hasKey(108) == 0 then
         MM9.playSound("sounds\\door\\cell_door_close.wav")
         MM9.playSound("sounds\\ambient\\thunder\\thunder01.wav")
@@ -719,6 +765,11 @@ handlers[1] = function()
     if not isOpen("StairGate") then set("LockStairGate", 1) end
     for pad, _ in pairs(PADS) do showPad(pad, var(pad .. "State") == 1) end
     for pawn, _ in pairs(PAWN_FACES) do if var("Queened" .. pawn) == 1 then hidePawn(pawn) end end
+    for name, skull in pairs(SKULLS) do evt.AimDecoration(skull.cog, -180 * var("SkullTurns" .. name)) end
+    for name, statue in pairs(STATUES) do
+        if var("StatueCasting" .. name) == 1 then statueCasting(name) else evt.PlayDecorationClip(statue.cog, "fidget2") end
+    end
+    if var("WinWheel") == 2 then evt.PlayDecorationClip(1370, "down", "end") end
     for name, faces in pairs(PIECES) do
         if var("Destroyed" .. name) == 1 then for _, f in ipairs(faces) do evt.SetFacetBit(-f, 536879104, true) end end
     end
@@ -938,11 +989,15 @@ MM9Cinematic.steps["njam_freeze_win"] = {
         set("Won", 1)
         evt.MoveToMap(-7281, 2952, 1, 0, 0, 0, 0, 0, "hallofthegods.blv")
     end },
+    { "switch", function()
+        winSwitch()
+    end },
 }
 RegisterEvent(36001, "Cinema njam_freeze_win: win", function() MM9Cinematic.runStep("njam_freeze_win", 1) end)
 RegisterEvent(36002, "Cinema njam_freeze_win: ball", function() MM9Cinematic.runStep("njam_freeze_win", 2) end)
 RegisterEvent(36003, "Cinema njam_freeze_win: lightning", function() MM9Cinematic.runStep("njam_freeze_win", 3) end)
 RegisterEvent(36004, "Cinema njam_freeze_win: exit", function() MM9Cinematic.runStep("njam_freeze_win", 4) end)
+RegisterEvent(36005, "Cinema njam_freeze_win: switch", function() MM9Cinematic.runStep("njam_freeze_win", 5) end)
 RegisterEvent(36000, "Cinema njam_freeze_win: done", function() MM9Cinematic.finish("njam_freeze_win") end)
 MM9Cinematic.play["njam_freeze_win"] = function()
     if evt.GetMapVar("Cinema.njam_freeze_win.started", 0) == 0 then

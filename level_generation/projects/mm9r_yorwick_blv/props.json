@@ -5005,25 +5005,6 @@
   "yaw_degrees": 331.9
  },
  {
-  "source_object": 467,
-  "source_name": "sigmund",
-  "class": "Prop",
-  "kind": "prop",
-  "source_model": "models\\Sigmund.abc",
-  "source_skin": "skins\\Sigmund.dtx",
-  "script": "PropAnim.scr",
-  "script_params": "Static_die1",
-  "prop": "sigmundseated",
-  "decoration": "mm9_sigmundseated",
-  "fit_median_units": null,
-  "pose": "Sit",
-  "floor_z": 1050.0,
-  "x": 15722.5,
-  "y": 18757.4,
-  "z": 1050.0,
-  "yaw_degrees": 278.9
- },
- {
   "source_object": 469,
   "source_name": "Sven8",
   "class": "Prop",
@@ -5174,25 +5155,6 @@
   "y": 20825.9,
   "z": 1050.0,
   "yaw_degrees": 327.2
- },
- {
-  "source_object": 477,
-  "source_name": "Sven19",
-  "class": "Prop",
-  "kind": "prop",
-  "source_model": "models\\clansoldier.abc",
-  "source_skin": "skins\\ClanSoldier1.dtx; skins\\BeldSword.dtx; skins\\Clanshield1.dtx",
-  "script": "Propanim.scr",
-  "script_params": "static_die1",
-  "prop": "clansoldierdeadb",
-  "decoration": "mm9_clansoldierdeadb",
-  "fit_median_units": null,
-  "pose": "DeadStatic",
-  "floor_z": 1050.0,
-  "x": 16214.0,
-  "y": 18557.7,
-  "z": 1050.0,
-  "yaw_degrees": 105.5
  },
  {
   "source_object": 478,

@@ -25,6 +25,13 @@ PLAY_VOICES = ROOT / "assets_dev/worlds/mm9/audio/voices/cinema/guberlandplay"
 PLAY_STARTS = (14 * 60 + 30, 16 * 60 + 30)      # Narrator.scr: @m 14:30 and 16:30 OnStart
 PLAY_CURTAIN_SECONDS = 2                       # Narrator.scr :OnStart: the curtain opens, 2 s, the first line
 PLAY_BOW_SECONDS = 5                           # Narrator.scr :Bow .. :Exit: the bow, then the curtain closes
+T_CUE = 263                                    # the players' cues (play_cues)
+EV_ARRIVE = 270                                # + k: PLAYERS[k] arrives where a cue sent him
+EV_PRIZE = 250                                 # Markel's awards picked up (Prize0-5, dungeon/pickups.py)
+PRIZES = tuple(f"Prize{n}" for n in range(6))
+PLAYERS = ("Narrator", "Wilam", "Trislan", "Abriel", "Ralof", "Leffery")
+PLAY_MARKS = ("Trislan1", "Trislan2", "Trislan3", "Abriel1", "Abriel2", "Abriel3", "Abriel4", "Ralof1", "Ralof2",
+              "Ralof3", "Wilam1", "Wilam2", "Wilam3", "Wilam4", "Leffery1", "Leffery2", "Leffery3", "peasant2")
 EV_SCRIPTED_PROP = 330              # letters, the book, the town portal altar, the well: + k
 SCRIPTED_PROP_SCRIPTS = ("book.scr", "bookletter.scr", "townportal.scr")
 SCRIPTED_PROP_NAMES = ("Well0",)
@@ -83,7 +90,8 @@ def scripted_props(build) -> list:
 
 
 def prop_events(build) -> dict:
-    return {name: EV_SCRIPTED_PROP + k for k, (name, _) in enumerate(scripted_props(build))}
+    events = {name: EV_SCRIPTED_PROP + k for k, (name, _) in enumerate(scripted_props(build))}
+    return {**events, **{name: EV_PRIZE for name in PRIZES}}
 
 
 def prop_cogs(build) -> dict:
@@ -352,7 +360,26 @@ def map_script(hooks, build) -> str:
             script.registrations.append((event, name, "Book", "event"))
     script.add(lines + [""])
 
+    # --- Markel's awards ------------------------------------------------------------------------------------------
+    lines = [
+        "-- Markel's awards (Prize0-5 on the shelf of his hall; Sign4: \"Awards Won by Markel ... at The Gathering\"): the",
+        "-- Thing's Stuffed Dragon (item 395). MM9 has them as set dressing; here they are world items taken once Markel is",
+        "-- dead (key 40, dungeon/pickups.py), an OpenYAMM way past the Thing's games on Yrsa's errand: the first taken",
+        "-- while the errand runs (93, not 94) counts as the prize won (94: Bikki takes it, the Jarls leave the council).",
+        "-- No experience: the Thing's 10 000 is for winning its games.",
+        f"handlers[{EV_PRIZE}] = function()",
+        "    if has(93) and not has(94) then",
+        "        MM9.giveKey(94); quest()",
+        "        evt.StatusText(\"Markel the Great will not miss one of his prizes.\")",
+        "    end",
+        "end",
+        "",
+    ]
+    script.add(lines, (EV_PRIZE, "Markel's awards", None))
+
     # --- the Guberland Players' show -----------------------------------------------------------------------------
+    script.add(play_cues(build, hooks) + [""], (T_CUE, "The players' cues", None, "timer"),
+               *[(EV_ARRIVE + k, f"{name} arrives", None) for k, name in enumerate(PLAYERS)])
     script.add(play_lines(build, a) + [""], (T_PLAY, "The play", None, "timer"))
 
     # --- map load and the poll -------------------------------------------------------------------------------------
@@ -378,7 +405,8 @@ def map_script(hooks, build) -> str:
         f"    for k = 1024, 1033 do if k ~= {LOCATION_KEY} and has(k) then MM9.takeKey(k) end end",
         f"    MM9.giveKey({LOCATION_KEY})",
         *load,
-        "    if var(\"PlayLine\") > 0 then set(\"PlayLine\", 0); playCurtain(false) end   -- a show left half-way",
+        "    if var(\"PlayLine\") > 0 then set(\"PlayLine\", 0); playCurtain(false); playersHome() end   -- a show left"
+        " half-way",
         "    poll()",
         f"    handlers[{T_GATES}]()",
         "end",
@@ -448,11 +476,11 @@ def play_gate(name: str, actors: dict) -> str:
 
 
 def play_lines(build, actors: dict) -> list[str]:
-    """The Guberland Players' show, voices only (README "The Players' show"): at 14:30 and 16:30 (Narrator.scr) the
+    """The Guberland Players' show's voices (README "The Players' show"): at 14:30 and 16:30 (Narrator.scr) the
     curtain opens and the 28 lines of THEPLAY.scr's timeline play at their speakers' places on the stage; the curtain
     closes after the bow. The actors' walks and animations (Narrator.scr and the five actors' scripts, which chain
-    the same lines by their animation keys) are not carried; the players stand on the stage. A dead player ends the
-    show at his first line, the curtain left open (PLAY_MESSAGES). actors: DAT name -> map actor (hooks.actor)."""
+    the same lines by their animation keys) are play_cues'. A dead player ends the show at his first line, the curtain
+    left open (PLAY_MESSAGES). actors: DAT name -> map actor (hooks.actor)."""
     timeline = play_timeline()
     at = {name: ", ".join(str(int(round(v))) for v in build.project.native(build.source.properties(name)["Pos"]))
           for name in {speaker for _, speaker, _ in timeline}}
@@ -501,7 +529,202 @@ def play_lines(build, actors: dict) -> list[str]:
         "        set(\"PlayLine\", 1)",
         "        playCurtain(true)",
         f"        playNext({PLAY_CURTAIN_SECONDS})",
+        f"        playCues({PLAY_CURTAIN_SECONDS})",
         "    end",
         "end",
     ]
 
+
+
+def play_cues(build, hooks) -> list[str]:
+    """The players' walks, faces and clips during the show (Narrator.scr, Trislan.scr, Abriel.scr, Wilam.scr,
+    Ralof.scr, Leffery.scr), as cues on THEPLAY.scr's timeline (play_timeline): each line's speaker loops his conv
+    clip while it plays (LoopAnim conv<n>, then Stop and LoopAnim stand), the players walk to their markers and face
+    whom MM9 targets, Abriel slaps Ralof, Ralof slaps Trislan, who dies and gets up (Play_Death, Play_getup), the cast
+    lines up facing the audience (peasant2) and bows, and walks off after the bow. MM9 starts some of these on a
+    walk's arrival or a wait inside a line: here at the same offsets from the line's start. A walk ends a body's
+    width short of its point (ScriptedActorMoveArrivalDistance), so a walk to another player (MM9's walkto <player>)
+    stops in front of him. A clip a player's model
+    lacks takes another conv clip, or is left out (Ralof has no bow, Leffery no Aware). The cues run on their own
+    timer from the show's start (playCues) and stop with the show (PlayLine 0)."""
+    from dungeon.lua import model_clip_seconds
+    native = build.project.native
+    players = hooks.players
+    roles = {name: set(model_clip_seconds(players[name]["monster_id"])) for name in PLAYERS}
+
+    def mark(name: str) -> list[int]:
+        p = build.source.properties(name)["Pos"]
+        floor = build.content.floor_at(p[0], p[2], p[1] + 16)
+        return [int(round(v)) for v in native([p[0], floor if floor is not None else p[1], p[2]])]
+
+    marks = {name: mark(name) for name in PLAY_MARKS}
+
+    def clip(who: str, role: str) -> str | None:
+        if role in roles[who]:
+            return role
+        if role.startswith("conv"):
+            return next((c for c in ("conv1", "conv2", "conv3", "conv4", "talk") if c in roles[who]), None)
+        return None
+
+    def loop(who, role):
+        found = clip(who, role)
+        return f'loop("{who}", "{found}")' if found else None
+
+    def stop(who):
+        return f'stop("{who}")'
+
+    def face(who, target):
+        return f'face("{who}", "{target}")'
+
+    def once(who, *chain, then=None):
+        clips = [c for c in (clip(who, r) for r in chain) if c]
+        last = clip(who, then) if then else None
+        if not clips:
+            return None
+        names = ", ".join(f'"{c}"' for c in clips + ([last] if last else []))
+        return f'evt.PlayActorClip(P.{who}, {{{names}}}, {"true" if last else "false"})'
+
+    def walk(who, target, *arrival):
+        body = "; ".join(a for a in arrival if a)
+        return f'walk("{who}", "{target}", function() {body} end)' if body else f'walk("{who}", "{target}")'
+
+    def sound(name, who):
+        return f'sound("{name}", "{who}")'
+
+    timeline = play_timeline()
+    names = [name for name, _, _ in timeline]
+    starts, t = {}, 0.0
+    for name, _, seconds in timeline:
+        starts[name] = t
+        t += seconds
+    end = t + PLAY_BOW_SECONDS
+    # (line, seconds after its start, actions): MM9's scripts by label, cited.
+    cues = [
+        ("01.wav", 0, [loop("Narrator", "conv2")]),                                   # Narrator :OnStart2
+        ("02.wav", 0, [loop("Narrator", "conv3"), face("Narrator", "Abriel1"),         # Narrator :TriggerStart
+                       walk("Trislan", "Trislan1", face("Trislan", "Abriel")),         # Trislan :OnWalk1
+                       walk("Abriel", "Abriel1", face("Abriel", "Trislan"))]),         # Abriel :OnWalk1
+        ("03.wav", 0, [stop("Narrator"), loop("Trislan", "conv1")]),                  # Trislan :OnSpeak1
+        ("04.wav", 0, [stop("Trislan"), loop("Abriel", "conv2")]),                    # Abriel :OnSpeak4
+        ("05.wav", 0, [stop("Abriel"), loop("Trislan", "conv3")]),
+        ("06.wav", 0, [stop("Trislan"), loop("Abriel", "conv2")]),
+        ("07.wav", 0, [stop("Abriel"), loop("Trislan", "conv3")]),
+        ("08.wav", 0, [stop("Trislan"), loop("Abriel", "conv2")]),
+        ("09.wav", 0, [stop("Abriel"), loop("Narrator", "conv3"),                     # Narrator :OnSpeak9: Exit, Start
+                       walk("Trislan", "Trislan2", face("Trislan", "Wilam")),
+                       walk("Abriel", "Abriel2", face("Abriel", "Wilam")),
+                       walk("Ralof", "Ralof1", face("Ralof", "Wilam")),
+                       walk("Wilam", "Wilam1"),
+                       walk("Leffery", "Leffery1", face("Leffery", "Ralof"))]),
+        ("09.wav", 4, [stop("Narrator")]),                                            # Narrator :Trigger9
+        ("10.wav", 0, [loop("Wilam", "conv2")]),                                      # Wilam :OnSpeak9
+        ("10.wav", 1, [walk("Wilam", "Wilam2", face("Wilam", "Ralof"), loop("Wilam", "conv3"))]),   # :Walkto
+        ("11.wav", 0, [stop("Wilam"), face("Ralof", "Wilam"), loop("Ralof", "conv1")]),            # Ralof :OnSpeak11
+        ("12.wav", 0, [stop("Ralof"), loop("Leffery", "conv2")]),                     # Leffery :OnSpeak12
+        ("13b.wav", 0, [stop("Leffery"), face("Ralof", "Leffery"), loop("Ralof", "conv1")]),       # Ralof :OnSpeak13
+        ("13b.wav", 5, [face("Ralof", "Wilam"), loop("Ralof", "conv2")]),             # :FaceWilam, :converse
+        ("14.wav", 0, [stop("Ralof"), stop("Wilam"),                                  # Ralof :Trigger14; Wilam :OnAttention
+                       walk("Abriel", "Ralof", face("Abriel", "Ralof"),               # Abriel :OnSpeak14, :OnSlap
+                            once("Abriel", "attack_melee", then="conv2"),             # (attack, then :speak15's conv2)
+                            once("Ralof", "hit"), sound("weapons/fleshhit03.wav", "Ralof"))]),   # :Slapsound, wince
+        ("20.wav", 0, [stop("Abriel"), loop("Ralof", "conv1")]),                      # Abriel :Trigger20; Ralof :OnSpeak20
+        ("21.wav", 0, [stop("Ralof"), loop("Narrator", "conv1")]),                    # Narrator :OnSpeak21
+        ("21.wav", 4, [stop("Narrator"),                                              # Narrator :Trigger22: exit
+                       walk("Abriel", "Abriel2", face("Abriel", "Wilam")),
+                       walk("Ralof", "Ralof2", face("Ralof", "Trislan")),
+                       walk("Wilam", "Wilam3", face("Wilam", "Trislan")),
+                       walk("Leffery", "Leffery2", face("Leffery", "Trislan"))]),
+        ("22.wav", 0, [loop("Narrator", "conv1"),                                     # Narrator :OnSpeak22
+                       walk("Trislan", "Trislan1", face("Trislan", "Ralof"))]),       # Trislan :OnWalk2
+        ("22.wav", 1, [walk("Abriel", "Abriel3", face("Abriel", "Ralof"))]),          # :Abrielwalk
+        ("22.wav", 5.5, [walk("Ralof", "Trislan", face("Ralof", "Trislan"))]),        # :Trigger23
+        ("22.wav", 6.5, [walk("Leffery", "Wilam2", face("Leffery", "Trislan")),       # :Guardwalk
+                         walk("Wilam", "Ralof1", face("Wilam", "Trislan"))]),
+        ("23.wav", 0, [stop("Narrator"), face("Trislan", "Ralof"), loop("Trislan", "conv2")]),     # Trislan :OnSpeak23
+        ("24.wav", 0, [stop("Trislan"), loop("Ralof", "conv4")]),                     # Ralof :OnSpeak24
+        ("25.wav", 0, [stop("Ralof"), loop("Trislan", "conv2")]),                     # Trislan :OnSpeak25
+        ("26.wav", 0, [stop("Trislan"), loop("Ralof", "conv3")]),                     # Ralof :OnSpeak26
+        ("26.wav", 3, [stop("Ralof"), once("Ralof", "attack_melee")]),               # Ralof :Attack
+        ("26.wav", 3.6, [sound("weapons/fleshhit04.wav", "Trislan")]),                # :Slapsound
+        ("27a.wav", 0, [once("Trislan", "play_death", "play_getup")]),               # Trislan :OnDie, :GetUp
+        ("27.wav", 0, [loop("Narrator", "conv3"), face("Narrator", "peasant2")]),     # Narrator :OnSpeak27
+        ("27.wav", 13, [walk(who, spot, face(who, "peasant2"))                        # :Trigger28: CastCall
+                        for who, spot in (("Ralof", "Ralof3"), ("Wilam", "Wilam4"), ("Leffery", "Leffery3"),
+                                          ("Abriel", "Abriel4"), ("Trislan", "Trislan3"))]),
+        ("28.wav", 0, [loop("Narrator", "conv3")]),                                   # Narrator :Bow
+        ("28.wav", 1, [stop("Narrator")] + [once(who, "bow") for who in ("Ralof", "Wilam", "Leffery", "Abriel",
+                                                                           "Trislan")]),   # :OnBow
+    ]
+    exits = [walk("Trislan", "Trislan2", face("Trislan", "Wilam")), walk("Abriel", "Abriel2", face("Abriel", "Wilam")),
+             walk("Ralof", "Ralof2", face("Ralof", "Trislan")), walk("Wilam", "Wilam3", face("Wilam", "Trislan")),
+             walk("Leffery", "Leffery2", face("Leffery", "Trislan"))]
+    timed = sorted([(starts[line] + delay, [a for a in actions if a]) for line, delay, actions in cues]
+                   + [(end - 0.5, exits)], key=lambda cue: cue[0])     # :Exit, just before the curtain closes
+    assert all(line in names for line, _, _ in cues)
+    rows = []
+    for at, actions in timed:
+        rows.append(f"    {{{at:.2f}, function()")
+        rows += [f"        {a}" for a in actions]
+        rows.append("    end},")
+    home = ", ".join(f"{name} = {{{p['position']['x']}, {p['position']['y']}, {p['position']['z']}}}"
+                     for name, p in players.items())
+    arrivals = [f"handlers[{EV_ARRIVE + k}] = function() arrived(\"{name}\") end" for k, name in enumerate(PLAYERS)]
+    return [
+        "-- The players' cues (Narrator.scr, Trislan.scr, Abriel.scr, Wilam.scr, Ralof.scr, Leffery.scr): walks, faces",
+        "-- and clips at THEPLAY.scr's times from the first line (convert.py citylua.play_cues). A walk's arrival",
+        "-- (EV_ARRIVE + k) runs what MM9 does there: faces whom it targets, and the slap.",
+        f"local P = {{{', '.join(f'{n} = {players[n]['actor_index']}' for n in PLAYERS)}}}",
+        f"local ARRIVAL = {{{', '.join(f'{n} = {EV_ARRIVE + k}' for k, n in enumerate(PLAYERS))}}}",
+        "local MARKS = {" + ", ".join(f"{k} = {{{v[0]}, {v[1]}, {v[2]}}}" for k, v in marks.items()) + "}",
+        f"local HOME = {{{home}}}",
+        "local function place(name)",
+        "    if P[name] then return evt.GetMapActorPosition(P[name]) end",
+        "    local m = MARKS[name]",
+        "    return m[1], m[2], m[3]",
+        "end",
+        "local function loop(who, clip) evt.PlayActorClip(P[who], clip, true) end",
+        "local function stop(who) evt.PlayActorClip(P[who], \"\") end",
+        "local function face(who, name)",
+        "    local x, y = place(name)",
+        "    if x ~= nil then evt.FaceActorTo(P[who], x, y, 0.4) end",
+        "end",
+        "local function sound(name, who)",
+        "    local x, y, z = place(who)",
+        "    if x ~= nil then evt.PlaySoundName(name, math.floor(x), math.floor(y), math.floor(z)) end",
+        "end",
+        "local onArrival = {}",
+        "local function walk(who, name, arrive)",
+        "    local x, y, z = place(name)",
+        "    if x == nil then return end",
+        "    evt.ClearActorPresentation(P[who])",
+        "    onArrival[who] = arrive",
+        "    evt.MoveActorTo(P[who], x, y, z, ARRIVAL[who])",
+        "end",
+        "local function arrived(who)",
+        "    local f = onArrival[who]",
+        "    onArrival[who] = nil",
+        "    if f ~= nil and var(\"PlayLine\") > 0 then f() end",
+        "end",
+        *arrivals,
+        "local CUES = {", *rows, "}",
+        "local cue = 0",
+        "local function playCues(delay)",
+        "    cue = 1",
+        f"    evt.StartTimer({T_CUE}, seconds(delay + CUES[1][1]))",
+        "end",
+        f"handlers[{T_CUE}] = function()",
+        f"    evt.StopTimer({T_CUE})",
+        "    if cue < 1 or cue > #CUES then return end",
+        "    if var(\"PlayLine\") == 0 then cue = 0 return end   -- the show stopped",
+        "    local at = CUES[cue][1]",
+        "    CUES[cue][2]()",
+        "    cue = cue + 1",
+        f"    if cue <= #CUES then evt.StartTimer({T_CUE}, seconds(CUES[cue][1] - at)) else cue = 0 end",
+        "end",
+        "local function playersHome()   -- a show left half-way: the players back at their places",
+        "    for who, p in pairs(HOME) do",
+        "        evt.ClearActorPresentation(P[who])",
+        "        evt.SetMapActorPosition(P[who], p[1], p[2], p[3])",
+        "    end",
+        "end",
+    ]

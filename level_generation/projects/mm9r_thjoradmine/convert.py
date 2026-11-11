@@ -39,7 +39,7 @@ sys.path.insert(0, str(PROJECT.parent / "mm9r_common"))
 
 import dungeon  # noqa: E402
 import review_root  # noqa: E402
-from dungeon import lua, tables, water  # noqa: E402
+from dungeon import ambient, lua, tables, water  # noqa: E402
 from dungeon.objects import perception_light_lua  # noqa: E402
 from dungeon.geometry import Polygon  # noqa: E402
 from dungeon.package import room_id  # noqa: E402
@@ -138,6 +138,10 @@ GROUP_CIVILIANS, GROUP_EBORA, GROUP_BUSTOUT, GROUP_CATS = 1, 2, 3, 4
 SPAWN_GROUP0 = 10                   # SpawnMarker k's hidden troglodytes: group 10 + k
 # Cogs (SetSprite keys) of the decorations the script shows and hides.
 COG = {"slag": 400, "slag_whole": 401, "MineCarA": 402, "MineCarA_end": 403}
+# TM_MineCarA.scr :MoveToMarker: MoveToPos MCarAMarker0 at 100 (LT/s), PlaySoundHandle Gears02.wav (radius 2500, looped,
+# volume 70) until :StopHere's KillSound. The loop is a scene ambient sound keyed by the cart's DAT index (switched by
+# the map variable AmbientSound<key>) at the track's middle.
+CART_SPEED_LT, CART_SOUND_RADIUS_LT, CART_SOUND_VOLUME = 100.0, 2500.0, 70.0
 # TM_TorchFlame.scr :StartSequence, :Barrel1 .. :Barrel8: DB_Barrel0..8 destroyed one after another (Exploding
 # destructibles: the shared explode(), dungeon/objects.py), each after the wait before it; :StopHere waits 3 s first
 BARREL_CHAIN = [f"DB_Barrel{k}" for k in range(9)]
@@ -147,6 +151,18 @@ NPC_RUDE = {"CommonerDwarfMaleB4": 7, "CommonerDwarfMaleB1": 8, "CommonerDwarfMa
             "DwarvenMiner0": 428, "DwarvenMiner1": 428, "DwarvenMiner2": 428, "DwarvenMiner3": 428,
             "DwarvenMiner4": 428, "DwarvenMiner5": 428}
 NPC_ROW = 323                       # a dwarf commoner, the old import's row for the miners (DwarvenMiner0/3 have no record)
+# DwarvenMiner.scr ("<mine marker> <dump marker>"): :GoMine attaches the axe (AttachProp dwarfaxe.abc on RHand1) and
+# walks to the mine marker; :StartMine faces it and draws 0-9: 0 rub_beard, 1 rock, 3 :GoDump (the axe put away, a
+# walk to the dump marker, faces it, dump, back to :GoMine), else hammer; each clip played once, then draws again.
+# As a routine (scene mm9_ai.routines, devdocs/mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md section 4 item 9): the
+# 1 in 10 trip, else one of the nine other draws. FaceObject from WalkTo's 10 LT is the way it came.
+MINER_DRAWS = ["hammer"] * 7 + ["rock", "rub_beard"]
+MINER_DUMP_CHANCE = 0.1
+MINER_CLEARANCE_LT = 24             # a miner's stand off the rock face (his body's 16 LT radius and a margin)
+MINER_AXE = {"model": "worlds/mm9/models/mm9_item_dwarfaxe.glb", "node": "Socket_RHand1"}
+# NPC8.scr (Gudrek) and NPC9.scr (Ketil) :Main: AttachProp MonkHammer.ABC on RHand1, for good (no loop: their p1 is "").
+HAMMER_NPCS = {"npc8.scr", "npc9.scr"}
+MONK_HAMMER = {"model": "worlds/mm9/models/mm9_item_monkhammer.glb", "node": "Socket_RHand1"}
 EBORA_ROW, CAT_ROW = 9301, 9294
 KEY_PAID, KEY_SHOWN = 362, 364                                   # NPC7.scr: paid Hjarrand / he showed the machine
 KEY_EXTRACTOR, KEY_FIXED = 9512, 37                              # SlagExtractor.scr
@@ -366,14 +382,19 @@ class ThjoradMine(dungeon.Hooks):
             content.props(PROPS, events=events, cogs={k: v for k, v in COG.items() if k in self.placed})
             cart = next((e for e in entries if e["source_name"] == "MineCarA"), None)
             if cart is not None:
-                # TM_MineCarA.scr: hit, the cart rolls to MCarAMarker0. Decorations do not move: a second cart stands
-                # hidden at the marker and is shown when the first is hidden.
+                # TM_MineCarA.scr: hit, the cart rolls to MCarAMarker0 (MoveToPos at CART_SPEED_LT). It glides there
+                # (evt.MoveDecoration, drawn only: its collision stays home), then a second cart standing hidden on the
+                # floor at the marker takes its place, so the cart blocks the track at its end and not at its start.
                 m = source.properties("MCarAMarker0")["Pos"]
                 floor = content.floor_at(m[0], m[2], m[1] + 40)
                 position = project.native([m[0], floor, m[2]])
-                content.entity("MineCarA_end", cart["decoration"], position, cart["yaw_degrees"],
-                               primary=COG["MineCarA_end"])
+                end = content.entity("MineCarA_end", cart["decoration"], position, cart["yaw_degrees"],
+                                     primary=COG["MineCarA_end"])
                 self.placed.add("MineCarA_end")
+                start = next(e for e in content.report["decorations"] if e["anchor"] == "MineCarA")
+                self.cart_glide = [b - a for a, b in zip(start["position"], end["position"])]
+                self.cart_seconds = round(float(np.linalg.norm(self.cart_glide)) / (CART_SPEED_LT * cutscenes.SCALE), 2)
+                self.cart_sound_key = int(cart["source_object"])
         else:
             print("note: props.json is missing; no decorations or chests placed")
         # MM9's touch Triggers as boxes polled four times a second (Chasm's, Dook's Castle's route).
@@ -439,6 +460,37 @@ class ThjoradMine(dungeon.Hooks):
             self.hints[name] = PERCEPTION_COG + k
 
     # --- actors -----------------------------------------------------------------------------------------------------
+    def miner_routine(self, build, monster_id: int, mine: str, dump: str) -> list:
+        """DwarvenMiner.scr as a routine (MINER_DRAWS): to the mine marker with the axe, a clip, and 1 in 10 a trip
+        without it to the dump marker."""
+        seconds = lua.model_clip_seconds(monster_id)
+        mine_lt, dump_lt = (np.asarray(build.source.properties(name)["Pos"], float) for name in (mine, dump))
+        points = []
+        for target, other in ((mine_lt, dump_lt), (dump_lt, mine_lt)):
+            # The mine markers stand inside the rock face (MM9's WalkTo stops at it): the first floor from the marker
+            # back toward the other one, MINER_CLEARANCE_LT further from the face.
+            way = other - target
+            way[1] = 0.0
+            length = float(np.linalg.norm(way))
+            for t in np.arange(0.0, length, 4.0):
+                spot = target + way / length * t
+                if build.content.floor_at(spot[0], spot[2], target[1] + 24) is not None:
+                    break
+            else:
+                raise SystemExit(f"{mine}/{dump}: no floor between them")
+            if t > 0:
+                spot = target + way / length * min(length, t + MINER_CLEARANCE_LT)
+            floor = build.content.floor_at(spot[0], spot[2], target[1] + 24)
+            points.append(build.project.native([spot[0], floor, spot[2]]).round().astype(int).tolist())
+        (mx, my, _), (dx, dy, _) = points
+        to_mine = round(float(np.degrees(np.arctan2(my - dy, mx - dx))) % 360.0, 1)
+        to_dump = round((to_mine + 180.0) % 360.0, 1)
+        return [{"items": "show"}, {"walk": points[0]}, {"face": to_mine},
+                {"clips": [{"clip": clip, "seconds": round(seconds[clip], 2)} for clip in MINER_DRAWS]},
+                {"chance": MINER_DUMP_CHANCE, "steps": [
+                    {"items": "hide"}, {"walk": points[1]}, {"face": to_dump},
+                    {"clip": "dump", "seconds": round(seconds["dump"], 2)}]}]
+
     def actors(self, build, sector_of_room: dict) -> list[dict]:
         content, source = build.content, build.source
         bases = content.monster_bases()
@@ -491,6 +543,14 @@ class ThjoradMine(dungeon.Hooks):
             if name in NPC_RUDE:
                 actor["mm9_rude_id"] = NPC_RUDE[name]
                 actor["immobile"] = True
+                script = str(p.get("ScriptName", "")).lower().replace("scripts\\", "")
+                if script == "dwarvenminer.scr":
+                    actor["immobile"] = False              # a routine walker
+                    actor.setdefault("mm9_ai", {})["routines"] = {
+                        "default": self.miner_routine(build, actor["monster_id"], *str(p["ScriptParams"]).split())}
+                    actor["held_items"] = [dict(MINER_AXE)]
+                elif script in HAMMER_NPCS:
+                    actor["held_items"] = [dict(MONK_HAMMER)]
             if cls == "SuccEbora":
                 actor["immobile"] = True                       # EboraMines.scr: SetIdle until FreeAtLast
             if dormant:
@@ -536,6 +596,16 @@ class ThjoradMine(dungeon.Hooks):
             raise SystemExit(f"{len(hints)} perception faces in the BLV, {self.hint_faces} polygons")
         scene.setdefault("translucent_faces", []).append(
             {"faces": hints, "opacity": PERCEPTION_OPACITY, "tint": [1.0, 1.0, 1.0], "two_sided": True})
+        if hasattr(self, "cart_glide"):
+            # the cart's Gears02.wav loop (CART_SPEED_LT), off until the map Lua switches it on for the ride; inner
+            # radius a quarter of MM9's, as the fires' (ambient.fire_sounds)
+            start = next(e for e in build.content.report["decorations"] if e["anchor"] == "MineCarA")
+            middle = [round(a + d / 2) for a, d in zip(start["position"], self.cart_glide)]
+            radius = CART_SOUND_RADIUS_LT * cutscenes.SCALE
+            scene.setdefault("ambient_sounds", []).append(
+                {"key": self.cart_sound_key, "sound": "events/gears02.wav", "position": [*middle[:2], middle[2] + 48],
+                 "inner_radius": round(radius / 4), "outer_radius": round(radius),
+                 "volume": ambient.ambient_volume(CART_SOUND_VOLUME), "loop": True, "start_on": False})
         if build.project.install:
             # The old map's outdoor overlay (thjoradmine_authored.scene.yml, kind outdoor_scene_overlay) would be read
             # as the BLV's indoor overlay and fail the load, and its Lua (thjoradmine_authored.lua) would be appended to the
@@ -698,7 +768,8 @@ class ThjoradMine(dungeon.Hooks):
             "-- The gnolls' cages (TriggerHardRock -> TroglodyteGnoll0-2 ForceBreak, KingKong.scr: dragonredrattack3.wav,",
             "-- the cage wall BustOutBrush<k> destroyed, the gnoll hunts the party). A click on a cage wall breaks it too.",
             "-- Each gnoll breaks only its own wall (ScriptParams p0); a dead one takes no ForceBreak (MM9.receives) and",
-            "-- leaves its wall standing.",
+            "-- leaves its wall standing. :BreakCage swings at the wall as it breaks (PlayAnim hattack1: the model's",
+            "-- attack_melee); their ScriptParams name no ANIM_NAME, so nothing loops while they wait.",
             f"local GNOLLS = {{{', '.join(map(str, self.gnolls))}}}",
             "local BUSTOUT = {" + ", ".join(f"{{\"TroglodyteGnoll{w[-1]}\", {self.actor['TroglodyteGnoll' + w[-1]]}, \"{w}\"}}"
                                          for w in EV_BUSTOUT) + "}   -- gnoll, its actor, its wall",
@@ -714,6 +785,7 @@ class ThjoradMine(dungeon.Hooks):
             "        if MM9.receives(\"thjoradmine\", g[1], \"ForceBreak\", g[2]) then",
             "            sound(\"animsounds/dragonredrattack3.wav\")",
             "            bustOut(g[3])",
+            "            evt.PlayActorClip(g[2], \"attack_melee\")",
             "        end",
             "    end",
             f"    evt.WakeGroup({GROUP_BUSTOUT})",
@@ -761,6 +833,9 @@ class ThjoradMine(dungeon.Hooks):
         L.append("")
         # The abandoned mine's machinery.
         barrels = [b for b in BARREL_CHAIN if has(b)]
+        if not hasattr(self, "cart_glide"):
+            raise SystemExit("MineCarA is not placed (props.json): the mine cart's script needs it")
+        cart_glide, cart_seconds, cart_key = self.cart_glide, self.cart_seconds, self.cart_sound_key
         dust_at = {b: points[f"DustObject{6 + k}"] for k, b in enumerate(BARREL_CHAIN)}
         tf0, tf1 = points["FallingTorchMarker0"], points["FallingTorchMarker1"]
         L += [
@@ -799,15 +874,19 @@ class ThjoradMine(dungeon.Hooks):
             "-- the cart rolls to MCarAMarker0 at 100 LT/s, doorslammetal01.wav, ABMineBoards0 destroyed; its DamageTrigger",
             "-- knocks FallingWallTorch1 loose (TM_FirstFallingTorch.scr, 0.6 s: TorchHolder1 destroyed), whose flame",
             "-- (TM_FirstFallingFlame.scr \"DB_Barrel9\") lands, steam_burst04.wav, and 2 s later sets off DB_Barrel9.",
-            "-- Decorations do not move: the cart is hidden and its twin at the marker shown after the ride.",
+            "-- The cart glides along the track (evt.MoveDecoration; MM9 plays none of its clips), its Gears02.wav loop the",
+            f"-- scene's AmbientSound{cart_key} (on for the ride); at the marker its twin, standing there hidden, takes its",
+            "-- place: a moved decoration's collision stays where it was placed, the twin's blocks the track's end.",
+            f"local CART_GLIDE, CART_SECONDS = {{{', '.join(map(str, cart_glide))}}}, {cart_seconds:g}   -- 100 LT/s",
             f"handlers[{EV_MINECART}] = function()",
             "    if var(\"Cart\") ~= 0 then return end",
             "    set(\"Cart\", 1)",
-            "    sound(\"events/gears02.wav\")",
+            f"    set(\"AmbientSound{cart_key}\", 1)",
             "    destroy(\"MCarBlocker1\")",
             *[f"    {perception_light_lua(build, light, False)}" for light in LIGHTS_OFF["MCarBlocker1"]],
             f"    dust({{{', '.join(map(str, points['DustObject2']))}}}, 0.5)",
-            f"    evt.StartTimer({T_CART}, seconds(9))",
+            f"    evt.MoveDecoration({COG['MineCarA']}, CART_GLIDE[1], CART_GLIDE[2], CART_GLIDE[3], CART_SECONDS)",
+            f"    evt.StartTimer({T_CART}, seconds(CART_SECONDS))",
             "end",
             f"handlers[{EV_TORCH1}] = function()",
             "    if var(\"Torch1\") ~= 0 then return end",
@@ -820,7 +899,8 @@ class ThjoradMine(dungeon.Hooks):
             f"handlers[{T_CART}] = function()",
             "    if var(\"Cart\") == 1 then",
             "        set(\"Cart\", 2)",
-            f"        sprite({COG['MineCarA']}, false) sprite({COG['MineCarA_end']}, true)" if has("MineCarA") else "",
+            f"        set(\"AmbientSound{cart_key}\", 2)   -- :StopHere: KillSound",
+            f"        sprite({COG['MineCarA']}, false) sprite({COG['MineCarA_end']}, true)",
             "        sound(\"door/doorslammetal01.wav\")",
             "        destroy(\"ABMineBoards0\")   -- its destroyed event: the dust and the quake (DBEffectsTrigger0)",
             "        handlers[" + str(EV_TORCH1) + "]()",
@@ -1072,8 +1152,10 @@ class ThjoradMine(dungeon.Hooks):
             f"    if var(\"EboraFree\") == 1 or var(\"EboraFree\") == 2 then MM9Cinematic.finish({lua_string(CINEMA_ID)}) end",
             f"    if var(\"EboraFree\") >= 3 then MM9.removeActor({actor['Ebora']}) end",
             f"    evt.StartTimer({T_QUAKE}, seconds(evt.RandomBetween({AMBIENT_QUAKE['every'][0]}, {AMBIENT_QUAKE['every'][1]})))",
-            f"    sprite({COG['MineCarA_end']}, var(\"Cart\") >= 2)" if has("MineCarA_end") else "",
-            f"    sprite({COG['MineCarA']}, var(\"Cart\") < 2)" if has("MineCarA") else "",
+            f"    sprite({COG['MineCarA_end']}, var(\"Cart\") >= 2)",
+            f"    sprite({COG['MineCarA']}, var(\"Cart\") < 2)",
+            "    -- the glide is runtime only: a cart on its way (or gone) stands at its end again",
+            f"    if var(\"Cart\") >= 1 then evt.MoveDecoration({COG['MineCarA']}, CART_GLIDE[1], CART_GLIDE[2], CART_GLIDE[3], 0) end",
             "    updateHints()",
             "end",
             "",

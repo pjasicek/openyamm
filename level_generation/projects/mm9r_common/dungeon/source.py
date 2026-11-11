@@ -371,6 +371,28 @@ def classify_models(source: Source) -> dict:
     return plan
 
 
+def surface_column(polygons: list[Polygon], x: float, z: float) -> list[tuple[float, Polygon]]:
+    """Every polygon over or under the plan point (LithTech x, z) that is not a wall, with its height there, lowest
+    first (Content.actor_floor)."""
+    out = []
+    for polygon in polygons:
+        pts = polygon.points
+        if not (pts[:, 0].min() <= x <= pts[:, 0].max() and pts[:, 2].min() <= z <= pts[:, 2].max()):
+            continue
+        n = polygon.normal
+        if abs(n[1]) < 0.02:
+            continue
+        inside = False
+        count = len(pts)
+        for i in range(count):
+            x1, z1, x2, z2 = pts[i, 0], pts[i, 2], pts[(i + 1) % count, 0], pts[(i + 1) % count, 2]
+            if (z1 > z) != (z2 > z) and x < x1 + (z - z1) / (z2 - z1) * (x2 - x1):
+                inside = not inside
+        if inside:
+            out.append((float((n @ pts[0] - n[0] * x - n[2] * z) / n[1]), polygon))
+    return sorted(out, key=lambda entry: entry[0])
+
+
 def floor_below(polygons: list[Polygon], point_lt) -> float | None:
     """The highest floor under a point (LithTech y), for snapping starts, arrivals, actors and pads."""
     x, y, z = point_lt

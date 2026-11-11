@@ -161,8 +161,18 @@ handlers[333] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); ev
 handlers[334] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); evt.SimpleMessage("Letter to Sigmund\n\nJarl Sigmund,\nI really wish you would do something about the Yobboes who have taken up near our village.  They very frequently come into our village and steal things!  Why, they even stole my daughter's dolly!  Please, I implore you.  Send some of your soldiers down to root these people out!\nIosobail A'Norta") end   -- Prop15 (455)
 handlers[335] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); evt.SimpleMessage("About Sturmford\n\nHave you been to Sturmford?  We here at the Drangheim Defense Force have, and are more than happy to share our experiences with you.\nIn Sturmford, anyone who is not native is forced to surrender their arms and wear their hair in ponytails!\nTheir woman all dress like the men, and wear iron-barred masks to keep them in line.\nHelp us rid the world of these people!\nJoin at the House of Thrylgrin") end   -- Prop14 (454)
 
+-- NPC87.scr :Init -> :Vanish: with key 108 Sigmund is back and loops Sit (LoopAnim Sit 0 DoNothing), facing as
+-- placed (the fire; MM9 places no chair there); the load and the poll (the key given while here) seat him.
+local sigmundSeated = false
+local function sigmundSits()
+    if sigmundSeated or not has(108) then return end
+    sigmundSeated = true
+    evt.PlayActorClip(20, "sit", true); evt.FaceActorTo(20, 18749, -5530, 0)
+end
+
 local function poll()
     shopHours()
+    sigmundSits()
     if not has(225) and has(222) and var("BanditShown") == 0 then set("BanditShown", 1); show(BANDIT, true) end
     evt.StartTimer(260, seconds(1))
 end
@@ -172,6 +182,7 @@ handlers[1] = function()   -- map load
     MM9.giveKey(1027)
     -- NPC87.scr :Init: Sigmund is away while key 40 is set, back with 108
     show(20, not (has(40) and not has(108)))
+    sigmundSits()
     local thorolf = has(83) and not has(84)   -- NPC378.scr :Init (only Frosgard's third copy comes on 106)
     show(21, thorolf); show(22, thorolf)
     show(18, not has(456))   -- Retainer.scr: Edina A'Mor, hidden while hired

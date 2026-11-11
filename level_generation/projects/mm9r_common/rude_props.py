@@ -38,7 +38,7 @@ PEASANT_ROWS = {
 }
 HERO_ROWS = {"bjarni": 9246, "sigmund": 9247, "markel": 9248, "sven": 9249, "sven_arg": 9249, "tryggva": 9250,
              "foraddarre": 9252,
-             "ercc": 9050}           # Ercc.ABC: PeasantM2 in skin PeasantM2a with a cup (the cup is not carried)
+             "ercc": 9050}           # Ercc.ABC: PeasantM2 in skin PeasantM2a with a cup (the cup: a held item)
 
 # The clip each script loops (MM9's LoopAnim), by script; PropAnim.scr loops its first parameter.
 SCRIPT_POSES = {"sturmgaardinn.scr": None,          # LoopAnim Params: its parameter (Innkeeper2)
@@ -50,6 +50,10 @@ SCRIPT_POSES = {"sturmgaardinn.scr": None,          # LoopAnim Params: its param
                 "bjarni.scr": "Sit"}                 # loopanim Sit
 # MM9 clip names -> the HD bodies' role names
 CLIP_ROLES = {"ludwig_writting": "ludwig_writing", "ludwig_lookup": "ludwig_lookup", "conv": "conv_seated"}
+# (MM9 model, clip) -> the HD body's clip, where a prop model's own animation is not the seated library's of that name:
+# Ercc.ABC's `sitting` holds the cup at his chest (the townsman's `ercc_sitting`, with the hand closed round the cup:
+# level_generation/props/mm9_held_items_claude/scripts/grip_clips.py), PeasantSeated's rests the hands in the lap.
+MODEL_CLIP_ROLES = {("ercc", "sitting"): "ercc_sitting"}
 
 
 def _file_name(path) -> str:
@@ -79,7 +83,10 @@ def mm9_clip(entry: dict) -> str | None:
 def pose_clip(entry: dict) -> str | None:
     """The clip the script loops, as the HD bodies name it."""
     clip = mm9_clip(entry)
-    return None if clip is None else CLIP_ROLES.get(clip.lower(), clip.lower())
+    if clip is None:
+        return None
+    model = re.sub(r"\.abc$", "", _file_name(entry.get("source_model", "")), flags=re.I).lower()
+    return MODEL_CLIP_ROLES.get((model, clip.lower())) or CLIP_ROLES.get(clip.lower(), clip.lower())
 
 
 def mm9_foot(content, o: dict, entry: dict) -> float | None:

@@ -45,7 +45,7 @@ def main() -> int:
         "end",
     ])
     replacements = [
-        (between(installed, "-- The win switch (WinMan.scr :OnUse)", "\n\n-- The genie lamp"), win),
+        (between(installed, "-- WinMan.scr :onSwitch, on each use", "\n\n-- The genie lamp"), win),
         (between(installed, "-- TauntMan.scr (Trigger19 Start;", "\n\n-- Monsters' DeathTriggerTarget"), taunt),
         # the installed poll's chess test (before the pawn's queening): the square's box, and the capture's call
         ("    local square = false\n    for _, b in ipairs(CHESS) do if inBox(b, x, y, z) then square = true end end",

@@ -41,6 +41,10 @@ points:
      quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
   - {map: thjorgard, type: objective, label: "Game: boat race", objects: [RacingBoat0, RacingBoat1, RacingBoat2, RacingBoat3],
      quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
+  # Guberland City: Markel's awards, the Thing's Stuffed Dragon on the shelf of his palace (taken once he is dead).
+  - {map: guberlandcity, type: objective, label: "Markel's awards", objects: [Prize0, Prize1, Prize2, Prize3, Prize4, Prize5],
+     detail: "six Stuffed Dragons; take one after the war council instead of winning at the Thing",
+     quests: [win-a-prize-at-the-thing-for-yrsa-s-daughter]}
   # Anskram Keep: the eight imp gates (anskramkeep.lua GATES).
   - {map: anskramkeep, type: objective, label: "Imp gate 0", objects: [ImpGateSpawner0], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}
   - {map: anskramkeep, type: objective, label: "Imp gate 1", objects: [ImpGateSpawner1], detail: "step on its pad to start it: 5 imps, then the fire goes out", quests: [clear-out-anskram-keep]}

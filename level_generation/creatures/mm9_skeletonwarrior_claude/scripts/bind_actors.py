@@ -10,6 +10,8 @@ BLOCK = """# MM9 Skeleton Warrior body (level_generation/creatures/mm9_skeletonw
 # scimitar rigid on Bone01); MM9 clips un-mirrored to their true handedness (MM9 ABC conversions are mirror images: the scimitar
 # is in the anatomical right hand, the throw from the left, MM9's LHand1 socket). Hattack1 Rattack 0.339 s, RAttack1 RangeAttack
 # 0.402 s. Tiers: Warrior ramps (black mail, amber eyes, SKELETONWAR2), Master = the paint itself (SKELETONWAR1).
+# ResurrectFX GreaterDemon at the pelvis as a corpse rises (Resurrect). The Master's ResurrectSpell DoFX 0 (bluedots, 0.2-1.066 s)
+# is not bound: fidget2 plays the same clip here (MM9's fidget2 has its motion without the key), and clip events follow the clip.
 """
 for desc, skin, label in (('MM9 Skeleton Warrior A', 'skelwar_b', 'Skeleton Warrior (row 136)'),
                           ('MM9 Skeleton Warrior B', 'skelwar_c', 'Skeleton Master (row 137)')):
@@ -26,9 +28,11 @@ for desc, skin, label in (('MM9 Skeleton Warrior A', 'skelwar_b', 'Skeleton Warr
     look: {{nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}}
     sockets:
       throw_hand: LHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {{impact: 0.339}}
       attack_ranged: {{impact: 0.402, release: throw_hand}}
+      resurrect: {{effect: {{id: mm9:GreaterDemon, socket: body}}}}
   clips:
     standing: Standing
     walking: Walking

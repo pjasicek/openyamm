@@ -234,14 +234,15 @@ def swim(floors) -> dict | None:
              {"advance_runtime": {"seconds": 20}},
              {"assert": {"water": {"state": "wading", "breath_min": 0.99, "drowning_ticks_max": 0}}},
              {"note": {"text": "The fish (AISwimFly, Fly S) start in the volume and are bound to it: after 20 s each is "
-                               "still in the pool, its feet held over the bed (a walker stands on the bed; the reports "
-                               "show feet at most 1.5 under the surface minus half the body, the binding's clamp)."}}]
+                               "still in the pool, its feet not under the bed (a fish that has moved rides at the "
+                               "binding's clamp, 1 under the surface minus half the body; one that has idled all along "
+                               "still rests on the bed where the map's load set it)."}}]
     for row in fish:
         steps.append({"assert": {"actor_visible": {
             "actor_index": row["actor_index"], "report_state": True,
             "near": {"x": centre_x, "y": centre_y, "max_distance": round(math.hypot(max(xs) - min(xs),
                                                                                    max(ys) - min(ys)) / 2),
-                     "min_z": round(bed + 1.5, 1)}}}})
+                     "min_z": round(bed - 0.5, 1)}}}})    # Fish1 idles the whole 21 s (AI timing since 2026-11-06)
     return {"id": "mm9r.templeofhonk_swim", "title": "Temple of Honk (native BLV): wading in the pool, the fish swim in "
             "it", "world": "mm9", "mode": "faithful", "tags": ["mm9", "mm9_rework", "draft"], "steps": steps}
 

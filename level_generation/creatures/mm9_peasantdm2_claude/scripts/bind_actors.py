@@ -34,7 +34,7 @@ BLOCK = BEGIN + """
 # dwarf male townsfolk skeleton (41 joints, no pelvis, tunic ring Bone22) with the PEASANTMALEDWARF library clips (stand,
 # walk, run, Fidget1, Fidget2, conv1 talk, hattack1 Rattack 0.966 s, wince, die1) and the clips its scripts play (cower:
 # NPCbase via BaseRun.inc; conv1/stand: NPC109; rub_beard, rock, hammer, dump: DwarvenMiner.scr, whose pick prop
-# dwarfaxe.abc is not modelled), five-finger MPFB hands, mirrored to MM9's true handedness. Tiers: one body set with region
+# dwarfaxe.abc is a held item), five-finger MPFB hands, mirrored to MM9's true handedness. Tiers: one body set with region
 # mask and ramps (shared paint PEASANTDM2A; tier pdm2_b from the unused skin PEASANTDM2B: brown leather tunic) and a tier B
 # head colour (MM9 paints a different man with a studded headband). No MONSTERS row uses skin B.
 """

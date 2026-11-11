@@ -76,14 +76,14 @@ distant geometry, which is our renderer, not MM9 (Drangheim Prison has no MM9 fo
 | MM9 | Native |
 | --- | --- |
 | **Pass and alarm**: `DrangheimHostility.inc`, `AlarmControl.scr`, `Guardhelp.scr`, `GuardToNegate.scr` | keys 5007 (pass) and 5006 (alarm). Inner guards are hostile unless the party holds the pass without the alarm; the gate guards mind only the alarm. The party hurting or killing a guard (damage/killed hooks, `context.byParty`: MM9's `IsPlayer`; a Nagate's blow does not) rings `alarmbell.wav` and sets 5006. The smith is no guard (his script has no hostility) |
-| **Gate guards**: `GuardRude.scr` (dialogues 425, 426, ScriptParams) | `OnRude` (events 51033-51035): the alarm given in the talk goes off; Guard2 hands over item 446; Guard0/1 stand at PassMarker1/2 |
+| **Gate guards**: `GuardRude.scr` (dialogues 425, 426, ScriptParams) | `OnRude` (events 51033-51035): the alarm given in the talk goes off; Guard2 hands over item 446; Guard0/1 stand at PassMarker1/2. 1 in 20 sleeps from the map's start (`LoopAnim sleep`) until clicked or the alarm (2026-11-11) |
 | **The cook**: `NPC419.scr` (419) | `OnRude` (51039): with key 5004 gives 5005, which lets `Celldoor29` open on a click; any other end of the talk raises the alarm. Quest markers: MM9 keeps the deal in keys only (no journal entry), so the cook and Antoni carry authored key-state markers (`mm9_quest_interaction_overrides.yml` `key_interactions`) |
 | **His brother**: `NPC427.scr` (427) | `OnRude` (51044): key 369 gives 370, 4000 experience, the quest sound; he is gone, also on later loads |
 | **Ivsar Forktooth**: `NPC90.scr` (90) | `OnRude` (50068): takes key 194, reopens the dialogue when 194 stands without 242, else raises the alarm (`:FollowPlayer`); with key 17 he is gone and meets the party outside |
 | **Prisoners**: `DrangheimPrisoner.scr` (431) | Use events (54067-54069): without the pass, 500 experience once each, then dialogue 431 |
 | **Cell levers**: the levers' Open/CloseTriggers | each lever (events 200-222) toggles itself and its cell (lever17: Celldoor18, which starts open); locked cells say so (event 230) |
-| **Interrogation**: `DrangheimInterrogator.scr`, `DrangheimWarden.scr`, `DrangheimDoorman.scr`, `TriggerBeatings0/1` | either pad, once: for each of three prisoners the warden's lever opens the cell and shuts it, the doorman opens and shuts `RightDoor0/LeftDoor0`, `beatdownmix8bit.wav` plays, and it runs back. It stops when one of the three is dead or the alarm is up |
-| **Smith**: `DrangheimSmith.scr` | his round is a marker path (`smith_round`): hammering at MarkerAnvil (attack clip looped, 30-35 s, a clang every 3 s while he is there), the sword cooled 5 s at MarkerWater, put on the WeaponRack; `Door1`'s click stops him where he is and restarts him (its Open/CloseTriggers) |
+| **Interrogation**: `DrangheimInterrogator.scr`, `DrangheimWarden.scr`, `DrangheimDoorman.scr`, `TriggerBeatings0/1` | either pad, once: for each of three prisoners the interrogator walks to the cell's MarkerBeating, the warden (`aware`) works the lever, the prisoner comes out and cowers, follows him along MarkerBeating to 9 (`evt.MoveActorTo`), the doorman's `RightDoor0/LeftDoor0` open and shut, `beatdownmix8bit.wav` plays, and they walk back and he is sent into his cell (2026-11-11; it teleported them before). It stops when one of the three is dead or the alarm is up |
+| **Smith**: `DrangheimSmith.scr` | his round is a marker path (`smith_round`): hammering at MarkerAnvil (attack clip looped, 30-35 s, a clang every 3 s while he is there), the sword cooled 5 s at MarkerWater, put on the WeaponRack; `Door1`'s click stops him where he is and restarts him (its Open/CloseTriggers). He holds MM9's hammer (`held_items`, `Socket_RHand1`) and swaps it for Kira's sword from leaving the anvil to the rack (`:AttachHammer`/`:AttachSword`, Lua timer 263) |
 | **Barracks guards**: `GuardToNegate.scr`, `NagGuardTrigger0` | only the three barracks guards (group 4) and the Nagate are enemies (`SetMonsterRelation({group = 4}, ...)`: GuardToNegate.scr's own `AddEnemy Nagate`; giving it every guard row made all guards fight the pen's Nagate at load and relay alerts about them across the prison); the pad plays the guard's call once |
 | **Well lid**, **hatch** | click events (240, 241) |
 
@@ -251,3 +251,15 @@ had dropped its pen-side face, so a one-sided face was left, facing the corridor
 
 Rebuilt 2026-10-31 15:14:32 (convert.py from the current shared converter, end 15:18:15): 1 down-facing faces of invisible collision brushes dropped (`work/invisible_bottoms.json`; the flat undersides of MM9's invisible ramp wedges and helper brushes resting at most the party's height over a floor, which stopped the party on stairs as invisible ceilings: `../mm9r_common/DUNGEON_PLAYBOOK.md`, "Package change: invisible brush bottoms"); the BLV now has 12843 faces. The rebuild also carries the converter's other changes of the day (monster collision sizes, water).
 Scenarios after the rebuild: `scenario_chests.yml` pass, `scenario_doors_exits.yml` pass, `scenario_immobile.yml` pass, `scenario_quests.yml` pass, `scenario_scripted.yml` pass.
+
+## Scripted ambient behaviour (2026-11-11)
+
+The interrogation walks (above): the interrogator and each prisoner in turn along MarkerBeating0-9 with
+`evt.MoveActorTo` (a walk not done in 25 s, or under way at a save, ends at its point), the warden's `aware` at the
+levers. The smith's hammer and sword, the gate guards' sleep (above). Headless: the whole interrogation runs in about
+330 s, all three prisoners back in their cells, `Beatings` 2. Desktop captures (`output/held_items_check/drangheimprison/`):
+the smith hammers with the hammer in his right hand and carries the sword to the trough. Scenarios: chests, immobile,
+quests, scripted, swim_check pass; `scenario_doors_exits.yml` fails at step 38 (the hatch drop, z 46 off) with this
+map's scene and Lua from HEAD too, so not from this change; playthrough segment 13 passes.
+Not done: the warden and doorman do not walk to the levers and doors (they play `aware` where they stand); the smith's
+water stop puts him at the trough's rim (the path from before).

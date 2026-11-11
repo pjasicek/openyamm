@@ -423,11 +423,19 @@ handlers[649] = function()   -- Honky3 :OnDamage
 end
 
 -- Armwrestle.scr "2" (HalfOrcCaptain0) :OnUse -> :StartMightGame: with a ticket, his 2 + 1-40 against the
--- active character's Might (GetAttribute 0) + 9-50; a tie wins. MM9 has him cower then.
+-- active character's Might (GetAttribute 0) + 9-50; a tie wins. A win: :StartCower (PlayAnim cowerstart,
+-- LoopAnim cower 5, PlayAnim cowerstop), his use removed until it ends (:RemoveUse, :RestoreUse). His body
+-- (the Half Orc's) has only the loop, cower: five of it (MM9's DookMilitia.abc has no cowerstop either).
+local WRESTLER = 38
 handlers[53117] = function()
+    if var("Tick") < var("WrestlerCowerUntil") then return end   -- :RemoveUse while he cowers
     if not ticket() then return end
     local mine, theirs = 2 + rnd(1, 40), currentMight() + rnd(9, 50)
-    if theirs >= mine then gameWon(7105) else gameLost() end
+    if theirs >= mine then
+        evt.PlayActorClip(WRESTLER, {"cower", "cower", "cower", "cower", "cower"}, false)
+        set("WrestlerCowerUntil", var("Tick") + 30)
+        gameWon(7105)
+    else gameLost() end
 end
 
 -- Thorgard_actor.scr :SetupKen (Ken1-3): hidden, not solid, until RobPlayerTrigger sends RobPlayer; at
@@ -450,17 +458,31 @@ end
 -- Thorgard_actor.scr / Jumper.inc (Jumper0-3, the bandits on the cliff): hidden, not solid, until
 -- JumperTrigger (once): Jumper0 GetPlayer at once, Jumper1-3 WaitGetPlayer (Jumper.inc 1-2.5 s; Jumper2
 -- 10-25 s, Jumper3 30-45 s, Thorgard_actor.scr :JumperWaitGetPlayer); then they appear and come for the party
--- (the leap is not carried; the monster AI takes them on sight). Their DeathTriggerTarget: Jumper0's death sends
+-- (the leap's clips below; the monster AI takes them on sight). Their DeathTriggerTarget: Jumper0's death sends
 -- Jumper2 BuddyDead, Jumper1's Jumper3 (:SetupJumper AddTrigger BuddyDead, JumperGetPlayer: at once).
 -- Map vars JumpersSprung, JumperDue<k> (the tick it appears), JumperOut<k>.
 local JUMPERS = {7, 8, 14, 15}   -- Jumper0, Jumper1, Jumper2, Jumper3
 local JUMPER_WAIT = {{0, 0}, {2, 5}, {20, 50}, {60, 90}}   -- half-second ticks
 local JUMPER_NAMES = {"Jumper0", "Jumper1", "Jumper2", "Jumper3"}
 -- A slain jumper takes no GetPlayer, WaitGetPlayer or BuddyDead (MM9.receives); a wait it took still ends.
+-- Jumper.inc :JumperGetPlayer (LoopAnim LyingDown while it rises, then :JumpAtTarget LoopAnim JumpingDown
+-- until it lands): the two clips in turn, held in place meanwhile (the leap's arc is not carried);
+-- map var JumperLands<k>: the tick it is free (a load frees it at once). Freed, it goes for the party
+-- (JumpAtTarget's GetPlayer): on the cliff top it seldom sees the party below, and one left waiting there
+-- stood on it for good (Jumper3 in the user's save, 2026-11-11); a load sets the free ones on it again.
+local JUMP_TICKS = 5
 local function jumpNow(k)
     if var("JumperOut" .. k) == 1 then return end
     set("JumperOut" .. k, 1); set("JumperDue" .. k, 0)
     show(JUMPERS[k], true)
+    evt.SetActorImmobile(JUMPERS[k], true)
+    evt.PlayActorClip(JUMPERS[k], {"lying_down", "jumping_down"}, false)
+    set("JumperLands" .. k, var("Tick") + JUMP_TICKS)
+end
+local function jumperLands(k)
+    set("JumperLands" .. k, 0)
+    evt.SetActorImmobile(JUMPERS[k], false)
+    if MM9.actorAlive(JUMPERS[k]) then evt.SetActorTarget(JUMPERS[k], "party") end
 end
 local function jumperTick(tick)
     if var("JumpersSprung") == 0 then
@@ -476,6 +498,8 @@ local function jumperTick(tick)
     for k = 1, #JUMPERS do
         local due = var("JumperDue" .. k)
         if due > 0 and tick >= due then jumpNow(k) end
+        local lands = var("JumperLands" .. k)
+        if lands > 0 and tick >= lands then jumperLands(k) end
     end
 end
 handlers[304] = function(context)   -- a jumper's DeathTriggerTarget: BuddyDead
@@ -554,8 +578,10 @@ handlers.regionLoad = function()
     set("BoatState", 0)   -- RacingBoat.scr :InitRacingBoat (a race does not survive a load)
     set("BellStage", 0)   -- DingTheBell.scr :Main
     honkReset()   -- Whack-a-Honky.scr :Main, :ResetPOS
+    set("WrestlerCowerUntil", 0)   -- the cower is not saved
     if var("KensOut") == 0 then for _, a in ipairs(KENS) do show(a, false) end end   -- :SetupKen
     for k = 1, #JUMPERS do if var("JumperOut" .. k) == 0 then show(JUMPERS[k], false) end end   -- :SetupJumper
+    for k = 1, #JUMPERS do if var("JumperOut" .. k) == 1 then jumperLands(k) end end
     for _, a in ipairs(AMBUSH) do show(a, not magreebWaits()) end   -- :CheckDisable
     set("MagreebSeen", 0)
     if var("MagreebGone") == 1 then MM9.removeActor(16) end

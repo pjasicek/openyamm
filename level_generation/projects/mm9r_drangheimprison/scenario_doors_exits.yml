@@ -186,7 +186,7 @@ steps:
       state: open
 - movement_segment:
     input: forward
-    seconds: 3.15
+    seconds: 3.5
     actor_collision: false
     actor_ai: false
     start:

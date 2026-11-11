@@ -6374,9 +6374,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "2 296 0"
+     "script_params": "2 296 0",
+     "idle_clip": "sweep"
     },
     "mm9_source_object_index": 572,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkbroom.glb",
+      "node": "Socket_Broom"
+     }
+    ],
     "mm9_rude_id": 296
    },
    {
@@ -6430,9 +6437,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "2 298 0"
+     "script_params": "2 298 0",
+     "idle_clip": "sweep"
     },
     "mm9_source_object_index": 573,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkbroom.glb",
+      "node": "Socket_Broom"
+     }
+    ],
     "mm9_rude_id": 298
    },
    {
@@ -6487,9 +6501,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "2 306 0"
+     "script_params": "2 306 0",
+     "idle_clip": "sweep"
     },
     "mm9_source_object_index": 574,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkbroom.glb",
+      "node": "Socket_Broom"
+     }
+    ],
     "mm9_rude_id": 306
    },
    {
@@ -6544,9 +6565,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "2 303 0"
+     "script_params": "2 303 0",
+     "idle_clip": "sweep"
     },
     "mm9_source_object_index": 575,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkbroom.glb",
+      "node": "Socket_Broom"
+     }
+    ],
     "mm9_rude_id": 303
    },
    {
@@ -7048,9 +7076,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "1 296 MarkerHoe0"
+     "script_params": "1 296 MarkerHoe0",
+     "idle_clip": "hoe"
     },
     "mm9_source_object_index": 584,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkhoe.glb",
+      "node": "Socket_Hoe"
+     }
+    ],
     "mm9_rude_id": 296
    },
    {
@@ -7105,9 +7140,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "1 304 MarkerHoe1"
+     "script_params": "1 304 MarkerHoe1",
+     "idle_clip": "hoe"
     },
     "mm9_source_object_index": 585,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkhoe.glb",
+      "node": "Socket_Hoe"
+     }
+    ],
     "mm9_rude_id": 304
    },
    {
@@ -7162,9 +7204,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "1 297 MarkerHoe2"
+     "script_params": "1 297 MarkerHoe2",
+     "idle_clip": "hoe"
     },
     "mm9_source_object_index": 586,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkhoe.glb",
+      "node": "Socket_Hoe"
+     }
+    ],
     "mm9_rude_id": 297
    },
    {
@@ -7219,7 +7268,8 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "0 307"
+     "script_params": "0 307",
+     "idle_clip": "standing"
     },
     "mm9_source_object_index": 587,
     "mm9_rude_id": 307
@@ -7275,9 +7325,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "4 302 Prop0"
+     "script_params": "4 302 Prop0",
+     "idle_clip": "wash"
     },
     "mm9_source_object_index": 588,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkcloth.glb",
+      "node": "Socket_Cloth"
+     }
+    ],
     "mm9_rude_id": 302
    },
    {
@@ -7331,9 +7388,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "4 424 Prop1"
+     "script_params": "4 424 Prop1",
+     "idle_clip": "wash"
     },
     "mm9_source_object_index": 589,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkcloth.glb",
+      "node": "Socket_Cloth"
+     }
+    ],
     "mm9_rude_id": 424
    },
    {
@@ -7387,9 +7451,16 @@
       "ranged": "walker"
      },
      "script": "monkguardbasic.scr",
-     "script_params": "4 301 Prop2"
+     "script_params": "4 301 Prop2",
+     "idle_clip": "wash"
     },
     "mm9_source_object_index": 590,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkcloth.glb",
+      "node": "Socket_Cloth"
+     }
+    ],
     "mm9_rude_id": 301
    },
    {
@@ -7434,7 +7505,8 @@
       "ranged": "walker"
      },
      "script": "thjoradmonk.scr",
-     "script_params": "Hammer Thjorad3 434"
+     "script_params": "Hammer Thjorad3 434",
+     "idle_clip": "hammer"
     },
     "mm9_source_object_index": 591,
     "mm9_rude_id": 434
@@ -7481,7 +7553,8 @@
       "ranged": "walker"
      },
      "script": "thjoradmonk.scr",
-     "script_params": "Pray Thjorad2 423"
+     "script_params": "Pray Thjorad2 423",
+     "idle_clip": "pray"
     },
     "mm9_source_object_index": 592,
     "mm9_rude_id": 423
@@ -7528,7 +7601,8 @@
       "ranged": "walker"
      },
      "script": "thjoradmonk.scr",
-     "script_params": "Pray Thjorad1 422"
+     "script_params": "Pray Thjorad1 422",
+     "idle_clip": "pray"
     },
     "mm9_source_object_index": 593,
     "mm9_rude_id": 422
@@ -7575,7 +7649,8 @@
       "ranged": "walker"
      },
      "script": "thjoradmonk.scr",
-     "script_params": "Pray Thjorad0 421"
+     "script_params": "Pray Thjorad0 421",
+     "idle_clip": "pray"
     },
     "mm9_source_object_index": 594,
     "mm9_rude_id": 421

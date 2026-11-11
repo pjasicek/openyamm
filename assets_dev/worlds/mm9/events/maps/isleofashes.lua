@@ -109,6 +109,7 @@ local function lichSpawn()
     local counter = var("Isle.SummonCount")
     if counter > 5 then return end
     set("Isle.SummonCount", counter + 1)
+    evt.PlayActorClip(LICH, "attack_melee", false)   -- PlayAnim hattack1 (the Lich King's AttackMelee)
     local _, spawned = evt.SummonMonstersById({monster = SKELETOID_ROW, x = SPAWN_LOCATION[1],
         y = SPAWN_LOCATION[2], z = SPAWN_LOCATION[3], radius = 128, count = 1})
     local a = spawned ~= nil and spawned[1] or nil

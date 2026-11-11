@@ -135,15 +135,17 @@ def world_item(scene: dict, source_name: str) -> dict:
     return next(i for i in scene.get("world_items", []) if i["source_name"] == source_name)
 
 
-def pick_up_steps(floors: Floors, map_name, scene: dict, source_name: str, distances=(90, 120, 150), avoid=()) -> list:
+def pick_up_steps(floors: Floors, map_name, scene: dict, source_name: str, distances=(90, 120, 150), avoid=(),
+                  facing_degrees: float = 0) -> list:
     """Stand in front of a world item (a pickup prop, dungeon/pickups.py), look at it and press interact: picked up as
-    any ground item. The caller asserts what it gave."""
+    any ground item. The caller asserts what it gave. facing_degrees: the model yaw look_at searches in front of
+    (an item on a shelf against a wall: the side the room is on)."""
     item = world_item(scene, source_name)
     p = item["position"]
     # a posed item (a shield leaning on a wall) stands up from its position: aim at its middle, not its foot
     height = 50 if "pose" in item else 4
-    return [look_at(floors, map_name, (p["x"], p["y"], p["z"]), 0, distances=distances, height=height, max_drop=200,
-                    avoid=avoid),
+    return [look_at(floors, map_name, (p["x"], p["y"], p["z"]), facing_degrees, distances=distances, height=height,
+                    max_drop=200, avoid=avoid),
             {"advance_runtime": {"seconds": 0.2}}, {"press_interact": {}}, {"advance_runtime": {"seconds": 0.3}}]
 
 

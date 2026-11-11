@@ -1023,7 +1023,8 @@ at a wander path's marker MM9 stops, takes the marker's own wait (`UseMarkerWait
   behaviours had it, Loop, or Release, which gives the AI's animation back after a clip played once); the role
   `fidget` plays the binding's own fidget. A role the model lacks plays nothing, as MM9's GetAnimNbr -1.
 - **Limits.** Hatlati's `fidget5` is missing from `mm9_peasantm2` (nothing plays, as MM9 would without it). The idle
-  fidget timer keeps running under a looped marker clip (MM9's native fidget under LoopAnim was not traced).
+  fidget timer no longer runs under a looped marker clip (MM9's LoopAnim holds its script state 0x11, which never
+  fidgets: [ambient animation](monster_ai/MM9_AMBIENT_ANIMATION.md) section 2.1, traced 2026-11-10).
 
 Checks: arena `marker_stops` (a Town Guard: marker 1's 4 s wait, its turn to the south, Fidget2 looped; marker 0
 the placement's wait); unit test `*parses its path's marker stops*`, the placement save test;

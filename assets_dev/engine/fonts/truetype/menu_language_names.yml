@@ -1,0 +1,9 @@
+# The Settings language list's names in every language's own script (tools/language_names_font.py): a renamed subset
+# of LXGW WenKai (SIL OFL, menu_language_names_ofl.txt) at Fondamento's height and baseline.
+file: menu_language_names.ttf
+metrics: freetype
+logical_height: 32
+baseline: 25
+encoding: utf-8
+characters_file: menu_language_names.charset.txt
+max_raster_height: 64

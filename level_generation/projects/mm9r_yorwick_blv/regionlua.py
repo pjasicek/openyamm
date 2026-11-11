@@ -25,7 +25,7 @@ event 50000 + the DAT object index (game/mm9/Mm9RudeDialogue.h).
   :RuntoMe): key 466 (her row "Here's your sheep") and the ewe runs to her (MarySheep.scr :OnRun) and stays there.
 
 Not here: Sven's 43.7 s speech animation (SVEN.abc Sven_scene06: mm9_sven.glb has no such clip; he plays Talk), the
-dead Bjarni (Kira0) and Tryggva of the tableau (no dead figures: placements.py LEFT_OUT), the ewe's wandering before the click and after
+dead Bjarni (Kira0), Sigmund and Tryggva of the tableau (no dead figures: placements.py LEFT_OUT), the ewe's wandering before the click and after
 (BaseWander.inc, Cat.scr: it stands), the shopkeepers' and Mary's voice lines on a click, the pickaxes (PropAnim.scr "onside": placed as static
 props) and StatStone0 (not placed).
 """
@@ -82,7 +82,9 @@ def tableau_names() -> list[str]:
 def prop_events(build) -> tuple[dict, dict]:
     events = {name: EV_PROP + k for k, name in enumerate(LETTERS)}
     cogs = {name: COG_PROP + k for k, name in enumerate(HIDDEN)}
-    cogs.update({name: COG_TABLEAU for name in tableau_names()})
+    # getobjecthandle ignores case (the script's Sigmund is the DAT's sigmund): the key goes by the DAT's spelling
+    cogs.update({build.source.by_name[name.lower()]["name"]: COG_TABLEAU for name in tableau_names()
+                 if name.lower() in build.source.by_name})
     return events, cogs
 
 

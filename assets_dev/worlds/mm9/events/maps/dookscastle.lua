@@ -62,24 +62,84 @@ handlers[70] = function()
     hostility(false)
 end
 
--- SleepTrigger -> SleepCaptain StartUp (DC_sargent.scr): the sargent walks to HallwaySleeper0..3 in turn and
--- wakes each (WakeUp: they cower, then stand watch). Here they wake one every 3 s.
--- A dead sargent takes no StartUp, and once dead it walks to no more sleepers (MM9.receives).
+-- SleepTrigger -> SleepCaptain StartUp (DC_sargent.scr): the sargent walks to SMkr0 (:StartUp), then to
+-- HallwaySleeper0..3 in turn (:WakeGuards): at each he turns to it and wakes it (:WakeGuardUp, Trigger
+-- WakeUp: it cowers, then stands watch), waits 3 s and goes on; then he walks to SMkr1 and stays (:dn).
+-- MM9's PlayAnim aware there is not carried: his body (MM9's DookMilitia.abc too) has no such clip.
+-- Map variable SleepWoken: 0 not started, k walking to sleeper k or waiting after it, 5 walking to SMkr1, 6 done.
+-- A dead sargent takes no StartUp, and once dead it walks to no more sleepers (MM9.receives); the alarm
+-- (DookHostility.inc AddEnemy) ends his round: he fights, and the alarm wakes every sleeper. Walks are not
+-- saved: a load during the round, or a walk not done in 20 s, finishes it where it was going.
 local CAPTAIN = 42
+local ROUND = {44, 43, 46, 45}   -- HallwaySleeper0..3
+local ROUND_STOPS = {{105, 5694, 411}, {-105, 5857, 411}, {105, 6421, 411}, {-105, 6533, 411}}   -- in front of each
+local SMKR0, SMKR1 = {23, 5243, 411}, {82, 6922, 411}
+local round = {walking = false, wait = 0, ticks = 0}
+local function roundOver() return var("Hostile") == 1 or not MM9.actorAlive(CAPTAIN) end
+local function sargentWalk(p, event)
+    round.walking, round.ticks, round.event, round.point = true, 0, event, p
+    evt.MoveActorTo(CAPTAIN, p[1], p[2], p[3], event)
+    evt.StartTimer(200, seconds(1))
+end
+local function wakeGuards()   -- :WakeGuards
+    local step = var("SleepWoken")
+    if step <= #ROUND then sargentWalk(ROUND_STOPS[step], 211)
+    else set("SleepWoken", #ROUND + 1); sargentWalk(SMKR1, 212) end
+end
 handlers[73] = function()
     if var("SleepWoken") ~= 0 then return end
     if not MM9.receives("dookscastle", "SleepCaptain", "StartUp", CAPTAIN) then return end
     set("SleepWoken", 1)
-    evt.StartTimer(200, seconds(3))
+    sargentWalk(SMKR0, 210)
+end
+handlers[210] = function()
+    round.walking = false
+    if roundOver() or var("SleepWoken") ~= 1 then return end
+    wakeGuards()
+end
+handlers[211] = function()   -- :WakeGuardUp
+    round.walking = false
+    local step = var("SleepWoken")
+    if roundOver() or step < 1 or step > #ROUND then return end
+    local x, y = evt.GetMapActorPosition(ROUND[step])
+    if x ~= nil then evt.FaceActorTo(CAPTAIN, x, y, 0.5) end
+    evt.WakeActor(ROUND[step])
+    set("SleepWoken", step + 1)
+    round.wait = 3
+    evt.StartTimer(200, seconds(1))
+end
+handlers[212] = function()   -- :dn
+    round.walking = false
+    if var("SleepWoken") == #ROUND + 1 then set("SleepWoken", #ROUND + 2) end
 end
 handlers[200] = function()
+    evt.StopTimer(200)
     local step = var("SleepWoken")
-    if step == 0 or step > #SLEEPERS or not MM9.actorAlive(CAPTAIN) then
-        evt.StopTimer(200) return
+    if step == 0 or step > #ROUND + 1 then return end
+    if roundOver() then evt.StopActorMove(CAPTAIN) return end
+    if round.walking then
+        round.ticks = round.ticks + 1
+        if round.ticks >= 20 then
+            local p = round.point
+            evt.StopActorMove(CAPTAIN)
+            evt.SetMapActorPosition(CAPTAIN, p[1], p[2], p[3])
+            handlers[round.event]()
+            return
+        end
+    elseif round.wait > 0 then
+        round.wait = round.wait - 1
+        if round.wait == 0 then wakeGuards() return end
+    else
+        return
     end
-    evt.WakeActor(SLEEPERS[step])
-    set("SleepWoken", step + 1)
-    if step + 1 <= #SLEEPERS then evt.StartTimer(200, seconds(3)) else evt.StopTimer(200) end
+    evt.StartTimer(200, seconds(1))
+end
+local function finishRound()   -- a load during the round
+    local step = var("SleepWoken")
+    if step == 0 or step > #ROUND + 1 then return end
+    for k = math.max(step, 1), #ROUND do evt.WakeActor(ROUND[k]) end
+    set("SleepWoken", #ROUND + 2)
+    if MM9.actorAlive(CAPTAIN) and var("Hostile") ~= 1 then evt.SetMapActorPosition(CAPTAIN, SMKR1[1], SMKR1[2], SMKR1[3]) end
 end
 
 -- The touch Triggers, polled four times a second (fire on any part of the party in the box, then Off).
@@ -124,6 +184,7 @@ handlers[72] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); evt
 -- Map load: the guards' hostility as saved (DookHostility.inc OnPostMiniSaveLoad), the secret door's state.
 handlers[1] = function()
     applyHostility()
+    finishRound()
     evt.StartTimer(201, seconds(0.25))
     if var("SecretOpen") == 1 then open("Tempbutton_INV") open("doorslide") end
 end
@@ -145,6 +206,9 @@ RegisterEvent(47, "Chest", handlers[47], "Chest")
 RegisterEvent(70, "Shield", handlers[70], "Shield")
 RegisterEvent(73, "SleepTrigger", handlers[73])
 RegisterMapTimerEvent(200, seconds(3), handlers[200], "Wake", "", seconds(3))
+RegisterEvent(210, "Sargent", handlers[210])
+RegisterEvent(211, "Sargent", handlers[211])
+RegisterEvent(212, "Sargent", handlers[212])
 RegisterMapTimerEvent(201, seconds(3), handlers[201], "Trigger volumes", "", seconds(3))
 RegisterEvent(74, "ScurryTrigger0", handlers[74])
 RegisterEvent(75, "ScurryTrigger1", handlers[75])

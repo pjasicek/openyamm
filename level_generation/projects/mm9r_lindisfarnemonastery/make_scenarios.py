@@ -160,6 +160,14 @@ def main() -> int:
         start_pose = {"map": MAP, "x": int(round(foot[0])), "y": int(round(foot[1])), "z": int(round(fz)) + 1,
                       "yaw_degrees": round(ladder["facing_degrees"], 1), "pitch": 0}
         seconds = round((ladder["top"][2] - ladder["bottom"][2]) / 150 + 1.5, 2)
+        if (top[0] - ladder["bottom"][0]) * math.cos(yaw) + (top[1] - ladder["bottom"][1]) * math.sin(yaw) < 0:
+            # The top exit lies on the climber's side (a shaft climbed out of, Ladder3-5): forward on from it walks
+            # straight back into the shaft, so the timed walk below cannot overrun. The climb step stops at the let-go.
+            steps += [{"note": {"text": f"{ladder['id']}: climbed from its foot, the party lets go at its top exit "
+                                        "(on the climber's side: walking on would fall back down the shaft)."}},
+                      {"set_pose": dict(start_pose)},
+                      {"climb": {"ladder": ladder["id"], "timeout_seconds": seconds}}]
+            continue
         steps += [{"note": {"text": f"{ladder['id']}: forward from its foot climbs to its top exit."}},
                   {"movement_segment": {"input": "forward", "seconds": seconds, "actor_collision": False,
                                         "actor_ai": False, "start": start_pose,
@@ -200,15 +208,19 @@ def main() -> int:
         monks = [actors_by_name[n] for n in convert.THJORAD_MARKERS]
         tx, ty, tz = props["thjorad"]["x"], props["thjorad"]["y"], props["thjorad"]["z"]
         markers = [project.native(floors_source(project, m)) for m in convert.THJORAD_MARKERS.values()]
-        steps += [{"note": {"text": "Rope1 by a real click from the bell floor: it lowers and Bell1 rings (step 1)."}},
+        stop_done = convert.bell_schedule()[-1][0]        # a bell reports to BellControl this long after its use
+        steps += [{"note": {"text": "Rope1 by a real click from the bell floor: it lowers and Bell1 swings and rings; "
+                                    "it reports Bell1 when it stops."}},
                   pose(rx, ry + 120, rz_floor, -math.pi / 2, math.atan2(1500 * SCALE - (rz_floor + EYE), 120)),
                   {"advance_runtime": {"seconds": 0.2}}, {"press_interact": {}}, {"advance_runtime": {"seconds": 1.6}},
                   {"assert": {"mechanism": {"id": rope["door_id"], "state": "open"}}},
+                  {"assert": {"state_dump_named_map_var": {"name": "BellBusy1", "value": 3}}},   # past both Ring keys
                   {"note": {"text": "Wrong order: Rope2 (Bell3) after Bell1 resets (Gosub Reset); finishing 4-5 gives nothing."}},
                   {"execute_event": {"id": convert.EV_ROPE["Rope2"]}},
                   {"execute_event": {"id": convert.EV_ROPE["Rope4"]}},
                   {"execute_event": {"id": convert.EV_ROPE["Rope3"]}},
-                  {"advance_runtime": {"seconds": 1}},
+                  {"advance_runtime": {"seconds": stop_done + 0.5}},
+                  {"assert": {"state_dump_named_map_var": {"name": "FifthBell", "value": 0}}},
                   {"assert": {"qbit_clear": [key(convert.KEY_BELLS)]}},
                   {"note": {"text": "Thjorad before the bells: its event takes nothing (Thjorad.scr: On is False; its "
                                     "four monks stand round it, so the real click comes after the bells)."}},
@@ -217,8 +229,9 @@ def main() -> int:
                   {"assert": {"qbit_clear": [key(convert.KEY_THJORAD_B)]}},
                   {"note": {"text": "MM9's order Bell1-Bell5 (Rope1, Rope5, Rope2, Rope4, Rope3): key 9507, the peal, the "
                                     "Thjorad monks at their prayer markers."}},
-                  *[{"execute_event": {"id": convert.EV_ROPE[r]}} for r in order],
-                  {"advance_runtime": {"seconds": 4}},
+                  *[s for r in order for s in ({"execute_event": {"id": convert.EV_ROPE[r]}},
+                                               {"advance_runtime": {"seconds": 1}})],
+                  {"advance_runtime": {"seconds": stop_done - 1 + 0.5}},
                   {"assert": {"qbit_set": [key(convert.KEY_BELLS)]}},
                   *[{"assert": {"actor_visible": {"actor_index": a, "near": {
                       "x": int(p[0]), "y": int(p[1]), "max_distance": 40}}}} for a, p in zip(monks, markers)],

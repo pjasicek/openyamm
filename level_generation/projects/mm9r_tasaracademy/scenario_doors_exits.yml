@@ -163,6 +163,14 @@ steps:
     mechanism:
       id: 40
       state: closed
+- damage_actor:
+    actor_index: 10
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 11
+    amount: 100000
+    skip_dead: true
 - set_pose:
     map: tasaracademy.blv
     x: 245
@@ -238,7 +246,7 @@ steps:
     text: 'Ladder0: forward from its foot climbs to the tower''s floor at 208 LT.'
 - movement_segment:
     input: forward
-    seconds: 2.2
+    seconds: 2.8
     actor_collision: false
     actor_ai: false
     start:
@@ -262,7 +270,7 @@ steps:
     text: 'Ladder1: forward from its foot on the 208 floor climbs to the bridge''s floor at 416 LT.'
 - movement_segment:
     input: forward
-    seconds: 2.2
+    seconds: 2.8
     actor_collision: false
     actor_ai: false
     start:

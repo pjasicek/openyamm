@@ -124,35 +124,90 @@ handlers[76] = function()
     honksHostile()
 end
 
--- The Honk ceremony (HonkLeader.scr): the bell at 6:15 and 18:15, then until 6:45 and 18:45 the leader
--- preaches (a thunder at him) and paces between the platforms; the followers' walk to the pulpit is not
--- carried (HonkFollower.scr).
-local CEREMONIES = {{375, 405}, {1095, 1125}}
-local PLATFORMS = {{5530, 3236, 532}, {5530, 3564, 532}, {5530, 3400, 532}}
+-- The Honk ceremony (HonkLeader.scr, HonkFollower.scr): the bell at 6:15 and 18:15 and the followers walk
+-- their CeremonyMarker lists to the pulpit (routine go), face it and worship (worship); from the first
+-- arrival the leader paces and preaches (preach, a thunder at him). At 7:15 and 19:15 (MM9 6:45, 18:45: the
+-- walk takes longer here) the followers walk back (home) and wander again; the leader loops prop-stand.
+-- HonkAccountant.scr: at 7:00 and 19:00 the accountant walks PathMarker0-13 and back (trip). Routines are
+-- runtime only: this check sets them again.
+local CEREMONIES = {{375, 435}, {1095, 1155}}
 local LEADER = 3
+local FOLLOWERS = {{4, {492, 3113}, {4915, 3113}}, {5, {492, 3113}, {4915, 3113}}, {6, {492, 3113}, {4915, 3113}}, {7, {492, 3113}, {4915, 3113}}, {8, {-655, 3604}, {4915, 3523}}, {9, {-655, 3604}, {4915, 3523}}, {10, {-655, 3604}, {4915, 3523}}, {11, {-655, 3604}, {4915, 3523}}, {12, {-655, 3604}, {4915, 3523}}, {13, {-655, 3604}, {4915, 3523}}}   -- actor, first and last marker
+local ACCOUNTANT, ACCOUNTANT_HOME = 14, {1229, 6636}
+local TRIPS = {420, 1140}
+local routine = {}
+local function setRoutine(actor, name)
+    routine[actor] = name
+    evt.SetActorRoutine(actor, name)   -- the same name again keeps its step
+end
+local function near(actor, p)
+    local x, y = evt.GetMapActorPosition(actor)
+    return x ~= nil and (x - p[1]) ^ 2 + (y - p[2]) ^ 2 <= 400 ^ 2
+end
 local function leaderSound(name)
     local x, y, z = evt.GetMapActorPosition(LEADER)
     if x ~= nil then evt.PlaySoundName(name, math.floor(x), math.floor(y), math.floor(z)) end
 end
+local function followers(ceremony)   -- whether one has arrived (FollowerReady)
+    local arrived = false
+    for _, f in ipairs(FOLLOWERS) do
+        local actor, r = f[1], routine[f[1]]
+        if ceremony then
+            if r == "worship" or near(actor, f[3]) then
+                setRoutine(actor, "worship")   -- at the pulpit (or loaded there)
+            else
+                setRoutine(actor, "go")
+            end
+            arrived = arrived or routine[actor] == "worship"
+        elseif r == "go" or r == "worship" or (r == "home" and not near(actor, f[2])) then
+            setRoutine(actor, "home")   -- EndCeremony: back along the list
+        else
+            setRoutine(actor, "")   -- wander
+        end
+    end
+    return arrived
+end
 handlers[154] = function()
-    if var("HonksHostile") == 1 then return end
+    if var("HonksHostile") == 1 then
+        setRoutine(LEADER, ""); setRoutine(ACCOUNTANT, "")
+        for _, f in ipairs(FOLLOWERS) do setRoutine(f[1], "") end
+        return
+    end
     local now = math.floor(evt.CurrentGameMinutes())
     local minute, day = now % 1440, math.floor(now / 1440)
+    local ceremony = false
     for k, span in ipairs(CEREMONIES) do
         if minute >= span[1] and minute < span[2] then
+            ceremony = true
             local id = day * 2 + k
             if var("CeremonyRung") ~= id then
                 set("CeremonyRung", id); set("Ceremonies", var("Ceremonies") + 1)
                 leaderSound("events/churchbellring.wav")   -- RingGong
-            elseif var("CeremonyStep") % 2 == 0 then
-                leaderSound("ambient/thunder/thunder0" .. MM9.random(1, 4) .. ".wav")   -- RandomPreach
-            else
-                local p = PLATFORMS[MM9.random(1, #PLATFORMS)]   -- Pace
-                evt.MoveActorTo(LEADER, p[1], p[2], p[3])
             end
-            set("CeremonyStep", var("CeremonyStep") + 1)
-            return
         end
+    end
+    if followers(ceremony) then
+        setRoutine(LEADER, "preach")
+        if var("CeremonyStep") % 2 == 0 then
+            leaderSound("ambient/thunder/thunder0" .. MM9.random(1, 4) .. ".wav")   -- RandomPreach
+        end
+        set("CeremonyStep", var("CeremonyStep") + 1)
+    else
+        setRoutine(LEADER, "")
+    end
+    local trip = false
+    for k, start in ipairs(TRIPS) do
+        if minute >= start and minute < start + 15 then
+            trip = true
+            if var("AccountantTrip") ~= day * 2 + k then
+                set("AccountantTrip", day * 2 + k); setRoutine(ACCOUNTANT, "trip")
+            end
+        end
+    end
+    if routine[ACCOUNTANT] == "trip" and not trip and near(ACCOUNTANT, ACCOUNTANT_HOME) then
+        setRoutine(ACCOUNTANT, "")   -- back at PathMarker0
+    elseif routine[ACCOUNTANT] ~= nil then
+        setRoutine(ACCOUNTANT, routine[ACCOUNTANT])
     end
 end
 

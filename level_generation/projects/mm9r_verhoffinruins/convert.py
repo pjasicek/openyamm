@@ -91,6 +91,8 @@ COG_HINT = 320                                     # PerceptionBrush hint k: COG
 GROUP_BUSTS = {"BustTrigger0": 10, "BustTrigger1": 11}
 BUSTS = {"BustTrigger0": ("BustZombie0", "BustZombie1", "BustZombie2"),      # the pocket over BreakOut1
          "BustTrigger1": ("BustWraith0", "BustWraith1")}                     # the pocket over BreakOut0
+# each bust's ceiling slab (KingKong.scr p0, a DestructableBrush), the dust its DeathTrigger turns on, its broken event
+SLABS = {"BustTrigger0": ("BreakOut1", "BreakOutDust1", 226), "BustTrigger1": ("BreakOut0", "BreakOutDust0", 227)}
 PENTA_ORDER = ["TriggerPentagram1", "TriggerPentagram2", "TriggerPentagram3", "TriggerPentagram4", "TriggerPentagram5"]
 PENTA_FIRES = {"PentaFire1": "red", "PentaFire2": "yellow", "PentaFire3": "blue", "PentaFire4": "green",
                "PentaFire5": "orange"}
@@ -275,8 +277,9 @@ class VerhoffinRuins(dungeon.Hooks):
     }
 
     def destructible_events(self, build) -> dict:
-        """The bolt on PrisonDoor2 (dungeon/destructibles.py `break`): its death and its damage."""
-        return {BOLT: (EV_BOLT, EV_BOLT_HIT)}
+        """The bolt on PrisonDoor2 (dungeon/destructibles.py `break`): its death and its damage. The busts' ceiling
+        slabs: their death (the pocket's monsters fall)."""
+        return {BOLT: (EV_BOLT, EV_BOLT_HIT), **{slab: (event, 0) for slab, _, event in SLABS.values()}}
 
     # --- geometry -----------------------------------------------------------------------------------------------
     def extra_seeds(self, build) -> list:
@@ -386,7 +389,7 @@ class VerhoffinRuins(dungeon.Hooks):
         self.boxes["TrapRoom"] = self.model_box(build, TRAP_MODEL, top_lt=0.0)
         self.boxes["TortureChamber"] = self.lt_box(build, (-2900, -128, -1720), (-1850, 64, -1190))
         self.points = {name: self.native_point(build, source.properties(name)["Pos"])
-                       for name in (*DOOR_SHOOTERS, *sorted(set(DUST_ON_HIT.values())))
+                       for name in (*DOOR_SHOOTERS, *sorted(set(DUST_ON_HIT.values()) | {d for _, d, _ in SLABS.values()}))
                        if name.lower() in source.by_name}
 
     def native_point(self, build, pos) -> list:
@@ -440,16 +443,27 @@ class VerhoffinRuins(dungeon.Hooks):
         content, source = build.content, build.source
         bases = content.monster_bases()
         hidden = {name: GROUP_BUSTS[trigger] for trigger, names in BUSTS.items() for name in names}
+        slab_top = {name: max(float(polygon.points[:, 1].max()) for polygon in source.polygons(SLABS[trigger][0]))
+                    for trigger, names in BUSTS.items() for name in names}
         out, self.actor = [], {}
         for o in source.objects:
             if o["class"] not in build.project.monster_classes or o["name"] not in bases:
                 continue
             radius, height = BODIES[o["class"]]
             group = hidden.get(o["name"], 0)
-            # the busts wait in the sealed pockets over the corridor's ceiling slabs: on the corridor floor under them,
-            # hidden until their trigger drops them
+            # the busts wait in the pockets over the corridor's ceiling slabs, standing on the slab, hidden (out of
+            # sight and reach) until the slab breaks and they fall through
             actor = content.actor(o, bases[o["name"]], sector_of_room, group=group, hidden=o["name"] in hidden,
-                                  floor_query_lt=-100 if o["name"] in hidden else None, radius=radius, height=height)
+                                  radius=radius, height=height)
+            if o["name"] in slab_top:
+                # the slab is a breakable brush, not among the floors content.actor stands actors on: its top, in the
+                # pocket's room
+                x, _, z = o["properties"]["Pos"]
+                top = slab_top[o["name"]]
+                room = content.owner(np.array([x, top + 20, z]))
+                actor["position"]["z"] = int(build.project.native([x, top, z]).round()[2]) + 1
+                actor["sector_id"] = sector_of_room[room]
+                content.report["actors"][-1]["room"] = room
             self.actor[o["name"]] = actor["actor_index"]
             out.append(actor)
         return out
@@ -540,7 +554,8 @@ class VerhoffinRuins(dungeon.Hooks):
         lines += self.script_pentagram(build)
         lines += self.script_water(build)
         lines += self.script_traps(build)
-        script.add([], *self._registrations, (EV_TORTURE, "Door", "Door"),
+        script.add([], *self._registrations, *[(event, f"{slab} broken", None) for slab, _, event in SLABS.values()],
+                   (EV_TORTURE, "Door", "Door"),
                    *[(event, "Valve", "Valve") for event in EV_NOZZLE.values()], (EV_DRAIN, "Button", "Button"),
                    *[(timer, title, None, "timer") for timer, title in (
                        (T_POLL, "Trigger volumes"), (T_SAW_BACK, "Saw back"), (T_SAW_REARM, "Saw re-armed"),
@@ -780,31 +795,39 @@ class VerhoffinRuins(dungeon.Hooks):
             "end",
             f"handlers[{T_PADDLE_REARM}] = function() if fired({T_PADDLE_REARM}) then set(\"DonePaddleTrigger\", 0) end end",
             "",
-            "-- The busts (KingKong.scr \"BreakOut<k>\" :FallThrough on BustTrigger0/1's ForceFall): the monsters in the pocket",
-            "-- over the corridor's ceiling slab drop and attack. The slab stays (no breakable geometry); they appear under it.",
-            "-- Only the KingKong monster (the pocket's first) takes ForceFall and breaks the slab: dead, it takes none",
-            "-- (MM9.receives) and the others stay in their pocket.",
+            "-- The busts (KingKong.scr \"BreakOut<k>\" :FallThrough on BustTrigger0/1's ForceFall): the trigger sends",
+            "-- ForceFall to the pocket's KingKong monster (its first), which destroys the ceiling slab it stands on (a",
+            "-- scene destructible: stone debris and MM9's crumble sound). Only alive does it take ForceFall (MM9.receives).",
+            "-- A slab broken, by the bust or by the party's weapons (CanDamage, 100 HP), drops its pocket's monsters into",
+            "-- the corridor, hostile, and its dust rises (its DeathTrigger: BreakOutDust<k> On).",
             f"local BUSTS = {{{bust_groups}}}",
             "local KINGKONG = {" + ", ".join(f"{t} = {{\"{names[0]}\", {self.actor[names[0]]}}}"
                                             for t, names in BUSTS.items() if names[0] in self.actor) + "}",
+            "local SLABS = {" + ", ".join(f"{t} = {build.source.by_name[slab.lower()]['index']}"
+                                         for t, (slab, _, _) in SLABS.items()) + "}   -- DAT index: the destructible",
             "local function bust(name)",
             "    local k = KINGKONG[name]",
             "    if k ~= nil and not MM9.receives(\"verhoffinruins\", k[1], \"ForceFall\", k[2]) then return end",
-            "    evt.SetMonGroupBit(BUSTS[name], MonsterBits.Invisible, false)",
-            "    evt.SetMonGroupBit(BUSTS[name], MonsterBits.Hostile, true)",
-            "    evt.PlaySoundName(\"events/rockfall.wav\", 0, 0, 0)",
             "    set(\"Busted\" .. name, 1)",
+            "    evt.DestroyDestructible(SLABS[name])",
             "end",
+            *[line for t, (slab, dust, event) in SLABS.items() for line in (
+                f"handlers[{event}] = function()   -- {slab} broken: the {t} pocket's monsters fall",
+                f"    evt.SetMonGroupBit({GROUP_BUSTS[t]}, MonsterBits.Invisible, false)",
+                f"    evt.SetMonGroupBit({GROUP_BUSTS[t]}, MonsterBits.Hostile, true)",
+                f"    evt.SpawnWorldEffect(\"mm9:smoke\", {', '.join(map(str, self.points[dust]))}, 1)   -- {dust}",
+                "end")],
             "",
             "-- The door's shooters (DoorShooter0/1: FireBolt, DamageAmt 20, every 4 s while on) at the far wall of the",
-            "-- torture chamber, aimed at a party inside it.",
+            "-- torture chamber, aimed at a party inside it; a bolt strikes the party in its path (strikesParty).",
             "local function shoot(sx, sy, sz, damage)",
             "    local x, y, z = evt.GetPartyPosition()",
             "    z = z + 100",
             "    local dx, dy, dz = x - sx, y - sy, z - sz",
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    local k = math.max(64 / length, 0.1)",
-            "    local shot = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, \"Fire\", 0)",
+            "    local shot = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, \"Fire\", 0, 0, "
+            "true)",
             "    if shot then MM9.launchSound(\"FireBolt\", sx, sy, sz) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (shot and 1 or 0)); if shot then set(\"Shot\", 1) end",
             "end",

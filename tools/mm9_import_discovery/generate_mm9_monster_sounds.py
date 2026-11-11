@@ -88,8 +88,9 @@ SCRIPT_SOUNDS = {
     ("guard", "stand"): [ScriptSound(tuple(f"animsounds/guard/stand{n}" for n in range(1, 8)), 7 / 20, 1.2, 50.0)],
     # One of four, then a 5 s wait (7 s after the fourth: kept at 5).
     ("guard", "sleep"): [ScriptSound(tuple(f"animsounds/guard/sleep{n}" for n in range(1, 5)), 1.0, 5.0)],
-    # GetRandomInt 1, 10: 1-4 play Pray<n> and wait 2.2 s, 5-10 wait 20 s; volume 80, radii 80/300.
-    ("monk", "pray"): [ScriptSound(tuple(f"animsounds/monk/pray{n}" for n in range(1, 5)), 4 / 10, 2.2, 20.0, 0.8,
+    # The Pray animation's key is PrayMumble (MS_Init: AddModelKey PrayMumble OnPray). GetRandomInt 1, 10: 1-4 play
+    # Pray<n> and wait 2.2 s, 5-10 wait 20 s; volume 80, radii 80/300.
+    ("monk", "praymumble"): [ScriptSound(tuple(f"animsounds/monk/pray{n}" for n in range(1, 5)), 4 / 10, 2.2, 20.0, 0.8,
                                    300.0, 80.0)],
     ("monk", "sweep"): [ScriptSound(("animsounds/monk/sweep",), 1.0, 1.0, 0.0, 0.8, 300.0, 80.0)],
     # Wash at volume 10 every key, and one time in ten WashFidget, then a 5 s wait.

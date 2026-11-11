@@ -22,6 +22,14 @@ steps:
     amount: 100000
     skip_dead: true
 - damage_actor:
+    actor_index: 24
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 47
+    amount: 100000
+    skip_dead: true
+- damage_actor:
     actor_index: 48
     amount: 100000
     skip_dead: true
@@ -30,11 +38,19 @@ steps:
     amount: 100000
     skip_dead: true
 - damage_actor:
+    actor_index: 90
+    amount: 100000
+    skip_dead: true
+- damage_actor:
+    actor_index: 91
+    amount: 100000
+    skip_dead: true
+- damage_actor:
     actor_index: 92
     amount: 100000
     skip_dead: true
 - damage_actor:
-    actor_index: 94
+    actor_index: 103
     amount: 100000
     skip_dead: true
 - movement_segment:
@@ -320,8 +336,17 @@ steps:
       pitch: 0
     loose_tolerance: true
     tolerance_xy: 260
-    tolerance_z: 60
+    tolerance_z: 120
     jump: true
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -1510
+      y: -3174
+      radius: 120
+      z_min: -1973
+      z_max: -1957
 - assert:
     water:
       state: dry
@@ -329,7 +354,7 @@ steps:
     text: Ladder0 from the water up the shaft to its north lip.
 - movement_segment:
     input: forward
-    seconds: 16.0
+    seconds: 11.0
     actor_collision: false
     actor_ai: false
     start:
@@ -375,25 +400,20 @@ steps:
     tolerance_z: 120
 - note:
     text: Ladder1 from the lower sewers up to the catacombs.
-- movement_segment:
-    input: forward
-    seconds: 10.5
-    actor_collision: false
-    actor_ai: false
-    start:
-      map: beethoven.blv
-      x: -14418
-      y: -2611
-      z: -3112
-      yaw_degrees: 270
-      pitch: 0
-    expect_stop:
-      map: beethoven.blv
+- set_pose:
+    map: beethoven.blv
+    x: -14418
+    y: -2611
+    z: -3112
+    yaw_degrees: 270
+    pitch: 0
+- climb:
+    ladder: Ladder1
+    timeout_seconds: 12
+- assert:
+    party_position:
       x: -14418
       y: -2522
-      z: -1884
-      yaw_degrees: 270
-      pitch: 0
-    loose_tolerance: true
-    tolerance_xy: 140
-    tolerance_z: 60
+      radius: 60
+      z_min: -1900
+      z_max: -1868

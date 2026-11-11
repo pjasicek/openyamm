@@ -501,7 +501,7 @@ class Bathhouse(dungeon.Hooks):
             "    set(\"Drained\", 1)",
             "    close(\"Switch0\"); open(\"WaterProp\"); set(\"PropellerTurns\", 0)",
             "    open(\"FloodWater\"); open(\"FloodWaterStairs\")   -- the drained room's water",
-            "    evt.PlaySoundName(\"sounds/ambient/water/fountain.wav\", 0, 0, 0)",
+            "    evt.PlaySoundName(\"sounds/ambient/fountain_20.wav\", 0, 0, 0)   -- DrainWater.scr :DrainWater",
             "    evt.PlaySoundName(\"sounds/ambient/machinery03.wav\", 0, 0, 0)",
             "end",
             f"handlers[{EV_DOOR67}] = function()   -- Door6/Door7: Locked until Switch0 unlocks them",

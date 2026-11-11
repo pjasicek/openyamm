@@ -187,3 +187,15 @@ User artistic acceptance: not recorded
 
 
 **LOD0 reduced post-install on 2026-11-05 by `level_generation/creatures/mm9_kira_reduce_claude/`** (ledger: `level_generation/creatures/REDUCTION_LEDGER.md`, "MM9 reduction"). A rebuild from this project must re-run that reduction, or it silently restores the heavier mesh. Rollback source: `level_generation/creatures/mm9_kira_reduce_claude/before/`.
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's
+AttachProp; 2026-11-11: `Socket_Sheath` and `Socket_RHand1` for her sword in the Argument cutscene), added after this
+project's install by [`mm9_held_items_claude/scripts/add_sockets.py mm9_kira`](../../props/mm9_held_items_claude/scripts/add_sockets.py).
+A rebuild installed from here (or its reduction) drops them: run that script again and install its export
+(`tools/install_model.py --world mm9`).
+
+Her seated Argument clips (Sit, Applause, Sc2_KIRA5 ... Sc2_KIRA14, and Sc2_KIRA16b as she stands) are lowered onto her
+chair after install (2026-11-11) by [`mm9_kira_claude/scripts/seat_clips.py`](../mm9_kira_claude/scripts/seat_clips.py):
+KIRA.abc keeps her standing hips while seated, so she hovered in front of her chair in the council cinematic. A
+rebuild or reduction installed from here drops it: run `add_sockets.py mm9_kira`, install, then `seat_clips.py` and
+install its export (`--name mm9_kira.glb`).

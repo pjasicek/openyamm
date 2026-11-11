@@ -42,15 +42,16 @@ steps:
 - load_map:
     map: traininghall.blv
 - note:
-    text: 'The roof room''s hole: the party walks off its edge and lands on the chandelier, which creaks, cracks and falls
-      432 LT into the lobby''s pool with the party (dropsequence, cracktrigger1-5, droptrigger, DestructableBrush6, Door ''drop'').'
+    text: 'The roof room''s hole: walking into it the party takes the chain at its top and climbs down onto the chandelier,
+      which creaks, cracks and falls 432 LT into the lobby''s pool with the party (dropsequence, cracktrigger1-5, droptrigger,
+      DestructableBrush6, Door ''drop'').'
 - assert:
     mechanism:
       id: 43
       state: closed
 - movement_segment:
     input: forward
-    seconds: 0.5
+    seconds: 3.5
     actor_collision: false
     actor_ai: false
     start:
@@ -69,7 +70,7 @@ steps:
       pitch: 0
     loose_tolerance: true
     tolerance_xy: 250
-    tolerance_z: 600
+    tolerance_z: 60
 - advance_runtime:
     seconds: 7.0
 - assert:
@@ -206,7 +207,7 @@ steps:
       the water) while moving toward it, the party takes hold, climbs and steps off on the platform above (736 LT).'
 - movement_segment:
     input: forward
-    seconds: 0.45
+    seconds: 1.0
     actor_collision: false
     actor_ai: false
     start:

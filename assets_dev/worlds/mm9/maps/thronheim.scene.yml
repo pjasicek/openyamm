@@ -4875,19 +4875,6 @@
  "actor_detection": {
   "wakes": "none"
  },
- "terrain": {
-  "materials": "thronheim_blv.yml",
-  "textures": [
-   "thro4ooc83",
-   "throuo7m8b"
-  ],
-  "exclude_faces": [
-   361,
-   373,
-   386
-  ],
-  "grass": "worlds/mm9/terrain_decorations/thronheim_blv.yml"
- },
  "spawns": [
   {
    "spawn_index": 0,
@@ -4993,5 +4980,18 @@
    "attributes": 0,
    "group": 0
   }
- ]
+ ],
+ "terrain": {
+  "materials": "thronheim_blv.yml",
+  "textures": [
+   "thro4ooc83",
+   "throuo7m8b"
+  ],
+  "exclude_faces": [
+   361,
+   373,
+   386
+  ],
+  "grass": "worlds/mm9/terrain_decorations/thronheim_blv.yml"
+ }
 }

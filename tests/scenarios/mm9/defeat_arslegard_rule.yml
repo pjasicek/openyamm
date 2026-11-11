@@ -23,7 +23,8 @@ steps:
   # Sven fell and Forad joined, Hanndl has not yet refused the party: Arslegard (his refusal plays there).
   - lua_event: {source: "evt.SetQuestBit(90097) evt.SetQuestBit(90029)"}
   - party_defeat: {knock_out: true, wait_seconds: 5, expect_map: arslegardcity.blv}
-  - assert: {qbit_clear: [90098, 90100]}
+  # The wake heals the party and takes nothing: its gold is kept (world.yml partyDeath keepGold).
+  - assert: {qbit_clear: [90098, 90100], gold: 1000}
   # After Hanndl's refusal and before the Writ: lost (in our build it used to wake inside the gate).
   - lua_event: {source: "evt.SetQuestBit(90098)"}
   - party_defeat: {knock_out: true, wait_seconds: 5, expect_game_over: true}

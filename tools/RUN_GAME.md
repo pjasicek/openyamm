@@ -113,6 +113,22 @@ In the debug console, `screenshot coast` saves `output/screenshots/coast.png` re
 working directory. Names allow letters, digits, underscores and hyphens; existing named images are overwritten.
 The command closes the console before capture so its text does not cover the screenshot.
 
+## Video capture
+
+`video start /absolute/clip.mp4 [fps]` (debug console, default 60 fps) records every frame, HUD included, into an
+H.264 file (x264 CRF 12, a master for editing) through an `ffmpeg` process; `video stop` finishes it, `video status`
+reports the frames written. While recording the game runs on a fixed frame step of 1/fps
+(`EngineApplication::setFixedFrameSeconds`), so the clip plays smoothly at its rate however slowly the frames render
+and read back; `debug.time_scale` still slows the world for slow motion. No sound is recorded. Keep the window size
+fixed while recording (`--set video.resolution=1920x1080 --set video.window_mode=windowed`); frames of another size
+are skipped. Desktop only (`ffmpeg` on PATH). Code: `game/debug/VideoCapture.cpp`.
+
+Scripted clips combine it with a menu-input tour (below): `console:` steps start and stop the recording and play a
+cinematic, `action_down: forward` / `action: attack` drive the party. The tour's waits follow the game's frame steps,
+so they stay in step with a recording. `cinematic load /absolute/cameras.cinematics.yml` adds camera-only cinematics
+(the format of devdocs/mm9_rework/MM9_CUTSCENES.md, any map) to the map's own until it is left. The 2.0 trailer's
+scripts (`output/trailer_2_0/`, git-ignored) are a worked example.
+
 ## Rulesets
 
 `--ruleset <id>[:<option>...]` starts the isolated new game under a ruleset package from `assets_dev/engine/rulesets/`,

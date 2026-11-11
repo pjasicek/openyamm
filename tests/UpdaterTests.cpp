@@ -483,6 +483,36 @@ TEST_CASE("manifests address store files by hash and keep packs inside their pac
     std::filesystem::remove_all(server);
 }
 
+TEST_CASE("a desktop manifest's language packs, listed apart for older updaters, join the packs with their language")
+{
+    const std::filesystem::path server = makeTemporaryRoot();
+    const std::string manifest = publishRelease(server, TestSigner(), "2.0", ReleaseTwoPacks, "game");
+    const std::string sha(64, 'd');
+    const std::string record = "{\"id\": \"lang-de.engine.audio.0\", \"package\": \"engine\", \"mount\": "
+        "\"/engine/audio\", \"file\": \"lang-de.engine.audio.0-dddd.zip\", \"url\": \"packs/" + sha + ".zip\", "
+        "\"size\": 10, \"content_id\": \"c-de\", \"sha256\": \"" + sha + "\"";
+    const auto withLanguagePacks = [&](const std::string &list)
+    {
+        std::string text = manifest;
+        text.replace(text.rfind("]}"), 2, "], \"language_packs\": " + list + "}");
+        return text;
+    };
+    std::string error;
+
+    const std::optional<OpenYAMM::Engine::ReleaseManifest> parsed =
+        OpenYAMM::Engine::parseReleaseManifest(withLanguagePacks("[" + record + ", \"language\": \"de\"}]"), error);
+    REQUIRE_MESSAGE(parsed.has_value(), error);
+    REQUIRE(parsed->packs.size() == 3);
+    CHECK(parsed->packs[0].language.empty());
+    CHECK(parsed->packs[2].id == "lang-de.engine.audio.0");
+    CHECK(parsed->packs[2].language == "de");
+    CHECK(parsed->packUrls[2] == "packs/" + sha + ".zip");
+
+    CHECK_FALSE(OpenYAMM::Engine::parseReleaseManifest(withLanguagePacks("[" + record + "}]"), error));
+    CHECK_FALSE(OpenYAMM::Engine::parseReleaseManifest(withLanguagePacks("{}"), error));
+    std::filesystem::remove_all(server);
+}
+
 TEST_CASE("the launcher rolls a version back after two starts that never reached the main menu")
 {
     const std::filesystem::path root = makeTemporaryRoot();

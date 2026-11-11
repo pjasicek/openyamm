@@ -14,7 +14,8 @@ map:
   # summons row 9242). The seven SummoningGuy* (WizardSummoner.scr, WizardMaster.scr) are placed friendly.
   monster_classes: [WingedAberration, WingedOddity, SeaMonsterMale, SeaMonsterFemale, EvilApprentice,
                     EvilGrandSorcerer, EvilSorcerer, Skeleton, Eye, Oculus]
-  painted_minimap: true               # MM9's painted map (catalog entry wizardslab kept); no outline pass
+  # No `painted_minimap`: the lab is an ordinary interior, so it keeps the outline pass and the Map style setting
+  # chooses its line map or MM9's painted one (catalog entry wizardslab kept) (user, 2026-11-10).
   offset: [0, 0, 0]                   # the old map's frame (native x -22 077..5 578, y -717..17 323): fits int16
   ambient: 20
   model_lighting: false
@@ -180,3 +181,11 @@ city:
 treasure:
   bonus_near: [EvilGrandSorcerer0, EvilGrandSorcerer1, EvilGrandSorcerer2]
   themed_near: [BonePile0, BonePile1, BonePile2, BonePile3]
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+# The stations' sheets and crystals are translucent in convert.py (SPR_SURFACES); Ocean.spr, the power water's
+# Water115 and the cloud room's water123flowing get their frames.
+spr_surfaces:
+  # Left opaque for now (2026-11-10): the spheres (Alpha 0.85, 1 088 faces: as many translucent draws for a 15 %
+  # difference) and the energy bolts (Alpha 0.15), whose slime faces are liquids (a retexture, not this rule).
+  skip: [spheres, energy bolts]

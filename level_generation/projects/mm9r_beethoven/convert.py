@@ -81,7 +81,8 @@ EV_LOAD, EV_MANUSCRIPT, EV_GREAT_LEVER = 1, 90, 91
 EV_HEDGE = {"HedgeDoor1": 92, "HedgeDoor2": 93, "HedgeDoor3": 94}
 EV_COFFIN = 150                     # 150 + k: coffin k's touch trigger
 EV_BOTTLE = 170                     # 170 + k: the touch trigger at bottle k's start
-T_COFFIN = 200                      # 200 + k: coffin k's lid has risen (CoffinRaise.scr), the mummy stands up
+T_COFFIN = 200                      # 200 + k: coffin k's lid has risen (CoffinRaise.scr), the mummy stirs
+T_KICK = 220                        # 220 + k: coffin k's mummy kicks it to pieces (CoffinMummy.scr's AtKick)
 COG_COFFIN, COG_DEBRIS = 310, 330
 GROUP_MUMMY = 80                    # 80 + k: the mummy of coffin k
 KEY_LUDWIG, KEY_FOUND_FOR_LUDWIG, KEY_FOUND_UNASKED = 14, 16, 110       # Ludwigsmanuscript.scr
@@ -98,7 +99,10 @@ COFFINS = [("Trigger7", "CoffinRaised9", "PetrifiedMummy7"), ("Trigger6", "Coffi
 BOTTLES = [("TriggerBottleSW", "BottleSW", "sw"), ("TriggerBottleNW", "BottleNW", "nw"),
            ("TriggerBottleNE", "BottleNE", "ne"), ("TriggerBottleSE", "BottleSE", "se")]
 BOTTLE_MODEL = "engine/models/mm9_bottlefloat.glb"
-COFFIN_LID_SECONDS = 2              # the length of CoffinFancy's `open` clip before the mummy stirs
+COFFIN_LID_SECONDS = 1             # CoffinFancy's `open` clip (the lid part's, scripts/coffin_parts.py in the props project)
+KICK_SECONDS = 3.232               # Wakeup2's AtKick key (ZOMBIE.abc; the Rotter row draws the zombie model)
+COFFIN_BED_LT = 35                  # a mummy lies this far above its coffin's base (five DAT heights; the other
+                                    # three are MoveToFloor, which settles them on the coffin's bed)
 # MM9's translucent surfaces other than water, as translucent faces: source texture -> (alias, opacity): brush Alpha
 # (the webs' 0.7), the texture's alpha on top (devdocs/INDOOR_TRANSLUCENT_FACES.md). Soft edges need the blend: a BLV
 # face only discards fully transparent texels.
@@ -244,6 +248,8 @@ class Beethoven(dungeon.Hooks):
             content.report["omitted"] = [o for o in content.report["omitted"] if o["anchor"] != "LobberPodA0"]
         mummy_group = {mummy: GROUP_MUMMY + k for k, (_, _, mummy) in enumerate(COFFINS)}
         self.mummy_index = {}               # coffin k -> its mummy's actor index
+        indices = {o["name"]: o["index"] for o in source.objects}
+        self.coffin_destructible = {k: indices[coffin] for k, (_, coffin, _) in enumerate(COFFINS)}
         out = []
         for o in source.objects:
             name, p = o["name"], o["properties"]
@@ -252,6 +258,13 @@ class Beethoven(dungeon.Hooks):
             group = mummy_group.get(name, 0)
             query = p["Pos"][1] + 40
             record = content.actor(o, bases[name], sector_of_room, group=group, hidden=bool(group), floor_query_lt=query)
+            if group:
+                # CoffinMummy.scr: it lies on its coffin's bed (gravity off), hidden behind the lid and dormant until
+                # the map's script wakes it at the kick.
+                floor = content.floor_at(p["Pos"][0], p["Pos"][2], query)
+                bed = source.properties(COFFINS[group - GROUP_MUMMY][1])["Pos"][1] + COFFIN_BED_LT
+                record["position"]["z"] += int(round((bed - floor) * SCALE))
+                record["dormant"] = True
             if o["class"] == "AirBorneIcky":
                 record["position"]["z"] = int(round(p["Pos"][1] * SCALE)) - 120
             record.update(placed_body(record["monster_id"], p))   # MM9's body at the DAT's own Scale (replaces the row's)
@@ -327,31 +340,50 @@ class Beethoven(dungeon.Hooks):
             "    MM9.playSound(\"sounds/events/quest.wav\")",
             "end",
             "",
-            "-- The coffins (CoffinRaise.scr, CoffinMummy.scr): touching a coffin's trigger raises its lid with a stone",
-            "-- groan; when the lid is up its mummy, standing inside unseen, wakes and kicks the coffin to pieces.",
-            "-- coffin k -> its mummy's actor index (CoffinMummy.scr: CanDamage 0 until it kicks free)",
+            "-- The coffins (CoffinRaise.scr, CoffinMummy.scr): touching a coffin's trigger opens its lid with a stone",
+            "-- groan (the lid part's open clip). Its mummy lies inside, dormant (LoopAnim coffin2); when the lid is up it",
+            "-- wakes (PlayAnim wakeup2), and at the clip's kick (AtKick) the coffin breaks (the destructible: its",
+            "-- crumble and debris; rubble stays) and the mummy fights. Coffin<k>: 0 shut, 1 lid opening, 3 waking, 2 broken.",
+            "-- coffin k -> its mummy's actor index (CoffinMummy.scr: CanDamage 0 until it kicks free), its destructible",
             f"local MUMMIES = {{{', '.join(f'[{k}] = {self.mummy_index[k]}' for k in sorted(self.mummy_index))}}}",
+            f"local COFFINS = {{{', '.join(f'[{k}] = {self.coffin_destructible[k]}' for k in sorted(self.coffin_destructible))}}}",
             f"local function coffin(k)   -- {EV_COFFIN} + k",
             "    if var(\"Coffin\" .. k) ~= 0 then return end",
             "    set(\"Coffin\" .. k, 1)",
             "    evt.PlaySoundName(\"sounds/door/stone_door02.wav\", 0, 0, 0)",
+            f"    evt.PlayDecorationClip({COG_COFFIN} + k, \"open\")",
+            f"    evt.SetMonGroupBit({GROUP_MUMMY} + k, MonsterBits.Invisible, false)",
+            "    evt.PlayActorClip(MUMMIES[k], \"coffin_idle\", true)",
             f"    arm({T_COFFIN} + k, {COFFIN_LID_SECONDS})",
             "end",
             "local function mummy(k)",
             f"    if not fired({T_COFFIN} + k) or var(\"Coffin\" .. k) ~= 1 then return end",
+            "    set(\"Coffin\" .. k, 3)",
+            "    evt.PlayActorClip(MUMMIES[k], \"wakeup2\", \"hold\")",
+            f"    arm({T_KICK} + k, {KICK_SECONDS})",
+            "end",
+            "-- :OnPostDestroy (the kick): the coffin's destroy, SetPropNumber CanDamage, TRUE, gravity, then baseMelee.",
+            "local function kicked(k)",
             "    set(\"Coffin\" .. k, 2)",
-            f"    evt.SetSprite({COG_COFFIN} + k, false)",
+            "    evt.DestroyDestructible(COFFINS[k])",
             f"    evt.SetSprite({COG_DEBRIS} + k, true)",
+            "    evt.ClearActorPresentation(MUMMIES[k])",
             f"    evt.SetMonGroupBit({GROUP_MUMMY} + k, MonsterBits.Invisible, false)",
             f"    evt.SetMonGroupBit({GROUP_MUMMY} + k, MonsterBits.Hostile, true)",
-            "    -- :OnPostDestroy (the kick): SetPropNumber CanDamage, TRUE (CanDamage 0 in the DAT until then)",
-            "    if MUMMIES[k] ~= nil then MM9.setCanDamage(MUMMIES[k], true) end",
+            "    MM9.setCanDamage(MUMMIES[k], true)",
+            "    evt.WakeActor(MUMMIES[k])",
+            "end",
+            "local function kick(k)",
+            f"    if not fired({T_KICK} + k) or var(\"Coffin\" .. k) ~= 3 then return end",
+            "    kicked(k)",
             "end",
         ]
         for k, (trigger, name, mummy) in enumerate(COFFINS):
             lines += [f"handlers[{EV_COFFIN + k}] = function() coffin({k}) end   -- {trigger} -> {name}",
-                      f"handlers[{T_COFFIN + k}] = function() mummy({k}) end   -- {mummy}"]
-            script.add([], (EV_COFFIN + k, trigger, None), (T_COFFIN + k, f"{mummy} wakes", None, "timer"))
+                      f"handlers[{T_COFFIN + k}] = function() mummy({k}) end   -- {mummy} wakes",
+                      f"handlers[{T_KICK + k}] = function() kick({k}) end   -- {mummy} kicks free"]
+            script.add([], (EV_COFFIN + k, trigger, None), (T_COFFIN + k, f"{mummy} wakes", None, "timer"),
+                       (T_KICK + k, f"{mummy} kicks free", None, "timer"))
         starts = ", ".join(lua.point(p) for p in self.bottle_starts)
         clips = ", ".join(f'"{clip}"' for _, _, clip in BOTTLES)
         lines += [
@@ -375,6 +407,8 @@ class Beethoven(dungeon.Hooks):
         lines += [
             f"handlers[{EV_LOAD}] = function()   -- map load",
             f"    for k = 0, {len(COFFINS) - 1} do",
+            "        -- a save taken while a coffin opened: its mummy is up and the coffin broken",
+            "        if var(\"Coffin\" .. k) == 1 or var(\"Coffin\" .. k) == 3 then kicked(k) end",
             f"        evt.SetSprite({COG_COFFIN} + k, var(\"Coffin\" .. k) ~= 2)",
             f"        evt.SetSprite({COG_DEBRIS} + k, var(\"Coffin\" .. k) == 2)",
             "    end",

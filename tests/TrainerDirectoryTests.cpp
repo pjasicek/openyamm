@@ -1,5 +1,12 @@
 #include "doctest/doctest.h"
 #include "engine/TextTable.h"
+#include "engine/AssetFileSystem.h"
+#include "engine/AssetScaleTier.h"
+#include "game/data/GameDataLoader.h"
+#include "game/gameplay/HouseInteraction.h"
+#include "game/gameplay/MercenaryRecruitmentRuntime.h"
+#include "game/ui/GameplayMinimapTransform.h"
+#include "game/tables/JournalAutonoteTable.h"
 #include "game/gameplay/TrainerDirectory.h"
 #include "game/party/Party.h"
 #include "game/rules/maw/MawNpcPresence.h"
@@ -427,4 +434,111 @@ TEST_CASE("every teacher house of the game's tables has a trainer place")
     }
 
     CHECK(pDoor != nullptr);
+}
+
+TEST_CASE("Chedian journal teachers have painted locations, discovery and a tavern ledger")
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(root, root / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm9"));
+    GameDataLoader data;
+    REQUIRE(data.loadCommonForGameplay(assets));
+    const TrainerDirectory &directory = data.getTrainerDirectory();
+    Party party;
+    party.setTrainerDirectory(&directory);
+    std::set<uint32_t> people;
+    const TrainerEntry *bow = nullptr;
+    bool racialGrandmaster = false;
+    for (const auto &[skill, masteries] : directory.skills())
+        for (const auto &entries : masteries)
+            for (const auto &entry : entries)
+            {
+                if (entry.continent != 5)
+                    continue;
+                CAPTURE(entry.name);
+                CAPTURE(entry.mapFileName);
+                CAPTURE(entry.skill);
+                people.insert(entry.rudeId);
+                CHECK_FALSE(trainerKnown(entry, party));
+                REQUIRE(entry.place.has_value());
+                REQUIRE(entry.mapPresentation.has_value());
+                GameplayMinimapState state;
+                REQUIRE(applyMapPresentationToMinimapState(*entry.mapPresentation, entry.z, state));
+                CHECK(assets.exists(state.textureName));
+                CHECK(entry.place->x >= state.worldMinX);
+                CHECK(entry.place->x <= state.worldMaxX);
+                CHECK(entry.place->y >= state.worldMinY);
+                CHECK(entry.place->y <= state.worldMaxY);
+                if (entry.rudeId == 114 && entry.skill == "Bow")
+                    bow = &entry;
+                if (entry.rudeId == 351 && entry.skill == "DragonAbility"
+                    && entry.mastery == SkillMastery::Grandmaster)
+                    racialGrandmaster = true;
+            }
+    CHECK_EQ(people.size(), 77u);
+    CHECK(racialGrandmaster);
+    REQUIRE(bow != nullptr);
+    discoverActorTeacher(party, 114);
+    CHECK(trainerKnown(*bow, party));
+    Party restored;
+    restored.restoreSnapshot(party.snapshot());
+    CHECK(trainerKnown(*bow, restored));
+    Party olderSave;
+    olderSave.recordChosenMm9RudeRow(114, 0);
+    CHECK(trainerKnown(*bow, olderSave));
+    // Party-specific directory rebuilds must retain actor teachers.
+    party.setNpcTopicOverride(1, 0, 300);
+    const auto *rebuilt = directory.forParty(party).find("Bow");
+    REQUIRE(rebuilt != nullptr);
+    CHECK(std::any_of((*rebuilt)[0].begin(), (*rebuilt)[0].end(), [](const auto &entry) { return entry.rudeId == 114; }));
+    size_t taverns = 0;
+    for (const auto &[id, house] : data.getHouseTable().entries())
+        if (directory.mapContinent(house.mapId) == 5 && resolveHouseServiceType(house) == HouseServiceType::Tavern)
+        {
+            ++taverns;
+            CHECK(tavernTeacherLedgerContinent(house, &party) == 5u);
+            REQUIRE(data.getMapStats().findById(house.mapId) != nullptr);
+            CHECK_FALSE(findMercenaryRecruitmentHouseId(*data.getMapStats().findById(house.mapId),
+                data.getHouseTable()).has_value());
+        }
+    CHECK_GT(taverns, 0u);
+    party.addGold(1999);
+    CHECK_FALSE(buyTeacherLedger(party, directory, 5));
+    party.addGold(1);
+    REQUIRE(buyTeacherLedger(party, directory, 5));
+    CHECK_EQ(party.gold(), 0);
+    for (const auto &[skill, masteries] : directory.skills())
+        for (const auto &entries : masteries)
+            for (const auto &entry : entries)
+                if (entry.continent == 5)
+                    CHECK(trainerKnown(entry, party));
+    restored.restoreSnapshot(party.snapshot());
+    CHECK(restored.hasTeacherLedger(5));
+
+    std::vector<TrainerEntry> invalid;
+    std::string error;
+    CHECK_FALSE(buildMm9JournalTeachers({{"114", "Teacher", "drangheimcity.blv", "nan", "0", "0"}},
+        data.getMm9SkillTrainerTable(), data.getMm9RudeDialogueTable(), data.getMapStats(), "", invalid, error));
+    CHECK(invalid.empty());
+}
+
+TEST_CASE("journal note ownership keeps each obelisk puzzle together and recipes shared")
+{
+    JournalAutonoteTable notes;
+    REQUIRE(notes.loadFromRows(rowsOf(readSourceFile("assets_dev/engine/data_tables/english/autonote.txt"))));
+    std::unordered_map<std::string, size_t> obelisks;
+    for (const auto &note : notes.entries())
+    {
+        CAPTURE(note.id);
+        CHECK((note.owner == "Jadame" || note.owner == "Antagarich" || note.owner == "Enroth"
+            || note.owner == "Shared"));
+        if (note.category == JournalAutonoteCategory::Obelisk)
+            ++obelisks[note.owner];
+        if (note.category == JournalAutonoteCategory::Potion)
+            CHECK(note.owner == "Shared");
+    }
+    CHECK_EQ(obelisks["Jadame"], 9);
+    CHECK_EQ(obelisks["Antagarich"], 14);
+    CHECK_EQ(obelisks["Enroth"], 15);
+    CHECK_EQ(obelisks["Shared"], 0);
 }

@@ -453,6 +453,10 @@ schema. The Flatpak uses OSTree and needs no manifest.
 ```
 
 - `url` is relative to the channel's base URL, so the host can move without changing manifests.
+- A desktop manifest lists the languages' optional packs (`"language": "<id>"`, devdocs/LOCALIZATION.md) apart,
+  under `language_packs`, with the same fields. Updaters before 2.0 read only `packs` and know no language field, so
+  an update from them downloads none of them; 2.0 and later read both lists and fetch a language's packs only for the
+  languages kept installed. Android manifests keep them in `packs` (the Android updater reads only that list).
 - `content_format` is an integer bumped whenever a binary needs new content or content needs a new binary
   (a file format version, a new required table). The app and packs of one manifest always match. The client always
   installs a manifest as a whole; `content_format` is a safety check that refuses a mismatched combination.

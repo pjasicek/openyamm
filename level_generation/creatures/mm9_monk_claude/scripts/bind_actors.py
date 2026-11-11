@@ -9,7 +9,7 @@ if BEGIN in s:
     a = s.index(BEGIN); b = s.index(END) + len(END) + 1; s = s[:a] + s[b:]
 BLOCK = BEGIN + """
 # MM9 Monk body (level_generation/creatures/mm9_monk_claude): Meshy robe and head on MONK.abc's skeleton, MM9's eight cloth chains and two cord chains keyed as MM9 keys them, 15 finger bones per side (MPFB hand), whole model mirrored to true handedness.
-# One body paint with region ramps, a head colour per tier. Events are MM9's: Hattack1 Rattack 0.214 s (Lattack 0.428, Rattack 0.643, Lattack 0.965 are not carried: one impact per attack), castspell1 CastSpell 0.5 s, castspell3 0.882 s. Work and prayer clips are script clips.
+# One body paint with region ramps, a head colour per tier. Events are MM9's: Hattack1 Rattack 0.214 s (Lattack 0.428, Rattack 0.643, Lattack 0.965 are not carried: one impact per attack), castspell1 CastSpell 0.5 s, castspell3 0.882 s. Work and prayer clips are script clips. No hand effect and no glow, as in MM9: the castspell clips' DoFX 1 names FX1 (0-based, object.lto 0x1001af90), which the rows leave empty (FX0 bluedots never plays); MM9 has no light there.
 """
 for desc, skin, label in (('MM9 Monk A', 'mk_a', 'Initiate (row 123)'), ('MM9 Monk B', 'mk_b', 'Monk (row 124)'), ('MM9 Monk C', 'mk_c', 'Reverend Monk (row 125)')):
     BLOCK += f"""# {label}
@@ -29,8 +29,8 @@ for desc, skin, label in (('MM9 Monk A', 'mk_a', 'Initiate (row 123)'), ('MM9 Mo
       palm_right: RHand1
     events:
       attack_melee: {{impact: 0.214}}
-      attack_ranged: {{impact: 0.5, glow: [palm_left, palm_right], release: palm_left}}
-      cast: {{impact: 0.882, glow: [palm_left, palm_right], release: palm_left}}
+      attack_ranged: {{impact: 0.5, release: palm_left}}
+      cast: {{impact: 0.882, release: palm_left}}
   clips:
     standing: Standing
     walking: Walking

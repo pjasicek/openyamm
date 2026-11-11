@@ -74,7 +74,8 @@ EV_LOCKED, EV_COOK_CAGE, EV_GRATE, EV_INTERR_DOOR = 230, 231, 232, 233
 EV_WELL_LID, EV_HATCH = 240, 241
 EV_BEATINGS = {"TriggerBeatings0": 250, "TriggerBeatings1": 251}
 EV_BARRACKS = 252                   # NagGuardTrigger0
-T_BEATING, T_SMITH, T_HINTS = 260, 261, 262
+EV_INTERR_ARRIVE, EV_PRISONER_ARRIVE = 254, 255                 # the interrogation's evt.MoveActorTo arrivals
+T_BEATING, T_SMITH, T_HINTS, T_SMITH_ITEM = 260, 261, 262, 263
 DAMAGE_HOOK, KILL_HOOK = 96, 97
 # Cells MM9 locks with no lever (Locked, no key, no trigger).
 SEALED_CELLS = ["Celldoor32", "Celldoor33", "Celldoor34", "Celldoor36", "Celldoor38"]
@@ -88,6 +89,14 @@ RELATION_SHORT = 2                  # hostile, the "short" engagement range (Gua
 # MarkerWater (WalkTo 40), put on the WeaponRack (WalkTo 5) and back to MarkerAnvil (WalkTo 10).
 SMITH_STOPS = (("MarkerAnvil", 25.0, [30.0, 35.0], "attack_melee"), ("MarkerWater", 40.0, [5.0, 5.0], None),
                ("WeaponRack", 40.0, [1.0, 2.0], None))
+# DrangheimSmith.scr :AttachHammer / :AttachSword (AttachProp hammer.abc / kirasword.abc on rhand1): the hammer at the
+# anvil and on the way back to it, the sword from :CoolWeapon (leaving the anvil) until :OnReturnedWeapon at the rack.
+SMITH_HAMMER = {"model": "worlds/mm9/models/mm9_item_hammer.glb", "node": "Socket_RHand1"}
+SMITH_SWORD = {"model": "worlds/mm9/models/mm9_item_kirasword.glb", "node": "Socket_RHand1"}
+# The interrogation's timing (DrangheimInterrogator.scr: CELL_OPEN_TIME and DOOR_OPEN_TIME are the doors' open times
+# + 1 s; BeatdownMix8bit.wav plays about 8 s) and a prisoner's stop short of the interrogator (native units).
+CELL_WAIT, DOOR_WAIT, BEAT_SECONDS, LEG_TIMEOUT, PICK_OFFSET = 3, 4, 8, 25, 110
+GUARD_SLEEP_ODDS = 20               # GuardRude.scr :StartWork: GetRandomInt 1, 20 == 1 -> LoopAnim sleep
 
 KEY_ON_MISSION, KEY_SENT_BY_BJARNI, KEY_MET_OUTSIDE, KEY_GOT_OUT = 12, 17, 194, 242
 KEY_IVSAR_HOME = 21
@@ -161,7 +170,7 @@ class DrangheimPrison(dungeon.Hooks):
                 stop.update(clip=clip, loop=True)
             stops.append(stop)
         actor.setdefault("mm9_ai", {}).update(wander="path", path=path, path_stops=stops)
-        self.smith_anvil = path[0]
+        self.smith_anvil, self.smith_rack = path[0], path[2]
 
     def foot(self, build, point) -> list:
         """A native point on the floor under an LT point."""
@@ -275,6 +284,7 @@ class DrangheimPrison(dungeon.Hooks):
             actor["immobile"] = (civilian and base["monster_id"] not in ANIMAL_RANGE) or name in RUDE_OBJECTS
             if name == "DwarvenSmith0":
                 self.smith_round(build, actor)
+                actor["held_items"] = [dict(SMITH_HAMMER)]
             self.actor[name] = actor["actor_index"]
             out.append(actor)
         self.objects = {name: next(o["index"] for o in source.objects if o["name"] == name)
@@ -307,6 +317,20 @@ class DrangheimPrison(dungeon.Hooks):
             f"-- lets the party be while it holds the visitor's pass (key {KEY_PASS}) and has not raised the alarm (key",
             f"-- {KEY_HOSTILE}); the gate guards (GuardRude.scr) mind only the alarm.",
             f"local INNER_GROUPS = {{{', '.join(map(str, guards))}}}",
+            f"-- The gate guards (GuardRude.scr :StartWork): 1 in {GUARD_SLEEP_ODDS} sleeps from the map's start (LoopAnim sleep)",
+            "-- until a click wakes him (:OnUse :Wakeup, PlayAnim Stand) or the alarm sounds.",
+            "local GATE = {" + ", ".join(f"{name} = {{actor = {self.actor[name]}, rude = {rude}}}"
+                                         for name, rude in RUDE_OBJECTS.items()) + "}",
+            "local function wake(name)",
+            "    if var(\"Asleep\" .. name) == 0 then return end",
+            "    set(\"Asleep\" .. name, 0)",
+            "    evt.ClearActorPresentation(GATE[name].actor)",
+            "end",
+            "local function rollSleep(name, step)",
+            f"    local asleep = MM9.hasKey({KEY_HOSTILE}) == 0 and evt.RandomBetween(1, {GUARD_SLEEP_ODDS}, step) == 1",
+            "    set(\"Asleep\" .. name, asleep and 1 or 0)",
+            "    if asleep then evt.PlayActorClip(GATE[name].actor, \"sleep\", true) end",
+            "end",
             "local function applyHostility()",
             f"    local alarm = MM9.hasKey({KEY_HOSTILE}) == 1",
             f"    local visitor = MM9.hasKey({KEY_PASS}) == 1 and not alarm",
@@ -315,7 +339,7 @@ class DrangheimPrison(dungeon.Hooks):
             f"    evt.SetMonGroupBit({GROUP_FRONT}, MonsterBits.Hostile, alarm)",
             "    -- the alarm's AddEnemy Player: MM9's monster AI walks the gate guards from their posts at the party",
             "    if alarm then",
-            *[f"        evt.SetActorImmobile({self.actor[name]}, false)   -- {name}"
+            *[f"        evt.SetActorImmobile({self.actor[name]}, false); wake(\"{name}\")   -- {name}"
               for name in RUDE_OBJECTS if name in self.actor],
             "    end",
             "end",
@@ -337,6 +361,9 @@ class DrangheimPrison(dungeon.Hooks):
             f"-- (dialogue 426) hands over the Visitor's Pass item ({ITEM_PASS}) and Guard0/1 step aside to their markers.",
         ]
         for name, rude in RUDE_OBJECTS.items():
+            lines.append(f"handlers[{rude_use_event(objects[name])}] = function() wake(\"{name}\"); "
+                         f"MM9.openRude({rude}, {actor[name]}) end   -- {name} :OnUse")
+            script.add([], (rude_use_event(objects[name]), name, None))
             marker = PASS_MARKERS.get(name)
             lines.append(f"handlers[{rude_exit_event(objects[name])}] = function()   -- {name}")
             lines.append(f"    if MM9.hasKey({KEY_HOSTILE}) == 1 then alarm() return end")
@@ -442,8 +469,28 @@ class DrangheimPrison(dungeon.Hooks):
             f"{', '.join(map(str, points['MarkerAnvil']))})",
             "    end",
             "end",
+            "-- His tool in his right hand (:AttachHammer, :AttachSword): the sword once he leaves the anvil (:CoolWeapon),",
+            "-- the hammer again at the weapon rack (:OnReturnedWeapon). Polled every 0.5 s.",
+            f"local RACK = {{{', '.join(map(str, self.smith_rack))}}}",
+            f"local SMITH_TOOLS = {{[0] = \"{SMITH_HAMMER['model']}\", [1] = \"{SMITH_SWORD['model']}\"}}",
+            f"handlers[{T_SMITH_ITEM}] = function()",
+            f"    evt.StartTimer({T_SMITH_ITEM}, seconds(0.5))",
+            f"    if evt.CheckMonstersKilled(ActorKillCheck.Group, {GROUP_SMITH}, 0, false) then return end",
+            "    local x, y = evt.GetMapActorPosition(SMITH)",
+            "    if x == nil then return end",
+            "    local atAnvil, sword = smithAtAnvil(), var(\"SmithSword\")",
+            "    local want = sword",
+            "    if sword == 0 and var(\"SmithAtAnvil\") == 1 and not atAnvil then want = 1 end",
+            "    if sword == 1 and (x - RACK[1]) ^ 2 + (y - RACK[2]) ^ 2 < 160 ^ 2 then want = 0 end",
+            "    set(\"SmithAtAnvil\", atAnvil and 1 or 0)",
+            "    if want == sword then return end",
+            "    set(\"SmithSword\", want)",
+            f"    evt.DetachActorItem(SMITH, \"{SMITH_HAMMER['node']}\")",
+            f"    evt.AttachActorItem(SMITH, SMITH_TOOLS[want], \"{SMITH_HAMMER['node']}\")",
+            "end",
         ]
         script.add([], (EV_GRATE, "Grate", "Grate"), (T_SMITH, "Smith", None, "timer"),
+                   (T_SMITH_ITEM, "Smith's tools", None, "timer"),
                    (EV_WELL_LID, "Well lid", "Lid"), (EV_HATCH, "Hatch", "Hatch"))
         lines += self.interrogation(script, build)
         hide = [f"    if MM9.hasKey({KEY_GOT_OUT}) == 1 or MM9.hasKey({KEY_SENT_BY_BJARNI}) == 1 then "
@@ -487,6 +534,8 @@ class DrangheimPrison(dungeon.Hooks):
             *relations,
             *hide,
             "    smithAtWork()",
+            f"    evt.StartTimer({T_SMITH_ITEM}, seconds(0.5))",
+            *[f"    rollSleep(\"{name}\", {k + 1})" for k, name in enumerate(RUDE_OBJECTS)],
             "    updateHints()",
             "end",
         ]
@@ -499,26 +548,43 @@ class DrangheimPrison(dungeon.Hooks):
         return script.finish(on_load=[1])
 
     def interrogation(self, script, build) -> list[str]:
-        """DrangheimInterrogator.scr, DrangheimWarden.scr, DrangheimDoorman.scr, DrangheimPrisoner.scr as a timed
-        sequence: MM9 walks the three along MarkerBeating0-9; here the doors, levers and sounds keep MM9's order and
-        the two move while the interrogation room's door is shut."""
-        points, actor = self.points, self.actor
-        cells = [(name, lever, LEVERS[lever]) for name, lever in PRISONERS.items()]
+        """DrangheimInterrogator.scr, DrangheimWarden.scr, DrangheimDoorman.scr, DrangheimPrisoner.scr: the interrogator
+        walks MarkerBeating0-9 (ListTraverse.inc, pacing) with each prisoner in turn following him (evt.MoveActorTo),
+        the warden works the cell levers, the doorman the interrogation room's doors, as a list of steps per prisoner
+        run by map vars (BeatPrisoner, BeatStep) and one timer, which also finishes a walk not done in time."""
+        points, actor, source = self.points, self.actor, build.source
         script.add([], *[(event, name, None) for name, event in EV_BEATINGS.items()],
-                   (EV_INTERR_DOOR, "Door", "Door"), (T_BEATING, "Interrogation", None, "timer"))
-        table = ", ".join(f"{{prisoner = {actor[name]}, lever = DOORS.{lever}, cell = DOORS.{cell}, "
-                          f"home = {lua.point(self.foot(build, build.source.properties(name)['Pos']))}}}"
-                          for name, lever, cell in cells)
-        bx, by, bz = points["Beaten"]
-        ix, iy, iz = points["MarkerBeating9"]
-        hx, hy, hz = points["MarkerBeating0"]
+                   (EV_INTERR_DOOR, "Door", "Door"), (T_BEATING, "Interrogation", None, "timer"),
+                   (EV_INTERR_ARRIVE, "Interrogator arrives", None), (EV_PRISONER_ARRIVE, "Prisoner arrives", None))
+        markers = [self.foot(build, source.properties(f"MarkerBeating{i}")["Pos"]) for i in range(10)]
+        rows = []
+        for name, lever in PRISONERS.items():
+            k = len(rows)
+            home = np.asarray(self.foot(build, source.properties(name)["Pos"]), float)
+            cell = self.foot(build, source.properties(str(source.properties(name)["ScriptParams"]).split()[0])["Pos"])
+            # where he stops before the interrogator at MarkerBeating<k> (DrangheimPrisoner.scr :LeaveCell WalkTo 5):
+            # PICK_OFFSET toward his cell, so that the two bodies do not meet
+            way = home - np.asarray(markers[k], float)
+            way[2] = 0.0
+            pick = np.asarray(markers[k], float) + way / np.linalg.norm(way) * PICK_OFFSET
+            rows.append(f"{{prisoner = {actor[name]}, lever = DOORS.{lever}, cell = DOORS.{LEVERS[lever]}, "
+                        f"pick = {lua.point(pick)}, home = {lua.point(cell)}}}")
+        beat = ", ".join(map(str, markers[9]))
         return [
             "",
-            "-- The interrogation (DrangheimInterrogator.scr; either TriggerBeatings pad, once): for each of the three",
-            "-- prisoners the warden's lever opens the cell and shuts it behind him, the doorman opens and shuts the",
-            "-- interrogation room, the beating sounds, and it runs back. It stops when the warden, the doorman or the",
-            "-- interrogator is dead or the alarm is up (MM9: OnObjectLinkBroken, hostility).",
-            f"local BEATEN = {{{table}}}",
+            "-- The interrogation (DrangheimInterrogator.scr; either TriggerBeatings pad, once). For each of the three",
+            "-- prisoners: the interrogator walks to his cell's marker; the warden's lever opens the cell (aware); the",
+            "-- interrogator calls him out (fidget2), he comes out and cowers; the interrogator signals (aware) and the cell",
+            "-- shuts; the prisoner follows him along MarkerBeating<k+1>-9; the doorman opens the interrogation room at 8 and",
+            "-- shuts it at 9; the beating sounds; the door opens and they walk back, the door shutting behind them; the",
+            "-- cell opens, the interrogator sends him in (fidget1), he walks to his CellMarker and the cell shuts. It stops",
+            "-- when the warden, the doorman or the interrogator is dead or the alarm is up (MM9: OnObjectLinkBroken,",
+            f"-- hostility). A walk not done in {LEG_TIMEOUT} s (or under way when the game was saved) ends at its point at once.",
+            f"local MARKERS = {{{', '.join(f'[{i}] = {lua.point(m)}' for i, m in enumerate(markers))}}}",
+            f"local BEATEN = {{{', '.join(rows)}}}",
+            f"local INTERR, WARDEN, IN_ROOM = {actor['Interrogator']}, {actor['InterrWarden']}, "
+            f"{lua.point(points['Beaten'])}",
+            f"local CELL_WAIT, DOOR_WAIT, BEAT_SECONDS, LEG_TIMEOUT = {CELL_WAIT}, {DOOR_WAIT}, {BEAT_SECONDS}, {LEG_TIMEOUT}",
             f"local function beatingOff() return MM9.hasKey({KEY_HOSTILE}) == 1 or "
             f"evt.CheckMonstersKilled(ActorKillCheck.Group, {GROUP_WARDEN}, 0, false) or "
             f"evt.CheckMonstersKilled(ActorKillCheck.Group, {GROUP_DOORMAN}, 0, false) or "
@@ -526,11 +592,71 @@ class DrangheimPrison(dungeon.Hooks):
             "local function beatStep(delay) arm(" + str(T_BEATING) + ", delay) end",
             "local function openGroupInterr() open(\"RightDoor0\"); open(\"LeftDoor0\") end",
             "local function closeGroupInterr() close(\"RightDoor0\"); close(\"LeftDoor0\") end",
+            "local function cellLever(b, opening)   -- DrangheimWarden.scr :OpenCell / :CloseCell",
+            "    evt.PlayActorClip(WARDEN, \"aware\")",
+            "    local action = opening and DoorAction.Open or DoorAction.Close",
+            "    evt.SetDoorState(b.lever, action); evt.SetDoorState(b.cell, action)",
+            "end",
+            "local function route(from, to)   -- the markers between, one of two that stand on the same spot (1, 2) dropped",
+            "    local out, step = {}, from <= to and 1 or -1",
+            "    for i = from, to, step do",
+            "        local m, last = MARKERS[i], out[#out]",
+            "        if last == nil or m[1] ~= last[1] or m[2] ~= last[2] then out[#out + 1] = m end",
+            "    end",
+            "    return out",
+            "end",
+            "local function plan(k)   -- prisoner k (0-2): {run, wait} or a walk {i = point, p = point}",
+            "    local b, steps = BEATEN[k + 1], {}",
+            "    local function add(step) steps[#steps + 1] = step end",
+            "    add({i = MARKERS[k]})",
+            "    add({run = function() cellLever(b, true) end, wait = CELL_WAIT})",
+            "    add({run = function() evt.PlayActorClip(INTERR, \"fidget2\") end, wait = 2})   -- ANIM_COMEOUT",
+            "    add({p = b.pick})",
+            "    add({run = function() evt.PlayActorClip(b.prisoner, \"cower\") end, wait = 1.2})",
+            "    add({run = function() evt.PlayActorClip(INTERR, \"aware\"); cellLever(b, false) end, wait = CELL_WAIT})",
+            "    local out = route(k, 8)",
+            "    for n = 2, #out do add({i = out[n], p = out[n - 1]}) end",
+            "    add({run = openGroupInterr, wait = DOOR_WAIT})",
+            "    add({i = MARKERS[9], p = IN_ROOM})",
+            "    add({run = closeGroupInterr, wait = DOOR_WAIT})",
+            f"    add({{run = function() evt.PlaySoundName(\"events/beatdownmix8bit.wav\", {beat}) end, wait = BEAT_SECONDS}})",
+            "    add({run = openGroupInterr, wait = DOOR_WAIT})",
+            "    local back = route(9, k)",
+            "    for n = 2, #back do",
+            "        add({i = back[n], p = back[n - 1]})",
+            "        if n == 3 then add({run = closeGroupInterr, wait = 0.5}) end   -- both past the door (8)",
+            "    end",
+            "    add({run = function() cellLever(b, true) end, wait = CELL_WAIT})",
+            "    add({run = function() evt.PlayActorClip(INTERR, \"fidget\") end, wait = 2})   -- ANIM_GOBACK",
+            "    add({p = b.home})",
+            "    add({run = function() cellLever(b, false) end, wait = 4})",
+            "    return steps",
+            "end",
+            "local function walker(step) return step.i and INTERR or nil, step.p and BEATEN[var(\"BeatPrisoner\")].prisoner or nil end",
+            "local function runBeat()   -- the next step; each clip has ended by then (its step's wait): let them go",
+            "    local k = var(\"BeatPrisoner\")",
+            "    for _, a in ipairs({INTERR, WARDEN, BEATEN[k].prisoner}) do evt.ClearActorPresentation(a) end",
+            "    if beatingOff() then set(\"Beatings\", 2) return end",
+            "    local step = plan(k - 1)[var(\"BeatStep\")]",
+            "    if step == nil then   -- this prisoner is back: the next",
+            "        if k >= #BEATEN then set(\"Beatings\", 2) return end",
+            "        set(\"BeatPrisoner\", k + 1); set(\"BeatStep\", 1)",
+            "        return runBeat()",
+            "    end",
+            "    set(\"BeatWalk\", var(\"BeatStep\"))",
+            "    set(\"BeatStep\", var(\"BeatStep\") + 1)",
+            "    if step.run then step.run(); beatStep(step.wait) return end",
+            "    local i, p = walker(step)",
+            f"    set(\"WaitI\", i and 1 or 0); set(\"WaitP\", p and 1 or 0)",
+            f"    if i then evt.ClearActorPresentation(i); evt.MoveActorTo(i, step.i[1], step.i[2], step.i[3], {EV_INTERR_ARRIVE}) end",
+            f"    if p then evt.ClearActorPresentation(p); evt.MoveActorTo(p, step.p[1], step.p[2], step.p[3], {EV_PRISONER_ARRIVE}) end",
+            "    beatStep(LEG_TIMEOUT)",
+            "end",
             "local function startBeatings()",
             "    if var(\"Beatings\") ~= 0 then return end",
             "    set(\"Beatings\", 1)",
             "    set(\"BeatPrisoner\", 1)",
-            "    set(\"BeatStep\", 0)",
+            "    set(\"BeatStep\", 1)",
             "    beatStep(1)",
             "end",
             f"handlers[{EV_BEATINGS['TriggerBeatings0']}] = function() startBeatings() end",
@@ -538,38 +664,24 @@ class DrangheimPrison(dungeon.Hooks):
             f"handlers[{EV_INTERR_DOOR}] = function() evt.StatusText(\"The door is locked.\") end",
             f"handlers[{T_BEATING}] = function()",
             f"    if not fired({T_BEATING}) or var(\"Beatings\") ~= 1 then return end",
-            "    if beatingOff() then set(\"Beatings\", 2) return end",
-            "    local step, k = var(\"BeatStep\"), var(\"BeatPrisoner\")",
-            "    local b = BEATEN[k]",
-            "    set(\"BeatStep\", step + 1)",
-            "    if step == 0 then       -- the warden opens the cell",
-            "        evt.SetDoorState(b.lever, DoorAction.Open); evt.SetDoorState(b.cell, DoorAction.Open); beatStep(3)",
-            "    elseif step == 1 then   -- and shuts it behind the prisoner",
-            "        evt.SetDoorState(b.lever, DoorAction.Close); evt.SetDoorState(b.cell, DoorAction.Close); beatStep(5)",
-            "    elseif step == 2 then   -- the doorman opens the room",
-            "        openGroupInterr(); beatStep(4)",
-            "    elseif step == 3 then   -- shuts it; they are inside",
-            "        closeGroupInterr()",
-            f"        evt.SetMapActorPosition(b.prisoner, {bx}, {by}, {bz})",
-            f"        evt.SetMapActorPosition({actor['Interrogator']}, {ix}, {iy}, {iz})",
-            "        beatStep(3)",
-            "    elseif step == 4 then   -- the beating",
-            "        evt.PlaySoundName(\"events/beatdownmix8bit.wav\", " + f"{ix}, {iy}, {iz})",
-            "        beatStep(8)",
-            "    elseif step == 5 then   -- the door opens again",
-            "        openGroupInterr(); beatStep(4)",
-            "    elseif step == 6 then   -- back to the cell",
-            "        closeGroupInterr()",
-            "        evt.SetDoorState(b.lever, DoorAction.Open); evt.SetDoorState(b.cell, DoorAction.Open)",
-            "        evt.SetMapActorPosition(b.prisoner, b.home[1], b.home[2], b.home[3])",
-            f"        evt.SetMapActorPosition({actor['Interrogator']}, {hx}, {hy}, {hz})",
-            "        beatStep(3)",
-            "    else                    -- the cell shuts; the next prisoner",
-            "        evt.SetDoorState(b.lever, DoorAction.Close); evt.SetDoorState(b.cell, DoorAction.Close)",
-            "        set(\"BeatStep\", 0)",
-            f"        if k == {len(cells)} then set(\"Beatings\", 2) else set(\"BeatPrisoner\", k + 1); beatStep(4) end",
+            "    if var(\"WaitI\") == 1 or var(\"WaitP\") == 1 then   -- the walk took too long, or a load ended it: there",
+            "        local step = plan(var(\"BeatPrisoner\") - 1)[var(\"BeatWalk\")]",
+            "        local i, p = walker(step)",
+            "        if i and var(\"WaitI\") == 1 then evt.StopActorMove(i); evt.SetMapActorPosition(i, step.i[1], step.i[2], step.i[3]) end",
+            "        if p and var(\"WaitP\") == 1 then evt.StopActorMove(p); evt.SetMapActorPosition(p, step.p[1], step.p[2], step.p[3]) end",
+            "        set(\"WaitI\", 0); set(\"WaitP\", 0)",
             "    end",
+            "    runBeat()",
             "end",
+            "local function arrived(flag)",
+            "    if var(\"Beatings\") ~= 1 or var(flag) == 0 then return end",
+            "    set(flag, 0)",
+            "    if var(\"WaitI\") == 1 or var(\"WaitP\") == 1 then return end",
+            f"    evt.StopTimer({T_BEATING}); set(\"Armed{T_BEATING}\", 0)",
+            "    runBeat()",
+            "end",
+            f"handlers[{EV_INTERR_ARRIVE}] = function() arrived(\"WaitI\") end",
+            f"handlers[{EV_PRISONER_ARRIVE}] = function() arrived(\"WaitP\") end",
         ]
 
     def scene(self, build, scene: dict) -> None:

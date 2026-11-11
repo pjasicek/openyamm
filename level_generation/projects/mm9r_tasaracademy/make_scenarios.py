@@ -160,6 +160,9 @@ def main() -> int:
     steps += [{"note": {"text": "BookButtonFront1 (a book on the rotating bookcase, south hall side): a click presses it "
                                 "and swings the bookcase open."}},
               mech("RotatingBookcase1", "closed"),
+              # the two hostile Guards whose patrol path starts by the bookcase come for the party into its swing,
+              # which holds for a body in it (bodies: hold): they are cleared first
+              *scenarios.clear_monsters(scene["initial_state"]["actors"], tuple(button), radius=1200),
               face_point(button, (button[0] + 260, button[1])),     # outside the bookcase's swing
               {"advance_runtime": {"seconds": 0.2}}, {"press_interact": {}},
               {"advance_runtime": {"seconds": 7}},
@@ -183,13 +186,16 @@ def main() -> int:
               {"advance_runtime": {"seconds": 2}},
               state("CrackBroken", 1),
               walk((crack[0] + 150, crack[1]), 180, 1.2, (crack[0] - 120, crack[1]), 150, 40, z_from=100)]
-    # Ladder0: from the library floor up through the tower's first floor.
+    # Ladder0: from the library floor up through the tower's first floor. Both ladders step off backwards (the exit on
+    # the climber's side): the climb and the glide onto the exit (since 2026-11-10) end at 2.8 s; held on, forward walks
+    # back to the hole (2.5-3.0 s pass).
+    secs = 2.8
     ladder = next(entry for entry in scene["ladders"] if entry["id"] == "Ladder0")
     foot = [int(round(ladder["bottom"][0])), int(round(ladder["bottom"][1] - 60)), int(round(ladder["bottom"][2]))]
     top = [int(round(v)) for v in ladder["top_exit"]]
     climb_pose = {"map": MAP, "x": foot[0], "y": foot[1], "z": foot[2] + 1, "yaw_degrees": 90, "pitch": 0}
     steps += [{"note": {"text": "Ladder0: forward from its foot climbs to the tower's floor at 208 LT."}},
-              {"movement_segment": {"input": "forward", "seconds": 2.2, "actor_collision": False, "actor_ai": False,
+              {"movement_segment": {"input": "forward", "seconds": secs, "actor_collision": False, "actor_ai": False,
                                     "start": climb_pose, "expect_stop": dict(climb_pose, x=top[0], y=top[1], z=top[2]),
                                     "loose_tolerance": True, "tolerance_xy": 160, "tolerance_z": 60}}]
     ladder = next(entry for entry in scene["ladders"] if entry["id"] == "Ladder1")
@@ -197,7 +203,7 @@ def main() -> int:
     top = [int(round(v)) for v in ladder["top_exit"]]
     climb_pose = {"map": MAP, "x": foot[0], "y": foot[1], "z": foot[2] + 1, "yaw_degrees": 270, "pitch": 0}
     steps += [{"note": {"text": "Ladder1: forward from its foot on the 208 floor climbs to the bridge's floor at 416 LT."}},
-              {"movement_segment": {"input": "forward", "seconds": 2.2, "actor_collision": False, "actor_ai": False,
+              {"movement_segment": {"input": "forward", "seconds": secs, "actor_collision": False, "actor_ai": False,
                                     "start": climb_pose, "expect_stop": dict(climb_pose, x=top[0], y=top[1], z=top[2]),
                                     "loose_tolerance": True, "tolerance_xy": 160, "tolerance_z": 60}}]
     scenarios.write(PROJECT / "scenario_doors_exits.yml", doc, "make_scenarios.py")

@@ -43,6 +43,21 @@ MAP = "verhoffinruins.blv"
 EXIT_OBJECT = 230                   # ExitTrigger0 (DAT object index; map_transitions.txt row of this map)
 
 
+def convert_source_objects() -> list[dict]:
+    """The DAT's objects (index, name), for the slab's destructible id (its DAT index)."""
+    from dungeon.source import ROOT, read_dat_world
+    world = read_dat_world(ROOT / "mm9/extracted/WORLDS/WORLDS/VERHOFFINRUINS.dat")
+    return [{"index": i, "name": str(next((p.value for p in o.properties if p.name == "Name"), ""))}
+            for i, o in enumerate(world.objects)]
+
+
+def bust_heights(actors: list[int], side: str, z: int) -> str:
+    """Lua that fails unless every actor stands above (in its pocket) or below (on the corridor floor) native z."""
+    test = "z < " if side == "above" else "z > "
+    return (f"for _, a in ipairs({{{', '.join(map(str, actors))}}}) do local _, _, z = evt.GetMapActorPosition(a) "
+            f"if {test}{z} then error(\"bust actor \" .. a .. \" is not {side} {z}: \" .. z) end end")
+
+
 def header(name: str, title: str) -> dict:
     return {"id": f"mm9r.verhoffinruins_{name}", "title": title, "world": "mm9", "mode": "faithful",
             "tags": ["mm9", "mm9_rework", "draft"], "steps": [{"load_map": {"map": MAP}}]}
@@ -54,6 +69,9 @@ def main() -> int:
     floors = scenarios.Floors(project)
     movers = json.loads((PROJECT / "work/doors.json").read_text())
     content = json.loads((PROJECT / "work/content.json").read_text())
+    busts = [next(a["actor_index"] for a in content["actors"] if a["anchor"] == name)
+             for name in convert.BUSTS["BustTrigger0"]]
+    slab = next(o["index"] for o in convert_source_objects() if o["name"] == convert.SLABS["BustTrigger0"][0])
     props = {e["source_name"]: e for e in json.loads((PROJECT / "props.json").read_text())}
     report = json.loads((PROJECT / "work/build_report.json").read_text())
     scene = json.loads((PROJECT / f"work/runtime/{project.stem}.scene.yml").read_text())
@@ -299,11 +317,17 @@ def main() -> int:
                    (boxes["PitDamage"][0][1] + boxes["PitDamage"][1][1]) / 2, -161 * SCALE + 2),   # on the wading water
               {"advance_runtime": {"seconds": 2.5}},
               state("PitHit", 1),
-              {"note": {"text": "BustTrigger0 drops the three monsters from the pocket over BreakOut1 (KingKong.scr)."}},
+              {"note": {"text": "BustTrigger0 breaks BreakOut1 (KingKong.scr ForceFall); the three monsters waiting on it "
+                                "in the pocket above fall into the corridor."}},
+              {"lua_event": {"source": bust_heights(busts, "above", int(convert.SCALE * 32))}},
               outside("BustTrigger0", 450), {"advance_runtime": {"seconds": 0.5}},
               in_box("BustTrigger0"),
               {"advance_runtime": {"seconds": 1.0}},
-              state("BustedBustTrigger0", 1)]
+              state("BustedBustTrigger0", 1),
+              {"lua_event": {"source": f"if not evt.IsDestructibleDestroyed({slab}) then error(\"BreakOut1 stands\") end"}},
+              {"advance_runtime": {"seconds": 3.0}},
+              {"lua_event": {"source": bust_heights(busts, "below", int(convert.SCALE * -64))}},
+              {"assert": {"actor_visible": {"actor_index": busts[0], "hidden": False, "hostile_to_party": True}}}]
     # The quest objects.
     steps += [{"note": {"text": "The fake book (fakebook.scr): keys 281 and 290, item 242; the book is gone."}},
               *click_decoration("Book", distances=(80, 100, 130), height=5),

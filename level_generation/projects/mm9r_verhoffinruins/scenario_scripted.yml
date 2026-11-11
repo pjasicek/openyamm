@@ -465,7 +465,11 @@ steps:
       name: PitHit
       value: 1
 - note:
-    text: BustTrigger0 drops the three monsters from the pocket over BreakOut1 (KingKong.scr).
+    text: BustTrigger0 breaks BreakOut1 (KingKong.scr ForceFall); the three monsters waiting on it in the pocket above fall
+      into the corridor.
+- lua_event:
+    source: 'for _, a in ipairs({19, 20, 17}) do local _, _, z = evt.GetMapActorPosition(a) if z < 81 then error("bust actor
+      " .. a .. " is not above 81: " .. z) end end'
 - set_pose:
     map: verhoffinruins.blv
     x: -1916
@@ -488,6 +492,18 @@ steps:
     state_dump_named_map_var:
       name: BustedBustTrigger0
       value: 1
+- lua_event:
+    source: if not evt.IsDestructibleDestroyed(597) then error("BreakOut1 stands") end
+- advance_runtime:
+    seconds: 3.0
+- lua_event:
+    source: 'for _, a in ipairs({19, 20, 17}) do local _, _, z = evt.GetMapActorPosition(a) if z > -163 then error("bust actor
+      " .. a .. " is not below -163: " .. z) end end'
+- assert:
+    actor_visible:
+      actor_index: 19
+      hidden: false
+      hostile_to_party: true
 - note:
     text: 'The fake book (fakebook.scr): keys 281 and 290, item 242; the book is gone.'
 - set_pose:

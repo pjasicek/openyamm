@@ -20,7 +20,7 @@ import stat_barrels
 
 from . import bodies, destructibles, pickups, prop_pose, town_portal, trees, water
 from .package import room_id
-from .source import ROOT, SCALE, facing_degrees, floor_below
+from .source import ROOT, SCALE, facing_degrees, floor_below, surface_column
 
 CHEST_EVENT = 41                    # chest k (loot container k) opens with event CHEST_EVENT + k
 BONUS_CLASSES = ("WellMMIX", "Cauldron", "Cookpot", "Clover")   # MM9's bonus props (objects.py bonus_lines)
@@ -32,6 +32,15 @@ PAD_LIFT = 3                        # a trigger pad stands this far over its flo
 LAMP_LIGHT_RADIUS = 512
 LAMP_LIGHT_COLOUR = [255, 230, 160]
 INVISIBLE_BIT, AGGRESSOR_BIT = 0x00010000, 0x00080000
+# Where a placed actor stands (Content.actor_floor): the first surface under its DAT position, never one under that
+# (actor_floor_audit.py, 2026-11-11). A DAT position at most BURIED_REACH under a surface's top is in the ground (four
+# Magreebs on Lindisfarne 35 units under the grass, a Drangheim townsman in a terrace); one on a slope steeper than a
+# floor moves to the nearest floor round it, at most SLOPE_REACH away (a Guberland Bandit on a 48 degree cliff).
+FLOOR_NORMAL_Y = 0.7
+BURIED_REACH = 256 / SCALE
+SLOPE_REACH = 768 / SCALE
+SLOPE_RING = 24 / SCALE
+SLOPE_ANGLES = 16
 
 
 UPRIGHT_LETTER = re.compile(r"^mm9_scroll(_x\d+)?$")
@@ -132,6 +141,7 @@ class Content:
         self.floors = [p for p in self.polygons if p.normal[1] >= 0.7 and p.role == "static"]
         self.floor_low = np.array([p.points.min(0)[[0, 2]] for p in self.floors])
         self.floor_high = np.array([p.points.max(0)[[0, 2]] for p in self.floors])
+        self._surfaces = None              # every solid surface, the movers' too (actor_floor)
         self.decoration_lights = []        # (native position, radius) of decorations that carry a light
         self._water_pieces = None          # the volumes' pieces, for swimmers (water.surface_pieces)
 
@@ -333,7 +343,7 @@ class Content:
         source = entry.get("source_object")
         if entry.get("kind") == "chest" or not isinstance(source, int):
             return None
-        return pickups.rule(self.source.objects[source]["properties"])
+        return pickups.rule(self.source.objects[source]["properties"], self.project.stem)
 
     def move_to_floor(self, placed: list[dict]) -> None:
         """MM9's MoveToFloor (the TreasureChest default, most table-top things): LithTech drops such an object at load
@@ -385,6 +395,60 @@ class Content:
         near = np.nonzero((self.floor_low[:, 0] <= x) & (x <= self.floor_high[:, 0]) & (self.floor_low[:, 1] <= z)
                           & (z <= self.floor_high[:, 1]))[0]
         return floor_below([self.floors[i] for i in near], (x, y_from, z))
+
+    def surfaces_at(self, x: float, z: float) -> list:
+        """surface_column over every solid surface of the map: the compiled polygons (visible and invisible) and the
+        movers' as MM9 placed them (the Isle of Ashes' sinking islet carries the Lich)."""
+        if self._surfaces is None:
+            polygons = [p for p in self.polygons if p.role in ("static", "invisible")]
+            polygons += [p for name in self.build.plan["movers"] for p in self.source.polygons(name)
+                         if p.role in ("static", "invisible")]
+            polygons = [p for p in polygons if abs(p.normal[1]) >= 0.02]
+            low = np.array([p.points[:, [0, 2]].min(0) for p in polygons]).reshape(-1, 2)
+            high = np.array([p.points[:, [0, 2]].max(0) for p in polygons]).reshape(-1, 2)
+            self._surfaces = (polygons, low, high)
+        polygons, low, high = self._surfaces
+        near = np.flatnonzero((low[:, 0] <= x) & (x <= high[:, 0]) & (low[:, 1] <= z) & (z <= high[:, 1]))
+        return surface_column([polygons[i] for i in near], x, z)
+
+    def first_surface(self, x: float, z: float, y_from: float) -> tuple:
+        """(height, polygon) of the first surface an actor at (x, y_from, z) stands on: a DAT position in the ground
+        (the first surface over it, at most BURIED_REACH up, is a top) stands on that top, else on the first top under
+        it, steep or not; (None, None) when there is none."""
+        column = self.surfaces_at(x, z)
+        over = [(h, p) for h, p in column if h > y_from + 1]
+        if over and over[0][1].normal[1] > 0 and over[0][0] - y_from <= BURIED_REACH:
+            return over[0]
+        under = [(h, p) for h, p in column if h <= y_from + 1 and p.normal[1] > 0]
+        return under[-1] if under else (None, None)
+
+    def actor_floor(self, anchor: str, x: float, z: float, y_from: float) -> tuple:
+        """(x, floor height, z) in LithTech units where the actor whose DAT position is (x, y_from, z) stands: the
+        first surface under it (first_surface), or, on a slope too steep to stand on, the nearest point round it whose
+        first surface is a floor; (x, None, z) when there is no surface under it. A placement this moves is in the
+        report's `actors_moved`."""
+        height, polygon = self.first_surface(x, z, y_from)
+        if polygon is None:
+            return x, None, z
+        if polygon.normal[1] >= FLOOR_NORMAL_Y:
+            if height > y_from + 1:
+                self.report.setdefault("actors_moved", []).append(
+                    {"anchor": anchor, "why": "in the ground", "lt": [round(x, 1), round(y_from, 1), round(z, 1)],
+                     "floor_lt": round(height, 1)})
+            return x, height, z
+        # on a slope: rings outward, nearest first, the first spot whose own first surface is a floor
+        for ring in range(1, int(SLOPE_REACH / SLOPE_RING) + 1):
+            distance = ring * SLOPE_RING
+            for k in range(SLOPE_ANGLES):
+                angle = 2 * np.pi * k / SLOPE_ANGLES
+                cx, cz = x + distance * np.cos(angle), z + distance * np.sin(angle)
+                floor, record = self.first_surface(cx, cz, max(y_from, height))
+                if record is not None and record.normal[1] >= FLOOR_NORMAL_Y and abs(floor - height) <= 1.5 * distance:
+                    self.report.setdefault("actors_moved", []).append(
+                        {"anchor": anchor, "why": "off a slope", "lt": [round(x, 1), round(y_from, 1), round(z, 1)],
+                         "to_lt": [round(cx, 1), round(floor, 1), round(cz, 1)]})
+                    return cx, floor, cz
+        raise SystemExit(f"actor {anchor}: on a slope with no floor within {SLOPE_REACH * SCALE:.0f} units")
 
     def fits(self, x0, z0, hx, hz, centre_floor, owner) -> bool:
         for sx in np.linspace(-1, 1, 7):
@@ -441,12 +505,13 @@ class Content:
         """A placed actor at its DAT position on the floor under it, facing as in MM9. base: name, attributes, hp,
         hostility_type, monster_info_id, monster_id, radius, height, move_speed; changes override base fields."""
         p = o["properties"]
-        floor = self.floor_at(p["Pos"][0], p["Pos"][2], p["Pos"][1] if floor_query_lt is None else floor_query_lt)
+        x, floor, z = self.actor_floor(o["name"], p["Pos"][0], p["Pos"][2],
+                                       p["Pos"][1] if floor_query_lt is None else floor_query_lt)
         if floor is None:
             raise SystemExit(f"actor {o['name']}: no floor under it")
-        position = self.project.native([p["Pos"][0], floor, p["Pos"][2]]).round().astype(int)
+        position = self.project.native([x, floor, z]).round().astype(int)
         position[2] += 1
-        room = self.owner(np.array([p["Pos"][0], floor + 20, p["Pos"][2]]))
+        room = self.owner(np.array([x, floor + 20, z]))
         yaw = facing_degrees(p.get("Rotation"))
         record = dict(base, **changes)
         # MM9's townsfolk, uniques and town animals with an approved 3D model (mm9_npc_actor_rows.tsv): their own MM9

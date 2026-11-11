@@ -1,4 +1,5 @@
 #include "doctest/doctest.h"
+#include "engine/AssetFileSystem.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/GameplayWorldItemPolicy.h"
 #include "game/items/InventoryBags.h"
@@ -25,6 +26,7 @@
 #include "game/tables/MapStats.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/PotionEffectTable.h"
+#include "game/tables/ItemTable.h"
 #include "game/tables/SpellTable.h"
 #include "tests/RegressionGameData.h"
 
@@ -1233,6 +1235,58 @@ TEST_CASE("MAW Insanity: spellbooks cost more in shops by their place, training 
     const float multiplier = insanity.gameRules().skills.trainingPriceMultiplier(trainee, 2.0f);
     CHECK_EQ(multiplier, doctest::Approx(insanity.model(1).skill(50) + 4));
     CHECK_EQ(plain.gameRules().skills.trainingPriceMultiplier(trainee, 2.0f), doctest::Approx(2.0f));
+}
+
+TEST_CASE("MAW prices a world's spellbook as its own book of the same spell")
+{
+    const auto row = [](uint32_t itemId, const std::string &value, const std::string &mod1)
+    {
+        std::vector<std::string> fields(26);
+        fields[0] = std::to_string(itemId);
+        fields[1] = "missing_test_icon";
+        fields[2] = "Book " + mod1;
+        fields[3] = value;
+        fields[4] = "Book";
+        fields[6] = mod1;
+        fields[17] = "test";
+        fields[18] = "test:item/" + std::to_string(itemId);
+        fields[19] = std::to_string(itemId);
+        return fields;
+    };
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+    ItemTable itemTable;
+    // MAW's Meteor Shower book (408) at MAW's price; MM9's (10909) and a world book whose spell has no MAW book row.
+    REQUIRE(itemTable.load(
+        assetFileSystem, {row(408, "40000", "S9"), row(10909, "2000", "S9"), row(10910, "3000", "S10")}, {}));
+
+    RulesetOptions insanityOptions;
+    insanityOptions.challengeMode = RulesetChallengeMode::RoadToInsanity;
+    MawRules insanity(insanityOptions, MawMapLevels{});
+    MawRules plain(RulesetOptions{}, MawMapLevels{});
+    insanity.setItemTable(&itemTable);
+    plain.setItemTable(&itemTable);
+    const auto item = [](uint32_t itemId)
+    {
+        InventoryItem book;
+        book.objectDescriptionId = itemId;
+        return book;
+    };
+    const auto price = [&](const MawRules &rules, uint32_t itemId)
+    {
+        return rules.gameRules().items.shopBuyValue(item(itemId), *itemTable.get(itemId), nullptr, nullptr);
+    };
+
+    CHECK_EQ(price(plain, 10909), price(plain, 408));
+    CHECK_EQ(plain.gameRules().items.itemValue(item(10909), *itemTable.get(10909), nullptr, nullptr, 1),
+        plain.gameRules().items.itemValue(item(408), *itemTable.get(408), nullptr, nullptr, 1));
+    // Road to Insanity's multiplier (the 9th of its school, x10) applies on top, as to MAW's own book.
+    CHECK_EQ(price(insanity, 10909), price(insanity, 408));
+    CHECK_EQ(price(insanity, 10909), 10 * price(plain, 408));
+    // Without a MAW book of that spell the world's book keeps its own value.
+    CHECK_EQ(price(plain, 10910), standardGameRules().items.shopBuyValue(item(10910), *itemTable.get(10910),
+        nullptr, nullptr));
 }
 
 TEST_CASE("MAW Insanity: a town names another town's open bounty instead of a new one (P9.I8)")

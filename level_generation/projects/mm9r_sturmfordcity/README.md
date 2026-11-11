@@ -123,8 +123,14 @@ chests, doors_exits, scripted, shops pass.
   immobile, never hurt) looping that clip (innkeeper2, ludwig_writing, listen, sitting, sitting2, Bjarni's sit) from
   the load handler (`evt.PlayActorClip`, `evt.FaceActorTo`: no turn or head look in a dialogue). Their use hooks play
   the script's voice line and open the dialogue, Bjarni's and Ludwig's exit hooks pay their rewards; Ludwig looks up
-  when used, Tryggva talks on his bark, Ercc drinks and passes out on his (ercc01a-c, then ercc02). Ercc's cup
-  (part of MM9's Ercc.ABC) is not carried. The cat on the counter (`Cat2`, PropAnim standdown) stays a posed
+  when used, Tryggva talks on his bark, Ercc drinks and passes out on his (ercc01a-c, then ercc02, then ercc_out
+  loops the slumped pose). **Ercc's cup (2026-11-11):** his scene `held_items` hang `mm9_item_erccup.glb` (Cup1 of
+  MM9's Ercc.ABC) on the townsman's `Socket_Cup`, and the townsman's right hand is closed round its stem in every
+  clip that holds it (`../../props/mm9_held_items_claude/scripts/grip_clips.py`); he loops `ercc_sitting` (Ercc.ABC's
+  own `sitting`: the cup at his chest, not PeasantSeated's hands in the lap; `rude_props.MODEL_CLIP_ROLES`). He is
+  the only seated drinker MM9 gives a cup: the tavern's other sitters (Tryggva, Halfdan, the two drinkers, all
+  PeasantMS2/PeasantSeated, no cup piece) get none from their scripts; their mugs stand on the tables
+  (Cup/Cup0-3 decorations). Captures: `output/held_items_check/sturmfordcity/grip_front/`, `grip_sitting/`. The cat on the counter (`Cat2`, PropAnim standdown) stays a posed
   decoration (the HD cat has no standdown).
 - **Doors**: 105 movers: MM9's swing doors (`rotate`, pairs open together), 43 locked doors (34 facade doors that never
   open, MoveDist 0, and 9 locked swing doors: a click says so), the jail door (the guard opens and locks it), two sewer

@@ -79,9 +79,36 @@ MIRROR_COG = 420
 MIRRORS_JSON = PROJECT / "mirrors.json"
 MIRROR_TURN_SPEED = 180             # degrees a second (PassageMirror.scr :Rotate: Rotate 0,1,0, 10, 180)
 STATUE_BRIDGE = {"SwitchCreature0": 0, "SwitchCreature1": 1, "SwitchCreature2": 2, "SwitchCreature3": 3}
+COG_RESET_STATUE = 418              # SwitchCreature5's SetSprite key (evt.PlayDecorationClip)
+COG_CANYON_STATUE = 419             # SwitchCreature4's
 COG_NJAM = 401
 KILL_HOOK = 96
 T_POLL, T_HINTS, T_EYES, T_CARPET, T_CAGES, T_NJAM, T_WARRIOR, T_FLAME, T_CANYON = range(400, 409)
+T_STATUE = 430                      # + k: the end of statue k's clip (SWITCH_STATUES)
+
+# The ice statues are animated decorations (mm9_deco_<prop>_anim.glb: the creature's clips, lower case). The puzzle's
+# (DarkP_RaisingSwitch.scr "PuzzleManager0 Hit<X> <type>", DarkP_BridgeReset.scr): (letter or None for the reset, the
+# clip at start, held: PlayAnim ..., StopHere; the clip of a Use, whose end triggers the manager). MM9 starts the
+# banshee on awareAir and the skeleton warrior (DarkP_CanyonSwitch.scr) on CastSpell, which BANSHEE.abc and
+# SKELETONWARRIOR.abc lack: those stand at rest (their build pose) until used.
+SWITCH_STATUES = {"SwitchCreature0": ("A", "fidget1", "fidget1"), "SwitchCreature1": ("B", "fidget1", "fidget1"),
+                  "SwitchCreature2": ("C", "fidget1", "fidget1"), "SwitchCreature3": ("D", "awareair", "fidgetair1"),
+                  "SwitchCreature5": (None, "fidget1", "fidget1")}
+CANYON_START = "castspell"
+# DarkP_CanyonSwitch.scr :OnUse, :AnimateA-C: the clips in turn, and the banshee eyes each clip's end wakes.
+CANYON_CLIPS = [("hattack2", (0, 1)), ("taunt", (2, 3)), ("rattack1", (6, 7)), ("fidget1", (4, 5))]
+STATUE_MODELS = ROOT / "assets_source/worlds/mm9/models"
+
+
+def statue_clips(prop: str) -> dict:
+    """An ice statue's clips by name (lower case): their length in seconds (the latest key of their samplers)."""
+    import json
+    import struct
+    data = (STATUE_MODELS / f"mm9_deco_{prop}_anim.glb").read_bytes()
+    size = struct.unpack_from("<I", data, 12)[0]
+    gltf = json.loads(data[20:20 + size])
+    return {a["name"]: max(gltf["accessors"][s["input"]]["max"][0] for s in a["samplers"])
+            for a in gltf.get("animations", [])}
 KEY_SCROLL_ITEM = 483               # Givetake.scr "483 false 1"
 ITEM_FATE = 396                     # NPC338.scr: hasitem 396 -> key 188, 146 000 experience
 KEY_ACTIVATED, KEY_MET, KEY_ITEM_BACK = 476, 187, 188
@@ -108,7 +135,7 @@ CAGES = {"CageTerror0": "Door1", "CageTerror1": "Door2", "CageTerror2": "Door3",
 
 TELEPORTERS = {"Teleporter0": "Teleporter1", "LakeTeleporter": "LakeArrival", "MountainTeleporter": "MountainArrival",
                "DesertTeleporter": "DesertArrival", "ForestTeleporter": "ForestArrival"}
-EYES = [f"BansheeAEye{k}" for k in range(8)]
+EYES = [f"BansheeAEye{k}" for _, pair in CANYON_CLIPS for k in pair]   # in the order they wake
 EYE_DAMAGE = 5                      # Shooter DamageAmt (ProjectileName KBYellowLine, ShootInterval 1)
 
 # Water (README "Water"). (model, wading surface LT, texture, opacity). overrides.yml `map: {swim: true}` (2026-11-06,
@@ -379,11 +406,15 @@ class DarkPassageway(dungeon.Hooks):
         events = {**{name: event for name, event in EV_SWITCH.items()}, "SwitchCreature5": EV_RESET_STATUE,
                   "SwitchCreature4": EV_CANYON_STATUE, "Gemstone": EV_GEMSTONE}
         # the scroll Prop38 (Givetake.scr) is a world item (dungeon/pickups.py: item 483)
-        cogs = {name: STATUE_COG + 2 * k for name, k in STATUE_BRIDGE.items()}
+        cogs = {**{name: STATUE_COG + 2 * k for name, k in STATUE_BRIDGE.items()},
+                "SwitchCreature5": COG_RESET_STATUE, "SwitchCreature4": COG_CANYON_STATUE}
+        self.statue_clips = {}
         if PROPS.exists():
             content.props(PROPS, events=events, cogs=cogs)
             import json
             for entry in json.loads(PROPS.read_text()):
+                if entry["source_name"] in SWITCH_STATUES or entry["source_name"] == "SwitchCreature4":
+                    self.statue_clips[entry["source_name"]] = statue_clips(entry["prop"])
                 k = STATUE_BRIDGE.get(entry["source_name"])
                 if k is None:
                     continue
@@ -633,20 +664,51 @@ class DarkPassageway(dungeon.Hooks):
             "        MM9.playSound(\"sounds/events/quest.wav\")",
             "    end",
             "end",
-            "local function hit(letter)",
-            "    if var(\"PuzzleSolved\") == 1 then return end",
+        ]
+        statues = []
+        for k, (name, (letter, start, use)) in enumerate(SWITCH_STATUES.items()):
+            clips = self.statue_clips[name]
+            assert use in clips, f"{name}: no {use} clip"
+            cogs = [STATUE_COG + 2 * STATUE_BRIDGE[name], STATUE_COG + 2 * STATUE_BRIDGE[name] + 1] \
+                if name in STATUE_BRIDGE else [COG_RESET_STATUE]
+            fields = [f"cogs = {{{', '.join(map(str, cogs))}}}", f"hit = \"{letter}\"" if letter else None,
+                      f"start = \"{start}\"" if start in clips else None, f"use = \"{use}\"",
+                      f"seconds = {clips[use]:.3f}"]
+            statues.append(f"    [{k}] = {{{', '.join(f for f in fields if f)}}},   -- {name}")
+        lines += [
+            "-- The statues (animated decorations; each puzzle statue and its moved twin play together): at start",
+            "-- PlayAnim fidget1 (the banshee awareAir, which BANSHEE.abc lacks: it stands at rest), its end held; a Use",
+            "-- plays fidget1 (the banshee FidgetAir1) with EnchantItem.wav, and only the clip's end (PlayAnim's callback",
+            "-- :TriggerScrObj) tells the manager: Hit<X>, or Reset for the terror (DarkP_BridgeReset.scr). A click while",
+            "-- the clip plays is ignored (MM9 restarts it, still one trigger). The solved puzzle's Stop removes the Use.",
+            "local STATUES = {",
+            *statues,
+            "}",
+            "local function showStatue(k)   -- the pose it holds: the end of the last clip it played",
+            "    local s = STATUES[k]",
+            "    local clip = var(\"StatueUsed\" .. k) == 1 and s.use or s.start",
+            "    if clip then for _, cog in ipairs(s.cogs) do evt.PlayDecorationClip(cog, clip, \"end\") end end",
+            "end",
+            "local function useStatue(k)   -- :MoveMe",
+            "    if var(\"PuzzleSolved\") == 1 or var(\"StatueBusy\" .. k) == 1 then return end",
+            "    local s = STATUES[k]",
+            "    set(\"StatueBusy\" .. k, 1); set(\"StatueUsed\" .. k, 1)",
+            "    for _, cog in ipairs(s.cogs) do evt.PlayDecorationClip(cog, s.use) end",
             "    sound(\"spells/EnchantItem.wav\")",
-            "    setPuzzle(PUZZLE[letter][puzzleState()] or 0)",
+            f"    arm({T_STATUE} + k, s.seconds)",
+            "end",
+            "local function statueDone(k)   -- :TriggerScrObj",
+            "    set(\"StatueBusy\" .. k, 0)",
+            "    if var(\"PuzzleSolved\") == 1 then return end",
+            "    local s = STATUES[k]",
+            f"    setPuzzle(s.hit and (PUZZLE[s.hit][puzzleState()] or 0) or {PUZZLE_START})",
             "end",
         ]
-        for name, event in EV_SWITCH.items():
-            lines.append(f"handlers[{event}] = function() hit(\"{SWITCH_LETTER[name]}\") end   -- {name}")
+        for k, name in enumerate(SWITCH_STATUES):
+            event = EV_SWITCH.get(name, EV_RESET_STATUE)
+            lines += [f"handlers[{event}] = function() useStatue({k}) end   -- {name}",
+                      f"handlers[{T_STATUE + k}] = function() if fired({T_STATUE + k}) then statueDone({k}) end end"]
         lines += [
-            f"handlers[{EV_RESET_STATUE}] = function()   -- SwitchCreature5: Reset",
-            "    if var(\"PuzzleSolved\") == 1 then return end",
-            "    sound(\"spells/EnchantItem.wav\")",
-            f"    setPuzzle({PUZZLE_START})",
-            "end",
             f"handlers[{EV_LOCKED['TeleportDoor0']}] = function()   -- TeleportDoor0: Locked until the puzzle is solved",
             "    if var(\"PuzzleSolved\") == 0 or var(\"TeleportDoor0Locked\") == 1 then locked() return end",
             "    openG(\"TeleportDoor0\")",
@@ -669,12 +731,18 @@ class DarkPassageway(dungeon.Hooks):
         ]
         # --- canyon
         eyes = ", ".join(f"{lua.point(self.eyes[name])}" for name in EYES)
+        canyon = self.statue_clips["SwitchCreature4"]
+        steps = ", ".join(f"{{\"{clip}\", {canyon[clip]:.3f}}}" for clip, _ in CANYON_CLIPS)
         lines += [
-            "-- The canyon (DarkP_CanyonSwitch.scr on the ice statue SwitchCreature4): a click wakes the banshee statues'",
-            "-- eyes in pairs (BansheeAEye0/1, 2/3, 6/7, then 4/5: Shooters, KBYellowLine, 5 damage, one shot a second",
-            "-- at the party) and unlocks and opens the canyon doors (CanyonDoorL0/R0). TriggerBansheeOff0 by the mountain",
-            "-- teleporter turns every eye off.",
-            f"local EYES = {{{eyes}}}",
+            "-- The canyon (DarkP_CanyonSwitch.scr on the ice statue SwitchCreature4, an animated decoration): a click",
+            "-- plays Hattack2, Taunt, Rattack1 and Fidget1 in turn, each with EnchantItem.wav; each clip's end wakes a",
+            "-- pair of the banshee statues' eyes (BansheeAEye0/1, 2/3, 6/7, then 4/5: Shooters, KBYellowLine, 5 damage,",
+            "-- one shot a second at the party), the last one stops the statue (holding Fidget1's end), removes its Use",
+            "-- and unlocks and opens the canyon doors (CanyonDoorL0/R0). At start it plays CastSpell, which",
+            "-- SKELETONWARRIOR.abc lacks: it stands at rest. TriggerBansheeOff0 by the mountain teleporter turns every",
+            "-- eye off. An eye's shot strikes the party in its path (FireMissile's strikesParty).",
+            f"local EYES = {{{eyes}}}   -- in the order they wake",
+            f"local CANYON = {{{steps}}}",
             "local function shoot(e)",
             "    local x, y, z = evt.GetPartyPosition()",
             "    z = z + 100",
@@ -682,7 +750,7 @@ class DarkPassageway(dungeon.Hooks):
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    if length > 6000 then return end",
             "    local k = math.max(64 / length, 0.05)",
-            f"    local shot = evt.FireMissile(\"Fire\", e[1] + dx * k, e[2] + dy * k, e[3] + dz * k, x, y, z, {EYE_DAMAGE}, \"Energy\", 0)",
+            f"    local shot = evt.FireMissile(\"Fire\", e[1] + dx * k, e[2] + dy * k, e[3] + dz * k, x, y, z, {EYE_DAMAGE}, \"Energy\", 0, 0, true)",
             "    if shot then MM9.launchSound(\"KBYellowLine\", e[1], e[2], e[3]) end",
             "    set(\"EyeShots\", var(\"EyeShots\") + (shot and 1 or 0))",
             "end",
@@ -692,21 +760,24 @@ class DarkPassageway(dungeon.Hooks):
             "    if var(\"EyesOff\") == 1 or on == 0 then return end",
             "    for k = 1, math.min(on, 8) do shoot(EYES[k]) end",
             "end",
-            f"handlers[{T_CANYON}] = function()   -- the statue's animations: a pair of eyes wakes at each",
-            f"    if not fired({T_CANYON}) then return end",
+            "local function canyonClip(step)   -- :OnUse, :AnimateA-C",
+            "    set(\"CanyonStep\", step)",
             "    sound(\"spells/EnchantItem.wav\")",
+            f"    evt.PlayDecorationClip({COG_CANYON_STATUE}, CANYON[step][1])",
+            f"    arm({T_CANYON}, CANYON[step][2])",
+            "end",
+            "local function canyonOpen()   -- :Stop, :CanyonDoors",
+            "    set(\"EyesOn\", 8); set(\"CanyonOpen\", 1); openG(\"CanyonDoor\")",
+            "end",
+            f"handlers[{T_CANYON}] = function()   -- a clip's end: a pair of eyes wakes, then the next clip",
+            f"    if not fired({T_CANYON}) then return end",
             "    set(\"EyesOn\", math.min(8, var(\"EyesOn\") + 2))",
-            "    if var(\"EyesOn\") < 8 then",
-            f"        arm({T_CANYON}, 1.2)",
-            "    else",
-            "        set(\"CanyonOpen\", 1); openG(\"CanyonDoor\")",
-            "    end",
+            "    if var(\"CanyonStep\") < #CANYON then canyonClip(var(\"CanyonStep\") + 1) else canyonOpen() end",
             "end",
             f"handlers[{EV_CANYON_STATUE}] = function()   -- SwitchCreature4 :OnUse",
             "    if var(\"CanyonUsed\") == 1 then return end",
             "    set(\"CanyonUsed\", 1)",
-            "    sound(\"spells/EnchantItem.wav\")",
-            f"    arm({T_CANYON}, 1.0)",
+            "    canyonClip(1)",
             "end",
             f"handlers[{EV_LOCKED['CanyonDoor']}] = function()   -- CanyonDoorL0/R0: Locked until the statue's call",
             "    if var(\"CanyonOpen\") == 0 then locked() return end",
@@ -1000,7 +1071,16 @@ class DarkPassageway(dungeon.Hooks):
             "    for cog, _ in pairs(HINTS) do set(\"Hint\" .. cog, 0) end",
             "    updateHints()",
             "    if var(\"ExitInit\") == 0 then set(\"ExitInit\", 1); set(\"ExitOn2\", 1) end",
+            f"    for k = 0, {len(SWITCH_STATUES) - 1} do",
+            "        -- a save taken while a statue's clip played: the manager hears it now",
+            f"        if var(\"StatueBusy\" .. k) == 1 then set(\"Armed\" .. ({T_STATUE} + k), 0); statueDone(k) end",
+            "        showStatue(k)",
+            "    end",
             "    placeBridges(puzzleState())",
+            f"    if var(\"CanyonUsed\") == 1 and var(\"CanyonOpen\") == 0 then set(\"Armed{T_CANYON}\", 0); canyonOpen() end",
+            f"    if var(\"CanyonOpen\") == 1 then evt.PlayDecorationClip({COG_CANYON_STATUE}, CANYON[#CANYON][1], \"end\") "
+            + (f"else evt.PlayDecorationClip({COG_CANYON_STATUE}, \"{CANYON_START}\", \"end\") "
+               if CANYON_START in self.statue_clips["SwitchCreature4"] else "") + "end",
             "    for k = 1, 4 do aimMirror(k, 0) end",
             "    if var(\"PuzzleSolved\") == 1 then openG(\"TeleportDoor0\") end",
             "    if var(\"NjamShown\") == 1 then MM9.removeActor(NJAM)",
@@ -1021,6 +1101,7 @@ class DarkPassageway(dungeon.Hooks):
                    (T_POLL, "Trigger volumes", None, "timer"), (T_HINTS, "Perception hints", None, "timer"),
                    (T_EYES, "Banshee eyes", None, "timer"),
                    *[(t, "Timer", None, "timer") for t in (T_CARPET, T_CAGES, T_NJAM, T_WARRIOR, T_FLAME, T_CANYON)],
+                   *[(T_STATUE + k, f"{name}'s clip ends", None, "timer") for k, name in enumerate(SWITCH_STATUES)],
                    (EV_LOAD, "Map load", None))
         script.hooks += [f'RegisterMonsterKilledHook({KILL_HOOK}, "Dark Passageway kills", handlers[{KILL_HOOK}])']
         return script.finish(on_load=[EV_LOAD])

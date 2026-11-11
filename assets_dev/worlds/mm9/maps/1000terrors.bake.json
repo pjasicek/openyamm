@@ -2,12 +2,12 @@
   "base": {
     "bake": "output/mm9_rework/bakes/1000terrors",
     "carried_over": false,
-    "geometry_hash": "12493463305538ea",
-    "lighting_sha256": "7d251151780c2be3ae5fa3eee6f7bd02c24fbd04232196b4ac9d2ddf0a3b640b",
+    "geometry_hash": "eb573d71451a39fc",
+    "lighting_sha256": "0925ec183316b9ebd295fe84a3dbcd6cec4505f7c616a61d1f21b95f780e87c4",
     "recipe": {
-      "backend": "5.2.2 LTS",
+      "backend": "5.3.0",
       "extra_lights": [],
-      "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
       "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
       "profile": {
         "ambient_colour": [
@@ -71,5 +71,5 @@
     "plane_tolerance_lt": 1.5
   },
   "producer": "mm9r_common/lightmap_transfer.py",
-  "producer_sha256": "8b9b0dd21f5d7be16f8b361eca93b138610cafe45ee68c34210f1867395ae9d6"
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
 }

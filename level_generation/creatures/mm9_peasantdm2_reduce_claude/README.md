@@ -125,3 +125,7 @@ project must re-run that reduction". Rollback: `before/mm9_peasantdm2.glb`.
 In game (not installed; binding regression and floor audit run after install); motion at normal speed by eye (frames, gates and
 viewer stills only); LOD1-3 and shadow meshes by eye (numbers only); fingertips at full size (the hand close-ups frame the backs of the
 hands); the viewer's shoulders-from-behind preset came out empty for this figure.
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_RHand1`). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`).

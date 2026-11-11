@@ -10,7 +10,7 @@ Decided from the ABC: a two-armed Biped (`Bip01`, Finger0 and Finger1 per hand),
 | Triangles LOD0/1/2/3 | 13,348 / 6,673 / 2,401 / 798. LOD0: head 2,270, crown 1,194, eyes 118, torso 1,704, legs 1,266, hands 1,198, panels 648 + 822, pauldrons 756, shoes 520, belt 420, boots 420, bracers 420, greaves 340, buckle 296, flaps 480, yokes 476 |
 | Skeleton | 78 joints: MM9's 31 + 30 finger bones (15 per side) + 8 panel links (`XPanelF1-4`, `XPanelB1-4`) + 9 half-joint helpers |
 | Clips (30 fps) | Standing `stand`, Walking `walk`, Running `run`, Fidget `fidget2`, AttackMelee `hAttack1`, AttackRanged `rAttack1`, Hit `wince1`, Death `die1`, Dead; script clips Fidget2 `fidget3`, Fidget3 `fidget4`, Taunt, AttackRanged2 `rAttack1Lame`, ResurrectSpell, Hit2 `wince2`, Death2 `die2`, Backpedal, BackpedalRun |
-| Events (MM9's) | `attack_melee` impact 0.36 s (`rattack`, DoFX 1 = bluedots: blue glow on both palms); `attack_ranged` and `cast` impact 0.833 s (`rangeAttack`), glow on both palms, release `palm_left` (MM9's RangeAttack socket is on LHand1). DoFX 0.133 to EndFX 1.266 s: the engine's charge glow stands for it |
+| Events (MM9's) | `attack_melee` impact 0.36 s (`rattack`); `attack_ranged` and `cast` impact 0.833 s (`rangeAttack`), release `palm_left` (MM9's RangeAttack socket is on LHand1). MM9's `DoFX` hand effects as socket effects on both palms, one hand's emitter on each (2026-11-10, no glow: MM9 has no light there). `DoFX n` plays FX*n*, 0-based (`object.lto` `0x1001af90`; FX0 bluedots, FX1 redyeldots, FX2 greenyeldots): melee `mm9:redyeldots` from 0.36 s, ranged and cast `mm9:greenyeldots` 0.133-1.266 s, `fidget` redyeldots 0.6-1.933 s, `attack_ranged2` redyeldots 0.114-1.657 s, `taunt` greenyeldots 0.141-0.817 s; ResurrectSpell's `DoFX 3` names no column (nothing), and bluedots never plays |
 | Textures | Up colour 2048x1024, Low colour 2048x1024 + tier A Low colour 2048x1024, head colour 1K per tier (3), normals and ORM 1024x512 / 1K, region masks 1024x512. 15 images |
 | GPU memory | about 20.3 MB for all tiers (BC7/BC5 estimate with mips); three full paints would be 29.4 MB. All variants upload even with one tier on a map (orchestrator's note) |
 | Meshy credits | **30 / 40**: body Smart Topology 5, head Smart Topology 5, body retexture B 10, body retexture A 10 (backup account), no retries |
@@ -102,7 +102,7 @@ Knees and elbows are near 0 after pivots at the outside of the bend and a tight 
 - **Motion by eye at normal speed**: `review/playback/` holds every clip at normal and half speed; judged from frames, nobody watched the videos.
 - LOD1-3 close up, shadow meshes by eye.
 - Indoor maps and a map where the rows are placed: the in-game check is `bootcamp.odm`, spawned actors, outdoors. Melee glow on both palms and the lightning release seen in captures. Corpse in game not seen (no console kill).
-- Charge glow timing against MM9's DoFX: the engine has its own window; `bluedots`, `redyeldots`, `greenyeldots` are not carried (no effect in the library, as on the Lich). ResurrectSpell has no engine hook.
+- MM9's dots recipes have one emitter per hand; the engine spawns the whole recipe on each palm (twice MM9's density per hand). ResurrectSpell has no engine hook (its clip shows its effect when a script plays it).
 - Sounds and footsteps, Velocity events of `die1` (MM9 moves the actor while it falls).
 - Android, saves.
 - Which clip MM9 plays for which tier is unread: `rAttack1Lame` is only a script clip; no script names it.

@@ -93,7 +93,8 @@ else is enclosed rooms. So the map is a dungeon with the cities' sky:
 - **Starts and exits**: StartPoint0 by the exit portal (Yorwick's ExitTrigger6 arrives there,
   `mm9:transition/yorwick/7`); ExitTrigger0 to Yorwick's WizardLabExit (`mm9:transition/wizardslab/870`, AskPlayer).
   The shared table writer moves both rows to `wizardslab.blv` and keeps the old frame; map_stats.txt row 9071 names
-  the BLV. The painted minimap (catalog entry `wizardslab`) is kept: `painted_minimap: true`.
+  the BLV. The painted minimap (catalog entry `wizardslab`) is kept, and unlike the cities the lab has its
+  outlines (no `painted_minimap`, 2026-11-10), so the Map style setting chooses the line map or the painted one.
 
 ## Props
 
@@ -136,7 +137,7 @@ kills an actor); after the demon is up any hit on an apprentice counts as the de
 the attacker); an Oculus killed before the sorcerer leaves the pairs unlocked; the crystals' and summoners' sounds
 partly not imported (`magic/teleport.wav`, `magic/wizardeyeloop.wav`, `magic/cast01.wav`, `magic/cast03.wav`,
 `animsounds/dragon/fidget2.wav`, `animsounds/evilsorcerer/wince2.wav`: in `mm9/extracted/SOUNDS/SOUNDS/`, not in
-`assets_dev/worlds/mm9/audio`); `mm9:greenyeldots` is unsupported by the effect library; the PC "no gold" voice
+`assets_dev/worlds/mm9/audio`); the PC "no gold" voice
 is a status line; MM9's AI rails (AITrack on/off) and the perception hint (PerceptionBrush0) are not carried.
 
 Events: map load 1, chests 41-43, door groups 101-114, locked pair 200, super-eye pairs 201-202, levers 210-223,
@@ -155,12 +156,16 @@ DestinationPurple sends 'next' (the poll's `startRitual()` calls `MM9Cinematic.s
   TriggerNotify<k> -> TriggerSwitchTo<k+1> SendDelay 8, 5, 0: MarkerLocation2's scene lasts no frame and is left out.
   The end is the master's :EndScene: :Summon at 19.5 s, taunt (EVILSORCERER.abc, 1.0 s), Wait 1.
 - Steps (event 36000 done, 36001-36008): the ritual's eight ticks, `ritualAdvance(k)` = `ritualStep` when RitualStep is
-  k (the six apprentices at 2 s and every 2.5 s: beams, sparklies, bugs; the master at 17 s: meteor, town portal,
+  k (the six apprentices at 2 s and every 2.5 s: sparklies on the apprentice (MM9.actorFx) and green dots at its
+  shooter above it, then 2.5 s later at the next tick their lightning, MM9's Sparks explosion (mm9:explosion_sparks)
+  and bugs at SummonLocation; the master at 17 s: meteor, town portal,
   column of fire; the Greater Demon at 19.5 s). A dead apprentice still stops the chain. A skip runs the remaining
   ticks at once (the demon appears).
 - Cues: the scripts' sounds (thunderlong per apprentice, cast03 at the master's :CastSpell 18.5 s, the demon's
-  fidget2), the apprentices turned to SummonLocation (FaceObject at :Main), their clips (Fidget2 at :ConjureSpell,
-  AttackRanged at :CastSpell), the master's Fidget2 loop, AttackRanged and Taunt (mm9_evilsorcerer.glb).
+  fidget2), the apprentices turned to SummonLocation (FaceObject at :Main), their clips (MM9's fidget2 = the GLB's
+  Fidget at :ConjureSpell, AttackRanged at :CastSpell), the master's Fidget loop, AttackRanged and Taunt
+  (mm9_evilsorcerer.glb). The clips' actors.yml events put MM9's DoFX hand effects on both palms: Fidget redyeldots
+  0.6-1.933 s, AttackRanged greenyeldots 0.133-1.266 s (2026-11-10). A dying apprentice's bluedots are on its palms.
 - Timer 270 still runs a ritual an old save left half-way (`ritualStep(true)`: with its sounds and the next tick).
 
 Test without a conversion: `python3 cinematics_pilot.py` (writes the scene and the installed Lua, changed as

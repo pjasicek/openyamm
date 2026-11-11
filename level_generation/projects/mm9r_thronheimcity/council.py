@@ -48,6 +48,7 @@ STAGE_ACTORS = (("kira", "Kira", 251, "Kira the Cold"), ("bjarni", "Bjarni", 246
 # roles themselves; only Kira has a stage actor (she stands at the fire and walks). Sven sits through it.
 POSED_JARLS = {"bjarni": "BjarniProp", "sigmund": "SigmundProp", "forad": "ForadProp", "tryygva": "TryygvaProp",
                "markel": "MarkeProp"}
+KIRA_SWORD = "worlds/mm9/models/mm9_item_kirasword.glb"   # ARG_Kira.scr's AttachProp kirasword.ABC
 ABC = {"kira": "KIRA", "markel": "MARKEL", "bjarni": "BJARNI", "sigmund": "SIGMUND", "forad": "FORADDARRE",
        "tryygva": "TRYGGVA"}
 # MM9 animation -> the GLB clip (actors.yml script_clips; level_generation/creatures/mm9_<name>_claude)
@@ -255,6 +256,8 @@ def council_scene(actor: dict, feet: dict, cogs: dict, posed: dict | None = None
     # KiraMarker1 (target Markel), :DrawSword (Sc2_Kira17: the sword drawn at its attach key, DrawSword.wav's end is
     # Done 21 :KiraCam: Camera9), :Attack (Sc2_Kira20-23: KillMarkel; Witty: Sc2_Kira22 with 17.wav, its Done2 is
     # Done 22 :KiraCam2: Camera10 and Speak18: 18.wav, whose end is Done 23; wait .5 ClapTrigger)
+    # ARG_Kira.scr :OnStand: AttachProp kirasword Sheath (her sword at her hip only once she stands)
+    scene.step(done, "kira_sheath", f"evt.AttachActorItem({actor['kira']}, \"{KIRA_SWORD}\", \"Socket_Sheath\")")
     keys = line.anim(done, "kira", "Sc2_KIRA16b", then=None, note="KiraStand: Sc2_KIRA16b")
     line.cut(keys["done2"], "Camera8")
     walk_start = keys["end"]
@@ -272,6 +275,10 @@ def council_scene(actor: dict, feet: dict, cogs: dict, posed: dict | None = None
                 seconds=0.2)
     keys = line.anim(t, "kira", "Sc2_Kira17", then=None, note="DrawSword: Sc2_Kira17")
     cinema.sound(keys["attach"], "sounds\\events\\drawsword.wav", note="OnAttach: the sword in her hand")
+    # :OnAttach (Sc2_Kira17's attach key): DetachProp the sheathed sword, AttachProp kirasword RHand1
+    scene.step(keys["attach"], "kira_draw", "\n".join([
+        f"evt.DetachActorItem({actor['kira']}, \"Socket_Sheath\")",
+        f"evt.AttachActorItem({actor['kira']}, \"{KIRA_SWORD}\", \"Socket_RHand1\")"]))
     line.cut(keys["attach"] + cutscenes.wav_seconds("sounds\\events\\drawsword.wav"), "Camera9")
     keys = line.anim(keys["end"], "kira", "Sc2_Kira20-23", then=None, note="Attack: Sc2_Kira20-23")
     kill = keys["killmarkel"]
@@ -302,6 +309,7 @@ def council_scene(actor: dict, feet: dict, cogs: dict, posed: dict | None = None
         "-- :End gosub War; the hall as the scene left it: the posed Jarls back, Markel dead (NPC239.scr",
         "-- :OnKillMarkel), Kira the Cold at her place; ARG_Yrsa.scr :OnAppear: Yrsa 5 + 2 s later",
         "war()",
+        f"evt.DetachActorItem({actor['kira']})   -- her sword goes with her stage actor (MM9 drops props on a load)",
         hide,
         "-- the Jarls back in their chairs, looping Sit (the scene's presentation ends with it)",
         *reseat,

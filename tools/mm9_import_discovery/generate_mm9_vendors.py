@@ -983,7 +983,7 @@ def generate(args: argparse.Namespace) -> None:
         "service_id", "package_id", "source_service_id", "canonical_id", "name", "location",
         "service_type", "price_multiplier", "temple_healing_tier", "training_max_level", "can_heal",
         "can_donate", "can_learn_skills", "scene_policy", "opening_policy", "source_line", "learn_skills",
-        "skill_price_multiplier",
+        "skill_price_multiplier", "map",
     ]]
     service_alias_rows: list[list[object]] = [[
         "service_id", "package_id", "source_service_id", "source_line",
@@ -1182,6 +1182,7 @@ def generate(args: argparse.Namespace) -> None:
             LOCATION_BY_SOURCE_ID[venue.source_id], venue.runtime_type, f"{venue.price_multiplier:g}", 0, 0,
             int(venue.can_heal), int(venue.can_donate), int(bool(learn_skills)), "LiveGameplay", "RudeQuestKey",
             venue.source_line, "|".join(learn_skills), venue.skill_price_multiplier,
+            LOCATION_BY_SOURCE_ID[venue.source_id].lower() + "city.blv",
         ])
         service_alias_rows.append([venue.service_id, "mm9", venue.source_id, venue.source_line])
 

@@ -9,13 +9,15 @@ BLOCK = '''# >>> mm9_lich_claude
 # resampled, skull from a skull-only Meshy model (head set), bone fingers rigged by connectivity (three joints, driven by
 # MM9's finger curl). Rows: Lich L45 (LICH1), Power Lich L55 (LICH2), tiers by region mask and ramps from the two skins; eyes
 # glow red / green. Scale 120 = 100 x MONSTERS.txt Scale 1.2. Events = MM9 clip events: Rattack 0.386 s (Hattack2), RangeAttack
-# 0.447 s (Rattack1, socket on the left hand; charge from DoFX 0 at 0.235 s). LHand1 / RHand1 are MM9's sockets, moved onto
-# our palms. MM9's FX0/FX1 hand sparkles (bluedots, greenyeldots) wait for body anchors in the effect library.
+# 0.447 s (Rattack1, socket on the left hand). LHand1 / RHand1 are MM9's sockets, moved onto our palms. MM9's hand effects are
+# socket effects on both palms (DoFX n plays FX n of MONSTERS.txt, 0-based: object.lto 0x1001af90): the Power Lich's Rattack1
+# DoFX 0 bluedots 0.235-1.176 s, ResurrectSpell DoFX 1 greenyeldots 0.2-1.933 s; the Lich has no FX. Both rows' ResurrectFX
+# GreaterDemon plays at the pelvis as a corpse rises (Resurrect). No glow: MM9 has no light there.
 - descriptor: MM9 Lich A
   model: worlds/mm9/models/mm9_lich.glb
   scale: 120.0
   yaw_offset: -1.570796327
-  animation: &mm9_lich_animation
+  animation:
     cast: AttackRanged
     run: Running
     stride_length: 1.06
@@ -26,10 +28,12 @@ BLOCK = '''# >>> mm9_lich_claude
     sockets:
       palm_left: LHand1
       palm_right: RHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.386}
-      attack_ranged: {impact: 0.447, glow: [palm_left], release: palm_left}
-      cast: {impact: 0.447, glow: [palm_left], release: palm_left}
+      attack_ranged: {impact: 0.447, release: palm_left}
+      cast: {impact: 0.447, release: palm_left}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips: &mm9_lich_clips
     standing: Standing
     walking: Walking
@@ -57,7 +61,24 @@ BLOCK = '''# >>> mm9_lich_claude
   model: worlds/mm9/models/mm9_lich.glb
   scale: 120.0
   yaw_offset: -1.570796327
-  animation: *mm9_lich_animation
+  animation:
+    cast: AttackRanged
+    run: Running
+    stride_length: 1.06
+    run_stride_length: 2.66
+    gait_rate: [0.7, 1.4]
+    upper_body_root: Bip01 Spine1
+    look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
+    sockets:
+      palm_left: LHand1
+      palm_right: RHand1
+      body: Bip01 Pelvis
+    events:
+      attack_melee: {impact: 0.386}
+      attack_ranged: {impact: 0.447, release: palm_left, effect: {id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.235, end: 1.176}}
+      cast: {impact: 0.447, release: palm_left, effect: {id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.235, end: 1.176}}
+      resurrect_spell: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.2, end: 1.933}}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips: *mm9_lich_clips
   script_clips: *mm9_lich_script_clips
   skin: lich_b

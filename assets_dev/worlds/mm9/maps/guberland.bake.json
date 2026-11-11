@@ -3,11 +3,11 @@
     "bake": "output/mm9_rework/bakes/guberland",
     "carried_over": false,
     "geometry_hash": "e425ed4b00a12106",
-    "lighting_sha256": "b1e3906b0ea5f4aa3bdb0d978787e719c7c9d09398ea4a3c7eeb5639a09dbd7b",
+    "lighting_sha256": "16df3b685df7f78149e7e43bfda71c37e2c23021a4c18418dc91f9556aa40e46",
     "recipe": {
-      "backend": "5.2.2 LTS",
+      "backend": "5.3.0",
       "extra_lights": [],
-      "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
       "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
       "profile": {
         "ambient_colour": [
@@ -118,5 +118,5 @@
     "plane_tolerance_lt": 1.5
   },
   "producer": "mm9r_common/lightmap_transfer.py",
-  "producer_sha256": "8b9b0dd21f5d7be16f8b361eca93b138610cafe45ee68c34210f1867395ae9d6"
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
 }

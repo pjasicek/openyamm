@@ -439,6 +439,60 @@ TEST_CASE("MAW staffs resist for the whole party (L5.6)")
     CHECK_EQ(rules.partyStaffResistance(), master + grandmaster);
 }
 
+TEST_CASE("MAW swords guard by their guard, not by a flat point of Armor Class per skill point")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    Character holder;
+    const ItemDefinition *pElsenrail = gameData.itemTable.get(500);
+    REQUIRE(pElsenrail != nullptr);
+
+    // Discord, 2026-11-10: Grandmaster Sword 20 with Elsenrail (guard 34) gives 2 % x 34 x (20 + 10) = 20, not 40.
+    holder.skills["Sword"] = {"Sword", 20, SkillMastery::Grandmaster};
+    std::optional<MawWeaponGuard> guard = mawWeaponGuard(rules, holder, *pElsenrail, ItemRulesetFields{});
+    REQUIRE(guard.has_value());
+    CHECK_EQ(guard->guard, 34);
+    CHECK_EQ(guard->armorClass, 20);
+    CHECK_EQ(guard->resistance, 0);
+
+    // Below Master the sword gives none; a weapon of another skill has no guard.
+    holder.skills["Sword"] = {"Sword", 20, SkillMastery::Expert};
+    guard = mawWeaponGuard(rules, holder, *pElsenrail, ItemRulesetFields{});
+    REQUIRE(guard.has_value());
+    CHECK_EQ(guard->armorClass, 0);
+    const ItemDefinition *pDagger = gameData.itemTable.get(21);
+    REQUIRE(pDagger != nullptr);
+    REQUIRE(canonicalSkillName(pDagger->skillGroup) == "Dagger");
+    CHECK_FALSE(mawWeaponGuard(rules, holder, *pDagger, ItemRulesetFields{}).has_value());
+}
+
+TEST_CASE("MAW artifact popups give the on-hit damage a blow rolls")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    rules.setItemTable(&gameData.itemTable);
+    Character holder;
+    holder.skills["Sword"] = {"Sword", 10, SkillMastery::Expert};
+
+    // Elsenrail adds Light damage; Snake (it only slows) and Mordred (vampiric) add none.
+    const auto hitOf = [&](uint32_t itemId)
+    {
+        const ItemDefinition *pItem = gameData.itemTable.get(itemId);
+        REQUIRE(pItem != nullptr);
+        InventoryItem item;
+        item.objectDescriptionId = itemId;
+        return mawArtifactHitOnWeapon(rules, holder, *pItem, item);
+    };
+    const std::optional<std::pair<int, int>> elsenrail = hitOf(500);
+    REQUIRE(elsenrail.has_value());
+    CHECK(elsenrail->first > 0);
+    CHECK(elsenrail->second > elsenrail->first);
+    CHECK_FALSE(hitOf(523).has_value());
+    CHECK_FALSE(hitOf(2020).has_value());
+}
+
 TEST_CASE("MAW dragon rules follow the portrait's race (A6.1, A6.3)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});

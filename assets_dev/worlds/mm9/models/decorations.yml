@@ -44,6 +44,8 @@ decorations:
     yaw: facing
   - name: mm9_statstone
     model: worlds/mm9/models/mm9_deco_statstone.glb
+    idle: rotate
+    parts: [worlds/mm9/models/mm9_deco_statstone_sphere.glb]
     height: 220.7
     yaw: facing
   - name: mm9_stonedebris02

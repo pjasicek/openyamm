@@ -274,6 +274,36 @@ TEST_CASE("evt.FireMissile hands the scene its missile; evt.AimDecoration and ev
     CHECK_EQ(aim.back(), doctest::Approx(0.0f));
 }
 
+TEST_CASE("evt.PlayDecorationClip plays, loops, ends and clears a decoration part's clip")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9020, \"Open\", function() evt.PlayDecorationClip(315, \"open\") end)\n"
+        "RegisterGlobalEvent(9021, \"Spin\", function() evt.PlayDecorationClip(316, \"spin\", \"loop\") end)\n"
+        "RegisterGlobalEvent(9022, \"Left open\", function() evt.PlayDecorationClip(317, \"open\", \"end\") end)\n"
+        "RegisterGlobalEvent(9023, \"Shut\", function() evt.PlayDecorationClip(315, \"\") end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@decoration_clip_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+
+    for (const uint16_t eventId : {9020, 9021, 9022})
+    {
+        REQUIRE(eventRuntime.executeEventById(std::nullopt, program, eventId, runtimeState, nullptr, nullptr));
+    }
+    advanceDecorationClips(runtimeState, 0.75f);
+    const EventRuntimeState::DecorationClip &open = runtimeState.decorationClips.at(315);
+    CHECK_EQ(open.clip, "open");
+    CHECK_FALSE(open.loop);
+    CHECK_EQ(open.seconds, doctest::Approx(0.75f));
+    CHECK(runtimeState.decorationClips.at(316).loop);
+    // "end" stands at the clip's last frame whatever its length, and stays there.
+    CHECK_EQ(runtimeState.decorationClips.at(317).seconds, std::numeric_limits<float>::max());
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9023, runtimeState, nullptr, nullptr));
+    CHECK_FALSE(runtimeState.decorationClips.contains(315));
+}
+
 TEST_CASE("evt.StopTimer stops an event's timer until evt.StartTimer runs it again after its delay")
 {
     const std::string source = eventSupportText() + "\n"
@@ -509,6 +539,47 @@ TEST_CASE("evt.SummonMonstersById plays its effect where each spawned monster st
     CHECK_EQ(runtimeState.worldEffectRequests[0].position[0], doctest::Approx(2000.0f));
     CHECK_EQ(runtimeState.worldEffectRequests[1].position[0], doctest::Approx(2100.0f));
     CHECK_EQ(runtimeState.worldEffectRequests[1].scale, doctest::Approx(0.5f));
+}
+
+TEST_CASE("evt.SpawnActorEffect and evt.StopActorEffect queue effects carried on an actor, in call order")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9025, \"Carry\", function()\n"
+        "    evt.SpawnActorEffect(3, \"mm9:bluedots\", \"palm_left\", 2.5, 0.5)\n"
+        "    evt.SpawnActorEffect(4, \"mm9:greenyeldots\")\n"
+        "    evt.StopActorEffect(3, \"mm9:bluedots\")\n"
+        "    evt.StopActorEffect(4)\n"
+        "end)\n"
+        "RegisterGlobalEvent(9026, \"Bad\", function()\n"
+        "    evt.SpawnActorEffect(3, \"mm9:bluedots\", \"palm_left\", -1)\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@actor_effect_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    ActorScene scene;
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9025, runtimeState, nullptr, &scene));
+    REQUIRE_EQ(runtimeState.actorEffectRequests.size(), 4u);
+    const EventRuntimeState::ActorEffectRequest &first = runtimeState.actorEffectRequests[0];
+    CHECK_EQ(first.actorIndex, 3u);
+    CHECK_EQ(first.effectId, "mm9:bluedots");
+    CHECK_EQ(first.socket, "palm_left");
+    CHECK_EQ(first.seconds, doctest::Approx(2.5f));
+    CHECK_EQ(first.scale, doctest::Approx(0.5f));
+    CHECK_FALSE(first.stop);
+    CHECK(runtimeState.actorEffectRequests[1].socket.empty());
+    CHECK_EQ(runtimeState.actorEffectRequests[1].seconds, doctest::Approx(0.0f));
+    CHECK(runtimeState.actorEffectRequests[2].stop);
+    CHECK_EQ(runtimeState.actorEffectRequests[2].effectId, "mm9:bluedots");
+    CHECK(runtimeState.actorEffectRequests[3].stop);
+    CHECK(runtimeState.actorEffectRequests[3].effectId.empty());
+
+    runtimeState.actorEffectRequests.clear();
+    eventRuntime.executeEventById(std::nullopt, program, 9026, runtimeState, nullptr, &scene);
+    CHECK(runtimeState.actorEffectRequests.empty());
 }
 
 TEST_CASE("evt.MoveActorTo walks a map actor until it arrives; evt.SummonMonstersById names the spawned actors")

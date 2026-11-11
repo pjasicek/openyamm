@@ -118,8 +118,11 @@ models:
   TransGate0: static
   TransGate1: static
   TransGate2: static
-  BreakOut0: static                   # the two ceiling slabs the busts break (KingKong.scr): kept; convert.py drops the
-  BreakOut1: static                   #   monsters from them
+  # the two ceiling slabs the busts break (KingKong.scr ForceFall; DestructableBrush, HitPoints 100, CanDamage, stone):
+  # scene destructibles with a doorway into the pocket over each, where the busts wait; broken (by the bust or by the
+  # party's weapons), the pocket's monsters fall through (convert.py)
+  BreakOut0: {group: BreakOut0, motion: break, doorway: true, click: false}
+  BreakOut1: {group: BreakOut1, motion: break, doorway: true, click: false}
   DestructableBrush12: {group: Bolt, motion: break}   # the bolt on PrisonDoor2 (a scene destructible, 2026-11-06): breaking it unlocks the door
   # --- water volumes and the trap's water
   ElectricWater1: skip                # the pit's water volume (its surface is WaterSurface)
@@ -141,10 +144,10 @@ textures:
   'textures\leveltextures\terrain\watermarker.dtx': {alias: WATEQOBX0Z, width: 128, height: 128}   # the volumes' marker (convert.py retextures)
 glass:
   staind_a_glass.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
-# Seeds outside the built air: the busts above the ceiling slabs (KingKong.scr: convert.py places them on the floor
-# under their slab, hidden) and the relay triggers MM9 parks above the roof or inside walls.
-seed_exclude: [BustWraith0, BustWraith1, BustZombie0, BustZombie1, BustZombie2, saw damage trigger 1,
-               saw damage trigger 2, TriggerWaterLock, TriggerWaterUnlock, TriggerPuzzleOn, TriggerPuzzleOff]
+# Seeds outside the built air: the relay triggers MM9 parks above the roof or inside walls. (The busts seed the two
+# pockets over the corridor's ceiling slabs, where they wait: KingKong.scr.)
+seed_exclude: [saw damage trigger 1, saw damage trigger 2, TriggerWaterLock, TriggerWaterUnlock, TriggerPuzzleOn,
+               TriggerPuzzleOff]
 exits:
   ExitTrigger0: {}
 plan_levels:

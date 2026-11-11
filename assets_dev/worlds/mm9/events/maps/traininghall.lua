@@ -105,8 +105,9 @@ end
 -- The joust (d2lever, Switch: open -> Trigger2 turns the wheels and opens dummy2door, the horse rides 1190 LT
 -- east at 1250 LT/s; close -> Trigger3 and dummy2door back at 200 LT/s). A click on the lever does it, and so
 -- does the Mean Trellborg (TH_MeanTrellborg.scr) while the party is down at the lanes (TriggerTrellborgOn0/1
--- 'Go', Off0/1 'Stop'): stand, two fidgets and a taunt (about 4 s), pull, the horse rides, he pulls it back
--- (dummy2door 'Switch'), and when it is back ('Throw') he starts again.
+-- 'Go', Off0/1 'Stop'): stand, two fidgets and a taunt (routine "launch": MEAN_LEAD s), pull, he turns to
+-- the Trellborg the horse rides at, pulls it back facing the lever (dummy2door 'Switch', routine "reset"), and
+-- when it is back ('Throw') he starts again.
 -- The horse's wheels (d2w1-4, RotatingBrush: mover spin) turn while it rides: Trigger2 sends them on and
 -- reverse, Trigger3 reverse and on; dummy2door's Open/CloseTriggers (TriggerHorseGo) send off on arrival (out
 -- 1190 LT at 1250 LT/s, back at 200 LT/s). The second horse's wheels (d4w1-4) never turn in MM9: Trigger7
@@ -122,20 +123,39 @@ local function lever2(pull)
 end
 handlers[409] = function() if fired(409) then wheels2("off") end end   -- TriggerHorseGo
 handlers[201] = function() lever2(var("Horse2Out") == 0) end
-local MEAN = 18
+
+-- The training scenes (SCENES in convert.py): while the party is in its part of the hall, each actor runs its
+-- MM9 script's chain of clips and walks (its scene routine, runtime only: set again on load); the drill, the
+-- commanders' orders, the observers' pacing, the gossip, the jousters' and the lookout's watch.
+local SCENES = {
+    OrcTraining = {routine = "train", actors = {7, 10, 9, 6, 8, 11}},
+    Gossip = {routine = "gossip", actors = {13, 12}},
+    BoxOrcs = {routine = "train", actors = {14, 15}},
+    Jousting = {routine = "joust", actors = {21, 20, 19}},
+}
+local function scene(name, on)
+    set(name, on and 1 or 0)
+    for _, a in ipairs(SCENES[name].actors) do evt.SetActorRoutine(a, on and SCENES[name].routine or nil) end
+end
+local MEAN, MEAN_LEAD = 18, 7
+local function meanLaunch() evt.SetActorRoutine(MEAN, "launch"); arm(403, MEAN_LEAD) end
 handlers[403] = function()
     if not fired(403) then return end
     if var("Jousting") ~= 1 or var("MeanDead") == 1 then return end
-    if var("Horse2Out") == 0 then
+    if var("JoustThrow") == 1 then           -- the horse is back ('Throw'): :CheckStart
+        set("JoustThrow", 0); meanLaunch()
+    elseif var("Horse2Out") == 0 then        -- :LaunchHorse
         lever2(true); set("Launches", var("Launches") + 1)
         arm(403, 1.5)
-    else
-        lever2(false); arm(403, 1190 / 200 + 4)
+    else                                      -- :ResetSwitch
+        lever2(false); evt.SetActorRoutine(MEAN, "reset"); set("JoustThrow", 1)
+        arm(403, 1190 / 200)
     end
 end
 local function joust(on)
-    set("Jousting", on and 1 or 0)
-    if on then arm(403, 4) end
+    scene("Jousting", on)
+    set("JoustThrow", 0)
+    if on then meanLaunch() else evt.SetActorRoutine(MEAN, nil) end
 end
 handlers[96] = function(context) if context.actorIndex == MEAN then set("MeanDead", 1) end end
 
@@ -268,7 +288,13 @@ local VOLUMES = {
     {name = "TriggerTrellborgOn0", box = {{1766, -1152, -333}, {2022, -896, -77}}, again = true, armed = function() return var("Jousting") == 0 end, run = function() joust(true) end},
     {name = "TriggerTrellborgOn1", box = {{-2012, -1152, -333}, {-1756, -896, -77}}, again = true, armed = function() return var("Jousting") == 0 end, run = function() joust(true) end},
     {name = "TriggerTrellborgOff0", box = {{1756, -712, -46}, {2012, -456, 210}}, again = true, armed = function() return var("Jousting") == 1 end, run = function() joust(false) end},
-    {name = "TriggerTrellborgOff1", box = {{-2022, -701, -46}, {-1766, -445, 210}}, again = true, armed = function() return var("Jousting") == 1 end, run = function() joust(false) end}
+    {name = "TriggerTrellborgOff1", box = {{-2022, -701, -46}, {-1766, -445, 210}}, again = true, armed = function() return var("Jousting") == 1 end, run = function() joust(false) end},
+    {name = "TriggerOrcTraining", box = {{2657, -1705, 36}, {2913, -1449, 292}}, again = true, armed = function() return var("OrcTraining") == 0 end, run = function() scene("OrcTraining", true) end},
+    {name = "TriggerOrcsStop", box = {{2657, -1213, 36}, {2913, -957, 292}}, again = true, armed = function() return var("OrcTraining") == 1 end, run = function() scene("OrcTraining", false) end},
+    {name = "TriggerGossipOn", box = {{1185, -141, -5}, {1313, 141, 251}}, again = true, armed = function() return var("Gossip") == 0 end, run = function() scene("Gossip", true) end},
+    {name = "TriggerGossipOff", box = {{978, -384, -5}, {1029, 384, 251}}, again = true, armed = function() return var("Gossip") == 1 end, run = function() scene("Gossip", false) end},
+    {name = "TriggerBoxOrcsOn", box = {{-2790, -128, -46}, {-2534, 128, 210}}, again = true, armed = function() return var("BoxOrcs") == 0 end, run = function() scene("BoxOrcs", true) end},
+    {name = "TriggerBoxOrcsOff", box = {{-2360, -128, -46}, {-2104, 128, 210}}, again = true, armed = function() return var("BoxOrcs") == 1 end, run = function() scene("BoxOrcs", false) end}
 }
 handlers[400] = function()
     evt.StartTimer(400, seconds(0.25))
@@ -302,6 +328,11 @@ handlers[1] = function()   -- map load: what MM9 saves stays as it was left
     if MM9.hasKey(301) == 1 and var("BarBroken") == 0 then set("BarBroken", 1); evt.DestroyDestructible(443) end
     evt.StartTimer(400, seconds(0.25))
     evt.StartTimer(402, seconds(0.25))
+    -- the scenes' routines are runtime only: those under way when the game was saved start again
+    if var("OrcTraining") == 1 then scene("OrcTraining", true) end
+    if var("Gossip") == 1 then scene("Gossip", true) end
+    if var("BoxOrcs") == 1 then scene("BoxOrcs", true) end
+    if var("Jousting") == 1 then joust(true) end
 end
 
 -- MM9's breakable brushes once built as click movers (destructibles.build_breakables): weapons break

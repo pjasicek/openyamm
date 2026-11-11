@@ -141,8 +141,8 @@ About 20 hostile Honks die on the way (`clear_hostiles` in each walk).
 
 **Back to Fre.** No road, boat or altar leads into Arslegard (no transition to `arslegardcity` except from the
 Hall, the Bathhouse and the Tomb; no Town Portal altar there). The scenario lets the party be defeated in Guberland
-(`party_defeat knock_out`, immortality off for it): it wakes in Arslegard City with the Golden Honk but **no gold**
-(asserted 0). Placed by the hall `(19800, -11703, 493) yaw 0`, walks into ExitTriggerHall (20234, -11703), "OK",
+(`party_defeat knock_out`, immortality off for it): it wakes in Arslegard City with the Golden Honk and its gold
+(MM9's defeat takes none; until 2026-11-11 ours took it all). Placed by the hall `(19800, -11703, 493) yaw 0`, walks into ExitTriggerHall (20234, -11703), "OK",
 walks up to Fre. "We have retrieved the Golden Honk." (needs 344, gives 346) -> "Who is behind Tamur Leng?" -> "Will
 we succeed in stopping Tamur Leng?" -> "What does the future hold for Chedian?" -> "What sword?  What two Jarls?" ->
 "Thanks for your time."; the close: 10 000 gold, 22 500 experience (MM9 80 000), the quest sound, the Golden Honk

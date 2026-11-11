@@ -53,11 +53,12 @@ steps:
       name: SmithOff
       value: 1
 - note:
-    text: 'TriggerBeatings1 (event 251): the warden opens the first cell, the doorman the room.'
+    text: 'TriggerBeatings1 (event 251): the interrogator walks to the first cell and the warden opens it; the prisoner follows
+      him to the interrogation room, which the doorman shuts behind them, and the beating sounds (BeatStep 18 while it plays).'
 - execute_event:
     id: 251
 - advance_runtime:
-    seconds: 3.5
+    seconds: 12
 - assert:
     state_dump_named_map_var:
       name: Beatings
@@ -67,18 +68,19 @@ steps:
       id: 12
       state: open
 - advance_runtime:
-    seconds: 22
+    seconds: 52
 - assert:
     state_dump_named_map_var:
       name: BeatStep
-      value: 6
+      value: 18
 - assert:
     mechanism:
       id: 77
-      state: opening
-- advance_runtime:
-    seconds: 2.5
+      state: closed
 - assert:
-    mechanism:
-      id: 77
-      state: open
+    actor_visible:
+      actor_index: 64
+      near:
+        x: -3200
+        y: -5489
+        max_distance: 200

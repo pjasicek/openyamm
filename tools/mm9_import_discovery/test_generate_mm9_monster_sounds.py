@@ -75,6 +75,17 @@ class Mm9MonsterSoundTests(unittest.TestCase):
         self.assertEqual(events[0].script.miss_gate, 50.0)
         self.assertEqual(sounds.animation_events(stand, row(base_name="guard"), available, 1.7, ()), [])
 
+    def test_monk_pray_key_plays_its_prayers(self) -> None:
+        # MONK.abc keys its pray animation PrayMumble (MonkSounds.inc MS_Init: AddModelKey PrayMumble OnPray).
+        pray = sounds.SourceAnimation("pray", 3.0, [(1.0, "praymumble")], {})
+        available = {f"animsounds/monk/pray{n}" for n in range(1, 5)}
+        monk = row(base_name="monk", script="monkguardbasic.scr")
+        events = sounds.animation_events(pray, monk, available, 3.0, ())
+        self.assertEqual(len(events), 1)
+        self.assertEqual(len(events[0].sounds), 4)
+        self.assertAlmostEqual(events[0].script.chance, 0.4)
+        self.assertEqual(events[0].script.miss_gate, 20.0)
+
     def test_clips_match_their_animation_by_pose_signature(self) -> None:
         bones = ["Bip01 Spine", "Bip01 Head", "Bip01 L Arm", "Bip01 R Arm"]
         swing = [0.0, 0.4, 0.9, 0.3, 0.0]

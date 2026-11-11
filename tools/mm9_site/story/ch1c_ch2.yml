@@ -136,6 +136,7 @@ chapters:
           - quest: win-a-prize-at-the-thing-for-yrsa-s-daughter
             steps:
               - "Talk to Yrsa: \"Yrsa? What do you want?\", \"What? We're a little busy right now.\", \"Alright, what do you need done?\", \"What? You're interrupting us so we can go win some prize?!\" and \"Alright. We will get this prize for you.\" She vanishes when you leave."
+              - "There are two ways to get the prize. You can win it at the Thing in Thjorgard (the steps below), or you can take one from Markel the Great's palace in Guberland City. Markel won six of these dragons at the Thing, and they stand on the shelf under the sign \"Awards Won by Markel\". Kira killed him at the council, so they now sparkle and can be picked up. Taking one counts as winning the prize, but gives none of the Thing's 10,000 experience. Then skip to Bikki in the last step."
               - "Travel to Thjorgard (by boat, or on foot through the Mountain Pass). From Thjorgard City, follow the road north-west and then west to the clearing around a small pond. That is the Thing."
               - "Buy tickets from the Huckster by the bell tower: one for 5 gold or ten for 40 gold. The first purchase includes the Game Instructions. Every attempt costs a ticket, and you must win all six games."
               - "Ding the Bell: click the strike plate at the foot of the bell tower. It uses the selected character's Might, and Might 41 or more always rings the bell. Strongarm the Half-orc: click the half-orc next to the tower. This also uses the selected character's Might, and Might 33 or more always wins."
@@ -146,14 +147,19 @@ chapters:
             tips:
               - "Select your strongest character before the bell and the half-orc. Might-raising spells and items help."
               - "Each win counts permanently, so you can play over several visits. The prize is handed over only on a win while Yrsa's errand is active."
+              - "Markel's dragons are on the shelf from the start, but they cannot be taken (and do not sparkle) while he is alive. Only one is needed; Bikki takes one, and any others you take are just keepsakes."
               - "The Runestones code also changes every time the map loads, so finish a round before you leave."
               - "Bandits leap from the cliffs the first time you walk the road between the city and the Thing, and thieves come for the party at night near the city."
-            reward: "The Dragon and 10,000 experience at the Thing; Bikki gives 12,500 experience."
+            reward: "The Dragon and 10,000 experience at the Thing (none when you take Markel's); Bikki gives 12,500 experience."
             maps:
               - map: thjorgard
                 show: [npc, lever, exit]
                 focus: "Huckster"
                 caption: "The Thing in the clearing west of Thjorgard City: ticket seller and bell tower to the north, the stones board in the middle, the Runestones lever to the west, the boat-race judge by the pond."
+              - map: guberlandcity
+                show: [objective, exit]
+                focus: "Markel's awards"
+                caption: "The other way: Markel's awards on the shelf of his palace in Guberland City, free to take after the council."
               - map: thronheim
                 show: [quest, exit]
                 focus: "Bikki"

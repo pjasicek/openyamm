@@ -18,8 +18,10 @@ The region as a BLV open to the sky: `convert.py` (the shared `../mm9r_common/ou
 - Steps (events 36001-36003, done 36000): `start` (tableau and Sven shown, AmbientSound0-7 off), `award` (Sven04:
   key 97 and the balanced 114 000 experience), `finale` (ambient sounds on, tableau and Sven hidden under the fade).
   Cues: fades, voices, quest.wav, Sven facing Camera5 and playing Talk (looped).
-- Not carried: Sven_scene06 itself (mm9_sven.glb has no such clip), the dead Bjarni (Kira0) and Tryggva (no dead
-  figures: placements.py LEFT_OUT).
+- Not carried: Sven_scene06 itself (mm9_sven.glb has no such clip), the dead Bjarni (Kira0), Sigmund (sigmund) and
+  Tryggva (no dead figures: placements.py LEFT_OUT; the seated stand-in Sigmund sat in the air beside the field in
+  every story state, playthrough note 2026-11-11), and Sven19 (hidden in MM9: DAT Visible 0, no script shows it; it
+  floated over the field). The tableau's names match the DAT's case-insensitively, as getobjecthandle does.
 - Test without a conversion: `python3 cinematics_pilot.py` (writes the yml, the installed Lua as the converter would
   write it, and the scene with Sven added, into output/mm9_rework/cinematics_pilot_root), then from
   output/mm9_rework/cinematics_pilot_run `build/game/openyamm --world mm9 --headless-run-scenario

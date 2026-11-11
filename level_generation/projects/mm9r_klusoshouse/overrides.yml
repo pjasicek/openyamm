@@ -78,3 +78,10 @@ textures:
 treasure:
   bonus_near: [Kluso0]
   themed_near: [Bookcase56, Bookcase57, Bookcase58, Bookcase59]
+
+# MM9's pickable props drawn as MM9 hung them (dungeon/pickups.py scene_entry `placement`): the Blackheart hangs upright
+# on the library wall above the fireplace, blade tip up and its face to the room, below Kluso's red shield (Prop27: the
+# wall face at y about -1142), not flat on the mantel (the user, 2026-11-10). pose: pitch -90 stands the item's -y end
+# (the blade tip) up; offset: its pommel 2 units above the mantel top (z 143), its back 6 units toward the wall.
+pickups:
+  Blackheart: {pose: [0, -90, 0], offset: [0, -6, 2]}

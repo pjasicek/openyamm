@@ -12,13 +12,18 @@ How a port plays one:
 - on a creature a map script spawns: `evt.SummonMonstersById{..., effect = "mm9:fireblue"}` (where each monster
   stands as it appears);
 - on a map actor: `MM9.clientFx(actorIndex, effect[, scale[, up]])` (`mm9_common.lua`);
+- carried on a map actor's socket (2026-11-10), following it: `MM9.actorFx(actorIndex, effect[, socket[, seconds[,
+  scale]]])` over `evt.SpawnActorEffect` (socket: an actors.yml `animation.sockets` name or a model node such as
+  `LHand1`; none: the middle of the body), ended early by `MM9.stopActorFx(actorIndex[, effect])`;
 - on a marker or point: `evt.SpawnWorldEffect(effect, x, y, z[, scale])`;
 - in a behaviour script: `self:effect(id, scale, heightFraction, forward)` or `self:effectAt(id, x, y, z, scale)`.
 
-New recipes on 2026-11-06: `mm9:greenyeldots`, `mm9:bluedots`, `mm9:dragon_smoke`. MM9 anchors their emitters to body
-nodes (hands; the dragon's snout nodes 8 and 9), which OpenYAMM effects do not have; the compiler's
-`ORIGIN_ANCHOR_RECIPES` emits them at the effect's origin (`anchor_fallback: origin` in the library) and the caller
-places the origin (the shooter, the apprentice's chest, the dragon's `Socket_Mouth`).
+New recipes on 2026-11-06: `mm9:greenyeldots`, `mm9:bluedots`, `mm9:dragon_smoke`; on 2026-11-10 every recipe with
+body-anchored emitters (`mm9:redyeldots`, `mm9:LichKingRes`, `mm9:skullcurse`). MM9 anchors these emitters to body
+nodes (hands; the dragon's snout and the Lich King's nodes 8 and 9), which OpenYAMM effects do not have; the compiler
+emits them at the effect's origin (`anchor_fallback: origin`, each component's node as `body_anchor` in the library) and
+the caller places the origin (the shooter, the apprentice's chest, the dragon's `Socket_Mouth`, an actor's socket). A monster's own `DoFX` keys are actors.yml
+animation events (`effect`/`effects` on sockets over a clip span), which follow the hand while the clip plays.
 
 ## Calls in scripts MM9 runs
 

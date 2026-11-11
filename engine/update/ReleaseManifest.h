@@ -38,7 +38,8 @@ struct ReleaseManifest
     uint32_t minUpdaterSchema = 0;
     ReleaseFile app;
     std::optional<int64_t> androidVersionCode;
-    // The pack records of the release's index; each pack is at packUrls[i].
+    // The pack records of the release's index; each pack is at packUrls[i]. The languages' optional packs (listed
+    // apart in a desktop manifest, under language_packs) follow the others.
     std::vector<AssetPackRecord> packs;
     std::vector<std::string> packUrls;
 };

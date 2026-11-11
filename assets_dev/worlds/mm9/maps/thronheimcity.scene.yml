@@ -467,7 +467,7 @@
      "z": 3093
     },
     "initial_yaw_units": 512,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -505,7 +505,13 @@
     },
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 56,
-    "mm9_rude_id": 271
+    "mm9_rude_id": 271,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_honkpamphlet.glb",
+      "node": "Socket_pamphlet"
+     }
+    ]
    },
    {
     "actor_index": 2,
@@ -525,7 +531,7 @@
      "z": 3093
     },
     "initial_yaw_units": 512,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -564,7 +570,13 @@
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 57,
-    "mm9_rude_id": 279
+    "mm9_rude_id": 279,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_honkpamphlet.glb",
+      "node": "Socket_pamphlet"
+     }
+    ]
    },
    {
     "actor_index": 3,
@@ -584,7 +596,7 @@
      "z": 3093
     },
     "initial_yaw_units": 512,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -622,7 +634,13 @@
     },
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 58,
-    "mm9_rude_id": 272
+    "mm9_rude_id": 272,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_honkpamphlet.glb",
+      "node": "Socket_pamphlet"
+     }
+    ]
    },
    {
     "actor_index": 4,

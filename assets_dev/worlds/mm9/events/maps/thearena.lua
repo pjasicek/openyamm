@@ -303,7 +303,12 @@ svenWalk = function()
     if MM9.receives("thearena", "ClanSoldier0", "Guard", 2) then evt.SetMapActorPosition(2, P.Soldier0[1], P.Soldier0[2], P.Soldier0[3]); evt.SetMonsterBit(2, MonsterBits.Invisible, false) end
     if MM9.receives("thearena", "ClanSoldier1", "Guard", 3) then evt.SetMapActorPosition(3, P.Soldier1[1], P.Soldier1[2], P.Soldier1[3]); evt.SetMonsterBit(3, MonsterBits.Invisible, false) end
     evt.PlaySoundName("events/trumpets02.wav", 0, 0, 0)
-    after(2, function() evt.PlaySoundName("ambient/people/crowdnoise-cheer01.wav", 0, 0, 0) end)
+    -- :OnArrive wait 2 :OnWave: the cheer and PlayAnim Bless (the soldiers' bodies, MM9's ClanSoldier too, have
+    -- no Bless: only the double's plays)
+    after(2, function()
+        evt.PlaySoundName("ambient/people/crowdnoise-cheer01.wav", 0, 0, 0)
+        if MM9.actorAlive(1) then evt.PlayActorClip(1, "bless", false) end
+    end)
     local byriEnters = false
     after(4, function()
         door("EastPen", DoorAction.Open)

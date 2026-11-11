@@ -225,6 +225,20 @@ Performance pass (2026-10-11, 1600×900, main view at the gate/hills/shore/field
   heights vary, so neighbouring pixels split), drawing trees before the terrain (−14 µs).
 - Upper bounds at the hills pose: anti-tiling −58, second layer −50, detail-normal relighting −49, detail normal
   samples −34 µs. Each is a visible feature.
+- Depth pre-pass (2026-11-10): `submitTerrainMaterials` first draws the main view's visible chunks with
+  `fs_outdoor_terrain_depth` (`TERRAIN_DEPTH_ONLY`: depth only, the same cells, open liquid and liquid edge coverage
+  cut as the shaded programs), then the shaded programs test that depth without writing it. Each pixel is shaded once
+  (the chunks draw in map order, so hills behind hills were shaded too), and their `discard`s no longer turn off the
+  early depth test, since they write no depth. Water reflections keep the single pass. Same image (the terrain was
+  pixel-identical at the oute3 field pose and the 7out02 and out01 start views; the oute3 and out01 coasts, seen from
+  above, kept their liquid edges). Frame GPU p50 at
+  1600×900, Medium/High preset: New Sorpigal field pose 600 → 556 / 1530 → 1481 µs, 7out02 874 → 808 /
+  1842 → 1765 µs, out01 679 → 684 / 1372 → 1238 µs.
+- Rejected (2026-11-10): skipping a layer's own projection where the bank's vertical planes (bank 1) or, for the slope
+  layer, the view from above replace it entirely. Exact in principle and −35/−84 µs (Medium/High) on Sturmford's
+  open-air BLV, where 32 % of the terrain pixels are that steep, but neighbouring pixels split at triangle edges and
+  towards the horizon, and the implicit derivatives of the skipped lanes sparkled along those lines. Explicit
+  gradients would fix it, but bgfx's OpenGL path has no gradient sampling of texture arrays.
 - Ground highlights (2026-10-16, lighting plan phase 6, `video.terrain_specular`): a GGX highlight from the baked sun
   and the light grid's dynamic lights. A material's `specular` in `library.yml` (from `sources.yml` through
   `tools/terrain_materials.py prepare`) sets how much it glints: rock, gravel, flagstones and swamp do, soil and grass

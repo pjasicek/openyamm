@@ -433,19 +433,19 @@ TEST_CASE("party portrait frame defaults on and persists menu changes")
 
     {
         std::ofstream file(path);
-        file << "[gameplay]\nquest_markers=true\nmap_style=lines\n";
+        file << "[gameplay]\nquest_markers=true\nmap_style=painted\n";
     }
     const std::optional<GameSettings> loaded = loadGameSettings(path, error);
     REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
     CHECK(loaded->partyFrame);
     CHECK(loaded->questMarkers);
-    CHECK_FALSE(loaded->paintedMaps);
-    CHECK(menuSettingValue(*loaded, "map_style") == "lines");
-    CHECK(menuSettingValue(GameSettings::createDefault(), "map_style") == "painted");
-    REQUIRE(setMenuSettingValue(settings, "map_style", "lines"));
-    const std::vector<SettingsEntry> linesEntries = settingsEntriesToSave(settings);
-    CHECK(std::find(linesEntries.begin(), linesEntries.end(), SettingsEntry{"gameplay", "map_style", "lines"})
-        != linesEntries.end());
+    CHECK(loaded->paintedMaps);
+    CHECK(menuSettingValue(*loaded, "map_style") == "painted");
+    CHECK(menuSettingValue(GameSettings::createDefault(), "map_style") == "lines");
+    REQUIRE(setMenuSettingValue(settings, "map_style", "painted"));
+    const std::vector<SettingsEntry> paintedEntries = settingsEntriesToSave(settings);
+    CHECK(std::find(paintedEntries.begin(), paintedEntries.end(), SettingsEntry{"gameplay", "map_style", "painted"})
+        != paintedEntries.end());
     std::filesystem::remove(path);
 }
 

@@ -59,6 +59,9 @@ spell cast is not: `maw_assassin_attack_spell.yml`); `spawn_actor: {monster_id, 
 (or the option ids `nobow` and `bow`, also for `set_ruleset`), MAW's Bow preference, which `assert: {ruleset: {...,
 bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the party's live missiles instead of
 the actors' (`maw_bow_disabled.yml`).
+A `new_game_flow` party member may carry `battle_orders: {fallback: weapon|hold, orders: [...]}`
+(devdocs/BATTLE_ORDERS.md): each order is `{spell: <table name>}`, `{melee: true}` or `{shoot: true}` with optional
+`distance: [min, max]`, `ally_hp_below` and `keep_sp` (percent) and `enabled`; they are saved with the party.
 
 For spells and auras: `cast_spell: {member_index, spell_id, skill, mastery: 1-4, actor_index, target_member,
 target_point, scroll, expect}` casts through the party's spell system with full mana and no recovery (skill and mastery

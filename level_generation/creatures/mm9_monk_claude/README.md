@@ -51,7 +51,7 @@ MM9's three skins are the same weave recoloured, and the same rope and hands. **
 - **Legs:** shoes and a short plain shin only. MM9 has no thighs either; the shin stops at -0.62 so it stays in the robe.
 - **Head:** no jaw bone in MM9, mouth closed, tier B's smile is paint. The back of the skull is not there (3,800 tris on what the hood shows).
 - **Hood tip:** `Ponytail11/12` moved onto the hood's crest; `Ponytail1` is unweighted.
-- **Props not built:** MM9's Hoe, Broom, Hammer, Cloth sockets on `R Hand` and the prop models. The work clips are bound as script clips and the hands hold air. Sockets not carried either.
+- **Props:** MM9's Hoe, Broom, Hammer and Cloth sockets on `R Hand` and the prop models are built since 2026-11-10 (below, "MM9 sockets"); the placements hold them through scene `held_items`.
 
 ## Checks (rig and clips of r9; r10 to r13 changed only ramps, one image and the head paint)
 
@@ -150,3 +150,7 @@ User artistic acceptance: "monk OK" (2026-10-31)
 
 
 **LOD0 reduced post-install on 2026-11-04 by `level_generation/creatures/mm9_monk_reduce_claude/`** (ledger: `level_generation/creatures/REDUCTION_LEDGER.md`, "MM9 reduction"). A rebuild from this project must re-run that reduction, or it silently restores the heavier mesh. Rollback source: `level_generation/creatures/mm9_monk_reduce_claude/before/`.
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_Hoe`, `Socket_Broom`, `Socket_Hammer`, `Socket_Cloth`). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`).

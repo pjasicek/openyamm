@@ -42,6 +42,13 @@ fleetFoot: true
 # Starburst, Death Blossom, Sunray and Armageddon work there and Inferno and Prismatic Light do not (the user,
 # 2026-11-09). Fly stays out (it needs an outdoor map's flight; MM9 casts Fleet Foot in its slot anyway). The Wizard's
 # Lab's starry sky is a ceiling view, not open air.
+# Town Portal and Lloyd's Beacon fail on the maps MM9's MAPSTATS.txt gives TownPortal -1 (object.lto: Lloyd's Beacon's
+# cast 0x1008c7ce and Town Portal's 0x1008df77 do nothing there): the Dark Passageway, the Thousand Terrors and the
+# Afterworld, whose only ways out are their own ends or a death.
+noTeleportMaps:
+  - darkpassageway.blv
+  - 1000terrors.blv
+  - afterworld.blv
 openAirMaps:
   - isleofashes.blv
   - bootcamp.blv
@@ -199,6 +206,9 @@ qbits:
   begin: 90000
   end: 99999
   mapping: raw_mm9_key_plus_90000
+# MM9 autosaves after each map has loaded, a defeat's wake included (cshell.dll 0x100a4b89 sets the request,
+# 0x100a6bb0 writes "autosave"), so a game over reloads at the start of the map the party last entered.
+autosave: arrival
 # Ravensford's Bootcamp, as a new game on Chedian (continent_settings.txt row 5, which also gives the position).
 start:
   map: bootcamp.blv
@@ -208,11 +218,13 @@ start:
 # the Dark Passageway, with 100 WritMan.scr's gate_writ opens the gate once. Any other defeat is MM9's game over:
 # LoseGame.bik (LoseMan.scr's scene pre-rendered: Hanndl turns the party away at the peephole; mm9/game/Movies as
 # videos/Cutscenes/MM9LoseGame.ogv), then the autosave (0x10034460). So before the Writ a party never gets into
-# Arslegard after Hanndl's first refusal, and a defeat before Chapter III is lost.
+# Arslegard after Hanndl's first refusal, and a defeat before Chapter III is lost. The wake only heals and revives the
+# party (0x10054270): no gold, time or items are taken (keepGold).
 partyDeath:
   map: arslegardcity.blv
   position: [14400, 2525, -491]
   yaw: 1530
+  keepGold: true
   when:
     - {qbits: [90097, 90029], notQbits: [90098]}
     - {qbits: [90097, 90029, 90100]}

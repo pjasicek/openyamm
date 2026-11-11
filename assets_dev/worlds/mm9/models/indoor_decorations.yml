@@ -40,10 +40,12 @@ decorations:
     yaw: facing
   - name: mm9_chest
     model: worlds/mm9/models/mm9_deco_chest.glb
+    parts: [worlds/mm9/models/mm9_deco_chest_1lid.glb]
     height: 44.7
     yaw: facing
   - name: mm9_chest1
     model: worlds/mm9/models/mm9_deco_chest1.glb
+    parts: [worlds/mm9/models/mm9_deco_chest1_lid.glb]
     height: 35.8
     yaw: facing
   - name: mm9_crate
@@ -125,6 +127,8 @@ decorations:
     yaw: facing
   - name: mm9_bookflat
     model: worlds/mm9/models/mm9_deco_bookflat.glb
+    use_clips: [openbook, turnpage, turnback, closebook]
+    animated: worlds/mm9/models/mm9_deco_bookflat_anim.glb
     height: 8.6
     yaw: facing
   - name: mm9_booktilt15
@@ -153,7 +157,8 @@ decorations:
     yaw: facing
   - name: mm9_chest3
     model: worlds/mm9/models/mm9_deco_chest3.glb
-    height: 63.0
+    parts: [worlds/mm9/models/mm9_deco_chest3_lid.glb]
+    height: 38.2
     yaw: facing
   - name: mm9_desk03
     model: worlds/mm9/models/mm9_deco_desk03.glb
@@ -246,7 +251,8 @@ decorations:
     yaw: facing
   - name: mm9_blackchest
     model: worlds/mm9/models/mm9_deco_blackchest.glb
-    height: 70.8
+    parts: [worlds/mm9/models/mm9_deco_blackchest_lid.glb]
+    height: 46.0
     yaw: facing
   - name: mm9_bookstack01
     model: worlds/mm9/models/mm9_deco_bookstack01.glb
@@ -254,6 +260,7 @@ decorations:
     yaw: facing
   - name: mm9_booktilt
     model: worlds/mm9/models/mm9_deco_booktilt.glb
+    animated: worlds/mm9/models/mm9_deco_booktilt_anim.glb
     height: 25.9
     yaw: facing
   - name: mm9_burner
@@ -270,6 +277,7 @@ decorations:
     yaw: facing
   - name: mm9_chest1_x100
     model: worlds/mm9/models/mm9_deco_chest1.glb
+    parts: [worlds/mm9/models/mm9_deco_chest1_lid.glb]
     height: 44.7
     yaw: facing
   - name: mm9_cookpot
@@ -298,6 +306,7 @@ decorations:
     yaw: facing
   - name: mm9_lichengine
     model: worlds/mm9/models/mm9_deco_lichengine.glb
+    parts: [worlds/mm9/models/mm9_deco_lichengine_innerring.glb, worlds/mm9/models/mm9_deco_lichengine_outerring.glb]
     height: 1134.6
     yaw: facing
   - name: mm9_logs
@@ -374,6 +383,7 @@ decorations:
     yaw: facing
   - name: mm9_switch02
     model: worlds/mm9/models/mm9_deco_switch02.glb
+    parts: [worlds/mm9/models/mm9_deco_switch02_lever.glb]
     height: 62.1
     yaw: facing
   - name: mm9_table01
@@ -427,13 +437,17 @@ decorations:
     model: worlds/mm9/models/mm9_deco_bonepile.glb
     height: 31.4
     yaw: facing
+  # The coffin without its lid and skeleton (every placement hides it: HidePiece0); its lid is a part that plays the
+  # ABC's open and close (scripts/coffin_parts.py). 97.1 is the body's height at the whole coffin's 124.3 scale.
   - name: mm9_coffinfancy
     model: worlds/mm9/models/mm9_deco_coffinfancy.glb
-    height: 124.3
+    parts: [worlds/mm9/models/mm9_deco_coffinfancy_lid.glb]
+    height: 97.1
     yaw: facing
   - name: mm9_coffinraised
     model: worlds/mm9/models/mm9_deco_coffinraised.glb
-    height: 152.6
+    parts: [worlds/mm9/models/mm9_deco_coffinraised_lid.glb]
+    height: 125.4
     yaw: facing
   - name: mm9_hangingbowl1
     model: worlds/mm9/models/mm9_deco_hangingbowl1.glb
@@ -494,7 +508,8 @@ decorations:
     yaw: facing
   - name: mm9_blackchest_x80
     model: worlds/mm9/models/mm9_deco_blackchest.glb
-    height: 56.6
+    parts: [worlds/mm9/models/mm9_deco_blackchest_lid.glb]
+    height: 36.7
     yaw: facing
   - name: mm9_bluebowl
     model: worlds/mm9/models/mm9_deco_bluebowl.glb
@@ -522,7 +537,8 @@ decorations:
     yaw: facing
   - name: mm9_chest5
     model: worlds/mm9/models/mm9_deco_chest5.glb
-    height: 63.0
+    parts: [worlds/mm9/models/mm9_deco_chest5_lid.glb]
+    height: 38.2
     yaw: facing
   - name: mm9_cronakiga
     model: worlds/mm9/models/mm9_deco_cronakiga.glb
@@ -1258,23 +1274,28 @@ decorations:
   # --- MM9 Lindisfarne Monastery props (level_generation/props/mm9_lindisfarnemonastery_claude/) ---
   - name: mm9_bell
     model: worlds/mm9/models/mm9_deco_bell.glb
-    height: 355.3
+    parts: [worlds/mm9/models/mm9_deco_bell_dbell.glb, worlds/mm9/models/mm9_deco_bell_dclapper.glb]
+    height: 123.8
     yaw: facing
   - name: mm9_bell_x90
     model: worlds/mm9/models/mm9_deco_bell.glb
-    height: 319.8
+    parts: [worlds/mm9/models/mm9_deco_bell_dbell.glb, worlds/mm9/models/mm9_deco_bell_dclapper.glb]
+    height: 111.4
     yaw: facing
   - name: mm9_bell_x85
     model: worlds/mm9/models/mm9_deco_bell.glb
-    height: 302.0
+    parts: [worlds/mm9/models/mm9_deco_bell_dbell.glb, worlds/mm9/models/mm9_deco_bell_dclapper.glb]
+    height: 105.2
     yaw: facing
   - name: mm9_bell_x75
     model: worlds/mm9/models/mm9_deco_bell.glb
-    height: 266.5
+    parts: [worlds/mm9/models/mm9_deco_bell_dbell.glb, worlds/mm9/models/mm9_deco_bell_dclapper.glb]
+    height: 92.9
     yaw: facing
   - name: mm9_bell_x70
     model: worlds/mm9/models/mm9_deco_bell.glb
-    height: 248.7
+    parts: [worlds/mm9/models/mm9_deco_bell_dbell.glb, worlds/mm9/models/mm9_deco_bell_dclapper.glb]
+    height: 86.7
     yaw: facing
   - name: mm9_benchlarge1ns
     model: worlds/mm9/models/mm9_deco_benchlarge1ns.glb
@@ -1409,7 +1430,8 @@ decorations:
     yaw: facing
   - name: mm9_blackchest_x300
     model: worlds/mm9/models/mm9_deco_blackchest.glb
-    height: 212.3
+    parts: [worlds/mm9/models/mm9_deco_blackchest_lid.glb]
+    height: 137.8
     yaw: facing
   - name: mm9_chair_x125
     model: worlds/mm9/models/mm9_deco_chair.glb
@@ -1429,11 +1451,13 @@ decorations:
     yaw: facing
   - name: mm9_chestrusty01
     model: worlds/mm9/models/mm9_deco_chestrusty01.glb
-    height: 57.1
+    parts: [worlds/mm9/models/mm9_deco_chestrusty01_lid01.glb]
+    height: 38.4
     yaw: facing
   - name: mm9_chestrusty01_x200
     model: worlds/mm9/models/mm9_deco_chestrusty01.glb
-    height: 114.3
+    parts: [worlds/mm9/models/mm9_deco_chestrusty01_lid01.glb]
+    height: 76.9
     yaw: facing
   - name: mm9_clawlampp180
     model: worlds/mm9/models/mm9_deco_clawlampp180.glb
@@ -1522,26 +1546,32 @@ decorations:
     yaw: facing
   - name: mm9_icebanshee
     model: worlds/mm9/models/mm9_deco_icebanshee.glb
+    animated: worlds/mm9/models/mm9_deco_icebanshee_anim.glb
     height: 73.3
     yaw: facing
   - name: mm9_icelich
     model: worlds/mm9/models/mm9_deco_icelich.glb
+    animated: worlds/mm9/models/mm9_deco_icelich_anim.glb
     height: 74.0
     yaw: facing
   - name: mm9_iceskeleton
     model: worlds/mm9/models/mm9_deco_iceskeleton.glb
+    animated: worlds/mm9/models/mm9_deco_iceskeleton_anim.glb
     height: 69.5
     yaw: facing
   - name: mm9_iceskeletonwarrior
     model: worlds/mm9/models/mm9_deco_iceskeletonwarrior.glb
+    animated: worlds/mm9/models/mm9_deco_iceskeletonwarrior_anim.glb
     height: 77.4
     yaw: facing
   - name: mm9_iceterror
     model: worlds/mm9/models/mm9_deco_iceterror.glb
+    animated: worlds/mm9/models/mm9_deco_iceterror_anim.glb
     height: 102.2
     yaw: facing
   - name: mm9_icezombie
     model: worlds/mm9/models/mm9_deco_icezombie.glb
+    animated: worlds/mm9/models/mm9_deco_icezombie_anim.glb
     height: 69.1
     yaw: facing
   - name: mm9_logsburning_x100
@@ -1591,7 +1621,8 @@ decorations:
     yaw: facing
   - name: mm9_coffinraised_x150
     model: worlds/mm9/models/mm9_deco_coffinraised.glb
-    height: 190.8
+    parts: [worlds/mm9/models/mm9_deco_coffinraised_lid.glb]
+    height: 156.7
     yaw: facing
   - name: mm9_dragonpharoah
     model: worlds/mm9/models/mm9_deco_dragonpharoah.glb
@@ -1619,10 +1650,12 @@ decorations:
     yaw: facing
   - name: mm9_sorcererstatue
     model: worlds/mm9/models/mm9_deco_sorcererstatue.glb
+    animated: worlds/mm9/models/mm9_deco_sorcererstatue_anim.glb
     height: 200.0
     yaw: facing
   - name: mm9_switch03
     model: worlds/mm9/models/mm9_deco_switch03.glb
+    parts: [worlds/mm9/models/mm9_deco_switch03_wheel.glb]
     height: 167.8
     yaw: facing
   - name: mm9_terrorlight1
@@ -1640,7 +1673,8 @@ decorations:
   # --- MM9 Connecting Tunnels props (level_generation/props/mm9_connectingtunnels_claude/) ---
   - name: mm9_blackchest_x95
     model: worlds/mm9/models/mm9_deco_blackchest.glb
-    height: 67.2
+    parts: [worlds/mm9/models/mm9_deco_blackchest_lid.glb]
+    height: 43.6
     yaw: facing
   - name: mm9_minelantern02plain
     model: worlds/mm9/models/mm9_deco_minelantern02plain.glb
@@ -2948,22 +2982,27 @@ decorations:
     yaw: facing
   - name: mm9_chest1_x150
     model: worlds/mm9/models/mm9_deco_chest1.glb
+    parts: [worlds/mm9/models/mm9_deco_chest1_lid.glb]
     height: 67.1
     yaw: facing
   - name: mm9_chest3_x150
     model: worlds/mm9/models/mm9_deco_chest3.glb
-    height: 94.5
+    parts: [worlds/mm9/models/mm9_deco_chest3_lid.glb]
+    height: 57.3
     yaw: facing
   - name: mm9_blackchest_x150
     model: worlds/mm9/models/mm9_deco_blackchest.glb
-    height: 106.2
+    parts: [worlds/mm9/models/mm9_deco_blackchest_lid.glb]
+    height: 68.9
     yaw: facing
   - name: mm9_chest5_x150
     model: worlds/mm9/models/mm9_deco_chest5.glb
-    height: 94.5
+    parts: [worlds/mm9/models/mm9_deco_chest5_lid.glb]
+    height: 57.3
     yaw: facing
   - name: mm9_chest_x150
     model: worlds/mm9/models/mm9_deco_chest.glb
+    parts: [worlds/mm9/models/mm9_deco_chest_1lid.glb]
     height: 67.1
     yaw: facing
   - name: mm9_woodshed02
@@ -3020,6 +3059,8 @@ decorations:
     yaw: facing
   - name: mm9_bannercw_x50
     model: worlds/mm9/models/mm9_deco_bannercw.glb
+    idle: banner
+    animated: worlds/mm9/models/mm9_deco_bannercw_anim.glb
     height: 121.3
     yaw: facing
   - name: mm9_farmerplow
@@ -3036,6 +3077,7 @@ decorations:
     yaw: facing
   - name: mm9_windmillp335
     model: worlds/mm9/models/mm9_deco_windmillp335.glb
+    idle: slow
     height: 1588.2
     yaw: facing
   - name: mm9_hairbrush
@@ -3044,6 +3086,8 @@ decorations:
     yaw: facing
   - name: mm9_bannerc_x50
     model: worlds/mm9/models/mm9_deco_bannerc.glb
+    idle: banner
+    animated: worlds/mm9/models/mm9_deco_bannerc_anim.glb
     height: 121.3
     yaw: facing
   - name: mm9_dwarfaxe_x150
@@ -3246,18 +3290,26 @@ decorations:
     yaw: facing
   - name: mm9_statstoneyellow
     model: worlds/mm9/models/mm9_deco_statstoneyellow.glb
+    idle: rotate
+    parts: [worlds/mm9/models/mm9_deco_statstoneyellow_sphere.glb]
     height: 220.7
     yaw: facing
   - name: mm9_statstoneplain
     model: worlds/mm9/models/mm9_deco_statstoneplain.glb
+    idle: rotate
+    parts: [worlds/mm9/models/mm9_deco_statstoneplain_sphere.glb]
     height: 220.7
     yaw: facing
   - name: mm9_statstonepurple
     model: worlds/mm9/models/mm9_deco_statstonepurple.glb
+    idle: rotate
+    parts: [worlds/mm9/models/mm9_deco_statstonepurple_sphere.glb]
     height: 220.7
     yaw: facing
   - name: mm9_statstonegreen
     model: worlds/mm9/models/mm9_deco_statstonegreen.glb
+    idle: rotate
+    parts: [worlds/mm9/models/mm9_deco_statstonegreen_sphere.glb]
     height: 220.7
     yaw: facing
   - name: mm9_sigmundseated

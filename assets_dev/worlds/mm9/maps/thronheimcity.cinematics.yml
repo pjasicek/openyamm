@@ -10,10 +10,10 @@ cinematics:
       - {duration: 1, party: true, note: "OnStart: ScreenFadeOut 1 on the party's view"}
       - duration: 5.516
         easing: "linear"
-        note: "Camera0 (ARGUECAM1 Play: to CameraMarker0 at 40); gate: moved 16 back along its view ([-10547.2, 15892.5, 3493.4] -> [-10543.1, 15877.0, 3493.4]); path moved 16 back along its view"
+        note: "Camera0 (ARGUECAM1 Play: to CameraMarker0 at 40)"
         keys:
-          - {at: 0, position: [-10539, 15861.5, 3493.4], direction: [-0.2588, 0.9659, 0], fov: 73.7}
-          - {at: 5.016, position: [-11055.1, 15836, 3493.4], direction: [-0.2588, 0.9659, 0], fov: 73.7}
+          - {at: 0, position: [-10547.2, 15892.5, 3493.4], direction: [-0.2588, 0.9659, 0], fov: 73.7}
+          - {at: 5.016, position: [-11059.2, 15851.5, 3493.4], direction: [-0.2588, 0.9659, 0], fov: 73.7}
       - {duration: 8.7, position: [-11223, 16588.8, 3442.2], direction: [0.849, 0.4765, -0.2284], fov: 73.7, note: "Camera1"}
       - {duration: 4, position: [-11136, 16609.3, 3411.5], direction: [0.9739, -0.0102, -0.2267], fov: 73.7, note: "Camera11"}
       - {duration: 2.033, position: [-11223, 16670.7, 3442.2], direction: [0.7687, -0.6006, -0.2198], fov: 73.7, note: "Camera2"}
@@ -145,6 +145,7 @@ cinematics:
       - {at: 138.243, actor: 46, action: "move", to: [-11544.3, 16464.3, 3351], seconds: 0.53, note: "Markel walkto KiraMarker1"}
       - {at: 138.773, actor: 46, action: "clip", clip: "Standing", loop: true}
       - {at: 138.773, actor: 46, action: "face", look_at_actor: 50, seconds: 0.4, note: "ARG_Markel.scr :Target Kira"}
+      - {at: 139.143, event: 36004, note: "kira_sheath"}
       - {at: 139.143, actor: 50, action: "clip", clip: "Sc2_KIRA16b", loop: false, note: "KiraStand: Sc2_KIRA16b"}
       - {at: 141.609, actor: 49, action: "clip", clip: "Sit", loop: true}
       - {at: 141.643, actor: 50, action: "clip", clip: "Walking", loop: true}
@@ -155,6 +156,7 @@ cinematics:
       - {at: 146.796, actor: 50, action: "face", look_at_actor: 46, seconds: 0.2, note: "Kira faces Markel"}
       - {at: 146.796, actor: 50, action: "clip", clip: "Sc2_Kira17", loop: false, note: "DrawSword: Sc2_Kira17"}
       - {at: 147.762, sound: "sounds\\events\\drawsword.wav", note: "OnAttach: the sword in her hand"}
+      - {at: 147.762, event: 36005, note: "kira_draw"}
       - {at: 148.829, actor: 50, action: "clip", clip: "Sc2_KIRA20_23", loop: false, note: "Attack: Sc2_Kira20-23"}
       - {at: 149.824, actor: 46, action: "clip", clip: "Sc2_markel21", loop: false, note: "Markel Kill: Sc2_markel21"}
       - {at: 149.824, sound: "sounds\\weapons\\cflesh.wav", note: "ARG_Markel.scr :OnDie"}
@@ -201,5 +203,5 @@ cinematics:
       - {at: 160.348, actor: 48, action: "clip", clip: "Sit", loop: true}
       - {at: 165.148, fade: "out", seconds: 1, note: "End: ScreenFadeOut 1"}
       - {at: 165.181, actor: 50, action: "clip", clip: "Standing", loop: true}
-      - {at: 166.148, event: 36004, note: "end"}
+      - {at: 166.148, event: 36006, note: "end"}
       - {at: 166.148, fade: "in", seconds: 1, note: "End2: ScreenFadeIn 1"}

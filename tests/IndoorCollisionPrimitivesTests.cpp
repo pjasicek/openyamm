@@ -36,6 +36,7 @@ using OpenYAMM::Game::buildIndoorMechanismAdjustedVertices;
 using OpenYAMM::Game::chooseIndoorBountyHuntSpawnPoint;
 using OpenYAMM::Game::buildIndoorSweptBodyBounds;
 using OpenYAMM::Game::faceAttributeBit;
+using OpenYAMM::Game::findIndoorStandingFloorHeight;
 using OpenYAMM::Game::indoorSweptBodyBoundsTouchFace;
 using OpenYAMM::Game::indoorSweptBodyTouchesPortalFace;
 using OpenYAMM::Game::projectIndoorVelocityAlongPlane;
@@ -207,6 +208,100 @@ TEST_CASE("indoor bounty hunt spawn chooses floor supported room face")
     CHECK_EQ(spawnPoint->x, doctest::Approx(128.0f));
     CHECK_EQ(spawnPoint->y, doctest::Approx(0.0f));
     CHECK_EQ(spawnPoint->z, doctest::Approx(0.0f));
+}
+
+namespace
+{
+// An open-air BLV in small: a walkable ramp (z = x * 400 / 1024 over x 0..1024) above the sky shell's floor (an
+// IndoorSky face at -800), as Guberland's terrain above its sky shell.
+IndoorMapData makeRampOverSkyFloor()
+{
+    IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-2048, -2048, -800},
+        {2048, -2048, -800},
+        {2048, 2048, -800},
+        {-2048, 2048, -800},
+        {0, -512, 0},
+        {1024, -512, 400},
+        {1024, 512, 400},
+        {0, 512, 0}
+    };
+
+    IndoorFace sky = {};
+    sky.vertexIndices = {0, 1, 2, 3};
+    sky.facetType = 3;
+    sky.roomNumber = 1;
+    sky.attributes = faceAttributeBit(FaceAttribute::IndoorSky);
+
+    IndoorFace ramp = {};
+    ramp.vertexIndices = {4, 5, 6, 7};
+    ramp.facetType = 3;
+    ramp.roomNumber = 1;
+
+    IndoorSector emptySector = {};
+    IndoorSector openSector = {};
+    openSector.minX = -2048;
+    openSector.maxX = 2048;
+    openSector.minY = -2048;
+    openSector.maxY = 2048;
+    openSector.minZ = -800;
+    openSector.maxZ = 2000;
+    openSector.floorFaceIds = {0, 1};
+    openSector.faceIds = {0, 1};
+
+    mapData.faces = {sky, ramp};
+    mapData.sectors = {emptySector, openSector};
+    return mapData;
+}
+}
+
+TEST_CASE("indoor spawn ground under a slope is the slope, never the sky floor below")
+{
+    const IndoorMapData mapData = makeRampOverSkyFloor();
+    IndoorFaceGeometryCache cache(mapData.faces.size());
+
+    // 200 under the ramp (a spawn's offset point uphill of its centre): the ramp, not the sky shell 800 down.
+    const std::optional<float> underRamp =
+        findIndoorStandingFloorHeight(mapData, mapData.vertices, cache, 512.0f, 0.0f, 0.0f, 1024.0f);
+    REQUIRE(underRamp.has_value());
+    CHECK_EQ(*underRamp, doctest::Approx(200.0f));
+
+    // Far under the ramp, nearer the sky shell (a summon halfway to the party, at the mean of their heights under a
+    // hill): still the ramp above.
+    const std::optional<float> nearSky =
+        findIndoorStandingFloorHeight(mapData, mapData.vertices, cache, 512.0f, 0.0f, -700.0f, 1024.0f);
+    REQUIRE(nearSky.has_value());
+    CHECK_EQ(*nearSky, doctest::Approx(200.0f));
+
+    // Only the sky floor: no ground.
+    CHECK_FALSE(findIndoorStandingFloorHeight(mapData, mapData.vertices, cache, -1500.0f, 0.0f, -800.0f, 1024.0f));
+}
+
+TEST_CASE("indoor bounty hunt spawn stands on walkable ground, never a sky face")
+{
+    const IndoorMapData mapData = makeRampOverSkyFloor();
+
+    for (uint32_t seed = 1; seed <= 32; ++seed)
+    {
+        const std::optional<bx::Vec3> spawnPoint = chooseIndoorBountyHuntSpawnPoint(mapData, nullptr, nullptr, seed);
+        REQUIRE(spawnPoint.has_value());
+        CHECK_EQ(spawnPoint->x, doctest::Approx(512.0f));
+        CHECK_EQ(spawnPoint->z, doctest::Approx(200.0f));
+    }
+
+    // An anchor over the sky floor alone is passed over for one on the ramp.
+    const std::vector<bx::Vec3> anchors = {{-1500.0f, 0.0f, -800.0f}, {256.0f, 100.0f, 100.0f}};
+
+    for (uint32_t seed = 1; seed <= 8; ++seed)
+    {
+        const std::optional<bx::Vec3> spawnPoint =
+            chooseIndoorBountyHuntSpawnPoint(mapData, nullptr, nullptr, seed, anchors);
+        REQUIRE(spawnPoint.has_value());
+        CHECK_EQ(spawnPoint->x, doctest::Approx(256.0f));
+        CHECK_EQ(spawnPoint->y, doctest::Approx(100.0f));
+        CHECK_EQ(spawnPoint->z, doctest::Approx(100.0f));
+    }
 }
 
 TEST_CASE("swept indoor sphere misses face outside polygon")

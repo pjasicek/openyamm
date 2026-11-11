@@ -120,3 +120,7 @@ On install: `tools/install_model.py export/mm9_monk.glb --world mm9`, the bindin
 ## Not checked
 In game; motion at normal speed (frames and gates only); LOD1-3 close up by eye (numbers only); the shadow meshes by eye;
 a low 3/4 face view (the viewer wrapper has none; the face primitive is the installed bytes).
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_Hoe`, `Socket_Broom`, `Socket_Hammer`, `Socket_Cloth`). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`).

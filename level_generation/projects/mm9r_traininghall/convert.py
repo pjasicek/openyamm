@@ -73,7 +73,26 @@ T_POLL, T_HINTS, T_PUSH, T_JOUST, T_CRASH, T_DROP, T_DROP2, T_LEVER2, T_LEVER4, 
 # MM9's Trigger volumes polled four times a second (any part of the party in the box: it grows by the party radius).
 VOLUMES = ["dropsequence", "TriggerLobbyGhouls", "TriggerGhoulsAttack", "TriggerShutDoor", "TriggerTargetsOn",
            "TriggerTargetsOff", "TriggerTrellborgOn0", "TriggerTrellborgOn1", "TriggerTrellborgOff0",
-           "TriggerTrellborgOff1"]
+           "TriggerTrellborgOff1", "TriggerOrcTraining", "TriggerOrcsStop", "TriggerGossipOn", "TriggerGossipOff",
+           "TriggerBoxOrcsOn", "TriggerBoxOrcsOff"]
+# The training scenes (TH_TrainingOrcs.scr, TH_TrainingOrcCommander.scr, TH_TrainingOrcObserver.scr,
+# TH_OrcsGossip.scr, TH_JoustTrellborg.scr, TH_LookOutTrellborg.scr, TH_MeanTrellborg.scr): each actor's chain of
+# PlayAnims and walks as a routine (scene mm9_ai.routines; devdocs/mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md
+# section 4 item 9), run while the party is in its part of the hall: the trigger volume that sends its actors Train or
+# Go starts it (map var = 1, evt.SetActorRoutine), the one that sends Stop ends it. scene var -> (routine, the
+# volume that starts it, the one that stops it, the DAT objects).
+SCENES = {"OrcTraining": ("train", "TriggerOrcTraining", "TriggerOrcsStop",
+                          ["TrainingObserver", "OrcStudent0", "OrcStudent1", "OrcStudent2", "OrcStudent3",
+                           "TrainingCommander"]),
+          "Gossip": ("gossip", "TriggerGossipOn", "TriggerGossipOff", ["OrcGossipLead", "OrcGossipFollow"]),
+          "BoxOrcs": ("train", "TriggerBoxOrcsOn", "TriggerBoxOrcsOff", ["BoxOrc0", "BoxOrc1"]),
+          "Jousting": ("joust", None, None, ["LookOutTrellborg", "WitnessTrellborg", "JoustVictimTrellborg"])}
+# TH_TrainingOrcs.scr :ParadiddleStart .. :Left2: Taunt, then the drill R L R R L R L L.
+DRILL = ["Taunt", "HAttack1", "HAttack2", "HAttack1", "HAttack1", "HAttack2", "HAttack1", "HAttack2", "HAttack2"]
+COMMANDS = ["Stand", "Fidget2", "Stand", "Taunt"]           # TH_TrainingOrcCommander.scr :StartTraining .. :CommandTwo
+OBSERVER_WAIT = 2.0                 # TH_TrainingOrcObserver.scr / TH_LookOutTrellborg.scr :Relax: Wait 0, 2
+MEAN_CLIPS = ["Stand", "Fidget3", "Fidget1", "Taunt"]       # TH_MeanTrellborg.scr :AnimationA .. :AnimationD
+HOLD = [3600.0, 3600.0]             # a routine's last wait: it stands until the map script switches it
 # dropsequence (50 x 4 x 50 at 544 LT) is touched by MM9's party standing on the chandelier (top 464); the native
 # party (66 LT) does not reach 540: its box reaches down to the chandelier's top; so does TriggerLobbyGhouls' (514-614 LT
 # on the chain over it).
@@ -399,6 +418,68 @@ class TrainingHall(dungeon.Hooks):
             record = content.actor(o, base, sector_of_room, floor_query_lt=p["Pos"][1] + 24, **changes)
             self.actor_index[o["name"]] = record["actor_index"]
             out.append(record)
+        records = {name: out[index] for name, index in self.actor_index.items()}
+        for name, routines in self.training_routines(build, records).items():
+            records[name].setdefault("mm9_ai", {})["routines"] = routines
+        return out
+
+    def training_routines(self, build, records: dict) -> dict:
+        """The scenes' routines (SCENES) by DAT object, from each object's script and ScriptParams."""
+        source, content, project = build.source, build.content, build.project
+
+        def foot(name: str) -> list:
+            pos = source.properties(name)["Pos"]
+            floor = content.floor_at(pos[0], pos[2], pos[1] + 24)
+            if floor is None:
+                raise SystemExit(f"{name}: no floor under it")
+            return project.native([pos[0], floor, pos[2]]).round().astype(int).tolist()
+
+        def toward(at: list, name: str) -> float:
+            x, y, _ = project.native(source.properties(name)["Pos"])
+            return round(math.degrees(math.atan2(y - at[1], x - at[0])) % 360.0, 1)
+
+        out = {}
+        for name, record in records.items():
+            o = source.by_name[name.lower()]
+            script = str(o["properties"].get("ScriptName") or "").lower().replace("scripts\\", "")
+            params = str(o["properties"].get("ScriptParams") or "").split()
+            seconds = lua.model_clip_seconds(record["monster_id"])
+
+            def clip(anim: str) -> dict:
+                role = {"stand": "standing", "fidget1": "fidget", "hattack1": "attack_melee"}.get(anim.lower())
+                role = role or ("attack2" if anim.lower() == "hattack2" else anim.lower())
+                if role not in seconds:
+                    raise SystemExit(f"{name}: {anim} ({role}) is not a clip of monster {record['monster_id']}")
+                return {"clip": role, "seconds": math.floor(seconds[role] * 100) / 100}
+
+            face = {"face": round(record["initial_yaw_units"] / 2048 * 360.0, 1)}
+            if script == "th_trainingorcs.scr":
+                out[name] = {"train": [face, *map(clip, DRILL)]}
+            elif script == "th_trainingorccommander.scr":
+                out[name] = {"train": [face, *map(clip, COMMANDS)]}
+            elif script == "th_orcsgossip.scr":
+                out[name] = {"gossip": [face, *map(clip, params[:6])]}
+            elif script == "th_trainingorcobserver.scr":         # p0, p1 markers, p2 the commander it faces
+                a, b = foot(params[0]), foot(params[1])
+                out[name] = {"train": [{"walk": a}, {"face": toward(a, params[2])}, {"wait": [OBSERVER_WAIT] * 2},
+                                       clip("Fidget1"),
+                                       {"walk": b}, {"face": toward(b, params[2])}, {"wait": [OBSERVER_WAIT] * 2},
+                                       clip("Fidget1")]}
+            elif script == "th_jousttrellborg.scr":               # p0-p3 clips, p4 its marker (WalkTo 3)
+                out[name] = {"joust": [{"walk": foot(params[4])}, face, *map(clip, params[:4])]}
+            elif script == "th_lookouttrellborg.scr":             # p0, p1 markers; at p0 it watches p3, at p1 p2
+                a, b = foot(params[0]), foot(params[1])
+                look = [clip("Stand"), clip("Fidget1"), clip("Stand")]
+                out[name] = {"joust": [{"walk": a}, {"face": toward(a, params[3])}, {"wait": [OBSERVER_WAIT] * 2},
+                                       *look,
+                                       {"walk": b}, {"face": toward(b, params[2])}, {"wait": [OBSERVER_WAIT] * 2},
+                                       *look]}
+            elif script == "th_meantrellborg.scr":                # p0 the switch, p1 the Trellborg it launches at
+                at = record["position"]
+                at = [at["x"], at["y"], at["z"]]
+                self.mean_lead = round(sum(clip(anim)["seconds"] for anim in MEAN_CLIPS), 2)
+                out[name] = {"launch": [*map(clip, MEAN_CLIPS), {"face": toward(at, params[1])}, {"wait": HOLD}],
+                             "reset": [{"face": toward(at, params[0])}, {"wait": HOLD}]}
         return out
 
     # --- map script -------------------------------------------------------------------------------------------------
@@ -501,8 +582,9 @@ class TrainingHall(dungeon.Hooks):
             "-- The joust (d2lever, Switch: open -> Trigger2 turns the wheels and opens dummy2door, the horse rides 1190 LT",
             "-- east at 1250 LT/s; close -> Trigger3 and dummy2door back at 200 LT/s). A click on the lever does it, and so",
             "-- does the Mean Trellborg (TH_MeanTrellborg.scr) while the party is down at the lanes (TriggerTrellborgOn0/1",
-            "-- 'Go', Off0/1 'Stop'): stand, two fidgets and a taunt (about 4 s), pull, the horse rides, he pulls it back",
-            "-- (dummy2door 'Switch'), and when it is back ('Throw') he starts again.",
+            "-- 'Go', Off0/1 'Stop'): stand, two fidgets and a taunt (routine \"launch\": MEAN_LEAD s), pull, he turns to",
+            "-- the Trellborg the horse rides at, pulls it back facing the lever (dummy2door 'Switch', routine \"reset\"), and",
+            "-- when it is back ('Throw') he starts again.",
             "-- The horse's wheels (d2w1-4, RotatingBrush: mover spin) turn while it rides: Trigger2 sends them on and",
             "-- reverse, Trigger3 reverse and on; dummy2door's Open/CloseTriggers (TriggerHorseGo) send off on arrival (out",
             "-- 1190 LT at 1250 LT/s, back at 200 LT/s). The second horse's wheels (d4w1-4) never turn in MM9: Trigger7",
@@ -518,20 +600,37 @@ class TrainingHall(dungeon.Hooks):
             "end",
             f"handlers[{T_WHEELS2}] = function() if fired({T_WHEELS2}) then wheels2(\"off\") end end   -- TriggerHorseGo",
             f"handlers[{EV['d2lever']}] = function() lever2(var(\"Horse2Out\") == 0) end",
-            f"local MEAN = {self.actor_index['MeanTrellborg']}",
+            "",
+            "-- The training scenes (SCENES in convert.py): while the party is in its part of the hall, each actor runs its",
+            "-- MM9 script's chain of clips and walks (its scene routine, runtime only: set again on load); the drill, the",
+            "-- commanders' orders, the observers' pacing, the gossip, the jousters' and the lookout's watch.",
+            "local SCENES = {",
+            *[f"    {scene} = {{routine = \"{routine}\", actors = {{{', '.join(str(self.actor_index[n]) for n in names)}}}}},"
+              for scene, (routine, _, _, names) in SCENES.items()],
+            "}",
+            "local function scene(name, on)",
+            "    set(name, on and 1 or 0)",
+            "    for _, a in ipairs(SCENES[name].actors) do evt.SetActorRoutine(a, on and SCENES[name].routine or nil) end",
+            "end",
+            f"local MEAN, MEAN_LEAD = {self.actor_index['MeanTrellborg']}, {self.mean_lead:g}",
+            "local function meanLaunch() evt.SetActorRoutine(MEAN, \"launch\"); arm(" + str(T_JOUST) + ", MEAN_LEAD) end",
             f"handlers[{T_JOUST}] = function()",
             f"    if not fired({T_JOUST}) then return end",
             "    if var(\"Jousting\") ~= 1 or var(\"MeanDead\") == 1 then return end",
-            "    if var(\"Horse2Out\") == 0 then",
+            "    if var(\"JoustThrow\") == 1 then           -- the horse is back ('Throw'): :CheckStart",
+            "        set(\"JoustThrow\", 0); meanLaunch()",
+            "    elseif var(\"Horse2Out\") == 0 then        -- :LaunchHorse",
             "        lever2(true); set(\"Launches\", var(\"Launches\") + 1)",
             f"        arm({T_JOUST}, 1.5)",
-            "    else",
-            f"        lever2(false); arm({T_JOUST}, 1190 / 200 + 4)",
+            "    else                                      -- :ResetSwitch",
+            "        lever2(false); evt.SetActorRoutine(MEAN, \"reset\"); set(\"JoustThrow\", 1)",
+            f"        arm({T_JOUST}, 1190 / 200)",
             "    end",
             "end",
             "local function joust(on)",
-            "    set(\"Jousting\", on and 1 or 0)",
-            f"    if on then arm({T_JOUST}, 4) end",
+            "    scene(\"Jousting\", on)",
+            "    set(\"JoustThrow\", 0)",
+            "    if on then meanLaunch() else evt.SetActorRoutine(MEAN, nil) end",
             "end",
             f"handlers[{KILL_HOOK}] = function(context) if context.actorIndex == MEAN then set(\"MeanDead\", 1) end end",
             "",
@@ -672,6 +771,10 @@ class TrainingHall(dungeon.Hooks):
             "TriggerTrellborgOn1": ("var(\"Jousting\") == 0", "joust(true)", True),
             "TriggerTrellborgOff0": ("var(\"Jousting\") == 1", "joust(false)", True),
             "TriggerTrellborgOff1": ("var(\"Jousting\") == 1", "joust(false)", True),
+            **{start: (f"var(\"{name}\") == 0", f"scene(\"{name}\", true)", True)
+               for name, (_, start, _, _) in SCENES.items() if start},
+            **{stop: (f"var(\"{name}\") == 1", f"scene(\"{name}\", false)", True)
+               for name, (_, _, stop, _) in SCENES.items() if stop},
         }
         volume_lua = ",\n".join(
             f"    {{name = \"{name}\", box = {{{lua.point(boxes[name][0])}, {lua.point(boxes[name][1])}}}, "
@@ -718,6 +821,9 @@ class TrainingHall(dungeon.Hooks):
             f"evt.DestroyDestructible({index['DestructableBrush12']}) end",
             f"    evt.StartTimer({T_POLL}, seconds(0.25))",
             f"    evt.StartTimer({T_PUSH}, seconds(0.25))",
+            "    -- the scenes' routines are runtime only: those under way when the game was saved start again",
+            *[f"    if var(\"{name}\") == 1 then " + ("joust(true)" if name == "Jousting" else f"scene(\"{name}\", true)")
+              + " end" for name in SCENES],
             "end",
             "",
         ]

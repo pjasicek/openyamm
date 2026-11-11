@@ -52,6 +52,10 @@ ANIMAL_ROWS = {"Cat": 9294, "Dog": 469}
 GUARD_CLASS = "PoorTownGuard1"
 GUARD_ROW = 9107                    # MM9 107 Town Guard (L20): MM9's PoorTownGuard1 (Sturmguard.scr)
 GUARD_RUDE = 425
+# The pieces of MM9's prop models our HD bodies lack, as held items (scene held_items): Ercc's cup (cup01 of MM9's
+# Props/Ercc.ABC, which our Ercc, drawn with the townsman body, lacks; the townsman's Socket_Cup is cup01's frame).
+# Tryggva (RUDEProp0, PeasantMS2.ABC) has no cup piece and TryggvaSpeech.scr attaches none.
+POSED_ITEMS = {"RUDEProp1": [{"model": "worlds/mm9/models/mm9_item_erccup.glb", "node": "Socket_Cup"}]}
 GROUP_TOWNSFOLK, GROUP_GUARDS, GROUP_ANIMALS = 1, 2, 3
 # Chedian's dimensional travel pedestal (not MM9's; the user, 2026-11-09): MAW's teleporter, the ped06 pedestal under
 # the dec57 orb 160 units up (engine/rulesets/maw/maps/oute3_zz_maw.scene.yml), on the lawn east of the south sewer
@@ -171,6 +175,8 @@ class SturmfordCity(CityHooks):
             o = source.objects[entry["source_object"]]
             assert o["index"] == entry["source_object"], name
             actor = rude_props.actor(content, o, entry, sector_of_room, names, GROUP_TOWNSFOLK, bodies)
+            if name in POSED_ITEMS:
+                actor["held_items"] = POSED_ITEMS[name]
             self.actor[name], self.objects[name], self.rude[name] = (actor["actor_index"], o["index"],
                                                                     actor.get("mm9_rude_id", 0))
             self.posed[name] = rude_props.load_lines(actor)

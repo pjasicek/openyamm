@@ -111,6 +111,10 @@ def main() -> int:
                                  (beyond[0], beyond[1], floors.z(beyond[0], beyond[1], z + 80) + 1), 90, 20),
               {"advance_runtime": {"seconds": 12}},     # MM9 CloseWaitTime 10 s: shut again
               *[{"assert": {"mechanism": {"id": i, "state": "closed"}}} for i in ids]]
+    # Count Kluso (no script, MM9's plain monster AI) comes for the party and opens RDoor4 on his way (AITriggerable,
+    # BaseDoor.inc): the house is cleared first, so each door is found shut and opened by its own click.
+    scene_actors = json.loads((PROJECT / "work/runtime/klusoshouse.scene.yml").read_text())["initial_state"]["actors"]
+    steps += scenarios.clear_monsters(scene_actors, (0, 0, 0), radius=1e9, height=1e9)
     for group, members in sorted(groups.items()):
         sides = door_sides(floors, centres[group], 170)
         if not sides:

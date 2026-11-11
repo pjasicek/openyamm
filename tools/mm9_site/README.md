@@ -25,7 +25,7 @@ sudo into `/var/www/html/openyamm/mm9-guide/`, beside the MAW guide).
   marker types (legend order, colour, glyph, shown by default).
 - `web/`: `page.html`, `style.css`, `app.js` (no libraries). Routes are plain hashes: `#quests-main`, `#quest-<id>`,
   `#map-<map>`, `#map-<map>-<poi>`, `#travel`, `#teachers`, `#shops`, `#bestiary`, `#monster-<id>`, `#items-<cat>`,
-  `#item-<id>`.
+  `#item-<id>`, `#faq`.
 - `story/`: the hand-written main-story walkthrough, one YAML file per part (`prologue_ch1a.yml`, `ch1b.yml`,
   `ch1c_ch2.yml`, `ch3_5.yml`), written to `story/BRIEF.md` (format, sources and their authority: the rework's map
   scripts first, online guides only where they agree). The Main story page renders it as a document with compact maps
@@ -36,6 +36,10 @@ sudo into `/var/www/html/openyamm/mm9-guide/`, beside the MAW guide).
   `build_site.py` once first); its docstring says how the in-game captures beside them were made.
 - `extra_pois.yml`: quest props and puzzle pieces the generator cannot find on its own (imp gates, bell ropes, book
   tables, the Thing's games), placed at their MM9 DAT objects, and renames of generated points.
+- `faq/faq.yml`: the FAQ page's questions and answers (continent travel, promotions, where the skills MM9 lacks are
+  learnt), with `[text](#route)` links; its skill table is built from the teachers data. `faq/img/`: its pictures,
+  drawn by `faq_figures.py` (`--capture` takes the Sturmford City screenshots in one isolated game boot, then rings and
+  labels the dimensional travel pedestal), copied to `img/faq/`.
 - `capture_shots.py`: one isolated game boot per map with a screenshot tour: the arrival view at the map's first start
   point, and a framed view of each story quest giver, promoter and dock NPC. Output in `output/mm9_site_shots/`;
   `build_site.py` drops captures that missed the scene (flat frame, or open sky behind an NPC).
@@ -54,8 +58,8 @@ sudo into `/var/www/html/openyamm/mm9-guide/`, beside the MAW guide).
 | Door names (lever, secret, trap, door) | the `DOORS` table of `worlds/mm9/events/maps/<map>.lua` |
 | Switches, hidden buttons, perception spots, teleporters, wells, cauldrons, stat barrels, traps | raw MM9 DAT objects, `assets_editor_dev/worlds/mm9/maps/*.raw_objects.yml`; well and cauldron effects from the `MM9.use*` calls in the map events |
 | NPC roles | RUDE ids against `skill_trainers.txt`, `dialogue/racial_trainers.yml`, `vendors.txt`, `service_venues.txt`, `transport_routes.txt`, `hirelings.txt`, the promotions table |
-| Teachers | `skill_trainers.txt` (Expert to Grandmaster), the venues' `learn_skills` (Learn), `dialogue/racial_trainers.yml` (the racial abilities, names from `dialogue/rude/NPCNAME.rude`) |
-| Shop stock | `state/vendor_stock_audit.yml` (JSON, written by `generate_mm9_vendors.py`): each shelf's treasure level, the item tiers and enchantments stocked, the restock lists; the Shops page's weapons and armour by town and its spellbook list (every book, the shops that sell it, on every restock or on some of their lists, and its price there before Merchant) |
+| Teachers | `skill_trainers.txt` (Expert to Grandmaster), the `learn_skills` of the venues and shops (Learn: `service_venues.txt`, `vendors.txt`), `dialogue/racial_trainers.yml` (the racial abilities, names from `dialogue/rude/NPCNAME.rude`) |
+| Shop stock | `state/vendor_stock_audit.yml` (JSON, written by `generate_mm9_vendors.py`): each shelf's treasure level, the item tiers and enchantments stocked, the restock lists; the Shops page's weapons and armour by town, its spells by school and mastery (each tier's shops, with their maps) and its spellbook list (every book, the shops that sell it, on every restock or on some of their lists, and its price there before Merchant) |
 | Quests | `data_tables/english/quests_overlay.txt` (stages grouped by headline), givers and turn-ins from `state/quest_interactions.yml` |
 | Quest steps | every handler of `worlds/mm9/events/maps/<map>.lua` that checks or gives quest keys or quest items, placed at the DAT object its comments or item provenance name; keys tied to quests through the journal's show/hide conditions (`state/quest_interactions.yml` `journal_stages`). Entry numbers share the key range, so they are not used as keys; keys gating more than three quests are ignored |
 | Promotion class lines | `MM9.Promotions` in `worlds/mm9/events/common/mm9_common.lua` |

@@ -103,7 +103,7 @@ steps:
       id: 12
       state: closed
 - note:
-    text: 'Rope1 by a real click from the bell floor: it lowers and Bell1 rings (step 1).'
+    text: 'Rope1 by a real click from the bell floor: it lowers and Bell1 swings and rings; it reports Bell1 when it stops.'
 - set_pose:
     map: lindisfarnemonastery.blv
     x: -246
@@ -120,6 +120,10 @@ steps:
     mechanism:
       id: 30
       state: open
+- assert:
+    state_dump_named_map_var:
+      name: BellBusy1
+      value: 3
 - note:
     text: 'Wrong order: Rope2 (Bell3) after Bell1 resets (Gosub Reset); finishing 4-5 gives nothing.'
 - execute_event:
@@ -129,7 +133,11 @@ steps:
 - execute_event:
     id: 93
 - advance_runtime:
-    seconds: 1
+    seconds: 5.5
+- assert:
+    state_dump_named_map_var:
+      name: FifthBell
+      value: 0
 - assert:
     qbit_clear:
     - 99507
@@ -148,16 +156,26 @@ steps:
       markers.'
 - execute_event:
     id: 91
+- advance_runtime:
+    seconds: 1
 - execute_event:
     id: 95
+- advance_runtime:
+    seconds: 1
 - execute_event:
     id: 92
+- advance_runtime:
+    seconds: 1
 - execute_event:
     id: 94
+- advance_runtime:
+    seconds: 1
 - execute_event:
     id: 93
 - advance_runtime:
-    seconds: 4
+    seconds: 1
+- advance_runtime:
+    seconds: 4.5
 - assert:
     qbit_set:
     - 99507

@@ -134,8 +134,8 @@ by MM9's weaker stats, so the grown scene is the fair MAW baseline.
   difficulty change does not; the next refill uses the new difficulty.
 - Maps whose Lua counts placed actors (Yanmir's Fort) keep no reserve. Past the room limit the copies move a tier up
   (A to B, B to C), as MAW raises the encounter tier from Nightmare.
-- ~~Fix first: the Tomb of a Thousand Terrors was never grown~~: done 2026-11-09 in its converter (412 monsters against
-  its target of 465; section 9).
+- ~~Fix first: the Tomb of a Thousand Terrors was never grown~~: done 2026-11-09 in its converter, at 2x since that
+  evening (186 monsters; section 9).
 
 Rejected: copying monsters at load in the engine (it would duplicate `density.py`'s placement and scripting rules and
 risk monsters in doors, on plates and in water) and MAW scene overlays per difficulty (six files a map, overlays do not
@@ -324,8 +324,8 @@ Built (2026-11-09, third step: MAW plays in MM9):
 
 - **Thjorad Mine x3** (the user, 2026-11-09: its rooms hold one to three Troglodytes; a lot more): its `density` 3.0 in
   `balance.yml`, so 77 monsters become 231 at MAW, 323 at Nightmare. Later that day the rebuild itself grew the mine
-  1.8x for every game (139 monsters), and its MAW `density` became 1.7 on top (balance.yml version 2: about 236 at
-  MAW, 330 at Nightmare). A map's reserve is now made for its highest factor
+  for every game, at 1.4x as the rest of its act (108 monsters; a few hours at 1.8x first), and its MAW `density`
+  became 2.1 on top (balance.yml version 2: about 227 at MAW, 318 at Nightmare). A map's reserve is now made for its highest factor
   (its `density` times the file's highest, at most 8; the mine's to 6 x), and each pack has room for twice its own
   copies, so the copies of scripted packs land with the others (Drangheim and Guberland now reach 2 x, Dook's Castle
   1.71 x, the Training Hall 1.84 x).

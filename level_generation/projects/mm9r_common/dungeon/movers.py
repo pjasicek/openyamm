@@ -62,6 +62,20 @@ def door_sounds(properties: dict) -> dict:
     return sounds
 
 
+def mover_sounds(name: str, rule: dict, properties: dict) -> dict:
+    """A mover's sounds: its overrides.yml rule's `sounds` (keys of SOUND_FIELDS, world sound names such as
+    "Door/doorslammetal02.wav") in place of its DAT object's, for a door MM9 leaves silent that should sound (1000
+    Terrors' CoffinGate2, the play-test of 2026-11-10); otherwise the DAT object's own (door_sounds)."""
+    chosen = rule.get("sounds")
+    if chosen is None:
+        return door_sounds(properties)
+    keys = {key for key, _ in SOUND_FIELDS}
+    unknown = sorted(set(chosen) - keys)
+    if unknown:
+        raise SystemExit(f"{name}: unknown sounds keys {unknown} in overrides.yml (known: {sorted(keys)})")
+    return {key: world_sound(value) for key, value in chosen.items()}
+
+
 _WORLD_SOUNDS: dict[str, list[str]] | None = None
 
 
@@ -423,5 +437,8 @@ def build_movers(source, plan: dict, package, rooms, stats: Counter, mover_event
                                        np.round(np.max(source.project.native(points), 0)).astype(int).tolist()],
                                # the sounds once per mover: its invisible and glass parts move with it, silently (no
                                # environment loop under the MM9 sounds); a spinner keeps the environment's
-                               "sounds": None if spinning is not None else door_sounds(properties) if index == 0 else {}})
+                               "sounds": None if spinning is not None
+                               else mover_sounds(node_members[0], plan["movers"][node_members[0]], properties)
+                               if index == 0 else {},
+                               "sounds_overridden": index == 0 and "sounds" in plan["movers"][node_members[0]]})
     return movers

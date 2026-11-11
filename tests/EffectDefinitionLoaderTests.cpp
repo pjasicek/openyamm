@@ -42,7 +42,18 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
         loader.load("engine/effects/mm9/library.yml", error);
     INFO(error);
     REQUIRE(definitions.has_value());
-    REQUIRE_EQ(definitions->size(), 40);
+    // 42 of the 48 FXF groups (the six with visible deforming models are not imported), the melee blood and the
+    // Sparks projectile explosion.
+    REQUIRE_EQ(definitions->size(), 44);
+    for (const std::string id : {"mm9:redyeldots", "mm9:LichKingRes", "mm9:skullcurse", "mm9:explosion_sparks"})
+    {
+        INFO(id);
+        CHECK(std::any_of(definitions->begin(), definitions->end(),
+            [&id](const std::shared_ptr<const Game::EffectDefinition> &definition)
+            {
+                return definition->id == id;
+            }));
+    }
     // A body-anchored recipe the scripts play (Wizard's Lab): both hand emitters at the effect's origin.
     const auto blueDotsIterator = std::find_if(definitions->begin(), definitions->end(),
         [](const std::shared_ptr<const Game::EffectDefinition> &definition)
@@ -162,7 +173,7 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
         *definitions,
         error,
         &modelAssets));
-    CHECK_EQ(resources.spriteCount(), 36);
+    CHECK_EQ(resources.spriteCount(), 37); // The FXF sprites, the melee blood two and the explosion sphere.
     const Game::EffectSpriteResource *pSprite =
         resources.findSprite("mm9:effect-sprite/fire/torchflame4");
     REQUIRE(pSprite != nullptr);
@@ -234,6 +245,26 @@ TEST_CASE("EffectDefinitionLoader loads shared MM9-derived effects for any activ
     REQUIRE(effects.stop(fireflyHandle, Game::EffectStopMode::Immediate));
     CHECK_EQ(models.size(), 0);
     CHECK(effects.fixedSprites().empty());
+
+    // Every imported recipe spawns: its sprites, sounds and model paths resolve (a model path plays the model's own
+    // first clip, which is not always named after the model: pathup.abc's is wormpath).
+    for (const std::shared_ptr<const Game::EffectDefinition> &definition : *definitions)
+    {
+        INFO(definition->id);
+        for (const Game::EffectSpriteEmitterDefinition &emitter : definition->spriteEmitters)
+        {
+            CHECK(resources.findSprite(emitter.spriteResource) != nullptr);
+        }
+        for (const Game::EffectSpriteDefinition &sprite : definition->sprites)
+        {
+            CHECK(resources.findSprite(sprite.spriteResource) != nullptr);
+        }
+        const Game::EffectHandle spawned = effects.spawn(definition->id);
+        CHECK(effects.contains(spawned));
+        effects.update(0.5f);
+        effects.stop(spawned, Game::EffectStopMode::Immediate);
+    }
+    CHECK_EQ(models.size(), 0);
 }
 
 TEST_CASE("EffectDefinitionLoader rejects unsupported components and duplicate ids atomically")
@@ -285,7 +316,7 @@ TEST_CASE("EffectDefinitionLoader composes authored showcase with MM9 for all le
         // five ground item sparkles, two beams, four destructibles breaking), the 122 generated projectile flight, settled, impact and aura
         // effects, the 63 melee effects (nine blows, three misses, 18 element accents, eleven material contacts in
         // three strengths), the MM8 wisp stars and the MM9 library.
-        REQUIRE_EQ(definitions->size(), 244);
+        REQUIRE_EQ(definitions->size(), 248);
         Game::EffectLibrary library;
         REQUIRE(library.replace(*definitions, error));
         REQUIRE(library.find("mm9:spell_reaver") != nullptr);
@@ -296,6 +327,16 @@ TEST_CASE("EffectDefinitionLoader composes authored showcase with MM9 for all le
         Engine::ModelAssetCache models;
         REQUIRE(resources.load(assets, "engine/effects/resource_bindings.yml", *definitions, error, &models));
         REQUIRE(resources.findSprite("mm9:effect-sprite/fire/torchflame4") != nullptr);
+        // MM9's additive light ignores the texture's alpha (LithTech ONE/ONE); OpenYAMM's effects keep it, also
+        // where they draw MM9's sprites.
+        for (const Game::EffectSpriteDefinition &sprite : library.find("mm9:sparklies")->sprites)
+        {
+            CHECK_FALSE(sprite.additiveTextureAlpha);
+        }
+        const Game::EffectDefinition &fireHand = *library.find("openyamm:fx/creature_fire_hand");
+        CHECK_EQ(fireHand.spriteEmitters.front().spriteResource, "mm9:effect-sprite/weapons/firebolt");
+        CHECK(fireHand.spriteEmitters.front().additiveTextureAlpha);
+        CHECK(fireHand.sprites.front().additiveTextureAlpha);
         const Game::EffectSpriteResource *pFire = resources.findSprite("openyamm:effect-sprite/fireball");
         REQUIRE(pFire != nullptr);
         CHECK_EQ(pFire->framePaths.size(), 16);

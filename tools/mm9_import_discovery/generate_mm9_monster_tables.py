@@ -125,7 +125,8 @@ NON_OFFENSIVE_SPELLS = frozenset({1, 23, 27})
 NO_RANGE_ATTACK_SOURCES = frozenset({89, 114, 115, 116, 144, 145, 148, 149})
 
 # Elemental Bolt rows whose element MM9 shows by the cast's hand effect rather than a coloured projectile: the Evil
-# Apprentice and Evil Sorcerer cast with rAttack1, whose `DoFX 2 1` plays FX1 `redyeldots` (EvilSorcerer.abc).
+# Apprentice and Evil Sorcerer cast with rAttack1 (EvilSorcerer.abc). This choice read its `DoFX 2 1` as FX1 `redyeldots`;
+# DoFX is 0-based (object.lto 0x1001af90), so rAttack1 shows FX2 `greenyeldots` and redyeldots is the melee's (2026-11-10).
 ELEMENTAL_BOLT_BY_CAST_FX = {156: "Fire Bolt", 157: "Fire Bolt"}
 
 # A monster spell's damage in OpenYAMM (rollMonsterSpellDamage): DamageBase + skill x 1..DamageDiceSides from

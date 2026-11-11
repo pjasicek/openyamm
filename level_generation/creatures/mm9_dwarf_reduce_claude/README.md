@@ -115,3 +115,7 @@ In game; LODs by eye (numbers only); the binding regression and floor audit (run
 shots frame above the helmet for both models (viewer camera, not the mesh), so faces were read from the Blender GLB close-ups.
 Blender's clay of the axe shades differently from the installed file although the primitive is byte-identical (import
 normals); judge the axe in the viewer.
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_RHand1`). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`).

@@ -108,10 +108,15 @@ def literal(path: Path, name: str):
 # there (overrides.yml people). Afterworld's copies stay: nothing there hides them (SixFires.inc's Absolution only
 # shows them again).
 SCRIPT_HIDDEN = {}
-# Objects left out by name: Yorwick's dead Bjarni (Kira0, bjarni.abc) and Tryggva lie on the battlefield
-# (PropAnim.scr Static_die1); their dead figures have no decoration rows yet (bjarnidead is baked but unbound,
-# tryggvadead is not built) and the seated stand-ins posed_bake picks would sit among the dead.
-LEFT_OUT = {"yorwick": ({"Kira0", "Tryygva"}, "dead hero figure without a row (Svenspeech.scr battlefield)")}
+# Objects left out by name: Yorwick's dead Bjarni (Kira0, bjarni.abc), Sigmund (sigmund) and Tryggva lie on the
+# battlefield (PropAnim.scr Static_die1); their dead figures have no decoration rows yet (bjarnidead, sigmunddead and
+# tryggvadead are baked but unbound) and the seated stand-ins posed_bake picks would sit among the dead, in the air
+# (the seated Sigmund, playthrough note 2026-11-11). Sven19, a fallen soldier MM9 keeps hidden (DAT Visible 0, Gravity
+# 0, MoveToFloor 0: about 215 units above the ground; no script shows it, SvenShowTake.inc skips it) floated over
+# the field.
+DEAD_HERO = "dead hero figure without a row (Svenspeech.scr battlefield)"
+LEFT_OUT = {"yorwick": {"Kira0": DEAD_HERO, "sigmund": DEAD_HERO, "Tryygva": DEAD_HERO,
+                        "Sven19": "hidden in MM9 (DAT Visible 0) and shown by no script"}}
 _hidden = {}
 
 
@@ -350,8 +355,8 @@ def main() -> int:
             elif region in SCRIPT_HIDDEN and p["Name"] in script_hidden(region):
                 left_out[SCRIPT_HIDDEN[region][1]] += 1
                 continue
-            elif region in LEFT_OUT and p["Name"] in LEFT_OUT[region][0]:
-                left_out[LEFT_OUT[region][1]] += 1
+            elif p["Name"] in LEFT_OUT.get(region, {}):
+                left_out[LEFT_OUT[region][p["Name"]]] += 1
                 continue
             elif posed_bake(item, p) is not None:
                 # a posed figure: our 3D model baked in MM9's pose (pose_bake.py), at the DAT position (its origin is

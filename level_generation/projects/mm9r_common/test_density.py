@@ -298,3 +298,33 @@ def test_pod_launchers_keep_their_quota_nearby_and_the_rest_grow_other_packs():
     assert len(copies) == 4 and report["summary"]["unplaced_adds"] == 0
     assert report["packs"][2]["moved_in"] == 3
     assert any(density.LAUNCHERS_FULL in p.get("refused", {}) for p in report["packs"][:2])
+
+
+def test_no_copy_under_a_floor_or_on_a_steep_face_and_none_of_a_buried_member():
+    m = Map()
+    m.floor(0, 0, 2000, 2000, 0, 1)                                  # the box's bottom (an open-air BLV's sky shell)
+    m.floor(0, 0, 1000, 2000, 300, 1)                                # the ground over its west half, one-sided
+    m.face([(1000, 0, 1), (1300, 0, 401), (1300, 2000, 401), (1000, 2000, 1)], 4, 1)   # a 53 degree slope
+    blv = {"vertices": m.vertices, "faces": m.faces}
+    w = density.World(blv, {"initial_state": {"doors": [], "face_attribute_overrides": []}}, set())
+    assert w.under_cover(500, 1000, 0) and not w.under_cover(500, 1000, 300) and not w.under_cover(1500, 1000, 0)
+    member = actor(0, 1600, 1000)
+    assert w.spot(member, member, 1800, 1000, [member]) is not None    # beside it on the open floor
+    assert w.check(member, member, 1150, 1000, [member])[1] == "under a floor"      # under the slope
+    on_slope = actor(3, 1010, 1000, z=15)
+    assert w.check(on_slope, on_slope, 1012, 1130, [on_slope])[1] == "steep"
+    buried = actor(1, 500, 1000)                                       # on the bottom, under the ground
+    assert w.check(buried, buried, 650, 1000, [buried])[1] == "member has no floor"
+    standing = actor(2, 500, 1000, z=301)
+    assert w.spot(standing, standing, 650, 1000, [standing]) is not None
+
+
+def test_a_flyer_copy_keeps_its_height_only_under_a_high_enough_ceiling():
+    m = Map()
+    m.floor(0, 0, 2000, 1000, 0, 1)
+    m.face([(1000, 0, 200), (1000, 1000, 200), (2000, 1000, 200), (2000, 0, 200)], 5, 1)   # a low ceiling, east half
+    blv = {"vertices": m.vertices, "faces": m.faces}
+    w = density.World(blv, {"initial_state": {"doors": [], "face_attribute_overrides": []}}, set())
+    flyer = actor(0, 500, 500, z=301)
+    assert w.spot(flyer, flyer, 700, 500, [flyer]) is not None
+    assert w.check(flyer, flyer, 1300, 500, [flyer])[1] == "in the ceiling"

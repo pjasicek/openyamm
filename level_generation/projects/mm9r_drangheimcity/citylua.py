@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 import wave
 
 import cutscenes
@@ -263,9 +264,29 @@ def map_script(hooks, build) -> str:
     script.add(lines + [""])
 
     # --- map load and the poll -------------------------------------------------------------------------------------
+    # NPC87.scr :Vanish with bVanish FALSE (key 108, he is back): LoopAnim Sit, facing as placed (the fire). MM9 places
+    # no chair or seat brush there (DAT objects and polygons within 250 LT: the fireplace, a bed, the town portal): he
+    # sits on air in MM9 too.
+    record = hooks.records[a[sigmund]]
+    yaw = math.radians(record["initial_yaw_units"] * 360.0 / 2048.0)
+    sx, sy = record["position"]["x"], record["position"]["y"]
+    facing = (int(round(sx + 256 * math.cos(yaw))), int(round(sy + 256 * math.sin(yaw))))
+    lines = [
+        "-- NPC87.scr :Init -> :Vanish: with key 108 Sigmund is back and loops Sit (LoopAnim Sit 0 DoNothing), facing as",
+        "-- placed (the fire; MM9 places no chair there); the load and the poll (the key given while here) seat him.",
+        "local sigmundSeated = false",
+        "local function sigmundSits()",
+        "    if sigmundSeated or not has(108) then return end",
+        "    sigmundSeated = true",
+        f"    evt.PlayActorClip({a[sigmund]}, \"sit\", true); evt.FaceActorTo({a[sigmund]}, {facing[0]}, {facing[1]}, 0)",
+        "end",
+        "",
+    ]
+    script.add(lines)
     load = [
         "    -- NPC87.scr :Init: Sigmund is away while key 40 is set, back with 108",
         f"    show({a[sigmund]}, not (has(40) and not has(108)))",
+        "    sigmundSits()",
         "    local thorolf = has(83) and not has(84)   -- NPC378.scr :Init (only Frosgard's third copy comes on 106)",
         f"    show({a['Thorolf0']}, thorolf); show({a['Thorolf1']}, thorolf)",
         f"    show({a['ShopkeeperHumanFemaleA8']}, not has(456))   -- Retainer.scr: Edina A'Mor, hidden while hired",
@@ -279,6 +300,7 @@ def map_script(hooks, build) -> str:
     lines = [
         "local function poll()",
         "    shopHours()",
+        "    sigmundSits()",
         "    if not has(225) and has(222) and var(\"BanditShown\") == 0 then set(\"BanditShown\", 1); show(BANDIT, true) end",
         f"    evt.StartTimer({T_POLL}, seconds(1))",
         "end",

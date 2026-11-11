@@ -203,12 +203,16 @@ handlers[50069] = function()
 end
 -- Forad.scr (Forad Darre, "Hate"): hidden until the battle; the first click 480 and 800 experience; his
 -- dialogue's close during the battle (104) turns him on the party; else 368 and 4 000 experience, gone on 29.
+-- The click (:OnUse) also turns him to the party (FaceObject, 200 degrees a second) and bows (PlayAnim bow).
 handlers[53048] = function()
     if not has(480) then reward(480, 800, 0) end
+    local x, y = evt.GetPartyPosition()
+    evt.FaceActorTo(0, x, y, 0.5); evt.PlayActorClip(0, "bow", false)
     MM9.openRude(2)
 end
 handlers[50048] = function()
     if has(104) then   -- Hate: AddEnemy Player; MM9's monster AI walks him at the party (placed still)
+        evt.ClearActorPresentation(0)   -- the bow's facing goes back to his AI
         evt.SetMonGroupBit(4, MonsterBits.Hostile, true)
         evt.SetActorImmobile(0, false)
         return

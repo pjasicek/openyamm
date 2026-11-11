@@ -47,6 +47,18 @@ EV_LEVER17, EV_LIFT_LEVER, EV_LIFT_LEVER0, EV_HIDDEN_BUTTON = 363, 364, 365, 366
 EV_TOMB_GATE, EV_FOYER_DOOR, EV_STAIR_GATE0 = 367, 368, 369
 EV_WINMAN, EV_GENIE = 370, 371
 T_POLL = 380
+COG_SKULL = 1380                    # SkeletonHead's SetSprite key (evt.AimDecoration); WinMan's: cinema.COG_WINMAN
+COG_STATUE = 1390                   # + k: SorceressStatue<k>'s SetSprite key (evt.PlayDecorationClip)
+STATUE_ANIM = ROOT / "assets_source/worlds/mm9/models/mm9_deco_sorcererstatue_anim.glb"   # its clips (lower case)
+
+
+def glb_clip_seconds(path: Path) -> dict:
+    """A GLB's animations by name: their length in seconds (the latest key of their samplers)."""
+    data = path.read_bytes()
+    length = struct.unpack_from("<I", data, 12)[0]
+    gltf = json.loads(data[20:20 + length])
+    return {a["name"]: max(gltf["accessors"][s["input"]]["max"][0] for s in a["samplers"])
+            for a in gltf.get("animations", [])}
 DAMAGE_HOOK, KILL_HOOK = 381, 382
 GROUP_NJAM_TAUNT, GROUP_NJAM_FINAL, GROUP_CRITTERS = 1, 2, 3
 
@@ -179,7 +191,11 @@ class ThousandTerrors(dungeon.Hooks):
             placed.write_text(json.dumps(entries) + "\n")
             # ChessNote0 (BootGive.scr "598") is a world item (dungeon/pickups.py)
             events = {"WinMan": EV_WINMAN, "Genielamp": EV_GENIE}
-            content.props(placed, events={k: v for k, v in events.items() if k in self.prop_names})
+            import cinematics_1000t as cinema
+            cogs = {"WinMan": cinema.COG_WINMAN, "SkeletonHead": COG_SKULL,
+                    **{f"SorceressStatue{k}": COG_STATUE + k for k in range(8)}}
+            content.props(placed, events={k: v for k, v in events.items() if k in self.prop_names},
+                          cogs={k: v for k, v in cogs.items() if k in self.prop_names})
         else:
             print("note: props.json is missing; no decorations placed")
         # Trigger volumes as boxes (native, min/max), polled in the map Lua.
@@ -458,7 +474,10 @@ class ThousandTerrors(dungeon.Hooks):
         statue_lines = []
         for o in source.objects:
             if kinds.get(o["name"]) == "statue":
-                statue_lines.append(f"    {name_key(o['name'])} = \"{str(o['properties']['ScriptParams']).split()[0]}\",")
+                k = int(o["name"][len("SorceressStatue"):])
+                statue_lines.append(f"    {name_key(o['name'])} = {{shooter = "
+                                    f"\"{str(o['properties']['ScriptParams']).split()[0]}\", cog = {COG_STATUE + k}}},")
+        clip_seconds = glb_clip_seconds(STATUE_ANIM)
         # Spawns: Spawner DefaultSpawn, SpawnLoc / SpawnGeneric params, SpawnNjam markers.
         spawn_lines = []
         count_names = []
@@ -530,7 +549,8 @@ class ThousandTerrors(dungeon.Hooks):
             "local ACTOR = {" + ", ".join(f"[{lua_str(n)}] = {i}" for n, i in sorted(self.actor.items())) + "}",
             "local SHOOTERS = {", *shooter_lines, "}",
             "local STATUES = {", *statue_lines, "}",
-            "local SKULLS = {" + ", ".join(f"[{lua_str(n)}] = {{{', '.join(lua_str(s) for s in shooters)}}}"
+            "local SKULLS = {" + ", ".join(f"[{lua_str(n)}] = {{cog = {COG_SKULL}, shooters = "
+                                          f"{{{', '.join(lua_str(s) for s in shooters)}}}}}"
                                           for n, shooters in sorted(skulls.items())) + "}",
             "local SPAWNS = {", *spawn_lines, "}",
             "local COUNTS = {" + ", ".join(f"[{lua_str(n)}] = true" for n in count_names) + "}",
@@ -563,6 +583,24 @@ class ThousandTerrors(dungeon.Hooks):
             "-- A scheduler on the 0.25 s poll (MM9's Wait): after(seconds, fn).",
             "local tick, tasks = 0, {}",
             "local function after(seconds, fn) table.insert(tasks, {at = tick + math.max(1, math.floor(seconds * 4 + 0.5)), fn = fn}) end",
+            "-- 1000T_SorcStatues.scr: :Main2 plays fidget2 once (each statue holds its end); Go (:Start) sets bIsCasting",
+            "-- (StatueCasting<name>), its shooter Go and :StartSequence: fidget2, then :Continue Taunt, then fidget2 ...",
+            "-- while it casts; Stop (:TurnOff) clears it and the clip playing finishes. The clips (mm9_sorcererstatue's",
+            "-- skinned copy) chain on the poll, each held until the tick after its end; the chains are runtime only, so",
+            "-- map load starts them again. Its CastingSmoke (a Fire object) is not carried.",
+            f"local STATUE_CLIPS = {{fidget2 = {clip_seconds['fidget2']:.3f}, taunt = {clip_seconds['taunt']:.3f}}}",
+            "local statueChain = {}",
+            "local function statueSequence(name, clip, chain)",
+            "    if statueChain[name] ~= chain or var(\"StatueCasting\" .. name) ~= 1 then return end",
+            "    evt.PlayDecorationClip(STATUES[name].cog, clip)",
+            "    after(STATUE_CLIPS[clip] + 0.125, function()",
+            "        statueSequence(name, clip == \"fidget2\" and \"taunt\" or \"fidget2\", chain)",
+            "    end)",
+            "end",
+            "local function statueCasting(name)",
+            "    statueChain[name] = (statueChain[name] or 0) + 1",
+            "    statueSequence(name, \"fidget2\", statueChain[name])",
+            "end",
             "-- A weighted lift's touch: it starts after its MoveDelay and takes no new touch until it is back up.",
             "local liftIdleAt = {}",
             "local function touchLift(name)",
@@ -592,7 +630,8 @@ class ThousandTerrors(dungeon.Hooks):
             "",
             "-- Shooters (MM9 Shooter: ProjectileName, DamageAmt, ShootInterval): on, they fire at the party (a lightning",
             "-- shooter at its marker); a burst shooter (1000T_CircleShooter.scr, 1000T_SkHeadShooter.scr) fires its count",
-            "-- and stops, a circle shooter then triggers its stop trigger.",
+            "-- and stops, a circle shooter then triggers its stop trigger. A shot strikes the party in its path",
+            "-- (FireMissile's strikesParty).",
             "local firing = {}",
             "local function fire(name)",
             "    local s = SHOOTERS[name]",
@@ -603,7 +642,7 @@ class ThousandTerrors(dungeon.Hooks):
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    if s.target == nil and length > 4000 then return end",
             "    local k = math.min(64 / length, 0.33)",
-            "    local shot = evt.FireMissile(s.missile, s.at[1] + dx * k, s.at[2] + dy * k, s.at[3] + dz * k, x, y, z, s.damage, s.kind, 0)",
+            "    local shot = evt.FireMissile(s.missile, s.at[1] + dx * k, s.at[2] + dy * k, s.at[3] + dz * k, x, y, z, s.damage, s.kind, 0, 0, true)",
             "    if shot then MM9.launchSound(s.projectile, s.at[1], s.at[2], s.at[3]) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (shot and 1 or 0))",
             "end",
@@ -698,6 +737,7 @@ class ThousandTerrors(dungeon.Hooks):
             "    if row < 3 then setBlock(pad, k + 4, not pressed(pad, k + 4)) end",
             "    for j = 0, 15 do if not pressed(pad, j) then return end end",
             "    set(pad .. \"State\", 2)",
+            "    MM9.playSound(\"sounds/door/doorlatch02.wav\")   -- ButtonPuzzle.scr :MoveDoor, then :EndDoor 0.8 s later",
             "    after(0.8, function()",
             "        MM9.playSound(\"sounds/door/stonedoorslide02.wav\")",
             "        showPad(pad, false)",
@@ -733,16 +773,28 @@ class ThousandTerrors(dungeon.Hooks):
             "    elseif kind == \"shooter\" then",
             "        if msg == \"on\" or msg == \"go\" then shooterOn(target) elseif msg == \"off\" or msg == \"stop\" then shooterOff(target) end",
             "    elseif kind == \"statue\" then",
-            "        if msg == \"go\" then shooterOn(STATUES[target]) elseif msg == \"stop\" then shooterOff(STATUES[target]) end",
+            "        if msg == \"go\" then",
+            "            shooterOn(STATUES[target].shooter)",
+            "            set(\"StatueCasting\" .. target, 1)",
+            "            statueCasting(target)",
+            "        elseif msg == \"stop\" then",
+            "            shooterOff(STATUES[target].shooter)",
+            "            set(\"StatueCasting\" .. target, 0)",
+            "        end",
             "    elseif kind == \"skull\" then",
-            "        -- 1000T_SkeletonHead.scr: Go turns the skull about (Rotate 180 at 180/s: :Start, ignored while it",
-            "        -- turns), then :TurnOff sends both shooters Go (1000T_SkHeadShooter.scr: ScriptParams' count of shots,",
-            "        -- one a second); Stop runs :TurnOff at once. The skull's turn is not shown (a decoration).",
+            "        -- 1000T_SkeletonHead.scr: Go turns the skull about (:Start Rotate 0, 1, 0, 180, 180: half a turn",
+            "        -- clockwise from above at 180/s, evt.AimDecoration; ignored while it turns), then :TurnOff sends both",
+            "        -- shooters Go (1000T_SkHeadShooter.scr: ScriptParams' count of shots, one a second); Stop runs :TurnOff",
+            "        -- at once. SkullTurns counts the half turns (aims are runtime only: map load puts it back).",
             "        if (msg == \"go\" or msg == \"stop\") and var(\"SkullTurning\" .. target) == 0 then",
             "            set(\"SkullTurning\" .. target, 1)",
+            "            if msg == \"go\" then",
+            "                set(\"SkullTurns\" .. target, var(\"SkullTurns\" .. target) + 1)",
+            "                evt.AimDecoration(SKULLS[target].cog, -180 * var(\"SkullTurns\" .. target), 180)",
+            "            end",
             "            after(msg == \"go\" and 1 or 0, function()",
             "                set(\"SkullTurning\" .. target, 0)",
-            "                for _, s in ipairs(SKULLS[target]) do shooterOn(s) end",
+            "                for _, s in ipairs(SKULLS[target].shooters) do shooterOn(s) end",
             "                set(\"SkullGo\" .. target, var(\"SkullGo\" .. target) + 1)",
             "            end)",
             "        end",
@@ -1031,6 +1083,11 @@ class ThousandTerrors(dungeon.Hooks):
             "    if not isOpen(\"StairGate\") then set(\"LockStairGate\", 1) end",
             "    for pad, _ in pairs(PADS) do showPad(pad, var(pad .. \"State\") == 1) end",
             "    for pawn, _ in pairs(PAWN_FACES) do if var(\"Queened\" .. pawn) == 1 then hidePawn(pawn) end end",
+            "    for name, skull in pairs(SKULLS) do evt.AimDecoration(skull.cog, -180 * var(\"SkullTurns\" .. name)) end",
+            "    for name, statue in pairs(STATUES) do",
+            "        if var(\"StatueCasting\" .. name) == 1 then statueCasting(name) else evt.PlayDecorationClip(statue.cog, \"fidget2\") end",
+            "    end",
+            f"    if var(\"WinWheel\") == 2 then evt.PlayDecorationClip({cinema.COG_WINMAN}, \"down\", \"end\") end",
             "    for name, faces in pairs(PIECES) do",
             f"        if var(\"Destroyed\" .. name) == 1 then for _, f in ipairs(faces) do evt.SetFacetBit(-f, {INVISIBLE_FACE | UNTOUCHABLE_FACE}, true) end end",
             "    end",

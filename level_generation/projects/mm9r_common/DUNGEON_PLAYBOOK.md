@@ -50,6 +50,7 @@ python3 level_generation/projects/mm9r_<map>/make_scenarios.py     # 6. scenario
 for s in doors_exits chests scripted; do ./build/game/openyamm --asset-root "$PWD/output/mm9_rework/assets_dev" \
     --headless-run-scenario level_generation/projects/mm9r_<map>/scenario_$s.yml --scenario-no-color; done
 python3 level_generation/projects/mm9r_common/dungeon/audit.py level_generation/projects/mm9r_<map>   # 7. walkability
+python3 level_generation/projects/mm9r_common/actor_floor_audit.py <map>   # 7b. every placed actor (and MAW copy) on a floor
 python3 level_generation/projects/mm9r_<map>/make_tour.py v01 [--original]          # 8. tours (same views both maps)
 ./tools/run_game.sh --isolated <name> --world mm9 --map <map>.blv --assets "$PWD/output/mm9_rework/assets_dev" \
     --position X Y Z --yaw-radians A --pitch-degrees 0 --warmup 3 --seconds 150 \
@@ -92,6 +93,9 @@ plan_levels:     # name -> [low, high] LT y: one plan image per storey (rooms_<n
 seed_exclude:    # objects of a seed class standing outside the map (relay triggers, script holders)
 glass:           # tuning of MM9's translucent faces per texture: {texture: {opacity, tint, two_sided}} (or a list); which
                  # faces are glass comes from MM9's Translucent flag (rooms.Glass; see the 2026-11-07 section)
+spr_surfaces:    # opt-in: MM9's .spr faces that are no liquid get their frames, the Translucent ones translucent faces
+                 # at the brush Alpha ({skip: [models], translucent: false}; dungeon/spr_surfaces.py)
+liquids:         # {not_water: [DAT objects]}: solids drawn with a water sprite that liquids.py must not retexture
 skip_user_portals: # UserPortals not to use as door portals
 textures:        # MM9 source texture -> {alias, width, height}: textures the old import gave no alias (sky markers),
                  # or pseudo textures the map's hooks use (a pool's water surface)
@@ -118,7 +122,7 @@ textures:        # MM9 source texture -> {alias, width, height}: textures the ol
 | `Prop`, `WallTorch`, `Brazier`, `Barrel`, `BonePile` | 3D decorations (props project); the light paired with a torch or brazier is its BLV light, the row carries none |
 | `TreasureChest` | decoration whose click opens loot container k (event 41 + k); loot from the shared MM9 item sources |
 | `PickupItem`, scripted `Prop` (keys, quest items) | decoration with a click event that grants the item/QBit and hides it (`evt.SetSprite`) |
-| monster classes | placed actors at their DAT position on the floor, facing 90 − ry, monster row `MM9 <Family> A\|B\|C` (`content.monster_bases`: the old importer's replacement table; with `npc_rows=True`, used by the regions and the Temple of Honk, a class without one takes its own MM9 row from mm9_npc_actor_rows.tsv: farm animals, fish, geese; others are listed as omitted) |
+| monster classes | placed actors at their DAT position on the first surface under it (`Content.actor_floor`: any solid one, invisible collision and movers included; a position in the ground stands on the top over it, one on a slope too steep to stand on moves to the nearest floor round it, `actors_moved` in `work/content.json`), facing 90 − ry, monster row `MM9 <Family> A\|B\|C` (`content.monster_bases`: the old importer's replacement table; with `npc_rows=True`, used by the regions and the Temple of Honk, a class without one takes its own MM9 row from mm9_npc_actor_rows.tsv: farm animals, fish, geese; others are listed as omitted) |
 | `BlueWater` (pools) | the volume's top face as an untouchable water face (no translucency, no swimming; Temple of Honk) |
 | `skymarker` faces (skylights) | drawn with an MM9 sky texture through `textures` (no sky indoors); the bake's sky light (profile `emitters`) |
 | `Trigger` (touch volume) | invisible pressure-plate pad 3 over the floor under it, shrunk to one floor and one room |
@@ -185,6 +189,10 @@ calibrate against an original shot taken without it. MM9's own `FarZ` is 100000 
   needs: `tables.install_original_comparison` puts a copy that allows it into `output/mm9_rework/assets_original`.
 - **Exits under unclimbable stairs.** MM9 stairs with 24 LT risers (61 native) are above the party's 50-unit step:
   reach the exit volume down to the floor at the foot of the stair (`exits: {name: {bottom_lt: y}}`).
+- **Flat doorway leaves get a horizontal portal.** `rooms.leaf_rectangle` takes a leaf set less than half as tall as
+  it is thick across (a ceiling slab, a hatch) as a horizontal doorway, normal up; before, it got a vertical rectangle
+  through its middle and was skipped ("portals without two rooms"). Verhoffin Ruins' `BreakOut0/1` (2026-11-10) are the
+  only such leaves today.
 - **Door portals on the leaves' far side.** The engine collides the party with door faces of the next room only once
   its sphere reaches the portal; a portal through the middle of thick leaves lets the party walk half way into a
   shut door. `rooms.door_portals` moves each doorway portal to the leaves' face on its normal's negative side.
@@ -355,7 +363,10 @@ Since the play-test of 2026-11-06 a door that names no sound (151 RotatingDoors,
 BlacksmithDoor0/1, levers, drawers, breakable brushes, traps) gets an empty block and moves silently, as in MM9, and so
 do a mover's `_INV` and `_GLASS` parts (they played MM6-MM8's loop under the MM9 sounds); only spinners keep the
 environment's. One with only a jiggle (Thjorgard's 69 locked sliding doors) moves silently too. A name in a folder MM9
-misspells (`Sounds\Doors\elestart.wav`) takes the one world sound of that name (`movers.world_sound`). The engine
+misspells (`Sounds\Doors\elestart.wav`) takes the one world sound of that name (`movers.world_sound`). A door MM9 leaves
+silent that should sound gets a `sounds` map on its overrides.yml model rule (the same keys, world sound names such as
+`Door/doorslammetal02.wav`), which replaces the DAT object's (`movers.mover_sounds`; 1000 Terrors' CoffinGate2, the
+play-test of 2026-11-10). The engine
 compares each door with what it last heard, not with the step's snapshot: a click (or the reversal it asks for) sets
 the mechanism before the snapshot, so until 2026-11-06 an MM9 door sounded only when its mover reversed it or closed it
 by itself. Check every built scene with `door_sound_check.py` (every door has a block, a mover's first part names exactly

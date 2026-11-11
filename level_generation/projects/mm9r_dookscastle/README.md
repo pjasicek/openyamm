@@ -193,3 +193,15 @@ through a wrapper of the package writer, the DOORS keys with underscores for MM9
 
 Rebuilt 2026-10-31 15:01:44 (convert.py from the current shared converter, end 15:02:26): 0 down-facing faces of invisible collision brushes dropped (`work/invisible_bottoms.json`; the flat undersides of MM9's invisible ramp wedges and helper brushes resting at most the party's height over a floor, which stopped the party on stairs as invisible ceilings: `../mm9r_common/DUNGEON_PLAYBOOK.md`, "Package change: invisible brush bottoms"); the BLV is byte-identical to before (no face of this map met the rule) and its baked lighting stays installed (not stale); it has 4588 faces. The rebuild also carries the converter's other changes of the day (monster collision sizes, water).
 Scenarios after the rebuild: `scenario_alarm.yml` pass, `scenario_chests.yml` pass, `scenario_doors_exits.yml` pass, `scenario_scripted.yml` pass.
+
+## The sergeant's round (2026-11-11)
+
+`DC_sargent.scr` is now walked, not timed: SleepTrigger sends the sergeant (SleepCaptain, actor 42) to SMkr0, then to
+each of HallwaySleeper0-3 in the script's order (100 in front of each, `evt.MoveActorTo` with arrival events 210-212);
+at each he turns to the sleeper, wakes it (`WakeUp`: it cowers, then stands watch), waits 3 s and goes on; last he walks
+to SMkr1 and stays. Map var `SleepWoken`: 1-4 the sleeper he is on, 5 walking to SMkr1, 6 done. The alarm or his death
+ends the round; a load during it (walks are not saved), or a leg not done in 20 s, finishes it where it was going.
+**Deviation:** MM9's `PlayAnim aware` at each sleeper is not carried (his body, like MM9's DookMilitia.abc, has no such
+clip). `scenario_scripted.yml` (make_scenarios.py) checks `SleepWoken` 6 and the sergeant near SMkr1. Checked: the four
+scenarios pass; a headless trace (round done in about 26 s, ending at SMkr1); desktop captures
+`output/held_items_check/b3_dook/close2.png` (he stops facing the first sleeper, it wakes, he walks on).

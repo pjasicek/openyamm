@@ -4,8 +4,8 @@ Drangheim Prison's and the Training Hall's own helpers). A PerceptionBrush is a 
 (Sprites\\Perception.spr or Perception2.spr: the red glow; the rest is Invisible.dtx) MM9 shows to a party whose
 Perception reaches the brush's PerceptionValue (PerceptionBrush.cpp in object.lto, perception_difficulties_by_model_name).
 
-Each glow polygon becomes an untouchable face (node TRIGGER_hint_<brush>_<i>, in the room of the air beside it) with
-the cog HINT_COG_BASE + the brush's DAT index; the scene draws them translucent from both sides (`scene_faces`), the
+Each glow polygon becomes an untouchable face (node TRIGGER_hint_<brush>_<i>, in the room of the air beside it: on
+the side away from the surface it lies over, whichever way MM9 turned its polygon, 2026-11-11) with the cog HINT_COG_BASE + the brush's DAT index; the scene draws them translucent from both sides (`scene_faces`), the
 .spr's frames animate them (`install_frames`), and the map Lua (objects.shared_lines) hides each one from a party
 without the Perception for it (evt.CheckSkill, every 3 s and on load) or for good once the map sets HintOff<cog>.
 
@@ -14,6 +14,8 @@ overrides.yml `map: {perception_hints: false}` turns the shared ones off.
 """
 
 from __future__ import annotations
+
+import numpy as np
 
 from . import source as _source  # noqa: F401 (puts the MM9 import tools on sys.path)
 from .package import room_id
@@ -24,7 +26,41 @@ HINT_COG_BASE = 23000               # a brush's faces: cog 23000 + its DAT index
 HINT_POLL_EVENT = 901               # the hints' 3 s check (lua.TOUCH_POLL_EVENT is 900)
 PERCEPTION_SKILL = 29               # evt.CheckSkill's id: the party's best Perception value (mastery counted)
 HINT_OPACITY = 0.5                  # the brushes' Alpha (0.5-0.75 in MM9; the dungeons draw them at 0.5)
+OVERLAY_REACH = 4.0                 # LT: how far off a surface a hint lies over it (MM9's sit 1-2 LT off)
+OVERLAY_SLACK = 1.0                 # LT: a hint's centre over a face's box, with this much to spare
 FRAME_FLAGS = {(True, True): "0x3\tHasMore,First", (False, True): "0x1\tHasMore", (False, False): "0x0\t"}
+
+
+class Surfaces:
+    """The solid, visible faces a hint may lie over (static and glass faces, destructible brushes), with their planes
+    and boxes for a quick search."""
+    def __init__(self, polygons: list):
+        self.polygons = [p for p in polygons if p.role in ("static", "glass")]
+        self.normals = np.array([p.normal for p in self.polygons]).reshape(-1, 3)
+        self.offsets = np.array([p.normal @ p.points[0] for p in self.polygons])
+        self.low = np.array([p.points.min(0) for p in self.polygons]).reshape(-1, 3)
+        self.high = np.array([p.points.max(0) for p in self.polygons]).reshape(-1, 3)
+
+
+def _overlaid_side(polygon, surfaces: Surfaces) -> float:
+    """+1 or -1: the side of the hint's normal on which the surface it lies over is (a parallel solid face within
+    OVERLAY_REACH of its plane, under its centre); 0 when it lies over none."""
+    if not surfaces.polygons:
+        return 0.0
+    centre = polygon.points.mean(0)
+    normal = polygon.normal
+    parallel = np.abs(surfaces.normals @ normal) > 0.95
+    distance = surfaces.normals @ centre - surfaces.offsets           # the centre's height over each face's plane
+    near = parallel & (np.abs(distance) <= OVERLAY_REACH)
+    # the centre dropped onto each face's plane, inside that face's box
+    foot = centre[None, :] - distance[:, None] * surfaces.normals
+    inside = np.all((foot >= surfaces.low - OVERLAY_SLACK) & (foot <= surfaces.high + OVERLAY_SLACK), axis=1)
+    candidates = np.flatnonzero(near & inside)
+    if candidates.size == 0:
+        return 0.0
+    nearest = candidates[np.argmin(np.abs(distance[candidates]))]
+    along = float(normal @ (foot[nearest] - centre))
+    return 1.0 if along > 0.0 else -1.0 if along < 0.0 else 0.0
 
 
 def own_hints(build) -> bool:
@@ -40,6 +76,8 @@ def place(build) -> dict:
     models = {name.lower(): name for name in source.models}
     hints, textures = {}, set()
     build.hint_nodes = []
+    surfaces = Surfaces(build.polygons + [p for polygons in getattr(build, "destructible_brushes", {}).values()
+                                          for p in polygons])
     for o in source.objects:
         if o["class"] != "PerceptionBrush" or o["name"].lower() not in difficulties or o["name"].lower() not in models:
             continue
@@ -50,8 +88,11 @@ def place(build) -> dict:
             raise SystemExit(f"{name}: hint texture {missing} has no alias in the map's material aliases")
         cog = HINT_COG_BASE + o["index"]
         for i, polygon in enumerate(parts):
-            # a strip along a floor or a wall has solid voxels on one side: the air beside it is its room
-            room = room_id(_side_room(rooms, polygon, 1) or _side_room(rooms, polygon, -1)
+            # A hint lies over a surface: its room is the air on the other side of it. Probing its own normal side
+            # first crossed a wall thinner than the probe (Thjorgard's training hall bricks, 20 units, voxels 82):
+            # the glow went to the hut behind them, a room never drawn from the roof where the party stands.
+            first = -_overlaid_side(polygon, surfaces) or 1.0
+            room = room_id(_side_room(rooms, polygon, first) or _side_room(rooms, polygon, -first)
                            or rooms.owner(polygon.points.mean(0)))
             node = f"TRIGGER_hint_{name}_{i}"
             package.add_polygon(node, polygon, build.stats)

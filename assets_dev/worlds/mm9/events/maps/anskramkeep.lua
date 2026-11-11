@@ -12,14 +12,14 @@ local function seconds(n) return n * 30 end
 SetMapMetadata({onLoad = {1}, onLeave = {}, timers = {}, openedChestIds = {[41] = {0}, [42] = {1}, [43] = {2}, [44] = {3}, [45] = {4}, [46] = {5}, [47] = {6}}})
 
 -- A Shooter sits inside its wall or ceiling: the bolt starts a third of the way from it to the party's
--- chest (at least 64 units out), inside the room.
+-- chest (at least 64 units out), inside the room, and strikes the party in its path (strikesParty).
 local function shoot(sx, sy, sz, damage)
     local x, y, z = evt.GetPartyPosition()
     z = z + 100
     local dx, dy, dz = x - sx, y - sy, z - sz
     local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))
     local k = math.max(64 / length, 0.33)
-    local fired = evt.FireMissile("Fire", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, "Fire", 0)
+    local fired = evt.FireMissile("Fire", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, "Fire", 0, 0, true)
     if fired then MM9.launchSound("FireBolt", sx, sy, sz) end
     set("ShotsFired", var("ShotsFired") + (fired and 1 or 0))
 end
@@ -310,9 +310,37 @@ end
 
 -- The cages: stepping near them breaks the walls (CritterBreakOut0/1 sink into the floor and wall)
 -- and the caged Nagate Hatchlings and Airborne Ickies (KingKong.scr) come out. The first monster breaks
--- its cage (ForceBreak): once it is dead the cage stands.
-handlers[75] = function() if var("TriggerNagateBust") == 0 then set("TriggerNagateBust", 1); if MM9.receives("anskramkeep", "BustOutNagate0", "ForceBreak", 8) then open("CritterBreakOut0") end end end
-handlers[76] = function() if var("TriggerIckyBust") == 0 then set("TriggerIckyBust", 1); if MM9.receives("anskramkeep", "BustOutIcky0", "ForceBreak", 11) then open("CritterBreakOut1") end end end
+-- its cage (ForceBreak): once it is dead the cage stands. :RushCage roars where it stands
+-- (dragonredrattack3.wav) and :BreakCage swings hattack1 once the cage is gone (MM9 destroys it at
+-- once; here the swing waits for the wall to sink). The Nagate's hattack1 is its attack_melee;
+-- FLYINGICKY.abc has no hattack1, so the Icky breaks out without a swing.
+local function rushCage(actorIndex)
+    local x, y, z = evt.GetMapActorPosition(actorIndex)
+    if x ~= nil then
+        evt.PlaySoundName("animsounds/dragonredrattack3.wav", math.floor(x), math.floor(y), math.floor(z))
+    end
+end
+handlers[75] = function()
+    if var("TriggerNagateBust") ~= 0 then return end
+    set("TriggerNagateBust", 1)
+    if MM9.receives("anskramkeep", "BustOutNagate0", "ForceBreak", 8) then
+        rushCage(8)
+        open("CritterBreakOut0")
+        evt.StartTimer(149, seconds(0.45))   -- CritterBreakOut0 has sunk
+    end
+end
+handlers[149] = function()
+    evt.StopTimer(149)
+    evt.PlayActorClip(8, "attack_melee")   -- PlayAnim hattack1
+end
+handlers[76] = function()
+    if var("TriggerIckyBust") ~= 0 then return end
+    set("TriggerIckyBust", 1)
+    if MM9.receives("anskramkeep", "BustOutIcky0", "ForceBreak", 11) then
+        rushCage(11)
+        open("CritterBreakOut1")
+    end
+end
 
 -- The Imp gates (AK_ImpGate.scr on ImpGateSpawner0-7): a touch trigger starts its gate; it sends 5 Imps one
 -- after another, each when the last is dead; then its fire goes out. When all eight are out, the Giant Imp
@@ -510,6 +538,7 @@ RegisterEvent(74, "Switch", handlers[74], "Switch")
 RegisterEvent(89, "Gate", handlers[89], "Gate")
 RegisterEvent(75, "TriggerNagateBust", handlers[75])
 RegisterEvent(76, "TriggerIckyBust", handlers[76])
+RegisterMapTimerEvent(149, seconds(3), handlers[149], "BustOutNagate0 hattack1", "", seconds(3))
 RegisterEvent(170, "TriggerBarrackGate0", handlers[170])
 RegisterEvent(171, "TriggerBarrackGate1", handlers[171])
 RegisterEvent(172, "TriggerBarrackGate2", handlers[172])

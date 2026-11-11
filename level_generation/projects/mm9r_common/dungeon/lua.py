@@ -71,6 +71,49 @@ def model_script_clips(monster_id: int) -> set:
     return model_script_clips.table.get(int(monster_id), set())
 
 
+def model_clip_seconds(monster_id: int) -> dict:
+    """The clip lengths (seconds) of the HD model drawing an MM9 monster row, by role (lower case): its `clips` roles
+    (standing, walking, fidget...) and its `script_clips` (an mm9_ai routine step's `seconds`: one plays it once)."""
+    import json
+    import struct
+    import numpy as np
+    import yaml
+    from .source import ROOT
+    if not hasattr(model_clip_seconds, "table"):
+        descriptors = {}
+        for line in (ROOT / "assets_dev/worlds/mm9/data_tables/monster_descriptors.txt").read_text(
+                encoding="utf-8", errors="replace").splitlines():
+            cells = line.split("\t")
+            if len(cells) > 1 and cells[0].strip().isdigit():
+                descriptors[int(cells[0])] = cells[1].strip()
+        entries = yaml.safe_load((ROOT / "assets_dev/worlds/mm9/models/actors.yml").read_text())
+        model_clip_seconds.entries = {str(entry.get("descriptor")): entry for entry in entries["actors"]}
+        model_clip_seconds.descriptors = descriptors
+        model_clip_seconds.table = {}
+        model_clip_seconds.models = {}
+    table = model_clip_seconds.table
+    if monster_id not in table:
+        entry = model_clip_seconds.entries.get(model_clip_seconds.descriptors.get(int(monster_id), ""), {})
+        model = entry.get("model")
+        if model not in model_clip_seconds.models:
+            lengths = {}
+            if model:
+                raw = (ROOT / "assets_dev" / model).read_bytes()
+                size = struct.unpack_from("<I", raw, 12)[0]
+                document = json.loads(raw[20:20 + size])
+                for animation in document.get("animations", []):
+                    longest = 0.0
+                    for sampler in animation["samplers"]:
+                        accessor = document["accessors"][sampler["input"]]
+                        longest = max(longest, float(np.max(accessor.get("max", [0.0]))))
+                    lengths[animation.get("name", "")] = longest
+            model_clip_seconds.models[model] = lengths
+        lengths = model_clip_seconds.models[model]
+        roles = {**(entry.get("clips") or {}), **(entry.get("script_clips") or {})}
+        table[monster_id] = {str(role).lower(): lengths[clip] for role, clip in roles.items() if clip in lengths}
+    return table[monster_id]
+
+
 def lua_key(name: str) -> str:
     """A table key: the bare name when it is a Lua identifier, else ["name"] (Drangheim's "cottage door")."""
     return name if name.isidentifier() else '["' + name.replace('\\', '\\\\').replace('"', '\\"') + '"]'

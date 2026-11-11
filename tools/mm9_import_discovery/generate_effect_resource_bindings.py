@@ -19,6 +19,11 @@ HARD_CODED_EFFECT_SPRITES = (
     "sprites/bloodhit1.spr",
     "sprites/bloodspray1.spr",
 )
+# The projectile explosion "Sparks" (PROJECTILE.txt): cshell's base explosion skins its sphere with one of these
+# (re_mm8/mm9_vfx/README.md, "Projectile explosions"); its spark shower uses weapons/blurredwhitestar's texture.
+HARD_CODED_EXPLOSION_SPRITES = (
+    "sprites/weapons/explosion1.spr",
+)
 
 
 def normalized_legacy_reference(reference: str) -> str:
@@ -138,6 +143,8 @@ def generate_bindings(original_root: Path) -> dict:
         add_binding(reference, "spells_fxf")
     for reference in HARD_CODED_EFFECT_SPRITES:
         add_binding(reference, "hardcoded_melee_contact")
+    for reference in HARD_CODED_EXPLOSION_SPRITES:
+        add_binding(reference, "hardcoded_projectile_explosion")
 
     bindings.sort(key=lambda value: value["legacy"])
     missing = [binding["legacy"] for binding in bindings if binding["status"] != "bound"]
@@ -149,6 +156,10 @@ def generate_bindings(original_root: Path) -> dict:
             "hardcodedMeleeContact": {
                 "evidence": "re_mm8/mm9_vfx/MELEE_HIT_EFFECTS.md",
                 "sprites": list(HARD_CODED_EFFECT_SPRITES),
+            },
+            "hardcodedProjectileExplosion": {
+                "evidence": "re_mm8/mm9_vfx/README.md",
+                "sprites": list(HARD_CODED_EXPLOSION_SPRITES),
             },
         },
         "rules": {

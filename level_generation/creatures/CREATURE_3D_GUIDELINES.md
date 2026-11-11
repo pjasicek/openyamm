@@ -209,6 +209,47 @@ physical missiles charge only in an authored `color`. `effects` keys are Air, Ea
 Light and Dark, resolved against the monster table's missile tokens at loading. Impact, interruption, death and leaving
 the eight-actor attachment budget stop emission and let the short trail expire.
 
+Named effects on sockets (MM9's `DoFX`/`EndFX` keys, which play a monster's FX0–FX2 such as `bluedots` on its hands)
+are event keys of every role, with or instead of the glow, and of any other clip:
+
+```yaml
+  events:
+    attack_melee: {impact: 0.36, effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.36}}
+    attack_ranged:
+      impact: 0.833
+      release: palm_left
+      effects:                             # a list: several effects
+        - {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}
+    cast: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, socket: palm_left, start: 0.133}}
+    taunt: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.141, end: 0.817}}
+    resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}   # MONSTERS.txt ResurrectFX, as a corpse rises
+```
+
+MM9's `DoFX n [loop]` plays FX*n* of the monster's `MONSTERS.txt` row, **0-based** (FX0–FX2; `n` of 3 or more, or an
+empty column, plays nothing: `object.lto` `0x1001af90`, record `+0x1a8 + 4n`), until the clip's next `EndFX`; a second
+`DoFX` in the same clip replaces the first. `ResurrectFX` plays as a corpse rises (vtable `+0x2f4`, `0x1001acf1`).
+Several MM9 models name a column their rows leave empty (Monk, Banshee and Zombie `DoFX 1` with only FX0): those clips
+show nothing in MM9 either. MM9's dots effects (`bluedots`, `redyeldots`, `greenyeldots`) put one emitter on `LHand1`
+and one on `RHand1` (their library components' `body_anchor`): an effect named on as many sockets as it has such anchors
+gives each socket one anchor's emitters, in order (`sockets: [palm_left, palm_right]`), so the two hands together emit
+what MM9's one effect does; on one socket every emitter plays there. A `script_clips` role that reuses another role's
+GLB clip shares its effects (events follow the clip), so leave out effects MM9 has on one of them only.
+
+`effect: {...}` or `effects: [{...}, ...]` (at most eight; a map `effects` stays the ranged attack's per-element form)
+take `id` (in the effect library), `socket` or `sockets` (one to four names from `animation.sockets`, one effect on
+each), `start` and `end` in clip seconds (default: the clip's start, and until the clip ends or another starts) and
+`scale` (relative to the actor's effect scale). The effect starts once per play of the clip at `start`, follows its
+socket and drains at `end`, when the clip changes or restarts, or when the actor's model goes. Clip times are the
+model's own (the GLB clip), so a marked clip's effect starts at the same pose however long the native action runs. An
+event keyed by a `clips` or `script_clips` role other than the three actions (`fidget`, `taunt`, `resurrect_spell`)
+plays that clip's effects only (no impact, glow or release). Every clip with events shows them whoever plays it: the
+AI, a behaviour script or a cinematic's `actor ... action: clip` cue (a cue playing an action role's clip also charges
+that role's glow up to its impact). Effects start only on actors visible within 4096 units of the party, or playing a
+script's or cinematic's clip. Scripts carry effects on an actor with `evt.SpawnActorEffect(actor, effect[, socket[,
+seconds[, scale]]])` and end them with `evt.StopActorEffect(actor[, effect])` (MM9: `MM9.actorFx`, `MM9.stopActorFx`);
+`socket` is an `animation.sockets` name or a node of the model (a comma-separated list carries one on each, sharing
+a hand effect's emitters as above), and without one (or for a sprite actor) the effect follows the middle of the body.
+
 ## 8. Facing and independent head motion
 
 Keep gameplay yaw, visual body yaw and optional visual head direction distinct. The engine owns smooth facing and

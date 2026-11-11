@@ -22,6 +22,7 @@ MM9's scripted objects as native events (see README.md):
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -45,9 +46,26 @@ KEY_EVENT, GOLDEN_HONK_EVENT = 75, 76
 DAMAGE_HOOK, KILL_HOOK = 96, 97
 TIMER_STONES, TIMER_OPEN, TIMER_SHUT, TIMER_RESET = 150, 151, 152, 153
 TIMER_CEREMONY = 154                # HonkLeader.scr's ceremony, checked every 3 s
-CEREMONIES = ((6 * 60 + 15, 6 * 60 + 45), (18 * 60 + 15, 18 * 60 + 45))   # @M 6:15 RingGong .. 6:45 EndCeremony
+# @M 6:15 RingGong .. 6:45 EndCeremony, the end here 30 minutes later: the followers' walk from the entrance hall to the
+# pulpit takes about 80 s (40 game minutes at 0.5 a second), so at 6:45 none would have arrived.
+CEREMONIES = ((6 * 60 + 15, 7 * 60 + 15), (18 * 60 + 15, 19 * 60 + 15))
 PLATFORMS = ("PlatformMarker0", "PlatformMarker1", "PlatformMarker2")       # spObjects (PlatformMarker3 is not in the DAT)
 QUEST_KEY, ON_QUEST_TAKEN, OFF_QUEST_TAKEN, HONK_KEY = 343, 344, 345, 7000
+# The routines (scene mm9_ai.routines) the ceremony timer switches (devdocs/mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md
+# section 4 item 9). HonkFollower.scr: at RingGong it walks its CeremonyMarker list (ListTraverse.inc, first to last),
+# faces the pulpit (FaceObject hPodium) and plays hattack1, fidget1 or fidget2 at random (spAnims 1-3) until
+# EndCeremony, then walks the list back. HonkLeader.scr: from the first follower's arrival (FollowerReady) it paces
+# (WalkTo a random PlatformMarker), faces -x (FaceDir -1 0 0) and plays one of prop-fidget1, prop-fidget2, fidget1,
+# prop-stand (RandomPreach); between ceremonies it loops prop-stand (EndCeremony LoopAnim). HonkAccountant.scr: at
+# 7:00 and 19:00 (TraverseBegin, SetTraversePace) it walks PathMarker0-13, plays prop-fidget1 at the far end (DoPuzzle)
+# and walks back to PathMarker0, where it stays (TraversePause).
+FOLLOWER_CLIPS = ("attack_melee", "fidget", "fidget2")              # hattack1, fidget1, fidget2 (marker_clip_role)
+LEADER_CLIPS = ("prop_fidget", "prop_fidget2", "fidget", "prop_stand")
+LEADER_IDLE = "prop_stand"
+LEADER_FACE = 180.0                 # FaceDir -1, 0, 0: LT -x is native -x
+ACCOUNTANT_TRIP = ((7 * 60, 19 * 60), 15)    # @M 7:00 and 19:00 TraverseBegin; a start within 15 minutes of it
+HOLD_SECONDS = 3600                 # a routine's last step: stand (idle) until the ceremony timer switches it
+ARRIVED = 400                       # the ceremony timer takes a follower within this of its last marker as arrived
 GOLDEN_HONK_ITEM, HONK_KEY_ITEM = 369, 445
 STOLEN_DISTANCE = 200 * SCALE       # HonkKey.scr: the accountant sees the theft within 200 LT
 
@@ -119,8 +137,60 @@ class TempleOfHonk(dungeon.Hooks):
             if not fish:
                 honks.append(actor)
         self.honk_monsters = sorted({a["monster_id"] for a in honks})
+        self.routines(build, honks)
         self.accountant = next(a["actor_index"] for a in content.report["actors"] if a["anchor"] == "Accountant")
         return out
+
+    def routines(self, build, honks: list[dict]) -> None:
+        """The ceremony's and the accountant's routines (FOLLOWER_CLIPS above), switched by the ceremony timer. The
+        followers wander (BaseWanderStartup: MM9's WanderON 0 with no path is an aimless wander, leash 0) outside the
+        ceremony instead of the shared placement's walk of their ceremony list."""
+        from dungeon.lua import model_clip_seconds
+        native = build.project.native
+
+        def point(name: str) -> list[int]:
+            p = build.source.properties(name)["Pos"]
+            floor = build.content.floor_at(p[0], p[2], p[1] + 16)
+            x, y, z = native([p[0], floor if floor is not None else p[1], p[2]])
+            return [int(round(x)), int(round(y)), int(round(z))]
+
+        def clips(monster_id: int, roles) -> dict:
+            seconds = model_clip_seconds(monster_id)
+            return {"clips": [{"clip": role, "seconds": round(seconds[role], 3)} for role in roles]}
+
+        by_anchor = {a["anchor"]: a["actor_index"] for a in build.content.report["actors"]}
+        leader = next(a for a in honks if a["actor_index"] == by_anchor["HonkLeader"])
+        lx, ly = leader["position"]["x"], leader["position"]["y"]
+        self.followers = []
+        for actor in honks:
+            ai = actor["mm9_ai"]
+            if ai.get("script") != "honkfollower.scr":
+                continue
+            path = [list(map(int, p)) for p in ai["path"]]
+            for key in ("path", "path_random", "path_stops"):
+                ai.pop(key, None)
+            ai["wander"] = "aimless"
+            last = path[-1]
+            face = round(math.degrees(math.atan2(ly - last[1], lx - last[0])) % 360.0, 1)
+            ai["routines"] = {
+                "go": [{"walk": p} for p in path] + [{"wait": [HOLD_SECONDS, HOLD_SECONDS]}],
+                "worship": [{"face": face}, clips(actor["monster_id"], FOLLOWER_CLIPS)],
+                "home": [{"walk": p} for p in path[-2::-1]] + [{"wait": [HOLD_SECONDS, HOLD_SECONDS]}],
+            }
+            self.followers.append((actor["actor_index"], path[0], last))
+        platforms = [point(name) for name in PLATFORMS]
+        preach = [{"face": LEADER_FACE}, clips(leader["monster_id"], LEADER_CLIPS), {"wait": [1, 3]}]
+        leader["mm9_ai"]["idle_clip"] = LEADER_IDLE
+        leader["mm9_ai"]["routines"] = {"preach": [
+            {"chance": 0.333, "steps": [{"walk": platforms[0]}, *preach]},
+            {"chance": 0.5, "steps": [{"walk": platforms[1]}, *preach]},
+            {"walk": platforms[2]}, *preach]}
+        accountant = next(a for a in honks if a["actor_index"] == by_anchor["Accountant"])
+        markers = [point(f"PathMarker{k}") for k in range(14)]
+        accountant["mm9_ai"]["routines"] = {"trip": [
+            *[{"walk": p} for p in markers], clips(accountant["monster_id"], ("prop_fidget",)),
+            *[{"walk": p} for p in markers[-2::-1]], {"wait": [HOLD_SECONDS, HOLD_SECONDS]}]}
+        self.accountant_home = markers[0]
 
     def swim_fish(self, build, o: dict, actor: dict) -> None:
         """A fish as a swimmer in the pool (MM9's AISwimFly; the engine binds a swimmer whose body box centre starts in
@@ -260,45 +330,103 @@ class TempleOfHonk(dungeon.Hooks):
         return script.finish()
 
     def ceremony_lines(self, build) -> list[str]:
-        """HonkLeader.scr's ceremony, as far as it runs without the followers' walk (HonkFollower.scr, not carried):
-        at 6:15 and 18:15 (RingGong) the church bell; until 6:45 and 18:45 (EndCeremony) the leader preaches
-        (RandomPreach: one of thunder01-04 at him) and paces between the platform markers (Pace: WalkTo a random
-        one). Not while the Honks are hostile."""
+        """HonkLeader.scr's, HonkFollower.scr's and HonkAccountant.scr's schedule on the routines of actors()
+        (routines): at 6:15 and 18:15 (RingGong) the church bell and the followers walk to the pulpit; once one has
+        arrived (FollowerReady) the leader paces and preaches (RandomPreach: one of thunder01-04 at him); at the
+        span's end (EndCeremony, CEREMONIES) the followers walk back and wander again, the leader stands. At 7:00 and
+        19:00 the accountant walks his round. Every 3 s; routines are runtime only, so the check sets them again after a load.
+        Not while the Honks are hostile."""
         leader = next(a["actor_index"] for a in build.content.report["actors"] if a["anchor"] == "HonkLeader")
-        native = build.project.native
-        marks = ", ".join("{" + ", ".join(str(int(round(v))) for v in native(build.source.properties(m)["Pos"])) + "}"
-                          for m in PLATFORMS)
         spans = ", ".join(f"{{{a}, {b}}}" for a, b in CEREMONIES)
+        followers = ", ".join(f"{{{index}, {{{first[0]}, {first[1]}}}, {{{last[0]}, {last[1]}}}}}"
+                              for index, first, last in self.followers)
+        trips, window = ACCOUNTANT_TRIP
+        home = self.accountant_home
         return [
-            "-- The Honk ceremony (HonkLeader.scr): the bell at 6:15 and 18:15, then until 6:45 and 18:45 the leader",
-            "-- preaches (a thunder at him) and paces between the platforms; the followers' walk to the pulpit is not",
-            "-- carried (HonkFollower.scr).",
+            "-- The Honk ceremony (HonkLeader.scr, HonkFollower.scr): the bell at 6:15 and 18:15 and the followers walk",
+            "-- their CeremonyMarker lists to the pulpit (routine go), face it and worship (worship); from the first",
+            "-- arrival the leader paces and preaches (preach, a thunder at him). At 7:15 and 19:15 (MM9 6:45, 18:45: the",
+            "-- walk takes longer here) the followers walk back (home) and wander again; the leader loops prop-stand.",
+            "-- HonkAccountant.scr: at 7:00 and 19:00 the accountant walks PathMarker0-13 and back (trip). Routines are",
+            "-- runtime only: this check sets them again.",
             f"local CEREMONIES = {{{spans}}}",
-            f"local PLATFORMS = {{{marks}}}",
             f"local LEADER = {leader}",
+            f"local FOLLOWERS = {{{followers}}}   -- actor, first and last marker",
+            f"local ACCOUNTANT, ACCOUNTANT_HOME = {self.accountant}, {{{home[0]}, {home[1]}}}",
+            f"local TRIPS = {{{', '.join(map(str, trips))}}}",
+            "local routine = {}",
+            "local function setRoutine(actor, name)",
+            "    routine[actor] = name",
+            "    evt.SetActorRoutine(actor, name)   -- the same name again keeps its step",
+            "end",
+            "local function near(actor, p)",
+            "    local x, y = evt.GetMapActorPosition(actor)",
+            f"    return x ~= nil and (x - p[1]) ^ 2 + (y - p[2]) ^ 2 <= {ARRIVED} ^ 2",
+            "end",
             "local function leaderSound(name)",
             "    local x, y, z = evt.GetMapActorPosition(LEADER)",
             "    if x ~= nil then evt.PlaySoundName(name, math.floor(x), math.floor(y), math.floor(z)) end",
             "end",
+            "local function followers(ceremony)   -- whether one has arrived (FollowerReady)",
+            "    local arrived = false",
+            "    for _, f in ipairs(FOLLOWERS) do",
+            "        local actor, r = f[1], routine[f[1]]",
+            "        if ceremony then",
+            '            if r == "worship" or near(actor, f[3]) then',
+            '                setRoutine(actor, "worship")   -- at the pulpit (or loaded there)',
+            '            else',
+            '                setRoutine(actor, "go")',
+            '            end',
+            '            arrived = arrived or routine[actor] == "worship"',
+            '        elseif r == "go" or r == "worship" or (r == "home" and not near(actor, f[2])) then',
+            '            setRoutine(actor, "home")   -- EndCeremony: back along the list',
+            "        else",
+            '            setRoutine(actor, "")   -- wander',
+            "        end",
+            "    end",
+            "    return arrived",
+            "end",
             f"handlers[{TIMER_CEREMONY}] = function()",
-            "    if var(\"HonksHostile\") == 1 then return end",
+            '    if var("HonksHostile") == 1 then',
+            '        setRoutine(LEADER, ""); setRoutine(ACCOUNTANT, "")',
+            '        for _, f in ipairs(FOLLOWERS) do setRoutine(f[1], "") end',
+            "        return",
+            "    end",
             "    local now = math.floor(evt.CurrentGameMinutes())",
             "    local minute, day = now % 1440, math.floor(now / 1440)",
+            "    local ceremony = false",
             "    for k, span in ipairs(CEREMONIES) do",
             "        if minute >= span[1] and minute < span[2] then",
+            "            ceremony = true",
             "            local id = day * 2 + k",
-            "            if var(\"CeremonyRung\") ~= id then",
-            "                set(\"CeremonyRung\", id); set(\"Ceremonies\", var(\"Ceremonies\") + 1)",
-            "                leaderSound(\"events/churchbellring.wav\")   -- RingGong",
-            "            elseif var(\"CeremonyStep\") % 2 == 0 then",
-            "                leaderSound(\"ambient/thunder/thunder0\" .. MM9.random(1, 4) .. \".wav\")   -- RandomPreach",
-            "            else",
-            "                local p = PLATFORMS[MM9.random(1, #PLATFORMS)]   -- Pace",
-            "                evt.MoveActorTo(LEADER, p[1], p[2], p[3])",
+            '            if var("CeremonyRung") ~= id then',
+            '                set("CeremonyRung", id); set("Ceremonies", var("Ceremonies") + 1)',
+            '                leaderSound("events/churchbellring.wav")   -- RingGong',
             "            end",
-            "            set(\"CeremonyStep\", var(\"CeremonyStep\") + 1)",
-            "            return",
             "        end",
+            "    end",
+            "    if followers(ceremony) then",
+            '        setRoutine(LEADER, "preach")',
+            '        if var("CeremonyStep") % 2 == 0 then',
+            '            leaderSound("ambient/thunder/thunder0" .. MM9.random(1, 4) .. ".wav")   -- RandomPreach',
+            "        end",
+            '        set("CeremonyStep", var("CeremonyStep") + 1)',
+            "    else",
+            '        setRoutine(LEADER, "")',
+            "    end",
+            "    local trip = false",
+            "    for k, start in ipairs(TRIPS) do",
+            f"        if minute >= start and minute < start + {window} then",
+            "            trip = true",
+            '            if var("AccountantTrip") ~= day * 2 + k then',
+            '                set("AccountantTrip", day * 2 + k); setRoutine(ACCOUNTANT, "trip")',
+            "            end",
+            "        end",
+            "    end",
+            '    if routine[ACCOUNTANT] == "trip" and not trip and near(ACCOUNTANT, ACCOUNTANT_HOME) then',
+            '        setRoutine(ACCOUNTANT, "")   -- back at PathMarker0',
+            "    elseif routine[ACCOUNTANT] ~= nil then",
+            "        setRoutine(ACCOUNTANT, routine[ACCOUNTANT])",
             "    end",
             "end",
             "",

@@ -70,7 +70,13 @@ all six Thjorgard games, and Bikki (NPC244.scr) and Svenspeech.scr test key 95; 
 Cutscene cameras, letterbox and fades (80 camera objects, 12 maps; 21 scripts), camera shake (29, 7 maps) (engine,
 format and Isle pilot done 2026-11-06: [MM9_CUTSCENES.md](MM9_CUTSCENES.md); the maps: FINAL_REBUILD_WORK.md C11), continuous
 spinners (RotatingBrush 15, 5 maps; done 2026-11-06: scene `mover.spin`, `evt.SpinMover`,
-[INDOOR_ROTATING_MOVERS_AND_LADDERS.md](../INDOOR_ROTATING_MOVERS_AND_LADDERS.md) "Continuous spinners"), moving or animated decorations and model swaps, held props (AttachProp), hidden
+[INDOOR_ROTATING_MOVERS_AND_LADDERS.md](../INDOOR_ROTATING_MOVERS_AND_LADDERS.md) "Continuous spinners"), moving or animated decorations and model swaps (animated
+decorations done 2026-11-10/11, [ANIMATED_DECORATIONS.md](../ANIMATED_DECORATIONS.md): Beethoven's coffins, every
+TreasureChest lid, Lindisfarne's bells, the Lich Lab's switch, engine and shooting books, Dark Passageway's switch
+statues, the Thousand Terrors' win lever, skull and sorceress statues, Thjorad Mine's cart, the windmill, banners and
+stat stones' loops, Book.scr books; with them the KingKong break-out swings and Yanmir's door kick. Still open: the
+sorceress statues' casting smoke, MM9's chest close sound, DarkP's missing awareAir/CastSpell start clips (not in the
+models)), held props (AttachProp), hidden
 model parts, runtime skin swaps (Banshee decay, Ebora's sirens), NPC-to-NPC conversation (Converse), NPC navigation
 messages, monster-triggered volumes (71, 4 maps), PerceptionLight (61, Dark Passageway; done 2026-11-06 as scene pulsing lights,
 [INDOOR_PULSING_LIGHTS.md](../INDOOR_PULSING_LIGHTS.md) "Switched lights"), clock-scheduled shows
@@ -124,6 +130,6 @@ Done 2026-11-09 (late): `KIND` became a `density_lua_name_tables` entry (`dungeo
 also read by `density_dry_check.py` and `tools/maw/mm9_pack_reserve.py`), and the two loops that walk every actor by a
 variable `index` now use `scan` (the Lua scan followed `index` through the whole script: 913 indices). The fly-past
 critters are the only monsters messages name; they stay uncopied, so no copy has to follow a member. Forced arrivals
-at StartPoint0 and the trap-door pit. Result: 319 of 372 copies, 412 monsters against 465 (README "Pack growth").
+at StartPoint0 and the trap-door pit. First result at 5x: 319 of 372 copies, 412 monsters against 465 (README "Pack growth").
 The user found that far too many (an open hall went from 7 monsters to 72) and set the Tomb to 2x the same evening:
 93 copies, 186 monsters (BALANCE_PLAN.md 3.6).

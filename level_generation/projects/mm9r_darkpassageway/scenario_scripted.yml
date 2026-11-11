@@ -69,7 +69,17 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.5
+    seconds: 0.5
+- assert:
+    state_dump_named_map_var:
+      name: StatueBusy0
+      value: 1
+- assert:
+    state_dump_named_map_var:
+      name: PuzzleSet
+      value: 0
+- advance_runtime:
+    seconds: 2.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -87,7 +97,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.5
+    seconds: 2.9
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -105,7 +115,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 2.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -123,7 +133,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 3.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -141,7 +151,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 2.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -159,7 +169,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 4.3
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -177,7 +187,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 3.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -195,7 +205,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 2.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -213,7 +223,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 4.3
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -231,7 +241,7 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 1.6
+    seconds: 2.6
 - assert:
     state_dump_named_map_var:
       name: Puzzle
@@ -577,8 +587,9 @@ steps:
       id: 39
       state: closed
 - note:
-    text: 'The canyon statue (DarkP_CanyonSwitch.scr): a click from its ledge wakes the banshee eyes in pairs and opens the
-      canyon doors; TriggerBansheeOff0 by the mountain teleporter stops the eyes.'
+    text: 'The canyon statue (DarkP_CanyonSwitch.scr): a click from its ledge plays its four clips, each one''s end waking
+      a pair of banshee eyes, and the last opens the canyon doors; TriggerBansheeOff0 by the mountain teleporter stops the
+      eyes.'
 - set_pose:
     map: darkpassageway.blv
     x: -19598
@@ -592,7 +603,21 @@ steps:
 - advance_runtime:
     seconds: 0.3
 - advance_runtime:
-    seconds: 6.0
+    seconds: 1.2
+- assert:
+    state_dump_named_map_var:
+      name: CanyonStep
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: EyesOn
+      value: 2
+- assert:
+    state_dump_named_map_var:
+      name: CanyonOpen
+      value: 0
+- advance_runtime:
+    seconds: 4.8
 - assert:
     state_dump_named_map_var:
       name: EyesOn

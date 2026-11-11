@@ -70,8 +70,9 @@ def main() -> int:
     steps += [{"note": {"text": f"Door3 (door {d['door_id']}, event {d['event']}): shut it stops the party, its click "
                                 "swings both leaves away, the party walks through, the leaves shut after 3 s."}},
               {"assert": {"mechanism": {"id": d["door_id"], "state": "closed"}}},
-              # the Bone Thrashers past the door follow the party and open it again (AITriggerable)
-              *scenarios.clear_monsters(scene_actors, (x, y, z)),
+              # the Bone Thrashers past the door follow the party and open it again (AITriggerable), the hall's far
+              # ones (2300-2500 away) too
+              *scenarios.clear_monsters(scene_actors, (x, y, z), radius=3000),
               walk((x, y, z + 1), 270, 1.2, (x, stop_y, z + 1), 90),
               {"execute_event": {"id": d["event"]}},
               {"advance_runtime": {"seconds": 2.5}},
@@ -114,10 +115,13 @@ def main() -> int:
         past = (-590 * SCALE, fy - 460, -900 * SCALE)
         rise = walk(past, 270, 1.5, (past[0], past[1], -784 * SCALE - 134), 300, 120, keys="none")
         rise["movement_segment"]["fly_up"] = True
-        # the surface jump lifts the party onto the sill within half a second; 0.6 s ends it there (walking on
-        # longer carries it down the corridor beyond)
-        out = walk((past[0], past[1], -784 * SCALE - 134), 270, 0.6, sill, 260, 60)
+        # the surface jump carries the party over the sill within 0.6 s, still in the air (since 2026-11-07 the jump
+        # is not stopped by an edge touched from the side: it peaks about 0.8 s in, 90 over the sill); released there
+        # it drops onto the sill (walking on longer carries it down the corridor beyond)
+        out = walk((past[0], past[1], -784 * SCALE - 134), 270, 0.6, sill, 260, 120)
         out["movement_segment"]["jump"] = True
+        landed = {"party_position": {"x": round(sill[0]), "y": round(sill[1]), "radius": 120,
+                                     "z_min": round(sill[2] - 8), "z_max": round(sill[2] + 8)}}
         steps += [{"note": {"text": "The Grand Entrance is swum (MM9): under the shaft's south wall, which hangs under "
                                     "the surface, up to the surface and with the surface jump onto the sill of the "
                                     "catacombs' south corridor (floor -768)."}},
@@ -127,19 +131,29 @@ def main() -> int:
                   {"assert": {"water": {"eye_under": True}}},
                   walk(under, 270, 1.2, past, 200, 120),
                   rise, {"assert": {"water": {"state": "surface", "eye_under": False}}},
-                  out, {"assert": {"water": {"state": "dry"}}}]
+                  out, {"advance_runtime": {"seconds": 1.0}}, {"assert": landed},
+                  {"assert": {"water": {"state": "dry"}}}]
     else:
         steps += [{"note": {"text": "From the foot of Ladder0 the party wades past the shaft's wall and up the sill "
                                     "into the catacombs' south corridor (floor -768)."}},
                   walk((-590 * SCALE, fy, fz + 2), 270, 1.1, sill, 200, 60)]
     steps += [{"note": {"text": "Ladder0 from the water up the shaft to its north lip."}},
-              walk((fx, fy, fz + 2), 270, 16.0, (tx, ty, tz), 180, 80),
+              # the climb and the glide onto the lip end about 9.8 s in; held on, forward from the lip takes the ladder
+              # again (reach 300) and climbs: the walk is at the lip from 10 to 12 s (16 s caught it on the ladder)
+              walk((fx, fy, fz + 2), 270, 11.0, (tx, ty, tz), 180, 80),
               {"note": {"text": "A party on the lip takes the ladder forward (MM9's ladder volume over the hole)."}},
               walk((tx, ty, tz), 270, 0.35, (tx, ty - 90, tz + 60), 120, 120)]
     lx, ly, lz = native(-5632, -1216, -1020)
     ex, ey, ez = native(-5632, -736, -985)
+    # The exit is on the climber's side and the ladder's reach (300) covers it: held on, forward from the exit takes the
+    # ladder again, so a timed walk is at the exit only 0.3 s per cycle (since the glide, 2026-11-10). The climb step
+    # stops at the let-go.
     steps += [{"note": {"text": "Ladder1 from the lower sewers up to the catacombs."}},
-              walk((lx, ly, lz + 1), 270, 10.5, (ex, ey, ez), 140, 60)]
+              {"set_pose": {"map": MAP, "x": round(lx), "y": round(ly), "z": round(lz + 1), "yaw_degrees": 270,
+                            "pitch": 0}},
+              {"climb": {"ladder": "Ladder1", "timeout_seconds": 12}},
+              {"assert": {"party_position": {"x": round(ex), "y": round(ey), "radius": 60, "z_min": round(ez - 16),
+                                             "z_max": round(ez + 16)}}}]
     scenarios.write(PROJECT / "scenario_doors_exits.yml", doc, "make_scenarios.py")
 
     # --- chests ---------------------------------------------------------------------------------------------------
@@ -153,14 +167,18 @@ def main() -> int:
     steps = doc["steps"]
     mummy = actors["PetrifiedMummy0"]
     pad = pads["Trigger0"]
-    steps += [{"note": {"text": "Trigger0 raises CoffinRaised3's lid; 2 s later PetrifiedMummy0 stands and the coffin "
-                                "breaks (CoffinRaise.scr, CoffinMummy.scr)."}},
+    lid = convert.COFFIN_LID_SECONDS
+    steps += [{"note": {"text": "Trigger0 opens CoffinRaised3's lid (1 s) over PetrifiedMummy0, which lies inside; it "
+                                "wakes (wakeup2) and at its kick (3.232 s on) the coffin breaks (CoffinRaise.scr, "
+                                "CoffinMummy.scr)."}},
               {"assert": {"actor_visible": {"actor_index": mummy["actor_index"], "hidden": True}}},
               walk((pad["centre"][0], pad["centre"][1] - 340, pad["z"] - 2), 90, 0.32, (pad["centre"][0], pad["centre"][1] - 120, pad["z"] - 2), 70),
               {"assert": {"state_dump_named_map_var": {"name": "Coffin5", "value": 1}}},
-              {"advance_runtime": {"seconds": 2.5}},
-              {"assert": {"state_dump_named_map_var": {"name": "Coffin5", "value": 2}}},
-              {"assert": {"actor_visible": {"actor_index": mummy["actor_index"], "hidden": False}}}]
+              {"assert": {"actor_visible": {"actor_index": mummy["actor_index"], "hidden": False}}},
+              {"advance_runtime": {"seconds": lid + 0.5}},
+              {"assert": {"state_dump_named_map_var": {"name": "Coffin5", "value": 3}}},
+              {"advance_runtime": {"seconds": convert.KICK_SECONDS + 0.5}},
+              {"assert": {"state_dump_named_map_var": {"name": "Coffin5", "value": 2}}}]
     levers = group["GreatDoorLevers"]
     halves = group["GreatDoor"]
     steps += [{"note": {"text": "Lever6 (event 91) parts the great door for good (Door SDoor11/12, Lever5/6)."}},

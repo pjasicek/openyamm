@@ -92,6 +92,7 @@ TRAP_CYCLE_SECONDS = 8              # opens in 0.9 s, waits 5 s, closes in 1.8 s
 PAD_EVENTS = {"TriggerNagateBust": 75, "TriggerIckyBust": 76, "TriggerGiantImp": 90}
 GATE_TRIGGER_EVENT = 170            # TriggerClosetGate* and TriggerBarrackGate*: 170, 171, ... in DAT order
 KILL_HOOK_EVENT = 95                # runs on every monster kill (the Imp gates' next Imp)
+CAGE_SWING_TIMER = 149              # KingKong.scr :BreakCage's hattack1, once CritterBreakOut0 has sunk
 # Timers: 150-199 in the order the script takes them (plate resets, crusher strikes and rises, trap resets, spikes).
 # Shooter plates: plate -> shooter: MM9 Door OpenTrigger0 "on" of a Shooter (FireBolt, DamageAmt).
 SHOOTERS = {"ShooterPlate5": "Shooter5", "ShooterPlate6": "Shooter6", "ShooterPlate7": "Shooter7",
@@ -257,14 +258,15 @@ class AnskramKeep(dungeon.Hooks):
         script = lua.Script(build, "Anskram Keep")
         script.add([
             "-- A Shooter sits inside its wall or ceiling: the bolt starts a third of the way from it to the party's",
-            "-- chest (at least 64 units out), inside the room.",
+            "-- chest (at least 64 units out), inside the room, and strikes the party in its path (strikesParty).",
             "local function shoot(sx, sy, sz, damage)",
             "    local x, y, z = evt.GetPartyPosition()",
             "    z = z + 100",
             "    local dx, dy, dz = x - sx, y - sy, z - sz",
             "    local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))",
             "    local k = math.max(64 / length, 0.33)",
-            "    local fired = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, \"Fire\", 0)",
+            "    local fired = evt.FireMissile(\"Fire\", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, \"Fire\", 0, 0, "
+            "true)",
             "    if fired then MM9.launchSound(\"FireBolt\", sx, sy, sz) end",
             "    set(\"ShotsFired\", var(\"ShotsFired\") + (fired and 1 or 0))",
             "end",
@@ -445,17 +447,46 @@ class AnskramKeep(dungeon.Hooks):
 
     def script_cages(self, script, build):
         actor = {a["anchor"]: a["actor_index"] for a in build.content.report["actors"]}
+        movers = {m["group"]: m for m in build.movers}
         # KingKong.scr: the trigger sends ForceBreak to the cage's first monster, whose script destroys the cage
         # (CritterBreakOut0/1, its ScriptParams); a dead monster takes no message (MM9.receives), so its cage stands.
         lines = ["-- The cages: stepping near them breaks the walls (CritterBreakOut0/1 sink into the floor and wall)",
                  "-- and the caged Nagate Hatchlings and Airborne Ickies (KingKong.scr) come out. The first monster breaks",
-                 "-- its cage (ForceBreak): once it is dead the cage stands."]
-        for event, trigger, breaker, cage in ((75, "TriggerNagateBust", "BustOutNagate0", "CritterBreakOut0"),
-                                              (76, "TriggerIckyBust", "BustOutIcky0", "CritterBreakOut1")):
-            lines.append(f"handlers[{event}] = function() if var(\"{trigger}\") == 0 then set(\"{trigger}\", 1); "
-                         f"if MM9.receives(\"anskramkeep\", \"{breaker}\", \"ForceBreak\", {actor[breaker]}) then "
-                         f"open(\"{cage}\") end end end")
-        script.add(lines + [""], (75, "TriggerNagateBust", None), (76, "TriggerIckyBust", None))
+                 "-- its cage (ForceBreak): once it is dead the cage stands. :RushCage roars where it stands",
+                 "-- (dragonredrattack3.wav) and :BreakCage swings hattack1 once the cage is gone (MM9 destroys it at",
+                 "-- once; here the swing waits for the wall to sink). The Nagate's hattack1 is its attack_melee;",
+                 "-- FLYINGICKY.abc has no hattack1, so the Icky breaks out without a swing.",
+                 "local function rushCage(actorIndex)",
+                 "    local x, y, z = evt.GetMapActorPosition(actorIndex)",
+                 "    if x ~= nil then",
+                 "        evt.PlaySoundName(\"animsounds/dragonredrattack3.wav\", math.floor(x), math.floor(y), "
+                 "math.floor(z))",
+                 "    end",
+                 "end"]
+        registrations = [(75, "TriggerNagateBust", None), (76, "TriggerIckyBust", None)]
+        for event, trigger, breaker, cage, swing in (
+                (75, "TriggerNagateBust", "BustOutNagate0", "CritterBreakOut0", "attack_melee"),
+                (76, "TriggerIckyBust", "BustOutIcky0", "CritterBreakOut1", None)):
+            lines += [f"handlers[{event}] = function()",
+                      f"    if var(\"{trigger}\") ~= 0 then return end",
+                      f"    set(\"{trigger}\", 1)",
+                      f"    if MM9.receives(\"anskramkeep\", \"{breaker}\", \"ForceBreak\", {actor[breaker]}) then",
+                      f"        rushCage({actor[breaker]})",
+                      f"        open(\"{cage}\")"]
+            if swing is not None:
+                timer = CAGE_SWING_TIMER
+                sink = movers[cage]["move_length"] / movers[cage]["open_speed"]
+                lines += [f"        evt.StartTimer({timer}, seconds({sink:.2f}))   -- {cage} has sunk",
+                          "    end",
+                          "end",
+                          f"handlers[{timer}] = function()",
+                          f"    evt.StopTimer({timer})",
+                          f"    evt.PlayActorClip({actor[breaker]}, \"{swing}\")   -- PlayAnim hattack1",
+                          "end"]
+                registrations.append((timer, f"{breaker} hattack1", None, "timer"))
+            else:
+                lines += ["    end", "end"]
+        script.add(lines + [""], *registrations)
 
     def script_imps(self, script, build):
         gates = len(self.gates)

@@ -130,7 +130,8 @@ cinematics:
       - {duration: 3, position: [0, 0, 300], look_at_actor: 12}        # follows the actor (3/4 up its body)
       - {duration: 2, party: true}                                     # the party's view inside the cinematic
       - duration: 3.5
-        easing: linear               # linear | smooth (default: smoothstep between keys)
+        easing: linear               # linear | smooth (default: smoothstep between keys) | spline (one curve
+                                     # through all keys, continuous speed, at rest at the ends and at repeated keys)
         keys:                        # a moving camera: the first key at 0, times increasing, within the shot
           - {at: 0, position: [8659, 9624, 1037], direction: [0.91, 0.41, 0]}
           - {at: 3.5, position: [8414, 8768, 940], look_at: [9554, 5253, 0]}
@@ -151,7 +152,10 @@ cinematics:
 Actor `face` turns the actor's model (presentation; its AI keeps its own heading) and `clip` plays a clip by the
 model's GLB clip name (the MM9 NPC models carry their cutscene clips: `mm9_bjarni.glb` has `Sit`, `Agree`, `Applause`,
 `ArgumentShot1A` ...) or an actors.yml `script_clips` role, once (then its own animation) or looping; both end when
-the cinematic ends. A model without the clip plays its own animation. `decoration` moves a decoration's model (by
+the cinematic ends. A model without the clip plays its own animation. A clip with actors.yml animation events plays
+them as in a fight (2026-11-10): its socket effects (MM9's `DoFX` hand effects) at their clip times, and an action
+role's clip (`AttackRanged` of the summoners in `wizardslab` `summoning`) charges that role's glow until its impact
+marker ([creature guidelines](../../level_generation/creatures/CREATURE_3D_GUIDELINES.md) section 7). `decoration` moves a decoration's model (by
 its cog, as `evt.SetSprite`) to an offset from its map position; the glide goes on past the cinematic's end and is
 runtime only (a map restores it on load). Faces of the map (BLV world models: a sinking islet) move as the engine's
 doors and movers do, started by an `event` cue (`evt.SetDoorState`); the converters make such a model a mover
@@ -177,12 +181,21 @@ Shared gameplay code, indoors and outdoors (`game/gameplay/CinematicRuntime.{h,c
   Also for scripts outside cinematics (runtime only, never saved): `evt.MoveDecoration(cog, dx, dy, dz[, seconds])`,
   `evt.PlayActorClip(actor, clip[, loop])`, `evt.FaceActorTo(actor, x, y[, seconds])`,
   `evt.ClearActorPresentation(actor)` (EventRuntimeState `decorationAims` offsets and `actorPresentations`, applied by
-  the worlds' `actorRuntimeState` through `applyActorPresentation` and by the decoration model pose).
+  the worlds' `actorRuntimeState` through `applyActorPresentation` and by the decoration model pose), and
+  `evt.PlayDecorationClip(cog, clip[, "once" | "loop" | "end"])`: a decoration's moving part (a binding's `part`
+  model in indoor_decorations.yml / decorations.yml, authored in the decoration's asset space with clips on one mesh
+  node, `DecorationModelSet::poseParts`) plays the clip once and holds its last frame, loops, or stands at its end
+  at once (a map shows a part left open again on load); an empty clip returns it to rest (EventRuntimeState
+  `decorationClips`). Beethoven's coffin lids are the first (2026-11-10).
 - **While it plays** the frame is drawn from its camera (the renderers swap the cinematic's eye, angles and field of
   view in for the render: `IndoorRenderer::render`, `OutdoorGameView::render`; portal visibility, culling and the
   open sky follow it), the party gets an input frame with nothing held (no movement, look, attack, hotkeys, menu),
   and the gameplay HUD is replaced by the letterbox, fade and subtitle overlay (`GameSession::renderCinematicOverlay`).
   The world keeps running (actors, timers, doors, projectiles), as in MM9.
+- **Pace**: cues are timed against real-time audio (voice lines, sound ends), so fast mode (Double Speed) and the
+  turn-based speeds do not apply while a cinematic takes the view: the whole frame runs at 1x
+  (`GameApplication::gameplaySpeed`). An ambient one runs its own timeline at real pace while the party around it
+  keeps fast mode (`GameSession::setGameSpeed`); at 2x its voice lines would start over one another.
 - **Letterbox**: at full the bars leave MM9's 2:1 picture (a sixth of a 4:3 screen each; none on a screen wider
   than 2:1); they slide in over `letterbox_seconds`.
 - **Skip**: Escape, Space, Return or Enter, for a skippable cinematic. The remaining `event` cues run at once in order,

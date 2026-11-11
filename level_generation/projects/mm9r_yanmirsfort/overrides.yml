@@ -147,3 +147,6 @@ plan_levels:
 treasure:
   bonus_near: [ForestGiant0, ForestGiant1, ForestGiant2, ForestGiant3, "Yanmir'sKey"]
   themed_near: [Bonepile0, Bonepile1, Bonepile2, Bonepile3, Bonepile4, Bonepile5, Bonepile6, Bonepile7, Bonepile8]
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+spr_surfaces: {}   # the gates' Water115 sheets (translucent in convert.py): their frames

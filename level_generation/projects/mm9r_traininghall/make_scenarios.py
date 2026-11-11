@@ -4,10 +4,10 @@ Write the Training Hall's scenarios from the built map (work/runtime, work/doors
 work/build_report.json, props.json). Doors, levers, boards, the bar and chests are clicked for real (a pose in front of
 the model, press_interact); the archery rings are hit by a cast Fire Bolt; the trigger volumes are walked into.
 
-- scenario_doors_exits.yml: the front door's exit; the chain from the chandelier up to the roof; the party falls
-  through the roof's hole onto the chandelier, which drops into the lobby; a lobby door stops the party, opens on a
-  click and lets it through; the lobby's steel ladder and a pole of the pole room; the end door: shut by its bar, the
-  bar breaks on a click (key 301) and the exit then takes the party to Thjorgard;
+- scenario_doors_exits.yml: the front door's exit; the chain from the chandelier up to the roof; the party takes
+  the chain at the roof's hole and climbs down onto the chandelier, which drops into the lobby; a lobby door stops the
+  party, opens on a click and lets it through; the lobby's steel ladder and a pole of the pole room; the end door: shut
+  by its bar, the bar breaks on a click (key 301) and the exit then takes the party to Thjorgard;
 - scenario_chests.yml: the crate's back board breaks on a click and the Blackbox opens; the four other chests;
 - scenario_scripted.yml: the perception hints, the lobby ghouls, the joust lever, the Mean Trellborg's joust, the
   second horse through the wooden wall, the archery range (targets down and up, a ring hit by a Fire Bolt pays its
@@ -165,11 +165,13 @@ def doors_exits(m: Map) -> dict:
     ]
     drop = groups["drop"][0]
     steps += [
-        {"note": {"text": "The roof room's hole: the party walks off its edge and lands on the chandelier, which "
-                          "creaks, cracks and falls 432 LT into the lobby's pool with the party (dropsequence, "
-                          "cracktrigger1-5, droptrigger, DestructableBrush6, Door 'drop')."}},
+        {"note": {"text": "The roof room's hole: walking into it the party takes the chain at its top and climbs down "
+                          "onto the chandelier, which creaks, cracks and falls 432 LT into the lobby's pool with the "
+                          "party (dropsequence, cracktrigger1-5, droptrigger, DestructableBrush6, Door 'drop')."}},
         state(drop, "closed"),
-        m.walk((100, 330), 270, 0.5, (100, -50, 1100), 250, 600, z=1639),     # off the edge, clear of the chain
+        # The chain is taken at its top (grab_at_top since 2026-11-10; its reach of 140 covers the hole, which ends
+        # about 200 from it): forward from the rim grabs it, glides on and climbs down; 3.5 s ends on the chandelier.
+        m.walk((100, 330), 270, 3.5, (100, -50, 1100), 250, 60, z=1639),
         # the fall onto the wheel (about 1 s), the poll (0.25 s), MM9's SendDelays from dropsequence to droptrigger
         # (0.5 + 0.35 + 0.35 + 0.25 + 1.25 + 1.0 = 3.7 s) and the door's 432 LT at 750 LT/s (0.6 s)
         wait(7.0),
@@ -195,7 +197,7 @@ def doors_exits(m: Map) -> dict:
         {"note": {"text": "The poles take a party in the air (grab_in_air): falling past Ladder9's pole (WorldObject13, "
                           "416-712 LT, over the water) while moving toward it, the party takes hold, climbs and steps "
                           "off on the platform above (736 LT)."}},
-        m.climb_from_air("Ladder9_1", start_height_lt=600.0, seconds=0.45),
+        m.climb_from_air("Ladder9_1", start_height_lt=600.0, seconds=1.0),     # with the glide onto the top exit
     ]
     centre, _, _ = m.model("DestructableBrush12")
     steps += [
@@ -286,11 +288,15 @@ def scripted(m: Map) -> dict:
         var("Horse2Out", 1), state(horse2, "open"), state(lever2, "open"),
         *m.click("d2lever", side=(0, 1), distance=150, query=-500), wait(7.0),
         var("Horse2Out", 0), state(horse2, "closed"),
-        {"note": {"text": "TriggerTrellborgOn0 (the east stair down): the Mean Trellborg starts jousting: about 4 s "
-                          "later he pulls the lever and the horse rides; TriggerTrellborgOff0 above stops him."}},
+        {"note": {"text": "TriggerTrellborgOn0 (the east stair down): the Mean Trellborg starts jousting: after his "
+                          "stand, two fidgets and a taunt (7 s) he pulls the lever and the horse rides; TriggerTrellborgOff0 above stops him."}},
         m.stand_in("TriggerTrellborgOn0", z=m.floors.z(1894, -1024, 0)), wait(1.0), var("Jousting", 1),
-        wait(4.5), var("Launches", 1), var("Horse2Out", 1),
+        wait(7.0), var("Launches", 1), var("Horse2Out", 1),
         m.stand_in("TriggerTrellborgOff0", z=m.floors.z(1884, -584, 200)), wait(1.0), var("Jousting", 0),
+        {"note": {"text": "TriggerOrcTraining / TriggerOrcsStop: the orcs' drill, their commander and observer (the "
+                          "scene routines) start and stop."}},
+        m.stand_in("TriggerOrcTraining"), wait(1.0), var("OrcTraining", 1),
+        m.stand_in("TriggerOrcsStop"), wait(1.0), var("OrcTraining", 0),
     ]
     steps += [
         {"note": {"text": "d4lever0: the second horse rides through the wooden wall at the lane's east end; the wall's "

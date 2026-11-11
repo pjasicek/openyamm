@@ -66,8 +66,8 @@ steps:
       drowning_ticks_max: 0
 - note:
     text: 'The fish (AISwimFly, Fly S) start in the volume and are bound to it: after 20 s each is still in the pool, its
-      feet held over the bed (a walker stands on the bed; the reports show feet at most 1.5 under the surface minus half the
-      body, the binding''s clamp).'
+      feet not under the bed (a fish that has moved rides at the binding''s clamp, 1 under the surface minus half the body;
+      one that has idled all along still rests on the bed where the map''s load set it).'
 - assert:
     actor_visible:
       actor_index: 18
@@ -76,7 +76,7 @@ steps:
         x: -3010.55
         y: 6645.75
         max_distance: 842
-        min_z: -531.0
+        min_z: -533.0
 - assert:
     actor_visible:
       actor_index: 19
@@ -85,7 +85,7 @@ steps:
         x: -3010.55
         y: 6645.75
         max_distance: 842
-        min_z: -531.0
+        min_z: -533.0
 - assert:
     actor_visible:
       actor_index: 20
@@ -94,7 +94,7 @@ steps:
         x: -3010.55
         y: 6645.75
         max_distance: 842
-        min_z: -531.0
+        min_z: -533.0
 - assert:
     actor_visible:
       actor_index: 21
@@ -103,7 +103,7 @@ steps:
         x: -3010.55
         y: 6645.75
         max_distance: 842
-        min_z: -531.0
+        min_z: -533.0
 - assert:
     actor_visible:
       actor_index: 22
@@ -112,7 +112,7 @@ steps:
         x: -3010.55
         y: 6645.75
         max_distance: 842
-        min_z: -531.0
+        min_z: -533.0
 - assert:
     actor_visible:
       actor_index: 23
@@ -121,4 +121,4 @@ steps:
         x: -3010.55
         y: 6645.75
         max_distance: 842
-        min_z: -531.0
+        min_z: -533.0

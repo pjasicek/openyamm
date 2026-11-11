@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -195,13 +196,19 @@ def main() -> int:
     box = report_box("SleepTrigger")
     sx, sy = (box[0][0] + box[1][0]) / 2, (box[0][1] + box[1][1]) / 2
     sz = floors.z(sx, sy, box[1][2])
-    steps += [{"note": {"text": "SleepTrigger (DC_sargent.scr StartUp): the sargent wakes the four sleepers in turn."}},
+    # the sargent's last marker, as the map script has it (local SMKR0, SMKR1 = {x, y, z}, {x, y, z})
+    smkr1 = [int(v) for v in re.search(r"local SMKR0, SMKR1 = \{[^}]*\}, \{([^}]*)\}",
+                                       (PROJECT / "work/runtime/dookscastle.lua").read_text())[1].split(",")]
+    steps += [{"note": {"text": "SleepTrigger (DC_sargent.scr StartUp): the sargent walks to the four sleepers in turn, "
+                                "wakes each and ends at SMkr1."}},
               pose(sx, sy - 300, floors.z(sx, sy - 300, sz + 60), math.pi / 2),
               {"advance_runtime": {"seconds": 1}}, var("FiredSleepTrigger", 0),
               scenarios.movement(MAP, (sx, sy - 300, floors.z(sx, sy - 300, sz + 60) + 1), 90, 0.5, (sx, sy, sz + 1),
                                  200, 30),
               {"advance_runtime": {"seconds": 1}}, var("FiredSleepTrigger", 1),
-              {"advance_runtime": {"seconds": 15}}, var("SleepWoken", len(scripted["sleepers"]) + 1)]
+              {"advance_runtime": {"seconds": 40}}, var("SleepWoken", len(scripted["sleepers"]) + 2),
+              {"assert": {"actor_visible": {"actor_index": index["SleepCaptain"],
+                                            "near": {"x": smkr1[0], "y": smkr1[1], "max_distance": 120}}}}]
     for trigger in ("ScurryTrigger1", "ScurryTrigger0"):
         box = report_box(trigger)
         cx, cy, cz = [(box[0][k] + box[1][k]) / 2 for k in range(3)]

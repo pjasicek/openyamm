@@ -228,11 +228,39 @@ std::optional<ReleaseManifest> parseReleaseManifest(const std::string &text, std
             return std::nullopt;
         }
 
-        std::unordered_set<std::string> ids;
-        std::unordered_set<std::string> files;
+        // A desktop manifest lists the languages' optional packs apart (language_packs), which updaters before 2.0
+        // do not read: they know no language field and would download every language's (packaging/publish_release.py).
+        const YAML::Node languagePacks = document["language_packs"];
+
+        if (languagePacks && !languagePacks.IsSequence())
+        {
+            error = "manifest language_packs is not a list";
+            return std::nullopt;
+        }
+
+        std::vector<YAML::Node> packNodes;
 
         for (const YAML::Node &packNode : packs)
         {
+            packNodes.push_back(packNode);
+        }
+
+        const size_t firstLanguagePack = packNodes.size();
+
+        if (languagePacks)
+        {
+            for (const YAML::Node &packNode : languagePacks)
+            {
+                packNodes.push_back(packNode);
+            }
+        }
+
+        std::unordered_set<std::string> ids;
+        std::unordered_set<std::string> files;
+
+        for (size_t index = 0; index < packNodes.size(); ++index)
+        {
+            const YAML::Node &packNode = packNodes[index];
             const ReleaseFile file = parseFile(packNode, "packs");
             AssetPackRecord pack;
             pack.id = requiredString(packNode, "id");
@@ -243,6 +271,12 @@ std::optional<ReleaseManifest> parseReleaseManifest(const std::string &text, std
             pack.contentId = requiredString(packNode, "content_id");
             pack.sha256 = file.sha256;
             pack.language = packNode["language"] ? packNode["language"].as<std::string>() : std::string();
+
+            if (index >= firstLanguagePack && pack.language.empty())
+            {
+                error = "manifest language pack " + pack.id + " names no language";
+                return std::nullopt;
+            }
 
             if (!validateAssetPackRecord(pack, error))
             {

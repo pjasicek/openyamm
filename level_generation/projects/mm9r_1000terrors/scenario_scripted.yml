@@ -46,7 +46,8 @@ steps:
       name: OpenStairGate0
       value: 1
 - note:
-    text: StairGate0 shut again by its event; a hostile Lesser Demon beside it pushes it open.
+    text: A second use of StairGate0 keeps it rising; it shuts by itself (CloseWaitTime), and a hostile Lesser Demon beside
+      it pushes it open.
 - set_pose:
     map: 1000terrors.blv
     x: 8090
@@ -61,10 +62,24 @@ steps:
 - assert:
     mechanism:
       id: 108
+      state: opening
+- assert:
+    state_dump_named_map_var:
+      name: OpenStairGate0
+      value: 1
+- advance_runtime:
+    seconds: 24.0
+- assert:
+    mechanism:
+      id: 108
       state: closed
 - assert:
     state_dump_named_map_var:
       name: OpenStairGate0
+      value: 0
+- assert:
+    state_dump_named_map_var:
+      name: Gate0ByMonster
       value: 0
 - set_pose:
     map: 1000terrors.blv

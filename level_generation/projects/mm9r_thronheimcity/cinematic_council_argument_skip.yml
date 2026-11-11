@@ -15,7 +15,7 @@ steps:
 - console: {line: cinematic skip, expect_contains: Skipping}
 - advance_runtime: {seconds: 0.5}
 - assert: {qbit_set: [90184, 90040, 90085, 90093]}
-- assert: {actor_visible: {actor_index: 44, hidden: true}}
+- assert: {actor_visible: {actor_index: 50, hidden: true}}   # Kira's stage actor
 - assert: {actor_visible: {actor_index: 41, hidden: false}}
 - assert: {actor_visible: {actor_index: 42, hidden: true}}
 - advance_runtime: {seconds: 8}

@@ -26,15 +26,16 @@ local function near(b)
     local x, y, z = evt.GetPartyPosition()
     return inBox(b, x, y, z)
 end
--- A Shooter sits in its wall or ceiling: the bolt starts a third of the way to the party's chest;
--- `projectile` is its MM9 ProjectileName (the launch sound).
+-- A Shooter sits in its wall or ceiling: the bolt starts a third of the way to the party's chest and
+-- strikes the party in its path (FireMissile's strikesParty); `projectile` is its MM9 ProjectileName (the
+-- launch sound).
 local function shoot(sx, sy, sz, damage, kind, projectile)
     local x, y, z = evt.GetPartyPosition()
     z = z + 100
     local dx, dy, dz = x - sx, y - sy, z - sz
     local length = math.max(1, math.sqrt(dx * dx + dy * dy + dz * dz))
     local k = math.max(64 / length, 0.33)
-    local shot = evt.FireMissile("Fire", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, kind, 0)
+    local shot = evt.FireMissile("Fire", sx + dx * k, sy + dy * k, sz + dz * k, x, y, z, damage, kind, 0, 0, true)
     if shot then MM9.launchSound(projectile, sx, sy, sz) end
     set("ShotsFired", var("ShotsFired") + (shot and 1 or 0))
 end

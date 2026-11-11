@@ -1,0 +1,33 @@
+abcVersion: 13
+pieces: 1
+nodes: 4
+animations: 1
+sockets: 0
+exportedLod: 0
+coordinateScale: 2.56
+coordinateTransform: LithTech ABC local axes preserved; scene placement converts Y-up
+  to OpenYAMM Z-up
+exportMode: animation-path
+sourceSha256: 3d0b78a4b6a83c80b358619734077ef831b1fd8dddc93b982479a3bf1a520d76
+converterVersion: 3
+warnings: []
+trajectoryValidation:
+  status: passed
+  coordinatePlacement: glTF (x,y,z) -> OpenYAMM (x,z,y)
+  nodeNamesExact: true
+  hierarchyExact: true
+  nodes: 4
+  clips: 1
+  keySamples: 34
+  midpointSamples: 33
+  nodeComparisons: 268
+  positionTolerance: 0.0001
+  rotationMatrixTolerance: 1.0e-05
+  maxOpenyammPositionError: 4.0819043272080794e-05
+  maxRotationMatrixError: 9.023846190281404e-07
+  clipResults:
+  - name: headtwirling
+    keySamples: 34
+    midpointSamples: 33
+    maxOpenyammPositionError: 4.0819043272080794e-05
+    maxRotationMatrixError: 9.023846190281404e-07

@@ -6,7 +6,7 @@ s = open(p).read()
 a = s.index('# MM9 Mummy body (level_generation'); b = s.index('  skin: mummy_c', a)
 blk = s[a:b]
 blk = blk.replace("    run: Running\n", "    run: Running\n    cast: AttackRanged\n")
-blk = blk.replace("      attack_ranged: {impact: 0.333, release: cast_hand}\n", "      attack_ranged: {impact: 0.333, glow: [cast_hand], release: cast_hand}\n      cast: {impact: 0.333, glow: [cast_hand], release: cast_hand}\n")
+blk = blk.replace("      attack_ranged: {impact: 0.333, release: cast_hand}\n", "      attack_ranged: {impact: 0.333, release: cast_hand}\n      cast: {impact: 0.333, release: cast_hand}\n")
 tmp = p + '.tmp_mummy'
 open(tmp, 'w').write(s[:a] + blk + s[b:])
 os.replace(tmp, p)

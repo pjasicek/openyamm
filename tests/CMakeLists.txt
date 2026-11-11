@@ -12,6 +12,7 @@ add_executable(openyamm_unit_tests
     ActorCrowdingTests.cpp
     AudioRegressionTests.cpp
     ActorClipSoundsTests.cpp
+    ActorClipEffectsTests.cpp
     ArcomageRegressionTests.cpp
     ArenaRuntimeTests.cpp
     MapWorldOwnershipTests.cpp
@@ -253,6 +254,7 @@ add_executable(openyamm_unit_tests
     ../game/events/EventDialogContent.cpp
     ../game/gameplay/Mm9DialogueSpeaker.cpp
     ../game/fx/ActorClipSounds.cpp
+    ../game/fx/ActorClipEffects.cpp
     ../game/fx/TalkPortraitFrame.cpp
     ../game/events/ScriptedEventProgram.cpp
     ../game/events/ScriptedEventTimer.cpp

@@ -175,11 +175,12 @@ packs, downloaded only for a language the player chooses and kept current by the
   installed (any whose packs are in the store, and the one chosen in Settings) and no others. Choosing a language whose
   packs are missing downloads them as a content-only update of the installed version, then asks for a restart.
 - **Settings**: the Language row lists the release's languages, with the download size of those not installed.
-- Updaters of releases before this change do not know the field: updating from one downloads every language's packs
-  once. So 1.22 ships each language's text and fonts only: `packs.yml` marks the `audio` and `videos` overlays
-  `ship: false`, which leaves them out of the packs, and the release workflow does not check them out. Lift that once
-  the releases still updating are 1.22 or later, with the player choosing whether to download a language's dubbed
-  sounds and videos. Removing an installed language's packs is not implemented yet (they stay until a release drops them).
+- Updaters of releases before 2.0 do not know the field, so a desktop manifest lists the language packs apart, under
+  `language_packs`, which they do not read (`packaging/publish_release.py`, `engine/update/ReleaseManifest.cpp`): an
+  update from 1.21 or earlier downloads no language's packs, and the game then fetches the chosen language's as above.
+  Until 2.0 releases shipped each language's text and fonts only (`ship: false` on the `audio` and `videos` overlays in
+  `packs.yml`); from 2.0 the dubbed sounds and videos ship too (the user's decision, 2026-11-11). Removing an
+  installed language's packs is not implemented yet (they stay until a release drops them).
   Android: the APK carries no language packs; downloading them on Android waits for its in-app updater (phase 5).
 
 ### Fonts
@@ -188,6 +189,11 @@ The renderer is UTF-8 throughout since 1.21, and Unicode faces pack large charac
 "faithful" legacy faces have no Cyrillic or CJK glyphs, so a pack replaces their descriptors under
 `engine/fonts/truetype/` with faces that do (Alegreya, already in the repository under the SIL OFL, covers
 Cyrillic). No code-page conversion is needed; PR #25's windows-1251 path is obsolete.
+
+The Settings language list and the Language row draw every language's own name (Čeština, Русский, 简体中文) with
+`menu_language_names`, whatever the interface language: a renamed subset of LXGW WenKai (SIL OFL) in
+`engine/fonts/truetype/`, holding Latin, Latin Extended-A, basic Cyrillic and the packs' names and translations of the list's texts.
+`tools/language_names_font.py` (needs fontTools) builds it; run it again after adding a pack or renaming one.
 
 ### Atlas memory for large character sets
 
@@ -267,7 +273,8 @@ the missing-text log, never as broken text.
 
 ## Pseudo-language `qps`
 
-Built in, no files: `[gameplay] language=qps` (Settings → Interface → Language). Every text that goes through a lookup
+Built in, no files: `[gameplay] language=qps` or `--set gameplay.language=qps` (Settings → Interface → Language lists it
+only while it is the active language, so players never see it). Every text that goes through a lookup
 comes back marked, accented and a third longer: `Settings` → `[Séttíñgs···]`.
 
 - Plain English on screen is text that bypasses the lookups (a missing `tr()` or hook).
@@ -536,9 +543,8 @@ Done (2026-11-07 and 08):
   Every character the pack uses is in its charset. Names: see item 8 of the Chinese import.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
-  they stay with it), and the dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 650 MB from the
-  MMMerge archives; releases do not ship them yet, see the 1.22 note under Releases). Whether to commit those is the
-  user's decision.
+  they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the
+  MMMerge archives) are committed since and ship from 2.0 (see Releases).
 - Sizes, accepted as they are (2026-11-08): all languages' text goes into the one always-installed `languages` pack
   (about 14 MB zipped; any text change downloads it again), and the Chinese font is not subset.
 - In-game sweep (2026-11-08): scripted tours (`debug.menu_input_tour_path`) through the title, Settings, credits,

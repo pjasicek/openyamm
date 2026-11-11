@@ -3173,7 +3173,13 @@
       "passive": true
      },
      "script": "erccspeech.scr"
-    }
+    },
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_erccup.glb",
+      "node": "Socket_Cup"
+     }
+    ]
    },
    {
     "actor_index": 55,

@@ -68,7 +68,8 @@ MASTER = "SummoningGuy3"
 RITUAL_FADE_SECONDS = 2.0           # WizardLabCamera.scr :SoftExit (fade out 2 s before the first shot)
 CAST_SECONDS = 1.5                  # :ConjureSpell Wait 1.5 -> :CastSpell (both scripts)
 CONJURE_SECONDS = 2.5               # :ConjureSpell 1.5 s -> :CastSpell 1 s -> :FinishSpell (both scripts)
-APPRENTICE_HANDS = 110              # an apprentice's hands above its feet: the bluedots' hand anchors (assumed)
+LIGHTNING_SECONDS = 1.0             # a shooter's Lightning arc (PROJECTILE.txt Lightning: lifetime 2 s; assumed)
+LIGHTNING_LAUNCH, LIGHTNING_HIT = "weapons/chainlight01.wav", "weapons/chainlight03.wav"   # PROJECTILE.txt Lightning
 BANISH_SECONDS = 6.0                # WizardMaster.scr :BanishDemon 4 s up, :PerformBanish 2 s down, :RemoveDemon
 FINISHES_TO_BANISH = 6              # WizardMaster.scr :BanishDemon (nCounter < 6: wait)
 PARTY_RADIUS = 37                   # IndoorWorldRuntime PartyCollisionRadius (native units)
@@ -371,7 +372,6 @@ def map_script(hooks, build) -> str:
 
     # --- the summoning ------------------------------------------------------------------------------------------------
     summoners = [a[name] for name in CHAIN]
-    summoner_at = [native_point(build, source.properties(name)["Pos"]) for name in CHAIN]
     # WizardSummoner.scr's first parameter: the apprentice's shooter (ShooterSummon<k>, ProjectileName Lightning)
     shooter_at = [native_point(build, source.properties(str(source.properties(name).get("ScriptParams")).split()[0])
                                ["Pos"]) for name in CHAIN]
@@ -385,8 +385,9 @@ def map_script(hooks, build) -> str:
         "-- cinema is the cinematic summoning (cinematic_scenes), whose steps run the ritual's ticks below (each once,",
         "-- in order; a skip runs them at once). WizardSummoner.scr (six apprentices, friends of the party):",
         "-- :ConjureSpell (thunder, its shooter's sparklies and green dots, WizardEffect.scr), 2.5 s later",
-        "-- :FinishSpell (the shooter's bugs at SummonLocation) starts the next in the chain 0 -> 6 -> 1 -> 5 -> 2 ->",
-        "-- 4 -> the master. WizardMaster.scr (SummoningGuy3): :ConjureSpell (meteor, town portal, sparklies, column",
+        "-- :FinishSpell (the shooter's lightning and bugs at SummonLocation: shoot) starts the next in the chain",
+        "-- 0 -> 6 -> 1 -> 5 -> 2 -> 4 -> the master.",
+        "-- WizardMaster.scr (SummoningGuy3): :ConjureSpell (meteor, town portal, sparklies, column",
         "-- of fire at SummonLocation), 2.5 s later :Summon spawns a Greater Demon (WizardDemon.scr: enemy of the",
         "-- sorcerers and the party), elemental blast and paralyze. The apprentices then fight it (AddEnemy",
         "-- GreaterDemon); one hurt by anything but the party dies at once (:OnDamage -> Die) and sends the master",
@@ -398,26 +399,39 @@ def map_script(hooks, build) -> str:
         "-- actor); after the demon is up any hit on an apprentice counts as the demon's (README).",
         f"local SUMMONERS = {{{', '.join(map(str, summoners))}}}",
         f"local SUMMONER_OF = {{{summoner_set}}}",
-        f"local SUMMONER_AT = {{{', '.join(lua.point(p) for p in summoner_at)}}}",
         f"local SUMMON_AT = {lua.point(summon_at)}",
         f"local SHOOTER_AT = {{{', '.join(lua.point(p) for p in shooter_at)}}}   -- their lightning's start",
         f"local MASTER = {master}",
         "local function summonerAlive(k)",
         f"    return not evt.CheckMonstersKilled(ActorKillCheck.Group, {GROUP_SUMMONER} + k - 1, 0, false)",
         "end",
+        "-- Apprentice k's :FinishSpell (Trigger hShooter, shoot), run by the next tick (2.5 s after its :ConjureSpell,",
+        "-- as the next caster starts): its shooter (ShooterSummon<k>, ProjectileName Lightning) fires at SummonLocation",
+        "-- (PROJECTILE.txt Lightning: launch chainlight01, explosion Sparks with chainlight03; here an arc and MM9's",
+        "-- Sparks explosion) and WizardEffect.scr :PlayShootEffect plays SPELL_BUGS at SummonLocation. A dead",
+        "-- apprentice's :FinishSpell never comes.",
+        "local function shoot(k, timed)",
+        "    if not summonerAlive(k) then return end",
+        "    local from = SHOOTER_AT[k]",
+        f"    evt.Beam(\"SummonBeam\" .. k, \"openyamm:fx/arc_beam\", from[1], from[2], from[3], SUMMON_AT[1], "
+        f"SUMMON_AT[2], SUMMON_AT[3], {LIGHTNING_SECONDS})",
+        "    fx(\"mm9:explosion_sparks\", SUMMON_AT)",
+        "    fx(\"mm9:bugs\", SUMMON_AT)",
+        f"    if timed then sound(\"{LIGHTNING_LAUNCH}\"); sound(\"{LIGHTNING_HIT}\") end",
+        "end",
         "-- timed: timer 270 runs a summoning an old save left half-way (it plays the sounds the cinematic's cues play",
         "-- and arms the next tick)",
         "local function ritualStep(timed)",
         "    local step = var(\"RitualStep\")",
+        f"    if step >= 2 and step <= {len(CHAIN) + 1} then shoot(step - 1, timed) end",
         "    if step >= 1 and step <= 6 then",
         "        if not summonerAlive(step) then return end   -- MM9: a dead apprentice never starts the next",
         "        if timed then sound(\"ambient/thunder/thunderlong.wav\") end",
-        "        fx(\"mm9:sparklies\", SUMMONER_AT[step])",
-        "        local from = SHOOTER_AT[step]   -- the shooter's lightning (ShooterSummon<k>, Lightning)",
-        "        fx(\"mm9:greenyeldots\", from)   -- WizardEffect.scr :PlayConjureEffect: DoClientFX hMe, SPELL_GREENDOTS",
-        "        fx(\"mm9:bugs\", SUMMON_AT)",
-        f"        evt.Beam(\"SummonBeam\" .. step, \"openyamm:fx/arc_beam\", from[1], from[2], from[3], SUMMON_AT[1], "
-        f"SUMMON_AT[2], SUMMON_AT[3], {CONJURE_SECONDS})",
+        "        -- WizardEffect.scr :PlayConjureEffect: DoClientFX hCaster (the apprentice), SPELL_SPARKLIES, on its",
+        "        -- body; DoClientFX hMe (the shooter above it), SPELL_GREENDOTS. Its hands' dots are its clips' own DoFX",
+        "        -- keys (fidget2 redyeldots, rattack1 greenyeldots: actors.yml events, played by the cinematic's cues).",
+        "        MM9.actorFx(SUMMONERS[step], \"mm9:sparklies\")",
+        "        fx(\"mm9:greenyeldots\", SHOOTER_AT[step])",
         "        set(\"RitualStep\", step + 1)",
         f"        if timed then arm({T_RITUAL}, {CONJURE_SECONDS}) end",
         "    elseif step == 7 then",
@@ -433,7 +447,7 @@ def map_script(hooks, build) -> str:
         f"z = SUMMON_AT[3], radius = 32, group = {GROUP_DEMON}, count = 1}})",
         "        fx(\"mm9:elemental_blast\", SUMMON_AT); fx(\"mm9:paralyze\", SUMMON_AT)",
         "        -- :Backup then :BeginBanish (the master steps back): DoClientFX hMe, SPELL_SPARKLIES and SPELL_BLUEFIRE",
-        "        MM9.clientFx(MASTER, \"mm9:sparklies\"); MM9.clientFx(MASTER, \"mm9:fireblue\")",
+        "        MM9.actorFx(MASTER, \"mm9:sparklies\"); MM9.actorFx(MASTER, \"mm9:fireblue\")",
         f"        for _, row in ipairs({{{ROW_APPRENTICE}, {ROW_GRAND_SORCERER}}}) do",
         f"            evt.SetMonsterRelation({ROW_DEMON}, row, 2); evt.SetMonsterRelation(row, {ROW_DEMON}, 2)",
         "        end",
@@ -487,7 +501,7 @@ def map_script(hooks, build) -> str:
         "    if SUMMONER_OF[index] == nil and index ~= MASTER then return end",
         "    if var(\"DemonUp\") == 0 or var(\"DemonGone\") == 1 then betray(index) return end",
         "    if SUMMONER_OF[index] ~= nil then   -- :OnDamage, not the party: DoClientFX hShooter (itself), SPELL_BLUEDOTS; Die",
-        f"        MM9.clientFx(index, \"mm9:bluedots\", 1, {APPRENTICE_HANDS})",
+        "        MM9.actorFx(index, \"mm9:bluedots\", \"palm_left,palm_right\")   -- its emitters on LHand1 and RHand1",
         "        evt.SetHookDamage(100000)",
         "    end",
         "end",
@@ -579,9 +593,13 @@ def map_script(hooks, build) -> str:
         "        local entered = inside and var(\"In\" .. s.name) == 0",
         "        set(\"In\" .. s.name, inside and 1 or 0)",
         "        if entered and var(\"Dest\" .. k) > 0 then",
-        "            local d = DESTINATIONS[var(\"Dest\" .. k)]",
+        "            local dest = var(\"Dest\" .. k)",
+        "            local d = DESTINATIONS[dest]",
         "            set(\"Dest\" .. k, 0)   -- TeleporterMulti.scr :ResetDestination",
         "            teleport(d.at, d.yaw)",
+        # The arrival on DestinationPurple is its touch: the ritual starts with the teleport, not on a later poll
+        # (a party still walking crosses the plate between two polls; the user, 2026-11-10).
+        f"            if dest == {purple} then startRitual() end",
         "            return",
         "        end",
         "    end",
@@ -612,8 +630,9 @@ def map_script(hooks, build) -> str:
 
 
 # --- the summoning's cinematic ----------------------------------------------------------------------------------------
-# mm9_evilsorcerer.glb's clips for MM9's fidget2, rattack1 and taunt (actors.yml script_clips, attack_ranged)
-CLIP_CONJURE, CLIP_CAST, CLIP_TAUNT = "Fidget2", "AttackRanged", "Taunt"
+# mm9_evilsorcerer.glb's clips for MM9's fidget2, rattack1 and taunt (actors.yml fidget, attack_ranged, script_clips):
+# MM9's fidget2 is the GLB's Fidget (EVILSORCERER.abc has no fidget1: its fidget2-4 are Fidget, Fidget2, Fidget3)
+CLIP_CONJURE, CLIP_CAST, CLIP_TAUNT = "Fidget", "AttackRanged", "Taunt"
 THUNDER, MASTER_CAST = "ambient/thunder/thunderlong.wav", "magic/cast03.wav"
 DEMON_ROAR = "animsounds/dragon/fidget2.wav"
 
@@ -660,15 +679,19 @@ def cinematic_scenes(actors: dict) -> list:
                     look_at=[round(v, 1) for v in centre], seconds=0)
     for k, name in enumerate(CHAIN):
         at = first + k * CONJURE_SECONDS
+        previous = f"; {CHAIN[k - 1]} :FinishSpell (lightning, bugs)" if k > 0 else ""
         scene.step(at, f"apprentice{k + 1}", f"ritualAdvance({k + 1})",
-                   note=f"{name} :ConjureSpell (beam, sparklies, bugs)")
+                   note=f"{name} :ConjureSpell (sparklies, green dots){previous}")
         cinema.sound(at, THUNDER, note=f"{name} :ConjureSpell")
         cinema._cue(at, f"{name} fidget2", actor=actors[name], action="clip", clip=CLIP_CONJURE, loop=False)
         cinema._cue(at + CAST_SECONDS, f"{name} :CastSpell rattack1", actor=actors[name], action="clip",
                     clip=CLIP_CAST, loop=False)
+        cinema.sound(at + CONJURE_SECONDS, LIGHTNING_LAUNCH, note=f"{name} :FinishSpell: the shooter's Lightning")
+        cinema.sound(at + CONJURE_SECONDS, LIGHTNING_HIT, note=f"{name} :FinishSpell: the Lightning's explosion")
     master = actors[MASTER]
     scene.step(master_at, "master", f"ritualAdvance({len(CHAIN) + 1})",
-               note=f"{MASTER} :ConjureSpell (meteor, town portal, sparklies, column of fire)")
+               note=f"{MASTER} :ConjureSpell (meteor, town portal, sparklies, column of fire); "
+                    f"{CHAIN[-1]} :FinishSpell (lightning, bugs)")
     cinema._cue(master_at, f"{MASTER} LoopAnim fidget2", actor=master, action="clip", clip=CLIP_CONJURE, loop=True)
     cinema.sound(master_at + CAST_SECONDS, MASTER_CAST, note=f"{MASTER} :CastSpell")
     cinema._cue(master_at + CAST_SECONDS, f"{MASTER} :CastSpell rattack1", actor=master, action="clip",

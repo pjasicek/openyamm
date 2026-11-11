@@ -193,6 +193,12 @@ terrain:
   gentle for the slope layer even with the macro noise) batches apart and draws with the `SINGLE_MATERIAL` programs
   (`IndoorRenderer::markSingleMaterialTerrainFaces`). Isle of Ashes, 1600×900, frame GPU time with the trilinear
   normal array (terrain README): 819 → 672 µs at the default camera over the cliff, 570 → 468 µs facing the sea.
+- **Depth pre-pass** (2026-11-10, `IndoorRenderer::submitMainViewFaces`, `fs_indoor_textured_depth`): the main view
+  takes the terrain draws' depth first (colour masked), then shades them testing that depth without writing it. An
+  open-air BLV is often one sector, so portals cull none of it, and BLV faces have no back-face culling: Sturmford's
+  terrain was shaded 1.73 times per pixel (the seabed under the shore, hills behind hills, their back faces), now
+  once, and the clip plane's `discard` no longer turns off the early depth test. Water reflections keep the single
+  pass. Same image. Sturmford (`_PERF_4`), 1600×900, frame GPU p50: Medium 986 → 737 µs, High 1590 → 1186 µs.
 - **Grass** (`terrain: {grass: <decoration file>}`, 2026-11-04; New Sorpigal's whole meadow 2026-11-06; the terrain
   decorations setting): tufts of an outdoor map's plant library over the terrain faces, at the density of the grass
   layers (the material file's layers with a `meadow` strength, times it: grass 1.0, grass_patches 0.8; rock, snow,
@@ -260,6 +266,12 @@ the rain and thunder sounds (`WeatherAudio`) and the rain and snow (`WeatherRend
   through doors and windows but never inside. Outdoor maps pass no roof map and are unchanged. A GPU that cannot read
   an R32F texture in the vertex shader falls back to the old rule (weather only with the camera in a sector holding
   sky faces). Not covered: 3D models (market awnings, trees) do not shelter.
+- **Light in fog** (2026-11-10). The drops and flakes take the outdoor maps' light (the sky's brightness, dimmed by
+  cloud), but in a scene's fog they are seen through its colour, which MM9 keeps brighter than its sky and which does
+  not dim with cloud: Frosgard City's snow fell as dark specks through its grey fog at every hour and Sturmford's rain
+  as dark streaks. `IndoorOpenSkyWeather::render` takes the frame's fog colour and lifts the light to at least 1.3
+  times it (`HazeLight`, so the default rain colour is about as bright as the haze, snow brighter and ash darker);
+  lightning adds on top. Without fog the light is unchanged.
 - **Sound.** The camera under the roof map (more than 16 units below it: a house, a tunnel) hears the storm muffled
   (`CoveredWeatherAudibility`, 0.3 of the rain and wind loops, thunder at its square root), fading over 0.35 s as it
   walks through a door; under water nothing; under cover the distant rain curtain is not drawn either.

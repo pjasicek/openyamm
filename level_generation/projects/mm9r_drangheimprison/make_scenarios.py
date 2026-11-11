@@ -138,7 +138,7 @@ def main() -> int:
               {"execute_event": {"id": hatch["event"]}},
               {"advance_runtime": {"seconds": 5}},
               {"assert": {"mechanism": {"id": hatch["door_id"], "state": "open"}}},
-              climb(3.15, top, 200, 40)]
+              climb(3.5, top, 200, 40)]      # the climb plus the glide onto the top exit (since 2026-11-10)
     scenarios.write(PROJECT / "scenario_doors_exits.yml", doc, "make_scenarios.py")
 
     # --- chests ---------------------------------------------------------------------------------------------------
@@ -169,16 +169,19 @@ def main() -> int:
         {"advance_runtime": {"seconds": 3}},
         {"assert": {"mechanism": {"id": door["Door1"]["door_id"], "state": "open"}}},
         {"assert": {"state_dump_named_map_var": {"name": "SmithOff", "value": 1}}},
-        {"note": {"text": "TriggerBeatings1 (event 251): the warden opens the first cell, the doorman the room."}},
+        {"note": {"text": "TriggerBeatings1 (event 251): the interrogator walks to the first cell and the warden opens "
+                          "it; the prisoner follows him to the interrogation room, which the doorman shuts behind them, "
+                          "and the beating sounds (BeatStep 18 while it plays)."}},
         {"execute_event": {"id": convert.EV_BEATINGS["TriggerBeatings1"]}},
-        {"advance_runtime": {"seconds": 3.5}},
+        {"advance_runtime": {"seconds": 12}},
         {"assert": {"state_dump_named_map_var": {"name": "Beatings", "value": 1}}},
         {"assert": {"mechanism": {"id": door["Celldoor14"]["door_id"], "state": "open"}}},
-        {"advance_runtime": {"seconds": 22}},
-        {"assert": {"state_dump_named_map_var": {"name": "BeatStep", "value": 6}}},
-        {"assert": {"mechanism": {"id": interr["door_id"], "state": "opening"}}},
-        {"advance_runtime": {"seconds": 2.5}},
-        {"assert": {"mechanism": {"id": interr["door_id"], "state": "open"}}},
+        {"advance_runtime": {"seconds": 52}},
+        {"assert": {"state_dump_named_map_var": {"name": "BeatStep", "value": 18}}},
+        {"assert": {"mechanism": {"id": interr["door_id"], "state": "closed"}}},
+        {"assert": {"actor_visible": {"actor_index": scripted["actors"]["InterrPrisoner0"],
+                                      "near": {"x": scripted["points"]["Beaten"][0], "y": scripted["points"]["Beaten"][1],
+                                               "max_distance": 200}}}},
     ]
     scenarios.write(PROJECT / "scenario_scripted.yml", doc, "make_scenarios.py")
 

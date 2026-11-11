@@ -3,16 +3,19 @@
 #include "game/items/PriceCalculator.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/maw/MawItemData.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawSkillFormulas.h"
 #include "tests/RegressionGameData.h"
 #include "game/rules/maw/MawTexts.h"
+#include "game/tables/ClassSkillTable.h"
 #include "game/tables/PortraitFxEventTable.h"
 
 #include <cstdio>
 #include <random>
 #include <sstream>
 #include <fstream>
+#include <iterator>
 #include <filesystem>
 #include <string>
 #include <utility>
@@ -243,6 +246,41 @@ TEST_CASE("MAW's new skills climb their ladders and stop at their caps")
     CHECK_FALSE(mawSkillMasteryLadder("FireMagic", MawSkillMode::Normal).has_value());
 }
 
+TEST_CASE("MAW's promotion grants the ladder masteries the new class allows")
+{
+    // Discord: Enlightenment raised to 20 before the promotion stayed Expert until one more point was bought.
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    ClassSkillTable classes;
+    REQUIRE(classes.loadCapsFromRows({{"", "Cleric", "Priest"}, {"Enlightenment", "E", "G"}, {"ManaShield", "E", "M"},
+        {"Cover", "M", "G"}, {"Retaliation", "-", "B"}}));
+    Character cleric = characterWith("Cleric", {{"Enlightenment", 20}, {"ManaShield", 50}, {"Cover", 30}});
+    cleric.skills["Enlightenment"].mastery = SkillMastery::Expert;
+    cleric.skills["ManaShield"].mastery = SkillMastery::Expert;
+    cleric.skills["Cover"].mastery = SkillMastery::Master;
+
+    PartySeed seed;
+    seed.members.push_back(cleric);
+    Party party;
+    party.seed(seed);
+    party.setClassSkillTable(&classes);
+    party.setRules(&rules.gameRules());
+
+    // Mana Shield at its level cap of 50 and Cover at 30 cannot be raised again, so only the promotion can grant them.
+    REQUIRE(party.setMemberClassName(0, "Priest", true));
+    const Character &priest = party.members()[0];
+    CHECK_EQ(priest.findSkill("Enlightenment")->mastery, SkillMastery::Grandmaster);
+    CHECK_EQ(priest.findSkill("ManaShield")->mastery, SkillMastery::Master);
+    CHECK_EQ(priest.findSkill("Cover")->mastery, SkillMastery::Grandmaster);
+    REQUIRE(priest.hasSkill("Retaliation"));
+    CHECK_EQ(priest.findSkill("Retaliation")->level, 1u);
+    CHECK_EQ(priest.findSkill("Retaliation")->mastery, SkillMastery::Normal);
+
+    // Standard rules grant nothing on a class change.
+    Character standard = characterWith("Priest", {{"Enlightenment", 20}});
+    standardSkillRules().afterClassChanged(standard, &classes);
+    CHECK_EQ(standard.findSkill("Enlightenment")->mastery, SkillMastery::Normal);
+}
+
 TEST_CASE("MAW Cover and Mana Shield follow their formulas")
 {
     CHECK(mawCoverChance(0, false) == doctest::Approx(0.10));
@@ -332,6 +370,36 @@ TEST_CASE("MAW Cover moves a hit to a covering member, or halves it alone")
     solo.member(0)->rulesetState.manaShieldDisabled = true;
     CHECK_EQ(combat.absorbCharacterDamage(solo, 0, 100), 100);
     CHECK_EQ(standardGameRules().combat.absorbCharacterDamage(solo, 0, 100), 100);
+}
+
+TEST_CASE("MAW Cover and Mana Shield have skills page switches once learned")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    const SkillRules &skills = rules.gameRules().skills;
+    Character knight = characterWith("Knight", {{"Cover", 10}, {"Sword", 4}});
+
+    // Learned and on by default; a skill without a switch, or one not learned, has none.
+    CHECK(skills.skillSwitch(knight, "Cover") == std::optional<bool>(true));
+    CHECK_FALSE(skills.skillSwitch(knight, "ManaShield").has_value());
+    CHECK_FALSE(skills.skillSwitch(knight, "Sword").has_value());
+    CHECK_FALSE(skills.toggleSkillSwitch(knight, "ManaShield").has_value());
+    CHECK_FALSE(knight.rulesetState.manaShieldDisabled);
+
+    // Flipping it switches Cover's own flag and nothing else.
+    CHECK(skills.toggleSkillSwitch(knight, "Cover") == std::optional<bool>(false));
+    CHECK(knight.rulesetState.coverDisabled);
+    CHECK(skills.skillSwitch(knight, "Cover") == std::optional<bool>(false));
+    CHECK(skills.toggleSkillSwitch(knight, "Cover") == std::optional<bool>(true));
+    CHECK_FALSE(knight.rulesetState.coverDisabled);
+
+    knight.skills["ManaShield"] = CharacterSkill {"ManaShield", 6, SkillMastery::Expert};
+    CHECK(skills.toggleSkillSwitch(knight, "ManaShield") == std::optional<bool>(false));
+    CHECK(knight.rulesetState.manaShieldDisabled);
+    CHECK_FALSE(knight.rulesetState.coverDisabled);
+
+    // Standard has no switches.
+    CHECK_FALSE(standardGameRules().skills.skillSwitch(knight, "Cover").has_value());
+    CHECK_FALSE(standardGameRules().skills.toggleSkillSwitch(knight, "Cover").has_value());
 }
 
 TEST_CASE("MAW Identify Monster compares the best skill with the monster's level over the party's")
@@ -613,4 +681,83 @@ TEST_CASE("a cover flashes the Shield spell on the protected member's portrait, 
     REQUIRE(pCover != nullptr);
     CHECK_EQ(pCover->animationName, "spell17");
     CHECK_FALSE(pCover->faceAnimationId.has_value());
+}
+
+TEST_CASE("MAW skill popups preview what one more point does to the power rows, when the point can be bought")
+{
+    REQUIRE_MESSAGE(
+        OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    // MAW's item bases, so the sword's blows are MAW's.
+    std::ifstream itemsInput(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/rulesets/maw/data/items.yml");
+    const std::string itemsYaml((std::istreambuf_iterator<char>(itemsInput)), std::istreambuf_iterator<char>());
+    MawItemData items;
+    std::string error;
+    REQUIRE_MESSAGE(items.loadFromYaml(itemsYaml, error), error);
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, items);
+    rules.setSpellTable(&gameData.spellTable);
+    rules.setItemTable(&gameData.itemTable);
+    Character knight = characterWith("Knight", {{"Sword", 10}, {"Armsmaster", 10}, {"Bodybuilding", 10}});
+    knight.skills["Sword"].mastery = SkillMastery::Master;
+    knight.skills["Armsmaster"].mastery = SkillMastery::Expert;
+    knight.skills["Bodybuilding"].mastery = SkillMastery::Expert;
+    knight.level = 30;
+    knight.might = knight.intellect = knight.personality = knight.endurance = 50;
+    knight.accuracy = knight.speed = knight.luck = 50;
+    knight.equipment.mainHand = 15;
+    knight.skillPoints = 100;
+    Character mage = characterWith("Sorcerer", {{"FireMagic", 10}});
+    mage.skills["FireMagic"].mastery = SkillMastery::Master;
+    mage.level = 30;
+    mage.might = mage.intellect = mage.personality = mage.endurance = 50;
+    mage.accuracy = mage.speed = mage.luck = 50;
+    mage.knownSpellIds = {1, 6, 11};
+    mage.skillPoints = 100;
+    PartySeed seed;
+    seed.members.push_back(knight);
+    seed.members.push_back(mage);
+    // Wired as the game wires a party (tests/PartySpellTestHarness.h), so a raise recomputes HP and the blows.
+    Party party;
+    party.setItemTable(&gameData.itemTable);
+    party.setCharacterDollTable(&gameData.characterDollTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+    party.setClassMultiplierTable(&gameData.classMultiplierTable);
+    party.setClassSkillTable(&gameData.classSkillTable);
+    party.seed(seed);
+    party.setRules(&rules.gameRules());
+    party.refreshMemberResources(0);
+    const SkillRules &skills = rules.gameRules().skills;
+    const SkillTooltipText table = {"Table.", {"N", "E", "M", "G"}};
+    const auto footer = [&](const char *pSkill, size_t memberIndex = 0)
+    {
+        return skills.skillTooltip(party, party.members()[memberIndex], pSkill, table).footer;
+    };
+
+    // Body Building changes only Vitality; Armsmaster the melee blows.
+    const std::string bodybuilding = footer("Bodybuilding");
+    CAPTURE(bodybuilding);
+    CHECK_NE(bodybuilding.find("With one more point:"), std::string::npos);
+    CHECK_NE(bodybuilding.find("Vitality: "), std::string::npos);
+    CHECK_EQ(bodybuilding.find("Melee Power"), std::string::npos);
+    const std::string armsmaster = footer("Armsmaster");
+    CAPTURE(armsmaster);
+    CHECK_NE(armsmaster.find("Melee Power: "), std::string::npos);
+    CHECK_EQ(armsmaster.find("Vitality"), std::string::npos);
+
+    // A school's point with no spell of the school to measure assumes the strongest known damage spell (Incinerate,
+    // not Fireball and never Torch Light); the member's own spell of the school is measured as it is.
+    const std::string assumed = footer("FireMagic", 1);
+    CAPTURE(assumed);
+    CHECK_NE(assumed.find("Spell Power (Incinerate): "), std::string::npos);
+    party.member(1)->quickSpellName = "Fireball";
+    const std::string own = footer("FireMagic", 1);
+    CAPTURE(own);
+    CHECK_NE(own.find("Spell Power: "), std::string::npos);
+    CHECK_EQ(own.find("Incinerate"), std::string::npos);
+
+    // Without the points for the next raise there is no preview.
+    party.member(0)->skillPoints = 0;
+    CHECK_EQ(footer("Bodybuilding").find("With one more point"), std::string::npos);
 }

@@ -48,7 +48,7 @@ steps:
     tolerance_xy: 80
     tolerance_z: 60
 - note:
-    text: The three counted deaths ([68, 69, 70]) bring the end demon (actor 117).
+    text: The three counted deaths ([68, 69, 70]) bring the end demon (actor 210).
 - damage_actor:
     actor_index: 68
     amount: 100000
@@ -70,14 +70,14 @@ steps:
       value: 3
 - assert:
     state_dump_named_map_var:
-      name: EndDemon117
+      name: EndDemon210
       value: 1
 - assert:
     mechanism:
       id: 3
       state: closed
 - damage_actor:
-    actor_index: 117
+    actor_index: 210
     amount: 1000000
 - advance_runtime:
     seconds: 1.0

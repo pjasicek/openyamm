@@ -155,6 +155,28 @@ def glb_points(model: str, height: float) -> np.ndarray:
     """A decoration GLB's first mesh vertices placed as the engine places them: glTF (x, y, z) -> native (-x, z, y),
     scaled to the binding height."""
     key = (model, height)
+    if key not in _glb_cache:
+        native = _glb_native(model)
+        _glb_cache[key] = native * (height / max(float(np.ptp(native[:, 2])), 1e-6))
+    return _glb_cache[key]
+
+
+def binding_points(binding: dict) -> np.ndarray:
+    """A binding's points as the engine places them: its model's (glb_points) and its moving parts' at rest, which are
+    authored in the model's asset space and drawn at the model's scale (devdocs/ANIMATED_DECORATIONS.md)."""
+    height = float(binding["height"])
+    points = [glb_points(binding["model"], height)]
+    if binding.get("parts"):
+        native = _glb_native(binding["model"])
+        scale = height / max(float(np.ptp(native[:, 2])), 1e-6)
+        points += [_glb_native(part, at_rest=True) * scale for part in binding["parts"]]
+    return np.concatenate(points)
+
+
+def _glb_native(model: str, at_rest: bool = False) -> np.ndarray:
+    """A GLB's first mesh vertices in native axes (-x, z, y), unscaled; at_rest: moved by their node's own transform
+    (a part's rest)."""
+    key = (model, "rest" if at_rest else None)
     if key in _glb_cache:
         return _glb_cache[key]
     data = (ROOT / "assets_source" / model).read_bytes()
@@ -172,20 +194,24 @@ def glb_points(model: str, height: float) -> np.ndarray:
         rows = np.lib.stride_tricks.as_strided(raw, (accessor["count"], 12), (stride, 1)).copy()
         points.append(rows.view(np.float32).reshape(-1, 3).astype(float))
     a = np.concatenate(points)
+    if at_rest:
+        a = a @ _node_matrix(node)[:3, :3].T + _node_matrix(node)[:3, 3]
     native = np.stack([-a[:, 0], a[:, 2], a[:, 1]], 1)
-    native *= height / max(float(np.ptp(native[:, 2])), 1e-6)
     _glb_cache[key] = native
     return native
 
 
-def glb_fit(model: str, height: float, source_model: str, scale: float) -> tuple[float, np.ndarray, float]:
-    """(turn, offset, distance): the GLB placed unturned at the origin matches the bind mesh (at the DAT scale) turned
-    by `turn` (0, 90, 180 or 270) and moved by `offset`, bind ~ R(turn) glb + offset, at this median vertex distance.
-    The GLB is the bind mesh as its props project built it (mirrored, maybe turned), its origin at its base centre."""
-    key = (model, round(height, 3), str(source_model).lower(), round(scale, 4))
+def glb_fit(binding: dict, source_model: str, scale: float) -> tuple[float, np.ndarray, float]:
+    """(turn, offset, distance): the binding's GLB placed unturned at the origin matches the bind mesh (at the DAT
+    scale) turned by `turn` (0, 90, 180 or 270) and moved by `offset`, bind ~ R(turn) glb + offset, at this median
+    vertex distance. The GLB is the bind mesh as its props project built it (mirrored, maybe turned), its origin at its
+    base centre; a split prop's moving parts at rest count with it (binding_points: its body alone, a chest without
+    its lid, would centre off the bind mesh)."""
+    key = (binding["model"], tuple(binding.get("parts") or ()), round(float(binding["height"]), 3),
+           str(source_model).lower(), round(scale, 4))
     if key in _fit_cache:
         return _fit_cache[key]
-    glb = glb_points(model, height)
+    glb = binding_points(binding)
     bind, _ = bind_and_pose(source_model)
     bind = bind * scale
     tree = cKDTree(bind)
@@ -221,7 +247,7 @@ def placement(entry: dict, objects: list, binding: dict | None) -> tuple[tuple, 
     if not angle:
         return None
     scale = float(properties.get("Scale", 1.0) or 1.0)
-    turn, offset, distance = glb_fit(binding["model"], float(binding["height"]), model, scale)
+    turn, offset, distance = glb_fit(binding, model, scale)
     if turn or distance > GLB_FIT_TOLERANCE:
         return None
     facing = -math.degrees(float((properties.get("Rotation") or [0, 0, 0, 0])[1]))
@@ -378,7 +404,7 @@ def lifted(entry: dict, objects: list, binding: dict | None, position, native):
     if abs(float(pitch)) < UPRIGHT and abs(float(roll)) < UPRIGHT:
         mesh = mm9_mesh(properties, native(np.asarray(properties["Pos"], float)) + np.array([0.0, 0.0, rise]))
         if mesh is not None:
-            lowest = float(glb_points(binding["model"], float(binding["height"]))[:, 2].min())
+            lowest = float(binding_points(binding)[:, 2].min())   # a split prop's parts (a bell) may hang lowest
             result[2] = float(mesh[:, 2].min()) - lowest
     return tuple(float(v) for v in result)
 

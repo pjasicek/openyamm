@@ -26,3 +26,10 @@ textures:
 # translucent faces with the sky box behind them.
 glass:
   windowlead1.dtx: {opacity: 1.0, tint: [1.0, 1.0, 1.0], two_sided: true}
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated.
+# Frames and translucency; the scene file is a source of the map's lighting bake (tools/lighting/stale_bakes.py),
+# so a change here needs the bake again. Checked (2026-11-10, scratch build: only
+# `translucent_faces` changes): the gate's Water115 shimmer (WorldObject6, 1 face, two-sided) translucent
+# (enabled 2026-11-10 with the map's lighting re-transfer).
+spr_surfaces: {}

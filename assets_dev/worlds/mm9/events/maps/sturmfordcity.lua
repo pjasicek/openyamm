@@ -283,7 +283,7 @@ local function barked(name)
     elseif not has(113) then
         MM9.giveKey(113)
         evt.PlaySoundName("voices/cinema/ercc01.wav", -123, 0, 19969)
-        evt.PlayActorClip(54, {"ercc01a", "ercc01b", "ercc01c", "ercc02"}, "hold")
+        evt.PlayActorClip(54, {"ercc01a", "ercc01b", "ercc01c", "ercc02", "ercc_out"}, true)
         set("ErccDue", 1)
         evt.StartTimer(261, seconds(66))
     end
@@ -330,7 +330,7 @@ handlers[1] = function()   -- map load
     evt.PlayActorClip(51, "sitting", true); evt.FaceActorTo(51, -1229, 453, 0)   -- Peasant: LoopAnim sitting
     evt.PlayActorClip(52, "sitting", true); evt.FaceActorTo(52, -3553, 13172, 0)   -- Ake the Righteous: LoopAnim sitting
     evt.PlayActorClip(53, "listen", true); evt.FaceActorTo(53, -328, -1070, 0)   -- Halfdan Doorsbane: LoopAnim listen
-    evt.PlayActorClip(54, "sitting", true); evt.FaceActorTo(54, -123, 256, 0)   -- Ercc: LoopAnim sitting
+    evt.PlayActorClip(54, "ercc_sitting", true); evt.FaceActorTo(54, -123, 256, 0)   -- Ercc: LoopAnim ercc_sitting
     evt.PlayActorClip(55, "sitting2", true); evt.FaceActorTo(55, -942, 950, 0)   -- Peasant: LoopAnim sitting2
     evt.PlayActorClip(56, "sit", true); evt.FaceActorTo(56, 7055, 8192, 0)   -- Bjarni Thorvaldssen: LoopAnim sit
     show(52, not has(454))   -- AkeRetainer.scr: away while hired

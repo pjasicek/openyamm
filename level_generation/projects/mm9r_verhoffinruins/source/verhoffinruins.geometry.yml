@@ -324,7 +324,7 @@
    "id": "room_r01",
    "source_nodes": [
     "ROOM_r01",
-    "TRIGGER_shared_r06_r01",
+    "TRIGGER_shared_r08_r01",
     "TRIGGER_shared_r02_r01",
     "MECH_CellBars6",
     "MECH_CellDoor6"
@@ -335,7 +335,7 @@
    "id": "room_r02",
    "source_nodes": [
     "ROOM_r02",
-    "TRIGGER_shared_r06_r02",
+    "TRIGGER_shared_r08_r02",
     "TRIGGER_shared_r03_r02",
     "TRIGGER_shared_r01_r02",
     "MECH_CellBars5",
@@ -348,7 +348,7 @@
    "source_nodes": [
     "ROOM_r03",
     "TRIGGER_shared_r02_r03",
-    "TRIGGER_shared_r06_r03",
+    "TRIGGER_shared_r08_r03",
     "MECH_CellBars4",
     "MECH_CellDoor4"
    ],
@@ -358,6 +358,27 @@
    "id": "room_r04",
    "source_nodes": [
     "ROOM_r04",
+    "TRIGGER_shared_r08_r04",
+    "TRIGGER_shared_r10_r04",
+    "TRIGGER_shared_r05_r04",
+    "TRIGGER_cog20598_r04"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r05",
+   "source_nodes": [
+    "ROOM_r05",
+    "TRIGGER_shared_r08_r05",
+    "TRIGGER_shared_r04_r05",
+    "TRIGGER_cog20597_r05"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r06",
+   "source_nodes": [
+    "ROOM_r06",
     "MECH_DDoorL14",
     "MECH_DDoorR14",
     "LIGHT_Light60",
@@ -371,33 +392,33 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r05",
+   "id": "room_r07",
    "source_nodes": [
-    "ROOM_r05",
-    "TRIGGER_invisible_r05",
-    "TRIGGER_shared_r15_r05",
-    "TRIGGER_shared_r10_r05",
+    "ROOM_r07",
+    "TRIGGER_invisible_r07",
+    "TRIGGER_shared_r17_r07",
+    "TRIGGER_shared_r12_r07",
     "LIGHT_Light69"
    ],
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r06",
+   "id": "room_r08",
    "source_nodes": [
-    "ROOM_r06",
-    "TRIGGER_cog20597_r06",
-    "TRIGGER_cog20598_r06",
-    "TRIGGER_shared_r09_r06",
-    "TRIGGER_shared_r03_r06",
-    "TRIGGER_shared_r02_r06",
-    "TRIGGER_shared_r08_r06",
-    "TRIGGER_shared_r07_r06",
-    "TRIGGER_shared_r01_r06",
-    "TRIGGER_shared_r13_r06",
+    "ROOM_r08",
+    "TRIGGER_shared_r11_r08",
+    "TRIGGER_shared_r04_r08",
+    "TRIGGER_shared_r03_r08",
+    "TRIGGER_shared_r02_r08",
+    "TRIGGER_shared_r10_r08",
+    "TRIGGER_shared_r09_r08",
+    "TRIGGER_shared_r01_r08",
+    "TRIGGER_shared_r15_r08",
+    "TRIGGER_shared_r05_r08",
     "MECH_DoubleDoorL10",
     "MECH_DoubleDoorR10",
     "MECH_PrisonDoor2",
-    "TRIGGER_cog20648_r06",
+    "TRIGGER_cog20648_r08",
     "LIGHT_Light51",
     "LIGHT_Light57",
     "LIGHT_Light58",
@@ -416,38 +437,14 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r07",
-   "source_nodes": [
-    "ROOM_r07",
-    "TRIGGER_shared_r06_r07",
-    "TRIGGER_shared_r08_r07",
-    "TRIGGER_shared_r13_r07",
-    "MECH_CellBars12",
-    "MECH_CellDoor12"
-   ],
-   "min_ambient_light_level": 20
-  },
-  {
-   "id": "room_r08",
-   "source_nodes": [
-    "ROOM_r08",
-    "TRIGGER_shared_r07_r08",
-    "TRIGGER_shared_r09_r08",
-    "TRIGGER_shared_r06_r08",
-    "TRIGGER_shared_r14_r08",
-    "MECH_CellBars11",
-    "MECH_CellDoor11"
-   ],
-   "min_ambient_light_level": 20
-  },
-  {
    "id": "room_r09",
    "source_nodes": [
     "ROOM_r09",
-    "TRIGGER_shared_r06_r09",
     "TRIGGER_shared_r08_r09",
-    "MECH_CellBars10",
-    "MECH_CellDoor10"
+    "TRIGGER_shared_r10_r09",
+    "TRIGGER_shared_r15_r09",
+    "MECH_CellBars12",
+    "MECH_CellDoor12"
    ],
    "min_ambient_light_level": 20
   },
@@ -455,10 +452,13 @@
    "id": "room_r10",
    "source_nodes": [
     "ROOM_r10",
-    "TRIGGER_invisible_r10",
-    "TRIGGER_shared_r05_r10",
-    "TRIGGER_shared_r15_r10",
-    "LIGHT_Light68"
+    "TRIGGER_shared_r09_r10",
+    "TRIGGER_shared_r11_r10",
+    "TRIGGER_shared_r08_r10",
+    "TRIGGER_shared_r16_r10",
+    "TRIGGER_shared_r04_r10",
+    "MECH_CellBars11",
+    "MECH_CellDoor11"
    ],
    "min_ambient_light_level": 20
   },
@@ -466,9 +466,10 @@
    "id": "room_r11",
    "source_nodes": [
     "ROOM_r11",
-    "TRIGGER_shared_r15_r11",
-    "MECH_CellBars14",
-    "MECH_CellDoor14"
+    "TRIGGER_shared_r08_r11",
+    "TRIGGER_shared_r10_r11",
+    "MECH_CellBars10",
+    "MECH_CellDoor10"
    ],
    "min_ambient_light_level": 20
   },
@@ -476,9 +477,10 @@
    "id": "room_r12",
    "source_nodes": [
     "ROOM_r12",
-    "TRIGGER_shared_r15_r12",
-    "MECH_CellBars15",
-    "MECH_CellDoor15"
+    "TRIGGER_invisible_r12",
+    "TRIGGER_shared_r07_r12",
+    "TRIGGER_shared_r17_r12",
+    "LIGHT_Light68"
    ],
    "min_ambient_light_level": 20
   },
@@ -486,11 +488,9 @@
    "id": "room_r13",
    "source_nodes": [
     "ROOM_r13",
-    "TRIGGER_shared_r14_r13",
-    "TRIGGER_shared_r07_r13",
-    "TRIGGER_shared_r06_r13",
-    "MECH_CellBars13",
-    "MECH_CellDoor13"
+    "TRIGGER_shared_r17_r13",
+    "MECH_CellBars14",
+    "MECH_CellDoor14"
    ],
    "min_ambient_light_level": 20
   },
@@ -498,10 +498,9 @@
    "id": "room_r14",
    "source_nodes": [
     "ROOM_r14",
-    "TRIGGER_shared_r13_r14",
-    "TRIGGER_shared_r08_r14",
-    "MECH_CellBars7",
-    "MECH_CellDoor7"
+    "TRIGGER_shared_r17_r14",
+    "MECH_CellBars15",
+    "MECH_CellDoor15"
    ],
    "min_ambient_light_level": 20
   },
@@ -509,18 +508,41 @@
    "id": "room_r15",
    "source_nodes": [
     "ROOM_r15",
-    "TRIGGER_invisible_r15",
-    "TRIGGER_nonsolid_r15",
-    "STATIC_glass0_r15",
-    "STATIC_glass1_r15",
-    "TRIGGER_shared_r10_r15",
-    "TRIGGER_shared_r05_r15",
-    "TRIGGER_shared_r19_r15",
-    "TRIGGER_shared_r21_r15",
     "TRIGGER_shared_r16_r15",
-    "TRIGGER_shared_r17_r15",
-    "TRIGGER_shared_r12_r15",
-    "TRIGGER_shared_r11_r15",
+    "TRIGGER_shared_r09_r15",
+    "TRIGGER_shared_r08_r15",
+    "MECH_CellBars13",
+    "MECH_CellDoor13"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r16",
+   "source_nodes": [
+    "ROOM_r16",
+    "TRIGGER_shared_r15_r16",
+    "TRIGGER_shared_r10_r16",
+    "MECH_CellBars7",
+    "MECH_CellDoor7"
+   ],
+   "min_ambient_light_level": 20
+  },
+  {
+   "id": "room_r17",
+   "source_nodes": [
+    "ROOM_r17",
+    "TRIGGER_invisible_r17",
+    "TRIGGER_nonsolid_r17",
+    "STATIC_glass0_r17",
+    "STATIC_glass1_r17",
+    "TRIGGER_shared_r12_r17",
+    "TRIGGER_shared_r07_r17",
+    "TRIGGER_shared_r21_r17",
+    "TRIGGER_shared_r23_r17",
+    "TRIGGER_shared_r18_r17",
+    "TRIGGER_shared_r19_r17",
+    "TRIGGER_shared_r14_r17",
+    "TRIGGER_shared_r13_r17",
     "MECH_Paddle",
     "MECH_PaddlePlate",
     "MECH_TortureChamberDoor6",
@@ -561,46 +583,47 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r16",
+   "id": "room_r18",
    "source_nodes": [
-    "ROOM_r16",
-    "TRIGGER_shared_r15_r16",
+    "ROOM_r18",
+    "TRIGGER_shared_r17_r18",
     "MECH_CellBars17",
     "MECH_CellDoor17"
    ],
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r17",
+   "id": "room_r19",
    "source_nodes": [
-    "ROOM_r17",
-    "TRIGGER_shared_r15_r17",
+    "ROOM_r19",
+    "TRIGGER_shared_r17_r19",
     "MECH_CellBars16",
     "MECH_CellDoor16"
    ],
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r18",
+   "id": "room_r20",
    "source_nodes": [
-    "ROOM_r18",
-    "TRIGGER_invisible_r18",
-    "TRIGGER_shared_r24_r18",
-    "TRIGGER_shared_r20_r18",
-    "TRIGGER_shared_r23_r18",
-    "TRIGGER_shared_r15_r18",
-    "TRIGGER_shared_r08_r18",
-    "TRIGGER_shared_r22_r18",
-    "TRIGGER_shared_r06_r18",
-    "TRIGGER_shared_r25_r18",
-    "TRIGGER_shared_r04_r18",
-    "TRIGGER_shared_r14_r18",
-    "TRIGGER_shared_r13_r18",
-    "TRIGGER_shared_r09_r18",
-    "TRIGGER_shared_r03_r18",
-    "TRIGGER_shared_r27_r18",
-    "TRIGGER_nonsolid_r18",
-    "TRIGGER_barrier_r18",
+    "ROOM_r20",
+    "TRIGGER_invisible_r20",
+    "TRIGGER_shared_r26_r20",
+    "TRIGGER_shared_r22_r20",
+    "TRIGGER_shared_r25_r20",
+    "TRIGGER_shared_r17_r20",
+    "TRIGGER_shared_r04_r20",
+    "TRIGGER_shared_r05_r20",
+    "TRIGGER_shared_r24_r20",
+    "TRIGGER_shared_r08_r20",
+    "TRIGGER_shared_r27_r20",
+    "TRIGGER_shared_r06_r20",
+    "TRIGGER_shared_r16_r20",
+    "TRIGGER_shared_r15_r20",
+    "TRIGGER_shared_r11_r20",
+    "TRIGGER_shared_r03_r20",
+    "TRIGGER_shared_r29_r20",
+    "TRIGGER_nonsolid_r20",
+    "TRIGGER_barrier_r20",
     "MECH_CellBars8",
     "MECH_CellDoor8",
     "MECH_DoubleDoorL9",
@@ -699,21 +722,21 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r19",
+   "id": "room_r21",
    "source_nodes": [
-    "ROOM_r19",
-    "TRIGGER_invisible_r19",
-    "TRIGGER_shared_r15_r19",
-    "TRIGGER_shared_r21_r19",
+    "ROOM_r21",
+    "TRIGGER_invisible_r21",
+    "TRIGGER_shared_r17_r21",
+    "TRIGGER_shared_r23_r21",
     "LIGHT_Light70"
    ],
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r20",
+   "id": "room_r22",
    "source_nodes": [
-    "ROOM_r20",
-    "TRIGGER_shared_r22_r20",
+    "ROOM_r22",
+    "TRIGGER_shared_r24_r22",
     "MECH_DDoorL13",
     "MECH_DDoorR13",
     "LIGHT_Light38",
@@ -725,22 +748,22 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r21",
+   "id": "room_r23",
    "source_nodes": [
-    "ROOM_r21",
-    "TRIGGER_invisible_r21",
-    "TRIGGER_shared_r15_r21",
-    "TRIGGER_shared_r19_r21",
+    "ROOM_r23",
+    "TRIGGER_invisible_r23",
+    "TRIGGER_shared_r17_r23",
+    "TRIGGER_shared_r21_r23",
     "LIGHT_Light71"
    ],
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r22",
+   "id": "room_r24",
    "source_nodes": [
-    "ROOM_r22",
-    "TRIGGER_shared_r26_r22",
-    "TRIGGER_shared_r20_r22",
+    "ROOM_r24",
+    "TRIGGER_shared_r28_r24",
+    "TRIGGER_shared_r22_r24",
     "MECH_DDoorL12",
     "MECH_DDoorR12",
     "LIGHT_Light36",
@@ -752,10 +775,10 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r23",
+   "id": "room_r25",
    "source_nodes": [
-    "ROOM_r23",
-    "TRIGGER_shared_r24_r23",
+    "ROOM_r25",
+    "TRIGGER_shared_r26_r25",
     "MECH_DoubleDoorL5",
     "MECH_DoubleDoorR5",
     "MECH_WaterNozzle0",
@@ -778,12 +801,12 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r24",
+   "id": "room_r26",
    "source_nodes": [
-    "ROOM_r24",
-    "TRIGGER_shared_r27_r24",
-    "TRIGGER_shared_r25_r24",
-    "TRIGGER_shared_r23_r24",
+    "ROOM_r26",
+    "TRIGGER_shared_r29_r26",
+    "TRIGGER_shared_r27_r26",
+    "TRIGGER_shared_r25_r26",
     "MECH_DoubleDoorL1",
     "MECH_DoubleDoorR1",
     "MECH_DoubleDoorL3",
@@ -804,11 +827,11 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r25",
+   "id": "room_r27",
    "source_nodes": [
-    "ROOM_r25",
-    "TRIGGER_shared_r26_r25",
-    "TRIGGER_shared_r24_r25",
+    "ROOM_r27",
+    "TRIGGER_shared_r28_r27",
+    "TRIGGER_shared_r26_r27",
     "MECH_DoubleDoorL2",
     "MECH_DoubleDoorR2",
     "MECH_DoubleDoorL7",
@@ -824,11 +847,11 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r26",
+   "id": "room_r28",
    "source_nodes": [
-    "ROOM_r26",
-    "TRIGGER_shared_r25_r26",
-    "TRIGGER_shared_r22_r26",
+    "ROOM_r28",
+    "TRIGGER_shared_r27_r28",
+    "TRIGGER_shared_r24_r28",
     "MECH_DDoorL11",
     "MECH_DDoorR11",
     "LIGHT_Light34",
@@ -842,11 +865,11 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r27",
+   "id": "room_r29",
    "source_nodes": [
-    "ROOM_r27",
-    "TRIGGER_shared_r28_r27",
-    "TRIGGER_shared_r24_r27",
+    "ROOM_r29",
+    "TRIGGER_shared_r30_r29",
+    "TRIGGER_shared_r26_r29",
     "MECH_DoubleDoorL6",
     "MECH_DoubleDoorR6",
     "LIGHT_Light45"
@@ -854,10 +877,10 @@
    "min_ambient_light_level": 20
   },
   {
-   "id": "room_r28",
+   "id": "room_r30",
    "source_nodes": [
-    "ROOM_r28",
-    "TRIGGER_shared_r27_r28",
+    "ROOM_r30",
+    "TRIGGER_shared_r29_r30",
     "MECH_Door5",
     "LIGHT_Light33",
     "LIGHT_DirLight82",
@@ -872,202 +895,214 @@
   {
    "id": "PrisonDoorPortal2",
    "source_node": "PORTAL_PrisonDoorPortal2",
-   "front_room": "room_r18",
-   "back_room": "room_r06"
+   "front_room": "room_r20",
+   "back_room": "room_r08"
   },
   {
    "id": "PrisonDoorPortal3",
    "source_node": "PORTAL_PrisonDoorPortal3",
-   "front_room": "room_r18",
-   "back_room": "room_r06"
+   "front_room": "room_r20",
+   "back_room": "room_r08"
   },
   {
    "id": "DoubleDoorPortal5",
    "source_node": "PORTAL_DoubleDoorPortal5",
-   "front_room": "room_r23",
-   "back_room": "room_r24"
+   "front_room": "room_r25",
+   "back_room": "room_r26"
   },
   {
    "id": "DoubleDoorPortal6",
    "source_node": "PORTAL_DoubleDoorPortal6",
-   "front_room": "room_r27",
-   "back_room": "room_r24"
+   "front_room": "room_r29",
+   "back_room": "room_r26"
   },
   {
    "id": "DoubleDoorPortal4",
    "source_node": "PORTAL_DoubleDoorPortal4",
-   "front_room": "room_r24",
-   "back_room": "room_r18"
+   "front_room": "room_r26",
+   "back_room": "room_r20"
   },
   {
    "id": "DoubleDoorPortal3",
    "source_node": "PORTAL_DoubleDoorPortal3",
-   "front_room": "room_r24",
-   "back_room": "room_r18"
+   "front_room": "room_r26",
+   "back_room": "room_r20"
   },
   {
    "id": "DoubleDoorPortal2",
    "source_node": "PORTAL_DoubleDoorPortal2",
-   "front_room": "room_r25",
-   "back_room": "room_r24"
+   "front_room": "room_r27",
+   "back_room": "room_r26"
   },
   {
    "id": "DoubleDoorPortal1",
    "source_node": "PORTAL_DoubleDoorPortal1",
-   "front_room": "room_r24",
-   "back_room": "room_r18"
+   "front_room": "room_r26",
+   "back_room": "room_r20"
   },
   {
    "id": "DoubleDoorPortal8",
    "source_node": "PORTAL_DoubleDoorPortal8",
-   "front_room": "room_r25",
-   "back_room": "room_r18"
+   "front_room": "room_r27",
+   "back_room": "room_r20"
   },
   {
    "id": "DoubleDoorPortal7",
    "source_node": "PORTAL_DoubleDoorPortal7",
-   "front_room": "room_r25",
-   "back_room": "room_r18"
+   "front_room": "room_r27",
+   "back_room": "room_r20"
   },
   {
    "id": "TortureChamberPortal",
    "source_node": "PORTAL_TortureChamberPortal",
-   "front_room": "room_r18",
-   "back_room": "room_r15"
+   "front_room": "room_r20",
+   "back_room": "room_r17"
   },
   {
    "id": "DoorPortal5",
    "source_node": "PORTAL_DoorPortal5",
-   "front_room": "room_r28",
-   "back_room": "room_r27"
+   "front_room": "room_r30",
+   "back_room": "room_r29"
   },
   {
    "id": "DDPortal11",
    "source_node": "PORTAL_DDPortal11",
-   "front_room": "room_r26",
-   "back_room": "room_r25"
+   "front_room": "room_r28",
+   "back_room": "room_r27"
   },
   {
    "id": "DDPortal12",
    "source_node": "PORTAL_DDPortal12",
-   "front_room": "room_r22",
-   "back_room": "room_r18"
+   "front_room": "room_r24",
+   "back_room": "room_r20"
   },
   {
    "id": "DDPortal13",
    "source_node": "PORTAL_DDPortal13",
-   "front_room": "room_r20",
-   "back_room": "room_r18"
+   "front_room": "room_r22",
+   "back_room": "room_r20"
+  },
+  {
+   "id": "BreakOut0",
+   "source_node": "PORTAL_BreakOut0",
+   "front_room": "room_r04",
+   "back_room": "room_r08"
+  },
+  {
+   "id": "BreakOut1",
+   "source_node": "PORTAL_BreakOut1",
+   "front_room": "room_r05",
+   "back_room": "room_r08"
   },
   {
    "id": "Cell10",
    "source_node": "PORTAL_Cell10",
-   "front_room": "room_r06",
-   "back_room": "room_r09"
+   "front_room": "room_r08",
+   "back_room": "room_r11"
   },
   {
    "id": "Cell11",
    "source_node": "PORTAL_Cell11",
-   "front_room": "room_r06",
-   "back_room": "room_r08"
+   "front_room": "room_r08",
+   "back_room": "room_r10"
   },
   {
    "id": "Cell12",
    "source_node": "PORTAL_Cell12",
-   "front_room": "room_r06",
-   "back_room": "room_r07"
+   "front_room": "room_r08",
+   "back_room": "room_r09"
   },
   {
    "id": "Cell13",
    "source_node": "PORTAL_Cell13",
-   "front_room": "room_r13",
-   "back_room": "room_r18"
+   "front_room": "room_r15",
+   "back_room": "room_r20"
   },
   {
    "id": "Cell14",
    "source_node": "PORTAL_Cell14",
-   "front_room": "room_r11",
-   "back_room": "room_r15"
+   "front_room": "room_r13",
+   "back_room": "room_r17"
   },
   {
    "id": "Cell15",
    "source_node": "PORTAL_Cell15",
-   "front_room": "room_r12",
-   "back_room": "room_r15"
+   "front_room": "room_r14",
+   "back_room": "room_r17"
   },
   {
    "id": "Cell16",
    "source_node": "PORTAL_Cell16",
-   "front_room": "room_r15",
-   "back_room": "room_r17"
+   "front_room": "room_r17",
+   "back_room": "room_r19"
   },
   {
    "id": "Cell17",
    "source_node": "PORTAL_Cell17",
-   "front_room": "room_r15",
-   "back_room": "room_r16"
+   "front_room": "room_r17",
+   "back_room": "room_r18"
   },
   {
    "id": "Cell4",
    "source_node": "PORTAL_Cell4",
    "front_room": "room_r03",
-   "back_room": "room_r06"
+   "back_room": "room_r08"
   },
   {
    "id": "Cell5",
    "source_node": "PORTAL_Cell5",
    "front_room": "room_r02",
-   "back_room": "room_r06"
+   "back_room": "room_r08"
   },
   {
    "id": "Cell6",
    "source_node": "PORTAL_Cell6",
    "front_room": "room_r01",
-   "back_room": "room_r06"
+   "back_room": "room_r08"
   },
   {
    "id": "Cell7",
    "source_node": "PORTAL_Cell7",
-   "front_room": "room_r14",
-   "back_room": "room_r18"
+   "front_room": "room_r16",
+   "back_room": "room_r20"
   },
   {
    "id": "DD14",
    "source_node": "PORTAL_DD14",
-   "front_room": "room_r04",
-   "back_room": "room_r18"
+   "front_room": "room_r06",
+   "back_room": "room_r20"
   },
   {
    "id": "glass_TransGate1_1",
    "source_node": "PORTAL_glass_TransGate1_1",
-   "front_room": "room_r15",
-   "back_room": "room_r19"
+   "front_room": "room_r17",
+   "back_room": "room_r21"
   },
   {
    "id": "glass_TransGate2_2",
    "source_node": "PORTAL_glass_TransGate2_2",
-   "front_room": "room_r15",
-   "back_room": "room_r21"
+   "front_room": "room_r17",
+   "back_room": "room_r23"
   },
   {
    "id": "glass_TransGate_3",
    "source_node": "PORTAL_glass_TransGate_3",
-   "front_room": "room_r15",
-   "back_room": "room_r10"
+   "front_room": "room_r17",
+   "back_room": "room_r12"
   },
   {
    "id": "glass_TransGate0_4",
    "source_node": "PORTAL_glass_TransGate0_4",
-   "front_room": "room_r15",
-   "back_room": "room_r05"
+   "front_room": "room_r17",
+   "back_room": "room_r07"
   }
  ],
  "surfaces": [
   {
-   "id": "shared_r06_r01",
-   "source_node": "TRIGGER_shared_r06_r01",
+   "id": "shared_r08_r01",
+   "source_node": "TRIGGER_shared_r08_r01",
    "flags": [],
-   "back_room": "room_r06"
+   "back_room": "room_r08"
   },
   {
    "id": "shared_r02_r01",
@@ -1076,10 +1111,10 @@
    "back_room": "room_r02"
   },
   {
-   "id": "shared_r06_r02",
-   "source_node": "TRIGGER_shared_r06_r02",
+   "id": "shared_r08_r02",
+   "source_node": "TRIGGER_shared_r08_r02",
    "flags": [],
-   "back_room": "room_r06"
+   "back_room": "room_r08"
   },
   {
    "id": "shared_r03_r02",
@@ -1100,107 +1135,89 @@
    "back_room": "room_r02"
   },
   {
-   "id": "shared_r06_r03",
-   "source_node": "TRIGGER_shared_r06_r03",
+   "id": "shared_r08_r03",
+   "source_node": "TRIGGER_shared_r08_r03",
    "flags": [],
-   "back_room": "room_r06"
+   "back_room": "room_r08"
   },
   {
-   "id": "invisible_r05",
-   "source_node": "TRIGGER_invisible_r05",
+   "id": "shared_r08_r04",
+   "source_node": "TRIGGER_shared_r08_r04",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r10_r04",
+   "source_node": "TRIGGER_shared_r10_r04",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "shared_r05_r04",
+   "source_node": "TRIGGER_shared_r05_r04",
+   "flags": [],
+   "back_room": "room_r05"
+  },
+  {
+   "id": "shared_r08_r05",
+   "source_node": "TRIGGER_shared_r08_r05",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r04_r05",
+   "source_node": "TRIGGER_shared_r04_r05",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "invisible_r07",
+   "source_node": "TRIGGER_invisible_r07",
    "flags": [
     "invisible"
    ]
   },
   {
-   "id": "shared_r15_r05",
-   "source_node": "TRIGGER_shared_r15_r05",
+   "id": "shared_r17_r07",
+   "source_node": "TRIGGER_shared_r17_r07",
    "flags": [],
-   "back_room": "room_r15"
+   "back_room": "room_r17"
   },
   {
-   "id": "shared_r10_r05",
-   "source_node": "TRIGGER_shared_r10_r05",
+   "id": "shared_r12_r07",
+   "source_node": "TRIGGER_shared_r12_r07",
    "flags": [],
-   "back_room": "room_r10"
+   "back_room": "room_r12"
   },
   {
-   "id": "cog20597_r06",
-   "source_node": "TRIGGER_cog20597_r06",
+   "id": "shared_r11_r08",
+   "source_node": "TRIGGER_shared_r11_r08",
    "flags": [],
-   "cog_number": 20597
+   "back_room": "room_r11"
   },
   {
-   "id": "cog20598_r06",
-   "source_node": "TRIGGER_cog20598_r06",
+   "id": "shared_r04_r08",
+   "source_node": "TRIGGER_shared_r04_r08",
    "flags": [],
-   "cog_number": 20598
+   "back_room": "room_r04"
   },
   {
-   "id": "shared_r09_r06",
-   "source_node": "TRIGGER_shared_r09_r06",
-   "flags": [],
-   "back_room": "room_r09"
-  },
-  {
-   "id": "shared_r03_r06",
-   "source_node": "TRIGGER_shared_r03_r06",
+   "id": "shared_r03_r08",
+   "source_node": "TRIGGER_shared_r03_r08",
    "flags": [],
    "back_room": "room_r03"
   },
   {
-   "id": "shared_r02_r06",
-   "source_node": "TRIGGER_shared_r02_r06",
+   "id": "shared_r02_r08",
+   "source_node": "TRIGGER_shared_r02_r08",
    "flags": [],
    "back_room": "room_r02"
   },
   {
-   "id": "shared_r08_r06",
-   "source_node": "TRIGGER_shared_r08_r06",
+   "id": "shared_r10_r08",
+   "source_node": "TRIGGER_shared_r10_r08",
    "flags": [],
-   "back_room": "room_r08"
-  },
-  {
-   "id": "shared_r07_r06",
-   "source_node": "TRIGGER_shared_r07_r06",
-   "flags": [],
-   "back_room": "room_r07"
-  },
-  {
-   "id": "shared_r01_r06",
-   "source_node": "TRIGGER_shared_r01_r06",
-   "flags": [],
-   "back_room": "room_r01"
-  },
-  {
-   "id": "shared_r13_r06",
-   "source_node": "TRIGGER_shared_r13_r06",
-   "flags": [],
-   "back_room": "room_r13"
-  },
-  {
-   "id": "shared_r06_r07",
-   "source_node": "TRIGGER_shared_r06_r07",
-   "flags": [],
-   "back_room": "room_r06"
-  },
-  {
-   "id": "shared_r08_r07",
-   "source_node": "TRIGGER_shared_r08_r07",
-   "flags": [],
-   "back_room": "room_r08"
-  },
-  {
-   "id": "shared_r13_r07",
-   "source_node": "TRIGGER_shared_r13_r07",
-   "flags": [],
-   "back_room": "room_r13"
-  },
-  {
-   "id": "shared_r07_r08",
-   "source_node": "TRIGGER_shared_r07_r08",
-   "flags": [],
-   "back_room": "room_r07"
+   "back_room": "room_r10"
   },
   {
    "id": "shared_r09_r08",
@@ -1209,22 +1226,22 @@
    "back_room": "room_r09"
   },
   {
-   "id": "shared_r06_r08",
-   "source_node": "TRIGGER_shared_r06_r08",
+   "id": "shared_r01_r08",
+   "source_node": "TRIGGER_shared_r01_r08",
    "flags": [],
-   "back_room": "room_r06"
+   "back_room": "room_r01"
   },
   {
-   "id": "shared_r14_r08",
-   "source_node": "TRIGGER_shared_r14_r08",
+   "id": "shared_r15_r08",
+   "source_node": "TRIGGER_shared_r15_r08",
    "flags": [],
-   "back_room": "room_r14"
+   "back_room": "room_r15"
   },
   {
-   "id": "shared_r06_r09",
-   "source_node": "TRIGGER_shared_r06_r09",
+   "id": "shared_r05_r08",
+   "source_node": "TRIGGER_shared_r05_r08",
    "flags": [],
-   "back_room": "room_r06"
+   "back_room": "room_r05"
   },
   {
    "id": "shared_r08_r09",
@@ -1233,103 +1250,89 @@
    "back_room": "room_r08"
   },
   {
-   "id": "invisible_r10",
-   "source_node": "TRIGGER_invisible_r10",
-   "flags": [
-    "invisible"
-   ]
-  },
-  {
-   "id": "shared_r05_r10",
-   "source_node": "TRIGGER_shared_r05_r10",
-   "flags": [],
-   "back_room": "room_r05"
-  },
-  {
-   "id": "shared_r15_r10",
-   "source_node": "TRIGGER_shared_r15_r10",
-   "flags": [],
-   "back_room": "room_r15"
-  },
-  {
-   "id": "shared_r15_r11",
-   "source_node": "TRIGGER_shared_r15_r11",
-   "flags": [],
-   "back_room": "room_r15"
-  },
-  {
-   "id": "shared_r15_r12",
-   "source_node": "TRIGGER_shared_r15_r12",
-   "flags": [],
-   "back_room": "room_r15"
-  },
-  {
-   "id": "shared_r14_r13",
-   "source_node": "TRIGGER_shared_r14_r13",
-   "flags": [],
-   "back_room": "room_r14"
-  },
-  {
-   "id": "shared_r07_r13",
-   "source_node": "TRIGGER_shared_r07_r13",
-   "flags": [],
-   "back_room": "room_r07"
-  },
-  {
-   "id": "shared_r06_r13",
-   "source_node": "TRIGGER_shared_r06_r13",
-   "flags": [],
-   "back_room": "room_r06"
-  },
-  {
-   "id": "shared_r13_r14",
-   "source_node": "TRIGGER_shared_r13_r14",
-   "flags": [],
-   "back_room": "room_r13"
-  },
-  {
-   "id": "shared_r08_r14",
-   "source_node": "TRIGGER_shared_r08_r14",
-   "flags": [],
-   "back_room": "room_r08"
-  },
-  {
-   "id": "invisible_r15",
-   "source_node": "TRIGGER_invisible_r15",
-   "flags": [
-    "invisible"
-   ]
-  },
-  {
-   "id": "nonsolid_r15",
-   "source_node": "TRIGGER_nonsolid_r15",
-   "flags": [
-    "untouchable"
-   ]
-  },
-  {
-   "id": "shared_r10_r15",
-   "source_node": "TRIGGER_shared_r10_r15",
+   "id": "shared_r10_r09",
+   "source_node": "TRIGGER_shared_r10_r09",
    "flags": [],
    "back_room": "room_r10"
   },
   {
-   "id": "shared_r05_r15",
-   "source_node": "TRIGGER_shared_r05_r15",
+   "id": "shared_r15_r09",
+   "source_node": "TRIGGER_shared_r15_r09",
    "flags": [],
-   "back_room": "room_r05"
+   "back_room": "room_r15"
   },
   {
-   "id": "shared_r19_r15",
-   "source_node": "TRIGGER_shared_r19_r15",
+   "id": "shared_r09_r10",
+   "source_node": "TRIGGER_shared_r09_r10",
    "flags": [],
-   "back_room": "room_r19"
+   "back_room": "room_r09"
   },
   {
-   "id": "shared_r21_r15",
-   "source_node": "TRIGGER_shared_r21_r15",
+   "id": "shared_r11_r10",
+   "source_node": "TRIGGER_shared_r11_r10",
    "flags": [],
-   "back_room": "room_r21"
+   "back_room": "room_r11"
+  },
+  {
+   "id": "shared_r08_r10",
+   "source_node": "TRIGGER_shared_r08_r10",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r16_r10",
+   "source_node": "TRIGGER_shared_r16_r10",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r04_r10",
+   "source_node": "TRIGGER_shared_r04_r10",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "shared_r08_r11",
+   "source_node": "TRIGGER_shared_r08_r11",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r10_r11",
+   "source_node": "TRIGGER_shared_r10_r11",
+   "flags": [],
+   "back_room": "room_r10"
+  },
+  {
+   "id": "invisible_r12",
+   "source_node": "TRIGGER_invisible_r12",
+   "flags": [
+    "invisible"
+   ]
+  },
+  {
+   "id": "shared_r07_r12",
+   "source_node": "TRIGGER_shared_r07_r12",
+   "flags": [],
+   "back_room": "room_r07"
+  },
+  {
+   "id": "shared_r17_r12",
+   "source_node": "TRIGGER_shared_r17_r12",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r17_r13",
+   "source_node": "TRIGGER_shared_r17_r13",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r17_r14",
+   "source_node": "TRIGGER_shared_r17_r14",
+   "flags": [],
+   "back_room": "room_r17"
   },
   {
    "id": "shared_r16_r15",
@@ -1338,22 +1341,16 @@
    "back_room": "room_r16"
   },
   {
-   "id": "shared_r17_r15",
-   "source_node": "TRIGGER_shared_r17_r15",
+   "id": "shared_r09_r15",
+   "source_node": "TRIGGER_shared_r09_r15",
    "flags": [],
-   "back_room": "room_r17"
+   "back_room": "room_r09"
   },
   {
-   "id": "shared_r12_r15",
-   "source_node": "TRIGGER_shared_r12_r15",
+   "id": "shared_r08_r15",
+   "source_node": "TRIGGER_shared_r08_r15",
    "flags": [],
-   "back_room": "room_r12"
-  },
-  {
-   "id": "shared_r11_r15",
-   "source_node": "TRIGGER_shared_r11_r15",
-   "flags": [],
-   "back_room": "room_r11"
+   "back_room": "room_r08"
   },
   {
    "id": "shared_r15_r16",
@@ -1362,141 +1359,196 @@
    "back_room": "room_r15"
   },
   {
-   "id": "shared_r15_r17",
-   "source_node": "TRIGGER_shared_r15_r17",
+   "id": "shared_r10_r16",
+   "source_node": "TRIGGER_shared_r10_r16",
    "flags": [],
-   "back_room": "room_r15"
+   "back_room": "room_r10"
   },
   {
-   "id": "invisible_r18",
-   "source_node": "TRIGGER_invisible_r18",
+   "id": "invisible_r17",
+   "source_node": "TRIGGER_invisible_r17",
    "flags": [
     "invisible"
    ]
   },
   {
-   "id": "shared_r24_r18",
-   "source_node": "TRIGGER_shared_r24_r18",
-   "flags": [],
-   "back_room": "room_r24"
+   "id": "nonsolid_r17",
+   "source_node": "TRIGGER_nonsolid_r17",
+   "flags": [
+    "untouchable"
+   ]
   },
   {
-   "id": "shared_r20_r18",
-   "source_node": "TRIGGER_shared_r20_r18",
+   "id": "shared_r12_r17",
+   "source_node": "TRIGGER_shared_r12_r17",
    "flags": [],
-   "back_room": "room_r20"
+   "back_room": "room_r12"
   },
   {
-   "id": "shared_r23_r18",
-   "source_node": "TRIGGER_shared_r23_r18",
+   "id": "shared_r07_r17",
+   "source_node": "TRIGGER_shared_r07_r17",
+   "flags": [],
+   "back_room": "room_r07"
+  },
+  {
+   "id": "shared_r21_r17",
+   "source_node": "TRIGGER_shared_r21_r17",
+   "flags": [],
+   "back_room": "room_r21"
+  },
+  {
+   "id": "shared_r23_r17",
+   "source_node": "TRIGGER_shared_r23_r17",
    "flags": [],
    "back_room": "room_r23"
   },
   {
-   "id": "shared_r15_r18",
-   "source_node": "TRIGGER_shared_r15_r18",
+   "id": "shared_r18_r17",
+   "source_node": "TRIGGER_shared_r18_r17",
    "flags": [],
-   "back_room": "room_r15"
+   "back_room": "room_r18"
   },
   {
-   "id": "shared_r08_r18",
-   "source_node": "TRIGGER_shared_r08_r18",
+   "id": "shared_r19_r17",
+   "source_node": "TRIGGER_shared_r19_r17",
    "flags": [],
-   "back_room": "room_r08"
+   "back_room": "room_r19"
   },
   {
-   "id": "shared_r22_r18",
-   "source_node": "TRIGGER_shared_r22_r18",
-   "flags": [],
-   "back_room": "room_r22"
-  },
-  {
-   "id": "shared_r06_r18",
-   "source_node": "TRIGGER_shared_r06_r18",
-   "flags": [],
-   "back_room": "room_r06"
-  },
-  {
-   "id": "shared_r25_r18",
-   "source_node": "TRIGGER_shared_r25_r18",
-   "flags": [],
-   "back_room": "room_r25"
-  },
-  {
-   "id": "shared_r04_r18",
-   "source_node": "TRIGGER_shared_r04_r18",
-   "flags": [],
-   "back_room": "room_r04"
-  },
-  {
-   "id": "shared_r14_r18",
-   "source_node": "TRIGGER_shared_r14_r18",
+   "id": "shared_r14_r17",
+   "source_node": "TRIGGER_shared_r14_r17",
    "flags": [],
    "back_room": "room_r14"
   },
   {
-   "id": "shared_r13_r18",
-   "source_node": "TRIGGER_shared_r13_r18",
+   "id": "shared_r13_r17",
+   "source_node": "TRIGGER_shared_r13_r17",
    "flags": [],
    "back_room": "room_r13"
   },
   {
-   "id": "shared_r09_r18",
-   "source_node": "TRIGGER_shared_r09_r18",
+   "id": "shared_r17_r18",
+   "source_node": "TRIGGER_shared_r17_r18",
    "flags": [],
-   "back_room": "room_r09"
+   "back_room": "room_r17"
   },
   {
-   "id": "shared_r03_r18",
-   "source_node": "TRIGGER_shared_r03_r18",
+   "id": "shared_r17_r19",
+   "source_node": "TRIGGER_shared_r17_r19",
    "flags": [],
-   "back_room": "room_r03"
+   "back_room": "room_r17"
   },
   {
-   "id": "shared_r27_r18",
-   "source_node": "TRIGGER_shared_r27_r18",
-   "flags": [],
-   "back_room": "room_r27"
-  },
-  {
-   "id": "nonsolid_r18",
-   "source_node": "TRIGGER_nonsolid_r18",
-   "flags": [
-    "untouchable"
-   ]
-  },
-  {
-   "id": "barrier_r18",
-   "source_node": "TRIGGER_barrier_r18",
-   "flags": [
-    "invisible",
-    "untouchable"
-   ]
-  },
-  {
-   "id": "invisible_r19",
-   "source_node": "TRIGGER_invisible_r19",
+   "id": "invisible_r20",
+   "source_node": "TRIGGER_invisible_r20",
    "flags": [
     "invisible"
    ]
   },
   {
-   "id": "shared_r15_r19",
-   "source_node": "TRIGGER_shared_r15_r19",
+   "id": "shared_r26_r20",
+   "source_node": "TRIGGER_shared_r26_r20",
    "flags": [],
-   "back_room": "room_r15"
-  },
-  {
-   "id": "shared_r21_r19",
-   "source_node": "TRIGGER_shared_r21_r19",
-   "flags": [],
-   "back_room": "room_r21"
+   "back_room": "room_r26"
   },
   {
    "id": "shared_r22_r20",
    "source_node": "TRIGGER_shared_r22_r20",
    "flags": [],
    "back_room": "room_r22"
+  },
+  {
+   "id": "shared_r25_r20",
+   "source_node": "TRIGGER_shared_r25_r20",
+   "flags": [],
+   "back_room": "room_r25"
+  },
+  {
+   "id": "shared_r17_r20",
+   "source_node": "TRIGGER_shared_r17_r20",
+   "flags": [],
+   "back_room": "room_r17"
+  },
+  {
+   "id": "shared_r04_r20",
+   "source_node": "TRIGGER_shared_r04_r20",
+   "flags": [],
+   "back_room": "room_r04"
+  },
+  {
+   "id": "shared_r05_r20",
+   "source_node": "TRIGGER_shared_r05_r20",
+   "flags": [],
+   "back_room": "room_r05"
+  },
+  {
+   "id": "shared_r24_r20",
+   "source_node": "TRIGGER_shared_r24_r20",
+   "flags": [],
+   "back_room": "room_r24"
+  },
+  {
+   "id": "shared_r08_r20",
+   "source_node": "TRIGGER_shared_r08_r20",
+   "flags": [],
+   "back_room": "room_r08"
+  },
+  {
+   "id": "shared_r27_r20",
+   "source_node": "TRIGGER_shared_r27_r20",
+   "flags": [],
+   "back_room": "room_r27"
+  },
+  {
+   "id": "shared_r06_r20",
+   "source_node": "TRIGGER_shared_r06_r20",
+   "flags": [],
+   "back_room": "room_r06"
+  },
+  {
+   "id": "shared_r16_r20",
+   "source_node": "TRIGGER_shared_r16_r20",
+   "flags": [],
+   "back_room": "room_r16"
+  },
+  {
+   "id": "shared_r15_r20",
+   "source_node": "TRIGGER_shared_r15_r20",
+   "flags": [],
+   "back_room": "room_r15"
+  },
+  {
+   "id": "shared_r11_r20",
+   "source_node": "TRIGGER_shared_r11_r20",
+   "flags": [],
+   "back_room": "room_r11"
+  },
+  {
+   "id": "shared_r03_r20",
+   "source_node": "TRIGGER_shared_r03_r20",
+   "flags": [],
+   "back_room": "room_r03"
+  },
+  {
+   "id": "shared_r29_r20",
+   "source_node": "TRIGGER_shared_r29_r20",
+   "flags": [],
+   "back_room": "room_r29"
+  },
+  {
+   "id": "nonsolid_r20",
+   "source_node": "TRIGGER_nonsolid_r20",
+   "flags": [
+    "untouchable"
+   ]
+  },
+  {
+   "id": "barrier_r20",
+   "source_node": "TRIGGER_barrier_r20",
+   "flags": [
+    "invisible",
+    "untouchable"
+   ]
   },
   {
    "id": "invisible_r21",
@@ -1506,52 +1558,53 @@
    ]
   },
   {
-   "id": "shared_r15_r21",
-   "source_node": "TRIGGER_shared_r15_r21",
+   "id": "shared_r17_r21",
+   "source_node": "TRIGGER_shared_r17_r21",
    "flags": [],
-   "back_room": "room_r15"
+   "back_room": "room_r17"
   },
   {
-   "id": "shared_r19_r21",
-   "source_node": "TRIGGER_shared_r19_r21",
+   "id": "shared_r23_r21",
+   "source_node": "TRIGGER_shared_r23_r21",
    "flags": [],
-   "back_room": "room_r19"
+   "back_room": "room_r23"
   },
   {
-   "id": "shared_r26_r22",
-   "source_node": "TRIGGER_shared_r26_r22",
-   "flags": [],
-   "back_room": "room_r26"
-  },
-  {
-   "id": "shared_r20_r22",
-   "source_node": "TRIGGER_shared_r20_r22",
-   "flags": [],
-   "back_room": "room_r20"
-  },
-  {
-   "id": "shared_r24_r23",
-   "source_node": "TRIGGER_shared_r24_r23",
+   "id": "shared_r24_r22",
+   "source_node": "TRIGGER_shared_r24_r22",
    "flags": [],
    "back_room": "room_r24"
   },
   {
-   "id": "shared_r27_r24",
-   "source_node": "TRIGGER_shared_r27_r24",
-   "flags": [],
-   "back_room": "room_r27"
+   "id": "invisible_r23",
+   "source_node": "TRIGGER_invisible_r23",
+   "flags": [
+    "invisible"
+   ]
   },
   {
-   "id": "shared_r25_r24",
-   "source_node": "TRIGGER_shared_r25_r24",
+   "id": "shared_r17_r23",
+   "source_node": "TRIGGER_shared_r17_r23",
    "flags": [],
-   "back_room": "room_r25"
+   "back_room": "room_r17"
   },
   {
-   "id": "shared_r23_r24",
-   "source_node": "TRIGGER_shared_r23_r24",
+   "id": "shared_r21_r23",
+   "source_node": "TRIGGER_shared_r21_r23",
    "flags": [],
-   "back_room": "room_r23"
+   "back_room": "room_r21"
+  },
+  {
+   "id": "shared_r28_r24",
+   "source_node": "TRIGGER_shared_r28_r24",
+   "flags": [],
+   "back_room": "room_r28"
+  },
+  {
+   "id": "shared_r22_r24",
+   "source_node": "TRIGGER_shared_r22_r24",
+   "flags": [],
+   "back_room": "room_r22"
   },
   {
    "id": "shared_r26_r25",
@@ -1560,10 +1613,16 @@
    "back_room": "room_r26"
   },
   {
-   "id": "shared_r24_r25",
-   "source_node": "TRIGGER_shared_r24_r25",
+   "id": "shared_r29_r26",
+   "source_node": "TRIGGER_shared_r29_r26",
    "flags": [],
-   "back_room": "room_r24"
+   "back_room": "room_r29"
+  },
+  {
+   "id": "shared_r27_r26",
+   "source_node": "TRIGGER_shared_r27_r26",
+   "flags": [],
+   "back_room": "room_r27"
   },
   {
    "id": "shared_r25_r26",
@@ -1572,28 +1631,46 @@
    "back_room": "room_r25"
   },
   {
-   "id": "shared_r22_r26",
-   "source_node": "TRIGGER_shared_r22_r26",
-   "flags": [],
-   "back_room": "room_r22"
-  },
-  {
    "id": "shared_r28_r27",
    "source_node": "TRIGGER_shared_r28_r27",
    "flags": [],
    "back_room": "room_r28"
   },
   {
-   "id": "shared_r24_r27",
-   "source_node": "TRIGGER_shared_r24_r27",
+   "id": "shared_r26_r27",
+   "source_node": "TRIGGER_shared_r26_r27",
    "flags": [],
-   "back_room": "room_r24"
+   "back_room": "room_r26"
   },
   {
    "id": "shared_r27_r28",
    "source_node": "TRIGGER_shared_r27_r28",
    "flags": [],
    "back_room": "room_r27"
+  },
+  {
+   "id": "shared_r24_r28",
+   "source_node": "TRIGGER_shared_r24_r28",
+   "flags": [],
+   "back_room": "room_r24"
+  },
+  {
+   "id": "shared_r30_r29",
+   "source_node": "TRIGGER_shared_r30_r29",
+   "flags": [],
+   "back_room": "room_r30"
+  },
+  {
+   "id": "shared_r26_r29",
+   "source_node": "TRIGGER_shared_r26_r29",
+   "flags": [],
+   "back_room": "room_r26"
+  },
+  {
+   "id": "shared_r29_r30",
+   "source_node": "TRIGGER_shared_r29_r30",
+   "flags": [],
+   "back_room": "room_r29"
   },
   {
    "id": "CellBars10",
@@ -2226,14 +2303,26 @@
    }
   },
   {
-   "id": "cog20648_r06",
-   "source_node": "TRIGGER_cog20648_r06",
+   "id": "cog20648_r08",
+   "source_node": "TRIGGER_cog20648_r08",
    "flags": [],
    "cog_number": 20648,
    "trigger": {
     "event_id": 38648,
     "type": "click"
    }
+  },
+  {
+   "id": "cog20598_r04",
+   "source_node": "TRIGGER_cog20598_r04",
+   "flags": [],
+   "cog_number": 20598
+  },
+  {
+   "id": "cog20597_r05",
+   "source_node": "TRIGGER_cog20597_r05",
+   "flags": [],
+   "cog_number": 20597
   },
   {
    "id": "perception_PerceptionBrush0_0",
@@ -2357,7 +2446,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2380,7 +2469,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2403,7 +2492,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2426,7 +2515,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2449,7 +2538,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2472,7 +2561,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2495,7 +2584,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -2518,7 +2607,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -2541,7 +2630,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2564,7 +2653,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2587,7 +2676,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2610,7 +2699,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2633,7 +2722,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2656,7 +2745,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2679,7 +2768,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2702,7 +2791,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -2725,7 +2814,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2748,7 +2837,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2771,7 +2860,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2794,7 +2883,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2817,7 +2906,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2840,7 +2929,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -2863,7 +2952,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -2886,7 +2975,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -2949,7 +3038,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -2972,7 +3061,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3035,7 +3124,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r25"
+    "room_r27"
    ]
   },
   {
@@ -3058,7 +3147,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r25"
+    "room_r27"
    ]
   },
   {
@@ -3081,7 +3170,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3104,7 +3193,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3127,7 +3216,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3150,7 +3239,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3173,7 +3262,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3196,7 +3285,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3219,7 +3308,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r24"
+    "room_r26"
    ]
   },
   {
@@ -3242,7 +3331,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r24"
+    "room_r26"
    ]
   },
   {
@@ -3265,7 +3354,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3288,7 +3377,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3311,7 +3400,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3334,7 +3423,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3357,7 +3446,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r24"
+    "room_r26"
    ]
   },
   {
@@ -3380,7 +3469,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r24"
+    "room_r26"
    ]
   },
   {
@@ -3403,7 +3492,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r24"
+    "room_r26"
    ]
   },
   {
@@ -3426,7 +3515,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r24"
+    "room_r26"
    ]
   },
   {
@@ -3449,7 +3538,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3472,7 +3561,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3495,7 +3584,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3518,7 +3607,7 @@
     "close_speed": 700
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3581,7 +3670,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r27"
+    "room_r29"
    ]
   },
   {
@@ -3704,7 +3793,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r18"
+    "room_r20"
    ]
   },
   {
@@ -3727,7 +3816,7 @@
     "close_speed": 600
    },
    "extra_rooms": [
-    "room_r06"
+    "room_r08"
    ]
   },
   {
@@ -3790,7 +3879,7 @@
     "close_speed": 650
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {
@@ -3813,7 +3902,7 @@
     "close_speed": 650
    },
    "extra_rooms": [
-    "room_r15"
+    "room_r17"
    ]
   },
   {

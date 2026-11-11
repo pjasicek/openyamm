@@ -86,7 +86,8 @@ settings:
   name: Skip event cutscenes
   type: toggle
   desc: Skip event movies. Leave off for a first adventure.
-# The menu adds the installed language packs (languages/<id>/language.yml) to these options.
+# The menu adds the installed language packs (languages/<id>/language.yml) to these options and lists qps only while it
+# is the active language (set it with --set gameplay.language=qps).
 - id: language
   section: interface
   group: Language
@@ -823,7 +824,7 @@ bindings:
   group: System
 # MAW's keys (devdocs/maw/GAPS.md §11 D.18): listed only in a MAW game's pause menu. `context` is the page a key acts
 # on; keys of different contexts may share a key (A picks the alchemist on the inventory page and moves left in play;
-# MAW's E closes our character screen).
+# MAW's E is our Use key).
 - id: unstuck
   name: Get unstuck
   group: MAW

@@ -290,7 +290,7 @@
      "z": -1187
     },
     "initial_yaw_units": 853,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -312,12 +312,97 @@
       "passive": true
      },
      "script": "dwarvenminer.scr",
-     "script_params": "MineMarker2 ReturnMarker2"
+     "script_params": "MineMarker2 ReturnMarker2",
+     "routines": {
+      "default": [
+       {
+        "items": "show"
+       },
+       {
+        "walk": [
+         26842,
+         -5152,
+         -1188
+        ]
+       },
+       {
+        "face": 65.6
+       },
+       {
+        "clips": [
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "rock",
+          "seconds": 2.37
+         },
+         {
+          "clip": "rub_beard",
+          "seconds": 2.37
+         }
+        ]
+       },
+       {
+        "chance": 0.1,
+        "steps": [
+         {
+          "items": "hide"
+         },
+         {
+          "walk": [
+           26624,
+           -5632,
+           -1188
+          ]
+         },
+         {
+          "face": 245.6
+         },
+         {
+          "clip": "dump",
+          "seconds": 2.03
+         }
+        ]
+       }
+      ]
+     }
     },
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 703,
-    "mm9_rude_id": 428
+    "mm9_rude_id": 428,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_dwarfaxe.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 7,
@@ -337,7 +422,7 @@
      "z": -1187
     },
     "initial_yaw_units": 1820,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -359,12 +444,97 @@
       "passive": true
      },
      "script": "dwarvenminer.scr",
-     "script_params": "MineMarker1 ReturnMarker1"
+     "script_params": "MineMarker1 ReturnMarker1",
+     "routines": {
+      "default": [
+       {
+        "items": "show"
+       },
+       {
+        "walk": [
+         26036,
+         -4452,
+         -1188
+        ]
+       },
+       {
+        "face": 101.5
+       },
+       {
+        "clips": [
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "rock",
+          "seconds": 2.37
+         },
+         {
+          "clip": "rub_beard",
+          "seconds": 2.37
+         }
+        ]
+       },
+       {
+        "chance": 0.1,
+        "steps": [
+         {
+          "items": "hide"
+         },
+         {
+          "walk": [
+           26276,
+           -5632,
+           -1188
+          ]
+         },
+         {
+          "face": 281.5
+         },
+         {
+          "clip": "dump",
+          "seconds": 2.03
+         }
+        ]
+       }
+      ]
+     }
     },
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 704,
-    "mm9_rude_id": 428
+    "mm9_rude_id": 428,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_dwarfaxe.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 8,
@@ -384,7 +554,7 @@
      "z": -1187
     },
     "initial_yaw_units": 0,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -406,12 +576,97 @@
       "passive": true
      },
      "script": "dwarvenminer.scr",
-     "script_params": "MineMarker0 ReturnMarker0"
+     "script_params": "MineMarker0 ReturnMarker0",
+     "routines": {
+      "default": [
+       {
+        "items": "show"
+       },
+       {
+        "walk": [
+         25619,
+         -4858,
+         -1188
+        ]
+       },
+       {
+        "face": 113.0
+       },
+       {
+        "clips": [
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "rock",
+          "seconds": 2.37
+         },
+         {
+          "clip": "rub_beard",
+          "seconds": 2.37
+         }
+        ]
+       },
+       {
+        "chance": 0.1,
+        "steps": [
+         {
+          "items": "hide"
+         },
+         {
+          "walk": [
+           25948,
+           -5632,
+           -1188
+          ]
+         },
+         {
+          "face": 293.0
+         },
+         {
+          "clip": "dump",
+          "seconds": 2.03
+         }
+        ]
+       }
+      ]
+     }
     },
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 705,
-    "mm9_rude_id": 428
+    "mm9_rude_id": 428,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_dwarfaxe.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 9,
@@ -578,7 +833,7 @@
      "z": -982
     },
     "initial_yaw_units": 512,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -600,12 +855,97 @@
       "passive": true
      },
      "script": "dwarvenminer.scr",
-     "script_params": "HarvMarker2 DumpMarker2"
+     "script_params": "HarvMarker2 DumpMarker2",
+     "routines": {
+      "default": [
+       {
+        "items": "show"
+       },
+       {
+        "walk": [
+         2421,
+         1882,
+         -983
+        ]
+       },
+       {
+        "face": 74.5
+       },
+       {
+        "clips": [
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "rock",
+          "seconds": 2.37
+         },
+         {
+          "clip": "rub_beard",
+          "seconds": 2.37
+         }
+        ]
+       },
+       {
+        "chance": 0.1,
+        "steps": [
+         {
+          "items": "hide"
+         },
+         {
+          "walk": [
+           2376,
+           1720,
+           -983
+          ]
+         },
+         {
+          "face": 254.5
+         },
+         {
+          "clip": "dump",
+          "seconds": 2.03
+         }
+        ]
+       }
+      ]
+     }
     },
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 752,
-    "mm9_rude_id": 428
+    "mm9_rude_id": 428,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_dwarfaxe.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 13,
@@ -625,7 +965,7 @@
      "z": -982
     },
     "initial_yaw_units": 512,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -647,12 +987,97 @@
       "passive": true
      },
      "script": "dwarvenminer.scr",
-     "script_params": "HarvMarker1 DumpMarker1"
+     "script_params": "HarvMarker1 DumpMarker1",
+     "routines": {
+      "default": [
+       {
+        "items": "show"
+       },
+       {
+        "walk": [
+         3220,
+         1906,
+         -983
+        ]
+       },
+       {
+        "face": 27.1
+       },
+       {
+        "clips": [
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "rock",
+          "seconds": 2.37
+         },
+         {
+          "clip": "rub_beard",
+          "seconds": 2.37
+         }
+        ]
+       },
+       {
+        "chance": 0.1,
+        "steps": [
+         {
+          "items": "hide"
+         },
+         {
+          "walk": [
+           2376,
+           1475,
+           -983
+          ]
+         },
+         {
+          "face": 207.1
+         },
+         {
+          "clip": "dump",
+          "seconds": 2.03
+         }
+        ]
+       }
+      ]
+     }
     },
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 753,
-    "mm9_rude_id": 428
+    "mm9_rude_id": 428,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_dwarfaxe.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 14,
@@ -672,7 +1097,7 @@
      "z": -900
     },
     "initial_yaw_units": 512,
-    "immobile": true,
+    "immobile": false,
     "sprite_ids": [
      0,
      0,
@@ -694,12 +1119,97 @@
       "passive": true
      },
      "script": "dwarvenminer.scr",
-     "script_params": "HarvMarker0 DumpMarker0"
+     "script_params": "HarvMarker0 DumpMarker0",
+     "routines": {
+      "default": [
+       {
+        "items": "show"
+       },
+       {
+        "walk": [
+         2519,
+         -1545,
+         -901
+        ]
+       },
+       {
+        "face": 81.3
+       },
+       {
+        "clips": [
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "hammer",
+          "seconds": 1.03
+         },
+         {
+          "clip": "rock",
+          "seconds": 2.37
+         },
+         {
+          "clip": "rub_beard",
+          "seconds": 2.37
+         }
+        ]
+       },
+       {
+        "chance": 0.1,
+        "steps": [
+         {
+          "items": "hide"
+         },
+         {
+          "walk": [
+           2417,
+           -2212,
+           -901
+          ]
+         },
+         {
+          "face": 261.3
+         },
+         {
+          "clip": "dump",
+          "seconds": 2.03
+         }
+        ]
+       }
+      ]
+     }
     },
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 754,
-    "mm9_rude_id": 428
+    "mm9_rude_id": 428,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_dwarfaxe.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 15,
@@ -1799,7 +2309,13 @@
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 1396,
-    "mm9_rude_id": 8
+    "mm9_rude_id": 8,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkhammer.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 43,
@@ -1893,7 +2409,13 @@
     "mm9_civilian": true,
     "mm9_can_receive_damage": false,
     "mm9_source_object_index": 1398,
-    "mm9_rude_id": 9
+    "mm9_rude_id": 9,
+    "held_items": [
+     {
+      "model": "worlds/mm9/models/mm9_item_monkhammer.glb",
+      "node": "Socket_RHand1"
+     }
+    ]
    },
    {
     "actor_index": 45,
@@ -16619,6 +17141,20 @@
    "outer_radius": 512,
    "volume": 0.525,
    "loop": true
+  },
+  {
+   "key": 608,
+   "sound": "events/gears02.wav",
+   "position": [
+    10857,
+    -13201,
+    -1316
+   ],
+   "inner_radius": 1600,
+   "outer_radius": 6400,
+   "volume": 0.367,
+   "loop": true,
+   "start_on": false
   }
  ],
  "translucent_faces": [

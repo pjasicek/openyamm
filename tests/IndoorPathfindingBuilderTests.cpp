@@ -745,3 +745,114 @@ TEST_CASE("naga vault actors enter the hallway over its low threshold")
 }
 
 TEST_SUITE_END();
+
+#include "engine/AssetFileSystem.h"
+#include "engine/AssetScaleTier.h"
+#include "game/data/GameDataLoader.h"
+#include "game/indoor/IndoorGeometryUtils.h"
+#include <filesystem>
+#include "game/pathfinding/PathPlanner.h"
+
+#include <iostream>
+
+TEST_CASE("PROBE thjorad hatch")
+{
+    using namespace OpenYAMM::Game;
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(root, root / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm9"));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "thjoradmine.blv"));
+    const MapAssetInfo &map = *data.getSelectedMap();
+    const IndoorMapData &geometry = *map.indoorMapData;
+    std::vector<IndoorVertex> vertices = geometry.vertices;
+    for (const MapDeltaDoor &door : map.indoorMapDeltaData->doors)
+    {
+        if (door.doorId == 10)
+        {
+            applyIndoorMechanismDoorToVertices(door, findIndoorMoverDefinition(geometry, 10), float(door.moveLength),
+                1, vertices);
+            for (uint16_t faceId : door.faceIds)
+            {
+                std::cout << "face " << faceId << ":";
+                for (uint16_t v : geometry.faces[faceId].vertexIndices)
+                {
+                    std::cout << " (" << vertices[v].x << "," << vertices[v].y << "," << vertices[v].z << ")";
+                }
+                std::cout << "\n";
+            }
+        }
+    }
+    const IndoorPathMapBuildResult build =
+        IndoorPathfindingBuilder::buildPathMap(geometry, vertices, nullptr, nullptr, 512.0f, {10u});
+    PathPlanRequest request = {};
+    request.source = {-2551.03f, 1064.52f, 0.0f};
+    request.target = {-3092.0f, 1065.0f, 0.0f};
+    request.object.radius = 42.0f;
+    request.object.height = 85.0f;
+    request.object.stepLength = 40.0f;
+    request.object.stepHeight = 40.0f;
+    request.object.dropHeight = 1000.0f;
+    request.object.riserHeight = 80.0f;
+    request.allowPartialPath = true;
+    request.allowDirect = false;
+    PathPlanner planner;
+    const PathPlanResult result = planner.plan(build.pathMap, request);
+    {
+        const PathWalkSegmentDebug d = build.pathMap.debugTraceWalkSegment(request.source, request.target, request.object);
+        std::cout << "direct reason=" << int(d.rejectReason) << " facet=" << d.blockedFacet << " at=(" << d.blockedPoint.x << "," << d.blockedPoint.y << ")\n";
+    }
+    std::cout << "status=" << int(result.status) << " nodes=" << result.analyzedNodeCount << "\n";
+    for (const PathPoint &point : result.waypoints)
+    {
+        std::cout << "  (" << point.x << "," << point.y << "," << point.z << ")\n";
+    }
+    for (float y : {1104.0f, 1144.0f, 1184.0f, 1224.0f})
+    {
+        for (float x : {-2551.0f, -2591.0f, -2631.0f, -2671.0f, -2711.0f})
+        {
+            const PathFloorSample floor = build.pathMap.floorAt({x, y, 40.0f});
+            std::cout << "floor (" << x << "," << y << ") has=" << floor.hasFloor << " void=" << floor.inVoid
+                << " z=" << floor.z << " facet=" << floor.facetIndex
+                << " walkE=" << build.pathMap.traceWalkSegment({x, y, 0.0f}, {x - 40.0f, y, 0.0f}, request.object)
+                << " walkN=" << build.pathMap.traceWalkSegment({x, y, 0.0f}, {x, y + 40.0f, 0.0f}, request.object)
+                << "\n";
+            const PathWalkSegmentDebug debug =
+                build.pathMap.debugTraceWalkSegment({x, y, 0.0f}, {x - 40.0f, y, 0.0f}, request.object);
+            std::cout << "   W reason=" << int(debug.rejectReason) << " facet=" << debug.blockedFacet
+                << " source=" << (debug.blockedFacet < build.pathMap.facets().size()
+                    ? build.pathMap.facets()[debug.blockedFacet].sourceId : -1)
+                << " at=(" << debug.blockedPoint.x << "," << debug.blockedPoint.y << "," << debug.blockedPoint.z << ")\n";
+        }
+    }
+    {
+        IndoorMapData moved = geometry;
+        moved.vertices = vertices;
+        const IndoorMovementController controller(moved, &*map.indoorMapDeltaData, nullptr);
+        IndoorMoveState state = {};
+        state.x = -3613.37f;
+        state.y = 160.7f;
+        state.footZ = 328.0f;
+        state.eyeHeight = 85.0f;
+        state.sectorId = 42;
+        state.eyeSectorId = 42;
+        state.supportFaceIndex = 7685;
+        state.grounded = true;
+        const IndoorBodyDimensions body{42.0f, 85.0f};
+        for (int step = 0; step < 64; ++step)
+        {
+            IndoorMoveDebugInfo debug = {};
+            const IndoorMoveState next = controller.resolveMove(state, body, -0.5956f * 192.0f, 0.8033f * 192.0f,
+                false, 1.0f / 128.0f, nullptr, 45, false, &debug, false, false, 420.0f, 1.0f, false, false, true,
+                true, true);
+            if (step % 8 == 0)
+            {
+                std::cout << "move (" << next.x << "," << next.y << "," << next.footZ << ") block="
+                    << int(debug.primaryBlockKind) << " face=" << int(debug.hitFaceIndex) << " tried="
+                    << debug.collisionResponseTried << " ok=" << debug.collisionResponseSucceeded << "\n";
+            }
+            state = next;
+        }
+    }
+}

@@ -2446,6 +2446,8 @@ actors:
 # scimitar rigid on Bone01); MM9 clips un-mirrored to their true handedness (MM9 ABC conversions are mirror images: the scimitar
 # is in the anatomical right hand, the throw from the left, MM9's LHand1 socket). Hattack1 Rattack 0.339 s, RAttack1 RangeAttack
 # 0.402 s. Tiers: Warrior ramps (black mail, amber eyes, SKELETONWAR2), Master = the paint itself (SKELETONWAR1).
+# ResurrectFX GreaterDemon at the pelvis as a corpse rises (Resurrect). The Master's ResurrectSpell DoFX 0 (bluedots, 0.2-1.066 s)
+# is not bound: fidget2 plays the same clip here (MM9's fidget2 has its motion without the key), and clip events follow the clip.
 # Skeleton Warrior (row 136)
 - descriptor: MM9 Skeleton Warrior A
   model: worlds/mm9/models/mm9_skelwar.glb
@@ -2459,9 +2461,11 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       throw_hand: LHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.339}
       attack_ranged: {impact: 0.402, release: throw_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -2499,9 +2503,11 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       throw_hand: LHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.339}
       attack_ranged: {impact: 0.402, release: throw_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -2531,13 +2537,15 @@ actors:
 # resampled, skull from a skull-only Meshy model (head set), bone fingers rigged by connectivity (three joints, driven by
 # MM9's finger curl). Rows: Lich L45 (LICH1), Power Lich L55 (LICH2), tiers by region mask and ramps from the two skins; eyes
 # glow red / green. Scale 120 = 100 x MONSTERS.txt Scale 1.2. Events = MM9 clip events: Rattack 0.386 s (Hattack2), RangeAttack
-# 0.447 s (Rattack1, socket on the left hand; charge from DoFX 0 at 0.235 s). LHand1 / RHand1 are MM9's sockets, moved onto
-# our palms. MM9's FX0/FX1 hand sparkles (bluedots, greenyeldots) wait for body anchors in the effect library.
+# 0.447 s (Rattack1, socket on the left hand). LHand1 / RHand1 are MM9's sockets, moved onto our palms. MM9's hand effects are
+# socket effects on both palms (DoFX n plays FX n of MONSTERS.txt, 0-based: object.lto 0x1001af90): the Power Lich's Rattack1
+# DoFX 0 bluedots 0.235-1.176 s, ResurrectSpell DoFX 1 greenyeldots 0.2-1.933 s; the Lich has no FX. Both rows' ResurrectFX
+# GreaterDemon plays at the pelvis as a corpse rises (Resurrect). No glow: MM9 has no light there.
 - descriptor: MM9 Lich A
   model: worlds/mm9/models/mm9_lich.glb
   scale: 120.0
   yaw_offset: -1.570796327
-  animation: &mm9_lich_animation
+  animation:
     cast: AttackRanged
     run: Running
     stride_length: 1.06
@@ -2548,10 +2556,12 @@ actors:
     sockets:
       palm_left: LHand1
       palm_right: RHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.386}
-      attack_ranged: {impact: 0.447, glow: [palm_left], release: palm_left}
-      cast: {impact: 0.447, glow: [palm_left], release: palm_left}
+      attack_ranged: {impact: 0.447, release: palm_left}
+      cast: {impact: 0.447, release: palm_left}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips: &mm9_lich_clips
     standing: Standing
     walking: Walking
@@ -2579,7 +2589,24 @@ actors:
   model: worlds/mm9/models/mm9_lich.glb
   scale: 120.0
   yaw_offset: -1.570796327
-  animation: *mm9_lich_animation
+  animation:
+    cast: AttackRanged
+    run: Running
+    stride_length: 1.06
+    run_stride_length: 2.66
+    gait_rate: [0.7, 1.4]
+    upper_body_root: Bip01 Spine1
+    look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
+    sockets:
+      palm_left: LHand1
+      palm_right: RHand1
+      body: Bip01 Pelvis
+    events:
+      attack_melee: {impact: 0.386}
+      attack_ranged: {impact: 0.447, release: palm_left, effect: {id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.235, end: 1.176}}
+      cast: {impact: 0.447, release: palm_left, effect: {id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.235, end: 1.176}}
+      resurrect_spell: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.2, end: 1.933}}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips: *mm9_lich_clips
   script_clips: *mm9_lich_script_clips
   skin: lich_b
@@ -2850,7 +2877,8 @@ actors:
 # <<< mm9_ghost_claude
 # MM9 Mummy body (level_generation/creatures/mm9_mummy_claude): symmetric Meshy body and head on MUMMY.abc's skeleton (bound in the masters' A pose, clips are MM9's local rotations), five-finger
 # wrapped hands (15 bones per side), the long band as a rope solve on Bone04-08; MM9 clips, whole model mirrored to true handedness (band on the right forearm). Hattack1 Rattack 0.333 s, Rattack1 RangeAttack 0.333 s.
-# Tiers carry their own colour and normal images: they differ in pattern and face (README, deviation).
+# Tiers carry their own colour and normal images: they differ in pattern and face (README, deviation). ResurrectFX GreaterDemon at
+# the pelvis as a corpse rises (Resurrect). No glow: MM9 has no light there.
 # Canopic Mummy (row 144)
 - descriptor: MM9 Mummy A
   model: worlds/mm9/models/mm9_mummy.glb
@@ -2865,10 +2893,12 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       cast_hand: Bip01 R Hand
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.333}
-      attack_ranged: {impact: 0.333, glow: [cast_hand], release: cast_hand}
-      cast: {impact: 0.333, glow: [cast_hand], release: cast_hand}
+      attack_ranged: {impact: 0.333, release: cast_hand}
+      cast: {impact: 0.333, release: cast_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -2908,10 +2938,12 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       cast_hand: Bip01 R Hand
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.333}
-      attack_ranged: {impact: 0.333, glow: [cast_hand], release: cast_hand}
-      cast: {impact: 0.333, glow: [cast_hand], release: cast_hand}
+      attack_ranged: {impact: 0.333, release: cast_hand}
+      cast: {impact: 0.333, release: cast_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -2951,10 +2983,12 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       cast_hand: Bip01 R Hand
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.333}
-      attack_ranged: {impact: 0.333, glow: [cast_hand], release: cast_hand}
-      cast: {impact: 0.333, glow: [cast_hand], release: cast_hand}
+      attack_ranged: {impact: 0.333, release: cast_hand}
+      cast: {impact: 0.333, release: cast_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -2983,6 +3017,7 @@ actors:
 # MM9 zombie body (level_generation/creatures/mm9_zombie_claude): Meshy body and head-only model on the original ZOMBIE.abc skeleton, fitted joint for joint (15 finger bones per side,
 # half-rotation helpers on hips, knees, elbows, shoulders, neck, head), MM9 clips in true handedness. MM9 has no run: Running is walk x1.5. Hattack2 hits at 0.618 s, rAttack2 RangeAttack 0.377 s
 # from MM9's RangeAttack node (left hand). Tiers: shared body and head sets with ramps; the torso part has one image per tier (bare chest, vest, mail).
+# ResurrectFX GreaterDemon at the pelvis as a corpse rises (Resurrect); the ResurrectSpell's DoFX 1 names FX1 (0-based), which the rows leave empty.
 # Rotter (row 180)
 - descriptor: MM9 Zombie A
   model: worlds/mm9/models/mm9_zombie.glb
@@ -2996,10 +3031,12 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       throw_hand: Bip01 L Finger11
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.618}
       attack_ranged: {impact: 0.377, release: throw_hand}
       cast: {impact: 0.377, release: throw_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -3034,10 +3071,12 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       throw_hand: Bip01 L Finger11
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.618}
       attack_ranged: {impact: 0.377, release: throw_hand}
       cast: {impact: 0.377, release: throw_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -3072,10 +3111,12 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       throw_hand: Bip01 L Finger11
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.618}
       attack_ranged: {impact: 0.377, release: throw_hand}
       cast: {impact: 0.377, release: throw_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -3101,7 +3142,8 @@ actors:
 # MM9 Skeleton body (level_generation/creatures/mm9_skeleton_claude): Meshy skeleton of rigid bone pieces plus a skull-only model, on the original SKELETON.abc rig (joints moved onto the pieces' ends,
 # 14 finger bones per side, dagger rigid on Bone01); MM9 clips un-mirrored to true handedness: dagger in the true right hand, throws from it (MM9's RangeAttack socket is on R Hand). Hattack1 Rattack 0.4 s,
 # RAttack1 RangeAttack 0.38 s. Tiers: skel_a = the paint (SKELETON2), skel_r = ramps (SKELETONRED). MONSTERS.txt Scale 0.5 -> 50 for Skeletoid, Bone Thrasher, Skull Thrower. Row heights are unchanged (they still carry the
-# sprite stand-in's 166): the 3D size comes from the scale alone.
+# sprite stand-in's 166): the 3D size comes from the scale alone. Skeleton L16 (row 135) alone has a ResurrectFX: GreaterDemon at
+# the pelvis as it rises (resurrect).
 # Skeleton L16 (row 135)
 - descriptor: MM9 Skeleton C
   model: worlds/mm9/models/mm9_skeleton.glb
@@ -3115,9 +3157,11 @@ actors:
     look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
     sockets:
       throw_hand: Bip01 R Hand
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.4}
       attack_ranged: {impact: 0.38, release: throw_hand}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -3281,6 +3325,8 @@ actors:
 # >>> mm9_banshee_claude
 # MM9 Banshee family (level_generation/creatures/mm9_banshee_claude): see-through by user decision (devdocs/mm9_rework/PLAN.md): ten blended primitives (torso, dress, two arms, cape, two wings, head, two hair sides) on the original BANSHEE.abc
 # skeleton, MM9's own clips (jaw folded to one hinge). Rows: Fright L35 (woman), Dread L55 (rotting skull), Terror L65 (green-eyed skull). Scale 100 = MONSTERS.txt Scale 1. Events = MM9 clip events: Lattack 0.269 s (HattackAir1), rangeAttack 0.588 s (RattackAir1), 0.444 s (RattackAir2), from the RangeAttack socket on her left hand (Zhand). True handedness: Zhand01 is her right.
+# No hand effect and no glow, as in MM9: her clips' DoFX 1 names FX1 (0-based, object.lto 0x1001af90), which her rows leave empty
+# (their only effect, FX0 redyeldots, never plays); MM9 has no light there.
 - descriptor: MM9 Banshee A
   model: worlds/mm9/models/mm9_banshee.glb
   scale: 100.0
@@ -3297,8 +3343,8 @@ actors:
       palm_right: Zfingbase04
     events:
       attack_melee: {impact: 0.269}
-      attack_ranged: {impact: 0.588, glow: [palm_left], release: palm_left}
-      cast: {impact: 0.444, glow: [palm_left], release: palm_left}
+      attack_ranged: {impact: 0.588, release: palm_left}
+      cast: {impact: 0.444, release: palm_left}
   clips: &mm9_banshee_clips
     standing: Standing
     walking: Walking
@@ -3674,6 +3720,8 @@ actors:
   skin: trog_c
 # MM9 ghoul body (level_generation/creatures/mm9_ghoul_claude): Meshy body and head-only model on the original GHOUL.abc skeleton (its real five-finger chains, half-rotation helpers on hips, knees,
 # elbows, shoulders, neck, head), MM9 clips in true handedness. Hattack1 hits at 0.426 s, rAttack1 RangeAttack 0.8 s from MM9's RangeAttack node (right hand). Tiers: shared body and head sets with ramps.
+# MM9's hand effects on both hands (LHand1/RHand1 are on Bip01 L/R Hand; DoFX n plays FX n of MONSTERS.txt, 0-based, object.lto 0x1001af90): rAttack1 DoFX 0 0.2-1.466 s (Ghast bluedots,
+# Ghoul and Revenant greenyeldots); ResurrectSpell DoFX 0 from 0.033 s, then DoFX 1 at 0.567 s (the Ghast's redyeldots replaces its bluedots; the others have no FX1), EndFX 1.733 s.
 # Ghast (row 174)
 - descriptor: MM9 Ghoul A
   model: worlds/mm9/models/mm9_ghoul.glb
@@ -3688,10 +3736,13 @@ actors:
     cast: AttackRanged
     sockets:
       throw_hand: Bip01 R Finger11
+      palm_left: Bip01 L Hand
+      palm_right: Bip01 R Hand
     events:
       attack_melee: {impact: 0.426}
-      attack_ranged: {impact: 0.8, release: throw_hand}
-      cast: {impact: 0.8, release: throw_hand}
+      attack_ranged: {impact: 0.8, release: throw_hand, effect: {id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.2, end: 1.466}}
+      cast: {impact: 0.8, release: throw_hand, effect: {id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.2, end: 1.466}}
+      resurrect_spell: {effects: [{id: mm9:bluedots, sockets: [palm_left, palm_right], start: 0.033, end: 0.567}, {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.567, end: 1.733}]}
   clips:
     standing: Standing
     walking: Walking
@@ -3724,10 +3775,13 @@ actors:
     cast: AttackRanged
     sockets:
       throw_hand: Bip01 R Finger11
+      palm_left: Bip01 L Hand
+      palm_right: Bip01 R Hand
     events:
       attack_melee: {impact: 0.426}
-      attack_ranged: {impact: 0.8, release: throw_hand}
-      cast: {impact: 0.8, release: throw_hand}
+      attack_ranged: {impact: 0.8, release: throw_hand, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.2, end: 1.466}}
+      cast: {impact: 0.8, release: throw_hand, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.2, end: 1.466}}
+      resurrect_spell: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.033, end: 1.733}}
   clips:
     standing: Standing
     walking: Walking
@@ -3760,10 +3814,13 @@ actors:
     cast: AttackRanged
     sockets:
       throw_hand: Bip01 R Finger11
+      palm_left: Bip01 L Hand
+      palm_right: Bip01 R Hand
     events:
       attack_melee: {impact: 0.426}
-      attack_ranged: {impact: 0.8, release: throw_hand}
-      cast: {impact: 0.8, release: throw_hand}
+      attack_ranged: {impact: 0.8, release: throw_hand, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.2, end: 1.466}}
+      cast: {impact: 0.8, release: throw_hand, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.2, end: 1.466}}
+      resurrect_spell: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.033, end: 1.733}}
   clips:
     standing: Standing
     walking: Walking
@@ -3890,7 +3947,7 @@ actors:
     backpedal_run: BackpedalRun
   skin: gezz_c
 # MM9 Nosferatu body (level_generation/creatures/mm9_nosferatu_claude): Meshy body and head on NOSFERATU.abc's skeleton (bound in the masters' A pose, clips are MM9's local rotations), 15 finger bones per side from the mesh, robe on a 48-bone lattice keyed per clip from MM9's legs and tail
-# One body paint and one head paint with region ramps. Events are MM9's: Hattack1 Rattack 0.333 s, RAttack1 RangeAttack 0.666 s on LHand1 (DoFX 1 greenyeldots from 0.266 s, waits for body anchors in the effect library).
+# One body paint and one head paint with region ramps. Events are MM9's: Hattack1 Rattack 0.333 s, RAttack1 RangeAttack 0.666 s on LHand1. DoFX n plays FX n of MONSTERS.txt (0-based, object.lto 0x1001af90): RAttack1 DoFX 1 greenyeldots on both palms 0.266-1.333 s; ResurrectSpell's DoFX 2 names no FX (nothing plays); FX0 bluedots is never played. ResurrectFX GreaterDemon at the pelvis as it rises (resurrect). No glow: MM9 has no light there.
 # Bloodsucker (row 195)
 - descriptor: MM9 Nosferatu A
   model: worlds/mm9/models/mm9_nosferatu.glb
@@ -3906,10 +3963,12 @@ actors:
     sockets:
       palm_left: LHand1
       palm_right: RHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.333}
-      attack_ranged: {impact: 0.666, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.666, glow: [palm_left, palm_right], release: palm_left}
+      attack_ranged: {impact: 0.666, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}
+      cast: {impact: 0.666, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -3944,10 +4003,12 @@ actors:
     sockets:
       palm_left: LHand1
       palm_right: RHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.333}
-      attack_ranged: {impact: 0.666, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.666, glow: [palm_left, palm_right], release: palm_left}
+      attack_ranged: {impact: 0.666, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}
+      cast: {impact: 0.666, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -3982,10 +4043,12 @@ actors:
     sockets:
       palm_left: LHand1
       palm_right: RHand1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.333}
-      attack_ranged: {impact: 0.666, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.666, glow: [palm_left, palm_right], release: palm_left}
+      attack_ranged: {impact: 0.666, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}
+      cast: {impact: 0.666, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.266, end: 1.333}}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -4007,7 +4070,7 @@ actors:
   skin: nos_c
 # >>> mm9_monk_claude
 # MM9 Monk body (level_generation/creatures/mm9_monk_claude): Meshy robe and head on MONK.abc's skeleton, MM9's eight cloth chains and two cord chains keyed as MM9 keys them, 15 finger bones per side (MPFB hand), whole model mirrored to true handedness.
-# One body paint with region ramps, a head colour per tier. Events are MM9's: Hattack1 Rattack 0.214 s (Lattack 0.428, Rattack 0.643, Lattack 0.965 are not carried: one impact per attack), castspell1 CastSpell 0.5 s, castspell3 0.882 s. Work and prayer clips are script clips.
+# One body paint with region ramps, a head colour per tier. Events are MM9's: Hattack1 Rattack 0.214 s (Lattack 0.428, Rattack 0.643, Lattack 0.965 are not carried: one impact per attack), castspell1 CastSpell 0.5 s, castspell3 0.882 s. Work and prayer clips are script clips. No hand effect and no glow, as in MM9: the castspell clips' DoFX 1 names FX1 (0-based, object.lto 0x1001af90), which the rows leave empty (FX0 bluedots never plays); MM9 has no light there.
 # Initiate (row 123)
 - descriptor: MM9 Monk A
   model: worlds/mm9/models/mm9_monk.glb
@@ -4025,8 +4088,8 @@ actors:
       palm_right: RHand1
     events:
       attack_melee: {impact: 0.214}
-      attack_ranged: {impact: 0.5, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.882, glow: [palm_left, palm_right], release: palm_left}
+      attack_ranged: {impact: 0.5, release: palm_left}
+      cast: {impact: 0.882, release: palm_left}
   clips:
     standing: Standing
     walking: Walking
@@ -4081,8 +4144,8 @@ actors:
       palm_right: RHand1
     events:
       attack_melee: {impact: 0.214}
-      attack_ranged: {impact: 0.5, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.882, glow: [palm_left, palm_right], release: palm_left}
+      attack_ranged: {impact: 0.5, release: palm_left}
+      cast: {impact: 0.882, release: palm_left}
   clips:
     standing: Standing
     walking: Walking
@@ -4137,8 +4200,8 @@ actors:
       palm_right: RHand1
     events:
       attack_melee: {impact: 0.214}
-      attack_ranged: {impact: 0.5, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.882, glow: [palm_left, palm_right], release: palm_left}
+      attack_ranged: {impact: 0.5, release: palm_left}
+      cast: {impact: 0.882, release: palm_left}
   clips:
     standing: Standing
     walking: Walking
@@ -5570,7 +5633,10 @@ actors:
 # the left wrist), MM9's 19 clips resampled, the approved Lich's skull inside a Meshy crown-helm, five-finger gauntlets from the mesh, the right
 # fist closed on a staff rigid on MM9's staff bone Bone01, coat on seven two-link hinge sectors and the tabard on four links keyed per clip.
 # Row 209 Lich King L65 (LICHKING1), one tier by region mask and ramps; eyes glow red. Scale 135 = 100 x MONSTERS.txt Scale 1.35.
-# Events are MM9's: Hattack1 Rattack 0.479 s; Rattack1 RangeAttack 0.474 s on Lhand1 (DoFX 1 from 0.105 s). u1 is MM9's staff socket.
+# Events are MM9's: Hattack1 Rattack 0.479 s; Rattack1 RangeAttack 0.474 s on Lhand1. u1 is MM9's staff socket. DoFX n plays FX n of
+# MONSTERS.txt (0-based, object.lto 0x1001af90): Rattack1 DoFX 1 greenyeldots on both palms 0.105-0.948 s; ResurrectSpell DoFX 0
+# LichKingRes on the staff (its emitter follows MM9's user node, u1) 0-1.852 s; ResurrectFX GreaterDemon at the pelvis as it rises
+# (Resurrect). No glow: MM9 has no light there.
 - descriptor: MM9 209 Lich King
   model: worlds/mm9/models/mm9_lichking.glb
   scale: 135.0
@@ -5587,10 +5653,13 @@ actors:
       palm_left: LHand1
       palm_right: RHand1
       staff_head: u1
+      body: Bip01 Pelvis
     events:
       attack_melee: {impact: 0.479}
-      attack_ranged: {impact: 0.474, glow: [palm_left, staff_head], release: palm_left}
-      cast: {impact: 0.474, glow: [palm_left, staff_head], release: palm_left}
+      attack_ranged: {impact: 0.474, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.105, end: 0.948}}
+      cast: {impact: 0.474, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.105, end: 0.948}}
+      resurrect_spell: {effect: {id: mm9:LichKingRes, socket: staff_head, end: 1.852}}
+      resurrect: {effect: {id: mm9:GreaterDemon, socket: body}}
   clips:
     standing: Standing
     walking: Walking
@@ -6346,7 +6415,7 @@ actors:
 # dwarf male townsfolk skeleton (41 joints, no pelvis, tunic ring Bone22) with the PEASANTMALEDWARF library clips (stand,
 # walk, run, Fidget1, Fidget2, conv1 talk, hattack1 Rattack 0.966 s, wince, die1) and the clips its scripts play (cower:
 # NPCbase via BaseRun.inc; conv1/stand: NPC109; rub_beard, rock, hammer, dump: DwarvenMiner.scr, whose pick prop
-# dwarfaxe.abc is not modelled), five-finger MPFB hands, mirrored to MM9's true handedness. Tiers: one body set with region
+# dwarfaxe.abc is a held item), five-finger MPFB hands, mirrored to MM9's true handedness. Tiers: one body set with region
 # mask and ramps (shared paint PEASANTDM1A; B: ochre tunic) and a tier B head colour (MM9 paints a different man).
 # Commoner (8, Peasant Dwarf MaleA A, PeasantDM1a, DAT CommonerDwarfMaleA)
 - descriptor: MM9 8 Commoner
@@ -6876,7 +6945,7 @@ actors:
 # dwarf male townsfolk skeleton (41 joints, no pelvis, tunic ring Bone22) with the PEASANTMALEDWARF library clips (stand,
 # walk, run, Fidget1, Fidget2, conv1 talk, hattack1 Rattack 0.966 s, wince, die1) and the clips its scripts play (cower:
 # NPCbase via BaseRun.inc; conv1/stand: NPC109; rub_beard, rock, hammer, dump: DwarvenMiner.scr, whose pick prop
-# dwarfaxe.abc is not modelled), five-finger MPFB hands, mirrored to MM9's true handedness. Tiers: one body set with region
+# dwarfaxe.abc is a held item), five-finger MPFB hands, mirrored to MM9's true handedness. Tiers: one body set with region
 # mask and ramps (shared paint PEASANTDM2A; tier pdm2_b from the unused skin PEASANTDM2B: brown leather tunic) and a tier B
 # head colour (MM9 paints a different man with a studded headband). No MONSTERS row uses skin B.
 # Commoner (9, Peasant Dwarf MaleA B, PeasantDM2a, DAT CommonerDwarfMaleB)
@@ -8896,7 +8965,7 @@ actors:
     resurrectspell: ResurrectSpell
 # <<< mm9_skraelos_claude
 # MM9 Evil Sorcerer body (level_generation/creatures/mm9_evilsorcerer_claude): Meshy body and head on EVILSORCERER.abc's skeleton (bound in the masters' A pose, clips are MM9's local rotations), 15 finger bones per side from the mesh, four-link front and back panels keyed per clip, whole model mirrored to true handedness.
-# One body paint with region ramps; Apprentice has its own lower-body image (pattern differs), every tier its head colour (faces differ). Events are MM9's: hAttack1 rattack 0.36 s (DoFX bluedots), rAttack1 rangeAttack 0.833 s on LHand1 (DoFX redyeldots from 0.13 s).
+# One body paint with region ramps; Apprentice has its own lower-body image (pattern differs), every tier its head colour (faces differ). Events are MM9's (EVILSORCERER.abc keys; DoFX n plays FX n of MONSTERS.txt, 0-based and only 0-2: object.lto 0x1001af90; each dots effect has one emitter on LHand1 and one on RHand1, so both palms share one effect): hAttack1 rattack 0.36 s, DoFX 1 (redyeldots) 0.36 s to its end; rAttack1 (the ranged attack and the cast) rangeAttack 0.833 s on LHand1, DoFX 2 (greenyeldots) 0.133-1.266 s; fidget2 (our Fidget) DoFX 1 0.6-1.933 s; rAttack1Lame (AttackRanged2) DoFX 1 0.114-1.657 s; Taunt DoFX 2 0.141-0.817 s; ResurrectSpell's DoFX 3 names no FX (nothing plays). FX0 bluedots is never played. No glow: MM9 has no light there.
 # Evil Apprentice (row 156)
 - descriptor: MM9 Evil Sorcerer A
   model: worlds/mm9/models/mm9_evilsorcerer.glb
@@ -8913,9 +8982,12 @@ actors:
       palm_left: LHand1
       palm_right: RHand1
     events:
-      attack_melee: {impact: 0.36, glow: [palm_left, palm_right], color: [90, 140, 255]}
-      attack_ranged: {impact: 0.833, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.833, glow: [palm_left, palm_right], release: palm_left}
+      attack_melee: {impact: 0.36, effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.36}}
+      attack_ranged: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}}
+      cast: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}}
+      fidget: {effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.6, end: 1.933}}
+      attack_ranged2: {effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.114, end: 1.657}}
+      taunt: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.141, end: 0.817}}
   clips:
     standing: Standing
     walking: Walking
@@ -8952,9 +9024,12 @@ actors:
       palm_left: LHand1
       palm_right: RHand1
     events:
-      attack_melee: {impact: 0.36, glow: [palm_left, palm_right], color: [90, 140, 255]}
-      attack_ranged: {impact: 0.833, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.833, glow: [palm_left, palm_right], release: palm_left}
+      attack_melee: {impact: 0.36, effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.36}}
+      attack_ranged: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}}
+      cast: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}}
+      fidget: {effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.6, end: 1.933}}
+      attack_ranged2: {effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.114, end: 1.657}}
+      taunt: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.141, end: 0.817}}
   clips:
     standing: Standing
     walking: Walking
@@ -8991,9 +9066,12 @@ actors:
       palm_left: LHand1
       palm_right: RHand1
     events:
-      attack_melee: {impact: 0.36, glow: [palm_left, palm_right], color: [90, 140, 255]}
-      attack_ranged: {impact: 0.833, glow: [palm_left, palm_right], release: palm_left}
-      cast: {impact: 0.833, glow: [palm_left, palm_right], release: palm_left}
+      attack_melee: {impact: 0.36, effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.36}}
+      attack_ranged: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}}
+      cast: {impact: 0.833, release: palm_left, effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.133, end: 1.266}}
+      fidget: {effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.6, end: 1.933}}
+      attack_ranged2: {effect: {id: mm9:redyeldots, sockets: [palm_left, palm_right], start: 0.114, end: 1.657}}
+      taunt: {effect: {id: mm9:greenyeldots, sockets: [palm_left, palm_right], start: 0.141, end: 0.817}}
   clips:
     standing: Standing
     walking: Walking

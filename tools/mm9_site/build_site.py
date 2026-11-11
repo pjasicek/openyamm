@@ -930,6 +930,11 @@ def main() -> int:
                 print(f"extra_pois: {map_id} {entry['label']}: none of {entry['objects']} found", file=sys.stderr)
                 continue
             centre = tuple(sum(c[i] for c in found) / len(found) for i in range(3))
+            # a map event on the same objects already made the point (its label): the entry places and describes it
+            poi = next((p for p in objectives.values() if p["n"] == entry["label"]), None)
+            if poi is not None:
+                pois.remove(poi)
+                entry = {**entry, "quests": sorted(set(poi.get("quests", [])) | set(entry.get("quests", [])))}
             add(entry["type"], *centre, entry["label"], entry.get("detail", ""), quests=entry.get("quests", []))
         for rename in extra["renames"]:
             if rename["map"] == map_id:
@@ -1010,13 +1015,14 @@ def main() -> int:
         "chapters": config["chapters"],
         "maps": maps_out,
         "quests": sorted(quests.values(), key=lambda q: (q["cat"], q.get("chapter", 99), q["stages"][0]["qbit"])),
-        "teachers": build_teachers(trainers, services, rude_locations, names)
+        "teachers": build_teachers(trainers, services, vendors, rude_locations, names)
         + build_racial_teachers(racial, services, trainers, rude_locations, npc_names),
         "vendors": build_vendors(vendors, rude_locations, stock, tier_of),
         "spellbooks": build_spellbooks(stock),
         "services": build_services(services, rude_locations),
         "promotions": promotions,
         **dict(zip(("story", "walkthroughs"), story)),
+        "faq": load_faq(),
         "travel": build_travel(transitions, routes, names, rude_locations),
         "monsters": attach_portraits(build_monsters(monsters, monster_maps), out, args.skip_images,
                                      set(config.get("monster_portrait_exclude", []))),
@@ -1038,6 +1044,8 @@ def main() -> int:
                                     encoding="utf-8")
     if (STORY / "img").is_dir():
         shutil.copytree(STORY / "img", out / "img/story", dirs_exist_ok=True)
+    if (FAQ / "img").is_dir():
+        shutil.copytree(FAQ / "img", out / "img/faq", dirs_exist_ok=True)
     shutil.rmtree(out / "img/items", ignore_errors=True)
     size = (out / "data/guide.js").stat().st_size
     print(f"wrote {out} (guide.js {size // 1024} KB, {sum(len(m['pois']) for m in maps_out)} points)",
@@ -1103,6 +1111,18 @@ def attach_shots(maps_out: list[dict], out: Path, skip_images: bool, exclude: se
 
 
 STORY = Path(__file__).resolve().parent / "story"
+FAQ = Path(__file__).resolve().parent / "faq"
+
+
+def load_faq() -> list[dict]:
+    """The hand-written questions and answers (faq/faq.yml); figures from faq/img (faq_figures.py draws them)."""
+    entries = yaml.safe_load((FAQ / "faq.yml").read_text())["questions"]
+    for entry in entries:
+        for figure in entry.get("figures", []):
+            if not (FAQ / "img" / figure["img"]).is_file():
+                raise SystemExit(f"faq {entry['id']}: missing figure faq/img/{figure['img']}")
+            figure["img"] = f"img/faq/{figure['img']}"
+    return entries
 
 
 def load_story(quests: dict[str, dict], maps_out: list[dict], config: dict) -> tuple[list[dict], dict]:
@@ -1231,14 +1251,16 @@ def locations(rude: int, rude_locations: dict) -> list[dict]:
     return [{"map": m, "poi": p} for m, p in rude_locations.get(rude, [])]
 
 
-def build_teachers(trainers, services, rude_locations, names) -> list[dict]:
+def build_teachers(trainers, services, vendors, rude_locations, names) -> list[dict]:
+    """The MM9 trainers' Expert to Grandmaster lessons, then the Learn lessons of the venues (`learn_skills`): the
+    services' (taverns, temples, training halls) and the shops' (vendors.txt), each with its venue type."""
     out = []
     for row in trainers:
         rude = to_int(row["RudeId"])
         out.append({
             "name": row["SourceDisplayNames"],
             "skill": row["Mm9Skill"],
-            "skills": row["SharedSkills"].replace("|", ", "),
+            "skills": ", ".join(pretty_name(skill) for skill in row["SharedSkills"].split("|")),
             "mastery": row["TargetMastery"],
             "rank": to_int(row["RequiredSkillRank"]),
             "gold": to_int(row["RequiredGold"]),
@@ -1246,21 +1268,20 @@ def build_teachers(trainers, services, rude_locations, names) -> list[dict]:
             "gated": bool(row["RequiredRawKeys"]),
             "at": locations(rude, rude_locations),
         })
-    for service in services:
-        learn = [s for s in service.get("learn_skills", "").split("|") if s]
-        if not learn:
-            continue
-        rude = to_int(service["source_service_id"])
-        for skill in learn:
+    venues = [(s, to_int(s["source_service_id"]), s["service_type"]) for s in services]
+    venues += [(v, to_int(v["source_vendor_id"]), v["source_type"]) for v in vendors]
+    for venue, rude, kind in venues:
+        for skill in (s for s in venue.get("learn_skills", "").split("|") if s):
             out.append({
-                "name": service["name"],
+                "name": venue["name"],
                 "skill": pretty_name(skill),
                 "skills": pretty_name(skill),
                 "mastery": "Learn",
                 "rank": 0,
                 "gold": 0,
-                "region": service["location"],
+                "region": venue["location"],
                 "gated": False,
+                "venue": kind,
                 "at": locations(rude, rude_locations),
             })
     return out

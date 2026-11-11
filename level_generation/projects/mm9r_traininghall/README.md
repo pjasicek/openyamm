@@ -115,7 +115,7 @@ Review: [`review/v02_compare.jpg`](review/v02_compare.jpg) (37 views, MM9 origin
 | **The end of the training**: `TrainingEnter.scr` ("TrainingHall") on `TrainingTrigger`, `DestructableBrush12`, `ExitTrigger0` (StartOn 0), `TrainingHallExit.scr` | breaking the bar (a weapon or a click; its death runs event 220) gives key 301, +5 Might, +5 Intellect (GiveAttribute 0 5 1, 1 5 1: the active member, as the Ruined Temple reads GiveAttribute), 20 000 experience and the quest sound, and opens the door's recess (the slab goes with the bar), so ExitTrigger0 takes the party to Thjorgard; with key 301 the map loads with the bar gone (:Init). TrainingHallExit.scr's reward code is dead in MM9 (an `exit` before it; Patch 1.3 moved it to TrainingEnter.scr) |
 | **The pole room's beams**: `Pusher0-2` (Looping Doors) | out, wait, back, wait, from the map's load, at MM9's speeds and waits (a 0.25 s timer) |
 | `resetlever1-4` | locked (MM9 Locked; nothing unlocks them) |
-| **Unmatched**: `TH_TrainingOrcs.scr`, `TH_TrainingOrcObserver.scr`, `TH_TrainingOrcCommander.scr`, `TH_OrcsGossip.scr`, `TH_JoustTrellborg.scr`, `TH_LookOutTrellborg.scr` and their triggers (`TriggerOrcTraining`, `TriggerOrcsStop`, `TriggerGossipOn/Off`, `TriggerBoxOrcsOn/Off`), `TriggerHorseGo` | idle animation loops (drills, gossip, taunts, the witness and the lookout walking between markers) of monsters that turn hostile on sight (TrainingHostility.inc); the actors stand at their DAT positions and fight with the native AI. TriggerHorseGo only stops the wheels' spin (wheels do not spin natively) |
+| **Unmatched** (the clip loops and walks since 2026-11-11: "Training scenes" below): `TH_TrainingOrcs.scr`, `TH_TrainingOrcObserver.scr`, `TH_TrainingOrcCommander.scr`, `TH_OrcsGossip.scr`, `TH_JoustTrellborg.scr`, `TH_LookOutTrellborg.scr` and their triggers (`TriggerOrcTraining`, `TriggerOrcsStop`, `TriggerGossipOn/Off`, `TriggerBoxOrcsOn/Off`), `TriggerHorseGo` | idle animation loops (drills, gossip, taunts, the witness and the lookout walking between markers) of monsters that turn hostile on sight (TrainingHostility.inc); the actors stand at their DAT positions and fight with the native AI. TriggerHorseGo only stops the wheels' spin (wheels do not spin natively) |
 | `TH_Bullseye.scr`, `TH_Chandelier.scr` | in MM9's scripts but used by no object of this map |
 
 All MM9 Trigger volumes are boxes polled four times a second (any part of the party: the box grows by its 37-unit
@@ -299,3 +299,19 @@ a frame late and counted it from that frame, so each tick took about 0.3 s headl
 (`updateScriptedEventTimers`: a handler's restart of its own timer counts from the alarm that ran it; tests in
 `tests/ScriptedEventTimerTests.cpp`). Probed every 0.25 s: out 2.0-5.25 s, waits 3 s, back 8.25-11.5 s, out again at
 13.5 s (MM9's 11.5 s cycle). No map change. `work/reach_monsters.yml` passes too.
+
+## Training scenes (2026-11-11)
+
+The scripts of line 118's "Unmatched" row now run as scene routines (`convert.py` `SCENES`, `training_routines`): the
+four students' drill (Taunt, then HAttack1/2 R L R R L R L L), the commanders' Stand, Fidget2, Stand, Taunt, the
+observers pacing MarkerA/B and facing the commander, the gossips' six ScriptParams clips, the jousters at their
+JoustMarkers with their four clips, the lookout pacing and watching, and the Mean Trellborg's Stand, Fidget3, Fidget1,
+Taunt before each launch (routines `launch`/`reset`; the joust timer pulls the lever after them). Each scene starts
+and stops on MM9's trigger volumes (`TriggerOrcTraining`/`TriggerOrcsStop`, `TriggerGossipOn/Off`,
+`TriggerBoxOrcsOn/Off`, the Trellborg triggers; map vars `OrcTraining`, `Gossip`, `BoxOrcs`, `Jousting`, applied again
+on load). They are still hostile on sight (TrainingHostility.inc): an orc that sees the party drops its routine and
+fights, and the gossips see the party at TriggerOrcTraining. Checked headless (the scripted clips cycle) and in desktop
+captures with the party invisible (`output/held_items_check/traininghall/`): the drill, the gossips facing each other,
+the jousters and the horse, the Mean Trellborg, the box room's observer. Scenarios: chests, scripted, spin, swim_check
+pass; `scenario_doors_exits.yml` fails at step 8 (the chandelier drop) with HEAD's scene and Lua too, so not from this
+change.

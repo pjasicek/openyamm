@@ -1,13 +1,13 @@
 {
   "base": {
     "bake": "output/mm9_rework/bakes/sturmfordcity",
-    "carried_over": true,
-    "geometry_hash": "5e7e85cc7ae9ea2f",
-    "lighting_sha256": "f28cd02bf1e7bd550e6a61d611d80c275ccaf7430df99353a692d54d463b4b97",
+    "carried_over": false,
+    "geometry_hash": "8209fd147c4b6320",
+    "lighting_sha256": "408ee1b26a22ae0448c4330defd698475a11464a0304659d3b71e8a19048a5d4",
     "recipe": {
-      "backend": "5.2.2 LTS",
+      "backend": "5.3.0",
       "extra_lights": [],
-      "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
+      "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
       "producer_sha256": "ded3384081980de459a4782726c59e6e20303caca10503ab4a5efa2b4aebca71",
       "profile": {
         "ambient_colour": [
@@ -56,5 +56,5 @@
     "plane_tolerance_lt": 1.5
   },
   "producer": "mm9r_common/lightmap_transfer.py",
-  "producer_sha256": "8b9b0dd21f5d7be16f8b361eca93b138610cafe45ee68c34210f1867395ae9d6"
+  "producer_sha256": "04ee0c2223a812928fa2f99d81b9bb3fe859beba8137a28859fc8a6e3dada5d3"
 }

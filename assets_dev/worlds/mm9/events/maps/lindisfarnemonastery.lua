@@ -57,8 +57,9 @@ local function applyHostility()
     evt.SetMonGroupBit(1, MonsterBits.Hostile, on)
     evt.SetMonGroupBit(2, MonsterBits.Hostile, on)
     -- BecomeHostile's AddEnemy Player: MM9's monster AI walks the monks at the party, the ones placed still at
-    -- their chores and prayers too
-    if on then for i in pairs(MONKS) do evt.SetActorImmobile(i, false) end end
+    -- their chores and prayers too; the Thjorad monks' prayer after the bells ends (ThjoradMonk.scr OnDamage:
+    -- Playanim stand)
+    if on then for i in pairs(MONKS) do evt.SetActorImmobile(i, false) evt.ClearActorPresentation(i) end end
 end
 local function alarm()
     if hostile() then return end
@@ -120,15 +121,24 @@ handlers[75] = function()
 end
 
 -- The bells (LindisfarneBell.scr; ScriptParams p2 picks the note): a pull on a rope (the rope Door's OpenTrigger0
--- 'use') or a click on the bell rings it; until key 9507 each ring reports to BellControl (StopDone: Trigger
--- BellControl Bell<n>). LindisfarneBellController.scr: Bell1 starts the order, each next bell must follow the
--- one before (else Reset); Bell5 after Bell4 runs :Finish.
+-- 'use') or a click on the bell uses it. :OnUse (only while Counter is 0: BellBusy<n>) plays Ring; its model keys
+-- BellBing and BellBong play the note; at its end (RingDone) Stop plays, whose keys play the note again, and
+-- Wait 1,3,StopDone: Counter 0 and, until key 9507, Trigger BellControl Bell<n>. Each step below is
+-- (seconds from the use, what), the key times read from BELL.abc. The bell part and its clapper swing with the clips.
+-- LindisfarneBellController.scr: :OnBell1 sets FirstBell; :OnBell<n> sets the next flag if the one before is set,
+-- else :Reset clears all five; Bell5 after Bell4 runs :Finish.
 local BELL_SOUND = {[1] = "events/churchbellring.wav", [2] = "events/churchbellring2.wav", [3] = "events/churchbellring3.wav", [4] = "events/churchbellring4.wav", [5] = "events/churchbellring5.wav"}
+local BELL_STEPS = {{0.400, "note"}, {1.200, "note"}, {2.000, "stop"}, {2.366, "note"}, {3.233, "note"}, {5.000, "done"}}
+local BELL_ORDER = {"FirstBell", "SecondBell", "ThirdBell", "FourthBell", "FifthBell"}
+-- the Finish's peal: its waits before Bell2..Bell5 (wait 1 .5, 1 .5, 1 .25, 1 .25)
+local FINALE_WAITS = {[2] = 0.5, [3] = 0.5, [4] = 0.25, [5] = 0.25}
+local useBell, peal
 local function praying(atLoad)   -- ThjoradMonk.scr :OnGoToPray (MM9 walks them; here they stand at the markers)
     if atLoad and MM9.actorAlive(23) or not atLoad and MM9.receives("lindisfarnemonastery", "ThjoradMonk1", "GoToPray", 23) then evt.SetMapActorPosition(23, 61, 10394, 1) end
     if atLoad and MM9.actorAlive(24) or not atLoad and MM9.receives("lindisfarnemonastery", "ThjoradMonk2", "GoToPray", 24) then evt.SetMapActorPosition(24, -108, 10399, 1) end
     if atLoad and MM9.actorAlive(25) or not atLoad and MM9.receives("lindisfarnemonastery", "ThjoradMonk3", "GoToPray", 25) then evt.SetMapActorPosition(25, -328, 10399, 4) end
     if atLoad and MM9.actorAlive(26) or not atLoad and MM9.receives("lindisfarnemonastery", "ThjoradMonk4", "GoToPray", 26) then evt.SetMapActorPosition(26, -553, 10404, 1) end
+    if MM9.actorAlive(23) and not hostile() then evt.PlayActorClip(23, "pray", true) end
 end
 local function finish()
     if MM9.hasKey(9507) == 0 then MM9.giveExperience(2000) end
@@ -136,36 +146,72 @@ local function finish()
     set("AtPrayer", 1)
     praying()
     set("FinaleStep", 1)
-    evt.StartTimer(261, seconds(0.5))
+    peal()
 end
-local function ring(n)
-    evt.PlaySoundName(BELL_SOUND[n], 0, 0, 0)
-    if MM9.hasKey(9507) == 1 then return end
-    if n == 1 then set("BellStep", 1)
-    elseif var("BellStep") == n - 1 then
-        set("BellStep", n)
-        if n == 5 then finish() end
-    else set("BellStep", 0) end
+local function control(n)   -- BellControl :OnBell<n>
+    if n == 1 then set(BELL_ORDER[1], 1) return end
+    if var(BELL_ORDER[n - 1]) ~= 1 then
+        for k = 1, 5 do set(BELL_ORDER[k], 0) end   -- :Reset
+        return
+    end
+    set(BELL_ORDER[n], 1)
+    if n == 5 then finish() end
 end
--- The Finish's peal: Bell1 to Bell5 again, half a second apart (its wait 1 .5 chain).
-handlers[261] = function()
+useBell = function(n)   -- :OnUse
+    if var("BellBusy" .. n) ~= 0 then return end
+    set("BellBusy" .. n, 1)
+    evt.PlayDecorationClip(310 + n, "ring")
+    evt.StartTimer(270 + n, seconds(BELL_STEPS[1][1]))
+end
+local function swing(n)   -- the bell's timer: step BellBusy<n> of BELL_STEPS
+    local step = var("BellBusy" .. n)
+    local at = BELL_STEPS[step]
+    if at == nil then
+        evt.StopTimer(270 + n)
+        return
+    end
+    if at[2] == "note" then
+        evt.PlaySoundName(BELL_SOUND[n], 0, 0, 0)
+    elseif at[2] == "stop" then
+        evt.PlayDecorationClip(310 + n, "stop")
+    else   -- :StopDone (Stop has ended: back to rest)
+        set("BellBusy" .. n, 0)
+        evt.StopTimer(270 + n)
+        evt.PlayDecorationClip(310 + n, "")
+        if MM9.hasKey(9507) == 0 then control(n) end
+        return
+    end
+    set("BellBusy" .. n, step + 1)
+    evt.StartTimer(270 + n, seconds(BELL_STEPS[step + 1][1] - at[1]))
+end
+-- :Finish uses Bell1 to Bell5 again (Trigger use: a bell still swinging ignores it), FINALE_WAITS apart.
+peal = function()
     local step = var("FinaleStep")
-    if step < 1 or step > 5 then return end
-    evt.PlaySoundName(BELL_SOUND[step], 0, 0, 0)
+    if step < 1 or step > 5 then
+        evt.StopTimer(261)
+        return
+    end
+    useBell(step)
     set("FinaleStep", step + 1)
-    if step < 5 then evt.StartTimer(261, seconds(0.5)) end
+    if step < 5 then evt.StartTimer(261, seconds(FINALE_WAITS[step + 1])) else evt.StopTimer(261) end
 end
-handlers[81] = function() ring(1) end   -- Bell1
-handlers[82] = function() ring(2) end   -- Bell2
-handlers[83] = function() ring(3) end   -- Bell3
-handlers[84] = function() ring(4) end   -- Bell4
-handlers[85] = function() ring(5) end   -- Bell5
+handlers[261] = function() peal() end
+handlers[81] = function() useBell(1) end   -- Bell1
+handlers[271] = function() swing(1) end   -- Bell1 swings
+handlers[82] = function() useBell(2) end   -- Bell2
+handlers[272] = function() swing(2) end   -- Bell2 swings
+handlers[83] = function() useBell(3) end   -- Bell3
+handlers[273] = function() swing(3) end   -- Bell3 swings
+handlers[84] = function() useBell(4) end   -- Bell4
+handlers[274] = function() swing(4) end   -- Bell4 swings
+handlers[85] = function() useBell(5) end   -- Bell5
+handlers[275] = function() swing(5) end   -- Bell5 swings
 -- The ropes: each pull lowers the rope (Door, 32 LT down; it rises again) and rings its bell.
-handlers[91] = function() press(DOORS.Rope1, 2) ring(1) end   -- Rope1
-handlers[92] = function() press(DOORS.Rope2, 2) ring(3) end   -- Rope2
-handlers[93] = function() press(DOORS.Rope3, 2) ring(5) end   -- Rope3
-handlers[94] = function() press(DOORS.Rope4, 2) ring(4) end   -- Rope4
-handlers[95] = function() press(DOORS.Rope5, 2) ring(2) end   -- Rope5
+handlers[91] = function() press(DOORS.Rope1, 2) useBell(1) end   -- Rope1
+handlers[92] = function() press(DOORS.Rope2, 2) useBell(3) end   -- Rope2
+handlers[93] = function() press(DOORS.Rope3, 2) useBell(5) end   -- Rope3
+handlers[94] = function() press(DOORS.Rope4, 2) useBell(4) end   -- Rope4
+handlers[95] = function() press(DOORS.Rope5, 2) useBell(2) end   -- Rope5
 
 -- The organ's 25 keys (Door, MoveDir down, MoveDist 2 LT, OpenStartSound Sounds\Music\<note>.wav).
 handlers[130] = function() press(DOORS.OrganC1) evt.PlaySoundName("music/c1.wav", 0, 0, 0) end   -- C1
@@ -194,12 +240,23 @@ handlers[152] = function() press(DOORS.OrganAs2) evt.PlaySoundName("music/a#2.wa
 handlers[153] = function() press(DOORS.OrganB2) evt.PlaySoundName("music/b2.wav", 0, 0, 0) end   -- B2
 handlers[154] = function() press(DOORS.OrganE3) evt.PlaySoundName("music/e3.wav", 0, 0, 0) end   -- E3
 
--- The organ player (NPC420.scr :OnRude, :PlaySong, :Play): with key 9506 from his dialogue he plays the
--- hymn (HeroesPipe441.wav, 24 s) and the key is taken.
+-- The organ player (NPC420.scr :OnRude, :PlaySong, :Play): with key 9506 from his dialogue he turns to the
+-- organ (FaceObject E2, 180 degrees a second) and plays the hymn (LoopAnim play, HeroesPipe441.wav, 24 s), the key taken;
+-- while he plays he does not talk (OnUse: bIsPlaying).
 handlers[50411] = function()
     if MM9.hasKey(9506) == 0 then return end
     MM9.takeKey(9506)
     evt.PlaySoundName("events/heroespipe441.wav", 0, 0, 0)
+    evt.FaceActorTo(3, -328, 10383, 1)
+    evt.PlayActorClip(3, "play", true)
+    set("OrganPlaying", 1)
+    evt.StartTimer(263, seconds(24))
+end
+handlers[263] = function()   -- :OnExit
+    evt.StopTimer(263)
+    if var("OrganPlaying") ~= 1 then return end
+    evt.ClearActorPresentation(3)
+    set("OrganPlaying", 0)
 end
 
 -- Grehgknak the Right (NPC282.scr :OnRude): :giveletter (key 228 without 229: key 229, item 419); :paladins
@@ -263,6 +320,8 @@ handlers[1] = function()
     if var("ThjoradTaken") == 1 then evt.SetSprite(300, false) end
     if MM9.hasKey(9507) == 1 then set("AtPrayer", 1) praying(true) end
     robert()
+    set("OrganPlaying", 0)   -- a hymn a save cut short is over
+    for n = 1, 5 do set("BellBusy" .. n, 0) end   -- so is a bell's swing (its report to BellControl too)
 end
 
 -- MM9's greeting voices (dungeon/voices.py): a click on these people plays their GreetingSound or the
@@ -308,10 +367,15 @@ RegisterEvent(53592, "ThjoradMonk2", handlers[53592])
 RegisterEvent(53593, "ThjoradMonk3", handlers[53593])
 RegisterEvent(53594, "ThjoradMonk4", handlers[53594])
 RegisterEvent(81, "Bell", handlers[81], "Bell")
+RegisterMapTimerEvent(271, seconds(3), handlers[271], "Bell1 swing", "", seconds(3))
 RegisterEvent(82, "Bell", handlers[82], "Bell")
+RegisterMapTimerEvent(272, seconds(3), handlers[272], "Bell2 swing", "", seconds(3))
 RegisterEvent(83, "Bell", handlers[83], "Bell")
+RegisterMapTimerEvent(273, seconds(3), handlers[273], "Bell3 swing", "", seconds(3))
 RegisterEvent(84, "Bell", handlers[84], "Bell")
+RegisterMapTimerEvent(274, seconds(3), handlers[274], "Bell4 swing", "", seconds(3))
 RegisterEvent(85, "Bell", handlers[85], "Bell")
+RegisterMapTimerEvent(275, seconds(3), handlers[275], "Bell5 swing", "", seconds(3))
 RegisterEvent(91, "Rope", handlers[91], "Rope")
 RegisterEvent(92, "Rope", handlers[92], "Rope")
 RegisterEvent(93, "Rope", handlers[93], "Rope")
@@ -349,6 +413,7 @@ RegisterEvent(75, "Thjorad", handlers[75], "Thjorad")
 RegisterMapTimerEvent(261, seconds(3), handlers[261], "Bell peal", "", seconds(3))
 RegisterMapTimerEvent(260, seconds(3), handlers[260], "Release", "", seconds(3))
 RegisterMapTimerEvent(262, seconds(3), handlers[262], "Robert", "", seconds(3))
+RegisterMapTimerEvent(263, seconds(3), handlers[263], "Hymn", "", seconds(3))
 RegisterEvent(76, "Letter", handlers[76], "Letter")
 RegisterEvent(77, "Letter", handlers[77], "Letter")
 RegisterEvent(78, "Letter", handlers[78], "Letter")

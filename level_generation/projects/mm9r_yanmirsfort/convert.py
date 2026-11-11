@@ -87,6 +87,7 @@ EXP_TRAP, EXP_DEATH = 8000, 5000
 CHILD_SIGHT = 600                                 # SightDistance (LT)
 BUG_RESPAWN_MIN, BUG_RESPAWN_MAX = 600, 900       # YanmirFort_BugSpawn.scr MIN/MAX_SPAWN_TIME (s)
 KICK_REACH = 700                                  # native: Yanmir's reach for a door kick (his radius 154 + a stride)
+KICK_CHECK = 0.5                                  # s: the door kicks are checked every other poll (T_POLL, 0.25 s)
 BUG_SIGHT = 2000                                  # native: "the player can't see this happen" (no LOS test here)
 
 # MM9's bodies: the ABC's first AnimBinding extents (half sizes, LT) by MONSTERS.txt row name x Scale x 2.56.
@@ -148,6 +149,14 @@ def lua_string(text: str) -> str:
 def lua_list(values) -> str:
     return "{" + ", ".join(str(v) for v in values) + "}"
 
+
+
+def kick_open_key() -> float:
+    """The OpenDoor model key of YANMIR.abc's KickDoor (s): YanmirBase.scr opens the kicked door there."""
+    from convert_abc_model import read_abc
+    model = read_abc(ROOT / "mm9/extracted/MODELS/MODELS/YANMIR.abc")
+    clip = next(a for a in model.animations if a.name.lower() == "kickdoor")
+    return next(k.time_ms for k in clip.keyframes if "opendoor" in (k.event or "").lower()) / 1000.0
 
 class YanmirsFort(dungeon.Hooks):
     generator = "mm9r_yanmirsfort"
@@ -379,7 +388,10 @@ class YanmirsFort(dungeon.Hooks):
                 continue                       # the teleporter doors: Locked
             models = [name for name, rule in build.plan["movers"].items() if rule.get("group") == group]
             pts = np.concatenate([p.points for name in models for p in build.source.polygons(name)])
-            c = build.project.native((pts.min(0) + pts.max(0)) / 2).round().astype(int)
+            # the doorway's middle at its foot: Yanmir's feet stand level with it (the middle of his 1200-high doors
+            # stood 609 over his floor, out of the 600 reach in height, so he never kicked them)
+            low, high = pts.min(0), pts.max(0)
+            c = build.project.native([(low[0] + high[0]) / 2, low[1], (low[2] + high[2]) / 2]).round().astype(int)
             kick.append(f"{{\"{group}\", {c[0]}, {c[1]}, {c[2]}}}")
         script.lines += [
             "local GROUPS = {" + ", ".join(f"[\"{g}\"] = {{{', '.join(map(str, ids))}}}"
@@ -557,7 +569,10 @@ class YanmirsFort(dungeon.Hooks):
             f"            evt.SetMonGroupBit({GROUP_GIANTS}, MonsterBits.Invisible, false)",
             "        end",
             "    end",
-            "    if var(\"YanmirAwake\") == 1 and var(\"YanmirGone\") == 0 then evt.WakeActor(YANMIR) end",
+            "    if var(\"YanmirAwake\") == 1 and var(\"YanmirGone\") == 0 then",
+            "        evt.SetActorImmobile(YANMIR, false)   -- a kick saved half way (kickDoors' hold is runtime only)",
+            "        evt.WakeActor(YANMIR)",
+            "    end",
             "    for name, _ in pairs(CHILD) do",
             "        if var(\"Escaped\" .. name) == 1 then MM9.removeActor(CHILD[name]) end",
             "    end",
@@ -646,18 +661,51 @@ class YanmirsFort(dungeon.Hooks):
 
     def script_volumes(self) -> list[str]:
         city = self.city_arrival
+        key = kick_open_key()
+        if abs(key - KICK_CHECK) > 0.05:
+            raise SystemExit(f"YANMIR.abc KickDoor's OpenDoor key at {key} s: the door kicks' check ({KICK_CHECK} s) "
+                             "no longer meets it")
         return [
             "",
-            "-- YanmirBase.scr :BD_OnDoor -> :KickDoor -> :OpenDoor (stonedoorslam.wav, \"Use\" on the door): a shut door",
-            f"-- within {KICK_REACH} of Yanmir is kicked open (native monsters do not open doors).",
+            "-- YanmirBase.scr :BD_OnDoor -> :KickDoor (PlayAnim KickDoor) -> its OpenDoor model key -> :OpenDoor",
+            f"-- (stonedoorslam.wav, \"Use\" on the door): a shut door within {KICK_REACH} of Yanmir is kicked open "
+            "(native monsters do",
+            f"-- not open doors). He plays kick_door, and the next check, {KICK_CHECK:g} s later (the key is at "
+            f"{key:.3f} s), opens the door",
+            "-- (Kicked 1: kicked, 2: open). No door state reaches the Lua, so only a door's first kick plays the clip:",
+            "-- one the party shut again opens as he passes. As MM9's KickDoor holds his path (SavePath), he stands",
+            "-- facing the door through the clip and walks on at the check after the opening (the clip's end).",
+            "local kickHold = 0",
             "local function kickDoors()",
+            "    if kickHold > 0 then",
+            "        kickHold = kickHold - 1",
+            "        if kickHold == 0 then",
+            "            evt.SetActorImmobile(YANMIR, false)",
+            "            if var(\"TrapFired\") == 0 then evt.ClearActorPresentation(YANMIR) end",
+            "        end",
+            "    end",
+            "    for _, d in ipairs(KICK_DOORS) do",
+            "        if var(\"Kicked\" .. d[1]) == 1 then   -- kicked at the last check: the clip's OpenDoor key",
+            "            set(\"Kicked\" .. d[1], 2)",
+            "            evt.PlaySoundName(\"door/stonedoorslam.wav\", d[2], d[3], d[4])",
+            "            openGroup(d[1])",
+            "        end",
+            "    end",
+            "    if var(\"YanmirAwake\") == 0 or var(\"YanmirGone\") == 1 or not MM9.actorAlive(YANMIR) then return end",
             "    local yx, yy, yz = evt.GetMapActorPosition(YANMIR)",
             "    if yx == nil then return end",
             "    for _, d in ipairs(KICK_DOORS) do",
             f"        if (d[2] - yx) ^ 2 + (d[3] - yy) ^ 2 < {KICK_REACH} ^ 2 and math.abs(d[4] - yz) < 600 then",
-            "            if var(\"Kicked\" .. d[1]) == 0 then set(\"Kicks\", var(\"Kicks\") + 1) end",
-            "            set(\"Kicked\" .. d[1], 1)",
-            "            openGroup(d[1])",
+            "            if var(\"Kicked\" .. d[1]) == 0 then",
+            "                set(\"Kicks\", var(\"Kicks\") + 1)",
+            "                set(\"Kicked\" .. d[1], 1)",
+            "                evt.PlayActorClip(YANMIR, \"kick_door\")",
+            "                evt.FaceActorTo(YANMIR, d[2], d[3], 0.15)",
+            "                evt.SetActorImmobile(YANMIR, true)",
+            "                kickHold = 2",
+            "            else",
+            "                openGroup(d[1])",
+            "            end",
             "        end",
             "    end",
             "end",
@@ -693,7 +741,7 @@ class YanmirsFort(dungeon.Hooks):
             "        local b = BOX.TriggerYanmirTrap",
             "        if yx ~= nil and yx >= b[1][1] and yx <= b[2][1] and yy >= b[1][2] and yy <= b[2][2] then trapFires() end",
             "    end",
-            "    if var(\"YanmirAwake\") == 1 and var(\"YanmirGone\") == 0 and polls % 2 == 0 then kickDoors() end",
+            "    if polls % 2 == 0 then kickDoors() end",
             "    if var(\"TrapFired\") == 1 and inBox(BOX.EndOfWorld, x, y, z) and var(\"FellToCity\") == 0 then",
             "        set(\"FellToCity\", 1)",
             f"        evt.MoveToMap({city[0]}, {city[1]}, {city[2]}, {city[3]}, 0, 0, 0, 0, \"frosgardcity.blv\")",

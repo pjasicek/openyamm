@@ -11,7 +11,8 @@ props.json):
     scenario_scripted.yml      the location key 1028, shop hours (5017), the town portal altar (5014), a letter,
                                Markel's clans (178) by his click and his Dook reward (168) on the close, the bank's
                                orb (326), the apothecary's potion (209 two hours after 208; 373 unlocks Nurtigan's
-                               sickroom door), the tavern keeper's keg (306)
+                               sickroom door), the tavern keeper's keg (306), Markel's awards (a Stuffed Dragon
+                               taken only once he is dead, 40; with Yrsa's errand, 93, it gives 94)
 
 The city has no chest (MM9 places no TreasureChest or TreasureBag here).
 
@@ -209,6 +210,15 @@ def main() -> int:
         {"execute_event": {"id": citylua.EV_SICKROOM}},
         {"advance_runtime": {"seconds": 3}},
         {"assert": {"mechanism": {"id": sick["door_id"], "state": "open"}}},
+        {"note": {"text": "Markel's awards (Prize0-5, world items, refused while Markel lives): with him dead (40) and "
+                          "Yrsa's errand (93) one is taken: the Stuffed Dragon and key 94, the prize won."}},
+        {"setup_shortcut": {"kind": "set_qbit", "id": key(40), "value": True}},
+        {"setup_shortcut": {"kind": "set_qbit", "id": key(93), "value": True}},
+        {"advance_runtime": {"seconds": 0.2}},
+        *scenarios.pick_up_steps(floors, MAP, scene, "Prize2", facing_degrees=180),   # the hall is south
+        {"advance_runtime": {"seconds": 0.5}},
+        {"assert": {"qbit_set": [key(94)]}},
+        {"assert": {"inventory_any_member": [{"item_id": 10395, "count": 1}]}},
     ]
     doc["steps"] += town_portal.scenario_steps(PROJECT / "props.json", events, MAP)   # TownPortal.scr
     scenarios.write(PROJECT / "scenario_scripted.yml", doc, "make_scenarios.py")

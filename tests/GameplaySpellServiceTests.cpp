@@ -3,6 +3,7 @@
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayActionController.h"
+#include "game/items/ItemEnchantRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/SpellRules.h"
@@ -835,6 +836,23 @@ TEST_CASE("a bow shot with no actor under the crosshair flies at a standing dest
             Game::GameplayActionController::executePartyAttack(config);
         CHECK_EQ(result.targetActorIndex, std::optional<size_t>(4));
         CHECK(world.shots.empty());
+    }
+    SUBCASE("a Carnage bow shoots an exploding fire arrow that carries its damage range")
+    {
+        Game::ItemEnchantRuntime::applySpecialEnchantBonus(*pArcher, Game::SpecialItemEnchantKind::Carnage);
+        world.faceStanding = false;
+        world.fallbackActors = {fallbackHostile(3, 2500.0f)};
+        const Game::GameplayActionController::PartyAttackExecutionResult result =
+            Game::GameplayActionController::executePartyAttack(config);
+        CHECK(result.attack.explosiveArrow);
+        REQUIRE_FALSE(world.shots.empty());
+        const Game::GameplayPartyAttackProjectileRequest &shot = world.shots.front();
+        CHECK_EQ(shot.damageType, Game::CombatDamageType::Fire);
+        CHECK_FALSE(shot.useActorHitChance);
+        CHECK_EQ(shot.explosionRadius, doctest::Approx(512.0f));
+        CHECK(shot.blastMinimumDamage > 0);
+        CHECK(shot.blastMinimumDamage <= shot.damage);
+        CHECK(shot.damage <= shot.blastMaximumDamage);
     }
     SUBCASE("a destructible within blow reach takes a blow, not an arrow")
     {

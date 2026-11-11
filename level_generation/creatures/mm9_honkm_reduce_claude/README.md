@@ -108,3 +108,7 @@ project must re-run that reduction". Rollback: `before/mm9_honkm.glb`.
 In game; motion at normal speed (frames, gates and viewer stills only); LOD1-3 and shadow meshes by eye (numbers only); hats in
 the viewer (clearance by numbers at bind only, not per clip); close shots of tier B after the final build (its face and body
 sheets only); body sheets of tiers A and C of the final build were made (`review/sheet_body_l60_{a,c}.png`) but read only on the first build; the boots in close-up (hidden under the robe; the close shot aimed at the right foot shows only the robe).
+
+## MM9 sockets (2026-11-10)
+
+The installed model carries MM9's attach points as `Socket_<name>` nodes for held items (scene `held_items`, MM9's AttachProp), added after this project's install by [`mm9_held_items_claude/scripts/add_sockets.py`](../../props/mm9_held_items_claude/scripts/add_sockets.py) (`Socket_pamphlet`). A rebuild installed from here drops them: run that script again and install its export (`tools/install_model.py --world mm9`).

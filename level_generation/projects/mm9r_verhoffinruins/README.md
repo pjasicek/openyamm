@@ -34,6 +34,21 @@ walls standing on it (the shared `dungeon/wall_splits.py`, selected by `TRAP_ROO
 transfer: coverage 0.994), the four scenarios pass, promoted into `assets_dev` (backup
 `output/mm9_rework/promotion_verhoffin_20261107/`).
 
+Update 2026-11-10 (**the busts fall through the ceiling**, play-test: "3 skeletons just appear"): as in MM9
+(`KingKong.scr :FallThrough`), the busts wait in the two pockets over the corridor's ceiling slabs `BreakOut0/1`, standing
+on them, hidden. BustTrigger0/1's ForceFall destroys the slab (a scene destructible, `motion: break, doorway: true`:
+stone debris, MM9's `rockscrumblingloop.wav`); its broken event (226, 227) shows the pocket's group, hostile, and puffs
+its dust (`BreakOutDust1/0`), and the monsters fall into the corridor. A slab broken by the party's weapons (CanDamage,
+100 HP) drops them the same way (before, it was already breakable but opened onto nothing and released nobody). The
+pockets are seeded air (the busts left `seed_exclude`) and are rooms of their own behind a horizontal portal under each
+slab (shared `rooms.leaf_rectangle`: a flat leaf gets a horizontal doorway); 6 193 -> 6 282 faces, 29 -> 31 sectors. The
+engine drops an idle actor whose floor face is destroyed (`IndoorWorldRuntime::destroyIndoorDestructible`). Rebuilt
+(convert, layout, lightmap transfer: coverage 0.9936), the four scenarios pass (scripted: the busts start above the
+slab, the slab breaks, they land on the corridor floor), promoted into `assets_dev` (backup
+`output/mm9_rework/promotion_verhoffin_busts_20261110/`). The review root does not load MM9 maps at present
+(`world.yml` openAirMaps: `isleofashes.blv` is not a BLV there, the root also has the old `isleofashes.odm`): the bake and
+the scenarios used `assets_dev` with this map's new files.
+
 ## Build and review
 
 ```sh
@@ -80,7 +95,7 @@ python3 level_generation/projects/mm9r_verhoffinruins/work/brightness.py review/
 
 | MM9 | Native |
 | --- | --- |
-| `PhysicsBSP`, `InvisibleBrush0-6`, `PaddleMesh`, `BrokenDoor1`, `BreakOut0/1`, `TransGate*` | static world; invisible collision; the stained glass (`staind_a_glass`, brush Alpha 0.5) translucent, a glass portal into each lit alcove |
+| `PhysicsBSP`, `InvisibleBrush0-6`, `PaddleMesh`, `BrokenDoor1`, `TransGate*` | static world; invisible collision; the stained glass (`staind_a_glass`, brush Alpha 0.5) translucent, a glass portal into each lit alcove |
 | `RotatingDoor` double doors, `CellBars*`+`CellDoor*`, `PrisonDoor*`, `Door5`, `FallingDoor`, `TortureChamberDoor*` | `rotate` movers, one per leaf, MM9 pivot, angle, speed |
 | `WaterNozzle0-3`, `Paddle` | `rotate`; the paddle pushes bodies (`bodies: push`) |
 | `WaterRoomButton1/2`, `PaddlePlate`, `SawBladeArm1` + `SawBlade1` | `dat` / `slide` (the blade rides the arm, MM9's AttachTo) |
@@ -111,7 +126,7 @@ python3 level_generation/projects/mm9r_verhoffinruins/work/brightness.py review/
 | **Water trap** `DrainWater.scr` (WaterTrap), nozzles' OpenTriggers, `TriggerWaterLock/Unlock`, `WaterRoomButton2`, `Trigger0` | a click on a nozzle floods the room: DD5 shuts, the water rises, the drain button's hint shows to a perceptive party; 10 drowning damage every 2 s after 8 s; the drain button lowers it and frees the door and nozzles. `WaterRoomButton1` is a dummy (Locked, nothing unlocks it) |
 | **Saw** `SawBladeTrigger1`, `saw damage trigger 1/2`, `TriggerTimer1` | blade and arm slide across the corridor and back (2 s), 40 to a party in the blade's path, re-armed after 5 s |
 | **Paddle** `PaddleTrigger`, `Paddle`/`SwingPaddle`/`PaddlePlate` | the paddle sweeps over its plate toward the pit and back, pushing what stands in its way; re-armed |
-| **Busts** `KingKong.scr` "BreakOut0/1" ForceFall on `BustTrigger0/1` | the monsters of the pocket over the corridor's ceiling slab appear under it (Invisible off, hostile) with a rockfall sound |
+| **Busts** `KingKong.scr` "BreakOut0/1" ForceFall on `BustTrigger0/1` | the slab (`BreakOut0/1`, a scene destructible with a horizontal doorway) is destroyed; the pocket's monsters, waiting on it hidden, are shown, hostile, and fall into the corridor; the slab's dust puffs (`BreakOutDust1/0`). Weapons breaking a slab do the same |
 | **Bolt** `DestructableBrush12` (Damage/DeathTrigger) | its damage (event 209) hides PerceptionBrush0 (`BoltHintOff`); its death (event 206: weapons, or a click) sets `BoltBroken`, which unlocks PrisonDoor2 |
 | **Falling door** `FallingDoor` (OpenTrigger2 locks it) | falls flat once on a click |
 | **PerceptionBrushes** | shown at Perception 9 (`evt.CheckSkill`), checked on load and every 3 s; the hint boxes round the bolt and the drain button take their clicks |
@@ -204,7 +219,8 @@ actor is the evidence. The other 29 actors are in rooms the audit joins to the s
   in convert.py says 0.7, the DAT has 0.9. Sheet `review/liquid/see_through.jpg` (the trap water is under the floor
   until the trap fires, so it shows the pit).
 - **Trap water** rises to -30 LT, under the ceiling (MM9's volume rises into it); drowning is a fixed 10 every 2 s.
-- **The busts' slabs stay**: no breakable geometry; the monsters appear under the slabs.
+- **The busts are hidden in their pockets** until their slab breaks (MM9 draws them; the pockets are sealed, so no player
+  sees the difference).
 - **The bolt also breaks on a click** (a killing blow; MM9: weapon damage only, which works too since 2026-11-06).
 - **Doors without a doorway portal**: DD9, PrisonDoor1/4, Cell8 stand in broken walls (both sides are one room); DD10 and
   TortureChamberDoor6 have rock behind them; TortureChamberDoor7 the chamber's own air.

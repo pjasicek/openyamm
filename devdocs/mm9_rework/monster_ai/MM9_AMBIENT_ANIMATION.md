@@ -69,6 +69,14 @@ state entry. A looping state keeps that clip until the state changes. A one-shot
   clips. There is no weighting and no fixed order.
 - **Where fidgets happen.** Only idle runs the fidget timer. Walking, running, taunt, wince, strafe, the attack and
   speak states never fidget, and the fidget think (`+0x5d0` → `0x1001c7e0`) only tracks a target or searches.
+- **A script's `LoopAnim` or `PlayAnim` stops the fidgets** (traced 2026-11-10). The command (`LoopAnim` vtable
+  `0x10181f04`, run `0x100a7dd0`; `PlayAnim` `0x10181f14`, run `0x100a7c90`) calls actor slot `+0xbc`
+  (`0x1000de70`: loop when the count is -1, stores the clip at `+0x424` and the count at `+0x428`) → `+0x248`
+  (`0x10002300`) → animator slot 2 (`0x1001d560`, the blending animator's `0x1001f6b0` calls it first), which sets the
+  animator state to **0x11** and plays the clip. The update's think dispatcher (`0x1001e870`, byte table `0x1001ea10`)
+  sends state 0x11 to slot `+0x5d4`, the same `0x1001c7e0`: track or search, no fidget timer. So an actor looping a
+  script clip never fidgets until its script sets another state (`Stop`, a walk); entering idle from 0x11 then arms
+  a fresh 5-12 s timer (`0x100168a0`, the current state is not idle).
 - **Per family:**
   - Fliers and swimmers use the `StandAir`/`FidgetAir` and `StandWater`/`FidgetWater` lists in their flyIdle and
     swimIdle states. The timer was not traced separately.
@@ -89,7 +97,9 @@ state entry. A looping state keeps that clip until the state changes. A one-shot
   - If the marker says `PlayAnim`, play its `AnimationName` once (`PlayAnim`), or loop it (`LoopAnim`).
   - Then wait the marker's `WanderWaitMin/Max` or the placement's 3-8 s, and walk to the next marker.
 - **At stops** the actor is in idle, so the native fidget timer runs. With 3-8 s waits and a 5-12 s timer, a fidget
-  at a stop is the exception. There is no scripted look-around: the only turn is the random re-heading.
+  at a stop is the exception. There is no scripted look-around: the only turn is the random re-heading. A marker's
+  looped clip, or a script that loops its own clip while it waits (`MonkGuardBasic.scr`: `LoopAnim` of the pause or
+  the chore), holds the script state 0x11 and does not fidget (§2.1).
 
 ### 2.3 Townsfolk chatting with each other (`NPCBASE.inc`)
 
@@ -293,3 +303,46 @@ All the fixes below are data-driven, with no world branches.
    - **Done** (2026-11-06): as above, `path_stops: [{point, face, wait, clip, loop}]`; the clip shows as a script clip
      that loops or releases at its end (`GameplayRuntimeActorState::ScriptedClipEnd`). Arena `marker_stops`.
 7. **Talk clip.** None needed: MM9 plays none. Keep `talk` as a script clip for scripted scenes only.
+8. **Script loops and chores** (2026-11-10). A looped script clip holds MM9's script state 0x11, which never fidgets
+   (§2.1). Lindisfarne Monastery's monks showed the gap: all 27 stood and fidgeted, and `Fidget2` is the monk's
+   "who's there?" voice, so it sounded throughout the monastery. In MM9, `MonkGuardBasic.scr` loops a clip whenever its
+   monk stands, chosen by the type in its first script parameter: the prayer (0) loops `stand` while it waits between
+   walks, the hoe (1) and broom (2) monks `hoe` and `sweep` at each stop, the hammer (3) and wash (4) monks their work.
+   `ThjoradMonk.scr` loops its first parameter (`Pray`, `Hammer`) and, after the bells, `pray`. Only the chatting
+   monks (-1) and the four named NPCs fidget. Their `Fidget` (MM9's `fidget1`) carries the `PrayMumble` key, so 4 times
+   in 10 it mumbles a prayer (`MonkSounds.inc`). The `HoeFidget`/`SweepFidget`/`HammerFidget`/`WashFidget` clips are not
+   only `WORKINGMONK.scr`'s (item 6): `MonkGuardBasic.scr` plays one once when a working monk is talked to.
+   - **Done:** scene `mm9_ai.idle_clip` (`Mm9AiPlacement::idleClip`, saved from version 173; older saves take it
+     from the scene on the map's next entry): `AI_Mm9IdleStand` stands without fidgets while it has one, or while a
+     marker's looped clip holds, and the fidget is armed anew once the loop ends. The world runtimes show the clip,
+     looped, while the actor stands without a target, its AI awake or not. A marker's clip played once still lets the
+     timer run. Lindisfarne's converter sets the monks' clips; `generate_mm9_monster_sounds.py` reads the `PrayMumble`
+     key (it looked for `pray`).
+   - **Tools** (2026-11-10, item 10): the hoe, broom and wash monks hold MM9's tools (`held_items`). Not done: the
+     working monks' fidget on a talk.
+9. **Routines** (2026-11-10). MM9's scripted work and scenes beyond a looped clip (a miner's walk to the rock face
+   and back, a drill, a ceremony) are a placement's `mm9_ai.routines`: named lists of steps the MM9 loop runs round
+   and round while the actor holds no target, in place of its wander and chats (`AI_Mm9Routine`). `default` runs from
+   the start; a map script switches with `evt.SetActorRoutine(actor, name)` (no name: none; runtime only, set again on
+   load). Steps, written by the map converters:
+   - `{walk: [x, y, z]}`, `{run: [x, y, z]}`: to the point by its own steering (given up after 40 s or if it may not
+     move: a routine walker must not be `immobile`);
+   - `{face: degrees}`: turns there (map frame, as `path_stops`) at 360 degrees a second;
+   - `{clip: name, seconds: s}` or `{clips: [{clip, seconds}, ...]}` (one picked at random): stands and plays the
+     clip, looping within its seconds (a clip's own length plays it once), without fidgets;
+   - `{wait: [minimum, maximum]}`: stands idle (its idle clip or its fidgets);
+   - `{chance: p, steps: [...]}`: the group with chance p, else skipped;
+   - `{items: hide}`, `{items: show}`: puts its held items down and takes them up (DetachProp and AttachProp around a
+     trip).
+   Saved with the placement record from save version 174 (older saves take them from the scene on the map's next
+   entry). Clip seconds come from the model's clip lengths (the converter reads them). Tests: `*MM9 routine runs its
+   steps*`, `*parses its routines*`.
+10. **Held items** (2026-11-10). MM9's `AttachProp` (a monk's hoe, a miner's axe, a Honk's pamphlet) and the pieces of
+   MM9 prop models our bodies lack (Ercc's cup) are a placed actor's scene `held_items: [{model, node}]`
+   (`MapDeltaActor::heldItems`, saved from version 174), drawn on its 3D model after its binding's attachments; map
+   scripts change them with `evt.AttachActorItem(actor, model, node)` and `evt.DetachActorItem(actor[, node])`, and a
+   routine's `items` steps hide them for a while. The items are MM9's own models
+   (`level_generation/props/mm9_held_items_claude/`: `worlds/mm9/models/mm9_item_*.glb`); the nodes are MM9's sockets
+   carried onto our creature models as `Socket_<name>` (the same project's `add_sockets.py`: monk `Socket_Hoe`,
+   `Socket_Broom`, `Socket_Hammer`, `Socket_Cloth`; dwarf peasants and the dwarf `Socket_RHand1`; Honks
+   `Socket_pamphlet`; the townsman `Socket_Cup` for Ercc's cup).

@@ -32,6 +32,7 @@ LETTERS = ROOT / "mm9/extracted/DATA/DATA/BOOK AND SCROLL TEXT.csv"
 EV_LOAD, EV_LOCKED, EV_KIRA_DOOR = 1, 230, 232
 T_POLL, T_GUARD = 260, 261
 EV_AT_WALL, EV_AT_SHMOE, EV_GUARD_KILLED = 262, 263, 264   # the Terror's walks' arrivals, the breakout guards' deaths
+EV_HONK_GONE = 265                  # + k: a persuaded Honk reaches HonkyMarker (Honkies.scr :OnShanghai)
 EV_NPC_PROP = 300                   # posed npc props that are not posed people (props.json kind npc): + k
 EV_SCRIPTED_PROP = 330              # letters, books, the town portal altar: EV_SCRIPTED_PROP + k
 # (KiraShield.scr's shield is a world item, ../mm9r_common/dungeon/pickups.py: taken only with key 214, key 216 on pickup)
@@ -276,18 +277,25 @@ def map_script(hooks, build) -> str:
     honks = (("CommonerHumanMaleA1", 142), ("CommonerHumanFemaleA1", 143), ("CommonerHumanFemaleA0", 144))
     lines = [
         "-- HONKIES.scr (the three Honk missionaries, RUDE 271, 272, 279): with the dock captain's plan (key 145), each one",
-        "-- persuaded (142, 143, 144) leaves for the docks; the third gives key 77 and 8 000 experience. Gone on 77.",
+        "-- persuaded (142, 143, 144) leaves for the docks (:Walk: runs to HonkyMarker, gone there: :OnShanghai);",
+        "-- the third gives key 77 and 8 000 experience. Gone on 77 (a load removes the persuaded ones at once).",
         "-- (MM9 sends every Honk whose dialogue closes with 145 and any of the three keys; here only the persuaded one.)",
+        f"local HONKY_MARKER = {{{', '.join(map(str, points['HonkyMarker']))}}}",
+        "local function honkLeaves(actor, arrival)",
+        "    local m = HONKY_MARKER",
+        "    if not evt.MoveActorTo(actor, m[1], m[2], m[3], arrival, true) then MM9.removeActor(actor) end",
+        "end",
         "local function honksDone()",
         "    local n = 0",
         "    for _, k in ipairs({142, 143, 144}) do if has(k) then n = n + 1 end end",
         f"    if n == 3 and not has(77) then reward(77, {balanced_experience(8000, 77)}, 0) end",
         "end",
     ]
-    for name, key in honks:
+    for k, (name, key) in enumerate(honks):
         lines += [f"handlers[{rude_exit_event(o[name])}] = function()",
-                  f"    if has(145) and has({key}) then MM9.removeActor({a[name]}); honksDone() end",
-                  "end"]
+                  f"    if has(145) and has({key}) then honkLeaves({a[name]}, {EV_HONK_GONE + k}); honksDone() end",
+                  "end",
+                  f"handlers[{EV_HONK_GONE + k}] = function() MM9.removeActor({a[name]}) end"]
     lines += [
         "",
         "-- BANKORB.scr (Brynhildr the Money-wise, RUDE 243, \"Thronheim\"): the Orb of Linking. A click with the orb",
@@ -339,6 +347,7 @@ def map_script(hooks, build) -> str:
     lua.thorolf_approaches(script, a, ("Thorolf0", "Thorolf1"))
     lines += [""]
     regs = [(rude_exit_event(o[name]), "Honk", None) for name, _ in honks]
+    regs += [(EV_HONK_GONE + k, "Honk", None) for k in range(len(honks))]
     regs += [(rude_use_event(o["brynhildr"]), "Bank", None), (rude_exit_event(o["brynhildr"]), "Bank", None),
              (rude_exit_event(o["Ealusaid"]), "Ealusaid", None), (rude_exit_event(o["dagfaripeevish"]), "Dagfari", None),
              (rude_exit_event(o["CommonerHuman2MaleA8"]), "Erlend", None)]

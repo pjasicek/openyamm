@@ -400,3 +400,27 @@ details.walkthrough .journal { margin-top: 8px; }
 .walk-toggle { display: inline-flex; gap: 6px; align-items: center; font-size: .88rem; color: var(--muted); cursor: pointer; }
 .level-badge { display: inline-block; padding: 0 6px; border-radius: 5px; background: var(--accent-soft); color: var(--accent);
   font: 600 .78rem/1.5 var(--font-mono); vertical-align: 1px; }
+
+/* Shops: spells by school and mastery */
+.spell-tiers { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.spell-tier { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.spell-tier h3 { margin: 0 0 6px; font-size: 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.spell-tier .tier-spells { font-weight: 400; font-size: .85rem; }
+.tier-shop { border-top: 1px solid var(--line); }
+.tier-shop > summary { cursor: pointer; padding: 6px 0 6px 18px; position: relative; list-style: none; display: flex;
+  flex-wrap: wrap; gap: 2px 14px; align-items: baseline; }
+.tier-shop > summary::-webkit-details-marker { display: none; }
+.tier-shop > summary::before { content: "▸"; position: absolute; left: 2px; top: 6px; color: var(--accent); transition: transform .15s; }
+.tier-shop[open] > summary::before { transform: rotate(90deg); }
+.tier-shop > summary:hover .ts-name b { color: var(--accent); }
+.tier-shop .ts-name { flex: 0 1 300px; min-width: 0; }
+.tier-shop .ts-what { flex: 1 1 320px; min-width: 0; font-size: .9rem; }
+.tier-maps { display: grid; gap: 8px; padding: 0 0 10px; }
+
+/* FAQ */
+.faq { display: flex; flex-direction: column; gap: 26px; max-width: 980px; }
+.faq-entry h2 { margin: 0 0 8px; }
+.faq-entry p { max-width: 80ch; margin: 0 0 8px; }
+.faq-entry .table-wrap { margin-top: 10px; max-width: 760px; }
+.faq-figures { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; align-items: start; }
+@media (max-width: 760px) { .faq-figures { grid-template-columns: 1fr; } }

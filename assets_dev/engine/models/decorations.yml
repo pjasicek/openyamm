@@ -336,8 +336,10 @@ decorations:
   - name: foodbowl
     model: engine/models/mm6_deco_foodbowl.glb
     height: 20
+  # MMerge's stat barrels include MM6's small barrel (the "Keg"): the open barrel at the keg's sprite height, so its
+  # liquid shows (decoration_overlays.yml).
   - name: smlbarel
-    model: engine/models/mm6_deco_keg.glb
+    model: engine/models/mm6_deco_barrel.glb
     height: 89
     height_jitter: 0.05
   - name: dec25

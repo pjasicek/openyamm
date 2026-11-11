@@ -459,6 +459,7 @@
     { id: "shops", name: "Shops", count: G.vendors.length + G.services.length },
     { id: "bestiary", name: "Bestiary", count: G.monsters.length },
     { id: "items", name: "Items", count: G.items.length, subs: G.itemCategories.map((c) => ["items-" + c.id, c.name]).concat([["items-setbonus", "Set bonuses"], ["items-enchants", "Enchantments"]]) },
+    { id: "faq", name: "FAQ", count: G.faq.length },
   ];
   function sectionOf(route) {
     const head = route.split("-")[0];
@@ -495,6 +496,7 @@
       ["shops", "Shops", `${G.vendors.length} shops, ${G.spellbooks.length} spellbooks, ${G.services.length} temples, taverns and banks`],
       ["bestiary", "Bestiary", `${G.monsters.length} monsters with stats and loot`],
       ["items-weapons", "Items", `${G.items.length} items, ${G.items.filter((i) => i.cat === "artifacts").length} artifacts and relics, ${G.sets.length} sets`],
+      ["faq", "FAQ", G.faq.map((f) => f.short).join(", ")],
     ];
     main.innerHTML = pageHead("Chedian", "", `Might and Magic IX as rebuilt in OpenYAMM: every map with its teachers, shops, quest givers, chests and mechanisms; ${npcCount} named NPCs placed. Data comes straight from the game's world package.`) +
       `<div class="grid-cards">${cards.map(([r, n, d]) => `<a class="card home-card" href="#${r}"><strong>${esc(n)}</strong><span class="muted">${esc(d)}</span></a>`).join("")}</div>` +
@@ -910,7 +912,7 @@
     const skills = [...new Set(G.teachers.map((t) => t.skill))].sort();
     const racialMasters = [...new Set(G.teachers.filter((t) => t.racial && t.mastery === "Grandmaster").map((t) => `${t.name} in ${t.region}`))];
     const racialLead = racialMasters.length ? ` The racial abilities (Dark Elf, Vampire and Dragon) are taught by every training hall's keeper up to Master, and up to Grandmaster by ${esc(racialMasters.join(" and "))}: each member learns the ability they have, as far as their race and class allow.` : "";
-    main.innerHTML = pageHead("Teachers", "", "MM9 trains its skills one by one: a lesson in an MM9 skill teaches the OpenYAMM skills listed under it. \"Learn\" is the first lesson, sold by taverns, temples and guilds." + racialLead) +
+    main.innerHTML = pageHead("Teachers", "", "MM9 trains its skills one by one: a lesson in an MM9 skill teaches the OpenYAMM skills listed under it. \"Learn\" is the first lesson, sold by shops, taverns, temples and training halls." + racialLead) +
       `<div class="toolbar"><input class="field" id="tf" type="search" placeholder="Filter by teacher, skill or region" aria-label="Filter teachers">
        <select class="field" id="ts" aria-label="Skill"><option value="">All skills</option>${skills.map((s) => `<option>${esc(s)}</option>`).join("")}</select>
        <select class="field" id="tm" aria-label="Mastery"><option value="">All masteries</option>${Object.keys(MASTERY_ORDER).map((m) => `<option>${m}</option>`).join("")}</select></div><div id="tt"></div>`;
@@ -946,6 +948,8 @@
     const schools = [...new Set(G.spellbooks.map((b) => b.school))];
     main.innerHTML = pageHead("Shops", "", "Weapon, armour, general and apothecary shops stock by their town's treasure level, as MM6–MM8 shops do: the standard shelf at the town's level, the special shelf one level higher, which decides the item tiers (1–6) and how many items carry enchantments. Spellbook shops and libraries sell set lists. A shop shows one of its stock lists each time it restocks, in turn. Prices are the item's value times the shop's multiplier, before the Merchant skill.") +
       `<h2 class="shop-section">Weapons and armour by town</h2><p class="muted">The weapon and armour shops of each town, from the earliest chapter's to the last.</p><div id="sw"></div>
+       <h2 class="shop-section" id="spell-tiers">Spells by school and mastery</h2><p class="muted">Where each school's spells of each mastery are sold, shop by shop. Type a mastery and a school, such as <i>master water</i>, or a spell, a shop or a town; open a shop for its map.</p>
+       <div class="toolbar"><input class="field" id="tf" type="search" placeholder="Master water, Body, Thjorgard…" aria-label="Filter spell masteries"></div><div id="tiers" class="spell-tiers"></div>
        <h2 class="shop-section">Spellbooks</h2><p class="muted">Every spellbook and where it is sold: on every restock, or on some of the shop's stock lists.</p>
        <div class="toolbar"><input class="field" id="bf" type="search" placeholder="Filter by spell or shop" aria-label="Filter spellbooks">
        <select class="field" id="bs" aria-label="School"><option value="">All schools</option>${schools.map((x) => `<option>${esc(x)}</option>`).join("")}</select>
@@ -978,6 +982,58 @@
         { key: "shops", label: "Shops", sortable: false, render: (t) => t.shops.map((v) => `${esc(v.name)} <span class="muted">${v.type === "Armor" ? "armour" : "weapons"}</span> ${v.at[0] ? showBtn(v.at[0].map, v.at[0].poi, "Show") : ""}`).join("<br>") },
       ],
     });
+
+    // Spells by school and mastery: one block per tier ("Master Water Magic"), its shops below it, each opening its map.
+    const tiers = [];
+    G.spellbooks.forEach((b) => {
+      let tier = tiers.find((x) => x.school === b.school && x.mastery === b.mastery);
+      if (!tier) tiers.push(tier = { school: b.school, mastery: b.mastery, books: [] });
+      tier.books.push(b);
+    });
+    tiers.sort((a, b) => schools.indexOf(a.school) - schools.indexOf(b.school) || BOOK_ORDER[a.mastery] - BOOK_ORDER[b.mastery]);
+    tiers.forEach((tier) => {
+      const byShop = new Map();
+      tier.books.forEach((b) => b.shops.forEach((sh) => {
+        if (!byShop.has(sh.id)) byShop.set(sh.id, []);
+        byShop.get(sh.id).push({ book: b, pages: sh.pages, of: sh.of });
+      }));
+      tier.shops = [...byShop.entries()].map(([id, sold]) => ({ v: vendorById[id], sold }))
+        .sort((a, b) => b.sold.length - a.sold.length || a.v.price - b.v.price);
+      tier.label = `${tier.mastery} ${tier.school} Magic`;
+      tier.words = `${tier.label} ${tier.books.map((b) => b.name).join(" ")} ${tier.shops.map((s) => `${s.v.name} ${s.v.region} ${s.v.at.map((a) => mapName(a.map)).join(" ")}`).join(" ")}`
+        .toLowerCase().split(/[^a-z0-9']+/).filter(Boolean);
+    });
+    const tf = document.getElementById("tf"), tiersEl = document.getElementById("tiers");
+    function shopLine(tier, s) {
+      const v = s.v;
+      const all = s.sold.length === tier.books.length;
+      const spells = s.sold.map((x) => `${esc(x.book.name)}${x.pages === x.of ? "" : ` <span class="muted">(${x.pages} of ${x.of} restocks)</span>`}`).join(", ");
+      const prices = s.sold.map((x) => Math.round(x.book.value * v.price));
+      const price = Math.min(...prices) === Math.max(...prices) ? `${fmt(prices[0])} g` : `${fmt(Math.min(...prices))}–${fmt(Math.max(...prices))} g`;
+      const where = [v.region, ...v.at.map((a) => mapName(a.map)).filter((n) => n !== v.region)].concat(v.at.length ? [] : ["not placed"]);
+      return `<details class="tier-shop" data-vendor="${v.id}"><summary><span class="ts-name"><b>${esc(v.name)}</b> <span class="muted">${where.map(esc).join(" · ")}</span></span>
+          <span class="ts-what">${all ? `all ${tier.books.length} spells` : `${s.sold.length} of ${tier.books.length}`}: ${spells} <span class="muted">· ${price}</span></span></summary>
+          <div class="tier-maps">${v.at.map((a) => `<div class="tier-map" data-map="${esc(a.map)}" data-poi="${esc(a.poi)}"></div>`).join("") || `<p class="muted">This shop is not placed on a map.</p>`}</div></details>`;
+    }
+    function drawTiers() {
+      const words = tf.value.trim().toLowerCase().split(/[^a-z0-9']+/).filter(Boolean);
+      const shown = tiers.filter((tier) => words.every((w) => tier.words.some((x) => x.startsWith(w))));
+      tiersEl.innerHTML = shown.length ? shown.map((tier) => `<section class="spell-tier"><h3><span class="mastery-${tier.mastery === "Normal" ? "Learn" : esc(tier.mastery)}">${esc(tier.mastery)}</span> ${esc(tier.school)} Magic
+          <span class="muted tier-spells">${tier.books.map((b) => esc(b.name)).join(", ")}</span></h3>
+          ${tier.shops.length ? tier.shops.map((s) => shopLine(tier, s)).join("") : `<p class="muted">Not sold in any shop.</p>`}</section>`).join("")
+        : `<p class="muted">No school and mastery matches.</p>`;
+    }
+    tiersEl.addEventListener("toggle", (e) => {
+      const d = e.target;
+      if (!d.open || d.dataset.mounted) return;
+      d.dataset.mounted = "1";
+      d.querySelectorAll(".tier-map").forEach((el) => {
+        const m = maps[el.dataset.map];
+        if (m) new MapView(el, m, { compact: true, ids: [el.dataset.poi], focus: el.dataset.poi });
+      });
+    }, true);
+    tf.addEventListener("input", drawTiers);
+    drawTiers();
 
     // Spellbooks: one row per spell.
     const bf = document.getElementById("bf"), bs = document.getElementById("bs"), bm = document.getElementById("bm");
@@ -1167,6 +1223,41 @@
     });
   }
 
+  // FAQ -----------------------------------------------------------------------------------------------------------
+
+  // [text](#route) links in the hand-written answers; everything else is escaped.
+  function faqText(text) {
+    return esc(text).replace(/\[([^\]]+)\]\((#[\w-]+)\)/g, (m, label, href) => `<a href="${href}">${label}</a>`);
+  }
+  // The MM6-MM8 skills MM9 teaches under another skill, where each is learnt and who teaches its masteries.
+  function skillLessons() {
+    const norm = (s) => s.toLowerCase().replace(/[^a-z]/g, "");
+    const VENUES = { Weapon: "weapon shops", Armor: "armour shops", Magic: "magic shops", Library: "libraries", Apothecary: "apothecaries", "General Store": "general stores", Tavern: "taverns", Temple: "temples", Training: "training halls" };
+    const rows = new Map();
+    G.teachers.filter((x) => !x.racial && x.mastery !== "Learn").forEach((x) => {
+      const list = x.skills.split(", ");
+      if (list.length < 2) return;
+      list.filter((s) => !norm(s).startsWith(norm(x.skill))).forEach((s) => { if (!rows.has(s)) rows.set(s, { skill: s, mm9: x.skill, learn: new Map() }); });
+    });
+    G.teachers.filter((x) => x.mastery === "Learn" && rows.has(x.skill)).forEach((x) => {
+      const learn = rows.get(x.skill).learn;
+      const kind = VENUES[x.venue] || (x.venue || "").toLowerCase();
+      learn.set(kind, (learn.get(kind) || 0) + 1);
+    });
+    const body = [...rows.values()].map((r) => `<tr><td><a href="#teachers" data-filter="${esc(r.skill)}"><b>${esc(r.skill)}</b></a></td>
+      <td>${r.learn.size ? [...r.learn.entries()].map(([k, n]) => `${esc(k)} <span class="muted">(${n})</span>`).join(", ") : `<span class="muted">no Learn lesson</span>`}</td>
+      <td>MM9's ${esc(r.mm9.replace(/(?<=[a-z])(?=[A-Z])/g, " "))} trainers</td></tr>`).join("");
+    return `<div class="table-wrap"><table><thead><tr><th>Skill</th><th>Learn at</th><th>Expert to Grandmaster</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  }
+  function pageFaq() {
+    main.innerHTML = pageHead("FAQ", "", "Short answers to common questions, with links to the guide's full pages.") +
+      `<div class="faq">${G.faq.map((f) => `<section class="faq-entry" id="faq-${esc(f.id)}"><h2>${esc(f.q)}</h2>
+        ${f.answer.map((p) => `<p>${faqText(p)}</p>`).join("")}
+        ${f.table === "skill-lessons" ? skillLessons() : ""}
+        ${(f.figures || []).length ? `<div class="faq-figures">${f.figures.map((g) => `<figure class="story-figure"><a href="${esc(g.img)}" target="_blank" rel="noopener"><img src="${esc(g.img)}" alt="${esc(g.caption || "")}" loading="lazy"></a>${g.caption ? `<figcaption>${esc(g.caption)}</figcaption>` : ""}</figure>`).join("")}</div>` : ""}
+      </section>`).join("")}</div>`;
+  }
+
   function pageMissing() {
     main.innerHTML = pageHead("Not found", "", `Nothing here. <a href="#home">Back to the start</a>.`);
   }
@@ -1247,6 +1338,7 @@
     else if (head === "travel") pageTravel();
     else if (head === "teachers") pageTeachers();
     else if (head === "shops") pageShops();
+    else if (head === "faq") pageFaq();
     else if (head === "bestiary") pageBestiary();
     else if (head === "monster") pageBestiary(Number(arg));
     else if (head === "items") pageItems(arg || "weapons");

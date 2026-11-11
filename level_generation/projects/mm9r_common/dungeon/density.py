@@ -23,8 +23,11 @@ actors, scene hook and Lua (build.py), on the compiled BLV:
   actor (Hooks.density_lua_name_tables, 1000 Terrors' KIND); Hooks.grown lets a map Lua that
   counts its placed actors follow them (Yanmir's Fort's PLACED).
 - A copy stands 120-600 units from the member it copies, on the same floor (within FLOOR_STEP), in the member's
-  sector, reached from it without crossing a wall or a pit, clear of walls, other actors, doors and movers (swept
-  along their travel), ladders, event faces (pads, exits, traps) and water (liquid textures, fluid faces, the
+  sector, on a floor no steeper than the engine walks (WALKABLE_NORMAL_Z, under its whole footprint) with no floor's
+  top over it (the first face over its feet faces down: not under the ground or in a solid; a member that is gets
+  no copies) and, for a flyer keeping its member's height, that face over half its body (not in a ceiling),
+  reached from it without crossing a wall or a pit, clear of walls, other actors, doors and movers (swept along
+  their travel), ladders, event faces (pads, exits, traps) and water (liquid textures, fluid faces, the
   scene's water volumes). Candidates are tried nearest first at angles seeded by map stem, anchor and copy number,
   so a reconversion places them the same. Where the member has no room the pack's other members are tried; a copy
   that fits nowhere is a shortfall, never forced. A pack's shortfall (and the copies of a pack with only scripted
@@ -81,6 +84,7 @@ INVISIBLE_BIT = 0x00010000
 FLUID, LAVA, UNTOUCHABLE = 0x10, 0x40000000, 0x20000000
 TRIGGER_ATTRIBUTES = 0x04000000 | 0x00080000 | 0x08000000    # pressure plate, touch, monster trigger
 FLOOR_TYPES = {3, 4}
+WALKABLE_NORMAL_Z = 0.68664550781     # game/indoor/IndoorGeometryUtils.cpp WalkableSlopeNormalZ
 GRID = 512.0
 POD_LAUNCHERS = frozenset({9086, 9106})     # Lobber, Ice Lobber (modifiers.yml mm9_ai pod_launch)
 LAUNCHERS_PER_SPOT = 3
@@ -406,11 +410,13 @@ class World:
         textures = {o["face_index"]: str(o["texture_name"]).lower()
                     for o in state.get("face_attribute_overrides") or [] if o.get("texture_name")}
         self.floors, self.cells = [], {}
+        self.covers = {}          # every solid face but the walls by plan cell: (ring, unit normal, point, low, high)
         self.zones = []           # (x0, y0, x1, y1, z0, z1, kind): no copy's body may overlap one
         for face in blv["faces"]:
             if face["is_portal"] or face["index"] in barriers:
                 continue
             points = vertices[face["vertex_indices"]]
+            self._add_cover(points, int(face["attributes"]))
             attributes = int(face["attributes"])
             event = int((face.get("face_param") or {}).get("cog_triggered", 0)) or attributes & TRIGGER_ATTRIBUTES
             if face["index"] in door_faces:
@@ -429,7 +435,8 @@ class World:
             water = bool(attributes & (FLUID | LAVA)) or texture in liquid_textures
             kind = "door" if face["index"] in door_faces else "event" if event else "water" if water else None
             record = {"ring": points[:, :2], "normal": normal, "point": points[0], "sector": face["room_number"],
-                      "kind": kind, "low": points[:, :2].min(0), "high": points[:, :2].max(0)}
+                      "kind": kind, "low": points[:, :2].min(0), "high": points[:, :2].max(0),
+                      "walkable": normal[2] >= WALKABLE_NORMAL_Z * np.linalg.norm(normal)}
             self.floors.append(record)
             for cx in range(int(record["low"][0] // GRID), int(record["high"][0] // GRID) + 1):
                 for cy in range(int(record["low"][1] // GRID), int(record["high"][1] // GRID) + 1):
@@ -444,6 +451,36 @@ class World:
                       for volume in scene.get("water_volumes") or [] for piece in volume.get("pieces", [])]
         walls = wall_segments(blv)
         self.walls = walls if walls.size else np.zeros((6, 0))
+
+    def _add_cover(self, points: np.ndarray, attributes: int) -> None:
+        if attributes & UNTOUCHABLE:
+            return
+        normal = np.zeros(3)
+        for k in range(1, len(points) - 1):
+            normal += np.cross(points[k] - points[0], points[k + 1] - points[0])
+        length = np.linalg.norm(normal)
+        if length < 1e-6 or abs(normal[2]) < 0.02 * length:
+            return
+        record = (points[:, :2], normal / length, points[0], points[:, :2].min(0), points[:, :2].max(0))
+        for cx in range(int(record[3][0] // GRID), int(record[4][0] // GRID) + 1):
+            for cy in range(int(record[3][1] // GRID), int(record[4][1] // GRID) + 1):
+                self.covers.setdefault((cx, cy), []).append(record)
+
+    def under_cover(self, x: float, y: float, z: float) -> bool:
+        """Whether the first face over feet at z is a floor's top: under the ground or in a solid (the Isle of Ashes'
+        invisible terrain skins lie 20-60 over the ground under them)."""
+        return self.first_over(x, y, z)[1]
+
+    def first_over(self, x: float, y: float, z: float) -> tuple:
+        """(height, faces up) of the first face over z at (x, y); (None, False) when there is none."""
+        first, facing_up = None, False
+        for ring, normal, point, low, high in self.covers.get((int(x // GRID), int(y // GRID)), []):
+            if not (low[0] <= x <= high[0] and low[1] <= y <= high[1]) or not _inside(x, y, ring):
+                continue
+            h = point[2] - (normal[0] * (x - point[0]) + normal[1] * (y - point[1])) / normal[2]
+            if h > z + 1 and (first is None or h < first):
+                first, facing_up = h, normal[2] > 0
+        return first, facing_up
 
     @staticmethod
     def _swept_box(points: np.ndarray, doors: list, face: int) -> tuple:
@@ -522,7 +559,7 @@ class World:
         radius, height = float(body.get("radius") or 40), float(body.get("height") or 120)
         # the member's own floor: a flyer (Isle of Ashes' dragonflies) keeps its height over it in the copy
         home, _ = self.floor(mx, my, mz + 1)
-        if home is None:
+        if home is None or self.under_cover(mx, my, home):
             return None, "member has no floor"
         lift = max(1.0, mz - home)
         z, record = self.floor(x, y, home + FLOOR_STEP)
@@ -530,6 +567,13 @@ class World:
             return None, "other floor"
         if record["kind"]:
             return None, record["kind"]
+        if not record["walkable"]:
+            return None, "steep"
+        cover, facing_up = self.first_over(x, y, z)
+        if facing_up:
+            return None, "under a floor"
+        if lift > 1 and cover is not None and cover < z + lift + height / 2:
+            return None, "in the ceiling"       # a flyer at its member's height over a lower room
         if record["sector"] != member.get("sector_id", record["sector"]):
             return None, "other room"
         for k in range(8):           # the body's footprint stands on the same floor, nothing under it
@@ -539,6 +583,8 @@ class World:
                 return None, "footprint off the floor"
             if frecord["kind"]:
                 return None, frecord["kind"]
+            if not frecord["walkable"]:
+                return None, "steep"
         steps = max(1, int(math.hypot(x - mx, y - my) // PATH_STEP))
         for k in range(1, steps):       # no pit or step on the way from the member
             px, py = mx + (x - mx) * k / steps, my + (y - my) * k / steps

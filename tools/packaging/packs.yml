@@ -64,10 +64,10 @@ packages:
       surface_materials_x4: {buckets: {desktop: 14, android: 1}}
 # A language pack's fonts, sounds and videos (assets_dev/languages/<id>/engine and worlds/<world>): optional packs
 # "lang-<id>.<package>.<folder>[.<bucket>]" with a language field, downloaded only for a language the player chose.
-# ship: false leaves a folder out of releases. Sounds and videos stay out until releases from 1.22 on are the ones
-# updating: the updater of 1.21 and earlier knows no optional packs and would download every language's (2026-11-08).
+# ship: false leaves a folder out of releases. Sounds and videos ship from 2.0 (the user's decision, 2026-11-11); desktop
+# manifests list these packs apart (language_packs), so updaters before 2.0, which know no optional packs, skip them.
 languages:
   overlays:
     fonts:               {buckets: 1}
-    audio:               {buckets: 2, ship: false}
-    videos:              {buckets: 1, ship: false}
+    audio:               {buckets: 2}
+    videos:              {buckets: 1}

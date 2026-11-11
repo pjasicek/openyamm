@@ -528,6 +528,10 @@ function(openyamm_configure_runtime_shaders)
             "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_single_shadow.bin"
             "SINGLE_MATERIAL=1$<SEMICOLON>SUN_SHADOWS=1")
     endforeach()
+    # Its depth pre-pass in the main view, so each pixel is shaded once.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_terrain_materials.sc" "fragment" "fs_outdoor_terrain_depth.bin"
+        "TERRAIN_DEPTH_ONLY=1")
     # The terrain as a sun shadow caster.
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_terrain_shadow.sc" "vertex" "vs_terrain_shadow.bin")
@@ -593,6 +597,10 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_terrain_fog.bin"
         "INDOOR_TERRAIN=1$<SEMICOLON>INDOOR_FOG=1")
+    # Its depth pre-pass in the main view: the terrain's depth before it is shaded, so each pixel is shaded once.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_depth.bin"
+        "INDOOR_DEPTH_ONLY=1")
     # Its faces that read one ground layer only (IndoorRenderer::markSingleMaterialTerrainFaces) sample that layer.
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
@@ -797,6 +805,7 @@ function(openyamm_configure_runtime_shaders)
         fs_outdoor_terrain_materials_shadow.bin fs_outdoor_terrain_materials_baked_shadow.bin
         fs_outdoor_terrain_materials_single.bin fs_outdoor_terrain_materials_baked_single.bin
         fs_outdoor_terrain_materials_single_shadow.bin fs_outdoor_terrain_materials_baked_single_shadow.bin
+        fs_outdoor_terrain_depth.bin
         vs_terrain_shadow.bin fs_terrain_shadow.bin
         fs_outdoor_bmodel_lightmap_array.bin fs_outdoor_bmodel_baked_array.bin fs_outdoor_textured_fog_array.bin
         fs_outdoor_bmodel_baked_array_shadow.bin fs_outdoor_textured_fog_array_shadow.bin
@@ -809,7 +818,7 @@ function(openyamm_configure_runtime_shaders)
         fs_indoor_textured_baked_materials_fog.bin fs_indoor_textured_translucent_fog.bin
         fs_indoor_textured_baked_translucent_fog.bin fs_indoor_water_fog.bin fs_indoor_water_ripples_fog.bin
         fs_indoor_textured_terrain.bin fs_indoor_textured_terrain_fog.bin
-        fs_indoor_textured_terrain_single.bin fs_indoor_textured_terrain_single_fog.bin
+        fs_indoor_textured_terrain_single.bin fs_indoor_textured_terrain_single_fog.bin fs_indoor_textured_depth.bin
         fs_model_coverage.bin fs_model_emissive.bin
         fs_terrain_decoration_coverage.bin fs_terrain_decoration_baked_coverage.bin
         fs_terrain_decoration_shadow_coverage.bin fs_terrain_decoration_baked_shadow_coverage.bin)

@@ -452,7 +452,8 @@ end
 -- The gnolls' cages (TriggerHardRock -> TroglodyteGnoll0-2 ForceBreak, KingKong.scr: dragonredrattack3.wav,
 -- the cage wall BustOutBrush<k> destroyed, the gnoll hunts the party). A click on a cage wall breaks it too.
 -- Each gnoll breaks only its own wall (ScriptParams p0); a dead one takes no ForceBreak (MM9.receives) and
--- leaves its wall standing.
+-- leaves its wall standing. :BreakCage swings at the wall as it breaks (PlayAnim hattack1: the model's
+-- attack_melee); their ScriptParams name no ANIM_NAME, so nothing loops while they wait.
 local GNOLLS = {9, 10, 11}
 local BUSTOUT = {{"TroglodyteGnoll0", 9, "BustOutBrush0"}, {"TroglodyteGnoll1", 11, "BustOutBrush1"}, {"TroglodyteGnoll2", 10, "BustOutBrush2"}}   -- gnoll, its actor, its wall
 local function bustOut(wall)
@@ -467,6 +468,7 @@ handlers[141] = function()
         if MM9.receives("thjoradmine", g[1], "ForceBreak", g[2]) then
             sound("animsounds/dragonredrattack3.wav")
             bustOut(g[3])
+            evt.PlayActorClip(g[2], "attack_melee")
         end
     end
     evt.WakeGroup(3)
@@ -552,15 +554,19 @@ end
 -- the cart rolls to MCarAMarker0 at 100 LT/s, doorslammetal01.wav, ABMineBoards0 destroyed; its DamageTrigger
 -- knocks FallingWallTorch1 loose (TM_FirstFallingTorch.scr, 0.6 s: TorchHolder1 destroyed), whose flame
 -- (TM_FirstFallingFlame.scr "DB_Barrel9") lands, steam_burst04.wav, and 2 s later sets off DB_Barrel9.
--- Decorations do not move: the cart is hidden and its twin at the marker shown after the ride.
+-- The cart glides along the track (evt.MoveDecoration; MM9 plays none of its clips), its Gears02.wav loop the
+-- scene's AmbientSound608 (on for the ride); at the marker its twin, standing there hidden, takes its
+-- place: a moved decoration's collision stays where it was placed, the twin's blocks the track's end.
+local CART_GLIDE, CART_SECONDS = {2524, -274, -169}, 9.94   -- 100 LT/s
 handlers[110] = function()
     if var("Cart") ~= 0 then return end
     set("Cart", 1)
-    sound("events/gears02.wav")
+    set("AmbientSound608", 1)
     destroy("MCarBlocker1")
     set("LightOff41427", 1); set("Light41427", 1); evt.SetLight(41427, false)
     dust({9728, -13069, -1275}, 0.5)
-    evt.StartTimer(204, seconds(9))
+    evt.MoveDecoration(402, CART_GLIDE[1], CART_GLIDE[2], CART_GLIDE[3], CART_SECONDS)
+    evt.StartTimer(204, seconds(CART_SECONDS))
 end
 handlers[109] = function()
     if var("Torch1") ~= 0 then return end
@@ -573,6 +579,7 @@ end
 handlers[204] = function()
     if var("Cart") == 1 then
         set("Cart", 2)
+        set("AmbientSound608", 2)   -- :StopHere: KillSound
         sprite(402, false) sprite(403, true)
         sound("door/doorslammetal01.wav")
         destroy("ABMineBoards0")   -- its destroyed event: the dust and the quake (DBEffectsTrigger0)
@@ -822,6 +829,8 @@ handlers[1] = function()
     evt.StartTimer(207, seconds(evt.RandomBetween(300, 600)))
     sprite(403, var("Cart") >= 2)
     sprite(402, var("Cart") < 2)
+    -- the glide is runtime only: a cart on its way (or gone) stands at its end again
+    if var("Cart") >= 1 then evt.MoveDecoration(402, CART_GLIDE[1], CART_GLIDE[2], CART_GLIDE[3], 0) end
     updateHints()
 end
 

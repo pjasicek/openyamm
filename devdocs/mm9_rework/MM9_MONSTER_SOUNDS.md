@@ -29,7 +29,8 @@ animation's own name.
 - Script idle sounds: two include files play sounds on model keys that are not client commands. `GuardSounds.inc`
   (`GuardBase`, `GuardHelp`, `GuardRude`, `Jeff`): `OnStand` (the `Stand` key of stand and walk) plays one of
   `Stand1-7` with chance 7/20 and waits 1.2 s, else waits 50 s; `OnSleep` plays one of `Sleep1-4`, then waits 5 s.
-  `MonkSounds.inc` (`MonkBase`, `MonkGuardBasic`, `ThjoradMonk`, `WorkingMonk`): `OnPray` 4/10 `Pray1-4` then 2.2 s,
+  `MonkSounds.inc` (`MonkBase`, `MonkGuardBasic`, `ThjoradMonk`, `WorkingMonk`): `OnPray` (key `PrayMumble`, on
+  `MONK.abc`'s `pray` and `fidget1`; read as `pray` until 2026-11-10, so no prayer played) 4/10 `Pray1-4` then 2.2 s,
   else 20 s; `OnSweep` `Sweep` then 1 s; `OnWash` `Wash` at volume 10 and 1/10 `WashFidget` then 5 s.
 - Not row sounds: map scripts' own `PlaySound` lines (Yanmir's patrol, the jukeboxes, cutscene `Voice*`/`Speak*` keys)
   belong to their maps' Lua; spells' sounds are the spell system's. `Foostep` (a typo in three models) matches no
@@ -227,9 +228,9 @@ sound keys that no clip of ours plays (`dropped`).
 | 120 | Dwarven Guard | dwarf | rattack1 | rattack1 weapons/axelaunch, wattack2, k | n | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | k, k | dwarfstep x2 | dropped: WAttack1 HAttack1 |
 | 121 | Dwarven Soldier | dwarf | rattack1 | rattack1 weapons/axelaunch, wattack2, k | n | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | k, k | dwarfstep x2 | dropped: WAttack1 HAttack1 |
 | 122 | Dwarven Commander | dwarf | rattack1 | rattack1 weapons/axelaunch, wattack2, k | n | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | k, k | dwarfstep x2 | dropped: WAttack1 HAttack1 |
-| 123 | Initiate | monk | hattack1 fx_hattack1 | k | k | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | k, fidget2 | monkstep x2 | CowerStart: cowerstart; Hoe: hoe; Sweep: sweep; SweepFidget: sweepfidget; Hammer: hammer; HammerFidget: hammerfidget; Wash: wash washfidget; WashFidget: washfidget |
-| 124 | Monk | monk | hattack1 fx_hattack1 | k | k | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | k, fidget2 | monkstep x2 | CowerStart: cowerstart; Hoe: hoe; Sweep: sweep; SweepFidget: sweepfidget; Hammer: hammer; HammerFidget: hammerfidget; Wash: wash washfidget; WashFidget: washfidget |
-| 125 | Reverend Monk | monk | hattack1 fx_hattack1 | k | k | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | k, fidget2 | monkstep x2 | CowerStart: cowerstart; Hoe: hoe; Sweep: sweep; SweepFidget: sweepfidget; Hammer: hammer; HammerFidget: hammerfidget; Wash: wash washfidget; WashFidget: washfidget |
+| 123 | Initiate | monk | hattack1 fx_hattack1 | k | k | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | pray1, fidget2 | monkstep x2 | Pray: pray1; CowerStart: cowerstart; Hoe: hoe; Sweep: sweep; SweepFidget: sweepfidget; Hammer: hammer; HammerFidget: hammerfidget; Wash: wash washfidget; WashFidget: washfidget |
+| 124 | Monk | monk | hattack1 fx_hattack1 | k | k | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | pray1, fidget2 | monkstep x2 | Pray: pray1; CowerStart: cowerstart; Hoe: hoe; Sweep: sweep; SweepFidget: sweepfidget; Hammer: hammer; HammerFidget: hammerfidget; Wash: wash washfidget; WashFidget: washfidget |
+| 125 | Reverend Monk | monk | hattack1 fx_hattack1 | k | k | wince1, wince2 | die1 death:die1, die2 death:die2 | aware | taunt | pray1, fidget2 | monkstep x2 | Pray: pray1; CowerStart: cowerstart; Hoe: hoe; Sweep: sweep; SweepFidget: sweepfidget; Hammer: hammer; HammerFidget: hammerfidget; Wash: wash washfidget; WashFidget: washfidget |
 | 129 | Horde Grunt | soldier | hattack1 fx_hattack1 | hattack2 fx_hattack2 weapons/axelaunch | n | wince1, wince2 | die1 death:die1, die2 death:die2 | aware, k | n | k, k | dirt x4 | Block: block; Cower: block |
 | 130 | Horde Warrior | soldier | hattack1 fx_hattack1 | hattack2 fx_hattack2 weapons/axelaunch | n | wince1, wince2 | die1 death:die1, die2 death:die2 | aware, k | n | k, k | soldierstep x2 | Block: block; Cower: block |
 | 131 | Horde Leader | soldier | hattack1 fx_hattack1 | hattack2 fx_hattack2 weapons/axelaunch | n | wince1, wince2 | die1 death:die1, die2 death:die2 | aware, k | n | k, k | soldierstep x2 | Block: block; Cower: block |

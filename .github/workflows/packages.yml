@@ -104,8 +104,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Language packs: their text and fonts; their sounds and videos stay out of releases for now
-          # (tools/packaging/packs.yml, ship: false).
+          # Language packs: their text, fonts, dubbed sounds and videos (optional packs, tools/packaging/packs.yml).
           - profile: desktop
             assets: |
               /assets_dev/_legacy/sprites_original/
@@ -115,11 +114,9 @@ jobs:
               /assets_dev/worlds/mm8/
               /assets_dev/languages/
               !/assets_dev/languages/templates/
-              !/assets_dev/languages/*/engine/audio/
-              !/assets_dev/languages/*/engine/videos/
-              !/assets_dev/languages/*/worlds/
           # Android packs the ASTC textures of assets_cooked/android; the desktop BC7 cooks in assets_dev stay out of
-          # the checkout (tools/package_runtime_assets.py reads their names from the git index).
+          # the checkout (tools/package_runtime_assets.py reads their names from the git index). The APK carries no
+          # language sounds or videos (devdocs/LOCALIZATION.md), so they stay out of its checkout.
           - profile: android
             assets: |
               /assets_cooked/android/

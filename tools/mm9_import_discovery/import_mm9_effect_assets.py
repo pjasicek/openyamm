@@ -12,7 +12,7 @@ import yaml
 from PIL import Image
 
 from convert_effect_dtx import convert_effect_texture
-from compile_effect_library import ORIGIN_ANCHOR_RECIPES, body_anchored, compile_library, properties
+from compile_effect_library import compile_library, properties
 from convert_abc_model import convert_model
 from generate_effect_capability_report import (
     SUPPORTED_COMPONENTS,
@@ -20,7 +20,7 @@ from generate_effect_capability_report import (
     visible_model_blockers,
     write_report as write_capability_report,
 )
-from generate_effect_resource_bindings import HARD_CODED_EFFECT_SPRITES
+from generate_effect_resource_bindings import HARD_CODED_EFFECT_SPRITES, HARD_CODED_EXPLOSION_SPRITES
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
@@ -122,8 +122,6 @@ def supported_effect_names(repository_root: Path, manifest_path: Path) -> list[s
             for reference in resource_references(group)
         ):
             continue
-        if body_anchored(group) and group["name"] not in ORIGIN_ANCHOR_RECIPES:
-            continue
         model_blockers, _ = visible_model_blockers(group, bindings)
         if model_blockers:
             continue
@@ -162,6 +160,7 @@ def import_effect_assets(
             if str(props.get("Skin", "")).endswith("|..."):
                 animation_path_models.add(model_reference)
     references.update(HARD_CODED_EFFECT_SPRITES)
+    references.update(HARD_CODED_EXPLOSION_SPRITES)
     for reference in list(references):
         binding = bindings[reference]
         if binding["kind"] == "sprite" and "sprite" in binding:
@@ -180,7 +179,7 @@ def import_effect_assets(
             imported.append(record)
             continue
 
-        source = Path(binding["source"]["path"])
+        source = repository_root / binding["source"]["path"]
         output = repository_root / "assets_dev" / binding["asset"]
         if binding["kind"] == "texture":
             record["status"] = import_texture(repository_root, binding, restorations.get(binding["resource"]))

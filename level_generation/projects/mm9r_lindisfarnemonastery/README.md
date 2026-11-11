@@ -19,6 +19,19 @@ trims at 287 and 369, `Boards2a` at 896); each was a slit over a 983-unit drop i
 monster's path planner (2-unit floor samples) to fall through. 13 804 faces, 21 602 vertices. Rebuilt and rebaked
 (`bake_slot.sh`); the four scenarios pass; the walkability audit is unchanged.
 
+Update 2026-11-10 (the monks' chores): every monk stood and fidgeted, and the monk's `Fidget2` is its "who's there?"
+voice, so it sounded across the monastery. MM9's scripts loop a clip whenever a monk stands, and a looped script clip
+never fidgets ([ambient animation](../../../devdocs/mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md) section 4, item
+8). `convert.py` now gives each monk its scene `mm9_ai.idle_clip` (`MONK_IDLE_CLIPS`): `MonkGuardBasic.scr` type 0
+`standing`, 1 `hoe`, 2 `sweep`, 3 `hammer`, 4 `wash`, and `ThjoradMonk.scr` its first parameter (`pray`, `hammer`).
+After the bells, Brother Kennet prays too (`evt.PlayActorClip` in `praying()`), and hostility clears the prayers.
+Only the ten chatting monks (type -1) and the named NPCs still fidget. The scene and Lua were rebuilt with `--scratch`
+(BLV unchanged), checked to differ only by these lines, and copied into `assets_dev` and the review root. Later the
+same day: the working monks hold MM9's tools (`MONK_TOOLS`, scene `held_items`: hoe, broom, wash cloth; the
+[held items project](../../props/mm9_held_items_claude/README.md)), and the organ player (NPC420.scr) turns to the organ
+and plays it (`play`) for the hymn's 24 s (`T_ORGAN`), not talking meanwhile (`OrganPlaying`, which nothing set before).
+The Thjorad monks carry no hammer, as in MM9 (ThjoradMonk.scr attaches one only to a monk without an NPC id).
+
 ## Build and review
 
 ```sh
@@ -191,7 +204,10 @@ and `f02_torch_front` in `review/v03`: the nave torch's flame card stands on its
 - **No AI scripting**: monks stand or wander at their DAT places; MM9's work and prayer animations, paths and attached
   tools are not carried (PLAN.md: no native patrols).
 - **Thjorad monks** are set at their prayer markers instead of walking there.
-- **The bells do not swing** (decorations do not animate); their sound plays.
+- **The bells** swing (2026-11-10: the bell part and clapper play Ring, then Stop; cogs 311-315, timers 271-275) and
+  ring their note on the clips' BellBing/BellBong keys (0.4, 1.2, 2.366, 3.233 s from BELL.abc); each reports to the
+  controller 5 s after its use, as MM9's StopDone. The note is not positional (MM9: radius 200-1000 LT at the bell), a
+  bell is not rung by damage (OnDamage OnUse), and Ring starts from its first frame (17 degrees) without MM9's blend.
 - **The hillside** is built only to be seen through the front door; its faces are invisible to the outline pass
   (minimap), drawn at load.
 - **The courtyard trees** have a trunk collision (radius 30); MM9 lets the party walk through its trees.

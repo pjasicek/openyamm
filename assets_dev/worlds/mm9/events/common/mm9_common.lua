@@ -272,6 +272,19 @@ function MM9.clientFx(actorIndex, effect, scale, up)
     if x ~= nil then evt.SpawnWorldEffect(effect, x, y, z + (up or 0), scale or 1) end
 end
 
+-- An MM9 effect carried on a map actor: on a socket of its 3D model (an actors.yml animation.sockets name such as
+-- palm_left, or a node of the model such as LHand1; nil for the middle of its body; "palm_left,palm_right" for one on
+-- each, the hands sharing a dots effect's two emitters as MM9 puts them on LHand1 and RHand1), following it while it
+-- plays, for `seconds` (nil or 0: until the effect ends by itself or the actor is gone). MM9.stopActorFx ends the
+-- actor's carried effects (or those of one effect).
+function MM9.actorFx(actorIndex, effect, socket, seconds, scale)
+    evt.SpawnActorEffect(actorIndex, effect, socket or "", seconds or 0, scale or 1)
+end
+
+function MM9.stopActorFx(actorIndex, effect)
+    evt.StopActorEffect(actorIndex, effect)
+end
+
 function MM9.clearCondition(rawCondition)
     if rawCondition ~= 13 then
         evt.StatusText("MM9 condition is unavailable: " .. tostring(rawCondition))

@@ -4364,18 +4364,6 @@
  "actor_detection": {
   "wakes": "none"
  },
- "terrain": {
-  "materials": "frosgard_blv.yml",
-  "textures": [
-   "fros2v4xvl",
-   "fros7iq3s9",
-   "frosfbduep",
-   "froshf0y66",
-   "froslpe1fg",
-   "frosumfdrb"
-  ],
-  "grass": "worlds/mm9/terrain_decorations/frosgard_blv.yml"
- },
  "spawns": [
   {
    "spawn_index": 0,
@@ -4481,5 +4469,17 @@
    "attributes": 0,
    "group": 0
   }
- ]
+ ],
+ "terrain": {
+  "materials": "frosgard_blv.yml",
+  "textures": [
+   "fros2v4xvl",
+   "fros7iq3s9",
+   "frosfbduep",
+   "froshf0y66",
+   "froslpe1fg",
+   "frosumfdrb"
+  ],
+  "grass": "worlds/mm9/terrain_decorations/frosgard_blv.yml"
+ }
 }

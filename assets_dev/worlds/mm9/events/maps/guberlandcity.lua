@@ -221,6 +221,240 @@ handlers[335] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); ev
 handlers[336] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); evt.SimpleMessage("Letter to Nurtigan\n\nSweet Nurtigan,\nOur date yesterday was wonderful.  I really loved the way you dispatched that Nagate without even having to draw your sword.  Your skill with the sword is unmatched.  Please, feel free to call on me at any time.\n\nYour sweetkins,\nLoriana") end   -- Prop6 (460)
 handlers[337] = function() evt.PlaySoundName("events/bookopen.wav", 0, 0, 0); evt.SimpleMessage("Be it Known\n\nYour true dook has arrived.  Fealty oaths shall be happily accepted throughout the summer and autumn.  If you wish, you may donate money at the front gate of the Dook's castle.") end   -- Prop7 (461)
 
+-- Markel's awards (Prize0-5 on the shelf of his hall; Sign4: "Awards Won by Markel ... at The Gathering"): the
+-- Thing's Stuffed Dragon (item 395). MM9 has them as set dressing; here they are world items taken once Markel is
+-- dead (key 40, dungeon/pickups.py), an OpenYAMM way past the Thing's games on Yrsa's errand: the first taken
+-- while the errand runs (93, not 94) counts as the prize won (94: Bikki takes it, the Jarls leave the council).
+-- No experience: the Thing's 10 000 is for winning its games.
+handlers[250] = function()
+    if has(93) and not has(94) then
+        MM9.giveKey(94); quest()
+        evt.StatusText("Markel the Great will not miss one of his prizes.")
+    end
+end
+
+-- The players' cues (Narrator.scr, Trislan.scr, Abriel.scr, Wilam.scr, Ralof.scr, Leffery.scr): walks, faces
+-- and clips at THEPLAY.scr's times from the first line (convert.py citylua.play_cues). A walk's arrival
+-- (EV_ARRIVE + k) runs what MM9 does there: faces whom it targets, and the slap.
+local P = {Narrator = 0, Wilam = 1, Trislan = 2, Abriel = 3, Ralof = 4, Leffery = 5}
+local ARRIVAL = {Narrator = 270, Wilam = 271, Trislan = 272, Abriel = 273, Ralof = 274, Leffery = 275}
+local MARKS = {Trislan1 = {-2580, -3830, 82}, Trislan2 = {-2294, -3707, 82}, Trislan3 = {-2560, -3912, 82}, Abriel1 = {-2621, -3748, 82}, Abriel2 = {-2294, -3584, 82}, Abriel3 = {-2458, -3789, 82}, Abriel4 = {-2437, -3912, 82}, Ralof1 = {-2744, -3871, 82}, Ralof2 = {-2949, -3748, 82}, Ralof3 = {-2683, -3912, 82}, Wilam1 = {-2744, -3584, 82}, Wilam2 = {-2744, -3789, 82}, Wilam3 = {-2949, -3666, 82}, Wilam4 = {-2949, -3912, 82}, Leffery1 = {-2499, -3666, 82}, Leffery2 = {-2949, -3584, 82}, Leffery3 = {-2826, -3912, 82}, peasant2 = {-2565, -4608, 0}}
+local HOME = {Narrator = {-2335, -3871, 83}, Wilam = {-2949, -3666, 83}, Trislan = {-2294, -3707, 83}, Abriel = {-2294, -3584, 83}, Ralof = {-2949, -3748, 83}, Leffery = {-2949, -3584, 83}}
+local function place(name)
+    if P[name] then return evt.GetMapActorPosition(P[name]) end
+    local m = MARKS[name]
+    return m[1], m[2], m[3]
+end
+local function loop(who, clip) evt.PlayActorClip(P[who], clip, true) end
+local function stop(who) evt.PlayActorClip(P[who], "") end
+local function face(who, name)
+    local x, y = place(name)
+    if x ~= nil then evt.FaceActorTo(P[who], x, y, 0.4) end
+end
+local function sound(name, who)
+    local x, y, z = place(who)
+    if x ~= nil then evt.PlaySoundName(name, math.floor(x), math.floor(y), math.floor(z)) end
+end
+local onArrival = {}
+local function walk(who, name, arrive)
+    local x, y, z = place(name)
+    if x == nil then return end
+    evt.ClearActorPresentation(P[who])
+    onArrival[who] = arrive
+    evt.MoveActorTo(P[who], x, y, z, ARRIVAL[who])
+end
+local function arrived(who)
+    local f = onArrival[who]
+    onArrival[who] = nil
+    if f ~= nil and var("PlayLine") > 0 then f() end
+end
+handlers[270] = function() arrived("Narrator") end
+handlers[271] = function() arrived("Wilam") end
+handlers[272] = function() arrived("Trislan") end
+handlers[273] = function() arrived("Abriel") end
+handlers[274] = function() arrived("Ralof") end
+handlers[275] = function() arrived("Leffery") end
+local CUES = {
+    {0.00, function()
+        loop("Narrator", "conv2")
+    end},
+    {6.09, function()
+        loop("Narrator", "conv3")
+        face("Narrator", "Abriel1")
+        walk("Trislan", "Trislan1", function() face("Trislan", "Abriel") end)
+        walk("Abriel", "Abriel1", function() face("Abriel", "Trislan") end)
+    end},
+    {11.08, function()
+        stop("Narrator")
+        loop("Trislan", "conv1")
+    end},
+    {17.26, function()
+        stop("Trislan")
+        loop("Abriel", "conv2")
+    end},
+    {30.44, function()
+        stop("Abriel")
+        loop("Trislan", "conv3")
+    end},
+    {34.10, function()
+        stop("Trislan")
+        loop("Abriel", "conv2")
+    end},
+    {44.32, function()
+        stop("Abriel")
+        loop("Trislan", "conv3")
+    end},
+    {47.53, function()
+        stop("Trislan")
+        loop("Abriel", "conv2")
+    end},
+    {51.55, function()
+        stop("Abriel")
+        loop("Narrator", "conv3")
+        walk("Trislan", "Trislan2", function() face("Trislan", "Wilam") end)
+        walk("Abriel", "Abriel2", function() face("Abriel", "Wilam") end)
+        walk("Ralof", "Ralof1", function() face("Ralof", "Wilam") end)
+        walk("Wilam", "Wilam1")
+        walk("Leffery", "Leffery1", function() face("Leffery", "Ralof") end)
+    end},
+    {55.55, function()
+        stop("Narrator")
+    end},
+    {56.26, function()
+        loop("Wilam", "conv2")
+    end},
+    {57.26, function()
+        walk("Wilam", "Wilam2", function() face("Wilam", "Ralof"); loop("Wilam", "conv3") end)
+    end},
+    {63.20, function()
+        stop("Wilam")
+        face("Ralof", "Wilam")
+        loop("Ralof", "conv1")
+    end},
+    {72.47, function()
+        stop("Ralof")
+        loop("Leffery", "conv2")
+    end},
+    {74.27, function()
+        stop("Leffery")
+        face("Ralof", "Leffery")
+        loop("Ralof", "conv1")
+    end},
+    {79.27, function()
+        face("Ralof", "Wilam")
+        loop("Ralof", "conv2")
+    end},
+    {94.39, function()
+        stop("Ralof")
+        stop("Wilam")
+        walk("Abriel", "Ralof", function() face("Abriel", "Ralof"); evt.PlayActorClip(P.Abriel, {"attack_melee", "conv2"}, true); evt.PlayActorClip(P.Ralof, {"hit"}, false); sound("weapons/fleshhit03.wav", "Ralof") end)
+    end},
+    {115.15, function()
+        stop("Abriel")
+        loop("Ralof", "conv1")
+    end},
+    {119.60, function()
+        stop("Ralof")
+        loop("Narrator", "conv1")
+    end},
+    {123.60, function()
+        stop("Narrator")
+        walk("Abriel", "Abriel2", function() face("Abriel", "Wilam") end)
+        walk("Ralof", "Ralof2", function() face("Ralof", "Trislan") end)
+        walk("Wilam", "Wilam3", function() face("Wilam", "Trislan") end)
+        walk("Leffery", "Leffery2", function() face("Leffery", "Trislan") end)
+    end},
+    {124.24, function()
+        loop("Narrator", "conv1")
+        walk("Trislan", "Trislan1", function() face("Trislan", "Ralof") end)
+    end},
+    {125.24, function()
+        walk("Abriel", "Abriel3", function() face("Abriel", "Ralof") end)
+    end},
+    {129.42, function()
+        stop("Narrator")
+        face("Trislan", "Ralof")
+        loop("Trislan", "conv2")
+    end},
+    {129.74, function()
+        walk("Ralof", "Trislan", function() face("Ralof", "Trislan") end)
+    end},
+    {130.74, function()
+        walk("Leffery", "Wilam2", function() face("Leffery", "Trislan") end)
+        walk("Wilam", "Ralof1", function() face("Wilam", "Trislan") end)
+    end},
+    {132.14, function()
+        stop("Trislan")
+        loop("Ralof", "conv4")
+    end},
+    {138.06, function()
+        stop("Ralof")
+        loop("Trislan", "conv2")
+    end},
+    {141.96, function()
+        stop("Trislan")
+        loop("Ralof", "conv1")
+    end},
+    {144.96, function()
+        stop("Ralof")
+        evt.PlayActorClip(P.Ralof, {"attack_melee"}, false)
+    end},
+    {145.56, function()
+        sound("weapons/fleshhit04.wav", "Trislan")
+    end},
+    {145.73, function()
+        evt.PlayActorClip(P.Trislan, {"play_death", "play_getup"}, false)
+    end},
+    {149.60, function()
+        loop("Narrator", "conv3")
+        face("Narrator", "peasant2")
+    end},
+    {162.60, function()
+        walk("Ralof", "Ralof3", function() face("Ralof", "peasant2") end)
+        walk("Wilam", "Wilam4", function() face("Wilam", "peasant2") end)
+        walk("Leffery", "Leffery3", function() face("Leffery", "peasant2") end)
+        walk("Abriel", "Abriel4", function() face("Abriel", "peasant2") end)
+        walk("Trislan", "Trislan3", function() face("Trislan", "peasant2") end)
+    end},
+    {163.82, function()
+        loop("Narrator", "conv3")
+    end},
+    {164.82, function()
+        stop("Narrator")
+        evt.PlayActorClip(P.Wilam, {"bow"}, false)
+        evt.PlayActorClip(P.Leffery, {"bow"}, false)
+        evt.PlayActorClip(P.Abriel, {"bow"}, false)
+        evt.PlayActorClip(P.Trislan, {"bow"}, false)
+    end},
+    {174.29, function()
+        walk("Trislan", "Trislan2", function() face("Trislan", "Wilam") end)
+        walk("Abriel", "Abriel2", function() face("Abriel", "Wilam") end)
+        walk("Ralof", "Ralof2", function() face("Ralof", "Trislan") end)
+        walk("Wilam", "Wilam3", function() face("Wilam", "Trislan") end)
+        walk("Leffery", "Leffery2", function() face("Leffery", "Trislan") end)
+    end},
+}
+local cue = 0
+local function playCues(delay)
+    cue = 1
+    evt.StartTimer(263, seconds(delay + CUES[1][1]))
+end
+handlers[263] = function()
+    evt.StopTimer(263)
+    if cue < 1 or cue > #CUES then return end
+    if var("PlayLine") == 0 then cue = 0 return end   -- the show stopped
+    local at = CUES[cue][1]
+    CUES[cue][2]()
+    cue = cue + 1
+    if cue <= #CUES then evt.StartTimer(263, seconds(CUES[cue][1] - at)) else cue = 0 end
+end
+local function playersHome()   -- a show left half-way: the players back at their places
+    for who, p in pairs(HOME) do
+        evt.ClearActorPresentation(P[who])
+        evt.SetMapActorPosition(P[who], p[1], p[2], p[3])
+    end
+end
+
 -- The Guberland Players' show (Narrator.scr @m 14:30 and 16:30; the lines and their timing from THEPLAY.scr):
 -- the curtain opens, each line plays at its speaker's place on the stage, the curtain closes after the bow.
 -- PlayLine: the next line (0: no show); PlayDue guards the repeating timer. A row's `to`: the players'
@@ -290,6 +524,7 @@ local function playSchedule()
         set("PlayLine", 1)
         playCurtain(true)
         playNext(2)
+        playCues(2)
     end
 end
 
@@ -311,7 +546,7 @@ handlers[1] = function()   -- map load
     show(34, thorolf); show(35, thorolf)
     if has(211) then open("RotatingDoor3") end   -- NPC131.scr :Init: Nurtigan cured, the door open
     townPortalAltar()   -- TownPortal.scr :Init (FixCheck): the clean altar once its key is set
-    if var("PlayLine") > 0 then set("PlayLine", 0); playCurtain(false) end   -- a show left half-way
+    if var("PlayLine") > 0 then set("PlayLine", 0); playCurtain(false); playersHome() end   -- a show left half-way
     poll()
     handlers[261]()
 end
@@ -462,6 +697,14 @@ RegisterEvent(334, "Well0", handlers[334], "Well")
 RegisterEvent(335, "Prop5", handlers[335], "Read")
 RegisterEvent(336, "Prop6", handlers[336], "Read")
 RegisterEvent(337, "Prop7", handlers[337], "Read")
+RegisterEvent(250, "Markel's awards", handlers[250])
+RegisterMapTimerEvent(263, seconds(3), handlers[263], "The players' cues", "", seconds(3))
+RegisterEvent(270, "Narrator arrives", handlers[270])
+RegisterEvent(271, "Wilam arrives", handlers[271])
+RegisterEvent(272, "Trislan arrives", handlers[272])
+RegisterEvent(273, "Abriel arrives", handlers[273])
+RegisterEvent(274, "Ralof arrives", handlers[274])
+RegisterEvent(275, "Leffery arrives", handlers[275])
 RegisterMapTimerEvent(262, seconds(3), handlers[262], "The play", "", seconds(3))
 RegisterMapTimerEvent(260, seconds(3), handlers[260], "Poll", "", seconds(3))
 RegisterEvent(1, "Map load", handlers[1])

@@ -39,3 +39,10 @@ reports 1 423 bed-hole samples in build_report.json `water` (the far sea past th
 box is swum, as before).
 No `scenario_swim_check.yml` here: `swim_check.py` picks its points from the DAT floors, and the deepest sea pieces lie in
 the far sea, whose seabed the BLV does not build (a party set there sinks past -819 to -920); the near box's piece passes.
+
+## Mata's cower (2026-11-11)
+
+`ArmWrestle.scr :StartCower` after a won game: `cowerstart`, `cower` five times, `cowerstop`, his game's use removed
+until it ends (5.4 s, runtime only). His click opens his dialogue too (DoRude 1), and while it is open he stands for
+it: the cower shows once the dialogue closes (capture `output/held_items_check/b3_cower/gub3_sheet.png`).
+`scenario_games.yml` and `scenario_lifecycle.yml` pass.

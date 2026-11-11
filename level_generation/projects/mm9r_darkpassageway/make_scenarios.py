@@ -297,12 +297,18 @@ def scripted(m: Map) -> dict:
         deck = (-480.0 * SCALE) + shift          # the bridge's plank deck (WoodPlanks, -480 LT up, -640 down)
         return m.click_prop(name, side=(0, 1), distance=110, shift_z=shift, height=30, floor_z=deck)
 
-    steps += [*statue_click("SwitchCreature0", puzzle), wait(1.5), var("Puzzle", convert.PUZZLE["A"][puzzle]),
-              *m.click_prop("SwitchCreature5", side=(0, -1), distance=110, height=30), wait(1.5),
+    def clip_wait(name):
+        """The statue's Use clip and a little: its end tells the puzzle (DarkP_RaisingSwitch.scr :TriggerScrObj)."""
+        use = convert.SWITCH_STATUES[name][2]
+        return wait(round(convert.statue_clips(m.props[name]["prop"])[use] + 0.6, 1))
+
+    steps += [*statue_click("SwitchCreature0", puzzle), wait(0.5), var("StatueBusy0", 1),
+              var("PuzzleSet", 0), clip_wait("SwitchCreature0"), var("Puzzle", convert.PUZZLE["A"][puzzle]),
+              *m.click_prop("SwitchCreature5", side=(0, -1), distance=110, height=30), clip_wait("SwitchCreature5"),
               var("Puzzle", convert.PUZZLE_START)]
     for letter in "ADCBDCBA":
         name = statue[letter]
-        steps += [*statue_click(name, puzzle), wait(1.6)]
+        steps += [*statue_click(name, puzzle), clip_wait(name)]
         puzzle = convert.PUZZLE[letter][puzzle]
         steps.append(var("Puzzle", puzzle))
     steps += [var("PuzzleSolved", 1), wait(7.0), state(g["TeleportDoor0"][0], "open"),
@@ -333,10 +339,11 @@ def scripted(m: Map) -> dict:
     ]
     # Canyon.
     steps += [
-        {"note": {"text": "The canyon statue (DarkP_CanyonSwitch.scr): a click from its ledge wakes the banshee eyes in "
-                          "pairs and opens the canyon doors; TriggerBansheeOff0 by the mountain teleporter stops the "
+        {"note": {"text": "The canyon statue (DarkP_CanyonSwitch.scr): a click from its ledge plays its four clips, "
+                          "each one's end waking a pair of banshee eyes, and the last opens the canyon doors; TriggerBansheeOff0 by the mountain teleporter stops the "
                           "eyes."}},
-        *m.click_prop("SwitchCreature4", side=(1, -0.3), distance=110, floor_z=31, height=30), wait(6.0),
+        *m.click_prop("SwitchCreature4", side=(1, -0.3), distance=110, floor_z=31, height=30), wait(1.2),
+        var("CanyonStep", 2), var("EyesOn", 2), var("CanyonOpen", 0), wait(4.8),
         var("EyesOn", 8), var("CanyonOpen", 1), wait(4.0), state(g["CanyonDoor"][0], "open"),
         m.stand_in("TriggerBansheeOff0"), wait(0.6), var("EyesOff", 1),
     ]
@@ -502,7 +509,9 @@ def swim(m: Map) -> dict:
     steps += [
         {"note": {"text": "Out onto the island: at the surface 160 off the sand's lowest edge the party swims at it with a "
                           "fresh Jump (the surface jump) and lands on the sand."}},
-        segment((off[0], off[1], surface_foot("Ocean")), a + math.pi, 1.0, (x, y, z), {"jump": True},
+        # 0.6 s: the jump lands about 0.45 s in, 290 on; held longer, forward runs on up the sloping sand (the jump
+        # no longer stops at the sand's edge touched from the side, 2026-11-07), 450 in and 97 higher at 1.0 s.
+        segment((off[0], off[1], surface_foot("Ocean")), a + math.pi, 0.6, (x, y, z), {"jump": True},
                 tolerance=450, tolerance_z=60),
         water(state="dry", eye_under=False, foot_z_min=ocean),
         {"note": {"text": "SeaMonsterFemale0 (a swimmer: its box centre at MM9's position, under the surface), hit by "

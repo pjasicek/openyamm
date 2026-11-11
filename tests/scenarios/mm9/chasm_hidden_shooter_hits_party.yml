@@ -1,0 +1,42 @@
+# Chasm of the Dead, HSP6 (the hidden shooter plate in the west tomb corridor, the user's 2026-11-11 note "trap doesnt
+# damage"): the plate sinks, the SD6 shutters open and HS6 fires a FireBolt (DamageAmt 20) at the party. The map Lua
+# fires it with evt.FireMissile(..., strikesParty = true): an event missile otherwise passes the party.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/chasm_hidden_shooter_hits_party.yml
+id: mm9.chasm_hidden_shooter_hits_party
+title: "Chasm of the Dead: stepping on HSP6 fires HS6's bolt, which hurts the party"
+world: mm9
+mode: faithful
+tags: [mm9, traps]
+steps:
+  - new_game_flow:
+      start_map: sturmford.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        members:
+          - {name: Knight, class: Knight, level: 1, skills: [{name: Sword, level: 1, mastery: 1}], equipment: {}}
+          - {name: Cleric, class: Cleric, level: 1, skills: [{name: Mace, level: 1, mastery: 1}], equipment: {}}
+  - load_map: {map: chasmofthedead.blv}
+  - set_pose: {map: chasmofthedead.blv, x: -12100, y: 7946, z: -3359, yaw_degrees: 180}
+  - advance_runtime: {seconds: 1.0}
+  - assert:
+      party_health: {full: true}
+  # East to west onto the plate (x -12411..-12247), facing the shooter in the west wall.
+  - movement_segment:
+      input: forward
+      seconds: 0.3
+      actor_collision: false
+      actor_ai: false
+      start: {map: chasmofthedead.blv, x: -12100, y: 7946, z: -3359, yaw_degrees: 180.0, pitch: 0}
+      expect_stop: {map: chasmofthedead.blv, x: -12325, y: 7946, z: -3359, yaw_degrees: 180.0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 80
+      tolerance_z: 30
+  - assert:
+      state_dump_named_map_var: {name: HSP6, value: 1}
+  - advance_runtime: {milliseconds: 600}
+  - assert:
+      state_dump_named_map_var: {name: ShotsFired, value: 1}
+  - assert:
+      party_health: {full: false}
+      combat_log: {taken_min: 1}

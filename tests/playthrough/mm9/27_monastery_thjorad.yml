@@ -51,7 +51,7 @@ steps:
       source: |
         local ROPE = {91, 92, 93, 94, 95}   -- Rope1 (east) .. Rope5 (west)
         for _, n in ipairs({1, 5, 2, 4, 3}) do click(ROPE[n]); wait(1.0) end
-        wait(4)
+        wait(5)   -- a bell reports to BellControl 5 s after its pull (Ring 2 s, then Wait 1,3,StopDone)
         if not qbit(99507) then error("the bells did not peal") end
         log("ropes 1, 5, 2, 4, 3: the bells peal; Thjorad's guards go to pray")
   - assert: {state_dump_named_map_var: {name: AtPrayer, value: 1}}

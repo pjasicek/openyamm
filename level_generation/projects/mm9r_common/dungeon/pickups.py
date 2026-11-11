@@ -68,6 +68,12 @@ QUEST_PICKUPS = {
 }
 
 
+# Props MM9 left as set dressing that OpenYAMM makes pickups: (map stem, DAT name) -> rule. Markel's six awards in his
+# hall (Guberland City, Sign4 "Awards Won by Markel ... at The Gathering") are the Thing's Stuffed Dragon: shown as
+# before, taken once Markel is dead (key 40, the council): a way past the Thing's games on Yrsa's errand (the map
+# event gives key 94).
+NAMED_PICKUPS = {("guberlandcity", f"Prize{n}"): Pickup(395, pickup_keys=[40]) for n in range(6)}
+
 # Pickups MM9 places hidden (Visible 0) for a script to show later: (map stem, DAT name) -> the keys that show them.
 # The Afterworld's heroes' swords appear with Absolution (key 492; SixFires.inc); Sven's lies there from the start.
 REVEALED_BY = {("afterworld", name): [492] for name in ("BjarniSword", "SigmundSword", "TryygvaSword", "KiraSword")}
@@ -79,8 +85,11 @@ def script_name(properties: dict) -> str:
     return name[:-4] if name.endswith(".scr") else name
 
 
-def rule(properties: dict) -> Pickup | None:
-    """The pickup a DAT object's script makes it, or None (not a pickup)."""
+def rule(properties: dict, stem: str = "") -> Pickup | None:
+    """The pickup a DAT object's script (or NAMED_PICKUPS, by map stem and name) makes it, or None (not a pickup)."""
+    named = NAMED_PICKUPS.get((stem, str(properties.get("Name", ""))))
+    if named is not None:
+        return named
     script = script_name(properties)
     params = str(properties.get("ScriptParams", "")).split()
     if script in ("givetake", "bootgive"):

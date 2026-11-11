@@ -7770,7 +7770,7 @@
      0,
      0
     ],
-    "sector_id": 55,
+    "sector_id": 53,
     "current_action_animation": 0,
     "carried_item_id": 0,
     "group": 62,
@@ -8052,7 +8052,7 @@
      0,
      0
     ],
-    "sector_id": 55,
+    "sector_id": 53,
     "current_action_animation": 0,
     "carried_item_id": 0,
     "group": 62,
@@ -9426,19 +9426,19 @@
    },
    {
     "actor_index": 163,
-    "name": "Dagrell",
+    "name": "Venomous Dagrell",
     "npc_id": 0,
     "attributes": 524288,
-    "hp": 346,
+    "hp": 665,
     "hostility_type": 4,
-    "monster_info_id": 9147,
-    "monster_id": 9147,
+    "monster_info_id": 9148,
+    "monster_id": 9148,
     "radius": 64,
     "height": 148,
     "move_speed": 512,
     "position": {
-     "x": -5952,
-     "y": 2012,
+     "x": -6583,
+     "y": 2859,
      "z": 1
     },
     "initial_yaw_units": 1536,
@@ -9464,22 +9464,22 @@
    },
    {
     "actor_index": 164,
-    "name": "Venomous Dagrell",
+    "name": "Skeleton Master",
     "npc_id": 0,
     "attributes": 524288,
-    "hp": 665,
+    "hp": 263,
     "hostility_type": 4,
-    "monster_info_id": 9148,
-    "monster_id": 9148,
-    "radius": 64,
-    "height": 148,
-    "move_speed": 512,
+    "monster_info_id": 9137,
+    "monster_id": 9137,
+    "radius": 38,
+    "height": 189,
+    "move_speed": 256,
     "position": {
-     "x": -6758,
-     "y": 2888,
+     "x": -8015,
+     "y": 3286,
      "z": 1
     },
-    "initial_yaw_units": 1536,
+    "initial_yaw_units": 1962,
     "immobile": false,
     "sprite_ids": [
      0,
@@ -9487,7 +9487,7 @@
      0,
      0
     ],
-    "sector_id": 16,
+    "sector_id": 27,
     "current_action_animation": 0,
     "carried_item_id": 0,
     "group": 0,
@@ -9495,9 +9495,53 @@
     "unique_name_index": 0,
     "draw_scale": 1.0,
     "mm9_ai": {
-     "sight": 3379,
-     "hearing": 3379,
-     "runaway_chance": 0.25
+     "sight": 2621,
+     "hearing": 655,
+     "runaway_chance": 0.0,
+     "can_be_resurrected": true,
+     "hiding_places": [
+      [
+       -7537,
+       3768,
+       82
+      ],
+      [
+       983,
+       11633,
+       410
+      ],
+      [
+       -983,
+       2130,
+       -573
+      ]
+     ],
+     "wander": "path",
+     "path": [
+      [
+       4588,
+       -328,
+       82
+      ],
+      [
+       2294,
+       11633,
+       410
+      ],
+      [
+       -8438,
+       3277,
+       82
+      ]
+     ],
+     "wander_wait": [
+      3.0,
+      10.0
+     ],
+     "wander_time": [
+      3.0,
+      6.0
+     ]
     }
    },
    {
@@ -25785,8 +25829,8 @@
   {
    "spawn_index": 2,
    "position": {
-    "x": -760,
-    "y": 2312,
+    "x": -1528,
+    "y": 1672,
     "z": -655
    },
    "radius": 32,
@@ -25798,8 +25842,8 @@
   {
    "spawn_index": 3,
    "position": {
-    "x": -1016,
-    "y": 2312,
+    "x": -1400,
+    "y": 1672,
     "z": -655
    },
    "radius": 32,
@@ -25864,7 +25908,7 @@
    "spawn_index": 8,
    "position": {
     "x": -8568,
-    "y": 3208,
+    "y": 3080,
     "z": 0
    },
    "radius": 32,
@@ -25890,7 +25934,7 @@
    "spawn_index": 10,
    "position": {
     "x": -3192,
-    "y": 1032,
+    "y": 904,
     "z": 1311
    },
    "radius": 32,
@@ -25941,6 +25985,19 @@
   {
    "spawn_index": 14,
    "position": {
+    "x": 904,
+    "y": 1800,
+    "z": 1311
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 5,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 15,
+   "position": {
     "x": 776,
     "y": 3336,
     "z": 2376
@@ -25952,23 +26009,10 @@
    "group": 0
   },
   {
-   "spawn_index": 15,
-   "position": {
-    "x": -2296,
-    "y": 1800,
-    "z": 1311
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 5,
-   "attributes": 0,
-   "group": 0
-  },
-  {
    "spawn_index": 16,
    "position": {
-    "x": 1288,
-    "y": 1416,
+    "x": -2552,
+    "y": 1800,
     "z": 1311
    },
    "radius": 32,

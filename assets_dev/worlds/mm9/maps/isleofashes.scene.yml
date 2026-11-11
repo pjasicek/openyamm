@@ -4526,8 +4526,8 @@
     "height": 50,
     "move_speed": 640,
     "position": {
-     "x": -6431,
-     "y": -19149,
+     "x": -6394,
+     "y": -19237,
      "z": 1611
     },
     "initial_yaw_units": 171,
@@ -4929,9 +4929,9 @@
     "height": 185,
     "move_speed": 384,
     "position": {
-     "x": -3277,
-     "y": -9974,
-     "z": -984
+     "x": -3294,
+     "y": -9991,
+     "z": 603
     },
     "initial_yaw_units": 1422,
     "immobile": false,
@@ -5123,7 +5123,7 @@
     "position": {
      "x": 9134,
      "y": 9196,
-     "z": -984
+     "z": 674
     },
     "initial_yaw_units": 512,
     "immobile": false,
@@ -5297,7 +5297,7 @@
     "position": {
      "x": 6681,
      "y": -8720,
-     "z": 226
+     "z": 250
     },
     "initial_yaw_units": 1024,
     "immobile": false,
@@ -6718,7 +6718,7 @@
     "position": {
      "x": 6622,
      "y": -8826,
-     "z": 240
+     "z": 261
     },
     "initial_yaw_units": 1024,
     "immobile": false,
@@ -6755,9 +6755,9 @@
     "height": 92,
     "move_speed": 320,
     "position": {
-     "x": 6756,
-     "y": -8815,
-     "z": 208
+     "x": 6642,
+     "y": -8998,
+     "z": 257
     },
     "initial_yaw_units": 1024,
     "immobile": false,
@@ -23522,19 +23522,6 @@
   {
    "spawn_index": 3,
    "position": {
-    "x": -6240,
-    "y": -18784,
-    "z": 1077
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 1,
-   "attributes": 0,
-   "group": 0
-  },
-  {
-   "spawn_index": 4,
-   "position": {
     "x": -9696,
     "y": -11104,
     "z": 178
@@ -23546,11 +23533,24 @@
    "group": 0
   },
   {
-   "spawn_index": 5,
+   "spawn_index": 4,
    "position": {
     "x": 3488,
     "y": -13664,
     "z": 534
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 1,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": 7328,
+    "y": -11616,
+    "z": 93
    },
    "radius": 32,
    "type_id": 2,

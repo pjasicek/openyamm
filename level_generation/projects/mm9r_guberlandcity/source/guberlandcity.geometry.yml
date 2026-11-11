@@ -795,7 +795,10 @@
     "DECOR_Coalbin",
     "DECOR_Iron0",
     "DECOR_SmithHammer",
-    "DECOR_Forge1"
+    "DECOR_Forge1",
+    "TRIGGER_hint_PerceptionBrush4_0",
+    "TRIGGER_hint_PerceptionBrush4_1",
+    "TRIGGER_hint_PerceptionBrush4_2"
    ],
    "min_ambient_light_level": 20
   },
@@ -825,13 +828,7 @@
     "DECOR_Helmet2",
     "DECOR_Shelfitems18",
     "DECOR_Weaponrack0",
-    "DECOR_Weaponrack1",
-    "TRIGGER_hint_PerceptionBrush4_0",
-    "TRIGGER_hint_PerceptionBrush4_1",
-    "TRIGGER_hint_PerceptionBrush4_2",
-    "TRIGGER_hint_PerceptionBrush5_0",
-    "TRIGGER_hint_PerceptionBrush5_1",
-    "TRIGGER_hint_PerceptionBrush5_2"
+    "DECOR_Weaponrack1"
    ],
    "min_ambient_light_level": 20
   },
@@ -953,7 +950,10 @@
     "TRIGGER_shared_r06_r14",
     "TRIGGER_invisible_r14",
     "STATIC_glass2_c20022_r14",
-    "MECH_RotatingDoor11"
+    "MECH_RotatingDoor11",
+    "TRIGGER_hint_PerceptionBrush5_0",
+    "TRIGGER_hint_PerceptionBrush5_1",
+    "TRIGGER_hint_PerceptionBrush5_2"
    ],
    "min_ambient_light_level": 20
   },
@@ -1092,18 +1092,9 @@
     "LIGHT_Light11",
     "DECOR_CandleProp9",
     "DECOR_Cabinet29",
-    "DECOR_Prize0",
-    "DECOR_Prize1",
-    "DECOR_Prize2",
-    "DECOR_Prize3",
-    "DECOR_Prize4",
-    "DECOR_Prize5",
     "DECOR_Sign4",
     "DECOR_Armor2",
-    "DECOR_Armor3",
-    "TRIGGER_hint_PerceptionBrush7_0",
-    "TRIGGER_hint_PerceptionBrush7_1",
-    "TRIGGER_hint_PerceptionBrush7_2"
+    "DECOR_Armor3"
    ],
    "min_ambient_light_level": 20
   },
@@ -1133,7 +1124,10 @@
     "DECOR_Tree7",
     "DECOR_Tree8",
     "DECOR_Tree9",
-    "DECOR_Well0"
+    "DECOR_Well0",
+    "TRIGGER_hint_PerceptionBrush7_0",
+    "TRIGGER_hint_PerceptionBrush7_1",
+    "TRIGGER_hint_PerceptionBrush7_2"
    ],
    "min_ambient_light_level": 20
   },
@@ -9634,60 +9628,6 @@
    "kind": "decoration",
    "source_node": "DECOR_Cabinet29",
    "decoration_list_id": 2608,
-   "event_id_primary": 0,
-   "event_id_secondary": 0,
-   "facing": 180
-  },
-  {
-   "id": "Prize0",
-   "kind": "decoration",
-   "source_node": "DECOR_Prize0",
-   "decoration_list_id": 2638,
-   "event_id_primary": 0,
-   "event_id_secondary": 0,
-   "facing": 180
-  },
-  {
-   "id": "Prize1",
-   "kind": "decoration",
-   "source_node": "DECOR_Prize1",
-   "decoration_list_id": 2638,
-   "event_id_primary": 0,
-   "event_id_secondary": 0,
-   "facing": 180
-  },
-  {
-   "id": "Prize2",
-   "kind": "decoration",
-   "source_node": "DECOR_Prize2",
-   "decoration_list_id": 2638,
-   "event_id_primary": 0,
-   "event_id_secondary": 0,
-   "facing": 180
-  },
-  {
-   "id": "Prize3",
-   "kind": "decoration",
-   "source_node": "DECOR_Prize3",
-   "decoration_list_id": 2638,
-   "event_id_primary": 0,
-   "event_id_secondary": 0,
-   "facing": 180
-  },
-  {
-   "id": "Prize4",
-   "kind": "decoration",
-   "source_node": "DECOR_Prize4",
-   "decoration_list_id": 2638,
-   "event_id_primary": 0,
-   "event_id_secondary": 0,
-   "facing": 180
-  },
-  {
-   "id": "Prize5",
-   "kind": "decoration",
-   "source_node": "DECOR_Prize5",
-   "decoration_list_id": 2638,
    "event_id_primary": 0,
    "event_id_secondary": 0,
    "facing": 180

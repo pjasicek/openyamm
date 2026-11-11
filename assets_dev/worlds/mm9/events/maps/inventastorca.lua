@@ -163,10 +163,17 @@ end
 handlers[190] = function()
     if var("BustOut0") == 1 then return end
     set("BustOut0", 1)
-    -- BustOutLich0 breaks its own cage (ForceBreak): killed in it, it takes none and the wall stands
+    -- BustOutLich0 breaks its own cage (ForceBreak): killed in it, it takes none and the wall stands.
+    -- :RushCage roars where it stands (dragonredrattack3.wav), :BreakCage swings hattack1 (LICH.abc's
+    -- Hattack1 is the model's attack_melee2).
     if MM9.receives("inventastorca", "BustOutLich0", "ForceBreak", 17) then
+        local x, y, z = evt.GetMapActorPosition(17)
+        if x ~= nil then
+            evt.PlaySoundName("animsounds/dragonredrattack3.wav", math.floor(x), math.floor(y), math.floor(z))
+        end
         evt.DestroyDestructible(671)
         evt.PlaySoundName("events/rock_crush.wav", 0, 0, 0)
+        evt.PlayActorClip(17, "attack_melee2")   -- PlayAnim hattack1
     end
     evt.WakeGroup(12)
 end

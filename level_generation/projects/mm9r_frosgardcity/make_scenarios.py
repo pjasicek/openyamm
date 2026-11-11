@@ -3,8 +3,8 @@
 Write the Frosgard City scenarios from the built map (work/doors.json, work/build_report.json, the scene):
 
     scenario_doors_exits.yml   the tavern's door stops the party, opens on its click and the party walks in; a facade
-                               door stays locked; the bank's hatch opens with the banker's dialogue; the north gate's
-                               exit raises its transition to the Frosgard wilderness
+                               door stays locked; the bank's hatch opens with the banker's dialogue and shuts at its
+                               exit; the north gate's exit raises its transition to the Frosgard wilderness
     scenario_shops.yml         walk-in shops by real clicks: Tryggva Ironhands (RUDE 201) and Thora the
                                Skull-toucher (RUDE 203) open their dialogues and "... see your wares/stuff." opens the shop
     scenario_scripted.yml      the location key 1029, shop hours (5017), a letter, the town portal altar (5015), the
@@ -111,13 +111,16 @@ def main() -> int:
               {"advance_runtime": {"seconds": 1}},
               {"assert": {"mechanism": {"id": facade["door_id"], "state": "closed"}}}]
     hatch = door["Bankdoor_INV"]          # the hatch is invisible faces only (citylua.py)
-    steps += [{"note": {"text": "The bank's hatch (Bankdoor): a click opens it and the banker's dialogue (RUDE 206)."}},
+    steps += [{"note": {"text": "The bank's hatch (Bankdoor): a click opens it and the banker's dialogue (RUDE 206); "
+                                "the dialogue's exit shuts it (NPC206.scr :OnRude toggles bankdoor)."}},
               {"execute_event": {"id": citylua.EV_BANK}},
               {"advance_runtime": {"seconds": 0.5}},
               {"assert": {"dialog": {"active": True, "source_id": 206}}},
+              # the open dialogue pauses the world: the hatch is still on its way
+              {"assert": {"mechanism": {"id": hatch["door_id"], "state": "opening"}}},
               {"press_action": {"action": "cancel_dialog"}},
               {"advance_runtime": {"seconds": 1}},
-              {"assert": {"mechanism": {"id": hatch["door_id"], "state": "open"}}}]
+              {"assert": {"mechanism": {"id": hatch["door_id"], "state": "closed"}}}]
     north = next(t for t in report["transitions"] if t["name"] == "ExitTrigger0" and t["source"] == MAP)
     nx, ny, nz = (int(v) for v in north["centre"])
     z = floors.z(nx, ny - 450, 1000)

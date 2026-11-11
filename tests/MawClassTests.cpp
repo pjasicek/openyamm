@@ -583,7 +583,9 @@ TEST_CASE("MAW Elementalists rotate their quick spell within the bound kind unle
     }
 
     // Switched off: the spell stays and no stack builds.
+    CHECK(spells.spellRotation(caster) == std::optional<bool>(true));
     REQUIRE(spells.toggleSpellRotation(caster) == std::optional<bool>(false));
+    CHECK(spells.spellRotation(caster) == std::optional<bool>(false));
     const std::string bound = caster.quickSpellName;
     const int stacks = rules.classRuntime(caster).elementalStacks;
     spells.afterCast(party, 0, uint32_t(spellTable.findByName(bound)->id), spellTable, false, false);
@@ -595,7 +597,9 @@ TEST_CASE("MAW Elementalists rotate their quick spell within the bound kind unle
     spells.afterCast(party, 0, 2, spellTable, false, true);
     CHECK_EQ(rules.classRuntime(caster).elementalStacks, 1);
     Character knight = member("Knight", 20);
+    CHECK_FALSE(spells.spellRotation(knight).has_value());
     CHECK_FALSE(spells.toggleSpellRotation(knight).has_value());
+    CHECK_FALSE(standardGameRules().spells.spellRotation(caster).has_value());
 }
 
 TEST_CASE("MAW Elementalists learn the elements by casting them")

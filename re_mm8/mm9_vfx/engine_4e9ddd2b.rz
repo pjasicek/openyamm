@@ -1,0 +1,11 @@
+# lithtech.exe SHA256 4e9ddd2b69db934ecbd7399dd92992004e596907da4a214450f31c5dd39e56d8
+# Preferred image base 0x00400000. Read README first.
+f mm9fx.dtx_create 1 @ 0x0042a685
+f mm9fx.texture_storage_size 1 @ 0x0044d76b
+f mm9fx.load_sprite 1 @ 0x004667a1
+f mm9fx.sprite_tracker_init 1 @ 0x00466991
+f mm9fx.sprite_tracker_update 1 @ 0x004669be
+CC Read164-byte DTX header. Resource0 and version-5 required. @ 0x0042a6a5
+CC DTX internal flag8 gates section-count processing, not sprite blending. @ 0x0042a836
+CC SPR contains5 u32 fields followed by u16-length paths. Integer frame period1000/fps. @ 0x004667a1
+CC Integer-millisecond tracker, play bit1 and loop bit2, frame=(time/frameMs) modulo count. @ 0x004669be

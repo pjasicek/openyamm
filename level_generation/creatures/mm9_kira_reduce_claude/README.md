@@ -93,3 +93,13 @@ the `mm9_actor_models_build_every_binding` regression, and add to `../mm9_kira_c
 In game (not installed; binding regression and floor audit run after install); motion at normal speed by eye (gates and viewer stills
 only); LOD1-3 and shadow meshes by eye (numbers only); see-through gate (Kira's project has none; her armour is closed and no
 linings exist); the cutscene clips beyond the seated-knee frames and the stills listed above.
+
+The installed model carries `Socket_Sheath` and `Socket_RHand1` (her sword in the Argument, 2026-11-11), added after
+this reduction by [`mm9_held_items_claude/scripts/add_sockets.py mm9_kira`](../../props/mm9_held_items_claude/scripts/add_sockets.py).
+Rerunning this reduction drops them: run that script again and install its export (`tools/install_model.py --world mm9`).
+
+Her seated Argument clips (Sit, Applause, Sc2_KIRA5 ... Sc2_KIRA14, and Sc2_KIRA16b as she stands) are lowered onto her
+chair after install (2026-11-11) by [`mm9_kira_claude/scripts/seat_clips.py`](../mm9_kira_claude/scripts/seat_clips.py):
+KIRA.abc keeps her standing hips while seated, so she hovered in front of her chair in the council cinematic. A
+rebuild or reduction installed from here drops it: run `add_sockets.py mm9_kira`, install, then `seat_clips.py` and
+install its export (`--name mm9_kira.glb`).

@@ -336,13 +336,14 @@ def has_bed(face: dict, geometry: dict, faces: list, neighbours: dict, floors: _
     return under * 2 >= len(samples)
 
 
-def surfaces(blv: dict, source=None) -> tuple[dict[int, str], list[tuple]]:
+def surfaces(blv: dict, source=None, not_water=()) -> tuple[dict[int, str], list[tuple]]:
     """Face index -> liquid texture name for the visible, horizontal water faces, and a report row per face
     (index, family, MM9 object, opacity, see-through, name). A face's MM9 object is the drawn water top whose box holds
     its centre with the face no more than `MATCH_HEIGHT` above its top or below its bottom (a volume's mover surface is
     stored inside it), the nearest top first. An object's faces are see-through together, when it is translucent and
     at least half of them have a bed (`has_bed`): no patchwork of opaque tiles in a see-through pool. Without a DAT
-    source every surface is opaque."""
+    source every surface is opaque. A face whose object is in `not_water` (overrides.yml `liquids: {not_water: [...]}`:
+    a solid drawn with a water sprite, Bootcamp's orbs) is no liquid face: it keeps its texture."""
     vertices = np.array([[v["x"], v["y"], v["z"]] if isinstance(v, dict) else v for v in blv["vertices"]], float)
     geometry, neighbours = {}, {}
     for face in blv["faces"]:
@@ -374,6 +375,8 @@ def surfaces(blv: dict, source=None) -> tuple[dict[int, str], list[tuple]]:
                 distance = abs(top - centre[2])
                 if best is None or distance < best[0]:
                     best = (distance, name, round(opacity, 2))
+        if best is not None and best[1] in not_water:
+            continue
         opacity = best[2] if best else 1.0
         bed = opacity < 1.0 and has_bed(face, geometry, blv["faces"], neighbours, floors)
         rows.append([face, alias, family, best[1] if best else None, opacity, bed])
@@ -401,7 +404,8 @@ def apply_to(blv_path: Path, scene: dict, source=None) -> dict:
     sys.path.insert(0, str(ROOT))
     from util.map_export import parse_blv_file
     blv = parse_blv_file(blv_path)["payload"]
-    retexture, report = surfaces(blv, source)
+    not_water = set((source.project.overrides.get("liquids") or {}).get("not_water") or []) if source else set()
+    retexture, report = surfaces(blv, source, not_water)
     overrides = scene.setdefault("initial_state", {}).setdefault("face_attribute_overrides", [])
     by_face = {entry["face_index"]: entry for entry in overrides}
     for index, name in sorted(retexture.items()):

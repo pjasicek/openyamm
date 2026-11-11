@@ -21,7 +21,7 @@ local YANMIR = 71
 local GIANTS = {55, 56, 57, 58}
 local SUPPORT_HINT = {"PerceptionBrush2", "PerceptionBrush5", "PerceptionBrush3", "PerceptionBrush6", "PerceptionBrush4", "PerceptionBrush7"}
 local HINTS = {PerceptionBrush0 = 450, PerceptionBrush1 = 451, PerceptionBrush2 = 452, PerceptionBrush3 = 453, PerceptionBrush4 = 454, PerceptionBrush5 = 455, PerceptionBrush6 = 456, PerceptionBrush7 = 457}
-local KICK_DOORS = {{"DPortal0", 492, 4628, 1265}, {"DPortal1", -5079, 5202, 1265}, {"DPortal10", -5693, 1065, 609}, {"DPortal11", 2335, 3441, 1265}, {"DPortal12", -1352, 3441, 1265}, {"DPortal13", -7987, 3441, 1265}, {"DPortal14", 4178, 3441, 937}, {"DPortal15", 6267, 5079, 937}, {"DPortal16", 7864, -1843, 609}, {"DPortal17", 6554, -4219, 609}, {"DPortal18", -5079, -41, 609}, {"DPortal19", 492, -5612, 609}, {"DPortal20", 492, -11182, 609}, {"DPortal21", -1270, -7864, 609}, {"DPortal22", -3973, -2458, 609}, {"DPortal23", 4956, -2458, 609}, {"DPortal24", 9236, -2458, 609}, {"DPortal27", 17654, -16056, 282}, {"DPortal29", 696, -18678, 282}, {"DPortal30", 3564, -20316, 282}, {"DPortal31", -328, -20357, 282}, {"DPortal35", 16712, -2662, 282}, {"DPortal36", 18678, -13804, 282}, {"Portal10", 14694, -8847, 143}, {"Portal12", 4864, -13763, 143}, {"Portal2", 6226, -16988, 143}, {"Portal4", 7537, -11090, 143}, {"Portal6", 11796, -9492, 143}, {"Portal8", 9144, -9503, 143}}
+local KICK_DOORS = {{"DPortal0", 492, 4628, 655}, {"DPortal1", -5079, 5202, 655}, {"DPortal10", -5693, 1065, 0}, {"DPortal11", 2335, 3441, 655}, {"DPortal12", -1352, 3441, 655}, {"DPortal13", -7987, 3441, 655}, {"DPortal14", 4178, 3441, 328}, {"DPortal15", 6267, 5079, 328}, {"DPortal16", 7864, -1843, 0}, {"DPortal17", 6554, -4219, 0}, {"DPortal18", -5079, -41, 0}, {"DPortal19", 492, -5612, 0}, {"DPortal20", 492, -11182, 0}, {"DPortal21", -1270, -7864, 0}, {"DPortal22", -3973, -2458, 0}, {"DPortal23", 4956, -2458, 0}, {"DPortal24", 9236, -2458, 0}, {"DPortal27", 17654, -16056, 0}, {"DPortal29", 696, -18678, 0}, {"DPortal30", 3564, -20316, 0}, {"DPortal31", -328, -20357, 0}, {"DPortal35", 16712, -2662, 0}, {"DPortal36", 18678, -13804, 0}, {"Portal10", 14694, -8847, 0}, {"Portal12", 4864, -13763, 0}, {"Portal2", 6226, -16988, 0}, {"Portal4", 7537, -11090, 0}, {"Portal6", 11796, -9492, 0}, {"Portal8", 9144, -9503, 0}}
 
 -- Doors: each MM9 door group opens and closes on a click.
 handlers[101] = function() evt.SetDoorState(1, DoorAction.Trigger) evt.SetDoorState(2, DoorAction.Trigger) end   -- DPortal0
@@ -316,16 +316,43 @@ handlers[53622] = function() rescue("ChildNear0") end   -- ChildNear0, YanmirChi
 handlers[53623] = function() rescue("ChildNear1") end   -- ChildNear1, YanmirChild.scr :OnUse
 handlers[53624] = function() rescue("ChildNear2") end   -- ChildNear2, YanmirChild.scr :OnUse
 
--- YanmirBase.scr :BD_OnDoor -> :KickDoor -> :OpenDoor (stonedoorslam.wav, "Use" on the door): a shut door
--- within 700 of Yanmir is kicked open (native monsters do not open doors).
+-- YanmirBase.scr :BD_OnDoor -> :KickDoor (PlayAnim KickDoor) -> its OpenDoor model key -> :OpenDoor
+-- (stonedoorslam.wav, "Use" on the door): a shut door within 700 of Yanmir is kicked open (native monsters do
+-- not open doors). He plays kick_door, and the next check, 0.5 s later (the key is at 0.488 s), opens the door
+-- (Kicked 1: kicked, 2: open). No door state reaches the Lua, so only a door's first kick plays the clip:
+-- one the party shut again opens as he passes. As MM9's KickDoor holds his path (SavePath), he stands
+-- facing the door through the clip and walks on at the check after the opening (the clip's end).
+local kickHold = 0
 local function kickDoors()
+    if kickHold > 0 then
+        kickHold = kickHold - 1
+        if kickHold == 0 then
+            evt.SetActorImmobile(YANMIR, false)
+            if var("TrapFired") == 0 then evt.ClearActorPresentation(YANMIR) end
+        end
+    end
+    for _, d in ipairs(KICK_DOORS) do
+        if var("Kicked" .. d[1]) == 1 then   -- kicked at the last check: the clip's OpenDoor key
+            set("Kicked" .. d[1], 2)
+            evt.PlaySoundName("door/stonedoorslam.wav", d[2], d[3], d[4])
+            openGroup(d[1])
+        end
+    end
+    if var("YanmirAwake") == 0 or var("YanmirGone") == 1 or not MM9.actorAlive(YANMIR) then return end
     local yx, yy, yz = evt.GetMapActorPosition(YANMIR)
     if yx == nil then return end
     for _, d in ipairs(KICK_DOORS) do
         if (d[2] - yx) ^ 2 + (d[3] - yy) ^ 2 < 700 ^ 2 and math.abs(d[4] - yz) < 600 then
-            if var("Kicked" .. d[1]) == 0 then set("Kicks", var("Kicks") + 1) end
-            set("Kicked" .. d[1], 1)
-            openGroup(d[1])
+            if var("Kicked" .. d[1]) == 0 then
+                set("Kicks", var("Kicks") + 1)
+                set("Kicked" .. d[1], 1)
+                evt.PlayActorClip(YANMIR, "kick_door")
+                evt.FaceActorTo(YANMIR, d[2], d[3], 0.15)
+                evt.SetActorImmobile(YANMIR, true)
+                kickHold = 2
+            else
+                openGroup(d[1])
+            end
         end
     end
 end
@@ -361,7 +388,7 @@ handlers[150] = function()
         local b = BOX.TriggerYanmirTrap
         if yx ~= nil and yx >= b[1][1] and yx <= b[2][1] and yy >= b[1][2] and yy <= b[2][2] then trapFires() end
     end
-    if var("YanmirAwake") == 1 and var("YanmirGone") == 0 and polls % 2 == 0 then kickDoors() end
+    if polls % 2 == 0 then kickDoors() end
     if var("TrapFired") == 1 and inBox(BOX.EndOfWorld, x, y, z) and var("FellToCity") == 0 then
         set("FellToCity", 1)
         evt.MoveToMap(-11633, -9830, -327, 210, 0, 0, 0, 0, "frosgardcity.blv")
@@ -383,7 +410,10 @@ handlers[1] = function()   -- map load: the scripts' OnPostStartWorld / OnPostMi
             evt.SetMonGroupBit(2, MonsterBits.Invisible, false)
         end
     end
-    if var("YanmirAwake") == 1 and var("YanmirGone") == 0 then evt.WakeActor(YANMIR) end
+    if var("YanmirAwake") == 1 and var("YanmirGone") == 0 then
+        evt.SetActorImmobile(YANMIR, false)   -- a kick saved half way (kickDoors' hold is runtime only)
+        evt.WakeActor(YANMIR)
+    end
     for name, _ in pairs(CHILD) do
         if var("Escaped" .. name) == 1 then MM9.removeActor(CHILD[name]) end
     end

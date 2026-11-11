@@ -125,3 +125,6 @@ ladders:
   Ladder3: {facing_lt: [0, -1], surface_lt: 2330, top_exit_lt: [-344, 1266, 2430]} # crossing attic 896 -> bell floor 1264
   Ladder4: {facing_lt: [0, 1], surface_lt: 3046, top_exit_lt: [-890, 386, 2960]}   # west transept 0 -> library 384
   Ladder5: {facing_lt: [0, 1], surface_lt: 3046, top_exit_lt: [630, 386, 2960]}    # east transept 0 -> scriptorium 384
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated, translucent where MM9's are.
+spr_surfaces: {}   # the fountain's Stream.spr (opaque in MM9): its frames

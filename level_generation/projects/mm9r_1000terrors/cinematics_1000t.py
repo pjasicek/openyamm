@@ -41,6 +41,7 @@ RAMP_TOP_X, RAMP_TOP_Z = 6935, 2740     # the top of the ramp between Njam's pla
 NJAM_TAUNT_GROUP = 1                     # convert.py GROUP_NJAM_TAUNT: NjamtheMeddler0's monster group
 SWITCH_MIN_Z_LT = -3680                  # WinMan.scr :OnUse: nothing below LT z -3680 (TELP: through the wall)
 LIGHTNING_SECONDS = 7.0                  # NjamFreeze.scr / WinMan.scr: Wait 1 7 OnLightningOff
+COG_WINMAN = 1370                        # the switch's SetSprite key (mm9_switch03: the wheel's clips down, up)
 CHESS_SLIDE_SECONDS = 2.0                # ChessBase.inc :AttackSquare: half the distance a second
 # EarthQuake (ShakeAmount 1, DecayRate 2), the rule of MM9_CUTSCENES.md section 5: intensity min(amount, 12) / 12
 QUAKE_INTENSITY, QUAKE_DECAY_SECONDS = 1.0 / 12.0, 1.0 / 2.0
@@ -253,6 +254,7 @@ MM9.giveKey(109)
 set("Won", 1)
 evt.MoveToMap({x}, {y}, {z}, {facing}, 0, 0, 0, 0, "hallofthegods.blv")""",
                note="WG_NjamCam StartFilm's key 109 (at the end: it is the world's completion, D3), :ChangeLevel ExitTrigger1")
+    scene.step(t_cam_done, "switch", "winSwitch()", note="WG_Shot2Cam :OnPlay: WinMan switch (:onSwitch, on camera)")
     float_safe(cinema)
     return scene
 
@@ -397,12 +399,26 @@ def win_handler(event: int, experience_lua: str, min_y: float, frame: Frame, obj
     """WinMan.scr :OnUse (convert.py's handler for the switch): the TELP guard, without key 108 only the switch and
     the lightning (7 s), with it the cinematic."""
     return [
+        "-- WinMan.scr :onSwitch, on each use and on WG_Shot2Cam's switch in the cinematic: PlayAnim up while bUp is",
+        "-- FALSE, else Down, and bUp flips. bUp starts FALSE on a wheel at rest (up), so the first use shows only up's",
+        "-- 200 ms blend, a twitch: nothing here. WinWheel: 0 never used, 1 up (bUp TRUE), 2 down (bUp FALSE); the",
+        "-- clips are runtime only, so map load shows a wheel left down at the end of down.",
+        "local function winSwitch()",
+        "    if var(\"WinWheel\") == 1 then",
+        "        set(\"WinWheel\", 2)",
+        f"        evt.PlayDecorationClip({COG_WINMAN}, \"down\")",
+        "    else",
+        f"        if var(\"WinWheel\") == 2 then evt.PlayDecorationClip({COG_WINMAN}, \"up\") end",
+        "        set(\"WinWheel\", 1)",
+        "    end",
+        "end",
         "-- The win switch (WinMan.scr :OnUse): nothing from beyond the wall (LT z below -3680); without key 108 it only",
         "-- throws the lightning (Lightning1/2, 7 s); with it the cinematic njam_freeze_win (cinematics_1000t.py).",
         f"WIN_EXPERIENCE = {experience_lua}",
         f"handlers[{event}] = function()",
         "    local _, py = evt.GetPartyPosition()",
         f"    if py < {int(round(min_y))} then return end",
+        "    winSwitch()",
         "    if MM9.hasKey(108) == 0 then",
         f"        MM9.playSound({lua_quote(SOUNDS['switch'])})",
         f"        MM9.playSound({lua_quote(SOUNDS['thunder'])})",

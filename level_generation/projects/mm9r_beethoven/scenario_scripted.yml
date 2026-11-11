@@ -11,7 +11,8 @@ steps:
 - load_map:
     map: beethoven.blv
 - note:
-    text: Trigger0 raises CoffinRaised3's lid; 2 s later PetrifiedMummy0 stands and the coffin breaks (CoffinRaise.scr, CoffinMummy.scr).
+    text: Trigger0 opens CoffinRaised3's lid (1 s) over PetrifiedMummy0, which lies inside; it wakes (wakeup2) and at its
+      kick (3.232 s on) the coffin breaks (CoffinRaise.scr, CoffinMummy.scr).
 - assert:
     actor_visible:
       actor_index: 74
@@ -42,16 +43,22 @@ steps:
     state_dump_named_map_var:
       name: Coffin5
       value: 1
-- advance_runtime:
-    seconds: 2.5
-- assert:
-    state_dump_named_map_var:
-      name: Coffin5
-      value: 2
 - assert:
     actor_visible:
       actor_index: 74
       hidden: false
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    state_dump_named_map_var:
+      name: Coffin5
+      value: 3
+- advance_runtime:
+    seconds: 3.732
+- assert:
+    state_dump_named_map_var:
+      name: Coffin5
+      value: 2
 - note:
     text: Lever6 (event 91) parts the great door for good (Door SDoor11/12, Lever5/6).
 - assert:

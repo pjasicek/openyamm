@@ -2188,6 +2188,33 @@ TEST_CASE("lloyds beacon recall mode availability follows active beacons")
     CHECK(OpenYAMM::Game::lloydsBeaconHasRecallableBeacon(&caster));
 }
 
+TEST_CASE("town portal and lloyds beacon fail on a world's no-teleport map")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    for (const OpenYAMM::Game::SpellId spellId :
+         {OpenYAMM::Game::SpellId::TownPortal, OpenYAMM::Game::SpellId::LloydsBeacon})
+    {
+        OpenYAMM::Game::PartySpellCastRequest request = {};
+        request.casterMemberIndex = 0;
+        request.spellId = OpenYAMM::Game::spellIdValue(spellId);
+        request.skillLevelOverride = 10;
+        request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Grandmaster;
+        request.spendMana = false;
+
+        worldRuntime.setNoTeleportMap(false);
+        CHECK_EQ(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).status,
+            OpenYAMM::Game::PartySpellCastStatus::NeedUtilityUi);
+
+        worldRuntime.setNoTeleportMap(true);
+        CHECK_EQ(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).status,
+            OpenYAMM::Game::PartySpellCastStatus::Failed);
+    }
+}
+
 TEST_CASE("lloyds beacon set stores location preview and recall queues map move")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

@@ -1,0 +1,27 @@
+id: mm7.summon_wisp_expiry
+title: A wisp whose time runs out leaves, so its caster can summon again (MM8 removes an expired summon)
+world: mm7
+mode: faithful
+tags: [mm7, spells, actors, regression]
+steps:
+  - note:
+      text: >-
+        Summon Wisp keeps one wisp at Expert, for 5 minutes a point. Its time used to run down only while the wisp ran
+        full AI outdoors, and an expired wisp stayed on the map, still counted against its caster's limit, so the
+        caster could not summon again until it was killed. MM8 removes a summon when its Summoned buff expires.
+  - new_game_flow:
+      start_map: 7out01.odm
+  - cast_spell: {member_index: 0, spell_id: 82, skill: 1, mastery: 2}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {monster_id: 97, min: 1, max: 1}
+  - cast_spell: {member_index: 0, spell_id: 82, skill: 1, mastery: 2, expect: refused}
+  # Expert skill 1: 300 s of summon time.
+  - advance_runtime: {seconds: 305}
+  - cast_spell: {member_index: 0, spell_id: 82, skill: 1, mastery: 2}
+  - advance_runtime: {seconds: 2}
+  # The new wisp holds the limit again, also through a save and load.
+  - cast_spell: {member_index: 0, spell_id: 82, skill: 1, mastery: 2, expect: refused}
+  - save_game: wisp_expired
+  - load_game: wisp_expired
+  - cast_spell: {member_index: 0, spell_id: 82, skill: 1, mastery: 2, expect: refused}

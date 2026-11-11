@@ -37,7 +37,8 @@ with `python3 level_generation/creatures/claude_shared/serve_review.py 8912` fro
 ## Maps
 - **Painted maps everywhere (2026-11-09)**: all 44 maps draw MM9's painted map on the minimap and journal map (the
   dungeons too, one image per floor by the party's height), at 2× from `realesr-animevideov3`; Settings → Interface →
-  Map style switches to the line map where a map has outlines (the dungeons). 44 of 44 fit the rebuilt maps
+  Map style chooses between it and the line map where a map has outlines (the dungeons); the line map is the default
+  there (2026-11-10). 44 of 44 fit the rebuilt maps
   (`tools/mm9_import_discovery/check_mm9_map_images.py`), ten with measured bounds: DUNGEON_PLAYBOOK.md "Painted maps".
 - Dungeons: 25 total. All 92 scenarios of the 24 built dungeons pass (2026-10-31 evening, ledger "2026-10-31
   evening"). Built in the review root: Anskram Keep, Temple of Honk, Lich Lab, Chasm of the Dead

@@ -276,3 +276,9 @@ Same 36 views (`review_tour_v03.yml` / `v02_original`), with `logging.performanc
   `mm9_ai_placement.townsperson_walks`, as Sturmford City); the rest stand.
 - **Townsfolk** draw as stand-in peasants until the MM9 town NPC models exist (another session).
 - **Portal count:** done 2026-11-01 (merged top portals, 139 instead of 1 373 rectangles; see "Structure").
+
+## Randver's sitting (2026-11-11)
+
+`randverretainer.scr :Init` loops `sitting` while he is not hired, but his MM9 body (PeasantMale.abc in the DAT;
+the dwarf PeasantDM bodies too) has no such clip and no chair stands at his place (the nearest, Chair5, is 369 away),
+so MM9 shows him standing. Nothing changed: he stands, as in MM9.

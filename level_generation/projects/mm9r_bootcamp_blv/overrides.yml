@@ -95,3 +95,12 @@ ladders:
   Ladder3: {facing_lt: [0, 1], surface_lt: -1162, top_exit_lt: [12230, 950, -1110]}   # rungs WorldObject8
   Ladder4: {facing_lt: [-1, 0], surface_lt: 12348, top_exit_lt: [12300, 934, -676]}   # rungs WorldObject9
   Ladder5: {facing_lt: [0, -1], surface_lt: -126, top_exit_lt: [12226, 774, -170]}    # the dock ladder (WorldObject10) from the sea
+
+# MM9's .spr surfaces (../mm9r_common/dungeon/spr_surfaces.py): their frames animated.
+# Frames and translucency; the scene file is a source of the map's lighting bake (tools/lighting/stale_bakes.py),
+# so a change here needs the bake again. Checked (2026-11-10): enabled 2026-11-10 with the
+# map's lighting re-transfer: the two water123 orbs on the pedestals (Alpha 0.4)
+# become 119 one-sided translucent faces and their 47 cap faces no liquid (the scratch build's scene differs by
+# `translucent_faces`, those faces' liquid texture overrides and lqw123o40 leaving a footstep list).
+spr_surfaces: {}
+liquids: {not_water: [WorldObject85, WorldObject87]}   # the orbs: translucent sprites, not water

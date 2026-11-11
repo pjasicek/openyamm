@@ -1,0 +1,18 @@
+# data/cshell.dll SHA256 678700ff1cc795aeee49fe8427a42e1686d5a20dfdc1617eb46a8ef19f82f7ae
+# Preferred image base 0x10000000. Read README first.
+f mm9fx.client_init 1 @ 0x1009bde0
+f mm9fx.manager_ctor 1 @ 0x100a2460
+f mm9fx.load_library 1 @ 0x100a2770
+f mm9fx.create_component 1 @ 0x100a2970
+f mm9fx.manager_update 1 @ 0x100a2a50
+f mm9fx.stop_group 1 @ 0x100a3100
+f mm9fx.load_fxf 1 @ 0x100a32f0
+f mm9fx.find_recipe 1 @ 0x100a38d0
+f mm9fx.create_group 1 @ 0x100a3910
+f mm9fx.receive_message 1 @ 0x100a3b70
+CC GlobalDetail0/1/2 maps to0.15/0.5/1.0 then is passed to clientfx. @ 0x100a2acf
+CC Existing live components updated before pending component keys are created. @ 0x100a2b4e
+CC Shutdown test virtual+14, Term+8, Update+10. State0x10 clears parent while draining. @ 0x100a2bb2
+CC Smooth shutdown flag at group+39 allows temporary replacement attachment. @ 0x100a315a
+CC Unconditional continuous-key byte1 write. Adjacent duration comparison has no conditional branch using its result. @ 0x100a3845
+CC Group flags bit0 loop stored+38, bit1 smooth shutdown stored+39. @ 0x100a397d

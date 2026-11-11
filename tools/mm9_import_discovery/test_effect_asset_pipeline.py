@@ -227,6 +227,66 @@ def check_hardcoded_melee_blood() -> None:
     assert spray["velocity"] == 256.0
 
 
+def referenced_effect_groups() -> set[str]:
+    """FXF group names MM9 plays: MONSTERS.txt FX0/FX1/FX2/ResurrectFX and the scripts' DoClientFX names."""
+    import csv
+    import re
+
+    extracted = REPOSITORY_ROOT / "mm9/extracted"
+    with (extracted / "DATA/DATA/MONSTERS.txt").open(encoding="latin-1", newline="") as monsters:
+        rows = list(csv.reader(monsters, delimiter="\t"))
+    columns = [index for index, name in enumerate(rows[0]) if name in ("FX0", "FX1", "FX2", "ResurrectFX")]
+    names = {row[index].strip() for row in rows[1:] for index in columns if index < len(row) and row[index].strip()}
+    definitions: dict[str, str] = {}
+    arguments = []
+    for script in (extracted / "SCRIPTS/SCRIPTS").rglob("*"):
+        if not script.is_file():
+            continue
+        text = script.read_text(encoding="latin-1")
+        definitions.update(re.findall(r'#string\s+(\w+)\s*=\s*"([^"]*)"', text))
+        arguments += [line.split(",")[1].strip() for line in re.findall(r"(?im)^\s*DoClientFX\b([^\r\n]*)", text)]
+    for argument in arguments:
+        # A bare word that is not a #string (GreaterDemon) is the group name itself.
+        names.add(argument.strip('"') if argument.startswith('"') else definitions.get(argument, argument))
+    return names
+
+
+def check_library_completeness() -> None:
+    from compile_effect_library import effect_id
+
+    library = yaml.safe_load((REPOSITORY_ROOT / "assets_dev/engine/effects/mm9/library.yml").read_text())
+    ids = {effect["id"] for effect in library["effects"]}
+    referenced = referenced_effect_groups()
+    assert {"redyeldots", "LichKingRes", "greenyeldots", "bluedots", "GreaterDemon"} <= referenced, referenced
+    missing = sorted(name for name in referenced if effect_id(name) not in ids)
+    assert not missing, f"MM9 plays effects the library lacks: {missing}"
+    # PROJECTILE.txt: Lightning and ScreamingSkull explode as "Sparks".
+    sparks = next(effect for effect in library["effects"] if effect["id"] == "mm9:explosion_sparks")
+    assert [component["type"] for component in sparks["components"]] == ["sprite", "sprite_system"]
+    assert sparks["components"][1]["sprites_per_emission"] == 20
+    anchored = next(effect for effect in library["effects"] if effect["id"] == "mm9:redyeldots")
+    assert anchored["anchor_fallback"] == "origin"
+    assert [component["body_anchor"] for component in anchored["components"]] == ["left_hand", "right_hand"]
+    capabilities = yaml.safe_load((REPOSITORY_ROOT / "assets_dev/engine/effects/mm9/capabilities.yml").read_text())
+    unsupported = {effect["sourceName"] for effect in capabilities["effects"] if effect["status"] != "supported_one_shot"}
+    assert unsupported == {"spell-death's touch", "jarjarb setup", "fg spell-eye of the storm", "ghost", "blobby",
+                           "spell-armor"}, unsupported
+
+
+def check_native_additive_components() -> None:
+    """MM9's additive light ignores the texture's alpha (LithTech ONE/ONE); its alpha-blended sprites keep it."""
+    library = yaml.safe_load((REPOSITORY_ROOT / "assets_dev/engine/effects/mm9/library.yml").read_text())
+    additive = 0
+    for effect in library["effects"]:
+        for component in effect["components"]:
+            if component["type"] not in ("sprite", "sprite_system"):
+                continue
+            native = component.get("additive_texture_alpha", True) is False
+            assert native == (component["blend"] == "additive"), (effect["id"], component["id"])
+            additive += native
+    assert additive > 50, additive
+
+
 def main() -> int:
     check_model_fixture()
     check_texture_conversion()
@@ -234,7 +294,9 @@ def main() -> int:
     check_restoration_overlay()
     check_sprite_orientations()
     check_hardcoded_melee_blood()
-    print("effect asset pipeline checks passed: fixture hashes, RGBA/mips, SPR descriptors, and orientations")
+    check_library_completeness()
+    check_native_additive_components()
+    print("effect asset pipeline checks passed: fixture hashes, RGBA/mips, SPR descriptors, orientations, completeness")
     return 0
 
 

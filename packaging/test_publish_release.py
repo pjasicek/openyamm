@@ -75,8 +75,12 @@ class PublishTests(unittest.TestCase):
                 path = build / f"content-{profile}" / "packs" / file_name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(data)
-                records.append({"id": pack_id, "package": "engine", "mount": "/engine", "file": file_name,
-                                "size": len(data), "content_id": "c" + sha256(data), "sha256": sha256(data)})
+                record = {"id": pack_id, "package": "engine", "mount": "/engine", "file": file_name,
+                          "size": len(data), "content_id": "c" + sha256(data), "sha256": sha256(data)}
+                if pack_id.startswith("lang-"):    # a language's optional pack: lang-<id>.engine.<folder>
+                    record["language"] = pack_id[len("lang-"):].split(".")[0]
+                    record["mount"] = "/engine/" + pack_id.split(".")[2]
+                records.append(record)
             (build / f"content-{profile}" / "index.json").write_text(json.dumps(
                 {"schema": 1, "release": version, "build": version, "profile": profile, "content_format": 1,
                  "store": "packs", "packs": records}))
@@ -172,6 +176,28 @@ class PublishTests(unittest.TestCase):
         for name in ("OpenYAMM-0.8-windows-x64.zip", "OpenYAMM-0.8-linux-x64.tar.gz", "OpenYAMM-0.8-macos-arm64.dmg"):
             self.assertEqual((first / "site/downloads/0.8" / name).read_bytes(),
                              (second / "site/downloads/0.8" / name).read_bytes())
+
+    def test_desktop_manifests_list_language_packs_apart_from_older_updaters(self):
+        # Updaters before 2.0 read only "packs" and know no language field: on desktop a language's optional packs
+        # go under "language_packs", so an update from them downloads none. The Android updater reads only "packs".
+        packs = {"engine.core": b"core", "lang-de.engine.audio": b"german voices"}
+        out = self.prepare("2.0", packs)
+        desktop = self.manifest(out, "windows-x64")
+        self.assertEqual([pack["id"] for pack in desktop["packs"]], ["engine.core"])
+        self.assertEqual([(pack["id"], pack["language"]) for pack in desktop["language_packs"]],
+                         [("lang-de.engine.audio", "de")])
+        android = self.manifest(out, "android-arm64")
+        self.assertEqual(sorted(pack["id"] for pack in android["packs"]), ["engine.core", "lang-de.engine.audio"])
+        self.assertNotIn("language_packs", android)
+        # The language pack is uploaded and protected from the store cleanup like any other.
+        url = desktop["language_packs"][0]["url"]
+        self.assertTrue((out / "site/updates" / url).is_file())
+        self.assertIn(url, json.loads((out / "plan.json").read_text())["keep_store"])
+        # A later release reuses the published language pack.
+        self.server.publish(out)
+        again = self.manifest(self.prepare("2.1", {"engine.core": b"core 2", "lang-de.engine.audio": b"german voices"}),
+                              "windows-x64")
+        self.assertEqual(again["language_packs"][0]["file"], desktop["language_packs"][0]["file"])
 
     def test_unchanged_packs_keep_their_published_file(self):
         first = self.prepare("0.8", {"engine.core": b"core 8", "engine.icons_x2.0": b"icons"})

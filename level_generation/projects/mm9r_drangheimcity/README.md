@@ -269,3 +269,9 @@ desktop runs on a shared machine (`work/perf/tour.sh`, `counts.py`; logs `work/p
   between them for a second roof line or a street box.
 - Townsfolk draw as stand-in peasants until the MM9 town NPC bodies exist (another session's work).
 
+## Sigmund back by his fire (2026-11-11)
+
+`NPC87.scr :Vanish` with key 108 (he is back): `LoopAnim Sit`. `citylua.py` plays his `sit` clip, looped, facing as
+placed (the fire), on the load and on the poll once 108 is held. MM9 places no chair or seat there (no DAT object or
+polygon within 250 LT but the fireplace, a bed and the town portal), so he sits on air, as the script has him; captures
+`output/held_items_check/b3_drang/side2_close.png`. **Open:** a stool under him would be our addition (user's call).

@@ -219,3 +219,11 @@ Rebake after any `convert.py` that changes the BLV.
 Rebuilt 2026-10-31 15:02:17 (convert.py from the current shared converter, end 15:02:25): 54 down-facing faces of invisible collision brushes dropped (`work/invisible_bottoms.json`; the flat undersides of MM9's invisible ramp wedges and helper brushes resting at most the party's height over a floor, which stopped the party on stairs as invisible ceilings: `../mm9r_common/DUNGEON_PLAYBOOK.md`, "Package change: invisible brush bottoms"); the BLV now has 1367 faces. The rebuild also carries the converter's other changes of the day (monster collision sizes, water).
 Scenarios after the rebuild: `scenario_bout.yml` pass, `scenario_doors_exits.yml` pass, `scenario_fight.yml` pass, `scenario_lord.yml` pass, `scenario_sven.yml` pass.
 Blocker probes: 8 walks into helper brushes resting on the floor stop short of them, 8 identical before and after (their sides still block).
+
+## Sven's wave (2026-11-11)
+
+`SvenArena.scr :OnArrive` waits 2 s, then `:OnWave` cheers and plays `Bless`; `convert.py` plays the double's `bless`
+there (his soldiers' bodies, MM9's ClanSoldier too, have none). `scenario_sven.yml`, `scenario_fight.yml` and
+`scenario_bout.yml` pass; desktop captures `output/held_items_check/b3_arena/close5.png`. In the desktop game the wave
+comes about 8 s after the door opens, not 2 s: the map's 0.25 s poll (`after`) ticks about once a second there
+(headless it keeps 0.25 s), so all its waits stretch alike.

@@ -2,12 +2,17 @@
 
 #include "game/FaceEnums.h"
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorMapData.h"
 #include "game/indoor/IndoorMovementController.h"
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapDeltaData.h"
 #include "tests/RegressionMapLoader.h"
 
 #include <array>
 #include <cmath>
+#include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <utility>
 
 TEST_SUITE_BEGIN(OpenYAMM::Tests::SharedRegressionMapSuite);
@@ -371,6 +376,179 @@ TEST_CASE("the party climbs a 61-unit terrace only over the city converter's inv
 
 namespace
 {
+IndoorMoveState walkTowardTerraceWith(IndoorMovementController &controller)
+{
+    const IndoorBodyDimensions body = {};
+    IndoorMoveState state = controller.initializeStateFromEyePosition(-300.0f, 0.0f, body.height, body);
+    REQUIRE(state.grounded);
+
+    for (int step = 0; step < 256; ++step)
+    {
+        state = controller.resolveMove(state, body, 384.0f, 0.0f, false, 1.0f / 128.0f, nullptr, std::nullopt, true,
+            nullptr, false, false, 480.0f, 0.0f, false, false, false, false, false, 1280.0f);
+    }
+
+    return state;
+}
+
+void setHalfStepUntouchable(const IndoorMapData &map, MapDeltaData &delta, bool untouchable)
+{
+    while (delta.faceAttributes.size() < map.faces.size())
+    {
+        delta.faceAttributes.push_back(map.faces[delta.faceAttributes.size()].attributes);
+    }
+
+    for (size_t faceId : {size_t(3), size_t(4)})
+    {
+        uint32_t &attributes = delta.faceAttributes[faceId];
+        attributes = untouchable ? attributes | faceAttributeBit(FaceAttribute::Untouchable)
+                                 : attributes & ~faceAttributeBit(FaceAttribute::Untouchable);
+    }
+
+    ++delta.surfaceRevision;
+}
+}
+
+TEST_CASE("a warm movement cache follows face bit changes as a freshly built one does")
+{
+    // A face made untouchable and back (evt.SetFacetBit, a destructible broken) redoes only the changed faces of a
+    // warm controller's cache (refreshChangedFaceAttributes): it must move the party as a controller built anew.
+    const IndoorMapData map = raisedTerrace(true);
+    std::optional<MapDeltaData> delta = MapDeltaData{};
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    IndoorMovementController warm(map, &delta, &events);
+    warm.setSlopeRule(IndoorSlopeRule::Party);
+    CHECK_GT(walkTowardTerraceWith(warm).x, 200.0f);
+
+    const auto expectSameAsFresh = [&](bool climbs)
+    {
+        IndoorMovementController fresh(map, &delta, &events);
+        fresh.setSlopeRule(IndoorSlopeRule::Party);
+        const IndoorMoveState warmState = walkTowardTerraceWith(warm);
+        const IndoorMoveState freshState = walkTowardTerraceWith(fresh);
+        CHECK_EQ(warmState.x, doctest::Approx(freshState.x));
+        CHECK_EQ(warmState.footZ, doctest::Approx(freshState.footZ));
+        CHECK_EQ(warmState.supportFaceIndex, freshState.supportFaceIndex);
+        CHECK_EQ(warmState.x > 200.0f, climbs);
+    };
+
+    // The half step untouchable: no support ramp, the 61 riser stops the party.
+    setHalfStepUntouchable(map, *delta, true);
+    expectSameAsFresh(false);
+
+    // And back: it climbs again.
+    setHalfStepUntouchable(map, *delta, false);
+    expectSameAsFresh(true);
+}
+
+TEST_CASE("goblinwatch floors made untouchable and back stand the same in a warm and a fresh movement cache")
+{
+    using namespace OpenYAMM::Tests;
+    REQUIRE_MESSAGE(regressionMapLoaderLoaded(), regressionMapLoaderFailure());
+    GameDataLoader data = regressionMapLoader().gameDataLoader;
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(regressionMapLoader().assetFileSystem, "6d01.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    const IndoorMapData &map = *loaded.indoorMapData;
+    std::optional<MapDeltaData> delta = loaded.indoorMapDeltaData;
+    std::optional<EventRuntimeState> events = loaded.eventRuntimeState;
+    REQUIRE(delta.has_value());
+    const IndoorBodyDimensions body = {56, 145};
+
+    // Every 40th walkable floor face of the map, probed at its centroid.
+    std::vector<size_t> floors;
+    IndoorFaceGeometryCache probeCache(map.faces.size());
+    for (size_t faceId = 0; faceId < map.faces.size(); ++faceId)
+    {
+        const IndoorFaceGeometryData *pGeometry = probeCache.geometryForFace(map, map.vertices, faceId);
+        if (pGeometry != nullptr && pGeometry->kind == IndoorFaceKind::Floor && pGeometry->isWalkable
+            && !pGeometry->vertices.empty())
+        {
+            floors.push_back(faceId);
+        }
+    }
+    REQUIRE_GT(floors.size(), 40u);
+    std::vector<size_t> toggled;
+    for (size_t index = 0; index < floors.size(); index += 40)
+    {
+        toggled.push_back(floors[index]);
+    }
+
+    const auto standAt = [&](IndoorMovementController &controller, size_t faceId)
+    {
+        const IndoorFaceGeometryData *pGeometry = probeCache.geometryForFace(map, map.vertices, faceId);
+        bx::Vec3 centroid = {0.0f, 0.0f, 0.0f};
+        for (const bx::Vec3 &vertex : pGeometry->vertices)
+        {
+            centroid = {centroid.x + vertex.x, centroid.y + vertex.y, centroid.z + vertex.z};
+        }
+        const float count = float(pGeometry->vertices.size());
+        return controller.initializeStateFromEyePosition(
+            centroid.x / count, centroid.y / count, centroid.z / count + body.height, body);
+    };
+    const auto setUntouchable = [&](bool untouchable)
+    {
+        while (delta->faceAttributes.size() < map.faces.size())
+        {
+            delta->faceAttributes.push_back(map.faces[delta->faceAttributes.size()].attributes);
+        }
+        for (size_t faceId : toggled)
+        {
+            uint32_t &attributes = delta->faceAttributes[faceId];
+            attributes = untouchable ? attributes | faceAttributeBit(FaceAttribute::Untouchable)
+                                     : attributes & ~faceAttributeBit(FaceAttribute::Untouchable);
+        }
+        ++delta->surfaceRevision;
+    };
+
+    IndoorMovementController warm(map, &delta, &events);
+    for (size_t faceId : toggled)
+    {
+        CHECK_EQ(standAt(warm, faceId).supportFaceIndex, faceId);
+    }
+
+    for (bool untouchable : {true, false})
+    {
+        CAPTURE(untouchable);
+        setUntouchable(untouchable);
+        IndoorMovementController fresh(map, &delta, &events);
+
+        for (size_t faceId : toggled)
+        {
+            CAPTURE(faceId);
+            const IndoorMoveState warmState = standAt(warm, faceId);
+            const IndoorMoveState freshState = standAt(fresh, faceId);
+            CHECK_EQ(warmState.supportFaceIndex, freshState.supportFaceIndex);
+            CHECK_EQ(warmState.footZ, doctest::Approx(freshState.footZ));
+            CHECK_EQ(warmState.grounded, freshState.grounded);
+            CHECK_EQ(warmState.supportFaceIndex == faceId, !untouchable);
+        }
+    }
+}
+
+TEST_CASE("indoor face geometry cache rebuilds a face whose attributes changed under the same delta")
+{
+    const IndoorMapData map = raisedTerrace(false);
+    MapDeltaData delta;
+    delta.faceAttributes.assign(map.faces.size(), 0);
+    IndoorFaceGeometryCache cache(map.faces.size());
+    cache.setAttributeOverrides(&delta);
+    const std::vector<IndoorVertex> &vertices = map.vertices;
+
+    const IndoorFaceGeometryData *pBefore = cache.geometryForFace(map, vertices, 1);
+    REQUIRE(pBefore != nullptr);
+    CHECK(pBefore->isWalkable);
+
+    delta.faceAttributes[1] = faceAttributeBit(FaceAttribute::Untouchable);
+    ++delta.surfaceRevision;
+    cache.setAttributeOverrides(&delta);
+    const IndoorFaceGeometryData *pAfter = cache.geometryForFace(map, vertices, 1);
+    REQUIRE(pAfter != nullptr);
+    CHECK_FALSE(pAfter->isWalkable);
+    CHECK_EQ(pAfter->attributes, faceAttributeBit(FaceAttribute::Untouchable));
+}
+
+namespace
+{
 // MM9 terrain converted to BLV floors: seven sloped triangles round one shared corner of the Isle of Ashes (faces
 // 9866, 9867, 9872, 9873, 5229, 10141, 10452 of the pilot, moved to the corner at the origin). The body's sweep meets
 // the edge of a rising face at the corner, whose first vertex lies 41 higher.
@@ -676,6 +854,61 @@ TEST_CASE("the party walking down terrain onto a buried bridge deck stands on th
     }
     CHECK_GT(state.x, 350.0f);
     CHECK_EQ(state.footZ, doctest::Approx(28.0f));
+}
+
+TEST_CASE("monsters wedged against a tunnel's sloped side leave the crease and walk on")
+{
+    // Connecting Tunnels' Spectre Dagrells from a playthrough save (2026-11-11): after a fight, against the octagonal
+    // tunnel's 51-degree lower sides, each stood with its centre a few units past the crease where the floor ends, its
+    // feet under the slope there. Unsupported, it sat on the floor's edge with the slope against it: every move, and
+    // every recovery trace at its own height, met that edge, and it never moved again. It recovers onto the floor.
+    const std::filesystem::path directory = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/maps";
+    const auto readBytes = [](const std::filesystem::path &path)
+    {
+        std::ifstream stream(path, std::ios::binary);
+        REQUIRE(stream.good());
+        return std::vector<uint8_t>{std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>()};
+    };
+    std::optional<IndoorMapData> map =
+        IndoorMapDataLoader().loadFromBytes(readBytes(directory / "connectingtunnels.blv"));
+    REQUIRE(map.has_value());
+    const std::vector<uint8_t> sceneBytes = readBytes(directory / "connectingtunnels.scene.yml");
+    std::string error;
+    const std::optional<IndoorSceneData> scene =
+        IndoorSceneYmlLoader().loadFromText(std::string(sceneBytes.begin(), sceneBytes.end()), error);
+    REQUIRE_MESSAGE(scene.has_value(), error);
+    std::optional<MapDeltaData> delta = MapDeltaData{};
+    REQUIRE_MESSAGE(buildIndoorMapStateFromScene(*scene, *map, *delta, error), error);
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    IndoorMovementController controller(*map, &delta, &events);
+    const IndoorBodyDimensions body = {64.0f, 148.0f};
+    const std::array<bx::Vec3, 2> starts = {{{4800.807f, -443.598f, -697.075f}, {4829.432f, -804.507f, -688.231f}}};
+
+    for (const bx::Vec3 &start : starts)
+    {
+        for (bool pathActive : {true, false})
+        {
+            IndoorMoveState state = {};
+            state.x = start.x;
+            state.y = start.y;
+            state.footZ = start.z;
+            state.eyeHeight = body.height;
+            state.sectorId = 20;
+            state.eyeSectorId = 20;
+            state.grounded = false;
+
+            // Two seconds of pursuit west along the tunnel, toward the party, as the actor movement step runs it.
+            for (int step = 0; step < 256; ++step)
+            {
+                state = controller.resolveMove(state, body, -1000.0f, 0.0f, false, 1.0f / 128.0f, nullptr,
+                    std::nullopt, false, nullptr, false, false, 420.0f, 1.0f, false, false, pathActive, true, true,
+                    IndoorActorGravityPerSecond);
+            }
+
+            CHECK_LT(state.x, start.x - 500.0f);
+            CHECK(state.grounded);
+        }
+    }
 }
 
 TEST_SUITE_END();

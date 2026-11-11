@@ -246,14 +246,25 @@ handlers[50324] = function()
 end
 
 -- ArmWrestle.scr (Mata Abyomi, RUDE 148) :OnUse (his dialogue opens too: DoRude 1): with a ticket, his
--- might (no ScriptParams: 0) + 1..40 against the character's Might + 9..50; a tie is the party's. The
--- cower animation of a beaten Mata is not carried.
+-- might (no ScriptParams: 0) + 1..40 against the character's Might + 9..50; a tie is the party's.
+-- A beaten Mata :StartCower: PlayAnim cowerstart, LoopAnim cower 5, PlayAnim cowerstop, his use (the game,
+-- not the dialogue) removed until it ends (:RemoveUse, :RestoreUse: 5.3 s; runtime only).
+local MATA = 61
+local mataCowers = false
 handlers[53330] = function()
-    if ticket() then
+    if not mataCowers and ticket() then
         local his = MM9.random(1, 40)
-        if might() + MM9.random(9, 50) >= his then gameWon(7115) else evt.StatusText("You lose.") end
+        if might() + MM9.random(9, 50) >= his then
+            evt.PlayActorClip(MATA, {"cowerstart", "cower", "cower", "cower", "cower", "cower", "cowerstop"}, false)
+            mataCowers = true; evt.StartTimer(605, seconds(5.3))
+            gameWon(7115)
+        else evt.StatusText("You lose.") end
     end
     MM9.openRude(148)
+end
+handlers[605] = function()   -- :FinishCower -> :RestoreUse
+    evt.StopTimer(605)
+    mataCowers = false
 end
 
 -- DingTheBell.scr (Strikeplate1) :HitBell, BellWeight.scr (Riser1, "360") :AdjustHeight: with a
@@ -636,6 +647,7 @@ RegisterMapTimerEvent(600, seconds(3), handlers[600], "Atli's watch", "", second
 RegisterEvent(50085, "Atli Sigmundssen", handlers[50085])
 RegisterEvent(50324, "Ticket master", handlers[50324])
 RegisterEvent(53330, "Mata Abyomi", handlers[53330])
+RegisterMapTimerEvent(605, seconds(3), handlers[605], "Mata's cower", "", seconds(3))
 RegisterMapTimerEvent(601, seconds(3), handlers[601], "Bell", "", seconds(3))
 RegisterEvent(330, "Rune", handlers[330], "Rune")
 RegisterEvent(331, "Rune", handlers[331], "Rune")

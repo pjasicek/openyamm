@@ -44,10 +44,11 @@ MAP = "arslegardcity.blv"
 # The temple front's ladders stand in its towers, on their upper floors (native 451), reached from the temple's balcony
 # through a doorway in each tower's back wall: the probes start on the balcony in line with the doorway (a pose set on
 # the south tower's upper floor itself lands on the porch under it: two outside portals at 512 reach into that tower).
-# 2.0 s walks to the ladder, climbs it and steps off; walking on from the top exit runs off the gallery's edge into the
-# ladder's shaft.
+# 2.5 s walks to the ladder, climbs it and glides off onto the top exit (the glide since 2026-11-10 takes about 0.5 s of
+# it: at 2.0 s the party is still at the ladder's top); walking on from the top exit takes the ladder at its top again
+# (grab_at_top) and climbs down, so the window is narrow (2.4-2.6 s pass).
 TEMPLE_BALCONY = {"Ladder6": (2440, -1160), "Ladder7": (2440, 380)}
-LADDER_SECONDS = 2.0
+LADDER_SECONDS = 2.5
 RUDE = PROJECT.parents[2] / "mm9/extracted/RUDE/RUDE"
 FATE = {"setup_shortcut": {"kind": "set_qbit", "id": 90000 + citylua.KEY_FATE, "value": True}}
 

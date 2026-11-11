@@ -287,6 +287,12 @@ scr_audit/monsters_ai.md gaps 6 and 7):
   Thousand Terrors' Njam, Frosgard City's Forad Darre, Drangheim Prison's gate guards at the alarm, Lindisfarne's
   monks once hostile. A row that never moves (Stationary, MM8's Immobile kind) stays still. Returns whether there is
   such an actor.
+- **`evt.SetActorRoutine(actorIndex[, name])`** (2026-11-10): the MM9 routine (scene `mm9_ai.routines`) the actor
+  runs while it holds no target, from its first step; no name: none (it wanders by its placement). Without a call it
+  runs its `default`. Runtime only (`EventRuntimeState::actorRoutines`): a map script sets it again on load (a
+  ceremony from the hour). **`evt.AttachActorItem(actorIndex, model, node)`**, **`evt.DetachActorItem(actorIndex[,
+  node])`**: MM9's AttachProp and DetachProp on the actor's held items (scene `held_items`, saved with the map). See
+  [MM9 ambient animation](mm9_rework/monster_ai/MM9_AMBIENT_ANIMATION.md) section 4, items 9 and 10.
 - **Orders run wherever the actor is** (2026-11-08): an indoor actor with a pending `evt.MoveActorTo` walk or
   `evt.SetActorTarget` is picked for the full AI step (first, before the actors nearest the party), so it carries the
   order out though it neither sees the party nor shares its sector. Before, such an actor kept the order pending and

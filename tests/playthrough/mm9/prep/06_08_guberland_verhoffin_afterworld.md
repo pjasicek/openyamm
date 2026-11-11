@@ -300,8 +300,8 @@ Penance." (requires 102, gives 103) -> "Thank you." -> "Farewell.". The exit giv
    may be new; the same path is shared with the desktop game, so check it there. The afterworld_guilt cinematic's
    closing greeting (`afterworld.lua:216`) and Skraelos' arrival greeting (56094) also did not open headless (talk to
    him instead; harmless).
-2. **No gold after a defeat** (checkpoint 03: 91 296, checkpoint 04: 0). Guberland's tickets and the Flying Bird cannot
-   be paid; the run depends on the 24 Thjorgard tickets (keep segment 01's purchase at five batches) and on `travel`.
+2. **No gold after a defeat** (checkpoint 03: 91 296, checkpoint 04: 0; since 2026-11-11 the defeat keeps the gold,
+   as MM9's does). Guberland's tickets and the Flying Bird could not be paid; the run depends on the 24 Thjorgard tickets (keep segment 01's purchase at five batches) and on `travel`.
    With only sure-win games, two missing prizes fail to arrive in 24 wins with about 2.5 % chance per random sequence;
    the sequence is fixed per checkpoint, so a failure would be repeatable, not flaky.
 3. **`interact_actor` on Mata Abyomi (61) runs no game** while it works on Thorir and the Huckster: use `click(53330)`.

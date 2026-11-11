@@ -1,0 +1,22 @@
+# data/cshell.dll SHA256 678700ff1cc795aeee49fe8427a42e1686d5a20dfdc1617eb46a8ef19f82f7ae
+# Preferred VA base 0x10000000. Verify hash and read MELEE_HIT_EFFECTS.md first.
+f+ mm9hit.receive_message33 1 @ 0x1006522c
+f+ mm9hit.effect_factory 1 @ 0x100660d0
+f+ mm9hit.contact_ctor 1 @ 0x10067990
+f+ mm9hit.contact_init 1 @ 0x1006fe30
+f+ mm9hit.contact_create 1 @ 0x1006fec0
+f+ mm9hit.flash_init 1 @ 0x1005f3f0
+f+ mm9hit.flash_create 1 @ 0x1005f5c0
+f+ mm9hit.flash_update 1 @ 0x1005f910
+f+ mm9hit.spray_init 1 @ 0x1007f900
+f+ mm9hit.spray_create 1 @ 0x1007f9d0
+f+ mm9hit.spray_update 1 @ 0x1007fa10
+f+ mm9hit.spray_emit 1 @ 0x1007fac0
+CC Selector 1 chooses flesh blood, other values choose miss.spr and flareParticle.spr. @ 0x1007031f
+CC BloodHit1.spr flash, contact plus normal times 4, lifetime 0.1 seconds. @ 0x1007034a
+CC BloodSpray1.spr particle asset. @ 0x10070385
+CC Flesh spray particle count 10. @ 0x10070401
+CC Spray lifetime 1.0 seconds. Adjacent 1.0 parameter is NOT a second lifetime field. @ 0x10070406
+CC Create hardcoded child effect 5, spray. @ 0x10070440
+CC Create hardcoded child effect 15, transient sprite flash. @ 0x10070465
+CC Particle API receives count and identical lower-upper lifetime bounds. @ 0x1007fe76

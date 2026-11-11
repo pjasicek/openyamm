@@ -2846,7 +2846,7 @@
     "position": {
      "x": -34,
      "y": -7642,
-     "z": -1082
+     "z": 955
     },
     "initial_yaw_units": 512,
     "immobile": false,
@@ -2884,7 +2884,7 @@
     "position": {
      "x": 1113,
      "y": -6495,
-     "z": -1082
+     "z": 956
     },
     "initial_yaw_units": 1308,
     "immobile": false,
@@ -8025,6 +8025,86 @@
  "actor_detection": {
   "wakes": "none"
  },
+ "spawns": [
+  {
+   "spawn_index": 0,
+   "position": {
+    "x": 12960,
+    "y": 23072,
+    "z": 3736
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 6,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 1,
+   "position": {
+    "x": -2400,
+    "y": -21984,
+    "z": 1430
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 2,
+   "position": {
+    "x": -2528,
+    "y": -21728,
+    "z": 1302
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 3,
+   "position": {
+    "x": -2272,
+    "y": -21728,
+    "z": 1324
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 4,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 4,
+   "position": {
+    "x": 1056,
+    "y": 10784,
+    "z": 169
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  },
+  {
+   "spawn_index": 5,
+   "position": {
+    "x": -4320,
+    "y": 2336,
+    "z": 544
+   },
+   "radius": 32,
+   "type_id": 2,
+   "index": 2,
+   "attributes": 0,
+   "group": 0
+  }
+ ],
  "terrain": {
   "materials": "lindisfarne_blv.yml",
   "textures": [
@@ -8037,85 +8117,5 @@
    12
   ],
   "grass": "worlds/mm9/terrain_decorations/lindisfarne_blv.yml"
- },
- "spawns": [
-  {
-   "spawn_index": 0,
-   "position": {
-    "x": 13088,
-    "y": 22944,
-    "z": 3738
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 6,
-   "attributes": 0,
-   "group": 0
-  },
-  {
-   "spawn_index": 1,
-   "position": {
-    "x": -1760,
-    "y": -21344,
-    "z": 1284
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 4,
-   "attributes": 0,
-   "group": 0
-  },
-  {
-   "spawn_index": 2,
-   "position": {
-    "x": -1760,
-    "y": -21472,
-    "z": 1290
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 4,
-   "attributes": 0,
-   "group": 0
-  },
-  {
-   "spawn_index": 3,
-   "position": {
-    "x": -2016,
-    "y": -21344,
-    "z": 1260
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 4,
-   "attributes": 0,
-   "group": 0
-  },
-  {
-   "spawn_index": 4,
-   "position": {
-    "x": 1312,
-    "y": 10400,
-    "z": 169
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 2,
-   "attributes": 0,
-   "group": 0
-  },
-  {
-   "spawn_index": 5,
-   "position": {
-    "x": -4576,
-    "y": 2464,
-    "z": 634
-   },
-   "radius": 32,
-   "type_id": 2,
-   "index": 2,
-   "attributes": 0,
-   "group": 0
-  }
- ]
+ }
 }

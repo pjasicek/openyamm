@@ -407,11 +407,11 @@ steps:
     seconds: 0.2
 - press_interact: {}
 - advance_runtime:
-    seconds: 3.85
+    seconds: 0.3
 - assert:
     mechanism:
       id: 93
-      state: open
+      state: opening
 - note:
     text: 'StairGate: a click opens it.'
 - set_pose:

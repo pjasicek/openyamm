@@ -52,13 +52,21 @@ replaces the base scene's). An entry needs a cog or a decoration cog and a posit
   RayHit boxes: Sturmford's drawbridge chains are invisible slabs round the visible chain), until it is destroyed.
 - **Destruction**: hp 0 or `evt.DestroyDestructible`. Its faces become invisible and untouchable (`setFacetBit`, saved
   in the map delta), its decorations hidden (a SpriteOverride on its decoration cog), its sound plays at its centre,
-  its effect spawns there (`worldEffectRequests`), and its `destroyed_event` runs.
+  its effect spawns there (`worldEffectRequests`), and its `destroyed_event` runs. An actor standing on one of its faces
+  loses that floor (`grounded` off) and falls, also an idle one (2026-11-10: Verhoffin Ruins' ceiling slabs, which the
+  busts wait on until KingKong.scr's ForceFall breaks them; a flat brush between two rooms takes `motion: break,
+  doorway: true` like a wall, and the converter gives it a horizontal portal).
 - **Events** (`destroyed_event`, `damaged_event`) run at the next world update, never inside the event or blow that
   caused them.
-- **Cost**: the renderer updates the destroyed faces in place (`IndoorRenderer::updateFaceAttributeChanges`: a face
-  bit set by the world, not by an event, collapses the face's vertices in its draw group; no batch rebuild), and a
-  broken prop re-lights the map only when it carries a light. The monsters' path map is rebuilt (the gap may open a
-  route).
+- **Cost** (2026-11-11: a break on Sturmford cost 200-450 ms of frames, now about one frame): the renderer updates the
+  destroyed faces in place (`IndoorRenderer::updateFaceAttributeChanges`: a changed face bit collapses the face's
+  vertices in its draw group; no batch rebuild), also when an event set the bit (`evt.SetFacetBit` in a destroyed
+  event) or a door starts moving in the same frame; only a change of what the batches read from the events
+  (`evt.SetTexture`) rebuilds them. The collision caches redo the changed faces alone
+  (`IndoorFaceGeometryCache::geometryForFace` rebuilds a face whose bits changed,
+  `IndoorMovementController::refreshChangedFaceAttributes` its masks), the same for every face bit an MM6-MM8 script
+  sets. A broken prop re-lights the map only when it carries a light. The monsters' path map is rebuilt off the main
+  thread (the gap may open a route), and the map it replaces is freed there too.
 
 ## Aiming
 

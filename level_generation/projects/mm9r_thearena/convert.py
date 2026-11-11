@@ -501,7 +501,12 @@ class TheArena(dungeon.Hooks):
               f"evt.SetMonsterBit({actor[s]}, MonsterBits.Invisible, false) end"
               for s in ("ClanSoldier0", "ClanSoldier1")],
             "    evt.PlaySoundName(\"events/trumpets02.wav\", 0, 0, 0)",
-            "    after(2, function() evt.PlaySoundName(\"ambient/people/crowdnoise-cheer01.wav\", 0, 0, 0) end)",
+            "    -- :OnArrive wait 2 :OnWave: the cheer and PlayAnim Bless (the soldiers' bodies, MM9's ClanSoldier too, have",
+            "    -- no Bless: only the double's plays)",
+            "    after(2, function()",
+            "        evt.PlaySoundName(\"ambient/people/crowdnoise-cheer01.wav\", 0, 0, 0)",
+            f"        if MM9.actorAlive({actor['SvenArena']}) then evt.PlayActorClip({actor['SvenArena']}, \"bless\", false) end",
+            "    end)",
             "    local byriEnters = false",
             "    after(4, function()",
             "        door(\"EastPen\", DoorAction.Open)",

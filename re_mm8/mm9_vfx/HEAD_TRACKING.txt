@@ -1,0 +1,114 @@
+MM9 independent head turning — original-binary check, 2026-10-06
+
+Result
+MM9 contains a procedural head-follow controller that composes an extra rotation
+with the animated model-node matrix. It does not require replacing the character's
+main animation with a head-turn clip. The controller also has explicit target,
+angular-speed and pause/resume state.
+
+Scope and provenance
+Read-only disk-code investigation using Rizin 0.10.0, with rz-ghidra for navigation
+and important operations checked in assembly. No original-game live capture was
+performed; this is not a claim that every actor tracks every target in every state.
+No engine implementation or original asset was changed.
+
+Original root:
+/run/media/pjasicek/bf1d5926-921e-46b1-a33a-ea3a7b79927d/home/pjasicek/github/OpenMM9/reference
+
+Module hashes, matched before reusing the existing analysis projects:
+game/data/cshell.dll
+678700ff1cc795aeee49fe8427a42e1686d5a20dfdc1617eb46a8ef19f82f7ae
+game/data/object.lto
+b1271f37e5314281035efe6425dd59051bb8a9b0271de0d75a5926a7bc37f162
+
+The supplied revision is fingerprinted, not authenticated against retail media.
+Addresses below are preferred virtual addresses; the two modules are distinct.
+
+Verified client mechanism (cshell.dll)
+- 0x1005844d..0x100584b4: actor setup selects a controller, stores it at actor
+  offset +0x180 and calls its initialization method. The head-capable variant is
+  constructed at 0x10058ed0 and uses vtable 0x100c5c24.
+- 0x10059060: the variant's initialization finds "Bip01 Head", "Bip01 Pelvis"
+  and "Bip01 Spine1". The head is stored at controller +0xa4. Successful lookups
+  reach registration of the node-control callback 0x10058710 at 0x10059253.
+  Failed enumeration branches do not establish that registration is disabled.
+- 0x10058710: callback dispatches to the controller's node-matrix method.
+- 0x10059b70: handles the selected pelvis/spine/head nodes. The head case at
+  0x10059bd1 uses the additional matrix at controller +0xbc, multiplies it with
+  the supplied animated node matrix through 0x10058c00, and writes the result back.
+- 0x10059d20, calls at 0x10059e29..0x10059e3e: the ordinary actor frame update
+  checks that its controller is active and invokes its update method independently
+  of model animation selection.
+- 0x10059290: updates the controller's motion compensation and optional target
+  following. It calls 0x100598c0 when its return-to-neutral state is inactive.
+- 0x100598c0: target following checks the pause byte (+0x101), obtains target and
+  actor positions, computes relative horizontal angle, wraps it and clamps the
+  desired extra yaw to -70/+70 degrees (0x10059a8d/0x10059aa4). It approaches the
+  angle using frame time and angular speed before producing the extra rotation.
+- 0x10058f6e: default target-follow angular speed (+0xac) is 90 degrees/second.
+- 0x1005acb0: an actor-message handler writes an explicit target handle (+0xa8)
+  and angular speed (+0xac) into the current controller. Activation is message-
+  driven; existence of this handler does not imply unconditional tracking of the
+  player during all attacks.
+- 0x1005af80: model-key dispatcher recognizes HeadFollowPause and HeadFollowResume
+  at 0x1005b044 and 0x1005b068. Their handlers 0x1005b6e0/0x1005b700 set/clear the
+  controller pause byte. Pause also initiates a return toward neutral, allowing
+  authored animation to determine the pose during the paused interval.
+
+Separate movement compensation
+The basic controller 0x100584d0/0x10058730 controls pelvis/spine, not the head.
+Actor update constructs a normalized displacement vector at +0x1e4 from its
+current and previous positions. The basic controller uses this and an animation
+classification (0x10059c90) for bounded, smoothed compensation. Do not describe
+this displacement vector as a combat look-at target.
+
+The additional three-node controller 0x1005be00/0x1005c650 is present in the binary,
+but its installation path is gated by 0x100ad1c0, which returns false in this disk
+revision. Its presence alone does not prove it is used by the original MM9 game.
+The head-follow conclusion above uses the separate +0x180 controller path.
+
+Original asset/script evidence
+extracted/DATA/DATA/MONSTERS.txt has a HeadTurn column. Examples: Commoner, Imp,
+Skeleton and Lich have 1; Lesser Demon and Greater Demon have 0.
+
+object.lto:0x100191fd handles the CanHeadTurn stat. It queries the exact named
+"Bip01 Head" bone through an actor virtual method and returns 1.0 when found,
+0.0 otherwise. This capability query is not simply a read of the table boolean.
+BASE.inc:323 chooses whether the whole actor should face its target based on
+CanHeadTurn; BASE.inc:1288 and BASEMELEE.inc:270 obtain that capability.
+
+ABC inspection with the existing read_abc importer confirms generic Bip01 Head
+nodes in the selected commoner, imp and skeleton assets. STAGE1DEMON.abc and
+STAGE2DEMON.abc have custom head/neck names without that exact generic node.
+That agrees with the demons' disabled HeadTurn table entries.
+
+DRAGON.abc contains actual model keys:
+- Rattack2, 0 ms: "speakanimsound; HeadFollowPause; BreathAttackDone"
+- Rattack2, 2000 ms: "HeadFollowResume"
+- Rattack3, 0 ms: "HeadFollowPause; BreathAttackDone"
+- Rattack3, 2000 ms: "HeadFollowResume"
+- WingAttack, 0 ms: "HeadFollowResume;WingAttack"
+Its Dragon King table entry has HeadTurn=0. These keys demonstrate author-controlled
+head-follow events; they do not establish automatic head following for that actor.
+
+Implication for OpenYAMM
+The reusable idea is a small procedural neck/head rotation applied after clip
+sampling/blending, before final hierarchy/socket evaluation, with angle/speed
+limits and explicit action gates. It preserves locomotion and casting clips.
+It adds transform work, not extra geometry, textures or a complete sampled clip.
+No new animation library is implied. This investigation has not implemented or
+benchmarked that layer. Importing ABC animations into GLBs does not import this
+native client-side controller.
+
+Detailed evidence and reproduced inventory:
+re_mm8/work/mm9_head_20261006/asset_evidence.json
+re_mm8/work/mm9_head_20261006/cshell_actor_update_flow.asm
+re_mm8/work/mm9_head_20261006/cshell_target_follow_init_flow.asm
+re_mm8/work/mm9_head_20261006/cshell_target_follow.asm
+re_mm8/work/mm9_head_20261006/cshell_target_follow_node.asm
+re_mm8/work/mm9_head_20261006/cshell_head_target_message.asm
+re_mm8/work/mm9_head_20261006/cshell_model_keys_flow.asm
+re_mm8/work/mm9_head_20261006/object_can_head_turn.asm
+
+Reproduce client inspection after matching hashes, from the repository root:
+third_party/rizin/build/binrz/rizin/rizin -N -q -e scr.color=0 -p re_mm8/work/mm9_vfx/cshell.rzdb -c 'af @ 0x10059060; pdr @ 0x10059060; af @ 0x10059b70; pdf @ 0x10059b70; af @ 0x100598c0; pdf @ 0x100598c0; af @ 0x1005acb0; pdf @ 0x1005acb0'

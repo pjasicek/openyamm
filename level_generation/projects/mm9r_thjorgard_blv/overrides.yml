@@ -32,6 +32,17 @@ models:
   TOD_Sky0: skip   # TOD_Sky
   SkyBox0: skip   # DemoSkyWorldModel
   Ocean: static   # WorldObject
+  # The training hall's bricked opening on its roof (TrainingEnter.scr: DestructableBrush7's death opens ExitTrigger3),
+  # seven pieces between the roof and the hut behind them. Built `static` they sealed the two rooms (the build's
+  # destructible_sealed_passages), so the hole stayed a wall to sight and drawing once broken; as one `break` group
+  # with a doorway they get one portal over the opening. No click: MM9 breaks them only with weapons.
+  DestructableBrush7: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush8: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush9: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush10: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush11: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush12: {group: TrainingWall, motion: break, doorway: true, click: false}
+  DestructableBrush13: {group: TrainingWall, motion: break, doorway: true, click: false}
   'mine cart door left': {group: mine_cart_door_left, motion: rotate}   # RotatingDoor
   'mine cart door right': {group: mine_cart_door_left, motion: rotate}   # RotatingDoor
   'cottage door': {group: cottage_door, motion: rotate}   # RotatingDoor

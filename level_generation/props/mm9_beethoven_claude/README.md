@@ -49,6 +49,16 @@ python3 scripts/bottle.py --install                  # the floating bottle
 python3 ../../projects/mm9r_common/review_root.py    # link the new models and rows into the review root
 ```
 
+## The coffin lids
+
+`scripts/coffin_parts.py --install` splits the finished `coffinfancy` into the coffin (`mm9_deco_coffinfancy.glb`:
+without its lid, and without the ABC's Skeleton piece, which every placement hides with `HidePiece0 Skeleton`) and its
+lid (`mm9_deco_coffinfancy_lid.glb`, the binding's `part`): one node at the lid's bone (the ABC's Bone01) with the
+ABC's `Open` and `Close` clips as `open` and `close` (1 s each), carried from the raw import into asset space. The
+binding's height is the coffin's own, 97.1 (the whole coffin's 124.3 scale). Beethoven's map Lua opens it with
+`evt.PlayDecorationClip(cog, "open")` (CoffinRaise.scr). Run it again after rebuilding `coffinfancy`; `tables.py`
+keeps the existing binding.
+
 ## The bottle
 
 `evt.SpawnWorldModel` takes a GLB and a clip name and plays the clip in a loop, and models carry node animation, so one

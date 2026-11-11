@@ -20,7 +20,7 @@ cinematics:
         keys:
           - {at: 0, position: [14417.9, 8203.5, -983], direction: [-0.0092, -0.8746, 0.4848], fov: 73.7}
           - {at: 5.023, position: [14407.7, 6278.4, -860.2], direction: [-0.0092, -0.8746, 0.4848], fov: 73.7}
-      - {duration: 58.086, position: [14479.9, 3582.1, -322.6], direction: [-0.0105, -0.9999, 0], fov: 73.7, note: "Losecam3 (OnCam3), the peephole; gate: moved 48 back along its view ([14479.4, 3534.1, -322.6] -> [14479.9, 3582.1, -322.6])"}
+      - {duration: 58.086, position: [14479.4, 3534.1, -322.6], direction: [-0.0105, -0.9999, 0], fov: 73.7, note: "Losecam3 (OnCam3), the peephole"}
     cues:
       - {at: 0, event: 36001, note: "OnLose: givekey 98"}
       - {at: 0, fade: "in", seconds: 1, note: "OnLose ScreenFadeOut 1; LoseCam1 OnPlay ScreenFadeIn 1"}
@@ -69,7 +69,7 @@ cinematics:
         keys:
           - {at: 0, position: [14417.9, 8203.5, -983], direction: [-0.0092, -0.8746, 0.4848], fov: 73.7}
           - {at: 5.023, position: [14407.7, 6278.4, -860.2], direction: [-0.0092, -0.8746, 0.4848], fov: 73.7}
-      - {duration: 7.168, position: [14479.9, 3582.1, -322.6], direction: [-0.0105, -0.9999, 0], fov: 73.7, note: "Losecam3 (OnCam3), the peephole; gate: moved 48 back along its view ([14479.4, 3534.1, -322.6] -> [14479.9, 3582.1, -322.6])"}
+      - {duration: 7.168, position: [14479.4, 3534.1, -322.6], direction: [-0.0105, -0.9999, 0], fov: 73.7, note: "Losecam3 (OnCam3), the peephole"}
       - duration: 7
         easing: "linear"
         note: "Losecam5 (LoseCam3.scr: to Losecam6 at 100 from FadeOut2 + 2 s)"

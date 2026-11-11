@@ -74,42 +74,67 @@ handlers[90] = function()   -- Manuscript
     MM9.playSound("sounds/events/quest.wav")
 end
 
--- The coffins (CoffinRaise.scr, CoffinMummy.scr): touching a coffin's trigger raises its lid with a stone
--- groan; when the lid is up its mummy, standing inside unseen, wakes and kicks the coffin to pieces.
--- coffin k -> its mummy's actor index (CoffinMummy.scr: CanDamage 0 until it kicks free)
+-- The coffins (CoffinRaise.scr, CoffinMummy.scr): touching a coffin's trigger opens its lid with a stone
+-- groan (the lid part's open clip). Its mummy lies inside, dormant (LoopAnim coffin2); when the lid is up it
+-- wakes (PlayAnim wakeup2), and at the clip's kick (AtKick) the coffin breaks (the destructible: its
+-- crumble and debris; rubble stays) and the mummy fights. Coffin<k>: 0 shut, 1 lid opening, 3 waking, 2 broken.
+-- coffin k -> its mummy's actor index (CoffinMummy.scr: CanDamage 0 until it kicks free), its destructible
 local MUMMIES = {[0] = 70, [1] = 71, [2] = 81, [3] = 72, [4] = 73, [5] = 74, [6] = 75, [7] = 76}
+local COFFINS = {[0] = 1153, [1] = 1156, [2] = 1159, [3] = 1161, [4] = 1164, [5] = 1167, [6] = 1170, [7] = 1173}
 local function coffin(k)   -- 150 + k
     if var("Coffin" .. k) ~= 0 then return end
     set("Coffin" .. k, 1)
     evt.PlaySoundName("sounds/door/stone_door02.wav", 0, 0, 0)
-    arm(200 + k, 2)
+    evt.PlayDecorationClip(310 + k, "open")
+    evt.SetMonGroupBit(80 + k, MonsterBits.Invisible, false)
+    evt.PlayActorClip(MUMMIES[k], "coffin_idle", true)
+    arm(200 + k, 1)
 end
 local function mummy(k)
     if not fired(200 + k) or var("Coffin" .. k) ~= 1 then return end
+    set("Coffin" .. k, 3)
+    evt.PlayActorClip(MUMMIES[k], "wakeup2", "hold")
+    arm(220 + k, 3.232)
+end
+-- :OnPostDestroy (the kick): the coffin's destroy, SetPropNumber CanDamage, TRUE, gravity, then baseMelee.
+local function kicked(k)
     set("Coffin" .. k, 2)
-    evt.SetSprite(310 + k, false)
+    evt.DestroyDestructible(COFFINS[k])
     evt.SetSprite(330 + k, true)
+    evt.ClearActorPresentation(MUMMIES[k])
     evt.SetMonGroupBit(80 + k, MonsterBits.Invisible, false)
     evt.SetMonGroupBit(80 + k, MonsterBits.Hostile, true)
-    -- :OnPostDestroy (the kick): SetPropNumber CanDamage, TRUE (CanDamage 0 in the DAT until then)
-    if MUMMIES[k] ~= nil then MM9.setCanDamage(MUMMIES[k], true) end
+    MM9.setCanDamage(MUMMIES[k], true)
+    evt.WakeActor(MUMMIES[k])
+end
+local function kick(k)
+    if not fired(220 + k) or var("Coffin" .. k) ~= 3 then return end
+    kicked(k)
 end
 handlers[150] = function() coffin(0) end   -- Trigger7 -> CoffinRaised9
-handlers[200] = function() mummy(0) end   -- PetrifiedMummy7
+handlers[200] = function() mummy(0) end   -- PetrifiedMummy7 wakes
+handlers[220] = function() kick(0) end   -- PetrifiedMummy7 kicks free
 handlers[151] = function() coffin(1) end   -- Trigger6 -> CoffinRaised8
-handlers[201] = function() mummy(1) end   -- PetrifiedMummy6
+handlers[201] = function() mummy(1) end   -- PetrifiedMummy6 wakes
+handlers[221] = function() kick(1) end   -- PetrifiedMummy6 kicks free
 handlers[152] = function() coffin(2) end   -- Trigger3 -> CoffinRaised6
-handlers[202] = function() mummy(2) end   -- PetrifiedMummy3
+handlers[202] = function() mummy(2) end   -- PetrifiedMummy3 wakes
+handlers[222] = function() kick(2) end   -- PetrifiedMummy3 kicks free
 handlers[153] = function() coffin(3) end   -- Trigger5 -> CoffinRaised7
-handlers[203] = function() mummy(3) end   -- PetrifiedMummy5
+handlers[203] = function() mummy(3) end   -- PetrifiedMummy5 wakes
+handlers[223] = function() kick(3) end   -- PetrifiedMummy5 kicks free
 handlers[154] = function() coffin(4) end   -- Trigger1 -> CoffinRaised5
-handlers[204] = function() mummy(4) end   -- PetrifiedMummy1
+handlers[204] = function() mummy(4) end   -- PetrifiedMummy1 wakes
+handlers[224] = function() kick(4) end   -- PetrifiedMummy1 kicks free
 handlers[155] = function() coffin(5) end   -- Trigger0 -> CoffinRaised3
-handlers[205] = function() mummy(5) end   -- PetrifiedMummy0
+handlers[205] = function() mummy(5) end   -- PetrifiedMummy0 wakes
+handlers[225] = function() kick(5) end   -- PetrifiedMummy0 kicks free
 handlers[156] = function() coffin(6) end   -- Trigger2 -> CoffinRaised15
-handlers[206] = function() mummy(6) end   -- PetrifiedMummy2
+handlers[206] = function() mummy(6) end   -- PetrifiedMummy2 wakes
+handlers[226] = function() kick(6) end   -- PetrifiedMummy2 kicks free
 handlers[157] = function() coffin(7) end   -- Trigger4 -> CoffinRaised4
-handlers[207] = function() mummy(7) end   -- PetrifiedMummy4
+handlers[207] = function() mummy(7) end   -- PetrifiedMummy4 wakes
+handlers[227] = function() kick(7) end   -- PetrifiedMummy4 kicks free
 
 -- The bottle (BottleFollow.scr): when the party arrives, the start's bottle bobs on the sewage six seconds,
 -- then drifts along the channels (MarkerSW/NW/NE/SE) to the shaft of the Grand Entrance, on from the
@@ -129,6 +154,8 @@ handlers[172] = function() startBottle(3) end   -- TriggerBottleNE
 handlers[173] = function() startBottle(4) end   -- TriggerBottleSE
 handlers[1] = function()   -- map load
     for k = 0, 7 do
+        -- a save taken while a coffin opened: its mummy is up and the coffin broken
+        if var("Coffin" .. k) == 1 or var("Coffin" .. k) == 3 then kicked(k) end
         evt.SetSprite(310 + k, var("Coffin" .. k) ~= 2)
         evt.SetSprite(330 + k, var("Coffin" .. k) == 2)
     end
@@ -188,20 +215,28 @@ RegisterEvent(93, "Stone door", handlers[93], "Door")
 RegisterEvent(94, "Stone door", handlers[94], "Door")
 RegisterEvent(150, "Trigger7", handlers[150])
 RegisterMapTimerEvent(200, seconds(3), handlers[200], "PetrifiedMummy7 wakes", "", seconds(3))
+RegisterMapTimerEvent(220, seconds(3), handlers[220], "PetrifiedMummy7 kicks free", "", seconds(3))
 RegisterEvent(151, "Trigger6", handlers[151])
 RegisterMapTimerEvent(201, seconds(3), handlers[201], "PetrifiedMummy6 wakes", "", seconds(3))
+RegisterMapTimerEvent(221, seconds(3), handlers[221], "PetrifiedMummy6 kicks free", "", seconds(3))
 RegisterEvent(152, "Trigger3", handlers[152])
 RegisterMapTimerEvent(202, seconds(3), handlers[202], "PetrifiedMummy3 wakes", "", seconds(3))
+RegisterMapTimerEvent(222, seconds(3), handlers[222], "PetrifiedMummy3 kicks free", "", seconds(3))
 RegisterEvent(153, "Trigger5", handlers[153])
 RegisterMapTimerEvent(203, seconds(3), handlers[203], "PetrifiedMummy5 wakes", "", seconds(3))
+RegisterMapTimerEvent(223, seconds(3), handlers[223], "PetrifiedMummy5 kicks free", "", seconds(3))
 RegisterEvent(154, "Trigger1", handlers[154])
 RegisterMapTimerEvent(204, seconds(3), handlers[204], "PetrifiedMummy1 wakes", "", seconds(3))
+RegisterMapTimerEvent(224, seconds(3), handlers[224], "PetrifiedMummy1 kicks free", "", seconds(3))
 RegisterEvent(155, "Trigger0", handlers[155])
 RegisterMapTimerEvent(205, seconds(3), handlers[205], "PetrifiedMummy0 wakes", "", seconds(3))
+RegisterMapTimerEvent(225, seconds(3), handlers[225], "PetrifiedMummy0 kicks free", "", seconds(3))
 RegisterEvent(156, "Trigger2", handlers[156])
 RegisterMapTimerEvent(206, seconds(3), handlers[206], "PetrifiedMummy2 wakes", "", seconds(3))
+RegisterMapTimerEvent(226, seconds(3), handlers[226], "PetrifiedMummy2 kicks free", "", seconds(3))
 RegisterEvent(157, "Trigger4", handlers[157])
 RegisterMapTimerEvent(207, seconds(3), handlers[207], "PetrifiedMummy4 wakes", "", seconds(3))
+RegisterMapTimerEvent(227, seconds(3), handlers[227], "PetrifiedMummy4 kicks free", "", seconds(3))
 RegisterEvent(170, "TriggerBottleSW", handlers[170])
 RegisterEvent(171, "TriggerBottleNW", handlers[171])
 RegisterEvent(172, "TriggerBottleNE", handlers[172])

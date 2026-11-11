@@ -44,8 +44,11 @@ items, hirelings) is in [MM9_BALANCE_DESIGN.md](MM9_BALANCE_DESIGN.md).
   indoors only, fixed auras ending on outdoor maps.
 - **Arena**: MAW's arenas are named by file (d42, 7d05, zarena) and include MM9's `thearena.blv`, which picks its
   fighters by the party's level as MMMerge's arenas do: no bolster, no rewards in Beyond Madness (the user's call).
-- **Spellbooks**: a world's books (item ids from 10000, `mod1` S<spell>) are sealed when found and priced by Road to
-  Insanity as MAW's are, by their spell's school and place.
+- **Spellbooks**: a world's books (item ids from 10000, `mod1` S<spell>) are sealed when found and cost what MAW asks
+  for its own (MM8) book of the same spell (`pricedBook`: MAW's repriced values in `content/items_patch.txt`, so
+  Chedian's Meteor Shower costs 40000, not MM9's 2000), with Road to Insanity's multiplier by the spell's school and
+  place on top. MM9's other items already follow MAW's prices: ordinary weapons and armour through `item_bases.yml`,
+  scrolls at the MM6-MM8 scrolls' values, artifacts at their table values as MAW's own are (checked 2026-11-11).
 - **No flying in Chedian** (the user, 2026-11-09): the Dragon's Flight casts MM9's Fleet Foot as Air Magic's Fly does
   (`castsFleetFoot`), and any other Fly there (a scroll, a potion, an event's buff) becomes Fleet Foot in
   `Party::applyPartyBuff`: MM9's speed (125/150/175 %) and, from a skill, MM9's duration. Across worlds: a Fly brought
@@ -77,6 +80,10 @@ items, hirelings) is in [MM9_BALANCE_DESIGN.md](MM9_BALANCE_DESIGN.md).
 - MM9 starts at Bootcamp.
 - Falls follow the generic rules. Drowning stays MM9's own: 1/6 of maximum HP a tick
   (`indoorDrowningDamage`), which no ruleset changes.
+- 2026-11-09: loot from other worlds is a per-game choice (MAW and Standard); Chedian's Seer is Hjordisa the Hag; the
+  six Jarls give their regions' bounties, Arslegard none; a final class promoted on all four worlds is Supreme (x1.75,
+  DEVIATIONS 183); no flying in Chedian (every Fly is Fleet Foot there); the rebuild grows the Tomb 2x and Thjorad
+  Mine 1.4x for every game.
 
 ## Open
 
@@ -89,8 +96,12 @@ from other worlds" ([LOOT_POOL.md](../LOOT_POOL.md)): off, a game that never goe
 Still open:
 - **Play under MAW**: the MM9 story playthrough (`tests/playthrough/mm9/`) has not been run under MAW; tester builds
   (MM9 stays out of releases).
-- **The Tomb (Chasm of the Dead)**: its density waits on the MM9 rework (`devdocs/mm9_rework/FINAL_REBUILD_GAPS.md`
-  section 7).
+- ~~The Tomb of a Thousand Terrors' density~~: done 2026-11-09, 2x in the rebuild (186 monsters) and MAW's reserve on
+  top (`devdocs/mm9_rework/FINAL_REBUILD_GAPS.md` section 7).
+- **Fleet Foot leaving MM9** ends (a Fly entering MM9 becomes Fleet Foot). Turning it into Fly for its remaining time
+  instead is the user's call (asked 2026-11-09; the recommendation is to keep it ending).
+- **A map's first-completion reward is lost when every pack is full** (any MAW world, not only Chedian): the Crafting
+  Cube and two gems go through `Party::tryGrantInventoryItem`; MAW's `evt.Add` put them in hand. Asked 2026-11-09.
 - **Dimension maps open only MM6-MM8 dungeons**: `data/dimension_maps.yml` `dungeons` lists map ids 1-186, so the
   Hag's maps, like the Oracle's, open completed MM6-MM8 dungeons. MM9 dungeons in the pool would need MM9 families for
   the opened maps (MAW's lists are MM6-MM8 rows, whose art MM9's world may not carry) and a check of the travel
@@ -98,3 +109,11 @@ Still open:
 - Map resets need no NPC: the dungeon entry dialog offers MAW's reset, and MM9's entrances use it (not tried in play).
   MM9's refills (600, 300 and 150 days) match MM6-MM8's (672, 336, 168); MAW reads both alike.
 - **Ideas** (MM9_BALANCE_DESIGN.md section 8): family swaps per map, maps tagged by role (story, promotions, side).
+
+## Tools for testers
+
+- Debug console `actor remaining`: the living monsters the map's progress still counts, nearest first, with where
+  they stand and their HP ("hidden" for the invisible ones counted apart). `player sheet`: each member's level, Might,
+  Fangs and Dragon Ability, and the sheet's attack and damage rows.
+- `tools/maw/mm9_balance.py --review <file> --levels`: the testers' page of MAW's MM9 numbers; `--check` before a
+  commit. `tools/maw/mm9_pack_reserve.py <stem>` after an MM9 map is reconverted.

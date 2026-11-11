@@ -184,8 +184,8 @@ steps:
       id: 1
       state: closed
 - note:
-    text: 'TriggerTrellborgOn0 (the east stair down): the Mean Trellborg starts jousting: about 4 s later he pulls the lever
-      and the horse rides; TriggerTrellborgOff0 above stops him.'
+    text: 'TriggerTrellborgOn0 (the east stair down): the Mean Trellborg starts jousting: after his stand, two fidgets and
+      a taunt (7 s) he pulls the lever and the horse rides; TriggerTrellborgOff0 above stops him.'
 - set_pose:
     map: traininghall.blv
     x: 1894
@@ -200,7 +200,7 @@ steps:
       name: Jousting
       value: 1
 - advance_runtime:
-    seconds: 4.5
+    seconds: 7.0
 - assert:
     state_dump_named_map_var:
       name: Launches
@@ -221,6 +221,35 @@ steps:
 - assert:
     state_dump_named_map_var:
       name: Jousting
+      value: 0
+- note:
+    text: 'TriggerOrcTraining / TriggerOrcsStop: the orcs'' drill, their commander and observer (the scene routines) start
+      and stop.'
+- set_pose:
+    map: traininghall.blv
+    x: 2785
+    y: -1577
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: OrcTraining
+      value: 1
+- set_pose:
+    map: traininghall.blv
+    x: 2785
+    y: -1085
+    z: 1
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    state_dump_named_map_var:
+      name: OrcTraining
       value: 0
 - note:
     text: 'd4lever0: the second horse rides through the wooden wall at the lane''s east end; the wall''s pieces (woodexplosion,
