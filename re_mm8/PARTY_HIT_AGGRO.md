@@ -13,17 +13,22 @@ hit monster in the full-AI list within 10240 units, so it comes for the party.
 their lifetime expires: 6 seconds at 4000 units per second for arrows, Fire Bolt and Ice Bolt (24,000 units), 1
 second at 8000 for Lightning Bolt (8000 units). Only turn-based mode removes objects it waits on beyond 5120.
 
-OpenYAMM deviates here on purpose, outdoors only (`OutdoorWorldRuntime`):
+OpenYAMM deviates here on purpose (the user, 2026-11-09, replacing the 2026-10-26 outdoor-only rules):
 
-- The party's projectiles fizzle after 8192 units and its targeted spells refuse monsters farther away
-  (`PartyAttackRange`), so everything the party can hurt is within reach of the rules below.
-- A monster the party hits stays active out to the 10240 engagement range until it comes within the full-AI range
-  (`provokedByParty`), ahead of other monsters in the 48 full-AI slots.
-- It may shoot or cast at the party from as far as it was hit (`provokedAttackReach`), so backing off beyond 5120
-  does not make the party safe from a monster it is shooting.
+- In every ruleset, indoors and outdoors, the party's shots vanish beyond 5120 units from the party and its targeted
+  spells refuse monsters farther away, nor do its area spells take them, Armageddon aside
+  (`GameplayActorService::partyHitReach`): the yellow alert range, as far as
+  monsters shoot and cast at the party, and as far as turn-based combat keeps shots. A world may declare a shorter
+  range (MM9's 4096, its engagement range). The party hits only what can hit it back, and a monster it hits is always
+  within its own 5120 missile reach, so the earlier rule that let a far-hit monster shoot back from the distance of the
+  hit (`provokedAttackReach`, 8192 outdoors under Standard) is gone.
+- Outdoors a monster the party hits stays active out to the 10240 engagement range until it comes within the full-AI
+  range (`provokedByParty`), ahead of other monsters in the 48 full-AI slots, so a party backing off after a shot does
+  not leave it standing beyond the full-AI range.
 
-Monsters that were not hit keep MM8's rules, including the 5120 missile reach, which also holds for monsters whose
-only attack is a missile (`GameplayActorAiSystem`).
+Every monster keeps MM8's 5120 missile reach, which also holds for monsters whose only attack is a missile
+(`GameplayActorAiSystem`); at the party it is no longer than the party's own reach (`ActorAiFrameFacts::partyHitReach`,
+MM9's 4096), so the party can answer every shot.
 
 ## Inputs and method
 
