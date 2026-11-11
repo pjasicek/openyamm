@@ -559,7 +559,7 @@ public:
         bool broke = false;
     };
     // The member's raised personal shield takes the hit first; a member without one passes the whole damage.
-    PersonalShieldHit absorbPersonalShieldHit(size_t memberIndex, int damage);
+    PersonalShieldHit absorbPersonalShieldHit(size_t memberIndex, int damage, bool preview = false);
     // Shield Cell: refills the member's personal shield; a member without one gets the rules' temporary shield
     // (PartyShieldRules::shieldCellPoints for shieldCellSeconds). Runtime only, like the shields themselves.
     bool chargePersonalShield(size_t memberIndex);

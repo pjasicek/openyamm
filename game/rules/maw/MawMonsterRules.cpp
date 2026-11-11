@@ -864,6 +864,33 @@ bool MawMonsterRules::placeMapBosses(
         bossCount = int(std::ceil(bossCount * (1 + *density / 100)));
     }
 
+    // A unique monster place_mon marks a boss always is one, and the rest of its group never: the leader of a pack
+    // is its one boss (Amber Island's Julius Cheeser and his wererats). Not MAW's own: its port made him a boss by
+    // script, on top of the random picks.
+    std::vector<uint32_t> forcedGroups;
+
+    for (size_t index = 0; index < monsters.size(); ++index)
+    {
+        MapMonsterPlacement &monster = monsters[index];
+
+        if (monster.forcedBoss && monster.pStats != nullptr && monster.pFacts != nullptr && monster.pFacts->level > 0)
+        {
+            changed = makeBoss(*monster.pFacts, randomStreamKey(rootSeed, RandomDomain::BossStats, map, resets,
+                index), 0, baseLevelOf(monster)) || changed;
+
+            if (monster.group != 0)
+            {
+                forcedGroups.push_back(monster.group);
+            }
+        }
+    }
+
+    const auto inForcedGroup = [&forcedGroups](const MapMonsterPlacement &monster)
+    {
+        return monster.group != 0
+            && std::find(forcedGroups.begin(), forcedGroups.end(), monster.group) != forcedGroups.end();
+    };
+
     // A dimension map may make any unnamed A or B monster a boss before the usual C-tier picks.
     if (const std::optional<double> chance = m_rules.mapAffix(mapFileName, MawMapAffix::BecomeBoss))
     {
@@ -874,7 +901,8 @@ bool MawMonsterRules::placeMapBosses(
         {
             const MapMonsterPlacement &monster = monsters[index];
 
-            if (bossCandidate(monster) && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier != 3
+            if (bossCandidate(monster) && !inForcedGroup(monster)
+                && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier != 3
                 && unitDraw(roll) < *chance / 100)
             {
                 changed = makeBoss(*monster.pFacts, randomStreamKey(rootSeed, RandomDomain::BossStats, map, resets,
@@ -889,7 +917,8 @@ bool MawMonsterRules::placeMapBosses(
     {
         const MapMonsterPlacement &monster = monsters[index];
 
-        if (bossCandidate(monster) && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier == 3
+        if (bossCandidate(monster) && !inForcedGroup(monster)
+            && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier == 3
             && monster.pFacts->bossAffix == 0)
         {
             candidates.push_back(index);
@@ -930,6 +959,19 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
         return false;
     }
 
+    std::vector<MawBossAffix> allowed;
+    for (const MawBossAffix candidate : RolledBossAffixes)
+    {
+        if (m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), candidate))
+        {
+            allowed.push_back(candidate);
+        }
+    }
+    if (allowed.empty())
+    {
+        return false;
+    }
+
     const MawModelConfig config = mawModelConfig(m_rules.options(), 5);
     RandomStream stats(randomStreamKey(seed, RandomDomain::BossStats));
     RandomStream affix(randomStreamKey(seed, RandomDomain::BossAffix));
@@ -941,8 +983,9 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
     const double flatten = config.austerity ? 4 : 1;
     facts.level = bossLevel(facts.level, baseLevel, facts.bossLevelDraw);
     facts.bossAffix = forcedAffix != 0
+            && m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), MawBossAffix(forcedAffix))
         ? forcedAffix
-        : uint8_t(RolledBossAffixes[affix.uniform(0, uint32_t(RolledBossAffixes.size() - 1))]);
+        : uint8_t(allowed[affix.uniform(0, uint32_t(allowed.size() - 1))]);
     // A script's health scale stays on top of the boss's.
     facts.bossHealthMultiplier *=
         float(2.5 * (1 + cappedLevel / BossLevelCap / flatten) * (1 + 0.5 * healthDraw / flatten));
@@ -1024,14 +1067,18 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
 
         for (const MawBossAffix candidate : RolledBossAffixes)
         {
-            if (candidate != MawBossAffix::Cryptic)
+            if (candidate != MawBossAffix::Cryptic
+                && m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), candidate))
             {
                 pool.push_back(candidate);
             }
         }
 
         RandomStream hidden(randomStreamKey(seed, RandomDomain::BossAffix, uint64_t(MawBossAffix::Cryptic)));
-        facts.crypticAffix = uint8_t(pool[hidden.uniform(0, uint32_t(pool.size() - 1))]);
+        if (!pool.empty())
+        {
+            facts.crypticAffix = uint8_t(pool[hidden.uniform(0, uint32_t(pool.size() - 1))]);
+        }
     }
 
     return true;
@@ -1897,7 +1944,7 @@ void MawMonsterRules::hatchBoss(IGameplayWorldRuntime &world, uint32_t actorId, 
         for (const MawBossAffix affix : RolledBossAffixes)
         {
             // Not the later four (OmnipotentExcluded, zzMaw-Monsters.lua:4149-4154).
-            if (!omnipotentCovers(affix))
+            if (!omnipotentCovers(affix) || !m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), affix))
             {
                 continue;
             }

@@ -122,7 +122,7 @@ vec3 surfaceSkyRadiance(vec3 direction, vec3 radiance, float roughness)
 // terrain does), occlusion, the highlights of the sun and point lights, the sky's reflection and glow. Linear result.
 // It takes the varyings from main: Metal and HLSL see them only there.
 vec3 surfaceBakedColor(vec3 displayColor, SurfacePoint material, vec3 faceNormal, vec3 toCamera, float distance,
-    vec3 worldPosition, vec2 lightmapUv)
+    vec3 worldPosition, vec2 lightmapUv, vec4 skySample)
 {
     vec3 albedo = pow(max(displayColor, vec3_splat(0.0)), vec3_splat(2.2));
     vec3 normal = material.normal;
@@ -147,7 +147,6 @@ vec3 surfaceBakedColor(vec3 displayColor, SurfacePoint material, vec3 faceNormal
     vec3 diffuseAlbedo = albedo * (1.0 - SURFACE_METAL_DIFFUSE_LOSS * material.metal);
 
     vec4 sunSample = texture2D(s_texLightmap, lightmapUv);
-    vec4 skySample = texture2D(s_texBakedSky, lightmapUv);
     vec4 directSample = texture2D(s_texBakedSunDirect, lightmapUv);
     vec3 totalSun = sunSample.rgb * (sunSample.a * 4.0);
     vec3 directSun = min(directSample.rgb * (directSample.a * 4.0), totalSun);
@@ -247,18 +246,20 @@ void main()
 
 #if BAKED_SOURCES
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
+    // Read once: the surface's sky light and the fog over covered points below.
+    vec4 bakedSky = texture2D(s_texBakedSky, v_lightmapUv);
     vec4 litTextureColor;
 #if SURFACE_MATERIALS
     if (hasMaterial)
     {
         litTextureColor = vec4(pow(max(surfaceBakedColor(textureColor.rgb, material, faceNormal, toCamera,
-            cameraDistance, v_worldPosition, v_lightmapUv), vec3_splat(0.0)), vec3_splat(1.0 / 2.2)), textureColor.a);
+            cameraDistance, v_worldPosition, v_lightmapUv, bakedSky), vec3_splat(0.0)), vec3_splat(1.0 / 2.2)), textureColor.a);
     }
     else
 #endif
     {
         vec3 staticLighting = bakedShadowedSourceLighting(texture2D(s_texLightmap, v_lightmapUv),
-            texture2D(s_texBakedSky, v_lightmapUv), v_lightmapUv, v_worldPosition);
+            bakedSky, v_lightmapUv, v_worldPosition);
         litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
             staticLighting + getFxLighting(v_worldPosition)), textureColor.a);
         litTextureColor.rgb = applyWetness(litTextureColor.rgb, v_worldPosition);
@@ -294,5 +295,8 @@ void main()
     float fogRatio = skyFogRatio(getFogRatio(fogDistance), v_worldPosition, fogDistance, u_fogDistances.z);
     float fogAlpha = getFogAlpha(fogDistance);
     vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition), fogAlpha);
+#if BAKED_SOURCES
+    fogColor.rgb *= bakedFogCoverShade(bakedSky);
+#endif
     gl_FragColor = mix(litTextureColor, fogColor, fogRatio);
 }

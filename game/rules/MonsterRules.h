@@ -32,6 +32,9 @@ struct MapMonsterPlacement
     int32_t uniqueNameId = 0;
     // The actor runs a Lua behaviour (MM9's Dragon King, Njam): never a boss either.
     bool scripted = false;
+    // place_mon marks the unique monster a boss (MonsterTable::isUniqueNameBoss).
+    bool forcedBoss = false;
+    uint32_t group = 0;
 };
 
 // A slain monster whose carried loot the rules size.

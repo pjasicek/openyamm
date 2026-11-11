@@ -208,6 +208,7 @@ struct WorldManifest
     std::string id = "mm8";
     std::string name = "MM8";
     std::string sourceGame = "mm8";
+    std::string actorProfilesPath;
     WorldStartDefinition start;
     WorldPartyDeathDefinition partyDeath;
     WorldQBitDefinition qbits;

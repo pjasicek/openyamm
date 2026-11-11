@@ -9906,3 +9906,23 @@ TEST_CASE("the journal's Arcomage notes list every tavern per continent and the 
     CHECK(std::count_if(texts.begin(), texts.end(), [](const std::string &text) { return text.ends_with(": won"); })
         == 1);
 }
+
+TEST_CASE("only the MM8 and MM7 tavern ranges count for the Arcomage Champion award")
+{
+    using namespace OpenYAMM::Game;
+    // MM8's taverns are houses 228-238 and MM7's 240-252; Emerald Island's Two Palms (239) plays but does not count
+    // (OY-308). A house a world adds after the stock ones may play Arcomage, but no champion award was written for it.
+    for (uint32_t houseId = 228; houseId <= 238; ++houseId)
+    {
+        CHECK(Party::arcomageTavernCountsForChampion(houseId));
+    }
+    for (uint32_t houseId = 240; houseId <= 252; ++houseId)
+    {
+        CHECK(Party::arcomageTavernCountsForChampion(houseId));
+    }
+    for (const uint32_t houseId : {1u, 227u, 239u, 253u, 600u})
+    {
+        CAPTURE(houseId);
+        CHECK_FALSE(Party::arcomageTavernCountsForChampion(houseId));
+    }
+}

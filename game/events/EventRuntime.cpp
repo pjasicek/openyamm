@@ -23,6 +23,7 @@
 #include "game/tables/HouseTable.h"
 #include "game/tables/JournalQuestTable.h"
 #include "game/tables/NpcDialogTable.h"
+#include "game/tables/SpellTable.h"
 
 #include <algorithm>
 #include <cctype>
@@ -4722,6 +4723,8 @@ struct LuaExecutionContext
     PartySelector selector = {};
     std::optional<std::string> pendingMessageText;
     std::optional<bool> canShowTopicVisible;
+    // evt.TopicTitle in a can-show handler (EventRuntime::canShowTopic pTitle).
+    std::optional<std::string> canShowTopicTitle;
     size_t initialMessageCount = 0;
     uint16_t currentEventId = 0;
     bool readonly = false;
@@ -4766,6 +4769,7 @@ void prepareRuntimeStateForEventExecution(
     if (clearPendingOutputs)
     {
         runtimeState.pendingDialogueContext.reset();
+        runtimeState.pendingDialogueClose = false;
         runtimeState.pendingMapMove.reset();
         runtimeState.pendingMovie.reset();
         runtimeState.pendingReturnToMainMenu = false;
@@ -4994,6 +4998,7 @@ int luaBeginCanShowTopic(lua_State *pLuaState)
         pExecutionContext->selector = {};
         pExecutionContext->pendingMessageText.reset();
         pExecutionContext->canShowTopicVisible.reset();
+        pExecutionContext->canShowTopicTitle.reset();
     }
 
     return 0;
@@ -5228,6 +5233,56 @@ int luaSetMapActorPosition(lua_State *pLuaState)
         pLuaState,
         pSceneEventContext != nullptr && pSceneEventContext->setMapActorPosition(actorIndex, x, y, z));
     return 1;
+}
+
+int luaStartSparring(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    const lua_Integer index = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer partyGoal = luaL_checkinteger(pLuaState, 2);
+    const lua_Integer opponentGoal = luaL_checkinteger(pLuaState, 3);
+    const lua_Integer winEvent = luaL_checkinteger(pLuaState, 4);
+    const lua_Integer lossEvent = luaL_checkinteger(pLuaState, 5);
+    EventRuntimeState *pEvents = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+    GameplayRuntimeActorState actor;
+    if (pEvents == nullptr || pWorld->isIndoorMap() || (pEvents->sparring && pEvents->sparring->active) || index < 0
+        || partyGoal <= 0 || partyGoal > std::numeric_limits<int>::max()
+        || opponentGoal <= 0 || opponentGoal > std::numeric_limits<int>::max()
+        || winEvent <= 0 || winEvent > std::numeric_limits<uint16_t>::max()
+        || lossEvent <= 0 || lossEvent > std::numeric_limits<uint16_t>::max()
+        || !pWorld->actorRuntimeState(size_t(index), actor) || actor.isDead || actor.isInvisible)
+    {
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const std::optional<GameplayCombatActorInfo> opponent = pWorld->combatActorInfoById(actor.actorId);
+    pEvents->sparring = GameplaySparringState{
+        .actorIndex = size_t(index),
+        .actorId = actor.actorId,
+        .opponentName = opponent ? opponent->displayName : "Opponent",
+        .partyGoal = int(partyGoal),
+        .opponentGoal = int(opponentGoal),
+        .winEvent = uint16_t(winEvent),
+        .lossEvent = uint16_t(lossEvent),
+    };
+    lua_pushboolean(pLuaState, true);
+    return 1;
+}
+
+int luaEndSparring(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    EventRuntimeState *pEvents = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+    if (pEvents != nullptr && pEvents->sparring)
+    {
+        pEvents->sparring->active = false;
+    }
+    return 0;
 }
 
 // evt.MoveActorTo(actorIndex, x, y, z[, arrivalEvent[, run]]): the map actor walks (run: runs) to the point by the
@@ -5493,10 +5548,9 @@ int luaTurnGroup(lua_State *pLuaState)
 // evt.GetMapActorPosition(actorIndex): x, y, z of the actor's feet, or nil for no such actor.
 int luaGetMapActorPosition(lua_State *pLuaState)
 {
-    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
-    const ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
-        ? pExecutionContext->pSceneEventContext
-        : nullptr;
+    // A read: also in a read-only handler (a topic's can-show, which may ask how near an actor is).
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
     const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
     float x = 0.0f;
     float y = 0.0f;
@@ -5512,6 +5566,110 @@ int luaGetMapActorPosition(lua_State *pLuaState)
     lua_pushnumber(pLuaState, y);
     lua_pushnumber(pLuaState, z);
     return 3;
+}
+
+// evt.GetMapActorHealth(actorIndex): the actor's current and maximum hit points as the rules made them (what the
+// monster inspect shows), or nil for no such actor; a read, also in read-only handlers. A script that ends a fight at
+// a share of a monster's health asks this instead of the hit points a map placed it with.
+int luaGetMapActorHealth(lua_State *pLuaState)
+{
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const IGameplayWorldRuntime *pWorldRuntime =
+        dynamic_cast<const IGameplayWorldRuntime *>(readonlySceneEventContext(pExecutionContext));
+    const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
+    GameplayActorInspectState state = {};
+
+    if (pWorldRuntime == nullptr || !pWorldRuntime->actorInspectState(actorIndex, 0, state))
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, state.currentHp);
+    lua_pushinteger(pLuaState, state.maxHp);
+    return 2;
+}
+
+int luaHealMapActor(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer amount = luaL_checkinteger(pLuaState, 2);
+    GameplayActorInspectState health;
+    const bool living = pWorld != nullptr && actorIndex >= 0 && amount > 0
+        && pWorld->actorInspectState(size_t(actorIndex), 0, health) && health.currentHp > 0
+        && health.maxHp > health.currentHp;
+    const int heal = living ? int(std::min<lua_Integer>(amount, health.maxHp - health.currentHp)) : 0;
+    lua_pushboolean(pLuaState, living && pWorld->healMapActor(size_t(actorIndex), heal));
+    return 1;
+}
+
+// Remove a ground item without granting it or its gold. Indices are the current world's item indices;
+// callers removing several authored items must work backwards. The expected id guards against stale indices.
+int luaRemoveMapItem(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    const lua_Integer index = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer expectedItemId = luaL_checkinteger(pLuaState, 2);
+    GameplayWorldItemInspectState item;
+    const bool matches = pWorld != nullptr && index >= 0 && expectedItemId > 0
+        && uint64_t(expectedItemId) <= std::numeric_limits<uint32_t>::max()
+        && pWorld->worldItemInspectState(size_t(index), item)
+        && item.item.objectDescriptionId == uint32_t(expectedItemId);
+    lua_pushboolean(pLuaState, matches && pWorld->takeWorldItemInspectState(size_t(index), item));
+    return 1;
+}
+
+// Read identities from the live world, including actors created after the initial map fill. Unspecified filters
+// retain dead and hidden actors so a quest can distinguish death from absence without accidentally respawning one.
+int luaGetMapActors(lua_State *pLuaState)
+{
+    luaL_checktype(pLuaState, 1, LUA_TTABLE);
+    const auto filter = [&](const char *pKey) -> std::optional<uint32_t>
+    {
+        lua_getfield(pLuaState, 1, pKey);
+        if (lua_isnil(pLuaState, -1))
+        {
+            lua_pop(pLuaState, 1);
+            return std::nullopt;
+        }
+        const lua_Integer value = luaL_checkinteger(pLuaState, -1);
+        lua_pop(pLuaState, 1);
+        if (value < 0 || uint64_t(value) > std::numeric_limits<uint32_t>::max())
+        {
+            luaL_error(pLuaState, "GetMapActors: invalid %s", pKey);
+        }
+        return uint32_t(value);
+    };
+    const std::optional<uint32_t> npc = filter("npcId");
+    const std::optional<uint32_t> group = filter("group");
+    const std::optional<uint32_t> monster = filter("monsterId");
+    lua_getfield(pLuaState, 1, "alive");
+    const std::optional<bool> alive = lua_isnil(pLuaState, -1)
+        ? std::nullopt : std::optional<bool>(luaEventBoolean(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+    const IGameplayWorldRuntime *pWorld = dynamic_cast<const IGameplayWorldRuntime *>(
+        readonlySceneEventContext(executionContextFromLua(pLuaState)));
+    lua_newtable(pLuaState);
+    int result = 0;
+    for (size_t index = 0; pWorld != nullptr && index < pWorld->mapActorCount(); ++index)
+    {
+        GameplayRuntimeActorState actor;
+        if (!pWorld->actorRuntimeState(index, actor)
+            || (npc && actor.npcId != *npc) || (group && actor.group != *group)
+            || (monster && actor.monsterId != int64_t(*monster))
+            || (alive && (!actor.isDead && actor.currentHp > 0) != *alive))
+        {
+            continue;
+        }
+        lua_pushinteger(pLuaState, lua_Integer(index));
+        lua_rawseti(pLuaState, -2, ++result);
+    }
+    return 1;
 }
 
 // evt.SetActorBehavior(actorIndex, behaviorId): attaches an actor behaviour script (engine/behaviors) to a placed
@@ -5594,8 +5752,18 @@ int luaGetCurrentScreen(lua_State *pLuaState)
     return 1;
 }
 
+// The map's file name (oakhome.blv), as MMExtension's Map.Name and the scripts that compare it expect; the world
+// runtime's mapName() is the map_stats display name ("Oak Hill Cottage"), the fallback where no runtime state is bound.
 int luaGetCurrentMapName(lua_State *pLuaState)
 {
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+
+    if (pRuntimeState != nullptr && !pRuntimeState->mapFileName.empty())
+    {
+        lua_pushstring(pLuaState, pRuntimeState->mapFileName.c_str());
+        return 1;
+    }
+
     const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
     const IGameplayWorldRuntime *pWorldRuntime = dynamic_cast<const IGameplayWorldRuntime *>(pSceneEventContext);
@@ -6201,6 +6369,49 @@ int luaForgetPartyMemberSpell(lua_State *pLuaState)
     Character *pMember = pParty != nullptr && memberIndex ? pParty->member(*memberIndex) : nullptr;
     lua_pushboolean(pLuaState, pMember != nullptr && pMember->forgetSpell(spellId));
     return 1;
+}
+
+const SpellEntry *luaSpellEntry(lua_State *pLuaState, int argument)
+{
+    const lua_Integer id = luaL_checkinteger(pLuaState, argument);
+    const ISceneEventContext *pScene = readonlySceneEventContext(executionContextFromLua(pLuaState));
+    const SpellTable *pSpells = pScene != nullptr ? pScene->spellTable() : nullptr;
+    return pSpells != nullptr && id > 0 && id <= std::numeric_limits<int>::max()
+        ? pSpells->findById(int(id)) : nullptr;
+}
+
+int luaLearnPartyMemberSpell(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+    const std::optional<size_t> memberIndex = luaMemberIndexArgument(pLuaState, 1);
+    Character *pMember = pParty != nullptr && memberIndex ? pParty->member(*memberIndex) : nullptr;
+    const SpellEntry *pSpell = luaSpellEntry(pLuaState, 2);
+    lua_pushboolean(pLuaState, pMember != nullptr && pSpell != nullptr && pMember->learnSpell(pSpell->id));
+    return 1;
+}
+
+int luaGetSpellName(lua_State *pLuaState)
+{
+    if (const SpellEntry *pSpell = luaSpellEntry(pLuaState, 1))
+    {
+        lua_pushlstring(pLuaState, pSpell->name.data(), pSpell->name.size());
+    }
+    else
+    {
+        lua_pushnil(pLuaState);
+    }
+    return 1;
+}
+
+int luaCloseDialog(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    // Only a topic can request a close; read-only listings, timers and map events cannot leave stale UI output.
+    if (pContext != nullptr && !pContext->readonly && !pContext->allowStandaloneMapEventDialogueContext)
+    {
+        pContext->pRuntimeState->pendingDialogueClose = true;
+    }
+    return 0;
 }
 
 int luaRemovePartyMemberItem(lua_State *pLuaState)
@@ -7749,6 +7960,22 @@ int luaSetNpcGreeting(lua_State *pLuaState)
     return 0;
 }
 
+// evt.TopicTitle(title), in a topic's can-show handler: the title the NPC dialog lists the topic under this time
+// instead of its npc_topic.txt one (a price at the party's scale). The handler runs read-only and again whenever the
+// dialog lists its topics, so nothing is stored.
+int luaTopicTitle(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const char *pTitle = luaL_checkstring(pLuaState, 1);
+
+    if (pExecutionContext != nullptr && pTitle[0] != 0)
+    {
+        pExecutionContext->canShowTopicTitle = std::string(pTitle);
+    }
+
+    return 0;
+}
+
 int luaSetNpcName(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -9042,10 +9269,11 @@ bool luaValueToYaml(lua_State *pLuaState, int index, int depth, YAML::Node &node
 
 // evt.SummonMonstersById{monster, x, y, z, count = n | {min, max}, tiers = {A, B, C}, radius, group, name,
 // hpScale, levelBonus, boss, speed, item, hostile, loot, seed, yawDegrees, patrol = {{x, y, z}, ...}, mm9 = {...},
-// effect, effectScale}: MAW's pseudoSpawnpoint. patrol and mm9 are a scene actor's patrol and mm9_ai (the MM9
-// placement: its wander path, script and ScriptParams, such as script_params = "1" for a Greater Demon's spawn-in),
-// given to every monster. effect is a world effect played where each monster stands as it appears (MM9's
-// DoClientFX on a spawned creature: an Imp gate's blue fire). Returns the count placed and their actor indices.
+// effect, effectScale, npcId, profile}: MAW's pseudoSpawnpoint. patrol and mm9 are a scene actor's patrol and mm9_ai
+// (the MM9 placement: its wander path, script and ScriptParams, such as script_params = "1" for a Greater Demon's
+// spawn-in), given to every monster. effect is a world effect played where each monster stands as it appears (MM9's
+// DoClientFX on a spawned creature: an Imp gate's blue fire). npcId gives a single summoned actor an NPC identity and
+// profile its actor profile. Returns the count placed and their actor indices.
 int luaSummonMonstersById(lua_State *pLuaState)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -9183,6 +9411,19 @@ int luaSummonMonstersById(lua_State *pLuaState)
     lua_getfield(pLuaState, 1, "effectScale");
     const float effectScale = lua_isnil(pLuaState, -1) ? 1.0f : float(luaL_checknumber(pLuaState, -1));
     lua_pop(pLuaState, 1);
+    lua_getfield(pLuaState, 1, "npcId");
+    const lua_Integer npcId = luaL_optinteger(pLuaState, -1, 0);
+    lua_pop(pLuaState, 1);
+    const NpcDialogTable *pNpcs = pExecutionContext->pEventRuntime->npcDialogTable();
+    if (npcId < 0 || npcId > std::numeric_limits<int16_t>::max()
+        || (npcId != 0 && (request.count != 1 || pNpcs == nullptr || pNpcs->getNpc(uint32_t(npcId)) == nullptr)))
+    {
+        return luaL_error(pLuaState, "SummonMonstersById: npcId needs one actor and a valid NPC in the mounted table");
+    }
+    request.npcId = uint32_t(npcId);
+    lua_getfield(pLuaState, 1, "profile");
+    request.actorProfile = luaL_optstring(pLuaState, -1, "");
+    lua_pop(pLuaState, 1);
     const std::vector<size_t> spawned = pExecutionContext->pSceneEventContext->spawnMonsters(request);
     EventRuntimeState *pRuntimeState = effectId.empty() ? nullptr : writableRuntimeState(pLuaState);
 
@@ -9263,6 +9504,21 @@ int luaRulesetInfo(lua_State *pLuaState)
     lua_setfield(pLuaState, -2, "dimensionRun");
     lua_pushstring(pLuaState, info.challengeMode.c_str());
     lua_setfield(pLuaState, -2, "challengeMode");
+    return 1;
+}
+
+// evt.QuestGold(gold): a sum of gold at the party's rules' quest scale on the current continent - the sum plus
+// ExperienceRules::questGoldBonus, which dialogs add to a topic paying gold with experience. Scripts scale with it the
+// sums the party pays or a topic pays alone (MAW's calculateGold); 0 and less stay as they are.
+int luaQuestGold(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const lua_Integer gold = luaL_checkinteger(pLuaState, 1);
+    const int bonus = gold > 0
+        ? gameRulesFor(readableParty(pLuaState)).experience.questGoldBonus(int(gold),
+            pRuntimeState != nullptr ? pRuntimeState->activeHistoryContinentId : 0)
+        : 0;
+    lua_pushinteger(pLuaState, gold + bonus);
     return 1;
 }
 
@@ -10139,6 +10395,8 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "GetPartyPosition", luaGetPartyPosition);
     registerLuaFunction(pLuaState, "GetEnemyDetectorState", luaGetEnemyDetectorState);
     registerLuaFunction(pLuaState, "SetMapActorPosition", luaSetMapActorPosition);
+    registerLuaFunction(pLuaState, "StartSparring", luaStartSparring);
+    registerLuaFunction(pLuaState, "EndSparring", luaEndSparring);
     registerLuaFunction(pLuaState, "KillMapActor", luaKillMapActor);
     registerLuaFunction(pLuaState, "SetMapActorHp", luaSetMapActorHp);
     registerLuaFunction(pLuaState, "MoveActorTo", luaMoveActorTo);
@@ -10149,6 +10407,9 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetActorImmobile", luaSetActorImmobile);
     registerLuaFunction(pLuaState, "SetMm9ActorCanReceiveDamage", luaSetMm9ActorCanReceiveDamage);
     registerLuaFunction(pLuaState, "GetMapActorPosition", luaGetMapActorPosition);
+    registerLuaFunction(pLuaState, "GetMapActorHealth", luaGetMapActorHealth);
+    registerLuaFunction(pLuaState, "HealMapActor", luaHealMapActor);
+    registerLuaFunction(pLuaState, "GetMapActors", luaGetMapActors);
     registerLuaFunction(pLuaState, "TurnActor", luaTurnActor);
     registerLuaFunction(pLuaState, "TurnGroup", luaTurnGroup);
     registerLuaFunction(pLuaState, "WakeActor", luaWakeActor);
@@ -10174,6 +10435,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "GetGlobalVar", luaGetGlobalVar);
     registerLuaFunction(pLuaState, "SetGlobalVar", luaSetGlobalVar);
     registerLuaFunction(pLuaState, "GetHeldItemId", luaGetHeldItemId);
+    registerLuaFunction(pLuaState, "RemoveMapItem", luaRemoveMapItem);
     registerLuaFunction(pLuaState, "SetHeldItem", luaSetHeldItem);
     registerLuaFunction(pLuaState, "ClearHeldItem", luaClearHeldItem);
     registerLuaFunction(pLuaState, "GetPartyMemberCount", luaGetPartyMemberCount);
@@ -10186,6 +10448,9 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "ReplacePartyInventoryItems", luaReplacePartyInventoryItems);
     registerLuaFunction(pLuaState, "PartyMemberKnowsSpell", luaPartyMemberKnowsSpell);
     registerLuaFunction(pLuaState, "ForgetPartyMemberSpell", luaForgetPartyMemberSpell);
+    registerLuaFunction(pLuaState, "LearnPartyMemberSpell", luaLearnPartyMemberSpell);
+    registerLuaFunction(pLuaState, "GetSpellName", luaGetSpellName);
+    registerLuaFunction(pLuaState, "CloseDialog", luaCloseDialog);
     registerLuaFunction(pLuaState, "RemovePartyMemberItem", luaRemovePartyMemberItem);
     registerLuaFunction(pLuaState, "ApplyLichTransformation", luaApplyLichTransformation);
     registerLuaFunction(pLuaState, "SkillResetCost", luaSkillResetCost);
@@ -10273,6 +10538,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "StatusText", luaStatusText);
     registerLuaFunction(pLuaState, "SetUnscaledExperience", luaSetUnscaledExperience);
     registerLuaFunction(pLuaState, "RulesetInfo", luaRulesetInfo);
+    registerLuaFunction(pLuaState, "QuestGold", luaQuestGold);
     registerLuaFunction(pLuaState, "CountItems", luaCountItems);
     registerLuaFunction(pLuaState, "ArenaMonster", luaArenaMonster);
     registerLuaFunction(pLuaState, "RulesTopic", luaRulesTopic);
@@ -10288,6 +10554,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SummonRandomItem", luaSummonRandomItem);
     registerLuaFunction(pLuaState, "SummonGold", luaSummonGold);
     registerLuaFunction(pLuaState, "SetNPCTopic", luaSetNpcTopic);
+    registerLuaFunction(pLuaState, "TopicTitle", luaTopicTitle);
     registerLuaFunction(pLuaState, "MoveNPC", luaMoveNpc);
     registerLuaFunction(pLuaState, "GiveItem", luaGiveItem);
     registerLuaFunction(pLuaState, "ChangeEvent", luaChangeEvent);
@@ -10712,6 +10979,7 @@ bool EventRuntimeState::hasFacetInvisibleOverride(uint32_t faceId) const
 
 void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
 {
+    runtimeState.pendingDialogueClose = false;
     runtimeState.actorHostilityRequests.clear();
     runtimeState.actorGroupHostilityRequests.clear();
     runtimeState.dialogueState = {};
@@ -11312,7 +11580,8 @@ bool EventRuntime::canShowTopic(
     uint16_t topicId,
     const EventRuntimeState &runtimeState,
     const Party *pParty,
-    const ISceneEventContext *pSceneEventContext
+    const ISceneEventContext *pSceneEventContext,
+    std::string *pTitle
 ) const
 {
     if (topicId == 0 || !globalProgram)
@@ -11348,6 +11617,11 @@ bool EventRuntime::canShowTopic(
     if (!invokeLuaHandler(*this, iterator->second, executionContext, std::nullopt, &visible))
     {
         return false;
+    }
+
+    if (pTitle != nullptr && executionContext.canShowTopicTitle)
+    {
+        *pTitle = *executionContext.canShowTopicTitle;
     }
 
     return visible.value_or(true);

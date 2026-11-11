@@ -9715,7 +9715,8 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             &m_gameSession.gameplayFxService(),
             &m_gameDataLoader.getMergedBolsterMapTable(),
             &m_gameDataLoader.getMergedBolsterMonsterTable(),
-            selectedMap->itemSourceData ? &*selectedMap->itemSourceData : nullptr
+            selectedMap->itemSourceData ? &*selectedMap->itemSourceData : nullptr,
+            !restoreSavedOutdoorState
         );
         m_pOutdoorWorldRuntime->bindActorBehaviorCatalog(reloadActorBehaviorCatalog());
         timingLogger.stage("outdoor runtime initialized");
@@ -10075,6 +10076,11 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             pIndoorSceneRuntime->party().applyEventRuntimeState(*pEventRuntimeState, false);
             // A bounty another map's office posted here (an MM9 Jarl's) gets its target now.
             spawnPendingBountyHunt(pIndoorSceneRuntime->worldRuntime(), &pIndoorSceneRuntime->party());
+        }
+
+        if (!restoreSavedIndoorState)
+        {
+            pIndoorSceneRuntime->worldRuntime().rollPlacedWeaponLoot();
         }
 
         if (m_config.loadUniqueActorIndex.has_value()

@@ -1375,7 +1375,9 @@ void OutdoorRenderer::applyOutdoorSurfaceUniforms(OutdoorGameView &view)
     {
         const OutdoorLightingData &lighting = *view.m_pOutdoorMapData->lightingData;
         const OutdoorWorldRuntime::AtmosphereState &atmosphere = view.m_pOutdoorWorldRuntime->atmosphereState();
-        const std::array<std::array<float, 4>, 2> colors = view.bakedLightingColors(atmosphere);
+        std::array<std::array<float, 4>, 2> colors = view.bakedLightingColors(atmosphere);
+        // The map's open-sky value for the fog over covered points (bakedFogCoverShade); the colour lanes are as is.
+        colors[1][3] = lighting.openSkyIrradiance;
         bgfx::setUniform(view.m_bakedLightingUniformHandle, colors.data(), 2);
         std::array<float, 4> bounds = lighting.terrainBounds;
         const OutdoorLightmapAtlasPage &page = lighting.atlasPages[lighting.terrainPageIndex];

@@ -292,7 +292,11 @@ void OutdoorSpatialFxRuntime::syncPartyTorchLight(OutdoorGameView &view)
             {
                 return true;
             });
-        m_partyTorchShadeTarget = probe ? std::clamp(1.0f - probe->sunVisibility, 0.0f, 1.0f) : 0.0f;
+        // In a closed space (a cave) sampleProbe skips the probes there, as it does inside buildings (OY-137), and
+        // reads the open ones outside: the torch would go on and off with every step. Its nearest probe being an
+        // enclosed one means full shade.
+        m_partyTorchShadeTarget = pLighting->nearestProbeEnclosed(partyPosition) ? 1.0f
+            : probe ? std::clamp(1.0f - probe->sunVisibility, 0.0f, 1.0f) : 0.0f;
         m_partyTorchShadePosition = partyPosition;
         m_partyTorchShadeSampled = true;
     }

@@ -3315,6 +3315,46 @@ TEST_CASE("incoming monster hits do not add character recovery")
     CHECK_EQ(pMember->recoverySecondsRemaining, doctest::Approx(0.0f));
 }
 
+TEST_CASE("sparring counts the opponent's landed melee hits without damage and resolves the loss once")
+{
+    using namespace OpenYAMM::Game;
+    constexpr uint32_t ActorId = 64;
+    constexpr uint16_t LossEvent = 321;
+    struct RingWorld : PainReflectionTestWorldRuntime
+    {
+        std::vector<uint16_t> events;
+
+        bool executeMapEvent(uint16_t id, size_t &, std::optional<uint8_t>) override
+        {
+            events.push_back(id);
+            return true;
+        }
+    } world;
+    world.actorInfo = GameplayCombatActorInfo{.actorId = ActorId, .monsterLevel = 1, .attackBonus = 1000};
+    world.eventRuntimeState()->sparring = GameplaySparringState{
+        .actorId = ActorId, .partyGoal = 8, .opponentGoal = 2, .lossEvent = LossEvent,
+    };
+    Party party = makeMonsterSpecialAttackTestParty();
+    Character &member = *party.member(0);
+    const int health = member.health;
+    GameplayCombatController controller;
+    GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+    controller.recordPartyProjectileImpact(
+        ActorId, 12, 1000, 0, false, CombatDamageType::Physical, GameplayActorAttackAbility::Attack1);
+    for (int i = 0; i < 5; ++i)
+    {
+        controller.recordMonsterMeleeImpact(
+            ActorId, 12, 1000, CombatDamageType::Irresistible, GameplayActorAttackAbility::Attack1);
+    }
+    controller.handleAndClearPendingCombatEvents(context);
+
+    CHECK_EQ(member.health, health);
+    CHECK_EQ(world.eventRuntimeState()->sparring->opponentScore, 2);
+    CHECK_FALSE(world.eventRuntimeState()->sparring->active);
+    CHECK(world.reflectedDamageRequests.empty());
+    CHECK(world.events == std::vector<uint16_t>{LossEvent});
+}
+
 TEST_CASE("monster hour of power resistance bonus only affects OE elemental damage types")
 {
     constexpr int Damage = 64;

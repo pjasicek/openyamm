@@ -2329,6 +2329,7 @@ bool parseIndoorSceneActorNode(
         || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
         || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
         || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
+        || !readScalarNode(actorNode, "actor_profile", actor.actorProfile, errorMessage, false)
         || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
         || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)
         || !readScalarNode(actorNode, "dormant", actor.dormant, errorMessage, false)
@@ -3286,7 +3287,9 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
-    if (!parseArenaDefinition(rootNode, sceneData.arena, errorMessage))
+    if (!parseArenaDefinition(rootNode, sceneData.arena, errorMessage)
+        || !readScalarNode(rootNode, "roll_placed_weapon_loot", sceneData.itemSources.rollPlacedWeaponLoot,
+            errorMessage, false))
     {
         return false;
     }

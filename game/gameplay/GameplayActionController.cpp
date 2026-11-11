@@ -7,6 +7,7 @@
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/GameplaySparring.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/MeleeContactEffects.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
@@ -746,7 +747,8 @@ int resolveMeleeAppliedDamage(
     const GameplayActionController::PartyAttackActorFacts &target,
     const CharacterAttackResult &attack,
     std::mt19937 &rng,
-    int &elementalDamage)
+    int &elementalDamage,
+    bool recordCombatLog = true)
 {
     elementalDamage = 0;
     int appliedDamage = attack.damage;
@@ -833,7 +835,7 @@ int resolveMeleeAppliedDamage(
     hit.pItemTable = config.pItemTable;
     hit.targetCurrentHp = target.currentHp;
     hit.pRng = &rng;
-    return gameRulesFor(config.pParty).combat.damageToMonster(hit);
+    return gameRulesFor(config.pParty).combat.damageToMonster(hit, recordCombatLog);
 }
 
 std::mt19937 buildPartyAttackRng(
@@ -1535,6 +1537,9 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         }
     }
     attackContext.partyCount = config.pParty != nullptr ? int(std::max<size_t>(1, config.pParty->members().size())) : 1;
+    const bool sparringTarget = attack.mode == CharacterAttackMode::Melee && targetInMeleeRange
+        && isSparringOpponent(config.pWorldRuntime, target->actorIndex);
+    attackContext.sparring = sparringTarget;
     attackContext.pRng = &rng;
     gameRulesFor(config.pParty).combat.resolveCharacterAttack(attack, attackContext);
     result.attack = attack;
@@ -1559,7 +1564,22 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     {
         actionPerformed = attack.canAttack;
 
-        if (target
+        if (sparringTarget && attack.hit)
+        {
+            int elementalDamage = 0;
+            const int damage = resolveMeleeAppliedDamage(config, *pAttacker, *target, attack, rng,
+                elementalDamage, false);
+            attacked = damage > 0;
+            hitWithoutDamage = !attacked;
+            if (attacked)
+            {
+                // Keep melee control effects, but skip damage reactions and damage-triggered effects like Fangs.
+                config.pWorldRuntime->applyPartyAttackMeleeEffects(
+                    target->actorIndex, attack, toRuntimeWorldPoint(config.partyPosition));
+                scoreSparringHit(*config.pWorldRuntime, config.pRuntime, true, damage);
+            }
+        }
+        else if (target
             && targetInMeleeRange
             && attack.hit
             && config.pWorldRuntime != nullptr)
@@ -1934,6 +1954,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             .hadMeleeTarget = hadMeleeTarget,
             .killed = killed,
             .targetStrongEnemy = target.has_value() && target->maxHp >= 100,
+            .sparring = sparringTarget,
         });
 
     if (config.pWorldRuntime != nullptr)

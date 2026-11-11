@@ -1,6 +1,7 @@
 #include "game/rules/maw/MawMonsterLevels.h"
 
 #include "game/rules/maw/MawExperienceCurve.h"
+#include "game/rules/maw/MawMonsterRules.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -8,6 +9,7 @@
 #include <cctype>
 #include <cmath>
 #include <exception>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -39,6 +41,35 @@ bool MawMapLevels::loadFromYaml(const std::string &text, std::string &errorMessa
     try
     {
         const YAML::Node root = YAML::Load(text);
+
+        m_excludedBossAffixes.clear();
+        for (const auto &entry : root["boss_affix_exclusions"])
+        {
+            if (!entry.second.IsSequence())
+            {
+                throw std::runtime_error("boss_affix_exclusions must list affix names for each map");
+            }
+            uint32_t mask = 0;
+            for (const auto &name : entry.second)
+            {
+                const std::string wanted = lowerCopy(name.as<std::string>());
+                bool found = false;
+                for (uint8_t id = 1; id <= uint8_t(MawBossAffix::Skilled); ++id)
+                {
+                    if (lowerCopy(mawBossAffixName(MawBossAffix(id))) == wanted)
+                    {
+                        mask |= uint32_t(1) << id;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    throw std::runtime_error("unknown excluded boss affix: " + wanted);
+                }
+            }
+            m_excludedBossAffixes[lowerCopy(entry.first.as<std::string>())] = mask;
+        }
 
         for (const auto &entry : root["bands"])
         {
@@ -336,6 +367,14 @@ int MawMapLevels::madnessLevel(const std::string &mapFileName) const
 {
     const auto level = m_madnessLevels.find(lowerCopy(mapFileName));
     return level != m_madnessLevels.end() ? level->second : 0;
+}
+
+bool MawMapLevels::bossAffixAllowed(const std::string &mapFileName, MawBossAffix affix) const
+{
+    const auto excluded = m_excludedBossAffixes.find(lowerCopy(mapFileName));
+    const uint8_t id = uint8_t(affix);
+    return excluded == m_excludedBossAffixes.end() || id >= 32
+        || (excluded->second & (uint32_t(1) << id)) == 0;
 }
 
 bool mawLevelsMonster(int monsterId)

@@ -612,7 +612,7 @@ void setPendingDialogueContext(
     eventRuntimeState.pendingDialogueContext = std::move(context);
 }
 
-void executeNpcHook(
+bool executeNpcHook(
     GameplayDialogController::Context &context,
     EventRuntimeHookKind kind,
     uint32_t npcId,
@@ -620,7 +620,7 @@ void executeNpcHook(
 {
     if (context.pWorldRuntime == nullptr || npcId == 0)
     {
-        return;
+        return true;
     }
 
     EventRuntimeState::ActiveHookContext hookContext = {};
@@ -628,9 +628,18 @@ void executeNpcHook(
     hookContext.npcId = npcId;
     hookContext.actorIndex = sourceActorIndex;
     hookContext.heldItemId = context.pParty != nullptr ? context.pParty->heldItemIdForQueries() : 0;
+    const std::optional<EventRuntimeState::ActiveHookContext> previousHookContext =
+        context.eventRuntimeState.activeHookContext;
     context.eventRuntimeState.activeHookContext = std::move(hookContext);
     context.pWorldRuntime->executeEventHooks(kind);
-    context.eventRuntimeState.activeHookContext.reset();
+    const bool blocked = context.eventRuntimeState.activeHookContext
+        && context.eventRuntimeState.activeHookContext->blocked;
+    if (blocked && context.eventRuntimeState.activeHookContext->statusText)
+    {
+        context.eventRuntimeState.statusMessages.push_back(*context.eventRuntimeState.activeHookContext->statusText);
+    }
+    context.eventRuntimeState.activeHookContext = previousHookContext;
+    return !blocked;
 }
 
 // What a quest pays is measured around the event that pays it: the party's gold and the first member's experience.
@@ -1537,6 +1546,21 @@ void cancelMapTransition(GameplayDialogController::Context &context)
     {
         context.pWorldRuntime->cancelPendingMapTransition();
     }
+}
+
+bool consumeScriptedDialogueClose(
+    GameplayDialogController::Context &context,
+    const std::optional<EventRuntimeState::PendingDialogueContext> &previousContext)
+{
+    const bool requested = context.eventRuntimeState.pendingDialogueClose;
+    context.eventRuntimeState.pendingDialogueClose = false;
+    if (!requested || (context.eventRuntimeState.pendingDialogueContext
+        && !samePendingDialogueContext(context.eventRuntimeState.pendingDialogueContext, previousContext)))
+    {
+        return false;
+    }
+    return executeNpcHook(context, EventRuntimeHookKind::NpcExit,
+        context.activeEventDialog.sourceId, context.activeEventDialog.sourceActorIndex);
 }
 
 // A topic that paid the party gold and the first member experience may pay extra gold under the rules (MAW).
@@ -4758,6 +4782,12 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back(Engine::tr("That topic does not have an event yet."));
         }
 
+        if (consumeScriptedDialogueClose(context, previousPendingDialogueContext))
+        {
+            result.shouldCloseActiveDialog = true;
+            return result;
+        }
+
         if (!context.eventRuntimeState.pendingDialogueContext
             || samePendingDialogueContext(
                 context.eventRuntimeState.pendingDialogueContext,
@@ -4845,6 +4875,12 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         }
 
         if (context.eventRuntimeState.pendingDimensionDoorOverlay)
+        {
+            result.shouldCloseActiveDialog = true;
+            return result;
+        }
+
+        if (consumeScriptedDialogueClose(context, previousPendingDialogueContext))
         {
             result.shouldCloseActiveDialog = true;
             return result;
@@ -5345,6 +5381,17 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
         ? collectSelectableResidentNpcIds(*pHostHouseEntry, *context.pNpcDialogTable, context.eventRuntimeState)
         : std::vector<uint32_t>{};
 
+    // Leaving a resident for the house's services is also leaving that NPC. Run the veto before any exit effects.
+    if (!isResidentSelectionMode && context.activeEventDialog.sourceId != 0
+        && (!context.activeEventDialog.isHouseDialog
+            || (context.eventRuntimeState.pendingDialogueContext
+                && context.eventRuntimeState.pendingDialogueContext->kind == DialogueContextKind::NpcTalk))
+        && !executeNpcHook(context, EventRuntimeHookKind::NpcExit,
+            context.activeEventDialog.sourceId, context.activeEventDialog.sourceActorIndex))
+    {
+        return result;
+    }
+
     if (!context.activeEventDialog.isHouseDialog
         && !isResidentSelectionMode
         && pHostHouseEntry != nullptr
@@ -5510,15 +5557,6 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
             suspended.selectionIndex,
             context.activeEventDialog.actions.empty() ? 0 : context.activeEventDialog.actions.size() - 1);
         return result;
-    }
-
-    if (!context.activeEventDialog.isHouseDialog && context.activeEventDialog.sourceId != 0)
-    {
-        executeNpcHook(
-            context,
-            EventRuntimeHookKind::NpcExit,
-            context.activeEventDialog.sourceId,
-            context.activeEventDialog.sourceActorIndex);
     }
 
     const DialogueContextKind pendingKind =

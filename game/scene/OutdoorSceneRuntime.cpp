@@ -745,6 +745,7 @@ bool OutdoorSceneRuntime::processMonsterKilledEvents()
         context.actorIndex = event.actorIndex;
         context.monsterId = event.monsterId;
         context.byParty = event.byParty;
+        context.npcId = event.npcId;
         pState->activeHookContext = std::move(context);
         executed = executeEventHooks(EventRuntimeHookKind::MonsterKilled) || executed;
     }

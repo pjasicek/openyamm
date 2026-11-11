@@ -2392,6 +2392,15 @@ bool loadMap(
     context.currentMapFileName = mapFileName;
     scenarioLog(context, ScenarioLogColor::Green, "LOAD data complete map=" + mapFileName);
 
+    // The native map loader already ran these events with its real scene. Do not replay them in a shadow
+    // party without a world: scene-dependent handlers cannot execute there, and their state is not authoritative.
+    if (context.runtimeDriver && context.runtimeDriver->hasActiveRuntime()
+        && lowerAscii(context.runtimeDriver->currentMapFileName()) == lowerAscii(mapFileName))
+    {
+        syncContextFromRuntime(context);
+        return true;
+    }
+
     const std::optional<MapAssetInfo> &selectedMap = context.gameDataLoader.getSelectedMap();
     if (selectedMap && selectedMap->eventRuntimeState)
     {
@@ -3516,6 +3525,7 @@ bool runPartyAttack(ScenarioExecutionContext &context, const ScenarioStep &step,
     request.actorIndex = scenarioActorIndex(context, step.payload["actor_index"]);
     request.memberIndex = step.payload["member_index"].as<size_t>(0);
     request.count = step.payload["count"].as<int>(100);
+    request.atPartyPose = step.payload["at_party_pose"].as<bool>(false);
 
     if (step.payload["attack_spell"])
     {
@@ -5320,6 +5330,12 @@ bool assertCombatLog(
     size_t withStages = 0;
     size_t critical = 0;
     const std::deque<CombatLogEntry> &entries = context.runtimeDriver->combatLog().entries();
+    if (node["entries"] && entries.size() != node["entries"].as<size_t>())
+    {
+        failures.push_back(stepLocation(step) + ": combat_log expected " + node["entries"].as<std::string>()
+            + " entries, found " + std::to_string(entries.size()));
+        return false;
+    }
     for (const CombatLogEntry &entry : entries)
     {
         (entry.kind == CombatLogKind::Dealt ? dealt : entry.kind == CombatLogKind::Taken ? taken : loot) += 1;
@@ -5342,6 +5358,44 @@ bool assertCombatLog(
         }
     }
 
+    return true;
+}
+
+bool assertSparring(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node match = step.payload["sparring"];
+    const YAML::Node status = step.payload["status_text"];
+    if (status)
+    {
+        const std::string actual = context.runtimeDriver ? context.runtimeDriver->statusText() : std::string{};
+        if (actual != status.as<std::string>())
+        {
+            failures.push_back(stepLocation(step) + ": unexpected status text '" + actual + "'");
+            return false;
+        }
+    }
+    if (!match)
+    {
+        return true;
+    }
+
+    const EventRuntimeState *pEvents = context.runtimeDriver ? context.runtimeDriver->eventRuntimeState() : nullptr;
+    const GameplaySparringState *pMatch = pEvents != nullptr && pEvents->sparring ? &*pEvents->sparring : nullptr;
+    if ((match["active"] && match["active"].as<bool>() != (pMatch != nullptr && pMatch->active))
+        || (match["party_score"] && (pMatch == nullptr || match["party_score"].as<int>() != pMatch->partyScore))
+        || (match["opponent_score"]
+            && (pMatch == nullptr || match["opponent_score"].as<int>() != pMatch->opponentScore)))
+    {
+        const std::string score = pMatch != nullptr
+            ? std::to_string(pMatch->partyScore) + "/" + std::to_string(pMatch->opponentScore)
+                + (pMatch->active ? " active" : " finished")
+            : "no match";
+        failures.push_back(stepLocation(step) + ": unexpected sparring state: " + score);
+        return false;
+    }
     return true;
 }
 
@@ -6648,14 +6702,16 @@ bool runInteractActor(
         return false;
     }
 
-    if (!step.payload["actor_index"] || !step.payload["actor_index"].IsScalar())
+    const bool byIndex = step.payload["actor_index"] && step.payload["actor_index"].IsScalar();
+    const bool byNpc = step.payload["npc_id"] && step.payload["npc_id"].IsScalar();
+    if (!byIndex && !byNpc)
     {
         if (context.mode != ScenarioMode::Faithful)
         {
             return true;
         }
 
-        failures.push_back(stepLocation(step) + ": interact_actor requires scalar field 'actor_index'");
+        failures.push_back(stepLocation(step) + ": interact_actor requires 'actor_index' or 'npc_id'");
         return false;
     }
 
@@ -6689,8 +6745,31 @@ bool runInteractActor(
     }
 
     std::string failure;
-    const ScenarioInteractionResult interaction =
-        context.runtimeDriver->activateActor(step.payload["actor_index"].as<size_t>(), failure);
+    size_t actorIndex = byIndex ? step.payload["actor_index"].as<size_t>() : 0;
+    // Recorded interactions may also carry npc_id as an annotation. Their explicit actor_index keeps priority.
+    if (byNpc && !byIndex)
+    {
+        const uint32_t npcId = step.payload["npc_id"].as<uint32_t>();
+        const IGameplayWorldRuntime *pWorld = std::as_const(*context.runtimeDriver).worldRuntime();
+        size_t matches = 0;
+        for (size_t index = 0; pWorld != nullptr && index < pWorld->mapActorCount(); ++index)
+        {
+            GameplayRuntimeActorState actor;
+            if (npcId != 0 && pWorld->actorRuntimeState(index, actor) && actor.npcId == npcId
+                && !actor.isDead && actor.currentHp > 0 && !actor.isInvisible)
+            {
+                actorIndex = index;
+                ++matches;
+            }
+        }
+        if (matches != 1)
+        {
+            failures.push_back(stepLocation(step) + ": interact_actor npc_id=" + std::to_string(npcId)
+                + " needs exactly one living visible actor, found " + std::to_string(matches));
+            return false;
+        }
+    }
+    const ScenarioInteractionResult interaction = context.runtimeDriver->activateActor(actorIndex, failure);
 
     // activated: false expects the actor to refuse the use (no dialogue, no event): an MM9 dog.
     if (step.payload["activated"] && step.payload["activated"].IsScalar() && !step.payload["activated"].as<bool>())
@@ -10112,6 +10191,13 @@ bool assertActorVisible(
     };
     success = checkRuntimeField("current_hp", std::to_string(inspectState.currentHp)) && success;
     success = checkRuntimeField("max_hp", std::to_string(inspectState.maxHp)) && success;
+    success = checkRuntimeField("spell1", inspectState.spell1Name) && success;
+    success = checkRuntimeField("spell2", inspectState.spell2Name) && success;
+    success = checkRuntimeField("spell1_skill", std::to_string(inspectState.spell1SkillLevel)) && success;
+    success = checkRuntimeField("spell2_skill", std::to_string(inspectState.spell2SkillLevel)) && success;
+    success = checkRuntimeField("spell1_mastery", std::to_string(int(inspectState.spell1SkillMastery))) && success;
+    success = checkRuntimeField("spell2_mastery", std::to_string(int(inspectState.spell2SkillMastery))) && success;
+    success = checkRuntimeField("heroism", boolText(inspectState.heroismRemainingSeconds > 0)) && success;
 
     for (const char *pKey : {"hostile_to_party", "has_detected_party", "combat_targeting_party"})
     {
@@ -11564,6 +11650,7 @@ bool runAssert(
     success = assertAiTrace(context, step, failures) && success;
     success = assertProjectiles(context, step, failures) && success;
     success = assertPartyHealth(context, step, failures) && success;
+    success = assertSparring(context, step, failures) && success;
     success = assertBuff(context, step, failures) && success;
     success = assertCondition(context, step, failures) && success;
     success = assertHomingEnds(context, step, failures) && success;

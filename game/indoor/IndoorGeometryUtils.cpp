@@ -456,7 +456,8 @@ bool isPointInsideProjectedPolygon(
     return inside;
 }
 
-bool isPointInsideFaceXYPolygon(const bx::Vec3 &point, const std::vector<bx::Vec3> &vertices)
+bool isPointInsideFaceXYPolygon(const bx::Vec3 &point, const std::vector<bx::Vec3> &vertices,
+    float containmentSlack = FloorContainmentSlack)
 {
     if (vertices.size() < 3)
     {
@@ -491,7 +492,7 @@ bool isPointInsideFaceXYPolygon(const bx::Vec3 &point, const std::vector<bx::Vec
         {
             const float deltaX = point.x - start.x;
             const float deltaY = point.y - start.y;
-            return deltaX * deltaX + deltaY * deltaY <= FloorContainmentSlack * FloorContainmentSlack;
+            return deltaX * deltaX + deltaY * deltaY <= containmentSlack * containmentSlack;
         }
 
         const float projected =
@@ -501,7 +502,7 @@ bool isPointInsideFaceXYPolygon(const bx::Vec3 &point, const std::vector<bx::Vec
         const float closestY = start.y + segmentY * clampedProjected;
         const float deltaX = point.x - closestX;
         const float deltaY = point.y - closestY;
-        return deltaX * deltaX + deltaY * deltaY <= FloorContainmentSlack * FloorContainmentSlack;
+        return deltaX * deltaX + deltaY * deltaY <= containmentSlack * containmentSlack;
     };
 
     bool inside = false;
@@ -2220,7 +2221,9 @@ IndoorCeilingSample sampleIndoorCeiling(
 
             const bx::Vec3 point = {x, y, pGeometry->vertices.front().z};
 
-            if (!isPointInsideFaceXYPolygon(point, pGeometry->vertices))
+            // Floor support may extend across small tread gaps. A ceiling must stop at its polygon edge:
+            // extrapolating a stair landing's underside can invent a ceiling above the landing itself.
+            if (!isPointInsideFaceXYPolygon(point, pGeometry->vertices, 0.0f))
             {
                 continue;
             }

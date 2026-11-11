@@ -3330,3 +3330,73 @@ TEST_CASE("an evt.MoveActorTo walk takes an actor to its point instead of its ow
     frame.activeActors = {actor};
     CHECK_FALSE(system.updateActors(frame).actorUpdates.front().movementIntent.applyMovement);
 }
+
+TEST_CASE("shared actor AI casts self buffs and healing in melee without an offensive ranged commitment")
+{
+    for (const auto &[name, id] : {std::pair{"heroism", 51u}, std::pair{"power cure", 77u}})
+    {
+        for (const bool secondSlot : {false, true})
+        {
+            CAPTURE(name);
+            CAPTURE(secondSlot);
+            ActorAiFrameFacts frame = makeFrame();
+            ActorAiFacts actor = makeActor(1, 400);
+            actor.world.active = true;
+            actor.identity.hostilityType = 4;
+            actor.status.hostileToParty = true;
+            actor.status.hasDetectedParty = true;
+            actor.stats.currentHp = 50;
+            actor.stats.maxHp = 100;
+            actor.stats.attackConstraints.rangedCommitAllowed = false;
+            actor.movement.inMeleeRange = true;
+            actor.movement.movementAllowed = true;
+            actor.target.currentKind = ActorAiTargetKind::Party;
+            actor.target.currentCanSense = true;
+            actor.target.currentHasAttackLineOfSight = false;
+            actor.target.partyCanSenseActor = true;
+            actor.target.currentDistance = 100;
+            actor.target.currentEdgeDistance = 20;
+            actor.target.currentPosition = {0, 0, 64};
+            (secondSlot ? actor.stats.hasSpell2 : actor.stats.hasSpell1) = true;
+            (secondSlot ? actor.stats.spell2Name : actor.stats.spell1Name) = name;
+            (secondSlot ? actor.stats.spell2Id : actor.stats.spell1Id) = id;
+            (secondSlot ? actor.stats.spell2UseChance : actor.stats.spell1UseChance) = 100;
+            (secondSlot ? actor.stats.spell2SkillLevel : actor.stats.spell1SkillLevel) = 4;
+            (secondSlot ? actor.stats.spell2SkillMastery : actor.stats.spell1SkillMastery)
+                = OpenYAMM::Game::SkillMastery::Expert;
+            frame.activeActors.push_back(actor);
+            GameplayActorAiSystem system;
+            const auto chosen = system.updateActors(frame);
+            REQUIRE_EQ(chosen.actorUpdates.size(), 1);
+            const auto &choice = chosen.actorUpdates[0];
+            REQUIRE(choice.state.queuedAttackAbility);
+            const auto ability = secondSlot ? GameplayActorAttackAbility::Spell2 : GameplayActorAttackAbility::Spell1;
+            CHECK_EQ(*choice.state.queuedAttackAbility, ability);
+            frame.activeActors[0].runtime.motionState = ActorAiMotionState::Attacking;
+            frame.activeActors[0].runtime.queuedAttackAbility = ability;
+            frame.activeActors[0].runtime.actionSeconds = 0;
+            const auto completed = system.updateActors(frame);
+            const auto &state = completed.actorUpdates[0].state;
+            CHECK(completed.projectileRequests.empty());
+            if (id == 51)
+            {
+                REQUIRE(state.spellEffects);
+                CHECK(state.spellEffects->heroismRemainingSeconds > 0);
+                CHECK_EQ(state.spellEffects->heroismPower, 9);
+            }
+            else
+            {
+                REQUIRE(state.currentHp);
+                CHECK_EQ(*state.currentHp, 80);
+            }
+            // Offensive magic still needs an ordinary ranged opportunity.
+            frame.activeActors[0] = actor;
+            (secondSlot ? frame.activeActors[0].stats.spell2Name : frame.activeActors[0].stats.spell1Name)
+                = "fire bolt";
+            const auto offensive = system.updateActors(frame);
+            const auto offensiveAbility = offensive.actorUpdates[0].state.queuedAttackAbility;
+            CHECK((!offensiveAbility || *offensiveAbility == GameplayActorAttackAbility::Attack1));
+            CHECK(offensive.projectileRequests.empty());
+        }
+    }
+}

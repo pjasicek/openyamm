@@ -92,12 +92,23 @@ struct OutdoorLightingData
     std::vector<Dependency> dependencies;
     std::vector<Probe> probes;
     std::unordered_map<uint64_t, std::vector<uint32_t>> probesByCell;
+    // Probes that see neither sky nor sun (indexProbes leaves them out of probesByCell): inside a building, or in a
+    // walkable enclosed space such as a cave.
+    std::unordered_map<uint64_t, std::vector<uint32_t>> enclosedProbesByCell;
+    // The sky light an open point receives (brightest channel, linear): the 90th percentile of the terrain sky page,
+    // which is mostly open ground and water. Shaders measure a point's cover against it (bakedFogCoverShade); 0 when
+    // the bake has no sky page.
+    float openSkyIrradiance = 0.0f;
 
     bool hasBakedSources() const
     {
         return bakedSourcePages;
     }
     void indexProbes();
+    // True when the probe nearest to a point is an enclosed one: the point is in a closed space (a cave) whose own
+    // probes sampleProbe skips, so the open probes it would use instead say nothing about the light there.
+    bool nearestProbeEnclosed(const std::array<float, 3> &position) const;
+    void measureOpenSky();
     std::vector<uint32_t> decodeDirectSunPage(uint32_t sunPageIndex) const;
     std::optional<Probe> sampleProbe(
         const std::array<float, 3> &position,

@@ -8,6 +8,9 @@
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/party/Party.h"
+#include "game/rules/maw/MawRules.h"
+#include "game/tables/SpellTable.h"
+#include "tests/PartySpellTestHarness.h"
 
 #include <filesystem>
 #include <fstream>
@@ -174,6 +177,109 @@ TEST_CASE("an item an event gives waits for the hand-over through the events tha
     REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9021, runtimeState, nullptr));
     REQUIRE_EQ(runtimeState.grantedItems.size(), 1u);
     CHECK_EQ(runtimeState.grantedItems.front().objectDescriptionId, 244u);
+}
+
+TEST_CASE("evt.GetCurrentMapName gives the map's file name, which the scripts compare")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9007, \"Map name\", function()\n"
+        "    evt.StatusText(evt.GetCurrentMapName())\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@map_name_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    runtimeState.mapFileName = "oakhome.blv";
+
+    CHECK(eventRuntime.executeEventById(std::nullopt, program, 9007, runtimeState, nullptr));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.front(), "oakhome.blv");
+}
+
+TEST_CASE("evt.QuestGold scales a sum as the party's rules scale quest gold; evt.TopicTitle names a listed topic")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9020, \"Sums\", function()\n"
+        "    evt.StatusText(tostring(evt.QuestGold(1000)) .. \" \" .. tostring(evt.QuestGold(0)))\n"
+        "end)\n"
+        "RegisterCanShowTopic(9021, function()\n"
+        "    evt.TopicTitle((\"Pay: Ransom (%dg)\"):format(evt.QuestGold(1000)))\n"
+        "    return true\n"
+        "end)\n"
+        "RegisterCanShowTopic(9022, function() return true end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@quest_gold_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    const auto title = [&](uint16_t topicId, const Party &party)
+    {
+        std::string named = "row";
+        CHECK(eventRuntime.canShowTopic(program, topicId, runtimeState, &party, nullptr, &named));
+        return named;
+    };
+    Party party = {};
+    PartySeed seed = {};
+    Character member = {};
+    member.name = "Ada";
+    seed.members = {member};
+    party.seed(seed);
+
+    // The standard rules add nothing.
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9020, runtimeState, &party));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.back(), "1000 0");
+    CHECK_EQ(title(9021, party), "Pay: Ransom (1000g)");
+    // A handler that names no title leaves the caller's.
+    CHECK_EQ(title(9022, party), "row");
+
+    // MAW's calculateGold: gold * level / 100 + 250 * level on top, level 83.
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    rules.state().continentLevels[1] = 83;     // levels banked on another continent (levelOutside)
+    party.setRules(&rules.gameRules());
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9020, runtimeState, &party));
+    const int scaled = 1000 + rules.gameRules().experience.questGoldBonus(1000, runtimeState.activeHistoryContinentId);
+    CHECK_GT(scaled, 1000);
+    CHECK_EQ(runtimeState.statusMessages.back(), std::to_string(scaled) + " 0");
+    CHECK_EQ(title(9021, party), "Pay: Ransom (" + std::to_string(scaled) + "g)");
+}
+
+TEST_CASE("a topic's can-show handler reads a map actor's position (read-only scene)")
+{
+    // A captive offers a topic only while the party stands near his actor.
+    struct ActorScene : MissileScene
+    {
+        bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override
+        {
+            if (actorIndex != 17)
+            {
+                return false;
+            }
+            x = -4709.0f;
+            y = -929.0f;
+            z = -770.0f;
+            return true;
+        }
+    };
+    const std::string source = eventSupportText() + "\n"
+        "RegisterCanShowTopic(9023, function()\n"
+        "    local x, y, z = evt.GetMapActorPosition(17)\n"
+        "    evt.TopicTitle(x and (\"%d %d %d\"):format(x, y, z) or \"none\")\n"
+        "    return x ~= nil\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@actor_position_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    ActorScene scene;
+    std::string title;
+    CHECK(eventRuntime.canShowTopic(program, 9023, runtimeState, nullptr, &scene, &title));
+    CHECK_EQ(title, "-4709 -929 -770");
 }
 
 TEST_CASE("evt.SetSectorAmbient overrides a sector's ambient level until a negative level restores the map's")
@@ -803,3 +909,321 @@ TEST_CASE("a handler that runs another one from inside keeps its own context aft
     CHECK_EQ(runtimeState.namedMapVars.at("AfterKill"), 7);
     REQUIRE(runtimeState.actorGroupAllyOverrides.contains(2));
 }
+
+TEST_CASE("event spell lessons learn only catalogued spells on the selected writable party member")
+{
+    struct SpellScene : MissileScene
+    {
+        SpellTable spells;
+        const SpellTable *spellTable() const override { return &spells; }
+    } scene;
+    REQUIRE(scene.spells.loadFromRows({{"1", "", "Fire Bolt", "Fire", "Bolt", "A spark"}}));
+    const std::string source = eventSupportText() + R"lua(
+RegisterGlobalEvent(9040, "Learn", function()
+    evt.SetGlobalVar("learned", evt.LearnPartyMemberSpell(1, 1) and 1 or 0)
+end)
+RegisterGlobalEvent(9041, "Invalid", function()
+    assert(not evt.LearnPartyMemberSpell(-1, 1))
+    assert(not evt.LearnPartyMemberSpell(99, 1))
+    assert(not evt.LearnPartyMemberSpell(0, 0))
+    assert(not evt.LearnPartyMemberSpell(0, -1))
+    assert(not evt.LearnPartyMemberSpell(0, 9999))
+    assert(evt.GetSpellName(9999) == nil)
+end)
+RegisterCanShowTopic(9042, function()
+    assert(not evt.LearnPartyMemberSpell(0, 1))
+    evt.TopicTitle(evt.GetSpellName(1))
+    return true
+end)
+)lua";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@spell_lesson.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime runtime;
+    EventRuntimeState state;
+    Party party;
+    PartySeed seed;
+    seed.members.resize(2);
+    party.seed(seed);
+    std::string title;
+    CHECK(runtime.canShowTopic(program, 9042, state, &party, &scene, &title));
+    CHECK_EQ(title, "Fire Bolt");
+    CHECK_FALSE(party.member(0)->knowsSpell(1));
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9041, state, &party, &scene));
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9040, state, &party, &scene));
+    CHECK_EQ(state.namedGlobalVars.at("learned"), 1);
+    CHECK(party.member(1)->knowsSpell(1));
+    CHECK_FALSE(party.member(0)->knowsSpell(1));
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9040, state, &party, &scene));
+    CHECK_EQ(state.namedGlobalVars.at("learned"), 0);
+    Party restored;
+    restored.restoreSnapshot(party.snapshot());
+    CHECK(restored.member(1)->knowsSpell(1));
+    // No catalogue is not permission to add arbitrary spell ids.
+    CHECK(runtime.executeEventById(std::nullopt, program, 9040, state, &party));
+    CHECK_EQ(state.namedGlobalVars.at("learned"), 0);
+}
+
+TEST_CASE("a scripted dialogue close is a transient topic output and cannot be requested by can-show or map events")
+{
+    const std::string source = eventSupportText() + R"lua(
+RegisterGlobalEvent(9043, "Close", function() evt.CloseDialog() end)
+RegisterGlobalEvent(9044, "Ordinary", function() end)
+RegisterCanShowTopic(9043, function() evt.CloseDialog(); return true end)
+)lua";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@dialogue_close.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime runtime;
+    EventRuntimeState state;
+    CHECK(runtime.canShowTopic(program, 9043, state, nullptr));
+    CHECK_FALSE(state.pendingDialogueClose);
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9043, state));
+    CHECK_FALSE(state.pendingDialogueClose);
+    REQUIRE(runtime.executeNpcTopicEventById(std::nullopt, program, 9043, state));
+    CHECK(state.pendingDialogueClose);
+    REQUIRE(runtime.executeNpcTopicEventById(std::nullopt, program, 9044, state));
+    CHECK_FALSE(state.pendingDialogueClose);
+    REQUIRE(runtime.executeNpcTopicEventById(std::nullopt, program, 9043, state));
+    clearTransientEventRuntimeState(state);
+    CHECK_FALSE(state.pendingDialogueClose);
+}
+
+
+namespace
+{
+class EventActorScene : public MissileScene, public OpenYAMM::Tests::PartySpellTestWorldRuntime
+{
+public:
+    std::vector<GameplayRuntimeActorState> actors;
+    std::vector<GameplayMonsterSpawnRequest> spawns;
+    int lastHealAmount = 0;
+
+    size_t mapActorCount() const override { return actors.size(); }
+    bool actorRuntimeState(size_t index, GameplayRuntimeActorState &state) const override
+    {
+        if (index >= actors.size())
+        {
+            return false;
+        }
+        state = actors[index];
+        return true;
+    }
+    bool actorInspectState(size_t index, uint32_t, GameplayActorInspectState &state) const override
+    {
+        if (index >= actors.size())
+        {
+            return false;
+        }
+        state.currentHp = actors[index].currentHp;
+        state.maxHp = actors[index].maxHp;
+        return true;
+    }
+    bool healMapActor(size_t index, int amount) override
+    {
+        lastHealAmount = amount;
+        actors[index].currentHp += amount;
+        return true;
+    }
+    std::vector<size_t> spawnMonsters(const GameplayMonsterSpawnRequest &request) override
+    {
+        spawns.push_back(request);
+        std::vector<size_t> indices;
+        for (uint32_t n = 0; n < request.count; ++n)
+        {
+            GameplayRuntimeActorState actor;
+            actor.npcId = request.npcId;
+            actor.monsterId = request.monsterId;
+            actor.group = request.group;
+            actor.currentHp = actor.maxHp = 100;
+            indices.push_back(actors.size());
+            actors.push_back(actor);
+        }
+        return indices;
+    }
+};
+
+class EventMapItemScene : public EventActorScene
+{
+public:
+    std::vector<GameplayWorldItemInspectState> items;
+    bool worldItemInspectState(size_t index, GameplayWorldItemInspectState &item) const override
+    {
+        if (index >= items.size())
+        {
+            return false;
+        }
+        item = items[index];
+        return true;
+    }
+    bool takeWorldItemInspectState(size_t index, GameplayWorldItemInspectState &item) override
+    {
+        if (!worldItemInspectState(index, item))
+        {
+            return false;
+        }
+        items.erase(items.begin() + std::ptrdiff_t(index));
+        return true;
+    }
+};
+}
+
+TEST_CASE("Lua ground item removal checks identity and read-only access without granting items or gold")
+{
+    EventMapItemScene scene;
+    GameplayWorldItemInspectState item;
+    item.item.objectDescriptionId = 1009;
+    scene.items.push_back(item);
+    item.item.objectDescriptionId = 198;
+    item.isGold = true;
+    item.goldAmount = 1000;
+    scene.items.push_back(item);
+    const std::string source = eventSupportText() + R"lua(
+RegisterCanShowTopic(9065, function()
+    assert(not evt.RemoveMapItem(1, 198))
+    return true
+end)
+RegisterEvent(9066, nil, function()
+    assert(not evt.RemoveMapItem(-1, 1009))
+    assert(not evt.RemoveMapItem(99, 1009))
+    assert(not evt.RemoveMapItem(0, 0))
+    assert(not evt.RemoveMapItem(0, -1))
+    assert(not evt.RemoveMapItem(0, 0x100000000))
+    assert(not evt.RemoveMapItem(0, 198))
+    assert(evt.RemoveMapItem(1, 198))
+    assert(evt.RemoveMapItem(0, 1009))
+    assert(not evt.RemoveMapItem(0, 1009))
+end)
+)lua";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+        source, "@remove_map_item.lua", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(program, error);
+    EventRuntime runtime;
+    EventRuntimeState state;
+    Party party;
+    party.seed(Party::createDefaultSeed());
+    const int gold = party.gold();
+    CHECK(runtime.canShowTopic(program, 9065, state, &party, &scene));
+    REQUIRE_EQ(scene.items.size(), 2);
+    CHECK(runtime.executeEventById(program, std::nullopt, 9066, state, &party, &scene));
+    CHECK(scene.items.empty());
+    CHECK_EQ(party.gold(), gold);
+    CHECK_EQ(party.inventoryItemCount(1009), 0);
+    CHECK(state.grantedItemIds.empty());
+    CHECK(state.grantedItems.empty());
+}
+
+TEST_CASE("event actor queries include live summons, dead and hidden identities; healing is bounded and writable only")
+{
+    EventActorScene scene;
+    GameplayRuntimeActorState actor;
+    actor.npcId = 41;
+    actor.group = 7;
+    actor.monsterId = 10;
+    actor.currentHp = actor.maxHp = 100;
+    scene.actors.push_back(actor);
+    actor.monsterId = 11;
+    actor.currentHp = 0;
+    actor.isDead = true;
+    scene.actors.push_back(actor);
+    actor.npcId = 42;
+    actor.group = 8;
+    actor.monsterId = 10;
+    actor.currentHp = 300;
+    actor.maxHp = 400;
+    actor.isDead = false;
+    actor.isInvisible = true;
+    scene.actors.push_back(actor);
+    const std::string source = eventSupportText() + R"lua(
+RegisterCanShowTopic(9060, function()
+    assert(#evt.GetMapActors{npcId = 41} == 2)
+    assert(not evt.HealMapActor(2, 100))
+    return true
+end)
+RegisterGlobalEvent(9061, "Queries", function()
+    assert(#evt.GetMapActors{} == 3)
+    assert(#evt.GetMapActors{alive = true} == 2)
+    assert(evt.GetMapActors{alive = false}[1] == 1)
+    assert(evt.GetMapActors{group = 8, monsterId = 10, alive = true}[1] == 2)
+    assert(#evt.GetMapActors{npcId = 99} == 0)
+    assert(not pcall(function() evt.GetMapActors{npcId = -1} end))
+end)
+RegisterGlobalEvent(9062, "Heal", function()
+    assert(not evt.HealMapActor(-1, 10))
+    assert(not evt.HealMapActor(0, 10))
+    assert(not evt.HealMapActor(1, 10))
+    assert(not evt.HealMapActor(99, 10))
+    assert(not evt.HealMapActor(2, 0))
+    assert(not evt.HealMapActor(2, -1))
+    assert(evt.HealMapActor(2, 0x7fffffff))
+    local hp, maxHp = evt.GetMapActorHealth(2)
+    assert(hp == maxHp and hp == 400)
+end)
+)lua";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@actor_queries.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime runtime;
+    EventRuntimeState state;
+    CHECK(runtime.canShowTopic(program, 9060, state, nullptr, &scene));
+    CHECK_EQ(scene.actors[2].currentHp, 300);
+    CHECK_EQ(scene.lastHealAmount, 0);
+    CHECK(runtime.executeEventById(std::nullopt, program, 9061, state, nullptr, &scene));
+    CHECK(runtime.executeEventById(std::nullopt, program, 9062, state, nullptr, &scene));
+    CHECK_EQ(scene.lastHealAmount, 100);
+    CHECK_EQ(scene.actors[2].currentHp, 400);
+}
+
+
+TEST_CASE("NPC summons return count and live indices, reject invalid identity requests and retain non-NPC calls")
+{
+    REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    const std::string source = eventSupportText() + R"lua(
+RegisterGlobalEvent(9063, "NPC spawn", function()
+    local count, actors = evt.SummonMonstersById{monster = 10, count = 1, npcId = 41, group = 17}
+    assert(count == 1 and #actors == 1 and actors[1] == 0)
+    assert(evt.GetMapActors{npcId = 41, group = 17}[1] == actors[1])
+end)
+RegisterGlobalEvent(9064, "Reject invalid identities", function()
+    for _, request in ipairs{
+        {monster = 10, count = 1, npcId = -1},
+        {monster = 10, count = 1, npcId = 32768},
+        {monster = 10, count = 1, npcId = 30000},
+        {monster = 10, count = 2, npcId = 41},
+    } do assert(not pcall(function() evt.SummonMonstersById(request) end)) end
+end)
+RegisterGlobalEvent(9065, "Existing MAW summon", function()
+    local count = evt.SummonMonstersById{monster = 11, count = 2, group = 20}
+    assert(count == 2)
+    local actors = evt.GetMapActors{monsterId = 11, group = 20}
+    assert(#actors == 2 and actors[1] == 1 and actors[2] == 2)
+end)
+RegisterCanShowTopic(9066, function()
+    local count, actors = evt.SummonMonstersById{monster = 10}
+    return count == 0 and #actors == 0
+end)
+)lua";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@npc_summons.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime runtime(nullptr, &OpenYAMM::Tests::regressionGameData().npcDialogTable);
+    EventRuntimeState state;
+    EventActorScene scene;
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9063, state, nullptr, &scene));
+    REQUIRE_EQ(scene.spawns.size(), 1u);
+    CHECK_EQ(scene.spawns.front().npcId, 41u);
+    CHECK_EQ(scene.spawns.front().group, 17u);
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9064, state, nullptr, &scene));
+    CHECK_EQ(scene.spawns.size(), 1u);
+    REQUIRE(runtime.executeEventById(std::nullopt, program, 9065, state, nullptr, &scene));
+    CHECK_EQ(scene.spawns.back().npcId, 0u);
+    CHECK(runtime.canShowTopic(program, 9066, state, nullptr, &scene));
+    CHECK_EQ(scene.spawns.size(), 2u);
+}
+

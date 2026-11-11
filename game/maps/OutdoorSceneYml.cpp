@@ -1569,6 +1569,7 @@ bool parseOutdoorActor(
         || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
             || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
         || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
+        || !readScalarNode(actorNode, "actor_profile", actor.actorProfile, errorMessage, false)
         || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
         || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)
         || !readScalarNode(actorNode, "dormant", actor.dormant, errorMessage, false)
@@ -2561,6 +2562,20 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
     {
         errorMessage = "kind must be \"outdoor_scene_overlay\"";
         return false;
+    }
+
+    if (const YAML::Node indicesNode = rootNode["roll_placed_equipment_loot"])
+    {
+        try
+        {
+            sceneData.itemSources.placedEquipmentLootIndices = indicesNode.as<std::vector<uint32_t>>();
+        }
+        catch (const YAML::Exception &exception)
+        {
+            errorMessage = std::string("roll_placed_equipment_loot must be a sequence of sprite object indices: ")
+                + exception.what();
+            return false;
+        }
     }
 
     if (!parseOptionalSceneProfile(rootNode, sceneData.sceneProfile, errorMessage))

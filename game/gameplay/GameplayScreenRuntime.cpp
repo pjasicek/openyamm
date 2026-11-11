@@ -3623,7 +3623,11 @@ void GameplayScreenRuntime::bindAssetFileSystem(const Engine::AssetFileSystem *p
 
 void GameplayScreenRuntime::clearUiControllerRuntimeState()
 {
+    // Map views reset their presentation state; the cursor item belongs to the session, like the party inventory.
+    // New sessions clear GameplayScreenState, and save loading explicitly replaces the held item.
+    const GameplayUiController::HeldInventoryItemState heldItem = uiController().heldInventoryItem();
     uiController().clearRuntimeState();
+    uiController().heldInventoryItem() = heldItem;
 }
 
 bool GameplayScreenRuntime::ensureGameplayLayoutsLoaded()
