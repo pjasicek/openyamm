@@ -275,7 +275,7 @@ def collect_languages(languages_root, worlds):
     """The language packs of assets_dev/languages (devdocs/LOCALIZATION.md): ({name in the engine package: source} of
     their text, always installed; {language id: {name in the language folder: source}} of their optional fonts, sounds
     and videos). The templates folder is the translators' and ships nowhere, and neither does the text of a world the
-    release leaves out (text/mm9.po while releases ship no MM9)."""
+    release leaves out (text/mm9.po when a release ships no MM9)."""
     text, overlays = {}, {}
     if not languages_root.is_dir():
         return text, overlays

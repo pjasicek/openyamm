@@ -15,7 +15,7 @@ target_mib: 64
 max_mib: 128
 core_max_mib: 24
 # The worlds a release ships.
-worlds: [mm6, mm7, mm8]
+worlds: [mm6, mm7, mm8, mm9]
 packages:
   engine:
     # Small and changed in almost every release.
@@ -59,6 +59,26 @@ packages:
       surface_materials_x4: {buckets: {desktop: 14, android: 1}}
   mm8:
     domains:
+      textures_x4:       {buckets: {desktop: 9, android: 1}}
+      textures_x2:       {buckets: {desktop: 1, android: 3}}
+      surface_materials_x4: {buckets: {desktop: 14, android: 1}}
+  # MM9 (Chedian, from 2.0): its own core list (its audio is too large for a core pack) and the folders the other
+  # worlds lack (data_tables, dialogue, journal, state, ui, world_items, import). Its creature GLBs travel with their
+  # textures, so some model packs stay over target_mib (2.0: 78 desktop packs, 2.8 GiB; android 72, 1.6 GiB).
+  mm9:
+    core: [behaviors, data_tables, dialogue, events, journal, rendering, terrain_decorations, terrain_materials, textures]
+    domains:
+      audio:             {buckets: 6}
+      import:            {buckets: 1}
+      state:             {buckets: 1}
+      ui:                {buckets: 3}
+      icons_x2:          {buckets: 2}
+      maps:
+        buckets: 4
+        split:
+          lighting: {extensions: [.lighting], buckets: 4}
+      models:            {buckets: 40, group: model}
+      world_items:       {buckets: 2, group: model}
       textures_x4:       {buckets: {desktop: 9, android: 1}}
       textures_x2:       {buckets: {desktop: 1, android: 3}}
       surface_materials_x4: {buckets: {desktop: 14, android: 1}}

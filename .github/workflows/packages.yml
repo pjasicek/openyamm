@@ -112,6 +112,7 @@ jobs:
               /assets_dev/worlds/mm6/
               /assets_dev/worlds/mm7/
               /assets_dev/worlds/mm8/
+              /assets_dev/worlds/mm9/
               /assets_dev/languages/
               !/assets_dev/languages/templates/
           # Android packs the ASTC textures of assets_cooked/android; the desktop BC7 cooks in assets_dev stay out of
@@ -120,12 +121,12 @@ jobs:
           - profile: android
             assets: |
               /assets_cooked/android/
-              !/assets_cooked/android/worlds/mm9/
               /assets_dev/_legacy/sprites_original/
               /assets_dev/engine/
               /assets_dev/worlds/mm6/
               /assets_dev/worlds/mm7/
               /assets_dev/worlds/mm8/
+              /assets_dev/worlds/mm9/
               /assets_dev/languages/
               !/assets_dev/languages/templates/
               !/assets_dev/languages/*/engine/audio/
