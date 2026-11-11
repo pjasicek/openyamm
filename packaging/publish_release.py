@@ -610,9 +610,14 @@ def check(args):
         log(f"install check: the small Linux package downloads its content from {url}")
         subprocess.run([str(game), "--headless-update", url], cwd=install, check=True)
         index = json.loads((install / "app" / release / "index.json").read_text())
+        # A fresh install in English gets every pack but the languages' optional ones, which download only when
+        # their language is chosen (devdocs/LOCALIZATION.md).
         for pack in index["packs"]:
             path = install / "assets" / "packs" / pack["file"]
-            if not path.is_file() or path.stat().st_size != pack["size"]:
+            if pack.get("language"):
+                if path.exists():
+                    fail(f"the install check installed {pack['file']}, a pack of a language nobody chose")
+            elif not path.is_file() or path.stat().st_size != pack["size"]:
                 fail(f"the install check did not install {pack['file']}")
         for scenario in args.scenario:
             log(f"install check: scenario {scenario}")
@@ -620,7 +625,9 @@ def check(args):
                            cwd=work, check=True)
         if args.scenario and not (install / "app" / release / "healthy").is_file():
             fail("the installed game did not mark itself healthy")
-        log(f"install check passed: {len(index['packs'])} packs installed into {install}")
+        installed = sum(1 for pack in index["packs"] if not pack.get("language"))
+        log(f"install check passed: {installed} packs installed into {install}, "
+            f"{len(index['packs']) - installed} language packs left for their languages")
     finally:
         server.terminate()
         shutil.rmtree(work, ignore_errors=True)
