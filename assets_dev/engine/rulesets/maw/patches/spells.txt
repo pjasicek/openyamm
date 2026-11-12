@@ -3,39 +3,16 @@ Fire Spike	Normal Recovery	100
 Fire Spike	Expert Recovery	100
 Fire Spike	Master Recovery	100
 Fire Spike	Grandmaster Recovery	100
-Meteor Shower	Normal Mana	40
-Meteor Shower	Expert Mana	40
-Meteor Shower	Master Mana	40
-Meteor Shower	Grandmaster Mana	40
 Meteor Shower	Normal Recovery	200
 Meteor Shower	Expert Recovery	200
 Meteor Shower	Master Recovery	200
 Meteor Shower	Grandmaster Recovery	180
-Inferno	Normal Mana	50
-Inferno	Expert Mana	50
-Inferno	Master Mana	50
-Inferno	Grandmaster Mana	50
-Sparks	Expert Mana	8
-Sparks	Master Mana	10
-Sparks	Grandmaster Mana	12
-Lightning Bolt	Expert Recovery	80
 Lightning Bolt	Master Recovery	100
-Lightning Bolt	Grandmaster Recovery	120
-Starburst	Normal Mana	60
-Starburst	Expert Mana	60
-Starburst	Master Mana	60
-Starburst	Grandmaster Mana	60
+Lightning Bolt	Grandmaster Recovery	100
 Starburst	Normal Recovery	140
 Starburst	Expert Recovery	140
 Starburst	Master Recovery	140
 Starburst	Grandmaster Recovery	140
-Poison Spray	Expert Mana	4
-Poison Spray	Master Mana	5
-Poison Spray	Grandmaster Mana	6
-Death Blossom	Normal Mana	50
-Death Blossom	Expert Mana	50
-Death Blossom	Master Mana	50
-Death Blossom	Grandmaster Mana	50
 Death Blossom	Normal Recovery	180
 Death Blossom	Expert Recovery	180
 Death Blossom	Master Recovery	180
@@ -59,28 +36,30 @@ Mass Fear	Normal Recovery	200
 Mass Fear	Expert Recovery	200
 Mass Fear	Master Recovery	200
 Mass Fear	Grandmaster Recovery	200
-Destroy Undead	Normal Mana	50
-Destroy Undead	Expert Mana	50
-Destroy Undead	Master Mana	50
-Destroy Undead	Grandmaster Mana	50
 Summon Wisp	Expert Mana	50
 Summon Wisp	Master Mana	75
 Summon Wisp	Grandmaster Mana	100
-Darkfire Bolt	Normal Mana	20
-Darkfire Bolt	Expert Mana	20
-Darkfire Bolt	Master Mana	20
-Darkfire Bolt	Grandmaster Mana	20
-Lifedrain	Master Mana	10
-Lifedrain	Grandmaster Mana	15
 Lifedrain	Expert Recovery	100
 Lifedrain	Master Recovery	100
 Lifedrain	Grandmaster Recovery	100
+Fire Bolt	Normal Mana	2
+Fire Bolt	Expert Mana	2
+Fire Bolt	Master Mana	2
+Fire Bolt	Grandmaster Mana	2
 Fire Bolt	DamageBase	8
 Fire Bolt	DamageDiceMin	1
 Fire Bolt	DamageDiceSides	2
+Fireball	Normal Mana	8
+Fireball	Expert Mana	8
+Fireball	Master Mana	8
+Fireball	Grandmaster Mana	8
 Fireball	DamageBase	0
 Fireball	DamageDiceMin	1
 Fireball	DamageDiceSides	8
+Fire Spike	Normal Mana	10
+Fire Spike	Expert Mana	10
+Fire Spike	Master Mana	10
+Fire Spike	Grandmaster Mana	10
 Fire Spike	DamageBase	0
 Fire Spike	DamageDiceMin	1
 Fire Spike	DamageDiceSides	10
@@ -88,102 +67,238 @@ Fire Spike	Normal Damage %	100
 Fire Spike	Expert Damage %	100
 Fire Spike	Master Damage %	133
 Fire Spike	Grandmaster Damage %	167
+Immolation	Normal Mana	15
+Immolation	Expert Mana	15
+Immolation	Master Mana	15
+Immolation	Grandmaster Mana	15
 Immolation	DamageBase	10
 Immolation	DamageDiceMin	1
 Immolation	DamageDiceSides	30
+Meteor Shower	Normal Mana	40
+Meteor Shower	Expert Mana	40
+Meteor Shower	Master Mana	40
+Meteor Shower	Grandmaster Mana	40
 Meteor Shower	DamageBase	2
 Meteor Shower	DamageDiceMin	1
 Meteor Shower	DamageDiceSides	1
+Inferno	Normal Mana	25
+Inferno	Expert Mana	25
+Inferno	Master Mana	25
+Inferno	Grandmaster Mana	25
 Inferno	DamageBase	12
 Inferno	DamageDiceMin	1
 Inferno	DamageDiceSides	7
-Incinerate	DamageBase	19
+Incinerate	Normal Mana	30
+Incinerate	Expert Mana	30
+Incinerate	Master Mana	30
+Incinerate	Grandmaster Mana	30
+Incinerate	DamageBase	20
 Incinerate	DamageDiceMin	1
-Incinerate	DamageDiceSides	21
+Incinerate	DamageDiceSides	20
+Sparks	Normal Mana	4
+Sparks	Expert Mana	8
+Sparks	Master Mana	10
+Sparks	Grandmaster Mana	12
 Sparks	DamageBase	0
 Sparks	DamageDiceMin	1
 Sparks	DamageDiceSides	4
+Lightning Bolt	Normal Mana	10
+Lightning Bolt	Expert Mana	10
+Lightning Bolt	Master Mana	15
+Lightning Bolt	Grandmaster Mana	20
 Lightning Bolt	DamageBase	12
 Lightning Bolt	DamageDiceMin	1
 Lightning Bolt	DamageDiceSides	8
+Implosion	Normal Mana	20
+Implosion	Expert Mana	20
+Implosion	Master Mana	20
+Implosion	Grandmaster Mana	20
 Implosion	DamageBase	20
 Implosion	DamageDiceMin	1
 Implosion	DamageDiceSides	12
+Starburst	Normal Mana	60
+Starburst	Expert Mana	60
+Starburst	Master Mana	60
+Starburst	Grandmaster Mana	60
 Starburst	DamageBase	7
 Starburst	DamageDiceMin	1
 Starburst	DamageDiceSides	1
+Poison Spray	Normal Mana	2
+Poison Spray	Expert Mana	4
+Poison Spray	Master Mana	6
+Poison Spray	Grandmaster Mana	8
 Poison Spray	DamageBase	5
 Poison Spray	DamageDiceMin	1
-Poison Spray	DamageDiceSides	3
+Poison Spray	DamageDiceSides	5
+Ice Bolt	Normal Mana	4
+Ice Bolt	Expert Mana	4
+Ice Bolt	Master Mana	4
+Ice Bolt	Grandmaster Mana	4
 Ice Bolt	DamageBase	6
 Ice Bolt	DamageDiceMin	1
-Ice Bolt	DamageDiceSides	7
+Ice Bolt	DamageDiceSides	5
+Acid Burst	Normal Mana	10
+Acid Burst	Expert Mana	10
+Acid Burst	Master Mana	10
+Acid Burst	Grandmaster Mana	10
 Acid Burst	DamageBase	4
 Acid Burst	DamageDiceMin	1
 Acid Burst	DamageDiceSides	14
+Ice Blast	Normal Mana	25
+Ice Blast	Expert Mana	25
+Ice Blast	Master Mana	25
+Ice Blast	Grandmaster Mana	25
 Ice Blast	DamageBase	6
 Ice Blast	DamageDiceMin	1
 Ice Blast	DamageDiceSides	6
+Deadly Swarm	Normal Mana	4
+Deadly Swarm	Expert Mana	4
+Deadly Swarm	Master Mana	4
+Deadly Swarm	Grandmaster Mana	4
 Deadly Swarm	DamageBase	8
 Deadly Swarm	DamageDiceMin	1
 Deadly Swarm	DamageDiceSides	5
+Blades	Normal Mana	8
+Blades	Expert Mana	8
+Blades	Master Mana	8
+Blades	Grandmaster Mana	8
 Blades	DamageBase	7
 Blades	DamageDiceMin	1
 Blades	DamageDiceSides	7
+Rock Blast	Normal Mana	15
+Rock Blast	Expert Mana	15
+Rock Blast	Master Mana	15
+Rock Blast	Grandmaster Mana	15
 Rock Blast	DamageBase	8
 Rock Blast	DamageDiceMin	1
 Rock Blast	DamageDiceSides	8
+Death Blossom	Normal Mana	50
+Death Blossom	Expert Mana	50
+Death Blossom	Master Mana	50
+Death Blossom	Grandmaster Mana	50
 Death Blossom	DamageBase	4
 Death Blossom	DamageDiceMin	1
 Death Blossom	DamageDiceSides	2
+Mass Distortion	Normal Mana	30
+Mass Distortion	Expert Mana	30
+Mass Distortion	Master Mana	30
+Mass Distortion	Grandmaster Mana	30
+Spirit Lash	Normal Mana	15
+Spirit Lash	Expert Mana	15
+Spirit Lash	Master Mana	15
+Spirit Lash	Grandmaster Mana	15
 Spirit Lash	DamageBase	20
 Spirit Lash	DamageDiceMin	2
 Spirit Lash	DamageDiceSides	16
+Mind Blast	Normal Mana	4
+Mind Blast	Expert Mana	4
+Mind Blast	Master Mana	4
+Mind Blast	Grandmaster Mana	4
 Mind Blast	DamageBase	12
 Mind Blast	DamageDiceMin	1
 Mind Blast	DamageDiceSides	6
+Psychic Shock	Normal Mana	25
+Psychic Shock	Expert Mana	25
+Psychic Shock	Master Mana	25
+Psychic Shock	Grandmaster Mana	25
 Psychic Shock	DamageBase	25
 Psychic Shock	DamageDiceMin	1
 Psychic Shock	DamageDiceSides	25
+Harm	Normal Mana	4
+Harm	Expert Mana	4
+Harm	Master Mana	4
+Harm	Grandmaster Mana	4
 Harm	DamageBase	4
 Harm	DamageDiceMin	1
 Harm	DamageDiceSides	4
+Flying Fist	Normal Mana	25
+Flying Fist	Expert Mana	25
+Flying Fist	Master Mana	25
+Flying Fist	Grandmaster Mana	25
 Flying Fist	DamageBase	20
 Flying Fist	DamageDiceMin	1
-Flying Fist	DamageDiceSides	5
+Flying Fist	DamageDiceSides	10
+Light Bolt	Normal Mana	5
+Light Bolt	Expert Mana	5
+Light Bolt	Master Mana	5
+Light Bolt	Grandmaster Mana	5
 Light Bolt	DamageBase	12
 Light Bolt	DamageDiceMin	1
 Light Bolt	DamageDiceSides	2
+Destroy Undead	Normal Mana	50
+Destroy Undead	Expert Mana	50
+Destroy Undead	Master Mana	50
+Destroy Undead	Grandmaster Mana	50
 Destroy Undead	DamageBase	45
 Destroy Undead	DamageDiceMin	1
 Destroy Undead	DamageDiceSides	45
-Prismatic Light	DamageBase	30
+Prismatic Light	Normal Mana	35
+Prismatic Light	Expert Mana	35
+Prismatic Light	Master Mana	35
+Prismatic Light	Grandmaster Mana	35
+Prismatic Light	DamageBase	20
 Prismatic Light	DamageDiceMin	2
-Prismatic Light	DamageDiceSides	6
-Sunray	DamageBase	60
+Prismatic Light	DamageDiceSides	10
+Sunray	Normal Mana	50
+Sunray	Expert Mana	50
+Sunray	Master Mana	50
+Sunray	Grandmaster Mana	50
+Sunray	DamageBase	40
 Sunray	DamageDiceMin	1
-Sunray	DamageDiceSides	60
+Sunray	DamageDiceSides	40
+Toxic Cloud	Normal Mana	15
+Toxic Cloud	Expert Mana	15
+Toxic Cloud	Master Mana	15
+Toxic Cloud	Grandmaster Mana	15
 Toxic Cloud	DamageBase	15
 Toxic Cloud	DamageDiceMin	1
 Toxic Cloud	DamageDiceSides	9
+Shrapmetal	Normal Mana	30
+Shrapmetal	Expert Mana	30
+Shrapmetal	Master Mana	30
+Shrapmetal	Grandmaster Mana	30
 Shrapmetal	DamageBase	0
 Shrapmetal	DamageDiceMin	1
 Shrapmetal	DamageDiceSides	7
+Dragon Breath	Normal Mana	50
+Dragon Breath	Expert Mana	50
+Dragon Breath	Master Mana	50
+Dragon Breath	Grandmaster Mana	50
 Dragon Breath	DamageBase	0
 Dragon Breath	DamageDiceMin	1
 Dragon Breath	DamageDiceSides	28
-Armageddon	DamageBase	50
+Armageddon	Normal Mana	55
+Armageddon	Expert Mana	55
+Armageddon	Master Mana	55
+Armageddon	Grandmaster Mana	55
+Armageddon	DamageBase	30
 Armageddon	DamageDiceMin	1
 Armageddon	DamageDiceSides	1
+Souldrinker	Normal Mana	60
+Souldrinker	Expert Mana	60
+Souldrinker	Master Mana	60
+Souldrinker	Grandmaster Mana	60
 Souldrinker	DamageBase	25
 Souldrinker	DamageDiceMin	1
 Souldrinker	DamageDiceSides	5
+Darkfire Bolt	Normal Mana	20
+Darkfire Bolt	Expert Mana	20
+Darkfire Bolt	Master Mana	20
+Darkfire Bolt	Grandmaster Mana	20
 Darkfire Bolt	DamageBase	46
 Darkfire Bolt	DamageDiceMin	1
 Darkfire Bolt	DamageDiceSides	28
+Lifedrain	Normal Mana	5
+Lifedrain	Expert Mana	5
+Lifedrain	Master Mana	10
+Lifedrain	Grandmaster Mana	15
 Lifedrain	DamageBase	0
 Lifedrain	DamageDiceMin	1
-Lifedrain	DamageDiceSides	22
+Lifedrain	DamageDiceSides	15
+Flame Blast	Normal Mana	25
+Flame Blast	Expert Mana	40
+Flame Blast	Master Mana	50
+Flame Blast	Grandmaster Mana	60
 Flame Blast	DamageBase	0
 Flame Blast	DamageDiceMin	1
 Flame Blast	DamageDiceSides	25

@@ -1,6 +1,6 @@
 # MAW mod: combat math, stats, monsters, difficulty, bolster, progression
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) and `8967ae88` (2026-11-12) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) and [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) list a change.
 
 First-pass overview. Corrected on 2026-10-22 against the verified specs listed in [README.md](README.md); where they
 differ, the spec documents win.
@@ -848,11 +848,13 @@ Madness (600), indoors only:
 - On-screen percentage at (500, 377): red while respawn is armed, yellow once safe or outdoors,
   green when complete.
 - First completion awards:
-  - `exp = ceil(m^0.7·(L·20 + L^1.8)/3·(bolster+L)/L/1000)·1000`, where L is the map mean level
-    clamped to 1..100, bolster = 2L in horizontal mode, and m is the kill count ×0.67 in
-    Nightmare, ×0.5 at 600, ×0.8 in Insanity. Madness has its own formula.
+  - `exp = ceil(m^0.7·(C·20 + C^1.8)/3/1000)·1000` (8967ae88), where C is the level of the map's monsters (the
+    middle of its own B rows, else the average level of its hostile monsters) and m is the kill count ×0.67 in
+    Nightmare, ×0.5 at 600, ×0.8 in Insanity. Without monster levels, and on a dimension run,
+    `exp = ceil(m^0.7·(L·20 + L^1.8)/3·(bolster+L)/L/1000)·1000` with L the map mean level clamped to 1..100 and
+    bolster the run's power ×10 (the horizontal-mode bolster = 2L is gone). Madness has its own formula.
   - Gold = ceil(exp^0.9/1000)·1000.
-  - Items 1070 (crafting) and 2 gems of tier min(ceil((L+bolster)/25+0.5), 16). Dimension maps give a reward by
+  - Items 1070 (crafting) and 2 gems of tier min(ceil(C/25+0.5), 16), else min(ceil((L+bolster)/25+0.5), 16). Dimension maps give a reward by
     affix count only in Madness; elsewhere a completed dimension map gives a new map item (when the quest is
     done) and no crafting item.
   - `addBolsterExp(exp)`; each member gets `round(exp·5/PartyCount/1000)·1000`.

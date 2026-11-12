@@ -43,6 +43,9 @@ struct MapKillProgress
     int hiddenMonsters = 0;
     // The living counted monsters, hidden ones included (actor indices): what is left to clear (`actor remaining`).
     std::vector<size_t> remainingActors;
+    // The summed level of the counted monsters, hidden ones included, and how many they are.
+    double monsterLevelSum = 0;
+    int levelledMonsters = 0;
 };
 
 // How experience is earned and what training needs (devdocs/maw/HANDOFF.md §3.5). This class is the Standard

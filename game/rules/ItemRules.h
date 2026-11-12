@@ -109,6 +109,8 @@ public:
     // How the character holds the weapon. Standard: two-handed weapons take both hands; one-handed daggers at Expert
     // and swords at Master may go in the off hand.
     virtual ItemWield wield(const Character &character, const ItemDefinition &itemDefinition) const;
+    // The skill the character wields the weapon with, which equipping it needs. Standard: the item's own skill.
+    virtual std::string weaponSkill(const Character &character, const ItemDefinition &itemDefinition) const;
     // Why a shop will not buy this item, or nothing; Standard refuses only items without a price (the house's own
     // checks come first).
     virtual std::optional<std::string> sellRefusal(const Party &party, const InventoryItem &item) const;

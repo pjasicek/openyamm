@@ -19528,6 +19528,13 @@ bool IndoorWorldRuntime::mapKillProgress(MapKillProgress &progress) const
             ++(hidden ? progress.hiddenMonsters : progress.countedMonsters);
             progress.remainingActors.push_back(actorIndex);
         }
+        else
+        {
+            continue;
+        }
+
+        progress.monsterLevelSum += actor.rulesetFacts.level > 0 ? actor.rulesetFacts.level : pStats->level;
+        ++progress.levelledMonsters;
     }
 
     return true;

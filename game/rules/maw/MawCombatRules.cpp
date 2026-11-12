@@ -301,7 +301,7 @@ MawCritInputs meleeCritInputs(
     for (size_t handIndex = 0; handIndex < handItemIds.size(); ++handIndex)
     {
         const ItemDefinition *pItem = handItemIds[handIndex] != 0 ? itemTable.get(handItemIds[handIndex]) : nullptr;
-        const std::string skill = pItem != nullptr ? canonicalSkillName(pItem->skillGroup) : std::string();
+        const std::string skill = pItem != nullptr ? mawWeaponSkill(character, *pItem) : std::string();
 
         if (skill == "Dagger" && skillMastery(character, skill) >= SkillMastery::Master)
         {
@@ -544,10 +544,10 @@ double weaponLevelDamage(const MawRules &rules, const HeldWeapon &weapon, int pa
     return rules.model(partyCount).weaponLevelDamage(level, isTwoHanded(*weapon.pItem), 0);
 }
 
-// A weapon's own pace (getItemRecovery) from its skill's base recovery and its level.
+// A weapon's own pace (getItemRecovery) from the base recovery of the skill it is wielded with and its level.
 int weaponRecovery(const MawRules &rules, const HeldWeapon &weapon)
 {
-    const WeaponSkillNumbers *pNumbers = weaponSkillNumbers(canonicalSkillName(weapon.pItem->skillGroup));
+    const WeaponSkillNumbers *pNumbers = weaponSkillNumbers(mawWeaponSkill(*weapon.pWearer, *weapon.pItem));
     return mawItemRecovery(pNumbers != nullptr ? pNumbers->baseRecovery : UnknownWeaponRecovery,
         itemLevel(rules, *weapon.pItem, *weapon.pState, *weapon.pWearer), isTwoHanded(*weapon.pItem));
 }
@@ -1349,13 +1349,15 @@ MawAttackDelay mawCharacterAttackDelay(
                 continue;
             }
 
-            const std::string skill = canonicalSkillName(pItem->skillGroup);
+            const std::string skill = mawWeaponSkill(character, *pItem);
             const WeaponSkillNumbers *pNumbers = weaponSkillNumbers(skill);
             handRecoveries.push_back(mawItemRecovery(
                 pNumbers != nullptr ? pNumbers->baseRecovery : UnknownWeaponRecovery,
                 itemLevel(rules, *pItem, *pRuntime, character),
                 isTwoHanded(*pItem)));
-            const bool offHandTwoHandedAxe = handIndex == 0 && skill == "Axe" && isTwoHanded(*pItem);
+            // A Minotaur's two-handed axe or halberd in the off hand pays no skill speed (S:482).
+            const bool offHandTwoHandedAxe = handIndex == 0 && isTwoHanded(*pItem)
+                && (canonicalSkillName(pItem->skillGroup) == "Axe" || mawIsHalberd(pItem->itemId));
 
             // Swiftness (41, 59): +0.3 for a two-hander, +0.15 for each one-handed weapon (S:464, 495-497).
             if (isSwift(*pRuntime))
@@ -1463,7 +1465,7 @@ double spearStack(const MawRules &rules, const Character &attacker, const ItemTa
                                                                          : nullptr;
 
     if (pMainHand == nullptr || attacker.equipmentRuntime.mainHand.broken
-        || canonicalSkillName(pMainHand->skillGroup) != "Spear"
+        || mawWeaponSkill(attacker, *pMainHand) != "Spear"
         || skillMastery(attacker, "Spear") < SkillMastery::Grandmaster)
     {
         return 0;
@@ -1511,7 +1513,7 @@ double mawSpearStackPercent(const MawRules &rules, const Character &attacker, co
 {
     const ItemDefinition *pMainHand = attacker.equipment.mainHand != 0 ? itemTable.get(attacker.equipment.mainHand)
                                                                          : nullptr;
-    const bool halberd = pMainHand != nullptr && canonicalSkillName(pMainHand->skillGroup) == "Spear"
+    const bool halberd = pMainHand != nullptr && mawWeaponSkill(attacker, *pMainHand) == "Spear"
         && isTwoHanded(*pMainHand);
     const double multiplier = mawCharacterAttackDelay(
         rules, attacker, itemTable, CharacterAttackMode::Melee, 0).damageMultiplier;

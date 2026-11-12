@@ -379,8 +379,9 @@ int mawArmorClass(int baseArmorClass, int referenceArmorClass, int itemPower, do
 
 int mawLevelRequirement(int dropLevel, double rung, const MawLevelRequirementRules &rules)
 {
+    // MAW's ItemLevel.WearLevel: the ladder's tier levels raise the requirement, never above 80 % of the drop level.
     const double level = dropLevel + (rung - 1) * 3;
-    double requirement = level - (10 + 0.09 * level);
+    double requirement = std::min(level - (10 + 0.09 * level), dropLevel * 0.8);
     requirement -= rules.nightmare ? 6 : 0;
     requirement -= rules.doom ? 3 : 0;
     requirement -= rules.insanity ? 3 : 0;

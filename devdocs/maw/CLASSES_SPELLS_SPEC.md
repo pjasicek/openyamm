@@ -1,6 +1,6 @@
 # MAW classes, spells, buffs and potions: implementation spec
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) and `8967ae88` (2026-11-12) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) and [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) list a change.
 
 Status: specification draft (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in

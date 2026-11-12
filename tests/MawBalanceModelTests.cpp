@@ -137,8 +137,8 @@ TEST_CASE("MAW experience curve and bolstered levels match exp_curve.yml")
     using namespace OpenYAMM::Game;
     // exp_curve.yml samples: level -> experience required.
     for (const auto &[level, experience] : std::vector<std::pair<double, double>>{
-             {2, 1000}, {10, 45000}, {100, 4950000}, {102, 5152010}, {200, 28133500}, {500, 417084000},
-             {1000, 3330001500}, {2000, 26648336500}, {3000, 66648336500}})
+             {2, 1000}, {10, 45000}, {100, 4950000}, {102, 5151505}, {200, 24016750}, {500, 270917000},
+             {1000, 1914750750}, {2000, 14323668250}, {3000, 35323668250}})
     {
         CAPTURE(level);
         CHECK_EQ(mawExperienceForLevel(level), doctest::Approx(experience));
@@ -151,10 +151,10 @@ TEST_CASE("MAW experience curve and bolstered levels match exp_curve.yml")
     // exp_curve.yml leveled_bolster_helper: (floor, levels) -> level.
     CHECK_EQ(mawBolsteredLevel(0, 50), doctest::Approx(50).epsilon(1e-3));
     CHECK_EQ(mawBolsteredLevel(50, 50), doctest::Approx(100).epsilon(1e-3));
-    CHECK_EQ(mawBolsteredLevel(100, 30), doctest::Approx(126.8).epsilon(1e-3));
-    CHECK_EQ(mawBolsteredLevel(100, 100), doctest::Approx(176.7).epsilon(1e-3));
-    CHECK_EQ(mawBolsteredLevel(200, 50), doctest::Approx(225.0).epsilon(1e-3));
-    CHECK_EQ(mawBolsteredLevel(500, 100), doctest::Approx(521.1).epsilon(1e-3));
+    CHECK_EQ(mawBolsteredLevel(100, 30), doctest::Approx(128.23).epsilon(1e-3));
+    CHECK_EQ(mawBolsteredLevel(100, 100), doctest::Approx(185.34).epsilon(1e-3));
+    CHECK_EQ(mawBolsteredLevel(200, 50), doctest::Approx(232.86).epsilon(1e-3));
+    CHECK_EQ(mawBolsteredLevel(500, 100), doctest::Approx(534.47).epsilon(1e-3));
     CHECK_EQ(mawBolsteredLevel(40, -5), 35);
 }
 

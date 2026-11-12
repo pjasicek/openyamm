@@ -1380,8 +1380,8 @@ TEST_CASE("the generated MAW patches apply cleanly to the engine tables")
     CHECK_EQ(
         OpenYAMM::Game::spellNumbersAtMastery(*pMeteor, OpenYAMM::Game::SkillMastery::Grandmaster).recoveryTicks, 180);
 
-    // Costs keyed by spell id (GAPS.md A7.6, A7.7): Mind Charm 5, the vampires' Charm keeps 15; Chain Lightning and
-    // Lifedrain at Master and Grandmaster.
+    // Costs keyed by spell id (GAPS.md A7.6, A7.7): Mind Charm 5, the vampires' Charm keeps 15. The damage spells'
+    // costs by mastery come from MAW's spellPowers (8967ae88): Lightning Bolt, Lifedrain, Inferno and Flame Blast.
     const auto manaAt = [&spellTable](int spellId, OpenYAMM::Game::SkillMastery mastery)
     {
         const OpenYAMM::Game::SpellEntry *pSpell = spellTable.findById(spellId);
@@ -1390,8 +1390,10 @@ TEST_CASE("the generated MAW patches apply cleanly to the engine tables")
     };
     CHECK_EQ(manaAt(60, OpenYAMM::Game::SkillMastery::Normal), 5);
     CHECK_EQ(manaAt(113, OpenYAMM::Game::SkillMastery::Normal), 15);
-    CHECK_EQ(manaAt(18, OpenYAMM::Game::SkillMastery::Master), 20);
-    CHECK_EQ(manaAt(18, OpenYAMM::Game::SkillMastery::Grandmaster), 30);
+    CHECK_EQ(manaAt(18, OpenYAMM::Game::SkillMastery::Master), 15);
+    CHECK_EQ(manaAt(18, OpenYAMM::Game::SkillMastery::Grandmaster), 20);
+    CHECK_EQ(manaAt(10, OpenYAMM::Game::SkillMastery::Normal), 25);
+    CHECK_EQ(manaAt(123, OpenYAMM::Game::SkillMastery::Grandmaster), 60);
     CHECK_EQ(manaAt(111, OpenYAMM::Game::SkillMastery::Master), 10);
     CHECK_EQ(manaAt(111, OpenYAMM::Game::SkillMastery::Grandmaster), 15);
 

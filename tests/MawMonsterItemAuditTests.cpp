@@ -11,7 +11,9 @@
 #include "tests/PartySpellTestHarness.h"
 #include "tests/RegressionGameData.h"
 
+#include <cmath>
 #include <string>
+#include <utility>
 #include <vector>
 
 // MAW audit 2026-10-24, stream 3: monsters, items and content (devdocs/maw/AUDIT_20261024_PLAN.md).
@@ -74,6 +76,37 @@ TEST_CASE("MAW keeps a map cleared only until its monsters refill; the reward st
     CHECK(rules.state().clearedSinceRefill.contains("d08.blv"));
     monsters.mapLoaded("d08.blv", false);
     CHECK(monsters.mapResetOffer("d08.blv").has_value());
+}
+
+TEST_CASE("MAW pays a map clear by the level of its monsters, else by the map's level (MAW 8967ae88)")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const auto clearExperience = [](int levelledMonsters, double levelSum)
+    {
+        MawRules rules(RulesetOptions{}, MawMapLevels{});
+        Party party = mawTestParty(rules);
+        MapKillProgress progress = clearedDungeon("d08.blv");
+        progress.levelledMonsters = levelledMonsters;
+        progress.monsterLevelSum = levelSum;
+        const size_t members = party.members().size();
+        const std::string message = rules.gameRules().experience.rewardMapProgress(party, progress);
+        return std::pair(message, members);
+    };
+    // The bank's experience by level L for 20 monsters, and a member's share of five times it (mapClearLevel).
+    const auto memberShare = [](double level, size_t members)
+    {
+        const double experience =
+            std::ceil(std::pow(20.0, 0.7) * (level * 20 + std::pow(level, 1.8)) / 3 / 1000) * 1000;
+        return std::to_string(int64_t(std::round(experience * 5 / double(members) / 1000) * 1000));
+    };
+
+    // Twenty monsters of average level 60.
+    const auto [byMonsters, members] = clearExperience(20, 20 * 60.0);
+    CHECK_NE(byMonsters.find("You gain " + memberShare(60, members) + " Exp"), std::string::npos);
+
+    // No levels known: the map's own level (none in these tables, so 1) as before.
+    const auto [byMap, sameMembers] = clearExperience(0, 0);
+    CHECK_NE(byMap.find("You gain " + memberShare(1, sameMembers) + " Exp"), std::string::npos);
 }
 
 TEST_CASE("MAW risen monsters give full experience in Nightmare and Doom, none in Road to Insanity (MON-1)")

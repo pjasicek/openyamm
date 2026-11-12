@@ -3,7 +3,7 @@
 Throwaway scripts from the 2026-10-22 MAW analysis, kept so the golden values in `../data/*.csv` and the numbers in
 the spec documents can be regenerated when MAW changes. They are not part of the build and not maintained code.
 
-- Lua scripts load MAW's own source files (commit `ef23ee17`) with small shims for LuaJIT 5.1 and MMExtension
+- Lua scripts load MAW's own source files (commit `ef23ee17`; `mawmon/lua/harness.lua` follows `8967ae88`) with small shims for LuaJIT 5.1 and MMExtension
   globals. They were run with a plain Lua 5.4 interpreter built from `build/_deps/lua-src/src` (`make linux-noreadline`).
 - Python scripts extract LOD contents, diff tables and assemble the YAML drafts.
 - Some scripts still contain absolute paths from the analysis session (`/tmp/claude-1000/.../scratchpad/...`). Replace

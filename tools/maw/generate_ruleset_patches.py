@@ -28,7 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ENGINE_TABLES = ROOT / "assets_dev/engine/data_tables"
 OUTPUT = ROOT / "assets_dev/engine/rulesets/maw"
-MAW_COMMIT = "ef23ee17"
+MAW_COMMIT = "8967ae88"
 
 
 @dataclass
@@ -344,24 +344,32 @@ def update_ruleset_tables(entries: list[str]) -> None:
 
 # Spells whose numbers MAW sets in Lua rather than in Spells2.txt.
 SPELL_POWERS_LUA = "Scripts/General/zzMaw-Spells.lua"
-# Mass Distortion takes a share of the target's HP; its spellPowers row is unused (COMBAT_SPEC.md §6.7).
+# Mass Distortion takes a share of the target's HP: its spellPowers dice are unused, its cost is not (COMBAT_SPEC.md
+# §6.7).
 SPELL_POWERS_SKIPPED = {44}
 # MAW scales these spells by mastery in events.CalcSpellDamage: Fire Spike x8/6 and x10/6 at Master and Grandmaster.
 SPELL_MASTERY_PERCENTS = {7: ["100", "100", "133", "167"]}
 
 
 def spell_power_patch(maw_root: Path, ours: list[list[str]]) -> list[list[str]]:
-    """spells.txt cells for the dice MAW rolls: spellPowers {dmgAdd, diceMin, diceMax} per spell id."""
+    """spells.txt cells for the dice MAW rolls and the mana it charges: spellPowers {dmgAdd, diceMin, diceMax, cost}
+    per spell id (since 8967ae88 the cost there sets the spell's mana by mastery, over Spells2.txt)."""
     text = (maw_root / SPELL_POWERS_LUA).read_text(encoding="latin-1")
     block = text[text.index("spellPowers ="):]
     block = block[:block.index("\n\t\t}")]
-    pattern = re.compile(r"\[(\d+)\]\s*=\s*\{dmgAdd\s*=\s*([\d.]+),\s*diceMin\s*=\s*([\d.]+),\s*diceMax\s*=\s*([\d.]+)")
+    pattern = re.compile(r"\[(\d+)\]\s*=\s*\{dmgAdd\s*=\s*([\d.]+),\s*diceMin\s*=\s*([\d.]+),\s*diceMax\s*=\s*([\d.]+),"
+                         r"\s*(?:cost\s*=\s*\{([\d,\s]+)\})?")
     names = {row[0]: row[2] for row in ours[1:] if len(row) > 2 and row[0].isdigit()}
     patch = []
-    for spell_id, add, dice_min, dice_max in pattern.findall(block):
-        if int(spell_id) in SPELL_POWERS_SKIPPED or spell_id not in names:
+    for spell_id, add, dice_min, dice_max, cost in pattern.findall(block):
+        if spell_id not in names:
             continue
         name = names[spell_id]
+        costs = [value.strip() for value in cost.split(",")] if cost else []
+        for mastery, value in zip(("Normal", "Expert", "Master", "Grandmaster"), costs):
+            patch.append([name, f"{mastery} Mana", value])
+        if int(spell_id) in SPELL_POWERS_SKIPPED:
+            continue
         patch += [[name, "DamageBase", add], [name, "DamageDiceMin", dice_min], [name, "DamageDiceSides", dice_max]]
         for mastery, percent in zip(("Normal", "Expert", "Master", "Grandmaster"),
                                     SPELL_MASTERY_PERCENTS.get(int(spell_id), [])):

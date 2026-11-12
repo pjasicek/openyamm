@@ -684,6 +684,32 @@ int mawWornItemCount(const Character &character, std::initializer_list<uint32_t>
     return count;
 }
 
+bool mawIsHalberd(uint32_t itemId)
+{
+    static constexpr std::array<uint32_t, 12> Halberds = {46, 47, 48, 49, 50, 507, 838, 839, 840, 1638, 1639, 1640};
+    return std::find(Halberds.begin(), Halberds.end(), itemId) != Halberds.end();
+}
+
+std::string mawWeaponSkill(const Character &character, const ItemDefinition &itemDefinition)
+{
+    const std::string skill = canonicalSkillName(itemDefinition.skillGroup);
+
+    if (skill != "Spear" || !mawIsHalberd(itemDefinition.itemId))
+    {
+        return skill;
+    }
+
+    const auto held = [&character](const char *pSkill)
+    {
+        const CharacterSkill *pState = character.findSkill(pSkill);
+        const int level = (pState != nullptr ? int(pState->level) : 0) + character.skillBonus(pSkill);
+        return std::pair(level, pState != nullptr ? int(pState->mastery) : 0);
+    };
+    const std::pair<int, int> spear = held("Spear");
+    const std::pair<int, int> axe = held("Axe");
+    return axe > spear ? "Axe" : "Spear";
+}
+
 bool mawRegenerationArtifact(uint32_t itemId, bool spellPoints)
 {
     static constexpr std::array<uint32_t, 6> HealthArtifacts = {509, 520, 1337, 1331, 1335, 2027};
@@ -1869,7 +1895,8 @@ ItemWield MawItemRules::wield(const Character &character, const ItemDefinition &
         wield.twoHanded = false;
         wield.offHand = false;
     }
-    else if (skill == "Axe" && (character.raceId == Dwarf || character.raceId == Minotaur))
+    else if ((skill == "Axe" || mawIsHalberd(itemDefinition.itemId))
+        && (character.raceId == Dwarf || character.raceId == Minotaur))
     {
         if (!wield.twoHanded)
         {
@@ -1883,6 +1910,11 @@ ItemWield MawItemRules::wield(const Character &character, const ItemDefinition &
     }
 
     return wield;
+}
+
+std::string MawItemRules::weaponSkill(const Character &character, const ItemDefinition &itemDefinition) const
+{
+    return mawWeaponSkill(character, itemDefinition);
 }
 
 int MawItemRules::levelRequirement(const ItemDefinition &itemDefinition, const ItemRulesetFields &fields) const
@@ -2450,7 +2482,9 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
 
     if (isWeapon(itemDefinition))
     {
-        const std::string skill = canonicalSkillName(itemDefinition.skillGroup);
+        // A halberd's pace is that of the skill the viewer would wield it with (Tooltip.lua:709-716).
+        const std::string skill = pViewer != nullptr ? mawWeaponSkill(*pViewer, itemDefinition)
+                                                     : canonicalSkillName(itemDefinition.skillGroup);
         const bool twoHanded = pBase->twoHanded;
         const int recovery = mawItemRecovery(weaponBaseRecovery(skill), fields.itemPower * 5, twoHanded);
         lines.push_back({Engine::tr("Attack speed: {speed}", {{"speed", formatSpeed(recovery)}}), 0xffffff});

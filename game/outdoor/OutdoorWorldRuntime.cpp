@@ -18856,6 +18856,13 @@ bool OutdoorWorldRuntime::mapKillProgress(MapKillProgress &progress) const
             ++(actor.isInvisible ? progress.hiddenMonsters : progress.countedMonsters);
             progress.remainingActors.push_back(actorIndex);
         }
+        else
+        {
+            continue;
+        }
+
+        progress.monsterLevelSum += actor.rulesetFacts.level > 0 ? actor.rulesetFacts.level : pStats->level;
+        ++progress.levelledMonsters;
     }
 
     return true;

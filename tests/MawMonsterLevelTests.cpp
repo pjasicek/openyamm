@@ -93,7 +93,7 @@ TEST_CASE("MAW monster levels follow the Ravenshore worked example")
 
     inputs.partyLevel = 100;
     CHECK_EQ(levelsOf(resolveMawMonsterLevels(monsters, mapLevels, inputs), ids),
-             std::vector<int>{105, 110, 114, 107, 110, 113, 106, 112, 118});
+             std::vector<int>{105, 110, 115, 107, 110, 114, 106, 113, 119});
 
     inputs.partyLevel = 0;
     inputs.horizontalProgression = true;
@@ -326,7 +326,7 @@ TEST_CASE("MAW level banks follow the experience curve and the continent it was 
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     CHECK_EQ(rules.gameRules().experience.experienceForNextLevel(1), 1000u);
     CHECK_EQ(rules.gameRules().experience.experienceForNextLevel(100), 5050000u);
-    CHECK_EQ(rules.gameRules().experience.experienceForNextLevel(149), 12804250u);
+    CHECK_EQ(rules.gameRules().experience.experienceForNextLevel(149), 11989625u);
 }
 
 TEST_CASE("MAW monster density follows the difficulty")

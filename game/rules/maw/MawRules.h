@@ -135,6 +135,9 @@ public:
     // The drop level of loot without a monster (chests, the ground): the median monster level of the map whose levels
     // were resolved last, the current one.
     double mapDropLevel() const;
+    // The level of the current map's own monsters: the lower middle of its B rows, when its levels were resolved
+    // (MAW's mapMonsterLevel, MON:1930-1938).
+    std::optional<double> mapMonsterLevel() const;
     // The game's random root seed, for MAW's seeded rolls (bosses). In Beyond Madness it is also the run of the death
     // ledger: setting it (new game or load) opens that run, and a run left pending counts a death.
     uint64_t randomRootSeed() const;

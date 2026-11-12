@@ -188,8 +188,8 @@ tables:
     path: content/special_item_enchants_patch.txt
     keyColumn: "row"
     headerRow: 2
-  # Costs the name-keyed patch cannot reach, by spell id: Mind Charm 5 (both Charms share a name; MAW's Spells2.txt),
-  # Chain Lightning 20/30 and Lifedrain 10/15 at Master and Grandmaster (zzMaw-Spells.lua:1879-1885).
+  # The cost the name-keyed patch cannot reach, by spell id: Mind Charm 5 (both Charms share a name; MAW's
+  # Spells2.txt). The damage spells' costs come from spellPowers in the generated patch.
   - table: spells.txt
     mode: override
     path: content/spells_patch.txt

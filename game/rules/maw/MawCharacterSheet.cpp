@@ -170,7 +170,7 @@ CharacterCombatRows mawCombatRows(
             return;
         }
 
-        const std::string skill = canonicalSkillName(pItem->skillGroup);
+        const std::string skill = mawWeaponSkill(character, *pItem);
 
         if ((bow && skill == "Bow") || (!bow && isMeleeWeaponSkill(skill)))
         {
@@ -192,15 +192,19 @@ CharacterCombatRows mawCombatRows(
             });
     }
 
+    // Two axes in the hands lose 10 % of their damage per two-handed one; a halberd counts as a two-handed axe,
+    // whichever skill wields it (IT:2858-2875).
     int twoHandedAxes = 0;
     int heldAxes = 0;
 
     for (const HeldWeapon &weapon : weapons)
     {
-        if (!weapon.bow && weapon.skill == "Axe")
+        const bool halberd = mawIsHalberd(weapon.pDefinition->itemId);
+
+        if (!weapon.bow && (canonicalSkillName(weapon.pDefinition->skillGroup) == "Axe" || halberd))
         {
             ++heldAxes;
-            twoHandedAxes += weapon.pDefinition->equipStat == "Weapon2" ? 1 : 0;
+            twoHandedAxes += weapon.pDefinition->equipStat == "Weapon2" || halberd ? 1 : 0;
         }
     }
 
@@ -447,7 +451,7 @@ std::optional<MawWeaponGuard> mawWeaponGuard(
     const ItemDefinition &weapon,
     const ItemRulesetFields &fields)
 {
-    const std::string skill = canonicalSkillName(weapon.skillGroup);
+    const std::string skill = mawWeaponSkill(character, weapon);
     const MasteryRow *pArmorRow = skill == "Staff" ? &StaffArmor
         : skill == "Sword"                         ? &SwordArmor
         : skill == "Spear"                         ? &SpearArmor
@@ -497,7 +501,7 @@ double mawAssassinationBonus(const MawRules &rules, const Character &character, 
         return 0;
     }
 
-    const std::string skill = canonicalSkillName(pWeapon->skillGroup);
+    const std::string skill = mawWeaponSkill(character, *pWeapon);
     const double multiplier = 1 + skillOf(character, skill).level * 2.0 / 100;
     Skill arms = {skillOf(character, "Armsmaster").level, armsmasterMastery(rules, character)};
 

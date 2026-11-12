@@ -4009,7 +4009,7 @@ bool GameMechanics::canCharacterEquipItem(
 
     if (!isWetsuitItem(itemDefinition)
         && requiresLearnedSkillToEquip(itemDefinition)
-        && !character.hasSkill(itemDefinition.skillGroup))
+        && !character.hasSkill(boundGameRules().items.weaponSkill(character, itemDefinition)))
     {
         return false;
     }
@@ -4032,7 +4032,7 @@ std::optional<std::string> GameMechanics::equipRefusalReason(
 
     if (!isWetsuitItem(itemDefinition)
         && requiresLearnedSkillToEquip(itemDefinition)
-        && !character.hasSkill(itemDefinition.skillGroup))
+        && !character.hasSkill(boundGameRules().items.weaponSkill(character, itemDefinition)))
     {
         return Engine::tr("Requires the {skill} skill",
             {{"skill", Engine::localize(displaySkillName(itemDefinition.skillGroup), "skill")}});

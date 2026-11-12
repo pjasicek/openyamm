@@ -1,43 +1,43 @@
-# draft extracted from MAW ef23ee17
+# draft extracted from MAW ef23ee17; the curve follows 8967ae88 (step growth 0.005, 2026-11-12)
 # Experience curve, banked continent levels and every experience award on the monster side.
 # Paths are relative to Maw-Mod-MMMerge/Scripts/ (Exp = General/zzzMaw_Experience.lua).
 format: 1
-source: {repo: Maw-Mod-MMMerge, commit: ef23ee17}
+source: {repo: Maw-Mod-MMMerge, commit: 8967ae88}
 
 curve:                          # Exp:7-45 (the one place every level <-> experience conversion goes through)
-  step: "exp_step(L) = 1000 x L x max(1 + (L - 100) x 0.01, 1)"    # cost of going from L to L + 1
+  step: "exp_step(L) = 1000 x L x max(1 + (L - 100) x 0.005, 1)"    # cost of going from L to L + 1
   table_max_level: 2000
   exp_required: "exp_required(1) = 0; exp_required(L) = exp_required(L - 1) + exp_step(L - 1)"
   vanilla_equivalent_up_to: 101   # exp_required(L) = 500 L (L - 1) through level 101
   fractional_levels: "calcLevel/calcExp interpolate linearly inside a step; calcLevel(x <= 0) = 1"
-  beyond_table: "linear with exp_step(2000) = 40,000,000 per level"
+  beyond_table: "linear with exp_step(2000) = 21,000,000 per level"
   samples:                      # level: [MAW exp_required, vanilla 500 L (L - 1)]
     2: [1000, 1000]
     10: [45000, 45000]
     50: [1225000, 1225000]
     100: [4950000, 4950000]
     101: [5050000, 5050000]
-    102: [5152010, 5151000]
-    110: [6042850, 5995000]
-    150: [12804250, 11175000]
-    200: [28133500, 19900000]
-    250: [53437750, 31125000]
-    300: [91217000, 44850000]
-    400: [214200500, 79800000]
-    500: [417084000, 124750000]
-    600: [719867500, 179700000]
-    700: [1142551000, 244650000]
-    800: [1705134500, 319600000]
-    1000: [3330001500, 499500000]
-    1200: [5754468500, 719400000]
-    1500: [11240419000, 1124250000]
-    2000: [26648336500, 1999000000]
-    3000: [66648336500, 4498500000]
+    102: [5151505, 5151000]
+    110: [6018925, 5995000]
+    150: [11989625, 11175000]
+    200: [24016750, 19900000]
+    250: [42281375, 31125000]
+    300: [68033500, 44850000]
+    400: [147000250, 79800000]
+    500: [270917000, 124750000]
+    600: [449783750, 179700000]
+    700: [693600500, 244650000]
+    800: [1012367250, 319600000]
+    1000: [1914750750, 499500000]
+    1200: [3236934250, 719400000]
+    1500: [6182334500, 1124250000]
+    2000: [14323668250, 1999000000]
+    3000: [35323668250, 4498500000]
   engine_hooks:                 # Exp:47-91
     trainer_and_indicator: "0x4B30EF (trainer) and 0x48CD4D (portrait arrow) ask calcExp(level + 1)"
-    requirement_cap: 2147483647   # clamped below 2^31; first reached for the step 863 -> 864
+    requirement_cap: 2147483647   # clamped below 2^31; first reached for the step 1040 -> 1041
     cap_effect: "once a character holds 2^31 - 1 experience every further level is trainable (no more cost)"
-    character_exp_cap: 4290985000   # 2^32 - 3982296, applied on every award; reached at about level 1088
+    character_exp_cap: 4290985000   # 2^32 - 3982296, applied on every award; reached at about level 1322
 
 banked_levels:                  # Exp:228-294
   pools: "vars.MMLVL = {MM8, MM7, MM6, other} (continent of the current map), vars.EXPBEFORE, vars.LVLBEFORE"
@@ -81,5 +81,5 @@ map_completion:                 # checkMapCompletition, General/zzMaw-Monsters.l
 
 leveled_bolster_helper: >-
   bolsteredLevel(f, n) climbs n vanilla levels of experience (500 L (L - 1)) on top of calcExp(f); examples
-  (f, n -> level): (0, 50 -> 50), (50, 50 -> 100), (100, 30 -> 126.8), (100, 100 -> 176.7), (200, 50 -> 225.0),
-  (500, 100 -> 521.1)
+  (f, n -> level): (0, 50 -> 50), (50, 50 -> 100), (100, 30 -> 128.23), (100, 100 -> 185.34), (200, 50 -> 232.86),
+  (500, 100 -> 534.47)

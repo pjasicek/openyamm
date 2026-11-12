@@ -1,4 +1,5 @@
 #include "doctest/doctest.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/maw/MawCharacterSheet.h"
@@ -245,6 +246,51 @@ TEST_CASE("MAW wield rules: Seraphim swords, Dwarf and Minotaur axes")
     CHECK(items.wield(dwarf, greatAxe).twoHanded);
     CHECK(items.wield(dwarf, axe).offHand);
     CHECK_FALSE(items.wield(knight, axe).offHand);
+}
+
+TEST_CASE("MAW halberds are wielded with Spear or Axe, whichever is higher (MAW 8967ae88)")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    const ItemRules &items = rules.gameRules().items;
+    ItemDefinition halberd;
+    halberd.itemId = 47;
+    halberd.skillGroup = "Spear";
+    halberd.equipStat = "Weapon2";
+    ItemDefinition spear;
+    spear.itemId = 42;
+    spear.skillGroup = "Spear";
+    spear.equipStat = "Weapon1or2";
+
+    Character fighter = member("Knight", 10);
+    CHECK_EQ(items.weaponSkill(fighter, halberd), "Spear");
+    fighter.skills["Axe"] = {"Axe", 4, SkillMastery::Normal};
+    CHECK_EQ(items.weaponSkill(fighter, halberd), "Axe");
+    CHECK_EQ(items.weaponSkill(fighter, spear), "Spear");
+    CHECK_EQ(standardGameRules().items.weaponSkill(fighter, halberd), "Spear");
+
+    // Axe alone lets a character equip a halberd (tempSkillForEquip, S:1827-1830); Standard still asks for Spear.
+    CHECK_FALSE(GameMechanics::canCharacterEquipItem(fighter, halberd, nullptr));
+    bindGameRules(&rules.gameRules());
+    CHECK(GameMechanics::canCharacterEquipItem(fighter, halberd, nullptr));
+    CHECK_FALSE(GameMechanics::canCharacterEquipItem(member("Knight", 10), halberd, nullptr));
+    bindGameRules(nullptr);
+
+    // Equal levels: the higher mastery wins, Spear on a tie.
+    fighter.skills["Spear"] = {"Spear", 4, SkillMastery::Normal};
+    CHECK_EQ(items.weaponSkill(fighter, halberd), "Spear");
+    fighter.skills["Axe"].mastery = SkillMastery::Expert;
+    CHECK_EQ(items.weaponSkill(fighter, halberd), "Axe");
+    fighter.skills["Spear"].level = 5;
+    CHECK_EQ(items.weaponSkill(fighter, halberd), "Spear");
+
+    // A Minotaur holds a halberd in one hand as a two-handed axe, in the off hand from Master Axe.
+    Character minotaur = member("Minotaur", 10, 3);
+    minotaur.skills["Axe"] = {"Axe", 10, SkillMastery::Expert};
+    CHECK_FALSE(items.wield(minotaur, halberd).twoHanded);
+    CHECK_FALSE(items.wield(minotaur, halberd).offHand);
+    minotaur.skills["Axe"].mastery = SkillMastery::Master;
+    CHECK(items.wield(minotaur, halberd).offHand);
+    CHECK(items.wield(member("Knight", 10, 9), halberd).twoHanded);
 }
 
 TEST_CASE("MAW promotions follow the quest bits of every world")

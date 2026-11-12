@@ -239,7 +239,7 @@ What MaxCharges drives:
 dropLevel = GetStoredDropLevel(it)  (bits 9-19 of BonusExpireTime)
             or reconstructed from MaxCharges (undo the rarity inflation) * 5
 L   = dropLevel + (ladderTier−1)*3          [TierLevels: +0..15 by base-family rung]
-req = L − (10 + 0.09*L)                      [ItemLevel.WearLevel, GUARD_MARGIN 10]
+req = min(L − (10 + 0.09*L), 0.8*dropLevel)  [ItemLevel.WearLevel, GUARD_MARGIN 10, WEAR_SHARE_CAP 0.8 (8967ae88)]
       −6 at bolster ≥300, −3 Doom, −3 insanity;  floor, min 1
 Celestial: 1.   Non-equipment (EquipStat>11): 0.   Artifacts: none.
 ```

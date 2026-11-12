@@ -114,7 +114,7 @@ reason).
 | A7.4 | P2 | Quick-casting Meditation (56) attacks instead of toggling when no hostile is visible; every aura now quick-casts without a target (Bless with nobody wounded did the same) | done 2026-10-24 |
 | A7.5 | P2 | Shrinking Ray hits m−1 more monsters within 512 at power 2 (SP:1659-1732) | done 2026-10-24 |
 | A7.14 | P3 | Sealed spellbooks: generated books (not shop stock) become "<School> Magic Book" (971-979), opened by school mastery (SP:3637-3726). Done 2026-10-24: `MawItemRules::rollPlainItem` seals them (the book id in craftState), inspecting opens them for the active member with the mastery, the book's value, the red mastery line (dev 133) | done 2026-10-24 (dev 133) |
-| A7.6 | P3 | Chain Lightning Master/GM cost 20/30 (SP:1883-1885), Lifedrain 10/15 likewise (`content/spells_patch.txt`) | done 2026-10-24 |
+| A7.6 | P3 | Chain Lightning Master/GM cost 20/30 (SP:1883-1885), Lifedrain 10/15 likewise (`content/spells_patch.txt`). Since MAW 8967ae88 every damage spell's cost comes from `spellPowers` (Lightning Bolt 10/10/15/20, Lifedrain 5/5/10/15), which the patch tool reads; the id-keyed rows are gone | done 2026-10-24, 2026-11-12 |
 | A7.7 | P3 | Mind Charm base cost 5 (ours 15): both Charms share a name, so the id-keyed `content/spells_patch.txt` sets it | done 2026-10-24 |
 | A7.8 | P3 | Invisibility Master (15+s)×1.5, GM (30+2s)×1.5 game minutes (`SpellRules::partyBuffSeconds`) | done 2026-10-24 |
 | A7.10 | P3 | Resurrection on a living target: min(HP+heal, max), no Weak | done 2026-10-24 |

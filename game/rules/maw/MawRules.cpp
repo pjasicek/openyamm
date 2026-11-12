@@ -386,17 +386,29 @@ MawLootConfig MawRules::lootConfig() const
     return loot;
 }
 
-double MawRules::mapDropLevel() const
+std::optional<double> MawRules::mapMonsterLevel() const
 {
     // The cached levels count only when they are the current map's (audit ROB-2-2).
-    const std::string file = lowercase(m_currentMap);
     const std::vector<int> &levels = m_monsterLevels.nativeLevels;
 
-    // The lower middle of the map's own B rows (MawMapDropLevel).
-    if (m_monsterLevels.mapFileName == file && !levels.empty() && levels[(levels.size() + 1) / 2 - 1] > 0)
+    if (m_monsterLevels.mapFileName == lowercase(m_currentMap) && !levels.empty()
+        && levels[(levels.size() + 1) / 2 - 1] > 0)
     {
         return levels[(levels.size() + 1) / 2 - 1];
     }
+
+    return std::nullopt;
+}
+
+double MawRules::mapDropLevel() const
+{
+    // The lower middle of the map's own B rows (MawMapDropLevel).
+    if (const std::optional<double> level = mapMonsterLevel())
+    {
+        return *level;
+    }
+
+    const std::string file = lowercase(m_currentMap);
 
     // Otherwise 7/8 of a party level plus 1/8 of the band's sum (staticMapDropLevel, MON:1897-1924): the band's sum
     // where the map has a band; in horizontal progression 3/4 of all the continents' banks; else the banks of the

@@ -142,6 +142,11 @@ ItemWield ItemRules::wield(const Character &character, const ItemDefinition &ite
     return wield;
 }
 
+std::string ItemRules::weaponSkill(const Character &, const ItemDefinition &itemDefinition) const
+{
+    return canonicalSkillName(itemDefinition.skillGroup);
+}
+
 int ItemRules::levelRequirement(const ItemDefinition &, const ItemRulesetFields &) const
 {
     return 0;

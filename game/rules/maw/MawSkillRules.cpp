@@ -758,7 +758,7 @@ SkillTooltipText MawSkillRules::skillTooltip(
         {
             const ItemDefinition *pItem = itemId != 0 && !pState->broken ? party.itemTable()->get(itemId) : nullptr;
             const std::optional<MawWeaponGuard> guard = pItem != nullptr
-                    && canonicalSkillName(pItem->skillGroup) == canonicalSkill
+                    && mawWeaponSkill(character, *pItem) == canonicalSkill
                 ? mawWeaponGuard(m_rules, character, *pItem, pState->rulesetFields)
                 : std::nullopt;
 

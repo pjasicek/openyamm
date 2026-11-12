@@ -13,7 +13,7 @@ constexpr int MaxTableLevel = 2000;
 // Experience to go from `level` to the next.
 double experienceStep(double level)
 {
-    return 1000 * level * std::max(1 + (level - 100) * 0.01, 1.0);
+    return 1000 * level * std::max(1 + (level - 100) * 0.005, 1.0);
 }
 
 const std::array<double, MaxTableLevel + 1> &experienceTable()

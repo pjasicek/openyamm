@@ -57,7 +57,7 @@ MawExperienceRules::MawExperienceRules(MawRules &rules)
 
 uint64_t MawExperienceRules::experienceForNextLevel(uint32_t level) const
 {
-    // MAW clamps the requirement below 2^31, which makes training free from level 863 (README §6); we do not.
+    // MAW clamps the requirement below 2^31, which makes training free from level 1041 (README §6); we do not.
     return uint64_t(mawRound(mawExperienceForLevel(double(level) + 1)));
 }
 
@@ -228,7 +228,7 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
 
     const std::array<double, 3> band = m_rules.mapLevels().band(mapFileName);
     double mapLevel = (band[0] + band[1] + band[2]) / 3;
-    double bolster = options.progression == RulesetProgression::Horizontal ? mapLevel * 2 : 0;
+    double bolster = 0;
 
     if (madness)
     {
@@ -241,12 +241,33 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
         bolster = run->second.power * 10.0;
     }
 
+    // A plain map pays by the level of its monsters: its own B rows' middle level, else the average level of the
+    // monsters it counts (mapClearLevel, zzMaw-Monsters.lua:2586-2603, MAW 8967ae88).
+    std::optional<double> clearLevel;
+
+    if (!madness && !openRun)
+    {
+        clearLevel = m_rules.mapMonsterLevel();
+
+        if (!clearLevel && progress.levelledMonsters > 0)
+        {
+            clearLevel = progress.monsterLevelSum / progress.levelledMonsters;
+        }
+    }
+
     double slain = progress.slainMonsters;
     slain *= doom ? 0.5 : options.difficulty == RulesetDifficulty::Nightmare ? 0.67 : 1;
     slain *= insanity ? 0.8 : 1;
     mapLevel = std::clamp(mapLevel, 1.0, 100.0);
     double experience = std::ceil(std::pow(slain, 0.7) * (mapLevel * 20 + std::pow(mapLevel, 1.8)) / 3
                                   * (bolster + mapLevel) / mapLevel / 1000) * 1000;
+
+    if (clearLevel)
+    {
+        experience = std::ceil(std::pow(slain, 0.7) * (*clearLevel * 20 + std::pow(*clearLevel, 1.8)) / 3 / 1000)
+            * 1000;
+    }
+
     double gold = std::ceil(std::pow(experience, 0.9) / 1000) * 1000;
 
     if (madness)
@@ -315,10 +336,12 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
         return rewardText;
     }
 
-    // A Crafting Cube and two gems of tier min(ceil((map level + bolster) / 25 + 0.5), 16) (MON:2568-2797).
+    // A Crafting Cube and two gems of tier min(ceil(level / 25 + 0.5), 16), the level the map paid by: its clear
+    // level, else map level + bolster (MON:2793-2797).
     const MawCraftingData &crafting = m_rules.craftingData();
     std::vector<uint32_t> rewards = crafting.mapCompletionItems();
-    const int gemTier = std::min(int(std::ceil((mapLevel + bolster) / 25 + 0.5)), crafting.gemDropMaxTier());
+    const double gemLevel = clearLevel ? *clearLevel : mapLevel + bolster;
+    const int gemTier = std::min(int(std::ceil(gemLevel / 25 + 0.5)), crafting.gemDropMaxTier());
 
     for (int gem = 0; gem < crafting.mapCompletionGems(); ++gem)
     {
