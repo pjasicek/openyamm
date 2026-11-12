@@ -347,7 +347,8 @@ def write_tar_gz(output, files, directories):
 def assemble(platform, stage, index, release, packages_dir, apps_dir):
     """The small download package and the updater's app archive of a desktop platform. Returns (package, app)."""
     files = stage_files(stage, platform, release)
-    files[f"OpenYAMM/app/{release}/index.json"] = ((json.dumps(index, indent=1) + "\n").encode(), 0o644)
+    files[f"OpenYAMM/app/{release}/index.json"] = ((json.dumps(index_document(index), indent=1) + "\n").encode(),
+                                                   0o644)
     package = packages_dir / PACKAGE_NAMES[platform].format(version=release)
     package.parent.mkdir(parents=True, exist_ok=True)
     if platform == "macos-arm64":
@@ -409,22 +410,33 @@ def file_record(path, folder, name, suffix):
 
 
 def manifest_packs(manifest):
-    """Every pack a manifest lists: its packs and, on desktop, the languages' optional packs."""
+    """Every pack a manifest or release index lists: its packs and the languages' optional packs."""
     return [*manifest["packs"], *manifest.get("language_packs", [])]
 
 
+def split_language_packs(records):
+    """(packs, language_packs) of a manifest or release index. The languages' optional packs go apart: updaters
+    before 2.0 read only packs and know no language field. They would download every language's packs (on Android
+    and recorded without their language, so mounted in every language), and they check every pack of a new
+    version's index before switching to it, so they would refuse a desktop release missing one."""
+    return ([record for record in records if not record.get("language")],
+            [record for record in records if record.get("language")])
+
+
+def index_document(index):
+    """A release's index.json as the packages and app archives carry it: the languages' packs apart."""
+    packs, language_packs = split_language_packs(index["packs"])
+    return {**index, "packs": packs, **({"language_packs": language_packs} if language_packs else {})}
+
+
 def build_manifest(platform, release, index, app_record, published, notes_url, notes):
-    """A desktop manifest lists the languages' optional packs apart, under language_packs: updaters before 2.0 read
-    only packs and know no language field, so they would download every language's sounds and videos. 2.0 and later
-    read both lists and fetch a language's packs only for the languages kept installed. The Android updater
-    (OpenYammUpdater.java) reads only packs and keeps getting the language fonts there."""
+    """2.0 and later read both lists of a manifest; desktop fetches a language's packs only for the languages kept
+    installed, Android (OpenYammUpdater.java) fetches them all (fonts only)."""
     records = [{"id": pack["id"], "package": pack["package"], "mount": pack["mount"], "file": pack["file"],
                 "url": f"packs/{pack['sha256']}.zip", "size": pack["size"], "content_id": pack["content_id"],
                 "sha256": pack["sha256"], **({"language": pack["language"]} if pack.get("language") else {})}
                for pack in index["packs"]]
-    apart = PLATFORMS[platform] == "desktop"
-    packs = [record for record in records if not (apart and record.get("language"))]
-    language_packs = [record for record in records if apart and record.get("language")]
+    packs, language_packs = split_language_packs(records)
     return {
         "schema": MANIFEST_SCHEMA,
         "channel": CHANNEL,
@@ -610,9 +622,11 @@ def check(args):
         log(f"install check: the small Linux package downloads its content from {url}")
         subprocess.run([str(game), "--headless-update", url], cwd=install, check=True)
         index = json.loads((install / "app" / release / "index.json").read_text())
+        if any(pack.get("language") for pack in index["packs"]):
+            fail("the release index lists a language's pack among its packs, where updaters before 2.0 require it")
         # A fresh install in English gets every pack but the languages' optional ones, which download only when
         # their language is chosen (devdocs/LOCALIZATION.md).
-        for pack in index["packs"]:
+        for pack in manifest_packs(index):
             path = install / "assets" / "packs" / pack["file"]
             if pack.get("language"):
                 if path.exists():
@@ -625,9 +639,8 @@ def check(args):
                            cwd=work, check=True)
         if args.scenario and not (install / "app" / release / "healthy").is_file():
             fail("the installed game did not mark itself healthy")
-        installed = sum(1 for pack in index["packs"] if not pack.get("language"))
-        log(f"install check passed: {installed} packs installed into {install}, "
-            f"{len(index['packs']) - installed} language packs left for their languages")
+        log(f"install check passed: {len(index['packs'])} packs installed into {install}, "
+            f"{len(index.get('language_packs', []))} language packs left for their languages")
     finally:
         server.terminate()
         shutil.rmtree(work, ignore_errors=True)

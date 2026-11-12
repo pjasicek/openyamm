@@ -34,6 +34,7 @@ struct AssetPackIndex
     uint32_t contentFormat = 0;
     // Folder of the pack files, relative to the index file.
     std::string store;
+    // index.json's packs, then its language_packs (a release index lists the languages' optional packs apart).
     std::vector<AssetPackRecord> packs;
 };
 

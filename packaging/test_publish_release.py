@@ -177,18 +177,23 @@ class PublishTests(unittest.TestCase):
             self.assertEqual((first / "site/downloads/0.8" / name).read_bytes(),
                              (second / "site/downloads/0.8" / name).read_bytes())
 
-    def test_desktop_manifests_list_language_packs_apart_from_older_updaters(self):
-        # Updaters before 2.0 read only "packs" and know no language field: on desktop a language's optional packs
-        # go under "language_packs", so an update from them downloads none. The Android updater reads only "packs".
+    def test_language_packs_are_listed_apart_from_older_updaters(self):
+        # Updaters before 2.0 read only "packs" and know no language field, and check every pack of a new version's
+        # index before switching to it: manifests and the release index list a language's optional packs under
+        # "language_packs", so an update from them downloads none and does not miss them.
         packs = {"engine.core": b"core", "lang-de.engine.audio": b"german voices"}
         out = self.prepare("2.0", packs)
+        for platform in ("windows-x64", "android-arm64"):
+            manifest = self.manifest(out, platform)
+            self.assertEqual([pack["id"] for pack in manifest["packs"]], ["engine.core"])
+            self.assertEqual([(pack["id"], pack["language"]) for pack in manifest["language_packs"]],
+                             [("lang-de.engine.audio", "de")])
         desktop = self.manifest(out, "windows-x64")
-        self.assertEqual([pack["id"] for pack in desktop["packs"]], ["engine.core"])
-        self.assertEqual([(pack["id"], pack["language"]) for pack in desktop["language_packs"]],
+        with zipfile.ZipFile(out / "site/downloads/2.0/OpenYAMM-2.0-windows-x64.zip") as package:
+            index = json.loads(package.read("OpenYAMM/app/2.0/index.json"))
+        self.assertEqual([pack["id"] for pack in index["packs"]], ["engine.core"])
+        self.assertEqual([(pack["id"], pack["language"]) for pack in index["language_packs"]],
                          [("lang-de.engine.audio", "de")])
-        android = self.manifest(out, "android-arm64")
-        self.assertEqual(sorted(pack["id"] for pack in android["packs"]), ["engine.core", "lang-de.engine.audio"])
-        self.assertNotIn("language_packs", android)
         # The language pack is uploaded and protected from the store cleanup like any other.
         url = desktop["language_packs"][0]["url"]
         self.assertTrue((out / "site/updates" / url).is_file())

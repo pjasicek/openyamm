@@ -175,13 +175,18 @@ packs, downloaded only for a language the player chooses and kept current by the
   installed (any whose packs are in the store, and the one chosen in Settings) and no others. Choosing a language whose
   packs are missing downloads them as a content-only update of the installed version, then asks for a restart.
 - **Settings**: the Language row lists the release's languages, with the download size of those not installed.
-- Updaters of releases before 2.0 do not know the field, so a desktop manifest lists the language packs apart, under
-  `language_packs`, which they do not read (`packaging/publish_release.py`, `engine/update/ReleaseManifest.cpp`): an
-  update from 1.21 or earlier downloads no language's packs, and the game then fetches the chosen language's as above.
+- Updaters of releases before 2.0 do not know the field, so every manifest and the release's `index.json` list the
+  language packs apart, under `language_packs`, which they do not read (`packaging/publish_release.py`,
+  `engine/update/ReleaseManifest.cpp`, `engine/AssetPackIndex.cpp`): an update from 1.21 or earlier downloads no
+  language's packs, and the game then fetches the chosen language's as above. (Listed among the packs, they made the
+  old desktop updaters refuse the new version, whose index lists packs they never downloaded; and the old Android
+  updater would record them without their language, so the game would mount every language's fonts.)
   Until 2.0 releases shipped each language's text and fonts only (`ship: false` on the `audio` and `videos` overlays in
   `packs.yml`); from 2.0 the dubbed sounds and videos ship too (the user's decision, 2026-11-11). Removing an
   installed language's packs is not implemented yet (they stay until a release drops them).
-  Android: the APK carries no language packs; downloading them on Android waits for its in-app updater (phase 5).
+  Android: the in-app updater (`OpenYammUpdater.java`) downloads every language's packs (fonts only: the dubbed sounds
+  and videos are not packed for Android) and records their language. A phone updated by an updater before 2.0 has
+  none; the 2.0 app offers the installed release's missing packs as an update.
 
 ### Fonts
 

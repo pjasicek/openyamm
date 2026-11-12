@@ -55,6 +55,8 @@ final class OpenYammUpdater {
         String contentId;
         String sha256;
         long size;
+        // A language's optional pack (fonts): the game mounts it only while that is the interface language.
+        String language = "";
     }
 
     static final class Manifest {
@@ -245,9 +247,14 @@ final class OpenYammUpdater {
             if (manifest.appVersionCode <= 0) {
                 throw new IOException("The update server lists no app version; try again later.");
             }
+            // The languages' packs are listed apart (language_packs), unread by the updaters before 2.0, which know
+            // no language field and would record them as packs of every language (packaging/publish_release.py).
             JSONArray packs = document.getJSONArray("packs");
-            for (int i = 0; i < packs.length(); ++i) {
-                JSONObject item = packs.getJSONObject(i);
+            JSONArray languagePacks = document.optJSONArray("language_packs");
+            int count = packs.length() + (languagePacks != null ? languagePacks.length() : 0);
+            for (int i = 0; i < count; ++i) {
+                boolean apart = i >= packs.length();
+                JSONObject item = apart ? languagePacks.getJSONObject(i - packs.length()) : packs.getJSONObject(i);
                 Pack pack = new Pack();
                 pack.id = item.getString("id");
                 pack.packageName = item.getString("package");
@@ -257,6 +264,10 @@ final class OpenYammUpdater {
                 pack.contentId = item.getString("content_id");
                 pack.sha256 = item.getString("sha256");
                 pack.size = item.getLong("size");
+                pack.language = item.optString("language", "");
+                if (apart && pack.language.isEmpty()) {
+                    throw new IOException("The update lists a language pack without its language: " + pack.id);
+                }
                 if (!FILE_NAME.matcher(pack.file).matches()) {
                     throw new IOException("The update lists an invalid pack name: " + pack.file);
                 }
@@ -318,6 +329,16 @@ final class OpenYammUpdater {
         return missing;
     }
 
+    /**
+     * Whether the server's release is worth downloading: a newer one, or the installed one with packs missing (a phone
+     * that an updater before 2.0 updated has none of the languages' packs: they are listed apart for those updaters).
+     */
+    static boolean offersUpdate(Context context, Manifest manifest, String installed) {
+        Integer comparison = compareReleases(manifest.release, installed);
+        return comparison != null
+                && (comparison > 0 || (comparison == 0 && !missingPacks(context, manifest).isEmpty()));
+    }
+
     static boolean needsApp(Context context, Manifest manifest) {
         return manifest.appVersionCode > installedVersionCode(context);
     }
@@ -351,6 +372,9 @@ final class OpenYammUpdater {
                 item.put("size", pack.size);
                 item.put("content_id", pack.contentId);
                 item.put("sha256", pack.sha256);
+                if (!pack.language.isEmpty()) {
+                    item.put("language", pack.language);
+                }
                 packs.put(item);
             }
             index.put("packs", packs);

@@ -846,8 +846,9 @@ jobs:
           - **Android** (64-bit ARM): install the `android-arm64.apk`, allowing your browser or file manager to install
             apps when asked.
 
-          The first start downloads the game content (about 5 GB, 3 GB on Android); later updates download only what
-          changed, from inside the game. Saves and settings stay in the extracted folder on Windows and Linux, and in
+          The first start downloads the game content (about 9 GB, 5.3 GB on Android); choosing a language with dubbed
+          voices downloads them too (70-220 MB). Later updates download only what changed, from inside the game. Saves
+          and settings stay in the extracted folder on Windows and Linux, and in
           `~/Library/Application Support/OpenYAMM` on macOS.
           EOF
           } > "$notes"

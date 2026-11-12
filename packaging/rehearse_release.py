@@ -347,8 +347,10 @@ class Desktop:
         return (self.install / "app" / "current").read_text().strip()
 
     def index_files(self, version):
+        """The packs an English installation of the version holds: all but the languages' optional ones (apart under
+        language_packs in a release index, among the packs in a rehearsal's own build before 2.0)."""
         index = json.loads((self.install / "app" / version / "index.json").read_text())
-        return {pack["file"]: pack["size"] for pack in index["packs"]}
+        return {pack["file"]: pack["size"] for pack in index["packs"] if not pack.get("language")}
 
     def packs(self):
         folder = self.install / "assets" / "packs"

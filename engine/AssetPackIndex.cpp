@@ -144,11 +144,40 @@ std::optional<AssetPackIndex> parseAssetPackIndex(const std::string &text, std::
             return std::nullopt;
         }
 
-        std::unordered_set<std::string> ids;
-        std::unordered_set<std::string> files;
+        // A release's index lists the languages' optional packs apart (language_packs): the updaters before 2.0
+        // check every pack of a new version's index before switching to it, and never download a language's
+        // (packaging/publish_release.py).
+        const YAML::Node languagePacks = document["language_packs"];
+
+        if (languagePacks && !languagePacks.IsSequence())
+        {
+            error = "pack index language_packs is not a list";
+            return std::nullopt;
+        }
+
+        std::vector<YAML::Node> packNodes;
 
         for (const YAML::Node &packNode : packs)
         {
+            packNodes.push_back(packNode);
+        }
+
+        const size_t firstLanguagePack = packNodes.size();
+
+        if (languagePacks)
+        {
+            for (const YAML::Node &packNode : languagePacks)
+            {
+                packNodes.push_back(packNode);
+            }
+        }
+
+        std::unordered_set<std::string> ids;
+        std::unordered_set<std::string> files;
+
+        for (size_t nodeIndex = 0; nodeIndex < packNodes.size(); ++nodeIndex)
+        {
+            const YAML::Node &packNode = packNodes[nodeIndex];
             AssetPackRecord pack;
             pack.id = requiredString(packNode, "id");
             pack.package = requiredString(packNode, "package");
@@ -161,6 +190,12 @@ std::optional<AssetPackIndex> parseAssetPackIndex(const std::string &text, std::
 
             if (!validateAssetPackRecord(pack, error))
             {
+                return std::nullopt;
+            }
+
+            if (nodeIndex >= firstLanguagePack && pack.language.empty())
+            {
+                error = "pack index language pack " + pack.id + " names no language";
                 return std::nullopt;
             }
 

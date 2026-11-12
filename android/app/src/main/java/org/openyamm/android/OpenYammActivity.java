@@ -122,8 +122,7 @@ public class OpenYammActivity extends SDLActivity {
             try {
                 OpenYammUpdater.Manifest manifest = OpenYammUpdater.fetchManifest(baseUrl);
                 String installed = OpenYammUpdater.installedRelease(context);
-                Integer comparison = OpenYammUpdater.compareReleases(manifest.release, installed);
-                if (comparison == null || comparison <= 0) {
+                if (!OpenYammUpdater.offersUpdate(context, manifest, installed)) {
                     updaterResult = "uptodate|" + manifest.release + "||OpenYAMM " + installed + " is up to date.";
                 } else {
                     long bytes = OpenYammUpdater.downloadSize(context, manifest);

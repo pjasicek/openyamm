@@ -51,3 +51,26 @@ TEST_CASE("pack indexes parse and keep every pack inside its package")
     CHECK_FALSE(OpenYAMM::Engine::parseAssetPackIndex("not json", error));
     CHECK_FALSE(OpenYAMM::Engine::parseAssetPackIndex(indexWithPack(""), error));
 }
+
+TEST_CASE("a release index's language packs, listed apart for older updaters, join the packs with their language")
+{
+    const std::string german = "{\"id\": \"lang-de.engine.audio\", \"package\": \"engine\", "
+                               "\"mount\": \"/engine/audio\", \"file\": \"lang-de.engine.audio-1.zip\", "
+                               "\"size\": 12, \"content_id\": \"aa\", \"sha256\": \"bb\", \"language\": \"de\"}";
+    const std::string base = indexWithPack(pack("engine.core", "engine", "/engine", "engine.core-1.zip"));
+    const std::string apart = base.substr(0, base.size() - 1) + ", \"language_packs\": [" + german + "]}";
+    std::string error;
+    const std::optional<OpenYAMM::Engine::AssetPackIndex> index = OpenYAMM::Engine::parseAssetPackIndex(apart, error);
+    REQUIRE_MESSAGE(index, error);
+    REQUIRE(index->packs.size() == 2);
+    CHECK(index->packs[0].language.empty());
+    CHECK(index->packs[1].id == "lang-de.engine.audio");
+    CHECK(index->packs[1].language == "de");
+
+    // A pack listed apart must name its language, and language_packs must be a list.
+    const std::string nameless = base.substr(0, base.size() - 1) + ", \"language_packs\": ["
+        + pack("lang-de.engine.ui", "engine", "/engine/ui", "lang-de.engine.ui-1.zip") + "]}";
+    CHECK_FALSE(OpenYAMM::Engine::parseAssetPackIndex(nameless, error));
+    CHECK_FALSE(OpenYAMM::Engine::parseAssetPackIndex(base.substr(0, base.size() - 1) + ", \"language_packs\": 3}",
+                                                      error));
+}

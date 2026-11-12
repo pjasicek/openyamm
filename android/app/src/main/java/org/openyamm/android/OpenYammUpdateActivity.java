@@ -168,7 +168,7 @@ public class OpenYammUpdateActivity extends Activity {
         String installed = OpenYammUpdater.installedRelease(this);
         boolean contentReady = OpenYammUpdater.contentReady(this);
         Integer comparison = OpenYammUpdater.compareReleases(found.release, installed);
-        if (contentReady && comparison != null && comparison <= 0) {
+        if (contentReady && comparison != null && !OpenYammUpdater.offersUpdate(this, found, installed)) {
             show("OpenYAMM " + installed, "OpenYAMM is up to date.", "Play", this::play, null, null, false);
             return;
         }
