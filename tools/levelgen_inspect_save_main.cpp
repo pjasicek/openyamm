@@ -1,6 +1,7 @@
 #include "game/maps/SaveGame.h"
 
 #include <iostream>
+#include <set>
 
 #include <yaml-cpp/yaml.h>
 
@@ -118,6 +119,13 @@ int main(int argc, char **argv)
     result["house_stock_seed"] = save->party.houseStockSeed;
     result["held_item_active"] = save->heldInventoryItemActive;
     result["held_item_id"] = save->heldInventoryItem.objectDescriptionId;
+    const std::set<uint32_t> questBits(save->party.questBits.begin(), save->party.questBits.end());
+    result["quest_bits"] = YAML::Node(YAML::NodeType::Sequence);
+    result["quest_bits"].SetStyle(YAML::EmitterStyle::Flow);
+    for (const uint32_t questBit : questBits)
+    {
+        result["quest_bits"].push_back(questBit);
+    }
     for (const Character &member : save->party.members)
     {
         YAML::Node entry;

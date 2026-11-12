@@ -3350,9 +3350,28 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
         return false;
     }
 
-    const std::string questOverlayPath = engineEnglishDataTablePath("quests_overlay.txt");
-    if (const std::optional<std::string> overlayContents = assetFileSystem.readTextFile(questOverlayPath))
+    // Every mounted world's quest notes, whichever world the game started in: QBits are the party's own, and a game
+    // started in MM7 that loads an MM9 save or travels to Chedian keeps its quest log (each world's notes lie in its
+    // own QBit range).
+    std::vector<WorldManifest> mountedWorlds;
+    std::string manifestError;
+
+    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, manifestError))
     {
+        std::cerr << "Failed to resolve journal quest overlays: " << manifestError << '\n';
+        return false;
+    }
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        const std::string questOverlayPath = "worlds/" + manifest.id + "/data_tables/english/quests_overlay.txt";
+        const std::optional<std::string> overlayContents = assetFileSystem.readTextFile(questOverlayPath);
+
+        if (!overlayContents)
+        {
+            continue;
+        }
+
         const std::optional<Engine::TextTable> overlayTable =
             Engine::TextTable::parseTabSeparated(*overlayContents);
 

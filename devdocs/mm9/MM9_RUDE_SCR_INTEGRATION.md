@@ -38,9 +38,11 @@ Raw key `0` is invalid, QBit `90000` is reserved, and the MM9 range is `90000-99
 Generated MM9 Lua must use the full-width quest-bit event API for this range. The legacy packed EVT selector stores a
 16-bit index and therefore cannot represent MM9 QBits above `65535` without truncation.
 
-MM9 current quests remain world-owned content. `NPC997.rude` generates an optional active-world
+MM9 current quests remain world-owned content. `NPC997.rude` generates the world's optional
 `data_tables/english/quests_overlay.txt` whose rows declare required and forbidden full-width QBits. The shared journal
-loader merges this with the base quest table and evaluates the conditions generically. A newly satisfied quest row uses
+loader merges every mounted world's overlay with the base quest table, whichever world the game started in (until
+2026-11-12 only the starting world's: a game started in MM6-MM8 showed an empty quest log in Chedian), and evaluates
+the conditions generically. A newly satisfied quest row uses
 the normal OpenYAMM portrait effect, `QuestGot` reaction, and `SoundId::Quest`; explicit MM9 `QUEST.wav` calls map to the
 same deduplicated shared cue.
 

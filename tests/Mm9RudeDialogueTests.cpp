@@ -2085,6 +2085,9 @@ TEST_CASE("MM9 monster overlay leaves legacy monster rows unchanged")
             return entry.second.vendorStockProfile == OpenYAMM::Game::VendorStockProfile::None
                 || entry.second.packageId == "mm9";
         }));
+    // The quest journal is global too: MM9's quest notes are there in another world, beside the base quests.
+    CHECK(dataLoader.getJournalQuestTable().hasQuestText(3));
+    CHECK(dataLoader.getJournalQuestTable().hasQuestText(90001));
 
     const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pLegacyTroglodyte =
         dataLoader.getMonsterTable().findStatsById(413);
