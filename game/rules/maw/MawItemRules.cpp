@@ -11,7 +11,6 @@
 #include "game/party/SkillData.h"
 #include "game/rules/maw/MawAuras.h"
 #include "game/rules/maw/MawBalanceModel.h"
-#include "game/rules/maw/MawCharacterSheet.h"
 #include "game/rules/maw/MawClassRules.h"
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawCombatRules.h"
@@ -2234,51 +2233,6 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
     const MawBaseItem *pBase = data.baseItem(itemDefinition.itemId);
     const ItemRulesetFields &fields = item.rulesetFields;
 
-    // A staff's or spear's guard, with what it gives the viewer when held: MAW keeps the guard hidden, so the skill
-    // popups could not be checked against anything (Discord, 2026-11-10). Swords show theirs only in the Sword skill
-    // popup.
-    const auto addGuardLine = [&]()
-    {
-        const std::string skill = canonicalSkillName(itemDefinition.skillGroup);
-
-        if (skill != "Staff" && skill != "Spear")
-        {
-            return;
-        }
-
-        const std::optional<MawWeaponGuard> held =
-            pViewer != nullptr ? mawWeaponGuard(m_rules, *pViewer, itemDefinition, fields) : std::nullopt;
-        const std::optional<int> guard = held ? std::optional<int>(held->guard)
-                                              : weaponGuardBase(itemDefinition, fields, 0);
-
-        if (!guard)
-        {
-            return;
-        }
-
-        std::string text;
-
-        if (held && held->resistance > 0)
-        {
-            text = Engine::tr(
-                "Guard {guard}: +{armor} Armor Class and +{resistance} resistances for the party when held",
-                {{"guard", *guard}, {"armor", held->armorClass}, {"resistance", held->resistance}});
-        }
-        else if (held && held->armorClass > 0)
-        {
-            text = Engine::tr("Guard {guard}: +{armor} Armor Class when held",
-                {{"guard", *guard}, {"armor", held->armorClass}});
-        }
-        else
-        {
-            text = Engine::tr("Guard {guard}: Armor Class from {skill} {mastery}",
-                {{"guard", *guard}, {"skill", Engine::localize(displaySkillName(skill), "skill")},
-                    {"mastery", Engine::tr("Expert")}});
-        }
-
-        lines.push_back({text, 0x96c8ff});
-    };
-
     // A dimension map: its level, what its affixes add to loot and density, then the affixes, the locked ones grey.
     if (const MapStatsEntry *pMap = dimensionMapTarget(item))
     {
@@ -2417,8 +2371,6 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
             lines.push_back({Engine::tr("Swift"), 0x96c8ff});
         }
 
-        addGuardLine();
-
         // Who may wear it (artifactWearReq), red when the viewer may not.
         if (const std::optional<std::string> requirement = ItemRuntime::wearRequirementText(itemDefinition))
         {
@@ -2488,11 +2440,6 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
         const bool twoHanded = pBase->twoHanded;
         const int recovery = mawItemRecovery(weaponBaseRecovery(skill), fields.itemPower * 5, twoHanded);
         lines.push_back({Engine::tr("Attack speed: {speed}", {{"speed", formatSpeed(recovery)}}), 0xffffff});
-
-        if (item.identified)
-        {
-            addGuardLine();
-        }
     }
 
     if (fields.qualityPercent > 0)
