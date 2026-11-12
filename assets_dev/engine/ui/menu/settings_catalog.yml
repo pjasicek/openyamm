@@ -756,6 +756,9 @@ bindings:
 - id: battle_orders
   name: Battle orders
   group: Combat
+- id: upkeep
+  name: Cast upkeep spells
+  group: Combat
 - id: cast
   name: Open spellbook
   group: Combat

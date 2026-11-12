@@ -10,15 +10,17 @@
 namespace OpenYAMM::Game
 {
 class GameplayScreenRuntime;
+class Party;
 class SpellTable;
 struct SpellEntry;
 struct Character;
 struct GameplayInputFrame;
 
 // The Battle Orders window (devdocs/BATTLE_ORDERS.md; the chosen study level_generation/ui/combat_orders_20261108,
-// layout A): each member's attack orders with their conditions, the fallback and the quick keys (Quick Cast, Quick
-// Spell 1-4), over the open spellbook. Opened by the spellbook's Battle Orders button or the Battle Orders key (which
-// opens the book with it). Also the spellbook's short spell menu: a right click on a spell assigns it.
+// layout A): each member's attack orders with their conditions, the fallback, the upkeep list (the spells the Upkeep
+// key keeps up) and the quick keys (Quick Cast, Quick Spell 1-4), over the open spellbook. Opened by the spellbook's
+// Battle Orders button or the Battle Orders key (which opens the book with it). Also the spellbook's short spell
+// menu: a right click on a spell assigns it.
 namespace GameplayBattleOrders
 {
 // A right click on a spell up to this long opens its menu; held longer, the spell's description shows instead.
@@ -63,5 +65,19 @@ void renderQuickReferenceOrders(GameplayScreenRuntime &context, int width, int h
 void applyPreset(Character &member, const SpellTable &spellTable, Preset preset);
 // Another member's orders and fallback, without the spell orders this member cannot cast.
 void copyOrders(Character &member, const Character &source, const SpellTable &spellTable);
+
+enum class UpkeepPreset
+{
+    Buffs,
+    Healing,
+};
+
+// Adds to the member's upkeep list what it lacks of a kind, up to the limit. Buffs: the lasting buffs the member
+// knows, the strongest first, without those a known wider spell already gives (Day of Protection's resistances, Hour
+// of Power's Heroism), each renewed from the default time left on; Torch Light indoors only. Healing: Heal for an
+// ally below 90 % HP, then the cures. Returns how many it added.
+size_t addUpkeepPreset(Character &member, const Party &party, const SpellTable &spellTable, UpkeepPreset preset);
+// Another member's upkeep list, without the spells this member cannot cast.
+void copyUpkeep(Character &member, const Character &source, const Party &party, const SpellTable &spellTable);
 }
 }

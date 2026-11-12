@@ -79,6 +79,13 @@ public:
         void clear();
     };
 
+    // The Upkeep key's hold (GameplayActionController::updateUpkeepAction).
+    struct UpkeepActionState
+    {
+        bool latch = false;
+        float repeatCooldownSeconds = 0.0f;
+    };
+
     struct WorldInteractionInputState
     {
         bool keyboardUseLatch = false;
@@ -169,6 +176,8 @@ public:
     AttackActionState &attackActionState();
     const AttackActionState &attackActionState() const;
 
+    UpkeepActionState &upkeepActionState();
+
     WorldInteractionInputState &worldInteractionInputState();
     const WorldInteractionInputState &worldInteractionInputState() const;
 
@@ -185,6 +194,7 @@ private:
     PendingSpellTargetState m_pendingSpellTarget = {};
     QuickSpellState m_quickSpellState = {};
     AttackActionState m_attackActionState = {};
+    UpkeepActionState m_upkeepActionState = {};
     WorldInteractionInputState m_worldInteractionInputState = {};
     GameplayMouseLookState m_gameplayMouseLookState = {};
     bool m_pendingOpenNewGameScreen = false;

@@ -3568,6 +3568,211 @@ std::optional<size_t> PartySpellSystem::quickCastCharacterTarget(
     return target;
 }
 
+namespace
+{
+// The buff on members a spell gives (castSpell's CharacterBuff spells).
+std::optional<CharacterBuffId> characterBuffOfSpell(SpellId spell)
+{
+    switch (spell)
+    {
+        case SpellId::Bless:
+            return CharacterBuffId::Bless;
+        case SpellId::Preservation:
+            return CharacterBuffId::Preservation;
+        case SpellId::Regeneration:
+            return CharacterBuffId::Regeneration;
+        case SpellId::Hammerhands:
+            return CharacterBuffId::Hammerhands;
+        case SpellId::PainReflection:
+            return CharacterBuffId::PainReflection;
+        case SpellId::Glamour:
+            return CharacterBuffId::Glamour;
+        case SpellId::Mistform:
+            return CharacterBuffId::Mistform;
+        default:
+            return std::nullopt;
+    }
+}
+
+// The party buffs an upkeep cast of the spell keeps up: its own, or those a spell of several always gives
+// (applyCompositePartyBuff; not Hour of Power's Haste, which a weak member stops).
+std::vector<PartyBuffId> upkeepPartyBuffs(const Party &party, uint32_t spellId)
+{
+    using enum PartyBuffId;
+
+    switch (spellIdFromValue(spellId))
+    {
+        case SpellId::DayOfProtection:
+            return {BodyResistance, MindResistance, FireResistance, WaterResistance, AirResistance, EarthResistance,
+                FeatherFall, WizardEye};
+        case SpellId::HourOfPower:
+            return {Heroism, Shield, Stoneskin};
+        case SpellId::TravelersBoon:
+            return {TorchLight, WizardEye, FeatherFall};
+        case SpellId::Levitate:
+            return {Levitate, WaterWalk, FeatherFall};
+        default:
+            break;
+    }
+
+    const std::optional<PartyBuffId> buff = PartySpellSystem::partyBuffOfSpell(party, spellId);
+    return buff ? std::vector<PartyBuffId>{*buff} : std::vector<PartyBuffId>{};
+}
+
+// How long the buff of a cast by this member lasts, in game seconds (castSpell's skill and durations); nothing for a
+// spell without one or a caster without the skill.
+std::optional<float> castBuffSeconds(const Party &party, const Character &caster, uint32_t spellId)
+{
+    uint32_t skillLevel = 0;
+    SkillMastery mastery = SkillMastery::None;
+
+    if (!resolveSpellSkill(caster, spellId, PartySpellCastRequest{}, skillLevel, mastery))
+    {
+        if (party.rules().spells.classSpellMastery(caster, spellId) != SkillMastery::None
+            || !caster.knowsSpell(spellId))
+        {
+            return std::nullopt;
+        }
+
+        skillLevel = 0;
+        mastery = SkillMastery::Normal;
+    }
+
+    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(&party, spellId, mastery);
+
+    if (rule && rule->effectKind == PartySpellCastEffectKind::CharacterBuff)
+    {
+        return resolveCharacterBuffDurationSeconds(spellId, skillLevel, mastery);
+    }
+
+    if (!rule || rule->effectKind != PartySpellCastEffectKind::PartyBuff)
+    {
+        return std::nullopt;
+    }
+
+    return rule->partyBuffId == PartyBuffId::FleetFoot
+        ? fleetFootDurationSeconds(skillLevel, mastery)
+        : party.rules().spells.partyBuffSeconds(party, spellId, skillLevel, mastery, false)
+              .value_or(resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery));
+}
+
+bool beyondHealing(const Character &member)
+{
+    return member.conditions.test(size_t(CharacterCondition::Dead))
+        || member.conditions.test(size_t(CharacterCondition::Eradicated))
+        || member.conditions.test(size_t(CharacterCondition::Petrified));
+}
+}
+
+bool PartySpellSystem::isUpkeepSpell(uint32_t spellId)
+{
+    const SpellId spell = spellIdFromValue(spellId);
+
+    if (spell == SpellId::Invisibility)
+    {
+        return false;
+    }
+
+    if (hasQuickCastCharacterTarget(spellId) || spell == SpellId::PowerCure || spell == SpellId::Awaken
+        || characterBuffOfSpell(spell))
+    {
+        return true;
+    }
+
+    const std::optional<PartySpellDescriptor> descriptor = describeSpell(spellId);
+    return descriptor && descriptor->effectKind == PartySpellCastEffectKind::PartyBuff;
+}
+
+std::optional<PartySpellSystem::UpkeepNeed> PartySpellSystem::upkeepNeed(
+    const Party &party,
+    size_t casterIndex,
+    uint32_t spellId,
+    const SpellTable *pSpellTable,
+    std::optional<uint16_t> renewBelowMinutes)
+{
+    const Character *pCaster = party.member(casterIndex);
+
+    if (pCaster == nullptr || !isUpkeepSpell(spellId)
+        || party.rules().spells.castsAsAura(party, casterIndex, spellId))
+    {
+        return std::nullopt;
+    }
+
+    const SpellId spell = spellIdFromValue(spellId);
+
+    if (hasQuickCastCharacterTarget(spellId))
+    {
+        const std::optional<size_t> target = quickCastCharacterTarget(party, casterIndex, spellId, pSpellTable);
+        return target ? std::optional<UpkeepNeed>(UpkeepNeed{target}) : std::nullopt;
+    }
+
+    if (spell == SpellId::PowerCure || spell == SpellId::Awaken)
+    {
+        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        {
+            const Character &member = party.members()[memberIndex];
+            const bool needs = spell == SpellId::Awaken
+                ? member.conditions.test(size_t(CharacterCondition::Asleep))
+                : !beyondHealing(member) && member.health < party.reachableMaximumHealth(memberIndex);
+
+            if (needs)
+            {
+                return UpkeepNeed{};
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    const std::optional<float> castSeconds = castBuffSeconds(party, *pCaster, spellId);
+
+    // A cast that gives no time would be due again at once.
+    if (!castSeconds || *castSeconds <= 0.0f)
+    {
+        return std::nullopt;
+    }
+
+    if (const std::optional<CharacterBuffId> buff = characterBuffOfSpell(spell))
+    {
+        std::optional<size_t> target;
+        float leastSeconds = 0.0f;
+
+        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        {
+            // Mistform is the caster's own.
+            if (beyondHealing(party.members()[memberIndex])
+                || (spell == SpellId::Mistform && memberIndex != casterIndex))
+            {
+                continue;
+            }
+
+            const CharacterBuffState *pState = party.characterBuff(memberIndex, *buff);
+            const float remainingSeconds = pState != nullptr ? pState->remainingSeconds : 0.0f;
+
+            if (upkeepBuffDue(remainingSeconds, *castSeconds, renewBelowMinutes)
+                && (!target || remainingSeconds < leastSeconds))
+            {
+                target = memberIndex;
+                leastSeconds = remainingSeconds;
+            }
+        }
+
+        return target ? std::optional<UpkeepNeed>(UpkeepNeed{target}) : std::nullopt;
+    }
+
+    for (const PartyBuffId buff : upkeepPartyBuffs(party, spellId))
+    {
+        const PartyBuffState *pState = party.partyBuff(buff);
+
+        if (upkeepBuffDue(pState != nullptr ? pState->remainingSeconds : 0.0f, *castSeconds, renewBelowMinutes))
+        {
+            return UpkeepNeed{};
+        }
+    }
+
+    return std::nullopt;
+}
+
 std::optional<PartyBuffId> PartySpellSystem::partyBuffOfSpell(const Party &party, uint32_t spellId)
 {
     const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(&party, spellId, SkillMastery::Grandmaster);

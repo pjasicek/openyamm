@@ -16,6 +16,7 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
+#include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
 #include "game/StringUtils.h"
 #include "game/tables/ItemTable.h"
@@ -863,10 +864,15 @@ std::optional<CharacterAttackMode> shootingAttackMode(const CharacterAttackProfi
     return mode != CharacterAttackMode::Melee ? std::optional<CharacterAttackMode>(mode) : std::nullopt;
 }
 
-BattleOrderSituation battleOrderSituation(const Party &party, size_t memberIndex, std::optional<float> targetDistance)
+BattleOrderSituation battleOrderSituation(
+    const Party &party,
+    size_t memberIndex,
+    std::optional<float> targetDistance,
+    const IGameplayWorldRuntime *pWorldRuntime)
 {
     BattleOrderSituation situation;
     situation.targetDistance = targetDistance;
+    situation.indoors = pWorldRuntime != nullptr && !pWorldRuntime->isOpenAirMap();
 
     for (size_t index = 0; index < party.members().size(); ++index)
     {
@@ -1166,6 +1172,35 @@ void GameplayActionController::updateCooldowns(GameplayScreenState &screenState,
         std::max(0.0f, attackActionState.inspectRepeatCooldownSeconds - deltaSeconds);
     quickSpellState.castRepeatCooldownSeconds =
         std::max(0.0f, quickSpellState.castRepeatCooldownSeconds - deltaSeconds);
+    GameplayScreenState::UpkeepActionState &upkeepActionState = screenState.upkeepActionState();
+    upkeepActionState.repeatCooldownSeconds = std::max(0.0f, upkeepActionState.repeatCooldownSeconds - deltaSeconds);
+}
+
+GameplayActionController::UpkeepActionDecision GameplayActionController::updateUpkeepAction(
+    GameplayScreenState::UpkeepActionState &upkeepActionState,
+    bool upkeepPressed,
+    bool turnBased)
+{
+    if (!upkeepPressed)
+    {
+        upkeepActionState = {};
+        return {};
+    }
+
+    const bool pressedThisFrame = !upkeepActionState.latch;
+
+    if (!pressedThisFrame && (turnBased || upkeepActionState.repeatCooldownSeconds > 0.0f))
+    {
+        return {};
+    }
+
+    upkeepActionState.latch = true;
+    upkeepActionState.repeatCooldownSeconds =
+        pressedThisFrame ? HeldActionFirstRepeatDelaySeconds : HeldActionRepeatDebounceSeconds;
+    return UpkeepActionDecision{
+        .shouldAttemptUpkeep = true,
+        .pressedThisFrame = pressedThisFrame,
+    };
 }
 
 GameplayActionController::QuickCastActionDecision GameplayActionController::updateQuickCastAction(
@@ -1383,7 +1418,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     // The battle orders (game/party/BattleOrders.h): the first that holds and can be done now; a spell without a target
     // passes to the next order.
     const BattleOrderSituation situation =
-        battleOrderSituation(party, actingMemberIndex, target ? std::optional<float>(targetDistance) : std::nullopt);
+        battleOrderSituation(party, actingMemberIndex, target ? std::optional<float>(targetDistance) : std::nullopt,
+            config.pWorldRuntime);
     std::optional<CharacterAttackMode> orderedMode;
 
     for (const BattleOrder &order : pAttacker->battleOrders)
@@ -2002,6 +2038,134 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         {
             config.pRuntime->setStatusBarEvent(Engine::tr("{member} holds", {{"member", pHolder->name}}));
         }
+    }
+
+    return result;
+}
+
+GameplayActionController::PartyUpkeepResult GameplayActionController::executePartyUpkeep(
+    const PartyUpkeepConfig &config)
+{
+    PartyUpkeepResult result = {};
+
+    if (config.pParty == nullptr || config.pSpellTable == nullptr || config.pRuntime == nullptr
+        || config.pSpellService == nullptr || config.pWorldRuntime == nullptr)
+    {
+        return result;
+    }
+
+    Party &party = *config.pParty;
+    const size_t memberCount = party.members().size();
+    const bool turnBased = config.pRuntime->turnBasedCombatRuntime().active();
+    // Who may cast: in turn-based mode the member whose turn it is; in real time the ready members, the active first.
+    std::vector<size_t> casters;
+
+    if (turnBased)
+    {
+        const std::optional<size_t> acting = config.pRuntime->turnBasedCombatRuntime().readyMemberIndex(party);
+
+        if (acting && *acting < memberCount)
+        {
+            casters.push_back(*acting);
+        }
+    }
+    else
+    {
+        const size_t first = party.activeHireling() == nullptr ? party.activeMemberIndex() : 0;
+
+        for (size_t offset = 0; offset < memberCount; ++offset)
+        {
+            const size_t memberIndex = (first + offset) % memberCount;
+
+            if (GameMechanics::canTakeGameplayAction(party.members()[memberIndex]))
+            {
+                casters.push_back(memberIndex);
+            }
+        }
+    }
+
+    bool anyOrder = false;
+    // A due spell its caster cannot pay for, for the message.
+    std::string unaffordable;
+
+    for (const Character &member : party.members())
+    {
+        anyOrder = anyOrder || std::any_of(member.upkeepOrders.begin(), member.upkeepOrders.end(),
+            [](const BattleOrder &order) { return order.enabled; });
+    }
+
+    for (const size_t memberIndex : casters)
+    {
+        const Character &member = party.members()[memberIndex];
+        const BattleOrderSituation situation = battleOrderSituation(party, memberIndex, std::nullopt,
+            config.pWorldRuntime);
+
+        for (const BattleOrder &order : member.upkeepOrders)
+        {
+            const SpellEntry *pSpellEntry = order.enabled && order.kind == BattleOrderKind::Spell
+                ? config.pSpellTable->findByName(order.spellName, spellKnownBy(member))
+                : nullptr;
+
+            if (pSpellEntry == nullptr || !member.knowsSpell(uint32_t(pSpellEntry->id)))
+            {
+                continue;
+            }
+
+            const uint32_t spellId = uint32_t(pSpellEntry->id);
+            const std::optional<uint32_t> manaCost =
+                PartySpellSystem::manaCost(party, member, *config.pSpellTable, spellId);
+
+            if (!battleOrderConditionsHold(order, situation, manaCost.value_or(0))
+                || !PartySpellSystem::worldAllowsSpell(party, *config.pWorldRuntime, spellId))
+            {
+                continue;
+            }
+
+            const std::optional<PartySpellSystem::UpkeepNeed> need = PartySpellSystem::upkeepNeed(
+                party, memberIndex, spellId, config.pSpellTable, order.renewBelowMinutes);
+
+            if (!need)
+            {
+                continue;
+            }
+
+            if ((manaCost && !party.canSpendSpellPoints(memberIndex, int(*manaCost)))
+                || party.rules().spells.castRefusal(party, memberIndex, spellId).has_value())
+            {
+                if (unaffordable.empty())
+                {
+                    unaffordable = Engine::localize(partySpellName(&party, member, *pSpellEntry), "spell");
+                }
+
+                continue;
+            }
+
+            // The caster becomes the active member, as an attack's does, and the selection moves on after the cast.
+            party.setActiveMemberIndex(memberIndex);
+            GameplaySpellService::TargetQueries targetQueries = {};
+            targetQueries.characterTargetIndex = need->targetCharacterIndex;
+            const GameplaySpellService::MemberSpellCastResolution cast = config.pSpellService->castSpellFromMember(
+                *config.pRuntime, memberIndex, spellId, pSpellEntry->name, true, &targetQueries);
+            result.attempted = true;
+            result.castStarted = cast.castStarted;
+            result.actingMemberIndex = memberIndex;
+
+            if (cast.castStarted && !cast.followupUiActive && !turnBased)
+            {
+                party.switchToNextReadyMember();
+            }
+
+            return result;
+        }
+    }
+
+    if (config.pressedThisFrame)
+    {
+        config.pRuntime->setStatusBarEvent(!anyOrder ? Engine::tr("No upkeep spells set (Battle Orders)")
+            : !unaffordable.empty()
+                ? Engine::tr("Upkeep: not enough spell points for {spell}", {{"spell", unaffordable}})
+                : casters.empty() ? Engine::tr("Upkeep: nobody is ready")
+                                  : Engine::tr("Upkeep: nothing to cast"));
     }
 
     return result;

@@ -144,6 +144,8 @@ struct Character
     // replace the single attack spell of older saves.
     std::vector<BattleOrder> battleOrders;
     BattleOrderFallback battleOrderFallback = BattleOrderFallback::Weapon;
+    // The upkeep list: the buffs, heals and cures the Upkeep key casts when they are due, tried in order. Saved.
+    std::vector<BattleOrder> upkeepOrders;
     // The spellbook page the character last had open (a SpellbookSchool), or -1 before the first; it opens there.
     int32_t spellbookSchool = -1;
     std::unordered_set<uint32_t> knownSpellIds;

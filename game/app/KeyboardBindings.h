@@ -109,6 +109,8 @@ enum class KeyboardAction : uint8_t
     Statistics,
     // The Battle Orders window over the spellbook (game/ui/GameplayBattleOrders.h); unbound by default.
     BattleOrders,
+    // Upkeep (devdocs/BATTLE_ORDERS.md): a ready member casts the first due spell of their upkeep list.
+    Upkeep,
     Count
 };
 

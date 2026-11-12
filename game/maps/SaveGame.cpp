@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 174;
+constexpr uint32_t SaveVersion = 176;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -297,6 +297,8 @@ constexpr uint32_t SaveVersionMm9IdleClip = 173;
 // their routines from the map's scene when the map is next entered.
 constexpr uint32_t SaveVersionActorHeldItems = 174;
 constexpr uint32_t SaveVersionMm9Routines = 174;
+// Each battle order's place and renew time, and each character's upkeep list (game/party/BattleOrders.h).
+constexpr uint32_t SaveVersionUpkeepOrders = 176;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1488,6 +1490,8 @@ void writeValue(BinaryWriter &writer, const BattleOrder &value)
     writeValue(writer, value.distance);
     writeValue(writer, value.allyHealthBelowPercent);
     writeValue(writer, value.keepSpellPointsPercent);
+    writeValue(writer, value.place);
+    writeValue(writer, value.renewBelowMinutes);
 }
 
 bool readValue(BinaryReader &reader, BattleOrder &value)
@@ -1497,7 +1501,9 @@ bool readValue(BinaryReader &reader, BattleOrder &value)
         && readValue(reader, value.enabled)
         && readValue(reader, value.distance)
         && readValue(reader, value.allyHealthBelowPercent)
-        && readValue(reader, value.keepSpellPointsPercent);
+        && readValue(reader, value.keepSpellPointsPercent)
+        && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.place))
+        && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.renewBelowMinutes));
 }
 
 void writeValue(BinaryWriter &writer, const Character &value)
@@ -1570,6 +1576,7 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.statsMemberId);
     writeValue(writer, value.battleOrders);
     writeValue(writer, value.battleOrderFallback);
+    writeValue(writer, value.upkeepOrders);
 }
 
 // Saves before SaveVersionWideExperience hold a character's experience in 32 bits.
@@ -1667,7 +1674,8 @@ bool readValue(BinaryReader &reader, Character &value)
         && (reader.version() < SaveVersionConditionExpiry || readValue(reader, value.conditionExpireGameMinutes))
         && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.statsMemberId))
         && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrders))
-        && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrderFallback));
+        && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrderFallback))
+        && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.upkeepOrders));
 
     if (read && reader.version() < SaveVersionBattleOrders)
     {

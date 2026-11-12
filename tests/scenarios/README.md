@@ -61,7 +61,9 @@ bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the
 the actors' (`maw_bow_disabled.yml`).
 A `new_game_flow` party member may carry `battle_orders: {fallback: weapon|hold, orders: [...]}`
 (devdocs/BATTLE_ORDERS.md): each order is `{spell: <table name>}`, `{melee: true}` or `{shoot: true}` with optional
-`distance: [min, max]`, `ally_hp_below` and `keep_sp` (percent) and `enabled`; they are saved with the party.
+`distance: [min, max]`, `ally_hp_below` and `keep_sp` (percent), `place: anywhere|indoors|outdoors` and `enabled`; an
+optional `upkeep: [...]` beside `orders` is the member's upkeep list, spell orders that may also carry `renew_below`
+(game minutes). They are saved with the party.
 
 For spells and auras: `cast_spell: {member_index, spell_id, skill, mastery: 1-4, actor_index, target_member,
 target_point, scroll, expect}` casts through the party's spell system with full mana and no recovery (skill and mastery

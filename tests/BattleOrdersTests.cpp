@@ -56,6 +56,46 @@ TEST_CASE("battle orders: an ally's HP and the SP a cast keeps")
     CHECK(battleOrderConditionsHold(melee, situation));
 }
 
+TEST_CASE("battle orders: an order for one place holds only there")
+{
+    BattleOrderSituation situation;
+    BattleOrder sparks;
+    sparks.spellName = "Sparks";
+    situation.indoors = true;
+    CHECK(battleOrderConditionsHold(sparks, situation));
+    sparks.place = BattleOrderPlace::Indoors;
+    CHECK(battleOrderConditionsHold(sparks, situation));
+    sparks.place = BattleOrderPlace::Outdoors;
+    CHECK_FALSE(battleOrderConditionsHold(sparks, situation));
+    situation.indoors = false;
+    CHECK(battleOrderConditionsHold(sparks, situation));
+    sparks.place = BattleOrderPlace::Indoors;
+    CHECK_FALSE(battleOrderConditionsHold(sparks, situation));
+    // The weapon orders take a place too.
+    BattleOrder shoot;
+    shoot.kind = BattleOrderKind::Shoot;
+    shoot.place = BattleOrderPlace::Outdoors;
+    CHECK(battleOrderConditionsHold(shoot, situation));
+    situation.indoors = true;
+    CHECK_FALSE(battleOrderConditionsHold(shoot, situation));
+}
+
+TEST_CASE("upkeep: a buff is due when gone, or under its renew time and half of what a cast gives")
+{
+    const float hour = 3600.0f;
+    // Without a renew time, only once it is gone.
+    CHECK(upkeepBuffDue(0.0f, 5 * hour, std::nullopt));
+    CHECK_FALSE(upkeepBuffDue(60.0f, 5 * hour, std::nullopt));
+    // Renewed under 30 minutes left.
+    CHECK(upkeepBuffDue(0.0f, 5 * hour, uint16_t(30)));
+    CHECK(upkeepBuffDue(29 * 60.0f, 5 * hour, uint16_t(30)));
+    CHECK_FALSE(upkeepBuffDue(30 * 60.0f, 5 * hour, uint16_t(30)));
+    // A ten-minute buff is not cast again at every press: only once under half of it is left.
+    CHECK_FALSE(upkeepBuffDue(10 * 60.0f, 10 * 60.0f, uint16_t(30)));
+    CHECK_FALSE(upkeepBuffDue(5 * 60.0f, 10 * 60.0f, uint16_t(30)));
+    CHECK(upkeepBuffDue(4 * 60.0f, 10 * 60.0f, uint16_t(30)));
+}
+
 TEST_CASE("battle orders: an older save's attack spell becomes one order")
 {
     std::vector<BattleOrder> orders;
@@ -96,7 +136,7 @@ TEST_CASE("battle orders: the spellbook's attack spell sets, recognises and clea
     CHECK(fallback == BattleOrderFallback::Weapon);
 }
 
-TEST_CASE("battle orders: a save keeps each member's orders and fallback")
+TEST_CASE("battle orders: a save keeps each member's orders, fallback and upkeep list")
 {
     GameSaveData save;
     save.mapFileName = "oute3.odm";
@@ -114,8 +154,17 @@ TEST_CASE("battle orders: a save keeps each member's orders and fallback")
     BattleOrder bolt;
     bolt.spellName = "Light Bolt";
     bolt.keepSpellPointsPercent = 30;
+    bolt.place = BattleOrderPlace::Indoors;
     member.battleOrders = {heal, shoot, bolt};
     member.battleOrderFallback = BattleOrderFallback::Hold;
+    BattleOrder bless;
+    bless.spellName = "Bless";
+    bless.renewBelowMinutes = 45;
+    BattleOrder torch;
+    torch.spellName = "Torch Light";
+    torch.place = BattleOrderPlace::Indoors;
+    torch.enabled = false;
+    member.upkeepOrders = {bless, torch, heal};
     save.party = party.snapshot();
 
     const uint64_t ticks = uint64_t(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -129,4 +178,5 @@ TEST_CASE("battle orders: a save keeps each member's orders and fallback")
     REQUIRE_FALSE(loaded->party.members.empty());
     CHECK(loaded->party.members.front().battleOrders == member.battleOrders);
     CHECK(loaded->party.members.front().battleOrderFallback == BattleOrderFallback::Hold);
+    CHECK(loaded->party.members.front().upkeepOrders == member.upkeepOrders);
 }

@@ -70,7 +70,8 @@ bool GameplayUiController::journalSearchActive(const JournalScreenState &screen)
 
 bool GameplayUiController::spellbookSearchActive(const SpellbookState &spellbook)
 {
-    return spellbook.active && spellbook.battleOrders.open && spellbook.battleOrders.paletteSearchActive;
+    return spellbook.active && spellbook.battleOrders.open
+        && (spellbook.battleOrders.paletteSearchActive || spellbook.battleOrders.capturingUpkeepKey);
 }
 
 bool GameplayUiController::characterScreenSupportsInspection(const CharacterScreenState &screen)

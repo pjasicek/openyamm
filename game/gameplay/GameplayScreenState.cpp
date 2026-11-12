@@ -48,6 +48,7 @@ void GameplayScreenState::clear()
     m_pendingSpellTarget.clear();
     m_quickSpellState.clear();
     m_attackActionState.clear();
+    m_upkeepActionState = {};
     m_worldInteractionInputState.clear();
     m_gameplayMouseLookState.clear();
     m_pendingOpenNewGameScreen = false;
@@ -242,6 +243,11 @@ GameplayScreenState::AttackActionState &GameplayScreenState::attackActionState()
 const GameplayScreenState::AttackActionState &GameplayScreenState::attackActionState() const
 {
     return m_attackActionState;
+}
+
+GameplayScreenState::UpkeepActionState &GameplayScreenState::upkeepActionState()
+{
+    return m_upkeepActionState;
 }
 
 GameplayScreenState::WorldInteractionInputState &GameplayScreenState::worldInteractionInputState()

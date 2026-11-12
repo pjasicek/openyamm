@@ -2475,11 +2475,38 @@ bool readScenarioBattleOrders(
         return false;
     }
 
+    const YAML::Node upkeepNode = node["upkeep"];
+
+    if (upkeepNode && (!upkeepNode.IsSequence() || upkeepNode.size() > BattleOrderLimit))
+    {
+        failure = "battle_orders upkeep must be a list of at most " + std::to_string(BattleOrderLimit);
+        return false;
+    }
+
+    // The attack orders, then the upkeep list's (spells only).
     std::vector<BattleOrder> orders;
+    std::vector<BattleOrder> upkeep;
+    std::vector<std::pair<YAML::Node, bool>> orderNodes;
 
     for (const YAML::Node &orderNode : node["orders"])
     {
+        orderNodes.emplace_back(orderNode, false);
+    }
+
+    for (const YAML::Node &orderNode : upkeepNode)
+    {
+        orderNodes.emplace_back(orderNode, true);
+    }
+
+    for (const auto &[orderNode, forUpkeep] : orderNodes)
+    {
         BattleOrder order;
+
+        if (forUpkeep && (!orderNode.IsMap() || !orderNode["spell"]))
+        {
+            failure = "an upkeep order needs a spell";
+            return false;
+        }
 
         if (!orderNode.IsMap() || int(bool(orderNode["spell"])) + int(bool(orderNode["melee"]))
             + int(bool(orderNode["shoot"])) != 1)
@@ -2530,10 +2557,29 @@ bool readScenarioBattleOrders(
             order.keepSpellPointsPercent = uint8_t(std::clamp(orderNode["keep_sp"].as<int>(), 0, 100));
         }
 
-        orders.push_back(std::move(order));
+        const std::string place = orderNode["place"].as<std::string>("anywhere");
+
+        if (place != "anywhere" && place != "indoors" && place != "outdoors")
+        {
+            failure = "battle order place must be anywhere, indoors or outdoors";
+            return false;
+        }
+
+        order.place = place == "indoors" ? BattleOrderPlace::Indoors
+            : place == "outdoors"        ? BattleOrderPlace::Outdoors
+                                         : BattleOrderPlace::Anywhere;
+
+        if (forUpkeep && orderNode["renew_below"])
+        {
+            order.renewBelowMinutes = uint16_t(std::clamp(orderNode["renew_below"].as<int>(),
+                int(UpkeepRenewMinimumMinutes), int(UpkeepRenewMaximumMinutes)));
+        }
+
+        (forUpkeep ? upkeep : orders).push_back(std::move(order));
     }
 
     member.battleOrders = std::move(orders);
+    member.upkeepOrders = std::move(upkeep);
     member.battleOrderFallback = fallback == "hold" ? BattleOrderFallback::Hold : BattleOrderFallback::Weapon;
     return true;
 }

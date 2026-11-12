@@ -25,6 +25,8 @@ public:
         float screenHeight = 0.0f;
         // The actor the attack that casts the spell was aimed at; an actor-targeted quick cast prefers it.
         std::optional<size_t> preferredActorIndex;
+        // The member a cast on a member goes to, already chosen (an upkeep cast: PartySpellSystem::upkeepNeed).
+        std::optional<size_t> characterTargetIndex;
     };
 
     enum class QuickSpellStartDisposition

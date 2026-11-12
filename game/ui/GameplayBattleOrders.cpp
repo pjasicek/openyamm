@@ -1,6 +1,7 @@
 #include "game/ui/GameplayBattleOrders.h"
 
 #include "engine/Localization.h"
+#include "game/app/KeyboardBindings.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -81,6 +82,11 @@ constexpr float DistanceKnee = 1024;
 constexpr int AllyMinimum = 10;
 constexpr int AllyMaximum = 90;
 constexpr int KeepMaximum = 80;
+// The rows a list shows at once; a longer list scrolls. The attack list keeps a row for its fallback.
+constexpr size_t AttackVisibleRows = 6;
+constexpr size_t UpkeepVisibleRows = 8;
+// The upkeep list's presets sit under its rows.
+constexpr float UpkeepPresetsTop = RowTop + float(UpkeepVisibleRows) * RowPitch + 3;
 
 constexpr std::array<std::string_view, 5> QuickSlotNames = {Engine::trNoop("Quick Cast"),
     Engine::trNoop("Quick Spell 1"), Engine::trNoop("Quick Spell 2"), Engine::trNoop("Quick Spell 3"),
@@ -89,6 +95,12 @@ constexpr std::array<std::string_view, 5> QuickSlotNames = {Engine::trNoop("Quic
 // The "Start from" chips: the four plans, then the menu of the other members' orders.
 constexpr std::array<std::string_view, 5> PresetNames = {Engine::trNoop("Fighter"), Engine::trNoop("Archer"),
     Engine::trNoop("Caster"), Engine::trNoop("Healer"), Engine::trNoop("Copy from...")};
+// The upkeep list's "Add" chips: the buffs and the healing the member knows, then the same menu.
+constexpr std::array<std::string_view, 3> UpkeepPresetNames = {Engine::trNoop("Buffs"), Engine::trNoop("Healing"),
+    Engine::trNoop("Copy from...")};
+constexpr std::array<std::string_view, 2> ListNames = {Engine::trNoop("On Attack"), Engine::trNoop("Upkeep")};
+constexpr std::array<std::string_view, 3> PlaceNames = {Engine::trNoop("Anywhere"), Engine::trNoop("Indoors"),
+    Engine::trNoop("Outdoors")};
 
 enum class Slider
 {
@@ -96,6 +108,8 @@ enum class Slider
     Distance,
     Ally,
     Keep,
+    // Upkeep's "renew when under".
+    Renew,
 };
 
 enum class Control
@@ -103,6 +117,8 @@ enum class Control
     None,
     Close,
     Tab,
+    // The list switch: 0 the attack orders, 1 the upkeep spells.
+    List,
     Row,
     RowToggle,
     RowUp,
@@ -118,9 +134,15 @@ enum class Control
     PaletteScrollDown,
     PaletteSearch,
     QuickSlot,
+    // The Upkeep key's box, in place of the quick keys while the upkeep list shows.
+    UpkeepKey,
+    // The list's scrollbar.
+    ScrollBar,
     ConditionToggle,
     DistancePreset,
     SliderTrack,
+    // A place chip: a BattleOrderPlace.
+    Place,
 };
 
 struct Hit
@@ -197,6 +219,75 @@ Character *editedMember(const GameplayScreenRuntime &context)
     return pParty->member(state.memberIndex);
 }
 
+// The list the window shows and edits: the member's upkeep spells or attack orders.
+std::vector<BattleOrder> &shownOrders(Character &member, const WindowState &state)
+{
+    return state.upkeep ? member.upkeepOrders : member.battleOrders;
+}
+
+const std::vector<BattleOrder> &shownOrders(const Character &member, const WindowState &state)
+{
+    return state.upkeep ? member.upkeepOrders : member.battleOrders;
+}
+
+size_t visibleRows(const WindowState &state)
+{
+    return state.upkeep ? UpkeepVisibleRows : AttackVisibleRows;
+}
+
+// The furthest the shown list scrolls.
+size_t maximumScroll(const Character &member, const WindowState &state)
+{
+    const size_t count = shownOrders(member, state).size();
+    return count > visibleRows(state) ? count - visibleRows(state) : 0;
+}
+
+// Scrolls the list so that the order's row shows.
+void showOrder(WindowState &state, size_t index)
+{
+    if (index < state.listScroll)
+    {
+        state.listScroll = index;
+    }
+    else if (index >= state.listScroll + visibleRows(state))
+    {
+        state.listScroll = index + 1 - visibleRows(state);
+    }
+}
+
+// An upkeep spell that keeps a buff up, so it has a time left to renew at; not a heal, a cure or Awaken.
+bool isUpkeepBuff(uint32_t spellId)
+{
+    const SpellId spell = spellIdFromValue(spellId);
+    return PartySpellSystem::isUpkeepSpell(spellId) && !PartySpellSystem::hasQuickCastCharacterTarget(spellId)
+        && spell != SpellId::PowerCure && spell != SpellId::Awaken;
+}
+
+// Whether the member's upkeep list can take the spell: an upkeep spell the rules do not hold as an aura.
+bool upkeepTakes(const Party &party, const Character &member, uint32_t spellId)
+{
+    if (!PartySpellSystem::isUpkeepSpell(spellId))
+    {
+        return false;
+    }
+
+    for (size_t index = 0; index < party.members().size(); ++index)
+    {
+        if (&party.members()[index] == &member)
+        {
+            return !party.rules().spells.castsAsAura(party, index, spellId);
+        }
+    }
+
+    return true;
+}
+
+bool upkeepTakes(const GameplayScreenRuntime &context, const Character &member, uint32_t spellId)
+{
+    const Party *pParty = context.partyReadOnly();
+    return pParty != nullptr && upkeepTakes(*pParty, member, spellId);
+}
+
 const SpellEntry *orderSpell(const GameplayScreenRuntime &context, const Character &member, const BattleOrder &order)
 {
     return order.kind == BattleOrderKind::Spell && context.spellTable() != nullptr
@@ -251,8 +342,10 @@ std::string distanceText(const BattleOrderDistance &distance)
         {{"minimum", int64_t(distance.minimum)}, {"maximum", int64_t(distance.maximum)}});
 }
 
-// The order's conditions in a line: "target in melee reach · keeps 30 % SP", or what it always checks.
-std::string conditionSummary(const GameplayScreenRuntime &context, const Character &member, const BattleOrder &order)
+// The order's conditions in a line: "target in melee reach · keeps 30 % SP", or what it always checks. An upkeep
+// spell's line starts with when it is due.
+std::string conditionSummary(const GameplayScreenRuntime &context, const Character &member, const BattleOrder &order,
+    bool upkeep)
 {
     if (!order.enabled)
     {
@@ -260,6 +353,24 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
     }
 
     std::vector<std::string> parts;
+
+    if (upkeep)
+    {
+        const SpellEntry *pSpell = orderSpell(context, member, order);
+
+        if (pSpell != nullptr && !isUpkeepBuff(uint32_t(pSpell->id)))
+        {
+            parts.push_back(Engine::tr("when someone needs it"));
+        }
+        else if (order.renewBelowMinutes)
+        {
+            parts.push_back(Engine::tr("under {minutes} min left", {{"minutes", int64_t(*order.renewBelowMinutes)}}));
+        }
+        else
+        {
+            parts.push_back(Engine::tr("when it has run out"));
+        }
+    }
 
     if (order.kind == BattleOrderKind::Melee)
     {
@@ -283,6 +394,11 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
     if (order.keepSpellPointsPercent && order.kind == BattleOrderKind::Spell)
     {
         parts.push_back(Engine::tr("keeps {percent} % SP", {{"percent", int64_t(*order.keepSpellPointsPercent)}}));
+    }
+
+    if (order.place != BattleOrderPlace::Anywhere)
+    {
+        parts.push_back(order.place == BattleOrderPlace::Indoors ? Engine::tr("indoors") : Engine::tr("outdoors"));
     }
 
     if (parts.empty())
@@ -316,9 +432,9 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
 }
 
 // The member's spells an order or quick key can use: those cast at a monster, a member or nobody, in book order;
-// with a search, those whose shown name contains it.
+// for the upkeep list, the upkeep spells; with a search, those whose shown name contains it.
 std::vector<PaletteEntry> paletteEntries(const GameplayScreenRuntime &context, const Character &member, bool quickKey,
-    const std::string &search)
+    const std::string &search, bool upkeep)
 {
     const std::string wanted = Engine::Utf8::lower(search);
     const auto matches = [&context, &member, &wanted](const PaletteEntry &entry)
@@ -366,15 +482,15 @@ std::vector<PaletteEntry> paletteEntries(const GameplayScreenRuntime &context, c
                     || descriptor->targetKind == PartySpellCastTargetKind::UtilityUi
                     || descriptor->effectKind == PartySpellCastEffectKind::Jump);
 
-            // A quick key may hold any spell; the orders take the ones Attack can use.
-            if (quickKey || (descriptor && !utility))
+            // A quick key may hold any spell; the orders take the ones Attack can use, the upkeep list its own.
+            if (quickKey || (upkeep ? upkeepTakes(context, member, spellId) : descriptor && !utility))
             {
                 entries.push_back({BattleOrderKind::Spell, spellId, false});
             }
         }
     }
 
-    if (!quickKey)
+    if (!quickKey && !upkeep)
     {
         entries.push_back({BattleOrderKind::Melee, 0, false});
         entries.push_back({BattleOrderKind::Shoot, 0, false});
@@ -417,36 +533,68 @@ struct EditorRects
     Rect distanceToggle;
     std::array<Rect, 3> distancePresets;
     Rect distanceTrack;
+    Rect renewToggle;
+    Rect renewTrack;
     Rect allyToggle;
     Rect allyTrack;
     Rect keepToggle;
     Rect keepTrack;
+    // The place row: its label, then the three chips.
+    Rect placeLabel;
+    std::array<Rect, 3> placeChips;
 };
 
-// The selected order's editor in page units, the rectangles in screen pixels.
-EditorRects editorRects(const Layout &layout)
+// The place row's label takes this much of its width (page units).
+constexpr float PlaceLabelWidth = 40;
+
+// The selected order's editor in page units, the rectangles in screen pixels: an attack order's distance, or an
+// upkeep spell's renew time, then the ally's HP, the SP kept and the place.
+EditorRects editorRects(const Layout &layout, bool upkeep)
 {
     const float left = layout.rightLeft + 10;
     const float right = layout.rightRight - 10;
     EditorRects rects;
-    float y = EditorTop + 40;
-    rects.distanceToggle = pageRect(layout, left, y, right - left, 13);
-    const float chipWidth = (right - left - 14 - 8) / 3;
-    float chipX = left + 14;
+    float y = EditorTop + 38;
 
-    for (Rect &chip : rects.distancePresets)
+    if (upkeep)
     {
-        chip = pageRect(layout, chipX, y + 17, chipWidth, 15);
-        chipX += chipWidth + 4;
+        rects.renewToggle = pageRect(layout, left, y, right - left, 13);
+        rects.renewTrack = pageRect(layout, left + 14, y + 18, right - left - 18, 8);
+        y += 38;
+    }
+    else
+    {
+        rects.distanceToggle = pageRect(layout, left, y, right - left, 13);
+        const float chipWidth = (right - left - 14 - 8) / 3;
+        float chipX = left + 14;
+
+        for (Rect &chip : rects.distancePresets)
+        {
+            chip = pageRect(layout, chipX, y + 16, chipWidth, 15);
+            chipX += chipWidth + 4;
+        }
+
+        rects.distanceTrack = pageRect(layout, left + 14, y + 36, right - left - 18, 8);
+        y += 62;
     }
 
-    rects.distanceTrack = pageRect(layout, left + 14, y + 38, right - left - 18, 8);
-    y += 66;
+    const float step = upkeep ? 38 : 32;
     rects.allyToggle = pageRect(layout, left, y, right - left, 13);
-    rects.allyTrack = pageRect(layout, left + 14, y + 18, right - left - 18, 8);
-    y += 42;
+    rects.allyTrack = pageRect(layout, left + 14, y + 17, right - left - 18, 8);
+    y += step;
     rects.keepToggle = pageRect(layout, left, y, right - left, 13);
-    rects.keepTrack = pageRect(layout, left + 14, y + 18, right - left - 18, 8);
+    rects.keepTrack = pageRect(layout, left + 14, y + 17, right - left - 18, 8);
+    y += step;
+    rects.placeLabel = pageRect(layout, left, y, PlaceLabelWidth, 15);
+    const float placeWidth = (right - left - PlaceLabelWidth - 8) / 3;
+    float placeX = left + PlaceLabelWidth;
+
+    for (Rect &chip : rects.placeChips)
+    {
+        chip = pageRect(layout, placeX, y, placeWidth, 15);
+        placeX += placeWidth + 4;
+    }
+
     return rects;
 }
 
@@ -468,7 +616,63 @@ Rect rowToggleRect(const Layout &layout, size_t row)
 
 float fallbackTop(const Character &member)
 {
-    return RowTop + float(member.battleOrders.size()) * RowPitch;
+    return RowTop + float(std::min(member.battleOrders.size(), AttackVisibleRows)) * RowPitch;
+}
+
+// The list's scrollbar, in the gap right of the rows: its track, and the thumb for the rows shown.
+Rect scrollTrackRect(const Layout &layout, const WindowState &state)
+{
+    return pageRect(layout, layout.leftRight + 4, RowTop, 5, float(visibleRows(state)) * RowPitch - 3);
+}
+
+Rect scrollThumbRect(const Layout &layout, const Character &member, const WindowState &state)
+{
+    const Rect track = scrollTrackRect(layout, state);
+    const size_t count = shownOrders(member, state).size();
+    const size_t last = maximumScroll(member, state);
+    const float thumbHeight = std::max(16 * layout.page.scale, track.height * float(visibleRows(state)) / float(count));
+    const float travel = track.height - thumbHeight;
+    return {track.x, track.y + (last > 0 ? travel * float(std::min(state.listScroll, last)) / float(last) : 0),
+        track.width, thumbHeight};
+}
+
+// The row the scrollbar's thumb shows first with its middle at the pointer.
+size_t scrollAt(const Layout &layout, const Character &member, const WindowState &state, float pointerY)
+{
+    const Rect track = scrollTrackRect(layout, state);
+    const Rect thumb = scrollThumbRect(layout, member, state);
+    const float travel = track.height - thumb.height;
+    const size_t last = maximumScroll(member, state);
+
+    if (travel <= 0 || last == 0)
+    {
+        return 0;
+    }
+
+    const float position = std::clamp((pointerY - track.y - thumb.height / 2) / travel, 0.0f, 1.0f);
+    return size_t(std::round(position * float(last)));
+}
+
+// The Upkeep key's box, where the quick keys start.
+Rect upkeepKeyRect(const Layout &layout)
+{
+    return pageRect(layout, Margin + 84, QuickTop + 3, 92, 24);
+}
+
+// The list switch's two chips, over the rows: their widths depend on the text.
+std::array<Rect, 2> listRects(const GameplayObsidianPainter &painter, const Layout &layout)
+{
+    std::array<Rect, 2> rects;
+    float x = Margin;
+
+    for (size_t index = 0; index < rects.size(); ++index)
+    {
+        const float chipWidth = painter.width(TextFont, 8.5f, Engine::tr(ListNames[index])) + 16;
+        rects[index] = pageRect(layout, x, 74, chipWidth, 15);
+        x += chipWidth + 3;
+    }
+
+    return rects;
 }
 
 Rect fallbackChoiceRect(const Layout &layout, const Character &member, bool hold)
@@ -476,9 +680,9 @@ Rect fallbackChoiceRect(const Layout &layout, const Character &member, bool hold
     return pageRect(layout, layout.leftRight - 6 - (hold ? 48 : 98), fallbackTop(member) + 8, 48, 16);
 }
 
-float presetsTop()
+float presetsTop(bool upkeep)
 {
-    return RowTop + float(BattleOrderLimit + 1) * RowPitch + 22;
+    return upkeep ? UpkeepPresetsTop : RowTop + float(BattleOrderLimit + 1) * RowPitch + 22;
 }
 
 Rect tabRect(const Layout &layout, size_t index, size_t count)
@@ -509,16 +713,28 @@ Rect paletteRect(const Layout &layout, size_t visibleIndex)
     return pageRect(layout, x, y, PaletteIcon, PaletteIcon);
 }
 
+// The preset chips' names: the attack plans, or what the upkeep list can add; the last opens the copy menu.
+std::vector<std::string_view> presetNames(bool upkeep)
+{
+    return upkeep ? std::vector<std::string_view>(UpkeepPresetNames.begin(), UpkeepPresetNames.end())
+                  : std::vector<std::string_view>(PresetNames.begin(), PresetNames.end());
+}
+
+std::string presetsLabel(bool upkeep)
+{
+    return upkeep ? Engine::tr("Add") : Engine::tr("Start from");
+}
+
 // The preset chips and Copy, as the painter lays them out: their widths depend on the text.
-std::vector<Rect> presetRects(const GameplayObsidianPainter &painter, const Layout &layout)
+std::vector<Rect> presetRects(const GameplayObsidianPainter &painter, const Layout &layout, bool upkeep)
 {
     std::vector<Rect> rects;
-    float x = Margin + painter.width(TextFont, 9, Engine::tr("Start from")) + 8;
+    float x = Margin + painter.width(TextFont, 9, presetsLabel(upkeep)) + 8;
 
-    for (const std::string_view name : PresetNames)
+    for (const std::string_view name : presetNames(upkeep))
     {
         const float chipWidth = painter.width(TextFont, 8.5f, Engine::tr(name)) + 14;
-        rects.push_back(pageRect(layout, x, presetsTop(), chipWidth, 16));
+        rects.push_back(pageRect(layout, x, presetsTop(upkeep), chipWidth, 16));
         x += chipWidth + 4;
     }
 
@@ -537,7 +753,8 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
 {
     const WindowState &state = window(context);
     const Party &party = *context.partyReadOnly();
-    const std::vector<Rect> presets = presetRects(painter, layout);
+    const std::vector<Rect> presets = presetRects(painter, layout, state.upkeep);
+    const std::vector<BattleOrder> &orders = shownOrders(member, state);
 
     if (state.copyMenuOpen)
     {
@@ -572,33 +789,57 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
         }
     }
 
-    for (size_t row = 0; row < member.battleOrders.size(); ++row)
+    const std::array<Rect, 2> lists = listRects(painter, layout);
+
+    for (size_t index = 0; index < lists.size(); ++index)
     {
-        if (rowToggleRect(layout, row).contains(x, y))
+        if (lists[index].contains(x, y))
+        {
+            return {Control::List, index};
+        }
+    }
+
+    // The rows shown: the scrolled list's order `row` is on line `shown`.
+    for (size_t shown = 0; shown < visibleRows(state) && state.listScroll + shown < orders.size(); ++shown)
+    {
+        const size_t row = state.listScroll + shown;
+
+        if (rowToggleRect(layout, shown).contains(x, y))
         {
             return {Control::RowToggle, row};
         }
 
         for (int control = 0; control < 3; ++control)
         {
-            if (rowControlRect(layout, row, control).contains(x, y))
+            if (rowControlRect(layout, shown, control).contains(x, y))
             {
                 return {control == 0 ? Control::RowUp : control == 1 ? Control::RowDown : Control::RowRemove, row};
             }
         }
 
-        if (rowRect(layout, row).contains(x, y))
+        if (rowRect(layout, shown).contains(x, y))
         {
             return {Control::Row, row};
         }
     }
 
-    if (fallbackChoiceRect(layout, member, false).contains(x, y))
+    if (orders.size() > visibleRows(state))
+    {
+        const Rect track = scrollTrackRect(layout, state);
+        const float pad = 3 * layout.page.scale;
+
+        if (Rect{track.x - pad, track.y, track.width + 2 * pad, track.height}.contains(x, y))
+        {
+            return {Control::ScrollBar};
+        }
+    }
+
+    if (!state.upkeep && fallbackChoiceRect(layout, member, false).contains(x, y))
     {
         return {Control::FallbackWeapon};
     }
 
-    if (fallbackChoiceRect(layout, member, true).contains(x, y))
+    if (!state.upkeep && fallbackChoiceRect(layout, member, true).contains(x, y))
     {
         return {Control::FallbackHold};
     }
@@ -611,7 +852,7 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
         }
     }
 
-    for (size_t slot = 0; slot < QuickSlotNames.size(); ++slot)
+    for (size_t slot = 0; slot < QuickSlotNames.size() && !state.upkeep; ++slot)
     {
         if (quickSlotRect(layout, slot).contains(x, y))
         {
@@ -619,9 +860,14 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
         }
     }
 
+    if (state.upkeep && upkeepKeyRect(layout).contains(x, y))
+    {
+        return {Control::UpkeepKey};
+    }
+
     const size_t columns = paletteColumns(layout);
     const std::vector<PaletteEntry> entries =
-        paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch);
+        paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch, state.upkeep);
     const size_t first = state.paletteRow * columns;
 
     for (size_t visible = 0; visible < columns * PaletteRows && first + visible < entries.size(); ++visible)
@@ -647,12 +893,15 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
         return {Control::PaletteScrollDown};
     }
 
-    if (state.selectedOrder && *state.selectedOrder < member.battleOrders.size())
+    if (state.selectedOrder && *state.selectedOrder < orders.size())
     {
-        const EditorRects editor = editorRects(layout);
-        const BattleOrder &order = member.battleOrders[*state.selectedOrder];
-        const bool melee = order.kind == BattleOrderKind::Melee;
+        const EditorRects editor = editorRects(layout, state.upkeep);
+        const BattleOrder &order = orders[*state.selectedOrder];
+        // An attack order's distance (not a blow's: its reach is the distance); an upkeep buff's renew time.
+        const bool melee = order.kind == BattleOrderKind::Melee || state.upkeep;
         const bool spell = order.kind == BattleOrderKind::Spell;
+        const SpellEntry *pSpell = state.upkeep ? orderSpell(context, member, order) : nullptr;
+        const bool renews = pSpell != nullptr && isUpkeepBuff(uint32_t(pSpell->id));
 
         for (size_t chip = 0; chip < editor.distancePresets.size() && !melee; ++chip)
         {
@@ -662,11 +911,29 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
             }
         }
 
+        for (size_t chip = 0; chip < editor.placeChips.size(); ++chip)
+        {
+            if (editor.placeChips[chip].contains(x, y))
+            {
+                return {Control::Place, chip};
+            }
+        }
+
         const auto nearTrack = [x, y, &layout](const Rect &track)
         {
             const float pad = 4 * layout.page.scale;
             return Rect{track.x - pad, track.y - pad, track.width + 2 * pad, track.height + 2 * pad}.contains(x, y);
         };
+
+        if (renews && nearTrack(editor.renewTrack))
+        {
+            return {Control::SliderTrack, size_t(Slider::Renew)};
+        }
+
+        if (renews && editor.renewToggle.contains(x, y))
+        {
+            return {Control::ConditionToggle, size_t(Slider::Renew)};
+        }
 
         if (!melee && nearTrack(editor.distanceTrack))
         {
@@ -710,28 +977,65 @@ void playSound(const GameplayScreenRuntime &context, SoundId sound)
     }
 }
 
-// Adds an order at the end and selects it; refused at the limit.
+std::string limitText(bool upkeep)
+{
+    return upkeep ? Engine::tr("At most {count} upkeep spells", {{"count", int64_t(BattleOrderLimit)}})
+                  : Engine::tr("At most {count} orders", {{"count", int64_t(BattleOrderLimit)}});
+}
+
+// Adds an order at the end of the shown list and selects it; refused at the limit and, in the upkeep list, for a
+// spell already there.
 bool addOrder(GameplayScreenRuntime &context, Character &member, BattleOrder order)
 {
-    if (member.battleOrders.size() >= BattleOrderLimit)
+    WindowState &state = window(context);
+    std::vector<BattleOrder> &orders = shownOrders(member, state);
+    const bool listed = state.upkeep && std::any_of(orders.begin(), orders.end(),
+        [&order](const BattleOrder &other) { return other.spellName == order.spellName; });
+
+    if (orders.size() >= BattleOrderLimit || listed)
     {
         playSound(context, SoundId::Fizzle);
-        context.setStatusBarEvent(Engine::tr("Six orders at most"));
+        context.setStatusBarEvent(listed ? Engine::tr("Already in the upkeep list") : limitText(state.upkeep));
         return false;
     }
 
-    member.battleOrders.push_back(std::move(order));
-    window(context).selectedOrder = member.battleOrders.size() - 1;
+    orders.push_back(std::move(order));
+    state.selectedOrder = orders.size() - 1;
+    showOrder(state, orders.size() - 1);
     playSound(context, SoundId::ClickSkill);
     return true;
 }
 
-void setSlider(const Layout &layout, BattleOrder &order, Slider slider, bool maximum, float pointerX)
+// An upkeep order for the spell: a buff is renewed from the default time left on.
+BattleOrder upkeepOrderFor(const SpellEntry &spell)
 {
-    const EditorRects editor = editorRects(layout);
+    BattleOrder order;
+    order.spellName = spell.name;
+
+    if (isUpkeepBuff(uint32_t(spell.id)))
+    {
+        order.renewBelowMinutes = UpkeepRenewDefaultMinutes;
+    }
+
+    return order;
+}
+
+void setSlider(const Layout &layout, BattleOrder &order, Slider slider, bool maximum, float pointerX, bool upkeep)
+{
+    const EditorRects editor = editorRects(layout, upkeep);
     const Rect &track = slider == Slider::Distance ? editor.distanceTrack
+        : slider == Slider::Renew ? editor.renewTrack
         : slider == Slider::Ally ? editor.allyTrack : editor.keepTrack;
     const float position = track.width > 0 ? std::clamp((pointerX - track.x) / track.width, 0.0f, 1.0f) : 0.0f;
+
+    if (slider == Slider::Renew)
+    {
+        const int span = UpkeepRenewMaximumMinutes - UpkeepRenewMinimumMinutes;
+        const int value = UpkeepRenewMinimumMinutes + int(std::round(position * span / 5.0f)) * 5;
+        order.renewBelowMinutes =
+            uint16_t(std::clamp(value, int(UpkeepRenewMinimumMinutes), int(UpkeepRenewMaximumMinutes)));
+        return;
+    }
 
     if (slider == Slider::Distance)
     {
@@ -928,14 +1232,32 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
 {
     const WindowState &state = window(context);
     const float s = layout.page.scale;
-    painter.text(TextFont, 9, Gold, Engine::tr("ON ATTACK"), Margin + 2, 77);
-    painter.text(TextFont, 8.5f, Muted, Engine::tr("top to bottom; the first order whose conditions all hold is used"),
-        Margin + 2 + painter.width(TextFont, 9, Engine::tr("ON ATTACK")) + 10, 77.5f);
+    const std::vector<BattleOrder> &orders = shownOrders(member, state);
+    const std::array<Rect, 2> lists = listRects(painter, layout);
 
-    for (size_t row = 0; row < member.battleOrders.size(); ++row)
+    for (size_t index = 0; index < lists.size(); ++index)
     {
-        const BattleOrder &order = member.battleOrders[row];
-        const Rect box = rowRect(layout, row);
+        drawChip(painter, layout, lists[index], Engine::tr(ListNames[index]), state.upkeep == (index == 1),
+            hover.control == Control::List && hover.index == index);
+    }
+
+    // What the list does, beside its switch: the upkeep list names its key.
+    const float hintLeft = (lists.back().x + lists.back().width - layout.page.x) / s + 8;
+    const InputBinding upkeepKey = context.settingsSnapshot().keyboard.binding(KeyboardAction::Upkeep);
+    const std::string hint = !state.upkeep
+        ? Engine::tr("top to bottom; the first order whose conditions all hold is used")
+        : upkeepKey.kind == InputBindingKind::None
+            ? Engine::tr("the Upkeep key (not set) casts the first that is due")
+            : Engine::tr("{key} casts the first that is due; hold it to go on",
+                {{"key", inputBindingDisplayName(upkeepKey)}});
+    painter.text(TextFont, 8.5f, Muted, painter.fitted(TextFont, 8.5f, hint, layout.leftRight - hintLeft), hintLeft,
+        77.5f);
+
+    for (size_t shown = 0; shown < visibleRows(state) && state.listScroll + shown < orders.size(); ++shown)
+    {
+        const size_t row = state.listScroll + shown;
+        const BattleOrder &order = orders[row];
+        const Rect box = rowRect(layout, shown);
         const bool selected = state.selectedOrder == row;
         painter.fill(box, selected ? RowSelectedFill : RowFill);
 
@@ -945,8 +1267,8 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
         }
 
         painter.frame(box, selected ? RowSelectedBorder : RowBorder);
-        drawTick(painter, rowToggleRect(layout, row), order.enabled);
-        const float top = RowTop + float(row) * RowPitch;
+        drawTick(painter, rowToggleRect(layout, shown), order.enabled);
+        const float top = RowTop + float(shown) * RowPitch;
         const uint32_t nameColour = order.enabled ? Ivory : Disabled;
         painter.text(TextFont, 9, order.enabled ? Gold : Disabled, std::to_string(row + 1), Margin + 22, top + 10, 1);
         const Rect icon = pageRect(layout, Margin + 30, top + 3, 26, 26);
@@ -973,14 +1295,14 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
         }
 
         painter.text(TextFont, 8.5f, order.enabled ? abgr(0xcfe2f2) : Disabled,
-            painter.fitted(TextFont, 8.5f, conditionSummary(context, member, order), textRight - textLeft), textLeft,
-            top + 18);
+            painter.fitted(TextFont, 8.5f, conditionSummary(context, member, order, state.upkeep),
+                textRight - textLeft), textLeft, top + 18);
 
         for (int control = 0; control < 3; ++control)
         {
-            const Rect button = rowControlRect(layout, row, control);
+            const Rect button = rowControlRect(layout, shown, control);
             const Control kind = control == 0 ? Control::RowUp : control == 1 ? Control::RowDown : Control::RowRemove;
-            const bool usable = (control != 0 || row > 0) && (control != 1 || row + 1 < member.battleOrders.size());
+            const bool usable = (control != 0 || row > 0) && (control != 1 || row + 1 < orders.size());
             painter.fill(button, abgr(0x0b1111));
 
             if (usable && hover.control == kind && hover.index == row)
@@ -1006,6 +1328,33 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
                 painter.text(TextFont, 9, colour, "x", cx, cy - 4.5f, 1);
             }
         }
+    }
+
+    // A list longer than its rows scrolls.
+    if (orders.size() > visibleRows(state))
+    {
+        const Rect track = scrollTrackRect(layout, state);
+        painter.fill(track, Track);
+        painter.frame(track, TrackBorder);
+        const Rect thumb = scrollThumbRect(layout, member, state);
+        painter.fill(thumb, state.draggingScroll || hover.control == Control::ScrollBar ? Thumb : TrackFill);
+        painter.frame(thumb, ThumbEdge);
+    }
+
+    // The upkeep list has no fallback: under its rows, while there is room, only where the next spell goes.
+    if (state.upkeep)
+    {
+        if (orders.size() < UpkeepVisibleRows)
+        {
+            const float addTop = RowTop + float(orders.size()) * RowPitch;
+            painter.frame(pageRect(layout, Margin, addTop, layout.leftRight - Margin, 20), abgr(0x3a3f35));
+            painter.text(TextFont, 8.5f, Muted,
+                painter.fitted(TextFont, 8.5f, Engine::tr("+ Add a spell to keep up: click it on the right"),
+                    layout.leftRight - Margin - 20),
+                Margin + 10, addTop + 5);
+        }
+
+        return;
     }
 
     // The fallback row: always last.
@@ -1045,7 +1394,7 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     const Rect add = pageRect(layout, Margin, addTop, layout.leftRight - Margin, 20);
     painter.frame(add, abgr(0x3a3f35));
     painter.text(TextFont, 8.5f, Muted,
-        member.battleOrders.size() >= BattleOrderLimit ? Engine::tr("Six orders at most")
+        member.battleOrders.size() >= BattleOrderLimit ? limitText(false)
             : state.armedQuickSlot ? Engine::tr("Choose the spell for the quick key on the right")
                                    : Engine::tr("+ Add an order: click a spell or weapon on the right"),
         Margin + 10, addTop + 5);
@@ -1054,13 +1403,15 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
 void renderPresets(const GameplayObsidianPainter &painter, const Layout &layout, const Party &party,
     const WindowState &state, const Hit &hover)
 {
-    const std::vector<Rect> presets = presetRects(painter, layout);
-    painter.text(TextFont, 9, Muted, Engine::tr("Start from"), Margin, presetsTop() + 2);
+    const std::vector<Rect> presets = presetRects(painter, layout, state.upkeep);
+    const std::vector<std::string_view> names = presetNames(state.upkeep);
+    painter.text(TextFont, 9, Muted, presetsLabel(state.upkeep), Margin, presetsTop(state.upkeep) + 2);
+
     for (size_t index = 0; index < presets.size(); ++index)
     {
         const bool hovered = (hover.control == Control::Preset || hover.control == Control::CopyMenu)
             && hover.index == index;
-        drawChip(painter, layout, presets[index], Engine::tr(PresetNames[index]),
+        drawChip(painter, layout, presets[index], Engine::tr(names[index]),
             index + 1 == presets.size() && state.copyMenuOpen, hovered);
     }
 
@@ -1094,16 +1445,24 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     painter.frame(box, RowBorder);
     const float left = layout.rightLeft + 10;
     const float right = layout.rightRight - 10;
+    const std::vector<BattleOrder> &orders = shownOrders(member, state);
 
-    if (!state.selectedOrder || *state.selectedOrder >= member.battleOrders.size())
+    if (!state.selectedOrder || *state.selectedOrder >= orders.size())
     {
-        painter.text(TitleFont, 13, Ivory, member.battleOrders.empty() ? Engine::tr("No orders") : Engine::tr("Orders"),
+        painter.text(TitleFont, 13, Ivory,
+            state.upkeep ? (orders.empty() ? Engine::tr("No upkeep") : Engine::tr("Upkeep"))
+                         : (orders.empty() ? Engine::tr("No orders") : Engine::tr("Orders")),
             left, EditorTop + 8);
         float y = EditorTop + 30;
-        const std::string hint = member.battleOrders.empty()
-            ? Engine::tr("{member} attacks with the weapon: a blow in reach, the ranged weapon beyond. Add a spell to "
-                         "cast it first, or start from a plan below.", {{"member", member.name}})
-            : Engine::tr("Select an order to set when it is used.");
+        const std::string hint = !orders.empty()
+            ? (state.upkeep ? Engine::tr("Select a spell to set when it is cast.")
+                            : Engine::tr("Select an order to set when it is used."))
+            : state.upkeep
+                ? Engine::tr("The buffs, heals and cures {member} keeps up. The Upkeep key casts the first that is "
+                             "due, at its usual cost. Add spells on the right, or the member's buffs or healing "
+                             "below.", {{"member", member.name}})
+                : Engine::tr("{member} attacks with the weapon: a blow in reach, the ranged weapon beyond. Add a spell "
+                             "to cast it first, or start from a plan below.", {{"member", member.name}});
 
         for (const std::string &line : painter.wrapped(TextFont, 9, hint, right - left))
         {
@@ -1115,14 +1474,18 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     }
 
     const size_t selected = *state.selectedOrder;
-    const BattleOrder &order = member.battleOrders[selected];
+    const BattleOrder &order = orders[selected];
     const bool melee = order.kind == BattleOrderKind::Melee;
     const bool spell = order.kind == BattleOrderKind::Spell;
     const std::string title = std::to_string(selected + 1) + " \xC2\xB7 " + orderName(context, member, order);
     painter.text(TitleFont, 13, Ivory, painter.fitted(TitleFont, 13, title, right - left), left, EditorTop + 8);
-    painter.text(TextFont, 8.5f, Muted, Engine::tr("Used when every ticked condition holds; none ticked: always."),
-        left, EditorTop + 25);
-    const EditorRects rects = editorRects(layout);
+    painter.text(TextFont, 8.5f, Muted,
+        painter.fitted(TextFont, 8.5f,
+            state.upkeep ? Engine::tr("Cast when it is due and every ticked condition holds.")
+                         : Engine::tr("Used when every ticked condition holds; none ticked: always."),
+            right - left),
+        left, EditorTop + 24);
+    const EditorRects rects = editorRects(layout, state.upkeep);
     const float s = layout.page.scale;
     const auto rowText = [&painter, &layout, s](const Rect &toggle, const std::string &label, const std::string &value,
                              bool on, bool usable)
@@ -1134,7 +1497,28 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
         painter.text(TextFont, 9, !usable ? Disabled : on ? Ivory : Muted, value, x + toggle.width / s, y, 2);
     };
 
+    // An upkeep buff's renew time.
+    if (state.upkeep)
+    {
+        const SpellEntry *pSpell = orderSpell(context, member, order);
+        const bool renews = pSpell != nullptr && isUpkeepBuff(uint32_t(pSpell->id));
+        const int minutes = order.renewBelowMinutes.value_or(UpkeepRenewDefaultMinutes);
+        rowText(rects.renewToggle, Engine::tr("Renew when less is left than"),
+            !renews ? Engine::tr("buffs only")
+                    : Engine::tr("{minutes} min", {{"minutes", int64_t(minutes)}}),
+            renews && order.renewBelowMinutes.has_value(), renews);
+
+        if (renews)
+        {
+            drawSlider(painter, rects.renewTrack,
+                float(minutes - UpkeepRenewMinimumMinutes)
+                    / float(UpkeepRenewMaximumMinutes - UpkeepRenewMinimumMinutes),
+                std::nullopt, order.renewBelowMinutes.has_value(), std::nullopt);
+        }
+    }
+
     // Distance.
+    if (!state.upkeep)
     {
         const BattleOrderDistance distance = order.distance.value_or(BattleOrderDistance{0, BattleOrderMeleeReach});
         const std::string value = melee ? Engine::tr("the weapon's reach")
@@ -1206,6 +1590,20 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
                 order.keepSpellPointsPercent.has_value(), std::nullopt);
         }
     }
+
+    // The place.
+    {
+        const float labelX = (rects.placeLabel.x - layout.page.x) / s;
+        const float labelY = (rects.placeLabel.y - layout.page.y) / s + 3;
+        painter.text(TextFont, 9, order.place != BattleOrderPlace::Anywhere ? ChipOnText : Body,
+            painter.fitted(TextFont, 9, Engine::tr("Place"), PlaceLabelWidth - 4), labelX, labelY);
+
+        for (size_t chip = 0; chip < rects.placeChips.size(); ++chip)
+        {
+            drawChip(painter, layout, rects.placeChips[chip], Engine::tr(PlaceNames[chip]),
+                size_t(order.place) == chip, hover.control == Control::Place && hover.index == chip);
+        }
+    }
 }
 
 void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter &painter, const Layout &layout,
@@ -1218,7 +1616,8 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
     painter.frame(box, state.armedQuickSlot ? RowSelectedBorder : RowBorder);
     const std::string label = state.armedQuickSlot
         ? Engine::tr("Choose the spell for {key}", {{"key", Engine::tr(QuickSlotNames[*state.armedQuickSlot])}})
-        : Engine::tr("Add: {member}'s spells and weapons", {{"member", member.name}});
+        : state.upkeep ? Engine::tr("Add: {member}'s buffs, heals and cures", {{"member", member.name}})
+                       : Engine::tr("Add: {member}'s spells and weapons", {{"member", member.name}});
     const Rect search = searchRect(layout);
     const float searchLeft = (search.x - layout.page.x) / layout.page.scale;
     painter.text(TextFont, 8.5f, Gold, painter.fitted(TextFont, 8.5f, label, searchLeft - layout.rightLeft - 14),
@@ -1237,7 +1636,7 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
     painter.text(TextFont, 8.5f, state.paletteSearch.empty() && !state.paletteSearchActive ? Muted : Ivory,
         painter.fitted(TextFont, 8.5f, shown, search.width / layout.page.scale - 8), searchLeft + 4, PaletteTop + 5);
     const std::vector<PaletteEntry> entries =
-        paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch);
+        paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch, state.upkeep);
     const size_t columns = paletteColumns(layout);
     const size_t first = state.paletteRow * columns;
 
@@ -1342,6 +1741,82 @@ void renderQuickKeys(GameplayScreenRuntime &context, const GameplayObsidianPaint
     }
 }
 
+// Binds the Upkeep key (nothing clears it) and says so; a key another action has is refused, since one press would
+// then do both, and the window says which action.
+void bindUpkeepKey(GameplayScreenRuntime &context, const InputBinding &binding)
+{
+    GameSettings &settings = context.mutableSettings();
+    window(context).upkeepKeyRefusal.clear();
+
+    if (binding.kind == InputBindingKind::None)
+    {
+        settings.keyboard.setBinding(KeyboardAction::Upkeep, binding);
+        context.commitSettingsChange();
+        playSound(context, SoundId::Fizzle);
+        context.setStatusBarEvent(Engine::tr("Upkeep key cleared"));
+        return;
+    }
+
+    for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
+    {
+        const InputBinding other = settings.keyboard.binding(definition.action);
+
+        if (definition.action != KeyboardAction::Upkeep && other.kind == binding.kind
+            && other.scancode == binding.scancode)
+        {
+            playSound(context, SoundId::Fizzle);
+            window(context).upkeepKeyRefusal = Engine::tr("{key} is taken by {action}. Choose another key.",
+                {{"key", inputBindingDisplayName(binding)}, {"action", Engine::tr(definition.label)}});
+            return;
+        }
+    }
+
+    settings.keyboard.setBinding(KeyboardAction::Upkeep, binding);
+    context.commitSettingsChange();
+    playSound(context, SoundId::ClickSkill);
+    context.setStatusBarEvent(Engine::tr("Upkeep key: {key}", {{"key", inputBindingDisplayName(binding)}}));
+}
+
+// The Upkeep key, where the quick keys are while the attack orders show: its box binds the key in place.
+void renderUpkeepKey(GameplayScreenRuntime &context, const GameplayObsidianPainter &painter, const Layout &layout,
+    const Hit &hover)
+{
+    const WindowState &state = window(context);
+    painter.text(TextFont, 9, Gold, Engine::tr("UPKEEP KEY"), Margin + 2, QuickTop + 9);
+    const Rect box = upkeepKeyRect(layout);
+    const bool hovered = hover.control == Control::UpkeepKey;
+    painter.fill(box, state.capturingUpkeepKey ? ChipOnFill : IconWell);
+
+    if (hovered && !state.capturingUpkeepKey)
+    {
+        painter.fill(box, HoverFill);
+    }
+
+    painter.frame(box, state.capturingUpkeepKey || hovered ? RowSelectedBorder : abgr(0x6d6447));
+    const InputBinding binding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Upkeep);
+    const bool unbound = binding.kind == InputBindingKind::None;
+    const float boxWidth = box.width / layout.page.scale;
+    centredText(painter, layout, NameFont, 12,
+        state.capturingUpkeepKey ? ChipOnText : unbound ? Disabled : Ivory,
+        painter.fitted(NameFont, 12, state.capturingUpkeepKey ? "..." : inputBindingDisplayName(binding),
+            boxWidth - 8),
+        box);
+    const float textLeft = (box.x + box.width - layout.page.x) / layout.page.scale + 10;
+    const float available = layout.width - Margin - textLeft;
+    painter.text(TextFont, 8.5f, Body,
+        painter.fitted(TextFont, 8.5f,
+            state.capturingUpkeepKey ? Engine::tr("Press the key to use. Escape keeps the old one.")
+                                     : Engine::tr("Click the box, then press a key. A right click clears it."),
+            available),
+        textLeft, QuickTop + 4);
+    painter.text(TextFont, 8.5f, state.upkeepKeyRefusal.empty() ? Muted : Bad,
+        painter.fitted(TextFont, 8.5f,
+            !state.upkeepKeyRefusal.empty() ? state.upkeepKeyRefusal
+                : Engine::tr("One key for the whole party: each ready member casts what is due on their list."),
+            available),
+        textLeft, QuickTop + 17);
+}
+
 void renderWindow(GameplayScreenRuntime &context, int width, int height)
 {
     const Party *pParty = context.partyReadOnly();
@@ -1363,7 +1838,7 @@ void renderWindow(GameplayScreenRuntime &context, int width, int height)
     const Hit hover = pInput != nullptr
         ? hitTest(context, painter, layout, *pMember, pInput->pointerX, pInput->pointerY) : Hit{};
     painter.text(TitleFont, 20, Ivory, Engine::tr("Battle Orders"), Margin + 2, 20);
-    painter.text(TextFont, 8.5f, Muted, Engine::tr("Attack and the quick keys, per member"), Margin + 3, 47);
+    painter.text(TextFont, 8.5f, Muted, Engine::tr("Attack, upkeep and the quick keys, per member"), Margin + 3, 47);
     renderTabs(context, painter, layout, *pParty, hover);
     const Rect close = closeRect(layout);
     painter.button(close, Engine::tr("Close"), false, true, hover.control == Control::Close, false);
@@ -1372,12 +1847,27 @@ void renderWindow(GameplayScreenRuntime &context, int width, int height)
     renderEditor(context, painter, layout, *pMember, hover);
     renderPalette(context, painter, layout, *pMember, hover);
     painter.fill(pageRect(layout, Margin, QuickTop - 9, layout.width - 2 * Margin, 0.6f), Rule);
-    renderQuickKeys(context, painter, layout, *pMember, hover);
+
+    if (window(context).upkeep)
+    {
+        renderUpkeepKey(context, painter, layout, hover);
+    }
+    else
+    {
+        renderQuickKeys(context, painter, layout, *pMember, hover);
+    }
+
     renderPresets(painter, layout, *pParty, window(context), hover);
 }
 
-// The spellbook's spell menu: its rows (0 Quick Cast, 1-4 the quick spells, 5 add an order, 6 the window).
-constexpr size_t MenuRows = 7;
+// The Quick Reference's Orders row shows this many order icons, and its box lists this many orders.
+constexpr size_t QuickReferenceIcons = 6;
+constexpr size_t QuickReferenceLines = 10;
+
+// The spellbook's spell menu: its rows (0 Quick Cast, 1-4 the quick spells, 5 add an order, 6 add to the upkeep list,
+// 7 the window).
+constexpr size_t MenuRows = 8;
+constexpr size_t MenuUpkeepRow = 6;
 constexpr float MenuWidth = 200;
 constexpr float MenuHeader = 30;
 constexpr float MenuRowHeight = 17;
@@ -1537,6 +2027,34 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         (escapeHeld || input.scancodePressCount(SDL_SCANCODE_ESCAPE) > 0) && !state.escapeLatch;
     state.escapeLatch = escapeHeld || escapePressed;
 
+    state.listScroll = std::min(state.listScroll, maximumScroll(member, state));
+
+    // The Upkeep key's box waits for a key: the first bindable one pressed is taken, unless another action has it.
+    if (state.capturingUpkeepKey)
+    {
+        if (escapePressed)
+        {
+            state.capturingUpkeepKey = false;
+            return;
+        }
+
+        for (int code = SDL_SCANCODE_UNKNOWN + 1; code < SDL_SCANCODE_COUNT; ++code)
+        {
+            const SDL_Scancode scancode = SDL_Scancode(code);
+
+            // A key the settings can name, as the keyboard settings bind.
+            if (scancode == SDL_SCANCODE_ESCAPE || input.scancodePressCount(scancode) == 0
+                || parseKeyboardBindingName(keyboardBindingName(scancode)) != scancode)
+            {
+                continue;
+            }
+
+            state.capturingUpkeepKey = false;
+            bindUpkeepKey(context, keyboardInputBinding(scancode));
+            return;
+        }
+    }
+
     // The search field: typed text filters the palette; Enter keeps it, Escape clears it.
     if (state.paletteSearchActive)
     {
@@ -1588,13 +2106,21 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         return;
     }
 
+    // The scrollbar follows the pointer while the button is held.
+    if (state.draggingScroll)
+    {
+        state.listScroll = scrollAt(layout, member, state, input.pointerY);
+        state.draggingScroll = input.leftMouseButton.held;
+        return;
+    }
+
     // A slider follows the pointer while the button is held.
     if (state.draggedSlider >= 0)
     {
-        if (state.selectedOrder && *state.selectedOrder < member.battleOrders.size())
+        if (state.selectedOrder && *state.selectedOrder < shownOrders(member, state).size())
         {
-            setSlider(layout, member.battleOrders[*state.selectedOrder], Slider(state.draggedSlider),
-                state.draggingMaximum, input.pointerX);
+            setSlider(layout, shownOrders(member, state)[*state.selectedOrder], Slider(state.draggedSlider),
+                state.draggingMaximum, input.pointerX, state.upkeep);
         }
 
         if (!input.leftMouseButton.held)
@@ -1606,7 +2132,7 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
     }
 
     const std::vector<PaletteEntry> entries =
-        paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch);
+        paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch, state.upkeep);
     const size_t columns = paletteColumns(layout);
     const size_t paletteRows = (entries.size() + columns - 1) / columns;
     const size_t lastRow = paletteRows > PaletteRows ? paletteRows - PaletteRows : 0;
@@ -1620,12 +2146,29 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                                                      : std::min(lastRow, state.paletteRow + 1);
     }
 
+    // The wheel over the rows scrolls the list.
+    if (input.mouseWheelDelta != 0.0f
+        && pageRect(layout, Margin, RowTop, layout.rightLeft - Margin, float(visibleRows(state)) * RowPitch)
+            .contains(input.pointerX, input.pointerY))
+    {
+        const size_t last = maximumScroll(member, state);
+        state.listScroll = input.mouseWheelDelta > 0 ? (state.listScroll > 0 ? state.listScroll - 1 : 0)
+                                                     : std::min(last, state.listScroll + 1);
+    }
+
     const Hit hit = hitTest(context, painter, layout, member, input.pointerX, input.pointerY);
 
-    // A right click clears a quick key or the search.
+    // A right click clears a quick key, the Upkeep key or the search.
     if (input.rightMouseButton.pressed && hit.control == Control::QuickSlot)
     {
         assignQuickSlot(context, state.memberIndex, hit.index, nullptr);
+        return;
+    }
+
+    if (input.rightMouseButton.pressed && hit.control == Control::UpkeepKey)
+    {
+        state.capturingUpkeepKey = false;
+        bindUpkeepKey(context, InputBinding{});
         return;
     }
 
@@ -1641,16 +2184,20 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         return;
     }
 
-    // A click anywhere else takes the focus from the search; its text keeps filtering.
+    // A click anywhere else takes the focus from the search; its text keeps filtering. It also ends the wait for the
+    // Upkeep key, which its own box toggles.
     state.paletteSearchActive = hit.control == Control::PaletteSearch;
+    state.capturingUpkeepKey = hit.control == Control::UpkeepKey && !state.capturingUpkeepKey;
+    state.upkeepKeyRefusal.clear();
 
     if (hit.control != Control::CopyMenu && hit.control != Control::CopyMember)
     {
         state.copyMenuOpen = false;
     }
 
-    BattleOrder *pSelected = state.selectedOrder && *state.selectedOrder < member.battleOrders.size()
-        ? &member.battleOrders[*state.selectedOrder] : nullptr;
+    std::vector<BattleOrder> &orders = shownOrders(member, state);
+    BattleOrder *pSelected = state.selectedOrder && *state.selectedOrder < orders.size()
+        ? &orders[*state.selectedOrder] : nullptr;
 
     switch (hit.control)
     {
@@ -1664,16 +2211,28 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             if (hit.index != state.memberIndex)
             {
                 const bool closesBook = state.closesBook;
+                const bool upkeep = state.upkeep;
                 state = {};
                 state.open = true;
                 state.closesBook = closesBook;
+                state.upkeep = upkeep;
                 state.memberIndex = hit.index;
                 const Character *pOther = pParty->member(hit.index);
 
-                if (pOther != nullptr && !pOther->battleOrders.empty())
+                if (pOther != nullptr && !shownOrders(*pOther, state).empty())
                 {
                     state.selectedOrder = 0;
                 }
+            }
+            break;
+        case Control::List:
+            if (state.upkeep != (hit.index == 1))
+            {
+                state.upkeep = hit.index == 1;
+                state.selectedOrder = shownOrders(member, state).empty() ? std::nullopt : std::optional<size_t>(0);
+                state.armedQuickSlot.reset();
+                state.paletteRow = 0;
+                state.listScroll = 0;
             }
             break;
         case Control::Row:
@@ -1681,7 +2240,7 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             state.armedQuickSlot.reset();
             break;
         case Control::RowToggle:
-            member.battleOrders[hit.index].enabled = !member.battleOrders[hit.index].enabled;
+            orders[hit.index].enabled = !orders[hit.index].enabled;
             state.selectedOrder = hit.index;
             break;
         case Control::RowUp:
@@ -1689,19 +2248,20 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         {
             const bool up = hit.control == Control::RowUp;
 
-            if ((up && hit.index > 0) || (!up && hit.index + 1 < member.battleOrders.size()))
+            if ((up && hit.index > 0) || (!up && hit.index + 1 < orders.size()))
             {
                 const size_t other = up ? hit.index - 1 : hit.index + 1;
-                std::swap(member.battleOrders[hit.index], member.battleOrders[other]);
+                std::swap(orders[hit.index], orders[other]);
                 state.selectedOrder = other;
+                showOrder(state, other);
             }
             break;
         }
         case Control::RowRemove:
-            member.battleOrders.erase(member.battleOrders.begin() + std::ptrdiff_t(hit.index));
-            state.selectedOrder = member.battleOrders.empty()
+            orders.erase(orders.begin() + std::ptrdiff_t(hit.index));
+            state.selectedOrder = orders.empty()
                 ? std::nullopt
-                : std::optional<size_t>(std::min(hit.index, member.battleOrders.size() - 1));
+                : std::optional<size_t>(std::min(hit.index, orders.size() - 1));
             playSound(context, SoundId::Fizzle);
             break;
         case Control::FallbackWeapon:
@@ -1711,8 +2271,30 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             member.battleOrderFallback = BattleOrderFallback::Hold;
             break;
         case Control::Preset:
+            if (state.upkeep)
+            {
+                // The upkeep chips add to the list what it lacks; the last added spell is selected.
+                const size_t before = orders.size();
+                addUpkeepPreset(member, *pParty, *context.spellTable(),
+                    hit.index == 0 ? UpkeepPreset::Buffs : UpkeepPreset::Healing);
+
+                if (orders.size() == before)
+                {
+                    playSound(context, SoundId::Fizzle);
+                    context.setStatusBarEvent(orders.size() >= BattleOrderLimit ? limitText(true)
+                                                                                : Engine::tr("Nothing to add"));
+                    break;
+                }
+
+                state.selectedOrder = orders.size() - 1;
+                showOrder(state, orders.size() - 1);
+                playSound(context, SoundId::ClickSkill);
+                break;
+            }
+
             applyPreset(member, *context.spellTable(), Preset(hit.index));
-            state.selectedOrder = member.battleOrders.empty() ? std::nullopt : std::optional<size_t>(0);
+            state.selectedOrder = orders.empty() ? std::nullopt : std::optional<size_t>(0);
+            state.listScroll = 0;
             playSound(context, SoundId::ClickSkill);
             break;
         case Control::CopyMenu:
@@ -1721,9 +2303,20 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         case Control::CopyMember:
             if (const Character *pSource = pParty->member(hit.index))
             {
-                copyOrders(member, *pSource, *context.spellTable());
-                state.selectedOrder = member.battleOrders.empty() ? std::nullopt : std::optional<size_t>(0);
-                context.setStatusBarEvent(Engine::tr("Copied {member}'s orders", {{"member", pSource->name}}));
+                if (state.upkeep)
+                {
+                    copyUpkeep(member, *pSource, *pParty, *context.spellTable());
+                }
+                else
+                {
+                    copyOrders(member, *pSource, *context.spellTable());
+                }
+
+                state.selectedOrder = orders.empty() ? std::nullopt : std::optional<size_t>(0);
+                state.listScroll = 0;
+                context.setStatusBarEvent(
+                    state.upkeep ? Engine::tr("Copied {member}'s upkeep", {{"member", pSource->name}})
+                                 : Engine::tr("Copied {member}'s orders", {{"member", pSource->name}}));
                 playSound(context, SoundId::ClickSkill);
             }
 
@@ -1754,6 +2347,7 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                     break;
                 }
 
+                order = state.upkeep ? upkeepOrderFor(*pSpell) : order;
                 order.spellName = pSpell->name;
             }
             else if (entry.kind == BattleOrderKind::Shoot)
@@ -1774,6 +2368,13 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             state.armedQuickSlot = state.armedQuickSlot == hit.index ? std::nullopt : std::optional<size_t>(hit.index);
             state.paletteRow = 0;
             break;
+        case Control::UpkeepKey:
+            // Toggled above with the focus.
+            break;
+        case Control::ScrollBar:
+            state.draggingScroll = true;
+            state.listScroll = scrollAt(layout, member, state, input.pointerY);
+            break;
         case Control::ConditionToggle:
             if (pSelected != nullptr)
             {
@@ -1783,6 +2384,11 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                 {
                     order.distance = order.distance ? std::nullopt
                         : std::optional<BattleOrderDistance>(BattleOrderDistance{0, BattleOrderMeleeReach});
+                }
+                else if (Slider(hit.index) == Slider::Renew)
+                {
+                    order.renewBelowMinutes =
+                        order.renewBelowMinutes ? std::nullopt : std::optional<uint16_t>(UpkeepRenewDefaultMinutes);
                 }
                 else if (Slider(hit.index) == Slider::Ally)
                 {
@@ -1831,7 +2437,7 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                     const BattleOrderDistance distance =
                         order.distance.value_or(BattleOrderDistance{0, BattleOrderMeleeReach});
                     order.distance = distance;
-                    const Rect track = editorRects(layout).distanceTrack;
+                    const Rect track = editorRects(layout, state.upkeep).distanceTrack;
                     const float at = track.width > 0 ? (input.pointerX - track.x) / track.width : 0;
                     const float low = distancePosition(battleOrderDistanceBound(distance.minimum));
                     const float high = distance.maximum >= BattleOrderMaximumDistance
@@ -1839,7 +2445,13 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                     state.draggingMaximum = std::abs(at - high) <= std::abs(at - low);
                 }
 
-                setSlider(layout, order, slider, state.draggingMaximum, input.pointerX);
+                setSlider(layout, order, slider, state.draggingMaximum, input.pointerX, state.upkeep);
+            }
+            break;
+        case Control::Place:
+            if (pSelected != nullptr)
+            {
+                pSelected->place = BattleOrderPlace(hit.index);
             }
             break;
     }
@@ -1926,12 +2538,18 @@ void GameplayBattleOrders::renderSpellMenu(GameplayScreenRuntime &context, int w
         {
             label = Engine::tr("Add to {member}'s attack orders", {{"member", pMember->name}});
         }
+        else if (row == MenuUpkeepRow)
+        {
+            label = Engine::tr("Add to {member}'s upkeep", {{"member", pMember->name}});
+        }
         else
         {
             label = Engine::tr("Open Battle Orders");
         }
 
-        const float labelWidth = painter.text(TextFont, 9, hot == row ? ChipOnText : Body,
+        // The upkeep list takes only its own spells.
+        const bool usable = row != MenuUpkeepRow || upkeepTakes(context, *pMember, uint32_t(pSpell->id));
+        const float labelWidth = painter.text(TextFont, 9, !usable ? Disabled : hot == row ? ChipOnText : Body,
             painter.fitted(TextFont, 9, label, MenuWidth - 16), 8, top + 3);
 
         if (!current.empty() && 8 + labelWidth + 6 < MenuWidth - 8)
@@ -1968,15 +2586,21 @@ void GameplayBattleOrders::handleSpellMenuInput(GameplayScreenRuntime &context, 
 
     const std::optional<size_t> row =
         menuRowAt(context, input.screenWidth, input.screenHeight, input.pointerX, input.pointerY);
+    const size_t memberIndex = pParty->activeMemberIndex();
+    Character &member = *pParty->activeMember();
+
+    // A spell the upkeep list does not take leaves the menu open.
+    if (row == MenuUpkeepRow && !upkeepTakes(context, member, uint32_t(pSpell->id)))
+    {
+        return;
+    }
+
     closeSpellMenu(context);
 
     if (!row)
     {
         return;
     }
-
-    const size_t memberIndex = pParty->activeMemberIndex();
-    Character &member = *pParty->activeMember();
 
     if (*row < QuickSlotNames.size())
     {
@@ -1992,6 +2616,12 @@ void GameplayBattleOrders::handleSpellMenuInput(GameplayScreenRuntime &context, 
         BattleOrder order;
         order.spellName = pSpell->name;
         addOrder(context, member, order);
+    }
+    else if (*row == MenuUpkeepRow)
+    {
+        window(context).upkeep = true;
+        window(context).selectedOrder = member.upkeepOrders.empty() ? std::nullopt : std::optional<size_t>(0);
+        addOrder(context, member, upkeepOrderFor(*pSpell));
     }
 }
 
@@ -2046,17 +2676,27 @@ void GameplayBattleOrders::renderQuickReferenceOrders(GameplayScreenRuntime &con
         }
         else
         {
-            const size_t count = shown.size() + 1;
+            // Up to six orders as icons; of more, the first five and how many follow. The fallback's mark is last.
+            const size_t iconCount = shown.size() > QuickReferenceIcons ? QuickReferenceIcons - 1 : shown.size();
+            const bool more = shown.size() > iconCount;
+            const size_t count = iconCount + (more ? 1 : 0) + 1;
             const float gap = 2 * s;
             const float icon = std::min(cell.height - 2 * s, (cell.width - 8 * s - gap * float(count - 1)) / count);
             float x = cell.x + (cell.width - (icon * count + gap * float(count - 1))) / 2;
             const float y = cell.y + (cell.height - icon) / 2;
 
-            for (const BattleOrder *pOrder : shown)
+            for (size_t index = 0; index < iconCount; ++index)
             {
                 const Rect box = {x, y, icon, icon};
                 drawIconWell(painter, box, abgr(0x5f5a43));
-                drawOrderIcon(context, painter, member, *pOrder, box, false);
+                drawOrderIcon(context, painter, member, *shown[index], box, false);
+                x += icon + gap;
+            }
+
+            if (more)
+            {
+                centredText(painter, Layout{*root, 640}, TextFont, 8, Body,
+                    "+" + std::to_string(shown.size() - iconCount), {x, y, icon, icon});
                 x += icon + gap;
             }
 
@@ -2085,23 +2725,47 @@ void GameplayBattleOrders::renderQuickReferenceOrders(GameplayScreenRuntime &con
         return;
     }
 
-    // The pointed member's orders and quick keys in a box above the row.
+    // The pointed member's orders and quick keys in a box above the row: the first orders that fit over the row, and
+    // how many follow.
     const Character &member = pParty->members()[*pointed];
     std::vector<std::pair<std::string, std::string>> lines;
+    const size_t listed = std::min(member.battleOrders.size(), QuickReferenceLines);
 
-    for (const BattleOrder &order : member.battleOrders)
+    for (size_t index = 0; index < listed; ++index)
     {
-        lines.emplace_back(orderName(context, member, order), conditionSummary(context, member, order));
+        const BattleOrder &order = member.battleOrders[index];
+        lines.emplace_back(orderName(context, member, order), conditionSummary(context, member, order, false));
+    }
+
+    if (listed < member.battleOrders.size())
+    {
+        lines.emplace_back(
+            Engine::tr("and {count} more", {{"count", int64_t(member.battleOrders.size() - listed)}}), std::string());
     }
 
     lines.emplace_back(member.battleOrderFallback == BattleOrderFallback::Hold ? Engine::tr("Otherwise: hold")
                                                                                 : Engine::tr("Otherwise: the weapon"),
         std::string());
     constexpr float BoxWidth = 290;
-    const float boxHeight = 24 + float(lines.size()) * 14 + 36;
+    // The upkeep spells that are on, in a line or two under the orders.
+    std::string upkeep;
+
+    for (const BattleOrder &order : member.upkeepOrders)
+    {
+        if (order.enabled)
+        {
+            upkeep += (upkeep.empty() ? Engine::tr("Upkeep") + ": " : ", ") + orderName(context, member, order);
+        }
+    }
+
+    const GameplayResolvedHudLayoutElement measurePage = *root;
+    const std::vector<std::string> upkeepLines = upkeep.empty() ? std::vector<std::string>{}
+        : GameplayObsidianPainter(context, measurePage).wrapped(TextFont, 8.5f, upkeep, BoxWidth - 16);
+    const size_t upkeepShown = std::min<size_t>(upkeepLines.size(), 2);
+    const float boxHeight = 24 + float(lines.size()) * 14 + float(upkeepShown) * 12 + (upkeepShown > 0 ? 6 : 0) + 36;
     const float left = std::clamp((pointedCell.x + pointedCell.width / 2 - root->x) / s - BoxWidth / 2, 4.0f,
         640.0f - BoxWidth - 4);
-    const float top = (pointedCell.y - root->y) / s - boxHeight - 4;
+    const float top = std::max(4.0f, (pointedCell.y - root->y) / s - boxHeight - 4);
     const Rect box = painter.rect(left, top, BoxWidth, boxHeight);
     painter.fill(box, MenuFill);
     painter.frame(box, abgr(0x8c815f));
@@ -2112,8 +2776,8 @@ void GameplayBattleOrders::renderQuickReferenceOrders(GameplayScreenRuntime &con
     for (size_t line = 0; line < lines.size(); ++line)
     {
         const bool last = line + 1 == lines.size();
-        const bool off = !last && !member.battleOrders[line].enabled;
-        const std::string number = last ? "~" : std::to_string(line + 1);
+        const bool off = line < listed && !member.battleOrders[line].enabled;
+        const std::string number = last ? "~" : line < listed ? std::to_string(line + 1) : "";
         painter.text(TextFont, 9, Gold, number, left + 12, y, 1);
         const float nameWidth = painter.text(TextFont, 9, off ? Disabled : Ivory, lines[line].first, left + 20, y);
 
@@ -2125,6 +2789,18 @@ void GameplayBattleOrders::renderQuickReferenceOrders(GameplayScreenRuntime &con
         }
 
         y += 14;
+    }
+
+    if (upkeepShown > 0)
+    {
+        painter.fill(painter.rect(left + 6, y + 2, BoxWidth - 12, 0.6f), Rule);
+
+        for (size_t line = 0; line < upkeepShown; ++line)
+        {
+            painter.text(TextFont, 8.5f, Body, upkeepLines[line], left + 8, y + 6 + float(line) * 12);
+        }
+
+        y += 6 + float(upkeepShown) * 12;
     }
 
     painter.fill(painter.rect(left + 6, y + 2, BoxWidth - 12, 0.6f), Rule);
@@ -2248,5 +2924,104 @@ void GameplayBattleOrders::copyOrders(Character &member, const Character &source
     }
 
     member.battleOrderFallback = source.battleOrderFallback;
+}
+
+size_t GameplayBattleOrders::addUpkeepPreset(
+    Character &member, const Party &party, const SpellTable &spellTable, UpkeepPreset preset)
+{
+    size_t added = 0;
+    const auto knows = [&member, &party](SpellId spell)
+    {
+        return member.knowsSpell(uint32_t(spell)) && upkeepTakes(party, member, uint32_t(spell));
+    };
+    const auto add = [&](SpellId spell, std::optional<uint8_t> allyBelow, BattleOrderPlace place)
+    {
+        const SpellEntry *pSpell = spellTable.findById(int(spell));
+        const bool listed = pSpell != nullptr
+            && std::any_of(member.upkeepOrders.begin(), member.upkeepOrders.end(),
+                [pSpell](const BattleOrder &order) { return order.spellName == pSpell->name; });
+
+        if (pSpell == nullptr || listed || !knows(spell) || member.upkeepOrders.size() >= BattleOrderLimit)
+        {
+            return;
+        }
+
+        BattleOrder order = upkeepOrderFor(*pSpell);
+        order.allyHealthBelowPercent = allyBelow;
+        order.place = place;
+        member.upkeepOrders.push_back(order);
+        ++added;
+    };
+
+    if (preset == UpkeepPreset::Healing)
+    {
+        add(SpellId::Heal, uint8_t(AllyMaximum), BattleOrderPlace::Anywhere);
+
+        for (const SpellId cure : {SpellId::CurePoison, SpellId::CureDisease, SpellId::CureWeakness,
+                 SpellId::RemoveFear, SpellId::CureParalysis, SpellId::CureInsanity, SpellId::RemoveCurse})
+        {
+            add(cure, std::nullopt, BattleOrderPlace::Anywhere);
+        }
+
+        return added;
+    }
+
+    // The strongest first. A wider spell the member knows stands for the ones it gives.
+    const bool power = knows(SpellId::HourOfPower);
+    const bool protection = knows(SpellId::DayOfProtection);
+    const bool boon = knows(SpellId::TravelersBoon);
+
+    for (const SpellId buff : {SpellId::DayOfGods, SpellId::HourOfPower, SpellId::DayOfProtection,
+             SpellId::ProtectionFromMagic, SpellId::Preservation, SpellId::PainReflection, SpellId::Hammerhands,
+             SpellId::Regeneration, SpellId::TravelersBoon})
+    {
+        add(buff, std::nullopt, BattleOrderPlace::Anywhere);
+    }
+
+    for (const SpellId buff : {SpellId::Bless, SpellId::Heroism, SpellId::Haste, SpellId::Shield, SpellId::StoneSkin})
+    {
+        if (!power)
+        {
+            add(buff, std::nullopt, BattleOrderPlace::Anywhere);
+        }
+    }
+
+    for (const SpellId buff : {SpellId::FireResistance, SpellId::AirResistance, SpellId::WaterResistance,
+             SpellId::EarthResistance, SpellId::MindResistance, SpellId::BodyResistance})
+    {
+        if (!protection)
+        {
+            add(buff, std::nullopt, BattleOrderPlace::Anywhere);
+        }
+    }
+
+    if (!protection && !boon)
+    {
+        add(SpellId::WizardEye, std::nullopt, BattleOrderPlace::Anywhere);
+    }
+
+    if (!boon)
+    {
+        add(SpellId::TorchLight, std::nullopt, BattleOrderPlace::Indoors);
+    }
+
+    return added;
+}
+
+void GameplayBattleOrders::copyUpkeep(
+    Character &member, const Character &source, const Party &party, const SpellTable &spellTable)
+{
+    member.upkeepOrders.clear();
+
+    for (const BattleOrder &order : source.upkeepOrders)
+    {
+        const SpellEntry *pSpell = spellTable.findByName(order.spellName, spellKnownBy(member));
+
+        if (pSpell != nullptr && member.knowsSpell(uint32_t(pSpell->id))
+            && upkeepTakes(party, member, uint32_t(pSpell->id)))
+        {
+            member.upkeepOrders.push_back(order);
+        }
+    }
 }
 }

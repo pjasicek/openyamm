@@ -317,7 +317,16 @@ public:
         // Opened by the Battle Orders key: closing the window closes the book too.
         bool closesBook = false;
         size_t memberIndex = 0;
+        // The list shown: the member's upkeep spells (Character::upkeepOrders), else the attack orders.
+        bool upkeep = false;
         std::optional<size_t> selectedOrder;
+        // The list's first shown row, and whether its scrollbar is being dragged.
+        size_t listScroll = 0;
+        bool draggingScroll = false;
+        // The Upkeep key's box waits for the key to bind: keys are its, not hotkeys.
+        bool capturingUpkeepKey = false;
+        // Why the last key was refused, shown beside the box until the next click.
+        std::string upkeepKeyRefusal;
         // The quick key a palette click fills: 0 Quick Cast, 1-4 Quick Spell 1-4.
         std::optional<size_t> armedQuickSlot;
         // The slider being dragged (GameplayBattleOrders' Slider) and, for the distance, which end.
@@ -630,7 +639,8 @@ public:
     static bool characterScreenSearchActive(const CharacterScreenState &screen);
     // Typing goes to the journal: its notes search, or a personal map note being written.
     static bool journalSearchActive(const JournalScreenState &screen);
-    // The Battle Orders window's palette search has focus: keys are text, not hotkeys.
+    // The Battle Orders window's palette search has focus, or the window waits for the Upkeep key: keys are the
+    // window's, not hotkeys.
     static bool spellbookSearchActive(const SpellbookState &spellbook);
 
     struct InventoryNestedOverlayState

@@ -189,6 +189,41 @@ public:
     // An Attack press: the active combatant's attack (a member's battle orders, game/party/BattleOrders.h); in real time
     // a member who holds hands the press to the next ready combatant.
     static PartyAttackExecutionResult executePartyAttack(const PartyAttackConfig &config);
+    struct PartyUpkeepConfig
+    {
+        GameplayScreenRuntime *pRuntime = nullptr;
+        GameplaySpellService *pSpellService = nullptr;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
+        Party *pParty = nullptr;
+        const SpellTable *pSpellTable = nullptr;
+        // A fresh press, not a repeat of a held key: says why nothing was cast.
+        bool pressedThisFrame = false;
+    };
+
+    struct PartyUpkeepResult
+    {
+        // A member began an upkeep cast.
+        bool attempted = false;
+        bool castStarted = false;
+        size_t actingMemberIndex = 0;
+    };
+
+    struct UpkeepActionDecision
+    {
+        bool shouldAttemptUpkeep = false;
+        bool pressedThisFrame = false;
+    };
+
+    // The Upkeep key this frame: a press acts once, and a held key repeats as Attack does (not in turn-based mode).
+    static UpkeepActionDecision updateUpkeepAction(
+        GameplayScreenState::UpkeepActionState &upkeepActionState,
+        bool upkeepPressed,
+        bool turnBased);
+    // An Upkeep press (devdocs/BATTLE_ORDERS.md "Upkeep"): a ready member casts the first spell of their upkeep list
+    // that is due (PartySpellSystem::upkeepNeed), whose conditions hold and that they can pay for. In real time the
+    // active member is tried first, then the other ready members, one cast per press; in turn-based mode only the
+    // member whose turn it is, and the cast is that turn.
+    static PartyUpkeepResult executePartyUpkeep(const PartyUpkeepConfig &config);
     // The Unstuck action (MAW's L key): lifts the party when its rules allow it now, else does nothing and says why.
     // True when the party was lifted.
     static bool tryUnstuckParty(Party &party, IGameplayWorldRuntime &worldRuntime, std::string &statusText);

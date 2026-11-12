@@ -227,6 +227,13 @@ bool GameplaySpellService::tryPrepareQuickCastRequest(
         return true;
     }
 
+    if (targetQueries.characterTargetIndex)
+    {
+        request.quickCast = true;
+        request.targetCharacterIndex = targetQueries.characterTargetIndex;
+        return true;
+    }
+
     if (spellIdFromValue(request.spellId) == SpellId::Fear)
     {
         request.quickCast = true;

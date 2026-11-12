@@ -1,5 +1,6 @@
 #include "game/party/BattleOrders.h"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <string_view>
@@ -52,6 +53,12 @@ bool battleOrderConditionsHold(const BattleOrder &order, const BattleOrderSituat
         return false;
     }
 
+    if (order.place != BattleOrderPlace::Anywhere
+        && (order.place == BattleOrderPlace::Indoors) != situation.indoors)
+    {
+        return false;
+    }
+
     if (order.keepSpellPointsPercent && order.kind == BattleOrderKind::Spell)
     {
         const int kept = int(std::ceil(float(situation.maximumSpellPoints) * *order.keepSpellPointsPercent / 100.0f));
@@ -63,6 +70,17 @@ bool battleOrderConditionsHold(const BattleOrder &order, const BattleOrderSituat
     }
 
     return true;
+}
+
+bool upkeepBuffDue(float remainingSeconds, float castSeconds, std::optional<uint16_t> renewBelowMinutes)
+{
+    if (remainingSeconds <= 0.0f)
+    {
+        return true;
+    }
+
+    return renewBelowMinutes.has_value()
+        && remainingSeconds < std::min(float(*renewBelowMinutes) * 60.0f, castSeconds * 0.5f);
 }
 
 void setAttackSpell(const std::string &attackSpellName, std::vector<BattleOrder> &orders,

@@ -2847,6 +2847,7 @@ Character buildFreshCreatedCharacter(
     character.quickSpellName.clear();
     character.battleOrders.clear();
     character.battleOrderFallback = BattleOrderFallback::Weapon;
+    character.upkeepOrders.clear();
     character.baseResistances = {};
     character.permanentBonuses = {};
     character.magicalBonuses = {};

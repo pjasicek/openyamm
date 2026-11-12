@@ -1071,6 +1071,38 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             GameplayActionController::QuickCastActionConfig{});
     }
 
+    // The Upkeep key (devdocs/BATTLE_ORDERS.md "Upkeep"): a ready member casts the first due spell of their list.
+    if (config.processQuickCast)
+    {
+        const bool turnBased = context.turnBasedCombatRuntime().active();
+        const GameplayActionController::UpkeepActionDecision upkeepDecision =
+            GameplayActionController::updateUpkeepAction(
+                screenState.upkeepActionState(),
+                canRunStandardGameplayAction
+                    && isActionHeld(context, KeyboardAction::Upkeep, config.pInputFrame, config.pKeyboardState),
+                turnBased);
+
+        if (upkeepDecision.shouldAttemptUpkeep && config.canBeginQuickCast)
+        {
+            if (turnBased && context.turnBasedCombatRuntime().stage() == TurnBasedCombatStage::Movement)
+            {
+                context.turnBasedCombatRuntime().finishMovementPhase();
+            }
+            else
+            {
+                GameplayActionController::executePartyUpkeep(
+                    GameplayActionController::PartyUpkeepConfig{
+                        .pRuntime = &context,
+                        .pSpellService = &spellService,
+                        .pWorldRuntime = context.worldRuntime(),
+                        .pParty = context.party(),
+                        .pSpellTable = context.spellTable(),
+                        .pressedThisFrame = upkeepDecision.pressedThisFrame,
+                    });
+            }
+        }
+    }
+
     const GameplayStandardWorldInputGateResult worldInputGateResult =
         GameplayScreenController::gateStandardWorldInput(
             context,

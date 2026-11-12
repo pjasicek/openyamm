@@ -916,14 +916,17 @@ TEST_CASE("saves before the MM9 formation load without member cells and with neu
     // The party's empty last outdoor map after it (version 155) stays.
     const size_t countOffset = static_cast<size_t>(markerIt - bytes.begin()) + sizeof(cellMarker);
     eraseEmptyCounts(bytes, countOffset, 1);
-    // A version 157 character has no condition expiry times either (version 159), nor the statistics identity after
-    // them (163).
+    // A version 157 character has no condition expiry times either (version 159), nor what follows them: the
+    // statistics identity (163), the battle orders' fallback (167) and the empty upkeep list (176). The empty battle
+    // orders' count between them stays: its eight zero bytes stand for the empty attack spell name those saves have
+    // after the quick spell.
     std::array<uint8_t, sizeof(expiryMarker)> expiryBytes = {};
     std::memcpy(expiryBytes.data(), &expiryMarker, sizeof(expiryMarker));
     const auto expiryIt = std::search(bytes.begin(), bytes.end(), expiryBytes.begin(), expiryBytes.end());
     REQUIRE(expiryIt != bytes.end());
     eraseBytes(bytes, static_cast<size_t>(expiryIt - bytes.begin()),
-        sizeof(float) * hireling.character.conditionExpireGameMinutes.size() + sizeof(uint64_t));
+        sizeof(float) * hireling.character.conditionExpireGameMinutes.size() + sizeof(uint64_t) + sizeof(uint8_t)
+            + sizeof(uint64_t));
     erasePlaythroughStatistics(bytes);
     eraseMapLayoutIdentities(bytes);
     eraseFleetFootBuff(bytes);
