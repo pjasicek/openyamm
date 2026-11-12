@@ -45,6 +45,13 @@ events and call `bonus_call`. The behaviour is world Lua, `assets_dev/worlds/mm9
 `MM9.useWell`, `MM9.useCauldron`, `MM9.useCookpot`, `MM9.useClover` (doses and uses in map variables
 `MM9.Bonus.<index>.*`, the day as 1 440 game minutes).
 
+The Clover item itself (MM9 item 590, ours 10590): used on a character it gives one skill point and is consumed
+(cshell.dll 0x100249c4 adds 1 to the field the level-up code adds 5 + level/10 to). Ours: the item table's
+`use_action` `GrantSkillPoints` with VarA 1 (`tools/mm9_import_discovery/import_mm9_items.py`,
+`InventoryItemUseAction::GrantSkillPoints`), since 2026-11-12; before, the item did nothing. All fifteen patches are
+placed since the same day: Guberland, Sturmford and Thronheim City's props projects had left the Clover class out
+(`tests/scenarios/mm9/city_clovers.yml`).
+
 Deviations: what MM9 gives the selected character goes to the current member; MM9's timed buffs (kinds 8 and 9)
 become the MM6-MM8 temporary event bonuses (`<Stat>Bonus`, `<School>ResistanceBonus`), raised to the amount and not
 stacked, which last until the party rests rather than BonusSeconds; the poison is the weakest (PoisonedGreen) and has

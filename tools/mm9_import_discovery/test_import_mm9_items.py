@@ -89,6 +89,8 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     assert by_id[10370][11] == "20370"
     assert by_id[10371][11] == "20371"
     assert by_id[10590][4] == "Misc"
+    assert by_id[10590][12] == "1"
+    assert by_id[10590][22] == "GrantSkillPoints"
     assert by_id[10558][3] == "0"
     assert "Quest" in by_id[10558][20]
     assert by_id[10579][22] == "ReadText"

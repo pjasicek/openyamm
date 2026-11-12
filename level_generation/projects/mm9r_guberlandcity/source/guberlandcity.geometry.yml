@@ -617,7 +617,8 @@
     "TRIGGER_opaque_r09_r01",
     "TRIGGER_shared_r08_r01",
     "TRIGGER_shared_r02_r01",
-    "MECH_Door6"
+    "MECH_Door6",
+    "DECOR_Clover1"
    ],
    "min_ambient_light_level": 20
   },
@@ -719,6 +720,7 @@
     "MECH_Door14",
     "MECH_Door17",
     "MECH_Door24",
+    "DECOR_Clover0",
     "TRIGGER_hint_PerceptionBrush8_0",
     "TRIGGER_hint_PerceptionBrush8_1",
     "TRIGGER_hint_PerceptionBrush8_2"
@@ -10207,6 +10209,22 @@
    "decoration_list_id": 2180,
    "event_id_primary": 0,
    "event_id_secondary": 0
+  },
+  {
+   "id": "Clover0",
+   "kind": "decoration",
+   "source_node": "DECOR_Clover0",
+   "decoration_list_id": 2559,
+   "event_id_primary": 0,
+   "event_id_secondary": 30899
+  },
+  {
+   "id": "Clover1",
+   "kind": "decoration",
+   "source_node": "DECOR_Clover1",
+   "decoration_list_id": 2559,
+   "event_id_primary": 0,
+   "event_id_secondary": 30900
   }
  ],
  "lights": [

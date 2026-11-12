@@ -34,6 +34,12 @@ local function reward(key, xp, gold) MM9.giveKey(key); if xp > 0 then MM9.giveEx
 
 handlers.regionLoad = function()
     if handlers.museumLoad then handlers.museumLoad() end
+    -- MM9's opening movie (movies\intro.bik, which cshell.dll menus.cpp plays at start-up after the logos):
+    -- OpenYAMM plays a world's intro on the party's first arrival at its start map, as for MM6 and MM8.
+    if evt.GetGlobalVar("OpenYAMM.WorldIntro.MM9", 0) == 0 then
+        evt.SetGlobalVar("OpenYAMM.WorldIntro.MM9", 1)
+        evt.ShowMovie("MM9Intro", true)
+    end
 end
 
 

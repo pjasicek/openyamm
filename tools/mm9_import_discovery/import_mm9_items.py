@@ -594,7 +594,8 @@ def normalized_item_row(
     row[9] = str(max(0, parse_int(item.cells[13])))
     row[10] = item.subtype or item.name
     row[11] = str(normalized_ground_object_id(item))
-    row[12] = "0"
+    # MM9's Clover gives the character who uses it one skill point (cshell.dll 0x100249c4, item 590).
+    row[12] = "1" if item.raw_id == CLOVER_RAW_ID else "0"
     row[13] = "0"
     row[14] = str(equipment_visual["equip_anchor"][0]) if equipment_visual is not None else "0"
     row[15] = str(equipment_visual["equip_anchor"][1]) if equipment_visual is not None else "0"
@@ -607,6 +608,7 @@ def normalized_item_row(
     row[22] = (
         "LearnSkill" if item.category_key == "items_skill"
         else "ReadText" if item.raw_id in readable_texts
+        else "GrantSkillPoints" if item.raw_id == CLOVER_RAW_ID
         else ""
     )
     row[23] = use_target

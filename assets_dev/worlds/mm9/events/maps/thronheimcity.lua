@@ -489,6 +489,8 @@ do local own = handlers[53228]; handlers[53228] = function() MM9.playSound("voic
 -- MM9's bonus props (dungeon/objects.py bonus_lines; the use of each class, object.lto): wells, cauldrons,
 -- cook pots and clovers.
 handlers[30950] = function() MM9.useWell(950, 2, 0, 5, 0, 1) end   -- WellMMIX0 (WellMMIX)
+handlers[30951] = function() MM9.useClover(951, "thronheimcity:Clover0") end   -- Clover0 (Clover)
+handlers[30952] = function() MM9.useClover(952, "thronheimcity:Clover1") end   -- Clover1 (Clover)
 
 -- MM9's PerceptionBrushes (dungeon/perception.py): the red glow shows to a party whose Perception reaches the
 -- brush's PerceptionValue, checked on load and every 3 s; map Lua turns one off for good with
@@ -579,6 +581,8 @@ RegisterEvent(53146, "Erpr the Ankle-heavy", handlers[53146])
 RegisterEvent(53147, "Jormunrek Jonakrssen", handlers[53147])
 RegisterEvent(53148, "Magnus ver Magnussen", handlers[53148])
 RegisterEvent(30950, "Well", handlers[30950], "Drink")
+RegisterEvent(30951, "Clover", handlers[30951], "Pick")
+RegisterEvent(30952, "Clover", handlers[30952], "Pick")
 RegisterMapTimerEvent(901, seconds(3), handlers[901], "Perception hints", "", seconds(3))
 RegisterEvent(902, "Shared objects", handlers[902])
 RegisterEvent(907, "Script poses", handlers[907])

@@ -379,6 +379,11 @@ handlers[53842] = function() MM9.playSound("voices/npc/npc_050.wav"); MM9.openRu
 handlers[53843] = function() MM9.playSound("voices/npc/npc_043.wav"); MM9.openRude(43) end   -- CommonerHalfOrcMaleA0
 handlers[54357] = function() MM9.playSound("voices/npc/npc_202.wav"); MM9.openRude(202) end   -- Shopkeeper0
 
+-- MM9's bonus props (dungeon/objects.py bonus_lines; the use of each class, object.lto): wells, cauldrons,
+-- cook pots and clovers.
+handlers[31390] = function() MM9.useClover(1390, "sturmfordcity:Clover0") end   -- Clover0 (Clover)
+handlers[31391] = function() MM9.useClover(1391, "sturmfordcity:Clover1") end   -- Clover1 (Clover)
+
 -- MM9's PerceptionBrushes (dungeon/perception.py): the red glow shows to a party whose Perception reaches the
 -- brush's PerceptionValue, checked on load and every 3 s; map Lua turns one off for good with
 -- set("HintOff<cog>", 1) (MM9's Off message to the brush).
@@ -492,5 +497,7 @@ RegisterEvent(53841, "Randver the Storm", handlers[53841])
 RegisterEvent(53842, "Injor Gostat", handlers[53842])
 RegisterEvent(53843, "Tesar Olin", handlers[53843])
 RegisterEvent(54357, "Eva A'Washadi", handlers[54357])
+RegisterEvent(31390, "Clover", handlers[31390], "Pick")
+RegisterEvent(31391, "Clover", handlers[31391], "Pick")
 RegisterMapTimerEvent(901, seconds(3), handlers[901], "Perception hints", "", seconds(3))
 RegisterEvent(902, "Shared objects", handlers[902])

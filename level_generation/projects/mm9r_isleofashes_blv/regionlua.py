@@ -21,6 +21,8 @@ indices, door ids, cogs and points are resolved here from the built scene and th
   map events: the bunker's FortWall breaks, the Shooters fire, FortWall0 breaks (TriggerEffects: the islet's five
   explosions and the Lich's end), the islet sinks (Terrain3), the boat leaves (IS_Boat.scr), key 28 and 5200
   experience, then ExitTrigger1 (Sturmford).
+- The shipwreck movie (game.cpp, cshell.dll 0x100a6e40): the first arrival before the cinema plays MM9Shipwreck
+  (movies\\Shipwreck.bik) and gives key 481.
 
 Map vars keep the names the generic runtime used (Isle.SummonCount, Isle.TriggerCount.<trigger>, Isle.CinemaStep.<step>
 ...), so saves carry over.
@@ -598,6 +600,12 @@ def extend(hooks, build, script) -> None:
         "",
         "-- The map load (after ForadWorld.scr's Init, outdoor_blv.py).",
         "handlers.regionLoad = function()",
+        "    -- game.cpp (cshell.dll 0x100a6e40) entering worlds\\isleofashes: before the cinema (key 28) and the first",
+        "    -- time (key 481) it gives key 481 and plays movies\\Shipwreck.bik (MM9Shipwreck).",
+        "    if not has(28) and not has(481) then",
+        "        MM9.giveKey(481)",
+        "        evt.ShowMovie(\"MM9Shipwreck\", true)",
+        "    end",
         "    -- IS_BOAT.scr:46-51, 64 placed2: the boat stays hidden until it leaves.",
         "    evt.SetSprite(BOAT, 0)",
         "    -- FORAD.scr:96-108, 178-183 DeleteCheck: Forad has joined the party (key 29).",

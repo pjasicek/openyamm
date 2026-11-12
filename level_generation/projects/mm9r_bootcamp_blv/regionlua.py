@@ -22,6 +22,9 @@ after the shared doors, chests and ForadWorld.scr (devdocs/mm9_rework/REGIONS_FI
   a column of fire, and he dies and is gone 2 s later. Each switch works again once its show is over. Not carried:
   the chests' lid animations and the monk's castspell3 clip (static decoration models).
 
+- MM9's intro movie (MM9Intro, from movies\\intro.bik) on the party's first arrival (`WORLD_INTRO_VAR`): MM9 itself
+  plays it at start-up; OpenYAMM plays each world's intro at its start map.
+
 The dock's Trigger0 -> ExitTrigger0 link is the transitions table's (work/scr_spec.md).
 """
 
@@ -40,6 +43,9 @@ MONK_STAND_OFF_LT = 70  # where the monk stops: this far before a chest's centre
 FIGHT_SECONDS = 120     # BC_Manager.scr :StartFight Wait 0, 120, ForceEndFight
 POLL_SECONDS = 0.25
 GRANDPA = "CommonerHuman2MaleA0"
+WORLD_INTRO_VAR = "OpenYAMM.WorldIntro.MM9"     # the intro has played (MM6's and MM8's are OpenYAMM.WorldIntro.MM6/8)
+
+
 def index_of(build, name: str) -> int:
     return build.source.by_name[name.lower()]["index"]
 
@@ -48,6 +54,12 @@ def extend(hooks, build, script) -> None:
     tag = "bootcamp"
     lines = [
         "handlers.regionLoad = function()",
+        "    -- MM9's opening movie (movies\\intro.bik, which cshell.dll menus.cpp plays at start-up after the logos):",
+        "    -- OpenYAMM plays a world's intro on the party's first arrival at its start map, as for MM6 and MM8.",
+        f"    if evt.GetGlobalVar(\"{WORLD_INTRO_VAR}\", 0) == 0 then",
+        f"        evt.SetGlobalVar(\"{WORLD_INTRO_VAR}\", 1)",
+        "        evt.ShowMovie(\"MM9Intro\", true)",
+        "    end",
     ]
     lines += ["end", ""]
     grandpa = index_of(build, GRANDPA)

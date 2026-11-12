@@ -1452,7 +1452,8 @@
    "source_nodes": [
     "ROOM_r01",
     "TRIGGER_shared_r04_r01",
-    "TRIGGER_shared_r15_r01"
+    "TRIGGER_shared_r15_r01",
+    "DECOR_Clover1"
    ],
    "min_ambient_light_level": 20
   },
@@ -2137,6 +2138,7 @@
     "LIGHT_lamp_Lamppost23",
     "DECOR_Lamppost24",
     "LIGHT_lamp_Lamppost24",
+    "DECOR_Clover0",
     "TRIGGER_hint_PerceptionBrush7_0",
     "TRIGGER_hint_PerceptionBrush7_1",
     "TRIGGER_hint_PerceptionBrush7_2",
@@ -10912,6 +10914,22 @@
    "decoration_list_id": 2646,
    "event_id_primary": 0,
    "event_id_secondary": 0
+  },
+  {
+   "id": "Clover0",
+   "kind": "decoration",
+   "source_node": "DECOR_Clover0",
+   "decoration_list_id": 2559,
+   "event_id_primary": 0,
+   "event_id_secondary": 30951
+  },
+  {
+   "id": "Clover1",
+   "kind": "decoration",
+   "source_node": "DECOR_Clover1",
+   "decoration_list_id": 2559,
+   "event_id_primary": 0,
+   "event_id_secondary": 30952
   },
   {
    "id": "SvenChair",

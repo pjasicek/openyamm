@@ -4724,5 +4724,39 @@
   "script": null,
   "script_params": null,
   "dat_name": "Bucket"
+ },
+ {
+  "source_object": 899,
+  "source_name": "Clover0",
+  "class": "Clover",
+  "kind": "prop",
+  "source_model": "models\\Props\\clover.ABC",
+  "source_skin": "Skins\\Props\\PlantsandTrees\\Clover.dtx",
+  "prop": "clover",
+  "decoration": "mm9_clover",
+  "x": 4751.0,
+  "y": -16794.0,
+  "z": -0.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.53,
+  "script": null,
+  "script_params": null
+ },
+ {
+  "source_object": 900,
+  "source_name": "Clover1",
+  "class": "Clover",
+  "kind": "prop",
+  "source_model": "models\\Props\\clover.ABC",
+  "source_skin": "Skins\\Props\\PlantsandTrees\\Clover.dtx",
+  "prop": "clover",
+  "decoration": "mm9_clover",
+  "x": -6062.0,
+  "y": -16794.0,
+  "z": -0.0,
+  "yaw_degrees": 0.0,
+  "fit_median_units": 0.53,
+  "script": null,
+  "script_params": null
  }
 ]
