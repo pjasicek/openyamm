@@ -2,6 +2,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
 
@@ -297,6 +298,9 @@ constexpr uint32_t SaveVersionMm9IdleClip = 173;
 // their routines from the map's scene when the map is next entered.
 constexpr uint32_t SaveVersionActorHeldItems = 174;
 constexpr uint32_t SaveVersionMm9Routines = 174;
+// The save's playthrough id and the real time played up to it are in the summary (GameSaveSummary::playthrough), for
+// the save lists; older saves keep the id behind the game state and the time inside the sealed timeline.
+constexpr uint32_t SaveVersionSummaryPlaythrough = 175;
 // Each battle order's place and renew time, and each character's upkeep list (game/party/BattleOrders.h).
 constexpr uint32_t SaveVersionUpkeepOrders = 176;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
@@ -313,17 +317,28 @@ std::string toLowerCopy(const std::string &value)
     return normalized;
 }
 
-int savePathDisplayPriority(const std::filesystem::path &path)
+// The file is `slot`.oysav or `slot`_<playthrough id>.oysav.
+bool isSaveSlotPath(const std::filesystem::path &path, const std::string &slot)
 {
     const std::string stem = toLowerCopy(path.stem().string());
+    return stem == slot || stem.rfind(slot + "_", 0) == 0;
+}
 
+std::filesystem::path saveSlotPath(const std::string &slot, const std::string &playthroughId)
+{
+    return std::filesystem::path("saves")
+        / (playthroughId.empty() ? slot + ".oysav" : slot + "_" + playthroughId + ".oysav");
+}
+
+int savePathDisplayPriority(const std::filesystem::path &path)
+{
     // Quicksave first, the save players load most (Discord request, 2026-10-28), then Autosave.
-    if (stem == "quicksave")
+    if (isQuickSavePath(path))
     {
         return 0;
     }
 
-    if (stem == "autosave")
+    if (isAutosavePath(path))
     {
         return 1;
     }
@@ -5161,11 +5176,22 @@ bool readValue(BinaryReader &reader, RulesetSelection &value)
 
 bool readSummaryFields(BinaryReader &reader, GameSaveSummary &value)
 {
-    return readValue(reader, value.mapFileName)
-        && readValue(reader, value.savedGameMinutes)
-        && readValue(reader, value.ruleset)
-        && readValue(reader, value.saveName)
-        && readValue(reader, value.previewBmp);
+    if (!readValue(reader, value.mapFileName)
+        || !readValue(reader, value.savedGameMinutes)
+        || !readValue(reader, value.ruleset)
+        || !readValue(reader, value.saveName)
+        || !readValue(reader, value.previewBmp))
+    {
+        return false;
+    }
+
+    if (reader.version() < SaveVersionSummaryPlaythrough)
+    {
+        return true;
+    }
+
+    value.playthrough.emplace();
+    return readValue(reader, value.playthrough->id) && readValue(reader, value.playthrough->playedSeconds);
 }
 
 void writeValue(BinaryWriter &writer, const GameSaveData &value)
@@ -5176,6 +5202,8 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(summary, value.ruleset);
     writeValue(summary, value.saveName);
     writeValue(summary, value.previewBmp);
+    writeValue(summary, value.playthroughId);
+    writeValue(summary, value.playthroughPlayedSeconds);
     const uint32_t summaryByteCount = uint32_t(summary.bytes().size());
     writeValue(writer, summaryByteCount);
     writer.writeBytes(summary.bytes().data(), summary.bytes().size());
@@ -5201,7 +5229,6 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(writer, value.requiredContentPackages);
     writeValue(writer, value.randomRootSeed);
     writeValue(writer, value.mawState);
-    writeValue(writer, value.playthroughId);
     writeValue(writer, value.playthroughTimeline);
 }
 
@@ -5227,6 +5254,12 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
         value.ruleset = std::move(summary.ruleset);
         value.saveName = std::move(summary.saveName);
         value.previewBmp = std::move(summary.previewBmp);
+
+        if (summary.playthrough)
+        {
+            value.playthroughId = std::move(summary.playthrough->id);
+            value.playthroughPlayedSeconds = summary.playthrough->playedSeconds;
+        }
     }
 
     const bool read = readValue(reader, value.currentSceneKind)
@@ -5256,7 +5289,8 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
         && (summaryFirst || reader.version() < SaveVersionRuleset || readValue(reader, value.ruleset))
         && (reader.version() < SaveVersionRandomRootSeed || readValue(reader, value.randomRootSeed))
         && (reader.version() < SaveVersionActorRulesetFacts || readValue(reader, value.mawState))
-        && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.playthroughId))
+        && (reader.version() < SaveVersionPlaythroughStatistics || reader.version() >= SaveVersionSummaryPlaythrough
+            || readValue(reader, value.playthroughId))
         && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.playthroughTimeline))
         && (summaryFirst || readValue(reader, value.saveName))
         && (summaryFirst || readValue(reader, value.previewBmp));
@@ -6147,6 +6181,82 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     return data;
 }
 
+namespace
+{
+SavePlaythroughInfo savePlaythroughInfo(const GameSaveData &data)
+{
+    SavePlaythroughInfo info;
+    info.id = PlaythroughStatistics::playthroughIdOfSave(data.playthroughId, data.randomRootSeed);
+    info.playedSeconds = data.sourceSaveVersion >= SaveVersionSummaryPlaythrough
+        ? data.playthroughPlayedSeconds
+        : PlaythroughStatistics::timelinePlayedSeconds(info.id, data.playthroughTimeline);
+    return info;
+}
+}
+
+std::optional<SavePlaythroughInfo> loadSavePlaythroughInfoFromPath(
+    const std::filesystem::path &path,
+    std::string &error)
+{
+    const std::optional<GameSaveData> data = loadGameDataFromPath(path, error);
+    return data ? std::optional<SavePlaythroughInfo>(savePlaythroughInfo(*data)) : std::nullopt;
+}
+
+std::filesystem::path quickSavePath(const std::string &playthroughId)
+{
+    return saveSlotPath("quicksave", playthroughId);
+}
+
+std::filesystem::path autosavePath(const std::string &playthroughId)
+{
+    return saveSlotPath("autosave", playthroughId);
+}
+
+bool isQuickSavePath(const std::filesystem::path &path)
+{
+    return isSaveSlotPath(path, "quicksave");
+}
+
+bool isAutosavePath(const std::filesystem::path &path)
+{
+    return isSaveSlotPath(path, "autosave");
+}
+
+void migrateSharedSaveSlots(const std::filesystem::path &savesDirectory)
+{
+    for (const char *pSlot : {"quicksave", "autosave"})
+    {
+        const std::filesystem::path shared = savesDirectory / (std::string(pSlot) + ".oysav");
+        std::error_code error;
+
+        if (!std::filesystem::is_regular_file(shared, error))
+        {
+            continue;
+        }
+
+        std::string loadError;
+        const std::optional<GameSaveSummary> summary = loadGameSaveSummaryFromPath(shared, loadError);
+        std::optional<SavePlaythroughInfo> playthrough = summary ? summary->playthrough : std::nullopt;
+
+        if (summary && !playthrough)
+        {
+            playthrough = loadSavePlaythroughInfoFromPath(shared, loadError);
+        }
+
+        if (!playthrough || playthrough->id.empty())
+        {
+            continue;
+        }
+
+        const std::filesystem::path own = savesDirectory / saveSlotPath(pSlot, playthrough->id).filename();
+
+        if (!std::filesystem::exists(own, error))
+        {
+            std::filesystem::rename(shared, own, error);
+        }
+    }
+}
+
 std::optional<GameSaveSummary> loadGameSaveSummaryFromPath(const std::filesystem::path &path, std::string &error)
 {
     std::ifstream input(path, std::ios::binary);
@@ -6195,6 +6305,7 @@ std::optional<GameSaveSummary> loadGameSaveSummaryFromPath(const std::filesystem
         summary.ruleset = std::move(data->ruleset);
         summary.saveName = std::move(data->saveName);
         summary.previewBmp = std::move(data->previewBmp);
+        summary.playthrough = savePlaythroughInfo(*data);
         return summary;
     }
 

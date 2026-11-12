@@ -763,6 +763,138 @@ std::string PlaythroughStatistics::legacyPlaythroughId(uint64_t randomRootSeed)
     return "legacy-" + hex64(randomRootSeed);
 }
 
+namespace
+{
+// The key versions a playthrough's file may carry here: this build's, then (a release build) a development build's.
+std::vector<std::string> storedKeyVersions()
+{
+    std::vector<std::string> versions = {PlaythroughSeal::sealingKeyVersion()};
+
+    if (PlaythroughSeal::sealsWithReleaseKey())
+    {
+        versions.push_back("dev");
+    }
+
+    return versions;
+}
+
+}
+
+std::vector<std::filesystem::path> PlaythroughStatistics::storedPaths(
+    const std::filesystem::path &directory,
+    const std::string &playthroughId)
+{
+    std::vector<std::filesystem::path> paths;
+
+    for (const std::string &keyVersion : storedKeyVersions())
+    {
+        paths.push_back(directory / (playthroughId + "." + keyVersion + ".oystats"));
+    }
+
+    return paths;
+}
+
+std::optional<PlaythroughStatistics::StoredSummary> PlaythroughStatistics::readStoredSummary(
+    const std::filesystem::path &directory,
+    const std::string &playthroughId)
+{
+    for (const std::filesystem::path &path : storedPaths(directory, playthroughId))
+    {
+        std::ifstream file(path, std::ios::binary);
+
+        if (!file)
+        {
+            continue;
+        }
+
+        std::stringstream bytes;
+        bytes << file.rdbuf();
+        const std::optional<PlaythroughSeal::Opened> opened =
+            PlaythroughSeal::open(PlaythroughSeal::Kind::Lifetime, playthroughId, bytes.str());
+
+        if (!opened)
+        {
+            continue;
+        }
+
+        try
+        {
+            const YAML::Node root = YAML::Load(opened->text);
+
+            if (!root || !root.IsMap())
+            {
+                continue;
+            }
+
+            StoredSummary summary;
+            summary.header.playthroughId = playthroughId;
+            summary.header.createdUtc = root["created_utc"].as<std::string>("");
+            summary.header.lastPlayedUtc = root["last_played_utc"].as<std::string>("");
+
+            if (const YAML::Node start = root["start"]; start && start.IsMap())
+            {
+                summary.header.startWorld = start["world"].as<std::string>("");
+                summary.header.ruleset = start["ruleset"].as<std::string>("");
+                summary.header.difficulty = start["difficulty"].as<std::string>("");
+            }
+
+            if (const YAML::Node time = root["time"]; time && time.IsMap())
+            {
+                summary.playedSeconds = time["played_seconds"].as<double>(0.0);
+            }
+
+            return summary;
+        }
+        catch (const YAML::Exception &)
+        {
+        }
+    }
+
+    return std::nullopt;
+}
+
+void PlaythroughStatistics::removeStored(const std::filesystem::path &directory, const std::string &playthroughId)
+{
+    for (const std::filesystem::path &path : storedPaths(directory, playthroughId))
+    {
+        std::error_code error;
+        std::filesystem::remove(path, error);
+    }
+}
+
+std::string PlaythroughStatistics::playthroughIdOfSave(const std::string &savedPlaythroughId, uint64_t randomRootSeed)
+{
+    if (!savedPlaythroughId.empty())
+    {
+        return savedPlaythroughId;
+    }
+
+    return randomRootSeed != 0 ? legacyPlaythroughId(randomRootSeed) : std::string();
+}
+
+double PlaythroughStatistics::timelinePlayedSeconds(const std::string &playthroughId, const std::string &savedTimeline)
+{
+    std::string text;
+
+    if (PlaythroughSeal::looksSealed(savedTimeline))
+    {
+        if (const std::optional<PlaythroughSeal::Opened> opened =
+                PlaythroughSeal::open(PlaythroughSeal::Kind::Timeline, playthroughId, savedTimeline))
+        {
+            text = opened->text;
+        }
+    }
+    else
+    {
+        // Written unsealed by an early development build.
+        text = savedTimeline;
+    }
+
+    PlaythroughCounters counters;
+    PlaythroughTrackingInfo info;
+    return !text.empty() && parsePlaythroughCounters(text, counters, info) ? counters.playedSeconds : 0.0;
+}
+
 std::string PlaythroughStatistics::memberKey(uint64_t statsMemberId)
 {
     return hex64(statsMemberId);
@@ -805,11 +937,11 @@ void PlaythroughStatistics::attachLoadedSave(
     const std::string &ruleset,
     const std::string &difficulty)
 {
-    std::string playthroughId = savedPlaythroughId;
+    std::string playthroughId = playthroughIdOfSave(savedPlaythroughId, randomRootSeed);
 
     if (playthroughId.empty())
     {
-        playthroughId = randomRootSeed != 0 ? legacyPlaythroughId(randomRootSeed) : newPlaythroughId();
+        playthroughId = newPlaythroughId();
     }
 
     const bool samePlaythrough = m_active && playthroughId == m_header.playthroughId;

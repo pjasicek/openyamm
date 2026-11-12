@@ -1,5 +1,6 @@
 #include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
+#include "game/party/PlaythroughNames.h"
 #include "game/party/PlaythroughSeal.h"
 #include "game/party/PlaythroughStatistics.h"
 #include "game/rules/ExperienceRules.h"
@@ -275,6 +276,116 @@ TEST_CASE("a save keeps the playthrough id, its timeline and the members' statis
     CHECK(loaded->playthroughTimeline == save.playthroughTimeline);
     REQUIRE_FALSE(loaded->party.members.empty());
     CHECK(loaded->party.members.front().statsMemberId == memberId);
+}
+
+TEST_CASE("a save's summary names its playthrough and the time played up to it")
+{
+    GameSaveData save;
+    save.mapFileName = "oute3.odm";
+    save.playthroughId = "9f2c4e0a7d1b4c55a0e3f1d2b6c78e10";
+    save.playthroughPlayedSeconds = 22320.0;
+    const std::filesystem::path directory = freshDirectory("summary");
+    const std::filesystem::path path = directory / "save1.oysav";
+    std::string error;
+    REQUIRE_MESSAGE(saveGameDataToPath(path, save, error), error);
+
+    const std::optional<GameSaveSummary> summary = loadGameSaveSummaryFromPath(path, error);
+    REQUIRE_MESSAGE(summary.has_value(), error);
+    REQUIRE(summary->playthrough.has_value());
+    CHECK(summary->playthrough->id == save.playthroughId);
+    CHECK(summary->playthrough->playedSeconds == doctest::Approx(22320.0));
+
+    const std::optional<GameSaveData> loaded = loadGameDataFromPath(path, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK(loaded->playthroughId == save.playthroughId);
+    CHECK(loaded->playthroughPlayedSeconds == doctest::Approx(22320.0));
+
+    const std::optional<SavePlaythroughInfo> whole = loadSavePlaythroughInfoFromPath(path, error);
+    REQUIRE_MESSAGE(whole.has_value(), error);
+    CHECK(whole->id == save.playthroughId);
+    CHECK(whole->playedSeconds == doctest::Approx(22320.0));
+    std::filesystem::remove_all(directory);
+}
+
+TEST_CASE("each playthrough has its own Quicksave and Autosave, and the shared ones move to theirs")
+{
+    CHECK(quickSavePath("abc") == std::filesystem::path("saves") / "quicksave_abc.oysav");
+    CHECK(autosavePath("abc") == std::filesystem::path("saves") / "autosave_abc.oysav");
+    CHECK(quickSavePath("") == std::filesystem::path("saves") / "quicksave.oysav");
+    CHECK(isQuickSavePath("saves/quicksave.oysav"));
+    CHECK(isQuickSavePath("saves/QuickSave_abc.oysav"));
+    CHECK_FALSE(isQuickSavePath("saves/quicksaves.oysav"));
+    CHECK(isAutosavePath("saves/autosave_legacy-00ff.oysav"));
+    CHECK_FALSE(isAutosavePath("saves/save12.oysav"));
+
+    const std::filesystem::path directory = freshDirectory("slots");
+    std::string error;
+    GameSaveData quick;
+    quick.playthroughId = "9f2c4e0a7d1b4c55a0e3f1d2b6c78e10";
+    REQUIRE_MESSAGE(saveGameDataToPath(directory / "quicksave.oysav", quick, error), error);
+    // A save that names no playthrough stays where it is.
+    GameSaveData autosave;
+    REQUIRE_MESSAGE(saveGameDataToPath(directory / "autosave.oysav", autosave, error), error);
+
+    migrateSharedSaveSlots(directory);
+    CHECK_FALSE(std::filesystem::exists(directory / "quicksave.oysav"));
+    CHECK(std::filesystem::exists(directory / "quicksave_9f2c4e0a7d1b4c55a0e3f1d2b6c78e10.oysav"));
+    CHECK(std::filesystem::exists(directory / "autosave.oysav"));
+
+    // The playthrough's own file is never replaced by a shared one that turns up later.
+    REQUIRE_MESSAGE(saveGameDataToPath(directory / "quicksave.oysav", quick, error), error);
+    migrateSharedSaveSlots(directory);
+    CHECK(std::filesystem::exists(directory / "quicksave.oysav"));
+    std::filesystem::remove_all(directory);
+}
+
+TEST_CASE("the save lists read a playthrough's statistics file and the name the player gave it")
+{
+    const std::filesystem::path directory = freshDirectory("catalog");
+    std::string id;
+
+    {
+        PlaythroughStatistics statistics;
+        statistics.setDirectory(directory);
+        statistics.beginNewPlaythrough("mm6", "maw", "nightmare");
+        statistics.addPlayTime(125.0, false);
+        id = statistics.playthroughId();
+        statistics.endPlaythrough();
+    }
+
+    const std::optional<PlaythroughStatistics::StoredSummary> stored =
+        PlaythroughStatistics::readStoredSummary(directory, id);
+    REQUIRE(stored.has_value());
+    CHECK(stored->header.startWorld == "mm6");
+    CHECK(stored->header.ruleset == "maw");
+    CHECK(stored->header.difficulty == "nightmare");
+    CHECK_FALSE(stored->header.createdUtc.empty());
+    CHECK(stored->playedSeconds == doctest::Approx(125.0));
+    CHECK_FALSE(PlaythroughStatistics::readStoredSummary(directory, "0000").has_value());
+
+    CHECK(readPlaythroughNames(directory).empty());
+    REQUIRE(writePlaythroughName(directory, id, "Knights: \"no magic\" run"));
+    REQUIRE(writePlaythroughName(directory, "legacy-00000000000000ff", "Old party"));
+    std::unordered_map<std::string, std::string> names = readPlaythroughNames(directory);
+    CHECK(names.size() == 2);
+    CHECK(names[id] == "Knights: \"no magic\" run");
+    // An empty name takes the playthrough back to its automatic one.
+    REQUIRE(writePlaythroughName(directory, id, ""));
+    names = readPlaythroughNames(directory);
+    CHECK(names.size() == 1);
+    CHECK(names["legacy-00000000000000ff"] == "Old party");
+
+    PlaythroughStatistics::removeStored(directory, id);
+    CHECK_FALSE(PlaythroughStatistics::readStoredSummary(directory, id).has_value());
+    std::filesystem::remove_all(directory);
+}
+
+TEST_CASE("a save from before statistics is named a playthrough by its random root seed")
+{
+    CHECK(PlaythroughStatistics::playthroughIdOfSave("abc", 7) == "abc");
+    CHECK(PlaythroughStatistics::playthroughIdOfSave("", 255) == PlaythroughStatistics::legacyPlaythroughId(255));
+    CHECK(PlaythroughStatistics::playthroughIdOfSave("", 0).empty());
+    CHECK(PlaythroughStatistics::timelinePlayedSeconds("abc", "") == doctest::Approx(0.0));
 }
 
 TEST_CASE("a sealed record refuses edits, another kind and another playthrough")

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/data/GameDataRepository.h"
+#include "game/party/PlaythroughStatistics.h"
 #include "game/ui/MenuDesignScreen.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -10,6 +11,8 @@
 #include <mutex>
 #include <optional>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -22,6 +25,10 @@ struct SaveFoodCost
     int carried = 0;
 };
 
+// The Load and Save screens. The saves are listed under the playthrough each belongs to (a party's own game, from
+// its statistics id), the playthroughs by last play with the one being played first. A playthrough's heading folds
+// its saves and, selected, shows its facts, a name the player may give it and its deletion. The Save screen lists the
+// playthrough being played until "All" is chosen.
 class LoadGameScreen : public MenuDesignScreen
 {
   public:
@@ -46,6 +53,9 @@ class LoadGameScreen : public MenuDesignScreen
     static std::optional<std::filesystem::path> mostRecentSave(std::string &mapFileName);
     void configureSave(SaveAction action, const std::string &location, float gameMinutes,
                        const std::vector<uint8_t> &previewBmp, SaveFoodCost foodCost = {});
+    // The playthrough being played (screens opened from play), its real time played in all (reloaded stretches too)
+    // and the part of it a save made now would hold.
+    void configureCurrentPlaythrough(const std::string &playthroughId, double playedSeconds, double saveSeconds);
     // The list order (gameplay.save_list_order) and where a change of it is remembered.
     void configureSortOrder(bool newestFirst, SortOrderAction changed);
     void handleSdlEvent(const SDL_Event &event) override;
@@ -60,8 +70,15 @@ class LoadGameScreen : public MenuDesignScreen
         std::string dateText;
         std::string worldName;
         std::string rulesetId;
+        // "MAW" and "Nightmare"; "Standard" and nothing for the Standard ruleset.
+        std::string rulesetName;
+        std::string difficultyName;
         // "MAW · Hell difficulty · Horizontal progression"; empty for the Standard ruleset.
         std::string rulesetBadge;
+        // Empty: a save that names no playthrough.
+        std::string playthroughId;
+        // "6 h 05 min", or "-" for a save from before the statistics.
+        std::string playedText;
         std::string savedAt;
         std::filesystem::file_time_type modified = {};
         bool populated = false;
@@ -70,22 +87,81 @@ class LoadGameScreen : public MenuDesignScreen
         std::vector<uint8_t> previewPixelsBgra;
     };
 
-    struct RulesetFilter
+    // A playthrough's saves under one heading.
+    struct PlaythroughGroup
     {
         std::string id;
+        // The player's name for it, else the automatic one ("Enroth · MAW Nightmare").
         std::string name;
+        std::string automaticName;
+        std::string rules;
+        std::string difficulty;
+        std::string startedIn;
+        std::string started;
+        std::string lastPlayed;
+        std::string played;
+        // Its saves in the list's order, as indices into m_slots, and the newest of them.
+        std::vector<size_t> slots;
+        size_t newestSlot = 0;
+        bool hasStatistics = false;
+    };
+
+    enum class Selection : uint8_t
+    {
+        None,
+        NewSave,
+        Slot,
+        Group,
+    };
+
+    enum class RowKind : uint8_t
+    {
+        NewSave,
+        Group,
+        Slot,
+    };
+
+    // A row of the list; index is the group's in m_groups or the slot's in m_slots.
+    struct ListRow
+    {
+        RowKind kind = RowKind::NewSave;
+        size_t index = 0;
+    };
+
+    enum class TextEdit : uint8_t
+    {
+        None,
+        SaveName,
+        PlaythroughName,
     };
 
     void drawScreen(float deltaSeconds) override;
-    // The filter buttons, and whether the filter changed.
+    // The Save screen's "This playthrough" / "All" / one ruleset switch, and whether it changed.
+    bool drawScopeButtons(const std::string &prefix);
+    // The Load screen's ruleset filter (All, then one per ruleset the saves were played with), and whether it changed.
     bool drawRulesetFilters(const std::string &prefix);
     // The Name / Newest switch, and whether the order changed.
     bool drawSortButtons(const std::string &prefix);
-    // Orders m_slots by the switch.
+    // A playthrough's heading in the list, and whether it was activated.
+    bool drawGroupRow(const std::string &id, const Rect &rect, const PlaythroughGroup &group, bool selected);
+    void drawSaveDetails(const std::string &prefix, const SaveSlotSummary *pSlot, bool saveAffordable);
+    void drawPlaythroughDetails(const PlaythroughGroup &group);
+    // Orders m_slots by the switch and groups them again.
     void sortSlots();
-    void refreshRulesetFilters();
-    // The slots the ruleset filter lets through, as indices into m_slots.
-    std::vector<size_t> shownSlots() const;
+    void rebuildGroups();
+    void describeGroup(PlaythroughGroup &group);
+    std::vector<ListRow> listRows() const;
+    std::optional<size_t> selectedRow(const std::vector<ListRow> &rows) const;
+    void selectRow(const ListRow &row);
+    void selectDefaultRow(const std::vector<ListRow> &rows);
+    void activateRow(const ListRow &row);
+    const PlaythroughGroup *findGroup(const std::string &playthroughId) const;
+    // "MAW", or "Standard", in the interface language.
+    const std::string &rulesetDisplayName(const std::string &rulesetId);
+    std::string continentNameOfWorld(const std::string &worldId) const;
+    Rect playthroughNameField() const;
+    void finishTextEdit();
+    void commitPlaythroughName();
     // The list from the saves read so far, reading only those that are new or changed.
     void refreshSaveSlots();
     bool tryLoadSelectedSlot();
@@ -94,14 +170,30 @@ class LoadGameScreen : public MenuDesignScreen
     const GameDataRepository *m_pGameData = nullptr;
     LoadAction m_loadAction;
     CancelAction m_cancelAction;
+    Selection m_selection = Selection::None;
+    // The selected slot (Selection::Slot) and playthrough (Selection::Group).
     size_t m_selectedIndex = 0;
+    std::string m_selectedGroupId;
     float m_scrollOffset = 0;
     bool m_revealSelection = false;
     uint64_t m_lastClickedSlotTicks = 0;
     size_t m_lastClickedSlotIndex = static_cast<size_t>(-1);
     std::vector<SaveSlotSummary> m_slots;
-    // The rulesets the saves were played with, Standard first; the filter is a ruleset id, empty for all.
-    std::vector<RulesetFilter> m_rulesetFilters;
+    std::vector<PlaythroughGroup> m_groups;
+    // The unfolded playthroughs; the first of the list unfolds when the screen has chosen none yet.
+    std::unordered_set<std::string> m_expandedGroups;
+    bool m_expansionChosen = false;
+    std::unordered_map<std::string, PlaythroughStatistics::StoredSummary> m_playthroughRecords;
+    std::unordered_map<std::string, std::string> m_playthroughNames;
+    std::unordered_map<std::string, std::string> m_rulesetNames;
+    std::string m_currentPlaythroughId;
+    double m_currentPlayedSeconds = 0.0;
+    double m_currentSaveSeconds = 0.0;
+    // The Save screen lists every playthrough, not only the one being played.
+    bool m_showAllPlaythroughs = false;
+    // The rulesets the saves were played with, Standard first; the filter is one of them, empty for all. The Save
+    // screen sets it together with m_showAllPlaythroughs.
+    std::vector<std::string> m_rulesetFilters;
     std::string m_rulesetFilter;
     bool m_newestFirst = false;
     SortOrderAction m_sortOrderChanged;
@@ -115,8 +207,10 @@ class LoadGameScreen : public MenuDesignScreen
     std::string m_currentClock;
     std::string m_error;
     SaveFoodCost m_foodCost;
-    bool m_newSave = true;
-    bool m_nameEditing = false;
+    TextEdit m_textEdit = TextEdit::None;
+    // The playthrough being renamed and its name as typed so far.
+    std::string m_editedGroupId;
+    std::string m_playthroughName;
     bool m_commitRequested = false;
     bool m_fromGameplay = false;
     std::string m_loadWarning;
@@ -126,6 +220,7 @@ class LoadGameScreen : public MenuDesignScreen
     void commitSave();
     void requestLoad();
     void requestDelete();
+    void requestDeletePlaythrough();
     void requestImportSaves();
     void finishImportSaves();
 

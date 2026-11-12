@@ -210,6 +210,13 @@ public:
         std::string difficulty;
     };
 
+    // What a playthrough's statistics file says of it, for the save lists.
+    struct StoredSummary
+    {
+        Header header;
+        double playedSeconds = 0.0;
+    };
+
     struct SessionCounters
     {
         double playedSeconds = 0.0;
@@ -304,8 +311,24 @@ public:
     void recordTurnBasedTurn();
 
     // Statistics files: tests and the headless runs.
+    // Reads a playthrough's statistics file in `directory` (this build's, else a development build's) without
+    // attaching to it; nothing when it has none here or the file cannot be opened.
+    static std::optional<StoredSummary> readStoredSummary(
+        const std::filesystem::path &directory,
+        const std::string &playthroughId);
+    // The files that readStoredSummary tries, in its order.
+    static std::vector<std::filesystem::path> storedPaths(
+        const std::filesystem::path &directory,
+        const std::string &playthroughId);
+    // Deletes a playthrough's statistics files in `directory` (the playthrough is not the active one).
+    static void removeStored(const std::filesystem::path &directory, const std::string &playthroughId);
     static std::string newPlaythroughId();
     static std::string legacyPlaythroughId(uint64_t randomRootSeed);
+    // The playthrough a save belongs to: its own id, else the one its random root seed names (saves from before
+    // statistics), else none.
+    static std::string playthroughIdOfSave(const std::string &savedPlaythroughId, uint64_t randomRootSeed);
+    // The real time played that a save's timeline holds; 0 when it has none or cannot be opened.
+    static double timelinePlayedSeconds(const std::string &playthroughId, const std::string &savedTimeline);
     static std::string memberKey(uint64_t statsMemberId);
 
 private:

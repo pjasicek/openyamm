@@ -25,7 +25,9 @@ class MenuDesignScreen : public MenuScreenBase
     Rect designRect(const std::string &id) const;
     Rect canvasRect(float x, float y, float width, float height) const;
     float designScale() const;
-    void label(const std::string &id, const std::string &text, uint32_t color = 0, float offsetY = 0);
+    // offsetY and offsetX move the element's text, in design units (a repeated or indented row).
+    void label(const std::string &id, const std::string &text, uint32_t color = 0, float offsetY = 0,
+               float offsetX = 0);
     void textInRect(const Rect &rect, const std::string &text, const std::string &font = "menu_arrus",
                     float logicalSize = 12, uint32_t color = 0xffc6dfeau, bool centered = false);
     // The height in pixels of text word-wrapped to width (pixels), laid out as textInRect does.

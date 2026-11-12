@@ -118,7 +118,7 @@ elements:
     visible: true
     interactive: false
     notes: Name / Newest order switch (gameplay.save_list_order), drawn by the controller.
-  - id: SaveGameRulesetFilters
+  - id: SaveGameScopeButtons
     anchor: top_left
     offset_x: 441.6
     offset_y: 76.0
@@ -127,8 +127,8 @@ elements:
     z_index: 10
     visible: true
     interactive: false
-    notes: Ruleset filter buttons (All, then one per ruleset), right-aligned and drawn by the controller; shown only
-      when more than one ruleset is installed or saved.
+    notes: This playthrough / All switch, then one button per ruleset when the saves were played with more than one;
+      right-aligned and drawn by the controller, shown when the saves folder holds another playthrough's saves.
   - id: SaveGameFooterRule
     anchor: top_left
     offset_x: 91.7333
@@ -251,14 +251,14 @@ elements:
   - id: SaveGamePreviewLabel1
     anchor: top_left
     offset_x: 438.4
-    offset_y: 297.5835
+    offset_y: 293.0
     width: 158.1333
     height: 9.0667
     z_index: 10
     visible: true
     interactive: false
     text:
-      value: Game date
+      value: '{fact_label}'
       font: menu_lucida
       color: '#aeb2a3'
       align_x: left
@@ -268,7 +268,7 @@ elements:
   - id: SaveGamePreviewLine1
     anchor: top_left
     offset_x: 438.4
-    offset_y: 308.7835
+    offset_y: 303.6
     width: 158.1333
     height: 12.2667
     z_index: 10
@@ -286,14 +286,14 @@ elements:
   - id: SaveGamePreviewLabel2
     anchor: top_left
     offset_x: 603.4667
-    offset_y: 297.5835
+    offset_y: 293.0
     width: 158.1333
     height: 9.0667
     z_index: 10
     visible: true
     interactive: false
     text:
-      value: Game time
+      value: '{fact_label}'
       font: menu_lucida
       color: '#aeb2a3'
       align_x: left
@@ -303,7 +303,7 @@ elements:
   - id: SaveGamePreviewLine2
     anchor: top_left
     offset_x: 603.4667
-    offset_y: 308.7835
+    offset_y: 303.6
     width: 158.1333
     height: 12.2667
     z_index: 10
@@ -318,10 +318,82 @@ elements:
       scale: 0.64
       pad_x: 0.0
     notes: Controller supplies live text.
+  - id: SaveGamePreviewLabel3
+    anchor: top_left
+    offset_x: 438.4
+    offset_y: 319.0
+    width: 158.1333
+    height: 9.0667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_label}'
+      font: menu_lucida
+      color: '#aeb2a3'
+      align_x: left
+      align_y: middle
+      scale: 0.52706
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: SaveGamePreviewLine3
+    anchor: top_left
+    offset_x: 438.4
+    offset_y: 329.6
+    width: 158.1333
+    height: 12.2667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_value}'
+      font: menu_arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: SaveGamePreviewLabel4
+    anchor: top_left
+    offset_x: 603.4667
+    offset_y: 319.0
+    width: 158.1333
+    height: 9.0667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_label}'
+      font: menu_lucida
+      color: '#aeb2a3'
+      align_x: left
+      align_y: middle
+      scale: 0.52706
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: SaveGamePreviewLine4
+    anchor: top_left
+    offset_x: 603.4667
+    offset_y: 329.6
+    width: 158.1333
+    height: 12.2667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_value}'
+      font: menu_arrus
+      color: '#d6bb80'
+      align_x: left
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Controller supplies live text.
   - id: SaveGameNameField
     anchor: top_left
     offset_x: 438.4
-    offset_y: 345.0501
+    offset_y: 357.5
     width: 323.2
     height: 22.4
     z_index: 10
@@ -342,14 +414,14 @@ elements:
   - id: SaveGameNameLabel
     anchor: top_left
     offset_x: 438.4
-    offset_y: 330.6501
+    offset_y: 345.5
     width: 323.2
     height: 10.6667
     z_index: 10
     visible: true
     interactive: false
     text:
-      value: Save name
+      value: '{field_label}'
       font: menu_lucida
       color: '#c2b69b'
       align_x: left
@@ -358,7 +430,7 @@ elements:
   - id: SaveGameFoodCost
     anchor: top_left
     offset_x: 438.4
-    offset_y: 372.0
+    offset_y: 381.5
     width: 323.2
     height: 22.0
     z_index: 10
@@ -398,9 +470,9 @@ elements:
     notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
   - id: SaveGameDeleteButton
     anchor: top_left
-    offset_x: 503.4667
+    offset_x: 465.0667
     offset_y: 414.4
-    width: 88.5333
+    width: 126.9333
     height: 26.1333
     z_index: 10
     visible: true

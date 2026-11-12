@@ -379,7 +379,8 @@ float MenuDesignScreen::textBlockHeight(const std::string &text, const std::stri
     return lineCount == 0 ? 0 : glyphHeight + (lineCount - 1) * glyphHeight * 1.2f;
 }
 
-void MenuDesignScreen::label(const std::string &id, const std::string &text, uint32_t color, float offsetY)
+void MenuDesignScreen::label(const std::string &id, const std::string &text, uint32_t color, float offsetY,
+                             float offsetX)
 {
     const UiLayoutManager::LayoutElement *pElement = m_designLayouts.findElement(id);
     if (pElement == nullptr || pElement->fontName.empty())
@@ -388,6 +389,8 @@ void MenuDesignScreen::label(const std::string &id, const std::string &text, uin
     }
     Rect rect = designRect(id);
     rect.y += offsetY * designScale();
+    rect.x += offsetX * designScale();
+    rect.width = std::max(1.0f, rect.width - offsetX * designScale());
     const float padding = pElement->textPadX * designScale();
     rect.x += padding;
     rect.width = std::max(1.0f, rect.width - padding * 2);

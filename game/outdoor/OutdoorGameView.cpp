@@ -95,11 +95,6 @@ float combatDamageFontScale(int damage)
     return 1.55f + std::clamp(damageMagnitude / 22.0f, 0.0f, 0.75f);
 }
 
-bool isAutosavePath(const std::filesystem::path &path)
-{
-    return toLowerCopy(path.stem().string()) == "autosave";
-}
-
 double millisecondsFromNanoseconds(uint64_t nanoseconds)
 {
     return static_cast<double>(nanoseconds) / 1000000.0;
@@ -4199,12 +4194,13 @@ bool OutdoorGameView::trySaveToSelectedGameSlot()
 
 bool OutdoorGameView::requestQuickSave()
 {
-    return beginSaveWithPreview(std::filesystem::path("saves") / "quicksave.oysav", "", false);
+    return beginSaveWithPreview(quickSavePath(m_gameSession.playthroughStatistics().playthroughId()), "", false);
 }
 
 bool OutdoorGameView::requestTravelAutosave()
 {
-    return beginSaveWithPreview(m_autosavePath, "", false);
+    return beginSaveWithPreview(
+        m_autosavePath.value_or(autosavePath(m_gameSession.playthroughStatistics().playthroughId())), "", false);
 }
 
 bool OutdoorGameView::savePreviewCapturePending() const

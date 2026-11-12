@@ -2276,6 +2276,7 @@ std::optional<GameSaveData> GameSession::buildSaveData() const
     saveData.randomRootSeed = m_randomRootSeed;
     saveData.playthroughId = m_playthroughStatistics.playthroughId();
     saveData.playthroughTimeline = m_playthroughStatistics.serializedTimeline();
+    saveData.playthroughPlayedSeconds = m_playthroughStatistics.timeline().playedSeconds;
 
     if (m_outdoorPartyState && m_currentOutdoorWorldState)
     {

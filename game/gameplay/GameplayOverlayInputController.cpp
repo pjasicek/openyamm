@@ -2821,6 +2821,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                         return {GameplayJournalPointerTargetType::ProgressMap, uint32_t(target.index)};
                     case JournalProgressTargetKind::Guide:
                         return {GameplayJournalPointerTargetType::ProgressGuide, 0};
+                    case JournalProgressTargetKind::AllContinents:
+                        return {GameplayJournalPointerTargetType::ProgressAllContinents, 0};
                     case JournalProgressTargetKind::None:
                         break;
                 }
@@ -3086,7 +3088,13 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
             case GameplayJournalPointerTargetType::ProgressContinent:
                 journalScreen.progressContinent = target.noteId;
+                journalScreen.progressAllContinents = false;
                 journalScreen.progressSelectedMap.clear();
+                journalScreen.progressScroll = 0;
+                break;
+
+            case GameplayJournalPointerTargetType::ProgressAllContinents:
+                journalScreen.progressAllContinents = !journalScreen.progressAllContinents;
                 journalScreen.progressScroll = 0;
                 break;
 

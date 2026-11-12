@@ -117,7 +117,9 @@ These rules apply to all AI-generated contributions in this repository.
 - For the playthrough statistics (the Statistics page of the Quick Reference overlay, F1 and the top bar's tally
   scroll; the sealed timeline in each save and the sealed lifetime sidecar `saves/playthroughs/<id>.<key>.oystats`, the
   private release key source `OPENYAMM_STATS_KEY_SOURCE`, the assisted flags; gold and experience
-  reasons), start with [Playthrough statistics](devdocs/PLAYTHROUGH_STATISTICS_PLAN.md).
+  reasons), start with [Playthrough statistics](devdocs/PLAYTHROUGH_STATISTICS_PLAN.md). Its "Saves by playthrough"
+  section covers the Load and Save screens' grouping by playthrough, playthrough names (`saves/playthroughs/names.yml`)
+  and each playthrough's own Quicksave and Autosave files.
 - For completion certificates (a world's `world.yml` `completion` block with the original certificate art, the
   OpenYAMM composite in `engine/ui/certificates.yml` and the automatic `certificates/` PNGs), start with
   [Completion certificates](level_generation/ui/certificates_20261031/README.md).

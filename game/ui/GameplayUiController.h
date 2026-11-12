@@ -477,9 +477,11 @@ public:
         float cachedMapCenterX = 0.0f;
         float cachedMapCenterY = 0.0f;
         // The Progress tab: the summary built as the tab opened (rebuilt on the next opening), the continent and the
-        // map filter shown, the map selected and the one under the pointer (file names), and the map list's scroll.
+        // map filter shown, whether the list holds every continent's maps instead (kept between openings), the map
+        // selected and the one under the pointer (file names), and the map list's scroll.
         std::shared_ptr<const RulesetProgressSummary> progress;
         size_t progressContinent = 0;
+        bool progressAllContinents = false;
         uint8_t progressFilter = 0;
         std::string progressSelectedMap;
         std::string progressHoveredMap;

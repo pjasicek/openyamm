@@ -23,6 +23,7 @@ playthroughs helped by development options or the debug console.
 - [Where each statistic is counted](#where-each-statistic-is-counted)
 - [Time and sessions](#time-and-sessions)
 - [The screen](#the-screen)
+- [Saves by playthrough](#saves-by-playthrough)
 - [Sealed files](#sealed-files)
 - [Integrity flags](#integrity-flags)
 - [Release key](#release-key)
@@ -202,6 +203,40 @@ unchanged.
   else beside its column. The page keeps no state for it: it hit-tests the held pointer while drawing.
 - **This session.** The basebar's right panel shows this session's time, kills, experience and deaths.
 - **Integrity line.** Between the buttons, in place of the breakdown hint (see [Integrity flags](#integrity-flags)).
+
+## Saves by playthrough
+
+The Load and Save screens (`game/ui/screens/LoadGameScreen.cpp`) list the saves under the playthrough each belongs to.
+Design mockup and the user's decisions: 2026-11-12 (grouping, renaming, Delete Playthrough, a Quicksave and Autosave
+per playthrough). The Load screen keeps its ruleset filter (All, Standard, MAW): a playthrough is listed under it by
+its saves of that ruleset.
+
+- **Grouping.** A heading per playthrough id, then its saves. The playthrough being played is first, the others
+  follow by their newest save, and saves that name no playthrough come last as "Older saves". The first heading is
+  unfolded; a click unfolds a heading, and a click on the selected one folds it.
+- **The id of a save.** From save version 175 the summary block at the front of a save holds the playthrough id and
+  the timeline's played seconds (`GameSaveSummary::playthrough`), so the list reads them without the game state.
+  - Older saves keep the id behind the game state. They are read whole once, and the result is kept in
+    `saves/playthroughs/save_index.tsv` by file name, size and time (`scanSaves`). A save written again drops out of
+    the index.
+  - A save from before statistics is named by its seed (`PlaythroughStatistics::playthroughIdOfSave`).
+- **A heading's facts** come from the playthrough's statistics file, read without attaching to it
+  (`PlaythroughStatistics::readStoredSummary`): start world, creation and last play, and the lifetime's played time.
+  The rules and difficulty are those of its newest save. The playthrough being played shows the game's own time.
+- **Names.** The automatic name is start continent, rules and difficulty ("Enroth · MAW Nightmare"). A name the player
+  types is kept in `saves/playthroughs/names.yml` (`game/party/PlaythroughNames.h`), apart from the sealed statistics.
+  Typing the automatic name, or nothing, removes it.
+- **Time played.** A heading shows the lifetime (reloaded stretches included); a save shows the timeline up to it.
+  Times under a minute are not shown.
+- **Quicksave and Autosave** are files of the playthrough: `saves/quicksave_<id>.oysav` and
+  `saves/autosave_<id>.oysav` (`quickSavePath`, `autosavePath` in `game/maps/SaveGame.h`). At start,
+  `migrateSharedSaveSlots` renames the shared `quicksave.oysav` and `autosave.oysav` of earlier builds to their
+  playthrough's names.
+- **Save screen.** It lists the playthrough being played; "All" adds the others, and a ruleset button beside it
+  (Standard, MAW) lists every playthrough's saves of that ruleset. A save's name must be free only
+  within that playthrough.
+- **Delete Playthrough** removes every save of the playthrough (Quicksave and Autosave too), its statistics files and
+  its name. It is refused for the playthrough being played.
 
 ## Sealed files
 

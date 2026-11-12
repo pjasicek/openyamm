@@ -1002,8 +1002,8 @@ private:
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     GameSettings m_gameSettings = GameSettings::createDefault();
     ViewDistanceCache m_viewDistanceCache;
-    std::filesystem::path m_autosavePath =
-        std::filesystem::path("saves") / "autosave.oysav";
+    // Where the autosave goes instead of the playthrough's own file (headless diagnostics).
+    std::optional<std::filesystem::path> m_autosavePath;
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;

@@ -56,6 +56,20 @@ std::string formatCalendarDate(int day, int month, int year)
     return Engine::tr("{day} {month} {year}", {{"day", day}, {"month", monthNameInDate(month)}, {"year", year}});
 }
 
+std::string formatUtcDate(const std::string &utc)
+{
+    int year = 0;
+    int month = 0;
+    int day = 0;
+
+    if (std::sscanf(utc.c_str(), "%d-%d-%d", &year, &month, &day) != 3 || month < 1 || month > 12)
+    {
+        return utc;
+    }
+
+    return formatCalendarDate(day, month, year);
+}
+
 std::string formatClockTime(int hour24, int minute)
 {
     const int hour12 = hour24 % 12 == 0 ? 12 : hour24 % 12;

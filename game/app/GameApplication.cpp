@@ -1569,16 +1569,6 @@ bool savedSelectedMapStateNeedsFreshAssets(
     return false;
 }
 
-bool isAutosavePath(const std::filesystem::path &path)
-{
-    return toLowerCopy(path.stem().string()) == "autosave";
-}
-
-bool isQuickSavePath(const std::filesystem::path &path)
-{
-    return toLowerCopy(path.stem().string()) == "quicksave";
-}
-
 int effectiveRespawnAreaIdForMap(const MapStatsEntry &mapEntry, const std::string &mapFileName)
 {
     const bool indoorMap = toLowerCopy(mapFileName).ends_with(".blv");
@@ -9220,6 +9210,8 @@ void GameApplication::shutdownApplication()
 bool GameApplication::loadGameData(Engine::AssetFileSystem &assetFileSystem)
 {
     m_pAssetFileSystem = &assetFileSystem;
+    // Before the first quick load or save list: each playthrough has its own Quicksave and Autosave now.
+    migrateSharedSaveSlots("saves");
     m_gameSession.clear();
     m_gameDataRepository.clear();
     m_gameSession.bindDataRepository(&m_gameDataRepository);
@@ -11938,7 +11930,7 @@ bool GameApplication::quickSave()
         return m_indoorGameView.requestQuickSave();
     }
 
-    return quickSaveToPath(std::filesystem::path("saves") / "quicksave.oysav");
+    return quickSaveToPath(quickSavePath(m_gameSession.playthroughStatistics().playthroughId()));
 }
 
 bool GameApplication::quickSaveToPath(
@@ -12093,7 +12085,7 @@ SaveFoodCost GameApplication::saveFoodCost()
 
 bool GameApplication::quickLoad()
 {
-    return quickLoadFromPath(std::filesystem::path("saves") / "quicksave.oysav", true);
+    return quickLoadFromPath(quickSavePath(m_gameSession.playthroughStatistics().playthroughId()), true);
 }
 
 bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool initializeView)
@@ -12481,6 +12473,10 @@ void GameApplication::openSaveGameScreen()
             return true;
         },
         location, m_gameSession.gameMinutes(), m_menuSavePreviewBmp, saveFoodCost());
+    pScreen->configureCurrentPlaythrough(
+        m_gameSession.playthroughStatistics().playthroughId(),
+        m_gameSession.playthroughStatistics().lifetime().playedSeconds,
+        m_gameSession.playthroughStatistics().timeline().playedSeconds);
     pScreen->configureSortOrder(m_settings.saveListNewestFirst, [this](bool newestFirst)
         {
             m_settings.saveListNewestFirst = newestFirst;
@@ -12526,6 +12522,14 @@ void GameApplication::openLoadGameScreen(bool returnToGameplayMenu, const std::s
         },
         returnToGameplayMenu, &m_gameAudioSystem,
         returnToGameplayMenu ? boundGameRules().experience.loadWarning().value_or("") : std::string());
+
+    if (returnToGameplayMenu)
+    {
+        pScreen->configureCurrentPlaythrough(
+            m_gameSession.playthroughStatistics().playthroughId(),
+            m_gameSession.playthroughStatistics().lifetime().playedSeconds,
+            m_gameSession.playthroughStatistics().timeline().playedSeconds);
+    }
     pScreen->configureSortOrder(m_settings.saveListNewestFirst, [this](bool newestFirst)
         {
             m_settings.saveListNewestFirst = newestFirst;
@@ -14936,7 +14940,7 @@ void GameApplication::finishPartyDefeat()
         // MM9's game over (cshell.dll 0x10034460): the autosave; without one the main menu.
         m_pendingPartyDefeatReloadAutosave = false;
 
-        if (!quickLoadFromPath(std::filesystem::path("saves") / "autosave.oysav", true))
+        if (!quickLoadFromPath(autosavePath(m_gameSession.playthroughStatistics().playthroughId()), true))
         {
             openMainMenuScreen();
         }

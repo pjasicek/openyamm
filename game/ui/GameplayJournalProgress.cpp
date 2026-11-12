@@ -95,6 +95,11 @@ constexpr float LevelRight = 216;
 constexpr float BarLeft = 222;
 constexpr float BarWidth = 76;
 constexpr float ResetsRight = 329;
+// With every continent listed, the name gives room to the continent's column and the flags start after it.
+constexpr float CombinedNameWidth = 102;
+constexpr float CombinedContinentLeft = 111;
+constexpr float CombinedContinentWidth = 38;
+constexpr float CombinedFlagLeft = 152;
 
 // What a map row's flags say at a glance, in their order; the legend and the hover name them.
 enum class MapFlag : uint8_t
@@ -183,6 +188,36 @@ std::array<Rect, JournalProgressFilterCount> chipRects(
     return rects;
 }
 
+// The "All continents" chip, at the list's right end of the filters' row.
+Rect allContinentsChipRect(const GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &page)
+{
+    const float scale = fontScale(context, TextFont, TextHeight, page.scale);
+    const float width = textWidth(context, TextFont, Engine::tr("All continents"), scale) / page.scale + 2 * ChipPad;
+    return pageRect(page, ListRight - width, ChipTop, width, ChipHeight);
+}
+
+// Whether the list holds the continent's maps: the chosen one, or each of them with "All continents" on.
+bool continentShown(const GameplayUiController::JournalScreenState &journal, size_t index)
+{
+    return journal.progressAllContinents || index == journal.progressContinent;
+}
+
+const RulesetProgressContinent *continentOfMap(const RulesetProgressSummary &summary, const RulesetProgressMap &map)
+{
+    for (const RulesetProgressContinent &continent : summary.continents)
+    {
+        for (const RulesetProgressMap &entry : continent.maps)
+        {
+            if (&entry == &map)
+            {
+                return &continent;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 bool passesFilter(const RulesetProgressMap &map, uint8_t filter)
 {
     switch (filter)
@@ -267,9 +302,15 @@ public:
     std::string fitted(const std::string &font, float height, const std::string &value, float width) const
     {
         const float scale = fontScale(m_context, font, height, m_page.scale);
+
+        if (textWidth(m_context, font, value, scale) / m_page.scale <= width)
+        {
+            return value;
+        }
+
         std::string result = value;
 
-        while (result.size() > 1 && textWidth(m_context, font, result, scale) / m_page.scale > width)
+        while (result.size() > 1)
         {
             // A whole character: shown names may be translated into letters of several bytes.
             Engine::Utf8::popBack(result);
@@ -423,25 +464,40 @@ private:
 
 const RulesetProgressMap *shownMap(const GameplayUiController::JournalScreenState &journal)
 {
-    if (!journal.progress || journal.progressContinent >= journal.progress->continents.size())
+    if (!journal.progress)
     {
         return nullptr;
     }
 
-    const RulesetProgressContinent &continent = journal.progress->continents[journal.progressContinent];
+    const std::vector<RulesetProgressContinent> &continents = journal.progress->continents;
 
     for (const std::string *pName : {&journal.progressHoveredMap, &journal.progressSelectedMap})
     {
-        for (const RulesetProgressMap &map : continent.maps)
+        for (size_t index = 0; !pName->empty() && index < continents.size(); ++index)
         {
-            if (!pName->empty() && map.fileName == *pName)
+            for (const RulesetProgressMap &map : continents[index].maps)
             {
-                return &map;
+                if (continentShown(journal, index) && map.fileName == *pName)
+                {
+                    return &map;
+                }
             }
         }
     }
 
-    return continent.maps.empty() ? nullptr : &continent.maps.front();
+    // None chosen: the lowest of the shown continents' maps.
+    const RulesetProgressMap *pLowest = nullptr;
+
+    for (size_t index = 0; index < continents.size(); ++index)
+    {
+        if (continentShown(journal, index) && !continents[index].maps.empty()
+            && (pLowest == nullptr || continents[index].maps.front().level < pLowest->level))
+        {
+            pLowest = &continents[index].maps.front();
+        }
+    }
+
+    return pLowest;
 }
 }
 
@@ -477,30 +533,42 @@ bool ensureJournalProgress(GameplayScreenRuntime &context, GameplayUiController:
         return false;
     }
 
-    // Open on the continent the party is on.
-    for (size_t index = 0; query.currentMap && index < summary->continents.size(); ++index)
-    {
-        for (const RulesetProgressMap &map : summary->continents[index].maps)
-        {
-            std::string current = query.currentMap->mapFileName;
-            std::transform(current.begin(), current.end(), current.begin(),
-                [](unsigned char c) { return char(std::tolower(c)); });
+    journal.progress = std::make_shared<const RulesetProgressSummary>(std::move(*summary));
 
+    if (!query.currentMap)
+    {
+        return true;
+    }
+
+    // Open on the continent the party is on.
+    std::string current = query.currentMap->mapFileName;
+    std::transform(current.begin(), current.end(), current.begin(),
+        [](unsigned char c) { return char(std::tolower(c)); });
+    const RulesetProgressMap *pCurrent = nullptr;
+
+    for (size_t index = 0; index < journal.progress->continents.size(); ++index)
+    {
+        for (const RulesetProgressMap &map : journal.progress->continents[index].maps)
+        {
             if (map.fileName == current)
             {
-                // Scrolled to show it, a few rows down.
-                const size_t row = size_t(&map - summary->continents[index].maps.data());
-                const size_t maps = summary->continents[index].maps.size();
                 journal.progressContinent = index;
                 journal.progressSelectedMap = map.fileName;
                 journal.progressFilter = 0;
-                journal.progressScroll = maps > JournalProgressVisibleRows
-                    ? std::min(row > 3 ? row - 3 : 0, maps - JournalProgressVisibleRows) : 0;
+                pCurrent = &map;
             }
         }
     }
 
-    journal.progress = std::make_shared<const RulesetProgressSummary>(std::move(*summary));
+    if (pCurrent != nullptr)
+    {
+        // Scrolled to show it, a few rows down.
+        const std::vector<const RulesetProgressMap *> maps = journalProgressMaps(journal);
+        const size_t row = size_t(std::find(maps.begin(), maps.end(), pCurrent) - maps.begin());
+        journal.progressScroll = maps.size() > JournalProgressVisibleRows
+            ? std::min(row > 3 ? row - 3 : 0, maps.size() - JournalProgressVisibleRows) : 0;
+    }
+
     return true;
 }
 
@@ -508,17 +576,34 @@ std::vector<const RulesetProgressMap *> journalProgressMaps(const GameplayUiCont
 {
     std::vector<const RulesetProgressMap *> maps;
 
-    if (!journal.progress || journal.progressContinent >= journal.progress->continents.size())
+    if (!journal.progress)
     {
         return maps;
     }
 
-    for (const RulesetProgressMap &map : journal.progress->continents[journal.progressContinent].maps)
+    for (size_t index = 0; index < journal.progress->continents.size(); ++index)
     {
-        if (passesFilter(map, journal.progressFilter))
+        if (!continentShown(journal, index))
         {
-            maps.push_back(&map);
+            continue;
         }
+
+        for (const RulesetProgressMap &map : journal.progress->continents[index].maps)
+        {
+            if (passesFilter(map, journal.progressFilter))
+            {
+                maps.push_back(&map);
+            }
+        }
+    }
+
+    if (journal.progressAllContinents)
+    {
+        // Each continent's maps are by level already; equal levels stay in the continents' order.
+        std::stable_sort(maps.begin(), maps.end(), [](const RulesetProgressMap *pLeft, const RulesetProgressMap *pRight)
+            {
+                return pLeft->level < pRight->level;
+            });
     }
 
     return maps;
@@ -560,6 +645,11 @@ JournalProgressTarget journalProgressTargetAt(
         {
             return {JournalProgressTargetKind::Filter, index};
         }
+    }
+
+    if (allContinentsChipRect(context, page).contains(x, y))
+    {
+        return {JournalProgressTargetKind::AllContinents, 0};
     }
 
     const size_t count = journalProgressMaps(journal).size();
@@ -632,7 +722,7 @@ void renderJournalProgress(
     {
         const RulesetProgressContinent &continent = summary.continents[index];
         const float x = ListLeft + index * (cardWidth + CardGap);
-        const bool selected = index == journal.progressContinent;
+        const bool selected = continentShown(journal, index);
         const Rect card = paint.rect(x, CardTop, cardWidth, CardHeight);
         paint.fill(card, selected ? SelectedFill : PanelFill);
         paint.frame(card, selected ? SelectedBorder : PanelBorder);
@@ -669,8 +759,21 @@ void renderJournalProgress(
             (chips[index].x - page.x) / page.scale + ChipPad, ChipTop + 2.5f);
     }
 
+    const bool combined = journal.progressAllContinents;
+    const Rect allChip = allContinentsChipRect(context, page);
+    paint.fill(allChip, combined ? SelectedFill : PanelFill);
+    paint.frame(allChip, combined ? SelectedBorder : PanelBorder);
+    paint.text(TextFont, TextHeight, combined ? Ivory : Body, Engine::tr("All continents"),
+        (allChip.x - page.x) / page.scale + ChipPad, ChipTop + 2.5f);
+
     // The map list.
     paint.text(TextFont, 8, Muted, Engine::tr("Map"), ListLeft + 4, HeaderTop);
+
+    if (combined)
+    {
+        paint.text(TextFont, 8, Muted, Engine::tr("Continent"), CombinedContinentLeft, HeaderTop);
+    }
+
     paint.text(TextFont, 8, Muted, Engine::tr("Level"), LevelRight, HeaderTop, 2);
     paint.text(TextFont, 8, Muted, Engine::tr("Cleared"), BarLeft, HeaderTop);
     paint.text(TextFont, 8, Muted, Engine::tr("Resets"), ResetsRight, HeaderTop, 2);
@@ -689,10 +792,19 @@ void renderJournalProgress(
 
         paint.fill(paint.rect(ListLeft, y + RowHeight - 0.5f, ListRight - ListLeft, 0.5f), RowRule);
         paint.text(TextFont, TextHeight, Ivory,
-            paint.fitted(TextFont, TextHeight, Engine::localizeKnown(map.name), NameWidth), ListLeft + 4, y + 4);
+            paint.fitted(TextFont, TextHeight, Engine::localizeKnown(map.name),
+                combined ? CombinedNameWidth : NameWidth),
+            ListLeft + 4, y + 4);
+
+        if (const RulesetProgressContinent *pContinent = combined ? continentOfMap(summary, map) : nullptr)
+        {
+            paint.text(TextFont, 8, Muted,
+                paint.fitted(TextFont, 8, Engine::localizeKnown(pContinent->name), CombinedContinentWidth),
+                CombinedContinentLeft, y + 5);
+        }
 
         // The flags, the one under the pointer named below.
-        float flagX = FlagLeft;
+        float flagX = combined ? CombinedFlagLeft : FlagLeft;
 
         for (const MapFlag flag : mapFlags(map))
         {
@@ -772,6 +884,12 @@ void renderJournalProgress(
                 y += 11;
             }
         };
+
+        if (const RulesetProgressContinent *pContinent = combined ? continentOfMap(summary, map) : nullptr)
+        {
+            row(Engine::tr("Continent"), Engine::localizeKnown(pContinent->name));
+        }
+
         row(Engine::tr("Monster level"), map.levelFromResets > 0
             ? Engine::tr("{level} (+{added} from resets)", {{"level", map.level}, {"added", map.levelFromResets}})
             : std::to_string(map.level));

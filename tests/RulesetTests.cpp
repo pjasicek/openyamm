@@ -551,6 +551,27 @@ size_t findValue(const std::vector<uint8_t> &bytes, const T &value)
     return static_cast<size_t>(found - bytes.begin());
 }
 
+// Saves from version 175 end the summary block with the playthrough id and the time played up to the save (an empty
+// string and 0 in these saves); older ones keep the id before the statistics timeline, at the save's end. Moves the
+// id back and cuts the time, the first step for a save then stamped with an older version.
+void moveSummaryPlaythroughToLegacyPlace(std::vector<uint8_t> &bytes)
+{
+    constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
+    constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
+    uint32_t summarySize = 0;
+    std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
+    REQUIRE(summarySize >= PlaythroughSize);
+    const size_t offset = HeaderSize + sizeof(summarySize) + summarySize - PlaythroughSize;
+    REQUIRE(std::all_of(bytes.begin() + static_cast<std::ptrdiff_t>(offset),
+        bytes.begin() + static_cast<std::ptrdiff_t>(offset + PlaythroughSize),
+        [](uint8_t value) { return value == 0; }));
+    eraseBytes(bytes, offset, PlaythroughSize);
+    summarySize -= uint32_t(PlaythroughSize);
+    std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
+    // The empty id before the empty timeline that ends the save.
+    bytes.insert(bytes.end() - static_cast<std::ptrdiff_t>(sizeof(uint64_t)), sizeof(uint64_t), uint8_t(0));
+}
+
 // Saves before version 162 have no map layout identities: cuts minimalSave's two, for a save stamped older.
 // Saves from version 163 end with the playthrough id and its statistics timeline: two strings, empty in these saves.
 void erasePlaythroughStatistics(std::vector<uint8_t> &bytes)
@@ -720,6 +741,7 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
 
     std::vector<uint8_t> bytes = readBytes(path);
+    moveSummaryPlaythroughToLegacyPlace(bytes);
     erasePlaythroughStatistics(bytes);
     eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
@@ -788,6 +810,7 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
         restored->ruleset, restored->saveName, restored->previewBmp});
 
     std::vector<uint8_t> bytes = readBytes(path);
+    moveSummaryPlaythroughToLegacyPlace(bytes);
     erasePlaythroughStatistics(bytes);
     eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
@@ -826,6 +849,7 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     // The summary block holds the map, the time, the ruleset, the name and the preview; the Bow preference (version
     // 154) is the ruleset's last byte, after the trainer hints (152). Cut it and stamp version 153.
     std::vector<uint8_t> bytes = readBytes(path);
+    moveSummaryPlaythroughToLegacyPlace(bytes);
     eraseOtherWorldsLoot(bytes, save);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     uint32_t summarySize = 0;
@@ -870,6 +894,7 @@ TEST_CASE("saves before the MM9 hirelings load with none")
 
     // Cut the party's hireling count (version 157) and stamp version 154 (before the last outdoor map, 155).
     std::vector<uint8_t> bytes = readBytes(path);
+    moveSummaryPlaythroughToLegacyPlace(bytes);
     eraseOtherWorldsLoot(bytes, save);
     eraseMm9HirelingCount(bytes, completionMarker);
     eraseMapLayoutIdentities(bytes);
@@ -908,6 +933,7 @@ TEST_CASE("saves before the MM9 formation load without member cells and with neu
 
     // Cut the party's formation cell count (version 158) and stamp version 157.
     std::vector<uint8_t> bytes = readBytes(path);
+    moveSummaryPlaythroughToLegacyPlace(bytes);
     eraseOtherWorldsLoot(bytes, save);
     std::array<uint8_t, sizeof(cellMarker)> markerBytes = {};
     std::memcpy(markerBytes.data(), &cellMarker, sizeof(cellMarker));

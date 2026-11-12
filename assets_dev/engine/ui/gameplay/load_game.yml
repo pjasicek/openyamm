@@ -128,7 +128,7 @@ elements:
     visible: true
     interactive: false
     notes: Ruleset filter buttons (All, then one per ruleset), right-aligned and drawn by the controller; shown only
-      when more than one ruleset is installed or saved.
+      when the saves were played with more than one ruleset.
   - id: LoadGameFooterRule
     anchor: top_left
     offset_x: 91.7333
@@ -251,14 +251,14 @@ elements:
   - id: LoadGamePreviewLabel1
     anchor: top_left
     offset_x: 438.4
-    offset_y: 297.5835
+    offset_y: 293.0
     width: 158.1333
     height: 9.0667
     z_index: 10
     visible: true
     interactive: false
     text:
-      value: Game date
+      value: '{fact_label}'
       font: menu_lucida
       color: '#aeb2a3'
       align_x: left
@@ -268,7 +268,7 @@ elements:
   - id: LoadGamePreviewLine1
     anchor: top_left
     offset_x: 438.4
-    offset_y: 308.7835
+    offset_y: 303.6
     width: 158.1333
     height: 12.2667
     z_index: 10
@@ -286,14 +286,14 @@ elements:
   - id: LoadGamePreviewLabel2
     anchor: top_left
     offset_x: 603.4667
-    offset_y: 297.5835
+    offset_y: 293.0
     width: 158.1333
     height: 9.0667
     z_index: 10
     visible: true
     interactive: false
     text:
-      value: Game time
+      value: '{fact_label}'
       font: menu_lucida
       color: '#aeb2a3'
       align_x: left
@@ -303,7 +303,7 @@ elements:
   - id: LoadGamePreviewLine2
     anchor: top_left
     offset_x: 603.4667
-    offset_y: 308.7835
+    offset_y: 303.6
     width: 158.1333
     height: 12.2667
     z_index: 10
@@ -318,10 +318,82 @@ elements:
       scale: 0.64
       pad_x: 0.0
     notes: Controller supplies live text.
+  - id: LoadGamePreviewLabel3
+    anchor: top_left
+    offset_x: 438.4
+    offset_y: 319.0
+    width: 158.1333
+    height: 9.0667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_label}'
+      font: menu_lucida
+      color: '#aeb2a3'
+      align_x: left
+      align_y: middle
+      scale: 0.52706
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: LoadGamePreviewLine3
+    anchor: top_left
+    offset_x: 438.4
+    offset_y: 329.6
+    width: 158.1333
+    height: 12.2667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_value}'
+      font: menu_arrus
+      color: '#eadfc6'
+      align_x: left
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: LoadGamePreviewLabel4
+    anchor: top_left
+    offset_x: 603.4667
+    offset_y: 319.0
+    width: 158.1333
+    height: 9.0667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_label}'
+      font: menu_lucida
+      color: '#aeb2a3'
+      align_x: left
+      align_y: middle
+      scale: 0.52706
+      pad_x: 0.0
+    notes: Controller supplies live text.
+  - id: LoadGamePreviewLine4
+    anchor: top_left
+    offset_x: 603.4667
+    offset_y: 329.6
+    width: 158.1333
+    height: 12.2667
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: '{fact_value}'
+      font: menu_arrus
+      color: '#d6bb80'
+      align_x: left
+      align_y: middle
+      scale: 0.64
+      pad_x: 0.0
+    notes: Controller supplies live text.
   - id: LoadGameSelectedMetadata
     anchor: top_left
     offset_x: 438.4
-    offset_y: 330.6501
+    offset_y: 346.5
     width: 323.2
     height: 26.4501
     z_index: 10
@@ -339,7 +411,7 @@ elements:
   - id: LoadGameSelectedRuleset
     anchor: top_left
     offset_x: 438.4
-    offset_y: 357.6
+    offset_y: 374.0
     width: 323.2
     height: 12.0
     z_index: 10
@@ -422,9 +494,9 @@ elements:
     notes: Desktop only. Opens the user data folder (saves, settings.ini, screenshots) in the file manager.
   - id: LoadGameDeleteButton
     anchor: top_left
-    offset_x: 503.4667
+    offset_x: 465.0667
     offset_y: 414.4
-    width: 88.5333
+    width: 126.9333
     height: 26.1333
     z_index: 10
     visible: true

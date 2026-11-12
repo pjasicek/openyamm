@@ -319,6 +319,7 @@ add_library(openyamm_game STATIC
     party/PartySpellSystem.cpp
     party/WorldSpells.cpp
     items/PriceCalculator.cpp
+    party/PlaythroughNames.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
     render/TerrainMaterialConfig.cpp

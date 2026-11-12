@@ -526,13 +526,14 @@ enum class GameplayJournalPointerTargetType
     MainQuestsView,
     MainStoryView,
     MainNotesView,
-    // MAW's Progress tab and, on it, a continent card, a map filter and a map row (their index in noteId), and the
-    // ruleset's player's guide link.
+    // MAW's Progress tab and, on it, a continent card, a map filter and a map row (their index in noteId), the
+    // ruleset's player's guide link and the "All continents" chip.
     MainProgressView,
     ProgressContinent,
     ProgressFilter,
     ProgressMap,
     ProgressGuide,
+    ProgressAllContinents,
     // The aura panel's targets (GameplayJournalAuras.h), packed into noteId.
     AuraPanel,
     // The Trainers notes' finder targets (GameplayJournalTrainers.h), packed into noteId.

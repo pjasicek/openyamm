@@ -13,8 +13,9 @@ class GameplayScreenRuntime;
 struct RulesetProgressMap;
 
 // The Journal's Progress tab (MAW, level_generation/ui/maw_loot_progress_20261025 B): the game's mode, each continent's
-// card, its maps by level with a filter, the chosen map's details and the dimension and bounty records, laid out in the
-// JournalProgressPage area. The renderer and the journal input share the layout below.
+// card, its maps by level with a filter (or every continent's in one list, with "All continents" on), the chosen map's
+// details and the dimension and bounty records, laid out in the JournalProgressPage area. The renderer and the journal
+// input share the layout below.
 enum class JournalProgressTargetKind : uint8_t
 {
     None,
@@ -23,6 +24,8 @@ enum class JournalProgressTargetKind : uint8_t
     Map,
     // The link to the ruleset's player's guide, at the header's right.
     Guide,
+    // The "All continents" chip beside the filters: every continent's maps in one list by level.
+    AllContinents,
 };
 
 struct JournalProgressTarget
@@ -40,7 +43,7 @@ constexpr size_t JournalProgressVisibleRows = 13;
 bool journalHasProgressTab(const GameplayScreenRuntime &context);
 // Builds the tab's summary when it has none (the tab was opened): false when the rules have none.
 bool ensureJournalProgress(GameplayScreenRuntime &context, GameplayUiController::JournalScreenState &journal);
-// The shown continent's maps that pass the filter, by level.
+// The maps of the shown continent (of every continent with "All continents" on) that pass the filter, by level.
 std::vector<const RulesetProgressMap *> journalProgressMaps(const GameplayUiController::JournalScreenState &journal);
 JournalProgressTarget journalProgressTargetAt(
     const GameplayScreenRuntime &context,

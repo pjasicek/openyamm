@@ -1018,19 +1018,21 @@ bool ScenarioRuntimeDriver::pressQuickLoad(
     }
 
     std::error_code error;
-    const std::filesystem::path quickSavePath = workDirectory / "saves" / "quicksave.oysav";
-    std::filesystem::create_directories(quickSavePath.parent_path(), error);
+    // The playthrough's own quicksave, as the key loads it.
+    const std::filesystem::path stagedPath = workDirectory / quickSavePath(
+        ScenarioGameApplicationAccess::gameSession(m_application).playthroughStatistics().playthroughId());
+    std::filesystem::create_directories(stagedPath.parent_path(), error);
 
     if (!error)
     {
-        std::filesystem::copy_file(savePath, quickSavePath, std::filesystem::copy_options::overwrite_existing, error);
+        std::filesystem::copy_file(savePath, stagedPath, std::filesystem::copy_options::overwrite_existing, error);
     }
 
     const std::filesystem::path previousDirectory = std::filesystem::current_path(error);
 
-    if (error || !std::filesystem::exists(quickSavePath))
+    if (error || !std::filesystem::exists(stagedPath))
     {
-        failure = "quick_load could not prepare '" + quickSavePath.string() + "' from '" + savePath.string() + "'";
+        failure = "quick_load could not prepare '" + stagedPath.string() + "' from '" + savePath.string() + "'";
         return false;
     }
 

@@ -377,6 +377,7 @@ add_executable(openyamm_unit_tests
     ../game/party/WorldSpells.cpp
     ../game/party/SkillData.cpp
     ../game/party/SpellSchool.cpp
+    ../game/party/PlaythroughNames.cpp
     ../game/tables/ChestTable.cpp
     ../game/tables/AwardTable.cpp
     ../game/tables/CharacterDollTable.cpp

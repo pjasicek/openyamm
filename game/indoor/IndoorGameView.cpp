@@ -66,7 +66,6 @@ constexpr const char *UnderwaterLoopSound = "player/unwater2.wav";
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
 constexpr uint64_t GameplayMouseLookCursorSyncIntervalTicks = 100;
-const std::filesystem::path AutosavePath = std::filesystem::path("saves") / "autosave.oysav";
 using SpellbookPointerTargetType = IndoorSpellbookPointerTargetType;
 using SpellbookPointerTarget = IndoorSpellbookPointerTarget;
 using CharacterPointerTargetType = IndoorCharacterPointerTargetType;
@@ -97,11 +96,6 @@ float combatDamageFontScale(int damage)
 bool windowHasInputFocus(SDL_Window *pWindow)
 {
     return pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_INPUT_FOCUS) != 0;
-}
-
-bool isAutosavePath(const std::filesystem::path &path)
-{
-    return toLowerCopy(path.stem().string()) == "autosave";
 }
 
 struct ParsedHudFontGlyphMetrics
@@ -1904,12 +1898,12 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
 
 bool IndoorGameView::requestQuickSave()
 {
-    return beginSaveWithPreview(std::filesystem::path("saves") / "quicksave.oysav", "", false);
+    return beginSaveWithPreview(quickSavePath(m_gameSession.playthroughStatistics().playthroughId()), "", false);
 }
 
 bool IndoorGameView::requestTravelAutosave()
 {
-    return beginSaveWithPreview(AutosavePath, "", false);
+    return beginSaveWithPreview(autosavePath(m_gameSession.playthroughStatistics().playthroughId()), "", false);
 }
 
 bool IndoorGameView::savePreviewCapturePending() const

@@ -124,16 +124,7 @@ std::string dayText(double day)
 // "2026-10-14T19:02:11Z" as "14 October 2026".
 std::string dateText(const std::string &utc)
 {
-    int year = 0;
-    int month = 0;
-    int day = 0;
-
-    if (std::sscanf(utc.c_str(), "%d-%d-%d", &year, &month, &day) != 3 || month < 1 || month > 12)
-    {
-        return utc;
-    }
-
-    return formatCalendarDate(day, month, year);
+    return formatUtcDate(utc);
 }
 
 std::string upperText(std::string text)

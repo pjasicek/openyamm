@@ -56,10 +56,20 @@ struct GameSaveData
     // both empty in saves older than the statistics.
     std::string playthroughId;
     std::string playthroughTimeline;
+    // The real time played up to the save (the timeline's), for the save lists.
+    double playthroughPlayedSeconds = 0.0;
     std::string saveName;
     std::vector<uint8_t> previewBmp;
     // The version the save was written with (set when loading, not saved), for migrations that need the game tables.
     uint32_t sourceSaveVersion = 0;
+};
+
+// The playthrough a save belongs to (empty: a save from before playthroughs with no random seed to name one by) and
+// the real time played up to it.
+struct SavePlaythroughInfo
+{
+    std::string id;
+    double playedSeconds = 0.0;
 };
 
 // What the Load and Save screens list about a save: the same fields of its GameSaveData.
@@ -70,6 +80,8 @@ struct GameSaveSummary
     RulesetSelection ruleset;
     std::string saveName;
     std::vector<uint8_t> previewBmp;
+    // Nothing in saves before version 175, which keep it behind the game state (loadSavePlaythroughInfoFromPath).
+    std::optional<SavePlaythroughInfo> playthrough;
 };
 
 // MAW games carry four bags a member from this version on; older saves fit theirs into four when loaded
@@ -103,6 +115,20 @@ inline constexpr const char *SaveFromNewerVersionError = "written by a newer ver
 std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &path, std::string &error);
 // Reads only the summary of current saves; older ones keep it behind the game state and are read whole.
 std::optional<GameSaveSummary> loadGameSaveSummaryFromPath(const std::filesystem::path &path, std::string &error);
+// Reads the whole save for its playthrough: for saves whose summary has none.
+std::optional<SavePlaythroughInfo> loadSavePlaythroughInfoFromPath(
+    const std::filesystem::path &path,
+    std::string &error);
+
+// A playthrough's own Quicksave and Autosave, saves/quicksave_<id>.oysav and saves/autosave_<id>.oysav. Without an id
+// they are saves/quicksave.oysav and saves/autosave.oysav, which every playthrough shared in earlier builds.
+std::filesystem::path quickSavePath(const std::string &playthroughId);
+std::filesystem::path autosavePath(const std::string &playthroughId);
+bool isQuickSavePath(const std::filesystem::path &path);
+bool isAutosavePath(const std::filesystem::path &path);
+// Renames the folder's shared quicksave.oysav and autosave.oysav of earlier builds to the names of the playthroughs
+// that wrote them. One that names no playthrough, or whose playthrough has its own already, stays.
+void migrateSharedSaveSlots(const std::filesystem::path &savesDirectory);
 std::unordered_map<std::string, uint32_t> collectRequiredContentPackages(
     const GameSaveData &data,
     const ItemTable &itemTable,
