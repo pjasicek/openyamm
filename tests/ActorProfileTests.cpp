@@ -450,10 +450,12 @@ TEST_CASE("actor profiles and MM9 placement settings survive the same save")
     auto &outdoor = save.outdoorWorld.mapActors.emplace_back();
     outdoor.actorProfile = "mm7.test_heroism_caster";
     outdoor.mm9Ai = placement;
+    outdoor.heldItems.push_back({"test_axe", "hand_r"});
     save.hasIndoorSceneState = true;
     auto &indoor = save.indoorScene.mapDeltaData.emplace().actors.emplace_back();
     indoor.actorProfile = "mm7.test_troll_geomancer";
     indoor.mm9Ai = placement;
+    indoor.heldItems.push_back({"test_broom", "hand_l"});
 
     const auto path = std::filesystem::temp_directory_path() / "openyamm_profiles_and_mm9_placement.oysav";
     std::string error;
@@ -468,6 +470,8 @@ TEST_CASE("actor profiles and MM9 placement settings survive the same save")
     const auto &loadedOutdoor = restored->outdoorWorld.mapActors.front();
     CHECK_EQ(loadedIndoor.actorProfile, indoor.actorProfile);
     CHECK_EQ(loadedOutdoor.actorProfile, outdoor.actorProfile);
+    CHECK(loadedIndoor.heldItems == indoor.heldItems);
+    CHECK(loadedOutdoor.heldItems == outdoor.heldItems);
     REQUIRE(loadedIndoor.mm9Ai);
     REQUIRE(loadedOutdoor.mm9Ai);
     CHECK(*loadedIndoor.mm9Ai == placement);
