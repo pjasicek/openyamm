@@ -69,7 +69,7 @@ TEST_CASE("MAW rolls MM9's fixed shop stock: the vendor's items at MAW's power a
     CHECK(rolled > stock.size() / 2);
 }
 
-TEST_CASE("MM9's apothecaries buy the MM6-MM8 potions, scrolls, wands and gems a party brings in")
+TEST_CASE("MM9's shops buy the MM6-MM8 potions, scrolls, wands and gems a party brings in")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -92,7 +92,8 @@ TEST_CASE("MM9's apothecaries buy the MM6-MM8 potions, scrolls, wands and gems a
         item.objectDescriptionId = itemId;
         CHECK_MESSAGE(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(itemTable, *pApothecary, item),
             pDefinition->name);
-        CHECK_FALSE(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(itemTable, *pWeaponShop, item));
+        CHECK_MESSAGE(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(itemTable, *pWeaponShop, item),
+            pDefinition->name);
     }
 
     // MM9's own letters and quest notes stay unsellable.

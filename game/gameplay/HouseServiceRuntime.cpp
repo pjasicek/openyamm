@@ -176,26 +176,6 @@ bool isShopItemFamilyAllowed(const HouseEntry &houseEntry, const ItemDefinition 
     return false;
 }
 
-// MM9's apothecaries and general stores also buy the MM6-MM8 kinds that MM9 has no shop of its own for (potions,
-// reagents, spell scrolls, wands, gems, ore): a party that brings them into MM9 (MAW's Chedian) can sell them. Their
-// stock stays MM9's.
-bool buysOtherWorldsMagicItem(const HouseEntry &houseEntry, const ItemDefinition &itemDefinition)
-{
-    if (houseEntry.vendorStockProfile != VendorStockProfile::Mm9Apothecary
-        && houseEntry.vendorStockProfile != VendorStockProfile::Mm9GeneralStore)
-    {
-        return false;
-    }
-
-    return itemDefinition.equipStat == "Bottle"
-        || itemDefinition.equipStat == "Reagent"
-        || itemDefinition.equipStat == "Herb"
-        || itemDefinition.equipStat == "Sscroll"
-        || itemDefinition.equipStat == "WeaponW"
-        || itemDefinition.equipStat == "Gem"
-        || itemDefinition.equipStat == "Ore";
-}
-
 bool isArmorShopBottomRowItem(const ItemDefinition &itemDefinition)
 {
     if (itemDefinition.equipStat == "Shield")
@@ -1573,11 +1553,8 @@ bool HouseServiceRuntime::canSellItemToHouse(
         return false;
     }
 
-    return supportsEquipmentSell(houseEntry)
-        && pItemDefinition->value > 0
-        && (houseEntry.vendorStockProfile == VendorStockProfile::None
-            || isShopItemFamilyAllowed(houseEntry, *pItemDefinition)
-            || buysOtherWorldsMagicItem(houseEntry, *pItemDefinition));
+    // Every shop that buys at all buys every item with a value, whatever it stocks itself.
+    return supportsEquipmentSell(houseEntry) && pItemDefinition->value > 0;
 }
 
 std::string HouseServiceRuntime::buildBuyHoverText(

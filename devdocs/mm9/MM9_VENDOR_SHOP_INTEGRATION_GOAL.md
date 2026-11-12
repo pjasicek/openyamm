@@ -313,12 +313,15 @@ Define capabilities in data rather than deriving all behavior from a display typ
 
 | Profile | Buy | Sell | Identify | Repair |
 | --- | --- | --- | --- | --- |
-| Weapon | Yes | Accepted weapon families | Yes | Accepted weapon families |
-| Armor | Yes | Accepted armor families | Yes | Accepted armor families |
-| Spellbook | Yes | Authored accepted families | Yes | No |
-| Mm9Apothecary | Yes | Authored accepted families | Yes | No |
-| Mm9GeneralStore | Yes | Broad authored families with general-store pricing | Yes | Authored policy |
-| Mm9Library | Yes | Skill books if the design permits resale | No | No |
+| Weapon | Yes | Any item with a value | Yes | Accepted weapon families |
+| Armor | Yes | Any item with a value | Yes | Accepted armor families |
+| Spellbook | Yes | Any item with a value | Yes | No |
+| Mm9Apothecary | Yes | Any item with a value | Yes | No |
+| Mm9GeneralStore | Yes | Any item with a value | Yes | Authored policy |
+| Mm9Library | Yes | Any item with a value | No | No |
+
+Since 2026-11-12 every MM9 vendor buys any item with a value above 0, like the MM6-MM8 shops; the stock profile
+limits only what a vendor stocks, identifies and repairs.
 
 The vendor root must contain the three requested actions. Unsupported nested operations should be omitted rather than
 shown as working and then rejected. `Display Equipment` may still open a display-only inventory before the player

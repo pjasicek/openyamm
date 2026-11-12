@@ -1705,7 +1705,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         dataLoader.getItemTable(),
         libraryIt->second,
         libraryStock[0]));
-    CHECK_FALSE(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(
+    CHECK(OpenYAMM::Game::HouseServiceRuntime::canSellItemToHouse(
         dataLoader.getItemTable(),
         *pSturmfordWeaponVendor,
         libraryStock[0]));
