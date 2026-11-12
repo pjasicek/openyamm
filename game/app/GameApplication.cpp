@@ -9498,6 +9498,14 @@ bool GameApplication::activateWorldForMap(const MapStatsEntry &map)
     // party then point at the new tables.
     if (currentWorldId != targetWorldId && m_commonGameDataLoaded)
     {
+        // The party still points at the hireling table this replaces, and binding its dependencies again rebuilds
+        // its bonuses (hireling passives among them) before the new table is set: a party with a hireling read the
+        // freed table on leaving MM9.
+        if (m_gameSession.partyState())
+        {
+            m_gameSession.partyState()->setMm9HirelingTable(nullptr);
+        }
+
         if (!m_gameDataLoader.loadWorldScopedTables(*m_pAssetFileSystem))
         {
             std::cerr << "GameApplication: failed to load the world tables of " << targetWorldId << '\n';
@@ -10336,6 +10344,8 @@ void GameApplication::bindPartyDependencies(Party &party)
     party.setClassSkillTable(&data.classSkillTable());
     party.setTrainerDirectory(&data.trainerDirectory());
     party.setMm9HirelingTable(&data.mm9HirelingTable());
+    // MM9's hirelings wait behind in a world without their table (every world but MM9).
+    party.setMm9HirelingsAlong(!data.mm9HirelingTable().entries().empty());
     party.setNpcFollowersActive(m_activeWorldManifest.npcFollowers);
     party.setFormationTargetingActive(m_activeWorldManifest.formations);
     party.setFleetFootWorld(m_activeWorldManifest.fleetFoot);

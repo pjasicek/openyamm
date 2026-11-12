@@ -688,7 +688,12 @@ public:
     // and give no bonuses; they come back in a world that has them.
     void setNpcFollowersActive(bool active);
     bool npcFollowersActive() const;
-    // The MM9 hirelings with the party, in hiring order.
+    // Whether the MM9 hirelings travel with the party in the active world (the worlds with MM9's hireling table:
+    // MM9). Off, they wait behind: the party keeps them (and saves them) but none is shown, fights, is paid or gives
+    // a bonus, as if it had none; they rejoin in a world that has them.
+    void setMm9HirelingsAlong(bool along);
+    bool mm9HirelingsAlong() const;
+    // The MM9 hirelings with the party, in hiring order (none while they wait behind).
     const std::vector<Mm9PartyHireling> &hirelings() const;
     const Mm9PartyHireling *findHireling(uint32_t rudeId) const;
     Mm9PartyHireling *findHireling(uint32_t rudeId);
@@ -1168,6 +1173,10 @@ private:
     // World configuration like m_pRules: not saved, not reset.
     bool m_npcFollowersActive = true;
     std::vector<Mm9PartyHireling> m_mm9Hirelings;
+    // The hirelings while they wait behind (setMm9HirelingsAlong(false)); m_mm9Hirelings is then empty. World
+    // configuration like m_npcFollowersActive: the flag is not saved and not reset.
+    std::vector<Mm9PartyHireling> m_mm9HirelingsBehind;
+    bool m_mm9HirelingsAlong = true;
     // The active hireling (an index into m_mm9Hirelings) while one acts; runtime only.
     std::optional<size_t> m_activeHirelingIndex;
     // One cell per member (formationCell); saved.

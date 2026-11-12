@@ -1,0 +1,28 @@
+# A party with an MM9 hireling leaves Chedian and comes back (2026-11-13). The world switch freed MM9's hireling table
+# while the party still pointed at it, and binding the party's dependencies again read it: a crash on arrival. Outside
+# Chedian the hirelings wait behind (Party::setMm9HirelingsAlong): not listed, kept by a save made there, and back
+# with the party, talking, on its return.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/hireling_leaves_world.yml --scenario-no-color
+id: mm9.hireling_leaves_world
+title: "World switch: Tesar Olin waits behind while the party is on Dagger Wound Island, and rejoins in Sturmford City"
+world: mm9
+mode: faithful
+tags: [mm9, world_switch, hirelings, regression]
+steps:
+  - load_map: {map: sturmfordcity.blv}
+  - advance_runtime: {seconds: 1}
+  - console: {line: hireling add 43}
+  - console: {line: hireling list, expect_contains: "43 Tesar Olin (110 HP)"}
+  - load_map: {map: out01.odm}
+  - advance_runtime: {seconds: 1}
+  # Nobody between the two parts of the list: no hireling with the party.
+  - console: {line: hireling list, expect_contains: "No hireling table (MM9 world only). Table:"}
+  - save_game: away
+  - load_game: away
+  - console: {line: hireling list, expect_contains: "No hireling table (MM9 world only). Table:"}
+  - load_map: {map: sturmfordcity.blv}
+  - advance_runtime: {seconds: 1}
+  - console: {line: hireling list, expect_contains: "43 Tesar Olin (110 HP)"}
+  - console: {line: hireling talk 43}
+  - assert:
+      dialog: {active: true, source_id: 43}

@@ -2749,7 +2749,7 @@ Party::Snapshot Party::snapshot() const
     snapshot.npcItemOverrides = m_npcItemOverrides;
     snapshot.unavailableNpcIds = m_unavailableNpcIds;
     snapshot.hiredNpcFollowers = m_hiredNpcFollowers;
-    snapshot.mm9Hirelings = m_mm9Hirelings;
+    snapshot.mm9Hirelings = m_mm9HirelingsAlong ? m_mm9Hirelings : m_mm9HirelingsBehind;
     snapshot.memberFormationCells = m_memberFormationCells;
     snapshot.lastOutdoorMapFileName = m_lastOutdoorMapFileName;
 
@@ -2809,7 +2809,9 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_npcItemOverrides = snapshot.npcItemOverrides;
     m_unavailableNpcIds = snapshot.unavailableNpcIds;
     m_hiredNpcFollowers = snapshot.hiredNpcFollowers;
-    m_mm9Hirelings = snapshot.mm9Hirelings;
+    m_mm9Hirelings.clear();
+    m_mm9HirelingsBehind.clear();
+    (m_mm9HirelingsAlong ? m_mm9Hirelings : m_mm9HirelingsBehind) = snapshot.mm9Hirelings;
     m_activeHirelingIndex.reset();
     m_memberFormationCells = snapshot.memberFormationCells;
     m_lastOutdoorMapFileName = snapshot.lastOutdoorMapFileName;
@@ -2894,6 +2896,7 @@ void Party::seed(const PartySeed &seed)
     m_unavailableNpcIds.clear();
     m_hiredNpcFollowers.clear();
     m_mm9Hirelings.clear();
+    m_mm9HirelingsBehind.clear();
     m_activeHirelingIndex.reset();
     m_memberFormationCells.clear();
     m_lastOutdoorMapFileName.clear();
@@ -5246,6 +5249,26 @@ std::span<const HiredNpcFollower> Party::activeHiredNpcFollowers() const
 {
     return m_npcFollowersActive ? std::span<const HiredNpcFollower>(m_hiredNpcFollowers)
                                 : std::span<const HiredNpcFollower>();
+}
+
+void Party::setMm9HirelingsAlong(bool along)
+{
+    if (m_mm9HirelingsAlong == along)
+    {
+        return;
+    }
+
+    // One of the two lists is empty: the hirelings change places. Those who rejoin take free formation cells.
+    m_mm9HirelingsAlong = along;
+    m_mm9Hirelings.swap(m_mm9HirelingsBehind);
+    m_activeHirelingIndex.reset();
+    normalizeFormationCells();
+    rebuildMagicalBonusesFromBuffs();
+}
+
+bool Party::mm9HirelingsAlong() const
+{
+    return m_mm9HirelingsAlong;
 }
 
 const std::vector<Mm9PartyHireling> &Party::hirelings() const

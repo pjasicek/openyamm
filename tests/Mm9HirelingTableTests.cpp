@@ -335,6 +335,40 @@ TEST_CASE("MM9 hirelings survive a save round trip")
     CHECK(restored.paidHirelingCount() == 1u);
 }
 
+TEST_CASE("MM9 hirelings wait behind in a world without them, and rejoin")
+{
+    const Mm9HirelingTable table = sampleTable();
+    Party party = {};
+    party.seed(Party::createDefaultSeed());
+    REQUIRE(party.addHireling(*table.find(44)));
+    REQUIRE(party.addHireling(*table.find(2)));
+    party.findHireling(44)->character.health = 37;
+    const size_t memberCount = party.members().size();
+    REQUIRE_EQ(party.combatantCount(), memberCount + 2);
+
+    party.setMm9HirelingsAlong(false);
+    CHECK_FALSE(party.mm9HirelingsAlong());
+    CHECK(party.hirelings().empty());
+    CHECK_EQ(party.combatantCount(), memberCount);
+    CHECK(party.findHireling(44) == nullptr);
+    CHECK_EQ(party.paidHirelingCount(), 0u);
+    // A save made there keeps them, and a party loaded there still has none along.
+    const Party::Snapshot away = party.snapshot();
+    CHECK_EQ(away.mm9Hirelings.size(), 2u);
+    Party restored = {};
+    restored.setMm9HirelingsAlong(false);
+    restored.restoreSnapshot(away);
+    CHECK(restored.hirelings().empty());
+    CHECK_EQ(restored.snapshot().mm9Hirelings.size(), 2u);
+
+    restored.setMm9HirelingsAlong(true);
+    REQUIRE_EQ(restored.hirelings().size(), 2u);
+    CHECK_EQ(restored.combatantCount(), memberCount + 2);
+    REQUIRE(restored.findHireling(44) != nullptr);
+    CHECK_EQ(restored.findHireling(44)->character.health, 37);
+    CHECK(restored.findHireling(2)->kind == Mm9HirelingKind::Story);
+}
+
 TEST_CASE("MM6-MM8 followers are off in a world without them, and kept for other worlds")
 {
     Party party = {};

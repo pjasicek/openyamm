@@ -53,6 +53,11 @@ then hirelings). MM6-MM8 worlds never fill the list, so their paths are unchange
    identify/repair, travel and rest reductions and reputation see none), the party's own follower bonuses
    (skills, luck, resistances, cartographer's Wizard Eye, identify, repair) are off, events cannot add followers, NPC
    hire offers are not made, and the followers button, panel and keys are hidden. MM6-MM8 worlds are unchanged.
+   Hirelings gate (2026-11-13): outside MM9 (a world without the hireling table) the hirelings wait behind,
+   `Party::setMm9HirelingsAlong(false)` from `bindPartyDependencies`. The party keeps and saves them, but
+   `hirelings()`, the combatants, wages and passives see none; they rejoin, on free formation cells, when the party
+   is back in MM9. Wages that fell due meanwhile are asked on the return. Scenario:
+   `tests/scenarios/mm9/hireling_leaves_world.yml`.
    Left for later phases: nothing reads the hireling list yet (combat, HUD, wages, services, passives); AC sits in
    `armorClassModifier` and the primary stats are 0, which phase 3 must account for when it computes AC and damage.
    Tests: `tests/Mm9HirelingTableTests.cpp` (limits, round trip, followers gate) and `tests/RulesetTests.cpp`
