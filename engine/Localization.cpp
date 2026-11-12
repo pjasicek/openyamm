@@ -109,7 +109,8 @@ bool hasNonAsciiByte(std::string_view text)
     return std::any_of(text.begin(), text.end(), [](char character) { return (unsigned char)character >= 0x80; });
 }
 
-// The translation of English in the most specific context that has one: the caller's, the world's, then none.
+// The translation of English in the most specific context that has one: the caller's, the world's, then none; last,
+// what another world's file gives its own text (the party carries items between worlds, MAW puts MM9's in every world).
 const std::string *findTranslation(const ActiveLanguage &language, std::string_view english, std::string_view context)
 {
     if (!context.empty())
@@ -128,7 +129,12 @@ const std::string *findTranslation(const ActiveLanguage &language, std::string_v
         }
     }
 
-    return language.catalog.find({}, english);
+    if (const std::string *pTranslation = language.catalog.find({}, english))
+    {
+        return pTranslation;
+    }
+
+    return language.catalog.findInWorldFiles(english);
 }
 
 // A table cell keeps the spaces and line breaks around its text ("Elvis ", a topic ending in an empty line); the

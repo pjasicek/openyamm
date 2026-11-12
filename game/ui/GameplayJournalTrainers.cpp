@@ -1130,7 +1130,8 @@ void renderJournalTrainers(
         const uint32_t continent = TrainerContinents[index];
         const Rect tab = tabRect(page, index);
         const bool hovered = tab.contains(pointerX, pointerY);
-        paint.button(tab, trainerContinentName(continent), continent == model.continent, hovered, hovered && leftHeld);
+        paint.button(tab, Engine::localizeKnown(trainerContinentName(continent)), continent == model.continent, hovered,
+            hovered && leftHeld);
 
         if (pParty != nullptr && pParty->hasTeacherLedger(continent))
         {

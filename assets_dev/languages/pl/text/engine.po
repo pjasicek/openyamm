@@ -1394,7 +1394,7 @@ msgstr ""
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:123 assets_dev/engine/ui/gameplay/character.yml:187 assets_dev/engine/ui/gameplay/chest.yml:292
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:494 assets_dev/engine/ui/menu/settings_catalog.yml:596
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:494 assets_dev/engine/ui/menu/settings_catalog.yml:612
 msgid "Inventory"
 msgstr "Ekwipunek"
 
@@ -17681,6 +17681,7 @@ msgstr "Grom"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:557 assets_dev/engine/data_tables/house_animations.txt:483 assets_dev/engine/data_tables/house_data.txt:484
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1499 assets_dev/engine/ui/menu/settings_catalog.yml:376
 msgid "Mist"
 msgstr "Mgła"
 
@@ -38293,12 +38294,6 @@ msgid "Archangel"
 msgstr "Archanioł"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:268 assets_dev/engine/data_tables/english/class.txt:2 assets_dev/engine/data_tables/monster_data.txt:206
-#: assets_dev/engine/data_tables/monster_data.txt:479
-msgid "Archer"
-msgstr "Łucznik"
-
-# imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/monster_data.txt:207
 msgid "Bowman"
 msgstr "Kusznik"
@@ -38534,11 +38529,6 @@ msgstr "Poborowy"
 #: assets_dev/engine/data_tables/monster_data.txt:258 assets_dev/engine/data_tables/monster_data.txt:540
 msgid "Soldier"
 msgstr "Żołnierz"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/monster_data.txt:259 assets_dev/engine/data_tables/monster_data.txt:539
-msgid "Fighter"
-msgstr "Wojownik"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/monster_data.txt:260
@@ -39276,12 +39266,12 @@ msgid "Acolyte of Baa"
 msgstr "Akolita Baa"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/place_mon.txt:112 assets_dev/engine/data_tables/monster_data.txt:495
+#: assets_dev/engine/data_tables/english/place_mon.txt:112 assets_dev/engine/data_tables/monster_data.txt:495 assets_dev/engine/rulesets/maw/content/place_mon_names.txt:2
 msgid "Cleric of Baa"
 msgstr "Kleryk Baa"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/monster_data.txt:496
+#: assets_dev/engine/data_tables/monster_data.txt:496 assets_dev/engine/rulesets/maw/content/place_mon_names.txt:3
 msgid "Priest of Baa"
 msgstr "Kapłan Baa"
 
@@ -39699,7 +39689,7 @@ msgid "Goblin Shaman"
 msgstr "Goblin Szaman"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/monster_data.txt:556
+#: assets_dev/engine/data_tables/monster_data.txt:556 assets_dev/engine/rulesets/maw/content/place_mon_names.txt:6
 msgid "Goblin King"
 msgstr "Król Goblinów"
 
@@ -39998,7 +39988,8 @@ msgid "Spider"
 msgstr "Pająk"
 
 # machine translation (Claude), review
-#: assets_dev/engine/data_tables/monster_data.txt:639 assets_dev/engine/data_tables/monster_data.txt:640
+#: assets_dev/engine/data_tables/monster_data.txt:639 assets_dev/engine/data_tables/monster_data.txt:640 assets_dev/engine/rulesets/maw/patches/monster_data.txt:585
+#: assets_dev/engine/rulesets/maw/patches/monster_data.txt:587 assets_dev/engine/rulesets/maw/patches/monster_data.txt:590
 msgid "Pois"
 msgstr "Trucizna"
 
@@ -59485,17 +59476,17 @@ msgid "Stealing Grandmaster"
 msgstr "Arcymistrz kradzieży"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1059
+#: assets_dev/engine/data_tables/npc_topic.txt:1059 assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:10
 msgid "Alchemy Expert"
 msgstr "Ekspert w alchemii"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1060
+#: assets_dev/engine/data_tables/npc_topic.txt:1060 assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:11
 msgid "Alchemy Master"
 msgstr "Mistrz alchemii"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1061
+#: assets_dev/engine/data_tables/npc_topic.txt:1061 assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:12
 msgid "Alchemy Grandmaster"
 msgstr "Arcymistrz alchemii"
 
@@ -91007,49 +90998,60 @@ msgid ""
 msgstr ""
 "Tak jak podejrzewałem! Dobra robota. Teraz, gdy Wampir już nie żyje, Tatalia może spać spokojnie. Również Królowa Katarzyna jest wam wdzięczna i pracuje nad zacieśnieniem więzów pomiędzy Bracadą i Erathią."
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:10
 msgid "+2 Speed"
-msgstr ""
+msgstr "+2 do Szybkości"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:11
 msgid "+2 Luck"
-msgstr ""
+msgstr "+2 do Szczęścia"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:12
 msgid "+2 Fire Resistance"
-msgstr ""
+msgstr "+2 do Odporności na Magię Ognia"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:13
 msgid "+2 Water Resistance"
-msgstr ""
+msgstr "+2 do Odporności na Magię Wody"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:14
 msgid "+2 Air Resistance"
-msgstr ""
+msgstr "+2 do Odporności na Magię Powietrza"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:15
 msgid "+2 Earth Resistance"
-msgstr ""
+msgstr "+2 do Odporności na Magię Ziemi"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:5
 msgid "+2 Might"
-msgstr ""
+msgstr "+2 do Mocy"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:6
 msgid "+2 Accuracy"
-msgstr ""
+msgstr "+2 do Celności"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:7
 msgid "+2 Personality"
-msgstr ""
+msgstr "+2 do Osobowości"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:8
 msgid "+2 Intellect"
-msgstr ""
+msgstr "+2 do Intelektu"
 
+# machine translation (Claude, the status message without its full stop), review
 #: assets_dev/engine/events/Global_learned_effects.lua:9
 msgid "+2 Endurance"
-msgstr ""
+msgstr "+2 do Wytrzymałości"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/npc_topic.txt:1763 assets_dev/engine/data_tables/npc_topic.txt:1764 assets_dev/engine/data_tables/npc_topic.txt:1765
@@ -91963,6 +91965,292 @@ msgstr ""
 #: assets_dev/engine/rulesets/maw/content/items_patch.txt:99
 msgid "Erathian Sapphire"
 msgstr "Erathiański szafir"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:2
+msgid "Expert Ascension"
+msgstr "Ekspert wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:3
+msgid "Master Ascension"
+msgstr "Mistrz wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:4
+msgid "Grand Master Ascension"
+msgstr "Arcymistrz wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:5
+msgid "Ascension Expert"
+msgstr "Ekspert wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:6
+msgid "Ascension Master"
+msgstr "Mistrz wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:7
+msgid "Ascension Grandmaster"
+msgstr "Arcymistrz wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:8
+msgid "Expert Ascension Training"
+msgstr "Ekspert wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_patch.txt:9
+msgid "Master Ascension Training"
+msgstr "Mistrz wzniesienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:14
+msgid ""
+"The Master of Ascension, Dorothy Senjac, can be found in the southeast region of Nighon."
+msgstr ""
+"Mistrzyni wzniesienia, Dorothy Senjac, mieszka w południowo-wschodnim Nighonie."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:15
+msgid ""
+"The Grandmaster of Ascension, William Smithson, instructs from his home on the eastern island of the Evenmorn Islands."
+msgstr ""
+"William Smithson, arcymistrz wzniesienia, daje lekcje w swoim domu na wschodniej wyspie archipelagu Evenmorn."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:16
+msgid "I can teach you Expert Alchemy if you meet the requirements."
+msgstr "Mogę was wyszkolić na eksperta alchemii, jeśli spełnicie wymagania."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:17
+msgid "I can teach you Master Alchemy if you meet the requirements."
+msgstr "Mogę was wyszkolić na mistrza alchemii, jeśli spełnicie wymagania."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:11 assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:18 assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:2
+msgid ""
+"Ascension strengthens spell damage and healing at the cost of higher mana consumption and casting time. I can teach you Expert Ascension if your skill is level 4 and you pay 2000 gold."
+msgstr ""
+"Wzniesienie wzmacnia obrażenia i leczenie zaklęć kosztem większego zużycia many i dłuższego czasu rzucania. Mogę was wyszkolić na eksperta wzniesienia, jeśli macie tę biegłość na poziomie 4 i zapłacicie 2000 sztuk złota."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:20
+msgid "John Tuck can teach you to master the Ascension skill."
+msgstr "John Tuck może nauczyć was mistrzostwa w biegłości wzniesienia."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:21
+msgid ""
+"Can identify items and grants +2 effective Ascension skill to party members who have learned Ascension."
+msgstr ""
+"Potrafi identyfikować przedmioty i daje +2 do efektywnej biegłości wzniesienia członkom drużyny, którzy nauczyli się wzniesienia."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:22
+msgid ""
+"Grants +4 effective Ascension skill to party members who have learned Ascension."
+msgstr ""
+"Daje +4 do efektywnej biegłości wzniesienia członkom drużyny, którzy nauczyli się wzniesienia."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:23
+msgid ""
+"Grants +6 effective Ascension skill to party members who have learned Ascension."
+msgstr ""
+"Daje +6 do efektywnej biegłości wzniesienia członkom drużyny, którzy nauczyli się wzniesienia."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:24
+msgid "No skill bonus is implemented for the Counselor in MAW."
+msgstr "Kanclerz nie ma w MAW żadnej premii do biegłości."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:25
+msgid "No skill bonus is implemented for the Barrister in MAW."
+msgstr "Adwokat nie ma w MAW żadnej premii do biegłości."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:26
+msgid "Grants +4 effective Merchant skill to party members."
+msgstr "Daje członkom drużyny +4 do efektywnej biegłości kupiectwa."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:12 assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:19 assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:3
+msgid ""
+"Ascension strengthens spell damage and healing at the cost of higher mana consumption and casting time. I can teach you Master Ascension if your Expert skill is level 7 and you pay 5000 gold."
+msgstr ""
+"Wzniesienie wzmacnia obrażenia i leczenie zaklęć kosztem większego zużycia many i dłuższego czasu rzucania. Mogę was wyszkolić na mistrza wzniesienia, jeśli jako eksperci macie tę biegłość na poziomie 7 i zapłacicie 5000 sztuk złota."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:13 assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:4
+msgid ""
+"Ascension strengthens spell damage and healing at the cost of higher mana consumption and casting time. I can teach you Grand Master Ascension if your Master skill is level 10 and you pay 8000 gold."
+msgstr ""
+"Wzniesienie wzmacnia obrażenia i leczenie zaklęć kosztem większego zużycia many i dłuższego czasu rzucania. Mogę was wyszkolić na arcymistrza wzniesienia, jeśli jako mistrzowie macie tę biegłość na poziomie 10 i zapłacicie 8000 sztuk złota."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:5
+msgid ""
+"Petra Mithrit, Expert in the skill of Ascension, dwells near the Temple of the Sun in the Murmurwoods."
+msgstr ""
+"Petra Mithrit, ekspertka w biegłości wzniesienia, mieszka blisko Świątyni Słońca w Murmurwoods."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:6
+msgid ""
+"Garret Mistspring, Master of Ascension, instructs all students of necromancy in the art of Ascension.\n"
+"For this the Necromancers' Guild rewards him well.\n"
+"His home is in the hamlet of Twilight at the base of the Shadowspire."
+msgstr ""
+"Garret Mistspring, mistrz wzniesienia, naucza wszystkich studentów nekromancji sztuki wzniesienia.\n"
+"Gildia nekromantów dobrze go za to nagradza.\n"
+"Jego dom znajduje się w wiosce Twilight u podnóża Shadowspire."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/npc_topic_text_patch.txt:9
+msgid ""
+"Wanda Lightsworn, Grand Master of Ascension, is in the hire of Charles Quixote, and instructs all of his knights in the skills of Ascension.\n"
+"It is the hope of Charles Quixote that this will give his forces and edge in battle against the Dragons of Garrote Gorge."
+msgstr ""
+"Wanda Lightsworn, arcymistrzyni wzniesienia, jest na służbie u Charlesa Quixote'a i szkoli wszystkich jego rycerzy w sztuce wzniesienia.\n"
+"Charles Quixote ma nadzieję, że da to jego siłom przewagę w walce ze smokami z Wąwozu Garoty."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/place_mon_names.txt:1
+msgid "Naga Empress"
+msgstr "Cesarzowa nag"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/place_mon_names.txt:4
+msgid "Cardinal of Baa"
+msgstr "Kardynał Baa"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/place_mon_names.txt:5
+msgid "High Cardinal"
+msgstr "Wielki kardynał"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/place_mon_names.txt:7
+msgid "Goblin's Lieutenant"
+msgstr "Porucznik goblinów"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/quests_maw.txt:1
+msgid ""
+"Find the Druid Circlet of Power in the Druid Circle and bring it to Dantillion in Murmurwoods."
+msgstr ""
+"Znajdźcie Diadem mocy druidów w Kręgu druidów i zanieście go Dantillionowi w Murmurwoods."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:1
+msgid "Also covers elemental attacks"
+msgstr "Osłania też przed atakami żywiołów"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:1
+msgid "Also covers spells"
+msgstr "Osłania też przed zaklęciami"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:1
+msgid "Covers physical attacks"
+msgstr "Osłania przed atakami fizycznymi"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:1
+msgid "Hitting a monster raises the next cover chance by 15%"
+msgstr "Trafienie potwora zwiększa następną szansę na osłonę o 15%"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:1
+msgid ""
+"The character steps in front of blows aimed at companions. Every point adds 1% to a base 10% chance to take the hit instead, up to 40% at 30 points; of the companions whose roll succeeds, the one with the most hit points takes it. Alone, a successful cover halves the blow. Mastery comes by itself at 6, 12 and 20 points (8, 20 and 30 on Insanity and Madness), and reaching 30 points teaches Retaliation. The gem beside its name on the skills screen (or P) turns it on or off."
+msgstr ""
+"Postać zasłania towarzyszy przed wymierzonymi w nich ciosami. Każdy punkt dodaje 1% do podstawowej 10% szansy na przyjęcie trafienia zamiast nich, do 40% przy 30 pkt.; spośród towarzyszy, którym rzut się powiedzie, cios przyjmuje ten z największą liczbą punktów życia. W pojedynkę udana osłona zmniejsza cios o połowę. Kolejne stopnie przychodzą same przy 6, 12 i 20 pkt. (8, 20 i 30 w trybach Droga do obłędu i Poza szaleństwem), a osiągnięcie 30 pkt. uczy odwetu. Włącza ją i wyłącza klejnot obok jej nazwy na ekranie biegłości (lub P)."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:2
+msgid "Absorbs 25% of each hit"
+msgstr "Pochłania 25% każdego trafienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:2
+msgid "Absorbs 50% of each hit"
+msgstr "Pochłania 50% każdego trafienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:2
+msgid "Absorbs 75% of each hit"
+msgstr "Pochłania 75% każdego trafienia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:2
+msgid "Absorbs all of each hit while mana lasts"
+msgstr "Pochłania każde trafienie w całości, dopóki starcza many"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:2
+msgid ""
+"While it is on, mana soaks up part of every hit the character takes. Each spell point absorbs 1 + skill^1.4 / 60 damage, 5 at 50 points, where the skill stops. Mastery comes by itself at 6, 12 and 20 points (8, 20 and 32 on Insanity and Madness). The gem beside its name on the skills screen (or M) turns it on or off."
+msgstr ""
+"Gdy jest włączona, mana pochłania część każdego trafienia, które otrzymuje postać. Każdy punkt magii pochłania 1 + biegłość^1.4 / 60 pkt. obrażeń, 5 przy 50 pkt., gdzie biegłość się kończy. Kolejne stopnie przychodzą same przy 6, 12 i 20 pkt. (8, 20 i 32 w trybach Droga do obłędu i Poza szaleństwem). Włącza ją i wyłącza klejnot obok jej nazwy na ekranie biegłości (lub M)."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:3
+msgid ""
+"Deepens the character's mana and lightens the mana that buff auras hold. Mastery comes by itself at 6, 12 and 20 points."
+msgstr ""
+"Pogłębia manę postaci i zmniejsza manę wiązaną przez aury wzmocnień. Kolejne stopnie przychodzą same przy 6, 12 i 20 pkt."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:3
+msgid ""
+"Mana +0.5% per point; auras reserve as if the class had 0.5 more mana per level"
+msgstr ""
+"Mana +0.5% za punkt; aury rezerwują tak, jakby klasa miała o 0.5 many więcej na poziom"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:3
+msgid ""
+"Mana +1% per point; auras reserve as if the class had 1 more mana per level"
+msgstr ""
+"Mana +1% za punkt; aury rezerwują tak, jakby klasa miała o 1 many więcej na poziom"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:3
+msgid ""
+"Mana +1.5% per point; auras reserve as if the class had 1.5 more mana per level"
+msgstr ""
+"Mana +1.5% za punkt; aury rezerwują tak, jakby klasa miała o 1.5 many więcej na poziom"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:3
+msgid ""
+"Mana +2% per point; auras reserve as if the class had 2 more mana per level"
+msgstr ""
+"Mana +2% za punkt; aury rezerwują tak, jakby klasa miała o 2 many więcej na poziom"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:4
+msgid ""
+"After a successful cover, every point gives a 1% chance to store a counterattack for 10 seconds. The character's next hit spends it: extra damage that grows with the skill, melee power and vitality, a 25% chance per stored counterattack to stun the monster for 2 seconds (1 second on bosses), and 30% less recovery per stored counterattack. Learned when Cover reaches 30 points; mastery comes by itself at 10, 24 and 40 points, and the skill stops at 50."
+msgstr ""
+"Po udanej osłonie każdy punkt daje 1% szansy na zachowanie kontrataku na 10 sekund. Następne trafienie postaci zużywa go: dodatkowe obrażenia rosnące z biegłością, mocą wręcz i żywotnością, 25% szansy za każdy zachowany kontratak na ogłuszenie potwora na 2 sekundy (bossów na 1 sekundę) oraz o 30% krótsza regeneracja za każdy zachowany kontratak. Biegłość poznaje się, gdy osłona osiągnie 30 pkt.; kolejne stopnie przychodzą same przy 10, 24 i 40 pkt., a biegłość kończy się na 50."
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:4
+msgid "Stores one counterattack"
+msgstr "Zachowuje jeden kontratak"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/content/skill_des_new.txt:4
+msgid "Stores up to three counterattacks"
+msgstr "Zachowuje do trzech kontrataków"
 
 # machine translation (Claude), review
 #: assets_dev/engine/rulesets/maw/content/skill_des_patch.txt:2
@@ -94553,7 +94841,7 @@ msgid "Armor Class +2 %, resistances +1 % per point"
 msgstr "Klasa pancerza +2 %, odporności +1 % za punkt"
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:12
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:2 assets_dev/engine/rulesets/maw/events/Global_maw.lua:12
 msgid "Reset skills"
 msgstr "Zresetuj biegłości"
 
@@ -94563,7 +94851,7 @@ msgid "We have no more items to trade, come back another time."
 msgstr "Nie mamy już przedmiotów na wymianę, wróćcie innym razem."
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:374
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:3 assets_dev/engine/rulesets/maw/events/Global_maw.lua:374
 msgid "Druid Circlet"
 msgstr "Diadem druidów"
 
@@ -94589,7 +94877,7 @@ msgstr ""
 "Diadem mocy druidów! Ilu pielgrzymów oddało życie tylko po to, by choć na niego spojrzeć... Świątynia Słońca otoczy go opieką. Przyjmijcie wdzięczność Świątyni i ten amulet."
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:4
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:1 assets_dev/engine/rulesets/maw/events/Global_maw.lua:4
 msgid "Skill reset"
 msgstr "Reset biegłości"
 
@@ -94650,7 +94938,7 @@ msgid "Yum! The dragon ate 5 food. Eaten so far: {eaten} of 100."
 msgstr "Mniam! Smok zjadł 5 porcji jedzenia. Zjedzone dotąd: {eaten} ze 100."
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:464
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:4 assets_dev/engine/rulesets/maw/events/Global_maw.lua:464
 msgid "Release the dragon"
 msgstr "Uwolnij smoka"
 
@@ -94660,7 +94948,7 @@ msgid "The dragon will fly away for good. Release him?"
 msgstr "Smok odleci na zawsze. Uwolnić go?"
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:469
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:5 assets_dev/engine/rulesets/maw/events/Global_maw.lua:469
 msgid "Yes, release him"
 msgstr "Tak, uwolnij go"
 
@@ -94681,7 +94969,7 @@ msgstr ""
 "Następny: poziom {level}."
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:490
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:7 assets_dev/engine/rulesets/maw/events/Global_maw.lua:490
 msgid "Start the next level"
 msgstr "Rozpocznij następny poziom"
 
@@ -94691,7 +94979,7 @@ msgid "Let's get started! Level {level}."
 msgstr "Zaczynajmy! Poziom {level}."
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:506
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:8 assets_dev/engine/rulesets/maw/events/Global_maw.lua:506
 msgid "Dimensional Maps"
 msgstr "Mapy międzywymiarowe"
 
@@ -94983,6 +95271,11 @@ msgstr "+3 do szcześcia na stałe"
 #: assets_dev/engine/rulesets/maw/events/maps/oute3_maw.lua:20
 msgid "Shrine of Luck"
 msgstr "Kapliczka Szczęścia"
+
+# machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/patches/english/class.append.txt:1
+msgid "Seraphim"
+msgstr "Serafin"
 
 # machine translation (Claude), review
 #: assets_dev/engine/rulesets/maw/patches/english/class.append.txt:10
@@ -96019,6 +96312,11 @@ msgid "With thanks to GrayFace and Rodril"
 msgstr "Podziękowania dla GrayFace i Rodrila"
 
 # machine translation (Claude), review
+#: assets_dev/engine/rulesets/maw/ruleset.yml:42
+msgid "Ascension"
+msgstr "Wzniesienie"
+
+# machine translation (Claude), review
 #: assets_dev/engine/rulesets/maw/ruleset.yml:47
 msgid "MAW Rules"
 msgstr "Zasady MAW"
@@ -96311,12 +96609,12 @@ msgid "Quests"
 msgstr "Misje"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/journal.yml:526 assets_dev/engine/ui/menu/settings_catalog.yml:733
+#: assets_dev/engine/ui/gameplay/journal.yml:526 assets_dev/engine/ui/menu/settings_catalog.yml:749
 msgid "Zoom in"
 msgstr "Zbliżenie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/journal.yml:567 assets_dev/engine/ui/menu/settings_catalog.yml:736
+#: assets_dev/engine/ui/gameplay/journal.yml:567 assets_dev/engine/ui/menu/settings_catalog.yml:752
 msgid "Zoom out"
 msgstr "Oddalenie"
 
@@ -96542,181 +96840,181 @@ msgid "Apply Changes"
 msgstr "Zastosuj zmiany"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:434 assets_dev/engine/ui/menu/settings_catalog.yml:502 assets_dev/engine/ui/menu/settings_catalog.yml:511
-#: assets_dev/engine/ui/menu/settings_catalog.yml:520
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:434 assets_dev/engine/ui/menu/settings_catalog.yml:518 assets_dev/engine/ui/menu/settings_catalog.yml:527
+#: assets_dev/engine/ui/menu/settings_catalog.yml:536
 msgid "Volume"
 msgstr "Głośność"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:451 assets_dev/engine/ui/menu/settings_catalog.yml:529 assets_dev/engine/ui/menu/settings_catalog.yml:535
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:451 assets_dev/engine/ui/menu/settings_catalog.yml:545 assets_dev/engine/ui/menu/settings_catalog.yml:551
 msgid "Sounds"
 msgstr "Dźwięki"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:468 assets_dev/engine/ui/menu/settings_catalog.yml:503
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:468 assets_dev/engine/ui/menu/settings_catalog.yml:519
 msgid "Sound effects"
 msgstr "Efekty dźwiękowe"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:485 assets_dev/engine/ui/menu/settings_catalog.yml:508
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:485 assets_dev/engine/ui/menu/settings_catalog.yml:524
 msgid "Weapons, spells, the interface and the world. Zero mutes."
 msgstr "Broń, zaklęcia, interfejs i świat. Zero wycisza."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:528 assets_dev/engine/ui/menu/settings_catalog.yml:512
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:528 assets_dev/engine/ui/menu/settings_catalog.yml:528
 msgid "Music"
 msgstr "Muzyka"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:545 assets_dev/engine/ui/menu/settings_catalog.yml:517
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:545 assets_dev/engine/ui/menu/settings_catalog.yml:533
 msgid "Music in menus, towns and dungeons. Zero mutes."
 msgstr "Muzyka w menu, miastach i lochach. Zero wycisza."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:588 assets_dev/engine/ui/menu/settings_catalog.yml:521
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:588 assets_dev/engine/ui/menu/settings_catalog.yml:537
 msgid "Voices"
 msgstr "Głosy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:605 assets_dev/engine/ui/menu/settings_catalog.yml:526
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:605 assets_dev/engine/ui/menu/settings_catalog.yml:542
 msgid "Spoken character reactions and dialogue. Zero mutes."
 msgstr "Wypowiadane reakcje postaci i dialogi. Zero wycisza."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:648 assets_dev/engine/ui/menu/settings_catalog.yml:530
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:648 assets_dev/engine/ui/menu/settings_catalog.yml:546
 msgid "Footsteps"
 msgstr "Kroki"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:665 assets_dev/engine/ui/menu/settings_catalog.yml:532
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:665 assets_dev/engine/ui/menu/settings_catalog.yml:548
 msgid "Play walking and running sounds."
 msgstr "Odtwarzaj dźwięki chodzenia i biegu."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:694 assets_dev/engine/ui/menu/settings_catalog.yml:536
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:694 assets_dev/engine/ui/menu/settings_catalog.yml:552
 msgid "Repeated voice lines"
 msgstr "Powtarzane kwestie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_audio.yml:737 assets_dev/engine/ui/menu/settings_catalog.yml:546
+#: assets_dev/engine/ui/gameplay/settings_audio.yml:737 assets_dev/engine/ui/menu/settings_catalog.yml:562
 msgid ""
 "A character says the same line at most once in this time, such as a cry when hurt or a remark on an item."
 msgstr ""
 "Postać wypowiada tę samą kwestię najwyżej raz w tym czasie, np. okrzyk po zranieniu lub uwagę o przedmiocie."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:460 assets_dev/engine/ui/menu/settings_catalog.yml:558 assets_dev/engine/ui/menu/settings_catalog.yml:565
-#: assets_dev/engine/ui/menu/settings_catalog.yml:574 assets_dev/engine/ui/menu/settings_catalog.yml:584
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:460 assets_dev/engine/ui/menu/settings_catalog.yml:574 assets_dev/engine/ui/menu/settings_catalog.yml:581
+#: assets_dev/engine/ui/menu/settings_catalog.yml:590 assets_dev/engine/ui/menu/settings_catalog.yml:600
 msgid "Mouse"
 msgstr "Mysz"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:511 assets_dev/engine/ui/menu/settings_catalog.yml:550
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:511 assets_dev/engine/ui/menu/settings_catalog.yml:566
 msgid "Control preset"
 msgstr "Schemat sterowania"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:528 assets_dev/engine/ui/menu/settings_catalog.yml:555
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:528 assets_dev/engine/ui/menu/settings_catalog.yml:571
 msgid ""
 "Modern: WASD, left-click attack, E to use. Classic: arrow keys, A to attack, left-click to use."
 msgstr ""
 "Nowoczesny: WASD, atak lewym przyciskiem, E – użycie. Klasyczny: strzałki, A – atak, lewy przycisk – użycie."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:564 assets_dev/engine/ui/menu/settings_catalog.yml:559
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:564 assets_dev/engine/ui/menu/settings_catalog.yml:575
 msgid "Smart left click"
 msgstr "Inteligentny lewy klik"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:581 assets_dev/engine/ui/menu/settings_catalog.yml:561
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:581 assets_dev/engine/ui/menu/settings_catalog.yml:577
 msgid ""
 "Left-click talks, opens, picks up or uses what is under the cursor, and attacks anywhere else."
 msgstr ""
 "Lewy klik: rozmowa, otwarcie, podniesienie lub użycie tego, co jest pod kursorem; w innym miejscu atak."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:610 assets_dev/engine/ui/menu/settings_catalog.yml:566
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:610 assets_dev/engine/ui/menu/settings_catalog.yml:582
 msgid "Mouse sensitivity"
 msgstr "Czułość myszy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:627 assets_dev/engine/ui/menu/settings_catalog.yml:571
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:627 assets_dev/engine/ui/menu/settings_catalog.yml:587
 msgid "How fast the view follows the mouse. Zero turns mouse look off."
 msgstr "Jak szybko widok podąża za myszą. Zero wyłącza rozglądanie się myszą."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:670 assets_dev/engine/ui/menu/settings_catalog.yml:575
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:670 assets_dev/engine/ui/menu/settings_catalog.yml:591
 msgid "Turn rate"
 msgstr "Szybkość obrotu"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:687 assets_dev/engine/ui/menu/settings_catalog.yml:581
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:687 assets_dev/engine/ui/menu/settings_catalog.yml:597
 msgid ""
 "Base turning speed, from the original 16× and 32× to the faster Smooth."
 msgstr ""
 "Podstawowa szybkość obrotu, od oryginalnych 16× i 32× po szybszy tryb Płynny."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:723 assets_dev/engine/ui/menu/settings_catalog.yml:585
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:723 assets_dev/engine/ui/menu/settings_catalog.yml:601
 msgid "Invert mouse Y"
 msgstr "Odwróć oś Y myszy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:740 assets_dev/engine/ui/menu/settings_catalog.yml:587
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:740 assets_dev/engine/ui/menu/settings_catalog.yml:603
 msgid "Move the mouse up to look down, and down to look up."
 msgstr "Przesuń mysz w górę, aby patrzeć w dół, i w dół, aby patrzeć w górę."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:769 assets_dev/engine/ui/menu/settings_catalog.yml:591
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:769 assets_dev/engine/ui/menu/settings_catalog.yml:607
 msgid "Always run"
 msgstr "Zawsze biegnij"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:786 assets_dev/engine/ui/menu/settings_catalog.yml:593
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:786 assets_dev/engine/ui/menu/settings_catalog.yml:609
 msgid "Run by default instead of walking."
 msgstr "Domyślnie biegnij zamiast iść."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:815 assets_dev/engine/ui/menu/settings_catalog.yml:597
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:815 assets_dev/engine/ui/menu/settings_catalog.yml:613
 msgid "Number keys"
 msgstr "Klawisze cyfr"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:832 assets_dev/engine/ui/menu/settings_catalog.yml:602
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:832 assets_dev/engine/ui/menu/settings_catalog.yml:618
 msgid ""
 "Number keys on the inventory page and in shops and chests; Shift with a number does the other. A party of one opens bags."
 msgstr ""
 "Klawisze cyfr na stronie ekwipunku, w sklepach i skrzyniach; Shift z cyfrą robi to drugie. W jednoosobowej drużynie otwierają torby."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:485 assets_dev/engine/ui/menu/settings_catalog.yml:609
+#: assets_dev/engine/ui/gameplay/settings_game.yml:485 assets_dev/engine/ui/menu/settings_catalog.yml:625
 msgid ""
 "Chosen at the start of the adventure. The rules of each part follow below."
 msgstr ""
 "Wybierany na początku przygody. Zasady poszczególnych części opisano poniżej."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:538 assets_dev/engine/ui/menu/settings_catalog.yml:622
+#: assets_dev/engine/ui/gameplay/settings_game.yml:538 assets_dev/engine/ui/menu/settings_catalog.yml:638
 msgid ""
 "Monster health and damage, how many come, loot and bosses. Nightmare can never be lowered again."
 msgstr ""
 "Zdrowie i obrażenia potworów, ich liczba, łupy i bossowie. Poziomu Koszmar nie można już potem obniżyć."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:591 assets_dev/engine/ui/menu/settings_catalog.yml:631
+#: assets_dev/engine/ui/gameplay/settings_game.yml:591 assets_dev/engine/ui/menu/settings_catalog.yml:647
 msgid ""
 "Free lets monsters grow with the levels you gain elsewhere; Horizontal fixes each map's level."
 msgstr ""
 "Tryb Swobodny pozwala potworom rosnąć wraz z poziomami zdobytymi gdzie indziej; tryb Horyzontalny ustala poziom każdej mapy."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:644 assets_dev/engine/ui/gameplay/settings_game.yml:697 assets_dev/engine/ui/menu/settings_catalog.yml:643
-#: assets_dev/engine/ui/menu/settings_catalog.yml:649
+#: assets_dev/engine/ui/gameplay/settings_game.yml:644 assets_dev/engine/ui/gameplay/settings_game.yml:697 assets_dev/engine/ui/menu/settings_catalog.yml:659
+#: assets_dev/engine/ui/menu/settings_catalog.yml:665
 msgid "Chosen once at the start; fixed for the whole adventure."
 msgstr "Wybierane raz na początku; niezmienne przez całą przygodę."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:927 assets_dev/engine/ui/menu/settings_catalog.yml:686
+#: assets_dev/engine/ui/gameplay/settings_game.yml:927 assets_dev/engine/ui/menu/settings_catalog.yml:702
 msgid ""
 "Drops you would rather not carry turn into gold. Opens the filter with its presets."
 msgstr ""
@@ -96973,77 +97271,77 @@ msgid "Context action menu"
 msgstr "Menu akcji kontekstowych"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1032 assets_dev/engine/ui/menu/settings_catalog.yml:742
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1032 assets_dev/engine/ui/menu/settings_catalog.yml:758
 msgid "Cast quick spell"
 msgstr "Rzuć szybkie zaklęcie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1138 assets_dev/engine/ui/menu/settings_catalog.yml:760
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1138 assets_dev/engine/ui/menu/settings_catalog.yml:776
 msgid "Open spellbook"
 msgstr "Otwórz księgę zaklęć"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1191 assets_dev/engine/ui/menu/settings_catalog.yml:775
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1191 assets_dev/engine/ui/menu/settings_catalog.yml:791
 msgid "Interact ahead"
 msgstr "Interakcja na wprost"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1208 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1261 assets_dev/engine/ui/menu/settings_catalog.yml:770
-#: assets_dev/engine/ui/menu/settings_catalog.yml:773 assets_dev/engine/ui/menu/settings_catalog.yml:776
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1208 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1261 assets_dev/engine/ui/menu/settings_catalog.yml:786
+#: assets_dev/engine/ui/menu/settings_catalog.yml:789 assets_dev/engine/ui/menu/settings_catalog.yml:792
 msgid "Interaction"
 msgstr "Interakcja"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1244 assets_dev/engine/ui/menu/settings_catalog.yml:769
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1244 assets_dev/engine/ui/menu/settings_catalog.yml:785
 msgid "Use / interact"
 msgstr "Użyj / interakcja"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1297 assets_dev/engine/ui/menu/settings_catalog.yml:778
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1297 assets_dev/engine/ui/menu/settings_catalog.yml:794
 msgid "Next character"
 msgstr "Następna postać"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1314 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1367 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1420
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1473 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1526 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1579
-#: assets_dev/engine/ui/menu/settings_catalog.yml:779 assets_dev/engine/ui/menu/settings_catalog.yml:782 assets_dev/engine/ui/menu/settings_catalog.yml:785
-#: assets_dev/engine/ui/menu/settings_catalog.yml:788 assets_dev/engine/ui/menu/settings_catalog.yml:791 assets_dev/engine/ui/menu/settings_catalog.yml:794
-#: assets_dev/engine/ui/menu/settings_catalog.yml:797 assets_dev/engine/ui/menu/settings_catalog.yml:800 assets_dev/engine/ui/menu/settings_catalog.yml:803
-#: assets_dev/engine/ui/menu/settings_catalog.yml:806 assets_dev/engine/ui/menu/settings_catalog.yml:809 assets_dev/engine/ui/menu/settings_catalog.yml:812
-#: assets_dev/engine/ui/menu/settings_catalog.yml:815
+#: assets_dev/engine/ui/menu/settings_catalog.yml:795 assets_dev/engine/ui/menu/settings_catalog.yml:798 assets_dev/engine/ui/menu/settings_catalog.yml:801
+#: assets_dev/engine/ui/menu/settings_catalog.yml:804 assets_dev/engine/ui/menu/settings_catalog.yml:807 assets_dev/engine/ui/menu/settings_catalog.yml:810
+#: assets_dev/engine/ui/menu/settings_catalog.yml:813 assets_dev/engine/ui/menu/settings_catalog.yml:816 assets_dev/engine/ui/menu/settings_catalog.yml:819
+#: assets_dev/engine/ui/menu/settings_catalog.yml:822 assets_dev/engine/ui/menu/settings_catalog.yml:825 assets_dev/engine/ui/menu/settings_catalog.yml:828
+#: assets_dev/engine/ui/menu/settings_catalog.yml:831
 msgid "Party & books"
 msgstr "Drużyna i księgi"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1350 assets_dev/engine/ui/menu/settings_catalog.yml:781
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1350 assets_dev/engine/ui/menu/settings_catalog.yml:797
 msgid "Quest book"
 msgstr "Księga misji"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1403 assets_dev/engine/ui/menu/settings_catalog.yml:790
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1403 assets_dev/engine/ui/menu/settings_catalog.yml:806
 msgid "Quick reference"
 msgstr "Szybkie informacje"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1562 assets_dev/engine/ui/menu/settings_catalog.yml:784
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1562 assets_dev/engine/ui/menu/settings_catalog.yml:800
 msgid "Map book"
 msgstr "Mapnik"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1632 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1685 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1738
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1791 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1844 assets_dev/engine/ui/menu/settings_catalog.yml:725
-#: assets_dev/engine/ui/menu/settings_catalog.yml:728 assets_dev/engine/ui/menu/settings_catalog.yml:731 assets_dev/engine/ui/menu/settings_catalog.yml:734
-#: assets_dev/engine/ui/menu/settings_catalog.yml:737
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1791 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1844 assets_dev/engine/ui/menu/settings_catalog.yml:741
+#: assets_dev/engine/ui/menu/settings_catalog.yml:744 assets_dev/engine/ui/menu/settings_catalog.yml:747 assets_dev/engine/ui/menu/settings_catalog.yml:750
+#: assets_dev/engine/ui/menu/settings_catalog.yml:753
 msgid "Camera"
 msgstr "Kamera"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1721 assets_dev/engine/ui/menu/settings_catalog.yml:730
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1721 assets_dev/engine/ui/menu/settings_catalog.yml:746
 msgid "Centre view"
 msgstr "Wyśrodkuj widok"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1880 assets_dev/engine/ui/menu/settings_catalog.yml:817
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1880 assets_dev/engine/ui/menu/settings_catalog.yml:833
 msgid "Toggle double speed"
 msgstr "Przełącz podwójną prędkość"
 
@@ -97079,17 +97377,17 @@ msgid "Assigned key"
 msgstr "Przypisany klawisz"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:661 assets_dev/engine/ui/menu/settings_catalog.yml:703
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:661 assets_dev/engine/ui/menu/settings_catalog.yml:719
 msgid "Move / turn left"
 msgstr "Ruch / obrót w lewo"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:714 assets_dev/engine/ui/menu/settings_catalog.yml:706
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:714 assets_dev/engine/ui/menu/settings_catalog.yml:722
 msgid "Move / turn right"
 msgstr "Ruch / obrót w prawo"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:820 assets_dev/engine/ui/menu/settings_catalog.yml:712
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:820 assets_dev/engine/ui/menu/settings_catalog.yml:728
 msgid "Toggle always run"
 msgstr "Przełącz stały bieg"
 
@@ -97180,8 +97478,8 @@ msgid "Add soft shading where solid surfaces meet."
 msgstr "Dodaje miękkie cieniowanie tam, gdzie stykają się powierzchnie."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1294 assets_dev/engine/ui/gameplay/settings_video.yml:1828 assets_dev/engine/ui/gameplay/settings_video.yml:1934
-#: assets_dev/engine/ui/menu/settings_catalog.yml:341 assets_dev/engine/ui/menu/settings_catalog.yml:426 assets_dev/engine/ui/menu/settings_catalog.yml:442
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1294 assets_dev/engine/ui/gameplay/settings_video.yml:1934 assets_dev/engine/ui/gameplay/settings_video.yml:2040
+#: assets_dev/engine/ui/menu/settings_catalog.yml:341 assets_dev/engine/ui/menu/settings_catalog.yml:442 assets_dev/engine/ui/menu/settings_catalog.yml:458
 msgid "Intensity"
 msgstr "Intensywność"
 
@@ -97218,171 +97516,181 @@ msgid "Rain darkens the ground and buildings, which dry slowly afterwards."
 msgstr "Deszcz przyciemnia ziemię i budynki, które potem powoli schną."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1499 assets_dev/engine/ui/menu/settings_catalog.yml:376
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1516 assets_dev/engine/ui/menu/settings_catalog.yml:378
+msgid "Ground mist on the maps that have it."
+msgstr "Przyziemna mgła na mapach, które ją mają."
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1545 assets_dev/engine/ui/menu/settings_catalog.yml:382
+msgid "Density"
+msgstr "Gęstość"
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1605 assets_dev/engine/ui/menu/settings_catalog.yml:392
 msgid "Ground highlights"
 msgstr "Odblaski podłoża"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1516 assets_dev/engine/ui/menu/settings_catalog.yml:378
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1622 assets_dev/engine/ui/menu/settings_catalog.yml:394
 msgid "Smooth rock and wet ground catch the sun and nearby lights."
 msgstr "Gładka skała i mokra ziemia odbijają słońce i pobliskie światła."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1545 assets_dev/engine/ui/menu/settings_catalog.yml:382
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1651 assets_dev/engine/ui/menu/settings_catalog.yml:398
 msgid "Reflections"
 msgstr "Odbicia"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1562 assets_dev/engine/ui/menu/settings_catalog.yml:384
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1668 assets_dev/engine/ui/menu/settings_catalog.yml:400
 msgid ""
 "Reflect the sky, ground and buildings in water. Costs extra rendering."
 msgstr ""
 "Odbijaj niebo, teren i budynki w wodzie. Wymaga dodatkowego renderowania."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1591 assets_dev/engine/ui/menu/settings_catalog.yml:388
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1697 assets_dev/engine/ui/menu/settings_catalog.yml:404
 msgid "Reflection detail"
 msgstr "Szczegółowość odbić"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1608 assets_dev/engine/ui/menu/settings_catalog.yml:397
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1714 assets_dev/engine/ui/menu/settings_catalog.yml:413
 msgid "Higher detail gives sharper reflections at a higher cost."
 msgstr "Wyższa szczegółowość daje ostrzejsze odbicia kosztem wydajności."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1644 assets_dev/engine/ui/menu/settings_catalog.yml:401
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1750 assets_dev/engine/ui/menu/settings_catalog.yml:417
 msgid "Reflect nearby objects"
 msgstr "Odbijaj pobliskie obiekty"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1661 assets_dev/engine/ui/menu/settings_catalog.yml:404
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1767 assets_dev/engine/ui/menu/settings_catalog.yml:420
 msgid "Include nearby creatures, trees and decorations."
 msgstr "Uwzględnia pobliskie istoty, drzewa i dekoracje."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1690 assets_dev/engine/ui/menu/settings_catalog.yml:408
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1796 assets_dev/engine/ui/menu/settings_catalog.yml:424
 msgid "Movement ripples"
 msgstr "Fale od ruchu"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1707 assets_dev/engine/ui/menu/settings_catalog.yml:410
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1813 assets_dev/engine/ui/menu/settings_catalog.yml:426
 msgid "Small ripples from creatures moving on water."
 msgstr "Drobne fale od istot poruszających się po wodzie."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1736 assets_dev/engine/ui/menu/settings_catalog.yml:414
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1842 assets_dev/engine/ui/menu/settings_catalog.yml:430
 msgid "Rain ripples"
 msgstr "Kręgi od deszczu"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1753 assets_dev/engine/ui/menu/settings_catalog.yml:416
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1859 assets_dev/engine/ui/menu/settings_catalog.yml:432
 msgid "Raindrop rings on still water while it rains."
 msgstr "Kręgi od kropli na spokojnej wodzie podczas deszczu."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1782 assets_dev/engine/ui/menu/settings_catalog.yml:420
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1888 assets_dev/engine/ui/menu/settings_catalog.yml:436
 msgid "Glow"
 msgstr "Poświata"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1799 assets_dev/engine/ui/menu/settings_catalog.yml:422
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1905 assets_dev/engine/ui/menu/settings_catalog.yml:438
 msgid ""
 "Flames, glowing crystals and spell light bloom softly into their surroundings."
 msgstr ""
 "Płomienie, świecące kryształy i światło zaklęć łagodnie rozświetlają otoczenie."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1888 assets_dev/engine/ui/menu/settings_catalog.yml:436
+#: assets_dev/engine/ui/gameplay/settings_video.yml:1994 assets_dev/engine/ui/menu/settings_catalog.yml:452
 msgid "Cinematic colour"
 msgstr "Filmowe kolory"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1905 assets_dev/engine/ui/menu/settings_catalog.yml:438
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2011 assets_dev/engine/ui/menu/settings_catalog.yml:454
 msgid "Bring out shadow detail and soften over-saturated earth tones."
 msgstr "Wydobywa szczegóły w cieniach i łagodzi przesycone ziemiste barwy."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:1994 assets_dev/engine/ui/menu/settings_catalog.yml:452
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2100 assets_dev/engine/ui/menu/settings_catalog.yml:468
 msgid "Sharpening"
 msgstr "Wyostrzanie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2011 assets_dev/engine/ui/menu/settings_catalog.yml:457
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2117 assets_dev/engine/ui/menu/settings_catalog.yml:473
 msgid "Sharpen the 3D view; the interface is unaffected. Zero turns it off."
 msgstr "Wyostrza widok 3D; interfejs pozostaje bez zmian. Zero wyłącza."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2054 assets_dev/engine/ui/menu/settings_catalog.yml:461
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2160 assets_dev/engine/ui/menu/settings_catalog.yml:477
 msgid "Melee hit effects"
 msgstr "Efekty ciosów wręcz"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2071 assets_dev/engine/ui/menu/settings_catalog.yml:463
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2177 assets_dev/engine/ui/menu/settings_catalog.yml:479
 msgid "Show a slash, thrust or crush where melee attacks connect."
 msgstr ""
 "Pokazuj cięcie, pchnięcie lub uderzenie obuchem w miejscu trafienia ciosu wręcz."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2100 assets_dev/engine/ui/menu/settings_catalog.yml:467
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2206 assets_dev/engine/ui/menu/settings_catalog.yml:483
 msgid "Melee hit flash"
 msgstr "Błysk trafienia wręcz"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2117 assets_dev/engine/ui/menu/settings_catalog.yml:469
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2223 assets_dev/engine/ui/menu/settings_catalog.yml:485
 msgid "Briefly brighten a creature struck in melee."
 msgstr "Krótko rozjaśnia istotę trafioną w walce wręcz."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2146 assets_dev/engine/ui/menu/settings_catalog.yml:473
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2252 assets_dev/engine/ui/menu/settings_catalog.yml:489
 msgid "Melee blood"
 msgstr "Krew w walce wręcz"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2163 assets_dev/engine/ui/menu/settings_catalog.yml:475
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2269 assets_dev/engine/ui/menu/settings_catalog.yml:491
 msgid "Add blood effects when melee attacks connect."
 msgstr "Dodaje efekty krwi przy trafieniach w walce wręcz."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2192 assets_dev/engine/ui/menu/settings_catalog.yml:479
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2298 assets_dev/engine/ui/menu/settings_catalog.yml:495
 msgid "Blood splats"
 msgstr "Plamy krwi"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2209 assets_dev/engine/ui/menu/settings_catalog.yml:481
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2315 assets_dev/engine/ui/menu/settings_catalog.yml:497
 msgid "Leave a pool of blood beneath slain creatures."
 msgstr "Pozostawia kałużę krwi pod zabitymi istotami."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2238 assets_dev/engine/ui/menu/settings_catalog.yml:485
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2344 assets_dev/engine/ui/menu/settings_catalog.yml:501
 msgid "Surface materials"
 msgstr "Materiały powierzchni"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2255 assets_dev/engine/ui/menu/settings_catalog.yml:487
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2361 assets_dev/engine/ui/menu/settings_catalog.yml:503
 msgid ""
 "Walls, floors and doors show their relief, metal, glass and glowing windows. Takes effect on the next map."
 msgstr ""
 "Ściany, podłogi i drzwi pokazują swoją rzeźbę, metal, szkło i świecące okna. Działa od następnej mapy."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2284 assets_dev/engine/ui/menu/settings_catalog.yml:491
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2390 assets_dev/engine/ui/menu/settings_catalog.yml:507
 msgid "Surface depth"
 msgstr "Głębia powierzchni"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2301 assets_dev/engine/ui/menu/settings_catalog.yml:493
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2407 assets_dev/engine/ui/menu/settings_catalog.yml:509
 msgid ""
 "Nearby bricks, stones and carvings show their depth. Costs a little extra rendering."
 msgstr ""
 "Pobliskie cegły, kamienie i rzeźbienia ukazują swoją głębię. Wymaga nieco dodatkowego renderowania."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2330 assets_dev/engine/ui/menu/settings_catalog.yml:497
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2436 assets_dev/engine/ui/menu/settings_catalog.yml:513
 msgid "Surface reflections"
 msgstr "Odbicia powierzchni"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:2347 assets_dev/engine/ui/menu/settings_catalog.yml:499
+#: assets_dev/engine/ui/gameplay/settings_video.yml:2453 assets_dev/engine/ui/menu/settings_catalog.yml:515
 msgid ""
 "Marble, glass, metal and puddles reflect the buildings around them. Needs surface materials."
 msgstr ""
@@ -97414,25 +97722,26 @@ msgstr "Światło i cienie"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_video.yml:502 assets_dev/engine/ui/menu/settings_catalog.yml:352 assets_dev/engine/ui/menu/settings_catalog.yml:358
-#: assets_dev/engine/ui/menu/settings_catalog.yml:369 assets_dev/engine/ui/menu/settings_catalog.yml:375
+#: assets_dev/engine/ui/menu/settings_catalog.yml:369 assets_dev/engine/ui/menu/settings_catalog.yml:375 assets_dev/engine/ui/menu/settings_catalog.yml:381
+#: assets_dev/engine/ui/menu/settings_catalog.yml:391
 msgid "Environment"
 msgstr "Otoczenie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:536 assets_dev/engine/ui/menu/settings_catalog.yml:419 assets_dev/engine/ui/menu/settings_catalog.yml:425
-#: assets_dev/engine/ui/menu/settings_catalog.yml:435 assets_dev/engine/ui/menu/settings_catalog.yml:441 assets_dev/engine/ui/menu/settings_catalog.yml:451
+#: assets_dev/engine/ui/gameplay/settings_video.yml:536 assets_dev/engine/ui/menu/settings_catalog.yml:435 assets_dev/engine/ui/menu/settings_catalog.yml:441
+#: assets_dev/engine/ui/menu/settings_catalog.yml:451 assets_dev/engine/ui/menu/settings_catalog.yml:457 assets_dev/engine/ui/menu/settings_catalog.yml:467
 msgid "Post-processing"
 msgstr "Przetwarzanie końcowe"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:553 assets_dev/engine/ui/menu/settings_catalog.yml:460 assets_dev/engine/ui/menu/settings_catalog.yml:466
-#: assets_dev/engine/ui/menu/settings_catalog.yml:472 assets_dev/engine/ui/menu/settings_catalog.yml:478
+#: assets_dev/engine/ui/gameplay/settings_video.yml:553 assets_dev/engine/ui/menu/settings_catalog.yml:476 assets_dev/engine/ui/menu/settings_catalog.yml:482
+#: assets_dev/engine/ui/menu/settings_catalog.yml:488 assets_dev/engine/ui/menu/settings_catalog.yml:494
 msgid "Combat effects"
 msgstr "Efekty walki"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_video.yml:570 assets_dev/engine/ui/menu/settings_catalog.yml:484 assets_dev/engine/ui/menu/settings_catalog.yml:490
-#: assets_dev/engine/ui/menu/settings_catalog.yml:496
+#: assets_dev/engine/ui/gameplay/settings_video.yml:570 assets_dev/engine/ui/menu/settings_catalog.yml:500 assets_dev/engine/ui/menu/settings_catalog.yml:506
+#: assets_dev/engine/ui/menu/settings_catalog.yml:512
 msgid "Experimental"
 msgstr "Eksperymentalne"
 
@@ -97680,19 +97989,19 @@ msgstr "Pełny ekran"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/menu/settings_catalog.yml:247 assets_dev/engine/ui/menu/settings_catalog.yml:305 assets_dev/engine/ui/menu/settings_catalog.yml:316
-#: assets_dev/engine/ui/menu/settings_catalog.yml:364 assets_dev/engine/ui/menu/settings_catalog.yml:393
+#: assets_dev/engine/ui/menu/settings_catalog.yml:364 assets_dev/engine/ui/menu/settings_catalog.yml:409
 msgid "Low"
 msgstr "Niska"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/menu/settings_catalog.yml:248 assets_dev/engine/ui/menu/settings_catalog.yml:306 assets_dev/engine/ui/menu/settings_catalog.yml:363
-#: assets_dev/engine/ui/menu/settings_catalog.yml:394
+#: assets_dev/engine/ui/menu/settings_catalog.yml:410
 msgid "Medium"
 msgstr "Średnia"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/menu/settings_catalog.yml:249 assets_dev/engine/ui/menu/settings_catalog.yml:307 assets_dev/engine/ui/menu/settings_catalog.yml:315
-#: assets_dev/engine/ui/menu/settings_catalog.yml:362 assets_dev/engine/ui/menu/settings_catalog.yml:395
+#: assets_dev/engine/ui/menu/settings_catalog.yml:362 assets_dev/engine/ui/menu/settings_catalog.yml:411
 msgid "High"
 msgstr "Wysoka"
 
@@ -97722,290 +98031,290 @@ msgid "Unlimited"
 msgstr "Nieograniczony"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:392
-msgid "Very low"
-msgstr "Bardzo niska"
-
-# machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:396
-msgid "Very high"
-msgstr "Bardzo wysoka"
-
-# machine translation (Claude), review
 #: assets_dev/engine/ui/menu/settings_catalog.yml:40
 msgid "Standard games only; this game's ruleset scales its monsters itself."
 msgstr ""
 "Tylko w grach standardowych; zestaw zasad tej gry sam skaluje potwory."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:540
+#: assets_dev/engine/ui/menu/settings_catalog.yml:408
+msgid "Very low"
+msgstr "Bardzo niska"
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/menu/settings_catalog.yml:412
+msgid "Very high"
+msgstr "Bardzo wysoka"
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/menu/settings_catalog.yml:556
 msgid "0.5 s"
 msgstr "0.5 s"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:541
+#: assets_dev/engine/ui/menu/settings_catalog.yml:557
 msgid "1 s"
 msgstr "1 s"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:542
+#: assets_dev/engine/ui/menu/settings_catalog.yml:558
 msgid "2 s"
 msgstr "2 s"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:543
+#: assets_dev/engine/ui/menu/settings_catalog.yml:559
 msgid "3 s"
 msgstr "3 s"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:544
+#: assets_dev/engine/ui/menu/settings_catalog.yml:560
 msgid "5 s"
 msgstr "5 s"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:545
+#: assets_dev/engine/ui/menu/settings_catalog.yml:561
 msgid "10 s"
 msgstr "10 s"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:553
+#: assets_dev/engine/ui/menu/settings_catalog.yml:569
 msgid "Modern"
 msgstr "Nowoczesny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:554
+#: assets_dev/engine/ui/menu/settings_catalog.yml:570
 msgid "Classic"
 msgstr "Klasyczny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:580
+#: assets_dev/engine/ui/menu/settings_catalog.yml:596
 msgid "Smooth"
 msgstr "Płynny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:600
+#: assets_dev/engine/ui/menu/settings_catalog.yml:616
 msgid "Pick member"
 msgstr "Wybór postaci"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:601
+#: assets_dev/engine/ui/menu/settings_catalog.yml:617
 msgid "Open bag"
 msgstr "Otwarcie torby"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:715
+#: assets_dev/engine/ui/menu/settings_catalog.yml:731
 msgid "Fly up"
 msgstr "Leć w górę"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:718
+#: assets_dev/engine/ui/menu/settings_catalog.yml:734
 msgid "Fly down"
 msgstr "Leć w dół"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:724
+#: assets_dev/engine/ui/menu/settings_catalog.yml:740
 msgid "Look up"
 msgstr "Patrz w górę"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:727
+#: assets_dev/engine/ui/menu/settings_catalog.yml:743
 msgid "Look down"
 msgstr "Patrz w dół"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:745
+#: assets_dev/engine/ui/menu/settings_catalog.yml:761
 msgid "Cast quick spell 1"
 msgstr "Rzuć szybkie zaklęcie 1"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:748
+#: assets_dev/engine/ui/menu/settings_catalog.yml:764
 msgid "Cast quick spell 2"
 msgstr "Rzuć szybkie zaklęcie 2"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:751
+#: assets_dev/engine/ui/menu/settings_catalog.yml:767
 msgid "Cast quick spell 3"
 msgstr "Rzuć szybkie zaklęcie 3"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:754
+#: assets_dev/engine/ui/menu/settings_catalog.yml:770
 msgid "Cast quick spell 4"
 msgstr "Rzuć szybkie zaklęcie 4"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:757
+#: assets_dev/engine/ui/menu/settings_catalog.yml:773
 msgid "Battle orders"
 msgstr "Rozkazy bojowe"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:763
+#: assets_dev/engine/ui/menu/settings_catalog.yml:779
 msgid "Turn-based combat on/off"
 msgstr "Włącz/wyłącz tryb turowy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:766
+#: assets_dev/engine/ui/menu/settings_catalog.yml:782
 msgid "Pass turn (turn-based)"
 msgstr "Pomiń turę (tryb turowy)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:772
+#: assets_dev/engine/ui/menu/settings_catalog.yml:788
 msgid "Yell (villagers flee)"
 msgstr "Krzyknij (wieśniacy uciekają)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:799
+#: assets_dev/engine/ui/menu/settings_catalog.yml:815
 msgid "Follower panel"
 msgstr "Panel towarzyszy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:802
+#: assets_dev/engine/ui/menu/settings_catalog.yml:818
 msgid "Speak with follower 1"
 msgstr "Porozmawiaj z towarzyszem 1"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:805
+#: assets_dev/engine/ui/menu/settings_catalog.yml:821
 msgid "Speak with follower 2"
 msgstr "Porozmawiaj z towarzyszem 2"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:808
+#: assets_dev/engine/ui/menu/settings_catalog.yml:824
 msgid "Speak with follower 3"
 msgstr "Porozmawiaj z towarzyszem 3"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:811
+#: assets_dev/engine/ui/menu/settings_catalog.yml:827
 msgid "Speak with follower 4"
 msgstr "Porozmawiaj z towarzyszem 4"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:814
+#: assets_dev/engine/ui/menu/settings_catalog.yml:830
 msgid "Party formation (MM9)"
 msgstr "Szyk drużyny (MM9)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:820
+#: assets_dev/engine/ui/menu/settings_catalog.yml:836
 msgid "Quick save"
 msgstr "Szybki zapis"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:823
+#: assets_dev/engine/ui/menu/settings_catalog.yml:839
 msgid "Quick load"
 msgstr "Szybkie wczytanie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:829
+#: assets_dev/engine/ui/menu/settings_catalog.yml:845
 msgid "Get unstuck"
 msgstr "Odblokuj"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:837
+#: assets_dev/engine/ui/menu/settings_catalog.yml:853
 msgid "Gather corpses and crafting items"
 msgstr "Zbierz zwłoki i przedmioty rzemieślnicze"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:841
+#: assets_dev/engine/ui/menu/settings_catalog.yml:857
 msgid "Alchemist takes alchemy items"
 msgstr "Alchemik zabiera przedmioty alchemiczne"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:846
+#: assets_dev/engine/ui/menu/settings_catalog.yml:862
 msgid "Switch Cover"
 msgstr "Przełącz osłonę"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:851
+#: assets_dev/engine/ui/menu/settings_catalog.yml:867
 msgid "Switch Mana Shield"
 msgstr "Przełącz tarczę many"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:856
+#: assets_dev/engine/ui/menu/settings_catalog.yml:872
 msgid "Switch Elementalist rotation"
 msgstr "Przełącz rotację elementalisty"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:861
+#: assets_dev/engine/ui/menu/settings_catalog.yml:877
 msgid "Knight Charge (a lone Knight)"
 msgstr "Szarża rycerza (samotny rycerz)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:865
+#: assets_dev/engine/ui/menu/settings_catalog.yml:881
 msgid "Show item rarity (hold)"
 msgstr "Pokaż rzadkość przedmiotów (przytrzymaj)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:870
+#: assets_dev/engine/ui/menu/settings_catalog.yml:886
 msgid "Open bag 1 (with Shift as Controls' Number keys say)"
 msgstr "Otwórz torbę 1 (z Shift wg opcji Klawisze cyfr w Sterowaniu)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:875
+#: assets_dev/engine/ui/menu/settings_catalog.yml:891
 msgid "Open bag 2 (with Shift as Controls' Number keys say)"
 msgstr "Otwórz torbę 2 (z Shift wg opcji Klawisze cyfr w Sterowaniu)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:880
+#: assets_dev/engine/ui/menu/settings_catalog.yml:896
 msgid "Open bag 3 (with Shift as Controls' Number keys say)"
 msgstr "Otwórz torbę 3 (z Shift wg opcji Klawisze cyfr w Sterowaniu)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:885
+#: assets_dev/engine/ui/menu/settings_catalog.yml:901
 msgid "Open bag 4 (with Shift as Controls' Number keys say)"
 msgstr "Otwórz torbę 4 (z Shift wg opcji Klawisze cyfr w Sterowaniu)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:890
+#: assets_dev/engine/ui/menu/settings_catalog.yml:906
 msgid "Crafting bag (with Shift; tags or untags the open bag)"
 msgstr "Torba rzemieślnicza (z Shift; oznacza lub odznacza otwartą torbę)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:895
+#: assets_dev/engine/ui/menu/settings_catalog.yml:911
 msgid "Open the Journal's Progress tab"
 msgstr "Otwórz kartę Postępy w dzienniku"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:899
+#: assets_dev/engine/ui/menu/settings_catalog.yml:915
 msgid "Open the aura panel"
 msgstr "Otwórz panel aur"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:903
+#: assets_dev/engine/ui/menu/settings_catalog.yml:919
 msgid ""
 "Potions (the potion list; the active member's ring with the quick item rings on)"
 msgstr ""
 "Eliksiry (lista eliksirów; krąg aktywnej postaci przy włączonych kręgach szybkich przedmiotów)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:906
+#: assets_dev/engine/ui/menu/settings_catalog.yml:922
 msgid "Scrolls (the scroll list)"
 msgstr "Zwoje (lista zwojów)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:909
+#: assets_dev/engine/ui/menu/settings_catalog.yml:925
 msgid "Quick potion (the active member's slot 1)"
 msgstr "Szybki eliksir (miejsce 1 aktywnej postaci)"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:912
+#: assets_dev/engine/ui/menu/settings_catalog.yml:928
 msgid "Use potion slot 2"
 msgstr "Użyj miejsca eliksiru 2"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:915
+#: assets_dev/engine/ui/menu/settings_catalog.yml:931
 msgid "Use potion slot 3"
 msgstr "Użyj miejsca eliksiru 3"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:918
+#: assets_dev/engine/ui/menu/settings_catalog.yml:934
 msgid "Use potion slot 4"
 msgstr "Użyj miejsca eliksiru 4"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:921
+#: assets_dev/engine/ui/menu/settings_catalog.yml:937
 msgid "Use potion slot 5"
 msgstr "Użyj miejsca eliksiru 5"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:924
+#: assets_dev/engine/ui/menu/settings_catalog.yml:940
 msgid "Use potion slot 6"
 msgstr "Użyj miejsca eliksiru 6"
 
@@ -98179,7 +98488,7 @@ msgstr ""
 "Aktualizacje są wyłączone, gdy w settings.ini ustawiono keep_modified_packs=on: aktualizacja zastąpiłaby zmienione przez was pakiety treści."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:833 game/app/KeyboardBindings.cpp:101
+#: assets_dev/engine/ui/menu/settings_catalog.yml:849 game/app/KeyboardBindings.cpp:101
 msgid "Open Workbench"
 msgstr "Otwórz warsztat"
 
@@ -98313,9 +98622,9 @@ msgstr "Otwórz aury"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/alchemy_bench.yml:402 assets_dev/engine/ui/gameplay/alchemy_bench.yml:798 assets_dev/engine/ui/gameplay/journal.yml:742
-#: assets_dev/engine/ui/menu/settings_catalog.yml:904 assets_dev/engine/ui/menu/settings_catalog.yml:907 assets_dev/engine/ui/menu/settings_catalog.yml:910
-#: assets_dev/engine/ui/menu/settings_catalog.yml:913 assets_dev/engine/ui/menu/settings_catalog.yml:916 assets_dev/engine/ui/menu/settings_catalog.yml:919
-#: assets_dev/engine/ui/menu/settings_catalog.yml:922 assets_dev/engine/ui/menu/settings_catalog.yml:925 game/app/KeyboardBindings.cpp:151
+#: assets_dev/engine/ui/menu/settings_catalog.yml:920 assets_dev/engine/ui/menu/settings_catalog.yml:923 assets_dev/engine/ui/menu/settings_catalog.yml:926
+#: assets_dev/engine/ui/menu/settings_catalog.yml:929 assets_dev/engine/ui/menu/settings_catalog.yml:932 assets_dev/engine/ui/menu/settings_catalog.yml:935
+#: assets_dev/engine/ui/menu/settings_catalog.yml:938 assets_dev/engine/ui/menu/settings_catalog.yml:941 game/app/KeyboardBindings.cpp:151
 #: game/rules/LootFilter.cpp:49 game/ui/GameplayAlchemyBenchRenderer.cpp:617 game/ui/GameplayCraftingBenchRenderer.cpp:539
 #: game/ui/GameplayQuickItems.cpp:982
 msgid "Potions"
@@ -98372,22 +98681,22 @@ msgid "Party Formation"
 msgstr "Szyk drużyny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:793 game/app/KeyboardBindings.cpp:174 game/ui/GameplayStatisticsScreen.cpp:391
+#: assets_dev/engine/ui/menu/settings_catalog.yml:809 game/app/KeyboardBindings.cpp:174 game/ui/GameplayStatisticsScreen.cpp:391
 msgid "Statistics"
 msgstr "Statystyki"
 
 # machine translation (Claude), review
-#: game/app/KeyboardBindings.cpp:176 game/ui/GameplayBattleOrders.cpp:1363
+#: game/app/KeyboardBindings.cpp:176 game/ui/GameplayBattleOrders.cpp:1365
 msgid "Battle Orders"
 msgstr "Rozkazy bojowe"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:555 assets_dev/engine/ui/menu/settings_catalog.yml:697 game/app/KeyboardBindings.cpp:22
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:555 assets_dev/engine/ui/menu/settings_catalog.yml:713 game/app/KeyboardBindings.cpp:22
 msgid "Forward"
 msgstr "Do przodu"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:608 assets_dev/engine/ui/menu/settings_catalog.yml:700 game/app/KeyboardBindings.cpp:25
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:608 assets_dev/engine/ui/menu/settings_catalog.yml:716 game/app/KeyboardBindings.cpp:25
 msgid "Backward"
 msgstr "Do tyłu"
 
@@ -98409,7 +98718,7 @@ msgstr "Krzyk"
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/spells.txt:19 assets_dev/engine/data_tables/items.txt:1120 assets_dev/engine/data_tables/items.txt:1220
 #: assets_dev/engine/data_tables/items.txt:1924 assets_dev/engine/data_tables/items.txt:318 assets_dev/engine/data_tables/items.txt:418
-#: assets_dev/engine/data_tables/spells.txt:18 assets_dev/engine/ui/gameplay/settings_keyboard.yml:767 assets_dev/engine/ui/menu/settings_catalog.yml:709
+#: assets_dev/engine/data_tables/spells.txt:18 assets_dev/engine/ui/gameplay/settings_keyboard.yml:767 assets_dev/engine/ui/menu/settings_catalog.yml:725
 #: game/app/KeyboardBindings.cpp:35 game/rules/maw/MawClassSpells.cpp:44
 msgid "Jump"
 msgstr "Skok"
@@ -98417,10 +98726,10 @@ msgstr "Skok"
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_gameplay.yml:451 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1049 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1102
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1155 assets_dev/engine/ui/menu/settings_catalog.yml:132 assets_dev/engine/ui/menu/settings_catalog.yml:43
-#: assets_dev/engine/ui/menu/settings_catalog.yml:49 assets_dev/engine/ui/menu/settings_catalog.yml:55 assets_dev/engine/ui/menu/settings_catalog.yml:740
-#: assets_dev/engine/ui/menu/settings_catalog.yml:743 assets_dev/engine/ui/menu/settings_catalog.yml:746 assets_dev/engine/ui/menu/settings_catalog.yml:749
-#: assets_dev/engine/ui/menu/settings_catalog.yml:752 assets_dev/engine/ui/menu/settings_catalog.yml:755 assets_dev/engine/ui/menu/settings_catalog.yml:758
-#: assets_dev/engine/ui/menu/settings_catalog.yml:761 assets_dev/engine/ui/menu/settings_catalog.yml:764 assets_dev/engine/ui/menu/settings_catalog.yml:767
+#: assets_dev/engine/ui/menu/settings_catalog.yml:49 assets_dev/engine/ui/menu/settings_catalog.yml:55 assets_dev/engine/ui/menu/settings_catalog.yml:756
+#: assets_dev/engine/ui/menu/settings_catalog.yml:759 assets_dev/engine/ui/menu/settings_catalog.yml:762 assets_dev/engine/ui/menu/settings_catalog.yml:765
+#: assets_dev/engine/ui/menu/settings_catalog.yml:768 assets_dev/engine/ui/menu/settings_catalog.yml:771 assets_dev/engine/ui/menu/settings_catalog.yml:774
+#: assets_dev/engine/ui/menu/settings_catalog.yml:777 assets_dev/engine/ui/menu/settings_catalog.yml:780 assets_dev/engine/ui/menu/settings_catalog.yml:783
 #: game/app/KeyboardBindings.cpp:37 game/rules/maw/MawClassSpells.cpp:168 game/ui/GameplayStatisticsScreen.cpp:250
 msgid "Combat"
 msgstr "Walka"
@@ -98432,7 +98741,7 @@ msgstr "Szybki czar"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:21 assets_dev/engine/ui/gameplay/actor_inspect.yml:113 assets_dev/engine/ui/gameplay/character.yml:857
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:130 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1085 assets_dev/engine/ui/menu/settings_catalog.yml:739
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:130 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1085 assets_dev/engine/ui/menu/settings_catalog.yml:755
 #: game/app/KeyboardBindings.cpp:43 game/ui/GameplayUiRenderer.cpp:1421
 msgid "Attack"
 msgstr "Atak"
@@ -98543,19 +98852,19 @@ msgid "Quick Ref"
 msgstr "Szybka pomoc"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:185 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1456 assets_dev/engine/ui/menu/settings_catalog.yml:796
+#: assets_dev/engine/data_tables/english/Global.txt:185 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1456 assets_dev/engine/ui/menu/settings_catalog.yml:812
 #: game/app/KeyboardBindings.cpp:62
 msgid "Rest"
 msgstr "Odpoczynek"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:605 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1509 assets_dev/engine/ui/menu/settings_catalog.yml:787
+#: assets_dev/engine/data_tables/english/Global.txt:605 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1509 assets_dev/engine/ui/menu/settings_catalog.yml:803
 #: game/app/KeyboardBindings.cpp:64
 msgid "History"
 msgstr "Historia"
 
 # machine translation (Claude), review
-#: game/app/KeyboardBindings.cpp:67 game/gameplay/GameplayInteractionController.cpp:262 game/ui/screens/NewGameScreenPartySheet.cpp:1812
+#: game/app/KeyboardBindings.cpp:67 game/gameplay/GameplayInteractionController.cpp:260 game/ui/screens/NewGameScreenPartySheet.cpp:1812
 msgid "Use"
 msgstr "Użyj"
 
@@ -98605,7 +98914,7 @@ msgid "Fly Down"
 msgstr "Opadanie"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:979 assets_dev/engine/ui/menu/settings_catalog.yml:721 game/app/KeyboardBindings.cpp:94
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:979 assets_dev/engine/ui/menu/settings_catalog.yml:737 game/app/KeyboardBindings.cpp:94
 msgid "Land"
 msgstr "Lądowanie"
 
@@ -98620,7 +98929,7 @@ msgid "Unstuck"
 msgstr "Odblokuj"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:680 assets_dev/engine/ui/menu/settings_catalog.yml:647 game/content/CompletionCertificates.cpp:232
+#: assets_dev/engine/ui/gameplay/settings_game.yml:680 assets_dev/engine/ui/menu/settings_catalog.yml:663 game/content/CompletionCertificates.cpp:232
 #: game/content/RulesetOptions.cpp:271 game/ui/screens/NewGameScreen.cpp:1971 game/ui/screens/NewGameScreen.cpp:2391
 msgid "Randomizer"
 msgstr "Randomizer"
@@ -98706,40 +99015,40 @@ msgid "Standard MMMerge"
 msgstr "Standard MMMerge"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:616 game/content/RulesetOptions.cpp:20
+#: assets_dev/engine/ui/menu/settings_catalog.yml:632 game/content/RulesetOptions.cpp:20
 msgid "Easy"
 msgstr "Łatwy"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:434 assets_dev/engine/ui/menu/settings_catalog.yml:617 game/content/RulesetOptions.cpp:21
-#: game/party/SkillData.cpp:414 game/ui/GameplayAlchemyBenchView.cpp:273 game/ui/GameplayHudOverlaySupport.cpp:1513
+#: assets_dev/engine/data_tables/english/Global.txt:434 assets_dev/engine/ui/menu/settings_catalog.yml:633 game/content/RulesetOptions.cpp:21
+#: game/party/SkillData.cpp:417 game/ui/GameplayAlchemyBenchView.cpp:273 game/ui/GameplayHudOverlaySupport.cpp:1513
 #: game/ui/GameplayJournalAuras.cpp:100 game/ui/screens/NewGameScreenPartySheet.cpp:61 game/ui/screens/PartyCreationSheet.cpp:18
 msgid "Normal"
 msgstr "Podstawowy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/ruleset.yml:5 assets_dev/engine/ui/menu/settings_catalog.yml:618 assets_dev/engine/ui/menu/settings_catalog.yml:830
-#: assets_dev/engine/ui/menu/settings_catalog.yml:834 assets_dev/engine/ui/menu/settings_catalog.yml:838 assets_dev/engine/ui/menu/settings_catalog.yml:842
-#: assets_dev/engine/ui/menu/settings_catalog.yml:847 assets_dev/engine/ui/menu/settings_catalog.yml:852 assets_dev/engine/ui/menu/settings_catalog.yml:857
-#: assets_dev/engine/ui/menu/settings_catalog.yml:862 assets_dev/engine/ui/menu/settings_catalog.yml:866 assets_dev/engine/ui/menu/settings_catalog.yml:871
-#: assets_dev/engine/ui/menu/settings_catalog.yml:876 assets_dev/engine/ui/menu/settings_catalog.yml:881 assets_dev/engine/ui/menu/settings_catalog.yml:886
-#: assets_dev/engine/ui/menu/settings_catalog.yml:891 assets_dev/engine/ui/menu/settings_catalog.yml:896 assets_dev/engine/ui/menu/settings_catalog.yml:900
+#: assets_dev/engine/rulesets/maw/ruleset.yml:5 assets_dev/engine/ui/menu/settings_catalog.yml:634 assets_dev/engine/ui/menu/settings_catalog.yml:846
+#: assets_dev/engine/ui/menu/settings_catalog.yml:850 assets_dev/engine/ui/menu/settings_catalog.yml:854 assets_dev/engine/ui/menu/settings_catalog.yml:858
+#: assets_dev/engine/ui/menu/settings_catalog.yml:863 assets_dev/engine/ui/menu/settings_catalog.yml:868 assets_dev/engine/ui/menu/settings_catalog.yml:873
+#: assets_dev/engine/ui/menu/settings_catalog.yml:878 assets_dev/engine/ui/menu/settings_catalog.yml:882 assets_dev/engine/ui/menu/settings_catalog.yml:887
+#: assets_dev/engine/ui/menu/settings_catalog.yml:892 assets_dev/engine/ui/menu/settings_catalog.yml:897 assets_dev/engine/ui/menu/settings_catalog.yml:902
+#: assets_dev/engine/ui/menu/settings_catalog.yml:907 assets_dev/engine/ui/menu/settings_catalog.yml:912 assets_dev/engine/ui/menu/settings_catalog.yml:916
 #: game/content/RulesetOptions.cpp:22
 msgid "MAW"
 msgstr "MAW"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:619 game/content/RulesetOptions.cpp:23
+#: assets_dev/engine/ui/menu/settings_catalog.yml:635 game/content/RulesetOptions.cpp:23
 msgid "Hard"
 msgstr "Trudny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:620 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2475
+#: assets_dev/engine/ui/menu/settings_catalog.yml:636 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2509
 msgid "Hell"
 msgstr "Piekło"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/monster_data.txt:157 assets_dev/engine/ui/menu/settings_catalog.yml:621 game/content/RulesetOptions.cpp:25
+#: assets_dev/engine/data_tables/monster_data.txt:157 assets_dev/engine/ui/menu/settings_catalog.yml:637 game/content/RulesetOptions.cpp:25
 #: game/ui/screens/MainMenuScreen.cpp:1043
 msgid "Nightmare"
 msgstr "Koszmar"
@@ -98755,80 +99064,80 @@ msgid "{progression} progression"
 msgstr "Postęp: {progression}"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:629 game/content/RulesetOptions.cpp:29 game/ui/screens/ArcomageScreen.cpp:78
+#: assets_dev/engine/ui/menu/settings_catalog.yml:645 game/content/RulesetOptions.cpp:29 game/ui/screens/ArcomageScreen.cpp:78
 msgid "Free"
 msgstr "Swobodny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:630 game/content/RulesetOptions.cpp:30
+#: assets_dev/engine/ui/menu/settings_catalog.yml:646 game/content/RulesetOptions.cpp:30
 msgid "Horizontal"
 msgstr "Horyzontalny"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:156 assets_dev/engine/data_tables/english/potion.txt:22 assets_dev/engine/data_tables/english/potnotes.txt:22
-#: assets_dev/engine/rulesets/maw/tables/english/potion.txt:22 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:22 assets_dev/engine/ui/menu/settings_catalog.yml:638
-#: game/content/RulesetOptions.cpp:34 game/gameplay/GameMechanics.cpp:2662 game/party/SkillData.cpp:422
+#: assets_dev/engine/rulesets/maw/tables/english/potion.txt:22 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:22 assets_dev/engine/ui/menu/settings_catalog.yml:654
+#: game/content/RulesetOptions.cpp:34 game/gameplay/GameMechanics.cpp:2662 game/party/SkillData.cpp:425
 #: game/ui/GameplayPartyOverlayRenderer.cpp:10968 game/ui/GameplayPartyOverlayRenderer.cpp:11620 game/ui/GameplayPartyOverlayRenderer.cpp:1662
 #: game/ui/GameplayPartyOverlayRenderer.cpp:8742
 msgid "None"
 msgstr "Brak"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:639 game/content/RulesetOptions.cpp:35
+#: assets_dev/engine/ui/menu/settings_catalog.yml:655 game/content/RulesetOptions.cpp:35
 msgid "Doom"
 msgstr "Zagłada"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:640 game/content/RulesetOptions.cpp:36
+#: assets_dev/engine/ui/menu/settings_catalog.yml:656 game/content/RulesetOptions.cpp:36
 msgid "Road to Insanity"
 msgstr "Droga do obłędu"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:641 game/content/RulesetOptions.cpp:37
+#: assets_dev/engine/ui/menu/settings_catalog.yml:657 game/content/RulesetOptions.cpp:37
 msgid "Beyond Madness"
 msgstr "Poza szaleństwem"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:642 game/content/RulesetOptions.cpp:38
+#: assets_dev/engine/ui/menu/settings_catalog.yml:658 game/content/RulesetOptions.cpp:38
 msgid "Austerity"
 msgstr "Asceza"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/menu/settings_catalog.yml:114 assets_dev/engine/ui/menu/settings_catalog.yml:130 assets_dev/engine/ui/menu/settings_catalog.yml:141
 #: assets_dev/engine/ui/menu/settings_catalog.yml:196 assets_dev/engine/ui/menu/settings_catalog.yml:257 assets_dev/engine/ui/menu/settings_catalog.yml:291
-#: assets_dev/engine/ui/menu/settings_catalog.yml:304 assets_dev/engine/ui/menu/settings_catalog.yml:365 assets_dev/engine/ui/menu/settings_catalog.yml:539
-#: assets_dev/engine/ui/menu/settings_catalog.yml:680 game/content/RulesetOptions.cpp:42 game/ui/GameplayJournalAuras.cpp:1036
+#: assets_dev/engine/ui/menu/settings_catalog.yml:304 assets_dev/engine/ui/menu/settings_catalog.yml:365 assets_dev/engine/ui/menu/settings_catalog.yml:555
+#: assets_dev/engine/ui/menu/settings_catalog.yml:696 game/content/RulesetOptions.cpp:42 game/ui/GameplayJournalAuras.cpp:1036
 #: game/ui/screens/MainMenuScreen.cpp:1273 game/ui/screens/NewGameScreen.cpp:2141
 msgid "Off"
 msgstr "Wył."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:681 game/content/RulesetOptions.cpp:43
+#: assets_dev/engine/ui/menu/settings_catalog.yml:697 game/content/RulesetOptions.cpp:43
 msgid "Soft"
 msgstr "Łagodny"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:682 game/content/RulesetOptions.cpp:44
+#: assets_dev/engine/ui/menu/settings_catalog.yml:698 game/content/RulesetOptions.cpp:44
 msgid "Regular"
 msgstr "Zwykły"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:683 game/content/RulesetOptions.cpp:45
+#: assets_dev/engine/ui/menu/settings_catalog.yml:699 game/content/RulesetOptions.cpp:45
 msgid "Strict"
 msgstr "Surowy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:684 game/content/RulesetOptions.cpp:46
+#: assets_dev/engine/ui/menu/settings_catalog.yml:700 game/content/RulesetOptions.cpp:46
 msgid "Very strict"
 msgstr "Bardzo surowy"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:685 game/content/RulesetOptions.cpp:47 game/ui/GameplayBattleOrders.cpp:1156
+#: assets_dev/engine/ui/menu/settings_catalog.yml:701 game/content/RulesetOptions.cpp:47 game/ui/GameplayBattleOrders.cpp:1158
 msgid "Custom"
 msgstr "Własne"
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:1188 game/gameplay/GameplayDialogController.cpp:2093 game/gameplay/GameplayInteractionController.cpp:322
+#: game/events/EventDialogContent.cpp:1188 game/gameplay/GameplayDialogController.cpp:2093 game/gameplay/GameplayInteractionController.cpp:320
 #: game/ui/GameplayStatisticsScreen.cpp:1173
 msgid "Travel"
 msgstr "Podróż"
@@ -98871,7 +99180,7 @@ msgstr "Resetuj"
 #: assets_dev/engine/ui/gameplay/alchemy_bench.yml:346 assets_dev/engine/ui/gameplay/alchemy_bench.yml:714 assets_dev/engine/ui/gameplay/chest.yml:312
 #: assets_dev/engine/ui/gameplay/dialogue.yml:343 assets_dev/engine/ui/gameplay/journal.yml:1020 assets_dev/engine/ui/gameplay/lloyds_beacon.yml:165
 #: assets_dev/engine/ui/gameplay/loot_summary.yml:116 assets_dev/engine/ui/gameplay/town_portal.yml:137 game/events/EventDialogContent.cpp:1251
-#: game/ui/GameplayAlchemyBenchRenderer.cpp:610 game/ui/GameplayBattleOrders.cpp:1367 game/ui/GameplayCraftingBenchRenderer.cpp:521
+#: game/ui/GameplayAlchemyBenchRenderer.cpp:610 game/ui/GameplayBattleOrders.cpp:1369 game/ui/GameplayCraftingBenchRenderer.cpp:521
 #: game/ui/GameplayJournalTrainers.cpp:781 game/ui/GameplayLootSummaryRenderer.cpp:296 game/ui/GameplayQuickItems.cpp:1025
 #: game/ui/GameplayQuickItems.cpp:503 game/ui/GameplayTransportSchedule.cpp:791 game/ui/screens/NewGameScreenPartySheet.cpp:1500
 msgid "Close"
@@ -98942,7 +99251,7 @@ msgid "NPC interaction UI is not implemented yet."
 msgstr "Interfejs interakcji z NPC nie jest jeszcze zaimplementowany."
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:225 game/gameplay/GameplayInteractionController.cpp:239
+#: game/events/EventDialogContent.cpp:225 game/gameplay/GameplayInteractionController.cpp:237
 msgid "Talk"
 msgstr "Rozmawiaj"
 
@@ -98977,43 +99286,7 @@ msgid "morning"
 msgstr "ranek"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:147 assets_dev/engine/ui/gameplay/character.yml:307 game/events/EventRuntime.cpp:1022
-#: game/mm9/Mm9PrimaryStats.cpp:26 game/rules/maw/MawAuraReport.cpp:61 game/ui/screens/PartyCreationSheet.cpp:96
-msgid "Might"
-msgstr "Moc"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:119 assets_dev/engine/ui/gameplay/character.yml:335 game/events/EventRuntime.cpp:1023
-#: game/rules/maw/MawAuraReport.cpp:61 game/ui/screens/PartyCreationSheet.cpp:96
-msgid "Intellect"
-msgstr "Intelekt"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:166 assets_dev/engine/ui/gameplay/character.yml:363 game/events/EventRuntime.cpp:1024
-#: game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:96
-msgid "Personality"
-msgstr "Osobowość"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:78 assets_dev/engine/ui/gameplay/character.yml:391 game/events/EventRuntime.cpp:1025
-#: game/mm9/Mm9PrimaryStats.cpp:28 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
-msgid "Endurance"
-msgstr "Wytrzymałość"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:214 assets_dev/engine/ui/gameplay/character.yml:447 game/events/EventRuntime.cpp:1026
-#: game/mm9/Mm9PrimaryStats.cpp:30 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
-msgid "Speed"
-msgstr "Szybkość"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:4 assets_dev/engine/ui/gameplay/character.yml:419 game/events/EventRuntime.cpp:1027
-#: game/mm9/Mm9PrimaryStats.cpp:29 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
-msgid "Accuracy"
-msgstr "Celność"
-
-# imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:139 assets_dev/engine/ui/gameplay/character.yml:475 game/events/EventRuntime.cpp:1028
+#: assets_dev/engine/data_tables/english/Global.txt:139 assets_dev/engine/ui/gameplay/character.yml:475 game/events/EventRuntime.cpp:1000
 #: game/mm9/Mm9PrimaryStats.cpp:31 game/rules/maw/MawAuraReport.cpp:63 game/ui/screens/PartyCreationSheet.cpp:98
 msgid "Luck"
 msgstr "Szczęście"
@@ -99025,7 +99298,7 @@ msgstr "Szczęście"
 #: assets_dev/engine/data_tables/items.txt:1907 assets_dev/engine/data_tables/items.txt:1908 assets_dev/engine/data_tables/items.txt:259
 #: assets_dev/engine/data_tables/items.txt:305 assets_dev/engine/data_tables/items.txt:405 assets_dev/engine/data_tables/potion_effects.yml:169
 #: assets_dev/engine/data_tables/spells.txt:4 assets_dev/engine/rulesets/maw/tables/english/potion.txt:168 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:167
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:58 game/events/EventRuntime.cpp:1029 game/ui/GameplayBuffHud.cpp:25
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:58 game/events/EventRuntime.cpp:1001 game/ui/GameplayBuffHud.cpp:25
 #: game/ui/GameplayBuffHud.h:142
 msgid "Fire Resistance"
 msgstr "Odp. na ogień"
@@ -99037,7 +99310,7 @@ msgstr "Odp. na ogień"
 #: assets_dev/engine/data_tables/items.txt:1920 assets_dev/engine/data_tables/items.txt:1921 assets_dev/engine/data_tables/items.txt:260
 #: assets_dev/engine/data_tables/items.txt:316 assets_dev/engine/data_tables/items.txt:416 assets_dev/engine/data_tables/potion_effects.yml:173
 #: assets_dev/engine/data_tables/spells.txt:16 assets_dev/engine/rulesets/maw/tables/english/potion.txt:169 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:168
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:59 game/events/EventRuntime.cpp:1030 game/ui/GameplayBuffHud.cpp:25
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:59 game/events/EventRuntime.cpp:1002 game/ui/GameplayBuffHud.cpp:25
 #: game/ui/GameplayBuffHud.h:146
 msgid "Air Resistance"
 msgstr "Odp. na magię powietrza"
@@ -99049,7 +99322,7 @@ msgstr "Odp. na magię powietrza"
 #: assets_dev/engine/data_tables/items.txt:1933 assets_dev/engine/data_tables/items.txt:1934 assets_dev/engine/data_tables/items.txt:261
 #: assets_dev/engine/data_tables/items.txt:327 assets_dev/engine/data_tables/items.txt:427 assets_dev/engine/data_tables/potion_effects.yml:177
 #: assets_dev/engine/data_tables/spells.txt:28 assets_dev/engine/rulesets/maw/tables/english/potion.txt:170 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:169
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:60 game/events/EventRuntime.cpp:1031 game/ui/GameplayBuffHud.cpp:26
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:60 game/events/EventRuntime.cpp:1003 game/ui/GameplayBuffHud.cpp:26
 #: game/ui/GameplayBuffHud.h:144
 msgid "Water Resistance"
 msgstr "Odp. na magię wody"
@@ -99061,13 +99334,13 @@ msgstr "Odp. na magię wody"
 #: assets_dev/engine/data_tables/items.txt:1946 assets_dev/engine/data_tables/items.txt:1947 assets_dev/engine/data_tables/items.txt:262
 #: assets_dev/engine/data_tables/items.txt:338 assets_dev/engine/data_tables/items.txt:438 assets_dev/engine/data_tables/potion_effects.yml:181
 #: assets_dev/engine/data_tables/spells.txt:40 assets_dev/engine/rulesets/maw/tables/english/potion.txt:171 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:170
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:61 game/events/EventRuntime.cpp:1032 game/ui/GameplayBuffHud.cpp:26
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:61 game/events/EventRuntime.cpp:1004 game/ui/GameplayBuffHud.cpp:26
 #: game/ui/GameplayBuffHud.h:148
 msgid "Earth Resistance"
 msgstr "Odp. na magię ziemi"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:1033
+#: game/events/EventRuntime.cpp:1005
 msgid "Spirit Resistance"
 msgstr "Odporność na magię ducha"
 
@@ -99078,7 +99351,7 @@ msgstr "Odporność na magię ducha"
 #: assets_dev/engine/data_tables/items.txt:1972 assets_dev/engine/data_tables/items.txt:1973 assets_dev/engine/data_tables/items.txt:263
 #: assets_dev/engine/data_tables/items.txt:360 assets_dev/engine/data_tables/items.txt:460 assets_dev/engine/data_tables/potion_effects.yml:185
 #: assets_dev/engine/data_tables/spells.txt:64 assets_dev/engine/rulesets/maw/tables/english/potion.txt:172 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:171
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:62 game/events/EventRuntime.cpp:1034 game/ui/GameplayBuffHud.cpp:27
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:62 game/events/EventRuntime.cpp:1006 game/ui/GameplayBuffHud.cpp:27
 #: game/ui/GameplayBuffHud.h:150
 msgid "Mind Resistance"
 msgstr "Odp. na magię umysłu"
@@ -99090,40 +99363,76 @@ msgstr "Odp. na magię umysłu"
 #: assets_dev/engine/data_tables/items.txt:1985 assets_dev/engine/data_tables/items.txt:1986 assets_dev/engine/data_tables/items.txt:264
 #: assets_dev/engine/data_tables/items.txt:371 assets_dev/engine/data_tables/items.txt:471 assets_dev/engine/data_tables/potion_effects.yml:189
 #: assets_dev/engine/data_tables/spells.txt:76 assets_dev/engine/rulesets/maw/tables/english/potion.txt:173 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:172
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:63 game/events/EventRuntime.cpp:1035 game/ui/GameplayBuffHud.cpp:27
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:63 game/events/EventRuntime.cpp:1007 game/ui/GameplayBuffHud.cpp:27
 #: game/ui/GameplayBuffHud.h:152
 msgid "Body Resistance"
 msgstr "Odp. na magię ciała"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:1036
+#: game/events/EventRuntime.cpp:1008
 msgid "Light Resistance"
 msgstr "Odporność na magię światła"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:1037
+#: game/events/EventRuntime.cpp:1009
 msgid "Dark Resistance"
 msgstr "Odporność na magię ciemności"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:1038
+#: game/events/EventRuntime.cpp:1010
 msgid "Magic Resistance"
 msgstr "Odporność na magię"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:1039
+#: game/events/EventRuntime.cpp:1011
 msgid "Physical Resistance"
 msgstr "Odporność fizyczna"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:1058
+#: game/events/EventRuntime.cpp:1030
 msgid "{stat} +{amount} (Permanent)"
 msgstr "{stat} +{amount} (na stałe)"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:3735
+#: game/events/EventRuntime.cpp:3707
 msgid "You find {food} food"
 msgstr "Znajdujesz jedzenie: {food}"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:147 assets_dev/engine/ui/gameplay/character.yml:307 game/events/EventRuntime.cpp:994
+#: game/mm9/Mm9PrimaryStats.cpp:26 game/rules/maw/MawAuraReport.cpp:61 game/ui/screens/PartyCreationSheet.cpp:96
+msgid "Might"
+msgstr "Moc"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:119 assets_dev/engine/ui/gameplay/character.yml:335 game/events/EventRuntime.cpp:995
+#: game/rules/maw/MawAuraReport.cpp:61 game/ui/screens/PartyCreationSheet.cpp:96
+msgid "Intellect"
+msgstr "Intelekt"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:166 assets_dev/engine/ui/gameplay/character.yml:363 game/events/EventRuntime.cpp:996
+#: game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:96
+msgid "Personality"
+msgstr "Osobowość"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:78 assets_dev/engine/ui/gameplay/character.yml:391 game/events/EventRuntime.cpp:997
+#: game/mm9/Mm9PrimaryStats.cpp:28 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
+msgid "Endurance"
+msgstr "Wytrzymałość"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:214 assets_dev/engine/ui/gameplay/character.yml:447 game/events/EventRuntime.cpp:998
+#: game/mm9/Mm9PrimaryStats.cpp:30 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
+msgid "Speed"
+msgstr "Szybkość"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:4 assets_dev/engine/ui/gameplay/character.yml:419 game/events/EventRuntime.cpp:999
+#: game/mm9/Mm9PrimaryStats.cpp:29 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
+msgid "Accuracy"
+msgstr "Celność"
 
 # machine translation (Claude), review
 #: game/gameplay/ActorNameText.cpp:23
@@ -99232,15 +99541,15 @@ msgid "You have already claimed this bounty."
 msgstr "Ta nagroda została już odebrana."
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:541
-#: game/gameplay/GameplayInteractionController.cpp:620 game/indoor/IndoorWorldRuntime.cpp:16216 game/indoor/IndoorWorldRuntime.cpp:19047
+#: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:539
+#: game/gameplay/GameplayInteractionController.cpp:618 game/indoor/IndoorWorldRuntime.cpp:16216 game/indoor/IndoorWorldRuntime.cpp:19047
 #: game/indoor/IndoorWorldRuntime.cpp:832 game/items/ItemRuntime.cpp:352 game/outdoor/OutdoorInteractionController.cpp:182
-#: game/outdoor/OutdoorInteractionController.cpp:5029 game/outdoor/OutdoorWorldRuntime.cpp:17426 game/ui/GameplayCraftingBenchRenderer.cpp:293
+#: game/outdoor/OutdoorInteractionController.cpp:5031 game/outdoor/OutdoorWorldRuntime.cpp:17426 game/ui/GameplayCraftingBenchRenderer.cpp:293
 msgid "item"
 msgstr "przedmiot"
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:542 game/indoor/IndoorWorldRuntime.cpp:16217
+#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:540 game/indoor/IndoorWorldRuntime.cpp:16217
 #: game/indoor/IndoorWorldRuntime.cpp:833 game/outdoor/OutdoorInteractionController.cpp:190 game/outdoor/OutdoorWorldRuntime.cpp:17427
 msgid "You found an item ({item})!"
 msgstr "Znajdujesz przedmiot ({item})!"
@@ -99269,7 +99578,7 @@ msgstr "({item}) i {gold} szt. złota"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:566 game/gameplay/CorpseLootRuntime.cpp:639 game/gameplay/GameplayHeldItemController.cpp:262
-#: game/gameplay/GameplayInteractionController.cpp:700 game/gameplay/GameplayPartyOverlayInputController.cpp:2021 game/gameplay/GameplayPartyOverlayInputController.cpp:4084
+#: game/gameplay/GameplayInteractionController.cpp:698 game/gameplay/GameplayPartyOverlayInputController.cpp:2021 game/gameplay/GameplayPartyOverlayInputController.cpp:4084
 #: game/gameplay/GameplayPartyOverlayInputController.cpp:4177 game/gameplay/GameplayPartyOverlayInputController.cpp:4211 game/gameplay/GameplayPartyOverlayInputController.cpp:4286
 #: game/gameplay/GameplayScreenRuntime.cpp:1743 game/gameplay/GameplayScreenRuntime.cpp:2643 game/gameplay/GameplayScreenRuntime.cpp:2677
 #: game/indoor/IndoorWorldRuntime.cpp:16203 game/outdoor/OutdoorWorldRuntime.cpp:17413
@@ -99608,7 +99917,7 @@ msgstr "Gospoda"
 #: assets_dev/engine/data_tables/house_data.txt:812 assets_dev/engine/data_tables/house_data.txt:822 assets_dev/engine/data_tables/house_data.txt:832
 #: assets_dev/engine/data_tables/house_data.txt:842 assets_dev/engine/data_tables/house_data.txt:851 assets_dev/engine/data_tables/house_data.txt:859
 #: assets_dev/engine/data_tables/house_data.txt:866 assets_dev/engine/data_tables/house_data.txt:870 assets_dev/engine/data_tables/news_topics_profession.txt:11
-#: assets_dev/engine/data_tables/npc_professions.txt:12 game/gameplay/GameplayDialogController.cpp:2096
+#: assets_dev/engine/data_tables/npc_professions.txt:12 game/gameplay/GameplayDialogController.cpp:2096 game/ui/GameplayBattleOrders.cpp:91
 msgid "Healer"
 msgstr "Uzdrowiciel"
 
@@ -99934,27 +100243,27 @@ msgid "You can't rest in turn-based mode!"
 msgstr "Nie można odpoczywać, gdy rozgrywka jest turowa"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1401
+#: game/gameplay/GameplayInteractionController.cpp:1399
 msgid "Get {item}"
 msgstr "Weź: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1407
+#: game/gameplay/GameplayInteractionController.cpp:1405
 msgid "{text} [missing 3D model for item {id} - please report]"
 msgstr "{text} [brak modelu 3D przedmiotu {id} – prosimy to zgłosić]"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:241
+#: game/gameplay/GameplayInteractionController.cpp:239
 msgid "Pick Up"
 msgstr "Podnieś"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:243 game/ui/screens/NewGameScreen.cpp:2402
+#: game/gameplay/GameplayInteractionController.cpp:241 game/ui/screens/NewGameScreen.cpp:2402
 msgid "Loot"
 msgstr "Łupy"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:245
+#: game/gameplay/GameplayInteractionController.cpp:243
 msgid "Open Chest"
 msgstr "Otwórz skrzynię"
 
@@ -99975,113 +100284,113 @@ msgstr "Otwórz skrzynię"
 #: assets_dev/engine/data_tables/house_data.txt:444 assets_dev/engine/data_tables/house_data.txt:445 assets_dev/engine/data_tables/house_data.txt:446
 #: assets_dev/engine/data_tables/house_data.txt:447 assets_dev/engine/data_tables/house_data.txt:448 assets_dev/engine/data_tables/house_data.txt:449
 #: assets_dev/engine/data_tables/house_data.txt:450 assets_dev/engine/data_tables/house_data.txt:451 assets_dev/engine/data_tables/house_data.txt:453
-#: game/gameplay/GameplayInteractionController.cpp:247
+#: game/gameplay/GameplayInteractionController.cpp:245
 msgid "Enter"
 msgstr "Wejdź"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:249
+#: game/gameplay/GameplayInteractionController.cpp:247
 msgid "Open Door"
 msgstr "Otwórz drzwi"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:251
+#: game/gameplay/GameplayInteractionController.cpp:249
 msgid "Press"
 msgstr "Naciśnij"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:253
+#: game/gameplay/GameplayInteractionController.cpp:251
 msgid "Use Lever"
 msgstr "Użyj dźwigni"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:257
+#: game/gameplay/GameplayInteractionController.cpp:255
 msgid "Drop Item"
 msgstr "Upuść przedmiot"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:82 assets_dev/engine/ui/gameplay/adventurers_inn.yml:96 assets_dev/engine/ui/gameplay/character.yml:229
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:37 assets_dev/engine/ui/gameplay/statistics.yml:70 game/gameplay/GameplayInteractionController.cpp:317
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:37 assets_dev/engine/ui/gameplay/statistics.yml:70 game/gameplay/GameplayInteractionController.cpp:315
 msgid "Exit"
 msgstr "Wyjście"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:327
+#: game/gameplay/GameplayInteractionController.cpp:325
 msgid "Passage"
 msgstr "Przejście"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:332
+#: game/gameplay/GameplayInteractionController.cpp:330
 msgid "Teleport"
 msgstr "Teleport"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:337
+#: game/gameplay/GameplayInteractionController.cpp:335
 msgid "Use Switch"
 msgstr "Użyj przełącznika"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:342
+#: game/gameplay/GameplayInteractionController.cpp:340
 msgid "Use Elevator"
 msgstr "Użyj windy"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:347
+#: game/gameplay/GameplayInteractionController.cpp:345
 msgid "Use Pedestal"
 msgstr "Użyj piedestału"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/decoration_data.txt:10 game/gameplay/GameplayInteractionController.cpp:352
+#: assets_dev/engine/data_tables/decoration_data.txt:10 game/gameplay/GameplayInteractionController.cpp:350
 msgid "Fountain"
 msgstr "Fontanna"
 
 # imported from PL (MMMerge localization)
-#: game/gameplay/GameplayInteractionController.cpp:357
+#: game/gameplay/GameplayInteractionController.cpp:355
 msgid "Well"
 msgstr "Studnia"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1316 game/gameplay/GameplayInteractionController.cpp:362
+#: assets_dev/engine/data_tables/npc_topic.txt:1316 game/gameplay/GameplayInteractionController.cpp:360
 msgid "Shrine"
 msgstr "Sanktuarium"
 
 # imported from PL (MMMerge localization)
-#: game/gameplay/GameplayInteractionController.cpp:367
+#: game/gameplay/GameplayInteractionController.cpp:365
 msgid "Obelisk"
 msgstr "ó_oi_tnw_"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:372
+#: game/gameplay/GameplayInteractionController.cpp:370
 msgid "Boost"
 msgstr "Wzmocnienie"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:377
+#: game/gameplay/GameplayInteractionController.cpp:375
 msgid "Read"
 msgstr "Czytaj"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:400
+#: game/gameplay/GameplayInteractionController.cpp:398
 msgid "{action} ({target})"
 msgstr "{action} ({target})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:464
+#: game/gameplay/GameplayInteractionController.cpp:462
 msgid "Pick"
 msgstr "Weź"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:559
+#: game/gameplay/GameplayInteractionController.cpp:557
 msgid "Drop {item}"
 msgstr "Upuść: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:591 game/gameplay/GameplayInteractionController.cpp:600
+#: game/gameplay/GameplayInteractionController.cpp:589 game/gameplay/GameplayInteractionController.cpp:598
 msgid "Can't drop {item}"
 msgstr "Nie można upuścić: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:604
+#: game/gameplay/GameplayInteractionController.cpp:602
 msgid "Dropped {item}"
 msgstr "Upuszczono: {item}"
 
@@ -102049,7 +102358,7 @@ msgstr "{name} zapada na chorobę, ale zdobywa przedmiot!"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:627 assets_dev/engine/ui/gameplay/actor_inspect.yml:413 game/mm9/Mm9HirelingHud.cpp:38
-#: game/mm9/Mm9HirelingHud.cpp:52 game/rules/maw/MawItemRules.cpp:715 game/ui/GameplayStatisticsScreen.cpp:60
+#: game/mm9/Mm9HirelingHud.cpp:52 game/rules/maw/MawItemRules.cpp:741 game/ui/GameplayStatisticsScreen.cpp:60
 msgid "Physical"
 msgstr "Fizyczna"
 
@@ -102074,10 +102383,11 @@ msgstr "Fizyczna"
 #: assets_dev/engine/data_tables/monster_data.txt:534 assets_dev/engine/data_tables/monster_data.txt:535 assets_dev/engine/data_tables/monster_data.txt:550
 #: assets_dev/engine/data_tables/monster_data.txt:563 assets_dev/engine/data_tables/monster_data.txt:573 assets_dev/engine/data_tables/monster_data.txt:576
 #: assets_dev/engine/data_tables/monster_data.txt:587 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/monster_data.txt:77
-#: assets_dev/engine/data_tables/monster_data.txt:78 assets_dev/engine/data_tables/monster_data.txt:79 assets_dev/engine/ui/gameplay/actor_inspect.yml:197
-#: assets_dev/engine/ui/gameplay/character.yml:969 game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:82
-#: game/rules/maw/MawItemRules.cpp:2093 game/rules/maw/MawItemRules.cpp:2475 game/rules/maw/MawItemRules.cpp:339
-#: game/ui/GameplayHudOverlaySupport.cpp:320 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:59
+#: assets_dev/engine/data_tables/monster_data.txt:78 assets_dev/engine/data_tables/monster_data.txt:79 assets_dev/engine/rulesets/maw/patches/monster_data.txt:18
+#: assets_dev/engine/rulesets/maw/patches/monster_data.txt:236 assets_dev/engine/ui/gameplay/actor_inspect.yml:197 assets_dev/engine/ui/gameplay/character.yml:969
+#: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:82 game/rules/maw/MawItemRules.cpp:2125
+#: game/rules/maw/MawItemRules.cpp:2509 game/rules/maw/MawItemRules.cpp:339 game/ui/GameplayHudOverlaySupport.cpp:320
+#: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:59
 msgid "Fire"
 msgstr "Ogień"
 
@@ -102096,10 +102406,10 @@ msgstr "Ogień"
 #: assets_dev/engine/data_tables/monster_data.txt:572 assets_dev/engine/data_tables/monster_data.txt:588 assets_dev/engine/data_tables/monster_data.txt:635
 #: assets_dev/engine/data_tables/monster_data.txt:636 assets_dev/engine/data_tables/monster_data.txt:644 assets_dev/engine/data_tables/monster_data.txt:645
 #: assets_dev/engine/data_tables/monster_data.txt:646 assets_dev/engine/data_tables/monster_data.txt:76 assets_dev/engine/data_tables/monster_data.txt:86
-#: assets_dev/engine/data_tables/monster_data.txt:87 assets_dev/engine/data_tables/monster_data.txt:88 assets_dev/engine/ui/gameplay/actor_inspect.yml:221
-#: assets_dev/engine/ui/gameplay/character.yml:997 game/mm9/Mm9HirelingHud.cpp:40 game/rules/maw/MawClassRules.cpp:83
-#: game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:321 game/ui/GameplayStatisticsScreen.cpp:61
-#: game/ui/HouseShopLedger.cpp:61
+#: assets_dev/engine/data_tables/monster_data.txt:87 assets_dev/engine/data_tables/monster_data.txt:88 assets_dev/engine/rulesets/maw/patches/monster_data.txt:13
+#: assets_dev/engine/ui/gameplay/actor_inspect.yml:221 assets_dev/engine/ui/gameplay/character.yml:997 game/mm9/Mm9HirelingHud.cpp:40
+#: game/rules/maw/MawClassRules.cpp:83 game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:321
+#: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:61
 msgid "Air"
 msgstr "Powietrze"
 
@@ -102120,21 +102430,22 @@ msgstr "Powietrze"
 #: assets_dev/engine/data_tables/monster_data.txt:594 assets_dev/engine/data_tables/monster_data.txt:595 assets_dev/engine/data_tables/monster_data.txt:629
 #: assets_dev/engine/data_tables/monster_data.txt:630 assets_dev/engine/data_tables/monster_data.txt:631 assets_dev/engine/data_tables/monster_data.txt:75
 #: assets_dev/engine/data_tables/monster_data.txt:80 assets_dev/engine/data_tables/monster_data.txt:81 assets_dev/engine/data_tables/monster_data.txt:82
-#: assets_dev/engine/ui/gameplay/actor_inspect.yml:245 assets_dev/engine/ui/gameplay/character.yml:1025 assets_dev/engine/ui/gameplay/settings_video.yml:519
-#: assets_dev/engine/ui/menu/settings_catalog.yml:381 assets_dev/engine/ui/menu/settings_catalog.yml:387 assets_dev/engine/ui/menu/settings_catalog.yml:400
-#: assets_dev/engine/ui/menu/settings_catalog.yml:407 assets_dev/engine/ui/menu/settings_catalog.yml:413 game/mm9/Mm9HirelingHud.cpp:41
-#: game/rules/maw/MawClassRules.cpp:84 game/rules/maw/MawItemRules.cpp:340 game/ui/GameplayHudOverlaySupport.cpp:322
-#: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:63
+#: assets_dev/engine/rulesets/maw/patches/monster_data.txt:15 assets_dev/engine/ui/gameplay/actor_inspect.yml:245 assets_dev/engine/ui/gameplay/character.yml:1025
+#: assets_dev/engine/ui/gameplay/settings_video.yml:519 assets_dev/engine/ui/menu/settings_catalog.yml:397 assets_dev/engine/ui/menu/settings_catalog.yml:403
+#: assets_dev/engine/ui/menu/settings_catalog.yml:416 assets_dev/engine/ui/menu/settings_catalog.yml:423 assets_dev/engine/ui/menu/settings_catalog.yml:429
+#: game/mm9/Mm9HirelingHud.cpp:41 game/rules/maw/MawClassRules.cpp:84 game/rules/maw/MawItemRules.cpp:340
+#: game/ui/GameplayHudOverlaySupport.cpp:322 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:63
 msgid "Water"
 msgstr "Woda"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:73 assets_dev/engine/data_tables/monster_data.txt:455 assets_dev/engine/data_tables/monster_data.txt:456
 #: assets_dev/engine/data_tables/monster_data.txt:457 assets_dev/engine/data_tables/monster_data.txt:523 assets_dev/engine/data_tables/monster_data.txt:578
-#: assets_dev/engine/data_tables/monster_data.txt:579 assets_dev/engine/data_tables/monster_data.txt:580 assets_dev/engine/ui/gameplay/actor_inspect.yml:269
-#: assets_dev/engine/ui/gameplay/character.yml:1053 game/mm9/Mm9HirelingHud.cpp:42 game/rules/maw/MawClassRules.cpp:85
-#: game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:323 game/ui/GameplayStatisticsScreen.cpp:61
-#: game/ui/HouseShopLedger.cpp:65
+#: assets_dev/engine/data_tables/monster_data.txt:579 assets_dev/engine/data_tables/monster_data.txt:580 assets_dev/engine/rulesets/maw/patches/monster_data.txt:233
+#: assets_dev/engine/rulesets/maw/patches/monster_data.txt:426 assets_dev/engine/rulesets/maw/patches/monster_data.txt:432 assets_dev/engine/rulesets/maw/patches/monster_data.txt:438
+#: assets_dev/engine/ui/gameplay/actor_inspect.yml:269 assets_dev/engine/ui/gameplay/character.yml:1053 game/mm9/Mm9HirelingHud.cpp:42
+#: game/rules/maw/MawClassRules.cpp:85 game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:323
+#: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:65
 msgid "Earth"
 msgstr "Ziemia"
 
@@ -102153,7 +102464,7 @@ msgstr "Umysł"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:32 assets_dev/engine/ui/gameplay/actor_inspect.yml:341 assets_dev/engine/ui/gameplay/character.yml:1109
-#: game/mm9/Mm9HirelingHud.cpp:45 game/rules/maw/MawClassRules.cpp:87 game/rules/maw/MawItemRules.cpp:2092
+#: game/mm9/Mm9HirelingHud.cpp:45 game/rules/maw/MawClassRules.cpp:87 game/rules/maw/MawItemRules.cpp:2124
 #: game/rules/maw/MawItemRules.cpp:338 game/ui/GameplayHudOverlaySupport.cpp:327 game/ui/GameplayStatisticsScreen.cpp:62
 #: game/ui/HouseShopLedger.cpp:71
 msgid "Body"
@@ -102650,9 +102961,19 @@ msgstr "Technologia tarcz"
 msgid "Mana Shield"
 msgstr "Tarcza many"
 
+# machine translation (Claude), review
+#: game/party/SkillData.cpp:301
+msgid "Enlightenment"
+msgstr "Oświecenie"
+
+# machine translation (Claude), review
+#: game/party/SkillData.cpp:302
+msgid "Retaliation"
+msgstr "Odwet"
+
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:436 game/party/SkillData.cpp:416 game/rules/maw/MawItemRules.cpp:2244
-#: game/rules/maw/MawItemRules.cpp:3047 game/ui/GameplayAlchemyBenchView.cpp:275 game/ui/GameplayHudOverlaySupport.cpp:1514
+#: assets_dev/engine/data_tables/english/Global.txt:436 game/party/SkillData.cpp:419 game/rules/maw/MawItemRules.cpp:2276
+#: game/rules/maw/MawItemRules.cpp:3081 game/ui/GameplayAlchemyBenchView.cpp:275 game/ui/GameplayHudOverlaySupport.cpp:1514
 #: game/ui/GameplayJournalAuras.cpp:100 game/ui/GameplayJournalTrainers.cpp:63 game/ui/screens/NewGameScreenPartySheet.cpp:61
 #: game/ui/screens/PartyCreationSheet.cpp:18
 msgid "Expert"
@@ -102660,15 +102981,15 @@ msgstr "Ekspert"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:435 assets_dev/engine/data_tables/english/class.txt:26 assets_dev/engine/data_tables/monster_data.txt:310
-#: assets_dev/engine/data_tables/npc_topic.txt:815 assets_dev/engine/data_tables/npc_topic.txt:816 game/party/SkillData.cpp:418
-#: game/rules/maw/MawItemRules.cpp:3047 game/ui/GameplayAlchemyBenchView.cpp:277 game/ui/GameplayHudOverlaySupport.cpp:1515
+#: assets_dev/engine/data_tables/npc_topic.txt:815 assets_dev/engine/data_tables/npc_topic.txt:816 game/party/SkillData.cpp:421
+#: game/rules/maw/MawItemRules.cpp:3081 game/ui/GameplayAlchemyBenchView.cpp:277 game/ui/GameplayHudOverlaySupport.cpp:1515
 #: game/ui/GameplayJournalAuras.cpp:101 game/ui/GameplayJournalTrainers.cpp:63 game/ui/screens/NewGameScreenPartySheet.cpp:62
 #: game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Master"
 msgstr "Mistrz"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:420 game/rules/maw/MawItemRules.cpp:3047
+#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3081
 #: game/ui/GameplayAlchemyBenchView.cpp:279 game/ui/GameplayJournalAuras.cpp:101 game/ui/screens/NewGameScreenPartySheet.cpp:62
 #: game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Grandmaster"
@@ -103563,52 +103884,52 @@ msgid "Mass Distortion"
 msgstr "Zniekształcenie"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2582
+#: game/rules/maw/MawCombatRules.cpp:2584
 msgid "Legendary power saves you from lethal damage"
 msgstr "Legendarna moc ratuje was przed śmiertelnymi obrażeniami"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2616
+#: game/rules/maw/MawCombatRules.cpp:2618
 msgid "Divine Protection saves you from lethal damage"
 msgstr "Boska ochrona ratuje was przed śmiertelnymi obrażeniami"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2785
+#: game/rules/maw/MawCombatRules.cpp:2787
 msgid "Repaired"
 msgstr "Naprawiono"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2931
+#: game/rules/maw/MawCombatRules.cpp:2933
 msgid "{name}'s poison effect expired"
 msgstr "{name}: działanie trucizny wygasło"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2960
+#: game/rules/maw/MawCombatRules.cpp:2962
 msgid "Disintegrated"
 msgstr "Dezintegracja"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3977
+#: game/rules/maw/MawCombatRules.cpp:3979
 msgid "(CRIT!)"
 msgstr "(KRYT.!)"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3981
+#: game/rules/maw/MawCombatRules.cpp:3983
 msgid "{attacker} hits for a total of {damage} points!"
 msgstr "{attacker} trafia, zadając łącznie {damage} pkt. obrażeń!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3987
+#: game/rules/maw/MawCombatRules.cpp:3989
 msgid "{attacker} inflicts {damage} points killing {target}!"
 msgstr "{attacker} zadaje {damage} pkt. obrażeń, zabijając: {target}!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3992
+#: game/rules/maw/MawCombatRules.cpp:3994
 msgid "{attacker} hits {target} for {damage} points!"
 msgstr "{attacker} trafia: {target}, zadając {damage} pkt. obrażeń!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3992
+#: game/rules/maw/MawCombatRules.cpp:3994
 msgid "{attacker} shoots {target} for {damage} points!"
 msgstr "{attacker} strzela do: {target}, zadając {damage} pkt. obrażeń!"
 
@@ -103795,7 +104116,7 @@ msgid "Works on weapons, armour and jewellery only"
 msgstr "Działa tylko na broń, pancerze i biżuterię"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCraftingRules.cpp:479 game/rules/maw/MawItemRules.cpp:2862
+#: game/rules/maw/MawCraftingRules.cpp:479 game/rules/maw/MawItemRules.cpp:2896
 msgid "Identify the item first"
 msgstr "Najpierw zidentyfikuj przedmiot"
 
@@ -103978,41 +104299,41 @@ msgstr ""
 "Kula jest pusta: wybierz legendarny przedmiot, z którego zostanie pobrana moc"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:282
+#: game/rules/maw/MawExperienceRules.cpp:303
 msgid "Map Completed! You gain {experience} Exp, {gold} Gold"
 msgstr "Mapa ukończona! Zdobywasz {experience} pkt. dośw., {gold} szt. złota"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:283
+#: game/rules/maw/MawExperienceRules.cpp:304
 msgid ""
 "Map Completed! You gain {experience} Exp, {gold} Gold and Crafting Materials"
 msgstr ""
 "Mapa ukończona! Zdobywasz {experience} pkt. dośw., {gold} szt. złota i materiały rzemieślnicze"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:284
+#: game/rules/maw/MawExperienceRules.cpp:305
 msgid "Map Completed! You gain {experience} Exp and {gold} Gold"
 msgstr "Mapa ukończona! Zdobywasz {experience} pkt. dośw. i {gold} szt. złota"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:285
+#: game/rules/maw/MawExperienceRules.cpp:306
 msgid ""
 "Map Completed! You gain {experience} Exp and {gold} Gold and Crafting Materials"
 msgstr ""
 "Mapa ukończona! Zdobywasz {experience} pkt. dośw. i {gold} szt. złota oraz materiały rzemieślnicze"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:357
+#: game/rules/maw/MawExperienceRules.cpp:380
 msgid "Dungeon Completed!"
 msgstr "Loch ukończony!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:380
+#: game/rules/maw/MawExperienceRules.cpp:403
 msgid "You find a new Dimension Map."
 msgstr "Znajdujesz nową mapę wymiaru."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawExperienceRules.cpp:429
+#: game/rules/maw/MawExperienceRules.cpp:452
 msgid "Loading now will count as death, are you sure to proceed?"
 msgstr ""
 "Wczytanie gry zostanie policzone jako śmierć. Czy na pewno chcecie kontynuować?"
@@ -104028,288 +104349,288 @@ msgid "Legendary"
 msgstr "Legendarny"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:1091
+#: game/rules/maw/MawItemRules.cpp:1117
 msgid "I have already bought an item like that."
 msgstr "Już kupiłem podobny przedmiot."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:1107
+#: game/rules/maw/MawItemRules.cpp:1133
 msgid ""
 "No, no -- you will still need that item. Come back once the task it is for is done."
 msgstr ""
 "Nie, nie – ten przedmiot będzie wam jeszcze potrzebny. Wróćcie, gdy wykonacie zadanie, do którego służy."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2028
+#: game/rules/maw/MawItemRules.cpp:2060
 msgid "Potion Deleted in Austerity"
 msgstr "Eliksir usunięty w trybie Ascezy"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2034
+#: game/rules/maw/MawItemRules.cpp:2066
 msgid "{map} Map"
 msgstr "Mapa: {map}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2055
+#: game/rules/maw/MawItemRules.cpp:2087
 msgid "{rarity} {item}"
 msgstr "{rarity} {item}"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:46 game/rules/maw/MawItemRules.cpp:2090
+#: assets_dev/engine/data_tables/english/Global.txt:46 game/rules/maw/MawItemRules.cpp:2122
 msgid "Cold"
 msgstr "Zimno"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2091
+#: game/rules/maw/MawItemRules.cpp:2123
 msgid "Electrical"
 msgstr "Elektryczność"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2097
+#: game/rules/maw/MawItemRules.cpp:2129
 msgid ""
 "Adds {amount} to spell damage and +{intellect} Intellect and personality."
 msgstr ""
 "Dodaje {amount} do obrażeń zaklęć oraz +{intellect} do Intelektu i Osobowości."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2103
+#: game/rules/maw/MawItemRules.cpp:2135
 msgid ""
 "Adds {amount} points of Fire damage to Bow attacks and +{might} Might."
 msgstr ""
 "Dodaje {amount} pkt. obrażeń od ognia do ataków łukiem oraz +{might} do Mocy."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2103
+#: game/rules/maw/MawItemRules.cpp:2135
 msgid ""
 "Adds {amount} points of Fire damage to Melee attacks and +{might} Might."
 msgstr ""
 "Dodaje {amount} pkt. obrażeń od ognia do ataków wręcz oraz +{might} do Mocy."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2103
+#: game/rules/maw/MawItemRules.cpp:2135
 msgid "Missile"
 msgstr "Broń dystansowa"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2109
+#: game/rules/maw/MawItemRules.cpp:2141
 msgid "Adds {amount} points of {kind} damage."
 msgstr "Dodaje {amount} pkt. obrażeń typu: {kind}."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2167 game/rules/maw/MawItemRules.cpp:2187
+#: game/rules/maw/MawItemRules.cpp:2199 game/rules/maw/MawItemRules.cpp:2219
 msgid "{stat} +{amount}"
 msgstr "{stat} +{amount}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2182
+#: game/rules/maw/MawItemRules.cpp:2214
 msgid "{stat} +{percent}%"
 msgstr "{stat} +{percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2231
+#: game/rules/maw/MawItemRules.cpp:2263
 msgid ""
 "Guard {guard}: +{armor} Armor Class and +{resistance} resistances for the party when held"
 msgstr ""
 "Garda {guard}: +{armor} do klasy pancerza i +{resistance} do odporności drużyny, gdy broń jest w ręku"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2237
+#: game/rules/maw/MawItemRules.cpp:2269
 msgid "Guard {guard}: +{armor} Armor Class when held"
 msgstr "Garda {guard}: +{armor} do klasy pancerza, gdy broń jest w ręku"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2242
+#: game/rules/maw/MawItemRules.cpp:2274
 msgid "Guard {guard}: Armor Class from {skill} {mastery}"
 msgstr ""
 "Garda {guard}: klasa pancerza od stopnia {mastery} w biegłości {skill}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2256
+#: game/rules/maw/MawItemRules.cpp:2288
 msgid "Map Level: {level}"
 msgstr "Poziom mapy: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2259
+#: game/rules/maw/MawItemRules.cpp:2291
 msgid "+{percent}% craft items drop chances"
 msgstr "+{percent}% szansy na wypadnięcie materiałów rzemieślniczych"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2262
+#: game/rules/maw/MawItemRules.cpp:2294
 msgid "+{percent}% item quality"
 msgstr "+{percent}% jakości przedmiotów"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2264
+#: game/rules/maw/MawItemRules.cpp:2296
 msgid "+{percent}% monster density"
 msgstr "+{percent}% zagęszczenia potworów"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2284 game/ui/GameplayHudOverlaySupport.cpp:1170 game/ui/GameplayPartyOverlayRenderer.cpp:2760
+#: game/rules/maw/MawItemRules.cpp:2316 game/ui/GameplayHudOverlaySupport.cpp:1170 game/ui/GameplayPartyOverlayRenderer.cpp:2760
 #: game/ui/GameplayPartyOverlayRenderer.cpp:2769
 msgid "Power: {power}"
 msgstr "Moc: {power}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2302
+#: game/rules/maw/MawItemRules.cpp:2334
 msgid "{stat}: Immune"
 msgstr "{stat}: Całkowita"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2332
+#: game/rules/maw/MawItemRules.cpp:2364
 msgid "Slows its target on hit"
 msgstr "Spowalnia cel przy trafieniu"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2332
+#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2364
 msgid "Vampiric"
 msgstr "wampiryzmu"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2339
+#: game/rules/maw/MawItemRules.cpp:2371
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit"
 msgstr ""
 "Każde trafienie zadaje dodatkowo {minimum}-{maximum} pkt. obrażeń: {kind}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2339
+#: game/rules/maw/MawItemRules.cpp:2371
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit, slows"
 msgstr ""
 "Każde trafienie zadaje dodatkowo {minimum}-{maximum} pkt. obrażeń: {kind}, spowalnia"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2346
+#: game/rules/maw/MawItemRules.cpp:2378
 msgid "{kind} damage on hit"
 msgstr "Obrażenia przy trafieniu: {kind}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2346
+#: game/rules/maw/MawItemRules.cpp:2378
 msgid "{kind} damage on hit, slows"
 msgstr "Obrażenia przy trafieniu: {kind}, spowalnia"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2356
+#: game/rules/maw/MawItemRules.cpp:2388
 msgid "x{factor} damage vs {kind}"
 msgstr "x{factor} obrażeń przeciw: {kind}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2363
+#: game/rules/maw/MawItemRules.cpp:2395
 msgid "+50% skill in {skill}"
 msgstr "+50% do biegłości: {skill}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2375
+#: game/rules/maw/MawItemRules.cpp:2407
 msgid "Regenerates Hit Points"
 msgstr "Regeneruje punkty życia"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2380
+#: game/rules/maw/MawItemRules.cpp:2412
 msgid "Regenerates Spell Points"
 msgstr "Regeneruje punkty magii"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2385
+#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2417
 msgid "Swift"
 msgstr "szybkości"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2400
+#: game/rules/maw/MawItemRules.cpp:2432
 msgid "Artifact level: {level}"
 msgstr "Poziom artefaktu: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2432
+#: game/rules/maw/MawItemRules.cpp:2464
 msgid "Current bonus Damage: {percent}%"
 msgstr "Obecna premia do obrażeń: {percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2438
+#: game/rules/maw/MawItemRules.cpp:2470
 msgid "Current Reduction: {percent}%"
 msgstr "Obecna redukcja: {percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2445
+#: game/rules/maw/MawItemRules.cpp:2477
 msgid "Grows with its wearer up to level {level}"
 msgstr "Rośnie wraz z właścicielem do poziomu {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2456
+#: game/rules/maw/MawItemRules.cpp:2490
 msgid "Attack speed: {speed}"
 msgstr "Szybkość ataku: {speed}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2466
+#: game/rules/maw/MawItemRules.cpp:2500
 msgid "Quality bonus: +{percent}%"
 msgstr "Premia za jakość: +{percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2475
+#: game/rules/maw/MawItemRules.cpp:2509
 msgid "Flame"
 msgstr "Płomień"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/spells.txt:12 assets_dev/engine/data_tables/items.txt:1114 assets_dev/engine/data_tables/items.txt:1214
 #: assets_dev/engine/data_tables/items.txt:1814 assets_dev/engine/data_tables/items.txt:1916 assets_dev/engine/data_tables/items.txt:312
-#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2475
+#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2509
 msgid "Inferno"
 msgstr "Piekło"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2478
+#: game/rules/maw/MawItemRules.cpp:2512
 msgid "{aura} Aura: adds {damage} Fire Damage to any attack"
 msgstr "Aura ({aura}): dodaje {damage} pkt. obrażeń od ognia do każdego ataku"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2485
+#: game/rules/maw/MawItemRules.cpp:2519
 msgid "Vampiric Aura: damage done will restore player HP."
 msgstr "Wampiryczna aura: zadane obrażenia przywracają postaci PŻ."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2489
+#: game/rules/maw/MawItemRules.cpp:2523
 msgid "Item level: {level}"
 msgstr "Poziom przedmiotu: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2496
+#: game/rules/maw/MawItemRules.cpp:2530
 msgid "Level required: {level}"
 msgstr "Wymagany poziom: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2856
+#: game/rules/maw/MawItemRules.cpp:2890
 msgid "Not enough disarm skill"
 msgstr "Niewystarczająca biegłość rozbrajania"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2898
+#: game/rules/maw/MawItemRules.cpp:2932
 msgid "No alchemy preference when sorting"
 msgstr "Brak preferencji alchemicznej przy sortowaniu"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2902
+#: game/rules/maw/MawItemRules.cpp:2936
 msgid "{name} will now take alchemy items when sorting"
 msgstr "{name} będzie teraz zabierać przedmioty alchemiczne przy sortowaniu"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3027
+#: game/rules/maw/MawItemRules.cpp:3061
 msgid "{name}: {change}%"
 msgstr "{name}: {change}%"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3030
+#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3064
 msgid "Power"
 msgstr "Moc"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3031 game/rules/maw/MawSkillRules.cpp:1817 game/rules/maw/MawSkillRules.cpp:924
+#: game/rules/maw/MawItemRules.cpp:3065 game/rules/maw/MawSkillRules.cpp:1818 game/rules/maw/MawSkillRules.cpp:924
 msgid "Vitality"
 msgstr "Żywotność"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3046
+#: game/rules/maw/MawItemRules.cpp:3080
 msgid "Novice"
 msgstr "Nowicjusz"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3050
+#: game/rules/maw/MawItemRules.cpp:3084
 msgid "You need at least {mastery} skill in {school} Magic to open the book"
 msgstr ""
 "Aby otworzyć księgę, potrzebujesz co najmniej poziomu {mastery} w szkole magii: {school}"
@@ -104522,34 +104843,34 @@ msgid "Immune to {conditions}"
 msgstr "Odporność na: {conditions}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:716
+#: game/rules/maw/MawItemRules.cpp:742
 msgid "Demon"
 msgstr "Demony"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/arcomage_cards.txt:98 assets_dev/engine/data_tables/english/Global.txt:694 assets_dev/engine/data_tables/english/class.txt:12
 #: assets_dev/engine/data_tables/house_data.txt:776 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/npc_topic.txt:793
-#: game/rules/maw/MawItemRules.cpp:716
+#: game/rules/maw/MawItemRules.cpp:742
 msgid "Dragon"
 msgstr "Smok"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:716
+#: game/rules/maw/MawItemRules.cpp:742
 msgid "Elemental"
 msgstr "Żywiołaki"
 
 # imported from PL (MMMerge localization)
-#: assets_dev/engine/data_tables/arcomage_cards.txt:85 assets_dev/engine/data_tables/monster_data.txt:596 game/rules/maw/MawItemRules.cpp:716
+#: assets_dev/engine/data_tables/arcomage_cards.txt:85 assets_dev/engine/data_tables/monster_data.txt:596 game/rules/maw/MawItemRules.cpp:742
 msgid "Ogre"
 msgstr "Ogr"
 
 # machine translation (Claude), review
-#: assets_dev/engine/data_tables/english/Global.txt:106 game/rules/maw/MawItemRules.cpp:717
+#: assets_dev/engine/data_tables/english/Global.txt:106 game/rules/maw/MawItemRules.cpp:743
 msgid "Elf"
 msgstr "Elf"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:717
+#: game/rules/maw/MawItemRules.cpp:743
 msgid "Undead"
 msgstr "Nieumarli"
 
@@ -104828,7 +105149,7 @@ msgid "level {level}, map given"
 msgstr "poziom {level}, mapa wydana"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawProgress.cpp:187 game/rules/maw/MawSkillRules.cpp:1040 game/ui/GameplayTransportSchedule.cpp:720
+#: game/rules/maw/MawProgress.cpp:187 game/rules/maw/MawSkillRules.cpp:1041 game/ui/GameplayTransportSchedule.cpp:720
 msgid "none"
 msgstr "brak"
 
@@ -104898,44 +105219,44 @@ msgid "Currently Active Legendary effects:"
 msgstr "Aktywne efekty legendarne:"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1284
+#: game/rules/maw/MawSkillRules.cpp:1285
 msgid "You need at least {level} skill and {price} gold."
 msgstr "Potrzebujesz co najmniej {level} pkt. biegłości i {price} szt. złota."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1772
+#: game/rules/maw/MawSkillRules.cpp:1773
 msgid "Bow off"
 msgstr "Łuk wył."
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:206 assets_dev/engine/ui/gameplay/character.yml:913 assets_dev/engine/ui/gameplay/quick_reference.yml:156
-#: game/rules/maw/MawSkillRules.cpp:1772 game/ui/GameplayBattleOrders.cpp:215 game/ui/GameplayBattleOrders.cpp:328
+#: game/rules/maw/MawSkillRules.cpp:1773 game/ui/GameplayBattleOrders.cpp:219 game/ui/GameplayBattleOrders.cpp:332
 msgid "Shoot"
 msgstr "Strzały"
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:56 assets_dev/engine/ui/gameplay/actor_inspect.yml:137 assets_dev/engine/ui/gameplay/character.yml:885
-#: assets_dev/engine/ui/gameplay/character.yml:941 game/rules/maw/MawSkillRules.cpp:1773
+#: assets_dev/engine/ui/gameplay/character.yml:941 game/rules/maw/MawSkillRules.cpp:1774
 msgid "Damage"
 msgstr "Obrażenia"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1813
+#: game/rules/maw/MawSkillRules.cpp:1814
 msgid "Melee Power:"
 msgstr "Moc wręcz:"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1814
+#: game/rules/maw/MawSkillRules.cpp:1815
 msgid "Ranged Power:"
 msgstr "Moc dystansowa:"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1815 game/rules/maw/MawSkillRules.cpp:1816
+#: game/rules/maw/MawSkillRules.cpp:1816 game/rules/maw/MawSkillRules.cpp:1817
 msgid "Spell Power:"
 msgstr "Moc zaklęć:"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1817
+#: game/rules/maw/MawSkillRules.cpp:1818
 msgid "Vitality:"
 msgstr "Żywotność:"
 
@@ -105038,12 +105359,12 @@ msgid "{name}: {change}"
 msgstr "{name}: {change}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1813 game/rules/maw/MawSkillRules.cpp:918
+#: game/rules/maw/MawSkillRules.cpp:1814 game/rules/maw/MawSkillRules.cpp:918
 msgid "Melee Power"
 msgstr "Moc wręcz"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1814 game/rules/maw/MawSkillRules.cpp:919
+#: game/rules/maw/MawSkillRules.cpp:1815 game/rules/maw/MawSkillRules.cpp:919
 msgid "Ranged Power"
 msgstr "Moc dystansowa"
 
@@ -105053,7 +105374,7 @@ msgid "Spell Power ({spell})"
 msgstr "Moc zaklęć ({spell})"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSkillRules.cpp:1812 game/rules/maw/MawSkillRules.cpp:922
+#: game/rules/maw/MawSkillRules.cpp:1813 game/rules/maw/MawSkillRules.cpp:922
 msgid "Spell Power"
 msgstr "Moc zaklęć"
 
@@ -105125,71 +105446,71 @@ msgstr ""
 "Wysysanie magiczne obejmuje też obrażenia zadane zaczarowaniami broni."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:1005 game/ui/GameplayJournalAuras.cpp:896
+#: game/rules/maw/MawSpellRules.cpp:1007 game/ui/GameplayJournalAuras.cpp:896
 msgid "Blessing of this place"
 msgstr "Błogosławieństwo tego miejsca"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:1005 game/ui/GameplayJournalAuras.cpp:896
+#: game/rules/maw/MawSpellRules.cpp:1007 game/ui/GameplayJournalAuras.cpp:896
 msgid "Temple blessing"
 msgstr "Błogosławieństwo świątyni"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:1015
+#: game/rules/maw/MawSpellRules.cpp:1017
 msgid "Held by {name}"
 msgstr "Utrzymuje: {name}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:1644
+#: game/rules/maw/MawSpellRules.cpp:1646
 msgid "All buffs have been removed"
 msgstr "Usunięto wszystkie wzmocnienia"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:396
+#: game/rules/maw/MawSpellRules.cpp:398
 msgid "Needs {points} combo points."
 msgstr "Wymaga {points} pkt. kombo."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:406
+#: game/rules/maw/MawSpellRules.cpp:408
 msgid "Holding it reserves no spell points."
 msgstr "Utrzymywanie tego zaklęcia nie rezerwuje punktów magii."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:412
+#: game/rules/maw/MawSpellRules.cpp:414
 msgid "Holding it reserves <good>{n} hit points</>."
 msgstr "Utrzymywanie tego zaklęcia rezerwuje <good>{n} pkt. życia</>."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:412
+#: game/rules/maw/MawSpellRules.cpp:414
 msgid "Holding it reserves <mana>{n} spell points</>."
 msgstr "Utrzymywanie tego zaklęcia rezerwuje <mana>{n} pkt. magii</>."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:421
+#: game/rules/maw/MawSpellRules.cpp:423
 msgid "Holding it reserves <good>{p:1} %</> of maximum hit points."
 msgstr ""
 "Utrzymywanie tego zaklęcia rezerwuje <good>{p:1} %</> maksymalnych punktów życia."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:421
+#: game/rules/maw/MawSpellRules.cpp:423
 msgid "Holding it reserves <mana>{p:1} %</> of maximum spell points."
 msgstr ""
 "Utrzymywanie tego zaklęcia rezerwuje <mana>{p:1} %</> maksymalnych punktów magii."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:428
+#: game/rules/maw/MawSpellRules.cpp:430
 msgid "<bad>Not held:</> cast it to hold it, again to let it go."
 msgstr ""
 "<bad>Nieutrzymywane:</> rzuć je, aby je utrzymać, i ponownie, aby je zwolnić."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:437 game/ui/GameplayHudOverlaySupport.cpp:153 game/ui/GameplayHudOverlaySupport.cpp:162
+#: game/rules/maw/MawSpellRules.cpp:439 game/ui/GameplayHudOverlaySupport.cpp:153 game/ui/GameplayHudOverlaySupport.cpp:162
 #: game/ui/GameplayHudOverlaySupport.cpp:170
 msgid "Recovery time: {ticks}"
 msgstr "Czas odnowienia: {ticks}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawSpellRules.cpp:492
+#: game/rules/maw/MawSpellRules.cpp:494
 msgid "Not enough combo points"
 msgstr "Za mało punktów kombo"
 
@@ -105854,336 +106175,336 @@ msgid "GRANDMASTER"
 msgstr "ARCYMISTRZ"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1027 game/ui/GameplayBattleOrders.cpp:2095
+#: game/ui/GameplayBattleOrders.cpp:1031 game/ui/GameplayBattleOrders.cpp:2097
 msgid "Otherwise: hold"
 msgstr "W innym razie: czekaj"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1027 game/ui/GameplayBattleOrders.cpp:2096
+#: game/ui/GameplayBattleOrders.cpp:1031 game/ui/GameplayBattleOrders.cpp:2098
 msgid "Otherwise: the weapon"
 msgstr "W innym razie: broń"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1029
+#: game/ui/GameplayBattleOrders.cpp:1033
 msgid "the press goes to the next ready member"
 msgstr "naciśnięcie przechodzi na następną gotową postać"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1030
+#: game/ui/GameplayBattleOrders.cpp:1034
 msgid "a blow in reach, the ranged weapon beyond"
 msgstr "cios w zasięgu, dalej broń dystansowa"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1036 game/ui/GameplayBattleOrders.cpp:2043
+#: game/ui/GameplayBattleOrders.cpp:1040 game/ui/GameplayBattleOrders.cpp:2045
 msgid "Hold"
 msgstr "Czekaj"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1036 game/ui/GameplayBattleOrders.cpp:2043
+#: game/ui/GameplayBattleOrders.cpp:1040 game/ui/GameplayBattleOrders.cpp:2045
 msgid "Weapon"
 msgstr "Broń"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1045
+#: game/ui/GameplayBattleOrders.cpp:1049
 msgid "Choose the spell for the quick key on the right"
 msgstr "Wybierz zaklęcie dla szybkiego klawisza po prawej"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1046
+#: game/ui/GameplayBattleOrders.cpp:1050
 msgid "+ Add an order: click a spell or weapon on the right"
 msgstr "+ Dodaj rozkaz: kliknij zaklęcie lub broń po prawej"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1098
+#: game/ui/GameplayBattleOrders.cpp:1100
 msgid "No orders"
 msgstr "Brak rozkazów"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:234 game/ui/GameplayBattleOrders.cpp:1098
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:234 game/ui/GameplayBattleOrders.cpp:1100
 msgid "Orders"
 msgstr "Rozkazy"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1102
+#: game/ui/GameplayBattleOrders.cpp:1104
 msgid ""
 "{member} attacks with the weapon: a blow in reach, the ranged weapon beyond. Add a spell to cast it first, or start from a plan below."
 msgstr ""
 "{member} atakuje bronią: cios w zasięgu, dalej broń dystansowa. Dodaj zaklęcie, aby rzucać je najpierw, albo zacznij od planu poniżej."
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1104
+#: game/ui/GameplayBattleOrders.cpp:1106
 msgid "Select an order to set when it is used."
 msgstr "Wybierz rozkaz, aby ustawić, kiedy jest używany."
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1121
+#: game/ui/GameplayBattleOrders.cpp:1123
 msgid "Used when every ticked condition holds; none ticked: always."
 msgstr ""
 "Używany, gdy spełnione są wszystkie zaznaczone warunki; bez zaznaczonych: zawsze."
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1138
+#: game/ui/GameplayBattleOrders.cpp:1140
 msgid "the weapon's reach"
 msgstr "zasięg broni"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1139
+#: game/ui/GameplayBattleOrders.cpp:1141
 msgid "in melee reach"
 msgstr "w zasięgu wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1141
+#: game/ui/GameplayBattleOrders.cpp:1143
 msgid "beyond melee reach"
 msgstr "poza zasięgiem wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1143
+#: game/ui/GameplayBattleOrders.cpp:1145
 msgid "{minimum} units or more"
 msgstr "{minimum} jedn. lub więcej"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1144
+#: game/ui/GameplayBattleOrders.cpp:1146
 msgid "{minimum}-{maximum} units"
 msgstr "{minimum}-{maximum} jedn."
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1146
+#: game/ui/GameplayBattleOrders.cpp:1148
 msgid "Target distance"
 msgstr "Odległość celu"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1155
+#: game/ui/GameplayBattleOrders.cpp:1157
 msgid "Beyond melee reach"
 msgstr "Poza zasięgiem wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1155
+#: game/ui/GameplayBattleOrders.cpp:1157
 msgid "In melee reach"
 msgstr "W zasięgu wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1172
+#: game/ui/GameplayBattleOrders.cpp:1174
 msgid "melee"
 msgstr "wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1181
+#: game/ui/GameplayBattleOrders.cpp:1183
 msgid "any"
 msgstr "dowolna"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1188
+#: game/ui/GameplayBattleOrders.cpp:1190
 msgid "An ally's HP is below"
 msgstr "PŻ sojusznika poniżej"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1197
+#: game/ui/GameplayBattleOrders.cpp:1199
 msgid "Keep SP after casting, at least"
 msgstr "Zachowaj PM po rzuceniu, co najmniej"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1198
+#: game/ui/GameplayBattleOrders.cpp:1200
 msgid "spells only"
 msgstr "tylko zaklęcia"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1218
+#: game/ui/GameplayBattleOrders.cpp:1220
 msgid "Choose the spell for {key}"
 msgstr "Wybierz zaklęcie dla: {key}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1219
+#: game/ui/GameplayBattleOrders.cpp:1221
 msgid "Add: {member}'s spells and weapons"
 msgstr "Dodaj: zaklęcia i broń postaci {member}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1234
+#: game/ui/GameplayBattleOrders.cpp:1236
 msgid "Search"
 msgstr "Szukaj"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1282
+#: game/ui/GameplayBattleOrders.cpp:1284
 msgid "Clear the quick key"
 msgstr "Wyczyść szybki klawisz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1283
+#: game/ui/GameplayBattleOrders.cpp:1285
 msgid "Melee: a blow in reach"
 msgstr "Wręcz: cios w zasięgu"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1284
+#: game/ui/GameplayBattleOrders.cpp:1286
 msgid "Shoot: the ranged weapon"
 msgstr "Strzały: broń dystansowa"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1303
+#: game/ui/GameplayBattleOrders.cpp:1305
 msgid "QUICK KEYS"
 msgstr "SZYBKIE KLAWISZE"
 
 # imported from PL (MMMerge localization)
-#: game/ui/GameplayBattleOrders.cpp:1339
+#: game/ui/GameplayBattleOrders.cpp:1341
 msgid "empty"
 msgstr "puste"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1364
+#: game/ui/GameplayBattleOrders.cpp:1366
 msgid "Attack and the quick keys, per member"
 msgstr "Atak i szybkie klawisze każdej postaci"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1429
+#: game/ui/GameplayBattleOrders.cpp:1431
 msgid "Quick spell cleared"
 msgstr "Usunięto szybkie zaklęcie"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1430
+#: game/ui/GameplayBattleOrders.cpp:1432
 msgid "Quick spell {slot} cleared"
 msgstr "Usunięto szybkie zaklęcie {slot}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1439
+#: game/ui/GameplayBattleOrders.cpp:1441
 msgid "Quick spell set to {spell}"
 msgstr "Szybkie zaklęcie ustawione: {spell}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1440
+#: game/ui/GameplayBattleOrders.cpp:1442
 msgid "Quick spell {slot} set to {spell}"
 msgstr "Szybkie zaklęcie {slot} ustawione: {spell}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1460
+#: game/ui/GameplayBattleOrders.cpp:1462
 msgid "Attack spell cleared"
 msgstr "Usunięto zaklęcie ataku"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1467
+#: game/ui/GameplayBattleOrders.cpp:1469
 msgid "Attack spell set to {spell}"
 msgstr "Zaklęcie ataku ustawione: {spell}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1724
+#: game/ui/GameplayBattleOrders.cpp:1726
 msgid "Copied {member}'s orders"
 msgstr "Skopiowano rozkazy postaci {member}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1891
+#: game/ui/GameplayBattleOrders.cpp:1893
 msgid "assign for {member}"
 msgstr "przypisz dla postaci {member}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1918
+#: game/ui/GameplayBattleOrders.cpp:1920
 msgid "Clear {key}"
 msgstr "Wyczyść: {key}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1919
+#: game/ui/GameplayBattleOrders.cpp:1921
 msgid "Set as Quick Cast"
 msgstr "Ustaw jako szybki czar"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1920
+#: game/ui/GameplayBattleOrders.cpp:1922
 msgid "Put on {key}"
 msgstr "Przypisz do: {key}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1925
+#: game/ui/GameplayBattleOrders.cpp:1927
 msgid "Add to {member}'s attack orders"
 msgstr "Dodaj do rozkazów ataku postaci {member}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1929
+#: game/ui/GameplayBattleOrders.cpp:1931
 msgid "Open Battle Orders"
 msgstr "Otwórz rozkazy bojowe"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:2106
+#: game/ui/GameplayBattleOrders.cpp:2108
 msgid "{member}: on Attack"
 msgstr "{member}: przy ataku"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:213 game/ui/GameplayBattleOrders.cpp:327 game/ui/GameplayStatisticsScreen.cpp:909
+#: game/ui/GameplayBattleOrders.cpp:2145
+msgid "No quick keys set"
+msgstr "Brak ustawionych szybkich klawiszy"
+
+# machine translation (Claude), review
+#: game/ui/GameplayBattleOrders.cpp:217 game/ui/GameplayBattleOrders.cpp:331 game/ui/GameplayStatisticsScreen.cpp:909
 #: game/ui/GameplayStatisticsScreen.cpp:978
 msgid "Melee"
 msgstr "Wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:2143
-msgid "No quick keys set"
-msgstr "Brak ustawionych szybkich klawiszy"
-
-# machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:228
+#: game/ui/GameplayBattleOrders.cpp:232
 msgid "target in melee reach"
 msgstr "cel w zasięgu wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:233
+#: game/ui/GameplayBattleOrders.cpp:237
 msgid "target beyond melee reach"
 msgstr "cel poza zasięgiem wręcz"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:238
+#: game/ui/GameplayBattleOrders.cpp:242
 msgid "target {minimum} units or further"
 msgstr "cel w odległości {minimum} jedn. lub dalej"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:243
+#: game/ui/GameplayBattleOrders.cpp:247
 msgid "target within {maximum} units"
 msgstr "cel w odległości do {maximum} jedn."
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:246
+#: game/ui/GameplayBattleOrders.cpp:250
 msgid "target {minimum}-{maximum} units away"
 msgstr "cel w odległości {minimum}-{maximum} jedn."
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:255
+#: game/ui/GameplayBattleOrders.cpp:259
 msgid "off, settings kept"
 msgstr "wyłączony, ustawienia zachowane"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:262
+#: game/ui/GameplayBattleOrders.cpp:266
 msgid "in the weapon's reach"
 msgstr "w zasięgu broni"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:266
+#: game/ui/GameplayBattleOrders.cpp:270
 msgid "with a ranged weapon"
 msgstr "z bronią dystansową"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:276
+#: game/ui/GameplayBattleOrders.cpp:280
 msgid "an ally below {percent} % HP"
 msgstr "sojusznik poniżej {percent} % PŻ"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:281
+#: game/ui/GameplayBattleOrders.cpp:285
 msgid "keeps {percent} % SP"
 msgstr "zachowuje {percent} % PM"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:292
+#: game/ui/GameplayBattleOrders.cpp:296
 msgid "when someone needs it"
 msgstr "gdy ktoś tego potrzebuje"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:296
+#: game/ui/GameplayBattleOrders.cpp:300
 msgid "when the party lacks it"
 msgstr "gdy drużynie tego brakuje"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:300
+#: game/ui/GameplayBattleOrders.cpp:304
 msgid "always"
 msgstr "zawsze"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1054 game/ui/GameplayBattleOrders.cpp:512
+#: game/ui/GameplayBattleOrders.cpp:1058 game/ui/GameplayBattleOrders.cpp:516
 msgid "Start from"
 msgstr "Zacznij od"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:1044 game/ui/GameplayBattleOrders.cpp:715
+#: game/ui/GameplayBattleOrders.cpp:1048 game/ui/GameplayBattleOrders.cpp:719
 msgid "Six orders at most"
 msgstr "Najwyżej sześć rozkazów"
 
@@ -106192,24 +106513,45 @@ msgstr "Najwyżej sześć rozkazów"
 msgid "Quick Cast"
 msgstr "Szybki czar"
 
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/english/Global.txt:268 assets_dev/engine/data_tables/english/class.txt:2 assets_dev/engine/data_tables/monster_data.txt:206
+#: assets_dev/engine/data_tables/monster_data.txt:479 game/ui/GameplayBattleOrders.cpp:90
+msgid "Archer"
+msgstr "Łucznik"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/engine/data_tables/monster_data.txt:259 assets_dev/engine/data_tables/monster_data.txt:539 game/ui/GameplayBattleOrders.cpp:90
+msgid "Fighter"
+msgstr "Wojownik"
+
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:917 game/ui/GameplayQuickItems.cpp:922
+#: game/ui/GameplayBattleOrders.cpp:91
+msgid "Caster"
+msgstr "Czarujący"
+
+# machine translation (Claude), review
+#: game/ui/GameplayBattleOrders.cpp:91
+msgid "Copy from..."
+msgstr "Kopiuj od..."
+
+# machine translation (Claude), review
+#: game/ui/GameplayBattleOrders.cpp:921 game/ui/GameplayQuickItems.cpp:922
 msgid "no SP"
 msgstr "brak PM"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:927 game/ui/GameplayBattleOrders.cpp:929
+#: game/ui/GameplayBattleOrders.cpp:931 game/ui/GameplayBattleOrders.cpp:933
 msgid "ON ATTACK"
 msgstr "PRZY ATAKU"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:928
+#: game/ui/GameplayBattleOrders.cpp:932
 msgid "top to bottom; the first order whose conditions all hold is used"
 msgstr ""
 "od góry do dołu; używany jest pierwszy rozkaz, którego wszystkie warunki są spełnione"
 
 # machine translation (Claude), review
-#: game/ui/GameplayBattleOrders.cpp:966 game/ui/GameplayJournalAuras.cpp:244
+#: game/ui/GameplayBattleOrders.cpp:970 game/ui/GameplayJournalAuras.cpp:244
 msgid "{points} SP"
 msgstr "{points} PM"
 
@@ -107906,12 +108248,12 @@ msgid "{count} claimed, {gold} gold"
 msgstr "odebrano: {count}, {gold} szt. złota"
 
 # machine translation (Claude), review
-#: game/ui/GameplayJournalTrainers.cpp:1158
+#: game/ui/GameplayJournalTrainers.cpp:1159
 msgid "Skill, mastery, trainer or town"
 msgstr "Biegłość, poziom, nauczyciel lub miasto"
 
 # machine translation (Claude), review
-#: game/ui/GameplayJournalTrainers.cpp:1273
+#: game/ui/GameplayJournalTrainers.cpp:1274
 msgid "{count} trainer on {continent}. Click one to see where."
 msgid_plural "{count} trainers on {continent}. Click one to see where."
 msgstr[0] ""
@@ -107922,7 +108264,7 @@ msgstr[2] ""
 "{count} nauczycieli na kontynencie {continent}. Kliknij jednego, aby zobaczyć gdzie."
 
 # machine translation (Claude), review
-#: game/ui/GameplayJournalTrainers.cpp:1276
+#: game/ui/GameplayJournalTrainers.cpp:1277
 msgid "Try another word, or clear the search."
 msgstr "Spróbujcie innego słowa lub wyczyśćcie wyszukiwanie."
 
@@ -108079,7 +108421,8 @@ msgid "Dimension"
 msgstr "Wymiar"
 
 # machine translation (Claude), review
-#: assets_dev/engine/rulesets/maw/events/Global_maw.lua:482 game/ui/GameplayMapProgressBar.cpp:410 game/ui/GameplayMapProgressText.cpp:42
+#: assets_dev/engine/rulesets/maw/content/npc_topic_respec.txt:6 assets_dev/engine/rulesets/maw/events/Global_maw.lua:482 game/ui/GameplayMapProgressBar.cpp:410
+#: game/ui/GameplayMapProgressText.cpp:42
 msgid "Endless Arena"
 msgstr "Niekończąca się arena"
 
@@ -109573,10 +109916,10 @@ msgstr "czekanie kosztuje {food} jedz. dziennie"
 #: assets_dev/engine/ui/gameplay/settings_controls.yml:477 assets_dev/engine/ui/gameplay/settings_keyboard.yml:572 assets_dev/engine/ui/gameplay/settings_keyboard.yml:625
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:678 assets_dev/engine/ui/gameplay/settings_keyboard.yml:731 assets_dev/engine/ui/gameplay/settings_keyboard.yml:784
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:837 assets_dev/engine/ui/gameplay/settings_keyboard.yml:890 assets_dev/engine/ui/gameplay/settings_keyboard.yml:943
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:996 assets_dev/engine/ui/menu/settings_catalog.yml:590 assets_dev/engine/ui/menu/settings_catalog.yml:698
-#: assets_dev/engine/ui/menu/settings_catalog.yml:701 assets_dev/engine/ui/menu/settings_catalog.yml:704 assets_dev/engine/ui/menu/settings_catalog.yml:707
-#: assets_dev/engine/ui/menu/settings_catalog.yml:710 assets_dev/engine/ui/menu/settings_catalog.yml:713 assets_dev/engine/ui/menu/settings_catalog.yml:716
-#: assets_dev/engine/ui/menu/settings_catalog.yml:719 assets_dev/engine/ui/menu/settings_catalog.yml:722 game/ui/GameplayUiRenderer.cpp:1421
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:996 assets_dev/engine/ui/menu/settings_catalog.yml:606 assets_dev/engine/ui/menu/settings_catalog.yml:714
+#: assets_dev/engine/ui/menu/settings_catalog.yml:717 assets_dev/engine/ui/menu/settings_catalog.yml:720 assets_dev/engine/ui/menu/settings_catalog.yml:723
+#: assets_dev/engine/ui/menu/settings_catalog.yml:726 assets_dev/engine/ui/menu/settings_catalog.yml:729 assets_dev/engine/ui/menu/settings_catalog.yml:732
+#: assets_dev/engine/ui/menu/settings_catalog.yml:735 assets_dev/engine/ui/menu/settings_catalog.yml:738 game/ui/GameplayUiRenderer.cpp:1421
 msgid "Movement"
 msgstr "Ruch"
 
@@ -110064,7 +110407,7 @@ msgstr ""
 "Zamienione w złoto ({gold} szt.): {filtered}, zachowane: {kept}, z {count}. Wypróbuj tu ustawienie, zanim je wybierzesz."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:910 assets_dev/engine/ui/menu/settings_catalog.yml:677 game/ui/screens/MainMenuLootFilter.cpp:54
+#: assets_dev/engine/ui/gameplay/settings_game.yml:910 assets_dev/engine/ui/menu/settings_catalog.yml:693 game/ui/screens/MainMenuLootFilter.cpp:54
 #: game/ui/screens/NewGameScreen.cpp:2434
 msgid "Loot filter"
 msgstr "Filtr łupów"
@@ -110152,8 +110495,8 @@ msgid "Action Group"
 msgstr "Grupa akcji"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1897 assets_dev/engine/ui/menu/settings_catalog.yml:818 assets_dev/engine/ui/menu/settings_catalog.yml:821
-#: assets_dev/engine/ui/menu/settings_catalog.yml:824 game/ui/screens/MainMenuScreen.cpp:1484
+#: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1897 assets_dev/engine/ui/menu/settings_catalog.yml:834 assets_dev/engine/ui/menu/settings_catalog.yml:837
+#: assets_dev/engine/ui/menu/settings_catalog.yml:840 game/ui/screens/MainMenuScreen.cpp:1484
 msgid "System"
 msgstr "System"
 
@@ -110584,9 +110927,9 @@ msgid "Loot from every world"
 msgstr "Łupy ze wszystkich światów"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:434 assets_dev/engine/ui/gameplay/settings_game.yml:468 assets_dev/engine/ui/menu/settings_catalog.yml:606
-#: assets_dev/engine/ui/menu/settings_catalog.yml:607 assets_dev/engine/ui/menu/settings_catalog.yml:612 assets_dev/engine/ui/menu/settings_catalog.yml:625
-#: assets_dev/engine/ui/menu/settings_catalog.yml:634 assets_dev/engine/ui/menu/settings_catalog.yml:646 game/ui/screens/NewGameScreen.cpp:2051
+#: assets_dev/engine/ui/gameplay/settings_game.yml:434 assets_dev/engine/ui/gameplay/settings_game.yml:468 assets_dev/engine/ui/menu/settings_catalog.yml:622
+#: assets_dev/engine/ui/menu/settings_catalog.yml:623 assets_dev/engine/ui/menu/settings_catalog.yml:628 assets_dev/engine/ui/menu/settings_catalog.yml:641
+#: assets_dev/engine/ui/menu/settings_catalog.yml:650 assets_dev/engine/ui/menu/settings_catalog.yml:662 game/ui/screens/NewGameScreen.cpp:2051
 msgid "Ruleset"
 msgstr "Zestaw zasad"
 
@@ -110621,7 +110964,7 @@ msgstr "Trudność, rozwój i preferencje można zmieniać w trakcie gry."
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_game.yml:521 assets_dev/engine/ui/gameplay/settings_gameplay.yml:434 assets_dev/engine/ui/menu/settings_catalog.yml:36
-#: assets_dev/engine/ui/menu/settings_catalog.yml:613 game/ui/screens/NewGameScreen.cpp:2221
+#: assets_dev/engine/ui/menu/settings_catalog.yml:629 game/ui/screens/NewGameScreen.cpp:2221
 msgid "Difficulty"
 msgstr "Poziom trudności"
 
@@ -110646,7 +110989,7 @@ msgid "Credits: {credits}"
 msgstr "Autorzy: {credits}"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:574 assets_dev/engine/ui/menu/settings_catalog.yml:626 game/ui/screens/NewGameScreen.cpp:2322
+#: assets_dev/engine/ui/gameplay/settings_game.yml:574 assets_dev/engine/ui/menu/settings_catalog.yml:642 game/ui/screens/NewGameScreen.cpp:2322
 msgid "Progression"
 msgstr "Postęp"
 
@@ -110671,7 +111014,7 @@ msgid "Coming in a later update"
 msgstr "W jednej z kolejnych aktualizacji"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:627 assets_dev/engine/ui/menu/settings_catalog.yml:635 game/ui/screens/NewGameScreen.cpp:2352
+#: assets_dev/engine/ui/gameplay/settings_game.yml:627 assets_dev/engine/ui/menu/settings_catalog.yml:651 game/ui/screens/NewGameScreen.cpp:2352
 msgid "Challenge mode"
 msgstr "Tryb wyzwania"
 
@@ -110703,51 +111046,51 @@ msgid "Change any time"
 msgstr "Zmiana w dowolnej chwili"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:451 assets_dev/engine/ui/menu/settings_catalog.yml:652 assets_dev/engine/ui/menu/settings_catalog.yml:658
-#: assets_dev/engine/ui/menu/settings_catalog.yml:664 assets_dev/engine/ui/menu/settings_catalog.yml:670 assets_dev/engine/ui/menu/settings_catalog.yml:676
-#: assets_dev/engine/ui/menu/settings_catalog.yml:691 game/ui/screens/NewGameScreen.cpp:2413
+#: assets_dev/engine/ui/gameplay/settings_game.yml:451 assets_dev/engine/ui/menu/settings_catalog.yml:668 assets_dev/engine/ui/menu/settings_catalog.yml:674
+#: assets_dev/engine/ui/menu/settings_catalog.yml:680 assets_dev/engine/ui/menu/settings_catalog.yml:686 assets_dev/engine/ui/menu/settings_catalog.yml:692
+#: assets_dev/engine/ui/menu/settings_catalog.yml:707 game/ui/screens/NewGameScreen.cpp:2413
 msgid "Preferences"
 msgstr "Preferencje"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:726 assets_dev/engine/ui/menu/settings_catalog.yml:653 game/ui/screens/NewGameScreen.cpp:2414
+#: assets_dev/engine/ui/gameplay/settings_game.yml:726 assets_dev/engine/ui/menu/settings_catalog.yml:669 game/ui/screens/NewGameScreen.cpp:2414
 msgid "Homing projectiles"
 msgstr "Pociski samonaprowadzające"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:743 assets_dev/engine/ui/menu/settings_catalog.yml:655 game/ui/screens/NewGameScreen.cpp:2415
+#: assets_dev/engine/ui/gameplay/settings_game.yml:743 assets_dev/engine/ui/menu/settings_catalog.yml:671 game/ui/screens/NewGameScreen.cpp:2415
 msgid "Your missiles follow their target."
 msgstr "Wasze pociski podążają za celem."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:772 assets_dev/engine/ui/menu/settings_catalog.yml:659 game/ui/screens/NewGameScreen.cpp:2418
+#: assets_dev/engine/ui/gameplay/settings_game.yml:772 assets_dev/engine/ui/menu/settings_catalog.yml:675 game/ui/screens/NewGameScreen.cpp:2418
 msgid "Friendly fire"
 msgstr "Bratobójczy ogień"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:789 assets_dev/engine/ui/menu/settings_catalog.yml:661 game/ui/screens/NewGameScreen.cpp:2419
+#: assets_dev/engine/ui/gameplay/settings_game.yml:789 assets_dev/engine/ui/menu/settings_catalog.yml:677 game/ui/screens/NewGameScreen.cpp:2419
 msgid "Your attacks and spells can hurt peaceful townsfolk and guards."
 msgstr "Wasze ataki i zaklęcia mogą ranić spokojnych mieszczan i strażników."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:818 assets_dev/engine/ui/menu/settings_catalog.yml:665 game/ui/screens/NewGameScreen.cpp:2422
+#: assets_dev/engine/ui/gameplay/settings_game.yml:818 assets_dev/engine/ui/menu/settings_catalog.yml:681 game/ui/screens/NewGameScreen.cpp:2422
 msgid "Trainer hints"
 msgstr "Wskazówki o nauczycielach"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:835 assets_dev/engine/ui/menu/settings_catalog.yml:667 game/ui/screens/NewGameScreen.cpp:2423
+#: assets_dev/engine/ui/gameplay/settings_game.yml:835 assets_dev/engine/ui/menu/settings_catalog.yml:683 game/ui/screens/NewGameScreen.cpp:2423
 msgid "Skill popups name the nearest teacher of the next mastery."
 msgstr "Okienka biegłości podają najbliższego nauczyciela następnego stopnia."
 
 # imported from PL (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:279 assets_dev/engine/data_tables/items.txt:59 assets_dev/engine/data_tables/items.txt:60
 #: assets_dev/engine/data_tables/items.txt:61 assets_dev/engine/data_tables/items.txt:62 assets_dev/engine/data_tables/items.txt:63
-#: assets_dev/engine/ui/gameplay/settings_game.yml:864 assets_dev/engine/ui/menu/settings_catalog.yml:671 game/ui/screens/NewGameScreen.cpp:2426
+#: assets_dev/engine/ui/gameplay/settings_game.yml:864 assets_dev/engine/ui/menu/settings_catalog.yml:687 game/ui/screens/NewGameScreen.cpp:2426
 msgid "Bow"
 msgstr "Łuk"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:881 assets_dev/engine/ui/menu/settings_catalog.yml:673 game/ui/screens/NewGameScreen.cpp:2427
+#: assets_dev/engine/ui/gameplay/settings_game.yml:881 assets_dev/engine/ui/menu/settings_catalog.yml:689 game/ui/screens/NewGameScreen.cpp:2427
 msgid ""
 "Off: bows, crossbows and dragon breath do not shoot. A melee-only challenge."
 msgstr ""
@@ -110773,12 +111116,12 @@ msgstr ""
 "Łupy, których wolisz nie nosić, zamieniają się w złoto (40 % ich wartości)."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:963 assets_dev/engine/ui/menu/settings_catalog.yml:692 game/ui/screens/NewGameScreen.cpp:2461
+#: assets_dev/engine/ui/gameplay/settings_game.yml:963 assets_dev/engine/ui/menu/settings_catalog.yml:708 game/ui/screens/NewGameScreen.cpp:2461
 msgid "Disintegration"
 msgstr "Dezintegracja"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_game.yml:980 assets_dev/engine/ui/menu/settings_catalog.yml:694 game/ui/screens/NewGameScreen.cpp:2462
+#: assets_dev/engine/ui/gameplay/settings_game.yml:980 assets_dev/engine/ui/menu/settings_catalog.yml:710 game/ui/screens/NewGameScreen.cpp:2462
 msgid ""
 "A companion slain far past death leaves the party for the Adventurer's Inn."
 msgstr ""
@@ -111082,7 +111425,7 @@ msgid "+ Add adventurer"
 msgstr "+ Dodaj poszukiwacza przygód"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/settings_controls.yml:443 assets_dev/engine/ui/menu/settings_catalog.yml:549 game/ui/screens/NewGameScreenPartySheet.cpp:637
+#: assets_dev/engine/ui/gameplay/settings_controls.yml:443 assets_dev/engine/ui/menu/settings_catalog.yml:565 game/ui/screens/NewGameScreenPartySheet.cpp:637
 msgid "Preset"
 msgstr "Schemat"
 

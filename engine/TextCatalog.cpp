@@ -1135,6 +1135,16 @@ void TextCatalog::add(const PoFile &file, std::string_view fileName, std::string
         }
     }
 
+    if (!defaultContext.empty())
+    {
+        const auto position = std::lower_bound(m_fileContexts.begin(), m_fileContexts.end(), defaultContext);
+
+        if (position == m_fileContexts.end() || *position != defaultContext)
+        {
+            m_fileContexts.insert(position, std::string(defaultContext));
+        }
+    }
+
     for (const PoEntry &entry : file.entries)
     {
         if (entry.fuzzy || entry.translations.empty())
@@ -1209,6 +1219,19 @@ const std::string *TextCatalog::findPlural(std::string_view context, std::string
     }
 
     return &entry->second[form];
+}
+
+const std::string *TextCatalog::findInWorldFiles(std::string_view english) const
+{
+    for (const std::string &context : m_fileContexts)
+    {
+        if (const std::string *pTranslation = find(context, english))
+        {
+            return pTranslation;
+        }
+    }
+
+    return nullptr;
 }
 
 size_t TextCatalog::size() const

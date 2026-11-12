@@ -174,6 +174,10 @@ TEST_CASE("Localization: contexts, world files and plurals in a catalogue")
     CHECK(catalog.find("world:mm7", "Door") == nullptr);
     REQUIRE(catalog.findPlural("world:mm7", "{count} day", 7) != nullptr);
     CHECK(*catalog.findPlural("world:mm7", "{count} day", 7) == "{count} 天");
+    // A world's text shown in another world: found through its file, entries with their own context are not.
+    REQUIRE(catalog.findInWorldFiles("Celeste") != nullptr);
+    CHECK(*catalog.findInWorldFiles("Celeste") == "天界");
+    CHECK(catalog.findInWorldFiles("Door") == nullptr);
 }
 
 TEST_CASE("Localization: placeholders are filled by name and unknown braces stay")

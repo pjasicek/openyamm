@@ -98,6 +98,10 @@ A lookup tries the most specific context first and falls back to the next, endin
 control can override it where the same English needs a different translation (Celeste reads differently in MM7).
 Contexts are `msgctxt` in the `.po` file.
 
+A text found in none of these is looked up last in the other worlds' files (`TextCatalog::findInWorldFiles`, in the
+files' name order): a world's own text is also shown outside its world, as when the party carries an MM9 item to
+Jadame or MAW puts MM9's items into every world, and its translation exists only in `text/mm9.po`.
+
 ## C++ API
 
 ```cpp
@@ -312,7 +316,9 @@ Sources the extractor reads:
   `evt` functions, `Register*Event` titles and hints, `targetName`/`title`/`hint` fields and `tr()` calls. Literals
   joined with `..` are left out and listed by `check`.
 - Data tables: the player-visible columns in `TABLE_TEXT_COLUMNS` (identifier and note columns stay out), ruleset
-  tables and patch files (`PATCH_TEXT_COLUMNS` by column name).
+  tables and patch files (`PATCH_TEXT_COLUMNS` by column name, and columns given by position, `#1`, that are text
+  columns of the patched table). A ruleset's `ruleset.yml` says which table each of its files patches or appends
+  rows to (`quests_maw.txt` holds rows of `english/quests.txt`); appended rows have no header lines.
 - YAML: layout labels (`text: value:` under `engine/ui` and `worlds/*/ui`), the Settings catalog (names,
   descriptions, units, groups, option labels), ruleset `texts.yml` and `ruleset.yml`, world presentation
   (`world.yml`, cinematics), certificates and engine data YAML.
@@ -556,6 +562,21 @@ Done (2026-11-07 and 08):
   the numbers their question text asks for, and their review of every machine draft (no zh-cn draft is left to
   review). `import po` now replaces a machine draft and drops its mark. The monster attack types (`monster_data.txt`
   Type columns: Phys, Ener, Pois) are extracted and translated. The charset was regenerated for the new wording.
+- The zh-cn translators' 2.0 gap report (2026-11-12, issue #31, `upstream-patch/07-v2.0-gap-patch`): the texts that
+  stayed English were shown without a lookup and are fixed (MAW's spell description, translated before its recovery
+  and aura lines are added; the journal's map title; a street NPC's "name the profession"; the house title while
+  talking to a resident; the trainer page's continent tabs; the Battle Orders plan chips, which the extractor could
+  not see). Their corrected texts are imported (`import po --replace`), and their 6,850 MM9 entries copied to the
+  shared context are not needed: the lookup now ends in the other worlds' files ([Contexts](#contexts)). The
+  extractor reads MAW's appended rows and positional patch columns (49 texts no language had: the Ascension topics,
+  Cover, Mana Shield, Enlightenment and Retaliation, MAW's monster names). The effects shown after a known event's
+  hover name ("Green Barrel (+2 Endurance)", the fountains) were looked up but untranslated in every language: they
+  are their status messages without the full stop, filled from those. The 49 MAW texts and the skill names
+  Ascension (`ruleset.yml` `skillNames`, now extracted), Enlightenment and Retaliation (`trNoop` in `SkillData.cpp`)
+  are drafted in cs, de, es, fr, pl and ru. Their Chinese party voices are installed under our file names (828 in
+  `languages/zh-cn/engine/audio`, 18 in `worlds/mm6/audio`; 5 files that replace no sound of ours are left out).
+  Not taken: their translated copies of `roster.txt`, `npc_names.txt` and `npc_professions.txt` (packs do not
+  replace tables), the Arcomage sheet (packs mount no images) and `glyph_scale`.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
   they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the

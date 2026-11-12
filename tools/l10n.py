@@ -701,16 +701,34 @@ def extract_table(template, path, skip, columns, domain="engine"):
                     template.add(domain, value.strip(), f"{relative(path)}:{line}")
 
 
-def extract_patch(template, path, table, domain="engine"):
-    names = PATCH_TEXT_COLUMNS.get(table)
-    if not names:
+def extract_patch(template, path, table, domain="engine", positions=()):
+    """A patch's text values: columns named in PATCH_TEXT_COLUMNS, and columns given by position (`#1`) that are
+    among the patched table's text columns (`positions`)."""
+    names = PATCH_TEXT_COLUMNS.get(table, set())
+    if not names and not positions:
         return
     rows = parse_table(read_text(path))
     if not rows or rows[0][1][:3] != ["key", "column", "value"]:
         return
     for line, row in rows[1:]:
-        if len(row) >= 3 and row[1] in names:
+        if len(row) < 3:
+            continue
+        position = re.fullmatch(r"#(\d+)", row[1])
+        if row[1] in names or (position and int(position.group(1)) in positions):
             template.add(domain, row[2].strip(), f"{relative(path)}:{line}")
+
+
+def ruleset_table_files(ruleset):
+    """The table each file of a ruleset patches or appends rows to, as its ruleset.yml declares: {path: (table,
+    appended)}. A file's name does not tell (`quests_maw.txt` holds rows of `english/quests.txt`)."""
+    manifest = ruleset / "ruleset.yml"
+    declared = {}
+    if manifest.is_file():
+        for entry in (yaml.safe_load(read_text(manifest)) or {}).get("tables") or []:
+            for key in ("path", "append"):
+                if entry.get(key) and entry.get("table"):
+                    declared[ruleset / entry[key]] = (entry["table"], key == "append")
+    return declared
 
 
 # A world's own tables (worlds/<id>/data_tables), by header name: the row holding these names is the header.
@@ -758,18 +776,24 @@ def extract_tables(template):
     for ruleset in sorted((ENGINE / "rulesets").iterdir()):
         if not ruleset.is_dir():
             continue
+        declared = ruleset_table_files(ruleset)
         for path in sorted(ruleset.rglob("*.txt")):
             stem = path.name
             base = re.sub(r"(_patch|_new|\.append|\.columns)?\.txt$", "", stem)
             table_name = ("english/" if "english" in path.parts else "") + base + ".txt"
+            appended = False
+            if path in declared:
+                table_name, appended = declared[path]
+                base = Path(table_name).stem
             # A patch (key, column, value rows) by its header, whatever its name: `items.txt` in a ruleset's
             # patches is one, and its column names are not text.
             header = read_text(path).split("\n", 1)[0].rstrip("\r").split("\t")[:3]
-            if table_name in TABLE_TEXT_COLUMNS and header != ["key", "column", "value"]:
-                skip, columns = TABLE_TEXT_COLUMNS[table_name]
-                extract_table(template, path, skip, columns)
+            skip, columns = TABLE_TEXT_COLUMNS.get(table_name, (0, []))
+            if columns and header != ["key", "column", "value"]:
+                # Appended rows come without the table's header lines.
+                extract_table(template, path, 0 if appended else skip, columns)
             else:
-                extract_patch(template, path, base)
+                extract_patch(template, path, base, positions=columns)
 
 
 def _walk_yaml(node, path, visit, key=None):
@@ -852,6 +876,9 @@ def extract_yaml(template):
     for ruleset in sorted((ENGINE / "rulesets").iterdir()):
         if (ruleset / "ruleset.yml").is_file():
             extract_text_yaml(template, ruleset / "ruleset.yml", "engine")
+            # The ruleset's names for the game's skills (MAW: Learning is Ascension).
+            extract_yaml_values(template, ruleset / "ruleset.yml", "engine",
+                                lambda keys, key: keys[:1] == ["skillNames"])
         # MAW's legendary affix tooltips, and its dimension map affixes and quest speeches.
         if (ruleset / "data" / "items.yml").is_file():
             extract_yaml_values(template, ruleset / "data" / "items.yml", "engine",

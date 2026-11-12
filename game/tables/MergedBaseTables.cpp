@@ -1206,7 +1206,8 @@ std::string MergedNpcProfessionTable::nameAndTitle(const std::string &name, uint
         return name;
     }
 
-    return Engine::tr("{name} the {profession}", {{"name", name}, {"profession", pProfession->profession}});
+    return Engine::tr("{name} the {profession}",
+                      {{"name", Engine::localize(name)}, {"profession", Engine::localize(pProfession->profession)}});
 }
 
 bool MergedNpcNameTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)

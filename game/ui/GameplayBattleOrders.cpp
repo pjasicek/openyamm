@@ -86,6 +86,10 @@ constexpr std::array<std::string_view, 5> QuickSlotNames = {Engine::trNoop("Quic
     Engine::trNoop("Quick Spell 1"), Engine::trNoop("Quick Spell 2"), Engine::trNoop("Quick Spell 3"),
     Engine::trNoop("Quick Spell 4")};
 
+// The "Start from" chips: the four plans, then the menu of the other members' orders.
+constexpr std::array<std::string_view, 5> PresetNames = {Engine::trNoop("Fighter"), Engine::trNoop("Archer"),
+    Engine::trNoop("Caster"), Engine::trNoop("Healer"), Engine::trNoop("Copy from...")};
+
 enum class Slider
 {
     None = -1,
@@ -511,9 +515,9 @@ std::vector<Rect> presetRects(const GameplayObsidianPainter &painter, const Layo
     std::vector<Rect> rects;
     float x = Margin + painter.width(TextFont, 9, Engine::tr("Start from")) + 8;
 
-    for (const char *pName : {"Fighter", "Archer", "Caster", "Healer", "Copy from..."})
+    for (const std::string_view name : PresetNames)
     {
-        const float chipWidth = painter.width(TextFont, 8.5f, Engine::tr(pName)) + 14;
+        const float chipWidth = painter.width(TextFont, 8.5f, Engine::tr(name)) + 14;
         rects.push_back(pageRect(layout, x, presetsTop(), chipWidth, 16));
         x += chipWidth + 4;
     }
@@ -1052,13 +1056,11 @@ void renderPresets(const GameplayObsidianPainter &painter, const Layout &layout,
 {
     const std::vector<Rect> presets = presetRects(painter, layout);
     painter.text(TextFont, 9, Muted, Engine::tr("Start from"), Margin, presetsTop() + 2);
-    const std::array<const char *, 5> names = {"Fighter", "Archer", "Caster", "Healer", "Copy from..."};
-
     for (size_t index = 0; index < presets.size(); ++index)
     {
         const bool hovered = (hover.control == Control::Preset || hover.control == Control::CopyMenu)
             && hover.index == index;
-        drawChip(painter, layout, presets[index], Engine::tr(names[index]),
+        drawChip(painter, layout, presets[index], Engine::tr(PresetNames[index]),
             index + 1 == presets.size() && state.copyMenuOpen, hovered);
     }
 

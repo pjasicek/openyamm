@@ -96,6 +96,9 @@ public:
     const std::string *find(std::string_view context, std::string_view english) const;
     // The translation of a plural entry for a number; nullptr when the catalogue has none.
     const std::string *findPlural(std::string_view context, std::string_view english, uint64_t number) const;
+    // The translation a world's file gives the text, for a world's text shown in another world (an MM9 item carried
+    // to Jadame, where "world:mm9" is not the active context): the first file context, in name order, that has one.
+    const std::string *findInWorldFiles(std::string_view english) const;
 
     size_t size() const;
     bool empty() const;
@@ -104,6 +107,8 @@ private:
     static std::string key(std::string_view context, std::string_view english);
 
     std::unordered_map<std::string, std::vector<std::string>> m_translations;
+    // The default contexts of the files added ("world:mm7"), sorted.
+    std::vector<std::string> m_fileContexts;
     std::optional<PluralRule> m_pluralRule;
 };
 }

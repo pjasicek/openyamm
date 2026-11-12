@@ -383,7 +383,9 @@ SpellTooltipText MawSpellRules::spellTooltip(const Party &party, const Character
         return values;
     };
 
-    text.description = mawFillText(text.description, valuesAt(casterMastery));
+    // The table's description in the interface language now (MAW's own texts arrive translated): with the lines added
+    // below, the whole text matches no translation.
+    text.description = mawFillText(Engine::localizeKnown(text.description), valuesAt(casterMastery));
 
     for (size_t mastery = 0; mastery < text.masteryLines.size(); ++mastery)
     {

@@ -297,6 +297,9 @@ const std::unordered_map<std::string, std::string_view> DisplaySkillNames = {
     {"EnergyBlades", Engine::trNoop("Energy Blades")},
     {"ShieldTech", Engine::trNoop("Shield Tech")},
     {"ManaShield", Engine::trNoop("Mana Shield")},
+    // Shown under their own names; listed so that the extractor finds them (no table names them).
+    {"Enlightenment", Engine::trNoop("Enlightenment")},
+    {"Retaliation", Engine::trNoop("Retaliation")},
 };
 
 std::map<std::string, std::string> RulesetDisplaySkillNames;

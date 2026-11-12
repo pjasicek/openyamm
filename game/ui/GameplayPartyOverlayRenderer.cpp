@@ -4663,7 +4663,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
 
         if (pMapTitleLayout != nullptr && mapTitleResolved && pWorldRuntime != nullptr)
         {
-            context.renderLayoutLabel(*pMapTitleLayout, *mapTitleResolved, pWorldRuntime->mapName());
+            context.renderLayoutLabel(*pMapTitleLayout, *mapTitleResolved, Engine::localize(pWorldRuntime->mapName()));
         }
 
         if (mapResolved)

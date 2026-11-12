@@ -1646,7 +1646,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                     ? view.activeEventDialog().title
                     : (!view.activeEventDialog().houseTitle.empty()
                         ? view.activeEventDialog().houseTitle
-                        : pHostHouseEntry->name);
+                        : Engine::localize(pHostHouseEntry->name));
             const float renderedTitleHeight =
                 renderWrappedCenteredDialogueTitle(
                     view,
