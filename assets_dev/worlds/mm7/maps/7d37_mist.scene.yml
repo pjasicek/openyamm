@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "7d37.blv"
+# The Haunted Mansion: a thin pale floor mist on the ground floor (floors at -32) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [176, 178, 176]
+      base_height: -2
+      depth: 40
+      falloff_height: 100
+      visibility: 1650
+      max_opacity: 0.6
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

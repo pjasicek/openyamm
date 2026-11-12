@@ -1,0 +1,24 @@
+format_version: 1
+kind: "outdoor_scene_overlay"
+source:
+  geometry_file: "pbp.odm"
+# Plane Between Planes: a violet mist on the low ground and thinly on the arrival platform (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [150, 120, 190]
+      base_height: 325
+      falloff_height: 100
+      visibility: 1650
+      max_opacity: 0.6
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]
+    - color_rgb: [150, 120, 190]
+      base_height: 1157
+      depth: 150
+      falloff_height: 90
+      visibility: 2100
+      max_opacity: 0.5
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]

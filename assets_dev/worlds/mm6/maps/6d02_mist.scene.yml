@@ -1,0 +1,25 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "6d02.blv"
+# Abandoned Temple: a grey floor mist in the deep caves (floors at -1682, -2201) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [150, 154, 152]
+      base_height: -1652
+      depth: 40
+      falloff_height: 100
+      visibility: 1200
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]
+    - color_rgb: [150, 154, 152]
+      base_height: -2171
+      depth: 40
+      falloff_height: 100
+      visibility: 1200
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

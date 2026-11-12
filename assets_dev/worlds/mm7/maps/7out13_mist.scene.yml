@@ -1,0 +1,24 @@
+format_version: 1
+kind: "outdoor_scene_overlay"
+source:
+  geometry_file: "7out13.odm"
+# Tatalia: a green swamp mist on the lowlands and thinly on the arrival road (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [128, 156, 120]
+      base_height: 105
+      falloff_height: 100
+      visibility: 720
+      max_opacity: 0.75
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]
+    - color_rgb: [128, 156, 120]
+      base_height: 517
+      depth: 200
+      falloff_height: 90
+      visibility: 1350
+      max_opacity: 0.55
+      noise: 0.55
+      noise_size: 1300
+      drift: [14, 6]

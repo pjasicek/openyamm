@@ -1,0 +1,35 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "d13.blv"
+# The Troll Tomb (devdocs/MIST.md): a grey floor mist on each of its three lower floors (-1540, -748, -484). Each
+# layer has a depth, so it thins out under its own floor and leaves the floors beneath it clear.
+mist:
+  layers:
+    - color_rgb: [150, 156, 150]
+      base_height: -1510
+      depth: 40
+      falloff_height: 100
+      visibility: 1050
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]
+    - color_rgb: [150, 156, 150]
+      base_height: -718
+      depth: 40
+      falloff_height: 90
+      visibility: 1200
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]
+    - color_rgb: [150, 156, 150]
+      base_height: -454
+      depth: 40
+      falloff_height: 90
+      visibility: 1200
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

@@ -1,0 +1,25 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "t04.blv"
+# The Hall of the Pit: a grey-violet floor mist (floors at 0, -2576) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [146, 140, 160]
+      base_height: 30
+      depth: 40
+      falloff_height: 100
+      visibility: 1280
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]
+    - color_rgb: [146, 140, 160]
+      base_height: -2546
+      depth: 40
+      falloff_height: 100
+      visibility: 1280
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

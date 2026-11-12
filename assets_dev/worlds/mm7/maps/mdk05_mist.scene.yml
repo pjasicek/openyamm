@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "mdk05.blv"
+# Barrow III: a pale grey floor mist (floors at -288) (devdocs/MIST.md).
+mist:
+  layers:
+    - color_rgb: [170, 172, 170]
+      base_height: -258
+      depth: 40
+      falloff_height: 100
+      visibility: 1200
+      max_opacity: 0.8
+      noise: 0.5
+      noise_size: 420
+      drift: [8, 4]

@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "d19.blv"
+# The Necromancers' Guild (devdocs/MIST.md): a low green mist over the floor of the lower halls (floors at -832 and
+# below).
+mist:
+  layer:
+    color_rgb: [96, 150, 112]
+    base_height: -800
+    falloff_height: 110
+    visibility: 1280
+    max_opacity: 0.8
+    noise: 0.5
+    noise_size: 420
+    drift: [9, 5]
