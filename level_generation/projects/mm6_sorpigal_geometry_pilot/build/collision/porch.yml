@@ -1,0 +1,15 @@
+id: mm6.geometry_pilot.collision_porch
+title: Walk into the porch
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: oute3.odm
+- movement_segment:
+    start: {map: oute3.odm, x: -9200, y: -8370, z: 161, yaw: 0, pitch: 0}
+    expect_stop: {map: oute3.odm, x: 0, y: 0, z: 0, yaw: 0, pitch: 0}
+    seconds: 2.0
+    input: forward
+    actor_ai: false
+    tolerance_xy: 1
+    tolerance_z: 1

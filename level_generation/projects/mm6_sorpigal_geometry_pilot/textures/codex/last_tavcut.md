@@ -1,0 +1,3 @@
+Saved [tavcut.png](/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_sorpigal_geometry_pilot/textures/codex/tavcut.png) at 1024×1024 using built-in image generation and the brief’s constraints. No other repository files changed.
+
+Checked half-tile seams and mean colour; regenerated once. Remaining limitation: brightness is 1.00× the reference, below the requested ~1.10×. No in-game check.

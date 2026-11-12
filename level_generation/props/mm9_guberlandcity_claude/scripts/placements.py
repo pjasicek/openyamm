@@ -35,7 +35,7 @@ REPO = props_table.REPO
 PROJECT = props_table.PROJECT
 CLASS_KIND = {'Prop': 'prop', 'CandleProp': 'torch', 'Brazier': 'torch', 'WallTorch': 'torch', 'TreasureBag': 'chest',
               'TreasureChest': 'chest', 'RUDEProp': 'npc', 'DestructableProp': 'prop', 'Barrel': 'prop',
-              'WellMMIX': 'prop', 'SeaMonster': 'prop'}
+              'WellMMIX': 'prop', 'SeaMonster': 'prop', 'Clover': 'prop'}
 QUEST = set()
 NPC = set()
 STAND_IN = {}

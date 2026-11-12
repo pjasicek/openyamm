@@ -103,3 +103,7 @@ Reproduce (TOKEN = the workspace lease):
 5. `scripts/build_export.sh`;
 6. `lod_check.py`, `glb_close.py`, `ghost_gate_copy.py` + `ghost_gates.py` on both GLBs, `check_winding.py`;
 7. `viewer_tiers.py <glb> r100|r82`, `viewer_manifest.py`.
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Walking loop seam closed (pop 0.0648 H -> 0) with `loop_close.py`; details: [mm7_m242_animfix_claude](../mm7_m242_animfix_claude/README.md).

@@ -69,7 +69,8 @@ Result: one session, 15 Meshy credits, no hand posing, first in-game result acce
    bakes A/B/C base colours and is listed for migration there.
 9. **Runtime** (`build_runtime.sh --install`): export → `tools/prepare_actor_glb.py` → `tools/build_actor_lods.py
    --mesh-node <Mesh>` → `shrink_shadow_lods.py` → `../claude_shared/region_variants.py <in> <out> textures/<x>_ramps.json` (A/B/C skins as KHR_materials_variants that
-   share every image and differ only in ramps; the rat's own `add_variants.py` is the old baked route).
+   share every image and differ only in ramps; the rat's own `add_variants.py` is the old baked route). Then the far
+   LODs and their checks per the [LOD playbook](LOD_PLAYBOOK.md).
 10. **Install** each accepted GLB with `tools/install_model.py <project>/export/<name>.glb` (source in
     `assets_source/worlds/mm6/models/`, runtime copy in `assets_dev`; see AGENTS.md), then the **binding** in
     `assets_dev/worlds/mm6/models/actors.yml` (copy the rat entries):

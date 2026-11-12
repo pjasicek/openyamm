@@ -77,3 +77,10 @@ Rebuild: `level_generation/creatures/gait_rollout_20261031/h09/scripts/rebuild.s
 mm7_m430.glb`. Bindings: `h09/bindings.yml` (applied by the rollout coordinator). A far-LOD repair, head-bob, floor or
 reduction rerun on this model must re-graft these clips: copy the new installed source over the pre-gait copy and
 rebuild. Details, gates and doubts: [h09 README](../gait_rollout_20261031/h09/README.md).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Walking's robe sheets (cloth 41.6 % bad) came from the 2026-10-21 floor fix bending the skirt bones; Walking's skirt
+bones are back at rest and the clip is grounded with `--ground-loop` alone (cloth 7.5 %). Details, numbers and the
+rebuild commands: [mm7_m430_animfix_claude](../mm7_m430_animfix_claude/README.md). A future floor fix must not use
+`--lift-joints Walking` here.

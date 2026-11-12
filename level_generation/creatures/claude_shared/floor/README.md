@@ -119,6 +119,8 @@ README's "Floor fix" note; pre-fix exports in `work/floor_fix_base/`):
 
 The audit then passes 270 of 273 MM7 bindings. Left open: the Behemoth's Attack, whose left claw strikes 16.6–20.8
 world units into the ground at the blow; raising the root would hop the whole body, so it waits for a decision.
+Fixed 2026-11-11 (MM6–MM8 audit, anim stream): the left upper arm lifts at most 9.4° around the blow
+([mm7_m162_animfix_claude](../../mm7_m162_animfix_claude/README.md)); the floor audit passes.
 
 `--smooth CLIP SECONDS` and `--smooth-loop` (with `--smooth-hold`, `--smooth-median`) low-pass a clip's root offsets instead of
 solving each key alone; use them when the lowest point is flying cloth or a limb and the jitter gate fails on the

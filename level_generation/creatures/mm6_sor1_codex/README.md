@@ -67,3 +67,8 @@ Package [h03](../gait_rollout_20261031/h03/README.md) appended `Jog` to the inst
 Rebuild: `level_generation/creatures/gait_rollout_20261031/h03/scripts/rebuild.sh sor1` (from the pre-gait copy
 `h03/work/mm6_sor1_pre_gait.glb`). A far-LOD repair, floor-fix or any re-export of this model must re-graft `Jog`
 (copy the new source over the pre-gait copy and rerun the rebuild, or graft it with `claude_shared/graft_clips.py`).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Jog recomposed with a low knee and short quick steps, and the Walking robe re-simulated over the installed body: cloth
+bad 37.5 -> 14.0 % and 21.9 -> 11.1 %; `run_stride_length` 2.0. Details: [mm6_sor1_animfix_claude](../mm6_sor1_animfix_claude/README.md).

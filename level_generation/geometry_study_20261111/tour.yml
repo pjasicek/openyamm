@@ -1,0 +1,48 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/geometry_study_20261111/captures
+exit: true
+settle_seconds: 3.0
+shots:
+  - name: v01
+    position: [-9563.396, -8718.901, 161.0]
+    yaw: 0.023
+    pitch: 0.00300
+  - name: v02
+    position: [-8700.142, -7816.081, 161.0]
+    yaw: 0.684
+    pitch: -0.09599
+  - name: v03
+    position: [-8892.189, -6804.438, 161.0]
+    yaw: 0.567
+    pitch: -0.14101
+  - name: v04
+    position: [-9370.786, -7438.514, 161.0]
+    yaw: 2.427
+    pitch: -0.37950
+  - name: v05
+    position: [-5123.131, -11522.652, 1509.104]
+    yaw: 1.901
+    pitch: -0.14101
+  - name: v06
+    position: [-1896.542, -11397.393, 932.772]
+    yaw: 0.357
+    pitch: -0.33900
+  - name: v07
+    position: [-18421.469, -13917.778, 2338.048]
+    yaw: 4.719
+    pitch: -0.39750
+  - name: v08
+    position: [-19384.92, -11222.39, 658.781]
+    yaw: 2.181
+    pitch: -0.69900
+  - name: v09
+    position: [-21207.74, -796.141, 427.688]
+    yaw: 1.911
+    pitch: -0.48751
+  - name: v10
+    position: [-14945.122, -2586.89, 813.524]
+    yaw: 1.069
+    pitch: -0.11400
+  - name: v11
+    position: [-13566.536, 14966.146, 1268.005]
+    yaw: 1.929
+    pitch: -0.64500

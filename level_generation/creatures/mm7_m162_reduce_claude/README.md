@@ -147,3 +147,8 @@ and installed it; the bindings (`sprint: Sprint` for MAW's chase; the `Attack` f
 `level_generation/creatures/gait_rollout_20261031/h10/scripts/rebuild.sh m162`. A far-LOD repair, head-bob, reduction or
 texture rerun that rebuilds this source must keep or re-graft these clips (copy the new source over the pre-gait copy
 and rebuild).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Attack's left claw no longer strikes into the floor (left upper arm lifted at most 9.4° around the blow; floor audit
+passes). Details: [mm7_m162_animfix_claude](../mm7_m162_animfix_claude/README.md).

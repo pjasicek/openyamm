@@ -157,8 +157,9 @@ props projects to its prop and owner (`work/registry.json`): the reuse check.
 - **Lights**: no row carries a light. Each of the 99 torches names the nearest DAT `Light` (10-131 units off, 99
   distinct) in `light`; the map project's `work/lights.json` did not exist yet.
 - **Not placed**: `Painting`, `Painting0` (`models\Props\Painting_Rectangle.ABC` is not shipped by MM9: MM9 shows
-  nothing there). Not decoration classes, left to the map: the 2 `Clover` objects (`models\Props\clover.ABC`, baked by
-  the old map as static props), and the townsfolk/shopkeeper/guard creature classes (`CommonerElfFemaleA`, ...: 24 of
+  nothing there). The 2 `Clover` objects (`models\Props\clover.ABC`, baked by the old map as static props) were
+  left out at first as "not a decoration class";
+  the two `Clover` objects are placed since 2026-11-12 (Drangheim City's `mm9_clover`, the existing row; appended to `props.json` from `placements.py --preview`, the other entries left as installed): the map's clover events had nothing to click. Not decoration classes, left to the map: the townsfolk/shopkeeper/guard creature classes (`CommonerElfFemaleA`, ...: 24 of
   them reference models MM9 does not ship; `work/missing_models.txt`).
 - Chests: the DAT has no TreasureChest; the four `Chest1.ABC` objects are Props (no loot in MM9; the old map baked them as
   `MM9_chest_*`) and are `kind: prop`. The two TreasureBags (loot containers 0 and 1) are `kind: chest`.

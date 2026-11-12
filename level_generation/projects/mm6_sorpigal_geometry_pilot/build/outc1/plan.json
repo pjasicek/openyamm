@@ -1,0 +1,60 @@
+{
+  "map": "assets_dev/worlds/mm6/maps/outc1.odm",
+  "base_bmodels": 117,
+  "buildings": [
+    {
+      "name": "auto_41_C1HouseW",
+      "bmodel": 41,
+      "model_name": "C1HouseW",
+      "units_per_texel": 12,
+      "original_faces": 64,
+      "original_triangles": 173,
+      "hidden_faces": [
+        0,
+        24,
+        25,
+        27,
+        29,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        61,
+        62,
+        63
+      ],
+      "new_faces": 1483,
+      "new_triangles": 2949,
+      "new_vertices": 2043,
+      "events": [
+        [
+          64,
+          true
+        ]
+      ],
+      "seconds": 1.6
+    }
+  ]
+}

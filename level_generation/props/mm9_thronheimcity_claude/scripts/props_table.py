@@ -28,7 +28,8 @@ by PropAnim.scr `Sit`: static decorations in that pose, hidden until ARG_Unhide.
     shield2flat (Sturmford's), shield3flat, shield4flat built here.
   - Burning logs: all three LogsBurning props lie under a Fire (Prop22 under Fire4, Prop5 under Fire2 + Fire3, Prop10
     on the cinema stage under Fire5): the isle's logsburning (its flame cards), as Sturmford's Logs4.
-  - Not decoration classes, left to the map: the two Clover objects (Sturmford's decision).
+  - Clover (the two four-leaf clover patches, Drangheim City's `clover`): placed since 2026-11-12, so that the map's
+    bonus events have something to click (they were left out at first, "not a decoration class").
   - Not placed: the Argument cinema stage under the city (STAGE_Y), whose geometry the native map drops.
 
     python3 scripts/props_table.py            # work/raw_objects_compact.json, work/binding_origins.json, summary
@@ -54,7 +55,7 @@ MODELS = {
     # built here
     ('models/pickupitems/quest/kirashield.abc', 'skins/pickupitems/quest/kirashield.dtx'): 'kirashield',
     ('models/props/bench_large1.abc', 'skins/props/bench_large1.dtx'): 'benchlarge1',
-    ('models/props/clover.abc', 'skins/props/plantsandtrees/clover.dtx'): 'clover',        # not placed (SKIPPED)
+    ('models/props/clover.abc', 'skins/props/plantsandtrees/clover.dtx'): 'clover',        # Clover class; Drangheim City's
     ('models/props/coatrack2.abc', 'skins/props/coatrack2.dtx'): 'coatrack2',
     ('models/props/flowerboxew.abc', 'skins/props/flowerboxns.dtx'): 'flowerboxew',
     ('models/props/flowerboxns.abc', 'skins/props/flowerboxns.dtx'): 'flowerboxns',
@@ -159,7 +160,7 @@ _OWNERS = {
     'tableround': 'anskramkeep', 'tableround5': 'klusoshouse', 'tabletrestle2': 'klusoshouse',
     'trainingarchery1': 'sturmfordcity', 'trainingmount': 'traininghall', 'spindummy': 'traininghall',
     'strawdummy2c': 'sturmfordcity', 'strawdummy2l': 'sturmfordcity', 'strawdummy2r': 'sturmfordcity',
-    'wallcandle': 'klusoshouse', 'well': 'isleofashes'}
+    'wallcandle': 'klusoshouse', 'well': 'isleofashes', 'clover': 'drangheimcity'}
 REUSED = {prop: PROPS_DIR / f'mm9_{owner}_claude' for prop, owner in _OWNERS.items()}
 # Objects whose decoration is another prop than their (model, skin)'s: Markel dead (PropAnim static_die2), the two
 # scrolls lying flat by their script (POSE_TILT), the HidePiece variants (HIDDEN).
@@ -205,7 +206,7 @@ CHECK_POSES = {}
 POSE_TURN = {}
 SKIN_ORDER = {}
 CLASSES = {'Prop', 'CandleProp', 'DestructableProp', 'WallTorch', 'Brazier', 'Barrel', 'WellMMIX', 'TreasureChest',
-           'RUDEProp'}
+           'RUDEProp', 'Clover'}
 # Objects of those classes (and the other model-carrying objects of the DAT) that get no decoration: name -> reason.
 SKIPPED = {}
 # The Argument cinema stage under the city (DAT y < 900, about the origin: chairs, scroll, book, Sven, the burning logs

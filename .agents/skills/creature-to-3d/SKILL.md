@@ -121,8 +121,10 @@ agent visual review and user artistic acceptance separate, bound to the selected
 - Reuse existing preparation, render and verification tools after inspecting their inputs and side effects.
   Asset-specific repair scripts and vertex masks belong to their recorded revision. Add a shared helper only
   for an operation existing tools cannot perform; do not create a custom viewer or report suite per creature.
-- Texture for sharpness from the start: UVs from `level_generation/creatures/claude_shared/uv_atlas.py`, Meshy paint at
-  4K downsampled once, gentle grading, and `texture_quality.py` targets met before install, per the
+- Texture for sharpness from the start: UVs from `level_generation/creatures/claude_shared/uv_atlas.py` (defaults since
+  2026-11-12: PartUV charts, seam pass, sparrow packing; needs `partuv_venv` and `sparrow_venv`, falls back to xatlas
+  by itself), Meshy paint at 4K downsampled once, gentle grading, `gutter_fill.py` last on every map, and
+  `texture_quality.py` targets met before install, per the
   [texture quality pass](../../../level_generation/creatures/claude_shared/TEXTURE_QUALITY_PASS.md).
 - Stage assets in the creature project before installation. Complete production includes the playbook's runtime
   binding and visual checks; scoped art/handoff work needs no engine build. Keep renderer changes and directional

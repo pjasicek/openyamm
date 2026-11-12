@@ -39,15 +39,21 @@ Every Meshy-textured model is built for sharpness from the start, not repaired a
 detail 2.4x, no runtime cost: same 2K/1K maps and triangles). The user saw the earlier 2K paints on Smart UV layouts
 as smudged and blotchy; do not ship that again.
 
-- **Our UVs: `claude_shared/uv_atlas.py`** (xatlas charts, small charts merged, one density with the head denser,
-  brute-force packing with a 2 px margin), never Smart UV Project + pack on a reduced Meshy body.
+- **Our UVs: `claude_shared/uv_atlas.py`**, never Smart UV Project + pack on a reduced Meshy body. Defaults since
+  2026-11-12 ([UV study](uv_research_20261111/REPORT.md)): PartUV charts from a skin-weight part tree, small charts
+  merged, a seam pass that removes the most visible seams, one density with the head denser, sparrow packing at a
+  4-texel gap (about 70 % atlas). The old xatlas route (`charts='xatlas', packer='xatlas', seam_rounds=0`) is the
+  switch-back and the automatic fallback.
 - **Meshy paints at 4K on those UVs** (`texture_resolution: "4k"`, same 10 credits), and the colour is downsampled
-  once to 2K (normal/ORM to 1K). Never re-bake an earlier bake.
+  once to 2K (normal/ORM to 1K). Never re-bake an earlier bake. 8K only for hero models. One paint is one random draw:
+  keep the approved colour where faces or designed patterns drift, never repaint chasing the overall look.
+- **Gutters last**: `claude_shared/gutter_fill.py` re-fills every map with the nearest island texel as the final step.
 - **Grade gently**: `grade_basecolor.py --fine 1.0 --local 0.3 --ao-strength 0.5 --contrast 1.06 --saturation 1.15`
   unless a crop comparison argues otherwise. The old defaults (fine 0.5, local 0.6, AO 0.7) put blotches on the paint.
-- **Measure before install** with `claude_shared/texture_quality.py <glb>` and meet the targets: atlas use 55 % or more
-  (70 % ideal), density spread p90/p10 <= 1.3 apart from the deliberately denser head, at most 3 % of the surface
-  on islands under 8 triangles, stretch p90 <= 1.5, no zero-area UV triangles. Record the numbers in the README.
+- **Measure before install** with `claude_shared/texture_quality.py <glb>` and meet the targets: atlas use about 70 %,
+  at least 65 % (55 % for layouts made before 2026-11-12), density spread p90/p10 <= 1.3 apart from the deliberately
+  denser head, at most 3 % of the surface on islands under 8 triangles (hair cards excepted), stretch p90 <= 1.5, no
+  zero-area UV triangles. Record the numbers in the README.
 - **Routes that keep Meshy's own UVs** (the humanoid route's `enable_original_uv: false` + `transfer_uv.py`) are
   measured the same way; if they miss the targets, re-lay the UVs with `uv_atlas.py` and repaint at 4K.
 - Faces still get their own head set (Head detail below); the runtime cap stays 2K colour

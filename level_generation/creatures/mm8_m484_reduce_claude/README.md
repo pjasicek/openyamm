@@ -383,3 +383,8 @@ copy `../gait_rollout_20261031/h20/work/mm8_m484_pre_gait.glb`) and installed it
 `level_generation/creatures/gait_rollout_20261031/h20/scripts/rebuild.sh m484`. A far-LOD repair, head-bob, reduction or
 texture rerun that rebuilds this source must keep or re-graft these clips (copy the new source over the pre-gait copy
 and rebuild).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Jog and Sprint recomposed with a lower knee and a coupled kilt solve (panels move as one piece): cloth bad 43.4 ->
+17.1 % and 42.4 -> 19.7 %, kilt no longer inside the body. Details: [mm8_m484_animfix_claude](../mm8_m484_animfix_claude/README.md).

@@ -105,6 +105,7 @@ python3 ../../projects/mm9r_common/review_root.py
 - **Lights**: no row carries a light. Each of the 32 torches (13 `chandelier3`, 1 `chandelier2`, 18 `wallcandle`,
   reused with their owners' flame cards) names its nearest light in `light`, from the map project's `work/lights.json`
   (0-42 units off, 32 distinct).
-- **Not placed**: the two `Clover` objects (not a decoration class; Sturmford's decision, left to the map), and the
-  townsfolk, shopkeepers, guards and Markel (creature classes, the map's).
+- **Not placed**: the townsfolk, shopkeepers, guards and Markel (creature classes, the map's). The two `Clover`
+  objects were left out at first ("not a decoration class", Sturmford's decision);
+  the two `Clover` objects are placed since 2026-11-12 (Drangheim City's `mm9_clover`, the existing row; appended to `props.json` from `placements.py --preview`, the other entries left as installed): the map's clover events had nothing to click.
 - Not looked at in game: the sea monster in its tank, the banner's cut-out tails, the plush dragons' cut-out wings.

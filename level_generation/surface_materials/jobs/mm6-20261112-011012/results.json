@@ -1,0 +1,252 @@
+{
+ "mm6/strctclm": {
+  "problems": [],
+  "family": [
+   "mm6/strctr"
+  ],
+  "correlation": -0.274,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/hclgdr": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.371,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/hcuniq3": {
+  "problems": [],
+  "family": [
+   "mm6/hcw1ctr"
+  ],
+  "correlation": 0.682,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/pg128bl": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.504,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2frntb": {
+  "problems": [],
+  "family": [],
+  "correlation": -0.345,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/hcuniq2": {
+  "problems": [],
+  "family": [
+   "mm6/hcw1ctr"
+  ],
+  "correlation": 0.567,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/strlew": {
+  "problems": [],
+  "family": [
+   "mm6/strwin1",
+   "mm6/strle"
+  ],
+  "correlation": -0.324,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/strrew": {
+  "problems": [],
+  "family": [
+   "mm6/strre"
+  ],
+  "correlation": -0.359,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/t1wl1reb": {
+  "problems": [
+   "height misaligned by (340, 0) texels"
+  ],
+  "family": [
+   "mm6/t1wl1rea"
+  ],
+  "correlation": 0.277,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2topb": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.105,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/t1wl1leb": {
+  "problems": [
+   "height misaligned by (-155, 0) texels"
+  ],
+  "family": [
+   "mm6/t1wl1lea",
+   "mm6/t1w11a"
+  ],
+  "correlation": 0.689,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/hcbalcwb": {
+  "problems": [],
+  "family": [
+   "mm6/hcwall"
+  ],
+  "correlation": 0.464,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/bcsctr": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.62,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/hcsmdr": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.632,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2bakb": {
+  "problems": [],
+  "family": [],
+  "correlation": -0.491,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/tavrich": {
+  "problems": [
+   "height misaligned by (-3, 2) texels"
+  ],
+  "family": [],
+  "correlation": -0.237,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2frle": {
+  "problems": [],
+  "family": [],
+  "correlation": -0.583,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/hcdoor32": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.534,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/bemsv32b": {
+  "problems": [
+   "height misaligned by (0, -25) texels"
+  ],
+  "family": [],
+  "correlation": 0.769,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2frre": {
+  "problems": [
+   "height misaligned by (0, 2) texels"
+  ],
+  "family": [],
+  "correlation": -0.626,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2tople": {
+  "problems": [
+   "height misaligned by (0, 5) texels"
+  ],
+  "family": [],
+  "correlation": -0.062,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/armorrch": {
+  "problems": [],
+  "family": [],
+  "correlation": 0.713,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/ch2topre": {
+  "problems": [
+   "height misaligned by (0, -1) texels"
+  ],
+  "family": [],
+  "correlation": -0.028,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ },
+ "mm6/selfbody": {
+  "problems": [
+   "height misaligned by (0, 3) texels"
+  ],
+  "family": [],
+  "correlation": -0.18,
+  "versions": {
+   "height": 1,
+   "classes": 1
+  }
+ }
+}

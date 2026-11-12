@@ -198,3 +198,8 @@ re-simulated on the new motion); existing clips are unchanged and the bindings a
 (from `h11/work/mm7_m294_pre_gait.glb`). A far-LOD repair, head-bob, floor-fix or reduction rerun, or any re-export
 of this model, must re-graft these clips (copy the new source over the pre-gait copy and rerun that rebuild, or graft
 them with `claude_shared/graft_clips.py`).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Jog recomposed with a lower knee and shorter strides (cape cloth bad 24.0 -> 14.2 %; `run_stride_length` 2.2003).
+Details: [mm7_m294_animfix_claude](../mm7_m294_animfix_claude/README.md).

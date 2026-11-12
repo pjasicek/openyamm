@@ -111,7 +111,8 @@ to its prop and owner (`work/registry.json`): the reuse check, rerun right befor
   the native map (the map agent's decision): `CandleProp14/17/18/19` (chandelier3), `Prop10` (burning logs under
   Fire5), the chairs `Prop2/3/4/6/7/11`, `Prop9` (the treaty, arguetreaty.scr `treatymarker 4 1`), `Prop8` (Book.scr)
   and `Sven` (ARG_Sven.scr). No model is used only there (`props_table.STAGE_Y`).
-- **Not placed: the two `Clover` objects** (not a decoration class; Sturmford's decision, left to the map).
+- **The two `Clover` objects** were left out at first ("not a decoration class", Sturmford's decision);
+  the two `Clover` objects are placed since 2026-11-12 (Drangheim City's `mm9_clover`, the existing row; appended to `props.json` from `placements.py --preview`, the other entries left as installed): the map's clover events had nothing to click.
 - **Quarter turns.** FlowerBoxNS.abc and WeaponRackns.abc are authored north-south but MM9 shows them east-west (the old
   bakes: 308 x 106 and 239 x 89); without the turn they fit at 143 and 38 units, with it 0.62 and 0.58-0.60.
 - **ShelfItem05's HidePieces** (Wands1, Crystals1) name no piece of ShelfItem05.abc (five jars): plain `shelfitem05`.

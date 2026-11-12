@@ -1,0 +1,3 @@
+Saved [roofcap.png](/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_sorpigal_geometry_pilot/textures/codex/roofcap.png), 1024×1024, using built-in image generation and the brief’s constraints. No other project files changed.
+
+Checked offset seams and colour after one regeneration. Remaining limitation: a faint seam persists, and mean RGB (58,38,32) is darker than the requested (73,47,37).

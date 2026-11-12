@@ -39,7 +39,7 @@ REPO = props_table.REPO
 PROJECT = props_table.PROJECT
 CLASS_KIND = {'Prop': 'prop', 'CandleProp': 'torch', 'Brazier': 'torch', 'WallTorch': 'torch', 'TreasureBag': 'chest',
               'TreasureChest': 'chest', 'RUDEProp': 'npc', 'DestructableProp': 'prop', 'Barrel': 'prop',
-              'WellMMIX': 'prop'}
+              'WellMMIX': 'prop', 'Clover': 'prop'}
 # Kira's shield (KiraShield.scr: item 375, key 216, then removes itself).
 QUEST = {'Shield'}
 NPC = set()

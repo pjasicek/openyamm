@@ -127,8 +127,11 @@ different choice, the deviation is stated here, not silently made per asset.
   LOD" (Arm 3.1).
 - **Preserve the silhouette and remove flat-area polygons first** (Arm 3: "focus on the silhouette"; "Remove polygons
   on flatter areas and use mipmap as LOD for texture").
-- **Test each LOD at its switch distance**, not up close (Arm 3.1). OpenYAMM switches creature LODs at 550/220/88
-  projected pixels; `tools/build_actor_lods.py` uses 0.5/0.18/0.06 ratios.
+- **Test each LOD at its switch distance**, not up close (Arm 3.1). OpenYAMM switches colour LODs down at
+  450/180/72 projected pixels (500/200/80 with 10 % hysteresis) and picks shadow LODs on their own.
+- OpenYAMM creatures and props: follow the [LOD playbook](creatures/LOD_PLAYBOOK.md) (far-LOD ladder, own far textures
+  by UV correspondence, shadow LODs, gates, in-game checks, reruns after any LOD0 change). `tools/build_actor_lods.py`'s
+  0.5/0.18/0.06 ratios give LOD1 only; its LOD2/LOD3 are replaced by the playbook's ladder.
 - **Skip LODs for assets that are already simple** (Arm 3; Android).
 
 ## 8. Retopology and high-to-low baking

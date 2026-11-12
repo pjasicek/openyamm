@@ -121,3 +121,7 @@ keep_e -> keep_f = keep_e without the hand labels 3/4 -> `boundary_faces.py work
 0.027,-0.045,1.422 0.011,-0.063,1.427 0.022,-0.051,1.416` -> `spot_lock.py work/keep_i.npy work/keep_k.npy 0.015
 0.131,-0.006,1.351 0.144,0.015,1.367` -> `REA_KEEP_FACES=work/keep_k.npy REA_GROUP_RATIOS=1:0.8,2:0.7,3:0.7,4:0.7
 run_ladder.sh k 0.72` -> build as above.
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Running loop seam closed (pop 0.0776 H -> 0) with `loop_close.py`; details: [mm8_m464_animfix_claude](../mm8_m464_animfix_claude/README.md).

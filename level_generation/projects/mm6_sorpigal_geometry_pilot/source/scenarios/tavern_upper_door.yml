@@ -1,0 +1,19 @@
+id: mm6.geometry_pilot.tavern_upper_door
+title: Pilot detail geometry keeps the tavern upper door clickable
+world: mm6
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: oute3.odm
+- press_interact:
+    pose:
+      map: oute3.odm
+      x: -8790
+      y: -8370
+      z: 457
+      yaw: 0.0
+      pitch: 0
+    expect:
+      can_activate: true
+      target_index: 91
+      triggered_event: 60

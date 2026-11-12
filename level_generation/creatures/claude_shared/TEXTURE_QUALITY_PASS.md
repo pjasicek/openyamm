@@ -1,13 +1,79 @@
 # Texture quality pass (Meshy-textured creatures)
 
 **Default for every new 3D model since 2026-10-30, not only a repair pass**: lay new models' UVs, request the paint
-and grade by steps 2-5 below from the start, and meet the targets before install. The playbooks point here through
+and grade by [section 0](#0-default-pipeline-since-2026-11-12-uv-study) (since 2026-11-12; steps 2-5 below before)
+from the start, and meet the targets before install. The playbooks point here through
 [Sharp textures](../CLAUDE_CREATURE_TEXTURES.md#sharp-textures-layout-paint-resolution-and-grading-default-since-2026-10-30).
 
 Recipe for creatures whose texture reads blotchy or soft up close while the model and animations are fine. Pilot:
 MM9 Magreeb, 2026-10-30 (`../mm9_magreeb_claude/README.md`, "Texture quality pass"): atlas 33.7 % -> 54.0 %, median
 density +25 %, fine detail 2.4x, fragments 10.3 % -> 2.1 % of the surface, 10 Meshy credits. Mesh shape, rig, clips and
 binding stay; only UVs, the paint and the texture maps change.
+
+## 0. Default pipeline since 2026-11-12 (UV study)
+
+The UV study `../uv_research_20261111/REPORT.md` (m620, BHydra, Magreeb; 75 Meshy credits) replaced the layout step:
+about 70 % atlas use instead of 54-57 %, half the visible seam, stretch p90 about 1.2. Run these steps in order;
+sections 1-5 below keep the measures, the 2026-10-30 route and its history.
+
+1. **Prepare.** Geometry final (no vertex moves after the UVs), bind pose (armature at rest), triangulated; weld
+   by distance at 1e-5 m (GLB imports keep vertices split at every old UV seam: the m620 head made 584 loose pieces
+   instead of 104) and no non-square image on the material (SLIM charts get squeezed by its aspect). `unwrap()` does
+   both by default (`weld=1e-5`, `correct_aspect=False`).
+2. **Layout:** `uv_atlas.unwrap(mesh, head_groups=..., head_factor=...)` with its new defaults:
+   PartUV charts from a skin-weight part tree (`charts='partuv'`, threshold 1.25) -> small-chart merge
+   (`max_stretch` 1.25) -> seam pass (`seam_rounds=6, seam_stretch=1.25`, 72-camera visibility; pass the creature's
+   other texture sets as `vis_objects` so they occlude) -> one density, head denser -> sparrow packing
+   (`packer='sparrow'`, 4 texels between islands, one scale, 5 x 60 s). If PartUV fails it falls back to xatlas
+   charts, if sparrow is missing or fails to the xatlas packer: both print `UV_ATLAS FALLBACK` and are listed in the
+   report's `fallbacks`, next to `charts_used`, `packer_used` and the seam measures (`seams`). A multi-set body is
+   unwrapped per set (one square per Meshy job).
+3. **Gate** with `texture_quality.py` before any paint: atlas about 70 %, **minimum 65 %**; stretch p90 <= 1.5;
+   density spread <= 1.3 (head excepted); fragments <= 3 % except hair cards (and loose teeth/fins, which are a mesh
+   problem). Look at the UV heatmap.
+4. **Lock the layout.** Save the blend with the UVs and the report. Never re-run the UV script once the upload went to
+   Meshy: both sparrow and xatlas pack differently per run.
+5. **Meshy:** retexture with `ai_model: meshy-7`, `enable_original_uv: true`, `enable_pbr: true`,
+   `texture_resolution: "4k"`, `multiview_image_urls` from the HD masters (10 credits). Paint each head of a
+   multi-head creature from its own masters (one BHydra job for five heads from the whole-creature masters painted
+   the blue head olive-green). 8K (15 credits, base colour only; normal/ORM stay 4K) only for hero models: after the
+   one downsample to 2K it gained +6 % fine detail, -10 % blotch, inside the draw-to-draw noise.
+6. **Post:** colour 4K -> 2K once (Lanczos), normal/ORM as before, gentle grade (section 3 step 5), and as the very
+   last step on every map (colour, region mask, normal, metal/roughness) the **nearest-texel gutter re-fill**:
+   `gutter_fill.py <upload or runtime glb> <maps...> --in-place` (`--material` for one set of a multi-set GLB).
+7. **Acceptance:** identical-camera comparison with the approved paint (close-ups of face, hands, chest, a seam, full
+   body and a distant mip view; `../uv_research_20261111/scripts/combo/paint_views.py` places cameras from bone
+   centroids). **One paint is one random draw**: two paints of the same upload differed as much as two layouts
+   (12.0 against 12.6 levels at identical cameras). Where faces or designed patterns drift, keep the approved colour
+   (`keep_head`, `match_tone.py`, keep masks) and take only the paint's detail, or budget one second draw and pick;
+   never repaint chasing the overall look.
+
+**Redo priority** (existing models): redo only models with atlas < 50 %, fragments > 5 % or stretch p90 > 1.5,
+worst first. Others gain too little for the drift risk of a fresh paint.
+
+**Switch back to the old route** (finished projects' scripts call `unwrap()` and now get the new defaults):
+`uv_atlas.unwrap(..., charts='xatlas', packer='xatlas', seam_rounds=0)` runs the pre-2026-11-12 code path (xatlas
+charts, merge without a stretch limit, xatlas brute-force pack). Add `weld=0, correct_aspect=True` to also keep the old
+behaviour on meshes with split vertices or a non-square image (on a welded mesh without one both are no-ops). Use it to
+reproduce an old layout; a new layout uses the defaults.
+
+**Environments** (git-ignored by the `*venv/` rule; one-time setup from `level_generation/creatures/claude_shared`):
+
+```sh
+# PartUV (Apache-2.0; only the compiled pipeline is loaded, never PartField's NVIDIA-licensed code or weights)
+uv venv partuv_venv --python 3.11 && uv pip install --python partuv_venv/bin/python partuv==0.1.2 scikit-learn
+# sparrow (MIT, github.com/JeroenGar/sparrow 67bfaf8) + shapely
+python3 -m venv sparrow_venv/py && sparrow_venv/py/bin/pip install shapely numpy
+git clone https://github.com/JeroenGar/sparrow sparrow_venv/src_sparrow && git -C sparrow_venv/src_sparrow checkout 67bfaf8
+curl --proto '=https' -sSf https://sh.rustup.rs | RUSTUP_HOME=$PWD/sparrow_venv/rust/rustup \
+  CARGO_HOME=$PWD/sparrow_venv/rust/cargo sh -s -- -y --profile minimal --no-modify-path
+(cd sparrow_venv/src_sparrow && RUSTUP_HOME=$PWD/../rust/rustup CARGO_HOME=$PWD/../rust/cargo \
+  ../rust/cargo/bin/cargo build --release --features=only_final_svg) && mkdir -p sparrow_venv/bin && \
+  cp sparrow_venv/src_sparrow/target/release/sparrow sparrow_venv/bin/
+```
+
+The existing `sparrow_venv` rebuilds offline (`cargo build --release --offline ...` with the same variables). PartUV's
+PAMO step uses CUDA when present; `partuv_charts.py` retries on the CPU (`--no-pamo`) before `unwrap()` falls back.
 
 ## 1. Measure
 
@@ -31,7 +97,7 @@ Gaussians at 4 and 16 px, inside the islands) much stronger after grading means 
 
 | Measure | Target | Magreeb before -> after |
 |---|---|---|
-| Atlas use | 70 % ideal; 55-60 % is what automatic charts reach on spiky reduced Meshy bodies | 33.7 -> 54.0 % |
+| Atlas use | about 70 %, minimum 65 % with the 2026-11-12 defaults (section 0); the old xatlas route reached 55-60 % | 33.7 -> 54.0 % (70.5-72.9 % with the new layout) |
 | Density spread p90/p10 | <= 1.3 (head islands are meant to be denser) | 1.23 -> 1.12 |
 | Fragment surface | <= 3 % | 10.3 -> 2.1 % |
 | Stretch p90 | <= 1.5 | 1.52 -> 1.17 |
@@ -53,19 +119,23 @@ Work under the project lease (`tools/creature_workspace.py claim`), Blender thro
    Defaults: xatlas charts (max cost 2, roundness 0.5), charts under 12 triangles merged into the neighbour with the
    longest shared border and flattened again by Blender SLIM (reverted to xatlas pieces when they overlap, flip,
    stretch an edge over 3x or collapse a triangle), one density for all charts with the head `head_factor` denser,
-   xatlas brute-force packing into a 2048 square with a 2 px margin (about 8 min for 6k triangles).
+   xatlas brute-force packing into a 2048 square with a 2 px margin (about 8 min for 6k triangles). **Superseded on
+   2026-11-12** by the defaults of section 0 (PartUV charts, seam pass, sparrow); this route is the switch-back
+   `charts='xatlas', packer='xatlas', seam_rounds=0` and the automatic fallback when PartUV or sparrow fails.
 3. **Retexture** on the new upload with the same HD masters (`requests/retexture_v2.json`: `enable_original_uv`,
    `enable_pbr`, `texture_resolution: "4k"`, `ai_model: meshy-7`; 10 credits like 2K). Check the returned GLB with
    `texture_quality.py`: it must report the same layout as the upload.
 4. **Rebuild the maps** from Meshy's maps on our UVs only: colour downsampled 4K -> 2K (Lanczos), normal to 1K,
-   roughness, `dump_uv3d.py` and the AO bake on the new UV blend. Never re-bake an earlier bake.
+   roughness, `dump_uv3d.py` and the AO bake on the new UV blend. Never re-bake an earlier bake. Last step on every
+   map, after grading, AO, ramps and masks: `gutter_fill.py` (nearest island texel into every gutter texel).
 5. **Grade gently**: `grade_basecolor.py --ao <ao> --fine 1.0 --local 0.3 --ao-strength 0.5 --contrast 1.06
    --saturation 1.15` (defaults: fine 0.5, local 0.6, AO 0.7 made the claw blotches). Compare raw / default / gentle on
    one crop before choosing.
 6. **Regions and ramps**: re-check the tier-A ramp errors in `<x>_ramps.json`. A richer paint has more hue inside a
    region; split a region whose tier-A error exceeds about 10 levels by hue (Magreeb: olive vs bright green tips) and
    take identity pieces (eyes, teeth) out of the mask rather than giving them a ramp.
-7. **Export, LODs, runtime build, winding check, install** as the project's README rebuild; viewer tiers and manifest;
+7. **Export, LODs, runtime build, winding check, install** as the project's README rebuild (a new LOD0 layout or paint
+   needs new far LODs: [LOD playbook](../LOD_PLAYBOOK.md) §7); viewer tiers and manifest;
    `tools/run_creature_review.py --project <p> check`; flat-shading check; the project's gates; floor audit; the
    world's `*_actor_models_build_every_binding` regression; `detached_parts_audit.py`.
 8. **Sheets** at identical cameras: before/after of the close-up and full body for every tier, density heatmaps on one
@@ -73,8 +143,22 @@ Work under the project lease (`tools/creature_workspace.py claim`), Blender thro
 
 ## 4. Pitfalls
 
-- **xatlas packs differently per run.** Never re-run the UV script once its upload went to Meshy; the retexture is
-  only valid on that exact layout.
+- **xatlas and sparrow pack differently per run.** Never re-run the UV script once its upload went to Meshy; the
+  retexture is only valid on that exact layout.
+- **A non-square image on the material squeezes SLIM charts** (`uv.unwrap(correct_aspect=True)` reads it: an installed
+  4128 x 2048 atlas gave p90 stretch 2.2). `unwrap()` passes `correct_aspect=False` since 2026-11-12.
+- **Installed GLBs keep split vertices** at every old UV seam even with `merge_vertices` (m620 head: 1,011 of 4,144):
+  weld by distance before unwrapping (`unwrap()` does, `weld=1e-5`; a weld that would collapse a face or change the
+  face order is refused and reported).
+- **Blender's glTF exporter drops the material of imported creatures** when exporting a measurement GLB:
+  `../uv_research_20261111/scripts/layout/glb_add_material.py` puts a placeholder back for `texture_quality.py`.
+- **Meshy calls and Blender runs share the lease's write lock**: a `creature_meshy.py` call while a Blender run starts
+  makes the run fail with "Another creature operation is running"; retry.
+- **PartUV without the seam pass** leaves 26-48 % more visible seam than with it; PartUV's own SLIM-free charts are
+  low-stretch, but the small-chart merge re-adds stretch unless limited (`max_stretch` 1.25, the default on PartUV
+  charts). PartField (PartUV's default part tree) is NVIDIA non-commercial: the skin-weight tree replaces it.
+- **Hair cards and loose teeth stay fragments** with every unwrapper (m620 head 29-32 %, BHydra heads 3-4 %): a mesh
+  problem, not a layout one.
 - **xatlas merges islands that overlap in its input** (`add_uv_mesh`): `xatlas_charts.py pack` spreads them on shelves
   first. It also normalises width and height separately; the pack step searches the scale so the result fits one
   square and stays isotropic. Brute-force success is not monotonic in the scale, so it tries every 2 % step.
@@ -82,7 +166,8 @@ Work under the project lease (`tools/creature_workspace.py claim`), Blender thro
   King 55.9 % in 5 minutes, where ten brute-force steps found nothing in 27 (51.8 %). Try it before waiting on brute force.
 - **A set with a strip painted by other means** (Dragon King mouth): `height_share=0.8` packs into v 0..0.8 of the square
   without rotation, instead of scaling a whole square into a corner and leaving a column empty.
-- **Blender's packer** (concave, any rotation) reached only 44-51 % on these charts, worse than xatlas brute force.
+- **Blender's packer** (concave, any rotation) reached only 44-51 % on these charts, worse than xatlas brute force;
+  sparrow reached 67-71 % on the same charts (uv_research_20261111/layout/RESULTS.md, C).
 - **SLIM can collapse a strip of a merged chart to a line** (zero UV area). The density check now reverts such charts.
 - **Edit-mode round trips reallocate UV layers**: read and write through `me.uv_layers['UVMap']` each time, never a
   stored layer object. Hide unchosen faces in bmesh before `uv.unwrap`; polygon `select` flags alone are not obeyed.

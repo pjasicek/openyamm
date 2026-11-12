@@ -43,6 +43,9 @@ EXTRACTED = REPO / 'mm9/extracted'
 
 # (model file, skin files ';'-joined) as in the DAT Filename / Skin properties, lower case, forward slashes -> prop id.
 MODELS = {
+    # the clover patches (Clover class, placed since 2026-11-12: the map's bonus events need something to click);
+    # built by Drangheim City
+    ('models/props/clover.abc', 'skins/props/plantsandtrees/clover.dtx'): 'clover',
     # built here
     ('models/props/barrel-beet.abc', 'skins/props/barrel.dtx'): 'barrelbeet',
     ('models/props/barstool1.abc', 'skins/props/barstool1.dtx'): 'barstool1',
@@ -197,7 +200,7 @@ _OWNERS = {
     'tableround2': 'drangheimprison', 'throne': 'lichlab', 'trainingmount': 'traininghall',
     'spindummy': 'traininghall', 'strawdummy': 'traininghall', 'tree04': 'lindisfarnemonastery',
     'wallcandle': 'klusoshouse', 'walltorch': 'anskramkeep', 'weaponrack_new': 'tasaracademy',
-    'woodbin': 'thjoradmine'}
+    'woodbin': 'thjoradmine', 'clover': 'drangheimcity'}
 REUSED = {prop: PROPS_DIR / f'mm9_{owner}_claude' for prop, owner in _OWNERS.items()}
 # Objects whose decoration is another prop than their (model, skin)'s: the burning logs under MM9's Fire3 (FireScale
 # 4) are the isle's logsburning (its flame cards); the four others have no Fire and are the Lich Lab's unlit logs.
@@ -256,7 +259,7 @@ POSE_TURN = {}
 SKIN_ORDER = {}
 # Built though no DAT object places them: the town portal altar's cleansed skin, the model a script swaps in.
 EXTRA_BUILT = {'portalclean'}
-CLASSES = {'Prop', 'CandleProp', 'WallTorch', 'Brazier', 'TreasureBag', 'RUDEProp'}
+CLASSES = {'Prop', 'CandleProp', 'WallTorch', 'Brazier', 'TreasureBag', 'RUDEProp', 'Clover'}
 # Objects of those classes (and the other model-carrying objects of the DAT) that get no decoration: name -> reason.
 SKIPPED = {
     'Painting': 'models\\Props\\Painting_Rectangle.ABC is not in MM9 (MODELS.REZ): MM9 shows nothing there',

@@ -132,7 +132,8 @@ Run from the repository root. `<P>` is the new project, e.g. `level_generation/c
 5. **Textures:** `export_uploads.py` (body + head faces with a level neck cut), retextures, `transfer_uv.py`,
    `uv_raster.py`, `bake_ao_natm.py`, a per-project compose (`compose_natm.py`), then `build_runtime.sh --install`
    (export → `prepare_actor_glb.py` → `build_actor_lods.py` → `shrink_shadow_lods.py` → `region_variants.py` →
-   `split_attachment.py` per prop → `merge_head_material.py` → `tools/install_model.py`).
+   `split_attachment.py` per prop → `merge_head_material.py` → `tools/install_model.py`). Then rebuild LOD2/LOD3 and
+   check every level per the [LOD playbook](LOD_PLAYBOOK.md); `build_actor_lods.py`'s 6 % LOD3 is not finished.
 6. **Bind and regress:** `assets_dev/worlds/mm6/models/actors.yml` (scale = native stand height / model height,
    `yaw_offset: -1.570796327`, `stride_length`, `run_stride_length`, `events` impact/cast/launch socket, `look`,
    attachments by node), a regression case in `game/outdoor/HeadlessOutdoorDiagnostics.cpp`, then
@@ -200,7 +201,8 @@ Every arm, wrist, hand and prop fault was measurable before the user saw it. Bef
   (atlas use, density spread, fragments); request 4K paints and downsample once; grade gently.
 - Binding: `actors.yml` as in the quick start; material variants via `KHR_materials_variants` on every primitive;
   attachments inherit the carrier's variant by name; clips start at t = 0; the engine checks native clip lengths.
-- Shadow LOD is chosen by size; medium quality uses LOD1 for a person.
+- Shadow LOD is chosen by size in shadow texels, apart from the colour LOD and usually coarser
+  ([LOD playbook](LOD_PLAYBOOK.md) §1, §5).
 
 ## Special cases (rules; details in the projects)
 

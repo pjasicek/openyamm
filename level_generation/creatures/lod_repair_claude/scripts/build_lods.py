@@ -11,7 +11,8 @@ island (the island most of its corners share, then the best normal). A corner wi
 (a triangle across a UV seam) gets a copy of its vertex with the UV extended from the island's nearest LOD0 triangle,
 so no triangle stretches across the atlas. Materials and KHR_materials_variants mappings stay LOD0's.
 The shadow mesh of each rebuilt level is the merged colour LOD (build_actor_lods.merge_shadow), tucked inside the
-full-detail surface (splice_lods.tuck_shadow). Everything else stays byte-for-byte; unused buffer data is compacted.
+full-detail surface (splice_lods.tuck_shadow). Old far materials (<material>_LOD<N>) the replaced meshes used are
+dropped with their images (strip_lod_materials.py). Everything else stays byte-for-byte; unused buffer data is compacted.
 Run with a Python that has pymeshlab (README). Usage: build_lods.py <installed.glb> <node> <out.glb> <level:ratio,...>"""
 import copy
 import os
@@ -29,10 +30,26 @@ sys.path.insert(0, str(HERE.parents[3] / 'tools'))
 sys.path.insert(0, str(HERE))
 from build_actor_lods import accessor_bytes, append_accessor, merge_shadow, read_glb, write_glb  # noqa: E402
 from splice_lods import compact, floats, triangles, tuck_shadow  # noqa: E402
+from strip_lod_materials import strip_unused_lod_materials  # noqa: E402
 
 SKIN = ('JOINTS_0', 'WEIGHTS_0', 'JOINTS_1', 'WEIGHTS_1')
 # MeshLab's collapse crashes on a few meshes (MM6 Queen fighter); repair.py then retries with topology preserved.
 PRESERVE_TOPOLOGY = os.environ.get('LOD_PRESERVE_TOPOLOGY') == '1'
+# Lining fix (default since 2026-11-12, LOD_LINING_FIX=0 turns it off; also read by transfer_textures.py): cloth with a
+# separate lining joined at the hem by a thin rim (mm6_pfem skirt). The collapse merges the layers there, so outward far
+# triangles take lining corners whose LOD0 normals face inward: dark, streaked hems in game. Such a corner gets a copy
+# of its vertex with the normal flipped (and transfer_textures.py takes colours, too, only from LOD0 faces facing the
+# far triangle's way). On four robed bodies (mm7_m430, mm6_sor1, mm8_m472, mm7_m290) it removed the 5-12 % of far
+# triangles with an inward corner at equal scores (lod-batch-a, lod_repair_claude/README.md).
+LINING_FIX = os.environ.get('LOD_LINING_FIX', '1') != '0'
+AGAINST = -0.2
+# Option (LOD_CURVATURE_WEIGHT=<w>, repair.py's curvature steps use 8): thin features (bat finger bones, treant twigs,
+# skeleton ribs, lich crown spikes) erode in the plain collapse. Weight MeshLab's quadric error per vertex by
+# 1 + w x clip(curvature / median, 0, cap), so tubes and spikes survive and broad surfaces take the cut (lod-step1b,
+# 2026-11-12). LOD_CURVATURE_LEVELS=2 weights LOD2 only (default: every rebuilt level).
+CURVATURE_WEIGHT = float(os.environ.get('LOD_CURVATURE_WEIGHT', '0'))
+CURVATURE_LEVELS = {int(k) for k in os.environ.get('LOD_CURVATURE_LEVELS', '').split(',') if k.strip()}
+CURVATURE_CAP = float(os.environ.get('LOD_CURVATURE_CAP', '8'))
 
 
 def rows(doc, binary, index):
@@ -58,22 +75,46 @@ def extend_uv(point, triangle_ids, faces, positions, uv):
     return corners[0] + v * (corners[1] - corners[0]) + w * (corners[2] - corners[0])
 
 
-def collapse(points, faces, target):
-    """MeshLab quadric collapse of `faces` (indices into `points`) without optimal placement; returns the kept
-    triangles as indices into `points`."""
+def curvature_quality(vertices, face_matrix, weight):
+    """Per-vertex collapse weight 1 + weight x clip(curvature / median, 0, CURVATURE_CAP). Curvature = umbrella
+    Laplacian over the squared mean edge length, about 1 / radius (MeshLab's own curvature filter refuses non-manifold
+    meshes)."""
+    edges = np.concatenate([face_matrix[:, [0, 1]], face_matrix[:, [1, 2]], face_matrix[:, [2, 0]]])
+    edges = np.unique(np.sort(edges, axis=1), axis=0)
+    total, count, length2 = np.zeros_like(vertices), np.zeros(len(vertices)), np.zeros(len(vertices))
+    for a, b in ((0, 1), (1, 0)):
+        np.add.at(total, edges[:, a], vertices[edges[:, b]])
+        np.add.at(count, edges[:, a], 1)
+        np.add.at(length2, edges[:, a], ((vertices[edges[:, a]] - vertices[edges[:, b]]) ** 2).sum(1))
+    count = np.maximum(count, 1)
+    laplacian = np.linalg.norm(total / count[:, None] - vertices, axis=1)
+    curvature = 2 * laplacian / np.maximum(length2 / count, 1e-12)
+    scale = np.median(curvature[curvature > 0]) if (curvature > 0).any() else 1.0
+    return 1.0 + weight * np.clip(curvature / scale, 0, CURVATURE_CAP)
+
+
+def collapse(points, faces, target, curvature_weight=0.0):
+    """MeshLab quadric collapse of `faces` (indices into `points`) without optimal placement, its error optionally
+    weighted by curvature; returns the kept triangles as indices into `points`."""
     used, local = np.unique(faces, return_inverse=True)
+    face_matrix = local.reshape(-1, 3).astype(np.int32)
     meshes = pymeshlab.MeshSet()
-    meshes.add_mesh(pymeshlab.Mesh(vertex_matrix=points[used], face_matrix=local.reshape(-1, 3).astype(np.int32)))
+    if curvature_weight:
+        quality = curvature_quality(points[used], face_matrix, curvature_weight)
+        meshes.add_mesh(pymeshlab.Mesh(vertex_matrix=points[used], face_matrix=face_matrix, v_scalar_array=quality))
+    else:
+        meshes.add_mesh(pymeshlab.Mesh(vertex_matrix=points[used], face_matrix=face_matrix))
     meshes.meshing_decimation_quadric_edge_collapse(
         targetfacenum=max(int(round(target)), 12), qualitythr=.3, preserveboundary=False, optimalplacement=False,
-        preservenormal=True, planarquadric=True, preservetopology=PRESERVE_TOPOLOGY)
+        preservenormal=True, planarquadric=True, preservetopology=PRESERVE_TOPOLOGY,
+        qualityweight=bool(curvature_weight))
     distance, nearest = cKDTree(points[used]).query(meshes.current_mesh().vertex_matrix())
     if distance.max() > 1e-9:
         raise ValueError(f'decimated vertex not found in LOD0 ({distance.max():.2e} m)')
     return used[nearest][meshes.current_mesh().face_matrix().astype(np.int64)]
 
 
-def decimate_primitive(doc, binary, primitive, ratio):
+def decimate_primitive(doc, binary, primitive, ratio, curvature_weight=0.0):
     """Decimated triangles of the primitive as corner references: a non-negative value is a vertex of the
     primitive, -1 - k is the k-th new vertex (a copy of vertex `source` with UV `uv`, for corners whose triangle
     crosses a UV seam). Returns (corners, [(source, uv), ...])."""
@@ -109,7 +150,7 @@ def decimate_primitive(doc, binary, primitive, ratio):
     input_faces = welded[faces]
     input_faces = input_faces[(input_faces[:, 0] != input_faces[:, 1]) & (input_faces[:, 1] != input_faces[:, 2])
                               & (input_faces[:, 0] != input_faces[:, 2])]
-    corners = collapse(points, input_faces, len(faces) * ratio)
+    corners = collapse(points, input_faces, len(faces) * ratio, curvature_weight)
     corners = corners[(corners[:, 0] != corners[:, 1]) & (corners[:, 1] != corners[:, 2])
                       & (corners[:, 0] != corners[:, 2])]
     # A small closed piece (crystal facet, tooth) can collapse to two back-to-back triangles: invisible, and flagged
@@ -134,6 +175,22 @@ def decimate_primitive(doc, binary, primitive, ratio):
     face_normals /= np.maximum(np.linalg.norm(face_normals, axis=1, keepdims=True), 1e-12)
     result = np.zeros_like(corners)
     added = []
+    flipped = {}
+
+    def corner_vertex(vertex, f, uv_override=None):
+        """Corner reference for `vertex` in triangle f: the vertex itself, or with LINING_FIX a copy with the normal
+        flipped when it faces against the triangle; uv_override makes a seam copy (always added)."""
+        flip = LINING_FIX and normals[vertex] @ face_normals[f] < AGAINST
+        if uv_override is None and not flip:
+            return vertex
+        if uv_override is None:
+            if vertex not in flipped:
+                added.append((vertex, None, True))
+                flipped[vertex] = len(added)
+            return -flipped[vertex]
+        added.append((vertex, uv_override, flip))
+        return -len(added)
+
     for f, triangle in enumerate(corners):
         candidates = [np.array(members[p]) for p in triangle]
         votes = {}
@@ -144,18 +201,21 @@ def decimate_primitive(doc, binary, primitive, ratio):
         for k, c in enumerate(candidates):
             inside = c[island[c] == chosen]
             if len(inside):
-                result[f, k] = inside[np.argmax(normals[inside] @ face_normals[f])]
+                result[f, k] = corner_vertex(inside[np.argmax(normals[inside] @ face_normals[f])], f)
             else:
                 best = c[np.argmax(normals[c] @ face_normals[f])]
                 new_uv = extend_uv(points[triangle[k]], island_faces[chosen], faces, positions, uv) \
-                    if uv is not None else None
-                added.append((best, new_uv))
-                result[f, k] = -len(added)
+                    if uv is not None else uv
+                if new_uv is None:
+                    result[f, k] = corner_vertex(best, f)
+                else:
+                    result[f, k] = corner_vertex(best, f, new_uv)
     return result, added
 
 
 def subset_primitive(doc, binary, primitive, corners, added):
-    """New primitive with the used vertices of `primitive` plus the added seam vertices, indexed by `corners`."""
+    """New primitive with the used vertices of `primitive` plus the added vertices (source, UV or None to keep the
+    source's, normal flipped), indexed by `corners`."""
     references = np.where(corners >= 0, corners, len(rows(doc, binary, primitive['attributes']['POSITION']))
                           - 1 - corners)
     used, remapped = np.unique(references, return_inverse=True)
@@ -165,9 +225,17 @@ def subset_primitive(doc, binary, primitive, corners, added):
     for semantic, index in primitive['attributes'].items():
         source = copy.deepcopy(doc['accessors'][index])
         original = rows(doc, binary, index)
-        extra = original[[s for s, _ in added]].copy() if added else original[:0]
+        extra = original[[s for s, _, _ in added]].copy() if added else original[:0]
         if semantic == 'TEXCOORD_0' and added:
-            extra = np.array([u for _, u in added], dtype=np.float32).view(np.uint8).reshape(len(added), -1)
+            uvs = original[[s for s, _, _ in added]].copy().view(np.float32).reshape(len(added), 2)
+            for i, (_, u, _) in enumerate(added):
+                if u is not None:
+                    uvs[i] = u
+            extra = uvs.astype(np.float32).view(np.uint8).reshape(len(added), -1)
+        if semantic == 'NORMAL' and any(f for _, _, f in added):
+            normal = extra.copy().view(np.float32).reshape(len(added), 3)
+            normal[[i for i, (_, _, f) in enumerate(added) if f]] *= -1
+            extra = normal.view(np.uint8).reshape(len(added), -1)
         data = np.vstack([original, extra])[used]
         source['count'] = len(used)
         if semantic == 'POSITION':
@@ -243,8 +311,9 @@ def main():
     extras = lod0['extras']
     for level, ratio in sorted(plan.items()):
         colour_index = extras['openyamm_lods'][level - 1]
+        weight = CURVATURE_WEIGHT if not CURVATURE_LEVELS or level in CURVATURE_LEVELS else 0.0
         mesh = {'name': doc['meshes'][colour_index]['name'], 'primitives': [
-            subset_primitive(doc, binary, p, *decimate_primitive(doc, binary, p, ratio))
+            subset_primitive(doc, binary, p, *decimate_primitive(doc, binary, p, ratio, weight))
             for p in lod0['primitives']]}
         for primitive in mesh['primitives']:
             drop_inverted_parts(doc, binary, primitive)
@@ -268,10 +337,17 @@ def main():
     counts = [triangles(doc, i) for i in [node['mesh']] + extras['openyamm_lods']]
     if not all(a > b for a, b in zip(counts, counts[1:])):
         raise ValueError(f'LOD triangle counts must decrease: {counts}')
+    # A rerun on an already-repaired GLB: the replaced far meshes no longer use their old <material>_LOD<N> copies,
+    # which apply_bake.py would refuse; drop them and their images.
+    stripped = strip_unused_lod_materials(doc)
+    if stripped:
+        print('STRIPPED old far materials:', ', '.join(stripped))
     packed = compact(doc, binary)
     out.parent.mkdir(parents=True, exist_ok=True)
     write_glb(out, doc, bytes(packed))
     print('BUILT', node_name, {k: v for k, v in sorted(plan.items())}, 'triangles', counts,
+          f'curvature {CURVATURE_WEIGHT:g}' + (f' at {sorted(CURVATURE_LEVELS)}' if CURVATURE_LEVELS else ''),
+          'lining fix' if LINING_FIX else 'no lining fix',
           f'{len(packed) / 1e6:.1f} MB')
 
 

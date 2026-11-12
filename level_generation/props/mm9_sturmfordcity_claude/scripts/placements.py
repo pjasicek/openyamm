@@ -40,7 +40,7 @@ from glbio import array, read_glb, world_positions  # noqa: E402
 REPO = props_table.REPO
 PROJECT = props_table.PROJECT
 CLASS_KIND = {'Prop': 'prop', 'CandleProp': 'torch', 'Brazier': 'torch', 'WallTorch': 'torch', 'TreasureBag': 'chest',
-              'RUDEProp': 'npc'}
+              'RUDEProp': 'npc', 'Clover': 'prop'}
 QUEST = set()
 # Ercc (a Prop named RUDEProp1, erccspeech.scr) is one of the townsfolk.
 NPC = {'RUDEProp1'}

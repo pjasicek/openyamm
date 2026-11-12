@@ -82,3 +82,8 @@ Android and Vulkan were not run for this asset task.
 
 Installed file/texture hashes are in `review/installed.json`. Technical production is complete; artistic
 acceptance remains with the user. No commit or staging operation was performed.
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Hit amplified x4 on neck, head and tail (it read as Standing); Cast stays the Attack (native attack2 = attack).
+Details: [mm8_m544_animfix_claude](../mm8_m544_animfix_claude/README.md).

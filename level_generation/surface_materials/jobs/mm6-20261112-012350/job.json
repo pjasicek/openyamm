@@ -1,0 +1,108 @@
+{
+ "id": "mm6-20261112-012350",
+ "world": "mm6",
+ "created": "2026-11-12T01:23:50",
+ "textures": [
+  "mm6/elemerth",
+  "mm6/ch4tople",
+  "mm6/ch4topre",
+  "mm6/elemair",
+  "mm6/elemfire",
+  "mm6/pbtrvl1",
+  "mm6/elemwatr",
+  "mm6/mercrich",
+  "mm6/pbtrvr1"
+ ],
+ "requests": {
+  "mm6/elemerth": {
+   "name": "elemerth",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/ch4tople": {
+   "name": "ch4tople",
+   "copies": 2,
+   "axis": "columns",
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/ch4topre": {
+   "name": "ch4topre",
+   "copies": 2,
+   "axis": "columns",
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/elemair": {
+   "name": "elemair",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/elemfire": {
+   "name": "elemfire",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/pbtrvl1": {
+   "name": "pbtrvl1",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/elemwatr": {
+   "name": "elemwatr",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/mercrich": {
+   "name": "mercrich",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  },
+  "mm6/pbtrvr1": {
+   "name": "pbtrvr1",
+   "copies": 1,
+   "axis": null,
+   "versions": {
+    "height": 1,
+    "classes": 1
+   },
+   "notes": {}
+  }
+ }
+}

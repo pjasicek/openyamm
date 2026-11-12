@@ -132,3 +132,8 @@ replaced: the Monk's chase, 3.65-4.38 u/s, is a run pace) (`../gait_rollout_2026
 `../gait_rollout_20261031/h08/scripts/rebuild.sh m290`; details and gates in
 [the package README](../gait_rollout_20261031/h08/README.md). A far-LOD repair rerun or any re-export of this model
 must re-graft these clips (rerun that rebuild on the new source).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Jog and Sprint recomposed with shorter, quicker strides and narrower robe leg capsules: cloth bad 33.2 -> 15.4 % and
+33.7 -> 18.0 %; strides 2.2145 / 2.6915. Details: [mm7_m290_animfix_claude](../mm7_m290_animfix_claude/README.md).

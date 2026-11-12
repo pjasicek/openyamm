@@ -1,0 +1,3 @@
+Saved [cscut.png](/home/pjasicek/github/OpenYAMM/level_generation/projects/mm6_sorpigal_geometry_pilot/textures/codex/cscut.png) at 1024×1024 using built-in image generation and the brief’s constraints. No other project files changed.
+
+Checked half-offset seams and mean colour; regenerated once. Remaining mismatch: it is darker than the requested 1.15× brightness. In-game appearance wasn’t checked.

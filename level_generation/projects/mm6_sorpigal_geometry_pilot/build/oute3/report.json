@@ -1,0 +1,1702 @@
+{
+  "base_map_sha256": "d1c5d7a9e450287d97deb3758b74f4f99b87a142bb12ffb0c11fe40eef7f426d",
+  "map_sha256": "ae186e29bd5dd4505fc19543bd45fdf622c9644fefb92abd12fe9b74a71c6404",
+  "scene_sha256": "4f43c88c8100e012b0aef2176c81736dd574c9fc907cf35e1c4f12e11fc2b635",
+  "buildings": [
+    {
+      "name": "armory",
+      "bmodel": 51,
+      "model_name": "ArmoryW",
+      "units_per_texel": 4,
+      "original_faces": 49,
+      "original_triangles": 134,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        25,
+        26,
+        48
+      ],
+      "new_faces": 791,
+      "new_triangles": 1550,
+      "new_vertices": 1034,
+      "events": [
+        [
+          5,
+          true
+        ]
+      ],
+      "seconds": 0.8
+    },
+    {
+      "name": "tavern_front",
+      "bmodel": 80,
+      "model_name": "TavFrntW",
+      "units_per_texel": 4,
+      "original_faces": 61,
+      "original_triangles": 195,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        55,
+        56
+      ],
+      "new_faces": 1423,
+      "new_triangles": 2780,
+      "new_vertices": 1628,
+      "events": [
+        [
+          11,
+          true
+        ],
+        [
+          60,
+          true
+        ],
+        [
+          61,
+          true
+        ]
+      ],
+      "seconds": 0.8
+    },
+    {
+      "name": "tavern_back",
+      "bmodel": 79,
+      "model_name": "TavBckW",
+      "units_per_texel": 4,
+      "original_faces": 63,
+      "original_triangles": 176,
+      "hidden_faces": [
+        14,
+        15,
+        37,
+        39,
+        40,
+        42,
+        61
+      ],
+      "new_faces": 1296,
+      "new_triangles": 2551,
+      "new_vertices": 1608,
+      "events": [],
+      "seconds": 0.4
+    },
+    {
+      "name": "bridge",
+      "bmodel": 20,
+      "model_name": "BridgeE_1",
+      "units_per_texel": 4,
+      "original_faces": 50,
+      "original_triangles": 112,
+      "hidden_faces": [],
+      "new_faces": 948,
+      "new_triangles": 1896,
+      "new_vertices": 1344,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "goblinwatch_keep",
+      "bmodel": 70,
+      "model_name": "EvilKC",
+      "units_per_texel": 4,
+      "original_faces": 63,
+      "original_triangles": 183,
+      "hidden_faces": [
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        24,
+        25,
+        28,
+        29,
+        33,
+        35,
+        42,
+        43,
+        44,
+        45,
+        48
+      ],
+      "new_faces": 1186,
+      "new_triangles": 2375,
+      "new_vertices": 1670,
+      "events": [
+        [
+          63,
+          true
+        ],
+        [
+          101,
+          true
+        ]
+      ],
+      "seconds": 1.1
+    },
+    {
+      "name": "goblinwatch_left",
+      "bmodel": 71,
+      "model_name": "EvilKL",
+      "units_per_texel": 4,
+      "original_faces": 63,
+      "original_triangles": 157,
+      "hidden_faces": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        37,
+        38,
+        39,
+        40,
+        44,
+        48,
+        49,
+        59
+      ],
+      "new_faces": 458,
+      "new_triangles": 900,
+      "new_vertices": 582,
+      "events": [],
+      "seconds": 0.4
+    },
+    {
+      "name": "goblinwatch_right",
+      "bmodel": 72,
+      "model_name": "EvilKR",
+      "units_per_texel": 4,
+      "original_faces": 63,
+      "original_triangles": 177,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        36,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        45,
+        49,
+        51
+      ],
+      "new_faces": 483,
+      "new_triangles": 950,
+      "new_vertices": 617,
+      "events": [],
+      "seconds": 0.6
+    },
+    {
+      "name": "dock",
+      "bmodel": 46,
+      "model_name": "PierE",
+      "units_per_texel": 4,
+      "original_faces": 30,
+      "original_triangles": 90,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        15,
+        25,
+        27,
+        29
+      ],
+      "new_faces": 52,
+      "new_triangles": 126,
+      "new_vertices": 94,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "ship",
+      "bmodel": 86,
+      "model_name": "mm6_ship_477_1",
+      "units_per_texel": 4,
+      "original_faces": 64,
+      "original_triangles": 138,
+      "hidden_faces": [
+        4,
+        57
+      ],
+      "new_faces": 282,
+      "new_triangles": 564,
+      "new_vertices": 466,
+      "events": [],
+      "seconds": 0.2
+    },
+    {
+      "name": "ship_mast",
+      "bmodel": 85,
+      "model_name": "mm6_ship_477_0",
+      "units_per_texel": 4,
+      "original_faces": 64,
+      "original_triangles": 164,
+      "hidden_faces": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        42,
+        44,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        57,
+        59,
+        60,
+        61
+      ],
+      "new_faces": 40,
+      "new_triangles": 80,
+      "new_vertices": 56,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "ship_stern",
+      "bmodel": 87,
+      "model_name": "mm6_ship_477_2",
+      "units_per_texel": 4,
+      "original_faces": 45,
+      "original_triangles": 104,
+      "hidden_faces": [],
+      "new_faces": 24,
+      "new_triangles": 48,
+      "new_vertices": 30,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "ship_bow",
+      "bmodel": 88,
+      "model_name": "mm6_ship_477_3",
+      "units_per_texel": 4,
+      "original_faces": 45,
+      "original_triangles": 99,
+      "hidden_faces": [],
+      "new_faces": 24,
+      "new_triangles": 48,
+      "new_vertices": 32,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_00_Wopr",
+      "bmodel": 0,
+      "model_name": "Wopr",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_01_Wopl",
+      "bmodel": 1,
+      "model_name": "Wopl",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_02_Wopr_1",
+      "bmodel": 2,
+      "model_name": "Wopr_1",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_03_Wopl_4",
+      "bmodel": 3,
+      "model_name": "Wopl_4",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_04_Wopr_3",
+      "bmodel": 4,
+      "model_name": "Wopr_3",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_05_Wopl_3",
+      "bmodel": 5,
+      "model_name": "Wopl_3",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_06_Wopr_4",
+      "bmodel": 6,
+      "model_name": "Wopr_4",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_07_Wer",
+      "bmodel": 7,
+      "model_name": "Wer",
+      "units_per_texel": 12,
+      "original_faces": 17,
+      "original_triangles": 44,
+      "hidden_faces": [],
+      "new_faces": 90,
+      "new_triangles": 180,
+      "new_vertices": 108,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_08_Wopl_1",
+      "bmodel": 8,
+      "model_name": "Wopl_1",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_09_Wopr_2",
+      "bmodel": 9,
+      "model_name": "Wopr_2",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_10_Wopl_2",
+      "bmodel": 10,
+      "model_name": "Wopl_2",
+      "units_per_texel": 12,
+      "original_faces": 45,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 250,
+      "new_triangles": 500,
+      "new_vertices": 300,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_11_DEnterS",
+      "bmodel": 11,
+      "model_name": "DEnterS",
+      "units_per_texel": 12,
+      "original_faces": 43,
+      "original_triangles": 117,
+      "hidden_faces": [
+        15
+      ],
+      "new_faces": 310,
+      "new_triangles": 620,
+      "new_vertices": 482,
+      "events": [
+        [
+          102,
+          true
+        ]
+      ],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_12_FountainW",
+      "bmodel": 12,
+      "model_name": "FountainW",
+      "units_per_texel": 12,
+      "original_faces": 25,
+      "original_triangles": 54,
+      "hidden_faces": [],
+      "new_faces": 320,
+      "new_triangles": 640,
+      "new_vertices": 384,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_13_TempleS",
+      "bmodel": 13,
+      "model_name": "TempleS",
+      "units_per_texel": 12,
+      "original_faces": 56,
+      "original_triangles": 166,
+      "hidden_faces": [],
+      "new_faces": 604,
+      "new_triangles": 1209,
+      "new_vertices": 955,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_14_EntranceN",
+      "bmodel": 14,
+      "model_name": "EntranceN",
+      "units_per_texel": 12,
+      "original_faces": 64,
+      "original_triangles": 158,
+      "hidden_faces": [],
+      "new_faces": 352,
+      "new_triangles": 708,
+      "new_vertices": 504,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_18_Fountain_1",
+      "bmodel": 18,
+      "model_name": "Fountain_1",
+      "units_per_texel": 12,
+      "original_faces": 25,
+      "original_triangles": 54,
+      "hidden_faces": [],
+      "new_faces": 320,
+      "new_triangles": 640,
+      "new_vertices": 384,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_19_BridgeE",
+      "bmodel": 19,
+      "model_name": "BridgeE",
+      "units_per_texel": 12,
+      "original_faces": 50,
+      "original_triangles": 112,
+      "hidden_faces": [],
+      "new_faces": 644,
+      "new_triangles": 1288,
+      "new_vertices": 960,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_21_Fountain",
+      "bmodel": 21,
+      "model_name": "Fountain",
+      "units_per_texel": 12,
+      "original_faces": 25,
+      "original_triangles": 54,
+      "hidden_faces": [],
+      "new_faces": 320,
+      "new_triangles": 640,
+      "new_vertices": 384,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_29_WellS",
+      "bmodel": 29,
+      "model_name": "WellS",
+      "units_per_texel": 12,
+      "original_faces": 54,
+      "original_triangles": 128,
+      "hidden_faces": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "new_faces": 354,
+      "new_triangles": 708,
+      "new_vertices": 478,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_30_HseP2aN_2",
+      "bmodel": 30,
+      "model_name": "HseP2aN_2",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          68,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_31_HseP2aN_3",
+      "bmodel": 31,
+      "model_name": "HseP2aN_3",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          67,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_32_HseP2aS_3",
+      "bmodel": 32,
+      "model_name": "HseP2aS_3",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          66,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_33_HseP2aS_2",
+      "bmodel": 33,
+      "model_name": "HseP2aS_2",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          65,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_34_HseP2aS",
+      "bmodel": 34,
+      "model_name": "HseP2aS",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          50,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_35_HseP2aS_1",
+      "bmodel": 35,
+      "model_name": "HseP2aS_1",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          51,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_36_HseP2aN_4",
+      "bmodel": 36,
+      "model_name": "HseP2aN_4",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          52,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_37_HseP2aN_1",
+      "bmodel": 37,
+      "model_name": "HseP2aN_1",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          53,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_38_HseP2aN",
+      "bmodel": 38,
+      "model_name": "HseP2aN",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          54,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_39_WellN",
+      "bmodel": 39,
+      "model_name": "WellN",
+      "units_per_texel": 12,
+      "original_faces": 54,
+      "original_triangles": 128,
+      "hidden_faces": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "new_faces": 354,
+      "new_triangles": 708,
+      "new_vertices": 478,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_40_Cel17",
+      "bmodel": 40,
+      "model_name": "Cel17",
+      "units_per_texel": 12,
+      "original_faces": 48,
+      "original_triangles": 121,
+      "hidden_faces": [],
+      "new_faces": 340,
+      "new_triangles": 680,
+      "new_vertices": 465,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_44_HseR3W_1",
+      "bmodel": 44,
+      "model_name": "HseR3W_1",
+      "units_per_texel": 12,
+      "original_faces": 58,
+      "original_triangles": 194,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        9,
+        10,
+        11,
+        12,
+        13,
+        18,
+        19,
+        20,
+        21,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        54,
+        55,
+        56,
+        57
+      ],
+      "new_faces": 1001,
+      "new_triangles": 2008,
+      "new_vertices": 1440,
+      "events": [
+        [
+          59,
+          true
+        ]
+      ],
+      "seconds": 1.1
+    },
+    {
+      "name": "auto_45_HseR3W",
+      "bmodel": 45,
+      "model_name": "HseR3W",
+      "units_per_texel": 12,
+      "original_faces": 58,
+      "original_triangles": 194,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        3,
+        9,
+        10,
+        11,
+        12,
+        13,
+        18,
+        19,
+        20,
+        21,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        54,
+        55,
+        56,
+        57
+      ],
+      "new_faces": 1001,
+      "new_triangles": 2008,
+      "new_vertices": 1440,
+      "events": [
+        [
+          58,
+          true
+        ]
+      ],
+      "seconds": 1.1
+    },
+    {
+      "name": "auto_47_MagicS",
+      "bmodel": 47,
+      "model_name": "MagicS",
+      "units_per_texel": 12,
+      "original_faces": 59,
+      "original_triangles": 177,
+      "hidden_faces": [
+        41,
+        50,
+        53,
+        55,
+        57
+      ],
+      "new_faces": 812,
+      "new_triangles": 1636,
+      "new_vertices": 1162,
+      "events": [],
+      "seconds": 0.5
+    },
+    {
+      "name": "auto_48_MagicGS",
+      "bmodel": 48,
+      "model_name": "MagicGS",
+      "units_per_texel": 12,
+      "original_faces": 58,
+      "original_triangles": 123,
+      "hidden_faces": [
+        0,
+        46,
+        47,
+        48,
+        49
+      ],
+      "new_faces": 1516,
+      "new_triangles": 3040,
+      "new_vertices": 2184,
+      "events": [
+        [
+          21,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_49_StablesE",
+      "bmodel": 49,
+      "model_name": "StablesE",
+      "units_per_texel": 12,
+      "original_faces": 54,
+      "original_triangles": 173,
+      "hidden_faces": [
+        0,
+        24,
+        48,
+        49,
+        51,
+        53
+      ],
+      "new_faces": 704,
+      "new_triangles": 1403,
+      "new_vertices": 939,
+      "events": [
+        [
+          15,
+          true
+        ]
+      ],
+      "seconds": 0.3
+    },
+    {
+      "name": "auto_50_MercN",
+      "bmodel": 50,
+      "model_name": "MercN",
+      "units_per_texel": 12,
+      "original_faces": 46,
+      "original_triangles": 166,
+      "hidden_faces": [
+        0,
+        1,
+        3,
+        6,
+        7,
+        10,
+        13,
+        15,
+        17
+      ],
+      "new_faces": 1238,
+      "new_triangles": 2468,
+      "new_vertices": 1616,
+      "events": [
+        [
+          19,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_52_TownE",
+      "bmodel": 52,
+      "model_name": "TownE",
+      "units_per_texel": 12,
+      "original_faces": 61,
+      "original_triangles": 154,
+      "hidden_faces": [
+        3,
+        6,
+        8,
+        11,
+        21,
+        39,
+        55
+      ],
+      "new_faces": 2141,
+      "new_triangles": 4301,
+      "new_vertices": 2998,
+      "events": [],
+      "seconds": 0.5
+    },
+    {
+      "name": "auto_53_BlackSMW",
+      "bmodel": 53,
+      "model_name": "BlackSMW",
+      "units_per_texel": 12,
+      "original_faces": 47,
+      "original_triangles": 144,
+      "hidden_faces": [
+        3,
+        4,
+        5,
+        6,
+        8,
+        13,
+        15
+      ],
+      "new_faces": 1220,
+      "new_triangles": 2440,
+      "new_vertices": 1636,
+      "events": [
+        [
+          17,
+          true
+        ]
+      ],
+      "seconds": 0.3
+    },
+    {
+      "name": "auto_54_GenStorE",
+      "bmodel": 54,
+      "model_name": "GenStorE",
+      "units_per_texel": 12,
+      "original_faces": 58,
+      "original_triangles": 174,
+      "hidden_faces": [
+        3,
+        34,
+        35,
+        36,
+        37
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 943,
+      "events": [
+        [
+          9,
+          true
+        ]
+      ],
+      "seconds": 0.3
+    },
+    {
+      "name": "auto_55_ThievesN",
+      "bmodel": 55,
+      "model_name": "ThievesN",
+      "units_per_texel": 12,
+      "original_faces": 61,
+      "original_triangles": 142,
+      "hidden_faces": [
+        7,
+        11,
+        14,
+        36,
+        39,
+        42,
+        45,
+        48
+      ],
+      "new_faces": 2298,
+      "new_triangles": 4532,
+      "new_vertices": 2872,
+      "events": [
+        [
+          27,
+          true
+        ]
+      ],
+      "seconds": 0.6
+    },
+    {
+      "name": "auto_56_BankE",
+      "bmodel": 56,
+      "model_name": "BankE",
+      "units_per_texel": 12,
+      "original_faces": 60,
+      "original_triangles": 179,
+      "hidden_faces": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        25,
+        26,
+        27,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "new_faces": 1448,
+      "new_triangles": 2884,
+      "new_vertices": 2014,
+      "events": [
+        [
+          7,
+          true
+        ],
+        [
+          62,
+          true
+        ]
+      ],
+      "seconds": 0.5
+    },
+    {
+      "name": "auto_62_TrainingE",
+      "bmodel": 62,
+      "model_name": "TrainingE",
+      "units_per_texel": 12,
+      "original_faces": 63,
+      "original_triangles": 162,
+      "hidden_faces": [
+        35,
+        36,
+        37,
+        51,
+        52
+      ],
+      "new_faces": 1016,
+      "new_triangles": 2047,
+      "new_vertices": 1647,
+      "events": [
+        [
+          23,
+          true
+        ]
+      ],
+      "seconds": 0.3
+    },
+    {
+      "name": "auto_64_HseP2aE",
+      "bmodel": 64,
+      "model_name": "HseP2aE",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          71,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_65_HseP2aW",
+      "bmodel": 65,
+      "model_name": "HseP2aW",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          70,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_73_SLuckN",
+      "bmodel": 73,
+      "model_name": "SLuckN",
+      "units_per_texel": 12,
+      "original_faces": 64,
+      "original_triangles": 156,
+      "hidden_faces": [],
+      "new_faces": 477,
+      "new_triangles": 950,
+      "new_vertices": 785,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_74_HseP2aW_2",
+      "bmodel": 74,
+      "model_name": "HseP2aW_2",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          55,
+          true
+        ]
+      ],
+      "seconds": 0.4
+    },
+    {
+      "name": "auto_75_D18N",
+      "bmodel": 75,
+      "model_name": "D18N",
+      "units_per_texel": 12,
+      "original_faces": 57,
+      "original_triangles": 178,
+      "hidden_faces": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "new_faces": 772,
+      "new_triangles": 1544,
+      "new_vertices": 1180,
+      "events": [],
+      "seconds": 0.1
+    },
+    {
+      "name": "auto_76_HseP2S",
+      "bmodel": 76,
+      "model_name": "HseP2S",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        6,
+        7,
+        10,
+        18
+      ],
+      "new_faces": 831,
+      "new_triangles": 1653,
+      "new_vertices": 1079,
+      "events": [
+        [
+          69,
+          true
+        ]
+      ],
+      "seconds": 0.3
+    },
+    {
+      "name": "auto_77_HseP2S_1",
+      "bmodel": 77,
+      "model_name": "HseP2S_1",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        6,
+        7,
+        10,
+        18
+      ],
+      "new_faces": 831,
+      "new_triangles": 1653,
+      "new_vertices": 1079,
+      "events": [
+        [
+          56,
+          true
+        ]
+      ],
+      "seconds": 0.3
+    },
+    {
+      "name": "auto_78_Obelisk",
+      "bmodel": 78,
+      "model_name": "Obelisk",
+      "units_per_texel": 12,
+      "original_faces": 54,
+      "original_triangles": 124,
+      "hidden_faces": [],
+      "new_faces": 120,
+      "new_triangles": 240,
+      "new_vertices": 220,
+      "events": [],
+      "seconds": 0.0
+    },
+    {
+      "name": "auto_81_HseP2aW_1",
+      "bmodel": 81,
+      "model_name": "HseP2aW_1",
+      "units_per_texel": 12,
+      "original_faces": 19,
+      "original_triangles": 45,
+      "hidden_faces": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "new_faces": 677,
+      "new_triangles": 1354,
+      "new_vertices": 907,
+      "events": [
+        [
+          57,
+          true
+        ]
+      ],
+      "seconds": 0.5
+    },
+    {
+      "name": "auto_82_SmKeepBck",
+      "bmodel": 82,
+      "model_name": "SmKeepBck",
+      "units_per_texel": 12,
+      "original_faces": 52,
+      "original_triangles": 145,
+      "hidden_faces": [
+        10,
+        11,
+        13,
+        14,
+        16,
+        32,
+        33
+      ],
+      "new_faces": 1097,
+      "new_triangles": 2188,
+      "new_vertices": 1439,
+      "events": [],
+      "seconds": 0.5
+    },
+    {
+      "name": "auto_83_SmKeepFrnt",
+      "bmodel": 83,
+      "model_name": "SmKeepFrnt",
+      "units_per_texel": 12,
+      "original_faces": 54,
+      "original_triangles": 192,
+      "hidden_faces": [
+        0,
+        3,
+        30,
+        31,
+        32,
+        37,
+        39,
+        40,
+        42,
+        45
+      ],
+      "new_faces": 468,
+      "new_triangles": 929,
+      "new_vertices": 643,
+      "events": [
+        [
+          25,
+          true
+        ],
+        [
+          64,
+          true
+        ]
+      ],
+      "seconds": 0.5
+    },
+    {
+      "name": "auto_84_AntiFlyE3W",
+      "bmodel": 84,
+      "model_name": "AntiFlyE3W",
+      "units_per_texel": 12,
+      "original_faces": 59,
+      "original_triangles": 144,
+      "hidden_faces": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22
+      ],
+      "new_faces": 1645,
+      "new_triangles": 3337,
+      "new_vertices": 2064,
+      "events": [],
+      "seconds": 1.3
+    }
+  ]
+}

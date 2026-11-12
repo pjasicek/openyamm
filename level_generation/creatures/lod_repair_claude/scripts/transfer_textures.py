@@ -41,6 +41,9 @@ SUPERSAMPLE = 4
 # primitive's bounding diagonal) between the UV-found LOD0 point and the texel's point.
 PARAM_RESOLUTION = 2048
 PARAM_TOLERANCE = float(os.environ.get('LOD_PARAM_TOLERANCE', '0.02'))
+# With build_lods.py's LINING_FIX (default on, LOD_LINING_FIX=0 off): colours, too, only from UV faces facing the far
+# triangle's way.
+LINING_FIX = os.environ.get('LOD_LINING_FIX', '1') != '0'
 
 
 def image(doc, binary, texture_index, mode='RGB'):
@@ -260,9 +263,10 @@ def transfer(doc, binary, lod0_primitive, lod_primitive, corners, corner_uv, siz
             wp = uv_barycentric(np.mod(uvp, 1.0), uv0[f0[safe, 0]], uv0[f0[safe, 1]], uv0[f0[safe, 2]])
             pp = (wp[:, :, None] * p0[f0[safe]]).sum(1)
             ok &= np.linalg.norm(pp - point, axis=1) < param_tolerance
-            face = np.where(ok, found, face)
-            w = np.where(ok[:, None], wp, w)
-            param_hits += int(ok.sum())
+            colour_ok = ok & ((face_normal0[safe] * normal).sum(-1) >= -0.2) if LINING_FIX else ok
+            face = np.where(colour_ok, found, face)
+            w = np.where(colour_ok[:, None], wp, w)
+            param_hits += int(colour_ok.sum())
             # Thin cloth (skirts, aprons, sleeves) has a lining with the outer layer's UVs, so the UV raster often
             # holds the lining's face: the same colours, but a normal facing away, which the clamp below turned into
             # near-horizontal far normals and shiny blotches (MM9 dwarf townswomen, 2026-11-07). The normal takes the

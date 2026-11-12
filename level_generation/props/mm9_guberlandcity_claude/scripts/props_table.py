@@ -17,7 +17,8 @@ This DAT has no TreasureChest, TreasureBag, DestructableProp, Barrel or RUDEProp
   - Tipped: Shield2/Shield3 (Shield.ABC, pitch pi/2) lie flat: Thronheim's shield3flat / shield4flat.
   - Scroll objects (models\PickUpItems\Scroll.abc) name skins\PickUpItems\scroll.dtx, which MM9 does not ship:
     Tasar Academy's scrollpickup (scrolldouble skin) stands in, as Arslegard City's (ALIASES).
-  - Not decoration classes, left to the map: the two Clover objects (Sturmford's decision).
+  - Clover (the two four-leaf clover patches, Drangheim City's `clover`): placed since 2026-11-12, so that the map's
+    bonus events have something to click (they were left out at first, "not a decoration class").
 
     python3 scripts/props_table.py            # work/raw_objects_compact.json, work/binding_origins.json, summary
 """
@@ -46,7 +47,7 @@ MODELS = {
     ('models/props/tapestry-old01.abc', 'textures/leveltextures/misc/banner7.dtx'): 'tapestry_banner7',
     # the fish tank's sea monster (SeaMonster class: no Skin property; MONSTERS.txt row 177 Sea Monster A's skin)
     ('models/seamonster.abc', 'skins/seacreaturef.dtx'): 'seamonster',
-    # not placed (not a decoration class, Sturmford's decision); built by Drangheim City and Thronheim
+    # the clover patches (Clover class); built by Drangheim City
     ('models/props/clover.abc', 'skins/props/plantsandtrees/clover.dtx'): 'clover',
     # reused: built by other MM9 props projects (same ABC model and skin)
     ('models/modelprops/clansoldierhelmet.abc', 'skins/clansoldier1.dtx'): 'clansoldierhelmet',
@@ -213,7 +214,7 @@ CHECK_POSES = {}
 POSE_TURN = {}
 SKIN_ORDER = {}
 CLASSES = {'Prop', 'CandleProp', 'DestructableProp', 'WallTorch', 'Brazier', 'Barrel', 'WellMMIX', 'TreasureChest',
-           'TreasureBag', 'RUDEProp', 'SeaMonster'}
+           'TreasureBag', 'RUDEProp', 'SeaMonster', 'Clover'}
 # Objects of those classes (and the other model-carrying objects of the DAT) that get no decoration: name -> reason.
 SKIPPED = {}
 

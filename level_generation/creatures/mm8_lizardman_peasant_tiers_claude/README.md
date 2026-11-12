@@ -53,3 +53,9 @@ sprint_stride_length: 4.2454. `gait_gate.py` passed for every tier under Standar
 `../gait_rollout_20261031/h16/work/mm8_lizardman_peasant_pre_gait.glb`). It was the `lod_repair_claude` pilot: a
 far-LOD repair rerun replaces the source without these clips: copy the new source over that pre-gait copy and rerun
 the rebuild before installing. Rollback: install the pre-gait copy and drop the bindings.
+
+## Rebuilt (2026-11-11)
+
+The model was rebuilt on the MM9 lizard-orc skeleton and clips with a new 4K paint and new A/B/C ramps by the same method
+([mm8_lizardman_peasant_rebuild_claude](../mm8_lizardman_peasant_rebuild_claude/README.md)); this project's export is
+the previous state.

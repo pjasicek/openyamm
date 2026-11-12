@@ -1,0 +1,440 @@
+<title>MM6–MM8 Monster Audit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column of findings over a full-width working table; severity is the only loud colour. */
+:root {
+  --bg: #f3f4f1; --panel: #ffffff; --fg: #1d2421; --muted: #5d6a64; --line: #d7dcd8;
+  --accent: #1f6f66; --accent-soft: #d8ebe7;
+  --s3: #b3261e; --s3-bg: #f7dcd9; --s2: #a35c00; --s2-bg: #f8e6c9; --s1: #6b6f12; --s1-bg: #eceec9;
+  --s0: #7b8782; --s0-bg: #eceeec; --mm9: #1f6f66; --ours: #8a5a2b;
+  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --text: 'IBM Plex Sans', 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141917; --panel: #1c2320; --fg: #e3e8e5; --muted: #98a59f; --line: #2f3a36;
+    --accent: #5fbfb2; --accent-soft: #1f3a36;
+    --s3: #ff8a80; --s3-bg: #4a1f1c; --s2: #f2b55c; --s2-bg: #45321a; --s1: #d3d67a; --s1-bg: #383a1d;
+    --s0: #8c9a94; --s0-bg: #252d2a; --mm9: #5fbfb2; --ours: #e0a56b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141917; --panel: #1c2320; --fg: #e3e8e5; --muted: #98a59f; --line: #2f3a36;
+  --accent: #5fbfb2; --accent-soft: #1f3a36;
+  --s3: #ff8a80; --s3-bg: #4a1f1c; --s2: #f2b55c; --s2-bg: #45321a; --s1: #d3d67a; --s1-bg: #383a1d;
+  --s0: #8c9a94; --s0-bg: #252d2a; --mm9: #5fbfb2; --ours: #e0a56b; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--text); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.read { max-width: 760px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(28px, 4.5vw, 42px); font-weight: 800; margin: 0 0 6px; letter-spacing: -0.01em; }
+h2 { font-size: 22px; font-weight: 700; margin: 44px 0 10px; padding-top: 14px; border-top: 2px solid var(--fg); }
+h3 { font-size: 16px; font-weight: 700; margin: 22px 0 6px; }
+.lede { color: var(--muted); font-size: 16px; margin: 0 0 4px; }
+.meta { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.02em; }
+p { margin: 8px 0; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--s0-bg); padding: 1px 4px; border-radius: 3px; }
+b { font-weight: 600; }
+ul { padding-left: 20px; margin: 6px 0; }
+li { margin: 3px 0; }
+.gap { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+.gap th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.gap td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.gap .v { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bars { display: grid; gap: 3px; min-width: 160px; }
+.bar { height: 7px; border-radius: 2px; }
+.bar.o { background: var(--ours); } .bar.n { background: var(--mm9); }
+.legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); margin-top: 4px; }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 7px; margin-right: 6px;
+  border-radius: 2px; vertical-align: middle; }
+.legend .o::before { background: var(--ours); } .legend .n::before { background: var(--mm9); }
+.finding { display: grid; grid-template-columns: 30px 1fr; gap: 4px 12px; margin: 18px 0; }
+.finding .k { font-family: var(--display); font-weight: 800; font-size: 20px; color: var(--accent); line-height: 1.2; }
+.finding > div { min-width: 0; }
+figure { margin: 14px 0 6px; }
+figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px;
+  background: #ecece8; }
+figure.scroll { overflow-x: auto; }
+figure.scroll img { width: auto; max-width: none; height: 200px; }
+figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.plan { counter-reset: step; list-style: none; padding: 0; }
+.plan li { counter-increment: step; display: grid; grid-template-columns: 34px 1fr; gap: 10px; margin: 12px 0; }
+.plan li::before { content: counter(step); font-family: var(--display); font-weight: 800; font-size: 15px;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--panel);
+  display: grid; place-items: center; }
+.tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+table.list { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.list th { position: sticky; top: 0; background: var(--panel); text-align: left; font-weight: 600;
+  font-size: 12px; color: var(--muted); padding: 8px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.list td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.list tr:last-child td { border-bottom: 0; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+.world { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.why { margin: 0; padding-left: 16px; }
+.why li { margin: 0; }
+.issue { color: var(--muted); font-size: 12.5px; max-width: 380px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0; }
+.controls input, .controls select { font: 14px var(--text); padding: 6px 10px; border: 1px solid var(--line);
+  border-radius: 5px; background: var(--panel); color: var(--fg); }
+.controls input { min-width: 0; flex: 1 1 200px; }
+.controls input:focus-visible, .controls select:focus-visible, th button:focus-visible, tr.r:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px; }
+.count { font-size: 13px; color: var(--muted); }
+th button { all: unset; cursor: pointer; }
+th button[aria-sort="descending"]::after { content: " ▾"; } th button[aria-sort="ascending"]::after { content: " ▴"; }
+.chip { display: inline-block; min-width: 22px; text-align: center; font-family: var(--mono); font-size: 12px;
+  font-weight: 500; padding: 1px 6px; border-radius: 10px; }
+.c3 { color: var(--s3); background: var(--s3-bg); } .c2 { color: var(--s2); background: var(--s2-bg); }
+.c1 { color: var(--s1); background: var(--s1-bg); } .c0 { color: var(--s0); background: var(--s0-bg); }
+.sub { display: block; font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+tr.r { cursor: pointer; } tr.r:hover td { background: var(--accent-soft); }
+tr.d td { background: var(--bg); font-size: 13px; }
+tr.d dl { display: grid; grid-template-columns: 120px 1fr; gap: 4px 12px; margin: 4px 0; }
+tr.d dt { color: var(--muted); } tr.d dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.donors td:first-child { width: 42%; }
+.small { font-size: 13px; color: var(--muted); }
+@media (max-width: 640px) {
+  .finding { grid-template-columns: 22px 1fr; }
+  tr.d dl { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+<header class="read">
+  <div class="meta">OPENYAMM · CREATURE AUDIT · 2026-11-11</div>
+  <h1>MM6–MM8 Monster Audit</h1>
+  <p class="lede">All 185 installed MM6–MM8 monster models, measured for texture layout, skin deformation, hand
+  contact and attack energy against the 114 installed MM9 models. Nothing was changed.</p>
+</header>
+
+<section class="read">
+<h2>After the fixes</h2>
+<p>On 2026-11-11 the findings below were fixed by agent streams. They used briefs and ledgers in
+<code>audit_mm678_20261111/fixes/</code>, and every change has a one-copy revert in its project's <code>work/before_*</code>
+folder. The same audit was then run again on all 185 models.</p>
+<div class="tablebox" style="border:0;background:none">
+<table class="gap">
+<thead><tr><th>Measure</th><th>Before</th><th>After</th><th></th></tr></thead>
+<tbody>
+<tr><td>Texture atlas used (median)</td><td class="v">41 %</td><td class="v">53 %</td><td><div class="bars"><div class="bar o" style="width:77%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Models with atlas ≥ 55 %</td><td class="v">23</td><td class="v">68</td><td><div class="bars"><div class="bar o" style="width:34%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Surface on speck-sized islands (median)</td><td class="v">9.9 %</td><td class="v">4.9 %</td><td><div class="bars"><div class="bar o" style="width:100%"></div><div class="bar n" style="width:49%"></div></div></td></tr>
+<tr><td>Models in texture groups A or B</td><td class="v">82</td><td class="v">17</td><td><div class="bars"><div class="bar o" style="width:100%"></div><div class="bar n" style="width:21%"></div></div></td></tr>
+<tr><td>Attacks under 45 % of MM9 energy</td><td class="v">20</td><td class="v">1</td><td><div class="bars"><div class="bar o" style="width:100%"></div><div class="bar n" style="width:5%"></div></div></td></tr>
+<tr><td>Deformation severity 2–3</td><td class="v">18</td><td class="v">9</td><td><div class="bars"><div class="bar o" style="width:100%"></div><div class="bar n" style="width:50%"></div></div></td></tr>
+</tbody>
+</table>
+</div>
+<div class="legend"><span class="o">Before</span><span class="n">After</span></div>
+<ul>
+<li><b>Texture pass:</b> 66 models retextured, 9 skipped with reasons. 900 credits.</li>
+<li><b>Clip fixes:</b> run-clip cloth on 8 models; Hit folds on 17; loop hitches, the Behemoth claw and the Unicorn
+hit; the MM7 Dwarf reweighted.</li>
+<li><b>Attacks:</b> all 16 blandest attacks re-animated, from MM9 donors or authored on the model's own rig.</li>
+<li><b>Rebuilds on MM9 donor skeletons and clips:</b> Guard, PeasantF1, Thief, Merchant, lizardman peasant,
+Werewolf. The Titan got five-finger hands and clean fists.</li>
+<li><b>Regressions:</b> the actors suite passes apart from two failures unrelated to this work (MM9 map actors and a
+quest event).</li>
+</ul>
+<p><b>For your review:</b></p>
+<ul>
+<li><b>PeasantF1:</b> the face changed: thinner, pinker lips, a faint forehead line
+(<code>mm6_pfem_rebuild_claude/review/sheet_before_after_close.png</code>).</li>
+<li><b>Merchant:</b> the face looks older, with blotchy brows.</li>
+<li><b>Guard:</b> the coif is painted as a leather mask.</li>
+<li><b>Nightmare:</b> its attack is livelier than the subtle one approved on 2026-10-18.</li>
+<li><b>Still open:</b> the Necromancer m472 and BMonk run clips; the Guard's Walk2 skirt.</li>
+</ul>
+</section>
+
+<section class="read">
+<h2>Where MM6–MM8 falls behind MM9</h2>
+<p>Medians over the installed models. Texture figures are from <code>texture_quality.py</code> on the largest body
+set; attack figures are the clip bound to <code>attack_melee</code>, in model heights (H).</p>
+<div class="tablebox" style="border:0;background:none">
+<table class="gap">
+<thead><tr><th>Measure</th><th>MM6–MM8</th><th>MM9</th><th></th></tr></thead>
+<tbody>
+<tr><td>Texture atlas used</td><td class="v">41.8 %</td><td class="v">57.7 %</td><td><div class="bars"><div class="bar o" style="width:72%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Surface on speck-sized UV islands (lower is better)</td><td class="v">9.8 %</td><td class="v">0.85 %</td><td><div class="bars"><div class="bar o" style="width:100%"></div><div class="bar n" style="width:9%"></div></div></td></tr>
+<tr><td>Models with atlas ≥ 55 %</td><td class="v">15 %</td><td class="v">66 %</td><td><div class="bars"><div class="bar o" style="width:23%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Biped attack, peak speed</td><td class="v">3.6 H/s</td><td class="v">5.9 H/s</td><td><div class="bars"><div class="bar o" style="width:61%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Biped attack, torso turn</td><td class="v">48°</td><td class="v">63°</td><td><div class="bars"><div class="bar o" style="width:77%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Biped attack, clip length (longer is slower)</td><td class="v">1.5 s</td><td class="v">1.0 s</td><td><div class="bars"><div class="bar o" style="width:100%"></div><div class="bar n" style="width:67%"></div></div></td></tr>
+<tr><td>Non-humanoid attack, reach (p90)</td><td class="v">0.24 H</td><td class="v">0.33 H</td><td><div class="bars"><div class="bar o" style="width:73%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Non-humanoid attack, share of body that moves</td><td class="v">74 %</td><td class="v">96 %</td><td><div class="bars"><div class="bar o" style="width:77%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+<tr><td>Non-humanoid attack, peak speed</td><td class="v">2.9 H/s</td><td class="v">4.5 H/s</td><td><div class="bars"><div class="bar o" style="width:64%"></div><div class="bar n" style="width:100%"></div></div></td></tr>
+</tbody>
+</table>
+</div>
+<div class="legend"><span class="o">MM6–MM8</span><span class="n">MM9</span></div>
+<p>The MM9 lead has three sources: a 4K paint on our own <code>uv_atlas.py</code> layout with the gentle grade;
+the original animators' clips on their own skeleton; and reference views rendered from a real 3D model, not
+guessed from 100-pixel sprites. The first can be closed on MM6–MM8 without touching rigs. The second needs new clips,
+and MM9 and Legends of Might and Magic have donor skeletons for many families.</p>
+</section>
+
+<section class="read">
+<h2>Findings</h2>
+
+<div class="finding"><div class="k">1</div><div>
+<h3>Textures are the largest and cheapest gap</h3>
+<p>By the texture-pass rule, 47 models are group A (atlas under 25 %, fragments 30 % or more, or heavy stretch) and
+35 are group B. The pass has been done on 10 (Bone Dragon, Water Elemental, Troll, the MM7 Mage and peasants), and the
+user called the Troll "clearly better". Worst still waiting: Merchant (atlas 13.9 %), Roc 12.9 %, Thief 15.6 %,
+Gorgon 15.6 %, LizardArch 17.2 %, Ratman 22.6 %, the lizardman peasant (49 % of its surface on specks), Druidess,
+Robot, zcat, Centaur, Thunderbird, Crystal Dragon.</p>
+</div></div>
+
+<div class="finding"><div class="k">2</div><div>
+<h3>Attacks are slower and stiffer than MM9's</h3>
+<p>47 of 157 melee attacks reach less than 60 % of the MM9 median for their body type (mean of reach, moving share
+and peak speed), and 20 fall under 45 %: PeasantF1, Merchant, PeasantF3, Guard, zBlasterGuy, Robot, Juggernaut, land
+Wyrm, Cleric Sun, Warlock, Ogre Mage, Mage, Serpentmen, Efreeti, Pirate Crossbowman, Salamander, Medusa, Water
+Elemental, Nightmare. In the frames below, MM9's Guard leans and bends the knees and its Dwarf lunges into a crouch.
+MM6's Guard swings one arm on straight legs and MM8's Ogre Mage barely moves. 17 peasants play Standing or Walking as
+their attack, because the native peasant attack reuses the walk frames.</p>
+<figure>{{IMG:cmp_attacks}}<figcaption>Bound melee attack, seven evenly spaced frames. Rows: MM9 Guard, MM9 Dwarf, MM6 Guard,
+MM8 Ogre Mage, MM7 Mage, MM7 Dwarf.</figcaption></figure>
+</div></div>
+
+<div class="finding"><div class="k">3</div><div>
+<h3>Robes and skirts tear in the run clips</h3>
+<p>The gait rollout of 2026-10-31 gave robed and skirted models Jog, Run2 and Sprint clips that the cloth weights do
+not survive. Worst: PeasantF3's skirt balloons into an egg shape in Sprint and Jog. The Minotaur's kilt opens holes in
+Jog, Running and Sprint. The Wight's robe pulls into long sheets in Walking, which plays all the time. Also affected:
+Sorcerer (Jog and Walking), Necromancer m472 Run2, Monk m290, BMonk Run2, Thief Sprint, Cleric Moon, Necromancer
+m294 and Cleric m460 in Jog.</p>
+</div></div>
+
+<div class="finding"><div class="k">4</div><div>
+<h3>Hit reactions crumple torsos</h3>
+<p>On about 20 bipeds the Hit clip folds or stretches the chest, neck or shoulders by 18–42 % of the region. The
+worst are the Necromancer m294, the Dwarf m190 (chest and beard crumple), the Knight (neck tears), the female peasant
+m342, the dwarf peasant m302 and the Troll m476.</p>
+<figure>{{IMG:v3}}<figcaption>Bad triangles in red (stretch over 1.6, squash under 0.55, or turned inside out).
+Rows: PeasantF3 Sprint, Wight Walking, Minotaur Jog, Dwarf Hit, Knight Hit, Troglodyte Attack; each shows the whole
+body, then the flagged region at −0.12 s, at the flagged moment and at +0.12 s.</figcaption></figure>
+</div></div>
+
+<div class="finding"><div class="k">5</div><div>
+<h3>Hands</h3>
+<p><b>The two you named.</b> The female peasant is the one the user already rejected ("hands are terrible,
+especially in standing"; the v4 rebuild and arm fixes were reverted). In Hit her left hand also disappears into the
+skirt (46 % of hand vertices inside the body). The Titan has rigid open hands with no finger bones (README, Discord
+OY-27). In Cast, the clip its melee plays, the left shoulder and armpit collapse at 1.6–2.05 s and the hand then sinks
+into the belly.</p>
+<figure class="scroll">{{IMG:ttn_lh2}}<figcaption>Titan, Cast, left hand seen from behind, 0.4–2.15 s.</figcaption></figure>
+<p><b>Elsewhere.</b> The Dragon Hunter m456 walks with its left hand inside its thigh (62 % of hand vertices, in
+Walking). The Ratman's chest crushes in Running. Rigid hands with no finger bones: Guard, Titan, Thief, Werewolf,
+Cleric, PeasantF2. Weak at rest: PeasantM2's right hand is a fingerless lump; the Thief has mittens; the goblin has
+blobby four-finger hands; the lizardman peasant's are spiky. zBlasterGuy, the LizardArch bow hand, and crumpling
+fists on the Minotaur, Ogre Mage, Dwarf and Archer complete the list. Most other hands read acceptably as geometry at
+rest.</p>
+<figure>{{IMG:v2}}<figcaption>Dragon Hunter Walking (right hand, left hand inside the thigh), Ratman Running, Minotaur
+peasant Attack.</figcaption></figure>
+</div></div>
+
+<div class="finding"><div class="k">6</div><div>
+<h3>Smaller clip faults</h3>
+<ul>
+<li>Loop hitches: the Vampire Female Peasant's Running jumps ten times its normal frame step at the loop; the Ghost
+m242's Walking about twice.</li>
+<li>Attack and Cast are one clip on the Ogre Mage, PeasantM3, LizardArch, the MM7 dragon m182 and the Unicorn.</li>
+<li>The Unicorn's Hit equals its Standing, so it has no hit reaction.</li>
+<li>One loop serves stand, walk and run on m182, the land Wyrm, the MM6 Ghost and the Crystal Dragon.</li>
+<li>Floor: only the Behemoth's attack sinks 17–21 units, already known. Gait: only Fighter Leather (your choice) and
+Gog (open).</li>
+</ul>
+</div></div>
+
+<div class="finding"><div class="k">7</div><div>
+<h3>Models on legacy routes</h3>
+<ul>
+<li>Seven MM6 models still use the Meshy auto-rig from before the rig-first route: Demon, PeasantM2, Guard,
+Cleric, Thief, Titan, Werewolf.</li>
+<li>The lizardman peasant is the last image-to-3D standard body; its attack is Walk played once.</li>
+<li>Codex installs that went in with failing gates or on QA hold: Lich, Merchant, Minotaur, Knight, Archer,
+FighterChain, PeasantM3.</li>
+<li>Still marked placeholder in their READMEs: Werewolf, Skeleton, goblin, Cleric, Druidess.</li>
+<li>LODs are fine apart from the effect bodies.</li>
+</ul>
+</div></div>
+</section>
+
+<section class="read">
+<h2>What to focus on</h2>
+<ol class="plan">
+<li><div><b>Run the texture pass, group A first.</b> It is already queued in <code>texpass_mm678/HANDOFF.md</code>
+with a proven recipe: 10–20 Meshy credits and about an hour per creature, with no rig work. It brings the largest
+visible gain for the least risk.</div></li>
+<li><div><b>Fix the verified clip and weight faults in place.</b> That means cloth chains in the run clips (11
+models), Hit torso folds (about 20 bipeds, many share one Hit clip), the Dragon Hunter's Walking arm clearance, the
+female peasant's Hit, the two loop hitches and the Titan's Cast shoulder. These are small edits to installed GLBs.</div></li>
+<li><div><b>Re-animate the blandest attacks from donors.</b> Use MM9 clips where the anatomy matches and Legends of
+Might and Magic clips where it has the body. Otherwise choose library clips that move the legs and torso as well as
+the arm.</div></li>
+<li><div><b>Rebuild where mesh, rig and history all fail.</b> Candidates: PeasantF1, the lizardman peasant,
+Merchant, Thief, Guard, Werewolf, and the Titan's hands (LoMM has a Titan skeleton with StepOn and Wipe attacks).</div></li>
+<li><div><b>Pilot the donor route before queueing families.</b> Try one MM9 skeleton (the unbuilt MM9 Wyvern for
+the MM7/MM8 Wyvern) and one LoMM skeleton (Bat or Harpy).</div></li>
+</ol>
+</section>
+
+<section>
+<h2 class="read">Top 30 by combined priority</h2>
+<p class="read small">Priority adds the severities (0–3) for texture, deformation, hand contact, attack energy and
+hands, plus 0.8 × recorded problems. The right column quotes the project READMEs.</p>
+<div class="tablebox">
+<table class="list">
+<thead><tr><th>#</th><th>Model</th><th>Measured</th><th>Recorded in the project</th></tr></thead>
+<tbody>
+{{TOP}}
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<h2 class="read">Every model</h2>
+<p class="read small">Click a column to sort and a row for its rig, clip sources and recorded issues. Chips are
+severities 0–3. Tex: texture layout (A = 3, B = 2). Deform: worst region beyond Standing. Hand: hand inside the body.
+Attack: energy against MM9. Hands: rigid or weak. Known: recorded problems.</p>
+<div class="controls">
+  <input id="q" type="search" placeholder="Filter by name, model or issue" aria-label="Filter models">
+  <select id="w" aria-label="World"><option value="">All worlds</option><option value="mm6">MM6</option>
+    <option value="mm7">MM7</option><option value="mm8">MM8</option></select>
+  <select id="b" aria-label="Body"><option value="">All bodies</option><option value="biped">Bipeds</option>
+    <option value="other">Other bodies</option></select>
+  <span class="count" id="count"></span>
+</div>
+<div class="tablebox" style="max-height: 78vh;">
+<table class="list" id="all">
+<thead><tr>
+<th><button data-k="n">Model</button></th>
+<th><button data-k="p" aria-sort="descending">Priority</button></th>
+<th><button data-k="tx">Tex</button></th>
+<th><button data-k="df">Deform</button></th>
+<th><button data-k="pn">Hand</button></th>
+<th><button data-k="mo">Attack</button></th>
+<th><button data-k="hd">Hands</button></th>
+<th><button data-k="kn">Known</button></th>
+<th><button data-k="tri">LOD0 tris</button></th>
+</tr></thead>
+<tbody id="rows"></tbody>
+</table>
+</div>
+</section>
+
+<section class="read">
+<h2>Donor skeletons and clips</h2>
+<p>From the MM9 extract (151 ABC models, 61 with attack and death clips) and Legends of Might and Magic (54 of 55
+character models parse with the MM9 tools; low-poly meshes, so only skeletons, clips and colours are worth reusing).
+Matches are by anatomy and clip coverage; none has been tried on an MM6–MM8 body yet.</p>
+<div class="tablebox">
+<table class="list donors">
+<thead><tr><th>MM6–MM8 family</th><th>Donor</th></tr></thead>
+<tbody>
+<tr><td>Wyverns (m434 = m560)</td><td>MM9 Wyvern (not built yet; flying set)</td></tr>
+<tr><td>Dragons (drag, cdr1, drg1, m182, m492, m548, m616)</td><td>MM9 Dragon King (fly, land, breath, wing attack)</td></tr>
+<tr><td>Floating eyes (bh, m166)</td><td>MM9 Evil Eye Terror</td></tr>
+<tr><td>Ghosts and genies (gst, djn, m242, m238, m536)</td><td>MM9 Banshee</td></tr>
+<tr><td>Dire wolf</td><td>MM9 Wolf (approved)</td></tr>
+<tr><td>Skeletons, zombies, ghouls, liches, vampires</td><td>MM9 Skeleton, Skeleton Warrior, Zombie, Ghoul, Lich, Nosferatu; LoMM Wight</td></tr>
+<tr><td>Lizardmen and Troglodyte</td><td>MM9 Lizard-Orc, Troglodyte</td></tr>
+<tr><td>Harpies, gargoyles, angel, raven man</td><td>LoMM Harpy (ground and air, 25 clips), LoMM Gargoyle (statue ambush)</td></tr>
+<tr><td>Bats</td><td>LoMM Bat (roost, launch, air attack)</td></tr>
+<tr><td>Spiders</td><td>LoMM Spider and Spider2 (web attack)</td></tr>
+<tr><td>Goblins</td><td>LoMM Goblin (throw, threat)</td></tr>
+<tr><td>Ogres, trolls, Titan, cyclops</td><td>LoMM Troll, Titan, Grand Titan (StepOn, Wipe); MM9 Giant, Bigfoot, Trellborg</td></tr>
+<tr><td>Fighters, thieves, archers, casters</td><td>MM9 Guard, Clan Soldier, Fighter base, Evil Sorcerer, Monk; LoMM Bandit, Soldier, player set (bow, crossbow, wand, staff)</td></tr>
+<tr><td>Peasants</td><td>MM9 peasant bodies (43 clips including attack, cower, wince)</td></tr>
+<tr><td>Couatl, sea monster</td><td>MM9 Dragonfly, Sea Monster</td></tr>
+<tr><td>No donor</td><td>Snake-bodied humanoids, hydras, elementals, machines, oozes, centaur, griffin and manticore</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="read">
+<h2>How it was measured</h2>
+<ul>
+<li><b>Deformation</b> (<code>motion_audit.py</code>): every bound clip skinned at 30 fps on LOD0. Each triangle is
+compared with its bind shape (stretch over 1.6, squash under 0.55, or turned inside out against its main bone).
+Results are grouped by body region from joint names and measured beyond the same region in Standing.</li>
+<li><b>Hand contact</b>: hand vertices more than 2 % of the height behind the torso, head or leg surface. Death
+clips are left out.</li>
+<li><b>Attack energy</b>: the mean of reach (p90 vertex displacement), the share of the surface that moves more than
+5 % of the height, and peak speed, each against the MM9 median of the same body type.</li>
+<li>About twenty flagged moments were checked in rendered frames before going into the findings. One false positive,
+the Reactor's unfolding arms, is now excluded.</li>
+<li><b>Not covered</b>: how the paint itself looks (only its layout), faces, held weapons (separate files) and the
+in-game look. Slow can be intended for a robed caster, and a high percentage on a small region can mean a few large
+triangles. Read the frames before acting on a number.</li>
+</ul>
+<p class="small">Scripts and the full record: <code>level_generation/creatures/audit_mm678_20261111/</code>
+(README, <code>score.py</code>, <code>sheet.py</code>, <code>handsheet.py</code>) and
+<code>claude_shared/motion_audit.py</code>, <code>motion_frames.py</code>.</p>
+</section>
+</div>
+
+<script>
+const DATA = {{DATA}};
+const tbody = document.getElementById('rows');
+const q = document.getElementById('q'), w = document.getElementById('w'), b = document.getElementById('b');
+let sortKey = 'p', sortDir = -1, open = null;
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const chip = (v, sub) => `<span class="chip c${v}">${v}</span>${sub ? `<span class="sub">${esc(sub)}</span>` : ''}`;
+function render() {
+  const text = q.value.trim().toLowerCase();
+  let list = DATA.filter(r => (!w.value || r.w.includes(w.value)) && (!b.value || r.b === b.value) &&
+    (!text || (r.n + ' ' + r.m + ' ' + r.iss + ' ' + r.why.join(' ')).toLowerCase().includes(text)));
+  list.sort((x, y) => {
+    const a = x[sortKey], c = y[sortKey];
+    if (typeof a === 'string') return sortDir * a.localeCompare(c);
+    return sortDir * ((a ?? -1) - (c ?? -1));
+  });
+  document.getElementById('count').textContent = `${list.length} of ${DATA.length} models`;
+  tbody.innerHTML = list.map(r => {
+    const main = `<tr class="r" tabindex="0" data-m="${r.m}"><td><b>${esc(r.n)}</b><span class="sub">${r.m} · ${r.w}</span></td>
+      <td class="num">${r.p}</td>
+      <td>${chip(r.tx, r.tp ? 'pass done' : (r.at != null ? r.at + ' % · frag ' + r.fr : ''))}</td>
+      <td>${chip(r.df, r.dc ? r.dc + ' ' + r.dr + ' ' + r.dx : '')}</td>
+      <td>${chip(r.pn, r.pn ? r.pc + ' ' + r.pp + ' %' : '')}</td>
+      <td>${chip(r.mo, r.mr != null ? Math.round(r.mr * 100) + ' % · ' + r.ac : (r.ac || ''))}</td>
+      <td>${chip(r.hd, r.hn)}</td>
+      <td>${chip(r.kn)}</td>
+      <td class="num">${r.tri ?? ''}</td></tr>`;
+    const detail = open === r.m ? `<tr class="d"><td colspan="9"><dl>
+      <dt>Measured</dt><dd>${esc(r.why.join(' · ') || 'nothing flagged')}</dd>
+      <dt>Rig</dt><dd>${esc(r.rig)}</dd><dt>Clips</dt><dd>${esc(r.clips)}</dd>
+      <dt>Recorded issues</dt><dd>${esc(r.iss)}</dd><dt>User verdicts</dt><dd>${esc(r.ver)}</dd></dl></td></tr>` : '';
+    return main + detail;
+  }).join('');
+}
+tbody.addEventListener('click', e => {
+  const tr = e.target.closest('tr.r'); if (!tr) return;
+  open = open === tr.dataset.m ? null : tr.dataset.m; render();
+});
+tbody.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const tr = e.target.closest('tr.r'); if (!tr) return;
+  e.preventDefault(); open = open === tr.dataset.m ? null : tr.dataset.m; render();
+});
+document.querySelectorAll('#all th button').forEach(btn => btn.addEventListener('click', () => {
+  const k = btn.dataset.k;
+  sortDir = sortKey === k ? -sortDir : (k === 'n' ? 1 : -1); sortKey = k;
+  document.querySelectorAll('#all th button').forEach(x => x.removeAttribute('aria-sort'));
+  btn.setAttribute('aria-sort', sortDir < 0 ? 'descending' : 'ascending'); render();
+}));
+[q, w, b].forEach(el => el.addEventListener('input', render));
+render();
+</script>

@@ -1,0 +1,33 @@
+{
+  "asset_helper_sha256": "21a30a76c9361bd6689ade3fb30d8d2118cf2781068d1cbff67950b4ba987373",
+  "backend": "5.3.0",
+  "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+  "producer_sha256": "1338df4d953475b15be946cdbac6d59f6515cf2918f17e77e8949523f2aea198",
+  "profile": {
+    "azimuth": 315,
+    "building_page_size": 1024,
+    "clamp_rgbm": true,
+    "elevation": 45,
+    "map": "outc2.odm",
+    "model_units_per_texel": {
+      "Stable2part1_geo": 12,
+      "tavern2N_geo": 12
+    },
+    "preview_position": [
+      -13000,
+      -15000,
+      1600
+    ],
+    "preview_target": [
+      -9000,
+      -8000,
+      300
+    ],
+    "samples": 64,
+    "sky_energy": 0.35,
+    "sun_energy": 2.6,
+    "terrain_size": 1024,
+    "units_per_texel": 32,
+    "world": "mm6"
+  }
+}

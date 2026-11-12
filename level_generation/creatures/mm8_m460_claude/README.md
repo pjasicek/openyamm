@@ -114,3 +114,8 @@ and `fit_hit.py` are the final motion refinements already applied to the selecte
 `verify_cast_step.py` checks and selects it before the normal export/install pipeline. Earlier rig fitting, source-motion and drape scripts
 are retained as provenance; do not rerun them over that checkpoint.
 Meshy consumed **30 credits**: 5 body, 5 independent rig, 10 body retexture, 10 head retexture. No paid animation jobs.
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Jog recomposed with shorter, quicker strides: robe cloth bad 23.2 -> 16.1 %; `run_stride_length` 1.805. Details:
+[mm8_m460_animfix_claude](../mm8_m460_animfix_claude/README.md).

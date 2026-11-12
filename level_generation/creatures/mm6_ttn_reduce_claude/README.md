@@ -85,3 +85,10 @@ User: "for the mm6 titan use cast animation for both attack and cast (remove his
 export/mm6_ttn_noattack.glb --clip Attack` (also dropping two orphan accessors; every other clip is unchanged), which
 was installed with `--name mm6_ttn.glb`. `actors.yml` binds `attack_melee: Cast` for BTitan A/B/C with its impact at
 the push (0.87 s, the cast's), without the cast's palm glow. Rollback: `export/mm6_ttn_gait.glb`.
+
+## Five-finger hands and the Cast recovery (2026-11-11)
+
+Rebuild stream of the MM6-MM8 audit: grafted MPFB hands with 15 finger bones per side, finger keys in every clip
+(fists, the open casting hands on the push), and Cast's arms eased to Standing from 1.55 s (the left hand no longer
+crosses the belly). Installed from [mm6_ttn_rebuild_claude](../mm6_ttn_rebuild_claude/README.md); the export here is
+now the previous state (rollback: that project's `work/before_rebuild/mm6_ttn.glb`).

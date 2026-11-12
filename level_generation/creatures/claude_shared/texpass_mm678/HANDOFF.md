@@ -5,6 +5,17 @@ The user wants the [texture quality pass](../TEXTURE_QUALITY_PASS.md) (the MM9 M
 MM6–MM8 monsters. Three were done as a trial on 2026-10-31. This file is the queue, the cost picture and what the trial
 taught; read it, the recipe and the three trial READMEs before starting.
 
+> **`uv_atlas.unwrap()` defaults changed on 2026-11-12** ([UV study](../../uv_research_20261111/REPORT.md),
+> [recipe section 0](../TEXTURE_QUALITY_PASS.md#0-default-pipeline-since-2026-11-12-uv-study)): PartUV charts from a
+> skin-weight tree, a seam pass and sparrow packing (about 70 % atlas instead of 48-60 %). Finished projects' scripts
+> (`mm6_demon_texpass_claude/scripts`, `mm7_m258_texpass_claude/scripts`, rebuild projects' `uv_*.py`) call `unwrap()`
+> and now get the new route. **To reproduce an old layout, call
+> `unwrap(..., charts='xatlas', packer='xatlas', seam_rounds=0)`** (plus `weld=0, correct_aspect=True` on a mesh with
+> split vertices or a non-square image on its material); do not edit those scripts. New passes use the defaults and
+> need `claude_shared/partuv_venv` and `claude_shared/sparrow_venv` (setup in the recipe); without them `unwrap()`
+> falls back to xatlas by itself and lists it in the report's `fallbacks`. Redo only models with atlas < 50 %,
+> fragments > 5 % or stretch p90 > 1.5, worst first, and re-fill gutters last with `gutter_fill.py`.
+
 ## State
 
 | Creature | Project (README section "Texture quality pass") | Atlas before -> after | Credits | State |
@@ -103,15 +114,16 @@ creature, three agents in parallel worked without conflicts.
   `bake_ao.py`, `compose.py`, `apply_layout.py`, `glb_diff.py`, `lod1_check.py`, `tier_tone.py`,
   `merge_install.sh`, viewer and sheet scripts.
 - **LODs:** LOD1 gets UVs projected per chart from the new LOD0 (check colour against LOD0 at the same surface points).
-  LOD2/3 keep their repaired geometry and UVs; refill only their maps with
-  `../../lod_repair_claude/scripts/transfer_textures.py` at the installed 512/256 px. Do not rerun `repair.py`: it
-  starts from its `originals/` and drops head-bob and appended clips.
+  LOD2/3: superseded 2026-11-12 by the [LOD playbook](../../LOD_PLAYBOOK.md) §7. The refill below (`apply.py` ->
+  `transfer()` without `param_uv`) is the nearest-point mode, and `repair.py` must run on the installed GLB, not on
+  `originals/`. Old rule: LOD2/3 keep their repaired geometry and UVs; refill only their maps with
+  `../../lod_repair_claude/scripts/transfer_textures.py` at the installed 512/256 px.
 - **One 2048 atlas, head denser (`head_factor` 1.8), plus a head-only 4K retexture** from the close head views on the
   same UVs, crossfaded into the body paint at the neck. That beat a separate 1K head set on face detail and needs no new
   materials or bindings. Do not edit `actors.yml`; keep material and variant names.
 - **Atlas 55 % is often out of reach** on thin or spiky bodies (Bone Dragon 49 % after five layouts, Water Elemental
   53.4 % after three packers). Try the fast packer sweep before brute force; accept about 48–55 % with fragments
-  under about 5 %.
+  under about 5 %. (Old route; the 2026-11-12 defaults reached 70-75 % on the UV study subjects, none of them thin or spiky.)
 - **Drift seen and fixed:** the 4K paint invented a black crackle network on the Bone Dragon's bone (filled from the
   surrounding bone, then brightness and contrast pinned to the approved paint at the same surface points); membranes
   came back bluish (corrected); the Water Elemental's regions came back with more contrast (a per-region contrast
@@ -133,3 +145,31 @@ ls assets_source/worlds/mm{6,7,8}/models/*.glb | xargs -P 16 -I{} sh -c \
 
 Ignore LOD2/3 materials (`_LOD2`, `_LOD3`), effect sheets (fringes, wind, bursts, wisp, fish school, ooze) and held
 items; take descriptor names from each world's `models/actors.yml`.
+
+## Generic toolkit (texpass-2, 2026-11-11)
+
+The audit-fix texpass stream used a config-driven copy of the Troll scripts. Copy `scripts/` from the latest
+texpass-2 project (`../../mm7_m258_texpass_claude/scripts/`) and write a `texpass.json`; the
+[Dragonfly README](../../mm7_m186_texpass_claude/README.md) explains the route.
+- `new_project.sh <world> <stem>` claims the lease, backs up the GLB and `actors.yml` entries, and adds the ledger
+  row.
+- The pass runs `dump.py` → `uv.py` (Blender) → `resample.py` → `bake_ao.py` (Blender) → `compose.py` → `apply.py`
+  → `viewer.py` → `shots.py` → `finish.sh --install`.
+
+Options added on the way, with the README that explains each:
+
+| Option | What it does | README |
+|---|---|---|
+| `merge_sets` | merges several image sets into one atlas | Hydra m266, DemonFly wdm |
+| `layout_prims` | lays out only some primitives | ADragon m182 head |
+| `head_uv_split` | head from a 2080×1024 body \| head atlas | Ogre m436 |
+| `head_parts` | head from a grafted head primitive | DemonFly wdm |
+| `keep_approved_regions`, `keep_approved_grow` | keeps the approved colour on mask regions (eyes and pupils) | Gorgon m564, ADragon |
+| `keep_approved_near` | keeps the approved colour near bind-pose points, for eyeballs without a region | Genie m238, Ogre Mage m540 |
+| `head_sigma`, `head_detail` | gentler faces | Genie, Manticore m278 |
+| `detail_limit` | damps patches the paint invents | Bat m158 nose |
+| `normal_carry.py` | moves the approved normal map per chart | ADragon, Genie |
+
+`claude_shared/uv_atlas.py` now reverts charts that SLIM collapsed to a point (Bat m158). The lesson that recurs: on
+smooth-skinned or patterned faces and hides, a fresh 4K paint can bring its own pattern (scales, crackle). Read the
+face and hide close-ups and pull the compose towards the approved paint when the look changes.

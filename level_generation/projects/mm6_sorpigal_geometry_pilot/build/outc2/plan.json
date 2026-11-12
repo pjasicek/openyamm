@@ -1,0 +1,90 @@
+{
+  "map": "assets_dev/worlds/mm6/maps/outc2.odm",
+  "base_bmodels": 137,
+  "buildings": [
+    {
+      "name": "auto_76_tavern2N",
+      "bmodel": 76,
+      "model_name": "tavern2N",
+      "units_per_texel": 12,
+      "original_faces": 63,
+      "original_triangles": 182,
+      "hidden_faces": [
+        0,
+        2,
+        4,
+        7,
+        9,
+        11,
+        12,
+        13,
+        15,
+        17,
+        18,
+        20,
+        23,
+        24,
+        25,
+        30,
+        33,
+        34,
+        35,
+        47,
+        49,
+        54
+      ],
+      "new_faces": 1381,
+      "new_triangles": 2737,
+      "new_vertices": 1775,
+      "events": [
+        [
+          26,
+          true
+        ],
+        [
+          108,
+          true
+        ]
+      ],
+      "seconds": 1.2
+    },
+    {
+      "name": "auto_100_Stable2part1",
+      "bmodel": 100,
+      "model_name": "Stable2part1",
+      "units_per_texel": 12,
+      "original_faces": 62,
+      "original_triangles": 199,
+      "hidden_faces": [
+        0,
+        3,
+        5,
+        7,
+        12,
+        17,
+        20,
+        24,
+        27,
+        29,
+        30,
+        34,
+        41,
+        43,
+        44,
+        46,
+        49,
+        50,
+        51,
+        54,
+        57,
+        58,
+        59
+      ],
+      "new_faces": 590,
+      "new_triangles": 1169,
+      "new_vertices": 774,
+      "events": [],
+      "seconds": 0.7
+    }
+  ]
+}

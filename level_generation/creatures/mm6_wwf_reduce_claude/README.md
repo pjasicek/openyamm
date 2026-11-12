@@ -63,3 +63,8 @@ Rebuild: `../gait_rollout_20261031/h02/scripts/rebuild.sh wwf` (from the pre-gai
 `../gait_rollout_20261031/h02/work/`). Any later re-export of this model, including a far-LOD repair rerun
 (`../lod_repair_claude/`) or a floor fix, starts from a source without these clips unless it starts from the installed
 one: re-graft them (rerun the rebuild on the new source) and keep the bindings.
+
+## Rebuilt (2026-11-11)
+
+Replaced by a full rebuild on the MM9 bigfoot skeleton and clips with new lean masters
+([mm6_wwf_rebuild_claude](../mm6_wwf_rebuild_claude/README.md)); this project's export is the previous state.

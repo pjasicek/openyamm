@@ -100,3 +100,9 @@ clip, mesh, skin and material unchanged): Walk2 (Mixamo Walk, 0.84 s, 1.60), Jog
 [package h05](../gait_rollout_20261031/h05/README.md). Rebuild: `../gait_rollout_20261031/h05/scripts/rebuild.sh mfp`
 from the pre-gait copy `work/mm6_mfp_pre_gait.glb` there. A far-LOD repair (`lod_repair_claude`) or head-bob rerun on
 this model must re-graft these clips (copy the repaired source over that pre-gait copy and rerun the rebuild).
+
+## Anim fix (2026-11-11, MM6–MM8 audit)
+
+Jog and Sprint recomposed with a low knee and shorter, quicker steps so the wrap skirt no longer balloons (cloth bad
+47.6 -> 13.4 %, 59.6 -> 11.1 %); bindings `run_stride_length` 2.05, `sprint_stride_length` 2.6. Details and rebuild:
+[mm6_mfp_animfix_claude](../mm6_mfp_animfix_claude/README.md).
