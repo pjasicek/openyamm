@@ -243,7 +243,13 @@ private:
     bool loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem);
+    bool addRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem, Mm9RudeDialogueTable &table) const;
     bool loadMm9SkillTrainerTable(const Engine::AssetFileSystem &assetFileSystem);
+    // MM9's lesson table over its dialogue table, from the skill_trainers contribution of worlds/mm9/world.yml
+    // (whichever world is active); null, with the reason printed, when it cannot be read.
+    std::shared_ptr<Mm9SkillTrainerTable> readMm9SkillTrainerTable(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const Mm9RudeDialogueTable &dialogue);
     bool loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9QuestInteractionTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -280,8 +286,8 @@ private:
     ) const;
     bool loadPotionEffects(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRulesetData(const Engine::AssetFileSystem &assetFileSystem);
-    // Every skill teacher from the loaded tables, with trainer_places.txt (and the active world's own rows) and the
-    // Ledger of Teachers' teacher_ledger.yml.
+    // Every skill teacher from the loaded tables, with trainer_places.txt (and the mounted worlds' own rows), the
+    // Ledger of Teachers' teacher_ledger.yml and, when MM9 is mounted, Chedian's actor teachers.
     bool loadTrainerDirectory(const Engine::AssetFileSystem &assetFileSystem);
     // Applies the active ruleset's override or replacement of this engine table, if it has one.
     bool applyActiveRulesetTable(

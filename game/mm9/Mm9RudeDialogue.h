@@ -122,7 +122,9 @@ struct Mm9RacialTrainer
 class Mm9RudeDialogueTable
 {
 public:
-    bool load(const Engine::AssetFileSystem &assetFileSystem);
+    // packageRoot is empty for the active world's own files, or "worlds/mm9/" to read MM9's package while another
+    // world is active.
+    bool load(const Engine::AssetFileSystem &assetFileSystem, const std::string &packageRoot = {});
     bool loadDialogueText(const std::string &sourceName, const std::string &text);
     bool loadNpcNamesText(const std::string &sourceName, const std::string &text);
     bool loadTopBlurbsText(const std::string &sourceName, const std::string &text);

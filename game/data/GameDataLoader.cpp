@@ -1845,23 +1845,33 @@ bool GameDataLoader::loadTrainerDirectory(const Engine::AssetFileSystem &assetFi
         return false;
     }
 
-    // A world's own teachers' houses (world.yml: table trainer_places, mode append).
+    // Every mounted world's own teachers' houses (world.yml: table trainer_places, mode append): the directory is
+    // built once and lists every continent, whichever world the game started in.
+    std::vector<WorldManifest> mountedWorlds;
     std::string manifestError;
-    const WorldManifest manifest = loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
 
-    for (const TableContributionDefinition &contribution : manifest.tableContributions)
+    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, manifestError))
     {
-        if (contribution.table != "trainer_places" || contribution.mode != TableContributionMode::Append)
-        {
-            continue;
-        }
+        std::cerr << "Failed to resolve trainer_places contributions: " << manifestError << '\n';
+        return false;
+    }
 
-        const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
-
-        if (!loadTextTableRows(assetFileSystem, path, rows) || !places.loadFromRows(rows, error))
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        for (const TableContributionDefinition &contribution : manifest.tableContributions)
         {
-            std::cerr << "Failed to load " << path << (error.empty() ? "" : ": " + error) << '\n';
-            return false;
+            if (contribution.table != "trainer_places" || contribution.mode != TableContributionMode::Append)
+            {
+                continue;
+            }
+
+            const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+
+            if (!loadTextTableRows(assetFileSystem, path, rows) || !places.loadFromRows(rows, error))
+            {
+                std::cerr << "Failed to load " << path << (error.empty() ? "" : ": " + error) << '\n';
+                return false;
+            }
         }
     }
 
@@ -1875,13 +1885,44 @@ bool GameDataLoader::loadTrainerDirectory(const Engine::AssetFileSystem &assetFi
         return false;
     }
 
+    // Chedian's teachers are actors, listed from MM9's dialogue and lesson tables. The directory is built once and
+    // serves every continent's page whichever world the game started in (the Chedian ledger is bought after
+    // travelling there), so a start in another world reads the two tables here, for this list alone.
     std::vector<TrainerEntry> actorTeachers;
-    if (m_pMm9SkillTrainerTable != nullptr)
+    std::shared_ptr<const Mm9RudeDialogueTable> pMm9Dialogue = m_pMm9RudeDialogueTable;
+    std::shared_ptr<const Mm9SkillTrainerTable> pMm9Lessons = m_pMm9SkillTrainerTable;
+
+    if (pMm9Lessons == nullptr && isWorldPackageMounted(assetFileSystem, "mm9"))
+    {
+        const std::shared_ptr<Mm9RudeDialogueTable> pDialogue = std::make_shared<Mm9RudeDialogueTable>();
+
+        if (!pDialogue->load(assetFileSystem, "worlds/mm9/") || !addRulesetMm9DialogueRows(assetFileSystem, *pDialogue))
+        {
+            std::cerr << "Failed to load MM9 RUDE dialogue for the Chedian journal teachers\n";
+
+            for (const std::string &dialogueError : pDialogue->errors())
+            {
+                std::cerr << "  " << dialogueError << '\n';
+            }
+
+            return false;
+        }
+
+        pMm9Dialogue = pDialogue;
+        pMm9Lessons = readMm9SkillTrainerTable(assetFileSystem, *pDialogue);
+
+        if (pMm9Lessons == nullptr)
+        {
+            return false;
+        }
+    }
+
+    if (pMm9Lessons != nullptr)
     {
         const auto catalog = assetFileSystem.readTextFile("worlds/mm9/ui/maps/catalog.yml");
         if (!catalog || !loadTextTableRows(assetFileSystem, "worlds/mm9/data_tables/trainer_places.txt", rows)
-            || !buildMm9JournalTeachers(rows, *m_pMm9SkillTrainerTable, getMm9RudeDialogueTable(), m_mapStats,
-                *catalog, actorTeachers, error))
+            || !buildMm9JournalTeachers(rows, *pMm9Lessons, *pMm9Dialogue, m_mapStats, *catalog, actorTeachers,
+                error))
         {
             std::cerr << "Failed to load Chedian journal teachers: " << error << '\n';
             return false;
@@ -2714,7 +2755,14 @@ bool GameDataLoader::loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &a
 {
     // The ruleset's rows on MM9 people (MAW: the skill reset and Dimensional Maps on Hjordisa the Hag, the Jarls'
     // bounties), on the MM9 table whenever it is built: at a start in MM9 and at every world switch into it.
-    if (!m_pMm9RudeDialogueTable || m_activeRuleset.id != MawRulesetId)
+    return m_pMm9RudeDialogueTable == nullptr || addRulesetMm9DialogueRows(assetFileSystem, *m_pMm9RudeDialogueTable);
+}
+
+bool GameDataLoader::addRulesetMm9DialogueRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    Mm9RudeDialogueTable &table) const
+{
+    if (m_activeRuleset.id != MawRulesetId)
     {
         return true;
     }
@@ -2722,9 +2770,9 @@ bool GameDataLoader::loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &a
     const std::string path = rulesetPackageRoot(m_activeRuleset.id) + "worlds/mm9/dialogue.yml";
     const std::optional<std::string> text = assetFileSystem.readTextFile(path);
 
-    if (text && !m_pMm9RudeDialogueTable->loadRulesetRowsText(path, *text))
+    if (text && !table.loadRulesetRowsText(path, *text))
     {
-        for (const std::string &rowError : m_pMm9RudeDialogueTable->errors())
+        for (const std::string &rowError : table.errors())
         {
             std::cerr << "Failed to load MAW's MM9 dialogue rows: " << rowError << '\n';
         }
@@ -2742,17 +2790,25 @@ bool GameDataLoader::loadMm9SkillTrainerTable(const Engine::AssetFileSystem &ass
         return true;
     }
 
+    m_pMm9SkillTrainerTable = readMm9SkillTrainerTable(assetFileSystem, getMm9RudeDialogueTable());
+    return m_pMm9SkillTrainerTable != nullptr;
+}
+
+std::shared_ptr<Mm9SkillTrainerTable> GameDataLoader::readMm9SkillTrainerTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const Mm9RudeDialogueTable &dialogue)
+{
     std::string manifestError;
-    const WorldManifest manifest =
-        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
-    if (!manifestError.empty() || !manifest.loadedFromFile)
+    const std::optional<WorldManifest> manifest =
+        loadWorldManifest(assetFileSystem, "worlds/mm9/world.yml", "mm9", manifestError);
+    if (!manifest || !manifestError.empty())
     {
         std::cerr << "Failed to resolve MM9 skill-trainer contribution: " << manifestError << '\n';
-        return false;
+        return nullptr;
     }
 
     const TableContributionDefinition *pTrainerContribution = nullptr;
-    for (const TableContributionDefinition &contribution : manifest.tableContributions)
+    for (const TableContributionDefinition &contribution : manifest->tableContributions)
     {
         if (contribution.table != "skill_trainers")
         {
@@ -2761,30 +2817,29 @@ bool GameDataLoader::loadMm9SkillTrainerTable(const Engine::AssetFileSystem &ass
         if (pTrainerContribution != nullptr || contribution.mode != TableContributionMode::Distribution)
         {
             std::cerr << "MM9 requires one distribution-mode skill_trainers contribution\n";
-            return false;
+            return nullptr;
         }
         pTrainerContribution = &contribution;
     }
     if (pTrainerContribution == nullptr)
     {
         std::cerr << "MM9 world manifest has no skill_trainers contribution\n";
-        return false;
+        return nullptr;
     }
 
-    m_pMm9SkillTrainerTable = std::make_shared<Mm9SkillTrainerTable>();
+    std::shared_ptr<Mm9SkillTrainerTable> pTable = std::make_shared<Mm9SkillTrainerTable>();
     std::vector<std::vector<std::string>> rows;
-    const std::string path = "worlds/" + manifest.id + "/" + pTrainerContribution->path;
-    if (!loadTextTableRows(assetFileSystem, path, rows)
-        || !m_pMm9SkillTrainerTable->loadFromRows(rows, getMm9RudeDialogueTable()))
+    const std::string path = "worlds/" + manifest->id + "/" + pTrainerContribution->path;
+    if (!loadTextTableRows(assetFileSystem, path, rows) || !pTable->loadFromRows(rows, dialogue))
     {
         std::cerr << "Failed to load MM9 skill-trainer contribution: " << path << '\n';
-        for (const std::string &error : m_pMm9SkillTrainerTable->errors())
+        for (const std::string &error : pTable->errors())
         {
             std::cerr << "  " << error << '\n';
         }
-        return false;
+        return nullptr;
     }
-    return true;
+    return pTable;
 }
 
 bool GameDataLoader::loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem)

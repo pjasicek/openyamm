@@ -203,10 +203,10 @@ std::optional<uint16_t> mm9RudeFoundPlayerEventIdForSourceObject(uint32_t source
         Mm9RudeFoundPlayerEventIdEnd);
 }
 
-bool Mm9RudeDialogueTable::load(const Engine::AssetFileSystem &assetFileSystem)
+bool Mm9RudeDialogueTable::load(const Engine::AssetFileSystem &assetFileSystem, const std::string &packageRoot)
 {
     clear();
-    const std::string directory = "dialogue/rude";
+    const std::string directory = packageRoot + "dialogue/rude";
     std::vector<std::string> entries = assetFileSystem.enumerate(directory);
     std::sort(entries.begin(), entries.end());
 
@@ -233,19 +233,19 @@ bool Mm9RudeDialogueTable::load(const Engine::AssetFileSystem &assetFileSystem)
         }
     }
 
-    const std::string promotionsPath = "dialogue/promotions.yml";
+    const std::string promotionsPath = packageRoot + "dialogue/promotions.yml";
     if (const std::optional<std::string> promotions = assetFileSystem.readTextFile(promotionsPath))
     {
         loadPromotionsText(promotionsPath, *promotions);
     }
 
-    const std::string lostItemsPath = "dialogue/lost_items.yml";
+    const std::string lostItemsPath = packageRoot + "dialogue/lost_items.yml";
     if (const std::optional<std::string> lostItems = assetFileSystem.readTextFile(lostItemsPath))
     {
         loadLostItemsText(lostItemsPath, *lostItems);
     }
 
-    const std::string racialTrainersPath = "dialogue/racial_trainers.yml";
+    const std::string racialTrainersPath = packageRoot + "dialogue/racial_trainers.yml";
     if (const std::optional<std::string> racialTrainers = assetFileSystem.readTextFile(racialTrainersPath))
     {
         loadRacialTrainersText(racialTrainersPath, *racialTrainers);
