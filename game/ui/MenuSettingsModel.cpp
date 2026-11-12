@@ -222,6 +222,14 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return std::to_string(settings.bloomStrength);
     }
+    if (id == "mist")
+    {
+        return settings.mist ? "true" : "false";
+    }
+    if (id == "mist_strength")
+    {
+        return std::to_string(settings.mistStrength);
+    }
     if (id == "cinematic_grading")
     {
         return settings.cinematicGrading ? "true" : "false";
@@ -273,6 +281,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "fast_attack_repeat")
     {
         return settings.fastAttackRepeat ? "true" : "false";
+    }
+    if (id == "quicksave_slots")
+    {
+        return std::to_string(settings.quickSaveSlots);
     }
     if (id == "sound_volume")
     {
@@ -687,6 +699,26 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         settings.bloom = value == "true";
         return true;
     }
+    if (id == "mist")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.mist = value == "true";
+        return true;
+    }
+    if (id == "mist_strength")
+    {
+        int number = 0;
+        const auto result = std::from_chars(value.data(), value.data() + value.size(), number);
+        if (result.ec != std::errc{} || result.ptr != value.data() + value.size() || number < 0 || number > 200)
+        {
+            return false;
+        }
+        settings.mistStrength = number;
+        return true;
+    }
     if (id == "bloom_strength")
     {
         int number = 0;
@@ -817,6 +849,17 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.fastAttackRepeat = value == "true";
+        return true;
+    }
+    if (id == "quicksave_slots")
+    {
+        int number = 0;
+        const auto result = std::from_chars(value.data(), value.data() + value.size(), number);
+        if (result.ec != std::errc{} || result.ptr != value.data() + value.size() || number < 1 || number > 20)
+        {
+            return false;
+        }
+        settings.quickSaveSlots = number;
         return true;
     }
     if (id == "sound_volume")

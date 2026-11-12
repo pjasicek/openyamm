@@ -6202,9 +6202,18 @@ std::optional<SavePlaythroughInfo> loadSavePlaythroughInfoFromPath(
     return data ? std::optional<SavePlaythroughInfo>(savePlaythroughInfo(*data)) : std::nullopt;
 }
 
-std::filesystem::path quickSavePath(const std::string &playthroughId)
+namespace
 {
-    return saveSlotPath("quicksave", playthroughId);
+// "quicksave", "quicksave2", "quicksave3".
+std::string quickSaveSlotName(int slot)
+{
+    return slot <= 1 ? "quicksave" : "quicksave" + std::to_string(slot);
+}
+}
+
+std::filesystem::path quickSavePath(const std::string &playthroughId, int slot)
+{
+    return saveSlotPath(quickSaveSlotName(slot), playthroughId);
 }
 
 std::filesystem::path autosavePath(const std::string &playthroughId)
@@ -6214,7 +6223,101 @@ std::filesystem::path autosavePath(const std::string &playthroughId)
 
 bool isQuickSavePath(const std::filesystem::path &path)
 {
-    return isSaveSlotPath(path, "quicksave");
+    return quickSaveSlot(path) != 0;
+}
+
+int quickSaveSlot(const std::filesystem::path &path)
+{
+    // "quicksave", then the slot number from 2 up, then nothing or "_<playthrough id>".
+    const std::string stem = toLowerCopy(path.stem().string());
+    const std::string first = quickSaveSlotName(1);
+
+    if (stem.rfind(first, 0) != 0)
+    {
+        return 0;
+    }
+
+    const size_t numberEnd = std::min(stem.find_first_not_of("0123456789", first.size()), stem.size());
+
+    if (numberEnd != stem.size() && stem[numberEnd] != '_')
+    {
+        return 0;
+    }
+
+    if (numberEnd == first.size())
+    {
+        return 1;
+    }
+
+    const std::string number = stem.substr(first.size(), numberEnd - first.size());
+
+    // Written without leading zeros, and the first slot without a number.
+    if (number.size() > 2 || number[0] == '0')
+    {
+        return 0;
+    }
+
+    const int slot = std::stoi(number);
+    return slot >= 2 && slot <= MaxQuickSaveSlotCount ? slot : 0;
+}
+
+bool saveQuickSaveToPath(
+    const std::filesystem::path &path,
+    const GameSaveData &data,
+    int slotCount,
+    std::string &error)
+{
+    slotCount = std::clamp(slotCount, 1, MaxQuickSaveSlotCount);
+
+    if (quickSaveSlot(path) != 1)
+    {
+        return saveGameDataToPath(path, data, error);
+    }
+
+    // Written beside the slots first, so that nothing moves for a save that fails.
+    std::filesystem::path written = path;
+    written += ".tmp";
+    std::error_code fileError;
+
+    if (!saveGameDataToPath(written, data, error))
+    {
+        std::filesystem::remove(written, fileError);
+        return false;
+    }
+
+    // The slots' file names differ only in the number behind "quicksave".
+    const std::string tail = path.filename().string().substr(quickSaveSlotName(1).size());
+    const auto slotPath = [&path, &tail](int slot)
+    {
+        return path.parent_path() / (quickSaveSlotName(slot) + tail);
+    };
+    int last = 1;
+
+    while (last < slotCount && std::filesystem::exists(slotPath(last), fileError))
+    {
+        ++last;
+    }
+
+    for (int slot = last; slot > 1; --slot)
+    {
+        std::filesystem::rename(slotPath(slot - 1), slotPath(slot), fileError);
+    }
+
+    for (int slot = slotCount + 1; slot <= MaxQuickSaveSlotCount; ++slot)
+    {
+        std::filesystem::remove(slotPath(slot), fileError);
+    }
+
+    std::filesystem::rename(written, path, fileError);
+
+    if (fileError)
+    {
+        error = "could not write save file";
+        std::filesystem::remove(written, fileError);
+        return false;
+    }
+
+    return true;
 }
 
 bool isAutosavePath(const std::filesystem::path &path)

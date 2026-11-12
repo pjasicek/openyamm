@@ -300,6 +300,27 @@ TEST_CASE("ambient occlusion is optional and its intensity validates and persist
     std::filesystem::remove(path);
 }
 
+TEST_CASE("the quicksaves kept setting defaults to three, validates one to twenty and persists")
+{
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.quickSaveSlots == 3);
+    REQUIRE(setMenuSettingValue(settings, "quicksave_slots", "20"));
+    REQUIRE(setMenuSettingValue(settings, "quicksave_slots", "1"));
+    REQUIRE(setMenuSettingValue(settings, "quicksave_slots", "7"));
+    for (const std::string value : {"0", "21", "-1", "7junk", ""})
+    {
+        CHECK_FALSE(setMenuSettingValue(settings, "quicksave_slots", value));
+    }
+    CHECK(menuSettingValue(settings, "quicksave_slots") == "7");
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-quicksave-slots-settings.ini";
+    std::string error;
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE(loaded);
+    CHECK(loaded->quickSaveSlots == 7);
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("sharpening defaults to the desktop profile and its strength validates and persists")
 {
     GameSettings settings = GameSettings::createDefault();

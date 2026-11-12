@@ -296,7 +296,9 @@ def main():
             # UV bounds lie on texel centers, leaving size-1 raster intervals. Tiny
             # oblique faces need interior samples: a 2x2 chart can miss every sample
             # and bake completely black even when the face is exposed to the sky.
-            w, h = [max(4, math.ceil(v/profile['units_per_texel']) + 1) for v in span]
+            # A profile may give named models a finer texel spacing (detail geometry with small reliefs).
+            spacing = profile.get('model_units_per_texel', {}).get(model['name'], profile['units_per_texel'])
+            w, h = [max(4, math.ceil(v/spacing) + 1) for v in span]
             mat, (tw, th) = material(face['texture_name'])
             tex_uv = [((u+face['texture_delta_u'])/tw, 1-(v+face['texture_delta_v'])/th)
                       for u,v in zip(face['texture_us'],face['texture_vs'])]
@@ -573,6 +575,13 @@ def main():
             np.save(out / (obj.name+'_'+term+'.npy'), pixels)
             if obj.name.startswith('buildings_') and term in ('sun', 'sky'):
                 building_light[obj.name] = building_light.get(obj.name, 0) + pixels[:, :, :3].sum(axis=2)
+            if profile.get('clamp_rgbm'):
+                # Opt-in for review bakes: clamp outliers instead of failing; the raw .npy above keeps them for
+                # tracing, and the count goes into the stats.
+                over = int((pixels[:, :, :3] > 4).any(axis=2).sum())
+                if over:
+                    stats.setdefault('clamped', []).append({'object': obj.name, 'term': term, 'texels': over})
+                    pixels[:, :, :3] = np.minimum(pixels[:, :, :3], 4)
             payload = rgbm(pixels)
             if obj.name == 'probes':
                 probe_values[term] = np.array([pixels[y,x,:3] for y,x in probe_texels])

@@ -16,6 +16,7 @@ add_library(openyamm_engine
     FontAsset.cpp
     Localization.cpp
     ImageAssetLoader.cpp
+    ImageAssetPaths.cpp
     ImageMipmaps.cpp
     ParallelFor.cpp
     models/CgltfImplementation.cpp
@@ -24,6 +25,7 @@ add_library(openyamm_engine
     models/ModelAsset.cpp
     models/ModelInstance.cpp
     render/CookedTexture.cpp
+    render/CookedTextureHeader.cpp
     render/ModelRenderer.cpp
     render/TextureBlockCodec.cpp
     render/ModelEnvironment.cpp

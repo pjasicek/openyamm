@@ -1002,9 +1002,15 @@ float fixedIndoorDoorDirectionComponentToFloat(int value)
     return static_cast<float>(value) / 65536.0f;
 }
 
-bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door)
+bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door, const IndoorMoverDefinition *pMover)
 {
-    return door.directionZ != 0;
+    if (door.directionZ != 0)
+    {
+        return true;
+    }
+
+    return pMover != nullptr && pMover->carry && !pMover->rotation
+        && (door.directionX != 0 || door.directionY != 0);
 }
 
 bool mechanismDoorContainsFace(const MapDeltaDoor &door, size_t faceIndex)

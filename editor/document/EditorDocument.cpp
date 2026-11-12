@@ -5,6 +5,7 @@
 #include "editor/import/ObjModelImport.h"
 #include "game/StringUtils.h"
 #include "game/maps/MechanismAudioYml.h"
+#include "game/maps/MistYml.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -4687,6 +4688,7 @@ std::string EditorDocument::serializeOutdoorScene(
     emitter << YAML::EndMap;
     emitter << YAML::Key << "ceiling" << YAML::Value << sceneData.environment.ceiling;
     emitter << YAML::EndMap;
+    Game::emitSceneMist(emitter, sceneData.mist);
 
     emitter << YAML::Key << "terrain" << YAML::Value << YAML::BeginMap;
     emitter << YAML::Key << "attribute_overrides" << YAML::Value << YAML::BeginSeq;
@@ -5100,6 +5102,8 @@ std::string EditorDocument::serializeIndoorScene(
         }
         emitter << YAML::EndMap;
     }
+
+    Game::emitSceneMist(emitter, sceneData.mist);
 
     if (sceneData.openSky.enabled)
     {

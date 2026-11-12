@@ -12,6 +12,7 @@
 #include "game/fx/WorldFxRenderResources.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/fx/EffectRenderer.h"
+#include "game/fx/MistWisps.h"
 #include "game/render/ShieldDomeRenderer.h"
 #include "game/outdoor/OutdoorCollisionData.h"
 #include "game/outdoor/OutdoorDistantSea.h"
@@ -142,6 +143,8 @@ public:
     const SkyPresetLibrary *skyPresetLibrary() const;
     // Terrain square for the Enhanced map-edge fog and the sea past it, for the current camera height.
     SkySurroundings skySurroundings() const;
+    // What the map's mist takes of the hour's and the weather's ambient light, 1 at a clear noon (devdocs/MIST.md).
+    std::array<float, 3> mistLight() const;
     // Baked sun/sky light colours (u_bakedLighting), hue-tinted by the Enhanced sky when it is active.
     std::array<std::array<float, 4>, 2> bakedLightingColors(
         const OutdoorWorldRuntime::AtmosphereState &atmosphere) const;
@@ -937,6 +940,7 @@ private:
     uint64_t m_renderableStartTickNanoseconds = 0;
     uint64_t m_renderFrameIndex = 0;
     WorldFxSystem m_worldFxSystem;
+    MistWisps m_mistWisps;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
     std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
     std::vector<KeyboardInteractionBillboardCandidate> m_keyboardInteractionBillboardCandidates;

@@ -76,5 +76,9 @@ struct InstalledContentOptions
     std::string languageId;
     // <user data>/languages: the player's own language packs, mounted at languages/ in front of the shipped ones.
     std::filesystem::path userLanguagesRoot;
+    // --extra-mount: a development folder laid out like an asset root (engine/, worlds/<id>/), whose map files (maps,
+    // events, textures) and engine files are read in front of a development asset root's: a map build is played
+    // without copying it into the root. Empty: none.
+    std::filesystem::path extraMountRoot;
 };
 }

@@ -118,6 +118,8 @@ struct IndoorSceneData
     std::vector<IndoorLadder> ladders;
     // Scene `fog` (devdocs/INDOOR_FOG.md).
     IndoorFog fog;
+    // Scene `mist` (devdocs/MIST.md).
+    MapMist mist;
     // Scene `model_lighting` (devdocs/INDOOR_MODEL_LIGHTING.md).
     IndoorModelLighting modelLighting;
     // Scene `sky` (devdocs/INDOOR_OPEN_SKY.md).

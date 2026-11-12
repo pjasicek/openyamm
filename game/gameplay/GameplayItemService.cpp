@@ -561,7 +561,8 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         }
 
         if ((useResult.action == InventoryItemUseAction::UseHorseshoe
-                || useResult.action == InventoryItemUseAction::GrantTechPoints)
+                || useResult.action == InventoryItemUseAction::GrantTechPoints
+                || useResult.action == InventoryItemUseAction::GrantSkillPoints)
             && useResult.consumed)
         {
             m_session.gameplayFxService().triggerPortraitEventFxWithoutSpeech(

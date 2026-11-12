@@ -9551,11 +9551,13 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
             const Engine::ModelTransform transform = *fx.models().rootTransform(handle);
-            for (const float time : {0.7f, 1.1f, 1.65f})
+            // Re-timed 2026-11-11 with an authored recoil (mm8_m416_attacks_claude): 1.2 s clip, shot at the native
+            // 0.5 s (was 1.0 s of 1.7 s), bolt reloaded at 1.07 s.
+            for (const float time : {0.3f, 0.7f, 1.15f})
             {
                 fx.models().sample(handle, *attack, time, transform);
                 const Engine::ModelMatrix *pBolt = fx.models().nodeMatrix(handle, "Bolt");
-                if (!pBolt || Engine::modelMatrixVisible(*pBolt) != (time != 1.1f))
+                if (!pBolt || Engine::modelMatrixVisible(*pBolt) != (time != 0.7f))
                 {
                     failure = "crossbow bolt must disappear at release and reload before returning to carry";
                     return false;
@@ -12965,8 +12967,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "Ogre Mage LOD chain or wand socket are missing";
             return false;
         }
+        // Attack and Cast replaced 2026-11-11 from MM9 donors (mm8_m540_attacks_claude): the Nosferatu wand bash
+        // (1.15 s) and the mirrored Lich spell throw (1.35 s), no longer one shared 46-frame clip.
         const std::array<std::pair<const char *, float>, 9> clips = {{{"Standing", 2.0f}, {"Walking", 0.8f},
-            {"Running", 25.0f / 30.0f}, {"Attack", 46.0f / 30.0f}, {"Cast", 46.0f / 30.0f}, {"Hit", 0.5f},
+            {"Running", 25.0f / 30.0f}, {"Attack", 1.15f}, {"Cast", 1.35f}, {"Hit", 0.5f},
             {"Death", 1.3f}, {"Dead", 1.0f}, {"Fidget", 1.5f}}};
         for (const auto &[name, duration] : clips)
         {
@@ -14793,7 +14797,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         for (const Engine::ModelInstanceHandle handle : fx.models().handles())
         {
             const Engine::ModelAsset *pCandidate = fx.models().asset(handle);
-            if (!pCandidate->findNode("Peasant") || pCandidate->sourcePath.find("mm6_pfem") == std::string::npos)
+            if (!pCandidate->findNode("PeasantF1") || pCandidate->sourcePath.find("mm6_pfem") == std::string::npos)
             {
                 continue;
             }
@@ -14817,8 +14821,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "female peasant skins did not follow their native A/B/C descriptors";
             return false;
         }
-        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 4.0f}, {"Walking", 1.0417f},
-            {"Attack", 0.75f}, {"Hit", 0.75f}, {"Death", 0.625f}, {"Dead", 1.0f}, {"Fidget", 0.75f}}};
+        // Rebuilt 2026-11-11 on the MM9 PeasantFemale clips (mm6_pfem_rebuild_claude): MM9 stand, walk (and the game
+        // walk Walk2), run, talk gesture as fidget and attack, wince cut near the native hit, die.
+        const std::array<std::pair<const char *, float>, 9> clips = {{{"Standing", 2.5f}, {"Walking", 0.9f},
+            {"Walk2", 0.9f}, {"Running", 23.0f / 30.0f}, {"Attack", 26.0f / 30.0f}, {"Hit", 22.0f / 30.0f},
+            {"Death", 56.0f / 30.0f}, {"Dead", 1.0f}, {"Fidget", 101.0f / 30.0f}}};
         for (const auto &[clipName, seconds] : clips)
         {
             const std::optional<uint32_t> clip = pAsset->findClip(clipName);
@@ -14828,7 +14835,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
         }
-        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Peasant")].meshIndex];
+        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("PeasantF1")].meshIndex];
         if (mesh.lodMeshes.size() != 3 || pAsset->materialVariants.size() != 3)
         {
             failure = "female peasant model lacks its LODs or skins";
@@ -15749,9 +15756,12 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "no New Sorpigal guard used the gua model";
             return false;
         }
-        // Native 750 ms attack/hit (six 125 ms entries); Standing is a held one-second pose.
-        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 1.0f}, {"Walking", 1.0417f},
-            {"Running", 0.625f}, {"Attack", 0.75f}, {"Hit", 0.75f}, {"Death", 1.6667f}, {"Dead", 0.0417f}}};
+        // Rebuilt 2026-11-11 on the MM9 GUARD skeleton and clips (mm6_gua_rebuild_claude): MM9 stand, walk, run
+        // (the sprint), fidget, wince and die; Hattack1/2 slowed x1.3/x1.25 towards the native 0.75 s; Walk2 and Jog
+        // are the amplitude-scaled walk and run the binding plays.
+        const std::array<std::pair<const char *, float>, 11> clips = {{{"Standing", 1.7f}, {"Walking", 1.0f},
+            {"Walk2", 32.0f / 30.0f}, {"Jog", 0.6f}, {"Running", 0.5f}, {"Attack", 25.0f / 30.0f},
+            {"Attack2", 29.0f / 30.0f}, {"Hit", 0.9f}, {"Death", 1.9f}, {"Dead", 1.0f}, {"Fidget", 2.0f}}};
         for (const auto &[clipName, seconds] : clips)
         {
             const std::optional<uint32_t> clip = pAsset->findClip(clipName);
@@ -15762,12 +15772,12 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         }
         const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Guard")].meshIndex];
-        if (mesh.lodMeshes.size() != 3 || !pAsset->findNode("Halberd"))
+        if (mesh.lodMeshes.size() != 3 || !pAsset->findNode("Xbase"))
         {
-            failure = "guard model lacks its LODs or the Halberd joint";
+            failure = "guard model lacks its LODs or the Xbase weapon joint";
             return false;
         }
-        // The halberd is an attachment on the Halberd joint (tiers may carry different weapons).
+        // The halberd is an attachment on the MM9 skeleton's Xbase weapon joint (tiers may carry different weapons).
         for (const Engine::ModelInstanceHandle handle : fx.models().handles())
         {
             if (fx.models().asset(handle) != pAsset)
@@ -15775,19 +15785,20 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 continue;
             }
             const std::vector<Engine::ModelAttachment> &carried = fx.models().attachments(handle);
-            if (carried.size() != 1 || carried[0].nodeIndex != *pAsset->findNode("Halberd")
+            if (carried.size() != 1 || carried[0].nodeIndex != *pAsset->findNode("Xbase")
                 || carried[0].asset->sourcePath.find("mm6_gua_halberd") == std::string::npos)
             {
-                failure = "guard does not carry its halberd on the Halberd joint";
+                failure = "guard does not carry its halberd on the Xbase joint";
                 return false;
             }
         }
-        // Guard/lieutenant/captain recolour one shared skin (body and head merged into one atlas by
-        // tools/merge_head_material.py): the three tier materials share base image and mask, differing only in ramps.
+        // Guard/lieutenant/captain recolour shared skins: since the 2026-11-11 rebuild a 2K body and a 1K head set
+        // (not merged: the merged atlas would cook below 2K), each three tier materials over one base image and mask
+        // that differ only in ramps.
         const std::vector<const Engine::ModelMaterial *> recoloured = recolouredTierMaterials(*pAsset);
-        if (pAsset->materialVariants.size() != 3 || recoloured.size() != 3)
+        if (pAsset->materialVariants.size() != 3 || recoloured.size() != 6)
         {
-            failure = "guard model does not have three merged body/head tier materials";
+            failure = "guard model does not have three body and three head tier materials";
             return false;
         }
         size_t sharing = 0;
@@ -15803,7 +15814,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 }
             }
         }
-        if (sharing != 6)
+        if (sharing != 12)
         {
             failure = "guard tiers do not use different ramps over one shared skin";
             return false;

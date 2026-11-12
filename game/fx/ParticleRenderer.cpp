@@ -133,6 +133,7 @@ float particleCullDistance(FxParticleTag tag)
     case FxParticleTag::Buff:
         return ParticleBuffCullDistance;
     case FxParticleTag::Misc:
+    case FxParticleTag::MapMist:
         return ParticleMiscCullDistance;
     }
 

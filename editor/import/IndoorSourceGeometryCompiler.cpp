@@ -1035,6 +1035,7 @@ bool sourceSurfaceAttributes(
         {"texture_move_by_door", Game::FaceAttribute::TextureMoveByDoor},
         {"animated", Game::FaceAttribute::Animated},
         {"lava", Game::FaceAttribute::Lava},
+        {"water", Game::FaceAttribute::Fluid},
     };
     for (const std::string &name : pSurfaceMetadata->flags)
     {

@@ -50,6 +50,7 @@ add_library(openyamm_game STATIC
     events/EventDialogContent.cpp
     events/EventRuntime.cpp
     events/MechanismAudio.cpp
+    events/MechanismDistance.cpp
     events/ScriptedEventProgram.cpp
     events/ScriptedEventTimer.cpp
     tables/FaceAnimationTable.cpp
@@ -64,6 +65,7 @@ add_library(openyamm_game STATIC
     fx/import/EffectResourceLibrary.cpp
     fx/ParticleRenderer.cpp
     fx/ParticleSystem.cpp
+    fx/MistWisps.cpp
     fx/WorldFxRenderer.cpp
     fx/WorldFxRenderResources.cpp
     fx/TalkPortraitFrame.cpp
@@ -156,6 +158,8 @@ add_library(openyamm_game STATIC
     items/QuickItemSlots.cpp
     items/InventoryItemMixingRuntime.cpp
     maps/IndoorSceneYml.cpp
+    maps/SceneOverlayPaths.cpp
+    maps/MistYml.cpp
     maps/MapItemSourceYml.cpp
     maps/MapPresentation.cpp
     maps/MapDeltaData.cpp
@@ -177,6 +181,7 @@ add_library(openyamm_game STATIC
     maps/OutdoorSceneYml.cpp
     maps/TerrainTileData.cpp
     data/GameDataLoader.cpp
+    data/MapScriptSources.cpp
     outdoor/HeadlessOutdoorDiagnostics.cpp
     tables/HouseTable.cpp
     tables/IconFrameTable.cpp
@@ -314,12 +319,12 @@ add_library(openyamm_game STATIC
     party/BattleOrders.cpp
     party/EventSpellBuffs.cpp
     party/LloydsBeaconRuntime.cpp
+    party/PlaythroughNames.cpp
     party/PlaythroughStatistics.cpp
     party/PlaythroughSeal.cpp
     party/PartySpellSystem.cpp
     party/WorldSpells.cpp
     items/PriceCalculator.cpp
-    party/PlaythroughNames.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
     render/TerrainMaterialConfig.cpp

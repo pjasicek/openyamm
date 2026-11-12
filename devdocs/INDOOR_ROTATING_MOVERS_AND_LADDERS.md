@@ -144,6 +144,10 @@ initial_state:
   multi-turn swings are later work; the spinners are `spin`, "Continuous spinners").
 - **Defaults** are today's behaviour: `easing: linear`, `bodies: ignore`, `carry: false` (a vertical linear door keeps
   its existing carry), no auto-close.
+- **`carry` on a linear door that slides level** (direction without a vertical part: a sliding bridge, a tram) makes
+  it carry the party, actors and items standing on it along its travel, like a lift (`indoorDoorCarriesPartySupport`,
+  since 2026-11-12). Without it a level slide moves out from under what stands on it, as in MM6-MM8. Map Studio
+  writes it for its `movers` that slide level and do not stretch.
 - **The stored pose is the closed pose.** `x/y/z_offsets` (and the BLV vertex array) hold every vertex closed; with
   `direction` zero the linear formula gives the closed pose at every distance, so a code path that missed the rotation
   would draw the door shut rather than somewhere wrong.

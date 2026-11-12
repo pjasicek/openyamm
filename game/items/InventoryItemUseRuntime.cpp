@@ -901,6 +901,11 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::GrantTechPoints;
     }
 
+    if (lowerAscii(pItemDefinition->useAction) == "grantskillpoints")
+    {
+        return InventoryItemUseAction::GrantSkillPoints;
+    }
+
     if (lowerAscii(pItemDefinition->useAction) == "useshieldcell")
     {
         return InventoryItemUseAction::UseShieldCell;
@@ -1345,6 +1350,19 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.handled = true;
             result.consumed = true;
             result.statusText = Engine::tr("+{points} Tech Points!", {{"points", int64_t(techPoints)}});
+            result.soundId = SoundId::Quest;
+            result.speechId = SpeechId::QuestGot;
+            return result;
+        }
+
+        case InventoryItemUseAction::GrantSkillPoints:
+        {
+            const uint32_t skillPoints = static_cast<uint32_t>(std::max(1, pItemDefinition->varA));
+            pTargetMember->skillPoints += skillPoints;
+            result.handled = true;
+            result.consumed = true;
+            result.statusText = Engine::trn("+{count} Skill Point!", "+{count} Skill Points!", skillPoints,
+                                            {{"count", skillPoints}});
             result.soundId = SoundId::Quest;
             result.speechId = SpeechId::QuestGot;
             return result;

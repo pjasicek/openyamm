@@ -222,7 +222,8 @@ void main()
     // pixels are covered by terrain anyway: skip the sky layers.
     if (fogBelowHorizon && direction.z <= -0.012)
     {
-        gl_FragColor = vec4(belowHorizonFog(direction, belowMode) + skyDither(gl_FragCoord.xy), 1.0);
+        gl_FragColor = vec4(mistApplySky(belowHorizonFog(direction, belowMode), direction)
+            + skyDither(gl_FragCoord.xy), 1.0);
         return;
     }
 
@@ -329,5 +330,5 @@ void main()
         display = mix(display, belowHorizonFog(direction, belowMode), 1.0 - smoothstep(-0.012, 0.004, direction.z));
     }
 
-    gl_FragColor = vec4(display + skyDither(gl_FragCoord.xy), 1.0);
+    gl_FragColor = vec4(mistApplySky(display, direction) + skyDither(gl_FragCoord.xy), 1.0);
 }

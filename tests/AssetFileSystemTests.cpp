@@ -452,6 +452,60 @@ TEST_CASE("AssetFileSystem mounts mods in front of the packs only when mods/ hol
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("AssetFileSystem reads an extra development mount in front of a development root")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+    const std::filesystem::path extraRoot = temporaryRoot / "build_mount";
+    writeTextFile(assetRoot / "engine" / "data_tables" / "map_stats.txt", "game-stats");
+    writeTextFile(assetRoot / "engine" / "data_tables" / "spells.txt", "game-spells");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "maps" / "d01.blv", "game-map");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "events" / "maps" / "d01.lua", "game-script");
+    writeTextFile(assetRoot / "worlds" / "mm8" / "maps" / "d05.blv", "game-mm8-map");
+    writeTextFile(extraRoot / "engine" / "data_tables" / "map_stats.txt", "build-stats");
+    writeTextFile(extraRoot / "worlds" / "mm6" / "maps" / "new01.blv", "build-map");
+    writeTextFile(extraRoot / "worlds" / "mm6" / "events" / "maps" / "d01_rewire.lua", "build-overlay");
+    writeTextFile(extraRoot / "worlds" / "mm8" / "maps" / "d05.blv", "build-mm8-map");
+    const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
+    InstalledContentOptions options;
+    options.extraMountRoot = extraRoot;
+
+    {
+        AssetFileSystem fs;
+        REQUIRE(fs.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm6", options));
+        CHECK(fs.readTextFile("engine/data_tables/map_stats.txt") == std::optional<std::string>("build-stats"));
+        CHECK(fs.readTextFile("data_tables/map_stats.txt") == std::optional<std::string>("build-stats"));
+        CHECK(fs.readTextFile("engine/data_tables/spells.txt") == std::optional<std::string>("game-spells"));
+        CHECK(fs.readTextFile("Data/games/new01.blv") == std::optional<std::string>("build-map"));
+        CHECK(fs.readTextFile("Data/games/d01.blv") == std::optional<std::string>("game-map"));
+        CHECK(fs.readTextFile("worlds/mm6/events/maps/d01_rewire.lua") == std::optional<std::string>("build-overlay"));
+        CHECK(fs.readTextFile("Data/games/d05.blv") == std::optional<std::string>("build-mm8-map"));
+        const std::vector<std::string> scripts = fs.enumerate("events/maps");
+        CHECK(std::find(scripts.begin(), scripts.end(), "d01_rewire.lua") != scripts.end());
+        CHECK(std::find(scripts.begin(), scripts.end(), "d01.lua") != scripts.end());
+
+        // A world switch mounts again with the same folder.
+        REQUIRE(fs.switchActiveWorld("mm8"));
+        CHECK(fs.readTextFile("Data/games/d05.blv") == std::optional<std::string>("build-mm8-map"));
+        CHECK(fs.readTextFile("Data/games/new01.blv") == std::optional<std::string>("build-map"));
+    }
+
+    // Without the option nothing of the folder is read.
+    {
+        AssetFileSystem fs;
+        REQUIRE(fs.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm6", {}));
+        CHECK(fs.readTextFile("engine/data_tables/map_stats.txt") == std::optional<std::string>("game-stats"));
+        CHECK_FALSE(fs.exists("Data/games/new01.blv"));
+    }
+
+    // A folder that does not exist is an error, not silence.
+    options.extraMountRoot = temporaryRoot / "missing";
+    AssetFileSystem missing;
+    CHECK_FALSE(missing.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm6", options));
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos over the game's, and nothing else")
 {
     using namespace OpenYAMM::Engine;

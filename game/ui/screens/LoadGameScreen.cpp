@@ -107,9 +107,10 @@ std::string friendlySaveFileLabel(const std::filesystem::path &path)
         return Engine::tr("Autosave");
     }
 
-    if (isQuickSavePath(path))
+    if (const int quickSlot = quickSaveSlot(path); quickSlot != 0)
     {
-        return Engine::tr("Quicksave");
+        // The newest is plain "Quicksave", the two before it "Quicksave 2" and "Quicksave 3".
+        return quickSlot == 1 ? Engine::tr("Quicksave") : Engine::tr("Quicksave {number}", {{"number", quickSlot}});
     }
 
     if (stem.rfind("save", 0) == 0 && stem.size() > 4)

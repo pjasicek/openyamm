@@ -1,6 +1,7 @@
 #include "game/ui/EnemyHealthBarRenderer.h"
 
 #include "engine/Utf8Text.h"
+#include "game/gameplay/ActorNameText.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
@@ -201,7 +202,7 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
         const std::optional<GameplayHudFontHandle> font = ui.findHudFont(GameplayUiSkin::CombatFontName);
         if (font)
         {
-            std::string label = focused ? actor.displayName : std::string();
+            std::string label = focused ? localizedActorName(actor.displayName) : std::string();
             const std::string values = showValues
                 ? std::to_string(actor.currentHp) + "/" + std::to_string(actor.maxHp) : std::string();
             const float textScale = hudScale * std::max(distanceScale, 0.6f);

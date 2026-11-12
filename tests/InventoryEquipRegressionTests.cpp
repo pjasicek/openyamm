@@ -104,6 +104,32 @@ OpenYAMM::Game::ItemTable makeSkillLearningItemTable(const std::string &targetSk
     return itemTable;
 }
 
+// MM9's Clover as its item table has it: a misc item whose use gives VarA skill points.
+OpenYAMM::Game::ItemTable makeCloverItemTable()
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(
+        sourceRoot,
+        sourceRoot / "assets_dev",
+        OpenYAMM::Engine::AssetScaleTier::X1));
+
+    std::vector<std::string> itemRow(26);
+    itemRow[0] = "10590";
+    itemRow[1] = "missing_test_icon";
+    itemRow[2] = "Clover";
+    itemRow[4] = "Misc";
+    itemRow[12] = "1";
+    itemRow[17] = "test";
+    itemRow[18] = "test:item/clover";
+    itemRow[19] = "590";
+    itemRow[22] = "GrantSkillPoints";
+
+    OpenYAMM::Game::ItemTable itemTable;
+    REQUIRE(itemTable.load(assetFileSystem, {itemRow}, {}));
+    return itemTable;
+}
+
 std::optional<uint16_t> findSpecialEnchantId(
     const OpenYAMM::Game::SpecialItemEnchantTable &table,
     OpenYAMM::Game::SpecialItemEnchantKind kind)
@@ -551,6 +577,32 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
     CHECK_EQ(pMember->permanentBonuses.intellect, 50);
     CHECK(horseshoeResult.consumed);
     CHECK_EQ(pMember->skillPoints, 5u);
+}
+
+TEST_CASE("a Clover gives the member who uses it one skill point")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    OpenYAMM::Game::ItemTable itemTable = makeCloverItemTable();
+    party.setItemTable(&itemTable);
+    OpenYAMM::Game::Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->skillPoints = 3;
+    const uint32_t otherMemberPoints = party.member(0)->skillPoints;
+
+    OpenYAMM::Game::InventoryItem clover = {};
+    clover.objectDescriptionId = 10590;
+    clover.identified = true;
+    CHECK(OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(clover, itemTable)
+        == OpenYAMM::Game::InventoryItemUseAction::GrantSkillPoints);
+    const OpenYAMM::Game::InventoryItemUseResult result =
+        OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(party, 1, clover, itemTable, nullptr);
+
+    CHECK(result.handled);
+    CHECK(result.consumed);
+    CHECK_EQ(result.statusText, "+1 Skill Point!");
+    CHECK_EQ(pMember->skillPoints, 4u);
+    CHECK_EQ(party.member(0)->skillPoints, otherMemberPoints);
 }
 
 TEST_CASE("item generator unique rare item marks party and does not repeat")

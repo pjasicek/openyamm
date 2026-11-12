@@ -12,7 +12,6 @@ namespace OpenYAMM::Engine
 {
 namespace
 {
-constexpr uint64_t Magic = 0x313030584554594full; // "OYTEX001" in file byte order.
 constexpr size_t HeaderFields = CookedTextureHeaderBytes / sizeof(uint64_t);
 constexpr int CompressionLevel = 19;
 
@@ -93,17 +92,6 @@ CookedTextureStatistics measureCookedTextureStatistics(std::span<const uint8_t> 
     return statistics;
 }
 
-bool hasCookedTextureSignature(std::span<const uint8_t> bytes)
-{
-    uint64_t magic = 0;
-    if (bytes.size() < sizeof(magic))
-    {
-        return false;
-    }
-    std::memcpy(&magic, bytes.data(), sizeof(magic));
-    return magic == Magic;
-}
-
 uint8_t cookedTextureFullChainLevels(uint16_t width, uint16_t height)
 {
     uint8_t levels = 1;
@@ -160,7 +148,7 @@ std::vector<uint8_t> encodeCookedTexture(const CookedTexture &texture)
     {
         throw std::invalid_argument("Invalid cooked texture content size");
     }
-    const uint64_t fields[HeaderFields] = {Magic, CookedTextureVersion, uint64_t(texture.codec),
+    const uint64_t fields[HeaderFields] = {CookedTextureMagic, CookedTextureVersion, uint64_t(texture.codec),
         semanticId(texture.semantic), texture.alphaCutoff, texture.width, texture.height, texture.levels,
         texture.sourceHash, texture.blocks.size(), 0 /* the version 2 content hash, unused */, size,
         uint64_t(texture.statistics->alphaUse), packStatistics(*texture.statistics),

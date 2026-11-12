@@ -4632,7 +4632,7 @@ std::vector<uint32_t> IndoorWorldRuntime::refreshMechanismRuntimeGeometryCache(
 
         changedDoorIds.push_back(door.doorId);
 
-        if (indoorDoorCarriesPartySupport(door)
+        if (indoorDoorCarriesPartySupport(door, findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId))
             && std::abs(currentMechanism.currentDistance - previousMechanism.currentDistance) > 0.0001f)
         {
             floorMoves.emplace_back(&door, currentMechanism.currentDistance - previousMechanism.currentDistance);

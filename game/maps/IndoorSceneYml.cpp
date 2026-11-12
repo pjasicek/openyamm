@@ -1,4 +1,5 @@
 #include "game/maps/IndoorSceneYml.h"
+#include "game/maps/MistYml.h"
 
 #include "game/StringUtils.h"
 #include "game/maps/MapItemSourceYml.h"
@@ -2818,6 +2819,12 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
+    if (const YAML::Node mistNode = rootNode["mist"];
+        mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return std::nullopt;
+    }
+
     if (const YAML::Node modelLightingNode = rootNode["model_lighting"];
         modelLightingNode && !parseModelLightingNode(modelLightingNode, sceneData.modelLighting, errorMessage))
     {
@@ -3497,6 +3504,13 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
+    // An overlay's mist replaces the base scene's.
+    if (const YAML::Node mistNode = rootNode["mist"];
+        mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return false;
+    }
+
     // An overlay's model lighting replaces the base scene's.
     if (const YAML::Node modelLightingNode = rootNode["model_lighting"];
         modelLightingNode && !parseModelLightingNode(modelLightingNode, sceneData.modelLighting, errorMessage))
@@ -3838,6 +3852,7 @@ bool buildIndoorMapStateFromScene(
 
     indoorMapData.ladders = sceneData.ladders;
     indoorMapData.fog = sceneData.fog;
+    indoorMapData.mist = sceneData.mist;
     indoorMapData.modelLighting = sceneData.modelLighting;
     indoorMapData.openSky = sceneData.openSky;
     indoorMapData.daylight = sceneData.daylight;

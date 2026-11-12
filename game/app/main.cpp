@@ -65,6 +65,8 @@ void printUsage(std::ostream &stream, const char *pProgram)
            << "  --map <map-file>                 Start on this map\n"
            << "  --ruleset <id>[:<option>...]     Ruleset of a new game, such as maw:hell:horizontal\n"
            << "  --asset-root <directory>         Content root\n"
+           << "  --extra-mount <directory>        Development: read this folder's engine/ and worlds/<id>/ map files\n"
+           << "                                   in front of a development content root\n"
            << "  --asset-scale <1|2|4|x1|x2|x4>   Asset scale tier\n"
            << "  --user-data <directory>          Folder of settings.ini, saves and the log\n"
            << "  --load-unique-actor <index>      Load only this actor of the map\n"
@@ -165,6 +167,20 @@ bool parseCommonArguments(
 
             config.assetRoot = argv[argumentIndex + 1];
             assetRootArgumentProvided = true;
+            ++argumentIndex;
+            continue;
+        }
+
+        if (argument == "--extra-mount")
+        {
+            if (!config.installedContent.extraMountRoot.empty() || argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --extra-mount <directory>\n";
+                return false;
+            }
+
+            std::error_code absoluteError;
+            config.installedContent.extraMountRoot = std::filesystem::absolute(argv[argumentIndex + 1], absoluteError);
             ++argumentIndex;
             continue;
         }

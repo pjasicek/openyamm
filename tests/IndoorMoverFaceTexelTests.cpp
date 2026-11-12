@@ -1,6 +1,8 @@
 #include <doctest/doctest.h>
 
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorMapData.h"
+#include "game/maps/MapDeltaData.h"
 
 #include <vector>
 
@@ -41,4 +43,33 @@ TEST_CASE("a door face without matching texels keeps the geometric rule")
     const std::vector<IndoorProjectedFacePoint> tooFew = {{0, 0}, {67, 0}, {67, 133}};
     CHECK_FALSE(indoorMoverFaceKeepsStoredTexels(DoorLeafProjection, tooFew));
     CHECK_FALSE(indoorMoverFaceKeepsStoredTexels({}, {}));
+}
+
+TEST_CASE("a door that moves up or down carries what stands on it; a level slide only when its mover block asks")
+{
+    MapDeltaDoor lift = {};
+    lift.directionZ = -65536;
+    MapDeltaDoor slanted = {};
+    slanted.directionY = 53001;
+    slanted.directionZ = -38546;
+    MapDeltaDoor slide = {};
+    slide.directionX = 65536;
+    MapDeltaDoor hinged = {};
+    IndoorMoverDefinition plain = {};
+    IndoorMoverDefinition carrying = {};
+    carrying.carry = true;
+    IndoorMoverDefinition turning = carrying;
+    turning.rotation = IndoorMoverRotation{};
+
+    // MM6-MM8 doors have no mover block: vertical and slanted ones carry, level ones do not.
+    CHECK(indoorDoorCarriesPartySupport(lift));
+    CHECK(indoorDoorCarriesPartySupport(slanted));
+    CHECK_FALSE(indoorDoorCarriesPartySupport(slide));
+    CHECK_FALSE(indoorDoorCarriesPartySupport(slide, &plain));
+    CHECK(indoorDoorCarriesPartySupport(lift, &plain));
+    // A level slide carries once its block opts in.
+    CHECK(indoorDoorCarriesPartySupport(slide, &carrying));
+    // A rotating mover is not a linear carrier: it carries by its own rule.
+    CHECK_FALSE(indoorDoorCarriesPartySupport(hinged, &carrying));
+    CHECK_FALSE(indoorDoorCarriesPartySupport(hinged, &turning));
 }

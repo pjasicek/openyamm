@@ -115,6 +115,7 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_lighting.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/sky_common.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/mist.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/weather_wetness.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/shield_common.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/surface_material.sh"

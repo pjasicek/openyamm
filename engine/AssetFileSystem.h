@@ -140,6 +140,8 @@ private:
     bool mountPackageArchiveIfPresent(const std::filesystem::path &archivePath, bool appendToPath);
     // The engine/ and worlds/<id>/ folders of mods/ in front of every pack; logs each file they bring.
     bool mountMods(const std::filesystem::path &modsRoot);
+    // A development folder in front of a development asset root (InstalledContentOptions::extraMountRoot).
+    bool mountExtraDevelopmentRoot(const std::filesystem::path &extraRoot);
     // The player's language packs at languages/, and the active pack's fonts, sounds, voices and videos in front of
     // the game's (devdocs/LOCALIZATION.md). A pack replaces nothing else.
     bool mountLanguagePack(bool packagedRoot);

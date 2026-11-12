@@ -334,5 +334,6 @@ void main()
     float fogRatio = skyFogRatio(getFogRatio(fogDistance), position, fogDistance, u_fogDistances.z);
     vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, position), getFogAlpha(fogDistance));
     gl_FragColor = mix(vec4(litColor, 1.0), fogColor, fogRatio);
+    gl_FragColor.rgb = mistApply(gl_FragColor.rgb, position);
 #endif // !TERRAIN_DEPTH_ONLY
 }

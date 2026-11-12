@@ -8,6 +8,7 @@
 #include "game/indoor/IndoorOpenSky.h"
 #include "game/indoor/IndoorWater.h"
 #include "game/maps/MapPresentation.h"
+#include "game/render/Mist.h"
 
 #include <array>
 #include <cstddef>
@@ -380,6 +381,8 @@ struct IndoorMapData
     std::vector<IndoorLadder> ladders;
     // The scene's fog (disabled for every map without it).
     IndoorFog fog;
+    // The scene's mist (none for every map without it).
+    MapMist mist;
     // The scene's model lighting (disabled for every map without it).
     IndoorModelLighting modelLighting;
     // The scene's open sky (disabled for every map without it).

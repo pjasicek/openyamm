@@ -608,6 +608,12 @@ bool AssetFileSystem::initialize(
             shutdown();
             return false;
         }
+
+        if (!mountExtraDevelopmentRoot(m_installedContentOptions.extraMountRoot))
+        {
+            shutdown();
+            return false;
+        }
     }
 
     // Mods mount after the pack in a release (a player's mod still wins); Android and development roots have no mods.
@@ -785,6 +791,87 @@ bool AssetFileSystem::mountDevelopmentPackageRoots(
     if (!mountMergedWorldVideoRoots(assetRoot, normalizedWorldId))
     {
         return false;
+    }
+
+    return true;
+}
+
+bool AssetFileSystem::mountExtraDevelopmentRoot(const std::filesystem::path &extraRoot)
+{
+    if (extraRoot.empty())
+    {
+        return true;
+    }
+
+    std::error_code error;
+
+    if (!std::filesystem::is_directory(extraRoot, error))
+    {
+        std::cerr << "Extra mount is not a directory: " << extraRoot << '\n';
+        return false;
+    }
+
+    // The same places a development root's files are read from, each in front of the root's own: the folder itself,
+    // its engine and active world packages, and the map folders of every world merged by name. The active world's
+    // are mounted last, so they are found first.
+    if (!mountSearchRoot(extraRoot, false))
+    {
+        return false;
+    }
+
+    const std::filesystem::path engineRoot = extraRoot / EngineDevelopmentRootName;
+    const std::filesystem::path worldsRoot = extraRoot / WorldsDevelopmentRootName;
+    const std::filesystem::path activeWorldRoot = worldsRoot / m_activeWorldId;
+    std::vector<std::filesystem::path> worldRoots;
+
+    for (std::filesystem::directory_iterator entry(worldsRoot, error), end; !error && entry != end;
+         entry.increment(error))
+    {
+        std::error_code typeError;
+
+        if (entry->is_directory(typeError) && entry->path() != activeWorldRoot)
+        {
+            worldRoots.push_back(entry->path());
+        }
+    }
+
+    std::sort(worldRoots.begin(), worldRoots.end());
+
+    if (std::filesystem::is_directory(engineRoot, error) && !mountSearchRoot(engineRoot, false))
+    {
+        return false;
+    }
+
+    if (std::filesystem::is_directory(activeWorldRoot, error))
+    {
+        if (!mountSearchRoot(activeWorldRoot, false))
+        {
+            return false;
+        }
+
+        worldRoots.push_back(activeWorldRoot);
+    }
+
+    const AssetScaleTier textureTier = assetScaleTierForCategory(m_assetScaleProfile, AssetScaleCategory::Textures);
+    std::vector<std::string> mergedDirectoryNames = {MapsDirectoryName, EventsDirectoryName, TexturesDirectoryName};
+
+    if (textureTier != AssetScaleTier::X1)
+    {
+        mergedDirectoryNames.push_back(TexturesDirectoryName + assetScaleTierDirectorySuffix(textureTier));
+    }
+
+    for (const std::filesystem::path &worldRoot : worldRoots)
+    {
+        for (const std::string &directoryName : mergedDirectoryNames)
+        {
+            const std::filesystem::path packageRoot = worldRoot / directoryName;
+
+            if (std::filesystem::is_directory(packageRoot, error)
+                && !mountSearchRootAt(packageRoot, "/" + directoryName, false))
+            {
+                return false;
+            }
+        }
     }
 
     return true;

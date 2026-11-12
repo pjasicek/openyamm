@@ -36,6 +36,7 @@
 #include "game/fx/WorldFxRenderResources.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/fx/EffectRenderer.h"
+#include "game/fx/MistWisps.h"
 #include "game/render/ShieldDomeRenderer.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
@@ -1024,6 +1025,17 @@ private:
     // The indoor hole view ([debug] indoor_hole_view, tools/indoor_hole_sweep.py) has replaced the open sky and fog.
     bool m_holeViewApplied = false;
     SkyFogUniformValues m_outdoorSkyFog = {};
+    // The scene's mist (devdocs/MIST.md) and this frame's u_skyFog without a sky: flat fog and the mist, which the
+    // outdoor view's m_outdoorSkyFog carries too.
+    MapMist m_mist;
+    MistWisps m_mistWisps;
+    // The player's video.mist this frame.
+    bool m_mistSetting = true;
+    float m_mistStrengthSetting = 1.0f;
+    // What the mist takes of the scene's daylight this frame (1 without one).
+    std::array<float, 3> m_frameMistLight = {1.0f, 1.0f, 1.0f};
+    SkySurroundings m_frameSurroundings = {};
+    SkyFogUniformValues m_flatSkyFog = {};
     // The far plane: the outdoor view distance, else the indoor 50 000.
     float cameraFarClipDistance() const;
     bool m_skyRendererInitializeAttempted = false;

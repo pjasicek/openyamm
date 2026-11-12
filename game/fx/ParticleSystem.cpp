@@ -191,6 +191,8 @@ size_t ParticleSystem::tagIndex(FxParticleTag tag)
         return 3;
     case FxParticleTag::Misc:
         return 4;
+    case FxParticleTag::MapMist:
+        return 5;
     }
 
     return 0;

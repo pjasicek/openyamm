@@ -72,6 +72,8 @@ These rules apply to all AI-generated contributions in this repository.
   scripts stay English.
 - For the outdoor sky, sky-coloured fog, sky presets or sky textures, start with
   [Enhanced outdoor sky](level_generation/lighting/SKY_RENDERING.md), the only outdoor sky renderer.
+- For ground mist and local coloured fog volumes on indoor or outdoor maps (the scene's `mist` block, drawn inside
+  the fogging shaders through `game/shaders/mist.sh`; no volumetric lighting), start with [Mist](devdocs/MIST.md).
 - For outdoor rain, snow, wind, lightning, thunder, wet surfaces or `weather.yml`, start with
   [Outdoor weather](level_generation/lighting/WEATHER_PLAN.md).
 - For the outdoor terrain (blended ground materials on a smoothed terrain, the only terrain style: per-map weights
@@ -220,6 +222,10 @@ These rules apply to all AI-generated contributions in this repository.
 - For creating or revising indoor/outdoor maps, start with [Level Generation](level_generation/README.md), even when
   the user does not name the document. Follow its applicable indoor/outdoor workflow, reference studies, calibration,
   and current pipeline-status notes; example maps are references, not universal layouts or exporters.
+- Geometric detail on existing MM6–MM8 BModels (an appended untouchable model with eaves, frames, sills, coping) is an
+  experimental project, shelved by the user on 2026-11-12: do not apply it to maps. To resume it, start with its
+  [handoff](level_generation/projects/mm6_sorpigal_geometry_pilot/HANDOFF.md), then the
+  [playbook](level_generation/projects/mm6_sorpigal_geometry_pilot/PLAYBOOK.md).
 - Use [Blender MCP Startup](level_generation/BLENDER_MCP_STARTUP.md) for agent-managed startup/reconnection.
   Prioritize visual authenticity and quick static wiring/build checks; follow the README's criteria for runtime
   scenarios rather than running a scenario for every face, service, or event binding.
@@ -263,8 +269,10 @@ These rules apply to all AI-generated contributions in this repository.
   [game asset modelling guidelines](level_generation/GAME_ASSET_MODELLING_GUIDELINES.md): silhouette-first triangle
   budgets, no micro or sliver triangles, hard edges on UV seams, consistent texel density, Khronos PBR ranges,
   transparent parts on their own mesh, about 50 % per LOD. Record engine-driven deviations in the project README.
-- Texture every Meshy-textured model for sharpness from the start: UVs from `claude_shared/uv_atlas.py`, Meshy paint at
-  4K downsampled once to 2K, gentle grading, and the measured atlas/density targets met before install, per the
+- Texture every Meshy-textured model for sharpness from the start: UVs from `claude_shared/uv_atlas.py` (since
+  2026-11-12 PartUV charts, seam pass and sparrow packing; `charts='xatlas', packer='xatlas', seam_rounds=0` switches
+  back), Meshy paint at 4K downsampled once to 2K, gentle grading, nearest-texel gutter re-fill (`gutter_fill.py`)
+  last, and the measured atlas/density targets met before install, per the
   [texture quality pass](level_generation/creatures/claude_shared/TEXTURE_QUALITY_PASS.md). Smart UV layouts with 2K
   paints came out smudged (MM9, 2026-10-30).
 - For a world-wide pass over installed 3D monsters (tier scales against the sprite tables, floor contact of every

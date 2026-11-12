@@ -5580,6 +5580,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
             waterSky[0] * brightness, waterSky[1] * brightness, waterSky[2] * brightness, brightness};
         if (view.m_renderLayers.water)
         {
+            applySkyFogUniform(view);
             view.m_waterRenderer.render(transparentView, view.m_elapsedTime,
                 sunDirection, sunColor, skyColor, view.m_weatherPresentation.rainLevel(),
                 view.m_gameSettings.waterMovementRipples ? &view.m_worldFxSystem.waterRipples() : nullptr);
@@ -5687,6 +5688,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
     {
         OutdoorBillboardRenderer::renderFxSegmentProjectiles(view, transparentView, pViewMatrix);
+        if (view.m_gameSettings.mist && view.m_gameSettings.mistWisps && view.m_pOutdoorMapData->mist.enabled())
+        {
+            // The mist's wisps near the eye (devdocs/MIST.md "Wisps").
+            view.m_mistWisps.update(view.m_pOutdoorMapData->mist, {cameraPosition.x, cameraPosition.y, cameraPosition.z},
+                view.m_elapsedTime, view.mistLight(), view.m_worldFxSystem.particles());
+        }
         ParticleRenderer::renderParticles(
             view.m_worldFxRenderResources, view.m_worldFxSystem.particles(), transparentView,
             pViewMatrix, cameraPosition, aspectRatio, view.m_worldFxSystem.glowBillboards());

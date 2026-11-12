@@ -34,6 +34,7 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/content/WorldDecorations.cpp
     ${CMAKE_SOURCE_DIR}/game/events/ScriptedEventProgram.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/IndoorSceneYml.cpp
+    ${CMAKE_SOURCE_DIR}/game/maps/MistYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapDeltaData.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapIdentity.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapItemSourceYml.cpp

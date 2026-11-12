@@ -1201,6 +1201,15 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         settings.saveListNewestFirst = *value == "newest";
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "quicksave_slots"))
+    {
+        int parsed = settings.quickSaveSlots;
+        if (parseIntValue(*value, parsed))
+        {
+            settings.quickSaveSlots = std::clamp(parsed, 1, 20);
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "quest_markers"))
     {
         bool parsed = settings.questMarkers;
@@ -1494,6 +1503,25 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
     {
         parseBoolValue(*value, settings.surfaceReflections);
     }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "mist"))
+    {
+        parseBoolValue(*value, settings.mist);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "mist_strength"))
+    {
+        int parsed = settings.mistStrength;
+        if (parseIntValue(*value, parsed))
+        {
+            settings.mistStrength = std::clamp(parsed, 0, 200);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "mist_wisps"))
+    {
+        parseBoolValue(*value, settings.mistWisps);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video", "wet_surfaces"))
     {
         parseBoolValue(*value, settings.wetSurfaces);
@@ -2506,6 +2534,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("quest_markers", boolValue(settings.questMarkers));
     serializer.add("map_style", settings.paintedMaps ? "painted" : "lines");
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");
+    serializer.add("quicksave_slots", std::clamp(settings.quickSaveSlots, 1, 20));
     serializer.add("party_frame", boolValue(settings.partyFrame));
     serializer.add("quick_item_rings", boolValue(settings.quickItemRings));
     serializer.add("item_buttons", boolValue(settings.basebarItemButtons));
@@ -2586,6 +2615,9 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("light_grid", lightGridQualityValue(settings.lightGrid));
     serializer.add("rain_ripples", boolValue(settings.rainRipples));
     serializer.add("wet_surfaces", boolValue(settings.wetSurfaces));
+    serializer.add("mist", boolValue(settings.mist));
+    serializer.add("mist_strength", settings.mistStrength);
+    serializer.add("mist_wisps", boolValue(settings.mistWisps));
     serializer.add("terrain_specular", boolValue(settings.terrainSpecular));
     serializer.add("surface_materials", boolValue(settings.surfaceMaterials));
     serializer.add("surface_parallax", boolValue(settings.surfaceParallax));

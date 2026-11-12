@@ -255,6 +255,12 @@ struct GameSettings
     // Rain rings on water (with the water shader) and darker, glossier surfaces while wet.
     bool rainRipples = true;
     bool wetSurfaces = true;
+    // A map's mist (devdocs/MIST.md); off draws the map without it.
+    bool mist = true;
+    // Percent of each map's authored mist density, 0..200.
+    int mistStrength = 100;
+    // Drifting wisps near the party on maps with mist (devdocs/MIST.md "Wisps").
+    bool mistWisps = false;
     // Sun and point-light highlights on smooth and wet ground (the materials terrain).
     bool terrainSpecular = true;
     // Building and dungeon faces drawn with their material maps (relief, roughness, metal, glow;
@@ -399,6 +405,8 @@ struct GameSettings
     bool paintedMaps = false;
     // The load and save lists: false keeps Quicksave, Autosave, then the rest by name; true puts the newest first.
     bool saveListNewestFirst = false;
+    // How many quicksaves a playthrough keeps (1 to 20): a new one pushes the earlier ones down, the oldest goes.
+    int quickSaveSlots = 3;
     // Obsidian basebar frame behind the gameplay party portraits; fullscreen overlays always draw their own strip.
     bool partyFrame = true;
     // The quick item rings: the round button at each gameplay portrait opening its ring of six quick slots, and the

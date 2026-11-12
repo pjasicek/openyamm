@@ -86,6 +86,14 @@ settings:
   name: Skip event cutscenes
   type: toggle
   desc: Skip event movies. Leave off for a first adventure.
+- id: quicksave_slots
+  section: gameplay
+  group: Saving
+  name: Quicksaves kept
+  type: range
+  min: 1
+  max: 20
+  desc: Each game keeps this many quicksaves. A new one becomes the first and the oldest is removed.
 # The menu adds the installed language packs (languages/<id>/language.yml) to these options and lists qps only while it
 # is the active language (set it with --set gameplay.language=qps).
 - id: language
@@ -370,6 +378,22 @@ settings:
   name: Wet surfaces
   type: toggle
   desc: Rain darkens the ground and buildings, which dry slowly afterwards.
+- id: mist
+  section: video
+  group: Environment
+  name: Mist
+  type: toggle
+  desc: Ground mist on the maps that have it.
+- id: mist_strength
+  section: video
+  group: Environment
+  name: Density
+  type: range
+  min: 0
+  max: 200
+  unit: '%'
+  depends: mist
+  desc: ''
 - id: terrain_specular
   section: video
   group: Environment

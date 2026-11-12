@@ -12,6 +12,8 @@ uniform vec4 u_indoorLightParams;
 // A map with scene fog (devdocs/INDOOR_FOG.md). rgb: fog colour; x, y: near and far distance.
 uniform vec4 u_fogColor;
 uniform vec4 u_fogDistances;
+// The map's mist (scene `mist`, mist.sh) lies over the fogged colour.
+#include "sky_common.sh"
 #endif
 
 void main()
@@ -116,6 +118,7 @@ void main()
 #if INDOOR_FOG
         under = mix(under, u_fogColor.rgb, clamp((length(v_worldPosition - u_cameraPosition.xyz) - u_fogDistances.x)
             / max(u_fogDistances.y - u_fogDistances.x, 1.0), 0.0, 1.0));
+        under = mistApply(under, v_worldPosition);
 #endif
         gl_FragColor = vec4(under, underAlpha);
         return;
@@ -165,6 +168,7 @@ void main()
 #if INDOOR_FOG
     color = mix(color, u_fogColor.rgb, clamp((length(v_worldPosition - u_cameraPosition.xyz) - u_fogDistances.x)
         / max(u_fogDistances.y - u_fogDistances.x, 1.0), 0.0, 1.0));
+    color = mistApply(color, v_worldPosition);
 #endif
     gl_FragColor = vec4(color, alpha);
 }

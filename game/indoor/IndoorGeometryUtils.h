@@ -167,7 +167,10 @@ std::vector<std::vector<uint16_t>> buildNeighboringIndoorSectorIds(
     const IndoorMapData &indoorMapData,
     const MapDeltaData *pMapDeltaData = nullptr);
 float fixedIndoorDoorDirectionComponentToFloat(int value);
-bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door);
+// Whether a linear door carries what stands on its faces. A door that moves up or down always does, as in the
+// original games; one that slides level does only when its scene `mover` block opts in with `carry`. A rotating
+// `carry` mover carries by its own rule (IndoorSceneRuntime::carryPartyOnRotatingMovers).
+bool indoorDoorCarriesPartySupport(const MapDeltaDoor &door, const IndoorMoverDefinition *pMover = nullptr);
 bool mechanismDoorContainsFace(const MapDeltaDoor &door, size_t faceIndex);
 // Per face, the motion of the rotating mover that moves it from its stored pose to its current pose; empty when the
 // map has no rotating mover (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).

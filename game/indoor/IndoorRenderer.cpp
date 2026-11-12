@@ -2412,9 +2412,8 @@ void IndoorRenderer::applySceneSkyFog()
 {
     if (bgfx::isValid(m_skyFogUniformHandle))
     {
-        // Flat fog, or the outdoor view's sky haze.
-        const SkyFogUniformValues flatFog = {};
-        bgfx::setUniform(m_skyFogUniformHandle, m_openSky.outdoorView ? m_outdoorSkyFog.data() : flatFog.data(),
+        // Flat fog, or the outdoor view's sky haze; the map's mist with either.
+        bgfx::setUniform(m_skyFogUniformHandle, m_openSky.outdoorView ? m_outdoorSkyFog.data() : m_flatSkyFog.data(),
             SkyFogUniformVectors);
     }
 }
@@ -3135,6 +3134,16 @@ bool IndoorRenderer::initialize(
     if (!m_fog.enabled
         && std::any_of(indoorMapData.waterVolumes.begin(), indoorMapData.waterVolumes.end(),
             [](const IndoorWaterVolume &volume) { return volume.fog.enabled; }))
+    {
+        m_fog.enabled = true;
+        m_fog.nearDistance = IndoorWaterNoFogDistance;
+        m_fog.farDistance = IndoorWaterNoFogDistance * 2.0f;
+    }
+    // Scene mist (devdocs/MIST.md) is drawn by the fog programs too: on a map without fog, with a fog too far to show.
+    m_mist = indoorMapData.mist;
+    m_frameSurroundings = {};
+    m_flatSkyFog = {};
+    if (!m_fog.enabled && m_mist.enabled())
     {
         m_fog.enabled = true;
         m_fog.nearDistance = IndoorWaterNoFogDistance;
@@ -4355,6 +4364,8 @@ void IndoorRenderer::render(
         settings.lightGrid == LightGridQuality::Low ? FxLightClusterThresholdLow : FxLightClusterThresholdHigh;
     lightingInput.lightsIgnoreReach = m_modelLighting.enabled;
     lightingInput.timeSeconds = m_elapsedTime;
+    m_mistSetting = settings.mist;
+    m_mistStrengthSetting = float(settings.mistStrength) / 100.0f;
     updateFrameDaylightAndFog();
     lightingInput.openAirLightScale = m_frameOpenAirLightScale;
     // The water fogs as the faces do this frame: a copy taken when the water was built missed the outdoor view's haze
@@ -4599,6 +4610,7 @@ void IndoorRenderer::render(
         m_pSceneRuntime != nullptr && m_pSceneRuntime->partyRuntime().eyeWaterVolume() != nullptr;
     if (enhancedWater && !eyeUnderWater)
     {
+        applySceneSkyFog();
         m_waterRenderer.renderIndoor(transparentView, m_elapsedTime, lightingFrame, eye, viewForward,
             settings.waterMovementRipples ? &m_worldFxSystem.waterRipples() : nullptr, nullptr, {},
             WaterSurfaceSet::Opaque);
@@ -4695,10 +4707,7 @@ void IndoorRenderer::render(
         modelLighting.fogColor = indoorFogColorUniform(m_frameFog);
         modelLighting.fogDensities = indoorFogDensitiesUniform(m_frameFog);
         modelLighting.fogDistances = indoorFogDistancesUniform(m_frameFog);
-        if (m_openSky.outdoorView)
-        {
-            modelLighting.skyFog = m_outdoorSkyFog;
-        }
+        modelLighting.skyFog = m_openSky.outdoorView ? m_outdoorSkyFog : m_flatSkyFog;
     }
     if (m_modelLighting.enabled)
     {
@@ -4903,6 +4912,7 @@ void IndoorRenderer::render(
     // models standing in them, show through.
     if (enhancedWater)
     {
+        applySceneSkyFog();
         m_waterRenderer.renderIndoor(translucentView, m_elapsedTime, lightingFrame, eye, viewForward,
             settings.waterMovementRipples ? &m_worldFxSystem.waterRipples() : nullptr, nullptr, {},
             eyeUnderWater ? WaterSurfaceSet::All : WaterSurfaceSet::SeeThrough);
@@ -4937,6 +4947,11 @@ void IndoorRenderer::render(
 
     const uint64_t particlesBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
     renderFxSegmentProjectiles(translucentView, viewMatrix);
+    if (settings.mist && settings.mistWisps && m_mist.enabled())
+    {
+        // The mist's wisps near the eye (devdocs/MIST.md "Wisps").
+        m_mistWisps.update(m_mist, {eye.x, eye.y, eye.z}, m_elapsedTime, m_frameMistLight, m_worldFxSystem.particles());
+    }
     ParticleRenderer::renderParticles(
         m_worldFxRenderResources,
         m_worldFxSystem.particles(),
@@ -7092,7 +7107,7 @@ void IndoorRenderer::renderOpenSky(uint16_t viewId, const float *pViewMatrix, co
         ? std::max(m_elapsedTime - m_lastSkyStateElapsedTime, 0.0f) : 0.0f;
     m_lastSkyStateElapsedTime = m_elapsedTime;
     m_skyRenderer.state().update(inputs, deltaSeconds);
-    m_skyRenderer.render(viewId, pViewMatrix, pProjectionMatrix, {}, true);
+    m_skyRenderer.render(viewId, pViewMatrix, pProjectionMatrix, m_frameSurroundings, true);
 
     // The sky pass set the shared sky-fog uniform; the indoor billboards and effects keep their flat fog (the
     // outdoor view's sky haze).
@@ -11050,7 +11065,8 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
         // which drew the Isle of Ashes' sea black wherever it mirrored the sky). The sky state is the last frame's.
         if (m_openSky.enabled && m_skyRenderer.isReady())
         {
-            m_skyRenderer.render(reflection.skyView, reflection.view.data(), reflection.projection.data(), {});
+            m_skyRenderer.render(reflection.skyView, reflection.view.data(), reflection.projection.data(),
+                m_frameSurroundings);
             applySceneSkyFog();
         }
         for (size_t batchIndex = 0; batchIndex < m_texturedBatches.size(); ++batchIndex)
@@ -11078,6 +11094,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
                 reflection.projectionScale);
         }
         bgfx::setUniform(m_worldClipPlaneUniform, clip.data());
+        applySceneSkyFog();
         m_waterRenderer.renderIndoor(reflection.worldView, m_elapsedTime, lighting,
             reflection.camera, reflectedForward, nullptr, &reflection, visibility.visibleSectorMask);
         if (billboards)
@@ -11410,9 +11427,10 @@ void IndoorRenderer::setFaceFog()
     }
     bgfx::setUniform(m_billboardFogColorUniformHandle, color.data());
     bgfx::setUniform(m_billboardFogDistancesUniformHandle, distances.data());
-    if (m_openSky.outdoorView && bgfx::isValid(m_skyFogUniformHandle))
+    if ((m_openSky.outdoorView || m_mist.enabled()) && bgfx::isValid(m_skyFogUniformHandle))
     {
-        bgfx::setUniform(m_skyFogUniformHandle, m_outdoorSkyFog.data(), SkyFogUniformVectors);
+        bgfx::setUniform(m_skyFogUniformHandle, m_openSky.outdoorView ? m_outdoorSkyFog.data() : m_flatSkyFog.data(),
+            SkyFogUniformVectors);
     }
 }
 
@@ -11504,6 +11522,20 @@ void IndoorRenderer::applyScriptedFog()
 void IndoorRenderer::updateFrameDaylightAndFog()
 {
     const float gameMinutes = m_pSceneRuntime != nullptr ? m_pSceneRuntime->worldRuntime().gameMinutes() : 9.0f * 60.0f;
+    if (!m_mistSetting)
+    {
+        m_frameSurroundings.mist = {};
+        m_flatSkyFog = {};
+    }
+    else if (m_mist.enabled())
+    {
+        // Under a scene daylight the mist darkens with the open air's light, as a fog that follows it does.
+        const std::array<float, 3> light = m_daylight.enabled ? indoorDaylightFogScale(m_daylight, gameMinutes)
+                                                              : std::array<float, 3>{1.0f, 1.0f, 1.0f};
+        m_frameMistLight = light;
+        m_frameSurroundings.mist = packMistUniform(m_mist, cameraPosition(), m_elapsedTime, light, m_mistStrengthSetting);
+        m_flatSkyFog = packSkyFogUniform(nullptr, m_frameSurroundings);
+    }
     if (m_fog.enabled)
     {
         m_frameFog = indoorFogAt(m_fog, skyNightAmount(gameMinutes));
@@ -11532,12 +11564,12 @@ void IndoorRenderer::updateFrameDaylightAndFog()
             m_frameFog.farDistance = std::max(std::min(m_frameFog.farDistance, dayFog.farDistance),
                 m_frameFog.nearDistance + 1.0f);
         }
-        m_outdoorSkyFog = {};
+        m_outdoorSkyFog = m_flatSkyFog;
         if (m_skyRenderer.isReady() && !m_skyRenderer.state().frame().presetName.empty())
         {
             const SkyFrameState &sky = m_skyRenderer.state().frame();
             m_frameFog.color = {sky.fogFlatDisplay[0], sky.fogFlatDisplay[1], sky.fogFlatDisplay[2]};
-            m_outdoorSkyFog = packSkyFogUniform(&sky);
+            m_outdoorSkyFog = packSkyFogUniform(&sky, m_frameSurroundings);
         }
     }
     applyScriptedFog();

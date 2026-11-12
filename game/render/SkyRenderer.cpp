@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/BgfxContext.h"
 #include "engine/render/CookedTexture.h"
+#include "engine/render/ModelRenderer.h"
 #include "game/render/RuntimeShader.h"
 #include "game/render/TextureFiltering.h"
 
@@ -72,29 +73,33 @@ float belowHorizonMode(SkyBelowHorizon mode)
 
 SkyFogUniformValues packSkyFogUniform(const SkyFrameState *pFrame, const SkySurroundings &surroundings)
 {
+    SkyFogUniformValues values = {};
+    std::copy(surroundings.mist.begin(), surroundings.mist.end(), values.begin() + SkyFogSkyVectors);
+
     if (pFrame == nullptr)
     {
-        return {};
+        return values;
     }
 
     const SkyFrameState &frame = *pFrame;
     const SkyColor &glow = frame.value(SkyValue::SunGlow);
     const float glowStrength = frame.scalar(SkyValue::SunGlowStrength);
-    return {{
-        vec4(frame.value(SkyValue::Zenith), frame.scalar(SkyValue::HorizonExponent)),
-        vec4(frame.value(SkyValue::Horizon), frame.skyMix),
-        {glow[0] * glowStrength, glow[1] * glowStrength, glow[2] * glowStrength,
-            std::max(frame.scalar(SkyValue::SunGlowExponent), 0.5f)},
-        {frame.sunDirection[0], frame.sunDirection[1], frame.sunDirection[2], frame.lightningFlash},
-        {surroundings.mapEdge[0], surroundings.mapEdge[1], surroundings.mapEdge[2],
-            std::clamp(frame.scalar(SkyValue::AerialHaze), 0.0f, 1.0f)},
-        // Fog weather hides the distant sea along with the rest of the view.
-        vec4(surroundings.seaColorDisplay, 1.0f - frame.fogAmount),
-        {std::max(surroundings.camera[0], MinimumSeaViewHeight), SeaHazeDistance, surroundings.camera[1],
-            surroundings.camera[2]},
-        surroundings.seaSideWeights,
-    }};
+    values[0] = vec4(frame.value(SkyValue::Zenith), frame.scalar(SkyValue::HorizonExponent));
+    values[1] = vec4(frame.value(SkyValue::Horizon), frame.skyMix);
+    values[2] = {glow[0] * glowStrength, glow[1] * glowStrength, glow[2] * glowStrength,
+        std::max(frame.scalar(SkyValue::SunGlowExponent), 0.5f)};
+    values[3] = {frame.sunDirection[0], frame.sunDirection[1], frame.sunDirection[2], frame.lightningFlash};
+    values[4] = {surroundings.mapEdge[0], surroundings.mapEdge[1], surroundings.mapEdge[2],
+        std::clamp(frame.scalar(SkyValue::AerialHaze), 0.0f, 1.0f)};
+    // Fog weather hides the distant sea along with the rest of the view.
+    values[5] = vec4(surroundings.seaColorDisplay, 1.0f - frame.fogAmount);
+    values[6] = {std::max(surroundings.camera[0], MinimumSeaViewHeight), SeaHazeDistance, surroundings.camera[1],
+        surroundings.camera[2]};
+    values[7] = surroundings.seaSideWeights;
+    return values;
 }
+
+static_assert(SkyFogUniformVectors == Engine::ModelSkyFogVectors, "u_skyFog has one size in every shader");
 
 SkyOrbitUniformValues packSkyOrbitUniform(const SkyFrameState &frame)
 {

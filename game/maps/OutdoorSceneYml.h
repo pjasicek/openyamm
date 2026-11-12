@@ -6,6 +6,7 @@
 #include "game/maps/OutdoorSceneProfile.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/outdoor/OutdoorWeatherProfile.h"
+#include "game/render/Mist.h"
 #include "game/tables/SurfaceAnimation.h"
 
 #include <array>
@@ -171,6 +172,8 @@ struct OutdoorSceneData
     OutdoorSceneLighting lighting = {};
     OutdoorSceneRendering rendering = {};
     OutdoorSceneMovement movement = {};
+    // Scene `mist` (devdocs/MIST.md).
+    MapMist mist;
     std::vector<OutdoorSceneTerrainAttributeOverride> terrainAttributeOverrides;
     std::vector<OutdoorSceneTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
     std::vector<OutdoorSceneSurfaceAnimation> surfaceAnimations;

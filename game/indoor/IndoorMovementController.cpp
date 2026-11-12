@@ -1018,7 +1018,7 @@ void IndoorMovementController::rebuildMechanismSupportFaceIds(const MapDeltaData
         const IndoorMoverDefinition *pMover = findIndoorMoverDefinition(*m_pIndoorMapData, door.doorId);
         const bool rotatingCarrier = pMover != nullptr && pMover->carry && pMover->rotation;
 
-        if (!indoorDoorCarriesPartySupport(door) && !rotatingCarrier)
+        if (!indoorDoorCarriesPartySupport(door, pMover) && !rotatingCarrier)
         {
             continue;
         }

@@ -489,6 +489,23 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
+    - id: SettingsGameplayGroup4
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 451.0437
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Saving
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
     - id: SettingsGameplayBolsterMonstersLabel
       anchor: top_left
       offset_x: 1.6
@@ -839,6 +856,66 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayQuicksaveSlotsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 476.6437
+      width: 382.9333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quicksaves kept
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayQuicksaveSlotsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 492.8522
+      width: 382.9333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Each game keeps this many quicksaves. A new one becomes the first and the oldest is removed.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayQuicksaveSlotsControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 488.2648
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayQuicksaveSlotsValue
+      anchor: top_left
+      offset_x: 497.0666
+      offset_y: 490.3981
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{quicksave_slots}'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
   - id: SettingsGameplayNavigationRule
     anchor: top_left
     offset_x: 201.6

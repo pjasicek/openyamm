@@ -4514,15 +4514,35 @@ std::array<std::array<float, 4>, 2> OutdoorGameView::bakedLightingColors(
     return colors;
 }
 
+std::array<float, 3> OutdoorGameView::mistLight() const
+{
+    constexpr float NoonAmbientBrightness = 0.69f;
+    const float light = m_pOutdoorWorldRuntime != nullptr
+        ? std::clamp(m_pOutdoorWorldRuntime->atmosphereState().ambientBrightness / NoonAmbientBrightness, 0.0f, 1.0f)
+        : 1.0f;
+    return {light, light, light};
+}
+
 SkySurroundings OutdoorGameView::skySurroundings() const
 {
-    if (m_pOutdoorMapData == nullptr || m_pOutdoorMapData->noTerrain)
+    SkySurroundings surroundings = {};
+    if (m_pOutdoorMapData == nullptr)
     {
-        return {};
+        return surroundings;
+    }
+
+    if (m_gameSettings.mist && m_pOutdoorMapData->mist.enabled())
+    {
+        surroundings.mist = packMistUniform(m_pOutdoorMapData->mist, m_skyCameraPosition, m_elapsedTime, mistLight(),
+            float(m_gameSettings.mistStrength) / 100.0f);
+    }
+
+    if (m_pOutdoorMapData->noTerrain)
+    {
+        return surroundings;
     }
 
     constexpr float HalfSize = 0.5f * OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainTileSize;
-    SkySurroundings surroundings = {};
     surroundings.mapEdge = {HalfSize, 0.0f, 0.0f};
     surroundings.seaSideWeights = m_distantSea.sideWeights;
     surroundings.camera = {m_skyCameraPosition[2] - m_distantSea.seaLevel, m_skyCameraPosition[0],

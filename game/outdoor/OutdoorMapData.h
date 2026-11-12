@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/maps/MapPresentation.h"
+#include "game/render/Mist.h"
 
 #include "game/maps/OutdoorSceneProfile.h"
 #include "game/outdoor/OutdoorNavigationData.h"
@@ -258,6 +259,8 @@ struct OutdoorMapData
     OutdoorLocationType locationType = OutdoorLocationType::Exterior;
     float lightmapBrightnessScale = 1.0f;
     float viewDistanceScale = 1.0f;
+    // The scene's mist (none for every map without it).
+    MapMist mist;
     // The scene's movement.flight_ceiling; the default ceiling when absent.
     std::optional<float> flightCeiling;
     bool noTerrain = false;

@@ -205,6 +205,8 @@ void main()
         float hue = max(max(u_modelBurn[1].r, u_modelBurn[1].g), max(u_modelBurn[1].b, 0.0001));
         float level = clamp(amount * hue * 0.45, 0.0, 0.8);
         vec3 fire = u_modelBurn[1].rgb / hue * level + vec3(0.0, 0.3, 0.06) * level * level;
+        // Fire is light: the map's mist (mist.sh) fades it as the fog does.
+        fireFog = 1.0 - (1.0 - fireFog) * mistClear(v_worldPosition);
         float cover = clamp(level * 1.3, 0.0, 0.9) * (1.0 - fireFog);
         gl_FragColor = vec4(modelEncodeSrgb(fire) * (1.0 - fireFog), cover);
         return;
@@ -542,10 +544,11 @@ void main()
         // other surfaces with their emission (the material's, pulsed, and a burn's).
         vec3 emitted = u_modelGlow.y > 0.0 ? displayColor * u_modelGlow.y
             : modelEncodeSrgb(MODEL_EMISSION + burnGlow);
-        gl_FragColor = vec4(emitted * (1.0 - fog) * u_modelGlow.x, color.a);
+        gl_FragColor = vec4(emitted * (1.0 - fog) * mistClear(v_worldPosition) * u_modelGlow.x, color.a);
         return;
     }
-    // Additive glow (outline flag -1, static decorations): the fog fades it out instead of mixing in its colour.
-    gl_FragColor = u_modelOutline.w < -0.5 ? vec4(displayColor * (1.0 - fog), color.a)
-        : vec4(mix(displayColor, fogColor, fog), color.a);
+    // Additive glow (outline flag -1, static decorations): the fog and the map's mist fade it out instead of mixing
+    // in their colour.
+    gl_FragColor = u_modelOutline.w < -0.5 ? vec4(displayColor * (1.0 - fog) * mistClear(v_worldPosition), color.a)
+        : vec4(mistApply(mix(displayColor, fogColor, fog), v_worldPosition), color.a);
 }

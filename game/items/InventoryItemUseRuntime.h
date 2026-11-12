@@ -36,6 +36,8 @@ enum class InventoryItemUseAction : uint8_t
     UseReagent,
     // An item whose use action is grantTechPoints (Hesper's Engrams): its VarA in tech points to the target.
     GrantTechPoints,
+    // An item whose use action is grantSkillPoints (MM9's Clover, one point as in MM9): its VarA in skill points.
+    GrantSkillPoints,
     // Personal energy shields (use actions useShieldCell, useShieldBurst; Party::chargePersonalShield and
     // burstPersonalShields).
     UseShieldCell,

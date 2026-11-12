@@ -12021,7 +12021,8 @@ bool GameApplication::quickSaveToPath(
 
     std::string error;
 
-    if (!saveGameDataToPath(path, *saveData, error))
+    // The newest quicksave pushes the playthrough's earlier ones down a slot.
+    if (!saveQuickSaveToPath(path, *saveData, m_settings.quickSaveSlots, error))
     {
         refundFood();
         GAMEPLAY_DEBUG_TRACE(
@@ -12085,7 +12086,21 @@ SaveFoodCost GameApplication::saveFoodCost()
 
 bool GameApplication::quickLoad()
 {
-    return quickLoadFromPath(quickSavePath(m_gameSession.playthroughStatistics().playthroughId()), true);
+    // The newest quicksave still there: the load screen can delete any of them.
+    const std::string &playthroughId = m_gameSession.playthroughStatistics().playthroughId();
+
+    for (int slot = 1; slot <= MaxQuickSaveSlotCount; ++slot)
+    {
+        const std::filesystem::path path = quickSavePath(playthroughId, slot);
+        std::error_code error;
+
+        if (std::filesystem::exists(path, error))
+        {
+            return quickLoadFromPath(path, true);
+        }
+    }
+
+    return quickLoadFromPath(quickSavePath(playthroughId), true);
 }
 
 bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool initializeView)

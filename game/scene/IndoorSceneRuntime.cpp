@@ -180,6 +180,7 @@ float mechanismDistanceFromBaseDoorState(const MapDeltaDoor &door)
 }
 
 void applyMovingMechanismSupportMovement(
+    const IndoorMapData *pIndoorMapData,
     const MapDeltaData &mapDeltaData,
     const std::unordered_map<uint32_t, RuntimeMechanismState> &previousMechanisms,
     EventRuntimeState &eventRuntimeState,
@@ -194,7 +195,10 @@ void applyMovingMechanismSupportMovement(
 
     for (const MapDeltaDoor &door : mapDeltaData.doors)
     {
-        if (!indoorDoorCarriesPartySupport(door))
+        const IndoorMoverDefinition *pMover =
+            pIndoorMapData != nullptr ? findIndoorMoverDefinition(*pIndoorMapData, door.doorId) : nullptr;
+
+        if (!indoorDoorCarriesPartySupport(door, pMover))
         {
             continue;
         }
@@ -752,6 +756,7 @@ bool IndoorSceneRuntime::advanceMechanisms(float deltaMilliseconds)
         }
 
         applyMovingMechanismSupportMovement(
+            m_pIndoorMapData,
             *m_mapDeltaData,
             previousMechanisms,
             *m_eventRuntimeState,

@@ -1,4 +1,5 @@
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/maps/MistYml.h"
 
 #include "game/FaceEnums.h"
 #include "game/StringUtils.h"
@@ -1885,6 +1886,12 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
+    if (const YAML::Node mistNode = rootNode["mist"];
+        mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return std::nullopt;
+    }
+
     const YAML::Node sourceNode = rootNode["source"];
 
     if (!sourceNode || !sourceNode.IsMap())
@@ -2614,6 +2621,13 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
+    // An overlay's mist replaces the base scene's.
+    if (const YAML::Node mistNode = rootNode["mist"];
+        mistNode && !parseSceneMistNode(mistNode, sceneData.mist, errorMessage))
+    {
+        return false;
+    }
+
     const YAML::Node sourceNode = rootNode["source"];
 
     if (sourceNode)
@@ -3225,6 +3239,7 @@ bool buildOutdoorMapStateFromScene(
     outdoorMapData.locationType = sceneData.environment.locationType;
     outdoorMapData.lightmapBrightnessScale = sceneData.lighting.lightmapBrightnessScale;
     outdoorMapData.flightCeiling = sceneData.movement.flightCeiling;
+    outdoorMapData.mist = sceneData.mist;
     outdoorMapData.viewDistanceScale = sceneData.rendering.viewDistanceScale.value_or(
         sceneData.sceneProfile == OutdoorSceneProfile::BModelWorld
                 && sceneData.environment.locationType == OutdoorLocationType::Enclosed

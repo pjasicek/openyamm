@@ -411,6 +411,8 @@ void main()
             fogAmount = skyFogRatio(fogAmount, v_worldPosition, fogDistance, u_fogDistances.y);
             color = mix(color, skyFogDisplayColor(fogAmount, u_fogColor.rgb, v_worldPosition), fogAmount);
         }
+        // The map's mist (scene `mist`, mist.sh) lies over the fogged colour.
+        color = mistApply(color, v_worldPosition);
     }
 #endif
 

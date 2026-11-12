@@ -244,5 +244,5 @@ void main()
 
     float fogRatio = skyFogRatio(getFogRatio(v_depth), v_worldPosition, v_depth, u_fogDistances.z);
     vec3 foggedColor = mix(fragmentColor.rgb, skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition), fogRatio);
-    gl_FragColor = vec4(foggedColor, fragmentColor.a);
+    gl_FragColor = vec4(mistApply(foggedColor, v_worldPosition), fragmentColor.a);
 }

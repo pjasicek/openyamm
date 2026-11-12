@@ -12064,12 +12064,18 @@ ScenarioRunResult ScenarioRunner::run(
         && !envFlagEnabled("OPENYAMM_SCENARIO_NO_COLOR");
     context.totalStepCount = document.steps.size();
 
+    // Scenarios play the game's own content: no mods and no language pack. Only the development mount is passed
+    // on, so a map build can be played from its folder (--extra-mount).
+    Engine::InstalledContentOptions scenarioContent;
+    scenarioContent.extraMountRoot = scenarioConfig.installedContent.extraMountRoot;
+
     if (!context.assetFileSystem.initialize(
             basePath,
             scenarioConfig.assetRoot,
             scenarioConfig.assetScaleTier,
             scenarioConfig.assetScaleProfile,
-            scenarioConfig.activeWorldId))
+            scenarioConfig.activeWorldId,
+            scenarioContent))
     {
         result.failures.push_back("could not initialize asset file system");
         return result;

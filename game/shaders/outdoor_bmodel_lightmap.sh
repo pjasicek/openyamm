@@ -295,4 +295,5 @@ void main()
     float fogAlpha = getFogAlpha(fogDistance);
     vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition), fogAlpha);
     gl_FragColor = mix(litTextureColor, fogColor, fogRatio);
+    gl_FragColor.rgb = mistApply(gl_FragColor.rgb, v_worldPosition);
 }

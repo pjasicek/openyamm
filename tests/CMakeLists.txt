@@ -97,6 +97,7 @@ add_executable(openyamm_unit_tests
     IndoorBakedLightingTests.cpp
     IndoorFaceDrawGroupsTests.cpp
     IndoorFogTests.cpp
+    MistTests.cpp
     IndoorModelLightingTests.cpp
     IndoorOpenSkyTests.cpp
     IndoorDestructibleTests.cpp
@@ -210,9 +211,11 @@ add_executable(openyamm_unit_tests
     ../engine/update/Sha256.cpp
     ../engine/FontAsset.cpp
     ../engine/ImageAssetLoader.cpp
+    ../engine/ImageAssetPaths.cpp
     ../engine/ImageMipmaps.cpp
     ../engine/ParallelFor.cpp
     ../engine/render/CookedTexture.cpp
+    ../engine/render/CookedTextureHeader.cpp
     ../engine/render/ModelEnvironment.cpp
     ../engine/render/LightGrid.cpp
     ../engine/render/TextureBlockCodec.cpp
@@ -246,10 +249,12 @@ add_executable(openyamm_unit_tests
     ../game/content/RulesetOptions.cpp
     ../game/data/ActorNameResolver.cpp
     ../game/data/GameDataLoader.cpp
+    ../game/data/MapScriptSources.cpp
     ../game/debug/GameplayDebugTrace.cpp
     ../game/debug/MawTestParties.cpp
     ../engine/scripting/LuaStateOwner.cpp
     ../game/events/EventRuntime.cpp
+    ../game/events/MechanismDistance.cpp
     ../game/events/MechanismAudio.cpp
     ../game/events/EventDialogContent.cpp
     ../game/gameplay/Mm9DialogueSpeaker.cpp
@@ -313,6 +318,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/SavePreviewImage.cpp
     ../game/maps/MapDeltaData.cpp
     ../game/maps/MapAssetLoader.cpp
+    ../game/maps/SceneOverlayPaths.cpp
     ../game/maps/DecorationModelPlacement.cpp
     ../game/maps/ActorModelManifest.cpp
     ../game/maps/DecorationModelManifest.cpp
@@ -322,6 +328,7 @@ add_executable(openyamm_unit_tests
     ../game/maps/SaveGame.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp
+    ../game/maps/MistYml.cpp
     ../game/indoor/IndoorTerrainSurface.cpp
     ../game/render/TerrainMaterialConfig.cpp
     ../game/maps/MapItemSourceYml.cpp
@@ -354,6 +361,7 @@ add_executable(openyamm_unit_tests
     ../game/fx/import/EffectDefinitionLoader.cpp
     ../game/fx/import/EffectResourceLibrary.cpp
     ../game/fx/ParticleSystem.cpp
+    ../game/fx/MistWisps.cpp
     ../game/items/AlchemyBenchRuntime.cpp
     ../game/items/CraftingRuntime.cpp
     ../game/items/InventoryBags.cpp
@@ -369,6 +377,7 @@ add_executable(openyamm_unit_tests
     ../game/items/WorldItemShape.cpp
     ../game/party/Party.cpp
     ../game/party/BattleOrders.cpp
+    ../game/party/PlaythroughNames.cpp
     ../game/party/PlaythroughStatistics.cpp
     ../game/party/PlaythroughSeal.cpp
     ../game/party/EventSpellBuffs.cpp
@@ -377,7 +386,6 @@ add_executable(openyamm_unit_tests
     ../game/party/WorldSpells.cpp
     ../game/party/SkillData.cpp
     ../game/party/SpellSchool.cpp
-    ../game/party/PlaythroughNames.cpp
     ../game/tables/ChestTable.cpp
     ../game/tables/AwardTable.cpp
     ../game/tables/CharacterDollTable.cpp
