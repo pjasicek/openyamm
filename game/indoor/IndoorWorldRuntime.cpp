@@ -838,8 +838,9 @@ constexpr float IndoorActorDetectRange = 5120.0f;
 // A woken neighbour stands within this height of its waker, so a wake stays on one floor.
 constexpr float IndoorActorAwarenessHeightBand = 256.0f;
 // A monster that notices the party, or is hit by it, wakes every hostile neighbour it can see this close: its own
-// part of a room, not the far groups of a large hall (dungeon room survey, 2026-11-04).
-constexpr float IndoorActorWakeRadius = 1024.0f;
+// spawn group, whose members start within 64 of their spawn point, and none of the room's other groups (the user,
+// 2026-11-12; 1024 before, 512 until 2026-11-04).
+constexpr float IndoorActorWakeRadius = 128.0f;
 // Each unaware monster tries its sight check on one AI step in 16: eight times a second.
 constexpr uint32_t IndoorActorSightCheckStepInterval = 16;
 // The sight check looks from the monster's eyes to the party's, then from its chest to the party's body: a fountain

@@ -355,11 +355,11 @@ TEST_CASE("indoor detection does not reach through a ceiling to the room above")
 
 TEST_CASE("indoor detection wakes the visible neighbours of the actor that noticed the party, without chaining")
 {
-    // Actor 0 sees the party through the portal. A wall at X=-512 (Y -512..-150) hides actors 1 and 2 from the
-    // party; actor 1 is 430 units from actor 0 and in its view, and actor 2 is 814 units from actor 1 but beyond the
-    // wake radius of actor 0.
-    const std::vector<DetectionWall> walls = {{-512, -512, -150}};
-    std::vector<std::array<int, 2>> actors = {{-400, 50}, {-650, -300}, {-1450, -450}};
+    // Actor 0 sees the party through the portal. A wall at X=-300 (Y -512..-20) hides actors 1 and 2 from the
+    // party; actor 1 is 120 units from actor 0 and in its view, and actor 2 is 120 units from actor 1 but beyond the
+    // wake radius (128) of actor 0.
+    const std::vector<DetectionWall> walls = {{-300, -512, -20}};
+    std::vector<std::array<int, 2>> actors = {{-400, 50}, {-400, -70}, {-400, -190}};
     bool sightedActor = true;
     SUBCASE("an actor notices the party")
     {
@@ -379,10 +379,9 @@ TEST_CASE("indoor detection wakes the visible neighbours of the actor that notic
 
 TEST_CASE("indoor party damage wakes the struck actor's visible neighbours")
 {
-    // Every actor is hidden from the party by the wall. Actor 2 is beyond the wake radius of actor 0; actor 3 is
-    // 856 units from it.
-    SectorDetectionFixture fixture(
-        1024, {{-512, -512, -150}}, {{-650, -300}, {-900, -450}, {-2300, -450}, {-1500, -400}});
+    // Every actor is hidden from the party by the wall. Actor 1 is 121 units from actor 0; actor 2, 291 units from
+    // it, is beyond its wake radius (128).
+    SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, {{-650, -300}, {-760, -350}, {-900, -450}});
     fixture.advance(0.25f);
     REQUIRE_FALSE(fixture.detected(0));
     REQUIRE_FALSE(fixture.detected(1));
@@ -393,13 +392,12 @@ TEST_CASE("indoor party damage wakes the struck actor's visible neighbours")
     CHECK(fixture.detected(0));
     CHECK(fixture.detected(1));
     CHECK_FALSE(fixture.detected(2));
-    CHECK(fixture.detected(3));
 }
 
 TEST_CASE("indoor wakes stay off on a map whose scene turns them off")
 {
     // Scene `actor_detection: {wakes: none}` (MM9's outdoor regions): the struck actor alone notices the party.
-    SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, {{-650, -300}, {-900, -450}}, false);
+    SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, {{-650, -300}, {-760, -350}}, false);
     fixture.advance(0.25f);
     REQUIRE(fixture.pScene->worldRuntime().applyPartyAttackMeleeDamage(
         0, 1, {1024, 0, 96}, ShieldAttackTier::Physical));
@@ -410,10 +408,13 @@ TEST_CASE("indoor wakes stay off on a map whose scene turns them off")
 
 TEST_CASE("indoor wakes rouse every visible neighbour in range, without a count limit")
 {
-    std::vector<std::array<int, 2>> actors = {{-650, -300}};
-    for (int index = 0; index < 8; ++index)
+    // Six neighbours on a ring of 120 around the struck actor: one more than the limit of five that the wake once had.
+    std::vector<std::array<int, 2>> actors = {{-800, -350}};
+    const std::array<std::array<int, 2>, 6> ring =
+        {{{120, 0}, {60, 104}, {-60, 104}, {-120, 0}, {-60, -104}, {60, -104}}};
+    for (const std::array<int, 2> &offset : ring)
     {
-        actors.push_back({-800 - index * 100, -350});
+        actors.push_back({actors[0][0] + offset[0], actors[0][1] + offset[1]});
     }
     SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, actors);
     fixture.advance(0.25f);

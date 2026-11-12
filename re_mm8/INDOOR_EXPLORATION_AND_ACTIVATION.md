@@ -529,7 +529,7 @@ detection in these ways only:
 | --- | --- |
 | Sight | The full wall/door combat line of sight, within 5120, along either of two rays: from the monster's eyes (90% of its height) to the party's (160 above its feet), then, only if that is blocked, from its chest (75%) to the party's body (96). Each unaware monster checks on one AI step in 16 (eight times a second, staggered by actor index). |
 | Hearing | Removed on 2026-11-04 at the user's request: it woke monsters through walls and ceilings. It was horizontal edge distance up to 512 and feet within 256 of the party's height, without a wall test. |
-| Neighbour wake | A monster that newly detects the party (sight or its own AI gaining sight) or is hit by the party wakes every unaware hostile monster within 1024 (3D, feet within 256) with full line of sight between the two, without a count limit. Woken monsters do not wake others. Until 2026-11-04 the radius was 512 and at most five woke. A scene opts out with `actor_detection: {wakes: none}` (MM9's outdoor regions; devdocs/INDOOR_OPEN_SKY.md "Monster wakes"). |
+| Neighbour wake | A monster that newly detects the party (sight or its own AI gaining sight) or is hit by the party wakes every unaware hostile monster within 128 (3D, centre to centre, feet within 256) with full line of sight between the two, without a count limit. Woken monsters do not wake others. The radius was 1024 from 2026-11-04 to 2026-11-12 and 512 with at most five woken before that. A scene opts out with `actor_detection: {wakes: none}` (MM9's outdoor regions; devdocs/INDOOR_OPEN_SKY.md "Monster wakes"). |
 | Damage | Unchanged: the struck monster detects the party; its neighbours now wake as above. |
 
 The same-sector scheduling pass is unchanged: monsters in the party's feet sector still enter full AI, but they
@@ -557,6 +557,15 @@ multi-group sectors at 512, 39 % at 768, 52 % at 1024, 61 % at 1280, 68 % at 153
 of a room, and the far groups of a large hall stay asleep. The wake matters only for monsters that cannot see the
 party; any monster with a line of sight to it within 5120 notices it anyway. Chained wakes were rejected: through
 open doorways they could rouse half a dungeon.
+
+**Wake radius 128 (2026-11-12).** The user lowered the radius from 1024 to 128: when the party looks round a corner
+into a room of several groups and one monster sees it, only that monster's group comes, not the others. Over the
+`assets_dev` scene files of MM6-MM8, the monsters of a spawn point start within 64 of it (the first on the point,
+the rest at fixed offsets of 64 or less: `resolveIndoorEncounterPlacement`), so at most 128 apart, while the nearest
+other spawn point indoors is a median 689 (MM6), 1004 (MM7) and 653 (MM8) away (10th percentile 192, 273 and 302).
+Hand-placed dungeon monsters stand mostly alone (median 512-746 to the nearest other one) and wake nobody at 128.
+A group member that has wandered more than 128 from the one that noticed the party stays asleep until it sees the
+party itself.
 
 Measured at the fresh MM6 Goblinwatch start pose (feet `(576, 6912, 192)`, the 2026-09-30 startup save and pose),
 1600x900 windowed, VSync off, desktop OpenGL, 6-second warmup and 22-second interval, runs in the order

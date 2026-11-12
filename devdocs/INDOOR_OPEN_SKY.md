@@ -424,7 +424,7 @@ Tests: "party spell backend gives a map open to the sky the outdoor spell gates"
 `actor_detection: {wakes: none}` (opt-out, 2026-11-05; every MM9 outdoor region converted by
 `level_generation/projects/mm9r_common/outdoor_blv.py`): a monster that notices the party, or is hit by it, wakes none
 of its neighbours. Without the key (`wakes: neighbours`, every MM6-MM8 map and MM9's dungeons) it wakes every unaware
-hostile monster within 1024 that it can see (re_mm8/INDOOR_EXPLORATION_AND_ACTIVATION.md, "OpenYAMM detection by
+hostile monster within 128 that it can see (re_mm8/INDOOR_EXPLORATION_AND_ACTIVATION.md, "OpenYAMM detection by
 sight, hearing and neighbours"). Sight detection and faction alerts are unchanged. Code: `IndoorMapData`
 `actorNeighbourWakes` and `IndoorWorldRuntime::wakeIndoorActorNeighbours`. Tests: "indoor actor detection" and
 "indoor wakes stay off". These wakes concern MM6-MM8's detection; MM9 loop monsters ignore them. Theirs is the provoke
