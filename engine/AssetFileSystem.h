@@ -124,6 +124,9 @@ private:
         // The package root a content pack belongs to ("engine", "worlds/mm6"); the mount point otherwise.
         std::string packageMountPoint;
         bool archive = false;
+        // A language's pack: in front of the packs whose files it replaces, but it does not decide which package an
+        // unqualified request searches first (the active world's base packs do).
+        bool languagePack = false;
     };
 
     bool isInitialized() const;
@@ -150,7 +153,8 @@ private:
         const std::filesystem::path &assetRoot,
         const std::string &mountPoint,
         bool appendToPath,
-        const std::string &packageMountPoint = {}
+        const std::string &packageMountPoint = {},
+        bool languagePack = false
     );
     void recordSearchMount(SearchMount searchMount, bool appendToPath);
     bool validateMergedIconRoots(const std::filesystem::path &assetRoot) const;

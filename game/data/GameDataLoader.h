@@ -242,6 +242,7 @@ private:
     bool loadMm9MapTransitionTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9TeacherScheduleTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9RudeDialogueTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9SkillTrainerTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9HirelingTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMm9TransportRouteTable(const Engine::AssetFileSystem &assetFileSystem);

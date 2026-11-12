@@ -2741,18 +2741,14 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
         return false;
     }
 
+    // Every mounted world's shops and services, whichever world the game started in: a game started in MM7 that
+    // loads an MM9 save or travels to Chedian talks to MM9's merchants (their ids lie in MM9's own range).
     std::vector<WorldManifest> mountedWorlds;
     std::string manifestError;
-    const WorldManifest activeWorldManifest =
-        loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
-    if (!manifestError.empty())
+    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, manifestError))
     {
         std::cerr << "Failed to resolve house table contributions: " << manifestError << '\n';
         return false;
-    }
-    if (activeWorldManifest.loadedFromFile)
-    {
-        mountedWorlds.push_back(activeWorldManifest);
     }
 
     const auto loadHouseContributionRows =
@@ -2999,6 +2995,31 @@ bool GameDataLoader::loadMm9RudeDialogueTable(const Engine::AssetFileSystem &ass
         for (const std::string &error : m_pMm9RudeDialogueTable->errors())
         {
             std::cerr << "  " << error << '\n';
+        }
+        return false;
+    }
+
+    // A world switch into MM9 builds the table again: the ruleset's rows go back on it.
+    return loadRulesetMm9DialogueRows(assetFileSystem);
+}
+
+bool GameDataLoader::loadRulesetMm9DialogueRows(const Engine::AssetFileSystem &assetFileSystem)
+{
+    // The ruleset's rows on MM9 people (MAW: the skill reset and Dimensional Maps on Hjordisa the Hag, the Jarls'
+    // bounties), on the MM9 table whenever it is built: at a start in MM9 and at every world switch into it.
+    if (!m_pMm9RudeDialogueTable || m_activeRuleset.id != MawRulesetId)
+    {
+        return true;
+    }
+
+    const std::string path = rulesetPackageRoot(m_activeRuleset.id) + "worlds/mm9/dialogue.yml";
+    const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+
+    if (text && !m_pMm9RudeDialogueTable->loadRulesetRowsText(path, *text))
+    {
+        for (const std::string &rowError : m_pMm9RudeDialogueTable->errors())
+        {
+            std::cerr << "Failed to load MAW's MM9 dialogue rows: " << rowError << '\n';
         }
         return false;
     }
@@ -4084,17 +4105,11 @@ bool GameDataLoader::loadRulesetData(const Engine::AssetFileSystem &assetFileSys
             return false;
         }
 
-        // Its rows on MM9 people (the skill reset and Dimensional Maps on Hjordisa the Hag, the Jarls' bounties).
-        if (const std::optional<std::string> dialogueText = assetFileSystem.readTextFile(worldRoot + "dialogue.yml");
-            dialogueText && m_pMm9RudeDialogueTable
-            && !m_pMm9RudeDialogueTable->loadRulesetRowsText(worldRoot + "dialogue.yml", *dialogueText))
-        {
-            for (const std::string &rowError : m_pMm9RudeDialogueTable->errors())
-            {
-                std::cerr << "Failed to load MAW's MM9 dialogue rows: " << rowError << '\n';
-            }
-            return false;
-        }
+    }
+
+    if (!loadRulesetMm9DialogueRows(assetFileSystem))
+    {
+        return false;
     }
 
     m_mawMapLevels = std::move(mapLevels);

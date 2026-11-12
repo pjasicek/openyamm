@@ -597,10 +597,16 @@ TEST_CASE("AssetFileSystem mounts a release's optional language packs only for t
         // Every language's text is always installed.
         {"engine.languages", "engine", "/engine/languages", "", {{"ts/language.yml", "name: Test\n"},
                                                                  {"tz/language.yml", "name: Other\n"}}},
-        {"mm7.core", "mm7", "/worlds/mm7", "", {{"videos/Cutscenes/7intro.ogv", "game-video"}}},
+        {"mm7.core", "mm7", "/worlds/mm7", "",
+         {{"videos/Cutscenes/7intro.ogv", "game-video"}, {"world.yml", "id: mm7\n"}}},
+        {"mm8.core", "mm8", "/worlds/mm8", "",
+         {{"videos/Cutscenes/8intro.ogv", "game-video"}, {"world.yml", "id: mm8\n"}}},
         {"lang-ts.engine.fonts", "engine", "/engine/fonts", "ts", {{"truetype/lucida.yml", "ts-font"}}},
         {"lang-ts.engine.audio", "engine", "/engine/audio", "ts", {{"zm1.wav", "ts-sound"}}},
         {"lang-ts.mm7.videos", "mm7", "/worlds/mm7/videos", "ts", {{"Cutscenes/7intro.ogv", "ts-video"}}},
+        // Another world's pack last: it must not put that world in front of the active one (2.0 read MM8's
+        // world.yml in an MM7 game once Russian was downloaded).
+        {"lang-ts.mm8.videos", "mm8", "/worlds/mm8/videos", "ts", {{"Cutscenes/8intro.ogv", "ts-video"}}},
         {"lang-tz.engine.audio", "engine", "/engine/audio", "tz", {{"zm1.wav", "tz-sound"}}},
     };
     std::string index = "{\"schema\": 1, \"release\": \"test\", \"build\": \"test\", \"profile\": \"desktop\", "
@@ -641,6 +647,10 @@ TEST_CASE("AssetFileSystem mounts a release's optional language packs only for t
         CHECK(fs.readTextFile("fonts/truetype/lucida.yml") == std::optional<std::string>(prefix + "-font"));
         CHECK(fs.readTextFile("Data/EnglishD/zm1.wav") == std::optional<std::string>(prefix + "-sound"));
         CHECK(fs.readTextFile("Videos/Cutscenes/7intro.ogv") == std::optional<std::string>(prefix + "-video"));
+        CHECK(fs.readTextFile("worlds/mm8/videos/Cutscenes/8intro.ogv")
+              == std::optional<std::string>(prefix + "-video"));
+        // Unqualified requests still search the active world first, then the engine, then the other worlds.
+        CHECK(fs.readTextFile("world.yml") == std::optional<std::string>("id: mm7\n"));
         CHECK(fs.exists("languages/ts/language.yml"));
         CHECK(fs.exists("languages/tz/language.yml"));
         CHECK(fs.languagePacksMissing() == (languageId == "tz"));

@@ -914,6 +914,7 @@ bool AssetFileSystem::mountAndroidApkAssetRoot(const std::string &activeWorldId)
             packMount.mountPoint = normalizeVirtualPath(pack.mount);
             packMount.packageMountPoint = packageMountFolder(pack.package);
             packMount.archive = true;
+            packMount.languagePack = !pack.language.empty();
             recordSearchMount(std::move(packMount), appendToPath);
             return true;
         });
@@ -987,7 +988,8 @@ bool AssetFileSystem::mountPackagedAssetRoot(
                 return true;
             }
 
-            return mountSearchRootAt(storeRoot / pack.file, pack.mount, appendToPath, packageMount);
+            return mountSearchRootAt(storeRoot / pack.file, pack.mount, appendToPath, packageMount,
+                                     !pack.language.empty());
         });
 }
 
@@ -1269,7 +1271,8 @@ bool AssetFileSystem::mountSearchRootAt(
     const std::filesystem::path &assetRoot,
     const std::string &mountPoint,
     bool appendToPath,
-    const std::string &packageMountPoint)
+    const std::string &packageMountPoint,
+    bool languagePack)
 {
     if (!isInitialized())
     {
@@ -1295,6 +1298,7 @@ bool AssetFileSystem::mountSearchRootAt(
     searchMount.packageMountPoint =
         packageMountPoint.empty() ? searchMount.mountPoint : normalizeVirtualPath(packageMountPoint);
     searchMount.archive = isZipArchivePath(assetRoot);
+    searchMount.languagePack = languagePack;
     recordSearchMount(std::move(searchMount), appendToPath);
     return true;
 }
@@ -2065,10 +2069,11 @@ std::vector<std::string> AssetFileSystem::resolveVirtualPathCandidates(const std
     {
         if (!packageQualified)
         {
-            // Once per package, in mount precedence; a package's content packs share its root.
+            // Once per package, in mount precedence; a package's content packs share its root. A language's packs,
+            // mounted in front of all others, would put their package first (an MM7 game read MM8's world.yml).
             for (const SearchMount &mount : m_searchMounts)
             {
-                if (mount.archive)
+                if (mount.archive && !mount.languagePack)
                 {
                     appendCandidate(
                         mount.packageMountPoint.empty() ? candidate : mount.packageMountPoint + "/" + candidate);
