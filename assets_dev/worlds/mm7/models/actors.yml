@@ -3488,8 +3488,8 @@ actors:
       palm_right: Socket_Palm_R
     cast: Cast
     run: Jog
-    stride_length: 1.417
-    run_stride_length: 2.143
+    stride_length: 1.343
+    run_stride_length: 1.8
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3533,8 +3533,8 @@ actors:
       palm_right: Socket_Palm_R
     cast: Cast
     run: Jog
-    stride_length: 1.417
-    run_stride_length: 2.143
+    stride_length: 1.343
+    run_stride_length: 1.8
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3578,8 +3578,8 @@ actors:
       palm_right: Socket_Palm_R
     cast: Cast
     run: Jog
-    stride_length: 1.417
-    run_stride_length: 2.143
+    stride_length: 1.343
+    run_stride_length: 1.8
     upper_body_root: B_Spine
     look:
       nodes:
@@ -3633,9 +3633,9 @@ actors:
       max_pitch_degrees: 15
     events:
       attack_melee:
-        impact: 0.483
+        impact: 0.6
       attack_ranged:
-        impact: 0.483
+        impact: 0.6
         glow:
         - palm_right
         release: palm_right
@@ -3678,9 +3678,9 @@ actors:
       max_pitch_degrees: 15
     events:
       attack_melee:
-        impact: 0.483
+        impact: 0.6
       attack_ranged:
-        impact: 0.483
+        impact: 0.6
         glow:
         - palm_right
         release: palm_right
@@ -3723,9 +3723,9 @@ actors:
       max_pitch_degrees: 15
     events:
       attack_melee:
-        impact: 0.483
+        impact: 0.6
       attack_ranged:
-        impact: 0.483
+        impact: 0.6
         glow:
         - palm_right
         release: palm_right
@@ -3768,9 +3768,9 @@ actors:
       max_pitch_degrees: 12
     events:
       attack_melee:
-        impact: 0.498
+        impact: 0.583
       attack_ranged:
-        impact: 0.498
+        impact: 0.583
         glow:
         - palm_right
         - staff_head
@@ -3817,9 +3817,9 @@ actors:
       max_pitch_degrees: 12
     events:
       attack_melee:
-        impact: 0.498
+        impact: 0.583
       attack_ranged:
-        impact: 0.498
+        impact: 0.583
         glow:
         - palm_right
         - staff_head
@@ -3866,9 +3866,9 @@ actors:
       max_pitch_degrees: 12
     events:
       attack_melee:
-        impact: 0.498
+        impact: 0.583
       attack_ranged:
-        impact: 0.498
+        impact: 0.583
         glow:
         - palm_right
         - staff_head
@@ -3914,9 +3914,9 @@ actors:
       max_pitch_degrees: 25
     events:
       attack_melee:
-        impact: 0.844
+        impact: 0.533
       attack_ranged:
-        impact: 0.844
+        impact: 0.533
         glow:
         - staff_head
         release: staff_head
@@ -3929,8 +3929,8 @@ actors:
   clips:
     standing: Standing
     walking: Walking
-    attack_melee: Cast
-    attack_ranged: Cast
+    attack_melee: Attack
+    attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
@@ -3962,9 +3962,9 @@ actors:
       max_pitch_degrees: 25
     events:
       attack_melee:
-        impact: 0.844
+        impact: 0.533
       attack_ranged:
-        impact: 0.844
+        impact: 0.533
         glow:
         - staff_head
         release: staff_head
@@ -3977,8 +3977,8 @@ actors:
   clips:
     standing: Standing
     walking: Walking
-    attack_melee: Cast
-    attack_ranged: Cast
+    attack_melee: Attack
+    attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
@@ -4010,9 +4010,9 @@ actors:
       max_pitch_degrees: 25
     events:
       attack_melee:
-        impact: 0.844
+        impact: 0.533
       attack_ranged:
-        impact: 0.844
+        impact: 0.533
         glow:
         - staff_head
         release: staff_head
@@ -4025,8 +4025,8 @@ actors:
   clips:
     standing: Standing
     walking: Walking
-    attack_melee: Cast
-    attack_ranged: Cast
+    attack_melee: Attack
+    attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
@@ -4046,9 +4046,9 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.487
-    run_stride_length: 2.6533
+    run_stride_length: 2.2145
     sprint: Sprint
-    sprint_stride_length: 3.4373
+    sprint_stride_length: 2.6915
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4082,9 +4082,9 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.487
-    run_stride_length: 2.6533
+    run_stride_length: 2.2145
     sprint: Sprint
-    sprint_stride_length: 3.4373
+    sprint_stride_length: 2.6915
     upper_body_root: B_Spine
     look:
       nodes:
@@ -4118,9 +4118,9 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.487
-    run_stride_length: 2.6533
+    run_stride_length: 2.2145
     sprint: Sprint
-    sprint_stride_length: 3.4373
+    sprint_stride_length: 2.6915
     upper_body_root: B_Spine
     look:
       nodes:
@@ -8202,7 +8202,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.433
-    run_stride_length: 2.5554
+    run_stride_length: 2.2003
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -8234,7 +8234,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.433
-    run_stride_length: 2.5554
+    run_stride_length: 2.2003
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -8266,7 +8266,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.433
-    run_stride_length: 2.5554
+    run_stride_length: 2.2003
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]

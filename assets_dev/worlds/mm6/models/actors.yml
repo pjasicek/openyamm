@@ -191,28 +191,28 @@ actors:
     dead: Dead
     fidget: Fidget
   skin: demon_c
-# MM6 female peasant (pfem), original Claude model restored for review; palettes 786/787/788.
+# MM6 female peasant (pfem), rebuilt 2026-11-11 (level_generation/creatures/mm6_pfem_rebuild_claude): the v3 body on MM9's PeasantFemale
+# skeleton and clips, MPFB five-finger arms, 4K head/body paints; palettes 786/787/788. Attack = a restrained MM9 talk gesture.
 - descriptor: PeasantF1 A
   model: worlds/mm6/models/mm6_pfem.glb
-  scale: 111.6
-  z_offset: 0.07
+  scale: 103.46
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Jog
-    stride_length: 1.518
-    run_stride_length: 1.54
-    upper_body_root: mixamorig:Spine
+    run: Running
+    stride_length: 1.24
+    run_stride_length: 1.554
+    upper_body_root: FHP Spine1
     look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
+      nodes: [FHP Neck, FHP Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.48}
+      attack_ranged: {impact: 0.48}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -222,26 +222,25 @@ actors:
   skin: pfem_a
 - descriptor: PeasantF1 B
   model: worlds/mm6/models/mm6_pfem.glb
-  scale: 111.6
+  scale: 103.46
   scale_reference: PeasantF1 A
-  z_offset: 0.07
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Jog
-    stride_length: 1.518
-    run_stride_length: 1.54
-    upper_body_root: mixamorig:Spine
+    run: Running
+    stride_length: 1.24
+    run_stride_length: 1.554
+    upper_body_root: FHP Spine1
     look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
+      nodes: [FHP Neck, FHP Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.48}
+      attack_ranged: {impact: 0.48}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -251,26 +250,25 @@ actors:
   skin: pfem_b
 - descriptor: Peasantf1 C
   model: worlds/mm6/models/mm6_pfem.glb
-  scale: 111.6
+  scale: 103.46
   scale_reference: PeasantF1 A
-  z_offset: 0.07
   yaw_offset: -1.570796327
   animation:
     cast: Attack
-    run: Jog
-    stride_length: 1.518
-    run_stride_length: 1.54
-    upper_body_root: mixamorig:Spine
+    run: Running
+    stride_length: 1.24
+    run_stride_length: 1.554
+    upper_body_root: FHP Spine1
     look:
-      nodes: [mixamorig:Neck, mixamorig:Head]
+      nodes: [FHP Neck, FHP Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
-    sockets:
-      palm_left: Socket_Palm_Left
-      palm_right: Socket_Palm_Right
+    events:
+      attack_melee: {impact: 0.48}
+      attack_ranged: {impact: 0.48}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -397,106 +395,113 @@ actors:
   attachments:
     - model: worlds/mm6/models/mm6_pmn2_staff.glb
       node: Staff
-# MM6 New Sorpigal guard / lieutenant / captain (gua), Meshy Smart Topology + Meshy rig, halberd in the right fist.
-# Skins gua_a/b/c share one texture set; sleeves, trousers and mail follow palettes 748/749/750 (region ramps).
+# MM6 New Sorpigal guard / lieutenant / captain (gua), rebuilt 2026-11-11 on the MM9 GUARD skeleton and clips (Yrsa route,
+# mm6_gua_rebuild_claude): five-finger grafted hands, fist solved round the shaft, approved MM6 halberd on Xbase. Skins gua_a/b/c
+# share one texture set + head set; Walk2/Jog are MM9's walk/run at 1.3x/0.83x leg amplitude (gait_gate PASSED); sleeves, trousers and mail follow palettes 748/749/750 (region ramps). Impact = MM9 Rattack x 1/1.3.
 - descriptor: Guard A
   model: worlds/mm6/models/mm6_gua.glb
-  scale: 127.2
+  scale: 107.27
   yaw_offset: -1.570796327
   animation:
     cast: Attack
     run: Jog
-    stride_length: 1.32
-    run_stride_length: 2.4734
-    sprint: Sprint
-    sprint_stride_length: 3.4673
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    stride_length: 1.84
+    run_stride_length: 2.37
+    sprint: Running
+    sprint_stride_length: 3.6
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.438}
+      attack_melee: {impact: 0.351}
+      attack_ranged: {impact: 0.351}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
-    fidget: Standing
+    fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: gua_a
   attachments:
     - model: worlds/mm6/models/mm6_gua_halberd.glb
-      node: Halberd
+      node: Xbase
 - descriptor: Guard B
   model: worlds/mm6/models/mm6_gua.glb
-  scale: 127.2
+  scale: 107.27
   scale_reference: Guard A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
     run: Jog
-    stride_length: 1.32
-    run_stride_length: 2.4734
-    sprint: Sprint
-    sprint_stride_length: 3.4673
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    stride_length: 1.84
+    run_stride_length: 2.37
+    sprint: Running
+    sprint_stride_length: 3.6
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.438}
+      attack_melee: {impact: 0.351}
+      attack_ranged: {impact: 0.351}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
-    fidget: Standing
+    fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: gua_b
   attachments:
     - model: worlds/mm6/models/mm6_gua_halberd.glb
-      node: Halberd
+      node: Xbase
 - descriptor: Guard C
   model: worlds/mm6/models/mm6_gua.glb
-  scale: 127.2
+  scale: 107.27
   scale_reference: Guard A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
     run: Jog
-    stride_length: 1.32
-    run_stride_length: 2.4734
-    sprint: Sprint
-    sprint_stride_length: 3.4673
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    stride_length: 1.84
+    run_stride_length: 2.37
+    sprint: Running
+    sprint_stride_length: 3.6
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.438}
+      attack_melee: {impact: 0.351}
+      attack_ranged: {impact: 0.351}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
     dying: Death
     dead: Dead
-    fidget: Standing
+    fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: gua_c
   attachments:
     - model: worlds/mm6/models/mm6_gua_halberd.glb
-      node: Halberd
+      node: Xbase
 # MM6 male peasant rebuild (mm6_pman_claude_20261013): source-frame B rig, library civilian clips, no attack.
 # Shared tunic region follows native palettes 798/799/800; scale follows the 253 px standing sprite.
 - descriptor: PeasantM1 A
@@ -1897,18 +1902,19 @@ actors:
     sockets:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
-    # Source-speed clips after ready pauses: the one-hand thrust releases 0.729 s into Ranged (from the right palm) and
-    # the two-handed push 0.771 s into Cast. The melee attack plays Cast too (user review 2026-10-21; the hook Attack
-    # clip was removed from the model), landing with its push, without the spell glow.
+    # The ranged attack and the spell play the two-handed push Cast, released 0.771 s in from both palms (user,
+    # 2026-11-12: one attack clip for both; the one-hand Ranged thrust stays in the model unbound). The melee attack
+    # plays Cast too (user review 2026-10-21; the hook Attack clip was removed), landing with its push, without the
+    # spell glow.
     events:
       attack_melee: {impact: 0.87}
-      attack_ranged: {impact: 0.946, glow: [palm_right], glow_scale: 2}
+      attack_ranged: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
       cast: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
   clips:
     standing: Standing
     walking: WalkHeavy
     attack_melee: Cast
-    attack_ranged: Ranged
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -1933,18 +1939,19 @@ actors:
     sockets:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
-    # Source-speed clips after ready pauses: the one-hand thrust releases 0.729 s into Ranged (from the right palm) and
-    # the two-handed push 0.771 s into Cast. The melee attack plays Cast too (user review 2026-10-21; the hook Attack
-    # clip was removed from the model), landing with its push, without the spell glow.
+    # The ranged attack and the spell play the two-handed push Cast, released 0.771 s in from both palms (user,
+    # 2026-11-12: one attack clip for both; the one-hand Ranged thrust stays in the model unbound). The melee attack
+    # plays Cast too (user review 2026-10-21; the hook Attack clip was removed), landing with its push, without the
+    # spell glow.
     events:
       attack_melee: {impact: 0.87}
-      attack_ranged: {impact: 0.946, glow: [palm_right], glow_scale: 2}
+      attack_ranged: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
       cast: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
   clips:
     standing: Standing
     walking: WalkHeavy
     attack_melee: Cast
-    attack_ranged: Ranged
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -1969,18 +1976,19 @@ actors:
     sockets:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
-    # Source-speed clips after ready pauses: the one-hand thrust releases 0.729 s into Ranged (from the right palm) and
-    # the two-handed push 0.771 s into Cast. The melee attack plays Cast too (user review 2026-10-21; the hook Attack
-    # clip was removed from the model), landing with its push, without the spell glow.
+    # The ranged attack and the spell play the two-handed push Cast, released 0.771 s in from both palms (user,
+    # 2026-11-12: one attack clip for both; the one-hand Ranged thrust stays in the model unbound). The melee attack
+    # plays Cast too (user review 2026-10-21; the hook Attack clip was removed), landing with its push, without the
+    # spell glow.
     events:
       attack_melee: {impact: 0.87}
-      attack_ranged: {impact: 0.946, glow: [palm_right], glow_scale: 2}
+      attack_ranged: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
       cast: {impact: 0.87, glow: [palm_left, palm_right], glow_scale: 2}
   clips:
     standing: Standing
     walking: WalkHeavy
     attack_melee: Cast
-    attack_ranged: Ranged
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -1990,100 +1998,111 @@ actors:
 # Mutant clips. Skins wwf_a/b/c share one texture set and a head set; shorts and pendant gem follow palettes
 # 831/832/833 (region ramps). Scale: native stand frame 246 px x frame scale 0.9 = 221 units against the 1.526 m
 # posed Standing height. Melee only (bite: rears up, claws raised, lunges with the jaws open).
-# MM6 thief / burglar / rogue (thf), Meshy Smart Topology + Meshy rig with cloak chains (baked verlet), finger rig and
-# two daggers in the skinned mesh (shown only in the attack). Skins thf_a/b/c share one texture set; the cloak, hood
-# and undershirt follow palettes 825/826/827 (region ramps).
+# MM6 thief / burglar / rogue (thf), rebuilt 2026-11-11 (level_generation/creatures/mm6_thf_rebuild_claude): the gated HD masters' Smart
+# Topology on MM9's HIGHWAYMAN skeleton and its FIGHTERBASE clips, MPFB five-finger hands, the cloak on 14 keyed chains, the approved
+# daggers on MM9's Ybasesword / Ybasedagger (shown only in the attacks). One shared texture set + head set; the cloak, hood and
+# undershirt follow palettes 825/826/827 (region ramps). Attack: Hattack3 x1.2 (contact 0.375 s); thrown dagger: Rattack1 x1.2
+# (release 0.417 s from the left fist). Scale: native stand frame 171.5 units against the 1.839 m Standing height.
 - descriptor: BThief A
   model: worlds/mm6/models/mm6_thf.glb
-  scale: 108.68
+  scale: 93.26
   yaw_offset: -1.570796327
   animation:
     cast: Attack
     run: Jog
-    stride_length: 1.5152
-    run_stride_length: 2.8184
-    sprint: Sprint
-    sprint_stride_length: 3.4402
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    stride_length: 1.9178
+    run_stride_length: 2.666
+    sprint: Running
+    sprint_stride_length: 3.21
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
+    sockets:
+      dagger: Ybasedagger
     events:
-      attack_melee: {impact: 0.403}
-      attack_ranged: {impact: 0.403}
+      attack_melee: {impact: 0.375}
+      attack_ranged: {impact: 0.417, release: dagger}
   clips:
     standing: Standing
     walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: AttackRanged
     hit: Hit
     dying: Death
     dead: Dead
     fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: thf_a
 - descriptor: BThief B
   model: worlds/mm6/models/mm6_thf.glb
-  scale: 108.68
+  scale: 93.26
   scale_reference: BThief A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
     run: Jog
-    stride_length: 1.5152
-    run_stride_length: 2.8184
-    sprint: Sprint
-    sprint_stride_length: 3.4402
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    stride_length: 1.9178
+    run_stride_length: 2.666
+    sprint: Running
+    sprint_stride_length: 3.21
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
+    sockets:
+      dagger: Ybasedagger
     events:
-      attack_melee: {impact: 0.403}
-      attack_ranged: {impact: 0.403}
+      attack_melee: {impact: 0.375}
+      attack_ranged: {impact: 0.417, release: dagger}
   clips:
     standing: Standing
     walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: AttackRanged
     hit: Hit
     dying: Death
     dead: Dead
     fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: thf_b
 - descriptor: BThief C
   model: worlds/mm6/models/mm6_thf.glb
-  scale: 108.68
+  scale: 93.26
   scale_reference: BThief A
   yaw_offset: -1.570796327
   animation:
     cast: Attack
     run: Jog
-    stride_length: 1.5152
-    run_stride_length: 2.8184
-    sprint: Sprint
-    sprint_stride_length: 3.4402
-    upper_body_root: Spine02
-    # The neck and head share a turn toward the party over every clip but the death.
+    stride_length: 1.9178
+    run_stride_length: 2.666
+    sprint: Running
+    sprint_stride_length: 3.21
+    upper_body_root: Bip01 Spine1
     look:
-      nodes: [neck, Head]
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
+    sockets:
+      dagger: Ybasedagger
     events:
-      attack_melee: {impact: 0.403}
-      attack_ranged: {impact: 0.403}
+      attack_melee: {impact: 0.375}
+      attack_ranged: {impact: 0.417, release: dagger}
   clips:
     standing: Standing
     walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: AttackRanged
     hit: Hit
     dying: Death
     dead: Dead
     fidget: Fidget
+  script_clips:
+    attack2: Attack2
   skin: thf_c
 - descriptor: Werewolf A
   model: worlds/mm6/models/mm6_wwf.glb
@@ -3279,7 +3298,7 @@ actors:
     cast: Cast
     run: Run2
     stride_length: 1.7026
-    run_stride_length: 2.8283
+    run_stride_length: 1.777
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3306,7 +3325,7 @@ actors:
     cast: Cast
     run: Run2
     stride_length: 1.7026
-    run_stride_length: 2.8283
+    run_stride_length: 1.777
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3333,7 +3352,7 @@ actors:
     cast: Cast
     run: Run2
     stride_length: 1.7026
-    run_stride_length: 2.8283
+    run_stride_length: 1.777
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3363,7 +3382,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.426
-    run_stride_length: 2.6955
+    run_stride_length: 2.0
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3398,7 +3417,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.426
-    run_stride_length: 2.6955
+    run_stride_length: 2.0
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -3433,7 +3452,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.426
-    run_stride_length: 2.6955
+    run_stride_length: 2.0
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -4694,18 +4713,18 @@ actors:
     cast: Attack
     run: Jog
     stride_length: 1.6
-    run_stride_length: 2.41
+    run_stride_length: 2.05
     sprint: Sprint
-    sprint_stride_length: 3.41
+    sprint_stride_length: 2.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.929}
-      attack_ranged: {impact: 0.929}
-      cast: {impact: 0.929}
+      attack_melee: {impact: 0.35}
+      attack_ranged: {impact: 0.35}
+      cast: {impact: 0.35}
   clips:
     standing: Standing
     walking: Walk2
@@ -4728,18 +4747,18 @@ actors:
     cast: Attack
     run: Jog
     stride_length: 1.6
-    run_stride_length: 2.41
+    run_stride_length: 2.05
     sprint: Sprint
-    sprint_stride_length: 3.41
+    sprint_stride_length: 2.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.929}
-      attack_ranged: {impact: 0.929}
-      cast: {impact: 0.929}
+      attack_melee: {impact: 0.35}
+      attack_ranged: {impact: 0.35}
+      cast: {impact: 0.35}
   clips:
     standing: Standing
     walking: Walk2
@@ -4762,18 +4781,18 @@ actors:
     cast: Attack
     run: Jog
     stride_length: 1.6
-    run_stride_length: 2.41
+    run_stride_length: 2.05
     sprint: Sprint
-    sprint_stride_length: 3.41
+    sprint_stride_length: 2.6
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
       max_yaw_degrees: 60
       max_pitch_degrees: 35
     events:
-      attack_melee: {impact: 0.929}
-      attack_ranged: {impact: 0.929}
-      cast: {impact: 0.929}
+      attack_melee: {impact: 0.35}
+      attack_ranged: {impact: 0.35}
+      cast: {impact: 0.35}
   clips:
     standing: Standing
     walking: Walk2
@@ -4862,35 +4881,32 @@ actors:
     dead: Dead
     fidget: Fidget
 
-# MM6 Peasant Merchant (mer1, monster IDs 577-579), Codex batch (mm6_mer1_codex/HANDOFF.md): town merchant with a club.
-# Native stand 177.1 units.
+# MM6 Peasant Merchant (mer1, monster IDs 577-579), rebuilt 2026-11-11 (level_generation/creatures/mm6_mer1_rebuild_claude): the gated
+# round-2 HD masters' Smart Topology on MM9's HIGHWAYMAN/FIGHTERBASE skeleton, body clips from MM9 NOBLEMAN (same Bip01 names),
+# FIGHTERBASE Hattack2 as the club blow, MPFB five-finger hands, the tunic skirt on 16 keyed chains. As the native merchant the club
+# hangs at his right hip (joint Club, riding the robe) and is drawn into the fist in the attack. One shared texture set + head set;
+# the tunic follows palettes 252/253/770 (region ramps). Scale: native stand 177.1 units against the 1.744 m Standing height.
 - descriptor: Merchant A
   model: worlds/mm6/models/mm6_mer1.glb
-  scale: 103.944653064
+  scale: 101.55
   yaw_offset: -1.570796327
-  z_offset: -0.103944653
   animation:
     cast: Attack
     run: Jog
-    stride_length: 0.84
-    run_stride_length: 1.88
-    upper_body_root: B_Spine
+    stride_length: 1.7251
+    run_stride_length: 2.0628
+    upper_body_root: Bip01 Spine1
     look:
-      nodes:
-      - B_Neck
-      - B_Head
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 25
       max_pitch_degrees: 12
     events:
-      attack_melee:
-        impact: 0.882
-      attack_ranged:
-        impact: 0.882
-      cast:
-        impact: 0.882
+      attack_melee: {impact: 0.321}
+      attack_ranged: {impact: 0.321}
+      cast: {impact: 0.321}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4903,31 +4919,26 @@ actors:
     node: Club
 - descriptor: Merchant B
   model: worlds/mm6/models/mm6_mer1.glb
-  scale: 103.944653064
+  scale: 101.55
+  scale_reference: Merchant A
   yaw_offset: -1.570796327
-  z_offset: -0.103944653
   animation:
     cast: Attack
     run: Jog
-    stride_length: 0.84
-    run_stride_length: 1.88
-    upper_body_root: B_Spine
+    stride_length: 1.7251
+    run_stride_length: 2.0628
+    upper_body_root: Bip01 Spine1
     look:
-      nodes:
-      - B_Neck
-      - B_Head
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 25
       max_pitch_degrees: 12
     events:
-      attack_melee:
-        impact: 0.882
-      attack_ranged:
-        impact: 0.882
-      cast:
-        impact: 0.882
+      attack_melee: {impact: 0.321}
+      attack_ranged: {impact: 0.321}
+      cast: {impact: 0.321}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4938,34 +4949,28 @@ actors:
   attachments:
   - model: worlds/mm6/models/mm6_mer1_club.glb
     node: Club
-  scale_reference: Merchant A
 - descriptor: Merchant C
   model: worlds/mm6/models/mm6_mer1.glb
-  scale: 103.944653064
+  scale: 101.55
+  scale_reference: Merchant A
   yaw_offset: -1.570796327
-  z_offset: -0.103944653
   animation:
     cast: Attack
     run: Jog
-    stride_length: 0.84
-    run_stride_length: 1.88
-    upper_body_root: B_Spine
+    stride_length: 1.7251
+    run_stride_length: 2.0628
+    upper_body_root: Bip01 Spine1
     look:
-      nodes:
-      - B_Neck
-      - B_Head
+      nodes: [Bip01 Neck, Bip01 Head]
       max_yaw_degrees: 25
       max_pitch_degrees: 12
     events:
-      attack_melee:
-        impact: 0.882
-      attack_ranged:
-        impact: 0.882
-      cast:
-        impact: 0.882
+      attack_melee: {impact: 0.321}
+      attack_ranged: {impact: 0.321}
+      cast: {impact: 0.321}
   clips:
     standing: Standing
-    walking: Walking
+    walking: Walk2
     attack_melee: Attack
     attack_ranged: Attack
     hit: Hit
@@ -4976,7 +4981,6 @@ actors:
   attachments:
   - model: worlds/mm6/models/mm6_mer1_club.glb
     node: Club
-  scale_reference: Merchant A
 # MM6 Genie: native 199 px stand x 0.8 / 2.208 m; shared palette ramps and floating vortex.
 - descriptor: BGenie A
   model: worlds/mm6/models/mm6_djn.glb

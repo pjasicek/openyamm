@@ -425,7 +425,7 @@ actors:
     sockets: {}
     events:
       attack_melee:
-        impact: 0.75
+        impact: 0.56
   clips:
     standing: Standing
     walking: Walk
@@ -457,7 +457,7 @@ actors:
     sockets: {}
     events:
       attack_melee:
-        impact: 0.75
+        impact: 0.56
   clips:
     standing: Standing
     walking: Walk
@@ -489,7 +489,7 @@ actors:
     sockets: {}
     events:
       attack_melee:
-        impact: 0.75
+        impact: 0.56
   clips:
     standing: Standing
     walking: Walk
@@ -633,8 +633,8 @@ actors:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
     events:
-      attack_melee: {impact: 1.162, glow: [palm_left, palm_right], color: [255, 120, 40]}
-      attack_ranged: {impact: 1.162, glow: [palm_left, palm_right], release: palm_right}
+      attack_melee: {impact: 0.583, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.583, glow: [palm_left, palm_right], release: palm_right}
       cast: {impact: 1.25, glow: [palm_left, palm_right], release: palm_right}
   clips:
     standing: Standing
@@ -670,8 +670,8 @@ actors:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
     events:
-      attack_melee: {impact: 1.162, glow: [palm_left, palm_right], color: [255, 120, 40]}
-      attack_ranged: {impact: 1.162, glow: [palm_left, palm_right], release: palm_right}
+      attack_melee: {impact: 0.583, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.583, glow: [palm_left, palm_right], release: palm_right}
       cast: {impact: 1.25, glow: [palm_left, palm_right], release: palm_right}
   clips:
     standing: Standing
@@ -708,8 +708,8 @@ actors:
       palm_left: Socket_Palm_Left
       palm_right: Socket_Palm_Right
     events:
-      attack_melee: {impact: 1.162, glow: [palm_left, palm_right], color: [255, 120, 40]}
-      attack_ranged: {impact: 1.162, glow: [palm_left, palm_right], release: palm_right}
+      attack_melee: {impact: 0.583, glow: [palm_left, palm_right], color: [255, 120, 40]}
+      attack_ranged: {impact: 0.583, glow: [palm_left, palm_right], release: palm_right}
       cast: {impact: 1.25, glow: [palm_left, palm_right], release: palm_right}
   clips:
     standing: Standing
@@ -1993,9 +1993,9 @@ actors:
     run: Jog
     cast: Cast
     stride_length: 1.361
-    run_stride_length: 2.2942
+    run_stride_length: 2.266
     sprint: Sprint
-    sprint_stride_length: 3.062
+    sprint_stride_length: 3.065
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2028,9 +2028,9 @@ actors:
     run: Jog
     cast: Cast
     stride_length: 1.361
-    run_stride_length: 2.2942
+    run_stride_length: 2.266
     sprint: Sprint
-    sprint_stride_length: 3.062
+    sprint_stride_length: 3.065
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2063,9 +2063,9 @@ actors:
     run: Jog
     cast: Cast
     stride_length: 1.361
-    run_stride_length: 2.2942
+    run_stride_length: 2.266
     sprint: Sprint
-    sprint_stride_length: 3.062
+    sprint_stride_length: 3.065
     upper_body_root: B_Spine
     look:
       nodes: [B_Neck, B_Head]
@@ -2797,14 +2797,14 @@ actors:
       wand_orb: Socket_WandOrb
     events:
       attack_melee:
-        impact: 1.029
-      attack_ranged: {impact: 1.029, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
-      cast: {impact: 1.043, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
+        impact: 0.65
+      attack_ranged: {impact: 0.65, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
+      cast: {impact: 0.65, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
   clips:
     standing: Standing
     walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -2831,14 +2831,14 @@ actors:
       wand_orb: Socket_WandOrb
     events:
       attack_melee:
-        impact: 1.029
-      attack_ranged: {impact: 1.029, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
-      cast: {impact: 1.043, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
+        impact: 0.65
+      attack_ranged: {impact: 0.65, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
+      cast: {impact: 0.65, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
   clips:
     standing: Standing
     walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -2865,14 +2865,14 @@ actors:
       wand_orb: Socket_WandOrb
     events:
       attack_melee:
-        impact: 1.029
-      attack_ranged: {impact: 1.029, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
-      cast: {impact: 1.043, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
+        impact: 0.65
+      attack_ranged: {impact: 0.65, glow: [wand_orb], release: wand_orb, glow_scale: 1.2}
+      cast: {impact: 0.65, glow: [wand_orb, l_hand, r_hand], release: wand_orb, glow_scale: 0.55}
   clips:
     standing: Standing
     walking: Walk2
     attack_melee: Attack
-    attack_ranged: Attack
+    attack_ranged: Cast
     hit: Hit
     dying: Death
     dead: Dead
@@ -3183,7 +3183,7 @@ actors:
     cast: Cast
     run: Run2
     stride_length: 1.239
-    run_stride_length: 2.12
+    run_stride_length: 1.571
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3217,7 +3217,7 @@ actors:
     cast: Cast
     run: Run2
     stride_length: 1.239
-    run_stride_length: 2.12
+    run_stride_length: 1.571
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -3251,7 +3251,7 @@ actors:
     cast: Cast
     run: Run2
     stride_length: 1.239
-    run_stride_length: 2.12
+    run_stride_length: 1.571
     upper_body_root: B_Spine
     sockets:
       palm_left: Socket_Palm_Left
@@ -4121,8 +4121,8 @@ actors:
       bolt_tip: Socket_Bolt
     events:
       attack_melee:
-        impact: 1.0
-      attack_ranged: {impact: 1.0, release: bolt_tip}
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
   clips:
     standing: Standing
     walking: Walk2
@@ -4165,8 +4165,8 @@ actors:
       bolt_tip: Socket_Bolt
     events:
       attack_melee:
-        impact: 1.0
-      attack_ranged: {impact: 1.0, release: bolt_tip}
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
   clips:
     standing: Standing
     walking: Walk2
@@ -4209,8 +4209,8 @@ actors:
       bolt_tip: Socket_Bolt
     events:
       attack_melee:
-        impact: 1.0
-      attack_ranged: {impact: 1.0, release: bolt_tip}
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
   clips:
     standing: Standing
     walking: Walk2
@@ -4254,8 +4254,8 @@ actors:
       bolt_tip: Socket_Bolt
     events:
       attack_melee:
-        impact: 1.0
-      attack_ranged: {impact: 1.0, release: bolt_tip}
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
   clips:
     standing: Standing
     walking: Walk2
@@ -4296,8 +4296,8 @@ actors:
       bolt_tip: Socket_Bolt
     events:
       attack_melee:
-        impact: 1.0
-      attack_ranged: {impact: 1.0, release: bolt_tip}
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
   clips:
     standing: Standing
     walking: Walk2
@@ -4340,8 +4340,8 @@ actors:
       bolt_tip: Socket_Bolt
     events:
       attack_melee:
-        impact: 1.0
-      attack_ranged: {impact: 1.0, release: bolt_tip}
+        impact: 0.5
+      attack_ranged: {impact: 0.5, release: bolt_tip}
   clips:
     standing: Standing
     walking: Walk2
@@ -5592,7 +5592,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.523
-    run_stride_length: 2.216
+    run_stride_length: 1.805
     upper_body_root: B_Spine
     look:
       nodes:
@@ -5630,7 +5630,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.523
-    run_stride_length: 2.216
+    run_stride_length: 1.805
     upper_body_root: B_Spine
     look:
       nodes:
@@ -5668,7 +5668,7 @@ actors:
     cast: Cast
     run: Jog
     stride_length: 1.523
-    run_stride_length: 2.216
+    run_stride_length: 1.805
     upper_body_root: B_Spine
     look:
       nodes:
