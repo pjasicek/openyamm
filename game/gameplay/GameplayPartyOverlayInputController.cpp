@@ -3472,24 +3472,40 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             && !isInventorySpellTargetMode
             && (hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem
                 || hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryCell
-                || (hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem
-                    && pActiveCharacter != nullptr
-                    && hoveredCharacterTarget.bag == pActiveCharacter->rulesetState.currentBag)))
+                || hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem))
         {
+            // An item of the bag overview is mixed with its bag open, as on that bag's full-size grid.
+            const bool overviewItem =
+                hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::BagOverviewItem;
             const Character *pHoveredCharacter = pParty->member(selectedPartyMemberIndex);
+            const uint8_t targetBag = overviewItem || pHoveredCharacter == nullptr
+                ? hoveredCharacterTarget.bag
+                : pHoveredCharacter->rulesetState.currentBag;
             const InventoryItem *pTargetItem =
                 pHoveredCharacter != nullptr
-                    ? pHoveredCharacter->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+                    ? InventoryBags::itemInBagAt(
+                        *pHoveredCharacter, targetBag, hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
                     : nullptr;
 
-            if (pTargetItem != nullptr
-                && context.itemService().tryUseHeldItemOnInventoryItem(
-                    context,
-                    selectedPartyMemberIndex,
-                    pTargetItem->gridX,
-                    pTargetItem->gridY))
+            if (pTargetItem != nullptr)
             {
-                return;
+                const uint8_t targetGridX = pTargetItem->gridX;
+                const uint8_t targetGridY = pTargetItem->gridY;
+
+                const auto mixItem =
+                    [&]() -> bool
+                    {
+                        return context.itemService().tryUseHeldItemOnInventoryItem(
+                            context, selectedPartyMemberIndex, targetGridX, targetGridY);
+                    };
+
+                if (overviewItem
+                        ? InventoryBags::withBagOpen(*pParty, selectedPartyMemberIndex, targetBag,
+                              gameRulesFor(pParty).items.bagCount(*pParty), mixItem)
+                        : mixItem())
+                {
+                    return;
+                }
             }
         }
 
