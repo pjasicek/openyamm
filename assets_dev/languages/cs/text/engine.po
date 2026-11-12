@@ -101004,22 +101004,22 @@ msgid "Dropped {item}"
 msgstr "Odhozeno: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1000
+#: game/gameplay/GameplayItemService.cpp:1001
 msgid "No room to put the material down"
 msgstr "Není kam položit materiál"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1042 game/gameplay/GameplayItemService.cpp:1247
+#: game/gameplay/GameplayItemService.cpp:1043 game/gameplay/GameplayItemService.cpp:1248
 msgid "Nothing happens."
 msgstr "Nic se nestalo."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1065
+#: game/gameplay/GameplayItemService.cpp:1066
 msgid "{count} steps"
 msgstr "Kroky: {count}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1089
+#: game/gameplay/GameplayItemService.cpp:1090
 msgid "Crafted {count} times"
 msgstr "Vyrobeno {count}×"
 
@@ -101030,22 +101030,22 @@ msgid "Nothing to repair."
 msgstr "Není co opravovat."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1120
+#: game/gameplay/GameplayItemService.cpp:1121
 msgid "Not enough gems to combine"
 msgstr "Nedostatek drahokamů ke spojení"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1126
+#: game/gameplay/GameplayItemService.cpp:1127
 msgid "{count} {gems} created"
 msgstr "Vytvořeno: {count}× {gems}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1128
+#: game/gameplay/GameplayItemService.cpp:1129
 msgid "gems"
 msgstr "drahokamy"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1129
+#: game/gameplay/GameplayItemService.cpp:1130
 msgid "Combined"
 msgstr "Spojeno"
 
@@ -101055,27 +101055,27 @@ msgid "Repaired {item}."
 msgstr "Opraveno: {item}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1263 game/gameplay/GameplayItemService.cpp:1363
+#: game/gameplay/GameplayItemService.cpp:1264 game/gameplay/GameplayItemService.cpp:1364
 msgid "No room for the empty bottle."
 msgstr "Není místo pro prázdnou lahvičku."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1267
+#: game/gameplay/GameplayItemService.cpp:1268
 msgid "Discovered: {potion}!"
 msgstr "Objeveno: {potion}!"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1272
+#: game/gameplay/GameplayItemService.cpp:1273
 msgid "Brewed {count} x {potion}"
 msgstr "Namícháno {count}× {potion}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1276
+#: game/gameplay/GameplayItemService.cpp:1277
 msgid "Brewed {potion} (power {power})"
 msgstr "Namícháno: {potion} (síla {power})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1351
+#: game/gameplay/GameplayItemService.cpp:1352
 msgid "{count} step"
 msgid_plural "{count} steps"
 msgstr[0] "{count} krok"
@@ -101083,17 +101083,17 @@ msgstr[1] "{count} kroky"
 msgstr[2] "{count} kroků"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1367
+#: game/gameplay/GameplayItemService.cpp:1368
 msgid "Brewing stopped after {steps}."
 msgstr "Míchání se zastavilo; provedeno: {steps}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1371
+#: game/gameplay/GameplayItemService.cpp:1372
 msgid "Brewed {count} x {potion} ({steps})"
 msgstr "Namícháno {count}× {potion} ({steps})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1376
+#: game/gameplay/GameplayItemService.cpp:1377
 msgid "Brewed {potion} (power {power}, {steps})"
 msgstr "Namícháno: {potion} (síla {power}, {steps})"
 
@@ -101120,17 +101120,17 @@ msgid "Unknown scroll spell"
 msgstr "Neznámé kouzlo svitku"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:667
+#: game/gameplay/GameplayItemService.cpp:668
 msgid "Empty slot"
 msgstr "Prázdná pozice"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:678
+#: game/gameplay/GameplayItemService.cpp:679
 msgid "No {item} left"
 msgstr "Nezbývá: {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:701
+#: game/gameplay/GameplayItemService.cpp:702
 msgid "Put down the held item first"
 msgstr "Nejprve polož držený předmět"
 
@@ -101154,12 +101154,12 @@ msgid "Identified {item}."
 msgstr "Identifikováno: {item}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:877
+#: game/gameplay/GameplayItemService.cpp:878
 msgid "Learned recipe: {potion}"
 msgstr "Naučený recept: {potion}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1258 game/gameplay/GameplayItemService.cpp:1349 game/gameplay/GameplayItemService.cpp:878
+#: game/gameplay/GameplayItemService.cpp:1259 game/gameplay/GameplayItemService.cpp:1350 game/gameplay/GameplayItemService.cpp:879
 msgid "potion"
 msgstr "lektvar"
 
@@ -102614,98 +102614,106 @@ msgid "Ooops"
 msgstr "Jejda"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1032
+#: game/items/InventoryItemUseRuntime.cpp:1037
 msgid "Item can not be used that way"
 msgstr "Předmět nelze použít tímto způsobem"
 
 # imported from CZfix (MMMerge localization)
 # address made plural (Claude)
-#: assets_dev/engine/data_tables/english/Global.txt:655 game/items/InventoryItemUseRuntime.cpp:1046
+#: assets_dev/engine/data_tables/english/Global.txt:655 game/items/InventoryItemUseRuntime.cpp:1051
 msgid "You can not do that while you are underwater!"
 msgstr "Dokud jste pod vodou, nemůžete tohle udělat!"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1104
+#: game/items/InventoryItemUseRuntime.cpp:1109
 msgid "{class}s can't learn spells from books"
 msgstr "Povolání {class} se nemůže učit kouzla z knih"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1113 game/items/InventoryItemUseRuntime.cpp:1124
+#: game/items/InventoryItemUseRuntime.cpp:1118 game/items/InventoryItemUseRuntime.cpp:1129
 msgid "You don't have the skill to learn {item}"
 msgstr "Nemáte potřebnou dovednost, abyste se naučili {item}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1133
+#: game/items/InventoryItemUseRuntime.cpp:1138
 msgid "You already know the {item} spell"
 msgstr "Kouzlo {item} již umíš"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1189
+#: game/items/InventoryItemUseRuntime.cpp:1194
 msgid "You already know one or more skills in {item}"
 msgstr "{item}: některou z těchto dovedností již znáš"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1199
+#: game/items/InventoryItemUseRuntime.cpp:1204
 msgid "This character cannot learn the skills in {item}"
 msgstr "{item}: tato postava se tyto dovednosti nemůže naučit"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1208
+#: game/items/InventoryItemUseRuntime.cpp:1213
 msgid "The skill could not be learned"
 msgstr "Dovednost se nepodařilo naučit"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1216
+#: game/items/InventoryItemUseRuntime.cpp:1221
 msgid "Learned {skill}"
 msgstr "Naučeno: {skill}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1218
+#: game/items/InventoryItemUseRuntime.cpp:1223
 msgid "Learned the skills in {item}"
 msgstr "{item}: dovednosti naučeny"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1243
+#: game/items/InventoryItemUseRuntime.cpp:1248
 msgid "This potion has not enough power"
 msgstr "Tento lektvar nemá dostatečnou sílu"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1259
+#: game/items/InventoryItemUseRuntime.cpp:1264
 msgid "Player must be active to consume the potion"
 msgstr "Postava musí být aktivní, aby mohla vypít lektvar"
 
 # imported from CZfix (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:128 game/items/InventoryItemUseRuntime.cpp:1335
+#: assets_dev/engine/data_tables/english/Global.txt:128 game/items/InventoryItemUseRuntime.cpp:1340
 msgid "+2 Skill Points!"
 msgstr "+2 dovednostní body!"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1347
+#: game/items/InventoryItemUseRuntime.cpp:1352
 msgid "+{points} Tech Points!"
 msgstr "Technické body +{points}!"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1357
+#: game/items/InventoryItemUseRuntime.cpp:1364
+msgid "+{count} Skill Point!"
+msgid_plural "+{count} Skill Points!"
+msgstr[0] "+{count} dovednostní bod!"
+msgstr[1] "+{count} dovednostní body!"
+msgstr[2] "+{count} dovednostních bodů!"
+
+# machine translation (Claude), review
+#: game/items/InventoryItemUseRuntime.cpp:1375
 msgid "Shield charged"
 msgstr "Štít nabit"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1366
+#: game/items/InventoryItemUseRuntime.cpp:1384
 msgid "No shields to charge"
 msgstr "Žádné štíty k nabití"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1366
+#: game/items/InventoryItemUseRuntime.cpp:1384
 msgid "Shields charged"
 msgstr "Štíty nabity"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1398
+#: game/items/InventoryItemUseRuntime.cpp:1416
 msgid "The charge blows!"
 msgstr "Nálož vybuchla!"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1411
+#: game/items/InventoryItemUseRuntime.cpp:1429
 msgid "EMP!"
 msgstr "EMP!"
 
@@ -102715,7 +102723,7 @@ msgid "That player is {condition}"
 msgstr "Stav této postavy: {condition}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1051 game/items/InventoryItemUseRuntime.cpp:630
+#: game/items/InventoryItemUseRuntime.cpp:1056 game/items/InventoryItemUseRuntime.cpp:630
 msgid "That player is not active"
 msgstr "Tato postava není aktivní"
 

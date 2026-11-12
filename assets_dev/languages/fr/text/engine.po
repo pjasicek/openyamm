@@ -100150,22 +100150,22 @@ msgid "Dropped {item}"
 msgstr "Objet lâché : {item}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1000
+#: game/gameplay/GameplayItemService.cpp:1001
 msgid "No room to put the material down"
 msgstr "Pas de place pour poser le matériau"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1042 game/gameplay/GameplayItemService.cpp:1247
+#: game/gameplay/GameplayItemService.cpp:1043 game/gameplay/GameplayItemService.cpp:1248
 msgid "Nothing happens."
 msgstr "Il ne se passe rien."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1065
+#: game/gameplay/GameplayItemService.cpp:1066
 msgid "{count} steps"
 msgstr "Etapes : {count}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1089
+#: game/gameplay/GameplayItemService.cpp:1090
 msgid "Crafted {count} times"
 msgstr "Fabriqué {count} fois"
 
@@ -100176,22 +100176,22 @@ msgid "Nothing to repair."
 msgstr "Rien à réparer."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1120
+#: game/gameplay/GameplayItemService.cpp:1121
 msgid "Not enough gems to combine"
 msgstr "Pas assez de pierres précieuses à combiner"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1126
+#: game/gameplay/GameplayItemService.cpp:1127
 msgid "{count} {gems} created"
 msgstr "Création : {count} {gems}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1128
+#: game/gameplay/GameplayItemService.cpp:1129
 msgid "gems"
 msgstr "pierres précieuses"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1129
+#: game/gameplay/GameplayItemService.cpp:1130
 msgid "Combined"
 msgstr "Combiné"
 
@@ -100201,44 +100201,44 @@ msgid "Repaired {item}."
 msgstr "Objet réparé : {item}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1263 game/gameplay/GameplayItemService.cpp:1363
+#: game/gameplay/GameplayItemService.cpp:1264 game/gameplay/GameplayItemService.cpp:1364
 msgid "No room for the empty bottle."
 msgstr "Pas de place pour la bouteille vide."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1267
+#: game/gameplay/GameplayItemService.cpp:1268
 msgid "Discovered: {potion}!"
 msgstr "Découverte : {potion} !"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1272
+#: game/gameplay/GameplayItemService.cpp:1273
 msgid "Brewed {count} x {potion}"
 msgstr "Préparation : {count} x {potion}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1276
+#: game/gameplay/GameplayItemService.cpp:1277
 msgid "Brewed {potion} (power {power})"
 msgstr "Préparation : {potion} (puissance {power})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1351
+#: game/gameplay/GameplayItemService.cpp:1352
 msgid "{count} step"
 msgid_plural "{count} steps"
 msgstr[0] "{count} étape"
 msgstr[1] "{count} étapes"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1367
+#: game/gameplay/GameplayItemService.cpp:1368
 msgid "Brewing stopped after {steps}."
 msgstr "Préparation interrompue après {steps}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1371
+#: game/gameplay/GameplayItemService.cpp:1372
 msgid "Brewed {count} x {potion} ({steps})"
 msgstr "Préparation : {count} x {potion} ({steps})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1376
+#: game/gameplay/GameplayItemService.cpp:1377
 msgid "Brewed {potion} (power {power}, {steps})"
 msgstr "Préparation : {potion} (puissance {power}, {steps})"
 
@@ -100265,17 +100265,17 @@ msgid "Unknown scroll spell"
 msgstr "Sort de parchemin inconnu"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:667
+#: game/gameplay/GameplayItemService.cpp:668
 msgid "Empty slot"
 msgstr "Emplacement vide"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:678
+#: game/gameplay/GameplayItemService.cpp:679
 msgid "No {item} left"
 msgstr "{item} : épuisé"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:701
+#: game/gameplay/GameplayItemService.cpp:702
 msgid "Put down the held item first"
 msgstr "Posez d’abord l’objet tenu"
 
@@ -100299,12 +100299,12 @@ msgid "Identified {item}."
 msgstr "Objet identifié : {item}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:877
+#: game/gameplay/GameplayItemService.cpp:878
 msgid "Learned recipe: {potion}"
 msgstr "Recette apprise : {potion}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:1258 game/gameplay/GameplayItemService.cpp:1349 game/gameplay/GameplayItemService.cpp:878
+#: game/gameplay/GameplayItemService.cpp:1259 game/gameplay/GameplayItemService.cpp:1350 game/gameplay/GameplayItemService.cpp:879
 msgid "potion"
 msgstr "potion"
 
@@ -101757,97 +101757,104 @@ msgid "Ooops"
 msgstr "Oups"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1032
+#: game/items/InventoryItemUseRuntime.cpp:1037
 msgid "Item can not be used that way"
 msgstr "Cet objet ne peut pas être utilisé ainsi"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:655 game/items/InventoryItemUseRuntime.cpp:1046
+#: assets_dev/engine/data_tables/english/Global.txt:655 game/items/InventoryItemUseRuntime.cpp:1051
 msgid "You can not do that while you are underwater!"
 msgstr "Vous ne pouvez pas faire cela sous l’eau !"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1104
+#: game/items/InventoryItemUseRuntime.cpp:1109
 msgid "{class}s can't learn spells from books"
 msgstr "La classe {class} ne peut pas apprendre de sorts dans les livres"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1113 game/items/InventoryItemUseRuntime.cpp:1124
+#: game/items/InventoryItemUseRuntime.cpp:1118 game/items/InventoryItemUseRuntime.cpp:1129
 msgid "You don't have the skill to learn {item}"
 msgstr "Vous n’avez pas la compétence requise pour apprendre {item}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1133
+#: game/items/InventoryItemUseRuntime.cpp:1138
 msgid "You already know the {item} spell"
 msgstr "Vous connaissez déjà le sort {item}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1189
+#: game/items/InventoryItemUseRuntime.cpp:1194
 msgid "You already know one or more skills in {item}"
 msgstr "Vous connaissez déjà une ou plusieurs compétences de {item}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1199
+#: game/items/InventoryItemUseRuntime.cpp:1204
 msgid "This character cannot learn the skills in {item}"
 msgstr "Ce personnage ne peut pas apprendre les compétences de {item}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1208
+#: game/items/InventoryItemUseRuntime.cpp:1213
 msgid "The skill could not be learned"
 msgstr "La compétence n’a pas pu être apprise"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1216
+#: game/items/InventoryItemUseRuntime.cpp:1221
 msgid "Learned {skill}"
 msgstr "Compétence apprise : {skill}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1218
+#: game/items/InventoryItemUseRuntime.cpp:1223
 msgid "Learned the skills in {item}"
 msgstr "Compétences de {item} apprises"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1243
+#: game/items/InventoryItemUseRuntime.cpp:1248
 msgid "This potion has not enough power"
 msgstr "Cette potion n’est pas assez puissante"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1259
+#: game/items/InventoryItemUseRuntime.cpp:1264
 msgid "Player must be active to consume the potion"
 msgstr "Le personnage doit être actif pour boire la potion"
 
 # imported from FR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:128 game/items/InventoryItemUseRuntime.cpp:1335
+#: assets_dev/engine/data_tables/english/Global.txt:128 game/items/InventoryItemUseRuntime.cpp:1340
 msgid "+2 Skill Points!"
 msgstr "+2 points de compétence !"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1347
+#: game/items/InventoryItemUseRuntime.cpp:1352
 msgid "+{points} Tech Points!"
 msgstr "+{points} points technologiques !"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1357
+#: game/items/InventoryItemUseRuntime.cpp:1364
+msgid "+{count} Skill Point!"
+msgid_plural "+{count} Skill Points!"
+msgstr[0] "+{count} point de compétence !"
+msgstr[1] "+{count} points de compétence !"
+
+# machine translation (Claude), review
+#: game/items/InventoryItemUseRuntime.cpp:1375
 msgid "Shield charged"
 msgstr "Bouclier chargé"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1366
+#: game/items/InventoryItemUseRuntime.cpp:1384
 msgid "No shields to charge"
 msgstr "Aucun bouclier à charger"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1366
+#: game/items/InventoryItemUseRuntime.cpp:1384
 msgid "Shields charged"
 msgstr "Boucliers chargés"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1398
+#: game/items/InventoryItemUseRuntime.cpp:1416
 msgid "The charge blows!"
 msgstr "La charge explose !"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1411
+#: game/items/InventoryItemUseRuntime.cpp:1429
 msgid "EMP!"
 msgstr "IEM !"
 
@@ -101857,7 +101864,7 @@ msgid "That player is {condition}"
 msgstr "État de ce personnage : {condition}"
 
 # machine translation (Claude), review
-#: game/items/InventoryItemUseRuntime.cpp:1051 game/items/InventoryItemUseRuntime.cpp:630
+#: game/items/InventoryItemUseRuntime.cpp:1056 game/items/InventoryItemUseRuntime.cpp:630
 msgid "That player is not active"
 msgstr "Ce personnage n’est pas actif"
 

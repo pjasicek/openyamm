@@ -39513,12 +39513,12 @@ msgstr "Tirer"
 #: assets_dev/worlds/mm9/events/maps/dookscastle.lua:217 assets_dev/worlds/mm9/events/maps/dragonstadium.lua:198 assets_dev/worlds/mm9/events/maps/drangheim.lua:163
 #: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:303 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:517 assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:812
 #: assets_dev/worlds/mm9/events/maps/frosgard.lua:114 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:505 assets_dev/worlds/mm9/events/maps/guberland.lua:709
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:710 assets_dev/worlds/mm9/events/maps/hallofthegods.lua:109 assets_dev/worlds/mm9/events/maps/inventastorca.lua:402
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:715 assets_dev/worlds/mm9/events/maps/hallofthegods.lua:109 assets_dev/worlds/mm9/events/maps/inventastorca.lua:402
 #: assets_dev/worlds/mm9/events/maps/isleofashes.lua:521 assets_dev/worlds/mm9/events/maps/lichlab.lua:680 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:133
 #: assets_dev/worlds/mm9/events/maps/lindisfarnemonastery.lua:421 assets_dev/worlds/mm9/events/maps/mountainpass.lua:141 assets_dev/worlds/mm9/events/maps/ruinedtemple.lua:397
-#: assets_dev/worlds/mm9/events/maps/sturmford.lua:157 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:481 assets_dev/worlds/mm9/events/maps/tasaracademy.lua:367
+#: assets_dev/worlds/mm9/events/maps/sturmford.lua:157 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:486 assets_dev/worlds/mm9/events/maps/tasaracademy.lua:367
 #: assets_dev/worlds/mm9/events/maps/thearena.lua:385 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:1047 assets_dev/worlds/mm9/events/maps/thjorgard.lua:709
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:412 assets_dev/worlds/mm9/events/maps/thronheim.lua:90 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:565
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:412 assets_dev/worlds/mm9/events/maps/thronheim.lua:90 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:567
 #: assets_dev/worlds/mm9/events/maps/traininghall.lua:424 assets_dev/worlds/mm9/events/maps/verhoffinruins.lua:496 assets_dev/worlds/mm9/events/maps/wizardslab.lua:586
 #: assets_dev/worlds/mm9/events/maps/yanmirsfort.lua:497 assets_dev/worlds/mm9/events/maps/yorwick.lua:244
 msgid "Map load"
@@ -39588,10 +39588,10 @@ msgstr "Provocation"
 #: assets_dev/worlds/mm9/events/maps/1000terrors.lua:929 assets_dev/worlds/mm9/events/maps/bootcamp.lua:280 assets_dev/worlds/mm9/events/maps/chasmofthedead.lua:681
 #: assets_dev/worlds/mm9/events/maps/darkpassageway.lua:540 assets_dev/worlds/mm9/events/maps/drangheim.lua:174 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:323
 #: assets_dev/worlds/mm9/events/maps/dungeonofsecrets.lua:818 assets_dev/worlds/mm9/events/maps/frosgard.lua:122 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:538
-#: assets_dev/worlds/mm9/events/maps/guberland.lua:718 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:727 assets_dev/worlds/mm9/events/maps/isleofashes.lua:525
-#: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:147 assets_dev/worlds/mm9/events/maps/sturmford.lua:170 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:496
+#: assets_dev/worlds/mm9/events/maps/guberland.lua:718 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:734 assets_dev/worlds/mm9/events/maps/isleofashes.lua:525
+#: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:147 assets_dev/worlds/mm9/events/maps/sturmford.lua:170 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:503
 #: assets_dev/worlds/mm9/events/maps/templeofhonk.lua:263 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:1088 assets_dev/worlds/mm9/events/maps/thjorgard.lua:719
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:437 assets_dev/worlds/mm9/events/maps/thronheim.lua:95 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:583
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:437 assets_dev/worlds/mm9/events/maps/thronheim.lua:95 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:587
 #: assets_dev/worlds/mm9/events/maps/traininghall.lua:434 assets_dev/worlds/mm9/events/maps/verhoffinruins.lua:500 assets_dev/worlds/mm9/events/maps/wizardslab.lua:595
 #: assets_dev/worlds/mm9/events/maps/yorwick.lua:252
 msgid "Shared objects"
@@ -39646,7 +39646,7 @@ msgstr "Kira la Froide"
 
 # machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/monster_data.txt:216 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:127 assets_dev/worlds/mm9/events/maps/afterworld.lua:209
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:680
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:685
 msgid "Markel the Great"
 msgstr "Markel le Grand"
 
@@ -39771,11 +39771,11 @@ msgstr ""
 
 # machine translation (Claude), review
 #: assets_dev/worlds/mm9/events/maps/arslegardcity.lua:192 assets_dev/worlds/mm9/events/maps/drangheim.lua:150 assets_dev/worlds/mm9/events/maps/drangheim.lua:151
-#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:283 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:463 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:673
+#: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:283 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:463 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:678
 #: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:127 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:128 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:129
 #: assets_dev/worlds/mm9/events/maps/sturmford.lua:150 assets_dev/worlds/mm9/events/maps/sturmford.lua:151 assets_dev/worlds/mm9/events/maps/sturmford.lua:152
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:438 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:944 assets_dev/worlds/mm9/events/maps/thjorgard.lua:641
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:387 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:531 assets_dev/worlds/mm9/events/maps/wizardslab.lua:523
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:443 assets_dev/worlds/mm9/events/maps/thjoradmine.lua:944 assets_dev/worlds/mm9/events/maps/thjorgard.lua:641
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:387 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:533 assets_dev/worlds/mm9/events/maps/wizardslab.lua:523
 msgid "Locked door"
 msgstr "Porte verrouillée"
 
@@ -40189,7 +40189,7 @@ msgstr "Déclencheur du dragon"
 #: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:90 assets_dev/worlds/mm9/events/maps/drangheim.lua:157 assets_dev/worlds/mm9/events/maps/drangheim.lua:158
 #: assets_dev/worlds/mm9/events/maps/drangheim.lua:159 assets_dev/worlds/mm9/events/maps/drangheim.lua:160 assets_dev/worlds/mm9/events/maps/drangheim.lua:161
 #: assets_dev/worlds/mm9/events/maps/drangheim.lua:162 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:476 assets_dev/worlds/mm9/events/maps/drangheimprison.lua:518
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:487
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:492
 msgid "Ivsar Forktooth"
 msgstr "Ivsar Forktooth"
 
@@ -40322,12 +40322,12 @@ msgstr "Hrolf"
 #: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:292 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:293 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:294
 #: assets_dev/worlds/mm9/events/maps/drangheimcity.lua:295 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:491 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:492
 #: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:493 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:494 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:495
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:496 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:688 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:689
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:690 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:691 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:456
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:457 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:458 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:459
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:496 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:693 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:694
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:695 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:696 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:461
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:462 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:463 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:464
 #: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:397 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:398 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:399
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:400 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:550 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:551
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:552 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:553
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:400 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:552 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:553
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:554 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:555
 msgid "Thorolf"
 msgstr "Thorolf"
 
@@ -40388,9 +40388,11 @@ msgstr "Guaire A’Velsi"
 
 # machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:382 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:320 assets_dev/worlds/mm9/events/maps/drangheimcity.lua:321
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:533 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:534 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:143
-#: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:144 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:145 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:434
-#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:435
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:533 assets_dev/worlds/mm9/events/maps/frosgardcity.lua:534 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:730
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:731 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:143 assets_dev/worlds/mm9/events/maps/lindisfarne.lua:144
+#: assets_dev/worlds/mm9/events/maps/lindisfarne.lua:145 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:500 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:501
+#: assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:434 assets_dev/worlds/mm9/events/maps/thjorgardcity.lua:435 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:584
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:585
 msgid "Clover"
 msgstr "Trèfle"
 
@@ -40775,7 +40777,7 @@ msgid "Trota Atlia"
 msgstr "Trota Atlia"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:539 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:728 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:584
+#: assets_dev/worlds/mm9/events/maps/frosgardcity.lua:539 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:735 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:588
 msgid "Script poses"
 msgstr "Poses scriptées"
 
@@ -41219,147 +41221,147 @@ msgid "Markel the Great will not miss one of his prizes."
 msgstr "Markel le Grand ne regrettera pas l’un de ses prix."
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:674
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:679
 msgid "Sickroom door"
 msgstr "Porte de l’infirmerie"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:675 assets_dev/worlds/mm9/events/maps/traininghall.lua:398
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:680 assets_dev/worlds/mm9/events/maps/traininghall.lua:398
 msgid "Bar"
 msgstr "Barre"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:676
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:681
 msgid "Curtain"
 msgstr "Rideau"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:140 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:678
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:140 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:683
 msgid "Ottar Gizurssen"
 msgstr "Ottar Gizurssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:533 assets_dev/worlds/mm9/data_tables/decoration_data.txt:534 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:681
+#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:533 assets_dev/worlds/mm9/data_tables/decoration_data.txt:534 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:686
 msgid "Markel"
 msgstr "Markel"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:682
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:687
 msgid "Tjolnir"
 msgstr "Tjolnir"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:129 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:683 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:712
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:129 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:688 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:717
 msgid "Gray Slemnir"
 msgstr "Slemnir le Gris"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:684
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:689
 msgid "Tavern keeper"
 msgstr "Tavernier"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:685 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:686
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:690 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:691
 msgid "Skarphedinn"
 msgstr "Skarphedinn"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:687
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:692
 msgid "Nurtigan"
 msgstr "Nurtigan"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:700
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:705
 msgid "Markel's awards"
 msgstr "Récompenses de Markel"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:702
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:707
 msgid "Narrator arrives"
 msgstr "Le narrateur arrive"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:703
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:708
 msgid "Wilam arrives"
 msgstr "Wilam arrive"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:704
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:709
 msgid "Trislan arrives"
 msgstr "Trislan arrive"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:705
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:710
 msgid "Abriel arrives"
 msgstr "Abriel arrive"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:706
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:711
 msgid "Ralof arrives"
 msgstr "Ralof arrive"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:707
+#: assets_dev/worlds/mm9/events/maps/guberlandcity.lua:712
 msgid "Leffery arrives"
 msgstr "Leffery arrive"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:143 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:713
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:143 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:718
 msgid "Eylif Svenssen"
 msgstr "Eylif Svenssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:128 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:714
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:128 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:719
 msgid "Tjolnir the Super-neat"
 msgstr "Tjolnir le Super-Soigné"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:147 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:715
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:147 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:720
 msgid "Kiren Tridor"
 msgstr "Kiren Tridor"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:146 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:716
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:146 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:721
 msgid "Egil the Booknose"
 msgstr "Egil le Rat de Bibliothèque"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:134 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:717
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:134 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:722
 msgid "Siln Threki"
 msgstr "Siln Threki"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:135 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:718
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:135 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:723
 msgid "Skallagrim Hrafnssen"
 msgstr "Skallagrim Hrafnssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:137 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:719
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:137 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:724
 msgid "Trian A'Lyrae"
 msgstr "Trian A’Lyrae"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:145 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:720
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:145 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:725
 msgid "Forannan A'Velsi"
 msgstr "Forannan A’Velsi"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:9 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:177 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:721
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:9 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:177 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:726
 msgid "Alberik Gusmundssen"
 msgstr "Alberik Gusmundssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:11 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:179 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:722
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:11 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:179 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:727
 msgid "Ehwaz"
 msgstr "Ehwaz"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:141 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:723
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:141 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:728
 msgid "Aklai Dorka"
 msgstr "Aklai Dorka"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:131 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:724
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:131 assets_dev/worlds/mm9/events/maps/guberlandcity.lua:729
 msgid "Nutty Nurtigan"
 msgstr "Nurtigan le Toqué"
 
@@ -41537,7 +41539,7 @@ msgid "Lectern"
 msgstr "Lutrin"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/isleofashes.lua:516 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:533 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:534
+#: assets_dev/worlds/mm9/events/maps/isleofashes.lua:516 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:535 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:536
 msgid "Yrsa"
 msgstr "Yrsa"
 
@@ -41972,102 +41974,102 @@ msgstr ""
 "Hatlati"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:439
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:444
 msgid "Jail door"
 msgstr "Porte de la prison"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:440
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:445
 msgid "Dimensional Travel"
 msgstr "Voyage dimensionnel"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:56 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:446
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:56 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:451
 msgid "Herdis the Stout"
 msgstr "Herdis la Robuste"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:448
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:453
 msgid "Beathag"
 msgstr "Beathag"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:46 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:449 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:485
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:46 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:454 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:490
 msgid "Bjarni Herjolfssen"
 msgstr "Bjarni Herjolfssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:450
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:455
 msgid "Randver"
 msgstr "Randver"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:451 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:452
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:456 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:457
 msgid "Fridleif"
 msgstr "Fridleif"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:455
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:460
 msgid "Ivsar"
 msgstr "Ivsar"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:460
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:465
 msgid "Bartender"
 msgstr "Tavernier"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:466
+#: assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:471
 msgid "Halfdan"
 msgstr "Halfdan"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:464 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:469 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:470
+#: assets_dev/worlds/mm9/data_tables/decoration_data.txt:464 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:474 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:475
 msgid "Bjarni"
 msgstr "Bjarni"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:58 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:484
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:58 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:489
 msgid "Beathag A'Dorad"
 msgstr "Beathag A'Dorad"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:62 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:486
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:62 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:491
 msgid "Tjorvi Isleifson"
 msgstr "Tjorvi Isleifson"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:54 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:488
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:54 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:493
 msgid "Halfdan Steelhands"
 msgstr "Halfdan Mains-d'acier"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:53 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:489
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:53 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:494
 msgid "Ketil Blacksmith"
 msgstr "Ketil le Forgeron"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:59 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:490
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:59 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:495
 msgid "Tadc A'Norta a'thrakan"
 msgstr "Tadc A'Norta a'thrakan"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:51 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:491
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:51 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:496
 msgid "Randver the Storm"
 msgstr "Randver la Tempête"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:50 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:492
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:50 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:497
 msgid "Injor Gostat"
 msgstr "Injor Gostat"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:3 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:43 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:493
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:3 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:43 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:498
 msgid "Tesar Olin"
 msgstr "Tesar Olin"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:202 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:494
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:202 assets_dev/worlds/mm9/events/maps/sturmfordcity.lua:499
 msgid "Eva A'Washadi"
 msgstr "Eva A'Washadi"
 
@@ -43026,139 +43028,139 @@ msgstr ""
 "Jack"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:535 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:536
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:537 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:538
 msgid "Kira"
 msgstr "Kira"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/monster_data.txt:178 assets_dev/worlds/mm9/data_tables/monster_data.txt:198 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:539
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:540 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:541 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:542
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:543 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:544
+#: assets_dev/worlds/mm9/data_tables/monster_data.txt:178 assets_dev/worlds/mm9/data_tables/monster_data.txt:198 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:541
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:542 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:543 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:544
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:545 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:546
 msgid "Honk"
 msgstr "Honk"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:547
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:549
 msgid "Ealusaid"
 msgstr "Ealusaid"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:548
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:550
 msgid "Dagfari"
 msgstr "Dagfari"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:549
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:551
 msgid "Erlend"
 msgstr "Erlend"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:555 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:556
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:557 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:558
 msgid "Breakout"
 msgstr "Évasion"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/service_venues.txt:22 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:241 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:567
+#: assets_dev/worlds/mm9/data_tables/service_venues.txt:22 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:241 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:569
 msgid "Ealusaid A'Norta a'thrakan"
 msgstr "Ealusaid A'Norta a'thrakan"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:242 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:568
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:242 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:570
 msgid "Dagfari the Peevish"
 msgstr "Dagfari le Grincheux"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:240 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:569
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:240 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:571
 msgid "Thorfinn Skullsplitter"
 msgstr "Thorfinn Fend-Crânes"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:246 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:570
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:246 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:572
 msgid "Erlend the Nay-sayer"
 msgstr "Erlend le Contradicteur"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/data_tables/hirelings.txt:13 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:281 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:571
+#: assets_dev/worlds/mm9/data_tables/hirelings.txt:13 assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:281 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:573
 msgid "Cleirach A'Lyrae"
 msgstr "Cleirach A'Lyrae"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:247 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:572
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:247 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:574
 msgid "William the Framish"
 msgstr "William le Framois"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:248 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:573
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:248 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:575
 msgid "Rustavius"
 msgstr "Rustavius"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:249 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:574
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:249 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:576
 msgid "Bones the Pale"
 msgstr "Bones le Pâle"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:254 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:575
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:254 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:577
 msgid "Jofridr The Swillbowl"
 msgstr "Jofridr Vide-Chopes"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:255 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:576
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:255 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:578
 msgid "Thakkrad Kjarssen"
 msgstr "Thakkrad Kjarssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:256 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:577
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:256 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:579
 msgid "Robert Bloodstopper"
 msgstr "Robert Étanche-Sang"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:258 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:578
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:258 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:580
 msgid "Erpr the Ankle-heavy"
 msgstr "Erpr Lourdes-Chevilles"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:259 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:579
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:259 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:581
 msgid "Jormunrek Jonakrssen"
 msgstr "Jormunrek Jonakrssen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:260 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:580
+#: assets_dev/worlds/mm9/dialogue/rude/NPCNAME.rude:260 assets_dev/worlds/mm9/events/maps/thronheimcity.lua:582
 msgid "Magnus ver Magnussen"
 msgstr "Magnus ver Magnussen"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:658
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:662
 msgid "Cinema council_argument: stage"
 msgstr "Cinématique council_argument : mise en place"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:659
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:663
 msgid "Cinema council_argument: forad"
 msgstr "Cinématique council_argument : Forad"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:660
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:664
 msgid "Cinema council_argument: war"
 msgstr "Cinématique council_argument : guerre"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:661
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:665
 msgid "Cinema council_argument: kira_sheath"
 msgstr "Cinématique council_argument : Kira rengaine son arme"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:662
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:666
 msgid "Cinema council_argument: kira_draw"
 msgstr "Cinématique council_argument : Kira dégaine"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:663
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:667
 msgid "Cinema council_argument: end"
 msgstr "Cinématique council_argument : fin"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:664
+#: assets_dev/worlds/mm9/events/maps/thronheimcity.lua:668
 msgid "Cinema council_argument: done"
 msgstr "Cinématique council_argument : terminé"
 

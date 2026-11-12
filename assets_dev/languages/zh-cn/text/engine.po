@@ -97885,22 +97885,22 @@ msgid "Dropped {item}"
 msgstr "已放下{item}"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:1000
+#: game/gameplay/GameplayItemService.cpp:1001
 msgid "No room to put the material down"
 msgstr "没有空间放下材料"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:1042 game/gameplay/GameplayItemService.cpp:1247
+#: game/gameplay/GameplayItemService.cpp:1043 game/gameplay/GameplayItemService.cpp:1248
 msgid "Nothing happens."
 msgstr "什么也没发生。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1065
+#: game/gameplay/GameplayItemService.cpp:1066
 msgid "{count} steps"
 msgstr "{count} 步"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1089
+#: game/gameplay/GameplayItemService.cpp:1090
 msgid "Crafted {count} times"
 msgstr "已制作 {count} 次"
 
@@ -97911,22 +97911,22 @@ msgid "Nothing to repair."
 msgstr "没有需要修理的东西。"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:1120
+#: game/gameplay/GameplayItemService.cpp:1121
 msgid "Not enough gems to combine"
 msgstr "宝石不足，无法合成"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1126
+#: game/gameplay/GameplayItemService.cpp:1127
 msgid "{count} {gems} created"
 msgstr "制成了 {count} 颗{gems}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1128
+#: game/gameplay/GameplayItemService.cpp:1129
 msgid "gems"
 msgstr "宝石"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:1129
+#: game/gameplay/GameplayItemService.cpp:1130
 msgid "Combined"
 msgstr "已合并"
 
@@ -97936,43 +97936,43 @@ msgid "Repaired {item}."
 msgstr "修好了{item}。"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:1263 game/gameplay/GameplayItemService.cpp:1363
+#: game/gameplay/GameplayItemService.cpp:1264 game/gameplay/GameplayItemService.cpp:1364
 msgid "No room for the empty bottle."
 msgstr "没有空间放空瓶。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1267
+#: game/gameplay/GameplayItemService.cpp:1268
 msgid "Discovered: {potion}!"
 msgstr "发现了{potion}！"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1272
+#: game/gameplay/GameplayItemService.cpp:1273
 msgid "Brewed {count} x {potion}"
 msgstr "炼制了 {count} 份{potion}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1276
+#: game/gameplay/GameplayItemService.cpp:1277
 msgid "Brewed {potion} (power {power})"
 msgstr "炼制了{potion}（强度 {power}）"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1351
+#: game/gameplay/GameplayItemService.cpp:1352
 msgid "{count} step"
 msgid_plural "{count} steps"
 msgstr[0] "{count} 步"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayItemService.cpp:1367
+#: game/gameplay/GameplayItemService.cpp:1368
 msgid "Brewing stopped after {steps}."
 msgstr "炼制在 {steps}后停止。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1371
+#: game/gameplay/GameplayItemService.cpp:1372
 msgid "Brewed {count} x {potion} ({steps})"
 msgstr "炼制了 {count} 份{potion}（{steps}）"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:1376
+#: game/gameplay/GameplayItemService.cpp:1377
 msgid "Brewed {potion} (power {power}, {steps})"
 msgstr "炼制了{potion}（强度 {power}，{steps}）"
 
@@ -97999,17 +97999,17 @@ msgid "Unknown scroll spell"
 msgstr "未知的卷轴法术"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:667
+#: game/gameplay/GameplayItemService.cpp:668
 msgid "Empty slot"
 msgstr "空栏位"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayItemService.cpp:678
+#: game/gameplay/GameplayItemService.cpp:679
 msgid "No {item} left"
 msgstr "{item}已经用完了"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:701
+#: game/gameplay/GameplayItemService.cpp:702
 msgid "Put down the held item first"
 msgstr "请先放下手上的物品"
 
@@ -98033,12 +98033,12 @@ msgid "Identified {item}."
 msgstr "鉴定了{item}。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayItemService.cpp:877
+#: game/gameplay/GameplayItemService.cpp:878
 msgid "Learned recipe: {potion}"
 msgstr "学会了配方：{potion}"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:1258 game/gameplay/GameplayItemService.cpp:1349 game/gameplay/GameplayItemService.cpp:878
+#: game/gameplay/GameplayItemService.cpp:1259 game/gameplay/GameplayItemService.cpp:1350 game/gameplay/GameplayItemService.cpp:879
 msgid "potion"
 msgstr "药水"
 
@@ -99458,97 +99458,103 @@ msgid "Ooops"
 msgstr "糟糕"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1032
+#: game/items/InventoryItemUseRuntime.cpp:1037
 msgid "Item can not be used that way"
 msgstr "这件物品不能这样使用"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:655 game/items/InventoryItemUseRuntime.cpp:1046
+#: assets_dev/engine/data_tables/english/Global.txt:655 game/items/InventoryItemUseRuntime.cpp:1051
 msgid "You can not do that while you are underwater!"
 msgstr "在水下不能这么做！"
 
 # imported from zh-cn-todo.po
-#: game/items/InventoryItemUseRuntime.cpp:1104
+#: game/items/InventoryItemUseRuntime.cpp:1109
 msgid "{class}s can't learn spells from books"
 msgstr "{class}不能从法术书学习法术"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1113 game/items/InventoryItemUseRuntime.cpp:1124
+#: game/items/InventoryItemUseRuntime.cpp:1118 game/items/InventoryItemUseRuntime.cpp:1129
 msgid "You don't have the skill to learn {item}"
 msgstr "你没有学习{item}所需的技能"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1133
+#: game/items/InventoryItemUseRuntime.cpp:1138
 msgid "You already know the {item} spell"
 msgstr "你已经会{item}这个法术了"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1189
+#: game/items/InventoryItemUseRuntime.cpp:1194
 msgid "You already know one or more skills in {item}"
 msgstr "{item}里的技能你已经会了一部分或全部"
 
 # imported from zh-cn-todo.po
-#: game/items/InventoryItemUseRuntime.cpp:1199
+#: game/items/InventoryItemUseRuntime.cpp:1204
 msgid "This character cannot learn the skills in {item}"
 msgstr "该角色无法学会{item}中的技能"
 
 # imported from zh-cn-todo.po
-#: game/items/InventoryItemUseRuntime.cpp:1208
+#: game/items/InventoryItemUseRuntime.cpp:1213
 msgid "The skill could not be learned"
 msgstr "无法学会该技能"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1216
+#: game/items/InventoryItemUseRuntime.cpp:1221
 msgid "Learned {skill}"
 msgstr "学会了{skill}"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1218
+#: game/items/InventoryItemUseRuntime.cpp:1223
 msgid "Learned the skills in {item}"
 msgstr "学会了{item}中的技能"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1243
+#: game/items/InventoryItemUseRuntime.cpp:1248
 msgid "This potion has not enough power"
 msgstr "这瓶药剂的效力不够"
 
 # imported from zh-cn-todo.po
-#: game/items/InventoryItemUseRuntime.cpp:1259
+#: game/items/InventoryItemUseRuntime.cpp:1264
 msgid "Player must be active to consume the potion"
 msgstr "角色必须处于可行动状态才能饮用药水"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:128 game/items/InventoryItemUseRuntime.cpp:1335
+#: assets_dev/engine/data_tables/english/Global.txt:128 game/items/InventoryItemUseRuntime.cpp:1340
 msgid "+2 Skill Points!"
 msgstr "+2 技能点！"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1347
+#: game/items/InventoryItemUseRuntime.cpp:1352
 msgid "+{points} Tech Points!"
 msgstr "+{points} 科技点数！"
 
+# machine translation (Claude), review
+#: game/items/InventoryItemUseRuntime.cpp:1364
+msgid "+{count} Skill Point!"
+msgid_plural "+{count} Skill Points!"
+msgstr[0] "+{count} 技能点！"
+
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1357
+#: game/items/InventoryItemUseRuntime.cpp:1375
 msgid "Shield charged"
 msgstr "护盾已充能"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1366
+#: game/items/InventoryItemUseRuntime.cpp:1384
 msgid "No shields to charge"
 msgstr "没有可充能的护盾"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1366
+#: game/items/InventoryItemUseRuntime.cpp:1384
 msgid "Shields charged"
 msgstr "护盾已充能"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1398
+#: game/items/InventoryItemUseRuntime.cpp:1416
 msgid "The charge blows!"
 msgstr "充能爆掉了！"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1411
+#: game/items/InventoryItemUseRuntime.cpp:1429
 msgid "EMP!"
 msgstr "电磁脉冲！"
 
@@ -99558,7 +99564,7 @@ msgid "That player is {condition}"
 msgstr "该角色正处于{condition}"
 
 # imported from packs (base v1.21)
-#: game/items/InventoryItemUseRuntime.cpp:1051 game/items/InventoryItemUseRuntime.cpp:630
+#: game/items/InventoryItemUseRuntime.cpp:1056 game/items/InventoryItemUseRuntime.cpp:630
 msgid "That player is not active"
 msgstr "该角色无法行动"
 
