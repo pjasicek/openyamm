@@ -515,7 +515,7 @@ TEST_CASE("settings defaults follow the shipped desktop profile when a file omit
     CHECK_EQ(loadedSettings->combatTraceFile, "logs/combat_trace.log");
     CHECK(loadedSettings->combatTraceAppend);
     CHECK_EQ(loadedSettings->contextActionPopup, OpenYAMM::Game::GameSettings::createDefault().contextActionPopup);
-    CHECK_FALSE(loadedSettings->questMarkers);
+    CHECK(loadedSettings->questMarkers);
     CHECK(loadedSettings->outdoorBillboardDepthSlice == doctest::Approx(256.0f));
     CHECK_FALSE(loadedSettings->skipEventCutscenes);
     CHECK(loadedSettings->waitForLevelSprites);

@@ -392,7 +392,8 @@ struct GameSettings
     std::string enemyHealthBarMode = "combat";
     std::string enemyHealthBarValues = "target";
     bool enemyHealthBarDamageTrail = true;
-    bool questMarkers = false;
+    // On by default; only MM9 marks quest givers, so the other worlds show nothing either way.
+    bool questMarkers = true;
     // Maps with a painted map (MM9's) show it on the minimap and the journal map; false shows the MM6-MM8 line map
     // where the map also has outlines (MM9's dungeons, the default). Maps without outlines always show the painted map.
     bool paintedMaps = false;

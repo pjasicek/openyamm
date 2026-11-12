@@ -2073,14 +2073,17 @@ TEST_CASE("MM9 monster overlay leaves legacy monster rows unchanged")
     REQUIRE(dataLoader.loadCommonForGameplay(assetFileSystem));
     CHECK(dataLoader.getMm9MapTransitionTable().entries().empty());
     CHECK(dataLoader.getMm9SkillTrainerTable().entries().empty());
-    CHECK(dataLoader.getHouseTable().resolvePackageSourceVendorId("mm9", 53) == nullptr);
-    CHECK(dataLoader.getHouseTable().resolvePackageSourceServiceId("mm9", 58) == nullptr);
-    CHECK(std::none_of(
+    // The house registry is global: MM9's shops and services are there in another world too (a game started in MM7
+    // that loads an MM9 save trades in Chedian), in MM9's own id range, and the legacy houses keep their rows.
+    CHECK(dataLoader.getHouseTable().resolvePackageSourceVendorId("mm9", 53) != nullptr);
+    CHECK(dataLoader.getHouseTable().resolvePackageSourceServiceId("mm9", 58) != nullptr);
+    CHECK(std::all_of(
         dataLoader.getHouseTable().entries().begin(),
         dataLoader.getHouseTable().entries().end(),
         [](const std::pair<const uint32_t, OpenYAMM::Game::HouseEntry> &entry)
         {
-            return entry.second.vendorStockProfile != OpenYAMM::Game::VendorStockProfile::None;
+            return entry.second.vendorStockProfile == OpenYAMM::Game::VendorStockProfile::None
+                || entry.second.packageId == "mm9";
         }));
 
     const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pLegacyTroglodyte =
