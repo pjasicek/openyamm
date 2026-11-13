@@ -12312,3 +12312,55 @@ TEST_CASE("found item messages use the generic name of an item")
     scroll.unidentifiedName = "N / A";
     CHECK(OpenYAMM::Game::ItemRuntime::foundItemName(scroll) == "Spirit Lash");
 }
+
+TEST_CASE("outdoor party cannot be lifted through a ceiling by rising terrain")
+{
+    using namespace OpenYAMM::Game;
+    for (const int roofHeight : {320, 2048})
+    {
+        CAPTURE(roofHeight);
+        OutdoorMapData map;
+        map.heightMap.resize(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight);
+        map.attributeMap.assign(map.heightMap.size(), 0);
+        for (int y = 0; y < OutdoorMapData::TerrainHeight; ++y)
+        {
+            for (int x = 0; x < OutdoorMapData::TerrainWidth; ++x)
+            {
+                map.heightMap[y * OutdoorMapData::TerrainWidth + x] = uint8_t(std::clamp((x - 64) * 8, 0, 255));
+            }
+        }
+        OutdoorBModel roof;
+        roof.vertices = {{0, -512, roofHeight}, {0, 512, roofHeight},
+            {1024, 512, roofHeight}, {1024, -512, roofHeight}};
+        OutdoorBModelFace ceiling;
+        ceiling.vertexIndices = {0, 1, 2, 3};
+        ceiling.polygonType = 6;
+        ceiling.planeNormalZ = -65536;
+        roof.faces.push_back(ceiling);
+        map.bmodels.push_back(roof);
+        OutdoorMovementController controller(map, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+        OutdoorMoveState state = controller.initializeState(0, 100, 0);
+        for (int step = 0; step < 256; ++step)
+        {
+            state = controller.resolveMove(state, 256, 0, 0, false, false, false, false, false,
+                512, 0, 4000, 1.0f / 128.0f);
+            CHECK_LE(state.footZ + 192, float(roofHeight) + 0.02f);
+        }
+        CHECK_GT(state.x, 100);
+        if (roofHeight == 320)
+        {
+            CHECK_LT(state.x, 300);
+        }
+        else
+        {
+            CHECK_GT(state.x, 500); // A generous roof must not stop ordinary uphill walking.
+        }
+        const float blockedX = state.x;
+        for (int step = 0; step < 64; ++step)
+        {
+            state = controller.resolveMove(state, -256, 0, 0, false, false, false, false, false,
+                512, 0, 4000, 1.0f / 128.0f);
+        }
+        CHECK_LT(state.x, blockedX - 64); // The party can back away from the low roof.
+    }
+}

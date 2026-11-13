@@ -1323,13 +1323,14 @@ float pointPolygonDistance2d(float x, float y, const std::vector<bx::Vec3> &vert
     return std::sqrt(distanceSquared);
 }
 
-bool actorFloorRiseHasClearance(
+bool floorRiseHasClearance(
     const std::vector<OutdoorFaceGeometryData> &faces,
     const std::vector<size_t> &candidateFaceIndices,
     const FloorSample &floor,
     const bx::Vec3 &position,
     float radius,
-    float height)
+    float height,
+    bool ceilingsOnly = false)
 {
     const float targetFootZ = floor.height + GroundSnapHeight;
     const float bodyMinZ = position.z + CollisionEpsilon;
@@ -1341,6 +1342,7 @@ bool actorFloorRiseHasClearance(
     {
         const OutdoorFaceGeometryData &geometry = faces[faceIndex];
         if (!outdoorFaceBlocksMovement(geometry)
+            || (ceilingsOnly && geometry.normal.z >= -CollisionEpsilon)
             || (floor.fromBModel && geometry.bModelIndex == floor.bModelIndex && geometry.faceIndex == floor.faceIndex)
             || geometry.maxX < position.x - radius || geometry.minX > position.x + radius
             || geometry.maxY < position.y - radius || geometry.minY > position.y + radius
@@ -2931,6 +2933,27 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
         fallDistance = 0.0f;
     }
 
+    // Terrain support is snapped after the horizontal/vertical sweeps. On a rising slope that lift can
+    // push the head through a low roof even though the sweep at the old foot height was clear. Validate the
+    // final standing volume, just as for an actor's floor rise, before committing either the XY or Z move.
+    // BModel steps already use bModelStepHasHeadroom; their edge support is deliberately different.
+    if (!bModelGround && !finalFloor.fromBModel && !steppedBModelFloorSupport
+        && partyNewPosition.z > state.footZ + CollisionEpsilon)
+    {
+        FloorSample raisedSupport = finalFloor;
+        raisedSupport.height = partyNewPosition.z - GroundSnapHeight;
+        // A terrain lift may put the feet above a low tread/bridge underside: that is not overhead.
+        // For a very large lift still cover the head's entire ascent, so it cannot tunnel past a roof.
+        const float clearanceBottom = std::min(partyNewPosition.z, state.footZ + bodyHeight);
+        if (!floorRiseHasClearance(m_faces, candidateFaceIndices, raisedSupport,
+                {partyNewPosition.x, partyNewPosition.y, clearanceBottom}, bodyRadius, bodyHeight, true))
+        {
+            OutdoorMoveState blocked = state;
+            blocked.verticalVelocity = std::min(partyInputSpeed.z, 0.0f);
+            return blocked;
+        }
+    }
+
     OutdoorMoveState result = {};
     float clampedX = partyNewPosition.x;
     float clampedY = partyNewPosition.y;
@@ -3120,14 +3143,14 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
         [&](FloorSample &floor) -> bool
     {
         if (floor.hasFloor && floor.height + GroundSnapHeight > actorPosition.z + CollisionEpsilon
-            && !actorFloorRiseHasClearance(m_faces, candidateFaceIndices, floor, actorPosition, bodyRadius, bodyHeight))
+            && !floorRiseHasClearance(m_faces, candidateFaceIndices, floor, actorPosition, bodyRadius, bodyHeight))
         {
             // An upper floor without clearance must not hide usable support below it.
             floor = queryFloorLevel(
                 *m_pOutdoorMapData, bModelGround, m_faces, state, &candidateFaceIndices, bodyRadius, 0.0f,
                 actorPosition.x, actorPosition.y, actorPosition.z, FloorSupportMode::ActorConditionalBModels);
             if (floor.hasFloor && floor.height + GroundSnapHeight > actorPosition.z + CollisionEpsilon
-                && !actorFloorRiseHasClearance(
+                && !floorRiseHasClearance(
                     m_faces, candidateFaceIndices, floor, actorPosition, bodyRadius, bodyHeight))
             {
                 return false;
@@ -3389,7 +3412,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
                     hasFaceAttribute(pGeometry->attributes, FaceAttribute::Fluid), false,
                     hit.bModelIndex, hit.faceIndex
                 };
-                if (!actorFloorRiseHasClearance(
+                if (!floorRiseHasClearance(
                         m_faces, candidateFaceIndices, stepFloor, actorPosition, bodyRadius, bodyHeight))
                 {
                     actorVelocity.x = 0.0f;
