@@ -2,40 +2,48 @@ guild_id: '1563263436400623696'
 checkpoints:
   '1563263444684111966':
     name: '#general'
-    last: '1568549745784262717'
-    date: '2026-11-07'
+    last: '1570620599221354610'
+    date: '2026-11-13'
   '1563589096608370698':
     name: '#maw'
-    last: '1568436092988825621'
-    date: '2026-11-07'
+    last: '1570650342541234258'
+    date: '2026-11-13'
   '1563532826832535633':
     name: '#bug-report'
-    last: '1568363329292861473'
-    date: '2026-11-07'
+    last: '1570573435812454410'
+    date: '2026-11-13'
   '1563589245061308518':
     name: '#bug-report-maw'
-    last: '1569070689586118736'
-    date: '2026-11-08'
+    last: '1570620357742825563'
+    date: '2026-11-13'
   '1563533122488766614':
     name: '#feature-requests'
-    last: '1568544296280264737'
-    date: '2026-11-07'
+    last: '1570648030515040391'
+    date: '2026-11-13'
   '1563558479380086954':
     name: '#faq'
     last: '1563958223952810180'
-    date: '2026-11-07'
+    date: '2026-11-13'
   '1564211115653857291':
     name: '#releases'
-    last: '1567955899392196609'
-    date: '2026-11-07'
+    last: '1570674030615207967'
+    date: '2026-11-13'
   '1565682544471572481':
     name: '#mm9'
-    last: '1568555651616080015'
-    date: '2026-11-07'
+    last: '1570568950557708329'
+    date: '2026-11-13'
   '1566574247621431367':
     name: '#brainstorming'
-    last: '1568008313117999338'
-    date: '2026-11-07'
+    last: '1568710885328035892'
+    date: '2026-11-13'
+  '1570034244229529615':
+    name: '#mm9-balancing'
+    last: '1570656073449214054'
+    date: '2026-11-13'
+  '1570194191252852829':
+    name: '#openyamm-editor'
+    last: '1570665575653576846'
+    date: '2026-11-13'
 runs:
 - date: '2026-11-07'
   messages: 4385
@@ -51,3 +59,8 @@ runs:
   channels:
   - bug-report-maw
   note: 'bug-report-maw only: OY-449..468 logged, OY-337 sources and commit'
+- date: '2026-11-13'
+  messages: 2337
+  channels: all
+  note: '2337 messages of all channels (2026-11-07 to 2026-11-13) by 5 channel agents: OY-469..594 logged, 6 cross-channel
+    duplicates merged, 10 status changes; 64 working-tree done items given their v2.0 commits'
