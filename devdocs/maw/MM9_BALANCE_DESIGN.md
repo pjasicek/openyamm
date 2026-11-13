@@ -226,9 +226,9 @@ Proposal:
 - Story companions (Forad Darre, Tamur Leng) always join, whatever the challenge mode; they scale as the others.
 - **Chedian's Seer is Hjordisa the Hag** (Guberland): MAW's skill reset and Dimensional Maps. **The Jarls give
   bounties for their regions**, the target placed on the party's next visit; Arslegard has none (MM9_SUPPORT.md).
-- **A game may skip Chedian and play as before**: the new-game Rules panel's "Loot from other worlds" (MAW and
-  Standard, on by default, fixed for the adventure; [LOOT_POOL.md](../LOOT_POOL.md)). Off, MM6-MM8 maps drop only
-  MM6-MM8 items. Everything else MM9 adds to MAW waits in Chedian: its level bank, its Beyond Madness ladder, its
+- **A game may skip Chedian and play as before**: MM6-MM8 maps drop only MM6-MM8 items unless the Gameplay setting
+  "MM9 loot in MM6-MM8" is on (off by default, any ruleset; [LOOT_POOL.md](../LOOT_POOL.md)); Chedian drops a mix of
+  every world's. Everything else MM9 adds to MAW waits in Chedian: its level bank, its Beyond Madness ladder, its
   promotions (the promotion factor still counts three worlds at most), its hirelings and its gear.
 
 ## 8. Ideas noted (the user, 2026-11-09), not planned yet

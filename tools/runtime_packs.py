@@ -212,7 +212,8 @@ def assign_packs(package_id, entries, config, profile):
 
 
 # The folders of a language pack that mount over the game's (AssetFileSystem::mountLanguagePack), per package kind.
-LANGUAGE_OVERLAYS = {"engine": ("fonts", "audio", "videos"), "world": ("audio", "videos")}
+# icons_x2: images with text in them (the Arcomage card sheet), OY-579.
+LANGUAGE_OVERLAYS = {"engine": ("fonts", "audio", "videos", "icons_x2"), "world": ("audio", "videos", "icons_x2")}
 
 
 def assign_language_packs(language_id, entries, config, profile, worlds):

@@ -120,6 +120,11 @@ def test_mm9_item_import_emits_stable_rows_and_readable_text(tmp_path: Path) -> 
     effects_by_id = {int(row[0]): row for row in effect_rows[1:]}
     assert len(effects_by_id) == 63
     assert effects_by_id[10185][9] == "100"
+    # Artifact effect lists come from the final effect, and MM9's typos are corrected (OY-588).
+    assert effects_by_id[10200][3:5] == ["30", "30"]
+    assert by_id[10200][16].endswith("(Effects: +30 Intellect, +30 Personality)")
+    assert by_id[10179][16].endswith("(Effects: +40 Speed, +40 Accuracy, -50 SP)")
+    assert "weilder" not in by_id[10175][16] and "wielder" in by_id[10175][16]
 
     with (output_root / "data_tables" / "item_sets.txt").open(encoding="utf-8", newline="") as source_file:
         set_rows = list(csv.reader(source_file, delimiter="\t"))

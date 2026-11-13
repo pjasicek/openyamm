@@ -458,7 +458,7 @@ elements:
     - id: SettingsGameplayGroup2
       anchor: top_left
       offset_x: 0.0
-      offset_y: 226.9514
+      offset_y: 277.3935
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -475,7 +475,24 @@ elements:
     - id: SettingsGameplayGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 382.2517
+      offset_y: 432.6938
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Loot
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup4
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 513.0026
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -489,10 +506,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsGameplayGroup4
+    - id: SettingsGameplayGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 451.0437
+      offset_y: 581.7946
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -690,10 +707,57 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayFormationsEverywhereLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 222.6847
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party formation everywhere
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayFormationsEverywhereDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 238.8932
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Might and Magic IX's formation on every continent; monsters strike the front rank more often. Off, monsters
+          of the older games choose their victims as in the originals.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayFormationsEverywhereControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 226.2267
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsGameplayTurnBasedMonsterSpeedLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 252.5514
+      offset_y: 302.9935
       width: 216.7083
       height: 18.1333
       z_index: 10
@@ -710,7 +774,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 252.5514
+      offset_y: 302.9935
       width: 522.1333
       height: 18.1333
       z_index: 10
@@ -727,7 +791,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedControl
       anchor: top_left
       offset_x: 5.6
-      offset_y: 273.0514
+      offset_y: 323.4935
       width: 514.1333
       height: 16.0
       z_index: 10
@@ -736,7 +800,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 292.5514
+      offset_y: 342.9935
       width: 522.1333
       height: 11.5168
       z_index: 10
@@ -753,7 +817,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 315.2682
+      offset_y: 365.7103
       width: 216.7083
       height: 18.1333
       z_index: 10
@@ -770,7 +834,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 315.2682
+      offset_y: 365.7103
       width: 522.1333
       height: 18.1333
       z_index: 10
@@ -787,7 +851,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedControl
       anchor: top_left
       offset_x: 5.6
-      offset_y: 335.7682
+      offset_y: 386.2103
       width: 514.1333
       height: 16.0
       z_index: 10
@@ -796,7 +860,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 355.2682
+      offset_y: 405.7103
       width: 522.1333
       height: 11.5168
       z_index: 10
@@ -810,10 +874,56 @@ elements:
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
+    - id: SettingsGameplayMm9LootInOlderWorldsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 458.2938
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: MM9 loot in MM6-MM8
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayMm9LootInOlderWorldsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 474.5023
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Drops and chests in Enroth, Antagarich and Jadame can hold Might and Magic IX's weapons, armour and jewellery.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayMm9LootInOlderWorldsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 461.8359
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsGameplaySkipEventCutscenesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 407.8517
+      offset_y: 538.6026
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -830,7 +940,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 424.0602
+      offset_y: 554.8111
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -847,7 +957,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 405.6354
+      offset_y: 536.3863
       width: 70.4
       height: 32.158
       z_index: 10
@@ -859,7 +969,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 476.6437
+      offset_y: 607.3946
       width: 382.9333
       height: 14.0752
       z_index: 10
@@ -876,7 +986,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 492.8522
+      offset_y: 623.6031
       width: 382.9333
       height: 23.0336
       z_index: 10
@@ -893,7 +1003,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 488.2648
+      offset_y: 619.0157
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -902,7 +1012,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsValue
       anchor: top_left
       offset_x: 497.0666
-      offset_y: 490.3981
+      offset_y: 621.149
       width: 26.6667
       height: 11.7333
       z_index: 10

@@ -2996,10 +2996,12 @@ msgstr "Thjoradrisches Amulett"
 msgid "Sing Sword"
 msgstr "Singschwert"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:135
+#, fuzzy
+#| msgid ""
+#| "This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the weilder to become stronger. (Effects: +30 to Might; of Arms Mastery)"
 msgid ""
-"This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the weilder to become stronger. (Effects: +30 to Might; of Arms Mastery)"
+"This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the wielder to become stronger. (Effects: +30 Might, +5 Armsmaster)"
 msgstr ""
 "Dieses Schwert wurde von einem unbekannten Magier für den Arzt verzaubert, der zum Skalden wurde und als Frank bekannt ist.  Man sagt, es lasse im Kampf einen wohlklingenden Ton erklingen, der seinen Träger stärker macht. (Effekte: +30 Stärke; des Waffenmeisters)"
 
@@ -3008,10 +3010,12 @@ msgstr ""
 msgid "Excala Banna"
 msgstr "Excala Banna"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:136
+#, fuzzy
+#| msgid ""
+#| "This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: -5 Accuracy, +15 Endurance, +50 Luck)"
 msgid ""
-"This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: -5 Accuracy, +15 Endurance, +50 Luck)"
+"This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: +15 Endurance, -5 Accuracy, +50 Luck)"
 msgstr ""
 "Dieses gelblich schimmernde Schwert ist bei den Ureinwohnern von Frosgard legendär.  Sie behaupten, es sei von ihrem Helden Eric getragen worden, der anscheinend nie auf einen Kampf vorbereitet war.  Es soll aus einem See aufgetaucht sein, als Eric \"Juhuu!\" rief. (Effekte: -5 Genauigkeit, +15 Ausdauer, +50 Glück)"
 
@@ -3020,10 +3024,12 @@ msgstr ""
 msgid "Mevan Sword"
 msgstr "Mevan-Schwert"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:137
+#, fuzzy
+#| msgid ""
+#| "The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after first use)"
 msgid ""
-"The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after first use)"
+"The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after its first attack)"
 msgstr ""
 "Das Mevan-Schwert ist durch und durch böse.  Es tauchte zu Beginn dieses Jahrhunderts wieder auf, nachdem es seit dem Großen Sturm der Elemente unter einem Haufen Schutt begraben lag.  Man weiß nicht, wer es geschmiedet hat oder warum, aber die meisten, die es benutzten, schworen entweder darauf oder starben dadurch. (Effekte: Zerbricht nach dem ersten Gebrauch)"
 
@@ -3032,10 +3038,12 @@ msgstr ""
 msgid "Jorhgamesh"
 msgstr "Jorhgamesh"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:138
+#, fuzzy
+#| msgid ""
+#| "Jorhgamesh was comissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian (Effects: +10 to Speed, +20 to Accuracy, -50 to SP)"
 msgid ""
-"Jorhgamesh was comissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian (Effects: +10 to Speed, +20 to Accuracy, -50 to SP)"
+"Jorhgamesh was commissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian. (Effects: +40 Speed, +40 Accuracy, -50 SP)"
 msgstr ""
 "Jorhgamesh wurde von Olaf dem Dicken während seiner kurzen Herrschaft als Jarl von Frosgard in Auftrag gegeben.  Er glaubte, mit diesem Schwert alle Clans von Chedian erobern und vereinen zu können (Effekte: +10 Schnelligkeit, +20 Genauigkeit, -50 ZP)"
 
@@ -3044,10 +3052,12 @@ msgstr ""
 msgid "Black's Heart"
 msgstr "Herz des Schwarzen"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:139
+#, fuzzy
+#| msgid ""
+#| "Long ago, there was a group of Chedian warriors lead by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, it's contents taken and sold. (Effects: Increased damage, Increased chance to hit, Increased speed)"
 msgid ""
-"Long ago, there was a group of Chedian warriors lead by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, it's contents taken and sold. (Effects: Increased damage, Increased chance to hit, Increased speed)"
+"Long ago, there was a group of Chedian warriors led by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, its contents taken and sold. (Effects: +20 to hit, +10 damage, faster recovery)"
 msgstr ""
 "Vor langer Zeit gab es eine Schar chedianischer Krieger, angeführt von einem Mann namens Halfred der Schwarze.  Dieser Dolch war sein ständiger Begleiter.  Nach seinem Tod wurde der Dolch mit ihm begraben.  Sein Grab wurde jedoch bald geplündert, und sein Inhalt wurde fortgeschafft und verkauft. (Effekte: Erhöhter Schaden, erhöhte Trefferchance, erhöhte Schnelligkeit)"
 
@@ -3066,10 +3076,12 @@ msgstr "Diesen Dolch tragen oft Bauern."
 msgid "Integris"
 msgstr "Integris"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:140
+#, fuzzy
+#| msgid ""
+#| "Named after the Old Ursanian Emperor who commited suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +15 pts of Poison damage; Reputed +35 to hit and damage)"
 msgid ""
-"Named after the Old Ursanian Emperor who commited suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +15 pts of Poison damage; Reputed +35 to hit and damage)"
+"Named after the Old Ursanian Emperor who committed suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +20 to hit, +15 damage, +15 poison damage per hit)"
 msgstr ""
 "Benannt nach dem altursanischen Kaiser, der 225 v. K. Selbstmord beging, ist dies der Dolch, mit dem er seinem Leben schließlich ein Ende setzte.  Kaiser Integris wurde wegen seiner vielen Versuche, sich das Leben zu nehmen, oft der \"Lebensmüde Kaiser\" genannt.  Ironischerweise zerbrach die Waffe bei den meisten seiner Versuche in seiner Hand, bevor er sein Werk vollenden konnte. (Effekte: +15 Punkte Giftschaden; angeblich +35 auf Treffer und Schaden)"
 
@@ -3078,10 +3090,12 @@ msgstr ""
 msgid "Bloodaxe"
 msgstr "Bloodaxe"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:141
+#, fuzzy
+#| msgid ""
+#| "This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +10 to all resistances; 40% chance to \"poison\" target at GM level.)"
 msgid ""
-"This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +10 to all resistances; 40% chance to \"poison\" target at GM level.)"
+"This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +30 Endurance, +10 to all resistances, 40% chance to poison the target at Grandmaster)"
 msgstr ""
 "Diese Axt ist nach dem Krieger Sven Bloodaxe aus Sturmford benannt, der im Kampf stets siegreich war.  Auch wenn viele es bestreiten, starb er schließlich 340 n. K. an Altersschwäche. (Effekte: +10 auf alle Resistenzen; 40% Chance, das Ziel auf Großmeister-Stufe zu \"vergiften\".)"
 
@@ -3090,10 +3104,12 @@ msgstr ""
 msgid "Sygnir"
 msgstr "Sygnir"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:142
+#, fuzzy
+#| msgid ""
+#| "This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: Extra damage; +6 Armsmaster, +6 Blade skill; of Regeneration)"
 msgid ""
-"This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: Extra damage; +6 Armsmaster, +6 Blade skill; of Regeneration)"
+"This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: +6 Axe, +6 Armsmaster, +10 damage per hit, regenerates HP)"
 msgstr ""
 "Diese Axt wurde 200 v. K. in Minespring geschmiedet.  Die Zwerge jener Zeit waren außergewöhnlich begabt darin, unglaubliche Waffen zu erschaffen.  Im Jahre 73 n. K. versuchte Ichvan I., die Zwerge zu überreden, Waffen für sein neues Mendossisches Heer herzustellen.  Nach 2 Jahren Verhandlungen hatte Ichvan ihre Weigerungen satt und machte Minespring dem Erdboden gleich. (Effekte: Zusätzlicher Schaden; +6 Waffenmeister, +6 Fertigkeit Klinge; der Regeneration)"
 
@@ -3102,17 +3118,21 @@ msgstr ""
 msgid "Everstrike"
 msgstr "Everstrike"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:143
+#, fuzzy
+#| msgid ""
+#| "Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missle throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: 100% accuracy)"
 msgid ""
-"Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missle throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: 100% accuracy)"
+"Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missile throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: +5 Bow, faster recovery, always hits)"
 msgstr ""
 "Diese Waffe aus Elementar-Thjorad war eine der besten Schöpfungen des berühmten Waffenschmieds Borfinn Eisenhand.  Er behauptete stets, im Bau von Fernwaffen nicht geübt zu sein, doch diese Waffe ist eindeutig das beste Stück, das er je geschaffen hat. (Effekte: 100% Genauigkeit)"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:144
+#, fuzzy
+#| msgid ""
+#| "This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP; Slow; 3 attacks)"
 msgid ""
-"This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP; Slow; 3 attacks)"
+"This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP, slower recovery, three projectiles per throw)"
 msgstr ""
 "Dieser Dolch wurde Aesir der Gelehrten in der thronischen Stadt Nirheim als Belohnung geschenkt.  Sie verbrachte den größten Teil ihres Lebens damit, von Stadt zu Stadt durch Chedian zu reisen, Kinder zu heilen und den Leuten ihre Fertigkeiten beizubringen.  Ein Kaufmann gab seinen kostbarsten Dolch als Geschenk dafür her, daß sie seinem Sohn das Leben gerettet hatte. (Effekte: +100 TP; Langsam; 3 Angriffe)"
 
@@ -3126,10 +3146,12 @@ msgstr "Trolleri"
 msgid "Tillhygge"
 msgstr "Tillhygge"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:145
+#, fuzzy
+#| msgid ""
+#| "Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy; of Disease, of Mastery)"
 msgid ""
-"Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy; of Disease, of Mastery)"
+"Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy, +5 Repair Item, +5 disease damage per hit)"
 msgstr ""
 "Tillhygge wurde im Jahre 75 n. K. auf der Ascheninsel ausgegraben, als eine Gruppe von Plünderern die Überreste von Verhoffins Turm durchwühlte.  Als sie aufs Festland zurückkehrten, behaupteten sie, die Axt werde vom Geist Verhoffins selbst heimgesucht, und verkauften sie bald. (Effekte: +10 Stärke, +30 Genauigkeit; der Krankheit, der Meisterschaft)"
 
@@ -3138,10 +3160,12 @@ msgstr ""
 msgid "Kraftig Bage"
 msgstr "Kraftig Bage"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:146
+#, fuzzy
+#| msgid ""
+#| "This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats; +7 Bow)"
 msgid ""
-"This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats; +7 Bow)"
+"This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats, +7 Bow)"
 msgstr ""
 "Dieser Bogen wurde vom mächtigen Krieger Halfnorr dem Ochsenschultrigen in die Schlacht getragen.  Er verlieh ihm große Kraft und großes Geschick.  Er wurde von einem anderen Krieger, Sven Bloodaxe, erschlagen, als sie in Thjorgard im Kampf aufeinandertrafen. (Effekte: +10 auf alle Attribute; +7 Bogen)"
 
@@ -3155,10 +3179,12 @@ msgstr "Schwarzpulver"
 msgid "Hand Cannon"
 msgstr "Handkanone"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:147
+#, fuzzy
+#| msgid ""
+#| "This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This paticular invetion uses a strange black powder to propel a projectile from it's muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: Bypass opponent's AC, Extra damage, Slow recovery, 2% Chance per use of breaking and causing damage to player.)"
 msgid ""
-"This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This paticular invetion uses a strange black powder to propel a projectile from it's muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: Bypass opponent's AC, Extra damage, Slow recovery, 2% Chance per use of breaking and causing damage to player.)"
+"This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This particular invention uses a strange black powder to propel a projectile from its muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: +15 damage per hit, slower recovery, halves the target's AC, 2% chance per shot to break and hurt the wielder)"
 msgstr ""
 "Dieses Gerät wurde irgendwann vor seinem Tod im Jahre 320 n. K. vom verrückten Gelehrten Roj'ere erschaffen.  Manche nannten ihn ein Genie, andere einen Wahnsinnigen.  Diese besondere Erfindung verwendet ein seltsames schwarzes Pulver, um ein Geschoß aus ihrer Mündung zu treiben.  Roj'ere war äußerst stolz auf diese Erfindung, starb aber, bevor er sie verfeinern und sicherer machen konnte. (Effekte: Umgeht die RK des Gegners, zusätzlicher Schaden, langsame Erholung, bei jedem Gebrauch 2% Chance, zu zerbrechen und dem Charakter Schaden zuzufügen.)"
 
@@ -3167,10 +3193,12 @@ msgstr ""
 msgid "Gungnir"
 msgstr "Gungnir"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:148
+#, fuzzy
+#| msgid ""
+#| "Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn forsaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian (Effects: of puncturing (20% chance to bypass opponent's AC).  Extra Damage)"
 msgid ""
-"Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn forsaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian (Effects: of puncturing (20% chance to bypass opponent's AC).  Extra Damage)"
+"Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn foresaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian. (Effects: +15 damage per hit, 20% chance to ignore the target's AC)"
 msgstr ""
 "Gungnir wurde von Hanndl selbst geschaffen, um ihm in der Großen Abrechnung als Waffe zu dienen, die eines Tages kommen soll.  An dem Tag, an dem Krohn das Kommen dieses Tages vorhersah, verlangte er, daß sich alle seine Götter mit Waffen von großer Macht rüsten.  Irgendwie tauchte Hanndls Speer in Chedian auf (Effekte: des Durchbohrens (20% Chance, die RK des Gegners zu umgehen).  Zusätzlicher Schaden)"
 
@@ -3179,10 +3207,12 @@ msgstr ""
 msgid "Formanir"
 msgstr "Formanir"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:149
+#, fuzzy
+#| msgid ""
+#| "This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Desipte their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: -10 to AC, +30 Might, -10 Endurance; Grandmaster's, of Permanance.)"
 msgid ""
-"This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Desipte their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: -10 to AC, +30 Might, -10 Endurance; Grandmaster's, of Permanance.)"
+"This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Despite their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: +50 Might, -10 Endurance, -10 AC, +5 Spear)"
 msgstr ""
 "Diesen Speer schleuderte Krohn selbst über die Köpfe der Tredskas-Rebellen, als sie sich gegen die Götter erhoben und versuchten, Arslegard einzunehmen.  Obwohl ihr Anführer einer der mächtigsten Magier seiner Zeit war und ihr Heer aus Hunderttausenden geübter Krieger bestand, verließ an jenem Tag kein einziger Tredskas-Rebell das Schlachtfeld.  Krohn ließ diesen Speer als Warnung an alle Sterblichen zurück, die an Rebellion dachten. (Effekte: -10 RK, +30 Stärke, -10 Ausdauer; des Großmeisters, der Beständigkeit.)"
 
@@ -3203,17 +3233,17 @@ msgstr ""
 msgid "Einherjar"
 msgstr "Einherjar"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:150
 msgid ""
-"This halberd is said to carry with it the souls of men slain by it.  It has an unusual effect on those wielding it.  It's first owner was said to have gone mad.  It's second owner gave it away and threw himself from a cliff.  The tales of tragedy this halberd carries is long and sad. (Effects: +20 Might; Vampiric; 10% chance of insanity per week, 10% chance of -30% HP per week.)"
+"This halberd is said to carry with it the souls of men slain by it.  It has an unusual effect on those wielding it.  Its first owner was said to have gone mad.  It's second owner gave it away and threw himself from a cliff.  The tales of tragedy this halberd carries are long and sad. (Effects: +40 Might, Vampiric, 10% chance of insanity each week, 10% chance each week to lose a tenth of HP)"
 msgstr ""
-"Man sagt, diese Hellebarde trage die Seelen der Männer in sich, die durch sie erschlagen wurden.  Auf ihre Träger hat sie eine ungewöhnliche Wirkung.  Ihr erster Besitzer soll den Verstand verloren haben.  Ihr zweiter Besitzer verschenkte sie und stürzte sich von einer Klippe.  Die Liste der Tragödien, die diese Hellebarde mit sich trägt, ist lang und traurig. (Effekte: +20 Stärke; des Vampirfluchs; 10% Chance auf Wahnsinn pro Woche, 10% Chance auf -30% TP pro Woche.)"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:151
+#, fuzzy
+#| msgid ""
+#| "Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance; 5% chance to cast \"Enrage\" on target at GM level.)"
 msgid ""
-"Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance; 5% chance to cast \"Enrage\" on target at GM level.)"
+"Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance, 5% chance to enrage the target at Grandmaster)"
 msgstr ""
 "Wörtlich Altursanisch für \"Stockschneider\".  Dies ist das einzige erhaltene Exemplar.  Sie wurde von der Ursanischen Persana Garda benutzt, den Männern, die persönlich für die Sicherheit des Kaisers verantwortlich waren.  Diese Waffe trug nicht wenig dazu bei, daß die Persana Garda den Menschen Furcht ins Herz pflanzte. (Effekte: +30 Stärke, +10 Ausdauer; 5% Chance, auf Großmeister-Stufe \"Rasen\" auf das Ziel zu wirken.)"
 
@@ -3227,10 +3257,12 @@ msgstr "Stouka Couta"
 msgid "Vanir's Hammer"
 msgstr "Vanirs Hammer"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:152
+#, fuzzy
+#| msgid ""
+#| "Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance; 5% Chance to cast \"Enrage\" on target at GM level.)"
 msgid ""
-"Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance; 5% Chance to cast \"Enrage\" on target at GM level.)"
+"Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance, 5% chance to enrage the target at Grandmaster)"
 msgstr ""
 "Vanirs Hammer wurde vor mehreren hundert Jahren von dem legendären Zauberer Vanir geschaffen. Er führte diese Waffe ebenso geschickt, wie er die Zauberei beherrschte. Viele merken an, daß dies kein Hammer, sondern ein Knüppel sei, worauf Vanir zu erwidern pflegte: \"Aber was ist schon ein Hammer? Spielt der Name eine Rolle, wenn er Schädel zertrümmern kann?\" Nicht viele von denen, die seinen Hammer zu spüren bekamen, widersprachen ihm. (Effekte: +30 Stärke, +10 Ausdauer; 5% Chance, auf Großmeister-Stufe \"Raserei\" auf das Ziel zu wirken.)"
 
@@ -3239,10 +3271,12 @@ msgstr ""
 msgid "Blutterbunger"
 msgstr "Blutterbunger"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:153
+#, fuzzy
+#| msgid ""
+#| "Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremly popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: of Bruisers; 5% chance of stunning opponent.  If fail vs skill 70% chance knocking self unconscious.)"
 msgid ""
-"Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremly popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: of Bruisers; 5% chance of stunning opponent.  If fail vs skill 70% chance knocking self unconscious.)"
+"Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremely popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: +40 Might, +20 Endurance, +5 Mace, 5% chance to stun the target, 70% chance to knock the wielder unconscious when a hit does not stun)"
 msgstr ""
 "Blutterbunger war eine beliebte Waffe, als sie im Jahre 480 nach der Großen Katastrophe entdeckt wurde. Sie vermag einen Gegner zu verwirren, was sie bei Wirtshausschlägereien ebenso beliebt machte wie auf dem Schlachtfeld. Sie gehörte Fyri Ziegengesicht, bis er sich bei einer Kneipenschlägerei irgendwie selbst damit traf und sich bewußtlos schlug. (Effekte: der Raufbolde; 5% Chance, den Gegner zu betäuben. Bei Fehlschlag gegen die Fertigkeit 70% Chance, sich selbst bewußtlos zu schlagen.)"
 
@@ -3251,10 +3285,12 @@ msgstr ""
 msgid "Manarus"
 msgstr "Manarus"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:154
+#, fuzzy
+#| msgid ""
+#| "This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +80 SP; The Grandmaster's, of the Jajarb)"
 msgid ""
-"This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +80 SP; The Grandmaster's, of the Jajarb)"
+"This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +30 Intellect, +30 Personality, +80 SP, +5 Mace)"
 msgstr ""
 "Dieser Morgenstern ist nach dem mythischen Helden Manarus benannt, der zum Leitstern am nördlichen Himmel wurde. Die Geschichte dieser Waffe ist unbekannt, doch es heißt, sie verleihe Magiekundigen großes Geschick. (Effekte: +80 ZP; des Großmeisters, des Jajarb)"
 
@@ -3263,10 +3299,12 @@ msgstr ""
 msgid "Samarjit"
 msgstr "Samarjit"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:155
+#, fuzzy
+#| msgid ""
+#| "This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed; of Permanance, Master's)"
 msgid ""
-"This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed; of Permanance, Master's)"
+"This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed, +3 Staff)"
 msgstr ""
 "Dieser Stab besteht aus einem unbekannten Metall. Er ist überraschend leicht und zudem sehr, sehr alt. Man fand ihn zusammen mit Schriften in Altursanisch, die nahelegen, daß er sogar älter ist als die früheste Erwähnung des Ursanischen Reiches. Nicht einmal die Schriften verraten, wer ihn geschaffen hat, wie er gefertigt wurde oder woher er stammt. (Effekte: +80 Stärke, +20 Ausdauer, -20 Schnelligkeit; der Beständigkeit, des Meisters)"
 
@@ -3275,10 +3313,12 @@ msgstr ""
 msgid "Maul"
 msgstr "Schlägel"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:156
+#, fuzzy
+#| msgid ""
+#| "This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only suceeded in making very heavy magic items. (Effects: 5-15 pts of Elemental Damage.  10% Chance of killing target.)"
 msgid ""
-"This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only suceeded in making very heavy magic items. (Effects: 5-15 pts of Elemental Damage.  10% Chance of killing target.)"
+"This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only succeeded in making very heavy magic items. (Effects: +10 damage per hit, 10% chance to kill the target outright)"
 msgstr ""
 "Dieser Schlägel tauchte erstmals etwa 10 Jahre nach der Großen Katastrophe auf, als die meisten Menschen noch dabei waren, die Trümmer aufzulesen. Es heißt, er sei aus reinem Elementar-Thjorad gefertigt, und er ist sehr, sehr schwer. Viele Schmiede haben versucht, diesen Schlägel nachzuahmen, doch es ist ihnen nur gelungen, sehr schwere magische Gegenstände herzustellen. (Effekte: 5-15 Punkte Elementarschaden. 10% Chance, das Ziel zu töten.)"
 
@@ -3287,10 +3327,12 @@ msgstr ""
 msgid "Spencer's Obedience"
 msgstr "Spencers Gehorsam"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:157
+#, fuzzy
+#| msgid ""
+#| "This is the club that General Spencer used to keep his troops in line.  He often found them playing card games intstead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +10 to Speed; of the Reel)"
 msgid ""
-"This is the club that General Spencer used to keep his troops in line.  He often found them playing card games intstead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +10 to Speed; of the Reel)"
+"This is the club that General Spencer used to keep his troops in line.  He often found them playing card games instead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +20 Might, +30 Speed, stuns the target on every hit)"
 msgstr ""
 "Dies ist die Keule, mit der General Spencer seine Truppen bei der Stange hielt. Oft ertappte er sie beim Kartenspiel, statt daß sie auf ihren Posten blieben, und so ließ er diese magische Keule anfertigen, um sie zur Erfüllung ihrer Pflichten zu \"ermutigen\". Sie erwies sich als sehr wirkungsvoll. (Effekte: +10 Schnelligkeit; des Taumelns)"
 
@@ -3299,10 +3341,12 @@ msgstr ""
 msgid "Mjulnir"
 msgstr "Mjulnir"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:158
+#, fuzzy
+#| msgid ""
+#| "Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: -20 Speed; 16-25 pts of Elemental Damage.  Divine Intervention will always fail.)"
 msgid ""
-"Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: -20 Speed; 16-25 pts of Elemental Damage.  Divine Intervention will always fail.)"
+"Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: +50 Might, -20 Speed, +20 damage per hit, Divine Intervention always fails)"
 msgstr ""
 "Mjulnir wird oft \"Der Hammer der Götter\" genannt, und das aus gutem Grund. Es heißt, der Gott Krohn habe ihn verloren, als er ihn nach einem Streit nach seiner Frau schleuderte. Es ist eine gewaltige Waffe, geschaffen für einen gewaltigen Krieger. Man munkelt auch, Krohn habe geschworen, seine Waffe zurückzuholen und den Mann zu vernichten, der sie ihm vorenthalten hat. (Effekte: -20 Schnelligkeit; 16-25 Punkte Elementarschaden. Gottes Eingriff schlägt immer fehl.)"
 
@@ -3311,10 +3355,12 @@ msgstr ""
 msgid "Igdrasine"
 msgstr "Igdrasine"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:159
+#, fuzzy
+#| msgid ""
+#| "Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +10 to Magic)"
 msgid ""
-"Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +10 to Magic)"
+"Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +30 Intellect, +30 Personality)"
 msgstr ""
 "Der Legende nach war diese Rüstung ein Geschenk von Igrassa selbst an Dagna Kramartrag für seine Dienste an ihrem Tempel. (Effekte: +10 Magie)"
 
@@ -3335,10 +3381,12 @@ msgstr "Wurfdolch"
 msgid "Poltergeist"
 msgstr "Poltergeist"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:160
+#, fuzzy
+#| msgid ""
+#| "This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: of Regeneration; 10% chance of opponent becoming afraid.)"
 msgid ""
-"This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: of Regeneration; 10% chance of opponent becoming afraid.)"
+"This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: +30 Speed, regenerates HP, 10% chance to frighten the target on a hit)"
 msgstr ""
 "Diese Rüstung soll aus den Ketten gefertigt worden sein, die manche Geister mit sich tragen. Ob das stimmt oder nicht, sie hat jedenfalls einige geisterhafte Eigenschaften. Sie wiegt so gut wie nichts und ist von einer unheilvollen Wolke umgeben. Zudem scheint sie dieselben Geräusche von sich zu geben wie die armen Seelen, die an den Ort ihres Todes gekettet sind. (Effekte: der Regeneration; 10% Chance, daß der Gegner verängstigt wird.)"
 
@@ -3347,17 +3395,21 @@ msgstr ""
 msgid "Swordsbane"
 msgstr "Schwertbann"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:161
+#, fuzzy
+#| msgid ""
+#| "This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC vs melee attacks, -10 AC vs ranged attacks)"
 msgid ""
-"This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC vs melee attacks, -10 AC vs ranged attacks)"
+"This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC against melee attacks, -10 AC against missiles)"
 msgstr ""
 "Diese Rüstung trug Leit der Kreuzritter während seiner Herrschaft als Anführer des Thronheim-Clans. In dieser Rüstung erschlug er die widerwärtigen Kreaturen, die das Gebiet bewohnten, aus dem später die Stadt Thronheim werden sollte. Es heißt, sie verhindere, daß jemals ein Schwert die Haut berührt. (Effekte: +40 RK gegen Nahkampfangriffe, -10 RK gegen Fernkampfangriffe)"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:162
+#, fuzzy
+#| msgid ""
+#| "It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 all resistances, +20 AC vs magic attacks)"
 msgid ""
-"It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 all resistances, +20 AC vs magic attacks)"
+"It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 to all resistances, +20 AC against magic)"
 msgstr ""
 "Es heißt, dieser Helm sei aus dem Schädel von Ilthic gefertigt, der mächtigsten Hexe des Ursanischen Reiches. Gerüchten zufolge hat Kaiser Ralfor ihr eigenhändig den Kopf abgeschlagen. Nachdem er die überflüssigen Teile entfernt hatte, ließ er den neuen Helm gegen magische Angriffe verzaubern. (Effekte: +20 auf alle Resistenzen, +20 RK gegen magische Angriffe)"
 
@@ -3371,17 +3423,21 @@ msgstr "Hexenbann"
 msgid "Brongnoker"
 msgstr "Brongnoker"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:163
+#, fuzzy
+#| msgid ""
+#| "Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 all stats, +10 Armor skill)"
 msgid ""
-"Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 all stats, +10 Armor skill)"
+"Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 to all stats, +10 to the armor skills)"
 msgstr ""
 "Zerkratzt und verbeult, macht dieser Helm nicht viel her. Doch der Schein kann trügen. Brongnoker wurde vor der Gründung des Ursanischen Reiches mit längst vergessenen Schmiedekünsten gefertigt. Dieser Helm ist wohl der beste Kopfschutz der Welt. (Effekte: +10 auf alle Attribute, +10 Fertigkeit Rüstung)"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:164
+#, fuzzy
+#| msgid ""
+#| "These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed; of Everlasting, of Regeneration, of Amelieoration; +10 to all resistances)"
 msgid ""
-"These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed; of Everlasting, of Regeneration, of Amelieoration; +10 to all resistances)"
+"These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed, +10 to all resistances, regenerates HP, immune to weakness and drunkenness, never breaks)"
 msgstr ""
 "Diese Stiefel wurden zum Wandern gemacht. Wegen der besonderen Verzauberungen, die die Füße des Reisenden schützen sollen, wurden sie jedoch meist von dem glücklichen Soldaten getragen, der zufällig auf sie stieß. (Effekte: +10 Schnelligkeit; der Ewigkeit, der Regeneration, der Linderung; +10 auf alle Resistenzen)"
 
@@ -3390,10 +3446,12 @@ msgstr ""
 msgid "Laet'ax"
 msgstr "Laet'ax"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:165
+#, fuzzy
+#| msgid ""
+#| "This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -10 Accuracy, +10 Luck; +5 Disarm Trap)"
 msgid ""
-"This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -10 Accuracy, +10 Luck; +5 Disarm Trap)"
+"This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -20 Accuracy, +40 Luck, +10 Disarm Traps)"
 msgstr ""
 "Dieses Paar weicher Lederhandschuhe wurde im Jahre 300 nach der Großen Katastrophe vor Verhoffins Turm gefunden. Sie sind weich und etwas rutschig. Ganz gleich, wie groß die Hand des Trägers ist, sie scheinen immer zu passen. (Effekte: -10 Genauigkeit, +10 Glück; +5 Fallen entschärfen)"
 
@@ -3402,10 +3460,12 @@ msgstr ""
 msgid "Arrowfoe"
 msgstr "Pfeilfeind"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:166
+#, fuzzy
+#| msgid ""
+#| "This sheild was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possesed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 AC vs Missle weapons)"
 msgid ""
-"This sheild was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possesed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 AC vs Missle weapons)"
+"This shield was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possessed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 Endurance, +30 AC against missiles)"
 msgstr ""
 "Diesen Schild trug der mächtige Krieger Hrothgar Krohnssen. Er behauptete, der Sohn Krohns selbst zu sein, und besaß gewaltige Kraft. Als eine Hexe ihm weissagte, er werde durch einen Pfeil sterben, ließ er diesen Schild anfertigen, um sich vor diesem Schicksal zu schützen. Leider traf ihn der tödliche Pfeil von hinten. (Effekte: +30 RK gegen Geschosse)"
 
@@ -3414,10 +3474,12 @@ msgstr ""
 msgid "Hubris"
 msgstr "Hubris"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:167
+#, fuzzy
+#| msgid ""
+#| "This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might; +20 AC; of Endurance, of Protection, of Arms Mastery; Increased chance to hit target.)"
 msgid ""
-"This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might; +20 AC; of Endurance, of Protection, of Arms Mastery; Increased chance to hit target.)"
+"This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might, +10 Endurance, +20 AC, +5 Armsmaster)"
 msgstr ""
 "Dieser Gürtel wurde aus der Schlucht der Toten geraubt und soll der Gürtel sein, den Kaiser Hubris selbst trug, als er das Ursanische Reich zu schmieden begann. Manche Gelehrte glauben, daß dieser Gürtel ihm half, die Eindringlinge zu besiegen und ein Reich zu gründen. (Effekte: +30 Stärke; +20 RK; der Ausdauer, des Schutzes, der Waffenmeisterschaft; erhöhte Trefferchance.)"
 
@@ -3426,10 +3488,12 @@ msgstr ""
 msgid "Weregild"
 msgstr "Wergeld"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:168
+#, fuzzy
+#| msgid ""
+#| "Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitor's became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +1000 gold per week.  Reputed -40 party Endurance.)"
 msgid ""
-"Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitor's became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +1000 gold per week.  Reputed -40 party Endurance.)"
+"Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitors became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +30 Luck, 1,000 gold each week, -40 Endurance for the whole party)"
 msgstr ""
 "Wergeld wurde von Snorri dem Zwerg als Hochzeitsgeschenk für seinen künftigen Schwiegersohn geschaffen. Leider wurde ein anderer Verehrer seiner Tochter eifersüchtig und stahl den Ring in der Hochzeitsnacht. In seiner Wut verfluchte er den Ring und gab ihn den Frischvermählten zurück. Snorri durchschaute die Täuschung, erschlug den Verehrer und warf den Ring fort. (Effekte: +1000 Gold pro Woche. Angeblich -40 Ausdauer der Gruppe.)"
 
@@ -3438,10 +3502,12 @@ msgstr ""
 msgid "Soulband"
 msgstr "Seelenband"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:169
+#, fuzzy
+#| msgid ""
+#| "Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
 msgid ""
-"Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
+"Soulband wasn't so much created as it was evolved from something else.  It started its life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with it when it passed to its new owner. (Effects: +10 Speed, +50 SP, +5 Light Magic, +3 Meditation, faster recovery)"
 msgstr ""
 "Seelenband wurde nicht so sehr geschaffen, vielmehr entwickelte es sich aus etwas anderem. Es begann sein Dasein als Schmuckstück eines kleinen Kindes, das von einem Wiedergänger besessen wurde. Seitdem ist es von Besitzer zu Besitzer gewandert und hat jedem ein kleines Stück von ihm genommen, wenn es an seinen neuen Besitzer überging. (Effekte: +50 ZP; +5 Licht, +3 Meditation; der Schnelligkeit)"
 
@@ -3474,17 +3540,21 @@ msgstr ""
 msgid "Lubricious"
 msgstr "Schlüpfrig"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:171
+#, fuzzy
+#| msgid ""
+#| "Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC; +5 Dodging; Reputed -3% to Damage.)"
 msgid ""
-"Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC; +5 Dodging; Reputed -3% to Damage.)"
+"Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC, +5 Dodging, 3% less physical damage taken)"
 msgstr ""
 "Manche behaupten, Schlüpfrig sei tatsächlich aus diesen Zutaten gefertigt worden: der Glätte einer Schlange, der List eines Fuchses und der Flinkheit eines Hasen. Ein lüsterner Verehrer schenkte ihn Helga Gunnarsdotir. Da sie sich nicht das Geringste aus ihm machte, verkaufte sie den Ring prompt. (Effekte: +20 RK; +5 Ausweichen; angeblich -3% Schaden.)"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:172
+#, fuzzy
+#| msgid ""
+#| "This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP; +3 Meditation, +5 Light, +5 Spirit; of Regeneration)"
 msgid ""
-"This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP; +3 Meditation, +5 Light, +5 Spirit; of Regeneration)"
+"This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP, +3 Meditation, +5 Light Magic, +5 Spirit Magic, regenerates HP)"
 msgstr ""
 "Dieses Amulett war ein Geschenk des Grünen Mannes. Nur sehr wenigen ist ein Besuch des Grünen Mannes vergönnt, und noch weniger erhalten dabei ein Geschenk. (Effekte: +20 ZP; +3 Meditation, +5 Licht, +5 Seele; der Regeneration)"
 
@@ -3493,10 +3563,12 @@ msgstr ""
 msgid "Mountbatten"
 msgstr "Mountbatten"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:173
+#, fuzzy
+#| msgid ""
+#| "This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +5 Dark, +3 Perception; of Amelioration)"
 msgid ""
-"This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +5 Dark, +3 Perception; of Amelioration)"
+"This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +30 Personality, +5 Dark Magic, +3 Perception, immune to weakness and drunkenness)"
 msgstr ""
 "Dieses Amulett trugen die vier mystischen Weisen Dirk, Stig, Nasty und Barry. Diese vier Männer brachten den Chedianern eine Zeitlang eine Botschaft von Frieden und Glück, bevor sie für immer vertrieben wurden. In ihrer Eile ließen sie dies zurück. (Effekte: +5 Dunkel, +3 Wahrnehmung; der Linderung)"
 
@@ -3505,10 +3577,12 @@ msgstr ""
 msgid "Pendant of the Spheres"
 msgstr "Anhänger der Sphären"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:174
+#, fuzzy
+#| msgid ""
+#| "This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +5 All magic skills, +3 Learning, +3 Meditation)"
 msgid ""
-"This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +5 All magic skills, +3 Learning, +3 Meditation)"
+"This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +3 to all magic skills, +3 Learning, +3 Meditation)"
 msgstr ""
 "Diesen Anhänger nahm Nazrim der Meuchelmörder um das Jahr 10 vor der Großen Katastrophe aus Verhoffins Turm mit. Nazrim war beauftragt worden, Verhoffin für seine Unverschämtheit gegenüber dem Ursanischen Reich zu töten. Viele glauben, daß dieses Ereignis, der Mordanschlag auf Verhoffin, die Große Katastrophe auslöste. (Effekte: +5 auf alle Magiefertigkeiten, +3 Lernen, +3 Meditation)"
 
@@ -3522,17 +3596,17 @@ msgstr "Fizbin des Unglücks"
 msgid "Holy Relic"
 msgstr "Heilige Reliquie"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:175
 msgid ""
-"The Fizbin always seems to appear in the worst of times.  Just when someone thinks things can't get any worse, they acquire the Fizbin.  It's fame preceeds it, and most owners have a hard time getting rid of it. (Effects: Party Luck -20; Reputed chance of encounter +15%)"
+"The Fizbin always seems to appear in the worst of times.  Just when someone thinks things can't get any worse, they acquire the Fizbin.  It's fame precedes it, and most owners have a hard time getting rid of it. (Effects: While carried, for the whole party: +15 Might, +15 Accuracy, -20 Luck, +10 to all resistances, random encounters 15% more likely)"
 msgstr ""
-"Der Fizbin scheint immer in den schlimmsten Zeiten aufzutauchen. Gerade wenn jemand glaubt, schlimmer könne es nicht mehr kommen, gerät er an den Fizbin. Sein Ruf eilt ihm voraus, und die meisten Besitzer haben große Mühe, ihn wieder loszuwerden. (Effekte: Glück der Gruppe -20; angeblich +15% Chance auf Begegnungen)"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:176
+#, fuzzy
+#| msgid ""
+#| "Beggers are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the begger with the affliction he claimed to have.  One begger, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning; Immune to all conditions.  Drains Experience Points.)"
 msgid ""
-"Beggers are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the begger with the affliction he claimed to have.  One begger, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning; Immune to all conditions.  Drains Experience Points.)"
+"Beggars are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the beggar with the affliction he claimed to have.  One beggar, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning, immune to all conditions, 15% less experience)"
 msgstr ""
 "In den größeren Städten Chedians sieht man oft Bettler, und viele behaupten, an allerlei Gebrechen zu leiden. Nicht selten verfluchte ein Heiler einen Bettler mit genau dem Leiden, das dieser vorgab zu haben. Ein Bettler, Haelik der Kranke, schuf dieses Amulett, um sich vor solchen Heilern zu schützen. (Effekte: -3 Lernen; immun gegen alle Zustände. Entzieht Erfahrungspunkte.)"
 
@@ -3546,10 +3620,12 @@ msgstr "Screever"
 msgid "Fre's Heart"
 msgstr "Fres Herz"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:177
+#, fuzzy
+#| msgid ""
+#| "This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing it's inhabitants for exorborant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This ring was taken from him as payment for the things he stole. (Effects: +50 to HP, -10 SP; of regeneration)"
 msgid ""
-"This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing it's inhabitants for exorborant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This ring was taken from him as payment for the things he stole. (Effects: +50 to HP, -10 SP; of regeneration)"
+"This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing its inhabitants for exorbitant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This amulet was taken from him as payment for the things he stole. (Effects: +30 Endurance, +100 HP, -20 SP, regenerates HP)"
 msgstr ""
 "Dieses herzförmige Amulett wurde zu Ehren von Fre, der Göttin der Vita, geschaffen. Zuletzt trug es D'vorna Lebensberührer, der Heiler, der durch Chedian zog und dessen Bewohner zu horrenden Preisen heilte. Er wurde dabei ertappt, wie er im Haus eines reichen Kaufmanns in Thjorgard stahl, und hingerichtet. Dieser Ring wurde ihm als Bezahlung für das Diebesgut abgenommen. (Effekte: +50 TP, -10 ZP; der Regeneration)"
 
@@ -3594,10 +3670,12 @@ msgstr ""
 msgid "Combat Axe"
 msgstr "Kampfaxt"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:180
+#, fuzzy
+#| msgid ""
+#| "During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regenereration with complete set.))"
 msgid ""
-"During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regenereration with complete set.))"
+"During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regeneration with complete set.))"
 msgstr ""
 "Zur Zeit des Aufstiegs des Alten Ursanischen Reiches wurden zu Ehren des Festtags des jeweiligen Kaisers große Gladiatorenspiele abgehalten. Der größte Gladiator dieser Spiele wurde mit einer Rüstung und einer Waffe geehrt. Trug er diesen Preis, wußte jeder um seine Größe und beschloß wohl auch, sich lieber nicht mit ihm anzulegen. Nur für Söldner und Gladiatoren. (Effekte: +2 Bodybuilding; +2 RK (der Regeneration mit vollständigem Satz))"
 
@@ -3678,10 +3756,12 @@ msgstr ""
 msgid "Broderick's Helm"
 msgstr "Brodericks Helm"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:185
+#, fuzzy
+#| msgid ""
+#| "There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regenereration with complete set.))"
 msgid ""
-"There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regenereration with complete set.))"
+"There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regeneration with complete set.))"
 msgstr ""
 "Es gibt einen Mythos über einen großen heiligen Krieger namens Broderick, den die Götter beauftragten, den Dämon Nodens für sie zu vernichten. Mit seinem mächtigen Schwert vernichtete er den Dämon und überreichte den Göttern als Trophäe dessen häßlichen Kopf. Die Götter waren so erfreut, daß sie seine Waffe und Rüstung mit ein wenig ihrer Macht erfüllten, um ihn zu schützen. Man hält ihn für ein Stück eben jener Rüstung, die er trug. Nur für Kreuzritter und Paladine. (Effekte: +2 Klinge; +2 Stärke (der Regeneration mit vollständigem Satz))"
 
@@ -3786,10 +3866,12 @@ msgstr ""
 msgid "Fre's Smooth Mace"
 msgstr "Fres glatte Keule"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:193
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
 msgstr ""
 "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht; +2 Stärke (des Körpers mit vollständigem Satz))"
 
@@ -3798,10 +3880,12 @@ msgstr ""
 msgid "Fre's Ring"
 msgstr "Fres Ring"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:194
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
 msgstr ""
 "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht, +2 Seele (+10 auf alle Attribute mit vollständigem Satz))"
 
@@ -3810,10 +3894,12 @@ msgstr ""
 msgid "Fre's Helm"
 msgstr "Fres Helm"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:195
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+ 10 all resistances with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+ 10 all resistances with complete set))"
+"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+10 all resistances with complete set))"
 msgstr ""
 "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht, +2 Meditation (+10 auf alle Resistenzen mit vollständigem Satz))"
 
@@ -3822,10 +3908,12 @@ msgstr ""
 msgid "Fre's Gloves"
 msgstr "Fres Handschuhe"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:196
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
 msgstr ""
 "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht, +2 Reparieren (des Geschicks mit vollständigem Satz))"
 
@@ -3834,10 +3922,12 @@ msgstr ""
 msgid "Fre's Chain Boots"
 msgstr "Fres Kettenstiefel"
 
-# machine translation (Claude), review
 #: assets_dev/worlds/mm9/data_tables/items.txt:197
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
 msgstr ""
 "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht; +2 Schnelligkeit (+20 Schnelligkeit mit vollständigem Satz))"
 
@@ -43611,6 +43701,300 @@ msgid ""
 "By imprisoning Njam in the Tomb of a Thousand Terrors, you have finally fulfilled your destiny! For years to come skalds and poets will sing songs of your heroism and glory. By uniting the six clans of Chedian against a common foe, you've encouraged them to stop fighting amongst themselves and rise to become a single prosperous nation."
 msgstr ""
 "Indem Ihr Njam im Grab der Tausend Schrecken eingekerkert habt, habt Ihr endlich Eure Bestimmung erfüllt! Noch viele Jahre lang werden Skalden und Dichter Lieder von Eurem Heldentum und Ruhm singen. Indem Ihr die sechs Clans von Chedian gegen einen gemeinsamen Feind vereint habt, habt Ihr sie dazu gebracht, die Kämpfe untereinander zu beenden und zu einer einzigen, blühenden Nation aufzusteigen."
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the weilder to become stronger. (Effects: +30 to Might; of Arms Mastery)"
+#~ msgstr ""
+#~ "Dieses Schwert wurde von einem unbekannten Magier für den Arzt verzaubert, der zum Skalden wurde und als Frank bekannt ist.  Man sagt, es lasse im Kampf einen wohlklingenden Ton erklingen, der seinen Träger stärker macht. (Effekte: +30 Stärke; des Waffenmeisters)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: -5 Accuracy, +15 Endurance, +50 Luck)"
+#~ msgstr ""
+#~ "Dieses gelblich schimmernde Schwert ist bei den Ureinwohnern von Frosgard legendär.  Sie behaupten, es sei von ihrem Helden Eric getragen worden, der anscheinend nie auf einen Kampf vorbereitet war.  Es soll aus einem See aufgetaucht sein, als Eric \"Juhuu!\" rief. (Effekte: -5 Genauigkeit, +15 Ausdauer, +50 Glück)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after first use)"
+#~ msgstr ""
+#~ "Das Mevan-Schwert ist durch und durch böse.  Es tauchte zu Beginn dieses Jahrhunderts wieder auf, nachdem es seit dem Großen Sturm der Elemente unter einem Haufen Schutt begraben lag.  Man weiß nicht, wer es geschmiedet hat oder warum, aber die meisten, die es benutzten, schworen entweder darauf oder starben dadurch. (Effekte: Zerbricht nach dem ersten Gebrauch)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Jorhgamesh was comissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian (Effects: +10 to Speed, +20 to Accuracy, -50 to SP)"
+#~ msgstr ""
+#~ "Jorhgamesh wurde von Olaf dem Dicken während seiner kurzen Herrschaft als Jarl von Frosgard in Auftrag gegeben.  Er glaubte, mit diesem Schwert alle Clans von Chedian erobern und vereinen zu können (Effekte: +10 Schnelligkeit, +20 Genauigkeit, -50 ZP)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Long ago, there was a group of Chedian warriors lead by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, it's contents taken and sold. (Effects: Increased damage, Increased chance to hit, Increased speed)"
+#~ msgstr ""
+#~ "Vor langer Zeit gab es eine Schar chedianischer Krieger, angeführt von einem Mann namens Halfred der Schwarze.  Dieser Dolch war sein ständiger Begleiter.  Nach seinem Tod wurde der Dolch mit ihm begraben.  Sein Grab wurde jedoch bald geplündert, und sein Inhalt wurde fortgeschafft und verkauft. (Effekte: Erhöhter Schaden, erhöhte Trefferchance, erhöhte Schnelligkeit)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Named after the Old Ursanian Emperor who commited suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +15 pts of Poison damage; Reputed +35 to hit and damage)"
+#~ msgstr ""
+#~ "Benannt nach dem altursanischen Kaiser, der 225 v. K. Selbstmord beging, ist dies der Dolch, mit dem er seinem Leben schließlich ein Ende setzte.  Kaiser Integris wurde wegen seiner vielen Versuche, sich das Leben zu nehmen, oft der \"Lebensmüde Kaiser\" genannt.  Ironischerweise zerbrach die Waffe bei den meisten seiner Versuche in seiner Hand, bevor er sein Werk vollenden konnte. (Effekte: +15 Punkte Giftschaden; angeblich +35 auf Treffer und Schaden)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +10 to all resistances; 40% chance to \"poison\" target at GM level.)"
+#~ msgstr ""
+#~ "Diese Axt ist nach dem Krieger Sven Bloodaxe aus Sturmford benannt, der im Kampf stets siegreich war.  Auch wenn viele es bestreiten, starb er schließlich 340 n. K. an Altersschwäche. (Effekte: +10 auf alle Resistenzen; 40% Chance, das Ziel auf Großmeister-Stufe zu \"vergiften\".)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: Extra damage; +6 Armsmaster, +6 Blade skill; of Regeneration)"
+#~ msgstr ""
+#~ "Diese Axt wurde 200 v. K. in Minespring geschmiedet.  Die Zwerge jener Zeit waren außergewöhnlich begabt darin, unglaubliche Waffen zu erschaffen.  Im Jahre 73 n. K. versuchte Ichvan I., die Zwerge zu überreden, Waffen für sein neues Mendossisches Heer herzustellen.  Nach 2 Jahren Verhandlungen hatte Ichvan ihre Weigerungen satt und machte Minespring dem Erdboden gleich. (Effekte: Zusätzlicher Schaden; +6 Waffenmeister, +6 Fertigkeit Klinge; der Regeneration)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missle throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: 100% accuracy)"
+#~ msgstr ""
+#~ "Diese Waffe aus Elementar-Thjorad war eine der besten Schöpfungen des berühmten Waffenschmieds Borfinn Eisenhand.  Er behauptete stets, im Bau von Fernwaffen nicht geübt zu sein, doch diese Waffe ist eindeutig das beste Stück, das er je geschaffen hat. (Effekte: 100% Genauigkeit)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP; Slow; 3 attacks)"
+#~ msgstr ""
+#~ "Dieser Dolch wurde Aesir der Gelehrten in der thronischen Stadt Nirheim als Belohnung geschenkt.  Sie verbrachte den größten Teil ihres Lebens damit, von Stadt zu Stadt durch Chedian zu reisen, Kinder zu heilen und den Leuten ihre Fertigkeiten beizubringen.  Ein Kaufmann gab seinen kostbarsten Dolch als Geschenk dafür her, daß sie seinem Sohn das Leben gerettet hatte. (Effekte: +100 TP; Langsam; 3 Angriffe)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy; of Disease, of Mastery)"
+#~ msgstr ""
+#~ "Tillhygge wurde im Jahre 75 n. K. auf der Ascheninsel ausgegraben, als eine Gruppe von Plünderern die Überreste von Verhoffins Turm durchwühlte.  Als sie aufs Festland zurückkehrten, behaupteten sie, die Axt werde vom Geist Verhoffins selbst heimgesucht, und verkauften sie bald. (Effekte: +10 Stärke, +30 Genauigkeit; der Krankheit, der Meisterschaft)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats; +7 Bow)"
+#~ msgstr ""
+#~ "Dieser Bogen wurde vom mächtigen Krieger Halfnorr dem Ochsenschultrigen in die Schlacht getragen.  Er verlieh ihm große Kraft und großes Geschick.  Er wurde von einem anderen Krieger, Sven Bloodaxe, erschlagen, als sie in Thjorgard im Kampf aufeinandertrafen. (Effekte: +10 auf alle Attribute; +7 Bogen)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This paticular invetion uses a strange black powder to propel a projectile from it's muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: Bypass opponent's AC, Extra damage, Slow recovery, 2% Chance per use of breaking and causing damage to player.)"
+#~ msgstr ""
+#~ "Dieses Gerät wurde irgendwann vor seinem Tod im Jahre 320 n. K. vom verrückten Gelehrten Roj'ere erschaffen.  Manche nannten ihn ein Genie, andere einen Wahnsinnigen.  Diese besondere Erfindung verwendet ein seltsames schwarzes Pulver, um ein Geschoß aus ihrer Mündung zu treiben.  Roj'ere war äußerst stolz auf diese Erfindung, starb aber, bevor er sie verfeinern und sicherer machen konnte. (Effekte: Umgeht die RK des Gegners, zusätzlicher Schaden, langsame Erholung, bei jedem Gebrauch 2% Chance, zu zerbrechen und dem Charakter Schaden zuzufügen.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn forsaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian (Effects: of puncturing (20% chance to bypass opponent's AC).  Extra Damage)"
+#~ msgstr ""
+#~ "Gungnir wurde von Hanndl selbst geschaffen, um ihm in der Großen Abrechnung als Waffe zu dienen, die eines Tages kommen soll.  An dem Tag, an dem Krohn das Kommen dieses Tages vorhersah, verlangte er, daß sich alle seine Götter mit Waffen von großer Macht rüsten.  Irgendwie tauchte Hanndls Speer in Chedian auf (Effekte: des Durchbohrens (20% Chance, die RK des Gegners zu umgehen).  Zusätzlicher Schaden)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Desipte their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: -10 to AC, +30 Might, -10 Endurance; Grandmaster's, of Permanance.)"
+#~ msgstr ""
+#~ "Diesen Speer schleuderte Krohn selbst über die Köpfe der Tredskas-Rebellen, als sie sich gegen die Götter erhoben und versuchten, Arslegard einzunehmen.  Obwohl ihr Anführer einer der mächtigsten Magier seiner Zeit war und ihr Heer aus Hunderttausenden geübter Krieger bestand, verließ an jenem Tag kein einziger Tredskas-Rebell das Schlachtfeld.  Krohn ließ diesen Speer als Warnung an alle Sterblichen zurück, die an Rebellion dachten. (Effekte: -10 RK, +30 Stärke, -10 Ausdauer; des Großmeisters, der Beständigkeit.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This halberd is said to carry with it the souls of men slain by it.  It has an unusual effect on those wielding it.  It's first owner was said to have gone mad.  It's second owner gave it away and threw himself from a cliff.  The tales of tragedy this halberd carries is long and sad. (Effects: +20 Might; Vampiric; 10% chance of insanity per week, 10% chance of -30% HP per week.)"
+#~ msgstr ""
+#~ "Man sagt, diese Hellebarde trage die Seelen der Männer in sich, die durch sie erschlagen wurden.  Auf ihre Träger hat sie eine ungewöhnliche Wirkung.  Ihr erster Besitzer soll den Verstand verloren haben.  Ihr zweiter Besitzer verschenkte sie und stürzte sich von einer Klippe.  Die Liste der Tragödien, die diese Hellebarde mit sich trägt, ist lang und traurig. (Effekte: +20 Stärke; des Vampirfluchs; 10% Chance auf Wahnsinn pro Woche, 10% Chance auf -30% TP pro Woche.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance; 5% chance to cast \"Enrage\" on target at GM level.)"
+#~ msgstr ""
+#~ "Wörtlich Altursanisch für \"Stockschneider\".  Dies ist das einzige erhaltene Exemplar.  Sie wurde von der Ursanischen Persana Garda benutzt, den Männern, die persönlich für die Sicherheit des Kaisers verantwortlich waren.  Diese Waffe trug nicht wenig dazu bei, daß die Persana Garda den Menschen Furcht ins Herz pflanzte. (Effekte: +30 Stärke, +10 Ausdauer; 5% Chance, auf Großmeister-Stufe \"Rasen\" auf das Ziel zu wirken.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance; 5% Chance to cast \"Enrage\" on target at GM level.)"
+#~ msgstr ""
+#~ "Vanirs Hammer wurde vor mehreren hundert Jahren von dem legendären Zauberer Vanir geschaffen. Er führte diese Waffe ebenso geschickt, wie er die Zauberei beherrschte. Viele merken an, daß dies kein Hammer, sondern ein Knüppel sei, worauf Vanir zu erwidern pflegte: \"Aber was ist schon ein Hammer? Spielt der Name eine Rolle, wenn er Schädel zertrümmern kann?\" Nicht viele von denen, die seinen Hammer zu spüren bekamen, widersprachen ihm. (Effekte: +30 Stärke, +10 Ausdauer; 5% Chance, auf Großmeister-Stufe \"Raserei\" auf das Ziel zu wirken.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremly popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: of Bruisers; 5% chance of stunning opponent.  If fail vs skill 70% chance knocking self unconscious.)"
+#~ msgstr ""
+#~ "Blutterbunger war eine beliebte Waffe, als sie im Jahre 480 nach der Großen Katastrophe entdeckt wurde. Sie vermag einen Gegner zu verwirren, was sie bei Wirtshausschlägereien ebenso beliebt machte wie auf dem Schlachtfeld. Sie gehörte Fyri Ziegengesicht, bis er sich bei einer Kneipenschlägerei irgendwie selbst damit traf und sich bewußtlos schlug. (Effekte: der Raufbolde; 5% Chance, den Gegner zu betäuben. Bei Fehlschlag gegen die Fertigkeit 70% Chance, sich selbst bewußtlos zu schlagen.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +80 SP; The Grandmaster's, of the Jajarb)"
+#~ msgstr ""
+#~ "Dieser Morgenstern ist nach dem mythischen Helden Manarus benannt, der zum Leitstern am nördlichen Himmel wurde. Die Geschichte dieser Waffe ist unbekannt, doch es heißt, sie verleihe Magiekundigen großes Geschick. (Effekte: +80 ZP; des Großmeisters, des Jajarb)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed; of Permanance, Master's)"
+#~ msgstr ""
+#~ "Dieser Stab besteht aus einem unbekannten Metall. Er ist überraschend leicht und zudem sehr, sehr alt. Man fand ihn zusammen mit Schriften in Altursanisch, die nahelegen, daß er sogar älter ist als die früheste Erwähnung des Ursanischen Reiches. Nicht einmal die Schriften verraten, wer ihn geschaffen hat, wie er gefertigt wurde oder woher er stammt. (Effekte: +80 Stärke, +20 Ausdauer, -20 Schnelligkeit; der Beständigkeit, des Meisters)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only suceeded in making very heavy magic items. (Effects: 5-15 pts of Elemental Damage.  10% Chance of killing target.)"
+#~ msgstr ""
+#~ "Dieser Schlägel tauchte erstmals etwa 10 Jahre nach der Großen Katastrophe auf, als die meisten Menschen noch dabei waren, die Trümmer aufzulesen. Es heißt, er sei aus reinem Elementar-Thjorad gefertigt, und er ist sehr, sehr schwer. Viele Schmiede haben versucht, diesen Schlägel nachzuahmen, doch es ist ihnen nur gelungen, sehr schwere magische Gegenstände herzustellen. (Effekte: 5-15 Punkte Elementarschaden. 10% Chance, das Ziel zu töten.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This is the club that General Spencer used to keep his troops in line.  He often found them playing card games intstead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +10 to Speed; of the Reel)"
+#~ msgstr ""
+#~ "Dies ist die Keule, mit der General Spencer seine Truppen bei der Stange hielt. Oft ertappte er sie beim Kartenspiel, statt daß sie auf ihren Posten blieben, und so ließ er diese magische Keule anfertigen, um sie zur Erfüllung ihrer Pflichten zu \"ermutigen\". Sie erwies sich als sehr wirkungsvoll. (Effekte: +10 Schnelligkeit; des Taumelns)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: -20 Speed; 16-25 pts of Elemental Damage.  Divine Intervention will always fail.)"
+#~ msgstr ""
+#~ "Mjulnir wird oft \"Der Hammer der Götter\" genannt, und das aus gutem Grund. Es heißt, der Gott Krohn habe ihn verloren, als er ihn nach einem Streit nach seiner Frau schleuderte. Es ist eine gewaltige Waffe, geschaffen für einen gewaltigen Krieger. Man munkelt auch, Krohn habe geschworen, seine Waffe zurückzuholen und den Mann zu vernichten, der sie ihm vorenthalten hat. (Effekte: -20 Schnelligkeit; 16-25 Punkte Elementarschaden. Gottes Eingriff schlägt immer fehl.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +10 to Magic)"
+#~ msgstr ""
+#~ "Der Legende nach war diese Rüstung ein Geschenk von Igrassa selbst an Dagna Kramartrag für seine Dienste an ihrem Tempel. (Effekte: +10 Magie)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: of Regeneration; 10% chance of opponent becoming afraid.)"
+#~ msgstr ""
+#~ "Diese Rüstung soll aus den Ketten gefertigt worden sein, die manche Geister mit sich tragen. Ob das stimmt oder nicht, sie hat jedenfalls einige geisterhafte Eigenschaften. Sie wiegt so gut wie nichts und ist von einer unheilvollen Wolke umgeben. Zudem scheint sie dieselben Geräusche von sich zu geben wie die armen Seelen, die an den Ort ihres Todes gekettet sind. (Effekte: der Regeneration; 10% Chance, daß der Gegner verängstigt wird.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC vs melee attacks, -10 AC vs ranged attacks)"
+#~ msgstr ""
+#~ "Diese Rüstung trug Leit der Kreuzritter während seiner Herrschaft als Anführer des Thronheim-Clans. In dieser Rüstung erschlug er die widerwärtigen Kreaturen, die das Gebiet bewohnten, aus dem später die Stadt Thronheim werden sollte. Es heißt, sie verhindere, daß jemals ein Schwert die Haut berührt. (Effekte: +40 RK gegen Nahkampfangriffe, -10 RK gegen Fernkampfangriffe)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 all resistances, +20 AC vs magic attacks)"
+#~ msgstr ""
+#~ "Es heißt, dieser Helm sei aus dem Schädel von Ilthic gefertigt, der mächtigsten Hexe des Ursanischen Reiches. Gerüchten zufolge hat Kaiser Ralfor ihr eigenhändig den Kopf abgeschlagen. Nachdem er die überflüssigen Teile entfernt hatte, ließ er den neuen Helm gegen magische Angriffe verzaubern. (Effekte: +20 auf alle Resistenzen, +20 RK gegen magische Angriffe)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 all stats, +10 Armor skill)"
+#~ msgstr ""
+#~ "Zerkratzt und verbeult, macht dieser Helm nicht viel her. Doch der Schein kann trügen. Brongnoker wurde vor der Gründung des Ursanischen Reiches mit längst vergessenen Schmiedekünsten gefertigt. Dieser Helm ist wohl der beste Kopfschutz der Welt. (Effekte: +10 auf alle Attribute, +10 Fertigkeit Rüstung)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed; of Everlasting, of Regeneration, of Amelieoration; +10 to all resistances)"
+#~ msgstr ""
+#~ "Diese Stiefel wurden zum Wandern gemacht. Wegen der besonderen Verzauberungen, die die Füße des Reisenden schützen sollen, wurden sie jedoch meist von dem glücklichen Soldaten getragen, der zufällig auf sie stieß. (Effekte: +10 Schnelligkeit; der Ewigkeit, der Regeneration, der Linderung; +10 auf alle Resistenzen)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -10 Accuracy, +10 Luck; +5 Disarm Trap)"
+#~ msgstr ""
+#~ "Dieses Paar weicher Lederhandschuhe wurde im Jahre 300 nach der Großen Katastrophe vor Verhoffins Turm gefunden. Sie sind weich und etwas rutschig. Ganz gleich, wie groß die Hand des Trägers ist, sie scheinen immer zu passen. (Effekte: -10 Genauigkeit, +10 Glück; +5 Fallen entschärfen)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This sheild was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possesed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 AC vs Missle weapons)"
+#~ msgstr ""
+#~ "Diesen Schild trug der mächtige Krieger Hrothgar Krohnssen. Er behauptete, der Sohn Krohns selbst zu sein, und besaß gewaltige Kraft. Als eine Hexe ihm weissagte, er werde durch einen Pfeil sterben, ließ er diesen Schild anfertigen, um sich vor diesem Schicksal zu schützen. Leider traf ihn der tödliche Pfeil von hinten. (Effekte: +30 RK gegen Geschosse)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might; +20 AC; of Endurance, of Protection, of Arms Mastery; Increased chance to hit target.)"
+#~ msgstr ""
+#~ "Dieser Gürtel wurde aus der Schlucht der Toten geraubt und soll der Gürtel sein, den Kaiser Hubris selbst trug, als er das Ursanische Reich zu schmieden begann. Manche Gelehrte glauben, daß dieser Gürtel ihm half, die Eindringlinge zu besiegen und ein Reich zu gründen. (Effekte: +30 Stärke; +20 RK; der Ausdauer, des Schutzes, der Waffenmeisterschaft; erhöhte Trefferchance.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitor's became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +1000 gold per week.  Reputed -40 party Endurance.)"
+#~ msgstr ""
+#~ "Wergeld wurde von Snorri dem Zwerg als Hochzeitsgeschenk für seinen künftigen Schwiegersohn geschaffen. Leider wurde ein anderer Verehrer seiner Tochter eifersüchtig und stahl den Ring in der Hochzeitsnacht. In seiner Wut verfluchte er den Ring und gab ihn den Frischvermählten zurück. Snorri durchschaute die Täuschung, erschlug den Verehrer und warf den Ring fort. (Effekte: +1000 Gold pro Woche. Angeblich -40 Ausdauer der Gruppe.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
+#~ msgstr ""
+#~ "Seelenband wurde nicht so sehr geschaffen, vielmehr entwickelte es sich aus etwas anderem. Es begann sein Dasein als Schmuckstück eines kleinen Kindes, das von einem Wiedergänger besessen wurde. Seitdem ist es von Besitzer zu Besitzer gewandert und hat jedem ein kleines Stück von ihm genommen, wenn es an seinen neuen Besitzer überging. (Effekte: +50 ZP; +5 Licht, +3 Meditation; der Schnelligkeit)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC; +5 Dodging; Reputed -3% to Damage.)"
+#~ msgstr ""
+#~ "Manche behaupten, Schlüpfrig sei tatsächlich aus diesen Zutaten gefertigt worden: der Glätte einer Schlange, der List eines Fuchses und der Flinkheit eines Hasen. Ein lüsterner Verehrer schenkte ihn Helga Gunnarsdotir. Da sie sich nicht das Geringste aus ihm machte, verkaufte sie den Ring prompt. (Effekte: +20 RK; +5 Ausweichen; angeblich -3% Schaden.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP; +3 Meditation, +5 Light, +5 Spirit; of Regeneration)"
+#~ msgstr ""
+#~ "Dieses Amulett war ein Geschenk des Grünen Mannes. Nur sehr wenigen ist ein Besuch des Grünen Mannes vergönnt, und noch weniger erhalten dabei ein Geschenk. (Effekte: +20 ZP; +3 Meditation, +5 Licht, +5 Seele; der Regeneration)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +5 Dark, +3 Perception; of Amelioration)"
+#~ msgstr ""
+#~ "Dieses Amulett trugen die vier mystischen Weisen Dirk, Stig, Nasty und Barry. Diese vier Männer brachten den Chedianern eine Zeitlang eine Botschaft von Frieden und Glück, bevor sie für immer vertrieben wurden. In ihrer Eile ließen sie dies zurück. (Effekte: +5 Dunkel, +3 Wahrnehmung; der Linderung)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +5 All magic skills, +3 Learning, +3 Meditation)"
+#~ msgstr ""
+#~ "Diesen Anhänger nahm Nazrim der Meuchelmörder um das Jahr 10 vor der Großen Katastrophe aus Verhoffins Turm mit. Nazrim war beauftragt worden, Verhoffin für seine Unverschämtheit gegenüber dem Ursanischen Reich zu töten. Viele glauben, daß dieses Ereignis, der Mordanschlag auf Verhoffin, die Große Katastrophe auslöste. (Effekte: +5 auf alle Magiefertigkeiten, +3 Lernen, +3 Meditation)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "The Fizbin always seems to appear in the worst of times.  Just when someone thinks things can't get any worse, they acquire the Fizbin.  It's fame preceeds it, and most owners have a hard time getting rid of it. (Effects: Party Luck -20; Reputed chance of encounter +15%)"
+#~ msgstr ""
+#~ "Der Fizbin scheint immer in den schlimmsten Zeiten aufzutauchen. Gerade wenn jemand glaubt, schlimmer könne es nicht mehr kommen, gerät er an den Fizbin. Sein Ruf eilt ihm voraus, und die meisten Besitzer haben große Mühe, ihn wieder loszuwerden. (Effekte: Glück der Gruppe -20; angeblich +15% Chance auf Begegnungen)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Beggers are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the begger with the affliction he claimed to have.  One begger, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning; Immune to all conditions.  Drains Experience Points.)"
+#~ msgstr ""
+#~ "In den größeren Städten Chedians sieht man oft Bettler, und viele behaupten, an allerlei Gebrechen zu leiden. Nicht selten verfluchte ein Heiler einen Bettler mit genau dem Leiden, das dieser vorgab zu haben. Ein Bettler, Haelik der Kranke, schuf dieses Amulett, um sich vor solchen Heilern zu schützen. (Effekte: -3 Lernen; immun gegen alle Zustände. Entzieht Erfahrungspunkte.)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing it's inhabitants for exorborant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This ring was taken from him as payment for the things he stole. (Effects: +50 to HP, -10 SP; of regeneration)"
+#~ msgstr ""
+#~ "Dieses herzförmige Amulett wurde zu Ehren von Fre, der Göttin der Vita, geschaffen. Zuletzt trug es D'vorna Lebensberührer, der Heiler, der durch Chedian zog und dessen Bewohner zu horrenden Preisen heilte. Er wurde dabei ertappt, wie er im Haus eines reichen Kaufmanns in Thjorgard stahl, und hingerichtet. Dieser Ring wurde ihm als Bezahlung für das Diebesgut abgenommen. (Effekte: +50 TP, -10 ZP; der Regeneration)"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regenereration with complete set.))"
+#~ msgstr ""
+#~ "Zur Zeit des Aufstiegs des Alten Ursanischen Reiches wurden zu Ehren des Festtags des jeweiligen Kaisers große Gladiatorenspiele abgehalten. Der größte Gladiator dieser Spiele wurde mit einer Rüstung und einer Waffe geehrt. Trug er diesen Preis, wußte jeder um seine Größe und beschloß wohl auch, sich lieber nicht mit ihm anzulegen. Nur für Söldner und Gladiatoren. (Effekte: +2 Bodybuilding; +2 RK (der Regeneration mit vollständigem Satz))"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regenereration with complete set.))"
+#~ msgstr ""
+#~ "Es gibt einen Mythos über einen großen heiligen Krieger namens Broderick, den die Götter beauftragten, den Dämon Nodens für sie zu vernichten. Mit seinem mächtigen Schwert vernichtete er den Dämon und überreichte den Göttern als Trophäe dessen häßlichen Kopf. Die Götter waren so erfreut, daß sie seine Waffe und Rüstung mit ein wenig ihrer Macht erfüllten, um ihn zu schützen. Man hält ihn für ein Stück eben jener Rüstung, die er trug. Nur für Kreuzritter und Paladine. (Effekte: +2 Klinge; +2 Stärke (der Regeneration mit vollständigem Satz))"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
+#~ msgstr ""
+#~ "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht; +2 Stärke (des Körpers mit vollständigem Satz))"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
+#~ msgstr ""
+#~ "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht, +2 Seele (+10 auf alle Attribute mit vollständigem Satz))"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+ 10 all resistances with complete set))"
+#~ msgstr ""
+#~ "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht, +2 Meditation (+10 auf alle Resistenzen mit vollständigem Satz))"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
+#~ msgstr ""
+#~ "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht, +2 Reparieren (des Geschicks mit vollständigem Satz))"
+
+# machine translation (Claude), review
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
+#~ msgstr ""
+#~ "Vor Hunderten von Jahren hatten die Priester des Ratatosk ihre eigenen Schmiede. Diese Schmiede fertigten Waffen und Rüstungen, um die Priester zu schützen, wenn sie die Kreuzritter auf ihren Heiligen Kriegen begleiteten. Ohne sie gäbe es heute wohl deutlich weniger Priester. Nur für Heiler und Priester. (Effekte: +2 Licht; +2 Schnelligkeit (+20 Schnelligkeit mit vollständigem Satz))"
 
 # machine translation (Claude), review
 #~ msgid "Plow"

@@ -303,7 +303,7 @@ binding's impact key applies the attack within the sprite's action. A manifest w
 monsters' native timing says so in data, `attack_timing: clip` at the top of `worlds/mm9/models/actors.yml`: the
 action then lasts the clip and applies at its key, over the contact frame of the row's stand-in sprite (MM9's rows
 borrow MM6-MM8 sprites: the Skeletoid's `ske1at` is MM6's skeleton and has contact frame 4). The clips' lengths come
-from the model files' JSON (`Engine::readGltfClipDurations`, no model loaded) through
+from the model files' JSON (`Engine::readGltfModelSummary`, no model loaded) through
 `ActorModelManifest::attackClips`, which `MonsterTable::actorModels` hands both runtimes; spells use the model's cast
 clip and `cast` key (`ActorRuntimeFacts::spellAttackAnimationSeconds`, `spellAttackImpactSeconds`). Recovery needed
 no change: `mm9AttackStartCooldown` counts clip + recovery from the attack's start (restarted at the clip's end), the

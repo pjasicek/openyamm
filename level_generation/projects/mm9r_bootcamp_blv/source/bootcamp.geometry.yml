@@ -1285,6 +1285,24 @@
    "back_room": "room_r18"
   },
   {
+   "id": "newhouse_bars_west",
+   "source_node": "PORTAL_newhouse_bars_west",
+   "front_room": "room_r15",
+   "back_room": "room_r16"
+  },
+  {
+   "id": "newhouse_bars_east",
+   "source_node": "PORTAL_newhouse_bars_east",
+   "front_room": "room_r16",
+   "back_room": "room_r15"
+  },
+  {
+   "id": "newhouse_bars_north",
+   "source_node": "PORTAL_newhouse_bars_north",
+   "front_room": "room_r16",
+   "back_room": "room_r15"
+  },
+  {
    "id": "glass_Tavernwindow_1",
    "source_node": "PORTAL_glass_Tavernwindow_1",
    "front_room": "room_r19",

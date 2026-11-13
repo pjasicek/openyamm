@@ -2990,10 +2990,12 @@ msgstr "Thjoradský amulet"
 msgid "Sing Sword"
 msgstr "Zpívající meč"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:135
+#, fuzzy
+#| msgid ""
+#| "This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the weilder to become stronger. (Effects: +30 to Might; of Arms Mastery)"
 msgid ""
-"This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the weilder to become stronger. (Effects: +30 to Might; of Arms Mastery)"
+"This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the wielder to become stronger. (Effects: +30 Might, +5 Armsmaster)"
 msgstr ""
 "Tento meč očaroval jeden mág pro barda známého jako Frank. V boji prý zbraň vydávala příjemné tóny, které jejího nositele posilovaly. (Účinky: +30 k síle, ovládání zbraní)"
 
@@ -3002,10 +3004,12 @@ msgstr ""
 msgid "Excala Banna"
 msgstr "Excala Banna"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:136
+#, fuzzy
+#| msgid ""
+#| "This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: -5 Accuracy, +15 Endurance, +50 Luck)"
 msgid ""
-"This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: -5 Accuracy, +15 Endurance, +50 Luck)"
+"This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: +15 Endurance, -5 Accuracy, +50 Luck)"
 msgstr ""
 "Tento žlutavý meč se stal mezi obyvateli Frosgardu přímo legendárním. Prý jej nosíval jejich hrdina Erik, jenž vypadal, jako by nikdy nebyl připraven k boji. Tuto zbraň pravděpodobně vyplavilo jezero, když Eric vykřikl \"Juchůůůůů!\" (Účinky: -5 k přesnosti, +15 k odolnosti, +50 štěstí)"
 
@@ -3014,10 +3018,12 @@ msgstr ""
 msgid "Mevan Sword"
 msgstr "Mevanský meč"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:137
+#, fuzzy
+#| msgid ""
+#| "The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after first use)"
 msgid ""
-"The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after first use)"
+"The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after its first attack)"
 msgstr ""
 "Mevanský meč je čistým zlem. Objeven byl na počátku tohoto století, když předtím byl pohřben pod hromadou sutin již od dob Velké pohromy. Není známo, kdo nebo proč jej vyrobil, ale většina těch, kdo jej použila, jej proklela, nebo kvůli němu zahynula. (Účinky: po prvním použití se zlomí.)"
 
@@ -3026,10 +3032,12 @@ msgstr ""
 msgid "Jorhgamesh"
 msgstr "Jorhgameš"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:138
+#, fuzzy
+#| msgid ""
+#| "Jorhgamesh was comissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian (Effects: +10 to Speed, +20 to Accuracy, -50 to SP)"
 msgid ""
-"Jorhgamesh was comissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian (Effects: +10 to Speed, +20 to Accuracy, -50 to SP)"
+"Jorhgamesh was commissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian. (Effects: +40 Speed, +40 Accuracy, -50 SP)"
 msgstr ""
 "Jorhgameš byl během krátké vlády Olafa Tlustého uznáván jako jarl Frosgardu. Věřil, že s tímto mečem si bude moci podrobit a spojit všechny chedijské klany. (Účinky: +10 k rychlosti, +20 k přesnosti, -50 mana.)"
 
@@ -3038,10 +3046,12 @@ msgstr ""
 msgid "Black's Heart"
 msgstr "Černé srdce"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:139
+#, fuzzy
+#| msgid ""
+#| "Long ago, there was a group of Chedian warriors lead by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, it's contents taken and sold. (Effects: Increased damage, Increased chance to hit, Increased speed)"
 msgid ""
-"Long ago, there was a group of Chedian warriors lead by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, it's contents taken and sold. (Effects: Increased damage, Increased chance to hit, Increased speed)"
+"Long ago, there was a group of Chedian warriors led by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, its contents taken and sold. (Effects: +20 to hit, +10 damage, faster recovery)"
 msgstr ""
 "Před dávnými časy existovala skupina chedijských válečníků, kterou vedl muž jménem Halfréd Černý. Tato dýka mu byla nejvěrnějším společníkem. Po smrti s ním byla také pohřbena, avšak jeho hrob byl zakrátko vypleněn a všechny nalezené cennosti zpeněženy. (Účinky: způsobuje vyšší zranění, větší šance na zásah, vyšší rychlost)"
 
@@ -3060,10 +3070,12 @@ msgstr "Tuto dýku obvykle nosí vesničané."
 msgid "Integris"
 msgstr "Integris"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:140
+#, fuzzy
+#| msgid ""
+#| "Named after the Old Ursanian Emperor who commited suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +15 pts of Poison damage; Reputed +35 to hit and damage)"
 msgid ""
-"Named after the Old Ursanian Emperor who commited suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +15 pts of Poison damage; Reputed +35 to hit and damage)"
+"Named after the Old Ursanian Emperor who committed suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +20 to hit, +15 damage, +15 poison damage per hit)"
 msgstr ""
 "Právě tato dýka nese jméno po starém ursanském císaři, jehož život r. 225 před n.l. ukončila, když vlastní rukou spáchal sebevraždu. Integrisovi se pro četné pokusy o dobrovolný odchod ze světa často přezdívá \"Sebevražedný císař\". Je paradoxní, že ve většině předchozích případů se mu zbraň zlomila v rukou ještě dříve, nežli mohl zamýšlený čin dokonat. (Účinky: +60 k zásahu a zranění, +15 bodů jedu, křehká)"
 
@@ -3072,10 +3084,12 @@ msgstr ""
 msgid "Bloodaxe"
 msgstr "Krvavá sekyra"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:141
+#, fuzzy
+#| msgid ""
+#| "This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +10 to all resistances; 40% chance to \"poison\" target at GM level.)"
 msgid ""
-"This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +10 to all resistances; 40% chance to \"poison\" target at GM level.)"
+"This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +30 Endurance, +10 to all resistances, 40% chance to poison the target at Grandmaster)"
 msgstr ""
 "Tato sekyra nese jméno po sturmfordském válečníkovi zvaném Sven Krvavá sekyra, který v boji vždy vítězil. I když tomu mnozí nevěří, v roce 340 n. l. zemřel sešlostí věkem. (Účinky: +10 ke všem odolnostem, 40% šance, že na cíl sešle \"otravu\" na velmistrovské úrovni)"
 
@@ -3084,10 +3098,12 @@ msgstr ""
 msgid "Sygnir"
 msgstr "Sygnir"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:142
+#, fuzzy
+#| msgid ""
+#| "This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: Extra damage; +6 Armsmaster, +6 Blade skill; of Regeneration)"
 msgid ""
-"This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: Extra damage; +6 Armsmaster, +6 Blade skill; of Regeneration)"
+"This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: +6 Axe, +6 Armsmaster, +10 damage per hit, regenerates HP)"
 msgstr ""
 "Tuto sekyru vykovali r. 200 před n.l. trpaslíci z Minespringu, kteří tenkrát vynikali ve schopnosti vytvářet neuvěřitelné zbraně. Roku 73 n.l. se je Ichvan I. pokusil přimět, aby začali vyzbrojovat jeho novou mendoskou armádu. Po dvou letech vyjednávání ho však jejich neustálé odmítání unavilo a celý Minespring vyhladil. (Účinky: křehká, zvláštní zranění, +6 k ovládání zbraní, +6 k dovednosti sečných zbraní, regenerace)"
 
@@ -3096,17 +3112,21 @@ msgstr ""
 msgid "Everstrike"
 msgstr "Přesnostříl"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:143
+#, fuzzy
+#| msgid ""
+#| "Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missle throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: 100% accuracy)"
 msgid ""
-"Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missle throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: 100% accuracy)"
+"Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missile throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: +5 Bow, faster recovery, always hits)"
 msgstr ""
 "Tato zbraň je vyrobena z věhlasné thjoradské rudy a patří k těm nejlepším, jaké kdy kovář Borfinn Železných rukou zhotovil. Vždy prohlašoval, že se ve výrobě střelných zbraní příliš nevyzná, avšak tento luk představuje jednu z jeho nejlepších prací. (Účinky: 100% přesnost)"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:144
+#, fuzzy
+#| msgid ""
+#| "This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP; Slow; 3 attacks)"
 msgid ""
-"This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP; Slow; 3 attacks)"
+"This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP, slower recovery, three projectiles per throw)"
 msgstr ""
 "Tuto dýku dostala Aesir Učená jako odměnu od thronského města Nirheimu. Většinu života strávila cestováním od města k městu po celém Chedianu, uzdravovala děti a předávala své zkušenosti obyvatelstvu. Jeden obchodník jí dal tuto dýku darem, když jeho synovi zachránila život. (Účinky: zpomalení, +100 životů, 3 útoky)"
 
@@ -3120,10 +3140,12 @@ msgstr "Trolleri"
 msgid "Tillhygge"
 msgstr "Tillhygge"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:145
+#, fuzzy
+#| msgid ""
+#| "Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy; of Disease, of Mastery)"
 msgid ""
-"Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy; of Disease, of Mastery)"
+"Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy, +5 Repair Item, +5 disease damage per hit)"
 msgstr ""
 "Tillhygge byla r. 75 n.l. nalezena na Ostrově popela, když skupinka sběračů kopala v pozůstatcích Verhofinovy věže. Když se vrátili do vlasti, okamžitě zbraň prodali tvrdíce, že zbraň je prokletá a každého jejího majitele pronásleduje duch samotného Verhoffina. (Účinky: +30 k přesnosti, +10 k síle, způsobuje nákazu, mistrovská)"
 
@@ -3132,10 +3154,12 @@ msgstr ""
 msgid "Kraftig Bage"
 msgstr "Kraftig Bage"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:146
+#, fuzzy
+#| msgid ""
+#| "This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats; +7 Bow)"
 msgid ""
-"This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats; +7 Bow)"
+"This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats, +7 Bow)"
 msgstr ""
 "Tento luk nosíval do boje silný válečník Halfnorr Býčí šíje a dlouho mu skýtal velkou sílu a zručnost. Nakonec však podlehl jinému bojovníkovi, Svenovi Krvavé sekyře, když se spolu v Thjorgardu utkali. (Účinky: +10 ke všem vlastnostem, +7 k luku)"
 
@@ -3149,10 +3173,12 @@ msgstr "Černoprach"
 msgid "Hand Cannon"
 msgstr "Příruční dělo"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:147
+#, fuzzy
+#| msgid ""
+#| "This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This paticular invetion uses a strange black powder to propel a projectile from it's muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: Bypass opponent's AC, Extra damage, Slow recovery, 2% Chance per use of breaking and causing damage to player.)"
 msgid ""
-"This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This paticular invetion uses a strange black powder to propel a projectile from it's muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: Bypass opponent's AC, Extra damage, Slow recovery, 2% Chance per use of breaking and causing damage to player.)"
+"This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This particular invention uses a strange black powder to propel a projectile from its muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: +15 damage per hit, slower recovery, halves the target's AC, 2% chance per shot to break and hurt the wielder)"
 msgstr ""
 "Tento aparát vytvořil šílený učenec Roj'ere někdy před svou smrtí r. 320 n.l. Někteří ho považovali za génia, jiní za blázna. Toto konkrétní zařízení používá podivný černý prach, s jehož pomocí z trubice vylétají střely. Roj'ere na ně byl jaksepatří pyšný, ale zemřel dřív, než je mohl zcela dokončit a odstranit některá rizika spojená s používáním. (Účinky: ignoruje TZ, zvláštní zranění, pomalé dobíjení, při každém použití existuje 2% pravděpodobnost, že se rozbije a zraní svého uživatele)"
 
@@ -3161,10 +3187,12 @@ msgstr ""
 msgid "Gungnir"
 msgstr "Gungnir"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:148
+#, fuzzy
+#| msgid ""
+#| "Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn forsaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian (Effects: of puncturing (20% chance to bypass opponent's AC).  Extra Damage)"
 msgid ""
-"Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn forsaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian (Effects: of puncturing (20% chance to bypass opponent's AC).  Extra Damage)"
+"Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn foresaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian. (Effects: +15 damage per hit, 20% chance to ignore the target's AC)"
 msgstr ""
 "Gungnir vytvořil samotný Hanndl, aby mu v den Velkého zúčtování, který byl předvídán, sloužil jako osobní zbraň. V den, kdy mělo podle Krohnovy předpovědi toto zúčtování nastat, požádal všechny své bohy, aby se opásali mocnými zbraněmi. Hanndlovo kopí pak nějakým způsobem zmizelo kdesi v Chedianu. (Účinky: průrazné, 20% pravděpodobnost na proražení TZ nepřítele, zvláštní zranění.)"
 
@@ -3173,10 +3201,12 @@ msgstr ""
 msgid "Formanir"
 msgstr "Formanir"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:149
+#, fuzzy
+#| msgid ""
+#| "This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Desipte their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: -10 to AC, +30 Might, -10 Endurance; Grandmaster's, of Permanance.)"
 msgid ""
-"This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Desipte their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: -10 to AC, +30 Might, -10 Endurance; Grandmaster's, of Permanance.)"
+"This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Despite their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: +50 Might, -10 Endurance, -10 AC, +5 Spear)"
 msgstr ""
 "Toto kopí seslal na hlavy tredskaských vzbouřenců samotný Krohn, když se postavili proti bohům a pokoušeli se obsadit Arslegard. I když jejich vůdce byl jedním z nejmocnějších mágů všech dob a jeho armáda čítala stovky tisíc zkušených válečníků, ani jediný z rebelů toho dne z bojiště neodešel. Krohn pak na místě ponechal toto kopí jako varování pro smrtelníky, kteří by se chtěli bouřit. (Účinky: +30 k síle, -10 ke TZ, -10 k odolnosti, velmistrovský, nezničitelný.)"
 
@@ -3197,17 +3227,17 @@ msgstr ""
 msgid "Einherjar"
 msgstr "Einherjar"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:150
 msgid ""
-"This halberd is said to carry with it the souls of men slain by it.  It has an unusual effect on those wielding it.  It's first owner was said to have gone mad.  It's second owner gave it away and threw himself from a cliff.  The tales of tragedy this halberd carries is long and sad. (Effects: +20 Might; Vampiric; 10% chance of insanity per week, 10% chance of -30% HP per week.)"
+"This halberd is said to carry with it the souls of men slain by it.  It has an unusual effect on those wielding it.  Its first owner was said to have gone mad.  It's second owner gave it away and threw himself from a cliff.  The tales of tragedy this halberd carries are long and sad. (Effects: +40 Might, Vampiric, 10% chance of insanity each week, 10% chance each week to lose a tenth of HP)"
 msgstr ""
-"Tato halapartna prý s sebou nosí duše těch, jež sklátila. To má zvláštní účinek na ty, kdo ji vlastní: její první majitel se prý zbláznil, druhý ji odložil a vrhl se dolů z útesu... Příběhy, které s sebou tato zbraň nese, jsou dlouhé a přesmutné. (Účinky: upíří, +20 k síle, každý týden je 10% pravděpodobnost, že majitel zešílí a 10% pravděpodobnost, že ztratí 30% životů."
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:151
+#, fuzzy
+#| msgid ""
+#| "Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance; 5% chance to cast \"Enrage\" on target at GM level.)"
 msgid ""
-"Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance; 5% chance to cast \"Enrage\" on target at GM level.)"
+"Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance, 5% chance to enrage the target at Grandmaster)"
 msgstr ""
 "Doslovně přeloženo ze staré ursanštiny jde o \"Sekáček na holi\". Toto je poslední ze zbraní, jež používala persanská garda z Ursanu - muži, kteří osobně zodpovídali za císařovo bezpečí. Tato halapartna nemalou měrou přispívala k tomu, že persanská garda vnášela do lidských srdcí strach. (Účinky: +30 k síle, +10 k odolnosti, 5% pravděpodobnost, že na cíl sešle \"zuřivost\" na velmistrovské úrovni.)"
 
@@ -3221,10 +3251,12 @@ msgstr "Stouka Couta"
 msgid "Vanir's Hammer"
 msgstr "Vanirovo kladivo"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:152
+#, fuzzy
+#| msgid ""
+#| "Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance; 5% Chance to cast \"Enrage\" on target at GM level.)"
 msgid ""
-"Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance; 5% Chance to cast \"Enrage\" on target at GM level.)"
+"Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance, 5% chance to enrage the target at Grandmaster)"
 msgstr ""
 "Vanirovo kladivo stvořil před několika sty lety legendární čaroděj Vanir. V ovládání této zbraně si počínal stejně zdatně jako v umění magickém. Mnoho lidí namítalo, že tohle přece není kladivo, ale palice, Vanir však vždycky odvětil: \"Co je to kladivo? Má snad jméno nějaký vliv na to, jak drtí lebky?\" Jen nemnozí, kteří skonali právě tímto kladivem, se s ním o tom mohli přít. (Účinky: +30 k síle, +10 k odolnosti, 5% pravděpodobnost, že na cíl sešle \"zuřivost\" na velmistrovské úrovni)"
 
@@ -3233,10 +3265,12 @@ msgstr ""
 msgid "Blutterbunger"
 msgstr "Blutterbunger"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:153
+#, fuzzy
+#| msgid ""
+#| "Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremly popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: of Bruisers; 5% chance of stunning opponent.  If fail vs skill 70% chance knocking self unconscious.)"
 msgid ""
-"Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremly popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: of Bruisers; 5% chance of stunning opponent.  If fail vs skill 70% chance knocking self unconscious.)"
+"Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremely popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: +40 Might, +20 Endurance, +5 Mace, 5% chance to stun the target, 70% chance to knock the wielder unconscious when a hit does not stun)"
 msgstr ""
 "Blutterbunger se již od svého objevení r. 480 n.l. stal velmi proslulou zbraní. Skutečnost, že dokáže protivníka zmást, jej proslavila jak při hospodských potyčkách, tak na poli válečném. Vlastnil jej Fyri Kančí tvář, dokud jím při jedné barové rvačce nešťastnou náhodou nepraštil sám sebe a neupadl do bezvědomí. (Účinky: 5% pravděpodobnost na omráčení protivníka, pokud selže patřičná dovednost, existuje 70% šance, že svého uživatele omráčí.)"
 
@@ -3245,10 +3279,12 @@ msgstr ""
 msgid "Manarus"
 msgstr "Manarus"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:154
+#, fuzzy
+#| msgid ""
+#| "This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +80 SP; The Grandmaster's, of the Jajarb)"
 msgid ""
-"This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +80 SP; The Grandmaster's, of the Jajarb)"
+"This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +30 Intellect, +30 Personality, +80 SP, +5 Mace)"
 msgstr ""
 "Tento řemdih nese jméno mýtického hrdiny Manaura, který se stal hvězdou, jež vládne severnímu nebi. Historie této zbraně není známa, ale říká se, že těm, kteří sesílají kouzla, dokáže propůjčit velikou moc. (Účinky: +80 bodů many, velmistrovský, jajarbí.)"
 
@@ -3257,10 +3293,12 @@ msgstr ""
 msgid "Samarjit"
 msgstr "Samarjit"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:155
+#, fuzzy
+#| msgid ""
+#| "This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed; of Permanance, Master's)"
 msgid ""
-"This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed; of Permanance, Master's)"
+"This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed, +3 Staff)"
 msgstr ""
 "Tato hůl je stvořena z jakéhosi neznámého kovu. Je překvapivě lehká a také velmi, velmi stará. Byla nalezena spolu s dokumenty ve staré ursanštině, které naznačují, že tato zbraň je starší než nejranější zmínky o ursanském impériu. Ale nikde nebylo uvedeno, kdo a jak ji vytvořil nebo odkud pochází. (Účinky: +80 k síle, +20 k odolnosti, -20 k rychlosti, nezničitelná, mistrovská)"
 
@@ -3269,10 +3307,12 @@ msgstr ""
 msgid "Maul"
 msgstr "Mlat"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:156
+#, fuzzy
+#| msgid ""
+#| "This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only suceeded in making very heavy magic items. (Effects: 5-15 pts of Elemental Damage.  10% Chance of killing target.)"
 msgid ""
-"This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only suceeded in making very heavy magic items. (Effects: 5-15 pts of Elemental Damage.  10% Chance of killing target.)"
+"This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only succeeded in making very heavy magic items. (Effects: +10 damage per hit, 10% chance to kill the target outright)"
 msgstr ""
 "Tento mlat se poprvé objevil zhruba v roce 10 let n.l., když se většina lidí stále ještě vzpamatovávala z Velké pohromy. Vypráví se, že je vyroben z čisté thjoradské rudy a je mimořádně těžký. Mnozí kováři se jej snažili okopírovat, ale vždy se jim podařilo zhotovit pouze těžké magické předměty. (Účinky: +5-15 bodů živelného útoku, 10% šance na zabití cíle)"
 
@@ -3281,10 +3321,12 @@ msgstr ""
 msgid "Spencer's Obedience"
 msgstr "Spencerova poslušnost"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:157
+#, fuzzy
+#| msgid ""
+#| "This is the club that General Spencer used to keep his troops in line.  He often found them playing card games intstead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +10 to Speed; of the Reel)"
 msgid ""
-"This is the club that General Spencer used to keep his troops in line.  He often found them playing card games intstead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +10 to Speed; of the Reel)"
+"This is the club that General Spencer used to keep his troops in line.  He often found them playing card games instead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +20 Might, +30 Speed, stuns the target on every hit)"
 msgstr ""
 "Toto je kyj, jejž třímal generál Spencer, aby postavil své jednotky do latě. Častokráte je totiž přistihl, jak zanedbávají své povinnosti a raději hrají karty, a tak si pořídil tento kyj, aby jim \"připomněl\", co mají dělat. Ukázalo se, že je to velmi účinná metoda. (Účinky: +10 k rychlosti, velmi rychlý, jitterbugu)"
 
@@ -3293,10 +3335,12 @@ msgstr ""
 msgid "Mjulnir"
 msgstr "Mjulnir"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:158
+#, fuzzy
+#| msgid ""
+#| "Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: -20 Speed; 16-25 pts of Elemental Damage.  Divine Intervention will always fail.)"
 msgid ""
-"Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: -20 Speed; 16-25 pts of Elemental Damage.  Divine Intervention will always fail.)"
+"Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: +50 Might, -20 Speed, +20 damage per hit, Divine Intervention always fails)"
 msgstr ""
 "Mjulniru se často přezdívá \"Kladivo bohů\", a to z dobrého důvodu. Kdysi je totiž ztratil bůh Krohn, když jím v hádce mrštil po své ženě. Je to masivní zbraň, určená pro silného válečníka. Některé zvěsti praví, že Krohn přísahal, že Mjulnir získá zpátky a zničí člověka, který by se mu v tom snažil zabránit. (Účinky: +16-25 bodů zranění živly, \"božský zásah\" vždy selže, -20 k rychlosti)"
 
@@ -3305,10 +3349,12 @@ msgstr ""
 msgid "Igdrasine"
 msgstr "Igdrasine"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:159
+#, fuzzy
+#| msgid ""
+#| "Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +10 to Magic)"
 msgid ""
-"Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +10 to Magic)"
+"Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +30 Intellect, +30 Personality)"
 msgstr ""
 "Legenda praví, že toto brnění darovala samotná Igrassa Dagně Kramartrag za služby, jež prokázala svému chrámu. (Účinky: +10 k magii.)"
 
@@ -3329,10 +3375,12 @@ msgstr "Vrhací dýka"
 msgid "Poltergeist"
 msgstr "Poltergeist"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:160
+#, fuzzy
+#| msgid ""
+#| "This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: of Regeneration; 10% chance of opponent becoming afraid.)"
 msgid ""
-"This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: of Regeneration; 10% chance of opponent becoming afraid.)"
+"This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: +30 Speed, regenerates HP, 10% chance to frighten the target on a hit)"
 msgstr ""
 "Tato zbroj byla údajně vyrobena z řetězů, které za sebou tahali někteří duchové. Ať už je to pravda nebo ne, toto brnění se opravdu může honosit některými přízračnými vlastnostmi. Neváží téměř nic a je stále obklopeno jakousi neblahou aurou. Také se zdá, že vydává ten samý zvuk, jako ubohé duše, které byly až do smrti přikovány.. (Účinky: regenerace, -20 k tichému pohybu, 10% šance, že se protivník vyděsí.)"
 
@@ -3341,17 +3389,21 @@ msgstr ""
 msgid "Swordsbane"
 msgstr "Zhouba mečů"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:161
+#, fuzzy
+#| msgid ""
+#| "This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC vs melee attacks, -10 AC vs ranged attacks)"
 msgid ""
-"This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC vs melee attacks, -10 AC vs ranged attacks)"
+"This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC against melee attacks, -10 AC against missiles)"
 msgstr ""
 "Tuto zbroj nosíval Leit Křižák v dobách, kdy vládl thronheimskému klanu. Měl ji na sobě, když pobíjel odporné tvory zamořující území, jež se později stalo městem Tronheimem. Jeho brnění prý zabraňovalo meči, aby se byť jen dotkl těla. (Účinky: +40 TZ proti útokům zblízka, -10 TZ proti útokům z dálky)"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:162
+#, fuzzy
+#| msgid ""
+#| "It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 all resistances, +20 AC vs magic attacks)"
 msgid ""
-"It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 all resistances, +20 AC vs magic attacks)"
+"It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 to all resistances, +20 AC against magic)"
 msgstr ""
 "Vypráví se, že tato helmice je zhotovena z lebky Ilthic, nejmocnější čarodějnice ursanského impéria. Hlavu jí prý uťal sám císař Ralfor. Když posléze odstranil nepotřebné části, nechal helmu očarovat, aby lépe odolávala magickým útokům. (Účinky: +20 ke všem odolnostem, +20 k TZ proti magickým útokům)"
 
@@ -3365,17 +3417,21 @@ msgstr "Zhouba čarodějnic"
 msgid "Brongnoker"
 msgstr "Brongnoker"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:163
+#, fuzzy
+#| msgid ""
+#| "Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 all stats, +10 Armor skill)"
 msgid ""
-"Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 all stats, +10 Armor skill)"
+"Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 to all stats, +10 to the armor skills)"
 msgstr ""
 "Tato zprohýbaná helmice na první pohled nevypadá nijak vábně, avšak zdání klame. Brongnoker byl vyroben ještě před založením ursanského impéria, pomocí dávno ztracené technologie. Skýtá pravděpodobně tu nejlepší ochranu hlavy, jaká vůbec existuje. (Účinky: +10 ke všem vlastnostem, +10 k dovednosti zbroje)"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:164
+#, fuzzy
+#| msgid ""
+#| "These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed; of Everlasting, of Regeneration, of Amelieoration; +10 to all resistances)"
 msgid ""
-"These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed; of Everlasting, of Regeneration, of Amelieoration; +10 to all resistances)"
+"These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed, +10 to all resistances, regenerates HP, immune to weakness and drunkenness, never breaks)"
 msgstr ""
 "Tyto boty byly zhotoveny k chůzi. Avšak díky zvláštnímu kouzlu, jež na ně bylo vloženo pro ochranu cestovatelových nohou, je častokráte používali vojáci, kteří na ně šťastnou náhodou narazili. (Účinky: +10 k rychlosti, nezničitelné, regenerace, zlepšení, +10 ke všem odolnostem)"
 
@@ -3384,10 +3440,12 @@ msgstr ""
 msgid "Laet'ax"
 msgstr "Laet'ax"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:165
+#, fuzzy
+#| msgid ""
+#| "This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -10 Accuracy, +10 Luck; +5 Disarm Trap)"
 msgid ""
-"This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -10 Accuracy, +10 Luck; +5 Disarm Trap)"
+"This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -20 Accuracy, +40 Luck, +10 Disarm Traps)"
 msgstr ""
 "Tento pár hebkých kožených rukavic byl nalezen poblíž Verhoffinovy věže r. 300 n.l. Jsou měkké a poněkud kluzké. Zdá se, že padnou na každou ruku, ať je jak chce velká. (Účinky: -10 k přesnosti, +10 ke štěstí, +5 ke zneškodňování pastí)"
 
@@ -3396,10 +3454,12 @@ msgstr ""
 msgid "Arrowfoe"
 msgstr "Šípuzmar"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:166
+#, fuzzy
+#| msgid ""
+#| "This sheild was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possesed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 AC vs Missle weapons)"
 msgid ""
-"This sheild was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possesed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 AC vs Missle weapons)"
+"This shield was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possessed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 Endurance, +30 AC against missiles)"
 msgstr ""
 "Tento štít nosíval zdatný válečník Hrothgar Krohnssen. Tvrdil, že je synem samotného Krohna, a byl obdařen nesmírnou silou. Když mu jedna čarodějnice prozradila, že ho zabije šíp, nechal si vyrobit právě tento štít, aby ho od tohoto osudu uchránil. Šíp ho však nakonec přece jen dostihl, když ho zasáhl zezadu. (Účinky: +30 TZ proti střelným zbraním)"
 
@@ -3408,10 +3468,12 @@ msgstr ""
 msgid "Hubris"
 msgstr "Hubris"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:167
+#, fuzzy
+#| msgid ""
+#| "This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might; +20 AC; of Endurance, of Protection, of Arms Mastery; Increased chance to hit target.)"
 msgid ""
-"This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might; +20 AC; of Endurance, of Protection, of Arms Mastery; Increased chance to hit target.)"
+"This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might, +10 Endurance, +20 AC, +5 Armsmaster)"
 msgstr ""
 "Tento opasek ukořistěný z Rokle mrtvých údajně nosíval sám císař Hubris, když začal tvořit ursanské impérium. Někteří učenci věří, že právě tento pás mu pomohl odrazit útočníky a založit svou říši. (Účinky: +30 k síle, +20 TZ, zvýšená šance na zasažení cíle, odolnosti, ochrany, ovládání zbraní)"
 
@@ -3420,10 +3482,12 @@ msgstr ""
 msgid "Weregild"
 msgstr "Weregild"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:168
+#, fuzzy
+#| msgid ""
+#| "Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitor's became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +1000 gold per week.  Reputed -40 party Endurance.)"
 msgid ""
-"Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitor's became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +1000 gold per week.  Reputed -40 party Endurance.)"
+"Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitors became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +30 Luck, 1,000 gold each week, -40 Endurance for the whole party)"
 msgstr ""
 "Weregild vytvořil Snorri Trpaslík jako svatební dar pro svého budoucího zetě. Naneštěstí však jeden z odmítnutých nápadníků jeho dcery o svatební noci tento prsten odcizil, ve vzteku jej proklel a pak vrátil novomanželům. Snorri však jeho podvod prohlédl, náležitě ho ztrestal a prsten odstranil. (Účinky: +1000 zlaťáků týdně, -40 k odolnosti družiny)"
 
@@ -3432,10 +3496,12 @@ msgstr ""
 msgid "Soulband"
 msgstr "Prsten duší"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:169
+#, fuzzy
+#| msgid ""
+#| "Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
 msgid ""
-"Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
+"Soulband wasn't so much created as it was evolved from something else.  It started its life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with it when it passed to its new owner. (Effects: +10 Speed, +50 SP, +5 Light Magic, +3 Meditation, faster recovery)"
 msgstr ""
 "Prsten duší se v to, čím nyní je, v podstatě vyvinul sám. Oživl jako cetka v rukou dítěte, jež posedl revenant. Od té doby střídal jednoho majitele za druhým a při svém putování si od každého něco vzal. (Účinky: +5 ke světlu, +3 k meditaci, +50 životů, rychlosti)"
 
@@ -3468,17 +3534,21 @@ msgstr ""
 msgid "Lubricious"
 msgstr "Slizoun"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:171
+#, fuzzy
+#| msgid ""
+#| "Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC; +5 Dodging; Reputed -3% to Damage.)"
 msgid ""
-"Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC; +5 Dodging; Reputed -3% to Damage.)"
+"Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC, +5 Dodging, 3% less physical damage taken)"
 msgstr ""
 "Někdo tvrdí, že Slizoun byl opravdu zhotoven z následujících ingredienci: z kluzkosti hada, záludnosti lišky a z mrštnosti zajíce. Daroval jej jeden neodbytný nápadník Helze Gunnarsdotir, která prsten okamžitě prodala, aniž by svému ctiteli věnovala jediný pohled. (Účinky: +20 TZ, +5 k obraně, způsobované zranění -3%)"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:172
+#, fuzzy
+#| msgid ""
+#| "This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP; +3 Meditation, +5 Light, +5 Spirit; of Regeneration)"
 msgid ""
-"This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP; +3 Meditation, +5 Light, +5 Spirit; of Regeneration)"
+"This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP, +3 Meditation, +5 Light Magic, +5 Spirit Magic, regenerates HP)"
 msgstr ""
 "Tento amulet je darem od zeleného mužíčka, jenž svým požehnáním obdařil jen máloco, a ještě méně věcí si svůj dar uchovalo. (Účinky: +20 bodů many, +3 k meditaci, +5 ke světlu, +5 k duchu, regenerace)"
 
@@ -3487,10 +3557,12 @@ msgstr ""
 msgid "Mountbatten"
 msgstr "Mountbatten"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:173
+#, fuzzy
+#| msgid ""
+#| "This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +5 Dark, +3 Perception; of Amelioration)"
 msgid ""
-"This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +5 Dark, +3 Perception; of Amelioration)"
+"This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +30 Personality, +5 Dark Magic, +3 Perception, immune to weakness and drunkenness)"
 msgstr ""
 "Tento amulet nosili čtyři záhadní mudrci: Dirk, Stig, Nasty, a Barry. Tato čtveřice po nějaký čas přinášela Chedijcům zprávy o míru a štěstí, nežli byli navždy vyhnáni. Po svém kvapném odchodu za sebou zanechali právě tento předmět. (Účinky: +5 k temnotě, +3 ke vnímání, skýtá zlepšení a ukrytí)"
 
@@ -3499,10 +3571,12 @@ msgstr ""
 msgid "Pendant of the Spheres"
 msgstr "Přívěsek sfér"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:174
+#, fuzzy
+#| msgid ""
+#| "This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +5 All magic skills, +3 Learning, +3 Meditation)"
 msgid ""
-"This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +5 All magic skills, +3 Learning, +3 Meditation)"
+"This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +3 to all magic skills, +3 Learning, +3 Meditation)"
 msgstr ""
 "Tento přívěsek zhruba v roce 10 před naším letopočtem odcizil Nazrim Vrah z Verhoffinovy věže. Tento muž byl najat, aby zabil Verhoffina v odplatu za jeho nestydatý postoj vůči ursanskému impériu. Mnozí se domnívají, že právě tato zamýšlená vražda Verhoffina byla příčinou Velké pohromy. (Účinky: +5 ke všem magickým dovednostem, +3 ke vzdělávání, +3 k meditaci)"
 
@@ -3516,17 +3590,17 @@ msgstr "Fizbin smůly"
 msgid "Holy Relic"
 msgstr "Svatá relikvie"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:175
 msgid ""
-"The Fizbin always seems to appear in the worst of times.  Just when someone thinks things can't get any worse, they acquire the Fizbin.  It's fame preceeds it, and most owners have a hard time getting rid of it. (Effects: Party Luck -20; Reputed chance of encounter +15%)"
+"The Fizbin always seems to appear in the worst of times.  Just when someone thinks things can't get any worse, they acquire the Fizbin.  It's fame precedes it, and most owners have a hard time getting rid of it. (Effects: While carried, for the whole party: +15 Might, +15 Accuracy, -20 Luck, +10 to all resistances, random encounters 15% more likely)"
 msgstr ""
-"Fizbin se podle všeho objeví vždycky v té nejnevhodnější chvíli. Jen co si někdo pomyslí, že by se věci mohly ještě zhoršit, získá právě Fizbin. Jeho pověst jej zdaleka předchází a mnozí majitelé strávili perné chvilky, nežli se ho konečně zbavili. (Účinky: štěstí celé družiny -20, pravděpodobnost přepadení +15%)"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:176
+#, fuzzy
+#| msgid ""
+#| "Beggers are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the begger with the affliction he claimed to have.  One begger, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning; Immune to all conditions.  Drains Experience Points.)"
 msgid ""
-"Beggers are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the begger with the affliction he claimed to have.  One begger, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning; Immune to all conditions.  Drains Experience Points.)"
+"Beggars are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the beggar with the affliction he claimed to have.  One beggar, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning, immune to all conditions, 15% less experience)"
 msgstr ""
 "Ve většině chedijských měst jsou k vidění i prosebníci, z nichž si mnozí stěžují na nějakou nepřízeň osudu. Častokrát nějaký léčitel takového falešného žebráka prokleje právě tou nemocí, kterou tvrdí, že trpí. Jeden z nich, Haelik Nakažený, vyrobil tento amulet právě proto, aby ho před podobnými vtipálky uchránil. (Účinky: imunita na všechny negativní stavy, -3 ke vzdělávání, nositel získává jen 85% běžných zkušeností)"
 
@@ -3540,10 +3614,12 @@ msgstr "Prosebník"
 msgid "Fre's Heart"
 msgstr "Srdce Fré"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:177
+#, fuzzy
+#| msgid ""
+#| "This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing it's inhabitants for exorborant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This ring was taken from him as payment for the things he stole. (Effects: +50 to HP, -10 SP; of regeneration)"
 msgid ""
-"This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing it's inhabitants for exorborant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This ring was taken from him as payment for the things he stole. (Effects: +50 to HP, -10 SP; of regeneration)"
+"This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing its inhabitants for exorbitant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This amulet was taken from him as payment for the things he stole. (Effects: +30 Endurance, +100 HP, -20 SP, regenerates HP)"
 msgstr ""
 "Tento amulet ve tvaru srdce byl zhotoven na počest Fré, bohyně života. Naposledy jej nosil D'vorna Životodárce, léčitel, jenž cestoval Chedianem a za přemrštěné ceny léčil jeho obyvatele. V Thjorgardu byl však přistižen při krádeži u jednoho bohatého obchodníka a popraven. Tento přívěsek mu odňali jako náhradu za věci, které ukradl. (Účinky: +50 životů, -10 many, regenerace, křehký)"
 
@@ -3588,10 +3664,12 @@ msgstr ""
 msgid "Combat Axe"
 msgstr "Bojová sekyra"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:180
+#, fuzzy
+#| msgid ""
+#| "During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regenereration with complete set.))"
 msgid ""
-"During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regenereration with complete set.))"
+"During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regeneration with complete set.))"
 msgstr ""
 "V počátcích starého ursanského impéria se při slavnostech na počest císaře vždy pořádaly velké gladiátorské hry. Ten nejlepší z nejlepších byl pak odměněn sadou zbraní a zbroje. Když poté tuto cenu nosil, všichni si uvědomovali jeho moc a pravděpodobně si s ním raději nezahrávali. Smí používat výhradně žoldák nebo gladiátor. (Účinky: +2 k posilování, +2 k TZ, při kompletní sadě skýtá i regeneraci)"
 
@@ -3672,10 +3750,12 @@ msgstr ""
 msgid "Broderick's Helm"
 msgstr "Broderickova helmice"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:185
+#, fuzzy
+#| msgid ""
+#| "There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regenereration with complete set.))"
 msgid ""
-"There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regenereration with complete set.))"
+"There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regeneration with complete set.))"
 msgstr ""
 "Existuje mýtus o mocném svatém válečníkovi jménem Broderick, jehož samotní bohové požádali, aby zničil démona zvaného Nodens. Svým mohutným mečem jej skutečně porazil a odpornou hlavu nestvůry pak jako trofej ukázal bohům. Ti byli natolik potěšeni, že bojovníkovu zbraň i zbroj obdařili částí své moci, aby ho ochraňovala. Tohle je pravděpodobně právě ona helmice, již měl tenkrát na hlavě. Smí ji používat pouze křižák a paladin. (Účinky: +2 čepel, +2 k síle, při kompletní sadě dává ještě regeneraci.)"
 
@@ -3780,10 +3860,12 @@ msgstr ""
 msgid "Fre's Smooth Mace"
 msgstr "Jemná hůlka Fré"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:193
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
 msgstr ""
 "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k síle, při kompletní sadě má ještě vlastnost \"těla\".)"
 
@@ -3792,10 +3874,12 @@ msgstr ""
 msgid "Fre's Ring"
 msgstr "Prsten Fré"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:194
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
 msgstr ""
 "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k magii ducha, při kompletní sadě ještě +10 ke všem vlastnostem.)"
 
@@ -3804,10 +3888,12 @@ msgstr ""
 msgid "Fre's Helm"
 msgstr "Helma Fré"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:195
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+ 10 all resistances with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+ 10 all resistances with complete set))"
+"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+10 all resistances with complete set))"
 msgstr ""
 "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k meditaci, při kompletní sadě ještě +10 ke všem odolnostem.)"
 
@@ -3816,10 +3902,12 @@ msgstr ""
 msgid "Fre's Gloves"
 msgstr "Rukavice Fré"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:196
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
 msgstr ""
 "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k opravování věcí, při kompletní sadě 3 k opravování věcí.)"
 
@@ -3828,10 +3916,12 @@ msgstr ""
 msgid "Fre's Chain Boots"
 msgstr "Kroužkové boty Fré"
 
-# imported from the Czech MM9 (CD Projekt, 2002)
 #: assets_dev/worlds/mm9/data_tables/items.txt:197
+#, fuzzy
+#| msgid ""
+#| "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
 msgid ""
-"Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
+"Hundreds of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
 msgstr ""
 "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k rychlosti, při kompletní sadě +20 k rychlosti.)"
 
@@ -44765,6 +44855,300 @@ msgid ""
 "By imprisoning Njam in the Tomb of a Thousand Terrors, you have finally fulfilled your destiny! For years to come skalds and poets will sing songs of your heroism and glory. By uniting the six clans of Chedian against a common foe, you've encouraged them to stop fighting amongst themselves and rise to become a single prosperous nation."
 msgstr ""
 "Uvězněním Njama v Hrobce Tisíce hrůz jste konečně naplnili svůj osud! Ještě po mnoho let budou skaldové a básníci zpívat písně o vašem hrdinství a slávě. Sjednocením šesti klanů Chedianu proti společnému nepříteli jste je přiměli přestat bojovat mezi sebou a povstat jako jediný prosperující národ."
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This sword was enchanted by an unknown mage for the doctor turned skald known as Frank.  It is said to cast a pleasing tone in battle, causing the weilder to become stronger. (Effects: +30 to Might; of Arms Mastery)"
+#~ msgstr ""
+#~ "Tento meč očaroval jeden mág pro barda známého jako Frank. V boji prý zbraň vydávala příjemné tóny, které jejího nositele posilovaly. (Účinky: +30 k síle, ovládání zbraní)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This yellow-hued sword is legendary among the native people of Frosgard.  They claim that it was carried by their hero Eric, who it seemed was never prepared for battle.  It is supposed to have surfaced from a lake when Eric cried out, \"Yoohoo!\" (Effects: -5 Accuracy, +15 Endurance, +50 Luck)"
+#~ msgstr ""
+#~ "Tento žlutavý meč se stal mezi obyvateli Frosgardu přímo legendárním. Prý jej nosíval jejich hrdina Erik, jenž vypadal, jako by nikdy nebyl připraven k boji. Tuto zbraň pravděpodobně vyplavilo jezero, když Eric vykřikl \"Juchůůůůů!\" (Účinky: -5 k přesnosti, +15 k odolnosti, +50 štěstí)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "The Mevan Sword is pure evil.  It surfaced early this century, after being buried under a pile of rubble since the Great Cataclysm.  It is not known who made it, or why, but most who have used it either swore by it or died by it. (Effects: Breaks after first use)"
+#~ msgstr ""
+#~ "Mevanský meč je čistým zlem. Objeven byl na počátku tohoto století, když předtím byl pohřben pod hromadou sutin již od dob Velké pohromy. Není známo, kdo nebo proč jej vyrobil, ale většina těch, kdo jej použila, jej proklela, nebo kvůli němu zahynula. (Účinky: po prvním použití se zlomí.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Jorhgamesh was comissioned by Olaf the Fat during his short reign as Jarl of Frosgard.  He believed that with this sword he could conquer and unite all the Clans of Chedian (Effects: +10 to Speed, +20 to Accuracy, -50 to SP)"
+#~ msgstr ""
+#~ "Jorhgameš byl během krátké vlády Olafa Tlustého uznáván jako jarl Frosgardu. Věřil, že s tímto mečem si bude moci podrobit a spojit všechny chedijské klany. (Účinky: +10 k rychlosti, +20 k přesnosti, -50 mana.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Long ago, there was a group of Chedian warriors lead by a man named Halfred the Black.  This dagger was his constant companion.  After his death, the dagger was buried with him.  His grave however was soon looted, it's contents taken and sold. (Effects: Increased damage, Increased chance to hit, Increased speed)"
+#~ msgstr ""
+#~ "Před dávnými časy existovala skupina chedijských válečníků, kterou vedl muž jménem Halfréd Černý. Tato dýka mu byla nejvěrnějším společníkem. Po smrti s ním byla také pohřbena, avšak jeho hrob byl zakrátko vypleněn a všechny nalezené cennosti zpeněženy. (Účinky: způsobuje vyšší zranění, větší šance na zásah, vyšší rychlost)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Named after the Old Ursanian Emperor who commited suicide in 225 BC, this is the dagger that he used to finally end his life.  Emperor Integris was often called the \"Suicidal Emperor\" because of his many attempts to end his own life.  Ironically, on most of his attempts, the weapon broke in his hand before he could complete the task. (Effects: +15 pts of Poison damage; Reputed +35 to hit and damage)"
+#~ msgstr ""
+#~ "Právě tato dýka nese jméno po starém ursanském císaři, jehož život r. 225 před n.l. ukončila, když vlastní rukou spáchal sebevraždu. Integrisovi se pro četné pokusy o dobrovolný odchod ze světa často přezdívá \"Sebevražedný císař\". Je paradoxní, že ve většině předchozích případů se mu zbraň zlomila v rukou ještě dříve, nežli mohl zamýšlený čin dokonat. (Účinky: +60 k zásahu a zranění, +15 bodů jedu, křehká)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This axe is named after the Sturmford warrior Sven Bloodaxe who was ever victorious in combat.  Although it is denied by many, he finally died in 340 AC of old age. (Effects: +10 to all resistances; 40% chance to \"poison\" target at GM level.)"
+#~ msgstr ""
+#~ "Tato sekyra nese jméno po sturmfordském válečníkovi zvaném Sven Krvavá sekyra, který v boji vždy vítězil. I když tomu mnozí nevěří, v roce 340 n. l. zemřel sešlostí věkem. (Účinky: +10 ke všem odolnostem, 40% šance, že na cíl sešle \"otravu\" na velmistrovské úrovni)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This axe was forged 200 BC in Minespring.  The dwarves of that era were exceptional at their ability to create incredible weapons.  In 73 AC, Ichvan I tried to convince the dwarves to begin making weapons for his new Mendossian Army.  After 2 years of negotiation, Ichvan tired of their refusals and razed Minespring. (Effects: Extra damage; +6 Armsmaster, +6 Blade skill; of Regeneration)"
+#~ msgstr ""
+#~ "Tuto sekyru vykovali r. 200 před n.l. trpaslíci z Minespringu, kteří tenkrát vynikali ve schopnosti vytvářet neuvěřitelné zbraně. Roku 73 n.l. se je Ichvan I. pokusil přimět, aby začali vyzbrojovat jeho novou mendoskou armádu. Po dvou letech vyjednávání ho však jejich neustálé odmítání unavilo a celý Minespring vyhladil. (Účinky: křehká, zvláštní zranění, +6 k ovládání zbraní, +6 k dovednosti sečných zbraní, regenerace)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Made of Elemental Thjorad, this weapon was one of the finest creations from the famed weaponsmith Borfinn Ironhands.  He always claimed he was not adept at making missle throwers, but this weapon is clearly the finest example of anything he ever made. (Effects: 100% accuracy)"
+#~ msgstr ""
+#~ "Tato zbraň je vyrobena z věhlasné thjoradské rudy a patří k těm nejlepším, jaké kdy kovář Borfinn Železných rukou zhotovil. Vždy prohlašoval, že se ve výrobě střelných zbraní příliš nevyzná, avšak tento luk představuje jednu z jeho nejlepších prací. (Účinky: 100% přesnost)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This dagger was given to Aesir the Scholar as a reward in the Thronish town of Nirheim.  She spent most of her life travelling from town to town across Chedian healing children and teaching her skills to townsfolks.  A Merchant gave up his prized dagger as a gift for saving the life of his son. (Effects: +100 HP; Slow; 3 attacks)"
+#~ msgstr ""
+#~ "Tuto dýku dostala Aesir Učená jako odměnu od thronského města Nirheimu. Většinu života strávila cestováním od města k městu po celém Chedianu, uzdravovala děti a předávala své zkušenosti obyvatelstvu. Jeden obchodník jí dal tuto dýku darem, když jeho synovi zachránila život. (Účinky: zpomalení, +100 životů, 3 útoky)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Tillhygge was unearthed on the Isle of Ashes in 75 AC when a group of Scavengers were picking through the remains of Verhoffin's Tower.  When they returned to the mainland, they claimed it to be haunted by the ghost of Verhoffin himself and soon sold the axe. (Effects: +10 Might, +30 Accuracy; of Disease, of Mastery)"
+#~ msgstr ""
+#~ "Tillhygge byla r. 75 n.l. nalezena na Ostrově popela, když skupinka sběračů kopala v pozůstatcích Verhofinovy věže. Když se vrátili do vlasti, okamžitě zbraň prodali tvrdíce, že zbraň je prokletá a každého jejího majitele pronásleduje duch samotného Verhoffina. (Účinky: +30 k přesnosti, +10 k síle, způsobuje nákazu, mistrovská)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This bow was carried into battle by the mighty warrior Halfnorr the Ox-Shouldered.  It conferred upon him great strength and skill.  He was slain by another warrior, Sven Bloodaxe, when they met in battle in Thjorgard. (Effects: +10 to all stats; +7 Bow)"
+#~ msgstr ""
+#~ "Tento luk nosíval do boje silný válečník Halfnorr Býčí šíje a dlouho mu skýtal velkou sílu a zručnost. Nakonec však podlehl jinému bojovníkovi, Svenovi Krvavé sekyře, když se spolu v Thjorgardu utkali. (Účinky: +10 ke všem vlastnostem, +7 k luku)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This device was created by the mad scholar Roj'ere sometime before his death in 320 AC.  He was called a genius by some, a madman by others.  This paticular invetion uses a strange black powder to propel a projectile from it's muzzle.  Roj'ere was extremely proud of this invention, but died before he could refine it and make it safer to use. (Effects: Bypass opponent's AC, Extra damage, Slow recovery, 2% Chance per use of breaking and causing damage to player.)"
+#~ msgstr ""
+#~ "Tento aparát vytvořil šílený učenec Roj'ere někdy před svou smrtí r. 320 n.l. Někteří ho považovali za génia, jiní za blázna. Toto konkrétní zařízení používá podivný černý prach, s jehož pomocí z trubice vylétají střely. Roj'ere na ně byl jaksepatří pyšný, ale zemřel dřív, než je mohl zcela dokončit a odstranit některá rizika spojená s používáním. (Účinky: ignoruje TZ, zvláštní zranění, pomalé dobíjení, při každém použití existuje 2% pravděpodobnost, že se rozbije a zraní svého uživatele)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Gungnir was fashioned by Hanndl himself to serve as his weapon during the Great Reckoning that is fated to happen one day.  On the day Krohn forsaw the coming of this day, he demanded all his gods arm themselves with weapons of great power.  Somehow, Hanndl's spear surfaced in Chedian (Effects: of puncturing (20% chance to bypass opponent's AC).  Extra Damage)"
+#~ msgstr ""
+#~ "Gungnir vytvořil samotný Hanndl, aby mu v den Velkého zúčtování, který byl předvídán, sloužil jako osobní zbraň. V den, kdy mělo podle Krohnovy předpovědi toto zúčtování nastat, požádal všechny své bohy, aby se opásali mocnými zbraněmi. Hanndlovo kopí pak nějakým způsobem zmizelo kdesi v Chedianu. (Účinky: průrazné, 20% pravděpodobnost na proražení TZ nepřítele, zvláštní zranění.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This spear was cast over the heads of the Tredskas rebels by Krohn himself when they rebelled against the gods and tried to capture Arslegard.  Desipte their leader being one of the most powerful magicians of the time, and the army made up of hundreds of thousands of skilled warriors, not a single Tredskas rebel left the battlefield that day.  Krohn left this spear behind as a warning to mortals who thought to rebel. (Effects: -10 to AC, +30 Might, -10 Endurance; Grandmaster's, of Permanance.)"
+#~ msgstr ""
+#~ "Toto kopí seslal na hlavy tredskaských vzbouřenců samotný Krohn, když se postavili proti bohům a pokoušeli se obsadit Arslegard. I když jejich vůdce byl jedním z nejmocnějších mágů všech dob a jeho armáda čítala stovky tisíc zkušených válečníků, ani jediný z rebelů toho dne z bojiště neodešel. Krohn pak na místě ponechal toto kopí jako varování pro smrtelníky, kteří by se chtěli bouřit. (Účinky: +30 k síle, -10 ke TZ, -10 k odolnosti, velmistrovský, nezničitelný.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This halberd is said to carry with it the souls of men slain by it.  It has an unusual effect on those wielding it.  It's first owner was said to have gone mad.  It's second owner gave it away and threw himself from a cliff.  The tales of tragedy this halberd carries is long and sad. (Effects: +20 Might; Vampiric; 10% chance of insanity per week, 10% chance of -30% HP per week.)"
+#~ msgstr ""
+#~ "Tato halapartna prý s sebou nosí duše těch, jež sklátila. To má zvláštní účinek na ty, kdo ji vlastní: její první majitel se prý zbláznil, druhý ji odložil a vrhl se dolů z útesu... Příběhy, které s sebou tato zbraň nese, jsou dlouhé a přesmutné. (Účinky: upíří, +20 k síle, každý týden je 10% pravděpodobnost, že majitel zešílí a 10% pravděpodobnost, že ztratí 30% životů."
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Literally Old Ursanian for \"Stick Cutter\" This is the only surviving example left.  It was used by the Ursanian Persana Garda, the men who were personally responsible for the Emperor's safety.  This weapon contributed in no small part to the fear the Persana Garda put in the hearts of men. (Effects: +30 Might, +10 Endurance; 5% chance to cast \"Enrage\" on target at GM level.)"
+#~ msgstr ""
+#~ "Doslovně přeloženo ze staré ursanštiny jde o \"Sekáček na holi\". Toto je poslední ze zbraní, jež používala persanská garda z Ursanu - muži, kteří osobně zodpovídali za císařovo bezpečí. Tato halapartna nemalou měrou přispívala k tomu, že persanská garda vnášela do lidských srdcí strach. (Účinky: +30 k síle, +10 k odolnosti, 5% pravděpodobnost, že na cíl sešle \"zuřivost\" na velmistrovské úrovni.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Vanir's Hammer was created by the legendary sorcerer Vanir several hundred years ago.  He was as adept at wielding this weapon as he was at sorcery.  Many people comment how this is not a hammer, but a cudgel, to which Vanir would reply \"But what is a hammer?  Does the name matter if it can crush skulls?\"  Not many on the receiving end of his hammer argued with him. (Effects: +30 Might, +10 Endurance; 5% Chance to cast \"Enrage\" on target at GM level.)"
+#~ msgstr ""
+#~ "Vanirovo kladivo stvořil před několika sty lety legendární čaroděj Vanir. V ovládání této zbraně si počínal stejně zdatně jako v umění magickém. Mnoho lidí namítalo, že tohle přece není kladivo, ale palice, Vanir však vždycky odvětil: \"Co je to kladivo? Má snad jméno nějaký vliv na to, jak drtí lebky?\" Jen nemnozí, kteří skonali právě tímto kladivem, se s ním o tom mohli přít. (Účinky: +30 k síle, +10 k odolnosti, 5% pravděpodobnost, že na cíl sešle \"zuřivost\" na velmistrovské úrovni)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Blutterbunger was a popular weapon in 480 AC when it was discovered.  It has the ability to confound an opponent, making it extremly popular in barroom brawls as well as on the battlefield.  It was owned by Fyri the Goat-Face until, in a barfight, he somehow managed to hit himself with it and knocked himself unconscious. (Effects: of Bruisers; 5% chance of stunning opponent.  If fail vs skill 70% chance knocking self unconscious.)"
+#~ msgstr ""
+#~ "Blutterbunger se již od svého objevení r. 480 n.l. stal velmi proslulou zbraní. Skutečnost, že dokáže protivníka zmást, jej proslavila jak při hospodských potyčkách, tak na poli válečném. Vlastnil jej Fyri Kančí tvář, dokud jím při jedné barové rvačce nešťastnou náhodou nepraštil sám sebe a neupadl do bezvědomí. (Účinky: 5% pravděpodobnost na omráčení protivníka, pokud selže patřičná dovednost, existuje 70% šance, že svého uživatele omráčí.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This morning star is named after the mythical hero Manarus who became the guiding star in the northern sky.  The history of this weapon is not known, but it is said to bestow great skill on magic users. (Effects: +80 SP; The Grandmaster's, of the Jajarb)"
+#~ msgstr ""
+#~ "Tento řemdih nese jméno mýtického hrdiny Manaura, který se stal hvězdou, jež vládne severnímu nebi. Historie této zbraně není známa, ale říká se, že těm, kteří sesílají kouzla, dokáže propůjčit velikou moc. (Účinky: +80 bodů many, velmistrovský, jajarbí.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This staff is made of an unknown metal.  It is surprisingly light, and also very, very old.  It was found with documents written in Old Ursanian that suggest it predates even the earliest mention of the Ursanian Empire.  Not even the documents explain who made it, how they made it, or where it came from. (Effects: +80 Might, +20 Endurance, -20 Speed; of Permanance, Master's)"
+#~ msgstr ""
+#~ "Tato hůl je stvořena z jakéhosi neznámého kovu. Je překvapivě lehká a také velmi, velmi stará. Byla nalezena spolu s dokumenty ve staré ursanštině, které naznačují, že tato zbraň je starší než nejranější zmínky o ursanském impériu. Ale nikde nebylo uvedeno, kdo a jak ji vytvořil nebo odkud pochází. (Účinky: +80 k síle, +20 k odolnosti, -20 k rychlosti, nezničitelná, mistrovská)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This maul first appeared about 10 years AC, when most people were still picking up the pieces of the Great Cataclysm.  It is said to be made out of pure Elemental Thjorad, and is very, very heavy.  Many smiths have tried to copy this maul, and have only suceeded in making very heavy magic items. (Effects: 5-15 pts of Elemental Damage.  10% Chance of killing target.)"
+#~ msgstr ""
+#~ "Tento mlat se poprvé objevil zhruba v roce 10 let n.l., když se většina lidí stále ještě vzpamatovávala z Velké pohromy. Vypráví se, že je vyroben z čisté thjoradské rudy a je mimořádně těžký. Mnozí kováři se jej snažili okopírovat, ale vždy se jim podařilo zhotovit pouze těžké magické předměty. (Účinky: +5-15 bodů živelného útoku, 10% šance na zabití cíle)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This is the club that General Spencer used to keep his troops in line.  He often found them playing card games intstead of staying at their posts, so he had this magical club created to \"inspire\" them to do their jobs.  It proved to be very effective. (Effects: +10 to Speed; of the Reel)"
+#~ msgstr ""
+#~ "Toto je kyj, jejž třímal generál Spencer, aby postavil své jednotky do latě. Častokráte je totiž přistihl, jak zanedbávají své povinnosti a raději hrají karty, a tak si pořídil tento kyj, aby jim \"připomněl\", co mají dělat. Ukázalo se, že je to velmi účinná metoda. (Účinky: +10 k rychlosti, velmi rychlý, jitterbugu)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Mjulnir is often called \"The Hammer of the Gods\" and for good reason.  It is said that the god Krohn lost it when he hurled it at his wife after a quarrel.  It is a massive weapon, meant to be wielded by a massive warrior.  It is also rumored that Krohn has vowed to reclaim his weapon, and destroy the man who has kept it from him. (Effects: -20 Speed; 16-25 pts of Elemental Damage.  Divine Intervention will always fail.)"
+#~ msgstr ""
+#~ "Mjulniru se často přezdívá \"Kladivo bohů\", a to z dobrého důvodu. Kdysi je totiž ztratil bůh Krohn, když jím v hádce mrštil po své ženě. Je to masivní zbraň, určená pro silného válečníka. Některé zvěsti praví, že Krohn přísahal, že Mjulnir získá zpátky a zničí člověka, který by se mu v tom snažil zabránit. (Účinky: +16-25 bodů zranění živly, \"božský zásah\" vždy selže, -20 k rychlosti)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Legend has it this armor was a gift from Igrassa herself to Dagna Kramartrag, for his service to her temple. (Effects: +10 to Magic)"
+#~ msgstr ""
+#~ "Legenda praví, že toto brnění darovala samotná Igrassa Dagně Kramartrag za služby, jež prokázala svému chrámu. (Účinky: +10 k magii.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This armor was allegedly made from the chains some ghosts carry with them.  Whether it is true or not, it certainly has some ghostly properties.  It weighs nearly nothing at all, and carries with it a foreboding cloud.  It also seems to make the same sound as the poor souls who are chained to the place of their death. (Effects: of Regeneration; 10% chance of opponent becoming afraid.)"
+#~ msgstr ""
+#~ "Tato zbroj byla údajně vyrobena z řetězů, které za sebou tahali někteří duchové. Ať už je to pravda nebo ne, toto brnění se opravdu může honosit některými přízračnými vlastnostmi. Neváží téměř nic a je stále obklopeno jakousi neblahou aurou. Také se zdá, že vydává ten samý zvuk, jako ubohé duše, které byly až do smrti přikovány.. (Účinky: regenerace, -20 k tichému pohybu, 10% šance, že se protivník vyděsí.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This armor was worn by Leit the Crusader during his reign as leader of the Thronheim Clan.  It was with this armor he slayed the foul creatures that inhabited the area that would become Thronheim City.  It is said to prevent sword from ever touching skin. (Effects: +40 AC vs melee attacks, -10 AC vs ranged attacks)"
+#~ msgstr ""
+#~ "Tuto zbroj nosíval Leit Křižák v dobách, kdy vládl thronheimskému klanu. Měl ji na sobě, když pobíjel odporné tvory zamořující území, jež se později stalo městem Tronheimem. Jeho brnění prý zabraňovalo meči, aby se byť jen dotkl těla. (Účinky: +40 TZ proti útokům zblízka, -10 TZ proti útokům z dálky)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "It is said that this helm is made from the skull of Ilthic, the most powerful witch of the Ursanian Empire. Rumor is, Emperor Ralfor himself severed her head.  After removing the unnecessary parts, he had the new helmet enchanted against magical attacks. (Effects: +20 all resistances, +20 AC vs magic attacks)"
+#~ msgstr ""
+#~ "Vypráví se, že tato helmice je zhotovena z lebky Ilthic, nejmocnější čarodějnice ursanského impéria. Hlavu jí prý uťal sám císař Ralfor. Když posléze odstranil nepotřebné části, nechal helmu očarovat, aby lépe odolávala magickým útokům. (Účinky: +20 ke všem odolnostem, +20 k TZ proti magickým útokům)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Pitted and dented, this helm does not look like much.  Looks can be deceiving however.  Brongnoker was made before the founding of the Ursanian Empire, with long lost forging techniques.  This helm is probably the finest protection for the head in the world. (Effects: +10 all stats, +10 Armor skill)"
+#~ msgstr ""
+#~ "Tato zprohýbaná helmice na první pohled nevypadá nijak vábně, avšak zdání klame. Brongnoker byl vyroben ještě před založením ursanského impéria, pomocí dávno ztracené technologie. Skýtá pravděpodobně tu nejlepší ochranu hlavy, jaká vůbec existuje. (Účinky: +10 ke všem vlastnostem, +10 k dovednosti zbroje)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "These boots were made for walking.  However, because of the special enchantments put upon them to protect the traveller's feet, they have been used more often by the fortunate soldier who happened upon them. (Effects: +10 Speed; of Everlasting, of Regeneration, of Amelieoration; +10 to all resistances)"
+#~ msgstr ""
+#~ "Tyto boty byly zhotoveny k chůzi. Avšak díky zvláštnímu kouzlu, jež na ně bylo vloženo pro ochranu cestovatelových nohou, je častokráte používali vojáci, kteří na ně šťastnou náhodou narazili. (Účinky: +10 k rychlosti, nezničitelné, regenerace, zlepšení, +10 ke všem odolnostem)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This pair of soft leather gloves was found outside Verhoffin's tower in 300 AC.  They are soft, and somewhat slippery.  No matter the size of the wearer's hand, they seem to always fit. (Effects: -10 Accuracy, +10 Luck; +5 Disarm Trap)"
+#~ msgstr ""
+#~ "Tento pár hebkých kožených rukavic byl nalezen poblíž Verhoffinovy věže r. 300 n.l. Jsou měkké a poněkud kluzké. Zdá se, že padnou na každou ruku, ať je jak chce velká. (Účinky: -10 k přesnosti, +10 ke štěstí, +5 ke zneškodňování pastí)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This sheild was carried by the mighty warrior Hrothgar Krohnssen.  He claimed to be the son of Krohn himself, and possesed mighty strength.  When a witch told him he was to be killed by an arrow, he had this shield constructed to protect him from that fate.  Unfortunately, the arrow that killed him struck him from behind. (Effects: +30 AC vs Missle weapons)"
+#~ msgstr ""
+#~ "Tento štít nosíval zdatný válečník Hrothgar Krohnssen. Tvrdil, že je synem samotného Krohna, a byl obdařen nesmírnou silou. Když mu jedna čarodějnice prozradila, že ho zabije šíp, nechal si vyrobit právě tento štít, aby ho od tohoto osudu uchránil. Šíp ho však nakonec přece jen dostihl, když ho zasáhl zezadu. (Účinky: +30 TZ proti střelným zbraním)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This belt was looted from the Chasm of the Dead, and is allegedly the belt that was worn by Emperor Hubris himself when he began to forge the Ursanian Empire.  Some scholars believe that this belt helped him defeat the invaders and create an empire. (Effects: +30 Might; +20 AC; of Endurance, of Protection, of Arms Mastery; Increased chance to hit target.)"
+#~ msgstr ""
+#~ "Tento opasek ukořistěný z Rokle mrtvých údajně nosíval sám císař Hubris, když začal tvořit ursanské impérium. Někteří učenci věří, že právě tento pás mu pomohl odrazit útočníky a založit svou říši. (Účinky: +30 k síle, +20 TZ, zvýšená šance na zasažení cíle, odolnosti, ochrany, ovládání zbraní)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Weregild was created by Snorri the Dwarf as a wedding gift for his soon to be son-in-law.  Unfortunately, another of his daughter's suitor's became jealous and stole the ring on the wedding night.  In his rage, he cursed the ring, and gave it back to the newlyweds.  Seeing through his deception, Snorri slew the suitor and cast the ring away. (Effects: +1000 gold per week.  Reputed -40 party Endurance.)"
+#~ msgstr ""
+#~ "Weregild vytvořil Snorri Trpaslík jako svatební dar pro svého budoucího zetě. Naneštěstí však jeden z odmítnutých nápadníků jeho dcery o svatební noci tento prsten odcizil, ve vzteku jej proklel a pak vrátil novomanželům. Snorri však jeho podvod prohlédl, náležitě ho ztrestal a prsten odstranil. (Účinky: +1000 zlaťáků týdně, -40 k odolnosti družiny)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Soulband wasn't so much created as it was evolved from something else.  It started it's life as a trinket worn by a small child who became possessed by a Revenant.  Since that time it has passed from owner to owner, taking a little piece of them with when it passed to it's new owner. (Effects: +50 SP; +5 Light, +3 Meditiation; of Speed)"
+#~ msgstr ""
+#~ "Prsten duší se v to, čím nyní je, v podstatě vyvinul sám. Oživl jako cetka v rukou dítěte, jež posedl revenant. Od té doby střídal jednoho majitele za druhým a při svém putování si od každého něco vzal. (Účinky: +5 ke světlu, +3 k meditaci, +50 životů, rychlosti)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Some claim that Lubricious was actually made from these ingredients: the slip of a snake, the sly of a fox, and the nimbleness of a hare.  It was given to Helga Gunnarsdotir by a salacious suitor.  Not caring a whit for him, she promptly sold the ring. (Effects: +20 AC; +5 Dodging; Reputed -3% to Damage.)"
+#~ msgstr ""
+#~ "Někdo tvrdí, že Slizoun byl opravdu zhotoven z následujících ingredienci: z kluzkosti hada, záludnosti lišky a z mrštnosti zajíce. Daroval jej jeden neodbytný nápadník Helze Gunnarsdotir, která prsten okamžitě prodala, aniž by svému ctiteli věnovala jediný pohled. (Účinky: +20 TZ, +5 k obraně, způsobované zranění -3%)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This amulet was a gift from The Green Man.  Very few are blessed with a visit to The Green Man, and fewer still have a gift bestowed upon them for it. (Effects: +20 SP; +3 Meditation, +5 Light, +5 Spirit; of Regeneration)"
+#~ msgstr ""
+#~ "Tento amulet je darem od zeleného mužíčka, jenž svým požehnáním obdařil jen máloco, a ještě méně věcí si svůj dar uchovalo. (Účinky: +20 bodů many, +3 k meditaci, +5 ke světlu, +5 k duchu, regenerace)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This amulet was carried by the four mystical sages, Dirk, Stig, Nasty, and Barry.  These four men had, for a time carried a message of peace and happiness to the Chedian, before they were chased out forever.  In their hurry to go, they left this behind. (Effects: +5 Dark, +3 Perception; of Amelioration)"
+#~ msgstr ""
+#~ "Tento amulet nosili čtyři záhadní mudrci: Dirk, Stig, Nasty, a Barry. Tato čtveřice po nějaký čas přinášela Chedijcům zprávy o míru a štěstí, nežli byli navždy vyhnáni. Po svém kvapném odchodu za sebou zanechali právě tento předmět. (Účinky: +5 k temnotě, +3 ke vnímání, skýtá zlepšení a ukrytí)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This pendant was taken by Nazrim the Assassin from Verhoffin's Tower around 10 BC.  Nazrim had been charged with slaying Verhoffin for his insolence towards the Ursanian Empire.  Many think that it is that event, the attempted assassination of Verhoffin that caused the Great Cataclysm. (Effects: +5 All magic skills, +3 Learning, +3 Meditation)"
+#~ msgstr ""
+#~ "Tento přívěsek zhruba v roce 10 před naším letopočtem odcizil Nazrim Vrah z Verhoffinovy věže. Tento muž byl najat, aby zabil Verhoffina v odplatu za jeho nestydatý postoj vůči ursanskému impériu. Mnozí se domnívají, že právě tato zamýšlená vražda Verhoffina byla příčinou Velké pohromy. (Účinky: +5 ke všem magickým dovednostem, +3 ke vzdělávání, +3 k meditaci)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "The Fizbin always seems to appear in the worst of times.  Just when someone thinks things can't get any worse, they acquire the Fizbin.  It's fame preceeds it, and most owners have a hard time getting rid of it. (Effects: Party Luck -20; Reputed chance of encounter +15%)"
+#~ msgstr ""
+#~ "Fizbin se podle všeho objeví vždycky v té nejnevhodnější chvíli. Jen co si někdo pomyslí, že by se věci mohly ještě zhoršit, získá právě Fizbin. Jeho pověst jej zdaleka předchází a mnozí majitelé strávili perné chvilky, nežli se ho konečně zbavili. (Účinky: štěstí celé družiny -20, pravděpodobnost přepadení +15%)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Beggers are often seen in the major towns of Chedian, and many complain to have any sort of adverse condition.  Oftentimes, a healer would curse the begger with the affliction he claimed to have.  One begger, Haelik the Diseased, created this amulet to protect himself from such healers. (Effects: -3 Learning; Immune to all conditions.  Drains Experience Points.)"
+#~ msgstr ""
+#~ "Ve většině chedijských měst jsou k vidění i prosebníci, z nichž si mnozí stěžují na nějakou nepřízeň osudu. Častokrát nějaký léčitel takového falešného žebráka prokleje právě tou nemocí, kterou tvrdí, že trpí. Jeden z nich, Haelik Nakažený, vyrobil tento amulet právě proto, aby ho před podobnými vtipálky uchránil. (Účinky: imunita na všechny negativní stavy, -3 ke vzdělávání, nositel získává jen 85% běžných zkušeností)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "This heart-shaped amulet was created in honor of Fre, the goddess of Vita.  It was last carried by D'vorna Life-Toucher, the Healer who travelled through Chedian healing it's inhabitants for exorborant prices.  He was found stealing from the house of a rich merchant in Thjorgard, and was put to death.  This ring was taken from him as payment for the things he stole. (Effects: +50 to HP, -10 SP; of regeneration)"
+#~ msgstr ""
+#~ "Tento amulet ve tvaru srdce byl zhotoven na počest Fré, bohyně života. Naposledy jej nosil D'vorna Životodárce, léčitel, jenž cestoval Chedianem a za přemrštěné ceny léčil jeho obyvatele. V Thjorgardu byl však přistižen při krádeži u jednoho bohatého obchodníka a popraven. Tento přívěsek mu odňali jako náhradu za věci, které ukradl. (Účinky: +50 životů, -10 many, regenerace, křehký)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "During the Rise of the Old Ursanian Empire, there were great Gladiatorial Games held in honor of the current Emperor's feast-day. The greatest Gladiator of those games was honored with a set of armor and weapon. When he wore this prize all would know his greatness and would probably decide not to mess with him as well. Usable by Mercenary and Gladiator only.(Effects: +2 Body Building; +2 AC (of Regenereration with complete set.))"
+#~ msgstr ""
+#~ "V počátcích starého ursanského impéria se při slavnostech na počest císaře vždy pořádaly velké gladiátorské hry. Ten nejlepší z nejlepších byl pak odměněn sadou zbraní a zbroje. Když poté tuto cenu nosil, všichni si uvědomovali jeho moc a pravděpodobně si s ním raději nezahrávali. Smí používat výhradně žoldák nebo gladiátor. (Účinky: +2 k posilování, +2 k TZ, při kompletní sadě skýtá i regeneraci)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "There is a myth of a great Holy Warrior named Broderick, who was charged by the gods to destroy the demon Nodens for them. With his mighty sword he destroyed the demon and presented the gods with the trophy of the demon's ugly head. The gods were so pleased they infused his weapon and armor with a little of their power to protect him. This is thought to be the very armor he wore. Usable by Crusader and Paladin only. (Effects: +2 Blade; +2 Might (of Regenereration with complete set.))"
+#~ msgstr ""
+#~ "Existuje mýtus o mocném svatém válečníkovi jménem Broderick, jehož samotní bohové požádali, aby zničil démona zvaného Nodens. Svým mohutným mečem jej skutečně porazil a odpornou hlavu nestvůry pak jako trofej ukázal bohům. Ti byli natolik potěšeni, že bojovníkovu zbraň i zbroj obdařili částí své moci, aby ho ochraňovala. Tohle je pravděpodobně právě ona helmice, již měl tenkrát na hlavě. Smí ji používat pouze křižák a paladin. (Účinky: +2 čepel, +2 k síle, při kompletní sadě dává ještě regeneraci.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.(Effects: +2 Light; +2 Might (of Body with complete set))"
+#~ msgstr ""
+#~ "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k síle, při kompletní sadě má ještě vlastnost \"těla\".)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only.  (Effects: +2 Light, +2 Spirit (+10 all stats with complete set))"
+#~ msgstr ""
+#~ "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k magii ducha, při kompletní sadě ještě +10 ke všem vlastnostem.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Meditation (+ 10 all resistances with complete set))"
+#~ msgstr ""
+#~ "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k meditaci, při kompletní sadě ještě +10 ke všem odolnostem.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light, +2 Repair Item (of Skill with complete set))"
+#~ msgstr ""
+#~ "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k opravování věcí, při kompletní sadě 3 k opravování věcí.)"
+
+# imported from the Czech MM9 (CD Projekt, 2002)
+#~ msgid ""
+#~ "Hundred's of years ago, the Priests of Ratatosk had their own smiths. These smiths forged weapons and armor to protect the priests when they accompanied the Crusaders on their Holy Wars. There would probably have been a lot fewer priests around if this had not been done. Usable by Healer and Priest only. (Effects: +2 Light; +2 Speed (+20 to Speed with complete set))"
+#~ msgstr ""
+#~ "Před mnoha staletími mívali kněží z Ratatosku své vlastní kováře, kteří zhotovovali zbroje a zbraně, jež měly chránit kněze, provázející při svatých válkách křižáky. Nebýt takových artefaktů, asi by nyní bylo těchto svatých mužů mnohem méně. Smí používat pouze léčitel a kněz. (Účinky: +2 ke světlu, +2 k rychlosti, při kompletní sadě +20 k rychlosti.)"
 
 # machine translation (Claude), review
 #~ msgid "Plow"

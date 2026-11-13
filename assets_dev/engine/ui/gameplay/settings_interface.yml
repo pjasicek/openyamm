@@ -1211,6 +1211,53 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
+    - id: SettingsInterfaceShopListViewLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 777.4717
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Shops as lists
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceShopListViewDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 793.6802
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: The shops of the older games sell from Might and Magic IX's list, one row per kind of item with tabs, instead
+          of the shelves.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceShopListViewControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 781.0138
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
   - id: SettingsInterfaceNavigationRule
     anchor: top_left
     offset_x: 201.6

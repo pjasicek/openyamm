@@ -24,7 +24,8 @@ CONFIG = {
             "maps": {"buckets": 2, "split": {"lighting": {"extensions": [".lighting"], "buckets": 3}}},
             "textures_x4": {"buckets": {"desktop": 3, "android": 1}}}},
     },
-    "languages": {"overlays": {"fonts": {"buckets": 1}, "audio": {"buckets": 2}, "videos": {"buckets": 1}}},
+    "languages": {"overlays": {"fonts": {"buckets": 1}, "audio": {"buckets": 2}, "videos": {"buckets": 1},
+                                   "icons_x2": {"buckets": 1}}},
 }
 
 
@@ -79,9 +80,11 @@ class RuntimePackTests(unittest.TestCase):
     def test_language_overlays_become_optional_packs_over_the_game_folders(self):
         entries = {"engine/fonts/truetype/lucida.yml": b"font", "engine/audio/zm1.wav": b"zm1",
                    "engine/audio/zm2.wav": b"zm2", "worlds/mm6/videos/Cutscenes/intro.ogv": b"video",
-                   "worlds/mm9/audio/skipped.wav": b"not shipped"}
+                   "worlds/mm9/audio/skipped.wav": b"not shipped", "engine/icons_x2/sprites.pcx": b"cards"}
         packs = assign_language_packs("ru", entries, self.config, "desktop", {"engine", "mm6"})
         self.assertEqual(packs["lang-ru.engine.fonts"]["mount"], "/engine/fonts")
+        # Images with text in them replace the game's icons (OY-579).
+        self.assertEqual(packs["lang-ru.engine.icons_x2"]["mount"], "/engine/icons_x2")
         self.assertEqual(packs["lang-ru.mm6.videos"]["mount"], "/worlds/mm6/videos")
         self.assertEqual(packs["lang-ru.mm6.videos"]["package"], "mm6")
         self.assertTrue(all(pack_id.startswith("lang-ru.engine.audio.") for pack_id in packs

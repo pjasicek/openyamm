@@ -70,7 +70,7 @@ chapters 4–5 within about ±30%. MM9's AI is not in the probe; playtests settl
 | --- | --- |
 | Reference difficulty | MM7, including encounter density, item power and economy. MM6–MM8 scaling is the model. |
 | Ordinary weapons | Grow both dice and flat bonus with MM9 quality, landing on the MM6–MM8 tier averages (3.4). |
-| Loot from other worlds | One random loot pool of every world's items, no setting; shops keep their own world's stock. MM9's top quality may match MM6–MM8's top pieces, slightly above their level-6 average; prices on MM6–MM8's curves for any item (user, 2026-11-08; 3.4, 3.5). It replaced a three-option setting (default "own world only", 2026-11-06). |
+| Loot from other worlds | One random loot pool of every world's items, except that MM6–MM8 maps roll no MM9 equipment unless the Gameplay setting "MM9 loot in MM6-MM8" is on (off by default, user, 2026-11-13; [LOOT_POOL.md](../LOOT_POOL.md)); shops keep their own world's stock. MM9's top quality may match MM6–MM8's top pieces, slightly above their level-6 average; prices on MM6–MM8's curves for any item (user, 2026-11-08; 3.4, 3.5). It replaced a three-option setting (default "own world only", 2026-11-06). |
 | Monster HP | Keep MM9's HP; a small trim at high levels: ×0.95 for levels 41–60, ×0.90 above 60. |
 | Monster XP per kill | Keep MM9's. |
 | Monster attack speed | Change gently, so MM9 monsters do not feel sluggish: 75 ticks at levels 1–20, MM9's 59 above, damage ×0.75 at levels 1–5 (3.2). |
@@ -287,6 +287,8 @@ jewellery):
 | Regeneration | 0.2 → 1.0 HP/s on every MM9 item and set that regenerates. |
 | Relics | Weregild gains Luck +30 (it already pays 1,000 gold a week against its −40 party Endurance); Fizbin of Misfortune, the one with drawbacks only, gains Might +15, Accuracy +15 and all resistances +10. Screever keeps its immunity to all conditions. |
 | Pendant of the Spheres | +5 → +3 in each of the nine schools; Learning and Meditation +3 stay. |
+| Weak artifacts and relics (OY-589, 2026-11-13) | Raised into the MM6–MM8 curve (about +40 in stats or a +20 pair with a perk; relics more, with a drawback), `PER_ITEM_EFFECTS`: Igdrasine Intellect and Personality +10 → +30; Jorhgamesh Speed +40, Accuracy +40, SP −50 (MM9's drawback; the data had +50); Bloodaxe and Arrowfoe Endurance +30; Everstrike Bow +5 and faster recovery; Tillhygge +5 disease damage (its disease flag had no damage to carry); Formanir Might +50; Einherjar Might +40; Blutterbunger Might +40, Endurance +20; Spencer's Obedience Speed +30, Might +20; Mjulnir Might +50; Poltergeist Speed +30; Laet'ax Luck +40, Disarm Traps +10, Accuracy −20; Mountbatten Personality +30; Fre's Heart HP +100, Endurance +30, SP −20. Sygnir's +6 Blade is Axe (it is an axe), not Sword. |
+| Effect text (OY-588) | Each artifact and relic description ends with an "(Effects: ...)" list written by the importer from its final effect (`effect_text`), not MM9's own list; MM9's typos in the stories are corrected (`DESCRIPTION_CORRECTIONS`). Set pieces keep MM9's list. |
 | Sets | Piece effects and five-piece bonuses stay; Prize Shield and Prize Skullcap gain +4 armour. |
 
 ### 3.5 Shops and the random loot pool

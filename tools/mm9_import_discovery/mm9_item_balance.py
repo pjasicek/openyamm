@@ -91,6 +91,24 @@ PER_ITEM_EFFECTS: dict[int, dict[str, Any]] = {
     209: {"luck": 30},                                          # Weregild: weekly gold and luck for its party drain
     215: {"school_skill_bonus": 3},                             # Pendant of the Spheres: +3 per school, not +5
     216: {"might": 15, "accuracy": 15, "all_resistances": 10},  # Fizbin of Misfortune: an upside to its curse
+    # The weak ones raised into the MM6-MM8 artifact curve (OY-589, 2026-11-13): artifacts about +40 in stats or a
+    # +20 pair with a perk, relics more with a real drawback (Glomenthal +40 Might, Havoc +70/+70 and -20 AC).
+    179: {"speed": 40, "accuracy": 40, "max_sp": -50},          # Jorhgamesh: a warlord's relic; MM9's -50 SP drawback
+    182: {"endurance": 30},                                     # Bloodaxe: Sven, who died of old age
+    183: {"skill_bonuses": {"Axe": 6, "Armsmaster": 6}},        # Sygnir: MM9's Blade skill is Axe for an axe
+    184: {"skill_bonuses": {"Bow": 5}, "recovery_reduction_ticks": 20},  # Everstrike: Longseeker's bow and speed
+    186: {"weapon_damage": 5},                                  # Tillhygge: damage for its disease flag to carry
+    190: {"might": 50},                                         # Formanir: Krohn's spear
+    191: {"might": 40},                                         # Einherjar: a relic, more than a vampiric artifact
+    194: {"might": 40, "endurance": 20},                        # Blutterbunger: a barroom brawler's club
+    198: {"speed": 30, "might": 20},                            # Spencer's Obedience: a general's club
+    199: {"might": 50},                                         # Mjulnir: the Hammer of the Gods, for a massive warrior
+    200: {"intellect": 30, "personality": 30},                  # Igdrasine: Igrassa's gift, MM9's "+10 to Magic"
+    201: {"speed": 30},                                         # Poltergeist: it weighs nearly nothing
+    206: {"accuracy": -20, "luck": 40, "skill_bonuses": {"DisarmTraps": 10}},  # Laet'ax: a thief's slippery gloves
+    207: {"endurance": 30},                                     # Arrowfoe: more than missile armour
+    214: {"personality": 30},                                   # Mountbatten: the sages' peace and happiness
+    218: {"max_health": 100, "endurance": 30, "max_sp": -20},   # Fre's Heart: Vita's goddess, a healer's relic
 }
 # Set pieces whose base armour MM9 leaves at nothing.
 SET_PIECE_ARMOR_BONUS = {221: 4, 223: 4}                        # Prize Skullcap, Prize Shield

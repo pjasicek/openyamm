@@ -56,6 +56,12 @@ settings:
   name: Fast attack repeat
   type: toggle
   desc: A held Attack or Quick Cast key repeats at once; off, a short tap acts for one character, as in the originals.
+- id: formations_everywhere
+  section: gameplay
+  group: Combat
+  name: Party formation everywhere
+  type: toggle
+  desc: Might and Magic IX's formation on every continent; monsters strike the front rank more often. Off, monsters of the older games choose their victims as in the originals.
 - id: turn_based_monster_speed
   section: gameplay
   group: Turn-based combat
@@ -80,6 +86,12 @@ settings:
   - ['3', 3x]
   - ['4', 4x]
   desc: Play the party's attacks and spells in flight faster. Walking in the movement phase keeps its pace.
+- id: mm9_loot_in_older_worlds
+  section: gameplay
+  group: Loot
+  name: MM9 loot in MM6-MM8
+  type: toggle
+  desc: Drops and chests in Enroth, Antagarich and Jadame can hold Might and Magic IX's weapons, armour and jewellery.
 - id: skip_event_cutscenes
   section: gameplay
   group: Story
@@ -206,6 +218,12 @@ settings:
   - [always, Always]
   desc: Outline items in their rarity colour (rulesets with rarities, such as MAW).
   game_ruleset: maw
+- id: shop_list_view
+  section: interface
+  group: Items
+  name: Shops as lists
+  type: toggle
+  desc: The shops of the older games sell from Might and Magic IX's list, one row per kind of item with tabs, instead of the shelves.
 - id: update_now
   section: updates
   group: Version
@@ -805,6 +823,9 @@ bindings:
   name: Next character
   group: Party & books
 - id: quest
+  name: Inventory
+  group: Party & books
+- id: quest_book
   name: Quest book
   group: Party & books
 - id: map_book

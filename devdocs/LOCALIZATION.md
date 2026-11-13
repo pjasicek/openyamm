@@ -126,8 +126,8 @@ sentence from pieces.
 ## Language packs
 
 A language pack is a folder `languages/<id>/` in the mounted assets. Besides its text it mirrors the game's tree like
-the `mods` folder ([Modding](../packaging/MODDING.md)), but only its `fonts/`, `audio/` and `videos/` folders are
-mounted, in front of the English ones:
+the `mods` folder ([Modding](../packaging/MODDING.md)), but only its `fonts/`, `audio/`, `videos/` and `icons_x2/`
+folders are mounted, in front of the English ones:
 
 ```
 languages/ru/
@@ -141,7 +141,13 @@ languages/ru/
   engine/videos/...
   worlds/mm7/audio/...        # optional: a world's voices and videos
   worlds/mm7/videos/...
+  engine/icons_x2/...         # optional: images with text in them (the Arcomage card sheet sprites.pcx)
+  worlds/mm7/icons_x2/...     # optional: a world's such images
 ```
+
+- An image in `icons_x2/` replaces the game's icon of the same file name and format in that package
+  (`engine/icons_x2/sprites.pcx`, the Arcomage cards). Icon requests name their package, so these mount at
+  `/engine/icons_x2` and `/worlds/<world>/icons_x2` in a release and in a development root alike (OY-579).
 
 - `text/engine*.po` serve every world; `text/<world>.po` entries without a context get `world:<world>`, so they win in
   that world only.
@@ -576,7 +582,8 @@ Done (2026-11-07 and 08):
   are drafted in cs, de, es, fr, pl and ru. Their Chinese party voices are installed under our file names (828 in
   `languages/zh-cn/engine/audio`, 18 in `worlds/mm6/audio`; 5 files that replace no sound of ours are left out).
   Not taken: their translated copies of `roster.txt`, `npc_names.txt` and `npc_professions.txt` (packs do not
-  replace tables), the Arcomage sheet (packs mount no images) and `glyph_scale`.
+  replace tables), the Arcomage sheet (packs mounted no images then; since OY-579 it can go in
+  `languages/zh-cn/engine/icons_x2/sprites.pcx`) and `glyph_scale`.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
   they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the

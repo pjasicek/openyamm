@@ -72,6 +72,13 @@ textures:
   'textures\skybox\skymarker.dtx': {alias: sky04, width: 512, height: 512}
   'textures\leveltextures\misc\soundonly.dtx': {alias: INVIZVJN7N, width: 32, height: 32}
   'textures\leveltextures\misc\invisible.dtx': {alias: INVIZVJN7N, width: 64, height: 64}   # the AIBarriers' faces
+# The New House's barred cell (bars ~16 LT apart close the voxel pass, playbook "Bars close the voxel pass"): without a
+# portal in each bar window the cell and the hall round it were two rooms with no portal between them, so from the cell
+# (the party at its door) the hall and the cell's own floor vanished (player report 2026-11-13, native -2410, -5558).
+rect_portals:
+  - {name: newhouse_bars_west, min_lt: [8981.5, 536, -1384], max_lt: [8982.5, 608, -1196]}    # cell | hall
+  - {name: newhouse_bars_east, min_lt: [9161.5, 536, -1384], max_lt: [9162.5, 608, -1196]}    # cell | hall
+  - {name: newhouse_bars_north, min_lt: [8996, 536, -1194.5], max_lt: [9148, 608, -1193.5]}   # cell | hall
 city:
   daylight: true
   sky_preset: cloudy

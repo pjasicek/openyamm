@@ -541,6 +541,149 @@ def normalized_value(item: SourceItem, equip_stat: str, tier: int) -> tuple[int,
 # mm9_balance_report.py checks this list against the scenes and event scripts.
 FIXED_SOURCE_RARE_RAW_IDS = {180, 184, 189, 198, 213}
 
+# Artifacts and relics end their description with an "(Effects: ...)" list. MM9's own lists name MM9's enchantments
+# ("+10 to Magic", "of the Jajarb") and miss the balance changes, so the importer writes the list from the item's final
+# effect (OY-588). Set pieces keep MM9's list: it also describes the set bonus.
+EFFECT_TEXT_RAW_IDS = range(175, 219)
+EFFECT_TEXT_STATS = ["might", "intellect", "personality", "endurance", "speed", "accuracy", "luck"]
+EFFECT_TEXT_FIELDS = {
+    "max_health": "HP", "max_sp": "SP", "armor_class": "AC", "melee_attack": "to hit", "melee_damage": "damage",
+    "ranged_attack": "ranged to hit", "ranged_damage": "ranged damage", "all_resistances": "to all resistances",
+    "fire_resistance": "Fire resistance", "air_resistance": "Air resistance", "water_resistance": "Water resistance",
+    "earth_resistance": "Earth resistance", "mind_resistance": "Mind resistance", "body_resistance": "Body resistance",
+    "spirit_resistance": "Spirit resistance",
+}
+MAGIC_SCHOOLS = ["FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic", "BodyMagic",
+                 "LightMagic", "DarkMagic"]
+ARMOR_SKILLS = ["LeatherArmor", "ChainArmor", "PlateArmor"]
+EFFECT_FLAG_TEXT = {
+    "BreakAfterFirstAttack": "breaks after its first attack",
+    "PoisonOnHit40Grandmaster": "40% chance to poison the target at Grandmaster",
+    "PerfectAccuracy": "always hits",
+    "TripleProjectile": "three projectiles per throw",
+    "HalveTargetArmor": "halves the target's AC",
+    "BreakChance2SelfDamage": "2% chance per shot to break and hurt the wielder",
+    "BypassArmorChance20": "20% chance to ignore the target's AC",
+    "Vampiric": "Vampiric",
+    "WeeklyInsanityChance10": "10% chance of insanity each week",
+    "WeeklyHealthLossChance10": "10% chance each week to lose a tenth of HP",
+    "EnrageOnHit5Grandmaster": "5% chance to enrage the target at Grandmaster",
+    "StunOnHit5": "5% chance to stun the target",
+    "SelfKnockoutOnFailedStun70": "70% chance to knock the wielder unconscious when a hit does not stun",
+    "KillOnHit10": "10% chance to kill the target outright",
+    "ReelOnHit": "stuns the target on every hit",
+    "DisableDivineIntervention": "Divine Intervention always fails",
+    "FearOnHit10": "10% chance to frighten the target on a hit",
+    "MeleeArmor40": "+40 AC against melee attacks",
+    "RangedArmorMinus10": "-10 AC against missiles",
+    "MagicArmor20": "+20 AC against magic",
+    "MissileArmor30": "+30 AC against missiles",
+    "Amelioration": "immune to weakness and drunkenness",
+    "Everlasting": "never breaks",
+    "WeeklyGold1000": "1,000 gold each week",
+    "PartyEnduranceMinus40": "-40 Endurance for the whole party",
+    "PhysicalDamageReduction3Percent": "3% less physical damage taken",
+    "EncounterChancePlus15Percent": "random encounters 15% more likely",
+    "AllConditionImmunity": "immune to all conditions",
+    "ExperienceGainMinus15Percent": "15% less experience",
+}
+WEAPON_DAMAGE_KIND = {"PoisonWeaponDamage": "poison ", "DiseaseWeaponDamage": "disease "}
+
+# MM9's spelling slips in the artifact and set piece stories, corrected in the imported text. Each must still occur.
+DESCRIPTION_CORRECTIONS: dict[int, list[tuple[str, str]]] = {
+    175: [("weilder", "wielder")],
+    179: [("comissioned", "commissioned"), ("Clans of Chedian ", "Clans of Chedian. ")],
+    180: [("lead by", "led by"), ("it's contents", "its contents")],
+    181: [("commited", "committed")],
+    184: [("missle", "missile")],
+    188: [("paticular invetion", "particular invention"), ("it's muzzle", "its muzzle")],
+    189: [("forsaw", "foresaw"), ("surfaced in Chedian ", "surfaced in Chedian. ")],
+    190: [("Desipte", "Despite")],
+    191: [("It's first", "Its first"), ("carries is long", "carries are long")],
+    194: [("extremly", "extremely")],
+    197: [("suceeded", "succeeded")],
+    198: [("intstead", "instead")],
+    207: [("sheild", "shield"), ("possesed", "possessed")],
+    209: [("suitor's became", "suitors became")],
+    210: [("it's life", "its life"), ("it's new owner", "its new owner"), ("piece of them with when",
+                                                                         "piece of them with it when")],
+    216: [("preceeds", "precedes")],
+    217: [("Beggers", "Beggars"), ("the begger", "the beggar"), ("One begger", "One beggar")],
+    218: [("it's inhabitants", "its inhabitants"), ("exorborant", "exorbitant"), ("This ring", "This amulet")],
+    **{raw_id: [("Hundred's", "Hundreds")] for raw_id in range(234, 239)},
+    221: [("Regenereration", "Regeneration")],
+    226: [("Regenereration", "Regeneration")],
+    236: [("+ 10", "+10")],
+}
+
+
+def signed(value: int) -> str:
+    return f"+{value}" if value > 0 else str(value)
+
+
+def skill_label(name: str) -> str:
+    return re.sub(r"(?<=[a-z])(?=[A-Z])", " ", name)
+
+
+def effect_text(effect: dict[str, Any]) -> str:
+    """The "(Effects: ...)" list of an artifact or relic, written from its final effect."""
+    parts: list[str] = []
+    stats = [effect.get(name, 0) for name in EFFECT_TEXT_STATS]
+    if stats[0] and len(set(stats)) == 1:
+        parts.append(f"{signed(stats[0])} to all stats")
+    else:
+        parts += [f"{signed(value)} {name.capitalize()}" for name, value in zip(EFFECT_TEXT_STATS, stats) if value]
+    parts += [f"{signed(effect[name])} {label}" for name, label in EFFECT_TEXT_FIELDS.items() if effect.get(name)]
+
+    skills = dict(effect.get("skill_bonuses", {}))
+    for group, label in ((MAGIC_SCHOOLS, "to all magic skills"), (ARMOR_SKILLS, "to the armor skills")):
+        amounts = {skills.get(name) for name in group}
+        if len(amounts) == 1 and None not in amounts:
+            parts.append(f"{signed(amounts.pop())} {label}")
+            for name in group:
+                del skills[name]
+    parts += [f"{signed(amount)} {skill_label(name)}" for name, amount in skills.items()]
+
+    flags = list(effect.get("flags", []))
+    if effect.get("weapon_damage"):
+        kind = next((WEAPON_DAMAGE_KIND[flag] for flag in flags if flag in WEAPON_DAMAGE_KIND), "")
+        parts.append(f"{signed(effect['weapon_damage'])} {kind}damage per hit")
+    recovery = effect.get("recovery_reduction_ticks", 0)
+    if recovery:
+        parts.append("faster recovery" if recovery > 0 else "slower recovery")
+    if effect.get("health_regen_per_second"):
+        parts.append("regenerates HP")
+    if effect.get("spell_regen_per_second"):
+        parts.append("regenerates SP")
+    for flag in flags:
+        if flag in WEAPON_DAMAGE_KIND or flag == "CarriedPartyEffect":
+            continue
+        if flag not in EFFECT_FLAG_TEXT:
+            raise ValueError(f"effect flag {flag!r} has no description text")
+        parts.append(EFFECT_FLAG_TEXT[flag])
+
+    if not parts:
+        raise ValueError("an artifact effect without any description text")
+    text = ", ".join(parts)
+    if "CarriedPartyEffect" in flags:
+        text = "while carried, for the whole party: " + text
+    return f"(Effects: {text[0].upper()}{text[1:]})"
+
+
+def item_description(item: SourceItem, effect: dict[str, Any] | None) -> str:
+    """MM9's description with its spelling corrected and, on an artifact or relic, the effect list rewritten."""
+    description = item.description
+    for wrong, right in DESCRIPTION_CORRECTIONS.get(item.raw_id, []):
+        if wrong not in description:
+            raise ValueError(f"raw item {item.raw_id}: description correction {wrong!r} no longer matches")
+        description = description.replace(wrong, right)
+    if item.raw_id in EFFECT_TEXT_RAW_IDS and effect is not None:
+        start = description.find("(Effects:")
+        if start < 0:
+            raise ValueError(f"raw item {item.raw_id}: description has no effect list")
+        description = description[:start].rstrip() + " " + effect_text(effect)
+    return description
+
 
 def item_flags(item: SourceItem, readable_texts: dict[int, tuple[str, str]]) -> list[str]:
     flags: list[str] = []
@@ -1122,6 +1265,9 @@ def import_items(args: argparse.Namespace) -> dict[str, int]:
                 equipment_visual,
                 body_equipment_visual,
             )
+            authored_effect = effect_definitions.get(str(item.raw_id))
+            normalized_row[16] = item_description(
+                item, balance_effect(item.raw_id, authored_effect) if authored_effect is not None else None)
             if equipment_visual is not None:
                 equip_x, equip_y = equipment_visual["equip_anchor"]
 
