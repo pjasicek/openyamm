@@ -1568,24 +1568,30 @@ void calculateStaticBounds(ModelAsset &asset)
 }
 }
 
-std::optional<std::unordered_map<std::string, float>> readGltfClipDurations(
-    const AssetFileSystem &assetFileSystem, const std::string &virtualPath)
+namespace
 {
-    std::unique_ptr<AssetReadStream> pStream = assetFileSystem.openReadStream(virtualPath);
-    if (pStream == nullptr || !pStream->isOpen())
-    {
-        return std::nullopt;
-    }
-    // A binary glTF: the 12-byte header, then the JSON chunk (its length and type, then the text). Only the JSON is
-    // read; a text glTF is all JSON.
+// A glTF file's JSON alone, parsed without its buffers. binChunkOffset: where a binary glTF's BIN chunk data starts
+// (0 for a text glTF or a binary one without that chunk).
+struct GltfJson
+{
+    std::unique_ptr<cgltf_data, CgltfDeleter> data;
+    uint64_t binChunkOffset = 0;
+};
+
+std::optional<GltfJson> readGltfJson(AssetReadStream &stream)
+{
+    // A binary glTF: the 12-byte header, then the JSON chunk (its length and type, then the text), then the BIN chunk
+    // (its length and type, then the data). Only the JSON is read; a text glTF is all JSON.
     std::vector<char> json;
     uint32_t header[5] = {};
-    const int64_t headerBytes = pStream->read(header, sizeof(header));
+    const int64_t headerBytes = stream.read(header, sizeof(header));
     constexpr uint32_t GlbMagic = 0x46546c67;
     constexpr uint32_t JsonChunkType = 0x4e4f534a;
-    if (headerBytes == int64_t(sizeof(header)) && header[0] == GlbMagic)
+    constexpr uint32_t BinChunkType = 0x004e4942;
+    const bool binary = headerBytes == int64_t(sizeof(header)) && header[0] == GlbMagic;
+    if (binary)
     {
-        if (header[4] != JsonChunkType || header[3] == 0 || header[3] > uint32_t(pStream->length()))
+        if (header[4] != JsonChunkType || header[3] == 0 || header[3] > uint32_t(stream.length()))
         {
             return std::nullopt;
         }
@@ -1593,15 +1599,22 @@ std::optional<std::unordered_map<std::string, float>> readGltfClipDurations(
     }
     else
     {
-        if (pStream->length() <= 0 || !pStream->seek(0))
+        if (stream.length() <= 0 || !stream.seek(0))
         {
             return std::nullopt;
         }
-        json.resize(size_t(pStream->length()));
+        json.resize(size_t(stream.length()));
     }
-    if (pStream->read(json.data(), json.size()) != int64_t(json.size()))
+    if (stream.read(json.data(), json.size()) != int64_t(json.size()))
     {
         return std::nullopt;
+    }
+    GltfJson result;
+    uint32_t binHeader[2] = {};
+    if (binary && stream.read(binHeader, sizeof(binHeader)) == int64_t(sizeof(binHeader))
+        && binHeader[1] == BinChunkType)
+    {
+        result.binChunkOffset = sizeof(header) + json.size() + sizeof(binHeader);
     }
     cgltf_options options = {};
     options.type = cgltf_file_type_gltf;
@@ -1611,11 +1624,104 @@ std::optional<std::unordered_map<std::string, float>> readGltfClipDurations(
     {
         return std::nullopt;
     }
-    std::unique_ptr<cgltf_data, CgltfDeleter> data(pParsedData);
-    std::unordered_map<std::string, float> durations;
-    for (size_t animationIndex = 0; animationIndex < data->animations_count; ++animationIndex)
+    result.data.reset(pParsedData);
+    return result;
+}
+
+// Column-major 4x4 matrices, as glTF stores them.
+std::array<float, 16> multiplyColumnMajor(const std::array<float, 16> &left, const std::array<float, 16> &right)
+{
+    std::array<float, 16> result = {};
+    for (size_t column = 0; column < 4; ++column)
     {
-        const cgltf_animation &animation = data->animations[animationIndex];
+        for (size_t row = 0; row < 4; ++row)
+        {
+            float sum = 0.0f;
+            for (size_t index = 0; index < 4; ++index)
+            {
+                sum += left[index * 4 + row] * right[column * 4 + index];
+            }
+            result[column * 4 + row] = sum;
+        }
+    }
+    return result;
+}
+
+// The bind pose's lowest and highest point (readGltfModelSummary); stream reads the inverse bind matrix it needs.
+std::optional<std::array<float, 2>> gltfBindPoseHeightRange(const GltfJson &gltf, AssetReadStream &stream)
+{
+    const cgltf_data &data = *gltf.data;
+    float minY = std::numeric_limits<float>::max();
+    float maxY = std::numeric_limits<float>::lowest();
+    for (size_t nodeIndex = 0; nodeIndex < data.nodes_count; ++nodeIndex)
+    {
+        const cgltf_node &node = data.nodes[nodeIndex];
+        if (node.mesh == nullptr)
+        {
+            continue;
+        }
+        std::array<float, 16> matrix = {};
+        cgltf_node_transform_world(&node, matrix.data());
+        // A skinned mesh ignores its node: its bind pose is any joint's world matrix times that joint's inverse bind
+        // matrix (one shared transform in a rest pose), read from the BIN chunk for the first joint alone.
+        const cgltf_skin *pSkin = node.skin;
+        const cgltf_accessor *pInverseBind = pSkin != nullptr ? pSkin->inverse_bind_matrices : nullptr;
+        if (pSkin != nullptr && pSkin->joints_count > 0 && pInverseBind != nullptr
+            && pInverseBind->buffer_view != nullptr && pInverseBind->component_type == cgltf_component_type_r_32f
+            && pInverseBind->type == cgltf_type_mat4 && data.buffers_count > 0
+            && pInverseBind->buffer_view->buffer == &data.buffers[0] && data.buffers[0].uri == nullptr
+            && gltf.binChunkOffset != 0)
+        {
+            std::array<float, 16> inverseBind = {};
+            const uint64_t offset =
+                gltf.binChunkOffset + pInverseBind->buffer_view->offset + pInverseBind->offset;
+            if (!stream.seek(offset)
+                || stream.read(inverseBind.data(), sizeof(inverseBind)) != int64_t(sizeof(inverseBind)))
+            {
+                return std::nullopt;
+            }
+            std::array<float, 16> jointWorld = {};
+            cgltf_node_transform_world(pSkin->joints[0], jointWorld.data());
+            matrix = multiplyColumnMajor(jointWorld, inverseBind);
+        }
+        for (size_t primitiveIndex = 0; primitiveIndex < node.mesh->primitives_count; ++primitiveIndex)
+        {
+            const cgltf_primitive &primitive = node.mesh->primitives[primitiveIndex];
+            for (size_t attributeIndex = 0; attributeIndex < primitive.attributes_count; ++attributeIndex)
+            {
+                const cgltf_attribute &attribute = primitive.attributes[attributeIndex];
+                const cgltf_accessor *pPositions = attribute.data;
+                if (attribute.type != cgltf_attribute_type_position || attribute.index != 0 || pPositions == nullptr
+                    || !pPositions->has_min || !pPositions->has_max)
+                {
+                    continue;
+                }
+                // The accessor's box, its eight corners through the matrix: the height of its bind pose.
+                for (uint32_t corner = 0; corner < 8; ++corner)
+                {
+                    const float x = (corner & 1) != 0 ? pPositions->max[0] : pPositions->min[0];
+                    const float y = (corner & 2) != 0 ? pPositions->max[1] : pPositions->min[1];
+                    const float z = (corner & 4) != 0 ? pPositions->max[2] : pPositions->min[2];
+                    const float worldY = matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13];
+                    minY = std::min(minY, worldY);
+                    maxY = std::max(maxY, worldY);
+                }
+            }
+        }
+    }
+    if (!(maxY > minY) || !std::isfinite(minY) || !std::isfinite(maxY))
+    {
+        return std::nullopt;
+    }
+    return std::array<float, 2>{minY, maxY};
+}
+
+std::unordered_map<std::string, float> gltfClipDurations(const cgltf_data &data)
+{
+    std::unordered_map<std::string, float> durations;
+    for (size_t animationIndex = 0; animationIndex < data.animations_count; ++animationIndex)
+    {
+        const cgltf_animation &animation = data.animations[animationIndex];
         float duration = 0.0f;
         for (size_t samplerIndex = 0; samplerIndex < animation.samplers_count; ++samplerIndex)
         {
@@ -1630,6 +1736,26 @@ std::optional<std::unordered_map<std::string, float>> readGltfClipDurations(
             ? std::string(animation.name) : "clip_" + std::to_string(animationIndex)] = duration;
     }
     return durations;
+}
+}
+
+std::optional<GltfModelSummary> readGltfModelSummary(
+    const AssetFileSystem &assetFileSystem, const std::string &virtualPath)
+{
+    std::unique_ptr<AssetReadStream> pStream = assetFileSystem.openReadStream(virtualPath);
+    if (pStream == nullptr || !pStream->isOpen())
+    {
+        return std::nullopt;
+    }
+    const std::optional<GltfJson> gltf = readGltfJson(*pStream);
+    if (!gltf)
+    {
+        return std::nullopt;
+    }
+    GltfModelSummary summary;
+    summary.clipDurations = gltfClipDurations(*gltf->data);
+    summary.bindPoseHeightRange = gltfBindPoseHeightRange(*gltf, *pStream);
+    return summary;
 }
 
 ModelLoadResult GltfModelLoader::load(

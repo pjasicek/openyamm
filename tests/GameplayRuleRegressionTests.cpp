@@ -4187,6 +4187,20 @@ TEST_CASE("projectile targeting stays inside short actor collision heights")
     }
 }
 
+TEST_CASE("the party aims at a 3D model shorter than its collision height")
+{
+    using OpenYAMM::Game::GameMechanics;
+    // MM8's Bone Dragon: 450 tall, its model 166 (aimed at 270 before, above the whole model).
+    CHECK(GameMechanics::actorTargetHeight(450, 0.0f, 166.0f) == doctest::Approx(99.6f));
+    // A taller model keeps 60% of the collision height, which a shot must stay inside.
+    CHECK(GameMechanics::actorTargetHeight(199, 0.0f, 1155.0f) == doctest::Approx(119.4f));
+    // A model held up by its binding's z_offset (a wisp: 64 +- 31): 60% up the model itself.
+    CHECK(GameMechanics::actorTargetHeight(160, 33.0f, 95.0f) == doctest::Approx(70.2f));
+    // Below the feet counts from the feet; an unknown model keeps the collision height's rule.
+    CHECK(GameMechanics::actorTargetHeight(300, -50.0f, 100.0f) == doctest::Approx(60.0f));
+    CHECK(GameMechanics::actorTargetHeight(300, 0.0f, 0.0f) == doctest::Approx(180.0f));
+}
+
 TEST_CASE("blaster attack tuning can add scaling skill damage and minimum recovery")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

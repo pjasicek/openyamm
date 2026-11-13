@@ -26,6 +26,7 @@
 #include "game/party/SpellSchool.h"
 #include "game/StringUtils.h"
 #include "game/tables/MergedBaseTables.h"
+#include "game/ui/CombatFloatingText.h"
 #include "game/ui/EnemyHealthBarRenderer.h"
 #include "game/ui/GameplayJournalMapUi.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -3640,6 +3641,10 @@ void GameplayScreenRuntime::preloadReferencedAssets()
     {
         EnemyHealthBarRenderer::preload(*this);
     }
+    if (settingsSnapshot().combatText)
+    {
+        CombatFloatingText::preload(*this);
+    }
 }
 
 bool GameplayScreenRuntime::ensurePortraitRuntimeLoaded()
@@ -3959,6 +3964,12 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
     const HudLayoutElement *pElement = findHudLayoutElement(layoutId);
     while (pElement != nullptr)
     {
+        // The tabs under the minimap and their icons line up from the right edge without gaps.
+        if (const std::optional<float> shift = minimapTabShift(pElement->id, screenWidth, screenHeight))
+        {
+            rect->x += *shift;
+            break;
+        }
         if (pElement->id == "OutdoorMobileActionPanel" || pElement->id == "OutdoorMobileSystemPanel")
         {
             const std::optional<ResolvedHudLayoutElement> panel = uiRuntime().resolveHudLayoutElement(
@@ -3979,6 +3990,43 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
         pElement = pElement->parentId.empty() ? nullptr : findHudLayoutElement(pElement->parentId);
     }
     return rect;
+}
+
+std::optional<float> GameplayScreenRuntime::minimapTabShift(
+    const std::string &layoutId,
+    int screenWidth,
+    int screenHeight) const
+{
+    // Right to left, each in the next slot while it is shown: the followers' head (worlds with MM6-MM8 followers),
+    // the formation button (MM9, or every world with the setting) and the combat log's sword.
+    static constexpr std::array<const char *, 3> Tabs = {"OutdoorFollowerToggle", "Mm9FormationButton",
+        "CombatLogToggle"};
+    const auto tab = std::find(Tabs.begin(), Tabs.end(), layoutId);
+
+    if (tab == Tabs.end())
+    {
+        return std::nullopt;
+    }
+
+    const Party *pParty = partyReadOnly();
+    const std::array<bool, 3> shown = {pParty != nullptr && pParty->npcFollowersActive(),
+        pParty != nullptr && pParty->formationTargetingActive(), combatLogShown()};
+    const std::optional<ResolvedHudLayoutElement> own =
+        uiRuntime().resolveHudLayoutElement(layoutId, screenWidth, screenHeight, 0, 0);
+    const std::optional<ResolvedHudLayoutElement> edge =
+        uiRuntime().resolveHudLayoutElement(Tabs.front(), screenWidth, screenHeight, 0, 0);
+
+    if (!own || !edge)
+    {
+        return std::nullopt;
+    }
+
+    // Each slot is the followers' tab wide with a two-unit gap; a smaller button sits in its slot's middle.
+    const size_t index = size_t(tab - Tabs.begin());
+    const size_t slot = size_t(std::count(shown.begin(), shown.begin() + index, true));
+    const float pitch = edge->width + 2 * edge->scale;
+    const float x = edge->x - float(slot) * pitch + (edge->width - own->width) * 0.5f;
+    return x - own->x;
 }
 
 std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRuntime::resolvePartyPortraitRect(

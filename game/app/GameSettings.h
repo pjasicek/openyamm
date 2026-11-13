@@ -407,6 +407,9 @@ struct GameSettings
     bool saveListNewestFirst = false;
     // How many quicksaves a playthrough keeps (1 to 20): a new one pushes the earlier ones down, the oldest goes.
     int quickSaveSlots = 3;
+    // Random loot (drops, chests, map treasure) on MM6-MM8 maps may roll MM9's equipment; off, those maps roll only
+    // the merged MM6-MM8 base's, as their shops already sell (Party::mm9LootInOlderWorlds, devdocs/LOOT_POOL.md).
+    bool mm9LootInOlderWorlds = false;
     // Obsidian basebar frame behind the gameplay party portraits; fullscreen overlays always draw their own strip.
     bool partyFrame = true;
     // The quick item rings: the round button at each gameplay portrait opening its ring of six quick slots, and the
@@ -427,6 +430,13 @@ struct GameSettings
     // A held Attack or Quick Cast key repeats after 0.14 s, as before 2026-11-07, instead of the original's key-repeat
     // pause of 0.5 s that lets an ordinary tap act once (OY-189).
     bool fastAttackRepeat = false;
+    // MM9's party formation in every world, not only where world.yml turns it on: monsters strike the front rank more
+    // often, and the formation button and key work (OY-538). On by default on all four continents (the user,
+    // 2026-11-13); off, MM6-MM8 pick their victims among the members as the originals do.
+    bool formationsEverywhere = true;
+    // The MM6-MM8 shops' buy screens as MM9's merchant list (one row per kind of item, filtered by tabs) instead of the
+    // shelf picture (OY-590). MM9's own merchants always use the list.
+    bool shopListView = false;
     // A glow in the item's rarity colour around its icon in the inventory, chest and shop grids (rulesets with item
     // rarities, such as MAW; Common items have none; artifacts, relics and special items glow teal): "off", "hold"
     // (while the Show Item Rarity key, Left Alt, is held) or "always".

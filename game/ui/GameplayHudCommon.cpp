@@ -1385,7 +1385,8 @@ std::optional<FontSource> resolveFontSource(
                 // apart (releaseRasterSizes), so they never share an atlas.
                 source.unicodeAtlasKey = descriptor["file"].as<std::string>("") + "|"
                     + descriptor["characters_file"].as<std::string>("") + "|"
-                    + descriptor["weight"].as<std::string>("") + (pixelHeight > 0 ? "|pixels|" : "|logical|")
+                    + descriptor["weight"].as<std::string>("") + "|"
+                    + descriptor["glyph_scale"].as<std::string>("1") + (pixelHeight > 0 ? "|pixels|" : "|logical|")
                     + std::to_string(rasterHeight);
             }
         }

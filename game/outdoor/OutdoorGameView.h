@@ -52,6 +52,7 @@
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
 #include "game/gameplay/GameplayDialogController.h"
+#include "game/ui/CombatFloatingText.h"
 #include "game/ui/EnemyHealthBarRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
@@ -697,20 +698,6 @@ private:
     void refreshViewDistanceCache();
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId) const;
 
-    struct CombatFloatingText
-    {
-        size_t actorIndex = 0;
-        int amount = 0;
-        std::string text;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float remainingSeconds = 0.0f;
-        float durationSeconds = 0.0f;
-        uint32_t colorAbgr = 0xffffffffu;
-        float fontScale = 1.0f;
-    };
-
 
 
     bool m_isInitialized;
@@ -1012,6 +999,6 @@ private:
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
     std::vector<EnemyHealthBarRenderer::Draw> m_pendingEnemyHealthBars;
-    std::vector<CombatFloatingText> m_combatFloatingTexts;
+    CombatFloatingText m_combatFloatingText;
 };
 }

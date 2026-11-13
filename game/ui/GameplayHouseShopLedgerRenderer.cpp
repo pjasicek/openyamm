@@ -324,7 +324,9 @@ std::optional<GameplayHouseShopLedgerView> resolve(GameplayScreenRuntime &contex
 
     const HouseEntry *pHouseEntry = context.houseTable()->get(overlay.houseId);
 
-    if (pHouseEntry == nullptr || pHouseEntry->shopBuyView != ShopBuyView::Ledger)
+    // MM9's merchants always list their stock; the other shops do with the Shops as lists setting (OY-590).
+    if (pHouseEntry == nullptr
+        || (pHouseEntry->shopBuyView != ShopBuyView::Ledger && !context.settingsSnapshot().shopListView))
     {
         return std::nullopt;
     }

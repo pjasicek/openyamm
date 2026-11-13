@@ -802,6 +802,8 @@ public:
         CombatDamageType damageType,
         uint32_t sourcePartyMemberIndex) override;
     const MapActorState *mapActorState(size_t actorIndex) const;
+    // Where the party aims at a map actor, above its feet (actorTargetHeight).
+    float mapActorTargetHeight(const MapActorState &actor) const;
     std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
         size_t actorIndex,
         bool visibleForFallback) const override;
@@ -828,13 +830,15 @@ public:
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ,
-        ShieldAttackTier shieldTier = ShieldAttackTier::Physical, const ShieldHitModifiers &shieldModifiers = {});
+        ShieldAttackTier shieldTier = ShieldAttackTier::Physical, const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
-        const ShieldHitModifiers &shieldModifiers = {}) override;
+        const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -1354,6 +1358,8 @@ public:
         float maxY,
         std::vector<size_t> &indices) const;
     const OutdoorFaceGeometryData *outdoorFace(size_t faceIndex) const;
+    // Its model's scale for a shrink and the ruleset (GameplayRuntimeActorState::visualScale).
+    float mapActorVisualScale(const MapActorState &actor) const;
     bool hasClearOutdoorLineOfSight(
         const bx::Vec3 &start, const bx::Vec3 &end, bool includeWalkableFaces = false) const;
     size_t bloodSplatCount() const;

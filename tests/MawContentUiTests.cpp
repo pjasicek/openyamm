@@ -1122,6 +1122,11 @@ TEST_CASE("MAW's gather key brings corpses and crafting items; Standard has none
 
     // The keys: MAW's actions have their own ini names and defaults.
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::GatherLoot).iniKey, "gather_loot");
+    // The inventory key keeps the settings key it had as "Quest"; the quest book has a key of its own (OY-481).
+    CHECK_EQ(keyboardBindingDefinition(KeyboardAction::Inventory).iniKey, "quest");
+    CHECK_EQ(keyboardBindingDefinition(KeyboardAction::Inventory).defaultBinding.scancode, SDL_SCANCODE_I);
+    CHECK_EQ(keyboardBindingDefinition(KeyboardAction::QuestBook).iniKey, "quest_book");
+    CHECK_EQ(keyboardBindingDefinition(KeyboardAction::QuestBook).defaultBinding.kind, InputBindingKind::None);
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::GatherLoot).defaultBinding.scancode, SDL_SCANCODE_G);
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::Unstuck).defaultBinding.kind, InputBindingKind::None);
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::AlchemistPick).defaultBinding.scancode, SDL_SCANCODE_A);

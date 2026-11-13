@@ -636,6 +636,8 @@ public:
         bool unavailableForCombat = false;
         bool hostileToParty = false;
         bool friendlyToTrapSource = false;
+        // A wall or closed door stands between the spike and the creature (indoors), so it cannot trigger it (OY-490).
+        bool blockedFromTrap = false;
     };
 
     struct FireSpikeActiveTrapFacts
@@ -673,6 +675,10 @@ public:
         float z = 0.0f;
         std::vector<FireSpikeTrapActorFacts> actors;
     };
+
+    // Whether the creature is near enough to set the spike off (buildFireSpikeTrapTrigger's reach), before the
+    // other tests: the indoor world tests the line of sight only for these.
+    static bool fireSpikeTrapReaches(const FireSpikeTrapTriggerInput &input, const FireSpikeTrapActorFacts &actor);
 
     struct FireSpikeTrapTriggerResult
     {

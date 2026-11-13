@@ -308,6 +308,9 @@ private:
     bool saveSettings(const GameSettings &settings, std::string &error) const;
     void loadOrCreateSettings();
     void applyCurrentSettingsToActiveRuntime();
+    // Whether the party stands in MM9's formation: the world turns it on (world.yml formations) or the player does
+    // everywhere (GameSettings::formationsEverywhere).
+    bool formationsActive() const;
     void applyStartupDebugSettingsToActiveRuntime();
     void requestApplicationQuit() const;
     void reportQuickSaveStatus(const std::string &status);

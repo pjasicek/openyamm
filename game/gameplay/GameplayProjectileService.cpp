@@ -2515,6 +2515,26 @@ uint32_t GameplayProjectileService::advanceFireSpikeTrapLifetime(
     return timeSinceCreatedTicks + ticksFromDeltaSeconds(deltaSeconds);
 }
 
+bool GameplayProjectileService::fireSpikeTrapReaches(
+    const FireSpikeTrapTriggerInput &input,
+    const FireSpikeTrapActorFacts &actor)
+{
+    const float deltaX = actor.x - input.x;
+    const float deltaY = actor.y - input.y;
+    const float triggerRadius =
+        static_cast<float>(std::max<uint16_t>(actor.radius, 24))
+        + static_cast<float>(std::max<uint16_t>(input.trapRadius, 24))
+        + 48.0f;
+
+    if (deltaX * deltaX + deltaY * deltaY > triggerRadius * triggerRadius)
+    {
+        return false;
+    }
+
+    const float actorCenterZ = actor.z + static_cast<float>(actor.height) * 0.5f;
+    return std::abs(actorCenterZ - input.z) <= static_cast<float>(std::max<uint16_t>(actor.height, 128));
+}
+
 GameplayProjectileService::FireSpikeTrapTriggerResult
 GameplayProjectileService::buildFireSpikeTrapTrigger(
     const FireSpikeTrapTriggerInput &input) const
@@ -2524,7 +2544,7 @@ GameplayProjectileService::buildFireSpikeTrapTrigger(
 
     for (const FireSpikeTrapActorFacts &actor : input.actors)
     {
-        if (actor.unavailableForCombat)
+        if (actor.unavailableForCombat || actor.blockedFromTrap)
         {
             continue;
         }
@@ -2541,25 +2561,14 @@ GameplayProjectileService::buildFireSpikeTrapTrigger(
             continue;
         }
 
+        if (!fireSpikeTrapReaches(input, actor))
+        {
+            continue;
+        }
+
         const float deltaX = actor.x - input.x;
         const float deltaY = actor.y - input.y;
         const float horizontalDistanceSquared = deltaX * deltaX + deltaY * deltaY;
-        const float triggerRadius =
-            static_cast<float>(std::max<uint16_t>(actor.radius, 24))
-            + static_cast<float>(std::max<uint16_t>(input.trapRadius, 24))
-            + 48.0f;
-
-        if (horizontalDistanceSquared > triggerRadius * triggerRadius)
-        {
-            continue;
-        }
-
-        const float actorCenterZ = actor.z + static_cast<float>(actor.height) * 0.5f;
-
-        if (std::abs(actorCenterZ - input.z) > static_cast<float>(std::max<uint16_t>(actor.height, 128)))
-        {
-            continue;
-        }
 
         if (horizontalDistanceSquared < bestDistanceSquared)
         {

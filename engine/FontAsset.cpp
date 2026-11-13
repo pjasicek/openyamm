@@ -501,10 +501,14 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     bool unicode = false;
     std::string characterListFile;
     int maxRasterHeight = 0;
+    // A Unicode face's glyphs drawn at this share of the raster height, the line and baseline unchanged: a CJK face
+    // whose characters stand taller than the Latin ones it replaces (zh-cn 0.78, issue #31).
+    float glyphScale = 1.0f;
     try
     {
         const YAML::Node descriptor = YAML::Load(descriptorText.value_or(""));
         maxRasterHeight = descriptor["max_raster_height"].as<int>(0);
+        glyphScale = descriptor["glyph_scale"].as<float>(1.0f);
         embolden = descriptor["embolden"].as<float>(0.0f);
         file = descriptor["file"].as<std::string>();
         unicode = descriptor["encoding"].as<std::string>() == "utf-8";
@@ -521,6 +525,7 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             file.find_first_of("/\\") != std::string::npos || atlas.fontHeight < 8 || atlas.fontHeight > 64 ||
             baseline < 0 || baseline > atlas.fontHeight || (weight && (*weight < 1 || *weight > 1000)) ||
             embolden < 0.0f || embolden > 0.1f || (unicode && embolden > 0.0f) || maxRasterHeight < 0 ||
+            glyphScale < 0.5f || glyphScale > 1.0f || (!unicode && glyphScale != 1.0f) ||
             (maxRasterHeight > 0 && (!unicode || maxRasterHeight < 16)))
         {
             error = "Invalid independent outline font descriptor: " + name;
@@ -551,7 +556,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     if (!bytes || bytes->empty() || bytes->size() > 32 * 1024 * 1024 || FT_Init_FreeType(&font.library) != 0 ||
         FT_New_Memory_Face(font.library, bytes->data(), FT_Long(bytes->size()), 0, &font.face) != 0 ||
         !FT_IS_SCALABLE(font.face) || FT_Select_Charmap(font.face, FT_ENCODING_UNICODE) != 0 ||
-        FT_Set_Pixel_Sizes(font.face, 0, rasterHeight * atlas.atlasScale) != 0)
+        FT_Set_Pixel_Sizes(font.face, 0,
+            FT_UInt(std::max(1, int(std::lround(float(rasterHeight * atlas.atlasScale) * glyphScale))))) != 0)
     {
         error = "Unable to open outline font: " + file;
         return std::nullopt;

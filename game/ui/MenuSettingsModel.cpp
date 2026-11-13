@@ -282,9 +282,21 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.fastAttackRepeat ? "true" : "false";
     }
+    if (id == "formations_everywhere")
+    {
+        return settings.formationsEverywhere ? "true" : "false";
+    }
+    if (id == "shop_list_view")
+    {
+        return settings.shopListView ? "true" : "false";
+    }
     if (id == "quicksave_slots")
     {
         return std::to_string(settings.quickSaveSlots);
+    }
+    if (id == "mm9_loot_in_older_worlds")
+    {
+        return settings.mm9LootInOlderWorlds ? "true" : "false";
     }
     if (id == "sound_volume")
     {
@@ -851,6 +863,24 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         settings.fastAttackRepeat = value == "true";
         return true;
     }
+    if (id == "formations_everywhere")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.formationsEverywhere = value == "true";
+        return true;
+    }
+    if (id == "shop_list_view")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.shopListView = value == "true";
+        return true;
+    }
     if (id == "quicksave_slots")
     {
         int number = 0;
@@ -860,6 +890,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.quickSaveSlots = number;
+        return true;
+    }
+    if (id == "mm9_loot_in_older_worlds")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.mm9LootInOlderWorlds = value == "true";
         return true;
     }
     if (id == "sound_volume")

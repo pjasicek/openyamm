@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayActorHitFeedback.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/EventSpellBuffs.h"
@@ -723,6 +724,11 @@ public:
         }
 
         state = m_actors[actorIndex];
+        // As a world runtime fills it for a sprite (no 3D model), unless the test set it.
+        if (state.targetHeight <= 0.0f)
+        {
+            state.targetHeight = Game::GameMechanics::actorTargetHeight(state.height);
+        }
         return true;
     }
 
@@ -980,13 +986,15 @@ public:
     }
 
     bool applyPartyAttackMeleeDamage(size_t actorIndex, int damage, const Game::GameplayWorldPoint &source,
-        Game::ShieldAttackTier shieldTier, const Game::ShieldHitModifiers &shieldModifiers = {}) override
+        Game::ShieldAttackTier shieldTier, const Game::ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false) override
     {
         (void)actorIndex;
         (void)damage;
         (void)source;
         (void)shieldTier;
         (void)shieldModifiers;
+        (void)critical;
         return false;
     }
 

@@ -34,7 +34,7 @@ public:
         bool canToggleJournal,
         bool mapShortcutPressed,
         bool storyShortcutPressed,
-        bool notesShortcutPressed,
+        bool questsShortcutPressed,
         bool progressShortcutPressed,
         bool zoomInPressed,
         bool zoomOutPressed,

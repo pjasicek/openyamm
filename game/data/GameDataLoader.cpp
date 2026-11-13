@@ -4753,6 +4753,8 @@ bool GameDataLoader::loadItemEnchantTables(const Engine::AssetFileSystem &assetF
         }
     }
 
+    // Special items (Noblebone Bow "of Carnage") name their enchantment in items.txt (OY-553).
+    m_itemTable.resolveSpecialItemEnchants(m_standardItemEnchantTable, m_specialItemEnchantTable);
     return true;
 }
 

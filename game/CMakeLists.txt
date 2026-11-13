@@ -359,6 +359,7 @@ add_library(openyamm_game STATIC
     ui/HouseShopLayout.cpp
     ui/HouseShopLedger.cpp
     ui/GameplayHouseShopLedgerRenderer.cpp
+    ui/CombatFloatingText.cpp
     ui/EnemyHealthBarRenderer.cpp
     ui/GameplayHudRenderer.cpp
     ui/GameplayUiSkin.cpp

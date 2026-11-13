@@ -590,3 +590,68 @@ TEST_CASE("turn-based combat queues MM9 hirelings after the members and waits fo
     runtime.storeMemberTurnRecovery(2, 2.31f);
     CHECK(runtime.applyPlayerAction(party, 2, 2.31f));
 }
+
+TEST_CASE("automatic heals and upkeep buffs reach MM9 hirelings (OY-583, OY-487)")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    Party party = makeParty(2);
+    REQUIRE(party.addHireling(meleeRow()));
+    const size_t hirelingIndex = 2;
+    Character *pCleric = party.member(0);
+    REQUIRE(pCleric != nullptr);
+    pCleric->skills["BodyMagic"] = OpenYAMM::Game::CharacterSkill{"BodyMagic", 10, SkillMastery::Expert};
+    pCleric->skills["SpiritMagic"] = OpenYAMM::Game::CharacterSkill{"SpiritMagic", 10, SkillMastery::Expert};
+    pCleric->spellPoints = 100;
+    const uint32_t heal = uint32_t(OpenYAMM::Game::SpellId::Heal);
+    const uint32_t bless = uint32_t(OpenYAMM::Game::SpellId::Bless);
+
+    // The members are whole and the hireling is wounded: a quick-cast Heal goes to the hireling.
+    party.combatant(hirelingIndex)->health = 100;
+    CHECK(OpenYAMM::Game::PartySpellSystem::quickCastCharacterTarget(party, 0, heal, &gameData.spellTable)
+        == std::optional<size_t>(hirelingIndex));
+
+    // Bless is a buff an attack order waits for: due while someone lacks it, the hireling included.
+    CHECK(OpenYAMM::Game::PartySpellSystem::isUpkeepBuffSpell(bless));
+    CHECK_FALSE(OpenYAMM::Game::PartySpellSystem::isUpkeepBuffSpell(heal));
+    party.applyCharacterBuff(0, CharacterBuffId::Bless, 600.0f, 5, 0, 5, SkillMastery::Expert, 0);
+    party.applyCharacterBuff(1, CharacterBuffId::Bless, 600.0f, 5, 0, 5, SkillMastery::Expert, 0);
+    const std::optional<OpenYAMM::Game::PartySpellSystem::UpkeepNeed> need =
+        OpenYAMM::Game::PartySpellSystem::upkeepNeed(party, 0, bless, &gameData.spellTable, std::nullopt);
+    REQUIRE(need.has_value());
+    CHECK(need->targetCharacterIndex == std::optional<size_t>(hirelingIndex));
+
+    party.applyCharacterBuff(hirelingIndex, CharacterBuffId::Bless, 600.0f, 5, 0, 5, SkillMastery::Expert, 0);
+    CHECK_FALSE(OpenYAMM::Game::PartySpellSystem::upkeepNeed(party, 0, bless, &gameData.spellTable, std::nullopt)
+        .has_value());
+}
+
+TEST_CASE("an older save's party in the default formation stands by health, an arranged one keeps its cells")
+{
+    Party party = makeParty(5);
+    const std::array<int, 5> maximumHealth = {60, 140, 90, 200, 75};
+
+    for (size_t memberIndex = 0; memberIndex < 5; ++memberIndex)
+    {
+        party.member(memberIndex)->maxHealth = maximumHealth[memberIndex];
+    }
+
+    REQUIRE(party.addHireling(meleeRow()));
+    CHECK_EQ(party.formationCell(5), 5);
+    party.arrangeDefaultFormationByHealth();
+    // Front rank (cells 0-2): 200, 140, 90; middle: 75, 60. The hireling keeps its cell.
+    CHECK_EQ(party.formationCell(3), 0);
+    CHECK_EQ(party.formationCell(1), 1);
+    CHECK_EQ(party.formationCell(2), 2);
+    CHECK_EQ(party.formationCell(4), 3);
+    CHECK_EQ(party.formationCell(0), 4);
+    CHECK_EQ(party.formationCell(5), 5);
+
+    // A formation the player arranged stays as it is.
+    Party arranged = makeParty(3);
+    arranged.member(2)->maxHealth = 500;
+    REQUIRE(arranged.setFormationCell(0, 6));
+    arranged.arrangeDefaultFormationByHealth();
+    CHECK_EQ(arranged.formationCell(0), 6);
+    CHECK_EQ(arranged.formationCell(2), 2);
+}

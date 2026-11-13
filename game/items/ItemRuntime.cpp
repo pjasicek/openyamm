@@ -378,7 +378,9 @@ std::string ItemRuntime::identifiedDisplayName(
     const StandardItemEnchantTable *pStandardEnchantTable,
     const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
-    if (item.standardEnchantId != 0 || item.specialEnchantId != 0)
+    // A Special item keeps its own name with its fixed enchantment (Noblebone Bow, not "Noblebone Bow of Carnage"),
+    // as MM7 names its special items.
+    if ((item.standardEnchantId != 0 || item.specialEnchantId != 0) && itemDefinition.rarity != ItemRarity::Special)
     {
         return ItemEnchantRuntime::displayName(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
     }

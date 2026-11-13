@@ -3,6 +3,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include <array>
+#include <atomic>
 #include <cstddef>
 #include <cstdint>
 #include <memory>
@@ -19,6 +20,7 @@ class AssetFileSystem;
 namespace OpenYAMM::Game
 {
 class MonsterTable;
+class SpriteFrameTable;
 struct ActorAttackTiming;
 struct ActorClipChoices;
 
@@ -58,7 +60,7 @@ public:
     };
 
     // The clips of a bound monster's model that time its gameplay (its attacks, its fidgets): read from the binding
-    // and the model file's clip lengths (Engine::readGltfClipDurations), never from a loaded or posed model, so the
+    // and the model file's clip lengths (Engine::readGltfModelSummary), never from a loaded or posed model, so the
     // game runs the same with models drawn or not (headless).
     struct BoundClips
     {
@@ -75,6 +77,14 @@ public:
         // conv<n> roles, and their lengths. Read with the clips above (empty when neither is read).
         std::vector<std::string> convRoles;
         std::vector<float> convSeconds;
+        // The model's bind pose (Engine::readGltfModelSummary's bindPoseHeightRange times the binding's `scale`; its
+        // scale_reference and the actor's own scale apply later, actorTargetHeight): its lowest and highest point above
+        // its origin, equal when unknown, and its `z_offset`, the origin's height above the actor's feet.
+        float bodyBottom = 0.0f;
+        float bodyTop = 0.0f;
+        float zOffset = 0.0f;
+        // The binding's scale_reference (empty without).
+        std::string scaleReference;
     };
 
     // Reads the existing manifests among paths, then activePath (empty for none), whose bindings replace theirs.
@@ -97,6 +107,11 @@ public:
     }
     // The timing clips of a bound monster (by monster id), read once on first use; nullptr for an unbound monster.
     const BoundClips *boundClips(int16_t monsterId) const;
+    // What a bound monster's scale_reference multiplies its scale by, as WorldFxSystem applies it: its standing
+    // sprite's scale over the reference's, from the map's sprite frames (which hold both for every bound monster
+    // the map can show). Kept once found; 1 without a reference, 0 while the frames lack either sprite.
+    float scaleReferenceRatio(int16_t monsterId, const MonsterTable &monsters,
+        const SpriteFrameTable *pSpriteFrames) const;
 
 private:
     BoundClips readBoundClips(const Entry &entry) const;
@@ -108,9 +123,19 @@ private:
     const Engine::AssetFileSystem *m_pAssets = nullptr;
     mutable std::unique_ptr<std::once_flag[]> m_boundClipsRead;
     mutable std::vector<BoundClips> m_boundClips;
+    // By monster id: scaleReferenceRatio once found (negative before; two threads may both find it).
+    mutable std::unique_ptr<std::atomic<float>[]> m_scaleReferenceRatios;
     // YAML nodes are not safe to read from two threads at once (anchors share them): one read at a time.
     mutable std::mutex m_boundClipsReadMutex;
 };
+
+// The height above a monster's feet where the party aims at it: GameMechanics::actorTargetHeight of its height, or of
+// its 3D model's bind pose when that is lower (a model shorter than its collision height, such as MM8's Bone Dragon).
+// The model is scaled as WorldFxSystem draws it: bodyHeight over the descriptor's height (or drawScale when set) and
+// visualScale (a shrink). It counts only while models are on (MonsterTable::actorModels), as the sprite is drawn
+// otherwise; pSpriteFrames resolves a binding's scale_reference (the map's actor sprite frames).
+float actorTargetHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
+    uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale);
 
 // One attack role of a monster: the timing of its sprite (the native action's length and its contact frame, 0 without
 // one) unless its 3D model's clip times it (resolveActorAttackTiming; pModels null: models off).

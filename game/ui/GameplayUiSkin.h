@@ -10,8 +10,8 @@ class GameplayScreenRuntime;
 namespace GameplayUiSkin
 {
 constexpr char CombatFontName[] = "alegreya_semibold";
-// Preserve the damage text's 18-unit height with the font's 24-unit cells.
-constexpr float CombatDamageFontScale = 18.0f / 24.0f;
+// The floating damage numbers' face: the same Alegreya, rasterized large (CombatFloatingText).
+constexpr char CombatNumberFontName[] = "combat_numbers";
 constexpr uint32_t Ivory = 0xffc7dce5u;
 constexpr uint32_t Gold = 0xff93c7e4u;
 constexpr uint32_t Bonus = 0xff8bdf85u;

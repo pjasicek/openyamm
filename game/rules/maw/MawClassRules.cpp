@@ -292,11 +292,21 @@ void MawClassRules::applyClassBonuses(Character &member) const
     }
 
     const std::string line = mawClassLine(member.className);
+    const ClassMultiplierTable *pClassTable = m_rules.classMultiplierTable();
+    const ClassMultiplierEntry *pClassEntry =
+        pClassTable != nullptr ? pClassTable->get(canonicalClassName(member.className)) : nullptr;
 
     // Items give a Death Knight and a dragon-race character no spell points (CL:793-796).
     if (line == "death_knight" || mawIsDragon(member))
     {
         member.magicalBonuses.maxSpellPoints = 0;
+    }
+    else if (line != "assassin" && pClassEntry != nullptr && pClassEntry->manaMode == ClassManaMode::None)
+    {
+        // A class without mana (Knight, Troll) has none at all: no item, potion or fountain gives it spell points
+        // (the user, 2026-11-13). Its base is 0 (baseMaxSpellPoints), so the bonuses cancel to a maximum of 0.
+        member.magicalBonuses.maxSpellPoints = -(member.maxSpellPoints + member.permanentBonuses.maxSpellPoints);
+        member.spellPoints = std::min(member.spellPoints, 0);
     }
     else if (line == "assassin")
     {

@@ -414,6 +414,9 @@ public:
         float fallbackWidth,
         float fallbackHeight) const;
     std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex) const;
+    // How far a tab under the minimap moves from its layout place (OutdoorFollowerToggle, Mm9FormationButton,
+    // CombatLogToggle): the shown ones line up from the right edge without gaps; none for any other element.
+    std::optional<float> minimapTabShift(const std::string &layoutId, int screenWidth, int screenHeight) const;
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y) const;
     // The MM9 hireling rail's slot (Mm9Hireling1-3 in gameplay.yml) of the hireling at its index in
     // Party::hirelings(); none past the hirelings or on the screens over the HUD (inventory, dialogues...).

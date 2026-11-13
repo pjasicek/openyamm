@@ -1073,7 +1073,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         && !(input.action(KeyboardAction::SkillManaShield).held
             && GameplayPartyOverlayInputController::skillSwitchForAction(context, KeyboardAction::SkillManaShield));
     const bool storyShortcutPressed = !journalTyping && input.action(KeyboardAction::History).held;
-    const bool notesShortcutPressed = false;
+    const bool questsShortcutPressed = !journalTyping && input.action(KeyboardAction::QuestBook).held;
     const bool progressShortcutPressed =
         !journalTyping && input.action(KeyboardAction::OpenProgress).held && journalHasProgressTab(context);
     const bool zoomInPressed = !journalTyping && input.action(KeyboardAction::ZoomIn).held;
@@ -1087,7 +1087,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
             .canToggleJournal = canToggleJournal,
             .mapShortcutPressed = mapShortcutPressed,
             .storyShortcutPressed = storyShortcutPressed,
-            .notesShortcutPressed = notesShortcutPressed,
+            .questsShortcutPressed = questsShortcutPressed,
             .progressShortcutPressed = progressShortcutPressed,
             .zoomInPressed = zoomInPressed,
             .zoomOutPressed = zoomOutPressed,

@@ -180,8 +180,10 @@ int rareItemDamageMultiplierAgainstMonster(uint32_t itemId, uint32_t monsterKind
                 ? 2
                 : 1;
 
+        // Grognard's Cutlass names "Elf Slaying" in items.txt, which no special enchantment has (OY-553).
         case 1319:
         case 1333:
+        case 1354:
             return monsterHasKind(monsterKindFlags, MonsterKind::Elf) ? 2 : 1;
 
         case 2022:
@@ -812,7 +814,6 @@ ElementalDamageBonuses rareItemElementalDamageBonuses(uint32_t itemId)
         case 510: result.body = 20; break;
         case 525: result.fire = 20; break;
         case 529: result.air = 10; break;
-        case 541: result.water = 12; break;
         case 1303: result.air = 15; break;
         case 1308: result.fire = 10; break;
         case 1309: result.fire = 15; break;
@@ -1044,9 +1045,6 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             addConditionImmunity(member, CharacterCondition::Fear);
             member.magicalBonuses.accuracy -= 30;
             member.magicalBonuses.armorClass -= 15;
-            break;
-
-        case 541:
             break;
 
         case 1302:
@@ -1441,12 +1439,6 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             member.magicalBonuses.personality -= 50;
             break;
 
-        case 542:
-            break;
-
-        case 538:
-        case 539:
-        case 540:
         default:
             break;
     }

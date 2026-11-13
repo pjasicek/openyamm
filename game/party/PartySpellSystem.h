@@ -199,6 +199,9 @@ public:
     // (any other cast ends it), the buffs on members (Bless, Preservation, Regeneration, Hammerhands, Pain Reflection,
     // Glamour, Mistform), the heals, cures and revivals of hasQuickCastCharacterTarget, Power Cure and Awaken.
     static bool isUpkeepSpell(uint32_t spellId);
+    // An upkeep spell that is a buff: on the party, on members or several party buffs at once (not a heal, cure,
+    // revival, Power Cure or Awaken). An attack order skips one while it is up on everyone it reaches (OY-487).
+    static bool isUpkeepBuffSpell(uint32_t spellId);
     struct UpkeepNeed
     {
         // The member a spell on one member goes to; none for a spell on the whole party.

@@ -434,6 +434,8 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
+    data.itemTable.resolveSpecialItemEnchants(data.standardItemEnchantTable, data.specialItemEnchantTable);
+
     std::vector<std::vector<std::string>> readableScrollRows;
 
     if (!loadTextTableRows(assetFileSystem, engineEnglishDataTablePath("scroll.txt"), readableScrollRows, failure))

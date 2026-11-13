@@ -3405,6 +3405,17 @@ float GameMechanics::actorTargetHeight(uint16_t actorHeight)
     return actorHeight * 0.6f;
 }
 
+float GameMechanics::actorTargetHeight(uint16_t actorHeight, float modelBottom, float modelTop)
+{
+    const float target = actorTargetHeight(actorHeight);
+    const float bottom = std::max(modelBottom, 0.0f);
+    if (!(modelTop > bottom))
+    {
+        return target;
+    }
+    return std::min(target, bottom + (modelTop - bottom) * 0.6f);
+}
+
 bool GameMechanics::actorBoxInViewport(
     const float viewProjection[16], float x, float y, float footZ, float radius, float height)
 {

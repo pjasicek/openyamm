@@ -3687,7 +3687,8 @@ bool readIndoorHeldItem(const MapDeltaSpriteObject &spriteObject, const ItemTabl
     return readIndoorHeldItemPayload(spriteObject.rawContainingItem, pItemTable, item);
 }
 
-// Potions placed on the map without a power get one when it loads, as MM8 does; the rules may swap a placed item first.
+// Potions placed on the map without a power get one when it loads, as MM8 does, and Special items their own
+// enchantment; the rules may swap a placed item first.
 void assignPlacedIndoorPotionPowers(
     std::optional<MapDeltaData> *pMapDeltaData,
     const ItemTable &itemTable,
@@ -3726,6 +3727,20 @@ void assignPlacedIndoorPotionPowers(
         if (item.standardEnchantPower != previousPower)
         {
             writeRawItemUInt16(spriteObject.rawContainingItem, 0x12, item.standardEnchantPower);
+        }
+
+        // A placed Special item gets its own enchantment (OY-553).
+        if (const ItemDefinition *pDefinition = itemTable.get(item.objectDescriptionId);
+            pDefinition != nullptr && item.standardEnchantId == 0 && item.specialEnchantId == 0)
+        {
+            ItemGenerator::assignSpecialItemEnchants(item, *pDefinition);
+
+            if (item.standardEnchantId != 0 || item.specialEnchantId != 0)
+            {
+                writeRawItemUInt16(spriteObject.rawContainingItem, 0x10, item.standardEnchantId);
+                writeRawItemUInt16(spriteObject.rawContainingItem, 0x12, item.standardEnchantPower);
+                writeRawItemUInt16(spriteObject.rawContainingItem, 0x14, item.specialEnchantId);
+            }
         }
     }
 }
@@ -5322,7 +5337,7 @@ bool IndoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) const
     const GameplayWorldPoint targetPoint = {
         actorState.preciseX,
         actorState.preciseY,
-        actorState.preciseZ + GameMechanics::actorTargetHeight(actorState.height),
+        actorState.preciseZ + actorState.targetHeight,
     };
     const int16_t sourceSectorId =
         partyMoveState.eyeSectorId >= 0 ? partyMoveState.eyeSectorId : partyMoveState.sectorId;
@@ -8843,7 +8858,8 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                     projectile.damageType,
                     {projectile.sourceX, projectile.sourceY, projectile.sourceZ},
                     GameplayProjectileService::projectileShieldTier(projectile),
-                    GameplayProjectileService::partyShieldModifiers(projectile, m_pParty)))
+                    GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
+                    projectile.critical))
             {
                 appliedDamage = 0;
             }
@@ -9075,7 +9091,8 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                                 projectile.damageType,
                                 {projectile.sourceX, projectile.sourceY, projectile.sourceZ},
                                 GameplayProjectileService::projectileShieldTier(projectile),
-                        GameplayProjectileService::partyShieldModifiers(projectile, m_pParty)))
+                                GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
+                                projectile.critical))
                         {
                             appliedDamage = 0;
                         }
@@ -9585,6 +9602,21 @@ void IndoorWorldRuntime::updateFireSpikeTraps(float deltaSeconds)
                     : actorState.isDead || actorState.isInvisible;
             actorFacts.hostileToParty = actorState.hostileToParty;
             actorFacts.friendlyToTrapSource = projectileSourceIsFriendlyToActor(trapSource, aiState);
+
+            // A creature behind a wall or closed door cannot set the spike off (OY-490); only those in reach are
+            // traced.
+            if (!actorFacts.unavailableForCombat
+                && GameplayProjectileService::fireSpikeTrapReaches(triggerInput, actorFacts))
+            {
+                const GameplayWorldPoint spikePoint = {trap.x, trap.y, trap.z + 24.0f};
+                const GameplayWorldPoint actorPoint = {
+                    actorState.preciseX,
+                    actorState.preciseY,
+                    actorState.preciseZ + std::max(24.0f, static_cast<float>(actorState.height) * 0.5f)};
+                actorFacts.blockedFromTrap =
+                    !hasIndoorCombatLineOfSight(spikePoint, trap.sectorId, actorPoint, aiState.sectorId);
+            }
+
             triggerInput.actors.push_back(actorFacts);
         }
 
@@ -15772,6 +15804,10 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     const MonsterEntry *pBodyEntry = m_pMonsterTable != nullptr ? m_pMonsterTable->findById(resolvedMonsterId) : nullptr;
     state.bodyHeight = actor.height != 0 ? actor.height : pBodyEntry != nullptr ? pBodyEntry->height : state.height;
     state.drawScale = actor.drawScale;
+    state.targetHeight = m_pMonsterTable != nullptr
+        ? actorTargetHeight(*m_pMonsterTable, m_pActorSpriteFrameTable, resolvedMonsterId, state.height,
+            state.bodyHeight, state.drawScale, state.visualScale)
+        : GameMechanics::actorTargetHeight(state.height);
     state.pHeldItems = &actor.heldItems;
     state.isDead = pAiState != nullptr
         ? pAiState->motionState == ActorAiMotionState::Dead
@@ -16893,7 +16929,8 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
                 damageType,
                 {partyX, partyY, partyZ},
                 ShieldAttackTier::Spell,
-                pCaster != nullptr ? GameMechanics::spellShieldModifiers(*pCaster) : ShieldHitModifiers{});
+                pCaster != nullptr ? GameMechanics::spellShieldModifiers(*pCaster) : ShieldHitModifiers{},
+                critical);
 
             // The hit's status line and combat log entry, as outdoors.
             if (applied && m_pGameplayCombatController != nullptr)
@@ -17330,7 +17367,7 @@ std::vector<size_t> IndoorWorldRuntime::collectVisibleMapActorIndicesWithinRadiu
         }
 
         const float viewTargetZ =
-            actorState.preciseZ + GameMechanics::actorTargetHeight(actorState.height);
+            actorState.preciseZ + actorState.targetHeight;
         if (!pointInsideViewCone(
                 viewX,
                 viewY,
@@ -19251,6 +19288,7 @@ std::optional<GameplayPartyAttackActorFacts> IndoorWorldRuntime::partyAttackActo
             },
         .radius = runtimeState.radius,
         .height = runtimeState.height,
+        .targetHeight = runtimeState.targetHeight,
         .currentHp = inspectState.currentHp,
         .maxHp = inspectState.maxHp,
         .effectiveArmorClass = inspectState.armorClass,
@@ -19862,7 +19900,8 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     CombatDamageType damageType,
     const GameplayWorldPoint &source,
     ShieldAttackTier shieldTier,
-    const ShieldHitModifiers &shieldModifiers)
+    const ShieldHitModifiers &shieldModifiers,
+    bool critical)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
@@ -20061,6 +20100,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
                 .z = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z),
                 .height = pAiState != nullptr ? static_cast<float>(pAiState->collisionHeight) : 128.0f,
                 .killed = previousHp > 0 && nextHp <= 0,
+                .critical = critical,
             });
     }
 
@@ -20078,10 +20118,11 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     int damage,
     const GameplayWorldPoint &source,
     ShieldAttackTier shieldTier,
-    const ShieldHitModifiers &shieldModifiers)
+    const ShieldHitModifiers &shieldModifiers,
+    bool critical)
 {
     return applyPartyAttackMeleeDamage(actorIndex, damage, CombatDamageType::Physical, source, shieldTier,
-        shieldModifiers);
+        shieldModifiers, critical);
 }
 
 std::vector<GameplayCombatFeedbackEvent> IndoorWorldRuntime::drainCombatFeedbackEvents()

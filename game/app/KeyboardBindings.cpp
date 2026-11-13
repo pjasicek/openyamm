@@ -53,7 +53,7 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
     {KeyboardAction::CharCycle, "char_cycle", Engine::trNoop("Char Cycle"),
         KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 5,
         {InputBindingKind::Keyboard, SDL_SCANCODE_TAB, 0}, true},
-    {KeyboardAction::Quest, "quest", Engine::trNoop("Quest"),
+    {KeyboardAction::Inventory, "quest", Engine::trNoop("Inventory"),
         KeyboardBindingPage::Page1, KeyboardBindingColumn::Right, 6,
         {InputBindingKind::Keyboard, SDL_SCANCODE_I, 0}, true},
     {KeyboardAction::QuickRef, "quick_ref", Engine::trNoop("Quick Ref"),
@@ -177,6 +177,8 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         KeyboardBindingColumn::Left, 0, {}, true},
     {KeyboardAction::Upkeep, "upkeep", Engine::trNoop("Upkeep"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F11, 0}, true},
+    {KeyboardAction::QuestBook, "quest_book", Engine::trNoop("Quest Book"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {}, true},
 }};
 
 const std::array<KeyboardScancodeName, 97> KeyboardScancodeNames = {{

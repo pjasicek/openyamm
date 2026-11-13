@@ -19,6 +19,7 @@
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
+#include "game/ui/CombatFloatingText.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
@@ -110,20 +111,6 @@ private:
         const std::string &saveName,
         bool closeUiOnSuccess);
 
-    struct CombatFloatingText
-    {
-        size_t actorIndex = 0;
-        int amount = 0;
-        std::string text;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float remainingSeconds = 0.0f;
-        float durationSeconds = 0.0f;
-        uint32_t colorAbgr = 0xffffffffu;
-        float fontScale = 1.0f;
-    };
-
 
 
     struct PendingSavePreviewCaptureState
@@ -156,6 +143,6 @@ private:
     std::optional<uint32_t> m_activeWalkingSoundId;
     // MM9's under-water loop while the eye is under a scene water volume (0: not playing).
     uint64_t m_underwaterLoopInstanceId = 0;
-    std::vector<CombatFloatingText> m_combatFloatingTexts;
+    CombatFloatingText m_combatFloatingText;
 };
 } // namespace OpenYAMM::Game

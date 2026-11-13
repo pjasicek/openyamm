@@ -216,6 +216,8 @@ struct GameplayRuntimeActorState
     // Its 3D model's scale against its binding's (scene draw_scale); when set it replaces bodyHeight's ratio to the
     // descriptor's height. 0: none.
     float drawScale = 0.0f;
+    // Where the party aims at it, above its feet (actorTargetHeight: on its 3D model when that is shorter).
+    float targetHeight = 0.0f;
     // The items it holds (MapDeltaActor::heldItems), owned by the world runtime for the frame; null or empty: none.
     // heldItemsHidden: a routine put them down for now (Mm9AiRoutineStep hide_items).
     const std::vector<MapDeltaHeldItem> *pHeldItems = nullptr;
@@ -284,6 +286,8 @@ struct GameplayCombatFeedbackEvent
     float z = 0.0f;
     float height = 0.0f;
     bool killed = false;
+    // A critical hit: its number pops (CombatFloatingText).
+    bool critical = false;
 };
 
 enum class GameplayActorControlMode : uint8_t
@@ -580,6 +584,8 @@ struct GameplayPartyAttackActorFacts
     GameplayWorldPoint position = {};
     uint16_t radius = 0;
     uint16_t height = 0;
+    // GameplayRuntimeActorState::targetHeight.
+    float targetHeight = 0.0f;
     int currentHp = 0;
     int maxHp = 0;
     int effectiveArmorClass = 0;
@@ -1361,7 +1367,8 @@ public:
         int damage,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
-        const ShieldHitModifiers &shieldModifiers = {}) = 0;
+        const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false) = 0;
     virtual bool applyPartyAttackMeleeBModelDamage(size_t bModelIndex, int damage)
     {
         (void)bModelIndex;

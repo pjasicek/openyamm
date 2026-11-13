@@ -63,6 +63,9 @@ public:
         std::mt19937 &rng);
     static void assignPlacedPotionPower(InventoryItem &item, const ItemTable &itemTable, std::mt19937 &rng);
     static void assignMonsterPotionPower(InventoryItem &item, const ItemTable &itemTable, std::mt19937 &rng);
+    // A Special item (ItemRarity::Special) gets the enchantment its row names (ItemDefinition::specialItem...), as MM7
+    // gives its special items theirs when they are made; an item that has an enchantment already keeps it.
+    static void assignSpecialItemEnchants(InventoryItem &item, const ItemDefinition &itemDefinition);
     // Whether a shop of a world drawing from `worldPool` (ItemTable::lootPoolForWorld) may stock the item: weapons,
     // armour, jewellery, artifacts and relics only from the world's own pool, everything else from anywhere. Random
     // loot rolls from every world's items (devdocs/LOOT_POOL.md). An empty pool allows everything.

@@ -647,13 +647,15 @@ public:
         CombatDamageType damageType,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
-        const ShieldHitModifiers &shieldModifiers = {});
+        const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
-        const ShieldHitModifiers &shieldModifiers = {}) override;
+        const ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,

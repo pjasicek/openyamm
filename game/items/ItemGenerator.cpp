@@ -217,9 +217,24 @@ InventoryItem ItemGenerator::makeInventoryItem(
         {
             item.artifactId = static_cast<uint16_t>(std::min<uint32_t>(pItemDefinition->itemId, 0xFFFFu));
         }
+
+        assignSpecialItemEnchants(item, *pItemDefinition);
     }
 
     return item;
+}
+
+void ItemGenerator::assignSpecialItemEnchants(InventoryItem &item, const ItemDefinition &itemDefinition)
+{
+    if (itemDefinition.rarity != ItemRarity::Special || item.standardEnchantId != 0 || item.specialEnchantId != 0)
+    {
+        return;
+    }
+
+    item.standardEnchantId = itemDefinition.specialItemStandardEnchantId;
+    item.standardEnchantPower =
+        itemDefinition.specialItemStandardEnchantId != 0 ? itemDefinition.specialItemStandardEnchantPower : 0;
+    item.specialEnchantId = itemDefinition.specialItemSpecialEnchantId;
 }
 
 std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
@@ -235,10 +250,12 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     // its own (loot.yml) rolls only the items it lists.
     const WorldLootTable *pWorldLoot = itemTable.worldLoot(request.worldId);
     // Random loot rolls from one pool of every mounted world's items; a shop keeps its world's own equipment, and so
-    // does loot in a game that turned other worlds' loot off (RulesetOptions::otherWorldsLoot).
-    const bool ownWorldOnly =
-        request.mode == ItemGenerationMode::Shop || (pParty != nullptr && !pParty->otherWorldsLoot());
-    const std::string shopPool = ownWorldOnly ? itemTable.lootPoolForWorld(request.worldId) : std::string();
+    // does loot on the merged MM6-MM8 base's maps with the Gameplay setting "MM9 loot in MM6-MM8" off
+    // (Party::mm9LootInOlderWorlds, the default).
+    const std::string worldPool = itemTable.lootPoolForWorld(request.worldId);
+    const bool ownWorldOnly = request.mode == ItemGenerationMode::Shop
+        || (pParty != nullptr && !pParty->mm9LootInOlderWorlds() && worldPool == "engine");
+    const std::string shopPool = ownWorldOnly ? worldPool : std::string();
     const std::function<bool(const ItemDefinition &)> filter =
         [&request, &callerFilter, pWorldLoot, &shopPool](const ItemDefinition &entry)
         {

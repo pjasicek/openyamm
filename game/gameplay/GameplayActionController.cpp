@@ -79,7 +79,7 @@ GameplayActionController::WorldPoint actorRangedTargetPoint(
     return GameplayActionController::WorldPoint{
         .x = actor.position.x,
         .y = actor.position.y,
-        .z = actor.position.z + GameMechanics::actorTargetHeight(actor.height),
+        .z = actor.position.z + actor.targetHeight,
     };
 }
 
@@ -586,6 +586,7 @@ std::optional<GameplayActionController::PartyAttackActorFacts> resolveUsableActo
         },
         .radius = actor->radius,
         .height = actor->height,
+        .targetHeight = actor->targetHeight,
         .currentHp = actor->currentHp,
         .maxHp = actor->maxHp,
         .effectiveArmorClass = actor->effectiveArmorClass,
@@ -630,6 +631,7 @@ std::optional<GameplayActionController::PartyAttackActorFacts> chooseFallbackRan
             },
             .radius = actor.radius,
             .height = actor.height,
+            .targetHeight = actor.targetHeight,
             .currentHp = actor.currentHp,
             .maxHp = actor.maxHp,
             .effectiveArmorClass = actor.effectiveArmorClass,
@@ -874,9 +876,10 @@ BattleOrderSituation battleOrderSituation(
     situation.targetDistance = targetDistance;
     situation.indoors = pWorldRuntime != nullptr && !pWorldRuntime->isOpenAirMap();
 
-    for (size_t index = 0; index < party.members().size(); ++index)
+    // Every combatant: MM9's hirelings fight beside the members and take their heals (OY-583).
+    for (size_t index = 0; index < party.combatantCount(); ++index)
     {
-        const Character &member = party.members()[index];
+        const Character &member = *party.combatant(index);
         const int maximum = party.reachableMaximumHealth(index);
 
         // The dead, eradicated and stoned are beyond a heal.
@@ -902,8 +905,8 @@ BattleOrderSituation battleOrderSituation(
 }
 
 // A spell order the member can cast now: known, paid for (mana and the rules' other means: an Assassin's combo
-// points), its conditions met with the SP it leaves, no party buff it gives already up, and allowed at this place and
-// hour. Whether it finds a target is the cast's own business.
+// points), its conditions met with the SP it leaves, not a buff already up on everyone it reaches, and allowed at this
+// place and hour. Whether it finds a target is the cast's own business.
 bool castableOrderSpell(
     const GameplayActionController::PartyAttackConfig &config,
     size_t memberIndex,
@@ -935,9 +938,18 @@ bool castableOrderSpell(
         return false;
     }
 
-    const std::optional<PartyBuffId> partyBuff = PartySpellSystem::partyBuffOfSpell(party, spellId);
-
-    if (partyBuff && party.hasPartyBuff(*partyBuff))
+    // A buff, on the party or on members (Bless, Preservation) or several at once (Hour of Power), waits until it is
+    // gone from someone, as an upkeep order without early renewal does (OY-487). A spell the rules cast as an aura
+    // keeps the party buff test: a press while it is on would switch it off.
+    if (PartySpellSystem::isUpkeepBuffSpell(spellId) && !party.rules().spells.castsAsAura(party, memberIndex, spellId))
+    {
+        if (!PartySpellSystem::upkeepNeed(party, memberIndex, spellId, config.pSpellTable, std::nullopt))
+        {
+            return false;
+        }
+    }
+    else if (const std::optional<PartyBuffId> partyBuff = PartySpellSystem::partyBuffOfSpell(party, spellId);
+             partyBuff && party.hasPartyBuff(*partyBuff))
     {
         return false;
     }
@@ -1064,7 +1076,8 @@ GameplayActionController::PartyAttackExecutionResult executeHirelingAttack(
                     appliedDamage,
                     toRuntimeWorldPoint(config.partyPosition),
                     attack.shieldTier,
-                    attack.shieldModifiers);
+                    attack.shieldModifiers,
+                    attack.criticalDamage);
 
             if (attacked)
             {
@@ -1628,7 +1641,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                     appliedDamage,
                     toRuntimeWorldPoint(config.partyPosition),
                     attack.shieldTier,
-                    attack.shieldModifiers);
+                    attack.shieldModifiers,
+                    attack.criticalDamage);
 
             if (attacked)
             {

@@ -99,6 +99,8 @@ constexpr const char *EngineDevelopmentRootName = "engine";
 constexpr const char *WorldsDevelopmentRootName = "worlds";
 constexpr const char *DefaultActiveWorldId = "mm8";
 constexpr const char *IconsDirectoryName = "icons";
+// The icon folder a language pack may replace images in (mountLanguagePack).
+constexpr const char *LanguageIconsDirectoryName = "icons_x2";
 constexpr const char *AudioDirectoryName = "audio";
 constexpr const char *MusicDirectoryName = "music";
 constexpr const char *VideosDirectoryName = "videos";
@@ -1346,6 +1348,39 @@ bool AssetFileSystem::mountLanguagePack(bool packagedRoot)
         }
     }
 
+    // Images with text in them (the Arcomage card sheet, maps): a pack's icons_x2 folders replace the game's icons of
+    // the same name (OY-579). Icon requests name their package (engine/icons_x2/..., worlds/mm7/icons_x2/...), so
+    // these mount at that path in a release and in a development root alike.
+    const auto mountIcons = [this, &error](const std::filesystem::path &folder, const std::string &mountPoint)
+    {
+        if (!std::filesystem::is_directory(folder, error))
+        {
+            return true;
+        }
+
+        std::cout << "Language: " << utf8String(folder) << " over " << mountPoint << '\n';
+        return mountSearchRootAt(folder, mountPoint, false);
+    };
+
+    if (!mountIcons(*pack / EngineDevelopmentRootName / LanguageIconsDirectoryName,
+            std::string("/") + EngineDevelopmentRootName + "/" + LanguageIconsDirectoryName))
+    {
+        return false;
+    }
+
+    for (std::filesystem::directory_iterator world(worldsRoot, error), end; !error && world != end;
+         world.increment(error))
+    {
+        const std::string worldId = utf8String(world->path().filename());
+
+        if (!mountIcons(world->path() / LanguageIconsDirectoryName,
+                std::string("/") + WorldsDevelopmentRootName + "/" + worldId + "/" + LanguageIconsDirectoryName))
+        {
+            return false;
+        }
+    }
+
+    error.clear();
     return true;
 }
 

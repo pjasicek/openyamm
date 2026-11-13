@@ -744,9 +744,10 @@ public:
     // Fly into Fleet Foot for its remaining time.
     void setFleetFootWorld(bool active);
     bool fleetFootWorld() const;
-    // The game's RulesetOptions::otherWorldsLoot: whether random loot rolls equipment from other worlds' items.
-    void setOtherWorldsLoot(bool active);
-    bool otherWorldsLoot() const;
+    // The Gameplay setting GameSettings::mm9LootInOlderWorlds: off, random loot on maps of the merged MM6-MM8 base
+    // keeps to the base's equipment; MM9's maps roll every world's.
+    void setMm9LootInOlderWorlds(bool active);
+    bool mm9LootInOlderWorlds() const;
     int32_t formationCell(size_t combatantIndex) const;
     // Moves a combatant to an empty cell; false for an occupied or invalid cell.
     bool setFormationCell(size_t combatantIndex, int32_t cell);
@@ -937,6 +938,14 @@ public:
     // Every member's and Adventurer's Inn character's class-change masteries, for saves from before promotions granted
     // them (SaveVersionClassChangeMasteries).
     void grantClassChangeMasteries();
+    // Every carried, stored and worn Special item of the members and Adventurer's Inn characters gets its own
+    // enchantment (ItemGenerator::assignSpecialItemEnchants), for saves from before Special items had them
+    // (SaveVersionSpecialItemEnchants, OY-553).
+    void assignSpecialItemEnchants();
+    // For saves from before formations were on in every world (SaveVersionFormationsEverywhere): a party whose members
+    // still stand in the default cells (party order from the first) puts its sturdiest members (highest maximum HP)
+    // in the front rank and the others in the middle. A formation the player arranged is kept.
+    void arrangeDefaultFormationByHealth();
     // Recomputes a member's maximum HP and SP from their class (after the rules' class numbers changed).
     void refreshMemberResources(size_t memberIndex);
     bool applyLichTransformation(size_t memberIndex);
@@ -1186,8 +1195,8 @@ private:
     // World configuration like m_npcFollowersActive: not saved, not reset.
     bool m_formationTargetingActive = false;
     bool m_fleetFootWorld = false;
-    // The game's choice like m_pRules: not saved here (the save's ruleset carries it), not reset.
-    bool m_otherWorldsLoot = true;
+    // A setting like m_formationTargetingActive: not saved, not reset.
+    bool m_mm9LootInOlderWorlds = false;
     PartyBuffState m_cartographerWizardEye = {};
     uint32_t m_heldItemIdForQueries = 0;
     std::vector<uint32_t> m_humQBits;

@@ -180,6 +180,23 @@ struct GameplayMovementIndicator
     PartyBuffId buff = PartyBuffId::Fly;
 };
 
+// Fly and Wizard Eye warn before they end (OY-508): in their last ten game minutes their indicator (Fly's icon, Wizard
+// Eye's skull layer) blinks, half a real second on and half off (15 game seconds each). Only the drawing of those
+// indicators asks, so the warning costs nothing per frame elsewhere.
+inline constexpr float GameplayBuffExpiryWarningSeconds = 600.0f;
+
+inline bool gameplayBuffIndicatorLit(const Party &party, PartyBuffId buff)
+{
+    if (buff != PartyBuffId::Fly && buff != PartyBuffId::WizardEye)
+    {
+        return true;
+    }
+
+    const PartyBuffState *pBuff = party.partyBuff(buff);
+    return pBuff == nullptr || pBuff->remainingSeconds > GameplayBuffExpiryWarningSeconds
+        || int(pBuff->remainingSeconds / 15.0f) % 2 == 0;
+}
+
 // The movement indicators beside the skull, left to right without gaps: Fly, Levitate, Water Walk and MM9's Fleet
 // Foot, each while active. Levitate applies Water Walk too; that one is Levitate's own and shows only as Levitate (the
 // buff keeps the spell that applied it last, so a Water Walk cast afterwards shows).

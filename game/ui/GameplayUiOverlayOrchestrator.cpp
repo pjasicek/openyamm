@@ -38,7 +38,7 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
         config.canToggleJournal,
         config.mapShortcutPressed,
         config.storyShortcutPressed,
-        config.notesShortcutPressed,
+        config.questsShortcutPressed,
         config.progressShortcutPressed,
         config.zoomInPressed,
         config.zoomOutPressed,

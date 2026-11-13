@@ -1210,6 +1210,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "mm9_loot_in_older_worlds"))
+    {
+        bool parsed = settings.mm9LootInOlderWorlds;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.mm9LootInOlderWorlds = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "quest_markers"))
     {
         bool parsed = settings.questMarkers;
@@ -1315,6 +1325,26 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         if (parseBoolValue(*value, parsed))
         {
             settings.fastAttackRepeat = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "formations_everywhere"))
+    {
+        bool parsed = settings.formationsEverywhere;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.formationsEverywhere = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "shop_list_view"))
+    {
+        bool parsed = settings.shopListView;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.shopListView = parsed;
         }
     }
 
@@ -2535,6 +2565,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("map_style", settings.paintedMaps ? "painted" : "lines");
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");
     serializer.add("quicksave_slots", std::clamp(settings.quickSaveSlots, 1, 20));
+    serializer.add("mm9_loot_in_older_worlds", boolValue(settings.mm9LootInOlderWorlds));
     serializer.add("party_frame", boolValue(settings.partyFrame));
     serializer.add("quick_item_rings", boolValue(settings.quickItemRings));
     serializer.add("item_buttons", boolValue(settings.basebarItemButtons));
@@ -2544,6 +2575,8 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("melee_hit_flash", boolValue(settings.meleeHitFlash));
     serializer.add("melee_camera_kick", boolValue(settings.meleeCameraKick));
     serializer.add("fast_attack_repeat", boolValue(settings.fastAttackRepeat));
+    serializer.add("formations_everywhere", boolValue(settings.formationsEverywhere));
+    serializer.add("shop_list_view", boolValue(settings.shopListView));
     serializer.add("context_action_popup", boolValue(settings.contextActionPopup));
     serializer.add("rarity_glow", settings.rarityGlow);
     serializer.add("follower_panel", boolValue(settings.followerPanel));

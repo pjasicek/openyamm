@@ -199,8 +199,10 @@ std::string spellName(const GameplayScreenRuntime &context, uint32_t spellId)
         return Engine::tr("Spell {id}", {{"id", spellId}});
     }
 
-    return pParty != nullptr && !pParty->members().empty()
-        ? partySpellName(pParty, pParty->members().front(), *pSpell) : pSpell->name;
+    // In the interface language, as the buff panels name them (issue #31, OY-577).
+    return Engine::localize(pParty != nullptr && !pParty->members().empty()
+            ? partySpellName(pParty, pParty->members().front(), *pSpell) : pSpell->name,
+        "spell");
 }
 
 std::string memberName(const Party &party, std::optional<size_t> memberIndex)

@@ -411,7 +411,8 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
         {
             parts.push_back(Engine::tr("when someone needs it"));
         }
-        else if (descriptor && descriptor->partyBuff)
+        else if (pSpell != nullptr && (PartySpellSystem::isUpkeepBuffSpell(uint32_t(pSpell->id))
+                     || (descriptor && descriptor->partyBuff)))
         {
             parts.push_back(Engine::tr("when the party lacks it"));
         }

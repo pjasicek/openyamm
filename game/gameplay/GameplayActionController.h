@@ -82,6 +82,7 @@ public:
         WorldPoint position = {};
         uint16_t radius = 0;
         uint16_t height = 0;
+        float targetHeight = 0.0f;
         int currentHp = 0;
         int maxHp = 0;
         int effectiveArmorClass = 0;

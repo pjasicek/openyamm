@@ -35,6 +35,7 @@
 #include <random>
 #include <string_view>
 #include <unordered_map>
+#include <utility>
 
 #include <yaml-cpp/yaml.h>
 
@@ -3816,6 +3817,11 @@ void EventRuntime::addVariableValue(
         for (size_t memberIndex : targetMemberIndices)
         {
             pParty->addExperienceToMember(memberIndex, experience, ExperienceReason::Event);
+        }
+
+        if (experience > 0)
+        {
+            runtimeState.handlerExperienceAward += experience;
         }
 
         if (experience > 0 && pParty->statistics() != nullptr)
@@ -10729,6 +10735,29 @@ bool invokeLuaHandler(
     session.lua.pushRegistryReference(handlerReference);
     executionContext.initialMessageCount =
         executionContext.pRuntimeState != nullptr ? executionContext.pRuntimeState->messages.size() : 0u;
+    // The experience this handler awards and the status texts it shows, for the "+N experience" line below; an outer
+    // handler keeps its own count.
+    EventRuntimeState *pAwardState = executionContext.pRuntimeState;
+    const size_t statusMessageBegin = pAwardState != nullptr ? pAwardState->statusMessages.size() : 0u;
+    const int64_t outerExperienceAward =
+        pAwardState != nullptr ? std::exchange(pAwardState->handlerExperienceAward, 0) : 0;
+    const auto finishExperienceAward =
+        [pAwardState, statusMessageBegin, outerExperienceAward]()
+        {
+            if (pAwardState == nullptr)
+            {
+                return;
+            }
+
+            // An event that says what it gave (most MM6-MM8 wells and quests) keeps its own text (OY-489).
+            if (pAwardState->handlerExperienceAward > 0 && pAwardState->statusMessages.size() == statusMessageBegin)
+            {
+                pAwardState->statusMessages.push_back(
+                    Engine::tr("+{experience} experience", {{"experience", pAwardState->handlerExperienceAward}}));
+            }
+
+            pAwardState->handlerExperienceAward = outerExperienceAward;
+        };
 
     if (continueStep)
     {
@@ -10738,6 +10767,7 @@ bool invokeLuaHandler(
     std::optional<std::string> errorMessage;
     const bool ok = session.lua.call(continueStep ? 1 : 0, pBooleanResult != nullptr ? 1 : 0, errorMessage);
     session.pExecutionContext = pOuterExecutionContext;
+    finishExperienceAward();
 
     if (!ok)
     {

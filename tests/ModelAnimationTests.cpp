@@ -913,17 +913,18 @@ TEST_CASE("ModelAnimation clip lengths read from a model file's JSON match the l
         REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", AssetScaleTier::X1));
         const ModelLoadResult loaded = GltfModelLoader().load(assets, "worlds/mm9/models/mm9_skeleton.glb");
         REQUIRE_MESSAGE(loaded, loaded.error);
-        const std::optional<std::unordered_map<std::string, float>> durations =
-            readGltfClipDurations(assets, "worlds/mm9/models/mm9_skeleton.glb");
-        REQUIRE(durations);
-        REQUIRE_EQ(durations->size(), loaded.asset->clips.size());
+        const std::optional<GltfModelSummary> summary =
+            readGltfModelSummary(assets, "worlds/mm9/models/mm9_skeleton.glb");
+        REQUIRE(summary);
+        const std::unordered_map<std::string, float> &durations = summary->clipDurations;
+        REQUIRE_EQ(durations.size(), loaded.asset->clips.size());
         for (const ModelAnimationClip &clip : loaded.asset->clips)
         {
-            REQUIRE_MESSAGE(durations->contains(clip.name), clip.name);
-            CHECK_MESSAGE(durations->at(clip.name) == doctest::Approx(clip.durationSeconds), clip.name);
+            REQUIRE_MESSAGE(durations.contains(clip.name), clip.name);
+            CHECK_MESSAGE(durations.at(clip.name) == doctest::Approx(clip.durationSeconds), clip.name);
         }
-        CHECK(durations->at("AttackMelee") == doctest::Approx(0.8f).epsilon(0.01));
-        CHECK_FALSE(readGltfClipDurations(assets, "worlds/mm9/models/missing.glb"));
+        CHECK(durations.at("AttackMelee") == doctest::Approx(0.8f).epsilon(0.01));
+        CHECK_FALSE(readGltfModelSummary(assets, "worlds/mm9/models/missing.glb"));
     }
 
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
@@ -932,13 +933,37 @@ TEST_CASE("ModelAnimation clip lengths read from a model file's JSON match the l
     {
         AssetFileSystem fixtureAssets;
         REQUIRE(fixtureAssets.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1));
-        const std::optional<std::unordered_map<std::string, float>> fixture =
-            readGltfClipDurations(fixtureAssets, "engine/models/fixture.gltf");
-        REQUIRE(fixture);
-        CHECK_EQ(fixture->size(), 2);
-        CHECK(fixture->contains("move"));
+        const std::optional<GltfModelSummary> fixtureSummary =
+            readGltfModelSummary(fixtureAssets, "engine/models/fixture.gltf");
+        REQUIRE(fixtureSummary);
+        const std::unordered_map<std::string, float> &fixture = fixtureSummary->clipDurations;
+        CHECK_EQ(fixture.size(), 2);
+        CHECK(fixture.contains("move"));
     }
     std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("ModelAnimation bind pose height read from a model file's JSON matches the loaded model's")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", AssetScaleTier::X1));
+    // MM8's Bone Dragon (its origin at its feet) and an MM9 townswoman (centred mesh lifted by its skeleton's bind
+    // matrices, which a header-only read would put half below the ground).
+    for (const char *pPath : {"worlds/mm8/models/mm8_m616.glb", "worlds/mm9/models/mm9_peasantf8.glb"})
+    {
+        const ModelLoadResult loaded = GltfModelLoader().load(assets, pPath);
+        REQUIRE_MESSAGE(loaded, loaded.error);
+        REQUIRE(loaded.asset->staticBounds.valid);
+        const std::optional<GltfModelSummary> summary = readGltfModelSummary(assets, pPath);
+        REQUIRE_MESSAGE(summary, pPath);
+        REQUIRE_MESSAGE(summary->bindPoseHeightRange, pPath);
+        const std::optional<std::array<float, 2>> &range = summary->bindPoseHeightRange;
+        const float height = loaded.asset->staticBounds.max[1] - loaded.asset->staticBounds.min[1];
+        CHECK_MESSAGE(std::abs((*range)[0] - loaded.asset->staticBounds.min[1]) <= 0.03f * height, pPath);
+        CHECK_MESSAGE(std::abs((*range)[1] - loaded.asset->staticBounds.max[1]) <= 0.03f * height, pPath);
+    }
 }
 
 TEST_CASE("ModelAnimation loader rejects unsupported interpolation explicitly")

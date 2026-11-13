@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/EventSpellBuffs.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
@@ -193,6 +194,40 @@ TEST_CASE("MAW scroll, pedestal and temple buffs hold fixed auras until the map 
     CHECK_EQ(rules.state().auraHolders.at(3), 0u);
 
     CHECK_FALSE(standardGameRules().spells.castSourceBuff(party, 3, BuffSource::Scroll));
+}
+
+TEST_CASE("MAW auras on members reach MM9 hirelings and end with them (OY-559)")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    const SpellRules &spells = rules.gameRules().spells;
+    PartySeed seed;
+    seed.members = {member("Ariel", "Knight", 10), member("Brom", "Cleric", 10)};
+    Party party;
+    party.seed(seed);
+    party.setRules(&rules.gameRules());
+    Mm9Hireling row;
+    row.rudeId = 42;
+    row.name = "Hrolf Spearmaster";
+    row.kind = Mm9HirelingKind::Paid;
+    row.level = 34;
+    row.hitPoints = 276;
+    REQUIRE(party.addHireling(row));
+    const size_t hirelingIndex = 2;
+    rules.setCurrentMap("oute3.odm");
+    spells.updateAuras(party, 0.5f);
+
+    // A temple's Bless covers the members and the hireling, and gives the hireling its attack bonus.
+    REQUIRE(spells.castSourceBuff(party, 46, BuffSource::Temple));
+    REQUIRE(party.characterBuff(hirelingIndex, CharacterBuffId::Bless) != nullptr);
+    CHECK_EQ(party.characterBuff(hirelingIndex, CharacterBuffId::Bless)->power,
+        party.characterBuff(0, CharacterBuffId::Bless)->power);
+    CHECK(party.combatant(hirelingIndex)->magicalBonuses.meleeAttack > 0);
+
+    // A dungeon ends the temple's blessing for everyone.
+    rules.setCurrentMap("d01.blv");
+    spells.updateAuras(party, 0.5f);
+    CHECK(party.characterBuff(0, CharacterBuffId::Bless) == nullptr);
+    CHECK(party.characterBuff(hirelingIndex, CharacterBuffId::Bless) == nullptr);
 }
 
 TEST_CASE("quick-cast heals go to the endangered, else where they heal the most, in both rulesets (A7.2)")

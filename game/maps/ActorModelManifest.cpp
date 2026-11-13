@@ -2,10 +2,13 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/models/GltfModelLoader.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayActorAiTypes.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpriteTables.h"
 
 #include <algorithm>
+#include <cmath>
 #include <optional>
 #include <unordered_set>
 
@@ -144,7 +147,43 @@ bool ActorModelManifest::load(const Engine::AssetFileSystem &assets, const std::
     }
     m_boundClipsRead = std::make_unique<std::once_flag[]>(monsterEntries.size());
     m_boundClips.assign(monsterEntries.size(), BoundClips{});
+    m_scaleReferenceRatios = std::make_unique<std::atomic<float>[]>(monsterEntries.size());
+    for (size_t monsterId = 0; monsterId < monsterEntries.size(); ++monsterId)
+    {
+        m_scaleReferenceRatios[monsterId].store(-1.0f, std::memory_order_relaxed);
+    }
     return true;
+}
+
+float ActorModelManifest::scaleReferenceRatio(int16_t monsterId, const MonsterTable &monsters,
+    const SpriteFrameTable *pSpriteFrames) const
+{
+    const BoundClips *pClips = boundClips(monsterId);
+    if (pClips == nullptr || pClips->scaleReference.empty())
+    {
+        return 1.0f;
+    }
+    const float known = m_scaleReferenceRatios[monsterId].load(std::memory_order_relaxed);
+    if (known > 0.0f || pSpriteFrames == nullptr)
+    {
+        return std::max(known, 0.0f);
+    }
+    // The scale of the monster's standing sprite's first frame (WorldFxSystem's scale_reference).
+    const auto standingScale = [&](const MonsterEntry *pMonster)
+    {
+        const std::optional<uint16_t> frame = pMonster != nullptr
+            ? pSpriteFrames->findFrameIndexBySpriteName(pMonster->spriteNames[0]) : std::nullopt;
+        const SpriteFrameEntry *pFrame = frame ? pSpriteFrames->getFrame(*frame, 0) : nullptr;
+        return pFrame != nullptr && std::isfinite(pFrame->scale) && pFrame->scale > 0.0f ? pFrame->scale : 0.0f;
+    };
+    const float scale = standingScale(monsters.findById(monsterId));
+    const float reference = standingScale(monsters.findByInternalName(pClips->scaleReference));
+    if (scale <= 0.0f || reference <= 0.0f)
+    {
+        return 0.0f;
+    }
+    m_scaleReferenceRatios[monsterId].store(scale / reference, std::memory_order_relaxed);
+    return scale / reference;
 }
 
 const ActorModelManifest::BoundClips *ActorModelManifest::boundClips(int16_t monsterId) const
@@ -187,21 +226,32 @@ ActorModelManifest::BoundClips ActorModelManifest::readBoundClips(const Entry &e
         {
             result.impactSeconds[size_t(AttackRole::Cast)] = result.impactSeconds[size_t(AttackRole::Ranged)];
         }
-        // Only clip-timed attacks and fidget variants need the clips' lengths: the file is read for them alone.
-        if ((!entry.clipsTimeAttacks && !entry.fidgetVariants) || m_pAssets == nullptr)
+        result.scaleReference = entry.node["scale_reference"].as<std::string>("");
+        result.zOffset = entry.node["z_offset"].as<float>(0.0f);
+        const std::optional<Engine::GltfModelSummary> summary = m_pAssets != nullptr
+            ? Engine::readGltfModelSummary(*m_pAssets, entry.node["model"].as<std::string>(""))
+            : std::nullopt;
+        if (!summary)
         {
             return result;
         }
-        const std::optional<std::unordered_map<std::string, float>> durations =
-            Engine::readGltfClipDurations(*m_pAssets, entry.node["model"].as<std::string>(""));
-        if (!durations)
+        // The model's height, where the party aims (actorTargetHeight).
+        const float scale = entry.node["scale"].as<float>(0.0f);
+        if (summary->bindPoseHeightRange && scale > 0.0f)
+        {
+            result.bodyBottom = (*summary->bindPoseHeightRange)[0] * scale;
+            result.bodyTop = (*summary->bindPoseHeightRange)[1] * scale;
+        }
+        // Only clip-timed attacks and fidget variants use the clips' lengths.
+        if (!entry.clipsTimeAttacks && !entry.fidgetVariants)
         {
             return result;
         }
+        const std::unordered_map<std::string, float> &durations = summary->clipDurations;
         const auto clipSeconds = [&](const std::string &name)
         {
-            const auto clip = durations->find(name);
-            return clip != durations->end() ? clip->second : 0.0f;
+            const auto clip = durations.find(name);
+            return clip != durations.end() ? clip->second : 0.0f;
         };
         for (size_t role = 0; entry.clipsTimeAttacks && role < clipNames.size(); ++role)
         {
@@ -289,6 +339,26 @@ ActorAttackTiming actorAttackTiming(const ActorModelManifest *pModels, int16_t m
     }
     return resolveActorAttackTiming(spriteSeconds, spriteImpactSeconds, pClips->clipSeconds[size_t(role)],
         pClips->impactSeconds[size_t(role)], pClips->clipsTimeAttacks);
+}
+
+float actorTargetHeight(const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, int16_t monsterId,
+    uint16_t height, uint16_t bodyHeight, float drawScale, float visualScale)
+{
+    const ActorModelManifest *pModels = monsters.actorModels();
+    const MonsterEntry *pMonster = monsters.findById(monsterId);
+    const float sizeScale = drawScale > 0.0f ? drawScale
+        : pMonster != nullptr && pMonster->height > 0 && bodyHeight > 0 ? float(bodyHeight) / pMonster->height : 1.0f;
+    const float modelScale = visualScale * sizeScale;
+    const ActorModelManifest::BoundClips *pClips = pModels != nullptr ? pModels->boundClips(monsterId) : nullptr;
+    const float referenceRatio =
+        pClips != nullptr ? pModels->scaleReferenceRatio(monsterId, monsters, pSpriteFrames) : 0.0f;
+    if (pClips == nullptr || !(pClips->bodyTop > pClips->bodyBottom) || referenceRatio <= 0.0f || modelScale <= 0.0f)
+    {
+        return GameMechanics::actorTargetHeight(height);
+    }
+    const float scale = referenceRatio * modelScale;
+    return GameMechanics::actorTargetHeight(
+        height, pClips->zOffset + pClips->bodyBottom * scale, pClips->zOffset + pClips->bodyTop * scale);
 }
 
 ActorClipChoices actorFidgetClips(const ActorModelManifest *pModels, int16_t monsterId)

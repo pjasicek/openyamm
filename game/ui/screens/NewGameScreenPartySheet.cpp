@@ -7,10 +7,14 @@
 #include "game/rules/GameRules.h"
 #include "game/ui/GameplayUiSkin.h"
 
+#include "game/StringUtils.h"
+
 #include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -31,6 +35,24 @@ constexpr std::array<std::pair<std::string_view, SpeechId>, 3> VoiceLines = {{
 }};
 // How long the pointer rests on a skill before its card opens (the right button opens it at once).
 constexpr float SkillCardDelaySeconds = 0.35f;
+
+// The body a paperdoll type draws (doll_types.txt), named on portraits that share a face (OY-564).
+std::string_view portraitBodyName(uint32_t dollTypeId)
+{
+    switch (dollTypeId)
+    {
+        case 2:
+            return Engine::trNoop("Minotaur");
+        case 3:
+            return Engine::trNoop("Troll");
+        case 4:
+            return Engine::trNoop("Dwarf");
+        case 5:
+            return Engine::trNoop("Dragon");
+        default:
+            return Engine::trNoop("Human");
+    }
+}
 
 // Colours (ABGR) from c2.html.
 constexpr uint32_t Ivory = 0xffc6dfeau;
@@ -1672,6 +1694,19 @@ void NewGameScreen::drawPortraitPicker()
 
         y += 38 * u;
 
+        // Faces two portraits of the group share (MMerge's dwarf liches and zombies wear the human ones): each is
+        // labelled with its body (OY-564).
+        std::unordered_map<std::string, int> faceUses;
+
+        for (const size_t candidateIndex : members)
+        {
+            if (const CharacterDollEntry *pEntry =
+                    m_pGameData->characterDollTable().getCharacter(candidateAt(candidateIndex).characterDataId))
+            {
+                ++faceUses[toLowerCopy(pEntry->facePicturesPrefix)];
+            }
+        }
+
         for (size_t tile = 0; tile < members.size(); ++tile)
         {
             const size_t candidateIndex = members[tile];
@@ -1685,6 +1720,14 @@ void NewGameScreen::drawPortraitPicker()
             drawSolidRect(rect, 0xff10110au);
             drawTexture(portraitTextureNameForEntry(*pEntry), rect);
             const bool current = candidate.characterDataId == selectedId;
+
+            if (faceUses[toLowerCopy(pEntry->facePicturesPrefix)] > 1)
+            {
+                const Rect band{rect.x, rect.y + rect.height - 20 * u, rect.width, 20 * u};
+                drawSolidRect(band, 0xc0101010u);
+                sheetText(band, Engine::tr(portraitBodyName(pEntry->dollTypeId)), "menu_lucida", 12, 0xffe6d8b0u, 0);
+            }
+
             outline(rect, current ? Gold : tileInput.hovered ? HoverEdge : PortraitEdge);
 
             if (current)
@@ -1739,7 +1782,8 @@ void NewGameScreen::drawVoicePicker()
 
     const float u = sheetPx(1);
     sheetText(sheetRect(X + 330, Y + 38, 800, 34),
-              upperCase(Engine::tr("Voices of the portrait's race and sex · play a line to hear it")), "menu_lucida",
+              upperCase(Engine::tr("Voices of the portrait's sex, its race first · play a line to hear it")),
+              "menu_lucida",
               12, CaptionText);
     const Rect viewport = sheetRect(X + 44, Y + 92, W - 88, H - 126);
     scrollViewport(viewport, m_popupContentHeight, m_popupScroll, 60);

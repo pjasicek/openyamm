@@ -1468,15 +1468,21 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         }
     }
 
-    // A member's Preservation potion (Protection, Paladin's) acts as the aura for its drinker alone.
+    // A member's Preservation potion (Protection, Paladin's) acts as the aura for its drinker alone. The auras on
+    // members reach MM9's hirelings too, who fight beside the party (OY-559); the party-wide ones reach them as party
+    // buffs.
     std::vector<std::optional<MawAuraSource>> preservationPotions(party.members().size());
 
-    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
     {
-        preservationPotions[memberIndex] = MawRules::potionAura(Preservation, *party.member(memberIndex));
         std::map<CharacterBuffId, Slot> memberSlots = characterSlots;
 
-        if (preservationPotions[memberIndex] && source(Preservation) == nullptr)
+        if (memberIndex < party.members().size())
+        {
+            preservationPotions[memberIndex] = MawRules::potionAura(Preservation, *party.member(memberIndex));
+        }
+
+        if (memberIndex < party.members().size() && preservationPotions[memberIndex] && source(Preservation) == nullptr)
         {
             preservationPotions[memberIndex]->holder = uint32_t(memberIndex);
             memberSlots[CharacterBuffId::Preservation] = {0, Preservation, &*preservationPotions[memberIndex]};
@@ -1548,7 +1554,7 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         if (std::find(appliedCharacterBuffs.begin(), appliedCharacterBuffs.end(), buffId)
             == appliedCharacterBuffs.end())
         {
-            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
             {
                 party.clearCharacterBuff(memberIndex, CharacterBuffId(buffId));
             }

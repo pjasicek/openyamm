@@ -39,6 +39,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <numeric>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -5546,14 +5547,14 @@ bool Party::fleetFootWorld() const
     return m_fleetFootWorld;
 }
 
-void Party::setOtherWorldsLoot(bool active)
+void Party::setMm9LootInOlderWorlds(bool active)
 {
-    m_otherWorldsLoot = active;
+    m_mm9LootInOlderWorlds = active;
 }
 
-bool Party::otherWorldsLoot() const
+bool Party::mm9LootInOlderWorlds() const
 {
-    return m_otherWorldsLoot;
+    return m_mm9LootInOlderWorlds;
 }
 
 int32_t Party::formationCell(size_t combatantIndex) const
@@ -7383,6 +7384,113 @@ void Party::grantClassChangeMasteries()
     for (AdventurersInnMember &member : m_adventurersInnMembers)
     {
         rules().skills.afterClassChanged(member.character, m_pClassSkillTable);
+    }
+}
+
+void Party::assignSpecialItemEnchants()
+{
+    if (m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    const auto assignItem =
+        [this](InventoryItem &item)
+        {
+            if (const ItemDefinition *pDefinition = m_pItemTable->get(item.objectDescriptionId))
+            {
+                ItemGenerator::assignSpecialItemEnchants(item, *pDefinition);
+            }
+        };
+    const auto assignCharacter =
+        [this, &assignItem](Character &character)
+        {
+            for (InventoryItem &item : character.inventory)
+            {
+                assignItem(item);
+            }
+
+            for (auto &[bag, items] : character.rulesetState.storedBags)
+            {
+                for (InventoryItem &item : items)
+                {
+                    assignItem(item);
+                }
+            }
+
+            static constexpr std::array<std::pair<uint32_t CharacterEquipment::*,
+                EquippedItemRuntimeState CharacterEquipmentRuntimeState::*>, 16> Slots = {{
+                {&CharacterEquipment::offHand, &CharacterEquipmentRuntimeState::offHand},
+                {&CharacterEquipment::mainHand, &CharacterEquipmentRuntimeState::mainHand},
+                {&CharacterEquipment::bow, &CharacterEquipmentRuntimeState::bow},
+                {&CharacterEquipment::armor, &CharacterEquipmentRuntimeState::armor},
+                {&CharacterEquipment::helm, &CharacterEquipmentRuntimeState::helm},
+                {&CharacterEquipment::belt, &CharacterEquipmentRuntimeState::belt},
+                {&CharacterEquipment::cloak, &CharacterEquipmentRuntimeState::cloak},
+                {&CharacterEquipment::gauntlets, &CharacterEquipmentRuntimeState::gauntlets},
+                {&CharacterEquipment::boots, &CharacterEquipmentRuntimeState::boots},
+                {&CharacterEquipment::amulet, &CharacterEquipmentRuntimeState::amulet},
+                {&CharacterEquipment::ring1, &CharacterEquipmentRuntimeState::ring1},
+                {&CharacterEquipment::ring2, &CharacterEquipmentRuntimeState::ring2},
+                {&CharacterEquipment::ring3, &CharacterEquipmentRuntimeState::ring3},
+                {&CharacterEquipment::ring4, &CharacterEquipmentRuntimeState::ring4},
+                {&CharacterEquipment::ring5, &CharacterEquipmentRuntimeState::ring5},
+                {&CharacterEquipment::ring6, &CharacterEquipmentRuntimeState::ring6},
+            }};
+
+            for (const auto &[pItemId, pState] : Slots)
+            {
+                EquippedItemRuntimeState &state = character.equipmentRuntime.*pState;
+                const ItemDefinition *pDefinition = m_pItemTable->get(character.equipment.*pItemId);
+
+                if (pDefinition == nullptr || state.standardEnchantId != 0 || state.specialEnchantId != 0)
+                {
+                    continue;
+                }
+
+                InventoryItem item = {};
+                ItemGenerator::assignSpecialItemEnchants(item, *pDefinition);
+                state.standardEnchantId = item.standardEnchantId;
+                state.standardEnchantPower = item.standardEnchantPower;
+                state.specialEnchantId = item.specialEnchantId;
+            }
+        };
+
+    for (Character &member : m_members)
+    {
+        assignCharacter(member);
+    }
+
+    for (AdventurersInnMember &member : m_adventurersInnMembers)
+    {
+        assignCharacter(member.character);
+    }
+}
+
+void Party::arrangeDefaultFormationByHealth()
+{
+    normalizeFormationCells();
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        if (m_memberFormationCells[memberIndex] != int32_t(memberIndex))
+        {
+            return;
+        }
+    }
+
+    // The same cells (0 .. members - 1), so the hirelings' cells after them stay free of the members.
+    std::vector<size_t> order(m_members.size());
+    std::iota(order.begin(), order.end(), size_t{0});
+    std::stable_sort(order.begin(), order.end(),
+        [this](size_t left, size_t right)
+        {
+            return effectiveMaximumHealth(m_members[left]) > effectiveMaximumHealth(m_members[right]);
+        });
+
+    for (size_t rank = 0; rank < order.size(); ++rank)
+    {
+        m_memberFormationCells[order[rank]] = int32_t(rank);
     }
 }
 

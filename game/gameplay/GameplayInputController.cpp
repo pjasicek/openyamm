@@ -451,7 +451,7 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !formationBuilderOpen
         && !config.blockInventoryToggle;
 
-    if (isActionNewlyPressed(context, KeyboardAction::Quest, config.pInputFrame, config.pKeyboardState)
+    if (isActionNewlyPressed(context, KeyboardAction::Inventory, config.pInputFrame, config.pKeyboardState)
         && canToggleInventory)
     {
         if (hasActiveLootView)

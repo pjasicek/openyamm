@@ -469,8 +469,8 @@ std::optional<GameplayContextAction> buildContextAction(
     else if (hit.kind == GameplayWorldHitKind::Corpse && hit.container)
     {
         action.kind = GameplayContextActionKind::LootCorpse;
-        action.label =
-            contextActionLabelWithName(contextActionDefaultLabel(action.kind), hit.container->displayName);
+        action.label = contextActionLabelWithName(
+            contextActionDefaultLabel(action.kind), Engine::localizeKnown(hit.container->displayName));
     }
     else if (hit.kind == GameplayWorldHitKind::EventTarget && hit.eventTarget)
     {
@@ -488,10 +488,11 @@ std::optional<GameplayContextAction> buildContextAction(
         }
         else
         {
+            // In the interface language, as the status bar shows the same text (issue #31, OY-578).
             action.label = hasStatusText(eventTargetStatusText)
-                ? *eventTargetStatusText
+                ? Engine::localize(*eventTargetStatusText)
                 : (!hit.eventTarget->name.empty()
-                    ? hit.eventTarget->name
+                    ? Engine::localize(hit.eventTarget->name)
                     : contextActionDefaultLabel(action.kind));
         }
     }

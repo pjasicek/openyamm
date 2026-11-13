@@ -23,7 +23,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 176;
+constexpr uint32_t SaveVersion = 179;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -288,8 +288,10 @@ constexpr uint32_t SaveVersionNoProvokedAttackReach = 169;
 constexpr uint32_t SaveVersionIndoorArmageddon = 170;
 // A sprite object's key (MapDeltaSpriteObject::objectKey); older saves have none and the indoor runtime assigns them.
 constexpr uint32_t SaveVersionSpriteObjectKeys = 171;
-// RulesetOptions::otherWorldsLoot; older games keep loot from every world.
+// Saves 172 to 177 hold the retired per-game "Loot from other worlds" choice after the ruleset options; it is read and
+// dropped (the Gameplay setting GameSettings::mm9LootInOlderWorlds replaced it, devdocs/LOOT_POOL.md).
 constexpr uint32_t SaveVersionOtherWorldsLoot = 172;
+constexpr uint32_t SaveVersionOtherWorldsLootRetired = 178;
 // An MM9 placement's idle clip (Mm9AiPlacement::idleClip, scene mm9_ai.idle_clip); an older save's placements are
 // marked fromScene and take it, with the profile, from the map's scene when the map is next entered.
 constexpr uint32_t SaveVersionMm9IdleClip = 173;
@@ -5131,7 +5133,18 @@ void writeValue(BinaryWriter &writer, const RulesetSelection &value)
     writeValue(writer, value.options.preferences.disintegration);
     writeValue(writer, value.options.preferences.trainerHints);
     writeValue(writer, value.options.preferences.bowDisabled);
-    writeValue(writer, value.options.otherWorldsLoot);
+}
+
+// The retired per-game loot choice of saves 172 to 177 (SaveVersionOtherWorldsLootRetired).
+bool skipRetiredOtherWorldsLoot(BinaryReader &reader)
+{
+    if (reader.version() < SaveVersionOtherWorldsLoot || reader.version() >= SaveVersionOtherWorldsLootRetired)
+    {
+        return true;
+    }
+
+    bool retired = true;
+    return readValue(reader, retired);
 }
 
 bool readLootFilter(BinaryReader &reader, RulesetLootFilter &filter)
@@ -5169,7 +5182,7 @@ bool readValue(BinaryReader &reader, RulesetSelection &value)
             || readValue(reader, value.options.preferences.trainerHints))
         && (reader.version() < SaveVersionBowDisabled
             || readValue(reader, value.options.preferences.bowDisabled))
-        && (reader.version() < SaveVersionOtherWorldsLoot || readValue(reader, value.options.otherWorldsLoot))
+        && skipRetiredOtherWorldsLoot(reader)
         && !value.id.empty()
         && rulesetOptionsValid(value.options);
 }

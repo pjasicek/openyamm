@@ -155,7 +155,9 @@ void renderBuffPanel(GameplayScreenRuntime &context, const Party &party, Gamepla
     for (size_t i = 0; i < PartyBuffCount; ++i)
     {
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
-        if (definition.presentation != presentation || !party.hasPartyBuff(static_cast<PartyBuffId>(i)))
+        // Wizard Eye's layer blinks in its last minutes (gameplayBuffIndicatorLit, OY-508).
+        if (definition.presentation != presentation || !party.hasPartyBuff(static_cast<PartyBuffId>(i))
+            || !gameplayBuffIndicatorLit(party, static_cast<PartyBuffId>(i)))
         {
             continue;
         }
@@ -184,7 +186,8 @@ void renderBuffPanel(GameplayScreenRuntime &context, const Party &party, Gamepla
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
         if (definition.presentation == presentation && definition.pLayer != nullptr
             && definition.pLayer->pass == GameplayBuffHudLayerPass::Overlay
-            && party.hasPartyBuff(static_cast<PartyBuffId>(i)))
+            && party.hasPartyBuff(static_cast<PartyBuffId>(i))
+            && gameplayBuffIndicatorLit(party, static_cast<PartyBuffId>(i)))
         {
             renderBuffLayer(context, *definition.pLayer, *rect);
         }

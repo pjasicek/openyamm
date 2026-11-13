@@ -662,7 +662,7 @@ std::vector<size_t> OutdoorInteractionController::resolveVisibleHostileActorIndi
         const bx::Vec3 actorPoint = {
             pActor->preciseX,
             pActor->preciseY,
-            pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height)
+            pActor->preciseZ + view.m_pOutdoorWorldRuntime->mapActorTargetHeight(*pActor)
         };
 
         if (!projectWorldPointToScreen(
@@ -729,7 +729,7 @@ std::optional<bx::Vec3> OutdoorInteractionController::resolveSpellActionActorTar
     return bx::Vec3 {
         pActor->preciseX,
         pActor->preciseY,
-        pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height)
+        pActor->preciseZ + view.m_pOutdoorWorldRuntime->mapActorTargetHeight(*pActor)
     };
 }
 

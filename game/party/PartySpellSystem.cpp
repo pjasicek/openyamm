@@ -921,7 +921,7 @@ bx::Vec3 resolveActorTargetPoint(const GameplayRuntimeActorState &actor)
     return {
         actor.preciseX,
         actor.preciseY,
-        actor.preciseZ + GameMechanics::actorTargetHeight(actor.height)
+        actor.preciseZ + actor.targetHeight
     };
 }
 
@@ -3015,7 +3015,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (areaSpellAffectsVisibleCreatures(spellId))
                 {
                     const float actorTargetZ =
-                        actor.preciseZ + GameMechanics::actorTargetHeight(actor.height);
+                        actor.preciseZ + actor.targetHeight;
 
                     if (!isActorPointInsideSpellView(request, actor.preciseX, actor.preciseY, actorTargetZ))
                     {
@@ -3431,10 +3431,11 @@ std::optional<size_t> PartySpellSystem::quickCastCharacterTarget(
     uint32_t spellId,
     const SpellTable *pSpellTable)
 {
-    // Measured against the HP a member can reach: what its auras hold back (MAW's legendary 32) never fills.
+    // Every combatant, MM9's hirelings too (OY-583). Measured against the HP a member can reach: what its auras hold
+    // back (MAW's legendary 32) never fills.
     const auto share = [&party](size_t memberIndex)
     {
-        return double(party.members()[memberIndex].health) / party.reachableMaximumHealth(memberIndex);
+        return double(party.combatant(memberIndex)->health) / party.reachableMaximumHealth(memberIndex);
     };
     const auto has = [](const Character &member, std::initializer_list<CharacterCondition> conditions)
     {
@@ -3454,9 +3455,9 @@ std::optional<size_t> PartySpellSystem::quickCastCharacterTarget(
     {
         std::optional<size_t> target;
 
-        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
         {
-            const Character &member = party.members()[memberIndex];
+            const Character &member = *party.combatant(memberIndex);
 
             if (has(member, conditions) && !(skipBeyondHealing && has(member, beyondHealing))
                 && (!target || share(memberIndex) < share(*target)))
@@ -3494,9 +3495,9 @@ std::optional<size_t> PartySpellSystem::quickCastCharacterTarget(
         std::optional<size_t> bestGain;
         int bestGainAmount = 0;
 
-        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
         {
-            const Character &member = party.members()[memberIndex];
+            const Character &member = *party.combatant(memberIndex);
             const int missing = party.reachableMaximumHealth(memberIndex) - member.health;
 
             if (missing <= 0 || has(member, beyondHealing))
@@ -3550,16 +3551,16 @@ std::optional<size_t> PartySpellSystem::quickCastCharacterTarget(
     // Any other spell on a member (buffs): the wounded member with the fewest hit points.
     std::optional<size_t> target;
 
-    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
     {
-        const Character &member = party.members()[memberIndex];
+        const Character &member = *party.combatant(memberIndex);
 
         if (member.health >= party.reachableMaximumHealth(memberIndex) || has(member, beyondHealing))
         {
             continue;
         }
 
-        if (!target || member.health < party.members()[*target].health)
+        if (!target || member.health < party.combatant(*target)->health)
         {
             target = memberIndex;
         }
@@ -3683,6 +3684,13 @@ bool PartySpellSystem::isUpkeepSpell(uint32_t spellId)
     return descriptor && descriptor->effectKind == PartySpellCastEffectKind::PartyBuff;
 }
 
+bool PartySpellSystem::isUpkeepBuffSpell(uint32_t spellId)
+{
+    const SpellId spell = spellIdFromValue(spellId);
+    return isUpkeepSpell(spellId) && !hasQuickCastCharacterTarget(spellId) && spell != SpellId::PowerCure
+        && spell != SpellId::Awaken;
+}
+
 std::optional<PartySpellSystem::UpkeepNeed> PartySpellSystem::upkeepNeed(
     const Party &party,
     size_t casterIndex,
@@ -3708,9 +3716,9 @@ std::optional<PartySpellSystem::UpkeepNeed> PartySpellSystem::upkeepNeed(
 
     if (spell == SpellId::PowerCure || spell == SpellId::Awaken)
     {
-        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
         {
-            const Character &member = party.members()[memberIndex];
+            const Character &member = *party.combatant(memberIndex);
             const bool needs = spell == SpellId::Awaken
                 ? member.conditions.test(size_t(CharacterCondition::Asleep))
                 : !beyondHealing(member) && member.health < party.reachableMaximumHealth(memberIndex);
@@ -3737,10 +3745,10 @@ std::optional<PartySpellSystem::UpkeepNeed> PartySpellSystem::upkeepNeed(
         std::optional<size_t> target;
         float leastSeconds = 0.0f;
 
-        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
         {
             // Mistform is the caster's own.
-            if (beyondHealing(party.members()[memberIndex])
+            if (beyondHealing(*party.combatant(memberIndex))
                 || (spell == SpellId::Mistform && memberIndex != casterIndex))
             {
                 continue;

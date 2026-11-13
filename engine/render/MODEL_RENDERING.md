@@ -147,6 +147,12 @@ per creature, which is what instancing (section 4) batches.
   clips: {standing: …, walking: …, attack_melee: …, attack_ranged: …, hit: …, dying: …, dead: …, fidget: …}
 ```
 
+**Aim height.** The party aims at 60 % of a monster's collision height, or 60 % up its bound model when the model is
+shorter (MM8's Bone Dragon: 450 tall, its model about 166), so shots meet the body rather than the air above it
+(`actorTargetHeight`, `GameplayRuntimeActorState::targetHeight`). The model's height is its bind pose from the file's
+JSON (`Engine::readGltfModelSummary`), with the binding's `scale`, `scale_reference` and `z_offset` and the actor's
+own scale; hits still test the collision cylinder.
+
 **Action timing (`animation.events`).** Gameplay never follows a posed model, but it reads the bindings' data
 (`resolveActorAttackTiming`, `ActorModelManifest::attackClips`): an attack or cast lasts the native sprite action, and
 the game applies it (the melee hit lands, the missile or spell is released) when the sprite's authored contact frame
@@ -154,7 +160,7 @@ appears (`engine/rendering/sprite_attack_timing.yml`); for a sprite without one,
 falls within the action, else when the whole sprite animation has played, as MM8 does (`re_mm8/ACTOR_ATTACK_TIMING.md`).
 A manifest whose clips are its monsters' native timing (MM9's: top-level `attack_timing: clip`) instead lasts the
 clip and applies at its key, over any stand-in sprite (lengths read from the model file's JSON,
-`Engine::readGltfClipDurations`). The monster table's recovery runs from the action's start, exactly as for the
+`Engine::readGltfModelSummary`). The monster table's recovery runs from the action's start, exactly as for the
 sprite (MM9's loops from the clip's end). A model clip may keep its own, longer timing (a mocap or library clip at
 its intended speed): its event `impact` is the clip time of the moment the game acts (the blow lands, the staff or bow
 releases). `WorldFxSystem` fits the clip's wind-up `[0, impact]` to the native time until that moment, so that frame

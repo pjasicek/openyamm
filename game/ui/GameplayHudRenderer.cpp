@@ -477,7 +477,11 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                 if (font)
                 {
                     const float bottom = rect->y + rect->height;
-                    const float scale = rect->scale * pLayout->textScale;
+                    // Measured at the scale the label draws at: a pixel face's scale rounds up near a whole number
+                    // (snappedHudFontScale), and a plate measured smaller cut the last letter ("Ur", OY-488).
+                    const float layoutScale = rect->scale * pLayout->textScale;
+                    const float scale =
+                        layoutScale >= 1.0f ? GameplayHudCommon::snappedHudFontScale(layoutScale) : layoutScale;
                     const float maxWidth = 330.666667f * rect->scale;
                     std::vector<std::string> lines = context.wrapHudTextToWidth(*font, status,
                         (maxWidth - 16 * rect->scale) / scale);
@@ -517,9 +521,10 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                     GameplayUiSkin::renderTexture(context, "obsidian_hud_status_plate", *rect);
                     for (size_t i = 0; i < lines.size(); ++i)
                     {
-                        context.renderLayoutLabel(*pLayout, {rect->x + 8 * rect->scale,
+                        // Centred on the plate in the widest box it may have, so the label never trims a wrapped line.
+                        context.renderLayoutLabel(*pLayout, {rect->x + (rect->width - maxWidth) * 0.5f,
                             rect->y + 6 * rect->scale + i * lineHeight,
-                            rect->width - 16 * rect->scale, lineHeight, rect->scale}, lines[i]);
+                            maxWidth, lineHeight, rect->scale}, lines[i]);
                     }
                 }
             }

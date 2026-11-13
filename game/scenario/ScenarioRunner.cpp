@@ -2804,12 +2804,6 @@ bool readScenarioRuleset(
         ruleset.options.preferences.bowDisabled = node["bow_disabled"].as<bool>();
     }
 
-    // other_worlds_loot: random loot rolls equipment from every mounted world's items (on by default; any ruleset).
-    if (node["other_worlds_loot"])
-    {
-        ruleset.options.otherWorldsLoot = node["other_worlds_loot"].as<bool>();
-    }
-
     // loot_filter: the loot filter's preset (off, soft, regular, strict, very_strict); loot_filter_ground: filtered
     // drops stay where they fell.
     if (node["loot_filter"])

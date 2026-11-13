@@ -4366,7 +4366,7 @@ void GameApplication::registerDebugConsoleCommands()
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
         .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly|boss]"
             " | actor kill <radius> | actor remaining"
-            " | actor behavior [<index> <behavior-id>] | actor damage <index|last> <amount> [tier]"
+            " | actor behavior [<index> <behavior-id>] | actor damage <index|last> <amount> [tier] [crit]"
             " | actor immobile <index|last> on|off"
             " | actor shield <index|last> [points] | actor blink <index|last> | actor charge <index|last>"
             " | actor frenzy <index|last>",
@@ -4558,10 +4558,11 @@ void GameApplication::registerDebugConsoleCommands()
                 }
                 return commandResult(true, "Actor " + std::to_string(*parsedIndex) + " immobile " + state + ".");
             }
-            if ((context.args.size() == 3 || context.args.size() == 4) && toLowerCopy(context.args[0]) == "damage")
+            if (context.args.size() >= 3 && context.args.size() <= 5 && toLowerCopy(context.args[0]) == "damage")
             {
                 // Party damage through the normal attack path, e.g. to walk a scripted boss through its phases.
-                // The optional tier is what the hit is to an energy shield (default physical).
+                // The optional tier is what the hit is to an energy shield (default physical); "crit" makes it a
+                // critical hit (its damage number pops).
                 IGameplayWorldRuntime *pWorld = activeGameplayWorld();
                 if (pWorld == nullptr || pWorld->mapActorCount() == 0)
                 {
@@ -4572,17 +4573,20 @@ void GameApplication::registerDebugConsoleCommands()
                     ? std::optional<int32_t>(int32_t(pWorld->mapActorCount() - 1))
                     : parseInt32Argument(context.args[1]);
                 const std::optional<int32_t> amount = parseInt32Argument(context.args[2]);
-                const std::optional<ShieldAttackTier> shieldTier = context.args.size() == 4
-                    ? parseShieldAttackTier(toLowerCopy(context.args[3])) : ShieldAttackTier::Physical;
+                const bool critical = context.args.size() > 3 && toLowerCopy(context.args.back()) == "crit";
+                const size_t tierArgs = context.args.size() - (critical ? 1 : 0);
+                const std::optional<ShieldAttackTier> shieldTier = tierArgs == 4
+                    ? parseShieldAttackTier(toLowerCopy(context.args[3]))
+                    : tierArgs == 3 ? std::optional<ShieldAttackTier>(ShieldAttackTier::Physical) : std::nullopt;
                 GameplayRuntimeActorState state = {};
                 if (!parsedIndex || *parsedIndex < 0 || !amount || *amount <= 0 || !shieldTier
                     || !pWorld->actorRuntimeState(size_t(*parsedIndex), state) || state.isDead)
                 {
                     return commandResult(false, "Usage: actor damage <index|last> <amount> "
-                        "[physical|classic_blaster|kreegan_energy|spell] (living actor)");
+                        "[physical|classic_blaster|kreegan_energy|spell] [crit] (living actor)");
                 }
                 const bool damaged = pWorld->applyPartyAttackMeleeDamage(size_t(*parsedIndex), *amount,
-                    {pWorld->partyX(), pWorld->partyY(), pWorld->partyFootZ()}, *shieldTier);
+                    {pWorld->partyX(), pWorld->partyY(), pWorld->partyFootZ()}, *shieldTier, {}, critical);
                 return commandResult(damaged, damaged ? "Actor damaged." : "Actor damage failed.");
             }
             if (!context.args.empty() && toLowerCopy(context.args[0]) == "behavior")
@@ -9161,11 +9165,26 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
             pIndoorRuntime->currentMapFileName());
     }
 
+    // The formation setting applies at once (OY-538).
+    m_gameSession.setFormations(formationsActive());
+
+    if (m_gameSession.partyState())
+    {
+        m_gameSession.partyState()->setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
+    }
+
     if (m_pMapSceneRuntime != nullptr)
     {
+        m_pMapSceneRuntime->party().setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
         m_pMapSceneRuntime->party().setDebugDamageImmune(m_settings.immortal);
         m_pMapSceneRuntime->party().setDebugUnlimitedMana(m_settings.unlimitedMana);
+        m_pMapSceneRuntime->party().setFormationTargetingActive(formationsActive());
     }
+}
+
+bool GameApplication::formationsActive() const
+{
+    return m_activeWorldManifest.formations || m_settings.formationsEverywhere;
 }
 
 void GameApplication::applyStartupDebugSettingsToActiveRuntime()
@@ -9737,7 +9756,7 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
     m_gameSession.setTavernHirelings(m_activeWorldManifest.tavernHirelings);
     m_gameSession.setStreetNpcs(m_activeWorldManifest.streetNpcs);
     m_gameSession.setNpcFollowers(m_activeWorldManifest.npcFollowers);
-    m_gameSession.setFormations(m_activeWorldManifest.formations);
+    m_gameSession.setFormations(formationsActive());
     m_gameSession.setFleetFoot(m_activeWorldManifest.fleetFoot);
     m_gameSession.setWorldCombatLog(m_activeWorldManifest.combatLog);
     m_gameSession.setWorldHum(m_activeWorldManifest.hum);
@@ -10335,7 +10354,7 @@ void GameApplication::bindPartyDependencies(Party &party)
 {
     const GameDataRepository &data = m_gameSession.data();
     party.setRules(m_gameSession.rulesetGameRules());
-    party.setOtherWorldsLoot(m_gameSession.ruleset().options.otherWorldsLoot);
+    party.setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
     party.setItemTable(&data.itemTable());
     party.setJournalQuestTable(&data.journalQuestTable());
     party.setCharacterDollTable(&data.characterDollTable());
@@ -10347,7 +10366,7 @@ void GameApplication::bindPartyDependencies(Party &party)
     // MM9's hirelings wait behind in a world without their table (every world but MM9).
     party.setMm9HirelingsAlong(!data.mm9HirelingTable().entries().empty());
     party.setNpcFollowersActive(m_activeWorldManifest.npcFollowers);
-    party.setFormationTargetingActive(m_activeWorldManifest.formations);
+    party.setFormationTargetingActive(formationsActive());
     party.setFleetFootWorld(m_activeWorldManifest.fleetFoot);
     party.setStatistics(&m_gameSession.playthroughStatistics());
 }
@@ -12428,7 +12447,8 @@ void GameApplication::openMenuScreen(bool paused)
     std::string location = m_gameSession.currentMapFileName();
     if (const std::optional<MapAssetInfo> &map = m_gameDataLoader.getSelectedMap())
     {
-        location = map->map.name;
+        // In the interface language, as the journal's map title (issue #31).
+        location = Engine::localizeKnown(map->map.name);
     }
     const int days = int(m_gameSession.gameMinutes()) / (24 * 60);
     const std::string date =

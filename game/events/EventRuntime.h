@@ -750,6 +750,9 @@ struct EventRuntimeState
     std::optional<ActiveHookContext> activeHookContext;
     std::vector<std::string> messages;
     std::vector<std::string> statusMessages;
+    // The experience each member got from the running handler (not saved): a handler that shows no status text of its
+    // own ends with "+N experience" (OY-489).
+    int64_t handlerExperienceAward = 0;
     std::vector<uint32_t> openedChestIds;
     std::vector<OpenedChestRequest> openedChestRequests;
     bool activeEventOpenedByTelekinesis = false;

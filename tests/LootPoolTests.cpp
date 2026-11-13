@@ -148,7 +148,7 @@ TEST_CASE("random loot rolls from every world's items and shops keep their world
     CHECK(rolled(ItemGenerationMode::Shop, "mm7") == std::set<uint32_t>{1});
 }
 
-TEST_CASE("a game without other worlds' loot rolls equipment from its world's own pool, as a shop does")
+TEST_CASE("MM6-MM8 maps roll only the merged base's equipment unless MM9 loot in MM6-MM8 is on; MM9 rolls every world's")
 {
     const ItemTable table = loadTable({weightRow("1", 10), weightRow("2", 10), weightRow("3", 10)});
     const StandardItemEnchantTable standardEnchants;
@@ -176,13 +176,14 @@ TEST_CASE("a game without other worlds' loot rolls equipment from its world's ow
         return ids;
     };
 
-    // On by default: every world's sword. Off: the world's own sword; the potion is not equipment, from anywhere.
-    CHECK(party.otherWorldsLoot());
-    CHECK(rolled("mm9") == std::set<uint32_t>{1, 2, 3});
-    party.setOtherWorldsLoot(false);
-    CHECK(rolled("mm9") == std::set<uint32_t>{2, 3});
+    // Off by default: MM7 rolls the base's sword only; the potion is not equipment, from anywhere. MM9 rolls both.
+    CHECK_FALSE(party.mm9LootInOlderWorlds());
     CHECK(rolled("mm7") == std::set<uint32_t>{1, 2});
-    CHECK(table.hasWorldLootPools());
+    CHECK(rolled("mm9") == std::set<uint32_t>{1, 2, 3});
+    // On: MM7 rolls every world's sword too.
+    party.setMm9LootInOlderWorlds(true);
+    CHECK(rolled("mm7") == std::set<uint32_t>{1, 2, 3});
+    CHECK(rolled("mm9") == std::set<uint32_t>{1, 2, 3});
 }
 
 TEST_CASE("an artifact or relic rolls only in its own world")

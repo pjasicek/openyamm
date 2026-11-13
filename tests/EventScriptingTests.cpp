@@ -848,3 +848,36 @@ TEST_CASE("a handler that runs another one from inside keeps its own context aft
     CHECK_EQ(runtimeState.namedMapVars.at("AfterKill"), 7);
     REQUIRE(runtimeState.actorGroupAllyOverrides.contains(2));
 }
+
+TEST_CASE("an event that gives experience and shows no text of its own says how much (OY-489)")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9030, \"Quiet reward\", function()\n"
+        "    AddValue(Experience, 500)\n"
+        "end)\n"
+        "RegisterGlobalEvent(9031, \"Told reward\", function()\n"
+        "    AddValue(Experience, 500)\n"
+        "    evt.StatusText(\"+500 Experience.\")\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@experience_notice_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    Party party = {};
+    PartySeed seed = {};
+    seed.members.resize(2);
+    party.seed(seed);
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    runtimeState.unscaledExperience = true;
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9030, runtimeState, &party));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.front(), "+500 experience");
+    CHECK_EQ(runtimeState.handlerExperienceAward, 0);
+
+    runtimeState.statusMessages.clear();
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9031, runtimeState, &party));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.front(), "+500 Experience.");
+}

@@ -1143,6 +1143,12 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 continue;
             }
 
+            // Fly blinks in its last minutes (gameplayBuffIndicatorLit, OY-508).
+            if (flyBuffIcon && !gameplayBuffIndicatorLit(party, PartyBuffId::Fly))
+            {
+                continue;
+            }
+
             // Fly animates while flying, Water Walk while on water, Levitate (MM8's sp109) and Fleet Foot (MM9's
             // winged boot) while they last.
             const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();

@@ -103,6 +103,26 @@ TEST_CASE("MAW classes take HP and SP from MAW's stat effects and Personality")
     assassin.magicalBonuses.maxSpellPoints = 40;
     classes.applyClassBonuses(assassin);
     CHECK_EQ(assassin.magicalBonuses.maxSpellPoints, 30);
+
+    // A class without mana (Knight, Troll) keeps none: items and permanent SP cancel to a maximum of 0.
+    ClassMultiplierTable classTable;
+    REQUIRE(classTable.loadFromRows({{"Class", "BaseHP", "HPPerLevel", "BaseMana", "ManaPerLevel", "ManaStat"},
+        {"Knight", "35", "5", "0", "0", "None"}, {"Troll", "45", "5", "0", "0", "None"}}));
+    rules.setClassMultiplierTable(&classTable);
+
+    for (const char *pClassName : {"Knight", "Troll"})
+    {
+        Character fighter = member(pClassName, 20);
+        fighter.magicalBonuses.maxSpellPoints = 25;
+        fighter.permanentBonuses.maxSpellPoints = 10;
+        fighter.spellPoints = 35;
+        classes.applyClassBonuses(fighter);
+        CHECK_EQ(fighter.maxSpellPoints + fighter.permanentBonuses.maxSpellPoints
+                + fighter.magicalBonuses.maxSpellPoints, 0);
+        CHECK_EQ(fighter.spellPoints, 0);
+    }
+
+    rules.setClassMultiplierTable(nullptr);
 }
 
 TEST_CASE("MAW races add skill bonuses, resistances and skill limits")

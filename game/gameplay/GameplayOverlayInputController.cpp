@@ -701,7 +701,7 @@ enum class JournalShortcutView : uint8_t
     None = 0,
     Map,
     Story,
-    Notes,
+    Quests,
     Progress,
     Auras
 };
@@ -2363,7 +2363,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     bool canToggleJournal,
     bool mapShortcutPressed,
     bool storyShortcutPressed,
-    bool notesShortcutPressed,
+    bool questsShortcutPressed,
     bool progressShortcutPressed,
     bool zoomInPressed,
     bool zoomOutPressed,
@@ -2391,9 +2391,9 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     {
         requestedJournalView = JournalShortcutView::Story;
     }
-    else if (notesShortcutPressed)
+    else if (questsShortcutPressed)
     {
-        requestedJournalView = JournalShortcutView::Notes;
+        requestedJournalView = JournalShortcutView::Quests;
     }
     else if (progressShortcutPressed)
     {
@@ -2427,8 +2427,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                         journalScreen.mapDragActive = false;
                         break;
 
-                    case JournalShortcutView::Notes:
-                        journalScreen.view = GameplayUiController::JournalView::Notes;
+                    case JournalShortcutView::Quests:
+                        journalScreen.view = GameplayUiController::JournalView::Quests;
                         journalScreen.mapDragActive = false;
                         break;
 
@@ -2464,7 +2464,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                         return JournalShortcutView::Story;
 
                     case GameplayUiController::JournalView::Notes:
-                        return JournalShortcutView::Notes;
+                        return JournalShortcutView::None;
 
                     case GameplayUiController::JournalView::Progress:
                         return JournalShortcutView::Progress;
@@ -2473,7 +2473,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                         return JournalShortcutView::Auras;
 
                     case GameplayUiController::JournalView::Quests:
-                        return JournalShortcutView::None;
+                        return JournalShortcutView::Quests;
                     }
 
                     return JournalShortcutView::None;

@@ -323,7 +323,6 @@ void GameSession::setPartyState(const Party &party)
 {
     m_partyState = party;
     m_partyState->setRules(rulesetGameRules());
-    m_partyState->setOtherWorldsLoot(m_ruleset.options.otherWorldsLoot);
     m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
@@ -331,7 +330,6 @@ void GameSession::setPartyState(Party &&party)
 {
     m_partyState = std::move(party);
     m_partyState->setRules(rulesetGameRules());
-    m_partyState->setOtherWorldsLoot(m_ruleset.options.otherWorldsLoot);
     m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
@@ -410,7 +408,6 @@ void GameSession::setRuleset(const RulesetSelection &ruleset)
     if (m_partyState)
     {
         m_partyState->setRules(rulesetGameRules());
-        m_partyState->setOtherWorldsLoot(ruleset.options.otherWorldsLoot);
     }
 
     bindGameRules(m_pMawRules ? &m_pMawRules->gameRules() : nullptr);
@@ -419,11 +416,6 @@ void GameSession::setRuleset(const RulesetSelection &ruleset)
 void GameSession::setRulesetOptions(const RulesetOptions &options)
 {
     m_ruleset.options = options;
-
-    if (m_partyState)
-    {
-        m_partyState->setOtherWorldsLoot(options.otherWorldsLoot);
-    }
 
     if (m_pMawRules)
     {
@@ -2360,7 +2352,6 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
 
     if (m_partyState)
     {
-        m_partyState->setOtherWorldsLoot(m_ruleset.options.otherWorldsLoot);
         m_partyState->setStatistics(&m_playthroughStatistics);
         migrateBlazenRescueRosterUnlock(*m_partyState);
 
@@ -2384,6 +2375,16 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     if (m_partyState && saveData.sourceSaveVersion < SaveVersionClassChangeMasteries)
     {
         m_partyState->grantClassChangeMasteries();
+    }
+
+    if (m_partyState && saveData.sourceSaveVersion < SaveVersionSpecialItemEnchants)
+    {
+        m_partyState->assignSpecialItemEnchants();
+    }
+
+    if (m_partyState && saveData.sourceSaveVersion < SaveVersionFormationsEverywhere)
+    {
+        m_partyState->arrangeDefaultFormationByHealth();
     }
 
     // Saves from before the random streams get their root seed when first loaded.

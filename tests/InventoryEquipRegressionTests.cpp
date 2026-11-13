@@ -1644,3 +1644,58 @@ TEST_CASE("weapon conflict rules match the expected cases")
         std::nullopt,
         false));
 }
+
+TEST_CASE("special items carry the enchantment their item row names (OY-553)")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    const OpenYAMM::Game::ItemDefinition *pBow = gameData.itemTable.get(542);
+    REQUIRE(pBow != nullptr);
+    const OpenYAMM::Game::SpecialItemEnchantEntry *pCarnage =
+        gameData.specialItemEnchantTable.get(pBow->specialItemSpecialEnchantId);
+    REQUIRE(pCarnage != nullptr);
+    CHECK(pCarnage->kind == OpenYAMM::Game::SpecialItemEnchantKind::Carnage);
+
+    // A Noblebone Bow is made with Carnage, keeps its own name and shoots explosive arrows.
+    OpenYAMM::Game::InventoryItem bow = OpenYAMM::Game::ItemGenerator::makeInventoryItem(
+        542, gameData.itemTable, OpenYAMM::Game::ItemGenerationMode::Generic);
+    CHECK(bow.specialEnchantId == pBow->specialItemSpecialEnchantId);
+    CHECK(OpenYAMM::Game::ItemRuntime::identifiedDisplayName(
+              bow, *pBow, &gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable)
+        == "Noblebone Bow");
+
+    OpenYAMM::Game::EquippedItemRuntimeState worn = {};
+    worn.specialEnchantId = bow.specialEnchantId;
+    worn.artifactId = bow.artifactId;
+    OpenYAMM::Game::Character archer = {};
+    OpenYAMM::Game::ItemEnchantRuntime::applyEquippedEnchantEffects(
+        *pBow, worn, &gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable, archer);
+    CHECK(archer.equippedItemEffectFlags.contains("ExplosiveArrows"));
+
+    // A standard enchantment comes at its row's power: Minotaur's Axe "of Might" 25.
+    const OpenYAMM::Game::InventoryItem axe = OpenYAMM::Game::ItemGenerator::makeInventoryItem(
+        1353, gameData.itemTable, OpenYAMM::Game::ItemGenerationMode::Generic);
+    const OpenYAMM::Game::StandardItemEnchantEntry *pMight =
+        gameData.standardItemEnchantTable.get(axe.standardEnchantId);
+    REQUIRE(pMight != nullptr);
+    CHECK(pMight->kind == OpenYAMM::Game::StandardItemEnchantKind::Might);
+    CHECK(axe.standardEnchantPower == 25);
+
+    // Every Special item's name resolves except Grognard's Cutlass, whose Elf Slaying is an artifact power.
+    OpenYAMM::Game::ItemTable itemTable = gameData.itemTable;
+    CHECK(itemTable.resolveSpecialItemEnchants(gameData.standardItemEnchantTable, gameData.specialItemEnchantTable)
+        == std::vector<uint32_t>{1354});
+
+    // A save from before carries the bow without its enchantment, in a bag and worn; loading gives it back.
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    OpenYAMM::Game::InventoryItem oldBow = bow;
+    oldBow.specialEnchantId = 0;
+    pMember->rulesetState.storedBags[1].push_back(oldBow);
+    pMember->equipment.bow = 542;
+    pMember->equipmentRuntime.bow = {};
+    party.assignSpecialItemEnchants();
+    CHECK(pMember->rulesetState.storedBags[1].back().specialEnchantId == pBow->specialItemSpecialEnchantId);
+    CHECK(pMember->equipmentRuntime.bow.specialEnchantId == pBow->specialItemSpecialEnchantId);
+}

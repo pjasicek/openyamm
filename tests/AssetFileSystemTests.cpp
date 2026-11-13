@@ -506,7 +506,7 @@ TEST_CASE("AssetFileSystem reads an extra development mount in front of a develo
     std::filesystem::remove_all(temporaryRoot);
 }
 
-TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos over the game's, and nothing else")
+TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds, videos and icons over the game's, and nothing else")
 {
     using namespace OpenYAMM::Engine;
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
@@ -519,6 +519,8 @@ TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos ove
         writeTextFile(pack / "engine" / "audio" / "zm1.wav", "pack-sound");
         writeTextFile(pack / "worlds" / "mm7" / "audio" / "w7.wav", "pack-world-sound");
         writeTextFile(pack / "worlds" / "mm7" / "videos" / "Cutscenes" / "7intro.ogv", "pack-video");
+        // Images with text in them (OY-579): the Arcomage card sheet.
+        writeTextFile(pack / "engine" / "icons_x2" / "sprites.pcx", "pack-cards");
         // Text goes through translation files: a pack's data table never replaces the game's.
         writeTextFile(pack / "engine" / "data_tables" / "items.txt", "pack-items");
     };
@@ -530,6 +532,7 @@ TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos ove
     writeTextFile(developmentRoot / "engine" / "data_tables" / "items.txt", "game-items");
     writeTextFile(developmentRoot / "worlds" / "mm7" / "audio" / "w7.wav", "game-world-sound");
     writeTextFile(developmentRoot / "worlds" / "mm7" / "videos" / "Cutscenes" / "7intro.ogv", "game-video");
+    writeTextFile(developmentRoot / "engine" / "icons_x2" / "sprites.pcx", "game-cards");
     writePack(developmentRoot / "languages" / "ts");
 
     InstalledContentOptions english;
@@ -545,6 +548,7 @@ TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos ove
         CHECK(fs.readTextFile("Data/EnglishD/w7.wav") == std::optional<std::string>(prefix + "-world-sound"));
         CHECK(fs.readTextFile("Videos/Cutscenes/7intro.ogv") == std::optional<std::string>(prefix + "-video"));
         CHECK(fs.readTextFile("data_tables/items.txt") == std::optional<std::string>("game-items"));
+        CHECK(fs.readTextFile("engine/icons_x2/sprites.pcx") == std::optional<std::string>(prefix + "-cards"));
         CHECK(fs.exists("languages/ts/language.yml"));
         // A world switch mounts the pack again.
         REQUIRE(fs.switchActiveWorld("mm7"));
@@ -558,7 +562,8 @@ TEST_CASE("AssetFileSystem mounts a language pack's fonts, sounds and videos ove
     writeZipFile(releaseRoot / "packs/engine.core.zip", {
         {"fonts/truetype/lucida.yml", "game-font"},
         {"audio/zm1.wav", "game-sound"},
-        {"data_tables/items.txt", "game-items"}
+        {"data_tables/items.txt", "game-items"},
+        {"icons_x2/sprites.pcx", "game-cards"}
     });
     writeZipFile(releaseRoot / "packs/mm7.core.zip", {
         {"audio/w7.wav", "game-world-sound"},

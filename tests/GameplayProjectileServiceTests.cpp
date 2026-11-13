@@ -854,6 +854,17 @@ TEST_CASE("fire spike spawn limits are mastery based and actor trigger chooses n
     CHECK_EQ(triggerResult.actorIndex, 4u);
     CHECK_EQ(triggerResult.actorId, 301u);
     CHECK(triggerResult.damage > 0);
+
+    // A hostile behind a closed door does not set the spike off (OY-490): the farther one does.
+    triggerInput.actors[1].blockedFromTrap = true;
+    CHECK(GameplayProjectileService::fireSpikeTrapReaches(triggerInput, triggerInput.actors[1]));
+    const GameplayProjectileService::FireSpikeTrapTriggerResult blockedResult =
+        service.buildFireSpikeTrapTrigger(triggerInput);
+    CHECK(blockedResult.triggered);
+    CHECK_EQ(blockedResult.actorIndex, 9u);
+
+    triggerInput.actors[0].blockedFromTrap = true;
+    CHECK_FALSE(service.buildFireSpikeTrapTrigger(triggerInput).triggered);
 }
 
 TEST_CASE("projectile frame without collision advances motion without expiring")

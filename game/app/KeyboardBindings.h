@@ -38,7 +38,9 @@ enum class KeyboardAction : uint8_t
     Cast,
     Pass,
     CharCycle,
-    Quest,
+    // Opens the inventory. Its settings key stays "quest", the name these settings had when the action was called
+    // Quest, so existing bindings keep working (OY-481).
+    Inventory,
     QuickRef,
     Rest,
     History,
@@ -111,6 +113,8 @@ enum class KeyboardAction : uint8_t
     BattleOrders,
     // Upkeep (devdocs/BATTLE_ORDERS.md): a ready member casts the first due spell of their upkeep list.
     Upkeep,
+    // The Journal on its Quests page, as MM7's Quest key opens the quest book (OY-481); unbound by default.
+    QuestBook,
     Count
 };
 

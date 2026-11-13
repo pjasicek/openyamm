@@ -1176,9 +1176,10 @@ void NewGameScreen::ensurePcNamesLoaded()
             {
                 const std::string name = trimCopy(cells[columnIndex]);
 
+                // In the interface language where the language has the name (issue #31): the party keeps it.
                 if (!name.empty() && name != "*end")
                 {
-                    m_pcNameColumns[columnIndex].push_back(name);
+                    m_pcNameColumns[columnIndex].push_back(Engine::localizeKnown(name));
                 }
             }
         }
@@ -1455,16 +1456,16 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
     }
 
     std::unordered_set<int> seenVoiceIds;
+    std::vector<int> otherRaceVoiceIds;
 
     for (size_t candidateIndex = 0; candidateIndex < candidateCount(); ++candidateIndex)
     {
         const CreationCandidate &candidate = candidateAt(candidateIndex);
         const CharacterDollEntry *pEntry = m_pGameData->characterDollTable().getCharacter(candidate.characterDataId);
 
-        // A voice is offered when an offered portrait of the same race and sex speaks with it (a world's own voices
-        // only to that world's faces, above).
-        if (pEntry == nullptr || pEntry->defaultSex != pSelectedEntry->defaultSex
-            || pEntry->raceId != pSelectedEntry->raceId)
+        // A voice is offered when an offered portrait of the same sex speaks with it, those of the portrait's race
+        // first (OY-560: any race's voice, as before 2.0; a world's own voices only to that world's faces, above).
+        if (pEntry == nullptr || pEntry->defaultSex != pSelectedEntry->defaultSex)
         {
             continue;
         }
@@ -1478,11 +1479,13 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
 
         if (seenVoiceIds.insert(voiceId).second)
         {
-            voiceIds.push_back(voiceId);
+            (pEntry->raceId == pSelectedEntry->raceId ? voiceIds : otherRaceVoiceIds).push_back(voiceId);
         }
     }
 
     std::sort(voiceIds.begin(), voiceIds.end());
+    std::sort(otherRaceVoiceIds.begin(), otherRaceVoiceIds.end());
+    voiceIds.insert(voiceIds.end(), otherRaceVoiceIds.begin(), otherRaceVoiceIds.end());
     return voiceIds;
 }
 
@@ -1972,11 +1975,6 @@ std::string rulesetOptionsSummary(const RulesetOptions &options)
     }
     return summary;
 }
-
-std::string otherWorldsLootSummary(bool otherWorldsLoot)
-{
-    return otherWorldsLoot ? Engine::tr("Loot from every world") : Engine::tr("Each world's own loot");
-}
 } // namespace
 
 void NewGameScreen::loadRulesets()
@@ -2069,20 +2067,14 @@ void NewGameScreen::drawRulesetSwitch()
     const RulesetDefinition &ruleset = chosenRulesetDefinition();
     const std::string summary =
         Engine::localize(ruleset.panel.summary.empty() ? ruleset.description : ruleset.panel.summary);
-    // Standard's only option is the loot of other worlds, offered when a mounted world has items of its own.
-    if (ruleset.isStandard() && !worldLootChoice())
+    // Standard has no options of its own.
+    if (ruleset.isStandard())
     {
         label("ContinentSelectionRulesetSummary", summary);
         label("ContinentSelectionFooterNote", Engine::tr(ContinentHint));
         return;
     }
-    std::string options = ruleset.isStandard() ? otherWorldsLootSummary(m_ruleset.options.otherWorldsLoot)
-                                               : rulesetOptionsSummary(m_ruleset.options);
-    if (!ruleset.isStandard() && !m_ruleset.options.otherWorldsLoot && worldLootChoice())
-    {
-        options += " · " + otherWorldsLootSummary(false);
-    }
-    label("ContinentSelectionRulesetOptions", options);
+    label("ContinentSelectionRulesetOptions", rulesetOptionsSummary(m_ruleset.options));
     label("ContinentSelectionFooterNote", summary);
     if (action("ContinentSelectionRulesButton"))
     {
@@ -2091,11 +2083,6 @@ void NewGameScreen::drawRulesetSwitch()
         m_rulesContentHeight = 0;
         m_rulesPanelOpen = true;
     }
-}
-
-bool NewGameScreen::worldLootChoice() const
-{
-    return m_pGameData != nullptr && m_pGameData->itemTable().hasWorldLootPools();
 }
 
 MenuScreenBase::Rect NewGameScreen::rulesRect(const std::string &id, float y) const
@@ -2395,16 +2382,6 @@ void NewGameScreen::drawRulesPanel()
                 draft.randomizer = !draft.randomizer;
             }
         }
-        y += RulesSectionGap;
-    }
-    if (worldLootChoice())
-    {
-        y = section(Engine::tr("Loot"), Engine::tr("Chosen once · fixed for the adventure"), y);
-        y = drawRulesSetting("other-worlds-loot", Engine::tr("Loot from other worlds"),
-                             Engine::tr("Drops and chests can hold weapons, armour and jewellery from every world. "
-                                        "Off: each world's own, as its shops sell."),
-                             false, draft.otherWorldsLoot ? "On" : "Off", true, true, y, activated);
-        draft.otherWorldsLoot = draft.otherWorldsLoot != activated;
         y += RulesSectionGap;
     }
     if (choices.preferences)

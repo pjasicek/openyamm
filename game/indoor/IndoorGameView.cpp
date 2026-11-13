@@ -79,20 +79,6 @@ struct UiViewportRect
     float height = 0.0f;
 };
 
-uint32_t makeCombatHudColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
-{
-    return (static_cast<uint32_t>(alpha) << 24)
-        | (static_cast<uint32_t>(blue) << 16)
-        | (static_cast<uint32_t>(green) << 8)
-        | static_cast<uint32_t>(red);
-}
-
-float combatDamageFontScale(int damage)
-{
-    const float damageMagnitude = std::sqrt(static_cast<float>(std::max(1, damage)));
-    return 1.55f + std::clamp(damageMagnitude / 22.0f, 0.0f, 0.75f);
-}
-
 bool windowHasInputFocus(SDL_Window *pWindow)
 {
     return pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_INPUT_FOCUS) != 0;
@@ -1011,7 +997,7 @@ void IndoorGameView::setSettingsSnapshot(const GameSettings &settings)
 
     if (!m_settings.combatText)
     {
-        m_combatFloatingTexts.clear();
+        m_combatFloatingText.clear();
     }
 
 
@@ -1241,22 +1227,6 @@ void IndoorGameView::updateCombatFeedback(float deltaSeconds)
 {
     const float elapsedSeconds = std::max(0.0f, deltaSeconds);
 
-    for (CombatFloatingText &floatingText : m_combatFloatingTexts)
-    {
-        floatingText.remainingSeconds = std::max(0.0f, floatingText.remainingSeconds - elapsedSeconds);
-    }
-
-
-    m_combatFloatingTexts.erase(
-        std::remove_if(
-            m_combatFloatingTexts.begin(),
-            m_combatFloatingTexts.end(),
-            [](const CombatFloatingText &floatingText)
-            {
-                return floatingText.remainingSeconds <= 0.0f;
-            }),
-        m_combatFloatingTexts.end());
-
     if (m_pIndoorSceneRuntime == nullptr)
     {
         return;
@@ -1265,48 +1235,8 @@ void IndoorGameView::updateCombatFeedback(float deltaSeconds)
     const std::vector<GameplayCombatFeedbackEvent> events =
         m_pIndoorSceneRuntime->worldRuntime().drainCombatFeedbackEvents();
     m_gameSession.gameplayScreenRuntime().updateEnemyHealthBars(elapsedSeconds, events);
-
-    for (const GameplayCombatFeedbackEvent &event : events)
-    {
-        if (event.actorIndex < m_pIndoorSceneRuntime->worldRuntime().mapActorCount())
-        {
-            if (event.damage > 0 && m_settings.combatText)
-            {
-                m_combatFloatingTexts.push_back(
-                    CombatFloatingText{
-                        .actorIndex = event.actorIndex,
-                        .amount = event.damage,
-                        .text = std::to_string(event.damage),
-                        .x = event.x,
-                        .y = event.y,
-                        .z = GameplayUiSkin::combatDamageTextOriginZ(event.z, event.height),
-                        .remainingSeconds = 0.6f,
-                        .durationSeconds = 0.6f,
-                        .colorAbgr = event.damage >= 100
-                            ? makeCombatHudColor(255, 225, 106, 255)
-                            : makeCombatHudColor(238, 235, 216, 255),
-                        .fontScale = combatDamageFontScale(event.damage),
-                    });
-            }
-            else if (event.shieldDamage > 0 && m_settings.combatText)
-            {
-                // A hit a raised energy shield took whole: its number in shield blue, apart from body damage.
-                m_combatFloatingTexts.push_back(
-                    CombatFloatingText{
-                        .actorIndex = event.actorIndex,
-                        .amount = event.shieldDamage,
-                        .text = std::to_string(event.shieldDamage),
-                        .x = event.x,
-                        .y = event.y,
-                        .z = GameplayUiSkin::combatDamageTextOriginZ(event.z, event.height),
-                        .remainingSeconds = 0.6f,
-                        .durationSeconds = 0.6f,
-                        .colorAbgr = makeCombatHudColor(150, 220, 255, 255),
-                        .fontScale = combatDamageFontScale(event.shieldDamage),
-                    });
-            }
-        }
-    }
+    m_combatFloatingText.update(
+        elapsedSeconds, events, m_pIndoorSceneRuntime->worldRuntime().mapActorCount(), m_settings.combatText);
 }
 
 void IndoorGameView::renderCombatFeedbackOverlay(int width, int height)
@@ -1319,50 +1249,11 @@ void IndoorGameView::renderCombatFeedbackOverlay(int width, int height)
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     screenRuntime.prepareHudView(width, height);
 
-    constexpr const char *FontName = GameplayUiSkin::CombatFontName;
-    constexpr float CombatFontScale = GameplayUiSkin::CombatDamageFontScale;
-    constexpr float DamageRisePixels = 29.0f;
-
-    if (m_settings.combatText)
-    {
-        for (const CombatFloatingText &floatingText : m_combatFloatingTexts)
+    m_combatFloatingText.render(screenRuntime, width, height,
+        [this, width, height](const bx::Vec3 &point, float &screenX, float &screenY)
         {
-            if (floatingText.remainingSeconds <= 0.0f || floatingText.durationSeconds <= 0.0f)
-            {
-                continue;
-            }
-
-            const float progress =
-                1.0f - std::clamp(floatingText.remainingSeconds / floatingText.durationSeconds, 0.0f, 1.0f);
-            float projectedX = 0.0f;
-            float projectedY = 0.0f;
-
-            if (!m_pIndoorRenderer->projectGameplayWorldPointToScreen(
-                    bx::Vec3{floatingText.x, floatingText.y, floatingText.z + progress * DamageRisePixels},
-                    width,
-                    height,
-                    projectedX,
-                    projectedY))
-            {
-                continue;
-            }
-
-            const float fadeStartSeconds = 0.225f;
-            const float alpha = std::clamp(floatingText.remainingSeconds / fadeStartSeconds, 0.0f, 1.0f);
-            const uint8_t alphaByte = static_cast<uint8_t>(std::round(255.0f * alpha));
-            const uint32_t textColor = (floatingText.colorAbgr & 0x00ffffffu)
-                | (static_cast<uint32_t>(alphaByte) << 24);
-            const float fontScale = CombatFontScale * std::max(0.5f, floatingText.fontScale);
-            const float textWidth = screenRuntime.measureHudTextWidth(FontName, floatingText.text) * fontScale;
-            screenRuntime.renderHudTextLine(
-                FontName,
-                textColor,
-                floatingText.text,
-                projectedX - textWidth * 0.5f,
-                projectedY,
-                fontScale);
-        }
-    }
+            return m_pIndoorRenderer->projectGameplayWorldPointToScreen(point, width, height, screenX, screenY);
+        });
 
     const ActorAiTrace *pAiTrace = m_pIndoorSceneRuntime->worldRuntime().actorAiTrace();
 

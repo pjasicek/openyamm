@@ -359,7 +359,11 @@ public:
         const Character &character,
         const ItemTable *pItemTable,
         CharacterAttackMode attackMode);
+    // Where the party aims at an actor, above its feet: 60% of its height.
     static float actorTargetHeight(uint16_t actorHeight);
+    // The same for an actor drawn as a 3D model spanning modelBottom..modelTop above its feet: 60% up the model when
+    // that is lower (a model shorter than its collision height), so a shot meets the body rather than the air above.
+    static float actorTargetHeight(uint16_t actorHeight, float modelBottom, float modelTop);
     // Whether any part of an actor's upright box (its radius, foot to head) projects into the viewport, so a monster cut
     // by the screen edge counts as on screen (the party's fallback target, OY-154). Row-major bx view-projection.
     static bool actorBoxInViewport(

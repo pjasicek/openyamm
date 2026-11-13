@@ -90,6 +90,12 @@ constexpr uint32_t SaveVersionFourMawBags = 121;
 // A promotion grants MAW's ladder masteries (Cover, Mana Shield, Enlightenment, Retaliation) that the new class's limits
 // allow; members promoted in older saves get them when loaded (Party::grantClassChangeMasteries).
 constexpr uint32_t SaveVersionClassChangeMasteries = 174;
+// Special items (Noblebone Bow, Moon Cloak) carry the enchantment their item row names from this version on; older
+// saves give the party's ones theirs when loaded (Party::assignSpecialItemEnchants, OY-553).
+constexpr uint32_t SaveVersionSpecialItemEnchants = 177;
+// Formations are on in every world from this version on; an older save's party still in the default formation stands
+// by health when loaded (Party::arrangeDefaultFormationByHealth).
+constexpr uint32_t SaveVersionFormationsEverywhere = 179;
 
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyNpcRosters(GameSaveData &data);

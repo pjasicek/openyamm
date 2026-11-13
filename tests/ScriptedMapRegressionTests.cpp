@@ -731,13 +731,15 @@ public:
         int damage,
         const OpenYAMM::Game::GameplayWorldPoint &source,
         OpenYAMM::Game::ShieldAttackTier shieldTier,
-        const OpenYAMM::Game::ShieldHitModifiers &shieldModifiers = {}) override
+        const OpenYAMM::Game::ShieldHitModifiers &shieldModifiers = {},
+        bool critical = false) override
     {
         (void)actorIndex;
         (void)damage;
         (void)source;
         (void)shieldTier;
         (void)shieldModifiers;
+        (void)critical;
         return false;
     }
 

@@ -1,4 +1,5 @@
 #include "game/tables/ItemTable.h"
+#include "game/items/ItemEnchantTables.h"
 #include "engine/ImageAssetLoader.h"
 #include "game/party/SkillData.h"
 #include "game/party/CharacterState.h"
@@ -465,7 +466,8 @@ bool ItemTable::load(
         entry.identifyRepairDifficulty = parseInt(entry.idRepSt);
         entry.unidentifiedName = getCell(row, 10);
         entry.spriteIndex = static_cast<uint16_t>(std::max(0, parseInt(getCell(row, 11))));
-        entry.varA = parseInt(getCell(row, 12));
+        entry.varAText = trimCopy(getCell(row, 12));
+        entry.varA = parseInt(entry.varAText);
         entry.varB = parseInt(getCell(row, 13));
         entry.equipX = parseInt(getCell(row, 14));
         entry.equipY = parseInt(getCell(row, 15));
@@ -821,11 +823,6 @@ std::string ItemTable::lootPoolForWorld(const std::string &worldId) const
     return m_itemPackageIds.contains(world) ? world : std::string("engine");
 }
 
-bool ItemTable::hasWorldLootPools() const
-{
-    return m_itemPackageIds.size() > 1;
-}
-
 void ItemTable::setChestArtifactsOnlyWorlds(std::unordered_set<std::string> worldIds)
 {
     m_chestArtifactsOnlyWorlds.clear();
@@ -1066,6 +1063,57 @@ void ItemTable::applyPotionSettings(const MergedPotionSettingTable &potionSettin
             m_entries[setting.itemId].hasPotionPower = true;
         }
     }
+}
+
+std::vector<uint32_t> ItemTable::resolveSpecialItemEnchants(
+    const StandardItemEnchantTable &standardTable,
+    const SpecialItemEnchantTable &specialTable)
+{
+    // Enchantment ids are 1-based in both tables.
+    const auto findSuffix =
+        [](const auto &entries, const std::string &name) -> uint16_t
+        {
+            for (size_t index = 0; index < entries.size(); ++index)
+            {
+                if (!entries[index].suffix.empty() && toLowerCopy(trimCopy(entries[index].suffix)) == name)
+                {
+                    return uint16_t(index + 1);
+                }
+            }
+
+            return 0;
+        };
+    std::vector<uint32_t> unresolved;
+
+    for (ItemDefinition &entry : m_entries)
+    {
+        entry.specialItemStandardEnchantId = 0;
+        entry.specialItemStandardEnchantPower = 0;
+        entry.specialItemSpecialEnchantId = 0;
+
+        if (entry.rarity != ItemRarity::Special || entry.varAText.empty() || entry.varAText == "0")
+        {
+            continue;
+        }
+
+        const std::string name = toLowerCopy(entry.varAText);
+
+        if (const uint16_t standardId = findSuffix(standardTable.entries(), name); standardId != 0)
+        {
+            entry.specialItemStandardEnchantId = standardId;
+            entry.specialItemStandardEnchantPower = uint16_t(std::max(1, entry.varB));
+        }
+        else if (const uint16_t specialId = findSuffix(specialTable.entries(), name); specialId != 0)
+        {
+            entry.specialItemSpecialEnchantId = specialId;
+        }
+        else
+        {
+            unresolved.push_back(entry.itemId);
+        }
+    }
+
+    return unresolved;
 }
 
 void ItemTable::setGroundModels(const ItemModelBindings &bindings)

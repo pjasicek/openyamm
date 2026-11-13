@@ -197,8 +197,6 @@ public:
     void drawRulesetSwitch();
     void drawRulesPanel();
     // One rule setting: name and control on a line, description below; returns the y after it.
-    // Whether a mounted world brings items of its own, so the Rules panel offers RulesetOptions::otherWorldsLoot.
-    bool worldLootChoice() const;
     float drawRulesSetting(const std::string &id, const std::string &name, const std::string &description,
                            bool select, const std::string &value, bool enabled, bool last, float y, bool &activated);
     // Text of a Rules panel element at content position y (logical units), word-wrapped; returns its height.

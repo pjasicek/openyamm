@@ -495,7 +495,6 @@ TEST_CASE("saves keep the ruleset and its options")
     save.ruleset.options.preferences.friendlyFire = true;
     save.ruleset.options.preferences.trainerHints = true;
     save.ruleset.options.preferences.bowDisabled = true;
-    save.ruleset.options.otherWorldsLoot = false;
     save.ruleset.options.preferences.lootFilter =
         OpenYAMM::Game::rulesetLootFilterWithPreset(RulesetLootFilterPreset::VeryStrict, true);
     save.ruleset.options.preferences.lootFilter.goldKinds |= 1u << unsigned(OpenYAMM::Game::RulesetLootKind::Gems);
@@ -510,14 +509,6 @@ TEST_CASE("saves keep the ruleset and its options")
     REQUIRE_MESSAGE(standard.has_value(), error);
     CHECK(standard->ruleset.isStandard());
     CHECK(standard->ruleset == RulesetSelection{});
-
-    // Standard games keep the choice of other worlds' loot too.
-    OpenYAMM::Game::GameSaveData ownLoot = minimalSave();
-    ownLoot.ruleset.options.otherWorldsLoot = false;
-    const std::optional<OpenYAMM::Game::GameSaveData> ownLootRestored = roundTrip(ownLoot, error);
-    REQUIRE_MESSAGE(ownLootRestored.has_value(), error);
-    CHECK(ownLootRestored->ruleset.isStandard());
-    CHECK_FALSE(ownLootRestored->ruleset.options.otherWorldsLoot);
 }
 
 TEST_CASE("saves with out-of-range ruleset options are refused")
@@ -665,22 +656,6 @@ void eraseMm9HirelingCount(std::vector<uint8_t> &bytes, const std::string &marke
     eraseBytes(bytes, offset, sizeof(uint64_t));
 }
 
-// Saves before version 172 have no choice of other worlds' loot (RulesetOptions::otherWorldsLoot): cuts the ruleset's
-// last byte, at the end of the summary block before the name and preview.
-void eraseOtherWorldsLoot(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
-{
-    constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
-    uint32_t summarySize = 0;
-    std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
-    const size_t nameAndPreviewSize =
-        sizeof(uint64_t) + save.saveName.size() + sizeof(uint64_t) + save.previewBmp.size();
-    const size_t offset = HeaderSize + sizeof(summarySize) + summarySize - nameAndPreviewSize - sizeof(bool);
-    REQUIRE_EQ(bytes[offset], save.ruleset.options.otherWorldsLoot ? 1 : 0);
-    eraseBytes(bytes, offset, sizeof(bool));
-    --summarySize;
-    std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
-}
-
 void moveSummaryToLegacyPlaces(
     std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save, float yawMarker, uint64_t seedMarker)
 {
@@ -705,10 +680,10 @@ void moveSummaryToLegacyPlaces(
     const std::vector<uint8_t> map = piece(0, mapSize);
     const std::vector<uint8_t> minutes = piece(mapSize, minutesSize);
     const size_t rulesetOffset = mapSize + minutesSize;
-    // Without its last three bytes, the trainer hints, the bow preference and the choice of other worlds' loot of
-    // versions 152, 154 and 172, which no summary-less save has.
+    // Without its last two bytes, the trainer hints and the bow preference of versions 152 and 154, which no
+    // summary-less save has.
     const std::vector<uint8_t> ruleset =
-        piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize - 3 * sizeof(bool));
+        piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize - 2 * sizeof(bool));
     const std::vector<uint8_t> nameAndPreview = piece(summary.size() - nameAndPreviewSize, nameAndPreviewSize);
 
     bytes.insert(bytes.end(), nameAndPreview.begin(), nameAndPreview.end());
@@ -834,6 +809,46 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
     std::filesystem::remove(path);
 }
 
+TEST_CASE("saves with the retired per-game loot choice load without it")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    save.ruleset.id = "maw";
+    save.ruleset.options.preferences.trainerHints = true;
+    save.ruleset.options.preferences.bowDisabled = true;
+    const std::filesystem::path path = makeTemporaryRoot("retired_world_loot").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
+
+    // Versions 172 to 177 wrote the choice as the ruleset's last byte, in the summary block before the name, the
+    // preview and the playthrough id and time. Put one back (off) and stamp version 177.
+    std::vector<uint8_t> bytes = readBytes(path);
+    constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
+    constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
+    uint32_t summarySize = 0;
+    std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
+    const size_t nameAndPreviewSize =
+        sizeof(uint64_t) + save.saveName.size() + sizeof(uint64_t) + save.previewBmp.size();
+    const size_t offset =
+        HeaderSize + sizeof(summarySize) + summarySize - PlaythroughSize - nameAndPreviewSize;
+    REQUIRE_EQ(bytes[offset - 1], 1);
+    bytes.insert(bytes.begin() + static_cast<std::ptrdiff_t>(offset), uint8_t(0));
+    ++summarySize;
+    std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
+    const uint32_t previousVersion = 177;
+    std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+    writeBytes(path, bytes);
+
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    const std::optional<OpenYAMM::Game::GameSaveSummary> summary =
+        OpenYAMM::Game::loadGameSaveSummaryFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    CHECK(restored->ruleset == save.ruleset);
+    CHECK_EQ(restored->saveName, "ruleset check");
+    REQUIRE(summary.has_value());
+    CHECK(summary->ruleset == save.ruleset);
+}
+
 TEST_CASE("saves before the Bow preference load with the bow on")
 {
     OpenYAMM::Game::GameSaveData save = minimalSave();
@@ -850,7 +865,6 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     // 154) is the ruleset's last byte, after the trainer hints (152). Cut it and stamp version 153.
     std::vector<uint8_t> bytes = readBytes(path);
     moveSummaryPlaythroughToLegacyPlace(bytes);
-    eraseOtherWorldsLoot(bytes, save);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     uint32_t summarySize = 0;
     std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
@@ -895,7 +909,6 @@ TEST_CASE("saves before the MM9 hirelings load with none")
     // Cut the party's hireling count (version 157) and stamp version 154 (before the last outdoor map, 155).
     std::vector<uint8_t> bytes = readBytes(path);
     moveSummaryPlaythroughToLegacyPlace(bytes);
-    eraseOtherWorldsLoot(bytes, save);
     eraseMm9HirelingCount(bytes, completionMarker);
     eraseMapLayoutIdentities(bytes);
     eraseFleetFootBuff(bytes);
@@ -934,7 +947,6 @@ TEST_CASE("saves before the MM9 formation load without member cells and with neu
     // Cut the party's formation cell count (version 158) and stamp version 157.
     std::vector<uint8_t> bytes = readBytes(path);
     moveSummaryPlaythroughToLegacyPlace(bytes);
-    eraseOtherWorldsLoot(bytes, save);
     std::array<uint8_t, sizeof(cellMarker)> markerBytes = {};
     std::memcpy(markerBytes.data(), &cellMarker, sizeof(cellMarker));
     const auto markerIt = std::search(bytes.begin(), bytes.end(), markerBytes.begin(), markerBytes.end());

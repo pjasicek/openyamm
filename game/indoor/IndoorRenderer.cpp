@@ -6571,7 +6571,7 @@ std::vector<size_t> IndoorRenderer::gameplayVisibleHostileActorIndices() const
         const bx::Vec3 actorPoint = {
             actorState.preciseX,
             actorState.preciseY,
-            actorState.preciseZ + GameMechanics::actorTargetHeight(actorState.height)
+            actorState.preciseZ + actorState.targetHeight
         };
         ProjectedPoint projected = {};
 
@@ -6637,7 +6637,7 @@ std::optional<bx::Vec3> IndoorRenderer::gameplayActorTargetPoint(size_t actorInd
     return bx::Vec3 {
         actorState.preciseX,
         actorState.preciseY,
-        actorState.preciseZ + GameMechanics::actorTargetHeight(actorState.height)
+        actorState.preciseZ + actorState.targetHeight
     };
 }
 

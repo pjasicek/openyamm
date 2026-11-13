@@ -5705,6 +5705,7 @@ void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
         worldItem.item.width = pItemDefinition->inventoryWidth;
         worldItem.item.height = pItemDefinition->inventoryHeight;
         ItemGenerator::assignPlacedPotionPower(worldItem.item, *m_pItemTable, rng);
+        ItemGenerator::assignSpecialItemEnchants(worldItem.item, *pItemDefinition);
         worldItem.goldAmount = pItemDefinition->isGold() ? static_cast<uint32_t>(std::max(0, rawGoldAmount)) : 0;
         worldItem.isGold = worldItem.goldAmount > 0;
         worldItem.objectDescriptionId = objectDescriptionId;
@@ -15738,7 +15739,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     projectile.sourceY,
                     projectile.sourceZ,
                     GameplayProjectileService::projectileShieldTier(projectile),
-                    GameplayProjectileService::partyShieldModifiers(projectile, m_pParty)))
+                    GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
+                    projectile.critical))
             {
                 appliedDamage = 0;
             }
@@ -15934,7 +15936,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                         projectile.sourceY,
                         projectile.sourceZ,
                         GameplayProjectileService::projectileShieldTier(projectile),
-                        GameplayProjectileService::partyShieldModifiers(projectile, m_pParty)))
+                        GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
+                        projectile.critical))
                 {
                     appliedDamage = 0;
                 }
@@ -16719,9 +16722,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
         state.attackImpactLeadSeconds = actorAttackImpactLeadSeconds(timing.actionSeconds, timing.impactSeconds);
     }
 
-    state.visualScale = (pActor->shrinkRemainingSeconds > 0
-        ? std::clamp(pActor->shrinkDamageMultiplier, 0.25f, 1.0f) : 1.0f)
-        * gameRulesFor(m_pParty).monsters.actorDrawScale(pActor->rulesetFacts, false);
+    state.visualScale = mapActorVisualScale(*pActor);
     state.monsterId = pActor->monsterId;
     state.mm9RudeId = pActor->mm9RudeId;
     state.mm9SourceObjectIndex = !pActor->spawnedAtRuntime
@@ -16736,6 +16737,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.height = pActor->height;
     state.bodyHeight = pActor->height;
     state.drawScale = pActor->drawScale;
+    state.targetHeight = mapActorTargetHeight(*pActor);
     state.pHeldItems = &pActor->heldItems;
     state.isDead = pActor->isDead;
     state.isInvisible = pActor->isInvisible;
@@ -17784,6 +17786,22 @@ const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(siz
     return &m_mapActors[actorIndex];
 }
 
+float OutdoorWorldRuntime::mapActorVisualScale(const MapActorState &actor) const
+{
+    return (actor.shrinkRemainingSeconds > 0 ? std::clamp(actor.shrinkDamageMultiplier, 0.25f, 1.0f) : 1.0f)
+        * gameRulesFor(m_pParty).monsters.actorDrawScale(actor.rulesetFacts, false);
+}
+
+float OutdoorWorldRuntime::mapActorTargetHeight(const MapActorState &actor) const
+{
+    if (m_pMonsterTable == nullptr)
+    {
+        return GameMechanics::actorTargetHeight(actor.height);
+    }
+    return actorTargetHeight(*m_pMonsterTable, m_pActorSpriteFrameTable, actor.monsterId, actor.height, actor.height,
+        actor.drawScale, mapActorVisualScale(actor));
+}
+
 std::optional<GameplayPartyAttackActorFacts> OutdoorWorldRuntime::partyAttackActorFacts(
     size_t actorIndex,
     bool visibleForFallback) const
@@ -17807,6 +17825,7 @@ std::optional<GameplayPartyAttackActorFacts> OutdoorWorldRuntime::partyAttackAct
             },
         .radius = pActor->radius,
         .height = pActor->height,
+        .targetHeight = mapActorTargetHeight(*pActor),
         .currentHp = pActor->currentHp,
         .maxHp = pActor->maxHp,
         .effectiveArmorClass = effectiveMapActorArmorClass(actorIndex),
@@ -17838,7 +17857,7 @@ bool OutdoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) cons
     const bx::Vec3 target = {
         pActor->preciseX,
         pActor->preciseY,
-        pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height),
+        pActor->preciseZ + mapActorTargetHeight(*pActor),
     };
 
     return hasClearOutdoorLineOfSight(source, target);
@@ -18908,7 +18927,8 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     float partyY,
     float partyZ,
     ShieldAttackTier shieldTier,
-    const ShieldHitModifiers &shieldModifiers)
+    const ShieldHitModifiers &shieldModifiers,
+    bool critical)
 {
     if (actorIndex >= m_mapActors.size() || damage <= 0)
     {
@@ -19081,6 +19101,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
                 .z = actor.preciseZ,
                 .height = static_cast<float>(actor.height),
                 .killed = previousHp > 0 && actor.currentHp <= 0,
+                .critical = critical,
             });
     }
 
@@ -19096,9 +19117,11 @@ bool OutdoorWorldRuntime::applyPartyAttackMeleeDamage(
     int damage,
     const GameplayWorldPoint &source,
     ShieldAttackTier shieldTier,
-    const ShieldHitModifiers &shieldModifiers)
+    const ShieldHitModifiers &shieldModifiers,
+    bool critical)
 {
-    return applyPartyAttackToMapActor(actorIndex, damage, source.x, source.y, source.z, shieldTier, shieldModifiers);
+    return applyPartyAttackToMapActor(
+        actorIndex, damage, source.x, source.y, source.z, shieldTier, shieldModifiers, critical);
 }
 
 bool OutdoorWorldRuntime::applyPartyAttackMeleeBModelDamage(size_t bModelIndex, int damage)
@@ -19526,7 +19549,8 @@ bool OutdoorWorldRuntime::applyDirectSpellImpactToMapActor(
     const Character *pCaster = m_pParty != nullptr ? m_pParty->member(sourcePartyMemberIndex) : nullptr;
     const bool applied = applyPartyAttackToMapActor(actorIndex, appliedDamage, partyX, partyY, partyZ,
         ShieldAttackTier::Spell,
-        pCaster != nullptr ? GameMechanics::spellShieldModifiers(*pCaster) : ShieldHitModifiers{});
+        pCaster != nullptr ? GameMechanics::spellShieldModifiers(*pCaster) : ShieldHitModifiers{},
+        critical);
 
     if (applied && m_pGameplayCombatController != nullptr)
     {
@@ -20229,7 +20253,7 @@ std::vector<size_t> OutdoorWorldRuntime::collectVisibleMapActorIndicesWithinRadi
             continue;
         }
 
-        const float viewTargetZ = actor.preciseZ + GameMechanics::actorTargetHeight(actor.height);
+        const float viewTargetZ = actor.preciseZ + mapActorTargetHeight(actor);
         if (!outdoorPointInsideViewCone(
                 viewX,
                 viewY,

@@ -212,6 +212,8 @@ struct ScenarioGameApplicationAccess
         application.m_settings.smartClick = false;
         // Held keys repeat as the originals do (combat/realtime_tap_one_attack.yml), whatever the local setting.
         application.m_settings.fastAttackRepeat = false;
+        // Monsters pick their victims as each world does (world.yml formations), whatever the local setting.
+        application.m_settings.formationsEverywhere = false;
         // Scenarios check the combat log (the combat_log step) in every ruleset and world.
         application.m_settings.combatLog = CombatLogMode::On;
         return true;
