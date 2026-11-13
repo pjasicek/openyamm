@@ -1,0 +1,371 @@
+format: 0
+variables: [gate_bar_a, gate_bar_b, alarm_rung, sentry_alert, sentry_count, kings_wrath, in_gutter, history_read]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: load
+    once: true
+    text: "Hot air rises up the Deep Line: below, the Mad Dwarf Clan's hold glows red."
+  - id: evt:bats_drop
+    preset: script
+    source: room:geode_descent
+    trigger: step
+    once: true
+    effects:
+      - show_actors: 7
+    text: "Leathery wings unfold in the geode's crown!"
+    notes: The bat queens drop on the party at the foot of the ramp.
+  - id: evt:cage
+    preset: switch
+    source: mover:cage
+    title: Counterweight cage
+    condition: {qbit: escape_shaft_open}
+    locked_text: "The cage will not move: its counterweight is chained fast."
+    toggles: [mover:cage]
+    text: The counterweight drops past you in the dark and the cage creaks up the shaft.
+  - id: evt:cage_call
+    preset: switch
+    source: switch:cage_call
+    title: Bell-pull
+    condition: {qbit: escape_shaft_open}
+    locked_text: "The bell rings; the cage does not come."
+    closes: [mover:cage]
+    text: The cage comes down the shaft.
+  - id: evt:cage_call_top
+    preset: switch
+    source: switch:cage_call_top
+    title: Bell-pull
+    condition: {qbit: escape_shaft_open}
+    locked_text: "The bell rings; the cage does not come."
+    opens: [mover:cage]
+    text: The cage comes up the shaft.
+  - id: evt:chest_armoury
+    preset: chest
+    source: chest:armoury
+    title: Weapon chest
+  - id: evt:chest_hoard_1
+    preset: chest
+    source: chest:hoard_1
+    title: The King's chest
+  - id: evt:chest_hoard_2
+    preset: chest
+    source: chest:hoard_2
+    title: The King's chest
+  - id: evt:chest_prospector
+    preset: chest
+    source: chest:prospector
+    title: Prospector's pack
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Red Dwarf chest
+  - id: evt:clan_hostile
+    preset: script
+    trigger: load
+    effects:
+      - lua: "evt.SetMonsterRelation(229, 0, 4); evt.SetMonsterRelation(230, 0, 4); evt.SetMonsterRelation(231, 0, 4)"
+    notes: "The Mad Dwarf Clan is hostile: MM7's Dwarf family (the stand-in) is the party's ally in hostile.txt, and no word says a map's own relations (XD-02's gap 1), so a load event sets the three Dwarf rows hostile. Gone with a real Mad Dwarf row."
+  - id: evt:cluster_1
+    preset: script
+    source: platform:cluster_1_0
+    title: Crystal cluster
+    once: true
+    effects:
+      - give_item:
+          one_of: [177, 178, 179, 180]
+      - hide: platform:cluster_1_0
+      - hide: platform:cluster_1_1
+      - hide: platform:cluster_1_2
+      - passable: platform:cluster_1_0
+      - passable: platform:cluster_1_1
+      - passable: platform:cluster_1_2
+    text: "You prise a gem out of the cluster; the rest crumbles to glittering dust."
+    notes: "poi:gem_clusters: one low gem each, once; the cluster is gone afterwards."
+  - id: evt:cluster_2
+    preset: script
+    source: platform:cluster_2_0
+    title: Crystal cluster
+    once: true
+    effects:
+      - give_item:
+          one_of: [177, 178, 179, 180]
+      - hide: platform:cluster_2_0
+      - hide: platform:cluster_2_1
+      - hide: platform:cluster_2_2
+      - passable: platform:cluster_2_0
+      - passable: platform:cluster_2_1
+      - passable: platform:cluster_2_2
+    text: "You prise a gem out of the cluster; the rest crumbles to glittering dust."
+    notes: "poi:gem_clusters: one low gem each, once; the cluster is gone afterwards."
+  - id: evt:cluster_3
+    preset: script
+    source: platform:cluster_3_0
+    title: Crystal cluster
+    once: true
+    effects:
+      - give_item:
+          one_of: [177, 178, 179, 180]
+      - hide: platform:cluster_3_0
+      - hide: platform:cluster_3_1
+      - hide: platform:cluster_3_2
+      - passable: platform:cluster_3_0
+      - passable: platform:cluster_3_1
+      - passable: platform:cluster_3_2
+    text: "You prise a gem out of the cluster; the rest crumbles to glittering dust."
+    notes: "poi:gem_clusters: one low gem each, once; the cluster is gone afterwards."
+  - id: evt:cluster_4
+    preset: script
+    source: platform:cluster_4_0
+    title: Crystal cluster
+    once: true
+    effects:
+      - give_item:
+          one_of: [177, 178, 179, 180]
+      - hide: platform:cluster_4_0
+      - hide: platform:cluster_4_1
+      - hide: platform:cluster_4_2
+      - passable: platform:cluster_4_0
+      - passable: platform:cluster_4_1
+      - passable: platform:cluster_4_2
+    text: "You prise a gem out of the cluster; the rest crumbles to glittering dust."
+    notes: "poi:gem_clusters: one low gem each, once; the cluster is gone afterwards."
+  - id: evt:crystal_wall
+    preset: door
+    source: door:crystal_wall
+    title: Crystal wall
+    action: open
+    text: "The crystal wall hums under your hand, rings like a bell, and sinks into the floor."
+  - id: evt:deep_cart
+    preset: switch
+    source: mover:deep_cart
+    trigger: step
+    toggles: [mover:deep_cart]
+    text: The cart lurches over the lip and rumbles along the Deep Line's last pitch.
+    notes: "Stepping onto the cart sends it down the trestle to the buffer stop, or back up to the line's foot."
+  - id: evt:door_armoury
+    preset: door
+    source: door:armoury
+    title: Armoury door
+  - id: evt:door_back_stair
+    preset: door
+    source: door:back_stair
+    title: Plank door
+  - id: evt:door_barracks_e
+    preset: door
+    source: door:barracks_e
+    title: Heavy doors
+    toggles: [door:barracks_w]
+  - id: evt:door_barracks_w
+    preset: door
+    source: door:barracks_w
+    title: Heavy doors
+    toggles: [door:barracks_e]
+  - id: evt:door_hoard
+    preset: door
+    source: door:hoard
+    title: Small iron door
+    condition: {item: clan_king_key}
+    locked_text: A small iron door with the King's own lock.
+    action: open
+  - id: evt:door_sentry
+    preset: door
+    source: door:sentry
+    title: Plank door
+  - id: evt:door_tower
+    preset: door
+    source: door:tower
+    title: Tower door
+  - id: evt:exit_cart
+    preset: exit
+    source: exit:deep_cart
+    title: "The Deep Line: up to the Red Dwarf Mines"
+    text: "You climb into a cart and haul on the brake rope: the Deep Line carries you back up to the Red Dwarf Mines."
+  - id: evt:exit_x1
+    preset: exit
+    source: exit:x1
+    title: "The shaft head: the hills north of Vertigo"
+    condition: {qbit: escape_shaft_open}
+    locked_text: The hatch is barred from outside.
+    text: "You push up the hatch: daylight, wind and the hills north of Vertigo."
+  - id: evt:gate_e
+    preset: door
+    source: door:gate_e
+    title: The King's Gate
+    condition: {all: [{map_var: gate_bar_a}, {map_var: gate_bar_b}]}
+    locked_text: The gate is barred from within.
+    action: open
+    opens: [door:gate_w]
+    text: The King's Gate swings open.
+  - id: evt:gate_w
+    preset: door
+    source: door:gate_w
+    title: The King's Gate
+    condition: {all: [{map_var: gate_bar_a}, {map_var: gate_bar_b}]}
+    locked_text: The gate is barred from within.
+    action: open
+    opens: [door:gate_e]
+    text: The King's Gate swings open.
+  - id: evt:gong
+    preset: script
+    source: platform:gong
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "poi:gong / set:gong_alarm: rung by the party, the barracks doors burst open and its torches are lit."
+  - id: evt:gutter_burn
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: kings_wrath}, {map_var: in_gutter}]}
+    effects:
+      - damage:
+          amount: 8
+          kind: fire
+    text: "The slag in the gutter burns!"
+  - id: evt:gutter_in
+    preset: script
+    source: platform:gutter_w
+    trigger: step
+    sources: [platform:gutter_e]
+    effects:
+      - set:
+          var:
+            map_var: in_gutter
+          value: 1
+  - id: evt:gutter_out
+    preset: script
+    source: room:king_hall
+    trigger: step
+    sources: [level:dais]
+    effects:
+      - set:
+          var:
+            map_var: in_gutter
+          value: 0
+  - id: evt:king_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:clan_king}}
+    once: true
+    effects:
+      - qbit: clan_king_slain
+    text: The Clan King falls across his anvil. The Mad Dwarf Clan is broken.
+    notes: "goal:clan_king: his death sets the quest bit; Mayor Gunther in Vertigo rewards it."
+  - id: evt:kings_wrath
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {all: [{kills: {group: 4}}, {not: {kills: {monster: monster:clan_king}}}]}
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: kings_wrath
+          value: 1
+      - set_texture:
+          of: platform:gutter_w
+          to: orfyrlga
+      - set_texture:
+          of: platform:gutter_e
+          to: orfyrlga
+      - lights_off: [light:forge_w, light:forge_e, light:hall_south]
+      - lights_on: [light:gutter_w, light:gutter_e, light:wrath]
+      - lua: "evt.CameraShake(1.0, 1.5)"
+    text: "The Clan King roars and kicks over the forge braziers: slag pours hissing into the gutters!"
+    notes: "set:clan_king, state:kings_wrath: when his guard has fallen (the brief: at half his health, which no word can test) the forge braziers go dark, the gutters fill with slag (harmful floor by the timer below) and the King leaves the dais."
+  - id: evt:lectern
+    preset: script
+    source: platform:lectern
+    title: Stone lectern
+    effects:
+      - message: "Cut in the old runes of the Red Dwarves: HERE BRAKKA THE FIRST CUT THE DEEP GALLERY AND FOUND THE RED SEAM UNDER THE SINGING STONE. THE SEAM RUNS NORTH UNDER THE HILLS TO THE FALL OF WATER. KEEP THE FIRE, KEEP THE SEAM, KEEP FAITH."
+      - set:
+          var:
+            map_var: history_read
+          value: 1
+    notes: "poi:history_tablet: the history of the mine (an autonote when the Xeen world has one)."
+  - id: evt:lever_a
+    preset: switch
+    source: switch:lever_a
+    title: Lever
+    opens: [mover:gate_bar_low]
+    once: true
+    sets: {map_var: gate_bar_a}
+    text: "The lever drops with a clank; far off, something heavy grinds upward."
+  - id: evt:lever_b
+    preset: switch
+    source: switch:lever_b
+    title: Lever
+    opens: [mover:gate_bar_high]
+    once: true
+    sets: {map_var: gate_bar_b}
+    text: "The lever drops with a clank; far off, something heavy grinds upward."
+  - id: evt:sentry_count
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {all: [{map_var: sentry_alert}, {not: {kills: {monster: monster:gong_sentry}}}, {not: {map_var: alarm_rung}}]}
+    effects:
+      - add:
+          var:
+            map_var: sentry_count
+          value: 1
+    notes: Counts the seconds the sentry lives after seeing the party.
+  - id: evt:sentry_rings
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {all: [{map_var: {name: sentry_count, at_least: 3}}, {not: {kills: {monster: monster:gong_sentry}}}, {not: {map_var: alarm_rung}}]}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8)"
+    text: "The sentry hammers the great gong! Doors crash open in the barracks."
+    notes: "set:gong_alarm: about six seconds after seeing the party, if still alive, the sentry rings the gong."
+  - id: evt:sentry_seen
+    preset: script
+    source: level:gallery
+    trigger: step
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: sentry_alert
+          value: 1
+    notes: "The party comes onto the gallery: the gong sentry has seen it."
+  - id: evt:shaft_lever
+    preset: switch
+    source: switch:shaft_lever
+    title: Shaft lever
+    once: true
+    effects:
+      - qbit: escape_shaft_open
+      - lua: "evt.CameraShake(0.5, 1.0)"
+    text: "The lever comes over: a chain runs out with a roar somewhere above. The cage in the shaft is free."
+    notes: goal:escape_shaft / poi:shaft_lever.
+  - id: evt:statue_e
+    preset: text
+    source: deco:statue_e
+    title: Statue of a Red Dwarf king
+    text: A Red Dwarf king in stone. The clan has hacked his face away.
+  - id: evt:statue_w
+    preset: text
+    source: deco:statue_w
+    title: Statue of a Red Dwarf king
+    text: A Red Dwarf king in stone. The clan has hacked his face away.
+notes: "Every mechanism is a preset with conditions and effects. Lua only where no word fits: the clan's hostility (evt.SetMonsterRelation on load) and the camera shakes (evt.CameraShake)."

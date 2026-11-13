@@ -1,0 +1,1957 @@
+format: 0
+themes:
+  - id: theme:blank
+    wall: {texture: d1wblnkA1, size: [128, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: d1trimRE, size: [32, 32]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: The original's blank ashlar of the back stair and its vestibule.
+  - id: theme:d1
+    wall: {texture: D1WlBct1, size: [256, 256]}
+    floor: {texture: D2flor1, size: [256, 256]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "The original's D1 ashlar: panelled walls (D1WlBct1 between the strips D1wlbre1 and D1wlble1 at each end of a wall), crazy-paving flagstones, rough rock ceiling. Cellar, stair passage, guard post, gallery, west hall, drill hall, throne approach."
+  - id: theme:d8
+    wall: {texture: D8wlB, size: [128, 256]}
+    floor: {texture: D8florG, size: [128, 128]}
+    ceiling: {texture: D8ceilA, size: [128, 128]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "The original's D8 rubble stone: lower and upper barracks, treasury, warlord's wing, side room, throne room and its closet."
+  - id: theme:d8_plank
+    wall: {texture: D8wlB, size: [128, 256]}
+    floor: {texture: D8florG, size: [128, 128]}
+    ceiling: {texture: D2ceil1, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "D8 rubble under a plank ceiling: the bedchamber."
+  - id: theme:d8d
+    wall: {texture: D8wlDsp1, size: [256, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D2ceil2, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "The original's banded D8 stone of the upper barracks row (U4 to U9), plank ceilings."
+  - id: theme:d8d_plank
+    wall: {texture: D8wlDsp1, size: [256, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D2ceil1, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "The banded D8 stone of the east barracks, the officer room and its closet, under plank ceilings D2ceil1."
+  - id: theme:hall
+    wall: {texture: d1wctrA, size: [128, 256]}
+    floor: {texture: D2flor2, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D8dorE, size: [256, 256]}
+    notes: "The original's pilastered ashlar of the great hall, its passages, the hall stair and the storeroom."
+  - id: theme:store
+    wall: {texture: d1wlDLE2, size: [256, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D2Ceil3, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "The original's storehouse: timber-banded walls, crazy-paving floor, plank ceiling."
+  - id: theme:store_rock
+    wall: {texture: d1wlDLE2, size: [256, 256]}
+    floor: {texture: D8florF, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: D1SMBW, size: [128, 128]}
+    door: {texture: D2SmlDor, size: [128, 256]}
+    notes: "The storehouse stair: the storehouse's walls under the rock ceiling that rakes over the steps."
+  - id: theme:tunnel
+    wall: {texture: d1wblnkA, size: [256, 256]}
+    floor: {texture: D8florH, size: [128, 128]}
+    ceiling: {texture: D8ceilD, size: [256, 256]}
+    reveal: {texture: d1wblnkA, size: [256, 256]}
+    door: {texture: d1wblnkA, size: [256, 256]}
+    notes: "The original's entry tunnels: blank ashlar sides, packed red-earth floor, rough rock roof."
+  - id: theme:tunnel_plank
+    wall: {texture: d1wblnkA, size: [256, 256]}
+    floor: {texture: D8florH, size: [128, 128]}
+    ceiling: {texture: D2ceil1, size: [256, 256]}
+    reveal: {texture: d1wblnkA, size: [256, 256]}
+    notes: "The junction: the tunnel's walls and floor under a plank ceiling."
+defaults: {theme: theme:d1, ambient: 22}
+rooms:
+  - id: room:c1
+    name: Cellar hub
+    outline: [[-3200, -1664], [-2688, -1664], [-2688, -1904], [-2432, -1904], [-2432, -1664], [-1408, -1664], [-1408, -1408], [-896, -1408], [-896, -1152], [-1664, -1152], [-1664, -1408], [-2944, -1408]]
+    floor: -256
+    ceiling: 0
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 18, 16."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 112, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 2, 1."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 64, length: 128, surface: {texture: d1wblnkA1, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 6, 951, 5."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 112, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 112, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 4, 3."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 768, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 15, 13, 12, 11."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 45, 44."
+      - wall: 6
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 51, 49."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {id: panel:false_door_c1, offset: 64, length: 128, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 54, 53, 52."
+      - wall: 8
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 48, 46."
+      - wall: 9
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 43, 42."
+      - wall: 10
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 10, 8."
+    notes: "Sector 1: the stub north of the secret wall, the bar running east and its dog-leg north-east; its west end is the diagonal it shares with the cross passage."
+  - id: room:c2
+    name: Cell
+    outline: [[-1920, -2176], [-896, -2176], [-896, -1664], [-1152, -1664], [-1152, -1920], [-1664, -1920], [-1664, -1664], [-1920, -1664]]
+    floor: -256
+    ceiling: 0
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 31, 29."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 37, 35."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {id: panel:false_door_c2, offset: 64, length: 128, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 40, 39, 38."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 34, 33."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 28, 26."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 24, 23."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 22, 20."
+    notes: "Sector 2: a U of 256-wide passages hanging south of the hub; a false door at the head of its east leg."
+  - id: room:c3
+    name: Cross passage
+    outline: [[-3200, -1664], [-2944, -1408], [-2944, -1152], [-1920, -1152], [-2176, -896], [-2944, -896], [-2944, -640], [-3200, -640]]
+    floor: -256
+    ceiling: 0
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 62, 61."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 90, 88."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 87, 85."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 60, 59."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 58, 56."
+    notes: "Sector 3: a leg north from the hub and a bar east to the cellar hall; both ends are the original's diagonals."
+  - id: room:c4
+    name: Cell
+    outline: [[-3712, -896], [-3456, -896], [-3456, -640], [-2432, -640], [-2432, -384], [-3712, -384]]
+    floor: -256
+    ceiling: 0
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {id: panel:false_door_c4s, offset: 64, length: 128, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 80, 79, 78."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 77, 76."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 512, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 74, 73, 72, 70."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {id: panel:false_door_c4e, offset: 64, length: 128, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 69, 68, 67."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 66, 64."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 83, 81."
+    notes: "Sector 4: an L of 256-wide passages; two false doors."
+  - id: room:c5
+    name: Cellar hall
+    outline: [[-2176, -896], [-1920, -1152], [-1920, -640], [-1664, -640], [-1664, -896], [-1408, -896], [-1408, -640], [-400, -640], [-400, -384], [-2176, -384]]
+    floor: -256
+    ceiling: 0
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 97, 95."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 108, 107."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 116, 115."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {id: panel:false_door_c5, offset: 64, length: 128, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 114, 113, 112."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 111, 110."
+      - wall: 6
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 880, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 106, 104."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 103, 146, 102."
+      - wall: 8
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1648, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 101, 99."
+      - wall: 9
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 94, 92."
+    notes: "Sector 5: the long hall with a short arm south (a false door at its end); the real door out is in its east end wall."
+  - id: room:e1_end
+    name: Gate hall
+    outline: [[-4897, 1382], [-4664, 1382], [-4664, 1638], [-4897, 1638]]
+    floor: 128
+    ceiling: 448
+    theme: theme:tunnel
+    walls:
+      - wall: 3
+        panels:
+          - {offset: 0, length: 256, bottom: 0, height: 256, surface: {texture: D2LgDor, size: [256, 256]}}
+        notes: Panels from the original's faces 1653.
+    notes: "The head of the gate tunnel (west part of sector 38): the exit door in its west end, the party's arrival. The tunnel's section (walls 256, chamfers 64 in and 64 up to a crown 320 over the floor) drawn flat at the crown: a tunnel's mouth into a room is refused unless the room's walls reach the section's crown (tool defect, see NOTES.md), so the chamfers are upright wall here."
+  - id: room:e2
+    name: Junction
+    outline: [[-4992, -128], [-4608, -128], [-4608, 384], [-4992, 384]]
+    floor: 0
+    ceiling: 256
+    theme: theme:tunnel_plank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 352, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+        notes: "Panels from the original's faces 930, 928."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 352, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+        notes: "Panels from the original's faces 936, 934."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 480, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+        notes: "Panels from the original's faces 933, 931."
+    notes: "West part of sector 35: the guard post at the fork, under a flat plank ceiling. Its east side is open over its whole length to the tunnel, which runs through the junction's east strip from the gate tunnel to the descending tunnel."
+  - id: room:e4
+    name: Tunnel end
+    outline: [[-2688, -2176], [-2432, -2176], [-2432, -1920], [-2688, -1920]]
+    floor: -256
+    ceiling: 64
+    theme: theme:tunnel
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 64, bottom: 0, height: 256, surface: {texture: D2skulBs, size: [64, 64]}}
+          - {id: panel:lure_door, offset: 64, length: 128, bottom: 0, height: 256, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, bottom: 0, height: 256, surface: {texture: D2skulBs, size: [64, 64]}}
+        notes: "Panels from the original's faces 1559, 1558, 1557."
+    notes: "East end of sector 36 (from x -2688, 64 farther west than the original's level floor, so that the secret wall keeps 16 of wall beside it): the level dead end at -256 under the tunnel's crown (flat: the chamfers cannot meet the tunnel's mouth, see the gate hall). The lure door with two skull plaques in its east end; the secret wall into the cellar hub in its north side."
+  - id: room:e_tunnel
+    name: Entry tunnel
+    path: [[-4664, 1510, 128], [-4500, 1510, 118], [-4300, 1330, 98], [-4228, 1080, 72], [-4350, 750, 32], [-4480, 450, 0], [-4480, -200, 0], [-4610, -610, -16], [-4760, -960, -50], [-4805, -1319, -81], [-4631, -1667, -116], [-4367, -1865, -156], [-4020, -2008, -184], [-3637, -2048, -216], [-2688, -2048, -256]]
+    section: {outline: [[-128, 0], [128, 0], [128, 256], [64, 320], [-64, 320], [-128, 256]], upper: {texture: D8ceilD, size: [256, 256]}}
+    floor: 128
+    ceiling: 448
+    theme: theme:tunnel
+    notes: "Sectors 38, 37, the east strip and south part of 35 and the sloping part of 36: one tunnel from the gate hall south past the junction and round to the tunnel end, falling from 128 to -256. Path points on the original's centre line (midpoints of its wall corners); the stretch past the junction runs straight north-south so that the junction and the portcullis open in its sides. Section measured from its walls and roof (walls 256, chamfers 64 by 64, crown 320 over the floor)."
+  - id: room:g1
+    name: Storehouse
+    outline: [[-384, -1664], [384, -1664], [384, -384], [-384, -384]]
+    floor: -256
+    ceiling: 0
+    theme: theme:store
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wlDRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: d1wlDLE, size: [128, 256]}}
+          - {offset: 256, length: 256, bottom: 0, height: 16, surface: {texture: BemStrA1, size: [256, 32]}}
+          - {offset: 512, length: 128, surface: {texture: d1wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: d1wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 143, 142, 154, 141, 140."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wlDRE, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: d1wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 139, 137."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: d1wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 136, 134."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 64, surface: {texture: d1wlDRE, size: [128, 256]}}
+          - {offset: 64, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: d1wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 152, 147, 144."
+    notes: "Sector 6: barrels and sacks along the walls; its stair leaves the south wall."
+  - id: room:g1_flight
+    name: Storehouse stair
+    outline: [[-128, -2176], [128, -2176], [128, -1664], [-128, -1664]]
+    floor: -256
+    slope: {to: 0, toward: south, steps: 16, riser: {texture: BemStrA1, size: [256, 32]}, tread: {texture: BemStrT1, size: [256, 32]}}
+    ceiling: 0
+    ceiling_slope: {to: 256, toward: south}
+    theme: theme:store_rock
+    notes: "Part of sector 6: 16 steps of 16 south up to the stair passage; the ceiling rakes with them (rock, D8ceilD in the original)."
+  - id: room:g2
+    name: Stair passage
+    outline: [[-128, -2432], [1152, -2432], [1152, -2672], [1408, -2672], [1408, -2432], [1664, -2432], [1664, -2176], [896, -2176], [896, -1920], [384, -1920], [384, -2176], [-128, -2176]]
+    floor: 0
+    ceiling: 256
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 241, 204."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 112, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 112, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 216, 215."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 214, 247, 213."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 112, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 212, 210."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: Panels from the original's faces 205.
+      - wall: 5
+        panels:
+          - {offset: 0, length: 256, bottom: 0, height: 16, surface: {texture: BemStrA1, size: [256, 32]}}
+        notes: Panels from the original's faces 268.
+      - wall: 6
+        panels:
+          - {offset: 640, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: Panels from the original's faces 202.
+      - wall: 7
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 200, 199."
+      - wall: 8
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 198, 196."
+      - wall: 9
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 195, 194."
+      - wall: 10
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 193, 192."
+      - wall: 11
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 191, 190."
+    notes: "Sector 7: the passage east with its bay north and the door passage south to the lower barracks."
+  - id: room:g2_flight1
+    name: "Stair passage, first flight"
+    outline: [[1664, -2432], [1920, -2432], [1920, -2176], [1664, -2176]]
+    floor: 0
+    slope: {to: 128, toward: east, steps: 8, riser: {texture: BemStrA1, size: [256, 32]}, tread: {texture: Bemdk4, size: [32, 256]}}
+    ceiling: 256
+    ceiling_slope: {to: 384, toward: east}
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlere, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlele, size: [128, 256]}}
+        notes: "Panels from the original's faces 262, 260."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlere, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlele, size: [128, 256]}}
+        notes: "Panels from the original's faces 263, 259."
+  - id: room:g2_flight2
+    name: "Stair passage, second flight"
+    outline: [[2432, -2432], [2688, -2432], [2688, -2176], [2432, -2176]]
+    floor: 128
+    slope: {to: 256, toward: east, steps: 8, riser: {texture: BemStrA1, size: [256, 32]}, tread: {texture: Bemdk4, size: [32, 256]}}
+    ceiling: 384
+    ceiling_slope: {to: 512, toward: east}
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlere, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlele, size: [128, 256]}}
+        notes: "Panels from the original's faces 287, 285."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlere, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlele, size: [128, 256]}}
+        notes: "Panels from the original's faces 288, 284."
+  - id: room:g2_landing
+    name: "Stair passage, landing"
+    outline: [[1920, -2432], [2432, -2432], [2432, -2176], [1920, -2176]]
+    floor: 128
+    ceiling: 384
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 512, surface: {texture: d1wlE, size: [256, 256]}}
+        notes: Panels from the original's faces 265.
+      - wall: 1
+        panels:
+          - {offset: 0, length: 256, bottom: 0, height: 16, surface: {texture: BemStrA1, size: [256, 32]}}
+        notes: Panels from the original's faces 289.
+      - wall: 2
+        panels:
+          - {offset: 0, length: 512, surface: {texture: d1wlE, size: [256, 256]}}
+        notes: Panels from the original's faces 264.
+    notes: Walls d1wlE in the original.
+  - id: room:g3
+    name: Lower barracks
+    outline: [[640, -3456], [1920, -3456], [1920, -2688], [640, -2688]]
+    floor: 0
+    ceiling: 256
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 1152, length: 112, bottom: 40, height: 96, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 1152, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 225, 1207, 1126."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 16, length: 96, bottom: 40, height: 96, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 656, length: 96, bottom: 40, height: 96, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 1127, 1208, 222, 1125."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 40, height: 96, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 576, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 221, 1124, 246, 229."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 228, 226."
+    platforms:
+      - {at: [1792, -2752], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1046-1117."}
+      - {at: [1792, -2752], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1046-1117. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [1672, -2808], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1912, -2808], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1912, -2696], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1672, -2696], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1792, -2752], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [1792, -2752], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [1792, -2752], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [1792, -3392], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1129-1200."}
+      - {at: [1792, -3392], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1129-1200. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [1672, -3448], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1912, -3448], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1912, -3336], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1672, -3336], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1792, -3392], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [1792, -3392], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [1792, -3392], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {id: platform:locker_g3n, at: [816, -2720], size: [96, 64], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1218-1221."}
+      - {id: platform:locker_g3s, at: [1040, -3424], size: [96, 64], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1246-1249."}
+    notes: "Sector 9: bunks in its east corners, four footlockers along its north and south walls."
+  - id: room:g4
+    name: Hidden treasury
+    outline: [[-384, -3456], [384, -3456], [384, -3328], [624, -3328], [624, -3200], [384, -3200], [384, -2688], [-384, -2688]]
+    floor: 0
+    ceiling: 256
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 250, 248."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+        notes: Panels from the original's faces 234.
+      - wall: 5
+        panels:
+          - {offset: 384, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 256, 965."
+      - wall: 6
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 255, 967, 253, 963."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 252, 971, 251."
+    platforms:
+      - {rise: 16, surface: {texture: Bmdk16a, size: [256, 16]}, outline: [[-288, -2784], [384, -2784], [384, -2688], [-384, -2688]], top_surface: {texture: BemH32a, size: [256, 32]}, bottom_surface: {texture: BemH32a, size: [256, 32]}, base: 96, notes: "The shelf along the north wall (faces 964, 968, 980, 981; planks BemH32a, edge Bmdk16a)."}
+      - {rise: 16, surface: {texture: Bmdk16a, size: [256, 16]}, outline: [[-384, -3072], [-288, -3072], [-288, -2784], [-384, -2688]], top_surface: {texture: BemV32b, size: [32, 256]}, bottom_surface: {texture: BemV32b, size: [32, 256]}, base: 96, notes: "The shelf along the west wall (faces 972-974, 982; planks BemV32b)."}
+    notes: "Sector 8: the treasury and its passage east to the sinking wall. A shelf hangs along its north and west walls."
+  - id: room:g5
+    name: Guard post
+    outline: [[2688, -2432], [2944, -2432], [2944, -2672], [3200, -2672], [3200, -2432], [3712, -2432], [3712, -1664], [3456, -1664], [3456, -2176], [2688, -2176]]
+    floor: 256
+    ceiling: 512
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: Panels from the original's faces 317.
+      - wall: 1
+        panels:
+          - {offset: 0, length: 112, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 112, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 325, 324."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 323, 332, 322."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 112, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 321, 319."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 316, 314."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 347, 345."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 344, 342."
+      - wall: 8
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: Panels from the original's faces 313.
+    notes: "Sector 10: east from the stair passage's head, north into the great hall, and a door passage south to the upper barracks."
+  - id: room:g6
+    name: Upper barracks
+    outline: [[2432, -3456], [3712, -3456], [3712, -2688], [2432, -2688]]
+    floor: 256
+    ceiling: 512
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 1152, length: 112, bottom: 40, height: 96, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 1152, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 334, 1461, 1380."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 16, length: 96, bottom: 40, height: 96, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 656, length: 96, bottom: 40, height: 96, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 1381, 1462, 1297, 1379."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 40, height: 96, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 576, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 1296, 1378, 331, 338."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 337, 335."
+    platforms:
+      - {at: [3584, -2752], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: sector 11, north-east corner."}
+      - {at: [3584, -2752], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: sector 11, north-east corner. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [3464, -2808], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3704, -2808], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3704, -2696], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3464, -2696], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3584, -2752], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [3584, -2752], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [3584, -2752], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [3584, -3392], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: sector 11, south-east corner."}
+      - {at: [3584, -3392], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: sector 11, south-east corner. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [3464, -3448], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3704, -3448], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3704, -3336], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3464, -3336], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [3584, -3392], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [3584, -3392], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [3584, -3392], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {id: platform:locker_g6nw, at: [2608, -2720], size: [96, 64], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1258, 1259."}
+      - {id: platform:locker_g6ne, at: [2832, -2720], size: [96, 64], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1266, 1267."}
+      - {id: platform:locker_g6s, at: [2608, -3424], size: [96, 64], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1277, 1278."}
+    notes: "Sector 11: bunks in its east corners, footlockers along its north and south walls."
+  - id: room:h1
+    name: Great hall
+    outline: [[2432, -1664], [4736, -1664], [4736, 640], [2432, 640]]
+    floor: 256
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 896, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 1280, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: "Panels from the original's faces 353, 354."
+      - wall: 2
+        panels:
+          - {offset: 896, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 1280, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: "Panels from the original's faces 350, 349."
+      - wall: 3
+        panels:
+          - {offset: 384, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 768, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 1536, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: "Panels from the original's faces 362, 361, 359, 358."
+    ceiling_levels:
+      - ceiling: 768
+        top_outline: [[2688, -1408], [4480, -1408], [4480, 384], [2688, 384]]
+        edge: {texture: d1wblnkA, size: [256, 256]}
+        surface: {texture: D2ceil1, size: [256, 256]}
+    notes: "Sector 12: walls 256 high, then a cove leaning 256 in up to a flat plank ceiling at 768, as the original."
+  - id: room:h1_north
+    name: "Great hall, north passage"
+    outline: [[3456, 640], [3712, 640], [3712, 1136], [3456, 1136]]
+    floor: 256
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: Panels from the original's faces 458.
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: d2trimB, size: [64, 64]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: d2trimB, size: [64, 64]}}
+        notes: "Panels from the original's faces 462, 548, 461."
+      - wall: 3
+        panels:
+          - {offset: 368, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+        notes: Panels from the original's faces 457.
+    notes: "Part of sector 12: the passage north to the antechamber door."
+  - id: room:h1_west
+    name: "Great hall, west passage"
+    outline: [[2192, -896], [2432, -896], [2432, -640], [2192, -640]]
+    floor: 256
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 112, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+        notes: Panels from the original's faces 373.
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: Panels from the original's faces 372.
+      - wall: 3
+        panels:
+          - {offset: 0, length: 254, surface: {texture: D8dorE, size: [256, 256]}}
+        notes: Panels from the original's faces 453.
+    notes: "Part of sector 12: the short passage west to the storeroom's door."
+  - id: room:h2
+    name: Hall stair
+    outline: [[896, -368], [1152, -368], [1152, -128], [2432, -128], [2432, 128], [896, 128]]
+    floor: 256
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 254, surface: {texture: D8dorE, size: [256, 256]}}
+        notes: Panels from the original's faces 447.
+      - wall: 1
+        panels:
+          - {offset: 112, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+        notes: Panels from the original's faces 384.
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+        notes: "Panels from the original's faces 382, 379."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 1280, length: 256, bottom: 0, height: 16, surface: {texture: BemStrA1, size: [256, 32]}}
+        notes: "Panels from the original's faces 378, 381, 407."
+    notes: "Sector 13: the passage west from the great hall turning south to the storeroom's north door; the flight climbs north from its corner."
+  - id: room:h2_flight
+    name: Hall stair flight
+    outline: [[896, 128], [1152, 128], [1152, 640], [896, 640]]
+    floor: 256
+    slope: {to: 512, toward: north, steps: 16, riser: {texture: BemStrA1, size: [256, 32]}, tread: {texture: BemStrT1, size: [256, 32]}}
+    ceiling: 512
+    ceiling_slope: {to: 768, toward: north}
+    theme: theme:hall
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlere, size: [128, 256]}}
+          - {offset: 128, length: 256, surface: {texture: d1wlDLE3, size: [256, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlele, size: [128, 256]}}
+        notes: "Panels from the original's faces 441, 442, 443."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlere, size: [128, 256]}}
+          - {offset: 128, length: 256, surface: {texture: d1wlDLE3, size: [256, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlele, size: [128, 256]}}
+        notes: "Panels from the original's faces 440, 405, 439."
+  - id: room:h3
+    name: Storeroom
+    outline: [[640, -1408], [2176, -1408], [2176, -384], [640, -384]]
+    floor: 256
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 384, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 514, length: 254, surface: {texture: D8dorE, size: [256, 256]}}
+          - {offset: 768, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: "Panels from the original's faces 404, 451, 403."
+      - wall: 2
+        panels:
+          - {offset: 896, length: 128, surface: {texture: d1wleA, size: [128, 256]}}
+          - {offset: 1026, length: 254, surface: {texture: D8dorE, size: [256, 256]}}
+          - {offset: 1280, length: 128, surface: {texture: d1wreA, size: [128, 256]}}
+        notes: "Panels from the original's faces 402, 445, 401."
+    ceiling_levels:
+      - ceiling: 640
+        top_outline: [[768, -1280], [2048, -1280], [2048, -512], [768, -512]]
+        edge: {texture: d1wblnkA, size: [256, 256]}
+        surface: {texture: D2ceil1, size: [256, 256]}
+    notes: "Sector 14: a cove from 512 at the walls 128 in up to a flat plank ceiling at 640."
+  - id: room:u1
+    name: Upper gallery
+    outline: [[-3712, 640], [1152, 640], [1152, 896], [-128, 896], [-128, 1136], [-384, 1136], [-384, 896], [-3456, 896]]
+    floor: 512
+    ceiling: 768
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1568, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 1602, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 1728, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+          - {offset: 4480, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 566, 571, 684, 572, 557."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 556, 555."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 544, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 578, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 704, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 554, 576, 725, 575, 559."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: Panels from the original's faces 739.
+      - wall: 4
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D1wlbre1, size: [128, 256]}}
+        notes: "Panels from the original's faces 741, 758, 740."
+      - wall: 5
+        panels:
+          - {offset: 112, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: Panels from the original's faces 736.
+      - wall: 6
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1120, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 1154, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 1280, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+          - {offset: 2016, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+          - {offset: 2050, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 2176, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+          - {offset: 2944, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 561, 574, 789, 573, 570, 796, 569, 564."
+    notes: "Sector 19: the long gallery with its stub north to the third barracks; its west end is the diagonal it shares with the west hall."
+  - id: room:u10
+    name: West hall
+    outline: [[-3712, 640], [-3456, 896], [-3456, 2176], [-1424, 2176], [-1424, 2432], [-3712, 2432]]
+    floor: 512
+    ceiling: 768
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 806, 804."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1920, length: 112, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 809, 817."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D2skulAS, size: [64, 64]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D2skulAS, size: [64, 64]}}
+        notes: "Panels from the original's faces 855, 872, 854."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 112, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 112, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 496, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1392, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 1776, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 2160, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 816, 815, 814, 812, 810, 808."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1664, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 803, 801."
+    notes: "Sector 28: north from the gallery's diagonal west end, then east along the north."
+  - id: room:u11
+    name: Drill hall
+    outline: [[-3712, 2688], [-2432, 2688], [-2432, 3712], [-3712, 3712]]
+    floor: 512
+    ceiling: 768
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+          - {offset: 768, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 835, 833, 843, 841."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 840, 838."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 837, 836."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 832, 830."
+    ceiling_levels:
+      - ceiling: 896
+        top_outline: [[-3584, 2816], [-2560, 2816], [-2560, 3584], [-3584, 3584]]
+        edge: {texture: D1SMBW, size: [128, 128]}
+        surface: {texture: D2ceil1, size: [256, 256]}
+    notes: "Sector 29: a cove from 768 at the walls 128 in up to a flat plank ceiling at 896."
+  - id: room:u11_neck
+    name: "Drill hall, passage"
+    outline: [[-3200, 2432], [-2944, 2432], [-2944, 2688], [-3200, 2688]]
+    floor: 512
+    ceiling: 768
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 825, 826."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 824, 823."
+    notes: "South part of sector 29: the short passage from the west hall."
+  - id: room:u12
+    name: Side room
+    outline: [[-1408, 2176], [-640, 2176], [-640, 2944], [-1408, 2944]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 861, 863."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 865, 864."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 860, 858."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 576, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 704, length: 64, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 857, 871, 853."
+    notes: Sector 30.
+  - id: room:u13
+    name: Passage
+    outline: [[-1920, 2432], [-1664, 2432], [-1664, 3200], [-1920, 3456]]
+    floor: 512
+    ceiling: 768
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 881, 879."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 878, 876."
+    notes: "Sector 31: north from the west hall to the diagonal it shares with the next passage."
+  - id: room:u14
+    name: Passage
+    outline: [[-1664, 3200], [-400, 3200], [-400, 3456], [-1920, 3456]]
+    floor: 512
+    ceiling: 768
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1152, length: 112, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 889, 887."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D2skulAS, size: [64, 64]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: D2skulAS, size: [64, 64]}}
+        notes: "Panels from the original's faces 891, 892, 890."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 112, surface: {texture: D1wlbre1, size: [128, 256]}}
+          - {offset: 1392, length: 128, surface: {texture: D1wlble1, size: [128, 256]}}
+        notes: "Panels from the original's faces 886, 884."
+    notes: "Sector 32: east to the throne room's door, skull plaques beside it."
+  - id: room:u15
+    name: Throne room
+    outline: [[-384, 2176], [640, 2176], [640, 3712], [-384, 3712]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 900, 902."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 1408, length: 112, bottom: 64, height: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 1408, length: 128, bottom: 208, height: 48, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 901, 2420, 2371."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 208, height: 48, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 64, height: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 2372, 2419, 904."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 320, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 1408, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 903, 897, 899."
+    platforms:
+      - {at: [512, 3584], size: [256, 224], rise: 56, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bed, mattress between the posts: the canopied seat in the throne room's north-east corner (faces 2373-2416): mattress to +64, posts to the canopy at +192, canopy +192 to +208."}
+      - {at: [512, 3584], size: [256, 224], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 56, top_size: [240, 208], notes: "Bed, mattress between the posts: the canopied seat in the throne room's north-east corner (faces 2373-2416): mattress to +64, posts to the canopy at +192, canopy +192 to +208. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [392, 3464], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [632, 3464], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [632, 3704], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [392, 3704], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [512, 3584], size: [256, 256], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, base: 192, notes: "Bed canopy (Cbedsqr), 16 thick."}
+      - {id: platform:drawers_throne, at: [128, 2208], size: [256, 64], rise: 128, surface: {texture: cb2frnt, size: [256, 128]}, end_surface: {texture: cb2side, size: [64, 128]}, top_surface: {texture: cb2top, size: [256, 64]}, notes: "The chest of drawers against the throne room's south wall (faces 2438-2441, event 46): the second storage key."}
+      - {id: platform:cabinet_u15, at: [608, 3008], size: [64, 128], rise: 254, surface: {texture: cb6frnt, size: [128, 256]}, end_surface: {texture: cb6side, size: [64, 256]}, top_surface: {texture: cb6top, size: [128, 64]}, notes: "The tall cabinet on the throne room's east wall (faces 2428-2430, 2436): a box of the shared cabinet (event 26)."}
+    ceiling_levels:
+      - ceiling: 896
+        top_outline: [[-256, 2304], [512, 2304], [512, 3584], [-256, 3584]]
+        surface: {texture: D2ceil1, size: [256, 256]}
+    notes: "Sector 33: a cove from 768 at the walls 128 in up to a flat plank ceiling at 896. The canopied seat, three cabinets and a chest of drawers along its walls."
+  - id: room:u16
+    name: Closet
+    outline: [[656, 2176], [912, 2176], [912, 2432], [656, 2432]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8
+    notes: "Sector 34: a closet behind a rising wall; one chest."
+  - id: room:u2
+    name: Vestibule
+    outline: [[-2432, 0], [-1920, 0], [-1920, 624], [-2176, 624], [-2176, 256], [-2432, 256]]
+    floor: 512
+    ceiling: 768
+    theme: theme:blank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 480, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+        notes: Panels from the original's faces 635.
+      - wall: 1
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+          - {offset: 592, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+        notes: "Panels from the original's faces 593, 634."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: d2trimA, size: [64, 64]}}
+          - {offset: 64, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 192, length: 64, surface: {texture: d2trimA, size: [64, 64]}}
+        notes: "Panels from the original's faces 588, 683, 587."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+          - {offset: 336, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+        notes: "Panels from the original's faces 591, 589."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+        notes: Panels from the original's faces 596.
+    notes: "Sector 20: the landing at the head of the back stair."
+  - id: room:u3
+    name: Back stair
+    outline: [[-4336, 0], [-3968, 0], [-3968, 256], [-4336, 256]]
+    floor: 0
+    ceiling: 256
+    theme: theme:blank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 32, surface: {texture: d1trimRE, size: [32, 32]}}
+        notes: Panels from the original's faces 1661.
+      - wall: 1
+        panels:
+          - {offset: 0, length: 256, bottom: 0, height: 16, surface: {texture: BemStrA1, size: [256, 32]}}
+        notes: Panels from the original's faces 652.
+      - wall: 2
+        panels:
+          - {offset: 272, length: 32, bottom: 128, height: 32, surface: {texture: D8s2off, size: [32, 32]}}
+          - {offset: 336, length: 32, surface: {texture: d1trimLE, size: [32, 32]}}
+        notes: "Panels from the original's faces 960, 1660."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 256, surface: {texture: d1wblnkA, size: [256, 256]}}
+        notes: Panels from the original's faces 943.
+    notes: "Foot of sector 21: the switch in its north wall, the portcullis in its west wall."
+  - id: room:u3_flight1
+    name: "Back stair, first flight"
+    outline: [[-3968, 0], [-3456, 0], [-3456, 256], [-3968, 256]]
+    floor: 0
+    slope: {to: 256, toward: east, steps: 16, riser: {texture: BemStrA1, size: [256, 32]}, tread: {texture: Bemdk4, size: [32, 256]}}
+    ceiling: 256
+    ceiling_slope: {to: 512, toward: east}
+    theme: theme:blank
+  - id: room:u3_flight2
+    name: "Back stair, second flight"
+    outline: [[-2944, 0], [-2432, 0], [-2432, 256], [-2944, 256]]
+    floor: 256
+    slope: {to: 512, toward: east, steps: 16, riser: {texture: BemStrA1, size: [256, 32]}, tread: {texture: Bemdk4, size: [32, 256]}}
+    ceiling: 512
+    ceiling_slope: {to: 768, toward: east}
+    theme: theme:blank
+  - id: room:u3_landing
+    name: "Back stair, landing"
+    outline: [[-3456, 0], [-2944, 0], [-2944, 256], [-3456, 256]]
+    floor: 256
+    ceiling: 512
+    theme: theme:blank
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 0, length: 256, bottom: 0, height: 16, surface: {texture: BemStrA1, size: [256, 32]}}
+        notes: Panels from the original's faces 615.
+  - id: room:u4
+    name: East barracks
+    outline: [[384, 912], [1408, 912], [1408, 1936], [384, 1936]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8d_plank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 64, length: 126, surface: {texture: D2SmlDo2, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 685, 2605, 689."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 912, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 688, 2054, 2135."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 896, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 2053, 2134, 2216, 2136."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 2137, 2217, 686."
+    platforms:
+      - {at: [512, 1872], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 2154-2157."}
+      - {at: [512, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 2154-2157. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [392, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [632, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [632, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [392, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [512, 1872], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [512, 1872], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [512, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [1280, 1872], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 2072-2076."}
+      - {at: [1280, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 2072-2076. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [1160, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1400, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1400, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1160, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [1280, 1872], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [1280, 1872], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [1280, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {id: platform:locker_u4, at: [432, 1632], size: [64, 96], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 2223, 2230."}
+    notes: "Sector 22: bunks in its north corners, two footlockers."
+  - id: room:u5
+    name: Officer room
+    outline: [[1440, 912], [1952, 912], [1952, 1680], [1440, 1680]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8d_plank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 384, length: 8, bottom: 56, height: 8, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 384, length: 128, bottom: 64, height: 192, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 704, 2272, 702."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, bottom: 64, height: 192, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 701, 699."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 728, 697."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 696, 693."
+    platforms:
+      - {at: [1888, 1040], size: [128, 256], rise: 56, surface: {texture: bedsid2, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "The officer's bed against the north-east corner (faces 2249-2270), sides to +56."}
+      - {at: [1888, 1040], size: [128, 256], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 56, top_size: [112, 240], notes: "The officer's bed against the north-east corner (faces 2249-2270), sides to +56. Its bevel: 8 in and 8 up (bedtop)."}
+      - {id: platform:cabinet_u5, at: [1472, 1104], size: [64, 128], rise: 254, surface: {texture: Cb1frnt, size: [128, 256]}, end_surface: {texture: Cb1SIDE1, size: [64, 256]}, top_surface: {texture: Cb1SIDE1, size: [64, 256]}, notes: "The full-height cabinet on the officer room's west wall (faces 2275-2277): a box of the shared cabinet (event 26)."}
+    notes: "Sector 23: a bed against its north-east corner, a cabinet on its west wall; the closet's rising wall in its north wall."
+  - id: room:u6
+    name: Closet
+    outline: [[1696, 1696], [1952, 1696], [1952, 1952], [1696, 1952]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8d_plank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 716, 729."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 128, length: 64, bottom: 0, height: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 128, length: 128, bottom: 128, height: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 715, 2287, 714."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 128, height: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 128, length: 128, bottom: 128, height: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 711, 710."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, bottom: 128, height: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 64, length: 64, bottom: 0, height: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 718, 2286, 717."
+    notes: "Sector 24: a closet behind a rising wall, a chest of drawers along its north wall."
+  - id: room:u7
+    name: Barracks
+    outline: [[-640, 1152], [128, 1152], [128, 1920], [-640, 1920]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8d
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 320, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 754, 757, 751."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 746, 748."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 640, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 750, 2544, 2464."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 2465, 2545, 744."
+    platforms:
+      - {at: [-512, 1856], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 2482-2484."}
+      - {at: [-512, 1856], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 2482-2484. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-632, 1800], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-392, 1800], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-392, 1912], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-632, 1912], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-512, 1856], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [-512, 1856], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [-512, 1856], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+    notes: "Sector 25: one bunk in its north-west corner, a footlocker."
+  - id: room:u8
+    name: Barracks
+    outline: [[-1920, 912], [-896, 912], [-896, 1936], [-1920, 1936]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8d
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 256, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 763, 762, 788, 773, 771."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 912, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 770, 768, 1741."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 896, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 767, 1740, 1822, 1742."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 1743, 1823, 764."
+    platforms:
+      - {at: [-1792, 1872], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1760-1762."}
+      - {at: [-1792, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1760-1762. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-1912, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-1672, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-1672, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-1912, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-1792, 1872], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [-1792, 1872], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [-1792, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-1024, 1872], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1678-1680."}
+      - {at: [-1024, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1678-1680. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-1144, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-904, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-904, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-1144, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-1024, 1872], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [-1024, 1872], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [-1024, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {id: platform:locker_u8w, at: [-1872, 1632], size: [64, 96], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1831, 1838."}
+      - {id: platform:locker_u8e, at: [-944, 1632], size: [64, 96], rise: 64, surface: {texture: ch1frntB, size: [64, 64]}, end_surface: {texture: ch1side, size: [64, 64]}, top_surface: {texture: Ch1topB, size: [64, 64]}, notes: "A box of the shared footlocker (event 25, chest record 0): faces 1850, 1853."}
+    notes: "Sector 26: bunks in its north corners, two footlockers."
+  - id: room:u9
+    name: Barracks
+    outline: [[-3200, 912], [-2176, 912], [-2176, 1936], [-3200, 1936]]
+    floor: 512
+    ceiling: 768
+    theme: theme:d8d
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 512, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 640, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 768, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 778, 780, 795, 781, 782."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 912, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 774, 1951, 2031."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 112, bottom: 40, height: 96, surface: {texture: D8wlDLE, size: [128, 256]}}
+          - {offset: 896, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 1950, 2030, 1935, 1855."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, bottom: 168, height: 88, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 16, length: 96, bottom: 40, height: 96, surface: {texture: D8wlDRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlDLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 1856, 1936, 776."
+    platforms:
+      - {at: [-3072, 1872], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1873-1875."}
+      - {at: [-3072, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1873-1875. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-3192, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-2952, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-2952, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-3192, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-3072, 1872], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [-3072, 1872], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [-3072, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-2304, 1872], size: [224, 128], rise: 32, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1968-1970."}
+      - {at: [-2304, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 32, top_size: [208, 112], notes: "Bunk, lower bed between the posts, sides bedside to +32: faces 1968-1970. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [-2424, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-2184, 1816], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-2184, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-2424, 1928], size: [16, 16], rise: 168, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bunk post (CBEAM5), floor to +168."}
+      - {at: [-2304, 1872], size: [224, 128], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, top_surface: {texture: Cbedsqr, size: [128, 128]}, bottom_surface: {texture: Cbedsqr, size: [128, 128]}, base: 136, notes: "Bunk, upper bed between the posts: its board, Cbedsqr, +136 to +152."}
+      - {at: [-2304, 1872], size: [224, 128], rise: 8, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 152, notes: "Bunk, upper mattress, bedside +152 to +160."}
+      - {at: [-2304, 1872], size: [224, 128], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 160, top_size: [208, 112], notes: "Bunk, upper mattress, bedside +152 to +160. Its bevel: 8 in and 8 up (bedtop)."}
+    notes: "Sector 27: bunks in its north corners, two chests."
+  - id: room:w1
+    name: Antechamber
+    outline: [[2688, 1408], [2944, 1408], [2944, 1152], [4480, 1152], [4480, 1920], [3968, 1920], [3968, 2432], [2944, 2432], [2944, 1664], [2688, 1664]]
+    floor: 256
+    ceiling: 512
+    ceiling_points: [[3072, 1280, 640], [4352, 1280, 640], [4352, 1792, 640], [3840, 1792, 640], [3840, 2304, 640], [3072, 2304, 640]]
+    ceiling_lines:
+      - [[3072, 1280], [4352, 1280], [4352, 1792], [3840, 1792], [3840, 2304], [3072, 2304], [3072, 1280]]
+      - [[3072, 1280], [2944, 1152]]
+      - [[4352, 1280], [4480, 1152]]
+      - [[4352, 1792], [4480, 1920]]
+      - [[3840, 1792], [3968, 1920]]
+      - [[3840, 2304], [3968, 2432]]
+      - [[3072, 2304], [2944, 2432]]
+    ceiling_surfaces:
+      - {at: [3456, 1792], surface: {texture: D2ceil1, size: [256, 256]}}
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 512, 513."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 466, 465."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 512, length: 64, surface: {texture: d2trimB, size: [64, 64]}}
+          - {offset: 576, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 704, length: 64, surface: {texture: d2trimB, size: [64, 64]}}
+          - {offset: 768, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 1408, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 473, 517, 471, 549, 470, 516, 474."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 481, 479."
+      - wall: 4
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 478, 476."
+      - wall: 5
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 486, 485."
+      - wall: 6
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 484, 482."
+      - wall: 7
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 469, 467."
+      - wall: 8
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 511, 510."
+    notes: "Sector 15: an L, with the study's passage in its west wall. Its cove (from 512 at the walls 128 in up to a flat plank ceiling at 640) follows the L, so it is given by points: the six corners of the flat ceiling and the hip lines to the walls' corners."
+  - id: room:w2
+    name: Bedchamber
+    outline: [[4000, 1936], [4768, 1936], [4768, 2704], [4000, 2704]]
+    floor: 256
+    ceiling: 512
+    theme: theme:d8_plank
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 496, 494."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 112, bottom: 64, height: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 640, length: 128, bottom: 208, height: 48, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 499, 2335, 497."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 208, height: 48, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 16, length: 112, bottom: 64, height: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 504, 2334, 502."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 656, length: 112, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 501, 493."
+    platforms:
+      - {at: [4640, 2576], size: [256, 224], rise: 56, surface: {texture: bedside, size: [256, 64]}, top_surface: {texture: bedtop, size: [128, 128]}, notes: "Bed, mattress between the posts: the warlord's four-poster (faces 2288-2331): mattress to +64, posts to the canopy at +192, canopy +192 to +208."}
+      - {at: [4640, 2576], size: [256, 224], rise: 8, surface: {texture: bedtop, size: [128, 128]}, top_surface: {texture: bedtop, size: [128, 128]}, base: 56, top_size: [240, 208], notes: "Bed, mattress between the posts: the warlord's four-poster (faces 2288-2331): mattress to +64, posts to the canopy at +192, canopy +192 to +208. Its bevel: 8 in and 8 up (bedtop)."}
+      - {at: [4520, 2456], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [4760, 2456], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [4760, 2696], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [4520, 2696], size: [16, 16], rise: 192, surface: {texture: CBEAM5, size: [32, 256]}, top_surface: {texture: CBEAM5, size: [32, 256]}, notes: "Bed post (CBEAM5), floor to the canopy."}
+      - {at: [4640, 2576], size: [256, 256], rise: 16, surface: {texture: Cbedsqr, size: [128, 128]}, base: 192, notes: "Bed canopy (Cbedsqr), 16 thick."}
+    notes: "Sector 16: the warlord's four-poster bed in its north-east corner, a cabinet against its south wall."
+  - id: room:w3
+    name: Study
+    outline: [[2176, 1152], [2688, 1152], [2688, 1920], [2176, 1920]]
+    floor: 256
+    ceiling: 512
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 0, length: 128, bottom: 128, height: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 64, length: 64, bottom: 0, height: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 525, 2351, 523."
+      - wall: 1
+        panels:
+          - {offset: 0, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 512, length: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 522, 521, 530, 529."
+      - wall: 2
+        panels:
+          - {offset: 0, length: 64, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 66, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+          - {offset: 384, length: 64, bottom: 0, height: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+          - {offset: 384, length: 128, bottom: 128, height: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 533, 543, 2355, 528."
+      - wall: 3
+        panels:
+          - {offset: 0, length: 128, bottom: 128, height: 128, surface: {texture: D8wlBRE, size: [128, 256]}}
+          - {offset: 640, length: 128, bottom: 128, height: 128, surface: {texture: D8wlBLE, size: [128, 256]}}
+        notes: "Panels from the original's faces 527, 524."
+    platforms:
+      - {id: platform:drawers_study, at: [2208, 1280], size: [64, 256], rise: 128, surface: {texture: cb2frnt, size: [256, 128]}, end_surface: {texture: cb2side, size: [64, 128]}, top_surface: {texture: cb2top, size: [256, 64]}, notes: "The chest of drawers against the study's west wall (faces 2347-2349, event 45): two keys."}
+    notes: "Sector 17: two chests of drawers against its west wall; the keyed vault door in its north wall."
+  - id: room:w4
+    name: Vault
+    outline: [[2432, 1936], [2688, 1936], [2688, 2176], [2432, 2176]]
+    floor: 256
+    ceiling: 512
+    theme: theme:d8
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 64, length: 126, surface: {texture: D2SmlDor, size: [128, 256]}}
+        notes: Panels from the original's faces 544.
+    notes: "Sector 18: the statuette chest against its north wall."
+openings:
+  - id: open:c1_c2
+    from: room:c1
+    to: room:c2
+    from_wall: 4
+    to_wall: 6
+    width: full
+    height: full
+  - id: open:c1_c3
+    from: room:c1
+    to: room:c3
+    from_wall: 11
+    to_wall: 0
+    width: full
+    height: full
+    notes: The diagonal the hub shares with the cross passage.
+  - id: open:c3_c4
+    from: room:c3
+    to: room:c4
+    from_wall: 6
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:c3_c5
+    from: room:c3
+    to: room:c5
+    from_wall: 3
+    to_wall: 0
+    width: full
+    height: full
+    notes: The diagonal the cross passage shares with the cellar hall.
+  - id: open:c5_g1
+    from: room:c5
+    to: room:g1
+    along: 0.5
+    width: 128
+    height: 256
+    notes: Door 2 in the 16-thick wall.
+  - id: open:e1_end
+    from: room:e_tunnel
+    to: room:e1_end
+    shape: section
+  - id: open:e2_tunnel
+    from: room:e2
+    to: room:e_tunnel
+    width: full
+    height: full
+    notes: The junction is open to the tunnel over its whole east side.
+  - id: open:e2_u3
+    from: room:e_tunnel
+    to: room:u3
+    width: full
+    height: 256
+    notes: "The portcullis (door 19) in the 16-thick wall, in the tunnel's east side."
+  - id: open:e3_e4
+    from: room:e_tunnel
+    to: room:e4
+    shape: section
+  - id: open:e4_c1
+    from: room:e4
+    to: room:c1
+    from_wall: 2
+    to_wall: 2
+    along: 0.5
+    width: 128
+    height: 256
+    notes: "The rising secret wall (door 1), 16 thick, 128 wide at the stub's middle."
+  - id: open:g1_flight
+    from: room:g1
+    to: room:g1_flight
+    width: full
+    height: full
+  - id: open:g1_g2
+    from: room:g1_flight
+    to: room:g2
+    from_wall: 0
+    to_wall: 10
+    width: full
+    height: full
+  - id: open:g2_f1
+    from: room:g2
+    to: room:g2_flight1
+    width: full
+    height: full
+  - id: open:g2_f2
+    from: room:g2_landing
+    to: room:g2_flight2
+    width: full
+    height: full
+  - id: open:g2_g3
+    from: room:g2
+    to: room:g3
+    from_wall: 2
+    to_wall: 2
+    width: 128
+    height: 256
+    notes: Door 3 at the end of the door passage.
+  - id: open:g2_g5
+    from: room:g2_flight2
+    to: room:g5
+    width: full
+    height: full
+  - id: open:g2_land
+    from: room:g2_flight1
+    to: room:g2_landing
+    width: full
+    height: full
+  - id: open:g4_g3
+    from: room:g4
+    to: room:g3
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: 256
+    notes: The sinking secret wall (door 4) at the end of the treasury's passage.
+  - id: open:g5_g6
+    from: room:g5
+    to: room:g6
+    from_wall: 2
+    to_wall: 2
+    width: 128
+    height: 256
+    notes: Door 5 at the end of the door passage.
+  - id: open:g5_h1
+    from: room:g5
+    to: room:h1
+    from_wall: 6
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:h1_h2
+    from: room:h1
+    to: room:h2
+    width: full
+    height: full
+  - id: open:h1_h3
+    from: room:h1_west
+    to: room:h3
+    width: full
+    height: 256
+    notes: "Door 6 (double locked), 16 thick, filling the passage's end."
+  - id: open:h1_north
+    from: room:h1
+    to: room:h1_north
+    width: full
+    height: full
+  - id: open:h1_w1
+    from: room:h1_north
+    to: room:w1
+    width: 128
+    height: 256
+    notes: Door 8 at the end of the passage.
+  - id: open:h1_west
+    from: room:h1
+    to: room:h1_west
+    width: full
+    height: full
+  - id: open:h2_flight
+    from: room:h2
+    to: room:h2_flight
+    width: full
+    height: full
+  - id: open:h2_h3
+    from: room:h2
+    to: room:h3
+    from_wall: 0
+    to_wall: 2
+    width: full
+    height: 256
+    notes: Door 7 (double locked) filling the stair passage's south end.
+  - id: open:h2_u1
+    from: room:h2_flight
+    to: room:u1
+    width: full
+    height: full
+  - id: open:neck_u11
+    from: room:u11_neck
+    to: room:u11
+    width: full
+    height: full
+  - id: open:u10_neck
+    from: room:u10
+    to: room:u11_neck
+    width: full
+    height: full
+  - id: open:u10_u12
+    from: room:u10
+    to: room:u12
+    width: 128
+    height: 256
+    notes: "Door 15, skull plaques beside it."
+  - id: open:u10_u13
+    from: room:u10
+    to: room:u13
+    width: full
+    height: full
+  - id: open:u13_u14
+    from: room:u13
+    to: room:u14
+    width: full
+    height: full
+    notes: The diagonal the two passages share.
+  - id: open:u14_u15
+    from: room:u14
+    to: room:u15
+    width: 128
+    height: 256
+    notes: "Door 16, skull plaques beside it."
+  - id: open:u15_u16
+    from: room:u15
+    to: room:u16
+    along: 0.3125
+    width: 128
+    height: 256
+    notes: The rising secret wall (door 17).
+  - id: open:u1_u10
+    from: room:u1
+    to: room:u10
+    width: full
+    height: full
+    notes: The diagonal the gallery shares with the west hall.
+  - id: open:u1_u4
+    from: room:u1
+    to: room:u4
+    from_wall: 2
+    to_wall: 0
+    along: 0.8333
+    width: 128
+    height: 256
+    notes: Door 10.
+  - id: open:u1_u7
+    from: room:u1
+    to: room:u7
+    from_wall: 4
+    to_wall: 0
+    width: 128
+    height: 256
+    notes: Door 12 at the end of the stub.
+  - id: open:u1_u8
+    from: room:u1
+    to: room:u8
+    from_wall: 6
+    to_wall: 0
+    along: 0.6875
+    width: 128
+    height: 256
+    notes: Door 13.
+  - id: open:u1_u9
+    from: room:u1
+    to: room:u9
+    from_wall: 6
+    to_wall: 0
+    along: 0.3125
+    width: 128
+    height: 256
+    notes: Door 14.
+  - id: open:u2_u1
+    from: room:u2
+    to: room:u1
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 128
+    height: 256
+    notes: Door 18.
+  - id: open:u3_f1
+    from: room:u3
+    to: room:u3_flight1
+    width: full
+    height: full
+  - id: open:u3_f2
+    from: room:u3_landing
+    to: room:u3_flight2
+    width: full
+    height: full
+  - id: open:u3_land
+    from: room:u3_flight1
+    to: room:u3_landing
+    width: full
+    height: full
+  - id: open:u3_u2
+    from: room:u3_flight2
+    to: room:u2
+    width: full
+    height: full
+  - id: open:u4_u5
+    from: room:u4
+    to: room:u5
+    width: 128
+    height: 256
+    notes: Open doorway through the 32-thick wall.
+  - id: open:u5_u6
+    from: room:u5
+    to: room:u6
+    along: 0.3125
+    width: 128
+    height: 256
+    notes: The rising secret wall (door 11).
+  - id: open:w1_w2
+    from: room:w1
+    to: room:w2
+    from_wall: 5
+    to_wall: 3
+    along: 0.4839
+    width: 192
+    height: 256
+    notes: Open doorway through the 32-thick wall.
+  - id: open:w1_w3
+    from: room:w1
+    to: room:w3
+    from_wall: 9
+    to_wall: 1
+    width: full
+    height: full
+    notes: The antechamber's passage runs into the study.
+  - id: open:w3_w4
+    from: room:w3
+    to: room:w4
+    width: 128
+    height: 256
+    notes: Door 9 (the Warlord's Key).
+notes: "Warlord's Fortress in the original's own frame (x, y and z as 6d16.blv). Each room is a sector of the original or a part of one (the sector numbers in each room's notes), measured from the export: outlines with the original's corners (the diagonal joins as diagonals), flights of 16 per 256 with ceilings that rake with them, the coves of the great rooms as leaning ceiling levels or ceiling points, the tunnels as path rooms with the original's section."

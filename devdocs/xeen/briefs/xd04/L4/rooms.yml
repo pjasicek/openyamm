@@ -1,0 +1,693 @@
+format: 0
+themes:
+  - id: theme:brewery
+    wall: {texture: hwm2b, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm1bwall, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "Third floor (L2 brewery), 7d12's laboratory: plank walls (hwm1bwall) under the carved frieze band (hwm2b), its flagstones (7tfb1), black beams (hwm2rf)."
+  - id: theme:cauldron
+    wall: {texture: hwm2wall, size: [128, 256]}
+    floor: {texture: hhp2b2, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm2wall, size: [128, 256]}
+    notes: "The shaft (L2 cauldron): the same rubble stone from the cauldron floor to the roof beams (7d12)."
+  - id: theme:coven
+    wall: {texture: 7tws2, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: tfb2, size: [128, 128]}
+    door: {texture: twb1, size: [128, 256]}
+    notes: "Fourth floor (L2 coven), the Temple of the Moon (MM7 7d06), the witches being the Moon's cult: dressed stone under a carved frieze (7tws2), the ram-skull frieze (tws2b) in the sanctum, dark flags (7tfb11), block ceilings (twb2), stone door slabs (twb1), the Moon seal (t1d1a-d)."
+  - id: theme:coven_stair
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: tfb2, size: [128, 128]}
+    door: {texture: twb1, size: [128, 256]}
+    notes: The roof stair behind the ward (7d06's dark brick 'wall').
+  - id: theme:nursery
+    wall: {texture: twb1a, size: [128, 256]}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm1bwall, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "Second floor (L2 nursery), 7d12's wooden rooms: carved wainscot (hwm1b) as a band at the foot of the walls, cracked plaster above (twb1a), plank floors (7trimd), the black-beamed ceiling (hwm2rf)."
+  - id: theme:roof
+    wall: {texture: hwm2wall, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: sky_clo1, size: [512, 512]}
+    notes: "The roof: the tower's rubble stone as a parapet (7d12), slate (7tfb11), and a cloudy sky texture (sky_clo1) as a stand-in ceiling 2048 up: a BLV room cannot open to the sky."
+  - id: theme:stair
+    wall: {texture: hwm2wall, size: [128, 256]}
+    floor: {texture: hhp2b2, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm2wall, size: [128, 256]}
+    notes: "The stairs inside the tower's walls (7d12): rubble stone, cobble treads, black beams."
+  - id: theme:tower_stone
+    wall: {texture: hwm2b, size: [128, 256]}
+    floor: {texture: hhp2b2, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm2wall, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "Ground floor (L2 tower_stone), Clanker's Laboratory (MM7 7d12) as that map lays it: rubble-stone walls (hwm2wall) under the carved timber frieze (hwm2b, a band at the top of each wall), cobbles (hhp2b2), black-beamed plank ceilings (hwm2rf), plank door leaves (7trimd)."
+defaults: {theme: theme:tower_stone, ambient: 16}
+rooms:
+  - id: room:balcony_f2
+    name: Second-floor balcony
+    outline: [[1088, -1024], [1536, -1024], [1536, 352], [1536, 1056], [1536, 1536], [1088, 1536]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:nursery
+    bands:
+      - {height: 256, surface: {texture: hwm1b, size: [128, 256]}}
+    ambient: 20
+    notes: "Along the shaft's east side and round its north-east corner, 2560 long and 448 wide. A timber rail (the opening's 96 sill) over the shaft along its west wall; the landing, the skull niche and the schoolroom open off its east wall; the west stair leaves its north end."
+  - id: room:broken_balcony
+    name: Broken balcony
+    outline: [[-1344, 1088], [1024, 1088], [1024, 1536], [-1344, 1536]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:brewery
+    bands:
+      - {height: 256, surface: {texture: hwm1bwall, size: [128, 256]}}
+    ambient: 22
+    notes: "Along the shaft's north side. Its south wall has the rail (a 96 sill) and, east of it, the gap where the rail has broken away (no sill): the drop into the chamber. The north stair leaves its west end."
+  - id: room:cauldron_chamber
+    name: Cauldron chamber and shaft
+    outline: [[-640, -1024], [640, -1024], [1024, -640], [1024, 640], [640, 1024], [-640, 1024], [-1024, 640], [-1024, 160], [-640, 160], [-640, -416], [-1024, -416], [-1024, -640]]
+    floor: 0
+    ceiling: 2688
+    theme: theme:cauldron
+    bands:
+      - {height: 256, surface: {texture: hwm2b, size: [128, 256]}}
+    platforms:
+      - {id: platform:cauldron, at: [0, 0], size: [768, 768], rise: 96, facing: 45, surface: {texture: hwm2wall, size: [128, 256]}, top_surface: {texture: 7slimywtr}, notes: "The great cauldron: a stone-rimmed tub 768 square turned 45 degrees, brimming with the green brew (7slimywtr, a liquid of 7d12's own); 96 high, a ledge not stepped onto; it hurts whoever lands in it."}
+      - {id: platform:bridge, at: [-440, -128], size: [400, 192], rise: 32, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: 7trimd, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 1888, notes: "The Alacorn bridge: a plank walk 192 wide hanging over the shaft from the Witches' Finger to the pedestal landing over the cauldron (L1's bridge; L3 had only the pier)."}
+      - {id: platform:landing, rise: 32, surface: {texture: trim11_32, size: [32, 64]}, outline: [[-192, -272], [0, -272], [48, -224], [48, -32], [0, 16], [-192, 16], [-240, -32], [-240, -224]], top_surface: {texture: 7trimd, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 1888, notes: "The landing at the bridge's end, over the middle of the cauldron."}
+      - {at: [-440, -216], size: [400, 16], rise: 24, surface: {texture: trim11_32, size: [32, 64]}, base: 1920, notes: "Kerb, south side of the bridge."}
+      - {at: [-440, -40], size: [400, 16], rise: 24, surface: {texture: trim11_32, size: [32, 64]}, base: 1920, notes: "Kerb, north side of the bridge."}
+      - {id: platform:pedestal, at: [-96, -128], size: [96, 96], rise: 64, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 1920, notes: The Alacorn's pedestal on the landing.}
+    ambient: 16
+    notes: "The cauldron chamber and the shaft over it are one room 2048 across and 2688 high (R3-K7: nothing may stand over it, so the shaft is the chamber's own height). The cauldron is a 768 platform turned 45 degrees, 96 high (a ledge, not stepped onto), painted with the green brew (slimywtr) on top and sides alike. Openings climb the walls in a spiral: two ground-floor arches south, the hoist slot's door south-west at 0, the second-floor balcony east at 640, the broken balcony north at 1280, the sanctum's window and the Alacorn pier west at 1920. The west notch (576 by 384) is the Witches' Finger: the solid pier the Alacorn stands on, seen from below as a stone buttress up the west wall. L4: the Alacorn stands on a plank bridge hanging over the cauldron at 1920, reached from the pier on the Witches' Finger (L1's bridge, which a hanging platform can say)."
+  - id: room:coven_sanctum
+    name: Coven sanctum
+    outline: [[-4096, -320], [-2528, -320], [-1088, -320], [-1088, 128], [-1088, 896], [-4096, 896]]
+    floor: 1920
+    ceiling: 2752
+    theme: theme:coven
+    walls:
+      - wall: south
+        surface: {texture: tws2b, size: [128, 256]}
+      - wall: north
+        surface: {texture: tws2b, size: [128, 256]}
+    pillars:
+      - {at: [-3584, -64], size: [96, 96], surface: {texture: tws2b, size: [128, 256]}, notes: Carved roof post.}
+      - {at: [-3584, 640], size: [96, 96], surface: {texture: tws2b, size: [128, 256]}, notes: Carved roof post.}
+    platforms:
+      - {id: platform:circle_nw, at: [-2720, 448], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1a, size: [256, 256], fit: true}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
+      - {id: platform:circle_ne, at: [-2400, 448], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1b, size: [256, 256], fit: true}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
+      - {id: platform:circle_sw, at: [-2720, 128], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1c, size: [256, 256], fit: true}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
+      - {id: platform:circle_se, at: [-2400, 128], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1d, size: [256, 256], fit: true}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
+      - {at: [-3200, 288], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: The low altar by the circle.}
+    ambient: 24
+    notes: "The coven's hall along the shaft's west side, 832 high under the roof (flat: R3-K5 has no sloped ceilings). The witch-mark circle is a 16-high diamond inlay (t5s1c2). East wall: the opening onto the Alacorn pier and, north of it, a railed window over the shaft. Doors: Rosebud (north wall, west end), the bedchamber and the hoist room (south wall), the ward to the roof stair (west wall)."
+  - id: room:cupboard
+    name: Cupboard
+    space: room:dormitory
+    outline: [[4224, 336], [4352, 336], [4352, 496], [4224, 496]]
+    floor: 640
+    ceiling: 896
+    theme: theme:nursery
+    walls:
+      - wall: east
+        surface: {texture: hwm1bwall, size: [128, 256]}
+    ambient: 26
+    notes: "The goblin's hoard: a shallow cupboard behind a loose panel in the dormitory's end wall."
+  - id: room:dormitory
+    name: Dormitory
+    outline: [[2880, -192], [3904, -192], [4160, 64], [4160, 768], [3904, 1024], [2880, 1024]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:nursery
+    bands:
+      - {height: 256, surface: {texture: hwm1b, size: [128, 256]}}
+    platforms:
+      - {at: [3136, 128], size: [128, 224], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A small bed.}
+      - {at: [3392, 128], size: [128, 224], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A small bed.}
+      - {at: [3648, 128], size: [128, 224], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A small bed.}
+      - {at: [3136, 704], size: [128, 224], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A small bed.}
+      - {at: [3392, 704], size: [128, 224], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A small bed.}
+      - {at: [3648, 704], size: [128, 224], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A small bed.}
+    ambient: 24
+    notes: "Chamfered at its far (east) end; two rows of three very small beds (48-high blocks). The secret cupboard is a container in the east wall, not a room. Doors: west to the landing, north to the schoolroom (the floor's loop). L4: the cupboard is a closet behind a secret panel in the east wall (room:cupboard)."
+  - id: room:gate_hall
+    name: Gate hall
+    outline: [[-640, -2496], [640, -2496], [384, -1600], [-384, -1600]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower_stone
+    bands:
+      - {height: 256, surface: {texture: hwm2wall, size: [128, 256]}}
+    ambient: 18
+    notes: "Wedge narrowing from the tower door (south wall, 1280 wide) to the gallery (768), 896 deep. The cloak hooks are decorations."
+  - id: room:goblin_pens
+    name: Goblin pens
+    outline: [[704, -2496], [2496, -2496], [2496, -1600], [704, -1600]]
+    floor: 0
+    ceiling: 448
+    theme: theme:tower_stone
+    bands:
+      - {height: 192, surface: {texture: hwm2wall, size: [128, 256]}}
+    platforms:
+      - {at: [1600, -2048], size: [1024, 128], rise: 48, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: 7slimywtr}, notes: "The feeding trough: a plank trough of green slop."}
+    ambient: 18
+    notes: "Straw pens along the south wall (decorations); the feeding trough down the middle is a 48-high block the party walks round."
+  - id: room:herb_loft
+    name: Herb loft
+    outline: [[64, 1600], [1024, 1600], [1024, 2176], [64, 2176]]
+    floor: 1472
+    ceiling: 1856
+    theme: theme:brewery
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:recipe, offset: 160, length: 64, bottom: 160, height: 96, surface: {texture: t2bedsht, size: [128, 256], fit: true}, notes: The recipe card pinned to the wall (a pale cloth picture of 7d12's for a card).}
+    bands:
+      - {height: 128, surface: {texture: hwm1bwall, size: [128, 256]}}
+    ambient: 22
+    notes: "Low (384) loft east of the vat hall; drying racks and the recipe card are decorations."
+  - id: room:hidden_cage
+    name: Hidden cage
+    outline: [[-3200, 2112], [-2688, 2112], [-2688, 2624], [-3200, 2624]]
+    floor: 1280
+    ceiling: 1664
+    theme: theme:brewery
+    bands:
+      - {height: 128, surface: {texture: hwm1bwall, size: [128, 256]}}
+    ambient: 26
+    notes: "Closet behind the vat hall's west wall; the secret door is the bookcase-faced doorway (L4: a secret door in opening open:vat_hall_hidden_cage)."
+  - id: room:hoist_room
+    name: Hoist room
+    outline: [[-2464, -960], [-1600, -960], [-1600, -384], [-2464, -384]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:coven
+    platforms:
+      - {at: [-2048, -864], size: [320, 128], rise: 128, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The winch drum (a block until a model exists).}
+    ambient: 22
+    notes: "The winch drum and the brake lever (decorations, a switch at L4); the hoist slot opens off its east wall."
+  - id: room:hoist_slot
+    name: Hoist slot
+    outline: [[-1536, -832], [-1088, -832], [-1088, -384], [-1536, -384]]
+    floor: 0
+    ceiling: 2304
+    theme: theme:stair
+    ambient: 20
+    notes: "The narrow shaft the hoist cage rides, 448 square and 2304 high, beside the cauldron chamber's south-west wall. Its door to the chamber is at 0 and its door to the hoist room at 1920. The cage is an objects.yml lift that fills the slot (448 square, so there is no gap to fall through), travel 1920, standing up at first; see the plan's mechanisms. A scratch build with that lift carried the party from 1928 to 8."
+  - id: room:landing_f2
+    name: Second-floor landing
+    outline: [[1600, -320], [2816, -320], [2816, 320], [1600, 320]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:nursery
+    bands:
+      - {height: 256, surface: {texture: hwm1b, size: [128, 256]}}
+    ambient: 22
+    notes: "Top of the east stair; opens west onto the balcony and east into the dormitory."
+  - id: room:landing_f3
+    name: Third-floor landing
+    outline: [[-384, 2240], [320, 2240], [320, 2880], [-384, 2880]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:brewery
+    bands:
+      - {height: 192, surface: {texture: hwm1bwall, size: [128, 256]}}
+    ambient: 20
+  - id: room:loft_steps
+    name: Loft steps
+    space: room:herb_loft
+    outline: [[-384, 1664], [0, 1664], [0, 1984], [-384, 1984]]
+    floor: 1280
+    slope: {to: 1472, toward: east, steps: 6}
+    ceiling: 1856
+    theme: theme:stair
+    ambient: 22
+    notes: "Six steps of 32 up to the herb loft: L1's ladder (now link:vat_hall_herb_loft) as a short flight, because objects.yml has no ladders."
+  - id: room:ring_f1
+    name: Ground-floor gallery
+    outline: [[-1536, -1536], [-480, -1536], [480, -1536], [1536, -1536], [1536, -1088], [-1536, -1088]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower_stone
+    bands:
+      - {height: 256, surface: {texture: hwm2wall, size: [128, 256]}}
+    ambient: 18
+    notes: "The L1 horseshoe becomes a straight gallery along the shaft's south side (the ground floor keeps the south; the floors above take the other sides). Two arches into the cauldron chamber in its north wall with a pier between them; doors to the warden's lodge (west end), the toad larder and the goblin pens (south wall); the east stair leaves its east end."
+  - id: room:roof
+    name: Roof
+    outline: [[-6912, -320], [-6080, -320], [-5504, 0], [-5504, 896], [-6080, 1216], [-6912, 1216], [-7296, 896], [-7296, 0]]
+    floor: 2560
+    ceiling: 4608
+    theme: theme:roof
+    walls: []
+    bands:
+      - {height: 112, surface: {texture: hwm2wall, size: [128, 256]}}
+    platforms:
+      - {at: [-6400, 448], size: [384, 384], rise: 640, surface: {texture: hwm2wall, size: [128, 256]}, top_surface: {texture: hhp2b2, size: [128, 128]}, notes: The chimney stack of the tower's crown.}
+    ambient: 4
+    notes: "The crown of the crooked tower's westmost storey: an eight-sided terrace round the chimney stack. Open sky is not drawable in a BLV: the parapet is a band of stone 112 high and the walls above it and the ceiling 2048 up wear the cloudy sky (sky_clo1). The cloud stair to X8 is an exit on its west wall."
+  - id: room:roof_stair
+    name: Roof stair
+    outline: [[-5440, 256], [-4160, 256], [-4160, 640], [-5440, 640]]
+    floor: 1920
+    slope: {to: 2560, toward: west, steps: 20}
+    ceiling: 2944
+    theme: theme:coven_stair
+    ambient: 26
+    notes: "20 steps west from the warded door; L1's stair winding inside the conical roof is drawn straight."
+  - id: room:rosebud_landing
+    name: Rosebud landing
+    outline: [[-3392, 960], [-2752, 960], [-2752, 1536], [-3392, 1536]]
+    floor: 1920
+    ceiling: 2368
+    theme: theme:coven
+    ambient: 24
+    notes: "Top of the north stair; the Rosebud door in its south wall."
+  - id: room:schoolroom
+    name: Schoolroom
+    outline: [[1600, 1088], [2592, 1088], [3392, 1088], [3392, 2368], [1600, 2368]]
+    floor: 640
+    ceiling: 1216
+    theme: theme:nursery
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:slate, at: centre, length: 512, bottom: 96, height: 256, surface: {texture: 7tfb11, size: [128, 128]}, notes: "The slate: a board of dark slate (7d12's 7tfb11) where the lesson is chalked."}
+    bands:
+      - {height: 256, surface: {texture: hwm1b, size: [128, 256]}}
+    platforms:
+      - {at: [2304, 1472], size: [1152, 192], rise: 32, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A bench row, one step up."}
+      - {at: [2304, 1728], size: [1152, 192], rise: 32, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A bench row, one step up."}
+      - {at: [2304, 1984], size: [1152, 192], rise: 32, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A bench row, one step up."}
+      - {at: [3104, 1728], size: [96, 256], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The teacher's desk, before the slate."}
+    ambient: 22
+    notes: "The benches face the slate wall (east, hdp1b: a cracked grey-blue plaster read as slate) and the teacher's desk. L1's three stepped tiers (32, 64, 96) need platforms on platforms; drawn as three bench rows one step (32) high with aisles between. Cage 2 is a decoration against the north wall."
+  - id: room:shaft_bridge
+    name: Alacorn pier
+    outline: [[-1024, -352], [-704, -352], [-704, 96], [-1024, 96]]
+    floor: 1920
+    ceiling: 2560
+    theme: theme:coven
+    ambient: 18
+    notes: "L1's bridge to a pedestal over the middle of the shaft cannot be drawn (a room over the shaft, R3-K7). It is the top of the Witches' Finger instead: a 320 by 448 pier jutting from the sanctum into the shaft's west notch, open at its tip over the cauldron behind a 64 stone lip (no rail). The Alacorn's pedestal is a decoration at the tip."
+  - id: room:skull_niche
+    name: Skull niche
+    outline: [[1600, 384], [2304, 384], [2304, 768], [2048, 1024], [1600, 1024]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:nursery
+    walls:
+      - wall: east
+        panels:
+          - {at: centre, length: 384, surface: {texture: 7t1books, size: [128, 256]}, notes: "The bookcase wall, floor to ceiling."}
+    bands:
+      - {height: 256, surface: {texture: hwm1b, size: [128, 256]}}
+    platforms:
+      - {at: [2272, 576], size: [64, 352], rise: 112, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The low shelf the three skulls sit on.}
+    ambient: 24
+    notes: "Apse off the balcony; the three talking skulls stand on shelves (decorations) by the bookcase wall."
+  - id: room:stair_1_2_a
+    name: "East stair, lower flight"
+    space: room:stair_1_2
+    outline: [[1600, -1504], [2240, -1504], [2240, -1120], [1600, -1120]]
+    floor: 0
+    slope: {to: 320, toward: east, steps: 10}
+    ceiling: 704
+    theme: theme:stair
+    ambient: 22
+  - id: room:stair_1_2_b
+    name: "East stair, upper flight"
+    space: room:stair_1_2
+    outline: [[2368, -1024], [2752, -1024], [2752, -384], [2368, -384]]
+    floor: 320
+    slope: {to: 640, toward: north, steps: 10}
+    ceiling: 1024
+    theme: theme:stair
+    ambient: 22
+  - id: room:stair_1_2_mid
+    name: "East stair, turn"
+    space: room:stair_1_2
+    outline: [[2304, -1536], [2816, -1536], [2816, -1088], [2304, -1088]]
+    floor: 320
+    ceiling: 704
+    theme: theme:stair
+    ambient: 20
+  - id: room:stair_2_3_a
+    name: "West stair, lower flight"
+    space: room:stair_2_3
+    outline: [[1120, 1600], [1504, 1600], [1504, 2240], [1120, 2240]]
+    floor: 640
+    slope: {to: 960, toward: north, steps: 10}
+    ceiling: 1344
+    theme: theme:stair
+    ambient: 22
+  - id: room:stair_2_3_b
+    name: "West stair, upper flight"
+    space: room:stair_2_3
+    outline: [[384, 2336], [1024, 2336], [1024, 2720], [384, 2720]]
+    floor: 960
+    slope: {to: 1280, toward: west, steps: 10}
+    ceiling: 1664
+    theme: theme:stair
+    ambient: 22
+  - id: room:stair_2_3_mid
+    name: "West stair, turn"
+    space: room:stair_2_3
+    outline: [[1088, 2304], [1536, 2304], [1536, 2752], [1088, 2752]]
+    floor: 960
+    ceiling: 1344
+    theme: theme:stair
+    ambient: 20
+  - id: room:stair_3_4
+    name: North stair
+    outline: [[-2688, 1120], [-1408, 1120], [-1408, 1504], [-2688, 1504]]
+    floor: 1280
+    slope: {to: 1920, toward: west, steps: 20}
+    ceiling: 2304
+    theme: theme:stair
+    ambient: 28
+    notes: One straight dark flight of 20 steps (32 by 64) climbing west from the broken balcony to the Rosebud landing.
+  - id: room:toad_larder
+    name: Toad larder
+    outline: [[-1536, -2496], [-704, -2496], [-704, -1600], [-1536, -1600]]
+    floor: 0
+    ceiling: 448
+    theme: theme:tower_stone
+    bands:
+      - {height: 192, surface: {texture: hwm2wall, size: [128, 256]}}
+    platforms:
+      - {at: [-1120, -2048], size: [384, 384], rise: 32, surface: {texture: hwm2wall, size: [128, 256]}, top_surface: {texture: 7slimywtr}, notes: "The toad trough: a raised stone trough of green water."}
+    ambient: 22
+    notes: "The L1 sunken tank cannot be drawn (no sunken floors inside a room): it is a raised stone trough, one step (32) up, with green water on it."
+  - id: room:vat_hall
+    name: Vat hall
+    outline: [[-2368, 1600], [-448, 1600], [-448, 2112], [-448, 3136], [-2368, 3136], [-2624, 2880], [-2624, 1856]]
+    floor: 1280
+    ceiling: 2048
+    theme: theme:brewery
+    walls:
+      - wall: 5
+        surface: {texture: 7t1books, size: [128, 256]}
+    bands:
+      - {height: 512, surface: {texture: hwm1bwall, size: [128, 256]}}
+    platforms:
+      - {at: [-2048, 2880], size: [256, 256], rise: 32, surface: {texture: 7tfb1, size: [128, 128]}, top_surface: {texture: 7tfb1, size: [128, 128]}, notes: A vat plinth.}
+      - {at: [-1536, 2880], size: [256, 256], rise: 32, surface: {texture: 7tfb1, size: [128, 128]}, top_surface: {texture: 7tfb1, size: [128, 128]}, notes: A vat plinth.}
+      - {at: [-1024, 2880], size: [256, 256], rise: 32, surface: {texture: 7tfb1, size: [128, 128]}, top_surface: {texture: 7tfb1, size: [128, 128]}, notes: A vat plinth.}
+    ambient: 20
+    notes: "A long hall north of the shaft (L1's crescent round the west and south side cannot be over the floors below), its west corners chamfered. Three vat plinths (one step, 32) along the north wall; the vats are decorations. The west wall (edge 5) is the bookcase wall, with the hidden cage's secret door in it. The broken balcony opens off the south wall, the loft steps and the landing off the east wall."
+  - id: room:warden_lodge
+    name: Warden's lodge
+    outline: [[-2752, -1856], [-1600, -1856], [-1600, -1024], [-2240, -1024], [-2752, -1408]]
+    floor: 0
+    ceiling: 448
+    theme: theme:tower_stone
+    bands:
+      - {height: 192, surface: {texture: hwm2wall, size: [128, 256]}}
+    platforms:
+      - {at: [-2048, -1600], size: [224, 128], rise: 64, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The warden's table.}
+    ambient: 20
+    notes: "Five-sided, off the gallery's west end. Cage 1 is a decoration against the west wall."
+  - id: room:witch_bedchamber
+    name: Witches' bedchamber
+    outline: [[-4096, -960], [-2592, -960], [-2592, -384], [-4096, -384]]
+    floor: 1920
+    ceiling: 2496
+    theme: theme:coven
+    platforms:
+      - {at: [-3712, -736], size: [256, 320], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A bed.}
+      - {at: [-3328, -736], size: [256, 320], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A bed.}
+      - {at: [-2944, -736], size: [256, 320], rise: 48, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A bed.}
+    ambient: 24
+    notes: "Three beds (48-high blocks; canopies would be placeholders), the mirror and cage 4."
+openings:
+  - id: open:balcony_rail
+    from: room:balcony_f2
+    to: room:cauldron_chamber
+    link: link:balcony_rail
+    width: 1024
+    height: 352
+    sill: 96
+    notes: "The timber rail over the shaft: a 96 sill, open above it."
+  - id: open:balcony_schoolroom
+    from: room:balcony_f2
+    to: room:schoolroom
+    link: link:balcony_schoolroom
+    width: 256
+    height: 320
+  - id: open:balcony_skull_niche
+    from: room:balcony_f2
+    to: room:skull_niche
+    link: link:balcony_skull_niche
+    width: 384
+    height: 352
+  - id: open:balcony_stair_2_3
+    from: room:balcony_f2
+    to: room:stair_2_3_a
+    link: link:balcony_stair_2_3
+    width: 256
+    height: 320
+  - id: open:bridge_tip
+    from: room:shaft_bridge
+    to: room:cauldron_chamber
+    from_wall: 1
+    to_wall: 8
+    link: link:pier_tip
+    width: 192
+    height: 384
+    notes: "The pier's tip opens onto the plank bridge over the shaft (L3: a 64 lip over the drop)."
+  - id: open:broken_balcony_gap
+    from: room:broken_balcony
+    to: room:cauldron_chamber
+    link: link:broken_balcony_drop
+    along: 0.8
+    width: 256
+    height: 384
+    notes: "Where the rail has broken away: no sill, a 1280 drop to the cauldron floor."
+  - id: open:broken_balcony_rail
+    from: room:broken_balcony
+    to: room:cauldron_chamber
+    link: link:broken_balcony_rail
+    along: 0.3
+    width: 512
+    height: 320
+    sill: 96
+    notes: The surviving rail.
+  - id: open:broken_balcony_stair_3_4
+    from: room:broken_balcony
+    to: room:stair_3_4
+    link: link:broken_balcony_stair_3_4
+    width: 256
+    height: 320
+  - id: open:dormitory_cupboard
+    from: room:dormitory
+    to: room:cupboard
+    width: 128
+    height: 224
+    notes: The loose panel in the dormitory's end wall.
+  - id: open:dormitory_schoolroom
+    from: room:dormitory
+    to: room:schoolroom
+    link: link:dormitory_schoolroom
+    width: 192
+    height: 288
+  - id: open:gate_hall_ring
+    from: room:gate_hall
+    to: room:ring_f1
+    link: link:gate_hall_ring
+    width: 384
+    height: 384
+  - id: open:hoist_room_slot
+    from: room:hoist_room
+    to: room:hoist_slot
+    link: link:hoist
+    width: 256
+    height: 320
+    notes: "The hoist's upper door, 1920 above the slot's floor: an open drop unless the cage stands here."
+  - id: open:hoist_slot_cauldron
+    from: room:hoist_slot
+    to: room:cauldron_chamber
+    from_wall: 1
+    to_wall: 10
+    link: link:hoist
+    width: 192
+    height: 320
+    notes: "The hoist's lower door, at the cauldron floor."
+  - id: open:landing_f2_balcony
+    from: room:landing_f2
+    to: room:balcony_f2
+    link: link:landing_f2_balcony
+    width: 384
+    height: 384
+  - id: open:landing_f2_dormitory
+    from: room:landing_f2
+    to: room:dormitory
+    link: link:landing_f2_dormitory
+    width: 192
+    height: 288
+  - id: open:landing_f3_vat_hall
+    from: room:landing_f3
+    to: room:vat_hall
+    link: link:landing_f3_vat_hall
+    width: 384
+    height: 384
+  - id: open:loft_steps_herb_loft
+    from: room:loft_steps
+    to: room:herb_loft
+    width: 256
+    height: 320
+  - id: open:ring_cauldron_east
+    from: room:ring_f1
+    to: room:cauldron_chamber
+    link: link:cauldron_ring_east
+    along: 0.25
+    width: 384
+    height: 384
+    notes: East arch.
+  - id: open:ring_cauldron_west
+    from: room:ring_f1
+    to: room:cauldron_chamber
+    link: link:cauldron_ring_west
+    along: 0.75
+    width: 384
+    height: 384
+    notes: West arch.
+  - id: open:ring_goblin_pens
+    from: room:ring_f1
+    to: room:goblin_pens
+    link: link:ring_goblin_pens
+    width: 192
+    height: 288
+  - id: open:ring_stair_1_2
+    from: room:ring_f1
+    to: room:stair_1_2_a
+    link: link:ring_stair_1_2
+    width: 256
+    height: 320
+  - id: open:ring_toad_larder
+    from: room:ring_f1
+    to: room:toad_larder
+    link: link:ring_toad_larder
+    width: 192
+    height: 288
+  - id: open:ring_warden_lodge
+    from: room:ring_f1
+    to: room:warden_lodge
+    link: link:ring_warden_lodge
+    width: 192
+    height: 288
+  - id: open:roof_stair_roof
+    from: room:roof_stair
+    to: room:roof
+    link: link:roof_stair_roof
+    width: 256
+    height: 320
+  - id: open:rosebud_door
+    from: room:rosebud_landing
+    to: room:coven_sanctum
+    link: link:rosebud_door
+    width: 320
+    height: 320
+  - id: open:sanctum_bedchamber
+    from: room:coven_sanctum
+    to: room:witch_bedchamber
+    link: link:sanctum_bedchamber
+    width: 192
+    height: 288
+  - id: open:sanctum_bridge
+    from: room:coven_sanctum
+    to: room:shaft_bridge
+    link: link:sanctum_bridge
+    width: 320
+    height: 384
+  - id: open:sanctum_hoist_room
+    from: room:coven_sanctum
+    to: room:hoist_room
+    link: link:sanctum_hoist_room
+    width: 384
+    height: 384
+  - id: open:sanctum_roof_stair
+    from: room:coven_sanctum
+    to: room:roof_stair
+    link: link:sanctum_roof_stair
+    width: 192
+    height: 320
+  - id: open:sanctum_window
+    from: room:coven_sanctum
+    to: room:cauldron_chamber
+    from_wall: 3
+    to_wall: 6
+    link: link:sanctum_window
+    width: 384
+    height: 384
+    sill: 96
+    notes: A railed window over the shaft north of the pier.
+  - id: open:stair_1_2_landing_f2
+    from: room:stair_1_2_b
+    to: room:landing_f2
+    link: link:stair_1_2_landing_f2
+    width: 256
+    height: 320
+  - id: open:stair_1_2_turn_a
+    from: room:stair_1_2_a
+    to: room:stair_1_2_mid
+    width: 256
+    height: 320
+  - id: open:stair_1_2_turn_b
+    from: room:stair_1_2_mid
+    to: room:stair_1_2_b
+    width: 256
+    height: 320
+  - id: open:stair_2_3_landing_f3
+    from: room:stair_2_3_b
+    to: room:landing_f3
+    link: link:stair_2_3_landing_f3
+    width: 256
+    height: 320
+  - id: open:stair_2_3_turn_a
+    from: room:stair_2_3_a
+    to: room:stair_2_3_mid
+    width: 256
+    height: 320
+  - id: open:stair_2_3_turn_b
+    from: room:stair_2_3_mid
+    to: room:stair_2_3_b
+    width: 256
+    height: 320
+  - id: open:stair_3_4_rosebud
+    from: room:stair_3_4
+    to: room:rosebud_landing
+    link: link:stair_3_4_rosebud
+    width: 256
+    height: 320
+  - id: open:vat_hall_broken_balcony
+    from: room:vat_hall
+    to: room:broken_balcony
+    link: link:vat_hall_broken_balcony
+    width: 512
+    height: 384
+  - id: open:vat_hall_hidden_cage
+    from: room:vat_hall
+    to: room:hidden_cage
+    link: link:vat_hall_hidden_cage
+    width: 192
+    height: 256
+  - id: open:vat_hall_loft_steps
+    from: room:vat_hall
+    to: room:loft_steps
+    link: link:vat_hall_herb_loft
+    width: 256
+    height: 320
+notes: "XD-04 Witch Tower, L4: L3's crooked tower (each storey a quarter turn round the shaft) with the texture families of the lead's rule (Clanker's Laboratory for the tower, the Temple of the Moon for the coven's floor), the Alacorn's bridge over the shaft and furniture. First written by output/studio_cal/xd04/tools/gen_rooms.py from L3's rooms.yml."

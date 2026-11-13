@@ -1,0 +1,544 @@
+format: 0
+variables: [on_lava, fire_wall_used, bookcase_searches, hourglass_chest_opened, lava_wall_gone]
+events:
+  - id: evt:bookcase
+    preset: script
+    source: platform:bookcase
+    title: Bookcase
+    condition: {map_var: {name: bookcase_searches, below: 4}}
+    effects:
+      - add:
+          var:
+            map_var: bookcase_searches
+          value: 1
+      - text: "Found something!"
+      - give_item:
+          one_of: [1961, 1973, 1976, 1988, 1965, 1962]
+    notes: "Original event 62: searched up to four times (map variable 3 there), each time \"Found something!\" and one scroll of six at random (Preservation, Charm, Mass Fear, Hammerhands, Shared Life, Heroism)."
+  - id: evt:budge10
+    preset: text
+    source: door:d10
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge12
+    preset: text
+    source: door:d12
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge16
+    preset: text
+    source: door:d16
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge18
+    preset: text
+    source: door:d18
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge20
+    preset: text
+    source: door:d20
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge22
+    preset: text
+    source: door:d22
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge26
+    preset: text
+    source: door:d26
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge30
+    preset: text
+    source: door:d30
+    title: Door
+    text: The Door won't budge.
+  - id: evt:budge32
+    preset: text
+    source: door:d32
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge34
+    preset: text
+    source: door:d34
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge36
+    preset: text
+    source: door:d36
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge38
+    preset: text
+    source: door:d38
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge40
+    preset: text
+    source: door:d40
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge6
+    preset: text
+    source: door:d6
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:budge8
+    preset: text
+    source: door:d8
+    title: Door
+    text: The Door won't budge.
+    notes: "Original event 55, on the door's two faces."
+  - id: evt:chest1
+    preset: chest
+    source: chest:c1
+    title: Chest
+  - id: evt:chest2
+    preset: chest
+    source: chest:c2
+    title: Chest
+  - id: evt:chest3
+    preset: chest
+    source: chest:c3
+    title: Chest
+  - id: evt:chest4
+    preset: chest
+    source: chest:c4
+    title: Chest
+  - id: evt:chest5
+    preset: chest
+    source: chest:c5
+    title: Chest
+    condition: {any: [{map_var: hourglass_chest_opened}, {not: {qbit: hourglass_taken}}]}
+    effects:
+      - set:
+          var:
+            map_var: hourglass_chest_opened
+          value: 1
+      - qbit: hourglass_taken
+      - qbit: seer_hourglass_bit
+    else_effects:
+      - open_chest: chest:c8
+    notes: "Original event 48: the first opening in this map by a party without qbit 1029 opens chest 5 (the Hourglass of Time), notes it in map variable 51 and sets qbits 1029 and 1207; once noted, chest 5 every time; a party that comes with qbit 1029 already set (and has not opened it here) gets chest 8 (chest:c8) instead."
+  - id: evt:chest6
+    preset: chest
+    source: chest:c6
+    title: Chest
+  - id: evt:chest7
+    preset: chest
+    source: chest:c7
+    title: Chest
+  - id: evt:door1
+    preset: door
+    source: door:d1
+    action: open
+    notes: "Original event 2 (no hint), on both halves' faces on both sides: opens both halves for good."
+  - id: evt:door23
+    preset: door
+    source: door:d23
+    title: Lever
+    action: open
+    notes: "Original event 13 (hint \"Lever\"), on both halves' faces on both sides: opens both halves for good."
+  - id: evt:exit
+    preset: exit
+    source: exit:door
+    title: Leave Gharik's Forge
+  - id: evt:fire_wall
+    preset: script
+    source: panel:fire_wall
+    condition: {lua: not IsPlayerBitSet(PlayerBit(59)), not: {map_var: fire_wall_used}}
+    effects:
+      - set:
+          var:
+            map_var: fire_wall_used
+          value: 1
+      - lua: SetPlayerBit(PlayerBit(59))
+      - add:
+          var: FireResistance
+          value: 25
+    notes: "Original event 91, on the wall over the first lava hall's north door (face 35): once per map and once per player bit 59, +25 fire resistance. The player bit has no word (a Lua test and a Lua step)."
+  - id: evt:fountain_cavern
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local shots = {
+          {1050, 2560, 2304, -1404, false},
+          {1000, 2560, 1664, -1404, true},
+          {1050, 3456, 2304, -1404, false},
+          {1050, 3456, 1792, -1404, false},
+      }
+      local shot = shots[evt.RandomBetween(1, #shots)]
+      evt.SummonObject(shot[1], shot[2], shot[3], shot[4], 1000, 2, shot[5])
+    notes: "Original timer 60 (every half minute): one of 4 things at random, a fireball (object 1050) or gold (object 1000), thrown up from a fixed point just above the lava. No effect throws an object, so Lua."
+  - id: evt:fountain_channel
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local shots = {
+          {1000, 4608, 256, -2044, true},
+          {1050, 4736, 0, -2044, false},
+          {1050, 4736, -640, -2044, true},
+          {1000, 4608, -2816, -2044, false},
+          {1050, 3456, -3456, -2044, false},
+          {1050, 2816, -3072, -2044, false},
+      }
+      local shot = shots[evt.RandomBetween(1, #shots)]
+      evt.SummonObject(shot[1], shot[2], shot[3], shot[4], 1000, 2, shot[5])
+    notes: "Original timer 58 (every half minute): one of 6 things at random, a fireball (object 1050) or gold (object 1000), thrown up from a fixed point just above the lava. No effect throws an object, so Lua."
+  - id: evt:fountain_hall
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local shots = {
+          {1000, 896, 2816, -765, true},
+          {1050, 1280, 2432, -765, true},
+          {1000, -512, 2688, -765, false},
+          {1050, -1024, 2304, -765, false},
+          {1050, -256, 2816, -765, false},
+      }
+      local shot = shots[evt.RandomBetween(1, #shots)]
+      evt.SummonObject(shot[1], shot[2], shot[3], shot[4], 1000, 2, shot[5])
+    notes: "Original timer 61 (every half minute): one of 5 things at random, a fireball (object 1050) or gold (object 1000), thrown up from a fixed point just above the lava. No effect throws an object, so Lua."
+  - id: evt:fountain_machine
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local shots = {
+          {1000, 2688, 6016, -765, true},
+          {1050, 3328, 5888, -765, true},
+          {1000, 1664, 5888, -765, false},
+          {1050, 2650, 6528, -765, false},
+          {1050, 2650, 5248, -765, false},
+      }
+      local shot = shots[evt.RandomBetween(1, #shots)]
+      evt.SummonObject(shot[1], shot[2], shot[3], shot[4], 1000, 2, shot[5])
+    notes: "Original timer 57 (every half minute): one of 5 things at random, a fireball (object 1050) or gold (object 1000), thrown up from a fixed point just above the lava. No effect throws an object, so Lua."
+  - id: evt:fountain_river
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local shots = {
+          {1050, -2432, -2304, -2044, true},
+          {1050, 1408, -1280, -2044, false},
+          {1050, 512, -1152, -2044, false},
+          {1000, -1024, -1024, -2044, false},
+      }
+      local shot = shots[evt.RandomBetween(1, #shots)]
+      evt.SummonObject(shot[1], shot[2], shot[3], shot[4], 1000, 2, shot[5])
+    notes: "Original timer 59 (every half minute): one of 4 things at random, a fireball (object 1050) or gold (object 1000), thrown up from a fixed point just above the lava. No effect throws an object, so Lua."
+  - id: evt:fountain_tower
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local shots = {
+          {1000, -1792, 1536, -508, false},
+          {1050, -1024, 1408, -508, true},
+          {1000, -1920, 640, -508, false},
+          {1050, -1664, 256, -508, true},
+          {1050, -1280, 128, -508, true},
+          {1050, -1280, -256, -508, true},
+      }
+      local shot = shots[evt.RandomBetween(1, #shots)]
+      evt.SummonObject(shot[1], shot[2], shot[3], shot[4], 1000, 2, shot[5])
+    notes: "Original timer 56 (every half minute): one of 6 things at random, a fireball (object 1050) or gold (object 1000), thrown up from a fixed point just above the lava. No effect throws an object, so Lua."
+  - id: evt:lava_burn
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: on_lava}
+    effects:
+      - damage:
+          amount: 25
+          kind: magic
+          who: all
+    notes: "Original event 54, a timer every two half-minutes: while map variable 2 is set, DamagePlayer(all, magic, 25). Since the finishing round the only thing that burns: the lava floors have no lava flag, as in the original."
+  - id: evt:lava_load
+    preset: script
+    trigger: load
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 52, run when the map is entered."
+  - id: evt:lava_off
+    preset: script
+    source: level:tower_island
+    trigger: step
+    sources: [level:s3_island, level:s9_island, level:machine_island, level:s34_west, level:s34_east, level:s34_bank_w, level:s34_bank_e, platform:s34_ramp_w, platform:s34_ramp_e, level:s36_inner, level:s36_outer, room:s39a]
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 53, on the 65 dry floor faces beside the lava: the four islands, the channel hall's two floors and four banks, the river's two banks and the cavern's recess. Since round five also the channel hall's two bank ramps (faces 1184, 1187), which are blocks with an `id`."
+  - id: evt:lava_on
+    preset: script
+    source: room:tower
+    trigger: step
+    sources: [room:s3, room:s3w, room:s3e, room:s9, room:machine, room:s34, room:s36, room:s39, room:s39w, room:s39e]
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 1
+    notes: "Original event 51, on the 31 lava faces of eight sectors: stepping on lava sets map variable 2."
+  - id: evt:lever10
+    preset: switch
+    source: switch:lever10
+    title: Lever
+    opens: [door:d18]
+    notes: "Original event 10: lever (door 17, a plate that sinks 16) and door 18."
+  - id: evt:lever11
+    preset: switch
+    source: switch:lever11
+    title: Lever
+    opens: [door:d20]
+    notes: "Original event 11: lever (door 19, a plate that sinks 16) and door 20."
+  - id: evt:lever12
+    preset: switch
+    source: switch:lever12
+    title: Lever
+    opens: [door:d22]
+    notes: "Original event 12: lever (door 21, a plate that sinks 16) and door 22."
+  - id: evt:lever14
+    preset: switch
+    source: switch:lever14
+    title: Lever
+    opens: [door:d26]
+    notes: "Original event 14: lever (door 25, a plate that sinks 16) and door 26."
+  - id: evt:lever15_foot
+    preset: switch
+    source: switch:lever15_foot
+    title: Lever
+    toggles: [lift:shaft]
+    notes: "Original event 15, bound to the lever at the top of the shaft and to the one at its foot (door 27 is both plates)."
+  - id: evt:lever15_top
+    preset: switch
+    source: switch:lever15_top
+    title: Lever
+    toggles: [lift:shaft]
+    notes: "Original event 15, bound to the lever at the top of the shaft and to the one at its foot (door 27 is both plates)."
+  - id: evt:lever16
+    preset: switch
+    source: switch:lever16
+    title: Lever
+    condition: {any: [{item: gharik_key}, {qbit: lab_door_opened}, {qbit: tomb_opened, not: {qbit: seer_key_bit}}]}
+    locked_text: The Door is locked
+    opens: [door:d30]
+    effects:
+      - take_item: gharik_key
+      - qbit: lab_door_opened
+      - clear_qbit: seer_key_bit
+    notes: "Original event 16: the lever opens the door (lever plate 29, door 30) when the party carries the Key to Gharik's Laboratory or has opened it before (qbit 1400); it also opens without the key when qbit 1035 is set and qbit 1223 is not. It takes the key, sets 1400 and clears 1223."
+  - id: evt:lever17
+    preset: switch
+    source: switch:lever17
+    title: Lever
+    opens: [door:d32]
+    notes: "Original event 17: lever (door 31, a plate that sinks 16) and door 32."
+  - id: evt:lever18
+    preset: switch
+    source: switch:lever18
+    title: Lever
+    opens: [door:d34]
+    notes: "Original event 18: lever (door 33, a plate that sinks 16) and door 34."
+  - id: evt:lever19
+    preset: switch
+    source: switch:lever19
+    title: Lever
+    opens: [door:d36]
+    notes: "Original event 19: lever (door 35, a plate that sinks 16) and door 36."
+  - id: evt:lever20
+    preset: switch
+    source: switch:lever20
+    title: Lever
+    opens: [door:d38]
+    notes: "Original event 20: lever (door 37, a plate that sinks 16) and door 38."
+  - id: evt:lever21
+    preset: switch
+    source: switch:lever21
+    title: Lever
+    opens: [door:d40]
+    notes: "Original event 21: lever (door 39, a plate that sinks 16) and door 40."
+  - id: evt:lever3
+    preset: switch
+    source: switch:lever3
+    title: Lever
+    opens: [mover:bridge3]
+    notes: "Original event 3: lever plate (door 3) and the bridge (door 4), once."
+  - id: evt:lever33
+    preset: switch
+    source: switch:lever33
+    title: Lever
+    toggles: [door:gate48]
+    notes: "Original event 33 (upper south-east balcony): toggles gate 48."
+  - id: evt:lever34
+    preset: switch
+    source: switch:lever34
+    title: Lever
+    toggles: [door:gate50]
+    notes: "Original event 34 (upper south-west balcony): toggles gate 50."
+  - id: evt:lever35
+    preset: switch
+    source: switch:lever35
+    title: Lever
+    condition: {not: {map_var: lava_wall_gone}}
+    effects:
+      - set:
+          var:
+            map_var: lava_wall_gone
+          value: 1
+      - hide: door:lava_wall
+      - passable: door:lava_wall
+    else_effects:
+      - set:
+          var:
+            map_var: lava_wall_gone
+          value: 0
+      - show: door:lava_wall
+      - solid: door:lava_wall
+    notes: "Original event 35 (upper north-east balcony): toggles door 43 (the lever plate) and door 53, the chest alcove's lava wall, whose record has no vertices and so moves nothing; what the game does (the shipped map's supplement 6d18_mmmerge.lua with 6d18_1.scene.yml) is make the wall's face 2255 invisible and untouchable, and on the next pull visible and solid again. Here the wall is the leaf of door:lava_wall, which never moves: the event hides it and lets the party through, and puts it back on the next pull."
+  - id: evt:lever36
+    preset: switch
+    source: switch:lever36
+    title: Lever
+    toggles: [door:gate51]
+    notes: "Original event 36 (upper north-west balcony): toggles gate 51."
+  - id: evt:lever38
+    preset: switch
+    source: switch:lever38
+    title: Lever
+    toggles: [door:gate48]
+    notes: "Original event 38 (lower south-west balcony): toggles gate 48."
+  - id: evt:lever39
+    preset: switch
+    source: switch:lever39
+    title: Lever
+    opens: [door:gate49]
+    toggles: [door:gate52]
+    notes: "Original event 39 (lower north-east balcony): toggles gate 52 and opens gate 49."
+  - id: evt:lever4
+    preset: switch
+    source: switch:lever4
+    title: Lever
+    opens: [door:d6]
+    notes: "Original event 4: lever (door 5, a plate that sinks 16) and door 6."
+  - id: evt:lever40
+    preset: switch
+    source: switch:lever40
+    title: Lever
+    toggles: [door:gate49]
+    notes: "Original event 40 (lower north-west balcony): toggles gate 49."
+  - id: evt:lever5
+    preset: switch
+    source: switch:lever5
+    title: Lever
+    opens: [door:d8]
+    notes: "Original event 5: lever (door 7, a plate that sinks 16) and door 8."
+  - id: evt:lever6
+    preset: switch
+    source: switch:lever6
+    title: Lever
+    opens: [door:d10]
+    notes: "Original event 6: lever (door 9, a plate that sinks 16) and door 10."
+  - id: evt:lever7
+    preset: switch
+    source: switch:lever7
+    title: Lever
+    opens: [door:d12]
+    notes: "Original event 7: lever (door 11, a plate that sinks 16) and door 12."
+  - id: evt:lever8
+    preset: switch
+    source: switch:lever8
+    title: Lever
+    opens: [mover:machine_bridge, door:gate49]
+    notes: "Original event 8 (lower south-east balcony): slides the bridge east for good and opens gate 49."
+  - id: evt:lever9
+    preset: switch
+    source: switch:lever9
+    title: Lever
+    opens: [door:d16]
+    notes: "Original event 9: lever (door 15, a plate that sinks 16) and door 16."
+  - id: evt:tile31
+    preset: teleport
+    source: platform:tile31
+    title: Tile
+    to: [1916, 6618, 1]
+    direction: 88
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 31: a tile 16 high on the machine room's island, clicked, that puts the party on the north-west balcony."
+  - id: evt:tile32
+    preset: teleport
+    source: platform:tile32
+    title: Tile
+    to: [-2688, 1152, 1152]
+    direction: 272
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 32: the raised tile in the middle of the tower's island, clicked, puts the party back at the start."
+  - id: evt:tile41
+    preset: teleport
+    source: platform:tile41
+    title: Tile
+    to: [-1822, 4049, 1]
+    direction: 88
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 41: a tile 16 high on the gallery's island, clicked, that puts the party back in the west corridor."
+  - id: evt:tile42
+    preset: teleport
+    source: platform:tile42
+    title: Tile
+    to: [134, 1151, 1]
+    direction: 88
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 42: a tile 16 high on the first lava hall's island at the north wall's foot, clicked, that puts the party back in the tower corridor."
+  - id: evt:tile43
+    preset: teleport
+    source: panel:tile43
+    title: Tile
+    to: [2324, -141, -2047]
+    direction: 158
+    effects:
+      - set:
+          var:
+            map_var: on_lava
+          value: 0
+    notes: "Original event 43: a tile in the recess's back wall (a wall panel), clicked, that puts the party in the lower tower corridor."
+notes: "Wired in round two: the lava (events 51 to 54), the fountains (timers 56 to 61, as Lua), the five escape tiles; round five the bookcase and the fire wall; the finishing round the second hourglass chest and the vanishing lava wall. See NOTES.md."

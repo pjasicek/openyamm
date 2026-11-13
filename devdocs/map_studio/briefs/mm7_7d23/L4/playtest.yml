@@ -1,0 +1,331 @@
+# The Lincoln rebuilt (cal7d23): the critical path and every kind of mechanism.
+# Event and door numbers are those of ids.lock.yml. Run from output/studio_cal/mm7_7d23/run (REBUILD_PROCEDURE.md).
+id: studio.cal7d23.walk
+title: The Lincoln rebuilt, power on and up to the bridge
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: cal7d23.blv
+  - assert: {map: cal7d23.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # The 17 droids the original places (group 56) stand at their places, peaceful and unseen as the original's start
+  # (evt:droids_hidden sets the group's Invisible bit on every entry; the build's own load event clears Hostile).
+  - assert: {actor_count: {monster_id: 389, hostile: false, min: 4, max: 4}}
+  - assert: {actor_count: {monster_id: 388, hostile: false, min: 8, max: 8}}
+  - assert: {actor_count: {monster_id: 390, hostile: false, min: 5, max: 5}}
+  # Spawned monsters (the map's encounter slots) are hostile, so the counts above are the placed ones; three placed
+  # droids checked at their own places (actors 0, 6 and 9 of the original).
+  - assert: {actor_count: {monster_id: 389, hostile: false, near: [768, 128, 48], min: 1, max: 1}}
+  - assert: {actor_count: {monster_id: 388, hostile: false, near: [8960, -4352, 48], min: 1, max: 1}}
+  - assert: {actor_count: {monster_id: 390, hostile: false, near: [6016, -9472, 48], min: 1, max: 1}}
+  # Event 1 on load: lights 1 and 2 of the original (light:l001 and l002: numbers 83 and 84 in ids.lock.yml, the
+  # map's lights 1 and 2) are dark.
+  - assert: {light: {key: 1, "on": false}}
+  - assert: {light: {key: 2, "on": false}}
+  # Without power: the control room door stays shut, the hatch asks for wetsuits, the corridor door opens.
+  - play_lua:
+      source: |
+        click(25); wait(2)
+        if door_state(26) ~= "closed" then error("the control room door opened without power") end
+  - walk_to: {x: 560, y: 1400, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        status(); click(29); wait(1)
+        local said = status()
+        if type(said) == "table" then said = table.concat(said, " | ") end
+        if not string.find(tostring(said), "wetsuits") then error("the hatch did not ask for wetsuits: " .. tostring(said)) end
+  - walk_to: {x: 1700, y: -1024, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(26, 27)"}
+  - walk_to: {x: 3088, y: -1920, z: 224, radius: 96, timeout_seconds: 90, clear_hostiles: 600}
+  - walk_to: {x: 4544, y: -1920, z: 228, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  # The reactor lift works without power.
+  - play_lua: {source: "click(33); wait(10)"}
+  - assert: {party_position: {x: 4544, y: -1920, radius: 140, z_min: 1028, z_max: 1044}}
+  - walk_to: {x: 4250, y: -1920, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 3400, y: -1700, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 3160, y: -1138, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        status(); click(40); wait(1)
+        local said = status()
+        if type(said) == "table" then said = table.concat(said, " | ") end
+        if not string.find(tostring(said), "Power Restored") then error("the power panel did not answer: " .. tostring(said)) end
+  # Power lights light 1 (SetLight(1, 1) in event 475).
+  - assert: {light: {key: 1, "on": true}}
+  - assert: {light: {key: 2, "on": false}}
+  # The side lift up to the reactor gallery and back.
+  # Both of its doorways are in one wall, one above the other.
+  - walk_to: {x: 3900, y: -400, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 5000, y: -400, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 5500, y: -1088, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 5872, y: -1088, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "click(34); wait(6)"}
+  - assert: {party_position: {x: 5872, y: -1088, radius: 140, z_min: 1476, z_max: 1492}}
+  - walk_to: {x: 5300, y: -1088, z: 1484, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 5300, y: -1088, radius: 140, z_min: 1476, z_max: 1492}}
+  # Event 18 on the gallery's east floor calls the west lift up to the hall gallery, far from it, as in the original.
+  - play_lua:
+      source: |
+        wait(12)
+        if door_state(30) ~= "open" then error("event 18 did not open the west lift's gallery door: " .. door_state(30)) end
+  - walk_to: {x: 5872, y: -1088, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "click(34); wait(6)"}
+  - walk_to: {x: 5500, y: -1088, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4900, y: -1920, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4544, y: -1920, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "click(33); wait(10)"}
+  - assert: {party_position: {x: 4544, y: -1920, radius: 140, z_min: 220, z_max: 236}}
+  # Back to the hangar; with power its control room opens, and the cargo lift carries the party up.
+  - walk_to: {x: 3088, y: -1920, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 1700, y: -1024, z: 224, radius: 96, timeout_seconds: 90, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(25); wait(7)
+        if door_state(26) ~= "open" then error("the control room door did not open with power: " .. door_state(26)) end
+  # Pod bay 2: its panel in the control room sends the upper deck up and brings the lower deck to the hangar's level.
+  - walk_to: {x: 2072, y: 544, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        local before = door_state(57)
+        click(45); wait(8)
+        if door_state(57) == before or door_state(58) == before then error("the pod bay panel did not move both decks: " .. door_state(57) .. ", " .. door_state(58)) end
+  - walk_to: {x: -600, y: 128, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: -944, y: 128, z: 260, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: -944, y: 128, radius: 140, z_min: 252, z_max: 268}}
+  # Chest 1 came up with the lower deck: three Blaster Rifles (item 867) and two random items. Room is made first
+  # (everything but the quest items is dropped), so what earlier chests rolled cannot fill the packs.
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1406 and id ~= 1407 then while item_count(id) > 0 and discard(id) do end end
+        end
+        local before = item_count(867)
+        loot_chest(3)
+        if item_count(867) - before ~= 3 then error("chest 1 gave " .. (item_count(867) - before) .. " Blaster Rifles, not 3") end
+  - walk_to: {x: -400, y: 128, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 304, y: -1500, z: 224, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 304, y: -2240, z: 257, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        local rim = door_state(54)
+        click(30); wait(10)
+        if door_state(54) == rim then error("the rim round the pit did not sink with the lift: " .. rim) end
+  - assert: {party_position: {x: 304, y: -2240, radius: 160, z_min: 1028, z_max: 1044}}
+  # The two transporter pads: stepping onto the west bay's pad lands the party in the east bay, and back.
+  - walk_to: {x: 1200, y: -2240, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 7165, y: -1629, z: 1036, via: [[1536, -1568, 1068]], radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 7165, y: -1629, radius: 200, z_min: 1028, z_max: 1044}}
+  - walk_to: {x: 7165, y: -1900, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 1536, y: -1909, z: 1036, via: [[7100, -1300, 1068]], radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 1536, y: -1909, radius: 200, z_min: 1028, z_max: 1044}}
+  - walk_to: {x: 1200, y: -2240, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 1450, y: -3184, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1406 and id ~= 1407 then while item_count(id) > 0 and discard(id) do end end
+        end
+        local before = item_count(867)
+        loot_chest(5)
+        if item_count(867) - before ~= 1 then error("chest 2 gave " .. (item_count(867) - before) .. " Blaster Rifles, not 1") end
+  # The west bay's crane (door 14) runs 1408 west along its rail channel from the console by the bay's west wall.
+  - walk_to: {x: 0, y: -3216, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        local before = door_state(77)
+        click(64); wait(16)
+        if door_state(77) == before then error("the crane did not move: " .. before) end
+  - walk_to: {x: 943, y: -3300, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(2, 8)"}
+  - walk_to: {x: 943, y: -3650, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 2200, y: -4305, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(17, 18)"}
+  - walk_to: {x: 2600, y: -4305, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  # The stairs under the hall floor: down to the lobby and up again.
+  - walk_to: {x: 4944, y: -3700, z: 1036, radius: 96, timeout_seconds: 90, clear_hostiles: 600}
+  - walk_to: {x: 4944, y: -4380, z: 764, radius: 48, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4700, y: -4544, z: 764, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 4700, y: -4544, radius: 140, z_min: 756, z_max: 772}}
+  - walk_to: {x: 4624, y: -3776, z: 492, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4700, y: -4544, z: 764, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4944, y: -4380, z: 764, radius: 48, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4944, y: -3700, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 4944, y: -3700, radius: 140, z_min: 1028, z_max: 1044}}
+  # The west lift from the hall floor to the gallery.
+  - walk_to: {x: 2600, y: -4928, z: 1036, radius: 96, timeout_seconds: 90, clear_hostiles: 600}
+  # Event 18 left the lift at the gallery: its panel brings it down first.
+  - play_lua: {source: "click(37); wait(11)"}
+  - play_lua: {source: "open_door(36, 31)"}
+  - walk_to: {x: 2112, y: -4928, z: 1036, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "click(37); wait(11)"}
+  - assert: {party_position: {x: 2112, y: -4928, radius: 160, z_min: 1476, z_max: 1492}}
+  - play_lua: {source: "open_door(35, 30)"}
+  - walk_to: {x: 2576, y: -4928, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 2576, y: -4928, radius: 120, z_min: 1476, z_max: 1492}}
+  # Down the hall's own stairs and up again.
+  - walk_to: {x: 2576, y: -6528, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 3072, y: -5350, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 3072, y: -5350, radius: 140, z_min: 1028, z_max: 1044}}
+  - walk_to: {x: 2576, y: -6528, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 2576, y: -6528, radius: 120, z_min: 1476, z_max: 1492}}
+  # Along the gallery, down the ramp to the bridge, to the viewport, the console and the captain's cabin.
+  # The engineering station: the hall door into its vestibule, the partition door's panel, a wall locker's shutter.
+  - walk_to: {x: 2560, y: -7215, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(1, 7)"}
+  - walk_to: {x: 2190, y: -7250, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(59); wait(6)
+        if door_state(74) ~= "open" or door_state(75) ~= "open" then error("the partition door did not open: " .. door_state(74) .. ", " .. door_state(75)) end
+  - walk_to: {x: 2240, y: -7700, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 1600, y: -7392, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(58); wait(4)
+        if door_state(73) ~= "open" then error("the locker's shutter did not open: " .. door_state(73)) end
+  # Behind the shutter lies a Blaster Rifle (the original's sprite object 0). A spawned droid standing in the way
+  # would take the use key, so the party's enemies near it are killed first, as a player would.
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1406 and id ~= 1407 then while item_count(id) > 0 and discard(id) do end end
+        end
+  # The lead, 2026-11-13: KNOWN CHANCE FAILURE, not fixed. A spawned droid (from the spawn points beside the locker)
+  # wanders into the locker's mouth and takes the use key in about 2 or 3 runs of 8, before and after the seventh
+  # merge alike. These droids are not counted hostile, so clearing does not remove them and waiting does not help.
+  # For round six: the original's spawn points there are in group 51 and the rebuild's in group 0 (spawns take no
+  # group yet); find what keeps the original's droids out of the locker, or check the rifle another way.
+  - play_lua:
+      source: |
+        for _ = 1, 8 do clear_hostiles(1500); wait(0.5) end
+  - pick_up: {item_id: 867}
+  # A Blaster lies on the station's floor (sprite objects 3 and 4).
+  - walk_to: {x: 2240, y: -8200, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        clear_hostiles(1500)
+  - pick_up: {item_id: 866}
+  - walk_to: {x: 2240, y: -7700, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 2190, y: -7250, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 2560, y: -7215, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 2816, y: -8000, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(22, 23)"}
+  - walk_to: {x: 2816, y: -8464, z: 1516, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  # Event 55 on the ramp shuts the ramps' doors to the gallery behind the party.
+  - play_lua:
+      source: |
+        wait(6)
+        if door_state(23) ~= "closed" then error("event 55 did not shut the ramp's gallery door: " .. door_state(23)) end
+  - play_lua: {source: "open_door(42, 33)"}
+  - walk_to: {x: 2816, y: -9000, z: 1548, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4352, y: -9700, z: 1548, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  # Down the slope to the viewport; the slope ends 32 above the viewport's floor, as the original's does.
+  - walk_to: {x: 4352, y: -10700, z: 1292, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 4352, y: -10700, radius: 140, z_min: 1284, z_max: 1300}}
+  # Into the middle pilot pit and out again by its steps; then under the window.
+  - walk_to: {x: 4352, y: -11130, z: 1132, radius: 24, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 4352, y: -11130, radius: 100, z_min: 1124, z_max: 1140}}
+  - walk_to: {x: 4352, y: -10700, z: 1292, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4800, y: -11400, z: 1292, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 4800, y: -11400, radius: 140, z_min: 1284, z_max: 1300}}
+  - walk_to: {x: 4352, y: -10700, z: 1292, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 4352, y: -8880, z: 1548, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(7); wait(1)
+        if not has_item(1407) then error("the console did not give the Oscillation Overthruster") end
+        if not qbit(633) then error("the console did not set qbit 633") end
+  # The console darkens light 1 and lights light 2 (SetLight(1, 0), SetLight(2, 1) in event 376).
+  - assert: {light: {key: 1, "on": false}}
+  - assert: {light: {key: 2, "on": true}}
+  - walk_to: {x: 6150, y: -9408, z: 1548, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(19, 20)"}
+  - walk_to: {x: 6800, y: -9408, z: 1548, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  # Event 50 on the cabin's floor inside the door shuts it behind the party; it opens again from inside.
+  - play_lua:
+      source: |
+        wait(6)
+        if door_state(20) ~= "closed" then error("event 50 did not shut the captain's door: " .. door_state(20)) end
+  - walk_to: {x: 6420, y: -9408, z: 1548, radius: 32, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "wait(5); open_door(19, 20)"}
+  # Back through the east ramp to the gallery, the east lifts and the top deck.
+  - walk_to: {x: 5888, y: -8900, z: 1548, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(41, 32)"}
+  - walk_to: {x: 5888, y: -8464, z: 1516, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(21, 22)"}
+  - walk_to: {x: 5888, y: -8000, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 6144, y: -4928, z: 1484, radius: 80, timeout_seconds: 90, clear_hostiles: 600}
+  - play_lua: {source: "open_door(20, 21)"}
+  - walk_to: {x: 6700, y: -4928, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  # The lower east lift starts down, as the original's door 50 does, and nothing calls it up from the landing: the
+  # party drops onto it, rides it up by its panel at the lower stop (event 155) and back down by the one at the upper
+  # stop (156), and drops again. Its two doorways are in one wall, one above the other.
+  - walk_to: {x: 7040, y: -4768, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600, plan: false}
+  - play_lua: {source: "wait(2)"}
+  - walk_to: {x: 7040, y: -4768, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 7040, y: -4768, radius: 140, z_min: 1028, z_max: 1048}}
+  - play_lua: {source: "click(82); wait(6)"}
+  - assert: {party_position: {x: 7040, y: -4768, radius: 140, z_min: 1476, z_max: 1496}}
+  - play_lua: {source: "click(81); wait(6)"}
+  - assert: {party_position: {x: 7040, y: -4768, radius: 140, z_min: 1028, z_max: 1048}}
+  # Down at the corridor's doorway: stasis room 1's beds come out when the party steps in and go back when it steps out.
+  - play_lua: {source: "open_door(14, 15)"}
+  - walk_to: {x: 6560, y: -4768, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 6600, y: -4416, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(10, 11)"}
+  - play_lua:
+      source: |
+        remember("bed", door_state(63))
+  - walk_to: {x: 7000, y: -4128, z: 1036, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        wait(4)
+        local bed = recall("bed")
+        if door_state(63) == bed or door_state(64) == bed then error("the stasis beds did not come out: " .. door_state(63) .. ", " .. door_state(64)) end
+  - walk_to: {x: 6711, y: -4416, z: 1036, radius: 32, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        wait(4)
+        local bed = recall("bed")
+        if door_state(63) ~= bed then error("the stasis beds did not go back: " .. door_state(63)) end
+  - walk_to: {x: 6600, y: -4768, z: 1036, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 7040, y: -4768, z: 1036, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "wait(1)"}
+  - play_lua:
+      source: |
+        click(82); wait(6)
+        if door_state(15) ~= "closed" then error("event 155 did not shut the corridor's door to the lift: " .. door_state(15)) end
+  - assert: {party_position: {x: 7040, y: -4768, radius: 140, z_min: 1476, z_max: 1496}}
+  - walk_to: {x: 6700, y: -4928, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 7040, y: -5088, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  # The upper east lift by its panel at the lower stop (event 34): it rises and the top corridor's door opens.
+  - play_lua:
+      source: |
+        click(84); wait(6)
+        if door_state(34) ~= "open" then error("event 34 did not open the top corridor's door: " .. door_state(34)) end
+  - assert: {party_position: {x: 7040, y: -5088, radius: 140, z_min: 1860, z_max: 1876}}
+  - walk_to: {x: 7232, y: -5088, z: 1868, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(43, 34)"}
+  - walk_to: {x: 8256, y: -5088, z: 1868, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua: {source: "open_door(16, 17)"}
+  - walk_to: {x: 8256, y: -4760, z: 1868, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(15); wait(7)
+        if door_state(16) ~= "open" then error("the control room panel did not open the junction door: " .. door_state(16)) end
+  - walk_to: {x: 8960, y: -5088, z: 1868, radius: 96, timeout_seconds: 60, clear_hostiles: 600}
+  - assert: {party_position: {x: 8960, y: -5088, radius: 140, z_min: 1860, z_max: 1876}}
+  # Back onto the upper east lift: its panel at the upper stop (event 154) sends it down and shuts the top door.
+  - walk_to: {x: 8256, y: -5088, z: 1868, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  - walk_to: {x: 7040, y: -5088, z: 1868, radius: 64, timeout_seconds: 60, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(83); wait(8)
+        if door_state(34) ~= "closed" then error("event 154 did not shut the top corridor's door: " .. door_state(34)) end
+  - assert: {party_position: {x: 7040, y: -5088, radius: 140, z_min: 1476, z_max: 1500}}

@@ -1,0 +1,311 @@
+# Playtest of the Deep Mine (XD-03, L4): a level-9 party steps off the Deep Line, rides the cart down the last pitch to
+# the landing, walks the sentry cut (lookouts), opens the gallery door and kills the gong sentry before he can ring
+# (the alarm stays quiet), then rings the gong itself (the barracks' doors and back-stair door fly open, its torches
+# light) and fights the sergeants; goes down the gallery stair to the hall, through the barracks to lever A (the lower
+# bar lifts), opens the armoury and loots its chest and the axe by the rack; crosses the north span to the far bank
+# (its guard), finds the King's Gate still barred with one bar up, climbs to the furnace tower and throws lever B (the
+# upper bar lifts); walks down the slag steps into the channel and out again, crosses the south bridge; goes through
+# the breach into the geode (the bat queens drop at the foot of the ramp), prises a gem cluster (once), sinks the
+# crystal wall, reads the lectern and loots the Red Dwarf chest; walks down the burrow mouth to the mole warren and
+# loots the prospector's pack; opens the King's Gate (gate guards), kills the King's guard (the King's wrath: the
+# gutters fill with slag and burn, the hall turns red), kills the King (clan_king_slain), takes his key from his
+# corpse, opens the hoard, loots the King's chest, throws the shaft lever (escape_shaft_open), rides the cage up and
+# down and up again and leaves for the X1 stand-in by the shaft head.
+# Event, door, map-variable and light numbers are ids.lock.yml's; the King is actor 7 of the scene. Nothing depends on
+# chance: only chests with fixed items are checked by those items, every walk past a spawn point or a placed group
+# clears hostiles near it, and the gem cluster's gem is counted, not named.
+id: xeen.xd03.l4.walk
+title: Deep Mine (XD-03 L4), the Deep Line to the shaft head, every mechanism
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd03.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 9, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 9, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 9, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 9, skills: [], equipment: {}}
+  - assert: {map: xeen_xd03.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 8192, y: 1088, radius: 64, z_min: 376, z_max: 392}}
+  # The Deep Line's foot, the mouth ledge, onto the cart: it rides down the trestle with the party on it.
+  - play_lua: {source: "if door_state(12) ~= 'closed' then error('the cart does not wait at the top: ' .. door_state(12)) end"}
+  - walk_to: {x: 7720, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 7380, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 7200, y: 1088, z: 412, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "wait(9); if door_state(12) ~= 'open' then error('the cart did not ride down: ' .. door_state(12)) end"}
+  - assert: {party_position: {x: 6420, y: 1088, radius: 140, z_min: 20, z_max: 36}}
+  # Off the cart, and up the sentry cut; the lookouts in the niche.
+  - walk_to: {x: 6528, y: 1350, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 6528, y: 2050, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6272, y: 2450, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6560, y: 2560, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6272, y: 2752, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 5300, y: 2752, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  # The gallery door; through it the gong sentry is killed at once, so the alarm stays quiet.
+  - play_lua:
+      source: |
+        open_door(23, 9)
+        if door_state(9) ~= "open" then error("the gallery door did not open: " .. door_state(9)) end
+  - walk_to: {x: 4950, y: 2752, z: -128, radius: 64, timeout_seconds: 30, clear_hostiles: 1100}
+  - clear_hostiles: {radius: 1100}
+  - assert: {actor_visible: {actor_index: 13, dead: true}}
+  - play_lua: {source: "wait(10)"}
+  - assert: {state_dump_map_var: {index: 16, value: 1}}
+  - assert: {state_dump_map_var: {index: 8, value: 0}}
+  - play_lua: {source: "if door_state(3) ~= 'closed' or door_state(2) ~= 'closed' then error('the barracks woke without the gong') end"}
+  # The party rings the gong itself: the barracks' doors and the back-stair door fly open, its torches light.
+  - walk_to: {x: 4912, y: 3520, z: -128, radius: 48, timeout_seconds: 30, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        status()
+        click(29); wait(3)
+        local seen = status()
+        if not string.find(seen, "BOOM", 1, true) then error("the gong did not ring: " .. seen) end
+        if door_state(3) ~= "open" or door_state(4) ~= "open" or door_state(2) ~= "open" then
+          error("the alarm did not open the barracks: " .. door_state(3) .. door_state(4) .. door_state(2))
+        end
+        click(29); wait(1)
+        seen = status()
+        if not string.find(seen, "still hums", 1, true) then error("the gong rang twice: " .. seen) end
+  - assert: {state_dump_map_var: {index: 8, value: 1}}
+  - assert: {light: {key: 4, on: true}}
+  # The sergeants come up the back stair and round by the hall; the party fights them on the gallery.
+  - play_lua: {source: "wait(6)"}
+  - clear_hostiles: {radius: 2600}
+  - assert: {actor_count: {monster_id: 229, near: [4672, 4352, 800], max: 0}}
+  # Down the gallery stair into the hall; through the heavy doors into the barracks; lever A in its alcove.
+  - walk_to: {x: 5008, y: 2380, z: -128, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 5008, y: 1820, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 5008, y: 1820, radius: 100, z_min: -520, z_max: -504}}
+  - walk_to: {x: 4600, y: 2600, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4330, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4330, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4672, y: 4800, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4672, y: 5040, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua:
+      source: |
+        if door_state(14) ~= "closed" then error("the lower bar is not down at the start") end
+        click(36); wait(7)
+        if door_state(14) ~= "open" then error("lever A did not lift the lower bar: " .. door_state(14)) end
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  # The armoury: its door, the clan's weapon chest (a field hammer), the axe by the rack.
+  - walk_to: {x: 5350, y: 4480, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua:
+      source: |
+        open_door(18, 1)
+        if door_state(1) ~= "open" then error("the armoury door did not open: " .. door_state(1)) end
+  - walk_to: {x: 5700, y: 4480, z: -480, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 6000, y: 4600, z: -480, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua:
+      source: |
+        log("packs before the weapon chest: " .. pack_items())
+        loot_chest(6)
+        if not has_item(72) then error("the armoury chest did not hold its field hammer") end
+  - walk_to: {x: 6020, y: 4320, z: -480, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - pick_up: {item_id: 827}
+  # Back into the hall and over the north span to the far bank and its guard.
+  - walk_to: {x: 5700, y: 4480, z: -480, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 5300, y: 4480, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 4330, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4330, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4200, y: 3550, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 3900, y: 3560, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - assert: {party_position: {x: 3900, y: 3560, radius: 80, z_min: -520, z_max: -504}}
+  - walk_to: {x: 3600, y: 3650, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_count: {monster_id: 229, near: [2900, 3450, 700], max: 0}}
+  # The antechamber: the gate guards; the King's Gate is still barred with one bar up.
+  - walk_to: {x: 3200, y: 3950, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3200, y: 4400, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 700}
+  - walk_to: {x: 3200, y: 4520, z: -512, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        status()
+        click(27); wait(3)
+        local seen = status()
+        if not string.find(seen, "barred", 1, true) then error("the gate did not say it was barred: " .. seen) end
+        if door_state(6) ~= "closed" or door_state(7) ~= "closed" then error("the gate opened with one bar up") end
+        if door_state(13) ~= "closed" then error("the upper bar is not down") end
+  # The furnace tower: its stair, its door, lever B.
+  - walk_to: {x: 3200, y: 3900, z: -512, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 2700, y: 3328, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2440, y: 3328, z: -490, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2160, y: 3328, z: -256, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua:
+      source: |
+        open_door(24, 10)
+        if door_state(10) ~= "open" then error("the tower door did not open: " .. door_state(10)) end
+  - walk_to: {x: 1700, y: 3328, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 900}
+  - walk_to: {x: 1360, y: 3328, z: -256, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(37); wait(6)
+        if door_state(13) ~= "open" then error("lever B did not lift the upper bar: " .. door_state(13)) end
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  # Down the tower stair; into the slag of the main reach (it burns) and out by the slag steps; over the south bridge
+  # and back; down into the south reach and out by the drain steps.
+  - walk_to: {x: 2160, y: 3328, z: -256, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 2700, y: 3328, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2756, y: 2692, z: -512, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3027, y: 2421, z: -512, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
+  - assert: {party_position: {x: 3027, y: 2421, radius: 60, z_min: -520, z_max: -504}}
+  - walk_to: {x: 3240, y: 2520, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3080, y: 2870, z: -640, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 3080, y: 2870, radius: 80, z_min: -648, z_max: -620}}
+  - walk_to: {x: 3330, y: 2620, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 3330, y: 2620, radius: 80, z_min: -520, z_max: -504}}
+  - walk_to: {x: 2760, y: 2150, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2640, y: 2420, z: -640, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2640, y: 2420, radius: 80, z_min: -648, z_max: -620}}
+  - walk_to: {x: 2860, y: 2170, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2860, y: 2170, radius: 80, z_min: -520, z_max: -504}}
+  # The breach and the descent into the geode: the bat queens drop out of the crown.
+  - assert: {actor_visible: {actor_index: 5, hidden: true}}
+  - walk_to: {x: 2400, y: 1760, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 1950, y: 1660, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 600}
+  - walk_to: {x: 1600, y: 1648, z: -580, radius: 64, timeout_seconds: 30}
+  - assert: {actor_visible: {actor_index: 5, hidden: false}}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - walk_to: {x: 1150, y: 1640, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  # A gem cluster: one gem, once; the crystal points are gone after.
+  - walk_to: {x: 480, y: 1300, z: -640, radius: 48, timeout_seconds: 40, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local function gems() return item_count(177) + item_count(178) + item_count(179) + item_count(180) end
+        local before = gems()
+        click(12); wait(2)
+        if held() ~= 0 then stow() end
+        if gems() ~= before + 1 then error("the gem cluster did not give one gem: " .. before .. " -> " .. gems()) end
+        click(12); wait(1)
+        if held() ~= 0 then stow() end
+        if gems() ~= before + 1 then error("the gem cluster gave twice") end
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  # Down the terrace steps; the singing crystal wall sinks; the Red Dwarf vault: its lectern and its chest.
+  - walk_to: {x: 704, y: 1000, z: -640, radius: 48, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 704, y: 620, z: -768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 230, y: 384, z: -768, radius: 48, timeout_seconds: 40, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "closed" then error("the crystal wall does not start shut") end
+        click(16); wait(8)
+        if door_state(5) ~= "open" then error("the crystal wall did not sink: " .. door_state(5)) end
+  - walk_to: {x: -320, y: 560, z: -768, radius: 64, timeout_seconds: 30}
+  - play_lua: {source: "click(35); wait(1); close(); wait(1)"}
+  - assert: {state_dump_map_var: {index: 13, value: 1}}
+  - walk_to: {x: -500, y: 220, z: -768, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        loot_chest(10)
+        if not has_item(180) or not has_item(178) then error("the Red Dwarf chest did not hold its amber and iolite") end
+  # Back up through the geode and the breach to the hall; down the burrow mouth to the mole warren; the prospector.
+  - walk_to: {x: 230, y: 384, z: -768, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 704, y: 620, z: -768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 704, y: 1100, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 1300, y: 1640, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 1950, y: 1660, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2700, y: 1760, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3968, y: 1640, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 3968, y: 1100, z: -720, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4100, y: 760, z: -760, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 4680, y: 680, z: -780, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        local before = gold()
+        loot_chest(9)
+        if gold() < before + 100 then error("the prospector's pack did not hold his gold") end
+  # Back up to the hall, over the north span, through the antechamber: the King's Gate opens.
+  - walk_to: {x: 4100, y: 760, z: -760, radius: 64, timeout_seconds: 40}
+  - walk_to: {x: 3968, y: 1100, z: -720, radius: 64, timeout_seconds: 40}
+  - walk_to: {x: 3968, y: 1640, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 4300, y: 3300, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 4200, y: 3550, z: -512, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 3900, y: 3560, z: -512, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 3200, y: 3950, z: -512, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 3200, y: 4520, z: -512, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(27); wait(8)
+        if door_state(6) ~= "open" or door_state(7) ~= "open" then
+          error("the King's Gate did not open with both bars up: " .. door_state(6) .. door_state(7))
+        end
+  # The King's hall: his guard at the foot of the dais; when it falls, the King's wrath.
+  - assert: {actor_visible: {actor_index: 7, dead: false}}
+  - walk_to: {x: 3320, y: 4540, z: -512, radius: 40, timeout_seconds: 30}
+  - walk_to: {x: 3320, y: 4760, z: -512, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3200, y: 4900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "clear_hostiles(1100); wait(1)"}
+  - assert: {actor_count: {monster_id: 229, near: [3200, 5470, 500], max: 0}}
+  - assert: {actor_visible: {actor_index: 7, dead: false}}
+  - play_lua: {source: "wait(5)"}
+  - assert: {state_dump_map_var: {index: 9, value: 1}}
+  # The west gutter burns now.
+  - walk_to: {x: 2400, y: 5700, z: -512, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 1984, y: 5800, z: -540, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        status()
+        wait(3)
+        local seen = status()
+        if not string.find(seen, "burns", 1, true) then error("the gutter's slag did not burn: " .. seen) end
+  - assert: {state_dump_map_var: {index: 10, value: 1}}
+  - walk_to: {x: 2400, y: 5700, z: -512, radius: 64, timeout_seconds: 30}
+  - assert: {state_dump_map_var: {index: 10, value: 0}}
+  # The King dies; his key is in his corpse.
+  - play_lua: {source: "clear_hostiles(2000); wait(5)"}
+  - assert: {actor_visible: {actor_index: 7, dead: true}}
+  - play_lua: {source: "if not qbit(110030) then error('the King\\'s death did not set clan_king_slain') end"}
+  - walk_to: {x: 3000, y: 5900, z: -512, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 3200, y: 6080, z: -320, radius: 96, timeout_seconds: 30}
+  - interact_actor: {actor_index: 7}
+  - play_lua: {source: "wait(1); if not has_item(2108) then error('the King\\'s corpse did not hold his key') end"}
+  # The hoard door behind the throne opens with the key (kept); the King's chest; the shaft lever.
+  - walk_to: {x: 3000, y: 6380, z: -320, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 3200, y: 6420, z: -320, radius: 40, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(22); wait(4)
+        if door_state(8) ~= "open" then error("the hoard door did not open with the key: " .. door_state(8)) end
+        if not has_item(2108) then error("the hoard door took the key") end
+  - walk_to: {x: 3200, y: 6800, z: -320, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 2980, y: 7120, z: -320, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        loot_chest(7)
+        if not has_item(185) then error("the King's chest did not hold its ruby") end
+  - walk_to: {x: 3480, y: 7230, z: -320, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(41); wait(2)
+        if not qbit(110031) then error("the shaft lever did not set escape_shaft_open") end
+  # The cage: up to the shaft head, the bell-pull sends it down, the head's bell-pull calls it back, down, up again.
+  - walk_to: {x: 3520, y: 7104, z: -320, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 3904, y: 7168, z: -304, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(3); wait(12)
+        if door_state(11) ~= "open" then error("the cage did not rise: " .. door_state(11)) end
+  - assert: {party_position: {x: 3904, y: 7168, radius: 140, z_min: 1224, z_max: 1240}}
+  - walk_to: {x: 4290, y: 7168, z: 1216, radius: 64, timeout_seconds: 30}
+  - execute_event: {id: 26}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: 7out01.odm}
+  - play_lua:
+      source: |
+        if not qbit(110030) or not qbit(110031) then error("the bits did not survive the shaft") end
+        if not has_item(2108) or not has_item(185) then error("the King's key or his ruby was lost") end

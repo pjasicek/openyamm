@@ -1,0 +1,497 @@
+format: 0
+level: L3
+pitch: "Joe the Exterminator always turns up just after the pests, and his riverside warehouse in Vertigo is why. Behind the loading bay and a sagging grain hall full of doom bugs, a cellar stair marked KEEP OUT (THIS MEANS YOU, GUNTHER) leads down to a round brick cistern Joe has turned into breeding pens: six slime pens behind barred gates in its wall, round a drain pool, glass tanks of bugs on a shelf, and a lever labelled FEEDING TIME. Behind a gate painted with a heart live Mr and Mrs Wobbles, the mated pair of breeder slimes the whole scam rests on. In the shipping room beyond, a crate holds the invoice that convicts him, and a culvert from the pens' drain runs out to the river: the way Joe lets his stock into town. A ten-minute first dungeon of slapstick and low monsters."
+purpose: "Story step M2: find the invoice for 'Breeder Slimes, 1 mated pair' that proves Joe breeds Vertigo's pests, and bring it to Mayor Gunther. First dungeon of the world: teaches doors, a key, a lever that does something bad, a secret behind a clue, a trap and a small boss, all at monster levels 2 to 4. Optional: kill the mated pair for a small bonus from Gunther."
+mood: "Comic, dusty and damp: lamplit timber upstairs, warm sour brick and green glow below. Joe's hand-painted signs everywhere."
+datum: arrival
+spaces:
+  - id: room:breeding_pens
+    name: Breeding pens
+    kind: room
+    size: L
+    area: 2
+    extent: [1600, 1600]
+    shape: "Round brick cistern, sixteen-sided, 1,600 across, ceiling about 640 over the floor. A drain pool behind a grate in the middle. Sixteen walls: five are doorways (south the cellar stair, west the feed store, north the honeymoon pen, north-east the shipping room, east the culvert door), six are the barred gates of the slime pens (two north and three south of the feed store's door, the last beside the stair, and one south-east), five are plain wall carrying the shelf of glass bug tanks and the FEEDING TIME lever."
+    where: "North of the warehouse, dug in under the old river wall."
+    floor: {level: -384, range: [-448, -384]}
+    clear_height: [512, 704]
+    relief: pit
+    features:
+      - {kind: pit, rise: -64, where: Centre, notes: "The drain pool, behind a grate; the culvert takes its outflow."}
+      - {kind: pen, count: 6, where: Behind six of the cistern walls, notes: "Wedge-shaped niches about 300 wide at the gate and 384 deep, each behind a barred gate; the gates open singly by click or all together from the lever."}
+      - {kind: shelf, where: The plain walls, notes: "Glass bug tanks; one is cracked."}
+    purpose: "Signature room and the reveal: the pests are bred here. The heaviest fight of the map, made worse if the party pulls the feeding lever."
+    theme: "Cistern brick (red brick walls MM6 cbrdbrck, stone slab floor MM7 tfb07, mixed brick vault MM6 cbmxbrck, old stone in the doorways MM6 d1medbw); the drain pool and the slime puddles in MM8 slimywtr"
+    light: "dim: 4 green-flame torches on the plain walls and the pool's pulsing green glow (about 2.5 per M units²)"
+    palette: ["torch06: MM7 wall torch with a green flame (engine model mm7_deco_torch01_green), wall-mounted about 256 above the floor; sickly green light, radius about 448", a pulsing green point light in the drain pool (scene pulsing_lights), "hngncge2: MM6 hanging cage on a chain (engine model, swinging), used empty as a bug cage (2, empty)", "glass bug tanks on the shelf (placeholder: no model yet)", the FEEDING TIME lever (wall switch), "cauld00: MM6 small bubbling cauldron (engine model mm6_deco_cauldron_pot): the slime chow mash"]
+    furniture: ["the drain pool in the middle, about 384 across, with its grate", the shelf of bug tanks on the plain walls]
+    population:
+      - {slot: 1, groups: 6, per_marker: [1, 2], levels: [2, 2], strength: pack, rank: a, notes: "One marker in each pen; they stay in until their gate opens (one gate at a time, or all six from the feeding lever: set:feeding_time)."}
+      - {slot: 2, groups: 1, per_marker: [2, 3], levels: [2, 2], strength: light, rank: a, notes: "From a cracked tank on the shelf; loose in the cistern from the start."}
+  - id: room:cellar_stair
+    name: Cellar stair
+    kind: room
+    size: S
+    extent: [288, 1152]
+    shape: "Straight flight down to the north from the KEEP OUT door in the hall aisle's north wall: 6 steps of 32, a landing, 6 more. About 290 wide; 384 high above the treads."
+    floor: [-384, 0]
+    clear_height: 384
+    relief: steps
+    purpose: Takes the party down from the grain hall to the pens.
+    empty: true
+    theme: "Old cellar brick (weathered mixed brick walls MM6 cbmxbrck, dark stone slab floor MM7 tfb07, red brick vault MM6 cbrdbrck, old stone in the doorways MM6 d1medbw, grilled plank doors MM8 bwooda2)"
+    light: 1 iron torch at the landing
+    palette: ["trchb00: MM6 iron wall torch (engine model mm6_deco_irontorch), wall-mounted; orange light, radius about 384", "the KEEP OUT (THIS MEANS YOU, GUNTHER) sign on the door"]
+  - id: room:culvert
+    name: River culvert
+    kind: room
+    size: M
+    extent: [2200, 2100]
+    shape: "Brick-and-stone culvert from the cistern's east door: east, round a bend to the south, down a straight slope of 256, then east again to an iron grate on the river; ankle-deep slimy water all the way."
+    where: "East and south-east of the pens, out under the riverbank."
+    floor: [-640, -384]
+    clear_height: 384
+    relief: slope
+    features:
+      - {kind: stair, rise: -256, where: Middle, notes: "A straight ramp, 256 down over about 750."}
+    purpose: "How Joe's stock reaches town; the short way out once the invoice is found."
+    theme: "River culvert (mossy river stone walls and ceiling MM6 d1medbw and d1smbw, slimy water underfoot MM8 slimywtr)"
+    light: "unlit, except grey daylight through the grate at its end"
+    palette: [a pale blue-grey point light at the grate (daylight), "trasheap, 7dec10: MM6 trash heap and the MM7 junk heap (engine models mm6_deco_trasheap, mm7_deco_7dec10) (washed-up rubbish)"]
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+  - id: room:feed_store
+    name: Feed store
+    kind: room
+    size: S
+    area: 0.5
+    extent: [1024, 768]
+    shape: "L-shaped store off the cistern's west door: a narrow neck between two pens, then the store with its north-west corner cut; sacks of JOE'S PREMIUM SLIME CHOW stacked to the ceiling along the south wall."
+    where: West of the pens.
+    floor: -384
+    clear_height: 448
+    relief: flat
+    purpose: "Quiet side room; the stacked sacks hide Joe's stash (link:feed_store_stash)."
+    theme: "Old cellar brick under a plank ceiling (walls MM6 cbmxbrck, spilt chaff on the floor MM6 straw, boards overhead MM6 d2ceil2)"
+    light: 1 iron lantern
+    palette: ["torch02: MM7 iron lantern on a wall arm (engine model mm7_deco_torch02), wall-mounted about 256 above the floor; warm yellow light, radius about 512", "floursac, bag01, bag_a: MM6 flour sacks and grain bags (engine models mm6_deco_floursac, mm6_deco_bag01, mm6_deco_bag_a): Joe's Premium Slime Chow, stacked to the ceiling along the south wall", "cauld00: MM6 small bubbling cauldron (engine model mm6_deco_cauldron_pot): the slime chow mash (a second one)", "bucket: MM6 bucket (engine model mm6_deco_bucket)"]
+    furniture: ["a wall of stacked sacks, one stack on the hidden runner"]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: Feeding on a split sack.}
+    treasure:
+      - {kind: floor_item, count: 1, tier: 1, notes: "A sack of Slime Chow that sells for a few gold (a joke item), on the floor by the split sack."}
+  - id: room:grain_hall
+    name: Grain hall
+    kind: room
+    size: L
+    area: 2.7
+    extent: [2560, 1280]
+    shape: "An L: the long hall behind the barn doors (about 2,300 by 1,100) and an aisle at its east end running north to the KEEP OUT door. The hall's north-east corner is cut on the diagonal where the loft stair rises; two square grain bins stand free in the hall. The loft runs along the north wall, 256 up, behind a rail. Ceiling of open rafters."
+    where: "North of the loading bay, the full width of the building, its aisle at the east end."
+    floor: 0
+    clear_height: [512, 896]
+    relief: flat
+    islands: 2
+    features:
+      - {kind: bin, count: 2, where: Middle of the hall, notes: "Freestanding grain bins, about 320 square, to walk round."}
+      - {kind: balcony, rise: 256, where: North wall, notes: "The loft above its rail (a separate space beside the hall, not over it)."}
+    purpose: "The middle of the map: doom bugs boiling out of torn sacks, the loft above, the cellar door in its north-east corner."
+    theme: "Warehouse timber (shared MM6-MM8 library: horizontal weatherboard walls MM8 bwoodb1, dark plank floor MM6 bmplnk, open rafters overhead MM6 d2ceil1, beam reveals MM6 cbeam5, grilled plank doors MM8 bwooda2)"
+    light: "lamplit: 3 iron lanterns on the walls and 2 hanging lanterns over the middle (about 2 per M units²)"
+    palette: ["torch02: MM7 iron lantern on a wall arm (engine model mm7_deco_torch02), wall-mounted about 256 above the floor; warm yellow light, radius about 512", "dec07: MM8 hanging lantern on a chain (engine model mm8_deco_lantern, swinging), hung from a rafter about 192 below the ceiling", "floursac, bag01, bag_a: MM6 flour sacks and grain bags (engine models mm6_deco_floursac, mm6_deco_bag01, mm6_deco_bag_a): Joe's Premium Slime Chow, torn open, the bugs' nests", "bigbarel, smlbarel, 7dec21: MM6 barrels and the MM7 cask (engine models mm6_deco_barrel, mm7_deco_7dec21)"]
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 4], strength: pack, rank: a}
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: In the gutter.}
+    notes: "L1's sag toward a gutter down the middle stays a wish: the sketch has a flat floor (no uneven relief yet)."
+  - id: room:joes_office
+    name: Joe's office
+    kind: room
+    size: S
+    area: 0.43
+    extent: [640, 864]
+    shape: "Trapezoid west of the bay, two steps up: the south wall and the north-west corner are set at an angle; the wall to the bay is straight and has the counter window (sill about 96) beside the door at the top of the steps."
+    where: West of the loading bay.
+    floor: 64
+    clear_height: 384
+    relief: flat
+    purpose: "The pen key in the desk drawers; Joe's ledger with the clue to his stash; a bucket of slime over the door."
+    empty: true
+    theme: "Office panelling (horizontal plank panels MM6 bemhwal, warm board floor MM6 bembllg, boards overhead MM6 d2ceil2, panelled door MM6 beemdorc)"
+    light: 1 iron lantern and a candle on the desk
+    palette: ["torch02: MM7 iron lantern on a wall arm (engine model mm7_deco_torch02), wall-mounted about 256 above the floor; warm yellow light, radius about 512", "cndlab0: MM6 candle (engine model mm6_deco_candle) on the desk; small warm light, radius about 256", "bucket: MM6 bucket (engine model mm6_deco_bucket) over the door, and a second one under the desk"]
+    furniture: ["Joe's desk (about 256 by 128, 64 high) with the ledger on it and the pen key in its drawers", a strongbox and a coat rack (decorations), framed 'Pest of the Month' notices on the walls]
+    treasure:
+      - {kind: drawers, count: 1, tier: 1, items: 1, once: true, item: pen_key, notes: "The pen key, about 50 gold and one low item."}
+  - id: room:joes_stash
+    name: Joe's stash
+    kind: room
+    size: XS
+    extent: [512, 384]
+    shape: "Closet south of the feed store, behind the sacks; one corner cut."
+    where: South of the feed store.
+    floor: -384
+    clear_height: 384
+    relief: flat
+    purpose: "Joe's 'retirement fund', found from the ledger's clue."
+    empty: true
+    theme: "Old cellar brick under a plank ceiling (walls MM6 cbmxbrck, spilt chaff on the floor MM6 straw, boards overhead MM6 d2ceil2)"
+    light: unlit
+    palette: ["bigbarel, smlbarel, 7dec21: MM6 barrels and the MM7 cask (engine models mm6_deco_barrel, mm7_deco_7dec21) (one)", a small heap of gold coins (decoration)]
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [1, 2], notes: "About 300 gold and one or two items; the best container of the map."}
+    secret: true
+  - id: room:loading_bay
+    name: Loading bay
+    kind: room
+    size: M
+    area: 1.3
+    extent: [1280, 1024]
+    shape: "Long bay with chamfered corners, a short ramp up to the street doors on its south side, and four crate stacks standing staggered so the aisles between them have no dead ends. The office's counter window and its two steps are in the west wall, the rolling barn doors to the grain hall in the north wall."
+    where: "South of the map, on the street."
+    floor: [0, 128]
+    clear_height: 512
+    relief: slope
+    features:
+      - {kind: crate_stacks, count: 4, where: "Across the bay, staggered", notes: "Aisles between them; no dead ends; none at the middle of the bay, where the party arrives."}
+      - {kind: ramp, rise: 128, where: "South side, to the street doors", notes: "128 over about 450; the street doors are an exit face at its top."}
+    purpose: "Arrival. Joe's notice board; the first doom bugs at the far end of the bay, out of sight of the door."
+    theme: "Warehouse timber, bay variant (weathered vertical boards MM8 bwooda1, plank floor MM6 bmplnk, joists and boards overhead MM6 d2ceil2, beam reveals MM6 cbeam5; crate stacks faced with MM8 crate planks cr_w128b)"
+    light: "lamplit: 2 iron lanterns, one on each long wall (about 1.5 per M units²)"
+    palette: ["torch02: MM7 iron lantern on a wall arm (engine model mm7_deco_torch02), wall-mounted about 256 above the floor; warm yellow light, radius about 512", "bigbarel, smlbarel, 7dec21: MM6 barrels and the MM7 cask (engine models mm6_deco_barrel, mm7_deco_7dec21)", "the notice board: a readable wall face beside the barn doors (poi:notice_board)"]
+    furniture: ["4 crate stacks, each about 256 by 192, floor to ceiling", "a timber hoist frame over the ramp (decoration; a placeholder until a model exists)", "barrels and sacks against the walls, 3 or 4 groups"]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], clear_of: [{space: room:loading_bay, distance: 768}], strength: light, rank: a, notes: "At the far (north) end, behind the crates; nothing near the street doors."}
+  - id: room:loading_dock
+    name: Loading dock
+    kind: room
+    size: S
+    extent: [1152, 512]
+    shape: "A covered dock under a lean-to canopy outside the street doors, between the warehouse front and the lane."
+    where: "South of the loading ramp, on the lane."
+    floor: 128
+    clear_height: [320, 448]
+    relief: flat
+    purpose: "Arrival (L4). The street doors' lock (warehouse key or Perception 3) is played here, because X1 does not exist yet; Joe's notice board and the loose shutter are on the warehouse front."
+    theme: "Neighbours' old brick, the warehouse's shuttered weatherboard front, stone setts, canopy boards."
+    light: "1 iron lantern by the doors; dim daylight from the lane."
+    palette: ["torch02: MM7 iron lantern on a wall arm", "bigbarel, smlbarel: barrels", crates]
+  - id: room:loft
+    name: Grain loft
+    kind: room
+    size: M
+    area: 0.43
+    extent: [1152, 384]
+    shape: "Gallery along the north side of the grain hall, 256 above its floor, open to the hall over a low rail (about 64) for most of its length. The stair comes up at its east end; at the west end the rail is broken and the ladder stands there. Its west end is cut on the diagonal."
+    where: "North of the grain hall, along its north wall."
+    floor: 256
+    clear_height: 512
+    relief: flat
+    purpose: "Overlook and loot: the party sees the whole hall and the bugs from above; a chest in the far corner."
+    theme: "Warehouse timber (shared MM6-MM8 library: horizontal weatherboard walls MM8 bwoodb1, dark plank floor MM6 bmplnk, open rafters overhead MM6 d2ceil1, beam reveals MM6 cbeam5, grilled plank doors MM8 bwooda2)"
+    light: "1 iron lantern at the east end; the far west corner is dark"
+    palette: ["torch02: MM7 iron lantern on a wall arm (engine model mm7_deco_torch02), wall-mounted about 256 above the floor; warm yellow light, radius about 512", "floursac, bag01, bag_a: MM6 flour sacks and grain bags (engine models mm6_deco_floursac, mm6_deco_bag01, mm6_deco_bag_a): Joe's Premium Slime Chow", a wooden ladder at the west end (scene ladder)]
+    furniture: [sacks and a broken grain bin along the back wall, the chest in the north-west corner]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: [2, 3], notes: Far north-west corner of the loft.}
+    notes: "L1 put the loft round three sides of the hall, over its floor. Rooms cannot stack, so it stands beside the hall along one side; the stair rises in line with it from the hall's north-east aisle."
+  - id: room:mated_pair_pen
+    name: The honeymoon pen
+    kind: room
+    size: M
+    area: 0.65
+    extent: [960, 1024]
+    shape: "Kidney-shaped pen one step (32) below the cistern: a short neck behind the barred gate painted with a heart and MR & MRS WOBBLES - DO NOT SEPARATE, opening into the bean, its hollow to the north."
+    where: North of the pens.
+    floor: -416
+    clear_height: 448
+    relief: flat
+    purpose: The small boss fight (set:mated_pair).
+    theme: "Cistern brick (red brick walls MM6 cbrdbrck, stone slab floor MM7 tfb07, mixed brick vault MM6 cbmxbrck, old stone in the doorways MM6 d1medbw); the drain pool and the slime puddles in MM8 slimywtr"
+    light: "2 green-flame torches; the heart on the gate lit by a pink candle (cndlab0)"
+    palette: ["torch06: MM7 wall torch with a green flame (engine model mm7_deco_torch01_green), wall-mounted about 256 above the floor; sickly green light, radius about 448", "cndlab0: MM6 candle (engine model mm6_deco_candle) on the desk; small warm light, radius about 256 (pink-tinted)", "corpse: MM6 corpse (engine model from mm6_dungeons_3d/leftovers): the rival exterminator", a heart-shaped feeding trough (placeholder)]
+    population:
+      - {actor: Breeder Slime, role: breeder slime, groups: 2, levels: [4, 4], placed: true, strength: boss, notes: "Mr and Mrs Wobbles: a named pair of Breeder Slimes with about three times normal hit points; each splits into two Slimes once when it falls below half health."}
+    treasure:
+      - {kind: corpse, count: 1, tier: 1, items: 2, notes: "A rival exterminator who came to see Joe's methods; his boots and a low item."}
+  - id: room:shipping_room
+    name: Shipping room
+    kind: room
+    size: M
+    area: 0.78
+    extent: [1000, 800]
+    shape: "Five-sided room off the cistern's north-east wall: the slanted south-west wall holds the door; the delivery chute rises to the street from the north-east corner. Crates addressed to Vertigo homes ('Mayor's cellar - Tuesday')."
+    where: North-east of the pens.
+    floor: -384
+    clear_height: 448
+    relief: flat
+    purpose: "Goal of the map: the invoice crate."
+    theme: "Old cellar brick (weathered mixed brick walls MM6 cbmxbrck, dark stone slab floor MM7 tfb07, red brick vault MM6 cbrdbrck, old stone in the doorways MM6 d1medbw, grilled plank doors MM8 bwooda2)"
+    light: 2 iron lanterns (Joe works here)
+    palette: ["torch02: MM7 iron lantern on a wall arm (engine model mm7_deco_torch02), wall-mounted about 256 above the floor; warm yellow light, radius about 512", "bigbarel, smlbarel, 7dec21: MM6 barrels and the MM7 cask (engine models mm6_deco_barrel, mm7_deco_7dec21)", crate stacks (pillars faced with MM8 crate planks cr_w128b), the invoice crate (a chest)]
+    furniture: [a crate stack about 256 square in the north-east, the invoice crate by the chute, a packing table (decoration or placeholder)]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, items: 1, once: true, item: joes_invoice, notes: "The invoice crate (goal:invoice), with about 40 gold; mildly trapped (itching powder, set:invoice_reveal)."}
+      - {kind: floor_item, count: 2, tier: 1, notes: "Packed for delivery: a potion and a low item on the packing table."}
+regions:
+  - id: region:cellar
+    name: The cellar
+    spaces: [room:cellar_stair, room:breeding_pens, room:mated_pair_pen, room:feed_store, room:joes_stash, room:shipping_room, room:culvert]
+    where: "North of the warehouse, dug in under the old river wall, and out under the riverbank to the east."
+    theme: "Old cellar brick and cistern brick (MM6 cbmxbrck, cbrdbrck, MM7 tfb07 floors), river stone in the culvert; green-flame torches and the green glow of the pool"
+    notes: "L1 had the cellar under the grain hall. Rooms cannot stack, so it lies north of the warehouse, under the old river wall that bows into the grain hall: the cellar stair runs north from the hall to it."
+  - id: region:warehouse
+    name: The warehouse
+    spaces: [room:loading_bay, room:joes_office, room:grain_hall, room:loft]
+    where: Street level.
+    theme: "Warehouse timber (MM8 weatherboard bwoodb1 and vertical boards bwooda1, MM6 plank floors bmplnk, rafters d2ceil1 and d2ceil2), office panelling (MM6 bemhwal); iron lanterns and hanging lanterns"
+links:
+  - id: link:bay_grain_hall
+    from: room:loading_bay
+    to: room:grain_hall
+    kind: double_door
+    motion: slide
+    width: 384
+    notes: "Rolling barn doors: two leaves of about 192 sliding apart; plain click, from either side."
+  - id: link:bay_office
+    from: room:loading_bay
+    to: room:joes_office
+    kind: door
+    rise: 64
+    notes: "Two steps of 32, the office door at their top (it swings in). The slime bucket sits over it (set:slime_bucket)."
+  - id: link:cellar_stair_pens
+    from: room:cellar_stair
+    to: room:breeding_pens
+    kind: open
+  - id: link:feed_store_stash
+    from: room:feed_store
+    to: room:joes_stash
+    kind: secret_door
+    motion: slide
+    notes: "A stack of Slime Chow sacks on a hidden runner slides aside on a click; the ledger's clue points to it (poi:joes_ledger)."
+  - id: link:grain_hall_cellar_stair
+    from: room:grain_hall
+    to: room:cellar_stair
+    kind: door
+    condition: {item: pen_key}
+    notes: "In the north wall of the hall's north-east aisle. KEEP OUT (THIS MEANS YOU, GUNTHER). Locked; the pen key from Joe's desk opens it for good (not consumed)."
+  - id: link:grain_hall_loft_ladder
+    from: room:loft
+    to: room:grain_hall
+    kind: ladder
+    rise: -256
+    notes: "West end of the loft, where the rail is broken; climbable both ways (a scene ladder). The L3 shell leaves the break open, so the party can drop the 256 there."
+  - id: link:grain_hall_loft_stairs
+    from: room:grain_hall
+    to: room:loft
+    kind: stairs
+    rise: 256
+    notes: "From the hall's north-east aisle, 8 steps of 32 rising west to the loft's east end."
+  - id: link:loft_overlook
+    from: room:loft
+    to: room:grain_hall
+    kind: overlook
+    width: 704
+    notes: "The loft rail: about 64 high, open above along most of the gallery; the bugs below see the party too."
+  - id: link:pens_culvert
+    from: room:breeding_pens
+    to: room:culvert
+    kind: door
+    notes: "Low iron door in the cistern's east wall, beside the pool's outlet; it rises."
+  - id: link:pens_feed_store
+    from: room:breeding_pens
+    to: room:feed_store
+    kind: open
+  - id: link:pens_honeymoon
+    from: room:breeding_pens
+    to: room:mated_pair_pen
+    kind: door
+    rise: -32
+    notes: "The heart-painted barred gate in the cistern's north wall, one step down; it rises on a click."
+  - id: link:pens_shipping
+    from: room:breeding_pens
+    to: room:shipping_room
+    kind: door
+    notes: "Plank door in the cistern's north-east wall; swings."
+  - id: link:street_doors
+    from: room:loading_dock
+    to: room:loading_bay
+    kind: double_door
+    motion: slide
+    condition: {any: [{item: warehouse_key}, {stat: {name: PerceptionSkill, at_least: 3}}]}
+    width: 384
+    notes: "L4: the street doors, two leaves sliding apart, locked from the dock; the warehouse key or a character with Perception 3 (who finds the loose shutter and lifts the bar inside) opens them for good."
+loops:
+  - id: loop:grain_loft
+    spaces: [room:grain_hall, room:loft]
+    notes: "Up the east stairs, round the loft, down the west ladder: a short ring that lets the party look down on the bugs before fighting them, or escape them."
+entrances:
+  - id: entrance:river_grate
+    space: room:culvert
+    kind: exit
+    neighbour: exit:vertigo_riverbank
+    how: "An iron grate in the east end wall of the culvert's last bend, at river level, opening onto the riverbank."
+    variants:
+      - condition: {qbit: culvert_grate_open}
+        behaviour: "Both ways: the grate is lifted and the riverbank is a second way in."
+    notes: Lifted from the inside on first use (set:culvert_grate).
+  - id: entrance:street_doors
+    space: room:loading_dock
+    kind: both
+    neighbour: exit:vertigo_street
+    facing: n
+    how: "L4: the party arrives on the covered loading dock facing north, the locked street doors ahead at the top of the bay's short ramp; leaving is the lane at the dock's south side."
+    condition: {any: [{item: warehouse_key}, {stat: {name: PerceptionSkill, at_least: 3}}]}
+critical_path: [room:loading_dock, room:loading_bay, room:joes_office, room:loading_bay, room:grain_hall, room:cellar_stair, room:breeding_pens, room:shipping_room]
+return_path: [room:shipping_room, room:breeding_pens, room:culvert]
+goals:
+  - id: goal:invoice
+    space: room:shipping_room
+    kind: take
+    what: "Open the invoice crate and take the invoice: 'Breeder Slimes, 1 mated pair. Doom Bugs, 5 (assorted). Deliver to J. the Exterminator, rear door. Pay on delivery.'"
+    story: M2
+    handed_in_at: exit:vertigo_street
+    gives:
+      - item: joes_invoice
+      - qbit: joe_invoice_found
+    notes: "Gunther, in Vertigo's town hall on X1, takes the invoice: Joe flees and his shop closes."
+  - id: goal:mated_pair
+    space: room:mated_pair_pen
+    kind: kill
+    what: "Optional: kill Mr and Mrs Wobbles (and what they split into), so the scam cannot start again elsewhere."
+    story: M2
+    handed_in_at: exit:vertigo_street
+    gives:
+      qbit: joe_pair_slain
+    notes: Gunther adds a small bonus (gold) if this bit is set when the invoice is handed in.
+keys:
+  - id: key:pen_key
+    grants: {item: pen_key}
+    found_in: room:joes_office
+    how: drawers in Joe's desk
+  - id: key:warehouse_key
+    grants: {item: warehouse_key}
+    how: "another map: under the rain barrel behind the warehouse on X1, after the drunk's rumour in Lady Geraldine's Tavern. Perception 3 at the door is the alternative."
+points_of_interest:
+  - id: poi:feeding_lever
+    space: room:breeding_pens
+    kind: lever
+    behaviour: Labelled FEEDING TIME. Pulling it opens all six pen gates at once and lets every slime out together (set:feeding_time). It does nothing else.
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:joes_ledger
+    space: room:joes_office
+    kind: book
+    behaviour: "Readable. Pest removal, 400 gold; pest supply, 20 gold; 'Profit!'. The last line: 'Retirement fund - behind the Chow.'"
+  - id: poi:notice_board
+    space: room:loading_bay
+    kind: sign
+    behaviour: "Readable: 'JOE THE EXTERMINATOR. Pests gone or your money back!' and, smaller, '(Money not back.)'"
+landmarks:
+  - id: landmark:pens_glow
+    space: room:breeding_pens
+    what: "The green glow of the drain pool and the bug tanks, seen from the foot of the cellar stair."
+    seen_from: [room:cellar_stair, room:breeding_pens]
+sightlines:
+  - id: sightline:loft_overlook
+    from: room:loft
+    to: [room:grain_hall]
+    what: From the loft the whole grain hall and its bug swarms lie open below the rail.
+set_pieces:
+  - id: set:culvert_grate
+    kind: scripted
+    spaces: [room:culvert]
+    rule: "The grate at the culvert's end is lifted from the inside on first use; from then on the riverbank grate on X1 is a second way in."
+    inputs: [use the grate from the culvert side]
+    states: [shut, lifted]
+    gives:
+      qbit: culvert_grate_open
+  - id: set:feeding_time
+    kind: ambush
+    spaces: [room:breeding_pens]
+    rule: "The FEEDING TIME lever opens all six pen gates together: every slime in the pens comes at once. Without the lever, each pen gate opens on its own click and its slimes come out one pen at a time."
+    inputs: [pull the lever, open a single pen gate]
+    states: [pens shut, some pens open, all pens open]
+    solution: "Leave the lever alone and open the pens one by one, or pull it on purpose and fight in the cellar stair's doorway."
+  - id: set:invoice_reveal
+    kind: scripted
+    spaces: [room:shipping_room]
+    rule: "Opening the invoice crate shows the invoice's text, gives the invoice and sets the quest bit; the crate's mild trap (a puff of itching powder) goes off unless disarmed."
+    inputs: [open the crate]
+    states: [invoice inside, invoice taken]
+    gives:
+      - item: joes_invoice
+      - qbit: joe_invoice_found
+  - id: set:mated_pair
+    kind: boss
+    spaces: [room:mated_pair_pen]
+    rule: "Mr and Mrs Wobbles, two named Breeder Slimes. Each splits once into two ordinary Slimes when it falls below half health (an actor script). Killing both and their splits sets the bonus bit."
+    states: [paired, split, dead]
+    gives:
+      qbit: joe_pair_slain
+    population:
+      - {actor: Breeder Slime, role: breeder slime, groups: 2, levels: [4, 4], placed: true, strength: boss}
+  - id: set:slime_bucket
+    kind: trap
+    spaces: [room:joes_office]
+    effect: {damage: "1d6 Body, one character"}
+    rule: "The first time the office door opens, a bucket of slime tips over the doorway: one character takes a little Body damage and the message 'Joe thanks you for your interest.'"
+    states: [armed, spent]
+mechanisms:
+  - {kind: sliding double door, count: 1, notes: "The rolling barn doors between the bay and the grain hall: two plank leaves of about 192 sliding apart into the wall, plain click from either side; they stay open."}
+  - {kind: hinged door, count: 2, notes: "Joe's office door (swings in, about 224 wide) and the shipping room door (about 256); plain click."}
+  - {kind: keyed hinged door, count: 1, notes: "KEEP OUT: the head of the cellar stair; needs the pen key, not consumed; open for good once unlocked."}
+  - {kind: rising iron door, count: 1, notes: "The culvert's low iron door (about 224 wide, 256 high); plain click."}
+  - {kind: barred gate (rising), count: 7, notes: "The six pen gates and the honeymoon gate, about 256 wide; each rises on a click. The six pen gates also rise together from the FEEDING TIME lever. Until a barred-gate texture or model exists they wear the grilled plank door."}
+  - {kind: wall lever, count: 1, notes: "FEEDING TIME, on a plain cistern wall facing the stair; one use, opens all six pen gates; shows its thrown face afterwards."}
+  - {kind: secret sliding sacks, count: 1, notes: "A stack of Slime Chow sacks in the feed store's south wall on a hidden runner: a secret-flagged face (map perception difficulty 0) that slides aside on a click from either side and stays open. The ledger's last line is the clue."}
+  - {kind: exit face, count: 2, notes: "The street doors at the top of the loading ramp (locked from outside: warehouse key or Perception 3; from inside always open) and the river grate at the culvert's end (lifted from the inside on first use: set:culvert_grate)."}
+  - {kind: ladder, count: 1, notes: "Loft to grain hall at the loft's west end (a scene ladder, both ways)."}
+  - {kind: tipping bucket trap, count: 1, notes: "Over the office door: the first opening tips slime on one character (1d6 Body) with a message; spent afterwards."}
+  - {kind: trapped container, count: 1, notes: "The invoice crate: itching powder (a mild trap, trap dice 1) unless disarmed."}
+  - {kind: chest, count: 3, notes: "The loft chest (tier 1, 2 to 3 items), the stash chest (tier 2, 1 to 2 items and about 300 gold), the invoice crate (tier 1, the invoice)."}
+  - {kind: desk drawers, count: 1, notes: "Joe's desk: the pen key, about 50 gold and one low item; once."}
+  - {kind: searchable corpse, count: 1, notes: "The rival exterminator in the honeymoon pen: his boots and one low item; once."}
+  - {kind: readable face, count: 5, notes: "The notice board (bay), the ledger (office desk), the KEEP OUT door, the heart gate, the FEEDING TIME label."}
+  - {kind: iron lantern, count: 11, notes: "Bay 2, office 1, grain hall 3, loft 1, feed store 1, shipping room 2, plus 1 by the street doors."}
+  - {kind: hanging lantern, count: 2, notes: Over the grain hall.}
+  - {kind: green-flame torch, count: 6, notes: "Pens 4, honeymoon pen 2."}
+  - {kind: iron torch, count: 1, notes: Cellar stair landing.}
+  - {kind: point light, count: 3, notes: "The pool's pulsing green glow, the office candle, the daylight at the river grate."}
+height_bands:
+  - id: band:cellar
+    range: [-640, -384]
+    spaces: [room:breeding_pens, room:mated_pair_pen, room:feed_store, room:joes_stash, room:shipping_room, room:culvert]
+    partly: [room:cellar_stair]
+    notes: "The honeymoon pen one step lower (-416); the culvert falls to -640 at the river."
+  - id: band:loft
+    level: 256
+    spaces: [room:loft]
+  - id: band:street
+    range: [0, 128]
+    spaces: [room:loading_bay, room:joes_office, room:grain_hall]
+    partly: [room:cellar_stair]
+    notes: "The bay at 0 with its ramp up to the street doors at +128; the office two steps up (+64); the hall level with the bay."
+atmosphere: "Two moods split by the cellar stair. Upstairs: dusty, warm and creaking, lamplit timber in pools of yellow lantern light (about 2 lights per M units² of floor; the loft's far end and the bins' shadows dark), motes in the air, the scratch and click of doom bugs in the sacks, Joe's hand-painted signs everywhere. Downstairs: damp, sour and green, warm brick sweating under green-flame torches (about 2.5 per M units² in the cistern, 1.5 in the side rooms), the drain pool's slow pulsing glow the brightest thing in the map, dripping water, the gurgle of the culvert and the wet slap of slimes. Base darkness (sector ambient) about 14 upstairs, 18 to 20 in the cellar, 22 in the culvert and 24 in the stash. No fog upstairs; a faint green haze in the cistern (indoor fog, opt-in). Placed ambient sounds: wind through the street doors' cracks, bugs' chitter in the grain hall, bubbling in the cistern, running water in the culvert. Music: the light dungeon track (map_stats dungeon_light) everywhere; the sound environment is a stone hall below, a wooden room above (one map value; stone hall chosen)."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 3
+  critical_path_length: 8700
+  doors: 12
+  exits: 2
+  fixed_actors: 2
+  floor_area_munits2: 11.3
+  height_range: 896
+  lights: 23
+  loops: 1
+  monsters_about: 34
+  readable_faces: 5
+  rooms: 11
+  secret_faces: 1
+  sectors: 24
+  spawn_points: 15
+  traps: 2
+notes: "A deliberately small S map (about 11 M units² of floor, under the S band's 20) because it is the world's first dungeon and should take about ten minutes. Fights are uneven: nothing at the street doors, light in the bay, a swarm in the grain hall, the heaviest in the pens, a boss pair in the honeymoon pen, light at the edges. Shapes: of the 11 plan rooms only the stash and the cellar stair are rectangles; the bay and hall are chamfered, the office a trapezoid, the cistern sixteen-sided, the honeymoon pen a kidney, the shipping room five-sided, the culvert bends twice and slopes. Risers are 32 throughout; the lowest ceiling is 384. L2 themes name texture families of the shared MM6-MM8 surface library (level_generation/textures_x4/inventory.json) and decorations of the engine's indoor bindings (assets_dev/engine/models/indoor_decorations.yml); Xeen has no kit of its own yet, so the warehouse borrows MM8's Ravenshore-style board walls and MM6 planks, the cellar MM6 brick. Light numbers are lights per M units² of floor. Treasure: map treasure level 1; containers give tier 1 except the stash (tier 2). Changes from L1: the cellar lies north of the warehouse instead of under it, and the loft beside the hall along its north side instead of over three sides of it (rooms cannot stack); the slime pens are six niches behind barred gates in the cistern wall instead of wedges behind waist-high walls round the pool (so each gate is a real door the lever can open); the cistern has five doorways, not three; the party arrives in the middle of the bay rather than at the top of the ramp (the plan's datum, 0, is the bay floor); the grain hall gains a north-east aisle that carries the KEEP OUT door and the foot of the loft stair, and its floor is level; the office's angled wall is the south one, the wall to the bay straight."

@@ -1,0 +1,394 @@
+format: 0
+events:
+  - id: evt:airlock
+    preset: door
+    source: door:airlock
+    title: Door
+    action: open
+  - id: evt:c0
+    preset: chest
+    source: chest:c0
+    title: Storage Container
+  - id: evt:c1
+    preset: chest
+    source: chest:c1
+    title: Storage Container
+  - id: evt:c10
+    preset: chest
+    source: chest:c10
+    title: Storage Container
+  - id: evt:c11
+    preset: chest
+    source: chest:c11
+    title: Storage Container
+  - id: evt:c12
+    preset: chest
+    source: chest:c12
+    title: Storage Container
+  - id: evt:c13
+    preset: chest
+    source: chest:c13
+    title: Storage Container
+  - id: evt:c2
+    preset: chest
+    source: chest:c2
+    title: Storage Container
+  - id: evt:c3a
+    preset: chest
+    source: chest:c3a
+    title: Storage Container
+  - id: evt:c4
+    preset: chest
+    source: chest:c4
+    title: Storage Container
+  - id: evt:c5
+    preset: chest
+    source: chest:c5
+    title: Storage Container
+    effects:
+      - award: 103
+    notes: "The original's event 34 also gives every member award 103 (evt.ForPlayer(Players.All), SetAward(Award(103))): the `award` effect (round six; a Lua line in round five)."
+  - id: evt:c6
+    preset: chest
+    source: chest:c6
+    title: Storage Container
+  - id: evt:c7
+    preset: chest
+    source: chest:c7
+    title: Storage Container
+  - id: evt:c8
+    preset: chest
+    source: chest:c8
+    title: Storage Container
+  - id: evt:c9
+    preset: chest
+    source: chest:c9
+    title: Storage Container
+  - id: evt:east_lobby
+    preset: door
+    source: door:east_lobby
+    title: Door
+    action: open
+  - id: evt:east_porch
+    preset: door
+    source: door:east_porch
+    title: Door
+    closes: [door:west_porch]
+    notes: "The original's event 2 (on both leaves): the east porch door toggles and the west one shuts, so the lower hall is never open on both sides."
+  - id: evt:east_store
+    preset: door
+    source: door:east_store
+    title: Door
+    action: open
+  - id: evt:exit
+    preset: exit
+    source: exit:to_oracle
+    title: Exit
+  - id: evt:gate_slab
+    preset: door
+    source: door:gate_slab
+    title: Door
+    action: open
+  - id: evt:h_room
+    preset: door
+    source: door:h_room
+    title: Door
+    action: open
+  - id: evt:hatch
+    preset: door
+    source: door:hatch
+    title: Door
+    action: open
+  - id: evt:junction_south
+    preset: door
+    source: door:junction_south
+    title: Door
+    action: open
+  - id: evt:locked_room
+    preset: text
+    source: door:locked_room
+    title: Door
+    text: The door won't budge.
+    notes: "The original's event 1; the button in the meeting hall opens this door."
+  - id: evt:meeting_hall
+    preset: door
+    source: door:meeting_hall
+    title: Door
+    action: open
+  - id: evt:meeting_hall_button
+    preset: switch
+    source: switch:meeting_hall_button
+    title: Door
+    toggles: [door:locked_room]
+    notes: The original's event 26.
+  - id: evt:panel_room
+    preset: door
+    source: door:panel_room
+    title: Door
+    action: open
+  - id: evt:plate
+    preset: switch
+    source: plate:store_plate
+    trigger: step
+    toggles: [door:plate_store]
+    notes: "The original's event 24: stepping onto the pressure plate (its door record 24, which does not move) toggles the store's door."
+  - id: evt:plate_store
+    preset: door
+    source: door:plate_store
+    title: Door
+    action: open
+  - id: evt:plug
+    preset: door
+    source: door:plug
+    title: Door
+    action: open
+  - id: evt:repair_bay
+    preset: door
+    source: door:repair_bay
+    title: Door
+    action: open
+  - id: evt:shelf_c4
+    preset: script
+    source: platform:s64_shelf
+    title: Storage Container
+    effects:
+      - open_chest: chest:c4
+    notes: "Round six: as the original's event 33 on the closet's triangular shelf (faces 1036 to 1038), which opens chest 4 in storage room 1 across the map, as the shipped map does."
+  - id: evt:shelf_c7
+    preset: script
+    source: platform:s20_shelf
+    title: Storage Container
+    effects:
+      - open_chest: chest:c7
+    notes: "Round six: as the original's event 36 on the north-east cell's shelf top (face 957), which opens chest 7 in the east cell, as the shipped map does."
+  - id: evt:spark_trap
+    preset: script
+    trigger: timer
+    every: 3
+    effects:
+      - cast:
+          spell: 15
+          from: [-5632, -4736, 660]
+          to: [-5632, -4000, 660]
+          mastery: master
+          level: 100
+    notes: "The original's event 71: every three half-minutes Sparks (skill 100, Master) is cast across storage room 2."
+  - id: evt:storage_1
+    preset: door
+    source: door:storage_1
+    title: Door
+    action: open
+    closes: [door:storage_2, door:storage_3]
+    notes: "The original's events 7 to 9: opening one storage room shuts the other two."
+  - id: evt:storage_2
+    preset: door
+    source: door:storage_2
+    title: Door
+    action: open
+    closes: [door:storage_1, door:storage_3]
+    notes: "The original's events 7 to 9: opening one storage room shuts the other two."
+  - id: evt:storage_3
+    preset: door
+    source: door:storage_3
+    title: Door
+    action: open
+    closes: [door:storage_1, door:storage_2]
+    notes: "The original's events 7 to 9: opening one storage room shuts the other two."
+  - id: evt:terminal_53
+    preset: switch
+    source: switch:terminal_53
+    title: Computer Terminal
+    effects:
+      - message: "\"Hello and welcome to this self-guided tour of the Varn Planetary Control Facility.  We gladly welcome all visitors.  As you arrive at each key area, be sure to check any of our display screens for more information.  Enjoy your tour!\""
+    notes: "The original's event 53: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_54
+    preset: switch
+    source: switch:terminal_54
+    title: Computer Terminal
+    effects:
+      - message: "\"This is the main equipment storage and repair facility.  By now, you may have noticed several floating Drone-bots.  They are responsible both for maintaining the key systems of this facility as well as sanitation.  If a unit becomes damaged, it is brought here to be repaired.\""
+    notes: "The original's event 54: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_55
+    preset: switch
+    source: switch:terminal_55
+    title: Computer Terminal
+    effects:
+      - message: "\"The room to your left is the main meeting hall.  Visiting dignitaries from around the world have feasted at banquets held in their honor.  In fact, it is said that at his 21st birthday party King Sheridan nearly choked to death on a piece of mogred, but was saved by a serving girl who he later married and made his Queen.  Ahh, l'amour.\""
+    notes: "The original's event 55: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_56
+    preset: switch
+    source: switch:terminal_56
+    title: Computer Terminal
+    effects:
+      - message: "\"Chief Engineer Wilson's Personal Log.  I have locked myself in Storage Room #6 but currently have no means of escape.  The drone-bots have gone mad and have started killing everyone in sight.  I was able to access the main control terminal on Level Four despite warnings of a hazardous leak, and I sent a distress signal, but since we have not had contact with any of the colonies for several weeks, I do not believe that a rescue is possible.  I have also managed to seal this facility so that the drones can not escape.  It is my hope that the colonists will be able to mount some sort of defense by the time my encryption codes are broken.  Tell Emma I love her.  Wilson out.\""
+    notes: "The original's event 56: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_57
+    preset: switch
+    source: switch:terminal_57
+    title: Computer Terminal
+    effects:
+      - message: "\"We apologize for any inconvenience, but we ask that all personnel evacuate the facility at this time.  Please do not be alarmed.  Thank you.\""
+    notes: "The original's event 57: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_58
+    preset: switch
+    source: switch:terminal_58
+    title: Computer Terminal
+    effects:
+      - message: "\"Before entering the Planetary Reaction Chamber, please request a pair of Safety Goggles from one of our Drones.  During peak hours of operation, this facility can generate enough power to produce a light bright enough to be seen from space.  Please avoid looking directly into the light.\""
+    notes: "The original's event 58: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_59
+    preset: switch
+    source: switch:terminal_59
+    title: Computer Terminal
+    effects:
+      - message: "\"Alert, environmental controls are offline on Level Four, Sections 18 through 96.  Access restricted to drones until further notice.\""
+    notes: "The original's event 59: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_60
+    preset: switch
+    source: switch:terminal_60
+    title: Computer Terminal
+    effects:
+      - message: "\"Warning, intruder alert, Level Four, Section.  All drones proceed to Level Four to intercept intruders.  Reactor is offline.  Encryption integrity at 2.064%.  Warning, intruder alert, Level Four\""
+    notes: "The original's event 60: the screen turns to trekscon (the switch's `on`) and the text opens in a message window (evt.SetMessage), here the `message` effect (round six; rounds one to five showed it as a status line)."
+  - id: evt:terminal_61
+    preset: switch
+    source: switch:terminal_61
+    title: Computer Terminal
+    effects:
+      - qbit: 1300
+      - lua: "for member = 0, evt.GetPartyMemberCount() - 1 do evt.ForPlayer(member) if not IsAtLeast(BlasterSkill, 1) then SetValue(BlasterSkill, 1) end end"
+      - message: "\"Blaster weapons provide an effective, accurate ranged attack.  To operate the blaster, hold the grip comfortably in your hand, point the barrel at your target, and gently squeeze the trigger.  Should the weapon misfire, do not look into the barrel- give the weapon to an instructor and let them fix the problem.  Never point a blaster at something you do not want to vaporize.\""
+    notes: "The original's event 61: the screen turns to trekscon, the qbit, the Blaster skill for every member who lacks it (the MMMerge handler; a Lua line, no effect word teaches a skill), and the text in a message window (evt.SimpleMessage), here the `message` effect (round six)."
+  - id: evt:tube_72_lights
+    preset: script
+    source: room:s72_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l389, light:l390]
+    notes: "The original's event 44 on the exit run's floor strip (face 1424): lights 389, 390 on."
+  - id: evt:tube_73_lights
+    preset: script
+    source: room:s73_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l077, light:l078, light:l079]
+    notes: "The original's event 43 on the last south run's floor strip (face 1583): lights 77, 78, 79 on."
+  - id: evt:tube_74_lights
+    preset: script
+    source: room:s74_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l068, light:l069, light:l070, light:l071, light:l072, light:l073, light:l074, light:l075]
+    notes: "The original's event 42 on the east run's floor strip (face 1604): lights 68, 69, 70, 71, 72, 73, 74, 75 on."
+  - id: evt:tube_75_lights
+    preset: script
+    source: room:s75_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l060, light:l061, light:l062, light:l063, light:l064, light:l065, light:l066, light:l067]
+    notes: "The original's event 41 on the short north run's floor strip (face 1646): lights 60, 61, 62, 63, 64, 65, 66, 67 on."
+  - id: evt:tube_76_lights
+    preset: script
+    source: room:s76_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l050, light:l051, light:l052, light:l053, light:l054, light:l055, light:l056, light:l057, light:l058, light:l059]
+    notes: "The original's event 40 on the south run's floor strip (face 2578): lights 50, 51, 52, 53, 54, 55, 56, 57, 58, 59 on."
+  - id: evt:tube_90_lights
+    preset: script
+    source: room:s90_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l031, light:l032, light:l033, light:l034, light:l035, light:l036, light:l037, light:l038, light:l039, light:l040, light:l041, light:l042, light:l043, light:l044, light:l391]
+    notes: "The original's event 39 on the west run's floor strip (face 2600): lights 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 391 on."
+  - id: evt:tube_91_lights
+    preset: script
+    source: room:s91_tube
+    trigger: step
+    effects:
+      - lights_on: [light:l045, light:l046, light:l047, light:l048, light:l049]
+    notes: "The original's event 38 on the entry run's floor strip (face 2630): lights 45, 46, 47, 48, 49 on."
+  - id: evt:tube_airlock_dark
+    preset: script
+    source: room:s91_airlock
+    trigger: step
+    sources: [room:s91_airlock_strip]
+    effects:
+      - lights_off: [light:l045, light:l046, light:l047, light:l048, light:l049]
+    notes: "The original's event 45 on the airlock's floor at 228, x -12272 to -11760 (face 2625): lights 45, 46, 47, 48, 49 off."
+  - id: evt:tube_door_dark
+    preset: script
+    source: room:s72_tube_door
+    trigger: step
+    effects:
+      - lights_off: [light:l389, light:l390]
+    notes: "The original's event 52 on the last 48 before the exit door and the doorway's floor (faces 1521, 1486; the doorway's floor is no room's here): lights 389, 390 off."
+  - id: evt:tube_east_corner
+    preset: script
+    source: room:s74_tube_corner
+    trigger: step
+    effects:
+      - lights_off: [light:l068, light:l069, light:l070, light:l071, light:l072, light:l073, light:l074, light:l075, light:l077, light:l078, light:l079]
+    notes: "The original's event 50 on the east corner's floor (face 1601): lights 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79 off."
+  - id: evt:tube_exit
+    preset: door
+    source: door:tube_exit
+    title: Door
+    action: open
+  - id: evt:tube_last_corner
+    preset: script
+    source: room:s73_tube_corner
+    trigger: step
+    effects:
+      - lights_off: [light:l077, light:l078, light:l079, light:l389, light:l390]
+    notes: "The original's event 51 on the last corner's floor (face 1578): lights 77, 78, 79, 389, 390 off."
+  - id: evt:tube_mid_corner
+    preset: script
+    source: room:s75_tube_corner
+    trigger: step
+    effects:
+      - lights_off: [light:l060, light:l061, light:l062, light:l063, light:l064, light:l065, light:l066, light:l067, light:l068, light:l069, light:l070, light:l071, light:l072, light:l073, light:l074, light:l075]
+    notes: "The original's event 49 on the middle corner's floor (face 1632): lights 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75 off."
+  - id: evt:tube_nw_corner
+    preset: script
+    source: room:s91_tube_corner
+    trigger: step
+    effects:
+      - lights_off: [light:l045, light:l046, light:l047, light:l048, light:l049, light:l031, light:l032, light:l033, light:l034, light:l035, light:l036, light:l037, light:l038, light:l039, light:l040, light:l041, light:l042, light:l043, light:l044, light:l391]
+    notes: "The original's event 46 on the north-west corner's floor (face 2613): lights 45, 46, 47, 48, 49, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 391 off."
+  - id: evt:tube_se_corner
+    preset: script
+    source: room:s76_tube_corner
+    trigger: step
+    effects:
+      - lights_off: [light:l050, light:l051, light:l052, light:l053, light:l054, light:l055, light:l056, light:l057, light:l058, light:l059, light:l060, light:l061, light:l062, light:l063, light:l064, light:l065, light:l066, light:l067]
+    notes: "The original's event 48 on the south corner's floor (face 1641): lights 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67 off."
+  - id: evt:tube_sw_sparks
+    preset: script
+    source: room:s90_tube_corner
+    trigger: step
+    effects:
+      - lights_off: [light:l031, light:l032, light:l033, light:l034, light:l035, light:l036, light:l037, light:l038, light:l039, light:l040, light:l041, light:l042, light:l043, light:l044, light:l391, light:l050, light:l051, light:l052, light:l053, light:l054, light:l055, light:l056, light:l057, light:l058, light:l059]
+      - cast:
+          spell: 15
+          from: [-10880, -4224, 660]
+          to: [-10880, -4224, 400]
+          mastery: master
+          level: 100
+    notes: "The original's event 47 on the south-west corner's floor (face 2589): it switches lights 31 to 44, 391 and 50 to 59 off and casts Sparks (skill 100, Master) down onto the south-east corner."
+  - id: evt:vault
+    preset: door
+    source: door:vault
+    title: Door
+    action: open
+  - id: evt:wedge_room
+    preset: door
+    source: door:wedge_room
+    title: Door
+    action: open
+  - id: evt:west_porch
+    preset: door
+    source: door:west_porch
+    title: Door
+    closes: [door:east_porch]
+    notes: "The original's event 15, the mirror of evt:east_porch."

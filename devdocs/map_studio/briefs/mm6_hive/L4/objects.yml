@@ -1,0 +1,985 @@
+format: 0
+start:
+  room: room:s76_entry
+  at: [384, 3712]
+  facing: n
+doors:
+  - id: door:d1
+    opening: open:s76_entry__s1_lock
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdord, size: [256, 256]}
+    back_surface: {texture: hvwl3spa, size: [256, 256]}
+    notes: The original's leaf shows the wall's texture to the side it does not open from.
+  - id: door:d10
+    opening: open:s30_tunnel__s39_corridor
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorc, size: [256, 256]}
+    back_surface: {texture: hvwl1a, size: [128, 256]}
+    tile: true
+    notes: "Original: opens only from the tunnel side (event 10)."
+  - id: door:d11
+    opening: open:s39_corridor__s40_a
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdore, size: [256, 256]}
+    notes: "Original: opens from its north side (event 11); from the crossing it says The Door Won't Budge (event 21). One-sided doors cannot be said, so it waits for door 9, which stands on the only way to its north side."
+  - id: door:d12
+    opening: open:s39_corridor__s19_tunnel
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvwl1a, size: [128, 256]}
+    back_surface: {texture: hvdord, size: [256, 256]}
+    tile: true
+    notes: "Original: opens only from the tunnel side (event 12)."
+  - id: door:d13
+    opening: open:s6_low__s71_a
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdord, size: [256, 256]}
+  - id: door:d14
+    opening: open:s36_vestibule__s35_e
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdore, size: [256, 256]}
+  - id: door:d2
+    opening: open:s47_passage__s46_cell
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorf, size: [128, 256]}
+  - id: door:d28
+    opening: open:s65_low__s65_west
+    kind: slide_left
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 150
+    surface: {texture: hvdorc, size: [256, 256]}
+    notes: "The original's leaf folds south against its jamb (door 28: 250 toward -y)."
+  - id: door:d3
+    opening: open:s49_passage__s48_cell
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorf, size: [128, 256]}
+  - id: door:d30
+    opening: open:s79_ring_n__s77_queen
+    kind: slide_down
+    fold: true
+    state: closed
+    thickness: 128
+    speed: 500
+    surface: {texture: hvwl6, size: [128, 256]}
+    tile: true
+    notes: "The original opens this on entering the map once quest bit 1204 is set (event 100) and when the reactor dies with the Ritual held (the supplement): door 30, a block 1008 wide and 1279 high whose top sinks 1273 into the floor (it folds toward the sill)."
+  - id: door:d32
+    opening: open:s38_recess__s62_passage
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorf, size: [128, 256]}
+    notes: "Opened by the switch in the south cell (event 31); it has no handler of its own."
+  - id: door:d36
+    opening: open:s45_passage__s45_cell
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorf, size: [128, 256]}
+    notes: Toggled by the switch in the closet off the west hall (event 33). From the passage it says The Door Won't Budge (event 21).
+  - id: door:d4
+    opening: open:s69_top__s3_gallery
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorc, size: [256, 256]}
+    back_surface: {texture: hvwl2a, size: [128, 256]}
+    tile: true
+    notes: "In the original this door has a handler only on its corridor side (event 4): it cannot be opened from the gallery. A door event cannot be given to one side, so it waits for the stair door (d42), which is on the only other way to the corridor."
+  - id: door:d42
+    opening: open:s28_cave__s66_landing
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorc, size: [256, 256]}
+  - id: door:d45
+    opening: open:s1_lock__s3_gallery
+    kind: slide_left
+    leaves: 2
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 60
+    pictures:
+      - [{texture: hvdord, size: [256, 256]}, {texture: hvdord, size: [256, 256]}]
+    notes: "Doors 45 and 46 of the original: two leaves 256 wide that part in the middle, each folding 250 toward its jamb (only the free edge moves), each with the whole hvdord picture (faces 2086, 2904, 2905, 2906)."
+  - id: door:d5
+    opening: open:s14_tunnel__s4_hall
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorf, size: [128, 256]}
+    notes: "Original: opens from the tunnel side (event 5); from the chamber it says The Door Won't Budge (event 21). Both sides open it here: the tunnel behind is reached from the south-west pit in the same step."
+  - id: door:d6
+    opening: open:s37_east_hall__s64_passage
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorg, size: [128, 256]}
+  - id: door:d7
+    opening: open:s51_passage__s50_cell
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdorf, size: [128, 256]}
+  - id: door:d8
+    opening: open:s65_upper__s65_ramp1
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvwl5a, size: [128, 256]}
+    back_surface: {texture: hvdore, size: [256, 256]}
+    tile: true
+    notes: "As the original's leaf: the wall's texture (hvwl5a) toward the guard room, a door (hvdore) toward the ramp."
+  - id: door:d9
+    opening: open:s44_ramp__s38_west_hall
+    kind: slide_up
+    fold: true
+    travel: 250
+    state: closed
+    thickness: 32
+    speed: 85
+    surface: {texture: hvdord, size: [256, 256]}
+movers:
+  - id: mover:button16
+    room: room:s48_cell
+    at: [-5496, 2481]
+    size: [64, 16]
+    bottom: 121
+    height: 64
+    travel: [0, -10, 0]
+    speed: 70
+    surface: {texture: orfyr64a, size: [64, 64]}
+    top_surface: {texture: oflrl32, size: [32, 32]}
+    end_surface: {texture: oflrl32, size: [32, 32]}
+    notes: "The flush control button (door 16 of the original, event 16): 64 square, 16 out of the wall, pushed 10 into it at each press. The original's wall here leans and stands 26 further north at the button's height."
+  - id: mover:button31
+    room: room:s46_cell
+    at: [-1548, 2193]
+    size: [32, 10]
+    bottom: 64
+    height: 32
+    travel: [0, -8, 0]
+    speed: 90
+    surface: {texture: hvtrim4, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+    end_surface: {texture: hvtrim2, size: [32, 32]}
+    notes: "The south cell's button (door 31 of the original, event 31): 32 square, 10 out of the wall, pushed 8 into it."
+  - id: mover:button35
+    room: room:s63_closet
+    at: [-3845, 18294]
+    size: [10, 64]
+    bottom: 96
+    height: 64
+    travel: [8, 0, 0]
+    speed: 90
+    surface: {texture: hvwl5, size: [64, 64]}
+    top_surface: {texture: hvwl3, size: [64, 64]}
+    end_surface: {texture: hvwl3, size: [64, 64]}
+    notes: "The closet's button (door 35 of the original, event 33): 64 square, 10 out of the wall, pushed 8 into it at each press and back at the next."
+  - id: mover:button37
+    room: room:s65_low
+    at: [4581, 17862]
+    size: [10, 64]
+    bottom: 640
+    height: 64
+    travel: [-8, 0, 0]
+    speed: 90
+    surface: {texture: hvwl4, size: [64, 64]}
+    top_surface: {texture: hvflorf, size: [128, 128]}
+    end_surface: {texture: hvflorf, size: [128, 128]}
+    notes: "The guard room's button (door 37 of the original, event 34) over the floor panel: 64 square, 10 out of the wall, pushed 8 into it at each press and back at the next. The original's wall stands 32 further west (4544)."
+  - id: mover:button41
+    room: room:s50_cell
+    at: [8301, 7428]
+    size: [32, 10]
+    bottom: 128
+    height: 32
+    travel: [0, 8, 0]
+    speed: 90
+    surface: {texture: hvtrim1, size: [32, 32]}
+    top_surface: {texture: hvwl3, size: [64, 64]}
+    end_surface: {texture: hvwl3, size: [64, 64]}
+    notes: "The east cell's hatch button (door 41 of the original, event 36): 32 square, 10 out of the wall, pushed 8 into it at each press and back at the next."
+  - id: mover:button50
+    room: room:s74_switch
+    at: [-4152, 11464]
+    size: [16, 16]
+    bottom: 121
+    floor_height: -1565
+    height: 16
+    travel: [0, 0, -18]
+    speed: 50
+    surface: {texture: hvflorh, size: [128, 128]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+    notes: "The floor button on the closet's shelf (door 50 of the original): 16 square and 16 high, it sinks into the shelf when pressed (event 50)."
+  - id: mover:floor_panel
+    room: room:s65_low
+    at: [4826, 17862]
+    size: [12, 256]
+    bottom: 512
+    height: 32
+    travel: [-244, 0, 0]
+    speed: 100
+    state: end
+    stretch: true
+    surface: {texture: hvtrim1, size: [32, 32]}
+    top_surface: {texture: hvflora, size: [128, 128]}
+    notes: "The guard room's floor panel (door 38 of the original): the west end of the upper floor, 32 thick, over the lower passage; its west edge slides east into a 12-wide stub at the switch (event 34). Drawn at its open pose and grown west, so the map begins with `state: end` (the floor whole). The original reaches 31 further west, over the wall between the passage and the west room."
+  - id: mover:gate_high
+    room: room:s79_reactor
+    at: [4416, 25286]
+    size: [2304, 128]
+    bottom: 640
+    height: 640
+    travel: [0, 0, 639]
+    speed: 500
+    surface: {texture: hvwl6, size: [128, 256]}
+    parts:
+      - {at: [3456, 25286], size: [384, 128], bottom: 512, height: 128}
+      - {at: [4224, 25286], size: [384, 128], bottom: 512, height: 128}
+      - {at: [4992, 25286], size: [384, 128], bottom: 512, height: 128}
+    notes: "The upper half of the ring wall's north gate (door 52 of the original): a comb from the gate's ceiling (-976) down to -1616 with three teeth 384 wide to -1744, shut at the start; it rises 639 into the ceiling when opened, leaving its teeth hanging 128 under -977 as the original's do. The teeth's undersides are hvflord in the original; a part has one surface for its sides and underside."
+  - id: mover:gate_low
+    room: room:s79_reactor
+    at: [4416, 25286]
+    size: [2304, 128]
+    height: 640
+    travel: [0, 0, -638]
+    speed: 500
+    surface: {texture: hvwl6, size: [128, 256]}
+    top_surface: {texture: hvwl6, size: [128, 256]}
+    parts:
+      - {at: [3840, 25286], size: [384, 128], height: 128, top_surface: {texture: hvflord, size: [128, 128]}}
+      - {at: [4608, 25286], size: [384, 128], height: 128, top_surface: {texture: hvflord, size: [128, 128]}}
+      - {at: [5376, 25286], size: [384, 128], height: 128, top_surface: {texture: hvflord, size: [128, 128]}}
+    notes: "The lower half of the north gate (door 51 of the original): a comb from the floor to -1616 with three teeth to -1488 between the upper half's, shut at the start; it sinks into the floor when opened, leaving its teeth standing 128 high (the original's body stops 1 above the floor, here 2, so the teeth stand 130)."
+  - id: mover:hatch_1
+    room: room:s4_hall
+    at: [767, 8806.5]
+    size: [2, 47]
+    bottom: 6
+    height: 32
+    travel: [-478, 0, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: hvtrim2, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+    notes: "The hatch's cover over the shaft (door 43 of the original): six slats 480 by 47, 32 thick, lying 6 above the floor, whose west ends slide east 480 and fold under the trim strip at x 768. Drawn at their open pose (2 wide at the east end) and grown to the west, so the map begins with `state: end` (shut); `closes` uncovers the hole."
+  - id: mover:hatch_2
+    room: room:s4_hall
+    at: [767, 8870.5]
+    size: [2, 47]
+    bottom: 6
+    height: 32
+    travel: [-478, 0, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: hvtrim2, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+  - id: mover:hatch_3
+    room: room:s4_hall
+    at: [767, 8934.5]
+    size: [2, 47]
+    bottom: 6
+    height: 32
+    travel: [-478, 0, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: hvtrim2, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+  - id: mover:hatch_4
+    room: room:s4_hall
+    at: [767, 8998.5]
+    size: [2, 47]
+    bottom: 6
+    height: 32
+    travel: [-478, 0, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: hvtrim2, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+  - id: mover:hatch_5
+    room: room:s4_hall
+    at: [767, 9062.5]
+    size: [2, 47]
+    bottom: 6
+    height: 32
+    travel: [-478, 0, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: hvtrim2, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+  - id: mover:hatch_6
+    room: room:s4_hall
+    at: [767, 9126.5]
+    size: [2, 47]
+    bottom: 6
+    height: 32
+    travel: [-478, 0, 0]
+    speed: 50
+    state: end
+    stretch: true
+    surface: {texture: hvtrim2, size: [32, 32]}
+    top_surface: {texture: hvtrim2, size: [32, 32]}
+  - id: mover:ring_ne
+    room: room:s79_reactor
+    outline: [[5568, 25222], [7104, 22406], [7232, 22406], [5568, 25350]]
+    height: 1279
+    travel: [0, 0, -1281]
+    speed: 500
+    surface: {texture: hvwl1a, size: [128, 256]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+  - id: mover:ring_nw
+    room: room:s79_reactor
+    outline: [[1984, 22406], [3264, 25222], [3264, 25350], [1856, 22406]]
+    height: 1279
+    travel: [0, 0, -1281]
+    speed: 500
+    surface: {texture: hvwl1a, size: [128, 256]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+  - id: mover:ring_se
+    room: room:s79_reactor
+    outline: [[5568, 19590], [7232, 22406], [7104, 22406], [5568, 19718]]
+    height: 1279
+    travel: [0, 0, -1281]
+    speed: 500
+    surface: {texture: hvwl1a, size: [128, 256]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+  - id: mover:ring_se_stub
+    room: room:s79_reactor
+    outline: [[5184, 19590], [5568, 19590], [5568, 19718], [5056, 19718]]
+    height: 1279
+    travel: [0, 0, -1281]
+    speed: 500
+    surface: {texture: hvwl1a, size: [128, 256]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+  - id: mover:ring_sw
+    room: room:s79_reactor
+    outline: [[1856, 22406], [3264, 19590], [3264, 19718], [1984, 22406]]
+    height: 1279
+    travel: [0, 0, -1281]
+    speed: 500
+    surface: {texture: hvwl1a, size: [128, 256]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+    notes: "The ring wall round the reactor (door 53 of the original): 128 thick, 1279 high, standing at the start; it sinks into the floor when the map is entered after the reactor is destroyed (event 100). Six convex segments: the four sides and the two stubs beside the steps; the north side is the gate."
+  - id: mover:ring_sw_stub
+    room: room:s79_reactor
+    outline: [[3264, 19590], [3648, 19590], [3776, 19718], [3264, 19718]]
+    height: 1279
+    travel: [0, 0, -1281]
+    speed: 500
+    surface: {texture: hvwl1a, size: [128, 256]}
+    top_surface: {texture: hvflord, size: [128, 128]}
+plates:
+  - id: plate:lock_entry
+    room: room:s1_lock
+    at: [448, 4292]
+    size: [320, 320]
+    notes: "The floor face of event 17 (x 256 to 640, y 4096 to 4480), 16 inside the walls."
+  - id: plate:lock_inner
+    room: room:s1_lock
+    at: [448, 5360]
+    size: [512, 224]
+    notes: "The floor face of event 19 before the double door (x 193 to 705, y 5248 to 5504): walking over it arms the flush system."
+  - id: plate:pad_cells_n
+    room: room:s56_cells_n
+    at: [5696, 11728]
+    size: [222, 222]
+    surface: {texture: orwtr64, size: [64, 64]}
+    notes: "Water pad at the south end of the north cell block (x 5568 to 5824, y 11584 to 11840 in the original), 17 inside the walls."
+  - id: plate:pad_east_tunnel
+    room: room:s24_tunnel
+    at: [7658, 8131]
+    size: [236, 128]
+    surface: {texture: orwtr64, size: [64, 64]}
+  - id: plate:pad_hall_door
+    room: room:s14_tunnel
+    at: [-1483, 9219]
+    size: [114, 128]
+    surface: {texture: orwtr64, size: [64, 64]}
+    notes: "Water pad in front of door 5 (x -1540 to -1412 in the original); the doorway's wall is 16 nearer."
+  - id: plate:pad_keg
+    room: room:s73_keg
+    at: [-4440, 7240]
+    size: [236, 236]
+    surface: {texture: orwtr64, size: [64, 64]}
+  - id: plate:pad_north_tunnel
+    room: room:s30_tunnel
+    at: [-418, 13440]
+    size: [220, 128]
+    surface: {texture: orwtr64, size: [64, 64]}
+    notes: "The original's pad (x -547 to -291) is a wedge whose west edge stands 16 above the floor beyond it; a tunnel takes no platform, so the plate lies on the floor, 16 short at each end."
+  - id: plate:pad_west_passage
+    room: room:s62_passage
+    at: [-4032, 17782]
+    size: [96, 94]
+    surface: {texture: orwtr64, size: [64, 64]}
+    notes: "Water pad of the original x -4096 to -3968, y 17718 to 17846 (the passage's whole width): 17 inside its walls here."
+  - id: plate:safe_cells_s
+    room: room:s61_cells_s
+    at: [5696, 11184]
+    size: [222, 222]
+    notes: A plain floor patch with the protecting event (56) at the north end of the south cell block.
+  - id: plate:safe_chest_room
+    room: room:s75_chest
+    at: [5198, 14848]
+    size: [222, 222]
+    notes: A plain floor patch with the protecting event (56) in the chest room.
+lights:
+  - id: light:l00
+    room: room:s4_hall
+    at: [448, 8624]
+    height: 1852
+    radius: 1280
+    brightness: 31
+  - id: light:l01
+    room: room:s4_hall
+    at: [-576, 9656]
+    height: 1584
+    radius: 512
+    brightness: 31
+  - id: light:l02
+    room: room:s4_hall
+    at: [1464, 9648]
+    height: 1584
+    radius: 512
+    brightness: 31
+  - id: light:l03
+    room: room:s4_hall
+    at: [1464, 7600]
+    height: 1584
+    radius: 512
+    brightness: 31
+  - id: light:l04
+    room: room:s4_hall
+    at: [-576, 7584]
+    height: 1584
+    radius: 512
+    brightness: 31
+  - id: light:l05
+    room: room:s79_reactor
+    at: [4770, 23375]
+    height: 288
+    radius: 256
+    brightness: 31
+  - id: light:l06
+    room: room:s79_reactor
+    at: [3446, 23314]
+    height: 896
+    radius: 512
+    brightness: 31
+  - id: light:l07
+    room: room:s79_reactor
+    at: [4024, 23314]
+    height: 896
+    radius: 512
+    brightness: 31
+  - id: light:l08
+    room: room:s79_reactor
+    at: [5396, 23314]
+    height: 896
+    radius: 512
+    brightness: 31
+  - id: light:l09
+    room: room:s79_reactor
+    at: [5910, 23314]
+    height: 896
+    radius: 512
+    brightness: 31
+  - id: light:l10
+    room: room:s79_reactor
+    at: [3343, 23239]
+    height: 50
+    radius: 256
+    brightness: 31
+  - id: light:l11
+    room: room:s79_reactor
+    at: [3721, 23239]
+    height: 50
+    radius: 256
+    brightness: 31
+  - id: light:l12
+    room: room:s79_reactor
+    at: [4173, 23239]
+    height: 50
+    radius: 256
+    brightness: 31
+  - id: light:l13
+    room: room:s79_reactor
+    at: [5305, 23239]
+    height: 50
+    radius: 256
+    brightness: 31
+  - id: light:l14
+    room: room:s79_reactor
+    at: [5757, 23239]
+    height: 50
+    radius: 256
+    brightness: 31
+  - id: light:l15
+    room: room:s79_reactor
+    at: [4160, 22016]
+    height: 1136
+    radius: 384
+    brightness: 31
+  - id: light:l16
+    room: room:s79_reactor
+    at: [4160, 21248]
+    height: 1136
+    radius: 384
+    brightness: 31
+  - id: light:l17
+    room: room:s79_reactor
+    at: [4544, 21632]
+    height: 1136
+    radius: 384
+    brightness: 31
+  - id: light:l18
+    room: room:s79_reactor
+    at: [3776, 21632]
+    height: 1136
+    radius: 384
+    brightness: 31
+  - id: light:l19
+    room: room:s79_reactor
+    at: [2976, 22592]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l20
+    room: room:s79_reactor
+    at: [4128, 22592]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l21
+    room: room:s79_reactor
+    at: [5280, 22592]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l22
+    room: room:s79_reactor
+    at: [5280, 20544]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l23
+    room: room:s79_reactor
+    at: [4128, 20544]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l24
+    room: room:s79_reactor
+    at: [2976, 20544]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l25
+    room: room:s79_reactor
+    at: [5280, 21568]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l26
+    room: room:s79_reactor
+    at: [2976, 21568]
+    height: 16
+    radius: 384
+    brightness: 31
+  - id: light:l27
+    room: room:s79_reactor
+    at: [4224, 21504]
+    height: 160
+    radius: 384
+    brightness: 31
+chests:
+  - id: chest:c1
+    room: room:s58_cell
+    at: [4608, 10144]
+    size: [96, 64, 64]
+    surface: {texture: ch1frntb, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: ch1topb, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+  - id: chest:c2
+    room: room:s75_chest
+    at: [5549, 14848]
+    size: [64, 64, 64]
+    surface: {texture: ch2side, size: [64, 64]}
+    end_surface: {texture: ch2frnt, size: [64, 64]}
+    top_surface: {texture: ch2top, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+    items: [reactor_way_key]
+    trap_level: 1
+    notes: "The original's chest record 2 (opened by event 42): the key to door 6 (item 2190), two random items of level 6, and trapped (the record holds only the trapped bit, so trap_level 1). The other four chests are records 1, 3, 4 and 5: two random items of level 6 each, not trapped. Record 0 (two random items, trapped) is opened by no event and has no chest."
+  - id: chest:c3
+    room: room:s50_cell
+    at: [8519, 7593]
+    size: [96, 64, 64]
+    surface: {texture: ch1frntb, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: ch1topb, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+  - id: chest:c4
+    room: room:s12_alcove_e
+    at: [-2843, 4182]
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch1frntb, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: ch1tpbv, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+  - id: chest:c5
+    room: room:s34_cave
+    at: [-6888, 14460]
+    size: [96, 64, 64]
+    surface: {texture: ch1frntb, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: ch1topb, size: [64, 64]}
+    treasure_level: 6
+    random_items: 2
+spawns:
+  - id: spawn:m00
+    room: room:s52_cell
+    at: [5202, 12097]
+    slot: 2
+    radius: 32
+  - id: spawn:m01
+    room: room:s4_hall
+    at: [1664, 7424]
+    slot: 2
+    radius: 32
+  - id: spawn:m02
+    room: room:s50_cell
+    at: [8704, 7040]
+    slot: 2
+    radius: 32
+  - id: spawn:m03
+    room: room:s36_vestibule
+    at: [1280, 15232]
+    slot: 2
+    radius: 32
+    notes: "Original spawn index 8: a fixed rank of slot 2, which a spawn here cannot say."
+  - id: spawn:m04
+    room: room:s37_east_hall
+    at: [3536, 17120]
+    slot: 2
+    radius: 32
+  - id: spawn:m05
+    room: room:s4_hall
+    at: [16, 9104]
+    slot: 2
+    radius: 32
+  - id: spawn:m06
+    room: room:s4_hall
+    at: [128, 8544]
+    slot: 2
+    radius: 32
+  - id: spawn:m07
+    room: room:s4_hall
+    at: [896, 8448]
+    slot: 2
+    radius: 32
+  - id: spawn:m08
+    room: room:s72_store
+    at: [-2560, 8320]
+    slot: 1
+    radius: 32
+  - id: spawn:m09
+    room: room:s4_hall
+    at: [1920, 8448]
+    slot: 1
+    radius: 32
+  - id: spawn:m10
+    room: room:s34_cave
+    at: [-6816, 13616]
+    slot: 1
+    radius: 32
+  - id: spawn:m11
+    room: room:s37_east_hall
+    at: [3328, 16384]
+    slot: 2
+    radius: 32
+  - id: spawn:m12
+    room: room:s35_w
+    at: [-128, 17152]
+    slot: 2
+    radius: 32
+  - id: spawn:m13
+    room: room:s50_cell
+    at: [7808, 7168]
+    slot: 1
+    radius: 32
+  - id: spawn:m14
+    room: room:s37_east_hall
+    at: [3117, 16758]
+    slot: 1
+    radius: 32
+  - id: spawn:m15
+    room: room:s45_cell
+    at: [5760, 6368]
+    slot: 2
+    radius: 32
+  - id: spawn:m16
+    room: room:s53_cell
+    at: [4864, 12288]
+    slot: 2
+    radius: 32
+  - id: spawn:m17
+    room: room:s4_hall
+    at: [-160, 9568]
+    slot: 2
+    radius: 32
+  - id: spawn:m18
+    room: room:s61_cells_s
+    at: [5760, 10112]
+    slot: 1
+    radius: 32
+  - id: spawn:m19
+    room: room:s34_cave
+    at: [-7040, 13952]
+    slot: 2
+    radius: 32
+  - id: spawn:m20
+    room: room:s4_hall
+    at: [-800, 8096]
+    slot: 2
+    radius: 32
+  - id: spawn:m21
+    room: room:s63_closet
+    at: [-3894, 18048]
+    slot: 2
+    radius: 32
+  - id: spawn:m22
+    room: room:s58_cell
+    at: [4852, 10990]
+    slot: 2
+    radius: 32
+  - id: spawn:m23
+    room: room:s4_hall
+    at: [1920, 9344]
+    slot: 2
+    radius: 32
+  - id: spawn:m24
+    room: room:s4_hall
+    at: [-1136, 9392]
+    slot: 2
+    radius: 32
+  - id: spawn:m25
+    room: room:s46_cell
+    at: [-2035, 2629]
+    slot: 2
+    radius: 32
+  - id: spawn:m26
+    room: room:s3_gallery
+    at: [512, 6272]
+    slot: 1
+    radius: 32
+  - id: spawn:m27
+    room: room:s4_hall
+    at: [768, 9472]
+    slot: 1
+    radius: 32
+  - id: spawn:m28
+    room: room:s4_hall
+    at: [-480, 8480]
+    slot: 2
+    radius: 32
+  - id: spawn:m29
+    room: room:s34_cave
+    at: [-6784, 13056]
+    slot: 1
+    radius: 32
+  - id: spawn:m30
+    room: room:s34_cave
+    at: [-6864, 14192]
+    slot: 2
+    radius: 32
+  - id: spawn:m31
+    room: room:s56_cells_n
+    at: [5760, 12800]
+    slot: 1
+    radius: 32
+  - id: spawn:m32
+    room: room:s4_hall
+    at: [448, 7776]
+    slot: 2
+    radius: 32
+  - id: spawn:m33
+    room: room:s50_cell
+    at: [8208, 6960]
+    slot: 2
+    radius: 32
+  - id: spawn:m34
+    room: room:s37_east_hall
+    at: [2896, 17088]
+    slot: 2
+    radius: 32
+  - id: spawn:m35
+    room: room:s38_west_hall
+    at: [-2380, 17074]
+    slot: 1
+    radius: 32
+  - id: spawn:m36
+    room: room:s4_hall
+    at: [-288, 7648]
+    slot: 2
+    radius: 32
+  - id: spawn:m37
+    room: room:s60_cell
+    at: [6784, 10624]
+    slot: 2
+    radius: 32
+  - id: spawn:m38
+    room: room:s35_e
+    at: [768, 15872]
+    slot: 1
+    radius: 32
+  - id: spawn:m39
+    room: room:s4_hall
+    at: [992, 7328]
+    slot: 2
+    radius: 32
+  - id: spawn:m40
+    room: room:s4_hall
+    at: [1360, 8704]
+    slot: 2
+    radius: 32
+  - id: spawn:m41
+    room: room:s59_cell
+    at: [6193, 10815]
+    slot: 2
+    radius: 32
+  - id: spawn:m42
+    room: room:s4_hall
+    at: [0, 7328]
+    slot: 2
+    radius: 32
+  - id: spawn:m43
+    room: room:s48_cell
+    at: [-5648, 2887]
+    slot: 1
+    radius: 32
+monsters:
+  - id: monster:queen
+    room: room:s77_queen
+    monster: 646
+    at: [3328, 26880]
+    group: 85
+    notes: "Actor 1 of the original's scene: the Demon Queen (monster_data 646), 1300 hit points as its kind, group 85, hostility as the tables; the actor record holds no facing."
+  - id: monster:reactor
+    room: room:s79_reactor
+    monster: 647
+    at: [4416, 22464]
+    group: 85
+    notes: "Actor 0 of the original's scene: the Reactor (monster_data 647) on the dais (z -2128, the platform's top), 1300 hit points as its kind, group 85."
+items:
+  - id: item:scroll
+    room: room:s1_lock
+    item: 1817
+    at: [128, 5248]
+    notes: "Sprite object 0 of the original's scene: item 1817 (a Feather Fall scroll) on the lock's floor at z 0."
+decorations:
+  - id: deco:keg
+    room: room:s73_keg
+    decoration: smlbarel
+    at: [-4528, 7312]
+    notes: "The original's keg, the source of its event 23 (title Keg: the text \" +20 Hit Points\" and 20 hit points to the party, each click). A wiring event cannot name a decoration as its source with any preset (repro: output/studio_cal/mm6_hive/repro/keg_decoration_source), and the room is not reached (its doorway stands above the tunnel's top), so the event is left out."
+  - id: deco:skull_pile
+    room: room:s1_lock
+    decoration: sklplrev
+    at: [76, 5408]
+exits:
+  - id: exit:final
+    room: room:s77_alcove
+    at: [5056, 27264]
+    size: [256, 256]
+    surface: {texture: hvflorg, size: [128, 128]}
+    to: exit:new_sorpigal
+    notes: "The original's face 3378 (hvflorG, 256 by 256) closing the low alcove east of the Queen's chamber."
+  - id: exit:south
+    room: room:s76_entry
+    wall: south
+    size: [256, 256]
+    surface: {texture: hvwl1spb, size: [256, 256], fit: true}
+    to: exit:sweet_water
+notes: "Doors, spawns, lights, chests, the two placed monsters and the lying item stand at the places of the original's scene."

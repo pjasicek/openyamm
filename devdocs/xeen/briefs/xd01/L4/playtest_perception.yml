@@ -1,0 +1,24 @@
+# Perception's way through Joe's street doors (XD-01 L4): the MM7 world's new-game party, whose best Perception is 3,
+# finds the loose shutter and the doors open for it without the warehouse key (playtest.yml takes the key's way with a
+# party that has no Perception). Event and door numbers are ids.lock.yml's.
+id: xeen.xd01.l4.perception
+title: Joe's Warehouse (XD-01 L4), the street doors by Perception 3
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd01.blv
+  - assert: {map: xeen_xd01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua:
+      source: |
+        if has_item(2176) then error("the party already carries the warehouse key") end
+        if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the street doors do not start shut") end
+        status()
+        click(27); wait(1)
+        local seen = status()
+        if not string.find(seen, "shutter is loose", 1, true) then error("Perception 3 did not find the loose shutter: " .. seen) end
+        click(31); wait(3)
+        if door_state(16) ~= "open" or door_state(17) ~= "open" then error("the street doors did not open for Perception 3: " .. door_state(16) .. " " .. door_state(17)) end
+  - walk_to: {x: 768, y: 400, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
+  - assert: {party_position: {x: 768, y: 400, radius: 160, z_min: -8, z_max: 8}}

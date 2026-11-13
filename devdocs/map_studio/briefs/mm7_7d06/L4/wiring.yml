@@ -1,0 +1,228 @@
+format: 0
+variables: [bookcase_l01, bookcase_l02, bookcase_l03, bookcase_l04, bookcase_l05, bookcase_l06, bookcase_l07, bookcase_l08, bookcase_l09, bookcase_l10, bookcase_s1, bookcase_s2, bookcase_s3, bookcase_s4, bookcase_s5]
+events:
+  - id: evt:bookcase_l01
+    preset: script
+    source: platform:bookcase_l01
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l01}}
+    sets: {map_var: bookcase_l01}
+    effects:
+      - give_item: torch_light_scroll
+    notes: "As the original's event 35: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l02
+    preset: script
+    source: platform:bookcase_l02
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l02}}
+    sets: {map_var: bookcase_l02}
+    effects:
+      - give_item: torch_light_scroll
+    notes: "As the original's event 36: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l03
+    preset: script
+    source: platform:bookcase_l03
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l03}}
+    sets: {map_var: bookcase_l03}
+    effects:
+      - give_item: torch_light_scroll
+    notes: "As the original's event 37: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l04
+    preset: script
+    source: platform:bookcase_l04
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l04}}
+    sets: {map_var: bookcase_l04}
+    effects:
+      - give_item: torch_light_scroll
+    notes: "As the original's event 38: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l05
+    preset: script
+    source: platform:bookcase_l05
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l05}}
+    sets: {map_var: bookcase_l05}
+    effects:
+      - give_item: torch_light_scroll
+    notes: "As the original's event 39: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l06
+    preset: script
+    source: platform:bookcase_l06
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l06}}
+    sets: {map_var: bookcase_l06}
+    effects:
+      - give_item: wizard_eye_scroll
+    notes: "As the original's event 41: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l07
+    preset: script
+    source: platform:bookcase_l07
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l07}}
+    sets: {map_var: bookcase_l07}
+    effects:
+      - give_item: wizard_eye_scroll
+    notes: "As the original's event 42: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l08
+    preset: script
+    source: platform:bookcase_l08
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l08}}
+    sets: {map_var: bookcase_l08}
+    effects:
+      - give_item: wizard_eye_scroll
+    notes: "As the original's event 43: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l09
+    preset: script
+    source: platform:bookcase_l09
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l09}}
+    sets: {map_var: bookcase_l09}
+    effects:
+      - give_item: wizard_eye_scroll
+    notes: "As the original's event 32: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_l10
+    preset: script
+    source: platform:bookcase_l10
+    title: Bookcase
+    condition: {not: {map_var: bookcase_l10}}
+    sets: {map_var: bookcase_l10}
+    effects:
+      - give_item: wizard_eye_scroll
+    notes: "As the original's event 40: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_s1
+    preset: script
+    source: platform:bookcase_s1
+    title: Bookcase
+    condition: {not: {map_var: bookcase_s1}}
+    sets: {map_var: bookcase_s1}
+    effects:
+      - give_item: torch_light_book
+    notes: "As the original's event 29: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_s2
+    preset: script
+    source: platform:bookcase_s2
+    title: Bookcase
+    condition: {not: {map_var: bookcase_s2}}
+    sets: {map_var: bookcase_s2}
+    effects:
+      - give_item: awaken_book
+    notes: "As the original's event 30: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_s3
+    preset: script
+    source: platform:bookcase_s3
+    title: Bookcase
+    condition: {not: {map_var: bookcase_s3}}
+    sets: {map_var: bookcase_s3}
+    effects:
+      - give_item: fire_resistance_scroll
+    notes: "As the original's event 31: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_s4
+    preset: script
+    source: platform:bookcase_s4
+    title: Bookcase
+    condition: {not: {map_var: bookcase_s4}}
+    sets: {map_var: bookcase_s4}
+    effects:
+      - give_item: fire_bolt_scroll
+    notes: "As the original's event 33: the first search gives the item, later ones nothing."
+  - id: evt:bookcase_s5
+    preset: script
+    source: platform:bookcase_s5
+    title: Bookcase
+    condition: {not: {map_var: bookcase_s5}}
+    sets: {map_var: bookcase_s5}
+    effects:
+      - give_item: poison_spray_scroll
+    notes: "As the original's event 34: the first search gives the item, later ones nothing."
+  - id: evt:button_n
+    preset: switch
+    source: switch:button_n
+    title: Door
+    opens: [door:double_n]
+    once: true
+    notes: "The button beside the north double door: like a click on the door itself, it opens both leaves for good (the original's event 3 presses the button in and opens doors 7 and 8)."
+  - id: evt:button_s
+    preset: switch
+    source: switch:button_s
+    title: Door
+    opens: [door:double_s]
+    once: true
+    notes: The button beside the south double door (the original's event 2).
+  - id: evt:chest_cabinet_1
+    preset: chest
+    source: chest:cabinet_1
+    title: Chest
+  - id: evt:chest_cabinet_2
+    preset: chest
+    source: chest:cabinet_2
+    title: Chest
+  - id: evt:chest_cabinet_3
+    preset: chest
+    source: chest:cabinet_3
+    title: Chest
+  - id: evt:chest_cabinet_4
+    preset: chest
+    source: chest:cabinet_4
+    title: Chest
+  - id: evt:chest_cabinet_hat
+    preset: chest
+    source: chest:cabinet_hat
+    title: Chest
+    notes: "The cabinet with the Wealthy Hat (scavenger hunt); the hat is a fixed item of the chest, so taking it needs nothing else here."
+  - id: evt:chest_rock_sinkhole
+    preset: script
+    source: panel:rock_chest_sinkhole
+    title: Chest
+    effects:
+      - open_chest: chest:rock_sinkhole
+    notes: "As the original's event 26 (title Chest, OpenChest(6)) on the rock face f2236: the panel in the sinkhole's west wall opens the chest."
+  - id: evt:chest_rock_south_cavern
+    preset: script
+    source: panel:rock_chest_south_cavern
+    title: Chest
+    effects:
+      - open_chest: chest:rock_south_cavern
+    notes: "As the original's event 27 (title Chest, OpenChest(7)) on the rock face f39."
+  - id: evt:door_double_n
+    preset: door
+    source: door:double_n
+    title: Door
+    action: open
+    notes: "North wing double door: a click from either side opens it for good; there is no close."
+  - id: evt:door_double_s
+    preset: door
+    source: door:double_s
+    title: Door
+    action: open
+    notes: "South wing double door, on the critical path."
+  - id: evt:exit
+    preset: exit
+    source: exit:mouth
+    title: Leave the Temple of the Moon
+  - id: evt:fire_bolts
+    preset: script
+    trigger: timer
+    every: 5
+    effects:
+      - cast:
+          spell: 2
+          from: [-2619, 7850, -415]
+          to: [-2619, 4008, -415]
+          mastery: normal
+          level: 2
+      - cast:
+          spell: 2
+          from: [-2619, 4050, -415]
+          to: [-2619, 7896, -415]
+          mastery: normal
+          level: 2
+    notes: "The fire-bolt crossfire, as the original's event 51: every 5 half-minutes of game time (5 seconds of play) for as long as the map is loaded, Fire Bolt (normal mastery, skill 2) is cast twice along the lane at x -2619, one unit above the wing floors, from the north corridor's east end (y 7850) south through the north passage, across the apse's strip and through the south passage to the south corridor (y 4008), and from there (y 4050) back north. The torches at the corridors' east ends mark the two points."
+  - id: evt:secret_wall
+    preset: door
+    source: door:secret_wall
+    title: Door
+    action: open
+    notes: "The library's secret lifting wall into the hidden passage (a secret door): a click from either side lifts it for good, as the original's event 4 (title 'Door', door 4 open)."
+notes: "29 events: the 2 double doors and the secret wall (open for good), the two buttons beside the double doors (each opens its door's two leaves, once, as the original's events 2 and 3), 7 chests (5 cabinets and 2 rock-face panels), the 15 bookcase faces (each a clicked block: the first search gives its scroll or book, later ones nothing, as the original's events 29 to 43 with their map variables), the exit, and the fire-bolt crossfire (the original's event 51 on its 5 half-minute timer). The original's event 1 (doors 1 to 3, which the map does not have) and its chest 8 event (28, on no face) are dead and not rebuilt. The scavenger hunt items (the hat in chest:cabinet_hat, the Longbow on the captain, the moon floor tile on the study's floor) need no event: their quest bits are set and cleared on Emerald Island."

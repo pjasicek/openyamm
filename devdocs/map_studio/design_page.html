@@ -1,0 +1,1363 @@
+<title>OpenYAMM Map Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fondamento&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one reading column for prose; full-width bands for the studio mockups, matrices and step tables. */
+:root{
+  --bg:#E8EBEE; --surface:#F6F7F8; --ink:#1A1D22; --muted:#596270; --line:#CAD0D7;
+  --brass:#835C1E; --brass-soft:#EEE1CB; --focus:#2C68BA; --ok:#357642; --warn:#8C620D; --bad:#A13838; --code:#DEE3E8;
+  --f-display:'Fondamento','Palatino Linotype',Palatino,Georgia,serif;
+  --f-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  /* Studio mockups: always dark, values from editor/assets/editor_ux_work/css_tokens.json */
+  --s-app:#16181C; --s-panel:#1D2127; --s-panel2:#222730; --s-toolbar:#181B20; --s-frame:#111317; --s-input:#14171C;
+  --s-b1:#2B313B; --s-b2:#3A4350; --s-b3:#566274; --s-t1:#E6E8EB; --s-t2:#B5BDC8; --s-t3:#8D96A3; --s-t4:#616A76;
+  --s-acc:#B9873D; --s-acc-h:#D29A49; --s-acc-bg:#3A2B18; --s-acc-bd:#6C4D20; --s-focus:#5E98E5; --s-focus-bg:#1B2A40;
+  --s-ok:#5FA36A; --s-warn:#D0A44C; --s-err:#CC6666; --s-info:#72A7D8; --s-portal:#3FB8AF;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#101215; --surface:#171A1E; --ink:#E4E7EA; --muted:#98A1AE; --line:#2C323B;
+  --brass:#CF9D52; --brass-soft:#33271A; --focus:#74A6EA; --ok:#6DB278; --warn:#D7AB55; --bad:#DB7676; --code:#1E2228; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#101215; --surface:#171A1E; --ink:#E4E7EA; --muted:#98A1AE; --line:#2C323B;
+  --brass:#CF9D52; --brass-soft:#33271A; --focus:#74A6EA; --ok:#6DB278; --warn:#D7AB55; --bad:#DB7676; --code:#1E2228; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.wrap{max-width:1200px;margin:0 auto}
+.prose{max-width:72ch}
+h1,h2{font-family:var(--f-display);font-weight:400;text-wrap:balance;letter-spacing:.005em}
+h1{font-size:clamp(40px,6vw,64px);line-height:1.05;margin:0 0 18px}
+h2{font-size:clamp(28px,3.4vw,36px);line-height:1.15;margin:0 0 12px}
+h3{font-size:16px;font-weight:600;margin:0 0 6px}
+p{margin:0 0 12px}
+code{font-family:var(--f-mono);font-size:.86em;background:var(--code);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+a{color:var(--focus)}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin:0 0 14px}
+section{padding-top:76px}
+.lede{font-size:18px;line-height:1.55;max-width:64ch}
+.sub{color:var(--muted)}
+header.hero{padding-top:56px}
+.rev{display:inline-block;font:500 12px/1 var(--f-mono);border:1px solid var(--brass);color:var(--brass);border-radius:4px;padding:5px 8px;margin-bottom:18px}
+.changes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 26px;margin-top:28px}
+.changes div{min-width:0;border-top:2px solid var(--brass);padding-top:10px}
+.changes p{font-size:14.5px;color:var(--muted);margin:0}
+@media (max-width:820px){.changes{grid-template-columns:1fr}}
+.finds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:22px}
+.finds div{background:var(--surface);padding:16px 18px;min-width:0}
+.finds h3{font-size:15.5px}
+.finds p{font-size:14px;color:var(--muted);margin:0 0 6px}
+.finds .so{font:12px/1.5 var(--f-mono);color:var(--muted)}
+.finds .take{font-size:13.5px;color:var(--ink);margin-top:6px}
+.finds .take b{color:var(--brass);font-weight:600}
+@media (max-width:760px){.finds{grid-template-columns:1fr}}
+.tablebox{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 11.5px/1.3 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+td.mono,span.mono{font-family:var(--f-mono);font-size:12.5px}
+.stg{display:inline-block;font:600 11px/1 var(--f-body);letter-spacing:.04em;padding:4px 7px;border-radius:4px;white-space:nowrap;color:#fff}
+.stg.plan{background:#5b6b8c}.stg.shape{background:#5f7542}.stg.build{background:#85622f}.stg.wire{background:#8c4f6a}.stg.populate{background:#9a4a42}.stg.dress{background:#3f7479}.stg.test{background:#4a5a72}
+.stages-tbl td:first-child{width:118px}
+.stages-tbl td{font-size:13.5px}
+.matrix td.sym{text-align:center;font-size:15px;width:84px}
+.matrix th.c{text-align:center}
+.matrix tr.grp td{background:var(--brass-soft);font:600 12px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--brass);padding:9px 12px}
+.sym.y{color:var(--ok)} .sym.n{color:var(--line)}
+.matrix td.note{font-size:12.5px;color:var(--muted)}
+.cases-nav{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 0}
+.cases-nav button{font:500 14px/1 var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer}
+.cases-nav button small{font:500 11px/1 var(--f-mono);color:var(--muted);margin-left:6px}
+.cases-nav button[aria-selected="true"]{background:var(--brass);border-color:var(--brass);color:var(--surface)}
+.cases-nav button[aria-selected="true"] small{color:var(--surface)}
+.cases-nav button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.case{margin-top:22px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.facts span{font:12.5px/1 var(--f-mono);background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:7px 9px}
+.facts span b{color:var(--brass);font-weight:500}
+.steps td:nth-child(1){width:34px}
+.steps td:nth-child(2){width:96px}
+.steps td:nth-child(4){font-size:13px;color:var(--muted);width:23%}
+.steps td:nth-child(5){font-size:13px;width:27%}
+kbd{font:500 11px/1 var(--f-mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 5px;background:var(--surface);color:var(--ink);white-space:nowrap}
+.demands{columns:2;column-gap:28px;margin:14px 0 0;padding-left:18px;font-size:14px}
+.demands li{margin-bottom:6px;break-inside:avoid}
+@media (max-width:760px){.demands{columns:1}}
+.figcap{font-size:13.5px;color:var(--muted);margin:8px 0 0;max-width:90ch}
+.figcap b{color:var(--ink)}
+.mock{margin-top:22px}
+.mock h3{font-size:15px;margin-bottom:8px}
+
+/* ---------- Studio mockup ---------- */
+.studio-scroll{overflow-x:auto;border-radius:12px}
+.studio{position:relative;min-width:1180px;height:660px;background:var(--s-app);color:var(--s-t2);font:12.5px/1.4 var(--f-body);border:1px solid var(--s-b2);border-radius:12px;overflow:hidden;display:grid;grid-template-rows:40px 36px minmax(0,1fr) 26px}
+.s-title{display:flex;align-items:center;gap:12px;background:var(--s-toolbar);border-bottom:1px solid var(--s-b1);padding:0 12px}
+.s-logo{font:17px/1 var(--f-display);color:var(--s-acc-h);white-space:nowrap}
+.s-doc{display:flex;align-items:baseline;gap:8px;min-width:0}
+.s-doc b{color:var(--s-t1);font-weight:600;font-size:13px;white-space:nowrap}
+.s-doc span{font:11.5px/1 var(--f-mono);color:var(--s-t3);white-space:nowrap}
+.s-sp{flex:1}
+.s-search{display:flex;align-items:center;gap:8px;width:300px;background:var(--s-input);border:1px solid var(--s-b2);border-radius:6px;padding:6px 9px;color:var(--s-t3);font-size:12px}
+.s-search kbd{margin-left:auto;background:var(--s-panel2);border-color:var(--s-b2);color:var(--s-t3)}
+.s-btn{font:500 12px/1 var(--f-body);background:var(--s-panel2);color:var(--s-t1);border:1px solid var(--s-b2);border-radius:6px;padding:7px 10px;white-space:nowrap;display:inline-block}
+.s-btn.primary{background:var(--s-acc);border-color:var(--s-acc);color:#1b140a;font-weight:600}
+.s-btn.sm{padding:5px 8px;font-size:11.5px}
+.s-stages{display:flex;align-items:stretch;background:var(--s-toolbar);border-bottom:1px solid var(--s-b1);padding:0 6px}
+.s-stage{display:flex;align-items:center;gap:7px;padding:0 13px;color:var(--s-t3);font:500 12.5px/1 var(--f-body);border-bottom:2px solid transparent;position:relative}
+.s-stage .n{font:10.5px/1 var(--f-mono);color:var(--s-t4)}
+.s-stage .pg{font:10.5px/1 var(--f-mono);color:var(--s-t3);background:var(--s-panel2);border-radius:3px;padding:2px 4px}
+.s-stage .pg.done{color:var(--s-ok)}
+.s-stage.on{color:var(--s-t1);border-bottom-color:var(--s-acc);background:linear-gradient(to top,var(--s-acc-bg),transparent 75%)}
+.s-stage+.s-stage::before{content:"›";position:absolute;left:-4px;color:var(--s-t4)}
+.s-viewtog{margin-left:auto;display:flex;align-items:center;gap:6px}
+.seg2{display:inline-flex;border:1px solid var(--s-b2);border-radius:6px;overflow:hidden}
+.seg2 span{padding:5px 8px;font:500 11.5px/1 var(--f-body);color:var(--s-t2);border-right:1px solid var(--s-b2);white-space:nowrap}
+.seg2 span:last-child{border-right:0}
+.seg2 span.on{background:var(--s-acc-bg);color:var(--s-acc-h)}
+.s-main{display:grid;grid-template-columns:62px minmax(0,1fr) 300px;min-height:0}
+.s-rail{background:var(--s-toolbar);border-right:1px solid var(--s-b1);padding:6px 5px;display:flex;flex-direction:column;gap:3px;overflow:hidden}
+.s-tool{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px 5px;border-radius:6px;color:var(--s-t2);font:500 10.5px/1.15 var(--f-body);text-align:center;border:1px solid transparent}
+.s-tool .g{width:24px;height:22px;border-radius:5px;background:var(--s-panel2);border:1px solid var(--s-b2);display:grid;place-items:center;font:600 10.5px/1 var(--f-mono);color:var(--s-t2)}
+.s-tool.on{background:var(--s-acc-bg);border-color:var(--s-acc);color:var(--s-t1)}
+.s-tool.on .g{background:var(--s-acc);border-color:var(--s-acc);color:#1b140a}
+.s-rail hr{border:0;border-top:1px solid var(--s-b1);margin:3px 4px;width:auto}
+.s-center{display:grid;grid-template-rows:34px minmax(0,1fr) 148px;min-width:0;min-height:0}
+.s-opts{display:flex;align-items:center;gap:10px;background:var(--s-panel);border-bottom:1px solid var(--s-b1);padding:0 10px;white-space:nowrap;overflow:hidden;font-size:12px}
+.s-opts .lbl{color:var(--s-t3)}
+.s-opts .v{color:var(--s-t1);background:var(--s-input);border:1px solid var(--s-b2);border-radius:5px;padding:3px 7px;font:11.5px/1.2 var(--f-mono)}
+.s-opts .tname{font-weight:600;color:var(--s-acc-h)}
+.s-opts .ck{display:inline-flex;align-items:center;gap:5px;color:var(--s-t2)}
+.s-opts .ck::before{content:"";width:11px;height:11px;border-radius:3px;border:1px solid var(--s-b3);background:var(--s-input)}
+.s-opts .ck.on::before{background:var(--s-acc);border-color:var(--s-acc)}
+.s-views{display:flex;min-height:0;background:var(--s-frame)}
+.s-v{position:relative;flex:1;min-width:0;overflow:hidden;border-right:1px solid var(--s-b1)}
+.s-v:last-child{border-right:0}
+.s-v canvas,.s-v svg.ov{position:absolute;inset:0;width:100%;height:100%;display:block}
+.s-v .vl{position:absolute;left:8px;top:8px;z-index:3;display:flex;gap:5px}
+.s-v .vl span{background:#111317e0;border:1px solid var(--s-b2);color:var(--s-t2);font:500 11px/1 var(--f-body);padding:4px 6px;border-radius:4px}
+.s-v .vl span.on{color:var(--s-acc-h);border-color:var(--s-acc-bd)}
+.s-v .vr{position:absolute;right:8px;top:8px;z-index:3;display:flex;gap:4px}
+.s-v .vr span{background:#111317e0;border:1px solid var(--s-b2);color:var(--s-t3);font:500 10.5px/1 var(--f-mono);padding:4px 6px;border-radius:4px}
+.s-v .vr span.on{color:var(--s-t1);border-color:var(--s-b3);background:var(--s-panel2)}
+.s-v .vb{position:absolute;left:8px;bottom:8px;z-index:3;background:#111317e0;border:1px solid var(--s-b2);color:var(--s-t3);font:11px/1.2 var(--f-body);padding:5px 7px;border-radius:4px;max-width:80%}
+.s-drawer{background:var(--s-panel);border-top:1px solid var(--s-b1);display:grid;grid-template-rows:28px minmax(0,1fr);min-height:0}
+.s-dtabs{display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--s-b1);align-items:stretch}
+.s-dtabs span{display:flex;align-items:center;gap:6px;padding:0 10px;font:500 11.5px/1 var(--f-body);color:var(--s-t3);border-bottom:2px solid transparent}
+.s-dtabs span.on{color:var(--s-t1);border-bottom-color:var(--s-focus)}
+.s-dtabs span b{font:500 10px/1 var(--f-mono);padding:2px 4px;border-radius:3px;background:var(--s-panel2);color:var(--s-t3)}
+.s-dtabs span b.w{color:var(--s-warn)} .s-dtabs span b.e{color:var(--s-err)}
+.s-dbody{overflow:auto;padding:8px 10px}
+.s-insp{background:var(--s-panel);border-left:1px solid var(--s-b1);display:grid;grid-template-rows:30px minmax(0,1fr);min-height:0}
+.s-itabs{display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--s-b1)}
+.s-itabs span{display:flex;align-items:center;padding:0 9px;font:500 11.5px/1 var(--f-body);color:var(--s-t3);border-bottom:2px solid transparent}
+.s-itabs span.on{color:var(--s-t1);border-bottom-color:var(--s-acc)}
+.s-ibody{overflow:auto;padding:10px 10px 16px}
+.s-status{display:flex;align-items:center;gap:16px;background:var(--s-toolbar);border-top:1px solid var(--s-b1);padding:0 12px;font:11px/1 var(--f-mono);color:var(--s-t3);white-space:nowrap;overflow:hidden}
+.s-status .hint{color:var(--s-t2);font-family:var(--f-body)}
+.s-status .r{margin-left:auto;display:flex;gap:14px}
+.ph{font:600 10.5px/1 var(--f-body);letter-spacing:.09em;text-transform:uppercase;color:var(--s-t3);margin:12px 2px 7px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ph:first-child{margin-top:2px}
+.ph em{font-style:normal;font-weight:500;letter-spacing:0;text-transform:none;color:var(--s-t4)}
+.card{background:var(--s-panel2);border:1px solid var(--s-b1);border-radius:8px;padding:9px 10px;margin-bottom:8px}
+.card h4{margin:0 0 2px;font-size:13px;color:var(--s-t1);font-weight:600}
+.card .k{font:11px/1.35 var(--f-mono);color:var(--s-t4)}
+.f{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:8px;margin:5px 0}
+.f label{color:var(--s-t3);font-size:11.5px}
+.inp{background:var(--s-input);border:1px solid var(--s-b2);border-radius:5px;padding:4px 7px;color:var(--s-t1);font:11.5px/1.3 var(--f-mono);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inp.pick{display:flex;justify-content:space-between;gap:6px}
+.inp.pick::after{content:"▾";color:var(--s-t4)}
+.chk{display:flex;align-items:center;gap:7px;margin:4px 0;color:var(--s-t2);font-size:12px}
+.chk::before{content:"";width:12px;height:12px;border-radius:3px;border:1px solid var(--s-b3);background:var(--s-input);flex:none}
+.chk.on::before{background:var(--s-acc);border-color:var(--s-acc);box-shadow:inset 0 0 0 2px var(--s-panel)}
+.chk .m{margin-left:auto;font:10.5px/1 var(--f-mono);color:var(--s-t4)}
+.list{display:flex;flex-direction:column;gap:1px}
+.li{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:5px;color:var(--s-t2);min-width:0}
+.li.on{background:var(--s-focus-bg);color:var(--s-t1);box-shadow:inset 2px 0 0 var(--s-focus)}
+.li .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li .m{font:10.5px/1 var(--f-mono);color:var(--s-t4);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.note{font-size:11.5px;color:var(--s-t3);line-height:1.45;margin:6px 2px}
+.pill{font:500 10.5px/1 var(--f-mono);padding:3px 6px;border-radius:999px;border:1px solid var(--s-b2);color:var(--s-t2);white-space:nowrap;display:inline-block}
+.pill.ok{border-color:#2f5536;color:var(--s-ok)}.pill.warn{border-color:#5d4a22;color:var(--s-warn)}
+.row2{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.conn{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px;align-items:center;padding:5px 7px;border:1px solid var(--s-b1);border-radius:6px;margin-bottom:4px;background:var(--s-panel2);font-size:11.5px}
+.conn .a{font:600 10px/1 var(--f-mono);color:var(--s-acc-h)}
+.conn .m{font:10.5px/1 var(--f-mono);color:var(--s-t4)}
+.issue{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:start;padding:5px 6px;border-bottom:1px solid var(--s-b1);font-size:11.5px;color:var(--s-t1)}
+.issue:last-child{border-bottom:0}
+.sev{font:600 9.5px/1 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:3px 4px;border-radius:3px;text-align:center}
+.sev.e{background:#3a1d1d;color:var(--s-err)}.sev.w{background:#3a301a;color:var(--s-warn)}.sev.i{background:#1b2a40;color:var(--s-info)}.sev.o{background:#1e3322;color:var(--s-ok)}
+.issue small{display:block;color:var(--s-t3);font:10.5px/1.35 var(--f-mono)}
+.issue .fix{font:500 10.5px/1 var(--f-body);color:var(--s-focus);white-space:nowrap;border:1px solid #2d4660;border-radius:4px;padding:3px 6px}
+.lib{display:flex;gap:8px;overflow:hidden}
+.lib .it{flex:none;width:86px;border:1px solid var(--s-b1);border-radius:6px;background:var(--s-panel2);padding:4px;text-align:center;font-size:10.5px;color:var(--s-t2);line-height:1.2}
+.lib .it svg{display:block;width:100%;height:52px;background:#14171c;border-radius:4px;margin-bottom:3px}
+.lib .it.on{border-color:var(--s-acc);color:var(--s-t1)}
+.lib .it small{display:block;color:var(--s-t4);font:9.5px/1.2 var(--f-mono)}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.chips span{font:500 10.5px/1 var(--f-body);padding:4px 7px;border-radius:999px;border:1px solid var(--s-b2);color:var(--s-t3)}
+.chips span.on{border-color:var(--s-acc-bd);color:var(--s-acc-h);background:var(--s-acc-bg)}
+.chk-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 18px}
+.cl{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--s-t2)}
+.cl .bx{width:12px;height:12px;border-radius:3px;border:1px solid var(--s-b3);flex:none;display:grid;place-items:center;font-size:9px;color:#1b140a}
+.cl .bx.ok{background:var(--s-ok);border-color:var(--s-ok)} .cl .bx.part{background:var(--s-warn);border-color:var(--s-warn)}
+.cl .m{margin-left:auto;font:10.5px/1 var(--f-mono);color:var(--s-t4)}
+.tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.tbl th,.tbl td{padding:4px 5px;border-bottom:1px solid var(--s-b1);text-align:left;color:var(--s-t2);background:transparent}
+.tbl th{font:600 9.5px/1.2 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--s-t4)}
+.tier{font:600 9.5px/1 var(--f-mono);padding:2px 4px;border-radius:3px;border:1px solid var(--s-b2)}
+.tier.a{color:#9fb7d6}.tier.b{color:#d6c27a}.tier.c{color:#d68a7a}
+.board{position:absolute;inset:0;overflow:auto;padding:42px 14px 12px}
+.board table{border-collapse:separate;border-spacing:2px;font-size:11.5px;width:auto}
+.board th{font:600 10px/1.1 var(--f-mono);color:var(--s-t3);padding:3px 2px;text-align:center;background:none;border:0;text-transform:none;letter-spacing:0}
+.board th.rh{text-align:left;padding-right:8px;color:var(--s-t1);font-size:11.5px;white-space:nowrap}
+.board td{width:30px;height:22px;text-align:center;border-radius:4px;background:#1a1e24;border:1px solid var(--s-b1);color:var(--s-t2);font:600 11px/1 var(--f-mono);padding:0}
+.board td.o{background:#1e3322;border-color:#2f5536;color:var(--s-ok)}
+.board td.c{background:#3a1d1d;border-color:#5e2e2e;color:var(--s-err)}
+.board td.t{background:#1b2a40;border-color:#2d4660;color:var(--s-info)}
+.board td.x{width:auto;padding:0 8px;background:none;border:0;text-align:left;font:500 11px/1.2 var(--f-body);color:var(--s-t3);white-space:nowrap}
+.board tr.sel th.rh{color:var(--s-acc-h)}
+.board tr.sel td:not(.x){box-shadow:0 0 0 1px var(--s-acc)}
+.sim{display:flex;align-items:center;gap:8px;margin:0 0 10px;flex-wrap:wrap}
+.sim .key{width:24px;height:24px;border-radius:5px;display:grid;place-items:center;background:var(--s-panel2);border:1px solid var(--s-b2);color:var(--s-t1);font:600 12px/1 var(--f-mono)}
+.sim .key.done{background:var(--s-acc);border-color:var(--s-acc);color:#1b140a}
+.sim .res{font:500 12px/1 var(--f-body);color:var(--s-ok)}
+.legend2{display:flex;gap:12px;font-size:11px;color:var(--s-t3);margin:10px 0 0;flex-wrap:wrap}
+.legend2 b{display:inline-block;width:18px;text-align:center;border-radius:3px;font:600 10px/16px var(--f-mono);margin-right:4px}
+.co{position:absolute;z-index:9;width:24px;height:24px;border-radius:50%;background:#F2C14E;color:#1b140a;font:700 12px/24px var(--f-mono);text-align:center;box-shadow:0 0 0 3px #16181Ccc}
+.anat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 26px;margin-top:16px;padding-left:0;list-style:none}
+.anat li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;font-size:14px;min-width:0}
+.anat li .nn{width:22px;height:22px;border-radius:50%;background:#F2C14E;color:#1b140a;font:700 11.5px/22px var(--f-mono);text-align:center}
+.anat li p{margin:0;color:var(--muted)}
+@media (max-width:860px){.anat{grid-template-columns:1fr}}
+.principles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 30px;margin-top:18px}
+.principles div{min-width:0}
+.principles h3{font-size:15px}
+.principles p{font-size:14px;color:var(--muted);margin:0}
+@media (max-width:760px){.principles{grid-template-columns:1fr}}
+.arch{display:grid;gap:10px;margin-top:22px}
+.band{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:stretch}
+.band>.who{font:600 11.5px/1.3 var(--f-body);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding-top:12px}
+.band>.who small{display:block;text-transform:none;letter-spacing:0;font-weight:400;font-size:12.5px;margin-top:4px}
+.boxes{display:grid;gap:10px;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0}
+.box h4{margin:0 0 4px;font-size:14px}
+.box p{margin:0;font-size:13px;color:var(--muted);line-height:1.45}
+.box.core{border-color:var(--brass);box-shadow:inset 3px 0 0 var(--brass)}
+.box.new{border-style:dashed}
+.flow{font:12px/1.4 var(--f-mono);color:var(--muted);padding-left:164px}
+@media (max-width:820px){.band{grid-template-columns:1fr}.boxes{grid-auto-flow:row}.flow{padding-left:0}.band>.who{padding-top:0}}
+.phases{margin-top:18px;display:grid;border-left:2px solid var(--line)}
+.ph-row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:12px 0 12px 18px;position:relative}
+.ph-row::before{content:"";position:absolute;left:-7px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--brass)}
+.ph-row .n{font:500 12.5px/1.3 var(--f-mono);color:var(--brass);padding-top:3px}
+.ph-row h3{margin-bottom:4px}
+.ph-row p{font-size:14.5px;color:var(--muted);margin:0}
+.ph-row .gets{font-size:13.5px;margin-top:6px;color:var(--ink)}
+.copybox{position:relative;margin-top:16px}
+.copybox pre{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font:13px/1.55 var(--f-mono);white-space:pre-wrap;margin:0;max-height:440px;overflow:auto}
+.copybtn{position:absolute;top:10px;right:10px;font:500 12.5px/1 var(--f-body);background:var(--brass);color:var(--surface);border:0;border-radius:6px;padding:8px 11px;cursor:pointer}
+.copybtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 26px;margin-top:14px;font-size:13.5px}
+.keys div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding:5px 0;min-width:0}
+.keys div span{color:var(--muted);text-align:right}
+@media (max-width:860px){.keys{grid-template-columns:1fr}}
+.sym.q{color:var(--muted);font-size:12.5px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:14px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+pre.term{margin:0;background:#14171C;color:#CDD3DB;border:1px solid #2B313B;border-radius:8px;padding:12px 14px;font:12px/1.55 var(--f-mono);overflow:auto;white-space:pre;min-width:0}
+pre.term .tc{color:#D29A49}
+.loopflow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:16px 0 4px}
+.loopflow .lf{flex:1 1 120px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.loopflow .lf b{display:block;font-size:14px}
+.loopflow .lf span{font-size:12.5px;color:var(--muted)}
+.loopflow i{align-self:center;font-style:normal;color:var(--muted)}
+.loopflow .t0{box-shadow:inset 3px 0 0 var(--ok)}.loopflow .t1{box-shadow:inset 3px 0 0 var(--focus)}.loopflow .t2{box-shadow:inset 3px 0 0 var(--brass)}.loopflow .hp{box-shadow:inset 3px 0 0 var(--warn)}
+.sheet{min-width:1000px;display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:300px 250px;gap:2px;background:#2B313B;border:1px solid #3A4350;border-radius:12px;overflow:hidden;color:#B5BDC8;font:12.5px/1.45 var(--f-body)}
+.sheet>div{position:relative;background:#111317;overflow:hidden}
+.sheet .cap{position:absolute;left:8px;top:8px;z-index:2;background:#111317e0;border:1px solid #3A4350;color:#D29A49;font:500 11px/1 var(--f-mono);padding:4px 6px;border-radius:4px}
+.sheet canvas,.sheet svg.ov{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sheet .pad{position:absolute;inset:0;padding:36px 14px 12px;overflow:auto}
+.sc-row{display:grid;grid-template-columns:18px 120px minmax(0,1fr);gap:8px;padding:5px 0;border-bottom:1px solid #2B313B;font-size:12px}
+.sc-row b{font-weight:700}.sc-row b.ok{color:#5FA36A}.sc-row b.bad{color:#CC6666}.sc-row b.w{color:#D0A44C}
+.sc-row span{color:#E6E8EB}
+.sheet .dl{font:12px/1.7 var(--f-mono);color:#CDD3DB;white-space:pre}
+footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="rev">Revision 4 · workflow first, agents included · 12 November 2026</span>
+  <p class="eyebrow">Design proposal</p>
+  <h1>OpenYAMM Map Studio</h1>
+  <p class="lede">A level is designed in a known order: plan the place, shape the space, build it, wire its mechanisms, populate it, dress it, and play it. The studio follows that order. This revision rebuilds the design from that process, from how existing editors and the original designers worked, and from five original maps that every workflow below has to be able to rebuild.</p>
+  <div class="changes">
+    <div><h3>Stages, not data types</h3><p>Revision 1 grouped tools by what they edit (terrain, models, spawns). Now the top bar is the design process. Each stage shows its tools and a checklist of what is still open.</p></div>
+    <div><h3>A plan view and a 3D view of one map</h3><p>Rooms are drawn in a top-down plan and checked in 3D, like Doom Builder and Mapster32 on the same sector-and-portal model BLV uses. Outdoors, the plan is the map seen from above.</p></div>
+    <div><h3>Mechanisms you can see</h3><p>Doors, levers, plates, keys and teleports are presets drawn as connections. Goblinwatch's 16-key vault becomes one switch board with a simulator, instead of 16 hand-written handlers.</p></div>
+  </div>
+</header>
+
+<section id="research">
+  <p class="eyebrow">Research</p>
+  <h2>What level designers and editors teach</h2>
+  <p class="prose sub">Each finding comes with what it means for the studio. Sources are linked.</p>
+  <div class="finds">
+    <div><h3>Design happens in stages</h3><p>The Level Design Book's order: pre-production, layout (thumbnails, bubble diagram, floor plan with the critical path), blockout, scripting, lighting, art, release. An art pass made too early locks in layout mistakes. A blockout is tested by walking it, not flying: “99% of the time, your blockout will not survive a playtest.”</p><p class="so"><a href="https://book.leveldesignbook.com/process/overview">leveldesignbook.com/process</a> · <a href="https://book.leveldesignbook.com/process/layout">/layout</a> · <a href="https://book.leveldesignbook.com/process/blockout">/blockout</a></p><p class="take"><b>Studio:</b> seven stages on the top bar; the plan stays attached to the map; walk mode at party size from the first room.</p></div>
+    <div><h3>Draw rooms in 2D, check them in 3D</h3><p>Doom Builder and Mapster32 draw a closed polygon to make a sector, draw across a shared edge to join two, and raise floors and ceilings by aiming in 3D. One data model, two synchronised views. Mapster32 copies a surface with Tab, pastes it with Enter, and plays from the camera with Ctrl+P.</p><p class="so"><a href="https://wiki.eduke32.com/wiki/Build/Mapster32_Keyboard_Commands">Mapster32 keys</a> · <a href="https://www.doomworld.com/forum/post/2674805">Doomworld</a></p><p class="take"><b>Studio:</b> BLV is the same sector-and-portal model. Rooms are drawn; portals and sectors are derived.</p></div>
+    <div><h3>Wiring must be visible and checked</h3><p>Hammer connects an output (OnPressed) to a target's input with a delay and a count; an Inputs tab shows what drives an object, and broken links turn red in Check for Problems. Legend of Grimrock draws connectors as lines from plates and buttons to doors, and tests the dungeon inside the editor.</p><p class="so"><a href="https://developer.valvesoftware.com/wiki/Inputs_and_Outputs">Valve I/O</a> · <a href="https://rpgcodex.net/article.php?id=8417">Grimrock editor</a></p><p class="take"><b>Studio:</b> Connections tab on every object, lines in both views, issues with quick fixes.</p></div>
+    <div><h3>Roads shape the ground</h3><p>Unreal's landscape splines carry a width and falloff, raise or lower the terrain and paint a ground layer, on their own edit layer so later sculpting does not break them. Neverwinter Nights paints roads and rivers as “crossers” over tiles; Heroes 3 and Tiled pick transition tiles automatically.</p><p class="so"><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/landscape-splines-in-unreal-engine">UE splines</a> · <a href="https://doc.mapeditor.org/en/latest/manual/editing-tile-layers/">Tiled terrain sets</a></p><p class="take"><b>Studio:</b> road and river splines that grade the 128 × 128 grid and choose MM road, diagonal and shore tiles from the bank.</p></div>
+    <div><h3>Kits need standard sizes</h3><p>Bethesda built over 400 Skyrim dungeon cells from 7 kits. Footprints are multiples of each other, there is one door-frame size, pivots sit on the floor centre, and “snap to reference” places pieces at any angle.</p><p class="so"><a href="https://www.gamedeveloper.com/design/skyrim-s-modular-approach-to-level-design">Burgess, GDC 2013</a></p><p class="take"><b>Studio:</b> building and room kits from MM6–MM9 with fixed door metrics and snap to plot, road or wall.</p></div>
+    <div><h3>Locks and keys form a graph</h3><p>Mark Brown's Boss Keys diagrams draw rooms, keys and locks together. Jennell Jaquays' dungeons loop: several entrances, shortcuts and secret paths, so the party can circle back. Hard locks must be solved; soft locks can be bypassed at a cost.</p><p class="so"><a href="https://thealexandrian.net/wordpress/13085/roleplaying-games/jaquaying-the-dungeon">Jaquaying the dungeon</a> · <a href="https://www.boristhebrave.com/2021/02/27/lock-and-key-dungeons/">Lock and key dungeons</a></p><p class="take"><b>Studio:</b> the flow graph is generated from the map itself and checks the critical path.</p></div>
+    <div><h3>Landmarks pull the player</h3><p>Breath of the Wild uses three scales of landform and triangles that hide a landmark's base until you approach. The Witcher 3 team wanted two points of interest on the horizon at all times. Disney calls them weenies.</p><p class="so"><a href="https://www.blog.radiator.debacle.us/2017/10/open-world-level-design-spatial.html">BotW at CEDEC 2017</a> · <a href="https://kotaku.com/how-the-witcher-3s-developers-ensured-their-open-world-1735034176">Witcher 3</a></p><p class="take"><b>Studio:</b> a landmark tool that shows where on the map it can be seen.</p></div>
+    <div><h3>What made editors clunky</h3><p>Unreal 4 users waited minutes per undo on brush levels. OpenMW-CS shows two huge tables instead of navigation and lacks transform keys. Divinity: Original Sin 2's tools were called complicated and crash-prone. Doom Builder's auto-finish option confused people. Hammer++ became loved for autosaving open maps on a crash.</p><p class="so"><a href="https://forums.unrealengine.com/t/level-design-in-ue4-is-slow-and-tedious/7493">UE forum</a> · <a href="https://forum.openmw.org/viewtopic.php?f=7&amp;t=7259">OpenMW forum</a> · <a href="https://www.pcgamer.com/games/rpg/baldurs-gate-3-mod-support-GDC-update">PC Gamer</a></p><p class="take"><b>Studio:</b> no modal dialogs, unlimited undo, autosave, one mode at a time with its name always visible.</p></div>
+  </div>
+</section>
+
+<section id="original">
+  <p class="eyebrow">The original games</p>
+  <h2>How NWC and the modders built these maps</h2>
+  <p class="prose sub">Nobody from New World Computing described the in-house editor. The credits, a few interviews and the shipped data still show how the maps were made, and the community tools show what hurts.</p>
+  <div class="finds">
+    <div><h3>Two engines, many hands</h3><p>MM6 had an outdoor engine called Horizon and an indoor engine called Labyrinth. Ten people are credited with level design on MM6 and four on MM8 (lead Richard Corredera). According to Tim Lang, some MM6 dungeons came from a separate team in Wisconsin, and the Tomb of VARN was modelled in LightWave and adapted to Labyrinth.</p><p class="so"><a href="https://discmaster.textfiles.com/view/16071/PCPP_GG2.iso/PCPP/faqs/mm6faq.txt">MM6 pre-release FAQ</a> · <a href="https://www.magicgameworld.com/might-and-magic-vi-secrets-exploits-and-hidden-developer-content/">Lang interview summary</a> · <a href="https://www.mobygames.com/game/812/might-and-magic-vi-the-mandate-of-heaven/credits/">credits</a></p><p class="take"><b>Studio:</b> geometry from outside tools has to be first-class, not an afterthought.</p></div>
+    <div><h3>Towns from prefab buildings</h3><p>Shadowspire's models are named <code>06n_poor1N</code>, <code>06n_med3E</code>, <code>06n_rich2N</code>, <code>06n_temple_AN…DN</code>: a regional library in rich, medium and poor tiers, big buildings in parts A–D, and a facing letter in every name. Every MM8 outdoor file still carries the header <code>blank</code> / <code>default.odm</code>: maps were cloned from one template.</p><p class="so">checked in the shipped data</p><p class="take"><b>Studio:</b> a kit library with tiers, multi-part assemblies and facings is enough to build an MM town.</p></div>
+    <div><h3>Scripts are short and repetitive</h3><p>Across every MM6–MM8 map script: 5 263 <code>SetDoorState</code>, 2 883 <code>OpenChest</code>, 1 565 <code>EnterHouse</code>, 1 007 <code>StatusText</code>, 556 <code>MoveToMap</code>, 448 <code>SetTexture</code>, 389 <code>SummonMonsters</code>, 366 <code>CastSpell</code>. Most events are one or two lines with a hover hint.</p><p class="so">counted in assets_dev/worlds/mm6–mm8/events/maps</p><p class="take"><b>Studio:</b> one-click behaviour presets cover most events; Lua stays for the rest.</p></div>
+    <div><h3>What modders fought with</h3><p>GrayFace's MMEditor (in MMExtension) is an in-game editor: Alt+F1, geometry imported as OBJ, rooms and portals marked with <code>_Portal_</code> textures, spawns as objects named <code>m1</code>–<code>m3</code>. Modders report missing documentation, that changing any vertex wipes the properties of its faces “even door settings”, and that experienced people import a whole dungeon as one room to avoid portals.</p><p class="so"><a href="https://raw.githubusercontent.com/GrayFace/MMExtension/master/MMEditor%20Readme.txt">MMEditor readme</a> · <a href="https://www.celestialheavens.com/forum/10?p=387843">“Modelling problems” thread</a></p><p class="take"><b>Studio:</b> derive portals; keep face and door properties through edits and re-imports; help inside every tool.</p></div>
+  </div>
+</section>
+
+<section id="workflow">
+  <p class="eyebrow">The workflow</p>
+  <h2>Seven stages</h2>
+  <p class="prose sub">The stage bar is the spine of the studio. A stage picks the default view, the tool rail and the checklist; it never locks anything, and any stage is one key away (<kbd>1</kbd>–<kbd>7</kbd>). Most people go round the loop several times: plan, shape, test, back to the plan.</p>
+  <div class="tablebox">
+    <table class="stages-tbl">
+      <thead><tr><th>Stage</th><th>Question</th><th>Outdoor tools</th><th>Indoor tools</th><th>Default view</th><th>Done when</th></tr></thead>
+      <tbody>
+        <tr><td><span class="stg plan">1 · Plan</span></td><td>What is this place and how is it played?</td><td>Map card (world, neighbours, monster slots), zones, road sketch, points of interest, landmarks, reference image</td><td>Bubble diagram, critical path, locks and keys, height bands, reference image</td><td>Plan, full width</td><td>Every zone or room has a name and a purpose; the critical path reaches the goal</td></tr>
+        <tr><td><span class="stg shape">2 · Shape</span></td><td>Does the space work at party size?</td><td>Landform brushes, coast stamp, heightmap import, water and tar, road and river splines, plots</td><td>Room, cave, corridor, stairs, ramp, spiral, opening, height</td><td>Plan + 3D in grey</td><td>Walk test passes; every planned area exists and is reachable</td></tr>
+        <tr><td><span class="stg build">3 · Build</span></td><td>What is it made of?</td><td>Kit or imported buildings snapped to plots, props, bridges, walls, docks, tile paint</td><td>Room themes, face paint, kit pieces, imported set pieces, door library or door from selection, lifts, liquids</td><td>3D lit + plan</td><td>No grey faces; every planned building or door exists</td></tr>
+        <tr><td><span class="stg wire">4 · Wire</span></td><td>What happens when the party acts?</td><td>Service picker, exits and travel, fountains and wells, ambushes, timers</td><td>Door and lever presets, switch board, sequence puzzles, traps, teleports, locks</td><td>Plan with connections</td><td>No unbound clickable faces; the flow graph has no blocked path</td></tr>
+        <tr><td><span class="stg populate">5 · Populate</span></td><td>Who lives here and what is the reward?</td><td>Encounter table, spawn zones, residents, chests, ground items</td><td>Encounter table, spawn brush, actor groups, chests, items</td><td>Plan with density</td><td>Density within the calibration for the area type</td></tr>
+        <tr><td><span class="stg dress">6 · Dress</span></td><td>Does it look and sound like the place?</td><td>Scatter brushes, grass, sky, fog, weather, ambient sound, music</td><td>Wall torches with lights, light presets, props, fog, sound</td><td>3D lit</td><td>Lighting bake current; nothing floats or clips</td></tr>
+        <tr><td><span class="stg test">7 · Test</span></td><td>Does it play?</td><td colspan="2">Walk in the studio, Play here in OpenYAMM with test switches, flow graph, puzzle simulator, issue list</td><td>Any</td><td>Checklist and issue list are empty</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 style="margin-top:30px">Ten principles</h3>
+  <div class="principles">
+    <div><h3>Follow the design order, never lock it</h3><p>Stages filter tools and show what is open; they do not stop anyone jumping ahead.</p></div>
+    <div><h3>The plan is the checklist</h3><p>Planned rooms, buildings and points of interest stay on the map as ghost outlines until something real takes their place.</p></div>
+    <div><h3>Rooms, not polygon soup</h3><p>Draw rooms; sectors, portals and the BSP are derived on save. Nobody marks a portal by hand.</p></div>
+    <div><h3>Presets first, Lua second</h3><p>Door, lever, chest, house, exit, trap, fountain and the rest are presets that write readable Lua. Any preset can be turned into a script.</p></div>
+    <div><h3>Connections are visible</h3><p>Selecting a lever draws lines to its doors. Every object lists what drives it and what it drives.</p></div>
+    <div><h3>Imported geometry keeps its properties</h3><p>Faces have stable identities. Moving vertices or re-importing a mesh keeps textures, flags, events and doors; anything that cannot be matched is listed.</p></div>
+    <div><h3>Test in under a second</h3><p>Walk at party size inside the studio; Play here starts OpenYAMM at the camera with test switches and comes back to the same view.</p></div>
+    <div><h3>Validation is always on</h3><p>Unreachable rooms, keys behind their own lock, events with no target, overlapping faces. Each issue jumps to the object and offers a fix.</p></div>
+    <div><h3>Tool options and object properties are separate</h3><p>The bar above the views holds the active tool's options. The inspector holds the selection's properties. Nothing opens in a modal dialog.</p></div>
+    <div><h3>Help where you work</h3><p>Every tool has a short explanation and an example from an original map (“as Goblinwatch's vault”). Missing documentation was the loudest MMEditor complaint.</p></div>
+  </div>
+</section>
+
+<section id="made-where">
+  <p class="eyebrow">Who makes what</p>
+  <h2>Made in the studio, or imported</h2>
+  <p class="prose sub">The studio makes everything that carries game rules: heights, rooms, doors, clickable faces and placement. Outside tools make what is only shape and art. The studio is not a modelling tool.</p>
+  <div class="tablebox"><table>
+    <thead><tr><th>What</th><th>Made</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Outdoor terrain heights</td><td>In the studio: sculpting, road grading, coast stamp. A 16-bit heightmap from World Machine, Gaea or Blender can be imported and refined.</td><td>The 128 × 128 grid is tied to roads, water and buildings. A round trip to another tool for every road change is too slow.</td></tr>
+      <tr><td>Ground textures and grass</td><td>In the studio</td><td>They follow roads, shores and slopes the studio already knows.</td></tr>
+      <tr><td>Buildings</td><td>Kit library in the studio, or imported GLB or OBJ</td><td>Modelling a house is art work. The studio places it, repaints single faces and marks doors and signs.</td></tr>
+      <tr><td>Props: decorations, statues, furniture, trees</td><td>Imported GLB through <code>tools/install_model.py</code></td><td>They are already 3D models with LODs, cooking and bindings. The studio places them.</td></tr>
+      <tr><td>Dungeon shell: rooms, caves, corridors, stairs, levels</td><td>In the studio, drawn on the plan</td><td>Sectors and portals come out right on their own. Modelled dungeons are where MMEditor users lose rooms, portals and door settings.</td></tr>
+      <tr><td>Set pieces inside dungeons: altars, carved arches, machinery</td><td>Imported, attached to one room</td><td>Detail belongs to a room. It never creates rooms or portals.</td></tr>
+      <tr><td>Doors</td><td>In the studio: from the door library, or made from selected faces</td><td>MM doors are faces that move along an axis. Most are standard; a few are unique.</td></tr>
+      <tr><td>Wall, floor and ceiling textures</td><td>In the studio: room themes, face paint, alignment. New textures come in as PNG with the mod.</td><td>Per-face work at the game's texel scale.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="principles">
+    <div><h3>Buildings stay engine geometry</h3><p>Outdoor buildings are BModels: faces with their own textures, collision, click events and baked light. An imported GLB becomes BModel faces, and its material names become texture names. The kit library holds the MM6–MM9 buildings as prefabs in tiers and multi-part assemblies, the way NWC built its towns.</p></div>
+    <div><h3>Re-import keeps every setting</h3><p>Every face keeps a stable identity. When a building is imported again, faces are matched by position, normal and texture, and their doors, events and flags carry over. Faces that cannot be matched are listed, never silently cleared.</p></div>
+    <div><h3>Dungeons: drawn shell, imported detail</h3><p>The shell is drawn. An imported mesh is attached to the room it stands in and becomes that room's faces. Importing a whole dungeon and splitting it into rooms automatically can come later; it is not the main route.</p></div>
+    <div><h3>Doors: library or selection</h3><p>Library doors come with geometry, texture, motion, speed and sound: portcullis, wooden door, double sliding door, secret wall, sinking pillar, lift platform, cell door, hinged door. Dropped into an opening, one sizes itself. For unique cases, select faces (a bridge deck, a floor, a wall section) and make them a door. Both are painted like any other face.</p></div>
+    <div><h3>What the studio does not do</h3><p>Vertex editing stops at room corners, door shapes and nudging faces. No mesh sculpting, no UV unwrapping beyond aligning textures on faces, no creatures. Those stay in Blender and the existing model pipeline.</p></div>
+  </div>
+  <div class="mock"><h3>Importing a building, and importing it again</h3><div class="studio-scroll"><div id="mock-import"></div></div><p class="figcap"><b>Re-import keeps the door.</b> The temple came back from Blender with a porch. 210 faces matched and kept their settings; the 4 new porch faces are listed; one material whose name is not a texture is flagged.</p></div>
+  <div class="mock"><h3>Doors: from the library, or from a selection</h3><div class="studio-scroll"><div id="mock-doors"></div></div><p class="figcap"><b>Most doors come from the library.</b> Dropped into an opening, the portcullis fits itself and the inspector shows what drives it. Unique doors, like Gharik's sliding bridge, start from a selection instead.</p></div>
+</section>
+
+<section id="screen">
+  <p class="eyebrow">The screen</p>
+  <h2>What is where</h2>
+  <p class="prose sub">The same frame in every stage. The example is Goblinwatch in the Shape stage, with a room being drawn.</p>
+  <div class="mock"><div class="studio-scroll"><div id="mock-anatomy"></div></div></div>
+  <ol class="anat">
+    <li><span class="nn">1</span><div><b>Stage bar.</b><p>The design process, with counts of what is open in each stage. Keys <kbd>1</kbd>–<kbd>7</kbd>.</p></div></li>
+    <li><span class="nn">2</span><div><b>Tool rail.</b><p>Only the tools of the current stage, each with one key. Hover shows a short explanation and an example.</p></div></li>
+    <li><span class="nn">3</span><div><b>Tool options.</b><p>Settings of the active tool: grid, heights, theme, snapping. Never the selection's properties.</p></div></li>
+    <li><span class="nn">4</span><div><b>Plan view.</b><p>Top-down drawing on the grid, height bands as tabs, portals in teal, the planned layout as ghosts.</p></div></li>
+    <li><span class="nn">5</span><div><b>3D view.</b><p>The same map in 3D. Selection is shared. <kbd>Tab</kbd> moves focus; <kbd>Q</kbd> maximises a view.</p></div></li>
+    <li><span class="nn">6</span><div><b>Inspector.</b><p>Properties, Connections and Notes of the selection. Edits apply at once and are undoable.</p></div></li>
+    <li><span class="nn">7</span><div><b>Drawer.</b><p>Library with thumbnails, Checklist from the plan, Issues with fixes, Outline of everything in the map.</p></div></li>
+    <li><span class="nn">8</span><div><b>Search and play.</b><p>Every command, asset and object by name (<kbd>Ctrl K</kbd>). Play here (<kbd>F5</kbd>) with test switches.</p></div></li>
+    <li><span class="nn">9</span><div><b>Status bar.</b><p>Cursor position in game units, grid, height band, counts, and the key hints of the active tool.</p></div></li>
+  </ol>
+  <h3 style="margin-top:28px">Keys that stay the same everywhere</h3>
+  <div class="keys">
+    <div><span><kbd>1</kbd>–<kbd>7</kbd></span><span>stage</span></div>
+    <div><kbd>Ctrl K</kbd><span>search commands and assets</span></div>
+    <div><kbd>F5</kbd><span>play here</span></div>
+    <div><kbd>Tab</kbd><span>plan or 3D focus</span></div>
+    <div><kbd>Q</kbd><span>maximise the view under the cursor</span></div>
+    <div><kbd>F</kbd><span>frame the selection</span></div>
+    <div><span><kbd>W</kbd> <kbd>E</kbd> <kbd>R</kbd></span><span>move, rotate, scale</span></div>
+    <div><span><kbd>[</kbd> <kbd>]</kbd></span><span>grid smaller, larger</span></div>
+    <div><span><kbd>PgUp</kbd> <kbd>PgDn</kbd></span><span>floor under the cursor; Shift: ceiling</span></div>
+    <div><span><kbd>Ctrl Shift C</kbd> <kbd>V</kbd></span><span>copy and paste a surface</span></div>
+    <div><kbd>L</kbd><span>link a trigger to a target</span></div>
+    <div><kbd>H</kbd><span>next height band</span></div>
+    <div><kbd>G</kbd><span>walk at party size in the studio</span></div>
+    <div><span><kbd>Space</kbd> drag</span><span>pan; wheel zooms</span></div>
+    <div><span><kbd>Ctrl Z</kbd> <kbd>Ctrl Y</kbd></span><span>undo, redo, unlimited</span></div>
+  </div>
+</section>
+
+<section id="cases">
+  <p class="eyebrow">Test cases</p>
+  <h2>Five maps, built from nothing</h2>
+  <p class="prose sub">Each walkthrough starts from an empty map and ends with a playable copy of the original. The numbers come from the shipped data; the steps say what the designer does, with which tool, and what the studio does in response.</p>
+  <div class="cases-nav" role="tablist" aria-label="Test case">
+    <button type="button" role="tab" data-case="ns" aria-selected="true">New Sorpigal<small>MM6 outdoor</small></button>
+    <button type="button" role="tab" data-case="gw" aria-selected="false">Goblinwatch<small>MM6 dungeon</small></button>
+    <button type="button" role="tab" data-case="ss" aria-selected="false">Shadowspire<small>MM8 outdoor</small></button>
+    <button type="button" role="tab" data-case="nl" aria-selected="false">Mad Necromancer's Lab<small>MM8 dungeon</small></button>
+    <button type="button" role="tab" data-case="gf" aria-selected="false">Gharik's Forge<small>MM6 dungeon</small></button>
+  </div>
+
+  <div class="case" data-panel="ns">
+    <h3>New Sorpigal · <span class="mono">mm6/oute3.odm</span></h3>
+    <div class="facts"><span>grid <b>128 × 128</b> at 512</span><span>water <b>≈70 %</b></span><span>BModels <b>90</b> · faces <b>3 161</b></span><span>house doors <b>37</b> (15 services, 22 homes)</span><span>decorations <b>479</b> (trees 371)</span><span>spawns <b>56</b> · actors <b>43</b></span><span>chests <b>18</b></span><span>events <b>98</b></span><span>exits <b>4</b> + boat, coach</span></div>
+    <div class="tablebox"><table class="steps"><thead><tr><th>#</th><th>Stage</th><th>What you do</th><th>Tools · keys</th><th>What the studio does</th></tr></thead><tbody>
+      <tr><td class="num">1</td><td><span class="stg plan">Plan</span></td><td>Start a new MM6 outdoor map from the Coast template. On the map card, name it, link the west edge to Castle Ironfist (5 days), and fill the three monster slots: Goblin, Peasant, none.</td><td>New map, Map card</td><td>Creates the map-stats row draft, the map name and neighbour links. No “blank / default.odm” leftovers.</td></tr>
+      <tr><td class="num">2</td><td><span class="stg plan">Plan</span></td><td>Paint zones: Town, Docks, Goblin camp, Volcano isle, Dragon tower islet. Sketch the road from the west gate through the market to the east bridge. Pin the temple, guilds, wells, fountains, obelisk, shrine and the three dungeon entrances. Mark the dragon tower as a landmark.</td><td>Zone <kbd>Z</kbd>, Road sketch <kbd>R</kbd>, Point <kbd>I</kbd>, Landmark <kbd>K</kbd></td><td>Builds the checklist: 17 homes, 15 services, 3 entrances, 2 wells, 3 fountains. Ghost outlines stay until built.</td></tr>
+      <tr><td class="num">3</td><td><span class="stg shape">Shape</span></td><td>Turn the zone outline into land and sea with the coast stamp. Raise the volcano, shelve the town, add dunes on the islets. Set sea level. A 16-bit heightmap from World Machine or Gaea can be imported instead and refined here.</td><td>Coast stamp, Landform <kbd>B</kbd>, Water</td><td>Picks shore and water tiles and liquid edges as the coast moves.</td></tr>
+      <tr><td class="num">4</td><td><span class="stg shape">Shape</span></td><td>Convert the sketched road into a road spline, one cell wide, grade at most 14 %. Where it crosses the river, accept the bridge suggestion. No road to the goblin camp: roads need a purpose.</td><td>Road <kbd>R</kbd> (spline), Bridge</td><td>Grades a shelf, paints road tiles with the correct bends, diagonals and junctions from the MM6 bank, inserts a bridge kit.</td></tr>
+      <tr><td class="num">5</td><td><span class="stg build">Build</span></td><td>Lay plots along the road, then drop buildings from the MM6 kit or import your own from Blender. Each one turns its door to the road and keeps the doorway clear. Give the raised temple a graded approach. Place the two-part tavern and the keep as assemblies.</td><td>Plot <kbd>O</kbd>, Place <kbd>P</kbd>, Library, Import <kbd>I</kbd></td><td>Shows door-to-road distance, overlaps and slope under footprints; grades approaches; keeps multi-part assemblies in one frame.</td></tr>
+      <tr><td class="num">6</td><td><span class="stg wire">Wire</span></td><td>Click each service door and pick its house: Temple → New Sorpigal Temple (325) and so on. Mark the 22 homes as residences in one go. Make the three dungeon entrances exits; lock Goblinwatch with the Key to Goblinwatch.</td><td>Service picker, Residences, Exit, Lock</td><td>Writes <code>EnterHouse</code> events with hints, assigns home ids, creates arrival anchors in the target maps.</td></tr>
+      <tr><td class="num">7</td><td><span class="stg wire">Wire</span></td><td>Turn the points of interest into behaviour: wells (gold if broke, weekly; +2 Luck, 8 a month), fountains (+5 HP, 30 uses, daily reset), obelisk, Shrine of Luck (month 6), sword in the stone (Might 25), fruit trees, bridge ambush, and the dragon tower that fires on a flying party unless it carries the keys.</td><td>Fountain, Well, Skill check, Consumable, Ambush, Timer presets</td><td>Each preset writes a short Lua handler and its map variables; the charges and reset period are fields, not code.</td></tr>
+      <tr><td class="num">8</td><td><span class="stg populate">Populate</span></td><td>Paint spawn zones: goblins in the camp and wilds, none in town. Place peasants and guards in town with wander radii. Turn the crates into chests with a loot level.</td><td>Encounter table, Spawn brush <kbd>N</kbd>, Actor, Chest</td><td>Shows density against MM6 outdoor calibration per zone.</td></tr>
+      <tr><td class="num">9</td><td><span class="stg dress">Dress</span></td><td>Scatter trees with the MM6 meadow palette: off roads and door approaches, rocks on slopes, flowers only in gardens. Add campfires and barrels. Pick sky, weather and music.</td><td>Scatter <kbd>S</kbd> with filters, Grass, Atmosphere</td><td>Keeps decorations off roads, plots and doorways; reports counts per zone.</td></tr>
+      <tr><td class="num">10</td><td><span class="stg test">Test</span></td><td>Walk from the west gate. Press F5 at the dock with a level 5 test party. Clear the checklist.</td><td>Walk <kbd>G</kbd>, Play here <kbd>F5</kbd></td><td>Lists unbound door faces, unbuilt plan items and decorations in roads.</td></tr>
+    </tbody></table></div>
+    <div class="mock"><h3>Step 2 · Plan: zones, road sketch and points of interest</h3><div class="studio-scroll"><div id="mock-ns-plan"></div></div><p class="figcap"><b>The plan becomes the checklist.</b> Nothing here is geometry yet. The map card carries what MM keeps outside the map file: neighbours, travel days and the three monster slots.</p></div>
+    <div class="mock"><h3>Steps 5–6 · Build and wire: plots, kit buildings and the service picker</h3><div class="studio-scroll"><div id="mock-ns-build"></div></div><p class="figcap"><b>Buildings snap to plots and face the road.</b> The door distance is measured from the real transformed door, the rule from your frontage calibration. Picking the service is a field on the door, not a script.</p></div>
+    <ul class="demands"><li>Coast stamp from a zone outline; sea level; shore tiles chosen automatically</li><li>Road splines that grade terrain and pick MM bank tiles, including diagonals</li><li>Bridge suggestion where a road crosses water</li><li>Plots with frontage; kit or imported buildings that face the road; graded approaches</li><li>Multi-part assemblies kept in one frame</li><li>Service picker over the house table; bulk residences</li><li>Presets: well, fountain, obelisk, shrine, skill check, consumable tree, ambush plate, timer</li><li>Scatter with keep-out rules for roads, plots and doorways</li></ul>
+  </div>
+
+  <div class="case" data-panel="gw" hidden>
+    <h3>Goblinwatch · <span class="mono">mm6/6d01.blv</span></h3>
+    <div class="facts"><span>sectors <b>59</b> · portals <b>60</b></span><span>faces <b>2 290</b></span><span>doors <b>38</b></span><span>vault keys <b>16</b> (A–P)</span><span>lights <b>159</b> · torches <b>156</b></span><span>spawns <b>66</b>: rats, goblins, bloodsuckers</span><span>chests <b>10</b></span><span>floors <b>−1280 … +512</b></span></div>
+    <div class="tablebox"><table class="steps"><thead><tr><th>#</th><th>Stage</th><th>What you do</th><th>Tools · keys</th><th>What the studio does</th></tr></thead><tbody>
+      <tr><td class="num">1</td><td><span class="stg plan">Plan</span></td><td>Draw the bubble diagram: entrance → west caves (rat warren) → castle core (barracks, cabinet with the safe, pillar treasure rooms, the vault) → east caves (bloodsucker lair); a maintenance tunnel under the castle that loops back. Mark the critical path to the vault and its lock: the 16-key puzzle.</td><td>Bubble <kbd>U</kbd>, Path, Lock</td><td>Makes three height bands from the plan: caves −1280…−768, core −768…0, upper 0…512.</td></tr>
+      <tr><td class="num">2</td><td><span class="stg shape">Shape</span></td><td>Draw the long cave arms with the cave tool (free outline, rough walls, uneven floor). Draw the castle core with the room tool on a 64 grid. Draw openings across walls.</td><td>Cave <kbd>C</kbd>, Room <kbd>D</kbd>, Opening <kbd>O</kbd></td><td>Splits rooms into convex sectors and makes portals at every opening. Ghost bubbles turn solid as rooms cover them.</td></tr>
+      <tr><td class="num">3</td><td><span class="stg shape">Shape</span></td><td>Set floor and ceiling heights by aiming in 3D. Add the ramp at the back and the stairs between bands. Walk the whole route.</td><td><kbd>PgUp</kbd>/<kbd>PgDn</kbd>, Stairs <kbd>T</kbd>, Walk <kbd>G</kbd></td><td>Walk mode uses the party's collision; flags openings the party cannot pass.</td></tr>
+      <tr><td class="num">4</td><td><span class="stg build">Build</span></td><td>Give the arms the theme “MM6 cave” and the core “Goblinwatch castle”. Fix single faces in 3D: copy and paste surfaces, align textures. Add pillars, arches and the cabinet from the kit, or import a carved piece into a room; chests are kit pieces built from faces.</td><td>Theme, Face paint, <kbd>Ctrl Shift C</kbd>/<kbd>V</kbd>, Kit</td><td>Applies wall, floor and ceiling textures per theme with correct texel scale.</td></tr>
+      <tr><td class="num">5</td><td><span class="stg build">Build</span></td><td>Make the 38 doors: drop ready doors from the library into openings (portcullis up 120, sliding walls 250–500). Select the two corner pillars that hide the treasure rooms and make them doors that sink into the floor (504).</td><td>Door <kbd>J</kbd>: library or from selection, state scrubber</td><td>Moves the vertices, adds the moving faces to the door, previews open and closed.</td></tr>
+      <tr><td class="num">6</td><td><span class="stg wire">Wire</span></td><td>Build the vault puzzle on the switch board: 16 key faces as rows, doors as columns, open, close or toggle in the cells. Each key is one-shot and swaps its texture. A also casts Fireball, M teleports to the maintenance tunnel, P resets every key. Record the intended solution, NILBOG.</td><td>Switch board <kbd>M</kbd>, Simulate <kbd>Y</kbd></td><td>Writes one handler per key with its own flag and texture swap; proves the recorded solution opens the vault and that P restores the start.</td></tr>
+      <tr><td class="num">7</td><td><span class="stg wire">Wire</span></td><td>The rest is presets: 19 click doors, the pillar button (one lever, two doors), chest 7 with a one-time ambush, the Wizard Eye plates (once a day), the exit to New Sorpigal.</td><td>Door, Lever, Chest + Ambush, Plate, Exit; Link <kbd>L</kbd></td><td>Draws every link in both views; lists drivers on each door.</td></tr>
+      <tr><td class="num">8</td><td><span class="stg populate">Populate</span></td><td>Slots: rat, goblin, bloodsucker. Spawn brush per area: rats west, goblins in the core, bloodsuckers east. Treasure spawns at levels 1–3.</td><td>Encounter table, Spawn brush</td><td>Density per room against MM6 dungeon references.</td></tr>
+      <tr><td class="num">9</td><td><span class="stg dress">Dress</span></td><td>Torches along corridors at turns and doors; campfires in the caves.</td><td>Wall torch (decoration + light), Light along path</td><td>Each torch is one object that writes a decoration and a light; the spacing tool places them every 768 units and at turns.</td></tr>
+      <tr><td class="num">10</td><td><span class="stg test">Test</span></td><td>Play from the vault door with “all keys reset”. Check the automap reveals the core.</td><td>Play here <kbd>F5</kbd>, Flow graph</td><td>Issues the original map has: key E reads key D's flag; events 38, 54, 57, 58 are bound to faces with no handler.</td></tr>
+    </tbody></table></div>
+    <div class="mock"><h3>Step 2 · Shape: drawing the castle core in the plan, checking it in 3D</h3><div class="studio-scroll"><div id="mock-gw-shape"></div></div><p class="figcap"><b>Rooms, not portals.</b> The designer draws rooms and openings; teal portal lines appear on their own. Height bands keep the caves below from cluttering the core.</p></div>
+    <div class="mock"><h3>Step 6 · Wire: the vault puzzle as a switch board</h3><div class="studio-scroll"><div id="mock-gw-board"></div></div><p class="figcap"><b>Sixteen handlers become one table.</b> The rows and specials follow the original script's structure; the exact open and close pattern shown is illustrative. The simulator replays a key sequence and shows which doors end open.</p></div>
+    <ul class="demands"><li>Bubble diagram with critical path and locks; height bands from the plan</li><li>Room and cave tools; derived sectors and portals</li><li>Aim-and-raise heights; stairs and ramps between bands</li><li>Room themes, face paint, surface copy and paste</li><li>Door library (portcullis, sliding wall) and door from selection (sinking pillars)</li><li>Switch board with one-shot keys, texture swap, special actions and reset</li><li>Sequence simulator and recorded solution</li><li>Wall torch that writes decoration and light together</li></ul>
+  </div>
+
+  <div class="case" data-panel="ss" hidden>
+    <h3>Shadowspire · <span class="mono">mm8/out06.odm</span></h3>
+    <div class="facts"><span>BModels <b>84</b> · faces <b>4 507</b></span><span>homes <b>41</b> in poor, medium, rich tiers</span><span>services <b>11</b> + residences <b>33</b></span><span>decorations <b>607</b></span><span>spawns <b>63</b>: vampire, skeleton archer, bone dragon</span><span>actors <b>27</b></span><span>dungeon entrances <b>4</b></span><span>spire <b>4 352</b> tall</span></div>
+    <div class="tablebox"><table class="steps"><thead><tr><th>#</th><th>Stage</th><th>What you do</th><th>Tools · keys</th><th>What the studio does</th></tr></thead><tbody>
+      <tr><td class="num">1</td><td><span class="stg plan">Plan</span></td><td>Map card: MM8, four edge exits (north and east to Ironsand Desert, south and west to Ravenshore), slots vampire, skeleton archer, bone dragon. Zones: the town of Twilight, crypt hills, bone fields, dragon ridge, docks. Make the Necromancers' Guild spire the landmark of the whole map.</td><td>Map card, Zone <kbd>Z</kbd>, Landmark <kbd>K</kbd></td><td>Shows from where the spire can be seen, recomputed as the terrain changes.</td></tr>
+      <tr><td class="num">2</td><td><span class="stg shape">Shape</span></td><td>Landform with a western ridge and low bone fields. Paint tar pools as a liquid. Roads from the four exits to the town square.</td><td>Landform, Water (tar), Road</td><td>Tar uses MM8's tar tiles flagged as water; the sightline map updates as the ridge rises.</td></tr>
+      <tr><td class="num">3</td><td><span class="stg build">Build</span></td><td>Place homes from the Shadowspire kit in poor, medium and rich tiers; the temple as a four-part assembly, the tavern as two. Rotate in four facings or freely. Place the dungeon entrances as façade assemblies (the spire is six parts).</td><td>Library (kit tiers), Place <kbd>P</kbd>, Assembly</td><td>A façade assembly is geometry plus its exit, so it cannot lose its destination.</td></tr>
+      <tr><td class="num">4</td><td><span class="stg wire">Wire</span></td><td>MM8 makes whole buildings clickable: choose “whole building is the door” for the kit. Pick services for the 11 shops; mark 33 residences. Fountain: +25 SP and the Town Portal QBit. Well: +2 Intellect. Three rune posts: skill check on Disarm Trap 3, 5 and 7 for reagents, rings and potions.</td><td>Service picker, Residences, Fountain, Well, Skill check</td><td>Writes 44 house bindings and the post handlers; the other 222 rune posts stay decoration.</td></tr>
+      <tr><td class="num">5</td><td><span class="stg populate">Populate</span></td><td>Paint spawn zones by slot and tier. Place 19 vampire peasants as group 10 and set the group to turn hostile on load. Place the eight necromancer guards.</td><td>Encounter table, Spawn brush, Actor groups</td><td>Group behaviour is a field (“on load: hostile”), written as <code>SetMonGroupBit</code>.</td></tr>
+      <tr><td class="num">6</td><td><span class="stg dress">Dress</span></td><td>Scatter skeletons, dead trees, rocks and rune posts with the Shadowspire palette. Dark daylight, random fog days, ambient sound.</td><td>Scatter, Atmosphere, Ambient sound</td><td>Fog days come from <code>weather.yml</code>; ambient sounds replace the two timers the original used.</td></tr>
+      <tr><td class="num">7</td><td><span class="stg test">Test</span></td><td>Play from the dock arrival in fog; check the spire is visible from the roads.</td><td>Play here, Landmark map</td><td>Reports areas where neither the spire nor any other landmark is visible.</td></tr>
+    </tbody></table></div>
+    <div class="mock"><h3>Steps 1–2 · Plan: where the spire can be seen</h3><div class="studio-scroll"><div id="mock-ss-landmark"></div></div><p class="figcap"><b>The landmark tool computes visibility on the heightfield.</b> Warm ground sees the spire; dark ground does not. The percentage is computed live in this mockup from its own example terrain.</p></div>
+    <div class="mock"><h3>Step 5 · Populate: encounter table, zones and actor groups</h3><div class="studio-scroll"><div id="mock-ss-pop"></div></div><p class="figcap"><b>Monsters come from the map's three slots.</b> A spawn is a slot and a tier mix in a zone, which is how MM stores them. Groups carry behaviour such as “hostile on load”.</p></div>
+    <ul class="demands"><li>Landmark visibility on the heightfield</li><li>Tar as a liquid type</li><li>Regional kit library with tiers and A–D assemblies</li><li>Façade assemblies that include their exit</li><li>“Whole building is the door” for MM8 kits</li><li>Skill-check reward preset</li><li>Actor groups with on-load and on-QBit behaviour</li><li>Fog days and ambient sound instead of timers</li></ul>
+  </div>
+
+  <div class="case" data-panel="nl" hidden>
+    <h3>Mad Necromancer's Lab · <span class="mono">mm8/d20.blv</span></h3>
+    <div class="facts"><span>sectors <b>28</b> · portals <b>25</b></span><span>faces <b>1 614</b></span><span>floors <b>3</b>: −1024, 0, +545…896</span><span>lift <b>513</b></span><span>double doors <b>4</b></span><span>trap plates <b>2</b></span><span>prisoner <b>1</b></span><span>spawns <b>26</b>, all group 10</span><span>ground items <b>49</b></span></div>
+    <div class="tablebox"><table class="steps"><thead><tr><th>#</th><th>Stage</th><th>What you do</th><th>Tools · keys</th><th>What the studio does</th></tr></thead><tbody>
+      <tr><td class="num">1</td><td><span class="stg plan">Plan</span></td><td>Three floors: entry and lab on the main floor, the lower level with bone dragons and the chests, the upper cell block with the prisoner. Mark the lift as the link up and the trapped corridor.</td><td>Bubble, Height bands</td><td>Creates bands Lower, Main and Upper; the plan shows one band, the others as ghosts.</td></tr>
+      <tr><td class="num">2</td><td><span class="stg shape">Shape</span></td><td>Draw each floor in its band. Connect bands with stairs. Draw the lift shaft as a room through two bands.</td><td>Room <kbd>D</kbd>, Stairs <kbd>T</kbd>, Lift</td><td>The lift tool makes the shaft, a moving floor of 513, buttons at both ends and a step-on trigger, as one mechanism.</td></tr>
+      <tr><td class="num">3</td><td><span class="stg build">Build</span></td><td>Theme “MM8 necromancer lab”. Four double sliding doors from the door library. Mark two floor faces as hidden trap plates. Build the fountain vats with water faces.</td><td>Theme, Door (double leaf), Plate</td><td>Double doors are one door with two leaves; plates can be hidden and set to trigger on monsters too.</td></tr>
+      <tr><td class="num">4</td><td><span class="stg wire">Wire</span></td><td>Traps: Grandmaster Blades from wall to wall and a pair of Fireballs; levitation avoids them. Cell door: opens a talk with Blazen Stormlance unless he is already in the party. Bookshelves give a random scroll, three uses. Vats: drink. On load group 10 turns hostile; when the Ebonest QBit is set it turns invisible.</td><td>Spell trap, Conversation, Loot shelf, Drink, Group behaviour</td><td>The trap preset draws the spell's path in 3D so the designer sees what it hits.</td></tr>
+      <tr><td class="num">5</td><td><span class="stg populate">Populate</span></td><td>All 26 spawns in group 10, 15 of them on the lower level. Scatter reagents and potions on lab tables.</td><td>Spawn brush (group field), Item scatter on surfaces</td><td>Items land on the tables' top faces, not the floor.</td></tr>
+      <tr><td class="num">6</td><td><span class="stg dress">Dress</span></td><td>White lights for the lab, grey for corridors; torches and bone piles.</td><td>Light presets, Wall torch, Props</td><td>Marks the indoor lighting bake as stale.</td></tr>
+      <tr><td class="num">7</td><td><span class="stg test">Test</span></td><td>Play from the upper floor with the Ebonest QBit set and unset. Step on a trap plate in walk mode.</td><td>Play here with QBits, Walk</td><td>Found in the original: events 14–60 reference doors that do not exist; the quick fix removes them.</td></tr>
+    </tbody></table></div>
+    <div class="mock"><h3>Step 2 · Shape: three floors, the lift and the section view</h3><div class="studio-scroll"><div id="mock-nl-lift"></div></div><p class="figcap"><b>Verticality needs a side view.</b> The plan shows one height band at a time; the section shows all three floors, the stairs and the lift travel, and scrubs the lift through its states.</p></div>
+    <ul class="demands"><li>Height bands with ghosts of other floors</li><li>Section view</li><li>Lift tool: shaft, moving floor, buttons and step-on trigger as one mechanism</li><li>Double-leaf doors</li><li>Hidden plates, monster-triggered plates, levitation exemption</li><li>Spell trap preset with its path drawn</li><li>Conversation preset with conditions</li><li>Group behaviour on load and on QBit</li><li>Item scatter onto surfaces</li></ul>
+  </div>
+
+  <div class="case" data-panel="gf" hidden>
+    <h3>Gharik's Forge · <span class="mono">mm6/6d18.blv</span></h3>
+    <div class="facts"><span>sectors <b>48</b> · portals <b>58</b></span><span>faces <b>2 561</b></span><span>height span <b>≈4 950</b></span><span>doors <b>53</b> (25 lever handles)</span><span>lever events <b>33</b></span><span>lava faces <b>31</b></span><span>eruption timers <b>6</b></span><span>spawns <b>52</b>: sorcerers, fire elementals</span><span>lights <b>83</b></span></div>
+    <div class="tablebox"><table class="steps"><thead><tr><th>#</th><th>Stage</th><th>What you do</th><th>Tools · keys</th><th>What the studio does</th></tr></thead><tbody>
+      <tr><td class="num">1</td><td><span class="stg plan">Plan</span></td><td>Plan by level: entry ledge at the top, a spiral walkway down around the lava pit, the balcony puzzle, the elevator room, the laboratory door that needs Gharik's key, the warlocks and the Hourglass. A secret door leads to the lever that extends the bridge over the lava, a shortcut once found.</td><td>Bubble, Lock (item), Secret, Height bands</td><td>Four bands: 1152, 0…128, −896…−384, −2304…−1920. The lock records that the key is found in another map.</td></tr>
+      <tr><td class="num">2</td><td><span class="stg shape">Shape</span></td><td>Draw the pit room and fill its floor with lava. Sweep the walkway around the pit with the spiral tool. Draw the balcony with its eight doorways and the elevator room.</td><td>Room, Spiral ramp, Liquid (lava)</td><td>Lava is native: damage, glow and Levitate protection come from the liquid, with no timer script.</td></tr>
+      <tr><td class="num">3</td><td><span class="stg build">Build</span></td><td>Theme “MM6 forge”. Select the bridge deck and make it a door that slides 1 280 over the lava; do the same with the elevator floor, which drops 2 032. The secret door comes from the library and looks like wall until opened.</td><td>Door from selection, Secret wall (library)</td><td>Movers of any length; the scrubber shows the bridge across and retracted.</td></tr>
+      <tr><td class="num">4</td><td><span class="stg wire">Wire</span></td><td>Levers 33–40 toggle overlapping door sets: a switch board. The balcony is a sequence puzzle: upper NW, lower NE, lower SE, lower NW, upper NE. The lab door needs the Key to Gharik's Laboratory and three QBits. Six emitters drop fireballs or gold every 30 seconds. Teleport tiles return the party to a ledge. A wall gives +25 fire resistance once per character.</td><td>Switch board, Sequence puzzle, Lock, Emitter, Teleport, Once per character</td><td>The flow graph shows which levers open which way and proves the Hourglass is reachable with the key.</td></tr>
+      <tr><td class="num">5</td><td><span class="stg populate">Populate</span></td><td>Sorcerers on the upper levels, fire elementals near the lava; treasure spawns at levels 1–6.</td><td>Spawn brush per band</td><td>Density per band.</td></tr>
+      <tr><td class="num">6</td><td><span class="stg dress">Dress</span></td><td>Torches and crystals; the lava lights itself. One open-sky face for the pit chimney.</td><td>Wall torch, Liquid light, Open sky</td><td>Lava faces add their glow to the bake.</td></tr>
+      <tr><td class="num">7</td><td><span class="stg test">Test</span></td><td>Play from the balcony with the key given and QBits set; run the balcony sequence in the simulator first.</td><td>Play here with items, Puzzle simulator, Flow graph</td><td>Found in the original: lever 35 drives door 53, which has no geometry; faces 115 and 118 overlap on one plane and flicker.</td></tr>
+    </tbody></table></div>
+    <div class="mock"><h3>Steps 4 and 7 · Wire and test: the flow graph by level</h3><div class="studio-scroll"><div id="mock-gf-flow"></div></div><p class="figcap"><b>The graph is generated, not drawn.</b> Rooms, portals, doors, locks, teleports and hazards come from the map; the critical path is highlighted, and every issue links back to the object.</p></div>
+    <div class="mock"><h3>Step 7 · Test: play here with test switches</h3><div class="studio-scroll"><div id="mock-gf-test"></div></div><p class="figcap"><b>Testing a late room should not need a full playthrough.</b> Play here gives the items and QBits a room expects, and returns to the same camera afterwards.</p></div>
+    <ul class="demands"><li>Native lava liquid with damage and light</li><li>Spiral and long ramps</li><li>Door from selection for long movers; state scrubber</li><li>Secret walls</li><li>Switch board for overlapping lever sets</li><li>Sequence puzzle with a recorded solution</li><li>Item and QBit locks that point to other maps</li><li>Emitter preset with interval and random objects</li><li>Generated flow graph with critical path and issues</li><li>Play here with items, QBits and band start</li></ul>
+  </div>
+</section>
+
+<section id="tools">
+  <p class="eyebrow">Tool inventory</p>
+  <h2>Every tool, and which test map needs it</h2>
+  <p class="prose sub">Derived from the walkthroughs. A tool none of the five maps needs is not in the first release.</p>
+  <div class="tablebox"><table class="matrix"><thead><tr><th>Tool</th><th class="c">New Sorpigal</th><th class="c">Goblinwatch</th><th class="c">Shadowspire</th><th class="c">Necro Lab</th><th class="c">Gharik's Forge</th><th>Notes</th></tr></thead><tbody id="toolBody"></tbody></table></div>
+</section>
+
+<section id="presets">
+  <p class="eyebrow">Behaviour presets</p>
+  <h2>What the Wire stage offers before Lua</h2>
+  <p class="prose sub">Each preset is a small form that writes a readable handler. The last column shows where the five test maps use it.</p>
+  <div class="tablebox"><table>
+    <thead><tr><th>Preset</th><th>Fields</th><th>Writes</th><th>Used in</th></tr></thead>
+    <tbody>
+      <tr><td>Door</td><td>direction, travel, speeds, sounds, starts open, hint</td><td class="mono">SetDoorState</td><td>all dungeons</td></tr>
+      <tr><td>Lever or switch</td><td>targets (open, close, toggle), one-shot, texture on and off</td><td class="mono">SetDoorState, SetTexture</td><td>Goblinwatch, Forge</td></tr>
+      <tr><td>Switch board</td><td>keys × doors matrix, specials, reset key, recorded solution</td><td class="mono">one handler per key + map variables</td><td>Goblinwatch vault, Forge levers</td></tr>
+      <tr><td>Sequence puzzle</td><td>ordered inputs, what opens, reset on mistake</td><td class="mono">map variables + SetDoorState</td><td>Forge balcony</td></tr>
+      <tr><td>Lift</td><td>travel, speed, buttons, step-on, returns</td><td class="mono">SetDoorState</td><td>Necro Lab, Forge elevator</td></tr>
+      <tr><td>Chest</td><td>loot level or fixed items, trap, ambush once</td><td class="mono">OpenChest, SummonMonsters</td><td>all</td></tr>
+      <tr><td>Enter house, residence</td><td>house from the table, hint</td><td class="mono">EnterHouse</td><td>New Sorpigal, Shadowspire</td></tr>
+      <tr><td>Exit and dungeon entrance</td><td>target map, arrival anchor, travel days, lock</td><td class="mono">MoveToMap</td><td>all</td></tr>
+      <tr><td>Teleport</td><td>trigger faces, anchor in this map</td><td class="mono">MoveToMap (same map)</td><td>Goblinwatch key M, Forge tiles</td></tr>
+      <tr><td>Lock</td><td>item, QBit, skill, message when locked</td><td class="mono">IsQBitSet, item checks, StatusText</td><td>New Sorpigal, Forge</td></tr>
+      <tr><td>Spell trap or plate</td><td>spell, mastery, direction, monsters trigger, levitation avoids, once or always</td><td class="mono">CastSpell</td><td>Goblinwatch, Necro Lab</td></tr>
+      <tr><td>Fountain, well, drink</td><td>effect, amount, charges, reset period, condition</td><td class="mono">stat changes + map variables + timer</td><td>New Sorpigal, Shadowspire, Necro Lab</td></tr>
+      <tr><td>Skill check reward</td><td>skill, level, reward, uses</td><td class="mono">skill check + SummonItem</td><td>New Sorpigal sword, Shadowspire posts</td></tr>
+      <tr><td>Consumable decoration</td><td>reward, swap sprite, regrow</td><td class="mono">SetSprite</td><td>New Sorpigal fruit trees</td></tr>
+      <tr><td>Ambush</td><td>trigger, groups, once</td><td class="mono">SummonMonsters</td><td>New Sorpigal bridge, Goblinwatch chest</td></tr>
+      <tr><td>Timer and emitter</td><td>interval, random objects or spells, points, condition</td><td class="mono">timer + SummonObject, CastSpell</td><td>New Sorpigal tower, Forge eruptions</td></tr>
+      <tr><td>Once per character</td><td>reward, message</td><td class="mono">player bits</td><td>Forge wall</td></tr>
+      <tr><td>Conversation</td><td>NPC, condition</td><td class="mono">SpeakNPC</td><td>Necro Lab prisoner</td></tr>
+      <tr><td>Group behaviour</td><td>group, on load or on QBit: hostile, invisible</td><td class="mono">SetMonGroupBit</td><td>Shadowspire, Necro Lab</td></tr>
+      <tr><td>Loot shelf</td><td>random scroll or reagent, uses</td><td class="mono">GiveItem + map variable</td><td>Necro Lab, Forge</td></tr>
+      <tr><td>Obelisk and autonote</td><td>note, QBit</td><td class="mono">autonote, SetQBit</td><td>New Sorpigal, Shadowspire</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="architecture">
+  <p class="eyebrow">Architecture</p>
+  <h2>One core, three front ends</h2>
+  <p class="prose sub">The core is one C++ library built twice: to WebAssembly for the browser and the agent server, and natively for the command-line tool and CI. The browser editor, agents and CI run the same operations, compiler and checks. A map an agent built opens in the editor exactly as the agent left it, and the other way round.</p>
+  <div class="arch">
+    <div class="band"><div class="who">Front ends</div><div class="boxes">
+      <div class="box"><h4>Browser editor</h4><p>The hosted static page for players, or the same build served locally by <code>oymap studio</code> when you work with agents.</p></div>
+      <div class="box"><h4>Agents</h4><p>Claude Code, Codex or any MCP client, through the MCP server or the <code>oymap</code> command line.</p></div>
+      <div class="box"><h4>CI</h4><p>Golden projects compiled and checked on every core change; headless playtests of exported maps.</p></div></div></div>
+    <div class="flow">↓ WebSocket for the editor · MCP over Streamable HTTP on 127.0.0.1 · or the CLI directly</div>
+    <div class="band"><div class="who">Studio host<small>local, optional</small></div><div class="boxes">
+      <div class="box new"><h4><code>oymap host</code></h4><p>A long-running Node process on your machine. It holds open map documents and their history, serves the editor and the MCP server, and runs jobs: compiles, renders, playtests. Several agents and one person share a document through a handle and a revision number.</p></div></div></div>
+    <div class="flow">↓ in-process calls</div>
+    <div class="band"><div class="who">Core</div><div class="boxes">
+      <div class="box core"><h4>openyamm-core</h4><p>Text map project, operations, room-to-sector compiler, validation, flow graph, plan and isometric renders, Lua 5.4.8, the asset catalogue. WebAssembly and native builds of the same code.</p></div></div></div>
+    <div class="flow">↓ files</div>
+    <div class="band"><div class="who">Disk and game</div><div class="boxes">
+      <div class="box"><h4>Install or repo</h4><p>Packages or <code>assets_dev/</code> to read; <code>mods/</code> to write; map projects are text files in git.</p></div>
+      <div class="box new"><h4>OpenYAMM</h4><p>Headless scenarios and screenshot tours for playtests and real-look views; reload on file change.</p></div></div></div>
+  </div>
+  <div class="callout">The hosted page still needs no backend. Without a local host it runs the core inside the tab, as in revision 1. Agents need the local host, which runs on the user's machine and never on your server.</div>
+  <div class="tablebox"><table>
+    <thead><tr><th>Piece</th><th>Choice</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>MCP server</td><td>TypeScript MCP SDK 2.x, loading the WebAssembly core</td><td>Speaks both current protocol revisions (2025-11-25 and the stateless 2026-07-28), and has the Tasks and MCP Apps extensions. There is no official C++ SDK.</td></tr>
+      <tr><td>Transport</td><td>Streamable HTTP on 127.0.0.1, plus a small stdio relay</td><td>One long-running host shared by the editor and several agents. The host checks <code>Origin</code> and listens only on localhost.</td></tr>
+      <tr><td>Command line</td><td><code>oymap &lt;command&gt; --json</code></td><td>The source of truth. MCP wraps it. Claude Code, Codex and CI use it the same way.</td></tr>
+      <tr><td>Code mode</td><td><code>map_exec</code> runs a script against the typed core API</td><td>Bulk and unusual work in one call: the script runs inside the host and prints a summary; large output goes to files.</td></tr>
+      <tr><td>Renders</td><td>Core software renderer for plans and isometric views; the game's screenshot tours for real views</td><td>Plans in milliseconds on every iteration; the real look at milestones.</td></tr>
+      <tr><td>Playtests</td><td>The existing headless scenario runner</td><td>Walks a route, presses actions, asserts QBits, doors and actors, and takes screenshots at waypoints.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="agents">
+  <p class="eyebrow">Agents</p>
+  <h2>Built for agents as much as for people</h2>
+  <p class="prose sub">One MM5 region, Castleview–Kalindra, took 136 project scripts; the MM9 converters, Hesper and Brackenford each carry their own builders and checks. The studio's core gives agents semantic operations, checks and renders for every map, so project scripts shrink to what is truly specific to the project. Art stays outside the studio.</p>
+
+  <h3 style="margin-top:28px">What agents would use it for</h3>
+  <div class="tablebox"><table>
+    <thead><tr><th>Use case</th><th>What the agent does</th><th>What the studio gives it</th><th>Your part</th></tr></thead>
+    <tbody>
+      <tr><td>Port a whole game: MM4 and MM5, LoMM dungeons</td><td>A converter turns the source maps into projects; agents refine region by region</td><td>Operations, compiler, flow graph and checks shared by every map; grid dungeons map almost one to one onto rooms</td><td>Approve plans; walk the result and drop pins</td></tr>
+      <tr><td>New map from a brief or a blueprint</td><td>Plan, mission graph, rooms, wiring, population, dressing</td><td>The graph is checked before any geometry exists; a scorecard after each stage</td><td>Write the brief; approve the plan before geometry</td></tr>
+      <tr><td>Address review pins</td><td>Reads your pins, edits, re-renders the same cameras, resolves each pin or explains why not</td><td>Pins anchored to objects; before and after renders</td><td>Drop pins in 3D, like your <code>AI:</code> notes</td></tr>
+      <tr><td>Audits across many maps</td><td>One <code>map_exec</code> script over every map; fixes written as overlays</td><td>The same checks as the editor. The first run already finds real problems: key E in Goblinwatch, lever 35 in Gharik's Forge</td><td>Approve the batch</td></tr>
+      <tr><td>Quest wiring</td><td>Places NPCs, adds presets, takes QBits from the mod's range, then writes a playtest that walks the quest</td><td>Presets, QBit range checks, the scenario runner</td><td>Play the result</td></tr>
+      <tr><td>Balance and population</td><td>Tunes spawns, tiers and loot against density bands</td><td>Density scorecard per zone, calibrated on the original maps</td><td>Set the targets</td></tr>
+      <tr><td>Asset gaps</td><td>Places sized placeholders with a brief; queues art jobs; swaps them in when installed</td><td>The asset catalogue and the list of open placeholders</td><td>Approve the art</td></tr>
+      <tr><td>Variations for a roguelike mode</td><td>Seeded variants of an archetype map</td><td>The validator rejects variants that break the critical path</td><td>Pick what feels right</td></tr>
+      <tr><td>Live pairing</td><td>Edits the map you have open in the browser</td><td>A revision number on every result, and a report of what you changed since the agent's last call</td><td>Edit alongside</td></tr>
+      <tr><td>Regression</td><td>Rebuilds the golden projects after every core change</td><td>Identical compile output, scorecards and renders, or a precise diff</td><td>Nothing</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 style="margin-top:34px">The loop: cheap checks first, pictures at milestones</h3>
+  <p class="prose sub" style="font-size:14.5px">Research on scene and level generation agrees: agents do well when deterministic checks verify their work and images come second. Image judges change their verdict with the viewpoint and the wording; the core's checks do not.</p>
+  <div class="loopflow">
+    <div class="lf"><b>Plan graph</b><span>rooms, locks, keys</span></div><i>→</i>
+    <div class="lf"><b>map_edit</b><span>batch of operations</span></div><i>→</i>
+    <div class="lf t0"><b>Tier 0</b><span>every edit · milliseconds</span></div><i>→</i>
+    <div class="lf t1"><b>Tier 1</b><span>every iteration · seconds</span></div><i>→</i>
+    <div class="lf t2"><b>Tier 2</b><span>milestones · minutes</span></div><i>→</i>
+    <div class="lf hp"><b>Your pins</b><span>back to the agent</span></div>
+  </div>
+  <div class="tablebox"><table>
+    <thead><tr><th>Tier</th><th>When</th><th>What runs</th><th>What the agent gets</th></tr></thead>
+    <tbody>
+      <tr><td><b>0</b></td><td>Inside every edit</td><td>Schema, snapping, units, references: unbound faces, dangling events, missing textures, scale against the world's party size and door standards</td><td>A check delta with the edit's result: “+1 new, −1 resolved”, each with an id and a fix</td></tr>
+      <tr><td><b>1</b></td><td>Each iteration</td><td>Incremental compile by content hash; reachability flood from the start; lock-and-key solve; step heights, head clearance and gaps; density against calibration; Lua lint of generated events</td><td>A scorecard: pass or fail per check, counts, worst offenders by id; details on request</td></tr>
+      <tr><td><b>2</b></td><td>Milestones</td><td>Fixed camera sets: labelled plan, isometric quarters, first-person views from room anchors; a headless playtest that walks the critical path, triggers events and asserts QBits</td><td>One contact sheet at most 1 500 pixels, side by side with the previous revision or a reference map, plus a playtest trace</td></tr>
+    </tbody>
+  </table></div>
+  <p class="figcap">Visual critique runs in a separate reviewer agent that never saw the editing context, answers a closed list of questions by object id, and is never asked about something the core can compute.</p>
+  <div class="mock"><div class="studio-scroll"><div id="mock-sheet"></div></div><p class="figcap"><b>A tier 2 review sheet for Goblinwatch.</b> Every room and door carries its id, so the agent and you refer to labels instead of guessing coordinates. The scorecard and the diff come from the core, not from reading the pictures.</p></div>
+
+  <h3 style="margin-top:34px">The tools</h3>
+  <p class="prose sub" style="font-size:14.5px">Fourteen tools, one verb per concept. The first four are always loaded; the rest are found through the client's tool search. Each MCP tool is the same command in the CLI.</p>
+  <div class="tablebox"><table>
+    <thead><tr><th>Tool</th><th>Does</th><th>Returns</th><th>Kind</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">map_open</td><td>Open or create a project; new maps start from a template</td><td>Handle <code>doc@revision</code>, overview</td><td>always loaded</td></tr>
+      <tr><td class="mono">map_overview</td><td>Summary: plan, rooms and graph, counts, open checks, pins, placeholders</td><td>About 2 000 tokens; <code>detailed</code> on request</td><td>always loaded · read only</td></tr>
+      <tr><td class="mono">map_edit</td><td>A batch of operations in one transaction, with <code>dry_run</code> and <code>fail_fast</code></td><td>Semantic diff, check delta, new revision</td><td>always loaded</td></tr>
+      <tr><td class="mono">map_validate</td><td>Tier 0 and 1 checks, or a chosen subset</td><td>Scorecard as structured output; fix hints with example operations</td><td>always loaded · read only</td></tr>
+      <tr><td class="mono">map_query</td><td>Find objects: “doors in room:vault”, “faces without event”, “spawns of slot 2”</td><td>Paged list by id</td><td>read only</td></tr>
+      <tr><td class="mono">map_flow</td><td>The mission graph: rooms, locks, keys, teleports, critical path</td><td>Graph as data plus a labelled image</td><td>read only</td></tr>
+      <tr><td class="mono">map_render</td><td>A named camera set with overlays, optionally beside another revision or a reference map</td><td>One contact sheet and a legend; full size by link</td><td>read only</td></tr>
+      <tr><td class="mono">map_build</td><td>Incremental compile to ODM or BLV, scene and Lua; install into <code>mods/</code></td><td>What was rebuilt and why</td><td>job</td></tr>
+      <tr><td class="mono">map_playtest</td><td>Headless game run from a scenario or “walk the critical path”</td><td>Trace with failures by waypoint, screenshots, game log</td><td>job</td></tr>
+      <tr><td class="mono">map_assets</td><td>Search existing models, kits, textures, surface materials and creatures</td><td>Matches with size, world and thumbnail</td><td>read only</td></tr>
+      <tr><td class="mono">map_pins</td><td>List your review pins; resolve one with a note</td><td>Pins with their object, camera and screenshot</td><td></td></tr>
+      <tr><td class="mono">map_history</td><td>Checkpoint, list revisions, diff two revisions, revert</td><td>Semantic diffs</td><td>revert asks first</td></tr>
+      <tr><td class="mono">map_exec</td><td>Run a script against the typed core API, inside the host</td><td>What the script prints; files for large output</td><td>code mode</td></tr>
+      <tr><td class="mono">map_api</td><td>Search the core API: names, signatures, examples</td><td>Only what was asked for</td><td>read only</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 style="margin-top:34px">Rules for the interface</h3>
+  <div class="principles">
+    <div><h3>The command line first, MCP on top</h3><p><code>oymap … --json</code> is the source of truth and works the same in Claude Code, Codex and CI. The MCP server is a thin layer over it.</p></div>
+    <div><h3>Readable ids, never indices</h3><p><code>room:vault</code>, <code>door:d36</code>, <code>evt:lever_gate</code>. The compiler assigns the engine's numbers; agents never see face 4412 unless they ask.</p></div>
+    <div><h3>Relations, not coordinates</h3><p>Rooms have anchors (sides, corners, centre, sockets). Doors connect two anchors; spawns are zones with counts; terrain edits run between anchors. The core snaps to the grid. Raw coordinates are an override, not the default.</p></div>
+    <div><h3>Graph before geometry</h3><p>Rooms, locks and keys are checked as a graph first, then laid out, then dressed. Each step has its own checks, so structure is fixed before walls.</p></div>
+    <div><h3>Every edit is a transaction</h3><p>An edit returns a diff, a check delta and a new revision. <code>dry_run</code> previews; checkpoints and revert are cheap because the project is text in git.</p></div>
+    <div><h3>Errors say how to fix it</h3><p>Every error names the object, the rule, the valid range and a corrected example operation, never an error code alone.</p></div>
+    <div><h3>Concise by default</h3><p>Results stay near 2 000 tokens. Details come by paging or by link to a file, under Claude Code's result limits and Codex's 60-second tool timeout.</p></div>
+    <div><h3>Scale is checked, not trusted</h3><p>Party size from <code>world.yml</code>, door, corridor and step standards from the calibration maps. A tree the size of a mountain is a check failure, not a surprise in a screenshot.</p></div>
+    <div><h3>Pictures are labelled and repeatable</h3><p>Fixed camera sets, ids drawn on every object, one contact sheet, the previous revision beside it. Agents point at labels instead of guessing positions.</p></div>
+    <div><h3>Code for bulk work</h3><p><code>map_exec</code> runs loops over many rooms or maps in one call. Scripts that prove useful are promoted into the core library, which replaces per-project helper scripts over time.</p></div>
+    <div><h3>Handles instead of sessions</h3><p>The newest MCP revision has no sessions, so every call carries <code>doc@revision</code>. A write against an old revision fails with a note of what you changed meanwhile, and the agent re-reads.</p></div>
+    <div><h3>Long work is a job</h3><p>Compiles, renders and playtests run as MCP tasks where the client supports them, with <code>job_start</code> and <code>job_status</code> for the rest, and progress messages throughout.</p></div>
+  </div>
+
+  <h3 style="margin-top:34px">One edit, as the agent sees it</h3>
+  <div class="two">
+<pre class="term"><span class="tc">→ map_edit</span>
+{
+  "doc": "gw_rebuild@41",
+  "ops": [
+    {"op": "room.add", "id": "room:antechamber",
+     "band": "core", "theme": "goblinwatch_castle",
+     "attach": "room:great_hall.N", "size": [1536, 832]},
+    {"op": "door.place", "id": "door:ante_hall",
+     "between": ["room:antechamber.S", "room:great_hall.N"],
+     "kind": "library:portcullis_iron"},
+    {"op": "preset.add", "kind": "door_click",
+     "target": "door:ante_hall", "hint": "Door"}
+  ]
+}</pre>
+<pre class="term"><span class="tc">← gw_rebuild@42 · 3 operations applied</span>
+diff
+  + room:antechamber        2 sectors, 1 portal
+  + door:ante_hall          portcullis, up 120
+  + evt:ante_hall_click     event 64 “Door”
+checks  +1 −1
+  resolved  plan:antechamber was not built
+  new  warn room:antechamber has no light
+            rooms of this theme average one per 512 × 512
+            fix: {"op": "light.place", "kind": "wall_torch",
+                  "room": "room:antechamber", "spacing": 768}
+next  map_render camera_set=core_review</pre>
+  </div>
+
+  <h3 style="margin-top:34px">Assets: the library first, art made outside</h3>
+  <div class="principles">
+    <div><h3>Search before making</h3><p><code>map_assets</code> searches what exists: installed decorations, trees and props, building and door kits, the 4× wall textures and surface materials, the 3D creatures. Something new is made only when nothing fits.</p></div>
+    <div><h3>Production stays in the pipelines</h3><p>Blender for modelling, Codex image generation for textures and surface materials, Meshy with its texturing for heavier props, <code>tools/install_model.py</code> to install. The studio never generates art.</p></div>
+    <div><h3>Placeholders with a brief</h3><p>When a map needs something that does not exist, the agent places a sized placeholder with a short brief: what it is, its footprint, a reference image, the world. The map stays playable and checkable meanwhile.</p></div>
+    <div><h3>Swap keeps the settings</h3><p>Once the asset is installed, the placeholder becomes the real model at the same place, with its events and flags. The open placeholders are the art queue.</p></div>
+  </div>
+
+  <h3 style="margin-top:34px">MCP features used</h3>
+  <p class="prose sub" style="font-size:14.5px">From the current specification (revision 2026-07-28) and the clients' documentation. A question mark means it could not be confirmed.</p>
+  <div class="tablebox"><table class="matrix">
+    <thead><tr><th>Feature</th><th>Used for</th><th class="c">Claude Code</th><th class="c">Codex</th><th class="c">claude.ai, Desktop</th><th class="c">VS Code, Cursor</th></tr></thead>
+    <tbody>
+      <tr><td>Tools with structured output and annotations</td><td>All edits, queries and checks; read-only tools run in parallel</td><td class="sym y">●</td><td class="sym y">●</td><td class="sym y">●</td><td class="sym y">●</td></tr>
+      <tr><td>Resources and resource links</td><td>Project files, full-size renders, compiled maps</td><td class="sym y">●</td><td class="sym q">?</td><td class="sym y">●</td><td class="sym q">Cursor</td></tr>
+      <tr><td>Tasks extension</td><td>Compiles, renders, playtests</td><td class="sym y">●</td><td class="sym q">jobs</td><td class="sym y">●</td><td class="sym q">jobs</td></tr>
+      <tr><td>Elicitation</td><td>Confirm a destructive edit; choose between layouts</td><td class="sym y">●</td><td class="sym q">?</td><td class="sym q">?</td><td class="sym y">●</td></tr>
+      <tr><td>MCP Apps</td><td>The 3D viewer inside the chat</td><td class="sym n">—</td><td class="sym n">—</td><td class="sym y">●</td><td class="sym y">●</td></tr>
+      <tr><td>Prompts</td><td><code>/mcp__oymap__new_dungeon</code>, <code>fix_checks</code></td><td class="sym y">●</td><td class="sym q">?</td><td class="sym y">●</td><td class="sym q">Cursor</td></tr>
+    </tbody>
+  </table></div>
+  <p class="figcap">Not used: sampling, roots and logging, which the 2026-07-28 revision deprecates. Subscriptions are offered but not relied on: the revision number in every result tells the agent what changed.</p>
+
+  <h3 style="margin-top:34px">Measuring the interface</h3>
+  <p class="prose sub" style="font-size:14.5px">Tool design is tuned against real tasks before it is frozen, as Anthropic recommends: a set of 20 to 40 tasks, transcripts read back, descriptions refined, a held-out set kept aside.</p>
+  <ul class="demands"><li>The five rebuilds from this page</li><li>Castleview–Kalindra rebuilt on the core, against its 136 scripts</li><li>Brackenford's frontage and sketch revisions</li><li>A Hesper dungeon and an MM9 dungeon's checks</li><li>Fix every issue the audit finds in MM6–MM8</li><li>Address ten review pins on one map</li><li>Measured: tool calls, tokens, tool errors, checks passed, your pins per map, time</li><li>A <code>map-studio</code> skill holds the loop, the scale standards and the camera sets</li></ul>
+</section>
+
+<section id="roadmap">
+  <p class="eyebrow">Roadmap</p>
+  <h2>Milestones, tested by agents and by hand</h2>
+  <p class="prose sub">The full plan is in the repository at <code>devdocs/map_studio/PLAN.md</code>, with the order for retiring the old editor in <code>EDITOR_RETIREMENT.md</code>. The core comes first and replaces the old editor's build steps; the browser editor is built on a working core.</p>
+  <div class="phases">
+    <div class="ph-row"><div class="n">M0 · L</div><div><h3>Core extraction, old editor retired</h3><p>New <code>core/</code> library; formats, scene parsers, tables and terrain moved out of <code>game/</code> and <code>engine/</code>; the indoor compiler and the outdoor build moved out of <code>editor/</code>; <code>oymap build-map</code> replaces the editor's headless build; <code>editor/</code> deleted.</p><p class="gets">Accepted when: the game is unchanged and every BLV and ODM project rebuilds byte-identical through the new commands.</p></div></div>
+    <div class="ph-row"><div class="n">M1 · L</div><div><h3>Project format and the read side</h3><p>Complete scene writers, import of every MM6–MM9 map into projects, stable ids, checks, flow graph, labelled renders, the <code>oymap</code> read commands.</p><p class="gets">Accepted when: all maps import and round-trip, and the audit finds the issues listed in the walkthroughs.</p></div></div>
+    <div class="ph-row"><div class="n">M2 · L</div><div><h3>Operations, host and agent interface</h3><p>Wire, Populate and Dress operations, overlay compile, the local host, the MCP server, code mode, asset catalogue and placeholders, the game's dev mount and reload.</p><p class="gets">Accepted when: an agent re-wires Goblinwatch's vault and New Sorpigal's wells as an overlay that plays the same.</p></div></div>
+    <div class="ph-row"><div class="n">M3 · XL</div><div><h3>Browser editor: view and review</h3><p>Plan and 3D views, walk mode, flow graph, pins, live pairing, the hosted build.</p><p class="gets">Accepted when: you walk all five maps, pin one, and an agent resolves the pins live.</p></div></div>
+    <div class="ph-row"><div class="n">M4 · XL</div><div><h3>Indoor authoring</h3><p>Rooms, caves, stairs, doors from the library or from a selection, lifts, liquids, themes, set-piece import, the Wire stage UI.</p><p class="gets">Accepted when: Goblinwatch, the Necromancer's Lab and Gharik's Forge are rebuilt from nothing, by an agent and by hand.</p></div></div>
+    <div class="ph-row"><div class="n">M5 · XL</div><div><h3>Outdoor authoring</h3><p>Zones, landform and heightmap import, road splines with MM tiles, plots, kit and imported buildings, scatter, landmarks.</p><p class="gets">Accepted when: New Sorpigal and Shadowspire are rebuilt, and the first MM5 region is built on the core.</p></div></div>
+    <div class="ph-row"><div class="n">M6 · L</div><div><h3>MM9 profiles and sharing</h3><p>Open-air regions and cities, water volumes, ladders, destructibles, cinematics, the viewer inside the chat, named mods.</p></div></div>
+  </div>
+</section>
+
+<section id="discord">
+  <p class="eyebrow">Next step</p>
+  <h2>Questions for the Discord</h2>
+  <div class="copybox">
+    <button class="copybtn" type="button" id="copyBtn">Copy</button>
+<pre id="discordText">Map editor plan: a browser-based OpenYAMM map editor that runs against your own install and saves normal mods. It follows the order maps are designed in: Plan → Shape → Build → Wire → Populate → Dress → Test. Rooms are drawn in a top-down plan (like Doom Builder) and checked in 3D; doors, levers, chests, shops and traps are presets instead of scripts.
+
+My test cases: rebuild New Sorpigal, Goblinwatch, Shadowspire, the Mad Necromancer's Lab and Gharik's Forge from nothing.
+
+1. Which of these would you actually do?
+   a) change existing maps (spawns, chests, monsters, weather)
+   b) new outdoor maps   c) new dungeons   d) quests and events   e) cutscenes   f) random map variations
+2. Do you model in Blender or TrenchBroom and want to import, or draw rooms in the editor?
+3. What would you build first? A town, a dungeon, a puzzle?
+4. Which editor have you used (MMEditor, Heroes 3, OpenMW-CS, Creation Kit, Hammer, TrenchBroom, Doom Builder, NWN toolset), and what annoyed you most?
+5. Is Chrome or Edge fine for full editing (Firefox and Safari would be view + zip export)?</pre>
+  </div>
+</section>
+
+<footer>Sources: research on level-design practice and editors and on the original MM6–MM9 workflow and community tools (links inline), and an inventory of the five maps from <code>assets_dev/worlds/mm6, mm8</code>, the case studies in <code>level_generation/case_studies/</code> and your outdoor calibration documents. Mockup terrains are generated examples, not the real maps.</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+
+/* ---------------- Tool inventory ---------------- */
+const TOOLS=[
+ ['Plan'],
+ ['Map card: world, neighbours, travel, monster slots',1,1,1,1,1,''],
+ ['Zones and points of interest',1,0,1,0,0,'outdoor plan'],
+ ['Bubble diagram, critical path, locks',0,1,0,1,1,'indoor plan'],
+ ['Height bands and section view',0,1,0,1,1,'stacked floors'],
+ ['Landmark visibility',1,0,1,0,0,'dragon tower, spire'],
+ ['Shape'],
+ ['Coast stamp, landform brushes, sea level',1,0,1,0,0,''],
+ ['16-bit heightmap import',1,0,1,0,0,'optional, refined in the studio'],
+ ['Liquids: sea, tar, lava',1,0,1,0,1,'lava is native, no timer'],
+ ['Road and river splines with MM tiles',1,0,1,0,0,'bends, diagonals, junctions'],
+ ['Room tool on grid; derived sectors and portals',0,1,0,1,1,''],
+ ['Cave tool: free outline, rough walls',0,1,0,0,0,''],
+ ['Stairs, ramps, spiral ramps',0,1,0,1,1,''],
+ ['Walk at party size',1,1,1,1,1,''],
+ ['Build'],
+ ['Kit library with tiers, facings, assemblies',1,0,1,0,0,'MM prefab naming'],
+ ['Plots and frontage snapping',1,0,1,0,0,'door faces road'],
+ ['Room themes, face paint, surface copy',0,1,0,1,1,''],
+ ['Door library: ready doors that fit an opening',0,1,0,1,1,'portcullis, double, secret'],
+ ['Door from selection',0,1,0,0,1,'pillars, bridge, elevator'],
+ ['Lift tool',0,0,0,1,1,''],
+ ['Secret wall',0,1,0,0,1,''],
+ ['Building import (GLB, OBJ) that keeps face settings',1,0,1,0,0,'re-import safe'],
+ ['Set pieces imported into a room',0,1,0,1,1,'altars, machinery'],
+ ['Prop placement (GLB decorations)',1,1,1,1,1,'install_model.py route'],
+ ['Wire'],
+ ['Service picker and residences',1,0,1,0,0,'EnterHouse'],
+ ['Exits, travel, arrival anchors',1,1,1,1,1,''],
+ ['Switch board',0,1,0,0,1,''],
+ ['Sequence puzzle and simulator',0,1,0,0,1,'NILBOG, balcony'],
+ ['Traps and plates',1,1,0,1,0,''],
+ ['Timers and emitters',1,1,0,0,1,''],
+ ['Conversation and group behaviour',0,0,1,1,0,''],
+ ['Lua editor for the rest',1,1,1,1,1,''],
+ ['Populate'],
+ ['Encounter table and spawn brush',1,1,1,1,1,''],
+ ['Placed actors and groups',1,0,1,1,0,''],
+ ['Chests and item scatter',1,1,1,1,1,''],
+ ['Dress'],
+ ['Scatter brushes with keep-out rules',1,0,1,0,0,''],
+ ['Wall torch: decoration and light together',0,1,0,1,1,''],
+ ['Atmosphere: sky, fog, weather, sound',1,0,1,0,0,''],
+ ['Test'],
+ ['Play here with items, QBits, test party',1,1,1,1,1,''],
+ ['Flow graph and issue list',1,1,1,1,1,'']
+];
+const tb=$('toolBody');
+for(const r of TOOLS){const tr=document.createElement('tr');
+  if(r.length===1){tr.className='grp';const td=document.createElement('td');td.colSpan=7;td.textContent=r[0];tr.appendChild(td);}
+  else{const a=document.createElement('td');a.textContent=r[0];tr.appendChild(a);
+    for(let i=1;i<6;i++){const td=document.createElement('td');td.className='sym '+(r[i]?'y':'n');td.textContent=r[i]?'●':'—';td.setAttribute('aria-label',r[i]?'needed':'not needed');tr.appendChild(td);}
+    const n=document.createElement('td');n.className='note';n.textContent=r[6];tr.appendChild(n);}
+  tb.appendChild(tr);}
+
+$('copyBtn').addEventListener('click',()=>{const b=$('copyBtn'),t=$('discordText');
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(t);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected: press Ctrl+C';};
+  try{navigator.clipboard.writeText(t.textContent).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1600);},sel);}catch(e){sel();}});
+
+/* ================= Terrain generation ================= */
+function hash(x,y,s){let h=Math.imul(x,374761393)^Math.imul(y,668265263)^Math.imul(s,1442695041);h=Math.imul(h^(h>>>13),1274126177);h^=h>>>16;return (h>>>0)/4294967295;}
+function vn(x,y,s){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
+  const a=hash(xi,yi,s),b=hash(xi+1,yi,s),c=hash(xi,yi+1,s),d=hash(xi+1,yi+1,s);return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v;}
+function fbm(x,y,s,o){let t=0,a=.5,f=1,n=0;for(let i=0;i<o;i++){t+=a*vn(x*f,y*f,s+i*31);n+=a;a*=.5;f*=2;}return t/n;}
+const sm=(e0,e1,v)=>{let t=(v-e0)/(e1-e0);t=t<0?0:t>1?1:t;return t*t*(3-2*t);};
+function segDist(px,py,ax,ay,bx,by){const dx=bx-ax,dy=by-ay,l=dx*dx+dy*dy;let t=l?((px-ax)*dx+(py-ay)*dy)/l:0;t=t<0?0:t>1?1:t;return Math.hypot(ax+t*dx-px,ay+t*dy-py);}
+function polyDist(px,py,pts){let d=1e9;for(let i=0;i<pts.length-1;i++)d=Math.min(d,segDist(px,py,pts[i][0],pts[i][1],pts[i+1][0],pts[i+1][1]));return d;}
+const N=256;
+const TERR={
+ coast:{wl:.27,grass:[[82,112,50],[106,128,62]],rock:[118,110,98],
+  base(x,y){const n=fbm(x/60,y/60,21,5);
+    let land=sm(.62,.32,Math.hypot((x-105)/170,(y-162)/95));
+    land=Math.max(land,sm(.95,.45,Math.hypot((x-70)/34,(y-52)/24)),sm(.95,.45,Math.hypot((x-188)/38,(y-58)/20)),sm(.95,.45,Math.hypot((x-222)/16,(y-150)/16)));
+    const e=land+(n-.5)*.45;let h=.12+e*.24+n*.06;
+    const dv=Math.hypot(x-70,y-52);h+=.48*Math.exp(-dv*dv/(2*8*8));
+    const dt=Math.hypot(x-100,y-166),w=sm(46,24,dt);h=h*(1-w)+.34*w;
+    const dr=polyDist(x,y,[[152,112],[156,150],[158,190],[161,226]]);h-=.14*sm(5,1.5,dr)*land;
+    const dd=Math.hypot(x-222,y-150);h+=.08*sm(9,3,dd);return h;},
+  color(x,y,h,c){if(x<105&&y<92&&h>.3){const k=sm(.3,.45,h);return [c[0]*(1-k)+60*k,c[1]*(1-k)+56*k,c[2]*(1-k)+54*k];}return c;},
+  roads:[[[2,170],[40,168],[72,166],[100,165],[130,170],[158,176],[188,178]]],
+  bld:[[84,149,7,5,0,.05],[95,147,6,5,1,.05],[106,149,7,5,0,.05],[117,151,6,6,1,.05],[84,174,6,5,1,.05],[95,175,7,5,0,.05],[107,176,6,6,1,.05],[119,174,9,8,2,.08],[72,157,6,5,0,.05],[129,158,6,5,0,.05],[90,185,6,5,1,.045],[103,186,8,6,0,.055],[222,149,3,3,1,.32]]},
+ dark:{wl:.25,grass:[[70,72,58],[92,88,70]],rock:[104,100,96],water:[26,24,24],
+  base(x,y){const n=fbm(x/70,y/70,31,5),r=1-Math.abs(2*fbm(x/40,y/40,33,4)-1);let h=.28+.2*n+sm(90,12,x)*(.42*r+.06);
+    for(const [cx,cy,rr] of [[150,196,15],[56,206,11],[200,128,9]]){const d=Math.hypot(x-cx,y-cy);h-=.16*sm(rr,rr*.4,d);}
+    const dt=Math.hypot(x-150,y-112),w=sm(40,22,dt);h=h*(1-w)+.36*w;return h;},
+  color(x,y,h,c){const k=.55+.4*fbm(x/18,y/18,41,3);return [c[0]*(1-k)+108*k,c[1]*(1-k)+94*k,c[2]*(1-k)+76*k];},
+  roads:[[[256,108],[200,108],[150,112],[110,122],[60,140],[0,150]],[[150,112],[152,60],[150,0]]],
+  bld:[[136,98,6,5,0,.05],[146,96,7,5,1,.05],[158,98,6,6,0,.05],[134,120,7,5,1,.05],[146,121,6,6,0,.05],[158,120,8,6,2,.06],[124,108,5,6,0,.045],[166,108,6,5,1,.05],[176,84,6,6,2,1.15],[171,80,3,3,2,.55],[183,90,3,3,2,.55]]}
+};
+const cache={};
+function terrain(t){
+  if(cache[t])return cache[t];
+  const P=TERR[t],h=new Float32Array(N*N),kind=new Uint8Array(N*N),roof=new Int8Array(N*N);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)h[y*N+x]=P.base(x,y);
+  const road=new Float32Array(N*N);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){let d=1e9;for(const r of P.roads)d=Math.min(d,polyDist(x,y,r));road[y*N+x]=sm(2.8,1.3,d);}
+  for(const [bx,by,bw,bh,rc,add] of P.bld){const base=Math.max(P.wl+.02,h[Math.min(N-1,by+(bh>>1))*N+Math.min(N-1,bx+(bw>>1))]);
+    for(let y=by;y<by+bh&&y<N;y++)for(let x=bx;x<bx+bw&&x<N;x++){const i=y*N+x;h[i]=base+add*(add>.3?1:(1-.25*Math.abs((y-by)-(bh-1)/2)/(bh/2)));kind[i]=2;roof[i]=rc;}}
+  const col=new Uint8ClampedArray(N*N*3),hr=new Float32Array(N*N);
+  const RO=t==='dark'?[[78,70,74],[64,62,70],[92,84,96]]:[[124,62,44],[98,86,76],[72,80,94]];
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+    const i=y*N+x,hh=h[i];let c;
+    const hx=h[y*N+Math.max(0,x-1)]-h[y*N+Math.min(N-1,x+1)],hy=h[Math.max(0,y-1)*N+x]-h[Math.min(N-1,y+1)*N+x];
+    const slope=Math.max(Math.abs(hx),Math.abs(hy));
+    if(kind[i]===2)c=RO[roof[i]].slice();
+    else if(hh<P.wl){const d=Math.min(1,(P.wl-hh)*7);c=P.water?[P.water[0]+6*(1-d),P.water[1]+6*(1-d),P.water[2]+8*(1-d)]:[52-24*d,98-36*d,114-32*d];}
+    else{const g=fbm(x/9,y/9,7,3),G=P.grass;c=[G[0][0]+(G[1][0]-G[0][0])*g,G[0][1]+(G[1][1]-G[0][1])*g,G[0][2]+(G[1][2]-G[0][2])*g];
+      if(P.color)c=P.color(x,y,hh,c);
+      if(hh<P.wl+.018&&!P.water){const s=sm(P.wl+.018,P.wl+.004,hh);c=[c[0]+(176-c[0])*s,c[1]+(160-c[1])*s,c[2]+(122-c[2])*s];}
+      const rk=sm(.012,.03,slope);c=[c[0]+(P.rock[0]-c[0])*rk,c[1]+(P.rock[1]-c[1])*rk,c[2]+(P.rock[2]-c[2])*rk];
+      const rd=road[i];if(rd>0)c=[c[0]+(150-c[0])*rd,c[1]+(136-c[1])*rd,c[2]+(112-c[2])*rd];}
+    let sh=.82+(hx*.8+hy*1.2)*7;if(hh<P.wl&&kind[i]===0)sh=.95;sh=sh<.42?.42:sh>1.3?1.3:sh;
+    col[i*3]=c[0]*sh;col[i*3+1]=c[1]*sh;col[i*3+2]=c[2]*sh;hr[i]=kind[i]===0&&hh<P.wl?P.wl:hh;}
+  return cache[t]={h:hr,col,P,kind};
+}
+/* which cells can see a target point (eye just above the ground) */
+function visibility(t,tx,ty){
+  const T=terrain(t),key='vis'+tx+','+ty;if(T[key])return T[key];
+  const v=new Uint8Array(N*N),th=T.h[ty*N+tx]+.02;
+  for(let y=0;y<N;y+=2)for(let x=0;x<N;x+=2){const i=y*N+x;if(T.kind[i]===2||T.h[i]<=T.P.wl+1e-6){v[i]=0;continue;}
+    const h0=T.h[i]+.012,dx=tx-x,dy=ty-y,L=Math.hypot(dx,dy),steps=Math.max(8,L|0);let ok=1;
+    for(let s=1;s<steps;s++){const f=s/steps,px=(x+dx*f)|0,py=(y+dy*f)|0;if(Math.abs(px-tx)<4&&Math.abs(py-ty)<4)break;if(T.h[py*N+px]>h0+(th-h0)*f+.002){ok=0;break;}}
+    v[i]=ok?2:1;}
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(x&1||y&1)v[y*N+x]=v[(y&~1)*N+(x&~1)];
+  return T[key]=v;
+}
+
+/* ================= Renderers ================= */
+function fitCanvas(cv,dpr){const W=cv.clientWidth,H=cv.clientHeight;cv.width=Math.max(1,W*dpr|0);cv.height=Math.max(1,H*dpr|0);return [W,H];}
+function drawTop(cv,o){
+  const dpr=Math.min(2,window.devicePixelRatio||1),[W,H]=fitCanvas(cv,dpr),c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+  c.fillStyle='#111317';c.fillRect(0,0,W,H);
+  const T=terrain(o.terr),img=new ImageData(N,N),vis=o.vis?visibility(o.terr,o.vis[0],o.vis[1]):null;
+  for(let i=0;i<N*N;i++){let r=T.col[i*3],g=T.col[i*3+1],b=T.col[i*3+2];
+    if(o.plan){const l=.3*r+.59*g+.11*b;r=r*.5+l*.5;g=g*.5+l*.5;b=b*.5+l*.55+8;}
+    if(vis){const v=vis[i];if(v===2){r=r*.55+230*.45;g=g*.55+150*.45;b=b*.55+70*.45;}else if(v===1){r*=.45;g*=.45;b*=.55;}}
+    img.data[i*4]=r;img.data[i*4+1]=g;img.data[i*4+2]=b;img.data[i*4+3]=255;}
+  const tmp=document.createElement('canvas');tmp.width=N;tmp.height=N;tmp.getContext('2d').putImageData(img,0,0);
+  const [cx,cy,cw]=o.crop||[0,0,N],S=Math.min(W,H),ox=(W-S)/2,oy=(H-S)/2;
+  c.imageSmoothingEnabled=cw>=120;c.drawImage(tmp,cx,cy,cw,cw,ox,oy,S,S);
+  if(o.grid){const step=o.grid,k=S/cw;c.strokeStyle='rgba(255,255,255,.07)';c.lineWidth=1;
+    for(let g=Math.ceil(cx/step)*step;g<cx+cw;g+=step){const p=ox+(g-cx)*k;c.beginPath();c.moveTo(p,oy);c.lineTo(p,oy+S);c.stroke();}
+    for(let g=Math.ceil(cy/step)*step;g<cy+cw;g+=step){const p=oy+(g-cy)*k;c.beginPath();c.moveTo(ox,p);c.lineTo(ox+S,p);c.stroke();}}
+}
+function drawVoxel(cv,o){
+  const [W,H]=fitCanvas(cv,1),c=cv.getContext('2d'),T=terrain(o.terr),img=c.createImageData(W,H),buf=new Uint32Array(img.data.buffer);
+  const skyT=o.skyT||[86,122,164],skyB=o.skyB||[196,212,224],fogStart=o.fog;
+  for(let y=0;y<H;y++){const t=Math.min(1,y/(H*.5)),r=skyT[0]+(skyB[0]-skyT[0])*t,g=skyT[1]+(skyB[1]-skyT[1])*t,b=skyT[2]+(skyB[2]-skyT[2])*t;buf.fill((255<<24)|((b|0)<<16)|((g|0)<<8)|(r|0),y*W,(y+1)*W);}
+  const a=o.angle,R=o.R,cam={x:o.cx+Math.sin(a)*R,y:o.cy+Math.cos(a)*R,h:o.camH,hor:H*.14,sc:H*o.sc,dist:o.dist};
+  const sn=Math.sin(a),cs=Math.cos(a),HS=130,yb=new Float32Array(W).fill(H);let z=30,dz=.5;
+  while(z<cam.dist){let plx=-cs*z-sn*z+cam.x,ply=sn*z-cs*z+cam.y;const prx=cs*z-sn*z+cam.x,pry=-sn*z-cs*z+cam.y,dx=(prx-plx)/W,dy=(pry-ply)/W,f=sm(fogStart*cam.dist,cam.dist,z),inv=cam.sc/z;
+    for(let i=0;i<W;i++){const mx=plx|0,my=ply|0;
+      if(mx>=0&&my>=0&&mx<N&&my<N){const idx=my*N+mx,sy=(cam.h-T.h[idx]*HS)*inv+cam.hor;
+        if(sy<yb[i]){let r=T.col[idx*3],g=T.col[idx*3+1],b=T.col[idx*3+2];
+          if(o.tint){r*=o.tint[0];g*=o.tint[1];b*=o.tint[2];}
+          r=r+(skyB[0]-r)*f;g=g+(skyB[1]-g)*f;b=b+(skyB[2]-b)*f;const v=(255<<24)|((b|0)<<16)|((g|0)<<8)|(r|0);
+          for(let y=sy<0?0:sy|0,y1=yb[i]|0;y<y1;y++)buf[y*W+i]=v;yb[i]=sy;}}
+      plx+=dx;ply+=dy;}
+    z+=dz;dz*=1.011;}
+  c.putImageData(img,0,0);
+}
+function drawIso(cv,o){
+  const dpr=Math.min(2,window.devicePixelRatio||1),[W,H]=fitCanvas(cv,dpr),c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+  c.fillStyle='#111317';c.fillRect(0,0,W,H);
+  const rooms=o.rooms;let mnx=1e9,mxx=-1e9,mny=1e9,mxy=-1e9;
+  const raw=(x,y,z)=>[(x-y),(x+y)*.5-z*.9];
+  for(const r of rooms)for(const [x,y] of [[r.x,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h],[r.x+r.w,r.y+r.h]])for(const z of [r.z,r.z+r.H]){const p=raw(x,y,z);mnx=Math.min(mnx,p[0]);mxx=Math.max(mxx,p[0]);mny=Math.min(mny,p[1]);mxy=Math.max(mxy,p[1]);}
+  const k=Math.min((W-40)/(mxx-mnx),(H-60)/(mxy-mny)),ox=(W-(mxx-mnx)*k)/2-mnx*k,oy=(H-(mxy-mny)*k)/2-mny*k+10;
+  const P=(x,y,z)=>{const p=raw(x,y,z);return [ox+p[0]*k,oy+p[1]*k];};
+  const poly=(pts,fill,stroke,lw,dash)=>{c.beginPath();pts.forEach((p,i)=>{const q=P(p[0],p[1],p[2]);i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]);});c.closePath();if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=lw||1;c.setLineDash(dash||[]);c.stroke();c.setLineDash([]);}};
+  const line=(a,b,s,w)=>{const p=P(...a),q=P(...b);c.beginPath();c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);c.strokeStyle=s;c.lineWidth=w||1;c.stroke();};
+  const sorted=[...rooms].sort((a,b)=>(a.x+a.y+a.z*.01)-(b.x+b.y+b.z*.01));
+  for(const r of sorted){const {x,y,w,h,z,H:Hh}=r;
+    if(r.wn){poly([[x,y,z],[x+w,y,z],[x+w,y,z+Hh],[x,y,z+Hh]],'#5a606e','#2a2e36');for(let s=1;s<Hh;s++)line([x,y,z+s],[x+w,y,z+s],'#00000030');}
+    if(r.ww){poly([[x,y,z],[x,y+h,z],[x,y+h,z+Hh],[x,y,z+Hh]],'#444955','#2a2e36');for(let s=1;s<Hh;s++)line([x,y,z+s],[x,y+h,z+s],'#00000030');}
+    poly([[x,y,z],[x+w,y,z],[x+w,y+h,z],[x,y+h,z]],r.floor||'#3a3e47','#22252b');
+    if(!r.lava){for(let i=1;i<w;i++)line([x+i,y,z],[x+i,y+h,z],'#ffffff0d');for(let j=1;j<h;j++)line([x,y+j,z],[x+w,y+j,z],'#ffffff0d');}
+    if(r.sel)poly([[x,y,z],[x+w,y,z],[x+w,y+h,z],[x,y+h,z]],'rgba(185,135,61,.28)','#D29A49',2);
+    if(!r.open){poly([[x,y+h,z],[x+w,y+h,z],[x+w,y+h,z+.45],[x,y+h,z+.45]],'#2f333b','#1b1e23');poly([[x+w,y,z],[x+w,y+h,z],[x+w,y+h,z+.45],[x+w,y,z+.45]],'#272a31','#1b1e23');}}
+  for(const p of (o.portals||[]))poly([[p[0],p[1],p[4]],[p[2],p[3],p[4]],[p[2],p[3],p[4]+p[5]],[p[0],p[1],p[4]+p[5]]],'rgba(63,184,175,.16)','#3FB8AF',1.4,[4,3]);
+  const label=(x,y,z,t,col)=>{const q=P(x,y,z);c.font='500 11px "IBM Plex Sans",system-ui,sans-serif';const w=c.measureText(t).width+10;c.fillStyle='rgba(17,19,23,.9)';c.fillRect(q[0]-w/2,q[1]-17,w,17);c.strokeStyle=col||'#3A4350';c.strokeRect(q[0]-w/2+.5,q[1]-16.5,w-1,16);c.fillStyle='#E6E8EB';c.textAlign='center';c.textBaseline='middle';c.fillText(t,q[0],q[1]-8.5);};
+  if(o.extra)o.extra({c,P,label,k});
+}
+
+/* ================= Studio frame ================= */
+const STAGES=['Plan','Shape','Build','Wire','Populate','Dress','Test'];
+function frame(o){
+  const st=STAGES.map((s,i)=>`<div class="s-stage${o.stage===s?' on':''}"><span class="n">${i+1}</span>${s}${o.prog&&o.prog[s]?`<span class="pg${o.prog[s]==='✓'?' done':''}">${o.prog[s]}</span>`:''}</div>`).join('');
+  const rail=o.rail.map(t=>t==='-'?'<hr>':`<div class="s-tool${t[2]?' on':''}" title="${t[0]}"><span class="g">${t[1]}</span>${t[0]}</div>`).join('');
+  const views=o.views.map(v=>`<div class="s-v" style="flex:${v.flex||1}">${v.html}<div class="vl">${v.label}</div>${v.right?`<div class="vr">${v.right}</div>`:''}${v.bottom?`<div class="vb">${v.bottom}</div>`:''}</div>`).join('');
+  const it=o.insp.tabs.map((t,i)=>`<span class="${i===0?'on':''}">${t}</span>`).join('');
+  const dt=o.drawer.tabs.map((t,i)=>`<span class="${i===(o.drawer.on||0)?'on':''}">${t}</span>`).join('');
+  return `<div class="studio">
+   <div class="s-title"><span class="s-logo">Map Studio</span><div class="s-doc"><b>${o.map}</b><span>${o.file}</span></div><span class="s-sp"></span>
+     <div class="s-search">⌕ Search commands, assets, objects<kbd>Ctrl K</kbd></div><span class="s-btn sm">↶</span><span class="s-btn sm">↷</span><span class="s-btn primary">▶ Play here · F5</span></div>
+   <div class="s-stages">${st}<div class="s-viewtog"><div class="seg2"><span>Plan</span><span class="on">Split</span><span>3D</span></div></div></div>
+   <div class="s-main"><div class="s-rail">${rail}</div>
+     <div class="s-center"><div class="s-opts">${o.opts}</div><div class="s-views">${views}</div>
+       <div class="s-drawer"><div class="s-dtabs">${dt}</div><div class="s-dbody">${o.drawer.html}</div></div></div>
+     <div class="s-insp"><div class="s-itabs">${it}</div><div class="s-ibody">${o.insp.html}</div></div></div>
+   <div class="s-status">${o.status}</div>${o.callouts||''}</div>`;
+}
+const DT=(chk,iss,warn,err)=>['Library',`Checklist <b>${chk}</b>`,`Issues <b class="${err?'e':warn?'w':''}">${iss}</b>`,'Outline'];
+const svgHouse=(roof,w)=>`<svg viewBox="0 0 80 52"><rect x="${40-w/2}" y="22" width="${w}" height="22" fill="#6d6458"/><polygon points="${40-w/2-4},23 40,8 ${40+w/2+4},23" fill="${roof}"/><rect x="36" y="32" width="8" height="12" fill="#2a221b"/><rect x="${40-w/2+5}" y="27" width="6" height="5" fill="#c9b07a"/></svg>`;
+
+const MOCKS={};
+
+/* ---- New Sorpigal: plan ---- */
+MOCKS['mock-ns-plan']=()=>{
+  const z=(pts,label,lx,ly)=>`<polygon points="${pts}" fill="rgba(185,135,61,.10)" stroke="#D29A49" stroke-width=".7" stroke-dasharray="3 2"/><text x="${lx}" y="${ly}" class="zl">${label}</text>`;
+  const poi=(x,y,t,cl,anchor)=>`<g><circle cx="${x}" cy="${y}" r="2.6" fill="${cl||'#E6E8EB'}" stroke="#111317" stroke-width=".8"/><text x="${x+(anchor==='end'?-4:4)}" y="${y+1.4}" class="pl" text-anchor="${anchor||'start'}">${t}</text></g>`;
+  const svg=`<svg class="ov" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><style>.zl{font:600 5.4px 'IBM Plex Sans',sans-serif;fill:#F2D9A8;paint-order:stroke;stroke:#111317;stroke-width:1.6px}.pl{font:500 4.4px 'IBM Plex Sans',sans-serif;fill:#E6E8EB;paint-order:stroke;stroke:#111317;stroke-width:1.4px}</style>
+   ${z('62,140 138,138 142,196 64,196','Town · dense, calm',66,136)}${z('46,198 96,198 98,214 44,214','Docks',48,222)}${z('168,128 205,124 210,172 172,176','Goblin camp · loud',168,121)}${z('44,32 98,30 100,74 46,76','Volcano isle',46,27)}${z('208,136 236,136 236,164 208,164','Dragon tower',206,131)}
+   <path d="M2 170 C 30 168, 60 167, 100 165 S 140 172, 160 176 S 182 160, 186 146" fill="none" stroke="#E8B860" stroke-width="2.2" stroke-dasharray="5 3" stroke-linecap="round"/>
+   <line x1="40" y1="168" x2="222" y2="150" stroke="#F2C14E" stroke-width=".6" stroke-dasharray="1.5 2"/><text x="132" y="155" class="pl" style="fill:#F2C14E">landmark visible from the gate</text>
+   ${poi(100,152,'Town hall')}${poi(88,147,'Guilds','#E6E8EB','end')}${poi(124,178,'Temple')}${poi(106,190,'Inn')}${poi(100,168,'Fountain','#72A7D8')}${poi(80,170,'Well','#72A7D8','end')}${poi(118,160,'Well','#72A7D8')}${poi(40,150,'Obelisk','#F2C14E','end')}${poi(58,130,'Shrine of Luck','#F2C14E')}${poi(142,128,'Sword in stone','#F2C14E')}
+   ${poi(184,142,'Goblinwatch','#CC6666')}${poi(30,186,'Abandoned Temple','#CC6666')}${poi(70,44,"Gharik's Forge",'#CC6666')}${poi(222,150,'Tower','#CC6666')}
+   <g><path d="M10 176 l-7 -6 l7 -6" fill="none" stroke="#5E98E5" stroke-width="1.4"/><text x="12" y="183" class="pl" style="fill:#9cc0f0">→ Castle Ironfist · 5 days</text></g><text x="66" y="230" class="pl">Boat · Misty Islands, coach</text>
+  </svg>`;
+  return frame({map:'New Sorpigal (rebuild)',file:'mods/worlds/mm6/maps/oute3_rebuild.odm',stage:'Plan',prog:{Plan:'5 zones',Shape:'0/3',Build:'0/32',Wire:'0/52'},
+   rail:[['Zone','Z',1],['Road sketch','R'],['Point','I'],['Landmark','K'],'-',['Note','N'],['Image','U'],['Measure','M']],
+   opts:`<span class="tname">Zone</span><span class="lbl">name</span><span class="v">Goblin camp</span><span class="lbl">purpose</span><span class="v">hostile camp, off-road</span><span class="lbl">density</span><span class="v">sparse</span><span class="ck on">roads avoid</span><span class="lbl">draw</span><span class="v">click points · Enter closes</span>`,
+   views:[{html:`<canvas data-draw="top" data-terr="coast" data-plan="1" data-grid="16"></canvas>${svg}`,label:'<span class="on">Plan</span><span>whole map · 128 × 128</span>',right:'<span class="on">Zones</span><span class="on">Points</span><span>Terrain</span>',bottom:'Planning layer: nothing here is geometry yet'}],
+   insp:{tabs:['Map card','Notes'],html:`<div class="card"><h4>New Sorpigal</h4><div class="k">MM6 · outdoor · template Coast</div></div>
+     <div class="ph">Neighbours</div><div class="list"><div class="li"><span class="t">West edge → Castle Ironfist</span><span class="m">5 days</span></div><div class="li"><span class="t">Boat → Misty Islands</span><span class="m">Tue Thu Sat</span></div><div class="li"><span class="t">Coach → Castle Ironfist</span><span class="m">Mon Wed Fri</span></div></div>
+     <div class="ph">Monster slots <em>map stats</em></div><table class="tbl"><tr><th>#</th><th>Family</th><th>Count</th><th>Tiers</th></tr><tr><td>1</td><td>Goblin</td><td>3–5</td><td><span class="tier a">A</span> <span class="tier b">B</span> <span class="tier c">C</span></td></tr><tr><td>2</td><td>Peasant M</td><td>2–4</td><td><span class="tier a">A</span> <span class="tier b">B</span></td></tr><tr><td>3</td><td style="color:var(--s-t4)">empty</td><td></td><td></td></tr></table>
+     <div class="ph">Ground</div><div class="f"><label>Tile banks</label><div class="inp pick">MM6 grass, dirt, water, volcanic</div></div><div class="f"><label>Refill</label><div class="inp">every 6 months</div></div>
+     <div class="ph">Selected zone</div><div class="f"><label>Name</label><div class="inp">Goblin camp</div></div><div class="f"><label>Purpose</label><div class="inp">hostile camp, off-road</div></div><div class="f"><label>Slots</label><div class="inp">1 Goblin</div></div>`},
+   drawer:{tabs:DT('14 open','0'),on:1,html:`<div class="chk-list">
+     <div class="cl"><span class="bx part"></span>Town: 17 homes, 15 services<span class="m">0 / 32</span></div><div class="cl"><span class="bx part"></span>Road: gate → market → bridge<span class="m">sketch</span></div>
+     <div class="cl"><span class="bx"></span>Dungeon entrances<span class="m">0 / 3</span></div><div class="cl"><span class="bx"></span>Wells and fountains<span class="m">0 / 5</span></div>
+     <div class="cl"><span class="bx"></span>Obelisk, shrine, sword<span class="m">0 / 3</span></div><div class="cl"><span class="bx ok">✓</span>Neighbours and travel<span class="m">3</span></div>
+     <div class="cl"><span class="bx ok">✓</span>Monster slots<span class="m">2</span></div><div class="cl"><span class="bx"></span>Landmark: dragon tower<span class="m">plan</span></div></div>`},
+   status:`<span>X −9 728  Y −11 319</span><span class="hint">Click to add a point · Enter closes the zone · Esc cancels</span><span class="r"><span>cell 512</span><span>plan layer</span></span>`});
+};
+
+/* ---- New Sorpigal: build ---- */
+MOCKS['mock-ns-build']=()=>{
+  const B=TERR.coast.bld.slice(0,12);
+  const outl=B.map(([x,y,w,h],i)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="${i===7?'#D29A49':'#E6E8EB'}" stroke-width="${i===7?.7:.35}" stroke-opacity="${i===7?1:.75}"/>`).join('');
+  const doors=B.map(([x,y,w,h])=>{const top=y<165,dx=x+w/2,dy=top?y+h:y;return `<polygon points="${dx-1},${dy} ${dx+1},${dy} ${dx},${dy+(top?1.8:-1.8)}" fill="#F2C14E"/>`;}).join('');
+  const svg=`<svg class="ov" viewBox="62 128 100 100" preserveAspectRatio="xMidYMid meet"><style>.t{font:500 2.6px 'IBM Plex Sans',sans-serif;fill:#E6E8EB;paint-order:stroke;stroke:#111317;stroke-width:.8px}</style>
+    <path d="M62 167 C 80 166, 90 165.5, 100 165 S 140 172, 160 176" fill="none" stroke="#E8B860" stroke-width="5.6" stroke-opacity=".18"/>
+    <path d="M62 167 C 80 166, 90 165.5, 100 165 S 140 172, 160 176" fill="none" stroke="#E8B860" stroke-width=".6"/>
+    ${[[62,167],[100,165],[130,170],[158,176]].map(([x,y])=>`<rect x="${x-1.2}" y="${y-1.2}" width="2.4" height="2.4" fill="#111317" stroke="#E8B860" stroke-width=".5"/>`).join('')}
+    <rect x="153" y="171" width="9" height="8" fill="none" stroke="#72A7D8" stroke-width=".5" stroke-dasharray="1 .7"/><text x="146" y="183" class="t">bridge suggested</text>
+    <g stroke="#8D96A3" stroke-width=".25" stroke-dasharray="1 .8" fill="none"><rect x="128" y="146" width="10" height="9"/><rect x="140" y="149" width="9" height="9"/><rect x="129" y="178" width="9" height="8"/></g>
+    ${outl}${doors}
+    <rect x="140.5" y="150" width="7" height="5.5" fill="rgba(185,135,61,.25)" stroke="#D29A49" stroke-width=".5" stroke-dasharray="1 .6"/><line x1="144" y1="155.5" x2="144.5" y2="170.5" stroke="#F2C14E" stroke-width=".35" stroke-dasharray=".8 .6"/><text x="145.5" y="163" class="t" style="fill:#F2D9A8">door → road 384</text>
+    <text x="117" y="186" class="t" style="fill:#F2D9A8">Temple · approach 9 %</text>
+  </svg>`;
+  return frame({map:'New Sorpigal (rebuild)',file:'mods/worlds/mm6/maps/oute3_rebuild.odm',stage:'Build',prog:{Plan:'✓',Shape:'✓',Build:'12/32',Wire:'9/52'},
+   rail:[['Plot','O'],['Place','P',1],['Bridge','B'],['Wall','W'],['Tile paint','T'],'-',['Assembly','A'],['Import mesh','I']],
+   opts:`<span class="tname">Place</span><span class="lbl">kit</span><span class="v">MM6 Enroth town</span><span class="lbl">facing</span><span class="v">door to road</span><span class="ck on">snap to plot</span><span class="ck on">grade approach</span><span class="lbl">keep door clear</span><span class="v">256</span><span class="lbl">rotate</span><span class="v">free · Shift: 90°</span>`,
+   views:[{flex:1.05,html:`<canvas data-draw="top" data-terr="coast" data-crop="62,128,100" data-grid="1"></canvas>${svg}`,label:'<span class="on">Plan</span><span>town · grid 512</span>'},
+          {html:`<canvas data-draw="voxel" data-terr="coast" data-angle="0.35" data-r="95" data-cx="110" data-cy="160" data-camh="150" data-sc=".62" data-dist="230"></canvas>`,label:'<span class="on">3D</span><span>lit</span>',right:'<span class="on">Doors</span><span>Plots</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Temple</h4><div class="k">kit: MM6 Enroth town · temple · 212 faces</div></div>
+     <div class="f"><label>Position</label><div class="inp">−2 304, −5 632, 448</div></div><div class="f"><label>Facing</label><div class="inp">212° · door to road</div></div>
+     <div class="chk on">Grade approach<span class="m">9 %</span></div><div class="chk on">Cut terrain under footprint</div>
+     <div class="ph">Door</div><div class="f"><label>Face</label><div class="inp">front door · 2 faces</div></div><div class="f"><label>Service</label><div class="inp pick">Temple · New Sorpigal Temple</div></div><div class="f"><label>House</label><div class="inp">325</div></div><div class="f"><label>Hint</label><div class="inp">New Sorpigal Temple</div></div>
+     <div class="ph">Service picker <em>house table</em></div><div class="list"><div class="li on"><span class="t">New Sorpigal Temple</span><span class="m">325</span></div><div class="li"><span class="t">other temples…</span><span class="m">type to filter</span></div></div>`},
+   drawer:{tabs:DT('20 open','0'),on:0,html:`<div class="chips"><span class="on">MM6 Enroth town</span><span>MM7 Harmondale</span><span>MM8 Ravenshore</span><span>MM8 Alvar</span><span>MM8 Shadowspire</span><span>Imported</span></div>
+     <div class="lib"><div class="it">${svgHouse('#7c3e2c',34)}Home, small<small>×9 placed</small></div><div class="it">${svgHouse('#5a4f45',46)}Home, long<small>×5</small></div><div class="it on">${svgHouse('#3f4a5c',54)}Temple<small>1 / 1</small></div><div class="it">${svgHouse('#7c3e2c',50)}Guild<small>0 / 2</small></div><div class="it">${svgHouse('#5a4f45',56)}Tavern A+B<small>assembly</small></div><div class="it">${svgHouse('#3f4a5c',44)}Bank<small>0 / 1</small></div><div class="it">${svgHouse('#7c3e2c',40)}Stables<small>0 / 1</small></div><div class="it"><svg viewBox="0 0 80 52"><rect x="12" y="30" width="56" height="5" fill="#8a7a62"/><rect x="16" y="35" width="4" height="10" fill="#6d6458"/><rect x="60" y="35" width="4" height="10" fill="#6d6458"/></svg>Bridge<small>auto</small></div><div class="it"><svg viewBox="0 0 80 52"><circle cx="40" cy="32" r="12" fill="#6d6458"/><circle cx="40" cy="32" r="8" fill="#2f6f9a"/></svg>Well<small>preset</small></div></div>`},
+   status:`<span>X −2 304  Y −5 632  Z 448</span><span class="hint">Click a plot to place · R rotates 90° · Alt drag: free rotate · the door turns to the nearest road</span><span class="r"><span>12 buildings · 9 doors wired</span></span>`});
+};
+
+/* ---- Goblinwatch ---- */
+function gwPlanSvg(vb){
+  const cave=d=>`<path d="${d}" fill="#2c3330" stroke="#566274" stroke-width=".9"/>`;
+  const room=(x,y,w,h,sel)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${sel?'rgba(185,135,61,.22)':'#2a2e36'}" stroke="${sel?'#D29A49':'#8D96A3'}" stroke-width="${sel?1.4:.9}"/>`;
+  const pt=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#3FB8AF" stroke-width="2.2"/>`;
+  return `<svg class="ov" viewBox="${vb||'0 0 400 300'}" preserveAspectRatio="xMidYMid meet"><style>.rl{font:500 8.5px 'IBM Plex Sans',sans-serif;fill:#E6E8EB}.dm{font:500 7.5px 'IBM Plex Mono',monospace;fill:#F2C14E}.gh{font:500 8px 'IBM Plex Sans',sans-serif;fill:#8D96A3;font-style:italic}</style>
+   <g stroke="#ffffff10" stroke-width=".6">${Array.from({length:41},(_,i)=>`<line x1="${i*10}" y1="0" x2="${i*10}" y2="300"/>`).join('')}${Array.from({length:31},(_,i)=>`<line x1="0" y1="${i*10}" x2="400" y2="${i*10}"/>`).join('')}</g>
+   ${cave('M2 120 C 20 100, 40 96, 62 104 C 78 110, 92 128, 100 150 L 112 150 C 104 124, 88 96, 62 88 C 38 82, 14 92, 2 106 Z')}
+   ${cave('M300 160 C 316 150, 334 120, 360 112 C 380 106, 396 110, 400 116 L 400 132 C 384 126, 364 130, 348 144 C 334 158, 322 170, 304 176 Z')}
+   ${cave('M112 200 C 150 236, 230 240, 292 206 L 300 222 C 236 258, 146 252, 102 214 Z')}
+   ${room(112,130,70,52)}${room(182,130,44,30)}${room(182,160,44,40,true)}${room(226,140,40,24)}${room(226,164,30,22)}${room(266,146,34,30)}${room(140,182,22,30)}
+   <rect x="120" y="96" width="62" height="34" fill="rgba(94,152,229,.08)" stroke="#5E98E5" stroke-width="1.2" stroke-dasharray="4 3"/>
+   ${[[120,96],[182,96],[182,130],[120,130]].map(([x,y])=>`<rect x="${x-2.5}" y="${y-2.5}" width="5" height="5" fill="#111317" stroke="#5E98E5"/>`).join('')}
+   <text x="151" y="91" class="dm" text-anchor="middle">1 536</text><text x="188" y="116" class="dm">832</text>
+   ${pt(182,138,182,152)}${pt(196,160,212,160)}${pt(226,148,226,158)}${pt(226,170,226,180)}${pt(256,170,266,170)}${pt(144,182,158,182)}${pt(100,150,112,150)}${pt(296,176,300,170)}${pt(140,212,162,212)}
+   <text x="147" y="160" class="rl" text-anchor="middle">Great hall</text><text x="204" y="148" class="rl" text-anchor="middle">Barracks</text><text x="204" y="184" class="rl" text-anchor="middle" style="fill:#F2D9A8">Vault</text><text x="246" y="155" class="rl" text-anchor="middle">Cabinet</text><text x="283" y="164" class="rl" text-anchor="middle">Pillars</text>
+   <text x="151" y="117" class="gh" text-anchor="middle">Antechamber (planned)</text><text x="40" y="78" class="gh">West caves · band −1280</text><text x="330" y="100" class="gh">East caves</text><text x="186" y="252" class="gh">Maintenance tunnel</text>
+   <g transform="translate(160,170)"><circle r="3.2" fill="#5E98E5"/><circle r="7" fill="none" stroke="#5E98E5" stroke-width=".6" stroke-dasharray="2 2"/></g>
+  </svg>`;
+}
+const GW_ROOMS=[{x:0,y:0,w:7,h:5,z:0,H:5,wn:1,ww:1},{x:7,y:0,w:4,h:3,z:0,H:4,wn:1},{x:7,y:3,w:4,h:4,z:0,H:5,sel:1},{x:11,y:1,w:4,h:2.5,z:0,H:4,wn:1},{x:11,y:3.5,w:3,h:2,z:0,H:4},{x:15,y:1.5,w:3,h:3,z:0,H:4,wn:1},{x:2.5,y:5,w:2,h:3,z:-1.5,H:4,ww:1}];
+const GW_PORT=[[7,1,7,2.4,0,3.2],[8.5,3,10,3,0,3.2],[11,2,11,3,0,3],[14,2,15,2,0,3],[2.8,5,4.2,5,-1.5,4]];
+function gwShape(withCallouts){
+  const co=withCallouts?[[300,47],[16,150],[420,92],[300,330],[700,300],[1000,150],[520,540],[860,8],[640,638]].map(([x,y],i)=>`<span class="co" style="left:${x}px;top:${y}px">${i+1}</span>`).join(''):'';
+  return frame({map:'Goblinwatch (rebuild)',file:'mods/worlds/mm6/maps/6d01_rebuild.blv',stage:'Shape',prog:{Plan:'✓',Shape:'11/14',Build:'4/14',Wire:'0/38'},
+   rail:[['Room','D',1],['Cave','C'],['Corridor','H'],['Stairs','T'],['Spiral','Y'],['Opening','O'],'-',['Height','Pg'],['Cut','X'],['Walk','G']],
+   opts:`<span class="tname">Room</span><span class="lbl">grid</span><span class="v">64</span><span class="lbl">floor</span><span class="v">−447</span><span class="lbl">ceiling</span><span class="v">+448</span><span class="lbl">theme</span><span class="v">Goblinwatch castle</span><span class="ck on">openings make portals</span><span class="ck on">fill planned bubble</span>`,
+   views:[{flex:1.15,html:gwPlanSvg(),label:'<span class="on">Plan</span><span>band: Core −768…0</span>',right:'<span>Caves</span><span class="on">Core</span><span>Upper</span>',bottom:'Drawing: 1 536 × 832 · fills the planned Antechamber'},
+          {html:`<canvas data-draw="iso" data-rooms="gw"></canvas>`,label:'<span class="on">3D</span><span>grey · cutaway</span>',right:'<span class="on">Portals</span><span>Ceilings</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Vault</h4><div class="k">room · 2 sectors · plan bubble “Vault”</div></div>
+     <div class="f"><label>Floor</label><div class="inp">−447</div></div><div class="f"><label>Ceiling</label><div class="inp">+448 · height 895</div></div><div class="f"><label>Theme</label><div class="inp pick">Goblinwatch castle</div></div><div class="f"><label>Ambient</label><div class="inp">16</div></div>
+     <div class="ph">Openings <em>portals derived</em></div><div class="list"><div class="li"><span class="t">to Barracks · north</span><span class="m">door 36</span></div><div class="li"><span class="t">to Great hall · west</span><span class="m">open</span></div><div class="li"><span class="t">to Cabinet · east</span><span class="m">door 44</span></div></div>
+     <div class="ph">Party fit</div><div class="chk on">All openings ≥ party width<span class="m">radius 38</span></div><div class="chk on">Headroom ≥ party height<span class="m">169</span></div>
+     <p class="note">Rooms that are not convex are split into sectors when the map compiles. You never edit sectors or portals directly.</p>`},
+   drawer:{tabs:DT('3 open','1',1),on:1,html:`<div class="chk-list"><div class="cl"><span class="bx ok">✓</span>West caves<span class="m">room</span></div><div class="cl"><span class="bx ok">✓</span>Great hall, barracks, vault<span class="m">rooms</span></div><div class="cl"><span class="bx part"></span>Antechamber<span class="m">drawing</span></div><div class="cl"><span class="bx"></span>Pillar treasure rooms<span class="m">0 / 2</span></div><div class="cl"><span class="bx ok">✓</span>East caves<span class="m">room</span></div><div class="cl"><span class="bx"></span>Ramp to upper band<span class="m">stairs</span></div><div class="cl"><span class="bx ok">✓</span>Maintenance tunnel<span class="m">loop</span></div><div class="cl"><span class="bx ok">✓</span>Walk test: entrance → vault<span class="m">1 path</span></div></div>`},
+   status:`<span>X 1 536  Y 4 672  Z −447</span><span class="hint">Click corners · Enter closes · Backspace removes the last corner · PgUp raises the floor under the cursor</span><span class="r"><span>grid 64</span><span>band Core</span></span>`,callouts:co});
+}
+MOCKS['mock-anatomy']=()=>gwShape(true);
+MOCKS['mock-gw-shape']=()=>gwShape(false);
+
+MOCKS['mock-gw-board']=()=>{
+  const doors=[36,38,40,44,47,48,51,52,55,56,57,58,59,60],keys='ABCDEFGHIJKLMNOP'.split('');
+  const spec={A:'+ Fireball trap',M:'+ teleport to tunnel',P:'resets every key'};
+  let rows='';
+  keys.forEach((k,ri)=>{let cells='';doors.forEach((d,ci)=>{const v=k==='P'?'':(hash(ri,ci,5)<.18?'o':hash(ri,ci,6)<.16?'c':hash(ri,ci,7)<.06?'t':'');cells+=`<td class="${v}">${v==='o'?'▲':v==='c'?'▼':v==='t'?'↕':''}</td>`;});
+    rows+=`<tr class="${k==='N'?'sel':''}"><th class="rh">Key ${k}</th>${cells}<td class="x">one-shot · swap texture${spec[k]?' · <b style="color:var(--s-acc-h)">'+spec[k]+'</b>':''}</td></tr>`;});
+  const board=`<div class="board"><div class="sim"><span style="color:var(--s-t3);font-size:11.5px">Recorded solution</span>${'NILBOG'.split('').map(c=>`<span class="key done">${c}</span>`).join('')}<span class="res">→ vault doors 55–60 open ✓</span><span class="s-btn sm" style="margin-left:auto">▶ Replay</span><span class="s-btn sm">Record</span><span class="s-btn sm">Reset (key P)</span></div>
+    <table><tr><th></th>${doors.map(d=>`<th>D${d}</th>`).join('')}<th></th></tr>${rows}</table>
+    <div class="legend2"><span><b style="background:#1e3322;color:#5FA36A">▲</b>open</span><span><b style="background:#3a1d1d;color:#CC6666">▼</b>close</span><span><b style="background:#1b2a40;color:#72A7D8">↕</b>toggle</span><span>cells are illustrative; rows, specials and reset follow the original script</span></div></div>`;
+  return frame({map:'Goblinwatch (rebuild)',file:'mods/worlds/mm6/maps/6d01_rebuild.blv',stage:'Wire',prog:{Plan:'✓',Shape:'✓',Build:'✓',Wire:'31/53'},
+   rail:[['Preset','E'],['Link','L'],['Switch board','M',1],['Sequence','Q'],['Lua','F4'],'-',['Simulate','Y'],['Flow graph','V']],
+   opts:`<span class="tname">Switch board</span><span class="lbl">name</span><span class="v">Vault keys</span><span class="lbl">keys</span><span class="v">16 faces · t1swdd → t1swdu</span><span class="ck on">one-shot</span><span class="ck on">reset key: P</span><span class="ck on">write texture swap</span>`,
+   views:[{flex:1.7,html:board,label:'<span class="on">Switch board</span><span>16 keys × 14 doors</span>'},{html:gwPlanSvg('100 80 220 160')+`<svg class="ov" viewBox="100 80 220 160" preserveAspectRatio="xMidYMid meet"><g stroke="#F2C14E" stroke-width="1" fill="none" stroke-dasharray="3 2"><path d="M246 152 L204 180"/><path d="M246 152 L283 160"/><path d="M246 152 L196 150"/></g><circle cx="246" cy="152" r="4" fill="#F2C14E"/></svg>`,label:'<span class="on">Plan</span><span>links of Key N</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Key N</h4><div class="k">face on the cabinet wall · switch board “Vault keys”</div></div>
+     <div class="f"><label>Hint</label><div class="inp">N</div></div><div class="f"><label>Flag</label><div class="inp">own map variable</div></div><div class="f"><label>Texture</label><div class="inp">t1swdd → t1swdu</div></div>
+     <div class="ph">Drives</div><div class="conn"><span class="a">OPEN</span><span>Door 48 · vault inner</span><span class="m">→</span></div><div class="conn"><span class="a">CLOSE</span><span>Door 40 · east passage</span><span class="m">→</span></div><div class="conn"><span class="a">OPEN</span><span>Door 57 · vault gate</span><span class="m">→</span></div>
+     <div class="ph">Driven by</div><div class="conn"><span class="a">RESET</span><span>Key P</span><span class="m">←</span></div>
+     <div class="row2"><span class="s-btn sm">Show Lua</span><span class="s-btn sm">Convert to script</span></div>`},
+   drawer:{tabs:DT('22 open','2',1),on:2,html:`<div class="issue"><span class="sev w">warn</span><div>Key E reads the flag of key D<small>imported from 6d01.lua: E checks MapVar(4), D's flag, instead of its own MapVar(5)</small></div><span class="fix">Give E its own flag</span></div>
+     <div class="issue"><span class="sev w">warn</span><div>Events 38, 54, 57, 58 are bound to faces but have no handler<small>clicking these faces does nothing</small></div><span class="fix">Show faces</span></div>
+     <div class="issue"><span class="sev o">ok</span><div>Recorded solution opens the vault from the initial state; key P restores it<small>simulated 6 presses, 14 doors</small></div><span></span></div>`},
+   status:`<span>switch board · 16 × 14</span><span class="hint">Click a cell to cycle open, close, toggle, nothing · Y replays the recorded solution</span><span class="r"><span>writes 16 handlers · 16 map variables</span></span>`});
+};
+
+/* ---- Shadowspire ---- */
+MOCKS['mock-ss-landmark']=()=>{
+  const v=visibility('dark',178,86),T=terrain('dark');let vis=0,tot=0;
+  for(let i=0;i<N*N;i++){if(T.kind[i]===2||T.h[i]<=T.P.wl+1e-6)continue;tot++;if(v[i]===2)vis++;}
+  const pct=Math.round(vis/tot*100);
+  const svg=`<svg class="ov" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><style>.pl{font:500 5px 'IBM Plex Sans',sans-serif;fill:#E6E8EB;paint-order:stroke;stroke:#111317;stroke-width:1.6px}</style>
+    <circle cx="179" cy="87" r="5" fill="none" stroke="#F2C14E" stroke-width="1.2"/><circle cx="179" cy="87" r="1.6" fill="#F2C14E"/><text x="186" y="85" class="pl" style="fill:#F2D9A8">Spire · 4 352</text>
+    <text x="250" y="104" class="pl" text-anchor="end">→ Ironsand</text><text x="4" y="146" class="pl">← Ravenshore</text><text x="154" y="9" class="pl">↑ Ironsand</text>
+    <text x="134" y="146" class="pl">Twilight</text><text x="24" y="60" class="pl">Crypt hills</text><text x="140" y="220" class="pl">tar pool</text></svg>`;
+  return frame({map:'Shadowspire (rebuild)',file:'mods/worlds/mm8/maps/out06_rebuild.odm',stage:'Plan',prog:{Plan:'6 zones',Shape:'2/4',Build:'0/48'},
+   rail:[['Zone','Z'],['Road sketch','R'],['Point','I'],['Landmark','K',1],'-',['Note','N'],['Image','U']],
+   opts:`<span class="tname">Landmark</span><span class="lbl">object</span><span class="v">Necromancers' Guild spire</span><span class="lbl">top</span><span class="v">4 352</span><span class="lbl">eye height</span><span class="v">152</span><span class="ck on">show visibility</span><span class="ck">only from roads</span>`,
+   views:[{flex:1.1,html:`<canvas data-draw="top" data-terr="dark" data-vis="178,86"></canvas>${svg}`,label:'<span class="on">Plan</span><span>visibility of the spire</span>',bottom:`Sees the spire: <b style="color:#F2C14E">${pct} %</b> of walkable ground`},
+          {html:`<canvas data-draw="voxel" data-terr="dark" data-angle="2.6" data-r="120" data-cx="150" data-cy="110" data-camh="170" data-sc=".55" data-dist="300" data-fog=".2" data-sky="dark"></canvas>`,label:'<span class="on">3D</span><span>fog day</span>'}],
+   insp:{tabs:['Properties','Notes'],html:`<div class="card"><h4>Necromancers' Guild spire</h4><div class="k">landmark · façade assembly d19entrance (6 parts)</div></div>
+     <div class="ph">Visibility</div><div class="f"><label>Walkable</label><div class="inp">${pct} % sees it</div></div><div class="f"><label>Roads</label><div class="inp">all four exits see it</div></div><div class="f"><label>Rule</label><div class="inp">2+ landmarks on horizon</div></div>
+     <div class="ph">Other landmarks</div><div class="list"><div class="li"><span class="dot" style="background:#F2C14E"></span><span class="t">Spire</span><span class="m">${pct} %</span></div><div class="li"><span class="dot" style="background:#72A7D8"></span><span class="t">Temple of the Sun</span><span class="m">31 %</span></div><div class="li"><span class="dot" style="background:#CC6666"></span><span class="t">Dragon cave ridge</span><span class="m">44 %</span></div></div>
+     <p class="note">Visibility is computed on the heightfield from eye height. It updates while you sculpt, so a ridge that hides the spire shows at once.</p>`},
+   drawer:{tabs:DT('4 open','1',1),on:2,html:`<div class="issue"><span class="sev w">warn</span><div>South-east bone fields see no landmark<small>about ${Math.max(1,100-pct)} % of walkable ground; rule: at least one landmark in view</small></div><span class="fix">Show area</span></div><div class="issue"><span class="sev i">info</span><div>Spire base hidden from the west road until the last bend<small>reveal on approach</small></div><span class="fix">Mark intended</span></div>`},
+   status:`<span>X 12 800  Y −10 496</span><span class="hint">Pick a landmark · drag its top to test heights · K places a new one</span><span class="r"><span>eye 152</span></span>`});
+};
+MOCKS['mock-ss-pop']=()=>{
+  const z=(pts,cl,label,lx,ly)=>`<polygon points="${pts}" fill="${cl}22" stroke="${cl}" stroke-width=".8" stroke-dasharray="3 2"/><text x="${lx}" y="${ly}" class="pl">${label}</text>`;
+  const sp=(x,y,n,cl)=>`<g transform="translate(${x},${y})"><rect x="-3" y="-3" width="6" height="6" transform="rotate(45)" fill="${cl}" stroke="#fff" stroke-width=".6"/><text y="1.6" text-anchor="middle" style="font:700 4px 'IBM Plex Mono',monospace;fill:#111">${n}</text></g>`;
+  let marks='';[[40,60,1],[62,90,1],[30,96,1],[80,60,1],[90,190,2],[110,206,2],[74,176,2],[124,184,2],[140,30,3],[180,40,3],[200,24,3]].forEach(([x,y,n])=>marks+=sp(x,y,n,['','#c95a52','#d0a44c','#9b7fd1'][n]));
+  let act='';for(let i=0;i<19;i++)act+=`<circle cx="${(132+hash(i,1,3)*40).toFixed(1)}" cy="${(98+hash(i,2,3)*30).toFixed(1)}" r="1.3" fill="#e2a0a0"/>`;
+  const svg=`<svg class="ov" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid meet"><style>.pl{font:500 5px 'IBM Plex Sans',sans-serif;fill:#E6E8EB;paint-order:stroke;stroke:#111317;stroke-width:1.6px}</style>
+    ${z('16,40 96,40 96,112 16,112','#c95a52','Crypt hills · slot 1',18,36)}${z('58,160 140,160 140,226 58,226','#d0a44c','Bone fields · slot 2',60,156)}${z('112,8 220,8 220,56 112,56','#9b7fd1','Dragon ridge · slot 3',114,64)}
+    <polygon points="126,92 178,92 178,134 126,134" fill="rgba(94,152,229,.08)" stroke="#5E98E5" stroke-width=".8"/><text x="128" y="142" class="pl">Twilight · no spawns · group 10</text>${act}${marks}
+    ${[[179,87,'d19'],[200,150,'d20'],[50,70,'d21'],[190,30,'d49']].map(([x,y,t])=>`<rect x="${x-2.5}" y="${y-2.5}" width="5" height="5" fill="#111317" stroke="#CC6666"/><text x="${x+4}" y="${y+2}" class="pl" style="fill:#e8a0a0">${t}</text>`).join('')}</svg>`;
+  const bars=[['Crypt hills',.9,'ok'],['Bone fields',1.25,'warn'],['Dragon ridge',.7,'ok'],['Twilight (town)',0,'ok']].map(([n,v,k])=>`<div style="display:grid;grid-template-columns:110px 1fr 52px;gap:8px;align-items:center;margin:7px 0;font-size:11.5px"><span>${n}</span><span style="height:8px;background:var(--s-input);border:1px solid var(--s-b2);border-radius:4px;position:relative"><b style="position:absolute;inset:0 auto 0 0;width:${Math.min(100,v*60)}%;background:${k==='warn'?'var(--s-warn)':'var(--s-ok)'};border-radius:3px"></b><i style="position:absolute;left:60%;top:-3px;bottom:-3px;border-left:1px dashed var(--s-t3)"></i></span><span class="pill ${k}">${v?v.toFixed(2)+'×':'none'}</span></div>`).join('');
+  return frame({map:'Shadowspire (rebuild)',file:'mods/worlds/mm8/maps/out06_rebuild.odm',stage:'Populate',prog:{Plan:'✓',Shape:'✓',Build:'✓',Wire:'✓',Populate:'48/63'},
+   rail:[['Spawn zone','N',1],['Spawn','S'],['Actor','A'],['Group','J'],['Chest','C'],['Item','I'],'-',['Density','V']],
+   opts:`<span class="tname">Spawn zone</span><span class="lbl">slot</span><span class="v">1 · Vampire</span><span class="lbl">tiers</span><span class="v">A 50 · B 35 · C 15</span><span class="lbl">spacing</span><span class="v">2 048</span><span class="ck on">keep off roads</span><span class="ck on">avoid town</span>`,
+   views:[{flex:1.1,html:`<canvas data-draw="top" data-terr="dark" data-plan="1"></canvas>${svg}`,label:'<span class="on">Plan</span><span>encounters</span>',right:'<span class="on">Zones</span><span class="on">Actors</span><span>Density</span>'},
+          {html:`<div class="board" style="padding:40px 14px 12px"><div class="ph" style="margin-top:0">Density by zone <em>dashed line = MM8 calibration</em></div>${bars}
+            <div class="ph">Actor groups</div><table class="tbl"><tr><th>Group</th><th>Members</th><th>Behaviour</th></tr><tr><td>10</td><td>19 vampire peasants</td><td>on load: hostile</td></tr><tr><td>11</td><td>8 Necromancer B</td><td>guards · stay</td></tr><tr><td>0</td><td>spawned monsters</td><td>map default</td></tr></table></div>`,label:'<span class="on">Density</span>'}],
+   insp:{tabs:['Encounter table','Notes'],html:`<div class="card"><h4>Map slots</h4><div class="k">stored in map stats · shared by every spawn</div></div>
+     <table class="tbl"><tr><th>#</th><th>Family</th><th>Count</th><th>A/B/C</th></tr><tr><td>1</td><td>Vampire</td><td>2–4</td><td>50/35/15</td></tr><tr><td>2</td><td>Skeleton Archer</td><td>3–5</td><td>60/30/10</td></tr><tr><td>3</td><td>Bone Dragon</td><td>1</td><td>70/25/5</td></tr></table>
+     <div class="ph">Selected zone</div><div class="f"><label>Zone</label><div class="inp">Crypt hills</div></div><div class="f"><label>Slot</label><div class="inp pick">1 · Vampire</div></div><div class="f"><label>Spawns</label><div class="inp">22 · spacing 2 048</div></div><div class="f"><label>Item spawns</label><div class="inp">2 · level 4</div></div>
+     <div class="row2"><span class="s-btn sm">Fill zone</span><span class="s-btn sm">Roll a sample</span></div>
+     <div class="ph">Group 10</div><div class="f"><label>On load</label><div class="inp pick">hostile</div></div><div class="f"><label>On QBit</label><div class="inp pick">none</div></div>`},
+   drawer:{tabs:DT('15 open','1',1),on:2,html:`<div class="issue"><span class="sev w">warn</span><div>Bone fields: 1.25× the busiest comparable MM8 area<small>calibration: out06 itself and the out08 wilderness study</small></div><span class="fix">Thin to 1.0×</span></div>`},
+   status:`<span>X −22 000  Y 4 600</span><span class="hint">Paint a zone · the slot and tiers in the options bar apply to new spawns</span><span class="r"><span>63 spawns · 27 actors</span></span>`});
+};
+
+/* ---- Necro lab ---- */
+MOCKS['mock-nl-lift']=()=>{
+  const plan=`<svg class="ov" viewBox="0 0 300 230" preserveAspectRatio="xMidYMid meet"><style>.rl{font:500 7.5px 'IBM Plex Sans',sans-serif;fill:#E6E8EB}.gh{font:500 7px 'IBM Plex Sans',sans-serif;fill:#616A76;font-style:italic}</style>
+    <g opacity=".35" stroke="#566274" stroke-dasharray="3 2" fill="none"><rect x="170" y="120" width="110" height="90"/><rect x="40" y="20" width="80" height="50"/></g><text x="200" y="222" class="gh">lower band (ghost)</text><text x="44" y="16" class="gh">upper band (ghost)</text>
+    <rect x="30" y="80" width="90" height="70" fill="#2a2e36" stroke="#8D96A3"/><rect x="120" y="100" width="60" height="26" fill="#2a2e36" stroke="#8D96A3"/><rect x="180" y="60" width="80" height="80" fill="#2a2e36" stroke="#8D96A3"/><rect x="60" y="150" width="34" height="50" fill="#2a2e36" stroke="#8D96A3"/>
+    <rect x="232" y="104" width="22" height="22" fill="rgba(185,135,61,.28)" stroke="#D29A49" stroke-width="1.6"/><text x="243" y="118" class="rl" text-anchor="middle" style="fill:#F2D9A8">Lift</text>
+    <g stroke="#3FB8AF" stroke-width="2.2"><line x1="120" y1="106" x2="120" y2="120"/><line x1="180" y1="106" x2="180" y2="120"/><line x1="70" y1="150" x2="84" y2="150"/></g>
+    <rect x="126" y="108" width="10" height="10" fill="none" stroke="#CC6666" stroke-dasharray="2 1.5"/><rect x="152" y="108" width="10" height="10" fill="none" stroke="#CC6666" stroke-dasharray="2 1.5"/><text x="150" y="96" class="rl" text-anchor="middle" style="fill:#e8a0a0">hidden trap plates</text>
+    <text x="75" y="118" class="rl" text-anchor="middle">Entry · lab</text><text x="220" y="78" class="rl" text-anchor="middle">Great lab</text><text x="77" y="178" class="rl" text-anchor="middle">Stairs ↓</text>
+    <circle cx="210" cy="104" r="9" fill="#2f6f9a" stroke="#72A7D8"/><text x="210" y="106.5" class="rl" text-anchor="middle" style="font-size:6px">vats</text></svg>`;
+  const sec=`<svg class="ov" viewBox="0 0 320 230" preserveAspectRatio="xMidYMid meet"><style>.rl{font:500 7.5px 'IBM Plex Sans',sans-serif;fill:#E6E8EB}.zl{font:500 7px 'IBM Plex Mono',monospace;fill:#8D96A3}</style>
+    <defs><marker id="arNL" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L6 3L0 6z" fill="#F2C14E"/></marker></defs>
+    <g stroke="#2B313B">${[40,112,184].map(y=>`<line x1="34" y1="${y}" x2="310" y2="${y}" stroke-dasharray="2 3"/>`).join('')}</g>
+    <text x="4" y="43" class="zl">+896</text><text x="4" y="115" class="zl">0</text><text x="4" y="187" class="zl">−1024</text>
+    <rect x="60" y="40" width="120" height="6" fill="#3a3e47"/><rect x="40" y="112" width="250" height="6" fill="#3a3e47"/><rect x="120" y="184" width="170" height="6" fill="#3a3e47"/>
+    <text x="64" y="34" class="rl">Upper · cell block</text><text x="44" y="106" class="rl">Main · entry, lab</text><text x="124" y="204" class="rl">Lower · bone dragons, chests</text>
+    <path d="M70 118 l12 0 l0 12 l12 0 l0 12 l12 0 l0 12 l12 0 l0 12 l12 0 l0 12 l12 0" fill="none" stroke="#8D96A3"/>
+    <rect x="232" y="40" width="22" height="150" fill="rgba(185,135,61,.08)" stroke="#D29A49" stroke-dasharray="3 2"/><rect x="232" y="104" width="22" height="6" fill="#D29A49"/><path d="M262 112 L262 48" stroke="#F2C14E" marker-end="url(#arNL)" stroke-width="1.2"/><text x="266" y="80" class="rl" style="fill:#F2D9A8">513</text>
+    <circle cx="228" cy="104" r="3" fill="#5FA36A"/><circle cx="228" cy="36" r="3" fill="#5FA36A"/><text x="196" y="30" class="zl">buttons</text></svg>`;
+  return frame({map:"Mad Necromancer's Lab (rebuild)",file:'mods/worlds/mm8/maps/d20_rebuild.blv',stage:'Shape',prog:{Plan:'✓',Shape:'9/12',Build:'3/12'},
+   rail:[['Room','D'],['Stairs','T'],['Lift','F',1],['Opening','O'],'-',['Height','Pg'],['Section','Z'],['Walk','G']],
+   opts:`<span class="tname">Lift</span><span class="lbl">from</span><span class="v">Main 0</span><span class="lbl">to</span><span class="v">Upper +513</span><span class="lbl">speed</span><span class="v">128</span><span class="ck on">step-on trigger</span><span class="ck on">buttons at both ends</span><span class="ck">returns after 5 s</span>`,
+   views:[{html:plan,label:'<span class="on">Plan</span><span>band: Main 0…256</span>',right:'<span>Lower</span><span class="on">Main</span><span>Upper</span>'},{html:sec,label:'<span class="on">Section</span><span>west–east</span>',bottom:'Scrub the lift: <b style="color:#F2C14E">bottom</b> ━━━●━━━━ top'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Lift</h4><div class="k">mechanism · door 1 · shaft through 2 bands</div></div>
+     <div class="f"><label>Travel</label><div class="inp">513 up</div></div><div class="f"><label>Speed</label><div class="inp">128 up · 128 down</div></div><div class="f"><label>Starts</label><div class="inp pick">bottom</div></div><div class="f"><label>Sound</label><div class="inp pick">Lift loop</div></div>
+     <div class="ph">Triggered by</div><div class="conn"><span class="a">STEP</span><span>Lift floor · event 11</span><span class="m">←</span></div><div class="conn"><span class="a">CLICK</span><span>Button, main · event 12</span><span class="m">←</span></div><div class="conn"><span class="a">CLICK</span><span>Button, upper · event 13</span><span class="m">←</span></div>
+     <p class="note">The lift is one mechanism. Its shaft, moving floor and buttons are created together and move together.</p>`},
+   drawer:{tabs:DT('3 open','1',1),on:2,html:`<div class="issue"><span class="sev w">warn</span><div>Events 14–60 point to doors that do not exist<small>imported from d20.lua: template handlers left in the original</small></div><span class="fix">Remove handlers</span></div><div class="issue"><span class="sev i">info</span><div>Trap plates can be triggered by monsters<small>event 102 · as in the original</small></div><span class="fix">Keep</span></div>`},
+   status:`<span>X 4 864  Y 1 536  Z 0</span><span class="hint">Drag the lift's top in the section to set its travel · H switches band</span><span class="r"><span>3 bands · 28 sectors</span></span>`});
+};
+
+/* ---- Forge ---- */
+MOCKS['mock-gf-flow']=()=>{
+  const lanes=[['Top · 1152',20],['Main · 0…128',110],['Lower · −896…−384',200],['Pit · −2304…−1920',290]];
+  const node=(x,y,w,t,s,cl,crit)=>`<g transform="translate(${x},${y})"><rect width="${w}" height="40" rx="7" fill="#1D2127" stroke="${crit?'#D29A49':cl||'#3A4350'}" stroke-width="${crit?1.8:1.2}"/><text x="10" y="17" style="font:600 11.5px 'IBM Plex Sans',sans-serif;fill:#E6E8EB">${t}</text><text x="10" y="31" style="font:10px 'IBM Plex Mono',monospace;fill:#8D96A3">${s}</text></g>`;
+  const e=(d,cl,dash,w)=>`<path d="${d}" fill="none" stroke="${cl||'#566274'}" stroke-width="${w||1.4}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
+  const svg=`<svg class="ov" viewBox="0 0 900 390" preserveAspectRatio="xMidYMid meet">
+    ${lanes.map(([t,y],i)=>`<rect x="0" y="${y-8}" width="900" height="88" fill="${i%2?'transparent':'#ffffff06'}"/><text x="10" y="${y+4}" style="font:600 10px 'IBM Plex Sans',sans-serif;fill:#616A76;letter-spacing:.08em">${t.toUpperCase()}</text>`).join('')}
+    ${e('M180 50 L240 50','#D29A49',0,2.4)}${e('M370 50 C 400 50, 400 140, 430 140','#D29A49',0,2.4)}${e('M560 140 C 590 140, 590 230, 620 230','#D29A49',0,2.4)}${e('M560 140 L620 140')}${e('M750 230 C 780 230, 780 320, 800 320','#D29A49',0,2.4)}
+    ${e('M305 70 L305 300','#e07a3a',0,1.2)}${e('M240 320 C 200 320, 160 160, 180 70','#72A7D8','5 4')}${e('M495 160 C 495 190, 495 200, 495 210','#8D96A3','2 3')}${e('M690 160 C 690 200, 690 205, 690 210','#8D96A3','2 3')}
+    ${node(40,30,140,'Entry ledge','party start · exit 90','',1)}${node(240,30,130,'Spiral walkway','ramp around the pit','',1)}${node(430,120,130,'Balcony puzzle','8 doorways · sequence','#9b7fd1',1)}${node(620,120,140,'Secret door','→ bridge lever 35','#8D96A3')}
+    ${node(620,210,130,'Elevator room','levers lower 2 032','',1)}${node(800,300,90,'Lab door','key 2107 + QBits','#CC6666',1)}${node(240,300,120,'Lava pit','native lava · 31 faces','#e07a3a')}${node(430,210,130,'Lever hall','levers 33–40','#9b7fd1')}
+    <g transform="translate(800,352)"><rect width="90" height="26" rx="6" fill="#3A2B18" stroke="#D29A49"/><text x="10" y="17" style="font:600 11px 'IBM Plex Sans',sans-serif;fill:#F2D9A8">Hourglass ★</text></g>
+    <text x="150" y="200" style="font:10px 'IBM Plex Mono',monospace;fill:#72A7D8">teleport tiles → ledge</text><text x="311" y="190" style="font:10px 'IBM Plex Mono',monospace;fill:#e07a3a">fall</text>
+    <g transform="translate(40,140)"><rect width="160" height="58" rx="6" fill="#16181C" stroke="#2B313B"/><text x="10" y="16" style="font:600 10px 'IBM Plex Sans',sans-serif;fill:#8D96A3">LEGEND</text><line x1="10" y1="28" x2="30" y2="28" stroke="#D29A49" stroke-width="2.4"/><text x="36" y="31" style="font:10px 'IBM Plex Sans',sans-serif;fill:#B5BDC8">critical path</text><line x1="10" y1="44" x2="30" y2="44" stroke="#72A7D8" stroke-dasharray="5 4"/><text x="36" y="47" style="font:10px 'IBM Plex Sans',sans-serif;fill:#B5BDC8">teleport, one-way</text></g>
+  </svg>`;
+  return frame({map:"Gharik's Forge (rebuild)",file:'mods/worlds/mm6/maps/6d18_rebuild.blv',stage:'Test',prog:{Plan:'✓',Shape:'✓',Build:'✓',Wire:'✓',Populate:'✓',Dress:'✓',Test:'3'},
+   rail:[['Flow graph','V',1],['Simulate','Y'],['Walk','G'],['Play here','F5'],'-',['Issues','!']],
+   opts:`<span class="tname">Flow graph</span><span class="lbl">from</span><span class="v">party start</span><span class="lbl">to</span><span class="v">Hourglass (chest 48)</span><span class="lbl">party has</span><span class="v">key 2107 · QBits 1035, 1223, 1400</span><span class="ck on">group by band</span><span class="ck on">hazards</span>`,
+   views:[{html:svg,label:'<span class="on">Flow graph</span><span>generated from rooms, doors, locks, teleports</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Lab door</h4><div class="k">lock · event 16 · doors 29, 30</div></div>
+     <div class="ph">Requires</div><div class="conn"><span class="a">ITEM</span><span>Key to Gharik's Laboratory (2107)</span><span class="m">other map</span></div><div class="conn"><span class="a">QBIT</span><span>1035, 1223, 1400</span><span class="m">set</span></div>
+     <div class="f"><label>Found in</label><div class="inp">Silver Helm Outpost</div></div><div class="f"><label>When locked</label><div class="inp">“The door is locked.”</div></div>
+     <div class="ph">Opens</div><div class="conn"><span class="a">OPEN</span><span>Doors 29, 30</span><span class="m">→</span></div><div class="conn"><span class="a">OPEN</span><span>Doors 22–26, 31–40</span><span class="m">branch</span></div>
+     <div class="row2"><span class="s-btn sm">Test with key given</span></div>`},
+   drawer:{tabs:DT('0','3',1,1),on:2,html:`<div class="issue"><span class="sev e">error</span><div>Lever 35 drives door 53, which has no geometry<small>imported from 6d18; the MMerge supplement toggles face 2255 instead</small></div><span class="fix">Bind to face 2255</span></div>
+     <div class="issue"><span class="sev w">warn</span><div>Faces 115 and 118 overlap on one plane<small>they flicker; the scene overlay hides 115</small></div><span class="fix">Delete 115</span></div>
+     <div class="issue"><span class="sev w">warn</span><div>31 lava faces use a timer script for damage<small>native lava gives damage, glow and Levitate protection</small></div><span class="fix">Convert to native lava</span></div>`},
+   status:`<span>critical path: 6 steps · 1 locked edge</span><span class="hint">Click a node to select its rooms in the plan · double-click a lock to test it</span><span class="r"><span>48 sectors · 53 doors</span></span>`});
+};
+const GF_ROOMS=[{x:0,y:0,w:5,h:4,z:4,H:4,wn:1,ww:1},{x:5,y:0,w:9,h:2,z:2,H:4,wn:1},{x:5,y:2,w:9,h:9,z:-3,H:7,lava:1,floor:'#7a2e10',ww:1},{x:5,y:6,w:9,h:1.2,z:0,H:.3,open:1,floor:'#6d5a3a',sel:1},{x:14,y:0,w:2,h:13,z:0,H:4,wn:1},{x:5,y:11,w:9,h:2,z:-1.5,H:4},{x:16,y:4,w:6,h:6,z:0,H:5,wn:1}];
+MOCKS['mock-gf-test']=()=>frame({map:"Gharik's Forge (rebuild)",file:'mods/worlds/mm6/maps/6d18_rebuild.blv',stage:'Test',prog:{Plan:'✓',Shape:'✓',Build:'✓',Wire:'✓',Populate:'✓',Dress:'✓',Test:'3'},
+   rail:[['Flow graph','V'],['Simulate','Y'],['Walk','G'],['Play here','F5',1],'-',['Issues','!']],
+   opts:`<span class="tname">Play here</span><span class="lbl">start</span><span class="v">camera · Main band</span><span class="lbl">party</span><span class="v">test party · level 25</span><span class="ck on">return to this camera</span><span class="ck on">reload on save</span>`,
+   views:[{html:`<canvas data-draw="iso" data-rooms="gf"></canvas>`,label:'<span class="on">3D</span><span>lit · bridge extended</span>',bottom:'Bridge mover at 100 % · lava is native: damage per tick, Levitate protects'},
+     {flex:.8,html:`<div class="board"><div class="card" style="border-color:var(--s-acc-bd)"><h4>Play here</h4><div class="k">starts OpenYAMM at the camera · F5</div></div>
+       <div class="ph">Party</div><div class="chk on">Test party, level 25<span class="m">4 members</span></div><div class="chk">Use my last save's party</div><div class="chk on">God mode</div>
+       <div class="ph">Give</div><div class="chk on">Key to Gharik's Laboratory<span class="m">2107</span></div><div class="chk on">QBits the lab door needs<span class="m">1035 1223 1400</span></div><div class="chk">All keys of this map</div>
+       <div class="ph">World</div><div class="chk">No monsters</div><div class="chk on">Show plates and triggers</div><div class="chk">Doors start open</div><div class="f"><label>Time</label><div class="inp pick">noon, day 1</div></div>
+       <div class="row2"><span class="s-btn primary">▶ Play here</span><span class="s-btn">Walk in studio · G</span></div></div>`,label:'<span class="on">Test switches</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Bridge</h4><div class="k">mover · door 14 · slides 1 280 in +X</div></div>
+     <div class="f"><label>State</label><div class="inp">extended (100 %)</div></div><div class="f"><label>Speed</label><div class="inp">256</div></div>
+     <div class="ph">Driven by</div><div class="conn"><span class="a">TOGGLE</span><span>Lever 35 · behind the secret door</span><span class="m">←</span></div>
+     <div class="ph">Last test run</div><div class="list"><div class="li"><span class="t">Reached the Hourglass</span><span class="m">6 min 10 s</span></div><div class="li"><span class="t">Lava damage taken</span><span class="m">125</span></div><div class="li"><span class="t">Balcony solved</span><span class="m">attempt 2</span></div></div>`},
+   drawer:{tabs:DT('0','3',1,1),on:2,html:`<div class="issue"><span class="sev i">info</span><div>Test run returned to the camera at the bridge<small>the game log and the party's path are kept with the run</small></div><span class="fix">Show path</span></div>`},
+   status:`<span>X 2 816  Y 2 048  Z 0</span><span class="hint">F5 plays from the camera · Shift F5 from the party start</span><span class="r"><span>reload on save: on</span></span>`});
+
+/* ---- Who makes what: building import and doors ---- */
+function gwDoorExtra({c,P,label}){
+  const L=(a,b,s,w)=>{const p=P(...a),q=P(...b);c.beginPath();c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);c.strokeStyle=s;c.lineWidth=w;c.stroke();};
+  for(let i=0;i<=6;i++){const y=1+i*(1.4/6);L([7,y,0],[7,y,3.2],'#D29A49',2);}
+  [.8,1.6,2.4].forEach(z=>L([7,1,z],[7,2.4,z],'#D29A49',1.6));
+  L([7,1,3.2],[7,2.4,3.2],'#F2C14E',2.4);
+  label(7,1.7,4.1,'Portcullis · fitted 128 × 240','#B9873D');
+}
+MOCKS['mock-import']=()=>{
+  const A=[100,200],B=[220,260],C=[320,210],H=95;
+  const lerp=(p,q,t)=>[p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t];
+  const pts=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const q=(P0,P1,t0,t1,z0,z1)=>{const p0=lerp(P0,P1,t0),p1=lerp(P0,P1,t1);return pts([[p0[0],p0[1]-z0],[p1[0],p1[1]-z0],[p1[0],p1[1]-z1],[p0[0],p0[1]-z1]]);};
+  const Au=[A[0],A[1]-H],Bu=[B[0],B[1]-H],Cu=[C[0],C[1]-H],R1=[150,35],R2=[270,95];
+  const o=[-25,12.5],p0=lerp(A,B,.42),p1=lerp(A,B,.63);
+  const porch=z=>pts([[p0[0],p0[1]-z],[p1[0],p1[1]-z],[p1[0]+o[0],p1[1]+o[1]-z],[p0[0]+o[0],p0[1]+o[1]-z]]);
+  const svg=`<svg class="ov" viewBox="40 10 340 290" preserveAspectRatio="xMidYMid meet"><style>.t{font:500 8px 'IBM Plex Sans',sans-serif;fill:#E6E8EB;paint-order:stroke;stroke:#111317;stroke-width:2px}</style>
+    <ellipse cx="215" cy="240" rx="150" ry="45" fill="#00000055"/>
+    <polygon points="${pts([A,B,Bu,Au])}" fill="#6d6458" stroke="#2a2e36"/><polygon points="${pts([B,C,Cu,Bu])}" fill="#5a5249" stroke="#2a2e36"/>
+    <polygon points="${pts([Au,Bu,R2,R1])}" fill="#3f4a5c" stroke="#2a2e36"/><polygon points="${pts([Bu,Cu,R2])}" fill="#4a4a52" stroke="#2a2e36"/>
+    ${[[.15,.27],[.75,.87]].map(([a,b])=>`<polygon points="${q(A,B,a,b,40,65)}" fill="#c9b07a"/>`).join('')}${[[.3,.45],[.6,.75]].map(([a,b])=>`<polygon points="${q(B,C,a,b,40,65)}" fill="#a8925f"/>`).join('')}
+    <polygon points="${q(A,B,.45,.6,0,55)}" fill="rgba(185,135,61,.55)" stroke="#F2C14E" stroke-width="2"/>
+    <polygon points="${porch(4)}" fill="rgba(204,102,102,.15)" stroke="#CC6666" stroke-dasharray="4 3"/><polygon points="${porch(72)}" fill="rgba(204,102,102,.10)" stroke="#CC6666" stroke-dasharray="4 3"/>
+    <line x1="${p0[0]+o[0]}" y1="${p0[1]+o[1]-4}" x2="${p0[0]+o[0]}" y2="${p0[1]+o[1]-72}" stroke="#CC6666" stroke-dasharray="4 3"/><line x1="${p1[0]+o[0]}" y1="${p1[1]+o[1]-4}" x2="${p1[0]+o[0]}" y2="${p1[1]+o[1]-72}" stroke="#CC6666" stroke-dasharray="4 3"/>
+    <text x="178" y="190" class="t" style="fill:#F2D9A8">Front door · settings kept</text><text x="60" y="268" class="t" style="fill:#e8a0a0">4 new faces · porch</text><text x="262" y="60" class="t">roof_slate02</text><text x="268" y="190" class="t">cwal07</text>
+  </svg>`;
+  const report=`<div class="board"><div class="ph" style="margin-top:0">Import report <em>temple_v3.glb → Temple</em></div>
+    <table class="tbl"><tr><th>Faces</th><th>Count</th><th>Result</th></tr>
+    <tr><td>Matched by position, normal, texture</td><td>210</td><td><span class="pill ok">settings kept</span></td></tr>
+    <tr><td>Matched, texture changed</td><td>2</td><td><span class="pill ok">kept, texture updated</span></td></tr>
+    <tr><td>New</td><td>4</td><td><span class="pill warn">listed</span></td></tr>
+    <tr><td>Gone since last import</td><td>0</td><td>—</td></tr></table>
+    <div class="ph">Materials → textures</div><div class="list">
+    <div class="li"><span class="t">cwal07</span><span class="m">✓ texture</span></div><div class="li"><span class="t">roof_slate02</span><span class="m">✓ texture</span></div><div class="li"><span class="t">door_oak</span><span class="m">✓ texture</span></div><div class="li on"><span class="t">Material.001</span><span class="m" style="color:var(--s-warn)">not a texture</span></div></div>
+    <div class="ph">Units</div><div class="f"><label>Scale</label><div class="inp">1 unit = 1 game unit</div></div><div class="f"><label>Up axis</label><div class="inp">Z</div></div></div>`;
+  return frame({map:'New Sorpigal (rebuild)',file:'mods/worlds/mm6/maps/oute3_rebuild.odm',stage:'Build',prog:{Plan:'✓',Shape:'✓',Build:'13/32',Wire:'9/52'},
+   rail:[['Plot','O'],['Place','P'],['Import','I',1],['Face paint','T'],['Mark door','K'],'-',['Assembly','A']],
+   opts:`<span class="tname">Import</span><span class="lbl">file</span><span class="v">temple_v3.glb</span><span class="lbl">as</span><span class="v">building · engine faces</span><span class="ck on">material name = texture</span><span class="ck on">keep settings from the last import</span><span class="ck on">replace in place</span>`,
+   views:[{flex:1.15,html:svg,label:'<span class="on">3D</span><span>Temple · re-imported</span>',right:'<span class="on">Changes</span><span>Textures</span>'},{html:report,label:'<span class="on">Import report</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Front door</h4><div class="k">2 faces · matched to the last import at distance 0</div></div>
+     <div class="ph">Kept from the last import</div><div class="conn"><span class="a">CLICK</span><span>Event 3 · enter house 325</span><span class="m">→</span></div>
+     <div class="f"><label>Hint</label><div class="inp">New Sorpigal Temple</div></div><div class="chk on">Clickable</div><div class="f"><label>Texture</label><div class="inp">door_oak</div></div>
+     <div class="row2"><span class="s-btn sm">Show unmatched</span><span class="s-btn sm">Undo import</span></div>
+     <p class="note">Material names that match a texture become that texture. Anything else is flagged, and the face is drawn in a checker pattern until a texture is picked.</p>`},
+   drawer:{tabs:DT('19 open','2',1),on:2,html:`<div class="issue"><span class="sev w">warn</span><div>Material “Material.001” is not a texture name<small>4 faces on the porch roof use it</small></div><span class="fix">Pick texture</span></div><div class="issue"><span class="sev i">info</span><div>4 new faces have no settings<small>porch floor and roof; nothing to carry over</small></div><span class="fix">Select them</span></div>`},
+   status:`<span>temple_v3.glb · 216 faces</span><span class="hint">Ctrl I imports again into the selected building and keeps its settings</span><span class="r"><span>13 buildings</span></span>`});
+};
+const doorIcon={
+ 'Portcullis':`<rect x="22" y="8" width="36" height="40" fill="none" stroke="#8D96A3"/>${[26,32,38,44,50].map(x=>`<line x1="${x}" y1="8" x2="${x}" y2="48" stroke="#D29A49" stroke-width="2"/>`).join('')}<line x1="22" y1="22" x2="58" y2="22" stroke="#D29A49"/><line x1="22" y1="36" x2="58" y2="36" stroke="#D29A49"/>`,
+ 'Wooden door':`<rect x="28" y="8" width="24" height="40" fill="#6b4a2c"/>${[34,40,46].map(x=>`<line x1="${x}" y1="8" x2="${x}" y2="48" stroke="#4a3220"/>`).join('')}<circle cx="47" cy="30" r="1.6" fill="#d8b878"/>`,
+ 'Double sliding':`<rect x="18" y="10" width="21" height="38" fill="#5a606e"/><rect x="41" y="10" width="21" height="38" fill="#5a606e"/><path d="M28 30 l-8 0 m3 -3 l-3 3 l3 3 M52 30 l8 0 m-3 -3 l3 3 l-3 3" stroke="#F2C14E" fill="none"/>`,
+ 'Secret wall':`<rect x="16" y="8" width="48" height="40" fill="#4a4f5a"/>${[16,26,36].map((y,i)=>`<line x1="16" y1="${y}" x2="64" y2="${y}" stroke="#2a2e36"/>`).join('')}<rect x="30" y="18" width="20" height="30" fill="none" stroke="#F2C14E" stroke-dasharray="3 2"/>`,
+ 'Sinking pillar':`<rect x="32" y="6" width="16" height="38" fill="#6a6f7a"/><path d="M40 24 l0 14 m-4 -4 l4 4 l4 -4" stroke="#F2C14E" fill="none"/><rect x="20" y="44" width="40" height="4" fill="#3a3e47"/>`,
+ 'Lift platform':`<rect x="18" y="34" width="44" height="6" fill="#6d5a3a"/><line x1="22" y1="6" x2="22" y2="48" stroke="#566274"/><line x1="58" y1="6" x2="58" y2="48" stroke="#566274"/><path d="M40 30 l0 -16 m-4 4 l4 -4 l4 4" stroke="#F2C14E" fill="none"/>`,
+ 'Cell door':`<rect x="26" y="8" width="28" height="40" fill="none" stroke="#8D96A3"/>${[31,36,41,46,51].map(x=>`<line x1="${x}" y1="8" x2="${x}" y2="48" stroke="#9aa3ad" stroke-width="1.5"/>`).join('')}`,
+ 'Hinged door':`<rect x="28" y="8" width="24" height="40" fill="#6b4a2c"/><path d="M52 48 A 24 24 0 0 0 28 24" fill="none" stroke="#F2C14E" stroke-dasharray="3 2"/>`
+};
+MOCKS['mock-doors']=()=>{
+  const lib=Object.entries(doorIcon).map(([n,s],i)=>`<div class="it${i===0?' on':''}"><svg viewBox="0 0 80 52">${s}</svg>${n}<small>${['up · iron','swing · oak','2 leaves','looks like wall','down','up · buttons','bars','MM9 hinge'][i]}</small></div>`).join('');
+  const bars=(x0,y0,y1)=>[0,1,2,3,4,5,6].map(i=>`<line x1="${x0+6+i*8}" y1="${y0}" x2="${x0+6+i*8}" y2="${y1}" stroke="#D29A49" stroke-width="2"/>`).join('');
+  const prev=`<svg viewBox="0 0 260 132" style="width:100%;height:auto;display:block"><style>.t{font:500 9px 'IBM Plex Sans',sans-serif;fill:#B5BDC8}</style>
+    <rect x="20" y="16" width="60" height="80" fill="#15171b" stroke="#8D96A3"/>${bars(20,16,96)}<text x="50" y="110" class="t" text-anchor="middle">closed</text>
+    <rect x="160" y="16" width="60" height="80" fill="#15171b" stroke="#8D96A3"/>${bars(160,16,30)}<text x="190" y="110" class="t" text-anchor="middle">open · up 120</text>
+    <line x1="20" y1="124" x2="220" y2="124" stroke="#3A4350" stroke-width="3" stroke-linecap="round"/><line x1="20" y1="124" x2="70" y2="124" stroke="#D29A49" stroke-width="3" stroke-linecap="round"/><circle cx="70" cy="124" r="5" fill="#F2C14E"/></svg>`;
+  return frame({map:'Goblinwatch (rebuild)',file:'mods/worlds/mm6/maps/6d01_rebuild.blv',stage:'Build',prog:{Plan:'✓',Shape:'✓',Build:'21/38',Wire:'0/53'},
+   rail:[['Theme','M'],['Face paint','T'],['Kit','K'],['Door','J',1],['Lift','F'],['Liquid','Q'],'-',['Import piece','I'],['Light','L']],
+   opts:`<span class="tname">Door</span><span class="seg2"><span class="on">From library</span><span>From selection</span></span><span class="lbl">door</span><span class="v">Portcullis, iron</span><span class="ck on">fit to opening</span><span class="lbl">opens</span><span class="v">up 120</span><span class="lbl">speed</span><span class="v">128 up · 256 down</span>`,
+   views:[{flex:1.2,html:`<canvas data-draw="iso" data-rooms="gwdoor"></canvas>`,label:'<span class="on">3D</span><span>lit</span>',right:'<span class="on">Doors</span><span>Portals</span>',bottom:'Drop a door on an opening: it sizes itself to the opening'},
+     {html:`<div class="board"><div class="ph" style="margin-top:0">State preview <em>drag to scrub</em></div>${prev}
+       <div class="ph">From selection <em>for unique doors</em></div><div class="card"><h4>Bridge deck · Gharik's Forge</h4><div class="k">53 faces selected → Make door</div></div>
+       <div class="f"><label>Direction</label><div class="inp">+X</div></div><div class="f"><label>Travel</label><div class="inp">1 280 · to the far ledge</div></div><div class="f"><label>Speed</label><div class="inp">256</div></div></div>`,label:'<span class="on">Door</span>'}],
+   insp:{tabs:['Properties','Connections','Notes'],html:`<div class="card"><h4>Door 36 · Portcullis, iron</h4><div class="k">library · fitted to Great hall → Barracks</div></div>
+     <div class="f"><label>Opening</label><div class="inp">128 × 240</div></div><div class="f"><label>Opens</label><div class="inp pick">up 120</div></div><div class="f"><label>Speed</label><div class="inp">128 up · 256 down</div></div><div class="f"><label>Sounds</label><div class="inp pick">Portcullis up, down</div></div><div class="f"><label>Starts</label><div class="inp pick">closed</div></div><div class="f"><label>Texture</label><div class="inp pick">t1port · paint like any face</div></div>
+     <div class="ph">Driven by</div><div class="conn"><span class="a">CLICK</span><span>Event 1 · “Door”</span><span class="m">←</span></div><div class="conn"><span class="a">OPEN</span><span>Key N · vault board</span><span class="m">←</span></div>
+     <div class="row2"><span class="s-btn sm">Swap door</span><span class="s-btn sm">Make custom</span></div>`},
+   drawer:{tabs:DT('17 open','0'),on:0,html:`<div class="chips"><span class="on">Doors</span><span>MM6</span><span>MM7</span><span>MM8</span><span>MM9</span><span>Mine</span></div><div class="lib">${lib}</div>`},
+   status:`<span>X 1 344  Y 4 480  Z −447</span><span class="hint">Drag a door onto an opening · Shift drag onto faces makes them the door · J cycles library and selection</span><span class="r"><span>21 of 38 doors</span></span>`});
+};
+
+MOCKS['mock-sheet']=()=>{
+  const ids=[[147,171,'room:great_hall'],[204,158,'room:barracks'],[204,195,'room:vault'],[246,166,'room:cabinet'],[283,175,'room:pillars'],[151,127,'plan:antechamber']].map(([x,y,t])=>`<text x="${x}" y="${y}" text-anchor="middle" fill="#F2C14E" style="font:600 7px 'IBM Plex Mono',monospace;paint-order:stroke;stroke:#111317;stroke-width:2px">${t}</text>`).join('');
+  const doors=[[182,145,'d36'],[204,160,'d38'],[226,153,'d44'],[226,175,'d40'],[106,150,'d12']].map(([x,y,t])=>`<g><rect x="${x-9}" y="${y-5}" width="18" height="9" rx="2" fill="#3FB8AF"/><text x="${x}" y="${y+2}" text-anchor="middle" fill="#0d1a19" style="font:700 6.5px 'IBM Plex Mono',monospace">${t}</text></g>`).join('');
+  const plan=gwPlanSvg('90 80 230 180').replace(/<\/svg>\s*$/,ids+doors+'</svg>');
+  const row=(k,c,n,t)=>`<div class="sc-row"><b class="${k}">${c}</b><span>${n}</span><span style="color:#B5BDC8">${t}</span></div>`;
+  return `<div class="sheet">
+    <div>${plan}<span class="cap">plan · core band · ids</span></div>
+    <div><canvas data-draw="iso" data-rooms="gw"></canvas><span class="cap">iso · north-east quarter</span></div>
+    <div><div class="pad">${row('ok','✓','Reachability','14 of 14 rooms from the entrance')}${row('ok','✓','Lock and key','vault solvable: NILBOG, 6 presses')}${row('ok','✓','Party fit','openings ≥ 76 wide, headroom ≥ 169')}${row('ok','✓','Events','every clickable face has a handler')}${row('bad','✗','Lights','room:antechamber has none')}${row('w','!','Density','west caves 1.2× the MM6 dungeon band')}</div><span class="cap">scorecard · tier 1 · 0.8 s</span></div>
+    <div><div class="pad"><div class="dl">gw_rebuild@41 → @42
++ room:antechamber   2 sectors
++ door:ante_hall     portcullis
++ evt:ante_hall_click
+~ room:great_hall    north wall split
+checks  +1 −1
+pins    2 open · 1 resolved</div></div><span class="cap">diff since last review</span></div>
+  </div>`;
+};
+
+/* ================= Render + draw ================= */
+function drawIn(root){
+  root.querySelectorAll('canvas[data-draw]').forEach(cv=>{
+    if(!cv.clientWidth)return;const d=cv.dataset;
+    if(d.draw==='top')drawTop(cv,{terr:d.terr,plan:!!d.plan,grid:d.grid?+d.grid:0,crop:d.crop?d.crop.split(',').map(Number):null,vis:d.vis?d.vis.split(',').map(Number):null});
+    else if(d.draw==='voxel')drawVoxel(cv,{terr:d.terr,angle:+d.angle,R:+d.r,cx:+d.cx,cy:+d.cy,camH:+d.camh,sc:+d.sc,dist:+d.dist,fog:d.fog?+d.fog:.5,
+      skyT:d.sky==='dark'?[38,40,54]:null,skyB:d.sky==='dark'?[112,112,122]:null,tint:d.sky==='dark'?[.92,.9,.95]:null});
+    else if(d.draw==='iso'){
+      if(d.rooms==='gw'||d.rooms==='gwdoor')drawIso(cv,{rooms:GW_ROOMS,portals:GW_PORT,extra:d.rooms==='gwdoor'?gwDoorExtra:null});
+      else drawIso(cv,{rooms:GF_ROOMS,portals:[[5,.6,5,1.6,2,3],[14,.4,14,1.6,0,3]],extra:({c,P,label})=>{
+        [[7,4,-3],[11,9,-3],[9,3,-3]].forEach(([x,y,z])=>{const q=P(x,y,z),g=c.createRadialGradient(q[0],q[1],0,q[0],q[1],26);g.addColorStop(0,'rgba(255,200,90,.8)');g.addColorStop(1,'rgba(255,120,30,0)');c.fillStyle=g;c.beginPath();c.arc(q[0],q[1],26,0,7);c.fill();});
+        label(9.5,6.6,.4,'Bridge · door 14','#B9873D');label(2.5,2,4,'Entry ledge');label(19,7,0,'Lab');label(9,9,-3,'Lava pit','#7a3a1a');}});}
+  });
+}
+const rendered=new Set();
+function renderMock(id){const el=$(id);if(!el)return;if(!rendered.has(id)){el.innerHTML=MOCKS[id]();rendered.add(id);}drawIn(el);}
+function renderVisible(){Object.keys(MOCKS).forEach(id=>{const el=$(id);if(el&&el.offsetParent!==null)renderMock(id);});}
+document.querySelectorAll('.cases-nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.cases-nav button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));
+  document.querySelectorAll('.case').forEach(p=>p.hidden=p.dataset.panel!==b.dataset.case);renderVisible();}));
+renderVisible();
+let rt=0;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{Object.keys(MOCKS).forEach(id=>{const el=$(id);if(el&&el.offsetParent!==null&&rendered.has(id))drawIn(el);});},150);});
+})();
+</script>

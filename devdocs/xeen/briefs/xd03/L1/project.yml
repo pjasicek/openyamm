@@ -1,0 +1,41 @@
+format: 0
+id: xeen_xd03
+name: Deep Mine
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-03
+units: {plan_grid: 512}
+extent: {footprint_cells: [14, 12], climbs: n}
+map_stats:
+  id: 9133
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 1
+  perception_difficulty: 2
+  refill_days: 672
+  music: cave_deep
+  environment: cave
+  lock_difficulty: 2
+  slots:
+    - {monster: Mad Dwarves, tier: 2, per_marker: [2, 3], weight: 50}
+    - {monster: Spiders, tier: 3, per_marker: [2, 3], weight: 25}
+    - {monster: Burrowers, tier: 1, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:deep_cart
+    to: XD-02
+    kind: scripted
+    arrival_hint: "At the Deep Line station on the floor of the Open Stope, beside the cart."
+    notes: "The Deep Line cart back up to the Red Dwarf Mines; always works from this end."
+  - id: exit:x1_shaft
+    to: X1
+    kind: door
+    arrival_hint: "On a bare hilltop north of Vertigo, beside the head of the Clan King's shaft."
+    condition: {qbit: escape_shaft_open}
+    notes: "The Clan King's escape shaft: a counterweight cage up to the X1 hills. It works only after the party has thrown its lever in the King's hoard (set:escape_shaft); from then on the shaft head on X1 is a direct way down to the hall."
+qbits:
+  clan_king_slain: 110030
+  escape_shaft_open: 110031
+items:
+  clan_king_key: 12021
+notes: "Xeen design brief, level L1, for a new map (no original to rebuild). Story step M3, second half (devdocs/xeen/QUESTS.md): kill the Clan King. Encounter slots are Xeen families from devdocs/xeen/MONSTERS_AND_ITEMS.md: 1 Mad Dwarves (Mad Dwarf 7, Clan Sergeant 12), 2 Spiders (10 / 14), 3 Burrowers (Tiger Mole 9); Bat Queens (Bats rank b, 10) and the Clan King (18) are placed. Monster levels 7 to 18 (the brief keeps the rank-a Mad Dwarf at 7, one below MAPS.md's 8-18). Provisional ids: map_stats row 9133, qbits 110030-110031, item 12021 (Xeen ranges, devdocs/xeen/PRODUCTION.md); none registered. Size class S as in MAPS.md (QUESTS.md M3 says M). Reached only from XD-02 by cart until the escape shaft is opened."

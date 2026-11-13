@@ -1,0 +1,312 @@
+# Warlord's Fortress rebuild: the critical path and every mechanism, from the gate hall down the tunnel, through the
+# secret wall into the cellar of false doors, up through the store cellars and barracks into the great hall, the
+# warlord's wing (drawers, keys, the vault and the statuette), the upper gallery, the west wing and the throne room
+# (the second storage key), both double-locked storeroom doors, the barracks row with the officer's closet, and out by
+# the back stair, the switch and the portcullis to the gate.
+# Numbers as ids.lock.yml has them. Events: 22 secret wall (door 1), 32 door 2, 33 door 3, 34 sinking wall (door 14),
+# 35 door 5, 38 door 8, 39 vault door (19), 36/37 storeroom doors (16/17), 23 door 10 (door 2), 24 closet wall (door 3),
+# 25-27 doors 12-14 (doors 4-6), 28 door 15 (7), 29 door 16 (8), 30 closet wall (9), 31 door 18 (10), 59 switch
+# (door 11, the portcullis), 40/41 drawers, 46 the hub's false door, 57 the lure door, 1 the hidden axe, 42 the exit;
+# chests: 48 footlocker, 49-56 its other boxes, 19 shared cabinet, 20/21 its other boxes, 2-18 the chests, 58 the
+# statuette. Map variables: 0 axe_taken, 1 double_lock, 2 keys_found, 3 key_b_found, 4 statuette_seen, 5 switch_thrown.
+# Spawned soldiers attack the walk: every walk clears hostiles within 2500, so no step waits on a fight's luck. Before
+# each looting the packs are emptied of what the walk does not assert (make_room), so no chest fails for want of room.
+# Run from output/studio_cal/mm6_6d16/run (output/studio_cal/mm6_6d16/r1/play.sh).
+id: studio.cal6d16.walk
+title: Warlord's Fortress rebuild, the critical path and every mechanism
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: cal6d16.blv
+  - assert: {map: cal6d16.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: -4826, y: 1468, radius: 96, z_min: 120, z_max: 136}}
+  # down the gate tunnel to the junction and on down the descending tunnel to its end
+  - walk_to: {x: -4800, y: 128, z: 0, radius: 96, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: -4800, y: 128, radius: 176, z_min: -8, z_max: 8}}
+  - walk_to: {x: -4800, y: -1300, z: -80, radius: 96, timeout_seconds: 300, clear_hostiles: 2500}
+  - walk_to: {x: -2540, y: -2048, z: -256, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: -2540, y: -2048, radius: 144, z_min: -264, z_max: -248}}
+  # the lure door only talks; the blank wall beside it rises (door record 1)
+  - play_lua:
+      source: |
+        click(57); wait(1)
+        if not string.find(status(), "won't open") then error("the lure door said nothing") end
+        if door_state(1) ~= "closed" then error("the secret wall does not start shut: " .. door_state(1)) end
+        open_door(22, 1)
+  # the cellar hub, and one of its false doors (the hub's east door): it pulls the party to one of four landings
+  - walk_to: {x: -2560, y: -1760, z: -256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -1100, y: -1280, z: -256, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        status(); click(46); wait(1)
+        if not string.find(status(), "pulled through the door") then error("the false door did not pull the party") end
+  - assert: {party_position: {x: -1540, y: -1090, radius: 1100, z_min: -264, z_max: -248}}
+  # through the cellar to the cellar hall's real door (door record 2) and into the storehouse
+  - walk_to: {x: -500, y: -512, z: -256, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(32, 12)"}
+  - walk_to: {x: 0, y: -900, z: -256, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 0, y: -900, radius: 176, z_min: -264, z_max: -248}}
+  # up the storehouse stair into the stair passage, door record 3 to the lower barracks
+  - walk_to: {x: 1280, y: -2560, z: 0, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: 1280, y: -2560, radius: 144, z_min: -8, z_max: 8}}
+  - play_lua: {source: "open_door(33, 13)"}
+  - walk_to: {x: 1280, y: -3072, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(49)
+        make_room(); loot_chest(16)
+        make_room(); loot_chest(17)
+        make_room()
+  # the treasury's sinking wall (door record 4), from the barracks
+  - walk_to: {x: 720, y: -3264, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(34, 14)"}
+  - walk_to: {x: 0, y: -3100, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 0, y: -3100, radius: 176, z_min: -8, z_max: 8}}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        for _, e in ipairs({11, 12, 13, 14, 15, 48}) do make_room(); loot_chest(e) end
+        make_room()
+  # back up the stair passage's two flights to the guard post, door record 5 to the upper barracks
+  - walk_to: {x: 3072, y: -2560, z: 256, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: 3072, y: -2560, radius: 144, z_min: 248, z_max: 264}}
+  - play_lua: {source: "open_door(35, 15)"}
+  - walk_to: {x: 3072, y: -3072, z: 256, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        for _, e in ipairs({18, 51, 52, 53}) do make_room(); loot_chest(e) end
+        make_room()
+  # the great hall; the flambeau in its north-east corner hides an axe, once
+  - walk_to: {x: 3584, y: -512, z: 256, radius: 96, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: 3584, y: -512, radius: 176, z_min: 248, z_max: 264}}
+  - walk_to: {x: 4500, y: 420, z: 256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        click(1); wait(1)
+        if held() == 0 then error("the flambeau gave nothing") end
+        stow()
+        click(1); wait(1)
+        if held() ~= 0 then error("the flambeau gave a second axe") end
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # the north passage, door record 8, the antechamber; the study's drawers give the two keys
+  - walk_to: {x: 3584, y: 1000, z: 256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(38, 18)"}
+  - walk_to: {x: 3500, y: 1700, z: 256, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 2400, y: 1280, z: 256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        clear_hostiles(2500)
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          while item_count(id) > 0 and discard(id) do end
+        end
+        click(40); wait(1)
+        if held() ~= 0 then stow() end
+        if held() ~= 0 then stow() end
+        if not string.find(status(), "two keys") then error("the drawers said nothing") end
+        if not has_item(2184) or not has_item(2185) then error("the drawers did not give the Warlord's Key and a storage key") end
+        click(40); wait(1)
+        if held() ~= 0 then error("the drawers gave twice") end
+        loot_chest(19)
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  # the bedchamber's cabinet: banded plate and a tower shield
+  - walk_to: {x: 4300, y: 2200, z: 256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2184] = true, [2185] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(2)
+        if not has_item(95) or not has_item(1682) then error("the cabinet did not hold the banded plate and the tower shield") end
+        for _, id in ipairs({95, 1682}) do while item_count(id) > 0 and discard(id) do end end
+  # the vault door takes the Warlord's Key; the statuette chest sets the quest bits
+  - walk_to: {x: 2560, y: 1760, z: 256, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(39, 19)"}
+  - walk_to: {x: 2560, y: 2040, z: 256, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        if has_item(2184) then error("the vault door did not take the Warlord's Key") end
+        loot_chest(58)
+        if not qbit(1076) or not qbit(1211) then error("the statuette chest did not set qbits 1076 and 1211") end
+        if not has_item(2128) then error("the statuette chest did not hold item 2128") end
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  # the storeroom's east door with one storage key: double locked
+  - walk_to: {x: 2300, y: -768, z: 256, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        status(); click(36); wait(1)
+        if not string.find(status(), "double locked") then error("the storeroom door did not say it is double locked") end
+        if door_state(16) ~= "closed" then error("the storeroom door opened with one key") end
+  # the hall stair to the upper gallery, west along it to the west hall, the drill hall and back
+  - walk_to: {x: 1024, y: 768, z: 512, radius: 96, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: 1024, y: 768, radius: 176, z_min: 504, z_max: 520}}
+  - walk_to: {x: -3584, y: 1500, z: 512, radius: 96, timeout_seconds: 300, clear_hostiles: 2500}
+  - walk_to: {x: -3072, y: 3200, z: 512, radius: 96, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: -3072, y: 3200, radius: 176, z_min: 504, z_max: 520}}
+  # door record 15 to the side room
+  - walk_to: {x: -1520, y: 2304, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(28, 7)"}
+  - walk_to: {x: -1024, y: 2560, z: 512, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  # the throne approach, door record 16, the throne room: the second storage key, the cabinets
+  - walk_to: {x: -1792, y: 2900, z: 512, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - walk_to: {x: -520, y: 3328, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(29, 8)"}
+  - walk_to: {x: 128, y: 2400, z: 512, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        clear_hostiles(2500)
+        local keep = {[2185] = true, [2128] = true}
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        make_room()
+        click(41); wait(1)
+        if held() ~= 0 then stow() end
+        if not has_item(2191) then error("the throne room's drawers did not give the second storage key") end
+        keep[2191] = true
+        for _, e in ipairs({8, 9, 20}) do make_room(); loot_chest(e) end
+        make_room()
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  # the closet's rising wall (door record 17) and its chest
+  - walk_to: {x: 540, y: 2256, z: 512, radius: 40, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(30, 9)"}
+  - walk_to: {x: 760, y: 2304, z: 512, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2185] = true, [2191] = true, [2128] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(10)
+  # both keys: the storeroom's north door opens and keeps the keys, its east door opens and spends them
+  - walk_to: {x: 1024, y: -260, z: 256, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        open_door(37, 17)
+        if not has_item(2185) or not has_item(2191) then error("the first storeroom door spent the keys") end
+  - assert: {state_dump_map_var: {index: 1, value: 10}}
+  - walk_to: {x: 1400, y: -900, z: 256, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 2060, y: -768, z: 256, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        open_door(36, 16)
+        if has_item(2185) or has_item(2191) then error("the second storeroom door did not spend the keys") end
+  - walk_to: {x: 2300, y: -768, z: 256, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  # the barracks row: door record 10 (east barracks), the officer room, the closet's rising wall (door record 11)
+  - walk_to: {x: 512, y: 780, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(23, 2)"}
+  - walk_to: {x: 896, y: 1400, z: 512, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2128] = true}
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        for _, e in ipairs({54, 3}) do make_room(); loot_chest(e) end
+        make_room()
+  - walk_to: {x: 1700, y: 1400, z: 512, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "loot_chest(21)"}
+  - walk_to: {x: 1872, y: 1580, z: 512, radius: 40, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(24, 3)"}
+  - walk_to: {x: 1824, y: 1790, z: 512, radius: 40, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2128] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(4)
+  # doors 12, 13 and 14 off the gallery, their barracks and chests
+  - walk_to: {x: -256, y: 1040, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(25, 4)"}
+  - walk_to: {x: -256, y: 1500, z: 512, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2128] = true}
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+        end
+        clear_hostiles(2500)
+        loot_chest(5)
+  - walk_to: {x: -1600, y: 780, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(26, 5)"}
+  - walk_to: {x: -1408, y: 1400, z: 512, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2128] = true}
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        for _, e in ipairs({55, 56}) do make_room(); loot_chest(e) end
+  - walk_to: {x: -2496, y: 780, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(27, 6)"}
+  - walk_to: {x: -2688, y: 1400, z: 512, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local keep = {[2128] = true}
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            if not keep[id] then while item_count(id) > 0 and discard(id) do end end
+          end
+        end
+        clear_hostiles(2500)
+        for _, e in ipairs({6, 7}) do make_room(); loot_chest(e) end
+  # door record 18 to the vestibule, down the back stair to its foot; the switch raises the portcullis for good
+  - walk_to: {x: -2048, y: 760, z: 512, radius: 48, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(31, 10)"}
+  - walk_to: {x: -2300, y: 128, z: 512, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -4150, y: 160, z: 0, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - assert: {party_position: {x: -4150, y: 160, radius: 144, z_min: -8, z_max: 8}}
+  - play_lua:
+      source: |
+        if door_state(11) ~= "closed" then error("the portcullis does not start shut: " .. door_state(11)) end
+        click(59); wait(7)
+        if door_state(11) ~= "open" then error("the switch did not raise the portcullis: " .. door_state(11)) end
+  - assert: {state_dump_map_var: {index: 5, value: 1}}
+  # through the portcullis into the junction and up the gate tunnel; out by the gate
+  - walk_to: {x: -4800, y: 128, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -4800, y: 128, radius: 176, z_min: -8, z_max: 8}}
+  - walk_to: {x: -4800, y: 1510, z: 128, radius: 64, timeout_seconds: 300, clear_hostiles: 2500}
+  - play_lua: {source: "click(42); wait(1)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: outd1.odm}

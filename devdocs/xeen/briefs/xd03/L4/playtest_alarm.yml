@@ -1,0 +1,82 @@
+# Second playtest of the Deep Mine (XD-03, L4): the mechanisms the main walk cannot show in one run. The party rides the
+# cart down, steps off and on again (it rides back up to the line's foot) and down once more; walks the cut, opens the
+# gallery door and lets the gong sentry live: about six seconds later he rings the gong himself (alarm_rung, the
+# barracks' doors and the back-stair door open); then it walks back to the landing, rides the cart up and leaves by the
+# Deep Line (the stand-in neighbour is Emerald Island).
+# Nothing depends on chance: the sentry is never attacked (the party only stands on the gallery, immortal), the walks
+# back clear hostiles round the party.
+id: xeen.xd03.l4.alarm
+title: Deep Mine (XD-03 L4), the cart both ways, the sentry's alarm, the way back up the Deep Line
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd03.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 9, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 9, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 9, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 9, skills: [], equipment: {}}
+  - assert: {map: xeen_xd03.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Down on the cart.
+  - walk_to: {x: 7720, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 7380, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 7200, y: 1088, z: 412, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "wait(9); if door_state(12) ~= 'open' then error('the cart did not ride down') end"}
+  - assert: {party_position: {x: 6420, y: 1088, radius: 140, z_min: 20, z_max: 36}}
+  # Off the cart and on again: it rides back up the trestle with the party.
+  - walk_to: {x: 6640, y: 1088, z: 0, radius: 40, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - walk_to: {x: 6430, y: 1088, z: 28, radius: 40, timeout_seconds: 30}
+  - play_lua: {source: "wait(9); if door_state(12) ~= 'closed' then error('the cart did not ride back up: ' .. door_state(12)) end"}
+  - assert: {party_position: {x: 7200, y: 1088, radius: 140, z_min: 404, z_max: 420}}
+  # Onto the ledge, and on again: down once more.
+  - walk_to: {x: 7520, y: 1088, z: 384, radius: 40, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - walk_to: {x: 7200, y: 1088, z: 412, radius: 40, timeout_seconds: 30}
+  - play_lua: {source: "wait(9); if door_state(12) ~= 'open' then error('the cart did not ride down again') end"}
+  # The cut and the gallery door; the party stands on the gallery and does not touch the sentry.
+  - walk_to: {x: 6528, y: 1350, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 6528, y: 2050, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6272, y: 2450, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6560, y: 2560, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6272, y: 2752, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 5300, y: 2752, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - assert: {actor_visible: {actor_index: 13, dead: false}}
+  - play_lua:
+      source: |
+        click(23); wait(3)
+        if door_state(9) ~= "open" then error("the gallery door did not open") end
+        if door_state(3) ~= "closed" then error("the barracks doors do not start shut") end
+  - walk_to: {x: 4950, y: 2752, z: -128, radius: 64, timeout_seconds: 30}
+  - assert: {state_dump_map_var: {index: 16, value: 1}}
+  - play_lua:
+      source: |
+        status()
+        wait(10)
+        if door_state(3) ~= "open" or door_state(4) ~= "open" or door_state(2) ~= "open" then
+          error("the sentry did not ring the alarm: " .. door_state(3) .. door_state(4) .. door_state(2))
+        end
+  - assert: {state_dump_map_var: {index: 8, value: 1}}
+  - assert: {light: {key: 4, on: true}}
+  # Back out through the cut to the landing (fighting what follows), up on the cart, and up the Deep Line.
+  - walk_to: {x: 5300, y: 2752, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 6272, y: 2752, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 6272, y: 2450, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 6528, y: 2050, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - walk_to: {x: 6528, y: 1350, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 6640, y: 1088, z: 0, radius: 40, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - walk_to: {x: 6430, y: 1088, z: 28, radius: 40, timeout_seconds: 30}
+  - play_lua: {source: "wait(9); if door_state(12) ~= 'closed' then error('the cart did not ride back up') end"}
+  - walk_to: {x: 7420, y: 1088, z: 384, radius: 40, timeout_seconds: 30}
+  - walk_to: {x: 8200, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - execute_event: {id: 25}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: 7out01.odm}

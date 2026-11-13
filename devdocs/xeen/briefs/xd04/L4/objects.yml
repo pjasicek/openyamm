@@ -1,0 +1,1260 @@
+format: 0
+start:
+  room: room:gate_hall
+  at: [0, -2300]
+  facing: 90
+  notes: "Inside the tower door, facing into the gate hall and the gallery beyond."
+doors:
+  - id: door:bedchamber
+    opening: open:sanctum_bedchamber
+    kind: slide_up
+    fold: true
+    surface: {texture: twb1, size: [128, 256]}
+    tile: true
+    notes: "A stone slab that folds up into the lintel, as the Temple of the Moon's doors do."
+  - id: door:bookcase
+    opening: open:vat_hall_hidden_cage
+    kind: slide_up
+    fold: true
+    surface: {texture: 7t1books, size: [128, 256]}
+    secret: true
+    tile: true
+    notes: "The bookcase in the vat hall's west wall: a secret leaf of shelves that rises on a click."
+  - id: door:cupboard
+    opening: open:dormitory_cupboard
+    kind: slide_up
+    fold: true
+    surface: {texture: hwm1b, size: [128, 256]}
+    secret: true
+    tile: true
+    notes: "The loose panel: a secret leaf in the wainscot's picture that slides up into the lintel."
+  - id: door:dormitory
+    opening: open:landing_f2_dormitory
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: Landing to the dormitory.
+  - id: door:gate_bottom
+    opening: open:hoist_slot_cauldron
+    kind: slide_up
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: "The lower hoist gate (L4): shut whenever the cage is up, so nobody stands under it when it comes down."
+  - id: door:gate_top
+    opening: open:hoist_room_slot
+    kind: slide_up
+    fold: true
+    state: open
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: "The hoist gate across the hoist room's door to the slot: shut whenever the cage is down (a 1920 drop otherwise)."
+  - id: door:hatch
+    opening: open:roof_stair_roof
+    kind: slide_up
+    fold: true
+    surface: {texture: twb1, size: [128, 256]}
+    tile: true
+    notes: The roof hatch at the head of the stair.
+  - id: door:larder
+    opening: open:ring_toad_larder
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: Gallery to the toad larder.
+  - id: door:mistress
+    opening: open:dormitory_schoolroom
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: "The mistress's door, dormitory to schoolroom."
+  - id: door:pens
+    opening: open:ring_goblin_pens
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: Gallery to the goblin pens.
+  - id: door:rosebud
+    opening: open:rosebud_door
+    kind: slide_left
+    leaves: 2
+    fold: true
+    pictures:
+      - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
+      - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
+    tile: true
+    notes: "The Rosebud door: the Temple of the Moon's seal door (four quarters of the Moon seal on two leaves that part sideways), standing for the brief's carved sleeping face."
+  - id: door:schoolroom
+    opening: open:balcony_schoolroom
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: The double door from the balcony into the schoolroom.
+  - id: door:ward
+    opening: open:sanctum_roof_stair
+    kind: slide_down
+    fold: true
+    surface: {texture: tws1a, size: [128, 256]}
+    tile: true
+    notes: "The coven's ward across the roof stair: a carved sigil slab that sinks into the floor once the party are Crusaders (stand-in for a translucent shimmering leaf)."
+  - id: door:warden
+    opening: open:ring_warden_lodge
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: 7trimd, size: [128, 256]}
+    tile: true
+    notes: "Gallery to the warden's lodge: two plank leaves that fold into the jambs, as Clanker's Laboratory's doors do."
+movers:
+  - id: mover:hoist
+    room: room:hoist_slot
+    at: [-1312, -608]
+    size: [440, 440]
+    bottom: -14
+    height: 16
+    travel: [0, 0, 1920]
+    speed: 192
+    state: end
+    surface: {texture: trim11_32, size: [32, 64]}
+    top_surface: {texture: 7trimd, size: [128, 256]}
+    parts:
+      - {at: [-1524, -820], size: [16, 16], height: 320, surface: {texture: trim11_32, size: [32, 64]}, notes: Cage post}
+      - {at: [-1100, -820], size: [16, 16], height: 320, surface: {texture: trim11_32, size: [32, 64]}, notes: Cage post}
+      - {at: [-1100, -396], size: [16, 16], height: 320, surface: {texture: trim11_32, size: [32, 64]}, notes: Cage post}
+      - {at: [-1524, -396], size: [16, 16], height: 320, surface: {texture: trim11_32, size: [32, 64]}, notes: Cage post}
+      - {at: [-1312, -820], size: [440, 16], bottom: 336, height: 16, surface: {texture: trim11_32, size: [32, 64]}}
+      - {at: [-1312, -396], size: [440, 16], bottom: 336, height: 16, surface: {texture: trim11_32, size: [32, 64]}}
+      - {at: [-1524, -608], size: [16, 408], bottom: 336, height: 16, surface: {texture: trim11_32, size: [32, 64]}}
+      - {at: [-1100, -608], size: [16, 408], bottom: 336, height: 16, surface: {texture: trim11_32, size: [32, 64]}}
+      - {at: [-1312, -608], size: [8, 408], bottom: 336, height: 16, surface: {texture: trim11_32, size: [32, 64]}, notes: Hanger bar}
+      - {at: [-1312, -608], size: [8, 8], bottom: 352, height: 1900, surface: {texture: trim11_32, size: [32, 64]}, notes: "The hoist rope, up into the winch"}
+    notes: "The witches' ingredient hoist: a plank cage that fills the slot, standing at the top (1920) when the map is first entered; the brake lever sends it down, then it is ridden and called from either end."
+plates:
+  - id: plate:crying
+    room: room:vat_hall
+    at: [-2400, 2368]
+    size: [256, 384]
+    notes: "In front of the bookcase: the child crying behind it is heard here."
+lights:
+  - id: light:alacorn
+    room: room:cauldron_chamber
+    at: [-96, -128]
+    height: 2060
+    radius: 1200
+    color: [235, 245, 255]
+    notes: "The Alacorn's own white light, seen from the cauldron floor."
+  - id: light:balcony_n
+    room: room:balcony_f2
+    at: [1312, 1000]
+    height: 300
+    radius: 700
+    color: [255, 200, 130]
+  - id: light:balcony_s
+    room: room:balcony_f2
+    at: [1312, -500]
+    height: 300
+    radius: 700
+    color: [255, 200, 130]
+  - id: light:bedchamber
+    room: room:witch_bedchamber
+    at: [-3300, -600]
+    height: 300
+    radius: 800
+    color: [255, 200, 130]
+  - id: light:boil
+    room: room:cauldron_chamber
+    at: [0, 0]
+    height: 1600
+    radius: 1800
+    color: [140, 255, 120]
+    pulse: {intensity: [0.6, 1], frequency: 1.2}
+    on: false
+    notes: "The boil-over: the shaft fills with green light."
+  - id: light:boil_pier
+    room: room:shaft_bridge
+    at: [-864, -128]
+    height: 200
+    radius: 700
+    color: [140, 255, 120]
+    pulse: {intensity: [0.6, 1], frequency: 1.5}
+    on: false
+  - id: light:brew
+    room: room:cauldron_chamber
+    at: [0, 0]
+    height: 220
+    radius: 1200
+    color: [90, 255, 110]
+    pulse: {intensity: [0.7, 1], frequency: 0.3}
+    notes: "The brew, from inside the cauldron."
+  - id: light:circle
+    room: room:coven_sanctum
+    at: [-2560, 288]
+    height: 200
+    radius: 900
+    color: [170, 90, 255]
+    pulse: {intensity: [0.5, 1], frequency: 0.25}
+    notes: Dim violet over the witch-mark circle.
+  - id: light:dormitory
+    room: room:dormitory
+    at: [3500, 400]
+    height: 260
+    radius: 700
+    color: [255, 200, 130]
+  - id: light:gallery_e
+    room: room:ring_f1
+    at: [1000, -1300]
+    height: 300
+    radius: 800
+    color: [255, 170, 90]
+  - id: light:gallery_w
+    room: room:ring_f1
+    at: [-1100, -1300]
+    height: 300
+    radius: 800
+    color: [255, 170, 90]
+  - id: light:gate
+    room: room:gate_hall
+    at: [0, -2300]
+    height: 300
+    radius: 800
+    color: [255, 170, 90]
+  - id: light:hidden_cage
+    room: room:hidden_cage
+    at: [-2944, 2250]
+    height: 120
+    radius: 400
+    color: [255, 200, 130]
+  - id: light:hoist_foot
+    room: room:hoist_slot
+    at: [-1312, -608]
+    floor_height: 0
+    height: 220
+    radius: 500
+    color: [255, 170, 90]
+  - id: light:hoist_room
+    room: room:hoist_room
+    at: [-1750, -650]
+    height: 300
+    radius: 700
+    color: [255, 170, 90]
+  - id: light:hoist_top
+    room: room:hoist_slot
+    at: [-1312, -608]
+    floor_height: 0
+    height: 2120
+    radius: 500
+    color: [255, 170, 90]
+  - id: light:landing_f2
+    room: room:landing_f2
+    at: [2200, 0]
+    height: 260
+    radius: 600
+    color: [255, 200, 130]
+  - id: light:landing_f3
+    room: room:landing_f3
+    at: [-32, 2560]
+    height: 300
+    radius: 600
+    color: [255, 170, 90]
+  - id: light:larder
+    room: room:toad_larder
+    at: [-1120, -1800]
+    height: 260
+    radius: 600
+    color: [200, 220, 150]
+  - id: light:lodge
+    room: room:warden_lodge
+    at: [-2100, -1500]
+    height: 260
+    radius: 700
+    color: [255, 170, 90]
+  - id: light:loft
+    room: room:herb_loft
+    at: [544, 1888]
+    height: 240
+    radius: 600
+    color: [255, 170, 90]
+  - id: light:pens
+    room: room:goblin_pens
+    at: [1600, -1800]
+    height: 260
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:pier_n
+    room: room:coven_sanctum
+    at: [-1200, 650]
+    height: 280
+    radius: 700
+    color: [120, 255, 120]
+  - id: light:pier_s
+    room: room:coven_sanctum
+    at: [-1200, -150]
+    height: 280
+    radius: 700
+    color: [120, 255, 120]
+  - id: light:roof
+    room: room:roof
+    at: [-6400, 448]
+    height: 600
+    radius: 2600
+    color: [200, 215, 255]
+    notes: Daylight under the open sky.
+  - id: light:rosebud
+    room: room:rosebud_landing
+    at: [-3072, 1250]
+    height: 280
+    radius: 600
+    color: [120, 255, 120]
+  - id: light:sanctum_w
+    room: room:coven_sanctum
+    at: [-3700, 288]
+    height: 320
+    radius: 800
+    color: [255, 200, 130]
+  - id: light:school_desk
+    room: room:schoolroom
+    at: [3104, 1728]
+    height: 260
+    radius: 800
+    color: [255, 200, 130]
+  - id: light:school_door
+    room: room:schoolroom
+    at: [1800, 1300]
+    height: 300
+    radius: 600
+    color: [255, 200, 130]
+  - id: light:shaft_mid
+    room: room:cauldron_chamber
+    at: [0, 0]
+    height: 1280
+    radius: 1300
+    color: [90, 255, 110]
+    pulse: {intensity: [0.5, 0.9], frequency: 0.2, phase: 0.3}
+    notes: Green steam halfway up the shaft.
+  - id: light:shaft_top
+    room: room:cauldron_chamber
+    at: [300, 300]
+    height: 2400
+    radius: 1000
+    color: [110, 200, 120]
+    notes: Steam under the roof beams.
+  - id: light:skulls
+    room: room:skull_niche
+    at: [2150, 576]
+    height: 260
+    radius: 450
+    color: [255, 180, 110]
+    pulse: {intensity: [0.7, 1], frequency: 0.8}
+    notes: Three candles by the skulls.
+  - id: light:stair_turn_1
+    room: room:stair_1_2_mid
+    at: [2560, -1312]
+    height: 260
+    radius: 600
+    color: [255, 170, 90]
+  - id: light:stair_turn_2
+    room: room:stair_2_3_mid
+    at: [1312, 2528]
+    height: 260
+    radius: 600
+    color: [255, 170, 90]
+  - id: light:vat_1
+    room: room:vat_hall
+    at: [-2048, 2880]
+    height: 120
+    radius: 600
+    color: [255, 140, 60]
+    pulse: {intensity: [0.75, 1], frequency: 1.1}
+  - id: light:vat_2
+    room: room:vat_hall
+    at: [-1536, 2880]
+    height: 120
+    radius: 600
+    color: [255, 140, 60]
+    pulse: {intensity: [0.75, 1], frequency: 1.1, phase: 0.33}
+  - id: light:vat_3
+    room: room:vat_hall
+    at: [-1024, 2880]
+    height: 120
+    radius: 600
+    color: [255, 140, 60]
+    pulse: {intensity: [0.75, 1], frequency: 1.1, phase: 0.66}
+  - id: light:vat_hall_e
+    room: room:vat_hall
+    at: [-700, 2300]
+    height: 360
+    radius: 700
+    color: [255, 170, 90]
+switches:
+  - id: switch:brake
+    room: room:hoist_room
+    kind: lever
+    base: {texture: trim11_32, size: [32, 64]}
+    wall: north
+    along: 0.12
+    off: {texture: trim9_32, size: [32, 64]}
+    notes: The hoist's brake lever on the hoist room's north wall.
+  - id: switch:call_bottom
+    room: room:cauldron_chamber
+    kind: button
+    at: [-960, -704]
+    height: 112
+    notes: Call button beside the lower hoist gate.
+  - id: switch:call_top
+    room: room:hoist_room
+    kind: button
+    wall: east
+    along: 0.12
+    height: 112
+    notes: Call button beside the upper hoist gate.
+chests:
+  - id: chest:coven
+    room: room:witch_bedchamber
+    at: [-2700, -900]
+    facing: w
+    size: [128, 24, 192]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    treasure_level: 3
+    random_items: 3
+    gold: 300
+    items: [181, 179]
+    notes: "The coven's chest: a carved cabinet against the wall (the Temple of the Moon's cabinets): 300 gold, an amethyst, a citrine and three rolls."
+  - id: chest:hoard
+    room: room:cupboard
+    at: [4336, 416]
+    facing: n
+    size: [128, 16, 192]
+    surface: {texture: 7t1cab, size: [128, 256]}
+    treasure_level: 1
+    random_items: 1
+    gold: 40
+    items: [180]
+    notes: "The goblin's hoard in the cupboard: an amber, 40 gold and one low roll."
+  - id: chest:loft
+    room: room:herb_loft
+    at: [900, 2100]
+    kind: 7gt002
+    facing: s
+    treasure_level: 2
+    random_items: 2
+    items: [226, 224, 178]
+    notes: "The witches' stores: cure poison, cure weakness, an iolite and two rolls."
+  - id: chest:warden
+    room: room:warden_lodge
+    at: [-1760, -1760]
+    kind: 7gt002
+    facing: w
+    treasure_level: 2
+    random_items: 2
+    gold: 120
+    items: [177, 222]
+    notes: "The warden's strongbox: a zircon, a healing potion, 120 gold and two rolls."
+spawns:
+  - id: spawn:balcony
+    room: room:balcony_f2
+    at: [1312, 1250]
+    slot: 1
+    tier: b
+    notes: "Hobgoblins at the north end, away from the landing."
+  - id: spawn:bedchamber
+    room: room:witch_bedchamber
+    at: [-3300, -500]
+    slot: 3
+    tier: c
+    notes: A familiar on the bed.
+  - id: spawn:broken_balcony
+    room: room:broken_balcony
+    at: [-1000, 1312]
+    slot: 1
+    tier: a
+  - id: spawn:dorm_1
+    room: room:dormitory
+    at: [3264, 448]
+    slot: 1
+    tier: a
+    notes: Turned children asleep.
+  - id: spawn:dorm_2
+    room: room:dormitory
+    at: [3776, 448]
+    slot: 1
+    tier: a
+  - id: spawn:gallery_w
+    room: room:ring_f1
+    at: [-1200, -1312]
+    slot: 1
+    tier: a
+    notes: "The first goblins, at the west end."
+  - id: spawn:hoist_crew
+    room: room:hoist_room
+    at: [-2250, -560]
+    slot: 1
+    tier: b
+    notes: The winch crew.
+  - id: spawn:item_larder
+    room: room:toad_larder
+    at: [-1450, -1700]
+    kind: item
+    treasure_level: 2
+  - id: spawn:item_pens
+    room: room:goblin_pens
+    at: [2300, -2350]
+    kind: item
+    treasure_level: 2
+    notes: Something in the straw.
+  - id: spawn:item_vat
+    room: room:vat_hall
+    at: [-2400, 2000]
+    kind: item
+    treasure_level: 3
+  - id: spawn:larder_1
+    room: room:toad_larder
+    at: [-1400, -2350]
+    slot: 3
+    tier: c
+    notes: Familiars in the larder.
+  - id: spawn:larder_2
+    room: room:toad_larder
+    at: [-850, -1750]
+    slot: 3
+    tier: c
+  - id: spawn:lodge
+    room: room:warden_lodge
+    at: [-1900, -1250]
+    slot: 1
+    tier: a
+    notes: The warden's helpers.
+  - id: spawn:pens_1
+    room: room:goblin_pens
+    at: [1050, -2300]
+    slot: 1
+    tier: a
+    notes: The densest goblin fight on the ground floor.
+  - id: spawn:pens_2
+    room: room:goblin_pens
+    at: [2150, -1800]
+    slot: 1
+    tier: a
+  - id: spawn:pupils
+    room: room:schoolroom
+    at: [2000, 2250]
+    slot: 1
+    tier: a
+    notes: The 'pupils' who have already turned.
+  - id: spawn:sanctum_guards
+    room: room:coven_sanctum
+    at: [-1700, 600]
+    slot: 1
+    tier: c
+    notes: "Goblin Lords, the coven's guard."
+  - id: spawn:steam
+    room: room:cauldron_chamber
+    at: [550, 550]
+    slot: 3
+    tier: c
+    notes: Familiars in the steam.
+  - id: spawn:stokers_1
+    room: room:cauldron_chamber
+    at: [650, -350]
+    slot: 1
+    tier: a
+    notes: Stokers at the cauldron.
+  - id: spawn:stokers_2
+    room: room:cauldron_chamber
+    at: [-300, 700]
+    slot: 1
+    tier: a
+    notes: Stokers at the cauldron.
+  - id: spawn:vat_familiars_1
+    room: room:vat_hall
+    at: [-1700, 2550]
+    slot: 3
+    tier: c
+  - id: spawn:vat_familiars_2
+    room: room:vat_hall
+    at: [-800, 2700]
+    slot: 3
+    tier: c
+  - id: spawn:vat_witch_1
+    room: room:vat_hall
+    at: [-2100, 2300]
+    slot: 2
+    tier: a
+    notes: Brewing witches.
+  - id: spawn:vat_witch_2
+    room: room:vat_hall
+    at: [-1100, 2000]
+    slot: 2
+    tier: a
+monsters:
+  - id: monster:child_1
+    room: room:warden_lodge
+    monster: 439
+    at: [-2620, -1640]
+    facing: 0
+    hostile: false
+    group: 11
+    immobile: true
+    notes: "Child 1, the half-turned boy, in cage 1 (a Goblin peasant: the children are half turned)."
+  - id: monster:child_2
+    room: room:schoolroom
+    monster: 430
+    at: [2752, 2260]
+    facing: 270
+    hostile: false
+    group: 12
+    immobile: true
+    notes: "Child 2, who knows the word, in cage 2."
+  - id: monster:child_3
+    room: room:hidden_cage
+    monster: 433
+    at: [-2944, 2420]
+    facing: 0
+    hostile: false
+    group: 13
+    immobile: true
+    notes: "Child 3, hidden behind the bookcase."
+  - id: monster:child_4
+    room: room:witch_bedchamber
+    monster: 442
+    at: [-3950, -500]
+    facing: 0
+    hostile: false
+    group: 14
+    immobile: true
+    notes: "Child 4, in the witches' bedchamber."
+  - id: monster:familiar_1
+    room: room:coven_sanctum
+    monster: 207
+    at: [-2560, 480]
+    hostile: true
+    group: 5
+    hidden: true
+    notes: A familiar called up from the witch-marks (set:head_witch).
+  - id: monster:familiar_2
+    room: room:coven_sanctum
+    monster: 207
+    at: [-2560, 96]
+    hostile: true
+    group: 5
+    hidden: true
+  - id: monster:head_witch
+    room: room:coven_sanctum
+    monster: 215
+    at: [-1500, 300]
+    facing: 180
+    hostile: true
+    group: 4
+    hp: 300
+    name: Head Witch
+    notes: "The Head Witch (a Cleric of the Moon, level 20, with 300 hit points of her own) at the window over the shaft, between the Rosebud door and the bridge (set:head_witch)."
+  - id: monster:schoolmistress
+    room: room:schoolroom
+    monster: 214
+    at: [3200, 1728]
+    facing: 180
+    hostile: true
+    group: 3
+    name: Schoolmistress
+    notes: "The schoolmistress at her desk (an Acolyte of the Moon, level 10)."
+  - id: monster:sister_1
+    room: room:coven_sanctum
+    monster: 214
+    at: [-3500, -150]
+    facing: 0
+    hostile: true
+    group: 6
+    notes: One of the Head Witch's two sisters (Acolytes of the Moon).
+  - id: monster:sister_2
+    room: room:coven_sanctum
+    monster: 214
+    at: [-3500, 750]
+    facing: 0
+    hostile: true
+    group: 6
+  - id: monster:warden
+    room: room:warden_lodge
+    monster: 273
+    at: [-2250, -1500]
+    facing: 0
+    hostile: true
+    group: 2
+    name: Goblin Warden
+    immobile: true
+    carries: warden_ring
+    notes: "The Goblin Warden (a Goblin Lord, level 10) with the ring of keys that opens every cage."
+items:
+  - id: item:alacorn
+    room: room:cauldron_chamber
+    item: alacorn
+    at: [-96, -128]
+    floor_height: 1984
+    notes: The Alacorn of Falista on its pedestal at the bridge's end (goal:alacorn).
+decorations:
+  - id: deco:altar_goblet
+    room: room:coven_sanctum
+    decoration: 7dec48
+    at: [-3200, 380]
+    floor_height: 1992
+  - id: deco:altar_pot
+    room: room:coven_sanctum
+    decoration: cauld00
+    at: [-3330, 288]
+  - id: deco:altar_skull
+    room: room:coven_sanctum
+    decoration: 7dec20
+    at: [-3200, 200]
+    floor_height: 1992
+  - id: deco:balcony_sconce_1
+    room: room:balcony_f2
+    decoration: scon100
+    wall: east
+    along: 0.15
+    height: 200
+  - id: deco:balcony_sconce_2
+    room: room:balcony_f2
+    decoration: scon100
+    wall: east
+    along: 0.8
+    height: 200
+  - id: deco:bed_candle_1
+    room: room:witch_bedchamber
+    decoration: dec02
+    at: [-3520, -900]
+  - id: deco:bed_candle_2
+    room: room:witch_bedchamber
+    decoration: dec02
+    at: [-3136, -900]
+  - id: deco:bed_goblet
+    room: room:witch_bedchamber
+    decoration: 7dec48
+    at: [-2780, -500]
+  - id: deco:bed_hanging_cage
+    room: room:witch_bedchamber
+    decoration: 7dec07
+    at: [-2750, -650]
+    height: 330
+  - id: deco:brazier_1
+    room: room:cauldron_chamber
+    decoration: brzier00
+    at: [560, 0]
+  - id: deco:brazier_2
+    room: room:cauldron_chamber
+    decoration: brzier00
+    at: [-480, 300]
+  - id: deco:brazier_3
+    room: room:cauldron_chamber
+    decoration: brzier00
+    at: [0, -560]
+  - id: deco:brazier_4
+    room: room:cauldron_chamber
+    decoration: brzier00
+    at: [0, 560]
+  - id: deco:broken_balcony_bones
+    room: room:broken_balcony
+    decoration: dec29
+    at: [-1200, 1450]
+  - id: deco:bucket
+    room: room:cauldron_chamber
+    decoration: Bucket
+    at: [400, -820]
+  - id: deco:cage_1
+    room: room:warden_lodge
+    decoration: bonecage
+    at: [-2620, -1640]
+    notes: "Cage 1: the half-turned boy."
+  - id: deco:cage_2
+    room: room:schoolroom
+    decoration: bonecage
+    at: [2752, 2260]
+    notes: "Cage 2: the girl who knows the word."
+  - id: deco:cage_3
+    room: room:hidden_cage
+    decoration: bonecage
+    at: [-2944, 2420]
+    notes: "Cage 3: the hidden child."
+  - id: deco:cage_4
+    room: room:witch_bedchamber
+    decoration: bonecage
+    at: [-3950, -500]
+    notes: "Cage 4, in the witches' bedchamber."
+  - id: deco:cask_1
+    room: room:cauldron_chamber
+    decoration: 7dec21
+    at: [-250, -900]
+  - id: deco:circle_candle_1
+    room: room:coven_sanctum
+    decoration: dec02
+    at: [-2560, 700]
+  - id: deco:circle_candle_2
+    room: room:coven_sanctum
+    decoration: dec02
+    at: [-2970, 520]
+  - id: deco:circle_candle_3
+    room: room:coven_sanctum
+    decoration: dec02
+    at: [-2970, 56]
+  - id: deco:circle_candle_4
+    room: room:coven_sanctum
+    decoration: dec02
+    at: [-2560, -120]
+  - id: deco:circle_candle_5
+    room: room:coven_sanctum
+    decoration: dec02
+    at: [-2150, 56]
+  - id: deco:circle_candle_6
+    room: room:coven_sanctum
+    decoration: dec02
+    at: [-2150, 520]
+  - id: deco:cupboard_candle
+    room: room:cupboard
+    decoration: cndlab0
+    at: [4260, 360]
+  - id: deco:desk_candle_1
+    room: room:schoolroom
+    decoration: dec02
+    at: [3104, 1500]
+  - id: deco:desk_candle_2
+    room: room:schoolroom
+    decoration: dec02
+    at: [3104, 1960]
+  - id: deco:dorm_bowl
+    room: room:dormitory
+    decoration: foodbowl
+    at: [3200, 450]
+  - id: deco:dorm_bucket
+    room: room:dormitory
+    decoration: Bucket
+    at: [3000, 900]
+  - id: deco:dorm_plates
+    room: room:dormitory
+    decoration: dec36
+    at: [3450, 400]
+  - id: deco:dorm_sconce
+    room: room:dormitory
+    decoration: scon100
+    wall: west
+    along: 0.25
+    height: 200
+  - id: deco:dorm_trash
+    room: room:dormitory
+    decoration: 7dec01
+    at: [4000, -50]
+  - id: deco:foodbowl
+    room: room:cauldron_chamber
+    decoration: foodbowl
+    at: [-820, 350]
+  - id: deco:gallery_cask
+    room: room:ring_f1
+    decoration: 7dec21
+    at: [1400, -1450]
+  - id: deco:gallery_cask_2
+    room: room:ring_f1
+    decoration: 7dec21
+    at: [-1450, -1180]
+  - id: deco:gallery_torch_1
+    room: room:ring_f1
+    decoration: torch01
+    wall: south
+    along: 0.12
+    height: 256
+  - id: deco:gallery_torch_2
+    room: room:ring_f1
+    decoration: torch01
+    wall: south
+    along: 0.38
+    height: 256
+  - id: deco:gallery_torch_3
+    room: room:ring_f1
+    decoration: torch01
+    wall: south
+    along: 0.62
+    height: 256
+  - id: deco:gallery_torch_4
+    room: room:ring_f1
+    decoration: torch01
+    wall: south
+    along: 0.88
+    height: 256
+  - id: deco:gate_torch_e
+    room: room:gate_hall
+    decoration: torch07
+    wall: south
+    along: 0.8
+    height: 256
+  - id: deco:gate_torch_w
+    room: room:gate_hall
+    decoration: torch07
+    wall: south
+    along: 0.2
+    height: 256
+  - id: deco:hanging_cage_1
+    room: room:cauldron_chamber
+    decoration: 7dec05
+    at: [500, -300]
+    height: 1500
+    notes: A hanging cage high in the shaft.
+  - id: deco:hanging_cage_2
+    room: room:cauldron_chamber
+    decoration: 7dec06
+    at: [-300, 500]
+    height: 1100
+    notes: A hanging cage high in the shaft.
+  - id: deco:hanging_cage_3
+    room: room:cauldron_chamber
+    decoration: 7dec07
+    at: [350, 450]
+    height: 1850
+    notes: A hanging cage high in the shaft.
+  - id: deco:hidden_candle
+    room: room:hidden_cage
+    decoration: cndlab0
+    at: [-2780, 2250]
+  - id: deco:hoist_cask
+    room: room:hoist_room
+    decoration: 7dec21
+    at: [-2380, -900]
+  - id: deco:hoist_lantern
+    room: room:hoist_room
+    decoration: torch02
+    wall: east
+    along: 0.85
+    height: 256
+  - id: deco:hoist_sacks
+    room: room:hoist_room
+    decoration: bag01
+    at: [-2380, -480]
+  - id: deco:landing_f3_lantern
+    room: room:landing_f3
+    decoration: torch02
+    wall: north
+    along: 0.5
+    height: 256
+  - id: deco:landing_sconce
+    room: room:landing_f2
+    decoration: scon100
+    wall: south
+    along: 0.5
+    height: 200
+  - id: deco:larder_bucket
+    room: room:toad_larder
+    decoration: Bucket
+    at: [-800, -2400]
+  - id: deco:larder_cask
+    room: room:toad_larder
+    decoration: 7dec21
+    at: [-1450, -2400]
+  - id: deco:larder_mushrooms_1
+    room: room:toad_larder
+    decoration: mushrm01
+    at: [-1450, -1950]
+  - id: deco:larder_mushrooms_2
+    room: room:toad_larder
+    decoration: mushrm03
+    at: [-800, -2050]
+  - id: deco:larder_torch
+    room: room:toad_larder
+    decoration: torch01
+    wall: west
+    along: 0.5
+    height: 256
+  - id: deco:lodge_candle
+    room: room:warden_lodge
+    decoration: cndlab0
+    at: [-2000, -1600]
+    notes: On the table.
+  - id: deco:lodge_plates
+    room: room:warden_lodge
+    decoration: dec37
+    at: [-2100, -1600]
+  - id: deco:lodge_torch
+    room: room:warden_lodge
+    decoration: torch01
+    wall: north
+    along: 0.5
+    height: 256
+  - id: deco:loft_lantern
+    room: room:herb_loft
+    decoration: torch02
+    wall: north
+    along: 0.5
+    height: 230
+  - id: deco:loft_mushrooms
+    room: room:herb_loft
+    decoration: mushrm04
+    at: [950, 1680]
+  - id: deco:loft_sacks
+    room: room:herb_loft
+    decoration: bag01
+    at: [150, 2100]
+  - id: deco:loft_sacks_2
+    room: room:herb_loft
+    decoration: floursac
+    at: [300, 1680]
+  - id: deco:pens_bones
+    room: room:goblin_pens
+    decoration: 7dec18
+    at: [2000, -2380]
+  - id: deco:pens_bones_2
+    room: room:goblin_pens
+    decoration: dec29
+    at: [2350, -2200]
+  - id: deco:pens_bowl
+    room: room:goblin_pens
+    decoration: foodbowl
+    at: [1000, -1900]
+  - id: deco:pens_sacks
+    room: room:goblin_pens
+    decoration: floursac
+    at: [2380, -1720]
+  - id: deco:pens_torch_1
+    room: room:goblin_pens
+    decoration: torch01
+    wall: north
+    along: 0.2
+    height: 256
+  - id: deco:pens_torch_2
+    room: room:goblin_pens
+    decoration: torch01
+    wall: north
+    along: 0.8
+    height: 256
+  - id: deco:pens_trash_1
+    room: room:goblin_pens
+    decoration: trasheap
+    at: [900, -2380]
+  - id: deco:pens_trash_2
+    room: room:goblin_pens
+    decoration: 7dec01
+    at: [1500, -2400]
+  - id: deco:pier_torch_n
+    room: room:coven_sanctum
+    decoration: torch06
+    at: [-1088, 160]
+    wall: east
+    height: 256
+  - id: deco:pier_torch_s
+    room: room:coven_sanctum
+    decoration: torch06
+    at: [-1088, -280]
+    wall: east
+    height: 256
+  - id: deco:rosebud_torch
+    room: room:rosebud_landing
+    decoration: torch06
+    wall: south
+    along: 0.12
+    height: 256
+  - id: deco:sacks_1
+    room: room:cauldron_chamber
+    decoration: bag01
+    at: [850, -150]
+  - id: deco:sacks_2
+    room: room:cauldron_chamber
+    decoration: floursac
+    at: [800, 100]
+  - id: deco:sanctum_torch_w
+    room: room:coven_sanctum
+    decoration: torch05
+    wall: west
+    along: 0.2
+    height: 256
+  - id: deco:sanctum_torch_w2
+    room: room:coven_sanctum
+    decoration: torch05
+    wall: west
+    along: 0.8
+    height: 256
+  - id: deco:school_sconce
+    room: room:schoolroom
+    decoration: scon100
+    wall: west
+    along: 0.15
+    height: 200
+  - id: deco:skull_1
+    room: room:skull_niche
+    decoration: 7dec20
+    at: [2272, 460]
+    floor_height: 752
+    notes: The skull of the Mind.
+  - id: deco:skull_2
+    room: room:skull_niche
+    decoration: 7dec20
+    at: [2272, 576]
+    floor_height: 752
+    notes: The skull of the Body.
+  - id: deco:skull_3
+    room: room:skull_niche
+    decoration: 7dec20
+    at: [2272, 692]
+    floor_height: 752
+    notes: The skull of the Air.
+  - id: deco:skull_candle_1
+    room: room:skull_niche
+    decoration: cndlab0
+    at: [2280, 418]
+    floor_height: 752
+  - id: deco:skull_candle_2
+    room: room:skull_niche
+    decoration: cndlab0
+    at: [2280, 518]
+    floor_height: 752
+  - id: deco:skull_candle_3
+    room: room:skull_niche
+    decoration: cndlab0
+    at: [2280, 634]
+    floor_height: 752
+  - id: deco:skull_candle_4
+    room: room:skull_niche
+    decoration: cndlab0
+    at: [2280, 734]
+    floor_height: 752
+  - id: deco:skull_pile
+    room: room:coven_sanctum
+    decoration: sklplrev
+    at: [-3950, 800]
+  - id: deco:stair_lantern_1
+    room: room:stair_1_2_mid
+    decoration: torch02
+    wall: south
+    along: 0.5
+    height: 256
+  - id: deco:stair_lantern_2
+    room: room:stair_2_3_mid
+    decoration: torch02
+    wall: north
+    along: 0.5
+    height: 256
+  - id: deco:stoking_pot_1
+    room: room:cauldron_chamber
+    decoration: ckfyr00
+    at: [700, 400]
+  - id: deco:stoking_pot_2
+    room: room:cauldron_chamber
+    decoration: ckfyr00
+    at: [650, -650]
+  - id: deco:stoking_pot_3
+    room: room:cauldron_chamber
+    decoration: ckfyr00
+    at: [-350, -750]
+  - id: deco:stoking_pot_4
+    room: room:cauldron_chamber
+    decoration: ckfyr00
+    at: [-700, 700]
+  - id: deco:vat_bubbling
+    room: room:vat_hall
+    decoration: cauld00
+    at: [-1536, 2880]
+    notes: The bubbling vat (Agnes).
+  - id: deco:vat_fire_1
+    room: room:vat_hall
+    decoration: brzier00
+    at: [-2048, 2620]
+    notes: The fire under a vat.
+  - id: deco:vat_fire_2
+    room: room:vat_hall
+    decoration: brzier00
+    at: [-1536, 2620]
+    notes: The fire under a vat.
+  - id: deco:vat_fire_3
+    room: room:vat_hall
+    decoration: brzier00
+    at: [-1024, 2620]
+    notes: The fire under a vat.
+  - id: deco:vat_green
+    room: room:vat_hall
+    decoration: 7dec32
+    at: [-1024, 2880]
+    notes: The green vat.
+  - id: deco:vat_hall_cask
+    room: room:vat_hall
+    decoration: 7dec21
+    at: [-600, 3000]
+  - id: deco:vat_hall_lantern
+    room: room:vat_hall
+    decoration: torch02
+    wall: east
+    along: 0.75
+    height: 256
+  - id: deco:vat_hall_mushrooms
+    room: room:vat_hall
+    decoration: mushrm02
+    at: [-2450, 2800]
+  - id: deco:vat_hall_pot
+    room: room:vat_hall
+    decoration: cauld00
+    at: [-650, 1950]
+  - id: deco:vat_hall_sacks
+    room: room:vat_hall
+    decoration: bag01
+    at: [-700, 1750]
+  - id: deco:vat_hall_sacks_2
+    room: room:vat_hall
+    decoration: floursac
+    at: [-2300, 1800]
+  - id: deco:vat_toad
+    room: room:vat_hall
+    decoration: bigbarel
+    at: [-2048, 2880]
+    notes: The vat with the toad on its lid.
+placeholders:
+  - id: placeholder:cloaks
+    room: room:gate_hall
+    stands_for: A row of iron hooks along the west wall with small children's cloaks hanging on them
+    at: [-480, -2000]
+    size: [32, 512, 160]
+  - id: placeholder:dried_toads
+    room: room:toad_larder
+    stands_for: "Dried toads hanging in strings from the beams over the trough; live toads in the trough"
+    at: [-1120, -2048]
+    size: [384, 384, 64]
+  - id: placeholder:herb_racks
+    room: room:herb_loft
+    stands_for: Drying racks of herbs and toad skins
+    at: [544, 1900]
+    size: [640, 64, 256]
+  - id: placeholder:mirror
+    room: room:witch_bedchamber
+    stands_for: A tall black-framed mirror on the bedchamber's west wall
+    at: [-4050, -700]
+    size: [16, 128, 256]
+  - id: placeholder:straw_pens
+    room: room:goblin_pens
+    stands_for: Straw pens with wattle hurdles along the south wall
+    at: [1600, -2380]
+    size: [1600, 160, 96]
+  - id: placeholder:toad_lid
+    room: room:vat_hall
+    stands_for: A carved wooden toad on the good vat's lid
+    at: [-2048, 2880]
+    size: [96, 96, 48]
+  - id: placeholder:winch
+    room: room:hoist_room
+    stands_for: The great winch drum of the hoist with its rope (a block of planks stands there)
+    at: [-2048, -864]
+    size: [320, 128, 160]
+exits:
+  - id: exit:cloud_stair
+    room: room:roof
+    wall: west
+    size: [256, 512]
+    surface: {texture: sky_clo1, size: [512, 512]}
+    to: exit:cloudreach
+    notes: "The cloud stair at the roof's west edge, up into the clouds."
+  - id: exit:tower_door
+    room: room:gate_hall
+    wall: south
+    size: [256, 320]
+    surface: {texture: hwm2d, size: [128, 256]}
+    to: exit:toad_meadow
+    notes: "The tower door (Clanker's Laboratory's carved double door), out to Toad Meadow."
+notes: "Objects of the L4 brief (first written by output/studio_cal/xd04/tools/gen_objects.py). Stand-ins: goblins MM7's Goblin family, the witches Moon clerics, the familiars bats; the Head Witch a Cleric of the Moon with 300 hit points and a name, the warden a Goblin Lord, the children Goblin peasants."

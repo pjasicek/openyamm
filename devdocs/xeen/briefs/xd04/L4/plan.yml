@@ -1,0 +1,911 @@
+format: 0
+level: L3
+pitch: "A crooked black-timbered tower in Toad Meadow, visible from Vertigo, where the witches turn stolen children into goblins. Four floors stand round one central shaft; at its bottom a cauldron the size of a room bubbles green, and its steam rises past every floor's balcony. The stairs alternate sides, so each floor must be crossed: the goblin works and the warden's cage on the ground floor, the schoolroom where caged children are taught to be goblins on the second, the vat hall of the brewing witches on the third, and behind a door that answers only to the word a rescued child whispers, 'Rosebud', the coven's sanctum on the fourth. There the Alacorn of Falista stands on a narrow bridge over the shaft. Taking it makes the cauldron boil over; the witches' ingredient hoist is the quick way down. A half-turned boy on the ground floor will not leave until the Alacorn cures him. The roof stair stays sealed until the party are Crusaders, and then leads up into the clouds."
+purpose: "Story step M4 and promotion T1-A: take the Alacorn of Falista and bring it to Old Valia (X1). Four caged children to free (a little experience each, and Valia's thanks); the password door; a boss; the first view of the sky maps (the roof opens to X8 after M4). Monster levels 4 to 14; a party of about level 8 to 10."
+mood: "Grim fairy tale with a crooked smile: green cauldron light from below on black timber, steam, toads, little beds and a chalk-board lesson for children; it gets darker and quieter as the party climbs."
+datum: arrival
+spaces:
+  - id: room:balcony_f2
+    name: Second-floor balcony
+    kind: room
+    size: M
+    extent: [448, 2560]
+    shape: "Straight balcony along the shaft's east side and round its north-east corner, 448 wide, behind a timber rail over the shaft (a 96 sill, open above); the landing, the skull niche and the schoolroom open off its east side, the west stair leaves its north end."
+    where: "Second floor, east of the shaft."
+    floor: 640
+    clear_height: 512
+    relief: flat
+    purpose: "The second floor's spine, along the open shaft; looks down on the cauldron and across to the Alacorn's window. Joined to the landing, the dormitory and the schoolroom, it closes the floor's loop."
+    theme: "nursery (MM7 house set: daub between black timbers hhm3b, worn boards 7trimd, black planks hwm2rf overhead)"
+    light: "dim: 2 candle sconces on the east wall; the cauldron's green glow from below"
+    palette: ["scon100: iron candle sconce (engine model mm6_deco_sconce1), wall-mounted", "cndlab0: candle (engine model mm6_deco_candle), no light of its own, on the rail posts"]
+    furniture: [the timber rail over the shaft]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [6, 6], strength: light, rank: b, notes: "Gremlins, at the north end, away from the landing."}
+  - id: room:broken_balcony
+    name: Broken balcony
+    kind: room
+    size: S
+    extent: [2368, 448]
+    shape: "Straight balcony along the shaft's north side; its rail (a 96 sill) has broken away for 256 near the east end; the vat hall opens off its north side and the north stair leaves its west end."
+    where: "Third floor, north of the shaft."
+    floor: 1280
+    clear_height: 512
+    relief: flat
+    purpose: "A view down the shaft, a careless way down (link:broken_balcony_drop), and the foot of the north stair."
+    keep_clear: [decorations]
+    theme: "brewery (MM7 house set: weathered black boarding hdp2b, wet slate flags 7tfb11)"
+    light: "unlit: lit from below by the cauldron"
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [4, 4], strength: light, rank: a}
+  - id: room:cauldron_chamber
+    name: Cauldron chamber
+    kind: room
+    size: L
+    extent: [2048, 2048]
+    shape: "Squat octagon 2048 across whose walls rise 2688 to the roof beams: the chamber is the shaft. The great cauldron, a 768 iron tub turned 45 degrees and brimming green, stands 96 high in the middle; a stone buttress, the Witches' Finger, climbs the west wall to the Alacorn's window; two arches south to the gallery, the hoist slot's door south-west."
+    where: "Centre of the tower; the floors are skewed round it."
+    floor: 0
+    clear_height: 2688
+    relief: flat
+    features:
+      - {kind: dais, rise: 96, where: Centre, notes: "The cauldron: a ledge, not stepped onto; harmful liquid (Body damage) to anyone who climbs or falls in."}
+      - {kind: wall_slot, where: West wall, notes: "The Witches' Finger: a 576 by 384 buttress from the floor to the roof beams, with the Alacorn pier on top at 1920."}
+    purpose: "Signature room: the cauldron, and the shaft whose walls carry every floor's opening in a spiral (south at 0, east at 640, north at 1280, west at 1920). Goblins stoking the fires, toads in the steam. The hoist lands here."
+    theme: "cauldron (MM7 dark rubble brick 'wall' to the top, sooty dark flags tfb07, black roof planks hwm2rf)"
+    light: "bright from below: 3 green point lights on the shaft's axis (in the brew, about 120 up; at 1280; under the beams at 2400) and 4 lit braziers round the cauldron's foot"
+    palette: ["brzier00: lit brazier (engine model mm6_deco_brazier)", "ckfyr00: cauldron on its fire (engine model mm6_deco_cauldron), four small stoking pots round the great one", "bag01 / floursac: sacks (engine models mm6_deco_bag01, mm6_deco_floursac)", "7dec21: cask (engine model mm7_deco_7dec21)", "bucket and foodbowl (engine models mm6_deco_bucket, mm6_deco_foodbowl)", "7dec05 / 7dec06 / 7dec07: hanging cages on chains (engine models mm7_deco_7dec05-07, swinging), high in the shaft on long chains"]
+    furniture: ["the great cauldron (a platform, painted with the brew)", firing pits round its foot]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [4, 4], strength: pack, rank: a, notes: Stokers.}
+      - {slot: 3, groups: 1, per_marker: [1, 2], levels: [11, 11], strength: light, rank: a}
+  - id: room:coven_sanctum
+    name: Coven sanctum
+    kind: room
+    size: L
+    extent: [3008, 1216]
+    shape: "Long hall along the shaft's west side under the roof, 832 high; the witch-mark circle (a diamond inlay 640 across) in its middle; east wall: the opening onto the Alacorn pier and, north of it, a railed window over the shaft; doors north (Rosebud), south (bedchamber, hoist room) and west (the ward to the roof)."
+    where: "Fourth floor, west of the shaft."
+    floor: 1920
+    clear_height: 832
+    relief: flat
+    purpose: "The boss fight, the way onto the Alacorn pier, and the doors to the bedchamber, the hoist room and the sealed roof stair."
+    theme: "coven (black planking hwm2rf on the walls, dark flags tfb07, the roof's shingle underside hhm2rf; carved doors hdm1d); the witch-mark circle in the ornamental MM7 floor tile t5s1c2"
+    light: "dark, candlelit: 6 candlesticks round the witch-mark circle (one dim violet point light at its centre), 2 green-flame torches either side of the pier opening; the Alacorn's white glow beyond"
+    palette: ["dec02: tall candlestick (engine model mm8_deco_candlestick)", "torch06: wall torch with a green flame (engine model mm7_deco_torch01_green), wall-mounted about 256 up", "cauld00: small bubbling cauldron (engine model mm6_deco_cauldron_pot)", "7dec20: skull (engine model mm7_deco_7dec20)", "7dec48: goblet (engine model mm7_deco_goblet), on the altar", "sklplrev: skull pile (engine model mm6_deco_skullpile_meshy)"]
+    furniture: [the witch-mark circle, a low altar block by the circle (placeholder), two carved roof posts]
+    population:
+      - {actor: Wicked Witch, role: Head Witch, groups: 1, levels: [14, 14], placed: true, strength: boss, notes: "Boss hit points (about three times the curve); see set:head_witch."}
+      - {slot: 2, groups: 2, per_marker: [1, 1], strength: heavy, rank: a}
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: pack, rank: c, notes: Gremlin Guards (10).}
+  - id: room:dormitory
+    name: Dormitory
+    kind: room
+    size: M
+    extent: [1280, 1216]
+    shape: "Rectangle chamfered at its far east corners; two rows of three very small beds (48-high blocks); the cupboard in the east end wall."
+    where: "Second floor, east of the landing."
+    floor: 640
+    clear_height: 448
+    relief: flat
+    purpose: "Where the turned children sleep: now goblins. A secret cupboard with a goblin's hoard. Its doors to the landing and the schoolroom close the floor's loop."
+    theme: nursery
+    light: "dim: 1 candle sconce over the door; candles on the cupboard"
+    palette: ["scon100: iron candle sconce (engine model mm6_deco_sconce1), wall-mounted", "cndlab0: candle (engine model mm6_deco_candle), no light of its own", "dec36 / dec37: wooden plates (engine models mm8_deco_woodplate, mm8_deco_woodplates)", "bucket and foodbowl (engine models mm6_deco_bucket, mm6_deco_foodbowl)", "trasheap / 7dec01: trash heaps (engine models mm6_deco_trasheap, mm7_deco_trash_heap)"]
+    furniture: [6 small beds (platforms), "the cupboard: a secret container face in the east wall"]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], levels: [4, 4], strength: pack, rank: a}
+    treasure:
+      - {kind: secret_container, count: 1, tier: 1, items: [1, 2], reached_by: secret, notes: "A cupboard in the end wall behind a loose panel (secret face): a goblin's hoard of sweets, a child's toy, a handful of gems and one low item."}
+  - id: room:gate_hall
+    name: Gate hall
+    kind: room
+    size: S
+    extent: [1280, 896]
+    shape: "Wedge narrowing from the tower door (1280 wide) to the gallery (768); hooks of children's cloaks along the west wall."
+    where: "Ground floor, south of the gallery."
+    floor: 0
+    clear_height: 512
+    relief: flat
+    purpose: "Arrival. Safe; the cloaks tell the story."
+    empty: true
+    theme: "tower_stone (MM7 dark rubble brick 'wall', cobbles hhm3ch, black planks hwm2rf overhead)"
+    light: "torchlit: 2 wall torches either side of the tower door"
+    palette: ["6torch01: MM6 wall torch (engine model mm6_deco_torch), wall-mounted about 256 up"]
+    furniture: ["a row of cloak hooks with small cloaks (placeholder: no cloak decoration exists)"]
+  - id: room:goblin_pens
+    name: Goblin pens
+    kind: room
+    size: M
+    extent: [1792, 896]
+    shape: "Rectangle south of the gallery's east half; straw pens along the south wall, a feeding trough (a 48-high block) down the middle."
+    where: "Ground floor, south-east."
+    floor: 0
+    clear_height: 448
+    relief: flat
+    purpose: The densest goblin fight on the ground floor.
+    theme: tower_stone
+    light: "torchlit: 2 wall torches on the north wall"
+    palette: ["6torch01: MM6 wall torch (engine model mm6_deco_torch), wall-mounted about 256 up", "trasheap / 7dec01: trash heaps (engine models mm6_deco_trasheap, mm7_deco_trash_heap)", "bucket and foodbowl (engine models mm6_deco_bucket, mm6_deco_foodbowl)", "7dec18 / dec29: bones and skulls (engine models mm7_deco_7dec18, mm8_deco_bonepile)", "bag01 / floursac: sacks (engine models mm6_deco_bag01, mm6_deco_floursac)"]
+    furniture: [the trough, "straw pens (placeholder: straw and hurdles)"]
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 4], levels: [4, 4], strength: heavy, rank: a}
+  - id: room:herb_loft
+    name: Herb loft
+    kind: room
+    size: S
+    extent: [960, 576]
+    shape: "Low loft east of the vat hall, up six steps (32 each) from its east wall; drying racks of herbs and toad skins; the recipe card pinned to a beam."
+    where: "Third floor, east of the vat hall."
+    floor: 1472
+    clear_height: 384
+    relief: flat
+    purpose: "The recipe card that tells which vat is the good one; a chest."
+    empty: true
+    theme: brewery
+    light: "dim: 1 iron lantern"
+    palette: ["torch02: iron lantern on a wall arm (engine model mm7_deco_torch02)", "bag01 / floursac: sacks (engine models mm6_deco_bag01, mm6_deco_floursac)", "mushrm01-05: fungus heaps (engine models mm6_deco_mushrm01-05)", "herb bundles and toad skins on racks (placeholder: no herb decoration exists)"]
+    furniture: [drying racks (placeholder), the recipe card (a clickable note)]
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3], notes: "The witches' stores: reagents and potions."}
+  - id: room:hidden_cage
+    name: Hidden cage
+    kind: room
+    size: XS
+    extent: [512, 512]
+    shape: "Closet behind a bookcase, one cage in it."
+    where: "Third floor, off the vat hall."
+    floor: 1280
+    clear_height: 384
+    relief: flat
+    purpose: "Child 3, hidden by the witches; crying can be heard through the bookcase."
+    empty: true
+    theme: "brewery; the doorway's vat-hall side wears the bookcase face (7t1books, MM7 temple furniture set)"
+    light: unlit but for 1 candle by the cage
+    palette: ["cndlab0: candle (engine model mm6_deco_candle), no light of its own", "bonecage: floor cage of lashed bones (engine model mm6_deco_bonecage)"]
+    furniture: [cage 3]
+    secret: true
+  - id: room:hoist_room
+    name: Hoist room
+    kind: room
+    size: S
+    extent: [864, 576]
+    shape: "Room beside the hoist slot: the great winch drum, the brake lever on its north wall, the slot's door in its east wall."
+    where: "Fourth floor, south of the sanctum's east end."
+    floor: 1920
+    clear_height: 512
+    relief: flat
+    purpose: The shortcut down to the cauldron chamber (link:hoist).
+    theme: coven
+    light: 1 iron lantern by the slot
+    palette: ["torch02: iron lantern on a wall arm (engine model mm7_deco_torch02)", "7dec21: cask (engine model mm7_deco_7dec21)", "bag01 / floursac: sacks (engine models mm6_deco_bag01, mm6_deco_floursac)"]
+    furniture: [the winch drum (placeholder), the brake lever (a switch), the hoist gate across the slot door]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [6, 6], strength: light, rank: b, notes: The winch crew (gremlins).}
+  - id: room:hoist_slot
+    name: Hoist slot
+    kind: room
+    size: XS
+    extent: [448, 448]
+    shape: "A narrow shaft the full height of the hoist, 448 square, its cage filling it."
+    where: "South-west of the cauldron chamber, under the hoist room's east side."
+    floor: 0
+    clear_height: 2304
+    relief: flat
+    purpose: "The shaft the hoist cage rides (link:hoist): its door to the cauldron chamber is at 0, its door to the hoist room at 1920."
+    empty: true
+    theme: stair
+    light: "1 iron lantern at the top door, 1 at the bottom"
+    palette: ["torch02: iron lantern on a wall arm (engine model mm7_deco_torch02)"]
+  - id: room:landing_f2
+    name: Second-floor landing
+    kind: room
+    size: S
+    extent: [1216, 640]
+    shape: "Rectangle at the top of the east stair: the balcony west, the dormitory east."
+    where: "Second floor, east of the balcony."
+    floor: 640
+    clear_height: 448
+    relief: flat
+    purpose: Top of the first stair.
+    empty: true
+    theme: nursery
+    light: 1 candle sconce
+  - id: room:landing_f3
+    name: Third-floor landing
+    kind: room
+    size: S
+    extent: [704, 640]
+    shape: "Small landing at the top of the west stair; the vat hall opens west."
+    where: "Third floor, north-east of the vat hall."
+    floor: 1280
+    clear_height: 448
+    relief: flat
+    purpose: Top of the second stair.
+    empty: true
+    theme: brewery
+    light: 1 iron lantern
+    palette: ["torch02: iron lantern on a wall arm (engine model mm7_deco_torch02)"]
+  - id: room:ring_f1
+    name: Ground-floor gallery
+    kind: room
+    size: M
+    extent: [3072, 448]
+    shape: "Straight gallery the length of the shaft's south side; two arches north into the cauldron chamber with a pier between; the warden's lodge off its west end, the larder and the pens off its south side, the gate hall in the middle of it; the east stair leaves its east end."
+    where: "Ground floor, along the shaft's south side."
+    floor: 0
+    clear_height: 512
+    relief: flat
+    purpose: "Links every ground-floor room; the first goblins."
+    theme: tower_stone
+    light: "torchlit: 4 wall torches on the south wall, about one per 768"
+    palette: ["6torch01: MM6 wall torch (engine model mm6_deco_torch), wall-mounted about 256 up", "7dec21: cask (engine model mm7_deco_7dec21)"]
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [4, 4], strength: light, rank: a, notes: "At the west end, out of sight of the gate hall."}
+  - id: room:roof
+    name: Roof
+    kind: room
+    size: S
+    extent: [1792, 1536]
+    shape: "Eight-sided terrace with a stone parapet round the tower's chimney crown (a 384 square stack); the cloud stair rises from its west edge."
+    where: "Top of the tower, west of the fourth floor."
+    floor: 2560
+    clear_height: 2048
+    relief: flat
+    purpose: "Vista over X1 to the world's rim, and the cloud stair to X8 (sky open)."
+    empty: true
+    keep_clear: [decorations]
+    theme: "roof (rough stone parapet hwm2wall, slate 7tfb11)"
+    light: "daylight under the open sky (ambient bright); no placed lights"
+  - id: room:roof_stair
+    name: Roof stair
+    kind: room
+    size: S
+    extent: [1280, 384]
+    shape: One straight flight of 20 steps west from the warded door to the roof hatch.
+    where: "Fourth floor, west of the sanctum."
+    floor: [1920, 2560]
+    clear_height: 384
+    relief: steps
+    purpose: "Sealed until M4; then the way to the roof."
+    empty: true
+    theme: "stair (rubble brick, dark flag treads)"
+    light: unlit
+  - id: room:rosebud_landing
+    name: Rosebud landing
+    kind: room
+    size: S
+    extent: [640, 576]
+    shape: "Small landing at the top of the north stair; the door carved as a sleeping old woman's face in its south wall."
+    where: "Fourth floor, north-west of the sanctum."
+    floor: 1920
+    clear_height: 448
+    relief: flat
+    purpose: The password door (link:rosebud_door).
+    empty: true
+    theme: "coven; the door leaf is the carved MM7 door hdm1d"
+    light: 1 green-flame torch beside the face
+    palette: ["torch06: wall torch with a green flame (engine model mm7_deco_torch01_green), wall-mounted about 256 up"]
+  - id: room:schoolroom
+    name: Schoolroom
+    kind: room
+    size: M
+    extent: [1792, 1280]
+    shape: "Rectangle; three bench rows one step (32) up face the slate on the east wall and the teacher's desk; cage 2 against the north wall."
+    where: "Second floor, north-east, off the balcony's north end."
+    floor: {level: 640, range: [640, 672]}
+    clear_height: [448, 576]
+    relief: steps
+    features:
+      - {kind: tiers, rise: 32, count: 3, where: "Bench rows, each one step up, aisles between"}
+    purpose: "Children taught to be goblins: the chalk-board lesson, the schoolmistress, and child 2, who whispers 'Rosebud'."
+    theme: "nursery; the slate wall in the cracked grey-blue plaster hdp1b (MM7 house set)"
+    light: "dim: 2 candlesticks by the desk, 1 candle sconce by the door"
+    palette: ["dec02: tall candlestick (engine model mm8_deco_candlestick)", "scon100: iron candle sconce (engine model mm6_deco_sconce1), wall-mounted", "cndlab0: candle (engine model mm6_deco_candle), no light of its own", "bonecage: floor cage of lashed bones (engine model mm6_deco_bonecage)"]
+    furniture: [3 bench rows (platforms), the teacher's desk (placeholder), the slate wall (readable), cage 2]
+    population:
+      - {actor: Wicked Witch, role: schoolmistress, groups: 1, levels: [14, 14], placed: true, strength: heavy}
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: a, notes: The 'pupils' who have already turned.}
+  - id: room:shaft_bridge
+    name: Alacorn pier
+    kind: room
+    size: S
+    extent: [320, 448]
+    shape: "The flat top of the Witches' Finger, a stone pier rising out of the cauldron floor up the shaft's west wall: 320 by 448, open at its tip over the cauldron behind a 64 stone lip, no rail; the Alacorn's pedestal at the tip."
+    where: "Fourth floor, jutting east from the sanctum into the shaft."
+    floor: 1920
+    clear_height: 640
+    relief: flat
+    purpose: "The Alacorn of Falista on its pedestal: the goal."
+    empty: true
+    theme: coven
+    light: "the Alacorn's own white point light (radius about 1200), seen from the cauldron floor"
+    palette: ["ped06: pedestal (engine model mm6_deco_pedestal)"]
+    treasure:
+      - {kind: floor_item, count: 1, once: true, item: alacorn, notes: On the pedestal.}
+  - id: room:skull_niche
+    name: Skull niche
+    kind: room
+    size: S
+    extent: [704, 640]
+    shape: "Small apse with one chamfered corner; its east wall a bookcase face (7t1books); three talking skulls on the shelves."
+    where: "Second floor, off the balcony's east side."
+    floor: 640
+    clear_height: 448
+    relief: flat
+    purpose: The skulls sell low spell scrolls for gems (poi:talking_skulls).
+    empty: true
+    theme: "nursery; the bookcase wall from the MM7 temple furniture set (7t1books)"
+    light: "no light of its own: 3 candles by the skulls"
+    palette: ["7dec20: skull (engine model mm7_deco_7dec20), three, on the shelves", "cndlab0: candle (engine model mm6_deco_candle), no light of its own"]
+  - id: room:stair_1_2
+    name: East stair
+    kind: room
+    size: S
+    extent: [1216, 1152]
+    shape: "Quarter-turn stair in the south-east corner: 10 steps of 32 east from the gallery, a turn landing at 320, 10 steps north to the second-floor landing."
+    floor: [0, 640]
+    clear_height: 384
+    relief: steps
+    purpose: Ground floor to second floor.
+    empty: true
+    theme: stair
+    light: 1 iron lantern at the turn
+    palette: ["torch02: iron lantern on a wall arm (engine model mm7_deco_torch02)"]
+  - id: room:stair_2_3
+    name: West stair
+    kind: room
+    size: S
+    extent: [1152, 1152]
+    shape: "Quarter-turn stair in the north-east corner: 10 steps of 32 north from the balcony, a turn landing at 960, 10 steps west to the third-floor landing."
+    floor: [640, 1280]
+    clear_height: 384
+    relief: steps
+    purpose: Second floor to third floor.
+    empty: true
+    theme: stair
+    light: 1 iron lantern at the turn
+    palette: ["torch02: iron lantern on a wall arm (engine model mm7_deco_torch02)"]
+  - id: room:stair_3_4
+    name: North stair
+    kind: room
+    size: S
+    extent: [1280, 384]
+    shape: "One straight flight of 20 steps of 32 west from the broken balcony to the Rosebud landing; darker than the others."
+    floor: [1280, 1920]
+    clear_height: 384
+    relief: steps
+    purpose: Third floor to the Rosebud landing.
+    empty: true
+    theme: stair
+    light: unlit
+  - id: room:toad_larder
+    name: Toad larder
+    kind: room
+    size: S
+    extent: [832, 896]
+    shape: "Damp rectangle with a raised stone trough (one step up) of live toads; dried toads hang from the beams."
+    where: "Ground floor, south-west, off the gallery."
+    floor: 0
+    clear_height: 448
+    relief: flat
+    features:
+      - {kind: platform, rise: 32, where: Middle, notes: "The toad trough: L1's sunken tank, raised because rooms.yml has no sunken floors."}
+    purpose: "Toads; a quiet corner otherwise."
+    theme: tower_stone
+    light: "dim: 1 wall torch"
+    palette: ["6torch01: MM6 wall torch (engine model mm6_deco_torch), wall-mounted about 256 up", "7dec21: cask (engine model mm7_deco_7dec21)", "bucket and foodbowl (engine models mm6_deco_bucket, mm6_deco_foodbowl)", "mushrm01-05: fungus heaps (engine models mm6_deco_mushrm01-05)", dried toads hanging from the beams (placeholder)]
+    population:
+      - {slot: 3, groups: 2, per_marker: [1, 2], strength: pack, rank: a}
+  - id: room:vat_hall
+    name: Vat hall
+    kind: room
+    size: L
+    extent: [2176, 1536]
+    shape: "Long hall with chamfered west corners; three vats on plinths (one step, 32) along the north wall; the bookcase in the north-west chamfer, the hidden cage behind the west wall; the broken balcony south, the loft steps and the landing east."
+    where: "Third floor, north of the shaft."
+    floor: 1280
+    clear_height: [512, 768]
+    relief: flat
+    islands: 3
+    purpose: "The brewing witches and their toads; the three vats (set:vats); the hidden cage behind the bookcase."
+    theme: "brewery; the bookcase wall from the MM7 temple furniture set (7t1books), the plinths in the MM7 floor tile t5s1c"
+    light: "firelit: 3 braziers under the vats, 1 iron lantern on the east wall; steam"
+    palette: ["bigbarel: open barrel showing its liquid (engine model mm6_deco_barrel, the MMerge stat barrel), the three vats", "brzier00: lit brazier (engine model mm6_deco_brazier)", "cauld00: small bubbling cauldron (engine model mm6_deco_cauldron_pot)", "7dec21: cask (engine model mm7_deco_7dec21)", "bag01 / floursac: sacks (engine models mm6_deco_bag01, mm6_deco_floursac)", "mushrm01-05: fungus heaps (engine models mm6_deco_mushrm01-05)"]
+    furniture: [3 vat plinths, the bookcase (secret door), a toad-shaped lid on one vat (placeholder)]
+    population:
+      - {slot: 2, groups: 2, per_marker: [1, 1], strength: heavy, rank: a}
+      - {slot: 3, groups: 2, per_marker: [2, 3], strength: pack, rank: a}
+  - id: room:warden_lodge
+    name: Warden's lodge
+    kind: room
+    size: S
+    extent: [1152, 832]
+    shape: "Five-sided room off the gallery's west end: the warden's table, a ring of keys on a hook, cage 1 against the west wall."
+    where: "Ground floor, west."
+    floor: 0
+    clear_height: 448
+    relief: flat
+    purpose: "The Goblin Warden (the cage ring) and child 1, the half-turned boy."
+    theme: tower_stone
+    light: "torchlit: 1 wall torch; a candle on the table"
+    palette: ["6torch01: MM6 wall torch (engine model mm6_deco_torch), wall-mounted about 256 up", "cndlab0: candle (engine model mm6_deco_candle), no light of its own", "dec36 / dec37: wooden plates (engine models mm8_deco_woodplate, mm8_deco_woodplates)", "bonecage: floor cage of lashed bones (engine model mm6_deco_bonecage)"]
+    furniture: [the warden's table (placeholder), cage 1]
+    population:
+      - {actor: Gremlin Guard, role: Goblin Warden, groups: 1, levels: [10, 10], placed: true, strength: heavy, drops: warden_ring}
+      - {slot: 1, groups: 1, per_marker: [2, 2], strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 3]}
+  - id: room:witch_bedchamber
+    name: Witches' bedchamber
+    kind: room
+    size: S
+    extent: [1504, 576]
+    shape: "Long low room with three beds (48-high blocks; their canopies are placeholders), a mirror and cage 4."
+    where: "Fourth floor, south of the sanctum's west end."
+    floor: 1920
+    clear_height: 576
+    relief: flat
+    purpose: "Child 4; the coven's chest."
+    theme: coven
+    light: "candlelit: 2 candlesticks"
+    palette: ["dec02: tall candlestick (engine model mm8_deco_candlestick)", "7dec48: goblet (engine model mm7_deco_goblet)", "7dec05 / 7dec06 / 7dec07: hanging cages on chains (engine models mm7_deco_7dec05-07, swinging)"]
+    furniture: [3 beds (platforms), a mirror (placeholder), cage 4]
+    population:
+      - {slot: 3, groups: 1, per_marker: [1, 2], strength: light, rank: a, notes: A familiar on the bed.}
+    treasure:
+      - {kind: chest, count: 1, tier: 3, items: [2, 3], notes: "The coven's chest: gold, gems and their better things."}
+  - id: void:cauldron_shaft
+    name: Cauldron shaft
+    kind: void
+    part_of: room:cauldron_chamber
+    size: M
+    extent: [2048, 2048]
+    shape: "The cauldron chamber's own upper part, 2688 high: its walls carry the floors' openings in a spiral (the gallery's arches south at 0, the balcony rail east at 640, the broken balcony north at 1280, the sanctum's window and the Alacorn pier west at 1920); green steam."
+    top: 2688
+    purpose: "The vertical core of the tower: seen from every floor; the Alacorn hangs in it on its bridge."
+regions:
+  - id: region:floor_1
+    name: Ground floor
+    spaces: [room:gate_hall, room:ring_f1, room:cauldron_chamber, room:goblin_pens, room:toad_larder, room:warden_lodge, room:hoist_slot, room:stair_1_2]
+    where: South of the shaft (and the shaft itself)
+    theme: "tower_stone: black timber over rough stone, cobbles, firelight"
+  - id: region:floor_2
+    name: Second floor
+    spaces: [room:landing_f2, room:balcony_f2, room:schoolroom, room:dormitory, room:skull_niche, room:stair_2_3]
+    where: East of the shaft
+    theme: "nursery: daub between black timbers, worn boards, candles, small beds"
+  - id: region:floor_3
+    name: Third floor
+    spaces: [room:landing_f3, room:vat_hall, room:herb_loft, room:hidden_cage, room:broken_balcony, room:stair_3_4]
+    where: North of the shaft
+    theme: "brewery: weathered black boarding, wet slate, vats, steam, hanging herbs"
+  - id: region:floor_4
+    name: Fourth floor and roof
+    spaces: [room:rosebud_landing, room:coven_sanctum, room:shaft_bridge, room:witch_bedchamber, room:hoist_room, room:roof_stair, room:roof]
+    where: "West of the shaft; the roof furthest west"
+    theme: "coven: black planking, dark flags, carved doors, witch-marks, candles"
+links:
+  - id: link:balcony_rail
+    from: room:balcony_f2
+    to: room:cauldron_chamber
+    kind: overlook
+    notes: "The timber rail over the shaft along the balcony's west side (a 96 sill, open above): a view down to the cauldron and across to the Alacorn."
+  - id: link:balcony_schoolroom
+    from: room:balcony_f2
+    to: room:schoolroom
+    kind: double_door
+    motion: swing
+  - id: link:balcony_skull_niche
+    from: room:balcony_f2
+    to: room:skull_niche
+    kind: open
+  - id: link:balcony_stair_2_3
+    from: room:balcony_f2
+    to: room:stair_2_3
+    kind: open
+  - id: link:broken_balcony_drop
+    from: room:broken_balcony
+    to: room:cauldron_chamber
+    kind: drop
+    one_way: true
+    rise: -1280
+    notes: "Through the 256 gap in the rail: a 1280 fall to the chamber floor north of the cauldron (fall damage). A trap for the careless, and a very fast way down."
+  - id: link:broken_balcony_rail
+    from: room:broken_balcony
+    to: room:cauldron_chamber
+    kind: overlook
+    notes: "What is left of the rail along the broken balcony (a 96 sill); the gap east of it is link:broken_balcony_drop."
+  - id: link:broken_balcony_stair_3_4
+    from: room:broken_balcony
+    to: room:stair_3_4
+    kind: open
+  - id: link:cauldron_ring_east
+    from: room:cauldron_chamber
+    to: room:ring_f1
+    kind: open
+    width: 384
+    notes: East arch.
+  - id: link:cauldron_ring_west
+    from: room:cauldron_chamber
+    to: room:ring_f1
+    kind: open
+    width: 384
+    notes: West arch.
+  - id: link:dormitory_schoolroom
+    from: room:dormitory
+    to: room:schoolroom
+    kind: door
+    motion: swing
+    notes: "The mistress's door: closes the second floor's loop."
+  - id: link:gate_hall_ring
+    from: room:gate_hall
+    to: room:ring_f1
+    kind: open
+  - id: link:hoist
+    from: room:hoist_room
+    to: room:cauldron_chamber
+    kind: lift
+    condition: {map_var: hoist_released}
+    opens_from: room:hoist_room
+    rise: -1920
+    purpose: "The ingredient hoist: a cage down the shaft wall, the shortcut that closes loop:hoist."
+    notes: "Through room:hoist_slot: a cage that fills the slot (no gap to fall through), 1920 of travel in about 10 seconds. It starts at the top, held by the brake; the brake lever in the hoist room sends it down and sets hoist_released, and afterwards it can be ridden and called from either end. A hoist gate shuts the upper door while the cage is down."
+  - id: link:landing_f2_balcony
+    from: room:landing_f2
+    to: room:balcony_f2
+    kind: open
+  - id: link:landing_f2_dormitory
+    from: room:landing_f2
+    to: room:dormitory
+    kind: door
+    motion: swing
+  - id: link:landing_f3_vat_hall
+    from: room:landing_f3
+    to: room:vat_hall
+    kind: open
+  - id: link:pier_tip
+    from: room:shaft_bridge
+    to: room:cauldron_chamber
+    kind: overlook
+    notes: "The pier's open tip behind a 64 stone lip, no rail: the Alacorn's light seen from below, and the boil-over's steam rising past."
+  - id: link:ring_goblin_pens
+    from: room:ring_f1
+    to: room:goblin_pens
+    kind: door
+    motion: swing
+  - id: link:ring_stair_1_2
+    from: room:ring_f1
+    to: room:stair_1_2
+    kind: open
+  - id: link:ring_toad_larder
+    from: room:ring_f1
+    to: room:toad_larder
+    kind: door
+    motion: swing
+  - id: link:ring_warden_lodge
+    from: room:ring_f1
+    to: room:warden_lodge
+    kind: door
+    motion: swing
+  - id: link:roof_stair_roof
+    from: room:roof_stair
+    to: room:roof
+    kind: door
+    notes: "The roof hatch: a plank hatch-door at the head of the stair; it opens on a click."
+  - id: link:rosebud_door
+    from: room:rosebud_landing
+    to: room:coven_sanctum
+    kind: door
+    motion: swing
+    condition: {password: rosebud}
+    notes: "The carved face opens its eyes and asks for the word. 'Rosebud' opens it for good; a wrong word puts a small jinx on the speaker (set:rosebud_door)."
+  - id: link:sanctum_bedchamber
+    from: room:coven_sanctum
+    to: room:witch_bedchamber
+    kind: door
+    motion: swing
+  - id: link:sanctum_bridge
+    from: room:coven_sanctum
+    to: room:shaft_bridge
+    kind: open
+  - id: link:sanctum_hoist_room
+    from: room:coven_sanctum
+    to: room:hoist_room
+    kind: open
+  - id: link:sanctum_roof_stair
+    from: room:coven_sanctum
+    to: room:roof_stair
+    kind: door
+    condition: {qbit: m4_crusaders}
+    notes: "A shimmering ward across the doorway (a translucent face): 'The ward hums. It is keyed to an oath you have not sworn.' It falls once Valia has named the party Crusaders."
+  - id: link:sanctum_window
+    from: room:coven_sanctum
+    to: room:cauldron_chamber
+    kind: overlook
+    notes: "A railed window (96 sill) in the sanctum's east wall north of the pier: the Head Witch curses across the shaft from here."
+  - id: link:stair_1_2_landing_f2
+    from: room:stair_1_2
+    to: room:landing_f2
+    kind: stairs
+    rise: 640
+  - id: link:stair_2_3_landing_f3
+    from: room:stair_2_3
+    to: room:landing_f3
+    kind: stairs
+    rise: 640
+  - id: link:stair_3_4_rosebud
+    from: room:stair_3_4
+    to: room:rosebud_landing
+    kind: stairs
+    rise: 640
+  - id: link:vat_hall_broken_balcony
+    from: room:vat_hall
+    to: room:broken_balcony
+    kind: open
+  - id: link:vat_hall_herb_loft
+    from: room:vat_hall
+    to: room:herb_loft
+    kind: stairs
+    rise: 192
+    notes: "Six steps of 32 (L1's ladder: objects.yml has no ladders)."
+  - id: link:vat_hall_hidden_cage
+    from: room:vat_hall
+    to: room:hidden_cage
+    kind: secret_door
+    motion: swing
+    notes: "The bookcase in the end wall swings out on a click; crying is heard through it (a placed sound)."
+loops:
+  - id: loop:arches
+    spaces: [room:ring_f1, room:cauldron_chamber]
+    notes: "In by one arch, out by the other, round the pier between them."
+  - id: loop:hoist
+    spaces: [room:cauldron_chamber, room:ring_f1, room:stair_1_2, room:landing_f2, room:balcony_f2, room:stair_2_3, room:landing_f3, room:vat_hall, room:broken_balcony, room:stair_3_4, room:rosebud_landing, room:coven_sanctum, room:hoist_room, room:hoist_slot]
+    closed_until: {map_var: hoist_released}
+    notes: "The whole tower becomes a ring once the hoist is released from the top: up the stairs round the shaft, down the hoist. It brings the party back to the half-turned boy on the ground floor with the Alacorn in hand."
+  - id: loop:second_floor
+    spaces: [room:balcony_f2, room:landing_f2, room:dormitory, room:schoolroom]
+    notes: "Balcony, landing, dormitory, schoolroom and back to the balcony (L1's balcony ring, which the skewed floor can no longer close round the shaft)."
+entrances:
+  - id: entrance:roof
+    space: room:roof
+    kind: exit
+    neighbour: exit:cloudreach
+    how: "The cloud stair at the roof's edge, climbing into the clouds."
+    condition: {qbit: m4_crusaders}
+  - id: entrance:tower_door
+    space: room:gate_hall
+    kind: both
+    neighbour: exit:toad_meadow
+    facing: n
+    how: "Inside the tower door, facing into the gate hall; the door needs the Crystal Key from outside."
+    condition: {item: crystal_key}
+critical_path: [room:gate_hall, room:ring_f1, room:warden_lodge, room:ring_f1, room:stair_1_2, room:landing_f2, room:balcony_f2, room:schoolroom, room:balcony_f2, room:stair_2_3, room:landing_f3, room:vat_hall, room:broken_balcony, room:stair_3_4, room:rosebud_landing, room:coven_sanctum, room:shaft_bridge]
+return_path: [room:shaft_bridge, room:coven_sanctum, room:hoist_room, room:hoist_slot, room:cauldron_chamber, room:ring_f1, room:gate_hall]
+goals:
+  - id: goal:alacorn
+    space: room:shaft_bridge
+    kind: take
+    what: Take the Alacorn of Falista from its pedestal over the shaft.
+    story: M4
+    handed_in_at: exit:toad_meadow
+    gives:
+      - item: alacorn
+      - qbit: alacorn_taken
+    notes: "Valia (Toad Meadow, X1) takes it: Crusader title (party award), promotion T1-A, and m4_crusaders, which drops the roof ward."
+  - id: goal:child_1
+    space: room:warden_lodge
+    kind: use
+    what: "Optional: use the Alacorn on the half-turned boy in cage 1, who will not go home with goblin ears."
+    story: M4
+    gives:
+      qbit: child_rescued_1
+  - id: goal:child_2
+    space: room:schoolroom
+    kind: use
+    what: "Free child 2 with the warden's ring; she whispers the password."
+    story: M4
+    gives:
+      - qbit: child_rescued_2
+      - qbit: rosebud_heard
+    notes: "On the critical path: without the word the sanctum door stays shut (unless the player already knows it)."
+  - id: goal:child_3
+    space: room:hidden_cage
+    kind: use
+    what: "Optional: free child 3 from the hidden cage."
+    story: M4
+    gives:
+      qbit: child_rescued_3
+  - id: goal:child_4
+    space: room:witch_bedchamber
+    kind: use
+    what: "Optional: free child 4."
+    story: M4
+    gives:
+      qbit: child_rescued_4
+  - id: goal:head_witch
+    space: room:coven_sanctum
+    kind: kill
+    what: Kill the Head Witch.
+    story: M4
+    gives:
+      qbit: head_witch_slain
+    notes: "Not strictly needed to take the Alacorn; in practice she stands between the door and the bridge."
+keys:
+  - id: key:crystal_key
+    grants: {item: crystal_key}
+    how: "another map: given by Old Valia in Toad Meadow (X1) when she gives the quest (M4)"
+  - id: key:hoist_brake
+    grants: {map_var: hoist_released}
+    found_in: room:hoist_room
+    how: "lever: the hoist's brake"
+  - id: key:rosebud
+    grants: {password: rosebud}
+    found_in: room:schoolroom
+    how: "given by an NPC: child 2 whispers it when freed"
+  - id: key:warden_ring
+    grants: {item: warden_ring}
+    found_in: room:warden_lodge
+    how: "actor drop (the Goblin Warden); opens every cage and is not spent"
+points_of_interest:
+  - id: poi:cages
+    spaces: [room:warden_lodge, room:schoolroom, room:hidden_cage, room:witch_bedchamber]
+    count: 4
+    kind: cage
+    behaviour: "A child in a cage. The warden's ring opens it; the child thanks the party and runs home to Toad Meadow (a little experience, about 500 per child for the party). Child 2 whispers 'Rosebud'. Child 1, the half-turned boy, steps out but will not leave until the Alacorn is used on him."
+    uses: {times: 1, per: party, reset: never}
+    condition: {item: warden_ring}
+  - id: poi:hoist_brake
+    space: room:hoist_room
+    kind: lever
+    behaviour: "Releases the hoist brake: the cage drops to the cauldron chamber with a rattle; from then on it can be called and ridden from either end."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: hoist_released
+  - id: poi:recipe_card
+    space: room:herb_loft
+    kind: note
+    behaviour: "Readable: 'Strength brew - the vat with the toad on its lid. NOT the bubbling one (Agnes). NOT the green one, unless you want to be green.' Names the good vat."
+  - id: poi:slate_board
+    space: room:schoolroom
+    kind: sign
+    behaviour: "Readable lesson: 'HOW TO BE A PROPER GOBLIN. 1. Never say please. 2. Never wash. 3. Forget your name.' A child has scratched 'Rosebud' small in the corner, half rubbed out."
+  - id: poi:talking_skulls
+    space: room:skull_niche
+    kind: talking skull
+    behaviour: "Three skulls who sell low spell scrolls of the Mind, Body and Air schools for 5 to 10 gems each (gems as the second currency); they also insult the party."
+  - id: poi:vats
+    space: room:vat_hall
+    count: 3
+    kind: vat
+    behaviour: "Drinking from a vat: the toad-lid vat gives +2 permanently to one stat drawn at random, once per character (MM barrel style; the Act I permanent budget is about +10 per character with the XD-02 pools); the bubbling vat poisons; the green vat turns the drinker's skin green (Weak until rest)."
+    uses: {times: 1, per: character, reset: never}
+landmarks:
+  - id: landmark:alacorn
+    space: room:shaft_bridge
+    what: "The Alacorn glowing white on its pedestal at the top of the Witches' Finger, the one clean light in the tower; seen from the cauldron floor through the steam as a white window high on the west buttress."
+    seen_from: [room:cauldron_chamber, room:balcony_f2, room:broken_balcony, room:coven_sanctum]
+  - id: landmark:cauldron
+    space: room:cauldron_chamber
+    what: "The green-lit cauldron at the bottom of the shaft, seen from every balcony."
+    seen_from: [room:cauldron_chamber, room:balcony_f2, room:broken_balcony, room:coven_sanctum, room:shaft_bridge]
+sightlines:
+  - id: sightline:roof_vista
+    from: room:roof
+    to: [room:roof]
+    what: "From the roof, Toad Meadow and Vertigo below and the meadows ending at the world's rim to the east, the stars beneath it; the cloud stair climbing above."
+    notes: "Looks out of the map (X1 as a backdrop); the schema has no target for a view of another map."
+  - id: sightline:shaft_up
+    from: room:cauldron_chamber
+    to: [void:cauldron_shaft, landmark:alacorn]
+    what: "From the cauldron's rim, straight up the steaming shaft past the balcony rail (east), the broken balcony (north) and the sanctum's window to the Alacorn's white light on the west buttress: the whole tower's goal and its spiral of floors shown in the first room."
+set_pieces:
+  - id: set:boil_over
+    kind: scripted
+    spaces: [room:shaft_bridge, room:coven_sanctum, void:cauldron_shaft]
+    effect: {damage: "Body, every few seconds on the pier"}
+    rule: "Taking the Alacorn makes the cauldron boil over: a roar, a camera shake and a column of green steam rising up the shaft (indoor fog thickening in the chamber). For about a minute anyone on the pier takes Body damage every few seconds; elsewhere the steam only hides the shaft. Any goblins left alive below come up the stairs."
+    inputs: [take the Alacorn]
+    states: [simmering, boiling over, settled]
+    enabled_by: {qbit: alacorn_taken}
+  - id: set:cure_the_boy
+    kind: scripted
+    spaces: [room:warden_lodge]
+    rule: "The half-turned boy steps out of his opened cage but refuses to go home with goblin ears. Using the Alacorn on him cures him (one of its charges, which it regains), and he runs home."
+    inputs: [open cage 1, use the Alacorn on the boy]
+    states: [caged, out but waiting, cured and gone]
+    enabled_by: {item: alacorn}
+    gives:
+      qbit: child_rescued_1
+  - id: set:head_witch
+    kind: boss
+    spaces: [room:coven_sanctum]
+    rule: "The Head Witch curses (Weak) from the far side of the shaft and, once at half health, calls up two toads from the floor's witch-marks and crosses toward the bridge; she does not leave the floor."
+    inputs: [her health]
+    states: [cursing, summoning, dead]
+    gives:
+      qbit: head_witch_slain
+    population:
+      - {actor: Giant Toad, role: summoned familiar, groups: 2, levels: [11, 11], placed: true, strength: light, hidden_until: {map_var: head_witch_half}}
+  - id: set:rosebud_door
+    kind: puzzle
+    spaces: [room:rosebud_landing]
+    rule: "The carved face asks for the word. 'Rosebud' (from child 2, or the half-rubbed slate) opens the door for good. Any other answer puts a small jinx on the speaker (a curse until rest) and the face closes its eyes."
+    inputs: [typed answer]
+    states: [shut, open]
+    solution: rosebud
+  - id: set:shaft_view
+    kind: vista
+    spaces: [room:cauldron_chamber, void:cauldron_shaft, room:shaft_bridge]
+    rule: "The first room shows the goal: the Alacorn's light high on the west buttress above the cauldron. Each floor's opening on the shaft shows it again from nearer, a quarter turn further round."
+  - id: set:vats
+    kind: puzzle
+    spaces: [room:vat_hall, room:herb_loft]
+    rule: "Three vats: one strengthens, one poisons, one turns the drinker green. The recipe card in the herb loft names the good one."
+    inputs: [drink from a vat]
+    states: ["per character: untried", "per character: used"]
+    solution: The vat with the toad on its lid.
+mechanisms:
+  - {kind: hinged door, count: 6, notes: "Plank leaves in the floor's theme, swinging away from whoever clicks them, from either side: gallery to the warden's lodge, the toad larder and the goblin pens; landing to dormitory; dormitory to schoolroom; sanctum to bedchamber."}
+  - {kind: double hinged door, count: 1, notes: "Balcony to schoolroom, two leaves on one click."}
+  - {kind: password door, count: 1, notes: "The Rosebud door (set:rosebud_door): a hinged carved leaf (hdm1d) that opens for good on the typed answer 'rosebud'; a wrong answer curses the speaker until rest. The face is a clickable face of the leaf."}
+  - {kind: ward door, count: 1, notes: "Sanctum to roof stair: a translucent shimmering leaf that drops out of sight once qbit m4_crusaders is set; until then a click shows its text."}
+  - {kind: roof hatch, count: 1, notes: "A plank hatch-door at the head of the roof stair, sliding up on a click (it never locks: the ward below is the lock)."}
+  - {kind: secret bookcase door, count: 1, notes: "Vat hall to the hidden cage: a secret-flagged bookcase face (7t1books) that swings in on a click; a placed crying sound behind it is the clue."}
+  - {kind: secret cupboard, count: 1, notes: A secret-flagged panel in the dormitory's east wall that opens as a chest.}
+  - {kind: hoist (lift), count: 1, notes: "objects.yml lift in room:hoist_slot: 448 square (the slot's full size), travel 1920, speed 192, state up. Walked in the scratch build: the cage carries the party from 1928 to 8."}
+  - {kind: brake lever, count: 1, notes: "A switch on the hoist room's north wall: its first pull lowers the cage and sets hoist_released; after that, clicking the cage moves it, and a call switch beside each door brings it."}
+  - {kind: call switch, count: 2, notes: "Beside the hoist's upper and lower doors; work once hoist_released."}
+  - {kind: hoist gate, count: 1, notes: "A sliding gate across the hoist room's door to the slot, closed whenever the cage is down (a 1920 drop otherwise); moved by the same events as the cage."}
+  - {kind: cage, count: 4, notes: "Clickable cage decorations (bonecage on the floor, a hanging cage in the bedchamber) with a child NPC beside or inside each; the warden's ring opens them (poi:cages)."}
+  - {kind: vat, count: 3, notes: "Clickable open barrels (bigbarel) on plinths; per-character map variables (poi:vats)."}
+  - {kind: harmful liquid (cauldron), count: 1, notes: "The cauldron platform's top as a damaging floor face (Body damage per step); liquids are not built in S3, so at L4 a pressure-plate face with a damage event."}
+  - {kind: talking skull vendor, count: 3, notes: Clickable skull decorations in the skull niche (poi:talking_skulls).}
+  - {kind: readable, count: 2, notes: The slate wall (schoolroom) and the recipe card (herb loft).}
+  - {kind: chest, count: 3, notes: "Warden's lodge (tier 2), herb loft (tier 2), bedchamber (tier 3); plus the secret cupboard (tier 1)."}
+  - {kind: exit, count: 2, notes: "The tower door in the gate hall's south wall (to X1, needs the Crystal Key from outside) and the cloud stair on the roof's west wall (to X8, after M4)."}
+height_bands:
+  - id: band:floor_1
+    level: 0
+    spaces: [room:gate_hall, room:ring_f1, room:cauldron_chamber, room:goblin_pens, room:toad_larder, room:warden_lodge]
+    partly: [room:stair_1_2, room:hoist_slot]
+  - id: band:floor_2
+    level: 640
+    spaces: [room:landing_f2, room:balcony_f2, room:schoolroom, room:dormitory, room:skull_niche]
+    partly: [room:stair_1_2, room:stair_2_3]
+  - id: band:floor_3
+    range: [1280, 1472]
+    spaces: [room:landing_f3, room:vat_hall, room:herb_loft, room:hidden_cage, room:broken_balcony]
+    partly: [room:stair_2_3, room:stair_3_4]
+  - id: band:floor_4
+    level: 1920
+    spaces: [room:rosebud_landing, room:coven_sanctum, room:shaft_bridge, room:witch_bedchamber, room:hoist_room]
+    partly: [room:stair_3_4, room:roof_stair, room:hoist_slot]
+  - id: band:roof
+    level: 2560
+    spaces: [room:roof]
+    partly: [room:roof_stair]
+atmosphere: "A tower that is lit from below and darkens as it climbs. Music: tower_dark (a Xeen dungeon track still to be chosen) everywhere; sound environment stone hall. The cauldron chamber is the brightest place: three green lights up the shaft's axis and four braziers round the cauldron, minimum ambient 10, with a thin green-grey indoor fog in the shaft for the steam. The ground floor is torchlit (ordinary torches, one per 768 of wall, ambient 14), the second floor dim and candlelit (sconces, ambient 14 to 18), the third floor lit by the fires under the vats and a few lanterns (ambient 16 to 18, the broken balcony unlit), the fourth floor dark (green-flame torches and candlesticks only, ambient 20 to 24, the north stair unlit): about 39 placed lights for 32 sectors, all with visible sources, none of them in the stairs but at the turns. The Alacorn is a white point light, the one clean colour in the tower, seen from the cauldron floor. Placed sounds: the cauldron bubbling (loop, at the cauldron), the winch creaking (hoist room), dripping (toad larder), a child crying behind the bookcase (vat hall's west wall), wind on the roof. The roof is open sky over Toad Meadow (bright, ambient 4)."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  cages: 4
+  chest_events: 4
+  chests: 4
+  clickable_faces: 60
+  critical_path_length: 14500
+  decorations: 110
+  doors: 13
+  exits: 2
+  fixed_actors: 5
+  floor_area_millions: 34.9
+  height_range: 2560
+  lights: 39
+  loops: 3
+  monsters_about: 52
+  rooms: 27
+  secret_faces: 2
+  sectors: 32
+  spawn_points: 21
+  traps: 2
+notes: "Size M by monsters (about 52 in 32 sectors, 1.6 per sector; the empty stairs and landings pull the average down, the rooms run 2 to 3) and doors (13 movers including the hoist cage and its gate); floor area 34.9 M, under the M band's 40 (the L1 extents add up to 36.7 M; the L1 total of 42 was optimistic). One BLV, drawn as a crooked tower because no room may stand over another (rooms.yml R3-K7): each storey is skewed a quarter turn round the shaft, ground floor south, second east, third north, fourth west, the roof furthest west, and the floors' openings onto the shaft climb its walls in a spiral. The shaft is the cauldron chamber's own height (2688). Floors at 0, 640, 1280 and 1920 (the herb loft 1472, the roof 2560); risers 32 throughout, treads 64. Stairs: a quarter turn east (south-east corner), a quarter turn west (north-east corner), one long straight north stair, one straight roof stair. Fights: none in the gate hall, landings, stairs or roof; light on the gallery and balconies; heavy in the goblin pens, the vat hall and the sanctum. Lowest ceiling 384 (herb loft, hidden cage, the stairs' clearance); the sanctum is 832 high and flat (no sloped ceilings, R3-K5). Chests: warden's lodge (tier 2), herb loft (tier 2), bedchamber (tier 3), the dormitory cupboard (tier 1); chests sit one tier above the monsters around them (MONSTERS_AND_ITEMS.md 4.1), map treasure level 2. Gems in every chest feed the talking skulls. Loops: 3 that the party walks (the tower ring through the hoist, the second floor, the two arches) plus the one-way drop; the sector graph of the built sketch counts 6, because the rails and windows onto the shaft are portals too."

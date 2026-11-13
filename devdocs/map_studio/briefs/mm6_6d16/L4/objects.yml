@@ -1,0 +1,1896 @@
+format: 0
+start:
+  room: room:e1_end
+  at: [-4826, 1468]
+  facing: 0
+  notes: "The original's Party Start decoration (-4826, 1468, 128), facing east."
+doors:
+  - id: door:d1
+    opening: open:e4_c1
+    kind: slide_up
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: d1wblnkA, size: [256, 256]}
+    secret: true
+    back_surface: {texture: d1wblnkA1, size: [128, 256]}
+    notes: "Door record 1 (event 1, the tunnel end's north side): a piece of wall 128 by 254 that rises 254 into the lintel, faces 952 (d1wblnkA, tunnel side) and 951 (d1wblnkA1, cellar side), secret (the scene sets the secret flag on both). Speed 50 as the record's."
+  - id: door:d10
+    opening: open:u1_u4
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    back_surface: {texture: D2SmlDo2, size: [128, 256]}
+    notes: "Door record 10 (event 10, clicked from the gallery side only: face 725): the leaf's east edge moves 124 west; D2SmlDo2 toward the barracks (face 2605). Speed 50 as the record's."
+  - id: door:d11
+    opening: open:u5_u6
+    kind: slide_up
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D8wlDRE, size: [128, 256]}
+    secret: true
+    back_surface: {texture: D8wlDLE, size: [128, 256]}
+    notes: "Door record 11 (event 11): the closet's wall 128 by 254 rises 254, faces 728 (D8wlDRE) and 729 (D8wlDLE), secret. Speed 50 as the record's."
+  - id: door:d12
+    opening: open:u1_u7
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 12 (event 12): the leaf's east edge moves 124 west. Speed 50 as the record's."
+  - id: door:d13
+    opening: open:u1_u8
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 13 (event 13): the leaf's east edge moves 124 west. Speed 50 as the record's."
+  - id: door:d14
+    opening: open:u1_u9
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 14 (event 14): the leaf's east edge moves 124 west. Speed 50 as the record's."
+  - id: door:d15
+    opening: open:u10_u12
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 15 (event 15): the leaf's south edge moves 124 north. Speed 50 as the record's."
+  - id: door:d16
+    opening: open:u14_u15
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 16 (event 16): the leaf's south edge moves 124 north. Speed 50 as the record's."
+  - id: door:d17
+    opening: open:u15_u16
+    kind: slide_up
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D8wlBRE, size: [128, 256]}
+    secret: true
+    back_surface: {texture: D8wlB, size: [128, 256]}
+    notes: "Door record 17 (event 17): the closet's wall 128 by 254 rises 254, faces 901 (D8wlBRE) and 919 (D8wlB), secret. The doorway stands 16 off the room's corner, where the original's is flush with it (an opening keeps 16 of wall beside it). Speed 50 as the record's."
+  - id: door:d18
+    opening: open:u2_u1
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 18 (event 18): the leaf's west edge moves 124 east. Speed 50 as the record's."
+  - id: door:d19
+    opening: open:e2_u3
+    kind: slide_up
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: d1wblnkA, size: [256, 256]}
+    notes: "Door record 19 (event 19, the switch at the foot of the back stair): the 'portcullis' is a piece of blank wall 256 by 254 that rises 254 (faces 943, 944, d1wblnkA). Speed 50 as the record's."
+  - id: door:d2
+    opening: open:c5_g1
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 2 (event 2): the leaf's south edge moves 124 north, so the leaf folds against the doorway's north jamb. Speed 50 as the record's."
+  - id: door:d3
+    opening: open:g2_g3
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 3 (event 3): the leaf's west edge moves 124 east. Speed 50 as the record's."
+  - id: door:d4
+    opening: open:g4_g3
+    kind: slide_down
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D8wlB, size: [128, 256]}
+    secret: true
+    notes: "Door record 4 (event 4, from the barracks side): the treasury's wall 128 by 254 sinks 254 into the floor, faces 235 and 236 (D8wlB), secret. Speed 50 as the record's."
+  - id: door:d5
+    opening: open:g5_g6
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 5 (event 5): the leaf's west edge moves 124 east. Speed 50 as the record's."
+  - id: door:d6
+    opening: open:h1_h3
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D8dorE, size: [256, 256]}
+    notes: "Door record 6 (event 6, double locked): the iron-banded leaf's south edge moves 252 north. Speed 50 as the record's."
+  - id: door:d7
+    opening: open:h2_h3
+    kind: slide_right
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D8dorE, size: [256, 256]}
+    notes: "Door record 7 (event 7, double locked): the iron-banded leaf's east edge moves 252 west. Speed 50 as the record's."
+  - id: door:d8
+    opening: open:h1_w1
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 8 (event 8): the leaf's east edge moves 124 west. Speed 50 as the record's."
+  - id: door:d9
+    opening: open:w3_w4
+    kind: slide_left
+    fold: true
+    state: closed
+    thickness: 16
+    speed: 50
+    surface: {texture: D2SmlDor, size: [128, 256]}
+    notes: "Door record 9 (event 9, the Warlord's Key): the leaf's east edge moves 124 west. Speed 50 as the record's."
+lights:
+  - id: light:l00
+    room: room:h1
+    at: [2496, 576]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 0 (2496, 576, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l01
+    room: room:h1
+    at: [4672, 576]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 1 (4672, 576, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l02
+    room: room:h1
+    at: [4672, -1600]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 2 (4672, -1600, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l03
+    room: room:h1
+    at: [2496, -1600]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 3 (2496, -1600, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l04
+    room: room:h1
+    at: [3584, 128]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 4 (3584, 128, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l05
+    room: room:h1
+    at: [2944, -512]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 5 (2944, -512, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l06
+    room: room:h1
+    at: [4224, -512]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 6 (4224, -512, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l07
+    room: room:h1
+    at: [3584, -1152]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 7 (3584, -1152, 384; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l08
+    room: room:u15
+    at: [-256, 2304]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 8 (-256, 2304, 640; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l09
+    room: room:u15
+    at: [576, 3264]
+    height: 128
+    radius: 384
+    brightness: 31
+    on: false
+    notes: "Original light record 9 (576, 3264, 640; radius 384; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l10
+    room: room:e_tunnel
+    at: [-4354, 1534]
+    height: 189
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 10 (-4354, 1534, 300; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l11
+    room: room:e_tunnel
+    at: [-4106, 1080]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 11 (-4106, 1080, 264; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l12
+    room: room:e_tunnel
+    at: [-4233, 715]
+    height: 195
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 12 (-4233, 715, 228; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l13
+    room: room:e2
+    at: [-4986, 128]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 13 (-4986, 128, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l14
+    room: room:e_tunnel
+    at: [-4545, -768]
+    height: 194
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 14 (-4545, -768, 167; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l15
+    room: room:e_tunnel
+    at: [-4686, -1320]
+    height: 197
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 15 (-4686, -1320, 111; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l16
+    room: room:e_tunnel
+    at: [-4323, -1749]
+    height: 188
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 16 (-4323, -1749, 36; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l17
+    room: room:e_tunnel
+    at: [-3636, -1926]
+    height: 191
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 17 (-3636, -1926, -24; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l18
+    room: room:e4
+    at: [-2560, -2170]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 18 (-2560, -2170, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l19
+    room: room:c2
+    at: [-902, -1920]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 19 (-902, -1920, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l20
+    room: room:c2
+    at: [-1914, -1920]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 20 (-1914, -1920, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l21
+    room: room:c1
+    at: [-2688, -1414]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 21 (-2688, -1414, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l22
+    room: room:c1
+    at: [-1920, -1414]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 22 (-1920, -1414, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l23
+    room: room:c1
+    at: [-1152, -1158]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 23 (-1152, -1158, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l24
+    room: room:c5
+    at: [-640, -390]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 24 (-640, -390, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l25
+    room: room:c3
+    at: [-3194, -1152]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 25 (-3194, -1152, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l26
+    room: room:c3
+    at: [-2432, -1146]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 26 (-2432, -1146, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l27
+    room: room:c4
+    at: [-2688, -390]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 27 (-2688, -390, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l28
+    room: room:c4
+    at: [-3706, -640]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 28 (-3706, -640, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l29
+    room: room:c5
+    at: [-1664, -390]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 29 (-1664, -390, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l30
+    room: room:g1
+    at: [-378, -1280]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 30 (-378, -1280, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l31
+    room: room:g1
+    at: [378, -1280]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 31 (378, -1280, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l32
+    room: room:g1
+    at: [0, -390]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 32 (0, -390, -64; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l33
+    room: room:g2
+    at: [640, -1926]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 33 (640, -1926, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l34
+    room: room:g2
+    at: [128, -2426]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 34 (128, -2426, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l35
+    room: room:g2
+    at: [1408, -2182]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 35 (1408, -2182, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l36
+    room: room:g3
+    at: [1914, -3072]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 36 (1914, -3072, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l37
+    room: room:g4
+    at: [0, -3450]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 37 (0, -3450, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l38
+    room: room:g3
+    at: [896, -3450]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 38 (896, -3450, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l39
+    room: room:g3
+    at: [896, -2694]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 39 (896, -2694, 192; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l40
+    room: room:g5
+    at: [3072, -2182]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 40 (3072, -2182, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l41
+    room: room:g6
+    at: [3706, -3072]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 41 (3706, -3072, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l42
+    room: room:g6
+    at: [2438, -3072]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 42 (2438, -3072, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l43
+    room: room:g5
+    at: [3706, -2048]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 43 (3706, -2048, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l44
+    room: room:h1_north
+    at: [3462, 896]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 44 (3462, 896, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l45
+    room: room:w3
+    at: [2182, 1536]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 45 (2182, 1536, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l46
+    room: room:w1
+    at: [2950, 2048]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 46 (2950, 2048, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l47
+    room: room:w1
+    at: [3456, 2426]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 47 (3456, 2426, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l48
+    room: room:w1
+    at: [3968, 1158]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 48 (3968, 1158, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l49
+    room: room:w1
+    at: [4474, 1536]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 49 (4474, 1536, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l50
+    room: room:w2
+    at: [4224, 2682]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 50 (4224, 2682, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l51
+    room: room:w2
+    at: [4762, 2192]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 51 (4762, 2192, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l52
+    room: room:h2
+    at: [1792, 122]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 52 (1792, 122, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l53
+    room: room:h2
+    at: [902, -128]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 53 (902, -128, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l54
+    room: room:h3
+    at: [1664, -390]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 54 (1664, -390, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l55
+    room: room:h3
+    at: [1152, -1402]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 55 (1152, -1402, 448; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l56
+    room: room:u5
+    at: [1946, 1360]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 56 (1946, 1360, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l57
+    room: room:u4
+    at: [896, 1930]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 57 (896, 1930, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l58
+    room: room:u7
+    at: [-634, 1536]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 58 (-634, 1536, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l59
+    room: room:u7
+    at: [122, 1536]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 59 (122, 1536, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l60
+    room: room:u8
+    at: [-902, 1408]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 60 (-902, 1408, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l61
+    room: room:u8
+    at: [-1914, 1408]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 61 (-1914, 1408, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l62
+    room: room:u9
+    at: [-2182, 1408]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 62 (-2182, 1408, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l63
+    room: room:u9
+    at: [-3194, 1408]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 63 (-3194, 1408, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l64
+    room: room:u1
+    at: [-3200, 646]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 64 (-3200, 646, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l65
+    room: room:u1
+    at: [640, 646]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 65 (640, 646, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l66
+    room: room:u1
+    at: [-1280, 646]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 66 (-1280, 646, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l67
+    room: room:u10
+    at: [-3706, 1536]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 67 (-3706, 1536, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l68
+    room: room:u11
+    at: [-3706, 3200]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 68 (-3706, 3200, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l69
+    room: room:u11
+    at: [-2438, 3200]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 69 (-2438, 3200, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l70
+    room: room:u10
+    at: [-2432, 2426]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 70 (-2432, 2426, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l71
+    room: room:u14
+    at: [-1152, 3450]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 71 (-1152, 3450, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l72
+    room: room:u12
+    at: [-1402, 2688]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 72 (-1402, 2688, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l73
+    room: room:u12
+    at: [-646, 2432]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 73 (-646, 2432, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+  - id: light:l74
+    room: room:u13
+    at: [-1914, 2944]
+    height: 192
+    radius: 256
+    brightness: 31
+    on: false
+    notes: "Original light record 74 (-1914, 2944, 704; radius 256; its attributes hold 8, the engine's 'disabled' bit, and no event switches it on, so it is dark, as here (on: false))."
+switches:
+  - id: switch:portcullis
+    room: room:u3
+    at: [-4256, 256]
+    height: 144
+    size: [32, 32]
+    off: {texture: D8s2off, size: [32, 32]}
+    on: D8s2on
+    notes: "Face 960 (event 19): a 32 by 32 switch plate D8s2off at x -4272 to -4240 on the back stair's north wall, 128 to 160 above the floor; D8s2on once used."
+chests:
+  - id: chest:c10
+    room: room:w2
+    at: [4512, 1968]
+    facing: e
+    size: [256, 64, 256]
+    surface: {texture: cb3frnt, size: [256, 256]}
+    end_surface: {texture: cb3side, size: [64, 256]}
+    top_surface: {texture: cb3side, size: [64, 256]}
+    random_items: 0
+    items: [95, 1682]
+    trap_level: 6
+    notes: "Chest record 10 (event 35, a cabinet), trapped: Banded Plate (95) and Tower Shield (1682). The tall cabinet cb3 against the south wall, front north (faces 2339-2341). Trapped (flags 1; the trap's strength is the map row's Trap column, 6)."
+  - id: chest:c12
+    room: room:u4
+    at: [1360, 1632]
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 12 (event 37): against the east wall, front west (faces 2239, 2242)."
+  - id: chest:c13
+    room: room:u6
+    at: [1824, 1920]
+    facing: e
+    size: [256, 64, 128]
+    surface: {texture: cb2frnt, size: [256, 128]}
+    end_surface: {texture: cb2side, size: [64, 128]}
+    top_surface: {texture: cb2top, size: [256, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 13 (event 38, a cabinet): the low cabinet cb2 along the closet's north wall, front south (faces 2284-2287)."
+  - id: chest:c14
+    room: room:u7
+    at: [-592, 1616]
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 14 (event 39): against the west wall, front east (faces 2550, 2557)."
+  - id: chest:c15
+    room: room:u9
+    at: [-3152, 1632]
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 15 (event 40): against the west wall, front east (faces 1941, 1948)."
+  - id: chest:c16
+    room: room:u9
+    at: [-2224, 1632]
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 16 (event 41): against the east wall, front west (faces 2040, 2043)."
+  - id: chest:c17
+    room: room:u15
+    at: [64, 3680]
+    facing: e
+    size: [128, 64, 256]
+    surface: {texture: cb6frnt, size: [128, 256]}
+    end_surface: {texture: cb6side, size: [64, 256]}
+    top_surface: {texture: cb6top, size: [128, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 17 (event 42, a cabinet): the tall cabinet cb6 against the north wall, front south (faces 2423-2426)."
+  - id: chest:c18
+    room: room:u15
+    at: [608, 2624]
+    facing: n
+    size: [128, 64, 256]
+    surface: {texture: cb6frnt, size: [128, 256]}
+    end_surface: {texture: cb6side, size: [64, 256]}
+    top_surface: {texture: cb6top, size: [128, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 18 (event 43, a cabinet): the tall cabinet cb6 against the east wall, front west (faces 2431-2437)."
+  - id: chest:c19
+    room: room:u16
+    at: [880, 2304]
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    trap_level: 6
+    notes: "Chest record 19 (event 44), trapped: against the closet's east wall, front west (faces 2447, 2450). Trapped (flags 1; the trap's strength is the map row's Trap column, 6)."
+  - id: chest:c2
+    room: room:g4
+    at: [-336, -2992]
+    floor_height: 0
+    facing: n
+    size: [64, 64, 64]
+    surface: {texture: ch1frnt, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: ch1topV, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 2 (event 27): under the shelf, front east (faces 983-987)."
+  - id: chest:c3
+    room: room:g4
+    at: [-336, -2848]
+    floor_height: 0
+    facing: n
+    size: [96, 64, 64]
+    surface: {texture: ch2FRNTb, size: [64, 64]}
+    end_surface: {texture: ch2side, size: [64, 64]}
+    top_surface: {texture: ch2TPbV, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 3 (event 28): under the shelf, front east (faces 988-998)."
+  - id: chest:c4
+    room: room:g4
+    at: [-192, -2736]
+    floor_height: 0
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 4 (event 29): under the shelf, front south (faces 999-1009)."
+  - id: chest:c5
+    room: room:g4
+    at: [64, -2736]
+    floor_height: 0
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch3frntB, size: [64, 64]}
+    end_surface: {texture: ch3side, size: [64, 64]}
+    top_surface: {texture: ch3topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 5 (event 30): under the shelf, front south (faces 1013-1023)."
+  - id: chest:c6
+    room: room:g4
+    at: [240, -2736]
+    floor_height: 0
+    facing: e
+    size: [64, 64, 64]
+    surface: {texture: ch1frnt, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: ch1top, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 6 (event 31): under the shelf, front south (faces 1024-1028)."
+  - id: chest:c7
+    room: room:g3
+    at: [1040, -2720]
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 7 (event 32): against the north wall, front south (faces 1226-1229)."
+  - id: chest:c8
+    room: room:g3
+    at: [816, -3424]
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 8 (event 33): against the south wall, front north (faces 1238-1241)."
+  - id: chest:c9
+    room: room:g6
+    at: [2832, -3424]
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch1frntB, size: [64, 64]}
+    end_surface: {texture: ch1side, size: [64, 64]}
+    top_surface: {texture: Ch1topB, size: [64, 64]}
+    random_levels: [5, 4, 3]
+    notes: "Chest record 9 (event 34): against the south wall, front north (faces 1285, 1286)."
+  - id: chest:cabinet_shared
+    room: room:w3
+    at: [2208, 1792]
+    facing: n
+    size: [256, 64, 128]
+    surface: {texture: cb2frnt, size: [256, 128]}
+    end_surface: {texture: cb2side, size: [64, 128]}
+    top_surface: {texture: cb2top, size: [256, 64]}
+    random_items: 0
+    trap_level: 6
+    notes: "Chest record 1 (event 26), empty and trapped: the shared cabinet. This box is the study's north cabinet (faces 2352-2356, cb2, 256 to 384, front east); the officer room's and the throne room's cabinets are platforms with ids that open it. Trapped (flags 1; the trap's strength is the map row's Trap column, 6)."
+  - id: chest:footlocker
+    room: room:g4
+    at: [0, -2736]
+    floor_height: 112
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch4frntB, size: [64, 64]}
+    end_surface: {texture: ch4side, size: [64, 64]}
+    top_surface: {texture: ch4top, size: [64, 64]}
+    random_items: 0
+    trap_level: 6
+    notes: "Chest record 0 (event 25), empty and trapped: the shared footlocker. This box is the one on the treasury's shelf (faces 1035-1044, ch4, 112 to 176); its eight other boxes are platforms with ids that open it. Trapped (flags 1; the trap's strength is the map row's Trap column, 6)."
+  - id: chest:statuette
+    room: room:w4
+    at: [2560, 2144]
+    facing: e
+    size: [96, 64, 64]
+    surface: {texture: ch3frntB, size: [64, 64]}
+    end_surface: {texture: ch3side, size: [64, 64]}
+    top_surface: {texture: ch3topB, size: [64, 64]}
+    random_items: 0
+    items: [2128]
+    trap_level: 6
+    notes: "Chest record 11 (event 36), trapped: item 2128 as the scene holds it (items.txt names 2128 Discharge Papers; the event's text and qbit 1076 speak of the Eagle Statuette, 2073). Against the vault's north wall, front south (faces 2363-2368). Trapped (flags 1; the trap's strength is the map row's Trap column, 6)."
+spawns:
+  - id: spawn:p00
+    room: room:u12
+    at: [-704, 2240]
+    kind: item
+    treasure_level: 4
+    notes: "Original spawn 0: an item of treasure level 4, at height 512."
+  - id: spawn:p01
+    room: room:g3
+    at: [896, -3072]
+    slot: 2
+    tier: b
+    notes: "Original spawn 1 (index 8: slot 2, tier b), at height 0."
+  - id: spawn:p02
+    room: room:g6
+    at: [2688, -3072]
+    slot: 3
+    tier: a
+    notes: "Original spawn 2 (index 6: slot 3, tier a), at height 256."
+  - id: spawn:p03
+    room: room:h1
+    at: [3200, -896]
+    slot: 1
+    notes: "Original spawn 3 (index 1), at height 256."
+  - id: spawn:p04
+    room: room:g1
+    at: [0, -1152]
+    slot: 1
+    tier: b
+    notes: "Original spawn 4 (index 7: slot 1, tier b), at height -256."
+  - id: spawn:p05
+    room: room:g6
+    at: [3456, -3072]
+    slot: 1
+    tier: b
+    notes: "Original spawn 5 (index 7: slot 1, tier b), at height 256."
+  - id: spawn:p06
+    room: room:w1
+    at: [3200, 2176]
+    slot: 1
+    notes: "Original spawn 6 (index 1), at height 256."
+  - id: spawn:p07
+    room: room:u11
+    at: [-3456, 3456]
+    slot: 3
+    notes: "Original spawn 7 (index 3), at height 512."
+  - id: spawn:p08
+    room: room:u12
+    at: [-896, 2688]
+    slot: 3
+    notes: "Original spawn 8 (index 3), at height 512."
+  - id: spawn:p09
+    room: room:u9
+    at: [-2816, 1536]
+    slot: 2
+    tier: c
+    notes: "Original spawn 9 (index 11: slot 2, tier c), at height 512."
+  - id: spawn:p10
+    room: room:e2
+    at: [-4864, 128]
+    slot: 1
+    tier: a
+    notes: "Original spawn 10 (index 4: slot 1, tier a), at height 0."
+  - id: spawn:p11
+    room: room:g2
+    at: [768, -2048]
+    slot: 2
+    notes: "Original spawn 11 (index 2), at height 0."
+  - id: spawn:p12
+    room: room:h1
+    at: [3072, 0]
+    slot: 2
+    tier: c
+    notes: "Original spawn 12 (index 11: slot 2, tier c), at height 256."
+  - id: spawn:p13
+    room: room:u15
+    at: [384, 2688]
+    slot: 1
+    notes: "Original spawn 13 (index 1), at height 512."
+  - id: spawn:p14
+    room: room:g6
+    at: [2560, -3200]
+    slot: 2
+    notes: "Original spawn 14 (index 2), at height 256."
+  - id: spawn:p15
+    room: room:u9
+    at: [-2688, 1536]
+    slot: 2
+    notes: "Original spawn 15 (index 2), at height 512."
+  - id: spawn:p16
+    room: room:h3
+    at: [768, -1344]
+    kind: item
+    treasure_level: 3
+    notes: "Original spawn 16: an item of treasure level 3, at height 256."
+  - id: spawn:p17
+    room: room:u7
+    at: [-128, 1536]
+    slot: 2
+    notes: "Original spawn 17 (index 2), at height 512."
+  - id: spawn:p18
+    room: room:h1
+    at: [3200, -128]
+    slot: 2
+    notes: "Original spawn 18 (index 2), at height 256."
+  - id: spawn:p19
+    room: room:u4
+    at: [768, 1536]
+    slot: 3
+    tier: b
+    notes: "Original spawn 19 (index 9: slot 3, tier b), at height 512."
+  - id: spawn:p20
+    room: room:u8
+    at: [-1536, 1536]
+    slot: 1
+    tier: c
+    notes: "Original spawn 20 (index 10: slot 1, tier c), at height 512."
+  - id: spawn:p21
+    room: room:u11
+    at: [-2496, 3648]
+    kind: item
+    treasure_level: 4
+    notes: "Original spawn 21: an item of treasure level 4, at height 512."
+  - id: spawn:p22
+    room: room:u15
+    at: [0, 3328]
+    slot: 2
+    tier: c
+    notes: "Original spawn 22 (index 11: slot 2, tier c), at height 512."
+  - id: spawn:p23
+    room: room:u4
+    at: [896, 1536]
+    slot: 3
+    notes: "Original spawn 23 (index 3), at height 512."
+  - id: spawn:p24
+    room: room:u15
+    at: [256, 2560]
+    slot: 3
+    tier: c
+    notes: "Original spawn 24 (index 12: slot 3, tier c), at height 512."
+  - id: spawn:p25
+    room: room:g1
+    at: [0, -896]
+    slot: 1
+    notes: "Original spawn 25 (index 1), at height -256."
+  - id: spawn:p26
+    room: room:h1
+    at: [4096, 0]
+    slot: 3
+    tier: b
+    notes: "Original spawn 26 (index 9: slot 3, tier b), at height 256."
+  - id: spawn:p27
+    room: room:u11
+    at: [-2560, 3072]
+    slot: 2
+    tier: b
+    notes: "Original spawn 27 (index 8: slot 2, tier b), at height 512."
+  - id: spawn:p28
+    room: room:g6
+    at: [3584, -3072]
+    slot: 1
+    notes: "Original spawn 28 (index 1), at height 256."
+  - id: spawn:p29
+    room: room:u11
+    at: [-2560, 3200]
+    slot: 2
+    notes: "Original spawn 29 (index 2), at height 512."
+  - id: spawn:p30
+    room: room:g2
+    at: [640, -2048]
+    slot: 2
+    tier: a
+    notes: "Original spawn 30 (index 5: slot 2, tier a), at height 0."
+  - id: spawn:p31
+    room: room:w1
+    at: [4224, 1536]
+    slot: 1
+    notes: "Original spawn 31 (index 1), at height 256."
+  - id: spawn:p32
+    room: room:u8
+    at: [-1408, 1536]
+    slot: 1
+    notes: "Original spawn 32 (index 1), at height 512."
+  - id: spawn:p33
+    room: room:g3
+    at: [768, -3200]
+    slot: 2
+    notes: "Original spawn 33 (index 2), at height 0."
+  - id: spawn:p34
+    room: room:u15
+    at: [128, 3328]
+    slot: 2
+    notes: "Original spawn 34 (index 2), at height 512."
+  - id: spawn:p35
+    room: room:h3
+    at: [1536, -1280]
+    kind: item
+    treasure_level: 4
+    notes: "Original spawn 35: an item of treasure level 4, at height 256."
+  - id: spawn:p36
+    room: room:u7
+    at: [-256, 1536]
+    slot: 2
+    tier: b
+    notes: "Original spawn 36 (index 8: slot 2, tier b), at height 512."
+  - id: spawn:p37
+    room: room:g3
+    at: [1536, -3328]
+    slot: 1
+    notes: "Original spawn 37 (index 1), at height 0."
+  - id: spawn:p38
+    room: room:e2
+    at: [-4736, 128]
+    slot: 1
+    notes: "Original spawn 38 (index 1), at height 0."
+  - id: spawn:p39
+    room: room:g1
+    at: [320, -768]
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 39: an item of treasure level 1, at height -256."
+  - id: spawn:p40
+    room: room:g4
+    at: [128, -2752]
+    floor_height: 112
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 40: an item of treasure level 1, at height 112."
+  - id: spawn:p41
+    room: room:w1
+    at: [3584, 2048]
+    slot: 3
+    tier: c
+    notes: "Original spawn 41 (index 12: slot 3, tier c), at height 256."
+  - id: spawn:p42
+    room: room:u11
+    at: [-3584, 3328]
+    slot: 3
+    tier: a
+    notes: "Original spawn 42 (index 6: slot 3, tier a), at height 512."
+  - id: spawn:p43
+    room: room:h1
+    at: [4096, -1024]
+    slot: 1
+    tier: b
+    notes: "Original spawn 43 (index 7: slot 1, tier b), at height 256."
+  - id: spawn:p44
+    room: room:h1
+    at: [3968, -128]
+    slot: 3
+    notes: "Original spawn 44 (index 3), at height 256."
+  - id: spawn:p45
+    room: room:g3
+    at: [1664, -3072]
+    slot: 1
+    tier: c
+    notes: "Original spawn 45 (index 10: slot 1, tier c), at height 0."
+  - id: spawn:p46
+    room: room:u12
+    at: [-1024, 2560]
+    slot: 3
+    tier: b
+    notes: "Original spawn 46 (index 9: slot 3, tier b), at height 512."
+  - id: spawn:p47
+    room: room:h3
+    at: [1600, -1344]
+    kind: item
+    treasure_level: 4
+    notes: "Original spawn 47: an item of treasure level 4, at height 256."
+  - id: spawn:p48
+    room: room:g4
+    at: [-320, -2944]
+    floor_height: 112
+    kind: item
+    treasure_level: 3
+    notes: "Original spawn 48: an item of treasure level 3, at height 112."
+  - id: spawn:p49
+    room: room:h1
+    at: [3072, -1024]
+    slot: 1
+    tier: a
+    notes: "Original spawn 49 (index 4: slot 1, tier a), at height 256."
+  - id: spawn:p50
+    room: room:g4
+    at: [-324, -2752]
+    floor_height: 112
+    kind: item
+    treasure_level: 1
+    notes: "Original spawn 50: an item of treasure level 1, at height 112, at (-320, -2752): exactly on the shelf's 45-degree corner line, where the rebuild's two shelf slabs meet; moved 4 west onto the west slab."
+  - id: spawn:p51
+    room: room:h1
+    at: [3968, -896]
+    slot: 1
+    notes: "Original spawn 51 (index 1), at height 256."
+decorations:
+  - id: deco:6torch01_01
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-4354, 1534]
+    height: 125
+  - id: deco:6torch01_02
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-4106, 1080]
+    height: 128
+  - id: deco:6torch01_03
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-4233, 715]
+    height: 131
+  - id: deco:6torch01_04
+    room: room:e2
+    decoration: 6torch01
+    at: [-4986, 128]
+    height: 128
+  - id: deco:6torch01_05
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-4545, -768]
+    height: 130
+  - id: deco:6torch01_06
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-4686, -1320]
+    height: 133
+  - id: deco:6torch01_07
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-4323, -1749]
+    height: 124
+  - id: deco:6torch01_08
+    room: room:e_tunnel
+    decoration: 6torch01
+    at: [-3636, -1926]
+    height: 127
+  - id: deco:6torch01_09
+    room: room:e4
+    decoration: 6torch01
+    at: [-2560, -2170]
+    height: 128
+  - id: deco:6torch01_10
+    room: room:c2
+    decoration: 6torch01
+    at: [-902, -1920]
+    height: 128
+  - id: deco:6torch01_11
+    room: room:c2
+    decoration: 6torch01
+    at: [-1914, -1920]
+    height: 128
+  - id: deco:6torch01_12
+    room: room:c1
+    decoration: 6torch01
+    at: [-2688, -1414]
+    height: 128
+  - id: deco:6torch01_13
+    room: room:c1
+    decoration: 6torch01
+    at: [-1920, -1414]
+    height: 128
+  - id: deco:6torch01_14
+    room: room:c1
+    decoration: 6torch01
+    at: [-1152, -1158]
+    height: 128
+  - id: deco:6torch01_15
+    room: room:c5
+    decoration: 6torch01
+    at: [-640, -390]
+    height: 128
+  - id: deco:6torch01_16
+    room: room:c3
+    decoration: 6torch01
+    at: [-3194, -1152]
+    height: 128
+  - id: deco:6torch01_17
+    room: room:c3
+    decoration: 6torch01
+    at: [-2432, -1146]
+    height: 128
+  - id: deco:6torch01_18
+    room: room:c4
+    decoration: 6torch01
+    at: [-2688, -390]
+    height: 128
+  - id: deco:6torch01_19
+    room: room:c4
+    decoration: 6torch01
+    at: [-3706, -640]
+    height: 128
+  - id: deco:6torch01_20
+    room: room:c5
+    decoration: 6torch01
+    at: [-1664, -390]
+    height: 128
+  - id: deco:6torch01_21
+    room: room:g1
+    decoration: 6torch01
+    at: [-378, -1280]
+    height: 128
+  - id: deco:6torch01_22
+    room: room:g1
+    decoration: 6torch01
+    at: [378, -1280]
+    height: 128
+  - id: deco:6torch01_23
+    room: room:g1
+    decoration: 6torch01
+    at: [0, -390]
+    height: 128
+  - id: deco:bag01_01
+    room: room:g1
+    decoration: bag01
+    at: [320, -832]
+  - id: deco:bag01_02
+    room: room:g1
+    decoration: bag01
+    at: [320, -960]
+  - id: deco:bag01_03
+    room: room:g1
+    decoration: bag01
+    at: [256, -896]
+  - id: deco:bag01_04
+    room: room:g1
+    decoration: bag01
+    at: [192, -1024]
+  - id: deco:bag01_05
+    room: room:g1
+    decoration: bag01
+    at: [256, -1088]
+  - id: deco:bag01_06
+    room: room:g1
+    decoration: bag01
+    at: [128, -448]
+  - id: deco:bag01_07
+    room: room:g1
+    decoration: bag01
+    at: [128, -576]
+  - id: deco:bag01_08
+    room: room:g1
+    decoration: bag01
+    at: [64, -640]
+  - id: deco:bag01_09
+    room: room:g1
+    decoration: bag01
+    at: [-320, -1536]
+  - id: deco:bag01_10
+    room: room:g1
+    decoration: bag01
+    at: [-320, -1408]
+  - id: deco:bag01_11
+    room: room:g1
+    decoration: bag01
+    at: [-256, -1600]
+  - id: deco:bag01_12
+    room: room:g1
+    decoration: bag01
+    at: [-192, -1536]
+  - id: deco:bag01_13
+    room: room:h3
+    decoration: bag01
+    at: [768, -1024]
+  - id: deco:bag01_14
+    room: room:h3
+    decoration: bag01
+    at: [768, -640]
+  - id: deco:bag01_15
+    room: room:h3
+    decoration: bag01
+    at: [768, -448]
+  - id: deco:bag01_16
+    room: room:h3
+    decoration: bag01
+    at: [832, -512]
+  - id: deco:bag01_17
+    room: room:h3
+    decoration: bag01
+    at: [896, -1280]
+  - id: deco:bag01_18
+    room: room:h3
+    decoration: bag01
+    at: [960, -1280]
+  - id: deco:bag01_19
+    room: room:h3
+    decoration: bag01
+    at: [1024, -1344]
+  - id: deco:bag01_20
+    room: room:h3
+    decoration: bag01
+    at: [1088, -1216]
+  - id: deco:bag_a_01
+    room: room:h3
+    decoration: bag_A
+    at: [1536, -1152]
+  - id: deco:bag_a_02
+    room: room:h3
+    decoration: bag_A
+    at: [1344, -1088]
+  - id: deco:bag_a_03
+    room: room:h3
+    decoration: bag_A
+    at: [1408, -1280]
+  - id: deco:bag_a_04
+    room: room:h3
+    decoration: bag_A
+    at: [1664, -640]
+  - id: deco:bag_a_05
+    room: room:h3
+    decoration: bag_A
+    at: [1600, -512]
+  - id: deco:bag_a_06
+    room: room:h3
+    decoration: bag_A
+    at: [1536, -576]
+  - id: deco:bag_a_07
+    room: room:h3
+    decoration: bag_A
+    at: [1408, -448]
+  - id: deco:bag_a_08
+    room: room:h3
+    decoration: bag_A
+    at: [1856, -1088]
+  - id: deco:bigbarel_01
+    room: room:g1
+    decoration: bigbarel
+    at: [256, -512]
+  - id: deco:bigbarel_02
+    room: room:g1
+    decoration: bigbarel
+    at: [256, -704]
+  - id: deco:bigbarel_03
+    room: room:g1
+    decoration: bigbarel
+    at: [320, -1280]
+  - id: deco:bigbarel_04
+    room: room:g1
+    decoration: bigbarel
+    at: [192, -1344]
+  - id: deco:bigbarel_05
+    room: room:g1
+    decoration: bigbarel
+    at: [256, -1472]
+  - id: deco:bigbarel_06
+    room: room:g1
+    decoration: bigbarel
+    at: [0, -448]
+  - id: deco:bigbarel_07
+    room: room:g1
+    decoration: bigbarel
+    at: [-128, -512]
+  - id: deco:bigbarel_08
+    room: room:g1
+    decoration: bigbarel
+    at: [-320, -1152]
+  - id: deco:bigbarel_09
+    room: room:h3
+    decoration: bigbarel
+    at: [704, -576]
+  - id: deco:bigbarel_10
+    room: room:h3
+    decoration: bigbarel
+    at: [768, -768]
+  - id: deco:bigbarel_11
+    room: room:h3
+    decoration: bigbarel
+    at: [704, -896]
+  - id: deco:bigbarel_12
+    room: room:h3
+    decoration: bigbarel
+    at: [832, -896]
+  - id: deco:bigbarel_13
+    room: room:h3
+    decoration: bigbarel
+    at: [768, -1152]
+  - id: deco:bigbarel_14
+    room: room:h3
+    decoration: bigbarel
+    at: [704, -1280]
+  - id: deco:bigbarel_15
+    room: room:h3
+    decoration: bigbarel
+    at: [1344, -1344]
+  - id: deco:bigbarel_16
+    room: room:h3
+    decoration: bigbarel
+    at: [1408, -1152]
+  - id: deco:bigbarel_17
+    room: room:h3
+    decoration: bigbarel
+    at: [1600, -1088]
+  - id: deco:bigbarel_18
+    room: room:h3
+    decoration: bigbarel
+    at: [1728, -1152]
+  - id: deco:bigbarel_19
+    room: room:h3
+    decoration: bigbarel
+    at: [1792, -1024]
+  - id: deco:bigbarel_20
+    room: room:h3
+    decoration: bigbarel
+    at: [1280, -1216]
+  - id: deco:bigbarel_21
+    room: room:h3
+    decoration: bigbarel
+    at: [1472, -1024]
+  - id: deco:bigbarel_22
+    room: room:h3
+    decoration: bigbarel
+    at: [1856, -1216]
+  - id: deco:bigbarel_23
+    room: room:h3
+    decoration: bigbarel
+    at: [2048, -512]
+  - id: deco:bigbarel_24
+    room: room:h3
+    decoration: bigbarel
+    at: [1920, -512]
+  - id: deco:bigbarel_25
+    room: room:h3
+    decoration: bigbarel
+    at: [1792, -640]
+  - id: deco:bigbarel_26
+    room: room:h3
+    decoration: bigbarel
+    at: [1728, -512]
+  - id: deco:flamb00_01
+    room: room:h1
+    decoration: flamb00
+    at: [2496, -1600]
+  - id: deco:flamb00_02
+    room: room:h1
+    decoration: flamb00
+    at: [2496, 576]
+  - id: deco:flamb00_03
+    room: room:h1
+    decoration: flamb00
+    at: [4672, 576]
+    notes: Runs event 51 in the original (the hidden axe).
+  - id: deco:flamb00_04
+    room: room:h1
+    decoration: flamb00
+    at: [4672, -1600]
+  - id: deco:flamb00_05
+    room: room:h1
+    decoration: flamb00
+    at: [3584, 128]
+  - id: deco:flamb00_06
+    room: room:h1
+    decoration: flamb00
+    at: [2944, -512]
+  - id: deco:flamb00_07
+    room: room:h1
+    decoration: flamb00
+    at: [4224, -512]
+  - id: deco:flamb00_08
+    room: room:h1
+    decoration: flamb00
+    at: [3584, -1152]
+  - id: deco:flamb00_09
+    room: room:u15
+    decoration: flamb00
+    at: [-256, 2304]
+  - id: deco:flamb00_10
+    room: room:u15
+    decoration: flamb00
+    at: [576, 3264]
+  - id: deco:trchb00_01
+    room: room:g2
+    decoration: TrchB00
+    at: [640, -1926]
+    height: 128
+  - id: deco:trchb00_02
+    room: room:g2
+    decoration: TrchB00
+    at: [128, -2426]
+    height: 128
+  - id: deco:trchb00_03
+    room: room:g2
+    decoration: TrchB00
+    at: [1408, -2182]
+    height: 128
+  - id: deco:trchb00_04
+    room: room:g3
+    decoration: TrchB00
+    at: [1914, -3072]
+    height: 128
+  - id: deco:trchb00_05
+    room: room:g4
+    decoration: TrchB00
+    at: [0, -3450]
+    height: 128
+  - id: deco:trchb00_06
+    room: room:g3
+    decoration: TrchB00
+    at: [896, -3450]
+    height: 128
+  - id: deco:trchb00_07
+    room: room:g3
+    decoration: TrchB00
+    at: [896, -2694]
+    height: 128
+  - id: deco:trchb00_08
+    room: room:g5
+    decoration: TrchB00
+    at: [3072, -2182]
+    height: 128
+  - id: deco:trchb00_09
+    room: room:g6
+    decoration: TrchB00
+    at: [3706, -3072]
+    height: 128
+  - id: deco:trchb00_10
+    room: room:g6
+    decoration: TrchB00
+    at: [2438, -3072]
+    height: 128
+  - id: deco:trchb00_11
+    room: room:g5
+    decoration: TrchB00
+    at: [3706, -2048]
+    height: 128
+  - id: deco:trchb00_12
+    room: room:h1_north
+    decoration: TrchB00
+    at: [3462, 896]
+    height: 128
+  - id: deco:trchb00_13
+    room: room:w3
+    decoration: TrchB00
+    at: [2182, 1536]
+    height: 128
+  - id: deco:trchb00_14
+    room: room:w1
+    decoration: TrchB00
+    at: [2950, 2048]
+    height: 128
+  - id: deco:trchb00_15
+    room: room:w1
+    decoration: TrchB00
+    at: [3456, 2426]
+    height: 128
+  - id: deco:trchb00_16
+    room: room:w1
+    decoration: TrchB00
+    at: [3968, 1158]
+    height: 128
+  - id: deco:trchb00_17
+    room: room:w1
+    decoration: TrchB00
+    at: [4474, 1536]
+    height: 128
+  - id: deco:trchb00_18
+    room: room:w2
+    decoration: TrchB00
+    at: [4224, 2682]
+    height: 128
+  - id: deco:trchb00_19
+    room: room:w2
+    decoration: TrchB00
+    at: [4762, 2192]
+    height: 128
+  - id: deco:trchb00_20
+    room: room:h2
+    decoration: TrchB00
+    at: [1792, 122]
+    height: 128
+  - id: deco:trchb00_21
+    room: room:h2
+    decoration: TrchB00
+    at: [902, -128]
+    height: 128
+  - id: deco:trchb00_22
+    room: room:h3
+    decoration: TrchB00
+    at: [1664, -390]
+    height: 128
+  - id: deco:trchb00_23
+    room: room:h3
+    decoration: TrchB00
+    at: [1152, -1402]
+    height: 128
+  - id: deco:trchb00_24
+    room: room:u5
+    decoration: TrchB00
+    at: [1946, 1360]
+    height: 128
+  - id: deco:trchb00_25
+    room: room:u4
+    decoration: TrchB00
+    at: [896, 1930]
+    height: 128
+  - id: deco:trchb00_26
+    room: room:u7
+    decoration: TrchB00
+    at: [-634, 1536]
+    height: 128
+  - id: deco:trchb00_27
+    room: room:u7
+    decoration: TrchB00
+    at: [122, 1536]
+    height: 128
+  - id: deco:trchb00_28
+    room: room:u8
+    decoration: TrchB00
+    at: [-902, 1408]
+    height: 128
+  - id: deco:trchb00_29
+    room: room:u8
+    decoration: TrchB00
+    at: [-1914, 1408]
+    height: 128
+  - id: deco:trchb00_30
+    room: room:u9
+    decoration: TrchB00
+    at: [-2182, 1408]
+    height: 128
+  - id: deco:trchb00_31
+    room: room:u9
+    decoration: TrchB00
+    at: [-3194, 1408]
+    height: 128
+  - id: deco:trchb00_32
+    room: room:u1
+    decoration: TrchB00
+    at: [-3200, 646]
+    height: 128
+  - id: deco:trchb00_33
+    room: room:u1
+    decoration: TrchB00
+    at: [640, 646]
+    height: 128
+  - id: deco:trchb00_34
+    room: room:u1
+    decoration: TrchB00
+    at: [-1280, 646]
+    height: 128
+  - id: deco:trchb00_35
+    room: room:u10
+    decoration: TrchB00
+    at: [-3706, 1536]
+    height: 128
+  - id: deco:trchb00_36
+    room: room:u11
+    decoration: TrchB00
+    at: [-3706, 3200]
+    height: 128
+  - id: deco:trchb00_37
+    room: room:u11
+    decoration: TrchB00
+    at: [-2438, 3200]
+    height: 128
+  - id: deco:trchb00_38
+    room: room:u10
+    decoration: TrchB00
+    at: [-2432, 2426]
+    height: 128
+  - id: deco:trchb00_39
+    room: room:u14
+    decoration: TrchB00
+    at: [-1152, 3450]
+    height: 128
+  - id: deco:trchb00_40
+    room: room:u12
+    decoration: TrchB00
+    at: [-1402, 2688]
+    height: 128
+  - id: deco:trchb00_41
+    room: room:u12
+    decoration: TrchB00
+    at: [-646, 2432]
+    height: 128
+  - id: deco:trchb00_42
+    room: room:u13
+    decoration: TrchB00
+    at: [-1914, 2944]
+    height: 128
+exits:
+  - id: exit:gate
+    room: room:e1_end
+    at: [-4897, 1510]
+    floor_height: 128
+    size: [256, 256]
+    surface: {texture: D2LgDor, size: [256, 256]}
+    to: exit:silver_cove
+    notes: "Face 1653 (event 50): the large double door D2LgDor, 256 by 256, in the gate hall's west end."

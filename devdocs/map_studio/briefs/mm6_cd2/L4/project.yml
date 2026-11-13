@@ -1,0 +1,17 @@
+format: 0
+id: calib_darkmoor
+name: Castle Darkmoor
+world: mm6
+kind: indoor
+profile: dungeon
+map_stats:
+  id: 9715
+  reference: cd2.blv
+neighbours:
+  - id: exit:darkmoor_region
+    to: outc3.odm
+    kind: door
+    arrival: [-17281, 17465, 2081]
+    arrival_hint: Outside the castle's gate in the Darkmoor region.
+    direction: 0
+notes: "Rebuild of Castle Darkmoor (mm6 cd2.blv) in the original's own frame, for the vocabulary test of devdocs/map_studio/REBUILD_PROCEDURE.md. See NOTES.md."

@@ -1,0 +1,1504 @@
+format: 0
+start:
+  room: room:adit_mouth
+  at: [14120, 3392]
+  facing: w
+  notes: "Just inside the timbered portal, facing into the mine; the daylight is behind the party."
+doors:
+  - id: door:bunk
+    opening: open:mess_bunk
+    kind: hinged
+    state: closed
+    notes: Iron-banded door to the bunk cut.
+  - id: door:chapel
+    opening: open:turntable_chapel
+    kind: slide_left
+    leaves: 2
+    fold: true
+    state: closed
+    speed: 96
+    pictures:
+      - [{texture: d7dor1, size: [256, 256]}]
+    notes: "The chapel's carved stone doors: two leaves that fold into their jambs (a hinged door has one leaf)."
+  - id: door:foot_drift
+    opening: open:station_foot
+    kind: hinged
+    hinge: right
+    state: closed
+    notes: Plank door across the foot drift's mouth.
+  - id: door:gate_east
+    opening: open:turntable_east
+    kind: slide_down
+    state: open
+    speed: 192
+    surface: {texture: d2ceil1, size: [256, 256], fit: true}
+    notes: The east line's gate at the Turntable (the cart waits behind it).
+  - id: door:gate_landing
+    opening: open:east_landing
+    kind: slide_down
+    state: closed
+    speed: 192
+    surface: {texture: d2ceil1, size: [256, 256], fit: true}
+    notes: The buffer gate at the east line's end.
+  - id: door:gate_station
+    opening: open:station_trestle
+    kind: slide_down
+    state: open
+    speed: 192
+    surface: {texture: d2ceil1, size: [256, 256], fit: true}
+    notes: "The trestle gate at the Top Station: down while the car stands here, up (barring the drop) while it is away."
+  - id: door:gate_turntable
+    opening: open:turntable_trestle
+    kind: slide_down
+    state: closed
+    speed: 192
+    surface: {texture: d2ceil1, size: [256, 256], fit: true}
+    notes: "The trestle gate at the Turntable: up until the car comes."
+  - id: door:hoist_gate
+    opening: open:rim_hoist
+    kind: slide_up
+    state: closed
+    speed: 128
+    surface: {texture: d2ceil1, size: [256, 256], fit: true}
+    back_surface: {texture: d2ceil1, size: [256, 256], fit: true}
+    notes: "The iron grille of the hoist gate on the rim: up only while the cage stands at the rim."
+  - id: door:lamp_room
+    opening: open:station_lamp
+    kind: hinged
+    state: closed
+    notes: Plank door to the lamp room.
+  - id: door:mole_rock
+    opening: open:stope_pocket
+    kind: slide_down
+    state: closed
+    speed: 160
+    surface: {texture: t3ll6, size: [256, 256]}
+    tile: true
+    notes: "The rock between the stope and the moles' burrow: it caves in when the rich vein is mined."
+  - id: door:strongroom
+    opening: open:sorting_strongroom
+    kind: slide_down
+    state: closed
+    speed: 64
+    surface: {texture: d7trim8, size: [64, 64]}
+    secret: true
+    tile: true
+    notes: "The dry-stone wall under the chalk mark: it slumps into the floor."
+  - id: door:tally
+    opening: open:tally_door
+    kind: hinged
+    state: closed
+    notes: Iron-banded door at the top of the tally steps.
+  - id: door:vent_1
+    opening: open:landing_upper
+    kind: hinged
+    state: closed
+    surface: {texture: t3dr1, size: [256, 256], fit: true}
+    notes: "The first ventilation door, its grille rusted open."
+  - id: door:vent_2
+    opening: open:upper_adit
+    kind: hinged
+    state: closed
+    surface: {texture: t3dr1, size: [256, 256], fit: true}
+    notes: "The second ventilation door, into the collapsed adit."
+  - id: door:web_wall
+    opening: open:galleries_blue
+    kind: slide_up
+    state: closed
+    speed: 64
+    surface: {texture: web32n735s, size: [128, 128]}
+    secret: true
+    notes: "A wall of thick old web over a thin rock screen: cut, it lifts away."
+movers:
+  - id: mover:chain
+    room: room:deep_station
+    at: [4240, 4448]
+    size: [96, 12]
+    bottom: 36
+    height: 12
+    travel: [0, 0, -52]
+    speed: 48
+    surface: {texture: ch004i, size: [64, 64]}
+    top_surface: {texture: ch004i, size: [64, 64]}
+    notes: "The chain from the cart to the brake: it drops into the rail bed when the brake key is used."
+  - id: mover:east_cart
+    room: room:east_line
+    outline: [[9166, 4385], [9370, 4181], [9517, 4328], [9313, 4532]]
+    bottom: 16
+    height: 24
+    travel: [1386, -1386, 0]
+    speed: 160
+    surface: {texture: t3d2abe, size: [256, 32]}
+    top_surface: {texture: d2ceil2, size: [256, 256]}
+    parts:
+      - {outline: [[9166, 4385], [9370, 4181], [9381, 4192], [9177, 4396]], height: 40, surface: {texture: ch1topb, size: [64, 64], fit: true}, top_surface: {texture: t3d2abe, size: [256, 32]}}
+      - {outline: [[9194, 4379], [9228, 4345], [9240, 4357], [9206, 4390]], bottom: 2, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[9330, 4243], [9364, 4209], [9375, 4221], [9341, 4255]], bottom: 2, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[9302, 4521], [9506, 4317], [9517, 4328], [9313, 4532]], height: 40, surface: {texture: ch1topb, size: [64, 64], fit: true}, top_surface: {texture: t3d2abe, size: [256, 32]}}
+      - {outline: [[9308, 4492], [9341, 4458], [9353, 4470], [9319, 4504]], bottom: 2, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[9443, 4357], [9477, 4323], [9489, 4334], [9455, 4368]], bottom: 2, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+    notes: "The east line's cart: it waits at the Turntable's gate, its deck level with the Turntable's floor, and runs 1960 down the drowned line to the buffer landing, a level slide that carries its riders (the build gives a mover `carry`). It runs only while the turntable points east (wiring evt:east_cart)."
+  - id: mover:fall
+    room: room:collapsed_adit
+    at: [2608, 5184]
+    size: [336, 448]
+    bottom: 0
+    height: 446
+    travel: [0, 0, -450]
+    speed: 48
+    surface: {texture: t3ll6, size: [256, 256]}
+    top_surface: {texture: t3ll6, size: [256, 256]}
+    parts:
+      - {at: [2808, 5040], size: [64, 120], bottom: 0, height: 120, surface: {texture: t3ll6, size: [256, 256]}, top_surface: {texture: t3ll6, size: [256, 256]}}
+      - {at: [2800, 5300], size: [48, 96], bottom: 0, height: 180, surface: {texture: t3ll6, size: [256, 256]}, top_surface: {texture: t3ll6, size: [256, 256]}}
+      - {at: [2830, 5150], size: [32, 32], bottom: 0, height: 360, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [2830, 5250], size: [32, 32], bottom: 0, height: 360, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [2830, 5200], size: [24, 140], bottom: 330, height: 30, surface: {texture: t3d2abe, size: [256, 32]}}
+    notes: "The fall: rock to the roof across the adit's west end, two boulders before it and the braced props the winch pulls; it slides away down the old ore chute under the floor (wiring evt:winch)."
+  - id: mover:hoist
+    room: room:stope_floor
+    outline: [[7067, 3592], [6920, 3739], [6773, 3592], [6920, 3445]]
+    bottom: -14
+    height: 16
+    travel: [0, 0, 768]
+    speed: 96
+    surface: {texture: ch004i, size: [64, 64]}
+    top_surface: {texture: d2ceil2, size: [256, 256]}
+    parts:
+      - {outline: [[7056, 3580], [7067, 3592], [7056, 3603], [7044, 3592]], height: 240, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6920, 3445], [6931, 3456], [6920, 3467], [6908, 3456]], height: 240, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6920, 3716], [6931, 3728], [6920, 3739], [6908, 3728]], height: 240, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6784, 3580], [6795, 3592], [6784, 3603], [6773, 3592]], height: 240, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[7065, 3590], [6918, 3737], [6910, 3729], [7057, 3582]], bottom: 228, height: 14, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6930, 3455], [6783, 3602], [6774, 3593], [6921, 3446]], bottom: 228, height: 14, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[7057, 3585], [7048, 3593], [6918, 3463], [6927, 3455]], bottom: 46, height: 12, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[7057, 3585], [7048, 3593], [6918, 3463], [6927, 3455]], bottom: 126, height: 12, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[7057, 3585], [7048, 3593], [6918, 3463], [6927, 3455]], bottom: 214, height: 12, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6921, 3720], [6913, 3729], [6783, 3599], [6791, 3590]], bottom: 46, height: 12, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6921, 3720], [6913, 3729], [6783, 3599], [6791, 3590]], bottom: 126, height: 12, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+      - {outline: [[6921, 3720], [6913, 3729], [6783, 3599], [6791, 3590]], bottom: 214, height: 12, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}}
+    notes: "The hoist cage: an iron cage 208 square, open toward the pit and toward the rim's gate, that rides 768 from the stope floor to the rim in eight seconds (wiring evt:hoist_cage). Waits at the bottom."
+  - id: mover:rubble
+    room: room:foot_drift
+    at: [11000, 6064]
+    size: [384, 136]
+    bottom: 386
+    height: 96
+    travel: [0, 0, -386]
+    speed: 640
+    surface: {texture: t3ll6, size: [256, 256]}
+    top_surface: {texture: crdrf1, size: [128, 128]}
+    notes: "The rockfall: rubble hanging in the rotten roof over the drift's north half; it crashes down when the party first passes (wiring evt:rockfall) and stays as a heap to walk round."
+  - id: mover:trestle_car
+    room: room:chasm
+    at: [11416, 5184]
+    size: [320, 224]
+    bottom: 1608
+    floor_height: -1792
+    height: 24
+    travel: [-1584, 0, -224]
+    speed: 160
+    surface: {texture: t3d2abe, size: [256, 32]}
+    top_surface: {texture: d2ceil2, size: [256, 256]}
+    parts:
+      - {at: [11416, 5080], size: [320, 16], height: 40, surface: {texture: ch1topb, size: [64, 64], fit: true}, top_surface: {texture: t3d2abe, size: [256, 32]}}
+      - {at: [11416, 5288], size: [320, 16], height: 40, surface: {texture: ch1topb, size: [64, 64], fit: true}, top_surface: {texture: t3d2abe, size: [256, 32]}}
+      - {at: [11316, 5096], size: [48, 16], bottom: 1594, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+      - {at: [11516, 5096], size: [48, 16], bottom: 1594, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+      - {at: [11316, 5272], size: [48, 16], bottom: 1594, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+      - {at: [11516, 5272], size: [48, 16], bottom: 1594, height: 30, surface: {texture: ch004i, size: [64, 64]}}
+    notes: "The trestle car: a plank flatcar with low sides on iron wheels. It waits at the Top Station's gate, its deck level with the loading platform, and runs 1600 west and 224 down the trestle to the Turntable's gate in ten seconds, carrying whoever stands on it (wiring evt:trestle_car)."
+plates:
+  - id: plate:rockfall
+    room: room:foot_drift
+    at: [11360, 5984]
+    size: [96, 288]
+    notes: "Under the rotten props: the rockfall's trigger (the drift's own floor)."
+floors:
+  - {id: floor:blue_pool, of: platform:blue_pool, kind: water}
+  - {id: floor:east_line, of: room:east_line, kind: water}
+  - {id: floor:flooded, of: room:flooded_working, kind: water}
+  - {id: floor:green_pool, of: platform:green_pool, kind: water}
+lights:
+  - id: light:blue_pool
+    room: room:blue_grotto
+    at: [2440, 990]
+    height: 40
+    radius: 760
+    color: [60, 120, 255]
+    pulse: {intensity: [0.55, 1], radius: [640, 780], frequency: 0.25}
+    notes: The blue pool's glow.
+  - id: light:car_station
+    room: room:chasm
+    at: [11450, 5184]
+    height: 180
+    radius: 460
+    color: [255, 165, 85]
+    notes: The lantern hung over the car at the Top Station's gate.
+  - id: light:car_turntable
+    room: room:chasm
+    at: [9780, 5184]
+    height: 180
+    radius: 460
+    color: [255, 165, 85]
+    notes: The lantern hung over the car stop at the Turntable's gate.
+  - id: light:chasm_lamp
+    room: room:chasm
+    at: [10656, 5184]
+    height: 120
+    radius: 520
+    color: [255, 160, 80]
+    pulse: {intensity: [0.7, 1], frequency: 0.6}
+    notes: "A lamp hung on the trestle's middle bent, swaying."
+  - id: light:floor_east
+    room: room:stope_floor
+    at: [6700, 2700]
+    height: 220
+    radius: 800
+    color: [255, 160, 80]
+    pulse: {intensity: [0.8, 1], frequency: 1.1, phase: 0.5}
+    notes: A lantern on a prop by the spoil heaps.
+  - id: light:floor_west
+    room: room:stope_floor
+    at: [5500, 3300]
+    height: 200
+    radius: 800
+    color: [255, 160, 80]
+    pulse: {intensity: [0.8, 1], frequency: 1.3}
+    notes: A lantern on a prop at the spiral's foot.
+  - id: light:fungus_0
+    room: room:spider_galleries
+    at: [4300, 650]
+    height: 60
+    radius: 720
+    color: [150, 230, 140]
+    pulse: {intensity: [0.4, 0.9], frequency: 0.3, phase: 0}
+    notes: The faint glow of cave fungus in the galleries.
+  - id: light:fungus_1
+    room: room:spider_galleries
+    at: [5200, 1100]
+    height: 60
+    radius: 720
+    color: [150, 230, 140]
+    pulse: {intensity: [0.4, 0.9], frequency: 0.3, phase: 0.33}
+    notes: The faint glow of cave fungus in the galleries.
+  - id: light:fungus_2
+    room: room:spider_galleries
+    at: [3700, 1350]
+    height: 60
+    radius: 720
+    color: [150, 230, 140]
+    pulse: {intensity: [0.4, 0.9], frequency: 0.3, phase: 0.66}
+    notes: The faint glow of cave fungus in the galleries.
+  - id: light:fungus_3
+    room: room:spider_galleries
+    at: [4600, 1250]
+    height: 60
+    radius: 720
+    color: [150, 230, 140]
+    pulse: {intensity: [0.4, 0.9], frequency: 0.3, phase: 0.99}
+    notes: The faint glow of cave fungus in the galleries.
+  - id: light:fungus_4
+    room: room:spider_galleries
+    at: [3500, 600]
+    height: 60
+    radius: 720
+    color: [150, 230, 140]
+    pulse: {intensity: [0.4, 0.9], frequency: 0.3, phase: 1.32}
+    notes: The faint glow of cave fungus in the galleries.
+  - id: light:glint_flooded
+    room: room:flooded_working
+    at: [12470, 906]
+    height: 120
+    radius: 200
+    color: [255, 215, 90]
+    pulse: {intensity: [0.2, 1], radius: [120, 200], frequency: 0.9, phase: 0.8500000000000001}
+    notes: The glint of a gold seam (dark once the seam is chipped out).
+  - id: light:glint_rich
+    room: room:stope_floor
+    at: [6505, 3905]
+    height: 120
+    radius: 200
+    color: [255, 215, 90]
+    pulse: {intensity: [0.2, 1], radius: [120, 200], frequency: 0.9, phase: 0.68}
+    notes: The glint of a gold seam (dark once the seam is chipped out).
+  - id: light:glint_rim
+    room: room:stope_rim
+    at: [7602, 3457]
+    height: 120
+    radius: 200
+    color: [255, 215, 90]
+    pulse: {intensity: [0.2, 1], radius: [120, 200], frequency: 0.9, phase: 0.17}
+    notes: The glint of a gold seam (dark once the seam is chipped out).
+  - id: light:glint_se
+    room: room:stope_floor
+    at: [6957, 2131]
+    height: 120
+    radius: 200
+    color: [255, 215, 90]
+    pulse: {intensity: [0.2, 1], radius: [120, 200], frequency: 0.9, phase: 0.34}
+    notes: The glint of a gold seam (dark once the seam is chipped out).
+  - id: light:glint_sorting
+    room: room:sorting_floor
+    at: [12408, 6187]
+    height: 120
+    radius: 200
+    color: [255, 215, 90]
+    pulse: {intensity: [0.2, 1], radius: [120, 200], frequency: 0.9, phase: 0}
+    notes: The glint of a gold seam (dark once the seam is chipped out).
+  - id: light:glint_sw
+    room: room:stope_floor
+    at: [5459, 2131]
+    height: 120
+    radius: 200
+    color: [255, 215, 90]
+    pulse: {intensity: [0.2, 1], radius: [120, 200], frequency: 0.9, phase: 0.51}
+    notes: The glint of a gold seam (dark once the seam is chipped out).
+  - id: light:gold_pool
+    room: room:gold_hump
+    at: [13008, 1408]
+    height: 40
+    radius: 620
+    color: [255, 200, 60]
+    pulse: {intensity: [0.55, 1], radius: [520, 640], frequency: 0.4}
+    notes: The gold pool's glow.
+  - id: light:green_pool
+    room: room:dwarf_shrine
+    at: [8512, 3136]
+    height: 40
+    radius: 620
+    color: [70, 255, 110]
+    pulse: {intensity: [0.55, 1], radius: [520, 640], frequency: 0.35}
+    notes: The green pool's glow.
+  - id: light:hoist_lamp
+    room: room:stope_floor
+    at: [6787, 3459]
+    height: 220
+    radius: 700
+    color: [255, 170, 90]
+    notes: The hoist lantern at the foot of the cage.
+  - id: light:ledge_1
+    room: room:stope_floor
+    at: [7058, 3232]
+    height: 170
+    radius: 950
+    color: [255, 165, 85]
+    pulse: {intensity: [0.85, 1], frequency: 1.5, phase: 0}
+    notes: "A miners' lantern hung on the ledge rail: the spiral is lit ledge by ledge, the ramps between dark."
+  - id: light:ledge_11
+    room: room:stope_floor
+    at: [5856, 2030]
+    height: 170
+    radius: 950
+    color: [255, 165, 85]
+    pulse: {intensity: [0.85, 1], frequency: 1.5, phase: 0.6000000000000001}
+    notes: "A miners' lantern hung on the ledge rail: the spiral is lit ledge by ledge, the ramps between dark."
+  - id: light:ledge_13
+    room: room:stope_floor
+    at: [6560, 2030]
+    height: 170
+    radius: 950
+    color: [255, 165, 85]
+    pulse: {intensity: [0.85, 1], frequency: 1.5, phase: 0.4}
+    notes: "A miners' lantern hung on the ledge rail: the spiral is lit ledge by ledge, the ramps between dark."
+  - id: light:ledge_15
+    room: room:stope_floor
+    at: [7058, 2528]
+    height: 170
+    radius: 950
+    color: [255, 165, 85]
+    pulse: {intensity: [0.85, 1], frequency: 1.5, phase: 0.2}
+    notes: "A miners' lantern hung on the ledge rail: the spiral is lit ledge by ledge, the ramps between dark."
+  - id: light:ledge_9
+    room: room:stope_floor
+    at: [5358, 2528]
+    height: 170
+    radius: 950
+    color: [255, 165, 85]
+    pulse: {intensity: [0.85, 1], frequency: 1.5, phase: 0.8}
+    notes: "A miners' lantern hung on the ledge rail: the spiral is lit ledge by ledge, the ramps between dark."
+  - id: light:line_head
+    room: room:east_line
+    at: [9400, 4300]
+    height: 200
+    radius: 600
+    color: [255, 165, 85]
+    notes: "A lantern at the east line's head, over the waiting cart."
+  - id: light:line_mid
+    room: room:east_line
+    at: [10050, 3650]
+    height: 200
+    radius: 520
+    color: [255, 150, 80]
+    pulse: {intensity: [0.6, 1], frequency: 0.8}
+    notes: A lamp left on a prop half way down the drowned line.
+  - id: light:pit_high
+    room: room:stope_floor
+    at: [6208, 2880]
+    height: 1150
+    radius: 1300
+    color: [255, 150, 90]
+    notes: "Lamplight from the rim and the upper ledges caught in the pit's dust: a broad, dim fill high in the void."
+  - id: light:planks
+    room: room:flooded_working
+    at: [10912, 1424]
+    height: 160
+    radius: 700
+    color: [255, 160, 80]
+    notes: A lantern on the walkway junction.
+  - id: light:portal_day
+    room: room:adit_mouth
+    at: [14250, 3392]
+    height: 300
+    radius: 1100
+    color: [210, 225, 255]
+    notes: Daylight through the portal.
+  - id: light:red_pool
+    room: room:red_pool_grotto
+    at: [6208, 4590]
+    height: 40
+    radius: 640
+    color: [255, 50, 40]
+    pulse: {intensity: [0.55, 1], radius: [540, 660], frequency: 0.3}
+    notes: The red pool's glow.
+  - id: light:signal_east
+    room: room:turntable
+    at: [9110, 4510]
+    height: 360
+    radius: 260
+    color: [80, 255, 90]
+    on: false
+    notes: "Green lamp over the east line's gate: lit while the points are set east."
+  - id: light:signal_trestle
+    room: room:turntable
+    at: [9400, 5184]
+    height: 360
+    radius: 260
+    color: [80, 255, 90]
+    notes: "Green lamp over the trestle gate: lit while the points are set for the trestle."
+  - id: light:sorting_lamp_1
+    room: room:sorting_floor
+    at: [12864, 6016]
+    height: 380
+    radius: 640
+    color: [255, 170, 90]
+    pulse: {intensity: [0.85, 1], frequency: 1.6}
+    notes: A lantern hung over the first sorting table.
+  - id: light:sorting_lamp_2
+    room: room:sorting_floor
+    at: [13056, 6400]
+    height: 380
+    radius: 640
+    color: [255, 170, 90]
+    pulse: {intensity: [0.85, 1], frequency: 1.6, phase: 0.4}
+    notes: A lantern over the second table.
+  - id: light:west_daylight
+    room: room:collapsed_adit
+    at: [2520, 5184]
+    height: 260
+    radius: 900
+    color: [210, 225, 255]
+    on: false
+    notes: Daylight at the far end of the west adit once the fall is gone.
+  - id: light:west_line_lamp
+    room: room:west_line
+    at: [6500, 5100]
+    height: 200
+    radius: 650
+    color: [255, 160, 80]
+    pulse: {intensity: [0.7, 1], frequency: 0.9}
+    notes: A guttering lamp by the derailed cart.
+switches:
+  - id: switch:brake
+    room: room:deep_station
+    wall: 2
+    along: 0.62
+    height: 96
+    size: [48, 48]
+    off: {texture: ch004i, size: [64, 64]}
+    notes: "The Deep Line's brake wheel, the chain locked through it."
+  - id: switch:east_landing
+    room: room:east_landing
+    wall: 1
+    along: 0.86
+    height: 96
+    size: [32, 64]
+    off: {texture: t3d2abs, size: [32, 256]}
+    notes: The call lever on the buffer landing.
+  - id: switch:east_turntable
+    room: room:turntable
+    wall: 14
+    along: 0.86
+    height: 96
+    size: [32, 64]
+    off: {texture: t3d2abs, size: [32, 256]}
+    notes: The call lever beside the east line's gate.
+  - id: switch:hoist_floor
+    room: room:stope_floor
+    wall: 2
+    along: 0.1
+    height: 96
+    size: [32, 64]
+    off: {texture: t3d2abs, size: [32, 256]}
+    notes: The hoist's bell-pull at the foot of the cage.
+  - id: switch:hoist_rim
+    room: room:stope_rim
+    wall: 4
+    along: 0.85
+    height: 96
+    size: [32, 64]
+    off: {texture: t3d2abs, size: [32, 256]}
+    notes: "The hoist's bell-pull on the rim, beside the gate."
+  - id: switch:points
+    room: room:turntable
+    block: platform:lever_post
+    side: e
+    height: 80
+    size: [24, 48]
+    off: {texture: ch004i, size: [64, 64]}
+    notes: The points lever on its post beside the disc.
+  - id: switch:trestle_station
+    room: room:top_station
+    wall: 3
+    along: 0.22
+    floor_height: -160
+    height: 96
+    size: [32, 64]
+    off: {texture: t3d2abs, size: [32, 256]}
+    notes: The car lever on the loading platform beside the gate.
+  - id: switch:trestle_turntable
+    room: room:turntable
+    wall: 0
+    along: 0.86
+    height: 96
+    size: [32, 64]
+    off: {texture: t3d2abs, size: [32, 256]}
+    notes: The call lever beside the Turntable's trestle gate.
+  - id: switch:vein_flooded
+    room: room:flooded_working
+    wall: 5
+    along: 0.5
+    height: 112
+    size: [192, 128]
+    off: {texture: c1gold, size: [256, 256]}
+    on: crstont
+    notes: Gold vein in the flooded working's south-east wall.
+  - id: switch:vein_rich
+    room: room:stope_floor
+    wall: 3
+    along: 0.78
+    height: 96
+    size: [160, 160]
+    off: {texture: c1gold, size: [256, 256]}
+    on: t3ll6
+    notes: "The rich vein in the north-north-east wall of the stope floor, beside the moles' burrow."
+  - id: switch:vein_rim
+    room: room:stope_rim
+    wall: 1
+    along: 0.5
+    height: 112
+    size: [192, 128]
+    off: {texture: c1gold, size: [256, 256]}
+    on: t3ll5
+    notes: Gold vein in the rim's outer wall.
+  - id: switch:vein_se
+    room: room:stope_floor
+    wall: 14
+    along: 0.5
+    floor_height: -624
+    height: 112
+    size: [192, 128]
+    off: {texture: c1gold, size: [256, 256]}
+    on: t3ll6
+    notes: Gold vein over the south-east ramp.
+  - id: switch:vein_sorting
+    room: room:sorting_floor
+    wall: 3
+    along: 0.5
+    height: 112
+    size: [192, 128]
+    off: {texture: c1gold, size: [256, 256]}
+    on: t3ll5
+    notes: Gold vein in the slanted west wall.
+  - id: switch:vein_sw
+    room: room:stope_floor
+    wall: 10
+    along: 0.5
+    floor_height: -944
+    height: 112
+    size: [192, 128]
+    off: {texture: c1gold, size: [256, 256]}
+    on: t3ll6
+    notes: Gold vein over the south-west ramp.
+chests:
+  - id: chest:cocoon
+    room: room:spider_galleries
+    at: [3330, 1240]
+    facing: e
+    size: [176, 96, 96]
+    surface: {texture: web32n735s, size: [128, 128]}
+    top_surface: {texture: web32n735s, size: [128, 128]}
+    treasure_level: 2
+    random_items: 2
+    notes: "The cocooned miner: his pack, wrapped in web with him."
+  - id: chest:footlocker_1
+    room: room:bunk_cut
+    at: [6992, 8100]
+    facing: s
+    size: [160, 80, 64]
+    surface: {texture: ch1frntb, size: [64, 64], fit: true}
+    end_surface: {texture: ch1side, size: [64, 64], fit: true}
+    top_surface: {texture: ch1topb, size: [64, 64], fit: true}
+    treasure_level: 1
+    random_items: 2
+    notes: Footlocker before the first bunk.
+  - id: chest:footlocker_3
+    room: room:bunk_cut
+    at: [7568, 8100]
+    facing: s
+    size: [160, 80, 64]
+    surface: {texture: ch1frntb, size: [64, 64], fit: true}
+    end_surface: {texture: ch1side, size: [64, 64], fit: true}
+    top_surface: {texture: ch1topb, size: [64, 64], fit: true}
+    treasure_level: 1
+    random_items: 1
+    gold: 40
+    notes: Footlocker before the third bunk.
+  - id: chest:lamp_room
+    room: room:lamp_room
+    at: [12320, 4224]
+    facing: w
+    treasure_level: 1
+    random_items: 2
+    notes: The chest under the lamp racks.
+  - id: chest:payroll
+    room: room:forgotten_strongroom
+    at: [14100, 6208]
+    facing: w
+    size: [160, 112, 96]
+    surface: {texture: ch1frntb, size: [64, 64], fit: true}
+    end_surface: {texture: ch1side, size: [64, 64], fit: true}
+    top_surface: {texture: ch1topb, size: [64, 64], fit: true}
+    treasure_level: 3
+    random_items: 3
+    gold: 400
+    items: [181]
+    notes: "The Red Dwarves' payroll chest, forgotten when the clan came."
+  - id: chest:strongbox
+    room: room:tally_room
+    at: [5760, 7200]
+    facing: e
+    size: [128, 96, 80]
+    surface: {texture: ch1frntb, size: [64, 64], fit: true}
+    end_surface: {texture: ch1side, size: [64, 64], fit: true}
+    top_surface: {texture: ch1topb, size: [64, 64], fit: true}
+    treasure_level: 2
+    random_items: 2
+    gold: 150
+    items: [brake_key]
+    notes: "The clan's strongbox behind the tallymaster's table: the brake key."
+spawns:
+  - id: spawn:bunk_cut
+    room: room:bunk_cut
+    at: [7300, 7870]
+    slot: 1
+    notes: "Asleep at first, in the brief."
+  - id: spawn:bunk_niche_item
+    room: room:bunk_niche_2
+    at: [7280, 8350]
+    kind: item
+    treasure_level: 1
+  - id: spawn:chute_2
+    room: room:chute_2
+    at: [13088, 6912]
+    slot: 3
+    tier: a
+    notes: Bats roosting in the middle chute.
+  - id: spawn:deep_station
+    room: room:deep_station
+    at: [4300, 4700]
+    slot: 1
+    notes: Guards of the line.
+  - id: spawn:drift_bend
+    room: room:main_drift
+    at: [12736, 4250]
+    slot: 3
+    tier: a
+    notes: "The first fight, round the bend."
+  - id: spawn:flooded
+    room: room:flooded_working
+    at: [11400, 1650]
+    slot: 3
+    tier: a
+  - id: spawn:foot_drift
+    room: room:foot_drift
+    at: [10560, 5984]
+    slot: 2
+    tier: a
+  - id: spawn:galleries_east
+    room: room:spider_galleries
+    at: [5300, 700]
+    slot: 2
+    tier: a
+  - id: spawn:galleries_mid
+    room: room:spider_galleries
+    at: [4400, 1100]
+    slot: 2
+    tier: a
+  - id: spawn:lamp_room
+    room: room:lamp_room
+    at: [12150, 4250]
+    slot: 1
+    notes: The first clan dwarves.
+  - id: spawn:ledge_sse
+    room: room:stope_floor
+    at: [6575, 1993]
+    slot: 2
+    tier: a
+    notes: Spiders lurking at the landing.
+  - id: spawn:ledge_wsw
+    room: room:stope_floor
+    at: [5321, 2513]
+    slot: 2
+    tier: a
+    notes: Spiders lurking at the landing.
+  - id: spawn:mess_east
+    room: room:mess_hall
+    at: [8700, 6560]
+    slot: 1
+  - id: spawn:mess_leg
+    room: room:mess_hall
+    at: [7360, 7100]
+    slot: 1
+  - id: spawn:mess_tables
+    room: room:mess_hall
+    at: [7700, 6560]
+    slot: 1
+  - id: spawn:ore_heap_item
+    room: room:sorting_floor
+    at: [12700, 6608]
+    kind: item
+    treasure_level: 1
+  - id: spawn:repair_niche
+    room: room:repair_niche
+    at: [5600, 5600]
+    slot: 2
+    tier: a
+  - id: spawn:rim
+    room: room:stope_rim
+    at: [7500, 3350]
+    slot: 3
+    tier: a
+  - id: spawn:sorting
+    room: room:sorting_floor
+    at: [12600, 6200]
+    slot: 3
+    tier: a
+    notes: Bats off the chutes.
+  - id: spawn:stope_floor_n
+    room: room:stope_floor
+    at: [6000, 3500]
+    slot: 1
+  - id: spawn:stope_floor_s
+    room: room:stope_floor
+    at: [6300, 2500]
+    slot: 1
+  - id: spawn:turntable_n
+    room: room:turntable
+    at: [8300, 5720]
+    slot: 1
+  - id: spawn:turntable_s
+    room: room:turntable
+    at: [8700, 4680]
+    slot: 1
+  - id: spawn:turntable_w
+    room: room:turntable
+    at: [7800, 5300]
+    slot: 2
+    tier: a
+    notes: Spiders in the roof over the west line's mouth.
+monsters:
+  - id: monster:cocoon_spider_1
+    room: room:spider_galleries
+    monster: 401
+    at: [3560, 1120]
+    hostile: true
+    group: 4
+    notes: Round the cocoon in the western working (the level-10 spiders).
+  - id: monster:cocoon_spider_2
+    room: room:spider_galleries
+    monster: 401
+    at: [3560, 820]
+    hostile: true
+    group: 4
+  - id: monster:cocoon_spider_3
+    room: room:spider_galleries
+    monster: 401
+    at: [3300, 650]
+    hostile: true
+    group: 4
+  - id: monster:mole_burrow_1
+    room: room:mole_pocket
+    monster: 412
+    at: [6760, 4090]
+    facing: s
+    hostile: true
+    group: 3
+    name: Tiger Mole
+    notes: "Waiting in the burrow behind the rich vein; out when the vein is mined."
+  - id: monster:mole_burrow_2
+    room: room:mole_pocket
+    monster: 412
+    at: [6840, 4200]
+    facing: s
+    hostile: true
+    group: 3
+    name: Tiger Mole
+  - id: monster:mole_flood_1
+    room: room:flooded_working
+    monster: 412
+    at: [11700, 1250]
+    hostile: true
+    group: 2
+    name: Tiger Mole
+    notes: Surfaced from the water beside the planks.
+  - id: monster:mole_flood_2
+    room: room:flooded_working
+    monster: 412
+    at: [12200, 1250]
+    hostile: true
+    group: 2
+    name: Tiger Mole
+  - id: monster:tally_guard_1
+    room: room:tally_room
+    monster: 229
+    at: [6300, 7000]
+    facing: e
+    hostile: true
+    group: 1
+  - id: monster:tally_guard_2
+    room: room:tally_room
+    monster: 229
+    at: [6300, 7400]
+    facing: e
+    hostile: true
+    group: 1
+  - id: monster:tally_guard_3
+    room: room:tally_room
+    monster: 229
+    at: [5800, 6980]
+    facing: e
+    hostile: true
+    group: 1
+  - id: monster:tallymaster
+    room: room:tally_room
+    monster: 229
+    at: [5900, 7330]
+    facing: e
+    hostile: true
+    group: 1
+    hp: 80
+    name: Tallymaster
+    immobile: true
+    notes: "The clan's tallymaster behind his table (a Dwarven Soldier; the brief's level-10 Mad Dwarf with doubled hit points)."
+items:
+  - id: item:cocoon_potion
+    room: room:spider_galleries
+    item: 222
+    at: [3560, 1200]
+    notes: A potion rolled out of the miner's pack.
+  - id: item:lamp_scroll
+    room: room:lamp_room
+    item: 300
+    at: [12432, 4400]
+    floor_height: -60
+    notes: A scroll of Torch Light on the lamp rack.
+  - id: item:mess_bottle
+    room: room:mess_hall
+    item: 220
+    at: [8100, 6400]
+    floor_height: -336
+    notes: An empty bottle on the long table.
+  - id: item:repair_axe
+    room: room:repair_niche
+    item: 825
+    at: [5600, 5720]
+    floor_height: -8
+    notes: The wheelwright's axe on his bench.
+  - id: item:rich_ruby
+    room: room:stope_floor
+    item: 203
+    at: [6560, 3780]
+    notes: A chip of ruby by the rich vein.
+decorations:
+  - id: deco:adit_mouth_1
+    room: room:adit_mouth
+    decoration: torch02
+    wall: north
+    along: 0.15
+    height: 224
+  - id: deco:adit_mouth_2
+    room: room:adit_mouth
+    decoration: bigbarel
+    at: [13420, 3700]
+  - id: deco:adit_mouth_3
+    room: room:adit_mouth
+    decoration: smlbarel
+    at: [13500, 3720]
+  - id: deco:adit_mouth_4
+    room: room:adit_mouth
+    decoration: 7dec10
+    at: [14100, 3110]
+  - id: deco:adit_mouth_5
+    room: room:adit_mouth
+    decoration: Bucket
+    at: [13900, 3700]
+  - id: deco:blue_grotto_108
+    room: room:blue_grotto
+    decoration: mcryst01
+    at: [2860, 1100]
+  - id: deco:blue_grotto_109
+    room: room:blue_grotto
+    decoration: mcryst01
+    at: [2250, 700]
+  - id: deco:blue_grotto_110
+    room: room:blue_grotto
+    decoration: mcryst01
+    at: [2100, 1250]
+  - id: deco:bunk_cut_67
+    room: room:bunk_cut
+    decoration: torch02
+    wall: 0
+    along: 0.5
+    height: 224
+  - id: deco:bunk_cut_68
+    room: room:bunk_cut
+    decoration: bag_A
+    at: [7780, 7900]
+  - id: deco:bunk_cut_69
+    room: room:bunk_cut
+    decoration: trasheap
+    at: [6950, 7650]
+  - id: deco:collapsed_adit_79
+    room: room:collapsed_adit
+    decoration: torch02
+    wall: north
+    along: 0.62
+    height: 224
+  - id: deco:collapsed_adit_80
+    room: room:collapsed_adit
+    decoration: 7rock03
+    at: [3100, 5050]
+  - id: deco:collapsed_adit_81
+    room: room:collapsed_adit
+    decoration: rock10
+    at: [3150, 5330]
+  - id: deco:deep_station_100
+    room: room:deep_station
+    decoration: smlbarel
+    at: [4600, 4800]
+  - id: deco:deep_station_101
+    room: room:deep_station
+    decoration: smlbarel
+    at: [4520, 4820]
+  - id: deco:deep_station_98
+    room: room:deep_station
+    decoration: torch02
+    wall: 2
+    along: 0.45
+    height: 224
+  - id: deco:deep_station_99
+    room: room:deep_station
+    decoration: torch02
+    wall: 2
+    along: 0.8
+    height: 224
+  - id: deco:dwarf_shrine_49
+    room: room:dwarf_shrine
+    decoration: brzier00
+    at: [8280, 2620]
+  - id: deco:dwarf_shrine_50
+    room: room:dwarf_shrine
+    decoration: brzier00
+    at: [8744, 2620]
+  - id: deco:dwarf_shrine_51
+    room: room:dwarf_shrine
+    decoration: 6rock02
+    at: [8900, 3420]
+  - id: deco:dwarf_shrine_52
+    room: room:dwarf_shrine
+    decoration: 7rock03
+    at: [8100, 3380]
+  - id: deco:dwarf_shrine_53
+    room: room:dwarf_shrine
+    decoration: 6rock02
+    at: [8150, 2850]
+  - id: deco:east_landing_111
+    room: room:east_landing
+    decoration: torch02
+    wall: 1
+    along: 0.5
+    height: 200
+  - id: deco:flooded_working_112
+    room: room:flooded_working
+    decoration: mushrm01
+    at: [10300, 1700]
+  - id: deco:flooded_working_113
+    room: room:flooded_working
+    decoration: mushrm03
+    at: [10450, 1100]
+  - id: deco:flooded_working_114
+    room: room:flooded_working
+    decoration: stlmite1
+    at: [12400, 900]
+  - id: deco:flooded_working_115
+    room: room:flooded_working
+    decoration: stlmite3
+    at: [10800, 700]
+  - id: deco:foot_bend_36
+    room: room:foot_bend
+    decoration: torch02
+    at: [9500, 6120]
+    height: 200
+  - id: deco:foot_drift_34
+    room: room:foot_drift
+    decoration: torch02
+    at: [11800, 5730]
+    height: 200
+  - id: deco:foot_drift_35
+    room: room:foot_drift
+    decoration: nwtrchnf
+    at: [11180, 5840]
+    height: 200
+  - id: deco:foot_drift_37
+    room: room:foot_drift
+    decoration: 6rock02
+    at: [10300, 6100]
+  - id: deco:gold_hump_116
+    room: room:gold_hump
+    decoration: mushrm03
+    at: [13150, 1650]
+  - id: deco:lamp_room_20
+    room: room:lamp_room
+    decoration: nwtrchnf
+    wall: 1
+    along: 0.15
+    height: 200
+  - id: deco:lamp_room_21
+    room: room:lamp_room
+    decoration: nwtrchnf
+    wall: 1
+    along: 0.32
+    height: 200
+  - id: deco:lamp_room_22
+    room: room:lamp_room
+    decoration: nwtrchnf
+    wall: 1
+    along: 0.49
+    height: 200
+  - id: deco:lamp_room_23
+    room: room:lamp_room
+    decoration: nwtrchnf
+    wall: 1
+    along: 0.66
+    height: 200
+  - id: deco:lamp_room_24
+    room: room:lamp_room
+    decoration: nwtrchnf
+    wall: 1
+    along: 0.8300000000000001
+    height: 200
+  - id: deco:lamp_room_25
+    room: room:lamp_room
+    decoration: torch02
+    wall: south
+    along: 0.5
+    height: 224
+  - id: deco:lamp_room_26
+    room: room:lamp_room
+    decoration: smlbarel
+    at: [11980, 4500]
+  - id: deco:main_drift_10
+    room: room:main_drift
+    decoration: 7rock03
+    at: [12600, 4500]
+  - id: deco:main_drift_6
+    room: room:main_drift
+    decoration: torch02
+    at: [13040, 3216]
+    height: 224
+  - id: deco:main_drift_7
+    room: room:main_drift
+    decoration: torch02
+    at: [12900, 4120]
+    height: 200
+  - id: deco:main_drift_8
+    room: room:main_drift
+    decoration: 7dec10
+    at: [12620, 3650]
+  - id: deco:main_drift_9
+    room: room:main_drift
+    decoration: 6rock01
+    at: [12860, 4380]
+  - id: deco:mess_hall_54
+    room: room:mess_hall
+    decoration: brzier00
+    at: [8300, 6560]
+  - id: deco:mess_hall_55
+    room: room:mess_hall
+    decoration: brzier00
+    at: [7650, 6560]
+  - id: deco:mess_hall_56
+    room: room:mess_hall
+    decoration: torch02
+    wall: 0
+    along: 0.85
+    height: 256
+  - id: deco:mess_hall_57
+    room: room:mess_hall
+    decoration: torch02
+    wall: 5
+    along: 0.6
+    height: 256
+  - id: deco:mess_hall_58
+    room: room:mess_hall
+    decoration: cauld00
+    at: [7630, 7100]
+    floor_height: -352
+  - id: deco:mess_hall_59
+    room: room:mess_hall
+    decoration: foodbowl
+    at: [7800, 6400]
+    floor_height: -336
+  - id: deco:mess_hall_60
+    room: room:mess_hall
+    decoration: dec32
+    at: [8100, 6720]
+    floor_height: -336
+  - id: deco:mess_hall_61
+    room: room:mess_hall
+    decoration: dec36
+    at: [7900, 6720]
+    floor_height: -336
+  - id: deco:mess_hall_62
+    room: room:mess_hall
+    decoration: 7dec48
+    at: [8200, 6400]
+    floor_height: -336
+  - id: deco:mess_hall_63
+    room: room:mess_hall
+    decoration: dec37
+    at: [7760, 6720]
+    floor_height: -336
+  - id: deco:mess_hall_64
+    room: room:mess_hall
+    decoration: bigbarel
+    at: [8880, 6820]
+  - id: deco:mess_hall_65
+    room: room:mess_hall
+    decoration: bigbarel
+    at: [8780, 6840]
+  - id: deco:mess_hall_66
+    room: room:mess_hall
+    decoration: trasheap
+    at: [7100, 7380]
+  - id: deco:red_pool_grotto_96
+    room: room:red_pool_grotto
+    decoration: stlmite1
+    at: [6100, 4250]
+  - id: deco:red_pool_grotto_97
+    room: room:red_pool_grotto
+    decoration: stlmite3
+    at: [6450, 4400]
+  - id: deco:repair_niche_73
+    room: room:repair_niche
+    decoration: torch02
+    wall: north
+    along: 0.2
+    height: 224
+  - id: deco:repair_niche_74
+    room: room:repair_niche
+    decoration: Bucket
+    at: [5320, 5700]
+  - id: deco:sorting_floor_27
+    room: room:sorting_floor
+    decoration: dec27
+    at: [12864, 6016]
+    floor_height: -192
+    height: 300
+  - id: deco:sorting_floor_28
+    room: room:sorting_floor
+    decoration: dec27
+    at: [13056, 6400]
+    floor_height: -192
+    height: 300
+  - id: deco:sorting_floor_29
+    room: room:sorting_floor
+    decoration: 7dec10
+    at: [12720, 6600]
+  - id: deco:sorting_floor_30
+    room: room:sorting_floor
+    decoration: 7dec11
+    at: [13400, 6600]
+  - id: deco:sorting_floor_31
+    room: room:sorting_floor
+    decoration: 7dec10
+    at: [13450, 5850]
+  - id: deco:sorting_floor_32
+    room: room:sorting_floor
+    decoration: Bucket
+    at: [12650, 6050]
+  - id: deco:sorting_floor_33
+    room: room:sorting_floor
+    decoration: Bucket
+    at: [13300, 6300]
+  - id: deco:spider_galleries_102
+    room: room:spider_galleries
+    decoration: Corpse08
+    at: [3460, 1250]
+  - id: deco:spider_galleries_103
+    room: room:spider_galleries
+    decoration: dec29
+    at: [4300, 600]
+  - id: deco:spider_galleries_104
+    room: room:spider_galleries
+    decoration: dec05
+    at: [5000, 1150]
+  - id: deco:spider_galleries_105
+    room: room:spider_galleries
+    decoration: mushrm02
+    at: [4150, 1350]
+  - id: deco:spider_galleries_106
+    room: room:spider_galleries
+    decoration: mushrm05
+    at: [3700, 500]
+  - id: deco:spider_galleries_107
+    room: room:spider_galleries
+    decoration: mushrm02
+    at: [5400, 600]
+  - id: deco:stope_floor_84
+    room: room:stope_floor
+    decoration: torch02
+    floor_height: -544
+    wall: 15
+    along: 0.3
+    height: 200
+  - id: deco:stope_floor_85
+    room: room:stope_floor
+    decoration: torch02
+    floor_height: -704
+    wall: 13
+    along: 0.3
+    height: 200
+  - id: deco:stope_floor_86
+    room: room:stope_floor
+    decoration: torch02
+    floor_height: -864
+    wall: 11
+    along: 0.3
+    height: 200
+  - id: deco:stope_floor_87
+    room: room:stope_floor
+    decoration: torch02
+    floor_height: -1024
+    wall: 9
+    along: 0.3
+    height: 200
+  - id: deco:stope_floor_88
+    room: room:stope_floor
+    decoration: torch02
+    floor_height: -384
+    wall: 1
+    along: 0.6
+    height: 200
+  - id: deco:stope_floor_89
+    room: room:stope_floor
+    decoration: torch02
+    wall: 2
+    along: 0.85
+    height: 180
+  - id: deco:stope_floor_90
+    room: room:stope_floor
+    decoration: 7dec10
+    at: [6500, 2300]
+  - id: deco:stope_floor_91
+    room: room:stope_floor
+    decoration: 7dec11
+    at: [5700, 2600]
+  - id: deco:stope_floor_92
+    room: room:stope_floor
+    decoration: rock10
+    at: [6650, 2650]
+  - id: deco:stope_floor_93
+    room: room:stope_floor
+    decoration: 6rock01
+    at: [5900, 3700]
+  - id: deco:stope_floor_94
+    room: room:stope_floor
+    decoration: stlmite2
+    at: [5600, 3500]
+  - id: deco:stope_floor_95
+    room: room:stope_floor
+    decoration: stlmite2
+    at: [6900, 3000]
+  - id: deco:stope_rim_82
+    room: room:stope_rim
+    decoration: torch02
+    wall: 0
+    along: 0.5
+    height: 240
+  - id: deco:stope_rim_83
+    room: room:stope_rim
+    decoration: torch02
+    wall: 3
+    along: 0.4
+    height: 240
+  - id: deco:tally_room_70
+    room: room:tally_room
+    decoration: dec02
+    at: [5952, 7200]
+    floor_height: -248
+  - id: deco:tally_room_71
+    room: room:tally_room
+    decoration: torch02
+    wall: 3
+    along: 0.5
+    height: 240
+  - id: deco:top_station_11
+    room: room:top_station
+    decoration: torch02
+    wall: south
+    along: 0.12
+    height: 240
+  - id: deco:top_station_12
+    room: room:top_station
+    decoration: torch02
+    wall: north
+    along: 0.45
+    height: 240
+  - id: deco:top_station_13
+    room: room:top_station
+    decoration: brzier00
+    at: [11960, 4880]
+  - id: deco:top_station_14
+    room: room:top_station
+    decoration: bigbarel
+    at: [12900, 5540]
+  - id: deco:top_station_15
+    room: room:top_station
+    decoration: bigbarel
+    at: [12800, 5560]
+  - id: deco:top_station_16
+    room: room:top_station
+    decoration: smlbarel
+    at: [12880, 5450]
+  - id: deco:top_station_17
+    room: room:top_station
+    decoration: floursac
+    at: [11800, 5480]
+    floor_height: -160
+  - id: deco:top_station_18
+    room: room:top_station
+    decoration: bag01
+    at: [11790, 4880]
+    floor_height: -160
+  - id: deco:top_station_19
+    room: room:top_station
+    decoration: Bucket
+    at: [12200, 4800]
+  - id: deco:turntable_38
+    room: room:turntable
+    decoration: torch02
+    at: [9201, 5763]
+    height: 256
+  - id: deco:turntable_39
+    room: room:turntable
+    decoration: torch02
+    at: [7823, 5763]
+    height: 256
+  - id: deco:turntable_40
+    room: room:turntable
+    decoration: torch02
+    at: [7666, 4876]
+    height: 256
+  - id: deco:turntable_41
+    room: room:turntable
+    decoration: torch02
+    at: [9201, 4605]
+    height: 256
+  - id: deco:turntable_42
+    room: room:turntable
+    decoration: brzier00
+    at: [8800, 4760]
+  - id: deco:turntable_43
+    room: room:turntable
+    decoration: brzier00
+    at: [8960, 4980]
+  - id: deco:turntable_44
+    room: room:turntable
+    decoration: nwtrchnf
+    at: [9440, 5184]
+    height: 330
+  - id: deco:turntable_45
+    room: room:turntable
+    decoration: nwtrchnf
+    at: [9120, 4500]
+    height: 330
+  - id: deco:turntable_46
+    room: room:turntable
+    decoration: bigbarel
+    at: [7800, 4850]
+  - id: deco:turntable_47
+    room: room:turntable
+    decoration: bigbarel
+    at: [7720, 4960]
+  - id: deco:turntable_48
+    room: room:turntable
+    decoration: 7dec10
+    at: [8100, 5900]
+  - id: deco:west_line_75
+    room: room:west_line
+    decoration: Bucket
+    at: [6900, 5300]
+  - id: deco:west_line_76
+    room: room:west_line
+    decoration: 6rock01
+    at: [6500, 5080]
+  - id: deco:west_line_landing_72
+    room: room:west_line_landing
+    decoration: torch02
+    wall: west
+    along: 0.25
+    height: 224
+  - id: deco:west_line_upper_77
+    room: room:west_line_upper
+    decoration: nwtrchnf
+    at: [4700, 5050]
+    height: 200
+  - id: deco:west_line_upper_78
+    room: room:west_line_upper
+    decoration: 7dec11
+    at: [4200, 5250]
+exits:
+  - id: exit:deep
+    room: room:deep_mouth
+    wall: 1
+    size: [256, 288]
+    surface: {texture: t3ll6, size: [256, 256]}
+    to: exit:deep_mine
+    notes: "The Deep Line's mouth: the cart's way down to the Deep Mine."
+  - id: exit:x1
+    room: room:adit_mouth
+    wall: east
+    size: [512, 352]
+    surface: {texture: sky_clo1, size: [512, 512]}
+    to: exit:x1_adit
+    notes: "The portal: daylight and the hills north of Vertigo."
+  - id: exit:x4
+    room: room:collapsed_adit
+    wall: west
+    size: [320, 352]
+    surface: {texture: sky_clo1, size: [512, 512]}
+    to: exit:x4_adit
+    notes: "The far end of the west adit, open to the sky once the fall is gone."
+notes: "Objects of the L4 brief (written by output/studio_cal/xd02/tools/gen_objects.py). Stand-ins: Mad Dwarves are MM7 Dwarves (Dwarven Soldier, level 10), the Tallymaster one of them with hp 80 and a name; Tiger Moles are Troglodyte Drones (412, level 9); the cocoon's level-10 spiders are Venomous Spiders (401, level 8); slots: 1 Dwarf, 2 Spider, 3 Bat. The brake key is the plain Key 2111."

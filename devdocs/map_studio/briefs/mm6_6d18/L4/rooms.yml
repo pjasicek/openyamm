@@ -1,0 +1,1670 @@
+format: 0
+themes:
+  - id: theme:ctwl2_ctflor1_ctceil2
+    wall: {texture: ctwl2, size: [256, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: ctceil2, size: [128, 128]}
+  - id: theme:ctwl2_ctflor1_ctceil3
+    wall: {texture: ctwl2, size: [256, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: ctceil3, size: [128, 128]}
+  - id: theme:ctwl2_ctflor5_ctceil3
+    wall: {texture: ctwl2, size: [256, 256]}
+    floor: {texture: ctflor5, size: [128, 128]}
+    ceiling: {texture: ctceil3, size: [128, 128]}
+  - id: theme:ctwl2_orfyrlga_ctceil2
+    wall: {texture: ctwl2, size: [256, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: ctceil2, size: [128, 128]}
+  - id: theme:ctwl5_ctflor1_ctceil3
+    wall: {texture: ctwl5, size: [256, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: ctceil3, size: [128, 128]}
+  - id: theme:ctwl5_ctflor5_ctceil3
+    wall: {texture: ctwl5, size: [256, 256]}
+    floor: {texture: ctflor5, size: [128, 128]}
+    ceiling: {texture: ctceil3, size: [128, 128]}
+  - id: theme:ctwl5_orfyrlga_ctceil1
+    wall: {texture: ctwl5, size: [256, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: ctceil1, size: [128, 128]}
+  - id: theme:d2wlactr_orfyrlga_d2ceil1
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+  - id: theme:d2wlactr_vlcflora_d2ceil1
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+  - id: theme:vlcflore_vlcflora_vlcflorb
+    wall: {texture: vlcflore, size: [128, 128]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlcflorb, size: [128, 128]}
+  - id: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    wall: {texture: vlcgnrc1, size: [256, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlcgnrc2, size: [256, 256]}
+  - id: theme:vlcwl1_vlcflora_vlcflore
+    wall: {texture: vlcwl1, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlcflore, size: [128, 128]}
+  - id: theme:vlcwl1_vlcflore_vlctrm3
+    wall: {texture: vlcwl1, size: [128, 256]}
+    floor: {texture: vlcflore, size: [128, 128]}
+    ceiling: {texture: vlctrm3, size: [128, 128]}
+  - id: theme:vlcwl1a_orfyrlga_vlcgnrc1
+    wall: {texture: vlcwl1a, size: [128, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: vlcgnrc1, size: [256, 256]}
+  - id: theme:vlcwl1a_vlcflora_d8florh
+    wall: {texture: vlcwl1a, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: d8florh, size: [128, 128]}
+  - id: theme:vlcwl1le_orfyrlga_ctceil3
+    wall: {texture: vlcwl1le, size: [128, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: ctceil3, size: [128, 128]}
+  - id: theme:vlcwl1lg_ctflor1_vlcflore
+    wall: {texture: vlcwl1lg, size: [256, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: vlcflore, size: [128, 128]}
+  - id: theme:vlcwl1lg_orfyrlga_sky_nit2
+    wall: {texture: vlcwl1lg, size: [256, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: sky_nit2, size: [512, 512]}
+  - id: theme:vlcwl1lg_vlcflora_vlcflore
+    wall: {texture: vlcwl1lg, size: [256, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlcflore, size: [128, 128]}
+  - id: theme:vlcwl1lg_vlcflore_vlctrm3
+    wall: {texture: vlcwl1lg, size: [256, 256]}
+    floor: {texture: vlcflore, size: [128, 128]}
+    ceiling: {texture: vlctrm3, size: [128, 128]}
+  - id: theme:vlcwl2_orfyrlga_vlcflorb
+    wall: {texture: vlcwl2, size: [128, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: vlcflorb, size: [128, 128]}
+  - id: theme:vlcwl2_vlcflora_vlctrm3
+    wall: {texture: vlcwl2, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlctrm3, size: [128, 128]}
+  - id: theme:vlcwl3a_6voltyl_vlctrm3
+    wall: {texture: vlcwl3a, size: [128, 256]}
+    floor: {texture: 6voltyl, size: [128, 128]}
+    ceiling: {texture: vlctrm3, size: [128, 128]}
+  - id: theme:vlcwl3a_orfyrlga_vlcceila
+    wall: {texture: vlcwl3a, size: [128, 256]}
+    floor: {texture: orfyrlga, size: [256, 256]}
+    ceiling: {texture: vlcceila, size: [128, 128]}
+  - id: theme:vlcwl3a_vlcflora_vlcflorb
+    wall: {texture: vlcwl3a, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlcflorb, size: [128, 128]}
+  - id: theme:vlcwl3a_vlcflora_vlcgnrc2
+    wall: {texture: vlcwl3a, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlcgnrc2, size: [256, 256]}
+  - id: theme:vlcwl3a_vlcflora_vlctrm3
+    wall: {texture: vlcwl3a, size: [128, 256]}
+    floor: {texture: vlcflora, size: [128, 128]}
+    ceiling: {texture: vlctrm3, size: [128, 128]}
+  - id: theme:vlcwl3a_vlctrm3_vlctrm3
+    wall: {texture: vlcwl3a, size: [128, 256]}
+    floor: {texture: vlctrm3, size: [128, 128]}
+    ceiling: {texture: vlctrm3, size: [128, 128]}
+  - id: theme:vlcwl4b_vlcflorc_d2ceil3
+    wall: {texture: vlcwl4b, size: [128, 256]}
+    floor: {texture: vlcflorc, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+  - id: theme:vlcwl4b_vlctrm3_ctceil1
+    wall: {texture: vlcwl4b, size: [128, 256]}
+    floor: {texture: vlctrm3, size: [128, 128]}
+    ceiling: {texture: ctceil1, size: [128, 128]}
+  - id: theme:vlcwl4b_vlctrm3_d2ceil3
+    wall: {texture: vlcwl4b, size: [128, 256]}
+    floor: {texture: vlctrm3, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+defaults: {theme: theme:ctwl2_ctflor1_ctceil2, ambient: 16}
+rooms:
+  - id: room:alcove
+    name: Chest alcove (15)
+    outline: [[768, 4096], [1408, 4096], [1408, 4352], [1152, 4352], [1152, 4576], [1024, 4576], [1024, 4352], [768, 4352]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_vlcflora_vlcgnrc2
+    notes: "Two chests. Its neck (128 wide, 256 long) is closed by the \"lava wall\", a wall face the lever on the machine room's north-east balcony makes vanish (the original lists it in a door record that has no vertices, and OpenYAMM hides the face by script). Here: the neck is part of the alcove and ends 32 short of the corridor, so that the lifting door that stands for the wall fills a wall 32 thick and its face lies in the corridor's wall (y 4608), where the original's face 2255 is."
+  - id: room:loop
+    name: "Long corridor and loop (25, 26, 27)"
+    outline: [[3072, 2816], [4096, 2816], [4096, 4608], [3840, 4608], [3840, 3584], [3072, 3584]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1_vlcflora_vlcflore
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 4
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+    pillars:
+      - {at: [3584, 3200], size: [512, 256], surface: {texture: vlcwl1, size: [128, 256]}}
+    notes: "The original's corridor 25 (256 wide, 1,792 long) and the two rooms 26 and 27 that leave its west side and meet again round a block of rock 512 by 256: one room with the block as a pillar."
+  - id: room:machine
+    name: "Machine room (16, 17)"
+    outline: [[1536, 5120], [3840, 5120], [3840, 6912], [1536, 6912]]
+    floor: -768
+    ceiling: 384
+    theme: theme:vlcwl1a_orfyrlga_vlcgnrc1
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 224, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 512, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 224, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 512, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1504, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1792, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1504, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1792, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {offset: 480, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 768, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1760, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 2048, length: 32, bottom: 224, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 480, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 768, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1760, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 2048, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    platforms:
+      - {id: platform:tile31, at: [2752, 6880], size: [64, 64], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, notes: "Original event 31's tile (faces 654-657): 64 square, 16 high on the island, clicked."}
+      - {at: [1920, 5248], size: [256, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
+      - {at: [1920, 6656], size: [256, 512], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
+      - {at: [3200, 5248], size: [256, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
+      - {at: [3200, 6656], size: [256, 512], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
+      - {at: [1920, 5248], size: [256, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 224}
+      - {at: [1920, 6656], size: [256, 512], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 224}
+      - {at: [3200, 5248], size: [256, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 224}
+      - {at: [3200, 6656], size: [256, 512], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 224}
+      - {id: platform:post_sw_up, at: [1808, 5360], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 768}
+      - {id: platform:post_nw_up, at: [2032, 6416], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 768}
+      - {id: platform:post_se_up, at: [3088, 5360], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 768}
+      - {id: platform:post_ne_up, at: [3312, 6416], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 768}
+      - {id: platform:post_sw_low, at: [1808, 5360], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 256}
+      - {id: platform:post_nw_low, at: [2032, 6416], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 256}
+      - {id: platform:post_se_low, at: [3088, 5360], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 256}
+      - {id: platform:post_ne_low, at: [3312, 6416], size: [32, 32], rise: 160, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, base: 256}
+    levels:
+      - id: level:machine_island
+        outline: [[2688, 6688], [2816, 6688], [2816, 6912], [2688, 6912]]
+        floor: -752
+        edge: {texture: 6voltyl, size: [128, 128]}
+        surface: {texture: 6voltyl, size: [128, 128]}
+        notes: The island with the tile that puts a fallen party on the north-west balcony.
+    notes: "One hall 2,304 by 1,792 over lava (-768), ceiling 384. Eight balconies hang from its south and north walls, free slabs 32 thick: at 0 and, straight below them, at -512, at x 1792 to 2048 and x 3072 to 3328 (256 deep on the south side, 512 on the north). Each has a lever. The upper pairs are joined across the lava by ONE bridge (992 long, kerbs 64 high) that slides 1,280 sideways between the west pair and the east pair when the lever on the lower south-east balcony is used; the lower balconies have no bridge and are reached from the lower passages. Gates 256 wide and 240 high close four of the eight ways in. Here: the balconies are free blocks with the original's `d2ceil1` undersides, each with its lever on a post at a corner (`switches[].block`), and the bridge is one mover with its kerbs and four posts as parts (objects.yml mover:machine_bridge) that slides 1,280 east."
+  - id: room:n39
+    name: Lava cavern door (39)
+    outline: [[2816, 1280], [3072, 1280], [3072, 1408], [2816, 1408]]
+    floor: -896
+    ceiling: -640
+    theme: theme:ctwl5_ctflor5_ctceil3
+    walls:
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
+  - id: room:n48
+    name: North-east gate lobby (17)
+    outline: [[3072, 6944], [3328, 6944], [3328, 7168], [3072, 7168]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1lg_vlcflora_vlcflore
+  - id: room:n49
+    name: South-east gate lobby (16)
+    outline: [[3072, 4864], [3328, 4864], [3328, 5088], [3072, 5088]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_vlctrm3_vlctrm3
+    walls:
+      - wall: 3
+        surface: {texture: vlcwl3re, size: [128, 256]}
+  - id: room:n50
+    name: South-west gate lobby (15)
+    outline: [[1792, 4896], [2048, 4896], [2048, 5120], [1792, 5120]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_6voltyl_vlctrm3
+    walls:
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+  - id: room:p52
+    name: Lower south-east passage (16)
+    outline: [[3072, 4608], [3328, 4608], [3328, 5088], [3072, 5088]]
+    floor: -512
+    ceiling: -256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 3
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+  - id: room:s1
+    name: Gate hall (1)
+    outline: [[512, 2048], [-256, 2048], [-256, 1280], [0, 1024], [256, 1024], [512, 1280]]
+    floor: 0
+    ceiling: 384
+    theme: theme:vlcwl1lg_vlcflore_vlctrm3
+    walls:
+      - wall: 2
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 4
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    notes: "Its whole north side is open onto the first lava hall; the door in its east wall leads to the lever room."
+  - id: room:s10
+    name: West treasure room (10)
+    outline: [[-1664, 6176], [-1408, 6432], [-1408, 6944], [-1664, 7200], [-1920, 7200], [-2176, 6944], [-2176, 6432], [-1920, 6176]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1a_vlcflora_d8florh
+    walls:
+      - wall: 0
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 2
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 4
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 6
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    ceiling_levels:
+      - ceiling: 384
+        top_outline: [[-1664, 6432], [-1664, 6432], [-1664, 6944], [-1664, 6944], [-1920, 6944], [-1920, 6944], [-1920, 6432], [-1920, 6432]]
+    notes: "Eight-sided. The ceiling leans in from 256 at the eight walls to a flat panel 256 by 512 at 384, as measured."
+  - id: room:s11
+    name: Gallery side corridor (11)
+    outline: [[-1504, 5120], [-768, 5120], [-768, 5376], [-1504, 5376]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_vlcflora_vlctrm3
+    walls:
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: vlcwl3re, size: [128, 256]}}
+      - wall: 0
+        panels:
+          - {offset: 352, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 96, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 96, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+  - id: room:s12
+    name: Ante-room (12)
+    outline: [[-512, 5152], [-256, 5152], [-256, 5632], [0, 5632], [0, 5888], [-512, 5888]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_vlcflora_vlcflorb
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+  - id: room:s13
+    name: Cross corridor (13)
+    outline: [[-1024, 4864], [768, 4864], [768, 5120], [-1024, 5120]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_vlcflora_vlctrm3
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 1408, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {offset: 1408, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+  - id: room:s14
+    name: Eight-sided hall (14)
+    outline: [[0, 5632], [256, 5376], [768, 5376], [896, 5504], [896, 6528], [768, 6656], [256, 6656], [0, 6400]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcflore_vlcflora_vlcflorb
+    walls:
+      - wall: 0
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 1
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 5
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 6
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 7
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    ceiling_levels:
+      - ceiling: 384
+        top_outline: [[256, 5632], [256, 5632], [768, 5632], [768, 5632], [768, 6400], [768, 6400], [256, 6400], [256, 6400]]
+    notes: "In the original this hall is an eight-sided room 1,024 by 1,280 that reaches x 1024 and so stands 128 inside the stair passage (46), which runs through the same space at the same height: the two never see each other. A rebuild cannot overlap rooms, so the hall is cut off flat at the passage's wall (x 896): its other seven walls and the ceiling's flat panel (512 by 768 at 384) stand where the original's do, and the two east corners are half as long. The ceiling leans in from 256 at the walls; over the cut-off east wall it is therefore steeper than the original's."
+  - id: room:s15
+    name: South hall (15)
+    outline: [[512, 4608], [3328, 4608], [3328, 4864], [512, 4864]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl3a_vlcflora_vlctrm3
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {offset: 256, length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+          - {offset: 2048, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {offset: 1536, length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl3re, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl3le, size: [128, 256]}}
+  - id: room:s18
+    name: North corridor bend (18)
+    outline: [[5120, 7680], [5120, 7936], [3072, 7936], [3072, 7168], [3328, 7168], [3328, 7680]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1lg_vlcflora_vlcflore
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+          - {offset: 992, length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+          - {offset: 1280, length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+          - {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 3
+        surface: {texture: d2wlcle, size: [128, 256]}
+      - wall: 4
+        panels:
+          - {from: end, length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {offset: 1504, length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+          - {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+  - id: room:s19
+    name: Crystal room lobby (19)
+    outline: [[4096, 7936], [4096, 8704], [3616, 8704], [3616, 8448], [3840, 8448], [3840, 7936]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1lg_vlcflora_vlcflore
+    walls:
+      - wall: 0
+        ends: {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 1
+        ends: {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 4
+        ends: {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+  - id: room:s2
+    name: Tower corridor (2)
+    outline: [[256, 1024], [0, 1024], [0, 768], [-512, 768], [-512, 512], [256, 512]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1_vlcflore_vlctrm3
+    walls:
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 4
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+  - id: room:s20
+    name: Crystal room (20)
+    outline: [[3072, 8192], [3584, 8448], [3584, 8704], [3072, 8960], [2816, 9216], [1792, 9216], [1280, 8704], [1280, 8448], [1792, 7936], [2816, 7936]]
+    floor: 0
+    ceiling: 384
+    theme: theme:vlcwl4b_vlctrm3_d2ceil3
+    walls:
+      - wall: 0
+        ends: {length: 36, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 2
+        ends: {length: 36, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 5
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 7
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 9
+        ends: {length: 45, surface: {texture: d8wlble, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+  - id: room:s21
+    name: East corridor (21)
+    outline: [[4864, 5664], [5120, 5664], [5120, 7680], [4864, 7680]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1lg_vlcflora_vlcflore
+    walls:
+      - wall: 1
+        panels:
+          - {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d2wlcle, size: [128, 256]}}
+  - id: room:s22
+    name: East hall lobby (22)
+    outline: [[3840, 4608], [4320, 4608], [4320, 4864], [3840, 4864]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1_vlcflora_vlcflore
+    walls:
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 0
+        panels:
+          - {from: end, length: 96, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {offset: 256, length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 96, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+  - id: room:s23
+    name: Eight-sided east hall (23)
+    outline: [[5632, 4608], [5632, 5120], [5120, 5632], [4864, 5632], [4352, 5120], [4352, 4608], [4864, 4352], [5120, 4352]]
+    floor: 0
+    ceiling: 384
+    theme: theme:vlcwl4b_vlcflorc_d2ceil3
+    walls:
+      - wall: 1
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 5
+        ends: {length: 27, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 7
+        ends: {length: 27, surface: {texture: d8wlble, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    ceiling_levels:
+      - ceiling: 576
+        top_outline: [[5120, 4600], [5120, 5112], [5120, 5112], [4864, 5112], [4864, 5112], [4864, 4600], [4864, 4600], [5120, 4600]]
+    notes: "The ceiling leans in from 384 at the eight walls to a flat panel 256 by 512 at 576, as measured."
+  - id: room:s24
+    name: Lift corridor (24)
+    outline: [[4128, 3328], [4864, 3328], [4864, 3584], [4128, 3584]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1_vlcflora_vlcflore
+    walls:
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 0
+        panels:
+          - {offset: 352, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 96, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 96, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+  - id: room:s28
+    name: Chest room passage (28)
+    outline: [[2816, 3840], [2560, 3840], [2560, 3072], [3040, 3072], [3040, 3328], [2816, 3328]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1_vlcflora_vlcflore
+    walls:
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 4
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {from: end, length: 128, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+  - id: room:s29
+    name: Two-chest room (29)
+    outline: [[2560, 3840], [3328, 3840], [3584, 4096], [3584, 4352], [2560, 4352]]
+    floor: 0
+    ceiling: 384
+    theme: theme:vlcwl1_vlcflora_vlcflore
+    walls:
+      - wall: 1
+        ends: {length: 23, surface: {texture: d8wlble, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+  - id: room:s3
+    name: First lava hall (3)
+    outline: [[-1536, 2048], [1792, 2048], [1792, 3072], [-1536, 3072]]
+    floor: -768
+    ceiling: 512
+    theme: theme:vlcwl3a_orfyrlga_vlcceila
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 1248, length: 32, bottom: 740, height: 440, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 2048, length: 32, bottom: 740, height: 440, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {offset: 1504, length: 32, bottom: 740, height: 312, surface: {texture: d8wlble, size: [128, 256]}}
+          - {offset: 1792, length: 32, bottom: 740, height: 312, surface: {texture: d8wlble, size: [128, 256]}}
+          - {id: panel:fire_wall, offset: 1536, length: 256, bottom: 1052, height: 228, surface: {texture: vlcwl3a, size: [128, 256]}, notes: "Face 35, the wall over the north door (x 0 to 256, z 284 to 512), clicked: original event 91."}
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    platforms:
+      - {id: platform:tile42, at: [-768, 3040], size: [64, 64], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, notes: "Original event 42's tile (faces 631-634): 64 square, 16 high on the island at the north wall's foot, clicked."}
+    levels:
+      - id: level:s3_island
+        outline: [[-1024, 2944], [-512, 2944], [-512, 3072], [-1024, 3072]]
+        floor: -752
+        edge: {texture: 6voltyl, size: [128, 128]}
+        surface: {texture: 6voltyl, size: [128, 128]}
+        notes: The island with the tile that puts a fallen party back in the tower corridor.
+    notes: "Lava (-768) from wall to wall, 768 below the two doors that face each other across it (the gate hall on the south, the corridor on the north). A stub of bridge stands out 64 from the south side at -16; the lever in the lever room pushes its end 959 across to the north door (objects.yml mover:bridge3, a stretching mover). The lava runs on 256 under both end walls through slots 64 high: the low rooms s3w and s3e."
+  - id: room:s30
+    name: Lift lobby (30)
+    outline: [[4608, 2592], [4864, 2592], [4864, 3328], [4608, 3328]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1_vlcflora_vlcflore
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: vlcwl1le, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 96, surface: {texture: vlcwl1re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 96, surface: {texture: vlcwl1le, size: [128, 256]}}
+          - {length: 128, surface: {texture: vlcwl1re, size: [128, 256]}}
+  - id: room:s32
+    name: Laboratory corridor (32)
+    outline: [[4608, 1280], [4864, 1280], [4864, 2048], [4608, 2048]]
+    floor: -2048
+    ceiling: -1792
+    theme: theme:ctwl2_ctflor1_ctceil3
+    walls:
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: ctwl2le, size: [128, 256]}}
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 128, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {offset: 256, length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 128, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+  - id: room:s33
+    name: Laboratory corridor bend (33)
+    outline: [[4864, 1280], [5888, 1280], [5888, 1056], [6144, 1056], [6144, 1536], [4864, 1536]]
+    floor: -2048
+    ceiling: -1792
+    theme: theme:ctwl2_ctflor1_ctceil3
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 128, surface: {texture: ctwl2le, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {from: end, length: 96, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 128, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {length: 96, surface: {texture: ctwl2re, size: [128, 256]}}
+      - wall: 4
+        panels:
+          - {from: end, length: 128, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {length: 128, surface: {texture: ctwl2re, size: [128, 256]}}
+  - id: room:s34
+    name: Lava channel hall (34)
+    outline: [[3392, -256], [6080, -256], [6080, -192], [6144, -192], [6144, 960], [6080, 960], [6080, 1024], [3392, 1024], [3392, 960], [3328, 960], [3328, -192], [3392, -192]]
+    floor: -2260
+    ceiling: -1280
+    theme: theme:ctwl2_orfyrlga_ctceil2
+    walls:
+      - wall: 1
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 2
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 4
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 5
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 7
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 8
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 10
+        surface: {texture: cttrim2, size: [64, 256]}
+      - wall: 11
+        surface: {texture: cttrim2, size: [64, 256]}
+    platforms:
+      - {at: [4736, 640], size: [768, 256], rise: 64, surface: {texture: ctwl2, size: [256, 256]}, top_surface: {texture: ctflor4, size: [128, 128]}, bottom_surface: {texture: ctflor1, size: [128, 128]}, base: 244, notes: "The bridge (faces 1099-1101): sides ctwl2 as measured; its underside ctflor1 as measured (`bottom_surface`)."}
+      - {id: platform:s34_ramp_w, at: [4096, 448], size: [512, 128], rise: 20, surface: {texture: ctwl2, size: [256, 256]}, top_surface: {texture: ctflor4, size: [128, 128]}, top_slope: {to: 212, toward: west}, notes: "The west ramp from the floor down to its bank (face 1187): a solid wedge, 192 over 512."}
+      - {id: platform:s34_ramp_e, at: [5376, 448], size: [512, 128], rise: 20, surface: {texture: ctwl2, size: [256, 256]}, top_surface: {texture: ctflor4, size: [128, 128]}, top_slope: {to: 212, toward: east}, notes: The east ramp down to its bank.}
+    levels:
+      - id: level:s34_west
+        outline: [[3392, -256], [4352, -256], [4352, 384], [3840, 384], [3840, 512], [4352, 512], [4352, 1024], [3392, 1024], [3392, 960], [3328, 960], [3328, -192], [3392, -192]]
+        floor: -2048
+        edge: {texture: ctwl2, size: [256, 256]}
+        surface: {texture: ctflor4, size: [128, 128]}
+        notes: The west floor.
+      - id: level:s34_east
+        outline: [[5120, -256], [6080, -256], [6080, -192], [6144, -192], [6144, 960], [6080, 960], [6080, 1024], [5120, 1024], [5120, 512], [5632, 512], [5632, 384], [5120, 384]]
+        floor: -2048
+        edge: {texture: ctwl2, size: [256, 256]}
+        surface: {texture: ctflor4, size: [128, 128]}
+        notes: The east floor.
+      - id: level:s34_bank_w
+        outline: [[4352, -256], [4480, -256], [4480, 1024], [4352, 1024]]
+        floor: -2240
+        edge: {texture: ctflor1, size: [128, 128]}
+        surface: {texture: ctflor1, size: [128, 128]}
+        notes: "The west bank, 20 above the lava, under the bridge."
+      - id: level:s34_bank_e
+        outline: [[4992, -256], [5120, -256], [5120, 1024], [4992, 1024]]
+        floor: -2240
+        edge: {texture: ctflor1, size: [128, 128]}
+        surface: {texture: ctflor1, size: [128, 128]}
+        notes: "The east bank, under the bridge."
+    flights:
+      - {from: [4040, 640], to: [4362, 640], to_height: -1952, width: 256, steps: 6, riser: {texture: gset05, size: [256, 16]}, tread: {texture: ctflor4, size: [128, 128]}}
+      - {from: [5432, 640], to: [5110, 640], to_height: -1952, width: 256, steps: 6, riser: {texture: gset05, size: [256, 16]}, tread: {texture: ctflor4, size: [128, 128]}}
+    notes: "A hall 2,816 by 1,280 with its floor (-2048) either side of a channel 768 wide: banks 128 wide at -2240 and between them 512 of lava at -2260, which flows out through the whole south side into the lava river. A bridge at -1952 crosses the channel, six steps of 16 up to it from each floor, and a ramp 128 wide leads from each floor down to its bank (192 over 512). Here the room's floor is the lava and the floors and banks are levels on the original's lines, so that the mouth to the river opens at the lava's height; the banks run on under the bridge, which is a free block 64 thick that the two stairs end on (`to_height`); the ramps are solid wedges (`top_slope`) from the bank's height up to the floor, as in the original. A pilaster 64 square stands in each corner, faced with `cttrim2` (the outline's notches). The west and north doors stand flush against a pilaster in the original; an opening needs 16 of wall at each side, so both stand 16 farther from it here."
+  - id: room:s35
+    name: "Tower corridor, lower (35)"
+    outline: [[2208, -256], [3296, -256], [3296, 0], [2208, 0]]
+    floor: -2048
+    ceiling: -1792
+    theme: theme:ctwl2_ctflor1_ctceil2
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 96, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {length: 96, surface: {texture: ctwl2re, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 96, surface: {texture: ctwl2le, size: [128, 256]}}
+          - {length: 96, surface: {texture: ctwl2re, size: [128, 256]}}
+  - id: room:s36
+    name: Lava river (36)
+    outline: [[5120, -256], [4352, -256], [4352, -2560], [3840, -3072], [3328, -3072], [2816, -2560], [2816, -1664], [1920, -768], [-2304, -768], [-2304, -1536], [1536, -1536], [2048, -2048], [2048, -2944], [2944, -3840], [4352, -3840], [5120, -2944]]
+    floor: -2260
+    ceiling: -1600
+    theme: theme:ctwl5_orfyrlga_ctceil1
+    levels:
+      - id: level:s36_inner
+        outline: [[4480, -256], [4352, -256], [4352, -2560], [3840, -3072], [3328, -3072], [2816, -2560], [2816, -1664], [1920, -768], [-2304, -768], [-2304, -896], [1792, -896], [2688, -1792], [2688, -2688], [3200, -3200], [3968, -3200], [4480, -2688]]
+        floor: -2240
+        edge: {texture: ctflor1, size: [128, 128]}
+        surface: {texture: ctflor1, size: [128, 128]}
+        notes: The inner bank.
+      - id: level:s36_outer
+        outline: [[5120, -256], [4992, -256], [4992, -2816], [4224, -3712], [3072, -3712], [2176, -2816], [2176, -1920], [1664, -1408], [-2304, -1408], [-2304, -1536], [1536, -1536], [2048, -2048], [2048, -2944], [2944, -3840], [4352, -3840], [5120, -2944]]
+        floor: -2240
+        edge: {texture: ctflor1, size: [128, 128]}
+        surface: {texture: ctflor1, size: [128, 128]}
+        notes: The outer bank.
+    notes: "A dead-end tunnel 768 wide and about 9,500 long that leaves the channel hall southward, turns round the south-east corner of the map and runs west under the tower: 512 of lava (-2260) between two banks 128 wide (-2240), where the party walks without burning. Fire elementals live along it."
+  - id: room:s37
+    name: Stair tower (37)
+    outline: [[512, -640], [2176, -640], [2176, 640], [512, 640]]
+    floor: -2048
+    ceiling: -512
+    theme: theme:ctwl2_ctflor5_ctceil3
+    platforms:
+      - {at: [1984, 576], size: [128, 128], rise: 20, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}}
+      - {at: [1280, 576], size: [1280, 128], rise: 20, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, top_slope: {to: 128, toward: west}}
+      - {at: [576, 576], size: [128, 128], rise: 128, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}}
+      - {at: [576, 0], size: [128, 1024], rise: 128, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, top_slope: {to: 192, toward: south}}
+      - {at: [576, -576], size: [128, 128], rise: 192, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}}
+      - {at: [1344, -576], size: [1408, 128], rise: 192, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, top_slope: {to: 320, toward: east}}
+      - {at: [2112, -576], size: [128, 128], rise: 320, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}}
+      - {at: [2112, 576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 352}
+      - {at: [576, 576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 480}
+      - {at: [576, -576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 544}
+      - {at: [2112, -576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 672}
+      - {at: [2112, 576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 736}
+      - {at: [576, 576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 864}
+      - {at: [576, -576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 928}
+      - {at: [2112, -576], size: [128, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 1056}
+      - {at: [2048, 576], size: [256, 128], rise: 32, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, base: 1120}
+      - {at: [2112, 0], size: [128, 1024], rise: 320, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 384, toward: north}}
+      - {at: [1344, 576], size: [1408, 128], rise: 384, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 512, toward: west}}
+      - {at: [576, 0], size: [128, 1024], rise: 512, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 576, toward: south}}
+      - {at: [1344, -576], size: [1408, 128], rise: 576, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 704, toward: east}}
+      - {at: [2112, 0], size: [128, 1024], rise: 704, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 768, toward: north}}
+      - {at: [1344, 576], size: [1408, 128], rise: 768, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 896, toward: west}}
+      - {at: [576, 0], size: [128, 1024], rise: 896, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 960, toward: south}}
+      - {at: [1344, -576], size: [1408, 128], rise: 960, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 1088, toward: east}}
+      - {at: [2112, 0], size: [128, 1024], rise: 1088, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, bottom_surface: {texture: bemvwal, size: [128, 256]}, thickness: 32, top_slope: {to: 1152, toward: north}}
+    notes: "A hall 1,664 by 1,280 and 1,536 high. A ramp 128 wide climbs its four walls three times round, from the floor (-2048) to the door at -896: slabs 32 thick that rise 128 along the north and south walls and 64 along the east and west walls, with level corner pieces (faces 1336-1393). The first turn (from the step of 20 at the foot to the south-east corner) is solid down to the floor: blocks with sloping tops (`top_slope`) and level corner blocks, as measured. From the east wall on the ramp hangs free: corner landings 128 square and the top landing 256 by 128, all slabs 32 thick against the walls, and nine ramps that are hanging slabs 32 thick sloping with their tops (`top_slope` with `thickness`, since round five; they were open flights of steps). Five crystals stand on the floor."
+  - id: room:s38
+    name: Upper laboratory passage (38)
+    outline: [[1920, 672], [2176, 672], [2176, 1024], [3072, 1024], [3072, 1280], [1920, 1280]]
+    floor: -896
+    ceiling: -640
+    theme: theme:ctwl5_ctflor5_ctceil3
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 96, surface: {texture: ctwl5re, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+      - wall: 4
+        panels:
+          - {offset: 256, length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+          - {from: end, length: 96, surface: {texture: ctwl5le, size: [128, 256]}}
+  - id: room:s39
+    name: Lava cavern (39)
+    outline: [[2304, 1408], [3840, 1408], [3840, 2560], [2304, 2560]]
+    floor: -1408
+    ceiling: -384
+    theme: theme:vlcwl1le_orfyrlga_ctceil3
+    ends: {length: 64, surface: {texture: cttrim2, size: [64, 256]}}
+    platforms:
+      - {at: [2944, 1984], size: [256, 1152], rise: 64, surface: {texture: d2ceil1, size: [256, 256]}, top_surface: {texture: ctflor5, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 448}
+    notes: "Lava (-1408) under a walkway 256 wide at -896 that crosses it from the south door to the north door, a free slab 64 thick with nothing at its edges. A recess in the north wall holds the way out for whoever falls. The lava runs on 128 under the west and east walls through slots 64 high: the low rooms s39w and s39e."
+  - id: room:s39a
+    name: Lava cavern recess (39)
+    outline: [[2432, 2560], [2688, 2560], [2688, 2688], [2432, 2688]]
+    floor: -1408
+    ceiling: -1152
+    theme: theme:ctwl2_ctflor5_ctceil3
+    walls:
+      - wall: 2
+        panels:
+          - {id: panel:tile43, offset: 96, length: 64, bottom: 128, height: 64, surface: {texture: orfyr64b, size: [64, 64]}, notes: "Face 1497, a tile in the back wall (x 2528 to 2592, z -1280 to -1216), clicked: original event 43."}
+    notes: "Dry floor at the lava's height; the tile on its back wall sends the party to the lower tower corridor."
+  - id: room:s39e
+    name: "Lava cavern, slot under the east wall (39)"
+    outline: [[3840, 1408], [3968, 1408], [3968, 2560], [3840, 2560]]
+    floor: -1408
+    ceiling: -1344
+    theme: theme:d2wlactr_orfyrlga_d2ceil1
+    walls:
+      - wall: 0
+        surface: {texture: 6voltyl, size: [128, 128]}
+      - wall: 2
+        surface: {texture: 6voltyl, size: [128, 128]}
+    notes: "The same under the east wall (faces 1466, 1471-1474)."
+  - id: room:s39w
+    name: "Lava cavern, slot under the west wall (39)"
+    outline: [[2176, 1408], [2304, 1408], [2304, 2560], [2176, 2560]]
+    floor: -1408
+    ceiling: -1344
+    theme: theme:d2wlactr_orfyrlga_d2ceil1
+    walls:
+      - wall: 0
+        surface: {texture: 6voltyl, size: [128, 128]}
+      - wall: 2
+        surface: {texture: 6voltyl, size: [128, 128]}
+    notes: "The lava runs on 128 under the cavern's west wall, 64 high (faces 1466, 1475-1478)."
+  - id: room:s3e
+    name: "First lava hall, slot under the east wall (3)"
+    outline: [[1792, 2048], [2048, 2048], [2048, 3072], [1792, 3072]]
+    floor: -768
+    ceiling: -704
+    theme: theme:d2wlactr_orfyrlga_d2ceil1
+    walls:
+      - wall: 0
+        surface: {texture: 6voltyl, size: [128, 128]}
+      - wall: 2
+        surface: {texture: 6voltyl, size: [128, 128]}
+    notes: "The same under the east wall (faces 7, 230-233)."
+  - id: room:s3w
+    name: "First lava hall, slot under the west wall (3)"
+    outline: [[-1792, 2048], [-1536, 2048], [-1536, 3072], [-1792, 3072]]
+    floor: -768
+    ceiling: -704
+    theme: theme:d2wlactr_orfyrlga_d2ceil1
+    walls:
+      - wall: 0
+        surface: {texture: 6voltyl, size: [128, 128]}
+      - wall: 2
+        surface: {texture: 6voltyl, size: [128, 128]}
+    notes: "The lava runs on 256 under the hall's west wall through a slot 64 high (faces 7, 226-229): a low recess of the hall, open to it along the whole wall."
+  - id: room:s4
+    name: North corridor (4)
+    outline: [[0, 3072], [256, 3072], [256, 4096], [0, 4096]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl2_vlcflora_vlctrm3
+    walls:
+      - wall: 1
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+  - id: room:s40
+    name: Library passage (40)
+    outline: [[2816, 2560], [3072, 2560], [3072, 3072], [2816, 3072]]
+    floor: -896
+    ceiling: -640
+    theme: theme:ctwl5_ctflor5_ctceil3
+    walls:
+      - wall: 1
+        panels:
+          - {offset: 128, length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+  - id: room:s41
+    name: Library corridor (41)
+    outline: [[3072, 2816], [5088, 2816], [5088, 3072], [3072, 3072]]
+    floor: -896
+    ceiling: -640
+    theme: theme:ctwl5_ctflor5_ctceil3
+    walls:
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: ctwl4le, size: [128, 256]}}
+          - {from: end, length: 64, surface: {texture: ctwl4re, size: [128, 256]}}
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: ctwl5re, size: [128, 256]}}
+          - {from: end, length: 96, surface: {texture: ctwl5le, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 96, surface: {texture: ctwl5re, size: [128, 256]}}
+  - id: room:s42
+    name: Gharik's laboratory (42)
+    outline: [[5120, 2816], [5376, 2816], [5888, 2304], [6656, 2304], [6656, 3584], [5888, 3584], [5376, 3072], [5120, 3072]]
+    floor: -896
+    ceiling: -384
+    ceiling_points: [[5120, 2816, -512], [5376, 2816, -512], [5376, 3072, -512], [5120, 3072, -512]]
+    ceiling_lines:
+      - [[5376, 2816], [5376, 3072]]
+      - [[5888, 2304], [5888, 3584]]
+    theme: theme:vlcwl4b_vlctrm3_ctceil1
+    walls:
+      - wall: 1
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 5
+        ends: {length: 34, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 7
+        ends: {length: 64, surface: {texture: vlcwl4b, size: [128, 256]}}
+        notes: "The doorway wall (x 5120) has no D8wlBLE corner strips in the original: its two ends are vlcwl4b faces 64 wide (1510, 1530), as the room's walls."
+    ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    platforms:
+      - {id: platform:bookcase, at: [6336, 2368], size: [640, 128], rise: 256, surface: {texture: bookcas2, size: [256, 256]}, end_surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: bemvwal, size: [128, 256]}, notes: "The bookcase (faces 1550-1552) against the south and east walls, clicked: original event 62 (wiring evt:bookcase). Its west end is bemvwal (face 1550), as `end_surface`."}
+      - {at: [6528, 3520], size: [256, 128], rise: 144, surface: {texture: bemvwal, size: [128, 256]}, notes: "The bench in the north-east corner (faces 1540-1544, 1568, 1569)."}
+      - {at: [6592, 3360], size: [128, 64], rise: 64, surface: {texture: bemvwal, size: [128, 256]}, notes: A low block against the east wall (faces 1545-1548).}
+    notes: "The goal: the chest with the hourglass of time against the east wall, a bookcase 640 long along the south wall (searched for scrolls), a bench in the north-east corner. One room, as in the original: a neck 256 square at the door under a level ceiling at -512, a part that widens from 256 to 1,280 under a ceiling rising in one plane from -512 to -384, and a hall 768 by 1,280 under a level ceiling at -384. Said with `ceiling_points` at the neck's four corners (the other corners stand at `ceiling`) and `ceiling_lines` along the two creases (x 5376 and x 5888), so the three parts are three planes, as measured (faces 1557, 1558, 1567, 2559, 2560)."
+  - id: room:s43
+    name: North-west passage (43)
+    outline: [[896, 7168], [1792, 7168], [1792, 6912], [2048, 6912], [2048, 7424], [896, 7424]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+          - {offset: 256, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 1
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 4
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+  - id: room:s44
+    name: Lower north passage (44)
+    outline: [[512, 7168], [1792, 7168], [1792, 6912], [2048, 6912], [2048, 7168], [3072, 7168], [3072, 6944], [3328, 6944], [3328, 7424], [512, 7424]]
+    floor: -512
+    ceiling: -256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 0
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 1
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 4
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 7
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 8
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+    notes: Under the north-west passage.
+  - id: room:s45
+    name: Lower south passage (45)
+    outline: [[512, 4352], [3328, 4352], [3328, 4608], [2048, 4608], [2048, 5120], [1792, 5120], [1792, 4608], [512, 4608]]
+    floor: -512
+    ceiling: -256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+          - {offset: 256, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 5
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 6
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+    notes: Under the south hall.
+  - id: room:s46m
+    name: Stair passage (46)
+    outline: [[896, 5280], [1152, 5280], [1152, 6752], [896, 6752]]
+    floor: -260
+    ceiling: 256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 3
+        panels:
+          - {offset: 576, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+          - {offset: 864, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+    notes: "A sunken passage between the south hall and the north-west passage: 13 steps of 20 down at each end, and from the middle of its west wall a flight on down to the lower passages."
+  - id: room:s46n
+    name: "Stair passage, north steps (46)"
+    outline: [[896, 6752], [1152, 6752], [1152, 7168], [896, 7168]]
+    floor: 0
+    slope: {to: -260, toward: south, steps: 13, riser: {texture: gset05, size: [256, 16]}}
+    ceiling: 256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 1
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+  - id: room:s46s
+    name: "Stair passage, south steps (46)"
+    outline: [[896, 4864], [1152, 4864], [1152, 5280], [896, 5280]]
+    floor: 0
+    slope: {to: -260, toward: north, steps: 13, riser: {texture: gset05, size: [256, 16]}}
+    ceiling: 256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 1
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+  - id: room:s47
+    name: Lower west passage (47)
+    outline: [[256, 4352], [512, 4352], [512, 7424], [256, 7424]]
+    floor: -512
+    ceiling: -256
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 0
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {offset: 256, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+          - {offset: 1504, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+          - {offset: 1792, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+          - {offset: 2784, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+  - id: room:s47st
+    name: Lower stair (47)
+    outline: [[512, 5888], [896, 5888], [896, 6144], [512, 6144]]
+    floor: -512
+    slope: {to: -260, toward: east, steps: 13, riser: {texture: gset05, size: [256, 16]}}
+    ceiling: -4
+    ceiling_points: [[512, 5888, -244], [864, 5888, -4], [864, 6144, -4], [512, 6144, -244]]
+    ceiling_lines:
+      - [[864, 5888], [864, 6144]]
+    theme: theme:vlcgnrc1_vlcflora_vlcgnrc2
+    walls:
+      - wall: 0
+        panels:
+          - {from: end, length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 32, surface: {texture: d8wlbxl, size: [128, 256]}}
+    notes: "12 steps of 20 from the lower west passage up to the stair passage, under the eight-sided hall. The ceiling rakes with the steps from -244 at the foot to -4 at x 864 and is level for the last 32 at the head (faces 2430, 2366): `ceiling_points` on the two walls at the crease."
+  - id: room:s7
+    name: Lever room (7)
+    outline: [[544, 1536], [1024, 1536], [1024, 768], [1536, 768], [1536, 1280], [1280, 1280], [1280, 1792], [544, 1792]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl1lg_vlcflore_vlctrm3
+    walls:
+      - wall: 1
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 2
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 4
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 5
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+    notes: The lever at its south end extends the bridge of the lava hall.
+  - id: room:s8
+    name: West corridor (8)
+    outline: [[-2048, 3840], [0, 3840], [0, 4096], [-2048, 4096]]
+    floor: 0
+    ceiling: 256
+    theme: theme:vlcwl2_vlcflora_vlctrm3
+    walls:
+      - wall: 0
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+      - wall: 3
+        ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
+  - id: room:s9
+    name: Lava gallery (9)
+    outline: [[-2016, 4128], [-1568, 4128], [-1568, 4160], [-1536, 4160], [-1536, 6112], [-1568, 6112], [-1568, 6144], [-2016, 6144], [-2016, 6112], [-2048, 6112], [-2048, 4160], [-2016, 4160]]
+    floor: -256
+    ceiling: 384
+    theme: theme:vlcwl2_orfyrlga_vlcflorb
+    walls:
+      - wall: 1
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 2
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 4
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 5
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 7
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 8
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 10
+        surface: {texture: d2wlactr, size: [128, 256]}
+      - wall: 11
+        surface: {texture: d2wlactr, size: [128, 256]}
+    platforms:
+      - {id: platform:tile41, at: [-2016, 5184], size: [64, 64], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, notes: "Original event 41's tile (faces 644-647): 64 square, 16 high on the island against the west wall, clicked."}
+      - {at: [-1793, 5136], size: [178, 2014], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, base: 224}
+      - {at: [-1634, 5248], size: [194, 178], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, base: 224}
+      - {at: [-1872, 5136], size: [20, 2014], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
+      - {at: [-1713, 4654], size: [20, 1050], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
+      - {at: [-1713, 5730], size: [20, 826], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
+      - {at: [-1620, 5169], size: [166, 20], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
+      - {at: [-1620, 5327], size: [166, 20], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
+    levels:
+      - id: level:s9_island
+        outline: [[-2048, 4992], [-1952, 4992], [-1952, 5376], [-2048, 5376]]
+        floor: -240
+        edge: {texture: 6voltyl, size: [128, 128]}
+        surface: {texture: 6voltyl, size: [128, 128]}
+        notes: The island with the tile that puts a fallen party back in the west corridor.
+    notes: "A pilaster 32 square stands in each corner (the outline's notches, `d2wlactr`). A walkway at 0 over lava at -256: a strip 138 wide from the south door to the north door with an arm to the east door, free slabs here. Its kerbs, 20 wide and 64 high along both edges and along the arm, are blocks standing on the slabs (a parapet stands on a room floor or a level, not on a free block)."
+  - id: room:shaft
+    name: Lift shaft (31)
+    outline: [[4608, 2304], [4864, 2304], [4864, 2560], [4608, 2560]]
+    floor: -2048
+    ceiling: 256
+    theme: theme:vlcwl1lg_ctflor1_vlcflore
+    notes: "256 square and 2,304 deep. The lift floor (256 by 240) starts at -16, 16 below the lobby door, and sinks 2,032 to the lower floor at 200 units a second; a lever beside it at the top and another at the bottom call it."
+  - id: room:shaftb
+    name: Lift foot (31)
+    outline: [[4608, 2080], [4864, 2080], [4864, 2304], [4608, 2304]]
+    floor: -2048
+    ceiling: -1792
+    theme: theme:ctwl5_ctflor1_ctceil3
+    walls:
+      - wall: 1
+        panels:
+          - {length: 96, surface: {texture: ctwl5re, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {from: end, length: 96, surface: {texture: ctwl5le, size: [128, 256]}}
+    notes: "The recess the lift is left by at the bottom; the laboratory door (it needs Gharik's key) is in its south wall."
+  - id: room:start
+    name: Entrance landing (6)
+    outline: [[-2816, 512], [-2176, 512], [-2176, 768], [-2560, 768], [-2560, 1280], [-2816, 1280]]
+    floor: 1152
+    ceiling: 1408
+    theme: theme:d2wlactr_vlcflora_d2ceil1
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: d2wlare, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {from: end, length: 128, surface: {texture: d2wlale, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: d2wlare, size: [128, 256]}}
+      - wall: 5
+        panels:
+          - {from: end, length: 128, surface: {texture: d2wlale, size: [128, 256]}}
+    notes: "The party arrives here, 1,664 above the lava of the tower; the exit door is the north end wall. One L-shaped room, as in the original: a leg 256 by 768 and an arm east to the tower's bridge. The leg also faces the tower, across 384 of rock and on a longer stretch than the arm that touches it, so the opening names its walls."
+  - id: room:tower
+    name: Lava tower (5)
+    outline: [[-2176, -384], [-1920, -640], [-768, -640], [-512, -384], [-512, 1664], [-768, 1920], [-1920, 1920], [-2176, 1664]]
+    floor: -512
+    ceiling: 2688
+    theme: theme:vlcwl1lg_orfyrlga_sky_nit2
+    platforms:
+      - {id: platform:tile32, at: [-1280, 768], size: [128, 128], rise: 80, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}}
+      - {at: [-576, 624], size: [128, 288], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, base: 480, notes: "The tower ramp's foot (faces 40, 165), a slab 32 thick at the corridor's floor."}
+      - {at: [-576, 496], size: [128, 32], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, base: 512, notes: "The kerb at the foot's south end (faces 166-169), 64 high."}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-640, 1536], [-512, 1536], [-512, 1664], [-768, 1920], [-896, 1920], [-896, 1792]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 608}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-1792, 1792], [-1792, 1920], [-1920, 1920], [-2176, 1664], [-2176, 1536], [-2048, 1536]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 736}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-2048, -256], [-2176, -256], [-2176, -384], [-1920, -640], [-1792, -640], [-1792, -512]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 864}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-896, -512], [-896, -640], [-768, -640], [-512, -384], [-512, -256], [-640, -256]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 992}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-640, 1536], [-512, 1536], [-512, 1664], [-768, 1920], [-896, 1920], [-896, 1792]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 1120}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-1792, 1792], [-1792, 1920], [-1920, 1920], [-2176, 1664], [-2176, 1536], [-2048, 1536]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 1248}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-2048, -256], [-2176, -256], [-2176, -384], [-1920, -640], [-1792, -640], [-1792, -512]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 1376}
+      - {rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, outline: [[-896, -512], [-896, -640], [-768, -640], [-512, -384], [-512, -256], [-640, -256]], top_surface: {texture: d2wlactr, size: [128, 256]}, base: 1504}
+      - {at: [-1344, 640], size: [1664, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, base: 1632, notes: The bridge from the entrance landing (faces 58-64).}
+      - {at: [-576, 1152], size: [128, 768], rise: 512, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 640, toward: north}}
+      - {at: [-1344, 1856], size: [896, 128], rise: 640, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 768, toward: west}}
+      - {at: [-2112, 640], size: [128, 1792], rise: 768, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 896, toward: south}}
+      - {at: [-1344, -576], size: [896, 128], rise: 896, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 1024, toward: east}}
+      - {at: [-576, 640], size: [128, 1792], rise: 1024, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 1152, toward: north}}
+      - {at: [-1344, 1856], size: [896, 128], rise: 1152, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 1280, toward: west}}
+      - {at: [-2112, 640], size: [128, 1792], rise: 1280, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 1408, toward: south}}
+      - {at: [-1344, -576], size: [896, 128], rise: 1408, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 1536, toward: east}}
+      - {at: [-576, 128], size: [128, 768], rise: 1536, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, thickness: 32, top_slope: {to: 1664, toward: north}}
+    levels:
+      - id: level:tower_island
+        outline: [[-1536, 640], [-1408, 512], [-1152, 512], [-1024, 640], [-1024, 896], [-1152, 1024], [-1408, 1024], [-1536, 896]]
+        floor: -496
+        edge: {texture: 6voltyl, size: [128, 128]}
+        surface: {texture: 6voltyl, size: [128, 128]}
+        notes: "The island in the lava: whoever falls stands here out of the fire and clicks the raised tile in its middle to be put back at the start."
+    notes: "An eight-sided shaft 1,664 by 2,560 with lava for a floor (-512) and the night sky for a ceiling (2,688). A bridge crosses it at 1,152 from the entrance landing; from its east end a ramp 128 wide winds down the walls, two full turns, to the foot (a slab at 0 with a kerb 64 high at its south end) and the corridor. The original ramp is a free slab 32 thick that slopes 128 along each wall, with level corner pieces on the diagonal walls (faces 40-59, 61-97, 165-168, 2486-2516). Here: the eight corner landings, all of the original's six-sided shape against the two walls and the diagonal, the bridge and the foot are free slabs 32 thick on the measured lines; each of the nine ramps is a hanging slab 32 thick from landing edge to landing edge whose top and underside slope together (`top_slope` with `thickness`, since round five; they were open flights of eight steps), all `d2wlactr` as measured. An island in the middle of the lava carries the raised tile, clicked, that puts a fallen party back at the start. The lava is a lava floor (objects.yml `floors`) with the original's step events."
+openings:
+  - id: open:loop_s24
+    from: room:loop
+    to: room:s24
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:loop_s28
+    from: room:loop
+    to: room:s28
+    from_wall: 5
+    to_wall: 3
+    along: 0.5
+    width: full
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:machine_n43
+    from: room:machine
+    to: room:s43
+    from_wall: north
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:machine_n44
+    from: room:machine
+    to: room:s44
+    from_wall: north
+    to_wall: 2
+    width: full
+    height: full
+    notes: From the lower north-west balcony.
+  - id: open:machine_n45
+    from: room:machine
+    to: room:s45
+    from_wall: south
+    to_wall: 4
+    width: full
+    height: full
+    notes: From the lower south-west balcony.
+  - id: open:machine_n48
+    from: room:machine
+    to: room:n48
+    along: 0.5
+    width: full
+    height: 240
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:machine_n51
+    from: room:machine
+    to: room:s44
+    from_wall: north
+    to_wall: 6
+    along: 0.5
+    width: full
+    height: 240
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:n33_s34
+    from: room:s33
+    to: room:s34
+    from_wall: 2
+    to_wall: 6
+    along: 0.75
+    width: 128
+    height: 256
+    threshold: {texture: ctflor1, size: [128, 128]}
+  - id: open:n39_s39
+    from: room:n39
+    to: room:s39
+    width: full
+    height: full
+  - id: open:n48_s18
+    from: room:n48
+    to: room:s18
+    width: full
+    height: full
+  - id: open:n49_machine
+    from: room:n49
+    to: room:machine
+    along: 0.5
+    width: full
+    height: 240
+    threshold: {texture: vlctrm3, size: [128, 128]}
+  - id: open:n50_machine
+    from: room:n50
+    to: room:machine
+    width: full
+    height: 240
+  - id: open:p52_machine
+    from: room:p52
+    to: room:machine
+    along: 0.5
+    width: full
+    height: 240
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:p52_s45
+    from: room:p52
+    to: room:s45
+    from_wall: south
+    to_wall: 2
+    width: full
+    height: full
+  - id: open:s11_s13
+    from: room:s11
+    to: room:s13
+    width: full
+    height: full
+  - id: open:s12_s14
+    from: room:s12
+    to: room:s14
+    width: full
+    height: full
+  - id: open:s13_s12
+    from: room:s13
+    to: room:s12
+    from_wall: north
+    to_wall: 0
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s13_s15
+    from: room:s13
+    to: room:s15
+    width: full
+    height: full
+  - id: open:s15_alcove
+    from: room:s15
+    to: room:alcove
+    from_wall: 0
+    to_wall: 4
+    along: 0.5
+    width: full
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s15_n49
+    from: room:s15
+    to: room:n49
+    width: full
+    height: full
+  - id: open:s15_n50
+    from: room:s15
+    to: room:n50
+    along: 0.5
+    width: full
+    height: 240
+    threshold: {texture: 6voltyl, size: [128, 128]}
+  - id: open:s15_s46s
+    from: room:s15
+    to: room:s46s
+    width: full
+    height: full
+  - id: open:s18_s19
+    from: room:s18
+    to: room:s19
+    from_wall: 1
+    to_wall: 5
+    width: full
+    height: full
+  - id: open:s18_s21
+    from: room:s18
+    to: room:s21
+    width: full
+    height: full
+  - id: open:s19_s20
+    from: room:s19
+    to: room:s20
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s1_s3
+    from: room:s1
+    to: room:s3
+    width: full
+    height: full
+    notes: "The gate hall's whole north side (768), open to the lava hall at the hall's ceiling height."
+  - id: open:s1_s7
+    from: room:s1
+    to: room:s7
+    from_wall: 5
+    to_wall: 7
+    along: 0.5
+    width: full
+    height: 256
+    threshold: {texture: vlcflore, size: [128, 128]}
+  - id: open:s21_s23
+    from: room:s21
+    to: room:s23
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s22_loop
+    from: room:s22
+    to: room:loop
+    width: full
+    height: full
+  - id: open:s23_s22
+    from: room:s23
+    to: room:s22
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s24_s30
+    from: room:s24
+    to: room:s30
+    width: full
+    height: full
+  - id: open:s28_s29
+    from: room:s28
+    to: room:s29
+    from_wall: 0
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s2_s1
+    from: room:s2
+    to: room:s1
+    width: full
+    height: full
+  - id: open:s30_shaft
+    from: room:s30
+    to: room:shaft
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s32_s33
+    from: room:s32
+    to: room:s33
+    width: full
+    height: full
+  - id: open:s34_s35
+    from: room:s34
+    to: room:s35
+    from_wall: 9
+    to_wall: 1
+    along: 0.5833
+    width: 128
+    height: 256
+    threshold: {texture: ctflor1, size: [128, 128]}
+  - id: open:s34_s36
+    from: room:s34
+    to: room:s36
+    width: full
+    height: full
+    notes: The channel (two banks and the lava between) runs out through the whole 768.
+  - id: open:s35_s37
+    from: room:s35
+    to: room:s37
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: 6voltyl, size: [128, 128]}
+  - id: open:s37_s38
+    from: room:s37
+    to: room:s38
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: ctflor5, size: [128, 128]}
+  - id: open:s38_n39
+    from: room:s38
+    to: room:n39
+    width: full
+    height: full
+  - id: open:s39_s39a
+    from: room:s39
+    to: room:s39a
+    width: full
+    height: full
+  - id: open:s39_s39e
+    from: room:s39
+    to: room:s39e
+    width: full
+    height: 64
+  - id: open:s39_s39w
+    from: room:s39
+    to: room:s39w
+    width: full
+    height: 64
+  - id: open:s39_s40
+    from: room:s39
+    to: room:s40
+    width: full
+    height: 256
+  - id: open:s3_s3e
+    from: room:s3
+    to: room:s3e
+    width: full
+    height: 64
+  - id: open:s3_s3w
+    from: room:s3
+    to: room:s3w
+    width: full
+    height: 64
+  - id: open:s3_s4
+    from: room:s3
+    to: room:s4
+    width: full
+    height: full
+  - id: open:s40_s41
+    from: room:s40
+    to: room:s41
+    width: full
+    height: full
+  - id: open:s41_s42
+    from: room:s41
+    to: room:s42
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: ctflor2, size: [128, 128]}
+  - id: open:s46m_s46n
+    from: room:s46m
+    to: room:s46n
+    width: full
+    height: full
+  - id: open:s46m_s47st
+    from: room:s46m
+    to: room:s47st
+    width: full
+    height: full
+  - id: open:s46n_s43
+    from: room:s46n
+    to: room:s43
+    from_wall: north
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:s46s_s46m
+    from: room:s46s
+    to: room:s46m
+    width: full
+    height: full
+  - id: open:s47_s44
+    from: room:s47
+    to: room:s44
+    from_wall: east
+    to_wall: 9
+    width: full
+    height: full
+  - id: open:s47_s45
+    from: room:s47
+    to: room:s45
+    from_wall: east
+    to_wall: 7
+    width: full
+    height: full
+  - id: open:s47st_s47
+    from: room:s47st
+    to: room:s47
+    width: full
+    height: full
+  - id: open:s4_s8
+    from: room:s4
+    to: room:s8
+    width: full
+    height: full
+  - id: open:s8_s9
+    from: room:s8
+    to: room:s9
+    from_wall: 2
+    to_wall: 0
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s9_s10
+    from: room:s9
+    to: room:s10
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:s9_s11
+    from: room:s9
+    to: room:s11
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: vlcflora, size: [128, 128]}
+  - id: open:shaft_shaftb
+    from: room:shaft
+    to: room:shaftb
+    width: full
+    height: full
+  - id: open:shaftb_s32
+    from: room:shaftb
+    to: room:s32
+    along: 0.5
+    width: 128
+    height: 256
+    threshold: {texture: ctflor1, size: [128, 128]}
+  - id: open:start_tower
+    from: room:start
+    to: room:tower
+    from_wall: 1
+    to_wall: 7
+    width: full
+    height: full
+    notes: "Onto the bridge, 1,664 above the lava."
+  - id: open:tower_s2
+    from: room:tower
+    to: room:s2
+    from_wall: 3
+    to_wall: 3
+    width: full
+    height: full
+    notes: From the foot of the ramp.
+notes: "Gharik's Forge (MM6 6d18.blv) in the original's own frame. Every room is one of the original's sectors (its number is in the name) or a part of one; outlines are the sectors' floor outlines as measured, all straight walls on the original's 32 grid. Doors stand in walls 32 thick, as in the original. The lava rooms have the lava as their floor and everything walked on as levels or free blocks. First written by gen/gen.py (round one); edited by hand since round two, so the scripts in gen/ no longer reproduce these files."

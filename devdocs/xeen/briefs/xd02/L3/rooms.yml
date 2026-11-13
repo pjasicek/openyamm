@@ -1,0 +1,902 @@
+format: 0
+themes:
+  - id: theme:deep_rock
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    notes: "The plan's deep rock: darker, coarser rock and the dark cave floor for the stope's depths, the chasm, the spider galleries and the Deep Line."
+  - id: theme:drowned_working
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: orwtrlga, size: [256, 256]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    notes: "The plan's drowned working: red rock with standing water as the floor."
+  - id: theme:dwarf_chapel
+    wall: {texture: 7cdb, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: cwb, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The plan's dwarf chapel: dwarf block walls, dark slab floor, dressed stone roof, carved stone door leaves."
+  - id: theme:dwarf_hall
+    wall: {texture: cwb, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: 7trimd, size: [128, 256]}
+    door: {texture: bwoodb1, size: [256, 256], fit: true}
+    notes: "The plan's hewn dwarf hall: dressed stone walls, dwarf-cut floor slabs, the rock left as the roof, plank frames and iron-banded plank doors."
+  - id: theme:grotto_pool
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: orwtrlga, size: [256, 256]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    notes: "The blue grotto: deep rock round a floor of shallow water."
+  - id: theme:red_workings
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: dirt, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    notes: "The plan's raw red workings: the same red-brown rock on walls and roof, red dirt floor. Gold veins are walls in cwb1gold."
+  - id: theme:timbered_adit
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: 7dirttyl, size: [128, 128]}
+    ceiling: {texture: 7trimda, size: [256, 128]}
+    reveal: {texture: cbeam5, size: [32, 256]}
+    door: {texture: bwooda1, size: [256, 256], fit: true}
+    notes: "The plan's timbered adit: red-brown rough rock walls (the shared MM7 cave rock), packed red earth underfoot, plank lagging overhead, squared timber sets as door and passage frames, plank doors."
+defaults: {theme: theme:red_workings, ambient: 20}
+rooms:
+  - id: room:adit_mouth
+    name: Adit mouth
+    outline: [[13312, 3008], [14336, 3008], [14336, 3776], [13312, 3776]]
+    floor: 0
+    slope: {to: -64, toward: west}
+    ceiling: 448
+    theme: theme:timbered_adit
+    ambient: 8
+    notes: "A ramp: the timbered portal is the east wall (the X1 exit face, daylight behind it); the floor falls 64 westward to the haul drift. The party arrives just inside the portal facing west. Rails start at the party's feet and run on down the drift."
+  - id: room:blue_grotto
+    name: Blue grotto
+    outline: [[2944, 768], [2944, 1216], [2688, 1408], [2304, 1408], [2048, 1216], [1984, 960], [2112, 704], [2432, 576], [2752, 576]]
+    floor: -864
+    ceiling: -320
+    theme: theme:grotto_pool
+    ambient: 18
+    notes: "Round grotto about 960 by 832, 544 high, its whole floor a shallow basin of water (blue by its light). Level with the galleries: the plan's 'pit' basin cannot be sunk."
+  - id: room:bunk_cut
+    name: Bunk cut
+    outline: [[6848, 7552], [7680, 7552], [7808, 7616], [7872, 7744], [7872, 8000], [7808, 8128], [7680, 8192], [6848, 8192]]
+    floor: -352
+    ceiling: 32
+    theme: theme:dwarf_hall
+    ambient: 18
+    notes: "Long narrow cut 1024 by 640, its east end rounded; one 32 step up from the mess hall. Bunk niches in the north wall."
+  - id: room:bunk_niche_1
+    name: Bunk niche 1
+    space: room:bunk_cut
+    outline: [[6880, 8256], [7104, 8256], [7104, 8448], [6880, 8448]]
+    floor: -288
+    ceiling: -96
+    theme: theme:dwarf_hall
+    ambient: 20
+    notes: "A bunk hewn into the wall: a shelf 64 above the cut's floor, 192 deep and 192 high. Footlockers stand in front of the first and third."
+  - id: room:bunk_niche_2
+    name: Bunk niche 2
+    space: room:bunk_cut
+    outline: [[7168, 8256], [7392, 8256], [7392, 8448], [7168, 8448]]
+    floor: -288
+    ceiling: -96
+    theme: theme:dwarf_hall
+    ambient: 20
+    notes: "A bunk hewn into the wall: a shelf 64 above the cut's floor, 192 deep and 192 high. Footlockers stand in front of the first and third."
+  - id: room:bunk_niche_3
+    name: Bunk niche 3
+    space: room:bunk_cut
+    outline: [[7456, 8256], [7680, 8256], [7680, 8448], [7456, 8448]]
+    floor: -288
+    ceiling: -96
+    theme: theme:dwarf_hall
+    ambient: 20
+    notes: "A bunk hewn into the wall: a shelf 64 above the cut's floor, 192 deep and 192 high. Footlockers stand in front of the first and third."
+  - id: room:chapel_steps
+    name: Chapel steps
+    space: room:dwarf_shrine
+    outline: [[8352, 3840], [8672, 3840], [8672, 4096], [8352, 4096]]
+    floor: -384
+    slope: {to: -448, toward: south, steps: 2}
+    ceiling: 128
+    theme: theme:dwarf_chapel
+    ambient: 18
+    notes: Two steps of 32 down from the carved double door in the Turntable's south side.
+  - id: room:chasm
+    name: The chasm
+    space: void:chasm
+    outline: [[9664, 4608], [11584, 4608], [11584, 5632], [9664, 5632]]
+    floor: -1792
+    ceiling: 576
+    theme: theme:deep_rock
+    platforms:
+      - {at: [10624, 5184], size: [1792, 192], rise: 1472, surface: {texture: 7trimd, size: [128, 256]}}
+    ambient: 31
+    notes: "The black cleft, 1920 by 1024, its floor 1600 below the Top Station (never reached; unlit). The trestle is a timber-faced pier 192 wide whose top (-320) carries the rails from the Top Station's gate to the Turntable's gate; it stops 64 short of each end wall (platforms may not touch walls), so it cannot be walked onto. The gates' sills (96) stop the party; the cart ride is scripted (see the plan's mechanisms)."
+  - id: room:chute_1
+    name: Ore chute 1
+    space: room:sorting_floor
+    outline: [[12640, 6784], [12896, 6784], [12896, 7040], [12640, 7040]]
+    floor: 192
+    ceiling: 960
+    theme: theme:red_workings
+    ambient: 26
+    notes: "The mouth of an ore chute: a dark shaft 256 square whose floor is 384 above the sorting floor; bats roost in it. Not reachable on foot. Vertical, because ceilings cannot slant."
+  - id: room:chute_2
+    name: Ore chute 2
+    space: room:sorting_floor
+    outline: [[12960, 6784], [13216, 6784], [13216, 7040], [12960, 7040]]
+    floor: 192
+    ceiling: 960
+    theme: theme:red_workings
+    ambient: 26
+    notes: "The mouth of an ore chute: a dark shaft 256 square whose floor is 384 above the sorting floor; bats roost in it. Not reachable on foot. Vertical, because ceilings cannot slant."
+  - id: room:chute_3
+    name: Ore chute 3
+    space: room:sorting_floor
+    outline: [[13280, 6784], [13536, 6784], [13536, 7040], [13280, 7040]]
+    floor: 192
+    ceiling: 960
+    theme: theme:red_workings
+    ambient: 26
+    notes: "The mouth of an ore chute: a dark shaft 256 square whose floor is 384 above the sorting floor; bats roost in it. Not reachable on foot. Vertical, because ceilings cannot slant."
+  - id: room:collapsed_adit
+    name: Collapsed west adit
+    outline: [[2688, 4672], [3456, 4672], [3456, 5696], [2688, 5696]]
+    floor: 256
+    ceiling: 704
+    theme: theme:timbered_adit
+    ambient: 22
+    notes: "Timbered adit 768 by 1024, 448 high. The fall fills its west end to the roof: drawn as the west wall (the X4 exit face is that wall once the winch has been used). The winch and its braced props stand in front of it."
+  - id: room:deep_ramp
+    name: Deep Line approach
+    space: room:deep_station
+    outline: [[5168, 4146], [4806, 4508], [4580, 4282], [4942, 3920]]
+    floor: -1152
+    slope: {to: -1216, toward: 1}
+    ceiling: -704
+    theme: theme:deep_rock
+    ambient: 24
+    notes: Short ramp 64 down north-west from the spiral's foot to the station.
+  - id: room:deep_station
+    name: Deep Line station
+    outline: [[4422, 4214], [4874, 4666], [4682, 4896], [3968, 4896], [3776, 4608], [3840, 4288], [4160, 4160]]
+    floor: -1216
+    ceiling: -768
+    theme: theme:deep_rock
+    platforms:
+      - {at: [3968, 4544], size: [96, 320], rise: 48, surface: {texture: 7trimd, size: [128, 256]}}
+    ambient: 20
+    notes: "Rock-cut station about 1100 by 736, 448 high. The buffer stop (48) stands before the Deep Line's mouth in the west wall (the XD-03 exit face, the cart's way down); the chained cart and the brake wheel beside it."
+  - id: room:drift_incline
+    name: "Haul drift, incline"
+    space: room:main_drift
+    outline: [[12544, 4160], [12928, 4160], [12928, 4672], [12544, 4672]]
+    floor: -64
+    slope: {to: -192, toward: north}
+    ceiling: 384
+    theme: theme:timbered_adit
+    ambient: 14
+    notes: "The drift's last stretch, falling 128 north into the Top Station (0.25)."
+  - id: room:dwarf_shrine
+    name: Red Dwarf chapel
+    outline: [[9152, 2871], [9152, 3401], [8777, 3776], [8247, 3776], [7872, 3401], [7872, 2871], [8247, 2496], [8777, 2496]]
+    floor: -448
+    ceiling: 192
+    theme: theme:dwarf_chapel
+    pillars:
+      - {at: [8882, 3289], size: [96, 96], facing: 22.5}
+      - {at: [8665, 3506], size: [96, 96], facing: 67.5}
+      - {at: [8359, 3506], size: [96, 96], facing: 112.5}
+      - {at: [8142, 3289], size: [96, 96], facing: 157.5}
+      - {at: [8142, 2983], size: [96, 96], facing: 202.5}
+      - {at: [8359, 2766], size: [96, 96], facing: 247.5}
+      - {at: [8665, 2766], size: [96, 96], facing: 292.5}
+      - {at: [8882, 2983], size: [96, 96], facing: 337.5}
+    platforms:
+      - {at: [8512, 3136], size: [320, 320], rise: 24, facing: 22.5, surface: {texture: orwtrlga, size: [256, 256]}}
+    ambient: 10
+    notes: "Octagon 1280 across, 640 high. Eight carved pillars on a ring 400 out; the green pool is a basin 320 across filled to its brim (a 24 curb with water on top: a sunken pool cannot be drawn), green by its light. The tablet stands on the south wall, facing the door."
+  - id: room:east_line
+    name: East line
+    outline: [[9120, 4350], [9844, 3626], [10070, 3852], [9346, 4576]]
+    floor: -384
+    slope: {to: -640, toward: 1}
+    ceiling: 64
+    theme: theme:timbered_adit
+    ambient: 24
+    notes: "Rail incline 1024 long falling 256 south-east from the Turntable's cart gate (0.25), timbered."
+  - id: room:east_line_flood
+    name: "East line, drowned stretch"
+    space: room:east_line
+    path: [[10002, 3694], [10464, 3232], [10464, 2368]]
+    width: 320
+    floor: -640
+    ceiling: -256
+    theme: theme:drowned_working
+    ambient: 26
+    notes: "The drowned half of the line, its floor water to the rails. Walled off from the Turntable by the cart gate's sill and from the flooded working by the buffer stop's sill (96 each), so it is crossed only on the cart; the ride itself is scripted."
+  - id: room:flooded_working
+    name: Flooded working
+    outline: [[10240, 2304], [10112, 1792], [10368, 896], [10880, 576], [11648, 512], [12352, 704], [12672, 1152], [12544, 1856], [12032, 2240], [11264, 2304]]
+    floor: -640
+    ceiling: -192
+    theme: theme:drowned_working
+    walls:
+      - wall: 6
+        surface: {texture: cwb1gold, size: [128, 256]}
+    platforms:
+      - {at: [10560, 1984], size: [448, 128], rise: 24, surface: {texture: 7trimda, size: [256, 128]}}
+      - {at: [10848, 1504], size: [128, 768], rise: 24, surface: {texture: 7trimda, size: [256, 128]}}
+      - {at: [11328, 1888], size: [832, 128], rise: 24, surface: {texture: 7trimda, size: [256, 128]}}
+      - {at: [11344, 1248], size: [480, 448], rise: 64, surface: {texture: cwb1, size: [128, 256]}}
+      - {at: [11168, 832], size: [512, 128], rise: 24, surface: {texture: 7trimda, size: [256, 128]}}
+      - {at: [11904, 1440], size: [320, 576], rise: 64, surface: {texture: cwb1, size: [128, 256]}}
+      - {at: [12064, 896], size: [448, 320], rise: 32, surface: {texture: dirt, size: [128, 128]}}
+    ambient: 22
+    notes: "Irregular cavern about 2560 by 1792, 448 high, the floor water (knee deep; walkable). Plank walkways (24) fork from the buffer stop round two rock islands (64, not climbable) to the dry hump (32) in the south-east where the gold pool is (a decoration or face on the hump: a pool cannot be sunk into a platform). Gold vein on the east wall."
+  - id: room:foot_drift
+    name: Foot drift
+    path: [[11872, 5696], [11872, 5984], [10240, 5984]]
+    width: 320
+    floor: -192
+    ceiling: 192
+    theme: theme:timbered_adit
+    ambient: 20
+    notes: "The old walking drift: north from the Top Station's plank door, then west along the chasm's north side. A ragged gap in its south wall (a 192 rock wall) looks down into the chasm at the trestle. The rotten props and the rockfall are in the middle of the west leg; the rubble heap is left at its north wall."
+  - id: room:foot_drift_bend
+    name: "Foot drift, bend"
+    space: room:foot_drift
+    outline: [[9381, 5757], [9600, 5757], [9600, 6144], [9085, 6144], [9085, 6053]]
+    floor: -384
+    ceiling: 0
+    theme: theme:timbered_adit
+    ambient: 20
+    notes: "The drift's foot, turning south-west into the Turntable's north-east side at the Turntable's level."
+  - id: room:foot_drift_incline
+    name: "Foot drift, incline"
+    space: room:foot_drift
+    outline: [[9664, 5824], [10176, 5824], [10176, 6144], [9664, 6144]]
+    floor: -192
+    slope: {to: -384, toward: west}
+    ceiling: 192
+    theme: theme:timbered_adit
+    ambient: 20
+    notes: Falls 192 west over 512 (0.375).
+  - id: room:forgotten_strongroom
+    name: Forgotten strongroom
+    outline: [[13696, 5952], [14208, 5952], [14208, 6464], [13696, 6464]]
+    floor: -160
+    ceiling: 224
+    theme: theme:dwarf_hall
+    ambient: 20
+    notes: "512 square vault, one 32 step up from the sorting floor through a 128 dry-stone wall (the secret wall)."
+  - id: room:lamp_room
+    name: Lamp room
+    outline: [[11712, 4608], [11904, 3840], [12480, 3840], [12480, 4608]]
+    floor: -192
+    ceiling: 192
+    theme: theme:timbered_adit
+    ambient: 14
+    notes: "A wedge: the slanted west wall is the short side, the east wall the long wall with the lamp racks. 384 high. A 128 wall with a plank door to the Top Station."
+  - id: room:main_drift
+    name: Haul drift
+    path: [[12736, 4096], [12736, 3584], [13248, 3584]]
+    width: 384
+    floor: -64
+    ceiling: 384
+    theme: theme:timbered_adit
+    ambient: 14
+    notes: "The drift's level bend from the adit mouth, west then north round the lamp room's corner; timber sets about every 384 and a lamp hook on every third (light per the plan). The first fight stands round the bend, out of sight of the mouth."
+  - id: room:mess_hall
+    name: Mess hall
+    outline: [[6976, 6208], [8960, 6208], [8960, 6912], [7744, 6912], [7744, 7488], [6976, 7488]]
+    floor: -384
+    ceiling: 128
+    theme: theme:dwarf_hall
+    pillars:
+      - {at: [7488, 6560], size: [192, 192], facing: 15}
+      - {at: [8448, 6560], size: [192, 192], facing: -10}
+    platforms:
+      - {at: [7968, 6400], size: [640, 96], rise: 48, surface: {texture: 7trimda, size: [256, 128]}}
+      - {at: [7968, 6720], size: [640, 96], rise: 48, surface: {texture: 7trimda, size: [256, 128]}}
+      - {at: [7360, 7104], size: [192, 160], rise: 32}
+    ambient: 12
+    notes: "L-shaped hewn hall: a bar 1984 by 704 along the Turntable's north side and a leg 768 by 576 north at its west end; 512 high. Two rock pillars, two long tables (48, not climbable), the cold hearth (32) in the angle of the L. Open to the Turntable; doors to the bunk cut (north) and the tally steps (west)."
+  - id: room:red_pool_grotto
+    name: Red pool grotto
+    outline: [[6048, 4064], [6368, 4064], [6560, 4352], [6496, 4640], [6208, 4800], [5920, 4640], [5928, 4352]]
+    floor: -1184
+    ceiling: -640
+    theme: theme:deep_rock
+    platforms:
+      - {at: [6208, 4608], size: [256, 192], rise: 16, surface: {texture: orwtrlga, size: [256, 256]}}
+    ambient: 22
+    notes: "Teardrop grotto one step (32) below the stope floor, opening off the floor's north side; the red pool fills its point (a brim-full basin 16 high, red by its light)."
+  - id: room:repair_niche
+    name: Repair niche
+    space: room:west_line
+    outline: [[5248, 5440], [5760, 5440], [5760, 5824], [5248, 5824]]
+    floor: -64
+    ceiling: 320
+    theme: theme:timbered_adit
+    ambient: 24
+    notes: "Side niche 512 by 384 where carts were mended; the spiders' den of the line."
+  - id: room:sorting_floor
+    name: Sorting floor
+    outline: [[12160, 5696], [13568, 5696], [13568, 6720], [12544, 6720]]
+    floor: -192
+    ceiling: 576
+    theme: theme:red_workings
+    walls:
+      - wall: 3
+        surface: {texture: cwb1gold, size: [128, 256]}
+    platforms:
+      - {at: [12864, 6016], size: [512, 96], rise: 48}
+      - {at: [13056, 6400], size: [512, 96], rise: 48}
+    ambient: 16
+    notes: "Trapezoid hall (1408 by 1024, slanted west wall), 768 high under a flat roof (the plan's roof that climbs into the chutes is the three chute rooms on the north wall). Two sorting tables (48, not climbable). Gold vein on the north wall. The chalk-marked east wall hides the strongroom."
+  - id: room:spider_galleries
+    name: Spider galleries
+    outline: [[5713, 1110], [5305, 1280], [4800, 1344], [4416, 1472], [4032, 1664], [3584, 1600], [3264, 1408], [3072, 1216], [3072, 768], [3264, 448], [3712, 320], [4160, 512], [4544, 384], [5056, 320], [5504, 448], [5888, 704]]
+    floor: -864
+    ceiling: -384
+    theme: theme:deep_rock
+    ambient: 26
+    notes: "Three old side workings run together into one irregular warren about 2800 by 1350, 480 high, reached by a low crawl (a 256-long passage through the wall, 384 high) from the south-south-west ledge. The cocoon hangs in the largest working (west). The web wall to the blue grotto is the straight west wall."
+  - id: room:spiral_ledge_ese
+    name: "Spiral ledge, east-south-east"
+    space: room:stope_spiral
+    outline: [[7526, 1982], [7572, 2076], [7742, 2484], [7776, 2583], [7367, 2583], [7237, 2271]]
+    floor: -544
+    ceiling: 96
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Level ledge at the east-south-east turn, open to the stope over a timber rail."
+  - id: room:spiral_ledge_sse
+    name: "Spiral ledge, south-south-east"
+    space: room:stope_spiral
+    outline: [[6505, 1312], [6604, 1346], [7012, 1516], [7106, 1562], [6817, 1851], [6505, 1721]]
+    floor: -704
+    ceiling: -64
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Level ledge at the south-south-east turn, open to the stope over a timber rail."
+  - id: room:spiral_ledge_ssw
+    name: "Spiral ledge, south-south-west"
+    space: room:stope_spiral
+    outline: [[5310, 1562], [5404, 1516], [5812, 1346], [5911, 1312], [5911, 1721], [5599, 1851]]
+    floor: -864
+    ceiling: -224
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Level ledge at the south-south-west turn, open to the stope over a timber rail."
+  - id: room:spiral_ledge_wsw
+    name: "Spiral ledge, west-south-west"
+    space: room:stope_spiral
+    outline: [[4640, 2583], [4674, 2484], [4844, 2076], [4890, 1982], [5179, 2271], [5049, 2583]]
+    floor: -1024
+    ceiling: -384
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Level ledge at the west-south-west turn, open to the stope over a timber rail."
+  - id: room:spiral_ramp_e
+    name: "Spiral ramp, east"
+    space: room:stope_spiral
+    outline: [[7776, 2656], [7776, 3104], [7392, 3104], [7392, 2656]]
+    floor: -384
+    slope: {to: -544, toward: 3}
+    ceiling: 64
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Ramp cut into the east wall of the stope, 160 down over about 450; its inner wall is solid (a sloped room cannot open sideways), so the spiral alternates rock-cut ramps with open ledges."
+  - id: room:spiral_ramp_s
+    name: "Spiral ramp, south"
+    space: room:stope_spiral
+    outline: [[5984, 1312], [6432, 1312], [6432, 1696], [5984, 1696]]
+    floor: -704
+    slope: {to: -864, toward: 3}
+    ceiling: -256
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Ramp cut into the south wall of the stope, 160 down over about 450; its inner wall is solid (a sloped room cannot open sideways), so the spiral alternates rock-cut ramps with open ledges."
+  - id: room:spiral_ramp_se
+    name: "Spiral ramp, south-east"
+    space: room:stope_spiral
+    outline: [[7157, 1613], [7475, 1931], [7203, 2203], [6885, 1885]]
+    floor: -544
+    slope: {to: -704, toward: 3}
+    ceiling: -96
+    theme: theme:red_workings
+    walls:
+      - wall: 0
+        surface: {texture: cwb1gold, size: [128, 256]}
+    ambient: 24
+    notes: "Ramp cut into the south-east wall of the stope, 160 down over about 450; its inner wall is solid (a sloped room cannot open sideways), so the spiral alternates rock-cut ramps with open ledges."
+  - id: room:spiral_ramp_sw
+    name: "Spiral ramp, south-west"
+    space: room:stope_spiral
+    outline: [[4941, 1931], [5259, 1613], [5531, 1885], [5213, 2203]]
+    floor: -864
+    slope: {to: -1024, toward: 3}
+    ceiling: -416
+    theme: theme:red_workings
+    walls:
+      - wall: 0
+        surface: {texture: cwb1gold, size: [128, 256]}
+    ambient: 24
+    notes: "Ramp cut into the south-west wall of the stope, 160 down over about 450; its inner wall is solid (a sloped room cannot open sideways), so the spiral alternates rock-cut ramps with open ledges."
+  - id: room:spiral_ramp_w
+    name: "Spiral ramp, west"
+    space: room:stope_spiral
+    outline: [[4640, 3104], [4640, 2656], [5024, 2656], [5024, 3104]]
+    floor: -1024
+    slope: {to: -1152, toward: 3}
+    ceiling: -576
+    theme: theme:red_workings
+    ambient: 24
+    notes: "Ramp cut into the west wall of the stope, 128 down over about 450; its inner wall is solid (a sloped room cannot open sideways), so the spiral alternates rock-cut ramps with open ledges."
+  - id: room:stope_floor
+    name: Stope floor
+    outline: [[7328, 2656], [7328, 3104], [7158, 3512], [6840, 3830], [6432, 4000], [5984, 4000], [5576, 3830], [5258, 3512], [5088, 3104], [5088, 2656], [5258, 2248], [5576, 1930], [5984, 1760], [6432, 1760], [6840, 1930], [7158, 2248]]
+    floor: -1152
+    ceiling: 384
+    theme: theme:deep_rock
+    walls:
+      - wall: 3
+        surface: {texture: cwb1gold, size: [128, 256]}
+      - wall: 12
+        surface: {texture: cwb1gold, size: [128, 256]}
+    platforms:
+      - {at: [5888, 2496], size: [448, 320], rise: 96, facing: 20, surface: {texture: dirt, size: [128, 128]}}
+      - {at: [6560, 2816], size: [384, 288], rise: 96, facing: -25, surface: {texture: dirt, size: [128, 128]}}
+    ambient: 26
+    notes: "The bottom of the Open Stope and the whole void above it: a 16-sided pit 2240 across and 1536 high from floor to roof (void:stope_void is this room's upper volume; stacking is not drawable, so the funnel is a straight-sided pit and the spiral steps outward round it rather than inward down it). Two spoil heaps (96, walk-round islands). The hoist cage stands against the north-east side under the rim's hoist gate (a lift, travel 768: objects.yml). Gold veins on the north-north-east side (the rich one) and the south side."
+  - id: room:stope_gallery
+    name: Stope gallery
+    space: room:stope_rim
+    path: [[7791, 4463], [7361, 4033]]
+    width: 384
+    floor: -384
+    ceiling: 0
+    theme: theme:red_workings
+    ambient: 26
+    notes: "The short, low, dark gallery (384 high) from the Turntable's south-west side; at its end the Open Stope opens all at once."
+  - id: room:stope_landing
+    name: Spiral foot
+    space: room:stope_spiral
+    outline: [[5753, 4389], [5404, 4244], [5259, 4147], [4941, 3829], [4844, 3684], [4674, 3276], [4640, 3177], [5049, 3177], [5199, 3537], [5213, 3557], [5531, 3875], [5551, 3889], [5900, 4034]]
+    floor: -1152
+    ceiling: -512
+    theme: theme:deep_rock
+    ambient: 24
+    notes: "The spiral's foot on the stope's north-west, level with the floor and open to it without a rail."
+  - id: room:stope_rim
+    name: Stope rim
+    outline: [[7776, 3177], [7742, 3276], [7572, 3684], [7475, 3829], [7157, 4147], [6885, 3875], [7203, 3557], [7217, 3537], [7367, 3177]]
+    floor: -384
+    ceiling: 256
+    theme: theme:red_workings
+    walls:
+      - wall: 1
+        surface: {texture: cwb1gold, size: [128, 256]}
+    ambient: 20
+    notes: "The top of the spiral: a ledge 384 wide round the stope's north-east, open to it over a timber rail (the lip opening's 64 sill). The hoist head frame stands over the hoist gate at its north-west end. Gold vein on its outer wall."
+  - id: room:tally_room
+    name: Tally room
+    outline: [[6528, 6944], [6528, 7456], [6080, 7712], [5632, 7456], [5632, 6944], [6080, 6688]]
+    floor: -288
+    ceiling: 160
+    theme: theme:dwarf_hall
+    platforms:
+      - {at: [5952, 7200], size: [256, 128], rise: 40}
+    ambient: 14
+    notes: "Hexagon 896 across the flats, 448 high; chalked tallies on every wall. The tallymaster's table (40) faces the door; the strongbox stands behind it."
+  - id: room:tally_steps
+    name: Tally steps
+    space: room:tally_room
+    outline: [[6592, 7040], [6912, 7040], [6912, 7360], [6592, 7360]]
+    floor: -384
+    slope: {to: -288, toward: west, steps: 3}
+    ceiling: 64
+    theme: theme:dwarf_hall
+    ambient: 16
+    notes: "Three steps of 32 up from the mess hall's leg; the iron-bound door at their top."
+  - id: room:top_station
+    name: Top Station
+    outline: [[11712, 4736], [12992, 4736], [12992, 5632], [11712, 5632]]
+    floor: -192
+    ceiling: 320
+    theme: theme:timbered_adit
+    platforms:
+      - {at: [11872, 5184], size: [160, 704], rise: 32, surface: {texture: 7trimda, size: [256, 128]}}
+    ambient: 12
+    notes: "Rock hall, 1280 by 896, 512 high. The loading platform (32) runs along the west wall; the cart stands west of it in the trestle gate (the west wall's opening onto the chasm). Doors to the lamp room (south) and the foot drift (north-west); open to the haul drift (south-east) and the sorting floor (north-east)."
+  - id: room:turntable
+    name: The Turntable
+    outline: [[9472, 4960], [9472, 5408], [9352, 5696], [9024, 6024], [8736, 6144], [8288, 6144], [8000, 6024], [7672, 5696], [7552, 5408], [7552, 4960], [7672, 4672], [8000, 4344], [8288, 4224], [8736, 4224], [9024, 4344], [9352, 4672]]
+    floor: -384
+    ceiling: 256
+    theme: theme:red_workings
+    platforms:
+      - {at: [8512, 5184], size: [448, 448], rise: 16, facing: 22.5, surface: {texture: 7trimda, size: [256, 128]}}
+    ambient: 14
+    notes: "Round cavern drawn as a 16-sided hall, 1920 across, 640 high under a flat roof (the plan's low dome). The turntable is a timber disc 448 across and 16 high in the middle. Exits on the eight main sides: trestle gate (east), foot drift (north-east), mess hall (north), west line (west), stope gallery (south-west), chapel doors (south), east-line gate (south-east); the north-west side is blank."
+  - id: room:west_line
+    name: West line
+    outline: [[5952, 5024], [7488, 5024], [7488, 5344], [5952, 5344]]
+    floor: -384
+    slope: {to: -64, toward: west}
+    ceiling: 384
+    theme: theme:timbered_adit
+    ambient: 22
+    notes: "Derailed rail tunnel rising 320 west over 1536 (0.21), from the Turntable's west side."
+  - id: room:west_line_landing
+    name: "West line, air-door landing"
+    space: room:west_line
+    outline: [[5120, 4992], [5888, 4992], [5888, 5376], [5120, 5376]]
+    floor: -64
+    ceiling: 320
+    theme: theme:timbered_adit
+    ambient: 22
+    notes: "Level stretch half way along, with the first ventilation door in its west wall and the repair niche off its north side."
+  - id: room:west_line_upper
+    name: "West line, upper incline"
+    space: room:west_line
+    outline: [[3520, 5024], [5056, 5024], [5056, 5344], [3520, 5344]]
+    floor: -64
+    slope: {to: 256, toward: west}
+    ceiling: 704
+    theme: theme:timbered_adit
+    ambient: 24
+    notes: Rises 320 west over 1536 (0.21) to the second ventilation door.
+openings:
+  - id: open:adit_drift
+    from: room:adit_mouth
+    to: room:main_drift
+    link: link:adit_drift
+    width: 320
+    height: 320
+  - id: open:bunk_niche_1
+    from: room:bunk_cut
+    to: room:bunk_niche_1
+    width: 192
+    height: 160
+  - id: open:bunk_niche_2
+    from: room:bunk_cut
+    to: room:bunk_niche_2
+    width: 192
+    height: 160
+  - id: open:bunk_niche_3
+    from: room:bunk_cut
+    to: room:bunk_niche_3
+    width: 192
+    height: 160
+  - id: open:chapel_steps_shrine
+    from: room:chapel_steps
+    to: room:dwarf_shrine
+    width: 256
+    height: 320
+  - id: open:deep_ramp_station
+    from: room:deep_ramp
+    to: room:deep_station
+    width: 256
+    height: 320
+  - id: open:drift_incline
+    from: room:main_drift
+    to: room:drift_incline
+    width: 320
+    height: 320
+  - id: open:drift_top_station
+    from: room:drift_incline
+    to: room:top_station
+    link: link:drift_top_station
+    width: 320
+    height: 320
+  - id: open:east_line_flood
+    from: room:east_line
+    to: room:east_line_flood
+    width: 256
+    height: 320
+  - id: open:east_line_flooded
+    from: room:east_line_flood
+    to: room:flooded_working
+    link: link:east_line_flooded
+    width: 256
+    height: 256
+    sill: 96
+    notes: "The buffer stop at the line's end (96): the cart halts here; walkers cannot climb onto the line."
+  - id: open:floor_red_grotto
+    from: room:stope_floor
+    to: room:red_pool_grotto
+    link: link:stope_floor_red_grotto
+    width: 288
+    height: 384
+  - id: open:foot_drift_bend
+    from: room:foot_drift_incline
+    to: room:foot_drift_bend
+    width: 288
+    height: 320
+  - id: open:foot_drift_incline
+    from: room:foot_drift
+    to: room:foot_drift_incline
+    width: 288
+    height: 320
+  - id: open:foot_drift_turntable
+    from: room:foot_drift_bend
+    to: room:turntable
+    link: link:foot_drift_turntable
+    width: 320
+    height: 320
+  - id: open:foot_drift_window
+    from: room:foot_drift
+    to: room:chasm
+    width: 640
+    height: 256
+    sill: 64
+    notes: "The ragged gap over the chasm (sightline to the trestle), 64 above the drift floor."
+  - id: open:galleries_blue_grotto
+    from: room:spider_galleries
+    to: room:blue_grotto
+    link: link:galleries_blue_grotto
+    width: 256
+    height: 320
+    notes: "The web wall over a thin rock screen (a secret wall that rises), 128 thick."
+  - id: open:gallery_rim
+    from: room:stope_gallery
+    to: room:stope_rim
+    link: link:turntable_stope_rim
+    width: 320
+    height: 320
+  - id: open:landing_deep_ramp
+    from: room:stope_landing
+    to: room:deep_ramp
+    link: link:stope_floor_deep_station
+    width: 256
+    height: 320
+  - id: open:landing_floor
+    from: room:stope_landing
+    to: room:stope_floor
+    link: link:spiral_floor
+    width: 416
+    height: 512
+    notes: "The spiral's foot runs out onto the floor: no rail."
+  - id: open:landing_niche
+    from: room:west_line_landing
+    to: room:repair_niche
+    width: 320
+    height: 320
+  - id: open:landing_upper
+    from: room:west_line_landing
+    to: room:west_line_upper
+    width: 256
+    height: 320
+    notes: The first ventilation door.
+  - id: open:ledge_ese_view
+    from: room:spiral_ledge_ese
+    to: room:stope_floor
+    width: 288
+    height: 512
+    sill: 64
+    notes: Open over the timber rail (64) to the stope.
+  - id: open:ledge_sse_view
+    from: room:spiral_ledge_sse
+    to: room:stope_floor
+    width: 288
+    height: 512
+    sill: 64
+    notes: Open over the timber rail (64) to the stope.
+  - id: open:ledge_ssw_galleries
+    from: room:spiral_ledge_ssw
+    to: room:spider_galleries
+    link: link:spiral_galleries
+    width: 256
+    height: 384
+    notes: "The low crawl: a passage 256 long through the rock."
+  - id: open:ledge_ssw_view
+    from: room:spiral_ledge_ssw
+    to: room:stope_floor
+    width: 288
+    height: 512
+    sill: 64
+    notes: Open over the timber rail (64) to the stope.
+  - id: open:ledge_wsw_view
+    from: room:spiral_ledge_wsw
+    to: room:stope_floor
+    width: 288
+    height: 512
+    sill: 64
+    notes: Open over the timber rail (64) to the stope.
+  - id: open:mess_bunk
+    from: room:mess_hall
+    to: room:bunk_cut
+    link: link:mess_bunk
+    width: 192
+    height: 256
+    notes: "Door, one 32 step up."
+  - id: open:mess_tally_steps
+    from: room:mess_hall
+    to: room:tally_steps
+    link: link:mess_tally
+    width: 256
+    height: 320
+  - id: open:rim_hoist
+    from: room:stope_rim
+    to: room:stope_floor
+    link: link:hoist
+    along: 0.8
+    width: 144
+    height: 320
+    notes: "The hoist gate under the head frame: the cage stops level with the rim here."
+  - id: open:rim_lip
+    from: room:stope_rim
+    to: room:stope_floor
+    along: 0.3
+    width: 208
+    height: 448
+    sill: 64
+    notes: "The rim's lip over the timber rail: the reveal of the whole stope."
+  - id: open:rim_spiral
+    from: room:stope_rim
+    to: room:spiral_ramp_e
+    link: link:stope_rim_spiral
+    width: 320
+    height: 384
+  - id: open:sorting_chute_1
+    from: room:sorting_floor
+    to: room:chute_1
+    width: 192
+    height: 256
+  - id: open:sorting_chute_2
+    from: room:sorting_floor
+    to: room:chute_2
+    width: 192
+    height: 256
+  - id: open:sorting_chute_3
+    from: room:sorting_floor
+    to: room:chute_3
+    width: 192
+    height: 256
+  - id: open:sorting_strongroom
+    from: room:sorting_floor
+    to: room:forgotten_strongroom
+    link: link:sorting_strongroom
+    width: 192
+    height: 256
+    notes: The chalk-marked dry-stone wall that sinks (a secret door in a 128 wall).
+  - id: open:spiral_ledge_ese_spiral_ramp_se
+    from: room:spiral_ledge_ese
+    to: room:spiral_ramp_se
+    width: 288
+    height: 384
+  - id: open:spiral_ledge_sse_spiral_ramp_s
+    from: room:spiral_ledge_sse
+    to: room:spiral_ramp_s
+    width: 288
+    height: 384
+  - id: open:spiral_ledge_ssw_spiral_ramp_sw
+    from: room:spiral_ledge_ssw
+    to: room:spiral_ramp_sw
+    width: 288
+    height: 384
+  - id: open:spiral_ledge_wsw_spiral_ramp_w
+    from: room:spiral_ledge_wsw
+    to: room:spiral_ramp_w
+    width: 288
+    height: 384
+  - id: open:spiral_ramp_e_spiral_ledge_ese
+    from: room:spiral_ramp_e
+    to: room:spiral_ledge_ese
+    width: 288
+    height: 384
+  - id: open:spiral_ramp_s_spiral_ledge_ssw
+    from: room:spiral_ramp_s
+    to: room:spiral_ledge_ssw
+    width: 288
+    height: 384
+  - id: open:spiral_ramp_se_spiral_ledge_sse
+    from: room:spiral_ramp_se
+    to: room:spiral_ledge_sse
+    width: 288
+    height: 384
+  - id: open:spiral_ramp_sw_spiral_ledge_wsw
+    from: room:spiral_ramp_sw
+    to: room:spiral_ledge_wsw
+    width: 288
+    height: 384
+  - id: open:spiral_ramp_w_stope_landing
+    from: room:spiral_ramp_w
+    to: room:stope_landing
+    width: 288
+    height: 384
+  - id: open:station_foot_drift
+    from: room:top_station
+    to: room:foot_drift
+    link: link:top_station_foot_drift
+    width: 192
+    height: 256
+    notes: The plank door across the drift's mouth.
+  - id: open:station_lamp_room
+    from: room:top_station
+    to: room:lamp_room
+    link: link:station_lamp_room
+    width: 192
+    height: 256
+    notes: Plank door in a 128 wall.
+  - id: open:station_sorting
+    from: room:top_station
+    to: room:sorting_floor
+    link: link:station_sorting
+    width: 448
+    height: 384
+  - id: open:station_trestle
+    from: room:top_station
+    to: room:chasm
+    link: link:trestle_cart
+    width: 256
+    height: 320
+    sill: 96
+    notes: "The trestle gate: the cart's buffer and gate bar (96) close it to walkers; the rails run out over the pier. Sill 96 above the station floor, so the opening shows the chasm from 96 up."
+  - id: open:tally_steps_door
+    from: room:tally_steps
+    to: room:tally_room
+    link: link:mess_tally
+    width: 192
+    height: 256
+    notes: The iron-bound door at the top of the steps.
+  - id: open:turntable_chapel
+    from: room:chapel_steps
+    to: room:turntable
+    link: link:turntable_chapel
+    width: 256
+    height: 320
+    notes: The carved double door (two leaves of 128) in a 128 wall.
+  - id: open:turntable_east_line
+    from: room:turntable
+    to: room:east_line
+    link: link:east_cart
+    width: 256
+    height: 320
+    sill: 96
+    notes: "The east line's gate and buffer (96): the cart's way, closed to walkers."
+  - id: open:turntable_gallery
+    from: room:turntable
+    to: room:stope_gallery
+    link: link:turntable_stope_rim
+    width: 320
+    height: 320
+  - id: open:turntable_mess
+    from: room:turntable
+    to: room:mess_hall
+    link: link:turntable_mess
+    width: 384
+    height: 384
+  - id: open:turntable_trestle
+    from: room:turntable
+    to: room:chasm
+    link: link:trestle_cart
+    width: 256
+    height: 320
+    sill: 96
+    notes: "The Turntable end of the trestle: gate and buffer (96)."
+  - id: open:turntable_west_line
+    from: room:turntable
+    to: room:west_line
+    link: link:turntable_west_line
+    width: 256
+    height: 320
+  - id: open:west_line_adit
+    from: room:west_line_upper
+    to: room:collapsed_adit
+    link: link:west_line_adit
+    width: 256
+    height: 320
+    notes: The second ventilation door.
+  - id: open:west_line_landing
+    from: room:west_line
+    to: room:west_line_landing
+    width: 256
+    height: 320
+notes: "The to-scale sketch of XD-02 in whole map units: x east, y north, origin at the map's south-west corner (the map spans about x 1984 to 14336 and y 320 to 8448, 24 by 16 cells); heights from the plan's datum, the arrival (0). Corners are whole units; 45-degree walls run exactly diagonal and the round rooms (the Turntable, the stope) are 16-sided with chamfers on a 5:12 slope, so every pair of joined walls is exactly parallel. Walls between joined rooms are 64 thick unless an opening's notes say otherwise (128 at the plank, iron-bound and carved doors, the secret walls and the trestle gates; 192 at the chasm window; 256 at the galleries' crawl). A plan space is one room except where a ramp, a flight or a level turn must be its own room; the extra rooms name their space (the drift 2, the foot drift 3, the tally and chapel steps, the chutes and bunk niches, the east line 2, the west line 4, the stope gallery, the spiral 10, the Deep Line approach). The open stope is the stope floor room, a pit 1536 high, with the spiral stepping round its outside: five rock-cut ramps (sloped rooms cannot open sideways) alternating with four railed ledges, from the rim (-384) to the spiral's foot (-1152), about 0.6 of a turn. The chasm is a room whose floor is never reached; the trestle is a tall timber-faced platform in it that does not touch its end walls. The cart lines' gates and buffers are 96 sills: walkers cannot enter the lines and the rides are scripted moves (no horizontal mover exists). Every floor change on the critical path and the way back is a ramp, a flight, a 32 step or the hoist (a lift in objects.yml, travel 768, at the stope floor's north-east side under the rim's hoist gate), so the arrival walks to the Deep Line station on foot by the foot drift and returns by the hoist. Platforms stand at least 64 off every wall. Ambient levels: 8 at the portal, 12 to 16 in the lamplit upper workings, the Turntable and the camp, 20 to 26 in the stope, the lines and the deep, 31 in the chasm."

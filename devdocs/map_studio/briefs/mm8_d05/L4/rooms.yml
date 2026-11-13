@@ -1,0 +1,1751 @@
+format: 0
+themes:
+  - id: theme:alcove
+    wall: {texture: t65b04, size: [128, 128]}
+    floor: {texture: t65b03, size: [128, 128]}
+    ceiling: {texture: t65b04, size: [128, 128]}
+    notes: "The four button alcoves of sector 1: t65b04 on walls and ceiling."
+  - id: theme:closet
+    wall: {texture: t65b02a1, size: [128, 256]}
+    floor: {texture: t65a03, size: [128, 128]}
+    ceiling: {texture: t65a04a, size: [128, 128]}
+    notes: "The 24 closets behind the maze's doors (each summons a serpent man): plain t65b02a1 side walls, a t65c02 back wall (south), t65a04a ceiling, t65a03 floor, as the original's faces in each; the halls' carved t65a01 is not in them."
+  - id: theme:crusher
+    wall: {texture: t65b02, size: [128, 128]}
+    bands:
+      - {height: 80, surface: {texture: t65b02, size: [128, 128]}}
+      - {height: 224, surface: {texture: t65a02, size: [128, 128]}}
+      - {height: 288, surface: {texture: t65b11a, size: [128, 64]}}
+    floor: {texture: t65c02, size: [128, 128]}
+    ceiling: {texture: t65b02m, size: [128, 128]}
+    notes: "Sector 11, the room of the retracting floor: t65b02 walls, t65b02m ceiling (and floor plates)."
+  - id: theme:false_floor
+    wall: {texture: t65a02, size: [128, 128]}
+    bands:
+      - {height: 640, surface: {texture: t65b02, size: [128, 128]}}
+      - {height: 704, surface: {texture: t65o11a, size: [128, 64]}}
+    floor: {texture: t65b03, size: [128, 128]}
+    ceiling: {texture: t65a04, size: [128, 128]}
+    notes: "Sector 8, the hall of the false floor: t65b02 walls below the walkway's level, a t65o11a course 64 high at the level of the floor, t65a02 above it, t65a04 ceiling."
+  - id: theme:hall
+    wall: {texture: t65b02, size: [128, 128]}
+    floor: {texture: t65b03, size: [128, 128]}
+    ceiling: {texture: t65b04, size: [128, 128]}
+    notes: "The cut-stone halls, stairs and corridors (sectors 1, 5 to 13, 19): t65b02 walls, t65b03 floor, t65b04 ceiling."
+  - id: theme:maze
+    wall: {texture: t65a01, size: [128, 256]}
+    floor: {texture: t65a03, size: [128, 128]}
+    ceiling: {texture: t65a04c, size: [128, 128]}
+    reveal: {texture: t65c02, size: [128, 128]}
+    door: {texture: t65a05bl, size: [128, 256]}
+    notes: "The button maze (sectors 22 to 32): t65a01 panelled walls 256 high, t65a03 floor, t65a04c ceiling, t65c02 in the door passages, door leaves t65a05bl (the original's leaf is t65a05bl and t65a05br side by side, one face 256 wide: a door has one surface). The original marks each doorway with one panel 128 wide beside it, t65a06 by a left door and t65a07 by a right one, and sets a t65a12 plate behind each pair of buttons; single panels on a wall cannot be said."
+  - id: theme:maze_entry
+    wall: {texture: t65b02, size: [128, 128]}
+    floor: {texture: t65b03, size: [128, 128]}
+    ceiling: {texture: t65a04c, size: [128, 128]}
+    notes: "The passage of door 1 into the maze (sector 22's neck): the halls' t65b02 walls and floor under the maze's t65a04c ceiling, as the original's faces 3372 and 3373."
+  - id: theme:pyramid
+    wall: {texture: t65c02, size: [128, 128]}
+    floor: {texture: t65c03, size: [128, 128]}
+    ceiling: {texture: t65c02, size: [128, 128]}
+    notes: "The entrance hall under the pyramid (sectors 14, 15, 20): t65c02 blocks on walls and the sloped roof, t65c03 floor."
+  - id: theme:sanctum
+    wall: {texture: t65b02t, size: [128, 128]}
+    bands:
+      - {height: 256, surface: {texture: t65a01, size: [128, 256]}}
+    floor: {texture: t65c02, size: [128, 128]}
+    ceiling: {texture: t65a04b, size: [128, 128]}
+    notes: "Sectors 16 and 17, the great hall of the four spitting pedestals: t65c02 floor, t65a04b ceiling, t65a01 panels 256 high with a t65b02t course above them."
+  - id: theme:stair
+    wall: {texture: t65b02, size: [128, 128]}
+    floor: {texture: t65b14h2, size: [64, 128]}
+    ceiling: {texture: t65b04, size: [128, 128]}
+    notes: "The stairs of sectors 6, 9, 10 and 19: treads t65b14h2 (t65b14h in 10 and 19), risers t65b14v."
+  - id: theme:tunnel
+    wall: {texture: t6502b, size: [128, 128]}
+    floor: {texture: t6502b, size: [128, 128]}
+    ceiling: {texture: t6502b, size: [128, 128]}
+    notes: "Rough rock of the winding tunnel (sectors 2, 3) and the lake cave (18): t6502b everywhere, t6502c patches not drawn."
+  - id: theme:well
+    wall: {texture: t65c02, size: [128, 128]}
+    floor: {texture: t65c02, size: [128, 128]}
+    ceiling: {texture: t65c02, size: [128, 128]}
+    notes: "The stairwell under the pyramid's floor (sectors 2 and 14 where they meet): t65c02 treads, walls and roof, as the original's faces there; the hall's own floor is t65c03."
+defaults: {theme: theme:hall, ambient: 27}
+rooms:
+  - id: room:alc_ne
+    name: Button alcove
+    outline: [[672, 768], [928, 768], [928, 1024], [672, 1024]]
+    floor: 0
+    ceiling: 256
+    theme: theme:alcove
+  - id: room:alc_nw
+    name: Button alcove
+    outline: [[-800, 768], [-544, 768], [-544, 1024], [-800, 1024]]
+    floor: 0
+    ceiling: 256
+    theme: theme:alcove
+  - id: room:alc_se
+    name: Button alcove
+    outline: [[672, -128], [928, -128], [928, 128], [672, 128]]
+    floor: 0
+    ceiling: 256
+    theme: theme:alcove
+  - id: room:alc_sw
+    name: Button alcove
+    outline: [[-800, -128], [-544, -128], [-544, 128], [-800, 128]]
+    floor: 0
+    ceiling: 256
+    theme: theme:alcove
+  - id: room:c22n
+    name: "Maze entry, outer"
+    outline: [[8384, 2560], [8640, 2560], [8640, 2816], [8384, 2816]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze_entry
+  - id: room:c22s
+    name: "Maze entry, inner"
+    outline: [[8384, 2048], [8640, 2048], [8640, 2496], [8384, 2496]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze_entry
+  - id: room:c27
+    name: Long passage
+    outline: [[8896, -320], [9152, -320], [9152, 640], [8896, 640]]
+    floor: -640
+    ceiling: -400
+    theme: theme:maze
+    notes: "The one long doorway of the maze (sector 27): 1024 from hall 27a's left door to hall 27b."
+  - id: room:cave
+    name: Lake cave
+    outline: [[10752, -5120], [11136, -5120], [11712, -4992], [12096, -4736], [12224, -4416], [12224, -4160], [12096, -3840], [11712, -3584], [11136, -3456], [10752, -3456], [10176, -3584], [9792, -3840], [9664, -4160], [9664, -4416], [9792, -4736], [10176, -4992]]
+    floor: -640
+    steep_floor: true
+    ceiling: -384
+    theme: theme:tunnel
+    platforms:
+      - {id: platform:causeway, at: [10944, -4288], size: [2048, 256], rise: 64, surface: {texture: t65b02, size: [128, 128]}, top_surface: {texture: t65b03, size: [128, 128]}, base: 128}
+      - {rise: 63, surface: {texture: t65b02, size: [128, 128]}, outline: [[9665, -4416], [9920, -4416], [9920, -4160], [9665, -4160]], top_surface: {texture: t65b03, size: [128, 128]}, base: 1, top_slope: {to: 127, toward: west}, notes: "West ramp of the causeway, from the passage's floor (-640) down to the slab's top (-704) over 256, standing over the bank: its foot is the bank's height under its middle (-768); `base: 1` draws its underside, because a block over a bank is open beneath where the bank falls away (the original's ramp sits on a fill)."}
+      - {rise: 63, surface: {texture: t65b02, size: [128, 128]}, outline: [[11968, -4416], [12223, -4416], [12223, -4160], [11968, -4160]], top_surface: {texture: t65b03, size: [128, 128]}, base: 1, top_slope: {to: 127, toward: east}, notes: "East ramp, as the west one."}
+      - {rise: 128, surface: {texture: t65b02, size: [128, 128]}, outline: [[9905, -4416], [9937, -4416], [9937, -4160], [9905, -4160]], notes: "The fill under the slab's west end: its face toward the lake stands for the original's wall from the bed (-896) to the slab's underside (-768) at x 9920."}
+      - {rise: 128, surface: {texture: t65b02, size: [128, 128]}, outline: [[11951, -4416], [11983, -4416], [11983, -4160], [11951, -4160]], notes: The fill under the slab's east end.}
+      - {rise: 159, surface: {texture: t6502b, size: [128, 128]}, outline: [[12160, -4368], [12224, -4368], [12224, -4208], [12160, -4208]], top_surface: {texture: t6502c, size: [128, 128]}, notes: "The stand at the causeway's east end against the wall (faces 3611 to 3618): rock 64 by 160 up to -512, standing on the east ramp; its foot here is the bank's height under its middle, inside the ramp."}
+      - {rise: 16, surface: {texture: t6502c, size: [128, 128]}, outline: [[12160, -4368], [12224, -4368], [12224, -4208], [12160, -4208]], top_surface: {texture: t6502c, size: [128, 128]}, base: 159, notes: "The stand's cap, -512 to -496, where the Diamond lies (item:diamond)."}
+    levels:
+      - id: level:lake
+        outline: [[9920, -4352], [9984, -4544], [10240, -4736], [10752, -4864], [11136, -4864], [11648, -4736], [11904, -4544], [11968, -4352], [11968, -4224], [11904, -4032], [11648, -3840], [11136, -3712], [10752, -3712], [10240, -3840], [9984, -4032], [9920, -4224]]
+        floor: -896
+        bank: [242, 242, 247, 255, 247, 242, 242, 255, 242, 242, 247, 255, 247, 242, 242, 255]
+        edge: {texture: t6502b, size: [128, 128]}
+        surface: {texture: wtrtyl, size: [128, 128]}
+    ceiling_levels:
+      - ceiling: 200
+        top_scale: 0.4
+    notes: "Sector 18: a rock cave about 2560 by 1920 under a dome (the rock roof rises from about 250 above the walls' foot to about 840 in the middle, steeply at first and then flatter; here one leaning roof from -384 at the walls to a flat top at 200 that is 0.4 of the cave's size). The floor is a bowl: the lake bed at -896 is the original's floor face (16 of its 17 corners) and banks fall to it from every wall's foot (-640), each bank's run the distance from its side of the bed to the wall it faces, less 1 (a bank that reaches the wall is refused). The banks rise 1.0 to 1.06 for each unit of run (normal 0.69 to 0.71): the game walks up them, the build calls them steep (`steep_floor`). A paved causeway crosses the lake west to east, a slab 64 thick (top -704, underside -768) with water under it, hanging from the bed (`base`), from the passage to a stand against the east wall where the Prophecies of the Snake lies; ramps fall to it from -640 at each end wall over 256, standing on the banks, and the fill under each end of the slab faces the lake as the original's does. A niche in the north wall behind a rising slab holds another book; a rock stand against the east wall at the causeway's end, with a recess in the wall above it, holds a Diamond."
+  - id: room:cave_e
+    name: Recess over the east stand
+    outline: [[12224, -4368], [12256, -4368], [12256, -4208], [12224, -4208]]
+    floor: -496
+    ceiling: -432
+    theme: theme:tunnel
+    notes: "The recess in the cave's east wall above the stand (faces 3602 to 3606): 32 deep, 160 wide, 64 high, its floor level with the stand's cap."
+  - id: room:cave_in
+    name: Passage to the cave
+    outline: [[9280, -4416], [9664, -4416], [9664, -4160], [9536, -4160], [9536, -3200], [9280, -3200]]
+    floor: -640
+    ceiling: -400
+    theme: theme:hall
+  - id: room:cave_n
+    name: Niche behind the slab
+    outline: [[10752, -3424], [11136, -3424], [11136, -3200], [10752, -3200]]
+    floor: -640
+    ceiling: -384
+    theme: theme:tunnel
+  - id: room:clo55
+    name: Closet of door 55
+    outline: [[7872, 576], [8128, 576], [8128, 704], [7872, 704]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo5_e
+    name: East closet
+    outline: [[256, 1664], [512, 1664], [512, 1920], [256, 1920]]
+    floor: 160
+    ceiling: 416
+    theme: theme:hall
+  - id: room:clo5_w
+    name: West closet
+    outline: [[-384, 1664], [-128, 1664], [-128, 1920], [-384, 1920]]
+    floor: 160
+    ceiling: 416
+    theme: theme:hall
+  - id: room:clo60
+    name: Closet of door 60
+    outline: [[9472, -256], [9728, -256], [9728, -128], [9472, -128]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo63
+    name: Closet of door 63
+    outline: [[6656, -960], [6912, -960], [6912, -832], [6656, -832]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo65
+    name: Closet of door 65
+    outline: [[8128, -960], [8384, -960], [8384, -832], [8128, -832]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo66
+    name: Closet of door 66
+    outline: [[8704, -1024], [8960, -1024], [8960, -896], [8704, -896]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo68
+    name: Closet of door 68
+    outline: [[9664, -1024], [9920, -1024], [9920, -896], [9664, -896]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo69
+    name: Closet of door 69
+    outline: [[10048, -1024], [10304, -1024], [10304, -896], [10048, -896]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo70
+    name: Closet of door 70
+    outline: [[6080, -1728], [6336, -1728], [6336, -1600], [6080, -1600]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo71
+    name: Closet of door 71
+    outline: [[6464, -1728], [6720, -1728], [6720, -1600], [6464, -1600]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo73
+    name: Closet of door 73
+    outline: [[7552, -1728], [7808, -1728], [7808, -1600], [7552, -1600]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo75
+    name: Closet of door 75
+    outline: [[8896, -1792], [9152, -1792], [9152, -1664], [8896, -1664]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo76
+    name: Closet of door 76
+    outline: [[9280, -1792], [9536, -1792], [9536, -1664], [9280, -1664]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo78
+    name: Closet of door 78
+    outline: [[6976, -2496], [7232, -2496], [7232, -2368], [6976, -2368]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo79
+    name: Closet of door 79
+    outline: [[7360, -2496], [7616, -2496], [7616, -2368], [7360, -2368]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo81
+    name: Closet of door 81
+    outline: [[8704, -2560], [8960, -2560], [8960, -2432], [8704, -2432]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo82
+    name: Closet of door 82
+    outline: [[9472, -2560], [9728, -2560], [9728, -2432], [9472, -2432]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo83
+    name: Closet of door 83
+    outline: [[9856, -2560], [10112, -2560], [10112, -2432], [9856, -2432]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo85
+    name: Closet of door 85
+    outline: [[7744, -3328], [8000, -3328], [8000, -3200], [7744, -3200]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo86
+    name: Closet of door 86
+    outline: [[8128, -3328], [8384, -3328], [8384, -3200], [8128, -3200]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo88
+    name: Closet of door 88
+    outline: [[8896, -3328], [9152, -3328], [9152, -3200], [8896, -3200]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo90
+    name: Closet of door 90
+    outline: [[7168, -4096], [7424, -4096], [7424, -3968], [7168, -3968]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo91
+    name: Closet of door 91
+    outline: [[7552, -4096], [7808, -4096], [7808, -3968], [7552, -3968]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo92
+    name: Closet of door 92
+    outline: [[8320, -4096], [8576, -4096], [8576, -3968], [8320, -3968]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:clo93
+    name: Closet of door 93
+    outline: [[8704, -4096], [8960, -4096], [8960, -3968], [8704, -3968]]
+    floor: -640
+    ceiling: -400
+    theme: theme:closet
+    walls:
+      - wall: south
+        surface: {texture: t65c02, size: [128, 128]}
+  - id: room:corr11
+    name: Slanting corridor
+    outline: [[4672, 1792], [5056, 1792], [5936, 2304], [5936, 2560], [5824, 2560], [4928, 2048]]
+    floor: -640
+    ceiling: -384
+    theme: theme:hall
+  - id: room:corr12
+    name: "Bent corridor, west"
+    outline: [[7376, 2304], [7632, 2304], [8128, 2816], [7872, 3072], [7376, 2560]]
+    floor: -640
+    ceiling: -384
+    theme: theme:hall
+  - id: room:corr13
+    name: "Bent corridor, east"
+    outline: [[7872, 3072], [8128, 2816], [8896, 2816], [9392, 2304], [9728, 2304], [9728, 2560], [9648, 2560], [9152, 3072]]
+    floor: -640
+    ceiling: -384
+    theme: theme:hall
+  - id: room:corr5
+    name: Corridor of the two closets
+    outline: [[-64, 1408], [192, 1408], [192, 2432], [-64, 2432]]
+    floor: 160
+    ceiling: 416
+    theme: theme:hall
+    notes: "Sector 5: a corridor north from the trap hall's landing; a closet behind a rising slab on each side, each with a chest on a pedestal; the stair down leaves east at its north end."
+  - id: room:corr9
+    name: Corridor under the stair
+    outline: [[832, 2176], [2240, 2176], [2240, 2432], [832, 2432]]
+    floor: -1056
+    ceiling: -800
+    theme: theme:hall
+  - id: room:crusher
+    name: Room of the retracting floor
+    outline: [[6016, 1792], [7296, 1792], [7296, 3072], [6016, 3072]]
+    floor: -736
+    steep_floor: true
+    ceiling: -128
+    theme: theme:crusher
+    platforms:
+      - {at: [6344, 2120], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6344, 2248], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6344, 2376], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6344, 2504], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6344, 2632], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6344, 2760], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6472, 2120], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6472, 2248], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6472, 2376], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6472, 2504], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6472, 2632], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6472, 2760], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6600, 2120], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6600, 2248], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6600, 2376], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6600, 2504], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6600, 2632], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6600, 2760], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6728, 2120], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6728, 2248], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6728, 2376], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6728, 2504], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6728, 2632], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6728, 2760], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6856, 2120], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6856, 2248], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6856, 2376], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6856, 2504], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6856, 2632], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6856, 2760], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6984, 2120], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6984, 2248], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6984, 2376], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6984, 2504], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6984, 2632], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {at: [6984, 2760], size: [16, 16], rise: 128, surface: {texture: t65b13a, size: [16, 64]}, top_size: [2, 2]}
+      - {id: platform:pit_floor, at: [6656, 2432], size: [768, 768], rise: 1, surface: {texture: t6502b, size: [128, 128]}, visible: false, base: 128, notes: "The original's unseen floor (face 2190, T6502B, invisible) across the shaft at -1023, just over the spikes' points: solid, not drawn, and it runs event 101 when the party lands on it."}
+    levels:
+      - id: level:pit
+        outline: [[6272, 2048], [7040, 2048], [7040, 2816], [6272, 2816]]
+        floor: -1152
+        bank: 254
+        edge: {texture: t65b02, size: [128, 128]}
+        surface: {texture: t65b02m, size: [128, 128]}
+    notes: "Sectors 11 and 21. The floor is four plates (objects.yml movers plate_w, plate_e at -656 over plate_s, plate_n at -704) that meet over a funnel round a pit 768 square (sector 21). Using the far door from inside shuts both doors and draws the plates back into the walls at 10 units a second; eight lit panels on the walls must all be put out, and a timer then stops the plates and opens the doors. Touching the funnel or the pit's floor kills the party (event 101). In the original the funnel falls from the walls' foot (-736) 272 over 256 to the pit's mouth (-1008) and the pit's walls stand upright from there to its floor (-1152). A funnel above a shaft cannot be said: a hole needs a level floor above it (`in: floor` refuses a sloped upper room) and a level may not stand inside another level. Drawn as one sunken level whose banks fall from the walls' foot straight to the pit's floor (416 over 254, `steep_floor`; the plates' stubs stand on the 2 units of level floor left at the walls): the top edge is the original's, the bank lies up to 144 under the original's funnel at the mouth. The pit's unseen killing floor at -1023 is a slab 1 thick across the pit's floor outline (`visible: false`) over 36 spikes that taper from 16 square to 2 over 128, as measured; event 101 is on it, on the bank and on the pit's floor."
+  - id: room:h22
+    name: Maze hall 22
+    outline: [[7360, 1536], [9664, 1536], [9664, 2048], [7360, 2048]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 512, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 960, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 1088, length: 128, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 1088, length: 128, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {offset: 1664, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 768, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 1280, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 1920, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+    notes: "Sectors 22 to 32, the button maze: eighteen halls 512 deep and 256 high, each with two buttons in its south wall and two doorways beside them, a left one and a right one. One button raises the left door and shuts the right, the other the reverse. Some doorways lead on to the next hall (through a wall 256 thick); the others are closets 128 deep where a wrong choice summons a serpent man. Hall 29a has two pairs of buttons and four doorways, hall 30 three pairs and six. The way through ends in the lake cave."
+  - id: room:h23a
+    name: Maze hall 23a
+    outline: [[6976, 768], [8256, 768], [8256, 1280], [6976, 1280]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 576, length: 128, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 576, length: 128, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 896, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h23b
+    name: Maze hall 23b
+    outline: [[6336, 0], [8128, 0], [8128, 512], [6336, 512]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 832, length: 128, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 832, length: 128, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {offset: 1280, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 1024, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 1408, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h24a
+    name: Maze hall 24a
+    outline: [[6144, -768], [7040, -768], [7040, -256], [6144, -256]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h24b
+    name: Maze hall 24b
+    outline: [[5952, -1536], [6848, -1536], [6848, -1024], [5952, -1024]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h25
+    name: Maze hall 25
+    outline: [[7232, -768], [8512, -768], [8512, -256], [7232, -256]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 576, length: 128, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 576, length: 128, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 256, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 768, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h26a
+    name: Maze hall 26a
+    outline: [[7040, -1536], [7936, -1536], [7936, -1024], [7040, -1024]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h26b
+    name: Maze hall 26b
+    outline: [[6848, -2304], [7744, -2304], [7744, -1792], [6848, -1792]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h27a
+    name: Maze hall 27a
+    outline: [[8768, 704], [10048, 704], [10048, 1216], [8768, 1216]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 576, length: 128, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 576, length: 128, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 1024, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h27b
+    name: Maze hall 27b
+    outline: [[8576, -832], [9472, -832], [9472, -320], [8576, -320]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h28a
+    name: Maze hall 28a
+    outline: [[9344, -64], [10240, -64], [10240, 448], [9344, 448]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h28b
+    name: Maze hall 28b
+    outline: [[9536, -832], [10432, -832], [10432, -320], [9536, -320]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 576, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h29a
+    name: Maze hall 29a
+    outline: [[8384, -1600], [10048, -1600], [10048, -1088], [8384, -1088]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {offset: 768, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 1153, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 1153, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 384, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 1152, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h29b
+    name: Maze hall 29b
+    outline: [[8192, -2368], [9088, -2368], [9088, -1856], [8192, -1856]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h29c
+    name: Maze hall 29c
+    outline: [[9344, -2368], [10240, -2368], [10240, -1856], [9344, -1856]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h30
+    name: Maze hall 30
+    outline: [[7232, -3136], [9664, -3136], [9664, -2624], [7232, -2624]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {offset: 768, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 1153, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 1153, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {offset: 1536, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 1921, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 1921, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 256, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 1344, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {offset: 1600, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {offset: 2176, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h31
+    name: Maze hall 31
+    outline: [[7040, -3904], [7936, -3904], [7936, -3392], [7040, -3392]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 640, length: 128, surface: {texture: t65a01b, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:h32
+    name: Maze hall 32
+    outline: [[8192, -3904], [9088, -3904], [9088, -3392], [8192, -3392]]
+    floor: -640
+    ceiling: -384
+    theme: theme:maze
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 385, length: 126, height: 128, surface: {texture: t65o02c, size: [128, 128]}}
+          - {offset: 385, length: 126, bottom: 128, surface: {texture: t65a12, size: [128, 128]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 1
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 2
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {offset: 128, length: 128, surface: {texture: t65a01a, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+      - wall: 3
+        panels:
+          - {length: 128, surface: {texture: t65a06, size: [128, 256]}}
+          - {from: end, length: 128, surface: {texture: t65a07, size: [128, 256]}}
+  - id: room:hall8
+    name: Hall of the false floor
+    outline: [[2240, 1344], [4288, 1344], [4288, 3264], [2240, 3264]]
+    floor: -1056
+    ceiling: -32
+    theme: theme:false_floor
+    platforms:
+      - {at: [2368, 1472], size: [256, 256], rise: 64, surface: {texture: t65o11a, size: [128, 64]}, top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
+      - {at: [4160, 1472], size: [256, 256], rise: 64, surface: {texture: t65o11a, size: [128, 64]}, top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
+      - {at: [2368, 3136], size: [256, 256], rise: 64, surface: {texture: t65o11a, size: [128, 64]}, top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
+      - {at: [4160, 3136], size: [256, 256], rise: 64, surface: {texture: t65o11a, size: [128, 64]}, top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
+      - {id: platform:walk_a, rise: 64, surface: {texture: t65o11a, size: [128, 64]}, outline: [[2240, 2176], [2496, 1984], [2624, 1728], [2880, 1536], [3264, 1536], [3520, 1792], [3264, 2624], [2976, 2496], [3200, 1920], [3008, 1856], [2560, 2432], [2368, 2496], [2240, 2432]], top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
+      - {id: platform:walk_b, rise: 64, surface: {texture: t65o11a, size: [128, 64]}, outline: [[3264, 2624], [3456, 2752], [3776, 2112], [3968, 1984], [4288, 2176], [4288, 2432], [4032, 2304], [3648, 3008], [3392, 3072], [3136, 3008], [2976, 2816], [2976, 2496]], top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
+      - {id: platform:false_a, rise: 1, surface: {texture: t65o11a, size: [128, 64]}, outline: [[2496, 1344], [4032, 1344], [4032, 1600], [4288, 1600], [4288, 2176], [3968, 1984], [3776, 2112], [3456, 2752], [3264, 2624], [3520, 1792], [3264, 1536], [2880, 1536], [2624, 1728], [2496, 1984], [2240, 2176], [2240, 1600], [2496, 1600]], top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b03, size: [128, 128]}, solid: false, base: 703, notes: "The false floor south of the walkway (the original's faces 535 to 546, flagged untouchable): a sheet at the walkway's height (-352) that the party falls through; its outline is the walkway's (as thinned here) and the corner slabs' complement. The original's is one face, seen from below as its own t65b03: here a slab 1 thick with t65b03 under it."}
+      - {id: platform:false_b, rise: 1, surface: {texture: t65o11a, size: [128, 64]}, outline: [[2240, 2432], [2368, 2496], [2560, 2432], [3008, 1856], [3200, 1920], [2976, 2496], [2976, 2816], [3136, 3008], [3392, 3072], [3648, 3008], [4032, 2304], [4288, 2432], [4288, 3008], [4032, 3008], [4032, 3264], [2496, 3264], [2496, 3008], [2240, 3008]], top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b03, size: [128, 128]}, solid: false, base: 703, notes: "The false floor north of the walkway and in its two bends (faces 521 to 534), as false_a."}
+    notes: "Sector 8: a hall 2048 by 1920 and 1024 high. At the height of the doors (-352) the original has a floor right across it, but only a winding walkway from the west door to the east door (and a square 256 in each corner, each with a chest on a pedestal) is solid: the rest lets the party fall to the true floor 704 below, from where the only way out is the corridor west and the return stair (sector 9), which enters the west wall straight below the upper door; the third fall marks the walkway's faces (event 451). Drawn as the tall room with the walkway as a slab 64 thick hanging at the doors' height from wall to wall, as in the original (two platforms end to end, because a platform's outline may have 20 corners; its outline is thinned from the original's 40 points to 23). The corner squares are slabs of the same kind, each with a chest on it. The false floor round it (the original's untouchable faces at -352) is two sheets that are drawn and not solid (`solid: false`), so the walkway is hidden as in the original; the walkway's and the corner slabs' undersides are t65b04 (`bottom_surface`), as measured."
+  - id: room:land19
+    name: "Back stair, landing"
+    outline: [[13568, 768], [14208, 768], [14208, 1152], [13568, 1152]]
+    floor: -128
+    ceiling: 128
+    theme: theme:hall
+  - id: room:land9
+    name: "Return stair, landing"
+    outline: [[64, 2176], [448, 2176], [448, 2816], [64, 2816]]
+    floor: -864
+    ceiling: -608
+    theme: theme:hall
+  - id: room:lantern
+    name: Lantern over the tower
+    outline: [[-3328, -1664], [-2688, -1664], [-2688, -1024], [-3328, -1024]]
+    floor: 2432
+    ceiling: 2816
+    ceiling_slope: {to: 2688, toward: north}
+    theme: theme:pyramid
+    walls:
+      - wall: north
+        panels:
+          - {at: centre, length: 256, surface: {texture: t65c12, size: [256, 256]}}
+    notes: "The top of the stair tower above the pyramid's flat roof (sector 15): a lantern 640 square, its roof leaning from 2816 at the south wall to 2688 at the north. Its floor is open over the box that hangs from the roof (open:lantern_box), where the three upper flights climb to the box's top platform at 2432; the arrival and the front exit are in the recess in its south wall."
+  - id: room:niche
+    name: Secret niche of the great hall
+    outline: [[10304, 3600], [10432, 3600], [10432, 3664], [10304, 3664]]
+    floor: -512
+    ceiling: -384
+    theme: theme:tunnel
+    notes: "Behind the great hall's north wall, 128 above its floor: a niche 128 wide and 128 high holding a chest (event 100), shut by a t65a12 panel that slides up into the lintel when the patch of floor at the hall's middle is crossed (door record 115, event 453). The original's niche is 20 deep behind a wall without thickness and its chest is a picture on the back wall; here 64 deep behind a wall 16 thick, so that a chest stands in it."
+  - id: room:pyramid
+    name: Pyramid hall
+    outline: [[-5248, -3584], [-640, -3584], [-640, 1024], [-5248, 1024]]
+    floor: 944
+    ceiling: 960
+    theme: theme:pyramid
+    platforms:
+      - {rise: 0, surface: {texture: t6502, size: [128, 128]}, outline: [[-4208, -1792], [-3952, -1792], [-3952, -895], [-4208, -895]], top_slope: {to: 207, toward: north}, notes: "The solid foot of the north flight: closed from the floor up to the flight's underside as far as y -895 (t6502 face), open beyond."}
+      - {id: platform:landing_w, at: [-4080, -224], size: [192, 192], rise: 32, surface: {texture: t65c02, size: [128, 128]}, base: 352}
+      - {id: platform:landing_e, at: [-2800, -224], size: [192, 192], rise: 32, surface: {texture: t65c02, size: [128, 128]}, base: 640}
+      - {id: platform:box_floor, at: [-3000, -1536], size: [656, 256], rise: 16, surface: {texture: t65c02, size: [128, 128]}, base: 960}
+      - {id: platform:box_landing_w, at: [-3264, -1088], size: [128, 128], rise: 16, surface: {texture: t65c02, size: [128, 128]}, base: 1088}
+      - {id: platform:box_landing_e, at: [-2752, -1088], size: [128, 128], rise: 16, surface: {texture: t65c02, size: [128, 128]}, base: 1344}
+      - {id: platform:box_top, rise: 16, surface: {texture: t65c02, size: [128, 128]}, outline: [[-3328, -1664], [-2688, -1664], [-2688, -1408], [-3328, -1408]], base: 1472}
+    ceiling_levels:
+      - ceiling: 2432
+        top_outline: [[-3584, -1920], [-2432, -1920], [-2432, -768], [-3584, -768]]
+    flights:
+      - {from: [-4080, -1792], to: [-4080, -256], open_below: 16, to_height: 1328, width: 192, steps: 24, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-3985, -224], to: [-2896, -224], to_height: 1616, width: 192, steps: 18, sides: {height: 96, thickness: 32}, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-2800, -319], to: [-2800, -1408], to_height: 1920, width: 192, steps: 19, sides: {height: 96, thickness: 32}, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-3264, -1416], to: [-3264, -1152], from_height: 1920, to_height: 2048, width: 128, steps: 4, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-3201, -1088], to: [-2816, -1088], to_height: 2304, width: 128, steps: 8, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-2760, -1151], to: [-2760, -1424], to_height: 2432, width: 112, steps: 4, tread: {texture: t65c02, size: [128, 128]}}
+    beams:
+      - path: [[-4192, -1792], [-4192, -128]]
+        width: 32
+        depth: 96
+        bottom: 944
+        bottom_end: 1328
+      - path: [[-3968, -1792], [-3968, -352]]
+        width: 32
+        depth: 96
+        bottom: 944
+        bottom_end: 1277
+      - path: [[-3336, -1680], [-3336, -1408]]
+        width: 16
+        depth: 528
+        bottom: 1904
+      - path: [[-3336, -1408], [-3336, -1152]]
+        width: 16
+        depth: 528
+        bottom: 1904
+        bottom_end: 2032
+      - path: [[-3336, -1152], [-3336, -1008]]
+        width: 16
+        depth: 400
+        bottom: 2032
+      - path: [[-3328, -1672], [-2672, -1672]]
+        width: 16
+        depth: 528
+        bottom: 1904
+      - path: [[-3328, -1016], [-3200, -1016]]
+        width: 16
+        depth: 400
+        bottom: 2032
+      - path: [[-3200, -1016], [-2816, -1016]]
+        width: 16
+        depth: 400
+        bottom: 2032
+        bottom_end: 2288
+      - path: [[-2816, -1016], [-2672, -1016]]
+        width: 16
+        depth: 144
+        bottom: 2288
+      - path: [[-2680, -1408], [-2680, -1152]]
+        width: 16
+        depth: 144
+        bottom: 2416
+        bottom_end: 2288
+      - path: [[-2680, -1152], [-2680, -1024]]
+        width: 16
+        depth: 144
+        bottom: 2288
+    notes: "Sectors 14 and 15 as one room: a hall 4608 square under a pyramid roof that rises from the floor line (944) at all four walls to a flat top at 2432 (x -3584 to -2432, y -1920 to -768); the room's own ceiling is 960, 16 above the floor, because a ceiling must be above the floor. In the middle stands the stair tower: three flights round a square (944 to 1328 north, to 1616 east, to 1904 south) to a platform at 1920. In the original that platform stands in a box that hangs from the roof (walls 16 thick from about 1904 up to 2432), and three ramps inside the box go on (to 2048, 2304, 2432) to a second platform at 2432 directly above the first, in a lantern above the roof (to 2816) where the party arrives and the front exit is. The box's floor, landings and top are hanging platforms, its walls beams; the lantern above the roof is room:lantern. The original's flights are slabs one can stand under: the east and south flights start on hanging landings and show their undersides; the north flight starts on the floor and is `open_below` (16), its foot closed from the floor up to its underside as far as y -895 (a wedge, t6502 toward the open part, as measured) and its side walls two raking beams 32 wide and 96 deep whose undersides follow the flight's (measured from faces 3770, 3800, 3808). The box's top platform reaches the original's full size (x -3328 to -2688, y -1664 to -1408) over the first upper flight, which starts on the box's floor under it (`from_height: 1920`)."
+  - id: room:recess
+    name: Recess of the front exit
+    outline: [[-3136, -1728], [-2880, -1728], [-2880, -1664], [-3136, -1664]]
+    floor: 2464
+    ceiling: 2720
+    theme: theme:pyramid
+    notes: "A recess 256 wide and 64 deep in the lantern's south wall, 32 above its floor, with the black doorway of the front exit (event 501) in its back wall; the party arrives here."
+  - id: room:room7
+    name: Door room
+    outline: [[1472, 2176], [2112, 2176], [2112, 2432], [1472, 2432]]
+    floor: -352
+    ceiling: -96
+    theme: theme:hall
+    notes: "Sector 7: at the foot of the stair. East, a double door into the hall of the false floor; north, a block that sinks into the floor (door 6) closes the way back up from under that hall."
+  - id: room:room7n
+    name: Head of the return stair
+    outline: [[1600, 2560], [1856, 2560], [1856, 2816], [1600, 2816]]
+    floor: -352
+    ceiling: -96
+    theme: theme:hall
+  - id: room:s19a
+    name: Foot of the back stair
+    outline: [[13824, 2304], [13952, 2304], [13952, 2176], [14208, 2176], [14208, 2560], [13824, 2560]]
+    floor: -640
+    ceiling: -384
+    theme: theme:hall
+  - id: room:s20
+    name: Back door chamber
+    outline: [[12736, 2304], [13824, 2304], [13824, 2560], [12736, 2560], [12672, 2560], [12672, 2304]]
+    floor: 384
+    ceiling: 896
+    theme: theme:pyramid
+    notes: "Sector 20, above the great hall: a chamber 768 square with a recess east (to the stair) and a shallow one west holding the back door out. Its roof in the original is a ridge roof: level at 896 over the middle strip (y 2304 to 2560) and falling to the floor line (384) at the south and north walls. Drawn as three rooms: this middle strip with both recesses (640 high in the original, 896 here) and room:s20_s, room:s20_n under lean-to ceilings that come down to 410, because a ceiling may rise 1.9 times its run at most (the original's rises 2 times)."
+  - id: room:s20_n
+    name: "Back door chamber, north side"
+    outline: [[12736, 2560], [13504, 2560], [13504, 2816], [12736, 2816]]
+    floor: 384
+    ceiling: 896
+    ceiling_slope: {to: 410, toward: north}
+    theme: theme:pyramid
+  - id: room:s20_s
+    name: "Back door chamber, south side"
+    outline: [[12736, 2048], [13504, 2048], [13504, 2304], [12736, 2304]]
+    floor: 384
+    ceiling: 896
+    ceiling_slope: {to: 410, toward: south}
+    theme: theme:pyramid
+  - id: room:sanctum
+    name: Great hall
+    outline: [[9728, 1280], [13824, 1280], [13824, 3584], [9728, 3584]]
+    floor: -640
+    ceiling: -256
+    theme: theme:sanctum
+    walls:
+      - wall: 0
+        panels:
+          - {length: 128, height: 256, surface: {texture: t65a06, size: [128, 256]}}
+          - {length: 128, bottom: 256, surface: {texture: t65b06t, size: [128, 128]}}
+          - {from: end, length: 128, height: 256, surface: {texture: t65a07, size: [128, 256]}}
+          - {from: end, length: 128, bottom: 256, surface: {texture: t65b07t, size: [128, 128]}}
+      - wall: 1
+        panels:
+          - {length: 128, height: 256, surface: {texture: t65a06, size: [128, 256]}}
+          - {length: 128, bottom: 256, surface: {texture: t65b06t, size: [128, 128]}}
+          - {from: end, length: 128, height: 256, surface: {texture: t65a07, size: [128, 256]}}
+          - {from: end, length: 128, bottom: 256, surface: {texture: t65b07t, size: [128, 128]}}
+      - wall: 2
+        panels:
+          - {length: 128, height: 256, surface: {texture: t65a06, size: [128, 256]}}
+          - {length: 128, bottom: 256, surface: {texture: t65b06t, size: [128, 128]}}
+          - {from: end, length: 128, height: 256, surface: {texture: t65a07, size: [128, 256]}}
+          - {from: end, length: 128, bottom: 256, surface: {texture: t65b07t, size: [128, 128]}}
+      - wall: 3
+        panels:
+          - {length: 128, height: 256, surface: {texture: t65a06, size: [128, 256]}}
+          - {length: 128, bottom: 256, surface: {texture: t65b06t, size: [128, 128]}}
+          - {from: end, length: 128, height: 256, surface: {texture: t65a07, size: [128, 256]}}
+          - {from: end, length: 128, bottom: 256, surface: {texture: t65b07t, size: [128, 128]}}
+    platforms:
+      - {at: [10368, 1920], size: [256, 256], rise: 160, surface: {texture: t65b04, size: [128, 128]}, top_size: [128, 128]}
+      - {at: [10368, 2944], size: [256, 256], rise: 160, surface: {texture: t65b04, size: [128, 128]}, top_size: [128, 128]}
+      - {at: [13184, 1920], size: [256, 256], rise: 160, surface: {texture: t65b04, size: [128, 128]}, top_size: [128, 128]}
+      - {at: [13184, 2944], size: [256, 256], rise: 160, surface: {texture: t65b04, size: [128, 128]}, top_size: [128, 128]}
+      - {at: [11776, 2432], size: [128, 128], rise: 128, surface: {texture: t65a13, size: [128, 128]}}
+      - {rise: 128, surface: {texture: t65a13, size: [128, 128]}, outline: [[11776, 2346], [11862, 2432], [11776, 2518], [11690, 2432]], base: 128}
+    notes: "Sectors 16 and 17 as one room: a hall 4096 by 2304, 384 high. Four tapering pedestals (256 square at the foot, 160 high) carry stone heads that spray poison when the floor round them is walked on; a smaller stand in the middle carries the Prophecies of the Sun and throws fire bolts. A hidden niche in the north wall (128 wide, behind a sliding panel that opens when a patch of floor is crossed) holds a chest. Each wall begins with a t65a06 panel (t65b06t above it) and ends with a t65a07 one (t65b07t), 128 wide, as measured."
+  - id: room:stair10
+    name: Slanting stair
+    outline: [[4288, 2176], [4672, 1792], [4928, 2048], [4544, 2432]]
+    floor: -352
+    slope: {to: -640, toward: 1, steps: 8, riser: {texture: t65b14v, size: [128, 32]}}
+    ceiling: -96
+    theme: theme:stair
+    notes: "Sector 10: a stair turned 45 degrees, six steps of 48 in the original (-352 to -640); eight steps of 36 here, because a step may rise 40 at most."
+  - id: room:stair19a
+    name: "Back stair, first flight"
+    outline: [[13952, 1152], [14208, 1152], [14208, 2176], [13952, 2176]]
+    floor: -640
+    slope: {to: -128, toward: south, steps: 16, riser: {texture: t65b14v, size: [128, 32]}}
+    ceiling: -320
+    ceiling_slope: {to: 128, toward: south}
+    theme: theme:stair
+    notes: "Sector 19: two flights of sixteen steps (192 wide between kerbs), south from -640 to a landing at -128, then back north to 384, the second flight above the great hall's east end. The ceilings follow the flights as in the original (-384 at y 2304 to 128 at y 1280; 128 at y 1024 to 640 at y 2048)."
+  - id: room:stair19b
+    name: "Back stair, second flight"
+    outline: [[13568, 1152], [13824, 1152], [13824, 2176], [13568, 2176]]
+    floor: -128
+    slope: {to: 384, toward: north, steps: 16, riser: {texture: t65b14v, size: [128, 32]}}
+    ceiling: 192
+    ceiling_slope: {to: 640, toward: north}
+    theme: theme:stair
+  - id: room:stair6
+    name: Long stair down
+    outline: [[320, 2176], [1344, 2176], [1344, 2432], [320, 2432]]
+    floor: 160
+    slope: {to: -352, toward: east, steps: 16, riser: {texture: t65b14v, size: [128, 32]}}
+    ceiling: 416
+    ceiling_slope: {to: -32, toward: east}
+    theme: theme:stair
+    notes: "Sector 6: sixteen steps of 32 down east, 160 to -352, 192 wide between two raking kerbs in a corridor 256 wide. The original's ceiling is level at 416 to x 448 and then slopes with the stair to -96 at x 1472; here one plane from 416 at the head to -32 at the foot (x 1344)."
+  - id: room:stair9a
+    name: "Return stair, upper flight"
+    outline: [[512, 2560], [1472, 2560], [1472, 2816], [512, 2816]]
+    floor: -352
+    slope: {to: -864, toward: west, steps: 16, riser: {texture: t65b14v, size: [128, 32]}}
+    ceiling: -96
+    ceiling_slope: {to: -512, toward: west}
+    theme: theme:stair
+    notes: "Sector 9, the way back up from under the false floor: sixteen steps down west (-352 to -864) beside the long stair, a landing, a turn back east under the long stair, six more steps down to -1056 and a corridor east under sectors 6 and 7 into the lower hall. The ceilings follow the stairs as in the original (-96 at x 1344 to -608 at x 320; -608 at x 576 to -800 at x 960)."
+  - id: room:stair9b
+    name: "Return stair, lower flight"
+    outline: [[448, 2176], [832, 2176], [832, 2432], [448, 2432]]
+    floor: -864
+    slope: {to: -1056, toward: east, steps: 6, riser: {texture: t65b14v, size: [128, 32]}}
+    ceiling: -608
+    ceiling_slope: {to: -736, toward: east}
+    theme: theme:stair
+  - id: room:top19
+    name: Head of the back stair
+    outline: [[13568, 2176], [13824, 2176], [13824, 2304], [13568, 2304]]
+    floor: 384
+    ceiling: 640
+    theme: theme:hall
+  - id: room:trap_hall
+    name: Hall of the sinking stones
+    outline: [[-512, -640], [640, -640], [640, 1408], [-512, 1408]]
+    floor: 0
+    ceiling: 480
+    theme: theme:hall
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 384, length: 64, bottom: 160, height: 256, surface: {texture: t65o10, size: [64, 128]}}
+          - {offset: 704, length: 64, bottom: 160, height: 256, surface: {texture: t65o10, size: [64, 128]}}
+          - {offset: 384, length: 64, bottom: 416, height: 64, surface: {texture: t65o12r, size: [64, 64]}}
+          - {offset: 448, length: 256, bottom: 416, height: 64, surface: {texture: t65o11a, size: [128, 64]}}
+          - {offset: 704, length: 64, bottom: 416, height: 64, surface: {texture: t65o12l, size: [64, 64]}}
+        notes: "The frame of the tunnel's doorway behind the dais: t65o10 jambs and a t65o12r, t65o11a, t65o12l lintel band, as the original's faces on this wall (x -128 to 256, z 160 to 480)."
+    levels:
+      - id: level:dais
+        outline: [[-128, -640], [256, -640], [256, -384], [-128, -384]]
+        floor: 160
+        edge: {texture: t65o02c, size: [128, 128]}
+        surface: {texture: t65b04, size: [128, 128]}
+      - outline: [[-512, -640], [-320, -640], [-320, -384], [-512, -384]]
+        floor: 32
+        edge: {texture: t65o02c, size: [128, 128]}
+        surface: {texture: t65b04, size: [128, 128]}
+      - outline: [[448, -640], [640, -640], [640, -384], [448, -384]]
+        floor: 32
+        edge: {texture: t65o02c, size: [128, 128]}
+        surface: {texture: t65b04, size: [128, 128]}
+      - outline: [[-128, 1280], [256, 1280], [256, 1408], [-128, 1408]]
+        floor: 160
+        edge: {texture: t65o02c, size: [128, 128]}
+        surface: {texture: t65b04, size: [128, 128]}
+    flights:
+      - {from: [-321, -512], to: [-127, -512], width: 256, steps: 4}
+      - {from: [449, -512], to: [255, -512], width: 256, steps: 4}
+    notes: "Sector 1. The party comes in from the tunnel onto a dais 160 high against the south wall (ramps down each side to corner blocks 32 high; drawn as four steps each). Six blocks stand 160 high between the dais and a landing 160 high at the north door: stepping stones that sink to 32 when stepped on (lifts here, see objects.yml). On the floor below, four side alcoves open when the floor is first touched; a button in each raises, in order, the four steps of two short stairs beside the north landing. Ceiling 480."
+  - id: room:tri10
+    name: Head of the slanting stair
+    outline: [[4288, 2176], [4544, 2432], [4288, 2432]]
+    floor: -352
+    ceiling: -96
+    theme: theme:hall
+  - id: room:tunnel
+    name: Rock tunnel
+    path: [[-1792, -1344], [-1560, -1344], [-1340, -1600], [-1100, -1740], [-832, -1728], [-560, -1690], [-380, -1470], [-200, -1220], [0, -1060], [64, -860], [64, -640]]
+    width: 256
+    floor: 560
+    slope: {to: 160}
+    ceiling: 816
+    theme: theme:tunnel
+    notes: "Sectors 2 and 3, the rock tunnel from the stairwell (560) under the pyramid hall to the trap hall's south door (160): about 256 wide, falling all the way, winding south-east then north. One corridor climbing along its centre line (measured at the joints of round two's ten pieces); its floor is within 35 of the original's at every joint (the original's is level for 300 at the bend and uneven). The original's walls and ceiling are irregular rock (ceiling 250 to 450 above the floor); here the ceiling stays 256 above the floor, and a climbing path cannot be rough."
+  - id: room:well
+    name: Stairwell
+    outline: [[-2560, -1536], [-1792, -1536], [-1792, -1152], [-2560, -1152]]
+    floor: 560
+    slope: {to: 944, toward: west, steps: 12}
+    ceiling: 944
+    theme: theme:well
+    walls:
+      - wall: south
+        surface: {texture: t65o02c, size: [128, 128]}
+      - wall: north
+        surface: {texture: t65o02c, size: [128, 128]}
+    notes: "A hole in the hall's floor (768 by 256 in the original, x -2624 to -1856): twelve steps down east from 944 to 560, open to the hall above (open:pyr_well, in: floor). The original's first tread is level with the hall's floor and its last is 592, with a landing 64 long at 560 under a ceiling at 880; a stair room's last riser stands in its high wall, so the room is drawn one tread east (its lowest tread is the landing) and the treads stand where the original's do. The hole is given as an outline 17 inside the stair room's walls, because the whole-ceiling hole of a twelve-step stair has 26 points (at most 20) and a corner exactly 16 from a wall is refused."
+openings:
+  - id: open:c22
+    from: room:c22n
+    to: room:c22s
+    width: full
+    height: 255
+  - id: open:c22s_h22
+    from: room:c22s
+    to: room:h22
+    width: full
+    height: 256
+  - id: open:cave_in_cave
+    from: room:cave_in
+    to: room:cave
+    width: full
+    height: full
+  - id: open:cave_niche
+    from: room:cave
+    to: room:cave_n
+    width: full
+    height: 240
+  - id: open:cave_recess
+    from: room:cave
+    to: room:cave_e
+    width: full
+    height: full
+  - id: open:corr11_crusher
+    from: room:corr11
+    to: room:crusher
+    width: full
+    height: 239
+  - id: open:corr12_corr13
+    from: room:corr12
+    to: room:corr13
+    width: full
+    height: full
+  - id: open:corr13_c22n
+    from: room:corr13
+    to: room:c22n
+    width: full
+    height: 256
+  - id: open:corr13_sanctum
+    from: room:corr13
+    to: room:sanctum
+    width: full
+    height: full
+  - id: open:corr5_clo_e
+    from: room:corr5
+    to: room:clo5_e
+    width: full
+    height: 240
+  - id: open:corr5_clo_w
+    from: room:corr5
+    to: room:clo5_w
+    width: full
+    height: 240
+  - id: open:corr5_stair6
+    from: room:corr5
+    to: room:stair6
+    width: full
+    height: full
+  - id: open:corr9_hall8
+    from: room:corr9
+    to: room:hall8
+    width: full
+    height: full
+  - id: open:crusher_corr12
+    from: room:crusher
+    to: room:corr12
+    width: full
+    height: 239
+  - id: open:d52
+    from: room:h22
+    to: room:h23a
+    along: 0.2857
+    width: 256
+    height: 240
+  - id: open:d53
+    from: room:h22
+    to: room:h27a
+    along: 0.7143
+    width: 256
+    height: 240
+  - id: open:d54
+    from: room:h23a
+    to: room:h23b
+    along: 0.2222
+    width: 256
+    height: 240
+  - id: open:d55
+    from: room:h23a
+    to: room:clo55
+    width: full
+    height: 240
+  - id: open:d56
+    from: room:h27a
+    to: room:c27
+    width: full
+    height: 240
+  - id: open:d56_b
+    from: room:c27
+    to: room:h27b
+    width: full
+    height: 240
+  - id: open:d57
+    from: room:h27a
+    to: room:h28a
+    along: 0.6364
+    width: 256
+    height: 240
+  - id: open:d58
+    from: room:h23b
+    to: room:h24a
+    along: 0.3636
+    width: 256
+    height: 240
+  - id: open:d59
+    from: room:h23b
+    to: room:h25
+    along: 0.7143
+    width: 256
+    height: 240
+  - id: open:d60
+    from: room:h28a
+    to: room:clo60
+    width: full
+    height: 240
+  - id: open:d61
+    from: room:h28a
+    to: room:h28b
+    along: 0.6364
+    width: 256
+    height: 240
+  - id: open:d62
+    from: room:h24a
+    to: room:h24b
+    along: 0.3636
+    width: 256
+    height: 240
+  - id: open:d63
+    from: room:h24a
+    to: room:clo63
+    width: full
+    height: 240
+  - id: open:d64
+    from: room:h25
+    to: room:h26a
+    along: 0.3636
+    width: 256
+    height: 240
+  - id: open:d65
+    from: room:h25
+    to: room:clo65
+    width: full
+    height: 240
+  - id: open:d66
+    from: room:h27b
+    to: room:clo66
+    width: full
+    height: 240
+  - id: open:d67
+    from: room:h27b
+    to: room:h29a
+    along: 0.7143
+    width: 256
+    height: 240
+  - id: open:d68
+    from: room:h28b
+    to: room:clo68
+    width: full
+    height: 240
+  - id: open:d69
+    from: room:h28b
+    to: room:clo69
+    width: full
+    height: 240
+  - id: open:d70
+    from: room:h24b
+    to: room:clo70
+    width: full
+    height: 240
+  - id: open:d71
+    from: room:h24b
+    to: room:clo71
+    width: full
+    height: 240
+  - id: open:d72
+    from: room:h26a
+    to: room:h26b
+    along: 0.3636
+    width: 256
+    height: 240
+  - id: open:d73
+    from: room:h26a
+    to: room:clo73
+    width: full
+    height: 240
+  - id: open:d74
+    from: room:h29a
+    to: room:h29b
+    along: 0.3636
+    width: 256
+    height: 240
+  - id: open:d75
+    from: room:h29a
+    to: room:clo75
+    width: full
+    height: 240
+  - id: open:d76
+    from: room:h29a
+    to: room:clo76
+    width: full
+    height: 240
+  - id: open:d77
+    from: room:h29a
+    to: room:h29c
+    along: 0.6364
+    width: 256
+    height: 240
+  - id: open:d78
+    from: room:h26b
+    to: room:clo78
+    width: full
+    height: 240
+  - id: open:d79
+    from: room:h26b
+    to: room:clo79
+    width: full
+    height: 240
+  - id: open:d80
+    from: room:h29b
+    to: room:h30
+    along: 0.2857
+    width: 256
+    height: 240
+  - id: open:d81
+    from: room:h29b
+    to: room:clo81
+    width: full
+    height: 240
+  - id: open:d82
+    from: room:h29c
+    to: room:clo82
+    width: full
+    height: 240
+  - id: open:d83
+    from: room:h29c
+    to: room:clo83
+    width: full
+    height: 240
+  - id: open:d84
+    from: room:h30
+    to: room:h31
+    along: 0.3636
+    width: 256
+    height: 240
+  - id: open:d85
+    from: room:h30
+    to: room:clo85
+    width: full
+    height: 240
+  - id: open:d86
+    from: room:h30
+    to: room:clo86
+    width: full
+    height: 240
+  - id: open:d87
+    from: room:h30
+    to: room:h32
+    width: 256
+    height: 240
+  - id: open:d88
+    from: room:h30
+    to: room:clo88
+    width: full
+    height: 240
+  - id: open:d89
+    from: room:h30
+    to: room:cave_in
+    along: 0.3333
+    width: full
+    height: 240
+  - id: open:d90
+    from: room:h31
+    to: room:clo90
+    width: full
+    height: 240
+  - id: open:d91
+    from: room:h31
+    to: room:clo91
+    width: full
+    height: 240
+  - id: open:d92
+    from: room:h32
+    to: room:clo92
+    width: full
+    height: 240
+  - id: open:d93
+    from: room:h32
+    to: room:clo93
+    width: full
+    height: 240
+  - id: open:hall8_tri10
+    from: room:hall8
+    to: room:tri10
+    width: full
+    height: full
+  - id: open:hall_alc_ne
+    from: room:trap_hall
+    to: room:alc_ne
+    width: full
+    height: 240
+  - id: open:hall_alc_nw
+    from: room:trap_hall
+    to: room:alc_nw
+    width: full
+    height: 240
+  - id: open:hall_alc_se
+    from: room:trap_hall
+    to: room:alc_se
+    width: full
+    height: 240
+  - id: open:hall_alc_sw
+    from: room:trap_hall
+    to: room:alc_sw
+    width: full
+    height: 240
+  - id: open:hall_corr5
+    from: room:trap_hall
+    to: room:corr5
+    width: full
+    height: 256
+  - id: open:land19_stair19b
+    from: room:land19
+    to: room:stair19b
+    width: full
+    height: full
+  - id: open:land9_stair9b
+    from: room:land9
+    to: room:stair9b
+    width: full
+    height: full
+  - id: open:lantern_box
+    from: room:lantern
+    to: room:pyramid
+    in: floor
+    outline: [[-3312, -1648], [-2704, -1648], [-2704, -1040], [-3312, -1040]]
+  - id: open:lantern_recess
+    from: room:lantern
+    to: room:recess
+    width: full
+    height: 256
+  - id: open:pyr_well
+    from: room:pyramid
+    to: room:well
+    in: floor
+    outline: [[-2543, -1519], [-1873, -1519], [-1873, -1169], [-2543, -1169]]
+  - id: open:room7_hall8
+    from: room:room7
+    to: room:hall8
+    width: full
+    height: 254
+  - id: open:room7_n
+    from: room:room7
+    to: room:room7n
+    width: full
+    height: 255
+  - id: open:room7n_stair9a
+    from: room:room7n
+    to: room:stair9a
+    width: full
+    height: full
+  - id: open:s19a_stair19a
+    from: room:s19a
+    to: room:stair19a
+    width: full
+    height: full
+  - id: open:s20_n
+    from: room:s20
+    to: room:s20_n
+    width: full
+    height: full
+  - id: open:s20_s
+    from: room:s20
+    to: room:s20_s
+    width: full
+    height: full
+  - id: open:sanctum_niche
+    from: room:sanctum
+    to: room:niche
+    width: full
+    height: 128
+  - id: open:sanctum_s19a
+    from: room:sanctum
+    to: room:s19a
+    from_wall: 1
+    to_wall: 5
+    width: full
+    height: full
+  - id: open:stair10_corr11
+    from: room:stair10
+    to: room:corr11
+    width: full
+    height: full
+  - id: open:stair19a_land19
+    from: room:stair19a
+    to: room:land19
+    width: full
+    height: full
+  - id: open:stair19b_top19
+    from: room:stair19b
+    to: room:top19
+    width: full
+    height: full
+  - id: open:stair6_room7
+    from: room:stair6
+    to: room:room7
+    width: full
+    height: full
+  - id: open:stair9a_land9
+    from: room:stair9a
+    to: room:land9
+    width: full
+    height: full
+  - id: open:stair9b_corr9
+    from: room:stair9b
+    to: room:corr9
+    width: full
+    height: full
+  - id: open:top19_s20
+    from: room:top19
+    to: room:s20
+    width: full
+    height: full
+  - id: open:tri10_stair10
+    from: room:tri10
+    to: room:stair10
+    width: full
+    height: full
+  - id: open:tunnel_hall
+    from: room:tunnel
+    to: room:trap_hall
+    width: full
+    height: full
+  - id: open:well_tunnel
+    from: room:well
+    to: room:tunnel
+    width: full
+    height: full

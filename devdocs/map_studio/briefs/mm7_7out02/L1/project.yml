@@ -1,0 +1,124 @@
+format: 0
+id: calib_harmondale
+name: Harmondale
+world: mm7
+kind: outdoor
+profile: odm
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9702
+  encounter_chance: 10
+  treasure_level: 0
+  perception_difficulty: 2
+  refill_days: 672
+  lock_difficulty: 2
+  slots:
+    - {monster: Goblin, tier: 3, per_marker: [2, 5], weight: 100}
+    - {monster: Swordsman, tier: 3, per_marker: [1, 3], weight: 0}
+neighbours:
+  - id: door:castle
+    to: 7d29.blv
+    kind: door
+    arrival_hint: "Arrives in the castle's entrance; returns the party in front of the castle door."
+    condition: {any: [{qbit: butler_met}, {qbit: castle_stage_2}]}
+    notes: Castle Harmondale. What the door does at each story stage is in plan.yml entrance:castle_door (variants).
+  - id: door:white_cliff_caves
+    to: 7d21.blv
+    kind: door
+    arrival_hint: Returns the party to the cave mouth.
+    notes: "White Cliff Caves: a plain door in the cave mouth in the south-east white cliffs."
+  - id: edge:east
+    to: 7out04.odm
+    kind: edge
+    side: east
+    days: 7
+    arrival_side: south
+    approach: "Off-road onto a bare shelf at about 640 on the east side (not over the rim): no road, only an 'East' hint."
+    screened: true
+    one_way: true
+    notes: "The Tularean Forest. Nothing arrives here by the east edge; arrivals from the east use the north road marker."
+  - id: edge:north
+    to: 7out04.odm
+    kind: edge
+    side: north
+    days: 5
+    arrival_side: south
+    approach: "The high road climbing the north-east valley to the north edge, east of centre."
+    screened: true
+    notes: The Tularean Forest.
+  - id: edge:south
+    to: out11.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: "The south road down its valley and over the ravine bridge to the south edge, just west of centre."
+    screened: true
+    notes: The Barrow Downs.
+  - id: edge:west
+    to: 7out03.odm
+    kind: edge
+    side: west
+    days: 5
+    approach: "The west road winding through its hill valley to the west edge, a little south of mid-height."
+    screened: true
+    notes: "Erathia. Arrival side not set: the travel table's side for this route does not read as a compass side."
+  - id: stable:arena
+    to: 7d05.blv
+    kind: stable
+    service: The J.V.C. Corral
+    notes: "The Arena, reached from the stable. The Arena returns the party to the stable yard."
+  - id: stable:erathia
+    to: 7out03.odm
+    kind: stable
+    days: 2
+    schedule: {weekdays: [monday, wednesday, friday]}
+    service: The J.V.C. Corral
+  - id: stable:tatalia
+    to: 7out13.odm
+    kind: stable
+    days: 2
+    schedule: {weekdays: [monday, wednesday, friday]}
+    service: The J.V.C. Corral
+    notes: "The prose brief names this route only as 'one more region'; the world's stable table gives Tatalia."
+  - id: stable:tularean
+    to: 7out04.odm
+    kind: stable
+    days: 2
+    schedule: {weekdays: [tuesday, thursday, saturday]}
+    service: The J.V.C. Corral
+  - id: teleport:land_of_giants
+    to: out12.odm
+    kind: teleport
+    condition: {qbit: giants_visited}
+    one_way: true
+    notes: Prayer at the shrine's altar (plan.yml poi:shrine_altar) once the party has visited the Land of the Giants.
+qbits:
+  arbiter_messenger_done: 646
+  artifact_to_arbiter: 659
+  artifact_to_elves: 597
+  artifact_to_humans: 596
+  butler_met: 644
+  castle_cleared: 696
+  castle_stage_2: 610
+  castle_stage_3_dark: 641
+  castle_stage_3_light: 614
+  fire_north: 780
+  fire_south: 779
+  fire_west: 781
+  fort_taken: 760
+  giants_visited: 758
+  guild_debt_failed: 695
+  obelisk_visited: 676
+  path_dark: 612
+  path_light: 611
+  raiders_called: 774
+  succession_quest: 665
+items:
+  red_apple: 1432
+rules:
+  home_town: Harmondale
+  respawn: entrance:party_start
+  town_portal_anchor: entrance:party_start
+notes: "Calibration brief, level L1, for the continent's home region and early-game hub: the starting map of the castle arc, temperate highland. Map statistics: home-town map, hills and scattered trees, water ok. Slot 1 (goblin family, mixed grades) carries all the random weight; slot 2 (swordsmen, mid tier) has no random weight and is used only by the fixed band; slot 3 is empty. No reference row: every column not set here is a design value still to be chosen."

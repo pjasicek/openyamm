@@ -1,0 +1,939 @@
+format: 0
+level: L1
+pitch: "A warlord's mercenary army has dug into a walled stronghold near Silver Cove. The front door opens only into a guard tunnel: the real way in is through a blank wall at its end into an empty cellar of false doors that drag the party between cells, then up through the store cellars and barracks into a vast brazier-lit muster hall packed with soldiers. Beyond the hall is the warlord's own wing, where a drawer in his study holds the key to the small vault with the Eagle Statuette, one of the statuettes the party carries to a pedestal for a continent-wide quest. Upstairs, a long gallery of barracks leads to a throne room held by the fortress's elite knights. A switch at the foot of a back stair lifts a portcullis that opens a short way back to the entrance. Play is room-by-room melee against human soldiers in three ranks (thugs, men-at-arms, plate knights), in great numbers, with chests in every barracks."
+purpose: "Recover the Eagle Statuette (quest item; finding it sets the quest bit and the seer's hint bit) for the continent-wide statuette quest, and loot: a rich treasure map at the top treasure tier, about 20 containers. Held by the warlord's soldiers; no named boss actor: the throne room and the warlord's antechamber carry the strongest knights instead. Fights grow toward the great hall, the warlord's wing and the throne room; corridors, stairs and the cellar are empty."
+mood: "Martial, crowded, torchlit stone and timber: a lived-in garrison rather than a ruin."
+datum: arrival
+spaces:
+  - id: room:c1
+    name: Cellar hub
+    kind: room
+    size: M
+    where: south-west
+    floor: -256
+    clear_height: 256
+    relief: flat
+    purpose: "Plain stone cellar hub with a false door; the secret wall from the tunnel end opens into it."
+    empty: true
+    light: torchlit
+  - id: room:c2
+    name: Cell
+    kind: room
+    size: S
+    where: south-west
+    floor: -256
+    clear_height: 256
+    relief: flat
+    purpose: Dead end with a false door.
+    empty: true
+    light: torchlit
+  - id: room:c3
+    name: Cross passage
+    kind: corridor
+    size: S
+    where: south-west
+    floor: -256
+    clear_height: 256
+    relief: flat
+    purpose: Links the cellar rooms.
+    empty: true
+    light: torchlit
+  - id: room:c4
+    name: Cell
+    kind: room
+    size: S
+    where: south-west
+    floor: -256
+    clear_height: 256
+    relief: flat
+    purpose: Dead end with two false doors.
+    empty: true
+    light: torchlit
+  - id: room:c5
+    name: Cellar hall
+    kind: room
+    size: M
+    where: south-west
+    floor: -256
+    clear_height: 256
+    relief: flat
+    purpose: "A false door, and the one real door out of the cellar."
+    empty: true
+    light: torchlit
+  - id: room:e1
+    name: Gate tunnel
+    kind: corridor
+    size: S
+    where: west edge
+    floor: [0, 128]
+    clear_height: 256
+    relief: slope
+    purpose: "Arrival and the exit door; rough-hewn rock tunnel. The floor rises gently from 0 at the junction to about +128 at the door."
+    empty: true
+    light: torchlit
+  - id: room:e2
+    name: Junction
+    kind: room
+    size: M
+    where: west edge
+    floor: [-80, 0]
+    clear_height: 256
+    relief: slope
+    purpose: "Guard post at the fork: on down the tunnel, or through the portcullis to the back stair."
+    light: torchlit
+    population:
+      - {slot: 1, groups: 1, strength: pack, rank: a}
+      - {slot: 1, groups: 1, strength: pack, rank: any}
+  - id: room:e3
+    name: Descending tunnel
+    kind: corridor
+    size: S
+    where: west edge
+    floor: [-220, -80]
+    clear_height: 256
+    relief: slope
+    purpose: Slopes down toward the cellar band.
+    empty: true
+    light: torchlit
+  - id: room:e4
+    name: Tunnel end
+    kind: corridor
+    size: S
+    where: "west edge, south end"
+    floor: [-256, -216]
+    clear_height: 256
+    relief: slope
+    purpose: "Dead end with a door that won't open; the blank wall beside it is the secret way into the cellar."
+    empty: true
+    light: torchlit
+  - id: room:g1
+    name: Storehouse
+    kind: room
+    size: M
+    where: south
+    floor: [-256, 0]
+    clear_height: 256
+    relief: steps
+    purpose: "Barrels and sacks; stairs up one band."
+    light: torchlit
+    furniture: [barrels, sacks]
+    population:
+      - {slot: 2, groups: 1, strength: pack, rank: a}
+      - {slot: 1, groups: 1, strength: pack, rank: any}
+    treasure:
+      - {kind: floor_item, count: 1}
+  - id: room:g2
+    name: Stair passage
+    kind: corridor
+    size: M
+    where: south
+    floor: [0, 256]
+    clear_height: 256
+    relief: steps
+    purpose: "Stairs up one band; the lower barracks door at its foot, the guard post at its head."
+    light: torchlit
+    population:
+      - {slot: 2, groups: 1, strength: pack, rank: any}
+      - {slot: 1, groups: 1, strength: pack, rank: b}
+  - id: room:g3
+    name: Lower barracks
+    kind: room
+    size: M
+    where: south
+    floor: 0
+    clear_height: 256
+    relief: flat
+    purpose: "Bunks and footlockers; a sinking wall hides the treasury."
+    light: torchlit
+    furniture: [bunks, beams, footlockers]
+    population:
+      - {slot: 2, groups: 1, strength: heavy, rank: b}
+      - {slot: 2, groups: 1, strength: heavy, rank: any}
+      - {slot: 1, groups: 1, strength: heavy, rank: any}
+      - {slot: 3, groups: 1, strength: heavy, rank: a}
+    treasure:
+      - {kind: chest, count: 2}
+      - {kind: chest, count: 2, shared_with: container:footlocker, notes: Footlockers.}
+  - id: room:g4
+    name: Hidden treasury
+    kind: room
+    size: M
+    where: south
+    floor: 0
+    clear_height: 256
+    relief: flat
+    purpose: "A row of chests behind a wall that sinks: the richest room."
+    empty: true
+    light: torchlit
+    treasure:
+      - {kind: chest, count: 5}
+      - {kind: chest, count: 1, shared_with: container:footlocker, notes: Footlocker.}
+      - {kind: floor_item, count: 3}
+    secret: true
+  - id: room:g5
+    name: Guard post
+    kind: room
+    size: S
+    where: "south, just south of the great hall"
+    floor: 256
+    clear_height: 256
+    relief: flat
+    purpose: "Small room before the great hall; it opens into the hall's south wall."
+    empty: true
+    light: torchlit
+  - id: room:g6
+    name: Upper barracks
+    kind: room
+    size: M
+    where: south
+    floor: 256
+    clear_height: 256
+    relief: flat
+    purpose: Bunks and footlockers.
+    light: torchlit
+    furniture: [bunks, beams, footlockers]
+    population:
+      - {slot: 1, groups: 1, strength: heavy, rank: c}
+      - {slot: 2, groups: 1, strength: heavy, rank: a}
+      - {slot: 2, groups: 1, strength: heavy, rank: any}
+      - {slot: 1, groups: 1, strength: heavy, rank: any}
+    treasure:
+      - {kind: chest, count: 1}
+      - {kind: chest, count: 3, shared_with: container:footlocker, notes: Footlockers.}
+  - id: room:h1
+    name: Great hall
+    kind: room
+    size: XL
+    where: east side
+    floor: 256
+    clear_height: 512
+    relief: flat
+    purpose: "Muster hall with braziers along it and a tall ceiling; the densest fight of the map. About 4 to 5 times a large room."
+    light: torchlit
+    fires: 8
+    furniture: [braziers]
+    population:
+      - {slot: 1, groups: 2, strength: heavy, rank: any}
+      - {slot: 1, groups: 1, strength: heavy, rank: a}
+      - {slot: 2, groups: 1, strength: heavy, rank: any}
+      - {slot: 2, groups: 1, strength: heavy, rank: a}
+      - {slot: 2, groups: 1, strength: heavy, rank: c}
+      - {slot: 3, groups: 1, strength: heavy, rank: any}
+      - {slot: 3, groups: 1, strength: heavy, rank: b}
+    treasure:
+      - {kind: decoration, count: 1, tier: 6, once: true, notes: A good axe hidden in one of the braziers (poi:axe_brazier).}
+  - id: room:h2
+    name: Hall stair
+    kind: room
+    size: M
+    where: "centre, west of the great hall"
+    floor: [256, 512]
+    clear_height: 256
+    relief: steps
+    purpose: A single 256-wide flight up one band from the great hall to the upper gallery.
+    empty: true
+    light: torchlit
+  - id: room:h3
+    name: Storeroom
+    kind: room
+    size: L
+    where: "centre, between the great hall and the hall stair"
+    floor: 256
+    clear_height: 384
+    relief: flat
+    purpose: Stacked barrels and sacks behind two double-locked doors.
+    empty: true
+    light: torchlit
+    furniture: [barrels, sacks]
+    treasure:
+      - {kind: floor_item, count: 3, tier: [3, 4], notes: Mid tier.}
+  - id: room:u1
+    name: Upper gallery
+    kind: corridor
+    size: M
+    area: 1.3
+    extent: [4864, 256]
+    where: "north-west half, along its southern side"
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: "Long corridor, about 9.5 grid cells long and half a cell wide (a 256-wide passage), with six doors off it."
+    empty: true
+    light: torchlit
+  - id: room:u10
+    name: West hall
+    kind: room
+    size: M
+    where: north-west
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Crossroads of the west wing.
+    empty: true
+    light: torchlit
+  - id: room:u11
+    name: Drill hall
+    kind: room
+    size: M
+    area: 1.4
+    where: north-west corner
+    floor: 512
+    clear_height: 384
+    relief: flat
+    purpose: "Tall training hall, ceiling to +896."
+    light: torchlit
+    population:
+      - {slot: 3, groups: 1, strength: heavy, rank: any}
+      - {slot: 2, groups: 1, strength: heavy, rank: b}
+      - {slot: 2, groups: 1, strength: heavy, rank: any}
+      - {slot: 1, groups: 1, strength: heavy, rank: c}
+    treasure:
+      - {kind: floor_item, count: 1}
+  - id: room:u12
+    name: Side room
+    kind: room
+    size: M
+    where: north-west
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Guard room.
+    light: torchlit
+    population:
+      - {slot: 3, groups: 1, strength: pack, rank: any}
+      - {slot: 2, groups: 1, strength: pack, rank: c}
+    treasure:
+      - {kind: floor_item, count: 1}
+  - id: room:u13
+    name: Passage
+    kind: corridor
+    size: S
+    where: north
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: First leg of the narrow L-shaped approach to the throne room.
+    empty: true
+    light: torchlit
+  - id: room:u14
+    name: Passage
+    kind: corridor
+    size: S
+    where: north
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: "Second leg of the L-shaped approach; the throne room door."
+    empty: true
+    light: torchlit
+  - id: room:u15
+    name: Throne room
+    kind: room
+    size: L
+    where: "north, centre"
+    floor: 512
+    clear_height: 384
+    relief: flat
+    purpose: "Throne room of the elite knights on a flat floor: a canopied throne seat in one corner, two braziers, a chest of drawers and three cabinets. The map's boss-class fight."
+    light: torchlit
+    fires: 2
+    furniture: [canopied throne seat, braziers, chest of drawers, cabinets]
+    population:
+      - {slot: 1, groups: 1, strength: boss, rank: any}
+      - {slot: 2, groups: 1, strength: boss, rank: any}
+      - {slot: 3, groups: 1, strength: boss, rank: b}
+      - {slot: 3, groups: 1, strength: boss, rank: c}
+    treasure:
+      - {kind: cabinet, count: 2}
+      - {kind: cabinet, count: 1, shared_with: container:shared_cabinet}
+      - {kind: drawers, count: 1, once: true, item: storage_key_b, notes: poi:drawers_throne.}
+  - id: room:u16
+    name: Closet
+    kind: room
+    size: XS
+    where: "north, beside the throne room"
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Hidden chest behind a rising wall.
+    empty: true
+    light: unlit
+    treasure:
+      - {kind: chest, count: 1}
+    secret: true
+  - id: room:u2
+    name: Vestibule
+    kind: room
+    size: S
+    where: west
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Landing at the head of the back stair.
+    empty: true
+    light: unlit
+  - id: room:u3
+    name: Back stair
+    kind: corridor
+    size: S
+    where: "west, beside the entry tunnel"
+    floor: [0, 512]
+    clear_height: 256
+    relief: steps
+    purpose: "Long stair down two bands; the portcullis switch at its foot."
+    empty: true
+    light: unlit
+  - id: room:u4
+    name: East barracks
+    kind: room
+    size: M
+    where: "north-west half, east end"
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: "Bunks, a chest and a footlocker."
+    light: torchlit
+    furniture: [bunks, beams, footlocker]
+    population:
+      - {slot: 2, groups: 1, strength: pack, rank: c}
+      - {slot: 3, groups: 1, strength: pack, rank: any}
+    treasure:
+      - {kind: chest, count: 1}
+      - {kind: chest, count: 1, shared_with: container:footlocker, notes: Footlocker.}
+  - id: room:u5
+    name: Officer room
+    kind: room
+    size: S
+    where: "north-west half, east end"
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: "A cabinet; a rising wall hides the closet."
+    empty: true
+    light: torchlit
+    treasure:
+      - {kind: cabinet, count: 1, shared_with: container:shared_cabinet}
+  - id: room:u6
+    name: Closet
+    kind: room
+    size: XS
+    where: "north-west half, east end"
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Hidden cabinet.
+    empty: true
+    light: unlit
+    treasure:
+      - {kind: cabinet, count: 1}
+    secret: true
+  - id: room:u7
+    name: Barracks
+    kind: room
+    size: M
+    where: north-west half
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Bunks and a chest.
+    light: torchlit
+    furniture: [bunks, beams]
+    population:
+      - {slot: 2, groups: 1, strength: pack, rank: any}
+      - {slot: 2, groups: 1, strength: pack, rank: b}
+    treasure:
+      - {kind: chest, count: 1}
+  - id: room:u8
+    name: Barracks
+    kind: room
+    size: M
+    where: north-west half
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Bunks and footlockers.
+    light: torchlit
+    furniture: [bunks, beams, footlockers]
+    population:
+      - {slot: 3, groups: 1, strength: pack, rank: a}
+      - {slot: 1, groups: 1, strength: pack, rank: any}
+    treasure:
+      - {kind: chest, count: 2, shared_with: container:footlocker, notes: Footlockers.}
+  - id: room:u9
+    name: Barracks
+    kind: room
+    size: M
+    where: north-west half
+    floor: 512
+    clear_height: 256
+    relief: flat
+    purpose: Bunks and two chests.
+    light: torchlit
+    furniture: [bunks, beams]
+    population:
+      - {slot: 3, groups: 1, strength: pack, rank: b}
+      - {slot: 2, groups: 1, strength: pack, rank: any}
+    treasure:
+      - {kind: chest, count: 2}
+  - id: room:w1
+    name: Antechamber
+    kind: room
+    size: L
+    where: north-east corner
+    floor: 256
+    clear_height: 384
+    relief: flat
+    purpose: "The warlord's guard room, between the great hall and his private rooms."
+    light: torchlit
+    population:
+      - {slot: 1, groups: 2, strength: heavy, rank: any}
+      - {slot: 3, groups: 1, strength: heavy, rank: c}
+  - id: room:w2
+    name: Bedchamber
+    kind: room
+    size: M
+    where: north-east corner
+    floor: 256
+    clear_height: 256
+    relief: flat
+    purpose: "The warlord's four-poster bed on a flat floor; its canopy reaches about +464."
+    empty: true
+    light: torchlit
+    furniture: [four-poster bed, beams]
+    treasure:
+      - {kind: cabinet, count: 1}
+  - id: room:w3
+    name: Study
+    kind: room
+    size: S
+    where: north-east corner
+    floor: 256
+    clear_height: 256
+    relief: flat
+    purpose: "Chest of drawers with the Warlord's Key and Storage Key A; a cabinet; the locked vault door."
+    empty: true
+    light: torchlit
+    furniture: [chest of drawers, cabinet]
+    treasure:
+      - {kind: cabinet, count: 1, shared_with: container:shared_cabinet}
+      - {kind: drawers, count: 1, once: true, item: warlord_key, notes: "poi:drawers_study; the same drawers also give Storage Key A (treasure.item takes one item)."}
+  - id: room:w4
+    name: Vault
+    kind: room
+    size: XS
+    where: north-east corner
+    floor: 256
+    clear_height: 256
+    relief: flat
+    purpose: "One chest: the Eagle Statuette."
+    empty: true
+    light: unlit
+    treasure:
+      - {kind: chest, count: 1, once: true, item: eagle_statuette, notes: set:statuette_chest.}
+regions:
+  - id: region:cellar
+    name: Cellar
+    spaces: [room:c1, room:c2, room:c3, room:c4, room:c5]
+    where: south-west
+  - id: region:entry
+    name: Entry
+    spaces: [room:e1, room:e2, room:e3, room:e4]
+    where: west edge
+    notes: "The gate tunnel runs along the west edge, descending from the gate toward the cellar band."
+  - id: region:ground
+    name: Ground floor
+    spaces: [room:g1, room:g2, room:g3, room:g4, room:g5, room:g6]
+    where: along the south
+  - id: region:hall
+    name: Hall
+    spaces: [room:h1, room:h2, room:h3]
+    where: "east side (the great hall); the hall stair and storeroom in the centre"
+  - id: region:upper
+    name: Upper floor
+    spaces: [room:u1, room:u2, room:u3, room:u4, room:u5, room:u6, room:u7, room:u8, room:u9, room:u10, room:u11, room:u12, room:u13, room:u14, room:u15, room:u16]
+    where: north-west half
+    notes: "Wings sit side by side: no room lies over another, the gallery (U1) and the back stair (U3) included."
+  - id: region:warlord
+    name: Warlord's wing
+    spaces: [room:w1, room:w2, room:w3, room:w4]
+    where: north-east corner
+links:
+  - id: link:c1_c2
+    from: room:c1
+    to: room:c2
+    kind: open
+  - id: link:c1_c3
+    from: room:c1
+    to: room:c3
+    kind: open
+  - id: link:c3_c4
+    from: room:c3
+    to: room:c4
+    kind: open
+  - id: link:c3_c5
+    from: room:c3
+    to: room:c5
+    kind: open
+  - id: link:c5_g1
+    from: room:c5
+    to: room:g1
+    kind: door
+    purpose: The one real door out of the cellar.
+  - id: link:e1_e2
+    from: room:e1
+    to: room:e2
+    kind: open
+  - id: link:e2_e3
+    from: room:e2
+    to: room:e3
+    kind: open
+  - id: link:e3_e4
+    from: room:e3
+    to: room:e4
+    kind: ramp
+  - id: link:e4_c1
+    from: room:e4
+    to: room:c1
+    kind: secret_door
+    motion: rise
+    purpose: "The real way in: a blank wall beside the lure door that rises when clicked."
+    notes: "Plain wall look, clickable, no hint text."
+  - id: link:g1_g2
+    from: room:g1
+    to: room:g2
+    kind: stairs
+  - id: link:g2_g3
+    from: room:g2
+    to: room:g3
+    kind: door
+  - id: link:g2_g5
+    from: room:g2
+    to: room:g5
+    kind: open
+  - id: link:g3_g4
+    from: room:g3
+    to: room:g4
+    kind: secret_door
+    motion: sink
+    purpose: The hidden treasury.
+    notes: "Plain wall look, clickable, no hint text."
+  - id: link:g5_g6
+    from: room:g5
+    to: room:g6
+    kind: door
+  - id: link:g5_h1
+    from: room:g5
+    to: room:h1
+    kind: open
+  - id: link:h1_h2
+    from: room:h1
+    to: room:h2
+    kind: open
+  - id: link:h1_h3
+    from: room:h1
+    to: room:h3
+    kind: door
+    condition: {item: [storage_key_a, storage_key_b]}
+    notes: Double locked (lock:storeroom).
+  - id: link:h1_w1
+    from: room:h1
+    to: room:w1
+    kind: door
+  - id: link:h2_h3
+    from: room:h2
+    to: room:h3
+    kind: door
+    condition: {item: [storage_key_a, storage_key_b]}
+    notes: Double locked (lock:storeroom).
+  - id: link:h2_u1
+    from: room:h2
+    to: room:u1
+    kind: stairs
+  - id: link:u10_u11
+    from: room:u10
+    to: room:u11
+    kind: open
+  - id: link:u10_u12
+    from: room:u10
+    to: room:u12
+    kind: door
+  - id: link:u10_u13
+    from: room:u10
+    to: room:u13
+    kind: open
+  - id: link:u13_u14
+    from: room:u13
+    to: room:u14
+    kind: open
+  - id: link:u14_u15
+    from: room:u14
+    to: room:u15
+    kind: door
+  - id: link:u15_u16
+    from: room:u15
+    to: room:u16
+    kind: secret_door
+    motion: rise
+    notes: "Plain wall look, clickable, no hint text."
+  - id: link:u1_u10
+    from: room:u1
+    to: room:u10
+    kind: open
+  - id: link:u1_u2
+    from: room:u1
+    to: room:u2
+    kind: door
+  - id: link:u1_u4
+    from: room:u1
+    to: room:u4
+    kind: door
+  - id: link:u1_u7
+    from: room:u1
+    to: room:u7
+    kind: door
+  - id: link:u1_u8
+    from: room:u1
+    to: room:u8
+    kind: door
+  - id: link:u1_u9
+    from: room:u1
+    to: room:u9
+    kind: door
+  - id: link:u2_u3
+    from: room:u2
+    to: room:u3
+    kind: stairs
+  - id: link:u3_e2
+    from: room:u3
+    to: room:e2
+    kind: portcullis
+    motion: rise
+    condition: {map_var: portcullis_raised}
+    opened_by: poi:portcullis_switch
+    opens_from: room:u3
+    purpose: "The shortcut that closes the big ring: a portcullis raised by the switch at the foot of the back stair, from the inside only; stays up across visits."
+  - id: link:u4_u5
+    from: room:u4
+    to: room:u5
+    kind: open
+  - id: link:u5_u6
+    from: room:u5
+    to: room:u6
+    kind: secret_door
+    motion: rise
+    notes: "Plain wall look, clickable, no hint text."
+  - id: link:w1_w2
+    from: room:w1
+    to: room:w2
+    kind: open
+  - id: link:w1_w3
+    from: room:w1
+    to: room:w3
+    kind: open
+  - id: link:w3_w4
+    from: room:w3
+    to: room:w4
+    kind: door
+    condition: {item: warlord_key, consume: true}
+    notes: The Warlord's Key is spent on opening.
+loops:
+  - id: loop:big_ring
+    spaces: [room:e1, room:e2, room:e3, room:e4, room:c1, room:c3, room:c5, room:g1, room:g2, room:g5, room:h1, room:h2, room:u1, room:u2, room:u3]
+    closed_until: {map_var: portcullis_raised}
+    notes: "Closes through the portcullis (link:u3_e2), opened from the back stair side only; afterwards it is the fast way in and out."
+  - id: loop:storeroom
+    spaces: [room:h1, room:h3, room:h2]
+    closed_until: {item: [storage_key_a, storage_key_b]}
+    notes: "Really closed until both double-locked storeroom doors have been opened (lock:storeroom); the keys are spent then, so the item condition only says what opens it. Every other branch is a dead end (barracks, cells, closets, treasury, vault)."
+teleport_sets:
+  - id: teleport:false_doors
+    sources: [poi:false_doors, poi:tunnel_spots]
+    landings:
+      - {space: room:c1, count: 1}
+      - {space: room:c2, count: 1}
+      - {space: room:c4, count: 2}
+      - {space: room:c5, count: 1}
+    rule: "Random among the five landings, never the clicked door's own landing; message 'You are pulled through the door!'. Stateless."
+    notes: "The tunnel spots are a second, accidental way into the cellar: the flow graph must count the cellar as reachable from E1 to E4 through them."
+lock_groups:
+  - id: lock:storeroom
+    links: [link:h1_h3, link:h2_h3]
+    condition: {item: [storage_key_a, storage_key_b]}
+    consume: last_opened
+    notes: "Each door opens only while the party carries both Storage Keys; otherwise it says 'The door is double locked.'. The first door opened keeps the keys; the second spends both."
+entrances:
+  - id: entrance:gate
+    space: room:e1
+    kind: both
+    neighbour: exit:silver_cove
+    how: "A large double door in the gate tunnel; the party arrives just inside it. The only way in or out: no other exits or drops."
+critical_path: [room:e1, room:e2, room:e3, room:e4, room:c1, room:c3, room:c5, room:g1, room:g2, room:g5, room:h1, room:w1, room:w3, room:w4]
+return_path: [room:w4, room:w3, room:w1, room:h1, room:h2, room:u1, room:u2, room:u3, room:e2, room:e1]
+goals:
+  - id: goal:eagle_statuette
+    space: room:w4
+    kind: take
+    what: Open the vault chest and take the Eagle Statuette.
+    gives:
+      - qbit: statuette_found
+      - qbit: statuette_seer_hint
+    notes: The statuette is carried to a pedestal on another map for the continent-wide statuette quest.
+keys:
+  - id: key:portcullis_switch
+    grants: {map_var: portcullis_raised}
+    found_in: room:u3
+    how: "lever: a wall button at the foot of the back stair"
+  - id: key:storage_key_a
+    grants: {item: storage_key_a}
+    found_in: room:w3
+    how: "chest of drawers in the study, together with the Warlord's Key"
+  - id: key:storage_key_b
+    grants: {item: storage_key_b}
+    found_in: room:u15
+    how: chest of drawers in the throne room
+  - id: key:warlord_key
+    grants: {item: warlord_key}
+    found_in: room:w3
+    how: "chest of drawers in the study, together with Storage Key A"
+containers:
+  - id: container:footlocker
+    kind: chest
+    notes: "Nine small footlockers (G3 2, G4 1, G6 3, U4 1, U8 2) open this one inventory."
+  - id: container:shared_cabinet
+    kind: cabinet
+    notes: "Three cabinets (W3, U5, U15) open this one inventory."
+points_of_interest:
+  - id: poi:axe_brazier
+    space: room:h1
+    kind: brazier
+    behaviour: "One of the hall's braziers: when used, gives a single good axe (treasure tier 6)."
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:drawers_study
+    space: room:w3
+    kind: chest of drawers
+    behaviour: "Gives two keys, with the message that two keys were found."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      - item: warlord_key
+      - item: storage_key_a
+  - id: poi:drawers_throne
+    space: room:u15
+    kind: chest of drawers
+    behaviour: "Gives a key, with the message that a key was found."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      item: storage_key_b
+  - id: poi:false_doors
+    spaces: [room:c1, room:c2, room:c4, room:c5]
+    count: 5
+    kind: false door
+    behaviour: "Door panels that look like real doors (C4 has two); clicking one teleports the party (teleport:false_doors)."
+  - id: poi:lure_door
+    space: room:e4
+    kind: false door
+    behaviour: "Only says 'This door won't open.'; the secret wall beside it is the way on (link:e4_c1)."
+  - id: poi:portcullis_switch
+    space: room:u3
+    kind: switch
+    behaviour: "Raises the portcullis between the back stair and the junction for good; the switch shows its thrown face from then on, across visits."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: portcullis_raised
+  - id: poi:tunnel_spots
+    spaces: [room:e1, room:e2, room:e3, room:e4]
+    kind: hidden click spot
+    behaviour: "A few unmarked spots on the tunnel walls, floor and ceiling; they teleport like a false door (teleport:false_doors)."
+set_pieces:
+  - id: set:axe_brazier
+    kind: scripted
+    spaces: [room:h1]
+    rule: "Using one particular brazier of the great hall gives a single good axe (treasure tier 6) the first time; nothing afterwards (poi:axe_brazier)."
+    inputs: [use the brazier]
+    states: [axe not taken, axe taken]
+  - id: set:double_lock
+    kind: puzzle
+    spaces: [room:h1, room:h2, room:h3, room:w3, room:u15]
+    rule: "Both storeroom doors are double locked (lock:storeroom): the two Storage Keys come from opposite ends of the map, A from the study's drawers and B from the throne room's drawers. With both doors open, H1, H2 and H3 form a small loop (loop:storeroom)."
+    inputs: [click a storeroom door]
+    states: [both locked, one opened (keys kept), both opened (keys spent)]
+    solution: "Fetch Storage Key A in the study and Storage Key B in the throne room, then open both doors."
+  - id: set:false_doors
+    kind: scripted
+    spaces: [room:e1, room:e2, room:e3, room:e4, room:c1, room:c2, room:c4, room:c5]
+    rule: "The cellar of false doors: five false door panels (poi:false_doors) and the tunnel's unmarked click spots (poi:tunnel_spots) send the party to a random landing in the cellar (teleport:false_doors). Harmless disorientation."
+    inputs: [click a false door panel, click an unmarked tunnel spot]
+    states: [stateless]
+  - id: set:lure_door
+    kind: scripted
+    spaces: [room:e4]
+    rule: "The door at the tunnel end only shows 'This door won't open.'; the blank wall beside it is a secret wall into the cellar (link:e4_c1)."
+    inputs: [click the door]
+    states: [stateless]
+  - id: set:statuette_chest
+    kind: scripted
+    spaces: [room:w4]
+    rule: "The vault's single chest: the first opening gives the Eagle Statuette and sets the quest bit and the seer's hint bit."
+    inputs: [open the chest]
+    states: [statuette inside, statuette taken]
+    gives:
+      - qbit: statuette_found
+      - qbit: statuette_seer_hint
+mechanisms:
+  - {kind: ordinary door, count: 11}
+  - {kind: keyed door (single key), count: 1}
+  - {kind: double-locked door, count: 2}
+  - {kind: secret wall, count: 4, notes: "E4-C1, U5-U6 and U15-U16 rise; G3-G4 sinks."}
+  - {kind: switch portcullis, count: 1}
+  - {kind: switch, count: 1}
+  - {kind: false teleporting door, count: 5}
+  - {kind: lure door, count: 1}
+  - {kind: hidden click spot, notes: "A few, on the tunnel walls, floor and ceiling (E1 to E4)."}
+  - {kind: chest of drawers, count: 2}
+  - {kind: interactive brazier, count: 1}
+  - {kind: exit door (double), count: 1}
+height_bands:
+  - id: band:cellar
+    level: -256
+    spaces: [room:e4, room:c1, room:c2, room:c3, room:c4, room:c5]
+    partly: [room:e3, room:g1]
+    notes: "Reached down the tunnel ramp (E3, about -80 to -220) and left by the storehouse stairs (G1)."
+  - id: band:entrance
+    level: 0
+    spaces: [room:e1, room:e2, room:g3, room:g4]
+    partly: [room:e3, room:g1, room:g2, room:u3]
+    notes: "The arrival band. The gate tunnel's floor rises gently from 0 at the junction to about +128 at the door; from the junction the tunnel descends (E3) to the cellar band."
+  - id: band:ground
+    level: 256
+    spaces: [room:g5, room:g6, room:h1, room:h3, room:w1, room:w2, room:w3, room:w4]
+    partly: [room:g2, room:h2]
+    notes: "Flat floors throughout: W2's +464 is the canopy of a four-poster bed, furniture rather than a raised floor."
+  - id: band:upper
+    level: 512
+    spaces: [room:u1, room:u2, room:u4, room:u5, room:u6, room:u7, room:u8, room:u9, room:u10, room:u11, room:u12, room:u13, room:u14, room:u15, room:u16]
+    partly: [room:h2, room:u3]
+states:
+  - id: state:portcullis_raised
+    condition: {map_var: portcullis_raised}
+    shows: [the switch at the foot of the back stair shows its thrown face]
+    opens: [link:u3_e2]
+    notes: "Persists across visits: the big ring (loop:big_ring) is then the fast way in and out."
+totals:
+  bands: 4
+  braziers: 10
+  container_records: 20
+  containers_physical: 30
+  doors: 19
+  floor_area_m_units2: 32
+  floor_items: 9
+  height_span: 1152
+  lights: 75
+  loops: 2
+  monster_groups: 43
+  monsters_about: 130
+  rooms: 38
+  rooms_closet: 3
+  rooms_great: 1
+  rooms_large: 5
+  rooms_medium: 16
+  rooms_small: 13
+notes: "Size classes: the designer's legend (closet under 0.15 M units², small 0.15-0.5, medium 0.5-1.2, large 1.2-2, great over 2) maps to XS, S, M, L and XL; the two designer-large rooms whose floors fall under the schema's 1.5 (U1, U11) are M and carry their area. Lights at L1 are words: wall torches in nearly every room, 1 to 3 per room, 9 in the great hall (8 braziers and a torch), none in W4, U2, U3 or the closets."

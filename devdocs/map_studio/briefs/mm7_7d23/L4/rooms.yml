@@ -1,0 +1,1245 @@
+format: 0
+themes:
+  - id: theme:bridge
+    wall: {texture: a2i, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:canopy
+    wall: {texture: sfw7a, size: [128, 256]}
+    bands:
+      - {height: 128, surface: {texture: a3b, size: [128, 256]}}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:captain
+    wall: {texture: sfw4, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:cross
+    wall: {texture: sfw1b, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:hangar
+    wall: {texture: a2d, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: a2j, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:locker
+    wall: {texture: a2j, size: [128, 256]}
+    floor: {texture: a2j, size: [128, 256]}
+    ceiling: {texture: a2j, size: [128, 256]}
+    reveal: {texture: a2j, size: [128, 256]}
+    door: {texture: a2j, size: [128, 256]}
+  - id: theme:service
+    wall: {texture: sfw3, size: [128, 256]}
+    bands:
+      - {height: 96, surface: {texture: a3b, size: [128, 256]}}
+      - {height: 160, surface: {texture: a1b, size: [128, 256]}}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:service_e
+    wall: {texture: sfw1a, size: [128, 256]}
+    bands:
+      - {height: 96, surface: {texture: sfw3, size: [128, 256]}}
+      - {height: 160, surface: {texture: a1b, size: [128, 256]}}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:service_w
+    wall: {texture: sfw2, size: [128, 256]}
+    bands:
+      - {height: 96, surface: {texture: a3b, size: [128, 256]}}
+      - {height: 160, surface: {texture: a1b, size: [128, 256]}}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:ship
+    wall: {texture: a3b, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:stairs
+    wall: {texture: a3b, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:station
+    wall: {texture: a2d, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:steps
+    wall: {texture: a3b, size: [128, 256]}
+    floor: {texture: sfw1b, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:top
+    wall: {texture: a3bs, size: [128, 256]}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: sfw7a, size: [128, 256]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:walkway
+    wall: {texture: a2d, size: [128, 256]}
+    floor: {texture: a2j, size: [128, 256]}
+    ceiling: {texture: a2j, size: [128, 256]}
+    reveal: {texture: a2d, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+  - id: theme:window
+    wall: {texture: lightmap, size: [128, 128]}
+    bands:
+      - {height: 128, surface: {texture: a3b, size: [128, 256]}}
+    floor: {texture: sfw7a, size: [128, 256]}
+    ceiling: {texture: lightmap, size: [128, 128]}
+    reveal: {texture: a3b, size: [128, 256]}
+    door: {texture: a2c, size: [128, 256]}
+defaults: {theme: theme:ship, ambient: 22}
+rooms:
+  - id: room:bay1
+    name: Pod bay 1
+    outline: [[-1168, 512], [-720, 512], [-720, 1024], [-1168, 1024]]
+    floor: -384
+    ceiling: 992
+    theme: theme:hangar
+    walls:
+      - wall: west
+        surface: {texture: a1b, size: [128, 256]}
+  - id: room:bay2
+    name: Pod bay 2
+    outline: [[-1168, -128], [-720, -128], [-720, 384], [-1168, 384]]
+    floor: -384
+    ceiling: 992
+    theme: theme:hangar
+    walls:
+      - wall: west
+        surface: {texture: a1b, size: [128, 256]}
+  - id: room:bay3
+    name: Pod bay 3
+    outline: [[-1168, -768], [-720, -768], [-720, -256], [-1168, -256]]
+    floor: -384
+    ceiling: 992
+    theme: theme:hangar
+    walls:
+      - wall: west
+        surface: {texture: a1b, size: [128, 256]}
+  - id: room:bay4
+    name: Pod bay 4
+    outline: [[-1168, -1408], [-720, -1408], [-720, -896], [-1168, -896]]
+    floor: -384
+    ceiling: 992
+    theme: theme:hangar
+    walls:
+      - wall: west
+        surface: {texture: a1b, size: [128, 256]}
+  - id: room:bridge_w
+    name: Engineering station
+    outline: [[2032, -7072], [1824, -7072], [1408, -7232], [1408, -8448], [1694, -8558], [1694, -7840], [1824, -7840], [1824, -8608], [2016, -8608], [2016, -7840], [2144, -7840], [2144, -8608], [2336, -8608], [2336, -7440], [2032, -7440]]
+    floor: 1484
+    ceiling: 1760
+    theme: theme:station
+    walls:
+      - wall: 4
+        surface: {texture: a2i, size: [128, 256]}
+      - wall: 5
+        surface: {texture: a2i, size: [128, 256]}
+      - wall: 6
+        surface: {texture: a2i, size: [128, 256]}
+      - wall: 8
+        surface: {texture: a2i, size: [128, 256]}
+      - wall: 9
+        surface: {texture: a2i, size: [128, 256]}
+      - wall: 10
+        surface: {texture: a2i, size: [128, 256]}
+      - wall: 12
+        surface: {texture: a2i, size: [128, 256]}
+  - id: room:captain
+    name: Captain's cabin
+    outline: [[6464, -9760], [7488, -9760], [7488, -9056], [6464, -9056], [6464, -9184], [6368, -9280], [6368, -9536], [6464, -9632]]
+    floor: 1548
+    ceiling: 1804
+    ceiling_points: [[6464, -9056, 1804], [6464, -9760, 1804], [6496, -9312, 1932], [7456, -9312, 1932], [7456, -9568, 1932], [6496, -9568, 1932], [6544, -9376, 1996], [7392, -9376, 1996], [7392, -9504, 1996], [6544, -9504, 1996]]
+    ceiling_lines:
+      - [[6496, -9312], [7456, -9312], [7456, -9568], [6496, -9568], [6496, -9312]]
+      - [[6544, -9376], [7392, -9376], [7392, -9504], [6544, -9504], [6544, -9376]]
+      - [[6464, -9056], [6496, -9312]]
+      - [[6464, -9760], [6496, -9568]]
+      - [[7488, -9056], [7456, -9312]]
+      - [[7488, -9760], [7456, -9568]]
+      - [[6496, -9312], [6544, -9376]]
+      - [[7456, -9312], [7392, -9376]]
+      - [[7456, -9568], [7392, -9504]]
+      - [[6496, -9568], [6544, -9504]]
+    theme: theme:captain
+  - id: room:cargo_e
+    name: East cargo bay
+    outline: [[8864, -1248], [8768, -1152], [8512, -1152], [8416, -1056], [6880, -1056], [6880, -2656], [6976, -2752], [6976, -3008], [7072, -3104], [8672, -3104], [8768, -3008], [8768, -2752], [8864, -2656]]
+    floor: 1036
+    ceiling: 1420
+    platforms:
+      - {rise: 32, surface: {texture: a2b, size: [128, 256]}, outline: [[6880, -1504], [7328, -1504], [7328, -1056], [6880, -1056]], base: 352}
+      - {rise: 0, surface: {texture: a2b, size: [128, 256]}, outline: [[6880, -1568], [7392, -1568], [7328, -1504], [6880, -1504]], top_surface: {texture: a2b, size: [128, 256]}, top_heights: [0, 0, 32, 32]}
+      - {rise: 0, surface: {texture: a2b, size: [128, 256]}, outline: [[7392, -1568], [7392, -1056], [7328, -1056], [7328, -1504]], top_surface: {texture: a2b, size: [128, 256]}, top_heights: [0, 0, 32, 32]}
+      - {id: platform:pad_e, rise: 32, surface: {texture: a2b, size: [128, 256]}, outline: [[6880, -1504], [7328, -1504], [7328, -1056], [6880, -1056]], top_surface: {texture: sfw7a, size: [128, 256]}}
+    ceiling_levels:
+      - outline: [[6896, -2208], [8848, -2208], [8848, -1568], [6896, -1568]]
+        ceiling: 1468
+        top_outline: [[6896, -2080], [8848, -2080], [8848, -1696], [6896, -1696]]
+        edge: {texture: sfw7a, size: [128, 256]}
+      - outline: [[6897, -2079], [8847, -2079], [8847, -1952], [6897, -1952]]
+        ceiling: 1548
+        edge: {texture: a2b, size: [128, 256]}
+      - outline: [[6897, -1824], [8847, -1824], [8847, -1697], [6897, -1697]]
+        ceiling: 1548
+        edge: {texture: a2b, size: [128, 256]}
+  - id: room:cargo_low
+    name: Lower cargo hold
+    outline: [[4752, 672], [2448, 672], [2448, -416], [2960, -928], [4752, -928]]
+    floor: 224
+    ceiling: 480
+    platforms:
+      - {at: [3920, -640], size: [512, 288], rise: 192, surface: {texture: sfw2, size: [128, 256]}, top_surface: {texture: a3b, size: [128, 256]}, top_size: [512, 128]}
+      - {at: [3920, -128], size: [512, 288], rise: 192, surface: {texture: sfw2, size: [128, 256]}, top_surface: {texture: a3b, size: [128, 256]}, top_size: [512, 128]}
+      - {rise: 96, surface: {texture: sfw2, size: [128, 256]}, outline: [[4176, -704], [4352, -704], [4352, -576], [4176, -576]], top_surface: {texture: hive1, size: [128, 256]}, top_slope: {to: 192, toward: west}}
+      - {rise: 96, surface: {texture: sfw2, size: [128, 256]}, outline: [[4176, -192], [4352, -192], [4352, -64], [4176, -64]], top_surface: {texture: hive1, size: [128, 256]}, top_slope: {to: 192, toward: west}}
+    levels:
+      - outline: [[3472, -704], [4736, -704], [4736, -576], [3472, -576]]
+        floor: 96
+        bank: [144, 0, 144, 0]
+        edge: {texture: sfw1a, size: [128, 256]}
+        surface: {texture: sfw1a, size: [128, 256]}
+      - outline: [[3472, -192], [4736, -192], [4736, -64], [3472, -64]]
+        floor: 96
+        bank: [144, 0, 144, 0]
+        edge: {texture: sfw1a, size: [128, 256]}
+        surface: {texture: sfw1a, size: [128, 256]}
+      - outline: [[3472, 320], [4736, 320], [4736, 448], [3472, 448]]
+        floor: 96
+        bank: [144, 0, 144, 0]
+        edge: {texture: sfw1a, size: [128, 256]}
+        surface: {texture: sfw1a, size: [128, 256]}
+    ceiling_levels:
+      - ceiling: 704
+        top_outline: [[4752, 320], [3216, 320], [3216, -192], [3216, -576], [4752, -576]]
+        edge: {texture: sfw7a, size: [128, 256]}
+  - id: room:cargo_shaft
+    name: Cargo lift pit
+    outline: [[-224, -2704], [848, -2704], [848, -1776], [-224, -1776]]
+    floor: 257
+    ceiling: 1036
+  - id: room:cargo_w
+    name: West cargo bay
+    outline: [[-224, -2944], [-128, -3040], [-128, -3296], [-32, -3392], [1568, -3392], [1664, -3296], [1664, -3040], [1760, -2944], [1760, -1344], [224, -1344], [128, -1440], [-128, -1440], [-224, -1536]]
+    floor: 1036
+    ceiling: 1420
+    platforms:
+      - {rise: 32, surface: {texture: a2b, size: [128, 256]}, outline: [[1312, -1792], [1760, -1792], [1760, -1344], [1312, -1344]], base: 352}
+      - {rise: 0, surface: {texture: a2b, size: [128, 256]}, outline: [[1248, -1856], [1760, -1856], [1760, -1792], [1312, -1792]], top_surface: {texture: a2b, size: [128, 256]}, top_heights: [0, 0, 32, 32]}
+      - {rise: 0, surface: {texture: a2b, size: [128, 256]}, outline: [[1248, -1856], [1312, -1792], [1312, -1344], [1248, -1344]], top_surface: {texture: a2b, size: [128, 256]}, top_heights: [0, 32, 32, 0]}
+      - {id: platform:pad_w, rise: 32, surface: {texture: a2b, size: [128, 256]}, outline: [[1312, -1792], [1760, -1792], [1760, -1344], [1312, -1344]], top_surface: {texture: sfw7a, size: [128, 256]}}
+    ceiling_levels:
+      - outline: [[-208, -2496], [1744, -2496], [1744, -1856], [-208, -1856]]
+        ceiling: 1468
+        top_outline: [[-208, -2368], [1744, -2368], [1744, -1984], [-208, -1984]]
+        edge: {texture: sfw7a, size: [128, 256]}
+      - outline: [[-207, -2112], [1743, -2112], [1743, -1985], [-207, -1985]]
+        ceiling: 1548
+        edge: {texture: a2b, size: [128, 256]}
+      - outline: [[-207, -2367], [1743, -2367], [1743, -2240], [-207, -2240]]
+        ceiling: 1548
+        edge: {texture: a2b, size: [128, 256]}
+  - id: room:cell1
+    name: Stasis room 1
+    outline: [[6816, -4576], [7584, -4576], [7584, -3680], [6816, -3680]]
+    floor: 1036
+    ceiling: 1356
+  - id: room:cell2
+    name: Stasis room 2
+    outline: [[6816, -5856], [7584, -5856], [7584, -4960], [6816, -4960]]
+    floor: 1036
+    ceiling: 1356
+  - id: room:cell3
+    name: Stasis room 3
+    outline: [[6816, -6816], [7584, -6816], [7584, -5920], [6816, -5920]]
+    floor: 1036
+    ceiling: 1356
+  - id: room:cell4
+    name: Stasis room 4
+    outline: [[6400, -7648], [7296, -7648], [7296, -6880], [6400, -6880]]
+    floor: 1036
+    ceiling: 1356
+  - id: room:closet
+    name: Hangar control room
+    outline: [[1904, 64], [2240, 64], [2240, 1024], [1904, 1024]]
+    floor: 224
+    ceiling: 480
+  - id: room:corr_e
+    name: East corridor
+    path: [[6560, -6784], [6560, -6209], [6560, -5952], [6560, -5249], [6560, -4992], [6560, -4897], [6560, -4640], [6560, -4545], [6560, -4289], [6560, -4096], [6560, -3776], [6560, -3360], [7552, -3360], [7872, -3360]]
+    section: {outline: [[-128, 0], [128, 0], [192, 96], [192, 160], [128, 256], [-128, 256], [-192, 160], [-192, 96]], floor: {texture: sfw7a, size: [128, 256]}, lower: {texture: sfw3, size: [128, 256]}, wall: {texture: a1b, size: [128, 256]}, upper: {texture: sfw1a, size: [128, 256]}, ceiling: {texture: sfw7a, size: [128, 256]}, start: {length: 16, width: 192}}
+    floor: 1036
+    ceiling: 1292
+    theme: theme:service_e
+  - id: room:corr_low
+    name: "Lower corridor, main way"
+    path: [[3088, -1024], [3088, -1360], [3088, -2144], [3088, -3840]]
+    section: {outline: [[-128, 0], [128, 0], [192, 96], [192, 160], [128, 256], [-128, 256], [-192, 160], [-192, 96]], floor: {texture: sfw7a, size: [128, 256]}, lower: {texture: a3b, size: [128, 256]}, wall: {texture: a1b, size: [128, 256]}, upper: {texture: sfw3, size: [128, 256]}, ceiling: {texture: sfw7a, size: [128, 256]}, start: {length: 16, width: 254}, end: {length: 16}}
+    floor: 224
+    ceiling: 480
+    theme: theme:service
+  - id: room:corr_low_hb
+    name: "Lower corridor, hangar branch"
+    outline: [[1936, -1216], [2896, -1792], [2896, -1392], [1936, -832]]
+    floor: 224
+    ceiling: 480
+    theme: theme:service
+  - id: room:corr_low_rb
+    name: "Lower corridor, reactor branch"
+    outline: [[3280, -2112], [4304, -2112], [4304, -1728], [3280, -1728]]
+    floor: 224
+    ceiling: 480
+    theme: theme:service
+  - id: room:corr_low_s
+    name: "Lower corridor, south part"
+    outline: [[2896, -4224], [3280, -4224], [4128, -4736], [4432, -4736], [4432, -4416], [4128, -4416], [4128, -4352], [3280, -3840], [2896, -3840]]
+    floor: 224
+    ceiling: 480
+    theme: theme:service
+  - id: room:corr_top
+    name: Top deck corridor
+    outline: [[7360, -5216], [8640, -5216], [8640, -4960], [7360, -4960]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:top
+  - id: room:corr_w
+    name: West corridor
+    path: [[767, -3648], [1088, -3648], [2176, -3648], [2176, -4160], [2176, -4480]]
+    section: {outline: [[-128, 0], [128, 0], [192, 96], [192, 160], [128, 256], [-128, 256], [-192, 160], [-192, 96]], floor: {texture: sfw7a, size: [128, 256]}, lower: {texture: a3b, size: [128, 256]}, wall: {texture: a1b, size: [128, 256]}, upper: {texture: sfw2, size: [128, 256]}, ceiling: {texture: sfw7a, size: [128, 256]}}
+    floor: 1036
+    ceiling: 1292
+    theme: theme:service_w
+  - id: room:crew_w
+    name: West crew room
+    outline: [[2336, -6656], [2336, -5408], [2208, -5408], [2112, -5312], [1536, -5312], [1440, -5408], [1120, -5408], [1120, -6560], [1216, -6656]]
+    floor: 1036
+    ceiling: 1324
+  - id: room:cross_n
+    name: North spine
+    path: [[8960, -4736], [8960, -4257], [8960, -4000], [8960, -3743], [8960, -3425], [8960, -3167], [8960, -2688]]
+    section: {outline: [[-128, 0], [128, 0], [224, 96], [224, 160], [128, 256], [-128, 256], [-224, 160], [-224, 96]], floor: {texture: sfw7a, size: [128, 256]}, lower: {texture: sfw1b, size: [128, 256]}, wall: {texture: a1b, size: [128, 256]}, upper: {texture: sfw1b, size: [128, 256]}, ceiling: {texture: sfw7a, size: [128, 256]}, start: {length: 16, width: 256}, end: {length: 16, width: 192}}
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+  - id: room:cross_n_e1
+    name: "North spine, east alcove 1 (behind an energy field in the original)"
+    outline: [[9192, -4224], [9736, -4224], [9736, -4032], [9192, -4032]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[9192, -4224], [9200, -4224], [9200, -4032], [9192, -4032]], visible: false}
+  - id: room:cross_n_e2
+    name: "North spine, east alcove 2 (behind an energy field in the original)"
+    outline: [[9192, -3392], [9736, -3392], [9736, -3200], [9192, -3200]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[9192, -3392], [9200, -3392], [9200, -3200], [9192, -3200]], visible: false}
+  - id: room:cross_n_end
+    name: "North spine, narrow end"
+    outline: [[8864, -2688], [9056, -2688], [9056, -2104], [8864, -2104]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[8864, -2656], [9056, -2656], [9056, -2648], [8864, -2648]], visible: false}
+  - id: room:cross_n_w
+    name: "North spine, west alcove (behind an energy field in the original)"
+    outline: [[8184, -3968], [8728, -3968], [8728, -3776], [8184, -3776]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[8720, -3968], [8728, -3968], [8728, -3776], [8720, -3776]], visible: false}
+  - id: room:cross_s
+    name: South spine
+    path: [[8960, -5440], [8960, -5919], [8960, -6176], [8960, -6433], [8960, -6751], [8960, -7009], [8960, -7488]]
+    section: {outline: [[-128, 0], [128, 0], [224, 96], [224, 160], [128, 256], [-128, 256], [-224, 160], [-224, 96]], floor: {texture: sfw7a, size: [128, 256]}, lower: {texture: sfw1b, size: [128, 256]}, wall: {texture: a1b, size: [128, 256]}, upper: {texture: sfw1b, size: [128, 256]}, ceiling: {texture: sfw7a, size: [128, 256]}, start: {length: 16, width: 256}, end: {length: 16, width: 192}}
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+  - id: room:cross_s_e1
+    name: "South spine, east alcove 1 (behind an energy field in the original)"
+    outline: [[9192, -6144], [9736, -6144], [9736, -5952], [9192, -5952]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[9192, -6144], [9200, -6144], [9200, -5952], [9192, -5952]], visible: false}
+  - id: room:cross_s_e2
+    name: "South spine, east alcove 2 (behind an energy field in the original)"
+    outline: [[9192, -6976], [9736, -6976], [9736, -6784], [9192, -6784]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[9192, -6976], [9200, -6976], [9200, -6784], [9192, -6784]], visible: false}
+  - id: room:cross_s_end
+    name: "South spine, narrow end"
+    outline: [[8864, -8072], [9056, -8072], [9056, -7488], [8864, -7488]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[8864, -7528], [9056, -7528], [9056, -7520], [8864, -7520]], visible: false}
+  - id: room:cross_s_w
+    name: "South spine, west alcove (behind an energy field in the original)"
+    outline: [[8184, -6400], [8728, -6400], [8728, -6208], [8184, -6208]]
+    floor: 1868
+    ceiling: 2124
+    theme: theme:cross
+    platforms:
+      - {rise: 256, surface: {texture: hive1, size: [128, 256]}, outline: [[8720, -6400], [8728, -6400], [8728, -6208], [8720, -6208]], visible: false}
+  - id: room:deck
+    name: Bridge
+    outline: [[2432, -10048], [6272, -10048], [6272, -8768], [2432, -8768]]
+    floor: 1548
+    ceiling: 1804
+    ceiling_points: [[3840, -8768, 1804], [4864, -8768, 1804], [3840, -10048, 2048], [4864, -10048, 2048], [4352, -8864, 2048], [3968, -8992, 2048], [3840, -9376, 2048], [3968, -9760, 2048], [4352, -9888, 2048], [4736, -9760, 2048], [4864, -9376, 2048], [4736, -8992, 2048], [4352, -8874, 2080], [3975, -8999, 2080], [3850, -9376, 2080], [3975, -9753, 2080], [4352, -9878, 2080], [4729, -9753, 2080], [4854, -9376, 2080], [4729, -8999, 2080], [4352, -8992, 2208], [4064, -9088, 2208], [3968, -9376, 2208], [4064, -9664, 2208], [4352, -9760, 2208], [4640, -9664, 2208], [4736, -9376, 2208], [4640, -9088, 2208], [4352, -9120, 2272], [4160, -9184, 2272], [4096, -9376, 2272], [4160, -9568, 2272], [4352, -9632, 2272], [4544, -9568, 2272], [4608, -9376, 2272], [4544, -9184, 2272], [4352, -9376, 2320]]
+    ceiling_lines:
+      - [[2432, -8768], [3840, -9376], [3840, -10048]]
+      - [[6272, -8768], [4864, -9376], [4864, -10048]]
+      - [[3840, -8768], [3840, -9376]]
+      - [[3840, -8768], [3968, -8992]]
+      - [[3840, -8768], [4352, -8864], [4864, -8768]]
+      - [[4864, -8768], [4736, -8992]]
+      - [[4864, -8768], [4864, -9376]]
+      - [[4352, -8864], [3968, -8992], [3840, -9376], [3968, -9760], [4352, -9888], [4736, -9760], [4864, -9376], [4736, -8992], [4352, -8864]]
+      - [[4352, -8874], [3975, -8999], [3850, -9376], [3975, -9753], [4352, -9878], [4729, -9753], [4854, -9376], [4729, -8999], [4352, -8874]]
+      - [[4352, -8992], [4064, -9088], [3968, -9376], [4064, -9664], [4352, -9760], [4640, -9664], [4736, -9376], [4640, -9088], [4352, -8992]]
+      - [[4352, -9120], [4160, -9184], [4096, -9376], [4160, -9568], [4352, -9632], [4544, -9568], [4608, -9376], [4544, -9184], [4352, -9120]]
+    ceiling_surfaces:
+      - {at: [4352, -8869], surface: {texture: a1b, size: [128, 256]}}
+      - {at: [4352, -8930], surface: {texture: a3bs, size: [128, 256]}}
+      - {at: [4352, -9050], surface: {texture: a3bs, size: [128, 256]}}
+      - {at: [4352, -9300], surface: {texture: a3bs, size: [128, 256]}}
+    platforms:
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[3120, -9536], [3172, -9692], [3328, -9744], [3484, -9692], [3536, -9536], [3536, -9408], [3456, -9408], [3456, -9536], [3424, -9632], [3328, -9664], [3232, -9632], [3200, -9536], [3200, -9408], [3120, -9408]], top_surface: {texture: a4b, size: [128, 256]}, base: 64}
+      - {rise: 64, surface: {texture: a2b, size: [128, 256]}, outline: [[3136, -9504], [3168, -9504], [3168, -9440], [3136, -9440]]}
+      - {rise: 64, surface: {texture: a2b, size: [128, 256]}, outline: [[3296, -9696], [3360, -9696], [3360, -9664], [3296, -9664]]}
+      - {rise: 64, surface: {texture: a2b, size: [128, 256]}, outline: [[3488, -9504], [3520, -9504], [3520, -9440], [3488, -9440]]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[5584, -9408], [5504, -9408], [5504, -9536], [5472, -9632], [5376, -9664], [5280, -9632], [5248, -9536], [5248, -9408], [5168, -9408], [5168, -9536], [5220, -9692], [5376, -9744], [5532, -9692], [5584, -9536]], top_surface: {texture: a4b, size: [128, 256]}, base: 64}
+      - {rise: 64, surface: {texture: a2b, size: [128, 256]}, outline: [[5536, -9504], [5568, -9504], [5568, -9440], [5536, -9440]]}
+      - {rise: 64, surface: {texture: a2b, size: [128, 256]}, outline: [[5344, -9696], [5408, -9696], [5408, -9664], [5344, -9664]]}
+      - {rise: 64, surface: {texture: a2b, size: [128, 256]}, outline: [[5184, -9504], [5216, -9504], [5216, -9440], [5184, -9440]]}
+    parapets:
+      - path: [[2752, -10008], [4224, -10008]]
+        height: 112
+        thickness: 48
+        surface: {texture: a1b, size: [128, 256]}
+      - path: [[4480, -10008], [5952, -10008]]
+        height: 112
+        thickness: 48
+        surface: {texture: a1b, size: [128, 256]}
+  - id: room:east_landing
+    name: East lift landing
+    outline: [[6368, -5072], [6624, -5216], [6912, -5216], [6912, -4640], [6624, -4640], [6368, -4784]]
+    floor: 1484
+    ceiling: 1740
+  - id: room:hall
+    name: Great hall
+    outline: [[2432, -8160], [6272, -8160], [6272, -3296], [5248, -2272], [3456, -2272], [2432, -3296]]
+    floor: 1036
+    ceiling: 1740
+    ceiling_points: [[4224, -3168, 2252], [4096, -3296, 2252], [4096, -4064, 2252], [3584, -4576, 2252], [3584, -5088, 2252], [4096, -5600, 2252], [4096, -6112, 2252], [3584, -6624, 2252], [3584, -7136, 2252], [4096, -7648, 2252], [4480, -3168, 2252], [4608, -3296, 2252], [4608, -4064, 2252], [5120, -4576, 2252], [5120, -5088, 2252], [4608, -5600, 2252], [4608, -6112, 2252], [5120, -6624, 2252], [5120, -7136, 2252], [4608, -7648, 2252], [2816, -4832, 2028], [2816, -6880, 2028], [5888, -4832, 2028], [5888, -6880, 2028]]
+    ceiling_lines:
+      - [[3456, -2272], [4224, -3168], [4096, -3296], [4096, -4064], [3584, -4576], [3584, -5088], [4096, -5600], [4096, -6112], [3584, -6624], [3584, -7136], [4096, -7648], [4608, -7648], [5120, -7136], [5120, -6624], [4608, -6112], [4608, -5600], [5120, -5088], [5120, -4576], [4608, -4064], [4608, -3296], [4480, -3168], [5248, -2272]]
+      - [[4224, -3168], [4480, -3168]]
+      - [[2432, -3296], [4096, -3296]]
+      - [[2432, -3296], [4096, -4064]]
+      - [[2432, -3296], [3584, -4576]]
+      - [[2432, -3296], [2816, -4832], [2816, -6880], [2432, -8160]]
+      - [[3584, -4576], [2816, -4832], [3584, -5088]]
+      - [[2816, -4832], [4096, -5600]]
+      - [[4096, -6112], [2816, -6880], [3584, -6624]]
+      - [[2816, -6880], [3584, -7136], [2432, -8160], [4096, -7648]]
+      - [[6272, -3296], [4608, -3296]]
+      - [[6272, -3296], [4608, -4064]]
+      - [[6272, -3296], [5120, -4576]]
+      - [[6272, -3296], [5888, -4832], [5888, -6880], [6272, -8160]]
+      - [[5120, -4576], [5888, -4832], [5120, -5088]]
+      - [[5888, -4832], [4608, -5600]]
+      - [[4608, -6112], [5888, -6880], [5120, -6624]]
+      - [[5888, -6880], [5120, -7136], [6272, -8160], [4608, -7648]]
+    platforms:
+      - {rise: 64, surface: {texture: sfw2, size: [128, 256]}, outline: [[2432, -8160], [3200, -8160], [3200, -7392], [2688, -7392], [2688, -3296], [3456, -2528], [3840, -2528], [3840, -2272], [3456, -2272], [2432, -3296]], top_surface: {texture: sfw7a, size: [128, 256]}, base: 384}
+      - {rise: 64, surface: {texture: sfw2, size: [128, 256]}, outline: [[5504, -8160], [6272, -8160], [6272, -3296], [5248, -2272], [4864, -2272], [4864, -2528], [5248, -2528], [6016, -3296], [6016, -7392], [5504, -7392]], top_surface: {texture: sfw7a, size: [128, 256]}, base: 384}
+      - {rise: 64, surface: {texture: sfw2, size: [128, 256]}, outline: [[2688, -5472], [6016, -5472], [6016, -5216], [2688, -5216]], top_surface: {texture: sfw7a, size: [128, 256]}, base: 384}
+      - {rise: 336, surface: {texture: a2j, size: [128, 256]}, outline: [[2880, -6656], [3200, -6656], [3200, -6400], [2880, -6400]], top_surface: {texture: sfw7a, size: [128, 256]}}
+      - {rise: 336, surface: {texture: a2j, size: [128, 256]}, outline: [[5504, -6656], [5824, -6656], [5824, -6400], [5504, -6400]], top_surface: {texture: sfw7a, size: [128, 256]}}
+      - {rise: 432, surface: {texture: a2j, size: [128, 256]}, outline: [[2880, -6704], [3248, -6704], [3248, -6656], [2880, -6656]]}
+      - {rise: 432, surface: {texture: a2j, size: [128, 256]}, outline: [[3200, -6656], [3248, -6656], [3248, -6400], [3200, -6400]]}
+      - {rise: 432, surface: {texture: a2j, size: [128, 256]}, outline: [[5456, -6704], [5824, -6704], [5824, -6656], [5456, -6656]]}
+      - {rise: 432, surface: {texture: a2j, size: [128, 256]}, outline: [[5456, -6656], [5504, -6656], [5504, -6400], [5456, -6400]]}
+      - {rise: 384, surface: {texture: a2j, size: [128, 256]}, outline: [[2432, -6704], [2688, -6704], [2688, -6352], [2432, -6352]]}
+      - {rise: 384, surface: {texture: a2j, size: [128, 256]}, outline: [[6016, -6704], [6272, -6704], [6272, -6352], [6016, -6352]]}
+      - {rise: 0, surface: {texture: a3b, size: [128, 256]}, outline: [[3456, -8160], [3968, -8160], [3968, -7648], [3456, -7648]], top_surface: {texture: a3b, size: [128, 256]}, top_slope: {to: 384, toward: south}}
+      - {rise: 0, surface: {texture: a3b, size: [128, 256]}, outline: [[4736, -8160], [5248, -8160], [5248, -7648], [4736, -7648]], top_surface: {texture: a3b, size: [128, 256]}, top_slope: {to: 384, toward: south}}
+      - {rise: 0, surface: {texture: a3b, size: [128, 256]}, outline: [[2432, -8160], [2688, -8160], [2688, -7648], [2432, -7648]], top_surface: {texture: a3b, size: [128, 256]}, top_slope: {to: 384, toward: south}}
+      - {rise: 0, surface: {texture: a3b, size: [128, 256]}, outline: [[6016, -8160], [6272, -8160], [6272, -7648], [6016, -7648]], top_surface: {texture: a3b, size: [128, 256]}, top_slope: {to: 384, toward: south}}
+    flights:
+      - {from: [3072, -5696], to: [3072, -6464], width: 256, steps: 12, sides: {height: 124, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [2888, -6528], to: [2680, -6528], to_height: 1484, width: 256, steps: 4, sides: {height: 96, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [5632, -5696], to: [5632, -6464], width: 256, steps: 12, sides: {height: 124, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [5816, -6528], to: [6024, -6528], to_height: 1484, width: 256, steps: 4, sides: {height: 96, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+  - id: room:hall_well
+    name: Stairs up through the hall floor
+    outline: [[4816, -4416], [5072, -4416], [5072, -3840], [4816, -3840]]
+    floor: 764
+    slope: {to: 1036, toward: north, steps: 9, riser: {texture: a1b, size: [128, 256]}}
+    ceiling: 1036
+    walls:
+      - wall: east
+        surface: {texture: a2j, size: [128, 256]}
+      - wall: west
+        surface: {texture: a2j, size: [128, 256]}
+  - id: room:hangar
+    name: Hangar
+    outline: [[-720, -1664], [1840, -1664], [1840, 1280], [1584, 1280], [1072, 1536], [48, 1536], [-464, 1280], [-720, 1280]]
+    floor: 224
+    ceiling: 704
+    theme: theme:hangar
+    ceiling_levels:
+      - outline: [[-464, -1632], [1584, -1632], [1584, 1248], [-464, 1248]]
+        ceiling: 960
+        top_outline: [[304, -1632], [816, -1632], [816, 1248], [304, 1248]]
+        edge: {texture: a2j, size: [128, 256]}
+        surface: {texture: a4b_k01, size: [128, 256]}
+  - id: room:hub_top
+    name: Top deck junction
+    outline: [[8704, -5344], [9216, -5344], [9216, -4832], [8704, -4832]]
+    floor: 1868
+    ceiling: 2156
+  - id: room:lab
+    name: Top deck control room
+    outline: [[7648, -4928], [8352, -4928], [8352, -4576], [7648, -4576]]
+    floor: 1868
+    ceiling: 2156
+  - id: room:landing_low
+    name: Corridor stair landing
+    outline: [[4176, -3904], [4752, -3904], [4752, -3648], [4176, -3648]]
+    floor: 492
+    ceiling: 748
+    theme: theme:stairs
+  - id: room:landing_strip
+    name: Top landing's strip over the lower east lift
+    outline: [[6912, -4896], [7168, -4896], [7168, -4832], [6912, -4832]]
+    floor: 1868
+    ceiling: 2124
+  - id: room:lift2
+    name: Reactor side lift
+    outline: [[5744, -1216], [6000, -1216], [6000, -960], [5744, -960]]
+    floor: 1036
+    ceiling: 1740
+  - id: room:lift_e1
+    name: "East lift, lower"
+    outline: [[6912, -4896], [7168, -4896], [7168, -4640], [6912, -4640]]
+    floor: 1036
+    ceiling: 1740
+  - id: room:lift_e2
+    name: "East lift, upper, with the top landing round its head"
+    outline: [[6912, -5344], [7296, -5344], [7296, -4832], [7168, -4832], [7168, -4896], [6912, -4896]]
+    floor: 1484
+    ceiling: 2124
+    platforms:
+      - {id: platform:top_landing, rise: 384, outline: [[6912, -5344], [7296, -5344], [7296, -4832], [7168, -4832], [7168, -4896], [6912, -4896], [6912, -4960], [7168, -4960], [7168, -5216], [6912, -5216]], top_surface: {texture: sfw7a, size: [128, 256]}}
+  - id: room:lift_w
+    name: West lift
+    outline: [[1984, -5152], [2240, -5152], [2240, -4704], [1984, -4704]]
+    floor: 1036
+    ceiling: 1748
+  - id: room:lift_w_mouth
+    name: West lift's two mouths
+    outline: [[2240, -5120], [2336, -5024], [2368, -5024], [2368, -4832], [2336, -4832], [2240, -4736]]
+    floor: 1036
+    ceiling: 1740
+    platforms:
+      - {id: platform:mouth_slab, rise: 192, surface: {texture: a3b, size: [128, 256]}, outline: [[2240, -5120], [2336, -5024], [2368, -5024], [2368, -4832], [2336, -4832], [2240, -4736]], base: 256}
+  - id: room:locker1
+    name: Engineering wall locker 1
+    outline: [[1248, -8224], [1392, -8224], [1392, -8096], [1248, -8096]]
+    floor: 1580
+    ceiling: 1644
+    theme: theme:locker
+  - id: room:locker2
+    name: Engineering wall locker 2
+    outline: [[1248, -7840], [1392, -7840], [1392, -7712], [1248, -7712]]
+    floor: 1580
+    ceiling: 1644
+    theme: theme:locker
+  - id: room:locker3
+    name: Engineering wall locker 3
+    outline: [[1248, -7456], [1392, -7456], [1392, -7328], [1248, -7328]]
+    floor: 1580
+    ceiling: 1644
+    theme: theme:locker
+  - id: room:low_lobby
+    name: Lobby under the hall
+    outline: [[4496, -4672], [5072, -4672], [5072, -4416], [4496, -4416]]
+    floor: 764
+    ceiling: 1020
+  - id: room:ramp_e
+    name: East ramp to the bridge
+    outline: [[5696, -8672], [6080, -8672], [6080, -8256], [5696, -8256]]
+    floor: 1484
+    slope: {to: 1548, toward: south}
+    ceiling: 1760
+    ceiling_slope: {to: 1836, toward: south}
+  - id: room:ramp_w
+    name: West ramp to the bridge
+    outline: [[2624, -8672], [3008, -8672], [3008, -8256], [2624, -8256]]
+    floor: 1484
+    slope: {to: 1548, toward: south}
+    ceiling: 1760
+    ceiling_slope: {to: 1836, toward: south}
+  - id: room:reactor_low
+    name: Reactor room
+    outline: [[3584, -2176], [5120, -2176], [5632, -1636], [5632, -640], [5120, -128], [3584, -128], [3072, -640], [3072, -1636]]
+    floor: 1036
+    ceiling: 1420
+    platforms:
+      - {rise: 352, surface: {texture: a2b, size: [128, 256]}, outline: [[4547, -1517], [4717, -1347], [4709, -1344], [4544, -1509]], visible: false, base: 32}
+      - {rise: 288, surface: {texture: a2b, size: [128, 256]}, outline: [[4717, -1347], [4717, -957], [4709, -960], [4709, -1344]], visible: false, base: 96}
+      - {rise: 288, surface: {texture: a2b, size: [128, 256]}, outline: [[4717, -957], [4547, -787], [4544, -795], [4709, -960]], visible: false, base: 96}
+      - {rise: 288, surface: {texture: a2b, size: [128, 256]}, outline: [[4547, -787], [4157, -787], [4160, -795], [4544, -795]], visible: false, base: 96}
+      - {rise: 288, surface: {texture: a2b, size: [128, 256]}, outline: [[4157, -787], [3987, -957], [3995, -960], [4160, -795]], visible: false, base: 96}
+      - {rise: 288, surface: {texture: a2b, size: [128, 256]}, outline: [[3987, -957], [3987, -1347], [3995, -1344], [3995, -960]], visible: false, base: 96}
+      - {rise: 352, surface: {texture: a2b, size: [128, 256]}, outline: [[3987, -1347], [4157, -1517], [4160, -1509], [3995, -1344]], visible: false, base: 32}
+      - {rise: 512, surface: {texture: a2b, size: [128, 256]}, outline: [[4280, -1279], [4424, -1279], [4479, -1224], [4479, -1080], [4424, -1025], [4280, -1025], [4225, -1080], [4225, -1224]]}
+      - {rise: 64, surface: {texture: sfw3, size: [128, 256]}, outline: [[4160, -1629], [4544, -1629], [4544, -1509], [4160, -1509]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: sfw3, size: [128, 256]}, outline: [[4837, -1344], [4837, -960], [4709, -960], [4709, -1344]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: sfw3, size: [128, 256]}, outline: [[4837, -960], [4544, -667], [4544, -795], [4709, -960]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: sfw3, size: [128, 256]}, outline: [[4544, -667], [4160, -667], [4160, -795], [4544, -795]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: sfw3, size: [128, 256]}, outline: [[4160, -667], [3867, -960], [3995, -960], [4160, -795]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: sfw3, size: [128, 256]}, outline: [[3867, -960], [3867, -1344], [3995, -1344], [3995, -960]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 32, surface: {texture: sfw3, size: [128, 256]}, outline: [[3963, -1344], [4160, -1541], [4160, -1509], [3995, -1344]], top_surface: {texture: sfw7b, size: [128, 256]}}
+      - {rise: 32, surface: {texture: sfw3, size: [128, 256]}, outline: [[4544, -1541], [4741, -1344], [4709, -1344], [4544, -1509]], top_surface: {texture: sfw7b, size: [128, 256]}}
+    levels:
+      - outline: [[4160, -1509], [4544, -1509], [4709, -1344], [4709, -960], [4544, -795], [4160, -795], [3995, -960], [3995, -1344]]
+        floor: 908
+        edge: {texture: sfw1b, size: [128, 256]}
+        surface: {texture: sfw1b, size: [128, 256]}
+  - id: room:reactor_up
+    name: Reactor gallery
+    outline: [[5632, -640], [5120, -128], [3584, -128], [3072, -640], [3072, -1636], [3584, -2176], [5120, -2176], [5632, -1636]]
+    floor: 1484
+    ceiling: 1996
+    platforms:
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[4157, -1517], [4547, -1517], [4544, -1509], [4160, -1509]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[4547, -1517], [4717, -1347], [4709, -1344], [4544, -1509]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[4717, -1347], [4717, -957], [4709, -960], [4709, -1344]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[4717, -957], [4547, -787], [4544, -795], [4709, -960]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[4547, -787], [4157, -787], [4160, -795], [4544, -795]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[4157, -787], [3987, -957], [3995, -960], [4160, -795]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[3987, -957], [3987, -1347], [3995, -1344], [3995, -960]], visible: false, base: 96}
+      - {rise: 416, surface: {texture: a3bs, size: [128, 256]}, outline: [[3987, -1347], [4157, -1517], [4160, -1509], [3995, -1344]], visible: false, base: 96}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[4160, -1637], [4544, -1637], [4544, -1509], [4160, -1509]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[4544, -1637], [4837, -1344], [4709, -1344], [4544, -1509]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[4837, -1344], [4837, -960], [4709, -960], [4709, -1344]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[4837, -960], [4544, -667], [4544, -795], [4709, -960]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[4544, -667], [4160, -667], [4160, -795], [4544, -795]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[4160, -667], [3867, -960], [3995, -960], [4160, -795]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[3867, -960], [3867, -1344], [3995, -1344], [3995, -960]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+      - {rise: 64, surface: {texture: a1b, size: [128, 256]}, outline: [[3867, -1344], [4160, -1637], [4160, -1509], [3995, -1344]], top_surface: {texture: sfw7b, size: [128, 256]}, top_heights: [64, 64, 96, 96]}
+    ceiling_levels:
+      - outline: [[4160, -1509], [4544, -1509], [4709, -1344], [4709, -960], [4544, -795], [4160, -795], [3995, -960], [3995, -1344]]
+        ceiling: 2316
+        edge: {texture: a3bs, size: [128, 256]}
+        surface: {texture: a2b, size: [128, 256]}
+  - id: room:room_se
+    name: South-east locker
+    outline: [[6368, -8064], [6464, -8128], [6720, -8128], [6720, -7744], [6464, -7744], [6368, -7808]]
+    floor: 1484
+    ceiling: 1740
+  - id: room:shaft1
+    name: Reactor lift shaft
+    outline: [[4400, -2064], [4688, -2064], [4688, -1776], [4400, -1776]]
+    floor: 228
+    ceiling: 1036
+  - id: room:stairs_a
+    name: "Corridor stairs, first flight"
+    outline: [[4176, -4416], [4432, -4416], [4432, -3904], [4176, -3904]]
+    floor: 224
+    slope: {to: 492, toward: north, steps: 8}
+    ceiling: 480
+    ceiling_slope: {to: 748, toward: north}
+    theme: theme:stairs
+  - id: room:stairs_b
+    name: "Corridor stairs, second flight"
+    outline: [[4496, -4416], [4752, -4416], [4752, -3904], [4496, -3904]]
+    floor: 492
+    slope: {to: 764, toward: south, steps: 8}
+    ceiling: 748
+    ceiling_slope: {to: 1020, toward: south}
+    theme: theme:stairs
+  - id: room:vest
+    name: Engineering vestibule
+    outline: [[2048, -7424], [2336, -7424], [2336, -7072], [2048, -7072]]
+    floor: 1484
+    ceiling: 1740
+    theme: theme:station
+  - id: room:view_steps
+    name: Slope down to the viewport
+    outline: [[2656, -10496], [6048, -10496], [6272, -10048], [2432, -10048]]
+    floor: 1548
+    slope: {to: 1324, toward: south}
+    ceiling: 1960
+    ceiling_points: [[2432, -10048, 1804], [2656, -10496, 1863], [3418, -10496, 1975], [3840, -10496, 2048], [3840, -10048, 2048], [6272, -10048, 1804], [6048, -10496, 1863], [5286, -10496, 1975], [4864, -10496, 2048], [4864, -10048, 2048]]
+    ceiling_lines:
+      - [[2432, -10048], [3418, -10496]]
+      - [[3840, -10048], [3840, -10496]]
+      - [[6272, -10048], [5286, -10496]]
+      - [[4864, -10048], [4864, -10496]]
+    theme: theme:steps
+  - id: room:viewport
+    name: Viewport
+    outline: [[2900, -11200], [5804, -11200], [6048, -10496], [2656, -10496]]
+    floor: 1292
+    ceiling: 1960
+    ceiling_points: [[2656, -10496, 1863], [2900, -11200, 1567], [3418, -10496, 1975], [3840, -10496, 2048], [3840, -10688, 2048], [2944, -10944, 1932], [3584, -11200, 1932], [6048, -10496, 1863], [5804, -11200, 1567], [5286, -10496, 1975], [4864, -10496, 2048], [4864, -10688, 2048], [5760, -10944, 1932], [5120, -11200, 1932]]
+    ceiling_lines:
+      - [[3418, -10496], [3840, -10688]]
+      - [[2944, -10944], [3840, -10688]]
+      - [[3584, -11200], [3840, -10688]]
+      - [[2944, -10944], [3584, -11200]]
+      - [[2656, -10496], [2944, -10944]]
+      - [[5286, -10496], [4864, -10688]]
+      - [[5760, -10944], [4864, -10688]]
+      - [[5120, -11200], [4864, -10688]]
+      - [[5760, -10944], [5120, -11200]]
+      - [[6048, -10496], [5760, -10944]]
+      - [[3840, -10688], [4864, -10688]]
+      - [[2944, -10944], [2900, -11200]]
+      - [[5760, -10944], [5804, -11200]]
+    ceiling_surfaces:
+      - {at: [3150, -11150], surface: {texture: lightmap, size: [128, 128]}}
+      - {at: [5554, -11150], surface: {texture: lightmap, size: [128, 128]}}
+    theme: theme:canopy
+    platforms:
+      - {rise: 0, surface: {texture: hive1, size: [128, 256]}, outline: [[3191, -10944], [3392, -10944], [3392, -10752], [3191, -10752]], top_surface: {texture: hive1, size: [128, 256]}, top_slope: {to: 128, toward: north}}
+      - {rise: 0, surface: {texture: hive1, size: [128, 256]}, outline: [[4256, -11072], [4448, -11072], [4448, -10880], [4256, -10880]], top_surface: {texture: hive1, size: [128, 256]}, top_slope: {to: 128, toward: north}}
+      - {rise: 0, surface: {texture: hive1, size: [128, 256]}, outline: [[5312, -10944], [5513, -10944], [5513, -10752], [5312, -10752]], top_surface: {texture: hive1, size: [128, 256]}, top_slope: {to: 128, toward: north}}
+    levels:
+      - outline: [[3191, -11072], [3392, -11072], [3392, -10752], [3191, -10752]]
+        floor: 1132
+        edge: {texture: hive1, size: [128, 256]}
+        surface: {texture: hive1, size: [128, 256]}
+      - outline: [[4256, -11168], [4448, -11168], [4448, -10880], [4256, -10880]]
+        floor: 1132
+        edge: {texture: hive1, size: [128, 256]}
+        surface: {texture: hive1, size: [128, 256]}
+      - outline: [[5312, -11072], [5513, -11072], [5513, -10752], [5312, -10752]]
+        floor: 1132
+        edge: {texture: hive1, size: [128, 256]}
+        surface: {texture: hive1, size: [128, 256]}
+  - id: room:walkway
+    name: Hangar walkway over the pod bays' mouths
+    outline: [[-720, -1664], [-464, -1664], [-464, 1280], [-720, 1280]]
+    floor: 736
+    ceiling: 992
+    theme: theme:walkway
+    walls:
+      - wall: north
+        surface: {texture: a2b, size: [128, 256]}
+      - wall: south
+        surface: {texture: a2b, size: [128, 256]}
+  - id: room:window
+    name: Viewport window
+    outline: [[3584, -11584], [5120, -11584], [5760, -11328], [5804, -11200], [2900, -11200], [2944, -11328]]
+    floor: 1292
+    ceiling: 1932
+    ceiling_points: [[2900, -11200, 1567], [3584, -11200, 1932], [3584, -11584, 1420], [2944, -11328, 1420], [5804, -11200, 1567], [5120, -11200, 1932], [5120, -11584, 1420], [5760, -11328, 1420]]
+    ceiling_lines:
+      - [[3584, -11200], [3584, -11584]]
+      - [[5120, -11200], [5120, -11584]]
+    theme: theme:window
+openings:
+  - id: open:bridge_w_gallery
+    from: room:hall
+    to: room:vest
+    along: 0.406
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:cargo_corr
+    from: room:cargo_w
+    to: room:corr_w
+    to_wall: 8
+    along: 0.5
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:cargo_pit
+    from: room:cargo_w
+    to: room:cargo_shaft
+    in: floor
+    outline: [[-208, -2688], [832, -2688], [832, -1792], [-208, -1792]]
+  - id: open:closet_window
+    from: room:hangar
+    to: room:closet
+    along: 0.7333
+    width: 480
+    height: 64
+    sill: 128
+  - id: open:corr_cargo_e
+    from: room:cargo_e
+    to: room:corr_e
+    to_wall: 15
+    along: 0.5
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_cargo_low
+    from: room:corr_low
+    to: room:cargo_low
+    width: full
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_cell1
+    from: room:corr_e
+    to: room:cell1
+    from_wall: 8
+    along: 0.502
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_cell2
+    from: room:corr_e
+    to: room:cell2
+    from_wall: 4
+    along: 0.5
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_cell3
+    from: room:corr_e
+    to: room:cell3
+    from_wall: 2
+    along: 0.5
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_cell4
+    from: room:corr_e
+    to: room:cell4
+    width: full
+    height: full
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_lift_e1
+    from: room:corr_e
+    to: room:lift_e1
+    from_wall: 6
+    along: 0.5
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_shaft1
+    from: room:corr_low_rb
+    to: room:shaft1
+    width: 224
+    height: 252
+  - id: open:corr_stairs_a
+    from: room:corr_low_s
+    to: room:stairs_a
+    from_wall: 4
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:corr_top_hub
+    from: room:corr_top
+    to: room:hub_top
+    width: 224
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_top_lab
+    from: room:corr_top
+    to: room:lab
+    along: 0.1364
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:corr_w_hall
+    from: room:hall
+    to: room:corr_w
+    to_wall: 5
+    along: 0.5
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:crew_hall
+    from: room:hall
+    to: room:crew_w
+    along: 0.2051
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:cross_n_e1
+    from: room:cross_n
+    to: room:cross_n_e1
+    from_wall: 2
+    width: full
+    height: 256
+  - id: open:cross_n_e2
+    from: room:cross_n
+    to: room:cross_n_e2
+    from_wall: 5
+    width: full
+    height: 256
+  - id: open:cross_n_end
+    from: room:cross_n
+    to: room:cross_n_end
+    width: full
+    height: full
+  - id: open:cross_n_w
+    from: room:cross_n
+    to: room:cross_n_w
+    from_wall: 13
+    width: full
+    height: 256
+  - id: open:cross_s_e1
+    from: room:cross_s
+    to: room:cross_s_e1
+    from_wall: 14
+    width: full
+    height: 256
+  - id: open:cross_s_e2
+    from: room:cross_s
+    to: room:cross_s_e2
+    from_wall: 11
+    width: full
+    height: 256
+  - id: open:cross_s_end
+    from: room:cross_s
+    to: room:cross_s_end
+    width: full
+    height: full
+  - id: open:cross_s_w
+    from: room:cross_s
+    to: room:cross_s_w
+    from_wall: 3
+    width: full
+    height: 256
+  - id: open:deck_captain
+    from: room:deck
+    to: room:captain
+    from_wall: 1
+    to_wall: 5
+    width: 224
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:deck_steps
+    from: room:deck
+    to: room:view_steps
+    width: full
+    height: full
+  - id: open:gallery_east_landing
+    from: room:hall
+    to: room:east_landing
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:gallery_ramp_e
+    from: room:hall
+    to: room:ramp_e
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:gallery_ramp_w
+    from: room:hall
+    to: room:ramp_w
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:gallery_room_se
+    from: room:hall
+    to: room:room_se
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:hall_corr_e
+    from: room:hall
+    to: room:corr_e
+    to_wall: 18
+    along: 0.5
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:hall_well
+    from: room:hall
+    to: room:hall_well
+    in: floor
+  - id: open:hangar_bay1
+    from: room:hangar
+    to: room:bay1
+    width: full
+    height: full
+  - id: open:hangar_bay2
+    from: room:hangar
+    to: room:bay2
+    width: full
+    height: full
+  - id: open:hangar_bay3
+    from: room:hangar
+    to: room:bay3
+    width: full
+    height: full
+  - id: open:hangar_bay4
+    from: room:hangar
+    to: room:bay4
+    width: full
+    height: full
+  - id: open:hangar_closet
+    from: room:hangar
+    to: room:closet
+    along: 0.1
+    width: 190
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:hangar_corr
+    from: room:hangar
+    to: room:corr_low_hb
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:hangar_shaft
+    from: room:hangar
+    to: room:cargo_shaft
+    width: 1024
+    height: 447
+  - id: open:hub_cross_n
+    from: room:hub_top
+    to: room:cross_n
+    width: full
+    height: full
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:hub_cross_s
+    from: room:hub_top
+    to: room:cross_s
+    width: full
+    height: full
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:lab_window
+    from: room:corr_top
+    to: room:lab
+    along: 0.7045
+    width: 352
+    height: 96
+    sill: 96
+  - id: open:landing_lift_e2
+    from: room:east_landing
+    to: room:lift_e2
+    from_wall: 2
+    to_wall: 5
+    along: 0.4
+    width: 256
+    height: full
+  - id: open:landing_stairs_b
+    from: room:landing_low
+    to: room:stairs_b
+    width: full
+    height: full
+  - id: open:lift2_reactor_up
+    from: room:lift2
+    to: room:reactor_up
+    width: 224
+    height: 256
+  - id: open:lift_e1_landing
+    from: room:lift_e1
+    to: room:east_landing
+    width: full
+    height: 256
+  - id: open:lift_w_gallery
+    from: room:hall
+    to: room:lift_w_mouth
+    width: full
+    height: 256
+    sill: 448
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:lift_w_hall
+    from: room:hall
+    to: room:lift_w_mouth
+    width: full
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:lift_w_mouth_low
+    from: room:lift_w
+    to: room:lift_w_mouth
+    width: full
+    height: 256
+  - id: open:lift_w_mouth_up
+    from: room:lift_w
+    to: room:lift_w_mouth
+    width: full
+    height: 256
+    sill: 448
+  - id: open:lobby_trench
+    from: room:low_lobby
+    to: room:hall_well
+    width: full
+    height: 256
+  - id: open:locker1
+    from: room:bridge_w
+    to: room:locker1
+    from_wall: 2
+    to_wall: 1
+    width: full
+    height: 64
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:locker2
+    from: room:bridge_w
+    to: room:locker2
+    width: full
+    height: 64
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:locker3
+    from: room:bridge_w
+    to: room:locker3
+    width: full
+    height: 64
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:low_hb
+    from: room:corr_low
+    to: room:corr_low_hb
+    width: full
+    height: full
+  - id: open:low_rb
+    from: room:corr_low
+    to: room:corr_low_rb
+    width: full
+    height: full
+  - id: open:low_s
+    from: room:corr_low
+    to: room:corr_low_s
+    width: full
+    height: full
+  - id: open:ramp_e_deck
+    from: room:ramp_e
+    to: room:deck
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:ramp_w_deck
+    from: room:ramp_w
+    to: room:deck
+    width: 254
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:reactor_hole
+    from: room:reactor_up
+    to: room:reactor_low
+    in: floor
+    outline: [[4160, -1508], [4544, -1508], [4708, -1344], [4708, -960], [4544, -796], [4160, -796], [3996, -960], [3996, -1344]]
+  - id: open:reactor_lift2
+    from: room:reactor_low
+    to: room:lift2
+    width: 224
+    height: 256
+  - id: open:shaft1_hole
+    from: room:reactor_low
+    to: room:shaft1
+    in: floor
+    outline: [[4416, -2048], [4672, -2048], [4672, -1792], [4416, -1792]]
+  - id: open:stairs_a_landing
+    from: room:stairs_a
+    to: room:landing_low
+    width: full
+    height: full
+  - id: open:stairs_b_lobby
+    from: room:stairs_b
+    to: room:low_lobby
+    width: full
+    height: full
+  - id: open:steps_viewport
+    from: room:view_steps
+    to: room:viewport
+    width: full
+    height: full
+  - id: open:strip_e
+    from: room:lift_e2
+    to: room:landing_strip
+    from_wall: 3
+    to_wall: 1
+    width: full
+    height: full
+  - id: open:strip_s
+    from: room:lift_e2
+    to: room:landing_strip
+    from_wall: 4
+    to_wall: 0
+    width: full
+    height: full
+  - id: open:top_landing_corr
+    from: room:lift_e2
+    to: room:corr_top
+    width: 224
+    height: 256
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:vest_station
+    from: room:vest
+    to: room:bridge_w
+    from_wall: south
+    to_wall: 13
+    along: 0.611
+    width: 192
+    height: 254
+    threshold: {texture: sfw7a, size: [128, 256]}
+  - id: open:vest_window
+    from: room:vest
+    to: room:bridge_w
+    from_wall: west
+    to_wall: 14
+    width: 192
+    height: 64
+    sill: 91
+  - id: open:viewport_window
+    from: room:viewport
+    to: room:window
+    width: full
+    height: full
+  - id: open:walkway_bay1
+    from: room:walkway
+    to: room:bay1
+    width: full
+    height: full
+  - id: open:walkway_bay2
+    from: room:walkway
+    to: room:bay2
+    width: full
+    height: full
+  - id: open:walkway_bay3
+    from: room:walkway
+    to: room:bay3
+    width: full
+    height: full
+  - id: open:walkway_bay4
+    from: room:walkway
+    to: room:bay4
+    width: full
+    height: full
+notes: "The Lincoln (7d23.blv) in its own frame. Five levels: 224 (hangar, lower corridor, lower hold), 1036 (hall floor, cargo bays, corridors, reactor room), 1484 (hall gallery, reactor gallery, engineering, east landing), 1548 (bridge) and 1868 (top deck). The hall is one room: its gallery and bridge are platforms against the walls and the stairs from the lobby come up through a hole in its floor. Since round three the cargo pit and the reactor lift tube are holes in the floors above with the lifts rising through them; the pod bays are shafts with two moving decks each, opening onto the walkway over their mouths; the upper east lift shares its room with the top landing round its head; the west lift opens through two funnel mouths one above the other; the engineering station has its vestibule and wall lockers; the bridge has its hipped ceiling with the stepped dome on its top. What still stands in for something the rooms cannot say (NOTES.md has each in full): the hall vault is one leaning ceiling level (the original is faceted); the bridge ceiling top is a rectangle over the dome (the original's top has seven corners); the cargo bays' rails stand 1 unit inside their channel; the pilot pits and the hold's trenches are sunken levels with steps where the original has slopes; the corridors' six-sided section is a wall with three bands; the hall's raking buttresses and the reactor's invisible drum are not built."

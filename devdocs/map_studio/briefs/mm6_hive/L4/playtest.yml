@@ -1,0 +1,542 @@
+# The Hive rebuilt (devdocs/map_studio/briefs/mm6_hive/L4): the walk from the entry to the Queen's chamber, with every
+# door, switch and chest of the project used, the drops through the four pits and the hatch, and the events that run
+# without a click. Kept by hand since round two. Event and door numbers are those of ids.lock.yml. Play it from
+# output/studio_cal/mm6_hive/run (see NOTES.md, Round two, for the commands).
+id: studio.mm6hive.walk
+title: The Hive rebuilt, entry to the Queen's chamber
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: mm6hive.blv
+  - assert: {map: mm6hive.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Entry, the flush lock and its double door, the gallery, the ledge.
+  - play_lua:
+      source: |
+        open_door(6, 1)
+  - walk_to: {x: 448, y: 4800, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  # The walked-on faces of the flush system (map variables as ids.lock.yml numbers them: 2 flush_armed, 6 flush_done,
+  # 8 protected). The entry's floor only says so (event 17: the party has just walked over its plate, but status()
+  # keeps only lines shown during a play_lua step, so the handler, event 38, is run again by its number); the floor
+  # before the double door arms it (event 19).
+  - play_lua:
+      source: |
+        click(38); wait(1)
+        local s = status()
+        if not s:find("Flush system activated") then error("the lock's floor said nothing: " .. s) end
+  - assert: {state_dump_map_var: {index: 2, value: 0}}
+  - play_lua:
+      source: |
+        open_door(19, 15)
+        if door_state(36) ~= "open" then error("the double door's second leaf did not part: " .. door_state(36)) end
+  - walk_to: {x: 448, y: 4800, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  # The scroll lying on the lock's floor (item 1817, the original's one sprite object), picked up as a player does.
+  - walk_to: {x: 256, y: 5248, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 1500}
+  - pick_up: {item_id: 1817}
+  - walk_to: {x: 448, y: 6000, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  # The flush runs on timers: a warning every 120 seconds while armed, the flush within 10 seconds of it (its text
+  # and, the party being on no water pad, 20 physical damage to all in the same handler: the scenario's immortal
+  # party shrugs that off), "complete" within 5 seconds of the flush.
+  - play_lua:
+      max_seconds: 200
+      source: |
+        local s = ""
+        for i = 1, 70 do
+          s = s .. status()
+          if s:find("Warning!  Flush system activated!") then break end
+          wait(2)
+        end
+        if not s:find("Warning!  Flush system activated!") then error("no flush warning in 140 seconds: " .. s) end
+  - play_lua:
+      max_seconds: 60
+      source: |
+        wait(28)
+        local s = status()
+        if not s:find("Flush sequence in progress") then error("the flush did not run: " .. s) end
+        if not s:find("Flush sequence complete") then error("the flush did not end: " .. s) end
+  - assert: {state_dump_map_var: {index: 9, value: 0}}
+  - assert: {state_dump_map_var: {index: 6, value: 0}}
+  - walk_to: {x: 448, y: 6900, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  # Off the ledge: a drop of 768 onto the floor of the great chamber.
+  - walk_to: {x: 448, y: 7500, z: -768, radius: 160, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: 448, y: 7500, radius: 300, z_min: -780, z_max: -700}}
+  # The party has landed on a water pad (event 56: protected); the floor beside it clears that (event 58).
+  - walk_to: {x: 448, y: 7485, z: -752, radius: 60, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 8, value: 1}}
+  - walk_to: {x: -100, y: 7600, z: -768, radius: 60, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 8, value: 0}}
+  # The hatch's cover (six slats, door 43 of the original) is shut at the start: the party walks onto it, 38 above
+  # the floor, and does not fall into the shaft.
+  - walk_to: {x: 1100, y: 8960, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 540, y: 8960, z: -730, radius: 90, timeout_seconds: 20, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(1)
+        for d = 30, 35 do if door_state(d) ~= "open" then error("hatch slat " .. d .. " is not shut at the start: " .. door_state(d)) end end
+  - assert: {party_position: {x: 540, y: 8960, radius: 250, z_min: -740, z_max: -720}}
+  - walk_to: {x: 1100, y: 8960, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: -100, y: 7600, z: -768, radius: 60, timeout_seconds: 60}
+  # Door 5 from the great chamber: the original's leaf runs event 21 on this side ("The Door Won't Budge").
+  - walk_to: {x: -1200, y: 9216, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - set_pose: {map: mm6hive.blv, x: -1200, y: 9219, z: -768, yaw_degrees: 180, pitch_degrees: 0}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target, triggered_event: 37}}
+  - play_lua:
+      source: |
+        wait(2)
+        if door_state(16) ~= "closed" then error("door 5 opened from the chamber: " .. door_state(16)) end
+  # South-west pit: a hole in the chamber's floor, a one-way drop of 768 to the tunnels under it.
+  - walk_to: {x: -600, y: 7870, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: -1110, y: 7870, z: -1536, radius: 90, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: -1110, y: 7870, radius: 320, z_min: -1545, z_max: -1500}}
+  - walk_to: {x: -1584, y: 7824, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # The store behind door 13.
+  - play_lua:
+      source: |
+        open_door(10, 5)
+  - walk_to: {x: -1600, y: 8128, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: -2496, y: 8256, z: -1664, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: -1600, y: 7824, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # South-west tunnel: down to the south cell (door 2, the switch that opens door 32 far away).
+  - walk_to: {x: -1584, y: 7233, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1344, y: 6448, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -695, y: 5957, z: -1533, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -49, y: 5482, z: -1547, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 112, y: 4976, z: -1587, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -592, y: 4228, z: -1931, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1504, y: 3872, z: -2038, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(12, 7)
+  - walk_to: {x: -1504, y: 3000, z: -2038, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        click(30); wait(4)
+        if door_state(11) ~= "open" then error("the button in the south cell did not open door 32: " .. door_state(11)) end
+        if door_state(40) ~= "open" then error("the south cell's button was not pushed into its wall: " .. door_state(40)) end
+  - walk_to: {x: -1504, y: 3872, z: -2038, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -2627, y: 3771, z: -1905, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3010, y: 3787, z: -1844, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -2960, y: 4120, z: -1776, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Before each chest the packs are emptied of what earlier chests rolled (all but the scroll and the key), so that a
+  # loot never depends on what the random items were (as the Forge's playtest does).
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1817 and id ~= 2190 then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(4)
+  - walk_to: {x: -3010, y: 3787, z: -1844, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3430, y: 3828, z: -1795, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3430, y: 4120, z: -1773, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3430, y: 3828, z: -1795, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3776, y: 3840, z: -1820, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5020, y: 4080, z: -1716, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5712, y: 4408, z: -1711, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Up the north-west tunnel to door 5, which opens from this side only (the original's event 5), and back.
+  - walk_to: {x: -4128, y: 6816, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5600, y: 9280, z: -1176, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3136, y: 9456, z: -983, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1600, y: 9219, z: -768, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - set_pose: {map: mm6hive.blv, x: -1600, y: 9219, z: -768, yaw_degrees: 0, pitch_degrees: 0}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target, triggered_event: 20}}
+  - play_lua:
+      source: |
+        wait(4)
+        if door_state(16) ~= "open" then error("door 5 did not open from the tunnel: " .. door_state(16)) end
+  - walk_to: {x: -3136, y: 9456, z: -983, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5600, y: 9280, z: -1176, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4128, y: 6816, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5712, y: 4408, z: -1711, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # The flush control cell behind door 3: its switch carries the party back to the entry.
+  - play_lua:
+      source: |
+        open_door(14, 9)
+  - walk_to: {x: -5840, y: 3100, z: -1711, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        if door_state(39) ~= "closed" then error("the flush button is not out at the start: " .. door_state(39)) end
+        click(29); wait(2)
+        log("flush switch: " .. status())
+        if door_state(39) ~= "open" then error("the flush button was not pushed in: " .. door_state(39)) end
+  - assert: {party_position: {x: 468, y: 3690, radius: 200, z_min: -8, z_max: 40}}
+  # The switch has disarmed the flush system; the walk through the lock arms it again.
+  - assert: {state_dump_map_var: {index: 2, value: 0}}
+  - walk_to: {x: 448, y: 4800, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 448, y: 6000, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 448, y: 6900, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  # Off the ledge: a drop of 768 onto the floor of the great chamber.
+  - walk_to: {x: 448, y: 7500, z: -768, radius: 160, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: 448, y: 7500, radius: 300, z_min: -780, z_max: -700}}
+  # The west door of the chamber (door 5, opened from the tunnel) and a look into the tunnel behind it.
+  - walk_to: {x: -1200, y: 9216, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - play_lua:
+      source: |
+        if door_state(16) ~= "open" then error("door 5 is not open from the tunnel side: " .. door_state(16)) end
+  - walk_to: {x: -1568, y: 9216, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: -2619, y: 9376, z: -911, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1200, y: 9216, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # North-west pit, the flush switch closet, the cave with its chest, and round to the crossing.
+  - walk_to: {x: -420, y: 9800, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: -820, y: 9920, z: -1536, radius: 90, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: -820, y: 9920, radius: 320, z_min: -1545, z_max: -1500}}
+  - walk_to: {x: -928, y: 10656, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1954, y: 10765, z: -1796, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3163, y: 10961, z: -1667, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4176, y: 11056, z: -1565, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4176, y: 11360, z: -1565, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - assert: {state_dump_map_var: {index: 8, value: 1}}
+  - play_lua:
+      source: |
+        click(34); wait(1)
+        if door_state(38) ~= "open" then error("the floor button did not sink: " .. door_state(38)) end
+  - walk_to: {x: -4176, y: 11056, z: -1565, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - assert: {state_dump_map_var: {index: 8, value: 0}}
+  - walk_to: {x: -4779, y: 11118, z: -1494, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5904, y: 11264, z: -1437, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -6464, y: 11728, z: -1434, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -6464, y: 12784, z: -1400, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -6800, y: 13500, z: -1400, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -6880, y: 14300, z: -1400, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1817 and id ~= 2190 then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(5)
+  - walk_to: {x: -6200, y: 13300, z: -1400, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -5600, y: 13776, z: -1400, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4576, y: 14432, z: -1201, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3054, y: 13976, z: -985, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1967, y: 13675, z: -907, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -416, y: 13440, z: -893, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 160, y: 13440, z: -790, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(7, 2)
+  - walk_to: {x: 448, y: 13440, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # The crossing: the north door does not open from here.
+  - set_pose: {map: mm6hive.blv, x: 448, y: 13450, z: -768, yaw_degrees: 90, pitch_degrees: 0}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target, triggered_event: 21}}
+  - play_lua:
+      source: |
+        wait(2)
+        if door_state(3) ~= "closed" then error("door 11 opened from the crossing") end
+  - walk_to: {x: 448, y: 11000, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: 448, y: 10300, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # North-east pit, the tunnel to the cell blocks (chest 1), the long loop, the chest room, door 12, the crossing.
+  - walk_to: {x: 1500, y: 9800, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 1740, y: 9900, z: -1536, radius: 90, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: 1740, y: 9900, radius: 320, z_min: -1545, z_max: -1500}}
+  - walk_to: {x: 2144, y: 10256, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3083, y: 11121, z: -1533, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4417, y: 11504, z: -1533, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5696, y: 11456, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5696, y: 11008, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5200, y: 11008, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4608, y: 10300, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1817 and id ~= 2190 then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(1)
+  - walk_to: {x: 5200, y: 11008, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5696, y: 11008, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5696, y: 11456, z: -1530, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 6991, y: 11402, z: -1540, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 8144, y: 11536, z: -1545, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 8993, y: 11936, z: -1533, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 9440, y: 12912, z: -1493, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 9093, y: 13728, z: -1485, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 8498, y: 13952, z: -1472, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 6880, y: 13728, z: -1429, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 6287, y: 13974, z: -1353, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4944, y: 14336, z: -1091, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4944, y: 14600, z: -1082, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5400, y: 14848, z: -1082, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1817 and id ~= 2190 then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(2)
+        if not has_item(2190) then error("chest 2 (the original's record 2) did not give the key to door 6") end
+  - walk_to: {x: 4944, y: 14600, z: -1082, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4944, y: 14336, z: -1091, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4369, y: 14145, z: -1028, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 2936, y: 13637, z: -793, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 1614, y: 13448, z: -770, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 720, y: 13440, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(9, 4)
+  - walk_to: {x: 448, y: 13440, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: 448, y: 11000, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: 448, y: 10300, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # South-east pit, the cave, the stair door (42), the stair and the stepped corridor up to the gallery door (4).
+  - walk_to: {x: 1500, y: 7870, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 2010, y: 7880, z: -1536, radius: 90, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: 2010, y: 7880, radius: 320, z_min: -1545, z_max: -1500}}
+  - walk_to: {x: 3300, y: 7780, z: -1569, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4250, y: 6700, z: -1569, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(18, 14)
+  - walk_to: {x: 4800, y: 6552, z: -1463, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5152, y: 6600, z: -1381, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5152, y: 7318, z: -1156, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3103, y: 7318, z: -640, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3103, y: 6294, z: -512, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 900, y: 6294, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        wait(10)
+        for d = 30, 35 do if door_state(d) ~= "closed" then error("the corridor's head did not uncover the hatch: slat " .. d .. " " .. door_state(d)) end end
+        open_door(17, 13)
+  - walk_to: {x: 448, y: 6294, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  # The gallery's two water pads (16 high): on one the party is protected, on the floor beside it no longer.
+  - walk_to: {x: 321, y: 6405, z: 16, radius: 40, timeout_seconds: 30}
+  - assert: {state_dump_map_var: {index: 8, value: 1}}
+  - walk_to: {x: 448, y: 6200, z: 0, radius: 40, timeout_seconds: 30}
+  - assert: {state_dump_map_var: {index: 8, value: 0}}
+  - walk_to: {x: 448, y: 6900, z: 0, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 448, y: 7500, z: -768, radius: 160, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - walk_to: {x: 1500, y: 7870, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 2010, y: 7880, z: -1536, radius: 90, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  # East tunnel: the locked cell (door 36 does not open by hand), the east cell (door 7, chest 3, the hatch switch).
+  - walk_to: {x: 3300, y: 7780, z: -1569, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4250, y: 6500, z: -1569, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5200, y: 5800, z: -1569, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5824, y: 5745, z: -1523, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        click(16); wait(1)
+        if door_state(12) ~= "closed" then error("door 36 opened by hand") end
+        log("door 36: " .. status())
+  - walk_to: {x: 7792, y: 5745, z: -1336, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(24, 20)
+  - walk_to: {x: 7792, y: 7000, z: -1335, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 8450, y: 7450, z: -1335, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1817 and id ~= 2190 then while item_count(id) > 0 and discard(id) do end end
+        end
+        loot_chest(3)
+  # The hatch switch toggles the cover (event 36 of the original): the corridor's head has uncovered it, so the
+  # first press shuts it and the second opens it again. Then back through the east tunnel to the great chamber and
+  # down through the hatch into the shaft: a drop of 1536.
+  - play_lua:
+      source: |
+        click(33); wait(11)
+        for d = 30, 35 do if door_state(d) ~= "open" then error("the switch did not shut the hatch: slat " .. d .. " " .. door_state(d)) end end
+        if door_state(43) ~= "open" then error("the hatch button was not pushed in: " .. door_state(43)) end
+        click(33); wait(11)
+        for d = 30, 35 do if door_state(d) ~= "closed" then error("the switch did not open the hatch: slat " .. d .. " " .. door_state(d)) end end
+  - walk_to: {x: 7792, y: 5745, z: -1336, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 8862, y: 5745, z: -1281, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 9549, y: 6497, z: -1175, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 9501, y: 7697, z: -1093, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 8033, y: 8140, z: -892, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5811, y: 8112, z: -897, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4240, y: 9157, z: -817, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 2400, y: 9232, z: -576, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 2100, y: 9232, z: -768, radius: 160, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - walk_to: {x: 1100, y: 8960, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500}
+  - walk_to: {x: 540, y: 8960, z: -2304, radius: 90, timeout_seconds: 150, clear_hostiles: 1500, plan: false}
+  - play_lua:
+      source: |
+        wait(3)
+  - assert: {party_position: {x: 540, y: 8960, radius: 250, z_min: -2310, z_max: -2250}}
+  - walk_to: {x: 608, y: 9440, z: -2304, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 872, y: 10646, z: -2281, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 1200, y: 11739, z: -2187, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 1320, y: 13104, z: -1940, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 1320, y: 14800, z: -1600, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 1320, y: 15400, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(11, 6)
+  - walk_to: {x: 1400, y: 16000, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Through the doorway in the dividing wall to the west half, the west hall, door 32 (opened from the south cell), the switch closet.
+  - walk_to: {x: 800, y: 17865, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 100, y: 17865, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1000, y: 17000, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -2400, y: 17200, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3150, y: 17782, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3700, y: 17782, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4288, y: 17782, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4288, y: 18300, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3968, y: 18300, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        click(31); wait(4)
+        if door_state(12) ~= "open" then error("the closet button did not open door 36: " .. door_state(12)) end
+        if door_state(41) ~= "open" then error("the closet button was not pushed in: " .. door_state(41)) end
+  - walk_to: {x: -4288, y: 18300, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4288, y: 17782, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -3150, y: 17782, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -2400, y: 17200, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1984, y: 16450, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Door 9, the stepped corridor up to the crossing, and its north door from the side it opens from.
+  - play_lua:
+      source: |
+        open_door(26, 22)
+  - walk_to: {x: -1984, y: 15268, z: -1408, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1088, y: 15268, z: -1280, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1088, y: 14500, z: -1152, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 448, y: 14500, z: -896, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 448, y: 13800, z: -790, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(8, 3)
+  - walk_to: {x: 448, y: 13440, z: -768, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: 448, y: 14500, z: -896, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1088, y: 14500, z: -1152, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1088, y: 15268, z: -1280, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1984, y: 15268, z: -1408, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1984, y: 16450, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -1000, y: 17000, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 100, y: 17865, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 800, y: 17865, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3200, y: 16800, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3800, y: 17478, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # The key door to the reactor, opened with the key from chest 2 (the chest room off the north-east tunnel, as in
+  # the original), which the door takes (event 6). Its locked side ("The door is locked") cannot be met on this walk:
+  # the chest lies on the way here.
+  - play_lua:
+      source: |
+        if not has_item(2190) then error("the party does not carry the key from chest 2") end
+        open_door(23, 19)
+        if has_item(2190) then error("door 6 did not take its key") end
+  - walk_to: {x: 4416, y: 17478, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5008, y: 17542, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # The guard room's floor panel (door 38 of the original): the west end of the upper floor over the lower passage.
+  # The party stands on it, uses the switch on the wall over it (event 34), and drops 544 when it slides away.
+  - walk_to: {x: 5008, y: 17862, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 64}
+  - walk_to: {x: 4680, y: 17862, z: -1536, radius: 60, timeout_seconds: 30, plan: false}
+  - assert: {party_position: {x: 4680, y: 17862, radius: 120, z_min: -1545, z_max: -1525}}
+  - play_lua:
+      source: |
+        if door_state(37) ~= "open" then error("the floor panel is not in place at the start: " .. door_state(37)) end
+        click(32); wait(4)
+        if door_state(37) ~= "closed" then error("the switch did not slide the floor panel away: " .. door_state(37)) end
+        if door_state(42) ~= "open" then error("the guard room's button was not pushed in: " .. door_state(42)) end
+  - assert: {party_position: {x: 4680, y: 17862, radius: 160, z_min: -2090, z_max: -2070}}
+  - play_lua:
+      source: |
+        click(32); wait(4)
+        if door_state(37) ~= "open" then error("the switch did not bring the floor panel back: " .. door_state(37)) end
+        if door_state(42) ~= "closed" then error("the guard room's button did not come out again: " .. door_state(42)) end
+  - play_lua:
+      source: |
+        open_door(25, 21)
+  - walk_to: {x: 5952, y: 17542, z: -1712, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 5952, y: 17862, z: -1712, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4704, y: 17862, z: -2080, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - play_lua:
+      source: |
+        open_door(13, 8)
+  - walk_to: {x: 4416, y: 17862, z: -2080, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4416, y: 18700, z: -2080, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4416, y: 19800, z: -2256, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # The ring wall (door 53 of the original, six movers) and its north gate (doors 51 and 52, two movers here) stand
+  # while the reactor lives: event 41, the map's load event (the original's event 100, which needs quest bit 1204),
+  # moves nothing. Before the reactor dies the party cannot leave the ring (shown by `oymap probe` from (2300, 22400)
+  # west and from (4416, 24900) north: both stop at the wall, as in the original).
+  - play_lua:
+      source: |
+        click(41); wait(1)
+        for d = 24, 29 do if door_state(d) ~= "closed" then error("the ring wall moved before the reactor was destroyed: " .. d) end end
+        for d = 44, 45 do if door_state(d) ~= "closed" then error("the north gate moved before the reactor was destroyed: " .. d) end end
+  # The reactor on its dais (the original's actor 0) is destroyed, as a player would, with the Ritual of the Void
+  # (item 2164) in the packs: the kill flow (event 47, the map supplement's event 65011) sinks the ring wall and the
+  # lower half of the gate, raises its upper half into the ceiling, opens the Queen's gate, summons sixteen monsters
+  # round the ring and carries the party before the Queen's gate.
+  - grant_item: {item_id: 2164}
+  - walk_to: {x: 4416, y: 20700, z: -2256, radius: 96, timeout_seconds: 150, clear_hostiles: 1200, z_tolerance: 96}
+  # The reactor is not hostile to the party by its tables (as in the original's scene), so the walk's sweep leaves it
+  # standing: the party strikes it (actor 1 of the rebuild's scene, the placed monsters in id order).
+  - damage_actor: {actor_index: 1, amount: 100000}
+  # A timer event's move of the party within the map happens in the game's frame; a play_lua wait() does not follow
+  # it, advance_runtime does.
+  - advance_runtime: {seconds: 4, follow_map_move: true}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        for i = 1, 20 do if door_state(24) == "open" and door_state(10) == "open" then break end wait(0.5) end
+        for d = 24, 29 do if door_state(d) ~= "open" then error("the kill did not sink the ring wall: " .. d .. " " .. door_state(d)) end end
+        for d = 44, 45 do if door_state(d) ~= "open" then error("the kill did not open the north gate: " .. d .. " " .. door_state(d)) end end
+        if door_state(10) ~= "open" then error("the kill did not open the Queen's gate: " .. door_state(10)) end
+  - assert: {state_dump_map_var: {index: 12, value: 1}}
+  - assert: {party_position: {x: 3328, y: 25920, radius: 200, z_min: -2262, z_max: -2240}}
+  # The final exit is still locked: the Queen lives.
+  - play_lua:
+      source: |
+        click(27); wait(1)
+        local s = status()
+        if not s:find("The door is locked") then error("the final exit did not say it is locked: " .. s) end
+  - assert: {party_position: {x: 3328, y: 25920, radius: 200, z_min: -2262, z_max: -2240}}
+  # The Queen (the original's actor 1, the rebuild's 0) is struck down where she stands, 960 from the party:
+  # event 46 (the supplement's kill flow) sets quest bit 1226, which unlocks the final exit.
+  - damage_actor: {actor_index: 0, amount: 100000}
+  - play_lua:
+      max_seconds: 20
+      source: |
+        wait(4)
+        if not qbit(1226) then error("quest bit 1226 is not set after the Queen's death") end
+  - assert: {state_dump_map_var: {index: 13, value: 1}}
+  # Through the opened gate between the lower half's teeth (128 high, as the original leaves them) into the ring.
+  - walk_to: {x: 4224, y: 24900, z: -2256, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Over the sunk ring wall into the outer ring's west side, and back.
+  - walk_to: {x: 1500, y: 22400, z: -2256, radius: 96, timeout_seconds: 60, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4224, y: 24900, z: -2256, radius: 96, timeout_seconds: 60, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 4224, y: 25700, z: -2256, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3300, y: 26200, z: -2256, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: 3300, y: 26900, z: -2256, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Leaving by the final exit is the good ending and New Sorpigal.
+  - play_lua:
+      max_seconds: 20
+      source: |
+        click(27); wait(2)
+  - assert: {map: oute3.odm}
+  - play_lua:
+      source: |
+        if not qbit(784) then error("the good ending (quest bit 784) did not run on leaving") end
+        if has_item(2164) then error("the good ending did not take the Ritual of the Void") end

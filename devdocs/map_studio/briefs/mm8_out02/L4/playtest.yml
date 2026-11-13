@@ -1,0 +1,267 @@
+# S4: the rebuilt Ravenshore (oymap build of output/studio_s4c/ravenshore, installed into output/studio_s4c/mount)
+# entered by a new game and walked: from the east arrival on the floor of the east cut west along its road, then on
+# across the low ground toward the town.
+id: studio.s4b.ravenshore.walk
+title: Rebuilt Ravenshore, arrival and a walk along the east road
+world: mm8
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_ravenshore.odm
+  - assert: {map: calib_ravenshore.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  # The party stands at the arrival, on the floor of the cut at sea level (the build's start: 20992, 512, 0).
+  - assert: {party_position: {x: 20992, y: 512, radius: 64, z_min: -16, z_max: 160}}
+  # West along the road in the cut: 2 cells.
+  - walk_to: {x: 19968, y: 512, z: 32, z_tolerance: 200, radius: 96, timeout_seconds: 60}
+  - assert: {party_position: {x: 19968, y: 512, radius: 160, z_min: -16, z_max: 200}}
+  # On out of the cut to the first houses of the town: 4 more cells (farther west a built house stands in the way).
+  - walk_to: {x: 18176, y: -256, z: 64, z_tolerance: 300, radius: 128, timeout_seconds: 120}
+  - assert: {party_position: {x: 18176, y: -256, radius: 200, z_min: -16, z_max: 300}}
+  # A built home: stand before the door of "Jobber's Home" (build.json: door at 15236, -4880, floor 64, looking
+  # south), look at it and use it: the door's event enters house 874, a home, whose resident answers.
+  - set_pose: {map: calib_ravenshore.odm, x: 15236, y: -5110, z: 224, yaw: 1.5708, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+  - press_action: {action: cancel_dialog}
+  # Round four: Needful Things as the original's (02nw_corner_): up eight steps of 16 from the street into the
+  # terrace's recess on foot, to the shop's door on the terrace (door at 12592, -7260, 128 to 384, looking south),
+  # which opens the shop; then eight more steps east from the terrace into the deck's stairwell, up to the deck at
+  # 256. The terrace and the deck are cut round their stairwells and every flight has the original's hidden slope,
+  # so no jump. (Before round four the shop's door stood at the street's level half inside the terrace and was used
+  # from a pose, and the flights could not be climbed.)
+  - set_pose: {map: calib_ravenshore.odm, x: 12334, y: -7800, z: 200, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 12334, y: -7430, z: 128, z_tolerance: 400, radius: 16, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: 12334, y: -7430, radius: 48, z_min: 120, z_max: 160}}
+  - walk_to: {x: 12592, y: -7400, z: 128, z_tolerance: 400, radius: 24, timeout_seconds: 20}
+  - set_pose: {map: calib_ravenshore.odm, x: 12592, y: -7400, z: 140, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: 12592, y: -7400, radius: 32, z_min: 120, z_max: 160}}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 77
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 12560, y: -7547, z: 128, z_tolerance: 400, radius: 32, timeout_seconds: 20}
+  - walk_to: {x: 12740, y: -7547, z: 128, z_tolerance: 400, radius: 32, timeout_seconds: 20}
+  - assert: {party_position: {x: 12740, y: -7547, radius: 64, z_min: 120, z_max: 160}}
+  - walk_to: {x: 13080, y: -7547, z: 256, z_tolerance: 400, radius: 32, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: 13080, y: -7547, radius: 96, z_min: 250, z_max: 290}}
+  # A chest of the sketch's structures (thing:chest_1 at cells 89.88, 26.48, by the seer's ring): looked at from
+  # the south and opened; its loot screen shows the map's chest 0.
+  - set_pose: {map: calib_ravenshore.odm, x: 13248, y: 19000, z: 302, yaw: 1.5708, pitch: -0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert: {chest_view: {open: true, chest_id: 0}}
+  - press_action: {action: cancel_dialog}
+  # Round 1 additions. Botham Hall, its own house again (build.json: door at 19248, -14808, floor 0, looking south).
+  - set_pose: {map: calib_ravenshore.odm, x: 19248, y: -15038, z: 160, yaw: 1.5708, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  # A home: its resident answers (the dialog is the resident's, titled Botham).
+  - assert:
+      dialog:
+        active: true
+  - press_action: {action: cancel_dialog}
+  # The Sanctum on its terrace (door at 19648, -19200, floor 576, looking north up the processional).
+  - set_pose: {map: calib_ravenshore.odm, x: 19648, y: -18970, z: 736, yaw: -1.5708, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 304
+  - press_action: {action: cancel_dialog}
+  # The first of the meadow camp's three chests (thing:camp_chest_1 at cells 73.81, 31.6; the map's chest 8).
+  - set_pose: {map: calib_ravenshore.odm, x: 5023, y: 16339, z: 740, yaw: 1.5708, pitch: -0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert: {chest_view: {open: true, chest_id: 8}}
+  - press_action: {action: cancel_dialog}
+  # Round 2 additions. The Adventurer's Inn, rebuilt as the original's jettied hall: its door in the entrance bay on
+  # the north (build.json: door at 15424, -14720, floor 32, looking north).
+  # (house 1607 opens the inn's own hiring screen, which the walk's dialog check does not see: the door's event is
+  # hit, event 7 "The Adventurer's Inn")
+  - set_pose: {map: calib_ravenshore.odm, x: 15424, y: -14490, z: 192, yaw: -1.5708, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  # The Hostel, the original's cut-cornered model as two outline parts: its door in the wing (13264, -9424, floor 0,
+  # looking east).
+  - set_pose: {map: calib_ravenshore.odm, x: 13494, y: -9424, z: 160, yaw: 3.1416, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 899
+  - press_action: {action: cancel_dialog}
+  # The Dauntless, the original's ship taken whole (kind: model): from the west pier's head (deck 264) the party
+  # walks south onto the ship's deck and uses the cabin door (model 120's door face, x 8048, looking east): its boat
+  # service (house 480) answers. Round four: as in the original, only that model runs the service; the hull's other
+  # faces say "The Dauntless" (before, every face of the ship ran it and the walk clicked the hull from the pier).
+  - set_pose: {map: calib_ravenshore.odm, x: 8530, y: -16330, z: 424, yaw: -1.5708, pitch: -0.15}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 8300, y: -16946, z: 260, z_tolerance: 400, radius: 48, timeout_seconds: 20}
+  - set_pose: {map: calib_ravenshore.odm, x: 8300, y: -16946, z: 300, yaw: 3.1416, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 480
+  - press_action: {action: cancel_dialog}
+  # While the pirates hold the town (qbit 57) the ship and the Hostel are shut, as every door of the original.
+  - lua_event: {source: "SetQBit(QBit(57))"}
+  - set_pose: {map: calib_ravenshore.odm, x: 8300, y: -16946, z: 300, yaw: 3.1416, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: false}
+  - set_pose: {map: calib_ravenshore.odm, x: 13494, y: -9424, z: 160, yaw: 3.1416, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: false}
+  - lua_event: {source: "ClearQBit(QBit(57))"}
+  # Leaving the map: on the north road just inside the travel square (the game's: 23143 from the middle), then
+  # north across it. The travel table's row for this map (written by oymap install) leads to Alvar's south side.
+  - set_pose: {map: calib_ravenshore.odm, x: -3584, y: 22800, z: 900, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: -3584, y: 23600, z: 704, radius: 96, timeout_seconds: 40, expect: dialog}
+  # The game asks whether to travel; the party says yes and arrives in Alvar.
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: out03.odm}
+  # And back: Alvar's south side leads to this map now (the way back the install wrote); the party arrives at
+  # the rebuilt map's north arrival point (-3584, 22016).
+  - set_pose: {map: out03.odm, x: 4096, y: -22800, z: 600, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 4096, y: -23600, z: 300, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_ravenshore.odm}
+  - assert: {party_position: {x: -3584, y: 22016, radius: 200, z_min: 600, z_max: 1000}}
+  # Round four: the council hall's porch stair on foot (seven steps of 32 north from the yard to the porch deck, with
+  # the original's hidden slope over it: 02sw_corner_ face 63).
+  - set_pose: {map: calib_ravenshore.odm, x: 11200, y: -11850, z: 200, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 11200, y: -11140, z: 228, z_tolerance: 400, radius: 32, timeout_seconds: 20}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: 11200, y: -11140, radius: 96, z_min: 220, z_max: 270}}
+  # Into the council hall by its terrace door (door at 12800, -12096, on the terrace 256 up, looking south): the
+  # door leads to the Merchant House of Alvar.
+  - set_pose: {map: calib_ravenshore.odm, x: 12800, y: -12326, z: 416, yaw: 1.5708, pitch: 0}
+  # Before the council opens its hall (quest bit 59) the door does not lead in: the steward speaks.
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_ravenshore.odm}
+  - press_action: {action: cancel_dialog}
+  - lua_event: {source: "SetQBit(QBit(59))"}
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: d09.blv}
+  # Round three. Back to Ravenshore by the map's own load; into the Dire Wolf Den by its mouth (the doorway's door
+  # faces east at x -20420): the way in shows the original's "Enter the Dire Wolf Den?" screen (house 353).
+  - load_map: {map: calib_ravenshore.odm}
+  - assert: {map: calib_ravenshore.odm}
+  - set_pose: {map: calib_ravenshore.odm, x: -20150, y: 16353, z: 160, yaw: 3.1416, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+        name: Enter the Dire Wolf Den
+  - advance_runtime: {seconds: 1.0}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: d08.blv}
+  - load_map: {map: calib_ravenshore.odm}
+  - assert: {map: calib_ravenshore.odm}
+  # The north-east block's locked door on its upper storey (the original's event 494: the face at 17130 to 17258,
+  # y -7968, 288 to 544 up over the band, looking south; round four puts the rebuild's there too): it only says the
+  # door is locked.
+  - set_pose: {map: calib_ravenshore.odm, x: 17194, y: -8268, z: 160, yaw: 1.5708, pitch: 0.6}
+  - press_interact:
+      expect:
+        kind: event_target
+        name: Door
+  - assert:
+      dialog: {active: false}
+  - assert: {map: calib_ravenshore.odm}
+  # Escaton's Crystal (the original's four models taken whole, on its plinth 320 up in the square). Its faces other
+  # than the door say only its name (the original's event 404): from the north, on the plinth.
+  - set_pose: {map: calib_ravenshore.odm, x: 15243, y: -8850, z: 480, yaw: -1.5708, pitch: -0.1}
+  - press_interact:
+      expect:
+        kind: event_target
+        name: Escaton's Crystal
+  - advance_runtime: {seconds: 1.0}
+  - assert: {map: calib_ravenshore.odm}
+  # Its door (south): without the Conflux Key it stays shut.
+  - set_pose: {map: calib_ravenshore.odm, x: 15104, y: -10980, z: 160, yaw: 1.5708, pitch: 0.2}
+  - press_interact:
+      expect:
+        kind: event_target
+        name: Enter Escaton's Crystal
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_ravenshore.odm}
+  # The key is built at the Hostel from the four Hearts (the original's steps before the house: the movie, the
+  # Hearts taken, the key given, quest bit 286), and then the Hostel's hall opens as before.
+  - grant_item: {item_id: 606, member_index: 0}
+  - grant_item: {item_id: 607, member_index: 0}
+  - grant_item: {item_id: 608, member_index: 0}
+  - grant_item: {item_id: 609, member_index: 0}
+  - set_pose: {map: calib_ravenshore.odm, x: 13494, y: -9424, z: 160, yaw: 3.1416, pitch: 0}
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [286]}
+  - assert:
+      dialog:
+        active: true
+        house_dialog: true
+        source_id: 899
+  - press_action: {action: cancel_dialog}
+  # The key comes to the hand, as the original's InventoryItem gives it; the player puts it in a pack.
+  - assert:
+      held_item: {active: true, item_id: 610}
+  - play_lua: {source: "if not stow() then error('no room for the key') end"}
+  - assert:
+      inventory_any_member: [{item_id: 610, count: 1}]
+  # With the key the crystal's door leads to d10, after the original's "Enter Escaton's Crystal?" screen (house 355).
+  - set_pose: {map: calib_ravenshore.odm, x: 15104, y: -10980, z: 160, yaw: 1.5708, pitch: 0.2}
+  - press_interact:
+      expect:
+        kind: event_target
+        name: Enter Escaton's Crystal
+  - advance_runtime: {seconds: 1.0}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: d10.blv}

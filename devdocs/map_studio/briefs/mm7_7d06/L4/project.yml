@@ -1,0 +1,46 @@
+format: 0
+id: calib_temple_moon
+name: The Temple of the Moon
+world: mm7
+kind: indoor
+profile: dungeon
+units: {plan_grid: 512}
+extent: {footprint_cells: [23, 25], climbs: se}
+map_stats:
+  id: 9706
+  encounter_chance: 10
+  treasure_level: 0
+  trap_dice: 1
+  perception_difficulty: 0
+  refill_days: 672
+  music: 28
+  environment: cave
+  lock_difficulty: 0
+  slots:
+    - {monster: Bat, tier: 1, per_marker: [2, 5], weight: 40}
+    - {monster: Rat, tier: 1, per_marker: [2, 5], weight: 30}
+    - {monster: Spider, tier: 1, per_marker: [2, 5], weight: 30}
+neighbours:
+  - id: exit:emerald_island
+    to: 7out01.odm
+    kind: door
+    arrival: [15816, 12161, 1133]
+    arrival_hint: "Outside, beside this dungeon's entrance on Emerald Island."
+    direction: 180
+    notes: "The arrival is a point on Emerald Island (the neighbour's frame), facing west, away from the entrance."
+qbits:
+  hunt_floor_tile: 516
+  hunt_longbow: 515
+  hunt_wealthy_hat: 518
+items:
+  awaken_book: 1224
+  fire_bolt_scroll: 1103
+  fire_resistance_scroll: 1104
+  longbow: 845
+  moon_floor_tile: 1438
+  poison_spray_scroll: 1125
+  torch_light_book: 1202
+  torch_light_scroll: 1102
+  wealthy_hat: 1433
+  wizard_eye_scroll: 1113
+notes: "Calibration brief, level L4 (Temple of the Moon, Emerald Island starter dungeon): the L3 sketch plus themes, objects.yml and wiring.yml, built as a playable map. plan.yml stays at level L3, the highest the plan schema knows. Every slot is its family's lowest tier. Its map_stats id is 9706; no reference row is set. Three of the items are the Emerald Island scavenger hunt items this map delivers; their quest bits (qbits) are set by the hunt's start on Emerald Island and cleared by the judge there when the item is handed in: this map neither sets nor tests them. The rest are the bookcase scrolls and spellbooks. The map descends from its south-east (arrival, high pockets) to the temple in the north-west."

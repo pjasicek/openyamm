@@ -1,0 +1,47 @@
+format: 0
+id: xeen_xd02
+name: Red Dwarf Mines
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-02
+units: {plan_grid: 512}
+extent: {footprint_cells: [28, 18], climbs: w}
+map_stats:
+  id: 9132
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 1
+  perception_difficulty: 1
+  refill_days: 672
+  music: cave
+  environment: cave
+  lock_difficulty: 1
+  slots:
+    - {monster: Mad Dwarves, tier: 1, per_marker: [2, 3], weight: 40}
+    - {monster: Spiders, tier: 2, per_marker: [2, 3], weight: 30}
+    - {monster: Bats, tier: 1, per_marker: [2, 4], weight: 30}
+neighbours:
+  - id: exit:deep_mine
+    to: XD-03
+    kind: scripted
+    arrival_hint: "On the Deep Landing of the Deep Mine, beside the cart."
+    condition: {qbit: deep_line_unchained}
+    notes: "A mine-cart ride down the Deep Line. The cart is chained until the brake key is used on its brake (set:unchain_deep_cart); after that the ride works both ways for good."
+  - id: exit:x1_adit
+    to: X1
+    kind: door
+    arrival_hint: "In the hills north of Vertigo, in front of the timbered mine portal, facing downhill."
+    notes: "The main entrance, at the head of the haul road north of Vertigo."
+  - id: exit:x4_adit
+    to: X4
+    kind: door
+    arrival_hint: "In the red dwarf hills on X4, beside the reopened adit."
+    condition: {qbit: x4_adit_open}
+    notes: "The old west adit (the source's Dwarf Mine 5) is caved in. The party clears it from the inside (set:west_adit_winch); from then on it is a two-way entrance and an underground shortcut between X1 and X4."
+qbits:
+  deep_line_unchained: 110021
+  x4_adit_open: 110020
+items:
+  brake_key: 12011
+notes: "Xeen design brief, level L1, for a new map (no original to rebuild). Story step M3, first half (devdocs/xeen/QUESTS.md): the Clan King himself is in the Deep Mine (XD-03), reached from here by mine cart. Encounter slots are Xeen families from devdocs/xeen/MONSTERS_AND_ITEMS.md: 1 Mad Dwarves (Mad Dwarf 7), 2 Spiders (5 / 10), 3 Bats (Giant Bat 3 / Bat Queen 10); Tiger Moles (Burrowers, level 9) are placed actors, because a map has only three slots. Monster levels 3 to 10. Provisional ids: map_stats row 9132, qbits 110020-110021, item 12011 (Xeen ranges, devdocs/xeen/PRODUCTION.md); none registered. Lock 1 and trap 1 are Act I values (X1's sheet has 0/1). Neighbour codes are Xeen map codes (X1 Vertigo Meadows, X4 Burlock Savannah, XD-03 Deep Mine)."

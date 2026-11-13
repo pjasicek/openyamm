@@ -1,0 +1,636 @@
+<title>Xeen World Atlas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a field atlas. One reading column; wide plates (maps, curve, plans) break out to a wider track and scroll inside their own frame on phones. */
+:root {
+  --paper: #eef0f3;
+  --sheet: #f8f9fb;
+  --ink: #1d2433;
+  --ink-soft: #586176;
+  --rule: #cbd1dc;
+  --cloud: #b07a12;      /* Cloudside: daylight gold */
+  --cloud-tint: #f3e3bd;
+  --dark: #5b3f9e;       /* Darkside: dusk violet */
+  --dark-tint: #ddd3f1;
+  --sky: #2f7fb5;
+  --sky-tint: #d4e7f4;
+  --void: #141a2b;
+  --star: #e9ecf5;
+  --water: #9cc6de;
+  --road: #a2865b;
+  --town: #c9573b;
+  --danger: #b03a3a;
+  --grass: #c9dcae;
+  --grass2: #b3cd94;
+  --hill: #c8b896;
+  --forest: #8fb07a;
+  --deadwood: #a9a08c;
+  --snow: #f2f5f8;
+  --sand: #ead9a8;
+  --lava: #d9663a;
+  --ash: #8e8781;
+  --swamp: #a7b98e;
+  --duskgrass: #a9b39a;
+  --duskforest: #75876f;
+  --display: "Fondamento", "Palatino Linotype", Palatino, Georgia, serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12161f; --sheet: #191e2a; --ink: #e4e7ee; --ink-soft: #a2aabb; --rule: #313949;
+    --cloud: #e2b04a; --cloud-tint: #3f3420; --dark: #b39af0; --dark-tint: #2f2747;
+    --sky: #6fb4e3; --sky-tint: #1d3344; --void: #070a12; --star: #cfd5e6;
+    --water: #3b6f8e; --road: #b89a6a; --town: #e07a5c; --danger: #e06464;
+    --grass: #4a5a3c; --grass2: #556a43; --hill: #6b604a; --forest: #3f5a37; --deadwood: #5a5548;
+    --snow: #c9d1db; --sand: #8b7b4f; --lava: #d0623a; --ash: #57524d; --swamp: #4c5a40;
+    --duskgrass: #4d5547; --duskforest: #36442f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12161f; --sheet: #191e2a; --ink: #e4e7ee; --ink-soft: #a2aabb; --rule: #313949;
+  --cloud: #e2b04a; --cloud-tint: #3f3420; --dark: #b39af0; --dark-tint: #2f2747;
+  --sky: #6fb4e3; --sky-tint: #1d3344; --void: #070a12; --star: #cfd5e6;
+  --water: #3b6f8e; --road: #b89a6a; --town: #e07a5c; --danger: #e06464;
+  --grass: #4a5a3c; --grass2: #556a43; --hill: #6b604a; --forest: #3f5a37; --deadwood: #5a5548;
+  --snow: #c9d1db; --sand: #8b7b4f; --lava: #d0623a; --ash: #57524d; --swamp: #4c5a40;
+  --duskgrass: #4d5547; --duskforest: #36442f;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+main { max-width: 1120px; margin: 0 auto; display: grid; gap: 56px; }
+.prose { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h3 { font-size: 1.25rem; }
+p { margin: 0; }
+section { display: grid; gap: 18px; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 62ch; }
+header { display: grid; gap: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; font-family: var(--mono); font-size: 0.85rem; color: var(--ink-soft); }
+.facts b { color: var(--ink); font-weight: 600; }
+.plate { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.scroll { overflow-x: auto; }
+.scroll svg { display: block; }
+.caption { font-size: 0.9rem; color: var(--ink-soft); max-width: 75ch; }
+.faces { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr)); gap: 18px; }
+.face-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.face-title .tag { font-family: var(--mono); font-size: 0.75rem; padding: 2px 8px; border-radius: 99px; }
+.tag.c { background: var(--cloud-tint); color: var(--cloud); }
+.tag.d { background: var(--dark-tint); color: var(--dark); }
+.tag.s { background: var(--sky-tint); color: var(--sky); }
+svg text { font-family: var(--body); fill: var(--ink); }
+svg .mono { font-family: var(--mono); }
+svg .soft { fill: var(--ink-soft); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.85rem; color: var(--ink-soft); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 2px; display: inline-block; border: 1px solid var(--rule); }
+.acts { display: grid; grid-template-columns: repeat(6, minmax(170px, 1fr)); gap: 10px; min-width: 1060px; }
+.act { display: grid; grid-template-rows: auto auto 1fr 1fr auto; gap: 8px; }
+.act h3 { font-size: 1.05rem; }
+.act .lv { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-soft); }
+.lane { border-radius: 4px; padding: 8px 10px; font-size: 0.85rem; line-height: 1.4; display: grid; gap: 4px; align-content: start; }
+.lane.c { background: var(--cloud-tint); }
+.lane.d { background: var(--dark-tint); }
+.lane.empty { background: transparent; border: 1px dashed var(--rule); color: var(--ink-soft); }
+.lane .who { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.lane.c .who { color: var(--cloud); }
+.lane.d .who { color: var(--dark); }
+.act .ends { font-size: 0.8rem; color: var(--ink); border-top: 1px solid var(--rule); padding-top: 6px; }
+.gate { font-family: var(--mono); color: var(--danger); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+th.num { text-align: right; }
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 18px; }
+ol.questions { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 80ch; }
+ol.questions li::marker { font-family: var(--mono); color: var(--ink-soft); }
+.rec { color: var(--ink-soft); }
+footer { font-size: 0.85rem; color: var(--ink-soft); }
+code { font-family: var(--mono); font-size: 0.85em; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">OpenYAMM · design proposal · 2026-11-12</div>
+  <h1>Xeen World Atlas</h1>
+  <p class="lede">A new MM6–MM8 style world that tells the story of World of Xeen on new maps. It is one flat world
+  with two inhabited faces, joined by Ancient pyramids, and its edge is a cliff above the stars.</p>
+  <div class="facts">
+    <span><b>13</b> surface maps</span><span><b>3</b> sky maps</span><span><b>4</b> elemental planes</span>
+    <span><b>≈54</b> dungeons</span><span><b>42</b> main-quest steps</span><span><b>54</b> side quests</span>
+    <span><b>≈20</b> promotion quests</span><span><b>51</b> monster families</span><span><b>≈4,700</b> monsters</span>
+  </div>
+</header>
+
+<section>
+  <div class="prose">
+    <div class="eyebrow">Plate 1 · World boards</div>
+    <h2>Two faces of one world</h2>
+    <p class="caption">North is up on both faces. Each region is one surface map: the source's 2×2 groups of squares,
+    laid out fresh at MM6–MM8 scale. The number range is the monster level of the map's three encounter families
+    (A tier), and C is the highest C-tier level. Starred edges are the world rim. The dashed line is the pyramid
+    pair between Vertigo and Castleview.</p>
+  </div>
+  <div class="faces">
+    <div class="plate">
+      <div class="face-title"><h3>Cloudside</h3><span class="tag c">bright face · start</span></div>
+      <div class="scroll">
+      <svg viewBox="0 0 540 380" width="540" height="380" role="img" aria-label="Cloudside regions">
+        <defs>
+          <pattern id="stars" width="14" height="14" patternUnits="userSpaceOnUse">
+            <rect width="14" height="14" style="fill:var(--void)"/>
+            <circle cx="3" cy="4" r="0.9" style="fill:var(--star)"/><circle cx="10" cy="10" r="0.6" style="fill:var(--star)"/>
+          </pattern>
+        </defs>
+        <!-- rim -->
+        <rect x="0" y="0" width="540" height="380" rx="6" style="fill:url(#stars)"/>
+        <!-- sky layer hints -->
+        <g>
+          <rect x="30" y="56" width="480" height="300" rx="4" style="fill:var(--sheet)"/>
+          <!-- row north -->
+          <rect x="30" y="56" width="160" height="150" style="fill:var(--sand)"/>
+          <rect x="190" y="56" width="160" height="150" style="fill:var(--grass2)"/>
+          <rect x="350" y="56" width="160" height="150" style="fill:var(--lava)"/>
+          <!-- row south -->
+          <rect x="30" y="206" width="160" height="150" style="fill:var(--snow)"/>
+          <rect x="190" y="206" width="80" height="150" style="fill:var(--grass)"/>
+          <rect x="270" y="206" width="80" height="150" style="fill:var(--swamp)"/>
+          <rect x="350" y="206" width="160" height="150" style="fill:var(--grass)"/>
+          <g style="stroke:var(--ink);stroke-width:1.2;fill:none">
+            <rect x="30" y="56" width="480" height="300"/>
+            <line x1="190" y1="56" x2="190" y2="356"/><line x1="350" y1="56" x2="350" y2="356"/>
+            <line x1="30" y1="206" x2="510" y2="206"/><line x1="270" y1="206" x2="270" y2="356"/>
+          </g>
+        </g>
+        <!-- sky maps -->
+        <g>
+          <ellipse cx="300" cy="28" rx="62" ry="15" style="fill:var(--sky-tint);stroke:var(--sky)"/>
+          <text x="300" y="32" text-anchor="middle" style="font-size:11px;fill:var(--sky)">X9 Clouds of Xeen · 35–45</text>
+          <ellipse cx="440" cy="28" rx="64" ry="15" style="fill:var(--sky-tint);stroke:var(--sky)"/>
+          <text x="440" y="32" text-anchor="middle" style="font-size:11px;fill:var(--sky)">X8 Cloudreach · 18–28</text>
+          <line x1="300" y1="43" x2="250" y2="250" style="stroke:var(--sky);stroke-dasharray:3 3"/>
+          <line x1="440" y1="43" x2="470" y2="300" style="stroke:var(--sky);stroke-dasharray:3 3"/>
+          <line x1="440" y1="43" x2="300" y2="300" style="stroke:var(--sky);stroke-dasharray:3 3"/>
+        </g>
+        <!-- labels -->
+        <g style="font-size:12px">
+          <text x="40" y="76" style="font-weight:700">X6 Desert of the Sphinx</text>
+          <text x="40" y="92" class="mono soft" style="font-size:11px">22–30 · C 50</text>
+          <text x="40" y="112" class="soft" style="font-size:11px">Basenji · Sphinx · Warzone</text>
+          <text x="200" y="76" style="font-weight:700">X4 Burlock Savannah</text>
+          <text x="200" y="92" class="mono soft" style="font-size:11px">10–16 · C 32</text>
+          <text x="200" y="112" class="soft" style="font-size:11px">Castle Burlock · Asp</text>
+          <text x="200" y="127" class="soft" style="font-size:11px">Gargoyle Range</text>
+          <text x="360" y="76" style="font-weight:700">X7 Mount Firestone</text>
+          <text x="360" y="92" class="mono" style="font-size:11px;fill:var(--danger)">40–55 · C 90 · trap</text>
+          <text x="360" y="112" class="soft" style="font-size:11px">Volcano Cave · Dragon Cave</text>
+          <text x="360" y="127" class="soft" style="font-size:11px">Shangri-La (hidden)</text>
+          <text x="40" y="226" style="font-weight:700">X5 Winterkill Tundra</text>
+          <text x="40" y="242" class="mono soft" style="font-size:11px">15–22 · C 40</text>
+          <text x="40" y="262" class="soft" style="font-size:11px">Winterkill · Golem Dungeon</text>
+          <text x="40" y="277" class="soft" style="font-size:11px">Cave of Illusion · Darkstone</text>
+          <text x="196" y="226" style="font-weight:700">X2 Rivercity</text>
+          <text x="196" y="242" class="mono soft" style="font-size:11px">6–10 · C 24</text>
+          <text x="196" y="262" class="soft" style="font-size:11px">hub · Darzog's</text>
+          <text x="196" y="277" class="soft" style="font-size:11px">Tower on the lake</text>
+          <text x="276" y="226" style="font-weight:700">X3 Lagoon</text>
+          <text x="276" y="242" class="mono soft" style="font-size:11px">10–15 · C 30</text>
+          <text x="276" y="262" class="soft" style="font-size:11px">Newcastle</text>
+          <text x="276" y="277" class="soft" style="font-size:11px">Nightshadow</text>
+          <text x="360" y="226" style="font-weight:700">X1 Vertigo Meadows</text>
+          <text x="360" y="242" class="mono soft" style="font-size:11px">2–4 · C 12 · start</text>
+          <text x="360" y="262" class="soft" style="font-size:11px">Vertigo · Witch Tower</text>
+          <text x="360" y="277" class="soft" style="font-size:11px">Dwarf mines · Yak</text>
+        </g>
+        <!-- town dots -->
+        <g style="fill:var(--town)">
+          <circle cx="430" cy="310" r="6"/><circle cx="230" cy="320" r="6"/><circle cx="252" cy="160" r="5"/>
+          <circle cx="300" cy="170" r="4"/><circle cx="90" cy="320" r="4"/><circle cx="305" cy="330" r="4"/>
+        </g>
+        <!-- pyramid -->
+        <path d="M478 318 l8 -14 l8 14 z" style="fill:var(--ink)"/>
+        <text x="486" y="333" text-anchor="middle" style="font-size:10px">pyramid</text>
+        <text x="270" y="374" text-anchor="middle" class="mono" style="font-size:10px;fill:var(--star)">world rim · stars below</text>
+      </svg>
+      </div>
+    </div>
+
+    <div class="plate">
+      <div class="face-title"><h3>Darkside</h3><span class="tag d">perpetual dusk · opens at M7</span></div>
+      <div class="scroll">
+      <svg viewBox="0 0 540 380" width="540" height="380" role="img" aria-label="Darkside regions">
+        <defs>
+          <pattern id="stars2" width="14" height="14" patternUnits="userSpaceOnUse">
+            <rect width="14" height="14" style="fill:var(--void)"/>
+            <circle cx="5" cy="3" r="0.9" style="fill:var(--star)"/><circle cx="11" cy="11" r="0.6" style="fill:var(--star)"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="540" height="380" rx="6" style="fill:url(#stars2)"/>
+        <rect x="30" y="56" width="160" height="150" style="fill:var(--ash)"/>
+        <rect x="190" y="56" width="160" height="150" style="fill:var(--sand)"/>
+        <rect x="350" y="56" width="160" height="150" style="fill:var(--water)"/>
+        <rect x="30" y="206" width="160" height="150" style="fill:var(--duskgrass)"/>
+        <rect x="190" y="206" width="160" height="150" style="fill:var(--duskforest)"/>
+        <rect x="350" y="206" width="160" height="150" style="fill:var(--hill)"/>
+        <g style="stroke:var(--ink);stroke-width:1.2;fill:none">
+          <rect x="30" y="56" width="480" height="300"/>
+          <line x1="190" y1="56" x2="190" y2="356"/><line x1="350" y1="56" x2="350" y2="356"/>
+          <line x1="30" y1="206" x2="510" y2="206"/>
+        </g>
+        <ellipse cx="270" cy="28" rx="150" ry="16" style="fill:var(--sky-tint);stroke:var(--sky)"/>
+        <text x="270" y="32" text-anchor="middle" style="font-size:11px;fill:var(--sky)">D7 The Skyroads · Olympus · 40–50 · planes at its corners</text>
+        <g style="font-size:12px">
+          <text x="40" y="76" style="font-weight:700">D6 Forbidden Zone</text>
+          <text x="40" y="92" class="mono" style="font-size:11px;fill:var(--danger)">45–55 · C 85</text>
+          <text x="40" y="112" class="soft" style="font-size:11px">Castle Alamar · Necropolis</text>
+          <text x="40" y="127" class="soft" style="font-size:11px">the two escape pods</text>
+          <text x="200" y="76" style="font-weight:700">D5 Desert of Doom</text>
+          <text x="200" y="92" class="mono soft" style="font-size:11px">32–42 · C 65</text>
+          <text x="200" y="112" class="soft" style="font-size:11px">Great Pyramid</text>
+          <text x="200" y="127" class="soft" style="font-size:11px">Northern Tower · Bosco</text>
+          <text x="360" y="76" style="font-weight:700">D4 Lakeside &amp; Blackfang</text>
+          <text x="360" y="92" class="mono soft" style="font-size:11px">28–35 · C 55</text>
+          <text x="360" y="112" class="soft" style="font-size:11px">coven town · Lost Souls isle</text>
+          <text x="360" y="127" class="soft" style="font-size:11px">Castle Blackfang (griffin)</text>
+          <text x="40" y="226" style="font-weight:700">D1 Castleview Vale</text>
+          <text x="40" y="242" class="mono soft" style="font-size:11px">12–18 · C 30 · arrival</text>
+          <text x="40" y="262" class="soft" style="font-size:11px">Castleview · Kalindra</text>
+          <text x="40" y="277" class="soft" style="font-size:11px">Ellinger · Western Tower</text>
+          <text x="200" y="226" style="font-weight:700">D2 Sprite Forest</text>
+          <text x="200" y="242" class="mono soft" style="font-size:11px">16–22 · C 38</text>
+          <text x="200" y="262" class="soft" style="font-size:11px">Temple of Bark · Troll Holes</text>
+          <text x="200" y="277" class="soft" style="font-size:11px">Ogre Pass · Southern Tower</text>
+          <text x="360" y="226" style="font-weight:700">D3 Sandcaster</text>
+          <text x="360" y="242" class="mono soft" style="font-size:11px">20–28 · C 45</text>
+          <text x="360" y="262" class="soft" style="font-size:11px">wizard city · Crossroads</text>
+          <text x="360" y="277" class="soft" style="font-size:11px">Eastern Tower · Aging Forest</text>
+        </g>
+        <g style="fill:var(--town)">
+          <circle cx="110" cy="310" r="6"/><circle cx="430" cy="320" r="6"/><circle cx="440" cy="170" r="4"/>
+          <circle cx="90" cy="170" r="4"/><circle cx="60" cy="330" r="4"/>
+        </g>
+        <path d="M118 296 l8 -14 l8 14 z" style="fill:var(--ink)"/>
+        <text x="146" y="295" style="font-size:10px">pyramid</text>
+        <text x="270" y="374" text-anchor="middle" class="mono" style="font-size:10px;fill:var(--star)">world rim · the bright face glows beyond it</text>
+      </svg>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--town)"></i>town</span>
+    <span><i class="sw" style="background:var(--sky-tint);border-color:var(--sky)"></i>sky map (open-air BLV, falls land below)</span>
+    <span><i class="sw" style="background:var(--void)"></i>world rim</span>
+    <span>Planes P1–P4 hang off the Skyroads' corners; the finale P5 sits above Darkstone Tower (X5).</span>
+  </div>
+</section>
+
+<section>
+  <div class="prose">
+    <div class="eyebrow">Plate 2 · Level curve</div>
+    <h2>Monster levels by map</h2>
+    <p class="caption">The bar is the A-tier level range of each map's encounter families, and the whisker runs to its
+    highest C tier. Maps are in the order a party meets them. Cloudside climbs gently to the Mount Firestone trap.
+    Darkside enters at the middle of that climb, so the two faces form one open middle instead of two starts. Bosses
+    run past the scale: Lord Xeen 110, the Megadragon 150.</p>
+  </div>
+  <div class="plate scroll">
+    <svg viewBox="0 0 860 470" width="860" height="470" role="img" aria-label="Monster level ranges per map">
+      <!-- scale: x = 200 + level*6 ; level 0..100 -->
+      <g style="stroke:var(--rule)">
+        <line x1="200" y1="20" x2="200" y2="440"/><line x1="320" y1="20" x2="320" y2="440"/>
+        <line x1="440" y1="20" x2="440" y2="440"/><line x1="560" y1="20" x2="560" y2="440"/>
+        <line x1="680" y1="20" x2="680" y2="440"/><line x1="800" y1="20" x2="800" y2="440"/>
+      </g>
+      <g class="mono soft" style="font-size:11px" text-anchor="middle">
+        <text x="200" y="458">0</text><text x="320" y="458">20</text><text x="440" y="458">40</text>
+        <text x="560" y="458">60</text><text x="680" y="458">80</text><text x="800" y="458">100</text>
+      </g>
+      <g id="bars" style="font-size:12px"></g>
+    </svg>
+  </div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--cloud)"></i>Cloudside</span>
+    <span><i class="sw" style="background:var(--dark)"></i>Darkside</span>
+    <span><i class="sw" style="background:var(--sky)"></i>sky and planes</span>
+  </div>
+</section>
+
+<section>
+  <div class="prose">
+    <div class="eyebrow">Plate 3 · Story</div>
+    <h2>Six acts, two threads</h2>
+    <p class="caption">The two faces run side by side from Act III. Red marks a gate that sets the level curve.
+    Lord Xeen and Sheltem fall in Act V, in either order, and Act VI joins the faces. Step numbers are those of
+    QUESTS.md.</p>
+  </div>
+  <div class="plate scroll">
+    <div class="acts">
+      <div class="act">
+        <h3>I. Vermin</h3><div class="lv">party 1–10</div>
+        <div class="lane c"><span class="who">Cloudside</span>Vertigo's pests; Joe's breeding scam (M1–M2). The Mad Dwarf Clan King (M3). Witch Tower and the Alacorn (M4).</div>
+        <div class="lane empty">Darkside closed</div>
+        <div class="ends"><span class="gate">gate</span> Crusader title, first promotions</div>
+      </div>
+      <div class="act">
+        <h3>II. The King's Crusaders</h3><div class="lv">party 10–20</div>
+        <div class="lane c"><span class="who">Cloudside</span>Burlock's audience; "Prince Roland" at the king's side (M5). Newcastle's deed and walls; Megacredits from Yak, the Tomb and the Golem Dungeon (M8–M11). Illusion key, High Magic (M12–M13).</div>
+        <div class="lane empty">Darkside closed</div>
+        <div class="ends"><span class="gate">gate</span> Artemus's Pyramid Sigil (M7)</div>
+      </div>
+      <div class="act">
+        <h3>III. The Land Below</h3><div class="lv">party 14–30</div>
+        <div class="lane c"><span class="who">Cloudside</span>Act II continues: castle stages, cursed towns, tier-1 promotions.</div>
+        <div class="lane d"><span class="who">Darkside</span>Castleview's pass; the Pharaoh's orb (M14–M15). Nadia, Ellinger (M16–M17). Energy Disks from factions and towers; Kalindra stages 1–2 (M18–M19).</div>
+        <div class="ends">Megan's songbird quest (M20)</div>
+      </div>
+      <div class="act">
+        <h3>IV. Unmasking</h3><div class="lv">party 28–42</div>
+        <div class="lane c"><span class="who">Cloudside</span>Darzog's Tower; Crodo freed: "Roland" is Lord Xeen (M21). Dig permit; Xeen Slayer Sword (M22–M23).</div>
+        <div class="lane d"><span class="who">Darkside</span>Lost Souls, Dimitri (M24). Ambrose's bridle (M25). Castle Blackfang; the Queen cured (M26–M27).</div>
+        <div class="ends"><span class="gate">gate</span> Pyramid key · Slayer Sword</div>
+      </div>
+      <div class="act">
+        <h3>V. Two Thrones</h3><div class="lv">party 40–55</div>
+        <div class="lane c"><span class="who">Cloudside</span>Slick's carnival (M34). Castle Xeen; Lord Xeen dies; the Sixth Mirror shatters (M35).</div>
+        <div class="lane d"><span class="who">Darkside</span>The Dragon Pharaoh (M28). Corak's pod; the Chosen Ones; Olympus's Soul Box (M29–M32). Castle Alamar: Corak against Sheltem (M33).</div>
+        <div class="ends"><span class="gate">gate</span> Scepter + Cube</div>
+      </div>
+      <div class="act">
+        <h3>VI. One World</h3><div class="lv">party 55–75</div>
+        <div class="lane c"><span class="who">Cloudside</span>Four Reflectors on the rim (M37). Southern Sphinx, the Chime; Darkstone Tower (M40–M41).</div>
+        <div class="lane d"><span class="who">Darkside &amp; planes</span>Four elemental sleepers (M38). Prince Roland freed in Alamar's depths (M39).</div>
+        <div class="ends">Clouds of the Ancients: the wedding, one world (M42)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="prose">
+    <div class="eyebrow">Plate 4 · Map plans (MU-3, first pass)</div>
+    <h2>The two arrival maps, to scale</h2>
+    <p class="caption">Both plans use the 128 × 128 terrain grid (one cell is 512 units; the grid lines are 16 cells
+    apart). They fix composition before any geometry: town footprint, road graph, dungeon mouths, interaction devices,
+    encounter areas (red rings) and arrivals. On Vertigo Meadows the river runs off the world's edge. Castle Kalindra
+    stands on the Castleview plan as a ghost until the party restores it.</p>
+  </div>
+  <div class="plans">
+    <div class="plate">
+      <div class="face-title"><h3>X1 Vertigo Meadows</h3><span class="tag c">start pocket</span></div>
+      <div class="scroll"><svg id="planX1" viewBox="-14 -14 540 548" width="540" height="548" role="img" aria-label="Vertigo Meadows plan"></svg></div>
+    </div>
+    <div class="plate">
+      <div class="face-title"><h3>D1 Castleview Vale</h3><span class="tag d">Darkside hub</span></div>
+      <div class="scroll"><svg id="planD1" viewBox="-14 -14 540 548" width="540" height="548" role="img" aria-label="Castleview Vale plan"></svg></div>
+    </div>
+  </div>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--town)"></i>town footprint</span>
+    <span><i class="sw" style="background:var(--road)"></i>road</span>
+    <span><i class="sw" style="background:var(--water)"></i>water</span>
+    <span>■ dungeon · ● device (fountain, well, shrine, obelisk) · ◆ NPC · ▲ pyramid · ★ reflector</span>
+  </div>
+</section>
+
+<section>
+  <div class="prose">
+    <div class="eyebrow">Calibration</div>
+    <h2>Against MM7 and MM8</h2>
+    <p class="caption">The MM7 and MM8 figures were measured from the installed data
+    (<code>devdocs/xeen/research/MM678_CALIBRATION.md</code>). Xeen is two games of story, so it sits at the top of
+    the range.</p>
+  </div>
+  <div class="plate scroll">
+    <table>
+      <thead><tr><th>Measure</th><th class="num">MM7</th><th class="num">MM8</th><th class="num">Xeen</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Surface outdoor maps</td><td class="num">13</td><td class="num">9</td><td class="num">13</td><td>7 Cloudside + 6 Darkside; lean variant 11</td></tr>
+        <tr><td>Sky, plane and finale maps</td><td class="num">0</td><td class="num">5</td><td class="num">8</td><td>compact open-air BLVs</td></tr>
+        <tr><td>Dungeons</td><td class="num">61</td><td class="num">45</td><td class="num">≈54</td><td>27 S / 21 M / 6 L</td></tr>
+        <tr><td>Monsters on a first visit</td><td class="num">4,470</td><td class="num">4,130</td><td class="num">≈4,700</td><td>110–150 per outdoor map</td></tr>
+        <tr><td>Promotion quests</td><td class="num">27</td><td class="num">8</td><td class="num">≈20</td><td>all attached to existing Xeen side quests</td></tr>
+        <tr><td>Teacher offers</td><td class="num">145</td><td class="num">105</td><td class="num">≈120</td><td>houses in towns, Xeen's hermits on the road</td></tr>
+        <tr><td>Town Portal towns</td><td class="num">6</td><td class="num">6</td><td class="num">6 + 6</td><td>one page per face</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="prose">
+    <div class="eyebrow">For the user</div>
+    <h2>Questions before production</h2>
+  </div>
+  <ol class="questions">
+    <li>One world with two faces, or two worlds? <span class="rec">Recommended: one world.</span></li>
+    <li>MM6–MM8 Fly (restricted on sky maps and story castles), or MM9's Fleet Foot and no Fly? <span class="rec">Recommended: Fly.</span></li>
+    <li>Open Darkside from about party level 12, or play the faces in sequence? <span class="rec">Recommended: interleave.</span></li>
+    <li>Full plan or lean variant? <span class="rec">Recommended: decide after the Act I slice.</span></li>
+    <li>Light/Dark promotions per character or per party? <span class="rec">Recommended: per character.</span></li>
+    <li>Artifacts: MM9's black-chest rule or MM6–MM8 random level-6 drops? <span class="rec">Recommended: MM6–MM8 plus fixed quest artifacts.</span></li>
+    <li>May restored Xeen faces become NPC portraits?</li>
+    <li>Gems as a second currency (skulls, the dragon tax, gemsmiths)? <span class="rec">Recommended: yes.</span></li>
+    <li>Add Xeen's Barbarian class and Gnome race? <span class="rec">Recommended: no.</span></li>
+    <li>Music: MM6–MM8 tracks by area, or new music?</li>
+  </ol>
+</section>
+
+<footer>Design files: <code>devdocs/xeen/</code> (README, WORLD_DESIGN, QUESTS, MAPS, MONSTERS_AND_ITEMS, PRODUCTION, research/). Plans are review sketches, not geometry.</footer>
+</main>
+
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  function el(name, attrs, parent, text) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) { e.setAttribute(k, attrs[k]); }
+    if (text !== undefined) { e.textContent = text; }
+    if (parent) { parent.appendChild(e); }
+    return e;
+  }
+
+  // Plate 2: level bars. [label, face, aMin, aMax, cMax]
+  var rows = [
+    ["X1 Vertigo Meadows", "c", 2, 4, 12],
+    ["X2 Rivercity", "c", 6, 10, 24],
+    ["X3 Lifeforce Lagoon", "c", 10, 15, 30],
+    ["X4 Burlock Savannah", "c", 10, 16, 32],
+    ["D1 Castleview Vale", "d", 12, 18, 30],
+    ["X5 Winterkill Tundra", "c", 15, 22, 40],
+    ["D2 Sprite Forest", "d", 16, 22, 38],
+    ["X8 Cloudreach", "s", 18, 28, 50],
+    ["D3 Sandcaster", "d", 20, 28, 45],
+    ["X6 Desert of the Sphinx", "c", 22, 30, 50],
+    ["D4 Lakeside & Blackfang", "d", 28, 35, 55],
+    ["D5 Desert of Doom", "d", 32, 42, 65],
+    ["X9 Clouds of Xeen", "s", 35, 45, 65],
+    ["X7 Mount Firestone", "c", 40, 55, 90],
+    ["D7 The Skyroads", "s", 40, 50, 88],
+    ["D6 Forbidden Zone", "d", 45, 55, 85],
+    ["P1–P4 Planes", "s", 55, 70, 95]
+  ];
+  var colors = { c: "var(--cloud)", d: "var(--dark)", s: "var(--sky)" };
+  var g = document.getElementById("bars");
+  rows.forEach(function (r, i) {
+    var y = 34 + i * 24.5;
+    var x = function (lv) { return 200 + lv * 6; };
+    el("text", { x: 190, y: y + 4, "text-anchor": "end" }, g, r[0]);
+    el("line", { x1: x(r[3]), y1: y, x2: x(r[4]), y2: y, style: "stroke:" + colors[r[1]] + ";stroke-width:2" }, g);
+    el("line", { x1: x(r[4]), y1: y - 5, x2: x(r[4]), y2: y + 5, style: "stroke:" + colors[r[1]] + ";stroke-width:2" }, g);
+    el("rect", { x: x(r[2]), y: y - 7, width: Math.max(4, (r[3] - r[2]) * 6), height: 14, rx: 3, style: "fill:" + colors[r[1]] }, g);
+    el("text", { x: x(r[4]) + 8, y: y + 4, "class": "mono soft", style: "font-size:10px" }, g, r[2] + "–" + r[3] + " · C " + r[4]);
+  });
+
+  // Plate 4: plans on a 128-cell grid, 4 px per cell.
+  var S = 4;
+  function base(svg, ground, rimSide) {
+    el("rect", { x: 0, y: 0, width: 512, height: 512, style: "fill:" + ground }, svg);
+    var grid = el("g", { style: "stroke:var(--rule);stroke-width:0.6;opacity:0.7" }, svg);
+    for (var i = 16; i < 128; i += 16) {
+      el("line", { x1: i * S, y1: 0, x2: i * S, y2: 512 }, grid);
+      el("line", { x1: 0, y1: i * S, x2: 512, y2: i * S }, grid);
+    }
+    if (rimSide === "east") {
+      el("rect", { x: 116 * S, y: 0, width: 12 * S, height: 512, style: "fill:var(--void)" }, svg);
+      for (var s = 0; s < 40; s++) {
+        el("circle", { cx: (117 + (s * 7) % 10) * S, cy: (s * 13) % 128 * S, r: 0.9, style: "fill:var(--star)" }, svg);
+      }
+      el("text", { x: 122 * S, y: 256, "class": "mono", "text-anchor": "middle", transform: "rotate(90 " + 122 * S + " 256)", style: "font-size:10px;fill:var(--star)" }, svg, "WORLD RIM");
+    }
+    if (rimSide === "west") {
+      el("rect", { x: 0, y: 0, width: 10 * S, height: 512, style: "fill:var(--void)" }, svg);
+      for (var t = 0; t < 34; t++) {
+        el("circle", { cx: (1 + (t * 7) % 8) * S, cy: (t * 17) % 128 * S, r: 0.9, style: "fill:var(--star)" }, svg);
+      }
+      el("text", { x: 5 * S, y: 256, "class": "mono", "text-anchor": "middle", transform: "rotate(-90 " + 5 * S + " 256)", style: "font-size:10px;fill:var(--star)" }, svg, "WORLD RIM");
+    }
+    el("rect", { x: 0, y: 0, width: 512, height: 512, style: "fill:none;stroke:var(--ink);stroke-width:1.2" }, svg);
+  }
+  function area(svg, pts, fill, opacity) {
+    el("polygon", { points: pts.map(function (p) { return p[0] * S + "," + p[1] * S; }).join(" "), style: "fill:" + fill + ";opacity:" + (opacity || 1) }, svg);
+  }
+  function line(svg, pts, stroke, w, dash) {
+    el("polyline", { points: pts.map(function (p) { return p[0] * S + "," + p[1] * S; }).join(" "), style: "fill:none;stroke:" + stroke + ";stroke-width:" + w + ";stroke-linecap:round;stroke-linejoin:round" + (dash ? ";stroke-dasharray:" + dash : "") }, svg);
+  }
+  function ring(svg, x, y, r) {
+    el("circle", { cx: x * S, cy: y * S, r: r * S, style: "fill:var(--danger);fill-opacity:0.08;stroke:var(--danger);stroke-width:1;stroke-dasharray:3 2" }, svg);
+  }
+  function mark(svg, kind, x, y, label, anchor) {
+    var px = x * S, py = y * S;
+    if (kind === "dungeon") { el("rect", { x: px - 4, y: py - 4, width: 8, height: 8, style: "fill:var(--ink)" }, svg); }
+    if (kind === "device") { el("circle", { cx: px, cy: py, r: 3.5, style: "fill:var(--sky);stroke:var(--sheet);stroke-width:1" }, svg); }
+    if (kind === "npc") { el("path", { d: "M" + px + " " + (py - 4) + " l4 4 l-4 4 l-4 -4 z", style: "fill:var(--cloud)" }, svg); }
+    if (kind === "npcd") { el("path", { d: "M" + px + " " + (py - 4) + " l4 4 l-4 4 l-4 -4 z", style: "fill:var(--dark)" }, svg); }
+    if (kind === "pyramid") { el("path", { d: "M" + (px - 6) + " " + (py + 5) + " l6 -11 l6 11 z", style: "fill:var(--ink)" }, svg); }
+    if (kind === "reflector") { el("text", { x: px, y: py + 4, "text-anchor": "middle", style: "font-size:13px;fill:var(--cloud)" }, svg, "★"); }
+    if (kind === "arrival") { el("path", { d: "M" + (px - 5) + " " + py + " l10 0 M" + px + " " + (py - 5) + " l0 10", style: "stroke:var(--ink);stroke-width:2" }, svg); }
+    if (label) {
+      var a = anchor || "start";
+      var dx = a === "end" ? -7 : (a === "middle" ? 0 : 7);
+      var dy = a === "middle" ? -8 : 4;
+      el("text", { x: px + dx, y: py + dy, "text-anchor": a, style: "font-size:10.5px;paint-order:stroke;stroke:var(--sheet);stroke-width:3px;stroke-linejoin:round" }, svg, label);
+    }
+  }
+
+  // X1 Vertigo Meadows
+  var x1 = document.getElementById("planX1");
+  base(x1, "var(--grass)", "east");
+  area(x1, [[0,0],[116,0],[116,20],[96,24],[70,18],[40,22],[0,18]], "var(--hill)");
+  area(x1, [[0,90],[18,86],[40,92],[44,128],[0,128]], "var(--deadwood)");
+  area(x1, [[74,78],[100,76],[112,86],[108,102],[84,104],[72,94]], "var(--swamp)", 0.9);
+  area(x1, [[80,40],[98,38],[104,48],[96,56],[82,54]], "var(--grass2)");
+  line(x1, [[0,46],[20,44],[40,48],[58,54],[78,60],[96,66],[110,70],[116,72]], "var(--water)", 7);
+  area(x1, [[96,64],[110,66],[116,68],[116,78],[104,78],[96,72]], "var(--water)", 0.9);
+  line(x1, [[0,62],[30,60],[56,60]], "var(--road)", 3);
+  line(x1, [[70,46],[66,30],[62,0]], "var(--road)", 3);
+  line(x1, [[84,58],[100,56],[112,58]], "var(--road)", 3);
+  line(x1, [[70,72],[64,90],[52,100],[46,128]], "var(--road)", 2, "5 3");
+  area(x1, [[56,46],[84,46],[86,62],[80,72],[60,72],[54,62]], "var(--town)", 0.85);
+  el("text", { x: 70 * S, y: 60 * S, "text-anchor": "middle", style: "font-family:var(--display);font-size:15px;fill:var(--sheet)" }, x1, "Vertigo");
+  ring(x1, 30, 22, 8); ring(x1, 80, 24, 7); ring(x1, 106, 32, 7); ring(x1, 90, 90, 9); ring(x1, 62, 108, 8);
+  ring(x1, 20, 104, 9); ring(x1, 34, 120, 6); ring(x1, 18, 74, 7); ring(x1, 104, 112, 7);
+  mark(x1, "dungeon", 40, 12, "Red Dwarf Mines", "middle");
+  mark(x1, "dungeon", 92, 9, "Orc Caves", "middle");
+  mark(x1, "dungeon", 100, 106, "Witch Tower", "end");
+  mark(x1, "dungeon", 22, 112, "Temple of Yak");
+  mark(x1, "dungeon", 74, 52, "");
+  mark(x1, "device", 60, 30, "Obelisk");
+  mark(x1, "device", 40, 72, "Fountain of Ability", "middle");
+  mark(x1, "device", 104, 62, "Waters of Power", "end");
+  mark(x1, "device", 96, 96, "Wishing Well", "end");
+  mark(x1, "device", 30, 90, "Shrine of Poison", "middle");
+  mark(x1, "npc", 14, 56, "Spring Druid");
+  mark(x1, "npc", 88, 84, "Valia, Myra");
+  mark(x1, "npc", 50, 96, "Derek's camp");
+  mark(x1, "npc", 12, 96, "Celia's hut");
+  mark(x1, "npc", 102, 74, "Orothin's isles", "end");
+  mark(x1, "npc", 46, 38, "Oslo");
+  mark(x1, "pyramid", 92, 47, "pyramid ↔ Castleview", "middle");
+  mark(x1, "reflector", 112, 124, "Water Reflector", "end");
+  mark(x1, "arrival", 2, 62, "from X3", "start");
+  mark(x1, "arrival", 62, 2, "", "start");
+  el("text", { x: 64 * S, y: 7 * S, style: "font-size:10.5px" }, x1, "from X7");
+  el("text", { x: 74 * S, y: 66 * S, "text-anchor": "middle", style: "font-size:9.5px;fill:var(--sheet)" }, x1, "Joe's warehouse ■");
+  el("text", { x: 108 * S, y: 69 * S, "text-anchor": "middle", style: "font-size:9.5px" }, x1, "falls");
+  el("text", { x: 20 * S, y: 9 * S, "class": "soft", style: "font-size:10px" }, x1, "hills");
+  el("text", { x: 4 * S, y: 124 * S, "class": "soft", style: "font-size:10px" }, x1, "dead forest");
+  el("text", { x: 84 * S, y: 100 * S, "class": "soft", style: "font-size:10px" }, x1, "Toad Meadow");
+
+  // D1 Castleview Vale
+  var d1 = document.getElementById("planD1");
+  base(d1, "var(--duskgrass)", "west");
+  area(d1, [[76,0],[112,0],[114,20],[104,32],[84,30],[76,18]], "var(--duskforest)");
+  area(d1, [[10,0],[40,0],[42,16],[30,22],[10,20]], "var(--hill)");
+  area(d1, [[30,26],[40,25],[42,33],[32,35]], "var(--water)", 0.9);
+  area(d1, [[20,88],[42,86],[46,104],[26,108],[18,100]], "var(--hill)");
+  line(d1, [[128,100],[104,104],[80,108],[56,104],[34,112],[10,112]], "var(--water)", 8);
+  line(d1, [[64,40],[66,26],[70,0]], "var(--road)", 3);
+  line(d1, [[84,58],[104,58],[128,58]], "var(--road)", 3);
+  line(d1, [[64,74],[52,86],[36,92]], "var(--road)", 2, "5 3");
+  area(d1, [[48,40],[82,40],[86,56],[82,74],[50,74],[44,58]], "var(--town)", 0.85);
+  el("text", { x: 65 * S, y: 59 * S, "text-anchor": "middle", style: "font-family:var(--display);font-size:15px;fill:var(--sheet)" }, d1, "Castleview");
+  el("rect", { x: 24 * S, y: 90 * S, width: 16 * S, height: 12 * S, rx: 2, style: "fill:var(--dark);fill-opacity:0.25;stroke:var(--dark);stroke-dasharray:4 3" }, d1);
+  el("text", { x: 32 * S, y: 85 * S, "text-anchor": "middle", style: "font-size:10.5px;paint-order:stroke;stroke:var(--sheet);stroke-width:3px" }, d1, "Castle Kalindra (out of phase)");
+  ring(d1, 92, 18, 8); ring(d1, 106, 10, 5); ring(d1, 24, 28, 7); ring(d1, 104, 44, 6); ring(d1, 116, 40, 6);
+  ring(d1, 40, 120, 5); ring(d1, 100, 116, 7); ring(d1, 30, 70, 6); ring(d1, 118, 90, 6);
+  mark(d1, "dungeon", 20, 12, "Western Tower (roof)", "start");
+  mark(d1, "dungeon", 58, 48, "");
+  mark(d1, "dungeon", 116, 82, "troll hole", "end");
+  mark(d1, "dungeon", 14, 40, "Gemstone Mine", "start");
+  mark(d1, "device", 44, 24, "Obelisk", "middle");
+  mark(d1, "device", 80, 118, "prayer shrine", "middle");
+  mark(d1, "device", 112, 120, "Well of Luck", "end");
+  mark(d1, "device", 90, 64, "Well of Might");
+  mark(d1, "npcd", 96, 16, "rope to the sky", "middle");
+  mark(d1, "npcd", 22, 46, "gemsmiths");
+  mark(d1, "npcd", 18, 60, "Luna");
+  mark(d1, "npcd", 16, 78, "Falista");
+  mark(d1, "npcd", 40, 82, "Justine", "end");
+  mark(d1, "npcd", 112, 38, "Yog's camp", "end");
+  mark(d1, "npcd", 106, 64, "Kramer");
+  mark(d1, "npcd", 118, 26, "Vespar", "end");
+  mark(d1, "npcd", 98, 76, "Nibbler, melons", "end");
+  mark(d1, "npcd", 112, 94, "Hector", "end");
+  mark(d1, "npcd", 50, 120, "Brother Reger");
+  mark(d1, "npcd", 70, 104, "shipwreck", "middle");
+  mark(d1, "pyramid", 66, 32, "pyramid ↔ Vertigo", "start");
+  mark(d1, "arrival", 126, 58, "to D2", "end");
+  el("text", { x: 60 * S, y: 66 * S, "text-anchor": "middle", style: "font-size:9.5px;fill:var(--sheet)" }, d1, "Ellinger's Tower ■ · sewer");
+  el("text", { x: 92 * S, y: 34 * S, "text-anchor": "middle", "class": "soft", style: "font-size:10px" }, d1, "Dark Grove");
+  el("text", { x: 36 * S, y: 38 * S, "text-anchor": "middle", "class": "soft", style: "font-size:10px" }, d1, "Acid Pond");
+})();
+</script>

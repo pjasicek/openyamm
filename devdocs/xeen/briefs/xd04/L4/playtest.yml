@@ -1,0 +1,319 @@
+# Playtest of the Witch Tower (XD-04, L4), the critical path and the way back: a level-9 party enters by the tower door,
+# kills the Goblin Warden in his lodge and takes the ring of keys from his corpse, opens cage 1 (the half-turned boy
+# steps out but will not go home), loots the warden's strongbox; climbs the east stair, opens the dormitory, finds the
+# loose panel and loots the goblin's hoard, goes through the mistress's door into the schoolroom, kills the
+# schoolmistress, reads the slate, frees child 2 (she whispers the word), leaves by the double door; buys a scroll of
+# Heal from a talking skull for a gem; climbs the west stair to the vat hall, walks up to the herb loft (the recipe card,
+# the witches' stores), drinks from the good vat (once only), hears the crying at the bookcase, opens it and frees
+# child 3; crosses the broken balcony, climbs the north stair, gives the face a wrong word and then 'Rosebud'; kills
+# the sanctum's guard and the Head Witch's sisters (her familiars crawl out of the floor), the Head Witch, finds the
+# ward shut, frees child 4 in the bedchamber and loots the coven's cabinet; crosses the bridge over the shaft and takes
+# the Alacorn (the cauldron boils over); releases the hoist's brake, calls the cage up, rides it down to the cauldron
+# floor, walks out by the arches, cures the boy with the Alacorn and leaves by the tower door with every bit and the
+# Alacorn.
+# Event, door, map-variable and light numbers are ids.lock.yml's; actors are the scene's (0-3 the children, 4-5 the
+# familiars, 6 the Head Witch, 7 the schoolmistress, 8-9 the sisters, 10 the warden). Nothing depends on chance: only
+# chests' fixed items are checked, every walk past a spawn point clears hostiles near it, counts are near what they
+# count.
+id: xeen.xd04.l4.walk
+title: Witch Tower (XD-04 L4), the tower door to the Alacorn and back by the hoist, every mechanism
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd04.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 9, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 9, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 9, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 9, skills: [], equipment: {}}
+  - assert: {map: xeen_xd04.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: -2300, radius: 64, z_min: -8, z_max: 8}}
+  # The gate hall and the gallery: the first goblins at its west end.
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -700, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: -1420, y: -1312, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 900}
+  # The warden's lodge: its plank door, the Goblin Warden at his table; his corpse holds the ring of keys.
+  - play_lua:
+      source: |
+        if door_state(20) ~= "closed" then error("the warden's door does not start shut") end
+        click(24); wait(3)
+        if door_state(20) ~= "open" or door_state(21) ~= "open" then error("the warden's door did not open: " .. door_state(20) .. door_state(21)) end
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - clear_hostiles: {radius: 1000}
+  - assert: {actor_visible: {actor_index: 10, dead: true}}
+  - assert: {actor_visible: {actor_index: 0, dead: false, hidden: false}}
+  - walk_to: {x: -2120, y: -1420, z: 0, radius: 64, timeout_seconds: 30}
+  - interact_actor: {actor_index: 10}
+  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; if not has_item(629) then error('the warden did not carry the ring of keys') end"}
+  # Cage 1: the boy steps out but will not go home with goblin ears.
+  - walk_to: {x: -2380, y: -1600, z: 0, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        status()
+        click(7); wait(1)
+        local seen = status()
+        if not string.find(seen, "ears", 1, true) then error("cage 1 did not open: " .. seen) end
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  - play_lua:
+      source: |
+        click(7); wait(1)
+        if not string.find(status(), "budge", 1, true) then error("the boy went home without the Alacorn") end
+        if qbit(110040) then error("child_rescued_1 set too early") end
+  # The warden's strongbox.
+  - walk_to: {x: -1880, y: -1720, z: 0, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        loot_chest(48)
+        if held() ~= 0 then stow() end
+        if not has_item(177) or not has_item(222) then error("the strongbox did not hold its zircon and potion") end
+  # Back along the gallery and up the east stair to the second-floor landing.
+  - walk_to: {x: -1420, y: -1312, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 2560, y: -1312, z: 320, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2560, y: -900, z: 360, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 2560, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2560, y: 0, radius: 100, z_min: 632, z_max: 648}}
+  # The dormitory: its door, the turned children; the loose panel in the end wall and the goblin's hoard.
+  - walk_to: {x: 2740, y: 64, z: 640, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(19); wait(3)
+        if door_state(4) ~= "open" then error("the dormitory door did not open: " .. door_state(4)) end
+  - walk_to: {x: 3050, y: 64, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - clear_hostiles: {radius: 1200}
+  - walk_to: {x: 4050, y: 416, z: 640, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        if door_state(3) ~= "closed" then error("the loose panel does not start shut") end
+        click(17); wait(4)
+        if door_state(3) ~= "open" then error("the loose panel did not open: " .. door_state(3)) end
+        loot_chest(46)
+        if held() ~= 0 then stow() end
+        if not has_item(180) then error("the goblin's hoard did not hold its amber") end
+  # The mistress's door into the schoolroom: the schoolmistress and her pupils.
+  - walk_to: {x: 3136, y: 900, z: 640, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(21); wait(3)
+        if door_state(11) ~= "open" then error("the mistress's door did not open: " .. door_state(11)) end
+  - walk_to: {x: 3136, y: 1250, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - clear_hostiles: {radius: 1400}
+  - assert: {actor_visible: {actor_index: 7, dead: true}}
+  # The slate; cage 2: she whispers the word.
+  - walk_to: {x: 3250, y: 1500, z: 640, radius: 64, timeout_seconds: 30}
+  - play_lua: {source: "click(38); wait(1); close(); wait(1)"}
+  - walk_to: {x: 2752, y: 2080, z: 640, radius: 64, timeout_seconds: 30}
+  - assert: {actor_visible: {actor_index: 1, hidden: false}}
+  - play_lua:
+      source: |
+        click(8); wait(1); close(); wait(1)
+        if not qbit(110041) or not qbit(110044) then error("child 2 was not freed or did not whisper the word") end
+  - assert: {actor_visible: {actor_index: 1, hidden: true}}
+  # Out by the double door onto the balcony; the talking skull of the Body sells a scroll of Heal for a gem.
+  - walk_to: {x: 1720, y: 1312, z: 640, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(23); wait(3)
+        if door_state(17) ~= "open" or door_state(18) ~= "open" then error("the schoolroom doors did not open") end
+  - walk_to: {x: 1312, y: 1312, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 1312, y: 704, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 900}
+  - walk_to: {x: 2140, y: 576, z: 640, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "remember('gems', tostring(item_count(177) + item_count(178) + item_count(180))); click(36); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        if not has_item(367) then error("the skull did not sell its scroll of Heal") end
+        local gems = item_count(177) + item_count(178) + item_count(180)
+        if gems ~= tonumber(recall('gems')) - 1 then error("the skull did not take one gem: " .. recall('gems') .. " -> " .. gems) end
+  # The west stair to the third-floor landing and the vat hall.
+  - walk_to: {x: 1312, y: 1450, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 1312, y: 2528, z: 960, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 700, y: 2528, z: 1120, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 0, y: 2560, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 0, y: 2560, radius: 100, z_min: 1272, z_max: 1288}}
+  - walk_to: {x: -650, y: 2400, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1600}
+  - clear_hostiles: {radius: 1600}
+  # Up the loft steps: the recipe card and the witches' stores.
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 200, y: 1824, radius: 100, z_min: 1464, z_max: 1480}}
+  - walk_to: {x: 300, y: 2060, z: 1472, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "click(32); wait(1); close(); wait(1)"}
+  - walk_to: {x: 780, y: 2060, z: 1472, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        loot_chest(47)
+        if held() ~= 0 then stow() end
+        if not has_item(226) or not has_item(224) then error("the witches' stores did not hold their potions") end
+  # The vat with the toad on its lid: once for each character.
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -2048, y: 2650, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua:
+      source: |
+        status()
+        click(42); wait(1)
+        local seen = status()
+        if not string.find(seen, "stronger", 1, true) then error("the good vat did nothing: " .. seen) end
+        click(42); wait(1)
+        seen = status()
+        if not string.find(seen, "nothing more", 1, true) then error("the good vat worked twice: " .. seen) end
+  # The bookcase: crying behind it; it rises on a click; child 3.
+  - walk_to: {x: -2400, y: 2368, z: 1280, radius: 64, timeout_seconds: 30}
+  - assert: {state_dump_map_var: {index: 10, value: 1}}
+  - walk_to: {x: -2540, y: 2368, z: 1280, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        if door_state(2) ~= "closed" then error("the bookcase does not start shut") end
+        click(5); wait(5)
+        if door_state(2) ~= "open" then error("the bookcase did not open: " .. door_state(2)) end
+  - walk_to: {x: -2850, y: 2300, z: 1280, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(9); wait(1)
+        if not qbit(110042) then error("child 3 was not freed") end
+  - assert: {actor_visible: {actor_index: 2, hidden: true}}
+  # The broken balcony and the north stair to the Rosebud landing.
+  - walk_to: {x: -2400, y: 2368, z: 1280, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -1300, y: 1312, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40}
+  - walk_to: {x: -3072, y: 1250, z: 1920, radius: 64, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -3072, y: 1250, radius: 100, z_min: 1912, z_max: 1928}}
+  # The Rosebud door: a wrong word first, then the word.
+  - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "click(34); wait(0.5)"}
+  - answer_input: {text: "Abracadabra"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "if door_state(15) ~= 'closed' then error('the face opened for a wrong word') end"}
+  - assert: {state_dump_map_var: {index: 14, value: 0}}
+  - play_lua: {source: "click(34); wait(0.5)"}
+  - answer_input: {text: "Rosebud"}
+  - advance_runtime: {seconds: 4}
+  - play_lua: {source: "if door_state(15) ~= 'open' or door_state(16) ~= 'open' then error('the face did not open for Rosebud: ' .. door_state(15)) end"}
+  - assert: {state_dump_map_var: {index: 14, value: 1}}
+  # The sanctum: its guard, the Head Witch's sisters; her familiars crawl out of the witch-marks; the Head Witch.
+  - assert: {actor_visible: {actor_index: 4, hidden: true}}
+  - walk_to: {x: -3072, y: 700, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 3200}
+  - assert: {actor_visible: {actor_index: 8, dead: true}}
+  - assert: {actor_visible: {actor_index: 6, dead: true}}
+  - play_lua: {source: "wait(5)"}
+  - assert: {actor_visible: {actor_index: 4, hidden: false}}
+  - assert: {state_dump_map_var: {index: 11, value: 1}}
+  - clear_hostiles: {radius: 3200}
+  - play_lua: {source: "if not qbit(110046) then error('the Head Witch\\'s death did not set head_witch_slain') end"}
+  # The ward over the roof stair holds: the party are not Crusaders yet.
+  - walk_to: {x: -3900, y: 448, z: 1920, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        status()
+        click(43); wait(2)
+        if not string.find(status(), "oath", 1, true) then error("the ward did not hum") end
+        if door_state(19) ~= "closed" then error("the ward opened before M4") end
+  # The bedchamber: child 4, the coven's cabinet.
+  - walk_to: {x: -3344, y: -200, z: 1920, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(18); wait(4)
+        if door_state(1) ~= "open" then error("the bedchamber door did not open: " .. door_state(1)) end
+  - walk_to: {x: -3344, y: -600, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - clear_hostiles: {radius: 1000}
+  - walk_to: {x: -3750, y: -500, z: 1920, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(10); wait(1)
+        if not qbit(110043) then error("child 4 was not freed") end
+  - walk_to: {x: -2850, y: -800, z: 1920, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        loot_chest(45)
+        if held() ~= 0 then stow() end
+        if not has_item(181) or not has_item(179) then error("the coven's cabinet did not hold its gems") end
+  # Over the bridge to the Alacorn: the cauldron boils over.
+  - walk_to: {x: -3344, y: -200, z: 1920, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -1250, y: -128, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - walk_to: {x: -860, y: -128, z: 1920, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: -420, y: -128, z: 1920, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: -180, y: -128, z: 1920, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -180, y: -128, radius: 80, z_min: 1912, z_max: 1928}}
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  - pick_up: {item_id: 214}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        wait(3)
+        if not qbit(110045) then error("taking the Alacorn did not set alacorn_taken") end
+        if mapvar(1) < 1 then error("the cauldron did not boil over") end
+  - assert: {light: {key: 1, "on": true}}
+  - walk_to: {x: -860, y: -128, z: 1920, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: -1250, y: -128, z: 1920, radius: 64, timeout_seconds: 30}
+  - assert: {state_dump_map_var: {index: 7, value: 0}}
+  # The hoist: the brake lever sends the cage down; the top's button calls it back; the party rides it down.
+  - walk_to: {x: -2032, y: -200, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1720, y: -460, z: 1920, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        if door_state(22) ~= "open" then error("the cage does not stand at the top: " .. door_state(22)) end
+        click(12); wait(1)
+        if not string.find(status(), "brake", 1, true) then error("the call button worked before the brake") end
+        click(6); wait(13)
+        if door_state(22) ~= "closed" then error("the brake did not send the cage down: " .. door_state(22)) end
+        if door_state(7) ~= "closed" or door_state(6) ~= "open" then error("the gates did not follow the cage") end
+  - assert: {state_dump_map_var: {index: 5, value: 1}}
+  - walk_to: {x: -1680, y: -880, z: 1920, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(12); wait(13)
+        if door_state(22) ~= "open" or door_state(7) ~= "open" then error("the call button did not bring the cage up") end
+  - walk_to: {x: -1680, y: -608, z: 1920, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: -1312, y: -608, z: 1922, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(29); wait(13)
+        if door_state(22) ~= "closed" then error("the cage did not ride down: " .. door_state(22)) end
+  - assert: {party_position: {x: -1312, y: -608, radius: 160, z_min: -6, z_max: 12}}
+  - walk_to: {x: -900, y: -528, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - clear_hostiles: {radius: 1500}
+  # Out by the west arch, back to the lodge: the Alacorn cures the boy.
+  - walk_to: {x: -320, y: -900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -320, y: -1312, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: -2380, y: -1600, z: 0, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(7); wait(1)
+        if not qbit(110040) then error("the Alacorn did not cure the boy") end
+        if not has_item(214) then error("curing the boy spent the Alacorn") end
+  - assert: {actor_visible: {actor_index: 0, hidden: true}}
+  - assert: {state_dump_map_var: {index: 6, value: 2}}
+  # Out by the tower door with the Alacorn.
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 0, y: -1312, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 0, y: -2380, z: 0, radius: 64, timeout_seconds: 30}
+  - execute_event: {id: 25}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: 7out01.odm}
+  - play_lua:
+      source: |
+        for _, b in ipairs({110040, 110041, 110042, 110043, 110044, 110045, 110046}) do
+          if not qbit(b) then error("quest bit " .. b .. " was lost") end
+        end
+        if not has_item(214) then error("the Alacorn was lost") end

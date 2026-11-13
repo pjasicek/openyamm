@@ -1,0 +1,767 @@
+format: 0
+level: L3
+pitch: "A ruined moon temple half swallowed by a cave system on the island where new parties first land. The way in is a long, dark, winding cave of rough rock: two broad caverns with rock pillars to walk round, side pockets that climb to high ledges or sink into a spider pit, and only bats, rats and spiders in small packs. At the far end, steps cut into the rock become masonry and drop into the temple: a sunken octagonal nave under a tall open dome, a raised apse with the moon altar, colonnaded side aisles, and two mirrored wings beyond, a dormitory and a library, held by a handful of human temple guards far tougher than the vermin. Every few moments a pair of fire bolts sweeps the lane in front of the altar from both wing corridors. A blank wall in the library lifts to reveal a hidden study. Three of the island scavenger hunt's six items are here: the moon floor tile in the hidden study, the wealthy hat in a dormitory chest and the longbow carried by the guard captain."
+purpose: "Starter dungeon. The party comes for the Emerald Island scavenger hunt (return six items to the judge on the island): this dungeon holds three of them, each fetched a different way (a floor item in a secret room, a fixed chest item, an actor's drop). Secondary: first spell scrolls and two spellbooks from bookcases, a few low chests. Encounter slots are bats, rats and spiders at the lowest tier; four fixed human guards in the temple wings, several levels above the vermin, are the real fight and the only humanoids. No named boss. Density rises at the cave pockets and peaks in the nave."
+mood: "Damp natural cave giving way to violet torchlit stone; a first dungeon, short to walk, easy to fight, with one sharp step up in danger at the temple doors."
+datum: arrival
+spaces:
+  - id: room:aisle_n
+    name: North aisle
+    kind: room
+    size: S
+    extent: [1280, 320]
+    shape: "Gallery along the nave's north side, open to it for its full length behind 3 pillars."
+    where: North side of the nave.
+    floor: -416
+    relief: flat
+    features:
+      - {kind: colonnade, count: 3, where: Along the side facing the nave.}
+    purpose: Colonnaded side aisle overlooking the sunken nave.
+    empty: true
+    theme: "mm7_temple_masonry; plain stone walls, flagstone floor"
+    light: "torchlit: 2 violet wall torches on the outer wall"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+    furniture: [3 pillars along the nave side]
+  - id: room:aisle_s
+    name: South aisle
+    kind: room
+    mirror_of: room:aisle_n
+    mirror_axis: ew
+    size: S
+    where: South side of the nave.
+    floor: -416
+    relief: flat
+    features:
+      - {kind: colonnade, count: 3, where: Along the side facing the nave.}
+    purpose: Colonnaded side aisle overlooking the sunken nave.
+    empty: true
+    theme: "mm7_temple_masonry; plain stone walls, flagstone floor"
+    light: "torchlit: 2 violet wall torches on the outer wall"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+    furniture: [3 pillars along the nave side]
+  - id: room:anteroom_n
+    name: North anteroom
+    kind: room
+    size: S
+    extent: [1024, 560]
+    shape: Turns west from the north door hall's double door.
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: Antechamber between the north door hall and the dormitory.
+    empty: true
+    theme: "mm7_temple_masonry; flagstone floor"
+    light: "torchlit: 1 violet wall torch"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+  - id: room:anteroom_s
+    name: South anteroom
+    kind: room
+    mirror_of: room:anteroom_n
+    mirror_axis: ew
+    size: S
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "Antechamber between the south door hall and the library; on the critical path."
+    empty: true
+    theme: "mm7_temple_masonry; flagstone floor"
+    light: "torchlit: 1 violet wall torch"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+  - id: room:cave_mouth
+    name: Cave mouth
+    kind: room
+    size: S
+    shape: "Short ramp rising to the exit face; the party arrives at its foot and the cave runs north from there."
+    where: South of the map.
+    floor: [0, 256]
+    clear_height: [400, 500]
+    relief: slope
+    purpose: "Arrival at the foot of the ramp, exit at its top."
+    empty: true
+    keep_clear: [decorations]
+    theme: "mm7_rough_cave; the exit is a plain dark solid panel set in the rock at the top of the ramp"
+    light: unlit
+  - id: room:descent_bend
+    name: Descent bend
+    kind: corridor
+    size: M
+    extent: [512, 2000]
+    shape: "Winding slope, about 2,000 long, down into the south cavern."
+    floor: [-320, 0]
+    clear_height: [400, 500]
+    relief: slope
+    purpose: Takes the party down from arrival level to the first cavern.
+    empty: true
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+    notes: Width is not stated beyond the entry tunnel's 512.
+  - id: room:door_hall_n
+    name: North door hall
+    kind: room
+    size: S
+    extent: [512, 768]
+    shape: "Turns south off the west end of the north corridor; a double sliding door on its far side."
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: Holds the double door into the north anteroom.
+    empty: true
+    theme: "mm7_temple_masonry; carved buttress faces (MM7 temple buttress set) frame the double door and are clickable with it"
+    light: no lights of its own
+    furniture: [a pair of buttresses framing the double door]
+  - id: room:door_hall_s
+    name: South door hall
+    kind: room
+    mirror_of: room:door_hall_n
+    mirror_axis: ew
+    size: S
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "Holds the double door into the south anteroom; on the critical path."
+    empty: true
+    theme: "mm7_temple_masonry; carved buttress faces (MM7 temple buttress set) frame the double door and are clickable with it"
+    light: no lights of its own
+    furniture: [a pair of buttresses framing the double door]
+  - id: room:dormitory
+    name: Dormitory
+    kind: room
+    size: L
+    extent: [1470, 1150]
+    shape: "Rows of beds; a raised alcove at the far west end."
+    where: "North-west, end of the north wing."
+    floor: -416
+    clear_height: 384
+    relief: flat
+    features:
+      - {kind: alcove, rise: 0, where: Far west end, notes: "Holds the five cabinet chests. Its floor is level with the room's; the L1 brief's 'raised' is not borne out."}
+    purpose: "Dead end of the north wing and its toughest room: one swordsman and the guard captain (longbow), five chests, one with the wealthy hat."
+    theme: "mm7_temple_masonry; built furniture from the MM7 temple furniture set (beds, cabinets)"
+    light: "torchlit: 4 violet wall torches, two on each long wall"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+    furniture: [rows of built beds down the room, "five cabinet chests (each about 128 by 64, 256 high) round the far west end"]
+    population:
+      - {actor: Swordsman, role: swordsman, groups: 1, levels: [10, 10], level_vs_slots: several levels above, placed: true, strength: heavy, rank: a, hostile: true, notes: "Swordsman family, first rank, about 40 hit points. Human."}
+      - {actor: Swordsman, role: captain, groups: 1, levels: [17, 17], level_vs_slots: "several levels above, and above the swordsmen", placed: true, strength: heavy, rank: b, hostile: true, drops: longbow, notes: "The Swordsman family's second rank (Guard), about 80 hit points. Carries an NPC identity: the named leader of the island's ambushers. Not a boss."}
+    treasure:
+      - {kind: chest, count: 4, items: [3, 4], notes: "In the far west alcove; low random items."}
+      - {kind: chest, count: 1, items: [3, 4], item: wealthy_hat, notes: "In the far west alcove with the other four; low random items plus the Wealthy Hat."}
+  - id: room:east_climb
+    name: East climb
+    kind: corridor
+    size: L
+    shape: Winding passage rising about 700 eastward.
+    where: East of the south cavern.
+    floor: [-320, 380]
+    clear_height: [400, 500]
+    relief: slope
+    purpose: Climbs from the south cavern to the high east pocket.
+    empty: true
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+  - id: room:entry_tunnel
+    name: Entry tunnel
+    kind: corridor
+    size: M
+    extent: [512, 1800]
+    shape: "About 2,100 long and 512 wide with gentle humps and dips, heading north-north-east from the mouth (about 1,100 east over 1,800 north)."
+    floor: [-100, 0]
+    clear_height: [400, 500]
+    relief: uneven
+    purpose: The way in from the mouth.
+    empty: true
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+  - id: room:hidden_passage
+    name: Hidden passage
+    kind: corridor
+    size: S
+    shape: "Short L: a wall slot, then an elbow; about 480 wide."
+    floor: -416
+    clear_height: 384
+    relief: flat
+    features:
+      - {kind: wall_slot, where: At the library end, notes: The slot the library's lifting wall rises out of.}
+    purpose: "Behind the library's secret lifting wall, leading to the hidden study."
+    empty: true
+    theme: mm7_temple_masonry
+    light: "torchlit: 2 violet wall torches, one each side of the elbow"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+    secret: true
+  - id: room:hidden_study
+    name: Hidden study
+    kind: room
+    size: S
+    extent: [640, 768]
+    shape: Dead end.
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "The goal of the critical path: five bookcases and the moon floor tile lying on the floor."
+    theme: "mm7_temple_masonry; bookcase faces from the MM7 temple furniture set, a narrow trim band above them"
+    light: "No torches. The original keeps a light record here (colour 31,0,0, radius 0) that gives no visible light in the game, so the study is dark"
+    furniture: [5 bookcases built into the walls]
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 5], levels: [2, 2], rank: a}
+    treasure:
+      - {kind: floor_item, count: 1, item: moon_floor_tile, notes: "Floor Tile (with moon insignia), lying on the floor."}
+      - {kind: bookcase, count: 1, once: true, item: torch_light_book}
+      - {kind: bookcase, count: 1, once: true, item: awaken_book}
+      - {kind: bookcase, count: 1, once: true, item: fire_bolt_scroll}
+      - {kind: bookcase, count: 1, once: true, item: fire_resistance_scroll}
+      - {kind: bookcase, count: 1, once: true, item: poison_spray_scroll}
+    secret: true
+  - id: room:high_east_pocket
+    name: High east pocket
+    kind: room
+    size: L
+    extent: [2000, 1000]
+    shape: Dead-end ledge cave.
+    where: "East of the map, at the top of the east climb."
+    floor: [320, 448]
+    clear_height: [450, 800]
+    relief: uneven
+    purpose: "Optional dead end, high band; rats and floor items. The map's highest ceiling, about +1,100, is over it."
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 5], levels: [2, 2], strength: pack, rank: a}
+    treasure:
+      - {kind: floor_item, count: 3, tier: [1, 2]}
+  - id: room:library
+    name: Library
+    kind: room
+    size: M
+    extent: [1024, 1150]
+    shape: "Eleven bookcases; its east wall is the secret lifting wall."
+    where: West end of the south wing.
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "Two guard swordsmen; scroll bookcases; the secret wall to the hidden study (critical path). Nothing hints at the secret wall but the room's shape."
+    theme: "mm7_temple_masonry; bookcase faces from the MM7 temple furniture set along the walls; the lifting wall wears the same dressed stone as the library's other walls"
+    light: "torchlit: 2 violet wall torches"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+    furniture: [bookcases built into the walls (10 of them clickable)]
+    population:
+      - {actor: Swordsman, role: swordsman, groups: 2, levels: [10, 10], level_vs_slots: several levels above, placed: true, strength: heavy, rank: a, hostile: true, notes: "Swordsman family, first rank, about 40 hit points. Human."}
+    treasure:
+      - {kind: bookcase, count: 5, once: true, item: torch_light_scroll}
+      - {kind: bookcase, count: 5, once: true, item: wizard_eye_scroll}
+    notes: "The L1 brief's eleven bookcases are ten clickable ones in the original; this level gives the ten."
+  - id: room:moon_nave
+    name: Moon nave
+    kind: room
+    size: XL
+    extent: [2800, 1900]
+    shape: "Octagon about 1,900 across in a shell about 2,800 by 1,900; entered on its east axis from the temple stair; aisles on its north and south sides, the apse lobe to the west, the dome over its centre."
+    where: "Centre of the temple, in the north-west of the map."
+    floor: -544
+    clear_height: 640
+    relief: flat
+    purpose: "The temple's heart, sunken below the apse and aisles; the densest population on the map."
+    theme: "mm7_temple_masonry; patterned stone floor, plain stone on the sunken octagon's walls"
+    light: "no lights of its own: lit by the dome's red column and the torches of the aisles and apse"
+    furniture: ["the sunken octagonal well, one step-run (128) below a rim at -416 that is level with the aisles and the apse"]
+    population:
+      - {slot: 2, groups: 3, per_marker: [2, 5], levels: [2, 2], strength: heavy, rank: a, notes: In the sunken centre.}
+      - {slot: 1, groups: 3, per_marker: [2, 5], levels: [3, 3], strength: heavy, rank: a, notes: "Round the apse and the aisle edges, on the upper level."}
+  - id: room:ne_chamber
+    name: Northeast chamber
+    kind: room
+    size: L
+    extent: [2000, 2000]
+    shape: Rounded cave rising east.
+    where: East of the north cavern.
+    floor: [-190, -60]
+    clear_height: [400, 500]
+    relief: slope
+    purpose: Optional branch off the north cavern toward the northeast pocket.
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 5], levels: [2, 2], strength: light, rank: a}
+  - id: room:ne_pocket
+    name: Northeast pocket
+    kind: room
+    size: L
+    extent: [1800, 1500]
+    shape: Dead-end round cave.
+    where: "North-east of the map, beyond the northeast chamber."
+    floor: [-60, 0]
+    clear_height: [450, 750]
+    relief: uneven
+    purpose: "Optional dead end: a mixed pack and floor items."
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 5], levels: [3, 3], strength: pack, rank: a}
+      - {slot: 2, groups: 1, per_marker: [2, 5], levels: [2, 2], strength: pack, rank: a}
+      - {slot: 3, groups: 1, per_marker: [2, 5], levels: [5, 5], strength: pack, rank: a}
+    treasure:
+      - {kind: floor_item, count: 4, tier: [1, 2]}
+  - id: room:north_cavern
+    name: North cavern
+    kind: room
+    size: XL
+    extent: [3000, 3600]
+    shape: "Broad cavern with one rock pillar; four exits; rises to the north."
+    where: North of the south cavern.
+    floor: {level: -415, range: [-570, -190]}
+    clear_height: [400, 500]
+    relief: slope
+    islands: 1
+    purpose: "Second hub: south cavern, northeast chamber, west descent and temple stair all leave it."
+    empty: true
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+  - id: room:passage_n
+    name: North passage
+    kind: corridor
+    size: XS
+    extent: [256, 512]
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "Apse to north corridor; crossed by the fire-bolt lane."
+    empty: true
+    theme: mm7_temple_masonry
+    light: no lights of its own
+  - id: room:passage_s
+    name: South passage
+    kind: corridor
+    mirror_of: room:passage_n
+    mirror_axis: ew
+    size: XS
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "Apse to south corridor; crossed by the fire-bolt lane; on the critical path."
+    empty: true
+    theme: mm7_temple_masonry
+    light: no lights of its own
+  - id: room:south_cavern
+    name: South cavern
+    kind: room
+    size: XL
+    extent: [2400, 3400]
+    shape: Broad cavern with two rock pillars to circle.
+    floor: {level: -320, range: [-320, -150]}
+    clear_height: [400, 500]
+    relief: uneven
+    islands: 2
+    purpose: "First hub: descent bend, east climb and north cavern leave it; a light bat group and a secret wall chest."
+    keep_clear: [decorations]
+    theme: "mm7_rough_cave; the secret chest is a slightly different rock-face panel in the wall"
+    light: unlit
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 5], levels: [3, 3], strength: light, rank: a}
+    treasure:
+      - {kind: secret_container, count: 1, tier: [1, 3], items: 3, notes: A secret-flagged rock face that is itself the chest.}
+  - id: room:spider_sinkhole
+    name: Spider sinkhole
+    kind: room
+    size: L
+    extent: [1700, 1700]
+    shape: "Round dead-end basin about 1,700 across."
+    floor: -900
+    clear_height: [400, 500]
+    purpose: "The map's deepest point: the heaviest vermin group and a secret wall chest."
+    keep_clear: [decorations]
+    theme: "mm7_rough_cave; the secret chest is a slightly different rock-face panel in the wall"
+    light: unlit
+    population:
+      - {slot: 3, groups: 3, per_marker: [2, 5], levels: [5, 5], strength: heavy, rank: a}
+    treasure:
+      - {kind: secret_container, count: 1, tier: [1, 3], items: 3, notes: A secret-flagged rock face that is itself the chest.}
+  - id: room:temple_stair
+    name: Temple stair
+    kind: corridor
+    size: M
+    shape: "L-shaped: a level run north from the north cavern, then 9 steps of 32 down westward into the nave on its axis."
+    where: "North-west of the north cavern, east of the nave."
+    floor: [-544, -256]
+    clear_height: 384
+    relief: steps
+    purpose: "The first masonry: rough rock turns to cut stone here, and the dome and its glow are ahead."
+    empty: true
+    theme: "transition: mm7_rough_cave where it leaves the north cavern, mm7_temple_masonry (dressed-stone walls, patterned stone floor, a trim band) from the turn down the steps"
+    light: "no lights of its own; the nave's red glow ahead"
+  - id: room:west_descent
+    name: West descent
+    kind: room
+    size: L
+    shape: Sloping cave with one rock pillar.
+    where: West of the north cavern.
+    floor: [-640, -510]
+    clear_height: [400, 500]
+    relief: slope
+    islands: 1
+    purpose: Optional branch down toward the spider sinkhole.
+    empty: true
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+  - id: room:west_neck
+    name: West neck
+    kind: room
+    size: M
+    shape: Narrowing ramp down.
+    floor: [-900, -640]
+    clear_height: [400, 500]
+    relief: slope
+    purpose: Funnel into the sinkhole.
+    empty: true
+    keep_clear: [decorations]
+    theme: mm7_rough_cave
+    light: unlit
+  - id: room:wing_corridor_n
+    name: North corridor
+    kind: corridor
+    size: M
+    extent: [512, 1900]
+    shape: "Straight, 512 wide, about 1,900 long, running west."
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "North wing's main corridor; the north fire-bolt emitter is at its east end."
+    empty: true
+    theme: mm7_temple_masonry
+    light: "torchlit: 3 violet wall torches, about one per 640 along it; the first marks the fire-bolt emitter at its east end"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+  - id: room:wing_corridor_s
+    name: South corridor
+    kind: corridor
+    mirror_of: room:wing_corridor_n
+    mirror_axis: ew
+    size: M
+    floor: -416
+    clear_height: 384
+    relief: flat
+    purpose: "South wing's main corridor; the south fire-bolt emitter is at its east end; on the critical path."
+    empty: true
+    theme: mm7_temple_masonry
+    light: "torchlit: 3 violet wall torches, about one per 640 along it; the first marks the fire-bolt emitter at its east end"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+  - id: void:dome
+    name: Dome
+    kind: void
+    part_of: room:moon_nave
+    size: S
+    extent: [1100, 1100]
+    shape: "Round cupola over the nave's centre; no floor."
+    top: 1400
+    purpose: "Open height over the nave, lit from within; the view ahead from the temple stair."
+    theme: "mm7_temple_masonry; plain stone with the lighter dressed-stone variant"
+    light: "No torches of its own; the nave takes the violet glow of the aisles' torches. The original keeps three light records on the dome's centre line (colour 31,0,0, radius 0) that give no visible light in the game: not red lamps"
+    notes: "The cupola rises from a ring about 768 above the nave floor to its top about 1,400 above it (about +864 against the datum)."
+  - id: zone:apse
+    name: Apse
+    kind: zone
+    part_of: room:moon_nave
+    shape: "West lobe of the nave, 5 steps above it."
+    floor: -416
+    relief: steps
+    features:
+      - {kind: dais, rise: 144, where: "On the temple axis, west of the fire-bolt lane", notes: The moon altar stands on it.}
+    purpose: "The moon altar; both wings leave it (north and south passages); the fire-bolt lane crosses it between the altar and the nave steps."
+    theme: mm7_temple_masonry
+    light: "torchlit: 1 violet wall torch behind the altar"
+    palette: ["torch05: MM7 wall torch with a violet flame (engine model mm7_deco_torch01_purple), wall-mounted at about 256 above the floor"]
+    furniture: [the moon altar on its dais]
+    notes: "Shares the nave's space; count it with the nave if the room metric does not split it."
+regions:
+  - id: region:caves
+    name: The caves
+    spaces: [room:cave_mouth, room:entry_tunnel, room:descent_bend, room:south_cavern, room:east_climb, room:high_east_pocket, room:north_cavern, room:ne_chamber, room:ne_pocket, room:west_descent, room:west_neck, room:spider_sinkhole]
+    where: "South and east of the temple; the arrival in the south."
+    theme: "mm7_rough_cave: the shared MM7 rough cave set of the textures_x4 inventory: cwb1 rock on walls and ceilings (by far the dominant surface), cfb1 rock floor, the cws1 rock variants on a few edges. No decorations, no lights."
+    notes: "About 24 M units² of floor. A branching tree of rough natural rock: two hub caverns, three dead ends."
+  - id: region:north_wing
+    name: North wing
+    spaces: [room:passage_n, room:wing_corridor_n, room:door_hall_n, room:anteroom_n, room:dormitory]
+    where: North of the temple axis.
+    theme: mm7_temple_masonry
+  - id: region:south_wing
+    name: South wing
+    spaces: [room:passage_s, room:wing_corridor_s, room:door_hall_s, room:anteroom_s, room:library, room:hidden_passage, room:hidden_study]
+    where: South of the temple axis.
+    theme: mm7_temple_masonry
+    notes: "The north wing's mirror up to the anteroom; the library and the hidden rooms are its own."
+  - id: region:temple
+    name: The temple
+    spaces: [room:temple_stair, room:moon_nave, zone:apse, void:dome, room:aisle_n, room:aisle_s, room:passage_n, room:wing_corridor_n, room:door_hall_n, room:anteroom_n, room:dormitory, room:passage_s, room:wing_corridor_s, room:door_hall_s, room:anteroom_s, room:library, room:hidden_passage, room:hidden_study]
+    where: North-west of the map.
+    footprint_cells: [12, 8]
+    theme: "mm7_temple_masonry: the shared MM7 temple set of the textures_x4 inventory: twb1 and twb2 dressed-stone walls, twb1a on the dome, twb3d edging, 7tfb11 patterned stone floor and tfb2 flagstones, the plain 'wall' stone on the aisles and dome, trim3 bands at the stair; furniture faces from the MM7 temple furniture set (7t1beds, 7t1books, 7t1cab and 7t1cabs, 7t1butts); door leaves from the t1d1 double-door set."
+    notes: "About 14 M units² of floor. Cut stone from the stair on; the axis runs east-west from the stair through the nave to the altar."
+links:
+  - id: link:anteroom_n_dormitory
+    from: room:anteroom_n
+    to: room:dormitory
+    kind: open
+  - id: link:anteroom_s_library
+    from: room:anteroom_s
+    to: room:library
+    kind: open
+  - id: link:apse_passage_n
+    from: zone:apse
+    to: room:passage_n
+    kind: open
+    width: 256
+  - id: link:apse_passage_s
+    from: zone:apse
+    to: room:passage_s
+    kind: open
+    width: 256
+  - id: link:corridor_n_door_hall_n
+    from: room:wing_corridor_n
+    to: room:door_hall_n
+    kind: open
+  - id: link:corridor_s_door_hall_s
+    from: room:wing_corridor_s
+    to: room:door_hall_s
+    kind: open
+  - id: link:descent_bend_south_cavern
+    from: room:descent_bend
+    to: room:south_cavern
+    kind: ramp
+  - id: link:door_hall_n_anteroom_n
+    from: room:door_hall_n
+    to: room:anteroom_n
+    kind: double_door
+    motion: slide
+    width: 320
+    notes: "Two leaves slide 160 apart, plus a narrow seam strip that withdraws as they open; see mechanisms."
+  - id: link:door_hall_s_anteroom_s
+    from: room:door_hall_s
+    to: room:anteroom_s
+    kind: double_door
+    motion: slide
+    width: 320
+    notes: "Two leaves slide 160 apart, plus a narrow seam strip that withdraws as they open; see mechanisms."
+  - id: link:east_climb_high_east_pocket
+    from: room:east_climb
+    to: room:high_east_pocket
+    kind: ramp
+  - id: link:entry_tunnel_descent_bend
+    from: room:entry_tunnel
+    to: room:descent_bend
+    kind: open
+  - id: link:hidden_passage_hidden_study
+    from: room:hidden_passage
+    to: room:hidden_study
+    kind: open
+  - id: link:library_hidden_passage
+    from: room:library
+    to: room:hidden_passage
+    kind: secret_door
+    motion: rise
+    notes: "Lifts about 256 into its slot; see mechanisms."
+  - id: link:mouth_entry_tunnel
+    from: room:cave_mouth
+    to: room:entry_tunnel
+    kind: open
+  - id: link:nave_aisle_n
+    from: room:moon_nave
+    to: room:aisle_n
+    kind: colonnade
+    width: full
+    rise: 128
+    notes: "Open between the aisle's 3 pillars. The 128 rise is a sheer ledge from the nave: the aisle's floor runs on, level, into the apse's strip in front of the steps, so the aisles are walked into from the apse."
+  - id: link:nave_aisle_s
+    from: room:moon_nave
+    to: room:aisle_s
+    kind: colonnade
+    width: full
+    rise: 128
+    notes: "Open between the aisle's 3 pillars. The 128 rise is a sheer ledge from the nave: the aisle's floor runs on, level, into the apse's strip in front of the steps, so the aisles are walked into from the apse."
+  - id: link:nave_apse
+    from: room:moon_nave
+    to: zone:apse
+    kind: stairs
+    rise: 128
+    notes: "5 steps up from the nave to the apse in the middle of the side, on the axis (about 320 wide, within the middle 512). The rest of the side, the octagon's two diagonal faces, is an open 128 ledge with no wall above it: the well's riser and the apse floor."
+  - id: link:ne_chamber_ne_pocket
+    from: room:ne_chamber
+    to: room:ne_pocket
+    kind: open
+  - id: link:north_cavern_ne_chamber
+    from: room:north_cavern
+    to: room:ne_chamber
+    kind: ramp
+  - id: link:north_cavern_temple_stair
+    from: room:north_cavern
+    to: room:temple_stair
+    kind: open
+  - id: link:north_cavern_west_descent
+    from: room:north_cavern
+    to: room:west_descent
+    kind: ramp
+  - id: link:passage_n_corridor_n
+    from: room:passage_n
+    to: room:wing_corridor_n
+    kind: open
+  - id: link:passage_s_corridor_s
+    from: room:passage_s
+    to: room:wing_corridor_s
+    kind: open
+  - id: link:south_cavern_east_climb
+    from: room:south_cavern
+    to: room:east_climb
+    kind: open
+    notes: "Level: the climb runs on at the cavern's floor for about 600 before it starts to rise."
+  - id: link:south_cavern_north_cavern
+    from: room:south_cavern
+    to: room:north_cavern
+    kind: open
+  - id: link:temple_stair_nave
+    from: room:temple_stair
+    to: room:moon_nave
+    kind: stairs
+    rise: -288
+    notes: "9 steps of 32, a straight flight down the nave's east axis."
+  - id: link:west_descent_west_neck
+    from: room:west_descent
+    to: room:west_neck
+    kind: ramp
+  - id: link:west_neck_spider_sinkhole
+    from: room:west_neck
+    to: room:spider_sinkhole
+    kind: ramp
+entrances:
+  - id: entrance:arrival
+    space: room:cave_mouth
+    kind: arrival
+    neighbour: exit:emerald_island
+    facing: n
+    how: "At the foot of the mouth ramp, facing up the cave (north)."
+  - id: entrance:mouth_exit
+    space: room:cave_mouth
+    kind: exit
+    neighbour: exit:emerald_island
+    how: A clickable mouth face at the top of the short rising ramp.
+    offset_from: {entrance: entrance:arrival, direction: behind, rise: 450}
+critical_path: [room:cave_mouth, room:entry_tunnel, room:descent_bend, room:south_cavern, room:north_cavern, room:temple_stair, room:moon_nave, zone:apse, room:passage_s, room:wing_corridor_s, room:door_hall_s, room:anteroom_s, room:library, room:hidden_passage, room:hidden_study]
+goals:
+  - id: goal:longbow
+    space: room:dormitory
+    kind: kill
+    what: "Kill the guard captain, who drops the Longbow."
+    story: "Emerald Island scavenger hunt: one of the six items for the judge."
+    handed_in_at: exit:emerald_island
+    gives:
+      item: longbow
+    notes: "Mirror branch of the critical path, about 17,000 units from the arrival."
+  - id: goal:moon_floor_tile
+    space: room:hidden_study
+    kind: take
+    what: Pick up the Floor Tile (with moon insignia) from the hidden study floor.
+    story: "Emerald Island scavenger hunt: one of the six items for the judge."
+    handed_in_at: exit:emerald_island
+    gives:
+      item: moon_floor_tile
+    notes: "End of the critical path, about 17,000 units from the arrival."
+  - id: goal:wealthy_hat
+    space: room:dormitory
+    kind: take
+    what: Take the Wealthy Hat from one of the five alcove chests.
+    story: "Emerald Island scavenger hunt: one of the six items for the judge."
+    handed_in_at: exit:emerald_island
+    gives:
+      item: wealthy_hat
+landmarks:
+  - id: landmark:altar
+    space: zone:apse
+    what: "The moon altar on its dais on the temple axis, ahead down the nave from the stair."
+    seen_from: [room:temple_stair, room:moon_nave]
+  - id: landmark:dome
+    space: void:dome
+    what: The tall open dome and its glow over the nave centre.
+    seen_from: [room:temple_stair, room:moon_nave, room:aisle_n, room:aisle_s]
+sightlines:
+  - id: sightline:temple_stair
+    from: room:temple_stair
+    to: [landmark:dome, landmark:altar]
+    what: "From the stair, straight down the nave's axis: the dome and its glow, the altar beyond."
+set_pieces:
+  - id: set:fire_bolt_crossfire
+    kind: trap
+    spaces: [room:wing_corridor_n, room:passage_n, zone:apse, room:passage_s, room:wing_corridor_s]
+    path: [room:wing_corridor_n, room:passage_n, zone:apse, room:passage_s, room:wing_corridor_s]
+    emitters:
+      - {space: room:wing_corridor_n, end: east, direction: s}
+      - {space: room:wing_corridor_s, end: east, direction: n}
+    effect: {spell: Fire Bolt, level: "novice, skill 2"}
+    rule: "Two fire bolts fire at floor height in opposite directions along one north-south lane between the two emitters. The lane runs through both wing passages and across the apse between the altar and the nave steps, so anyone going between the nave and either wing crosses it. A torch marks each emitter end."
+    period: 2.5
+    notes: "Runs on a timer (every 5 half-minutes of game time) for as long as the map is loaded; nothing disables it. Each bolt is aimed at the other emitter."
+  - id: set:temple_descent
+    kind: vista
+    spaces: [room:temple_stair, room:moon_nave, void:dome, zone:apse]
+    rule: "Rough rock turns to cut stone on the stair, a straight flight down the nave's axis with the dome and its glow ahead; the nave sits lowest, the apse and wings one step-run higher."
+mechanisms:
+  - {kind: double sliding door, count: 2, notes: "Door hall to anteroom, both wings. Two leaves each slide 160 sideways apart at door speed 50, and a 15-unit seam strip between them withdraws as they open. A click on the leaves or on the door hall's buttresses, from either side, opens all three for good; there is no close."}
+  - {kind: secret lifting wall, count: 1, notes: "The library's east wall into the hidden passage: a secret-flagged face found by perception (map perception difficulty 0). A click from either side lifts it 256 at door speed 50 into its slot; it stays open."}
+  - {kind: timed spell trap, count: 1, notes: "The fire-bolt crossfire (set:fire_bolt_crossfire): two Fire Bolt casts, novice skill 2, every 2.5 game minutes; no trigger plate, no switch."}
+  - {kind: chest, count: 5, notes: Cabinet chests in the dormitory's west alcove.}
+  - {kind: secret wall chest, count: 2, notes: "A secret-flagged rock face that opens as a chest: south cavern and spider sinkhole."}
+  - {kind: one-shot bookcase, count: 15, notes: "Clickable bookcase faces, each giving its one item once (a map variable per bookcase): 10 in the library, 5 in the hidden study."}
+  - {kind: exit face, count: 1, notes: "The clickable mouth panel at the top of the ramp: 'Leave the Temple of the Moon', to Emerald Island."}
+height_bands:
+  - id: band:arrival
+    level: 0
+    spaces: [room:cave_mouth, room:entry_tunnel]
+    notes: The mouth ramp rises to +256 at the exit wall (the exit panel is centred near +450) and the tunnel dips to about -100.
+  - id: band:high
+    range: [300, 450]
+    spaces: [room:high_east_pocket]
+  - id: band:low
+    range: [-900, -550]
+    spaces: [room:moon_nave, room:west_neck, room:spider_sinkhole]
+    partly: [room:west_descent]
+  - id: band:middle
+    range: [-450, -300]
+    spaces: [room:south_cavern, room:north_cavern, zone:apse, room:aisle_n, room:aisle_s, room:passage_n, room:passage_s, room:wing_corridor_n, room:wing_corridor_s, room:door_hall_n, room:door_hall_s, room:anteroom_n, room:anteroom_s, room:dormitory, room:library, room:hidden_passage, room:hidden_study]
+atmosphere: "Dark throughout: every space has the same low minimum ambient light (about a tenth of full), no fog, no weather, no placed ambient sounds; the map's sound environment is a cave and music track 28 (an MM7 dungeon track) plays everywhere. The caves are unlit and bare: the party's own light, rough rock, nothing else. The temple is lit only by its own lights: 21 violet-flame wall torches (about 1.5 per M units² of temple floor; corridors one per about 640 of length, rooms one or two per wall, the hidden study none) and no other lights (the original's four light records on the dome's axis and in the hidden study give no visible light in the game), so the sanctum glows red under violet side light. Density of light rises from none (caves) to violet torchlight (wings) to the red dome glow (nave)."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 32}
+totals:
+  bookcases: 15
+  chests: 7
+  clickable_faces: 51
+  corridors: 9
+  critical_path_length: 17000
+  door_events: 3
+  door_movers: 7
+  fixed_actors: 4
+  floor_area_caves_munits2: 24
+  floor_area_munits2: 38
+  floor_area_temple_munits2: 14
+  floor_items: 7
+  guard_levels: "10, 10, 10, 17"
+  height_range: 2000
+  lights_cave: 0
+  lights_red_points: 4
+  lights_violet_torches: 21
+  links: 28
+  monsters_from_spawns: 60
+  nave_distance_from_arrival: 10500
+  rock_pillars: 4
+  rooms: 19
+  secret_faces: 4
+  slot_levels: "bats 3, rats 2, spiders 5"
+  spaces: 30
+  spawn_points: 17
+  timed_traps: 1
+  torches_per_munits2_temple: 1.5
+  voids: 1
+  zones: 1
+notes: "No keys, no levers, no locked doors, no loops or shortcuts: the room graph is a tree (three cave and two wing dead ends), and its only circuits are the four rock pillars (islands). No lifts, ladders, drops or pits. Mechanism counts: 7 door movers (4 leaves, 2 seam strips, 1 lifting wall), 3 door events, 51 clickable faces, 4 secret faces."

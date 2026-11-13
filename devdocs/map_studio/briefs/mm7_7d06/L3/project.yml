@@ -1,0 +1,38 @@
+format: 0
+id: calib_temple_moon
+name: The Temple of the Moon
+world: mm7
+kind: indoor
+profile: dungeon
+units: {plan_grid: 512}
+extent: {footprint_cells: [23, 25], climbs: se}
+map_stats:
+  encounter_chance: 10
+  treasure_level: 0
+  trap_dice: 1
+  perception_difficulty: 0
+  refill_days: 672
+  music: 28
+  environment: cave
+  lock_difficulty: 0
+  slots:
+    - {monster: Bat, tier: 1, per_marker: [2, 5], weight: 40}
+    - {monster: Rat, tier: 1, per_marker: [2, 5], weight: 30}
+    - {monster: Spider, tier: 1, per_marker: [2, 5], weight: 30}
+neighbours:
+  - id: exit:emerald_island
+    to: 7out01.odm
+    kind: door
+    arrival_hint: "Outside, beside this dungeon's entrance on Emerald Island."
+items:
+  awaken_book: 1224
+  fire_bolt_scroll: 1103
+  fire_resistance_scroll: 1104
+  longbow: 845
+  moon_floor_tile: 1438
+  poison_spray_scroll: 1125
+  torch_light_book: 1202
+  torch_light_scroll: 1102
+  wealthy_hat: 1433
+  wizard_eye_scroll: 1113
+notes: "Calibration brief, level L3 (Temple of the Moon, Emerald Island starter dungeon). Every slot is its family's lowest tier. No map_stats id or reference row is set. Three of the items are the Emerald Island scavenger hunt items this map delivers; the rest are the bookcase scrolls and spellbooks. The map descends from its south-east (arrival, high pockets) to the temple in the north-west."

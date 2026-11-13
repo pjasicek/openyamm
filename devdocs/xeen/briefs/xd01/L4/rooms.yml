@@ -1,0 +1,729 @@
+format: 0
+themes:
+  - id: theme:aisle
+    wall: {texture: t66floor, size: [128, 128]}
+    bands:
+      - {height: 256, surface: {texture: t66b01, size: [128, 256]}}
+    ends: {length: 32, surface: {texture: t66abc10a, size: [32, 128]}}
+    floor: {texture: t66flr2, size: [128, 128]}
+    ceiling: {texture: t66roof, size: [128, 128]}
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    door: {texture: gkp103a, size: [128, 256], fit: true}
+    notes: "The north-east aisle, a lean-to shed against the warehouse, in the Pirate Outpost's storeroom wood (MM8 d06): the panelled wainscot (t66b01) to 256 with upright planks above (t66floor, which d06 lays on walls too), posts in the corners (t66abc10a), flagstones underfoot (t66flr2) running on to the cellar stair, the beamed roof (t66roof)."
+  - id: theme:cellar_brick
+    wall: {texture: cbmxbrck, size: [128, 128]}
+    bands:
+      - {height: 64, surface: {texture: d1smbw, size: [128, 128]}}
+    floor: {texture: d1medbw, size: [128, 128]}
+    ceiling: {texture: cbrdbrck, size: [64, 64]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: d6dorb, size: [256, 256], fit: true}
+    notes: "Old cellar brick: weathered mixed brick (MM6 cbmxbrck) on a damp stone footing (d1smbw), the Free Haven Sewer's block stone underfoot and in the doorways (d1medbw), red brick vaults (cbrdbrck), old MM6 plank doors (d6dorb, Lair of the Wolf). Cellar stair and shipping room."
+  - id: theme:culvert
+    wall: {texture: d1wldle2, size: [256, 256]}
+    floor: {texture: swprrf3, size: [128, 128]}
+    ceiling: {texture: d1wle, size: [256, 256]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: d8dorf, size: [128, 256], fit: true}
+    notes: "River culvert, in the Free Haven Sewer's set (MM6 sewer.blv): its mossy block walls (d1wldle2, d1wldle3) and roof stone (d1wle), the walkway stone (d1medbw), its sewage underfoot (swprrf3, the liquid shader, on floors marked water), an MM6 iron door (d8dorf)."
+  - id: theme:dock
+    wall: {texture: t66c01a, size: [128, 256]}
+    floor: {texture: t66flr2, size: [128, 128]}
+    ceiling: {texture: t66floor, size: [128, 128]}
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    door: {texture: t66b03l, size: [128, 256], fit: true}
+    notes: "Joe's covered loading dock on the lane, in the Pirate Outpost's set (MM8 d06): the neighbours' brick (t66c01a, d06's hall brick) on three sides, the warehouse's plank front (t66floor, a wall entry) with its boarded shutters (gt003b) on the fourth, the lane's flagstones underfoot (t66flr2), the canopy's planks overhead."
+  - id: theme:feed_store
+    wall: {texture: cbmxbrck, size: [128, 128]}
+    bands:
+      - {height: 64, surface: {texture: d1smbw, size: [128, 128]}}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: cbmxbrck, size: [128, 128]}
+    notes: "Cellar brick under the Free Haven Sewer's plank ceiling (d1ceil1), spilt chaff on the floor (MM6 straw). Its door surface is the brick, so the stash's sliding door shows nothing until it is opened."
+  - id: theme:loading_bay
+    wall: {texture: t66floor, size: [128, 128]}
+    ends: {length: 32, surface: {texture: t66abc10a, size: [32, 128]}}
+    floor: {texture: t66flr2, size: [128, 128]}
+    ceiling: {texture: t66roof, size: [128, 128]}
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    door: {texture: t66b03l, size: [128, 256], fit: true}
+    notes: "Warehouse, bay variant, as the Pirate Outpost's storerooms (MM8 d06) are built: upright planks (t66floor) over the panelled wainscot (t66b01, the bay's own band, 256: one picture high), flagstones where the carts come in (t66flr2), the beamed roof (t66roof), a post in every corner (t66abc10a), d06's braced plank doors (t66b03l). Also the loading ramp (no band: a band needs a level floor)."
+  - id: theme:office
+    wall: {texture: t66d01, size: [128, 256], scale: 1.5}
+    floor: {texture: t66floor, size: [128, 128]}
+    ceiling: {texture: t66roof, size: [128, 128]}
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    door: {texture: t66b03r, size: [128, 256], fit: true}
+    notes: "Joe's office, as the Pirate Outpost's better rooms (MM8 d06): cream plaster under a cornice over a carved panel wainscot (t66d01, one picture from floor to ceiling, 384 at scale 1.5), plank floor (t66floor), the beamed roof (t66roof), a braced plank door (t66b03r). The only plastered room of the map: Joe keeps up appearances where the customers come."
+  - id: theme:pen
+    wall: {texture: cbrdbrck, size: [64, 64]}
+    bands:
+      - {height: 96, surface: {texture: d1smbw, size: [128, 128]}}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: cbmxbrck, size: [128, 128]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: d6dorb, size: [256, 256], fit: true}
+    notes: "A slime pen: the cistern's brick and mossy footing, bedded with straw (MM6 straw), a low brick ceiling."
+  - id: theme:pens_brick
+    wall: {texture: cbrdbrck, size: [64, 64]}
+    bands:
+      - {height: 96, surface: {texture: d1smbw, size: [128, 128]}}
+    floor: {texture: d1medbw, size: [128, 128]}
+    ceiling: {texture: cbmxbrck, size: [128, 128]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: d6dorb, size: [256, 256], fit: true}
+    notes: "Cistern brick: red brick (MM6 cbrdbrck) over a mossy stone course where the water has stood (d1smbw), the Free Haven Sewer's block stone underfoot and in the reveals (d1medbw), a mixed-brick dome (cbmxbrck); the pen gates are iron bars (movers)."
+  - id: theme:warehouse_timber
+    wall: {texture: t66c01a, size: [128, 256]}
+    floor: {texture: t66floor, size: [128, 128]}
+    ceiling: {texture: t66roof, size: [128, 128]}
+    reveal: {texture: t66abc10a, size: [32, 128]}
+    door: {texture: t66b03l, size: [128, 256], fit: true}
+    notes: "The grain hall, as the Pirate Outpost's big hall (MM8 d06): its brick walls (t66c01a), plank floor (t66floor), the beamed roof (t66roof), posts and beams (t66abc10a). No band: the hall's floor sags toward its gutter, and a band needs a level floor; the loft's front is d06's panelled wainscot (t66b01)."
+defaults: {theme: theme:warehouse_timber, ambient: 14}
+rooms:
+  - id: room:breeding_pens
+    name: Breeding pens
+    outline: [[2912, 4801], [2912, 5119], [2790, 5413], [2565, 5638], [2271, 5760], [1953, 5760], [1659, 5638], [1434, 5413], [1312, 5119], [1312, 4801], [1434, 4507], [1659, 4282], [1953, 4160], [2271, 4160], [2565, 4282], [2790, 4507]]
+    floor: -384
+    ceiling: -32
+    theme: theme:pens_brick
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:feeding_time, at: centre, length: 120, bottom: 172, height: 40, surface: {texture: sign01-3, size: [128, 32], scale: 1.25}, notes: "FEEDING TIME, hand-painted on a board over the lever."}
+      - wall: 4
+        panels:
+          - {id: panel:heart_sign, at: centre, length: 144, bottom: 296, height: 48, surface: {texture: sign01-2, size: [128, 32], scale: 1.5}, notes: "MR & MRS WOBBLES - DO NOT SEPARATE, hand-painted over the heart gate."}
+    platforms:
+      - {rise: 16, surface: {texture: cbeam5, size: [32, 256]}, outline: [[2896, 5147], [2799, 5382], [2762, 5367], [2859, 5132]], top_surface: {texture: crcn96, size: [64, 64]}, base: 112, notes: "Shelf of bug tanks: tanks of slime water (MM7 7slimywtr, a stand-in for glass: see NOTES.md, textures to generate)."}
+      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2878, 5174], [2854, 5233], [2826, 5221], [2851, 5162]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
+      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2830, 5292], [2805, 5350], [2777, 5339], [2802, 5280]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
+      - {rise: 16, surface: {texture: cbeam5, size: [32, 256]}, outline: [[2299, 4176], [2534, 4273], [2519, 4310], [2284, 4213]], top_surface: {texture: crcn96, size: [64, 64]}, base: 112}
+      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2326, 4194], [2385, 4218], [2373, 4246], [2314, 4221]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
+      - {rise: 48, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2444, 4242], [2502, 4267], [2491, 4295], [2432, 4270]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128, notes: "The cracked tank: lower, where the doom bugs get out."}
+      - {rise: 16, surface: {texture: cbeam5, size: [32, 256]}, outline: [[2799, 4538], [2896, 4773], [2859, 4788], [2762, 4553]], top_surface: {texture: crcn96, size: [64, 64]}, base: 112}
+      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2805, 4570], [2830, 4628], [2802, 4640], [2777, 4581]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
+      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2854, 4687], [2878, 4746], [2851, 4758], [2826, 4699]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
+      - {rise: 6, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2176, 4933], [2176, 4987], [2139, 5024], [2085, 5024], [2048, 4987], [2048, 4933], [2085, 4896], [2139, 4896]], top_surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The drain in the middle of the pool: a round iron grate in a stone ring, just proud of the slime."}
+    levels:
+      - id: level:pool
+        outline: [[2289, 5033], [2185, 5137], [2039, 5137], [1935, 5033], [1935, 4887], [2039, 4783], [2185, 4783], [2289, 4887]]
+        floor: -448
+        edge: {texture: d1medbw, size: [128, 128]}
+        surface: {texture: 7slimywtr, size: [128, 128]}
+        notes: "The drain pool, sunk 64, slime-green water."
+    ceiling_levels:
+      - ceiling: 256
+        top_scale: 0.3
+        notes: "The low brick dome: from its springing 352 over the floor to a flat crown 640 over it."
+    parapets:
+      - path: [[2305, 5040], [2192, 5153], [2032, 5153], [1919, 5040], [1919, 4880], [2032, 4767], [2192, 4767], [2305, 4880], [2305, 5040]]
+        height: 24
+        thickness: 16
+        surface: {texture: d1smbw, size: [128, 128]}
+        notes: "The pool's kerb; the drain's grate lies in the middle of the pool (MM6 d1lggrt)."
+    ambient: 18
+    notes: "The signature room: a sixteen-sided brick cistern 1,600 across under a low brick dome (springing 352, crown 640 over the floor). Five walls are doorways (south the cellar stair, west the feed store, north the honeymoon pen, north-east the shipping room, east the culvert's iron door), six are the barred gates of the slime pens, five are plain: three carry shelves of bug tanks (one cracked), one the FEEDING TIME lever. The drain pool in the middle is sunk 64 behind a stone kerb and drawn as slime water."
+  - id: room:cellar_landing
+    name: "Cellar stair, landing"
+    space: room:cellar_stair
+    outline: [[1968, 3392], [2256, 3392], [2256, 3648], [1968, 3648]]
+    floor: -192
+    ceiling: 128
+    theme: theme:cellar_brick
+    ceiling_levels:
+      - ceiling: 224
+        top_scale: [0, 1]
+        notes: A small brick barrel vault over the landing.
+    ambient: 18
+    notes: "The landing halfway down, -192, under a barrel vault; an iron torch on its wall."
+  - id: room:cellar_stair
+    name: "Cellar stair, upper flight"
+    outline: [[1968, 2944], [2256, 2944], [2256, 3328], [1968, 3328]]
+    floor: 0
+    slope: {to: -192, toward: north, steps: 6, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d1medbw, size: [128, 128]}}
+    ceiling: 352
+    ceiling_slope: {to: 160, toward: north}
+    theme: theme:cellar_brick
+    ambient: 18
+    notes: "Upper flight: 6 steps of 32 down north from the KEEP OUT door; the brick ceiling falls with the steps."
+  - id: room:cellar_stair_lower
+    name: "Cellar stair, lower flight"
+    space: room:cellar_stair
+    outline: [[1968, 3712], [2256, 3712], [2256, 4096], [1968, 4096]]
+    floor: -192
+    slope: {to: -384, toward: north, steps: 6, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d1medbw, size: [128, 128]}}
+    ceiling: 160
+    ceiling_slope: {to: -32, toward: north}
+    theme: theme:cellar_brick
+    ambient: 18
+    notes: "Lower flight: 6 steps of 32 down to the pens' south arch; from its top the green glow of the drain pool is ahead (landmark:pens_glow)."
+  - id: room:culvert
+    name: "River culvert, head"
+    path: [[2976, 4960, -384], [3280, 4960, -384]]
+    section: {outline: [[-96, 0], [96, 0], [144, 40], [144, 208], [80, 288], [-80, 288], [-144, 208], [-144, 40]], floor: {texture: swprrf3, size: [128, 128]}, lower: {texture: d1wldle3, size: [256, 256]}, wall: {texture: d1wldle2, size: [256, 256]}, upper: {texture: d1wle, size: [256, 256]}, ceiling: {texture: d1wle, size: [256, 256]}, start: {length: 96, width: 224}}
+    floor: -384
+    ceiling: -96
+    theme: theme:culvert
+    ambient: 22
+    notes: "The culvert's head: a short stretch of the eight-sided section (a flat wet floor 192 wide, low banks, upright walls, a chamfered crown, 288 by 288) east from the cistern's iron door to the drain shaft. Ankle-deep slime water."
+  - id: room:culvert_lower
+    name: River culvert
+    space: room:culvert
+    path: [[3472, 4768, -384], [3472, 4496, -384], [3472, 3744, -640], [3472, 3488, -640], [3904, 3488, -640]]
+    section: {outline: [[-96, 0], [96, 0], [144, 40], [144, 208], [80, 288], [-80, 288], [-144, 208], [-144, 40]], floor: {texture: swprrf3, size: [128, 128]}, lower: {texture: d1wldle3, size: [256, 256]}, wall: {texture: d1wldle2, size: [256, 256]}, upper: {texture: d1wle, size: [256, 256]}, ceiling: {texture: d1wle, size: [256, 256]}, end: {length: 96, width: 256}}
+    floor: -384
+    ceiling: -96
+    theme: theme:culvert
+    ambient: 22
+    notes: "The culvert on from the drain shaft: south, down a straight slope of 256 over 752, then east to the outfall; the river's noise grows ahead of the party. Water underfoot all the way."
+  - id: room:culvert_outfall
+    name: "River culvert, outfall"
+    space: room:culvert
+    outline: [[3968, 3296], [4416, 3296], [4416, 3680], [3968, 3680]]
+    floor: -640
+    ceiling: -320
+    theme: theme:culvert
+    ceiling_levels:
+      - ceiling: -256
+        top_scale: [1, 0]
+        notes: A low barrel of stone over the outfall.
+    ambient: 20
+    notes: "Where the culvert widens before the river grate: washed-up rubbish, grey daylight through the grate in the east wall."
+  - id: room:culvert_shaft
+    name: "River culvert, drain shaft"
+    space: room:culvert
+    outline: [[3312, 4800], [3632, 4800], [3632, 5120], [3312, 5120]]
+    floor: -384
+    ceiling: -96
+    theme: theme:culvert
+    levels:
+      - id: level:shaft_ledge
+        outline: [[3544, 4832], [3632, 4832], [3632, 5088], [3544, 5088]]
+        floor: -352
+        edge: {texture: d1medbw, size: [128, 128]}
+        surface: {texture: d1medbw, size: [128, 128]}
+        notes: "A dry ledge along the east wall, one step up: where the rats nest and the drain's catch lies."
+    ceiling_levels:
+      - outline: [[3408, 4896], [3536, 4896], [3536, 5024], [3408, 5024]]
+        ceiling: 192
+        edge: {texture: d1wldle2, size: [256, 256]}
+        surface: {texture: d1lggrt, size: [256, 256], fit: true}
+        notes: "The drain shaft up to the street: a square well 288 high, the street's round iron grate at its top, grey daylight falling through it."
+    ambient: 18
+    notes: "Where the culvert turns south: a square chamber under a street drain, lit by the daylight that falls through the grate at the top of its shaft. Water underfoot; a dry ledge on the east side with a rats' nest and what the drain has washed down."
+  - id: room:feed_store
+    name: Feed store
+    outline: [[192, 4512], [864, 4512], [864, 4800], [1248, 4800], [1248, 5120], [416, 5120], [192, 4896]]
+    floor: -384
+    ceiling: 64
+    theme: theme:feed_store
+    beams:
+      - path: [[192, 4704], [864, 4704]]
+        width: 48
+        depth: 48
+        bottom: -8
+        surface: {texture: cbeam5, size: [32, 256]}
+      - path: [[640, 4512], [640, 5120]]
+        width: 48
+        depth: 48
+        bottom: -8
+        surface: {texture: cbeam5, size: [32, 256]}
+    ambient: 20
+    notes: "L-shaped: a neck from the cistern's west arch between two pens, widening into the store under plank joists. Sacks of JOE'S PREMIUM SLIME CHOW (decorations) line its south wall; the stash's sliding door is in that wall, among them."
+  - id: room:grain_hall
+    name: Grain hall
+    outline: [[0, 1216], [128, 1088], [1728, 1088], [1856, 1216], [1856, 2624], [128, 2624], [0, 2496]]
+    floor: 0
+    floor_points: [[96, 1660, -24], [1760, 1660, -24], [1760, 1720, -24], [96, 1720, -24], [0, 1800, 0], [1856, 1800, 0]]
+    floor_lines:
+      - [[96, 1660], [1760, 1660], [1760, 1720], [96, 1720], [96, 1660]]
+      - [[0, 1800], [1856, 1800]]
+    floor_surfaces:
+      - {at: [928, 1690], surface: {texture: 7slimywtr, size: [128, 128]}, notes: "The gutter: a slimy channel 60 wide and 24 down the middle of the hall, where the floor sags."}
+    ceiling: 640
+    platforms:
+      - {at: [304, 1330], size: [288, 288], rise: 320, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: "Grain bin, open at the top: chaff to the brim."}
+      - {at: [1300, 1330], size: [288, 288], rise: 320, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}}
+      - {at: [320, 1520], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: "Posts under the tie beams, two rows of three either side of the gutter."}
+      - {at: [928, 1520], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1536, 1520], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [320, 1940], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [928, 1940], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1536, 1940], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1660, 1290], size: [192, 160], rise: 192, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: Shipping crates stacked in the south-east corner.}
+      - {at: [1676, 1290], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [860, 2150], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: A crate left at the foot of the loft.}
+      - {at: [256, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Rail post on the loft's edge.}
+      - {at: [640, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1080, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1320, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1600, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1840, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1700, 2560], size: [192, 96], rise: 96, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: "On the loft: the broken grain bin against the back wall, knee high, its chaff spilt."}
+    levels:
+      - id: level:loft
+        outline: [[0, 2240], [1856, 2240], [1856, 2624], [128, 2624], [0, 2496]]
+        floor: 256
+        edge: {texture: t66b01, size: [128, 256]}
+        surface: {texture: straw, size: [256, 256]}
+        notes: "The grain loft: a gallery 256 up along the whole north wall, open to the hall, its boards deep in spilt chaff. It stands over the hall's floor where that floor is level again (north of the line at y 1800)."
+    ceiling_levels:
+      - ceiling: 1088
+        top_outline: [[0, 1856], [0, 1856], [1856, 1856], [1856, 1856], [1856, 1856], [0, 1856], [0, 1856]]
+        edge: {texture: t66floor, size: [128, 128]}
+        surface: {texture: t66roof, size: [128, 128]}
+        notes: "The pitched roof: from the eaves at 640 to a ridge at 1088 along the hall's length."
+    flights:
+      - {from: [1200, 1856], to: [1200, 2240], open_below: true, width: 192, steps: 8, sides: {height: 40, thickness: 12, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}, riser: {texture: t66abc11a, size: [128, 32]}, tread: {texture: t66floor, size: [128, 128]}, notes: "The loft stair: an open flight of pale treads with a hand rail either side, rising straight north from the middle of the hall to a gap in the loft's rail, in full view of the barn doors."}
+    beams:
+      - path: [[248, 2256], [1088, 2256]]
+        width: 16
+        depth: 16
+        bottom: 312
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "The loft rail, on its posts; broken at the west end where the ladder stands, open where the stair comes up."
+      - path: [[1312, 2256], [1848, 2256]]
+        width: 16
+        depth: 16
+        bottom: 312
+        surface: {texture: t66abc10a, size: [32, 128]}
+      - path: [[320, 1088], [320, 2624]]
+        width: 48
+        depth: 48
+        bottom: 576
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: Tie beam.
+      - path: [[928, 1088], [928, 2624]]
+        width: 48
+        depth: 48
+        bottom: 576
+        surface: {texture: t66abc10a, size: [32, 128]}
+      - path: [[1536, 1088], [1536, 2624]]
+        width: 48
+        depth: 48
+        bottom: 576
+        surface: {texture: t66abc10a, size: [32, 128]}
+      - path: [[0, 1856], [1856, 1856]]
+        width: 32
+        depth: 32
+        bottom: 1024
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: Ridge beam.
+    ambient: 20
+    notes: "The long hall behind the barn doors (1,856 by 1,536) under a pitched roof on three tie beams and two rows of posts. Its floor sags toward a slimy gutter down the middle (floor_points: 24 down, level again north of y 1800). The loft runs along the whole north wall as a gallery 256 up (a level over the sagging floor), its rail on posts; an open stair rises to it from the middle of the hall, and at the west end, where the rail is broken, a ladder. Two grain bins stand free near the barn doors, shipping crates in the south-east corner. The aisle to the KEEP OUT door opens off the east wall. Dark (ambient 20) between the lantern pools."
+  - id: room:hall_aisle
+    name: Grain hall aisle
+    space: room:grain_hall
+    outline: [[1920, 1088], [2368, 1088], [2368, 2880], [1920, 2880]]
+    floor: 0
+    ceiling: 576
+    ceiling_slope: {to: 448, toward: east}
+    theme: theme:aisle
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:keep_out, at: centre, length: 224, bottom: 320, height: 112, surface: {texture: warnsign, size: [256, 128], fit: true}, notes: "KEEP OUT (THIS MEANS YOU, GUNTHER), with skulls."}
+      - wall: east
+        panels:
+          - {id: panel:rules, offset: 320, from: end, length: 96, bottom: 96, height: 192, surface: {texture: sign06-1, size: [128, 256], fit: true}, notes: "Joe's hand-painted house rules, near the KEEP OUT door."}
+    platforms:
+      - {at: [2232, 1200], size: [192, 160], rise: 192, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: Crates waiting at the aisle's south end.}
+      - {at: [2040, 1180], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [2296, 2160], size: [96, 256], rise: 72, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: "A sorting bench against the east wall, sacks split open on it."}
+    ambient: 22
+    notes: "The north-east aisle under a lean-to roof, open to the hall along its west side: torn sacks (the bugs' nests), crates waiting at its south end, a sorting bench, Joe's house rules on the wall, and the KEEP OUT door in its north wall under his skull-and-crossbones notice, lit by one lantern."
+  - id: room:joes_office
+    name: Joe's office
+    outline: [[-576, 96], [-192, 144], [-192, 512], [64, 512], [64, 960], [-448, 960], [-576, 832]]
+    floor: 64
+    ceiling: 448
+    theme: theme:office
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:ledger, at: centre, length: 192, bottom: 64, height: 224, surface: {texture: t66d01j, size: [128, 256], fit: true}}
+      - wall: north
+        panels:
+          - {id: panel:pest_notice, offset: 96, length: 96, bottom: 144, height: 192, surface: {texture: sign06-1, size: [128, 256], fit: true}, notes: Joe's hand-painted 'Pest of the Month' notice.}
+    platforms:
+      - {id: platform:cabinet, at: [-384, 930], size: [96, 48], rise: 192, surface: {texture: t1cab, size: [128, 256], fit: true}, end_surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: "Joe's filing cabinet against the north wall: four drawers of invoices (clicked: the pest bills)."}
+      - {at: [-512, 200], size: [64, 48], rise: 40, surface: {texture: gt002c, size: [64, 64], fit: true}, top_surface: {texture: gt002g, size: [64, 64], fit: true}, notes: "Joe's strongbox, bolted to the floor and empty (the money is in the stash)."}
+      - {at: [-352, 800], size: [48, 48], rise: 40, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: Joe's stool behind the desk.}
+    ambient: 14
+    notes: "Trapezoid: the south wall and the north-west corner are set at an angle. The east wall's projecting part faces the bay and holds the counter window; the recessed part behind the steps holds the door. Cream plaster over a carved panel wainscot (t66d01). Joe's desk is a searchable box with drawers and a board top (objects.yml chest:desk: the pen key in its drawers), his stool behind it; his ledgers stand on a shelf on the west wall (a readable panel); a filing cabinet and a painted notice on the north wall; a strongbox in the south-west corner."
+  - id: room:joes_stash
+    name: Joe's stash
+    outline: [[192, 4064], [640, 4064], [704, 4128], [704, 4448], [192, 4448]]
+    floor: -384
+    ceiling: 0
+    theme: theme:feed_store
+    ambient: 24
+    notes: Closet south of the feed store behind the sliding sacks. One chamfered corner.
+  - id: room:loading_bay
+    name: Loading bay
+    outline: [[256, 0], [1280, 0], [1408, 128], [1408, 896], [1280, 1024], [128, 1024], [128, 128]]
+    floor: 0
+    ceiling: 512
+    theme: theme:loading_bay
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:bay_sign, at: centre, length: 288, bottom: 368, height: 120, surface: {texture: sign01-1, size: [256, 128], fit: true}, notes: Joe's hand-painted sign over the barn doors.}
+    bands:
+      - {height: 256, surface: {texture: t66b01, size: [128, 256]}}
+    platforms:
+      - {at: [1352, 300], size: [96, 256], rise: 72, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: A packing bench along the east wall.}
+      - {at: [940, 580], size: [192, 160], rise: 16, surface: {texture: gt003a, size: [64, 64], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, notes: A pallet of sacks waiting to go in.}
+      - {at: [448, 288], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [432, 288], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [1120, 352], size: [192, 256], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}}
+      - {at: [384, 704], size: [192, 256], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}}
+      - {at: [1088, 800], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [1120, 784], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+    beams:
+      - path: [[128, 352], [1408, 352]]
+        width: 48
+        depth: 48
+        bottom: 448
+        surface: {texture: t66abc10a, size: [32, 128]}
+      - path: [[128, 704], [1408, 704]]
+        width: 48
+        depth: 48
+        bottom: 448
+        surface: {texture: t66abc10a, size: [32, 128]}
+    ambient: 20
+    notes: "Long bay with chamfered corners: upright planks over a panelled wainscot, flagstones underfoot. Four crate stacks stand staggered so every aisle runs through, none at the middle; two of them have a smaller crate on top (a block on a block), two are big studded crates (ch002a, the Pirate Outpost's). A packing bench on the east wall, a pallet of sacks near the middle. Two dark joists cross under the boards. The office's counter window looks in through the west wall, its steps beside it; the rolling barn doors to the grain hall are in the north wall under Joe's hand-painted sign."
+  - id: room:loading_dock
+    name: Loading dock
+    space: room:loading_bay
+    outline: [[192, -1088], [1344, -1088], [1344, -576], [192, -576]]
+    floor: 128
+    ceiling: 576
+    ceiling_slope: {to: 448, toward: south}
+    theme: theme:dock
+    walls:
+      - wall: north
+        surface: {texture: t66floor, size: [128, 128]}
+        panels:
+          - {id: panel:notice_board, offset: 80, length: 160, bottom: 96, height: 128, surface: {texture: sign01-1, size: [256, 128], fit: true}}
+          - {id: panel:shutter, offset: 64, from: end, length: 256, bottom: 112, height: 128, surface: {texture: gt003b, size: [64, 64], fit: true}}
+    platforms:
+      - {at: [336, -1000], size: [192, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [1216, -720], size: [128, 192], rise: 96, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [1088, -768], size: [8, 8], rise: 120, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 216, notes: "The hoist rope, from the beam down to the crate."}
+      - {at: [1088, -768], size: [112, 112], rise: 96, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 120, notes: "A crate hanging on the hoist, 120 over the dock: a delivery Joe never took in."}
+    beams:
+      - path: [[192, -768], [1344, -768]]
+        width: 48
+        depth: 48
+        bottom: 464
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "The hoist beam along the warehouse front; its rope and a crate on it hang east of the doors."
+      - path: [[1088, -768], [1088, -576]]
+        width: 32
+        depth: 32
+        bottom: 464
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: The hoist's arm from the wall to the beam.
+    ambient: 10
+    notes: "New in L4: the street side of the loading doors, as a covered dock under a lean-to canopy (the party's arrival). The brief puts the doors' lock (warehouse key or Perception 3) on X1's side; with no X1, the lock is played here: the party arrives on the dock, outside the doors. Joe's notice board (a readable panel) hangs left of the doors and the loose shutter (the Perception clue) right of them; the lane (the exit to X1) is the south wall."
+  - id: room:loading_ramp
+    name: Loading ramp
+    space: room:loading_bay
+    outline: [[512, -512], [1024, -512], [1024, -64], [512, -64]]
+    floor: 0
+    slope: {to: 128, toward: south}
+    ceiling: 512
+    ceiling_slope: {to: 576, toward: south}
+    theme: theme:loading_bay
+    ambient: 14
+    notes: "The short ramp up to the street doors (128 over 448), 512 wide so the barn-style street doors' two leaves have room to slide."
+  - id: room:mated_pair_pen
+    name: The honeymoon pen
+    outline: [[1936, 5824], [2288, 5824], [2288, 6176], [2432, 6240], [2560, 6400], [2560, 6624], [2464, 6784], [2272, 6848], [2112, 6784], [2016, 6720], [1856, 6816], [1664, 6752], [1600, 6560], [1664, 6304], [1792, 6208], [1936, 6176]]
+    floor: -416
+    ceiling: 32
+    theme: theme:pens_brick
+    platforms:
+      - {at: [2112, 6700], size: [320, 176], rise: 24, surface: {texture: crcn96, size: [64, 64]}, top_surface: {texture: straw, size: [256, 256]}, notes: "The pair's bed: a low plank frame heaped with straw in the bean's hollow, their nest of muck on it."}
+      - {rise: 32, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2112, 6400], [2176, 6450], [2200, 6500], [2184, 6544], [2150, 6556], [2112, 6530], [2074, 6556], [2040, 6544], [2024, 6500], [2048, 6450]], top_surface: {texture: 7slimywtr, size: [128, 128]}, notes: "The pair's feeding trough: heart-shaped, stone, brimming with slime chow."}
+    ceiling_levels:
+      - outline: [[1760, 6320], [2400, 6320], [2448, 6448], [2400, 6640], [1760, 6640], [1712, 6448]]
+        ceiling: 128
+        top_scale: 0.5
+        notes: A shallow brick dome over the bean.
+    ambient: 16
+    notes: "Kidney-shaped, one step (32) below the cistern: a narrow neck from the heart-painted gate, then the bean with its hollow to the north under a shallow dome. The boss pair's room."
+  - id: room:office_steps
+    name: Office steps
+    space: room:joes_office
+    outline: [[-128, 208], [64, 208], [64, 480], [-128, 480]]
+    floor: 0
+    slope: {to: 64, toward: west, steps: 2, riser: {texture: t66abc11a, size: [128, 32]}, tread: {texture: t66floor, size: [128, 128]}}
+    ceiling: 448
+    theme: theme:office
+    ambient: 14
+    notes: "Two steps of 32 from the bay up into Joe's office; the office door, with the slime bucket over it, is at the top (the west end)."
+  - id: room:pen_1
+    name: Slime pen 1
+    space: room:breeding_pens
+    outline: [[1395, 5464], [1608, 5677], [1416, 5939], [1133, 5656]]
+    floor: -384
+    ceiling: -64
+    theme: theme:pen
+    ambient: 22
+    notes: "A slime pen behind a barred gate (iron bars, objects.yml mover:pen_1_bars, lifted singly by a click on them or all six together by the FEEDING TIME lever). Wedge-shaped, 384 deep, a low brick ceiling, straw bedding, a feeding bowl and a pulsing green glow, so its occupant is seen through the bars."
+  - id: room:pen_2
+    name: Slime pen 2
+    space: room:breeding_pens
+    outline: [[1253, 5143], [1375, 5437], [1095, 5598], [941, 5228]]
+    floor: -384
+    ceiling: -64
+    theme: theme:pen
+    ambient: 22
+    notes: As pen 1.
+  - id: room:pen_3
+    name: Slime pen 3
+    space: room:breeding_pens
+    outline: [[1375, 4483], [1253, 4777], [941, 4692], [1095, 4322]]
+    floor: -384
+    ceiling: -64
+    theme: theme:pen
+    ambient: 22
+    notes: As pen 1.
+  - id: room:pen_4
+    name: Slime pen 4
+    space: room:breeding_pens
+    outline: [[1608, 4243], [1395, 4456], [1133, 4264], [1416, 3981]]
+    floor: -384
+    ceiling: -64
+    theme: theme:pen
+    ambient: 22
+    notes: As pen 1.
+  - id: room:pen_5
+    name: Slime pen 5
+    space: room:breeding_pens
+    outline: [[1929, 4101], [1635, 4223], [1474, 3943], [1844, 3789]]
+    floor: -384
+    ceiling: -64
+    theme: theme:pen
+    ambient: 22
+    notes: As pen 1.
+  - id: room:pen_6
+    name: Slime pen 6
+    space: room:breeding_pens
+    outline: [[2829, 4456], [2616, 4243], [2808, 3981], [3091, 4264]]
+    floor: -384
+    ceiling: -64
+    theme: theme:pen
+    ambient: 22
+    notes: As pen 1.
+  - id: room:river_sill
+    name: River grate sill
+    space: room:culvert
+    outline: [[4480, 3360], [4672, 3360], [4672, 3616], [4480, 3616]]
+    floor: -640
+    ceiling: -352
+    theme: theme:culvert
+    ambient: 12
+    notes: "The sill behind the iron grate, open to the riverbank: the exit face on its east wall."
+  - id: room:shipping_room
+    name: Shipping room
+    outline: [[2835, 5458], [3612, 5458], [3612, 6260], [2610, 6260], [2610, 5683]]
+    floor: -384
+    steep_floor: true
+    ceiling: 64
+    theme: theme:cellar_brick
+    walls:
+      - wall: east
+        panels:
+          - {offset: 48, length: 256, bottom: 32, height: 288, surface: {texture: 7winerack, size: [128, 256]}, notes: Racks of bottled stock.}
+    platforms:
+      - {at: [3456, 6080], size: [128, 256], rise: 32, surface: {texture: cbeam5, size: [32, 256]}, top_surface: {texture: crcn96, size: [64, 64], scale: 2}, bottom_surface: {texture: crcn96, size: [64, 64], scale: 2}, thickness: 16, base: 48, top_slope: {to: 400, toward: north}, notes: The delivery slide coming down out of the chute.}
+      - {at: [3424, 5640], size: [256, 256], rise: 256, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: Crates addressed to Vertigo homes ('Mayor's cellar - Tuesday').}
+      - {at: [3440, 5624], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 256}
+      - {id: platform:packing_table, at: [2944, 6112], size: [256, 128], rise: 72, surface: {texture: crcn96, size: [64, 64], scale: 2}, top_surface: {texture: crcn96, size: [64, 64], scale: 2}, notes: "Packing table, with a potion and a pair of gloves packed for delivery."}
+    ceiling_levels:
+      - outline: [[3360, 6016], [3552, 6016], [3552, 6208], [3360, 6208]]
+        ceiling: 576
+        edge: {texture: crcn96, size: [64, 64], scale: 2}
+        surface: {texture: d1ceil1, size: [256, 256]}
+        notes: The delivery chute up to the street.
+    ambient: 18
+    notes: "Five-sided: the slanted south-west wall faces the cistern's north-east wall and holds the door. Joe works here: a crate stack, a packing table, racks of bottled stock on the east wall, and the delivery chute rising to the street in the north-east corner with its slide coming down out of it. The invoice crate (a chest) stands under the chute."
+openings:
+  - id: open:bay_grain_hall
+    from: room:loading_bay
+    to: room:grain_hall
+    link: link:bay_grain_hall
+    width: 384
+    height: 352
+    threshold: {texture: t66abc11a, size: [128, 32]}
+    notes: "The rolling barn doors: a double sliding door in a timber wall 64 thick."
+  - id: open:bay_office_steps
+    from: room:loading_bay
+    to: room:office_steps
+    width: 224
+    height: 320
+    notes: Open foot of the office steps.
+  - id: open:cellar_stair_landing
+    from: room:cellar_stair
+    to: room:cellar_landing
+    width: 256
+    height: 288
+  - id: open:culvert_outfall
+    from: room:culvert_lower
+    to: room:culvert_outfall
+    from_wall: 5
+    to_wall: 3
+    width: full
+    height: full
+    notes: The culvert's square foot opens into the outfall.
+  - id: open:culvert_shaft
+    from: room:culvert
+    to: room:culvert_shaft
+    shape: section
+    notes: The culvert's head runs into the drain shaft's west wall.
+  - id: open:dock_ramp
+    from: room:loading_dock
+    to: room:loading_ramp
+    link: link:street_doors
+    width: 384
+    height: 320
+    threshold: {texture: t66abc11a, size: [128, 32]}
+    notes: "The street doors: two barred-plank leaves that slide apart (objects.yml door:street), locked from outside: the warehouse key or Perception 3."
+  - id: open:feed_store_stash
+    from: room:feed_store
+    to: room:joes_stash
+    link: link:feed_store_stash
+    along: 0.85
+    width: 192
+    height: 256
+    notes: "Behind the Slime Chow sacks: the sliding secret door, 192 wide, at the store's west end."
+  - id: open:hall_aisle
+    from: room:grain_hall
+    to: room:hall_aisle
+    along: 0.3
+    width: 768
+    height: 448
+    notes: The aisle opens off the hall's east wall under a wide beam.
+  - id: open:hall_cellar_stair
+    from: room:hall_aisle
+    to: room:cellar_stair
+    link: link:grain_hall_cellar_stair
+    width: 224
+    height: 288
+    threshold: {texture: d1medbw, size: [128, 128]}
+    notes: "KEEP OUT (THIS MEANS YOU, GUNTHER): the locked door at the head of the cellar stair."
+  - id: open:landing_stair_lower
+    from: room:cellar_landing
+    to: room:cellar_stair_lower
+    width: 256
+    height: 288
+  - id: open:lower_shaft
+    from: room:culvert_lower
+    to: room:culvert_shaft
+    shape: section
+    notes: The culvert leaves the drain shaft through its south wall.
+  - id: open:office_counter
+    from: room:joes_office
+    to: room:loading_bay
+    from_wall: 3
+    to_wall: 5
+    along: 0.6
+    width: 256
+    height: 128
+    sill: 96
+    notes: "The counter window: Joe watches the bay over his counter (sill 96 above the office floor). Not passable."
+  - id: open:office_steps_office
+    from: room:office_steps
+    to: room:joes_office
+    from_wall: west
+    to_wall: 1
+    link: link:bay_office
+    width: 224
+    height: 288
+    notes: "The office door at the top of the two steps; the slime bucket sits over it (set:slime_bucket)."
+  - id: open:pens_culvert
+    from: room:breeding_pens
+    to: room:culvert
+    link: link:pens_culvert
+    width: full
+    height: full
+    notes: "The low iron door in the cistern's east wall, into the culvert's square head."
+  - id: open:pens_feed_store
+    from: room:breeding_pens
+    to: room:feed_store
+    link: link:pens_feed_store
+    width: 256
+    height: 320
+    notes: Open arch in the cistern's west wall.
+  - id: open:pens_honeymoon
+    from: room:breeding_pens
+    to: room:mated_pair_pen
+    link: link:pens_honeymoon
+    width: 256
+    height: 288
+    notes: "The heart-painted gate in the cistern's north wall, one step down."
+  - id: open:pens_pen_1
+    from: room:breeding_pens
+    to: room:pen_1
+    width: 256
+    height: 256
+    notes: A pen's barred gate.
+  - id: open:pens_pen_2
+    from: room:breeding_pens
+    to: room:pen_2
+    width: 256
+    height: 256
+  - id: open:pens_pen_3
+    from: room:breeding_pens
+    to: room:pen_3
+    width: 256
+    height: 256
+  - id: open:pens_pen_4
+    from: room:breeding_pens
+    to: room:pen_4
+    width: 256
+    height: 256
+  - id: open:pens_pen_5
+    from: room:breeding_pens
+    to: room:pen_5
+    width: 256
+    height: 256
+  - id: open:pens_pen_6
+    from: room:breeding_pens
+    to: room:pen_6
+    width: 256
+    height: 256
+  - id: open:pens_shipping
+    from: room:breeding_pens
+    to: room:shipping_room
+    link: link:pens_shipping
+    width: 256
+    height: 288
+    notes: Door in the cistern's north-east wall.
+  - id: open:ramp_bay
+    from: room:loading_ramp
+    to: room:loading_bay
+    width: 448
+    height: 384
+    notes: "Foot of the loading ramp, open to the bay."
+  - id: open:river_grate
+    from: room:culvert_outfall
+    to: room:river_sill
+    width: 192
+    height: 224
+    notes: "The iron grate onto the river (objects.yml door:river_grate): lifted from the inside on first use."
+  - id: open:stair_pens
+    from: room:cellar_stair_lower
+    to: room:breeding_pens
+    link: link:cellar_stair_pens
+    width: 256
+    height: 288
+    notes: "Open arch at the foot of the stair, in the cistern's south wall."
+notes: "The to-scale plan in whole map units: x east, y north, heights from the bay's floor (0). L4 redraws L3 with the words of 2026-11-12: the street doors moved behind a covered loading dock (the arrival, so that their lock is played in this map); the loft is a gallery level inside the grain hall under a pitched roof with tie beams, reached by a flight along the north wall (the separate loft room, loft stair room and overlook opening are gone); the cistern has its brick dome, a pool sunk 64 behind a kerb, shelves of glass tanks and painted signs; the stair flights have stone treads and ceilings that fall with them, the landing a barrel vault; the culvert is one sectioned tunnel that bends and slopes (three rooms became one) ending in an outfall and the grate's sill; the shipping room has its chute and slide; the honeymoon pen a shallow dome. Pens, feed store, stash, office and bay keep L3's plan. Walls are 64 thick between joined rooms."

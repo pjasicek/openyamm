@@ -1,0 +1,671 @@
+format: 0
+themes:
+  - id: theme:clan_hold
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: vlctrm3, size: [128, 128]}
+    door: {texture: d2lgdor, size: [256, 256]}
+    notes: "The clan's hold (L2): soot-blackened dwarven brick, dark flagstones, rough rock overhead, carved rune stone in the doorways, the studded skull door. Gong gallery and its two flights, stair foot, barracks and lever alcove, armoury, antechamber."
+  - id: theme:dwarf_vault
+    wall: {texture: 7cdb, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: vlctrm3, size: [128, 128]}
+    notes: "Red Dwarf work (L2): the older olive-grey dwarven blocks, dark flagstones, rune stone round the doorway. The Red Dwarf vault."
+  - id: theme:forge_floor
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: vlcflorc, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: vlctrm3, size: [128, 128]}
+    door: {texture: d2lgdor, size: [256, 256]}
+    notes: "Furnace hall (L2): the same soot-black brick over flagstones cracked by heat, the slag glow in their seams. Both banks, both bridges, the furnace tower and its stair."
+  - id: theme:geode
+    wall: {texture: orwtrlga, size: [256, 256]}
+    floor: {texture: vlcflord, size: [128, 128]}
+    ceiling: {texture: orwtrlga, size: [256, 256]}
+    notes: "Geode (L2): blue-green crystal walls and crown, a floor of crushed blue crystal. Geode grotto, its terrace steps and lower terrace."
+  - id: theme:hoard
+    wall: {texture: cwb1gold, size: [128, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: vlctrm3, size: [128, 128]}
+    door: {texture: d2lgdor, size: [256, 256]}
+    notes: "The King's hoard (L2): raw rock shot with gold veins, the hall's red inlay floor. Hoard and escape shaft."
+  - id: theme:king_hall
+    wall: {texture: ctwl5, size: [256, 256]}
+    floor: {texture: ctflor1, size: [128, 128]}
+    ceiling: {texture: orwtrlga, size: [256, 256]}
+    reveal: {texture: vlctrm3, size: [128, 128]}
+    door: {texture: d2lgdor, size: [256, 256]}
+    notes: "The Clan King's hall (L2): dressed red-brown stone blocks, a floor of red stone inlay, the geode's crystal overhead (the cracked dome, drawn flat). King's hall, dais steps and throne dais."
+  - id: theme:rock_cut
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Raw rock (L2): red-brown rock walls and floor, rough rock overhead. Deep landing, sentry cut with its lookout and ramp, the breach and the drop to the geode, the burrow mouth and the mole warren."
+  - id: theme:slag
+    wall: {texture: vlcceila, size: [128, 128]}
+    floor: {texture: lava, size: [256, 256]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    notes: "Slag (L2): cooled slag crust glowing in its cracks on the walls, molten slag underfoot (harmful floor). The channel's three reaches and its drain; the King's two gutters."
+defaults: {theme: theme:clan_hold, ambient: 16}
+rooms:
+  - id: room:armoury
+    name: Clan armoury
+    outline: [[5504, 4160], [6016, 4160], [6272, 4352], [6080, 4480], [6272, 4608], [6016, 4800], [5504, 4800]]
+    floor: -480
+    ceiling: -96
+    theme: theme:clan_hold
+    ambient: 18
+    notes: "A narrow room east of the barracks, one step (32) up, 384 high; its east wall folds into two angled bays where the weapon racks stand. The chest stands in the north bay."
+  - id: room:back_stair
+    name: Back stair
+    space: room:barracks
+    outline: [[5184, 3296], [5440, 3296], [5440, 3776], [5184, 3776]]
+    floor: -128
+    slope: {to: -512, toward: north, steps: 12}
+    ceiling: 320
+    theme: theme:clan_hold
+    ambient: 16
+    notes: "12 steps of 32 down from the gallery's north end, beside the gong, into the south-east corner of the barracks (tread 40). Straight, not turning: a turning flight would be three rooms and push the barracks further from the hall."
+  - id: room:barracks
+    name: Sergeants' barracks
+    outline: [[3904, 3840], [5440, 3840], [5440, 4864], [3904, 4864]]
+    floor: -512
+    ceiling: -64
+    theme: theme:clan_hold
+    platforms:
+      - {at: [4160, 4736], size: [384, 192], rise: 40}
+      - {at: [5184, 4736], size: [384, 192], rise: 40}
+      - {at: [4160, 3968], size: [384, 192], rise: 40}
+    ambient: 18
+    notes: "1536 x 1024, 448 high. Three bunk benches on platforms (+40, 32 clear of the walls): either side of lever A's alcove on the north wall, and at the west end of the south wall. The heavy double doors to the hall are in the south wall west of the middle, the back stair comes in at the south-east corner, the armoury door is in the east wall. Walls 64 thick to the hall and the stair."
+  - id: room:bridge_north
+    name: North bridge
+    space: room:furnace_hall
+    outline: [[3648, 3584], [3920, 3312], [4384, 3776], [3840, 3776]]
+    floor: -512
+    ceiling: 384
+    theme: theme:forge_floor
+    ambient: 12
+    notes: "A broad stone span across the channel's head, against the north wall, where the slag wells up from a vent under it: 384 across the channel, 270 wide at the far bank and 660 at the near. No rails: its south-west side opens onto the slag 128 below. The short way to the far bank, the tower stair and the antechamber. It closes the channel's head so that no reach of slag lies beyond it without a way out."
+  - id: room:bridge_south
+    name: South bridge
+    space: room:furnace_hall
+    outline: [[2960, 2352], [3096, 2488], [2824, 2760], [2688, 2624]]
+    floor: -512
+    ceiling: 384
+    theme: theme:forge_floor
+    ambient: 12
+    notes: "The second span, near the channel's south-west end: the way round the loop over the slag."
+  - id: room:dais_stair
+    name: Dais steps
+    space: room:king_hall
+    outline: [[2688, 6400], [3712, 6400], [3712, 6688], [2688, 6688]]
+    floor: -512
+    slope: {to: -320, toward: north, steps: 6}
+    ceiling: 512
+    theme: theme:king_hall
+    ambient: 12
+    notes: "Six steps of 32 (192) up from the hall, 1024 wide and 288 deep: the stepped dais. Broad and shallow, so its end walls are its longest and the hall's opening lands in the right wall."
+  - id: room:deep_landing
+    name: Deep landing
+    outline: [[6272, 768], [7296, 768], [7296, 1536], [6272, 1536]]
+    floor: 0
+    ceiling: 768
+    theme: theme:rock_cut
+    ambient: 18
+    notes: "Rock platform at the foot of the Deep Line, 1024 x 768 and 768 high. The cart stands at the buffer stop by the east wall; the rails come down out of the roof at the south-east, which a flat ceiling cannot show (R3-K5). The arrival is the plan's entrance (the middle of the platform, facing north toward the cut)."
+  - id: room:escape_shaft
+    name: Escape shaft
+    outline: [[3776, 7616], [4288, 7616], [4288, 8128], [3776, 8128]]
+    floor: -320
+    ceiling: 1728
+    theme: theme:hoard
+    ambient: 18
+    notes: "512 square and 2048 high. The counterweight cage stands at its foot (a lift object); its top is out of sight. The ride to X1 is a map exit, not geometry."
+  - id: room:far_bank
+    name: "Furnace Hall, far bank"
+    space: room:furnace_hall
+    outline: [[2560, 2496], [3840, 3776], [2560, 3776]]
+    floor: -512
+    ceiling: 384
+    theme: theme:forge_floor
+    ambient: 12
+    notes: "The north-west bank, a triangle with legs of 1280, reached only over the bridges: the antechamber opens off its north wall, the furnace tower's stair off its west wall, beside the north bridge."
+  - id: room:furnace_hall
+    name: "Furnace Hall, near bank"
+    outline: [[2560, 1536], [5120, 1536], [5120, 3776], [4384, 3776], [3368, 2760], [3560, 2568], [3288, 2296], [3096, 2488], [2560, 1952]]
+    floor: -512
+    ceiling: 384
+    theme: theme:forge_floor
+    pillars:
+      - {at: [4224, 2112], size: [448, 384]}
+    ambient: 12
+    notes: "The south-east bank, the big side of the hall: a pentagon 2560 x 2240 with the slag channel as its north-west edge, 896 high; the slag steps cut a notch into that edge beside the south bridge. The ruined smelter (a block 448 x 384, floor to ceiling: its chimney goes up into the rock) stands in its south-east half. Openings: the stair foot (east wall, south end), the two gallery windows (east wall), the barracks doors (north wall), the burrow mouth (south wall), the breach (west wall). The whole hall's ceiling is flat at +384 (R3-K5)."
+  - id: room:furnace_tower
+    name: Furnace tower
+    outline: [[1472, 2944], [1856, 2944], [2048, 3136], [2048, 3520], [1856, 3712], [1472, 3712], [1280, 3520], [1280, 3136]]
+    floor: -256
+    ceiling: 256
+    theme: theme:forge_floor
+    ambient: 14
+    notes: "The smelter's old stack: an octagon 768 across (the round room in eight sides), 512 high. Lever B on its west wall; the stair comes in through its east side."
+  - id: room:gallery_stair
+    name: Gallery stair
+    space: room:gong_gallery
+    outline: [[5184, 1920], [5440, 1920], [5440, 2400], [5184, 2400]]
+    floor: -128
+    slope: {to: -512, toward: south, steps: 12}
+    ceiling: 320
+    theme: theme:clan_hold
+    ambient: 16
+    notes: "12 steps of 32 down from the gallery's south end, running south along the hall's east wall (tread 40)."
+  - id: room:geode_breach
+    name: Breach
+    space: room:geode_grotto
+    outline: [[2496, 1408], [2496, 1760], [2368, 1760], [2096, 2032], [1856, 1792], [1856, 1408]]
+    floor: -512
+    ceiling: 0
+    theme: theme:rock_cut
+    ambient: 18
+    notes: "The rough hole where the smelter's workers broke into the natural cave, level with the hall: the hall's west wall on its east, the slag drain coming up into it from the north-east, the drop to the geode on its west."
+  - id: room:geode_descent
+    name: Geode descent
+    space: room:geode_grotto
+    outline: [[1408, 1472], [1792, 1472], [1792, 1728], [1408, 1728]]
+    floor: -512
+    slope: {to: -640, toward: west}
+    ceiling: -64
+    theme: theme:rock_cut
+    ambient: 18
+    notes: A rough ramp falling 128 west into the geode.
+  - id: room:geode_flight
+    name: Geode terrace steps
+    space: room:geode_grotto
+    outline: [[512, 768], [896, 768], [896, 960], [512, 960]]
+    floor: -640
+    slope: {to: -768, toward: south, steps: 4}
+    ceiling: 256
+    theme: theme:geode
+    ambient: 20
+    notes: "Four steps of 32 down to the lower terrace, 384 wide and 192 deep."
+  - id: room:geode_grotto
+    name: Geode grotto
+    outline: [[1088, 1024], [1344, 1280], [1344, 1920], [1152, 2304], [768, 2496], [384, 2368], [128, 1984], [128, 1472], [320, 1152], [448, 1024]]
+    floor: -640
+    ceiling: 256
+    theme: theme:geode
+    pillars:
+      - {at: [768, 1792], size: [192, 192], facing: 30}
+      - {at: [512, 1408], size: [160, 160], facing: 15}
+    ambient: 20
+    notes: "The upper terrace: the hollow of the geode, about 1200 x 1470 and 896 high, two crystal columns standing in it. Webs between the crystals, the bat queens in its crown. The uneven terraces are drawn as two level floors and a flight (uneven relief is not built)."
+  - id: room:geode_lower
+    name: Geode lower terrace
+    space: room:geode_grotto
+    outline: [[256, 64], [1216, 64], [1344, 448], [1088, 704], [320, 704], [128, 576], [128, 192]]
+    floor: -768
+    ceiling: -256
+    theme: theme:geode
+    ambient: 20
+    notes: "The lower terrace, about 1200 x 640 and 512 high. The singing crystal wall in its west wall is the secret way into the Red Dwarf vault."
+  - id: room:gong_gallery
+    name: Gong gallery
+    outline: [[5184, 2464], [5632, 2464], [5824, 2656], [5824, 3040], [5632, 3232], [5184, 3232]]
+    floor: -128
+    ceiling: 384
+    theme: theme:clan_hold
+    platforms:
+      - {at: [5536, 3072], size: [192, 160], rise: 32}
+    ambient: 16
+    notes: "768 long behind a parapet along the furnace hall's east wall, 448 to 640 wide, its east side bowed out (the curve in three straight pieces). Two windows over the parapet look down 384 on the hall. The gong stands on a low plinth (a platform, +32) at the north end; the sentry cut's door is in the middle of the bowed side. The gallery is beside the hall, not over it: an overhang needs stacked rooms (R3-K7)."
+  - id: room:gutter_east
+    name: East gutter
+    space: room:king_hall
+    outline: [[4352, 5440], [4544, 5440], [4544, 6400], [4352, 6400]]
+    floor: -544
+    ceiling: 512
+    theme: theme:slag
+    ambient: 12
+    notes: "A trough 192 wide and 32 deep the length of the east wall, open to the hall: dry stone in the King's first phase, slag in the second (set:clan_king). 32 deep, so the party can step out. Drawn in the slag theme; the dry first look needs a texture swap by event."
+  - id: room:gutter_west
+    name: West gutter
+    space: room:king_hall
+    outline: [[1856, 5440], [2048, 5440], [2048, 6400], [1856, 6400]]
+    floor: -544
+    ceiling: 512
+    theme: theme:slag
+    ambient: 12
+    notes: Mirror of the east gutter.
+  - id: room:king_hall
+    name: The Clan King's hall
+    outline: [[2816, 4672], [3584, 4672], [4352, 5440], [4352, 6400], [2048, 6400], [2048, 5440]]
+    floor: -512
+    ceiling: 512
+    theme: theme:king_hall
+    pillars:
+      - {at: [2624, 5376], size: [256, 256]}
+      - {at: [3776, 5376], size: [256, 256]}
+      - {at: [2624, 6016], size: [256, 256]}
+      - {at: [3776, 6016], size: [256, 256]}
+    ambient: 12
+    notes: "The signature room: a six-sided hall 2304 wide and 1728 deep whose south end narrows to the gate like a coffin, 1024 high. Four squat pillars (256 square) in a ring round the middle. The stepped dais lies beyond the opening in its north wall, the two slag gutters beyond its east and west walls. Not drawable: the cracked geode dome over its middle (void:geode_dome, top about +1280; R3-K5, R3-K7); the ceiling is flat at +512 and wears the crystal."
+  - id: room:king_hoard
+    name: The King's hoard
+    outline: [[2816, 7296], [3584, 7296], [3712, 7680], [3712, 8064], [2688, 8064], [2688, 7680]]
+    floor: -320
+    ceiling: 128
+    theme: theme:hoard
+    ambient: 16
+    notes: "A vault behind the throne, widening from 768 at its door to 1024 at the back, 768 deep and 448 high. The two chests at the back, the shaft lever beside the opening to the shaft in its east wall."
+  - id: room:kings_antechamber
+    name: Antechamber
+    outline: [[2688, 3840], [3712, 3840], [3456, 4608], [2944, 4608]]
+    floor: -512
+    ceiling: 0
+    theme: theme:clan_hold
+    ambient: 16
+    notes: "A wedge 1024 wide at the hall, narrowing over 768 to 512 at the King's Gate, 512 high. The two hacked statues stand against its slanting walls (decorations)."
+  - id: room:lever_alcove
+    name: Lever alcove
+    space: room:barracks
+    outline: [[4544, 4928], [4800, 4928], [4800, 5120], [4544, 5120]]
+    floor: -512
+    ceiling: -128
+    theme: theme:clan_hold
+    ambient: 20
+    notes: "A niche 256 x 192 behind the bunks: lever A on its back wall (an object)."
+  - id: room:mole_warren
+    name: Mole warren
+    outline: [[3200, 256], [3584, 0], [4352, 0], [4864, 256], [4992, 640], [4608, 896], [4224, 896], [3712, 896], [3328, 768]]
+    floor: -768
+    ceiling: -320
+    theme: theme:rock_cut
+    pillars:
+      - {at: [3776, 448], size: [320, 256], facing: 20}
+      - {at: [4416, 448], size: [320, 256], facing: -15}
+    ambient: 24
+    notes: A knot of burrows about 1800 x 900 and 448 high round two rock cores (pillars) that make two small loops either side of the central hollow. The dead prospector lies in the east burrow. Round burrow sections are not drawable (flat floor and ceiling).
+  - id: room:red_dwarf_vault
+    name: Red Dwarf vault
+    outline: [[-512, 0], [-128, 0], [64, 192], [64, 576], [-128, 768], [-512, 768], [-704, 576], [-704, 192]]
+    floor: -768
+    ceiling: -256
+    theme: theme:dwarf_vault
+    ambient: 22
+    notes: "The round vault of dressed stone as an octagon 768 across, 512 high. The ring of runes on its floor is a decal or a floor surface of its own (one floor surface per room here)."
+  - id: room:sentry_cut
+    name: Sentry cut
+    path: [[6720, 1600], [6720, 2048], [6528, 2048], [6528, 2848], [6336, 2848]]
+    width: 256
+    floor: 0
+    ceiling: 384
+    theme: theme:rock_cut
+    ambient: 20
+    notes: "The cut's level zig-zag, 256 wide and 384 high: north from the landing, a jog west, the long run north past the lookout niche, and a turn west to the head of the ramp."
+  - id: room:sentry_lookout
+    name: Lookout niche
+    space: room:sentry_cut
+    outline: [[6720, 2368], [7040, 2368], [7040, 2624], [6720, 2624]]
+    floor: 0
+    ceiling: 384
+    theme: theme:rock_cut
+    ambient: 20
+    notes: "The lookouts' niche off the cut's east side, halfway up."
+  - id: room:sentry_ramp
+    name: Sentry ramp
+    space: room:sentry_cut
+    outline: [[5888, 2720], [6272, 2720], [6272, 2976], [5888, 2976]]
+    floor: 0
+    slope: {to: -128, toward: west}
+    ceiling: 384
+    theme: theme:rock_cut
+    ambient: 20
+    notes: "The cut's last leg, falling west 128 over 384 to the gallery door at its foot."
+  - id: room:slag_drain
+    name: Slag drain
+    space: zone:slag_channel
+    outline: [[2368, 1760], [2560, 1952], [2288, 2224], [2096, 2032]]
+    floor: -640
+    slope: {to: -512, toward: 3, steps: 4}
+    ceiling: 0
+    theme: theme:slag
+    ambient: 10
+    notes: "The drain at the channel's south end: a low tunnel of four steps of 32 rising over 272 (toward its south-west wall, edge 3) to the breach, roofed at 0. The way out of the south reach; the main reach has the slag steps."
+  - id: room:slag_middle
+    name: "Slag channel, middle reach"
+    space: zone:slag_channel
+    outline: [[3096, 2488], [3920, 3312], [3648, 3584], [2824, 2760]]
+    floor: -640
+    ceiling: 384
+    theme: theme:slag
+    ambient: 8
+    notes: "The main reach, from the north bridge to the south bridge, about 1165 long; 128 below the banks, about 384 wide, at 45 degrees. Harmful floor (set:slag_channel). Each reach and bridge of the channel is a room of its own because a room cannot sink part of its floor; their long sides are open ledges with 16 units of wall left at each end of every opening (R3-K9). Its way out is the slag steps at its south end."
+  - id: room:slag_south
+    name: "Slag channel, south reach"
+    space: zone:slag_channel
+    outline: [[2560, 1952], [2960, 2352], [2688, 2624], [2288, 2224]]
+    floor: -640
+    ceiling: 384
+    theme: theme:slag
+    ambient: 8
+    notes: "From the south bridge to the drain. The channel runs on under the line of the hall's west wall into the drain, so its far corner stands 272 west of that line."
+  - id: room:slag_steps
+    name: Slag steps
+    space: zone:slag_channel
+    outline: [[3096, 2488], [3288, 2296], [3560, 2568], [3368, 2760]]
+    floor: -640
+    slope: {to: -512, toward: 1, steps: 4}
+    ceiling: -192
+    theme: theme:forge_floor
+    ambient: 12
+    notes: "Four steps of 32 cut into the near bank at the main reach's south end, beside the south bridge (384 wide, 272 deep, rising toward edge 1): the way out of the main reach. Roofed at -192 like a culvert, so the bank stands over it as a buttress instead of two walls running up to the hall's ceiling."
+  - id: room:stair_foot
+    name: Stair foot
+    space: room:furnace_hall
+    outline: [[5184, 1536], [5568, 1536], [5568, 1856], [5184, 1856]]
+    floor: -512
+    ceiling: -64
+    theme: theme:clan_hold
+    ambient: 14
+    notes: "The landing at the foot of the gallery stair; it opens west into the furnace hall's south-east corner. A landing of its own because a flight may open only through its end walls."
+  - id: room:throne_dais
+    name: Throne dais
+    space: room:king_hall
+    outline: [[2688, 6688], [3712, 6688], [3712, 7232], [2688, 7232]]
+    floor: -320
+    ceiling: 512
+    theme: theme:king_hall
+    platforms:
+      - {at: [3200, 6944], size: [384, 224], rise: 32}
+    ambient: 12
+    notes: "The top of the dais, level with the hoard: 1024 x 544. The anvil throne on its plinth (a platform, +32) in the middle, a forge brazier either side of it, the small hoard door in the north wall behind it."
+  - id: room:tower_stair
+    name: Tower stair
+    space: room:furnace_tower
+    outline: [[2112, 3200], [2496, 3200], [2496, 3456], [2112, 3456]]
+    floor: -512
+    slope: {to: -256, toward: west, steps: 8}
+    ceiling: 192
+    theme: theme:forge_floor
+    ambient: 14
+    notes: 8 steps of 32 up west from the far bank (tread 48).
+  - id: room:warren_mouth
+    name: Burrow mouth
+    space: room:mole_warren
+    outline: [[3840, 960], [4096, 960], [4096, 1472], [3840, 1472]]
+    floor: -512
+    slope: {to: -768, toward: south}
+    ceiling: -128
+    theme: theme:rock_cut
+    ambient: 22
+    notes: "A burrow mouth in the hall's south wall, falling 256 over 512 to the warren."
+openings:
+  - id: open:armoury_door
+    from: room:barracks
+    to: room:armoury
+    link: link:barracks_armoury
+    width: 128
+    height: 256
+    notes: One step (32) up into the armoury.
+  - id: open:back_stair_barracks
+    from: room:back_stair
+    to: room:barracks
+    link: link:barracks_gong_back_stair
+    width: 224
+    height: 384
+  - id: open:barracks_doors
+    from: room:furnace_hall
+    to: room:barracks
+    link: link:furnace_barracks
+    along: 0.6
+    width: 256
+    height: 352
+    notes: The heavy double doors (two leaves of 128).
+  - id: open:breach_descent
+    from: room:geode_breach
+    to: room:geode_descent
+    width: 224
+    height: 448
+  - id: open:bridge_north_slag_middle
+    from: room:bridge_north
+    to: room:slag_middle
+    width: 352
+    height: 896
+  - id: open:bridge_south_slag_middle
+    from: room:bridge_south
+    to: room:slag_middle
+    width: 352
+    height: 896
+  - id: open:bridge_south_slag_south
+    from: room:bridge_south
+    to: room:slag_south
+    width: 352
+    height: 896
+  - id: open:crystal_wall
+    from: room:geode_lower
+    to: room:red_dwarf_vault
+    link: link:geode_vault
+    width: 192
+    height: 320
+    notes: "The singing crystal wall: a secret wall that sinks (an object)."
+  - id: open:cut_lookout
+    from: room:sentry_cut
+    to: room:sentry_lookout
+    width: 192
+    height: 320
+  - id: open:cut_ramp
+    from: room:sentry_cut
+    to: room:sentry_ramp
+    width: 224
+    height: 320
+  - id: open:dais_throne
+    from: room:dais_stair
+    to: room:throne_dais
+    width: 992
+    height: 832
+  - id: open:descent_geode
+    from: room:geode_descent
+    to: room:geode_grotto
+    width: 224
+    height: 448
+  - id: open:drain_breach
+    from: room:slag_drain
+    to: room:geode_breach
+    width: 352
+    height: 448
+  - id: open:far_antechamber
+    from: room:far_bank
+    to: room:kings_antechamber
+    link: link:furnace_antechamber
+    width: 768
+    height: 448
+  - id: open:far_bridge_north
+    from: room:far_bank
+    to: room:bridge_north
+    width: 224
+    height: 896
+  - id: open:far_bridge_south
+    from: room:far_bank
+    to: room:bridge_south
+    width: 160
+    height: 896
+  - id: open:far_slag_middle
+    from: room:far_bank
+    to: room:slag_middle
+    width: 1120
+    height: 896
+  - id: open:far_slag_south
+    from: room:far_bank
+    to: room:slag_south
+    width: 144
+    height: 896
+  - id: open:far_tower_stair
+    from: room:far_bank
+    to: room:tower_stair
+    link: link:furnace_tower_bridge
+    width: 224
+    height: 320
+    notes: "The foot of the tower stair, by the north bridge's far end."
+  - id: open:gallery_back_stair
+    from: room:gong_gallery
+    to: room:back_stair
+    width: 224
+    height: 320
+  - id: open:gallery_stair_foot
+    from: room:gallery_stair
+    to: room:stair_foot
+    link: link:gong_furnace_stairs
+    width: 224
+    height: 320
+  - id: open:gallery_stair_top
+    from: room:gong_gallery
+    to: room:gallery_stair
+    width: 224
+    height: 320
+  - id: open:gallery_window_north
+    from: room:gong_gallery
+    to: room:furnace_hall
+    along: 0.75
+    width: 256
+    height: 288
+    sill: 96
+    notes: "The second window, by the gong."
+  - id: open:gallery_window_south
+    from: room:gong_gallery
+    to: room:furnace_hall
+    along: 0.3
+    width: 256
+    height: 288
+    sill: 96
+    notes: "A window over the parapet (96 high), 384 above the hall floor: the view over the slag (sightline:gong_overlook)."
+  - id: open:geode_flight
+    from: room:geode_grotto
+    to: room:geode_flight
+    width: 352
+    height: 448
+  - id: open:geode_lower
+    from: room:geode_flight
+    to: room:geode_lower
+    width: 352
+    height: 448
+  - id: open:hall_breach
+    from: room:furnace_hall
+    to: room:geode_breach
+    link: link:furnace_geode
+    width: 192
+    height: 384
+    notes: "A rough hole in the hall's west wall, south of the channel."
+  - id: open:hall_dais
+    from: room:king_hall
+    to: room:dais_stair
+    width: 992
+    height: 1024
+  - id: open:hall_gutter_east
+    from: room:king_hall
+    to: room:gutter_east
+    width: 928
+    height: 1024
+  - id: open:hall_gutter_west
+    from: room:king_hall
+    to: room:gutter_west
+    width: 928
+    height: 1024
+  - id: open:hall_warren
+    from: room:furnace_hall
+    to: room:warren_mouth
+    link: link:furnace_mole_warren
+    width: 224
+    height: 320
+  - id: open:hoard_door
+    from: room:throne_dais
+    to: room:king_hoard
+    link: link:king_hall_hoard
+    width: 128
+    height: 256
+    notes: The small door behind the throne (the King's key).
+  - id: open:hoard_shaft
+    from: room:king_hoard
+    to: room:escape_shaft
+    link: link:hoard_escape_shaft
+    width: 256
+    height: 384
+  - id: open:kings_gate
+    from: room:kings_antechamber
+    to: room:king_hall
+    link: link:antechamber_king_hall
+    width: 384
+    height: 384
+    notes: "The King's Gate: two leaves of 192 in a wall 64 thick; its two bars are objects."
+  - id: open:landing_cut
+    from: room:deep_landing
+    to: room:sentry_cut
+    link: link:landing_sentry_cut
+    width: 224
+    height: 320
+  - id: open:lever_alcove
+    from: room:barracks
+    to: room:lever_alcove
+    width: 192
+    height: 288
+  - id: open:near_bridge_north
+    from: room:furnace_hall
+    to: room:bridge_north
+    width: 624
+    height: 896
+  - id: open:near_bridge_south
+    from: room:furnace_hall
+    to: room:bridge_south
+    width: 160
+    height: 896
+  - id: open:near_slag_middle
+    from: room:furnace_hall
+    to: room:slag_middle
+    width: 736
+    height: 896
+  - id: open:near_slag_south
+    from: room:furnace_hall
+    to: room:slag_south
+    width: 528
+    height: 896
+  - id: open:near_slag_steps
+    from: room:furnace_hall
+    to: room:slag_steps
+    width: 352
+    height: 320
+  - id: open:sentry_door
+    from: room:sentry_ramp
+    to: room:gong_gallery
+    link: link:sentry_cut_gong
+    width: 192
+    height: 288
+    notes: "The door into the gallery, at the foot of the ramp."
+  - id: open:slag_drain
+    from: room:slag_south
+    to: room:slag_drain
+    width: 352
+    height: 576
+    notes: The foot of the drain's steps.
+  - id: open:slag_middle_steps
+    from: room:slag_middle
+    to: room:slag_steps
+    width: 352
+    height: 448
+  - id: open:stair_foot_hall
+    from: room:stair_foot
+    to: room:furnace_hall
+    width: 256
+    height: 384
+  - id: open:tower_door
+    from: room:tower_stair
+    to: room:furnace_tower
+    width: 224
+    height: 320
+  - id: open:warren_mouth
+    from: room:warren_mouth
+    to: room:mole_warren
+    width: 224
+    height: 320
+notes: "L3 sketch of the Deep Mine (XD-03), a new design: whole map units, x east and y north, origin at the south-west corner of the geode's lower terrace (the Red Dwarf vault lies west of it, at negative x). Heights are absolute against the plan's datum, the arrival: the deep landing's floor is 0, the hold's floor -512, the low caves -768. The footprint is about 8,000 x 8,100 (16 x 16 cells of 512) and the floor area about 21.6 M units^2. A plan space is one room except where a flight, a ramp or a sunken floor must be a room of its own: the gong gallery (gallery and its flight), the sentry cut (path, lookout niche, ramp), the furnace hall (near bank, far bank, two bridges, stair foot), the slag channel (three reaches and the drain), the barracks (hall, lever alcove, back stair), the furnace tower (stair and tower), the King's hall (hall, two gutters, dais steps, throne dais), the geode grotto (breach, descent, upper terrace, steps, lower terrace) and the mole warren (mouth and warren). The extra rooms name their space; openings inside one space carry no plan link (R3-V4). Walls are 64 thick wherever two rooms are joined through a wall, and 0 where one space is split into rooms that must read as one floor (the hall's banks, bridges and slag; the King's hall, gutters and dais). The 16 units of wall the build keeps at each side of an opening stand as thin stubs at the ends of the slag ledges and the bridge ends (R3-K9). Openings are placed by the build on the longest facing pair of walls, so every flight and ramp is drawn with no wall of a room it joins running alongside it within 512, and the dais flight is wider than it is deep. Every floor change on the critical path is a flight, a ramp or a level doorway: risers are 32 (12-step flights of tread 40 for the gallery and back stair, 8 of tread 48 to the tower, 6 of 48 for the dais, 4 of 48 in the geode), ramps rise at most 0.5 of their run, platforms rise 32 to 40. The deliberate drops are the slag ledges (128, out by the drain) and the gallery windows (a 96 sill, 384 above the hall). Still not drawable: the cracked geode dome over the King's hall and its glitter (void:geode_dome; R3-K5, R3-K7), the Deep Line's rails falling out of the landing's roof and the cut and burrows as round or rough tunnels (R3-K5, uneven relief), the gallery overhanging the hall (R3-K7), the gutters' dry look before the King's second phase (one floor surface per room; a texture swap by event), the vault's rune ring (a floor decal), door leaves, bars, levers, the gong, the cage and all furniture (objects and decorations, not shell). The arrival is the plan's cart entrance: without objects.yml the build puts it in the middle of the landing, facing north. Checked: oymap validate and build --dry-run; a scratch copy built, mounted under mm6 and walked in the game from the landing through every room to the escape shaft, into both reaches of slag and out again (all 37 rooms reached)."

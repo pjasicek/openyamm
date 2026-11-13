@@ -1,0 +1,447 @@
+format: 0
+themes:
+  - id: theme:cellar_brick
+    wall: {texture: cbmxbrck, size: [128, 128]}
+    floor: {texture: tfb07, size: [128, 128]}
+    ceiling: {texture: cbrdbrck, size: [64, 64]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: bwooda2, size: [256, 256], fit: true}
+    notes: "The plan's old cellar brick: weathered mixed brick walls (MM6 cbmxbrck), dark stone slab floor (MM7 tfb07), red brick vaults overhead (MM6 cbrdbrck), old stone in the doorways (MM6 d1medbw), plank doors with iron grilles (MM8 bwooda2). Cellar stair and shipping room."
+  - id: theme:culvert
+    wall: {texture: d1medbw, size: [128, 128]}
+    floor: {texture: slimywtr, size: [128, 128]}
+    ceiling: {texture: d1smbw, size: [128, 128]}
+    notes: "The plan's culvert: mossy river stone walls and ceiling (MM6 d1medbw, d1smbw), slimy water underfoot (MM8 slimywtr)."
+  - id: theme:feed_store
+    wall: {texture: cbmxbrck, size: [128, 128]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: d2ceil2, size: [256, 256]}
+    door: {texture: cbmxbrck, size: [128, 128]}
+    notes: "The plan's feed store: cellar brick under a plank ceiling (MM6 d2ceil2), spilt chaff on the floor (MM6 straw). Its door surface is the brick, so the stash's secret door shows nothing until opened."
+  - id: theme:loading_bay
+    wall: {texture: bwooda1, size: [256, 256]}
+    floor: {texture: bmplnk, size: [256, 256]}
+    ceiling: {texture: d2ceil2, size: [256, 256]}
+    reveal: {texture: cbeam5, size: [32, 256]}
+    door: {texture: bwooda2, size: [256, 256], fit: true}
+    notes: "The plan's warehouse timber, bay variant: weathered vertical boards (MM8 bwooda1), dark plank floor (MM6 bmplnk), joists and boards overhead (MM6 d2ceil2), beam reveals (MM6 cbeam5)."
+  - id: theme:office
+    wall: {texture: bemhwal, size: [256, 128]}
+    floor: {texture: bembllg, size: [256, 256]}
+    ceiling: {texture: d2ceil2, size: [256, 256]}
+    reveal: {texture: cbeam5, size: [32, 256]}
+    door: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: "The plan's office panelling: horizontal plank panels (MM6 bemhwal), warm board floor (MM6 bembllg), a panelled door (MM6 beemdorc)."
+  - id: theme:pens_brick
+    wall: {texture: cbrdbrck, size: [64, 64]}
+    floor: {texture: tfb07, size: [128, 128]}
+    ceiling: {texture: cbmxbrck, size: [128, 128]}
+    reveal: {texture: d1medbw, size: [128, 128]}
+    door: {texture: bwooda2, size: [256, 256], fit: true}
+    notes: "The plan's cistern brick: red brick walls (MM6 cbrdbrck), stone slab floor (MM7 tfb07), mixed brick vault (MM6 cbmxbrck). Pen gates and the honeymoon gate use the grilled plank door until a barred gate exists."
+  - id: theme:warehouse_timber
+    wall: {texture: bwoodb1, size: [256, 256]}
+    floor: {texture: bmplnk, size: [256, 256]}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+    reveal: {texture: cbeam5, size: [32, 256]}
+    door: {texture: bwooda2, size: [256, 256], fit: true}
+    notes: "The plan's warehouse timber: horizontal weatherboard walls (MM8 bwoodb1), dark plank floor (MM6 bmplnk), open rafters (MM6 d2ceil1), beam reveals, grilled plank doors (the barn doors). Grain hall, loft and loft stair."
+defaults: {theme: theme:warehouse_timber, ambient: 14}
+rooms:
+  - id: room:breeding_pens
+    name: Breeding pens
+    outline: [[2912, 4801], [2912, 5119], [2790, 5413], [2565, 5638], [2271, 5760], [1953, 5760], [1659, 5638], [1434, 5413], [1312, 5119], [1312, 4801], [1434, 4507], [1659, 4282], [1953, 4160], [2271, 4160], [2565, 4282], [2790, 4507]]
+    floor: -384
+    ceiling: 256
+    theme: theme:pens_brick
+    platforms:
+      - {at: [2112, 4960], size: [384, 384], rise: 16, facing: 45, surface: {texture: slimywtr, size: [128, 128]}}
+    ambient: 18
+    notes: "The signature room: a sixteen-sided brick cistern 1,600 across, ceiling 640 over the floor. Five of its walls are doorways (south: the cellar stair; west: the feed store; north: the honeymoon pen; north-east: the shipping room; east: the culvert's iron door), six are the barred gates of the slime pens, five are plain wall for the bug-tank shelf. The drain pool in the middle is a low slime-filled kerb (a platform 16 high, slime surface) until sunken floors exist. Axis and diagonal walls have exact integer directions, so the doorways' rooms face them exactly. Still not drawable: the low brick dome (R3-K5, R3-K7), the pool sunk 64 below the floor (R3-K6 sunken floors)."
+  - id: room:cellar_landing
+    name: "Cellar stair, landing"
+    space: room:cellar_stair
+    outline: [[1968, 3392], [2256, 3392], [2256, 3648], [1968, 3648]]
+    floor: -192
+    ceiling: 192
+    theme: theme:cellar_brick
+    ambient: 18
+    notes: "The landing halfway down, -192."
+  - id: room:cellar_stair
+    name: "Cellar stair, upper flight"
+    outline: [[1968, 2944], [2256, 2944], [2256, 3328], [1968, 3328]]
+    floor: 0
+    slope: {to: -192, toward: north, steps: 6}
+    ceiling: 384
+    theme: theme:cellar_brick
+    ambient: 18
+    notes: "Upper flight: 6 steps of 32 down north from the KEEP OUT door (the opening in the hall aisle's north wall, a locked door in L4)."
+  - id: room:cellar_stair_lower
+    name: "Cellar stair, lower flight"
+    space: room:cellar_stair
+    outline: [[1968, 3712], [2256, 3712], [2256, 4096], [1968, 4096]]
+    floor: -192
+    slope: {to: -384, toward: north, steps: 6}
+    ceiling: 192
+    theme: theme:cellar_brick
+    ambient: 18
+    notes: "Lower flight: 6 steps of 32 down to the pens' south door; from its top the green glow of the drain pool is ahead (landmark:pens_glow)."
+  - id: room:culvert
+    name: "River culvert, upper bend"
+    outline: [[2976, 4816], [3328, 4816], [3328, 4560], [3616, 4560], [3616, 4976], [3488, 5104], [2976, 5104]]
+    floor: -384
+    ceiling: 0
+    theme: theme:culvert
+    ambient: 22
+    notes: "The culvert's level head behind the low iron door: east from the cistern, then a rounded bend south. Floor wears the slimy water surface (ankle-deep water as a surface; no liquids yet)."
+  - id: room:culvert_mouth
+    name: "River culvert, grate end"
+    space: room:culvert
+    outline: [[3328, 3456], [3488, 3296], [4160, 3296], [4160, 3584], [3616, 3584], [3616, 3680], [3328, 3680]]
+    floor: -640
+    ceiling: -256
+    theme: theme:culvert
+    ambient: 20
+    notes: "Turns east to the river grate (the exit in the east wall: objects.yml exits, with the grate's lifting event in wiring). Lighter: daylight from the river through the grate."
+  - id: room:culvert_ramp
+    name: "River culvert, slope"
+    space: room:culvert
+    outline: [[3328, 3744], [3616, 3744], [3616, 4496], [3328, 4496]]
+    floor: -384
+    slope: {to: -640, toward: south}
+    ceiling: 0
+    theme: theme:culvert
+    ambient: 22
+    notes: "The culvert's slope: 256 down over 752 to the river level. A ramp must be straight and convex, so the curve is drawn as bend, ramp and bend."
+  - id: room:feed_store
+    name: Feed store
+    outline: [[192, 4512], [864, 4512], [864, 4800], [1248, 4800], [1248, 5120], [416, 5120], [192, 4896]]
+    floor: -384
+    ceiling: 64
+    theme: theme:feed_store
+    ambient: 20
+    notes: "L-shaped: a neck from the cistern's west door between two pens, widening into the store. The stacked Slime Chow sacks line its south wall (decorations); the stash's secret door is in that wall, behind them."
+  - id: room:grain_hall
+    name: Grain hall
+    outline: [[0, 1216], [128, 1088], [2240, 1088], [2368, 1216], [2368, 2880], [1856, 2880], [1856, 1728], [1664, 1728], [1216, 2176], [128, 2176], [0, 2048]]
+    floor: 0
+    ceiling: 768
+    theme: theme:warehouse_timber
+    pillars:
+      - {at: [576, 1696], size: [320, 320], surface: {texture: bwooda1, size: [256, 256]}}
+      - {at: [1344, 1472], size: [320, 320], surface: {texture: bwooda1, size: [256, 256]}}
+    ambient: 14
+    notes: "An L: the long hall (about 2,300 by 1,100) behind the barn doors, and its north-east aisle running north to the KEEP OUT door, which stands in the aisle's north wall. The hall's north-east corner is cut on the diagonal so the loft stair's side wall faces no hall wall. Two square grain bins (pillars, plank-faced) to walk round. The loft runs along the north wall, 256 above the floor: a long rail opening (sill 64) shows it, and the rail is broken at the west end where the ladder stands. Ceiling flat at 768. Still not drawable: the pitched rafter roof (R3-K5 shaped ceilings), the floor's sag and gutter (uneven relief), the ladder itself (no ladders in objects.yml)."
+  - id: room:joes_office
+    name: Joe's office
+    outline: [[-576, 96], [-192, 144], [-192, 512], [64, 512], [64, 960], [-448, 960], [-576, 832]]
+    floor: 64
+    ceiling: 448
+    theme: theme:office
+    platforms:
+      - {at: [-352, 704], size: [256, 128], rise: 64, surface: {texture: bembllg, size: [256, 256]}}
+    ambient: 12
+    notes: "Trapezoid: the south wall and the north-west corner are set at an angle. The east wall's projecting part faces the bay over a 64 wall and holds the counter window (sill 96); the recessed part behind the steps holds the door. Joe's desk is a platform (64 high, furniture, not stepped on) with the ledger on it and the pen key in its drawers."
+  - id: room:joes_stash
+    name: Joe's stash
+    outline: [[192, 4064], [640, 4064], [704, 4128], [704, 4448], [192, 4448]]
+    floor: -384
+    ceiling: 0
+    theme: theme:feed_store
+    ambient: 24
+    notes: Closet south of the feed store behind the sliding sacks (a secret door in L4). One chamfered corner.
+  - id: room:loading_bay
+    name: Loading bay
+    outline: [[256, 0], [1280, 0], [1408, 128], [1408, 896], [1280, 1024], [128, 1024], [128, 128]]
+    floor: 0
+    ceiling: 512
+    theme: theme:loading_bay
+    pillars:
+      - {at: [448, 288], size: [256, 192], surface: {texture: cr_w128b, size: [128, 128]}}
+      - {at: [1120, 352], size: [192, 256], surface: {texture: cr_w128b, size: [128, 128]}}
+      - {at: [384, 704], size: [192, 256], surface: {texture: cr_w128b, size: [128, 128]}}
+      - {at: [1088, 800], size: [256, 192], surface: {texture: cr_w128b, size: [128, 128]}}
+    ambient: 14
+    notes: "The arrival room: the party starts at its middle facing north, the barn doors to the grain hall ahead and nothing in sight of them; the street doors are behind, at the top of the loading ramp. Four crate stacks (pillars faced with crate planks, floor to ceiling) stand staggered so every aisle runs through; none at the middle, where the build puts the start. Chamfered corners. The office's counter window looks in through the west wall, its steps beside it. Still not drawable: the timber hoist frame over the ramp (a decoration, or a placeholder until one exists)."
+  - id: room:loading_ramp
+    name: Loading ramp
+    space: room:loading_bay
+    outline: [[576, -512], [960, -512], [960, -64], [576, -64]]
+    floor: 0
+    slope: {to: 128, toward: south}
+    ceiling: 576
+    theme: theme:loading_bay
+    ambient: 14
+    notes: "The short ramp up to the street doors (128 over 448). The doors themselves are an exit face in the south wall at the top (objects.yml exits, not drawn here)."
+  - id: room:loft
+    name: Grain loft
+    outline: [[192, 2240], [1216, 2240], [1216, 2624], [64, 2624], [64, 2368]]
+    floor: 256
+    ceiling: 768
+    theme: theme:warehouse_timber
+    ambient: 14
+    notes: "The gallery along the hall's north side at +256, open to the hall over the rail; the west end is cut on the diagonal and the rail is broken there: the drop (sill 0) is where the ladder belongs, and the shell lets the party drop the 256 to the hall floor, which closes the loop until a ladder can be placed. The chest stands in the north-west corner. Reached from the hall up the loft stair at its east end."
+  - id: room:loft_stair
+    name: Loft stair
+    space: room:loft
+    outline: [[1280, 2240], [1792, 2240], [1792, 2560], [1280, 2560]]
+    floor: 0
+    slope: {to: 256, toward: west, steps: 8}
+    ceiling: 768
+    theme: theme:warehouse_timber
+    ambient: 16
+    notes: "8 steps of 32 rising west from the hall's north-east aisle to the loft's east end; a flight is its own rectangle."
+  - id: room:mated_pair_pen
+    name: The honeymoon pen
+    outline: [[1936, 5824], [2288, 5824], [2288, 6176], [2432, 6240], [2560, 6400], [2560, 6624], [2464, 6784], [2272, 6848], [2112, 6784], [2016, 6720], [1856, 6816], [1664, 6752], [1600, 6560], [1664, 6304], [1792, 6208], [1936, 6176]]
+    floor: -416
+    ceiling: 32
+    theme: theme:pens_brick
+    ambient: 16
+    notes: "Kidney-shaped, one step (32) below the cistern: a narrow neck from the heart-painted gate (kept narrow so the two pen niches either side stay clear), then the bean with its hollow to the north. The boss pair's room."
+  - id: room:office_steps
+    name: Office steps
+    space: room:joes_office
+    outline: [[-128, 208], [64, 208], [64, 480], [-128, 480]]
+    floor: 0
+    slope: {to: 64, toward: west, steps: 2}
+    ceiling: 448
+    theme: theme:office
+    ambient: 16
+    notes: "Two steps of 32 from the bay up into Joe's office; the office door, with the slime bucket over it, is at the top (the west end)."
+  - id: room:pen_1
+    name: Slime pen 1
+    space: room:breeding_pens
+    outline: [[1395, 5464], [1608, 5677], [1416, 5939], [1133, 5656]]
+    floor: -384
+    ceiling: 0
+    theme: theme:pens_brick
+    ambient: 20
+    notes: "A slime pen behind a barred gate in a cistern wall (a door in L4, opened singly by click or all together by the FEEDING TIME lever). Wedge-shaped, 384 deep."
+  - id: room:pen_2
+    name: Slime pen 2
+    space: room:breeding_pens
+    outline: [[1253, 5143], [1375, 5437], [1095, 5598], [941, 5228]]
+    floor: -384
+    ceiling: 0
+    theme: theme:pens_brick
+    ambient: 20
+    notes: "A slime pen behind a barred gate in a cistern wall (a door in L4, opened singly by click or all together by the FEEDING TIME lever). Wedge-shaped, 384 deep."
+  - id: room:pen_3
+    name: Slime pen 3
+    space: room:breeding_pens
+    outline: [[1375, 4483], [1253, 4777], [941, 4692], [1095, 4322]]
+    floor: -384
+    ceiling: 0
+    theme: theme:pens_brick
+    ambient: 20
+    notes: "A slime pen behind a barred gate in a cistern wall (a door in L4, opened singly by click or all together by the FEEDING TIME lever). Wedge-shaped, 384 deep."
+  - id: room:pen_4
+    name: Slime pen 4
+    space: room:breeding_pens
+    outline: [[1608, 4243], [1395, 4456], [1133, 4264], [1416, 3981]]
+    floor: -384
+    ceiling: 0
+    theme: theme:pens_brick
+    ambient: 20
+    notes: "A slime pen behind a barred gate in a cistern wall (a door in L4, opened singly by click or all together by the FEEDING TIME lever). Wedge-shaped, 384 deep."
+  - id: room:pen_5
+    name: Slime pen 5
+    space: room:breeding_pens
+    outline: [[1929, 4101], [1635, 4223], [1474, 3943], [1844, 3789]]
+    floor: -384
+    ceiling: 0
+    theme: theme:pens_brick
+    ambient: 20
+    notes: "A slime pen behind a barred gate in a cistern wall (a door in L4, opened singly by click or all together by the FEEDING TIME lever). Wedge-shaped, 384 deep."
+  - id: room:pen_6
+    name: Slime pen 6
+    space: room:breeding_pens
+    outline: [[2829, 4456], [2616, 4243], [2808, 3981], [3091, 4264]]
+    floor: -384
+    ceiling: 0
+    theme: theme:pens_brick
+    ambient: 20
+    notes: "A slime pen behind a barred gate in a cistern wall (a door in L4, opened singly by click or all together by the FEEDING TIME lever). Wedge-shaped, 384 deep."
+  - id: room:shipping_room
+    name: Shipping room
+    outline: [[2835, 5458], [3612, 5458], [3612, 6260], [2610, 6260], [2610, 5683]]
+    floor: -384
+    ceiling: 64
+    theme: theme:cellar_brick
+    pillars:
+      - {at: [3392, 6048], size: [256, 256], surface: {texture: cr_w128b, size: [128, 128]}}
+    ambient: 18
+    notes: "Five-sided: the slanted south-west wall faces the cistern's north-east wall and holds the door. A stack of crates addressed to Vertigo homes (a pillar) in the north-east; the invoice crate (a chest, L4) beside it. Still not drawable: the delivery chute up to the street (a sloped shaft in the ceiling; R3-K5)."
+openings:
+  - id: open:bay_grain_hall
+    from: room:loading_bay
+    to: room:grain_hall
+    link: link:bay_grain_hall
+    width: 384
+    height: 352
+    notes: "The rolling barn doors: a double sliding door (L4) in a timber wall 64 thick."
+  - id: open:bay_office_steps
+    from: room:loading_bay
+    to: room:office_steps
+    width: 224
+    height: 320
+    notes: Open foot of the office steps.
+  - id: open:cellar_stair_landing
+    from: room:cellar_stair
+    to: room:cellar_landing
+    width: 256
+    height: 288
+  - id: open:culvert_mouth
+    from: room:culvert_ramp
+    to: room:culvert_mouth
+    width: 256
+    height: 320
+  - id: open:culvert_slope
+    from: room:culvert
+    to: room:culvert_ramp
+    width: 256
+    height: 320
+  - id: open:feed_store_stash
+    from: room:feed_store
+    to: room:joes_stash
+    link: link:feed_store_stash
+    along: 0.85
+    width: 192
+    height: 256
+    notes: "Behind the sliding Slime Chow sacks: the secret door (L4), 192 wide, at the store's west end."
+  - id: open:hall_cellar_stair
+    from: room:grain_hall
+    to: room:cellar_stair
+    link: link:grain_hall_cellar_stair
+    width: 256
+    height: 288
+    notes: "KEEP OUT (THIS MEANS YOU, GUNTHER): the locked door (L4) at the head of the cellar stair."
+  - id: open:hall_loft_stair
+    from: room:grain_hall
+    to: room:loft_stair
+    link: link:grain_hall_loft_stairs
+    width: 256
+    height: 320
+    notes: Foot of the loft stair in the aisle's west wall.
+  - id: open:landing_stair_lower
+    from: room:cellar_landing
+    to: room:cellar_stair_lower
+    width: 256
+    height: 288
+  - id: open:loft_ladder
+    from: room:loft
+    to: room:grain_hall
+    link: link:grain_hall_loft_ladder
+    along: 0.05
+    width: 192
+    height: 384
+    notes: The break in the rail at the loft's west end where the ladder stands. Without a ladder object the party drops the 256 here.
+  - id: open:loft_rail
+    from: room:loft
+    to: room:grain_hall
+    link: link:loft_overlook
+    along: 0.62
+    width: 704
+    height: 320
+    sill: 64
+    notes: "The loft rail: a parapet 64 high and the view over the whole hall above it."
+  - id: open:loft_stair_loft
+    from: room:loft_stair
+    to: room:loft
+    width: 256
+    height: 320
+    notes: Top of the loft stair into the loft's east end.
+  - id: open:office_counter
+    from: room:joes_office
+    to: room:loading_bay
+    along: 0.6
+    width: 256
+    height: 128
+    sill: 96
+    notes: "The counter window: from the office, Joe watches the bay over his counter (sill 96 above the office floor, 160 above the bay's). Not passable."
+  - id: open:office_steps_office
+    from: room:office_steps
+    to: room:joes_office
+    link: link:bay_office
+    width: 224
+    height: 288
+    notes: "The office door at the top of the two steps; the slime bucket hangs over it (set:slime_bucket)."
+  - id: open:pens_culvert
+    from: room:breeding_pens
+    to: room:culvert
+    link: link:pens_culvert
+    width: 224
+    height: 256
+    notes: "The low iron door (L4) in the cistern's east wall, beside the pool's outlet."
+  - id: open:pens_feed_store
+    from: room:breeding_pens
+    to: room:feed_store
+    link: link:pens_feed_store
+    width: 256
+    height: 320
+    notes: Open arch in the cistern's west wall.
+  - id: open:pens_honeymoon
+    from: room:breeding_pens
+    to: room:mated_pair_pen
+    link: link:pens_honeymoon
+    width: 256
+    height: 288
+    notes: "The heart-painted barred gate (L4) in the cistern's north wall, one step down."
+  - id: open:pens_pen_1
+    from: room:breeding_pens
+    to: room:pen_1
+    width: 256
+    height: 256
+    notes: "A pen's barred gate (L4: a door, opened by click or by the FEEDING TIME lever)."
+  - id: open:pens_pen_2
+    from: room:breeding_pens
+    to: room:pen_2
+    width: 256
+    height: 256
+    notes: "A pen's barred gate (L4: a door, opened by click or by the FEEDING TIME lever)."
+  - id: open:pens_pen_3
+    from: room:breeding_pens
+    to: room:pen_3
+    width: 256
+    height: 256
+    notes: "A pen's barred gate (L4: a door, opened by click or by the FEEDING TIME lever)."
+  - id: open:pens_pen_4
+    from: room:breeding_pens
+    to: room:pen_4
+    width: 256
+    height: 256
+    notes: "A pen's barred gate (L4: a door, opened by click or by the FEEDING TIME lever)."
+  - id: open:pens_pen_5
+    from: room:breeding_pens
+    to: room:pen_5
+    width: 256
+    height: 256
+    notes: "A pen's barred gate (L4: a door, opened by click or by the FEEDING TIME lever)."
+  - id: open:pens_pen_6
+    from: room:breeding_pens
+    to: room:pen_6
+    width: 256
+    height: 256
+    notes: "A pen's barred gate (L4: a door, opened by click or by the FEEDING TIME lever)."
+  - id: open:pens_shipping
+    from: room:breeding_pens
+    to: room:shipping_room
+    link: link:pens_shipping
+    width: 256
+    height: 320
+    notes: Door (L4) in the cistern's north-east wall.
+  - id: open:ramp_bay
+    from: room:loading_ramp
+    to: room:loading_bay
+    width: 320
+    height: 384
+    notes: "Foot of the loading ramp, open to the bay."
+  - id: open:stair_pens
+    from: room:cellar_stair_lower
+    to: room:breeding_pens
+    link: link:cellar_stair_pens
+    width: 256
+    height: 320
+    notes: "Open arch at the foot of the stair, in the cistern's south wall."
+notes: "The to-scale sketch of the plan, in whole map units: x east, y north, heights from the plan's datum, the loading bay's floor (0). The warehouse is the south half (bay, office, grain hall with its north-east aisle, loft and the two stairs); the cellar is the north half, reached by the cellar stair running north from the aisle, with the breeding pens' sixteen-sided cistern centred at [2112, 4960]. A plan space is one room except where a flight, a ramp or a niche must be its own room: the loading ramp (bay), the office steps (office), the loft stair (loft), the cellar stair's two flights and landing, the six pen niches (breeding pens) and the culvert's bend, slope and grate end; the extra rooms name their space. Walls are 64 thick between joined rooms (the counter window's wall and the loft rail too); elsewhere rooms keep at least 23 units of solid between them (the feed store's neck between two pens is the tightest). The cistern's axis and diagonal walls run in exact integer directions and every room that opens off a cistern wall has a wall exactly parallel to it, which is how the build finds the pair. Every floor change on the critical path is a flight of 32-unit steps, a ramp no steeper than 128 over 448 or a level doorway; the only drops are the loft's broken rail (256, until the ladder is placed) and the honeymoon pen's 32 step down. Themes name the L2 texture families; pillars are the crate stacks and grain bins, platforms the office desk and the drain pool's kerb. No doors, lights, spawns or chests: those are L4 (objects.yml, wiring.yml). Not drawable yet: the grain hall's pitched rafters and the cistern's dome (shaped ceilings, R3-K5 and K7), the drain pool sunk 64 (R3-K6 sunken floors), the hall floor's sag (uneven relief), the shipping room's chute (a sloped shaft), the loft ladder (no ladders in objects.yml), barred gates as their own look (R3-K11 per-opening look)."

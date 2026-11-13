@@ -1,0 +1,793 @@
+format: 0
+level: L1
+pitch: "Harmondale is a contested border barony in temperate highlands, and the region the party is handed as its own: a ruined castle on a shoulder at the head of a small, busy market town that sits in a sheltered bowl of hills. The town is the party's home base for the whole game, with every everyday service, seven magic guilds and a stable, and it stays safe ground. Beyond the bowl the land opens into a broad low basin of meadows held by goblins: an old hill fort in the middle whose towers still throw fire, goblin bands roaming the basin, a quiet farming hamlet on the road south, a small lake under white chalk cliffs that hide a goblin cave, and a lone house in the east where the kingdom's Arbiter sits in judgement. Play starts at the castle door: shop and train in town, clear the castle and the basin, take the fort, light the three watch fires to bring the hidden raiding army out of the south-west hills, and later restore the castle stage by stage while the region's politics (the Arbiter, the light-or-dark choice) play out here."
+purpose: "The continent's home region and early-game hub: the party's own castle and home town, with every everyday service, seven guilds and a stable; the starting map of the castle arc, the world's return point and a Town Portal destination. Outside the town, open goblin-held country for the first fights, a hill fort to take, and the region's politics (the Arbiter, the light-or-dark choice)."
+mood: "Pastoral and homely inside the town bowl; open and skirmishy outside it; high bare hills and white caps all round."
+datum: zone:central_basin
+spaces:
+  - id: junction:high_road_bend
+    name: High road bend
+    kind: junction
+    part_of: zone:central_basin
+    where: "North-east of the basin, where the high road turns north into the north-east valley."
+    purpose: The high road's bend (the third junction).
+  - id: junction:south_fork
+    name: Hamlet three-way
+    kind: junction
+    part_of: zone:south_hamlet
+    where: In the hamlet.
+    purpose: Where the trunk meets the west road and the south road.
+    signpost: true
+  - id: zone:castle_forecourt
+    name: Castle forecourt
+    kind: zone
+    part_of: zone:castle_shoulder
+    where: "In front of the castle door, at the head of the main street."
+    floor: 500
+    purpose: Party start and the view down the main street.
+    empty: true
+    safe: true
+    keep_clear: [spawns, buildings, decorations]
+    density: open
+  - id: zone:castle_shoulder
+    name: Castle shoulder
+    kind: zone
+    part_of: zone:town_bowl
+    share: 0.005
+    where: "West end of the town bowl, closing the west end of the main street."
+    floor: 500
+    purpose: The party's castle and the start forecourt.
+    safe: true
+    keep_clear: [spawns]
+    density: open
+    buildings:
+      - {id: building:castle, type: castle, count: 1, notes: "Castle Harmondale: one large assembly, staged (state:castle_stage_2, state:castle_stage_3); the door is entrance:castle_door."}
+    treasure:
+      - {kind: chest, count: 1, notes: Chest by the castle.}
+  - id: zone:central_basin
+    name: Central basin
+    kind: wild
+    share: 0.15
+    shape: "The largest low, nearly flat ground, with a few small rises: the fort's mound, a steep spire east of the fort rising to about 3,200 (no white cap), and the Arbiter's knoll near the eastern rim."
+    where: From the town's mouth east to the eastern rim and south to the lakes.
+    floor: 0
+    relief: flat
+    purpose: "Open fighting ground; the hill fort; the shrine. A wide meadow for running fights and the fort's fields of fire."
+    density: sparse
+    population:
+      - {id: pop:basin_goblins, slot: 1, groups: 22, per_marker: [2, 5], strength: pack, rank: mixed, notes: "Spawn points round the fort on all sides, four of them inside its ring wall (one by each tower)."}
+      - {id: pop:east_goblins, slot: 1, groups: 4, per_marker: [2, 5], strength: pack, rank: mixed, notes: "On the basin's east side under the spire; none on the Arbiter's knoll."}
+      - {id: pop:swordsmen, actor: Swordsman, groups: 10, level_vs_slots: several levels above the goblins, placed: true, strength: heavy, hostile: true, notes: "Fixed band, mid tier, camped round the fort's west and east sides."}
+    treasure:
+      - {kind: chest, count: 2, reached_by: road, notes: Two wayside crates on the trunk road.}
+    notes: "Keep it mostly clear of trees: sparse trees and rocks only."
+  - id: zone:civic_corner
+    name: Civic corner
+    kind: zone
+    part_of: zone:town_bowl
+    where: "West-south-west of the town, off the main street."
+    purpose: "Temple with a tall spire, town hall (a two-part assembly) and training."
+  - id: zone:east_knoll
+    name: Arbiter's knoll
+    kind: wild
+    share: 0.04
+    where: "East, near the eastern rim, across the open basin."
+    floor: 640
+    purpose: "The Arbiter's hall: a small house on a flat round base."
+    density: open
+    buildings:
+      - {id: building:arbiter_hall, type: house on a round base, service: Arbiter (house dialog), count: 1}
+    notes: Almost empty.
+  - id: zone:gate_junction
+    name: Town gate junction
+    kind: junction
+    part_of: zone:central_basin
+    where: "Just outside the town gate, at the west edge of the basin."
+    purpose: "Where the main street, the high road and the trunk meet."
+    signpost: true
+  - id: zone:guild_terrace
+    name: Guild terrace
+    kind: zone
+    part_of: zone:town_bowl
+    where: "North side of the town bowl, climbing the slope."
+    floor: [0, 650]
+    relief: steps
+    purpose: "Guild quarter: the seven guilds stepping up the slope (Body and Mind lowest at about 290, Fire and Spirit about 380, Water about 480, Air highest at the top, about 640), Earth entered from a doorway in the slope at the foot; a fountain by the Water guild and a well on the terrace."
+  - id: zone:hermit_ridge
+    name: Hermit ridge
+    kind: zone
+    part_of: zone:west_valley
+    where: High on the ridge between the town and the west road.
+    purpose: Two hermit huts.
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:hermit_huts, type: hut, service: residence, count: 2}
+  - id: zone:hill_fort
+    name: Hill fort
+    kind: zone
+    part_of: zone:central_basin
+    extent: [5120, 5120]
+    shape: "A low built ring wall (about 10 plan cells across, about 128 high on a low terrace, its top about 256 above the basin floor) round a square keep with four corner towers on the fort's mound (about 320)."
+    where: "In the basin, just east of the map's centre and a little north."
+    purpose: "The basin's strongpoint: towers that throw fire, a keep to take."
+    buildings:
+      - {id: building:hill_fort, type: fort, count: 1, notes: Square keep with four corner towers inside a low built ring wall.}
+    population:
+      - {id: pop:keep_hobgoblins, actor: Hobgoblin, groups: 4, placed: true, shape: tight, notes: Fixed group in the keep.}
+    treasure:
+      - {kind: chest, count: 1, notes: In the keep.}
+    notes: "Four of the basin's spawn points stand inside the ring wall, one by each tower."
+  - id: zone:lake_chain
+    name: Lake chain
+    kind: water
+    part_of: zone:se_lakes
+    where: "Below the white cliffs: two lakes at basin level and an upper lake on a shelf at about 400 under the Arbiter's knoll, spilling into them."
+    floor: 0
+    purpose: "A chain of small lakes and their outlet stream, which drains south-west to the south edge through a ravine."
+  - id: zone:market_end
+    name: Market end
+    kind: zone
+    part_of: zone:town_bowl
+    where: "East end of the main street, at the town entrance facing the junction."
+    floor: 0
+    purpose: "Tavern, weapon and armour shops, bank, the stable with its wagon yard, a well, and the town entrance."
+  - id: zone:ne_valley
+    name: North-east valley
+    kind: wild
+    share: 0.1
+    where: "North-east, the valley the high road climbs to the north edge."
+    purpose: "The high road to the north exit; the obelisk; the north watch fire."
+    fires: 1
+    density: sparse
+    population:
+      - {id: pop:ne_goblins, slot: 1, groups: 9, per_marker: [2, 5], strength: pack, rank: mixed, notes: "Mostly round the high road's bend and along the basin's north edge; only one up the valley itself."}
+    treasure:
+      - {kind: chest, count: 2, reached_by: off_road, notes: Two crates by the obelisk.}
+    notes: Sparse groves.
+  - id: zone:orchard_hill
+    name: Orchard hill
+    kind: zone
+    part_of: zone:outer_rim
+    where: "North-west, on the hill above the town."
+    purpose: Four fruit trees.
+    reached_by: off_road
+  - id: zone:outer_rim
+    name: Outer rim
+    kind: wild
+    share: 0.35
+    where: "All four edges, about the outer seventh of the map on each side."
+    floor: [2000, 4000]
+    purpose: "Frame and screen: high bare hills broken only by the three road valleys; white chalk or snow caps on the highest knolls, the largest a white massif in the south-east."
+    empty: true
+    keep_clear: [spawns, buildings]
+    density: open
+    treasure:
+      - {kind: floor_item, count: 3, reached_by: off_road, notes: "Item spawns on the white-capped knoll on the north rim, north of the gate junction."}
+    notes: "Bare, almost undecorated: deliberate open space framing the map."
+  - id: zone:se_lakes
+    name: South-east lake country
+    kind: wild
+    share: 0.12
+    where: "South-east: lakes below the white cliffs, mostly at basin level."
+    floor: 0
+    purpose: "Lakes, white cliffs, the goblin cave."
+    density: sparse
+    population:
+      - {id: pop:lakeside_goblins, slot: 1, groups: 3, per_marker: [2, 5], strength: pack, rank: mixed, notes: "At the lake outlet, by the footbridge's west end."}
+    notes: "Rocks, scattered trees. The lake shores are deliberate open space: bare, quiet ground."
+  - id: zone:south_hamlet
+    name: South hamlet
+    kind: town
+    share: 0.02
+    where: "South-west of the basin, at the junction of the trunk, the west road and the south road."
+    purpose: "Quiet farming hamlet at the road junction; a well with a Might boost."
+    safe: true
+    keep_clear: [spawns]
+    density: sparse
+    buildings:
+      - {id: building:hamlet_houses, type: house, service: residence, count: 3, doors: 1}
+      - {id: building:hamlet_long_house, type: long house, service: residence, count: 1, doors: 2}
+    treasure:
+      - {kind: chest, count: 1, notes: One crate.}
+    notes: Open rural cluster.
+  - id: zone:south_road_valley
+    name: South road valley
+    kind: zone
+    part_of: zone:se_lakes
+    where: "South, from the hamlet south-east then south to the south edge just west of centre."
+    floor: 640
+    purpose: "The south road's valley: a floor at about 640 with the road in its own cutting below it, a stone bridge spanning the cutting, the lake outlet's separate ravine further east, and the south watch fire."
+    fires: 1
+    notes: "The prose brief has no zone of its own for this valley; it counts the south road with the lake country."
+  - id: zone:south_shelf
+    name: Residential shelf
+    kind: zone
+    part_of: zone:town_bowl
+    where: "South side of the town bowl: the south lane at street level and, behind its west side, a shelf about 640 above the street."
+    floor: [0, 640]
+    relief: steps
+    purpose: "Homes: six of the town's seven houses, with seven home doors (the seventh house stands north of the market end). Only the double house and Mark Manor stand on the shelf at about 640; the other four homes stand at street level along the south lane."
+  - id: zone:stable_yard
+    name: Stable yard
+    kind: zone
+    part_of: zone:market_end
+    where: At the town gate.
+    purpose: "Wagons, crates and the well in an open yard; arrival by stable and from the Arena."
+    keep_clear: [buildings]
+    density: open
+    treasure:
+      - {kind: chest, count: 3, notes: Three crates in the stable yard.}
+  - id: zone:sw_highlands
+    name: South-west highlands
+    kind: wild
+    share: 0.12
+    shape: "A broad high block, wooded on its slopes, with a ridge spur that separates the town bowl from the west road valley."
+    where: "South-west, between the west road and the south road."
+    floor: [1500, 3200]
+    relief: uneven
+    purpose: "Wooded heights; the hidden raiding camp; fruit trees; a chest on the highest peak."
+    safe:
+      not:
+        qbit: raiders_called
+    keep_clear: [spawns]
+    density: dense
+    population:
+      - {id: pop:raiders, actors: [{actor: Goblin}, {actor: Hobgoblin}, {actor: Goblin Lord, count: 1}], groups: 75, placed: true, hostile: true, hidden_until: {qbit: raiders_called}, notes: "The raiding camp, spread over the highlands down to the slopes above the hamlet."}
+    treasure:
+      - {kind: chest, count: 1, reached_by: off_road, notes: On the highest peak.}
+    notes: Densest woodland on the map.
+  - id: zone:town_bowl
+    name: Town bowl
+    kind: town
+    share: 0.05
+    extent: [12288, 12288]
+    shape: "A sheltered pocket on low ground, closed by hills on the north, west and south and open only eastward to the basin. Three usable shelves rise from the street floor: the guild terrace (north), the residential shelf (south) and the castle shoulder (west end)."
+    where: "North-west of the map, inside the rim."
+    relief: steps
+    purpose: "Home town: every service, the guilds, homes and the castle."
+    safe:
+      not:
+        qbit: guild_debt_failed
+    keep_clear: [spawns]
+    density: medium
+    buildings:
+      - {id: building:weapon_shop, type: shop, service: weapons, count: 1}
+      - {id: building:armour_shop, type: shop, service: armour, count: 1}
+      - {id: building:magic_shop, type: shop, service: magic, count: 1}
+      - {id: building:alchemist, type: shop, service: alchemist, count: 1}
+      - {id: building:tavern, type: tavern, service: tavern, count: 1}
+      - {id: building:bank, type: bank, service: bank, count: 1}
+      - {id: building:temple, type: temple, service: temple, count: 1, notes: "Tall spire; the town's skyline marker."}
+      - {id: building:training, type: training hall, service: training, count: 1}
+      - {id: building:town_hall, type: town hall, service: town hall, count: 1, notes: A two-part assembly.}
+      - {id: building:stable, type: stable, service: stable, count: 1, notes: "The J.V.C. Corral, with its wagon yard."}
+      - {id: building:guild_fire, type: guild, service: fire guild (adept), count: 1}
+      - {id: building:guild_air, type: guild, service: air guild (adept), count: 1}
+      - {id: building:guild_spirit, type: guild, service: spirit guild (adept), count: 1}
+      - {id: building:guild_body, type: guild, service: body guild (adept), count: 1}
+      - {id: building:guild_water, type: guild, service: water guild (initiate), count: 1}
+      - {id: building:guild_earth, type: guild, service: earth guild (initiate), count: 1}
+      - {id: building:guild_mind, type: guild, service: mind guild (initiate), count: 1}
+      - {id: building:town_houses, type: house, service: residence, count: 6, doors: 1}
+      - {id: building:town_double_house, type: house, service: residence, count: 1, doors: 2, notes: Two family doors.}
+    population:
+      - {id: pop:peasants, actor: Peasant, groups: 35, placed: true, hostile: false, notes: Walk the streets.}
+      - {id: pop:town_guards, actor: Guard, groups: 5, placed: true, hostile: false, notes: Walk the streets.}
+      - {id: pop:town_squad, actors: [{actor: Goblin}, {actor: Guard}, {actor: Adventurer}], groups: 15, placed: true, hostile: {qbit: guild_debt_failed}, hidden_until: {qbit: guild_debt_failed}, notes: The lockdown squad (state:town_lockdown).}
+    notes: "About 24 x 24 plan cells including the castle. Compact market core, village-street edges. No Light or Dark guild. 17 service doors in all."
+  - id: zone:town_street
+    name: "Main street, middle and west"
+    kind: zone
+    part_of: zone:town_bowl
+    where: "Bowl floor, between the castle shoulder and the market end."
+    floor: 0
+    relief: flat
+    features:
+      - {kind: planted bed, count: 2, where: Down the middle of the street.}
+    purpose: "Middle of the main street: magic shop and alchemist side by side on its north side, facing the training hall and the bank on its south side, and two long planted flower beds in the street's middle (the town's garden)."
+  - id: zone:west_valley
+    name: West road valley and ridge
+    kind: wild
+    share: 0.06
+    where: "West, a winding hill valley from the hamlet to the west edge, with the ridge spur that separates it from the town bowl."
+    purpose: "Route west; the hermit huts on the ridge; the west watch fire."
+    empty: true
+    safe: true
+    keep_clear: [spawns]
+    fires: 1
+    density: sparse
+    notes: Light decoration.
+  - id: zone:white_cliffs
+    name: White cliffs
+    kind: zone
+    part_of: zone:se_lakes
+    where: "South-east, behind the lakes; part of the white massif."
+    purpose: "Bright chalk cliffs hiding the goblin cave; chest on the cliff top."
+    population:
+      - {id: pop:cliff_goblins, slot: 1, groups: 5, per_marker: [2, 5], strength: pack, rank: mixed, notes: SE cliffs and the cave approach.}
+    treasure:
+      - {kind: chest, count: 1, reached_by: off_road, notes: On the cliff top.}
+      - {kind: floor_item, count: 3, notes: Item spawns on the white cliffs.}
+links:
+  - id: link:basin_east
+    from: zone:central_basin
+    to: zone:east_knoll
+    kind: open
+    purpose: "Off-road, across the open basin to the Arbiter's hall."
+  - id: link:basin_fort
+    from: zone:central_basin
+    to: zone:hill_fort
+    kind: open
+    purpose: Off-road approach across the meadow to the ring wall and the keep inside it.
+  - id: link:basin_lakes
+    from: zone:central_basin
+    to: zone:se_lakes
+    kind: open
+    purpose: "Off-road, south from the basin past the shrine to the lakes."
+  - id: link:cave_footbridge
+    from: zone:se_lakes
+    to: zone:white_cliffs
+    kind: bridge
+    crosses: [zone:lake_chain]
+    purpose: Long footbridge across the lake outlet to the cave mouth.
+  - id: link:east_rim
+    from: zone:east_knoll
+    to: zone:outer_rim
+    kind: open
+    purpose: "Off-road along the east side onto the bare shelf at about 640 at the east edge (no road; it does not climb the rim)."
+  - id: link:gate_basin
+    from: zone:gate_junction
+    to: zone:central_basin
+    kind: open
+    purpose: Off-road from the junction into the open basin.
+  - id: link:guild_slope
+    from: zone:town_street
+    to: zone:guild_terrace
+    kind: path
+    rise: 650
+    purpose: "The guild terrace climbing north from the street, up to about 650 above it."
+    notes: Not part of the road graph in the brief.
+  - id: link:high_road_basin
+    from: zone:gate_junction
+    to: junction:high_road_bend
+    kind: road
+    length_share: 0.15
+    purpose: "High road: east across the north of the basin, passing north of the fort without touching it."
+    notes: "The high road (this link and link:high_road_valley) is the longest road, about 40% of the road length."
+  - id: link:high_road_valley
+    from: junction:high_road_bend
+    to: zone:ne_valley
+    kind: road
+    length_share: 0.25
+    purpose: "High road: north up the north-east valley to the north edge."
+  - id: link:highland_slopes
+    from: zone:south_hamlet
+    to: zone:sw_highlands
+    kind: open
+    purpose: "Off-road, up the slopes above the hamlet into the highlands."
+  - id: link:lane_civic
+    from: zone:town_street
+    to: zone:civic_corner
+    kind: road
+    purpose: "Town lane: a short spur south off the main street to the temple and training corner."
+  - id: link:lane_south
+    from: zone:market_end
+    to: zone:south_shelf
+    kind: road
+    purpose: "Town lane: a short spur south off the main street, the bank, stable and housing lane."
+  - id: link:main_street_east
+    from: zone:town_street
+    to: zone:market_end
+    kind: road
+    purpose: "Main street, east part: at the head of the south lane a dogleg about three plan cells north, then east past the market to the town gate."
+  - id: link:main_street_west
+    from: zone:castle_shoulder
+    to: zone:town_street
+    kind: road
+    rise: -500
+    purpose: "Main street, west part: from the castle forecourt down onto the bowl floor."
+    notes: "The main street is the town's spine, west to east on the bowl floor, about a fifth of the map wide: straight from the castle to the head of the south lane, where it doglegs about three plan cells north, then runs east through the gate; every service fronts it or a short lane off it."
+  - id: link:orchard_climb
+    from: zone:town_street
+    to: zone:orchard_hill
+    kind: open
+    purpose: Off-road climb to the orchard hill above the town.
+  - id: link:ridge_climb
+    from: zone:west_valley
+    to: zone:hermit_ridge
+    kind: open
+    purpose: Off-road climb to the hermit huts.
+  - id: link:south_road
+    from: junction:south_fork
+    to: zone:south_road_valley
+    kind: road
+    features: [road in its own cutting about 640 deep, stone bridge spanning the cutting overhead, watch fire beside the last stretch]
+    purpose: "South road: south-east, then south in its own cutting below the south road valley's floor (about 640) and under a stone bridge that spans the cutting, to the south edge (the Barrow Downs). It crosses no water: the lake outlet has its own ravine further east."
+  - id: link:town_gate
+    from: zone:market_end
+    to: zone:gate_junction
+    kind: road
+    purpose: "The town entrance, the bowl's only opening, eastward to the junction."
+  - id: link:trunk
+    from: zone:gate_junction
+    to: junction:south_fork
+    kind: road
+    features: [signpost at the northern junction, two wayside crates]
+    purpose: "Trunk: south along the west side of the basin, then south-west to the hamlet. Links the town to the hamlet and the two southern exits."
+  - id: link:west_road
+    from: junction:south_fork
+    to: zone:west_valley
+    kind: road
+    features: [watch fire on the hill beside the last stretch]
+    purpose: "West road: west through a winding hill valley to the west edge (Erathia)."
+    notes: Winds through the valley rather than climbing over.
+entrances:
+  - id: entrance:castle_door
+    space: zone:castle_forecourt
+    kind: both
+    neighbour: door:castle
+    how: "The castle door, west end of town: into the castle as a dungeon. Arrival in front of the door."
+    variants:
+      - condition: {qbit: castle_stage_2}
+        behaviour: The castle opens as a house dialog (throne room) on the interior map.
+        target: door:castle
+      - condition: {not: {qbit: butler_met}}
+        behaviour: "No travel: the butler appears, gives the clean-out quest and moves to the tavern (goal:castle_quest)."
+  - id: entrance:cave_mouth
+    space: zone:white_cliffs
+    kind: both
+    neighbour: door:white_cliff_caves
+    how: "Plain door in the cave mouth, across the long footbridge over the lake outlet. Arrival in front of the door."
+    reached_by: off_road
+  - id: entrance:east_edge
+    space: zone:outer_rim
+    kind: exit
+    neighbour: edge:east
+    how: "Off-road onto a bare shelf at about 640 on the east side, between the north-east valley's walls and the hill north of the Arbiter's knoll; it is not reached over the rim. Only an 'East' hint."
+    reached_by: off_road
+  - id: entrance:north_road
+    space: zone:ne_valley
+    kind: both
+    neighbour: edge:north
+    how: Marker at the north road exit.
+    reached_by: road
+    notes: Also the arrival for parties coming from the east (there is no east arrival).
+  - id: entrance:party_start
+    space: zone:castle_forecourt
+    kind: arrival
+    facing: e
+    how: "Just east of the castle door, facing down the main street."
+    notes: "Start of the game; the world's respawn point and this map's Town Portal point (project.yml rules)."
+  - id: entrance:south_road
+    space: zone:south_road_valley
+    kind: both
+    neighbour: edge:south
+    how: Marker at the south road exit.
+    reached_by: road
+  - id: entrance:stable_yard
+    space: zone:stable_yard
+    kind: both
+    neighbours: [stable:erathia, stable:tularean, stable:tatalia, stable:arena]
+    how: "The J.V.C. Corral's yard; departures go from the stable's house dialog."
+    reached_by: road
+  - id: entrance:west_road
+    space: zone:west_valley
+    kind: both
+    neighbour: edge:west
+    how: Marker at the west road exit.
+    reached_by: road
+goals:
+  - id: goal:castle_quest
+    space: zone:castle_forecourt
+    kind: use
+    what: "Click the castle door: the butler gives the quest to clean out the castle and moves to the tavern."
+    gives:
+      qbit: butler_met
+  - id: goal:take_fort
+    space: zone:hill_fort
+    kind: set
+    what: "Step into the fort's keep and beat the four goblin waves; the towers stop."
+    gives:
+      qbit: fort_taken
+  - id: goal:watch_fires
+    kind: set
+    what: Light the three watch fires to bring the hidden raiding army out of the south-west highlands.
+    gives:
+      qbit: raiders_called
+points_of_interest:
+  - id: poi:arbiter_hall
+    space: zone:east_knoll
+    kind: house
+    behaviour: "House dialog for the Arbiter, before the light-or-dark choice."
+    also: [landmark:arbiter_tower]
+    variants:
+      - condition: {qbit: path_light}
+        behaviour: The Arbiter's house dialog in its Light variant.
+      - condition: {qbit: path_dark}
+        behaviour: The Arbiter's house dialog in its Dark variant.
+    reached_by: off_road
+    notes: A small house on a flat round base. Judges and ambassadors move with the story (npc_moves).
+  - id: poi:castle_door
+    space: zone:castle_forecourt
+    kind: door
+    behaviour: "The castle door; its behaviour by story stage is entrance:castle_door's variants."
+    also: [entrance:castle_door]
+    reached_by: road
+  - id: poi:fountain
+    space: zone:guild_terrace
+    kind: fountain
+    behaviour: "Joke fountain by the Water guild: may cure a poison, otherwise warns the drinker off."
+  - id: poi:fruit_tree_town
+    space: zone:town_bowl
+    count: 1
+    kind: fruit_tree
+    behaviour: Gives an apple.
+    uses: {times: 1, per: party, reset: refill}
+    gives:
+      item: red_apple
+    after_use: {shows: [bare fruit tree], hides: [fruit tree with apples]}
+    condition: {any: [{season: spring}, {season: summer}]}
+  - id: poi:fruit_trees_highlands
+    space: zone:sw_highlands
+    count: 3
+    kind: fruit_tree
+    behaviour: Gives an apple.
+    uses: {times: 1, per: party, reset: refill}
+    gives:
+      item: red_apple
+    after_use: {shows: [bare fruit tree], hides: [fruit tree with apples]}
+    condition: {any: [{season: spring}, {season: summer}]}
+    reached_by: off_road
+  - id: poi:fruit_trees_orchard
+    space: zone:orchard_hill
+    count: 4
+    kind: fruit_tree
+    behaviour: Gives an apple.
+    uses: {times: 1, per: party, reset: refill}
+    gives:
+      item: red_apple
+    after_use: {shows: [bare fruit tree], hides: [fruit tree with apples]}
+    condition: {any: [{season: spring}, {season: summer}]}
+    reached_by: off_road
+  - id: poi:obelisk
+    space: zone:ne_valley
+    kind: obelisk
+    behaviour: "Gives this region's letter of the continent's obelisk riddle, with an autonote."
+    rule: native:obelisk
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: obelisk_visited
+    reached_by: off_road
+    notes: "Near the high road's valley; two crates beside it."
+  - id: poi:shrine_altar
+    space: zone:central_basin
+    kind: altar
+    behaviour: "A shrine with an altar south of the fort, north of the lakes. Praying says 'You pray'."
+    neighbour: teleport:land_of_giants
+    variants:
+      - condition: {qbit: giants_visited}
+        behaviour: Prayer teleports the party to the Land of the Giants.
+        target: teleport:land_of_giants
+    reached_by: off_road
+  - id: poi:sign_gate
+    space: zone:gate_junction
+    kind: signpost
+    behaviour: Hint naming destinations.
+    reached_by: road
+  - id: poi:sign_hamlet
+    space: junction:south_fork
+    kind: signpost
+    behaviour: Three-way sign naming destinations.
+    reached_by: road
+  - id: poi:watch_fire_north
+    space: zone:ne_valley
+    kind: fire_pit
+    behaviour: On a rise beside the north road exit. Clicking lights it for good. Part of set_piece:watch_fires.
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: fire_north
+    after_use: {shows: [burning fire], hides: [burnt-out fire pit]}
+    reached_by: off_road
+  - id: poi:watch_fire_south
+    space: zone:south_road_valley
+    kind: fire_pit
+    behaviour: On a rise beside the south road's last stretch. Clicking lights it for good. Part of set_piece:watch_fires.
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: fire_south
+    after_use: {shows: [burning fire], hides: [burnt-out fire pit]}
+    reached_by: off_road
+  - id: poi:watch_fire_west
+    space: zone:west_valley
+    kind: fire_pit
+    behaviour: On the hill beside the west road's last stretch. Clicking lights it for good. Part of set_piece:watch_fires.
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      qbit: fire_west
+    after_use: {shows: [burning fire], hides: [burnt-out fire pit]}
+    reached_by: off_road
+  - id: poi:well_hamlet
+    space: zone:south_hamlet
+    kind: well
+    behaviour: "Large temporary Might boost; writes an autonote."
+    uses: {times: 1, per: character, reset: daily}
+    reached_by: road
+  - id: poi:well_market
+    space: zone:market_end
+    kind: well
+    behaviour: "Gives a little gold to a party that is nearly broke; otherwise 'Refreshing!'."
+    uses: {times: 1, per: party, reset: weekly}
+    condition: {gold: {below: 200}}
+    reached_by: road
+    notes: The party's bank balance must be nearly empty too.
+  - id: poi:well_terrace
+    space: zone:guild_terrace
+    kind: well
+    behaviour: Permanent small Accuracy gain.
+    uses: {times: 1, per: character, reset: never}
+landmarks:
+  - id: landmark:arbiter_tower
+    space: zone:east_knoll
+    what: "The Arbiter's hall, a lone small house on its round base on the east knoll's shelf."
+    seen_from: [zone:central_basin]
+  - id: landmark:castle
+    space: zone:castle_shoulder
+    what: "Castle Harmondale on its shoulder, closing the west end of the main street: seen head-on from the town gate and along the whole street. Ruined at the start, low and broken; gains walls and towers as it is restored (state:castle_stage_2, state:castle_stage_3)."
+    seen_from: [zone:market_end, zone:town_street, zone:gate_junction, zone:central_basin]
+  - id: landmark:hill_fort
+    space: zone:hill_fort
+    what: "The hill fort's ring and four towers; the towers' fire marks it as dangerous from afar."
+    seen_from: [link:high_road_basin, link:trunk]
+  - id: landmark:temple_spire
+    space: zone:civic_corner
+    what: "The temple spire: the tallest structure in town, the town's skyline marker."
+    seen_from: [zone:central_basin, link:high_road_basin]
+  - id: landmark:town
+    spaces: [zone:town_street, zone:market_end, zone:guild_terrace, zone:south_shelf]
+    what: The town's roofs and streets.
+    hidden_from: [zone:central_basin]
+    screened_by: "The bowl's hills: only the castle and the spire show before the gate."
+  - id: landmark:white_cliffs
+    space: zone:white_cliffs
+    what: "The bright white massif behind the lakes, drawing the eye to the cave."
+    seen_from: [zone:central_basin]
+sightlines:
+  - id: sightline:street
+    from: zone:gate_junction
+    to: [landmark:castle]
+    what: From the town gate the castle closes the view down the whole main street.
+set_pieces:
+  - id: set_piece:arbiter_messenger
+    kind: scripted
+    spaces: [zone:east_knoll]
+    rule: "On entering the map after the party has given the artifact to the Arbiter, the humans or the elves, a messenger arrives, once, and starts the quest to choose a judge to succeed the Arbiter."
+    inputs: [map load]
+    enabled_by: {any: [{qbit: artifact_to_arbiter}, {qbit: artifact_to_humans}, {qbit: artifact_to_elves}]}
+    gives:
+      - qbit: succession_quest
+      - qbit: arbiter_messenger_done
+    disabled_by: {qbit: arbiter_messenger_done}
+  - id: set_piece:fort_towers
+    kind: trap
+    spaces: [zone:hill_fort, zone:central_basin]
+    emitters:
+      - {space: zone:hill_fort, end: north-west tower, direction: nw}
+      - {space: zone:hill_fort, end: north-east tower, direction: ne}
+      - {space: zone:hill_fort, end: south-east tower, direction: se}
+      - {space: zone:hill_fort, end: south-west tower, direction: sw}
+    effect: {spell: fire spells (fireball and others)}
+    targets: [zone:central_basin]
+    rule: "On a short timer one tower, chosen at random, shoots a fire spell into its sector; a tower also fires into its sector when clicked."
+    inputs: [short repeating timer, click on a tower]
+    disabled_by: {qbit: fort_taken}
+    notes: The timer's length is not in the brief ('a short timer').
+  - id: set_piece:take_fort
+    kind: ambush
+    spaces: [zone:hill_fort, zone:central_basin]
+    rule: "Stepping into the keep takes the fort, once: four waves of goblins arrive from the four sides, then the towers stop for good."
+    inputs: [party steps into the keep]
+    states: [held, taken]
+    solution: Survive the waves.
+    gives:
+      qbit: fort_taken
+    population:
+      - {id: pop:fort_waves, slot: 1, groups: 4, per_marker: [10, 10], rank: a, hostile: true, notes: "Four waves of about ten, one from each side of the fort."}
+    disabled_by: {qbit: fort_taken}
+  - id: set_piece:watch_fires
+    kind: puzzle
+    spaces: [zone:ne_valley, zone:west_valley, zone:south_road_valley, zone:sw_highlands]
+    targets: [pop:raiders]
+    rule: "Each of the three watch fire pits (north, west, south) is lit by a click and stays lit. When the third is lit, the hidden raiding camp in the south-west highlands appears."
+    inputs: [poi:watch_fire_north, poi:watch_fire_west, poi:watch_fire_south]
+    states: [none lit, some lit, all lit]
+    solution: "Light all three (fire_north, fire_west, fire_south), in any order."
+    gives:
+      qbit: raiders_called
+height_bands:
+  - id: band:highlands
+    range: [1500, 3200]
+    spaces: [zone:sw_highlands]
+  - id: band:low_ground
+    range: [0, 200]
+    spaces: [zone:town_street, zone:market_end, zone:gate_junction, zone:central_basin, zone:south_hamlet, zone:se_lakes, zone:lake_chain]
+    partly: [zone:se_lakes, zone:lake_chain]
+    notes: "Town street, basin, the hamlet and the two lower lakes: the map's low ground. The south road's cutting also runs at this level."
+  - id: band:rim
+    range: [2000, 4000]
+    spaces: [zone:outer_rim, zone:orchard_hill]
+    notes: "Rim tops in the upper half of the map's height range; the highest knolls reach the map maximum and carry white chalk or snow caps."
+  - id: band:shelves
+    range: [380, 650]
+    spaces: [zone:castle_shoulder, zone:castle_forecourt, zone:guild_terrace, zone:south_shelf, zone:east_knoll, zone:south_road_valley, zone:lake_chain, zone:outer_rim]
+    partly: [zone:guild_terrace, zone:south_shelf, zone:south_road_valley, zone:lake_chain, zone:outer_rim]
+    notes: "The town's three shelves (castle shoulder about 500, guild terrace stepping from about 290 to 640, residential shelf about 640), the Arbiter's shelf, the south road valley's floor (about 640, the road in a cutting below it), the bare shelf at the east travel side (about 640, in the outer rim) and the upper lake (about 400)."
+states:
+  - id: state:castle_stage_2
+    condition: {qbit: castle_stage_2}
+    shows: ["castle: repaired walls", two living trees beside the castle]
+    hides: ["castle: ruined, broken walls", two dead trees beside the castle]
+    notes: "Restoration stage two: castle parts shown, hidden and retextured. The castle door now leads to the interior map as a house dialog (throne room)."
+  - id: state:castle_stage_3
+    condition: {any: [{qbit: castle_stage_3_light}, {qbit: castle_stage_3_dark}]}
+    shows: ["castle: upgraded towers"]
+    notes: "Restoration stage three, reached by either the Light or the Dark castle quest."
+  - id: state:fort_taken
+    condition: {qbit: fort_taken}
+    effects: [The fort's towers no longer fire (set_piece:fort_towers is disabled).]
+  - id: state:raiders
+    condition: {qbit: raiders_called}
+    shows: [the raiding camp in the south-west highlands (pop:raiders)]
+  - id: state:seasonal_bare
+    condition: {any: [{season: autumn}, {season: winter}]}
+    shows: [autumn or winter looks of the common trees across the map, bare fruit trees]
+    hides: [summer looks of the common trees, fruit trees with apples]
+  - id: state:town_lockdown
+    condition: {qbit: guild_debt_failed}
+    lifted_by: {all: [{kills: {group: pop:town_squad, all: true}}, {qbit: castle_cleared}]}
+    locks: [building:weapon_shop, building:armour_shop, building:magic_shop, building:alchemist, building:tavern, building:bank, building:temple, building:training, building:town_hall, building:stable, building:guild_fire, building:guild_air, building:guild_spirit, building:guild_body, building:guild_water, building:guild_earth, building:guild_mind, building:town_houses, building:town_double_house, building:hamlet_houses, building:hamlet_long_house]
+    effects: [the bank balance is wiped, pop:town_squad shows itself and turns hostile]
+    notes: "The party failed the mercenary guild's deadline plot. The castle door, the Arbiter's hall and the ridge huts stay open."
+npc_moves:
+  - who: The humans' and the elves' ambassadors
+    to: The castle's throne room (Castle Harmondale interior)
+    condition: {qbit: arbiter_messenger_done}
+    notes: Moved by set_piece:arbiter_messenger.
+  - who: The two candidate judges
+    to: One tavern each on other maps
+    condition: {qbit: arbiter_messenger_done}
+  - who: Two of the Arbiter's people
+    to: Removed from the game
+    condition: {qbit: arbiter_messenger_done}
+landform:
+  relief: "A rim of high bare hills runs round all four edges, broken by the three road valleys (north-east, west, south) and, on the east side, by a bare shelf at about 640 (the off-road east exit). Inside the rim, four parts: the sheltered town bowl (north-west, inner) on low ground with three shelves; the central basin, the largest low and nearly flat ground, with a few small rises (the fort's mound, a steep spire east of the fort rising to about 3,200 (no white cap), the Arbiter's knoll); the broad, wooded south-west highlands with a ridge spur separating the town bowl from the west road valley; and the south-east lake country below white cliffs. Roads keep to valley floors; the west road winds through its hill valley rather than climbing over."
+  height_range: [0, 4000]
+  water: "A chain of small lakes below the white cliffs in the south-east (two at basin level, an upper one on a shelf at about 400), draining by a stream south-west to the south edge. The outlet runs in its own ravine through the south road valley's floor, east of the road's cutting; a long footbridge crosses that ravine to the cave. No boats or docks."
+  water_share: 0.015
+  coast: "None: inland."
+  caps:
+    - {kind: white chalk or snow, share: 0.065, where: "The highest knolls of the rim; the largest a white massif in the south-east."}
+  rim: {width_share: 0.14, broken_by: [link:high_road_valley, link:west_road, link:south_road], notes: Rim tops sit around the upper half of the height range.}
+diagram: {text: "            [N rim]========== north road ==========> N exit (Tularean, 5d)\n               |                                 |   [N watch fire]   [Obelisk + crates]\n  [W rim]  [TOWN BOWL]--- high road east --------+ NE valley ------- [NE spawns]\n   orchard  castle > main street > town gate       \\\n   hill     (guilds N, homes S, market E)    junction  [CENTRAL BASIN]---- [Arbiter's knoll]\n               | (ridge)                   (sign)  |   [HILL FORT]  spire knoll       E shelf (off-road\n  [hermit huts on ridge]                   trunk S |       [shrine/altar]              exit, 7d)\n W exit <== west road == [SOUTH HAMLET] ==========+          [lake chain]\n (Erathia)  [W watch fire]   3-way sign  \\ south road     long bridge -> [WHITE CLIFF CAVES]\n  [SW HIGHLANDS: hidden raiding camp,     \\ bridge over cutting   [SE white cliffs, spawns, chest]\n   fruit trees, peak chest]                 > S exit (Barrow Downs, 5d) [S watch fire]\n"}
+totals:
+  chests: 12
+  dungeon_entrances: 2
+  edge_exits: 4
+  expected_goblins: 150
+  fountains: 1
+  fruit_trees: 8
+  hidden_raiders: 75
+  hidden_town_squad: 15
+  item_spawns: 6
+  junctions: 3
+  residence_doors: 15
+  road_exits: 3
+  road_share_of_land: 0.02
+  service_doors: 17
+  signposts: 3
+  spawn_points: 43
+  town_guards: 5
+  town_peasants: 35
+  watch_fires: 3
+  wells: 3
+notes: "Heights are measured from the map's low ground (the town street and basin floor, datum zone:central_basin); the castle forecourt stands about 500 above it. All spawns lie east of the trunk. Deliberately off-road: the fort, the shrine, the Arbiter's hall, the obelisk, the cave, the hermit huts, the orchard and every watch fire's hilltop approach. Residence doors: town 8, hamlet 5, ridge huts 2. A later MAW overlay adds a dimensional-travel pedestal in the castle forecourt; it is not part of this design."
