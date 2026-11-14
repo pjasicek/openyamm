@@ -3637,9 +3637,14 @@ void Party::setSpellMovementMultiplier(float multiplier)
     m_spellMovementMultiplier = std::max(multiplier, 1.0f);
 }
 
+void Party::setTalentMovementMultiplier(float multiplier)
+{
+    m_talentMovementMultiplier = std::max(multiplier, 1.0f);
+}
+
 float Party::movementMultiplier() const
 {
-    return m_rulesMovementMultiplier * m_spellMovementMultiplier;
+    return m_rulesMovementMultiplier * m_spellMovementMultiplier * m_talentMovementMultiplier;
 }
 
 const GameRules &Party::rules() const
@@ -4477,7 +4482,8 @@ bool Party::canMemberLearnSkill(size_t memberIndex, const std::string &skillName
         return false;
     }
 
-    return m_pClassSkillTable->getEffectiveCap(pMember->className, pMember->raceId, canonicalSkill)
+    return rules().skills.masteryCap(*pMember, canonicalSkill,
+               m_pClassSkillTable->getEffectiveCap(pMember->className, pMember->raceId, canonicalSkill))
         != SkillMastery::None;
 }
 

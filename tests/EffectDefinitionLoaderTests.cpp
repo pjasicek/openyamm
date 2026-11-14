@@ -572,13 +572,6 @@ TEST_CASE("Projectile effect bindings name existing effects and resolve monster 
     const Game::ProjectileEffectBinding *pSoulDrinker = bindings.find(ProjectileRecipe::SoulDrinker, "");
     REQUIRE(pSoulDrinker != nullptr);
     CHECK_EQ(pSoulDrinker->returnFlight, "openyamm:fx/projectile/soul_drain");
-    // The solo dragon's breath (a Fire Bolt wearing Dragon Breath's look) lands with the dragons' fire impact, not
-    // Dragon Breath's area explosion.
-    const Game::ProjectileEffectBinding *pDragonBreath = bindings.find(ProjectileRecipe::DragonBreath, "");
-    REQUIRE(pDragonBreath != nullptr);
-    CHECK_EQ(pDragonBreath->impact, "openyamm:fx/impact/fireball");
-    CHECK_EQ(pDragonBreath->presentedImpact, "openyamm:fx/impact/fire_large");
-    CHECK(bindings.find(ProjectileRecipe::FireBolt, "")->presentedImpact.empty());
     const std::vector<std::string> effectIds = bindings.effectIds();
     CHECK(std::find(effectIds.begin(), effectIds.end(), "openyamm:fx/projectile/soul_drain") != effectIds.end());
     for (const ProjectileRecipe recipe : {ProjectileRecipe::Implosion, ProjectileRecipe::Inferno,

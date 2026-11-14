@@ -120,9 +120,6 @@ public:
         // The waited action (swingSerial) is a cast: a cast clip fitted to swingRecoverySeconds plays instead of a
         // swing, its release reported as the blow; castSelf picks the self clip. castColor tints the casting hand.
         bool swingIsCast = false;
-        // The waited action is a dragon's breath: the breath clip fitted to swingRecoverySeconds, its Hit the blow,
-        // the mouth (castHandScreen) where it leaves.
-        bool swingIsBreath = false;
         bool castSelf = false;
         std::array<float, 3> castColor = {0.85f, 0.8f, 1.0f};
         // The weapon trail ([gameplay] weapon_trails) and its colour (the weapon's element, else steel).
@@ -390,7 +387,6 @@ private:
     std::array<float, 3> m_actionCastColor = {};
     // A swing request that is a cast (Input::swingIsCast) or a dragon's breath, waiting like a queued swing.
     bool m_queuedIsCast = false;
-    bool m_queuedIsBreath = false;
     // The running swing is a dragon's bite: its blow goes down the screen (the jaw), not along a claw.
     bool m_actionIsBite = false;
     // Taken over from the other view model (resume): the next kit is drawn with the equip clip.

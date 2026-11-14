@@ -22951,11 +22951,6 @@ bool OutdoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProje
 
     if (cast)
     {
-        if (request.presentationSpellId != 0)
-        {
-            projectileService().setPartyPresentationSpell(
-                firstProjectileId, request.casterMemberIndex, int(request.presentationSpellId));
-        }
         attachPartyMissileHoming(
             firstProjectileId, request.casterMemberIndex, request.targetActorIndex, request.targetZ);
     }

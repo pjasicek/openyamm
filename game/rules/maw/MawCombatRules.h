@@ -176,6 +176,8 @@ private:
     // there next.
     mutable float m_gameMinutes = 0;
     mutable std::vector<std::string> m_statusMessages;
+    // Sounds by name the combat rules ask for (a solo's Cheat Death), played with the status messages.
+    mutable std::vector<std::string> m_soundNames;
     mutable float m_poisonSeconds = 0;
     mutable std::mt19937 m_legendaryRng{std::random_device{}()};
     mutable std::vector<ArtifactCast> m_artifactCasts;

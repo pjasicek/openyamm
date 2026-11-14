@@ -374,6 +374,25 @@ TEST_CASE("MAW dragons triple their items' Dodging and Unarmed too (audit FITM-2
     CHECK_EQ(bonusOf(5), std::min(3 * human, 20));
 }
 
+TEST_CASE("Lone Discipline: a solo character reaches Expert Bodybuilding whatever its class")
+{
+    RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    MawRules standard(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    MawRules solo(soloOptions, MawMapLevels{}, installedItemData());
+    Character sorcerer;
+    sorcerer.className = "Sorcerer";
+    // Without the solo option, the class's own cap.
+    CHECK(standard.gameRules().skills.masteryCap(sorcerer, "Bodybuilding", SkillMastery::None) == SkillMastery::None);
+    // In a solo run: at least Expert before any promotion (no class table bound here: promotion step 0), and
+    // Grandmaster through the promotions; other skills keep their cap.
+    CHECK(solo.gameRules().skills.masteryCap(sorcerer, "Bodybuilding", SkillMastery::None) == SkillMastery::Expert);
+    CHECK(solo.gameRules().skills.masteryCap(sorcerer, "Bodybuilding", SkillMastery::Master) == SkillMastery::Master);
+    CHECK(solo.gameRules().skills.promotedMasteryCap(sorcerer, "Bodybuilding", SkillMastery::None)
+        == SkillMastery::Grandmaster);
+    CHECK(solo.gameRules().skills.masteryCap(sorcerer, "Sword", SkillMastery::None) == SkillMastery::None);
+}
+
 TEST_CASE("In a solo run a MAW dragon's items count 2.5 times, not three times")
 {
     RulesetOptions soloOptions;

@@ -19,13 +19,50 @@ struct GameplayObsidianRect;
 // only while GameplayScreenRuntime::soloHud() holds. Everything is read where it is drawn; nothing polls.
 namespace GameplaySoloHud
 {
-// The unit frame, its buff rows and the action bar's slots, over the frame the party basebar draws.
-void renderHud(GameplayScreenRuntime &context, int width, int height);
+// The danger round the active member, as the party portraits' aggro diamonds tell it: blue in turn-based combat, red
+// with a hostile in melee range, yellow within the yellow alert range, else green; unlit while the member cannot act.
+// A glow round the portrait and the minimap shows it.
+enum class SoloAlert
+{
+    Unlit,
+    Green,
+    Yellow,
+    Red,
+    Blue
+};
+
+SoloAlert soloAlert(GameplayScreenRuntime &context, const Character &member, float nearestHostile,
+    float engagementRange);
+// The unit frame (its portrait in the alert's glow), its buff rows and the action bar's slots.
+void renderHud(GameplayScreenRuntime &context, int width, int height, SoloAlert alert);
+// The alert's glow: a soft band `band` pixels wide just outside an oval (screen pixels), under or over its rim.
+void renderAlertGlow(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &oval, float band,
+    SoloAlert alert);
 // The two recovery brackets beside the crosshair (centre and the crosshair's scale in pixels per unit).
 void renderCrosshairBrackets(GameplayScreenRuntime &context, float centerX, float centerY, float scale);
 // A buff tile under the pointer: the party buff or the member's personal buffs, for the buff popups.
 std::optional<GameplayHudPointerTarget> buffTargetAt(GameplayScreenRuntime &context, int width, int height, float x,
     float y);
+// A tile of the buff and condition rows under a point (screen pixels), for its own popup: which buff (a PartyBuffId,
+// a CharacterBuffId, the member's timed potion effect in gameplayPotionEffectLines order, or a CharacterCondition)
+// and where it is drawn.
+enum class BuffTileKind
+{
+    Party,
+    Character,
+    Potion,
+    Condition
+};
+
+struct BuffTileHit
+{
+    BuffTileKind kind = BuffTileKind::Party;
+    size_t index = 0;
+    float remainingSeconds = 0;
+    GameplayResolvedHudLayoutElement rect;
+};
+
+std::optional<BuffTileHit> buffTileAt(GameplayScreenRuntime &context, int width, int height, float x, float y);
 // The bar slot (Character::actionBar index, 0-9) whose number key 1-0 is held, Shift and Ctrl up; the first held wins.
 std::optional<size_t> heldBarSlot(const GameplayInputFrame &input);
 // Whether that slot's number key went down this frame.

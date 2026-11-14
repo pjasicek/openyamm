@@ -17,6 +17,7 @@
 #include "game/rules/maw/MawSkillFormulas.h"
 #include "game/rules/maw/MawSpellFormulas.h"
 #include "game/rules/maw/MawTexts.h"
+#include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/SpellTable.h"
 
 #include <algorithm>
@@ -250,7 +251,9 @@ std::string MawSkillRules::restoreRememberedMastery(
 
     if (skill.level < masteryRequiredLevel(canonicalSkill, next)
         || (pClassSkillTable != nullptr
-            && pClassSkillTable->getEffectiveCap(character.className, character.raceId, canonicalSkill) < next))
+            && masteryCap(character, canonicalSkill,
+                   pClassSkillTable->getEffectiveCap(character.className, character.raceId, canonicalSkill))
+                < next))
     {
         return {};
     }
@@ -1612,6 +1615,37 @@ uint32_t MawSkillRules::masteryRequiredLevel(const std::string &canonicalSkill, 
     }
 
     return mawMasteryRequiredLevel(skillMode(), mastery);
+}
+
+SkillMastery MawSkillRules::masteryCap(
+    const Character &character, const std::string &canonicalSkill, SkillMastery classCap) const
+{
+    // Lone Discipline (solo run): Bodybuilding up to Expert from the start, whatever the class, Master after the first
+    // promotion and Grandmaster after the final one (class_extra.txt promotion steps 1 and 2).
+    if (!m_rules.options().soloRun || canonicalSkill != "Bodybuilding")
+    {
+        return classCap;
+    }
+
+    const ClassMultiplierTable *pTable = m_rules.classMultiplierTable();
+    const ClassMultiplierEntry *pEntry = pTable != nullptr ? pTable->get(character.className) : nullptr;
+    const uint32_t step = pEntry != nullptr ? pEntry->promotionStep : 0;
+    const SkillMastery lone = step >= 2 ? SkillMastery::Grandmaster
+        : step == 1                    ? SkillMastery::Master
+                                       : SkillMastery::Expert;
+    return std::max(classCap, lone);
+}
+
+SkillMastery MawSkillRules::promotedMasteryCap(
+    const Character &character, const std::string &canonicalSkill, SkillMastery promotedClassCap) const
+{
+    // Lone Discipline reaches Grandmaster Bodybuilding with the final promotion.
+    if (m_rules.options().soloRun && canonicalSkill == "Bodybuilding")
+    {
+        return SkillMastery::Grandmaster;
+    }
+
+    return masteryCap(character, canonicalSkill, promotedClassCap);
 }
 
 int MawSkillRules::masteryTeacherCost(

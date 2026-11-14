@@ -16818,11 +16818,6 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
             false);
     }
 
-    if (request.presentationSpellId != 0)
-    {
-        m_pGameplayProjectileService->setPartyPresentationSpell(
-            spawnResult.projectile.projectileId, request.casterMemberIndex, int(request.presentationSpellId));
-    }
     attachPartyMissileHoming(
         spawnResult.projectile.projectileId, request.casterMemberIndex, request.targetActorIndex, request.targetZ);
     return true;

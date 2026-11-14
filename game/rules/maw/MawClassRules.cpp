@@ -418,10 +418,10 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
     m_pendingSeconds = 0;
     updatePromotions(party);
 
-    // A solo run's talents: cooldowns, timed effects, Mana Font, Steady Aim.
+    // A solo run's talents: cooldowns, timed effects, Onslaught, Cheat Death, Steady Aim, Quickfoot.
     if (m_rules.options().soloRun)
     {
-        MawSoloTalents::update(party, world.partyX(), world.partyY(), deltaSeconds);
+        MawSoloTalents::update(party, world.partyX(), world.partyY(), !partyHasYellowAlert(world), deltaSeconds);
     }
     m_rules.updateStoryBands(party);
     scaleHirelings(party);

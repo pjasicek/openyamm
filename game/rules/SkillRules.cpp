@@ -91,6 +91,17 @@ int SkillRules::masteryTeacherCost(const Character &, const std::string &, Skill
     return standardCost;
 }
 
+SkillMastery SkillRules::masteryCap(const Character &, const std::string &, SkillMastery classCap) const
+{
+    return classCap;
+}
+
+SkillMastery SkillRules::promotedMasteryCap(
+    const Character &, const std::string &, SkillMastery promotedClassCap) const
+{
+    return promotedClassCap;
+}
+
 std::optional<int> SkillRules::skillResetCost(const Character &) const
 {
     return std::nullopt;

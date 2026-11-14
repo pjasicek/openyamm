@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayInputController.h"
+#include "game/ui/GameplaySoloTalentsPage.h"
 #include "engine/Localization.h"
 #include "game/ui/GameplayBattleOrders.h"
 #include "game/ui/GameplayFormationBuilder.h"
@@ -297,13 +298,14 @@ void GameplayInputController::handleStandardUiHotkeys(
             return;
         }
 
-        // An open alchemy bench, and an inventory item search (cleared by it), take this Escape themselves and leave
-        // the character screen open.
+        // An open alchemy bench, an inventory item search (cleared by it) and a solo run's Talents page (back to the
+        // Skills page) take this Escape themselves and leave the character screen open.
         const GameplayUiController::CharacterScreenState &characterScreen = context.characterScreenReadOnly();
 
         if (characterScreenOpen && !characterScreen.alchemyBench.active
             && !(characterScreen.page == GameplayUiController::CharacterPage::Inventory
-                && !characterScreen.inventorySearch.empty()))
+                && !characterScreen.inventorySearch.empty())
+            && !GameplaySoloTalentsPage::pageShown(context))
         {
             context.closeCharacterScreen();
             context.interactionState().menuToggleLatch = true;

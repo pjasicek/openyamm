@@ -10,7 +10,7 @@ namespace OpenYAMM::Game::MawSoloTalents
 {
 namespace
 {
-// Frenzy's attack speed and Shield Wall's cut come from the table (per_rank: percent).
+// Shield Wall's cut and Spell Surge's damage come from the table (per_rank: percent).
 float tablePercent(std::string_view id, float fallback)
 {
     const TalentDefinition *pTalent = soloTalentTable().find(id);
@@ -33,6 +33,13 @@ int share(uint32_t base, float percent)
 }
 
 constexpr float StillSecondsForAim = 1.0f;
+// Onslaught: each stack is 1 % attack speed.
+constexpr float OnslaughtPercentPerStack = 1.0f;
+// Unbroken halves the part of a hit above this share of the maximum HP.
+constexpr double UnbrokenThreshold = 0.30;
+// Cheat Death: what a fatal hit leaves, and the cut that follows.
+constexpr double CheatDeathHealthLeft = 0.05;
+constexpr double CheatDeathDamageTaken = 0.05;
 }
 
 void applyPassives(Character &member)
@@ -80,9 +87,10 @@ void applyPassives(Character &member)
     }
 }
 
-void update(Party &party, float partyX, float partyY, float deltaSeconds)
+void update(Party &party, float partyX, float partyY, bool calm, float deltaSeconds)
 {
     bool refresh = false;
+    float movement = 1.0f;
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
@@ -100,23 +108,26 @@ void update(Party &party, float partyX, float partyY, float deltaSeconds)
             seconds = std::max(0.0f, seconds - deltaSeconds);
         }
 
-        state.frenzySeconds = std::max(0.0f, state.frenzySeconds - deltaSeconds);
         state.shieldWallSeconds = std::max(0.0f, state.shieldWallSeconds - deltaSeconds);
         state.surgeDamageSeconds = std::max(0.0f, state.surgeDamageSeconds - deltaSeconds);
-        state.purifySeconds = std::max(0.0f, state.purifySeconds - deltaSeconds);
+        state.cheatDeathSeconds = std::max(0.0f, state.cheatDeathSeconds - deltaSeconds);
+        state.cheatDeathCooldown = std::max(0.0f, state.cheatDeathCooldown - deltaSeconds);
+        state.onslaughtSeconds = std::max(0.0f, state.onslaughtSeconds - deltaSeconds);
 
-        if (state.purifySeconds <= 0.0f)
+        if (state.onslaughtSeconds <= 0.0f)
         {
-            state.purifyCondition.reset();
+            state.onslaughtStacks = 0;
         }
 
-        // Mana Font: per_rank spell points every 5 seconds for each 10 levels.
-        if (const float font = passivePercent(member, "mana_font"); font > 0.0f && member.spellPoints < member.maxSpellPoints)
+        // Quickfoot: the solo's movement, faster out of combat.
+        if (const int rank = talentRank(member, "quickfoot"); rank > 0)
         {
-            state.manaFontCarry += font * float(std::max(1u, member.level / 10)) / 5.0f * deltaSeconds;
-            const int whole = int(state.manaFontCarry);
-            state.manaFontCarry -= float(whole);
-            member.spellPoints = std::min(member.maxSpellPoints, member.spellPoints + whole);
+            if (const TalentDefinition *pTalent = soloTalentTable().find("quickfoot"))
+            {
+                const float percent = (calm && pTalent->perRankCalm > 0.0f ? pTalent->perRankCalm : pTalent->perRank)
+                    * float(rank);
+                movement = std::max(movement, 1.0f + percent / 100.0f);
+            }
         }
 
         // Steady Aim: the party has not moved for a second.
@@ -137,30 +148,91 @@ void update(Party &party, float partyX, float partyY, float deltaSeconds)
         }
     }
 
+    party.setTalentMovementMultiplier(movement);
+
     if (refresh)
     {
         party.refreshDerivedState();
     }
 }
 
+void noteKill(Character &member)
+{
+    const int rank = talentRank(member, "onslaught");
+    const TalentDefinition *pTalent = rank > 0 ? soloTalentTable().find("onslaught") : nullptr;
+
+    if (pTalent == nullptr)
+    {
+        return;
+    }
+
+    SoloTalentState &state = member.talentState;
+    const int maximum = int(std::lround(pTalent->perRank * float(rank)));
+    state.onslaughtStacks = std::min(maximum, (state.onslaughtSeconds > 0.0f ? state.onslaughtStacks : 0) + 1);
+    state.onslaughtSeconds = std::max(pTalent->duration, 1.0f);
+}
+
 float attackRecoveryScale(const Character &member)
 {
-    if (member.talentState.frenzySeconds <= 0.0f)
+    const SoloTalentState &state = member.talentState;
+
+    if (state.onslaughtSeconds <= 0.0f || state.onslaughtStacks <= 0)
     {
         return 1.0f;
     }
 
-    return 1.0f / (1.0f + tablePercent("frenzy", 25.0f) / 100.0f);
+    return 1.0f / (1.0f + OnslaughtPercentPerStack * float(state.onslaughtStacks) / 100.0f);
 }
 
-int absorbDamage(const Character &member, int damage)
+int absorbDamage(const Character &member, int damage, int maximumHealth)
 {
-    if (member.talentState.shieldWallSeconds <= 0.0f || member.equipment.offHand == 0 || damage <= 0)
+    if (damage <= 0 || member.talentRanks.empty())
     {
         return damage;
     }
 
-    return int(std::lround(double(damage) * (1.0 - tablePercent("shield_wall", 50.0f) / 100.0)));
+    const SoloTalentState &state = member.talentState;
+    double amount = damage;
+
+    if (state.shieldWallSeconds > 0.0f && member.equipment.offHand != 0)
+    {
+        amount *= 1.0 - tablePercent("shield_wall", 50.0f) / 100.0;
+    }
+
+    // Unbroken: the part of one hit above 30 % of the maximum HP is halved.
+    if (hasKeystone(member, "unbroken") && maximumHealth > 0)
+    {
+        const double threshold = UnbrokenThreshold * maximumHealth;
+
+        if (amount > threshold)
+        {
+            amount = threshold + (amount - threshold) / 2.0;
+        }
+    }
+
+    if (state.cheatDeathSeconds > 0.0f)
+    {
+        amount *= CheatDeathDamageTaken;
+    }
+
+    return int(std::lround(amount));
+}
+
+int cheatDeath(Character &member, int damage, int currentHealth, int maximumHealth)
+{
+    SoloTalentState &state = member.talentState;
+
+    if (damage < currentHealth || currentHealth <= 0 || maximumHealth <= 0 || !hasKeystone(member, "cheat_death")
+        || state.cheatDeathCooldown > 0.0f)
+    {
+        return damage;
+    }
+
+    const TalentDefinition *pKeystone = soloTalentTable().findKeystone("cheat_death");
+    const int left = std::max(1, int(std::ceil(CheatDeathHealthLeft * maximumHealth)));
+    state.cheatDeathSeconds = pKeystone != nullptr ? pKeystone->duration : 2.0f;
+    state.cheatDeathCooldown = pKeystone != nullptr ? pKeystone->cooldown : 180.0f;
+    return std::max(0, currentHealth - left);
 }
 
 double spellDamageScale(const Character &caster)
@@ -176,6 +248,31 @@ double healScale(const Character &caster)
     return 1.0 + passivePercent(caster, "attunement") / 100.0;
 }
 
+double overloadScale(const Character &caster, int monstersNearTarget)
+{
+    const int rank = talentRank(caster, "overload");
+    const TalentDefinition *pTalent = rank > 0 ? soloTalentTable().find("overload") : nullptr;
+
+    if (pTalent == nullptr || monstersNearTarget <= 1)
+    {
+        return 1.0;
+    }
+
+    const int extra = std::min(monstersNearTarget - 1, std::max(1, pTalent->targets));
+    return 1.0 + double(pTalent->perRank) * rank * extra / 100.0;
+}
+
+double leechBonus(const Character &member)
+{
+    return passivePercent(member, "bloodthirst") / 100.0;
+}
+
+double leechFloorDivisor(const Character &member)
+{
+    constexpr double Divisors[] = {5.0, 4.0, 3.0, 2.5};
+    return Divisors[std::clamp(talentRank(member, "bloodthirst"), 0, 3)];
+}
+
 bool nextSpellFree(const Character &caster)
 {
     return caster.talentState.spellSurgeArmed;
@@ -189,11 +286,5 @@ void spendSurge(Character &caster)
         // A missile rolls its damage when it lands: a few seconds' window keeps the surge on it.
         caster.talentState.surgeDamageSeconds = 3.0f;
     }
-}
-
-bool blocksCondition(const Character &member, CharacterCondition condition)
-{
-    return member.talentState.purifySeconds > 0.0f && member.talentState.purifyCondition
-        && *member.talentState.purifyCondition == size_t(condition);
 }
 }

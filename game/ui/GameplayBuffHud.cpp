@@ -60,6 +60,7 @@ std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character 
     std::vector<std::string_view> immuneNames;
     std::string immunities;
     float immunitySeconds = 0;
+    uint32_t firstImmunity = 0;
 
     for (const TimedPotionEffect &effect : member.rulesetState.potionEffects)
     {
@@ -76,6 +77,7 @@ std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character 
                     && std::find(immuneNames.begin(), immuneNames.end(), ConditionNames[effect.key])
                         == immuneNames.end())
                 {
+                    firstImmunity = immuneNames.empty() ? effect.key : firstImmunity;
                     immuneNames.push_back(ConditionNames[effect.key]);
                     immunities += (immunities.empty() ? "" : Engine::tr(", "))
                         + Engine::localize(ConditionNames[effect.key], "condition");
@@ -89,7 +91,7 @@ std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character 
                 const std::string effectName =
                     pSpell != nullptr ? Engine::localize(pSpell->name, "spell") : Engine::tr("Aura");
                 lines.push_back({Engine::tr("{effect} (potion)", {{"effect", effectName}}),
-                    effect.remainingSeconds});
+                    effect.remainingSeconds, effect.kind, effect.key});
                 break;
             }
             case TimedPotionEffect::Kind::SkillBonus:
@@ -99,18 +101,20 @@ std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character 
                     skill ? Engine::localize(displaySkillName(*skill), "skill") : Engine::tr("Skill");
                 lines.push_back({Engine::tr("{skill} +{amount} (potion)",
                                      {{"skill", skillName}, {"amount", int64_t(effect.amount)}}),
-                    effect.remainingSeconds});
+                    effect.remainingSeconds, effect.kind, effect.key});
                 break;
             }
             case TimedPotionEffect::Kind::Regeneration:
-                lines.push_back({Engine::tr("Regeneration (potion)"), effect.remainingSeconds});
+                lines.push_back(
+                    {Engine::tr("Regeneration (potion)"), effect.remainingSeconds, effect.kind, effect.key});
                 break;
         }
     }
 
     if (!immunities.empty())
     {
-        lines.push_back({Engine::tr("Immune to {conditions}", {{"conditions", immunities}}), immunitySeconds});
+        lines.push_back({Engine::tr("Immune to {conditions}", {{"conditions", immunities}}), immunitySeconds,
+            TimedPotionEffect::Kind::Immunity, firstImmunity});
     }
 
     return lines;

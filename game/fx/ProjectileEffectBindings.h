@@ -35,9 +35,6 @@ struct ProjectileEffectBinding
     std::string settled;
     // Replaces the recipe's impact particles and native impact sprite; the recipe's impact light stays.
     std::string impact;
-    // The impact when another spell borrows this recipe's look (GameplayPartySpellProjectileRequest::
-    // presentationSpellId: the solo dragon's breath, a Fire Bolt by the rules with no area); empty uses impact.
-    std::string presentedImpact;
     // The impact effect sits on the struck actor's centre and follows it.
     bool impactFollowsTarget = false;
     // Flies from each impact back to the casting party (a drain spell's stolen life); party casts only.
@@ -94,7 +91,7 @@ private:
 };
 
 // Reads engine/effects/projectiles.yml (schema openyamm.projectileEffects.v1). Each recipe entry may name flight,
-// settled, impact, presented_impact and return_flight effects, impact_follows_target, sprite (native|hidden), light {rgb, radius}, and
+// settled, impact and return_flight effects, impact_follows_target, sprite (native|hidden), light {rgb, radius}, and
 // variants: a list of {monsters: [picture names], ...} whose fields override the recipe's for projectiles those
 // monsters throw. A top-level water_splash names the impact effect of a projectile falling into water. A top-level
 // objects map binds projectiles by object name (a world's own missiles) with the same keys plus impact_light

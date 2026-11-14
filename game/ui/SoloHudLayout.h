@@ -66,9 +66,10 @@ inline SoloUnitFrameLayout soloUnitFrameLayout()
     layout.potionSocket = {-7.5f, 22.4f, 18.1f, 18.1f};
     layout.buffX = 71.5f;
     layout.buffY = layout.box.y + layout.box.height + 5.3f;
-    layout.debuffY = layout.buffY + 23.5f;
-    layout.tile = 13.9f;
-    layout.tileGap = 4.8f;
+    // Bigger tiles, closer together (the user, 2026-11-14): seven to a row under the box, the timer under each.
+    layout.debuffY = layout.buffY + 25.0f;
+    layout.tile = 17.0f;
+    layout.tileGap = 2.4f;
     return layout;
 }
 

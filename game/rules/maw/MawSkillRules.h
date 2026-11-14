@@ -41,6 +41,10 @@ public:
     // OpenYAMM grants them at once, so a skill at its level cap is not stuck.
     void afterClassChanged(Character &character, const ClassSkillTable *pClassSkillTable) const override;
     uint32_t masteryRequiredLevel(const std::string &canonicalSkill, SkillMastery mastery) const override;
+    SkillMastery masteryCap(
+        const Character &character, const std::string &canonicalSkill, SkillMastery classCap) const override;
+    SkillMastery promotedMasteryCap(
+        const Character &character, const std::string &canonicalSkill, SkillMastery promotedClassCap) const override;
     int masteryTeacherCost(
         const Character &character,
         const std::string &canonicalSkill,

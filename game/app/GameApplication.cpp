@@ -3289,6 +3289,21 @@ void GameApplication::registerDebugConsoleCommands()
         .readOnlyWith = readOnlyConsoleActions(true, {})});
 
     m_debugConsole.registerCommand({
+        .name = "savegame",
+        .description = "Writes a named save (saves/<name>.oysav) at once, without the save screen or its preview.",
+        .usage = "savegame <name>",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (context.args.size() != 1)
+            {
+                return commandResult(false, "Usage: savegame <name>");
+            }
+            const std::filesystem::path path = std::filesystem::path("saves") / (context.args[0] + ".oysav");
+            const bool saved = quickSaveToPath(path, context.args[0]);
+            return commandResult(saved, saved ? "Saved " + path.string() : "Not saved (see the status bar)");
+        }});
+
+    m_debugConsole.registerCommand({
         .name = "testparty",
         .description = "MAW test parties: a new MAW game, or this one's party, at a stage of the game.",
         .usage = "testparty [list] | testparty <stage> [party] [+kit ...] [difficulty progression mode ...]"
@@ -5534,10 +5549,20 @@ void GameApplication::registerDebugConsoleCommands()
                 }
                 return commandResult(true, out.str());
             }
+            // A keystone is bound (1) or unbound (0) directly, whatever the level's slots.
+            if (const TalentDefinition *pKeystone = args.size() == 2 ? soloTalentTable().findKeystone(args[0]) : nullptr)
+            {
+                pMember->talentRanks.erase(pKeystone->id);
+                if (std::stoi(args[1]) > 0)
+                {
+                    pMember->talentRanks[pKeystone->id] = 1;
+                }
+                return commandResult(true, pKeystone->id + (hasKeystone(*pMember, pKeystone->id) ? " bound" : " unbound"));
+            }
             const TalentDefinition *pTalent = args.size() == 2 ? soloTalentTable().find(args[0]) : nullptr;
             if (pTalent == nullptr)
             {
-                return commandResult(false, "usage: talent <id> <rank> | talent reset | talent list");
+                return commandResult(false, "usage: talent <id or keystone> <rank> | talent reset | talent list");
             }
             const int rank = std::clamp(std::stoi(args[1]), 0, pTalent->maxRank);
             // Set directly (no points, no locks); an active goes on the first free key as learning puts it.
@@ -9615,7 +9640,6 @@ void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, i
         .talentClip = link.talentClip,
         .talentBlock = pMember != nullptr && pMember->talentState.shieldWallSeconds > 0.0f,
         .swingIsCast = link.waitIsCast,
-        .swingIsBreath = link.waitIsBreath,
         .castSelf = link.castSelf,
         .castColor = FirstPersonViewModel::schoolColor(link.castSchool),
         .trailEnabled = m_settings.weaponTrails,

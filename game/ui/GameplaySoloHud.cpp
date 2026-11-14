@@ -6,6 +6,8 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/PartyHostileAlert.h"
+#include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/items/QuickItemSlots.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
@@ -58,6 +60,8 @@ constexpr uint32_t TrailFill = abgr(0xe4c793);
 constexpr uint32_t ReservedFill = abgr(0x0d1a14, 0xd0);
 constexpr uint32_t ShieldLine = abgr(0x4ad2f0);
 constexpr uint32_t Expiring = abgr(0xf2c66b);
+constexpr uint32_t TextOutline = abgr(0x050708);
+constexpr uint32_t ClassText = abgr(0xd9d2b6);
 
 constexpr std::array<SDL_Scancode, 10> BarKeys = {SDL_SCANCODE_1, SDL_SCANCODE_2, SDL_SCANCODE_3, SDL_SCANCODE_4,
     SDL_SCANCODE_5, SDL_SCANCODE_6, SDL_SCANCODE_7, SDL_SCANCODE_8, SDL_SCANCODE_9, SDL_SCANCODE_0};
@@ -91,6 +95,65 @@ void ring(GameplayScreenRuntime &context, const GameplayObsidianRect &box, float
     GameplayUiSkin::renderArc(context, resolved(box, scale), stroke, 0, 360, GameplayUiSkin::ArcMaterial::NormalRim);
 }
 
+// Text in a one-pixel dark outline, readable over the bright meter fills.
+void outlinedText(const SoloPainter &painter, const std::string &font, float height, uint32_t colour,
+    const std::string &value, float x, float y, int align = 0)
+{
+    const float pixel = 1.0f / std::max(0.01f, painter.scale());
+    constexpr std::array<std::array<float, 2>, 8> Offsets = {{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {1, -1},
+        {-1, 1}, {1, 1}}};
+    for (const std::array<float, 2> &offset : Offsets)
+    {
+        painter.text(font, height, TextOutline, value, x + offset[0] * pixel, y + offset[1] * pixel, align);
+    }
+    painter.text(font, height, colour, value, x, y, align);
+}
+
+// The alert glow's art: white, clear inside an oval at `inner` of the half size, brightest at its edge and fading out
+// to the texture's border.
+std::optional<GameplayHudTextureHandle> glowTexture(GameplayUiRuntime &ui, float inner)
+{
+    const std::string name = "__solo_alert_glow_" + std::to_string(int(std::lround(inner * 100)));
+    const std::string signature = "v1";
+    if (const std::optional<GameplayHudTextureHandle> cached = ui.findCachedDynamicHudTexture(name, signature))
+    {
+        return cached;
+    }
+    constexpr int Side = 128;
+    constexpr float Ramp = 0.04f;
+    std::vector<uint8_t> pixels(size_t(Side) * Side * 4, 255);
+    for (int y = 0; y < Side; ++y)
+    {
+        for (int x = 0; x < Side; ++x)
+        {
+            const float dx = (x + 0.5f) / Side * 2 - 1;
+            const float dy = (y + 0.5f) / Side * 2 - 1;
+            const float radius = std::sqrt(dx * dx + dy * dy);
+            float alpha = 0;
+            if (radius >= 1)
+            {
+                alpha = 0;
+            }
+            else if (radius >= inner)
+            {
+                const float fade = 1 - (radius - inner) / (1 - inner);
+                alpha = fade * fade;
+            }
+            else if (radius > inner - Ramp)
+            {
+                alpha = (radius - (inner - Ramp)) / Ramp;
+            }
+            pixels[(size_t(y) * Side + x) * 4 + 3] = uint8_t(std::lround(alpha * 255));
+        }
+    }
+    const std::optional<GameplayHudTextureHandle> texture = ui.ensureDynamicHudTexture(name, Side, Side, pixels);
+    if (texture)
+    {
+        ui.setDynamicHudTextureContentSignature(name, signature);
+    }
+    return texture;
+}
+
 std::string durationText(float seconds)
 {
     const int whole = int(std::ceil(std::max(seconds, 0.0f)));
@@ -107,7 +170,14 @@ struct BuffTile
     float remainingSeconds = 0;
     bool debuff = false;
     GameplayHudPointerTarget target;
+    // A solo run's talent state (Onslaught, Cheat Death): an item icon (the talents' own), a count in the corner
+    // (stacks), and a cooldown the tile shows dimmed with its time.
+    std::string itemIcon;
+    std::string corner;
+    float cooldownSeconds = 0;
 };
+
+void drawItemIcon(GameplayScreenRuntime &context, const std::string &iconName, const GameplayObsidianRect &icon);
 
 const char *characterBuffIcon(CharacterBuffId id)
 {
@@ -136,6 +206,80 @@ const char *characterBuffIcon(CharacterBuffId id)
         case CharacterBuffId::BodyResistance: return "obsidian_buff_sbb03a";
         default: return "obsidian_buff_sbl09a";
     }
+}
+
+// A timed potion effect's icon, as the buff it matches shows it: an aura potion as that buff (Haste, Heroism, Bless ...),
+// regeneration as Regeneration, an immunity as the spell that cures its first condition; a skill bonus keeps the
+// generic potion art.
+BuffTile potionTile(const GameplayPotionEffectLine &line)
+{
+    BuffTile tile;
+    tile.icon = "obsidian_buff_combat";
+    switch (line.kind)
+    {
+        case TimedPotionEffect::Kind::Aura:
+        {
+            std::optional<CharacterBuffId> buff;
+            switch (spellIdFromValue(line.key))
+            {
+                case SpellId::Haste: buff = CharacterBuffId::Haste; break;
+                case SpellId::Heroism: buff = CharacterBuffId::Heroism; break;
+                case SpellId::Bless: buff = CharacterBuffId::Bless; break;
+                case SpellId::Fate: buff = CharacterBuffId::Fate; break;
+                case SpellId::Shield: buff = CharacterBuffId::Shield; break;
+                case SpellId::StoneSkin: buff = CharacterBuffId::Stoneskin; break;
+                case SpellId::Preservation: buff = CharacterBuffId::Preservation; break;
+                case SpellId::Regeneration: buff = CharacterBuffId::Regeneration; break;
+                case SpellId::FireResistance: buff = CharacterBuffId::FireResistance; break;
+                case SpellId::AirResistance: buff = CharacterBuffId::AirResistance; break;
+                case SpellId::WaterResistance: buff = CharacterBuffId::WaterResistance; break;
+                case SpellId::EarthResistance: buff = CharacterBuffId::EarthResistance; break;
+                case SpellId::MindResistance: buff = CharacterBuffId::MindResistance; break;
+                case SpellId::BodyResistance: buff = CharacterBuffId::BodyResistance; break;
+                default: break;
+            }
+            if (buff)
+            {
+                tile.icon = characterBuffIcon(*buff);
+            }
+            else if (line.key != 0)
+            {
+                tile.spellIcon = line.key;
+            }
+            break;
+        }
+        case TimedPotionEffect::Kind::Regeneration:
+            tile.icon = characterBuffIcon(CharacterBuffId::Regeneration);
+            break;
+        case TimedPotionEffect::Kind::Immunity:
+        {
+            std::optional<SpellId> cure;
+            switch (CharacterCondition(line.key))
+            {
+                case CharacterCondition::Cursed: cure = SpellId::RemoveCurse; break;
+                case CharacterCondition::Weak: cure = SpellId::CureWeakness; break;
+                case CharacterCondition::Asleep: cure = SpellId::Awaken; break;
+                case CharacterCondition::Fear: cure = SpellId::RemoveFear; break;
+                case CharacterCondition::Insane: cure = SpellId::CureInsanity; break;
+                case CharacterCondition::Paralyzed: cure = SpellId::CureParalysis; break;
+                case CharacterCondition::PoisonWeak:
+                case CharacterCondition::PoisonMedium:
+                case CharacterCondition::PoisonSevere: cure = SpellId::CurePoison; break;
+                case CharacterCondition::DiseaseWeak:
+                case CharacterCondition::DiseaseMedium:
+                case CharacterCondition::DiseaseSevere: cure = SpellId::CureDisease; break;
+                default: break;
+            }
+            if (cure)
+            {
+                tile.spellIcon = spellIdValue(*cure);
+            }
+            break;
+        }
+        case TimedPotionEffect::Kind::SkillBonus:
+            break;
+    }
+    return tile;
 }
 
 // The conditions the rows show (the medallion greys the face for the incapacitating ones): an icon each, from the
@@ -198,11 +342,39 @@ std::pair<std::vector<BuffTile>, std::vector<BuffTile>> buffTiles(const Party &p
     const std::vector<GameplayPotionEffectLine> potions = gameplayPotionEffectLines(member, nullptr);
     for (size_t index = 0; index < potions.size(); ++index)
     {
-        buffs.push_back({200 + uint32_t(index), "obsidian_buff_combat", std::nullopt, potions[index].remainingSeconds,
-            false, {GameplayHudPointerTargetType::PersonalBuffs, memberIndex}});
+        BuffTile tile = potionTile(potions[index]);
+        tile.key = 200 + uint32_t(index);
+        tile.remainingSeconds = potions[index].remainingSeconds;
+        tile.target = {GameplayHudPointerTargetType::PersonalBuffs, memberIndex};
+        buffs.push_back(std::move(tile));
     }
     std::stable_sort(buffs.begin(), buffs.end(),
         [](const BuffTile &left, const BuffTile &right) { return left.remainingSeconds < right.remainingSeconds; });
+    // A solo run's talents first: Onslaught's stacks while they last, and a bound Cheat Death (ready, protecting, or
+    // its cooldown).
+    const SoloTalentState &talents = member.talentState;
+    std::vector<BuffTile> talentTiles;
+    if (talents.onslaughtStacks > 0 && talents.onslaughtSeconds > 0.0f)
+    {
+        BuffTile tile;
+        tile.key = 300;
+        tile.itemIcon = "talent_onslaught";
+        tile.remainingSeconds = talents.onslaughtSeconds;
+        tile.corner = std::to_string(talents.onslaughtStacks);
+        tile.target = {GameplayHudPointerTargetType::PersonalBuffs, memberIndex};
+        talentTiles.push_back(std::move(tile));
+    }
+    if (hasKeystone(member, "cheat_death"))
+    {
+        BuffTile tile;
+        tile.key = 301;
+        tile.itemIcon = "talent_cheat_death";
+        tile.remainingSeconds = talents.cheatDeathSeconds;
+        tile.cooldownSeconds = talents.cheatDeathSeconds > 0.0f ? 0.0f : talents.cheatDeathCooldown;
+        tile.target = {GameplayHudPointerTargetType::PersonalBuffs, memberIndex};
+        talentTiles.push_back(std::move(tile));
+    }
+    buffs.insert(buffs.begin(), talentTiles.begin(), talentTiles.end());
     for (size_t index = 0; index < CharacterConditionCount; ++index)
     {
         if (member.conditions.test(index))
@@ -240,6 +412,39 @@ void forgetUnshown(GameplayScreenRuntime &context, const std::vector<BuffTile> &
     });
 }
 
+// A tile where the rows put it (layout units).
+struct PlacedTile
+{
+    const BuffTile *pTile = nullptr;
+    float x = 0;
+    float y = 0;
+};
+
+// The rows' tiles in place: the buffs wrap under the box at its width, the conditions start a row of their own below.
+std::vector<PlacedTile> placeTiles(const SoloUnitFrameLayout &layout, float shift, const std::vector<BuffTile> &buffs,
+    const std::vector<BuffTile> &debuffs)
+{
+    const float pitch = layout.tile + layout.tileGap;
+    const float rowWidth = layout.box.x + layout.box.width - layout.buffX;
+    const size_t perRow = std::max<size_t>(1, size_t((rowWidth + layout.tileGap) / pitch));
+    const float rowPitch = layout.debuffY - layout.buffY;
+    std::vector<PlacedTile> placed;
+    placed.reserve(buffs.size() + debuffs.size());
+    for (size_t index = 0; index < buffs.size(); ++index)
+    {
+        placed.push_back({&buffs[index], layout.buffX + float(index % perRow) * pitch,
+            layout.buffY + shift + float(index / perRow) * rowPitch});
+    }
+    const float debuffY = layout.buffY + shift + float(std::max<size_t>(1, (buffs.size() + perRow - 1) / perRow))
+        * rowPitch;
+    for (size_t index = 0; index < debuffs.size(); ++index)
+    {
+        placed.push_back({&debuffs[index], layout.buffX + float(index % perRow) * pitch,
+            debuffY + float(index / perRow) * rowPitch});
+    }
+    return placed;
+}
+
 void renderTile(GameplayScreenRuntime &context, const SoloPainter &painter, const BuffTile &tile, float x, float y,
     float size)
 {
@@ -248,6 +453,10 @@ void renderTile(GameplayScreenRuntime &context, const SoloPainter &painter, cons
     if (tile.spellIcon)
     {
         painter.spellIcon(*tile.spellIcon, box, false);
+    }
+    else if (!tile.itemIcon.empty())
+    {
+        drawItemIcon(context, tile.itemIcon, box);
     }
     else
     {
@@ -259,6 +468,16 @@ void renderTile(GameplayScreenRuntime &context, const SoloPainter &painter, cons
         painter.fill({box.x, box.y, box.width, box.height * spent}, abgr(0x06080a, 0x9e));
         painter.text("SMALLNUM", 5.4f, tile.remainingSeconds < 30 ? Expiring : Ivory,
             durationText(tile.remainingSeconds), x + size / 2, y + size + 0.8f, 1);
+    }
+    if (tile.cooldownSeconds > 0)
+    {
+        // Spent for now: veiled, its time to ready below.
+        painter.fill(box, abgr(0x06080a, 0xb4));
+        painter.text("SMALLNUM", 5.4f, Ivory, durationText(tile.cooldownSeconds), x + size / 2, y + size + 0.8f, 1);
+    }
+    if (!tile.corner.empty())
+    {
+        outlinedText(painter, "SMALLNUM", 6.4f, Ivory, tile.corner, x + size - 1.0f, y + size - 7.2f, 2);
     }
     painter.frame(box, tile.debuff ? DebuffEdge : TileEdge);
 }
@@ -291,8 +510,8 @@ void renderMeter(GameplayScreenRuntime &context, const SoloPainter &painter, con
         painter.fill({segment.x, segment.y, segment.width, segment.height}, ReservedFill);
     }
     painter.frame(box, Brass);
-    painter.text("Arrus", area.height * 0.66f, Ivory, label, area.x + area.width / 2,
-        area.y + area.height * 0.14f, 1);
+    outlinedText(painter, "Arrus", area.height * 0.72f, Ivory, label, area.x + area.width / 2,
+        area.y + area.height * 0.11f, 1);
 }
 
 // How far the buff rows move down, in layout units, to clear MAW's progress tab hanging under the box.
@@ -308,11 +527,15 @@ float buffRowShift(GameplayScreenRuntime &context, int width, int height, const 
 }
 
 void renderUnitFrame(GameplayScreenRuntime &context, const Party &party, size_t memberIndex,
-    const Character &member, const GameplayResolvedHudLayoutElement &frame, float buffShift)
+    const Character &member, const GameplayResolvedHudLayoutElement &frame, float buffShift,
+    GameplaySoloHud::SoloAlert alert)
 {
     const SoloPainter painter(context, frame);
     const SoloUnitFrameLayout layout = soloUnitFrameLayout();
     const float scale = frame.scale;
+
+    // The alert's glow round the medallion, under the box and the ring.
+    GameplaySoloHud::renderAlertGlow(context, resolved(painter.at(layout.medallion), scale), 8.0f * scale, alert);
 
     // The box: the native Obsidian frame pieces at half the menu border.
     const GameplayObsidianRect box = painter.at(layout.box);
@@ -321,8 +544,8 @@ void renderUnitFrame(GameplayScreenRuntime &context, const Party &party, size_t 
 
     const std::string name = painter.fitted("Fondamento", 10.5f, member.name, layout.name.width * 0.62f);
     painter.text("Fondamento", 10.5f, NameGold, name, layout.name.x + 1, layout.name.y + 0.4f);
-    painter.text("Lucida", 6.4f, Muted, Engine::localize(displayClassName(member.className), "class"),
-        layout.name.x + layout.name.width - 1, layout.name.y + 3.6f, 2);
+    outlinedText(painter, "Lucida", 8.0f, ClassText, Engine::localize(displayClassName(member.className), "class"),
+        layout.name.x + layout.name.width - 1, layout.name.y + 2.4f, 2);
 
     const int maximumHealth = GameMechanics::calculateEffectiveCharacterMaxHealth(member);
     const int maximumMana = GameMechanics::calculateEffectiveCharacterMaxSpellPoints(member);
@@ -410,17 +633,9 @@ void renderUnitFrame(GameplayScreenRuntime &context, const Party &party, size_t 
 
     // The buff and debuff rows under the box.
     const auto [buffs, debuffs] = buffTiles(party, memberIndex, member);
-    float x = layout.buffX;
-    for (const BuffTile &tile : buffs)
+    for (const PlacedTile &placed : placeTiles(layout, buffShift, buffs, debuffs))
     {
-        renderTile(context, painter, tile, x, layout.buffY + buffShift, layout.tile);
-        x += layout.tile + layout.tileGap;
-    }
-    x = layout.buffX;
-    for (const BuffTile &tile : debuffs)
-    {
-        renderTile(context, painter, tile, x, layout.debuffY + buffShift, layout.tile);
-        x += layout.tile + layout.tileGap;
+        renderTile(context, painter, *placed.pTile, placed.x, placed.y, layout.tile);
     }
     forgetUnshown(context, buffs);
 }
@@ -631,8 +846,7 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
             const float total = talentCooldownSeconds(talent, std::max(1, talentRank(member, talent.id)));
             cooldownShare = cooldownLeft > 0.0f ? std::clamp(cooldownLeft / total, 0.0f, 1.0f) : 0.0f;
             const SoloTalentState &state = member.talentState;
-            talentEffectOn = (talent.id == "frenzy" && state.frenzySeconds > 0.0f)
-                || (talent.id == "shield_wall" && state.shieldWallSeconds > 0.0f)
+            talentEffectOn = (talent.id == "shield_wall" && state.shieldWallSeconds > 0.0f)
                 || (talent.id == "spell_surge" && state.spellSurgeArmed);
         }
         else if ((slot.kind == ActionBarSlotKind::Item || slot.kind == ActionBarSlotKind::Weapon)
@@ -692,7 +906,49 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
 }
 }
 
-void GameplaySoloHud::renderHud(GameplayScreenRuntime &context, int width, int height)
+GameplaySoloHud::SoloAlert GameplaySoloHud::soloAlert(GameplayScreenRuntime &context, const Character &member,
+    float nearestHostile, float engagementRange)
+{
+    return !GameMechanics::canAct(member) ? SoloAlert::Unlit
+        : context.turnBasedCombatRuntime().active() ? SoloAlert::Blue
+        : nearestHostile >= engagementRange ? SoloAlert::Green
+        : nearestHostile < PartyRedAlertDistance ? SoloAlert::Red
+        : nearestHostile < PartyYellowAlertDistance ? SoloAlert::Yellow : SoloAlert::Green;
+}
+
+void GameplaySoloHud::renderAlertGlow(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &oval,
+    float band, SoloAlert alert)
+{
+    if (alert == SoloAlert::Unlit || oval.width <= 0 || oval.height <= 0 || band <= 0)
+    {
+        return;
+    }
+    const std::optional<GameplayHudTextureHandle> texture =
+        glowTexture(context.gameplayUiRuntime(), oval.width / (oval.width + 2 * band));
+    if (!texture)
+    {
+        return;
+    }
+    // Green is a quiet sign of a clear road; danger glows bright, and red breathes once a second.
+    float strength = alert == SoloAlert::Green ? 0.45f : 0.85f;
+    if (alert == SoloAlert::Red)
+    {
+        strength = 0.8f + 0.2f * std::sin(float(context.animationTicks()) * 6.2831853f / 128.0f);
+    }
+    const uint32_t colour = alert == SoloAlert::Green ? 0x4cc85a
+        : alert == SoloAlert::Yellow ? 0xf0c040
+        : alert == SoloAlert::Red ? 0xff3a28 : 0x4a90ff;
+    GameplayHudBatchQuad quad;
+    quad.textureHandle = texture->textureHandle;
+    quad.x = oval.x - band;
+    quad.y = oval.y - band;
+    quad.width = oval.width + 2 * band;
+    quad.height = oval.height + 2 * band;
+    quad.tintAbgr = abgr(colour, uint8_t(std::lround(255 * strength)));
+    context.submitHudQuadBatch({quad});
+}
+
+void GameplaySoloHud::renderHud(GameplayScreenRuntime &context, int width, int height, SoloAlert alert)
 {
     const Party *pParty = context.partyReadOnly();
     const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
@@ -705,7 +961,7 @@ void GameplaySoloHud::renderHud(GameplayScreenRuntime &context, int width, int h
             context.resolveHudLayoutElement("SoloUnitFrame", width, height, 0, 0))
     {
         renderUnitFrame(context, *pParty, memberIndex, *pMember, *frame,
-            buffRowShift(context, width, height, *frame, soloUnitFrameLayout()));
+            buffRowShift(context, width, height, *frame, soloUnitFrameLayout()), alert);
     }
     // The action bar: a column of keys 1-0 down the left edge (the SoloActionBar element), in the native frame pieces
     // as the unit frame's box.
@@ -786,14 +1042,48 @@ std::optional<GameplayHudPointerTarget> GameplaySoloHud::buffTargetAt(GameplaySc
     const float unitX = (x - frame->x) / frame->scale;
     const float unitY = (y - frame->y) / frame->scale;
     const auto [buffs, debuffs] = buffTiles(*pParty, pParty->activeMemberIndex(), *pMember);
-    const float buffY = layout.buffY + buffRowShift(context, width, height, *frame, layout);
-    for (size_t index = 0; index < buffs.size(); ++index)
+    for (const PlacedTile &placed :
+        placeTiles(layout, buffRowShift(context, width, height, *frame, layout), buffs, debuffs))
     {
-        const SoloHudRect tile = {layout.buffX + float(index) * (layout.tile + layout.tileGap), buffY,
-            layout.tile, layout.tile};
-        if (tile.contains(unitX, unitY))
+        if (!placed.pTile->debuff
+            && SoloHudRect{placed.x, placed.y, layout.tile, layout.tile}.contains(unitX, unitY))
         {
-            return buffs[index].target;
+            return placed.pTile->target;
+        }
+    }
+    return std::nullopt;
+}
+
+std::optional<GameplaySoloHud::BuffTileHit> GameplaySoloHud::buffTileAt(GameplayScreenRuntime &context, int width,
+    int height, float x, float y)
+{
+    const Party *pParty = context.partyReadOnly();
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    const std::optional<GameplayResolvedHudLayoutElement> frame = pMember != nullptr && context.soloHud()
+        ? context.resolveHudLayoutElement("SoloUnitFrame", width, height, 0, 0)
+        : std::nullopt;
+    if (!frame || frame->scale <= 0)
+    {
+        return std::nullopt;
+    }
+    const SoloUnitFrameLayout layout = soloUnitFrameLayout();
+    const float unitX = (x - frame->x) / frame->scale;
+    const float unitY = (y - frame->y) / frame->scale;
+    const auto [buffs, debuffs] = buffTiles(*pParty, pParty->activeMemberIndex(), *pMember);
+    for (const PlacedTile &placed :
+        placeTiles(layout, buffRowShift(context, width, height, *frame, layout), buffs, debuffs))
+    {
+        if (SoloHudRect{placed.x, placed.y, layout.tile, layout.tile}.contains(unitX, unitY))
+        {
+            const uint32_t key = placed.pTile->key;
+            BuffTileHit hit;
+            hit.kind = key >= 300 ? BuffTileKind::Condition : key >= 200 ? BuffTileKind::Potion
+                : key >= 100 ? BuffTileKind::Character : BuffTileKind::Party;
+            hit.index = key % 100;
+            hit.remainingSeconds = placed.pTile->remainingSeconds;
+            hit.rect = {frame->x + placed.x * frame->scale, frame->y + placed.y * frame->scale,
+                layout.tile * frame->scale, layout.tile * frame->scale, frame->scale};
+            return hit;
         }
     }
     return std::nullopt;

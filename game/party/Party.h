@@ -620,7 +620,10 @@ public:
     // A spell's speed-up of the party's movement, set each frame (MM9's Fleet Foot: fleetFootSpeedMultiplier).
     // 1: none; not saved.
     void setSpellMovementMultiplier(float multiplier);
-    // What the party's walking and running speed is multiplied by: the ruleset's slow and the spell's speed-up.
+    // A solo run talent's speed-up of the party's movement (Quickfoot), set when it changes. 1: none; not saved.
+    void setTalentMovementMultiplier(float multiplier);
+    // What the party's walking and running speed is multiplied by: the ruleset's slow and the spell's and talent's
+    // speed-ups.
     float movementMultiplier() const;
     const GameRules &rules() const;
     // The session's playthrough statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md). A copy of the party does not
@@ -1246,6 +1249,7 @@ private:
     std::vector<SelfTextEvent> m_selfTextEvents;
     float m_rulesMovementMultiplier = 1.0f;
     float m_spellMovementMultiplier = 1.0f;
+    float m_talentMovementMultiplier = 1.0f;
     bool m_debugUnlimitedMana = false;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::unordered_map<uint16_t, int32_t> m_eventVariables;

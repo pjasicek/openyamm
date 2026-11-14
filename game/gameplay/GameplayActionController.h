@@ -165,10 +165,6 @@ public:
         // The first-person view model's blade direction across the screen at the blow (right, up): the melee hit
         // effect follows it instead of the attacker's side of the portrait row.
         std::optional<std::array<float, 2>> blowScreenDirection;
-        // A solo dragon's breath released at its clip's Hit: the mouth on screen as the forelegs show it (normalized
-        // device x right, y up). The breath leaves on the ray through it in front of the eye, takes the dragons' own
-        // look (projectiles.yml dragon_breath) and kicks the view (devdocs/solo_action/DRAGON.md).
-        std::optional<std::array<float, 2>> breathScreenPoint;
         // A view model swing that landed its blow now: its whoosh played when it started, and the recovery counts
         // from the press, so the time it took is taken off.
         bool swingSoundPlayed = false;
@@ -183,6 +179,9 @@ public:
         // weapon): Attack shoots even at melee range, where a party member would strike with the bow's melee fallback
         // (or fists). The one rule a solo run changes.
         bool preferBow = false;
+    // A solo run with the melee weapon in the arms: Attack never shoots, as a party member out of melee reach would
+    // (a weapon order to shoot included); with nothing in reach the blow swings at the air. Talent shots still shoot.
+    bool preferMelee = false;
     };
 
     struct PartyAttackExecutionResult

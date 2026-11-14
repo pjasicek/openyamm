@@ -976,7 +976,8 @@ std::vector<std::string> collectLearnableSkills(
             continue;
         }
 
-        if (pClassSkillTable->getEffectiveCap(pMember->className, pMember->raceId, canonicalSkill)
+        if (pParty->rules().skills.masteryCap(*pMember, canonicalSkill,
+                pClassSkillTable->getEffectiveCap(pMember->className, pMember->raceId, canonicalSkill))
             == SkillMastery::None)
         {
             continue;

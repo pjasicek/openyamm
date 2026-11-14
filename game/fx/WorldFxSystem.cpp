@@ -4151,26 +4151,6 @@ void WorldFxSystem::setItemModelOutline(uint32_t key, uint32_t colorAbgr)
     }
 }
 
-namespace
-{
-// The bound impact of a projectile's binding: presented_impact when the projectile wore another spell's look and the
-// binding names one, else impact; null when it names neither.
-const std::string *boundImpactEffect(
-    const ProjectileEffectBinding *pBinding,
-    const GameplayProjectileImpactPresentationState &impact)
-{
-    if (pBinding == nullptr)
-    {
-        return nullptr;
-    }
-    if (impact.presented && !pBinding->presentedImpact.empty())
-    {
-        return &pBinding->presentedImpact;
-    }
-    return pBinding->impact.empty() ? nullptr : &pBinding->impact;
-}
-}
-
 bool WorldFxSystem::projectileShowsNativeSprite(const GameplayProjectilePresentationState &projectile) const
 {
     if (projectileModelBinding(projectile.objectDescriptionId) != nullptr)
@@ -4213,7 +4193,7 @@ bool WorldFxSystem::projectileImpactUsesNamedEffect(const GameplayProjectileImpa
     }
     const ProjectileEffectBinding *pBinding =
         projectileEffectBinding(recipe, impact.sourceMonsterId, impact.sourceObjectName);
-    return boundImpactEffect(pBinding, impact) != nullptr;
+    return pBinding != nullptr && !pBinding->impact.empty();
 }
 
 bool WorldFxSystem::projectileImpactShowsNativeSprite(const GameplayProjectileImpactPresentationState &impact) const
@@ -5169,8 +5149,8 @@ void WorldFxSystem::syncProjectileImpacts(GameSession &session)
         const ProjectileEffectBinding *pBinding =
             pEffectRebind == nullptr
                 ? projectileEffectBinding(recipe, impact.sourceMonsterId, impact.sourceObjectName) : nullptr;
-        const std::string *pImpactEffect =
-            pEffectRebind != nullptr ? pEffectRebind : boundImpactEffect(pBinding, impact);
+        const std::string *pImpactEffect = pEffectRebind != nullptr ? pEffectRebind
+            : pBinding != nullptr && !pBinding->impact.empty() ? &pBinding->impact : nullptr;
         if (pImpactEffect == nullptr && !m_projectileEffectBindings.waterSplash().empty()
             && isWaterSplashImpact(impact))
         {

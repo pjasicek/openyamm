@@ -446,10 +446,8 @@ void renderPortraitReadiness(
     context.submitHudQuadBatch(ring);
 }
 
-// A solo HUD's alert gem on the minimap's upper-left rim, as MM9's compass gem (devdocs/solo_action/HUD.md): blue in
-// turn-based combat, red with a hostile in melee range, yellow within the yellow alert range, else green; unlit while
-// the member cannot act. Unlike the portraits' diamonds it shows danger alone, not readiness (the bar's keys do).
-void renderSoloAlertGem(GameplayScreenRuntime &context, const Party &party, int width, int height,
+// A solo HUD's alert (GameplaySoloHud::soloAlert) as a glow round the minimap circle, as round the portrait.
+void renderSoloAlertGlow(GameplayScreenRuntime &context, const Party &party, int width, int height,
     float nearestHostile, float engagementRange)
 {
     const std::optional<GameplayResolvedHudLayoutElement> frame =
@@ -459,22 +457,15 @@ void renderSoloAlertGem(GameplayScreenRuntime &context, const Party &party, int 
     {
         return;
     }
-    const char *pArt = !GameMechanics::canAct(*pMember) ? "obsidian_solo_alert_unlit"
-        : context.turnBasedCombatRuntime().active() ? "obsidian_solo_alert_blue"
-        : nearestHostile >= engagementRange ? "obsidian_solo_alert_green"
-        : nearestHostile < PartyRedAlertDistance ? "obsidian_solo_alert_red"
-        : nearestHostile < PartyYellowAlertDistance ? "obsidian_solo_alert_yellow" : "obsidian_solo_alert_green";
-    // The minimap circle (OutdoorMinimap) is centred at (62.72, 56) in the frame with a radius of 56: the gem sits at
-    // 135 degrees, its centre 10 units outside the rim, so it covers the map's edge by about 7 units; its top stays
-    // clear of the top bar above the frame (SoloTopRightDrop).
-    constexpr float Size = 34.0f;
-    constexpr float RimOffset = 66.0f * 0.70710678f;
-    GameplayResolvedHudLayoutElement gem = *frame;
-    gem.width = Size * frame->scale;
-    gem.height = Size * frame->scale;
-    gem.x = frame->x + (62.72f - RimOffset - Size / 2) * frame->scale;
-    gem.y = frame->y + (56.0f - RimOffset - Size / 2) * frame->scale;
-    GameplayUiSkin::renderTexture(context, pArt, gem);
+    // The minimap circle (OutdoorMinimap) is centred at (62.72, 56) in the frame with a radius of 56.
+    constexpr float CenterX = 62.72f;
+    constexpr float CenterY = 56.0f;
+    constexpr float Radius = 56.0f;
+    const GameplayResolvedHudLayoutElement circle{frame->x + (CenterX - Radius) * frame->scale,
+        frame->y + (CenterY - Radius) * frame->scale, 2 * Radius * frame->scale, 2 * Radius * frame->scale,
+        frame->scale};
+    GameplaySoloHud::renderAlertGlow(context, circle, 9.0f * frame->scale,
+        GameplaySoloHud::soloAlert(context, *pMember, nearestHostile, engagementRange));
 }
 
 // The HP arc's short damage trail: where the arc stood before the latest loss, fading over 96 ticks.
@@ -969,7 +960,10 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     if (soloHud && !partyFrameHidden)
     {
         flushQueuedHudQuads();
-        GameplaySoloHud::renderHud(context, width, height);
+        const Character *pSoloMember = party.activeMember();
+        GameplaySoloHud::renderHud(context, width, height, pSoloMember != nullptr
+            ? GameplaySoloHud::soloAlert(context, *pSoloMember, nearestHostile, engagementRange)
+            : GameplaySoloHud::SoloAlert::Unlit);
     }
     if (isLimitedOverlayHud)
     {
@@ -1486,7 +1480,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                     flushQueuedHudQuads();
                     GameplayUiSkin::renderTexture(context, "obsidian_hud_clock_plate", *clock);
                 }
-                renderSoloAlertGem(context, party, width, height, nearestHostile, engagementRange);
+                renderSoloAlertGlow(context, party, width, height, nearestHostile, engagementRange);
             }
             label("ObsidianMinimapClock", formatGameplayClock(context.worldRuntime()->gameMinutes()));
 

@@ -264,6 +264,10 @@ struct GameplayPotionEffectLine
 {
     std::string name;
     float remainingSeconds = 0;
+    // What the line stands for: the effect's kind and key (the aura's spell id, the skill id, the first condition of
+    // an immunity line).
+    TimedPotionEffect::Kind kind = TimedPotionEffect::Kind::Immunity;
+    uint32_t key = 0;
 };
 
 std::vector<GameplayPotionEffectLine> gameplayPotionEffectLines(const Character &member, const SpellTable *pSpellTable);

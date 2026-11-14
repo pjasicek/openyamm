@@ -126,6 +126,14 @@ public:
         SkillMastery mastery,
         int standardCost) const;
 
+    // The highest mastery the character may reach in the skill, given its class's cap. Standard: the class cap. MAW's
+    // solo run: Lone Discipline lifts Bodybuilding (devdocs/solo_action/TALENT_TREE_V2_BUILD.md).
+    virtual SkillMastery masteryCap(const Character &character, const std::string &canonicalSkill, SkillMastery classCap) const;
+    // The same for what a promotion can reach, given the highest promoted class's cap (the skill popup's
+    // "after a promotion"). Standard: that cap.
+    virtual SkillMastery promotedMasteryCap(
+        const Character &character, const std::string &canonicalSkill, SkillMastery promotedClassCap) const;
+
     // What resetting the character's skills costs, or nothing when the rules have no reset (Standard).
     virtual std::optional<int> skillResetCost(const Character &character) const;
     // Lowers the character's skills and gives their points back (MAW's respec); false when the rules have no reset.

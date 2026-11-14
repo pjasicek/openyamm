@@ -38,19 +38,38 @@ int bestMastery(const Character &character, const std::array<const char *, N> &s
     return best;
 }
 
+// The tree's best trained skill level (base level, not item bonuses).
+template <size_t N>
+int bestLevel(const Character &character, const std::array<const char *, N> &skills)
+{
+    int best = 0;
+    for (const char *pSkill : skills)
+    {
+        if (const CharacterSkill *pLearned = character.findSkill(pSkill); pLearned != nullptr)
+        {
+            best = std::max(best, int(pLearned->level));
+        }
+    }
+    return best;
+}
+
 std::optional<TalentTree> parseTree(const std::string &text)
 {
-    if (text == "melee")
+    if (text == "arms")
     {
-        return TalentTree::Melee;
+        return TalentTree::Arms;
     }
-    if (text == "ranged")
+    if (text == "archery")
     {
-        return TalentTree::Ranged;
+        return TalentTree::Archery;
     }
-    if (text == "caster")
+    if (text == "arcana")
     {
-        return TalentTree::Caster;
+        return TalentTree::Arcana;
+    }
+    if (text == "any")
+    {
+        return TalentTree::Any;
     }
     return std::nullopt;
 }
@@ -77,7 +96,32 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
     try
     {
         const YAML::Node root = YAML::Load(text);
-        m_levelsPerPoint = std::max(1u, root["levels_per_point"].as<uint32_t>(10));
+        m_levelsPerPoint = std::max(1u, root["levels_per_point"].as<uint32_t>(15));
+        m_keystones.clear();
+        m_keystoneLevels.clear();
+        for (const YAML::Node &level : root["keystone_levels"])
+        {
+            m_keystoneLevels.push_back(level.as<uint32_t>());
+        }
+        std::sort(m_keystoneLevels.begin(), m_keystoneLevels.end());
+        for (const YAML::Node &node : root["keystones"])
+        {
+            TalentDefinition keystone;
+            keystone.id = node["id"].as<std::string>();
+            keystone.name = node["name"].as<std::string>(keystone.id);
+            keystone.text = node["text"].as<std::string>("");
+            keystone.tree = TalentTree::Any;
+            keystone.iconItem = node["icon_item"].as<std::string>("");
+            keystone.iconSpell = node["icon_spell"].as<uint32_t>(0);
+            keystone.cooldown = node["cooldown"].as<float>(0.0f);
+            keystone.duration = node["duration"].as<float>(0.0f);
+            if (findKeystone(keystone.id) != nullptr)
+            {
+                error = "keystone " + keystone.id + " is listed twice";
+                return false;
+            }
+            m_keystones.push_back(std::move(keystone));
+        }
         for (const YAML::Node &node : root["talents"])
         {
             TalentDefinition talent;
@@ -87,7 +131,7 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
             const std::optional<TalentTree> tree = parseTree(node["tree"].as<std::string>(""));
             if (!tree)
             {
-                error = "talent " + talent.id + ": tree must be melee, ranged or caster";
+                error = "talent " + talent.id + ": tree must be arms, archery, arcana or any";
                 return false;
             }
             talent.tree = *tree;
@@ -105,21 +149,33 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
             talent.requirement = requirement == "master" ? TalentRequirement::Master
                 : requirement == "expert"                ? TalentRequirement::Expert
                                                          : TalentRequirement::None;
+            talent.needs = node["needs"].as<std::string>("");
             talent.perRank = node["per_rank"].as<float>(0.0f);
+            talent.perRankCalm = node["per_rank_calm"].as<float>(0.0f);
             talent.cooldown = node["cooldown"].as<float>(0.0f);
             talent.cooldownPerRank = node["cooldown_per_rank"].as<float>(0.0f);
             talent.duration = node["duration"].as<float>(0.0f);
             talent.durationPerRank = node["duration_per_rank"].as<float>(0.0f);
             talent.targets = node["targets"].as<int>(0);
             talent.share = node["share"].as<float>(100.0f);
+            talent.sharePerSkill = node["share_per_skill"].as<float>(0.0f);
+            talent.shareCap = node["share_cap"].as<float>(0.0f);
             talent.distance = node["distance"].as<float>(0.0f);
             talent.arc = node["arc"].as<float>(0.0f);
-            if (find(talent.id) != nullptr)
+            if (find(talent.id) != nullptr || findKeystone(talent.id) != nullptr)
             {
                 error = "talent " + talent.id + " is listed twice";
                 return false;
             }
             m_talents.push_back(std::move(talent));
+        }
+        for (const TalentDefinition &talent : m_talents)
+        {
+            if (!talent.needs.empty() && find(talent.needs) == nullptr)
+            {
+                error = "talent " + talent.id + " needs " + talent.needs + ", which is not in the table";
+                return false;
+            }
         }
     }
     catch (const std::exception &exception)
@@ -145,6 +201,23 @@ const TalentDefinition *SoloTalentTable::find(std::string_view id) const
 uint32_t SoloTalentTable::levelsPerPoint() const
 {
     return m_levelsPerPoint;
+}
+
+const std::vector<TalentDefinition> &SoloTalentTable::keystones() const
+{
+    return m_keystones;
+}
+
+const TalentDefinition *SoloTalentTable::findKeystone(std::string_view id) const
+{
+    const auto found = std::find_if(m_keystones.begin(), m_keystones.end(),
+        [id](const TalentDefinition &keystone) { return keystone.id == id; });
+    return found != m_keystones.end() ? &*found : nullptr;
+}
+
+const std::vector<uint32_t> &SoloTalentTable::keystoneLevels() const
+{
+    return m_keystoneLevels;
 }
 
 const SoloTalentTable &soloTalentTable()
@@ -174,19 +247,22 @@ int talentPointsTotal(const SoloTalentTable &table, const Character &character)
     return int(character.level / table.levelsPerPoint());
 }
 
-int talentPointsSpent(const Character &character)
+int talentPointsSpent(const SoloTalentTable &table, const Character &character)
 {
     int spent = 0;
     for (const auto &[id, rank] : character.talentRanks)
     {
-        spent += rank;
+        if (table.find(id) != nullptr)
+        {
+            spent += rank;
+        }
     }
     return spent;
 }
 
 int talentPointsAvailable(const SoloTalentTable &table, const Character &character)
 {
-    return std::max(0, talentPointsTotal(table, character) - talentPointsSpent(character));
+    return std::max(0, talentPointsTotal(table, character) - talentPointsSpent(table, character));
 }
 
 uint32_t nextTalentPointLevel(const SoloTalentTable &table, const Character &character)
@@ -199,12 +275,14 @@ int talentTreeMastery(const Character &character, TalentTree tree)
 {
     switch (tree)
     {
-        case TalentTree::Melee:
+        case TalentTree::Arms:
             return bestMastery(character, MeleeSkills);
-        case TalentTree::Ranged:
+        case TalentTree::Archery:
             return bestMastery(character, RangedSkills);
-        case TalentTree::Caster:
+        case TalentTree::Arcana:
             return bestMastery(character, CasterSkills);
+        case TalentTree::Any:
+            return int(SkillMastery::Grandmaster);
     }
     return 0;
 }
@@ -221,10 +299,16 @@ std::string talentLearnRefusal(const SoloTalentTable &table, const Character &ch
     if (needed > 0 && talentTreeMastery(character, talent.tree) < needed)
     {
         const std::string mastery = needed == int(SkillMastery::Master) ? Engine::tr("Master") : Engine::tr("Expert");
-        const std::string skill = talent.tree == TalentTree::Melee ? Engine::tr("a melee weapon or Armsmaster")
-            : talent.tree == TalentTree::Ranged                     ? Engine::tr("Bow")
-                                                                    : Engine::tr("a magic school");
+        const std::string skill = talent.tree == TalentTree::Arms ? Engine::tr("a melee weapon or Armsmaster")
+            : talent.tree == TalentTree::Archery                     ? Engine::tr("Bow")
+                                                                     : Engine::tr("a magic school");
         return Engine::tr("Needs {skill} at {mastery}", {{"skill", skill}, {"mastery", mastery}});
+    }
+    if (!talent.needs.empty() && talentRank(character, talent.needs) <= 0)
+    {
+        const TalentDefinition *pNeeded = table.find(talent.needs);
+        return Engine::tr("Needs {talent} first",
+            {{"talent", pNeeded != nullptr ? Engine::tr(pNeeded->name) : talent.needs}});
     }
     if (talentPointsAvailable(table, character) <= 0)
     {
@@ -273,6 +357,74 @@ void resetTalents(Character &character)
             slot = {};
         }
     }
+}
+
+int keystoneSlots(const SoloTalentTable &table, const Character &character)
+{
+    return int(std::count_if(table.keystoneLevels().begin(), table.keystoneLevels().end(),
+        [&character](uint32_t level) { return character.level >= level; }));
+}
+
+int keystonesBound(const SoloTalentTable &table, const Character &character)
+{
+    return int(std::count_if(table.keystones().begin(), table.keystones().end(),
+        [&character](const TalentDefinition &keystone) { return hasKeystone(character, keystone.id); }));
+}
+
+bool hasKeystone(const Character &character, std::string_view id)
+{
+    return talentRank(character, id) > 0;
+}
+
+std::string keystoneBindRefusal(const SoloTalentTable &table, const Character &character, const TalentDefinition &keystone)
+{
+    if (hasKeystone(character, keystone.id))
+    {
+        return Engine::tr("Bound");
+    }
+    if (keystonesBound(table, character) >= keystoneSlots(table, character))
+    {
+        const uint32_t next = nextKeystoneLevel(table, character);
+        return next > 0 ? Engine::tr("No open keystone slot: the next opens at level {level}", {{"level", int64_t(next)}})
+                        : Engine::tr("No open keystone slot");
+    }
+    return {};
+}
+
+bool bindKeystone(const SoloTalentTable &table, Character &character, std::string_view id)
+{
+    const TalentDefinition *pKeystone = table.findKeystone(id);
+    if (pKeystone == nullptr || !keystoneBindRefusal(table, character, *pKeystone).empty())
+    {
+        return false;
+    }
+    character.talentRanks[pKeystone->id] = 1;
+    return true;
+}
+
+uint32_t nextKeystoneLevel(const SoloTalentTable &table, const Character &character)
+{
+    for (const uint32_t level : table.keystoneLevels())
+    {
+        if (character.level < level)
+        {
+            return level;
+        }
+    }
+    return 0;
+}
+
+float talentSkillShare(const TalentDefinition &talent, const Character &character)
+{
+    const int skill = talent.tree == TalentTree::Archery ? bestLevel(character, RangedSkills)
+        : talent.tree == TalentTree::Arcana              ? bestLevel(character, CasterSkills)
+                                                         : bestLevel(character, MeleeSkills);
+    float percent = talent.share + talent.sharePerSkill * float(skill);
+    if (talent.shareCap > 0.0f)
+    {
+        percent = std::min(percent, talent.shareCap);
+    }
+    return std::max(0.0f, percent) / 100.0f;
 }
 
 float talentCooldownSeconds(const TalentDefinition &talent, int rank)

@@ -531,8 +531,8 @@ std::optional<MasteryTeacherEvaluation> evaluateSkillMasteryTraining(
     evaluation.cost = party.rules().skills.masteryTeacherCost(
         *pCharacter, evaluation.skillName, evaluation.targetMastery, evaluation.cost);
 
-    const SkillMastery classCap =
-        classSkillTable.getEffectiveCap(pCharacter->className, pCharacter->raceId, evaluation.skillName);
+    const SkillMastery classCap = party.rules().skills.masteryCap(*pCharacter, evaluation.skillName,
+        classSkillTable.getEffectiveCap(pCharacter->className, pCharacter->raceId, evaluation.skillName));
 
     if (classCap < evaluation.targetMastery)
     {

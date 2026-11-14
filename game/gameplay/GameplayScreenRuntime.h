@@ -604,9 +604,6 @@ public:
         bool waitIsCast = false;
         bool castSelf = false;
         std::string castSchool;
-        // The waited action is a solo dragon's breath (its target out of claw reach at the press): the forelegs play
-        // the breath clip fitted to its recovery and the breath leaves from the mouth (castHandScreen) at its Hit.
-        bool waitIsBreath = false;
         // A quick or action-bar cast waiting for that release, and which spell it casts then (GameplayInputController).
         bool quickCastWaiting = false;
         std::optional<size_t> quickCastExtraSlot;

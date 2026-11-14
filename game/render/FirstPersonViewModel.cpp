@@ -66,11 +66,11 @@ bool shoots(FirstPersonViewModel::WeaponSet set)
     return set == FirstPersonViewModel::WeaponSet::Bow || set == FirstPersonViewModel::WeaponSet::Crossbow;
 }
 
-// A dragon's breath: the colour of its inhale glow and release flash, and how close in front of the eye the glow sits
-// (the arms' units) where the mouth's ray meets the screen's bottom edge, at this height (normalized device y).
-constexpr std::array<float, 3> BreathColor = {1.0f, 0.42f, 0.12f};
-constexpr float BreathGlowDistance = 11.0f;
-constexpr float BreathScreenBottom = -0.9f;
+// A dragon's spells cast from the mouth (Flame Blast): how far in front of the eye their glow sits (the arms' units) and
+// its height on screen (normalized device y). The camera is the dragon's eyes, so its jaws are just below the
+// crosshair.
+constexpr float BreathGlowDistance = 24.0f;
+constexpr float BreathScreenHeight = -0.3f;
 
 // The inverse of a node's world matrix (a rotation, a uniform scale and a translation).
 Engine::ModelMatrix inverseNodeMatrix(const Engine::ModelMatrix &matrix)
@@ -964,12 +964,12 @@ std::optional<std::array<float, 3>> FirstPersonViewModel::breathPoint() const
     {
         return std::nullopt;
     }
-    // The eye looks along +Y with +Z up (render): the mouth's ray from it, brought up to the screen's bottom edge.
+    // The eye looks along +Y with +Z up (render): the mouth's direction across, at the jaws' height on screen.
     const std::array<float, 3> eye = {(*pCamera)[12], (*pCamera)[13], (*pCamera)[14]};
     const std::array<float, 3> mouth = {(*pMouth)[12] - eye[0], (*pMouth)[13] - eye[1], (*pMouth)[14] - eye[2]};
     const float forward = std::max(mouth[1], 1.0f);
     const float halfTan = std::tan(ViewModelFovDegrees * 0.5f * bx::kPi / 180.0f);
-    const float down = std::max(mouth[2] / forward, BreathScreenBottom * halfTan);
+    const float down = BreathScreenHeight * halfTan;
     const float across = std::clamp(mouth[0] / forward, -halfTan, halfTan);
     return std::array<float, 3>{eye[0] + across * BreathGlowDistance, eye[1] + BreathGlowDistance,
         eye[2] + down * BreathGlowDistance};
@@ -1168,7 +1168,6 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
     {
         m_swingQueued = true;
         m_queuedIsCast = input.swingIsCast;
-        m_queuedIsBreath = input.swingIsBreath && !input.swingIsCast;
         m_queuedCastSelf = input.castSelf;
         m_queuedCastColor = input.castColor;
         m_queuedRecovery = input.swingRecoverySeconds;
@@ -1202,18 +1201,15 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
         const float left = -m_moveVelocity[0] * std::sin(input.yawRadians)
             + m_moveVelocity[1] * std::cos(input.yawRadians);
         // A waited cast: the cast clip for the kit, fitted to the spell's recovery like a swing, released at its Hit.
-        // A dragon's breath plays the same way, from the mouth.
-        const std::optional<ClipInfo> cast = m_queuedIsCast ? castClip(m_queuedCastSelf, kit)
-            : m_queuedIsBreath && kit.set == WeaponSet::Claws ? setClip("breath") : std::nullopt;
-        const std::optional<ClipInfo> swing =
-            m_queuedIsCast || m_queuedIsBreath ? std::nullopt : shot ? shot : nextSwing(side, forward, left);
+        const std::optional<ClipInfo> cast = m_queuedIsCast ? castClip(m_queuedCastSelf, kit) : std::nullopt;
+        const std::optional<ClipInfo> swing = m_queuedIsCast ? std::nullopt : shot ? shot : nextSwing(side, forward, left);
         m_swingQueued = false;
         if (cast)
         {
             const float span = cast->hitSeconds >= 0.0f ? std::min(cast->duration, cast->hitSeconds + 0.3f)
                                                         : cast->duration;
             const float rate = m_queuedRecovery > 0.0f ? std::clamp(span / m_queuedRecovery, 1.0f, 3.5f) : 1.0f;
-            startCast(*cast, true, rate, m_queuedIsBreath ? BreathColor : m_queuedCastColor);
+            startCast(*cast, true, rate, m_queuedCastColor);
             if (m_trace)
             {
                 std::cout << "viewmodel trace t=" << m_clock << " cast " << m_asset->clips[cast->index].name
@@ -1267,12 +1263,8 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
         }
         else if (kit.set == WeaponSet::Claws)
         {
-            // A dragon's breath the rules chose without the forelegs waiting for it: shown at once.
-            const std::optional<ClipInfo> breath = setClip("breath");
-            if (breath && !(m_action && m_actionWaitsForBlow))
-            {
-                startCast(*breath, false, 1.0f, BreathColor);
-            }
+            // A dragon's breath leaves at once with no inhale (devdocs/solo_action/DRAGON.md): the forelegs show
+            // nothing more.
         }
         else if (shot && !shooting)
         {

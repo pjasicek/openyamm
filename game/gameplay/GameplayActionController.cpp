@@ -47,7 +47,6 @@ constexpr float MeleeCrushingDamageFraction = 0.3f;
 constexpr float MeleeCameraKickRadians = 0.026f;
 // A solo dragon's breath: its source this far in front of the eye on the ray through the mouth on screen (inside the
 // party's collision radius, so it never starts beyond a wall), and the view's upward kick as it leaves, about 2 degrees.
-constexpr float BreathMouthDistance = 32.0f;
 constexpr float BreathCameraKickRadians = 0.035f;
 // Fireball's explosion, where a Carnage arrow strikes.
 constexpr uint32_t FireballExplosionObjectId = 1051;
@@ -429,25 +428,6 @@ GameplayActionController::WorldPoint dragonBreathSourcePoint(
     const GameplayActionController::WorldPoint &rangedSource,
     const GameplayActionController::PartyAttackConfig &config)
 {
-    // A solo dragon breathes from the mouth the forelegs show: the point this far in front of the eye on the ray
-    // through it (the view and projection of the attack's camera; bx column-major rows: right, up, back).
-    const std::array<float, 16> &view = config.fallbackQuery.viewMatrix;
-    const std::array<float, 16> &projection = config.fallbackQuery.projectionMatrix;
-    if (config.breathScreenPoint && projection[0] > 0.0f && projection[5] > 0.0f)
-    {
-        const std::array<float, 3> right = {view[0], view[4], view[8]};
-        const std::array<float, 3> up = {view[1], view[5], view[9]};
-        const std::array<float, 3> back = {view[2], view[6], view[10]};
-        const float across = (*config.breathScreenPoint)[0] / projection[0] * BreathMouthDistance;
-        const float lift = (*config.breathScreenPoint)[1] / projection[5] * BreathMouthDistance;
-        std::array<float, 3> point = {};
-        for (size_t axis = 0; axis < 3; ++axis)
-        {
-            const float eye = -(view[12] * right[axis] + view[13] * up[axis] + view[14] * back[axis]);
-            point[axis] = eye - back[axis] * BreathMouthDistance + right[axis] * across + up[axis] * lift;
-        }
-        return {point[0], point[1], point[2]};
-    }
     GameplayActionController::WorldPoint source = rangedSource;
     source.z = std::min(source.z, config.partyPosition.z + DragonBreathSourceHeight);
     return source;
@@ -1569,8 +1549,12 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     result.attempted = true;
     clearInvisibility(party);
     // A destructible under the crosshair in blow reach takes a blow, as a hostile there would.
-    const CharacterAttackMode attackMode = orderedMode.value_or(
+    CharacterAttackMode attackMode = orderedMode.value_or(
         choosePartyAttackMode(attackProfile, targetInMeleeRange || worldTargetInMeleeRange, eyeUnderWater));
+    if (config.preferMelee && !config.talentShot && attackMode == CharacterAttackMode::Bow)
+    {
+        attackMode = CharacterAttackMode::Melee;
+    }
     std::mt19937 rng = buildPartyAttackRng(config, actingMemberIndex, result.targetActorIndex);
     CharacterAttackResult attack = {};
 
@@ -1852,12 +1836,10 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                             config.pRuntime != nullptr && config.pRuntime->turnBasedCombatRuntime().active(),
                         .targetActorIndex = result.targetActorIndex,
                         .critical = attack.criticalDamage,
-                        // A Fire Bolt by the rules, with the dragons' own breath look (projectiles.yml dragon_breath).
-                        .presentationSpellId = static_cast<uint32_t>(SpellId::DragonBreath),
                     });
 
                 // A solo dragon's view kicks up as the breath leaves its mouth.
-                if (attacked && config.breathScreenPoint && config.pRuntime != nullptr
+                if (attacked && party.soloRun() && config.pRuntime != nullptr
                     && config.pRuntime->settingsSnapshot().meleeCameraKick)
                 {
                     config.pWorldRuntime->actorHitFeedback().triggerCameraKick(0.0f, 1.0f, BreathCameraKickRadians);
