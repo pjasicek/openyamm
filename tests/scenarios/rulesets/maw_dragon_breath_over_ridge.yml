@@ -1,0 +1,37 @@
+id: rulesets.maw_dragon_breath_over_ridge
+title: Ruleset - MAW a dragon's breath at a monster whose legs a ridge hides homes on its upper body (OY-610, OY-463)
+world: mm6
+mode: faithful
+tags: [rulesets, maw, combat, projectiles]
+steps:
+  - note:
+      text: >-
+        The party aims at 60 % of a monster's height. Here, on New Sorpigal's hills, the slope in front of a Mercenary
+        Captain blocks that line, so before the fix it was no target at all: the breath got no homing and flew at the
+        crosshair. A shot now aims at the lowest higher point on the target with a clear line, and homes there
+        (GameMechanics::clearPartyShotAimHeight).
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Wyrm
+            class: Dragon
+            race_id: 5
+            portrait_id: 71
+            level: 60
+            skills:
+              - {name: DragonAbility, level: 30, mastery: 3}
+            equipment: {}
+  - set_pose: {map: oute3.odm, x: -11249, y: -1616, z: 721, yaw_degrees: 104.3, pitch_degrees: 10.8}
+  - clear_hostiles: {radius: 30000}
+  - spawn_actor: {monster_id: 195, x: -11476, y: -725, z: 960}
+  - advance_runtime: {seconds: 0.1}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1, homing: true, report: true}
+  - advance_runtime: {seconds: 2.0}
+  - assert:
+      homing_ends: {hit: actor, min_count: 1, report: true}

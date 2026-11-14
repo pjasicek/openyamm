@@ -1,3 +1,5 @@
+#include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayBuffHud.h"
 #include "engine/Localization.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
@@ -1085,7 +1087,7 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
         {
             overlay.title = popup->title;
             overlay.body = popup->body;
-            overlay.above = true;
+            overlay.above = popup->above;
             anchor({popup->x, popup->y, popup->width, popup->height, 1.0f});
         }
     }
@@ -1588,6 +1590,12 @@ void GameplayHudOverlaySupport::renderGameplayMouseLookOverlay(
             armLength, stroke),
         gameplayHudPaletteQuad(*dotColorTexel, centerX + armGap, centerY - stroke * 0.5f, armLength, stroke)};
     context.submitHudQuadBatch(quads);
+
+    // A solo run's recovery brackets beside the cross (real time only: turn-based recovery is in turns).
+    if (context.soloHud() && !context.turnBasedCombatRuntime().active())
+    {
+        GameplaySoloHud::renderCrosshairBrackets(context, centerX, centerY, overlayScale);
+    }
 }
 
 void GameplayHudOverlaySupport::renderItemRarityGlow(

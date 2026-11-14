@@ -716,10 +716,11 @@ public:
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
     bool isIndoorMap() const override;
-    bool isUnderwaterMap() const override;
+    bool isUnderwaterMap() const;
     bool allowsLloydsBeacon() const override;
     bool allowsTownPortal() const override;
     bool allowsRest() const override;
+    bool allowsSpellcasting() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void stampLastVisitTime();
@@ -808,6 +809,9 @@ public:
         size_t actorIndex,
         bool visibleForFallback) const override;
     bool partyAttackActorHasLineOfSight(size_t actorIndex) const;
+    // Where a party shot aims at the actor, above its feet: its target height, raised toward its top when terrain or a
+    // model blocks the line there (GameMechanics::clearPartyShotAimHeight); none without a clear line.
+    std::optional<float> partyShotAimHeight(size_t actorIndex) const;
     std::vector<GameplayPartyAttackActorFacts> collectPartyAttackFallbackActors(
         const GameplayPartyAttackFallbackQuery &query) const override;
     std::optional<GameplayWorldPoint> partyAttackActorContactPoint(
@@ -1373,11 +1377,12 @@ private:
     void rewardRulesetMapProgress();
     // Homing for the missiles a party member just fired at an actor, when the rules make them home (MAW).
     // The ruleset's homing (MAW), or a weapon's (weaponHoming: an Energy Guns Grandmaster's shot, 360 degrees a second
-    // for 1.5 s).
+    // for 1.5 s). aimZ: the height the shot aimed at, which it keeps homing on (ProjectileHoming::targetAimHeight).
     void attachPartyMissileHoming(
         uint32_t firstProjectileId,
         uint32_t sourcePartyMemberIndex,
         std::optional<size_t> targetActorIndex,
+        float aimZ,
         bool weaponHoming = false);
     GameplayBolsterRuntimeContext monsterRulesContext() const;
     // The ruleset's map-wide choices when the map's monsters are first placed (MAW bosses).

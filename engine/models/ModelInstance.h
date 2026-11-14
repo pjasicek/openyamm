@@ -43,6 +43,15 @@ struct ModelAttachment
     std::shared_ptr<const ModelAsset> asset;
     uint32_t nodeIndex = 0;
     uint32_t materialVariant = 0;
+    // Places the asset in the node's space when it was not authored there (a ground item model held in a hand,
+    // game/render/HeldWeapons.h); none: the asset is already in the node's space.
+    std::optional<ModelMatrix> localMatrix;
+
+    // The node's matrix with the local placement applied.
+    ModelMatrix placed(const ModelMatrix &nodeMatrix) const
+    {
+        return localMatrix ? multiplyModelMatrices(nodeMatrix, *localMatrix) : nodeMatrix;
+    }
 };
 
 // A world-space rotation applied after the clip about one node's pivot, carrying the node's subtree (a head turned

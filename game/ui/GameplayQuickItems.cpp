@@ -19,6 +19,7 @@
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "game/ui/SoloHudLayout.h"
 
 #include <SDL3/SDL.h>
 
@@ -606,6 +607,22 @@ std::optional<GameplayResolvedHudLayoutElement> basebarRect(GameplayScreenRuntim
 // Where a popup's button sits: in the socket of the frame's end ornament (scrolls left, potions right).
 std::optional<Circle> itemButtonAnchor(GameplayScreenRuntime &context, int width, int height, QuickItemPopupKind kind)
 {
+    // A solo HUD has no frame at the bottom: the buttons are two round sockets on the unit frame's medallion, top left
+    // (SoloUnitFrameLayout), scrolls above potions.
+    if (context.soloHud())
+    {
+        const std::optional<GameplayResolvedHudLayoutElement> frame =
+            context.resolveHudLayoutElement("SoloUnitFrame", width, height, 0, 0);
+        if (!frame)
+        {
+            return std::nullopt;
+        }
+        const SoloUnitFrameLayout layout = soloUnitFrameLayout();
+        const SoloHudRect &socket = kind == QuickItemPopupKind::Potions ? layout.potionSocket : layout.scrollSocket;
+        return Circle{frame->x + (socket.x + socket.width / 2) * frame->scale,
+            frame->y + (socket.y + socket.height / 2) * frame->scale, socket.width / 2 * frame->scale};
+    }
+
     const std::optional<GameplayResolvedHudLayoutElement> bar = basebarRect(context, width, height);
 
     if (!bar)
@@ -631,7 +648,8 @@ std::optional<Circle> itemButtonAnchor(GameplayScreenRuntime &context, int width
 // Whether the frame is drawn with its sockets, so a button is only its icon in the carved socket.
 bool itemButtonsInSockets(GameplayScreenRuntime &context)
 {
-    return context.settingsSnapshot().partyFrame && GameplayUiSkin::partyBasebarHasSockets(context);
+    return context.settingsSnapshot().partyFrame && GameplayUiSkin::partyBasebarHasSockets(context)
+        && !context.soloHud();
 }
 
 // The button itself: none while the Potion and scroll buttons setting hides them.
@@ -1381,6 +1399,34 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
     if (under)
     {
         const PopupEntry &entry = entries[*under];
+
+        // A solo run's right click puts the kind on its action bar (the first empty of keys 1-0), or takes it off.
+        if (right && context.soloHud())
+        {
+            std::array<ActionBarSlot, ActionBarSlotCount> &bar = member.actionBar;
+            const auto onBar = std::find_if(bar.begin(), bar.begin() + ActionBarSlotCount / 2,
+                [&entry](const ActionBarSlot &slot)
+                {
+                    return slot.kind == ActionBarSlotKind::Item && slot.item.itemId == entry.itemId;
+                });
+            const auto empty = std::find_if(bar.begin(), bar.begin() + ActionBarSlotCount / 2,
+                [](const ActionBarSlot &slot) { return slot.kind == ActionBarSlotKind::Empty; });
+
+            if (onBar != bar.begin() + ActionBarSlotCount / 2)
+            {
+                *onBar = {};
+            }
+            else if (empty != bar.begin() + ActionBarSlotCount / 2)
+            {
+                *empty = {ActionBarSlotKind::Item, 0, {entry.itemId, QuickItemBottleRule::Weakest}};
+            }
+            else
+            {
+                context.setStatusBarEvent(Engine::tr("The action bar is full"));
+            }
+
+            return true;
+        }
 
         if (right)
         {

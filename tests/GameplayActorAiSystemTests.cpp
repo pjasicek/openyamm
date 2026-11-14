@@ -429,6 +429,44 @@ TEST_CASE("shared actor service makes a monster fight back the monster that last
     CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
 }
 
+TEST_CASE("shared actor service notices the party within the relation's range until engaged (OY-605)")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(4)}));
+    // The Emerald Island lair's rats have relation 2 to the party, its dragon 4 (hostile.txt: Rat, ADragon).
+    REQUIRE(monsterTable.loadRelationsFromRows({
+        {"", "Party", "Rat", "Dragon"},
+        {"Party", "0", "2", "4"},
+        {"Rat", "0", "0", "4"},
+        {"Dragon", "0", "0", "0"},
+    }));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState rat = {};
+    rat.monsterId = 1;
+    rat.hostileToParty = true;
+    OpenYAMM::Game::GameplayActorTargetPolicyState dragon = rat;
+    dragon.monsterId = 4;
+
+    CHECK_EQ(service.partyNoticeRange(rat, false), doctest::Approx(2560.0f));
+    CHECK_EQ(service.partyNoticeRange(rat, true), doctest::Approx(service.partyEngagementRange(rat)));
+    CHECK_EQ(service.partyNoticeRange(dragon, false), doctest::Approx(service.partyEngagementRange(dragon)));
+
+    // A map's evt.SetMonsterRelation row to the party replaces the table's.
+    const std::unordered_map<uint32_t, int32_t> overrides = {{GameplayActorService::relationOverrideKey(1, 0), 1}};
+    CHECK_EQ(service.partyNoticeRange(rat, false, &overrides), doctest::Approx(1024.0f));
+
+    // Made hostile without a hostile relation: the engagement range; not hostile: none.
+    OpenYAMM::Game::GameplayActorTargetPolicyState madeHostile = rat;
+    const std::unordered_map<uint32_t, int32_t> calm = {{GameplayActorService::relationOverrideKey(1, 0), 0}};
+    CHECK_EQ(service.partyNoticeRange(madeHostile, false, &calm),
+        doctest::Approx(service.partyEngagementRange(madeHostile)));
+    rat.hostileToParty = false;
+    CHECK_EQ(service.partyNoticeRange(rat, false), 0.0f);
+}
+
 TEST_CASE("shared actor service respects runtime party hostility overrides")
 {
     MonsterTable monsterTable = {};

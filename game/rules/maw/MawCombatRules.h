@@ -123,6 +123,8 @@ public:
     std::optional<std::string> partyHitStatusText(const PartyHitStatus &status) const override;
 
 private:
+    // rollSpellDamage before a solo run's talents scale it.
+    int rollSpellDamageBeforeTalents(const CharacterSpellCast &cast, bool *pCritical) const;
     // A spell an artifact casts on the monster its wielder struck, cast on the next update.
     struct ArtifactCast
     {

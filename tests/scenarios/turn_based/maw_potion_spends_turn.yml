@@ -1,0 +1,41 @@
+id: turn_based.maw_potion_spends_turn
+title: Turn-based - under MAW a drink spends the ready member's turn, from the inventory or a quick potion key
+world: mm8
+mode: faithful
+tags: [turn_based, maw, regression]
+steps:
+  - note:
+      text: >-
+        OY-204 and TB-3 in devdocs/TURN_BASED_COMBAT_AUDIT.md. MAW charges a drink's 60 recovery ticks only near
+        monsters that have seen the party (the yellow alert, zzAlchemy.lua). Turn-based combat queues every hostile
+        monster within reach whether it has seen the party or not, so a drink was free there and the member kept the
+        turn: two potions and an attack in one round. In turn-based combat a drink now always spends the turn.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: C, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 222, member_index: 0, count: 2, power: 20}
+  - grant_item: {item_id: 222, member_index: 1, count: 2, power: 20}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 10}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 10}
+  - setup_shortcut: {kind: set_quick_item, member_index: 1, slot: 0, item_id: 222}
+  - press_action: combat
+  # Room for a nearby monster that rolled initiative 1 to finish its action (3 s at most).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true, stage: attack, front_member: "0", report: true}}
+  # A Cure Wounds from the inventory: the drink is taken, and member 1 acts next.
+  - use_item: {member_index: 0, item_id: 222}
+  - assert: {member_points: {member_index: 0, health_min: 11}}
+  - assert: {turn_based: {stage: attack, front_member: "1", report: true}}
+  # The quick potion key (the active member's slot 1, as the basebar's potion list also drinks): the same.
+  - press_action: {action: quick_item_1}
+  - assert: {member_points: {member_index: 1, health_min: 11}}
+  # A monster that shared member 1's initiative may act first; member 2 is next among the members either way.
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {stage: attack, front_member: "2", report: true}}

@@ -1149,6 +1149,27 @@ std::vector<InventoryItem> *selectStockVector(Party::HouseStockState &state, Hou
     return &state.standardStock;
 }
 
+// What one purchase or theft from a stock slot takes: a single item, also from a stack (quantity above 1).
+InventoryItem oneFromStockSlot(const InventoryItem &slot)
+{
+    InventoryItem item = slot;
+    item.quantity = 1;
+    return item;
+}
+
+// Takes one item off a stock slot; the slot empties with its last item.
+void takeOneFromStockSlot(InventoryItem &slot)
+{
+    if (slot.quantity > 1)
+    {
+        --slot.quantity;
+    }
+    else
+    {
+        slot = {};
+    }
+}
+
 const std::vector<InventoryItem> *selectStockVector(const Party::HouseStockState &state, HouseStockMode mode)
 {
     switch (mode)
@@ -1741,7 +1762,7 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    const InventoryItem item = (*pStock)[slotIndex];
+    const InventoryItem item = oneFromStockSlot((*pStock)[slotIndex]);
     const ItemDefinition *pItemDefinition = itemTable.get(item.objectDescriptionId);
 
     if (pItemDefinition == nullptr)
@@ -1791,7 +1812,7 @@ bool HouseServiceRuntime::tryBuyStockItem(
     }
 
     party.addGold(-price, GoldReason::Shop);
-    (*pStock)[slotIndex] = {};
+    takeOneFromStockSlot((*pStock)[slotIndex]);
     statusText = Engine::tr(
         "Bought {item} for {price} gold.",
         {{"item",
@@ -1892,7 +1913,7 @@ bool HouseServiceRuntime::tryStealStockItem(
         return false;
     }
 
-    const InventoryItem item = (*pStock)[slotIndex];
+    const InventoryItem item = oneFromStockSlot((*pStock)[slotIndex]);
     const ItemDefinition *pItemDefinition = itemTable.get(item.objectDescriptionId);
     const Character *pMember = party.activeMember();
 
@@ -1959,7 +1980,7 @@ bool HouseServiceRuntime::tryStealStockItem(
             return false;
         }
 
-        (*pStock)[slotIndex] = {};
+        takeOneFromStockSlot((*pStock)[slotIndex]);
         statusText = Engine::tr("Stole {item}.", {{"item",
             ItemRuntime::displayName(item, *pItemDefinition, &standardItemEnchantTable, &specialItemEnchantTable)}});
 

@@ -47,6 +47,9 @@ public:
         TargetKind targetKind = TargetKind::Party;
         size_t targetActorIndex = static_cast<size_t>(-1);
         uint32_t targetActorId = 0;
+        // Where on the target actor it homes, above its feet: the height its shot aimed at (raised over a ridge,
+        // OY-463). 0: the world's usual point on the actor. Not saved: a missile in flight across a load uses that.
+        float targetAimHeight = 0.0f;
         float turnRadiansPerSecond = 0.0f;
         // Seconds it homes (0: its whole flight); then it flies straight on or, with expireAfter, expires.
         float maxSeconds = 0.0f;
@@ -87,6 +90,9 @@ public:
         uint16_t radius = 0;
         uint16_t height = 0;
         int spellId = 0;
+        // Presentation only, not saved: the spell whose flight and impact effects it shows (0: its own spellId's); a
+        // solo dragon's breath, a Fire Bolt by the rules, looks like the dragons' breath.
+        int presentationSpellId = 0;
         int effectSoundId = 0;
         uint32_t impactSoundIdOverride = 0;
         uint32_t skillLevel = 0;
@@ -151,6 +157,9 @@ public:
         int sourceSpellId = 0;
         // Presentation only (per-monster impact visuals); not saved, so a loaded impact shows the recipe's own.
         int16_t sourceMonsterId = 0;
+        // Presentation only, not saved: sourceSpellId is a borrowed look (presentationSpellId), so the binding's
+        // presented_impact plays.
+        bool presented = false;
         // Presentation only, not saved: the unit direction the projectile flew when it struck, zero when unknown.
         float flightDirectionX = 0.0f;
         float flightDirectionY = 0.0f;
@@ -784,6 +793,9 @@ public:
         uint32_t firstProjectileId,
         uint32_t sourcePartyMemberIndex,
         const ProjectileHoming &homing);
+    // Gives the missiles party member sourcePartyMemberIndex fired since firstProjectileId another spell's look
+    // (ProjectileState::presentationSpellId); returns how many.
+    size_t setPartyPresentationSpell(uint32_t firstProjectileId, uint32_t sourcePartyMemberIndex, int spellId);
     // Turns the velocity toward target by at most maxTurnRadians and sets its length to speed. False when the
     // velocity is zero or the target lies at the position.
     static bool steerVelocityToward(

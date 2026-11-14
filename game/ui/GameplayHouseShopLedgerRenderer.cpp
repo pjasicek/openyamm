@@ -9,6 +9,7 @@
 #include "game/ui/GameplayBenchPainter.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "game/ui/SpellbookKnowledgeMarkers.h"
 
 #include "engine/Localization.h"
 
@@ -235,7 +236,7 @@ void drawRow(GameplayScreenRuntime &context, const GameplayBenchPainter &painter
     // Name and the number of copies on the list.
     const std::string name = ItemRuntime::displayName(
         item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable());
-    const std::string count = row.stockIndices.size() > 1 ? "x" + std::to_string(row.stockIndices.size()) : "";
+    const std::string count = row.copies > 1 ? "x" + std::to_string(row.copies) : "";
     const float countWidth = count.empty() ? 0.0f : textWidth(context, "DialogueShopLedgerCount", count, s) + 5 * s;
     const std::string shownName = fitted(context, "DialogueShopLedgerName", name, nameWidth - countWidth, s);
     const Rect nameArea = {nameX, area.y + 4 * s, nameWidth, 16 * s, s};
@@ -247,7 +248,8 @@ void drawRow(GameplayScreenRuntime &context, const GameplayBenchPainter &painter
         painter.text("DialogueShopLedgerCount", {countX, area.y + 6 * s, countWidth, 12 * s, s}, count);
     }
 
-    // Type (a spellbook: its school and the mastery it needs), then the first enchantment line in its own colour.
+    // Type (a spellbook: its school and the mastery it needs), then the first enchantment line (a stat's, else the first
+    // inspect line) in its colour.
     const std::string &type = row.typeText;
     const Rect detailArea = {nameX, area.y + 21 * s, nameWidth, 12 * s, s};
     const std::vector<ItemInspectLine> inspect = itemRules.inspectLines(
@@ -255,25 +257,42 @@ void drawRow(GameplayScreenRuntime &context, const GameplayBenchPainter &painter
     const std::string shownType = fitted(context, "DialogueShopLedgerDetail", type, nameWidth, s);
     painter.text("DialogueShopLedgerDetail", detailArea, shownType);
 
-    if (!inspect.empty())
+    const auto statLine = std::find_if(inspect.begin(), inspect.end(),
+        [](const ItemInspectLine &line)
+        {
+            return line.accentLength > 0;
+        });
+    const ItemInspectLine *pShown = statLine != inspect.end() ? &*statLine : inspect.empty() ? nullptr : &inspect.front();
+
+    if (pShown != nullptr)
     {
         const float typeWidth = textWidth(context, "DialogueShopLedgerDetail", shownType + "  ", s);
-        const uint32_t rgb = inspect.front().color;
+        const uint32_t rgb = pShown->singleColor();
         const uint32_t abgr = 0xff000000u | ((rgb & 0xffu) << 16) | (rgb & 0xff00u) | ((rgb >> 16) & 0xffu);
         const float enchantWidth = nameWidth - typeWidth;
 
         if (enchantWidth > 20 * s)
         {
             painter.text("DialogueShopLedgerDetail", {nameX + typeWidth, detailArea.y, enchantWidth, 12 * s, s},
-                fitted(context, "DialogueShopLedgerDetail", inspect.front().text, enchantWidth, s), abgr);
+                fitted(context, "DialogueShopLedgerDetail", pShown->text, enchantWidth, s), abgr);
         }
+    }
+
+    // A spellbook shows who in the party knows its spell where other wares show their main stat.
+    const std::vector<SpellbookKnowledge> knowledge =
+        InventoryItemUseRuntime::spellbookKnowledge(*pParty, *pDefinition);
+
+    if (!knowledge.empty())
+    {
+        SpellbookKnowledgeMarkers::render(context, knowledge, statX + StatWidth * s * 0.5f,
+            area.y + (area.height - SpellbookKnowledgeMarkers::plateHeight() * s) * 0.5f, s);
     }
 
     // The main stat, as the inspect popup words it, one part per line.
     const std::string detail = resolveItemInspectDetailText(&item, *pDefinition,
         itemRules.baseStats(*pDefinition, item.rulesetFields, pViewer != nullptr ? int(pViewer->level) : 1),
         nullptr);
-    const std::vector<std::string> lines = statLines(detail);
+    const std::vector<std::string> lines = knowledge.empty() ? statLines(detail) : std::vector<std::string>();
     const float lineHeight = 12 * s;
     float lineY = area.y + (area.height - lineHeight * float(lines.size())) * 0.5f;
 

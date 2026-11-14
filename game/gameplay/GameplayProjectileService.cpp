@@ -1315,7 +1315,9 @@ GameplayProjectileService::spawnProjectileImpactVisual(
     impactState.objectSpriteId = definition.objectSpriteId;
     impactState.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
     impactState.sourceObjectFlags = projectile.objectFlags;
-    impactState.sourceSpellId = projectile.spellId;
+    impactState.sourceSpellId =
+        projectile.presentationSpellId != 0 ? projectile.presentationSpellId : projectile.spellId;
+    impactState.presented = projectile.presentationSpellId != 0;
     impactState.sourceMonsterId = projectile.sourceMonsterId;
     const float speed = std::sqrt(projectile.velocityX * projectile.velocityX
         + projectile.velocityY * projectile.velocityY + projectile.velocityZ * projectile.velocityZ);
@@ -1327,8 +1329,12 @@ GameplayProjectileService::spawnProjectileImpactVisual(
     }
     impactState.objectName = definition.objectName;
     impactState.objectSpriteName = definition.objectSpriteName;
-    impactState.sourceObjectName = projectile.objectName;
-    impactState.sourceObjectSpriteName = projectile.objectSpriteName;
+    // A borrowed look is classified by its spell alone (see collectProjectilePresentationState).
+    if (projectile.presentationSpellId == 0)
+    {
+        impactState.sourceObjectName = projectile.objectName;
+        impactState.sourceObjectSpriteName = projectile.objectSpriteName;
+    }
     impactState.x = x;
     impactState.y = y;
     impactState.z = centerVertically && !definition.centerAnchored
@@ -1888,6 +1894,27 @@ size_t GameplayProjectileService::attachPartyHoming(
             return projectile.sourceKind == ProjectileState::SourceKind::Party
                 && projectile.sourcePartyMemberIndex == sourcePartyMemberIndex;
         });
+}
+
+size_t GameplayProjectileService::setPartyPresentationSpell(
+    uint32_t firstProjectileId,
+    uint32_t sourcePartyMemberIndex,
+    int spellId)
+{
+    size_t changed = 0;
+
+    for (ProjectileState &projectile : m_projectiles)
+    {
+        if (projectile.projectileId >= firstProjectileId && !projectile.isExpired
+            && projectile.sourceKind == ProjectileState::SourceKind::Party
+            && projectile.sourcePartyMemberIndex == sourcePartyMemberIndex)
+        {
+            projectile.presentationSpellId = spellId;
+            ++changed;
+        }
+    }
+
+    return changed;
 }
 
 size_t GameplayProjectileService::attachHomingWhere(
@@ -2713,10 +2740,15 @@ void GameplayProjectileService::collectProjectilePresentationState(
         state.visualMode = projectile.visualMode;
         state.radius = projectile.radius;
         state.height = projectile.height;
-        state.spellId = projectile.spellId;
+        state.spellId = projectile.presentationSpellId != 0 ? projectile.presentationSpellId : projectile.spellId;
         state.sourceMonsterId = projectile.sourceMonsterId;
-        state.objectName = projectile.objectName;
-        state.objectSpriteName = projectile.objectSpriteName;
+        // A projectile wearing another spell's look is classified by that spell alone: its own object's name ("Fire
+        // Bolt" for the solo dragon's breath) would otherwise win over the spell id (classifyProjectileRecipe).
+        if (projectile.presentationSpellId == 0)
+        {
+            state.objectName = projectile.objectName;
+            state.objectSpriteName = projectile.objectSpriteName;
+        }
         state.x = projectile.x;
         state.y = projectile.y;
         state.z = projectile.z;
@@ -2743,6 +2775,7 @@ void GameplayProjectileService::collectProjectilePresentationState(
         state.objectSpriteFrameIndex = impact.objectSpriteFrameIndex;
         state.sourceObjectFlags = impact.sourceObjectFlags;
         state.sourceSpellId = impact.sourceSpellId;
+        state.presented = impact.presented;
         state.sourceMonsterId = impact.sourceMonsterId;
         state.flightDirectionX = impact.flightDirectionX;
         state.flightDirectionY = impact.flightDirectionY;

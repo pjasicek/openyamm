@@ -94,9 +94,11 @@ double MawRules::diminishedCrowdControlSeconds(
         return 0;
     }
 
-    seconds *= multiplier * (boss ? 0.5 : 1);
+    // A boss holds half, but the history counts the whole (MAW's CC rework changelog; its code records the half, see
+    // DEVIATIONS.md).
+    seconds *= multiplier;
     history.emplace_back(nowSeconds, nowSeconds + seconds);
-    return seconds;
+    return seconds * (boss ? 0.5 : 1);
 }
 
 MawClassRuntime &MawRules::classRuntime(const Character &member) const

@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/rules/maw/MawMonsterInspect.h"
 #include "game/ui/GameplayHudCommon.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayUiRuntime.h"
 
@@ -605,7 +606,16 @@ void GameplayCombatLogPanel::render(GameplayScreenRuntime &context, int width, i
     // The corner beside the party frame: narrowed to end before the frame's left ornament, or lifted above the
     // frame when that leaves too little room (a narrow screen or a full party).
     GameplayResolvedHudLayoutElement placed = *panel;
+    // A solo HUD has no party frame, but its action bar runs down the left edge: the log starts beside it, keeping
+    // its width.
+    if (const std::optional<GameplayResolvedHudLayoutElement> bar = GameplaySoloHud::barPanelRect(context, width,
+            height);
+        bar && placed.x < bar->x + bar->width && placed.y + placed.height > bar->y && placed.y < bar->y + bar->height)
+    {
+        placed.x = std::round(bar->x + bar->width + 4 * placed.scale);
+    }
     const std::optional<GameplayResolvedHudLayoutElement> basebar = context.settingsSnapshot().partyFrame
+            && !context.soloHud()
         ? context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0)
         : std::nullopt;
 

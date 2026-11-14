@@ -593,7 +593,7 @@ TEST_CASE("the Workbench's Alchemy tab mixes the ingredients of closed bags (pla
     CHECK_NE(outcome.resultItem.objectDescriptionId, BottleItemId);
 }
 
-TEST_CASE("MAW magic shops and alchemists stock crafting materials in place of gems")
+TEST_CASE("MAW magic shops stock crafting materials in place of gems; alchemists do not")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
@@ -617,31 +617,20 @@ TEST_CASE("MAW magic shops and alchemists stock crafting materials in place of g
     };
 
     // A poor party gets gems (tier 1-3 with nothing banked); every valuable gem slot is replaced.
-    for (const char *pType : {"Magic Shop", "Alchemist"})
+    for (const InventoryItem &item : stock("Magic Shop"))
+    {
+        CHECK_GE(item.objectDescriptionId, 1041u);
+        CHECK_LE(item.objectDescriptionId, 1043u);
+    }
+
+    // Weapon shops and alchemists keep their stock (alchemists sell no crafting items: user, 2026-11-13); gems sell
+    // at MAW's prices.
+    for (const char *pType : {"Weapon Shop", "Alchemist"})
     {
         for (const InventoryItem &item : stock(pType))
         {
-            CHECK_GE(item.objectDescriptionId, 1041u);
-            CHECK_LE(item.objectDescriptionId, 1043u);
+            CHECK_EQ(item.objectDescriptionId, 177u);
         }
-    }
-
-    // A weapon shop keeps its stock; gems sell at MAW's prices.
-    for (const InventoryItem &item : stock("Weapon Shop"))
-    {
-        CHECK_EQ(item.objectDescriptionId, 177u);
-    }
-
-    // The alchemist's guaranteed row of empty bottles is never swapped.
-    HouseEntry alchemist;
-    alchemist.type = "Alchemist";
-    std::vector<InventoryItem> bottles(40, ItemGenerator::makeInventoryItem(220, gameData.itemTable,
-        ItemGenerationMode::Shop));
-    pRules->itemRules().adjustShopStock(bottles, alchemist, party, gameData.itemTable, rng);
-
-    for (const InventoryItem &item : bottles)
-    {
-        CHECK_EQ(item.objectDescriptionId, 220u);
     }
 
     const ItemDefinition *pGem = gameData.itemTable.get(1043);

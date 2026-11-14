@@ -275,7 +275,7 @@ void CinematicGrading::resetViews()
     {
         return;
     }
-    constexpr std::array<uint16_t, WorldGradingView + 1> order = worldRenderViewOrder(false);
+    constexpr std::array<uint16_t, FirstPersonViewModelView + 1> order = worldRenderViewOrder(false);
     bgfx::setViewOrder(0, uint16_t(order.size()), order.data());
     if (!m_active)
     {
@@ -432,7 +432,7 @@ bool CinematicGrading::begin(int width, int height, bool enabled, int strength, 
         {-1.0f, -3.0f, 0.0f, 0.0f, flip ? -1.0f : 2.0f}
     };
     std::memcpy(m_vertices.data, vertices, sizeof(vertices));
-    const std::array<uint16_t, WorldGradingView + 1> order = worldRenderViewOrder(true, ao, glow, reflect);
+    const std::array<uint16_t, FirstPersonViewModelView + 1> order = worldRenderViewOrder(true, ao, glow, reflect);
     bgfx::setViewOrder(0, uint16_t(order.size()), order.data());
     bgfx::setViewFrameBuffer(0, m_frameBuffer);
     bgfx::setViewFrameBuffer(1, m_frameBuffer);

@@ -38,6 +38,7 @@
 #include "game/tables/PortraitFxEventTable.h"
 #include "game/tables/PotionMixingTable.h"
 #include "game/tables/PotionNoteTable.h"
+#include "game/rules/SoloTalents.h"
 #include "game/rules/maw/MawCraftingData.h"
 #include "game/rules/maw/MawDimensionMaps.h"
 #include "game/rules/maw/MawTexts.h"
@@ -285,6 +286,8 @@ private:
         const std::string &virtualPath
     ) const;
     bool loadPotionEffects(const Engine::AssetFileSystem &assetFileSystem);
+    // The solo run's talents (data_tables/talents.yml), bound for the rules and screens (soloTalentTable()).
+    bool loadSoloTalents(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRulesetData(const Engine::AssetFileSystem &assetFileSystem);
     // Every skill teacher from the loaded tables, with trainer_places.txt (and the mounted worlds' own rows), the
     // Ledger of Teachers' teacher_ledger.yml and, when MM9 is mounted, Chedian's actor teachers.
@@ -369,6 +372,7 @@ private:
     MergedNewsProfessionTopicTable m_mergedNewsProfessionTopicTable;
     MergedMonsterPortraitTable m_mergedMonsterPortraitTable;
     MergedPotionSettingTable m_mergedPotionSettingTable;
+    SoloTalentTable m_soloTalentTable;
     std::optional<MawMapLevels> m_mawMapLevels;
     std::optional<MawItemData> m_mawItemData;
     std::optional<MawPromotionData> m_mawPromotionData;

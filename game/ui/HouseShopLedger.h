@@ -34,6 +34,8 @@ std::string houseShopLedgerSpellbookLine(const ItemDefinition &definition);
 struct HouseShopLedgerRow
 {
     std::vector<size_t> stockIndices;
+    // The items the row sells: its slots' quantities summed (a stacked slot holds several).
+    uint32_t copies = 0;
     HouseShopLedgerCategory category = HouseShopLedgerCategory::PotionsMisc;
     std::optional<HouseShopLedgerCategory> school;
     // A weapon's or armour's kind: the tabs of a shop that sells only weapons or only armour.
@@ -59,8 +61,9 @@ struct HouseShopLedgerModel
     // The requested filter, or All when the stock has nothing of it.
     HouseShopLedgerCategory filter = HouseShopLedgerCategory::All;
     std::vector<HouseShopLedgerRow> rows;
+    // Items, a stacked slot counting each of its items.
     size_t itemsForSale = 0;
-    // Items folded into another row's count.
+    // Items folded into another row's count: every item past each row's first.
     size_t copiesGrouped = 0;
 };
 

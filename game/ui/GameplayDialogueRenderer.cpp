@@ -1,12 +1,14 @@
 #include "game/ui/GameplayUiSkin.h"
 #include "engine/Localization.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayBenchPainter.h"
 #include "game/ui/GameplayMm9TalkBar.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/gameplay/Mm9DialogueSpeaker.h"
 #include "game/ui/GameplayHouseShopLedgerRenderer.h"
 #include "game/ui/HouseShopLayout.h"
+#include "game/ui/SpellbookKnowledgeMarkers.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 
@@ -57,6 +59,33 @@ std::optional<std::string> pendingInputPromptHint(const GameplayScreenRuntime &v
     }
 
     return Engine::tr("Answer: _");
+}
+
+// A stacked shelf slot's count (MAW's alchemists): the number in a dark pill whose lower right corner is at
+// (right, bottom), in pixels; scale is pixels per HUD unit.
+void renderShopStackCount(GameplayScreenRuntime &view, uint32_t quantity, float right, float bottom, float scale)
+{
+    constexpr uint32_t PillFill = 0xdc0c0e0au;
+    constexpr uint32_t PillLine = 0xc05694b9u;
+    const UiLayoutManager::LayoutElement *pStyle = view.findHudLayoutElement("DialogueShopStackCount");
+
+    if (pStyle == nullptr)
+    {
+        return;
+    }
+
+    // Measured as the label renderer scales a bitmap font, so the number always fits the pill.
+    float fontScale = scale * std::max(0.1f, pStyle->textScale);
+    fontScale = fontScale >= 1.0f ? GameplayHudCommon::snappedHudFontScale(fontScale) : fontScale;
+    const std::string text = std::to_string(quantity);
+    const float width = std::ceil(view.measureHudTextWidth(pStyle->fontName, text) * fontScale + 6.0f * scale);
+    const float height = std::ceil(float(view.hudFontHeight(pStyle->fontName)) * fontScale + 2.0f * scale);
+    const GameplayResolvedHudLayoutElement pill = {
+        std::round(right - width), std::round(bottom - height), width, height, scale};
+    const GameplayBenchPainter painter(view, 0, 0);
+    painter.fill(pill, PillFill);
+    painter.frame(pill, PillLine);
+    painter.text("DialogueShopStackCount", pill, text);
 }
 
 constexpr uint16_t HudViewId = 2;
@@ -1298,6 +1327,23 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
             opaqueMinY,
             opaqueMaxY);
         view.submitHudTexturedQuad(*itemTexture, drawRect.x, drawRect.y, drawRect.width, drawRect.height);
+
+        // A spellbook shows who in the party knows its spell, under the book.
+        const std::vector<SpellbookKnowledge> knowledge =
+            InventoryItemUseRuntime::spellbookKnowledge(party, *pItemDefinition);
+        SpellbookKnowledgeMarkers::render(view, knowledge, drawRect.x + drawRect.width * 0.5f,
+            drawRect.y + drawRect.height + 3.0f * resolvedFrame->scale, resolvedFrame->scale);
+
+        // A stack shows how many are left at the lower right of the item's visible pixels.
+        if (item.quantity > 1)
+        {
+            const float pixelWidth = drawRect.width / float(std::max(1, opaqueTextureWidth));
+            const float pixelHeight = drawRect.height / float(std::max(1, opaqueTextureHeight));
+            renderShopStackCount(view, item.quantity,
+                drawRect.x + float(opaqueMaxX + 1) * pixelWidth + 2.0f * resolvedFrame->scale,
+                drawRect.y + float(opaqueMaxY + 1) * pixelHeight + 2.0f * resolvedFrame->scale,
+                resolvedFrame->scale);
+        }
 
         GameplayRenderedInspectableHudItem inspectableItem = {};
         inspectableItem.objectDescriptionId = item.objectDescriptionId;

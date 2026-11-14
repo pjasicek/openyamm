@@ -84,6 +84,11 @@ private:
         const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
         Engine::ModelInstanceHandle instance, const Engine::ModelBounds &modelBounds, uint32_t &modelProbeSamples,
         bool selectPointLights);
+    // The light on a model at the eye (the first-person view model's): creatureModelLighting's at that point, with its
+    // own probe cache and the nearest lights as a list.
+    static Engine::ModelRenderLighting eyeModelLighting(OutdoorGameView &view, const ModelSceneLighting &scene,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
+        const std::array<float, 3> &eye);
     // Whether a resolved bmodel group has a texture to draw this frame, and which animation frame (arrayed groups and
     // arrayed materials are single-frame).
     static bool resolvedBModelGroupFrame(const OutdoorGameView &view,

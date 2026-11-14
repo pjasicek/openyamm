@@ -1,5 +1,7 @@
 #include "game/gameplay/HouseInteraction.h"
 
+#include "game/rules/SoloTalents.h"
+
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/BountyHuntRuntime.h"
 #include "game/gameplay/GameMechanics.h"
@@ -1605,6 +1607,14 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         }
 
         options.push_back(std::move(train));
+
+        // A solo run's talents can be forgotten here for free (only MAW solo runs ever learn any).
+        if (pParty != nullptr && pParty->activeMember() != nullptr && !pParty->activeMember()->talentRanks.empty())
+        {
+            options.push_back(makeOption(
+                HouseActionId::TrainingResetTalents, Engine::tr("Forget talents (free)"), isHouseOpenNow,
+                closedReason));
+        }
         if (houseEntry.serviceCanLearnSkills)
         {
             options.push_back(makeOption(
@@ -2508,6 +2518,19 @@ HouseActionResult performHouseAction(
             result.messages.push_back(Engine::tr("You have served one year in prison."));
             result.succeeded = true;
             result.speechId = SpeechId::InPrison;
+            return result;
+        }
+
+        case HouseActionId::TrainingResetTalents:
+        {
+            if (Character *pMember = party.activeMember(); pMember != nullptr)
+            {
+                resetTalents(*pMember);
+                party.refreshDerivedState();
+                result.messages.push_back(
+                    Engine::tr("{name} forgets every talent; the points are free again.", {{"name", pMember->name}}));
+                result.succeeded = true;
+            }
             return result;
         }
 

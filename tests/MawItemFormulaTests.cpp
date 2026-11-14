@@ -24,6 +24,21 @@ using namespace OpenYAMM::Game;
 // The tables of devdocs/maw/data/loot.yml and data/rarity_golden.csv, computed by running MAW's own Lua.
 namespace
 {
+// The item's inspect line with this text, or an empty string: MAW lists an item's special among its inspect lines.
+std::string inspectLine(const ItemRules &items, const InventoryItem &item, const ItemDefinition &definition,
+    const Character *pViewer, const std::string &text)
+{
+    for (const ItemInspectLine &line : items.inspectLines(item, definition, nullptr, nullptr, pViewer))
+    {
+        if (line.text == text)
+        {
+            return line.text;
+        }
+    }
+
+    return {};
+}
+
 const std::filesystem::path MawData = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "devdocs/maw/data";
 
 YAML::Node lootTables()
@@ -416,14 +431,14 @@ TEST_CASE("MAW damage enchantments show the range they roll at the item's level"
     const MawEnchantRange range =
         mawEnchantDamageRange(rules.model(1).weaponLevelDamage(100, false, 0), 3, 4, 0.2, false);
     REQUIRE(range.minimum > 3);
-    CHECK_EQ(rules.gameRules().items.enchantDescription(item, longsword, nullptr, nullptr, nullptr),
-        "Adds " + std::to_string(int(std::floor(range.minimum))) + "-" + std::to_string(int(std::floor(range.maximum)))
-            + " points of Cold damage.");
+    const std::string cold = "Adds " + std::to_string(int(std::floor(range.minimum))) + "-"
+        + std::to_string(int(std::floor(range.maximum))) + " points of Cold damage.";
+    CHECK_EQ(inspectLine(rules.gameRules().items, item, longsword, nullptr, cold), cold);
 
     // A weak weapon keeps half the table's range; Body's range is one number.
     item.specialEnchantId = 13;
     item.rulesetFields.itemPower = 0;
-    CHECK_EQ(rules.gameRules().items.enchantDescription(item, longsword, nullptr, nullptr, nullptr),
+    CHECK_EQ(inspectLine(rules.gameRules().items, item, longsword, nullptr, "Adds 2 points of Body damage."),
         "Adds 2 points of Body damage.");
 }
 

@@ -71,6 +71,8 @@ enum class HouseActionId : uint32_t
     // A tavern's Ledger of Teachers topic (TrainerDirectory.h): its description and the purchase.
     OpenTeacherLedgerMenu,
     BuyTeacherLedger,
+    // A training hall forgets the active member's talents (a MAW solo run's respec, devdocs/solo_action/TALENTS.md).
+    TrainingResetTalents,
 };
 
 enum class HouseSoundType : uint32_t

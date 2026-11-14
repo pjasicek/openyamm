@@ -101,6 +101,9 @@ public:
         // actor hostile on its own (map, template, event) alerts none.
         bool angeredByParty = false;
         bool hasDetectedParty = false;
+        // It sees the party within the detection range but beyond the range of its relation to the party
+        // (GameplayActorService::partyNoticeRange): it thinks, as the original's AI list holds it, without noticing.
+        bool seesPartyUnnoticed = false;
         bool bloodSplatSpawned = false;
         ActorAiMotionState motionState = ActorAiMotionState::Standing;
         ActorAiAnimationState animationState = ActorAiAnimationState::Standing;
@@ -343,6 +346,7 @@ public:
     bool allowsLloydsBeacon() const override;
     bool allowsTownPortal() const override;
     bool allowsRest() const override;
+    bool allowsSpellcasting() const override;
     float currentGameMinutes() const override;
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
@@ -801,6 +805,9 @@ public:
         int16_t toSectorId,
         float maximumRange = 0.0f) const;
     bool partyAttackActorHasLineOfSight(size_t actorIndex) const;
+    // Where a party shot aims at the actor, above its feet: its target height, raised toward its top when the room
+    // blocks the line there (GameMechanics::clearPartyShotAimHeight); none without a clear line.
+    std::optional<float> partyShotAimHeight(size_t actorIndex) const;
     std::vector<IndoorActorCollision> actorMovementCollidersForActorMovement(
         const std::vector<size_t> &activeActorIndices) const;
     std::vector<IndoorActorCollision> actorMovementCollidersForPartyMovement() const;
@@ -824,11 +831,12 @@ private:
     const ActorRulesetFacts &actorRulesetFacts(size_t actorIndex) const;
     // Homing for the missiles a party member just fired at an actor, when the rules make them home (MAW).
     // The ruleset's homing (MAW), or a weapon's (weaponHoming: an Energy Guns Grandmaster's shot, 360 degrees a second
-    // for 1.5 s).
+    // for 1.5 s). aimZ: the height the shot aimed at, which it keeps homing on (ProjectileHoming::targetAimHeight).
     void attachPartyMissileHoming(
         uint32_t firstProjectileId,
         uint32_t sourcePartyMemberIndex,
         std::optional<size_t> targetActorIndex,
+        float aimZ,
         bool weaponHoming = false);
     // The ruleset's map-wide choices when the map's monsters are first placed (MAW bosses).
     void placeRulesetMapMonsters();

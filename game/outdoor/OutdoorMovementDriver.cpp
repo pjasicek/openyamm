@@ -21,6 +21,8 @@ constexpr float EventHoldSeconds = 0.75f;
 constexpr float DamageTickSeconds = 1.0f;
 // The original's flight ceiling, for maps whose scene sets none.
 constexpr float DefaultFlightCeiling = 4000.0f;
+// The party's outdoor gravity (OutdoorMovementController's GravityPerSecond): it times a special jump's push in flight.
+constexpr float PartyGravityPerSecond = 1280.0f;
 
 const char *supportKindName(OutdoorSupportKind supportKind)
 {
@@ -378,6 +380,7 @@ void OutdoorMovementDriver::update(
             m_state.verticalVelocity = std::max(m_state.verticalVelocity, m_pendingImpulseVelocityZ);
             m_jumpCarryVelocityX = m_pendingImpulseVelocityX;
             m_jumpCarryVelocityY = m_pendingImpulseVelocityY;
+            m_jumpCarryFlightSeconds = 2.0f * std::max(0.0f, m_pendingImpulseVelocityZ) / PartyGravityPerSecond;
             m_pendingImpulseVelocityX = 0.0f;
             m_pendingImpulseVelocityY = 0.0f;
             m_pendingImpulseVelocityZ = 0.0f;
@@ -444,7 +447,15 @@ void OutdoorMovementDriver::update(
             m_state.verticalVelocity = 0.0f;
         }
 
-        if (!m_state.airborne && m_state.verticalVelocity <= 0.0f)
+        // A flying party never lands, so a special jump's push (a MAW Puller's hit) lasts as long as the same jump
+        // would keep a walking party in the air.
+        if (m_partyMovementState.flying)
+        {
+            m_jumpCarryFlightSeconds -= OutdoorMovementStepSeconds;
+        }
+
+        if ((!m_state.airborne && m_state.verticalVelocity <= 0.0f)
+            || (m_partyMovementState.flying && m_jumpCarryFlightSeconds <= 0.0f))
         {
             m_jumpCarryVelocityX = 0.0f;
             m_jumpCarryVelocityY = 0.0f;

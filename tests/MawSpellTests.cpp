@@ -251,8 +251,8 @@ TEST_CASE("MAW diminishing returns shorten recasts and then make monsters immune
     CHECK(cast(1, 20, false) == doctest::Approx(0));
     CHECK(cast(1, 21, false) == doctest::Approx(2));
 
-    // On a boss: 4, 3, 2, 1, 1, 1 s, then immunity.
-    const std::array<float, 6> bossSeconds = {4, 3, 2, 1, 1, 1};
+    // On a boss: half of 8, 6 and 2 s, while the history counts the whole, then immunity (the CC rework changelog).
+    const std::array<float, 3> bossSeconds = {4, 3, 1};
     double now = 1000;
 
     for (const float expected : bossSeconds)
@@ -265,6 +265,60 @@ TEST_CASE("MAW diminishing returns shorten recasts and then make monsters immune
     CHECK(cast(2, now, true) == doctest::Approx(0));
     // Another monster has its own history.
     CHECK(cast(3, now, false) == doctest::Approx(8));
+}
+
+TEST_CASE("MAW Stun spell paralysis shares Paralyze's diminishing returns")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    const SpellRules &spells = rules.gameRules().spells;
+
+    // Novice 1 on a level-1 monster without resistance: the roll always lands (30 / (30 + 0)).
+    const auto stun = [&](uint64_t target, double nowSeconds, bool boss)
+    {
+        CrowdControlCast spell;
+        spell.spellId = 34;
+        spell.mastery = SkillMastery::Normal;
+        spell.skillLevel = 1;
+        spell.targetLevel = 1;
+        spell.boss = boss;
+        spell.targetKey = target;
+        spell.partySize = 4;
+        spell.nowSeconds = nowSeconds;
+        return spells.crowdControlSeconds(spell).value_or(-1);
+    };
+
+    // Recast every second: the first holds in full, later ones shorten and the monster soon turns immune.
+    const double seconds = 2.0 + 1.0 / 128.0;
+    CHECK(stun(1, 0, false) == doctest::Approx(seconds));
+    double now = 1;
+    float last = 1;
+
+    while (last > 0 && now < 20)
+    {
+        last = stun(1, now, false);
+        CHECK(last < seconds + 0.001);
+        now += 1;
+    }
+
+    CHECK(last == doctest::Approx(0));
+    CHECK(now < 20);
+
+    // A boss holds half and the paralysis it already took counts against the Paralyze spell.
+    CHECK(stun(2, 0, true) == doctest::Approx(seconds / 2));
+    Character caster;
+    caster.className = "Cleric";
+    CrowdControlCast paralyze;
+    paralyze.spellId = 81;
+    paralyze.mastery = SkillMastery::Grandmaster;
+    paralyze.skillLevel = 10;
+    paralyze.pCaster = &caster;
+    paralyze.targetKey = 3;
+    paralyze.partySize = 4;
+    paralyze.nowSeconds = 6;
+    stun(3, 0, false);
+    stun(3, 2, false);
+    // 4 s of the last 20 under stun: Paralyze's 6 s drops to 4.5.
+    CHECK(spells.crowdControlSeconds(paralyze).value_or(-1) == doctest::Approx(4.5));
 }
 
 TEST_CASE("MAW spell texts fill every number for mages, Death Knights and Assassins")

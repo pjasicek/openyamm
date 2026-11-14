@@ -563,6 +563,55 @@ void moveSummaryPlaythroughToLegacyPlace(std::vector<uint8_t> &bytes)
     bytes.insert(bytes.end() - static_cast<std::ptrdiff_t>(sizeof(uint64_t)), sizeof(uint64_t), uint8_t(0));
 }
 
+// Saves before version 181 have no solo run: cuts the ruleset's last byte (the solo flag, before the name, the preview
+// and the playthrough id and time that end the summary block) and every character's empty action bar (twenty slots of
+// a kind byte, an id and a quick item slot, between the six empty quick item slots and the spellbook page, -1 in these
+// saves), and every character's empty talent ranks (version 182) that end it. The first step for a save then stamped
+// with an older version, while the playthrough is still in the summary.
+void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
+{
+    constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
+    constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
+    uint32_t summarySize = 0;
+    std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
+    const size_t nameAndPreviewSize =
+        sizeof(uint64_t) + save.saveName.size() + sizeof(uint64_t) + save.previewBmp.size();
+    const size_t soloOffset =
+        HeaderSize + sizeof(summarySize) + summarySize - PlaythroughSize - nameAndPreviewSize - sizeof(bool);
+    REQUIRE_EQ(bytes[soloOffset], uint8_t(save.ruleset.options.soloRun ? 1 : 0));
+    eraseBytes(bytes, soloOffset, sizeof(bool));
+    --summarySize;
+    std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
+
+    constexpr size_t QuickSlotsSize = OpenYAMM::Game::QuickItemSlotCount * (sizeof(uint32_t) + sizeof(uint8_t));
+    constexpr size_t SlotSize = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t) + sizeof(uint8_t);
+    constexpr size_t BarSize = OpenYAMM::Game::ActionBarSlotCount * SlotSize;
+    std::vector<uint8_t> pattern(QuickSlotsSize + BarSize, uint8_t(0));
+    pattern.insert(pattern.end(), sizeof(int32_t), uint8_t(0xff));
+    const size_t characters = save.party.members.size() + save.party.mm9Hirelings.size();
+    // The characters come first in the party, so their bars are the first matches (later zero runs can match too).
+    size_t found = 0;
+    auto it = bytes.begin();
+    while (found < characters && (it = std::search(it, bytes.end(), pattern.begin(), pattern.end())) != bytes.end())
+    {
+        const size_t offset = static_cast<size_t>(it - bytes.begin()) + QuickSlotsSize;
+        eraseBytes(bytes, offset, BarSize);
+        // After the bar: the spellbook page, the implants, the condition expiry times, the empty statistics id, the
+        // empty battle orders, their fallback byte, the empty upkeep list, then the empty talent ranks' count.
+        const size_t talentsOffset = offset + sizeof(int32_t) + sizeof(OpenYAMM::Game::Character::implants)
+            + sizeof(OpenYAMM::Game::Character::conditionExpireGameMinutes) + sizeof(uint64_t) + sizeof(uint64_t)
+            + sizeof(uint8_t) + sizeof(uint64_t);
+        REQUIRE(talentsOffset + sizeof(uint64_t) <= bytes.size());
+        REQUIRE(std::all_of(bytes.begin() + static_cast<std::ptrdiff_t>(talentsOffset),
+            bytes.begin() + static_cast<std::ptrdiff_t>(talentsOffset + sizeof(uint64_t)),
+            [](uint8_t byte) { return byte == 0; }));
+        eraseBytes(bytes, talentsOffset, sizeof(uint64_t));
+        it = bytes.begin() + static_cast<std::ptrdiff_t>(offset);
+        ++found;
+    }
+    REQUIRE_EQ(found, characters);
+}
+
 // Saves before version 162 have no map layout identities: cuts minimalSave's two, for a save stamped older.
 // Saves from version 163 end with the playthrough id and its statistics timeline: two strings, empty in these saves.
 void erasePlaythroughStatistics(std::vector<uint8_t> &bytes)
@@ -716,6 +765,7 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
 
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseSoloRun(bytes, save);
     moveSummaryPlaythroughToLegacyPlace(bytes);
     erasePlaythroughStatistics(bytes);
     eraseWorldCompletions(bytes, completionMarker);
@@ -785,6 +835,7 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
         restored->ruleset, restored->saveName, restored->previewBmp});
 
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseSoloRun(bytes, save);
     moveSummaryPlaythroughToLegacyPlace(bytes);
     erasePlaythroughStatistics(bytes);
     eraseWorldCompletions(bytes, completionMarker);
@@ -822,6 +873,7 @@ TEST_CASE("saves with the retired per-game loot choice load without it")
     // Versions 172 to 177 wrote the choice as the ruleset's last byte, in the summary block before the name, the
     // preview and the playthrough id and time. Put one back (off) and stamp version 177.
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseSoloRun(bytes, save);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
     uint32_t summarySize = 0;
@@ -864,6 +916,7 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     // The summary block holds the map, the time, the ruleset, the name and the preview; the Bow preference (version
     // 154) is the ruleset's last byte, after the trainer hints (152). Cut it and stamp version 153.
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseSoloRun(bytes, save);
     moveSummaryPlaythroughToLegacyPlace(bytes);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     uint32_t summarySize = 0;
@@ -908,6 +961,7 @@ TEST_CASE("saves before the MM9 hirelings load with none")
 
     // Cut the party's hireling count (version 157) and stamp version 154 (before the last outdoor map, 155).
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseSoloRun(bytes, save);
     moveSummaryPlaythroughToLegacyPlace(bytes);
     eraseMm9HirelingCount(bytes, completionMarker);
     eraseMapLayoutIdentities(bytes);
@@ -946,6 +1000,7 @@ TEST_CASE("saves before the MM9 formation load without member cells and with neu
 
     // Cut the party's formation cell count (version 158) and stamp version 157.
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseSoloRun(bytes, save);
     moveSummaryPlaythroughToLegacyPlace(bytes);
     std::array<uint8_t, sizeof(cellMarker)> markerBytes = {};
     std::memcpy(markerBytes.data(), &cellMarker, sizeof(cellMarker));
@@ -1687,4 +1742,35 @@ TEST_CASE("saves keep a solo character's bag tags past the eighth bag (OY-344)")
     REQUIRE_EQ(restored->party.members.size(), 1u);
     CHECK_EQ(restored->party.members[0].rulesetState.craftingBags, 1u << 20);
     CHECK_EQ(restored->party.members[0].rulesetState.alchemyBags, 1u << 24);
+}
+
+// eraseSoloRun gives back a save of the version before the solo run: it loads, with a hireling (a character outside
+// the party's members) too.
+TEST_CASE("saves before the solo run load as party games")
+{
+    for (int variant = 0; variant < 2; ++variant)
+    {
+        OpenYAMM::Game::GameSaveData save = minimalSave();
+        if (variant == 1)
+        {
+            OpenYAMM::Game::Mm9PartyHireling hireling;
+            hireling.character.name = "Hrolf";
+            save.party.mm9Hirelings.push_back(hireling);
+        }
+        const std::filesystem::path path = makeTemporaryRoot("pre_solo").replace_extension(".oysav");
+        std::string error;
+        REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, save, error));
+        std::vector<uint8_t> bytes = readBytes(path);
+        eraseSoloRun(bytes, save);
+        // Version 180: the last before the solo run (181) and its talents (182).
+        const uint32_t previousVersion = 180;
+        std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+        writeBytes(path, bytes);
+        const auto restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+        std::filesystem::remove(path);
+        INFO("variant " << variant << " " << error);
+        REQUIRE(restored.has_value());
+        CHECK_FALSE(restored->ruleset.options.soloRun);
+        CHECK_EQ(restored->party.mm9Hirelings.size(), size_t(variant));
+    }
 }

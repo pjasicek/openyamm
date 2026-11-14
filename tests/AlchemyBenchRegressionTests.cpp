@@ -236,6 +236,40 @@ TEST_CASE("alchemy bench mixes potions held by different party members")
     CHECK_EQ(pCureWounds->bestPower, 2u);
 }
 
+TEST_CASE("alchemy bench boosts the copy of a potion that the catalyst raises most")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const uint32_t catalystItemId = tables.potionSettingTable.catalystPotionItemId();
+    REQUIRE_NE(catalystItemId, 0u);
+    addItem(party, 0, CureWoundsItemId, 30);
+    addItem(party, 0, CureWoundsItemId, 2);
+    addItem(party, 0, catalystItemId, 20);
+
+    // Standard's catalyst gives the potion its own power: the strongest copy would lose power, the weak one gains.
+    const AlchemyPreview preview =
+        AlchemyBenchRuntime::preview(party, {CureWoundsItemId, catalystItemId}, tables, unlocked({}));
+    CHECK_EQ(preview.outcome, AlchemyPreviewOutcome::Known);
+    CHECK_EQ(preview.targetPower, 2u);
+    CHECK_EQ(preview.resultPower, 20u);
+
+    const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(party, {CureWoundsItemId, catalystItemId}, tables);
+    REQUIRE(outcome.result.success);
+    std::multiset<uint16_t> powers;
+
+    for (const InventoryItem &item : party.member(0)->inventory)
+    {
+        if (item.objectDescriptionId == CureWoundsItemId)
+        {
+            powers.insert(item.standardEnchantPower);
+        }
+    }
+
+    CHECK_EQ(powers, std::multiset<uint16_t>{20, 30});
+}
+
 TEST_CASE("alchemy bench fills bottles and leaves non-reacting items in place")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

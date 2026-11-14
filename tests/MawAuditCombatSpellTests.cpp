@@ -1300,16 +1300,10 @@ TEST_CASE("Ethric's Staff spares the Lich class only; Horn of Ros and Ghost Ring
     }
 }
 
-TEST_CASE("The alchemist's slot follows a leaving member; a broken Lichs' weapon is no faster (ROB-2-3, FITM-2-7)")
+TEST_CASE("A broken Lichs' weapon is no faster (FITM-2-7)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
-    Party party = auditParty(rules, {auditMember("Knight", 20), auditMember("Knight", 20), auditMember("Knight", 20)});
     const SpellRules &spells = rules.gameRules().spells;
-    rules.state().alchemistMember = 2;
-    spells.memberLeaving(party, 0);
-    CHECK_EQ(rules.state().alchemistMember, 1);
-    spells.memberLeaving(party, 1);
-    CHECK_EQ(rules.state().alchemistMember, -1);
 
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();

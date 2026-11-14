@@ -829,8 +829,8 @@ void TurnBasedCombatRuntime::rebuildInitialQueue(
     std::vector<size_t> readyMembers;
 
     // Character entries are combatants: the members, then the MM9 hirelings, who wait for the player's command on
-    // their turn as the members do (MM9_HIRELINGS.md 9.1).
-    for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
+    // their turn as the members do (MM9_HIRELINGS.md 9.1); a solo run's hirelings take no turns.
+    for (size_t memberIndex = 0; memberIndex < party.actingCombatantCount(); ++memberIndex)
     {
         const Character &member = *party.combatant(memberIndex);
 
@@ -939,7 +939,7 @@ void TurnBasedCombatRuntime::addArrivedCombatants(const Party &party, const IGam
     };
 
     // OE StartTurn: members able to act again rejoin at full turn initiative, newly arrived actors act first.
-    for (size_t memberIndex = 0; memberIndex < party.combatantCount(); ++memberIndex)
+    for (size_t memberIndex = 0; memberIndex < party.actingCombatantCount(); ++memberIndex)
     {
         if (memberCanStayInTurnQueue(*party.combatant(memberIndex))
             && !queued(QueueEntry::Kind::Character, memberIndex))
@@ -1009,7 +1009,7 @@ std::optional<size_t> TurnBasedCombatRuntime::readyCharacterQueueIndex(const Par
 
         if (pParty != nullptr)
         {
-            if (entry.id >= pParty->combatantCount() || !memberCanStayInTurnQueue(*pParty->combatant(entry.id)))
+            if (entry.id >= pParty->actingCombatantCount() || !memberCanStayInTurnQueue(*pParty->combatant(entry.id)))
             {
                 continue;
             }
@@ -1101,7 +1101,8 @@ void TurnBasedCombatRuntime::removeInvalidEntries(const Party &party)
                     return false;
                 }
 
-                return entry.id >= party.combatantCount() || !memberCanStayInTurnQueue(*party.combatant(entry.id));
+                return entry.id >= party.actingCombatantCount()
+                    || !memberCanStayInTurnQueue(*party.combatant(entry.id));
             }),
         m_queue.end());
 }

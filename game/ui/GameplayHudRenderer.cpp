@@ -1,3 +1,4 @@
+#include "game/ui/GameplayMapProgressBar.h"
 #include "game/ui/GameplayHudRenderer.h"
 #include "engine/Localization.h"
 #include "engine/Utf8Text.h"
@@ -517,6 +518,18 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                     if (talkTop)
                     {
                         rect->y = std::min(rect->y, *talkTop - rect->height - 6 * rect->scale);
+                    }
+                    // MAW's progress tab under a wide plate: the plate goes above it (a solo HUD keeps the tab at
+                    // the unit frame, top left, out of the plate's way).
+                    if (context.soloHud())
+                    {
+                        if (const std::optional<std::array<float, 4>> tab =
+                                GameplayMapProgressBar::tabBounds(context, width, height);
+                            tab && (*tab)[0] < rect->x + rect->width && (*tab)[2] > rect->x
+                            && (*tab)[1] > float(height) * 0.5f)
+                        {
+                            rect->y = std::min(rect->y, (*tab)[1] - rect->height - 4 * rect->scale);
+                        }
                     }
                     GameplayUiSkin::renderTexture(context, "obsidian_hud_status_plate", *rect);
                     for (size_t i = 0; i < lines.size(); ++i)

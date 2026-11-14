@@ -2,6 +2,7 @@
 #include "engine/Localization.h"
 #include "game/ui/GameplayBattleOrders.h"
 #include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
 #include "game/ui/GameplayLootSummaryRenderer.h"
 
 #include "game/audio/SoundIds.h"
@@ -19,7 +20,9 @@
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/party/Party.h"
 #include "game/party/SpeechIds.h"
+#include "game/tables/SpellTable.h"
 #include "game/ui/GameplayQuickItems.h"
+#include "game/ui/GameplaySoloHud.h"
 
 #include <SDL3/SDL.h>
 
@@ -159,6 +162,16 @@ GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries(
 }
 } // namespace
 
+bool GameplayInputController::updateAutoWalk(bool active, const GameplayAutoWalkInput &input)
+{
+    if (!input.canWalk || input.turnBased || input.forwardPressed || input.backwardPressed)
+    {
+        return false;
+    }
+
+    return input.togglePressed ? !active : active;
+}
+
 GameplayMouseLookPolicyResult GameplayInputController::updateGameplayMouseLookPolicy(
     GameplayScreenState::GameplayMouseLookState &state,
     const GameplayMouseLookPolicyConfig &config)
@@ -180,11 +193,12 @@ void GameplayInputController::handleStandardUiHotkeys(
     GameplayScreenRuntime &context,
     const GameplayStandardUiHotkeyConfig &config)
 {
-    // Letters typed into the alchemy bench, inventory, journal or Battle Orders search are text, not hotkeys; each
-    // handles Escape itself.
+    // Letters typed into the alchemy bench, inventory, journal, Battle Orders or solo bar selector search are text, not
+    // hotkeys; each handles Escape itself.
     if (GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
         || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
-        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly()))
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly())
+        || GameplaySoloBarSelector::isOpen(context))
     {
         return;
     }
@@ -229,6 +243,7 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !context.readableScrollOverlayReadOnly().active
         && !context.lootSummaryOverlayReadOnly().active
         && !formationBuilderOpen
+        && !GameplaySoloBarSelector::armed(context)
         && !context.utilitySpellOverlayReadOnly().active
         && !houseShopActive
         && !houseBankInputActive;
@@ -540,14 +555,17 @@ void GameplayInputController::handleStandardUiHotkeys(
                 context.openFollowerNpcDialogueByIndex(follower);
             }
         }
+    }
 
-        // The potion radial's slots for the active member (GAPS.md H.6).
+    // The potion radial's slots for the active member (GAPS.md H.6), in every world.
+    const Party *pQuickParty = context.partyReadOnly();
+    if (gameplayIdle && pQuickParty != nullptr)
+    {
         constexpr std::array<KeyboardAction, QuickItemSlotCount> QuickItemActions = {KeyboardAction::QuickItem1,
             KeyboardAction::QuickItem2, KeyboardAction::QuickItem3, KeyboardAction::QuickItem4,
             KeyboardAction::QuickItem5, KeyboardAction::QuickItem6};
-        const Party *pQuickParty = context.partyReadOnly();
 
-        for (size_t slot = 0; slot < QuickItemActions.size() && pQuickParty != nullptr; ++slot)
+        for (size_t slot = 0; slot < QuickItemActions.size(); ++slot)
         {
             if (isActionNewlyPressed(context, QuickItemActions[slot], config.pInputFrame, config.pKeyboardState))
             {
@@ -659,7 +677,8 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     if (config.pKeyboardState == nullptr
         || GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
         || GameplayUiController::journalSearchActive(context.journalScreenStateReadOnly())
-        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly()))
+        || GameplayUiController::spellbookSearchActive(context.spellbookReadOnly())
+        || GameplaySoloBarSelector::isOpen(context))
     {
         context.interactionState().alwaysRunToggleLatch = false;
         context.interactionState().adventurersInnToggleLatch = false;
@@ -819,8 +838,10 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
     const bool blocksUnderlyingMouseInput =
         context.currentHudScreenState() != GameplayHudScreenState::Gameplay
         || config.isModalOverlayActive;
-    const bool gameplayMouseLookAllowed =
-        context.settingsSnapshot().controlScheme == ControlScheme::Modern
+    const GameSettings &settings = context.settingsSnapshot();
+    const bool modernControls = settings.controlScheme == ControlScheme::Modern;
+    const bool mouseLookPossible =
+        modernControls
         && GameplayScreenController::canEnableGameplayMouseLook(
             context,
             GameplayMouseLookEnableConfig{
@@ -828,6 +849,29 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .blockOnReadableScrollOverlay = true,
                 .blockOnUtilitySpellOverlay = true,
             });
+
+    // The Free Cursor key (OY-637, GrayFace's middle button): mouse look off and the cursor free over play, the world
+    // running and the party moving as under the classic controls, until pressed again. It acts only over play, where
+    // mouse look could be on; screens opened meanwhile keep the mode. A solo run's arms keep the middle button for
+    // their shield block (devdocs/solo_action/README.md).
+    const InputBinding cursorModeBinding = settings.keyboard.binding(KeyboardAction::CursorMode);
+    const bool armsTakeCursorModeButton =
+        context.soloHud()
+        && cursorModeBinding.kind == InputBindingKind::MouseButton
+        && cursorModeBinding.mouseButton == SDL_BUTTON_MIDDLE;
+
+    if (!modernControls)
+    {
+        gameplayMouseLookState.freeCursorToggled = false;
+    }
+    else if (mouseLookPossible
+        && !armsTakeCursorModeButton
+        && isActionNewlyPressed(context, KeyboardAction::CursorMode, config.pInputFrame, config.pKeyboardState))
+    {
+        gameplayMouseLookState.freeCursorToggled = !gameplayMouseLookState.freeCursorToggled;
+    }
+
+    const bool gameplayMouseLookAllowed = mouseLookPossible && !gameplayMouseLookState.freeCursorToggled;
 
     // Holding the right button is the cursor mode under mouse look; this frame lets it go.
     const bool cursorModeReleased = gameplayMouseLookState.cursorModeActive && !config.rightButtonPressed;
@@ -888,7 +932,8 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                                 hasPendingSpellCast
                                 || context.characterScreenReadOnly().open
                                 || heldInventoryItem.active
-                                || GameplayFormationBuilder::isOpen(context),
+                                || GameplayFormationBuilder::isOpen(context)
+                                || GameplaySoloBarSelector::isOpen(context),
                             .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
                             .onPortraitActivated =
                                 [&screenState, &context, &spellService, &config, hasPendingSpellCast](
@@ -1000,15 +1045,53 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             }
         }
 
+        // A solo run's action bar (devdocs/solo_action/HUD.md): keys 1-0 use the active member's slot. A spell casts
+        // through the quick spell's path (its hold, repeat, recovery and attack fallback), a potion or scroll kind is
+        // used as a quick item slot is, the weapon slot attacks.
+        std::string heldBarSpell;
+        if (context.soloHud() && config.pInputFrame != nullptr)
+        {
+            Party *pBarParty = context.party();
+            const std::optional<size_t> barSlot = GameplaySoloHud::heldBarSlot(*config.pInputFrame);
+            const Character *pBarMember = pBarParty != nullptr ? pBarParty->activeMember() : nullptr;
+            if (barSlot && pBarMember != nullptr)
+            {
+                const ActionBarSlot &slot = pBarMember->actionBar[*barSlot];
+                const bool pressed = GameplaySoloHud::barSlotPressed(*config.pInputFrame, *barSlot);
+                if (slot.kind == ActionBarSlotKind::Spell && context.spellTable() != nullptr)
+                {
+                    if (const SpellEntry *pSpell = context.spellTable()->findById(int(slot.id)))
+                    {
+                        heldBarSpell = pSpell->name;
+                    }
+                }
+                else if (slot.kind == ActionBarSlotKind::Item && pressed)
+                {
+                    context.itemService().useQuickItemKind(context, pBarParty->activeMemberIndex(), slot.item);
+                }
+                else if (slot.kind == ActionBarSlotKind::Weapon && pressed)
+                {
+                    // Weapon slot 0 attacks; slot id 1 swaps the melee weapon and the bow.
+                    (slot.id == ActionBarWeaponSwapId ? context.interactionState().soloWeaponSwapRequested
+                                                      : context.interactionState().gameplayHudAttackRequested) = true;
+                }
+                else if (slot.kind == ActionBarSlotKind::Talent && pressed)
+                {
+                    context.interactionState().soloTalentRequested = slot.id;
+                }
+            }
+        }
+
         const bool mainQuickCastPressed =
             quickCastButtonRequested
             || (isActionHeld(context, KeyboardAction::CastReady, config.pInputFrame, config.pKeyboardState)
                 && !GameplayQuickItems::takesPointerAction(context, KeyboardAction::CastReady));
-        const bool isQuickCastPressed = mainQuickCastPressed || heldExtraSlot.has_value();
+        const bool isQuickCastPressed = mainQuickCastPressed || heldExtraSlot.has_value() || !heldBarSpell.empty();
 
         if (isQuickCastPressed && !quickSpellState.castLatch)
         {
             quickSpellState.extraSlot = mainQuickCastPressed ? std::nullopt : heldExtraSlot;
+            quickSpellState.barSpellName = mainQuickCastPressed || heldExtraSlot ? std::string() : heldBarSpell;
         }
 
         const GameplayActionController::QuickCastActionDecision quickCastDecision =
@@ -1042,14 +1125,50 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 }
             }
 
-            if (!quickCastHandledByTurnBasedMode && config.canBeginQuickCast && context.worldRuntime() != nullptr)
+            // A solo run's arms play the cast first: the spell is cast at the clip's release key (below), its
+            // recovery counted from now. A cast or swing already under way takes the press.
+            GameplayScreenRuntime::ViewModelLink &viewModel = context.viewModelLink();
+            const Party *pCastParty = context.partyReadOnly();
+            const Character *pCaster = pCastParty != nullptr ? pCastParty->activeMember() : nullptr;
+            const std::string deferredSpell = pCaster == nullptr ? std::string()
+                : !quickSpellState.barSpellName.empty() ? quickSpellState.barSpellName
+                : quickSpellState.extraSlot && *quickSpellState.extraSlot < ExtraQuickSpellSlotCount
+                    ? pCaster->extraQuickSpellNames[*quickSpellState.extraSlot]
+                    : pCaster->quickSpellName;
+            bool quickCastTakenByArms = false;
+            if (!quickCastHandledByTurnBasedMode && viewModel.swingWaiting)
+            {
+                quickCastTakenByArms = true;
+            }
+            else if (!quickCastHandledByTurnBasedMode && config.canBeginQuickCast && viewModel.meleeSwings
+                && !context.turnBasedCombatRuntime().active() && pCaster != nullptr
+                && GameMechanics::canTakeGameplayAction(*pCaster)
+                && !screenState.pendingSpellTarget().active
+                && GameplaySpellActionController::prepareViewModelCast(context, *pCaster, deferredSpell))
+            {
+                viewModel.swingWaiting = true;
+                viewModel.waitIsCast = true;
+                viewModel.quickCastWaiting = true;
+                viewModel.quickCastExtraSlot = quickSpellState.extraSlot;
+                viewModel.quickCastBarSpell = quickSpellState.barSpellName;
+                viewModel.blowReleased = false;
+                viewModel.blowDirection.reset();
+                viewModel.swingWaitSeconds = 0.0f;
+                ++viewModel.swingSerial;
+                quickCastResult = GameplayActionController::QuickCastActionResult::CastStarted;
+                quickCastTakenByArms = true;
+            }
+
+            if (!quickCastHandledByTurnBasedMode && !quickCastTakenByArms && config.canBeginQuickCast
+                && context.worldRuntime() != nullptr)
             {
                 const GameplaySpellActionController::SpellActionResult spellActionResult =
                     GameplaySpellActionController::tryBeginQuickSpellCast(
                         context,
                         spellService,
                         buildSpellActionTargetQueries(screenState, config),
-                        quickSpellState.extraSlot);
+                        quickSpellState.extraSlot,
+                        quickSpellState.barSpellName);
 
                 if (spellActionResult == GameplaySpellActionController::SpellActionResult::AttackFallback)
                 {
@@ -1058,6 +1177,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 else if (spellActionResult == GameplaySpellActionController::SpellActionResult::CastStarted)
                 {
                     quickCastResult = GameplayActionController::QuickCastActionResult::CastStarted;
+                    context.noteViewModelAction(GameplayScreenRuntime::ViewModelAction::Cast);
                 }
             }
 
@@ -1069,6 +1189,39 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
         GameplayActionController::updateQuickCastAction(
             quickSpellState,
             GameplayActionController::QuickCastActionConfig{});
+    }
+
+    // A deferred quick or action-bar cast reaches its clip's release key (or the arms never report it): cast it now,
+    // its recovery shortened by the time the clip took, so it still counts from the press.
+    if (config.processQuickCast)
+    {
+        constexpr float CastTimeoutSeconds = 2.0f;
+        GameplayScreenRuntime::ViewModelLink &viewModel = context.viewModelLink();
+        if (viewModel.swingWaiting && viewModel.quickCastWaiting
+            && (viewModel.blowReleased || viewModel.swingWaitSeconds > CastTimeoutSeconds))
+        {
+            const float spent = viewModel.swingWaitSeconds;
+            viewModel.swingWaiting = false;
+            viewModel.quickCastWaiting = false;
+            viewModel.blowReleased = false;
+            viewModel.swingWaitSeconds = 0.0f;
+            if (context.worldRuntime() != nullptr)
+            {
+                const GameplaySpellActionController::SpellActionResult released =
+                    GameplaySpellActionController::tryBeginQuickSpellCast(
+                        context,
+                        spellService,
+                        buildSpellActionTargetQueries(screenState, config),
+                        viewModel.quickCastExtraSlot,
+                        viewModel.quickCastBarSpell);
+                Party *pParty = context.party();
+                Character *pCaster = pParty != nullptr ? pParty->member(pParty->activeMemberIndex()) : nullptr;
+                if (released == GameplaySpellActionController::SpellActionResult::CastStarted && pCaster != nullptr)
+                {
+                    pCaster->recoverySecondsRemaining = std::max(0.0f, pCaster->recoverySecondsRemaining - spent);
+                }
+            }
+        }
     }
 
     // The Upkeep key (devdocs/BATTLE_ORDERS.md "Upkeep"): a ready member casts the first due spell of their list.

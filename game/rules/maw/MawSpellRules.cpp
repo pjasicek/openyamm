@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawSpellRules.h"
+#include "game/rules/maw/MawSoloTalents.h"
 #include "engine/Localization.h"
 
 #include "game/gameplay/GameMechanics.h"
@@ -504,6 +505,12 @@ void MawSpellRules::afterCast(
 {
     Character *pCaster = party.member(casterIndex);
 
+    // A solo run's Spell Surge is spent by the cast it made free.
+    if (pCaster != nullptr && m_rules.options().soloRun)
+    {
+        MawSoloTalents::spendSurge(*pCaster);
+    }
+
     // Each offensive cast of an Elementalist builds a stack and turns the quick or attack spell it was to another
     // known spell of the kind bound there; switching the rotation off stops both (MCC:509-537).
     if (pCaster != nullptr && mawClassLine(pCaster->className) == "elementalist"
@@ -529,6 +536,17 @@ void MawSpellRules::afterCast(
 }
 
 int MawSpellRules::manaCost(const CharacterSpellCast &cast, int tableCost) const
+{
+    // A solo run's Spell Surge: the next spell is free.
+    if (m_rules.options().soloRun && cast.pCaster != nullptr && MawSoloTalents::nextSpellFree(*cast.pCaster))
+    {
+        return 0;
+    }
+
+    return manaCostBeforeTalents(cast, tableCost);
+}
+
+int MawSpellRules::manaCostBeforeTalents(const CharacterSpellCast &cast, int tableCost) const
 {
     const uint32_t spellId = uint32_t(cast.pSpell->id);
     const MawSpellCategory category = mawSpellCategory(spellId);
@@ -695,6 +713,19 @@ int MawSpellRules::castRecoveryTicks(
 }
 
 std::optional<int> MawSpellRules::healAmount(const CharacterSpellCast &cast) const
+{
+    const std::optional<int> amount = healAmountBeforeTalents(cast);
+
+    // A solo run's Attunement talent heals more.
+    if (amount && m_rules.options().soloRun && cast.pCaster != nullptr)
+    {
+        return int(std::lround(*amount * MawSoloTalents::healScale(*cast.pCaster)));
+    }
+
+    return amount;
+}
+
+std::optional<int> MawSpellRules::healAmountBeforeTalents(const CharacterSpellCast &cast) const
 {
     const uint32_t spellId = uint32_t(cast.pSpell->id);
     const std::optional<MawHealSpell> heal = mawHealSpell(spellId, cast.mastery, insanityHeals(m_rules));
@@ -869,18 +900,6 @@ bool MawSpellRules::shareLife(Party &party, int heal) const
 
 void MawSpellRules::memberLeaving(const Party &party, size_t memberIndex) const
 {
-    // The alchemist's slot moves with the members too (ROB-2-3).
-    int32_t &alchemist = m_rules.state().alchemistMember;
-
-    if (alchemist == int32_t(memberIndex))
-    {
-        alchemist = -1;
-    }
-    else if (alchemist > int32_t(memberIndex))
-    {
-        --alchemist;
-    }
-
     std::unordered_map<uint32_t, uint32_t> &holders = m_rules.state().auraHolders;
 
     for (auto it = holders.begin(); it != holders.end();)
@@ -1609,18 +1628,27 @@ std::optional<float> MawSpellRules::crowdControlSeconds(const CrowdControlCast &
         return 0.0f;
     }
 
-    // Stun keeps a success roll; it paralyses one game minute plus skill x mastery ticks (TW:50-58).
+    // Stun keeps a success roll; it paralyses one game minute plus skill x mastery ticks (TW:50-58), through
+    // Paralyze's diminishing returns as the CC rework changelog lists it (MAW's code exempts it; DEVIATIONS.md).
     if (cast.spellId == Stun)
     {
+        constexpr int ParalyzeGroup = 3;
+
         if (resisted())
         {
             return 0.0f;
         }
 
         const double chance = mawStunChance(cast.targetLevel, cast.resistance, cast.skillLevel, cast.boss);
-        return std::uniform_real_distribution<double>(0.0, 1.0)(rng) < chance
-            ? 2.0f + float(cast.skillLevel) * float(std::max(1, int(cast.mastery))) / 128.0f
-            : 0.0f;
+
+        if (std::uniform_real_distribution<double>(0.0, 1.0)(rng) >= chance)
+        {
+            return 0.0f;
+        }
+
+        const double seconds = 2.0 + double(cast.skillLevel) * std::max(1, int(cast.mastery)) / 128.0;
+        return float(m_rules.diminishedCrowdControlSeconds(
+            cast.targetKey, ParalyzeGroup, cast.nowSeconds, seconds, cast.boss));
     }
 
     const MawCrowdControlSpell *pSpell = mawCrowdControlSpell(cast.spellId);

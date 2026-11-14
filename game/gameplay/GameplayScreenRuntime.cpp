@@ -6,6 +6,7 @@
 #include "game/ui/GameplayHudCommon.h"
 
 #include "game/app/GameSession.h"
+#include "game/ui/SoloHudLayout.h"
 #include "game/audio/SoundIds.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayItemService.h"
@@ -15,6 +16,7 @@
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/rules/SoloTalents.h"
 #include "game/mm9/Mm9HirelingHud.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayHeldItemController.h"
@@ -45,6 +47,9 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t MinimapFactRefreshMilliseconds = 100;
+// A solo HUD's top bar sits in the top-right corner: what stood under the top right (the minimap and its clock, its
+// tabs, the follower panel, MM9's hireling rail) moves this many layout units down, the minimap's rim just under the bar.
+constexpr float SoloTopRightDrop = 16.0f;
 constexpr int GameplayMinimapMinZoomStep = 0;
 constexpr int GameplayMinimapDefaultZoomStep = 1;
 constexpr int GameplayMinimapMaxZoomStep = 2;
@@ -871,6 +876,21 @@ const std::string &GameplayScreenRuntime::rulesetGuideUrl() const
     return m_session.data().rulesetGuideUrl();
 }
 
+bool GameplayScreenRuntime::soloRun() const
+{
+    return m_session.ruleset().options.soloRun;
+}
+
+bool GameplayScreenRuntime::soloTalents() const
+{
+    return soloTalentsActive(m_session.ruleset());
+}
+
+bool GameplayScreenRuntime::soloHud() const
+{
+    return soloRun() || settingsSnapshot().soloHudPreview;
+}
+
 const StandardItemEnchantTable *GameplayScreenRuntime::standardItemEnchantTable() const
 {
     return &m_session.data().standardItemEnchantTable();
@@ -1638,8 +1658,8 @@ void GameplayScreenRuntime::startInnRest(uint32_t houseId)
 
 void GameplayScreenRuntime::openSpellbookOverlay()
 {
-    // Underwater (MM7's Shoals) the spellbook stays shut, as in the original (OY-350).
-    if (worldRuntime() != nullptr && worldRuntime()->isUnderwaterMap())
+    // In MM7's Shoals the spellbook stays shut, as in the original (OY-350).
+    if (worldRuntime() != nullptr && !worldRuntime()->allowsSpellcasting())
     {
         setStatusBarEvent(Engine::tr(PartySpellSystem::UnderwaterText));
         return;
@@ -3409,6 +3429,16 @@ bool GameplayScreenRuntime::tryCastSpellRequest(
         }
     }
 
+    // A solo run's spell leaves the casting hand the arms show.
+    const Party *pParty = partyReadOnly();
+    if (soloHud() && m_viewModelLink.castHandScreen && !request.handScreenPoint && pParty != nullptr
+        && request.casterMemberIndex == pParty->activeMemberIndex())
+    {
+        PartySpellCastRequest handRequest = request;
+        handRequest.handScreenPoint = m_viewModelLink.castHandScreen;
+        return sceneAdapter().tryCastSpellRequest(handRequest, spellName);
+    }
+
     return sceneAdapter().tryCastSpellRequest(request, spellName);
 }
 
@@ -3902,9 +3932,68 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
     }
     const Party *pParty = partyReadOnly();
     const size_t count = pParty != nullptr ? std::clamp(pParty->members().size(), size_t{1}, size_t{5}) : 5;
+    const bool solo = soloHud();
+    // A solo run (the user's left-bar layout, devdocs/solo_action/HUD.md): the unit frame in the top-left corner, the
+    // action bar a column under it, the top bar in the top-right corner with the minimap under it, MAW's channel in
+    // the unit frame's bottom band. The party frame is not drawn; its rect stays a one-member frame at the bottom
+    // centre for what still measures from it (the potion popups' scale, the breath meter, an MM9 talk).
+    if (solo && layoutId == "MapProgressChannel")
+    {
+        if (const std::optional<ResolvedHudLayoutElement> frame =
+                uiRuntime().resolveHudLayoutElement("SoloUnitFrame", screenWidth, screenHeight, 0, 0))
+        {
+            // In the box's bottom band, its lower edge 2.17 units above the box's.
+            const SoloUnitFrameLayout layout = soloUnitFrameLayout();
+            constexpr float ChannelHeight = 3.2f;
+            rect->x = frame->x + layout.name.x * frame->scale;
+            rect->y = frame->y + (layout.box.y + layout.box.height - 2.17f - ChannelHeight) * frame->scale;
+            rect->width = layout.name.width * frame->scale;
+            rect->height = ChannelHeight * frame->scale;
+            rect->scale = frame->scale;
+            return rect;
+        }
+    }
+    if (layoutId == "SoloUnitFrame")
+    {
+        return rect;
+    }
+    // The column's slots shrink to fit a screen too short for it (HUD scale, a wide window): the panel keeps its top
+    // and ends just above the bottom edge.
+    if (layoutId == "SoloActionBar" && rect->y + rect->height > float(screenHeight) - 2 * rect->scale)
+    {
+        rect->height = std::max(float(screenHeight) - 2 * rect->scale - rect->y, rect->height * 0.4f);
+        return rect;
+    }
+    // The status line stays at the bottom centre, just above the screen's edge, with no frame under it.
+    if (solo && layoutId == "OutdoorGameplayStatusBar")
+    {
+        rect->y = float(screenHeight) - rect->height - 8 * rect->scale;
+        return rect;
+    }
+    // The minimap's clock: a small plate on the circle's lower rim between the zoom buttons, as WoW shows its time.
+    if (solo && (layoutId == "ObsidianMinimapClockPlate" || layoutId == "ObsidianMinimapClock"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> frame =
+                resolveHudLayoutElement("OutdoorMinimapFrame", screenWidth, screenHeight, 0, 0))
+        {
+            // The plate draws with the label (GameplayUiRenderer), over the minimap; its own layout pass gets nothing.
+            const float clockScale = layoutId == "ObsidianMinimapClock" ? 0.62f : 0.0f;
+            rect->width = 40 * frame->scale;
+            rect->height = 11 * frame->scale;
+            rect->x = frame->x + (62.72f - 20) * frame->scale;
+            rect->y = frame->y + 105.5f * frame->scale;
+            rect->scale = frame->scale * clockScale;
+            if (clockScale == 0.0f)
+            {
+                rect->width = 0;
+                rect->height = 0;
+            }
+            return rect;
+        }
+    }
     // The map progress channel spans the frame as the frame does.
-    if (layoutId.starts_with("ObsidianPc") || layoutId == "OutdoorGameplayBasebar"
-        || layoutId == "MapProgressChannel")
+    if ((!solo && (layoutId.starts_with("ObsidianPc") || layoutId == "MapProgressChannel"))
+        || layoutId == "OutdoorGameplayBasebar")
     {
         const HudLayoutElement *pFirst = findHudLayoutElement("ObsidianPc1");
         const HudLayoutElement *pSecond = findHudLayoutElement("ObsidianPc2");
@@ -3935,8 +4024,19 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
     if (layoutId == "OutdoorFlyBuffIcon" || layoutId == "OutdoorLevitateBuffIcon"
         || layoutId == "OutdoorWaterWalkBuffIcon" || layoutId == "OutdoorFleetFootBuffIcon")
     {
-        const std::optional<ResolvedHudLayoutElement> skull =
+        std::optional<ResolvedHudLayoutElement> skull =
             resolveHudLayoutElement("ObsidianSkullBuffPanel", screenWidth, screenHeight, 0, 0);
+        // A solo run has no skull panel: the indicators line up right of the unit frame's box.
+        if (solo)
+        {
+            if (const std::optional<ResolvedHudLayoutElement> frame =
+                    resolveHudLayoutElement("SoloUnitFrame", screenWidth, screenHeight, 0, 0))
+            {
+                const SoloUnitFrameLayout layout = soloUnitFrameLayout();
+                skull = ResolvedHudLayoutElement{frame->x + (layout.box.x + layout.box.width) * frame->scale,
+                    frame->y + layout.box.y * frame->scale, 0, layout.box.height * frame->scale, frame->scale};
+            }
+        }
         if (skull)
         {
             rect->x = skull->x + skull->width + 7 * skull->scale;
@@ -3962,6 +4062,31 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
         }
     }
     const HudLayoutElement *pElement = findHudLayoutElement(layoutId);
+    if (solo)
+    {
+        // The solo HUD moves the top bar (and what is in it) to the top-right corner, and everything under the top
+        // right (the minimap, its tabs, the follower panel, MM9's hireling rail) down below it.
+        for (const HudLayoutElement *pOwner = pElement; pOwner != nullptr;
+             pOwner = pOwner->parentId.empty() ? nullptr : findHudLayoutElement(pOwner->parentId))
+        {
+            if (pOwner->id == "OutdoorTopBar")
+            {
+                if (const std::optional<ResolvedHudLayoutElement> bar =
+                        uiRuntime().resolveHudLayoutElement("OutdoorTopBar", screenWidth, screenHeight, 0, 0))
+                {
+                    rect->x += float(screenWidth) - bar->width - 2 * bar->x;
+                }
+                break;
+            }
+            if (pOwner->id == "OutdoorMinimapFrame" || pOwner->id == "OutdoorFollowerToggle"
+                || pOwner->id == "Mm9FormationButton" || pOwner->id == "CombatLogToggle"
+                || pOwner->id == "OutdoorFollowerPanel" || pOwner->id == "Mm9HirelingRail")
+            {
+                rect->y += SoloTopRightDrop * rect->scale;
+                break;
+            }
+        }
+    }
     while (pElement != nullptr)
     {
         // The tabs under the minimap and their icons line up from the right edge without gaps.

@@ -81,6 +81,8 @@ public:
         uint16_t worldView = FirstWaterReflectionView + 1;
         bool update = true;
         int16_t sectorId = -1;
+        // Sectors of the visible water this capture serves (indoors: extra roots of its portal query).
+        std::vector<int16_t> waterSectorIds;
         uint16_t size = 0;
     };
 

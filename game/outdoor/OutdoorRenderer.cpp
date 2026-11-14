@@ -4470,6 +4470,69 @@ Engine::ModelRenderLighting OutdoorRenderer::creatureModelLighting(OutdoorGameVi
     return selected;
 }
 
+Engine::ModelRenderLighting OutdoorRenderer::eyeModelLighting(OutdoorGameView &view, const ModelSceneLighting &scene,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
+    const std::array<float, 3> &eye)
+{
+    // As a creature standing at the eye (creatureModelLighting), with its nearest lights as a list: the view model's
+    // own view has no light grid.
+    Engine::ModelRenderLighting selected = scene.creatures;
+    selected.pLightGrid = nullptr;
+    constexpr float Reach = 256.0f;
+    const bx::Vec3 center = {eye[0], eye[1], eye[2]};
+    const OutdoorLightSelectionBounds bounds = {{eye[0] - Reach, eye[1] - Reach, eye[2] - Reach},
+        {eye[0] + Reach, eye[1] + Reach, eye[2] + Reach}, true};
+    const OutdoorSelectedFxLights lights = view.m_outdoorLightingRuntime.selectForBounds(center, bounds);
+    selected.pointCount = lights.lightCount;
+    std::copy(lights.positions.begin(), lights.positions.end(), selected.pointPositions.begin());
+    std::copy(lights.colors.begin(), lights.colors.end(), selected.pointColors.begin());
+    for (size_t index = 0; index < lights.lightCount; ++index)
+    {
+        selected.pointColors[index * 4 + 3] *= lights.params[2];
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            selected.pointPositions[index * 4 + axis] -= eye[axis];
+        }
+    }
+    if (pLightingData != nullptr && pLightingData->hasBakedSources() && pAtmosphereState != nullptr
+        && pLightingData->formatVersion >= 4)
+    {
+        const OutdoorLightingData &baked = *pLightingData;
+        constexpr float RefreshDistance = 32.0f;
+        float moved = 0.0f;
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            moved += (view.m_eyeProbeCenter[axis] - eye[axis]) * (view.m_eyeProbeCenter[axis] - eye[axis]);
+        }
+        if (view.m_pEyeProbeData != &baked || moved > RefreshDistance * RefreshDistance)
+        {
+            view.m_eyeProbe = baked.sampleProbe(eye, [&](const std::array<float, 3> &point)
+            {
+                return view.m_pOutdoorWorldRuntime->hasClearOutdoorLineOfSight(
+                    center, {point[0], point[1], point[2]}, true);
+            });
+            view.m_pEyeProbeData = &baked;
+            view.m_eyeProbeCenter = eye;
+        }
+        const std::optional<OutdoorLightingData::Probe> &probe = view.m_eyeProbe;
+        const std::array<std::array<float, 4>, 2> colors = view.bakedLightingColors(*pAtmosphereState);
+        selected.lightDirection = baked.sunDirection;
+        selected.direct = probe && !pAtmosphereState->underwater
+            && view.m_pOutdoorMapData->locationType == OutdoorLocationType::Exterior
+            ? probe->sunVisibility : 0.0f;
+        selected.ambient = 1.0f;
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            selected.directColor[channel] = baked.sunDirectResponse[channel] * colors[0][channel];
+            selected.ambientColor[channel] = probe
+                ? probe->sunIndirect[channel] * colors[0][channel] + probe->sky[channel] * colors[1][channel]
+                : 0.25f * colors[1][channel];
+        }
+    }
+    selected.environmentScale = scene.sky ? scene.skyTint : std::array<float, 3>{0.15f, 0.15f, 0.15f};
+    return selected;
+}
+
 void OutdoorRenderer::submitTerrainMaterials(OutdoorGameView &view, uint16_t viewId, const ViewFrustum &frustum,
     const bx::Vec3 &cameraPosition, bool openWater, bool sunShadows, bool reflection)
 {
@@ -5642,6 +5705,9 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         return frustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
             {bounds.max[0], bounds.max[1], bounds.max[2]});
     };
+    view.m_eyeModelLighting = eyeModelLighting(view, modelScene, pAtmosphereState, pLightingData,
+        {cameraPosition.x, cameraPosition.y, cameraPosition.z});
+    view.m_hasEyeModelLighting = true;
     const float modelFocalPixels = view.m_gameSettings.modelLods ? std::abs(pProjectionMatrix[5]) * viewHeight * 0.5f
         : 0.0f;
     if (!view.m_decorationModels.empty() && view.m_renderLayers.decorationModels)

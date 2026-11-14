@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 #include "engine/AssetFileSystem.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/GameplayWorldItemPolicy.h"
 #include "game/items/InventoryBags.h"
@@ -137,13 +138,15 @@ TEST_CASE("MAW drinks need a ready member even away from monsters (A4.7)")
     Party party = mawParty(rules, 2);
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
     const auto drink =
-        [&](bool enemiesNear)
+        [&](bool enemiesNear, std::optional<size_t> turnBasedReadyMember = std::nullopt)
         {
             InventoryItem potion;
             potion.objectDescriptionId = 227;
             potion.standardEnchantPower = 10;
             InventoryItemUseContext context;
             context.enemiesNear = enemiesNear;
+            context.turnBased = turnBasedReadyMember.has_value();
+            context.turnBasedReadyMember = turnBasedReadyMember;
             return InventoryItemUseRuntime::useItemOnMember(
                 party, 0, potion, gameData.itemTable, &gameData.readableScrollTable, &potions, nullptr, context);
         };
@@ -158,6 +161,17 @@ TEST_CASE("MAW drinks need a ready member even away from monsters (A4.7)")
     const InventoryItemUseResult refused = drink(false);
     CHECK_FALSE(refused.consumed);
     CHECK_EQ(refused.statusText, "Player must be active to consume the potion");
+
+    // In turn-based combat the queue's ready member pays the drink with its turn, alert or not (OY-204): the turn
+    // queue holds monsters that have not seen the party yet.
+    party.member(0)->recoverySecondsRemaining = 0.0f;
+    party.member(1)->recoverySecondsRemaining = 0.0f;
+    const InventoryItemUseResult turnBased = drink(false, size_t(1));
+    CHECK(turnBased.consumed);
+    REQUIRE(turnBased.recoveryPayer.has_value());
+    CHECK_EQ(*turnBased.recoveryPayer, size_t(1));
+    // A whole turn (100 ticks), not MAW's real-time 60, so a member drinks once a turn.
+    CHECK_EQ(turnBased.recoverySeconds, doctest::Approx(ticksToRecoverySeconds(100)));
 }
 
 TEST_CASE("multibag: MAW gives four bags, five tabs of four to a party of one; opening a bag swaps the pack (H.1)")
@@ -812,66 +826,23 @@ TEST_CASE("MAW race cards list the race's skill bonuses, resistances and immunit
     CHECK_FALSE(standardGameRules().classes.showsCreationSkillMatrix());
 }
 
-TEST_CASE("MAW's alchemist takes the party's alchemy items when it sorts (L7.2, D.18)")
+TEST_CASE("MAW's party sorts keep every member's alchemy items with that member (L7.2, D.18)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
-    const ItemRules &items = rules.gameRules().items;
     Party party = mawParty(rules, 2);
 
-    // Potions first, the highest id first, then the reagent and crafting order; other items have no rank.
-    InventoryItem potion = packItem(240, 1, 2);
-    InventoryItem lowPotion = packItem(222, 1, 2);
-    InventoryItem reagent = packItem(1002, 1, 1);
-    InventoryItem sword = packItem(1, 1, 3);
-    REQUIRE(items.alchemySortRank(potion).has_value());
-    CHECK_LT(*items.alchemySortRank(potion), *items.alchemySortRank(lowPotion));
-    CHECK_LT(*items.alchemySortRank(lowPotion), *items.alchemySortRank(reagent));
-    CHECK_FALSE(items.alchemySortRank(sword).has_value());
-    CHECK_FALSE(standardItemRules().alchemySortRank(potion).has_value());
-
-    // E picks the member and picks nobody when pressed again.
-    CHECK_FALSE(items.alchemist(party).has_value());
-    REQUIRE(items.pickAlchemist(party, 1).has_value());
-    CHECK_EQ(items.alchemist(party), std::optional<size_t>(1));
-    CHECK_EQ(*items.pickAlchemist(party, 1), "No alchemy preference when sorting");
-    CHECK_FALSE(items.alchemist(party).has_value());
-    CHECK_FALSE(standardItemRules().pickAlchemist(party, 1).has_value());
-    REQUIRE(items.pickAlchemist(party, 1).has_value());
-
-    // The first member's potion and reagent go to the alchemist, potion first; the sword stays.
-    REQUIRE(party.member(0)->addInventoryItem(sword));
-    REQUIRE(party.member(0)->addInventoryItem(reagent));
-    REQUIRE(party.member(0)->addInventoryItem(potion));
-    REQUIRE(party.member(1)->addInventoryItem(lowPotion));
-    const auto rank = [&items](const InventoryItem &item)
-    {
-        return items.alchemySortRank(item);
-    };
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, false, 5, items.alchemist(party), rank));
+    // MAW's alchemist, who took the party's potions and reagents when it sorted, is retired: sorting the second
+    // member, alone or with the party, leaves the first member's bag alone and moves nobody's potions.
+    REQUIRE(party.member(0)->addInventoryItem(packItem(1, 1, 3)));
+    REQUIRE(party.member(1)->addInventoryItem(packItem(1002, 1, 1)));
+    REQUIRE(party.member(1)->addInventoryItem(packItem(240, 1, 2)));
+    REQUIRE(InventoryBags::sortPartyBags(party, {1}, false, 5));
+    REQUIRE_EQ(party.member(0)->inventory.size(), 1u);
+    CHECK_EQ(party.member(1)->inventory.size(), 2u);
+    REQUIRE(InventoryBags::sortPartyBags(party, {0, 1}, true, 5));
     REQUIRE_EQ(party.member(0)->inventory.size(), 1u);
     CHECK_EQ(party.member(0)->inventory[0].objectDescriptionId, 1u);
-    const std::vector<InventoryItem> &alchemistItems = party.member(1)->inventory;
-    REQUIRE_EQ(alchemistItems.size(), 3u);
-    CHECK_EQ(alchemistItems[0].objectDescriptionId, 240u);
-    CHECK_EQ(alchemistItems[1].objectDescriptionId, 222u);
-    CHECK_EQ(alchemistItems[2].objectDescriptionId, 1002u);
-
-    // Without an alchemist each member sorts alone.
-    REQUIRE(InventoryBags::sortPartyBags(party, {0, 1}, true, 5, std::nullopt, rank));
-    CHECK_EQ(party.member(0)->inventory.size(), 1u);
-    CHECK_EQ(party.member(1)->inventory.size(), 3u);
-
-    // The pick is saved with the MAW state.
-    GameSaveData save;
-    save.mapFileName = "oute3.odm";
-    save.saveName = "alchemist";
-    save.party.members = {*party.member(0), *party.member(1)};
-    save.mawState = rules.state();
-    std::string error;
-    const std::optional<GameSaveData> restored = roundTrip(save, error);
-    REQUIRE_MESSAGE(restored.has_value(), error);
-    REQUIRE(restored->mawState.has_value());
-    CHECK_EQ(restored->mawState->alchemistMember, 1);
+    CHECK_EQ(party.member(1)->inventory.size(), 2u);
 }
 
 TEST_CASE("A save from when MAW had more bags fits them into four; what fits nowhere waits for the floor (save 121)")
@@ -932,8 +903,7 @@ TEST_CASE("A party of one's tabs: Shift+Sort sorts the open tab, and the other t
     REQUIRE(solo.addInventoryItem(packItem(3, 1, 1)));
 
     // Sorting every bag sorts tab II only: its items go to its first bag; tab I keeps its item.
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, bagCount, std::nullopt,
-        [](const InventoryItem &) { return std::optional<int>(); }));
+    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, bagCount));
     CHECK_EQ(solo.rulesetState.currentBag, 5);
     REQUIRE(solo.rulesetState.storedBags.contains(0));
     CHECK_EQ(solo.rulesetState.storedBags.at(0)[0].objectDescriptionId, 1u);
@@ -1129,7 +1099,6 @@ TEST_CASE("MAW's gather key brings corpses and crafting items; Standard has none
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::QuestBook).defaultBinding.kind, InputBindingKind::None);
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::GatherLoot).defaultBinding.scancode, SDL_SCANCODE_G);
     CHECK_EQ(keyboardBindingDefinition(KeyboardAction::Unstuck).defaultBinding.kind, InputBindingKind::None);
-    CHECK_EQ(keyboardBindingDefinition(KeyboardAction::AlchemistPick).defaultBinding.scancode, SDL_SCANCODE_A);
 }
 
 TEST_CASE("MAW Doom: chests need Disarm Traps for the map's lock, unidentified items are not worn, shop prices (P9.D3-D5)")

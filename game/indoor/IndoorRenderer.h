@@ -158,6 +158,13 @@ public:
     bool ensureMonsterVisualResources(int16_t monsterId);
     const SpriteFrameTable *actorSpriteFrameTable() const;
     Engine::ModelRenderer &modelRenderer() { return m_modelRenderer; }
+    // The last frame's light on a model at the eye (its room's ambient, daylight, the nearest lights, placed relative
+    // to the eye):
+    // the first-person view model's (game/render/FirstPersonViewModel). Null before a frame is drawn.
+    const Engine::ModelRenderLighting *eyeModelLighting() const
+    {
+        return m_hasEyeModelLighting ? &m_eyeModelLighting : nullptr;
+    }
     EffectRenderer &effectRenderer() { return m_effectRenderer; }
     const EffectRenderer::Diagnostics &effectRenderDiagnostics() const;
     std::optional<GameplayActorPick> gameplayActorPickAtCursor(
@@ -1129,6 +1136,8 @@ private:
     EffectRenderer m_effectRenderer;
     ShieldDomeRenderer m_shieldDomeRenderer;
     Engine::ModelRenderer m_modelRenderer;
+    Engine::ModelRenderLighting m_eyeModelLighting;
+    bool m_hasEyeModelLighting = false;
     // The main view's clustered light grid: every light of the frame, for 3D models (creatures, decorations) and
     // the dynamic lights of BLV faces.
     Engine::LightGridTextures m_lightGrid;

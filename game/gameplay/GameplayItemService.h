@@ -27,6 +27,8 @@ public:
     // another member's (QuickItemSlots::findPartyItem), used on the member as a held item is (a scroll casts, a potion is drunk under the rules' recovery). What remains goes back
     // where it lay. False, with a status line, when nothing was used.
     bool useQuickItemSlot(GameplayScreenRuntime &runtime, size_t memberIndex, size_t slot);
+    // The same for a kind of potion or scroll not in the member's six slots (a solo run's action bar slot).
+    bool useQuickItemKind(GameplayScreenRuntime &runtime, size_t memberIndex, const QuickItemSlot &kind);
     // A carried potion or scroll used on (drunk or read by) the member exactly as a held item dropped on their portrait:
     // the quick slots and the basebar's potion and scroll popups. What remains goes back where it lay.
     bool useCarriedItem(

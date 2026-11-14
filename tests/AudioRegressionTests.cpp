@@ -754,6 +754,44 @@ TEST_CASE("sound catalog resolves flat sound rows against engine and world audio
     CHECK(assetFileSystem.exists(*flatHousePath));
 }
 
+TEST_CASE("MM6-MM8 sounds keep their own files beside a world's subfolder files of the same name")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    std::string failure;
+
+    REQUIRE_MESSAGE(initializeRegressionAssetFileSystem(assetFileSystem, failure), failure.c_str());
+
+    const std::optional<std::string> engineSoundCatalogText =
+        assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
+    REQUIRE(engineSoundCatalogText.has_value());
+
+    const std::optional<OpenYAMM::Engine::TextTable> parsedEngineSoundCatalog =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
+    REQUIRE(parsedEngineSoundCatalog.has_value());
+
+    OpenYAMM::Game::SoundCatalog soundCatalog;
+    std::string errorMessage;
+    REQUIRE(soundCatalog.loadFromScopedRows(rowsFromTextTable(*parsedEngineSoundCatalog), {}, errorMessage));
+    soundCatalog.initializeVirtualPathIndex(assetFileSystem);
+
+    // MM9's audio has spells/heal.wav, spells/bless.wav, events/error.wav and magic/teleport.wav in the same merged
+    // folder: the engine's sounds of those names stay the top-level MM6-MM8 files.
+    for (const uint32_t soundId : {16010u, 14010u, 10040u, 135u, 27u, 133u, 165u})
+    {
+        CAPTURE(soundId);
+        const std::optional<std::string> path = soundCatalog.buildVirtualPath(soundId);
+        REQUIRE(path.has_value());
+        CHECK(path->find('/', std::string("audio/").size()) == std::string::npos);
+        CHECK(assetFileSystem.exists(*path));
+    }
+
+    // MM9's own files still answer to their paths.
+    const std::optional<std::string> mm9Heal =
+        soundCatalog.buildVirtualPathByName(OpenYAMM::Game::SoundScope::World, "spells/heal.wav");
+    REQUIRE(mm9Heal.has_value());
+    CHECK(toLowerAsciiCopy(*mm9Heal).ends_with("spells/heal.wav"));
+}
+
 TEST_CASE("sound catalog resolves registered physical audio through merged audio namespace")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;

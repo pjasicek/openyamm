@@ -37,6 +37,14 @@ public:
     bool consumeMobileDebugConsoleToggleRequested();
     void resetRelativeMouseMotion();
     void suppressMouseButtonsUntilReleased();
+    // A window opened from play under a mouse click (a pedestal, an NPC, a house, a chest): the button that opened it
+    // counts only once released, and a press in the next WindowClickGuardNanoseconds is dropped with its release, so
+    // the second click of a quick double click does not land in the new window. Keys are never held back, and a
+    // window opened with no click in the last ClickOpenedWindowNanoseconds is not guarded.
+    void guardClicksAfterWindowOpened();
+
+    static constexpr uint64_t WindowClickGuardNanoseconds = 250'000'000ULL;
+    static constexpr uint64_t ClickOpenedWindowNanoseconds = 500'000'000ULL;
 
 private:
     enum class MobileTouchRole
@@ -111,5 +119,8 @@ private:
     bool m_suppressLeftMouseButtonUntilReleased = false;
     bool m_suppressRightMouseButtonUntilReleased = false;
     bool m_suppressMiddleMouseButtonUntilReleased = false;
+    // The last mouse button press (SDL ticks), and the end of the click guard (0 when none).
+    uint64_t m_lastMouseButtonDownNanoseconds = 0;
+    uint64_t m_clickGuardUntilNanoseconds = 0;
 };
 } // namespace OpenYAMM::Game

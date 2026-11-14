@@ -750,6 +750,10 @@ struct EventRuntimeState
     std::optional<ActiveHookContext> activeHookContext;
     std::vector<std::string> messages;
     std::vector<std::string> statusMessages;
+    // Seconds each status message stays on the status bar, by its index in statusMessages (evt.StatusText's optional
+    // second argument; not saved). A message without an entry, or with 0, stays DefaultStatusMessageSeconds
+    // (statusMessageSeconds()). Cleared with statusMessages wherever the game shows them.
+    std::vector<float> statusMessageSeconds;
     // The experience each member got from the running handler (not saved): a handler that shows no status text of its
     // own ends with "+N experience" (OY-489).
     int64_t handlerExperienceAward = 0;
@@ -820,6 +824,12 @@ struct EventRuntimeBindingReport
 };
 
 void clearTransientEventRuntimeState(EventRuntimeState &runtimeState);
+// How long status message index stays on the status bar: the seconds evt.StatusText gave it, else
+// DefaultStatusMessageSeconds.
+constexpr float DefaultStatusMessageSeconds = 2.0f;
+constexpr float MinStatusMessageSeconds = 1.0f;
+constexpr float MaxStatusMessageSeconds = 15.0f;
+float statusMessageSeconds(const EventRuntimeState &runtimeState, size_t index);
 std::vector<uint32_t> consumeOpenedChestIds(EventRuntimeState &runtimeState);
 std::vector<EventRuntimeState::OpenedChestRequest> consumeOpenedChestRequests(EventRuntimeState &runtimeState);
 uint32_t normalizedHistoryContinentId(uint32_t continentId);

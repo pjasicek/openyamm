@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawCombatRules.h"
+#include "game/rules/maw/MawSoloTalents.h"
 #include "engine/Localization.h"
 
 #include "game/StringUtils.h"
@@ -1528,9 +1529,11 @@ std::optional<int> MawCombatRules::characterAttackRecoveryTicks(
     const SpecialItemEnchantTable *pSpecialTable) const
 {
     const CharacterSheetSummary sheet = characterSheet(character, &itemTable, pStandardTable, pSpecialTable);
-    return mawCharacterAttackDelay(
+    const int delay = mawCharacterAttackDelay(
         m_rules, character, itemTable, mode, sheet.speed.actual, m_rules.auraSkill(5, &character))
         .delay;
+    // A solo run's Frenzy talent shortens weapon attacks' recovery while it lasts.
+    return m_rules.options().soloRun ? int(std::lround(delay * MawSoloTalents::attackRecoveryScale(character))) : delay;
 }
 
 void MawCombatRules::resolveCharacterAttack(
@@ -1685,7 +1688,9 @@ void MawCombatRules::resolveCharacterAttack(
             }
         }
 
+        // An item's stun (Thor) is the engine's: a stagger, outside diminishing returns (MAW leaves it to the engine).
         attack.stunTarget = attack.itemStunTarget && !mawIgnoresCrowdControl(*context.pTargetFacts);
+        attack.stunSeconds = StaggerStunSeconds;
         attack.paralyzeTarget = false;
         applyWeaponStun(m_rules, attack, context, delay.damageMultiplier, targetLevel);
         applyRetaliation(attack, context);
@@ -2166,6 +2171,19 @@ std::optional<SkillMastery> MawCombatRules::spellChainMastery(int spellId, Skill
 
 int MawCombatRules::rollSpellDamage(const CharacterSpellCast &cast, bool *pCritical) const
 {
+    const int damage = rollSpellDamageBeforeTalents(cast, pCritical);
+
+    // A solo run's Attunement and Spell Surge talents.
+    if (m_rules.options().soloRun && cast.pCaster != nullptr && damage > 0)
+    {
+        return int(std::lround(damage * MawSoloTalents::spellDamageScale(*cast.pCaster)));
+    }
+
+    return damage;
+}
+
+int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast, bool *pCritical) const
+{
     bool critical = false;
     const auto reportCritical = [pCritical, &critical](int damage)
     {
@@ -2552,6 +2570,12 @@ int MawCombatRules::absorbCharacterDamage(Party &party, size_t memberIndex, int 
     if (pMember == nullptr || damage <= 0)
     {
         return damage;
+    }
+
+    // A solo run's Shield Wall talent cuts the blow before anything absorbs it.
+    if (m_rules.options().soloRun)
+    {
+        damage = MawSoloTalents::absorbDamage(*pMember, damage);
     }
 
     // Mana Shield first, then legendary 15 on what is left, then Divine Protection (DM:1866-1903).
@@ -3068,6 +3092,14 @@ bool MawCombatRules::immuneToMonsterSpecialAttacks(const Character &member) cons
 
 bool MawCombatRules::blocksMonsterCondition(const Party &party, CharacterCondition condition) const
 {
+    // A solo run's Purify talent holds the cured condition off for a few seconds.
+    const Character *pSolo = m_rules.options().soloRun ? party.member(0) : nullptr;
+
+    if (pSolo != nullptr && MawSoloTalents::blocksCondition(*pSolo, condition))
+    {
+        return true;
+    }
+
     return condition == CharacterCondition::Unconscious && party.hasPartyBuff(PartyBuffId::ProtectionFromMagic);
 }
 

@@ -632,6 +632,10 @@ public:
         float awardVisibleFraction = 1;
         float skillScrollOffset = 0;
         std::optional<float> scrollDragOffset;
+        // A MAW solo run's Skills page shows the talents instead (the Skills / Talents switch), and the talent under the
+        // pointer (an index in the talent table) for the detail card. Not saved.
+        bool talentsView = false;
+        std::optional<size_t> talentHover;
         size_t adventurersInnScrollOffset = 0;
         AlchemyBenchState alchemyBench = {};
     };

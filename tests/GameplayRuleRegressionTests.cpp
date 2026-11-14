@@ -944,6 +944,46 @@ TEST_CASE("outdoor mouse wheel flight right after a landing keeps flying and sta
     CHECK_EQ(driver.pendingEffects().maxFallDamageDistance, 0.0f);
 }
 
+TEST_CASE("outdoor special jump while flying ends instead of carrying the party on (MAW Puller)")
+{
+    using namespace OpenYAMM::Game;
+    const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+    OutdoorMovementDriver driver(boundary.mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+    driver.initialize(boundary.landX, boundary.landY, 0.0f);
+    OutdoorMoveState state = driver.state();
+    state.footZ += 512.0f;
+    state.airborne = true;
+    state.fallStartZ = state.footZ;
+    OutdoorPartyMovementState flying = {};
+    flying.flying = true;
+    driver.restoreState(state, flying);
+    driver.setFlyingAvailable(true);
+    REQUIRE(driver.partyMovementState().flying);
+
+    // A Puller's hit launches the party at the boss (evt.Jump: speed 1000, ZAngle 128).
+    // The push lasts as long as the same jump keeps a walking party in the air (2 x 383 / 1280, 0.6 s), about 550
+    // units; then a flying party without input hovers where it is.
+    const float startX = driver.state().x;
+    driver.requestSpecialJump(924.0f, 0.0f, 383.0f);
+
+    for (int frame = 0; frame < 30; ++frame)
+    {
+        driver.update(OutdoorMovementInput{}, 1.0f / 30.0f);
+    }
+
+    const float pulledX = driver.state().x;
+    CHECK_GT(pulledX - startX, 400.0f);
+    CHECK_LT(pulledX - startX, 700.0f);
+
+    for (int frame = 0; frame < 60; ++frame)
+    {
+        driver.update(OutdoorMovementInput{}, 1.0f / 30.0f);
+    }
+
+    CHECK(driver.partyMovementState().flying);
+    CHECK_LT(std::abs(driver.state().x - pulledX), 1.0f);
+}
+
 TEST_CASE("outdoor land request descends at fly speed and touches down without fall damage")
 {
     using namespace OpenYAMM::Game;
@@ -4199,6 +4239,42 @@ TEST_CASE("the party aims at a 3D model shorter than its collision height")
     // Below the feet counts from the feet; an unknown model keeps the collision height's rule.
     CHECK(GameMechanics::actorTargetHeight(300, -50.0f, 100.0f) == doctest::Approx(60.0f));
     CHECK(GameMechanics::actorTargetHeight(300, 0.0f, 0.0f) == doctest::Approx(180.0f));
+}
+
+TEST_CASE("a party shot blocked low on its target aims higher where the line is clear")
+{
+    using OpenYAMM::Game::GameMechanics;
+    std::vector<float> tested;
+    // A clear line to the target height: one test, that height (a 200-tall monster aimed at 120).
+    const auto clearAbove = [&tested](float clearFrom)
+    {
+        return [&tested, clearFrom](float height)
+        {
+            tested.push_back(height);
+            return height >= clearFrom;
+        };
+    };
+    CHECK(GameMechanics::clearPartyShotAimHeight(120.0f, 200, clearAbove(0.0f)) == doctest::Approx(120.0f));
+    CHECK_EQ(tested.size(), 1u);
+
+    // A ridge in front of its legs: the lowest of the raised points (140, 160, 180) with a clear line.
+    tested.clear();
+    CHECK(GameMechanics::clearPartyShotAimHeight(120.0f, 200, clearAbove(150.0f)) == doctest::Approx(160.0f));
+    CHECK_EQ(tested.size(), 3u);
+    tested.clear();
+    CHECK(GameMechanics::clearPartyShotAimHeight(120.0f, 200, clearAbove(171.0f)) == doctest::Approx(180.0f));
+    CHECK_EQ(tested.size(), 4u);
+
+    // Hidden to near its top: no line of sight, after at most four tests, never above 90% of its height.
+    tested.clear();
+    CHECK_FALSE(GameMechanics::clearPartyShotAimHeight(120.0f, 200, clearAbove(181.0f)).has_value());
+    CHECK_EQ(tested.size(), 4u);
+    CHECK(*std::max_element(tested.begin(), tested.end()) <= 180.0f);
+
+    // A target height already at its top (a short model on a tall volume) is not raised.
+    tested.clear();
+    CHECK_FALSE(GameMechanics::clearPartyShotAimHeight(100.0f, 110, clearAbove(200.0f)).has_value());
+    CHECK_EQ(tested.size(), 1u);
 }
 
 TEST_CASE("blaster attack tuning can add scaling skill damage and minimum recovery")

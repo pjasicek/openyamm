@@ -54,6 +54,21 @@ using namespace OpenYAMM::Game;
 // The fixes of devdocs/maw/GAPS.md, by gap id.
 namespace
 {
+// The item's inspect line with this text, or an empty string: MAW lists an item's special among its inspect lines.
+std::string inspectLine(const ItemRules &items, const InventoryItem &item, const ItemDefinition &definition,
+    const Character *pViewer, const std::string &text)
+{
+    for (const ItemInspectLine &line : items.inspectLines(item, definition, nullptr, nullptr, pViewer))
+    {
+        if (line.text == text)
+        {
+            return line.text;
+        }
+    }
+
+    return {};
+}
+
 MawItemData installedItemData()
 {
     std::ifstream input(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/rulesets/maw/data/items.yml");
@@ -359,6 +374,38 @@ TEST_CASE("MAW dragons triple their items' Dodging and Unarmed too (audit FITM-2
     CHECK_EQ(bonusOf(5), std::min(3 * human, 20));
 }
 
+TEST_CASE("In a solo run a MAW dragon's items count 2.5 times, not three times")
+{
+    RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    MawRules standard(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    MawRules solo(soloOptions, MawMapLevels{}, installedItemData());
+    const auto worn = [](MawRules &rules, int raceId)
+    {
+        Character wearer;
+        wearer.raceId = raceId;
+        wearer.skills["Dodging"] = {"Dodging", 40, SkillMastery::Expert};
+        EquippedItemRuntimeState state;
+        state.standardEnchantId = 1;   // Might
+        state.standardEnchantPower = 10;
+        Character bonuses;
+        rules.gameRules().items.applyEquippedEnchantEffects(
+            itemDefinition(109, "Helm", "Misc"), state, nullptr, nullptr, wearer, bonuses);
+        state.standardEnchantId = 23;  // Dodging
+        state.standardEnchantPower = 4;
+        rules.gameRules().items.applyEquippedEnchantEffects(
+            itemDefinition(109, "Helm", "Misc"), state, nullptr, nullptr, wearer, bonuses);
+        return std::pair{bonuses.magicalBonuses.might, bonuses.itemSkillBonuses["Dodging"]};
+    };
+    const auto [mightHuman, dodgingHuman] = worn(standard, 0);
+    REQUIRE(mightHuman > 0);
+    REQUIRE(dodgingHuman > 0);
+    CHECK_EQ(worn(standard, 5).first, 3 * mightHuman);
+    CHECK_EQ(worn(solo, 5).first, mightHuman + int(std::lround(1.5 * mightHuman)));
+    CHECK_EQ(worn(solo, 5).second, dodgingHuman + int(std::lround(1.5 * dodgingHuman)));
+    CHECK_EQ(worn(solo, 0).first, mightHuman);
+}
+
 TEST_CASE("MAW hats read hit points after their growth, then x1.5 rounded up (audit ITM-2)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
@@ -470,11 +517,11 @@ TEST_CASE("MAW special enchantments give MAW's stats, scaled by item power (A2.1
     item.specialEnchantId = 42;
     item.rulesetFields.itemPower = 50;
     const ItemDefinition ring = itemDefinition(137, "Ring", "Misc");
-    CHECK_EQ(rules.gameRules().items.enchantDescription(item, ring, nullptr, nullptr, nullptr),
-        " +9 to Seven Stats, HP, SP, Armor, Resistances.");
+    const std::string sevenStats = " +9 to Seven Stats, HP, SP, Armor, Resistances.";
+    CHECK_EQ(inspectLine(rules.gameRules().items, item, ring, nullptr, sevenStats), sevenStats);
     item.specialEnchantId = 30;
     item.rulesetFields.itemPower = 40;
-    CHECK_EQ(rules.gameRules().items.enchantDescription(item, ring, nullptr, nullptr, nullptr), "Fire Magic Skill +15");
+    CHECK_EQ(inspectLine(rules.gameRules().items, item, ring, nullptr, "Fire Magic Skill +15"), "Fire Magic Skill +15");
 }
 
 TEST_CASE("MAW turns the engine's vampiric heal and flat regeneration off and keeps the specials it leaves alone")
@@ -1707,9 +1754,9 @@ TEST_CASE("MAW item popups: Legendary 19 in the range, resistances as reductions
         mawEnchantDamageRange(rules.model(1).weaponLevelDamage(100, false, 0), 3, 4, 0.2, false);
     Character viewer;
     wearLegendary(viewer, 19);
-    CHECK_EQ(items.enchantDescription(blade, longsword, nullptr, nullptr, &viewer),
-        "Adds " + std::to_string(int(std::floor(range.minimum * 1.5))) + "-"
-            + std::to_string(int(std::floor(range.maximum * 1.5))) + " points of Cold damage.");
+    const std::string cold = "Adds " + std::to_string(int(std::floor(range.minimum * 1.5))) + "-"
+        + std::to_string(int(std::floor(range.maximum * 1.5))) + " points of Cold damage.";
+    CHECK_EQ(inspectLine(items, blade, longsword, &viewer, cold), cold);
 
     // A ring's +40 fire resistance: (40 + 10) / 2 = 25 points, a fifth of the damage stopped.
     const ItemDefinition ring = itemDefinition(137, "Ring", "Misc");

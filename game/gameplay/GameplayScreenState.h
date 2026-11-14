@@ -62,6 +62,8 @@ public:
         bool attackFallbackRequested = false;
         // The extra quick spell slot whose key began the held cast (Quick Spell 1-4); none for the quick spell.
         std::optional<size_t> extraSlot;
+        // A solo run's action bar spell whose key began the held cast; empty otherwise.
+        std::string barSpellName;
 
         void clear();
     };
@@ -113,7 +115,11 @@ public:
     {
         bool mouseLookActive = false;
         bool cursorModeActive = false;
+        // The Free Cursor key's mode (KeyboardAction::CursorMode): no mouse look under the modern controls until the
+        // key is pressed again. Kept across screens, dialogues and maps; a new game starts without it.
+        bool freeCursorToggled = false;
 
+        // Clears the frame's mouse look, keeping the Free Cursor mode.
         void clear();
     };
 

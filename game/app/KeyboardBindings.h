@@ -57,12 +57,11 @@ enum class KeyboardAction : uint8_t
     Land,
     DoubleSpeed,
     // MAW's keys (devdocs/maw/GAPS.md §11 D.18), listed only in a MAW game: lift a stuck party, open the Workbench,
-    // gather corpses and crafting items, and on the inventory and skills pages the alchemist pick and the switches;
-    // a lone Knight's charge at the monster under the cursor.
+    // gather corpses and crafting items, the skills page's switches; a lone Knight's charge at the monster under the
+    // cursor.
     Unstuck,
     OpenWorkbench,
     GatherLoot,
-    AlchemistPick,
     SkillCover,
     SkillManaShield,
     SkillRotation,
@@ -115,6 +114,15 @@ enum class KeyboardAction : uint8_t
     Upkeep,
     // The Journal on its Quests page, as MM7's Quest key opens the quest book (OY-481); unbound by default.
     QuestBook,
+    // A solo run's swap between the melee weapon and the bow (devdocs/solo_action/WEAPONS.md "Bow swap"): with the bow
+    // drawn, Attack shoots even at melee range. Every letter is taken: mouse button 4 (the side button).
+    SwapWeapon,
+    // Auto-walk (OY-628): toggles walking forward as if Forward were held, as in the Elder Scrolls games. Num Lock, the
+    // usual auto-run key elsewhere, is free in both control schemes.
+    AutoWalk,
+    // The free cursor of the modern controls (OY-637), as GrayFace's patch gives the middle button: mouse look off and
+    // the cursor free while the world keeps running, until pressed again.
+    CursorMode,
     Count
 };
 

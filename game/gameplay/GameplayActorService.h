@@ -159,6 +159,15 @@ public:
         const std::unordered_map<uint32_t, int32_t> *pRelationOverrides = nullptr) const;
     bool monsterIdsAreHostile(int16_t leftMonsterId, int16_t rightMonsterId) const;
     float partyEngagementRange(const GameplayActorTargetPolicyState &actor) const;
+    // How far a monster hostile to the party notices it: until it has engaged the party, the range of its relation to
+    // the party (hostile.txt, a world's relations.yml, the map's evt.SetMonsterRelation rows in pRelationOverrides) of
+    // 1-3: 1024, 2560, 5120, as the original's _SelectTarget does for an actor whose hostility type is still 0 (Rats
+    // have 2, so the Emerald Island lair's rats leave a party 3000 away to the dragon that hunts them). Once engaged
+    // (it has detected the party, was hit, alerted), or with relation 4 or none (made hostile), the engagement range.
+    float partyNoticeRange(
+        const GameplayActorTargetPolicyState &actor,
+        bool engaged,
+        const std::unordered_map<uint32_t, int32_t> *pRelationOverrides = nullptr) const;
     float hostilityPromotionRangeForFriendlyActor(int relation) const;
     bool shouldFleeForAiType(GameplayActorAiType aiType, int currentHp, int maxHp) const;
     float initialAttackCooldownSeconds(uint32_t actorId, float recoverySeconds) const;

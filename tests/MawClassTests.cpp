@@ -104,13 +104,8 @@ TEST_CASE("MAW classes take HP and SP from MAW's stat effects and Personality")
     classes.applyClassBonuses(assassin);
     CHECK_EQ(assassin.magicalBonuses.maxSpellPoints, 30);
 
-    // A class without mana (Knight, Troll) keeps none: items and permanent SP cancel to a maximum of 0.
-    ClassMultiplierTable classTable;
-    REQUIRE(classTable.loadFromRows({{"Class", "BaseHP", "HPPerLevel", "BaseMana", "ManaPerLevel", "ManaStat"},
-        {"Knight", "35", "5", "0", "0", "None"}, {"Troll", "45", "5", "0", "0", "None"}}));
-    rules.setClassMultiplierTable(&classTable);
-
-    for (const char *pClassName : {"Knight", "Troll"})
+    // The Knight and Troll lines keep no SP: items and permanent SP cancel to a maximum of 0.
+    for (const char *pClassName : {"Knight", "Cavalier", "BlackKnight", "Champion", "Troll", "WarTroll"})
     {
         Character fighter = member(pClassName, 20);
         fighter.magicalBonuses.maxSpellPoints = 25;
@@ -122,7 +117,17 @@ TEST_CASE("MAW classes take HP and SP from MAW's stat effects and Personality")
         CHECK_EQ(fighter.spellPoints, 0);
     }
 
-    rules.setClassMultiplierTable(nullptr);
+    // Other classes without a mana stat (Monk, Peasant) keep their items' SP.
+    for (const char *pClassName : {"Monk", "Peasant"})
+    {
+        Character other = member(pClassName, 20);
+        other.magicalBonuses.maxSpellPoints = 25;
+        other.permanentBonuses.maxSpellPoints = 10;
+        other.spellPoints = 35;
+        classes.applyClassBonuses(other);
+        CHECK_EQ(other.magicalBonuses.maxSpellPoints, 25);
+        CHECK_EQ(other.spellPoints, 35);
+    }
 }
 
 TEST_CASE("MAW races add skill bonuses, resistances and skill limits")

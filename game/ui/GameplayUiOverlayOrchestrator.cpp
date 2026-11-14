@@ -1,6 +1,8 @@
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
+#include "game/ui/GameplaySoloTalentsPage.h"
 #include "game/ui/GameplayLootSummaryRenderer.h"
 #include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
 
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -209,6 +211,7 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         {
             GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 overlayContext, width, height, true, characterFrameData);
+            GameplaySoloTalentsPage::render(overlayContext, width, height);
             GameplayAlchemyBenchRenderer::render(overlayContext, width, height);
         }
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::characterAboveNanoseconds);
@@ -244,6 +247,7 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         // Under the held item and the item popup, so its items can be inspected.
         GameplayLootSummaryRenderer::render(overlayContext, width, height);
         GameplayFormationBuilder::render(overlayContext, width, height);
+        GameplaySoloBarSelector::render(overlayContext, width, height);
         GameplayPartyOverlayRenderer::renderHeldInventoryItem(overlayContext, width, height);
         GameplayUiRenderer::renderMobileInspectButton(overlayContext, width, height);
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::heldItemNanoseconds);

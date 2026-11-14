@@ -6,6 +6,7 @@
 #include "game/tables/MonsterShields.h"
 
 #include <array>
+#include <functional>
 #include <optional>
 #include <random>
 #include <string>
@@ -71,6 +72,10 @@ enum class CombatDamageType
 };
 
 constexpr size_t CombatDamageTypeCount = size_t(CombatDamageType::Irresistible) + 1;
+
+// The original engine's stun: the hit reaction and a few ticks of recovery, with a knockback (rulesets whose crowd
+// control comes from paralysis use it for the stun itself).
+constexpr float StaggerStunSeconds = 0.5f;
 
 struct ElementalDamageBonuses
 {
@@ -201,6 +206,8 @@ struct CharacterAttackResult
     // A Carnage bow's arrow: fire, it cannot miss, and it explodes like a fireball where it strikes.
     bool explosiveArrow = false;
     bool stunTarget = false;
+    // How long the stun lasts when the rules set it (MAW's item stuns); otherwise 0.5 s plus 0.35 s per skill level.
+    std::optional<float> stunSeconds;
     // Whether the weapon's item effects stunned, before the weapon skill's own roll (rules that replace it keep this).
     bool itemStunTarget = false;
     bool paralyzeTarget = false;
@@ -332,6 +339,9 @@ public:
         const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr,
         CharacterAttackTuning attackTuning = {},
         const ExperienceRules &experienceRules = standardExperienceRules());
+    // A solo run with the bow drawn (devdocs/solo_action/WEAPONS.md "Bow swap"): Attack shoots the bow even in melee
+    // reach; none without a usable bow or with the eye under water, when the attack falls back to its usual choice.
+    static std::optional<CharacterAttackMode> soloBowShotMode(const CharacterAttackProfile &profile, bool eyeUnderWater);
     static CharacterAttackProfile buildCharacterAttackProfile(
         const Character &character,
         const ItemTable *pItemTable,
@@ -364,6 +374,12 @@ public:
     // The same for an actor drawn as a 3D model spanning modelBottom..modelTop above its feet: 60% up the model when
     // that is lower (a model shorter than its collision height), so a shot meets the body rather than the air above.
     static float actorTargetHeight(uint16_t actorHeight, float modelBottom, float modelTop);
+    // Where a party shot aims at an actor, above its feet, given whether the line from the shot's source to a height on
+    // it is clear (lineClear): its target height when that line is clear, else the lowest of three points from there up
+    // to near the top of its height that is, so a slope or ridge edge in front of the target's legs does not take the
+    // shot (OY-463). None when no line is clear. At most four tests.
+    static std::optional<float> clearPartyShotAimHeight(
+        float targetHeight, uint16_t actorHeight, const std::function<bool(float)> &lineClear);
     // Whether any part of an actor's upright box (its radius, foot to head) projects into the viewport, so a monster cut
     // by the screen edge counts as on screen (the party's fallback target, OY-154). Row-major bx view-projection.
     static bool actorBoxInViewport(

@@ -179,9 +179,11 @@ private:
     float m_pendingImpulseVelocityX = 0.0f;
     float m_pendingImpulseVelocityY = 0.0f;
     float m_pendingImpulseVelocityZ = 0.0f;
-    // A special jump's horizontal speed, kept until the party is back on the ground.
+    // A special jump's horizontal speed, kept until the party is back on the ground, or in flight for the seconds the
+    // same jump would keep a walking party in the air.
     float m_jumpCarryVelocityX = 0.0f;
     float m_jumpCarryVelocityY = 0.0f;
+    float m_jumpCarryFlightSeconds = 0.0f;
     float m_dashVelocityX = 0.0f;
     float m_dashVelocityY = 0.0f;
     float m_dashSeconds = 0.0f;

@@ -112,7 +112,7 @@ void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, Gam
             {
                 step.text = value.as<std::string>();
             }
-            else
+            else if (kind != "middle_down" && kind != "middle_up")
             {
                 throw std::runtime_error("Unknown menu tour step: " + kind);
             }
@@ -126,6 +126,7 @@ void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, Gam
     input.pointerY = (input.screenHeight - 900 * scale) / 2 + m_y * scale;
     input.leftMouseButton = {m_release || m_pointerHeld, false, false};
     input.rightMouseButton = {m_rightPointerHeld, false, false};
+    input.middleMouseButton = {m_middlePointerHeld, false, false};
     for (size_t key = 0; key < m_heldKeys.size(); ++key)
     {
         input.keyboardHeld[key] = input.keyboardHeld[key] || m_heldKeys[key];
@@ -202,6 +203,11 @@ void MenuInputTour::update(const std::string &path, uint64_t nowNanoseconds, Gam
         input.pointerY = (input.screenHeight - 900 * scale) / 2 + m_y * scale;
         m_rightPointerHeld = step.kind == "right_down";
         input.rightMouseButton = {m_rightPointerHeld, m_rightPointerHeld, !m_rightPointerHeld};
+    }
+    else if (step.kind == "middle_down" || step.kind == "middle_up")
+    {
+        m_middlePointerHeld = step.kind == "middle_down";
+        input.middleMouseButton = {m_middlePointerHeld, m_middlePointerHeld, !m_middlePointerHeld};
     }
     else if (step.kind == "action" || step.kind == "action_down" || step.kind == "action_up")
     {

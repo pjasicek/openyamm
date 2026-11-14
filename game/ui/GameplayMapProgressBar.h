@@ -2,6 +2,7 @@
 
 #include "game/rules/MonsterRules.h"
 
+#include <array>
 #include <optional>
 #include <string>
 
@@ -18,6 +19,9 @@ namespace GameplayMapProgressBar
 {
 // The channel and its tabs, over the party frame.
 void renderHud(GameplayScreenRuntime &context, int width, int height);
+// The tabs' bounds (left, top, right, bottom) while they show: a solo run's status plate rises above them, and its
+// buff rows move down under the tab.
+std::optional<std::array<float, 4>> tabBounds(GameplayScreenRuntime &context, int width, int height);
 
 // The hover popup over the channel or a tab: its title and body lines, and the rect it rises above.
 struct Popup
@@ -28,6 +32,8 @@ struct Popup
     float y = 0;
     float width = 0;
     float height = 0;
+    // Above that rect, or below it (a solo HUD's channel at the top of the screen).
+    bool above = true;
 };
 std::optional<Popup> popupAt(GameplayScreenRuntime &context, int width, int height, float pointerX, float pointerY);
 

@@ -2,6 +2,7 @@
 
 #include "game/party/WorldSpells.h"
 #include "engine/Localization.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/SkillData.h"
@@ -260,6 +261,11 @@ void renderGameplayBuffHud(GameplayScreenRuntime &context, int width, int height
     {
         return;
     }
+    // A solo run shows its buffs in the unit frame's rows (GameplaySoloHud).
+    if (context.soloHud())
+    {
+        return;
+    }
     renderBuffPanel(context, *pParty, GameplayBuffPresentation::Hero, width, height);
     renderBuffPanel(context, *pParty, GameplayBuffPresentation::Skull, width, height);
     const std::vector<PartyBuffId> ids = sortedGameplaySpecialBuffs(*pParty);
@@ -366,6 +372,10 @@ GameplayHudPointerTarget gameplayBuffHudTarget(GameplayScreenRuntime &context,
         if (movement)
         {
             return {GameplayHudPointerTargetType::PartyBuff, size_t(movement->id)};
+        }
+        if (context.soloHud())
+        {
+            return GameplaySoloHud::buffTargetAt(context, width, height, x, y).value_or(GameplayHudPointerTarget{});
         }
         for (GameplayBuffPresentation panel : {GameplayBuffPresentation::Hero, GameplayBuffPresentation::Skull})
         {

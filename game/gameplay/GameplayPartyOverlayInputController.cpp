@@ -1,4 +1,5 @@
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
+#include "game/ui/GameplaySoloTalentsPage.h"
 #include "engine/Localization.h"
 
 #include "engine/Utf8Text.h"
@@ -2343,6 +2344,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         pParty != nullptr && !context.isAdventurersInnCharacterSourceActive()
             ? context.selectedCharacterScreenSourceIndex()
             : (pParty != nullptr ? pParty->activeMemberIndex() : 0);
+
+    // A MAW solo run's Skills / Talents switch and Talents page take their own clicks.
+    if (!isReadOnlyAdventurersInnView && GameplaySoloTalentsPage::handleInput(context, input))
+    {
+        return;
+    }
     const Character *pSelectedPartyMember =
         pParty != nullptr && !context.isAdventurersInnCharacterSourceActive()
             ? pParty->member(selectedPartyMemberIndex)
@@ -2418,17 +2425,6 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         if (switchedSkill && !isReadOnlyAdventurersInnView && !searchTyping && input.action(action).pressed)
         {
             toggleSkillSwitch(context, *switchedSkill);
-        }
-    }
-
-    // The alchemist key on the inventory picks the member who takes the alchemy items when sorting (MAW's E).
-    if (screen.page == GameplayUiController::CharacterPage::Inventory && pParty != nullptr && !searchTyping
-        && !context.isAdventurersInnCharacterSourceActive() && input.action(KeyboardAction::AlchemistPick).pressed)
-    {
-        if (const std::optional<std::string> status =
-                gameRulesFor(pParty).items.pickAlchemist(*pParty, selectedPartyMemberIndex))
-        {
-            context.setStatusBarEvent(*status);
         }
     }
 
@@ -3426,7 +3422,10 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     const HudPointerState pointerState = {mouseX, mouseY, isLeftMousePressed};
     const GameplayCharacterPointerTarget noneCharacterTarget = {};
-    const GameplayCharacterPointerTarget hoveredCharacterTarget = findCharacterPointerTarget(mouseX, mouseY);
+    // The talents page covers the skill rows under it.
+    const GameplayCharacterPointerTarget hoveredCharacterTarget = GameplaySoloTalentsPage::coversPointer(context, input)
+        ? noneCharacterTarget
+        : findCharacterPointerTarget(mouseX, mouseY);
 
     // The skills page names a hovered skill's raise cost when the rules show it; a bag tag's button names the bag it
     // acts on.
@@ -3816,15 +3815,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             if (target.type == GameplayCharacterPointerTargetType::InventorySortButton && pParty != nullptr)
             {
                 // With several bags (MAW) every sort is MAW's: the open bag, Shift its tab's bags as one, Ctrl the
-                // whole party's (MAW's T and G); a picked alchemist takes the alchemy items of any of these sorts
-                // (audit TXT-2-B2).
+                // whole party's (MAW's T and G); every member's items stay with that member (audit TXT-2-B2).
                 const ItemRules &itemRules = gameRulesFor(pParty).items;
                 const int bagCount = itemRules.bagCount(*pParty);
                 // The overview shows every bag, so its Sort sorts every bag, as Shift does on one bag.
                 const bool shiftHeld = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT]
                     || GameplayHudOverlaySupport::bagOverviewActive(context);
                 const bool ctrlHeld = pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL];
-                const std::optional<size_t> alchemist = itemRules.alchemist(*pParty);
                 const Character *pMember = pParty->member(selectedPartyMemberIndex);
 
                 if (bagCount > 1 && pMember != nullptr)
@@ -3842,11 +3839,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     }
 
                     const ItemTable *pItemTable = pParty->itemTable();
-                    const bool sorted = InventoryBags::sortPartyBags(*pParty, members, shiftHeld, bagCount, alchemist,
-                        [&itemRules](const InventoryItem &item)
-                        {
-                            return itemRules.alchemySortRank(item);
-                        },
+                    const bool sorted = InventoryBags::sortPartyBags(*pParty, members, shiftHeld, bagCount,
                         [&itemRules, pItemTable](const InventoryItem &item) -> std::optional<BagTag>
                         {
                             const ItemDefinition *pDefinition =

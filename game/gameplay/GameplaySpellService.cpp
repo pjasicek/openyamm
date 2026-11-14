@@ -49,7 +49,8 @@ GameplaySpellService::GameplaySpellService(GameSession &session)
 GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQuickSpellCast(
     GameplayScreenRuntime &runtime,
     const TargetQueries &targetQueries,
-    std::optional<size_t> extraSlot)
+    std::optional<size_t> extraSlot,
+    const std::string &barSpellName)
 {
     QuickSpellStartResolution resolution = {};
 
@@ -93,8 +94,8 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
         return resolution;
     }
 
-    const std::string &quickSpellName = extraSlot && *extraSlot < ExtraQuickSpellSlotCount
-        ? pCaster->extraQuickSpellNames[*extraSlot]
+    const std::string &quickSpellName = !barSpellName.empty() ? barSpellName
+        : extraSlot && *extraSlot < ExtraQuickSpellSlotCount ? pCaster->extraQuickSpellNames[*extraSlot]
         : pCaster->quickSpellName;
 
     if (quickSpellName.empty())

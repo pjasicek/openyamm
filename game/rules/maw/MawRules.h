@@ -205,7 +205,8 @@ public:
     MawBalanceModel &model(int partyCount) const;
     // A crowd-control duration after diminishing returns (calcDebuffDuration, SP:1817-1852) for groups 2 (fear and
     // control) and 3 (paralysis): shortened by the share of the last 20 seconds the monster spent under the group's
-    // control, 0 once it is immune, halved on a boss, and recorded. Spells and weapon stuns share the history.
+    // control, 0 once it is immune, and recorded; a boss holds half of what is recorded. Spells (Stun included) and
+    // weapon stuns share the history.
     double diminishedCrowdControlSeconds(
         uint64_t targetKey,
         int group,

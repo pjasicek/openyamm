@@ -111,6 +111,25 @@ TEST_CASE("house shop ledger sorts items into MM9's merchant tabs")
     CHECK(categoryOf("Bottle") == HouseShopLedgerCategory::PotionsMisc);
 }
 
+TEST_CASE("house shop ledger counts the items of stacked slots")
+{
+    const ItemTable itemTable = makeItemTable();
+    std::vector<InventoryItem> stock = {stockItem(10001), stockItem(10002), stockItem(10001), stockItem(10003)};
+    stock[0].quantity = 12;
+    stock[1].quantity = 15;
+    stock[2].quantity = 3;
+
+    const HouseShopLedgerModel model = buildHouseShopLedgerModel(stock, 4, itemTable, HouseShopLedgerCategory::All);
+    REQUIRE(model.rows.size() == 3);
+    // Stacks of the same item share a row whatever their sizes.
+    CHECK(model.rows[0].stockIndices == std::vector<size_t>{0, 2});
+    CHECK(model.rows[0].copies == 15);
+    CHECK(model.rows[1].copies == 15);
+    CHECK(model.rows[2].copies == 1);
+    CHECK(model.itemsForSale == 31);
+    CHECK(model.copiesGrouped == 28);
+}
+
 TEST_CASE("house shop ledger groups copies and leaves out sold slots")
 {
     const ItemTable itemTable = makeItemTable();
@@ -441,5 +460,7 @@ TEST_CASE("ledger vendors may sell from one list of any length")
     CHECK_FALSE(load("Shelf", 30, true, error).has_value());
     CHECK_FALSE(load("Shelf", 6, false, error).has_value());
     CHECK(load("Shelf", 6, true, error) == 6);
-    CHECK_FALSE(load("Ledger", 65, false, error).has_value());
+    // A ledger list holds at most MaxLedgerStockPageSlots (128 since the MM9 content push, 6077f4d3de).
+    CHECK(load("Ledger", 128, false, error) == 128);
+    CHECK_FALSE(load("Ledger", 129, false, error).has_value());
 }

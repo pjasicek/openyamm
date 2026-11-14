@@ -132,6 +132,75 @@ InventoryItemMixResult simulateMix(
         tables.reagentSettingTable);
 }
 
+struct MixLocations
+{
+    std::optional<ItemLocation> target;
+    std::optional<ItemLocation> held;
+};
+
+// The copies a recipe mixes: the strongest of each, except that a catalyst boosts the copy of the potion it raises
+// most, the stronger result between equal gains. The strongest copy gains nothing once the alchemist's limit or the
+// catalyst's own power caps the result (Discord, 2026-11-14: a weak potion could not be boosted on the bench while a
+// stronger copy of it was carried).
+MixLocations findMixItems(const Party &party, const AlchemyRecipe &recipe, const AlchemyBenchTables &tables)
+{
+    const uint32_t catalystItemId = tables.potionSettingTable.catalystPotionItemId();
+    const bool catalystTarget = recipe.targetItemId == catalystItemId;
+
+    if (catalystItemId == 0 || catalystTarget == (recipe.heldItemId == catalystItemId))
+    {
+        const std::optional<ItemLocation> target = findStrongestItem(party, recipe.targetItemId, std::nullopt);
+        return {target, findStrongestItem(party, recipe.heldItemId, target)};
+    }
+
+    const std::optional<ItemLocation> catalyst = findStrongestItem(party, catalystItemId, std::nullopt);
+    const InventoryItem *pCatalyst = catalyst ? itemAt(party, *catalyst) : nullptr;
+
+    if (pCatalyst == nullptr)
+    {
+        return {};
+    }
+
+    const uint32_t potionItemId = catalystTarget ? recipe.heldItemId : recipe.targetItemId;
+    const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(party);
+    std::optional<ItemLocation> best;
+    int bestGain = 0;
+    int bestResult = 0;
+    forEachCarriedItem(party,
+        [&](const ItemLocation &location, const InventoryItem &potion)
+        {
+            if (potion.objectDescriptionId != potionItemId)
+            {
+                return;
+            }
+
+            InventoryItem result = catalystTarget ? *pCatalyst : potion;
+            const InventoryItem &held = catalystTarget ? potion : *pCatalyst;
+
+            if (!simulateMix(held, result, alchemist.mastery, alchemist.level, tables).success)
+            {
+                return;
+            }
+
+            const int resultPower = result.standardEnchantPower;
+            const int gain = resultPower - int(potion.standardEnchantPower);
+
+            if (!best || gain > bestGain || (gain == bestGain && resultPower > bestResult))
+            {
+                best = location;
+                bestGain = gain;
+                bestResult = resultPower;
+            }
+        });
+
+    if (!best)
+    {
+        best = findStrongestItem(party, potionItemId, std::nullopt);
+    }
+
+    return catalystTarget ? MixLocations{catalyst, best} : MixLocations{best, catalyst};
+}
+
 // A recipe makes a new potion. Diluting a potion or boosting it with a catalyst hands back one of the inputs.
 std::optional<uint32_t> potionRecipeResult(
     uint32_t targetItemId,
@@ -604,8 +673,9 @@ AlchemyPreview AlchemyBenchRuntime::preview(
         return preview;
     }
 
-    const std::optional<ItemLocation> targetLocation = findStrongestItem(party, recipe.targetItemId, std::nullopt);
-    const std::optional<ItemLocation> heldLocation = findStrongestItem(party, recipe.heldItemId, targetLocation);
+    const MixLocations locations = findMixItems(party, recipe, tables);
+    const std::optional<ItemLocation> &targetLocation = locations.target;
+    const std::optional<ItemLocation> &heldLocation = locations.held;
     const InventoryItem *pTarget = targetLocation ? itemAt(party, *targetLocation) : nullptr;
     const InventoryItem *pHeld = heldLocation ? itemAt(party, *heldLocation) : nullptr;
 
@@ -678,8 +748,9 @@ AlchemyMixOutcome AlchemyBenchRuntime::mix(
 {
     AlchemyMixOutcome outcome = {};
     const AlchemyRecipe recipe = bottleAsTarget(pickedRecipe, tables);
-    const std::optional<ItemLocation> targetLocation = findStrongestItem(party, recipe.targetItemId, std::nullopt);
-    const std::optional<ItemLocation> heldLocation = findStrongestItem(party, recipe.heldItemId, targetLocation);
+    const MixLocations locations = findMixItems(party, recipe, tables);
+    const std::optional<ItemLocation> &targetLocation = locations.target;
+    const std::optional<ItemLocation> &heldLocation = locations.held;
     const int bagCount = bagCountOf(party);
     InventoryItem heldItem = {};
 

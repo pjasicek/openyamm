@@ -100,7 +100,8 @@ std::optional<float> intersectPosedWorldItemPickBox(
 std::array<float, 3> reflectWorldItemVelocity(const std::array<float, 3> &velocity, const std::array<float, 3> &normal);
 
 // How an item on the ground sparkles: by its value in gold (with its enchantments, as a shop buys it), artifacts, relics
-// and named uniques in gold, quest items (worth nothing) in red, coin heaps in white.
+// and named uniques in gold, quest items (worth nothing) in red, coin heaps in white, and every other item in a faint
+// white so small loot shows in tall grass (OY-618; the loot_sparkle setting turns that one off).
 enum class WorldItemSparkle : uint8_t
 {
     None = 0,
@@ -109,7 +110,8 @@ enum class WorldItemSparkle : uint8_t
     Artifact,
     Quest,
     Coins,
+    Plain,      // anything else
 };
-constexpr size_t WorldItemSparkleCount = 6;
+constexpr size_t WorldItemSparkleCount = 7;
 WorldItemSparkle worldItemSparkle(const InventoryItem &item, const ItemDefinition &definition, int value);
 }

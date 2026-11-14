@@ -118,6 +118,13 @@ public:
     const ItemTable *itemTable() const;
     // The active ruleset's player's guide address, empty for none.
     const std::string &rulesetGuideUrl() const;
+    // The augmented solo run (RulesetOptions::soloRun, chosen at new game): the one flag the solo presentation, the
+    // solo HUD and (later) the talents read. It changes no rule.
+    bool soloRun() const;
+    // Whether the solo HUD replaces the party frame: a solo run, or the [debug] solo_hud preview on any game.
+    bool soloHud() const;
+    // The talents' gate: a solo run under MAW (devdocs/solo_action/TALENTS.md).
+    bool soloTalents() const;
     const StandardItemEnchantTable *standardItemEnchantTable() const;
     const SpecialItemEnchantTable *specialItemEnchantTable() const;
     const ClassSkillTable *classSkillTable() const;
@@ -559,6 +566,72 @@ public:
         float quadHeight) const;
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
 
+    // The prototype first-person view model's link with gameplay (FirstPersonViewModel). While the view model shows a
+    // melee weapon (meleeSwings, set by it each frame), a melee attack first swings and lands only at the swing's
+    // blow: gameplay starts the swing (swingSerial, swingWaiting), the view model sets blowReleased when its blade
+    // reaches the clip's Hit key, and the attack then runs against whatever is in reach. Other attack actions and
+    // casts are shown when they happen (actionSerial).
+    enum class ViewModelAction
+    {
+        Melee,
+        Shot,
+        Cast,
+    };
+    struct ViewModelLink
+    {
+        bool meleeSwings = false;
+        uint32_t swingSerial = 0;
+        bool swingWaiting = false;
+        // A solo run's weapon swap (KeyboardAction::SwapWeapon, the action bar's swap slot): the bow is drawn instead
+        // of the melee weapon and Attack shoots, even at melee range. Transient: a loaded game starts with the melee
+        // weapon.
+        bool bowSelected = false;
+        // Game time since the swing started (the view model's clock, slow motion included) and the active member's
+        // melee recovery when it started: the swing is played to fit that recovery, which counts from the press.
+        float swingWaitSeconds = 0.0f;
+        float swingRecoverySeconds = 0.0f;
+        bool blowReleased = false;
+        // The blade's direction across the screen at the blow (right, up), unit length; none without one.
+        std::optional<std::array<float, 2>> blowDirection;
+        uint32_t actionSerial = 0;
+        ViewModelAction action = ViewModelAction::Melee;
+        // A solo run's talent the arms show (cleave, whirlwind, charge, blink ...): FirstPersonViewModel plays its clip.
+        uint32_t talentSerial = 0;
+        std::string talentClip;
+        // The waited action is a cast (an Attack whose battle orders hold a spell, or a quick or action-bar spell):
+        // the arms play a cast clip fitted to the spell's recovery and the spell leaves at its release key. castSelf
+        // picks the self clip (heals, buffs); castSchool colours the hand.
+        bool waitIsCast = false;
+        bool castSelf = false;
+        std::string castSchool;
+        // The waited action is a solo dragon's breath (its target out of claw reach at the press): the forelegs play
+        // the breath clip fitted to its recovery and the breath leaves from the mouth (castHandScreen) at its Hit.
+        bool waitIsBreath = false;
+        // A quick or action-bar cast waiting for that release, and which spell it casts then (GameplayInputController).
+        bool quickCastWaiting = false;
+        std::optional<size_t> quickCastExtraSlot;
+        std::string quickCastBarSpell;
+        // The swinging weapon's strongest element (MeleeWeaponElement), tinting the weapon trail.
+        uint8_t weaponElement = 0;
+        // The last casting palm on screen (FirstPersonViewModel::Output::castHandScreen): the active member's spell
+        // missiles start there (PartySpellCastRequest::handScreenPoint). None without arms.
+        std::optional<std::array<float, 2>> castHandScreen;
+    };
+    ViewModelLink &viewModelLink()
+    {
+        return m_viewModelLink;
+    }
+    void noteViewModelTalent(const std::string &clip)
+    {
+        m_viewModelLink.talentClip = clip;
+        ++m_viewModelLink.talentSerial;
+    }
+    void noteViewModelAction(ViewModelAction action)
+    {
+        ++m_viewModelLink.actionSerial;
+        m_viewModelLink.action = action;
+    }
+
 private:
     void rememberGameplayMinimapZoom();
     // The screens that show the party's portraits on the fullscreen frame (ObsidianOverlayPc) and no hireling rail.
@@ -602,5 +675,6 @@ private:
     mutable std::vector<GameplayMinimapLineState> m_cachedMinimapLines;
     mutable std::vector<GameplayMinimapMarkerState> m_cachedMinimapMarkers;
     std::unordered_map<uint64_t, uint64_t> m_keyedAudioInstances;
+    ViewModelLink m_viewModelLink;
 };
 } // namespace OpenYAMM::Game

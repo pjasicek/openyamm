@@ -1242,6 +1242,7 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
             {
                 continue;
             }
+            const ModelMatrix placedMatrix = attachment.placed(*pMatrix);
             const ModelBounds &local = attachment.asset->staticBounds;
             float radiusSquared = 0.0f;
             for (size_t axis = 0; axis < 3 && local.valid; ++axis)
@@ -1249,10 +1250,10 @@ void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances,
                 const float extent = std::max(std::abs(local.min[axis]), std::abs(local.max[axis]));
                 radiusSquared += extent * extent;
             }
-            carrierReach = std::max(carrierReach, std::sqrt(radiusSquared) * matrixScale(*pMatrix));
+            carrierReach = std::max(carrierReach, std::sqrt(radiusSquared) * matrixScale(placedMatrix));
             const size_t group = groupFor(attachment.asset, attachment.materialVariant, false, 0.0f);
             ModelStaticPlacement placement;
-            placement.matrix = *pMatrix;
+            placement.matrix = placedMatrix;
             placement.outlineColorAbgr = instances.outlineColor(handle);
             placement.coverage = instances.coverage(handle);
             groups[group].bounds.push_back(groups[group].placementBounds(placement));
@@ -3046,7 +3047,7 @@ void ModelRenderer::renderPortrait(const ModelInstanceSystem &instances, ModelIn
         attachments.push_back({attachment.asset, attachment.materialVariant});
         ModelStaticGroup &group = attachments.back();
         ModelStaticPlacement placement;
-        placement.matrix = *pMatrix;
+        placement.matrix = attachment.placed(*pMatrix);
         for (size_t channel = 0; channel < 3; ++channel)
         {
             placement.light[channel] = lighting.ambientColor[channel] * lighting.ambient;

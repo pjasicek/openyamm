@@ -105,8 +105,6 @@ struct MawGameState
     std::unordered_map<std::string, int> mapsDropped;
     // The unique items a shop bought, by item id: each sells once a game (SpecialItems.SellOnce).
     std::unordered_map<uint32_t, int> soldUniqueItems;
-    // The party member (slot index) who takes the alchemy items when the party sorts (vars.alchemyPlayer), or -1.
-    int32_t alchemistMember = -1;
     // Road to Insanity: the food a dungeon's cap held back, returned on the next outdoor map (vars.refundFood).
     int32_t heldFood = 0;
     // Beyond Madness: bosses rolled since the last Broodlord and Omnipotent one (vars.broodlordPityCounter,

@@ -468,6 +468,8 @@ struct GameplayPartySpellProjectileRequest
     std::optional<size_t> targetActorIndex;
     // Its damage was a critical hit (the status line and combat log say so where it lands).
     bool critical = false;
+    // Presentation only: the spell whose flight and impact effects the missile shows (0: its own).
+    uint32_t presentationSpellId = 0;
 };
 
 enum class GameplayProjectileVisualMode
@@ -541,6 +543,8 @@ struct GameplayProjectileImpactPresentationState
     uint16_t objectSpriteFrameIndex = 0;
     uint16_t sourceObjectFlags = 0;
     int sourceSpellId = 0;
+    // sourceSpellId is a borrowed look (a projectile's presentationSpellId): the binding's presented_impact plays.
+    bool presented = false;
     int16_t sourceMonsterId = 0;
     // The unit direction the projectile flew when it struck; zero when unknown.
     float flightDirectionX = 0.0f;
@@ -584,7 +588,8 @@ struct GameplayPartyAttackActorFacts
     GameplayWorldPoint position = {};
     uint16_t radius = 0;
     uint16_t height = 0;
-    // GameplayRuntimeActorState::targetHeight.
+    // Where a party shot aims at it: GameplayRuntimeActorState::targetHeight, raised toward its top when the line from
+    // the party to there is blocked and a higher one is clear (GameMechanics::clearPartyShotAimHeight).
     float targetHeight = 0.0f;
     int currentHp = 0;
     int maxHp = 0;
@@ -745,10 +750,6 @@ public:
     {
         return std::nullopt;
     }
-    virtual bool isUnderwaterMap() const
-    {
-        return false;
-    }
     virtual bool allowsLloydsBeacon() const
     {
         return true;
@@ -758,6 +759,11 @@ public:
         return true;
     }
     virtual bool allowsRest() const
+    {
+        return true;
+    }
+    // The map's allow_spellcasting restriction (false only in MM7's Shoals, OY-350).
+    virtual bool allowsSpellcasting() const
     {
         return true;
     }

@@ -1046,7 +1046,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                 return makeFailure(result.action, inactiveCharacterStatusText(*pTargetMember));
             }
 
-            if (context.underwater)
+            if (context.spellcastingForbidden)
             {
                 return makeFailure(result.action, Engine::tr("You can not do that while you are underwater!"));
             }
@@ -1099,10 +1099,10 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                     SpeechId::CantLearnSpell);
             }
 
-            const CharacterSkill *pSkill = pTargetMember->findSkill(*skillName);
+            // The same check the markers under spellbooks show (spellbookKnowledge).
+            const SpellbookLearnCheck check = checkSpellbookLearn(*pTargetMember, *spellId);
 
-            // Classes whose spells come from their school masteries or from casting (MAW) read no books.
-            if (!boundGameRules().classes.learnsSpellsFromBooks(*pTargetMember))
+            if (check == SpellbookLearnCheck::ClassReadsNoBooks)
             {
                 return makeFailure(
                     result.action,
@@ -1111,7 +1111,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                     SpeechId::CantLearnSpell);
             }
 
-            if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+            if (check == SpellbookLearnCheck::NoSkill || check == SpellbookLearnCheck::MasteryTooLow)
             {
                 return makeFailure(
                     result.action,
@@ -1120,18 +1120,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                     SpeechId::CantLearnSpell);
             }
 
-            const SkillMastery requiredMastery = requiredMasteryForSpell(*spellId);
-
-            if (requiredMastery != SkillMastery::None && pSkill->mastery < requiredMastery)
-            {
-                return makeFailure(
-                    result.action,
-                    Engine::tr("You don't have the skill to learn {item}",
-                        {{"item", itemDisplayNameForStatus(*pItemDefinition)}}),
-                    SpeechId::CantLearnSpell);
-            }
-
-            if (pTargetMember->knowsSpell(*spellId))
+            if (check == SpellbookLearnCheck::AlreadyKnown)
             {
                 result = makeFailure(
                     result.action,
@@ -1264,7 +1253,9 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                     return makeFailure(result.action, Engine::tr("Player must be active to consume the potion"));
                 }
 
-                if (effects.combatRecoveryOnlyNearEnemies() && !context.enemiesNear)
+                // Turn-based combat is a fight whatever the alert says (monsters in the queue may not have seen the
+                // party yet), so a drink there always spends the ready member's turn.
+                if (effects.combatRecoveryOnlyNearEnemies() && !context.enemiesNear && !context.turnBased)
                 {
                     recoveryPayer.reset();
                 }
@@ -1289,7 +1280,13 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             if (recoveryPayer)
             {
                 result.recoveryPayer = recoveryPayer;
-                result.recoverySeconds = ticksToRecoverySeconds(static_cast<int>(effects.combatRecoveryTicks()));
+                // In turn-based combat a drink takes at least a whole turn (100 ticks, as Standard's), also where the
+                // rules' real-time drink is quicker (MAW's 60), so a member drinks once a turn (user, 2026-11-14).
+                static constexpr float TurnBasedDrinkTicks = 100.0f;
+                const float ticks = context.turnBased
+                    ? std::max(effects.combatRecoveryTicks(), TurnBasedDrinkTicks)
+                    : effects.combatRecoveryTicks();
+                result.recoverySeconds = ticksToRecoverySeconds(static_cast<int>(ticks));
                 party.applyRecoveryToMember(*recoveryPayer, result.recoverySeconds);
             }
 
@@ -1512,6 +1509,95 @@ std::optional<SoundId> InventoryItemUseRuntime::instrumentSound(const ItemDefini
 std::optional<uint32_t> InventoryItemUseRuntime::scrollSpellId(const ItemDefinition &itemDefinition)
 {
     return tryParseSpellId(itemDefinition);
+}
+
+std::optional<uint32_t> InventoryItemUseRuntime::spellbookSpellId(const ItemDefinition &itemDefinition)
+{
+    if (itemDefinition.equipStat != "Book")
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<uint32_t> spellId = tryParseSpellId(itemDefinition);
+    return spellId && resolveMagicSkillName(*spellId) ? spellId : std::nullopt;
+}
+
+SpellbookLearnCheck InventoryItemUseRuntime::checkSpellbookLearn(const Character &member, uint32_t spellId)
+{
+    // Classes whose spells come from their school masteries or from casting (MAW) read no books.
+    if (!boundGameRules().classes.learnsSpellsFromBooks(member))
+    {
+        return SpellbookLearnCheck::ClassReadsNoBooks;
+    }
+
+    const std::optional<std::string> skillName = resolveMagicSkillName(spellId);
+    const CharacterSkill *pSkill = skillName ? member.findSkill(*skillName) : nullptr;
+
+    if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+    {
+        return SpellbookLearnCheck::NoSkill;
+    }
+
+    const SkillMastery requiredMastery = requiredMasteryForSpell(spellId);
+
+    if (requiredMastery != SkillMastery::None && pSkill->mastery < requiredMastery)
+    {
+        return SpellbookLearnCheck::MasteryTooLow;
+    }
+
+    return member.knowsSpell(spellId) ? SpellbookLearnCheck::AlreadyKnown : SpellbookLearnCheck::CanLearn;
+}
+
+std::vector<SpellbookKnowledge> InventoryItemUseRuntime::spellbookKnowledge(
+    const Party &party,
+    const ItemDefinition &itemDefinition)
+{
+    const std::optional<uint32_t> spellId = spellbookSpellId(itemDefinition);
+
+    if (!spellId)
+    {
+        return {};
+    }
+
+    const std::string skillName = resolveMagicSkillName(*spellId).value_or("");
+    const SkillMastery requiredMastery = std::max(SkillMastery::Normal, requiredMasteryForSpell(*spellId));
+    const ClassSkillTable *pClassSkillTable = party.classSkillTable();
+    std::vector<SpellbookKnowledge> knowledge;
+    knowledge.reserve(party.memberCount());
+
+    for (const Character &member : party.members())
+    {
+        // A spell known by any means counts, also for a class that reads no books.
+        if (member.knowsSpell(*spellId))
+        {
+            knowledge.push_back(SpellbookKnowledge::Known);
+            continue;
+        }
+
+        switch (checkSpellbookLearn(member, *spellId))
+        {
+            case SpellbookLearnCheck::CanLearn:
+            case SpellbookLearnCheck::AlreadyKnown:
+                knowledge.push_back(SpellbookKnowledge::CanLearn);
+                break;
+
+            case SpellbookLearnCheck::NoSkill:
+            case SpellbookLearnCheck::MasteryTooLow:
+            {
+                const bool classReaches = pClassSkillTable != nullptr
+                    && pClassSkillTable->getEffectiveCap(member.className, member.raceId, skillName) >= requiredMastery;
+                knowledge.push_back(classReaches ? SpellbookKnowledge::NeedsTraining : SpellbookKnowledge::CannotLearn);
+                break;
+            }
+
+            case SpellbookLearnCheck::ClassReadsNoBooks:
+            default:
+                knowledge.push_back(SpellbookKnowledge::CannotLearn);
+                break;
+        }
+    }
+
+    return knowledge;
 }
 
 PotionPreview InventoryItemUseRuntime::previewPotion(

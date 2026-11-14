@@ -364,6 +364,7 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         {
             break;
         }
+        target.waterSectorIds.clear();
         for (Surface &surface : m_surfaces)
         {
             if (surface.visible && surface.planar && surface.reflects && liquidReflects(surface.liquid)
@@ -371,6 +372,11 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
                 && (reflectionSectorId >= 0 || surface.sectorId == target.sectorId))
             {
                 surface.reflection = int(index);
+                if (surface.sectorId >= 0 && std::find(target.waterSectorIds.begin(), target.waterSectorIds.end(),
+                        surface.sectorId) == target.waterSectorIds.end())
+                {
+                    target.waterSectorIds.push_back(surface.sectorId);
+                }
             }
         }
         ++m_reflectionCount;

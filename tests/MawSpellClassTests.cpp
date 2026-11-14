@@ -230,6 +230,79 @@ TEST_CASE("MAW auras on members reach MM9 hirelings and end with them (OY-559)")
     CHECK(party.characterBuff(hirelingIndex, CharacterBuffId::Bless) == nullptr);
 }
 
+TEST_CASE("the Regeneration aura and spell heal MM9 hirelings, in real time and per turn (OY-559)")
+{
+    Mm9Hireling row;
+    row.rudeId = 42;
+    row.name = "Hrolf Spearmaster";
+    row.kind = Mm9HirelingKind::Paid;
+    row.level = 34;
+    row.hitPoints = 276;
+    PartySeed seed;
+    seed.members = {member("Ariel", "Knight", 10), member("Brom", "Cleric", 10)};
+    seed.members[1].skills["BodyMagic"] = {"BodyMagic", 10, SkillMastery::Master};
+    const size_t hirelingIndex = 2;
+    OpenYAMM::Tests::PartySpellTestWorldRuntime world;
+
+    SUBCASE("MAW's aura")
+    {
+        MawRules rules(RulesetOptions{}, MawMapLevels{});
+        Party party;
+        party.seed(seed);
+        party.setRules(&rules.gameRules());
+        REQUIRE(party.addHireling(row));
+        world.bindParty(&party);
+        rules.setCurrentMap("oute3.odm");
+        // Brom holds the Regeneration aura.
+        rules.state().auraHolders[71] = 1;
+        rules.gameRules().spells.updateAuras(party, 0.5f);
+        REQUIRE(party.characterBuff(hirelingIndex, CharacterBuffId::Regeneration) != nullptr);
+
+        const SkillRules &skills = rules.gameRules().skills;
+        Character &hireling = *party.combatant(hirelingIndex);
+        const int fullHealth = hireling.health;
+        REQUIRE(fullHealth > 100);
+        hireling.health = 100;
+        skills.updateRegeneration(party, world, 0.01f);
+
+        // Ten real seconds on the 0.1 second timer.
+        for (int tick = 0; tick < 100; ++tick)
+        {
+            skills.updateRegeneration(party, world, 0.1f);
+        }
+
+        const int realTimeHealth = hireling.health;
+        CHECK(realTimeHealth > 100);
+        CHECK(realTimeHealth < fullHealth);
+
+        // A turn-based turn regenerates once with the turn's time (GameplayController::advanceTurnBasedGameMinutes).
+        skills.updateRegeneration(party, world, 10.0f);
+        CHECK(hireling.health > realTimeHealth);
+
+        // No aura, no healing: a hireling has no Regeneration skill or items of its own.
+        rules.state().auraHolders.clear();
+        rules.gameRules().spells.updateAuras(party, 0.5f);
+        const int withoutAura = hireling.health;
+        skills.updateRegeneration(party, world, 10.0f);
+        CHECK_EQ(hireling.health, withoutAura);
+    }
+
+    SUBCASE("Standard's spell")
+    {
+        Party party;
+        party.seed(seed);
+        REQUIRE(party.addHireling(row));
+        Character &hireling = *party.combatant(hirelingIndex);
+        hireling.health = 100;
+        party.applyCharacterBuff(hirelingIndex, CharacterBuffId::Regeneration, 3600.0f, 3,
+            uint32_t(SpellId::Regeneration), 10, SkillMastery::Master, 1);
+
+        // Five game minutes: one tick of 5 x power.
+        party.advanceTimedStates(5.0f * 60.0f);
+        CHECK_EQ(hireling.health, 115);
+    }
+}
+
 TEST_CASE("quick-cast heals go to the endangered, else where they heal the most, in both rulesets (A7.2)")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();

@@ -195,6 +195,11 @@ void indexAudioDirectory(
         }
     };
 
+    // A file in a subfolder is also found by its bare name, but never in place of a top-level file of that name: the
+    // engine's sounds.txt names its sounds bare (Heal, Bless), and the merged folder holds every world's audio, whose
+    // subfolders (MM9's spells/heal.wav) would otherwise answer for them. The top-level files go in last.
+    std::vector<std::string> topLevelFiles;
+
     for (const std::string &entry : assetFileSystem.enumerate(audioDirectory))
     {
         if (entry.empty() || entry == "." || entry == "..")
@@ -203,16 +208,20 @@ void indexAudioDirectory(
         }
 
         const std::string lowerEntry = toLowerCopy(entry);
-        const std::string virtualPath = audioDirectory + "/" + entry;
 
         if (lowerEntry.size() >= 4 && lowerEntry.substr(lowerEntry.size() - 4) == ".wav")
         {
-            indexEntry(entry, virtualPath);
+            topLevelFiles.push_back(entry);
         }
         else
         {
-            recurse(virtualPath, entry);
+            recurse(audioDirectory + "/" + entry, entry);
         }
+    }
+
+    for (const std::string &entry : topLevelFiles)
+    {
+        indexEntry(entry, audioDirectory + "/" + entry);
     }
 }
 

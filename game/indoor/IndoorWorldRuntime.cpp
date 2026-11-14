@@ -1949,6 +1949,17 @@ bool defaultActorHostileToParty(const MapDeltaActor &actor, const MonsterTable *
             && pMonsterTable->isHostileToParty(relationMonsterId));
 }
 
+// It has engaged the party (GameplayActorService::partyNoticeRange): it detected it, the party angered it, or it is an
+// aggressor (the original's ActorEnemy, hostile at long range).
+bool indoorActorEngagedParty(
+    const MapDeltaActor &actor,
+    const IndoorWorldRuntime::MapActorAiState &aiState,
+    bool hasDetectedParty)
+{
+    return hasDetectedParty || aiState.angeredByParty
+        || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Aggressor)) != 0;
+}
+
 int16_t resolveIndoorActorStatsId(const MapDeltaActor &actor)
 {
     return actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
@@ -5312,20 +5323,25 @@ bool IndoorWorldRuntime::hasIndoorCombatLineOfSight(
 
 bool IndoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) const
 {
+    return partyShotAimHeight(actorIndex).has_value();
+}
+
+std::optional<float> IndoorWorldRuntime::partyShotAimHeight(size_t actorIndex) const
+{
     const MapDeltaData *pMapDeltaData = mapDeltaData();
 
     if (pMapDeltaData == nullptr
         || m_pPartyRuntime == nullptr
         || actorIndex >= pMapDeltaData->actors.size())
     {
-        return false;
+        return std::nullopt;
     }
 
     GameplayRuntimeActorState actorState = {};
 
     if (!actorRuntimeState(actorIndex, actorState) || actorState.isDead || actorState.isInvisible)
     {
-        return false;
+        return std::nullopt;
     }
 
     const IndoorMoveState &partyMoveState = m_pPartyRuntime->movementState();
@@ -5333,11 +5349,6 @@ bool IndoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) const
         partyMoveState.x,
         partyMoveState.y,
         partyMoveState.footZ + PartyCollisionHeight / 3.0f,
-    };
-    const GameplayWorldPoint targetPoint = {
-        actorState.preciseX,
-        actorState.preciseY,
-        actorState.preciseZ + actorState.targetHeight,
     };
     const int16_t sourceSectorId =
         partyMoveState.eyeSectorId >= 0 ? partyMoveState.eyeSectorId : partyMoveState.sectorId;
@@ -5352,7 +5363,19 @@ bool IndoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) const
         targetSectorId = pMapDeltaData->actors[actorIndex].sectorId;
     }
 
-    return hasIndoorCombatLineOfSight(sourcePoint, sourceSectorId, targetPoint, targetSectorId);
+    // Raised no higher than its body (the collision height can be padded above a wide, low monster).
+    return GameMechanics::clearPartyShotAimHeight(
+        actorState.targetHeight,
+        actorState.bodyHeight != 0 ? std::min(actorState.bodyHeight, actorState.height) : actorState.height,
+        [this, &sourcePoint, sourceSectorId, &actorState, targetSectorId](float aimHeight)
+        {
+            const GameplayWorldPoint targetPoint = {
+                actorState.preciseX,
+                actorState.preciseY,
+                actorState.preciseZ + aimHeight,
+            };
+            return hasIndoorCombatLineOfSight(sourcePoint, sourceSectorId, targetPoint, targetSectorId);
+        });
 }
 
 bool IndoorWorldRuntime::indoorActorCanApplyPartyMeleeImpact(size_t actorIndex) const
@@ -5742,6 +5765,29 @@ std::vector<bool> IndoorWorldRuntime::selectIndoorActiveActors(
                 mm9PerceptionRange(mm9Placement.sight, mm9Placement.hearing, aiState.mm9.partyContact),
                 ActiveActorUpdateRange)
             : IndoorActorDetectRange;
+        // A monster farther than its relation to the party reaches (GameplayActorService::partyNoticeRange) sees the
+        // party without noticing it: it thinks, so it can fight the monsters it hates, but leaves the party alone.
+        float noticeRange = detectRange;
+
+        if (pMm9Row == nullptr && aiState.hostileToParty && m_pGameplayActorService != nullptr)
+        {
+            const EventRuntimeState *pRelationEvents = eventRuntimeState();
+            const float relationRange = m_pGameplayActorService->partyNoticeRange(
+                buildIndoorActorTargetPolicyState(
+                    aiState, aiState.spellEffects, actor.height, aiState.hostileToParty, actor.group, actor.ally),
+                indoorActorEngagedParty(actor, aiState, false),
+                pRelationEvents != nullptr ? &pRelationEvents->monsterRelationOverrides : nullptr);
+
+            if (relationRange > 0.0f)
+            {
+                noticeRange = std::min(detectRange, relationRange);
+            }
+        }
+
+        if (candidate.detectionDistanceSquared > detectRange * detectRange)
+        {
+            aiState.seesPartyUnnoticed = false;
+        }
 
         if (!canDetectParty
             && candidate.detectionDistanceSquared <= detectRange * detectRange
@@ -5809,6 +5855,10 @@ std::vector<bool> IndoorWorldRuntime::selectIndoorActiveActors(
             {
                 pDiagnostics->activeSelectionLosNanoseconds += SDL_GetTicksNS() - losBeginTickCount;
             }
+
+            aiState.seesPartyUnnoticed =
+                canDetectParty && candidate.detectionDistanceSquared > noticeRange * noticeRange;
+            canDetectParty = canDetectParty && !aiState.seesPartyUnnoticed;
         }
 
         if (canDetectParty)
@@ -5816,12 +5866,18 @@ std::vector<bool> IndoorWorldRuntime::selectIndoorActiveActors(
             actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Nearby);
             aiState.hasDetectedParty = true;
             aiState.spellEffects.hasDetectedParty = true;
+            aiState.seesPartyUnnoticed = false;
             pickActor(candidate.actorIndex);
 
             if (!previouslyDetectedParty)
             {
                 newlyDetectedActorIndices.push_back(candidate.actorIndex);
             }
+        }
+        else if (aiState.seesPartyUnnoticed)
+        {
+            actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Active);
+            pickActor(candidate.actorIndex);
         }
     }
 
@@ -12011,7 +12067,12 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     const float partyDeltaX = partyFacts.position.x - aiState.preciseX;
     const float partyDeltaY = partyFacts.position.y - aiState.preciseY;
     const float partyDeltaZ = partyTargetPoint.z - actorTargetZ;
-    const float partySenseRange = pActorService->partyEngagementRange(actorPolicyState);
+    // Until it has noticed the party, a monster senses it only within the range of its relation to the party.
+    const EventRuntimeState *pPartyRelationEvents = eventRuntimeState();
+    const float partySenseRange = mm9Profile
+        ? pActorService->partyEngagementRange(actorPolicyState)
+        : pActorService->partyNoticeRange(actorPolicyState, indoorActorEngagedParty(actor, aiState, hasDetectedParty),
+            pPartyRelationEvents != nullptr ? &pPartyRelationEvents->monsterRelationOverrides : nullptr);
     bool actorCanSenseParty =
         !partyFacts.invisible
         && activeCanKeepPartyTarget
@@ -12408,6 +12469,11 @@ bool IndoorWorldRuntime::allowsTownPortal() const
 bool IndoorWorldRuntime::allowsRest() const
 {
     return !m_map || m_map->runtimeRestrictions.allowRest;
+}
+
+bool IndoorWorldRuntime::allowsSpellcasting() const
+{
+    return !m_map || m_map->runtimeRestrictions.allowSpellcasting;
 }
 
 const std::vector<uint8_t> *IndoorWorldRuntime::journalMapFullyRevealedCells() const
@@ -13789,9 +13855,10 @@ bool IndoorWorldRuntime::steerIndoorHomingProjectile(
         if (aiState.actorId == homing.targetActorId && pMapDeltaData->actors[homing.targetActorIndex].hp > 0
             && aiState.motionState != ActorAiMotionState::Dead && aiState.motionState != ActorAiMotionState::Dying)
         {
-            target = GameplayWorldPoint{aiState.preciseX, aiState.preciseY,
-                aiState.preciseZ
-                    + std::max(24.0f, static_cast<float>(aiState.collisionHeight) * ActorDirectionHeightFactor)};
+            const float aimHeight = homing.targetAimHeight > 0.0f
+                ? homing.targetAimHeight
+                : std::max(24.0f, static_cast<float>(aiState.collisionHeight) * ActorDirectionHeightFactor);
+            target = GameplayWorldPoint{aiState.preciseX, aiState.preciseY, aiState.preciseZ + aimHeight};
         }
     }
 
@@ -14938,6 +15005,17 @@ void IndoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex, bool aler
         // MM8 leaves the party's own allies alone. A monster hostile on its own only rouses allies that are hostile
         // too: hitting a raiding warlock must not turn the friendly town warlocks of its class.
         if (actorFightsForParty(otherActor, aiState) || (!alertsFriendlyActors && !aiState.hostileToParty))
+        {
+            continue;
+        }
+
+        // MM9 townsfolk and guards decide their attitude themselves (see the party hit): no other actor's alert turns
+        // them, not even one whose placement shares their peasant relations (Drangheim's Jarl Sigmund and the bandit
+        // Guaire A'Velsi).
+        if (const std::optional<Mm9AiProfile> otherMm9Profile = mm9ActorProfile(otherActorIndex);
+            otherMm9Profile
+            && (otherMm9Profile->archetype == Mm9AiArchetype::Civilian
+                || otherMm9Profile->archetype == Mm9AiArchetype::Guard))
         {
             continue;
         }
@@ -16740,7 +16818,13 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
             false);
     }
 
-    attachPartyMissileHoming(spawnResult.projectile.projectileId, request.casterMemberIndex, request.targetActorIndex);
+    if (request.presentationSpellId != 0)
+    {
+        m_pGameplayProjectileService->setPartyPresentationSpell(
+            spawnResult.projectile.projectileId, request.casterMemberIndex, int(request.presentationSpellId));
+    }
+    attachPartyMissileHoming(
+        spawnResult.projectile.projectileId, request.casterMemberIndex, request.targetActorIndex, request.targetZ);
     return true;
 }
 
@@ -19276,6 +19360,7 @@ std::optional<GameplayPartyAttackActorFacts> IndoorWorldRuntime::partyAttackActo
         return std::nullopt;
     }
 
+    const std::optional<float> aimHeight = partyShotAimHeight(actorIndex);
     return GameplayPartyAttackActorFacts{
         .actorIndex = actorIndex,
         .monsterId = inspectState.monsterId,
@@ -19288,7 +19373,7 @@ std::optional<GameplayPartyAttackActorFacts> IndoorWorldRuntime::partyAttackActo
             },
         .radius = runtimeState.radius,
         .height = runtimeState.height,
-        .targetHeight = runtimeState.targetHeight,
+        .targetHeight = aimHeight.value_or(runtimeState.targetHeight),
         .currentHp = inspectState.currentHp,
         .maxHp = inspectState.maxHp,
         .effectiveArmorClass = inspectState.armorClass,
@@ -19298,7 +19383,7 @@ std::optional<GameplayPartyAttackActorFacts> IndoorWorldRuntime::partyAttackActo
         .isInvisible = runtimeState.isInvisible,
         .hostileToParty = runtimeState.hostileToParty,
         .visibleForFallback = visibleForFallback,
-        .lineOfSightToParty = partyAttackActorHasLineOfSight(actorIndex),
+        .lineOfSightToParty = aimHeight.has_value(),
     };
 }
 
@@ -19318,23 +19403,23 @@ std::vector<GameplayPartyAttackActorFacts> IndoorWorldRuntime::collectPartyAttac
             continue;
         }
 
-        bool visibleForFallback = GameMechanics::actorBoxInViewport(
-            viewProjectionMatrix,
-            runtimeState.preciseX,
-            runtimeState.preciseY,
-            runtimeState.preciseZ,
-            float(runtimeState.radius),
-            float(runtimeState.height));
-        if (visibleForFallback && !partyAttackActorHasLineOfSight(actorIndex))
+        // Only an actor on screen can be the fallback target; its facts test the line to it.
+        if (!GameMechanics::actorBoxInViewport(
+                viewProjectionMatrix,
+                runtimeState.preciseX,
+                runtimeState.preciseY,
+                runtimeState.preciseZ,
+                float(runtimeState.radius),
+                float(runtimeState.height)))
         {
-            visibleForFallback = false;
+            continue;
         }
 
-        std::optional<GameplayPartyAttackActorFacts> facts =
-            partyAttackActorFacts(actorIndex, visibleForFallback);
+        std::optional<GameplayPartyAttackActorFacts> facts = partyAttackActorFacts(actorIndex, true);
 
         if (facts)
         {
+            facts->visibleForFallback = facts->lineOfSightToParty;
             actors.push_back(*facts);
         }
     }
@@ -19464,6 +19549,7 @@ void IndoorWorldRuntime::attachPartyMissileHoming(
     uint32_t firstProjectileId,
     uint32_t sourcePartyMemberIndex,
     std::optional<size_t> targetActorIndex,
+    float aimZ,
     bool weaponHoming)
 {
     const float rulesTurnRate = gameRulesFor(m_pParty).combat.partyMissileHomingTurnRate();
@@ -19475,10 +19561,13 @@ void IndoorWorldRuntime::attachPartyMissileHoming(
         return;
     }
 
+    const MapActorAiState &aiState = m_mapActorAiStates[*targetActorIndex];
+    const float aimHeight = aimZ - aiState.preciseZ;
     GameplayProjectileService::ProjectileHoming homing = {};
     homing.targetKind = GameplayProjectileService::ProjectileHoming::TargetKind::Actor;
     homing.targetActorIndex = *targetActorIndex;
-    homing.targetActorId = m_mapActorAiStates[*targetActorIndex].actorId;
+    homing.targetActorId = aiState.actorId;
+    homing.targetAimHeight = aimHeight > 0.0f && aimHeight <= float(aiState.collisionHeight) ? aimHeight : 0.0f;
     homing.turnRadiansPerSecond = turnRate;
     // A weapon's homing lets go after a while; the ruleset's lasts the whole flight.
     homing.maxSeconds = rulesTurnRate > 0.0f ? 0.0f : WeaponHomingSeconds;
@@ -20269,8 +20358,8 @@ void IndoorWorldRuntime::applyPartyAttackMeleeEffects(
 
     if (attack.stunTarget)
     {
-        spellEffects.stunRemainingSeconds =
-            std::max(spellEffects.stunRemainingSeconds, 0.5f + 0.35f * static_cast<float>(skillLevel));
+        spellEffects.stunRemainingSeconds = std::max(spellEffects.stunRemainingSeconds,
+            attack.stunSeconds.value_or(0.5f + 0.35f * static_cast<float>(skillLevel)));
         const MonsterTable::MonsterStatsEntry *pStats =
             m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor)) : nullptr;
         const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : std::max<int>(1, actor.hp);
@@ -20439,7 +20528,7 @@ bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPro
     }
 
     attachPartyMissileHoming(spawnResult.projectile.projectileId, uint32_t(request.sourcePartyMemberIndex),
-        request.targetActorIndex, request.homing);
+        request.targetActorIndex, request.target.z, request.homing);
     return true;
 }
 

@@ -499,3 +499,41 @@ TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key
         }
     }
 }
+
+TEST_CASE("auto-walk defaults to Num Lock and the free cursor to the middle button in both control schemes")
+{
+    std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/ui/menu/settings_catalog.yml");
+    const std::string catalog{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+    const InputBinding numLock = keyboardInputBinding(SDL_SCANCODE_NUMLOCKCLEAR);
+    const InputBinding middleButton = mouseButtonInputBinding(SDL_BUTTON_MIDDLE);
+    const std::array<std::pair<KeyboardAction, InputBinding>, 2> keys = {{
+        {KeyboardAction::AutoWalk, numLock}, {KeyboardAction::CursorMode, middleButton}}};
+
+    CHECK_EQ(inputBindingName(numLock), "Num_Lock");
+    CHECK(sameMenuBinding(parseInputBindingName("Num_Lock"), numLock));
+
+    for (const ControlScheme scheme : {ControlScheme::Modern, ControlScheme::Classic})
+    {
+        GameSettings::KeyboardSettings keyboard;
+        keyboard.restoreDefaults(scheme);
+
+        for (const auto &[action, binding] : keys)
+        {
+            const KeyboardBindingDefinition &definition = keyboardBindingDefinition(action);
+            CAPTURE(definition.iniKey);
+            CHECK(definition.implemented);
+            CHECK(sameMenuBinding(keyboard.binding(action), binding));
+            CHECK_FALSE(reservedMenuBinding(binding, action));
+            CHECK_NE(catalog.find("- id: " + std::string(definition.iniKey) + "\n"), std::string::npos);
+
+            for (const KeyboardBindingDefinition &other : keyboardBindingDefinitions())
+            {
+                if (other.action != action)
+                {
+                    CAPTURE(other.iniKey);
+                    CHECK_FALSE(sameMenuBinding(keyboard.binding(other.action), binding));
+                }
+            }
+        }
+    }
+}

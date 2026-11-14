@@ -60,11 +60,21 @@ public:
     };
 
     // The active member's quick spell, or with `extraSlot` one of MMMerge's four extra quick spells.
+    // `barSpellName`: a solo run's action bar spell instead (GameplaySpellService::tryStartQuickSpellCast).
     static SpellActionResult tryBeginQuickSpellCast(
         GameplayScreenRuntime &runtime,
         GameplaySpellService &spellService,
         const TargetQueries &targetQueries,
-        std::optional<size_t> extraSlot = std::nullopt);
+        std::optional<size_t> extraSlot = std::nullopt,
+        const std::string &barSpellName = std::string());
+
+    // A solo run's arms showing a cast of this spell (GameplayScreenRuntime::ViewModelLink): the self or target clip,
+    // the school that colours the hand, and the caster's recovery for the spell, which the clip is fitted to. False
+    // for a spell the caster cannot name (unknown spell).
+    static bool prepareViewModelCast(
+        GameplayScreenRuntime &runtime,
+        const Character &caster,
+        const std::string &spellName);
 
     static AttackCastResult tryBeginAttackCast(
         GameplayScreenRuntime &runtime,

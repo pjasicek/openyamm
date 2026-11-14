@@ -10,7 +10,12 @@
 #include "game/tables/MonsterTable.h"
 #include "game/ui/GameplayUiSkin.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -36,12 +41,121 @@ bool hitPointsRevealed(const GameplayScreenRuntime &context, size_t actorIndex, 
         : pStats->level;
     return gameRulesFor(pParty).skills.identifyMonsterReveal(*pParty, monsterLevel).hitPointsAndArmorClass;
 }
+
+// An effect on the actor as its icon under the bar: crowd control first, then the monster's own buffs.
+struct ActorEffectIcon
+{
+    const char *pTexture = nullptr;
+    float remainingSeconds = 0.0f;
+    bool debuff = true;
+};
+
+constexpr size_t ActorEffectIconCount = 17;
+static_assert(ActorEffectIconCount <= CombatActorHealthBarRuntime::EffectSlotCount);
+
+std::array<ActorEffectIcon, ActorEffectIconCount> actorEffectIcons(const GameplayActorInspectState &actor)
+{
+    const char *pControl = nullptr;
+    switch (actor.controlMode)
+    {
+        case GameplayActorControlMode::Charm: pControl = "obsidian_debuff_charm"; break;
+        case GameplayActorControlMode::Berserk: pControl = "obsidian_debuff_berserk"; break;
+        case GameplayActorControlMode::Enslaved: pControl = "obsidian_debuff_enslave"; break;
+        case GameplayActorControlMode::ControlUndead: pControl = "obsidian_debuff_control_undead"; break;
+        // A reanimated ally fights for the party for good: nothing to time.
+        case GameplayActorControlMode::Reanimated:
+        case GameplayActorControlMode::None: break;
+    }
+    return {{
+        {"obsidian_debuff_stun", actor.stunRemainingSeconds},
+        {"obsidian_debuff_paralyze", actor.paralyzeRemainingSeconds},
+        {pControl, pControl != nullptr ? actor.controlRemainingSeconds : 0.0f},
+        {"obsidian_debuff_fear", actor.fearRemainingSeconds},
+        {"obsidian_debuff_slow", actor.slowRemainingSeconds},
+        {"obsidian_debuff_shrink", actor.shrinkRemainingSeconds},
+        {"obsidian_debuff_dark_grasp", actor.darkGraspRemainingSeconds},
+        {"obsidian_buff_sbf05a", actor.hasteRemainingSeconds, false},
+        {"obsidian_buff_sba06a", actor.shieldRemainingSeconds, false},
+        {"obsidian_buff_sbe05a", actor.stoneskinRemainingSeconds, false},
+        {"obsidian_buff_sbs02a", actor.blessRemainingSeconds, false},
+        {"obsidian_buff_sbs07a", actor.heroismRemainingSeconds, false},
+        {"obsidian_buff_sbl09a", actor.hourOfPowerRemainingSeconds, false},
+        {"obsidian_buff_sbl08a", actor.dayOfProtectionRemainingSeconds, false},
+        {"obsidian_buff_sbdk07a", actor.painReflectionRemainingSeconds, false},
+        {"obsidian_buff_sbb07a", actor.hammerhandsRemainingSeconds, false},
+        {"obsidian_buff_sbs03a", actor.fateRemainingSeconds, false},
+    }};
+}
+
+// The sweep over an effect icon: 64 frames, 8 x 8 cells of 32 px, frame n shading n/63 of the square clockwise from
+// twelve o'clock (the time spent). Built once per session.
+constexpr int SweepFrameSize = 32;
+constexpr int SweepGrid = 8;
+constexpr int SweepFrameCount = SweepGrid * SweepGrid;
+
+std::optional<GameplayHudTextureHandle> effectSweepTexture(GameplayUiRuntime &ui)
+{
+    const std::string name = "__enemy_effect_sweep__";
+    const std::string signature = "v2";
+    if (const std::optional<GameplayHudTextureHandle> cached = ui.findCachedDynamicHudTexture(name, signature))
+    {
+        return cached;
+    }
+    const int side = SweepFrameSize * SweepGrid;
+    std::vector<uint8_t> pixels(size_t(side) * side * 4, 0);
+    constexpr int Samples = 4;
+    constexpr float TwoPi = 6.28318530718f;
+    for (int frame = 0; frame < SweepFrameCount; ++frame)
+    {
+        const float sweep = TwoPi * float(frame) / float(SweepFrameCount - 1);
+        const int originX = (frame % SweepGrid) * SweepFrameSize;
+        const int originY = (frame / SweepGrid) * SweepFrameSize;
+        for (int y = 0; y < SweepFrameSize; ++y)
+        {
+            for (int x = 0; x < SweepFrameSize; ++x)
+            {
+                int covered = 0;
+                for (int sample = 0; sample < Samples * Samples; ++sample)
+                {
+                    const float dx = x + (sample % Samples + 0.5f) / Samples - SweepFrameSize * 0.5f;
+                    const float dy = y + (sample / Samples + 0.5f) / Samples - SweepFrameSize * 0.5f;
+                    float angle = std::atan2(dx, -dy);
+                    angle += angle < 0.0f ? TwoPi : 0.0f;
+                    covered += angle < sweep ? 1 : 0;
+                }
+                uint8_t *pPixel = &pixels[(size_t(originY + y) * side + originX + x) * 4];
+                pPixel[0] = 12;
+                pPixel[1] = 8;
+                pPixel[2] = 8;
+                pPixel[3] = uint8_t(215 * covered / (Samples * Samples));
+            }
+        }
+    }
+    const std::optional<GameplayHudTextureHandle> texture = ui.ensureDynamicHudTexture(name, side, side, pixels);
+    if (texture)
+    {
+        ui.setDynamicHudTextureContentSignature(name, signature);
+    }
+    return texture;
+}
 }
 
 void EnemyHealthBarRenderer::preload(const GameplayScreenRuntime &context)
 {
     GameplayUiRuntime &ui = context.gameplayUiRuntime();
     ui.ensureHudTextureLoaded("obsidian_enemy_health_frame");
+    for (const ActorEffectIcon &icon : actorEffectIcons(GameplayActorInspectState{}))
+    {
+        if (icon.pTexture != nullptr)
+        {
+            ui.ensureHudTextureLoaded(icon.pTexture);
+        }
+    }
+    for (const char *pControl : {"obsidian_debuff_charm", "obsidian_debuff_berserk", "obsidian_debuff_enslave",
+             "obsidian_debuff_control_undead"})
+    {
+        ui.ensureHudTextureLoaded(pControl);
+    }
 }
 
 void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const std::vector<Draw> &draws,
@@ -189,6 +303,73 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
             const float x = badge == 0 ? left - badgeGap - badgeSize
                                        : width * 0.5f + badgeGap + float(badge - 1) * (badgeSize + badgeGap);
             quad(icon->textureHandle, x, -badgeSize * 0.5f, badgeSize, badgeSize);
+        }
+    }
+
+    // The effects under the bar, centred: each icon on a dark tile with a rim (red for crowd control, gold for the
+    // monster's buffs) and the spent time swept clockwise over it. At most as many as the bar is wide.
+    if (context.settingsSnapshot().enemyHealthBarEffects)
+    {
+        const std::array<ActorEffectIcon, ActorEffectIconCount> effects = actorEffectIcons(actor);
+        std::array<float, ActorEffectIconCount> elapsed = {};
+        size_t shown = 0;
+        for (size_t slot = 0; slot < effects.size(); ++slot)
+        {
+            elapsed[slot] = history.effectElapsed(actorIndex, slot, effects[slot].remainingSeconds);
+            shown += effects[slot].pTexture != nullptr && effects[slot].remainingSeconds > 0.0f ? 1 : 0;
+        }
+        const float iconSize = 16.0f * scale;
+        const float iconGap = 1.5f * scale;
+        const size_t maximum = size_t((width + iconGap) / (iconSize + iconGap));
+        shown = std::min(shown, maximum);
+        const std::optional<GameplayHudTextureHandle> tile =
+            shown > 0 ? ui.ensureSolidHudTextureLoaded("__enemy_effect_tile__", 0xf0302a28u) : std::nullopt;
+        const std::optional<GameplayHudTextureHandle> debuffRim =
+            shown > 0 ? ui.ensureSolidHudTextureLoaded("__enemy_effect_debuff_rim__", 0xff2a2aa8u) : std::nullopt;
+        const std::optional<GameplayHudTextureHandle> buffRim =
+            shown > 0 ? ui.ensureSolidHudTextureLoaded("__enemy_effect_buff_rim__", GameplayUiSkin::Gold)
+                      : std::nullopt;
+        const std::optional<GameplayHudTextureHandle> sweep =
+            shown > 0 ? effectSweepTexture(ui) : std::nullopt;
+        float x = -(float(shown) * iconSize + float(shown - std::min<size_t>(shown, 1)) * iconGap) * 0.5f;
+        const float y = barHeight * 0.5f + 1.5f * scale;
+        const float rim = std::max(0.6f * scale, 0.75f);
+        size_t drawn = 0;
+        for (size_t slot = 0; slot < effects.size() && drawn < shown; ++slot)
+        {
+            const ActorEffectIcon &effect = effects[slot];
+            const std::optional<GameplayHudTextureHandle> icon = effect.pTexture != nullptr
+                    && effect.remainingSeconds > 0.0f
+                ? ui.ensureHudTextureLoaded(effect.pTexture)
+                : std::nullopt;
+            if (!icon)
+            {
+                continue;
+            }
+            const std::optional<GameplayHudTextureHandle> &rimTexture = effect.debuff ? debuffRim : buffRim;
+            if (rimTexture)
+            {
+                quad(rimTexture->textureHandle, x, y, iconSize, iconSize);
+            }
+            if (tile)
+            {
+                quad(tile->textureHandle, x + rim, y + rim, iconSize - 2 * rim, iconSize - 2 * rim);
+            }
+            quad(icon->textureHandle, x + rim, y + rim, iconSize - 2 * rim, iconSize - 2 * rim);
+            if (sweep && elapsed[slot] > 0.0f)
+            {
+                // Half a texel inside each cell, so filtering never reaches the neighbouring frame.
+                const int frame = std::clamp(int(std::lround(elapsed[slot] * (SweepFrameCount - 1))), 0,
+                    SweepFrameCount - 1);
+                const float cell = 1.0f / SweepGrid;
+                const float inset = 0.5f / float(SweepFrameSize * SweepGrid);
+                const float u0 = float(frame % SweepGrid) * cell;
+                const float v0 = float(frame / SweepGrid) * cell;
+                quad(sweep->textureHandle, x + rim, y + rim, iconSize - 2 * rim, iconSize - 2 * rim,
+                    u0 + inset, v0 + inset, u0 + cell - inset, v0 + cell - inset);
+            }
+            x += iconSize + iconGap;
+            ++drawn;
         }
     }
 

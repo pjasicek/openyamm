@@ -662,7 +662,9 @@ int adjustedIncomingDamageForMember(
     hit.partyCount = int(std::max<size_t>(1, context.party.members().size()));
     hit.pRng = &rng;
     // What shields absorb is taken where every hit lands (Party::applyDamageToMember).
-    return context.party.rules().combat.damageToCharacter(hit);
+    const int damage = context.party.rules().combat.damageToCharacter(hit);
+    return GameplayCombatController::shieldBlockedDamage(context.party, member, memberIndex, event.damageType,
+        damage);
 }
 
 float recoverySecondsFromTicks(int ticks)
@@ -1370,6 +1372,23 @@ GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjec
     event.killed = killed;
     event.critical = hit && critical;
     return event;
+}
+
+int GameplayCombatController::shieldBlockedDamage(Party &party, const Character &member, size_t memberIndex,
+    CombatDamageType type, int damage)
+{
+    if (damage <= 0 || type != CombatDamageType::Physical || party.shieldRaisedMember() != memberIndex)
+    {
+        return damage;
+    }
+    const CharacterSkill *pShield = member.findSkill("Shield");
+    const SkillMastery mastery = pShield != nullptr ? pShield->mastery : SkillMastery::None;
+    const float blocked = mastery == SkillMastery::Grandmaster ? 0.85f
+        : mastery == SkillMastery::Master ? 0.7f
+        : mastery == SkillMastery::Expert ? 0.55f : 0.4f;
+    const int blockedDamage = int(std::lround(float(damage) * blocked));
+    party.noteShieldBlock(blockedDamage);
+    return std::max(0, damage - blockedDamage);
 }
 
 bool GameplayCombatController::partyHitLands(int appliedDamage, bool stunsTarget)

@@ -102,6 +102,11 @@ struct RulesetOptions
     // Fixed at new game, like the randomizer.
     RulesetChallengeMode challengeMode = RulesetChallengeMode::None;
     bool randomizer = false;
+    // The augmented solo run (devdocs/solo_action/README.md): a party of one played in first person with the solo HUD
+    // and, under MAW, the talents. Chosen at new game, fixed for the adventure. It changes no rule of the ruleset:
+    // presentation and the solo-only additions read it. Standard games keep it too (the options' other fields are
+    // ignored there).
+    bool soloRun = false;
     RulesetPreferences preferences;
 
     // Nightmare and the Doom modes cannot be left once chosen; Austerity keeps a changeable difficulty.

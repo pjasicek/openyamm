@@ -117,6 +117,62 @@ TEST_CASE("game input discards queued taps when input is blocked or a screen sup
     }
 }
 
+TEST_CASE("game input guards a window opened by a click against the next quick click")
+{
+    // SDL's clock starts at its first read: never 0 here, which would mean no click at all.
+    const uint64_t now = SDL_GetTicksNS() + 1;
+    const auto click = [](GameInputSystem &inputSystem, uint64_t timestamp)
+    {
+        for (const SDL_EventType type : {SDL_EVENT_MOUSE_BUTTON_DOWN, SDL_EVENT_MOUSE_BUTTON_UP})
+        {
+            SDL_Event event = mouseButtonEvent(type, SDL_BUTTON_LEFT, 100.0f, 200.0f);
+            event.button.timestamp = timestamp;
+            inputSystem.handleSdlEvent(event);
+        }
+    };
+    const auto pressedInFrames = [](GameInputSystem &inputSystem, const GameSettings &settings)
+    {
+        bool pressed = false;
+
+        for (int frame = 0; frame < 3; ++frame)
+        {
+            inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+            pressed = pressed || inputSystem.frame().leftMouseButton.pressed;
+        }
+
+        return pressed;
+    };
+    GameInputSystem inputSystem;
+    GameSettings settings = {};
+
+    SUBCASE("the second click of a double click is dropped, a later click lands")
+    {
+        // The click on the pedestal opens the window.
+        click(inputSystem, now);
+        CHECK(pressedInFrames(inputSystem, settings));
+        inputSystem.guardClicksAfterWindowOpened();
+
+        click(inputSystem, now + 50'000'000ULL);
+        CHECK_FALSE(pressedInFrames(inputSystem, settings));
+
+        click(inputSystem, now + GameInputSystem::WindowClickGuardNanoseconds + 50'000'000ULL);
+        CHECK(pressedInFrames(inputSystem, settings));
+    }
+
+    SUBCASE("a window opened with no click is not guarded, and keys always pass")
+    {
+        inputSystem.guardClicksAfterWindowOpened();
+        click(inputSystem, now + 10'000'000ULL);
+        SDL_Event key = {};
+        key.type = SDL_EVENT_KEY_DOWN;
+        key.key.scancode = SDL_SCANCODE_RETURN;
+        inputSystem.handleSdlEvent(key);
+        inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+        CHECK(inputSystem.frame().leftMouseButton.pressed);
+        CHECK(inputSystem.frame().keyboardPressCounts[SDL_SCANCODE_RETURN] == 1);
+    }
+}
+
 TEST_CASE("game input turns the camera by the mouse's motion events only")
 {
     // A compositor that cannot warp the pointer (Wayland) later reports where it really is; SDL adds that jump to

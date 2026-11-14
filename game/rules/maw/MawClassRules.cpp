@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawClassRules.h"
+#include "game/rules/maw/MawSoloTalents.h"
 
 #include "game/mm9/Mm9HirelingTable.h"
 #include "engine/Localization.h"
@@ -292,19 +293,20 @@ void MawClassRules::applyClassBonuses(Character &member) const
     }
 
     const std::string line = mawClassLine(member.className);
-    const ClassMultiplierTable *pClassTable = m_rules.classMultiplierTable();
-    const ClassMultiplierEntry *pClassEntry =
-        pClassTable != nullptr ? pClassTable->get(canonicalClassName(member.className)) : nullptr;
+    const std::string className = canonicalClassName(member.className);
+    const bool knightOrTroll = className == "Knight" || className == "Cavalier" || className == "BlackKnight"
+        || className == "Champion" || className == "Troll" || className == "WarTroll";
 
     // Items give a Death Knight and a dragon-race character no spell points (CL:793-796).
     if (line == "death_knight" || mawIsDragon(member))
     {
         member.magicalBonuses.maxSpellPoints = 0;
     }
-    else if (line != "assassin" && pClassEntry != nullptr && pClassEntry->manaMode == ClassManaMode::None)
+    else if (knightOrTroll)
     {
-        // A class without mana (Knight, Troll) has none at all: no item, potion or fountain gives it spell points
-        // (the user, 2026-11-13). Its base is 0 (baseMaxSpellPoints), so the bonuses cancel to a maximum of 0.
+        // The Knight and Troll classes and their promotions have no mana at all: no item, potion or fountain gives
+        // them spell points (the user, 2026-11-13). No race and no other class is affected. Their base is 0
+        // (baseMaxSpellPoints), so the bonuses cancel to a maximum of 0.
         member.magicalBonuses.maxSpellPoints = -(member.maxSpellPoints + member.permanentBonuses.maxSpellPoints);
         member.spellPoints = std::min(member.spellPoints, 0);
     }
@@ -312,6 +314,12 @@ void MawClassRules::applyClassBonuses(Character &member) const
     {
         const CharacterSkill *pAssassination = member.findSkill("EarthMagic");
         member.magicalBonuses.maxSpellPoints = 10 * (pAssassination != nullptr ? int(pAssassination->mastery) : 0);
+    }
+
+    // A solo run's passive talents (devdocs/solo_action/TALENTS.md), after the class's own bonuses.
+    if (m_rules.options().soloRun)
+    {
+        MawSoloTalents::applyPassives(member);
     }
 }
 
@@ -409,6 +417,12 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
     const float deltaSeconds = m_pendingSeconds;
     m_pendingSeconds = 0;
     updatePromotions(party);
+
+    // A solo run's talents: cooldowns, timed effects, Mana Font, Steady Aim.
+    if (m_rules.options().soloRun)
+    {
+        MawSoloTalents::update(party, world.partyX(), world.partyY(), deltaSeconds);
+    }
     m_rules.updateStoryBands(party);
     scaleHirelings(party);
 

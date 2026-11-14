@@ -654,6 +654,12 @@ public:
     // The model a decoration shows now, by its sprite override key (a talking prop's talk portrait).
     std::optional<DecorationPortraitModel> decorationPortraitModel(uint32_t spriteOverrideKey) const;
     Engine::ModelRenderer &modelRenderer() { return m_modelRenderer; }
+    // The last frame's light on a model at the eye (sun, sky and bounce from the baked probes, the nearest lights placed
+    // relative to the eye): the first-person view model's (game/render/FirstPersonViewModel). Null before a frame is drawn.
+    const Engine::ModelRenderLighting *eyeModelLighting() const
+    {
+        return m_hasEyeModelLighting ? &m_eyeModelLighting : nullptr;
+    }
     EffectRenderer &effectRenderer() { return m_effectRenderer; }
     const EffectRenderer::Diagnostics &effectRenderDiagnostics() const;
 private:
@@ -857,6 +863,12 @@ private:
     EffectRenderer m_effectRenderer;
     ShieldDomeRenderer m_shieldDomeRenderer;
     Engine::ModelRenderer m_modelRenderer;
+    Engine::ModelRenderLighting m_eyeModelLighting;
+    bool m_hasEyeModelLighting = false;
+    // The eye's baked probe, sampled again after the eye moves ~30 cm.
+    std::optional<OutdoorLightingData::Probe> m_eyeProbe;
+    std::array<float, 3> m_eyeProbeCenter = {};
+    const OutdoorLightingData *m_pEyeProbeData = nullptr;
     // The main view's clustered light grid: the object lights (authored and dynamic) for 3D models; buildings take
     // its dynamic lights.
     Engine::LightGridTextures m_lightGrid;

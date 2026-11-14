@@ -34,6 +34,7 @@
 #include <bitset>
 #include <cctype>
 #include <cmath>
+#include <filesystem>
 #include <iomanip>
 #include <limits>
 #include <sstream>
@@ -216,6 +217,8 @@ struct ScenarioGameApplicationAccess
         application.m_settings.formationsEverywhere = false;
         // Scenarios check the combat log (the combat_log step) in every ruleset and world.
         application.m_settings.combatLog = CombatLogMode::On;
+        // A scenario's `pin` never lands in the player's pin inbox, which the Map Studio imports.
+        application.m_settings.pinInboxPath = (std::filesystem::temp_directory_path() / "openyamm-scenario-pins").string();
         return true;
     }
 
@@ -629,6 +632,11 @@ bool ScenarioRuntimeDriver::startNewGame(
     // As a new game from party creation: the ruleset's own start.
     Party &sessionParty = *session.partyState();
     sessionParty.rules().experience.prepareNewParty(sessionParty);
+    // A solo run (RulesetOptions::soloRun), as from party creation: one member, its action bar filled.
+    if (ruleset.options.soloRun)
+    {
+        makeSoloRunParty(sessionParty);
+    }
     session.setGameMinutes(9.0f * 60.0f);
     static_cast<void>(continentId);
     return loadSelectedMapRuntime(startMapFileName, failure);

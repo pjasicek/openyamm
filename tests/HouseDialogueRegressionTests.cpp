@@ -3008,6 +3008,74 @@ TEST_CASE("house service shop standard stock generates and buys")
     CHECK_GT(harness.party().inventoryItemCount(), initialInventoryCount);
 }
 
+TEST_CASE("house service shop sells a stacked slot one item at a time")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pHouseEntry = gameData.houseTable.get(1);
+    REQUIRE(pHouseEntry != nullptr);
+
+    harness.party().addGold(50000);
+    OpenYAMM::Game::HouseServiceRuntime::ensureStock(
+        harness.party(),
+        gameData.itemTable,
+        gameData.standardItemEnchantTable,
+        gameData.specialItemEnchantTable,
+        *pHouseEntry,
+        harness.worldRuntime().gameMinutes(),
+        OpenYAMM::Game::HouseStockMode::ShopStandard);
+    std::vector<OpenYAMM::Game::InventoryItem> &stock = harness.party().ensureHouseStockState(1).standardStock;
+    const auto stockIt =
+        std::find_if(stock.begin(), stock.end(), [](const OpenYAMM::Game::InventoryItem &item)
+    {
+        return item.objectDescriptionId != 0;
+    });
+
+    REQUIRE(stockIt != stock.end());
+    const size_t slotIndex = static_cast<size_t>(std::distance(stock.begin(), stockIt));
+    const uint32_t itemId = stockIt->objectDescriptionId;
+    stockIt->quantity = 2;
+    std::string statusText;
+
+    const auto buy = [&]()
+    {
+        return OpenYAMM::Game::HouseServiceRuntime::tryBuyStockItem(
+            harness.party(),
+            gameData.itemTable,
+            gameData.standardItemEnchantTable,
+            gameData.specialItemEnchantTable,
+            *pHouseEntry,
+            harness.worldRuntime().gameMinutes(),
+            OpenYAMM::Game::HouseStockMode::ShopStandard,
+            slotIndex,
+            statusText);
+    };
+
+    REQUIRE(buy());
+    CHECK_EQ(stock[slotIndex].objectDescriptionId, itemId);
+    CHECK_EQ(stock[slotIndex].quantity, 1u);
+    REQUIRE(buy());
+    CHECK_EQ(stock[slotIndex].objectDescriptionId, 0u);
+    CHECK_FALSE(buy());
+
+    // Two separate items in the party's bags, not one item holding two.
+    size_t bought = 0;
+
+    for (const OpenYAMM::Game::Character &member : harness.party().members())
+    {
+        for (const OpenYAMM::Game::InventoryItem &item : member.inventory)
+        {
+            if (item.objectDescriptionId == itemId)
+            {
+                CHECK_EQ(item.quantity, 1u);
+                ++bought;
+            }
+        }
+    }
+
+    CHECK_EQ(bought, 2u);
+}
+
 TEST_CASE("house service shop stock uses merged house rules")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

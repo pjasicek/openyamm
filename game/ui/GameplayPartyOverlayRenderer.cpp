@@ -11,6 +11,7 @@
 #include "game/ui/RestHourglassAnimation.h"
 #include "engine/SpriteAtlas.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "game/ui/SpellbookKnowledgeMarkers.h"
 
 #include "engine/ImageAssetLoader.h"
 
@@ -6442,8 +6443,10 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
     }
 
     std::string itemSpecialDetail;
-    // Lines the rules add (MAW: enchantments, legendary affix, attack speed, level required), each in its colour.
+    // Lines the rules add (MAW: enchantments, legendary affix, attack speed, level required), each in its colour,
+    // then the comparison with what the viewer wears.
     std::vector<ItemInspectLine> rulesetLines;
+    size_t ownRulesetLineCount = 0;
     if (!showBrokenOnly && !showUnidentifiedOnly)
     {
         if (!enchantDescription.empty())
@@ -6469,6 +6472,7 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
             context.standardItemEnchantTable(),
             context.specialItemEnchantTable(),
             pViewer);
+        ownRulesetLineCount = rulesetLines.size();
 
         if (pViewer != nullptr)
         {
@@ -6552,6 +6556,14 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
         : 0.0f;
     const float previewImageWidth = previewNativeWidth * previewFit * popupScale;
     const float previewImageHeight = previewNativeHeight * previewFit * popupScale;
+    // A spellbook shows who in the party knows its spell under its picture.
+    const std::vector<SpellbookKnowledge> bookKnowledge = pViewerParty != nullptr && !showStatusOnly
+        ? InventoryItemUseRuntime::spellbookKnowledge(*pViewerParty, *pItemDefinition)
+        : std::vector<SpellbookKnowledge>();
+    static constexpr float BookKnowledgeGap = 4.0f;
+    const float bookKnowledgeHeight = bookKnowledge.empty()
+        ? 0.0f
+        : (BookKnowledgeGap + SpellbookKnowledgeMarkers::plateHeight()) * popupScale;
     const GameplayScreenRuntime::ResolvedHudLayoutElement provisionalRoot = {
         0.0f,
         0.0f,
@@ -6609,32 +6621,71 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
         0.0f,
         pDetailValueLayout->width * popupScale - std::abs(pDetailValueLayout->textPadX * popupScale) * 2.0f);
     const float detailTextWidth = std::max(0.0f, detailTextWidthScaled / std::max(0.1f, detailFontScale));
-    std::vector<std::pair<std::string, uint32_t>> specialDetailLines;
+    // One drawn line; a part of it may have a colour of its own (MAW's stat names).
+    struct SpecialDetailLine
+    {
+        std::string text;
+        uint32_t colorAbgr = 0;
+        size_t accentBegin = 0;
+        size_t accentLength = 0;
+        uint32_t accentAbgr = 0;
+    };
+    std::vector<SpecialDetailLine> specialDetailLines;
+    const auto abgrFromRgb = [](uint32_t rgb)
+    {
+        return 0xff000000u | ((rgb & 0xffu) << 16) | (rgb & 0xff00u) | ((rgb >> 16) & 0xffu);
+    };
 
     if (pDetailFont != nullptr)
     {
-        if (!itemSpecialDetail.empty())
+        // The rules' own lines, then the special, set and mod lines (Standard's "Special:"), then the comparison.
+        const auto addSpecialDetail = [&]()
         {
-            for (const std::string &line : context.wrapHudTextToWidth(*pDetailFont, itemSpecialDetail, detailTextWidth))
+            if (!itemSpecialDetail.empty())
             {
-                specialDetailLines.emplace_back(line, pDetailValueLayout->textColorAbgr);
+                for (const std::string &line :
+                    context.wrapHudTextToWidth(*pDetailFont, itemSpecialDetail, detailTextWidth))
+                {
+                    specialDetailLines.push_back({line, pDetailValueLayout->textColorAbgr});
+                }
+            }
+        };
+
+        for (size_t index = 0; index < rulesetLines.size(); ++index)
+        {
+            if (index == ownRulesetLineCount)
+            {
+                addSpecialDetail();
+            }
+
+            const ItemInspectLine &rulesetLine = rulesetLines[index];
+            const std::vector<std::string> wrapped =
+                context.wrapHudTextToWidth(*pDetailFont, rulesetLine.text, detailTextWidth);
+
+            for (const std::string &line : wrapped)
+            {
+                specialDetailLines.push_back({line, abgrFromRgb(rulesetLine.color)});
+            }
+
+            // The accent is drawn on a line that does not wrap.
+            if (wrapped.size() == 1
+                && rulesetLine.accentLength > 0
+                && rulesetLine.accentBegin + rulesetLine.accentLength <= wrapped.front().size())
+            {
+                specialDetailLines.back().accentBegin = rulesetLine.accentBegin;
+                specialDetailLines.back().accentLength = rulesetLine.accentLength;
+                specialDetailLines.back().accentAbgr = abgrFromRgb(rulesetLine.accentColor);
             }
         }
 
-        for (const ItemInspectLine &rulesetLine : rulesetLines)
+        if (ownRulesetLineCount >= rulesetLines.size())
         {
-            const uint32_t abgr = 0xff000000u | ((rulesetLine.color & 0xffu) << 16) | (rulesetLine.color & 0xff00u)
-                | ((rulesetLine.color >> 16) & 0xffu);
-
-            for (const std::string &line : context.wrapHudTextToWidth(*pDetailFont, rulesetLine.text, detailTextWidth))
-            {
-                specialDetailLines.emplace_back(line, abgr);
-            }
+            addSpecialDetail();
         }
     }
     else if (!itemSpecialDetail.empty())
     {
-        specialDetailLines.emplace_back(itemSpecialDetail, pDetailValueLayout->textColorAbgr);
+        specialDetailLines.push_back({itemSpecialDetail, pDetailValueLayout->textColorAbgr});
     }
     const float specialDetailHeight = showSpecialDetail
         ? std::max(
@@ -6661,7 +6712,7 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
     const float descriptionSectionHeight =
         descriptionHeight > 0.0f ? ItemInspectDetailToDescriptionGap * popupScale + descriptionHeight : 0.0f;
     const float previewContentHeight =
-        typeRectForSizing.y + previewImageHeight + ItemInspectBottomPadding * popupScale;
+        typeRectForSizing.y + previewImageHeight + bookKnowledgeHeight + ItemInspectBottomPadding * popupScale;
     const float textContentHeight =
         typeRectForSizing.y
         + typeRectForSizing.height
@@ -6896,8 +6947,11 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
         previewRect->x += (pPreviewLayout->width * popupScale - previewRect->width) * 0.5f;
         const float previewTop = rootRect.y + typeRectForSizing.y;
         const float previewBottom = rootRect.y + rootRect.height - ItemInspectBottomPadding * popupScale;
-        previewRect->y = std::round(previewTop + (previewBottom - previewTop - previewRect->height) * 0.5f);
+        previewRect->y =
+            std::round(previewTop + (previewBottom - previewTop - previewRect->height - bookKnowledgeHeight) * 0.5f);
         context.submitHudTexturedQuad(*itemTexture, previewRect->x, previewRect->y, previewRect->width, previewRect->height);
+        SpellbookKnowledgeMarkers::render(context, bookKnowledge, previewRect->x + previewRect->width * 0.5f,
+            previewRect->y + previewRect->height + BookKnowledgeGap * popupScale, popupScale);
     }
 
     if (showStatusOnly)
@@ -7001,11 +7055,28 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
 
             textY = std::round(textY);
 
-            for (const auto &[wrappedLine, colorAbgr] : specialDetailLines)
+            for (const SpecialDetailLine &detailLine : specialDetailLines)
             {
-                const GameplayHudFontLayer coloredMainLayer = context.hudFontMainLayer(*pDetailFont, colorAbgr);
-                context.renderHudFontLayer(*pDetailFont, pDetailFont->shadowTextureHandle, wrappedLine, textX, textY, detailFontScale);
-                context.renderHudFontLayer(*pDetailFont, coloredMainLayer, wrappedLine, textX, textY, detailFontScale);
+                context.renderHudFontLayer(
+                    *pDetailFont, pDetailFont->shadowTextureHandle, detailLine.text, textX, textY, detailFontScale);
+
+                // Drawn in parts: before the accent, the accent in its colour, after it.
+                const std::array<std::pair<std::string, uint32_t>, 3> parts = {{
+                    {detailLine.text.substr(0, detailLine.accentBegin), detailLine.colorAbgr},
+                    {detailLine.text.substr(detailLine.accentBegin, detailLine.accentLength), detailLine.accentAbgr},
+                    {detailLine.text.substr(detailLine.accentBegin + detailLine.accentLength), detailLine.colorAbgr}}};
+                float partX = textX;
+
+                for (const auto &[part, colorAbgr] : parts)
+                {
+                    if (!part.empty())
+                    {
+                        const GameplayHudFontLayer coloredMainLayer = context.hudFontMainLayer(*pDetailFont, colorAbgr);
+                        context.renderHudFontLayer(*pDetailFont, coloredMainLayer, part, partX, textY, detailFontScale);
+                        partX += context.measureHudTextWidth(*pDetailFont, part) * detailFontScale;
+                    }
+                }
+
                 textY += detailLineHeight;
             }
         }

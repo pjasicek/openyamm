@@ -1336,6 +1336,17 @@ IdentifyMonsterReveal MawSkillRules::identifyMonsterReveal(const Party &party, i
 
 std::pair<double, double> MawSkillRules::regenerationPerSecond(const Party &party, size_t index) const
 {
+    const std::optional<MawAuraSource> aura = m_rules.activeAura(RegenerationAura);
+
+    // The Regeneration aura reaches MM9's hirelings as the other auras on members do (OY-559).
+    if (const Mm9PartyHireling *pHireling = party.hirelingCombatant(index))
+    {
+        const int fullHealth = Party::effectiveMaximumHealth(pHireling->character);
+        return {aura ? mawRegenerationAuraHealthPerSecond(fullHealth, aura->level, aura->skill, m_rules.buffScale())
+                     : 0.0,
+            0.0};
+    }
+
     const Character &member = party.members()[index];
     MawBalanceModel &model = m_rules.model(int(std::max<size_t>(1, party.members().size())));
     const auto effectiveSkill = [&member](const char *pSkill)
@@ -1352,7 +1363,6 @@ std::pair<double, double> MawSkillRules::regenerationPerSecond(const Party &part
         regenerationMastery, model.health(std::pow(regeneration, 1.4)), fullHealth, member.health);
 
     // The Regeneration aura or the member's Regeneration potion, whichever heals more (SK:1364-1376).
-    const std::optional<MawAuraSource> aura = m_rules.activeAura(RegenerationAura);
     const int potionSkill = member.rulesetState.potionEffect(TimedPotionEffect::Kind::Regeneration, 0);
     healthPerSecond += std::max(
         aura ? mawRegenerationAuraHealthPerSecond(fullHealth, aura->level, aura->skill, m_rules.buffScale()) : 0.0,
@@ -1500,10 +1510,11 @@ void MawSkillRules::updateRegeneration(Party &party, const IGameplayWorldRuntime
         return;
     }
 
-    // Losses are seen every frame, so a hit healed within the same tick still restarts the wait.
-    for (size_t index = 0; index < party.members().size(); ++index)
+    // Losses are seen every frame, so a hit healed within the same tick still restarts the wait. The MM9 hirelings
+    // (combatants past the members) regenerate too, from the Regeneration aura alone (regenerationPerSecond).
+    for (size_t index = 0; index < party.combatantCount(); ++index)
     {
-        Character &member = *party.member(index);
+        Character &member = *party.combatant(index);
         // HP and SP each wait 20 seconds after a loss of their own (S:1395-1446); kept with the character.
         CharacterRulesRuntime &track = member.rulesetState.runtime;
 
@@ -1543,9 +1554,9 @@ void MawSkillRules::updateRegeneration(Party &party, const IGameplayWorldRuntime
     // A dimension map's slower regeneration (zzMAW-Skills.lua:1388-1390).
     const double mapRegeneration = 1 - m_rules.mapAffix(MawMapAffix::PlayerRegeneration).value_or(0) / 100;
 
-    for (size_t index = 0; index < party.members().size(); ++index)
+    for (size_t index = 0; index < party.combatantCount(); ++index)
     {
-        Character &member = *party.member(index);
+        Character &member = *party.combatant(index);
         CharacterRulesRuntime &track = member.rulesetState.runtime;
 
         if (member.conditions.test(size_t(CharacterCondition::Dead))
@@ -1572,7 +1583,8 @@ void MawSkillRules::updateRegeneration(Party &party, const IGameplayWorldRuntime
             track.lastHealth = member.health;
         }
 
-        if (member.conditions.test(size_t(CharacterCondition::Insane)))
+        // A hireling has no spell points to restore.
+        if (party.isHirelingCombatant(index) || member.conditions.test(size_t(CharacterCondition::Insane)))
         {
             continue;
         }

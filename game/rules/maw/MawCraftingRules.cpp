@@ -923,14 +923,14 @@ CraftResult MawCraftingRules::removeEnchant(
     if (item.standardEnchantId != 0)
     {
         present.push_back({1, m_rules.itemRules().enchantLine(item.standardEnchantId, item.standardEnchantPower, true,
-            definition, context.pStandardEnchantTable, nullptr)});
+            definition, context.pStandardEnchantTable, nullptr).text});
     }
 
     if (hasSecondEnchant(item))
     {
         const ItemRulesetFields &fields = item.rulesetFields;
         present.push_back({2, m_rules.itemRules().enchantLine(fields.secondStandardEnchantId,
-            fields.secondStandardEnchantPower, false, definition, context.pStandardEnchantTable, nullptr)});
+            fields.secondStandardEnchantPower, false, definition, context.pStandardEnchantTable, nullptr).text});
     }
 
     if (item.specialEnchantId != 0)

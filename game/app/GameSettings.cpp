@@ -1195,6 +1195,10 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
     {
         parseBoolValue(*value, settings.enemyHealthBarDamageTrail);
     }
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "enemy_health_bar_effects"))
+    {
+        parseBoolValue(*value, settings.enemyHealthBarEffects);
+    }
 
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "save_list_order"))
     {
@@ -1308,6 +1312,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "weapon_trails"))
+    {
+        bool parsed = settings.weaponTrails;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.weaponTrails = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "melee_camera_kick"))
     {
         bool parsed = settings.meleeCameraKick;
@@ -1345,6 +1359,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         if (parseBoolValue(*value, parsed))
         {
             settings.shopListView = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "loot_sparkle"))
+    {
+        bool parsed = settings.lootSparkle;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.lootSparkle = parsed;
         }
     }
 
@@ -2278,6 +2302,26 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
     {
         settings.actorModelsManifest = trimCopy(*value);
     }
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "view_model_path"))
+    {
+        settings.viewModelPath = trimCopy(*value);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "pin_inbox_path"))
+    {
+        // Empty keeps the default inbox.
+        if (const std::string path = trimCopy(*value); !path.empty())
+        {
+            settings.pinInboxPath = path;
+        }
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "solo_hud"))
+    {
+        bool parsed = settings.soloHudPreview;
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.soloHudPreview = parsed;
+        }
+    }
     if (const std::optional<std::string> value = getIniValue(document, "debug", "actor_spawn_id"))
     {
         int parsed = 0;
@@ -2561,6 +2605,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("enemy_health_bars", settings.enemyHealthBarMode);
     serializer.add("enemy_health_bar_values", settings.enemyHealthBarValues);
     serializer.add("enemy_health_bar_damage_trail", boolValue(settings.enemyHealthBarDamageTrail));
+    serializer.add("enemy_health_bar_effects", boolValue(settings.enemyHealthBarEffects));
     serializer.add("quest_markers", boolValue(settings.questMarkers));
     serializer.add("map_style", settings.paintedMaps ? "painted" : "lines");
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");
@@ -2574,9 +2619,11 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("melee_hit_effects", boolValue(settings.meleeHitEffects));
     serializer.add("melee_hit_flash", boolValue(settings.meleeHitFlash));
     serializer.add("melee_camera_kick", boolValue(settings.meleeCameraKick));
+    serializer.add("weapon_trails", boolValue(settings.weaponTrails));
     serializer.add("fast_attack_repeat", boolValue(settings.fastAttackRepeat));
     serializer.add("formations_everywhere", boolValue(settings.formationsEverywhere));
     serializer.add("shop_list_view", boolValue(settings.shopListView));
+    serializer.add("loot_sparkle", boolValue(settings.lootSparkle));
     serializer.add("context_action_popup", boolValue(settings.contextActionPopup));
     serializer.add("rarity_glow", settings.rarityGlow);
     serializer.add("follower_panel", boolValue(settings.followerPanel));
@@ -2700,6 +2747,8 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("allow_incomplete_character_creation", boolValue(settings.allowIncompleteCharacterCreation));
     serializer.add("console", boolValue(settings.debugConsole));
     serializer.add("actor_models", boolValue(settings.actorModels));
+    serializer.add("view_model_path", settings.viewModelPath);
+    serializer.add("pin_inbox_path", settings.pinInboxPath);
     return serializer.takeEntries();
 }
 

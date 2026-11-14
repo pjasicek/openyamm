@@ -3814,6 +3814,7 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             m_mergedTransportLocationTable,
             "Transport Locations.txt")
         && loadPotionEffects(assetFileSystem)
+        && loadSoloTalents(assetFileSystem)
         && loadRulesetData(assetFileSystem);
 }
 
@@ -3987,6 +3988,25 @@ const MawTextData *GameDataLoader::mawTextData() const
 const MawItemData *GameDataLoader::mawItemData() const
 {
     return m_mawItemData ? &*m_mawItemData : nullptr;
+}
+
+bool GameDataLoader::loadSoloTalents(const Engine::AssetFileSystem &assetFileSystem)
+{
+    const std::string path = engineDataTablePath("talents.yml");
+    const std::optional<std::string> text = readRulesetDataFile(assetFileSystem, path);
+    SoloTalentTable table;
+    std::string error;
+
+    // The table is optional content: without it (an older engine package) solo runs simply have no talents.
+    if (text && !table.loadFromYaml(*text, error))
+    {
+        std::cerr << "Failed to load talents " << path << ": " << error << '\n';
+        return false;
+    }
+
+    m_soloTalentTable = std::move(table);
+    bindSoloTalentTable(&m_soloTalentTable);
+    return true;
 }
 
 bool GameDataLoader::loadPotionEffects(const Engine::AssetFileSystem &assetFileSystem)

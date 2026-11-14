@@ -19,6 +19,7 @@
 #include "game/rules/RandomStreams.h"
 #include "game/rules/maw/MawRulesFactory.h"
 #include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/ui/GameplayUiSkin.h"
 
@@ -264,6 +265,7 @@ void GameSession::clear()
     m_turnBasedCombatRuntime.reset();
     m_turnBasedPendingWorldActions = 0;
     m_turnBasedFrameTraceState = {};
+    m_autoWalkActive = false;
     m_gameplayUiRuntime.clear();
     m_gameplayScreenRuntime.clearTransientBindings();
     m_overlayInteractionState = {};
@@ -323,6 +325,7 @@ void GameSession::setPartyState(const Party &party)
 {
     m_partyState = party;
     m_partyState->setRules(rulesetGameRules());
+    m_partyState->setSoloRun(m_ruleset.options.soloRun);
     m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
@@ -330,6 +333,7 @@ void GameSession::setPartyState(Party &&party)
 {
     m_partyState = std::move(party);
     m_partyState->setRules(rulesetGameRules());
+    m_partyState->setSoloRun(m_ruleset.options.soloRun);
     m_partyState->setStatistics(&m_playthroughStatistics);
 }
 
@@ -408,6 +412,7 @@ void GameSession::setRuleset(const RulesetSelection &ruleset)
     if (m_partyState)
     {
         m_partyState->setRules(rulesetGameRules());
+        m_partyState->setSoloRun(m_ruleset.options.soloRun);
     }
 
     bindGameRules(m_pMawRules ? &m_pMawRules->gameRules() : nullptr);
@@ -420,6 +425,11 @@ void GameSession::setRulesetOptions(const RulesetOptions &options)
     if (m_pMawRules)
     {
         m_pMawRules->setOptions(options);
+    }
+
+    if (m_partyState)
+    {
+        m_partyState->setSoloRun(options.soloRun);
     }
 
     if (m_pActiveWorldRuntime != nullptr)
@@ -615,6 +625,9 @@ IGameplayWorldRuntime *GameSession::activeWorldRuntime() const
 
 void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
 {
+    // A map change ends auto-walk.
+    m_autoWalkActive = false;
+
     if (m_pActiveWorldRuntime != pWorldRuntime)
     {
         m_turnBasedCombatRuntime.end(
@@ -990,7 +1003,8 @@ void GameSession::updateGameplay(
         const bool isModalOverlayActive =
             m_gameplayScreenRuntime.readableScrollOverlayReadOnly().active
             || m_gameplayScreenRuntime.lootSummaryOverlayReadOnly().active
-            || GameplayFormationBuilder::isOpen(m_gameplayScreenRuntime);
+            || GameplayFormationBuilder::isOpen(m_gameplayScreenRuntime)
+            || GameplaySoloBarSelector::isOpen(m_gameplayScreenRuntime);
 
         const uint64_t sharedInputBeginTickCount = collectPerformanceDiagnostics ? SDL_GetTicksNS() : 0;
         m_sharedInputFrameResult =
@@ -1058,6 +1072,28 @@ void GameSession::updateGameplay(
             !standardWorldInputBlocked
             && !pendingSpellTargetActive
             && !rightMouseInspectPauseActive;
+
+        // Auto-walk (OY-628) holds Forward for the world, so running, strafing and turning act as with the key held.
+        // A screen or dialogue over play, a spell waiting for a target, a cinematic and turn-based combat end it; the
+        // right button's inspect pause and a click on the HUD only hold the party for their moment.
+        m_autoWalkActive = GameplayInputController::updateAutoWalk(
+            m_autoWalkActive,
+            GameplayAutoWalkInput{
+                .togglePressed = input.action(KeyboardAction::AutoWalk).pressed,
+                .forwardPressed = input.action(KeyboardAction::Forward).pressed,
+                .backwardPressed = input.action(KeyboardAction::Backward).pressed,
+                .canWalk = !cinematicPlaying
+                    && !m_sharedInputFrameResult.journalInputConsumed
+                    && !m_sharedInputFrameResult.worldInputBlocked
+                    && !pendingSpellTargetActive
+                    && m_gameplayScreenRuntime.currentHudScreenState() == GameplayHudScreenState::Gameplay,
+                .turnBased = m_turnBasedCombatRuntime.active(),
+            });
+
+        if (m_autoWalkActive)
+        {
+            worldInput.actions[keyboardActionIndex(KeyboardAction::Forward)].held = true;
+        }
         // Modal screens (inventory, dialogue, rest, menus) freeze party timers and physics like the original; outdoor
         // movement already returns early on the same flags.
         const bool worldMovementPaused =
@@ -1890,6 +1926,11 @@ bool GameSession::sharedWorldInteractionBlockedThisFrame() const
     return m_sharedWorldInteractionBlockedThisFrame;
 }
 
+bool GameSession::autoWalkActive() const
+{
+    return m_autoWalkActive;
+}
+
 void GameSession::requestRelativeMouseMotionReset()
 {
     m_relativeMouseMotionResetRequested = true;
@@ -2353,6 +2394,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     if (m_partyState)
     {
         m_partyState->setStatistics(&m_playthroughStatistics);
+        m_partyState->setSoloRun(m_ruleset.options.soloRun);
         migrateBlazenRescueRosterUnlock(*m_partyState);
 
         if (saveData.currentSceneKind == SceneKind::Outdoor && saveData.hasOutdoorRuntimeState)

@@ -3,6 +3,7 @@
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/GameplayBuffHud.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayClock.h"
 #include "game/ui/GameplayMapProgressBar.h"
 #include "game/ui/GameplayMinimapTransform.h"
@@ -445,6 +446,37 @@ void renderPortraitReadiness(
     context.submitHudQuadBatch(ring);
 }
 
+// A solo HUD's alert gem on the minimap's upper-left rim, as MM9's compass gem (devdocs/solo_action/HUD.md): blue in
+// turn-based combat, red with a hostile in melee range, yellow within the yellow alert range, else green; unlit while
+// the member cannot act. Unlike the portraits' diamonds it shows danger alone, not readiness (the bar's keys do).
+void renderSoloAlertGem(GameplayScreenRuntime &context, const Party &party, int width, int height,
+    float nearestHostile, float engagementRange)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> frame =
+        context.resolveHudLayoutElement("OutdoorMinimapFrame", width, height, 0, 0);
+    const Character *pMember = party.activeMember();
+    if (!frame || pMember == nullptr)
+    {
+        return;
+    }
+    const char *pArt = !GameMechanics::canAct(*pMember) ? "obsidian_solo_alert_unlit"
+        : context.turnBasedCombatRuntime().active() ? "obsidian_solo_alert_blue"
+        : nearestHostile >= engagementRange ? "obsidian_solo_alert_green"
+        : nearestHostile < PartyRedAlertDistance ? "obsidian_solo_alert_red"
+        : nearestHostile < PartyYellowAlertDistance ? "obsidian_solo_alert_yellow" : "obsidian_solo_alert_green";
+    // The minimap circle (OutdoorMinimap) is centred at (62.72, 56) in the frame with a radius of 56: the gem sits at
+    // 135 degrees, its centre 10 units outside the rim, so it covers the map's edge by about 7 units; its top stays
+    // clear of the top bar above the frame (SoloTopRightDrop).
+    constexpr float Size = 34.0f;
+    constexpr float RimOffset = 66.0f * 0.70710678f;
+    GameplayResolvedHudLayoutElement gem = *frame;
+    gem.width = Size * frame->scale;
+    gem.height = Size * frame->scale;
+    gem.x = frame->x + (62.72f - RimOffset - Size / 2) * frame->scale;
+    gem.y = frame->y + (56.0f - RimOffset - Size / 2) * frame->scale;
+    GameplayUiSkin::renderTexture(context, pArt, gem);
+}
+
 // The HP arc's short damage trail: where the arc stood before the latest loss, fading over 96 ticks.
 float updatePortraitHealthTrail(GameplayPortraitMeterState &meter, float health, uint32_t nowTicks)
 {
@@ -675,10 +707,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     {
         draw("OutdoorBasebar");
     }
-    else if (!partyFrameHidden
+    else if (!partyFrameHidden && !context.soloHud()
         && (context.settingsSnapshot().partyFrame || hudScreenState != GameplayHudScreenState::Gameplay))
     {
-        // The frame setting applies to plain gameplay only; dialogues and other screens over the HUD keep it.
+        // The frame setting applies to plain gameplay only; dialogues and other screens over the HUD keep it. A solo
+        // HUD has no frame at the bottom: its bar is a column on the left (GameplaySoloHud).
         const std::optional<GameplayResolvedHudLayoutElement> basebar =
             context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0);
         if (basebar)
@@ -708,7 +741,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         selected = characterScreen.sourceIndex;
     }
     bool hasReadyMember = false;
-    for (size_t combatant = 0; combatant < party.combatantCount() && !hasReadyMember; ++combatant)
+    for (size_t combatant = 0; combatant < party.actingCombatantCount() && !hasReadyMember; ++combatant)
     {
         const Character &member = *party.combatant(combatant);
         hasReadyMember = GameMechanics::canAct(member) && member.recoverySecondsRemaining <= 0;
@@ -719,7 +752,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         : std::numeric_limits<float>::max();
     const float engagementRange = context.worldRuntime() != nullptr ? context.worldRuntime()->partyEngagementRange()
         : 10240.0f;
-    const size_t portraitCount = partyFrameHidden ? 0 : std::min(size_t{5}, members.size());
+    // A solo run draws its unit frame and action bar (GameplaySoloHud) in place of the portraits on plain play.
+    const bool soloHud = !isLimitedOverlayHud && context.soloHud();
+    const size_t portraitCount = partyFrameHidden || soloHud ? 0 : std::min(size_t{5}, members.size());
     for (size_t i = 0; i < portraitCount; ++i)
     {
         const Character &member = members[i];
@@ -930,6 +965,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                     0, vertical ? 1 - amount : 0, vertical ? 1 : amount, 1);
             }
         }
+    }
+    if (soloHud && !partyFrameHidden)
+    {
+        flushQueuedHudQuads();
+        GameplaySoloHud::renderHud(context, width, height);
     }
     if (isLimitedOverlayHud)
     {
@@ -1437,6 +1477,17 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         renderGameplayBuffHud(context, width, height);
         if (context.worldRuntime() != nullptr)
         {
+            // A solo HUD's clock is a small plate on the minimap's lower rim: drawn here, over the minimap.
+            if (context.soloHud())
+            {
+                if (const std::optional<GameplayResolvedHudLayoutElement> clock =
+                        context.resolveHudLayoutElement("ObsidianMinimapClock", width, height, 0, 0))
+                {
+                    flushQueuedHudQuads();
+                    GameplayUiSkin::renderTexture(context, "obsidian_hud_clock_plate", *clock);
+                }
+                renderSoloAlertGem(context, party, width, height, nearestHostile, engagementRange);
+            }
             label("ObsidianMinimapClock", formatGameplayClock(context.worldRuntime()->gameMinutes()));
 
             // The map progress bar in the party frame's top band, while the rules give a progress (MAW).

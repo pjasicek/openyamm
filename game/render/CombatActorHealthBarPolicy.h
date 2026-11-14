@@ -209,6 +209,31 @@ public:
         return std::clamp(trailHp(actor) / float(actor.maxHp), currentRatio, 1.0f);
     }
 
+    // The share of an effect's duration already spent, for its icon's sweep. The actors keep only the time left, so
+    // the duration is the most seen since the effect began; a recast that adds time starts it again. Called every
+    // frame the bar is drawn for every slot, active or not, so an effect that ends is forgotten.
+    static constexpr size_t EffectSlotCount = 24;
+    float effectElapsed(size_t actorIndex, size_t slot, float remainingSeconds)
+    {
+        Actor &actor = m_actors[actorIndex];
+        if (slot >= EffectSlotCount)
+        {
+            return 0.0f;
+        }
+        float &duration = actor.effectDurations[slot];
+        float &last = actor.effectRemaining[slot];
+        if (remainingSeconds <= 0.0f)
+        {
+            duration = 0.0f;
+        }
+        else if (duration <= 0.0f || remainingSeconds > last + 0.05f)
+        {
+            duration = remainingSeconds;
+        }
+        last = std::max(remainingSeconds, 0.0f);
+        return duration > 0.0f ? std::clamp(1.0f - remainingSeconds / duration, 0.0f, 1.0f) : 0.0f;
+    }
+
 private:
     struct Actor
     {
@@ -218,6 +243,8 @@ private:
         double observed = 0;
         double damageTime = 0;
         double combatUntil = 0;
+        std::array<float, EffectSlotCount> effectDurations = {};
+        std::array<float, EffectSlotCount> effectRemaining = {};
     };
     float trailHp(const Actor &actor) const
     {

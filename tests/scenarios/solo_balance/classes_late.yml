@@ -1,0 +1,158 @@
+id: solo_balance.classes_late
+title: "Solo balance - every test-party class at the late stage against one durable target"
+world: mm8
+mode: faithful
+tags: [solo_balance, maw, measurement]
+# A measurement for devdocs/solo_action/BALANCE_AND_TALENTS.md section 3.7, not a regression test. Generated
+# by model/gen_classes.py; model/parse_classes.py reads the CONSOLE and "party_attack report" lines.
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: nightmare, progression: horizontal}
+  - console: {line: "testparty apply late classic", expect_contains: "items worn"}
+  - load_map: {map: out05.odm}
+  - console: {line: "actor kill 200000"}
+  # party classic
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - spawn_actor: {monster_id: 192, near_party: true}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 1, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 1, count: 20, attack_spell: Spirit Lash, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 20, attack_spell: Light Bolt, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 20, attack_spell: Spirit Lash, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 20, attack_spell: Incinerate, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 20, attack_spell: Fireball, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 20, attack_spell: Lightning Bolt, report: true}
+  - grant_item: {item_id: 245, member_index: 0, power: 150}
+  - use_item: {item_id: 245, member_index: 0}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - grant_item: {item_id: 251, member_index: 0, power: 150}
+  - use_item: {item_id: 251, member_index: 0}
+  - grant_item: {item_id: 257, member_index: 0, power: 150}
+  - use_item: {item_id: 257, member_index: 0}
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - console: {line: "actor kill 200000"}
+  - console: {line: "testparty apply late newclasses", expect_contains: "items worn"}
+  - load_map: {map: out05.odm}
+  - console: {line: "actor kill 200000"}
+  # party newclasses
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - spawn_actor: {monster_id: 192, near_party: true}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 1, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 1, count: 20, attack_spell: Incinerate, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 20, attack_spell: Lightning Bolt, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 20, attack_spell: Fireball, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 20, attack_spell: Incinerate, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 20, attack_spell: Fireball, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 40, report: true}
+  - console: {line: "doll 1 equip offhand 0"}
+  - grant_item: {item_id: 10, member_index: 0, roll_level: 100, seed: 7, equip: main_hand}
+  - console: {line: "player sheet"}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - console: {line: "actor kill 200000"}
+  - console: {line: "testparty apply late specials", expect_contains: "items worn"}
+  - load_map: {map: out05.odm}
+  - console: {line: "actor kill 200000"}
+  # party specials
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - spawn_actor: {monster_id: 192, near_party: true}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 1, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 20, attack_spell: Incinerate, report: true}
+  - grant_item: {item_id: 40, member_index: 2, roll_level: 100, seed: 7, equip: off_hand}
+  - console: {line: "player sheet"}
+  - party_attack: {actor_index: last, member_index: 2, count: 40, report: true}
+  - console: {line: "actor kill 200000"}
+  - console: {line: "testparty apply late hybrids", expect_contains: "items worn"}
+  - load_map: {map: out05.odm}
+  - console: {line: "actor kill 200000"}
+  # party hybrids
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - spawn_actor: {monster_id: 192, near_party: true}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 1, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 20, attack_spell: Incinerate, report: true}
+  - party_attack: {actor_index: last, member_index: 2, count: 20, attack_spell: Fireball, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 20, attack_spell: Incinerate, report: true}
+  - party_attack: {actor_index: last, member_index: 3, count: 20, attack_spell: Fireball, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 40, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 20, attack_spell: Toxic Cloud, report: true}
+  - party_attack: {actor_index: last, member_index: 4, count: 20, attack_spell: Spirit Lash, report: true}
+  - console: {line: "actor kill 200000"}
+  - console: {line: "testparty apply late classic", expect_contains: "items worn"}
+  - load_map: {map: out05.odm}
+  - console: {line: "actor kill 200000"}
+  - spawn_actor: {monster_id: 192, near_party: true}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - grant_item: {item_id: 350, member_index: 0}
+  - use_item: {item_id: 350, member_index: 0}
+  - console: {line: "player sheet"}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - grant_item: {item_id: 345, member_index: 0}
+  - use_item: {item_id: 345, member_index: 0}
+  - console: {line: "player sheet"}
+  - party_attack: {actor_index: last, member_index: 0, count: 40, report: true}
+  - console: {line: "actor kill 200000"}
+  - spawn_actor: {monster_id: 192, near_party: true, boss_affix: 14}
+  - console: {line: "actor remaining"}
+  - cast_spell: {member_index: 4, spell_id: 11, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 11, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 11, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 11, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 11, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor remaining"}
+  - console: {line: "hp full"}
+  - console: {line: "actor remaining"}
+  - cast_spell: {member_index: 4, spell_id: 2, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 2, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 2, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 2, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 2, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor remaining"}
+  - console: {line: "hp full"}
+  - console: {line: "actor remaining"}
+  - cast_spell: {member_index: 4, spell_id: 6, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 6, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 6, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 6, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 6, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor remaining"}
+  - console: {line: "hp full"}
+  - console: {line: "actor remaining"}
+  - cast_spell: {member_index: 4, spell_id: 18, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 18, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 18, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 18, actor_index: last}
+  - cast_spell: {member_index: 4, spell_id: 18, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor remaining"}
+  - console: {line: "hp full"}
+  - console: {line: "actor remaining"}
+  - cast_spell: {member_index: 3, spell_id: 78, actor_index: last}
+  - cast_spell: {member_index: 3, spell_id: 78, actor_index: last}
+  - cast_spell: {member_index: 3, spell_id: 78, actor_index: last}
+  - cast_spell: {member_index: 3, spell_id: 78, actor_index: last}
+  - cast_spell: {member_index: 3, spell_id: 78, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "actor remaining"}
+  - console: {line: "hp full"}

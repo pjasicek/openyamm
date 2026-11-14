@@ -6,6 +6,7 @@
 #include "game/party/Party.h"
 #include "game/party/QuickItemSlot.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/SoloBarSelectorModel.h"
 
 #include <bgfx/bgfx.h>
 
@@ -14,6 +15,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -807,11 +809,29 @@ struct GameplayOverlayInteractionState
     GameplayWorldHit gameplayHudPressedContextActionHit = {};
     bool gameplayHudQuickCastRequested = false;
     bool gameplayHudAttackRequested = false;
+    // A solo run's action-bar swap slot (a weapon slot with id 1) was pressed: swap the melee weapon and the bow.
+    bool soloWeaponSwapRequested = false;
+    // A solo run's action bar asked for a talent (its index in the talent table), used by the world interaction frame.
+    std::optional<uint32_t> soloTalentRequested;
     bool gameplayHudTriggerRequested = false;
     bool gameplayHudSpellTargetConfirmRequested = false;
     bool gameplayHudSpellTargetCancelRequested = false;
     bool gameplayHudDropHeldItemRequested = false;
     bool partyBuffPopupOpen = false;
+    // The solo HUD's buff tiles: the longest remaining time seen for each shown buff (its sweep's whole), so the sweep
+    // needs no saved duration; a buff no longer shown is forgotten.
+    std::vector<std::pair<uint32_t, float>> soloBuffLongestSeconds;
+    // The solo HUD's self combat text: the lines shown by the crosshair, newest last, with the SDL tick each came at
+    // and its colour (GameplaySoloHud). Transient.
+    struct SoloSelfTextLine
+    {
+        std::string text;
+        uint32_t colorAbgr = 0xffffffffu;
+        uint64_t startTicks = 0;
+    };
+    std::vector<SoloSelfTextLine> soloSelfText;
+    // The solo action bar's slot selector (GameplaySoloBarSelector), open over the paused game. Transient.
+    SoloBarSelectorState soloBarSelector;
     std::optional<size_t> personalBuffPopupMember;
     bool overlayPersonalBuffClickLatch = false;
     std::optional<size_t> overlayPersonalBuffPressedIndex;

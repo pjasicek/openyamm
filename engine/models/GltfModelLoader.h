@@ -3,6 +3,8 @@
 #include "engine/models/ModelAsset.h"
 
 #include <array>
+#include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <optional>
 #include <string>
@@ -45,6 +47,13 @@ class GltfModelLoader
 {
 public:
     ModelLoadResult load(const AssetFileSystem &assetFileSystem, const std::string &virtualPath) const;
+    // A self-contained GLB on disk outside the mounted packages (every buffer and image embedded): debug and
+    // prototype models only, such as the first-person view model's ([debug] view_model_path).
+    ModelLoadResult loadStandaloneFile(const std::filesystem::path &path) const;
+
+private:
+    ModelLoadResult loadBytes(const std::vector<uint8_t> &sourceBytes, const std::string &virtualPath,
+        const AssetFileSystem *pAssetFileSystem) const;
 };
 
 class ModelAssetCache

@@ -67,10 +67,12 @@ public:
 
     // The active member's quick spell, or with `extraSlot` one of MMMerge's four extra quick spells; an empty slot,
     // like an empty quick spell, attacks instead.
+    // `barSpellName`, when not empty, names the spell instead (a solo run's action bar slot), with the same path.
     QuickSpellStartResolution tryStartQuickSpellCast(
         GameplayScreenRuntime &runtime,
         const TargetQueries &targetQueries,
-        std::optional<size_t> extraSlot = std::nullopt);
+        std::optional<size_t> extraSlot = std::nullopt,
+        const std::string &barSpellName = std::string());
 
     MemberSpellCastResolution castSpellFromMember(
         GameplayScreenRuntime &runtime,

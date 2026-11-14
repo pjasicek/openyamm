@@ -5,6 +5,7 @@
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -107,6 +108,9 @@ struct PartySpellCastRequest
     float viewYawRadians = 0.0f;
     float viewPitchRadians = 0.0f;
     float viewAspectRatio = 1.0f;
+    // A solo run's casting hand on screen (normalized device x right, y up; the view model's): with the view
+    // transform, the spell's missiles start there in front of the eye instead of at the party's centre.
+    std::optional<std::array<float, 2>> handScreenPoint;
     PartySpellUtilityActionKind utilityAction = PartySpellUtilityActionKind::None;
     std::string utilityActionId;
     uint8_t utilitySlotIndex = 0;
@@ -166,7 +170,7 @@ struct PartySpellDescriptor
 class PartySpellSystem
 {
 public:
-    // The refusal of a spell cast underwater (OY-350), the original's "You can't do that while underwater".
+    // The refusal of a spell cast where the map forbids casting (MM7's Shoals, OY-350), the original's text.
     static constexpr const char *UnderwaterText = Engine::trNoop("You can't do that while underwater").data();
 
     static std::optional<PartySpellDescriptor> describeSpell(uint32_t spellId);

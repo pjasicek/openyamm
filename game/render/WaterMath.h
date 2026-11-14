@@ -45,6 +45,9 @@ constexpr uint16_t AmbientOcclusionBlurView = 246;
 constexpr uint16_t AmbientOcclusionCompositeView = 247;
 constexpr uint16_t WorldTransparentView = 248;
 constexpr uint16_t WorldGradingView = 249;
+// The prototype first-person view model (FirstPersonViewModel): drawn into the finished world target with its own
+// depth and projection, after every world pass (AO, bloom, reflections) and before the grading.
+constexpr uint16_t FirstPersonViewModelView = 251;
 // The debug ImGui overlay, the loading screen's completion readback and the loading screen itself.
 constexpr uint16_t DebugImGuiView = 250;
 constexpr uint16_t LoadingReadbackView = 253;
@@ -73,7 +76,7 @@ constexpr bool uniqueGameViewIds()
     for (uint16_t view : {SkyImageView, ActorPortraitView, ActorTalkPortraitView, MenuDesignView,
              ReflectionHistoryColorView, ReflectionHistoryPositionView, AmbientOcclusionDepthView,
              AmbientOcclusionView, AmbientOcclusionBlurView, AmbientOcclusionCompositeView, WorldTransparentView,
-             WorldGradingView, DebugImGuiView, LoadingReadbackView, LoadingOverlayView})
+             WorldGradingView, FirstPersonViewModelView, DebugImGuiView, LoadingReadbackView, LoadingOverlayView})
     {
         views[count++] = view;
     }
@@ -224,10 +227,10 @@ inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjectio
     return {uint16_t(left), uint16_t(top), uint16_t(right - left), uint16_t(bottom - top)};
 }
 
-constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool grading, bool ambientOcclusion = false,
+constexpr std::array<uint16_t, FirstPersonViewModelView + 1> worldRenderViewOrder(bool grading, bool ambientOcclusion = false,
     bool bloom = false, bool reflections = false)
 {
-    std::array<uint16_t, WorldGradingView + 1> order = {};
+    std::array<uint16_t, FirstPersonViewModelView + 1> order = {};
     size_t index = 0;
     for (uint16_t view = FirstSunShadowView; view < FirstSunShadowView + SunShadowViews; ++view)
     {
@@ -266,17 +269,19 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
         order[index++] = ReflectionHistoryColorView;
         order[index++] = ReflectionHistoryPositionView;
     }
+    order[index++] = FirstPersonViewModelView;
     if (grading)
     {
         order[index++] = WorldGradingView;
     }
-    for (uint16_t view = 2; view <= WorldGradingView; ++view)
+    for (uint16_t view = 2; view <= FirstPersonViewModelView; ++view)
     {
         if ((view < FirstSunShadowView || view >= FirstSunShadowView + SunShadowViews)
             && (view < FirstWaterReflectionView || view >= FirstWaterReflectionView + MaxWaterReflections * 2)
             && view != SkyImageView
             && view != ActorPortraitView
             && view != ActorTalkPortraitView
+            && view != FirstPersonViewModelView
             && (view < FirstIndoorDebugPassView || view >= FirstIndoorDebugPassView + IndoorDebugPassViews)
             && (!grading || view != WorldGradingView)
             && (!ambientOcclusion || view < AmbientOcclusionDepthView || view > WorldTransparentView)

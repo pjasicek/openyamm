@@ -45,6 +45,10 @@ constexpr float MeleeGlancingDamageFraction = 0.06f;
 constexpr float MeleeCrushingDamageFraction = 0.3f;
 // The camera kick on a critical or killing melee blow, about 1.5 degrees.
 constexpr float MeleeCameraKickRadians = 0.026f;
+// A solo dragon's breath: its source this far in front of the eye on the ray through the mouth on screen (inside the
+// party's collision radius, so it never starts beyond a wall), and the view's upward kick as it leaves, about 2 degrees.
+constexpr float BreathMouthDistance = 32.0f;
+constexpr float BreathCameraKickRadians = 0.035f;
 // Fireball's explosion, where a Carnage arrow strikes.
 constexpr uint32_t FireballExplosionObjectId = 1051;
 
@@ -234,8 +238,10 @@ std::optional<MeleeContactEffectPlacement> placeMeleeBlow(
     std::uniform_real_distribution<float> variation(-1.0f, 1.0f);
 
     MeleeContactEffectInput input;
-    input.weaponClass =
-        meleeWeaponClassForSkill(canonicalSkillName(pWeapon != nullptr ? pWeapon->skillGroup : "Unarmed"));
+    // A dragon (who holds no weapon) rakes with its claws (devdocs/solo_action/DRAGON.md).
+    input.weaponClass = gameRulesFor(config.pParty).classes.isDragon(attacker)
+        ? MeleeWeaponClass::Claw
+        : meleeWeaponClassForSkill(canonicalSkillName(pWeapon != nullptr ? pWeapon->skillGroup : "Unarmed"));
     input.strength = strength;
     input.missed = missed;
     ElementalDamageBonuses weaponElements = ItemEnchantRuntime::characterAttackElementalDamageRange(
@@ -272,6 +278,7 @@ std::optional<MeleeContactEffectPlacement> placeMeleeBlow(
     input.twoHanded = pWeapon != nullptr
         && (pWeapon->equipStat == "Weapon2" || (pWeapon->equipStat == "Weapon1or2" && attacker.equipment.offHand == 0));
     input.variation = variation(rng);
+    input.blowDirection = config.blowScreenDirection;
     return buildMeleeContactEffect(input);
 }
 
@@ -422,6 +429,25 @@ GameplayActionController::WorldPoint dragonBreathSourcePoint(
     const GameplayActionController::WorldPoint &rangedSource,
     const GameplayActionController::PartyAttackConfig &config)
 {
+    // A solo dragon breathes from the mouth the forelegs show: the point this far in front of the eye on the ray
+    // through it (the view and projection of the attack's camera; bx column-major rows: right, up, back).
+    const std::array<float, 16> &view = config.fallbackQuery.viewMatrix;
+    const std::array<float, 16> &projection = config.fallbackQuery.projectionMatrix;
+    if (config.breathScreenPoint && projection[0] > 0.0f && projection[5] > 0.0f)
+    {
+        const std::array<float, 3> right = {view[0], view[4], view[8]};
+        const std::array<float, 3> up = {view[1], view[5], view[9]};
+        const std::array<float, 3> back = {view[2], view[6], view[10]};
+        const float across = (*config.breathScreenPoint)[0] / projection[0] * BreathMouthDistance;
+        const float lift = (*config.breathScreenPoint)[1] / projection[5] * BreathMouthDistance;
+        std::array<float, 3> point = {};
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            const float eye = -(view[12] * right[axis] + view[13] * up[axis] + view[14] * back[axis]);
+            point[axis] = eye - back[axis] * BreathMouthDistance + right[axis] * across + up[axis] * lift;
+        }
+        return {point[0], point[1], point[2]};
+    }
     GameplayActionController::WorldPoint source = rangedSource;
     source.z = std::min(source.z, config.partyPosition.z + DragonBreathSourceHeight);
     return source;
@@ -1171,6 +1197,21 @@ GameplayActionController::PartyAttackExecutionResult executeHirelingAttack(
 }
 } // namespace
 
+bool GameplayActionController::partyAttackTargetInMeleeReach(IGameplayWorldRuntime &world,
+    const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex)
+{
+    PartyAttackConfig config;
+    config.pWorldRuntime = &world;
+    config.fallbackQuery = input.fallbackQuery;
+    config.partyPosition = {input.partyPosition.x, input.partyPosition.y, input.partyPosition.z};
+    std::optional<PartyAttackActorFacts> target = resolveUsableActorTarget(config, directActorIndex);
+    if (!target)
+    {
+        target = chooseFallbackRangedTarget(config);
+    }
+    return target && actorDistanceFromParty(*target, config.partyPosition) <= CharacterMeleeAttackDistance;
+}
+
 void GameplayActionController::updateCooldowns(GameplayScreenState &screenState, float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f)
@@ -1240,19 +1281,21 @@ GameplayActionController::QuickCastActionDecision GameplayActionController::upda
     }
 
     const bool pressedThisFrame = config.quickCastPressed && !quickSpellState.castLatch;
+    // Turn-based mode repeats a held key only on its interval, as the original's key repeat: never at once when a
+    // member becomes ready, and never before the first-repeat pause, so a tap acts for one member (OY-354).
     const bool repeatReady =
-        !config.turnBased
-        && config.quickCastPressed
+        config.quickCastPressed
         && quickSpellState.castLatch
         && (quickSpellState.castRepeatCooldownSeconds <= 0.0f
-            || ((quickSpellState.castRepeating || config.fastRepeat) && readyMemberTransitionWhileHeld));
+            || (!config.turnBased && (quickSpellState.castRepeating || config.fastRepeat)
+                && readyMemberTransitionWhileHeld));
 
     if (pressedThisFrame || repeatReady)
     {
         quickSpellState.attackFallbackRequested = false;
         quickSpellState.castLatch = true;
         quickSpellState.castRepeating = repeatReady;
-        quickSpellState.castRepeatCooldownSeconds = repeatReady || config.fastRepeat
+        quickSpellState.castRepeatCooldownSeconds = repeatReady || (config.fastRepeat && !config.turnBased)
             ? HeldActionRepeatDebounceSeconds
             : HeldActionFirstRepeatDelaySeconds;
         return QuickCastActionDecision{
@@ -1302,12 +1345,13 @@ GameplayActionController::AttackActionDecision GameplayActionController::updateA
 
     const bool pressedThisFrame =
         (config.attackPressed || attackTriggeredByQuickCastFallback) && !attackActionState.inspectLatch;
+    // Turn-based mode repeats a held key only on its interval, as updateQuickCastAction.
     const bool repeatReady =
-        !config.turnBased
-        && (config.attackPressed || attackTriggeredByQuickCastFallback)
+        (config.attackPressed || attackTriggeredByQuickCastFallback)
         && attackActionState.inspectLatch
         && (attackActionState.inspectRepeatCooldownSeconds <= 0.0f
-            || ((attackActionState.inspectRepeating || config.fastRepeat) && readyMemberTransitionWhileHeld));
+            || (!config.turnBased && (attackActionState.inspectRepeating || config.fastRepeat)
+                && readyMemberTransitionWhileHeld));
 
     quickSpellState.attackFallbackRequested = false;
 
@@ -1315,7 +1359,8 @@ GameplayActionController::AttackActionDecision GameplayActionController::updateA
     {
         attackActionState.inspectLatch = true;
         attackActionState.inspectRepeating = repeatReady;
-        attackActionState.inspectRepeatCooldownSeconds = attackActionState.inspectRepeating || config.fastRepeat
+        attackActionState.inspectRepeatCooldownSeconds =
+            attackActionState.inspectRepeating || (config.fastRepeat && !config.turnBased)
             ? HeldActionRepeatDebounceSeconds
             : HeldActionFirstRepeatDelaySeconds;
 
@@ -1435,8 +1480,15 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             config.pWorldRuntime);
     std::optional<CharacterAttackMode> orderedMode;
 
+    const bool talentBlow = config.talentExtraBlow || config.talentShot || config.talentShare != 1.0f;
+
     for (const BattleOrder &order : pAttacker->battleOrders)
     {
+        if (talentBlow)
+        {
+            break;
+        }
+
         if (!order.enabled)
         {
             continue;
@@ -1499,7 +1551,16 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         return result;
     }
 
-    if (!orderedMode && pAttacker->battleOrderFallback == BattleOrderFallback::Hold)
+    if (config.talentShot)
+    {
+        orderedMode = shootingAttackMode(attackProfile, eyeUnderWater);
+    }
+    else if (config.preferBow)
+    {
+        orderedMode = GameMechanics::soloBowShotMode(attackProfile, eyeUnderWater);
+    }
+
+    if (!orderedMode && pAttacker->battleOrderFallback == BattleOrderFallback::Hold && !talentBlow)
     {
         result.held = true;
         return result;
@@ -1587,6 +1648,15 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     attackContext.partyCount = config.pParty != nullptr ? int(std::max<size_t>(1, config.pParty->members().size())) : 1;
     attackContext.pRng = &rng;
     gameRulesFor(config.pParty).combat.resolveCharacterAttack(attack, attackContext);
+
+    if (config.talentShare != 1.0f && attack.damage > 0)
+    {
+        const auto scaled = [&config](int value) { return std::max(1, int(std::lround(value * config.talentShare))); };
+        attack.damage = scaled(attack.damage);
+        attack.minimumDamage = scaled(attack.minimumDamage);
+        attack.maximumDamage = scaled(attack.maximumDamage);
+    }
+
     result.attack = attack;
 
     if (attack.canAttack && attack.mode != CharacterAttackMode::Melee
@@ -1782,7 +1852,16 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                             config.pRuntime != nullptr && config.pRuntime->turnBasedCombatRuntime().active(),
                         .targetActorIndex = result.targetActorIndex,
                         .critical = attack.criticalDamage,
+                        // A Fire Bolt by the rules, with the dragons' own breath look (projectiles.yml dragon_breath).
+                        .presentationSpellId = static_cast<uint32_t>(SpellId::DragonBreath),
                     });
+
+                // A solo dragon's view kicks up as the breath leaves its mouth.
+                if (attacked && config.breathScreenPoint && config.pRuntime != nullptr
+                    && config.pRuntime->settingsSnapshot().meleeCameraKick)
+                {
+                    config.pWorldRuntime->actorHitFeedback().triggerCameraKick(0.0f, 1.0f, BreathCameraKickRadians);
+                }
             }
         }
         else if (attack.mode == CharacterAttackMode::Wand)
@@ -1954,9 +2033,16 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             party.refreshDerivedState();
         }
 
-        playPartyAttackSound(config, *pAttacker, attack);
+        if (!(config.swingSoundPlayed && attack.mode == CharacterAttackMode::Melee) && !config.talentExtraBlow)
+        {
+            playPartyAttackSound(config, *pAttacker, attack);
+        }
 
-        if (config.pRuntime != nullptr && config.pRuntime->turnBasedCombatRuntime().active())
+        if (config.talentExtraBlow)
+        {
+            // The talent's first blow paid the recovery.
+        }
+        else if (config.pRuntime != nullptr && config.pRuntime->turnBasedCombatRuntime().active())
         {
             config.pRuntime->turnBasedCombatRuntime().storeMemberTurnRecovery(
                 actingMemberIndex,
@@ -1964,7 +2050,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         }
         else
         {
-            party.applyRecoveryToActiveMember(attack.recoverySeconds);
+            party.applyRecoveryToActiveMember(std::max(0.0f, attack.recoverySeconds - config.recoverySpentSeconds));
             party.switchToNextReadyMember();
         }
     }
@@ -2001,6 +2087,18 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     result.killed = killed;
     result.attack = attack;
     return result;
+}
+
+void GameplayActionController::playMeleeSwingSound(
+    GameplayScreenRuntime &runtime, const Character &attacker, const ItemTable *pItemTable, float x, float y, float z)
+{
+    if (GameAudioSystem *pAudioSystem = runtime.audioSystem())
+    {
+        pAudioSystem->playCommonSound(
+            GameMechanics::resolveCharacterAttackSoundId(attacker, pItemTable, CharacterAttackMode::Melee),
+            GameAudioSystem::PlaybackGroup::World,
+            GameAudioSystem::WorldPosition{x, y, z});
+    }
 }
 
 GameplayActionController::PartyAttackExecutionResult GameplayActionController::executePartyAttack(

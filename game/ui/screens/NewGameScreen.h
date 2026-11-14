@@ -290,6 +290,8 @@ public:
     std::array<std::vector<std::string>, 8> m_pcNameColumns;
     CreationState m_state = {};
     size_t m_partySize = 1;
+    // The augmented solo run (RulesetOptions::soloRun): offered while the party is one adventurer, and it keeps it one.
+    bool m_soloRun = false;
     size_t m_activePartySlot = 0;
     std::mt19937 m_nameRng;
     bool m_pcNamesLoaded = false;

@@ -374,23 +374,12 @@ bool sortPartyBags(
     const std::vector<size_t> &members,
     bool allBags,
     int bagCount,
-    std::optional<size_t> alchemist,
-    const std::function<std::optional<int>(const InventoryItem &)> &alchemyRank,
     const std::function<std::optional<BagTag>(const InventoryItem &)> &bagTagOf)
 {
     const ItemTable *pItemTable = party.itemTable();
-    std::vector<size_t> sorted = members;
+    std::vector<std::vector<std::vector<InventoryItem>>> packed(party.members().size());
 
-    if (alchemist && std::find(sorted.begin(), sorted.end(), *alchemist) == sorted.end())
-    {
-        sorted.push_back(*alchemist);
-    }
-
-    // What each member keeps, and the alchemy items that go to the alchemist with their owners.
-    std::vector<std::vector<InventoryItem>> kept(party.members().size());
-    std::vector<std::pair<InventoryItem, size_t>> alchemyItems;
-
-    for (const size_t memberIndex : sorted)
+    for (const size_t memberIndex : members)
     {
         const Character *pMember = party.member(memberIndex);
 
@@ -399,88 +388,21 @@ bool sortPartyBags(
             return false;
         }
 
-        for (const InventoryItem &item : bagItems(*pMember, allBags, sortedBagRange(*pMember, bagCount)))
-        {
-            if (alchemist && alchemyRank(item))
-            {
-                alchemyItems.emplace_back(item, memberIndex);
-            }
-            else
-            {
-                kept[memberIndex].push_back(item);
-            }
-        }
-    }
-
-    std::stable_sort(alchemyItems.begin(), alchemyItems.end(),
-        [&alchemyRank](const auto &left, const auto &right)
-        {
-            return *alchemyRank(left.first) < *alchemyRank(right.first);
-        });
-    std::vector<std::vector<std::vector<InventoryItem>>> packed(party.members().size());
-    // Sorting every bag honours the member's bag tags; the open bag alone has nowhere else to send an item.
-    const auto packMember = [&](size_t memberIndex, const std::vector<InventoryItem> &items)
-    {
-        const Character &member = *party.member(memberIndex);
-        return allBags
-            ? packIntoTaggedBags(items, sortedBagRange(member, bagCount), member, bagTagOf, packed[memberIndex])
+        const BagRange bagRange = sortedBagRange(*pMember, bagCount);
+        std::vector<InventoryItem> items = bagItems(*pMember, allBags, bagRange);
+        sortByMawOrder(items, pItemTable);
+        // Sorting every bag honours the member's bag tags; the open bag alone has nowhere else to send an item.
+        const std::vector<InventoryItem> leftOver = allBags
+            ? packIntoTaggedBags(items, bagRange, *pMember, bagTagOf, packed[memberIndex])
             : packIntoBags(items, 1, packed[memberIndex]);
-    };
 
-    if (alchemist)
-    {
-        // The alchemist takes what fits after their own items; the other members' alchemy items that do not, the
-        // last first, stay with their owners.
-        sortByMawOrder(kept[*alchemist], pItemTable);
-
-        while (true)
-        {
-            std::vector<InventoryItem> items;
-
-            for (const auto &[item, owner] : alchemyItems)
-            {
-                items.push_back(item);
-            }
-
-            items.insert(items.end(), kept[*alchemist].begin(), kept[*alchemist].end());
-
-            if (packMember(*alchemist, items).empty())
-            {
-                break;
-            }
-
-            const auto lastForeign = std::find_if(alchemyItems.rbegin(), alchemyItems.rend(),
-                [&alchemist](const auto &entry)
-                {
-                    return entry.second != *alchemist;
-                });
-
-            if (lastForeign == alchemyItems.rend())
-            {
-                return false;
-            }
-
-            kept[lastForeign->second].push_back(lastForeign->first);
-            alchemyItems.erase(std::next(lastForeign).base());
-        }
-    }
-
-    for (const size_t memberIndex : sorted)
-    {
-        if (alchemist && memberIndex == *alchemist)
-        {
-            continue;
-        }
-
-        sortByMawOrder(kept[memberIndex], pItemTable);
-
-        if (!packMember(memberIndex, kept[memberIndex]).empty())
+        if (!leftOver.empty())
         {
             return false;
         }
     }
 
-    for (const size_t memberIndex : sorted)
+    for (const size_t memberIndex : members)
     {
         Character &member = *party.member(memberIndex);
         storeBags(member, std::move(packed[memberIndex]), allBags, sortedBagRange(member, bagCount));

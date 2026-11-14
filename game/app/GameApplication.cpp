@@ -1,4 +1,5 @@
 #include "game/app/GameApplication.h"
+#include "game/rules/SoloTalents.h"
 
 #include "game/gameplay/BountyHuntRuntime.h"
 #include "game/gameplay/PartyHostileAlert.h"
@@ -10,6 +11,7 @@
 #include "game/app/ProfilingControl.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/debug/MawTestParties.h"
+#include "game/debug/PinInbox.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
@@ -42,6 +44,7 @@
 #include "game/tables/ItemTable.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplaySoloBarSelector.h"
 #include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/CutsceneVideoScreen.h"
 #include "game/ui/screens/LoadGameScreen.h"
@@ -61,6 +64,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <span>
 #include <array>
 #include <cctype>
 #include <chrono>
@@ -1275,6 +1279,39 @@ private:
 };
 
 constexpr float Pi = 3.14159265358979323846f;
+
+// The party's pose as the console's `loc` prints it and a `pin` records it.
+struct ConsolePartyPose
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float footZ = 0.0f;
+    float yawRadians = 0.0f;
+    float headingDegrees = 0.0f;
+    int headingYawUnits = 0;
+    float pitchDegrees = 0.0f;
+};
+
+ConsolePartyPose consolePartyPose(IGameplayWorldRuntime &worldRuntime)
+{
+    constexpr float FullCircleRadians = Pi * 2.0f;
+    ConsolePartyPose pose;
+    pose.x = worldRuntime.partyX();
+    pose.y = worldRuntime.partyY();
+    pose.footZ = worldRuntime.partyFootZ();
+    pose.yawRadians = std::fmod(worldRuntime.gameplayCameraYawRadians(), FullCircleRadians);
+
+    if (pose.yawRadians < 0.0f)
+    {
+        pose.yawRadians += FullCircleRadians;
+    }
+
+    pose.headingDegrees = pose.yawRadians * 180.0f / Pi;
+    pose.headingYawUnits = static_cast<int>(std::lround(pose.yawRadians * 2048.0f / FullCircleRadians)) % 2048;
+    pose.pitchDegrees = worldRuntime.gameplayCameraPitchRadians() * 180.0f / Pi;
+    return pose;
+}
+
 constexpr uint32_t DefaultRosterPartyMemberCount = 3;
 constexpr const char *DefaultStartupMapFile = "out01.odm";
 constexpr int MainMenuMusicTrack = 14;
@@ -4369,6 +4406,7 @@ void GameApplication::registerDebugConsoleCommands()
             " | actor behavior [<index> <behavior-id>] | actor damage <index|last> <amount> [tier] [crit]"
             " | actor immobile <index|last> on|off"
             " | actor shield <index|last> [points] | actor blink <index|last> | actor charge <index|last>"
+            " | actor cast <index|last> <spell-id> [skill] [mastery]"
             " | actor frenzy <index|last>",
         .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
         {
@@ -4507,6 +4545,30 @@ void GameApplication::registerDebugConsoleCommands()
                 const bool frenzied = parsedIndex && *parsedIndex >= 0 && pWorld->frenzyActor(size_t(*parsedIndex));
                 return commandResult(frenzied,
                     frenzied ? "Frenzy." : "No frenzy (no frenzy modifier, in a frenzy, or charging).");
+            }
+            if (context.args.size() >= 3 && context.args.size() <= 5 && toLowerCopy(context.args[0]) == "cast")
+            {
+                // The first member's spell lands on the actor as an impact would, through the ruleset's crowd
+                // control (no projectile, mana or recovery), for captures and checks of effects on monsters.
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+                const std::optional<int32_t> parsedIndex = pWorld == nullptr ? std::nullopt
+                    : toLowerCopy(context.args[1]) == "last"
+                    ? std::optional<int32_t>(int32_t(pWorld->mapActorCount()) - 1)
+                    : parseInt32Argument(context.args[1]);
+                const std::optional<int32_t> spellId = parseInt32Argument(context.args[2]);
+                const std::optional<int32_t> skill =
+                    context.args.size() >= 4 ? parseInt32Argument(context.args[3]) : std::optional<int32_t>(10);
+                const std::optional<int32_t> mastery =
+                    context.args.size() >= 5 ? parseInt32Argument(context.args[4]) : std::optional<int32_t>(4);
+                if (!parsedIndex || *parsedIndex < 0 || !spellId || *spellId <= 0 || !skill || *skill < 0
+                    || !mastery || *mastery < 1 || *mastery > 4)
+                {
+                    return commandResult(false, "Usage: actor cast <index|last> <spell-id> [skill] [mastery 1-4]");
+                }
+                const bool applied = pWorld->applyPartySpellToActor(size_t(*parsedIndex), uint32_t(*spellId),
+                    uint32_t(*skill), SkillMastery(*mastery), 0, pWorld->partyX(), pWorld->partyY(),
+                    pWorld->partyFootZ(), 0, false);
+                return commandResult(applied, applied ? "Applied." : "Not applied (resisted, immune or no target).");
             }
             if ((context.args.size() == 2 || context.args.size() == 3) && toLowerCopy(context.args[0]) == "shield")
             {
@@ -5414,6 +5476,286 @@ void GameApplication::registerDebugConsoleCommands()
         .readOnly = true});
 
     m_debugConsole.registerCommand({
+        .name = "talent",
+        .description = "A MAW solo run's talents (devdocs/solo_action/TALENTS.md): set a rank, forget them, list them.",
+        .usage = "talent <id> <rank> | talent reset | talent list | talent page | talent use <id> | talent clearbar",
+        .callback = [this, commandResult, activeParty](const DebugConsole::CommandContext &context)
+        {
+            const std::vector<std::string> &args = context.args;
+            Party *pParty = activeParty();
+            Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+            if (pMember == nullptr)
+            {
+                return commandResult(false, "no active member");
+            }
+            if (args.size() == 1 && args[0] == "page")
+            {
+                GameplayUiController::CharacterScreenState &screen =
+                    m_gameSession.gameplayScreenRuntime().characterScreen();
+                screen.page = GameplayUiController::CharacterPage::Skills;
+                screen.talentsView = true;
+                return commandResult(true, "talents page");
+            }
+            if (!m_gameSession.gameplayScreenRuntime().soloTalents())
+            {
+                return commandResult(false, "talents exist only in a MAW solo run");
+            }
+            if (args.size() == 1 && args[0] == "reset")
+            {
+                resetTalents(*pMember);
+                pParty->refreshDerivedState();
+                return commandResult(true, "talents forgotten");
+            }
+            if (args.size() == 1 && args[0] == "clearbar")
+            {
+                for (size_t slot = 1; slot < ActionBarSlotCount / 2; ++slot)
+                {
+                    pMember->actionBar[slot] = {};
+                }
+                return commandResult(true, "bar keys 2-0 cleared");
+            }
+            if (args.size() == 2 && args[0] == "use")
+            {
+                const TalentDefinition *pUse = soloTalentTable().find(args[1]);
+                if (pUse == nullptr)
+                {
+                    return commandResult(false, "no talent " + args[1]);
+                }
+                m_gameSession.gameplayScreenRuntime().interactionState().soloTalentRequested =
+                    uint32_t(pUse - soloTalentTable().talents().data());
+                return commandResult(true, "using " + args[1]);
+            }
+            if (args.size() == 1 && args[0] == "list")
+            {
+                std::ostringstream out;
+                for (const TalentDefinition &talent : soloTalentTable().talents())
+                {
+                    out << talent.id << '=' << talentRank(*pMember, talent.id) << ' ';
+                }
+                return commandResult(true, out.str());
+            }
+            const TalentDefinition *pTalent = args.size() == 2 ? soloTalentTable().find(args[0]) : nullptr;
+            if (pTalent == nullptr)
+            {
+                return commandResult(false, "usage: talent <id> <rank> | talent reset | talent list");
+            }
+            const int rank = std::clamp(std::stoi(args[1]), 0, pTalent->maxRank);
+            // Set directly (no points, no locks); an active goes on the first free key as learning puts it.
+            pMember->talentRanks.erase(pTalent->id);
+            if (rank > 0)
+            {
+                pMember->talentRanks[pTalent->id] = uint8_t(rank);
+                const uint32_t index = uint32_t(pTalent - soloTalentTable().talents().data());
+                const bool placed = std::any_of(pMember->actionBar.begin(), pMember->actionBar.end(),
+                    [index](const ActionBarSlot &slot)
+                    { return slot.kind == ActionBarSlotKind::Talent && slot.id == index; });
+                for (size_t slot = 0; pTalent->kind == TalentKind::Active && !placed && slot < ActionBarSlotCount / 2;
+                     ++slot)
+                {
+                    if (pMember->actionBar[slot].kind == ActionBarSlotKind::Empty)
+                    {
+                        pMember->actionBar[slot] = {ActionBarSlotKind::Talent, index, {}};
+                        break;
+                    }
+                }
+            }
+            pParty->refreshDerivedState();
+            return commandResult(true, pTalent->id + " rank " + std::to_string(talentRank(*pMember, pTalent->id)));
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "viewmodel",
+        .description = "Prototype first-person view model: hold a clip, override the kit, list clips.",
+        .usage = "viewmodel pose <clip> <seconds> | viewmodel pose off | viewmodel kit <set> <weapon|none> "
+            "<shield 0|1> | viewmodel kit dual <weapon> <off-hand weapon> | viewmodel kit auto | viewmodel clips | "
+            "viewmodel trace on|off | "
+            "viewmodel path <clip> <file.json> [samples] | viewmodel held <icon> | viewmodel weapons oblivion|ours | "
+            "viewmodel tier <n|auto> | viewmodel equip <main item id|0> <off-hand item id|0> [bow item id|0]",
+        .callback = [this, commandResult, activeParty](const DebugConsole::CommandContext &context)
+        {
+            const std::vector<std::string> &args = context.args;
+            // viewmodel equip <main> <off> [bow]: put items straight into the active member's hands (and bow slot),
+            // skipping the equip rules (captures of dual wielding and crossbows, devdocs/solo_action/WEAPONS.md); 0
+            // empties a hand. With nothing in the main hand the member draws the bow.
+            if ((args.size() == 3 || args.size() == 4) && args[0] == "equip")
+            {
+                Party *pParty = activeParty();
+                Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+                const ItemTable *pItems = m_gameSession.gameplayScreenRuntime().itemTable();
+                const std::optional<int32_t> mainId = parseInt32Argument(args[1]);
+                const std::optional<int32_t> offId = parseInt32Argument(args[2]);
+                const std::optional<int32_t> bowId = args.size() == 4 ? parseInt32Argument(args[3]) : std::nullopt;
+                const auto known = [pItems](const std::optional<int32_t> &id)
+                {
+                    return id && *id >= 0 && (*id == 0 || pItems->get(uint32_t(*id)) != nullptr);
+                };
+                if (pMember == nullptr || pItems == nullptr || !known(mainId) || !known(offId)
+                    || (args.size() == 4 && !known(bowId)))
+                {
+                    return commandResult(false,
+                        "Usage: viewmodel equip <main item id|0> <off-hand item id|0> [bow item id|0]");
+                }
+                pMember->equipment.mainHand = uint32_t(*mainId);
+                pMember->equipment.offHand = uint32_t(*offId);
+                pMember->equipmentRuntime.mainHand = {};
+                pMember->equipmentRuntime.offHand = {};
+                if (bowId)
+                {
+                    pMember->equipment.bow = uint32_t(*bowId);
+                    pMember->equipmentRuntime.bow = {};
+                }
+                pParty->refreshDerivedState();
+                return commandResult(true, "main hand " + args[1] + ", off hand " + args[2]
+                    + (bowId ? ", bow " + args[3] : std::string()));
+            }
+            if (args.size() == 3 && args[0] == "pose")
+            {
+                return activeViewModel().holdPose(args[1], std::stof(args[2]))
+                    ? commandResult(true, "holding " + args[1] + " at " + args[2])
+                    : commandResult(false, "no clip " + args[1]);
+            }
+            if (args.size() == 2 && args[0] == "pose" && args[1] == "off")
+            {
+                activeViewModel().releasePose();
+                return commandResult(true, "pose released");
+            }
+            if (args.size() == 2 && args[0] == "kit" && args[1] == "auto")
+            {
+                activeViewModel().overrideKit(std::nullopt);
+                return commandResult(true, "kit follows the active member");
+            }
+            if (args.size() == 4 && args[0] == "kit")
+            {
+                FirstPersonViewModel::Kit kit;
+                const std::string &set = args[1];
+                kit.set = set == "onehand" ? FirstPersonViewModel::WeaponSet::OneHand
+                    : set == "twohand" ? FirstPersonViewModel::WeaponSet::TwoHand
+                    : set == "staff" ? FirstPersonViewModel::WeaponSet::Staff
+                    : set == "bow" ? FirstPersonViewModel::WeaponSet::Bow
+                    : set == "crossbow" ? FirstPersonViewModel::WeaponSet::Crossbow
+                    : set == "pole" ? FirstPersonViewModel::WeaponSet::Pole
+                    : FirstPersonViewModel::WeaponSet::HandToHand;
+                kit.weapon = args[2] == "none" ? std::string() : args[2];
+                kit.shield = args[3] == "1";
+                // viewmodel kit dual <main weapon> <off-hand weapon>: dual wielding the two templates, heavy when
+                // either is a two-handed one (a MAW Minotaur's axes).
+                if (set == "dual")
+                {
+                    kit.set = FirstPersonViewModel::WeaponSet::Dual;
+                    kit.shield = false;
+                    kit.offWeapon = args[3];
+                    kit.heavy = kit.weapon == "w_battleaxe.glb" || kit.weapon == "w_claymore.glb"
+                        || kit.weapon == "w_warhammer.glb" || kit.offWeapon == "w_battleaxe.glb"
+                        || kit.offWeapon == "w_claymore.glb" || kit.offWeapon == "w_warhammer.glb";
+                }
+                m_firstPersonViewModel.overrideKit(kit);
+                return commandResult(true, "kit " + set + " " + args[2] + " shield " + args[3]);
+            }
+            if (args.size() == 1 && args[0] == "clips")
+            {
+                return commandResult(true, activeViewModel().clipList());
+            }
+            // Hold one icon's ground model as the active member's weapon (or shield, or bow): the contact sheets.
+            if (args.size() == 2 && args[0] == "held")
+            {
+                const ItemTable *pItems = m_gameSession.gameplayScreenRuntime().itemTable();
+                if (pItems == nullptr)
+                {
+                    return commandResult(false, "no item table");
+                }
+                const std::string icon = toLowerCopy(args[1]);
+                const ItemDefinition *pFound = nullptr;
+                for (const ItemDefinition &item : pItems->entries())
+                {
+                    if (toLowerCopy(item.iconName) == icon && pItems->hasGroundModel(item.itemId))
+                    {
+                        pFound = &item;
+                        break;
+                    }
+                }
+                if (pFound == nullptr)
+                {
+                    return commandResult(false, "no item with a ground model has icon " + args[1]);
+                }
+                const std::string &model = pItems->groundModel(pFound->itemId).model;
+                FirstPersonViewModel::Kit kit;
+                if (pFound->skillGroup == "Shield")
+                {
+                    kit = FirstPersonViewModel::kitFor("Sword", false, true);
+                    kit.shieldModel = model;
+                    kit.shieldIcon = icon;
+                }
+                else
+                {
+                    kit = pFound->skillGroup == "Bow"
+                        ? FirstPersonViewModel::kitForBow(m_firstPersonViewModel.heldKind(icon))
+                        : FirstPersonViewModel::kitForHeldKind(
+                            FirstPersonViewModel::kitFor(pFound->skillGroup, pFound->equipStat == "Weapon2", false),
+                            m_firstPersonViewModel.heldKind(icon));
+                    kit.heldModel = model;
+                    kit.heldIcon = icon;
+                }
+                m_firstPersonViewModel.overrideKit(kit);
+                return commandResult(true, "holding " + pFound->name + " (" + icon + ")");
+            }
+            if (args.size() == 2 && args[0] == "weapons" && (args[1] == "oblivion" || args[1] == "ours"))
+            {
+                m_firstPersonViewModel.useTemplateWeapons(args[1] == "oblivion");
+                return commandResult(true, "held weapons " + args[1]);
+            }
+            // viewmodel tier <n|auto>: every weapon template drawn in skin tier n (0: the plain template), or each
+            // item's own tier.
+            if (args.size() == 2 && args[0] == "tier")
+            {
+                if (args[1] == "auto")
+                {
+                    m_firstPersonViewModel.forceSkinTier(std::nullopt);
+                    return commandResult(true, "skin tier follows the item");
+                }
+                if (args[1].size() != 1 || args[1][0] < '0' || args[1][0] > '9')
+                {
+                    return commandResult(false, "Usage: viewmodel tier <0-9|auto>");
+                }
+                m_firstPersonViewModel.forceSkinTier(uint8_t(args[1][0] - '0'));
+                return commandResult(true, "skin tier " + args[1]);
+            }
+            if (args.size() == 2 && args[0] == "trace")
+            {
+                activeViewModel().setTrace(args[1] == "on");
+                return commandResult(true, "trace " + args[1]);
+            }
+            if (args.size() == 2 && args[0] == "fx")
+            {
+                // viewmodel fx <school|off>: a held pose shows the casting glow in the school's colour.
+                if (args[1] == "off")
+                {
+                    activeViewModel().setFxPreview(std::nullopt);
+                }
+                else
+                {
+                    activeViewModel().setFxPreview(FirstPersonViewModel::schoolColor(args[1]));
+                }
+                return commandResult(true, "fx " + args[1]);
+            }
+            if ((args.size() == 3 || args.size() == 4) && args[0] == "path")
+            {
+                // viewmodel path <clip> <absolute file.json> [samples]: the clip's blade, hilt and hand screen paths.
+                const std::string json = activeViewModel().pathJson(args[1], args.size() == 4 ? std::stoi(args[3]) : 61);
+                if (json.empty())
+                {
+                    return commandResult(false, "no clip " + args[1]);
+                }
+                std::ofstream file(args[2]);
+                file << json << '\n';
+                return commandResult(bool(file), (file ? "wrote " : "could not write ") + args[2]);
+            }
+            return commandResult(false, "Usage: viewmodel pose <clip> <seconds> | pose off | kit <set> <weapon|none> "
+                "<shield 0|1> | kit auto | clips");
+        },
+        // Equipping items changes the game; the rest only shows the arms.
+        .readOnlyWith = [](const std::vector<std::string> &args) { return args.empty() || args[0] != "equip"; }});
+
+    m_debugConsole.registerCommand({
         .name = "loc",
         .description = "Show current party position and heading.",
         .usage = "loc",
@@ -5431,29 +5773,107 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(false, "No active map runtime.");
             }
 
-            constexpr float FullCircleRadians = Pi * 2.0f;
-            float normalizedYawRadians = std::fmod(pWorldRuntime->gameplayCameraYawRadians(), FullCircleRadians);
-
-            if (normalizedYawRadians < 0.0f)
-            {
-                normalizedYawRadians += FullCircleRadians;
-            }
-
-            const float headingDegrees = normalizedYawRadians * 180.0f / Pi;
-            const int headingYawUnits = static_cast<int>(
-                std::lround(normalizedYawRadians * 2048.0f / FullCircleRadians)) % 2048;
-            const float pitchDegrees = pWorldRuntime->gameplayCameraPitchRadians() * 180.0f / Pi;
+            const ConsolePartyPose pose = consolePartyPose(*pWorldRuntime);
             std::ostringstream out;
             out << std::fixed << std::setprecision(3)
                 << "map=\"" << pWorldRuntime->mapName() << '"'
-                << " position=(" << pWorldRuntime->partyX()
-                << ", " << pWorldRuntime->partyY()
-                << ", " << pWorldRuntime->partyFootZ() << ')'
-                << " heading_yaw_units=" << headingYawUnits
-                << " heading_degrees=" << headingDegrees
-                << " yaw_radians=" << normalizedYawRadians
-                << " pitch_degrees=" << pitchDegrees;
+                << " position=(" << pose.x
+                << ", " << pose.y
+                << ", " << pose.footZ << ')'
+                << " heading_yaw_units=" << pose.headingYawUnits
+                << " heading_degrees=" << pose.headingDegrees
+                << " yaw_radians=" << pose.yawRadians
+                << " pitch_degrees=" << pose.pitchDegrees;
             return commandResult(true, out.str());
+        },
+        .readOnly = true});
+
+    m_debugConsole.registerCommand({
+        .name = "pin",
+        .description = "Pin a note for the Map Studio: the pose, the text and a screenshot into the pin inbox.",
+        .usage = "pin <text>",
+        .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (context.args.empty())
+            {
+                return commandResult(false, "Usage: pin <text>");
+            }
+
+            IGameplayWorldRuntime *pWorldRuntime = activeGameplayWorld();
+
+            if (pWorldRuntime == nullptr)
+            {
+                return commandResult(false, "No active map runtime.");
+            }
+
+            std::string text;
+
+            for (const std::string &word : context.args)
+            {
+                text += (text.empty() ? "" : " ") + word;
+            }
+
+            const ConsolePartyPose pose = consolePartyPose(*pWorldRuntime);
+            GamePin pin;
+            pin.text = text;
+            pin.mapFileName = m_gameSession.currentMapFileName();
+            pin.worldId = worldIdOfMap(pin.mapFileName);
+            pin.x = pose.x;
+            pin.y = pose.y;
+            pin.z = pose.footZ;
+            pin.yawRadians = pose.yawRadians;
+            pin.pitchDegrees = pose.pitchDegrees;
+            pin.headingYawUnits = pose.headingYawUnits;
+            const std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+            const std::tm *pLocalTime = std::localtime(&now);
+
+            if (pLocalTime == nullptr)
+            {
+                return commandResult(false, "No local time.");
+            }
+
+            const std::tm localTime = *pLocalTime;
+            pin.created = pinTimestamp(localTime);
+
+            // A map the Map Studio installed has <stem>.studio.yml beside it: its project goes into the pin.
+            const std::string studioPath = "worlds/" + pin.worldId + "/maps/"
+                + std::filesystem::path(pin.mapFileName).stem().string() + ".studio.yml";
+
+            if (const std::optional<std::string> studioText = m_pAssetFileSystem->readTextFile(studioPath))
+            {
+                std::string studioError;
+                pin.studio = parseStudioMapFile(*studioText, studioError);
+
+                if (!pin.studio)
+                {
+                    m_debugConsole.addMessage(
+                        DebugConsole::MessageKind::Error, studioPath + " ignored: " + studioError);
+                }
+            }
+
+            std::string error;
+            const std::optional<std::filesystem::path> pinPath = writeGamePin(
+                m_settings.pinInboxPath, pinFileStem(localTime, pin.mapFileName), pin, error);
+
+            if (!pinPath)
+            {
+                return commandResult(false, "Pin not written: " + error);
+            }
+
+            // The picture is the view without the console, from the next frame (as `screenshot`).
+            m_debugConsole.setEnabled(false);
+            std::filesystem::path picturePath = *pinPath;
+            picturePath.replace_extension(".png");
+            m_screenshotCaptureService.requestCapture(
+                picturePath,
+                [this](bool success, const std::string &message)
+                {
+                    if (!success)
+                    {
+                        m_debugConsole.addMessage(DebugConsole::MessageKind::Error, "Pin picture: " + message);
+                    }
+                });
+            return commandResult(true, "Pinned: " + text + " (" + pinPath->string() + ")");
         },
         .readOnly = true});
 
@@ -8651,7 +9071,8 @@ bool GameApplication::applicationTextInputActive() const
         || gameplayScreenRuntime.houseBankState().inputActive()
         || GameplayUiController::characterScreenSearchActive(gameplayScreenRuntime.characterScreenReadOnly())
         || GameplayUiController::journalSearchActive(gameplayScreenRuntime.journalScreenStateReadOnly())
-        || GameplayUiController::spellbookSearchActive(gameplayScreenRuntime.spellbookReadOnly());
+        || GameplayUiController::spellbookSearchActive(gameplayScreenRuntime.spellbookReadOnly())
+        || GameplaySoloBarSelector::isOpen(gameplayScreenRuntime);
 }
 
 bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
@@ -9057,6 +9478,175 @@ void GameApplication::loadOrCreateSettings()
     m_engineApplication.setConfiguration(m_config);
     configureGameplayDebugTrace(m_settings.gameplayTrace, m_settings.gameplayTraceFile, m_settings.gameplayTraceAppend);
     configureGameplayCombatTrace(m_settings.combatTrace, m_settings.combatTraceFile, m_settings.combatTraceAppend);
+}
+
+FirstPersonViewModel &GameApplication::activeViewModel()
+{
+    return m_dragonViewModelShown.value_or(false) ? m_dragonViewModel : m_firstPersonViewModel;
+}
+
+void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, int width, int height,
+    float deltaSeconds)
+{
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    GameplayScreenRuntime::ViewModelLink &link = screenRuntime.viewModelLink();
+    // Only a solo run (or the [debug] solo_hud preview) shows arms, and only with arms to show; otherwise attacks land
+    // at once as in every party game.
+    // Without [debug] view_model_path, the engine's arms (engine/view_model; devdocs/solo_action/README.md). A dragon
+    // shows its own clawed forelegs, always the engine's (devdocs/solo_action/DRAGON.md).
+    Party *pParty = world.party();
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    const bool dragon = pMember != nullptr && boundGameRules().classes.isDragon(*pMember);
+    FirstPersonViewModel &viewModel = dragon ? m_dragonViewModel : m_firstPersonViewModel;
+    const bool packagedArms = dragon || m_settings.viewModelPath.empty();
+    const std::string viewModelPath = packagedArms
+        ? FirstPersonViewModel::packagedModelPath(dragon ? FirstPersonViewModel::dragonKit() : FirstPersonViewModel::Kit{})
+        : m_settings.viewModelPath;
+    if (!screenRuntime.soloHud() || m_pMapSceneRuntime == nullptr || width <= 0 || height <= 0
+        || (packagedArms && m_pAssetFileSystem == nullptr)
+        || !viewModel.ensureLoaded(viewModelPath, packagedArms ? m_pAssetFileSystem : nullptr))
+    {
+        link.meleeSwings = false;
+        link.castHandScreen.reset();
+        // A swing still waiting when the arms go away lands now rather than holding the attack key.
+        link.blowReleased = link.blowReleased || link.swingWaiting;
+        return;
+    }
+    // The arms and the forelegs change places (another member, a loaded game): a swing still waiting on the other
+    // lands now, and this one starts afresh.
+    if (m_dragonViewModelShown && *m_dragonViewModelShown != dragon)
+    {
+        link.blowReleased = link.blowReleased || link.swingWaiting;
+        link.castHandScreen.reset();
+        viewModel.resume();
+    }
+    m_dragonViewModelShown = dragon;
+    const ItemTable *pItemTable = screenRuntime.itemTable();
+
+    // The active member's main-hand weapon and shield decide the arms' kit; a dragon holds nothing.
+    viewModel.setHeldAssets(m_pAssetFileSystem);
+    FirstPersonViewModel::Kit kit;
+    if (dragon)
+    {
+        kit = FirstPersonViewModel::dragonKit();
+    }
+    else if (pMember != nullptr && pItemTable != nullptr)
+    {
+        const ItemDefinition *pMainHand = pMember->equipment.mainHand != 0 && !pMember->equipmentRuntime.mainHand.broken
+            ? pItemTable->get(pMember->equipment.mainHand) : nullptr;
+        const ItemDefinition *pOffHand = pMember->equipment.offHand != 0 && !pMember->equipmentRuntime.offHand.broken
+            ? pItemTable->get(pMember->equipment.offHand) : nullptr;
+        const ItemDefinition *pBow = pMember->equipment.bow != 0 && !pMember->equipmentRuntime.bow.broken
+            ? pItemTable->get(pMember->equipment.bow) : nullptr;
+        const bool twoHanded = pMainHand != nullptr && boundGameRules().items.wield(*pMember, *pMainHand).twoHanded;
+        // A weapon in each hand is the dual kit (devdocs/solo_action/WEAPONS.md "Dual wielding"); a two-handed item
+        // held in one hand (a MAW Minotaur's axe) keeps its larger template.
+        kit = FirstPersonViewModel::kitForHands(pMainHand != nullptr ? pMainHand->skillGroup : std::string(), twoHanded,
+            pMainHand != nullptr && pMainHand->equipStat == "Weapon2",
+            pOffHand != nullptr ? pOffHand->skillGroup : std::string(),
+            pOffHand != nullptr && pOffHand->equipStat == "Weapon2");
+        // Spears, tridents, polearms and poleaxes have their own two-handed set (WEAPONS.md "Pole set").
+        kit = FirstPersonViewModel::kitForHeldKind(kit,
+            pMainHand != nullptr ? viewModel.heldKind(toLowerCopy(pMainHand->iconName)) : std::string());
+        // Our own ground models in the hands where held.yml grips them (devdocs/solo_action/WEAPONS.md).
+        const auto holdOurs = [pItemTable](uint32_t itemId, const ItemDefinition *pItem, std::string &model,
+                                  std::string &icon)
+        {
+            if (pItem != nullptr && pItemTable->hasGroundModel(itemId))
+            {
+                model = pItemTable->groundModel(itemId).model;
+                icon = toLowerCopy(pItem->iconName);
+            }
+        };
+        holdOurs(pMember->equipment.mainHand, pMainHand, kit.heldModel, kit.heldIcon);
+        if (kit.shield)
+        {
+            holdOurs(pMember->equipment.offHand, pOffHand, kit.shieldModel, kit.shieldIcon);
+        }
+        if (kit.set == FirstPersonViewModel::WeaponSet::Dual)
+        {
+            holdOurs(pMember->equipment.offHand, pOffHand, kit.offHeldModel, kit.offHeldIcon);
+        }
+        // The templates' skin tier by the item's value, rarity and enchantment (engine/world_items/held_tiers.yml).
+        const auto skinTier = [&viewModel](const ItemDefinition *pItem, const EquippedItemRuntimeState &state)
+            -> uint8_t
+        {
+            if (pItem == nullptr)
+            {
+                return 0;
+            }
+            return viewModel.skinTier({.value = pItem->value,
+                .equipStat = pItem->equipStat,
+                .unique = pItem->rarity != ItemRarity::Common || state.rarity != ItemRarity::Common,
+                .enchanted = state.standardEnchantId != 0 || state.specialEnchantId != 0});
+        };
+        kit.weaponTier = skinTier(pMainHand, pMember->equipmentRuntime.mainHand);
+        kit.shieldTier = kit.shield ? skinTier(pOffHand, pMember->equipmentRuntime.offHand) : 0;
+        kit.offTier = kit.set == FirstPersonViewModel::WeaponSet::Dual
+            ? skinTier(pOffHand, pMember->equipmentRuntime.offHand) : 0;
+        // An archer (nothing in the main hand), or a solo run's swap to the bow, draws the bow; the swap needs one.
+        link.bowSelected = link.bowSelected && pBow != nullptr;
+        if (pBow != nullptr && (pMainHand == nullptr || link.bowSelected))
+        {
+            // A crossbow has its own two-handed set (devdocs/solo_action/WEAPONS.md "Crossbow set").
+            kit = FirstPersonViewModel::kitForBow(viewModel.heldKind(toLowerCopy(pBow->iconName)));
+            holdOurs(pMember->equipment.bow, pBow, kit.heldModel, kit.heldIcon);
+            kit.weaponTier = skinTier(pBow, pMember->equipmentRuntime.bow);
+        }
+    }
+    const FirstPersonViewModel::Action action =
+        link.action == GameplayScreenRuntime::ViewModelAction::Cast ? FirstPersonViewModel::Action::Cast
+        : link.action == GameplayScreenRuntime::ViewModelAction::Shot ? FirstPersonViewModel::Action::Shot
+        : FirstPersonViewModel::Action::Melee;
+    const FirstPersonViewModel::Output output = viewModel.update({
+        .deltaSeconds = deltaSeconds,
+        .partyX = world.partyX(),
+        .partyY = world.partyY(),
+        .yawRadians = world.gameplayCameraYawRadians(),
+        .blockHeld = m_gameInputSystem.frame().middleMouseButton.held,
+        .kit = kit,
+        .swingSerial = link.swingSerial,
+        .swingRecoverySeconds = link.swingRecoverySeconds,
+        .actionSerial = link.actionSerial,
+        .action = action,
+        .shieldBlockSerial = pParty != nullptr ? pParty->shieldBlockSerial() : 0,
+        .memberRecoverySeconds = pMember != nullptr ? pMember->recoverySecondsRemaining : 0.0f,
+        .talentSerial = link.talentSerial,
+        .talentClip = link.talentClip,
+        .talentBlock = pMember != nullptr && pMember->talentState.shieldWallSeconds > 0.0f,
+        .swingIsCast = link.waitIsCast,
+        .swingIsBreath = link.waitIsBreath,
+        .castSelf = link.castSelf,
+        .castColor = FirstPersonViewModel::schoolColor(link.castSchool),
+        .trailEnabled = m_settings.weaponTrails,
+        .trailColor = FirstPersonViewModel::elementColor(link.weaponElement),
+        .trailIntensity = link.weaponElement != 0 ? 0.7f : 0.5f,
+    });
+    link.meleeSwings = output.meleeSwings;
+    // The last casting palm seen: a cast made after its clip's release still leaves from about there.
+    if (output.castHandScreen)
+    {
+        link.castHandScreen = output.castHandScreen;
+    }
+    if (link.swingWaiting)
+    {
+        link.swingWaitSeconds += deltaSeconds;
+    }
+    if (output.blowReleased && link.swingWaiting)
+    {
+        link.blowReleased = true;
+        link.blowDirection = output.blowDirection;
+    }
+    if (pParty != nullptr)
+    {
+        pParty->setShieldRaisedMember(output.shieldRaised ? std::optional<size_t>(pParty->activeMemberIndex())
+            : std::nullopt);
+    }
+    const bool outdoor = m_pMapSceneRuntime->kind() == SceneKind::Outdoor;
+    Engine::ModelRenderer &renderer = outdoor ? m_outdoorGameView.modelRenderer() : m_indoorRenderer.modelRenderer();
+    viewModel.render(renderer, m_cinematicGrading.worldFrameBuffer(), uint16_t(width),
+        uint16_t(height), outdoor ? m_outdoorGameView.eyeModelLighting() : m_indoorRenderer.eyeModelLighting(),
+        world.gameplayCameraYawRadians(), world.gameplayCameraPitchRadians());
 }
 
 WorldFxSystem &GameApplication::activeWorldFxSystem()
@@ -10354,6 +10944,7 @@ void GameApplication::bindPartyDependencies(Party &party)
 {
     const GameDataRepository &data = m_gameSession.data();
     party.setRules(m_gameSession.rulesetGameRules());
+    party.setSoloRun(m_gameSession.ruleset().options.soloRun);
     party.setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
     party.setItemTable(&data.itemTable());
     party.setJournalQuestTable(&data.journalQuestTable());
@@ -11560,6 +12151,8 @@ void GameApplication::shutdownRenderer()
     m_cinematicGrading.shutdown();
     m_actorModelPreview.shutdown();
     m_actorTalkPortrait.shutdown();
+    m_firstPersonViewModel.shutdown();
+    m_dragonViewModel.shutdown();
     m_gameAudioSystem.stopAllPlayback();
     m_mainMenuChildScreensPrepared = false;
     m_outdoorGameView.shutdown();
@@ -12635,7 +13228,14 @@ void GameApplication::openNewGameScreen(const std::string &source)
         pScreen->prepareForFirstFrame();
     }
 
-    m_gameAudioSystem.stopBackgroundMusicImmediate();
+    // The main menu's track plays on, looping, through the continent choice and party creation; from a game in
+    // progress the map's or the battle music gives way to it at once.
+    if (m_gameAudioSystem.currentBackgroundMusicTrack() != MainMenuMusicTrack)
+    {
+        m_gameAudioSystem.stopBackgroundMusicImmediate();
+    }
+
+    m_gameAudioSystem.setBackgroundMusicTrack(MainMenuMusicTrack);
     m_screenManager.setActiveScreen(std::move(pScreen));
 }
 
@@ -12846,6 +13446,13 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
         party.rules().experience.prepareNewParty(party);
     }
 
+    // A debug start with the `solo` option keeps the first of its party, with a filled action bar, as a solo run from
+    // the New Game screen has.
+    if (ruleset.options.soloRun)
+    {
+        makeSoloRunParty(ensureSessionPartyState());
+    }
+
     if (!loadCurrentSessionMap(initializeView))
     {
         std::cerr
@@ -12898,6 +13505,7 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     applyCurrentSettingsToActiveRuntime();
     applyMapStartDestination(startupDestination);
     applyStartupDebugSettingsToActiveRuntime();
+
     synchronizeSessionFromRuntime();
     return true;
 }
@@ -12977,7 +13585,12 @@ bool GameApplication::startNewSessionFromCharacterCreation(
     const MapStatsEntry *pStartMap = m_gameDataLoader.getMapStats().findByFileName(startupDestination.mapFileName);
     const std::string startWorldId = pStartMap != nullptr ? pStartMap->worldId : std::string();
 
-    for (const Character &character : characters)
+    // A solo run is a party of one: the first adventurer (the New Game screen offers it for one; a direct start with
+    // the `solo` option keeps the first of its party).
+    const size_t memberCount = options.ruleset.options.soloRun ? std::min<size_t>(1, characters.size())
+                                                               : characters.size();
+
+    for (const Character &character : std::span(characters).first(memberCount))
     {
         seed.members.push_back(
             buildFreshCreatedCharacter(
@@ -12996,6 +13609,13 @@ bool GameApplication::startNewSessionFromCharacterCreation(
     // experience) needs the session's rules back first.
     sessionParty.setRules(m_gameSession.rulesetGameRules());
     sessionParty.rules().experience.prepareNewParty(sessionParty);
+
+    // A solo run starts with its action bar filled from what the character can do.
+    if (options.ruleset.options.soloRun)
+    {
+        makeSoloRunParty(sessionParty);
+    }
+
     setDebugTownPortalUnlocks(sessionParty, false);
     renderLoadingOverlayProgress(15);
 
@@ -13283,6 +13903,18 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     }
 
     const IScreen *pActiveScreenForInput = m_screenManager.activeScreen();
+    const GameplayHudScreenState hudScreenStateForInput =
+        m_gameSession.gameplayScreenRuntime().currentHudScreenState();
+
+    // A window that opened from play during the last frame (a pedestal, an NPC, a house, a chest) ignores the click
+    // that opened it and, briefly, the next one.
+    if (pActiveScreenForInput == nullptr && m_previousHudScreenStateForInput == GameplayHudScreenState::Gameplay
+        && hudScreenStateForInput != GameplayHudScreenState::Gameplay)
+    {
+        m_gameInputSystem.guardClicksAfterWindowOpened();
+    }
+
+    m_previousHudScreenStateForInput = hudScreenStateForInput;
     const GameplayScreenState::PendingSpellTargetState &pendingSpellTargetForInput =
         m_gameSession.gameplayScreenState().pendingSpellTarget();
     const bool mobileGameplayTouchControlsEnabled =
@@ -13290,7 +13922,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         && !pendingSpellTargetForInput.active
         && m_gameSession.gameplayScreenRuntime().utilitySpellOverlayReadOnly().mode
             == GameplayUiController::UtilitySpellOverlayMode::None
-        && m_gameSession.gameplayScreenRuntime().currentHudScreenState() == GameplayHudScreenState::Gameplay;
+        && hudScreenStateForInput == GameplayHudScreenState::Gameplay;
     const bool mobileJumpGestureEnabled =
         mobileGameplayTouchControlsEnabled
         && !m_gameSession.turnBasedCombatRuntime().active();
@@ -13637,6 +14269,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         // timers or face triggers under it either (outdoors the world has no such step).
         m_indoorRenderer.setWorldTimeHeld(screenshotTourActive);
         pWorldRuntime->renderWorld(width, height, m_gameInputSystem.frame(), worldRenderDeltaSeconds);
+        renderFirstPersonViewModel(*pWorldRuntime, width, height, worldRenderDeltaSeconds);
         m_cinematicGrading.submit();
         recordFrameDiagnostics(m_framePerformanceDiagnostics.renderWorldNanoseconds, renderWorldBeginTickCount);
         const uint64_t renderGameplayUiBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
@@ -14621,6 +15254,7 @@ void GameApplication::closeTransientGameplayUiForMapMove(bool keepLootView)
     screenRuntime.closeTransportSchedule();
     screenRuntime.closeActiveDialogForMapMove();
     GameplayFormationBuilder::close(screenRuntime);
+    GameplaySoloBarSelector::close(screenRuntime);
 
     if (!lootViewKept)
     {

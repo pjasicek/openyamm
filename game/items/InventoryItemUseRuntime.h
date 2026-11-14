@@ -53,7 +53,7 @@ enum class InventoryItemUseAction : uint8_t
 
 struct InventoryItemUseContext
 {
-    bool underwater = false;
+    bool spellcastingForbidden = false;
     float gameMinutes = 0.0f;
     // Hostile monsters near the party (the yellow alert): drinking may then cost recovery.
     bool enemiesNear = false;
@@ -108,9 +108,35 @@ struct PotionPreview
     }
 };
 
+// Why a member can or cannot learn a spellbook's spell, in the order learning checks it.
+enum class SpellbookLearnCheck : uint8_t
+{
+    ClassReadsNoBooks,
+    NoSkill,
+    MasteryTooLow,
+    AlreadyKnown,
+    CanLearn
+};
+
+// What a spellbook means to one member, as the markers under a book show it.
+enum class SpellbookKnowledge : uint8_t
+{
+    Known,
+    CanLearn,
+    // Has the school below the mastery the book needs, or lacks it, but the class can train to that mastery.
+    NeedsTraining,
+    CannotLearn
+};
+
 class InventoryItemUseRuntime
 {
 public:
+    // The spell a spellbook teaches; none for other items.
+    static std::optional<uint32_t> spellbookSpellId(const ItemDefinition &itemDefinition);
+    static SpellbookLearnCheck checkSpellbookLearn(const Character &member, uint32_t spellId);
+    // One entry per party member, in portrait order; empty for items that are not spellbooks.
+    static std::vector<SpellbookKnowledge> spellbookKnowledge(const Party &party, const ItemDefinition &itemDefinition);
+
     static InventoryItemUseAction classifyItemUse(
         const InventoryItem &item,
         const ItemTable &itemTable,

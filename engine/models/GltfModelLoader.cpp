@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
@@ -64,6 +65,10 @@ cgltf_result readAssetFile(
 )
 {
     const AssetFileContext *pContext = static_cast<const AssetFileContext *>(pFileOptions->user_data);
+    if (pContext->pAssetFileSystem == nullptr)
+    {
+        return cgltf_result_file_not_found;
+    }
     const std::optional<std::vector<uint8_t>> bytes = pContext->pAssetFileSystem->readBinaryFile(pPath);
     if (!bytes)
     {
@@ -267,7 +272,7 @@ bool buildHierarchy(ModelAsset &asset, std::string &error)
 }
 
 bool loadImages(
-    const AssetFileSystem &assetFileSystem,
+    const AssetFileSystem *pAssetFileSystem,
     const std::string &virtualPath,
     const cgltf_data &data,
     ModelAsset &asset,
@@ -303,8 +308,13 @@ bool loadImages(
                 error = "model image URI must be a package-relative PNG or .oytex path: " + std::string(source.uri);
                 return false;
             }
+            if (pAssetFileSystem == nullptr)
+            {
+                error = "a standalone model must embed its images: " + std::string(source.uri);
+                return false;
+            }
             image.sourcePath = joinedVirtualPath(virtualPath, source.uri);
-            std::unique_ptr<AssetReadStream> pStream = assetFileSystem.openReadStream(image.sourcePath);
+            std::unique_ptr<AssetReadStream> pStream = pAssetFileSystem->openReadStream(image.sourcePath);
             if (pStream == nullptr || !pStream->isOpen())
             {
                 error = "model image was not found: " + image.sourcePath;
@@ -319,7 +329,7 @@ bool loadImages(
                 error = "model image is neither a PNG nor a cooked texture: " + image.sourcePath;
                 return false;
             }
-            image.pFileSystem = &assetFileSystem;
+            image.pFileSystem = pAssetFileSystem;
         }
         else
         {
@@ -1763,21 +1773,54 @@ ModelLoadResult GltfModelLoader::load(
     const std::string &virtualPath
 ) const
 {
-    ModelLoadResult result;
     const std::optional<std::vector<uint8_t>> sourceBytes = assetFileSystem.readBinaryFile(virtualPath);
     if (!sourceBytes)
     {
+        ModelLoadResult result;
         result.error = "model asset was not found: " + virtualPath;
         return result;
     }
+    return loadBytes(*sourceBytes, virtualPath, &assetFileSystem);
+}
 
-    AssetFileContext fileContext = {&assetFileSystem};
+ModelLoadResult GltfModelLoader::loadStandaloneFile(const std::filesystem::path &path) const
+{
+    std::error_code errorCode;
+    const uintmax_t size = std::filesystem::file_size(path, errorCode);
+    FILE *pFile = errorCode ? nullptr : std::fopen(path.string().c_str(), "rb");
+    if (pFile == nullptr)
+    {
+        ModelLoadResult result;
+        result.error = "standalone model was not found: " + path.string();
+        return result;
+    }
+    const size_t byteCount = size;
+    std::vector<uint8_t> bytes(byteCount);
+    const size_t read = bytes.empty() ? 0 : std::fread(bytes.data(), 1, bytes.size(), pFile);
+    std::fclose(pFile);
+    if (read != bytes.size())
+    {
+        ModelLoadResult result;
+        result.error = "could not read standalone model: " + path.string();
+        return result;
+    }
+    return loadBytes(bytes, path.generic_string(), nullptr);
+}
+
+ModelLoadResult GltfModelLoader::loadBytes(
+    const std::vector<uint8_t> &sourceBytes,
+    const std::string &virtualPath,
+    const AssetFileSystem *pAssetFileSystem
+) const
+{
+    ModelLoadResult result;
+    AssetFileContext fileContext = {pAssetFileSystem};
     cgltf_options options = {};
     options.file.read = readAssetFile;
     options.file.release = releaseAssetFile;
     options.file.user_data = &fileContext;
     cgltf_data *pParsedData = nullptr;
-    cgltf_result parseResult = cgltf_parse(&options, sourceBytes->data(), sourceBytes->size(), &pParsedData);
+    cgltf_result parseResult = cgltf_parse(&options, sourceBytes.data(), sourceBytes.size(), &pParsedData);
     if (parseResult != cgltf_result_success || pParsedData == nullptr)
     {
         result.error = "could not parse model " + virtualPath + ": " + cgltfResultName(parseResult);
@@ -1832,7 +1875,7 @@ ModelLoadResult GltfModelLoader::load(
     std::shared_ptr<ModelAsset> asset = std::make_shared<ModelAsset>();
     asset->sourcePath = virtualPath;
     std::vector<bool> authoredEdgeDarkening;
-    if (!loadImages(assetFileSystem, virtualPath, *data, *asset, result.error) ||
+    if (!loadImages(pAssetFileSystem, virtualPath, *data, *asset, result.error) ||
         !loadMaterials(*data, *asset, authoredEdgeDarkening, result.error) ||
         !loadMeshes(*data, *asset, result.error) ||
         !loadNodes(*data, *asset, result.error) ||

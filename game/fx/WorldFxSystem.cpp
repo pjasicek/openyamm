@@ -3990,7 +3990,7 @@ void WorldFxSystem::syncItemModels(GameSession &session, float deltaSeconds)
     // By WorldItemSparkle.
     static const std::array<std::string, WorldItemSparkleCount> SparkleEffects = {"",
         "openyamm:fx/item_sparkle/valuable", "openyamm:fx/item_sparkle/precious", "openyamm:fx/item_sparkle/artifact",
-        "openyamm:fx/item_sparkle/quest", "openyamm:fx/item_sparkle/coins"};
+        "openyamm:fx/item_sparkle/quest", "openyamm:fx/item_sparkle/coins", "openyamm:fx/item_sparkle/plain"};
     m_pItemTable = &session.data().itemTable();
     m_itemModelSeconds = std::fmod(m_itemModelSeconds + deltaSeconds, 3600.0f);
     for (auto &[key, model] : m_itemModels)
@@ -4090,7 +4090,8 @@ void WorldFxSystem::syncItemModels(GameSession &session, float deltaSeconds)
 
         const float dx = item.x - pWorld->partyX();
         const float dy = item.y - pWorld->partyY();
-        const bool sparkling = item.sparkle != WorldItemSparkle::None && m_models.isVisible(model.handle)
+        const bool sparkling = item.sparkle != WorldItemSparkle::None
+            && (item.sparkle != WorldItemSparkle::Plain || m_plainItemSparkle) && m_models.isVisible(model.handle)
             && dx * dx + dy * dy < SparkleRange * SparkleRange;
         if (sparkling || model.sparkle != EffectHandle {})
         {
@@ -4150,6 +4151,26 @@ void WorldFxSystem::setItemModelOutline(uint32_t key, uint32_t colorAbgr)
     }
 }
 
+namespace
+{
+// The bound impact of a projectile's binding: presented_impact when the projectile wore another spell's look and the
+// binding names one, else impact; null when it names neither.
+const std::string *boundImpactEffect(
+    const ProjectileEffectBinding *pBinding,
+    const GameplayProjectileImpactPresentationState &impact)
+{
+    if (pBinding == nullptr)
+    {
+        return nullptr;
+    }
+    if (impact.presented && !pBinding->presentedImpact.empty())
+    {
+        return &pBinding->presentedImpact;
+    }
+    return pBinding->impact.empty() ? nullptr : &pBinding->impact;
+}
+}
+
 bool WorldFxSystem::projectileShowsNativeSprite(const GameplayProjectilePresentationState &projectile) const
 {
     if (projectileModelBinding(projectile.objectDescriptionId) != nullptr)
@@ -4192,7 +4213,7 @@ bool WorldFxSystem::projectileImpactUsesNamedEffect(const GameplayProjectileImpa
     }
     const ProjectileEffectBinding *pBinding =
         projectileEffectBinding(recipe, impact.sourceMonsterId, impact.sourceObjectName);
-    return pBinding != nullptr && !pBinding->impact.empty();
+    return boundImpactEffect(pBinding, impact) != nullptr;
 }
 
 bool WorldFxSystem::projectileImpactShowsNativeSprite(const GameplayProjectileImpactPresentationState &impact) const
@@ -5148,8 +5169,8 @@ void WorldFxSystem::syncProjectileImpacts(GameSession &session)
         const ProjectileEffectBinding *pBinding =
             pEffectRebind == nullptr
                 ? projectileEffectBinding(recipe, impact.sourceMonsterId, impact.sourceObjectName) : nullptr;
-        const std::string *pImpactEffect = pEffectRebind != nullptr ? pEffectRebind
-            : pBinding != nullptr && !pBinding->impact.empty() ? &pBinding->impact : nullptr;
+        const std::string *pImpactEffect =
+            pEffectRebind != nullptr ? pEffectRebind : boundImpactEffect(pBinding, impact);
         if (pImpactEffect == nullptr && !m_projectileEffectBindings.waterSplash().empty()
             && isWaterSplashImpact(impact))
         {

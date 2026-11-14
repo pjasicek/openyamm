@@ -47,7 +47,8 @@ bool readBinding(
     for (const auto &entry : node)
     {
         const std::string key = entry.first.as<std::string>();
-        const bool known = key == "flight" || key == "settled" || key == "impact" || key == "impact_follows_target" ||
+        const bool known = key == "flight" || key == "settled" || key == "impact" ||
+            (!object && key == "presented_impact") || key == "impact_follows_target" ||
             key == "return_flight" || key == "sprite" || key == "light" || (object && key == "impact_light") ||
             (!object && (variant ? key == "monsters" : key == "variants"));
         if (!known)
@@ -59,6 +60,7 @@ bool readBinding(
     if (!readEffectId(node, "flight", library, context, binding.flight, error) ||
         !readEffectId(node, "settled", library, context, binding.settled, error) ||
         !readEffectId(node, "impact", library, context, binding.impact, error) ||
+        !readEffectId(node, "presented_impact", library, context, binding.presentedImpact, error) ||
         !readEffectId(node, "return_flight", library, context, binding.returnFlight, error))
     {
         return false;
@@ -177,7 +179,8 @@ std::vector<std::string> ProjectileEffectBindings::effectIds() const
     std::vector<std::string> ids;
     const auto add = [&](const ProjectileEffectBinding &binding)
     {
-        for (const std::string *pId : {&binding.flight, &binding.settled, &binding.impact, &binding.returnFlight})
+        for (const std::string *pId : {&binding.flight, &binding.settled, &binding.impact, &binding.presentedImpact,
+                 &binding.returnFlight})
         {
             if (!pId->empty())
             {

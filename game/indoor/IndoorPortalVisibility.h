@@ -75,6 +75,9 @@ struct IndoorPortalVisibilityInput
     // Zero leaves gameplay geometry queries independent of framebuffer resolution.
     int viewportHeight = 0;
     int16_t startSectorId = -1;
+    // Further sectors seen whole like the start sector. A water reflection's mirrored camera is below the floor, so
+    // no portal leads it into the neighbouring water sectors it looks up through; they start the query too.
+    std::span<const int16_t> extraStartSectorIds;
     uint16_t maxNodes = 256;
     uint16_t maxDepth = 32;
     // The view distance of a map with the outdoor view (devdocs/INDOOR_OPEN_SKY.md "Outdoor view"): a portal whose

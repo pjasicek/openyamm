@@ -4003,6 +4003,20 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         const EventRuntimeState::DialogueOfferState invite = *context.eventRuntimeState.dialogueState.currentOffer;
         context.eventRuntimeState.dialogueState.currentOffer.reset();
 
+        // A solo run takes nobody in: the companion stays where it is, not sent to the Adventurer's Inn.
+        if (context.pParty->soloRun())
+        {
+            context.eventRuntimeState.messages.push_back(Engine::tr("You travel alone: nobody joins a solo run."));
+            setPendingDialogueContext(
+                context.eventRuntimeState,
+                DialogueContextKind::NpcTalk,
+                invite.npcId,
+                currentDialogueHostHouseId(context.eventRuntimeState));
+            result.shouldOpenPendingEventDialog = true;
+            result.allowNpcFallbackContent = false;
+            return result;
+        }
+
         const auto generatedRecruitIt =
             context.eventRuntimeState.generatedMercenaryRecruitsByNpcId.find(invite.npcId);
 

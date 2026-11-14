@@ -69,6 +69,36 @@ float partyMemberProjectileLateralOffset(size_t memberIndex, size_t memberCount)
     return (centerIndex - static_cast<float>(memberIndex)) * PartyMemberProjectileLateralSpacing;
 }
 
+// A solo run's missile leaves the casting hand the arms show (PartySpellCastRequest::handScreenPoint): the point
+// that far in front of the eye on the ray through the hand on screen. The arms are drawn at the world camera's
+// vertical field of view, so the ray passes through the hand. Inside the party's collision radius (37), so the missile
+// never starts beyond a wall the party stands against.
+constexpr float HandProjectileSourceDistance = 32.0f;
+
+SpellSourcePoint handProjectileSource(const PartySpellCastRequest &request, const SpellSourcePoint &fallback)
+{
+    if (!request.hasViewTransform || !request.handScreenPoint)
+    {
+        return fallback;
+    }
+
+    const float cosPitch = std::cos(request.viewPitchRadians);
+    const float sinPitch = std::sin(request.viewPitchRadians);
+    const float cosYaw = std::cos(request.viewYawRadians);
+    const float sinYaw = std::sin(request.viewYawRadians);
+    const float halfVerticalTan = std::tan(CameraVerticalFovRadians * 0.5f);
+    const float halfHorizontalTan = halfVerticalTan * std::max(0.1f, request.viewAspectRatio);
+    const float distance = HandProjectileSourceDistance;
+    const float across = (*request.handScreenPoint)[0] * halfHorizontalTan * distance;
+    const float lift = (*request.handScreenPoint)[1] * halfVerticalTan * distance;
+    // Forward, screen right (forward x up) and screen up of the view.
+    return SpellSourcePoint{
+        .x = request.viewX + cosYaw * cosPitch * distance + sinYaw * across - cosYaw * sinPitch * lift,
+        .y = request.viewY + sinYaw * cosPitch * distance - cosYaw * across - sinYaw * sinPitch * lift,
+        .z = request.viewZ + sinPitch * distance + cosPitch * lift,
+    };
+}
+
 SpellSourcePoint offsetPartyProjectileSourceForMember(
     const PartySpellCastRequest &request,
     const SpellSourcePoint &source,
@@ -1342,8 +1372,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
             Engine::tr(SpellFailedText));
     }
 
-    // Underwater (MM7's Shoals) nobody casts from memory; scrolls and wands, which spend no mana, still work (OY-350).
-    if (request.spendMana && worldRuntime.isUnderwaterMap())
+    // In MM7's Shoals nobody casts from memory; scrolls and wands, which spend no mana, still work (OY-350).
+    // MM8's Plane of Water is underwater too but allows casting, so this is the map's restriction, not its water.
+    if (request.spendMana && !worldRuntime.allowsSpellcasting())
     {
         return makeFailure(
             request.spellId,
@@ -1691,6 +1722,17 @@ PartySpellCastResult PartySpellSystem::castSpell(
             }
 
             targetPoint = resolveActorTargetPoint(actor);
+
+            // A missile aims higher on the target when a slope or ridge edge blocks the line to its usual point.
+            if (rule->effectKind == PartySpellCastEffectKind::Projectile)
+            {
+                if (const std::optional<GameplayPartyAttackActorFacts> facts =
+                        worldRuntime.partyAttackActorFacts(*request.targetActorIndex, false);
+                    facts && facts->lineOfSightToParty)
+                {
+                    targetPoint.z = actor.preciseZ + facts->targetHeight;
+                }
+            }
         }
     }
     else if (rule->targetKind == PartySpellCastTargetKind::Character)
@@ -2620,11 +2662,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->effectKind == PartySpellCastEffectKind::Projectile)
     {
-        const SpellSourcePoint projectileSource = offsetPartyProjectileSourceForMember(
+        const SpellSourcePoint projectileSource = handProjectileSource(request, offsetPartyProjectileSourceForMember(
             request,
             SpellSourcePoint{.x = sourceX, .y = sourceY, .z = sourceZ},
             SpellSourcePoint{.x = targetPoint.x, .y = targetPoint.y, .z = targetPoint.z},
-            party.members().size());
+            party.members().size()));
         GameplayPartySpellProjectileRequest worldRequest = {};
         worldRequest.casterMemberIndex = static_cast<uint32_t>(request.casterMemberIndex);
         worldRequest.spellId = request.spellId;
@@ -2651,11 +2693,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
             + (targetPoint.y - sourceY) * (targetPoint.y - sourceY));
         const float baseTargetZ = targetPoint.z;
         const float spreadArcRadians = Pi / 3.0f;
-        const SpellSourcePoint projectileSource = offsetPartyProjectileSourceForMember(
+        const SpellSourcePoint projectileSource = handProjectileSource(request, offsetPartyProjectileSourceForMember(
             request,
             SpellSourcePoint{.x = sourceX, .y = sourceY, .z = sourceZ},
             SpellSourcePoint{.x = targetPoint.x, .y = targetPoint.y, .z = targetPoint.z},
-            party.members().size());
+            party.members().size()));
 
         for (uint32_t projectileIndex = 0; projectileIndex < spellNumbers.projectileCount; ++projectileIndex)
         {

@@ -136,7 +136,8 @@ private:
     std::string raisePreviewText(const Party &party, const Character &character, const std::string &canonicalSkill)
         const;
 
-    // A member's HP and SP per second from skills, auras and potions, before the out-of-combat multipliers.
+    // A combatant's HP and SP per second from skills, auras and potions, before the out-of-combat multipliers. An MM9
+    // hireling (a combatant index past the members) has no skills, items or potions: only the Regeneration aura.
     std::pair<double, double> regenerationPerSecond(const Party &party, size_t index) const;
     // A mastery a respec took comes back, one rank per raise, once the skill reaches that rank's requirement.
     std::string restoreRememberedMastery(

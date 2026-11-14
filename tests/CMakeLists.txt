@@ -27,6 +27,10 @@ add_executable(openyamm_unit_tests
     QuickItemSlotTests.cpp
     EffectSystemTests.cpp
     EnergyShieldTests.cpp
+    ShieldBlockTests.cpp
+    SoloRunTests.cpp
+    HeldWeaponTests.cpp
+    SoloTalentTests.cpp
     MonsterModifierTests.cpp
     CinematicRuntimeTests.cpp
     Mm9ActorRulesTests.cpp
@@ -162,6 +166,8 @@ add_executable(openyamm_unit_tests
     ScreenManagerTests.cpp
     ScreenshotTourTests.cpp
     ../game/debug/ScreenshotTour.cpp
+    PinInboxTests.cpp
+    ../game/debug/PinInbox.cpp
     AiArenaTests.cpp
     ../game/debug/AiArena.cpp
     ../game/gameplay/ActorAiTrace.cpp
@@ -170,6 +176,8 @@ add_executable(openyamm_unit_tests
     SkyStateTests.cpp
     ../game/render/SkyPresets.cpp
     ../game/render/SkyState.cpp
+    ../game/render/FirstPersonViewModelKit.cpp
+    ../game/render/HeldWeapons.cpp
     ../game/outdoor/OutdoorDistantSea.cpp
     WeatherModelTests.cpp
     WorldItemShapeTests.cpp
@@ -442,6 +450,7 @@ add_executable(openyamm_unit_tests
     ../game/rules/maw/MawPromotions.cpp
     ../game/rules/maw/MawSkillRules.cpp
     ../game/rules/maw/MawSpellFormulas.cpp
+    ../game/rules/maw/MawSoloTalents.cpp
     ../game/rules/maw/MawSpellRules.cpp
     ../game/rules/maw/MawTexts.cpp
     ../game/rules/maw/MawTrainerHints.cpp
@@ -450,6 +459,7 @@ add_executable(openyamm_unit_tests
     ../game/rules/CraftingRules.cpp
     ../game/rules/PotionRules.cpp
     ../game/rules/SkillRules.cpp
+    ../game/rules/SoloTalents.cpp
     ../game/rules/SpellRules.cpp
     ../game/mm9/Mm9RudeDialogue.cpp
     ../game/mm9/Mm9BarrelRuntime.cpp

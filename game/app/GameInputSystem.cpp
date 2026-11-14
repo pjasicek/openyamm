@@ -72,6 +72,11 @@ void GameInputSystem::handleSdlEvent(const SDL_Event &event)
     if ((event.type == SDL_EVENT_MOUSE_BUTTON_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_UP)
         && event.button.button >= SDL_BUTTON_LEFT && event.button.button <= SDL_BUTTON_RIGHT)
     {
+        if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+        {
+            m_lastMouseButtonDownNanoseconds = event.button.timestamp;
+        }
+
         m_pendingMouseButtonEvents[event.button.button - SDL_BUTTON_LEFT].push_back(event.button);
         return;
     }
@@ -333,6 +338,39 @@ void GameInputSystem::updateFromEngineInput(
     bool leftMouseButtonHeld = !blockGameplayInput && physicalLeftMouseButtonHeld;
     bool rightMouseButtonHeld = !blockGameplayInput && physicalRightMouseButtonHeld;
     bool middleMouseButtonHeld = !blockGameplayInput && physicalMiddleMouseButtonHeld;
+
+    // The click guard after a window opened (guardClicksAfterWindowOpened): a press while it lasts, held or queued,
+    // is dropped with its release.
+    if (m_clickGuardUntilNanoseconds != 0)
+    {
+        const uint64_t now = SDL_GetTicksNS();
+        const std::array<bool, 3> physicalHeld = {
+            physicalLeftMouseButtonHeld, physicalMiddleMouseButtonHeld, physicalRightMouseButtonHeld};
+        const std::array<bool *, 3> suppress = {&m_suppressLeftMouseButtonUntilReleased,
+            &m_suppressMiddleMouseButtonUntilReleased, &m_suppressRightMouseButtonUntilReleased};
+
+        for (size_t button = 0; button < suppress.size(); ++button)
+        {
+            const std::deque<SDL_MouseButtonEvent> &events = m_pendingMouseButtonEvents[button];
+            const bool pressedInGuard = (physicalHeld[button] && now < m_clickGuardUntilNanoseconds)
+                || std::any_of(events.begin(), events.end(),
+                    [this](const SDL_MouseButtonEvent &event)
+                    {
+                        return event.type == SDL_EVENT_MOUSE_BUTTON_DOWN
+                            && event.timestamp < m_clickGuardUntilNanoseconds;
+                    });
+
+            if (pressedInGuard)
+            {
+                *suppress[button] = true;
+            }
+        }
+
+        if (now >= m_clickGuardUntilNanoseconds)
+        {
+            m_clickGuardUntilNanoseconds = 0;
+        }
+    }
 
 #if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     if (m_mobilePointerPosition)
@@ -994,5 +1032,21 @@ void GameInputSystem::suppressMouseButtonsUntilReleased()
     m_previousLeftMouseButtonHeld = false;
     m_previousRightMouseButtonHeld = false;
     m_previousMiddleMouseButtonHeld = false;
+}
+
+void GameInputSystem::guardClicksAfterWindowOpened()
+{
+    const uint64_t now = SDL_GetTicksNS();
+    const bool buttonHeld = SDL_GetMouseState(nullptr, nullptr) != 0;
+    const bool recentClick = m_lastMouseButtonDownNanoseconds != 0
+        && now - std::min(now, m_lastMouseButtonDownNanoseconds) <= ClickOpenedWindowNanoseconds;
+
+    if (!buttonHeld && !recentClick)
+    {
+        return;
+    }
+
+    suppressMouseButtonsUntilReleased();
+    m_clickGuardUntilNanoseconds = now + WindowClickGuardNanoseconds;
 }
 } // namespace OpenYAMM::Game

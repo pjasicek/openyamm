@@ -326,21 +326,6 @@ std::optional<BagTag> ItemRules::bagTag(const ItemDefinition &) const
     return std::nullopt;
 }
 
-std::optional<size_t> ItemRules::alchemist(const Party &) const
-{
-    return std::nullopt;
-}
-
-std::optional<std::string> ItemRules::pickAlchemist(Party &, size_t) const
-{
-    return std::nullopt;
-}
-
-std::optional<int> ItemRules::alchemySortRank(const InventoryItem &) const
-{
-    return std::nullopt;
-}
-
 std::optional<std::string> ItemRules::chestOpenRefusal(const Party &, int) const
 {
     return std::nullopt;

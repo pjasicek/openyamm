@@ -560,7 +560,8 @@ TEST_CASE("world post processing orders solid geometry AO transparencies grading
     {
         for (bool ambientOcclusion : {false, true})
         {
-            const std::array<uint16_t, WorldGradingView + 1> order = worldRenderViewOrder(grading, ambientOcclusion);
+            const std::array<uint16_t, FirstPersonViewModelView + 1> order =
+                worldRenderViewOrder(grading, ambientOcclusion);
             const auto position = [&](uint16_t view) { return std::find(order.begin(), order.end(), view); };
             CHECK(position(0) < position(1));
             CHECK(position(1) < position(2));
@@ -595,9 +596,17 @@ TEST_CASE("world post processing orders solid geometry AO transparencies grading
                 CHECK(position(1) < position(WorldGradingView));
                 CHECK(position(WorldGradingView) < position(2));
             }
-            std::array<uint16_t, WorldGradingView + 1> sorted = order;
+            // The view model draws over the finished world (after AO's transparencies) and before grading and HUD.
+            CHECK(position(1) < position(FirstPersonViewModelView));
+            if (ambientOcclusion)
+            {
+                CHECK(position(WorldTransparentView) < position(FirstPersonViewModelView));
+            }
+            CHECK(position(FirstPersonViewModelView) < position(grading ? WorldGradingView : 2));
+            CHECK(position(FirstPersonViewModelView) < position(2));
+            std::array<uint16_t, FirstPersonViewModelView + 1> sorted = order;
             std::sort(sorted.begin(), sorted.end());
-            for (uint16_t view = 0; view <= WorldGradingView; ++view)
+            for (uint16_t view = 0; view <= FirstPersonViewModelView; ++view)
             {
                 CHECK(sorted[view] == view);
             }

@@ -519,6 +519,7 @@ void NewGameScreen::initializeCharacterCreationForSelectedContinent()
 
     rebuildCandidates();
     m_partySize = 1;
+    m_soloRun = false;
     m_activePartySlot = 0;
     m_partyStates.clear();
 
@@ -1877,6 +1878,7 @@ void NewGameScreen::confirmCreation()
         options.continentId = m_selectedContinent.id;
         options.preserveDebugLoadout = godLichParty;
         options.ruleset = m_ruleset;
+        options.ruleset.options.soloRun = m_soloRun && m_partySize == 1 && !godLichParty;
         m_continueAction(characters, options);
     }
 }

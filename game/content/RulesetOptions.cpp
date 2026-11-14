@@ -213,6 +213,10 @@ bool applyRulesetOptionIds(std::string_view ids, RulesetOptions &options)
         {
             options.randomizer = true;
         }
+        else if (id == "solo")
+        {
+            options.soloRun = true;
+        }
         else if (id == "friendlyfire")
         {
             options.preferences.friendlyFire = true;
@@ -246,7 +250,7 @@ std::string describeRulesetSelection(const RulesetSelection &selection, const st
 {
     if (selection.isStandard())
     {
-        return {};
+        return selection.options.soloRun ? Engine::tr("Solo run") : std::string();
     }
 
     // The ruleset's name (ruleset.yml English, or already shown text from the save list) and its options, each in
@@ -269,6 +273,12 @@ std::string describeRulesetSelection(const RulesetSelection &selection, const st
     {
         badge += " · ";
         badge += Engine::tr("Randomizer");
+    }
+
+    if (selection.options.soloRun)
+    {
+        badge += " · ";
+        badge += Engine::tr("Solo run");
     }
 
     return badge;

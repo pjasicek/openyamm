@@ -15,20 +15,23 @@ steps:
   - execute_event: {id: 35}
   - assert:
       state_dump_named_map_var: {name: LavaWallCleared, value: 0}
-  # The Mercenary Guild's wine rack runs MAW's replacement (MAW potions); headless runs never hand an event's item to
-  # the party, so this only runs it until the rack is dry.
+  # The Mercenary Guild's wine rack runs MAW's replacement (MAW potions), until the rack is dry. Since 1.22 headless
+  # runs hand an event's item to the cursor, as the game does; the cursor's item goes to the pack.
   - load_map: {map: 7d20.blv}
   - execute_event: {id: 196}
   - execute_event: {id: 196}
   - execute_event: {id: 196}
   - execute_event: {id: 196}
-  # Korbu's sarcophagus comes once per game, also from a refilled crypt. Headless runs never hand an event's item to
-  # the party, so the event's own QBit tells whether it ran.
+  - assert: {held_item: {active: false}}
+  # Korbu's sarcophagus comes once per game, also from a refilled crypt: the event hands it to the cursor and sets
+  # its QBit; the sarcophagus then goes to the pack, so the Dimension Map below has an empty cursor.
   - load_map: {map: d26.blv}
   - execute_event: {id: 131}
   - assert:
+      held_item: {active: true, item_id: 612}
       qbit_set: [211]
       state_dump_named_global_var: {name: SarcophagusFound, value: 1}
+  - assert: {held_item: {active: false}}
   - setup_shortcut: {kind: set_qbit, id: 211, value: false}
   - execute_event: {id: 131}
   - assert:

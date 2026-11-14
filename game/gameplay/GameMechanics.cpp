@@ -2794,6 +2794,16 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
     return summary;
 }
 
+std::optional<CharacterAttackMode> GameMechanics::soloBowShotMode(const CharacterAttackProfile &profile,
+    bool eyeUnderWater)
+{
+    if (!profile.hasBow || !profile.rangedAttackBonus.has_value() || eyeUnderWater)
+    {
+        return std::nullopt;
+    }
+    return CharacterAttackMode::Bow;
+}
+
 CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
     const Character &character,
     const ItemTable *pItemTable,
@@ -3414,6 +3424,38 @@ float GameMechanics::actorTargetHeight(uint16_t actorHeight, float modelBottom, 
         return target;
     }
     return std::min(target, bottom + (modelTop - bottom) * 0.6f);
+}
+
+std::optional<float> GameMechanics::clearPartyShotAimHeight(
+    float targetHeight, uint16_t actorHeight, const std::function<bool(float)> &lineClear)
+{
+    if (lineClear(targetHeight))
+    {
+        return targetHeight;
+    }
+
+    // Up to just below the top of its height, so the raised shot still meets its body.
+    constexpr float TopFraction = 0.9f;
+    constexpr int RaisedPointCount = 3;
+    constexpr float MinimumRaise = 4.0f;
+    const float top = float(actorHeight) * TopFraction;
+
+    if (top - targetHeight < MinimumRaise)
+    {
+        return std::nullopt;
+    }
+
+    for (int point = 1; point <= RaisedPointCount; ++point)
+    {
+        const float height = targetHeight + (top - targetHeight) * float(point) / float(RaisedPointCount);
+
+        if (lineClear(height))
+        {
+            return height;
+        }
+    }
+
+    return std::nullopt;
 }
 
 bool GameMechanics::actorBoxInViewport(

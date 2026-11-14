@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
+#include "game/party/SpellSchool.h"
 #include "game/tables/SpellTable.h"
 
 namespace OpenYAMM::Game
@@ -13,7 +14,8 @@ GameplaySpellActionController::SpellActionResult GameplaySpellActionController::
     GameplayScreenRuntime &runtime,
     GameplaySpellService &spellService,
     const TargetQueries &targetQueries,
-    std::optional<size_t> extraSlot)
+    std::optional<size_t> extraSlot,
+    const std::string &barSpellName)
 {
     // An MM9 hireling has no spellbook: its quick cast is its attack or spell (MM9 sends both the same way, 9.2).
     if (const Party *pParty = runtime.party(); pParty != nullptr && pParty->activeHireling() != nullptr)
@@ -22,7 +24,7 @@ GameplaySpellActionController::SpellActionResult GameplaySpellActionController::
     }
 
     const GameplaySpellService::QuickSpellStartResolution resolution =
-        spellService.tryStartQuickSpellCast(runtime, targetQueries, extraSlot);
+        spellService.tryStartQuickSpellCast(runtime, targetQueries, extraSlot, barSpellName);
 
     if (resolution.disposition == GameplaySpellService::QuickSpellStartDisposition::AttackFallback)
     {
@@ -35,6 +37,44 @@ GameplaySpellActionController::SpellActionResult GameplaySpellActionController::
     }
 
     return SpellActionResult::Failed;
+}
+
+bool GameplaySpellActionController::prepareViewModelCast(
+    GameplayScreenRuntime &runtime,
+    const Character &caster,
+    const std::string &spellName)
+{
+    const SpellTable *pSpellTable = runtime.spellTable();
+    const SpellEntry *pSpell = pSpellTable != nullptr && !spellName.empty()
+        ? pSpellTable->findByName(spellName, spellKnownBy(caster)) : nullptr;
+    if (pSpell == nullptr)
+    {
+        return false;
+    }
+    GameplayScreenRuntime::ViewModelLink &link = runtime.viewModelLink();
+    const std::optional<PartySpellDescriptor> descriptor = PartySpellSystem::describeSpell(uint32_t(pSpell->id));
+    // A spell that opens a window to finish the cast (an item to enchant, Town Portal's destinations, Telekinesis)
+    // casts at once, as it does without arms: the window takes over.
+    if (descriptor && (descriptor->targetKind == PartySpellCastTargetKind::InventoryItem
+            || descriptor->targetKind == PartySpellCastTargetKind::UtilityUi
+            || descriptor->targetKind == PartySpellCastTargetKind::TelekinesisTarget))
+    {
+        return false;
+    }
+    const PartySpellCastEffectKind effect = descriptor ? descriptor->effectKind : PartySpellCastEffectKind::Projectile;
+    // Heals, buffs and cures gather on the caster (Oblivion's castself); missiles and spells on monsters reach out.
+    link.castSelf = effect == PartySpellCastEffectKind::PartyBuff || effect == PartySpellCastEffectKind::CharacterBuff
+        || effect == PartySpellCastEffectKind::CharacterRestore || effect == PartySpellCastEffectKind::PartyRestore
+        || effect == PartySpellCastEffectKind::Jump || effect == PartySpellCastEffectKind::UtilityUi;
+    const std::optional<std::string> school = resolveMagicSkillName(uint32_t(pSpell->id));
+    link.castSchool = school.value_or(pSpell->schoolName);
+    // The spell's recovery at the caster's mastery in its school, in the original's ticks (128 per 2.13 s).
+    const CharacterSkill *pSkill = school ? caster.findSkill(*school) : nullptr;
+    const SkillMastery mastery = pSkill != nullptr && pSkill->mastery != SkillMastery::None
+        ? pSkill->mastery : SkillMastery::Normal;
+    constexpr float RealtimeSecondsPerTick = 2.133333333333333f / 128.0f;
+    link.swingRecoverySeconds = float(spellNumbersAtMastery(*pSpell, mastery).recoveryTicks) * RealtimeSecondsPerTick;
+    return true;
 }
 
 GameplaySpellActionController::AttackCastResult GameplaySpellActionController::tryBeginAttackCast(

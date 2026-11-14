@@ -1,0 +1,30 @@
+id: solo_balance.monster_tables
+title: "Solo balance - MAW monsters of every map for a party of one at Nightmare and Beyond Madness"
+world: mm8
+mode: faithful
+tags: [solo_balance, maw, measurement]
+# A measurement, not a regression test: writes TSV tables under output/solo_balance/ (run from the repository root)
+# for devdocs/solo_action/BALANCE_AND_TALENTS.md. A party of one changes only the Cover term of monster damage
+# (devdocs/maw/BALANCE_MODEL.md §9.4); HP does not depend on the party size.
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+      member_count: 1
+      ruleset: {id: maw, difficulty: nightmare, progression: horizontal}
+  - console: {line: "ruleset maplevels output/solo_balance/maplevels_nightmare.tsv 0", expect_contains: "maps written"}
+  - console:
+      line: "ruleset mapmonsters output/solo_balance/monsters_nightmare_horizontal_solo.tsv"
+      expect_contains: "monsters written"
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: nightmare, progression: horizontal}
+  - console:
+      line: "ruleset mapmonsters output/solo_balance/monsters_nightmare_horizontal_party5.tsv"
+      expect_contains: "monsters written"
+  - new_game_flow:
+      start_map: out01.odm
+      member_count: 1
+      ruleset: {id: maw, difficulty: nightmare, challenge_mode: beyond_madness}
+  - console:
+      line: "ruleset mapmonsters output/solo_balance/monsters_madness_solo.tsv"
+      expect_contains: "monsters written"

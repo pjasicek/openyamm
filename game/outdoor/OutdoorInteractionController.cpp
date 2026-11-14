@@ -5282,14 +5282,15 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
 
     pEventRuntimeState->activeEventMapNoteSourcePoint = previousMapNoteSourcePoint;
 
-    for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
+    for (size_t index = 0; index < pEventRuntimeState->statusMessages.size(); ++index)
     {
         view.setStatusBarEvent(
-            statusMessage,
-            2.0f,
+            pEventRuntimeState->statusMessages[index],
+            statusMessageSeconds(*pEventRuntimeState, index),
             GameplayUiController::StatusBarEventPriority::High);
     }
     pEventRuntimeState->statusMessages.clear();
+    pEventRuntimeState->statusMessageSeconds.clear();
     OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
 
     OutdoorInteractionController::presentPendingEventDialog(view, previousMessageCount, true);
@@ -5719,14 +5720,15 @@ bool OutdoorInteractionController::tryTriggerLocalEventById(OutdoorGameView &vie
         return false;
     }
 
-    for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
+    for (size_t index = 0; index < pEventRuntimeState->statusMessages.size(); ++index)
     {
         view.setStatusBarEvent(
-            statusMessage,
-            2.0f,
+            pEventRuntimeState->statusMessages[index],
+            statusMessageSeconds(*pEventRuntimeState, index),
             GameplayUiController::StatusBarEventPriority::High);
     }
     pEventRuntimeState->statusMessages.clear();
+    pEventRuntimeState->statusMessageSeconds.clear();
     OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
 
     OutdoorInteractionController::presentPendingEventDialog(view, previousMessageCount, true);

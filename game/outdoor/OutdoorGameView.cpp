@@ -2966,7 +2966,7 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         return;
     }
 
-    const bool cameraMotionInput = hasOutdoorCameraMotionInput(input);
+    const bool cameraMotionInput = hasOutdoorCameraMotionInput(input) || m_gameSession.autoWalkActive();
     const size_t pendingSpriteWarmupsBefore =
         m_nextPendingSpriteFrameWarmupIndex < m_pendingSpriteFrameWarmups.size()
             ? m_pendingSpriteFrameWarmups.size() - m_nextPendingSpriteFrameWarmupIndex
@@ -3041,6 +3041,7 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     m_worldFxSystem.waterRipples().setEnabled(
         m_gameSettings.waterMovementRipples && m_waterRenderer.isReady());
     m_worldFxSystem.setShadowsEnabled(m_gameSettings.shadows);
+    m_worldFxSystem.setPlainItemSparkle(m_gameSettings.lootSparkle);
     m_worldFxSystem.updateParticles(deltaSeconds, worldFxPaused);
 
     if (!gameplayMouseLookState.cursorModeActive)

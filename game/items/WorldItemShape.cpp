@@ -385,6 +385,6 @@ WorldItemSparkle worldItemSparkle(const InventoryItem &item, const ItemDefinitio
     {
         return WorldItemSparkle::Precious;
     }
-    return value >= ValuableGold ? WorldItemSparkle::Valuable : WorldItemSparkle::None;
+    return value >= ValuableGold ? WorldItemSparkle::Valuable : WorldItemSparkle::Plain;
 }
 }

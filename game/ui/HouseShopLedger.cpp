@@ -25,13 +25,15 @@ bool contains(const Rect &rect, float x, float y)
     return x >= rect.x && x < rect.x + rect.width && y >= rect.y && y < rect.y + rect.height;
 }
 
-// Two stock entries share a row when nothing the player could tell apart differs; grid placement does not count.
+// Two stock entries share a row when nothing the player could tell apart differs; grid placement and the size of a
+// stack do not count.
 bool sameKind(const InventoryItem &left, const InventoryItem &right)
 {
     InventoryItem a = left;
     InventoryItem b = right;
     a.gridX = b.gridX = 0;
     a.gridY = b.gridY = 0;
+    a.quantity = b.quantity = 1;
     return a == b;
 }
 }
@@ -273,7 +275,8 @@ HouseShopLedgerModel buildHouseShopLedgerModel(
             continue;
         }
 
-        ++model.itemsForSale;
+        const uint32_t copies = std::max(1u, item.quantity);
+        model.itemsForSale += copies;
         const auto row = std::find_if(allRows.begin(), allRows.end(),
             [&stock, &item](const HouseShopLedgerRow &candidate)
             {
@@ -283,12 +286,15 @@ HouseShopLedgerModel buildHouseShopLedgerModel(
         if (row != allRows.end())
         {
             row->stockIndices.push_back(index);
-            ++model.copiesGrouped;
+            row->copies += copies;
+            model.copiesGrouped += copies;
             continue;
         }
 
         HouseShopLedgerRow newRow = {};
         newRow.stockIndices.push_back(index);
+        newRow.copies = copies;
+        model.copiesGrouped += copies - 1;
         newRow.category = houseShopLedgerCategoryOf(*pDefinition);
         newRow.school = houseShopLedgerSpellSchoolOf(*pDefinition);
         newRow.kind = houseShopLedgerKindOf(*pDefinition);

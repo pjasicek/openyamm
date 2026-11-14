@@ -422,7 +422,11 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
             return result;
         }
 
-        state.stunRemainingSeconds = std::max(state.stunRemainingSeconds, 0.5f + 0.35f * skillLevel);
+        // Under a ruleset's crowd control the paralysis holds the monster and the stun is the original's short
+        // stagger, so diminishing returns bind the whole effect.
+        state.stunRemainingSeconds = std::max(
+            state.stunRemainingSeconds,
+            rulesetSeconds ? std::min(StaggerStunSeconds, *rulesetSeconds) : 0.5f + 0.35f * skillLevel);
         state.paralyzeRemainingSeconds = std::max(
             state.paralyzeRemainingSeconds,
             rulesetSeconds.value_or(
@@ -800,6 +804,39 @@ float GameplayActorService::partyEngagementRange(const GameplayActorTargetPolicy
     }
 
     return actor.hostileToParty ? m_partyEngagementRange : 0.0f;
+}
+
+float GameplayActorService::partyNoticeRange(
+    const GameplayActorTargetPolicyState &actor,
+    bool engaged,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides) const
+{
+    const float engagementRange = partyEngagementRange(actor);
+
+    if (engaged || engagementRange <= 0.0f)
+    {
+        return engagementRange;
+    }
+
+    const int16_t relationMonsterId = actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId;
+    int relationToParty = m_pMonsterTable->getRelationToParty(relationMonsterId);
+
+    if (pRelationOverrides != nullptr && !pRelationOverrides->empty())
+    {
+        const auto overrideIterator = pRelationOverrides->find(relationOverrideKey(uint32_t(relationMonsterId), 0));
+
+        if (overrideIterator != pRelationOverrides->end())
+        {
+            relationToParty = overrideIterator->second;
+        }
+    }
+
+    if (relationToParty <= 0 || relationToParty >= 4)
+    {
+        return engagementRange;
+    }
+
+    return std::min(engagementRange, hostilityRangeForRelation(relationToParty));
 }
 
 float GameplayActorService::hostilityPromotionRangeForFriendlyActor(int relation) const

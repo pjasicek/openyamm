@@ -162,8 +162,9 @@ TEST_CASE("ground items sparkle by their value in gold")
     ItemDefinition sword;
     sword.value = 300;
     InventoryItem item;
-    CHECK(worldItemSparkle(item, sword, 300) == WorldItemSparkle::None);
-    CHECK(worldItemSparkle(item, sword, 999) == WorldItemSparkle::None);
+    // Plain loot glints faintly white (OY-618).
+    CHECK(worldItemSparkle(item, sword, 300) == WorldItemSparkle::Plain);
+    CHECK(worldItemSparkle(item, sword, 999) == WorldItemSparkle::Plain);
     CHECK(worldItemSparkle(item, sword, 1000) == WorldItemSparkle::Valuable);
     CHECK(worldItemSparkle(item, sword, 2500) == WorldItemSparkle::Precious);
     item.artifactId = 1;

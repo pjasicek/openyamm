@@ -121,7 +121,8 @@ public:
         const ItemDefinition &itemDefinition,
         const StandardItemEnchantTable *pStandardTable,
         const SpecialItemEnchantTable *pSpecialTable) const override;
-    // A MAW item's base enchantments are inspect lines of their own; "Special:" is its special only.
+    // None: a MAW item's enchantments and special are inspect lines of their own, the special under the stats and
+    // without the "Special:" label, as MAW's tooltip has them (Discord, 2026-11-14).
     std::string enchantDescription(
         const InventoryItem &item,
         const ItemDefinition &itemDefinition,
@@ -142,12 +143,21 @@ public:
         const Character *pViewer) const override;
     // One base enchantment as the inspect popup reads it ("Might +12" with the slot's read multipliers, a resistance as
     // the share of damage it stops with the viewer's Legendary 16 in it); `first` is the item's first slot.
-    std::string enchantLine(
+    // The stat's name is in the stat's colour, its amount white.
+    ItemInspectLine enchantLine(
         int type,
         int power,
         bool first,
         const ItemDefinition &itemDefinition,
         const StandardItemEnchantTable *pStandardTable,
+        const Character *pViewer) const;
+    // The item's special as its inspect line reads it: a damage enchantment's range at the item's level, the
+    // numbers of stat, school and Meditation specials at the item's power.
+    std::string specialText(
+        const InventoryItem &item,
+        const ItemDefinition &itemDefinition,
+        const StandardItemEnchantTable *pStandardTable,
+        const SpecialItemEnchantTable *pSpecialTable,
         const Character *pViewer) const;
 
     // Weapon, armour and magic shops reroll for (floor(P / 15) + S)^2 x 250 gold, P being the levels banked on the
@@ -201,12 +211,6 @@ public:
     // Crafting items (1041-1070, zzzMaw_CraftingBag.lua:1-6) go to a crafting bag; potions, bottles and reagents to
     // an alchemy bag (ours).
     std::optional<BagTag> bagTag(const ItemDefinition &definition) const override;
-    // The alchemist key (MAW's E) picks the member who takes alchemy items when sorting (zzMaw-Item-Sorter.lua:47-56);
-    // the potions 220-299 go first, highest id first, then MAW's reagent and crafting order (alchemyItemsOrder,
-    // :751-758).
-    std::optional<size_t> alchemist(const Party &party) const override;
-    std::optional<std::string> pickAlchemist(Party &party, size_t memberIndex) const override;
-    std::optional<int> alchemySortRank(const InventoryItem &item) const override;
     // Doom and the modes after it (IT:4129-4201): chests open only for a member whose Disarm Traps skill x mastery
     // reaches the map's lock (twice a lock of 4 or more), or a Grandmaster, trapped or not (PHASE9_SCOPE Q1);
     // unidentified items cannot be worn; identifying costs the identify difficulty squared and repairs take the

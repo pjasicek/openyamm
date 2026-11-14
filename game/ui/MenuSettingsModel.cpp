@@ -106,6 +106,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.enemyHealthBarDamageTrail ? "true" : "false";
     }
+    if (id == "enemy_health_bar_effects")
+    {
+        return settings.enemyHealthBarEffects ? "true" : "false";
+    }
     if (id == "show_hits")
     {
         return settings.showHits ? "true" : "false";
@@ -289,6 +293,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "shop_list_view")
     {
         return settings.shopListView ? "true" : "false";
+    }
+    if (id == "loot_sparkle")
+    {
+        return settings.lootSparkle ? "true" : "false";
     }
     if (id == "quicksave_slots")
     {
@@ -503,6 +511,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.enemyHealthBarDamageTrail = value == "true";
+        return true;
+    }
+    if (id == "enemy_health_bar_effects")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.enemyHealthBarEffects = value == "true";
         return true;
     }
     if (id == "show_hits")
@@ -879,6 +896,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.shopListView = value == "true";
+        return true;
+    }
+    if (id == "loot_sparkle")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.lootSparkle = value == "true";
         return true;
     }
     if (id == "quicksave_slots")

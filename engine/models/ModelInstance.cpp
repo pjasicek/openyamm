@@ -726,7 +726,7 @@ const ModelBounds *ModelInstanceSystem::pickingBounds(ModelInstanceHandle handle
             pSlot->pickingBounds = {};
             for (const ModelAttachment &attachment : pSlot->attachments)
             {
-                const ModelMatrix &matrix = pSlot->pose.globalMatrices[attachment.nodeIndex];
+                const ModelMatrix matrix = attachment.placed(pSlot->pose.globalMatrices[attachment.nodeIndex]);
                 const ModelBounds &bounds = attachment.asset->staticBounds;
                 if (!bounds.valid || !modelMatrixVisible(matrix))
                 {

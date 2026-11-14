@@ -76,7 +76,7 @@ std::vector<CompareLine> itemLines(const GameplayScreenRuntime &context, const I
     for (const ItemInspectLine &line : itemRules.inspectLines(
              item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer))
     {
-        lines.push_back({line.text, abgrFromRgb(line.color)});
+        lines.push_back({line.text, abgrFromRgb(line.singleColor())});
     }
 
     const MergedPotionSettingTable *pPotions = context.mergedPotionSettingTable();

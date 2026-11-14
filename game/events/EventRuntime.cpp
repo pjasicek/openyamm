@@ -9411,6 +9411,20 @@ int luaStatusText(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const char *pText = luaL_checkstring(pLuaState, 1);
+    // evt.StatusText(text, seconds): seconds is optional; without it the text stays the default 2 seconds.
+    float seconds = 0.0f;
+
+    if (!lua_isnoneornil(pLuaState, 2))
+    {
+        const double requested = luaL_checknumber(pLuaState, 2);
+        // fmax picks the minimum for a NaN.
+        seconds = static_cast<float>(
+            std::fmin(std::fmax(requested, MinStatusMessageSeconds), MaxStatusMessageSeconds));
+    }
+
+    // Other code adds status messages without seconds: line the seconds up with the message this one gets.
+    pRuntimeState->statusMessageSeconds.resize(pRuntimeState->statusMessages.size(), 0.0f);
+    pRuntimeState->statusMessageSeconds.push_back(seconds);
     pRuntimeState->statusMessages.push_back(localizedEventText(pLuaState, pText));
     return 0;
 }
@@ -10849,6 +10863,7 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.activeHookContext.reset();
     runtimeState.messages.clear();
     runtimeState.statusMessages.clear();
+    runtimeState.statusMessageSeconds.clear();
     runtimeState.openedChestIds.clear();
     runtimeState.openedChestRequests.clear();
     runtimeState.activeEventOpenedByTelekinesis = false;
@@ -10874,6 +10889,16 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.pendingSounds.clear();
     runtimeState.lastAffectedMechanismIds.clear();
     runtimeState.lastActivationResult.reset();
+}
+
+float statusMessageSeconds(const EventRuntimeState &runtimeState, size_t index)
+{
+    if (index < runtimeState.statusMessageSeconds.size() && runtimeState.statusMessageSeconds[index] > 0.0f)
+    {
+        return runtimeState.statusMessageSeconds[index];
+    }
+
+    return DefaultStatusMessageSeconds;
 }
 
 std::vector<uint32_t> consumeOpenedChestIds(EventRuntimeState &runtimeState)

@@ -227,6 +227,7 @@ public:
     void renderGameplayUi(int width, int height);
     const GameplaySharedInputFrameResult &sharedInputFrameResult() const;
     bool sharedWorldInteractionBlockedThisFrame() const;
+    bool autoWalkActive() const;
     void requestRelativeMouseMotionReset();
     bool consumeRelativeMouseMotionResetRequest();
 
@@ -430,6 +431,8 @@ private:
     const GameplayInputFrame *m_pCurrentGameplayInputFrame = nullptr;
     GameplaySharedInputFrameResult m_sharedInputFrameResult = {};
     bool m_sharedWorldInteractionBlockedThisFrame = false;
+    // Auto-walk (KeyboardAction::AutoWalk): the party walks forward as if Forward were held.
+    bool m_autoWalkActive = false;
     bool m_relativeMouseMotionResetRequested = false;
     std::optional<OutdoorPartyRuntime::Snapshot> m_outdoorPartyState;
     std::optional<OutdoorWorldRuntime::Snapshot> m_currentOutdoorWorldState;

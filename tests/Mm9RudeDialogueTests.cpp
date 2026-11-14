@@ -1449,8 +1449,9 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
                 "Missing MM9 vendor alias for RUDE ", rudeId, " source line ", row.sourceLine);
         }
     }
-    CHECK_EQ(reachableShopRowCount, 48);
-    CHECK_EQ(reachableShopIds.size(), 47);
+    // 48 MMIXSHOPS shops plus Hallvard's Tomes, Yorwick (generate_mm9_vendors.py ADDED_VENDORS, NPC500.rude).
+    CHECK_EQ(reachableShopRowCount, 49);
+    CHECK_EQ(reachableShopIds.size(), 48);
     size_t reachableTrainingRowCount = 0;
     size_t reachableHealingRowCount = 0;
     size_t reachableDonationRowCount = 0;
@@ -1505,8 +1506,8 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             inspectPages(houseEntry.deterministicSpecialStockPages);
         }
     }
-    CHECK_EQ(mm9VendorCount, 48);
-    CHECK_EQ(mm9VendorStockRowCount, 5934);
+    CHECK_EQ(mm9VendorCount, 49);
+    CHECK_EQ(mm9VendorStockRowCount, 6186);
     CHECK(stockItemIdsWithoutMountedIcons.empty());
     const OpenYAMM::Game::HouseEntry *pSturmfordWeaponVendor =
         houseTable.resolvePackageSourceVendorId("mm9", 53);
@@ -1534,9 +1535,9 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     CHECK_EQ(vendorRootActions[2].id, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
     CHECK(std::find(pSturmfordWeaponVendor->offeredSkills.begin(), pSturmfordWeaponVendor->offeredSkills.end(), "Axe")
         != pSturmfordWeaponVendor->offeredSkills.end());
-    // 5: MM7's shop treasure levels at the same stage, no forced special enchant, tier 5 weighted toward levels 5-6
+    // 7: Frosgard's and Lindisfarne's spellbook shops stock every Expert and Master book of some schools
     // (generate_mm9_vendors.py STOCK_GENERATION_VERSION; devdocs/mm9_rework/BALANCE_PLAN.md 3.5).
-    CHECK_EQ(pSturmfordWeaponVendor->deterministicStockGenerationVersion, 6);
+    CHECK_EQ(pSturmfordWeaponVendor->deterministicStockGenerationVersion, 7);
 
     const OpenYAMM::Game::HouseEntry *pSturmfordTraining =
         houseTable.resolvePackageSourceServiceId("mm9", 62);
@@ -1544,7 +1545,10 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     CHECK(OpenYAMM::Game::resolveHouseServiceType(*pSturmfordTraining)
         == OpenYAMM::Game::HouseServiceType::TrainingHall);
     CHECK_EQ(pSturmfordTraining->trainingMaxLevel, 0);
-    CHECK_EQ(pSturmfordTraining->priceMultiplier, doctest::Approx(1.0f));
+    // A hall's MM6-MM8 price multiplier is its merchant base times ten (training costs level x multiplier); the
+    // skills it teaches keep the merchant base (generate_mm9_vendors.py SERVICE_VALUE_PER_MERCHANT_BASE).
+    CHECK_EQ(pSturmfordTraining->priceMultiplier, doctest::Approx(10.0f));
+    CHECK_EQ(pSturmfordTraining->skillPriceMultiplier, doctest::Approx(1.0f));
     CHECK(pSturmfordTraining->serviceCanLearnSkills);
     const std::vector<OpenYAMM::Game::HouseActionOption> trainingActions =
         OpenYAMM::Game::buildHouseActionOptions(
@@ -1563,7 +1567,8 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     REQUIRE(pSturmfordTemple != nullptr);
     CHECK(OpenYAMM::Game::resolveHouseServiceType(*pSturmfordTemple)
         == OpenYAMM::Game::HouseServiceType::Temple);
-    CHECK_EQ(pSturmfordTemple->priceMultiplier, doctest::Approx(1.2f));
+    CHECK_EQ(pSturmfordTemple->priceMultiplier, doctest::Approx(12.0f));
+    CHECK_EQ(pSturmfordTemple->skillPriceMultiplier, doctest::Approx(1.2f));
     CHECK_EQ(pSturmfordTemple->templeHealingTier, doctest::Approx(0.0f));
     CHECK(pSturmfordTemple->templeCanHeal);
     CHECK(pSturmfordTemple->templeCanDonate);
@@ -1740,7 +1745,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
         *pSturmfordWeaponVendor,
         100.0f,
         OpenYAMM::Game::HouseStockMode::ShopStandard);
-    CHECK_EQ(pMigrationState->generationVersion, 6);
+    CHECK_EQ(pMigrationState->generationVersion, 7);
     const std::vector<OpenYAMM::Game::InventoryItem> unchangedStock =
         OpenYAMM::Game::HouseServiceRuntime::ensureStock(
             vendorParty,
@@ -1932,7 +1937,7 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
             return state.houseId == 30053;
         });
     REQUIRE(loadedStockIt != loadedVendorSave->party.houseStockStates.end());
-    CHECK_EQ(loadedStockIt->generationVersion, 6);
+    CHECK_EQ(loadedStockIt->generationVersion, 7);
     REQUIRE_EQ(loadedStockIt->standardStock.size(), secondStock.size());
     CHECK_EQ(loadedStockIt->standardStock[0].objectDescriptionId, secondStock[0].objectDescriptionId);
     CHECK_EQ(loadedStockIt->standardStock[0].specialEnchantId, secondStock[0].specialEnchantId);

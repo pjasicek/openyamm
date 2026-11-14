@@ -476,6 +476,10 @@ IndoorPortalVisibilityResult buildIndoorPortalVisibility(const IndoorPortalVisib
     result.nodes.reserve(std::min<size_t>(input.maxNodes, mapData.sectors.size() * 2 + 1));
 
     appendRootVisibilityNode(result, input.startSectorId, rootFrustumPlanes);
+    for (int16_t sectorId : input.extraStartSectorIds)
+    {
+        appendRootVisibilityNode(result, sectorId, rootFrustumPlanes);
+    }
 
     for (size_t nodeIndex = 0; nodeIndex < result.nodes.size(); ++nodeIndex)
     {

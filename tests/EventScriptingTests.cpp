@@ -8,6 +8,7 @@
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/party/Party.h"
+#include "game/ui/GameplayUiController.h"
 
 #include <filesystem>
 #include <fstream>
@@ -149,6 +150,80 @@ TEST_CASE("a Lua error in an event handler is logged once with its map and event
     CHECK(eventRuntime.executeEventById(std::nullopt, program, 9003, runtimeState, nullptr));
     REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
     CHECK_EQ(runtimeState.statusMessages.front(), "fine");
+}
+
+TEST_CASE("evt.StatusText keeps its text on the status bar for the seconds it gives, else 2 seconds")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9010, \"Cage\", function()\n"
+        "    evt.StatusText(\"The cage is locked.\", 10)\n"
+        "end)\n"
+        "RegisterGlobalEvent(9011, \"Door\", function()\n"
+        "    evt.StatusText(\"The door is locked.\")\n"
+        "end)\n"
+        "RegisterGlobalEvent(9012, \"Bounds\", function()\n"
+        "    evt.StatusText(\"long\", 60)\n"
+        "    evt.StatusText(\"short\", 0.25)\n"
+        "    evt.StatusText(\"none\", nil)\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@status_text_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+
+    // As the game views show them (IndoorGameView::presentPendingEventFeedback).
+    const auto present = [&runtimeState](GameplayUiController &uiController)
+    {
+        for (size_t index = 0; index < runtimeState.statusMessages.size(); ++index)
+        {
+            uiController.setStatusBarEvent(
+                runtimeState.statusMessages[index],
+                statusMessageSeconds(runtimeState, index),
+                GameplayUiController::StatusBarEventPriority::High);
+        }
+
+        runtimeState.statusMessages.clear();
+        runtimeState.statusMessageSeconds.clear();
+    };
+
+    // A message the game adds without seconds comes first: the seconds stay with their own message.
+    runtimeState.statusMessages.push_back("You find 5 food");
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9010, runtimeState, nullptr));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 2u);
+    CHECK_EQ(statusMessageSeconds(runtimeState, 0), doctest::Approx(DefaultStatusMessageSeconds));
+    CHECK_EQ(statusMessageSeconds(runtimeState, 1), doctest::Approx(10.0f));
+
+    GameplayUiController uiController = {};
+    present(uiController);
+    CHECK_EQ(uiController.statusBar().eventText, "The cage is locked.");
+    uiController.updateStatusBarEvent(9.5f);
+    CHECK(uiController.statusBarEventActive());
+    // Ordinary feedback does not cut it short.
+    uiController.setStatusBarEvent("You are burning!", 2.0f);
+    CHECK_EQ(uiController.statusBar().eventText, "The cage is locked.");
+    uiController.updateStatusBarEvent(0.6f);
+    CHECK_FALSE(uiController.statusBarEventActive());
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9011, runtimeState, nullptr));
+    present(uiController);
+    CHECK_EQ(uiController.statusBar().eventText, "The door is locked.");
+    uiController.updateStatusBarEvent(1.9f);
+    CHECK(uiController.statusBarEventActive());
+    uiController.updateStatusBarEvent(0.2f);
+    CHECK_FALSE(uiController.statusBarEventActive());
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9012, runtimeState, nullptr));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 3u);
+    CHECK_EQ(statusMessageSeconds(runtimeState, 0), doctest::Approx(MaxStatusMessageSeconds));
+    CHECK_EQ(statusMessageSeconds(runtimeState, 1), doctest::Approx(MinStatusMessageSeconds));
+    CHECK_EQ(statusMessageSeconds(runtimeState, 2), doctest::Approx(DefaultStatusMessageSeconds));
+    // The seconds are not kept past the messages they belong to.
+    clearTransientEventRuntimeState(runtimeState);
+    CHECK(runtimeState.statusMessageSeconds.empty());
+    runtimeState.statusMessages.push_back("Refreshing!");
+    CHECK_EQ(statusMessageSeconds(runtimeState, 0), doctest::Approx(DefaultStatusMessageSeconds));
 }
 
 TEST_CASE("an item an event gives waits for the hand-over through the events that run before it")

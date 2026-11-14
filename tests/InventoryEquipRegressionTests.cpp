@@ -421,6 +421,58 @@ TEST_CASE("inventory item use spellbook fails without required mastery and prese
     CHECK(result.speechId == OpenYAMM::Game::SpeechId::CantLearnSpell);
 }
 
+TEST_CASE("spellbook knowledge markers follow the learning rule for each member")
+{
+    using OpenYAMM::Game::SkillMastery;
+    using OpenYAMM::Game::SpellbookKnowledge;
+
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    const uint32_t hammerhands = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Hammerhands);
+    const OpenYAMM::Game::ItemDefinition *pBook = gameData.itemTable.get(472);
+    REQUIRE(pBook != nullptr);
+    REQUIRE(OpenYAMM::Game::InventoryItemUseRuntime::spellbookSpellId(*pBook) == hammerhands);
+
+    for (size_t index = 0; index < party.memberCount(); ++index)
+    {
+        party.member(index)->skills.erase("BodyMagic");
+        party.member(index)->forgetSpell(hammerhands);
+    }
+
+    // Knight: no Body Magic and no way to it. Cleric: knows it. Druid: Expert, can learn it now.
+    // A second cleric at Normal could learn it after training to Expert.
+    party.member(1)->skills["BodyMagic"] = {"BodyMagic", 6, SkillMastery::Expert};
+    party.member(1)->learnSpell(hammerhands);
+    party.member(2)->skills["BodyMagic"] = {"BodyMagic", 5, SkillMastery::Expert};
+    party.member(3)->className = "Cleric";
+    party.member(3)->skills["BodyMagic"] = {"BodyMagic", 4, SkillMastery::Normal};
+
+    const std::vector<SpellbookKnowledge> knowledge =
+        OpenYAMM::Game::InventoryItemUseRuntime::spellbookKnowledge(party, *pBook);
+    REQUIRE(knowledge.size() == party.memberCount());
+    CHECK(knowledge[0] == SpellbookKnowledge::CannotLearn);
+    CHECK(knowledge[1] == SpellbookKnowledge::Known);
+    CHECK(knowledge[2] == SpellbookKnowledge::CanLearn);
+    CHECK(knowledge[3] == SpellbookKnowledge::NeedsTraining);
+
+    // Whoever the markers say can learn it, learns it from the book.
+    OpenYAMM::Game::InventoryItem spellbook = {};
+    spellbook.objectDescriptionId = 472;
+    const OpenYAMM::Game::InventoryItemUseResult result = OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(
+        party,
+        2,
+        spellbook,
+        gameData.itemTable,
+        &gameData.readableScrollTable);
+    CHECK(result.consumed);
+    CHECK(party.member(2)->knowsSpell(hammerhands));
+
+    // Items that are not spellbooks have no markers.
+    const OpenYAMM::Game::ItemDefinition *pScroll = gameData.itemTable.get(741);
+    REQUIRE(pScroll != nullptr);
+    CHECK(OpenYAMM::Game::InventoryItemUseRuntime::spellbookKnowledge(party, *pScroll).empty());
+}
+
 TEST_CASE("inventory item use readable scroll returns text without consuming it")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

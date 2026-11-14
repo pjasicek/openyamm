@@ -9,6 +9,7 @@
 #include "game/ui/GameplayUiRuntime.h"
 
 #include <algorithm>
+#include <limits>
 #include <array>
 #include <cmath>
 #include <cstdio>
@@ -51,6 +52,8 @@ constexpr float TabBottom = 1.066667f;
 constexpr float TabTextHeight = 11.2f;
 constexpr float TabPadding = 5.866667f;
 constexpr float TabRim = 0.75f;
+// A solo HUD's tab under the channel: the gap clears the unit frame's bottom border.
+constexpr float SoloTabGap = 3.6f;
 
 constexpr uint32_t abgr(uint32_t rgb, uint32_t alpha = 0xff)
 {
@@ -99,6 +102,8 @@ struct Tab
     Rect box;
     std::string text;
     uint32_t colour = Ivory;
+    // Hangs under the channel (a solo HUD) with a rim all round, instead of rising from the frame open at the bottom.
+    bool hanging = false;
 };
 
 struct Layout
@@ -120,13 +125,12 @@ float textWidth(GameplayScreenRuntime &context, float height, const std::string 
     return context.measureHudTextWidth(TabFont, text) * fontScale(context, height);
 }
 
-// A tab of the texts that fits beside the frame's middle, the first that fits; `fromRight` ends it at `edge`.
-std::optional<Tab> fitTab(GameplayScreenRuntime &context, const Layout &layout, float edge, bool fromRight,
-    const std::vector<std::string> &texts, uint32_t colour)
+// A tab of the texts that fits between `edge` and `limit`, the first that fits; `fromRight` ends it at `edge`.
+std::optional<Tab> fitTab(GameplayScreenRuntime &context, const Layout &layout, float edge, float limit,
+    bool fromRight, const std::vector<std::string> &texts, uint32_t colour)
 {
     const float u = layout.unit;
-    const float middle = layout.channel.x + layout.channel.width / 2;
-    const float room = fromRight ? edge - middle : middle - edge;
+    const float room = fromRight ? edge - limit : limit - edge;
 
     for (const std::string &text : texts)
     {
@@ -199,14 +203,45 @@ std::optional<Layout> resolveLayout(GameplayScreenRuntime &context, int width, i
     }
 
     texts.push_back(GameplayMapProgressBar::tabText(progress, true));
-    layout.right = fitTab(context, layout, layout.channel.x + layout.channel.width + TabOverhang * u, true, texts,
-        colour);
+    if (context.soloHud())
+    {
+        // A solo HUD sets the channel into the unit frame's bottom band: the tab hangs under the box, at the channel's
+        // left end, with its whole text; the buff rows move down under it (GameplaySoloHud).
+        Tab tab;
+        tab.text = texts.front();
+        tab.colour = colour;
+        tab.hanging = true;
+        const float tabHeight = (TabTop - TabBottom) * u;
+        tab.box = {layout.channel.x, std::round(layout.channel.y + layout.channel.height + SoloTabGap * u),
+            std::ceil(textWidth(context, TabTextHeight * u, tab.text) + 2 * TabPadding * u), std::round(tabHeight)};
+        layout.right = tab;
+        return layout;
+    }
+    const float middle = layout.channel.x + layout.channel.width / 2;
+    const float leftEdge = layout.channel.x - TabOverhang * u;
+    const float rightEdge = layout.channel.x + layout.channel.width + TabOverhang * u;
 
     if (progress.kind == RulesetMapProgress::Kind::DimensionRun)
     {
         const std::string power = Engine::tr("Power {power}", {{"power", int64_t(progress.dimensionPower)}});
-        layout.left = fitTab(context, layout, layout.channel.x - TabOverhang * u, false,
+        layout.left = fitTab(context, layout, leftEdge, middle, false,
             {Engine::tr("Dimension") + " \xB7 " + power, power}, DimensionText);
+    }
+
+    // The right tab keeps to the frame's right half; on a frame too narrow for the counts there (a party of one) it
+    // reaches past the middle, up to the left tab or the frame's left corner, before it falls back to the percent.
+    const std::vector<std::string> counted(texts.begin(), texts.end() - 1);
+    layout.right = fitTab(context, layout, rightEdge, middle, true, counted, colour);
+
+    if (!layout.right)
+    {
+        const float limit = layout.left ? layout.left->box.x + layout.left->box.width + 2 * TabPadding * u : leftEdge;
+        layout.right = fitTab(context, layout, rightEdge, limit, true, counted, colour);
+    }
+
+    if (!layout.right)
+    {
+        layout.right = fitTab(context, layout, rightEdge, middle, true, {texts.back()}, colour);
     }
 
     return layout;
@@ -278,12 +313,17 @@ void drawTab(Batch &batch, const Tab &tab, float u)
 {
     const Rect &box = tab.box;
     const float rim = std::max(1.0f, std::round(TabRim * u));
-    // Its drop shadow, then the dark plate with a brass rim that is lit on top; open at the bottom on the frame.
+    // Its drop shadow, then the dark plate with a brass rim that is lit on top; open at the bottom on the frame, or
+    // closed there too when it hangs free.
     batch.fill({box.x - rim, box.y + rim, box.width + 2 * rim, box.height}, Black, 0x90);
     batch.fill(box, TabFill);
     batch.fill({box.x + rim, box.y, box.width - 2 * rim, rim}, RimLight);
     batch.fill({box.x, box.y + rim, rim, box.height - rim}, RimMid);
     batch.fill({box.x + box.width - rim, box.y + rim, rim, box.height - rim}, RimMid);
+    if (tab.hanging)
+    {
+        batch.fill({box.x + rim, box.y + box.height - rim, box.width - 2 * rim, rim}, RimMid);
+    }
 }
 
 std::optional<RulesetMapProgress> currentProgress(GameplayScreenRuntime &context)
@@ -298,6 +338,34 @@ std::optional<RulesetMapProgress> currentProgress(GameplayScreenRuntime &context
 
     return pParty->rules().monsters.mapProgress(*context.worldRuntime());
 }
+}
+
+std::optional<std::array<float, 4>> GameplayMapProgressBar::tabBounds(GameplayScreenRuntime &context, int width,
+    int height)
+{
+    const std::optional<RulesetMapProgress> progress = currentProgress(context);
+    const std::optional<Layout> layout = progress ? resolveLayout(context, width, height, *progress) : std::nullopt;
+
+    if (!layout || (!layout->right && !layout->left))
+    {
+        return std::nullopt;
+    }
+
+    std::array<float, 4> bounds = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max(),
+        std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()};
+
+    for (const std::optional<Tab> &tab : {layout->right, layout->left})
+    {
+        if (tab)
+        {
+            bounds[0] = std::min(bounds[0], tab->box.x);
+            bounds[1] = std::min(bounds[1], tab->box.y);
+            bounds[2] = std::max(bounds[2], tab->box.x + tab->box.width);
+            bounds[3] = std::max(bounds[3], tab->box.y + tab->box.height);
+        }
+    }
+
+    return bounds;
 }
 
 void GameplayMapProgressBar::renderHud(GameplayScreenRuntime &context, int width, int height)
@@ -379,8 +447,9 @@ std::optional<GameplayMapProgressBar::Popup> GameplayMapProgressBar::popupAt(
     const std::optional<GameplayResolvedHudLayoutElement> channel =
         context.resolveHudLayoutElement("MapProgressChannel", width, height, 0, 0);
 
+    // A solo HUD's tab hangs under the channel.
     if (!channel || pointerY < channel->y - TabTop * channel->scale
-        || pointerY > channel->y + channel->height + 3 * channel->scale)
+        || pointerY > channel->y + channel->height + (context.soloHud() ? SoloTabGap + TabTop : 3) * channel->scale)
     {
         return std::nullopt;
     }
@@ -405,8 +474,10 @@ std::optional<GameplayMapProgressBar::Popup> GameplayMapProgressBar::popupAt(
         return std::nullopt;
     }
 
-    // It rises above the bar, its right edge at the channel's.
+    // It rises above the bar, its right edge at the channel's; in a solo HUD (the channel at the top of the screen)
+    // it hangs below.
     Popup popup;
+    popup.above = !context.soloHud();
     popup.title = progress->kind == RulesetMapProgress::Kind::Arena ? Engine::tr("Endless Arena")
                                                                      : Engine::tr("Map progress");
     popup.body = popupBody(*progress);
@@ -414,6 +485,14 @@ std::optional<GameplayMapProgressBar::Popup> GameplayMapProgressBar::popupAt(
     popup.y = layout->channel.y - TabTop * u;
     popup.width = layout->channel.width;
     popup.height = TabTop * u;
+
+    // Hanging below, it clears the solo HUD's tab under the channel.
+    if (!popup.above && layout->right)
+    {
+        popup.y = layout->channel.y;
+        popup.height = layout->right->box.y + layout->right->box.height - popup.y;
+    }
+
     return popup;
 }
 }

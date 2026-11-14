@@ -1943,6 +1943,12 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
                 false)
             || !readScalarNode(
                 runtimeRestrictionsNode,
+                "allow_spellcasting",
+                sceneData.runtimeRestrictions.allowSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
                 "arena",
                 sceneData.runtimeRestrictions.isArena,
                 errorMessage,
@@ -2787,6 +2793,12 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
                 runtimeRestrictionsNode,
                 "allow_rest",
                 sceneData.runtimeRestrictions.allowRest,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "allow_spellcasting",
+                sceneData.runtimeRestrictions.allowSpellcasting,
                 errorMessage,
                 false)
             || !readScalarNode(

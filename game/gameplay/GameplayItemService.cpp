@@ -215,7 +215,7 @@ InventoryItemUseContext buildInventoryItemUseContext(const GameplayScreenRuntime
 
     if (pWorldRuntime != nullptr)
     {
-        context.underwater = pWorldRuntime->isUnderwaterMap();
+        context.spellcastingForbidden = !pWorldRuntime->allowsSpellcasting();
         context.gameMinutes = pWorldRuntime->gameMinutes();
         context.enemiesNear = partyHasYellowAlert(*pWorldRuntime);
     }
@@ -660,8 +660,22 @@ bool GameplayItemService::useQuickItemSlot(GameplayScreenRuntime &runtime, size_
         return false;
     }
 
-    const QuickItemSlot &quickSlot = pMember->quickItemSlots[slot];
-    const ItemDefinition *pDefinition = m_session.data().itemTable().get(quickSlot.itemId);
+    return useQuickItemKind(runtime, memberIndex, pMember->quickItemSlots[slot]);
+}
+
+bool GameplayItemService::useQuickItemKind(GameplayScreenRuntime &runtime, size_t memberIndex,
+    const QuickItemSlot &quickSlot)
+{
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr || !m_session.hasDataRepository())
+    {
+        return false;
+    }
+
+    // Item 0 is no item: the table's row 0 is a placeholder (named "0"), which an unassigned slot must not name.
+    const ItemDefinition *pDefinition =
+        quickSlot.itemId != 0 ? m_session.data().itemTable().get(quickSlot.itemId) : nullptr;
 
     if (pDefinition == nullptr)
     {

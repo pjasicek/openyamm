@@ -176,10 +176,6 @@ TEST_CASE("sorting every bag sends crafting and alchemy items to the bags tagged
             : stored.objectDescriptionId == 222   ? std::optional<BagTag>(BagTag::Alchemy)
                                                   : std::nullopt;
     };
-    const auto noRank = [](const InventoryItem &) -> std::optional<int>
-    {
-        return std::nullopt;
-    };
 
     PartySeed seed;
     seed.members = {Character{}};
@@ -191,10 +187,10 @@ TEST_CASE("sorting every bag sends crafting and alchemy items to the bags tagged
     InventoryBags::toggleTag(member, 3, BagTag::Crafting);
 
     // The open bag alone keeps everything: it has nowhere else to put an item.
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, false, 4, std::nullopt, noRank, bagTagOf));
+    REQUIRE(InventoryBags::sortPartyBags(party, {0}, false, 4, bagTagOf));
     CHECK_EQ(InventoryBags::itemsInBag(member, 0).size(), 3u);
 
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, 4, std::nullopt, noRank, bagTagOf));
+    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, 4, bagTagOf));
     REQUIRE_EQ(InventoryBags::itemsInBag(member, 0).size(), 1u);
     CHECK_EQ(InventoryBags::itemsInBag(member, 0)[0].objectDescriptionId, 1u);
     REQUIRE_EQ(InventoryBags::itemsInBag(member, 2).size(), 1u);

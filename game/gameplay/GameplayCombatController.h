@@ -68,6 +68,10 @@ public:
 
     // A party hit that deals no damage after resistances counts as a miss unless it stuns the target.
     static bool partyHitLands(int appliedDamage, bool stunsTarget);
+    // The prototype view model's raised shield (Party::shieldRaisedMember) takes a share of a physical monster blow
+    // or missile by the holder's Shield mastery: 40 % untrained or Normal, 55 % Expert, 70 % Master, 85 % Grandmaster.
+    static int shieldBlockedDamage(Party &party, const Character &member, size_t memberIndex, CombatDamageType type,
+        int damage);
 
     static std::string formatPartyAttackStatusText(
         const std::string &attackerName,

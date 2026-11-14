@@ -538,7 +538,39 @@ void NewGameScreen::drawCreationRoster(bool input)
         }
     }
 
-    if (m_partySize < 5 && !godLich)
+    // The solo run (devdocs/solo_action/README.md): one adventurer played in first person with the solo HUD. It is
+    // offered for a party of one and keeps the party at one.
+    const bool soloOffered = m_partySize == 1 && !godLich;
+    m_soloRun = m_soloRun && soloOffered;
+
+    if (soloOffered)
+    {
+        const Rect solo{roster.x, roster.y + 137 * u + (m_soloRun ? 0 : 78 * u), roster.width, 58 * u};
+        const Hotspot soloInput = hotspot("solo-run", solo, input);
+        skin(m_soloRun ? "save_row_selected" : "save_row", solo, true);
+        outline(solo, soloInput.hovered ? Gold : 0xff4a5649u);
+        const Rect box{solo.x + 12 * u, solo.y + solo.height / 2 - 9 * u, 18 * u, 18 * u};
+        drawSolidRect(box, 0xe614160eu);
+        outline(box, m_soloRun ? Gold : 0xff9ab0b8u);
+
+        if (m_soloRun)
+        {
+            glyph("check", {box.x + 3 * u, box.y + 3 * u, 12 * u, 12 * u}, Gold);
+        }
+
+        sheetText({box.x + 28 * u, solo.y + 6 * u, solo.width - 46 * u, 24 * u}, Engine::tr("Solo run"), "fondamento",
+                  20, soloInput.hovered ? HoverEdge : 0xffd8e6ecu);
+        sheetText({box.x + 28 * u, solo.y + 30 * u, solo.width - 46 * u, 20 * u},
+                  Engine::tr("One adventurer in first person, with an action bar"), "menu_lucida", 12, 0xff93aeb6u);
+
+        if (soloInput.activated)
+        {
+            m_soloRun = !m_soloRun;
+            return;
+        }
+    }
+
+    if (m_partySize < 5 && !godLich && !m_soloRun)
     {
         const Rect add{roster.x, roster.y + m_partySize * 137 * u, roster.width, 70 * u};
         const Hotspot addInput = hotspot("add-adventurer", add, input);

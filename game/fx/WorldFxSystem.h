@@ -293,6 +293,8 @@ public:
     bool loadItemModels(const Engine::AssetFileSystem &assets, std::string &error);
     // Hover or context-action outline of an item's model (the world's presentation key), 0 for none.
     void setItemModelOutline(uint32_t key, uint32_t colorAbgr);
+    // Whether items worth nothing special glint faintly white too ([gameplay] loot_sparkle, on by default).
+    void setPlainItemSparkle(bool enabled) { m_plainItemSparkle = enabled; }
     // The drawn ground under one point of a resting item's footprint (outdoors: the smoothed terrain, which departs
     // from the native floor the item rests on), near the item's height z; nothing where nothing supports that point.
     using ItemGroundSampler = std::function<std::optional<float>(float x, float y, float z)>;
@@ -959,7 +961,7 @@ private:
         // The resting pose, fitted once where the item came to rest.
         std::optional<std::array<float, 3>> restPosition;
         WorldItemRestingPose restPose;
-        // The looping sparkle of a valuable, artifact or quest item (WorldItemSparkle), near the party.
+        // The looping sparkle of an item (WorldItemSparkle), near the party.
         EffectHandle sparkle;
     };
     struct LoadedItemModel
@@ -976,6 +978,8 @@ private:
     std::unordered_set<std::string> m_reportedMissingItemIcons;
     std::unordered_map<uint32_t, ItemModel> m_itemModels;
     float m_itemModelSeconds = 0.0f;
+    // Plain items (WorldItemSparkle::Plain) sparkle too: the loot_sparkle setting.
+    bool m_plainItemSparkle = true;
     const ItemTable *m_pItemTable = nullptr;
     ItemGroundSampler m_itemGroundSampler;
     // An item's model, or the placeholder (placeholder set) when its icon has none or its model fails to load.
