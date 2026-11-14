@@ -78,3 +78,7 @@ goblin slate beside the original's skull lines (the lead assumes the reviews' pr
     new 22-project native-against-wasm and sanitizer scripts (`openyamm-studio/tests/native_vs_wasm.sh`,
     `tests/sanitize.sh`) need `assets_dev` and the Xeen play root, which `output/` (git-ignored) holds. Decide whether
     CI gets those assets (or runs these on a self-hosted machine), or whether they stay local checks.
+
+**Committed 2026-11-14 (by openyamm-03 for 2.4, local, not pushed):** items 1 and 9 (status-line durations, the 22 bindings,
+`tools/terrain_materials.py`, the pin command) in d81e300cb9 and 4f9cbaf221; the Map Studio and Xeen records in fab2e72847
+(without `briefs/mm7_7out03`, still in work). Left out: `openyamm-studio/`, `.github/workflows/studio.yml`, `output/`.

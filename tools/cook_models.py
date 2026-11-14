@@ -305,11 +305,14 @@ def plan_model(rules, source_root, path, profiles, cooker=None):
     relative = path.relative_to(source_root).as_posix()
     data = path.read_bytes()
     document, binary = read_glb(data)
-    geometry = None
-    if cooker is not None:
-        binary, geometry = cook_model_geometry.cook_geometry(document, binary, cooker)
     sidecar_path = path.with_suffix(".cook.yml")
     sidecar = yaml.safe_load(sidecar_path.read_text()) if sidecar_path.exists() else {}
+    if sidecar.get("back_faces", "cull") not in ("cull", "keep"):
+        raise ValueError(f"{sidecar_path}: back_faces must be cull or keep")
+    geometry = None
+    if cooker is not None:
+        binary, geometry = cook_model_geometry.cook_geometry(document, binary, cooker,
+                                                             cull_back_faces=sidecar.get("back_faces") != "keep")
     for name in document.get("extensionsUsed", []):
         if name.startswith(("EXT_meshopt", "KHR_draco", "KHR_texture")):
             raise ValueError(f"{relative}: unsupported extension {name}")
@@ -403,9 +406,13 @@ def plan_model(rules, source_root, path, profiles, cooker=None):
             "binary": bytes(compacted), "textures": list(textures.values())}
 
 
+# Folders whose GLBs are models: every package's models/ and the engine's first-person view model.
+MODEL_FOLDERS = ("models", "view_model")
+
+
 def source_models(source_root, only):
     paths = sorted(path for path in source_root.rglob("*.glb")
-                   if ".cook-cache" not in path.parts and path.parent.name == "models")
+                   if ".cook-cache" not in path.parts and path.parent.name in MODEL_FOLDERS)
     if only:
         paths = [path for path in paths if fnmatch.fnmatch(path.relative_to(source_root).as_posix(), only)]
     return paths
@@ -547,9 +554,17 @@ def cook(args, rules, paths):
     cooker = args.cooker.resolve(strict=True)
     cache_path = source_root / ".cook-cache" / "models" / f"{profile}.json"
     cache = json.loads(cache_path.read_text()) if cache_path.exists() and not args.force else {}
-    texture_recipe = {"cooker": COOKER_REVISION, "rules": sha256(rules.text), "profile": profile}
+    # A texture's receipt holds its decision (codec, size, sharpening), which is all the rules change in its bytes, so
+    # an edit of the rules file re-cooks only the textures whose decision it changes; the model receipts keep the
+    # rules' hash (normal_relief changes the cooked GLB). Migration: texture receipts written before 2026-11-14 also
+    # recorded the rules' hash.
+    for key, receipt in cache.items():
+        if not key.startswith("model:"):
+            receipt["inputs"].pop("rules", None)
+    texture_recipe = {"cooker": COOKER_REVISION, "profile": profile}
     scripts = sha256(Path(__file__).read_bytes() + Path(cook_model_geometry.__file__).read_bytes())
-    model_recipe = dict(texture_recipe, scripts=scripts, geometry=cook_model_geometry.recipe())
+    model_recipe = dict(texture_recipe, rules=sha256(rules.text), scripts=scripts,
+                        geometry=cook_model_geometry.recipe())
 
     # Unchanged models with intact outputs are taken from their receipts; the rest are planned (geometry included).
     models, skipped = [], 0

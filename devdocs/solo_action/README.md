@@ -28,7 +28,9 @@ recovery, which counts from the press, so the rate of attacks is unchanged. Rule
   has no Hire. MM9 hirelings can still be hired for their services and passives but take no combat actions: they are
   outside the attack rotation and the turn queue (`Party::actingCombatantCount`). Monsters still pick them as targets.
 - **The bow at any range (user, 2026-11-14).** With the bow in the arms (swapped in, or an archer's), Attack shoots
-  even at melee range (WEAPONS.md, "Bow swap").
+  even at melee range (WEAPONS.md, "Bow swap"). With the melee weapon in the arms it never shoots: out of reach the
+  blow swings at the air, where a party member would fire the bow (`PartyAttackConfig::preferMelee`; talent shots
+  excepted).
 - **The Oblivion art ships (user, 2026-11-14).** The converted Oblivion arms, clips and weapons in
   `assets_dev/engine/view_model/` are committed and packaged with the solo run from release 2.4, by the user's decision
   after the licence risk was raised (Bethesda still sells Oblivion). Our own arms, rig, clips and held weapons remain
@@ -47,7 +49,9 @@ weapon type, the shield on the left forearm, spells from the open hand, gauntlet
 
 The arms, skeleton and animations come from the original Oblivion (GOTY), converted to GLB locally under the
 git-ignored `reference/oblivion_poc/` (see its README for the converter). That raw conversion stays local; the
-installed copies in `assets_dev/engine/view_model/` are committed and ship (see above). They are a stand-in for our
+installed GLBs are sources in `assets_source/engine/view_model/` (install with `tools/install_model.py <glb>
+--view-model`), cooked into `assets_dev/engine/view_model/` like every model (ASSET_COOKING_PLAN.md §16), whose
+`*.textkeys.json` stay there beside them; they ship (see above). They are a stand-in for our
 own arms; the engine side does not depend on them beyond the clip and node names below.
 
 - A solo run draws the engine's arms, `assets_dev/engine/view_model/arms.glb` (since 2026-11-14 the HD human arms,

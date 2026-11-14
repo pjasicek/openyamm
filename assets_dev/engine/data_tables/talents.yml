@@ -1,69 +1,72 @@
-# The special skills (talents) of an augmented solo run under MAW (devdocs/solo_action/TALENTS.md, design in
-# devdocs/solo_action/BALANCE_AND_TALENTS.md §5.0). Only a MAW solo run reads them; a ruleset may replace this table
-# like any other. Numbers are first guesses to tune in play.
+# The special skills (talents) of an augmented solo run under MAW (devdocs/solo_action/TALENTS.md; tree v2, the
+# user's design of 2026-11-14: devdocs/solo_action/TALENT_TREE_V2_BUILD.md). Only a MAW solo run reads them; a ruleset
+# may replace this table like any other. Numbers are first values to tune in play.
 #
 # Each talent:
-#   id, name, tree (melee, ranged, caster), kind (passive, active), max_rank.
-#   icon_item (an inventory icon name) or icon_spell (a spell id): placeholder art until talents have icons of their own.
+#   id, name, tree (arms, archery, arcana, any), kind (passive, active), max_rank.
+#   icon_item (an inventory icon name: the talents' own talent_<id> icons, made in level_generation/ui/solo_talent_icons_20261114/) or icon_spell (a spell id).
 #   requires: the mastery the tree's skill needs before the talent can be learned (none, expert, master). The tree's skill
-#     is the equipped melee weapon's skill or Armsmaster for melee, Bow for ranged, the best magic school for caster.
-#   per_rank: a passive's percent (or amount) per rank.
+#     is the best melee weapon skill or Armsmaster for arms, Bow for archery, the best magic school for arcana.
+#   needs: another talent that must have a rank first.
+#   per_rank: a passive's percent (or amount) per rank; per_rank_calm: the same out of combat (no yellow alert).
 #   cooldown, cooldown_per_rank (added per rank above the first; negative shortens), duration, duration_per_rank: seconds.
-#   targets, share (percent of a normal blow or shot), distance (world units), arc (degrees either side of the view).
+#   targets, share (percent of a normal blow or shot), share_per_skill (percent per point of the tree's weapon skill,
+#     added to share), share_cap, distance (world units), arc (degrees either side of the view).
 #   text: the effect line on the Talents page; {value} is the current rank's number.
+# Keystones: no points; one slot opens at each of keystone_levels, and each keystone can be bound once.
 levels_per_point: 10
+keystone_levels: [150, 300]
 talents:
   - id: weapon_training
     name: Weapon Training
-    tree: melee
+    tree: arms
     kind: passive
     max_rank: 5
-    icon_item: item004
+    icon_item: talent_weapon_training
     per_rank: 2
     text: "+{value} % Might, Endurance and Speed"
   - id: cleave
     name: Cleave
-    tree: melee
+    tree: arms
     kind: active
     max_rank: 3
-    icon_item: 7item024
+    icon_item: talent_cleave
     requires: expert
     cooldown: 12
     cooldown_per_rank: -2
-    targets: 5
-    share: 60
+    targets: 64
+    share: 150
     arc: 60
-    text: "A sweep: the target and up to four more in the arc take a blow at 60 %"
-  - id: whirlwind
-    name: Whirlwind
-    tree: melee
-    kind: active
+    text: "A burst: every monster in the 120° arc in front takes a blow at 150 %"
+  - id: sweeping_blows
+    name: Sweeping Blows
+    tree: arms
+    kind: passive
     max_rank: 3
-    icon_spell: 93
-    requires: master
-    cooldown: 20
-    cooldown_per_rank: -3
-    share: 50
-    arc: 180
-    text: "Every monster within reach around you takes a blow at 50 %"
-  - id: frenzy
-    name: Frenzy
-    tree: melee
-    kind: active
-    max_rank: 3
-    icon_spell: 5
+    icon_item: talent_sweeping_blows
     requires: expert
-    cooldown: 30
-    duration: 6
-    duration_per_rank: 1
-    per_rank: 25
-    text: "+25 % attack speed for {value} s"
+    needs: cleave
+    per_rank: 1
+    share: 30
+    share_per_skill: 0.25
+    share_cap: 50
+    arc: 60
+    text: "Every swing also strikes {value} more in the same arc at 30 % + 0.25 % per weapon-skill point (at most 50 %)"
+  - id: onslaught
+    name: Onslaught
+    tree: arms
+    kind: passive
+    max_rank: 3
+    icon_item: talent_onslaught
+    per_rank: 10
+    duration: 30
+    text: "Each kill: +1 % attack speed, at most {value} stacks; they last 30 s and every kill refreshes them"
   - id: charge
     name: Charge
-    tree: melee
+    tree: arms
     kind: active
     max_rank: 3
-    icon_item: 7item115
+    icon_item: talent_charge
     requires: expert
     cooldown: 25
     cooldown_per_rank: -3
@@ -72,10 +75,10 @@ talents:
     text: "Dash to the target, strike and stagger it for 1.5 s"
   - id: shield_wall
     name: Shield Wall
-    tree: melee
+    tree: arms
     kind: active
     max_rank: 3
-    icon_item: lshield2
+    icon_item: talent_shield_wall
     requires: expert
     cooldown: 60
     cooldown_per_rank: -10
@@ -84,42 +87,45 @@ talents:
     text: "With a shield: 50 % less damage for 6 s"
   - id: marksman
     name: Marksman
-    tree: ranged
+    tree: archery
     kind: passive
     max_rank: 5
-    icon_item: 7item043
+    icon_item: talent_marksman
     per_rank: 2
     text: "+{value} % Accuracy and Speed"
-  - id: volley
-    name: Volley
-    tree: ranged
+  - id: multishot
+    name: Multishot
+    tree: archery
     kind: active
     max_rank: 3
-    icon_spell: 26
+    icon_item: talent_multishot
     requires: expert
-    cooldown: 12
+    cooldown: 10
     cooldown_per_rank: -2
-    targets: 5
-    share: 60
+    targets: 2
+    share: 75
     arc: 30
-    text: "An arrow at each of up to five monsters in a cone, at 60 %"
-  - id: disengage
-    name: Disengage
-    tree: ranged
-    kind: active
+    per_rank: 1
+    text: "Fires 2, 3 or 4 arrows (by rank) over ±30°, 75 % each; each hits the first monster in its line (bows only)"
+  - id: piercing_arrows
+    name: Piercing Arrows
+    tree: archery
+    kind: passive
     max_rank: 3
-    icon_spell: 16
+    icon_item: talent_piercing_arrows
     requires: expert
-    cooldown: 15
-    cooldown_per_rank: -2
-    distance: 420
-    text: "Leap back 4 m"
+    per_rank: 1
+    share: 30
+    share_per_skill: 0.25
+    share_cap: 50
+    arc: 8
+    text: "Every bow shot also hits {value} more behind the target at 30 % + 0.25 % per Bow point (at most 50 %)"
   - id: pinning_shot
     name: Pinning Shot
-    tree: ranged
+    tree: archery
     kind: active
     max_rank: 3
-    icon_spell: 81
+    icon_item: talent_pinning_shot
     requires: expert
     cooldown: 10
     duration: 4
@@ -127,26 +133,35 @@ talents:
     text: "A shot that slows the target by half for {value} s"
   - id: steady_aim
     name: Steady Aim
-    tree: ranged
+    tree: archery
     kind: passive
     max_rank: 3
-    icon_spell: 46
-    per_rank: 3
+    icon_item: talent_steady_aim
+    per_rank: 5
     text: "After standing still for 1 s: +{value} % Luck (critical chance)"
+  - id: quickfoot
+    name: Quickfoot
+    tree: archery
+    kind: passive
+    max_rank: 3
+    icon_item: talent_quickfoot
+    per_rank: 3
+    per_rank_calm: 15
+    text: "+{value} % movement speed (five times as much out of combat)"
   - id: attunement
     name: Attunement
-    tree: caster
+    tree: arcana
     kind: passive
     max_rank: 5
-    icon_spell: 83
+    icon_item: talent_attunement
     per_rank: 2
     text: "+{value} % Intellect, Personality, Endurance, spell damage and healing"
   - id: blink
     name: Blink
-    tree: caster
+    tree: arcana
     kind: active
     max_rank: 3
-    icon_spell: 31
+    icon_item: talent_blink
     requires: expert
     cooldown: 15
     cooldown_per_rank: -2
@@ -154,39 +169,62 @@ talents:
     text: "Teleport 15 m forward"
   - id: spell_surge
     name: Spell Surge
-    tree: caster
+    tree: arcana
     kind: active
     max_rank: 3
-    icon_spell: 11
+    icon_item: talent_spell_surge
     requires: master
     cooldown: 45
     cooldown_per_rank: -5
     per_rank: 50
     text: "The next spell costs no SP and hits 50 % harder"
-  - id: mana_font
-    name: Mana Font
-    tree: caster
-    kind: passive
-    max_rank: 5
-    icon_spell: 47
-    per_rank: 1
-    text: "+{value} SP per 5 s per 10 levels"
-  - id: purify
-    name: Purify
-    tree: caster
-    kind: active
-    max_rank: 3
-    icon_spell: 72
-    requires: expert
-    cooldown: 30
-    cooldown_per_rank: -5
-    duration: 5
-    text: "Cure one condition, and 5 s of immunity to it"
   - id: resolve
     name: Resolve
-    tree: caster
+    tree: arcana
     kind: passive
     max_rank: 5
-    icon_spell: 75
+    icon_item: talent_resolve
     per_rank: 2
     text: "+{value} % to all resistances"
+  - id: overload
+    name: Overload
+    tree: arcana
+    kind: passive
+    max_rank: 3
+    icon_item: talent_overload
+    requires: expert
+    per_rank: 10
+    targets: 3
+    text: "Area spells: +{value} % damage per monster near the target beyond the first (at most 3 more)"
+  - id: binding_circle
+    name: Binding Circle
+    tree: arcana
+    kind: active
+    max_rank: 3
+    icon_item: talent_binding_circle
+    requires: expert
+    cooldown: 20
+    cooldown_per_rank: -2
+    duration: 2
+    duration_per_rank: 0.5
+    distance: 500
+    text: "Every hostile within 5 m is held almost still, its attacks slowed, for {value} s"
+  - id: bloodthirst
+    name: Bloodthirst
+    tree: any
+    kind: passive
+    max_rank: 3
+    icon_item: talent_bloodthirst
+    per_rank: 2
+    text: "+{value} % leech on melee, bow and spells; the leech floor grows (÷4, ÷3, ÷2.5 instead of ÷5)"
+keystones:
+  - id: cheat_death
+    name: Cheat Death
+    icon_item: talent_cheat_death
+    cooldown: 180
+    duration: 2
+    text: "A hit that would kill you leaves 5 % HP, then 2 s of 95 % less damage; 3 minutes cooldown"
+  - id: unbroken
+    name: Unbroken
+    icon_item: talent_unbroken
+    text: "The part of one hit above 30 % of your maximum HP is halved"

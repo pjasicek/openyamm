@@ -51,9 +51,11 @@ dragon's eye the head is behind the camera (see the check below).
   in `tools/fx/generate_melee_effects.py`; today an unarmed blow draws a crush.
 
 **Breath (ranged):**
+(Superseded on 2026-11-14: the breath now fires at once with no inhale; see "Built in the engine", item 3.)
+
 1. **Inhale**, about 0.35 s: the forelegs drop out of the view, the bottom edge warms orange, a little heat shimmer.
-2. **Release** at the clip's Hit: the projectile leaves from a mouth point at the bottom centre of the view, with a
-   short camera kick, an orange flash and a flame tongue at the bottom edge for about 0.2 s.
+2. **Release** at the clip's Hit: the projectile leaves from a mouth point just below the crosshair (first planned at
+   the bottom centre of the view; see "The mouth point" below), with a short camera kick and an orange flash.
 3. **Recovery:** the forelegs come back up.
 
 Two details for the breath:
@@ -213,33 +215,23 @@ What was built, item by item:
    follows the talon that travelled further. A dragon's blows (`MeleeWeaponClass::Claw`, for any dragon, solo or not)
    draw `openyamm:fx/melee/claw*`: three thinner arcs side by side, staggered, from `tools/fx/generate_melee_effects.py`
    (`claw_recipe`; it reuses the arc sprites, so nothing new is cooked). The bite's rake runs down the screen.
-3. **Breath like a swing.** At the press, a dragon whose target is out of claw reach
-   (`GameplayActionController::partyAttackTargetInMeleeReach`, the same target choice as the attack) sets
-   `ViewModelLink::waitIsBreath`; the forelegs play `clawsbreath` fitted to the breath's recovery (MAW's DragonBreath
-   ticks) and the attack runs at its Hit, as melee waits for its swing. The rules choose again at the release; if they
-   breathe where the press showed claws, the breath clip is shown afterwards.
-4. **The mouth point.** The breath clip casts from the mouth (`castHands` bit 2): `breathPoint()` takes the ray from the
-   eye through the `Mouth` node (below the view) up to the screen's bottom edge; its screen point
-   (`castHandScreen`) becomes `PartyAttackConfig::breathScreenPoint`, and `dragonBreathSourcePoint` starts the breath 32
-   units in front of the eye on that ray, so it leaves the bottom centre. Flame Blast and other target spells cast from
-   the forelegs leave there too. So close to the eye the `flame_gout` flight first covered half the screen as a white
-   burst; its three sprites now grow from a 25th of their size over the first 0.45 s (`grow_in` in
-   `tools/fx/generate_projectile_effects.py`; a sixth still covered three quarters of the view at the mouth) and its
-   trail (flame tongues, smoke, sparks) starts after 0.3 s, so the gout leaves the mouth small and widens as it flies.
-5. **Look and feel.** The breath is still a Fire Bolt by the rules; `GameplayPartySpellProjectileRequest::
-   presentationSpellId` (Dragon Breath, 97) gives it the existing `dragon_breath` recipe of `projectiles.yml` (the
-   `flame_gout` flight, a warm light; any party dragon, solo or not). It lands with that recipe's
-   `presented_impact`, the dragons' `fire_large`, not Dragon Breath's own `fireball`: that is the 512-radius area
-   explosion of the spell, and a breath at a target just out of claw reach filled almost the whole screen with it
-   (2026-11-14). A projectile wearing another spell's look marks its impact `presented`, and `WorldFxSystem` then
-   prefers the binding's `presented_impact`. Until 2026-11-14 none of this showed: `classifyProjectileRecipe` matches
-   the object name "fire bolt" before spell 97, so the breath flew and landed as a plain Fire Bolt (its `fire_bolt`
-   flight, full size 32 units before the eye, was the screen-filling ball). A presented projectile now leaves its
-   object and sprite names out of its presentation and impact states (`GameplayProjectileService`), so the
-   presentation spell alone picks its look. The release kicks the view
-   up by 0.035 rad (with `meleeCameraKick` on). The inhale is the casting glow in fire colour on the mouth point,
-   gathering until the Hit and flashing there: no extra pass, nothing drawn when not breathing. No separate warm
-   vignette was made.
+3. **The breath fires at once (user, 2026-11-14).** At the press, a dragon whose target is out of claw reach
+   (`GameplayActionController::partyAttackTargetInMeleeReach`, the same target choice as the attack) breathes at once,
+   as a party dragon does: no swing wait and no inhale clip, and the forelegs stay as they are. First built as a swing
+   (the forelegs played `clawsbreath` fitted to the breath's recovery and the breath left at its Hit, from the mouth),
+   but the inhale and the gout never agreed on screen: at the bottom edge the gout seemed to leave from the crosshair
+   (from so close below the eye it reaches the target's height on screen within about 70 units), and just below the
+   crosshair the two still read as separate. The user chose to skip the windup. Battle orders holding a spell still
+   show that cast.
+4. **The source point.** The breath leaves where a party dragon's does (`dragonBreathSourcePoint`: the party's ranged
+   source, no higher than 96 units above the feet). Flame Blast and other target spells cast from the forelegs still
+   play the breath clip, their glow just below the crosshair (`breathPoint()`, `BreathScreenHeight`), since the camera
+   is the dragon's eyes and its jaws are just below them.
+5. **Look and feel.** The breath is exactly a party dragon's: a Fire Bolt by the rules and in looks (`fire_bolt`
+   flight, `fire_small` impact), with the dragon breath sounds. In a solo run it kicks the view up by 0.035 rad (with
+   `meleeCameraKick` on). On 2026-11-14 it briefly wore Dragon Breath's `flame_gout` look for every party dragon (a
+   presentation spell, a `presented_impact`, a gout grown from the mouth with a flame ribbon); the user found party
+   games changed and the gout morphing from a bolt into a ball, so all of it was taken out again.
 
 Defaults chosen for the open decisions (changeable):
 - **Bite:** the combo's fifth blow, the power attack's slot (`clawsAction`: right, left, right, left, bite). Visual only,
@@ -251,8 +243,7 @@ Defaults chosen for the open decisions (changeable):
 - Talents: out of scope.
 
 Seen in the captures: the rakes cross onto the target and the claw rake (two or three staggered streaks with the blood)
-follows the talon; the breath's `flame_gout` starts so close to the eye that for about a tenth of a second it fills the
-lower middle of the view as a gout of flame from the mouth, then flies as a fireball. MAW's dragon blow throws a light
+follows the talon; the breath flies as a party dragon's Fire Bolt. MAW's dragon blow throws a light
 target out of claw reach (Dragon Ability at or above Fangs), so the next press breathes; that is the rules, and the
 forelegs follow it.
 

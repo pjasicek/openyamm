@@ -134,6 +134,14 @@ second strip with the same template holds the debuffs.
    (`gameplayUnslottedAuraLines`): what the personal-buff medallion's popup lists today.
 4. Debuffs, in the second row: the member's conditions with a duration (`conditionExpireGameMinutes`).
 
+**As built (2026-11-14, the user's follow-ups).** 17-unit tiles 2.4 apart, seven to a row: the buffs wrap under the
+box, the conditions start a row of their own below (`placeTiles` in `game/ui/GameplaySoloHud.cpp`). Each tile names
+itself: hovering it (or holding the right button on it, under mouse look) shows that buff's name, time left and power
+(`GameplaySoloHud::buffTileAt`, `GameplayHudOverlaySupport::updateBuffInspectOverlay`); the hidden hero and skull
+panels no longer answer there. A timed potion effect shows the buff it matches: an aura potion its buff's icon (Haste,
+Heroism, Bless, Stoneskin ...), regeneration Regeneration's, an immunity the spell that cures its first condition; a
+skill bonus keeps the generic potion art.
+
 **Icons and gaps.**
 - Debuff icons reuse the enemy bar's `obsidian_debuff_*` set (stun, paralyze, fear, slow, shrink, dark grasp, charm and
   the rest).
@@ -488,24 +496,25 @@ only while `GameplayScreenRuntime::soloHud()` holds; party games are unchanged (
 **Tests.** `tests/SoloRunTests.cpp` adds the column grid and the sockets' place, and the self text queue (kinds,
 amounts, the shield's blocked points, the cap of 16).
 
-## Alert gem (built 2026-11-14)
+## Alert glow (built 2026-11-14, replacing the alert gem)
 
-The user asked for an aggro indicator on the minimap's upper-left rim, after MM9's compass gem (`ART/HUD/MAPGEM*.pcx`
-in the MM9 extraction, 35 px on the compass), not the portraits' diamond. A solo HUD draws a 34-unit round gem at
-135 degrees on the minimap circle, its centre 10 units outside the rim (`renderSoloAlertGem` in `game/ui/GameplayUiRenderer.cpp`, after the clock plate):
+The user first asked for an aggro indicator on the minimap's upper-left rim, after MM9's compass gem, then (the same
+day) for a more visible one: a shaded oval round the portrait's oval and the minimap. A solo HUD now draws a soft glow
+just outside the medallion (8 units, under the box and the ring) and outside the minimap circle (9 units):
+`GameplaySoloHud::soloAlert` decides the state, `GameplaySoloHud::renderAlertGlow` draws it (one white texture made
+at run time, clear inside the oval and fading outwards, tinted per state):
 
-| State | When |
-|---|---|
-| Unlit | the member cannot act |
-| Blue | turn-based combat |
-| Red | a hostile within melee range (`PartyRedAlertDistance`) |
-| Yellow | a hostile within the yellow alert range and the engagement range |
-| Green | otherwise |
+| State | When | Glow |
+|---|---|---|
+| Unlit | the member cannot act | none |
+| Blue | turn-based combat | bright blue |
+| Red | a hostile within melee range (`PartyRedAlertDistance`) | bright red, breathing once a second |
+| Yellow | a hostile within the yellow alert range and the engagement range | bright yellow |
+| Green | otherwise | quiet green |
 
 Unlike the diamonds it shows danger alone, not readiness (the bar's keys show recovery). It reads the nearest-hostile
-distance the HUD already measures each frame. The art (`obsidian_solo_alert_<state>`) is one Codex-painted green
-master in the Obsidian brass with the stone recoloured per state:
-[the gem study](../../level_generation/ui/solo_alert_gem_20261114/README.md).
+distance the HUD already measures each frame. The gem art (`obsidian_solo_alert_<state>`,
+[the gem study](../../level_generation/ui/solo_alert_gem_20261114/README.md)) is no longer drawn.
 
 ## Slot selector (built 2026-11-14)
 

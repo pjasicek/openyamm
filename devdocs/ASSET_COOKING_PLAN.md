@@ -495,3 +495,29 @@ map beside the 2048 body.
   attachments, decorations, ground items), 3,646 textures, 2 h 40 min (etc2comp, about 23 textures a minute):
   669 MB in `worlds/mm9/models/textures`, 26 MB in `worlds/mm9/world_items/models/textures`. `--verify` reports no
   MM9 problem.
+
+## 16. The first-person view model (2026-11-14)
+
+The view model of solo runs (`engine/view_model/`: arms, dragon forelegs, the `w_*`/`s_*` weapon and shield
+templates and their tiers t1–t4; devdocs/solo_action/README.md) is cooked like every model, for release 2.4.
+- **Sources.** The 95 GLBs are sources in `assets_source/engine/view_model/` (825 MB; the largest, `arms.glb`, is
+  73 MB, under GitHub's 100 MB limit). Install a new one with `tools/install_model.py <export.glb> --view-model`.
+  The text keys (`arms.textkeys.json`, `dragon_forelegs.textkeys.json`) are runtime data the game reads beside the GLB,
+  so they stay in `assets_dev` only. `cook_models.py` takes models from `view_model/` folders as well as `models/`,
+  and the Android packager substitutes `view_model/textures` like `models/textures`.
+- **Rules.** Class `engine/view_model/*.glb`: hero, 4096 desktop / 2048 Android, full-size normal maps on desktop.
+  The templates (`engine/view_model/[ws]_*.glb`) halve their normal maps: at 1600x900 a held sword, mace, shield, bow
+  and dual weapons looked the same with full and half normals, and halving saves 165 MB. `arms.cook.yml` sets
+  `back_faces: keep` (new sidecar key: the hidden back face pass is skipped), since the arms' two-sided skin is
+  deliberate (a fist shows the palm's inside through the thumb's web) and the pass tests the bind pose only. The
+  forelegs are culled (13,304 of 13,328 triangles single-sided, 24 back copies) and look the same in held poses.
+- **Result.** `assets_dev/engine/view_model` 825 → 431 MB (29 MB of GLBs, 280 textures, 403 MB);
+  `assets_cooked/android/engine/view_model/textures` 217 MB (49 minutes on a loaded machine). Peak bgfx texture
+  memory in the comparison tour (`output/view_model_cook_20261114/`) 1.89 → 0.92 GB. Node names, skins, the 209 + 16 clips with their durations and text-key times,
+  emissive maps with `KHR_materials_emissive_strength` and the metallic-roughness red channel (specular mask or
+  occlusion) are unchanged. The uncooked copies are hard-linked in `output/view_model_precook_20261114/`.
+- **Texture receipts without the rules' hash.** A texture receipt held the hash of `model_textures.yml`, so any edit
+  of the rules (such as the class above) would have re-cooked every model texture (about 13,000 desktop and 9,000
+  Android ones; Android at about 23 a minute). The decision (codec, size, sharpening) is all the rules change in a
+  texture's bytes and is already in the receipt, so the texture receipts no longer record the rules; model receipts
+  still do (normal relief changes the GLB). Old receipts are migrated when the cook reads them.

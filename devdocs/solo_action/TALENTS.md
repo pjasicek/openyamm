@@ -1,5 +1,9 @@
 # Solo run talents (MAW): as built
 
+**Superseded in part by talent tree v2 (2026-11-14):** [TALENT_TREE_V2_BUILD.md](TALENT_TREE_V2_BUILD.md) (Arms /
+Archery / Arcana / Any, keystones, Lone Discipline; Whirlwind, Volley, Disengage, Frenzy, Purify and Mana Font
+replaced). The sections below describe the first build.
+
 The special skills ("talents") of an augmented solo run under MAW, built on top of the ruleset: Standard games and
 party games see nothing and run exactly as before. Design: [BALANCE_AND_TALENTS.md §5.0](BALANCE_AND_TALENTS.md)
 (the revised table), the Talents page: [the study](../../level_generation/ui/solo_talents_20261113/README.md)

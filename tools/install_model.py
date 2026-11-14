@@ -5,12 +5,15 @@ The accepted GLB goes to assets_source/<scope>/models/<name>.glb, the authoritat
 engine; --world-items uses engine/world_items, and with --world <world> a world's own ground items in
 worlds/<world>/world_items, such as MM9's). Decoration models of the MM6-MM8 worlds (<world>_deco_*.glb) are engine
 content and need --engine; MM9's (mm9_deco_*.glb) are MM9 world content and need --world mm9 (only MM9 binds them,
-and MM9 ships as its own package). A model matching COOKED_MODELS (decorations since 2026-10-12) is then cooked into
+and MM9 ships as its own package). --view-model installs the first-person view model (arms, forelegs, weapon and
+shield templates) to assets_source/engine/view_model/<name>.glb; its <name>.textkeys.json stays beside the runtime copy
+in assets_dev, which the game reads. A model matching COOKED_MODELS (decorations since 2026-10-12) is then cooked into
 assets_dev (tools/cook_models.py --only <path>). Any other model, until the switch to cooked models
 (ASSET_COOKING_PLAN.md section 12), gets an uncooked runtime copy at the same relative path in assets_dev, with
 hidden back faces culled (tools/model_backface_split.py).
 
-    tools/install_model.py <accepted.glb> [--world mm6 | --engine | --world-items [--world mm9]] [--name <file name>]
+    tools/install_model.py <accepted.glb> [--world mm6 | --engine | --world-items [--world mm9] | --view-model]
+                           [--name <file name>]
 
 Install the unprocessed export: never copy a runtime copy back over a project export or a source.
 Installs are serialised (an exclusive lock on assets_source/.cook-cache/install.lock): several sessions may install
@@ -52,10 +55,14 @@ def main():
     parser.add_argument("--engine", action="store_true", help="the engine package (shared models such as satchels)")
     parser.add_argument("--world-items", action="store_true",
                         help="ground items: the engine's isolated WIP (excluded from releases), or --world's own")
+    parser.add_argument("--view-model", action="store_true",
+                        help="the engine's first-person view model (engine/view_model: arms, weapon templates)")
     parser.add_argument("--name", help="installed file name (default: the model's file name)")
     args = parser.parse_args()
     if args.engine and (args.world or args.world_items):
         raise SystemExit("--engine excludes --world and --world-items")
+    if args.view_model and (args.engine or args.world or args.world_items):
+        raise SystemExit("--view-model excludes --engine, --world and --world-items")
     model = args.model.resolve(strict=True)
     if model.suffix.lower() != ".glb":
         raise SystemExit(f"{model}: not a .glb")
@@ -68,11 +75,14 @@ def main():
         raise SystemExit(f"{name}: decoration models are engine content (any world binds them); use --engine")
     if Path(name).name != name or Path(name).suffix.lower() != ".glb":
         raise SystemExit("--name must be a GLB filename, without directories")
-    if args.world_items:
-        scope_path = f"worlds/{args.world}/world_items" if args.world else "engine/world_items"
+    if args.view_model:
+        relative = Path("engine/view_model") / name
     else:
-        scope_path = "engine" if args.engine else f"worlds/{args.world or 'mm6'}"
-    relative = Path(scope_path) / "models" / name
+        if args.world_items:
+            scope_path = f"worlds/{args.world}/world_items" if args.world else "engine/world_items"
+        else:
+            scope_path = "engine" if args.engine else f"worlds/{args.world or 'mm6'}"
+        relative = Path(scope_path) / "models" / name
     source = ROOT / "assets_source" / relative
     runtime = ROOT / "assets_dev" / relative
     if model in (source, runtime):

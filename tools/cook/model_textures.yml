@@ -34,7 +34,8 @@ codecs:
 # largest side per profile by dropping the largest mip levels.
 # A texture shared by models of different classes (corpses reuse creature skins) takes the larger size and the
 # higher-quality codec of its uses. A model's <name>.cook.yml sidecar can override quality, max_size, normal_scale,
-# normal_strength and colour_mip_sharpening for the model, and max_size or codec for one image (by glTF image name).
+# normal_strength and colour_mip_sharpening for the model, and max_size or codec for one image (by glTF image name);
+# `back_faces: keep` skips the hidden back face pass (cook_model_geometry.py).
 #   normal_relief          {target, max}: each material's normalTexture.scale is multiplied so the map's 90th percentile
 #                          tilt |xy| reaches target, by at most max and never below 1 (tools/cook_models.py
 #                          normal_strength); a sidecar's normal_strength sets the multiplier instead.
@@ -64,6 +65,21 @@ classes:
     quality: hero
     max_size: {desktop: 4096, android: 4096}
     reduce: true
+  # The first-person view model (solo runs, 2026-11-14): the arms and dragon forelegs, always on screen and close to
+  # the eye, keep full-size normal maps on desktop; the weapon and shield templates (w_*, s_*: one shown at a time)
+  # halve theirs, which looked the same at 1600x900 and saves about 165 MB. The arms keep their two-sided skin
+  # (back_faces: keep in assets_source/engine/view_model/arms.cook.yml).
+  # Held weapons and shields (2048 sources): 2048 on desktop, 1024 on Android's small screens (user, 2026-11-14).
+  - match: "engine/view_model/[ws]_*.glb"
+    quality: hero
+    max_size: {desktop: 2048, android: 1024}
+    reduce: true
+  # The arms and dragon forelegs never cover more screen than a 2048 texture holds (user, 2026-11-14).
+  - match: "engine/view_model/*.glb"
+    quality: hero
+    max_size: {desktop: 2048, android: 2048}
+    reduce: true
+    normal_scale: {desktop: 1, android: 0.5}
   # Ground items cover at most a few hundred pixels on screen (2026-10-18, user decision): colour 512, relief and
   # roughness 256. role_max_size caps one role further than max_size.
   - match: "engine/world_items/models/*.glb"

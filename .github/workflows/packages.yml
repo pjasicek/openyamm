@@ -134,6 +134,7 @@ jobs:
               !/assets_dev/languages/*/worlds/
               !/assets_dev/worlds/*/textures_x4/
               !/assets_dev/**/models/textures/*.oytex
+              !/assets_dev/engine/view_model/textures/*.oytex
               !/assets_dev/**/terrain_materials/*/*.oytex
               !/assets_dev/**/authored/textures/*.oytex
               !/assets_dev/engine/rendering/sky/**/*.oytex

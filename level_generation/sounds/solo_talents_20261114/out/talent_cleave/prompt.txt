@@ -1,0 +1,11 @@
+Fantasy warrior special attack: a heavy two-handed axe swung in a wide powerful arc with a deep whoosh, then a meaty slicing impact as the blade cuts through several armored enemies at once, a short metallic ring
+
+kind: sfx
+duration: 1.2
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.5
+highpass_hz: 30
+loudness_db: -8
+score_bias: power

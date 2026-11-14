@@ -149,13 +149,13 @@ def sparse_files(root):
 
 
 def overlay_model_textures(entries, source, overlay):
-    """Replace every packaged cooked model texture (models/textures/*.oytex), terrain material
-    (terrain_materials/<id>/*.oytex), effect atlas (effects/authored/textures/*.oytex), sky texture
+    """Replace every packaged cooked model texture (models/textures/*.oytex, view_model/textures/*.oytex), terrain
+    material (terrain_materials/<id>/*.oytex), effect atlas (effects/authored/textures/*.oytex), sky texture
     (rendering/sky/**/*.oytex) and HUD art (icons_x2/obsidian_*.oytex, icons_x2/faces_*.oytex) with the
     profile's own encoding from overlay (assets_cooked/<profile>/<package>); the cooked GLBs, material library,
     sprite descriptors and face set manifests are shared by all profiles. The profile's set must match the cooked textures in source exactly."""
     def profiled(path):
-        return ((path.parent.name == "textures" and path.parent.parent.name in ("models", "authored"))
+        return ((path.parent.name == "textures" and path.parent.parent.name in ("models", "view_model", "authored"))
                 or path.parent.parent.name == "terrain_materials"
                 or "rendering/sky" in path.parent.as_posix()
                 or (path.parent.name == "icons_x2" and path.name.startswith(("obsidian_", "faces_"))))
