@@ -1,0 +1,822 @@
+# New face textures of the Xeen dungeons XD-01 to XD-03 (see README.md). One entry per texture:
+#   size: [w, h]     logical texels (the project's `size`); the master is 4x that, x2 and x1 are reductions.
+#   art: [w, h]      the aspect the picture is seen at in the map (its face or panel), when the face stretches it
+#                    (`fit`); generated at that aspect and resampled to `size`, so the face shows it unstretched.
+#   kind:            sign (a board on grey, cropped), picture (full-bleed single picture), tile (full-bleed, made
+#                    seamless by a seam pass), edit (painted into a family master, kept only where it changed),
+#                    cutout (on magenta, keyed to alpha)
+#   refs:            family masters sent as references (level_generation/textures_x4/masters/<world>/<name>.png)
+#   base:            kind edit: the master painted into (crop [x0, y0, x1, y1] in its texels, default whole)
+#   tone:            {like: [names], factor: f} the linear mean luma of those masters times f; or {luma: L} (0-255
+#                    sRGB of the linear mean); the texture gets one grey gain to it (hue kept)
+#   family:          the family in words (prompt and NOTES)
+#   what:            the content, in the prompt's words
+dungeons:
+  xd01:
+    family_words: >-
+      the Pirate Outpost of Might and Magic VIII: dark reddish-brown hand-painted wooden planks, carved panelling and
+      braced plank doors, warm and slightly stylised
+    cellar_words: >-
+      the sewer and cellar of Might and Magic VI: red brick, mossy grey-brown block stone and dark old planks,
+      lit green by slime
+  xd02:
+    family_words: >-
+      Snergle's Caverns, the dwarves' mine of Might and Magic VI: red and dark-brown rough-hewn rock, blue-grey cave
+      stone, dark timber posts and plank lagging, dwarf-dressed sandstone blocks
+  xd03:
+    family_words: >-
+      Gharik's Forge and Snergle's Caverns of Might and Magic VI and the Red Dwarf Mines of Might and Magic VII:
+      dark volcanic rock, soot-black brick, glowing lava, blue-grey cave stone, warm dwarf-dressed stone and bronze
+  xd04:
+    family_words: >-
+      Clanker's Laboratory and the Temple of the Moon of Might and Magic VII, a witches' tower: dark rubble stone,
+      black timber beams and carved dark wooden panelling and furniture, dressed grey stone with carved friezes,
+      lit by green witch-light
+  xd05:
+    family_words: >-
+      the Ogre Raiding Fortress of Might and Magic VIII, a warband's lair in caves: dark grey rough cave rock, dark
+      blue-black rock floors, grey stone-block masonry, dark brown timber posts and plank boards, straw bedding, lit
+      orange by fires and braziers
+textures:
+  # ---------------------------------------------------------------- XD-01 Joe's Warehouse
+  xnjoesign:
+    dungeon: xd01
+    size: [256, 128]
+    art: [288, 120]
+    kind: sign
+    refs: [mm8/t66floor, mm8/t66b01, mm8/gkp103a]
+    tone: {like: [mm8/t66floor], factor: 1.25}
+    family: MM8 Pirate Outpost t66 wood
+    where: bay north wall over the barn doors (panel:bay_sign)
+    standin: sign01-1
+    what: >-
+      Joe's shop sign: a wide signboard of three horizontal dark reddish-brown planks like the references, with
+      a thin plank frame. Painted on it by hand in thick cream-white and red sign-painter's letters: the large words
+      "JOE THE EXTERMINATOR" on one line, and under them smaller "ALWAYS FIRST ON THE SCENE". At the left end a
+      small cartoon of a green slime squashed under a big brown boot. The paint is a little worn and chipped where
+      the wood shows through.
+  xnnotice:
+    dungeon: xd01
+    size: [128, 128]
+    art: [160, 128]
+    kind: sign
+    refs: [mm8/t66floor, mm8/t66b01, mm8/gt003b]
+    tone: {like: [mm8/t66floor], factor: 1.7}
+    family: MM8 Pirate Outpost t66 wood
+    where: dock, right of the street doors (panel:notice_board)
+    standin: sign01-1
+    what: >-
+      Joe's notice board: a small board of dark reddish-brown planks like the references with a plank frame, and
+      pinned to it with nails one large sheet of yellowed paper, hand-lettered in black ink: the heading
+      "JOE THE EXTERMINATOR", below it "PESTS GONE OR YOUR MONEY BACK!" and below that, much smaller,
+      "(money not back)". Two small scraps of paper pinned at the corners, one with a few illegible scribbled lines.
+  xnheartsgn:
+    dungeon: xd01
+    size: [128, 32]
+    art: [144, 48]
+    kind: sign
+    refs: [mm8/t66floor, mm6/d6dorb, mm6/cbrdbrck]
+    tone: {like: [mm8/t66floor], factor: 1.3}
+    family: MM8 Pirate Outpost t66 wood (cellar, beside MM6 brick)
+    where: over the heart gate (panel:heart_sign)
+    standin: sign01-2
+    what: >-
+      A long narrow board, one dark plank, hand-painted in white letters on a red painted ground: "MR & MRS WOBBLES"
+      and, after a small white painted heart, "DO NOT SEPARATE". Clumsy but readable brush lettering, the red paint
+      worn at the edges.
+  xnfeedsgn:
+    dungeon: xd01
+    size: [128, 32]
+    art: [120, 40]
+    kind: sign
+    refs: [mm8/t66floor, mm6/d6dorb, mm6/cbrdbrck]
+    tone: {like: [mm8/t66floor], factor: 1.3}
+    family: MM8 Pirate Outpost t66 wood (cellar, beside MM6 brick)
+    where: over the FEEDING TIME lever (panel:feeding_time)
+    standin: sign01-3
+    what: >-
+      A short narrow board, one dark plank, hand-painted in big cream-white brush letters "FEEDING TIME" with a
+      thick painted arrow pointing straight down at the right end. Readable, slightly clumsy lettering, worn paint.
+  xnrules:
+    dungeon: xd01
+    size: [128, 256]
+    art: [96, 192]
+    kind: sign
+    refs: [mm8/t66floor, mm8/t66b01, mm8/gkp103a]
+    tone: {like: [mm8/t66floor], factor: 1.3}
+    family: MM8 Pirate Outpost t66 wood
+    where: aisle east wall (panel:rules)
+    standin: sign06-1
+    what: >-
+      Joe's house rules: one tall upright plank board, dark reddish-brown like the references, hand-painted in
+      cream-white brush letters, centred, in this order: the heading "WAREHOUSE RULES", then "1. NO GUNTHER",
+      "2. DO NOT FEED THE STOCK", "3. DO NOT PULL THE LEVER", "4. SEE RULE 1". Clear readable lettering with the
+      numbers in red, the paint worn in places.
+  xnpestntc:
+    dungeon: xd01
+    size: [128, 256]
+    art: [96, 192]
+    kind: sign
+    refs: [mm8/t66floor, mm8/t66d01, mm8/gt003b]
+    tone: {like: [mm8/t66floor], factor: 1.8}
+    family: MM8 Pirate Outpost t66 wood
+    where: office north wall (panel:pest_notice)
+    standin: sign06-1
+    what: >-
+      A tall yellowed paper poster nailed onto a dark plank backing board: at the top the hand-lettered heading
+      "PEST OF THE MONTH" in red ink, in the middle a lively ink-and-wash drawing of a fat doom bug (a big beetle
+      with six legs and long feelers), under it "THE DOOM BUG" in black ink. Old paper with torn corners.
+  xnkeepout:
+    dungeon: xd01
+    size: [256, 128]
+    art: [224, 112]
+    kind: sign
+    refs: [mm8/t66floor, mm8/gkp103a, mm8/t66b01]
+    tone: {like: [mm8/t66floor], factor: 1.25}
+    family: MM8 Pirate Outpost t66 wood
+    where: over the KEEP OUT door (panel:keep_out)
+    standin: warnsign
+    what: >-
+      A warning board of two horizontal dark planks, hand-painted: a white skull and crossbones at the left, big red
+      brush letters "KEEP OUT" and under them smaller white letters "THIS MEANS YOU, GUNTHER". Rough, angry
+      lettering, readable, paint drips and wear.
+  xnheartgt:
+    dungeon: xd01
+    size: [128, 256]
+    art: [128, 288]
+    kind: picture
+    refs: [mm6/d6dorb, mm8/gkp103a, mm8/t66floor]
+    tone: {like: [mm6/d6dorb], factor: 1.15}
+    family: MM6 d6dorb weathered planks, MM8 t66 braced door
+    where: the heart gate (door:heart_gate)
+    standin: gcrydoor
+    what: >-
+      A tall plank gate seen straight on, filling the whole canvas: upright weathered planks with two horizontal
+      braces and iron nail heads, the whole gate painted a strong worn red, and in the middle a big white painted
+      heart, hand-brushed, the paint chipped so the grey wood shows through in places. No frame around it, no wall,
+      the planks reach every edge.
+  xnbugtank:
+    dungeon: xd01
+    size: [64, 128]
+    art: [64, 64]
+    kind: picture
+    refs: [mm7/7slimywtr, mm6/cbrdbrck, mm6/d1medbw]
+    tone: {like: [mm7/7slimywtr], factor: 1.0}
+    family: MM6 sewer (with MM7 slime)
+    where: the six bug tanks' sides
+    standin: 7slimywtr
+    what: >-
+      The side of a glass tank seen straight on, filling the whole canvas: a narrow dark iron frame along all four
+      edges, inside it thick dirty greenish glass, behind the glass murky green slime and two or three black doom
+      bugs (beetles) pressed against it, smears of slime on the inside of the glass. The top edge is a riveted iron
+      lid rim.
+  xntonics:
+    dungeon: xd01
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm7/7winerack, mm6/d1ceil1, mm8/t66floor]
+    tone: {like: [mm7/7winerack], factor: 1.1}
+    family: MM6 cellar planks (MM7 wine rack layout)
+    where: shipping room east wall
+    standin: 7winerack
+    what: >-
+      Shelves of Joe's stock seen straight on, repeating: four rows of dark old plank shelves, each holding a row of
+      stoppered glass bottles and squat jars of bright green tonic and grey-green powder with small paper labels,
+      corks and twine, the dark wall behind. Every shelf row the same height, the shelves running off both side
+      edges.
+  xnshutter:
+    dungeon: xd01
+    size: [256, 256]
+    art: [256, 128]
+    kind: sign
+    refs: [mm8/t66floor, mm8/gt003b, mm8/gkp103a]
+    tone: {like: [mm8/t66floor], factor: 0.85}
+    family: MM8 Pirate Outpost t66 wood
+    where: dock, left of the street doors (panel:shutter, the Perception clue)
+    standin: gt003b
+    what: >-
+      a pair of closed plank window shutters side by side in one rectangle: two leaves of dark reddish-brown vertical planks with a horizontal batten each, the right leaf hanging loose and askew on a single
+      nail, a dark gap showing behind it. Iron hinge straps on the outer edges.
+  # ---------------------------------------------------------------- XD-02 Red Dwarf Mines
+  xngold5:
+    dungeon: xd02
+    size: [256, 256]
+    kind: edit
+    view_auto: [192, 128]
+    base: mm6/t3ll5
+    refs: [mm7/c1gold]
+    family: MM6 Snergle's Caverns t3ll5 (red worked rock)
+    where: vein switches in t3ll5 (sorting floor, stope rim)
+    standin: c1gold
+    what: >-
+      Paint a rich seam of native gold into this red rock: several branching bright gold veins and nuggets
+      following the rock's cracks, mostly across the middle of the picture, glinting yellow gold with darker
+      gold-brown edges, like the gold seam in the second reference. Keep the rock itself exactly as it is.
+  xngold6:
+    dungeon: xd02
+    size: [256, 256]
+    kind: edit
+    view_auto: [192, 128]
+    base: mm6/t3ll6
+    refs: [mm7/c1gold]
+    family: MM6 Snergle's Caverns t3ll6 (dark raw rock)
+    where: vein switches in t3ll6 (the stope's three)
+    standin: c1gold
+    what: >-
+      Paint a rich seam of native gold into this dark rock: several branching bright gold veins and nuggets
+      following the rock's grain and cracks, mostly across the middle of the picture, glinting yellow gold with
+      darker gold-brown edges, like the gold seam in the second reference. Keep the rock itself exactly as it is.
+  xngoldcr:
+    dungeon: xd02
+    size: [256, 256]
+    kind: edit
+    view_auto: [192, 128]
+    base: mm6/crstont
+    refs: [mm7/c1gold]
+    family: MM6 Snergle's Caverns crstont (blue-grey cave stone)
+    where: vein switch in the flooded working
+    standin: c1gold
+    what: >-
+      Paint a rich seam of native gold into this blue-grey stone: several branching bright gold veins and nuggets
+      following the stone's cracks and ledges, mostly across the middle of the picture, glinting yellow gold with
+      darker gold-brown edges, like the gold seam in the second reference. Keep the stone itself exactly as it is.
+  xncartsd:
+    dungeon: xd02
+    size: [128, 64]
+    art: [224, 72]
+    kind: sign
+    refs: [mm7/ch004i, mm6/ch1frntb, mm6/t3d2abe]
+    tone: {like: [mm6/ch1frntb], factor: 0.9}
+    family: MM6 Snergle's Caverns timber with MM6/MM7 iron (ch1 bands, ch004i)
+    where: side boards of the trestle car, the east cart and the four standing carts
+    standin: ch1topb
+    what: >-
+      the side of a dwarven ore cart as one flat rectangular riveted iron panel: dark grey iron with brown rust
+      streaks and dents, a thick rolled rim along the whole top edge, two vertical strap bands with rows of round
+      rivet heads, scraped bright where ore has rubbed it. No wheels.
+  xnbasred:
+    dungeon: xd02
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/crstont, mm6/t3ll5, mm6/crflr3]
+    tone: {like: [mm6/crstont], factor: 1.1}
+    family: MM6 Snergle's Caverns crstont
+    where: red pool basin (its sunk level's edge and floor, the pool platform's sides)
+    standin: crstont
+    what: >-
+      Wet cave stone of a pool's basin, repeating: blue-grey rock like the first reference, smooth and wet, crusted
+      with a rough blood-red and rust-red mineral deposit in bands and blisters, as if the red water had dried on it.
+  xnbasgld:
+    dungeon: xd02
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/crstont, mm7/c1gold, mm6/crflr3]
+    tone: {like: [mm6/crstont], factor: 1.1}
+    family: MM6 Snergle's Caverns crstont
+    where: gold pool basin
+    standin: crstont
+    what: >-
+      Wet cave stone of a pool's basin, repeating: blue-grey rock like the first reference, smooth and wet, crusted
+      with a rough ochre-yellow and golden mineral deposit in bands and blisters, a few glinting specks.
+  xnbasblu:
+    dungeon: xd02
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/crstont, mm6/crflr3, mm6/crdrf1]
+    tone: {like: [mm6/crstont], factor: 1.1}
+    family: MM6 Snergle's Caverns crstont
+    where: blue pool basin
+    standin: crstont
+    what: >-
+      Wet cave stone of a pool's basin, repeating: blue-grey rock like the first reference, smooth and wet, crusted
+      with a rough pale turquoise and deep blue mineral deposit in bands and blisters.
+  xnbasgrn:
+    dungeon: xd02
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/d7trim8, mm6/d7flor4, mm6/crflr3]
+    tone: {like: [mm6/d7trim8], factor: 0.9}
+    family: MM6 Snergle's Iron Mines d7trim8 (the chapel's dressed blocks)
+    where: green pool basin (the chapel's kerb)
+    standin: d7trim8
+    what: >-
+      Wet dressed sandstone blocks of a pool's kerb, repeating, the same block size and colour as the first
+      reference, crusted with a rough mossy green and verdigris mineral deposit, thickest in the joints.
+  xngoldwtr:
+    dungeon: xd02
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/orertlga, mm7/c1gold, mm6/crstont]
+    tone: {like: [mm6/orertlga], factor: 0.9}
+    family: MM6 water seen over MM7 gold (c1gold)
+    where: the gold pool's water (platform:gold_pool top)
+    standin: orertlga
+    what: >-
+      Shallow clear still water seen from straight above, repeating, over a bed of golden sand and small gold
+      nuggets: warm gold and amber, gentle ripple highlights and caustic light patterns on the sand, a few darker
+      pebbles.
+  xntally:
+    dungeon: xd02
+    size: [256, 128]
+    kind: picture
+    refs: [mm6/d7wl2ctr, mm6/d7trim8, mm6/d7flor4]
+    tone: {like: [mm6/d7wl2ctr], factor: 1.0}
+    family: MM6 Snergle's Iron Mines d7wl2ctr (the tally room's dressed stone)
+    where: the tally room's four wall panels
+    standin: sign22
+    what: >-
+      A slab of dressed sandstone seen straight on, filling the whole canvas, the same stone and colour as the first
+      reference, covered with rows of chalked tally marks in white chalk: groups of four strokes crossed by a fifth,
+      in neat rows, with a column of simple angular dwarf numerals and rune-like marks down the left, some rubbed
+      out and written over. Chalk only, no letters of any real alphabet.
+  xnchalk:
+    dungeon: xd02
+    size: [64, 64]
+    art: [128, 64]
+    kind: edit
+    base: mm6/t3ll5
+    view_auto: [160, 80]
+    refs: [mm6/t3ll5]
+    family: MM6 Snergle's Caverns t3ll5 (red worked rock)
+    where: over the dry-stone wall (panel:chalk_mark)
+    standin: runeeyvlij
+    what: >-
+      Draw on this red rock, in old smudged white chalk, a simple miner's mark in the middle: a small square box
+      with a lid (a strongbox) and next to it a bold arrow pointing to the right, plus two short tally strokes.
+      Rough chalk lines, partly worn. Keep the rock itself exactly as it is.
+  xnclansgn:
+    dungeon: xd02
+    size: [256, 128]
+    art: [160, 80]
+    kind: sign
+    refs: [mm6/d2ceil2, mm6/t3dr1, mm6/t3d2abe]
+    tone: {like: [mm6/d2ceil2], factor: 1.15}
+    family: MM6 Snergle's Caverns planks (d2ceil2, t3dr1)
+    where: the adit mouth (panel:clan_sign)
+    standin: warnsign
+    what: >-
+      A crude warning board of three rough dark horizontal planks nailed together, daubed by hand in blood-red
+      paint: three crude skulls across the top and below them the rough brush words "MAD DWARF CLAN" and under
+      that "DIG ELSEWHERE". Smeared, dripping, angry daubing, readable.
+  xnweb:
+    dungeon: xd02
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm9/web32n735s, mm6/crstont, mm6/t3ll6]
+    tone: {like: [mm6/crstont], factor: 1.2}
+    family: MM6 Snergle's Caverns crstont (cave stone behind thick web)
+    where: the web wall (door:web_wall) and the cocoon (chest:cocoon)
+    standin: web32n735s
+    what: >-
+      Thick old spider web seen straight on, repeating, completely covering dark blue-grey cave rock: dense layered
+      grey-white silk in sheets and ropes, dusty and matted, with a few dried husks of insects caught in it; only
+      small gaps where the dark rock shows through.
+  xngrille:
+    dungeon: xd02
+    size: [128, 256]
+    art: [192, 320]
+    kind: cutout
+    refs: [mm7/ch004i, mm6/t3d2abs, mm6/ch1frntb]
+    tone: {like: [mm6/ch1frntb], factor: 0.8}
+    family: MM6 Snergle's Caverns iron (ch1 bands)
+    where: the hoist gate (door:hoist_gate)
+    standin: d2ceil1
+    what: >-
+      A heavy dwarven iron grille gate seen straight on, filling the whole canvas: a rectangular frame of thick dark
+      rusted iron bars along all four edges, five vertical bars and three horizontal cross bars riveted where they
+      cross, dark iron with brown rust. Everything that is not iron is pure flat magenta #FF00FF.
+  xnrustirn:
+    dungeon: xd02
+    size: [64, 64]
+    kind: tile
+    wrap: uv
+    refs: [mm7/ch004i, mm6/ch1frntb, mm6/t3d2abs]
+    tone: {like: [mm6/ch1frntb], factor: 0.6}
+    family: MM6 Snergle's Caverns iron (ch1 bands) / MM7 ch004i
+    where: rails, buffer stops, wheels, hoist cage, chain, winch ends
+    standin: ch004i
+    what: >-
+      Old dark wrought iron, repeating, filling the whole canvas: dark grey-brown iron plate with orange-brown rust
+      patches, pitting and faint hammer marks, a little worn bright metal showing through in streaks.
+  # ---------------------------------------------------------------- XD-03 Deep Mine
+  xnquartz:
+    dungeon: xd03
+    size: [256, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm6/crstont, mm6/d3ystlwl, mm6/crdrf1]
+    tone: {like: [mm6/crstont], factor: 1.15}
+    family: MM6 Snergle's Caverns crstont / d3ystlwl
+    where: geode walls and crown, crystal columns, the King's dome
+    standin: crstont
+    what: >-
+      A geode's crystal lining seen straight on, repeating: dark blue-grey cave rock like the first reference,
+      thickly encrusted with clusters of pale cold blue quartz crystal points of many sizes, pointing toward the
+      viewer at all angles, with dark gaps of rock between the clusters. Crystals spread evenly over the whole
+      canvas.
+  xnquartzcv:
+    dungeon: xd03
+    size: [256, 256]
+    art: [192, 320]
+    kind: picture
+    refs: [mm6/d3ystlwl, mm6/crstont]
+    tone: {like: [mm6/crstont], factor: 1.15}
+    family: MM6 Snergle's Caverns d3ystlwl on crstont
+    where: the singing crystal wall (door:crystal_wall) and the cap of the King's dome
+    standin: d3ystlwl
+    what: >-
+      A crystal cavity in rock seen straight on, filling the whole canvas: blue-grey cave rock like the second
+      reference, and in the middle a deep oval hollow lined with pale blue and violet quartz crystal points around
+      a dark centre, like the cavity in the first reference but cold blue and in blue-grey rock with no brown.
+      The rock reaches every edge.
+  xngong:
+    dungeon: xd03
+    size: [128, 128]
+    kind: picture
+    refs: [mm6/ctflor5, mm6/d2lgdor, mm6/vlcwl1lg]
+    tone: {like: [mm6/ctflor5], factor: 0.85}
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: the great gong (six slabs, one picture at scale 1.5)
+    standin: ctflor5
+    what: >-
+      The face of a great dwarven bronze gong seen straight on, filling the whole canvas: hammered dark bronze with
+      a pattern of hammer dents, concentric rings, a raised round boss in the middle polished to a warm gold, a ring
+      of simple angular dwarf runes engraved around the boss, darker soot at the edges. The bronze reaches every
+      edge of the canvas.
+  xncrest:
+    dungeon: xd03
+    size: [128, 128]
+    art: [224, 192]
+    kind: sign
+    refs: [mm6/ctceil3, mm6/ctwl2, mm6/d2lgdor]
+    tone: {like: [mm6/ctceil3], factor: 1.0}
+    family: MM6 Gharik's Forge ctceil3 (red carved panel)
+    where: the throne's crest (front of its back)
+    standin: ctceil3
+    what: >-
+      the Mad Dwarf Clan's crest carved in relief on one rectangular panel of red-brown stone with a moulded border, and in it a grinning skull over a blacksmith's anvil, with two
+      crossed hammers behind, carved deep with dark shadowed recesses, the raised parts worn smooth. Red stone like
+      the first reference.
+  xnslag:
+    dungeon: xd03
+    size: [256, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm6/orfyrlga, mm6/vlcflorc, mm6/vlcwl1lg]
+    tone: {luma: 110}
+    family: MM6 Gharik's Forge lava (orfyrlga) and volcanic rock (vlcwl1lg)
+    where: the slag channel, the furnace mouth, the gutters at the King's wrath
+    standin: orfyrlga
+    what: >-
+      Molten slag seen from straight above, repeating: a dark black-brown cooled crust broken into rough plates,
+      the cracks between them glowing bright orange, yellow and red with molten slag, some plates half sunk and
+      glowing at their rims, wisps of bright melt. Glow spread evenly over the canvas.
+
+  xncoins:
+    dungeon: xd03
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/ch3tpbv, mm7/c1gold]
+    tone: {like: [mm6/ch3tpbv], factor: 0.8}
+    family: MM6 Gharik's Forge chests (ch3 carved gold) and MM7 Red Dwarf Mines gold rock (c1gold)
+    where: the heaps of gold in the King's hoard (XD-03 pass two)
+    standin: none (the hoard had chests only)
+    what: >-
+      A heap of gold coins seen from above, repeating: hundreds of round worn gold coins lying every way in
+      overlapping layers, a few standing on edge, dull yellow gold with darker brown-gold shadows between them and
+      small bright glints on their rims, a few stamped with a dwarf's hammer. No background shows through.
+
+  # The gong's six slab strips, cut from xngong by strips.py (no generation of their own).
+  xngong1:
+    dungeon: xd03
+    size: [128, 32]
+    kind: derived
+    from: xngong
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: gong slab 1 from the top
+    standin: ctflor5
+  xngong2:
+    dungeon: xd03
+    size: [128, 32]
+    kind: derived
+    from: xngong
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: gong slab 2 from the top
+    standin: ctflor5
+  xngong3:
+    dungeon: xd03
+    size: [128, 32]
+    kind: derived
+    from: xngong
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: gong slab 3 from the top
+    standin: ctflor5
+  xngong4:
+    dungeon: xd03
+    size: [128, 32]
+    kind: derived
+    from: xngong
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: gong slab 4 from the top
+    standin: ctflor5
+  xngong5:
+    dungeon: xd03
+    size: [128, 32]
+    kind: derived
+    from: xngong
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: gong slab 5 from the top
+    standin: ctflor5
+  xngong6:
+    dungeon: xd03
+    size: [128, 32]
+    kind: derived
+    from: xngong
+    family: MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)
+    where: gong slab 6 from the top
+    standin: ctflor5
+
+  # ---------------------------------------------------------------- XD-04 Witches' Tower (2026-11-13, second pass)
+  xwface:
+    dungeon: xd04
+    size: [256, 256]
+    kind: picture
+    refs: [mm7/hwm2d, mm7/7t1cab, mm7/t1d1a]
+    tone: {like: [mm7/hwm2d], factor: 1.15}
+    family: MM7 Clanker's Laboratory carved dark wood (hwm2d, 7t1cab)
+    where: the Rosebud door (door:rosebud), cut by face_quarters.py into xwface1-4 for its two leaves
+    standin: t1d1a-d (the Moon seal)
+    what: >-
+      A door of dark carved wood seen straight on, the whole canvas: carved in deep relief in the middle of it, filling
+      most of the door, the face of a sleeping old woman, a witch: eyes shut, heavy lids, a long hooked nose, a wide
+      thin mouth closed in a faint smile, deep wrinkles, wisps of carved hair and a pointed hood framing the face; a
+      small carved rosebud under her chin. Dark brown-black wood like the references, worn smooth on the raised parts,
+      dark in the recesses, a plain moulded border round the edge. The face is centred and symmetric about the
+      vertical centre line.
+  xwward:
+    dungeon: xd04
+    # Finished at the leaf's own 192 x 320; xd04_derive.py pads it to 256 x 512 (the leaf shows its top-left window).
+    size: [192, 320]
+    art: [192, 320]
+    kind: cutout
+    refs: [mm7/tws1a, mm7/t1d1a, mm7/7tws2]
+    tone: {luma: 150}
+    family: MM7 Temple of the Moon sigils (tws1a, the Moon seal t1d1a)
+    where: the coven's ward over the roof stair (door:ward)
+    standin: tws1a
+    what: >-
+      A witch's magic ward seen straight on, filling the whole canvas: a shimmering lattice of glowing violet and
+      acid-green light lines woven across the canvas like a spider's web, thick and dense, with one large glowing
+      sigil in the middle (a crescent moon inside a circle with a toad's eye and angular witch runes round it),
+      glowing brightest at its lines, a soft glow along each strand. The strands touch all four edges. Everything
+      that is not a glowing line is pure flat magenta #FF00FF.
+  xwiron:
+    dungeon: xd04
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm7/trim11_32, mm7/hwm2rf, mm7/7t1cab]
+    tone: {like: [mm7/hwm2rf], factor: 0.75}
+    family: MM7 Clanker's Laboratory black timber and iron (trim11_32, hwm2rf)
+    where: the great cauldron's sides (platform:cauldron); the cage bars (xwcage, derived)
+    standin: trim11_32
+    what: >-
+      Black cast iron plates of a huge cauldron, repeating: dark sooty black-grey iron with large rounded rivet heads in
+      neat rows along the plate seams, a slight hammered texture, faint dull brown rust and green verdigris stains and
+      soot, a little worn grey metal on the rivets.
+  xwbrew:
+    dungeon: xd04
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm7/7slimywtr, mm7/hwm2wall]
+    tone: {luma: 95}
+    family: MM7 Clanker's Laboratory liquid (7slimywtr), the witches' brew
+    where: the great cauldron's top (platform:cauldron), the larder trough
+    standin: 7slimywtr
+    what: >-
+      A thick bubbling witch's brew seen from straight above, repeating: bright opaque poison-green liquid, glowing
+      lighter yellow-green at the bubbles, with many round bubbles of different sizes, some bursting, swirls of darker
+      green and a little scum; no bottom visible. Bubbles spread evenly over the canvas.
+  xwslate:
+    dungeon: xd04
+    size: [256, 128]
+    art: [384, 192]
+    kind: sign
+    refs: [mm7/7tfb11, mm7/7t1books1, mm7/hwm1b]
+    tone: {like: [mm7/7tfb11], factor: 1.05}
+    family: MM7 Clanker's Laboratory furniture wood (7t1books1) round a slate (7tfb11)
+    where: the schoolroom's east wall (panel:slate), the lower edge at a child's reading height
+    standin: 7tfb11
+    what: >-
+      A schoolroom slate board: a wide board of smooth dark grey-black slate in a thick plain frame of dark brown wood
+      like the second reference, with a narrow wooden chalk ledge along the bottom of the frame holding a stub of
+      chalk. On the slate in a teacher's neat white chalk handwriting, large and readable: the heading
+      "HOW TO BE A PROPER GOBLIN" and under it three lines "1. Never say please." "2. Never wash." "3. Forget your
+      name." In the lower right corner of the slate, small and half rubbed out, scratched by a child in wobbly
+      letters: "Rosebud", with a tiny drawn flower bud. Chalk smudges and old wiped marks on the slate.
+  xwrecipe:
+    dungeon: xd04
+    size: [64, 128]
+    art: [64, 128]
+    kind: sign
+    refs: [mm7/t2bedsht, mm7/hwm2rf, mm7/7t1books1]
+    tone: {like: [mm7/t2bedsht], factor: 0.8}
+    family: MM7 Clanker's Laboratory cloth and paper (t2bedsht)
+    where: the herb loft's north wall (panel:recipe)
+    standin: t2bedsht at scale 0.5
+    what: >-
+      A tall recipe card of old yellowed stained parchment, pinned at the top by a black iron nail, the corners curled.
+      At the top a heading in brown ink, "STRENGTH BREW", under it a small neat ink drawing of a fat toad sitting on a
+      barrel lid, and under that a few short lines of cramped brown handwriting, and at the bottom a big crossed-out
+      bubbling pot.
+  xwsky:
+    dungeon: xd04
+    size: [512, 512]
+    kind: tile
+    wrap: uv
+    refs: [sky/sky05, sky/7sky01]
+    tone: {luma: 170}
+    family: the MM6-MM7 outdoor skies (sky05, 7sky01)
+    where: the roof's walls above the parapet and its ceiling (theme:roof)
+    standin: sky_clo1
+    what: >-
+      An open bright daytime sky seen straight up, repeating: clear light blue sky with soft white and pale grey
+      fair-weather clouds of many sizes spread evenly over it, painted like the references, no sun, no horizon.
+  xwcloudst:
+    dungeon: xd04
+    size: [512, 512]
+    kind: picture
+    refs: [sky/sky05, sky/cloudsabove]
+    tone: {luma: 175}
+    family: the MM6-MM7 outdoor skies (sky05)
+    where: the cloud stair (exit:cloud_stair) on the roof's west wall
+    standin: sky_clo1
+    what: >-
+      Seen straight on, an open bright blue daytime sky with soft white clouds, and in it a magical staircase made of
+      thick white cloud: broad soft cloud steps starting at the bottom middle of the canvas and climbing up and away
+      into the sky, getting smaller as they rise, glowing faintly gold at their edges, with a few wisps. Sky reaches
+      every edge.
+  # ---------------------------------------------------------------- XD-05 Orc Caves
+  xopalis:
+    dungeon: xd05
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm8/t66abc10a, mm8/gkp1ceil, mm8/gkp103a]
+    tone: {like: [mm8/gkp1ceil], factor: 0.95}
+    family: MM8 Ogre Fortress timber (t66abc10a posts, gkp1ceil planks)
+    where: the palisade's outer face and the gate passage (theme:palisade)
+    standin: gkp1ceil
+    what: >-
+      A palisade wall of rough upright logs seen straight on, repeating: four whole tree trunks side by side filling
+      the width, each about a quarter of the width, dark brown wood with rough bark left in strips and pale axe-cut
+      patches, narrow dark gaps between the logs, two horizontal bands of thick hemp rope lashing the logs together
+      at one quarter and three quarters of the height, a few iron spikes. Logs run vertically through the whole
+      height without ends.
+  xodrumtp:
+    dungeon: xd05
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/gkp1flr, mm8/t66abc10a, mm8/gcav1flr]
+    tone: {luma: 120}
+    family: MM8 Ogre Fortress (hide and timber)
+    where: the tops of the three war drums (platform:drum_*), stretched once over the head
+    standin: t66d13tb
+    what: >-
+      The head of a big war drum seen from straight above, filling the canvas edge to edge: a taut stretched hide of
+      pale greyish tan leather, a little stained and scuffed from beating, with a large crude war sigil painted on it
+      in dark red ochre and black: a tusked brutish skull with two crossed bones, in thick daubed strokes. Near the
+      edges the hide is pierced by a ring of leather thongs that run outward to the edges. Even flat light.
+  xodrumsd:
+    dungeon: xd05
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/t66abc10a, mm8/gkp1ceil, mm8/gkp1flr]
+    tone: {like: [mm8/t66abc10a], factor: 1.05}
+    family: MM8 Ogre Fortress timber (t66abc10a)
+    where: the sides of the three war drums
+    standin: t66abc10a
+    what: >-
+      The side of a big wooden war drum's shell seen straight on, repeating left to right: dark brown vertical wooden
+      staves, and over them tight rawhide thongs criss-crossing in a zig-zag between a thick hoop of rope near the top
+      edge and one near the bottom edge, with pale bone pegs where the thongs turn. The hoops run straight across the
+      whole width.
+  xoburn:
+    dungeon: xd05
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/t66abc10a, mm8/gcav1flr]
+    tone: {luma: 115}
+    family: MM8 Ogre Fortress timber, burning
+    where: a war drum while it burns (set_texture on the drum's faces)
+    standin: none
+    what: >-
+      Burning wood and hide seen straight on, repeating: blackened charred wooden staves cracked into squares of
+      glowing orange embers, bright yellow-orange flames licking up across the whole surface, curling scorched hide,
+      sparks. Flames spread evenly over the canvas.
+  xochar:
+    dungeon: xd05
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/t66abc10a, mm8/gcav1flr, mm8/gcav2flr]
+    tone: {like: [mm8/gcav2flr], factor: 0.8}
+    family: MM8 Ogre Fortress timber, burnt out
+    where: a war drum after it has burnt (set_texture on the drum's faces)
+    standin: none
+    what: >-
+      Charred burnt-out wood seen straight on, repeating: black charcoal staves cracked into a grid of small squares
+      (alligator char), grey and white ash in the cracks, a few faint dull red ember spots, curled black scraps of
+      burnt hide.
+  xodaylt:
+    dungeon: xd05
+    size: [256, 128]
+    kind: picture
+    refs: [sky/sky05, mm8/gcav1flr]
+    tone: {luma: 175}
+    family: the outdoor daylight of the MM6-MM8 meadows seen from a cave
+    where: the cave mouth's daylight (exit:x1_hills), stretched once over the mouth's south wall
+    standin: none
+    what: >-
+      The view out of a dark cave mouth into bright daylight, filling the whole canvas: a hillside of green grass and
+      grey rocks falling away, a dirt track winding down between them, rolling green meadows and small trees far
+      below, distant blue hills and a pale bright sky with soft clouds; bright and slightly hazy, as if dazzling seen
+      from the dark. No cave rock in the picture.
+  xobones:
+    dungeon: xd05
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm8/gcav1flr, mm8/gkp1-bs1]
+    tone: {like: [mm8/gcav1flr], factor: 1.15}
+    family: MM8 Ogre Fortress cave rock (gcav1flr)
+    where: the shaman's den, the wall behind the spirit drum
+    standin: gcav1flr
+    what: >-
+      A wall of dark grey rough cave rock like the first reference, with many old yellowed skulls and long bones
+      pressed and wedged into it all over, as in an ossuary: human skulls, big tusked skulls, thigh bones, ribs,
+      some pointing out, rock showing between them. Bones spread evenly over the canvas.
+  xohide:
+    dungeon: xd05
+    size: [128, 256]
+    kind: picture
+    refs: [mm8/gkp1flr, mm8/t66abc10a, mm8/gcav1flr]
+    tone: {like: [mm8/t66abc10a], factor: 1.2}
+    family: MM8 Ogre Fortress (hide and timber)
+    where: the hide curtain on the shaman's steps (platform:hide_curtain)
+    standin: none
+    what: >-
+      A hanging curtain of crude stitched animal hides seen straight on, filling the canvas: patches of brown, tan and
+      grey fur and leather sewn together with thick thongs in big crude stitches, hanging from a pole along the top
+      edge, a few small bones and feathers tied to it, the fur hanging straight down.
+  xopoles:
+    dungeon: xd05
+    size: [128, 128]
+    kind: cutout
+    refs: [mm8/t66abc10a, mm8/gkp1ceil]
+    tone: {like: [mm8/t66abc10a], factor: 1.1}
+    family: MM8 Ogre Fortress timber (t66abc10a)
+    where: the cage gate over the prisoner pit's rim (door:cage_gate)
+    standin: gkp1ceil
+    what: >-
+      A gate of rough wooden poles seen straight on, filling the whole canvas: four thick upright poles and three
+      cross poles in a square lattice, dark brown bark, lashed together with rope where they cross; a straight pole
+      along each of the four edges as the frame. Everything that is not wood or rope is pure flat magenta #FF00FF.
+  xobackgt:
+    dungeon: xd05
+    size: [128, 256]
+    kind: picture
+    refs: [mm8/gkp103a, mm8/gkp1ceil, mm8/t66abc10a]
+    tone: {like: [mm8/gkp103a], factor: 0.9}
+    family: MM8 Ogre Fortress plank door (gkp103a)
+    where: the back gate to X7 (exit:x7_slopes)
+    standin: gkp103a
+    what: >-
+      A heavy door of thick dark brown planks like the first reference, seen straight on, filling the whole canvas:
+      three wide iron straps across it, big rivets, two small square windows of crossed iron bars in its upper half
+      through which bright yellow daylight shines, and a thin bright line of daylight along the bottom edge.
+  xodrag:
+    dungeon: xd05
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/gcav2flr, mm8/gkp1flr]
+    tone: {like: [mm8/gcav2flr], factor: 1.1}
+    family: MM8 Ogre Fortress cave floor (gcav2flr) and straw (gkp1flr)
+    where: drag marks on the sleeping hollows' floor leading to the boulder (plates)
+    standin: gcav2flr
+    what: >-
+      Dark blue-black rough cave floor rock like the first reference seen from straight above, repeating, with two
+      parallel shallow scrape grooves running straight from the top edge to the bottom edge, about a third of the width
+      apart, pale scratched rock and pushed-aside bits of straw along them.

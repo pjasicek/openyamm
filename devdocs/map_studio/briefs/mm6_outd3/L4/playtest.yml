@@ -1,0 +1,241 @@
+# The rebuilt Castle Ironfist (oymap build of this project, installed into output/studio_cal/mm6_outd3/mount) entered
+# by a new game: up through the cliff-top wall's gate onto the plateau, the upper town's doors (the gymnasium and the
+# house across its passage, the smithy, the armoury, the guild of Spirit, the Eye of Newt, the King's Temple, the
+# Throne Room up the steps of the castle's dark gate passage; round three: up the ramp in the castle's west block to
+# its roof, the two tower doors and the King's Library), a Heroes' fountain, the castle pad's plate down to the pit and the pit
+# pad's plate back up; the lower town's tavern, shops and stables, the Zephyr at the docks, the door of Dragoons'
+# Caverns; out by the north edge to Bootleg Bay and back. Door poses are the rebuild's own (`oymap things`).
+id: studio.mm6_outd3.walk
+title: Rebuilt Castle Ironfist, arrival and a walk
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: calib_ironfist.odm
+  - assert: {map: calib_ironfist.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 0.5}
+  # Up the last bend of the road and north through the wall's gate onto the plateau (2080).
+  - walk_to: {x: 16128, y: 11500, z: 2050, z_tolerance: 300, radius: 128, timeout_seconds: 40}
+  - walk_to: {x: 16128, y: 12100, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - assert: {party_position: {x: 16128, y: 12100, radius: 200, z_min: 2040, z_max: 2200}}
+  # The Royal Gymnasium (1589) and the house (1412: one resident, whose talk opens at once) facing each other across the gymnasium's passage.
+  - walk_to: {x: 17308, y: 12830, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 17308, y: 12830, z: 2080, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 1589}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: calib_ironfist.odm, x: 16796, y: 12702, z: 2080, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  # Fine Blades (24) and the Iron Defense (68).
+  - walk_to: {x: 18240, y: 13598, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 18240, y: 13598, z: 2080, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 24}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 19218, y: 14606, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 19218, y: 14606, z: 2080, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 68}
+  - press_action: {action: cancel_dialog}
+  # The guild of Spirit (156), the Eye of Newt (101), the King's Temple (332).
+  - walk_to: {x: 19906, y: 15360, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 19906, y: 15360, z: 2080, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 156}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 19400, y: 16952, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 19400, y: 16952, z: 2080, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 101}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 19700, y: 17600, z: 2080, z_tolerance: 200, radius: 128, timeout_seconds: 40}
+  - walk_to: {x: 19760, y: 18688, z: 2080, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 19760, y: 18688, z: 2080, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 332}
+  - press_action: {action: cancel_dialog}
+  # The Throne Room (222) at the back of the castle's dark gate passage, up its five steps to the landing at 2240.
+  - set_pose: {map: calib_ironfist.odm, x: 17160, y: 15600, z: 2080, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 17160, y: 16900, z: 2240, z_tolerance: 120, radius: 96, timeout_seconds: 40}
+  - assert: {party_position: {x: 17160, y: 16900, radius: 200, z_min: 2200, z_max: 2300}}
+  - set_pose: {map: calib_ironfist.odm, x: 17160, y: 16900, z: 2240, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  # Up the ramp inside the castle's west block from its north foot to the roof (2656), the west tower's door (1225),
+  # across the gate block's top to the King's Library (1215), on to the east tower's door (1240: one resident, Walter
+  # Hargreaves, whose talk opens at once).
+  - set_pose: {map: calib_ironfist.odm, x: 15880, y: 18700, z: 2080, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 15880, y: 17300, z: 2656, z_tolerance: 120, radius: 96, timeout_seconds: 40}
+  - assert: {party_position: {x: 15880, y: 17300, radius: 200, z_min: 2600, z_max: 2760}}
+  - walk_to: {x: 15880, y: 16640, z: 2656, z_tolerance: 120, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 15850, y: 16620, z: 2656, yaw: -2.35, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 1225}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 17096, y: 16600, z: 2656, z_tolerance: 120, radius: 96, timeout_seconds: 40}
+  - assert: {party_position: {x: 17096, y: 16600, radius: 200, z_min: 2600, z_max: 2760}}
+  - set_pose: {map: calib_ironfist.odm, x: 17096, y: 16600, z: 2656, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 1215}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 18424, y: 16640, z: 2656, z_tolerance: 120, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 18460, y: 16620, z: 2656, yaw: -0.785, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, source_id: 852}
+  - press_action: {action: cancel_dialog}
+  # The east Heroes' fountain (event 101: Accuracy +10).
+  - set_pose: {map: calib_ironfist.odm, x: 18115, y: 15286, z: 2080, yaw: 3.0, pitch: -0.5}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  # The castle pad's plate (event 201) sends the party down to the pit; the pit pad's plate (203) back up.
+  - set_pose: {map: calib_ironfist.odm, x: 16384, y: 13800, z: 2080, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {via: [[16384, 14336, 2128]], x: -12045, y: -6073, z: 2, z_tolerance: 600, radius: 40, timeout_seconds: 20}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {party_position: {x: -12045, y: -6073, radius: 400, z_min: -100, z_max: 900}}
+  # From the pad's slab (32) up onto the plate (48); people of the pit's spawn wander over the pad, so the walk
+  # may wait for one to step aside.
+  - set_pose: {map: calib_ironfist.odm, x: -12024, y: -4100, z: 40, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.2}
+  - walk_to: {via: [[-12024, -3800, 48]], x: 17920, y: 14344, z: 2080, z_tolerance: 300, radius: 40, timeout_seconds: 40}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {party_position: {x: 17920, y: 14344, radius: 400, z_min: 2040, z_max: 2300}}
+  # The lower town: the King's Crown (264), the Eagle's Eye (25), Metalweave Armory (64), Berserkers' Fury (202),
+  # Royal Lines (471).
+  - set_pose: {map: calib_ironfist.odm, x: 17280, y: 6000, z: 96, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 17280, y: 6432, z: 96, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 17280, y: 6432, z: 96, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 264}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 16276, y: 4320, z: 96, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 16276, y: 4320, z: 96, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 25}
+  - press_action: {action: cancel_dialog}
+  - set_pose: {map: calib_ironfist.odm, x: 16296, y: 4296, z: 96, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 64}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 15136, y: 4344, z: 96, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 15136, y: 4344, z: 96, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 202}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: 14116, y: 2763, z: 96, z_tolerance: 200, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 14116, y: 2763, z: 96, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 471}
+  - press_action: {action: cancel_dialog}
+  # The docks: along the long deck at 192 to the north finger's end, beside the Zephyr; its cabin door (497) faces
+  # the ship's bow from its deck (376).
+  - set_pose: {map: calib_ironfist.odm, x: 20224, y: 8192, z: 192, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 21350, y: 8192, z: 192, z_tolerance: 100, radius: 96, timeout_seconds: 40}
+  - set_pose: {map: calib_ironfist.odm, x: 21840, y: 7950, z: 376, yaw: -1.5708, pitch: -0.2}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 497}
+  - press_action: {action: cancel_dialog}
+  # Dragoons' Caverns' door (event 92 of the original: the entry screen, house 432).
+  - set_pose: {map: calib_ironfist.odm, x: 16512, y: -14780, z: 96, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - assert:
+      dialog: {active: true}
+  - press_action: {action: cancel_dialog}
+  - assert: {map: calib_ironfist.odm}
+  # Out by the north edge to Bootleg Bay and back: the game lands the party at the rebuilt map's north arrival.
+  - set_pose: {map: calib_ironfist.odm, x: 7420, y: 21200, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 7420, y: 23600, z: 0, z_tolerance: 600, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: outd2.odm}
+  - set_pose: {map: outd2.odm, x: 6921, y: -21753, z: 96, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 6921, y: -23600, z: 96, z_tolerance: 600, radius: 96, timeout_seconds: 40, expect: dialog}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: calib_ironfist.odm}
+  # The game keeps the x where the party left Bootleg Bay and lands it at y 23076 (six runs of round two: x 6726 to
+  # 7032, y 23076 each time).
+  - assert: {party_position: {x: 6921, y: 23076, radius: 600, z_min: -100, z_max: 600}}

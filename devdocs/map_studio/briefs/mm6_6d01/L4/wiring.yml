@@ -1,0 +1,397 @@
+format: 0
+variables: [switch_b, switch_c, switch_d, switch_e, switch_f, switch_g, switch_h, switch_i, switch_j, switch_k, switch_l, switch_n, switch_o, ambush, armour_found, wizard_eye]
+events:
+  - id: evt:a
+    preset: switch
+    source: switch:a
+    title: A
+    effects:
+      - lua: "evt.CastSpell(6, 3, 1, 2496, 4864, 360, 0, 0, 0)"
+    notes: "Original event 19 ('A'): a trap: a fireball (spell 6, mastery 3, level 1) from over the gallery's east end (2496, 4864, 360) at the party; the picture does not change (its `on` is its `off`). The cast is Lua: the `cast` effect's target is a point, the original's is the party (0, 0, 0)."
+  - id: evt:armour
+    preset: script
+    source: panel:armour
+    condition: {not: {map_var: armour_found}}
+    sets: {map_var: armour_found}
+    effects:
+      - lua: "evt.GiveItem(4, ItemType.Armor_)"
+    notes: "Original event 55 (no title): a spot of the sewer passage's east wall gives a random armour of level 4 once (map variable 26). The give is Lua (no word gives a random item of a level and kind)."
+  - id: evt:b
+    preset: switch
+    source: switch:b
+    title: B
+    condition: {not: {map_var: switch_b}}
+    opens: [mover:g55, mover:g56]
+    closes: [mover:g57, mover:g58]
+    sets: {map_var: switch_b}
+    notes: "Original event 20 ('B'): once until P resets it (map variable 2 there), the gate bands of door records [55, 56] slide away and [57, 58] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:c
+    preset: switch
+    source: switch:c
+    title: C
+    condition: {not: {map_var: switch_c}}
+    opens: [mover:g57, mover:g58]
+    closes: [mover:g55, mover:g56]
+    sets: {map_var: switch_c}
+    notes: "Original event 21 ('C'): once until P resets it (map variable 3 there), the gate bands of door records [57, 58] slide away and [55, 56] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:c1
+    preset: script
+    source: panel:chest1
+    title: Chest
+    effects:
+      - open_chest: chest:c1
+    notes: "Original event 41: opens chest record 1, which has no box: the chest picture ch2frnt on the locker's back wall."
+  - id: evt:c10
+    preset: chest
+    source: chest:c10
+    title: Chest
+    notes: "Original event 50: opens chest record 10."
+  - id: evt:c2
+    preset: script
+    source: panel:chest2
+    title: Chest
+    effects:
+      - open_chest: chest:c2
+    notes: "Original event 42: opens chest record 2, which has no box: the chest picture ch2frnt on the locker's back wall."
+  - id: evt:c3
+    preset: chest
+    source: chest:c3
+    title: Chest
+    notes: "Original event 43: opens chest record 3."
+  - id: evt:c4
+    preset: script
+    source: panel:chest4
+    title: Chest
+    effects:
+      - open_chest: chest:c4
+    notes: "Original event 44: opens chest record 4, which has no box: the chest picture ch2frnt on the locker's back wall."
+  - id: evt:c5
+    preset: chest
+    source: chest:c5
+    title: Chest
+    notes: "Original event 45: opens chest record 5."
+  - id: evt:c6
+    preset: chest
+    source: chest:c6
+    title: Chest
+    notes: "Original event 46: opens chest record 6."
+  - id: evt:c7
+    preset: chest
+    source: chest:c7
+    title: Chest
+    effects:
+      - lua: |-
+          if not IsAtLeast(MapVar(ambush), 1) then
+            SetValue(MapVar(ambush), 1)
+            evt.SummonObject(2100, 9856, 4992, -1024, 512, 3, false)
+            evt.SummonMonsters(2, 2, 3, 9856, 4992, -1024, 0, 0)
+          end
+    notes: "Original event 47: opens chest record 7, and the first time a starburst (object 2100) and three goblins of tier B (slot 2) at (9856, 4992, -1024), the vault's middle. Lua: no word does an effect once inside a chest's event, nor summons an object."
+  - id: evt:c8
+    preset: chest
+    source: chest:c8
+    title: Chest
+    notes: "Original event 48: opens chest record 8."
+  - id: evt:c9
+    preset: chest
+    source: chest:c9
+    title: Chest
+    notes: "Original event 49: opens chest record 9."
+  - id: evt:d
+    preset: switch
+    source: switch:d
+    title: D
+    condition: {not: {map_var: switch_d}}
+    opens: [mover:g40, mover:g52, mover:g51]
+    closes: [mover:g57, mover:g58]
+    sets: {map_var: switch_d}
+    notes: "Original event 22 ('D'): once until P resets it (map variable 4 there), the gate bands of door records [40, 52, 51] slide away and [57, 58] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:d1
+    preset: door
+    source: door:d1
+    title: Door
+    action: open
+    notes: "Original event 1: the door opens and stays open."
+  - id: evt:d10
+    preset: door
+    source: door:d10
+    title: Door
+    action: open
+    notes: "Original event 10: the door opens and stays open."
+  - id: evt:d11
+    preset: door
+    source: door:d11
+    title: Door
+    action: open
+    notes: "Original event 11: the door opens and stays open."
+  - id: evt:d12
+    preset: door
+    source: door:d12
+    title: Door
+    action: open
+    notes: "Original event 12: the door opens and stays open."
+  - id: evt:d13
+    preset: door
+    source: door:d13
+    title: Door
+    action: open
+    notes: "Original event 13: the door opens and stays open."
+  - id: evt:d14
+    preset: door
+    source: door:d14
+    title: Door
+    action: open
+    notes: "Original event 14: the door opens and stays open."
+  - id: evt:d15
+    preset: door
+    source: door:d15
+    title: Door
+    action: open
+    notes: "Original event 15: the door opens and stays open."
+  - id: evt:d16
+    preset: door
+    source: door:d16
+    title: Door
+    action: open
+    notes: "Original event 16: the door opens and stays open."
+  - id: evt:d17
+    preset: door
+    source: door:d17
+    title: Door
+    action: open
+    notes: "Original event 17: the door opens and stays open."
+  - id: evt:d18
+    preset: door
+    source: door:d18
+    title: Door
+    action: open
+    notes: "Original event 18: the door opens and stays open."
+  - id: evt:d2
+    preset: door
+    source: door:d2
+    title: Door
+    action: open
+    notes: "Original event 2: the door opens and stays open."
+  - id: evt:d23
+    preset: door
+    source: door:d23
+    title: Door
+    action: open
+    notes: "Original event 61: the door opens and stays open. Door record 23."
+  - id: evt:d3
+    preset: door
+    source: door:d3
+    title: Door
+    action: open
+    notes: "Original event 3: the door opens and stays open."
+  - id: evt:d30e
+    preset: door
+    source: door:d30e
+    action: open
+    opens: [door:d30w]
+    notes: "Original event 63, the east leaf."
+  - id: evt:d30w
+    preset: door
+    source: door:d30w
+    action: open
+    opens: [door:d30e]
+    notes: "Original event 63 (no title), bound to both towers' back walls (faces 1626, 1627): door record 30 rises with both. Clicked here on the west leaf."
+  - id: evt:d4
+    preset: door
+    source: door:d4
+    title: Door
+    action: open
+    notes: "Original event 4: the door opens and stays open."
+  - id: evt:d5
+    preset: door
+    source: door:d5
+    title: Door
+    action: open
+    notes: "Original event 5: the door opens and stays open."
+  - id: evt:d6
+    preset: door
+    source: door:d6
+    title: Door
+    action: open
+    notes: "Original event 6: the door opens and stays open."
+  - id: evt:d60
+    preset: door
+    source: door:d60
+    side: room:s51
+    title: Door
+    action: open
+    notes: "Original event 60: both leaves (records 45, 46) part, clicked from the corridor's side only; the leaves' faces toward the cave run event 38, which has no handler (nothing happens), as here."
+  - id: evt:d7
+    preset: door
+    source: door:d7
+    title: Door
+    action: open
+    notes: "Original event 7: the door opens and stays open."
+  - id: evt:d8
+    preset: door
+    source: door:d8
+    title: Door
+    action: open
+    notes: "Original event 8: the door opens and stays open."
+  - id: evt:d9
+    preset: door
+    source: door:d9
+    title: Door
+    action: open
+    notes: "Original event 9: the door opens and stays open."
+  - id: evt:dais
+    preset: switch
+    source: switch:dais
+    title: Switch
+    opens: [mover:towers]
+    notes: "Original event 62: the button (door record 31) is pushed in and the two towers' walls (door record 32) sink."
+  - id: evt:e
+    preset: switch
+    source: switch:e
+    title: E
+    condition: {not: {map_var: switch_e}}
+    opens: [mover:g57, mover:g58]
+    closes: [mover:g40, mover:g52, mover:g51]
+    sets: {map_var: switch_e}
+    notes: "Original event 23 ('E'): once until P resets it (map variable 5 there), the gate bands of door records [57, 58] slide away and [40, 52, 51] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:exit
+    preset: exit
+    source: exit:way_out
+    title: Exit Door
+    notes: "Original event 51: to New Sorpigal (oute3.odm) at (-18400, -14982, 1600), facing 512 of 2048."
+  - id: evt:f
+    preset: switch
+    source: switch:f
+    title: F
+    condition: {not: {map_var: switch_f}}
+    opens: [mover:g36, mover:g47, mover:g48]
+    closes: [mover:g55, mover:g56]
+    sets: {map_var: switch_f}
+    notes: "Original event 24 ('F'): once until P resets it (map variable 6 there), the gate bands of door records [36, 47, 48] slide away and [55, 56] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:fountain
+    preset: script
+    source: platform:spout
+    condition: {not: {map_var: wizard_eye}}
+    sets: {map_var: wizard_eye}
+    effects:
+      - lua: "evt.CastSpell(12, 15, 1, 0, 0, 0, 0, 0, 0)"
+    notes: "Original event 64 (no title), bound to the fountain's rims, spout and fire: Wizard Eye (spell 12) on the party once until the daily reset. Bound here to the spout alone (an event has one source)."
+  - id: evt:fountain_reset
+    preset: script
+    trigger: timer
+    every: 2880
+    effects:
+      - set:
+          var:
+            map_var: wizard_eye
+          value: 0
+    notes: "Original event 65: daily at midnight the fountain's Wizard Eye is ready again. Here every 2880 half minutes (a day) from entry: no word for a timer at an hour of the day indoors."
+  - id: evt:g
+    preset: switch
+    source: switch:g
+    title: G
+    condition: {not: {map_var: switch_g}}
+    opens: [mover:g59, mover:g60]
+    sets: {map_var: switch_g}
+    notes: "Original event 25 ('G'): once until P resets it (map variable 7 there), the gate bands of door records [59, 60] slide away and none come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:h
+    preset: switch
+    source: switch:h
+    title: H
+    condition: {not: {map_var: switch_h}}
+    opens: [mover:g38, mover:g44]
+    closes: [mover:g36, mover:g47, mover:g48]
+    sets: {map_var: switch_h}
+    notes: "Original event 26 ('H'): once until P resets it (map variable 8 there), the gate bands of door records [38, 44] slide away and [36, 47, 48] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:i
+    preset: switch
+    source: switch:i
+    title: I
+    condition: {not: {map_var: switch_i}}
+    opens: [mover:g36, mover:g47, mover:g48]
+    closes: [mover:g38, mover:g44]
+    sets: {map_var: switch_i}
+    notes: "Original event 27 ('I'): once until P resets it (map variable 9 there), the gate bands of door records [36, 47, 48] slide away and [38, 44] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:j
+    preset: switch
+    source: switch:j
+    title: J
+    condition: {not: {map_var: switch_j}}
+    opens: [mover:g36, mover:g47, mover:g48]
+    closes: [mover:g40, mover:g52, mover:g51]
+    sets: {map_var: switch_j}
+    notes: "Original event 28 ('J'): once until P resets it (map variable 10 there), the gate bands of door records [36, 47, 48] slide away and [40, 52, 51] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:k
+    preset: switch
+    source: switch:k
+    title: K
+    condition: {not: {map_var: switch_k}}
+    opens: [mover:g59, mover:g60]
+    closes: [mover:g57, mover:g58]
+    sets: {map_var: switch_k}
+    notes: "Original event 29 ('K'): once until P resets it (map variable 11 there), the gate bands of door records [59, 60] slide away and [57, 58] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:l
+    preset: switch
+    source: switch:l
+    title: L
+    condition: {not: {map_var: switch_l}}
+    opens: [mover:g38, mover:g44]
+    closes: [mover:g55, mover:g56]
+    sets: {map_var: switch_l}
+    notes: "Original event 30 ('L'): once until P resets it (map variable 12 there), the gate bands of door records [38, 44] slide away and [55, 56] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:m
+    preset: switch
+    source: switch:m
+    title: M
+    effects:
+      - teleport:
+          to: [9000, 1916, -767]
+          direction: 22
+    notes: "Original event 31 ('M'): the party is moved to (9000, 1916, -767) in the east cave, facing 128 of 2048 (22 degrees); the picture does not change."
+  - id: evt:n
+    preset: switch
+    source: switch:n
+    title: N
+    condition: {not: {map_var: switch_n}}
+    opens: [mover:g40, mover:g51, mover:g52]
+    closes: [mover:g36, mover:g47, mover:g48]
+    sets: {map_var: switch_n}
+    notes: "Original event 32 ('N'): once until P resets it (map variable 13 there), the gate bands of door records [40, 51, 52] slide away and [36, 47, 48] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:o
+    preset: switch
+    source: switch:o
+    title: O
+    condition: {not: {map_var: switch_o}}
+    opens: [mover:g57, mover:g58]
+    closes: [mover:g59, mover:g60]
+    sets: {map_var: switch_o}
+    notes: "Original event 33 ('O'): once until P resets it (map variable 14 there), the gate bands of door records [57, 58] slide away and [59, 60] come back, and the switch's picture turns to T1swDu. Used again before the reset: nothing."
+  - id: evt:p
+    preset: switch
+    source: switch:p
+    title: P
+    closes: [mover:g40, mover:g51, mover:g52, mover:g36, mover:g47, mover:g48, mover:g38, mover:g44, mover:g55, mover:g56, mover:g57, mover:g58, mover:g59, mover:g60]
+    effects:
+      - lua: |-
+          for _, v in ipairs({MapVar(switch_b), MapVar(switch_c), MapVar(switch_d), MapVar(switch_e), MapVar(switch_f), MapVar(switch_g), MapVar(switch_h), MapVar(switch_i), MapVar(switch_j), MapVar(switch_k), MapVar(switch_l), MapVar(switch_n), MapVar(switch_o)}) do SetValue(v, 0) end
+          -- the switches' pictures back to T1swDd: their faces by the cogs ids.lock.yml keeps
+          for _, cog in ipairs({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15}) do evt.SetTexture(cog, "t1swdd") end
+    notes: "Original event 34 ('P'): every switch B to O is set back (its variable to 0, its picture to T1swDd) and every gate band comes back. The pictures by Lua (no word sets a switch's picture back); the cog numbers are filled in after the first build."
+  - id: evt:plates_load
+    preset: script
+    trigger: load
+    lua: |-
+      if IsAtLeast(MapVar(switch_b), 1) then evt.SetTexture(2, "t1swdu") end
+      if IsAtLeast(MapVar(switch_c), 1) then evt.SetTexture(3, "t1swdu") end
+      if IsAtLeast(MapVar(switch_d), 1) then evt.SetTexture(4, "t1swdu") end
+      if IsAtLeast(MapVar(switch_d), 1) then evt.SetTexture(5, "t1swdu") end
+      if IsAtLeast(MapVar(switch_f), 1) then evt.SetTexture(6, "t1swdu") end
+      if IsAtLeast(MapVar(switch_g), 1) then evt.SetTexture(7, "t1swdu") end
+      if IsAtLeast(MapVar(switch_h), 1) then evt.SetTexture(8, "t1swdu") end
+      if IsAtLeast(MapVar(switch_i), 1) then evt.SetTexture(9, "t1swdu") end
+      if IsAtLeast(MapVar(switch_j), 1) then evt.SetTexture(10, "t1swdu") end
+      if IsAtLeast(MapVar(switch_k), 1) then evt.SetTexture(11, "t1swdu") end
+      if IsAtLeast(MapVar(switch_l), 1) then evt.SetTexture(12, "t1swdu") end
+      if IsAtLeast(MapVar(switch_n), 1) then evt.SetTexture(14, "t1swdu") end
+      if IsAtLeast(MapVar(switch_o), 1) then evt.SetTexture(15, "t1swdu") end
+    notes: "Original event 66 (on load): each switch whose variable is set shows T1swDu. As the original: E's picture follows D's variable (the original tests MapVar(4) twice), a slip kept."

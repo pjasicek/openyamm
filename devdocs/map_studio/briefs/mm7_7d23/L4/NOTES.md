@@ -977,3 +977,45 @@ after it). The tunnel was tried in `r5/tunnel_trial/` and taken over whole; the 
 - The tunnel's junction stretch scores lower in textures than the plain room did; kept, the main way's section is the
   original's and the stretch is what the tool's side doorways make.
 - The compare points in the pilot pits (defect 2) dropped and came back without a change aimed at them.
+
+## Ninth merge lines (2026-11-13, afternoon)
+
+Copy before: `output/studio_cal/mm7_7d23/m9_backup/`.
+
+- **Spawn groups**: `group: 51` on all 32 spawn points (the original's 32 monster and 20 item spawn records are all
+  group 51; the item spawns are `items` here). The built map's spawns read group 51.
+- **The locker's chance failure was not the group.** With group 51 the playtest still failed 3 runs of 10 at the
+  rifle (step 106). Probes (`output/studio_cal/mm7_7d23/m9_locker/`, the playtest cut after the pick-up, run 9 to 12
+  times each): no living droid stood near the party when it failed (`actor_count` near the locker, living only, found
+  just the placed invisible droid15), and the use key hit an Assassin or Sentinel Droid at distance 0 or 111, at the
+  same points every time: a droid killed at the party's feet by the clearing, whose corpse takes the use key. The
+  droids walk up to the party unprovoked and turn hostile at its side, so clearing cannot kill them sooner. Playtest
+  now: clear before standing at the locker and while its shutter drops, then step 130 aside (to 1560, -7290) before the
+  pick-up, as a player steps off a corpse. Probe 12 of 12; the playtest **10 of 10**, and again 10 of 10 after the
+  changes below.
+- **Faces in one plane** (the lead's request): **35 before, 6 after** (the original has none). Recorded edit:
+  `output/studio_cal/mm7_7d23/m9_coplanar_edit.py`.
+  - The hall's four flights (20 pairs): the long ones ran 64 onto their landings and the short ones 8 into the landing
+    and 8 into the gallery. They now end at the landing's edge (-6400) and run from the landing's edge (x 2880,
+    `from_height: 1372`) to the gallery's (x 2688); the east ones alike. The original's last riser is the edge of the
+    floor it climbs to (faces 331, 343 to 346) with treads of 64; a flight cannot end so (only into a doorway), so the
+    treads are now 58.7 and 48 (were 64 and 52). Gap: a flight whose last riser is the higher floor's edge.
+  - Door corr_cell4 (the original's d59): its free edge moves 191 west, a folding leaf (faces 1155 to 1157); built as
+    a leaf sliding east into the wall, open it lay in cell 3's wall plane. Now `kind: slide_right, fold: true`.
+  - The west lift's mouth slab ended in the shaft's wall plane: its end stands 2 behind it. The west lift's block, the
+    lower east lift's plate and the upper east lift's plate, raised, lay with a side in a neighbouring room's wall
+    plane, and the top landing's platform had its sides on the room's edges toward the lower shaft and the east
+    landing: those sides now stand 2 inside (sizes 254 instead of 256; the platform's outline 2 in on those edges).
+  - Left (6): the cargo pit. The shaft is 16 wider than the hole in the bay's floor on three sides (the studio wants a
+    floor hole 16 from the walls of the room below; the original's pit walls are flush with the hole, faces 139, 142),
+    so the shaft's ceiling keeps a 16-wide ring at 1036 under the rim (door 38), whose underside lies in that plane.
+    Fixing it in the project would mean a narrower rim or a rim off the floor.
+- Pictures (`output/studio_cal/mm7_7d23/m9_pics/sheets/`): 01 to 04, the hall's stairs and the west lift's mouth beside
+  the original's: alike; the side walls end at -6400 with a small step against the rails.
+- **Scores**: `oymap compare` 97.5 % before, **97.4 % after** (sector-weighted 97.48 to 97.39: sectors 3 and 4, the
+  hall, from the shorter treads; textures 0.953 to 0.952); offset agreement 0.458 to 0.456.
+- **Audit**: the spawn groups add no finding. Squashed (11 textures): a2c on the doors' leaves (stretched, 0.5 down;
+  the original 1:1), the sfpnl light panels (2 to 4 across), sfw1a/sfw1b/sfw3 on sloped and uneven faces: the studio's
+  laying of door pictures and panels, not changed here. Click.silent 66 (the original 61: unpowered doors and switches
+  silent alike; not traced one by one). Monsters droid07/droid08 inside each other and droid10 inside the deck's parapet:
+  at the original's actor places.

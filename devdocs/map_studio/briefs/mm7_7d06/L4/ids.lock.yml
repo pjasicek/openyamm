@@ -26,9 +26,13 @@ sectors:
   room:ne_pocket: 21
   room:ne_pocket_neck: 22
   room:north_cavern: 23
+  room:north_cavern_upper: 39
   room:passage_n: 24
   room:passage_s: 25
   room:south_cavern: 26
+  room:south_cavern_n: 40
+  room:south_cavern_n_north: 41
+  room:south_cavern_w: 42
   room:spider_sinkhole: 27
   room:temple_stair: 28
   room:temple_stair_flight: 29
@@ -120,3 +124,25 @@ map_vars:
   once.bookcase_s5: 14
   once.button_n: 15
   once.button_s: 16
+decorations:
+  deco:torch_aisle_n_e: 0
+  deco:torch_aisle_n_w: 1
+  deco:torch_aisle_s_e: 2
+  deco:torch_aisle_s_w: 3
+  deco:torch_anteroom_n: 4
+  deco:torch_anteroom_s: 5
+  deco:torch_apse: 6
+  deco:torch_corridor_n_emitter: 7
+  deco:torch_corridor_n_mid: 8
+  deco:torch_corridor_n_west: 9
+  deco:torch_corridor_s_emitter: 10
+  deco:torch_corridor_s_mid: 11
+  deco:torch_corridor_s_west: 12
+  deco:torch_dormitory_n: 13
+  deco:torch_dormitory_s: 14
+  deco:torch_dormitory_w_n: 15
+  deco:torch_dormitory_w_s: 16
+  deco:torch_hidden_passage_n: 17
+  deco:torch_hidden_passage_s: 18
+  deco:torch_library_n: 19
+  deco:torch_library_s: 20

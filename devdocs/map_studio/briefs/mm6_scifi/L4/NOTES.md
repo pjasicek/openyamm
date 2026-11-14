@@ -1033,3 +1033,30 @@ Nothing was moved away from the original's measured shape. The gate slab's doorw
 the ceiling (the original's slab hangs 32 over the sill): a shape the measure does not see either way, chosen because
 the open slab then rises to the original's 641 and the passage floor is the original's 409. The airlock step's ceiling
 went from 524 (32 above the original's frame, 32 under its coffer) to the original's two heights: no score change.
+
+## Ninth merge lines (2026-11-13, afternoon)
+
+Copy before: `output/studio_cal/mm6_scifi/m9_backup/`. Each line checked against the original's door records first.
+
+- **The east porch's frame**: `open:hall_s6_porch` `reveal` swankdk 128x128 (the original's faces 127, 128, 1135:
+  1:1; batch nine's copy had 64x64, a half-size picture) and `back_reveal` swhz3dk 32x32 (1124, 1125).
+- **Door edges** (`edge_surface`, 64x64): swr4dk on 15 doors (the original's records 1, 3, 4, 6, 7, 8, 9, 11, 12, 15,
+  16, 18, 19, 20, 21, 25: the faces that move whole); swr3 on the east store (record 5, face 1148) and the vault
+  (record 14, 1159); **swhor4dk on the airlock**, not swr4dk: its records 27 and 28 carry swhor4DK (2646, 2647).
+- **The gate slab**: `bottom_surface` swceilf 256x256 (record 23's underside, face 753). Added beside the lines: the
+  hatch's and the plug's `top_surface` swfloor2b 128x128 (records 13 and 17: their tops, 1665 and 1692, are floor
+  tiles, which the sunk leaf shows as floor; they had taken the wall's texture).
+- **Faces in one plane** (the lead's request): 1 before, 0 after (the original has 1 of its own, 292/940 in sector
+  10). The passage from the generator room (`open:s23_s9_west_passage`) was 256 high where the original's portal (face
+  358) is the passage's whole height (196 to 463): `height: full`.
+- Pictures (`output/studio_cal/mm6_scifi/m9_pics/sheets/`, `output/studio_cal/m9/tools/pairs.py m9_pics/spec.yml`):
+  04 and 05 the porch frame open from both sides (the jambs as the original's; still different: the original's head
+  over the leaves is the leaves' stretched top faces, SWr4DK, and over the porch half swankdk (1138), where the
+  rebuild's porch half takes back_reveal's swhz3dk: a frame's head goes with its sides in the vocabulary), 11 the gate
+  slab open (its red underside as the original's), 12 and 13 the hatch and the plug sunk.
+- **Scores**: 99.4 % before and after (sector-weighted 99.455 both), offset agreement 0.506 both. Playtest four of four
+  after every change.
+- **Audit**: the lines add no finding. `texture.squashed`: swll4dk on the tubes' slanted faces (0.65 down) is laid as
+  the original lays them (0.76 down, faces 402, 404, 1425 to 1429); swwala on ceiling regions and swpipes/swankdk panels
+  with a `size` half their picture's (rooms.yml lines 510, 553, 659, 754 to 762, 1394 to 1402, 1934; the original lays
+  them 1:1): not changed, for a texture round.

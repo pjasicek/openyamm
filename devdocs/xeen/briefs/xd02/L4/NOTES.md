@@ -4,6 +4,12 @@ A new dungeon built from the written brief (L1 to L3 here, `devdocs/xeen/MAPS.md
 MONSTERS_AND_ITEMS.md) with the Map Studio, by one agent, 2026-11-13, after XD-01's two passes. No original exists;
 nothing was measured from a shipped map except scale, light and dressing (below).
 
+**After the third pass** (section "Third pass: the user's walk" at the end): the user's six points of his walk
+through the second pass fixed; 0 faces in one plane; playtest 191 steps four of four on the tenth merge's binary;
+installed in `output/studio_play/xeen_root`. **After the second pass** (section "Second pass: the user's lessons"):
+main rooms at the shipped median (upper quarter 1.80 M), 0 faces in one plane (54 before). The paragraphs below are
+the first pass's.
+
 State: `oymap validate` no issues, `fmt --check` clean; the build's five warnings are all placed monsters' names
 (`Tallymaster`, `Tiger Mole`, gap 9). 43 rooms, 43 sectors; 37 reached on foot, the other six by design (three bunk
 shelves 160 high, three ore chutes 384 up a wall). The playtest (171 steps) passes four runs of four
@@ -490,3 +496,296 @@ No windows, portholes, signs or symbols of another place in the new set.
   shape unchanged); before/after sheets `texpass/fin_1.jpg` to `fin_9.jpg`; door, chest and cart close-ups
   `texpass/look2/`; the first look `texpass/look1/`. `texpass/tour.sh` installs a build into the scratch root (copies
   that unlink first) and takes a tour.
+
+## Generated textures (2026-11-13)
+
+The "Textures to generate" list above, made by Codex image generation with the family's shipped masters as
+references and installed in `output/studio_play/xeen_root` only (sources, prompts, raw returns, checks:
+`level_generation/textures_xeen/`, its README). Every texture is x4 art (master 4x the size below).
+
+| Name | What | Size | Family | Where used |
+|---|---|---|---|---|
+| `xngold5` | Gold veins painted into 6d05's `t3ll5` (the rock is the master's own pixels) | 256 x 256 | MM6 Snergle's Caverns `t3ll5` | `switch:vein_sorting`, `switch:vein_rim` |
+| `xngold6` | The same in `t3ll6` | 256 x 256 | `t3ll6` | `switch:vein_rich`, `vein_se`, `vein_sw` |
+| `xngoldcr` | The same in `crstont` | 256 x 256 | `crstont` | `switch:vein_flooded` |
+| `xncartsd` | Riveted iron tub side, rolled rim, two strap bands, rust | 128 x 64 | MM6/MM7 iron (`ch1frntb` bands, `ch004i`) | sides of the four standing and two tipped carts (tipped carts' up faces too), side boards of the trestle car and the east cart |
+| `xnbasred` | Wet blue-grey basin stone crusted red | 128 x 128 | `crstont` | red pool: its level's edge and floor, the water platform's sides |
+| `xnbasgld` | The same crusted ochre-gold | 128 x 128 | `crstont` | gold pool basin |
+| `xnbasblu` | The same crusted turquoise and blue | 128 x 128 | `crstont` | blue pool basin |
+| `xnbasgrn` | 6d09's dressed blocks crusted moss-green and verdigris | 128 x 128 | MM6 Snergle's Iron Mines `d7trim8` | green pool kerb |
+| `xngoldwtr` | Shallow water over gold sand and nuggets, from above | 128 x 128 | MM6 water / MM7 gold | `platform:gold_pool` top |
+| `xntally` | Dressed sandstone slab covered in chalked tallies and dwarf numerals | 256 x 128 | 6d09 `d7wl2ctr` | the tally room's four panels |
+| `xnchalk` | A chalked strongbox, an arrow and two strokes on `t3ll5` (painted into the master) | 64 x 64 | `t3ll5` | `panel:chalk_mark` |
+| `xnclansgn` | Three rough planks daubed in red: three skulls, MAD DWARF CLAN, DIG ELSEWHERE | 256 x 128 | 6d05 planks (`d2ceil2`, `t3dr1`) | `panel:clan_sign` |
+| `xnweb` | Thick matted web over dark rock, opaque | 128 x 128 | `crstont` behind web | `door:web_wall`, `chest:cocoon` |
+| `xngrille` | Riveted dark iron grille, see-through (alpha) | 128 x 256 | 6d05 iron | `door:hoist_gate` (both sides) |
+| `xnrustirn` | Dark wrought iron with rust and pitting | 64 x 64 | 6d05 iron / `ch004i` | every former `ch004i` surface (111: rails, buffer stops, wheels, hoist cage, chain, brake wheel, points lever, winch ends) |
+
+How they were made to sit in the set: the veins and the chalk mark are edits of the shipped masters, kept only where
+the model changed them, so the rock round them is the wall's own; the switch shows a 192 x 128 window of the master
+(the chalk panel a 160 x 80 one) centred on the vein, so its rock is at the wall's scale and the old dark rectangle
+of `c1gold` is gone (`01`-`06-vein`). The basins, water, web and iron tile (3x3 checked); signs, slab, cart side and
+grille are single pictures made at their faces' proportions (the grille 192 x 320, the cart side 224 x 72, the
+clan sign 2:1).
+
+Pictures: `output/studio_cal/xd02/textures_gen/before/` and `after/` (same cameras; `pairs.jpg`). Notes from looking:
+the veins now read as gold in the rock, not a patch; the hoist gate is a see-through iron grille; the carts are iron
+tubs; the rails are dark iron instead of white stripes; the clan sign and chalk mark are readable (the mark small at
+range, as a clue). The web wall shows reddish from the galleries: it is a secret face and the game's secret pulse
+tints it (the stand-in had the same tint). Not shown: `switch:vein_flooded` has no clear view from the flooded working
+in either build (`oymap things`: "no place with a floor and a clear view found within 176 of it"; `04-vein-4` shows
+rock in both): a placement issue, not a texture one. The tally slab reads as an even grid of strokes, plainer than
+the bronze plaques it replaced.
+
+Playtest on the play root after the change: `playtest.yml` 4 of 4, 171 steps
+(`output/studio_cal/textures_gen_tests/four.out`).
+
+## Second pass: the user's lessons (2026-11-13)
+
+The user had not played XD-02; this pass applies what he found in XD-01 and XD-04 (REBUILD_PROCEDURE.md "What the
+measure does not see" to "Textures for a new dungeon") and the ninth merge's checks. The project before it is in
+`output/studio_cal/xd02/pass2_backup/`; scratch in `output/studio_cal/xd02/pass2/` (`go.sh` builds against the play
+root's assets, where the generated textures live, and installs into the private root `root/`, a hard-link copy of
+`output/studio_play/xeen_root`; `root_before/` keeps the play root's three map files as they were; `test.sh` runs the
+playtest). Scripted, each a one-off whose whole diff was read, in order: `edit_p2.py` (five rooms enlarged with their
+contents), `edit_p2b.py` (the Deep Line station, findings, chests, levers), `edit_p2c.py` (the tablet), `edit_p2d.py`
+and `edit_p2e.py` (carts, trestle, hoist, exit), `edit_p2f.py` and `edit_p2g.py` (ledge torches, head frame),
+`edit_p2h.py` to `edit_p2k.py` (what a player reads, the brake, the winch, the points), `edit_p2l.py` to
+`edit_p2n.py` (carts again, after looking); two hand edits (a capstan bar's height, two doors' titles). The project
+files are the source; none of these is to be run again.
+
+### Room sizes (`scale_bands.py`, `pass2/scale_before.txt`, `scale_after.txt`)
+
+| Figure | Before | After | Shipped p25 / median |
+|---|---|---|---|
+| Bigger rooms: upper-quarter room floor area | 0.93 M (20th percentile, below p25) | **1.80 M (53rd)** | 1.06 M / 1.64 M |
+| Largest room | 5.62 M | 5.62 M | 3.68 M / 6.13 M |
+| Typical ceiling height | 482 | 504 | 394 / 521 |
+| Taller rooms: upper-quarter height | 640 (56th) | 640 (56th) | 522 / 570 |
+| Typical doorway width | 256 | 256 | 256 / 256 |
+| Floor area (`metrics`) | 37.7 M | 42.0 M (M band 40-70) | |
+
+The upper quarter is the 12th largest of 43 sectors as `oymap metrics` counts it, so twelve rooms had to reach the
+median; six did (stope floor, flooded working, Turntable, chasm, spider galleries, mess hall). Per room (sector floor
+area as the measure counts it, platform tops included; `pass2/sectors_before_named.txt`, `sectors_final_named.txt`):
+
+| Room | Before | After | What changed |
+|---|---|---|---|
+| Red Dwarf chapel | 1.43 M (octagon 1280, 512 high) | 1.94 M (1408 by 1600, 576 high) | the octagon drawn out 1.1 east-west and 1.25 south from its door wall and set 64 east (clear of the stope rim); pillars, rocks and braziers moved with it, the pool, kerb and stone lantern kept at their size round the new middle; the tablet now a plaque in the south wall (below) |
+| Adit mouth | 0.97 M (1024 by 768) | 1.92 M (1280 by 1280) | 256 east and 256 to north and south: the portal hall; timber sets, rails, posts moved; the cart against the north wall, the sign beside the drift's mouth |
+| Top Station | 1.52 M (1280 by 896) | 1.90 M (1664 by 896) | 384 east, a fourth timber set; the barrels moved with the east wall |
+| Deep Line station | 0.67 M | 1.87 M | a marshalling bay south of the rails (to 1230 by 1860): a rail spur, a spoil heap, barrels, a lantern, a torch, a spider spawn |
+| Tally room | 0.73 M (hexagon 896, 448 high) | 1.80 M (1434, 576 high) | the hexagon 1.6 times about its door wall; tallies on two slabs a wall, two more torches; the table, the tallymaster behind it and the strongbox behind him, west |
+| Sorting floor | 1.50 M (1408 by 1024) | 1.70 M (1408 by 1216) | 192 further north: chutes, lintel, beams, ore and spawns moved with the wall |
+| Bunks, chutes, crawl, grottoes, drifts, burrow, strongroom | | unchanged | small on purpose, or tunnels |
+
+The plan and order are the brief's: the same rooms joined the same way in the same places. `oymap solve` opens it in
+the same steps (0: 7 sectors; 1: to 27; 2: to 35; 3: needs item 2111, to 37; 4: the winch), 37 of 43 reached, the six
+others the bunk shelves and the chutes as before (`pass2/solve_after.txt`). Not enlarged, though the lead's list names
+drifts: the haul drift (0.77 M) and foot drift (0.85 M) are 384- and 320-wide tunnels whose widening would have run
+into the sorting floor and the station; the stope rim (0.44 M) lies between the pit and the chapel.
+
+### Each rule and how it is met
+
+Pictures: the interactive things before (`pass2/things_before/`, the play root's build, `b1.jpg` to `b3.jpg` sheets)
+and after (`pass2/things_after/`, `contact.png`); rooms and props before | after `pass2/pairs_1.jpg` to `pairs_6.jpg`
+(where the old room was smaller the before camera stands in rock: compare `shots2/` for those), close-ups
+`pass2/shots_after2/`, final tour `pass2/shots_final/`.
+
+- **Faces in one plane** (the lead's count): 54 pairs before, **0** after. Trestle caps and ties now span between the
+  legs' inner faces (they crossed the legs' faces and tops); winch and fall parts apart; the flooded working's two
+  walkways meet instead of overlapping; the lamp rack's posts end under its shelf; the haul drift's posts 36 wide
+  under 32-wide caps; the sorting floor's lintel inside the room (it ran into the chute openings' reveals); the rim
+  ledge's two rails at different heights where they meet; the hoist cage's corner posts proud of its rails; the Deep
+  Line exit face the whole end wall (it lay over the wall); the capstan's bars at two heights.
+- **Lootable things read as lootable, nothing else looks like a chest:** the footlockers, payroll chest and strongbox
+  are `kind: ch1` (end, middle, end; they were one picture stretched), all named **Chest** (they were Footlocker,
+  Payroll chest, The clan's strongbox, Web-wrapped bundle); the cocoon is now a web-wrapped body on the floor (a
+  block in `xnweb`, not clicked) with the miner's ch1 Chest beside it; the noose corpse (Corpse08, a hanged man) is a
+  lying skeleton (`dec05`). The winch was a plank box between posts and read as a crate or dresser: it is a capstan
+  (an eight-sided timber drum, an iron head, two bars). The carts (the user's "carts read as crates"): every cart now
+  stands on four iron wheels outside a timber chassis, its tub flaring from 180 by 100 to 200 by 120 with the
+  generated cart side at its own 2:1 shape and ore heaped in it; the three tipped carts (boxes on their sides) became
+  carts left off the rails, since a box on its side read as a crate even with ore spilled from it
+  (`shots_after2/01-adit-cart.png`, `06-stope-cart.png`, `07-stope-cart-2.png`). They still read as iron tubs more
+  than as mine carts from far off (no curved tub, no model).
+- **Hover names and reasons:** every clicked thing has one (`pass2/things_after.txt`: 44 things, the rockfall's step
+  plate the only one without, as XD-01's: it is stepped on). Doors are Door / Plank door / Carved stone doors.
+- **Signs and long texts:** the clan's warning (now "Warning sign") opens a message window (`window: true`), as the
+  chalk mark and the tablet do; every status line is now under 65 characters (points, car locks, web, winch, brake,
+  vein, exits); the longer explanations (the brake without its key, the rim's hoist lever before the cage is ridden)
+  are message windows.
+- **No silent clicks:** a mined vein says "Only bare rock is left where the seam was" (a condition with
+  `locked_text`: with `else_effects` the build flips the switch back to its gold picture; `pass2/build2` Lua showed
+  it), the winch's second turn "The winch's rope hangs slack: the fall is gone", the freed brake "The chain lies
+  slack in the rail bed", the rim's hoist lever before the cage was ridden explains the brake in a window. The
+  playtest asserts each.
+- **Puzzles a player can solve; no riddles:** none is typed. The clues: the chalk mark (sorting floor, clicked, a
+  window: a strongbox and an arrow into the wall) before the strongroom's dry-stone wall; the chapel tablet (a
+  window: "THE BLUE SLEEPS BEHIND THE SILK") before the web wall; the Deep Line's brake now says where its key is
+  ("the clan keeps it, with the tallymaster in his tally room off the mess hall"); the west adit's exit says "The
+  winch might drag it away" beside the winch; the cars' locks name the points at the Turntable, whose lever is beside
+  the disc with the green lamps.
+- **Nothing floats or hangs from nothing, nothing inside something else:** the hanging braziers (`brzier00`, a bowl
+  on a chain) stood on the floor in the Turntable, the mess hall, the Top Station and the chapel. In the station and
+  the mess hall they now hang from cap beams (height 300 under a beam 448 up: the chain's top in the beam,
+  `shots_after2/02-station-brazier.png`); in the Turntable and the chapel, which have no beams, they are standing pole
+  torches (`dec56`). The spiral's five ledge torches stood inside the rock benches (a wall decoration's
+  `floor_height` is not used: they were at the stope floor + 200, z -952); now at heights above the room's floor that
+  put them 200 over their ledges. The lamp room's five unlit lamps were on the wrong wall, one inside the torch: now
+  over the rack on the east wall, the shelf touching that wall. The sorting floor's chandeliers reach their beams;
+  the tallymaster no longer stands in his table; barrels, wheels, the head frame's cross-head (now a sheave beam out
+  of the rock between the arms) and the repair niche's cart (on two blocks) all stand on something.
+- **No stretched pictures:** the chests (above), the flatcars' side boards (the cart side at 8:1, now iron at its
+  size), the standing carts' sides (2:1 faces), the tablet (a wall panel at the plaque's own 2:1; its plinth's ends
+  were squashed), the chalk mark (square, at its 64 by 64). Left: the trestle's X braces' raked end faces, 16 by 24,
+  inside the legs and never seen (the build lays a raking beam's ends that way; any texture shows it).
+- **Doors and switches of the area's family:** the six car and hoist levers are MM's lever (`kind: lever`: post
+  `t3d2abs`, arm `t3d2abe`, 6d05's timber); the points lever an iron lever on its post (its handle down while the east
+  line is live: a `switch` preset now, inverted so the first pull moves it); the brake a hand wheel with four handles
+  on an iron-capped post (a clicked block; a lever's handle would spring back on the freed brake's second click).
+- **Named things recognisable:** the veins read as gold in rock (`things_before/b3.jpg`); the flooded working's vein,
+  invisible before (behind a stalagmite on a corner wall), is on the east wall beside the dry hump's opening, seen
+  from the planks (`pairs_6.jpg`, top); the pools read as pools; the rails and cage are dark rusted iron
+  (`xnrustirn`, checked: no white stripes); the cocoon, the winch and the brake as above.
+- **Nothing in its stand-in:** no new texture was needed; every stand-in of the texture pass had been generated.
+
+Playtest (`playtest.yml`, now 182 steps): new coordinates in the enlarged rooms; the clan sign, tablet and rim lever
+as message windows; the second clicks of the sorting vein, the winch and the brake asserted. Four runs of four on the
+final build in the private root (`pass2/final.out`, logs `pass2/run/final/`), and one more on the play root after
+installing it (`pass2/run/playroot/`), all 182 steps. Installed into `output/studio_play/xeen_root` (map, scene, Lua
+and `map_stats.txt` byte-identical to the tested private root); the project's `ids.lock.yml` is the final build's,
+and a fresh build from it is byte-identical to what was installed.
+
+### What waits on the studio
+
+- `uneven: true` on a surface: the build's squash warning tells you to say it, the schema refuses it
+  ("unknown key"); the lowering reads it (`IndoorLowering.cpp` `readSurface`).
+- A wall decoration's `floor_height` is ignored: the height counts from the room's floor (the ledge torches).
+- `oymap metrics <file> --assets <root>` (and so `scale_bands.py`) measures the root's map of the same name, not the
+  file given: run it on the installed copy of the root it names.
+- The build warns that the brake's failing branch shows nothing: it does not read `lua` in `else_effects` (a window
+  or a line in both cases, asserted by the playtest).
+- `oymap audit` calls the two mess hall braziers and the station's `thing.floating`: the build accepts them
+  (`hangs: true`, chain top in the beam); the audit does not know a decoration hangs from a beam (XD-04 saw the same).
+- A switch with `condition` and `else_effects` turns back to its `off` picture in the failing branch, so a mined vein
+  would show gold again; `locked_text` alone avoids it, but a lever cannot then say two different things.
+- No curved shapes: the carts' tubs, the capstan and the brake wheel are prisms.
+
+### What looks worse
+
+- The bigger rooms have the same lights plus a few; the adit's and the tally room's far corners are darker.
+- The carts no longer lie tipped in three places: the brief's "tipped" and "lying" carts stand off the rails.
+- The tally room's slabs repeat the same picture twice on each wall.
+
+## Third pass: the user's walk (2026-11-13)
+
+The user played the second pass (play root `output/studio_play/xeen_root`) and said "otherwise this dungeon is good",
+with six points. The project before this pass: `output/studio_cal/xd02/pass3_backup/`; scratch
+`output/studio_cal/xd02/pass3/` (`go.sh` builds against the play root's assets and installs into the private root
+`root/`, a hard-link copy of the play root; `tour.sh` takes a tour there; `test.sh` runs the playtest). All edits by
+hand (two small Python replacements whose diffs were read). The lead's captures of the user's places:
+`output/studio_cal/xd02/user_walk1/shots/`. Pictures: before `pass3/shots_before/`, after `pass3/shots_after/`,
+`shots_levers/`, `shots_levers2/`, `shots_rim/`, `shots_final/`, `arrive_timer.png`; before | after sheets
+`pass3/pairs_1.jpg` (bats, chest, strongroom), `pairs_2.jpg` (the four cart stops), `pairs_3.jpg` (brake, arrival,
+Tallymaster, footlockers).
+
+1. **"Bats stuck"** (sorting floor, looking up at the chutes). `spawn:chute_2` stood in the middle ore chute, a room
+   whose floor is 384 up the north wall: the bats spawned there and never came out (in `shots_before/02-chutes-wide.png`
+   a Giant Bat hangs in the chute). The spawn is now `spawn:sorting_south` on the sorting floor's south side
+   (13350, 5900), about 1000 from the chute mouths (a flier's idle wander heads back toward its spawn point, so it
+   does not drift up into them); the chutes' notes say nothing may spawn in them. Checked every monster: the 11 placed
+   ones stand in reached rooms (the burrow's moles behind the rock that the rich vein opens; the flood's moles on its
+   water floor, which the party walks); `oymap audit --reach` now names one unreached spawn point only, the item on
+   the second bunk (an item, 200 from the bunk cut's floor: within the game's 512 item reach by its code, not tried in a run), where it named the chute
+   bats before. After: `shots_after/03-chutes-wide.png`.
+2. **"Bad chest texturing"** (the payroll chest in the forgotten strongroom). The kind fits: `ch1` is the chest of both
+   families (6d09 lays ch1frLE/ch1frntB/ch1frRE on its chests' fronts; 6d05 the plain ch1). What else was wrong: the
+   chest was 160 by 96 where the shipped ch1 is 96 by 64, so its middle repeated and the front showed two locks and
+   two hasps; it stood end-on to the doorway (the party saw the handle end first); the lid's end strips lay crosswise
+   (the studio's fault, fixed by code batch ten, not worked round). Now the shipped size and its front to the door
+   (`facing: n`). The same faults on the two footlockers (160 by 80, end-on to the cut: now the shipped size, fronts
+   to the cut) and the strongbox (end-on: turned); the lamp room's chest was the world default, MM7's `7gt002`, beside
+   the 6d05 timber: now `ch1`. Left: every studio chest has its lock front on both long sides (the shipped ones stand
+   against a wall with no back). After: `shots_after/04-chest-user.png`, `25-bunk-footlockers.png`,
+   `08-lamp-room-chest.png`.
+3. **"What are these wood things supposed to be?"** The user stood in the strongroom's sunken doorway (the capture
+   stands inside the shut dry-stone wall; the room was not enlarged). In front of him: the brief's "empty pay rack" (a
+   96 by 64 block 192 high in `cbedsqr`, a bright orange slab) and the "fallen stool" (a 96 square block 40 high, the
+   same). The stool is gone; the pay rack is a timber rack of two plank shelves on two posts against the south wall
+   (6d05's timber `t3d2abs`/`d2ceil2`/`t3d2abe`, as the lamp rack), which reads as shelves. Before
+   `shots_before/04-strongroom-open.png`, after `shots_after/05-strongroom-open.png`,
+   `shots_levers2/10-strongroom-rack.png`.
+4. **"How am I supposed to press that lever while being on the moving platform?"** Every car lever was a call lever on
+   the far side of its gate's wall: the station's on the loading platform, the Turntable's in the Turntable, the east
+   cart's in the Turntable and on the landing. A rider could only click the car itself, which nothing tells him. Each
+   of the five stops now has a riders' lever beside the gate on the line's side, facing the deck at the deck's height
+   and within reach of it (about 90 from the deck's edge): `switch:trestle_ride_station` (chasm east wall),
+   `trestle_ride_turntable` (chasm west wall), `east_ride_turntable` and `east_ride_landing` (the east line's north-east
+   wall; a torch `deco:east_line_end_torch` and `light:line_end` light the landing one, which stood in the dark), and
+   `hoist_ride_rim` (the pit wall past the cage's east corner, arm at 170 above the cage floor so it shows between the
+   cage's middle and top rails; clear of the cage's frame). The hoist's floor lever already stood in reach of the
+   cage; it no longer refuses before the first ride ("step in and work its lever", which no lever on the cage
+   answered): it sends or calls the cage and takes off the brake for the rim's bell-pull. The call levers stay for
+   calling a car that is away. Before `shots_before/08`, `10`, `12`, `14`; after `shots_levers/01`, `03`, `05`,
+   `shots_levers2/09`, `shots_rim/02-rim-lever-a.png`, `shots_levers2/01-hoist-floor-lever-from-cage.png`.
+5. **"Pressed this, not sure what it was supposed to do?"** (the brake wheel). It was named "Brake wheel"; with the key
+   it said for two seconds "The brake key opens the padlock: the chain falls away" while a thin chain dropped 52 into
+   the rail bed, and the way on was a click on the dark face at the end of the cutting (`shots_before/24-brake-used-before.png`).
+   Now: hover **Deep Line brake**; without the key the window as before (the cart is chained here, the Tallymaster has
+   the key); with it a window: the key opens the padlock, the chain drops off the cart, the brake comes off, "climb
+   in at the buffer stop and it will run down the Deep Line to the Clan King's Deep Mine"
+   (`shots_after/22-brake-used.png`); the **cart itself is clicked** to ride down (`evt:deep_cart`, hover "Deep Line
+   cart", "The cart is chained to the brake wheel by the north wall" before; a `lua` MoveToMap with exit:deep_mine's
+   arrival, since an exit sits only on a wall face: gap 6; change it with the neighbour when XD-03 exists); the exit
+   face stays. On first entering the station the status line says "The Deep Line: the clan's cart stands at the buffer
+   stop, chained to a brake wheel." (5 s).
+6. **"I don't know the intention of it, what quest was there"**. A window a moment after first entry (QUESTS.md M3):
+   "Mayor Gunther of Vertigo sent you here. The Mad Dwarf Clan has taken the Red Dwarves' mine, and their Clan King
+   holds the Deep Mine below it. The way down is the Deep Line cart at the bottom of the Open Stope, past the
+   Turntable; the clan keeps it chained, and their Tallymaster holds the brake key in the camp north of the
+   Turntable." (`pass3/arrive_timer.png`). It is a one-shot timer (`every: 1`, `once`): a `load` event's message
+   window is never shown and a `step` event does not fire where the party starts (both tried; repro: build the
+   project with `trigger: load` and play `pass3/arrive_test.yml`, whose dialog assert fails though the event ran).
+   The goals on the way: the Tallymaster is a **Dwarven Lieutenant** (230, level 20, 100 hit points; was a Soldier like
+   his guards), so he stands out in blue among the green Soldiers and the hover names him apart (XD-03's Clan King is
+   the Commander, 231; harder than the brief's level-10 boss: `hp: 80` is still ignored); entering the tally room
+   says "The Tallymaster and his guards! The clan's strongbox stands behind his table." (5 s); the strongbox says it
+   holds "the Deep Line's brake key". Nothing is brought back from this map (M3's Red Dwarf Badge comes from the Clan
+   King in XD-03). After: `shots_after/24-tally-boss.png`.
+
+Also, from the tenth merge's binary: the chalk mark's text is now a status line (only signs, tablets and the like open
+a window); the red and gold pools' tops carry `liquid: liquid` (the build warned of `lavatyl` without the fluid bit;
+both now ripple as the shipped liquids do: `shots_final/05-red-pool.png`, `06-gold-pool.png`).
+
+Checks: `oymap validate` no issues, `fmt --check` clean; build warnings: the brake's `else_effects` Lua (known) and
+one squashed beam face (pass 2's); `oymap audit`: 0 faces in one plane. Playtest (now 191 steps: the arrival event,
+every new riders' lever used from its deck, the trestle car up and down again by them, the hoist up by the floor lever
+from inside the cage and down by the rim's riders' lever, the Tallymaster's absence after the fight, the tally room's
+and the station's entry texts, the brake's window, the cart refusing while chained and then carrying the party out):
+four runs of four on the final build (`pass3/final2.out`, logs `pass3/run/final2/`), one more on the play root after
+installing (`pass3/run/playroot/`). The headless runner does not open windows from timer events, so the playtest
+asserts that the arrival event ran (its once variable); the window itself is pictured in a desktop run.
+
+General lessons (for other maps): a spawn point goes on a floor the party walks, never in a niche, shelf or shaft a
+flier can sit in; a chest takes its kind's own size (wider repeats the lock) with its front toward where the party
+comes from; a block that stands for furniture must read as that furniture or go; every ride has a lever at each stop
+on the rider's side; a mechanism that changes something out of sight says in a window what changed and where to go
+next, and the thing the player expects to use (the cart) does it; a new dungeon opens with its errand and names its
+boss when he is met.
+
+## Exits to Vertigo (2026-11-13)
+
+`exit:x1_adit` (the portal, evt:exit_x1 21) now leads to X1 (`xeen_x1.odm`): arrival [-10240, 16131, 1184], facing 270
+(south, downhill), in front of X1's mine portal (`thing:mine_portal`, face at y 16531). Unchanged: `exit:deep_mine`
+(the cart; also the Lua line in `evt:deep_cart`) and `exit:x4_adit` still go to Emerald Island (no X1 door matches
+them; XD-03 and X4 are their places). `playtest.yml` gains, after the cart, a reload of the mine at its portal start,
+the portal exit, the map and position on X1 and a walk off down the lane.
+
+Backup before the change: `output/studio_cal/xd02/exits_backup/`. Build `output/studio_cal/xd02/exits_build/` (against
+`output/studio_play/xeen_root`); only the exit's `evt.MoveToMap` line changed in the built Lua (the .blv and scene are
+byte-equal to the build of the backup). Installed in `xeen_root`. Arrival points were read from X1's build
+(`output/studio_cal/x1/build/export.json`: the doorway models' faces; ground from its height map), 400 units in front of
+the door face, clear of the doorway model, on open ground; the playtest walks off from there. Pictures of every arrival,
+facing out and turned back to the door: `output/studio_cal/x1/exits_pics/sheet.jpg`. On first arrival on X1 from a
+dungeon Mayor Gunther's errand window opens (X1's one-shot timer), as on a new game there.

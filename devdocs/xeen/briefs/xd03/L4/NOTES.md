@@ -4,7 +4,9 @@ A new dungeon built from the written brief (L1 to L3 here, `devdocs/xeen/MAPS.md
 MONSTERS_AND_ITEMS.md) with the Map Studio, by one agent, 2026-11-13, after XD-01's two passes and XD-02. No original
 exists; shipped maps were measured and looked at for scale, light and texture families only (below).
 
-State: `oymap validate` no issues, `fmt --check` clean. The build's warnings are the two placed monsters' names
+State after the second pass (below; its figures replace the first pass's where they differ): `oymap validate` no
+issues, `fmt --check` clean, `audit` clean (no faces in one plane), playtests 179 and 46 steps four of four, installed
+in `output/studio_play/xeen_root`. First pass: `oymap validate` no issues, `fmt --check` clean. The build's warnings are the two placed monsters' names
 (`Clan King`, `Gong Sentry`, gap 6) and the four placeholders (racks, gong model, cart model). 24 rooms, 24 sectors,
 all reached on foot (`metrics --reach`: 24 of 24 with the doors open). Two playtests (175 and 46 steps) pass four runs
 of four (`output/studio_cal/xd03/run/four.out`, logs `final_playtest_1..4.log`, `final_playtest_alarm_1..4.log`).
@@ -21,6 +23,191 @@ clusters, the cart's and cage's parts are computed), changed by the small `edit*
 each change; `regen.sh` runs them, `fmt` and `validate`. No hand edit has been made to rooms.yml, objects.yml or
 wiring.yml that a rerun would lose; plan.yml, project.yml and the playtests are hand-written. Once the project is
 edited by hand the generators must not be rerun.
+
+## Second pass: the user's lessons (2026-11-13)
+
+The user has not played this map; this pass applies what he found in XD-01 and XD-04 (REBUILD_PROCEDURE.md: room
+sizes, can a player read it, no riddles, puzzles a player can solve, no silent clicks, nothing in its stand-in) and the
+ninth merge's checks, and answers the lead's request to remove every pair of faces in one plane. The project before it
+is `output/studio_cal/xd03/pass2_backup/`; scratch in `output/studio_cal/xd03/pass2/` (`go.sh` validates and builds
+against the play root's assets and installs into `root/`, a hard-link copy of `output/studio_play/xeen_root`;
+`root_before/` is the play root as it stood; `test.sh` runs both playtests; `tour.sh` a picture tour).
+
+**Scripted** (each kept there, each diff read; not to be rerun): `edit_p2.py` (rooms, doors, levers, chests, the gong,
+piers, pilasters, monsters, wiring), `fix1_p2.py` to `fix5_p2.py` (after validate, after the build's warnings, after
+the first look in the game, the cart) and `fix6_p2.py` (torches that hung in doorways, the statues' line; then by
+hand the warren's rock that stood on the walk to the prospector, `fix6_p2.py.note`). `level_generation/update_gitignore.py`
+run after the new texture.
+The generators of the first pass (`tools/gen_*.py`) are retired: the files are the source now.
+
+### Room sizes (`scale_bands.py`, measured on the private root: see tool defect 4 below)
+
+| Figure | Before | After | Shipped p25 / median |
+|---|---|---|---|
+| Bigger rooms: upper-quarter room floor area | 0.76 M (11th percentile, below p25) | **1.69 M (51st)** | 1.06 M / 1.64 M |
+| Largest room | 7.35 M | 7.51 M | 3.68 M / 6.13 M |
+| Typical ceiling height | 640 | 640 | 394 / 521 |
+| Taller rooms: upper-quarter height | 952 | 960 | 522 / 570 |
+| Typical doorway width | 224 (5th, below p25) | **256 (9th)** | 256 / 256 |
+| Floor area (`metrics`) | 24.9 M | 28.9 M (inside the S band, 20-35) | |
+
+Per room (sector floor area with platform tops; `pass2/sectors_before.txt`, `sectors_after.txt`). The upper quarter is
+the 7th largest of 24 sectors, so seven rooms had to reach the median:
+
+| Room | Before | After | What changed |
+|---|---|---|---|
+| Furnace Hall | 7.35 M | 7.51 M | plan unchanged; pilasters, piers (below) |
+| The Clan King's hall | 5.05 M | 5.07 M | unchanged in plan |
+| Mole warren | 1.13 M, roof 400 over the floor | 2.25 M, roof about 550 | grown south, east and west (2944..5312 x -512..896), four rock cores (two new), a second dim light, more bones and spoil |
+| Geode grotto | 1.42 M | 2.09 M | grown west to x -320 and north to 2624, crown 1024 over the floor; crystals, a stalagmite, a fifth glow and light in the new part |
+| Deep landing | 1.65 M | 2.05 M | 256 longer to the south (1536 x 1152); a rock, a barrel, a light |
+| Barracks | 2.00 M, 448 high | 2.01 M, **576 high** | ceiling and beams raised 128 |
+| Geode lower terrace | 0.68 M | 1.69 M | grown south and east (128..1664 x -640..704), roof to 832, a crystal column, crystals, stalagmites, a second glow and light |
+| Antechamber | 0.65 M | 0.86 M | 1280 wide at the hall, 768 at the gate (the gate's two leaves are now 256 each) |
+| Lookout, cut, tower stair, descent, warren mouth, Deep Line head | | a little wider | 320 wide so their doorways are 256 |
+| Hoard, vault, tower, armoury, alcove, back stair, shaft | | unchanged | small on purpose (the brief's closets and vaults) |
+
+The plan and order are the brief's: the same rooms joined the same way; `oymap solve` opens it in the same six steps
+(`pass2/solve_after.txt`), all 24 sectors reached; the critical path is unchanged.
+
+### Each rule, and how it is met
+
+- **Faces in one plane** (the lead: none): 32 pairs before, **0 after** (`audit` and the build). Causes: the trestle's
+  and the cut's posts ran through their caps at the caps' own width (18 + 2 pairs; posts now end under caps a little
+  wider than they are); the gallery's parapet stood with its outer faces in the gallery level's edges (2; now 8 inside
+  it); the throne's plinth and the forge braziers' stands crossed each other (2; the stands moved apart); the cage's
+  hanger bar ended in the top ring's sides (6; shortened to meet them); the gate's lower bar, lifted, met the leaves'
+  tops (2; new gate and bar heights); and, found on the way, the lifted upper bar's top met the bar brackets' tops
+  (brackets raised).
+- **Levers as levers.** The three plates (`t1swdd`, MM6's red plate) are now `kind: lever`, the post and arm that sink
+  when pulled, with Gharik's Forge's own arm `BemH16a` (the hold's family: 26 of the Forge's door records are such
+  levers); 12 x 48 with a reach of 56 so they read across a room, above the brick's footing band (they lay over two
+  wall faces). The two cage "bell-pulls" are levers too ("Cage lever"; the foot's on the shaft's west wall with a reach
+  of 24, clear of the cage that passes 32 from the wall). Pictures `pass2/shots_after2/17-lever-alcove`,
+  `41-lever-a-close`, `42-lever-b-close`, `43-shaft-lever`.
+- **No silent clicks.** The levers had `once` and said nothing the second time: each now says so ("The lever is down;
+  the King's Gate's lower bar stays up.") and its arm stays down (the bar stays up). The King's Gate before both bars
+  are up opens a **message window**: "The King's Gate is barred from within: two iron bars lie across its leaves in
+  their brackets. The clan lifts them with levers, one for each bar: one hangs in the barracks behind the bunks, the
+  other in the furnace tower beyond the far bank." (also the clue to the levers). The hoard door without the key: a
+  message window saying the Clan King carries its key. The cage, its levers and the shaft head's hatch say that the
+  counterweight is chained and that its lever is in the hoard. The shaft lever's second pull says the cage runs free.
+  `audit`'s remaining `click.silent` are the step events (bats, gutters, the sentry's step, the hum below) and the
+  gem clusters after use (hidden and passable then: nothing left to click).
+- **Puzzles a player can solve; no riddles.** No typed answer anywhere. The two levers: the gate's message says where
+  they are, on the way (the gate is met before the tower and, by the playtest's route, after the barracks). The hoard
+  key: the door's message says the King carries it; it is in his corpse. The secret crystal wall (optional): coming down
+  the terrace steps the party hears it ("A faint hum, like a bell struck long ago, comes from the crystal in the west
+  wall."), and it shows the crystal cavity picture, unlike the walls round it.
+- **Every lootable thing reads as one; nothing that looks like a chest is not one.** The chests take the shipped
+  families' kinds and the hover name **Chest** (they were "Weapon chest", "The King's chest", "Red Dwarf chest",
+  "Prospector's pack": the build's check): the armoury's MM6 `ch2` (Gharik's Forge), the King's two `ch3` with the
+  Forge's carved gold lid (`lid: v`), the Red Dwarf vault's `7gt002` (Stone City's), the prospector's pack, a
+  stretched plank box, is now a small `7gt002` chest beside his bones. **The hoard reads as a hoard**: three heaps of
+  gold coins (platforms tapering to their tops, the new generated `xncoins`), each clicked once ("Heap of gold": 150,
+  100, 100 gold, then gone), two urns and plates beside the two chests. Gold-pile items were tried first and dropped:
+  picked up they give no gold (tool defect 7).
+- **Hover names and reasons to click.** Every clicked thing has one (`pass2/things_after.txt`: the six without are the
+  step events: bats, cart, gutters, sentry, hum). The gong's eight slabs are all clicked (eight events, as a clicked
+  event has one source); before only one slab of six rang.
+- **Signs and long texts in message windows:** the lectern, the gate, the hoard door (the build makes a window of any
+  clicked text over 65 characters).
+- **Nothing floats or hangs from nothing.** The gong hung 64 under its frame's beam: two short chains now join them
+  (`38-gong-close`); the beam ends on its posts. The bridges "rested on nothing": stone abutments under both ends and a
+  pier under the south bridge's middle, standing in the slag (`48-bridges-piers`). The barracks' third torch hung in
+  the lever alcove's open mouth (a wall decoration's `at` is not read when it has `wall`: tool defect 2); the gallery's
+  two torches and the shaft head's lamp were inside their levels' blocks (tool defect 1): all now on their walls.
+  `audit`: no `thing.floating`.
+- **Torches in doorways** (found in the pictures of every thing): the barracks' east torch and the armoury's torch hung
+  in the armoury's doorway, a gallery torch in the sentry doorway (each a wall's default middle): moved along their
+  walls. The two "hacked statues" are 7d34's dwarf statue models, whose faces are whole: their line now says axe marks
+  scar the plinth instead of a hacked face.
+- **Nothing stands inside something else.** Three sleeping sergeants stood in their bunks, the King in his throne,
+  the gate guards in their flambeaux, a crystal in a glow, the hall's bucket in the smelter's base: all moved.
+- **No stretched pictures.** The doors now show whole pictures: the King's Gate is two leaves of 256 x 256 with
+  `d2lgdor` (the Forge's skull door, as the Forge lays it once at 256 x 256; they were 208 x 384), the barracks' double
+  door two leaves of the Forge's own slab door `cvdor1` at its 128 x 256 (the Forge's 26 door leaves are `cvdor1`;
+  hinged leaves cannot tile, so `d2lgdor` could not be halved), the hoard's door `cvdor1`, the plank doors (sentry,
+  armoury, tower) two halves of `bemvwal` at its size that fold to the jambs (256 wide), the back stair's one plank leaf
+  128 x 256, the crystal wall 256 x 256. The King's hall's corner pilasters (`ctwl5le`) are laid at size, not stretched
+  to 960. Small end faces (the furnace mouth, the crest, the gong slabs' rims) take pictures of their shape.
+- **Doors and switches of the area's family:** the Forge's levers, slab doors, skull door and plank doors in the hold
+  (above). The family texture rule holds: `xncoins` is the only new texture (generated, below).
+- **Every named thing recognisable.** The gong: one `xngong` picture at scale 1.5 over eight slabs of 24, each showing
+  its own window by `offset` (the six cut strips `xngong1`-`6` are no longer used), round, on two chains from the frame
+  (`38-gong-close`). The throne, unchanged in form, with the King now standing in front of its seat. The hoard: heaps of
+  gold. The cart: XD-02's riveted iron ore cart (`xnrustirn`) with sides 64 high, not a plank pallet
+  (`02-cart-on-the-ledge`, `03-cart-riding-down`). The cage: unchanged (iron frame, hanger bar, chain).
+- **The King** (known weak): the game ignores `hp`, so he is now the Dwarf family's top rank, the **Dwarven
+  Commander** (231: level 30, 180 hit points, armour-breaking blows, never flees, a colour of his own among his
+  Soldiers) instead of a 100-hit-point Lieutenant; `hp: 300` and his name stay for when the game reads them. Level 30
+  is above the brief's 18: the nearest dwarf row with boss hit points (the Lieutenant has 100).
+- **The furnace hall's large plain walls:** eight pilasters of dressed granite (`vlcwl3a`) 128 wide stand against the
+  south, west and north walls up to the roof timbers, two of which now rest on them; three more wall torches between
+  them (`39-hall-south-wall`, `40-hall-west-wall`, `53-hall-from-ante-opening`).
+- **The dome** is `xnquartz` (checked: `24-dome`, blue quartz in four rings, the cavity at its crown).
+- **Sound** (known weak): the gong now booms (`evt.PlaySound` of MM6's `6gong` at the gong, from the party's click and
+  the sentry's ring) and the crystal wall chimes as it sinks. The ambient sounds (slag bubbling, the wind in the shaft)
+  still wait: placed sounds of an MM7 project are refused for want of the world's own audio files (gap 7).
+
+### Playtests
+
+On the final build in the private root (`pass2/run/final/result.out`, build `pass2/build3/`): `playtest.yml` (179 steps) **four runs of
+four**, `playtest_alarm.yml` (46 steps) **four of four**. New in the walk: the barred gate's message window, lever A's
+second pull (says so, bar stays up), the gong rung from another slab (event 50), a heap of gold (150 gold, once); the
+barracks' doorway coordinates. Then installed into `output/studio_play/xeen_root` (map, scene, Lua and `map_stats.txt`
+byte-identical to the tested root, with `xncoins`) and both played once more there (`pass2/run/playroot/`, passed).
+Event numbers are the project's `ids.lock.yml` (copied back from the build: `build
+--out` does not write it, and new events took numbers between builds until it was).
+
+### Pictures
+
+Before (the play root as it stood): `pass2/shots_before/` (37), `pass2/things_before/contact.png`. After:
+`pass2/shots_after2/` (the same 37 cameras and 16 more), `pass2/things_final/contact.png` (every interactive thing
+before and after use). Best pairs: `07-gallery-overlook` and `08-gong` / `38-gong-close`, `30-hoard` / `51-hoard-heaps`,
+`17-lever-alcove` / `41-lever-a-close`, `20-antechamber-barred` and `22-gate-opens-on-the-throne`, `02-cart-on-the-ledge`.
+
+### Generated texture
+
+| Name | What | Size | Family | Where |
+|---|---|---|---|---|
+| `xncoins` | A heap of worn gold coins, some stamped with a hammer (tiles) | 128 x 128 | MM6 Forge chest gold (`ch3tpbv`), MM7 `c1gold` | the hoard's three heaps |
+
+Made by `level_generation/textures_xeen/xtex.py` (spec added to `specs.yml`; check `sheets/check_xncoins.png`),
+installed in `output/studio_play/xeen_root` and the pass's root.
+
+### Tool defects found in this pass
+
+1. **A wall decoration's `floor_height` is not read**: its height counts from the room's floor, so the gallery's
+   torches (gallery 384 up) and the shaft head's lamp (1536 up) were built inside the levels' solid blocks
+   (`[5108, 2799, -336]`); the build said "stands inside LEVEL". Worked round with heights from the room's floor.
+2. **A wall decoration's `at` is ignored when `wall` is given**: it goes to `along` 0.5; the barracks' third torch hung
+   in the alcove's open mouth and both gallery torches stood at one point. `along` used.
+3. The squashed-picture warning suggests `uneven: true`, which the schema refuses (unknown key); a platform's
+   `end_surface` is stretched whatever `fit` says, so small end faces need a picture of their own proportions.
+4. **`scale_bands.py` (`oymap metrics <file> --assets <root>`) reads the map of that name from the root**, not the file
+   given: the new build measured 0.76 M against the play root until measured against the private root it was in.
+5. `build --out` leaves `ids.lock.yml` in the build folder: new events' numbers moved between builds until the lock was
+   copied back (documented, but a trap for playtests that click by number).
+6. Hinged leaves cannot `tile` (no two halves of one picture on a double door); `sources` only for step events (a
+   thing of several blocks clicked as one needs an event per block).
+7. A gold-pile item placed with `items` (1001, "A large pile of gold coins") gives 0 gold when picked up.
+
+### What waits on the studio and the game
+
+- **The King's own hit points, level and frenzy, and his name while alive** (gaps 3 and 6): the Commander is a
+  stand-in; `immobile` cannot be lifted by an event, so he still fights from the dais.
+- **Ambient sound** for an MM7 project (gap 7).
+- **Weapons on the armoury's racks** (no decoration; the placeholders stay) and **models** for the gong and the cart.
+- The decorations above are placed by working round defects 1 and 2: rebuild after they are fixed.
+
+### What looks worse
+
+- The bigger warren, grotto and lower terrace keep about the same number of lights: their far corners are dark
+  (`46-warren-wide`, `45-lower-terrace-south`).
+- The barracks' double door is grey stone slabs (the Forge's door) where it was the red skull door; the skull door
+  stays on the King's Gate alone.
+- The levers are the Forge's thin handles: correct for the family, small next to the old red plates.
 
 ## Shipped maps looked at first
 
@@ -65,6 +252,34 @@ Textures to generate (none shipped fits; the stand-in in use meanwhile):
 | A bronze gong face: hammered bronze, a boss in the middle | 128 x 128 | the gong (six slabs) | `ctflor5` |
 | The Mad Dwarf Clan's crest: a skull over an anvil, carved in red stone | 128 x 128 | the throne's crest | `ctceil3` |
 | Glowing slag: dark cooled crust broken by orange-red seams | 256 x 256 | the channel and the gutters (brighter than the Forge's flat lava) | `orfyrlga` |
+
+### Generated textures (2026-11-13)
+
+The five above, made by Codex image generation with the families' shipped masters as references and installed in
+`output/studio_play/xeen_root` only (sources, prompts, raw returns, checks: `level_generation/textures_xeen/`, its
+README). Every texture is x4 art (master 4x the size below). The stand-ins are gone from the project.
+
+| Name | What | Size | Family | Where used |
+|---|---|---|---|---|
+| `xnquartz` | Dark blue-grey rock thick with pale blue quartz points (tiles) | 256 x 256 | MM6 Snergle's Caverns `crstont` / `d3ystlwl` | every former `crstont` here: geode walls and crown (theme), the two crystal columns, the King's dome rings |
+| `xnquartzcv` | Crystal cavity of blue and violet quartz in blue-grey rock, no brown | 256 x 256 | `d3ystlwl` on `crstont` | `door:crystal_wall`, the dome's cap |
+| `xngong` | Hammered bronze gong: rings, a ring of dwarf runes, a polished boss | 128 x 128 | MM6 Gharik's Forge bronze and gold (`ctflor5`, `d2lgdor`) | the gong slabs' ends and tops (scale 1.5) |
+| `xngong1`-`xngong6` | The gong picture cut into its six slabs' windows, top to bottom | 128 x 32 each | the same | the six gong slabs' faces (`fit`) |
+| `xncrest` | Skull over an anvil with crossed hammers, carved in a red stone panel | 128 x 128 | Forge `ctceil3` | the throne's crest (`fit`, art at its 224 x 192 face) |
+| `xnslag` | Dark cooled slag crust, its cracks glowing orange and yellow (tiles) | 256 x 256 | Forge `orfyrlga`, `vlcflorc`, `vlcwl1lg` | the slag channel, the furnace mouth, the gutters at the King's wrath (wiring `set_texture`) |
+
+The gong is six slabs: one 192 x 192 picture needs each slab to show its own part. The studio build in use
+(`openyamm-studio/build/oymap`) refuses a surface `offset` ("unknown key"), so `strips.py` cuts the one gong picture
+into the six slabs' windows, each stretched once over its slab; in the game they meet as one disc with the boss in
+the middle (`09-gong-close`). With `offset` in the build, one `xngong` at scale 1.5 with an offset per slab would do.
+
+Pictures: `output/studio_cal/xd03/textures_gen/before/` and `after/` (same cameras; `pairs.jpg`): the geode and the
+King's dome now read as blue crystal; the crystal wall is a blue-violet cavity in blue-grey rock (with the secret
+pulse's red tint, as before); the gong a bronze disc; the crest the clan's skull and anvil; the slag dark crust with
+glowing seams. The quartz repeats visibly on the widest geode walls (a 256 period of evenly spread clusters).
+
+Playtests on the play root after the change: `playtest.yml` 4 of 4 (175 steps), `playtest_alarm.yml` 4 of 4
+(`output/studio_cal/textures_gen_tests/four.out`).
 
 ## The world it is built in
 
@@ -381,3 +596,20 @@ with crystal models rather than a crystal lining; the mole warren is a dark empt
 clan are MM7's friendly dwarves made hostile by a line of Lua, all one model, so sergeants, guards and dwarves look
 the same. A player would enjoy the cart, the gong, the two levers and the gate opening on the throne; the King himself
 wants a Xeen row, an actor script and sounds before he is the climax the brief asks for.
+
+## Exits to Vertigo (2026-11-13)
+
+`exit:x1_shaft` (the hatch, evt:exit_x1 26) now leads to X1 (`xeen_x1.odm`): arrival [-1024, 17565, 1500], facing 270
+(south), on the hilltop in front of X1's shaft head (`thing:shaft_head`, face at y 17965; ground about 1469 on a
+slope, so the party drops a few units). Unchanged: `exit:deep_cart` still goes to Emerald Island (XD-02's station is
+its place). `playtest.yml` checks map and position on X1 after the hatch and walks off down the hill.
+The map installed in `xeen_root` before this change was older than the current studio (status-line durations and one
+face differ in a build of the unchanged backup); this install carries those too.
+
+Backup before the change: `output/studio_cal/xd03/exits_backup/`. Build `output/studio_cal/xd03/exits_build/` (against
+`output/studio_play/xeen_root`); only the exit's `evt.MoveToMap` line changed in the built Lua (the .blv and scene are
+byte-equal to the build of the backup). Installed in `xeen_root`. Arrival points were read from X1's build
+(`output/studio_cal/x1/build/export.json`: the doorway models' faces; ground from its height map), 400 units in front of
+the door face, clear of the doorway model, on open ground; the playtest walks off from there. Pictures of every arrival,
+facing out and turned back to the door: `output/studio_cal/x1/exits_pics/sheet.jpg`. On first arrival on X1 from a
+dungeon Mayor Gunther's errand window opens (X1's one-shot timer), as on a new game there.

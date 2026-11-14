@@ -1,0 +1,153 @@
+format: 0
+level: L3
+pitch: "Castle Ironfist: the king's castle and upper town on a sheer plateau in the north-east, reached by a switchback road through a gatehouse wall; the lower town and harbour at its foot; a stepped pit with an obelisk and a teleport pad in the swamp to the south-west; the Seer on a mountain top; dungeon fronts."
+datum: sea_level
+spaces:
+  - id: town:ironfist
+    name: Castle Ironfist
+    kind: district
+    population:
+      - {id: pop:townsfolk, actor: Peasant, placed: true, hostile: false}
+      - {id: pop:peasants, slot: 3, actor: Peasant}
+  - id: water:pond
+    name: Ponds
+    kind: water
+  - id: water:sea
+    name: The sea
+    kind: water
+  - id: zone:wild
+    name: The country
+    kind: zone
+    population:
+      - {id: pop:lizards, slot: 1, actor: Lizardman Archer}
+      - {id: pop:bloodsuckers, slot: 2, actor: Bloodsucker}
+links:
+  - id: road:r01
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r02
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r03
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r04
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r05
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r06
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r07
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r08
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r09
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r10
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r11
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r12
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r13
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r14
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r15
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r16
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r17
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r18
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r19
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r20
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r21
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r22
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r23
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r24
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r25
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+  - id: road:r26
+    from: town:ironfist
+    to: zone:wild
+    kind: road
+entrances:
+  - id: entrance:east
+    space: zone:wild
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: The east edge.
+  - id: entrance:north
+    space: zone:wild
+    kind: both
+    neighbour: edge:north
+    facing: s
+    how: The north edge.
+  - id: entrance:start
+    space: town:ironfist
+    kind: arrival
+    facing: n
+    how: "The party start of the original, on the plateau inside the gatehouse wall."
+  - id: entrance:west
+    space: zone:wild
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: The west edge.
+sketch: {file: sketch.yml, grid: 512}

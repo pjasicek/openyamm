@@ -2224,6 +2224,8 @@ openings:
     width: full
     height: 256
     threshold: {texture: swfloor2b, size: [128, 128]}
+    reveal: {texture: swankdk, size: [128, 128]}
+    back_reveal: {texture: swhz3dk, size: [32, 32]}
   - id: open:hall_s7_south_gate
     from: room:hall_upper
     to: room:s7_south_gate
@@ -2523,7 +2525,8 @@ openings:
     from: room:s23_generator
     to: room:s9_west_passage
     width: full
-    height: 256
+    height: full
+    notes: "The original's portal (face 358) is the passage's whole height, 196 to 463; at 256 the passage's end kept an 11-high strip in the generator wall's plane (faces in one plane, ninth merge round)."
   - id: open:s24_s22_west_junction
     from: room:s24_ramp
     to: room:s22_west_junction

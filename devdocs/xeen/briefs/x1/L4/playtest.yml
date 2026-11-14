@@ -1,0 +1,1787 @@
+# Written by output/studio_cal/x1/tools/gen_walk.py from the built map. A new game in Vertigo square:
+# the errand window, the town's houses, the rain barrel's key, the culvert grate (barred), XD-01 by
+# the warehouse doors, the north road to XD-02, the shaft head (barred, then open) to XD-03, XD-05 (in and out by its exit),
+# Toad Meadow (the tower barred, Valia's key, XD-04), and the west road's travel prompt.
+id: xeen.x1.walk
+title: 'X1 Vertigo Meadows: the town and every dungeon entrance'
+world: mm7
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x1.odm
+- assert:
+    map: xeen_x1.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -5120
+      y: 8704
+      radius: 96
+- note: Mayor Gunther's errand in a window on arrival (a one-shot timer, 2 s).
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- walk_to:
+    x: -5120
+    y: 10138
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3686
+    y: 10189
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: 9318
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Temple of Vertigo (building:temple): along the street to its path'
+- walk_to:
+    x: -2688
+    y: 9216
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Temple of Vertigo (building:temple): walk to its door and open it'
+- walk_to:
+    x: -2688
+    y: 8876
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -2688
+    y: 8876
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 311
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Bank of Vertigo (building:bank): along the street to its path'
+- walk_to:
+    x: -3584
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Bank of Vertigo (building:bank): walk to its door and open it'
+- walk_to:
+    x: -3200
+    y: 10260
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -3200
+    y: 10260
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 286
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Lady Geraldine''s Tavern (building:tavern): walk to its door and open it'
+- walk_to:
+    x: -4480
+    y: 10356
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -4480
+    y: 10356
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 240
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Gilbert''s Hexes (building:magic_shop): walk to its door and open it'
+- walk_to:
+    x: -5505
+    y: 10244
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -5505
+    y: 10244
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 85
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -6400
+    y: 10650
+    z: 723
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Vertigo Town Hall (building:town_hall): along the street to its path'
+- walk_to:
+    x: -7808
+    y: 10752
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Vertigo Town Hall (building:town_hall): walk to its door and open it'
+- walk_to:
+    x: -7808
+    y: 11348
+    z: 724
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -7808
+    y: 11348
+    z: 991
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 203
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -8448
+    y: 10752
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Vertigo Armoury (building:armour_shop): walk to its door and open it'
+- walk_to:
+    x: -9472
+    y: 10308
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -9472
+    y: 10308
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 47
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -8960
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Norman''s Ironworks (building:weapon_shop): walk to its door and open it'
+- walk_to:
+    x: -10759
+    y: 10292
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -10759
+    y: 10292
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 9
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -8704
+    y: 10445
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Philters of Vertigo (building:alchemist): along the street to its path'
+- walk_to:
+    x: -8192
+    y: 10752
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Philters of Vertigo (building:alchemist): walk to its door and open it'
+- walk_to:
+    x: -8192
+    y: 10172
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -8192
+    y: 10172
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 117
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Adventurer''s Inn: its door''s event'
+- walk_to:
+    x: -10240
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -10368
+    y: 9980
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -10368
+    y: 9980
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -9984
+    y: 10445
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -9984
+    y: 11674
+    z: 1050
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Gunther House (building:core_houses#3): along the street to its path'
+- walk_to:
+    x: -9984
+    y: 12544
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Gunther House (building:core_houses#3): walk to its door and open it'
+- walk_to:
+    x: -10260
+    y: 12544
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -10260
+    y: 12544
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 1101
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Out of the west gate to the training hall
+- walk_to:
+    x: -8960
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -11520
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -12800
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'Thylon''s Training (building:training): along the street to its path'
+- walk_to:
+    x: -12288
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Thylon''s Training (building:training): walk to its door and open it'
+- walk_to:
+    x: -12288
+    y: 10756
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -12288
+    y: 10756
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 1571
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Back in through the west gate, along the main street and out of the south gate
+- walk_to:
+    x: -12800
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -11520
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -8960
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -8448
+    y: 10752
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 10752
+    z: 736
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 10240
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 8448
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: Over Vertigo Bridge
+- walk_to:
+    x: -6144
+    y: 6400
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: 'Water Guild of Vertigo (building:guild_water): along the street to its path'
+- walk_to:
+    x: -5120
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Water Guild of Vertigo (building:guild_water): walk to its door and open it'
+- walk_to:
+    x: -5120
+    y: 4284
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -5120
+    y: 4284
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 140
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Earth Guild of Vertigo (building:guild_earth): along the street to its path'
+- walk_to:
+    x: -3840
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Earth Guild of Vertigo (building:guild_earth): walk to its door and open it'
+- walk_to:
+    x: -3840
+    y: 4236
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -3840
+    y: 4236
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 146
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -6144
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'Air Guild of Vertigo (building:guild_air): along the street to its path'
+- walk_to:
+    x: -8960
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Air Guild of Vertigo (building:guild_air): walk to its door and open it'
+- walk_to:
+    x: -8960
+    y: 4348
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -8960
+    y: 4348
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 135
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Fire Guild of Vertigo (building:guild_fire): along the street to its path'
+- walk_to:
+    x: -10425
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Fire Guild of Vertigo (building:guild_fire): walk to its door and open it'
+- walk_to:
+    x: -10425
+    y: 4348
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -10425
+    y: 4348
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 129
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Along the guild lane to Joe''s yard: the key under the rain barrel'
+- walk_to:
+    x: -6144
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -2560
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -2458
+    y: 3277
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -1946
+    y: 1843
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- execute_event:
+    id: 68
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- play_lua:
+    source: if not has_item(2176) then error("no warehouse key from the rain barrel") end
+- walk_to:
+    x: -2458
+    y: 3277
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -2560
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'The culvert grate on the riverbank: barred from inside'
+- walk_to:
+    x: -1536
+    y: 5043
+    z: 586
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -1536
+    y: 5043
+    z: 586
+    yaw: 1.5708
+    pitch: -0.4
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_x1.odm
+- walk_to:
+    x: -2560
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -2458
+    y: 3277
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'XD-01 Joe''s Warehouse: in by its loading doors'
+- walk_to:
+    x: -1818
+    y: 2918
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -1818
+    y: 2918
+    z: 640
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd01.blv
+- load_map:
+    map: xeen_x1.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X1 where the party stood (by load_map; XD-05 is walked out by its own exit)
+- set_pose:
+    map: xeen_x1.odm
+    x: -1818
+    y: 2918
+    z: 640
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Back along the guild lane, over the bridge, through the square and out of the east gate
+- walk_to:
+    x: -2458
+    y: 3277
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -2560
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 4608
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 6400
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 8448
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 10240
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: 9216
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -768
+    y: 9216
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'Vertigo Stables (building:stables): along the street to its path'
+- walk_to:
+    x: 254
+    y: 9726
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Vertigo Stables (building:stables): walk to its door and open it'
+- walk_to:
+    x: 768
+    y: 9212
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: 768
+    y: 9212
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 461
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Back in by the east gate to the north street
+- walk_to:
+    x: -768
+    y: 9216
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: 9216
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 10240
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 10752
+    z: 736
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 12288
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 12800
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Out of the north gate, up the north road into the hills
+- walk_to:
+    x: -6144
+    y: 13312
+    z: 864
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 14848
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -5120
+    y: 15872
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -2560
+    y: 15872
+    z: 1120
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -2560
+    y: 16128
+    z: 1136
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'XD-02 Red Dwarf Mines: along the mine lane to the timbered portal'
+- walk_to:
+    x: -10240
+    y: 16249
+    z: 1184
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -10240
+    y: 16249
+    z: 1184
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd02.blv
+- load_map:
+    map: xeen_x1.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X1 where the party stood (by load_map; XD-05 is walked out by its own exit)
+- set_pose:
+    map: xeen_x1.odm
+    x: -10240
+    y: 16249
+    z: 1184
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'XD-03''s escape shaft head: barred from below'
+- walk_to:
+    x: -1024
+    y: 17683
+    z: 1457
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- note: The hatch says where it opens from
+- set_pose:
+    map: xeen_x1.odm
+    x: -1024
+    y: 17683
+    z: 1457
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- setup_shortcut:
+    kind: set_qbit
+    id: 110031
+    value: true
+- note: With the shaft opened from below (qbit 110031), the hatch leads down to the Deep Mine
+- walk_to:
+    x: -1024
+    y: 17683
+    z: 1457
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: -1024
+    y: 17683
+    z: 1472
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd03.blv
+- load_map:
+    map: xeen_x1.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X1 where the party stood (by load_map; XD-05 is walked out by its own exit)
+- set_pose:
+    map: xeen_x1.odm
+    x: -1024
+    y: 17683
+    z: 1457
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'XD-05 Orc Caves: along the orc lane to the skull-hung mouth, in and out again'
+- walk_to:
+    x: 9216
+    y: 16761
+    z: 1376
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: 9216
+    y: 16761
+    z: 1376
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd05.blv
+- note: 'Out again by the dungeon exit: back on X1 in front of the door, facing away from it'
+- execute_event:
+    id: 18
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.0
+    follow_map_move: true
+- assert:
+    map: xeen_x1.odm
+- assert:
+    party_position:
+      x: 9216
+      y: 16643
+      radius: 128
+      z_min: 1296
+      z_max: 1456
+- note: Off from the door on foot
+- walk_to:
+    x: 9216
+    y: 16200
+    z: 1296
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 30
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Back down to the hill fork and the north gate
+- walk_to:
+    x: 1024
+    y: 16896
+    z: 1280
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -2560
+    y: 15872
+    z: 1120
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -5120
+    y: 15872
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 14848
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 13312
+    z: 864
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 12800
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 12288
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 10752
+    z: 736
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 10240
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 8448
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 6400
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Down the south road to the south fork
+- walk_to:
+    x: -6144
+    y: 3072
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -5120
+    y: 2048
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -5120
+    y: 0
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: -1536
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: -3072
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -2048
+    y: -4608
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -1024
+    y: -4608
+    z: 736
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -256
+    y: -5376
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Along the toad lane to the hamlet
+- walk_to:
+    x: 4096
+    y: -5376
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: The tower path from the hamlet
+- walk_to:
+    x: 8192
+    y: -6400
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 11264
+    y: -7680
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Witch Tower: sealed with crystal; Old Valia holds its key'
+- walk_to:
+    x: 12288
+    y: -9114
+    z: 858
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: The tower door names Valia
+- set_pose:
+    map: xeen_x1.odm
+    x: 12288
+    y: -9114
+    z: 858
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    map: xeen_x1.odm
+- note: Back north to the hamlet
+- walk_to:
+    x: 11264
+    y: -7680
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 8192
+    y: -6400
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Old Valia''s cottage: her errand and the Crystal Key'
+- walk_to:
+    x: 7552
+    y: -4332
+    z: 625
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- note: Valia gives the Crystal Key
+- set_pose:
+    map: xeen_x1.odm
+    x: 7552
+    y: -4332
+    z: 625
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not has_item(2110) then error("no Crystal Key from Valia") end
+- note: Back to the tower with the key
+- walk_to:
+    x: 8192
+    y: -6400
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 11264
+    y: -7680
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'XD-04 Witch Tower: the Crystal Key opens it'
+- walk_to:
+    x: 12288
+    y: -9114
+    z: 858
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: 12288
+    y: -9114
+    z: 858
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd04.blv
+- load_map:
+    map: xeen_x1.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X1 where the party stood (by load_map; XD-05 is walked out by its own exit)
+- set_pose:
+    map: xeen_x1.odm
+    x: 12288
+    y: -9114
+    z: 858
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Myra the Herbalist (building:myra_hut): along the street to its path'
+- walk_to:
+    x: 5376
+    y: -5376
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Myra the Herbalist (building:myra_hut): walk to its door and open it'
+- walk_to:
+    x: 5376
+    y: -4856
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x1.odm
+    x: 5376
+    y: -4856
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 1125
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Back to town and out along the west road
+- walk_to:
+    x: 4096
+    y: -5376
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -256
+    y: -5376
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -2048
+    y: -4608
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: -3072
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3584
+    y: -1536
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -5120
+    y: 0
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -5120
+    y: 2048
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 3072
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 6400
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 8448
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 10240
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 10752
+    z: 736
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -8448
+    y: 10752
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -8960
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -11520
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -13056
+    y: 10240
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -13056
+    y: 9216
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -22016
+    y: 9216
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -23552
+    y: 9216
+    z: 928
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- assert:
+    map: xeen_x1.odm

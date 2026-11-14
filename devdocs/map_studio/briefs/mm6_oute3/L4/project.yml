@@ -1,0 +1,42 @@
+format: 0
+id: calib_newsorpigal
+name: New Sorpigal
+world: mm6
+kind: outdoor
+profile: odm
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9603
+  reference: oute3.odm
+  encounter_chance: 10
+  treasure_level: 6
+  trap_dice: 1
+  perception_difficulty: 0
+  refill_days: 168
+  music: 37
+  lock_difficulty: 0
+  slots:
+    - {monster: Goblin, tier: 1, per_marker: [3, 5], weight: 50}
+    - {monster: Apprentice Mage, tier: 1, per_marker: [3, 5], weight: 50}
+neighbours:
+  - id: door:abandoned_temple
+    to: 6d02.blv
+    kind: door
+    notes: "The Abandoned Temple, a door in the hill west of the town (event 102)."
+  - id: door:gharik
+    to: 6d18.blv
+    kind: door
+    notes: Gharik's Forge on the north-east island (event 103).
+  - id: door:goblinwatch
+    to: 6d01.blv
+    kind: door
+    notes: Goblinwatch on its hill south-west of the town (event 101).
+  - id: edge:west
+    to: outd3.odm
+    kind: edge
+    side: west
+    days: 5
+    approach: The road west along the island out of the town gate to the map edge.
+    notes: "Castle Ironfist (outdoor_travels.txt: oute3 left outd3, 5 days)."
+notes: "Calibration rebuild of New Sorpigal (MM6 oute3.odm), the held-out map of S4's outdoor work. map_stats as the original's row 151 (map_stats.txt), with its row as `reference`."

@@ -51,12 +51,12 @@ themes:
     door: {texture: t66b03l, size: [128, 256], fit: true}
     notes: "Warehouse, bay variant, as the Pirate Outpost's storerooms (MM8 d06) are built: upright planks (t66floor) over the panelled wainscot (t66b01, the bay's own band, 256: one picture high), flagstones where the carts come in (t66flr2), the beamed roof (t66roof), a post in every corner (t66abc10a), d06's braced plank doors (t66b03l). Also the loading ramp (no band: a band needs a level floor)."
   - id: theme:office
-    wall: {texture: t66d01, size: [128, 256], scale: 1.5}
+    wall: {texture: t66d01, size: [128, 256], scale: 1.75}
     floor: {texture: t66floor, size: [128, 128]}
     ceiling: {texture: t66roof, size: [128, 128]}
     reveal: {texture: t66abc10a, size: [32, 128]}
     door: {texture: t66b03r, size: [128, 256], fit: true}
-    notes: "Joe's office, as the Pirate Outpost's better rooms (MM8 d06): cream plaster under a cornice over a carved panel wainscot (t66d01, one picture from floor to ceiling, 384 at scale 1.5), plank floor (t66floor), the beamed roof (t66roof), a braced plank door (t66b03r). The only plastered room of the map: Joe keeps up appearances where the customers come."
+    notes: "Joe's office, as the Pirate Outpost's better rooms (MM8 d06): cream plaster under a cornice over a carved panel wainscot (t66d01, one picture from floor to ceiling, 448 at scale 1.75), plank floor (t66floor), the beamed roof (t66roof), a braced plank door (t66b03r). The only plastered room of the map: Joe keeps up appearances where the customers come."
   - id: theme:pen
     wall: {texture: cbrdbrck, size: [64, 64]}
     bands:
@@ -86,31 +86,66 @@ defaults: {theme: theme:warehouse_timber, ambient: 14}
 rooms:
   - id: room:breeding_pens
     name: Breeding pens
-    outline: [[2912, 4801], [2912, 5119], [2790, 5413], [2565, 5638], [2271, 5760], [1953, 5760], [1659, 5638], [1434, 5413], [1312, 5119], [1312, 4801], [1434, 4507], [1659, 4282], [1953, 4160], [2271, 4160], [2565, 4282], [2790, 4507]]
+    outline: [[3168, 5313], [3168, 5631], [3046, 5925], [2821, 6150], [2527, 6272], [2209, 6272], [1915, 6150], [1690, 5925], [1568, 5631], [1568, 5313], [1690, 5019], [1915, 4794], [2209, 4672], [2527, 4672], [2821, 4794], [3046, 5019]]
     floor: -384
     ceiling: -32
     theme: theme:pens_brick
     walls:
       - wall: 3
         panels:
-          - {id: panel:feeding_time, at: centre, length: 120, bottom: 172, height: 40, surface: {texture: sign01-3, size: [128, 32], scale: 1.25}, notes: "FEEDING TIME, hand-painted on a board over the lever."}
+          - {id: panel:feeding_time, at: centre, length: 120, bottom: 200, height: 40, surface: {texture: xnfeedsgn, size: [128, 32], fit: true}, notes: "FEEDING TIME, hand-painted on a board over the lever."}
       - wall: 4
         panels:
-          - {id: panel:heart_sign, at: centre, length: 144, bottom: 296, height: 48, surface: {texture: sign01-2, size: [128, 32], scale: 1.5}, notes: "MR & MRS WOBBLES - DO NOT SEPARATE, hand-painted over the heart gate."}
+          - {id: panel:heart_sign, at: centre, length: 144, bottom: 296, height: 48, surface: {texture: xnheartsgn, size: [128, 32], fit: true}, notes: "MR & MRS WOBBLES - DO NOT SEPARATE, hand-painted over the heart gate."}
     platforms:
-      - {rise: 16, surface: {texture: cbeam5, size: [32, 256]}, outline: [[2896, 5147], [2799, 5382], [2762, 5367], [2859, 5132]], top_surface: {texture: crcn96, size: [64, 64]}, base: 112, notes: "Shelf of bug tanks: tanks of slime water (MM7 7slimywtr, a stand-in for glass: see NOTES.md, textures to generate)."}
-      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2878, 5174], [2854, 5233], [2826, 5221], [2851, 5162]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
-      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2830, 5292], [2805, 5350], [2777, 5339], [2802, 5280]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
-      - {rise: 16, surface: {texture: cbeam5, size: [32, 256]}, outline: [[2299, 4176], [2534, 4273], [2519, 4310], [2284, 4213]], top_surface: {texture: crcn96, size: [64, 64]}, base: 112}
-      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2326, 4194], [2385, 4218], [2373, 4246], [2314, 4221]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
-      - {rise: 48, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2444, 4242], [2502, 4267], [2491, 4295], [2432, 4270]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128, notes: "The cracked tank: lower, where the doom bugs get out."}
-      - {rise: 16, surface: {texture: cbeam5, size: [32, 256]}, outline: [[2799, 4538], [2896, 4773], [2859, 4788], [2762, 4553]], top_surface: {texture: crcn96, size: [64, 64]}, base: 112}
-      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2805, 4570], [2830, 4628], [2802, 4640], [2777, 4581]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
-      - {rise: 64, surface: {texture: 7slimywtr, size: [128, 128]}, outline: [[2854, 4687], [2878, 4746], [2851, 4758], [2826, 4699]], top_surface: {texture: crcn96, size: [64, 64]}, base: 128}
-      - {rise: 6, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2176, 4933], [2176, 4987], [2139, 5024], [2085, 5024], [2048, 4987], [2048, 4933], [2085, 4896], [2139, 4896]], top_surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The drain in the middle of the pool: a round iron grate in a stone ring, just proud of the slime."}
+      - {rise: 128, surface: {texture: d1medbw, size: [128, 128]}, outline: [[3152, 5659], [3055, 5894], [3018, 5879], [3115, 5644]], top_surface: {texture: d1medbw, size: [128, 128]}, notes: "A stone plinth against the wall, 128 high, under a row of bug tanks."}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3138, 5684], [3112, 5749], [3078, 5735], [3105, 5670]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 128, notes: "Bug tank: its iron foot."}
+      - {id: platform:tank_1, rise: 54, surface: {texture: xnbugtank, size: [64, 128], fit: true}, outline: [[3134, 5686], [3110, 5745], [3082, 5733], [3106, 5674]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 136, notes: "Bug tank: glass sides (xnbugtank) between four iron corner posts, under an iron lid."}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3139, 5684], [3136, 5691], [3130, 5688], [3132, 5681]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3115, 5743], [3112, 5750], [3106, 5747], [3108, 5740]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3087, 5731], [3084, 5738], [3078, 5735], [3080, 5728]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3111, 5672], [3108, 5679], [3102, 5676], [3104, 5669]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3138, 5684], [3112, 5749], [3078, 5735], [3105, 5670]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 192}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3090, 5802], [3063, 5866], [3029, 5852], [3056, 5789]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 128, notes: "Bug tank: its iron foot."}
+      - {id: platform:tank_2, rise: 54, surface: {texture: xnbugtank, size: [64, 128], fit: true}, outline: [[3086, 5804], [3061, 5862], [3033, 5851], [3058, 5793]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 136, notes: "Bug tank: glass sides (xnbugtank) between four iron corner posts, under an iron lid."}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3091, 5802], [3088, 5808], [3081, 5806], [3084, 5799]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3066, 5860], [3063, 5866], [3056, 5864], [3059, 5857]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3038, 5849], [3035, 5855], [3028, 5853], [3031, 5846]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3063, 5791], [3060, 5797], [3053, 5795], [3056, 5788]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3090, 5802], [3063, 5866], [3029, 5852], [3056, 5789]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 192}
+      - {rise: 128, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2555, 4688], [2790, 4785], [2775, 4822], [2540, 4725]], top_surface: {texture: d1medbw, size: [128, 128]}, notes: "A stone plinth against the wall, 128 high, under a row of bug tanks."}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2580, 4702], [2645, 4728], [2631, 4762], [2566, 4735]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 128, notes: "Bug tank: its iron foot."}
+      - {id: platform:tank_3, rise: 54, surface: {texture: xnbugtank, size: [64, 128], fit: true}, outline: [[2582, 4706], [2641, 4730], [2629, 4758], [2570, 4734]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 136, notes: "Bug tank: glass sides (xnbugtank) between four iron corner posts, under an iron lid."}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2580, 4701], [2587, 4704], [2584, 4710], [2577, 4708]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2639, 4725], [2646, 4728], [2643, 4734], [2636, 4732]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2627, 4753], [2634, 4756], [2631, 4762], [2624, 4760]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2568, 4729], [2575, 4732], [2572, 4738], [2565, 4736]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2580, 4702], [2645, 4728], [2631, 4762], [2566, 4735]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 192}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2698, 4750], [2762, 4777], [2748, 4811], [2685, 4784]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 128, notes: "The cracked tank: its iron foot."}
+      - {id: platform:tank_4, rise: 40, surface: {texture: xnbugtank, size: [64, 128], fit: true}, outline: [[2700, 4754], [2758, 4779], [2747, 4807], [2689, 4782]], top_surface: {texture: 7slimywtr, size: [128, 128]}, base: 136, notes: "The cracked tank: no lid, its glass broken low, the slime open to the air (where the doom bugs get out)."}
+      - {rise: 46, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2698, 4749], [2704, 4752], [2702, 4759], [2695, 4756]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 46, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2756, 4774], [2762, 4777], [2760, 4784], [2753, 4781]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 46, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2745, 4802], [2751, 4805], [2749, 4812], [2742, 4809]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 46, surface: {texture: d8dorf, size: [128, 256]}, outline: [[2687, 4777], [2693, 4780], [2691, 4787], [2684, 4784]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 128, surface: {texture: d1medbw, size: [128, 128]}, outline: [[3055, 5050], [3152, 5285], [3115, 5300], [3018, 5065]], top_surface: {texture: d1medbw, size: [128, 128]}, notes: "A stone plinth against the wall, 128 high, under a row of bug tanks."}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3063, 5078], [3090, 5141], [3056, 5156], [3029, 5092]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 128, notes: "Bug tank: its iron foot."}
+      - {id: platform:tank_5, rise: 54, surface: {texture: xnbugtank, size: [64, 128], fit: true}, outline: [[3061, 5082], [3086, 5140], [3058, 5152], [3033, 5094]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 136, notes: "Bug tank: glass sides (xnbugtank) between four iron corner posts, under an iron lid."}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3063, 5077], [3066, 5084], [3059, 5086], [3056, 5080]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3088, 5135], [3091, 5142], [3084, 5144], [3081, 5138]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3060, 5147], [3063, 5154], [3056, 5156], [3053, 5150]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3035, 5089], [3038, 5096], [3031, 5098], [3028, 5092]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3063, 5078], [3090, 5141], [3056, 5156], [3029, 5092]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 192}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3111, 5195], [3138, 5260], [3105, 5274], [3079, 5209]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 128, notes: "Bug tank: its iron foot."}
+      - {id: platform:tank_6, rise: 54, surface: {texture: xnbugtank, size: [64, 128], fit: true}, outline: [[3110, 5199], [3134, 5258], [3107, 5270], [3083, 5211]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 136, notes: "Bug tank: glass sides (xnbugtank) between four iron corner posts, under an iron lid."}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3112, 5194], [3114, 5201], [3108, 5204], [3105, 5197]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3136, 5253], [3138, 5260], [3132, 5263], [3129, 5256]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3109, 5265], [3111, 5272], [3105, 5275], [3102, 5268]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 58, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3085, 5206], [3087, 5213], [3081, 5216], [3078, 5209]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 134}
+      - {rise: 6, surface: {texture: d8dorf, size: [128, 256]}, outline: [[3111, 5195], [3138, 5260], [3105, 5274], [3079, 5209]], top_surface: {texture: d8dorf, size: [128, 256]}, base: 192}
+      - {rise: 6, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2432, 5445], [2432, 5499], [2395, 5536], [2341, 5536], [2304, 5499], [2304, 5445], [2341, 5408], [2395, 5408]], top_surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The drain in the middle of the pool: a round iron grate in a stone ring, just proud of the slime."}
     levels:
       - id: level:pool
-        outline: [[2289, 5033], [2185, 5137], [2039, 5137], [1935, 5033], [1935, 4887], [2039, 4783], [2185, 4783], [2289, 4887]]
+        outline: [[2545, 5545], [2441, 5649], [2295, 5649], [2191, 5545], [2191, 5399], [2295, 5295], [2441, 5295], [2545, 5399]]
         floor: -448
         edge: {texture: d1medbw, size: [128, 128]}
         surface: {texture: 7slimywtr, size: [128, 128]}
@@ -120,7 +155,7 @@ rooms:
         top_scale: 0.3
         notes: "The low brick dome: from its springing 352 over the floor to a flat crown 640 over it."
     parapets:
-      - path: [[2305, 5040], [2192, 5153], [2032, 5153], [1919, 5040], [1919, 4880], [2032, 4767], [2192, 4767], [2305, 4880], [2305, 5040]]
+      - path: [[2561, 5552], [2448, 5665], [2288, 5665], [2175, 5552], [2175, 5392], [2288, 5279], [2448, 5279], [2561, 5392], [2561, 5552]]
         height: 24
         thickness: 16
         surface: {texture: d1smbw, size: [128, 128]}
@@ -130,7 +165,7 @@ rooms:
   - id: room:cellar_landing
     name: "Cellar stair, landing"
     space: room:cellar_stair
-    outline: [[1968, 3392], [2256, 3392], [2256, 3648], [1968, 3648]]
+    outline: [[2224, 3904], [2512, 3904], [2512, 4160], [2224, 4160]]
     floor: -192
     ceiling: 128
     theme: theme:cellar_brick
@@ -142,7 +177,7 @@ rooms:
     notes: "The landing halfway down, -192, under a barrel vault; an iron torch on its wall."
   - id: room:cellar_stair
     name: "Cellar stair, upper flight"
-    outline: [[1968, 2944], [2256, 2944], [2256, 3328], [1968, 3328]]
+    outline: [[2224, 3456], [2512, 3456], [2512, 3840], [2224, 3840]]
     floor: 0
     slope: {to: -192, toward: north, steps: 6, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d1medbw, size: [128, 128]}}
     ceiling: 352
@@ -153,7 +188,7 @@ rooms:
   - id: room:cellar_stair_lower
     name: "Cellar stair, lower flight"
     space: room:cellar_stair
-    outline: [[1968, 3712], [2256, 3712], [2256, 4096], [1968, 4096]]
+    outline: [[2224, 4224], [2512, 4224], [2512, 4608], [2224, 4608]]
     floor: -192
     slope: {to: -384, toward: north, steps: 6, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d1medbw, size: [128, 128]}}
     ceiling: 160
@@ -163,7 +198,7 @@ rooms:
     notes: "Lower flight: 6 steps of 32 down to the pens' south arch; from its top the green glow of the drain pool is ahead (landmark:pens_glow)."
   - id: room:culvert
     name: "River culvert, head"
-    path: [[2976, 4960, -384], [3280, 4960, -384]]
+    path: [[3232, 5472, -384], [3536, 5472, -384]]
     section: {outline: [[-96, 0], [96, 0], [144, 40], [144, 208], [80, 288], [-80, 288], [-144, 208], [-144, 40]], floor: {texture: swprrf3, size: [128, 128]}, lower: {texture: d1wldle3, size: [256, 256]}, wall: {texture: d1wldle2, size: [256, 256]}, upper: {texture: d1wle, size: [256, 256]}, ceiling: {texture: d1wle, size: [256, 256]}, start: {length: 96, width: 224}}
     floor: -384
     ceiling: -96
@@ -173,7 +208,7 @@ rooms:
   - id: room:culvert_lower
     name: River culvert
     space: room:culvert
-    path: [[3472, 4768, -384], [3472, 4496, -384], [3472, 3744, -640], [3472, 3488, -640], [3904, 3488, -640]]
+    path: [[3728, 5280, -384], [3728, 5008, -384], [3728, 4256, -640], [3728, 4000, -640], [4160, 4000, -640]]
     section: {outline: [[-96, 0], [96, 0], [144, 40], [144, 208], [80, 288], [-80, 288], [-144, 208], [-144, 40]], floor: {texture: swprrf3, size: [128, 128]}, lower: {texture: d1wldle3, size: [256, 256]}, wall: {texture: d1wldle2, size: [256, 256]}, upper: {texture: d1wle, size: [256, 256]}, ceiling: {texture: d1wle, size: [256, 256]}, end: {length: 96, width: 256}}
     floor: -384
     ceiling: -96
@@ -183,7 +218,7 @@ rooms:
   - id: room:culvert_outfall
     name: "River culvert, outfall"
     space: room:culvert
-    outline: [[3968, 3296], [4416, 3296], [4416, 3680], [3968, 3680]]
+    outline: [[4224, 3808], [4672, 3808], [4672, 4192], [4224, 4192]]
     floor: -640
     ceiling: -320
     theme: theme:culvert
@@ -196,19 +231,19 @@ rooms:
   - id: room:culvert_shaft
     name: "River culvert, drain shaft"
     space: room:culvert
-    outline: [[3312, 4800], [3632, 4800], [3632, 5120], [3312, 5120]]
+    outline: [[3568, 5312], [3888, 5312], [3888, 5632], [3568, 5632]]
     floor: -384
     ceiling: -96
     theme: theme:culvert
     levels:
       - id: level:shaft_ledge
-        outline: [[3544, 4832], [3632, 4832], [3632, 5088], [3544, 5088]]
+        outline: [[3800, 5344], [3888, 5344], [3888, 5600], [3800, 5600]]
         floor: -352
         edge: {texture: d1medbw, size: [128, 128]}
         surface: {texture: d1medbw, size: [128, 128]}
         notes: "A dry ledge along the east wall, one step up: where the rats nest and the drain's catch lies."
     ceiling_levels:
-      - outline: [[3408, 4896], [3536, 4896], [3536, 5024], [3408, 5024]]
+      - outline: [[3664, 5408], [3792, 5408], [3792, 5536], [3664, 5536]]
         ceiling: 192
         edge: {texture: d1wldle2, size: [256, 256]}
         surface: {texture: d1lggrt, size: [256, 256], fit: true}
@@ -217,97 +252,112 @@ rooms:
     notes: "Where the culvert turns south: a square chamber under a street drain, lit by the daylight that falls through the grate at the top of its shaft. Water underfoot; a dry ledge on the east side with a rats' nest and what the drain has washed down."
   - id: room:feed_store
     name: Feed store
-    outline: [[192, 4512], [864, 4512], [864, 4800], [1248, 4800], [1248, 5120], [416, 5120], [192, 4896]]
+    outline: [[-320, 4768], [1120, 4768], [1120, 5312], [1504, 5312], [1504, 5632], [1120, 5632], [1120, 6080], [-96, 6080], [-320, 5856]]
     floor: -384
-    ceiling: 64
+    ceiling: 192
     theme: theme:feed_store
+    platforms:
+      - {at: [160, 5320], size: [256, 192], rise: 16, surface: {texture: gt003a, size: [64, 64], scale: 2}, top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A pallet of Slime Chow sacks.}
+      - {at: [-150, 5940], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: Crates of feed in the north-west corner (320).}
+      - {at: [-150, 5940], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [720, 5980], size: [192, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
     beams:
-      - path: [[192, 4704], [864, 4704]]
+      - path: [[-320, 5120], [1120, 5120]]
         width: 48
         depth: 48
-        bottom: -8
+        bottom: 120
         surface: {texture: cbeam5, size: [32, 256]}
-      - path: [[640, 4512], [640, 5120]]
+      - path: [[-320, 5456], [1120, 5456]]
         width: 48
         depth: 48
-        bottom: -8
+        bottom: 120
+        surface: {texture: cbeam5, size: [32, 256]}
+      - path: [[-320, 5792], [1120, 5792]]
+        width: 48
+        depth: 48
+        bottom: 120
+        surface: {texture: cbeam5, size: [32, 256]}
+      - path: [[400, 4768], [400, 6080]]
+        width: 48
+        depth: 48
+        bottom: 104
         surface: {texture: cbeam5, size: [32, 256]}
     ambient: 20
-    notes: "L-shaped: a neck from the cistern's west arch between two pens, widening into the store under plank joists. Sacks of JOE'S PREMIUM SLIME CHOW (decorations) line its south wall; the stash's sliding door is in that wall, among them."
+    notes: "A neck from the cistern's west arch between two pens, opening into the store: 1,440 by 1,312 under plank joists, 576 high (pass 3: it was 672 by 608 under 448). Sacks of JOE'S PREMIUM SLIME CHOW line its south wall round the stash's sliding door; a pallet of sacks, crates of feed, the mash cauldron."
   - id: room:grain_hall
     name: Grain hall
-    outline: [[0, 1216], [128, 1088], [1728, 1088], [1856, 1216], [1856, 2624], [128, 2624], [0, 2496]]
+    outline: [[0, 1472], [128, 1344], [1728, 1344], [1856, 1472], [1856, 2880], [128, 2880], [0, 2752]]
     floor: 0
-    floor_points: [[96, 1660, -24], [1760, 1660, -24], [1760, 1720, -24], [96, 1720, -24], [0, 1800, 0], [1856, 1800, 0]]
+    floor_points: [[96, 1916, -24], [1760, 1916, -24], [1760, 1976, -24], [96, 1976, -24], [0, 2056, 0], [1856, 2056, 0]]
     floor_lines:
-      - [[96, 1660], [1760, 1660], [1760, 1720], [96, 1720], [96, 1660]]
-      - [[0, 1800], [1856, 1800]]
+      - [[96, 1916], [1760, 1916], [1760, 1976], [96, 1976], [96, 1916]]
+      - [[0, 2056], [1856, 2056]]
     floor_surfaces:
-      - {at: [928, 1690], surface: {texture: 7slimywtr, size: [128, 128]}, notes: "The gutter: a slimy channel 60 wide and 24 down the middle of the hall, where the floor sags."}
+      - {at: [928, 1946], surface: {texture: 7slimywtr, size: [128, 128]}, notes: "The gutter: a slimy channel 60 wide and 24 down the middle of the hall, where the floor sags."}
     ceiling: 640
     platforms:
-      - {at: [304, 1330], size: [288, 288], rise: 320, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: "Grain bin, open at the top: chaff to the brim."}
-      - {at: [1300, 1330], size: [288, 288], rise: 320, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}}
-      - {at: [320, 1520], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: "Posts under the tie beams, two rows of three either side of the gutter."}
-      - {at: [928, 1520], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1536, 1520], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [320, 1940], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [928, 1940], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1536, 1940], size: [48, 48], rise: 592, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1660, 1290], size: [192, 160], rise: 192, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: Shipping crates stacked in the south-east corner.}
-      - {at: [1676, 1290], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
-      - {at: [860, 2150], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: A crate left at the foot of the loft.}
-      - {at: [256, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Rail post on the loft's edge.}
-      - {at: [640, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1080, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1320, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1600, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1840, 2256], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
-      - {at: [1700, 2560], size: [192, 96], rise: 96, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: "On the loft: the broken grain bin against the back wall, knee high, its chaff spilt."}
+      - {at: [304, 1586], size: [288, 288], rise: 320, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: "Grain bin, open at the top: chaff to the brim."}
+      - {at: [1300, 1586], size: [288, 288], rise: 320, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}}
+      - {at: [320, 1776], size: [48, 48], rise: 576, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: "Posts under the tie beams, two rows of three either side of the gutter."}
+      - {at: [928, 1776], size: [48, 48], rise: 576, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1536, 1776], size: [48, 48], rise: 576, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [320, 2196], size: [48, 48], rise: 576, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [928, 2196], size: [48, 48], rise: 576, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1536, 2196], size: [48, 48], rise: 576, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1660, 1546], size: [192, 160], rise: 192, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: Shipping crates stacked in the south-east corner.}
+      - {at: [1676, 1546], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [860, 2406], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: A crate left at the foot of the loft.}
+      - {at: [256, 2512], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Rail post on the loft's edge.}
+      - {at: [640, 2512], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1080, 2512], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1320, 2512], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1600, 2512], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1840, 2512], size: [16, 16], rise: 72, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}
+      - {at: [1700, 2816], size: [192, 96], rise: 96, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: "On the loft: the broken grain bin against the back wall, knee high, its chaff spilt."}
     levels:
       - id: level:loft
-        outline: [[0, 2240], [1856, 2240], [1856, 2624], [128, 2624], [0, 2496]]
+        outline: [[0, 2496], [1856, 2496], [1856, 2880], [128, 2880], [0, 2752]]
         floor: 256
         edge: {texture: t66b01, size: [128, 256]}
         surface: {texture: straw, size: [256, 256]}
         notes: "The grain loft: a gallery 256 up along the whole north wall, open to the hall, its boards deep in spilt chaff. It stands over the hall's floor where that floor is level again (north of the line at y 1800)."
     ceiling_levels:
       - ceiling: 1088
-        top_outline: [[0, 1856], [0, 1856], [1856, 1856], [1856, 1856], [1856, 1856], [0, 1856], [0, 1856]]
+        top_outline: [[0, 2112], [0, 2112], [1856, 2112], [1856, 2112], [1856, 2112], [0, 2112], [0, 2112]]
         edge: {texture: t66floor, size: [128, 128]}
         surface: {texture: t66roof, size: [128, 128]}
         notes: "The pitched roof: from the eaves at 640 to a ridge at 1088 along the hall's length."
     flights:
-      - {from: [1200, 1856], to: [1200, 2240], open_below: true, width: 192, steps: 8, sides: {height: 40, thickness: 12, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}, riser: {texture: t66abc11a, size: [128, 32]}, tread: {texture: t66floor, size: [128, 128]}, notes: "The loft stair: an open flight of pale treads with a hand rail either side, rising straight north from the middle of the hall to a gap in the loft's rail, in full view of the barn doors."}
+      - {from: [1200, 2112], to: [1200, 2496], open_below: true, width: 192, steps: 8, sides: {height: 40, thickness: 12, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}}, riser: {texture: t66abc11a, size: [128, 32]}, tread: {texture: t66floor, size: [128, 128]}, notes: "The loft stair: an open flight of pale treads with a hand rail either side, rising straight north from the middle of the hall to a gap in the loft's rail, in full view of the barn doors."}
     beams:
-      - path: [[248, 2256], [1088, 2256]]
+      - path: [[248, 2512], [1088, 2512]]
         width: 16
         depth: 16
         bottom: 312
         surface: {texture: t66abc10a, size: [32, 128]}
         notes: "The loft rail, on its posts; broken at the west end where the ladder stands, open where the stair comes up."
-      - path: [[1312, 2256], [1848, 2256]]
+      - path: [[1312, 2512], [1848, 2512]]
         width: 16
         depth: 16
         bottom: 312
         surface: {texture: t66abc10a, size: [32, 128]}
-      - path: [[320, 1088], [320, 2624]]
+      - path: [[320, 1344], [320, 2880]]
         width: 48
         depth: 48
         bottom: 576
         surface: {texture: t66abc10a, size: [32, 128]}
         notes: Tie beam.
-      - path: [[928, 1088], [928, 2624]]
+      - path: [[928, 1344], [928, 2880]]
         width: 48
         depth: 48
         bottom: 576
         surface: {texture: t66abc10a, size: [32, 128]}
-      - path: [[1536, 1088], [1536, 2624]]
+      - path: [[1536, 1344], [1536, 2880]]
         width: 48
         depth: 48
         bottom: 576
         surface: {texture: t66abc10a, size: [32, 128]}
-      - path: [[0, 1856], [1856, 1856]]
+      - path: [[0, 2112], [1856, 2112]]
         width: 32
         depth: 32
         bottom: 1024
@@ -318,29 +368,34 @@ rooms:
   - id: room:hall_aisle
     name: Grain hall aisle
     space: room:grain_hall
-    outline: [[1920, 1088], [2368, 1088], [2368, 2880], [1920, 2880]]
+    outline: [[1920, 1344], [2816, 1344], [2816, 3392], [1920, 3392]]
     floor: 0
-    ceiling: 576
-    ceiling_slope: {to: 448, toward: east}
+    ceiling: 704
+    ceiling_slope: {to: 512, toward: east}
     theme: theme:aisle
     walls:
       - wall: north
         panels:
-          - {id: panel:keep_out, at: centre, length: 224, bottom: 320, height: 112, surface: {texture: warnsign, size: [256, 128], fit: true}, notes: "KEEP OUT (THIS MEANS YOU, GUNTHER), with skulls."}
+          - {id: panel:keep_out, at: centre, length: 224, bottom: 320, height: 112, surface: {texture: xnkeepout, size: [256, 128], fit: true}, notes: "KEEP OUT (THIS MEANS YOU, GUNTHER), with skulls."}
       - wall: east
         panels:
-          - {id: panel:rules, offset: 320, from: end, length: 96, bottom: 96, height: 192, surface: {texture: sign06-1, size: [128, 256], fit: true}, notes: "Joe's hand-painted house rules, near the KEEP OUT door."}
+          - {id: panel:rules, offset: 320, from: end, length: 96, bottom: 96, height: 192, surface: {texture: xnrules, size: [128, 256], fit: true}, notes: "Joe's hand-painted house rules, near the KEEP OUT door."}
     platforms:
-      - {at: [2232, 1200], size: [192, 160], rise: 192, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: Crates waiting at the aisle's south end.}
-      - {at: [2040, 1180], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
-      - {at: [2296, 2160], size: [96, 256], rise: 72, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: "A sorting bench against the east wall, sacks split open on it."}
+      - {at: [2640, 1460], size: [256, 192], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: "Crates waiting at the aisle's south end: a big studded crate with two on it (480)."}
+      - {at: [2640, 1460], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 256}
+      - {at: [2340, 1450], size: [192, 160], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [2340, 1450], size: [96, 96], rise: 96, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [2060, 1440], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {at: [2400, 2200], size: [192, 256], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: "A stack in the middle of the aisle to walk round, 352 clear on either side."}
+      - {at: [2400, 2200], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 256}
+      - {at: [2768, 2416], size: [96, 256], rise: 72, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: "A sorting bench against the east wall, sacks split open on it."}
     ambient: 22
-    notes: "The north-east aisle under a lean-to roof, open to the hall along its west side: torn sacks (the bugs' nests), crates waiting at its south end, a sorting bench, Joe's house rules on the wall, and the KEEP OUT door in its north wall under his skull-and-crossbones notice, lit by one lantern."
+    notes: "The north-east aisle, 896 by 2,048 under a lean-to roof falling from 704 to 512 (pass 3: it was 448 wide), open to the hall through a wide gap in the hall's east wall: crates waiting at its south end, a stack in its middle, torn sacks (the bugs' nests), a sorting bench, Joe's house rules on the east wall, and the KEEP OUT door in the middle of its north wall under his skull-and-crossbones notice."
   - id: room:joes_office
     name: Joe's office
-    outline: [[-576, 96], [-192, 144], [-192, 512], [64, 512], [64, 960], [-448, 960], [-576, 832]]
+    outline: [[-832, 96], [-192, 144], [-192, 512], [64, 512], [64, 1152], [-704, 1152], [-832, 1024]]
     floor: 64
-    ceiling: 448
+    ceiling: 512
     theme: theme:office
     walls:
       - wall: west
@@ -348,16 +403,17 @@ rooms:
           - {id: panel:ledger, at: centre, length: 192, bottom: 64, height: 224, surface: {texture: t66d01j, size: [128, 256], fit: true}}
       - wall: north
         panels:
-          - {id: panel:pest_notice, offset: 96, length: 96, bottom: 144, height: 192, surface: {texture: sign06-1, size: [128, 256], fit: true}, notes: Joe's hand-painted 'Pest of the Month' notice.}
+          - {id: panel:pest_notice, offset: 96, length: 96, bottom: 144, height: 192, surface: {texture: xnpestntc, size: [128, 256], fit: true}, notes: Joe's hand-painted 'Pest of the Month' notice.}
     platforms:
-      - {id: platform:cabinet, at: [-384, 930], size: [96, 48], rise: 192, surface: {texture: t1cab, size: [128, 256], fit: true}, end_surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: "Joe's filing cabinet against the north wall: four drawers of invoices (clicked: the pest bills)."}
-      - {at: [-512, 200], size: [64, 48], rise: 40, surface: {texture: gt002c, size: [64, 64], fit: true}, top_surface: {texture: gt002g, size: [64, 64], fit: true}, notes: "Joe's strongbox, bolted to the floor and empty (the money is in the stash)."}
-      - {at: [-352, 800], size: [48, 48], rise: 40, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: Joe's stool behind the desk.}
+      - {id: platform:desk, at: [-420, 760], size: [200, 88], rise: 64, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: "Joe's desk: a plain plank pedestal (d06's furniture wood) under an overhanging top, not a chest; papers on it (clicked: the bills)."}
+      - {at: [-420, 760], size: [232, 120], rise: 8, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, bottom_surface: {texture: t1books1, size: [128, 128]}, base: 64, notes: "The desk's top, overhanging the pedestal by 16 all round."}
+      - {at: [-420, 868], size: [48, 48], rise: 40, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: Joe's stool behind the desk.}
+      - {at: [-212, 344], size: [40, 160], rise: 10, surface: {texture: t66abc11a, size: [128, 32]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: t66floor, size: [128, 128]}, base: 300, notes: "A plank ledge over the inside of the office door, 12 over the door's top: the slime bucket stands on it."}
     ambient: 14
-    notes: "Trapezoid: the south wall and the north-west corner are set at an angle. The east wall's projecting part faces the bay and holds the counter window; the recessed part behind the steps holds the door. Cream plaster over a carved panel wainscot (t66d01). Joe's desk is a searchable box with drawers and a board top (objects.yml chest:desk: the pen key in its drawers), his stool behind it; his ledgers stand on a shelf on the west wall (a readable panel); a filing cabinet and a painted notice on the north wall; a strongbox in the south-west corner."
+    notes: "Trapezoid, 896 by 1,056 (pass 3: it was 640 by 864): the south wall and the north-west corner are set at an angle. The east wall's projecting part faces the bay and holds the counter window; the recessed part behind the steps holds the door, with a plank ledge over it inside where the slime bucket waits. Cream plaster over a carved panel wainscot (t66d01). Joe's desk is a plain table with his bills on it, his stool behind it; his ledgers stand on a shelf on the west wall (a readable panel); against the north wall his cabinet, the Pirate Outpost's drawer cabinet and, as there, a chest (the pen key), and a painted notice; a small MM8 chest, his strongbox, in the south-west corner."
   - id: room:joes_stash
     name: Joe's stash
-    outline: [[192, 4064], [640, 4064], [704, 4128], [704, 4448], [192, 4448]]
+    outline: [[448, 4320], [896, 4320], [960, 4384], [960, 4704], [448, 4704]]
     floor: -384
     ceiling: 0
     theme: theme:feed_store
@@ -365,38 +421,40 @@ rooms:
     notes: Closet south of the feed store behind the sliding sacks. One chamfered corner.
   - id: room:loading_bay
     name: Loading bay
-    outline: [[256, 0], [1280, 0], [1408, 128], [1408, 896], [1280, 1024], [128, 1024], [128, 128]]
+    outline: [[256, 0], [1664, 0], [1792, 128], [1792, 1152], [1664, 1280], [128, 1280], [128, 128]]
     floor: 0
-    ceiling: 512
+    ceiling: 640
     theme: theme:loading_bay
     walls:
       - wall: north
         panels:
-          - {id: panel:bay_sign, at: centre, length: 288, bottom: 368, height: 120, surface: {texture: sign01-1, size: [256, 128], fit: true}, notes: Joe's hand-painted sign over the barn doors.}
+          - {id: panel:bay_sign, at: centre, length: 288, bottom: 368, height: 120, surface: {texture: xnjoesign, size: [256, 128], fit: true}, notes: Joe's hand-painted sign over the barn doors.}
     bands:
       - {height: 256, surface: {texture: t66b01, size: [128, 256]}}
     platforms:
-      - {at: [1352, 300], size: [96, 256], rise: 72, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: A packing bench along the east wall.}
-      - {at: [940, 580], size: [192, 160], rise: 16, surface: {texture: gt003a, size: [64, 64], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, notes: A pallet of sacks waiting to go in.}
-      - {at: [448, 288], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
-      - {at: [432, 288], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
-      - {at: [1120, 352], size: [192, 256], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}}
-      - {at: [384, 704], size: [192, 256], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}}
-      - {at: [1088, 800], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
-      - {at: [1120, 784], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [1744, 704], size: [96, 256], rise: 72, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: A packing bench along the east wall.}
+      - {at: [1000, 700], size: [192, 160], rise: 16, surface: {texture: gt003a, size: [64, 64], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, notes: "A pallet of sacks waiting to go in, in the middle of the bay with room all round."}
+      - {at: [480, 1050], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: "West stack by the barn doors, three crates high (416), each standing whole on the one under it."}
+      - {at: [480, 1050], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [480, 1050], size: [96, 96], rise: 96, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 320}
+      - {at: [560, 520], size: [192, 192], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: "A big studded crate (the Pirate Outpost's) off the office steps, room to pass on every side."}
+      - {at: [1344, 384], size: [192, 256], rise: 256, surface: {texture: ch002a, size: [64, 64], fit: true}, top_surface: {texture: ch002a, size: [64, 64], fit: true}, notes: "East stack: a big studded crate with a crate on it (416)."}
+      - {at: [1344, 384], size: [160, 160], rise: 160, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 256}
+      - {at: [1408, 960], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: North-east stack (320).}
+      - {at: [1408, 960], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
     beams:
-      - path: [[128, 352], [1408, 352]]
+      - path: [[128, 400], [1792, 400]]
         width: 48
         depth: 48
-        bottom: 448
+        bottom: 576
         surface: {texture: t66abc10a, size: [32, 128]}
-      - path: [[128, 704], [1408, 704]]
+      - path: [[128, 860], [1792, 860]]
         width: 48
         depth: 48
-        bottom: 448
+        bottom: 576
         surface: {texture: t66abc10a, size: [32, 128]}
     ambient: 20
-    notes: "Long bay with chamfered corners: upright planks over a panelled wainscot, flagstones underfoot. Four crate stacks stand staggered so every aisle runs through, none at the middle; two of them have a smaller crate on top (a block on a block), two are big studded crates (ch002a, the Pirate Outpost's). A packing bench on the east wall, a pallet of sacks near the middle. Two dark joists cross under the boards. The office's counter window looks in through the west wall, its steps beside it; the rolling barn doors to the grain hall are in the north wall under Joe's hand-painted sign."
+    notes: "Long bay with chamfered corners, 1,664 by 1,280 under a roof 640 high (pass 3: it was 1,280 by 1,024 under 512, too cramped for a warehouse): upright planks over a panelled wainscot, flagstones underfoot. Four crate stacks stand apart with aisles of 256 and more between them and the walls, two of them three crates high, every upper crate whole on the one under it; the cart way from the ramp to the barn doors runs clear down the middle past a pallet of sacks. A packing bench and barrels on the east wall. Two dark joists cross under the boards. The office's counter window looks in through the west wall, its steps beside it; the rolling barn doors to the grain hall are in the north wall under Joe's sign."
   - id: room:loading_dock
     name: Loading dock
     space: room:loading_bay
@@ -409,8 +467,8 @@ rooms:
       - wall: north
         surface: {texture: t66floor, size: [128, 128]}
         panels:
-          - {id: panel:notice_board, offset: 80, length: 160, bottom: 96, height: 128, surface: {texture: sign01-1, size: [256, 128], fit: true}}
-          - {id: panel:shutter, offset: 64, from: end, length: 256, bottom: 112, height: 128, surface: {texture: gt003b, size: [64, 64], fit: true}}
+          - {id: panel:notice_board, offset: 80, length: 160, bottom: 96, height: 128, surface: {texture: xnnotice, size: [128, 128], fit: true}}
+          - {id: panel:shutter, offset: 64, from: end, length: 256, bottom: 112, height: 128, surface: {texture: xnshutter, size: [256, 256], fit: true}}
     platforms:
       - {at: [336, -1000], size: [192, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
       - {at: [1216, -720], size: [128, 192], rise: 96, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
@@ -426,7 +484,7 @@ rooms:
       - path: [[1088, -768], [1088, -576]]
         width: 32
         depth: 32
-        bottom: 464
+        bottom: 472
         surface: {texture: t66abc10a, size: [32, 128]}
         notes: The hoist's arm from the wall to the beam.
     ambient: 10
@@ -444,20 +502,20 @@ rooms:
     notes: "The short ramp up to the street doors (128 over 448), 512 wide so the barn-style street doors' two leaves have room to slide."
   - id: room:mated_pair_pen
     name: The honeymoon pen
-    outline: [[1936, 5824], [2288, 5824], [2288, 6176], [2432, 6240], [2560, 6400], [2560, 6624], [2464, 6784], [2272, 6848], [2112, 6784], [2016, 6720], [1856, 6816], [1664, 6752], [1600, 6560], [1664, 6304], [1792, 6208], [1936, 6176]]
+    outline: [[2192, 6336], [2544, 6336], [2544, 6688], [2720, 6784], [2800, 6976], [2800, 7424], [2720, 7712], [2528, 7904], [2304, 7968], [2112, 7872], [1984, 7744], [1824, 7840], [1536, 7840], [1344, 7616], [1280, 7264], [1344, 6976], [1600, 6784], [1920, 6720], [2192, 6688]]
     floor: -416
-    ceiling: 32
+    ceiling: 128
     theme: theme:pens_brick
     platforms:
-      - {at: [2112, 6700], size: [320, 176], rise: 24, surface: {texture: crcn96, size: [64, 64]}, top_surface: {texture: straw, size: [256, 256]}, notes: "The pair's bed: a low plank frame heaped with straw in the bean's hollow, their nest of muck on it."}
-      - {rise: 32, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2112, 6400], [2176, 6450], [2200, 6500], [2184, 6544], [2150, 6556], [2112, 6530], [2074, 6556], [2040, 6544], [2024, 6500], [2048, 6450]], top_surface: {texture: 7slimywtr, size: [128, 128]}, notes: "The pair's feeding trough: heart-shaped, stone, brimming with slime chow."}
+      - {at: [2050, 7420], size: [320, 176], rise: 24, surface: {texture: crcn96, size: [64, 64]}, top_surface: {texture: straw, size: [256, 256]}, notes: "The pair's bed: a low plank frame heaped with straw in the bean's hollow, their nest of muck on it."}
+      - {rise: 32, surface: {texture: d1medbw, size: [128, 128]}, outline: [[2050, 7052], [2114, 7102], [2138, 7152], [2122, 7196], [2088, 7208], [2050, 7182], [2012, 7208], [1978, 7196], [1962, 7152], [1986, 7102]], top_surface: {texture: 7slimywtr, size: [128, 128]}, notes: "The pair's feeding trough: heart-shaped, stone, brimming with slime chow."}
     ceiling_levels:
-      - outline: [[1760, 6320], [2400, 6320], [2448, 6448], [2400, 6640], [1760, 6640], [1712, 6448]]
-        ceiling: 128
+      - outline: [[1472, 7008], [2656, 7008], [2720, 7264], [2656, 7584], [1472, 7584], [1408, 7296]]
+        ceiling: 320
         top_scale: 0.5
         notes: A shallow brick dome over the bean.
     ambient: 16
-    notes: "Kidney-shaped, one step (32) below the cistern: a narrow neck from the heart-painted gate, then the bean with its hollow to the north under a shallow dome. The boss pair's room."
+    notes: "Kidney-shaped, one step (32) below the cistern, 1,520 by 1,280 past its neck under a brick dome (pass 3: the boss's room was 960 by 672; now there is room to fight the pair and their splits): a narrow neck from the heart-painted gate, then the bean with its hollow to the north. The pair's bed and nest in the middle, their heart-shaped trough before it, the rival exterminator's body by the east wall."
   - id: room:office_steps
     name: Office steps
     space: room:joes_office
@@ -471,7 +529,7 @@ rooms:
   - id: room:pen_1
     name: Slime pen 1
     space: room:breeding_pens
-    outline: [[1395, 5464], [1608, 5677], [1416, 5939], [1133, 5656]]
+    outline: [[1651, 5976], [1864, 6189], [1672, 6451], [1389, 6168]]
     floor: -384
     ceiling: -64
     theme: theme:pen
@@ -480,7 +538,7 @@ rooms:
   - id: room:pen_2
     name: Slime pen 2
     space: room:breeding_pens
-    outline: [[1253, 5143], [1375, 5437], [1095, 5598], [941, 5228]]
+    outline: [[1509, 5655], [1631, 5949], [1351, 6110], [1197, 5740]]
     floor: -384
     ceiling: -64
     theme: theme:pen
@@ -489,7 +547,7 @@ rooms:
   - id: room:pen_3
     name: Slime pen 3
     space: room:breeding_pens
-    outline: [[1375, 4483], [1253, 4777], [941, 4692], [1095, 4322]]
+    outline: [[1631, 4995], [1509, 5289], [1197, 5204], [1351, 4834]]
     floor: -384
     ceiling: -64
     theme: theme:pen
@@ -498,7 +556,7 @@ rooms:
   - id: room:pen_4
     name: Slime pen 4
     space: room:breeding_pens
-    outline: [[1608, 4243], [1395, 4456], [1133, 4264], [1416, 3981]]
+    outline: [[1864, 4755], [1651, 4968], [1389, 4776], [1672, 4493]]
     floor: -384
     ceiling: -64
     theme: theme:pen
@@ -507,7 +565,7 @@ rooms:
   - id: room:pen_5
     name: Slime pen 5
     space: room:breeding_pens
-    outline: [[1929, 4101], [1635, 4223], [1474, 3943], [1844, 3789]]
+    outline: [[2185, 4613], [1891, 4735], [1730, 4455], [2100, 4301]]
     floor: -384
     ceiling: -64
     theme: theme:pen
@@ -516,7 +574,7 @@ rooms:
   - id: room:pen_6
     name: Slime pen 6
     space: room:breeding_pens
-    outline: [[2829, 4456], [2616, 4243], [2808, 3981], [3091, 4264]]
+    outline: [[3085, 4968], [2872, 4755], [3064, 4493], [3347, 4776]]
     floor: -384
     ceiling: -64
     theme: theme:pen
@@ -525,7 +583,7 @@ rooms:
   - id: room:river_sill
     name: River grate sill
     space: room:culvert
-    outline: [[4480, 3360], [4672, 3360], [4672, 3616], [4480, 3616]]
+    outline: [[4736, 3872], [4928, 3872], [4928, 4128], [4736, 4128]]
     floor: -640
     ceiling: -352
     theme: theme:culvert
@@ -533,28 +591,33 @@ rooms:
     notes: "The sill behind the iron grate, open to the riverbank: the exit face on its east wall."
   - id: room:shipping_room
     name: Shipping room
-    outline: [[2835, 5458], [3612, 5458], [3612, 6260], [2610, 6260], [2610, 5683]]
+    outline: [[3091, 5970], [4380, 5970], [4380, 7220], [2866, 7220], [2866, 6195]]
     floor: -384
     steep_floor: true
-    ceiling: 64
+    ceiling: 192
     theme: theme:cellar_brick
     walls:
       - wall: east
         panels:
-          - {offset: 48, length: 256, bottom: 32, height: 288, surface: {texture: 7winerack, size: [128, 256]}, notes: Racks of bottled stock.}
+          - {offset: 48, length: 256, bottom: 32, height: 288, surface: {texture: xntonics, size: [128, 256]}, notes: Racks of bottled stock.}
+          - {offset: 432, length: 256, bottom: 32, height: 288, surface: {texture: xntonics, size: [128, 256]}, notes: More racks of bottled stock.}
     platforms:
-      - {at: [3456, 6080], size: [128, 256], rise: 32, surface: {texture: cbeam5, size: [32, 256]}, top_surface: {texture: crcn96, size: [64, 64], scale: 2}, bottom_surface: {texture: crcn96, size: [64, 64], scale: 2}, thickness: 16, base: 48, top_slope: {to: 400, toward: north}, notes: The delivery slide coming down out of the chute.}
-      - {at: [3424, 5640], size: [256, 256], rise: 256, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: Crates addressed to Vertigo homes ('Mayor's cellar - Tuesday').}
-      - {at: [3440, 5624], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 256}
-      - {id: platform:packing_table, at: [2944, 6112], size: [256, 128], rise: 72, surface: {texture: crcn96, size: [64, 64], scale: 2}, top_surface: {texture: crcn96, size: [64, 64], scale: 2}, notes: "Packing table, with a potion and a pair of gloves packed for delivery."}
+      - {at: [4220, 7028], size: [128, 256], rise: 32, surface: {texture: cbeam5, size: [32, 256]}, top_surface: {texture: crcn96, size: [64, 64], scale: 2}, bottom_surface: {texture: crcn96, size: [64, 64], scale: 2}, thickness: 16, base: 48, top_slope: {to: 400, toward: north}, notes: The delivery slide coming down out of the chute.}
+      - {at: [3900, 6250], size: [256, 256], rise: 256, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: "Crates addressed to Vertigo homes ('Mayor's cellar - Tuesday'), three high (480)."}
+      - {at: [3900, 6250], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 256}
+      - {at: [3900, 6250], size: [96, 96], rise: 96, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 384}
+      - {at: [3300, 6950], size: [256, 192], rise: 192, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, notes: A second stack by the west wall.}
+      - {at: [3300, 6950], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}, base: 192}
+      - {at: [3600, 7120], size: [128, 128], rise: 128, surface: {texture: gt001a, size: [64, 64], fit: true}, top_surface: {texture: gt001a, size: [64, 64], fit: true}}
+      - {id: platform:packing_table, at: [3350, 6400], size: [256, 128], rise: 72, surface: {texture: crcn96, size: [64, 64], scale: 2}, top_surface: {texture: crcn96, size: [64, 64], scale: 2}, notes: "Packing table, with a potion and a pair of gloves packed for delivery."}
     ceiling_levels:
-      - outline: [[3360, 6016], [3552, 6016], [3552, 6208], [3360, 6208]]
-        ceiling: 576
+      - outline: [[4124, 6964], [4316, 6964], [4316, 7156], [4124, 7156]]
+        ceiling: 704
         edge: {texture: crcn96, size: [64, 64], scale: 2}
         surface: {texture: d1ceil1, size: [256, 256]}
         notes: The delivery chute up to the street.
     ambient: 18
-    notes: "Five-sided: the slanted south-west wall faces the cistern's north-east wall and holds the door. Joe works here: a crate stack, a packing table, racks of bottled stock on the east wall, and the delivery chute rising to the street in the north-east corner with its slide coming down out of it. The invoice crate (a chest) stands under the chute."
+    notes: "Five-sided, 1,514 by 1,250 and 576 high (pass 3: it was 1,002 by 802 under 448): the slanted south-west wall faces the cistern's north-east wall and holds the door. Joe works here: two crate stacks, a packing table, racks of bottled stock on the east wall, and the delivery chute rising to the street in the north-east corner with its slide coming down out of it. The invoice crate stands under the chute."
 openings:
   - id: open:bay_grain_hall
     from: room:loading_bay
@@ -607,10 +670,10 @@ openings:
   - id: open:hall_aisle
     from: room:grain_hall
     to: room:hall_aisle
-    along: 0.3
-    width: 768
+    along: 0.4
+    width: 896
     height: 448
-    notes: The aisle opens off the hall's east wall under a wide beam.
+    notes: "The aisle opens off the hall's east wall, 896 wide, south of the loft."
   - id: open:hall_cellar_stair
     from: room:hall_aisle
     to: room:cellar_stair

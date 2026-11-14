@@ -172,9 +172,10 @@ steps:
   - walk_to: {x: 11200, y: -11140, z: 228, z_tolerance: 400, radius: 32, timeout_seconds: 20}
   - advance_runtime: {seconds: 0.5}
   - assert: {party_position: {x: 11200, y: -11140, radius: 96, z_min: 220, z_max: 270}}
-  # Into the council hall by its terrace door (door at 12800, -12096, on the terrace 256 up, looking south): the
+  # Into the council hall by its terrace door (door at 12928, -12096 since round five, on the terrace 256 up,
+  # looking south): the
   # door leads to the Merchant House of Alvar.
-  - set_pose: {map: calib_ravenshore.odm, x: 12800, y: -12326, z: 416, yaw: 1.5708, pitch: 0}
+  - set_pose: {map: calib_ravenshore.odm, x: 12928, y: -12326, z: 416, yaw: 1.5708, pitch: 0}
   # Before the council opens its hall (quest bit 59) the door does not lead in: the steward speaks.
   - press_interact:
       expect:

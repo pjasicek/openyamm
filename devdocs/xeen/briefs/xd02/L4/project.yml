@@ -32,12 +32,12 @@ neighbours:
     one_way: true
     notes: "XD-03 (the Deep Mine) in the design, by mine cart down the Deep Line. Stand-in until XD-03 exists: Emerald Island at the point XD-01 uses. The cart is chained until the brake key is used on its brake (set:unchain_deep_cart)."
   - id: exit:x1_adit
-    to: 7out01.odm
+    to: xeen_x1.odm
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "In the hills north of Vertigo, in front of the timbered mine portal, facing downhill."
-    direction: 180
-    notes: "X1 (Vertigo Meadows) in the design: the main entrance at the head of the haul road. Stand-in until X1 exists: Emerald Island at the point XD-01 uses."
+    arrival: [-10240, 16131, 1184]
+    arrival_hint: "In the hills north-west of Vertigo, in front of the timbered mine portal (X1 thing:mine_portal, face at y 16531), facing away from it, downhill."
+    direction: 270
+    notes: "X1 (Vertigo Meadows): the main entrance at the head of the mine lane; arrival 400 south of the portal's face (ground 1184)."
   - id: exit:x4_adit
     to: 7out01.odm
     kind: door
@@ -52,4 +52,4 @@ qbits:
   x4_adit_open: 110020
 items:
   brake_key: 2111
-notes: "Xeen design brief, level L4: L3's rooms redrawn with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M3, first half (devdocs/xeen/QUESTS.md). The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map: `world: mm7` until worlds/xeen exists (one line to change back), as XD-01 is. Stand-ins: slot 1 Mad Dwarves (Mad Dwarf 7) is MM7's Dwarf family (Dwarven Soldier 10), slot 2 Spiders (5 / 10) is the Spider family (5 / 8 / 12), slot 3 Bats (Giant Bat 3 / Bat Queen 10) the Bat family (3 / 6 / 9); the Tiger Moles (Burrower 9) are Troglodyte Drones (412, level 9); the Tallymaster is a Dwarven Soldier with hp 80 and a name. The brake key 12011 is the plain Key 2111. Quest bits keep their provisional Xeen numbers (110020-110021); the pools' per-character bits are 11021-11024 (provisional). Music is the MM7 cave track 18 for the name cave, which the game refuses. All three neighbours point at Emerald Island until X1, X4 and XD-03 exist."
+notes: "Xeen design brief, level L4: L3's rooms redrawn with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M3, first half (devdocs/xeen/QUESTS.md). The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map: `world: mm7` until worlds/xeen exists (one line to change back), as XD-01 is. Stand-ins: slot 1 Mad Dwarves (Mad Dwarf 7) is MM7's Dwarf family (Dwarven Soldier 10), slot 2 Spiders (5 / 10) is the Spider family (5 / 8 / 12), slot 3 Bats (Giant Bat 3 / Bat Queen 10) the Bat family (3 / 6 / 9); the Tiger Moles (Burrower 9) are Troglodyte Drones (412, level 9); the Tallymaster is a Dwarven Soldier with hp 80 and a name. The brake key 12011 is the plain Key 2111. Quest bits keep their provisional Xeen numbers (110020-110021); the pools' per-character bits are 11021-11024 (provisional). Music is the MM7 cave track 18 for the name cave, which the game refuses. exit:x1_adit leads to X1 (xeen_x1.odm); exit:deep_mine and exit:x4_adit still point at Emerald Island."

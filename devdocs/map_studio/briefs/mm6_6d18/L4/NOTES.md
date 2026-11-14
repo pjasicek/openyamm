@@ -993,3 +993,30 @@ SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated forge --world mm6 --map cal
 `oymap install --root` (its `cal6d18.blv`, `.scene.yml`, `.lua` and `map_stats.txt` are its own files; `assets_dev` is
 unchanged). Checked: the game starts on `cal6d18.blv` at the original's party start, (-2688, 1216, 1152) on the
 entrance landing, facing east; the exit door on the landing's north wall leads to New Sorpigal.
+
+## Ninth merge lines (2026-11-13, afternoon)
+
+Copy before: `output/studio_cal/mm6_6d18/m9_backup/`.
+
+- **The carved chest** (chest:c1, the original's faces 1908 to 1915 at x -1472..-1408, y 6656..6752): `lid: v`, the
+  carved ch3tpbv middle with ch3tplev and ch3tprev ends, as the original's. Picture `output/studio_cal/mm6_6d18/m9_pics/
+  sheets/01-carved-chest-above.png`: the middle is right; **the end strips are laid wrong by the studio**: ch3tplev and
+  ch3tprev are 64 by 16 and the original lays them with u across the chest's depth (64) and v along its width (16)
+  (face 1910: us -1408..-1472, vs -6656..-6672); the build lays u 0..16 and v 0..64 (16 columns of the picture,
+  repeated 4 times), so the ends show studded bands, and puts LEv at the low-y end where the original has REv. A studio
+  fix (`chests[].lid: v` with the kinds' v strips), not the project's.
+- **Faces in one plane** (the lead's request): 11 before, 0 after (the original has 3, elsewhere). Recorded edit:
+  `output/studio_cal/mm6_6d18/m9_coplanar_edit.py`. (1) The three teleport tiles (events 31, 41, 42) stood from the
+  room's floor through their island's edge, one side in the island edge's plane: now `base: 16, rise: 16` on the
+  island, as the original's faces 654 to 657 (-752 to -736). (2) The east branch of the bridge in room s9 overlapped
+  the main bridge by 27: it starts at x -1704, where the original's underside (396, 2523) starts. (3) The two flights
+  onto the lava channel hall's bridge ran 10 onto it: now from 4032 (5440) to the bridge's end at 4352 (5120), six
+  risers of 16 as before. The original's last riser is the bridge's own end (face 1118) and its treads are 64; a flight
+  cannot end with a riser on the floor it climbs to (only into a doorway), so the treads are 53 (they were 54).
+- **Scores**: 99.7 % before and after (sector-weighted 99.649 to 99.659), offset agreement 0.432 both. Playtest four
+  of four after both changes (`output/studio_cal/mm6_6d18/m9_play/`).
+- **Audit**: the lines add no finding. Click.silent 6 (the original's 6: the bookcase after four searches, event 62;
+  the fire wall, event 91, untitled and silent in the original too). Torches 6torch01 inside the tower's and s37's
+  stair slabs (20 across): at the original's places (-520, 896 there, -524 here) against the original's stairs: the
+  original has them the same way.
+- Installed into `output/studio_play/forge_root` from `output/studio_cal/mm6_6d18/m9_build`.

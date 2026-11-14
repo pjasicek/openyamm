@@ -253,6 +253,16 @@ steps:
         -- round six: the captain's killing turned his group (54) on the party, as in the original; the walk has fought the
         -- dormitory's guard and the library's two on its way, so the whole group is dead
         if not evt.CheckMonstersKilled(ActorKillCheck.Group, 54, 0, false) then error("a guard of group 54 still lives after the captain was killed") end
+  # Ninth merge lines (2026-11-13): the packs are emptied of what the chests rolled before the library, as a player
+  # makes room: with full packs a bookcase's scroll stays on the cursor (stow fails) and was counted 0 (the library
+  # and the study bookcase each failed once in four runs, about 35 items carried by then).
+  - play_lua:
+      source: |
+        log("packs before the library: " .. pack_items() .. ", held " .. held())
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1438 then while item_count(id) > 0 and discard(id) do end end
+        end
   - play_lua:
       source: |
         -- round five: the bookcases are the original's clicked faces (events 35 and 36 there), each giving its scroll once
@@ -273,6 +283,13 @@ steps:
   - walk_to: {x: -4150, y: 6080, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
   - walk_to: {x: -4100, y: 6250, z: -416, radius: 96, timeout_seconds: 90, clear_hostiles: 1500}
   - assert: {party_position: {x: -4100, y: 6250, radius: 300, z_min: -440, z_max: -380}}
+  # Again before the study bookcase (ninth merge lines, as before the library).
+  - play_lua:
+      source: |
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          if id ~= 1438 then while item_count(id) > 0 and discard(id) do end end
+        end
   - play_lua:
       source: |
         log("hidden study reached")

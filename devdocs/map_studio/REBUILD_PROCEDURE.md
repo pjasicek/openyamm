@@ -36,7 +36,10 @@ own (9700 + the number given in your task) and `reference: <the original map fil
   over many rooms. It is held to the same rule as a hand: rooms as their shapes need them, numbers measured from the
   original. Keep it in `L4/gen/` (a first shell) or your scratch folder (a one-off edit) and check its whole diff.
   Once a project has hand edits, the files are the source: a generator that would write them afresh is not run
-  again. Say in NOTES.md what was scripted.
+  again. Say in NOTES.md what was scripted. **After every run of a script (and any edit of the files by hand), run
+  `oymap record <L4> --author agent:<your name> --label "<what it did>"`**: the change becomes a history entry with
+  your name instead of an anonymous `outside` one (it also names entries an earlier read recorded as `outside`, and
+  lists them; check none is another's).
 - **The original's own textures**, by name, wherever a surface of the rebuild stands for one of the original's
   (`oymap metrics` lists them by area; `oymap assets <name>` gives sizes).
 - **Say it with the vocabulary**; where it cannot be said, do the nearest honest thing, put what is missing into a
@@ -63,6 +66,24 @@ things he uses. So, in every round and every new dungeon:
   after it is used (a lever pulled and pulled back, a chest from above, a door half open, a lift at the top and the
   bottom with what stands on it). Not only at the measure's worst places.
 - **Things over moving parts:** check in the game that what stands on a lift, bridge or deck is on it at the start.
+- **From the user's walk through the Hive (round seven):** panel walls on the original's exact corners, panels at
+  full texture width (a wall a few units askew breaks a carved picture at its middle strip); where a tunnel opens onto
+  side rooms, build that stretch as a room so the original's wall ends and posts between the openings exist; every
+  side door of a sloping tunnel walked with `oymap probe` and the playtest (a doorway above the tunnel floor cannot be
+  entered).
+- **Untouchable liquids are ways down; secret faces counted** (the user in the Lab, 2026-11-13): a water or floor face
+  over a room below that the original marks untouchable is a fall, not a floor: read every such face's attributes in
+  the export. Match the original's `secret_faces` (`oymap metrics`).
+- **Caves curve; lights hang from something; torches on walls** (the user in XD-05, 2026-11-13): a cave passage
+  bends in several segments, never a square 90-degree turn; a lamp hangs from a ceiling or beam or stands on the
+  floor, never in the air; torches go in wall sconces at the shipped height, not on poles stuck in the floor before a
+  wall; wide caverns have stalactites overhead as well as stalagmites, narrow passages and tunnels none; nothing stands beside a door that a player cannot
+  name (keyhole blocks with no key).
+- **No flicker** (the user, 2026-11-13: "an automatic sanity check that no faces share the same plane, both when
+  mechanisms are inert or activated"): `oymap audit` lists `geometry.coplanar` pairs (two faces in one plane over each
+  other, at the start and with moving parts moved). A map is not done with any pair the project causes; in a rebuild,
+  a pair the original has at the same place may stay, named in NOTES.md. Code batch ten makes the check binding
+  (moving parts mid-travel too, pairs matched against the original, a strict mode that fails).
 - **Where the party stands high:** take a picture from the top of every platform, flight, ledge and mover the party
   can stand on, looking round. A top that stands up into the room above puts the party's eye in another room, and
   the view goes black (the Abandoned Temple's arrival, round six); the measure scores it as perfect.
@@ -76,6 +97,46 @@ things he uses. So, in every round and every new dungeon:
   only where the original is a flat plate) and chests `kind: ch1..ch5|7gt002|gt002|ch001..ch006`. `oymap build`
   warns of faces in one plane over each other (`geometry.coplanar` in `audit`): fix each the project causes, and
   say in NOTES.md which ones the original has too.
+- **Can a player read it?** (the user's walk through XD-01, 2026-11-13): a lootable thing looks like what MM6-8
+  players know as lootable (a chest, or furniture with the chest's hover name), and nothing looks like a chest that
+  is not one; every clicked thing shows the hover name MM shows and has a reason to be clicked; signs open a message
+  window; nothing floats (every prop stands on something, or is a kind that hangs); no picture is stretched; doors,
+  buttons and plates come from the area's texture family, not the studio's defaults from another world; everything
+  the brief names is recognisable as that thing. Look for each in the game, not in the files.
+- **No riddles the game does not answer** (the user, 2026-11-13: MM6-MM8 had almost none; combat, mechanisms and loot
+  instead; a passphrase is fine "if the answer is obvious, like in some scroll the party can read"): a typed answer
+  may block the way only when the game gives it plainly before (a scroll, note, sign or person on the way); else it
+  becomes a key, mechanism, fight or found thing (`devdocs/xeen/README.md`). `oymap audit` shows where each answer is
+  met. Yes/no offers are fine.
+- **Puzzles a player can solve** (the user at XD-04's word door, 2026-11-13: "how am I supposed to know the answer?"):
+  every question, password, lock and hidden thing has its clue where a player meets it before needing it, in a form
+  he will notice (a message window from a thing that shows a hover name and invites a click, a sign, a person), and
+  the playtest takes the player's own route to the clue first. Name each clue and its place in NOTES.md.
+- **Keys where MM players look** (the user could not find XD-04's cage ring, a small item on a table, even with a
+  message on entering): a key or item the way depends on goes in a chest, or is carried by a named boss whose death
+  the dungeon makes plain; never a small sprite lying about. The thing it opens says where it is.
+- **Liquids move:** water, lava, slime and brew flow as the shipped ones do, on tubs, troughs and pools as well as
+  floors (the user took XD-04's still green trough for acid).
+- **Say why the party is here** (the user after XD-02: "I don't know the intention of it, what quest was there"): until
+  the world's quests exist in the game, a new dungeon says on first entry, briefly and in the world's voice, who sent
+  the party, what it seeks and roughly where; its goals (the thing to bring back, the boss) are visible on the way.
+- **Monsters where they can fight:** no monster or spawn point where it cannot come out to the party or the party
+  cannot reach it (XD-02's bats stuck in shelf openings high in a wall).
+- **Usable from where the party is:** a switch used while riding a mover faces the deck and is within reach at that
+  stop (XD-02's lever faced away from the cart).
+- **No silent clicks, no riddles about the world outside** (the user's second walk through XD-04): a click that
+  cannot work yet says why in a message (a hoist whose brake holds above), and a gate opened by something outside the
+  dungeon (a promotion, a quest elsewhere) says plainly that it is not for now and what opens it, in the world's voice.
+- **Nothing in its stand-in when the user plays:** generate the textures a new dungeon lists before it goes to the
+  user's play copy; a named thing with a misleading stand-in (XD-04's slate as a stone slab) reads as nothing.
+  Hanging things hang from something (a brazier's chain reaches the beam), and nothing stands inside something else
+  (a skeleton in a cage with a child) unless it is meant to.
+- **Room sizes of a new dungeon** (the user found XD-01 cramped, 2026-11-13): run
+  `python3 openyamm-studio/calibration/scale_bands.py <built .blv> --world <world> [--assets <root>]` on every
+  build. Its main rooms (the upper quarter by floor area) and their ceilings sit at least at the shipped median of
+  the 161 MM6-8 dungeons unless the brief makes a room small on purpose (pens, cells, crawlways, closets); a figure
+  below the shipped 25th percentile is a fault to fix. XD-01's bigger rooms measured 0.72 M square units against a
+  shipped median of 1.64 M (the Pirate Outpost's 2.17 M); XD-02 0.93 M, XD-03 0.76 M.
 - A map is not done when it measures well and its playtest passes; it is done when a person could play it without
   meeting a thing that looks or behaves unlike the original.
 
@@ -118,6 +179,8 @@ $O script-reference --assets $A --world <world>                                 
 $O validate <L4> --assets $A ; $O build <L4> --assets $A --out output/studio_cal/<key>/build [--dry-run]
                                    # always with --out: without it the build lands in the brief
 $O audit|metrics|solve|flow|render|probe <L4> --assets $A ...                      # the rebuild, built privately
+$O record <L4> --author agent:<you> --label "<what>"     # after a script or a hand edit wrote the files
+$O pins list|claim|resolve|reply|tour <L4> ...           # the user's pins from the game (below)
 python3 openyamm-studio/calibration/compare.py <L4> openyamm-studio/calibration/originals/<key>.metrics.json
 $O compare <map> --world <world> --with <L4> --assets $A --out output/studio_cal/<key>/compare   # see below
 ```
@@ -156,6 +219,49 @@ with `build/game/openyamm --asset-root $A --extra-mount output/studio_cal/<key>/
 7. **Pictures**: `ingame_compare` at the comparison's worst places; look; fix what is yours to fix.
 
 Stop when another round changes little. A rebuild is never finished; say where it stands.
+
+## Answering pins (the user's notes from the game; S5a1, 2026-11-14)
+
+The user plays the studio's maps from `output/studio_play/PLAY.md` and, where something is wrong, opens the game's
+console and types `pin <what is wrong>`. The game writes the note, where the party stood and looked (`loc`'s numbers)
+and its own picture of the view into `pins_inbox/` at the repository root. Every map `oymap install` put into a play
+copy has `<stem>.studio.yml` beside it naming its project, so each pin knows where it belongs. Answer pins through the
+command line, with game pictures:
+
+```
+$O pins import pins_inbox                        # files each pin into its project (by the studio file, else by the
+                                                 # map's name; --project <L4> when two projects build the map)
+$O pins list <L4> --status open                  # text, pose, map, picture (.oymap/pins/pictures/p3.png: look at it)
+$O pins claim <L4> pin:p3 --by agent:<you>       # before working on it, so no other agent does
+   ... fix it in the project (oymap edit; or the files, then oymap record), build, install into a scratch root ...
+$O pins tour <L4> --pin pin:p3 --out output/studio_cal/<key>/pins/tour.yml --shots output/studio_cal/<key>/pins/after
+SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated pins-<key> --world <world> --map <map> \
+    --assets "$PWD/output/studio_cal/<key>/root" --seconds 120 \
+    --set debug.screenshot_tour_path=$PWD/output/studio_cal/<key>/pins/tour.yml    # the after pictures
+$O pins resolve <L4> pin:p3 --by agent:<you> --text "<what you changed, where>" \
+    --picture output/studio_cal/<key>/pins/after/01-p3.png
+$O pins reply <L4> pin:p3 --by agent:<you> --text "<a question, or a note>"    # no status change
+$O pins decline <L4> pin:p3 --by agent:<you> --text "<why not>"                # only with a reason the user can check
+python3 openyamm-studio/calibration/pins_page.py   # output/studio_review/pins.html: the user reads the answers there
+```
+
+- **The game's picture answers a pin**: the user's own picture is the before; the after is the game's picture at the
+  pin's pose (`pins tour`), looked at before resolving. A studio render alone does not answer a pin, and no pin is
+  resolved without the after picture having been looked at ("A fix for something the user saw is proven in the game").
+- **Say what changed**: the reply names the objects and the files (`door:vault_gate`'s leaf in objects.yml, 4 short of
+  the jamb now), in words the user can check in the game.
+- **The fix is the project's**, never a built map's; where it is general (a word that should exist, a check), it also
+  goes into this procedure or the studio's list, as for every fault the user finds.
+- **Only the user accepts** (`oymap pins accept`) or reopens a pin. A reopened pin is open again with his reply: read
+  it, claim it again. An agent never sets `accepted`.
+- **Pins are not the source.** Claims, replies and resolutions change the pins document's own counter, never the
+  project's revision or its undo; `review/pins.yml` is changed only through `oymap pins` (never by `oymap edit` or by
+  hand). Pictures stay in `.oymap/pins/pictures/` (outside git); `oymap pins keep` copies one into `review/pictures/`
+  only when the user wants it kept.
+- **The lock keeps removed ids' numbers.** A build no longer drops the `ids.lock.yml` entry of a door, event or
+  variable you removed, so an undo or a re-add gives it its old number back. `oymap lock prune <L4>` drops them: run it
+  when a build says a table has no free number left (it names the retired entries), or when the lead asks before a map
+  is shipped; never as a routine step.
 
 ## NOTES.md (the product, as much as the project)
 

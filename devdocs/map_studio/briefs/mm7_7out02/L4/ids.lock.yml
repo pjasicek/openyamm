@@ -86,6 +86,7 @@ events:
   evt:name:thing:fire_ring_west: 84
   evt:name:thing:shrine: 85
   evt:part:building:guild_water/p10: 110
+  evt:part:building:guild_water/water_s2: 144
   evt:part:thing:shrine/shrine: 111
   evt:raiders_come: 126
   evt:region_state: 124
@@ -109,6 +110,9 @@ events:
   evt:thing:fort_stand_3: 88
   evt:thing:fort_stand_4: 89
   evt:thing:fort_trap: 112
+  evt:thing:fort_trap_e: 143
+  evt:thing:fort_trap_s: 141
+  evt:thing:fort_trap_w: 142
   evt:thing:fruit_tree_1: 98
   evt:thing:fruit_tree_2: 99
   evt:thing:fruit_tree_3: 100
@@ -124,6 +128,7 @@ events:
   evt:thing:platform_3: 74
   evt:thing:platform_4: 75
   evt:thing:platform_5: 76
+  evt:thing:shrine_altar: 140
   evt:thing:signpost_1: 108
   evt:thing:signpost_1.arm1: 114
   evt:thing:signpost_1.arm2: 115

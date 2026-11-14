@@ -15,6 +15,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoorb, size: [256, 256], fit: true}
+    edge_surface: {texture: swhor4dk, size: [64, 64]}
     tile: true
     notes: "Two leaves that part sideways (the original's door records 27 and 28); `leaves: 2`. Both fold against their jambs as the original's do (`fold`, round six), each moving its record's distance (`travel`)."
   - id: door:east_lobby
@@ -26,6 +27,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swor2, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     tile: true
     notes: "The original's leaf (door record 4) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:east_porch
@@ -38,6 +40,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swor2, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     tile: true
     notes: "Two leaves that part sideways (the original's door records 2 and 3); `leaves: 2`. Both fold against their jambs as the original's do (`fold`, round six), each moving its record's distance (`travel`)."
   - id: door:east_store
@@ -49,6 +52,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swor, size: [256, 256], fit: true}
+    edge_surface: {texture: swr3, size: [64, 64]}
     tile: true
     notes: "The original's leaf (door record 5) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:gate_slab
@@ -60,6 +64,7 @@ doors:
     thickness: 197
     speed: 150
     surface: {texture: swankdk, size: [128, 128], fit: true}
+    bottom_surface: {texture: swceilf, size: [256, 256]}
     tile: true
     notes: "The original's door 23: a slab 197 thick over a 16-high sill (the floor under it at 409, face 748) whose underside, 32 above the sill, rises 200 to 641, under the north corridor's ceiling (649). Round six: the doorway stands on the sill (`sill: 16`) and reaches the ceiling (240), and the leaf folds up 232, so it opens to 641 as the original's; the original's 32-high slit under the shut slab is not said (a leaf fills its doorway)."
   - id: door:h_room
@@ -71,6 +76,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoorb, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 20) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:hatch
     opening: open:s52_s53_ramp_down
@@ -82,6 +88,7 @@ doors:
     speed: 150
     surface: {texture: swtrdk, size: [128, 256], fit: true}
     back_surface: {texture: swtrpnl, size: [128, 256], fit: true}
+    top_surface: {texture: swfloor2b, size: [128, 128]}
     tile: true
     notes: "The original's door 13 sinks 255 into the floor: swtrdk toward the closet, swtrpnl toward the ramp. Original door record 13."
   - id: door:junction_south
@@ -93,6 +100,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swor2, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 6) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:locked_room
     opening: open:s39_s43_locked_room
@@ -103,6 +111,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoorb, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 1) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:meeting_hall
     opening: open:s38_s39_meeting_hall
@@ -113,6 +122,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swor, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 19) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:panel_room
     opening: open:s42_s48_panel_room
@@ -123,6 +133,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swor2, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 21) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:plate_store
     opening: open:s55_s68_plate_store
@@ -133,6 +144,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoorb, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 25) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:plug
     opening: open:plug
@@ -144,6 +156,7 @@ doors:
     speed: 150
     surface: {texture: swdoorc, size: [128, 256], fit: true}
     back_surface: {texture: swall3, size: [128, 256], fit: true}
+    top_surface: {texture: swfloor2b, size: [128, 128]}
     notes: "The original's door 17: a block 255 long that fills the passage's end and sinks 245 into the floor; toward the west corridor its end is swall3 like the corridor's wall. Original door record 17."
   - id: door:repair_bay
     opening: open:s32_s34_repair_bay
@@ -154,6 +167,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoorb, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 12) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:storage_1
     opening: open:s33_s69_storage_1
@@ -164,6 +178,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoora, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 7) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:storage_2
     opening: open:s33_s70_storage_2
@@ -174,6 +189,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoora, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 8) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:storage_3
     opening: open:s33_s71_storage_3
@@ -184,6 +200,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoora, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 9) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:tube_exit
     opening: open:s22_s72_tube
@@ -196,6 +213,7 @@ doors:
     speed: 150
     surface: {texture: swdoorc, size: [128, 256], fit: true}
     back_surface: {texture: swor2, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     tile: true
     notes: "Two leaves that part sideways (the original's door records 10 and 11), swdoorc toward the junction and swor2 toward the tube; `leaves: 2`. Both fold against their jambs as the original's do (`fold`, round six), each moving its record's distance (`travel`)."
   - id: door:vault
@@ -207,6 +225,7 @@ doors:
     thickness: 32
     speed: 150
     surface: {texture: swor2, size: [256, 256], fit: true}
+    edge_surface: {texture: swr3, size: [64, 64]}
     notes: "The original's leaf (door record 14) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:wedge_room
     opening: open:s38_s40_wedge_room
@@ -217,6 +236,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: swdoora, size: [256, 256], fit: true}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     notes: "The original's leaf (door record 18) opens sideways along its record's direction, toward the jamb it is fixed to; here it folds against that jamb as the original's does (`fold`, round six), moving the record's own distance (`travel`)."
   - id: door:west_porch
     opening: open:hall_s9_porch
@@ -227,6 +247,7 @@ doors:
     state: closed
     thickness: 64
     speed: 150
+    edge_surface: {texture: swr4dk, size: [64, 64]}
     pictures:
       - [{texture: swpnl, size: [128, 256]}, {texture: swaled, size: [128, 256]}]
     back_pictures:

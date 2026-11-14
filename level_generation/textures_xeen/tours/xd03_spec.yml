@@ -1,0 +1,15 @@
+- {name: geode, pose: {position: [1300, 1640, -640], yaw: 3.1416, pitch: 0.2}}
+- {name: geode-columns, pose: {position: [1100, 2100, -640], yaw: 3.9, pitch: 0.3}}
+- {name: geode-wall, texture: crstont, box: [100, 1000, 1400, 2500], upright: true, index: 2, distance: 320}
+- {name: dome, pose: {position: [3200, 5450, -512], yaw: 1.5708, pitch: 1.0}}
+- {name: king-hall-from-gate, pose: {position: [3200, 4760, -512], yaw: 1.5708, pitch: 0.2}}
+- {name: crystal-wall, pose: {position: [650, 384, -768], yaw: 3.1416, pitch: 0.05}}
+- {name: crystal-wall-close, texture: d3ystlwl, upright: true, box: [0, 0, 1200, 900], distance: 300}
+- {name: gong, pose: {position: [4790, 3330, -128], yaw: 1.15, pitch: 0.12}}
+- {name: gong-close, texture: ctflor5, upright: true, index: 0, distance: 300}
+- {name: throne, pose: {position: [3200, 5620, -512], yaw: 1.5708, pitch: 0.14}}
+- {name: crest-close, texture: ctceil3, upright: true, distance: 330}
+- {name: slag-channel, pose: {position: [2900, 2050, -512], yaw: 0.785, pitch: -0.15}}
+- {name: smelter-mouth, pose: {position: [4224, 2950, -512], yaw: -1.5708, pitch: 0.05}}
+- {name: south-bridge, pose: {position: [3300, 2250, -512], yaw: 2.36, pitch: -0.12}}
+- {name: slag-close, texture: orfyrlga, upright: false, index: 0, distance: 300}

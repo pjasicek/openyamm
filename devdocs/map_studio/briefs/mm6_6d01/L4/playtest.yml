@@ -1,0 +1,284 @@
+# Goblinwatch rebuild: the whole map and every mechanism, from the landing at the way out to the way out.
+# Route: down the hall's steps, door 1 south, the cross passage, door 23 into the goblins' hall; the dais's switch
+# sinks the towers, their secret back walls rise (door 30) to the two hidden rooms (chest record 3); door 17 east to
+# the switch hall: A (a fireball trap), D and then P (the reset), then N H F B O G open all six gates; through the
+# gates, the double door into the cave of the fountain (Wizard Eye), down the shaft to the vault (four chests, the
+# ambush), up the sewer passage (the armour spot), door 18 to the back stair; door 16 back to the hall; door 2 and
+# the ramps, door 3 into the prison, its twelve lockers and the three chests painted on their back walls; back to the
+# switch hall, M (the teleport into the east caves), the east caves to their end (chest record 5), the west caves to
+# theirs (chest record 10), and back through the lower keep to the way out.
+# Numbers as ids.lock.yml has them. Events: 16 door 1 (door 1), 27 door 23 (12), 38 the dais switch (towers 38),
+# 30/29 the towers' backs (15/14), 24 door 17 (9), 1 A, 15 D, 53 P, 51 N, 45 H, 41 F, 3 B, 52 O, 44 G, 50 M,
+# 34 the double door (19), 42 the fountain, 25 door 18 (10), 23 door 16 (8), 26 door 2 (11), 28 door 3 (13),
+# 31-37 lockers 4-9 (doors 16-18, 21-23), 17-22 lockers 10-15 (doors 2-7), 40 the way out; chests 8 (record 3),
+# 11-14 (6-9), 10 (5), 6 (10); the painted chests 5, 7, 9 (records 1, 2, 4); 2 the armour spot.
+# Map variables: 0 armour_found, 3 ambush, 4 switch_d, 7 wizard_eye, 14 switch_n.
+# Gates (movers): 31/26/30 gate 1 (records 52, 40, 51), 24/28/29 gate 2 (36, 47, 48), 25/27 gate 3 (38, 44),
+# 32/33 gate 4 (55, 56), 34/35 gate 5 (57, 58), 36/37 gate 6 (59, 60).
+# Goblins, rats and bloodsuckers spawn: every walk clears hostiles within 2500, and the party is immortal, so no step
+# waits on a fight's luck. Before each looting the packs are emptied (make_room), so no chest fails for room.
+# Run from output/studio_cal/mm6_6d01/run (output/studio_cal/mm6_6d01/r1/play.sh).
+id: studio.cal6d01.walk
+title: Goblinwatch rebuild, the whole map and every mechanism
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: cal6d01.blv
+  - assert: {map: cal6d01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 576, y: 6912, radius: 96, z_min: 184, z_max: 200}}
+  # down the steps, door 1 (rises) and the south passage to the cross passage
+  - walk_to: {x: 576, y: 6200, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 576, y: 6200, radius: 160, z_min: -8, z_max: 8}}
+  - play_lua:
+      source: |
+        if door_state(1) ~= "closed" then error("door 1 does not start shut: " .. door_state(1)) end
+        open_door(16, 1)
+  - walk_to: {x: 576, y: 4864, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 576, y: 4864, radius: 160, z_min: -8, z_max: 8}}
+  # door 23 to the gate passage and into the goblins' hall, up the dais
+  - walk_to: {x: -192, y: 4620, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(27, 12)"}
+  - walk_to: {x: -192, y: 3600, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -192, y: 3600, radius: 160, z_min: -8, z_max: 8}}
+  - walk_to: {x: -192, y: 2990, z: 120, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -192, y: 2990, radius: 96, z_min: 112, z_max: 128}}
+  # the switch: the towers sink
+  - play_lua:
+      source: |
+        if door_state(38) ~= "closed" then error("the towers do not start up: " .. door_state(38)) end
+        click(38); wait(8)
+        if door_state(38) ~= "open" then error("the towers did not sink: " .. door_state(38)) end
+  # the west tower's secret back wall rises with the east one's; the west hidden room and its chest
+  - walk_to: {x: -720, y: 4380, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        open_door(30, 15)
+        if door_state(14) ~= "open" then error("the east tower's back did not rise with the west one's: " .. door_state(14)) end
+  - walk_to: {x: -1152, y: 4120, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -1152, y: 4120, radius: 128, z_min: -8, z_max: 8}}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(8)
+        if item_count(1823) < 1 then error("chest record 3 did not give item 1823") end
+        make_room()
+  # the east hidden room
+  - walk_to: {x: -192, y: 3800, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 320, y: 4380, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 768, y: 4300, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 768, y: 4300, radius: 160, z_min: -8, z_max: 8}}
+  # back to the cross passage, door 17 east into the switch hall, to the console
+  - walk_to: {x: -192, y: 3800, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 1000, y: 4864, z: 0, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(24, 9)"}
+  - walk_to: {x: 2060, y: 4864, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 2060, y: 4864, radius: 96, z_min: -8, z_max: 8}}
+  # A is a trap; D opens gate 1, P sets everything back; then N H F B O G open all six gates
+  - play_lua:
+      source: |
+        clear_hostiles(2500)
+        click(1); wait(2)
+        click(15); wait(7)
+        if door_state(31) ~= "open" then error("D did not open gate 1's low band: " .. door_state(31)) end
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  - play_lua:
+      source: |
+        click(53); wait(7)
+        if door_state(31) ~= "closed" then error("P did not close gate 1's low band: " .. door_state(31)) end
+  - assert: {state_dump_map_var: {index: 4, value: 0}}
+  - play_lua:
+      source: |
+        for _, e in ipairs({51, 45, 41, 3, 52, 44}) do click(e); wait(7) end
+        for _, d in ipairs({24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37}) do
+          if door_state(d) ~= "open" then error("gate part " .. d .. " is " .. door_state(d)) end
+        end
+        click(51); wait(1)
+        if door_state(24) ~= "open" then error("N used twice moved gate 2 back") end
+  - assert: {state_dump_map_var: {index: 14, value: 1}}
+  # up the ramp to the gallery and through the six gates to the double door
+  - walk_to: {x: 2368, y: 4864, z: 128, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 5400, y: 4864, z: 128, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - assert: {party_position: {x: 5400, y: 4864, radius: 128, z_min: 120, z_max: 136}}
+  - play_lua: {source: "open_door(34, 19)"}
+  - walk_to: {x: 6300, y: 4864, z: 128, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 6300, y: 4864, radius: 160, z_min: 120, z_max: 140}}
+  # the fountain: Wizard Eye once
+  - play_lua:
+      source: |
+        clear_hostiles(2500)
+        click(42); wait(1)
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  # down the shaft
+  - walk_to: {x: 7120, y: 3280, z: 128, radius: 48, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 7344, y: 3280, z: 128, radius: 24, timeout_seconds: 60}
+  - play_lua: {source: "wait(3)"}
+  - assert: {party_position: {x: 7344, y: 3280, radius: 200, z_min: -776, z_max: -760}}
+  - walk_to: {x: 8000, y: 3000, z: -768, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 10048, y: 3600, z: -1280, radius: 96, timeout_seconds: 180, clear_hostiles: 2500}
+  - assert: {party_position: {x: 10048, y: 3600, radius: 160, z_min: -1288, z_max: -1272}}
+  - walk_to: {x: 10900, y: 5100, z: -1280, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(11)
+        make_room(); loot_chest(12)
+        clear_hostiles(2500)
+        make_room(); loot_chest(13)
+        if item_count(220) < 1 then error("chest record 8 did not give item 220") end
+        make_room(); loot_chest(14)
+        make_room()
+  # up the vault's north ramp to the sewer passage and its armour spot
+  - walk_to: {x: 10048, y: 6800, z: -896, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 10040, y: 7392, z: -768, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 10040, y: 7392, radius: 96, z_min: -776, z_max: -760}}
+  - play_lua:
+      source: |
+        click(2); wait(1)
+        local before = pack_items()
+        click(2); wait(1)
+        if pack_items() ~= before then error("the armour spot gave twice") end
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  # west along the sewer passage to door 18 and the back stair
+  - walk_to: {x: 7500, y: 8240, z: -768, radius: 96, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 4950, y: 6912, z: -640, radius: 96, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 2900, y: 6912, z: -280, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(25, 10)"}
+  - walk_to: {x: 2624, y: 6912, z: -256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 2624, y: 6912, radius: 128, z_min: -264, z_max: -248}}
+  # up the back stair's ramp west to the east passage and door 16, from its far side, into the hall
+  - walk_to: {x: 1100, y: 6400, z: 0, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - assert: {party_position: {x: 1100, y: 6400, radius: 128, z_min: -8, z_max: 8}}
+  - play_lua: {source: "open_door(23, 8)"}
+  - walk_to: {x: 576, y: 6400, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  # the west arm, door 2, the two ramps down, door 3 into the prison
+  - walk_to: {x: -192, y: 6380, z: 0, radius: 48, timeout_seconds: 120, clear_hostiles: 2500}
+  - play_lua: {source: "open_door(26, 11)"}
+  - walk_to: {x: -192, y: 5250, z: -256, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -192, y: 5250, radius: 128, z_min: -264, z_max: -248}}
+  - walk_to: {x: -1450, y: 5760, z: -512, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - assert: {party_position: {x: -1450, y: 5760, radius: 128, z_min: -520, z_max: -504}}
+  - play_lua: {source: "open_door(28, 13)"}
+  - walk_to: {x: -1856, y: 5760, z: -512, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -1856, y: 5760, radius: 128, z_min: -520, z_max: -504}}
+  # the twelve lockers' doors, and the three chests painted on lockers' back walls
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        for _, p in ipairs({{31, 16}, {32, 17}, {33, 18}, {35, 21}, {36, 22}, {37, 23}, {17, 2}, {18, 3}, {19, 4}, {20, 5}, {21, 6}, {22, 7}}) do
+          if door_state(p[2]) ~= "closed" then error("locker door " .. p[2] .. " does not start shut") end
+          open_door(p[1], p[2])
+          clear_hostiles(2500)
+        end
+        make_room(); loot_chest(5)
+        if item_count(2163) < 1 then error("chest record 1 did not give item 2163") end
+        make_room(); loot_chest(7)
+        make_room(); loot_chest(9)
+        make_room()
+  # back up to the hall, south to the switch hall, and M: into the east caves
+  - walk_to: {x: -1450, y: 5760, z: -512, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -192, y: 5250, z: -256, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: -192, y: 6400, z: 0, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 576, y: 5300, z: 0, radius: 96, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 2060, y: 4864, z: 0, radius: 48, timeout_seconds: 180, clear_hostiles: 2500}
+  - play_lua: {source: "clear_hostiles(2500); click(50); wait(1)"}
+  - assert: {party_position: {x: 9000, y: 1916, radius: 128, z_min: -776, z_max: -760}}
+  # the east caves to their end, and the chest in its niche
+  - walk_to: {x: 10900, y: 2400, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 11300, y: 5200, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 12300, y: 7700, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 15400, y: 8400, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 18300, y: 8576, z: -768, radius: 64, timeout_seconds: 240, clear_hostiles: 2500}
+  - assert: {party_position: {x: 18300, y: 8576, radius: 128, z_min: -776, z_max: -760}}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(10)
+        make_room()
+  # back west through the east caves to the lower keep's cave passage
+  - walk_to: {x: 15400, y: 8400, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 12300, y: 7700, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 11300, y: 5200, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 10900, y: 2400, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 7500, y: 1700, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 4200, y: 800, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 2624, y: 384, z: -768, radius: 96, timeout_seconds: 240, clear_hostiles: 2500}
+  - assert: {party_position: {x: 2624, y: 384, radius: 160, z_min: -776, z_max: -760}}
+  # the west caves to their end, up the stair at the far end to the chest in its niche
+  - walk_to: {x: 2112, y: 896, z: -768, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 1500, y: 700, z: -768, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -1500, y: 1500, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -4500, y: 2300, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -6500, y: 3500, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -6900, y: 6000, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -8000, y: 8100, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -11000, y: 8700, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -14300, y: 8000, z: -868, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -16200, y: 7500, z: -900, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -18600, y: 6700, z: -968, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -20288, y: 6176, z: -968, radius: 64, timeout_seconds: 240, clear_hostiles: 2500}
+  - assert: {party_position: {x: -20288, y: 6176, radius: 128, z_min: -976, z_max: -960}}
+  - walk_to: {x: -20288, y: 6800, z: -968, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -20288, y: 8060, z: -760, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: -20288, y: 8060, radius: 128, z_min: -768, z_max: -752}}
+  - play_lua:
+      source: |
+        local function make_room()
+          for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+            id = tonumber(id)
+            while item_count(id) > 0 and discard(id) do end
+          end
+        end
+        clear_hostiles(2500)
+        make_room(); loot_chest(6)
+        make_room()
+  # back through the caves to the lower keep, up the back stair and the ramp to the hall, and out
+  - walk_to: {x: -20288, y: 6800, z: -968, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: -18600, y: 6700, z: -968, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -16200, y: 7500, z: -900, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -14300, y: 8000, z: -868, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -11000, y: 8700, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -8000, y: 8100, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -6900, y: 6000, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -6500, y: 3500, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -4500, y: 2300, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: -1500, y: 1500, z: -768, radius: 128, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 1500, y: 700, z: -768, radius: 96, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 2112, y: 1400, z: -768, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 2624, y: 3000, z: -768, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 2624, y: 6900, z: -256, radius: 96, timeout_seconds: 240, clear_hostiles: 2500}
+  - walk_to: {x: 1100, y: 6400, z: 0, radius: 64, timeout_seconds: 180, clear_hostiles: 2500}
+  - walk_to: {x: 576, y: 6400, z: 0, radius: 96, timeout_seconds: 120, clear_hostiles: 2500}
+  - walk_to: {x: 576, y: 6900, z: 192, radius: 64, timeout_seconds: 120, clear_hostiles: 2500}
+  - assert: {party_position: {x: 576, y: 6900, radius: 96, z_min: 184, z_max: 200}}
+  - play_lua: {source: "clear_hostiles(2500); click(40); wait(1)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: oute3.odm}
+  - assert: {party_position: {x: -18400, y: -14982, radius: 200}}

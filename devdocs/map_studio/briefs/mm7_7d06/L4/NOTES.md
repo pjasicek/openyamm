@@ -701,3 +701,119 @@ as the original's; the doors' seal is whole across both leaves.
   0.929.
 - The north island's corner (1280, 768) as a bank top raises the floor beside it where the original's is -320 (+176
   at (1316, 734)); kept, because the banks either side are the original's.
+
+## Ninth merge lines (2026-11-13, afternoon)
+
+Copy before: `output/studio_cal/mm7_7d06/m9_backup/`.
+
+- **The rock-face chests**: `secret: true` on panel:rock_chest_south_cavern and panel:rock_chest_sinkhole (the
+  original's faces 39 and 2236 carry the secret flag; with the library's secret wall the build now has the original's
+  four secret faces). Picture `output/studio_cal/mm7_7d06/m9_pics/sheets/02-rock-chest-sinkhole.png` (as the original;
+  the camera stands 320 higher in the original: `compare`'s vertical offset).
+- **Playtest made independent of chest rolls**: the library step (its scroll) and the study bookcase step (its book)
+  each failed once in four runs with the packs full of what the chests rolled (about 35 items): the item stayed on the
+  cursor and was counted 0. The packs are now emptied before both, as the Lincoln's and the Hive's playtests do (the
+  log line "packs before the library" shows them). Eight of eight, then four of four after the cabinets' change.
+- **Audit, squashed pictures**: the cabinets' tops took 7t1cab stretched (4 to 1): now `top_surface` 7t1cabs 64x128,
+  the original's (faces 1960 to 1964). Left, the studio's: the cabinets' and bookcases' ends are always stretched to
+  fit (7t1cabs 0.5 down, 7t1books2 2 across; the original lays both 1:1; `fit: false` is ignored on `end_surface`);
+  the exit panel 7solid01 (one dark colour, stretched); cwb1/cfb1/twb3d/wall on rough and sloped faces (laid from z).
+  Click.silent 17 (the original 30).
+- **Scores**: 95.9 % before and after (sector-weighted 95.921 both), offset agreement 0.447 both.
+
+## Round seven (2026-11-13, evening)
+
+The project as found is in `output/studio_cal/mm7_7d06/r7_backup/`; measures in `compare_r7_start/` and
+`compare_r7_end/`. Scripted edits (numbers from the original's export, whole diffs checked) and read-only helpers are in
+`output/studio_cal/mm7_7d06/r7_edits/`: `split_south.py`, `split_south_loop.py`, `split_north_loop.py`,
+`split_north_cavern.py` (rooms of one space), `cave_mouth.py`, `stair_vault.py`, `thresholds.py`, `west_island.py`,
+`notes7.py`/`notes7b.py` (notes only); helpers `prune7.py` (backward choice of roof points by the roof's rms against
+the original's, scratch builds), `fullroof.py`/`fixsteep.py` (candidate lists), `assemble.py`/`replay.py`, `walldev.py`
+(the original's walls against an outline), `zgrid.py`, `pts.py`/`cats.py`/`offs.py` (reading `points.json`). Work
+copy `r7_work/`, trials `r7_t_*`, fits `r7_prune/`.
+
+### Where it stands
+
+| | start of round seven | end |
+|---|---|---|
+| `oymap compare` | 95.9 % (95.92) | **97.5 %** (97.48) |
+| distances / textures | 95.2 % / 97.7 % | 97.2 % / 98.2 % |
+| offset agreement (not in the score) | 0.447 | 0.460 |
+| rooms | 38 | 42 (the south cavern 4 rooms, the north cavern 2) |
+| `audit --strict --original 7d06.blv` | 0 pairs | 0 pairs in one plane (the original has 2, its secret wall) |
+| playtest | 211 steps, 4 of 4 | 213 steps, **4 of 4** (`play_r7_end_1.log` to `_4.log`) |
+
+Sectors (start, end): south cavern 2 0.929 to 0.980, temple stair 12 0.941 to 0.992, cave mouth 30 0.831 to 0.962, west
+descent 4 0.928 to 0.961, east climb 5 0.971 to 0.991, entry tunnel 11 0.925 to 0.944, descent bend 1 0.920 to 0.947,
+north cavern 3 0.968 to 0.976, high pocket 6 0.958 to 0.975, ne pocket 8 0.959 to 0.980, west neck 10 0.963 to 0.974.
+`oymap solve`: 32 on foot, both double doors (+7), the secret wall (+3): 42 of 42. Events: unchanged (the built Lua is
+byte for byte round six's); 27 of 27 as the original's.
+
+### What changed and why (each the original's shape, measured)
+
+1. **No `rough` walls** (95.9 to 96.5). `walldev.py` measured the original's cave walls against each outline: median
+   0 off in every cave; they run straight between corners, which the outlines take. `rough` only pushes walls inward
+   (up to 40), so it made every cave narrower than the original's. Removed from all 11 caves. The entry tunnel alone
+   fell (its original walls stand about 13 inside its outline); its sector came back with the cave mouth (below).
+2. **South cavern roof** (target 1; s2 0.946 to 0.980): base -64 (the original's walls and island tops: its 67 roof
+   vertices at -64) and the original's own +64 vertices (the plateau's edge: 87) as points, so the outer walls are
+   256 high under the original's skirt. That is about 100 points, so the sector is now four rooms of one space
+   (the procedure: a room that needs more is several rooms): split at the waist on the original's line y 256 between its
+   wall corners f10/f45, and each loop cut from its island to the outer wall (two cuts each). The rooms touch along the
+   cuts and are open over the whole line (no wall, no reveal; builds with no warning), with the same floor and roof
+   points on each cut. Roof points per room 25, 30, 25, 28; the +64 vertices taken one for one.
+3. **The islands' carved faces** (round six gap 2, partly): with each loop cut round its island, the islands' sides
+   are room walls; f96 (cws1), f97/f2489/f2490, f100/f2486 (south island) and f87, f89 (north island) are wall panels.
+   Texture pairs cws1a against cwb1 went from 44 rays to 0.
+4. **Cave mouth** (30: 0.831 to 0.962; 11 to 0.944): the original's floor outline with its pinch (x -1024), floor by the
+   original's 7 heights, roof by 17 points; no longer a convex ramp. The start keeps its built point (`at`).
+5. **Temple stair vault** (12: 0.944 to 0.992): flight and landing under the original's twb2 pointed vault (-288 at the
+   walls, +8 on the axis at the foot; 0 and +104 at the head), by roof points; the arch into the nave is the landing
+   vault's own end (`height: full`), reveal twb2 and 7tfb11 floor (was a shouldered arch and flat sloping ceilings).
+   Flight and landing walls offset [0, 88] to the original's picture height.
+6. **Thresholds**: 7tfb11 through 13 temple doorways (the original's floor runs through them; was twb3d).
+7. **Roof points chosen anew** (`prune7.py`: from round six's points plus the original's roof vertices inside each
+   outline, mouth profiles kept, backward elimination by rms on a 64 grid): east climb 40 (rms 27.0 to 16.1), high pocket
+   38 (34.5 to 26.8), west descent 40, ne chamber 40, descent bend 40; north cavern split on its floor line from (-256,
+   3840) to (768, 3712) into the body (40, rms 27.7) and the upper floor (19, rms 1.3). No room above 40.
+8. **West descent island** (4: 0.936 to 0.962): redrawn from f150-f162, f1430-f1447: upright sides on their foot, leaning
+   ones on the middle line (the east end was 32 to 64 inside the original's foot).
+9. **Double doors**: leaf edges twb1a (`edge_surface`), the original's (door record 6, face 1530).
+
+### Decided against
+
+- Pruning by `compare`'s score: every point set was chosen by its rms against the original's roof, not the measure.
+  (For the north cavern the full candidate list scores lower than a 52-point subset; the rms choice was kept.)
+- Moving the double doors' picture split off the eye height: 64 rays (t1d1a/b against c/d) hit the split at exactly
+  -256 in both maps and fall to different faces; a measure tie, not a difference.
+- Nave 7tws2/twb1 offsets (the worst offset rows): they differ wall by wall of the octagon; bands take one surface per
+  room, so only per-wall full-length panels would say them. Not done; offsets do not count in the score.
+- The dome: measured again, the original's dome is itself three straight bands (rings at +224, +480, +736, +800), so
+  "curved" is no gap; the ribs stay beams 16 deep (flush strips in a leaning side have no word).
+
+### Gaps still open, with repros (`output/studio_cal/mm7_7d06/repro/`)
+
+1. **Panels on a pillar**: north cavern island f135 (cws1), west descent island f153 (cws1) stay plain rock (13 rays);
+   the south cavern needed four rooms to say its carvings. Repro `pillar_carved_face/` ("pillars[0].panels: unknown key").
+2. **Octagonal door frame**: the double doorway is 384 x 320 with 128 x 64 corner triangles; a door needs a rectangle.
+   Repro `door_octagonal_frame/` ("a door leaf needs a rectangular opening").
+3. **Leaning pillars and walls** (west island ends, south island): upright on the middle line.
+4. **Upright corner between two banks** (north island (1280, 768)): a floor point has one height.
+5. **Exit wall**: the original's is 512 at its corners, 640 in the middle; a panel (exit) is a rectangle, so 640 across.
+6. Flush dome ribs; walls without thickness on one side (as before).
+
+### Tool notes
+
+- `build` warns that the apse altar's top slab "rests on nothing over most of its footprint"; it stands on the bowl
+  platform's flared top (`top_size` 128 x 256 under a 160 x 320 slab): the check ignores `top_size`.
+- The 15 bookcase events warn of a silent click when their variable is set; the original's are silent too (kept).
+- `project.yml` has no `map_stats.reference`, so `audit --strict` must be given `--original 7d06.blv`.
+
+### Pictures
+
+`output/studio_cal/mm7_7d06/ingame_r7b/diff/` (cameras `shots_r7b.yml`, 26 pairs, mean edge agreement 0.833; round
+six 0.812). Best: `26-nave-to-apse.png` 0.98, `23-north-cavern-rise.png` 0.95, `14-stair-arch-from-nave.png` 0.92 (the
+arch and vault now the original's). Worst: `18-west-island-north.png` 0.67 and `17-west-island-east-end.png` 0.72
+(the island's leaning faces), `02-mouth-to-exit.png` 0.75 (the exit wall's pentagon against a rectangle). Interactive
+things: `things_r7/rebuilt/contact.png` beside `things_r7/original/contact.png`. Installed into
+`output/studio_play/rebuilds_root` and loaded (`r7_loadcheck.png`).

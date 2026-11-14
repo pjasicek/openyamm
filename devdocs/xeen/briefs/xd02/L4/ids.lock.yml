@@ -44,6 +44,7 @@ sectors:
   room:west_line_landing: 35
   room:west_line_upper: 36
 events:
+  evt:arrive: 46
   evt:brake: 1
   evt:chalk_mark: 2
   evt:chest_cocoon: 3
@@ -54,6 +55,8 @@ events:
   evt:chest_strongbox: 8
   evt:clan_hostile: 45
   evt:clan_sign: 9
+  evt:deep_cart: 47
+  evt:deep_station_arrive: 48
   evt:door_bunk: 10
   evt:door_chapel: 11
   evt:door_foot_drift: 12
@@ -63,12 +66,15 @@ events:
   evt:door_vent_2: 16
   evt:east_cart: 17
   evt:east_landing: 18
+  evt:east_ride_landing: 49
+  evt:east_ride_turntable: 50
   evt:east_turntable: 19
   evt:exit_deep: 20
   evt:exit_x1: 21
   evt:exit_x4: 22
   evt:hoist_cage: 23
   evt:hoist_floor: 24
+  evt:hoist_ride_rim: 51
   evt:hoist_rim: 25
   evt:points: 26
   evt:pool_blue: 27
@@ -78,7 +84,10 @@ events:
   evt:rockfall: 31
   evt:strongroom_wall: 32
   evt:tablet: 33
+  evt:tally_enter: 52
   evt:trestle_car: 34
+  evt:trestle_ride_station: 53
+  evt:trestle_ride_turntable: 54
   evt:trestle_station: 35
   evt:trestle_turntable: 36
   evt:vein_flooded: 37
@@ -112,6 +121,18 @@ doors:
   mover:hoist: 20
   mover:rubble: 21
   mover:trestle_car: 22
+  switch:east_landing: 23
+  switch:east_ride_landing: 30
+  switch:east_ride_turntable: 31
+  switch:east_turntable: 24
+  switch:hoist_floor: 25
+  switch:hoist_ride_rim: 32
+  switch:hoist_rim: 26
+  switch:points: 27
+  switch:trestle_ride_station: 33
+  switch:trestle_ride_turntable: 34
+  switch:trestle_station: 28
+  switch:trestle_turntable: 29
 containers:
   chest:cocoon: 0
   chest:footlocker_1: 1
@@ -128,8 +149,11 @@ cogs:
   switch:vein_sw: 6
 map_vars:
   hoist_used: 1
+  once.arrive: 17
   once.brake: 10
+  once.deep_station_arrive: 18
   once.rockfall: 2
+  once.tally_enter: 19
   once.vein_flooded: 3
   once.vein_rich: 4
   once.vein_rim: 5
@@ -138,6 +162,12 @@ map_vars:
   once.vein_sw: 8
   once.winch: 9
   turntable_east: 0
+  vein_flooded_mined: 11
+  vein_rich_mined: 12
+  vein_rim_mined: 13
+  vein_se_mined: 14
+  vein_sorting_mined: 15
+  vein_sw_mined: 16
 lights:
   light:blue_pool: 1
   light:chasm_lamp: 2
@@ -167,5 +197,131 @@ lights:
   light:signal_trestle: 16
   light:sorting_lamp_1: 13
   light:sorting_lamp_2: 14
+  light:station_bay: 31
   light:west_daylight: 15
   light:west_line_lamp: 30
+decorations:
+  deco:adit_mouth_1: 0
+  deco:adit_mouth_2: 1
+  deco:adit_mouth_3: 2
+  deco:adit_mouth_4: 3
+  deco:adit_mouth_5: 4
+  deco:blue_grotto_108: 5
+  deco:blue_grotto_109: 6
+  deco:blue_grotto_110: 7
+  deco:bunk_cut_67: 8
+  deco:bunk_cut_68: 9
+  deco:bunk_cut_69: 10
+  deco:collapsed_adit_79: 11
+  deco:collapsed_adit_80: 12
+  deco:collapsed_adit_81: 13
+  deco:deep_mouth_121: 14
+  deco:deep_station_100: 15
+  deco:deep_station_101: 16
+  deco:deep_station_117: 17
+  deco:deep_station_118: 18
+  deco:deep_station_119: 19
+  deco:deep_station_120: 20
+  deco:deep_station_98: 21
+  deco:deep_station_99: 22
+  deco:dwarf_shrine_49: 23
+  deco:dwarf_shrine_50: 24
+  deco:dwarf_shrine_51: 25
+  deco:dwarf_shrine_52: 26
+  deco:dwarf_shrine_53: 27
+  deco:east_landing_111: 28
+  deco:east_line_end_torch: 29
+  deco:flooded_working_112: 30
+  deco:flooded_working_113: 31
+  deco:flooded_working_114: 32
+  deco:flooded_working_115: 33
+  deco:foot_bend_36: 34
+  deco:foot_drift_34: 35
+  deco:foot_drift_35: 36
+  deco:foot_drift_37: 37
+  deco:gold_hump_116: 38
+  deco:lamp_room_20: 39
+  deco:lamp_room_21: 40
+  deco:lamp_room_22: 41
+  deco:lamp_room_23: 42
+  deco:lamp_room_24: 43
+  deco:lamp_room_25: 44
+  deco:lamp_room_26: 45
+  deco:main_drift_10: 46
+  deco:main_drift_6: 47
+  deco:main_drift_7: 48
+  deco:main_drift_8: 49
+  deco:main_drift_9: 50
+  deco:mess_hall_54: 51
+  deco:mess_hall_55: 52
+  deco:mess_hall_56: 53
+  deco:mess_hall_57: 54
+  deco:mess_hall_58: 55
+  deco:mess_hall_59: 56
+  deco:mess_hall_60: 57
+  deco:mess_hall_61: 58
+  deco:mess_hall_62: 59
+  deco:mess_hall_63: 60
+  deco:mess_hall_64: 61
+  deco:mess_hall_65: 62
+  deco:mess_hall_66: 63
+  deco:red_pool_grotto_96: 64
+  deco:red_pool_grotto_97: 65
+  deco:repair_niche_73: 66
+  deco:repair_niche_74: 67
+  deco:sorting_floor_27: 68
+  deco:sorting_floor_28: 69
+  deco:sorting_floor_29: 70
+  deco:sorting_floor_30: 71
+  deco:sorting_floor_31: 72
+  deco:sorting_floor_32: 73
+  deco:sorting_floor_33: 74
+  deco:spider_galleries_102: 75
+  deco:spider_galleries_103: 76
+  deco:spider_galleries_104: 77
+  deco:spider_galleries_105: 78
+  deco:spider_galleries_106: 79
+  deco:spider_galleries_107: 80
+  deco:stope_floor_84: 81
+  deco:stope_floor_85: 82
+  deco:stope_floor_86: 83
+  deco:stope_floor_87: 84
+  deco:stope_floor_88: 85
+  deco:stope_floor_89: 86
+  deco:stope_floor_90: 87
+  deco:stope_floor_91: 88
+  deco:stope_floor_92: 89
+  deco:stope_floor_93: 90
+  deco:stope_floor_94: 91
+  deco:stope_floor_95: 92
+  deco:stope_rim_82: 93
+  deco:stope_rim_83: 94
+  deco:tally_room_70: 95
+  deco:tally_room_71: 96
+  deco:tally_room_72: 97
+  deco:tally_room_73: 98
+  deco:top_station_11: 99
+  deco:top_station_12: 100
+  deco:top_station_13: 101
+  deco:top_station_14: 102
+  deco:top_station_15: 103
+  deco:top_station_16: 104
+  deco:top_station_17: 105
+  deco:top_station_18: 106
+  deco:top_station_19: 107
+  deco:turntable_38: 108
+  deco:turntable_39: 109
+  deco:turntable_40: 110
+  deco:turntable_41: 111
+  deco:turntable_42: 112
+  deco:turntable_43: 113
+  deco:turntable_44: 114
+  deco:turntable_45: 115
+  deco:turntable_46: 116
+  deco:turntable_47: 117
+  deco:turntable_48: 118
+  deco:west_line_75: 119
+  deco:west_line_76: 120
+  deco:west_line_landing_72: 121
+  deco:west_line_upper_77: 122
+  deco:west_line_upper_78: 123

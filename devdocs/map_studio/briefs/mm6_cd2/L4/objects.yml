@@ -12,6 +12,7 @@ doors:
     thickness: 32
     speed: 150
     surface: {texture: d2skulbs, size: [64, 64]}
+    edge_surface: {texture: bemsv32c, size: [32, 128]}
     tile: true
     notes: "Door record 1: a leaf 256 wide and 384 high of D2skulBs tiled at 64 (faces 3857, 3858) whose free edge (x 8273) moves 254 west: it folds against the west jamb. Rounds one to five: a leaf 226 wide sliding into the wall with one skull stretched over it, seen beside the doorway when open."
   - id: door:d04
@@ -22,6 +23,7 @@ doors:
     thickness: 32
     speed: 150
     surface: {texture: d2lgdor, size: [256, 256]}
+    edge_surface: {texture: bemv32c, size: [32, 256]}
     notes: "Door record 4: a leaf (3877, 3878) whose free edge (y 4417) moves 254 north: it folds against the north jamb."
   - id: door:d05
     opening: open:s058_s159_b
@@ -32,6 +34,7 @@ doors:
     thickness: 64
     speed: 150
     surface: {texture: d2lgdor, size: [256, 256]}
+    edge_surface: {texture: bemvdk, size: [32, 256]}
     notes: "Door record 5: a leaf 64 thick (3907, 3908) whose free edge (y 9890) moves 250 north: it folds against the north jamb. Rounds four and five: two half leaves sliding into the walls, seen over the walls beside the doorway when open."
   - id: door:d06
     opening: open:s187_s185

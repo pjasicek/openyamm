@@ -20,10 +20,10 @@ themes:
     ceiling: {texture: t65b02m, size: [128, 128]}
     notes: "Sector 11, the room of the retracting floor: t65b02 walls, t65b02m ceiling (and floor plates)."
   - id: theme:false_floor
-    wall: {texture: t65a02, size: [128, 128]}
+    wall: {texture: t65a02, size: [128, 128], offset: [64, 32]}
     bands:
-      - {height: 640, surface: {texture: t65b02, size: [128, 128]}}
-      - {height: 704, surface: {texture: t65o11a, size: [128, 64]}}
+      - {height: 640, surface: {texture: t65b02, size: [128, 128], offset: [64, 32]}}
+      - {height: 704, surface: {texture: t65o11a, size: [128, 64], offset: [64, 32]}}
     floor: {texture: t65b03, size: [128, 128]}
     ceiling: {texture: t65a04, size: [128, 128]}
     notes: "Sector 8, the hall of the false floor: t65b02 walls below the walkway's level, a t65o11a course 64 high at the level of the floor, t65a02 above it, t65a04 ceiling."
@@ -39,11 +39,25 @@ themes:
     reveal: {texture: t65c02, size: [128, 128]}
     door: {texture: t65a05bl, size: [128, 256]}
     notes: "The button maze (sectors 22 to 32): t65a01 panelled walls 256 high, t65a03 floor, t65a04c ceiling, t65c02 in the door passages, door leaves t65a05bl (the original's leaf is t65a05bl and t65a05br side by side, one face 256 wide: a door has one surface). The original marks each doorway with one panel 128 wide beside it, t65a06 by a left door and t65a07 by a right one, and sets a t65a12 plate behind each pair of buttons; single panels on a wall cannot be said."
+  - id: theme:maze_e
+    wall: {texture: t65a01, size: [128, 256]}
+    floor: {texture: t65a03, size: [128, 128]}
+    ceiling: {texture: t65a04c, size: [128, 128], offset: [64, 0]}
+    reveal: {texture: t65c02, size: [128, 128]}
+    door: {texture: t65a05bl, size: [128, 256]}
+    notes: "theme:maze for the halls of sectors 23 to 26, whose t65a04c ceilings the original lays half a tile further along x (`oymap compare` offsets)."
   - id: theme:maze_entry
     wall: {texture: t65b02, size: [128, 128]}
     floor: {texture: t65b03, size: [128, 128]}
     ceiling: {texture: t65a04c, size: [128, 128]}
     notes: "The passage of door 1 into the maze (sector 22's neck): the halls' t65b02 walls and floor under the maze's t65a04c ceiling, as the original's faces 3372 and 3373."
+  - id: theme:maze_w
+    wall: {texture: t65a01, size: [128, 256]}
+    floor: {texture: t65a03, size: [128, 128]}
+    ceiling: {texture: t65a04c, size: [128, 128], offset: [64, 64]}
+    reveal: {texture: t65c02, size: [128, 128]}
+    door: {texture: t65a05bl, size: [128, 256]}
+    notes: "theme:maze for the halls of sectors 27 to 31, whose ceilings the original lays half a tile further both ways in most faces (some only along y)."
   - id: theme:pyramid
     wall: {texture: t65c02, size: [128, 128]}
     floor: {texture: t65c03, size: [128, 128]}
@@ -113,7 +127,7 @@ rooms:
     name: Long passage
     outline: [[8896, -320], [9152, -320], [9152, 640], [8896, 640]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:maze
     notes: "The one long doorway of the maze (sector 27): 1024 from hall 27a's left door to hall 27b."
   - id: room:cave
@@ -153,7 +167,7 @@ rooms:
     name: Passage to the cave
     outline: [[9280, -4416], [9664, -4416], [9664, -4160], [9536, -4160], [9536, -3200], [9280, -3200]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:hall
   - id: room:cave_n
     name: Niche behind the slab
@@ -165,7 +179,7 @@ rooms:
     name: Closet of door 55
     outline: [[7872, 576], [8128, 576], [8128, 704], [7872, 704]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -186,7 +200,7 @@ rooms:
     name: Closet of door 60
     outline: [[9472, -256], [9728, -256], [9728, -128], [9472, -128]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -195,7 +209,7 @@ rooms:
     name: Closet of door 63
     outline: [[6656, -960], [6912, -960], [6912, -832], [6656, -832]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -204,7 +218,7 @@ rooms:
     name: Closet of door 65
     outline: [[8128, -960], [8384, -960], [8384, -832], [8128, -832]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -213,7 +227,7 @@ rooms:
     name: Closet of door 66
     outline: [[8704, -1024], [8960, -1024], [8960, -896], [8704, -896]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -222,7 +236,7 @@ rooms:
     name: Closet of door 68
     outline: [[9664, -1024], [9920, -1024], [9920, -896], [9664, -896]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -231,7 +245,7 @@ rooms:
     name: Closet of door 69
     outline: [[10048, -1024], [10304, -1024], [10304, -896], [10048, -896]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -240,7 +254,7 @@ rooms:
     name: Closet of door 70
     outline: [[6080, -1728], [6336, -1728], [6336, -1600], [6080, -1600]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -249,7 +263,7 @@ rooms:
     name: Closet of door 71
     outline: [[6464, -1728], [6720, -1728], [6720, -1600], [6464, -1600]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -258,7 +272,7 @@ rooms:
     name: Closet of door 73
     outline: [[7552, -1728], [7808, -1728], [7808, -1600], [7552, -1600]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -267,7 +281,7 @@ rooms:
     name: Closet of door 75
     outline: [[8896, -1792], [9152, -1792], [9152, -1664], [8896, -1664]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -276,7 +290,7 @@ rooms:
     name: Closet of door 76
     outline: [[9280, -1792], [9536, -1792], [9536, -1664], [9280, -1664]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -285,7 +299,7 @@ rooms:
     name: Closet of door 78
     outline: [[6976, -2496], [7232, -2496], [7232, -2368], [6976, -2368]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -294,7 +308,7 @@ rooms:
     name: Closet of door 79
     outline: [[7360, -2496], [7616, -2496], [7616, -2368], [7360, -2368]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -303,7 +317,7 @@ rooms:
     name: Closet of door 81
     outline: [[8704, -2560], [8960, -2560], [8960, -2432], [8704, -2432]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -312,7 +326,7 @@ rooms:
     name: Closet of door 82
     outline: [[9472, -2560], [9728, -2560], [9728, -2432], [9472, -2432]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -321,7 +335,7 @@ rooms:
     name: Closet of door 83
     outline: [[9856, -2560], [10112, -2560], [10112, -2432], [9856, -2432]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -330,7 +344,7 @@ rooms:
     name: Closet of door 85
     outline: [[7744, -3328], [8000, -3328], [8000, -3200], [7744, -3200]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -339,7 +353,7 @@ rooms:
     name: Closet of door 86
     outline: [[8128, -3328], [8384, -3328], [8384, -3200], [8128, -3200]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -348,7 +362,7 @@ rooms:
     name: Closet of door 88
     outline: [[8896, -3328], [9152, -3328], [9152, -3200], [8896, -3200]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -357,7 +371,7 @@ rooms:
     name: Closet of door 90
     outline: [[7168, -4096], [7424, -4096], [7424, -3968], [7168, -3968]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -366,7 +380,7 @@ rooms:
     name: Closet of door 91
     outline: [[7552, -4096], [7808, -4096], [7808, -3968], [7552, -3968]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -375,7 +389,7 @@ rooms:
     name: Closet of door 92
     outline: [[8320, -4096], [8576, -4096], [8576, -3968], [8320, -3968]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -384,7 +398,7 @@ rooms:
     name: Closet of door 93
     outline: [[8704, -4096], [8960, -4096], [8960, -3968], [8704, -3968]]
     floor: -640
-    ceiling: -400
+    ceiling: -384
     theme: theme:closet
     walls:
       - wall: south
@@ -511,7 +525,7 @@ rooms:
     outline: [[6976, 768], [8256, 768], [8256, 1280], [6976, 1280]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -538,7 +552,7 @@ rooms:
     outline: [[6336, 0], [8128, 0], [8128, 512], [6336, 512]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -568,7 +582,7 @@ rooms:
     outline: [[6144, -768], [7040, -768], [7040, -256], [6144, -256]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -593,7 +607,7 @@ rooms:
     outline: [[5952, -1536], [6848, -1536], [6848, -1024], [5952, -1024]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -619,7 +633,7 @@ rooms:
     outline: [[7232, -768], [8512, -768], [8512, -256], [7232, -256]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -646,7 +660,7 @@ rooms:
     outline: [[7040, -1536], [7936, -1536], [7936, -1024], [7040, -1024]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -673,7 +687,7 @@ rooms:
     outline: [[6848, -2304], [7744, -2304], [7744, -1792], [6848, -1792]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_e
     walls:
       - wall: 0
         panels:
@@ -699,7 +713,7 @@ rooms:
     outline: [[8768, 704], [10048, 704], [10048, 1216], [8768, 1216]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -726,7 +740,7 @@ rooms:
     outline: [[8576, -832], [9472, -832], [9472, -320], [8576, -320]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -752,7 +766,7 @@ rooms:
     outline: [[9344, -64], [10240, -64], [10240, 448], [9344, 448]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -778,7 +792,7 @@ rooms:
     outline: [[9536, -832], [10432, -832], [10432, -320], [9536, -320]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -804,7 +818,7 @@ rooms:
     outline: [[8384, -1600], [10048, -1600], [10048, -1088], [8384, -1088]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -835,7 +849,7 @@ rooms:
     outline: [[8192, -2368], [9088, -2368], [9088, -1856], [8192, -1856]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -861,7 +875,7 @@ rooms:
     outline: [[9344, -2368], [10240, -2368], [10240, -1856], [9344, -1856]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -887,7 +901,7 @@ rooms:
     outline: [[7232, -3136], [9664, -3136], [9664, -2624], [7232, -2624]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -923,7 +937,7 @@ rooms:
     outline: [[7040, -3904], [7936, -3904], [7936, -3392], [7040, -3392]]
     floor: -640
     ceiling: -384
-    theme: theme:maze
+    theme: theme:maze_w
     walls:
       - wall: 0
         panels:
@@ -975,6 +989,14 @@ rooms:
     outline: [[2240, 1344], [4288, 1344], [4288, 3264], [2240, 3264]]
     floor: -1056
     ceiling: -32
+    ceiling_points: [[2240, 2432, -32], [4288, 2432, -32], [4288, 2176, -32], [2240, 2176, -32], [2368, 2496, -32], [2560, 2432, -32], [2688, 2304, -32], [2816, 2016, -32], [3008, 1856, -32], [3136, 1856, -32], [3200, 1920, -32], [3136, 2176, -32], [2976, 2496, -32], [2976, 2816, -32], [3136, 3008, -32], [3392, 3072, -32], [3648, 3008, -32], [3840, 2752, -32], [3904, 2560, -32], [3968, 2368, -32], [4032, 2304, -32], [4096, 2368, -32], [4224, 2432, -32], [4224, 2176, -32], [4096, 2048, -32], [3968, 1984, -32], [3776, 2112, -32], [3712, 2304, -32], [3648, 2432, -32], [3584, 2624, -32], [3456, 2752, -32], [3328, 2688, -32], [3264, 2624, -32], [3328, 2304, -32], [3520, 1984, -32], [3520, 1792, -32], [3264, 1536, -32], [2880, 1536, -32], [2624, 1728, -32], [2496, 1984, -32], [2368, 2112, -32]]
+    ceiling_lines:
+      - [[2240, 2432], [2368, 2496], [2560, 2432], [2688, 2304], [2816, 2016], [3008, 1856], [3136, 1856], [3200, 1920], [3136, 2176], [2976, 2496], [2976, 2816], [3136, 3008], [3392, 3072], [3648, 3008], [3840, 2752], [3904, 2560]]
+      - [[3904, 2560], [3968, 2368], [4032, 2304], [4096, 2368], [4224, 2432], [4288, 2432]]
+      - [[4288, 2432], [4288, 2176], [4224, 2176], [4096, 2048], [3968, 1984], [3776, 2112], [3712, 2304], [3648, 2432], [3584, 2624], [3456, 2752], [3328, 2688], [3264, 2624]]
+      - [[3264, 2624], [3328, 2304], [3520, 1984], [3520, 1792], [3264, 1536], [2880, 1536], [2624, 1728], [2496, 1984], [2368, 2112], [2240, 2176], [2240, 2432]]
+    ceiling_surfaces:
+      - {at: [3000, 1700], surface: {texture: t65a04, size: [128, 128]}, id: region:walk_trace, secret: true}
     theme: theme:false_floor
     platforms:
       - {at: [2368, 1472], size: [256, 256], rise: 64, surface: {texture: t65o11a, size: [128, 64]}, top_surface: {texture: t65b03, size: [128, 128]}, bottom_surface: {texture: t65b04, size: [128, 128]}, base: 640}
@@ -1009,6 +1031,8 @@ rooms:
       - wall: north
         panels:
           - {at: centre, length: 256, surface: {texture: t65c12, size: [256, 256]}}
+    platforms:
+      - {rise: 64, surface: {texture: t6502b, size: [128, 128]}, outline: [[-3312, -1408], [-2824, -1408], [-2824, -1400], [-3312, -1400]], visible: false, notes: "Unseen rail along the north edge of the box's top (in the pyramid hall, at 2432), over the well of the upper flights (face 3394): it stands above 2432, in this room's space."}
     notes: "The top of the stair tower above the pyramid's flat roof (sector 15): a lantern 640 square, its roof leaning from 2816 at the south wall to 2688 at the north. Its floor is open over the box that hangs from the roof (open:lantern_box), where the three upper flights climb to the box's top platform at 2432; the arrival and the front exit are in the recess in its south wall."
   - id: room:niche
     name: Secret niche of the great hall
@@ -1030,18 +1054,61 @@ rooms:
       - {id: platform:box_floor, at: [-3000, -1536], size: [656, 256], rise: 16, surface: {texture: t65c02, size: [128, 128]}, base: 960}
       - {id: platform:box_landing_w, at: [-3264, -1088], size: [128, 128], rise: 16, surface: {texture: t65c02, size: [128, 128]}, base: 1088}
       - {id: platform:box_landing_e, at: [-2752, -1088], size: [128, 128], rise: 16, surface: {texture: t65c02, size: [128, 128]}, base: 1344}
-      - {id: platform:box_top, rise: 16, surface: {texture: t65c02, size: [128, 128]}, outline: [[-3328, -1664], [-2688, -1664], [-2688, -1408], [-3328, -1408]], base: 1472}
+      - {id: platform:ramp_w, at: [-3264, -1280], size: [128, 256], rise: 16, surface: {texture: t65c02, size: [128, 128]}, thickness: 16, base: 960, top_slope: {to: 144, toward: north}, notes: "The first upper flight of the box: a ramp 16 thick (face 864, its underside 16 below) from the box's floor at 1920 (y -1408) up to its west landing at 2048 (y -1152), as the original's three upper flights are ramps, not steps."}
+      - {id: platform:ramp_n, at: [-3008, -1088], size: [384, 128], rise: 16, surface: {texture: t65c02, size: [128, 128]}, thickness: 16, base: 1088, top_slope: {to: 272, toward: east}, notes: "The second upper flight: a ramp 16 thick along the box's north wall from the west landing at 2048 to the east landing at 2304 (face 862; underside 881 from 2032 to 2288, the diagonal stone edge seen on the north wall from the box's floor)."}
+      - {id: platform:ramp_e, at: [-2752, -1280], size: [128, 256], rise: 16, surface: {texture: t65c02, size: [128, 128]}, thickness: 16, base: 1344, top_slope: {to: 144, toward: south}, notes: "The third upper flight: a ramp 16 thick from the east landing at 2304 (y -1152) to the box's top at 2432 (y -1408) (face 860, underside 883)."}
+      - {rise: 64, surface: {texture: t6502b, size: [128, 128]}, outline: [[-3200, -1408], [-3192, -1408], [-3192, -1160], [-3200, -1160]], visible: false, thickness: 64, base: 976, top_slope: {to: 192, toward: north}, notes: "Unseen rail along the first ramp's open side (the original's invisible face 3397, T6502B, 64 above the ramp)."}
+      - {rise: 64, surface: {texture: t6502b, size: [128, 128]}, outline: [[-3192, -1160], [-2824, -1160], [-2824, -1152], [-3192, -1152]], visible: false, thickness: 64, base: 1104, top_slope: {to: 320, toward: east}, notes: Unseen rail along the second ramp's open side (face 3396).}
+      - {rise: 64, surface: {texture: t6502b, size: [128, 128]}, outline: [[-2824, -1408], [-2816, -1408], [-2816, -1152], [-2824, -1152]], visible: false, thickness: 64, base: 1360, top_slope: {to: 128, toward: south}, notes: "Unseen rail along the third ramp's open side (faces 3889, 3395)."}
+      - {rise: 64, surface: {texture: t6502b, size: [128, 128]}, outline: [[-3192, -1408], [-2928, -1408], [-2928, -1400], [-3192, -1400]], visible: false, base: 976, notes: Unseen rail along the north edge of the box's floor between the first ramp and the south flight (face 3398).}
+      - {rise: 64, surface: {texture: t6502b, size: [128, 128]}, outline: [[-2672, -1664], [-2664, -1664], [-2664, -1408], [-2672, -1408]], visible: false, base: 976, notes: Unseen rail along the open east side of the box's floor (face 3399).}
     ceiling_levels:
       - ceiling: 2432
         top_outline: [[-3584, -1920], [-2432, -1920], [-2432, -768], [-3584, -768]]
     flights:
-      - {from: [-4080, -1792], to: [-4080, -256], open_below: 16, to_height: 1328, width: 192, steps: 24, tread: {texture: t65c02, size: [128, 128]}}
-      - {from: [-3985, -224], to: [-2896, -224], to_height: 1616, width: 192, steps: 18, sides: {height: 96, thickness: 32}, tread: {texture: t65c02, size: [128, 128]}}
-      - {from: [-2800, -319], to: [-2800, -1408], to_height: 1920, width: 192, steps: 19, sides: {height: 96, thickness: 32}, tread: {texture: t65c02, size: [128, 128]}}
-      - {from: [-3264, -1416], to: [-3264, -1152], from_height: 1920, to_height: 2048, width: 128, steps: 4, tread: {texture: t65c02, size: [128, 128]}}
-      - {from: [-3201, -1088], to: [-2816, -1088], to_height: 2304, width: 128, steps: 8, tread: {texture: t65c02, size: [128, 128]}}
-      - {from: [-2760, -1151], to: [-2760, -1424], to_height: 2432, width: 112, steps: 4, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-4080, -1792], to: [-4080, -320], open_below: 16, to_height: 1328, width: 192, steps: 24, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-3985, -224], to: [-2896, -224], open_below: 16, to_height: 1616, width: 192, steps: 18, tread: {texture: t65c02, size: [128, 128]}}
+      - {from: [-2800, -319], to: [-2800, -1408], open_below: 16, to_height: 1920, width: 192, steps: 19, tread: {texture: t65c02, size: [128, 128]}}
     beams:
+      - path: [[-4208, -112], [-3984, -112]]
+        width: 32
+        depth: 96
+        bottom: 1328
+        notes: "The rail along the west landing's north edge (faces 3768, 3773 to 3775), joining the north flight's west rail to the east flight's north rail."
+      - path: [[-3984, -112], [-2704, -112]]
+        width: 32
+        depth: 96
+        bottom: 1328
+        bottom_end: 1616
+        notes: "The east flight's north rail, raking with the flight and on over the east landing's north edge to its corner (faces 3765 to 3767, 3798)."
+      - path: [[-2688, -96], [-2688, -320]]
+        width: 32
+        depth: 96
+        bottom: 1616
+        notes: "The rail along the east landing's east edge (faces 3762 to 3764, 3797), in line with the south flight's east rail."
+      - path: [[-2688, -320], [-2688, -1408]]
+        width: 32
+        depth: 96
+        bottom: 1616
+        bottom_end: 1888
+        notes: "The south flight's east rail (faces 3759, 3761, 3801)."
+      - path: [[-2912, -352], [-2912, -1408]]
+        width: 32
+        depth: 96
+        bottom: 1624
+        bottom_end: 1888
+        notes: "The south flight's west rail from the corner post at the east landing (faces 3778 to 3782, 3802)."
+      - path: [[-3952, -336], [-2928, -336]]
+        width: 32
+        depth: 95
+        bottom: 1337
+        bottom_end: 1565
+        notes: "The east flight's south rail (faces 3786, 3787, 3807, 3893)."
+      - path: [[-3984, -336], [-3952, -336]]
+        width: 32
+        depth: 155
+        bottom: 1277
+        notes: "The post at the foot of the east flight's south rail, on the north flight's east rail (faces 3790 to 3795, 3809 to 3813)."
       - path: [[-4192, -1792], [-4192, -128]]
         width: 32
         depth: 96
@@ -1305,7 +1372,7 @@ openings:
     from: room:c22n
     to: room:c22s
     width: full
-    height: 255
+    height: 256
   - id: open:c22s_h22
     from: room:c22s
     to: room:h22
@@ -1330,7 +1397,7 @@ openings:
     from: room:corr11
     to: room:crusher
     width: full
-    height: 239
+    height: 256
   - id: open:corr12_corr13
     from: room:corr12
     to: room:corr13
@@ -1370,35 +1437,35 @@ openings:
     from: room:crusher
     to: room:corr12
     width: full
-    height: 239
+    height: 256
   - id: open:d52
     from: room:h22
     to: room:h23a
     along: 0.2857
     width: 256
-    height: 240
+    height: 256
   - id: open:d53
     from: room:h22
     to: room:h27a
     along: 0.7143
     width: 256
-    height: 240
+    height: 256
   - id: open:d54
     from: room:h23a
     to: room:h23b
     along: 0.2222
     width: 256
-    height: 240
+    height: 256
   - id: open:d55
     from: room:h23a
     to: room:clo55
     width: full
-    height: 240
+    height: 256
   - id: open:d56
     from: room:h27a
     to: room:c27
     width: full
-    height: 240
+    height: 256
   - id: open:d56_b
     from: room:c27
     to: room:h27b
@@ -1409,199 +1476,199 @@ openings:
     to: room:h28a
     along: 0.6364
     width: 256
-    height: 240
+    height: 256
   - id: open:d58
     from: room:h23b
     to: room:h24a
     along: 0.3636
     width: 256
-    height: 240
+    height: 256
   - id: open:d59
     from: room:h23b
     to: room:h25
     along: 0.7143
     width: 256
-    height: 240
+    height: 256
   - id: open:d60
     from: room:h28a
     to: room:clo60
     width: full
-    height: 240
+    height: 256
   - id: open:d61
     from: room:h28a
     to: room:h28b
     along: 0.6364
     width: 256
-    height: 240
+    height: 256
   - id: open:d62
     from: room:h24a
     to: room:h24b
     along: 0.3636
     width: 256
-    height: 240
+    height: 256
   - id: open:d63
     from: room:h24a
     to: room:clo63
     width: full
-    height: 240
+    height: 256
   - id: open:d64
     from: room:h25
     to: room:h26a
     along: 0.3636
     width: 256
-    height: 240
+    height: 256
   - id: open:d65
     from: room:h25
     to: room:clo65
     width: full
-    height: 240
+    height: 256
   - id: open:d66
     from: room:h27b
     to: room:clo66
     width: full
-    height: 240
+    height: 256
   - id: open:d67
     from: room:h27b
     to: room:h29a
     along: 0.7143
     width: 256
-    height: 240
+    height: 256
   - id: open:d68
     from: room:h28b
     to: room:clo68
     width: full
-    height: 240
+    height: 256
   - id: open:d69
     from: room:h28b
     to: room:clo69
     width: full
-    height: 240
+    height: 256
   - id: open:d70
     from: room:h24b
     to: room:clo70
     width: full
-    height: 240
+    height: 256
   - id: open:d71
     from: room:h24b
     to: room:clo71
     width: full
-    height: 240
+    height: 256
   - id: open:d72
     from: room:h26a
     to: room:h26b
     along: 0.3636
     width: 256
-    height: 240
+    height: 256
   - id: open:d73
     from: room:h26a
     to: room:clo73
     width: full
-    height: 240
+    height: 256
   - id: open:d74
     from: room:h29a
     to: room:h29b
     along: 0.3636
     width: 256
-    height: 240
+    height: 256
   - id: open:d75
     from: room:h29a
     to: room:clo75
     width: full
-    height: 240
+    height: 256
   - id: open:d76
     from: room:h29a
     to: room:clo76
     width: full
-    height: 240
+    height: 256
   - id: open:d77
     from: room:h29a
     to: room:h29c
     along: 0.6364
     width: 256
-    height: 240
+    height: 256
   - id: open:d78
     from: room:h26b
     to: room:clo78
     width: full
-    height: 240
+    height: 256
   - id: open:d79
     from: room:h26b
     to: room:clo79
     width: full
-    height: 240
+    height: 256
   - id: open:d80
     from: room:h29b
     to: room:h30
     along: 0.2857
     width: 256
-    height: 240
+    height: 256
   - id: open:d81
     from: room:h29b
     to: room:clo81
     width: full
-    height: 240
+    height: 256
   - id: open:d82
     from: room:h29c
     to: room:clo82
     width: full
-    height: 240
+    height: 256
   - id: open:d83
     from: room:h29c
     to: room:clo83
     width: full
-    height: 240
+    height: 256
   - id: open:d84
     from: room:h30
     to: room:h31
     along: 0.3636
     width: 256
-    height: 240
+    height: 256
   - id: open:d85
     from: room:h30
     to: room:clo85
     width: full
-    height: 240
+    height: 256
   - id: open:d86
     from: room:h30
     to: room:clo86
     width: full
-    height: 240
+    height: 256
   - id: open:d87
     from: room:h30
     to: room:h32
     width: 256
-    height: 240
+    height: 256
   - id: open:d88
     from: room:h30
     to: room:clo88
     width: full
-    height: 240
+    height: 256
   - id: open:d89
     from: room:h30
     to: room:cave_in
     along: 0.3333
     width: full
-    height: 240
+    height: 256
   - id: open:d90
     from: room:h31
     to: room:clo90
     width: full
-    height: 240
+    height: 256
   - id: open:d91
     from: room:h31
     to: room:clo91
     width: full
-    height: 240
+    height: 256
   - id: open:d92
     from: room:h32
     to: room:clo92
     width: full
-    height: 240
+    height: 256
   - id: open:d93
     from: room:h32
     to: room:clo93
     width: full
-    height: 240
+    height: 256
   - id: open:hall8_tri10
     from: room:hall8
     to: room:tri10
@@ -1646,7 +1713,7 @@ openings:
     from: room:lantern
     to: room:pyramid
     in: floor
-    outline: [[-3312, -1648], [-2704, -1648], [-2704, -1040], [-3312, -1040]]
+    outline: [[-3312, -1408], [-2704, -1408], [-2704, -1040], [-3312, -1040]]
   - id: open:lantern_recess
     from: room:lantern
     to: room:recess
@@ -1661,7 +1728,7 @@ openings:
     from: room:room7
     to: room:hall8
     width: full
-    height: 254
+    height: 256
   - id: open:room7_n
     from: room:room7
     to: room:room7n

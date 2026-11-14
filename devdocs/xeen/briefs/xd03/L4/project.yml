@@ -30,17 +30,17 @@ neighbours:
     direction: 180
     notes: "XD-02 (the Red Dwarf Mines) in the design: the Deep Line cart back up to its Deep Line station (XD-02 L4 at about [4600, 4450, -1216]); always works from this end. Stand-in until the two maps are mounted together: Emerald Island at the point XD-01 and XD-02 use."
   - id: exit:x1_shaft
-    to: 7out01.odm
+    to: xeen_x1.odm
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "On a bare hilltop north of Vertigo, beside the head of the Clan King's shaft."
-    direction: 180
+    arrival: [-1024, 17565, 1500]
+    arrival_hint: "On the hilltop north of Vertigo, in front of the Clan King's shaft head (X1 thing:shaft_head, face at y 17965), facing away from it."
+    direction: 270
     condition: {qbit: escape_shaft_open}
-    notes: "X1 (Vertigo Meadows) in the design: the Clan King's escape shaft, a counterweight cage up to the hills. It runs only after the party has thrown its lever in the King's hoard (set:escape_shaft); from then on the shaft head on X1 is a direct way down to the hall. Stand-in until X1 exists: Emerald Island."
+    notes: "X1 (Vertigo Meadows): the Clan King's escape shaft, a counterweight cage up to the hills; arrival 400 south of the shaft head's face (ground about 1469 on a slope). It runs only after the party has thrown its lever in the King's hoard (set:escape_shaft); from then on the shaft head on X1 is a direct way down to the hall."
 qbits:
   clan_king_slain: 110030
   escape_shaft_open: 110031
 items:
   clan_king_key: 2108
 migrated: [platform_in_sunken_level, ceiling_level_sides]
-notes: "Xeen design brief, level L4: L3's plan redrawn with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M3, second half (devdocs/xeen/QUESTS.md): kill the Clan King. The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 and XD-02 are: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins: slot 1 Mad Dwarves (Mad Dwarf 7, Clan Sergeant 12) is MM7's Dwarf family (Dwarven Soldier 10), slot 2 Spiders (10 / 14) the Spider family at tier 3 (Venomous Spider 8, Widowmaker 12), slot 3 Burrowers (Tiger Mole 9) the Troglodyte family (Troglodyte Drone 9); the placed Clan Sergeants are Dwarven Soldiers by name, the Clan King (18) a Dwarven Lieutenant (230, level 20) with hit points of his own and a name, the Bat Queens (10) Inferno Bats (207, level 9). The King's key 12021 is MM7's Key to Snergle's Chambers (2108). Treasure level 3 (the brief's 2, one step up as the brief asks for the King and his hoard; the hold's chests say their own levels). Quest bits keep their provisional Xeen numbers (110030-110031). Music: MM7 cave track 18 for the brief's cave_deep, which the game refuses. Both neighbours point at Emerald Island until XD-02 and X1 are mounted beside this map."
+notes: "Xeen design brief, level L4: L3's plan redrawn with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M3, second half (devdocs/xeen/QUESTS.md): kill the Clan King. The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 and XD-02 are: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins: slot 1 Mad Dwarves (Mad Dwarf 7, Clan Sergeant 12) is MM7's Dwarf family (Dwarven Soldier 10), slot 2 Spiders (10 / 14) the Spider family at tier 3 (Venomous Spider 8, Widowmaker 12), slot 3 Burrowers (Tiger Mole 9) the Troglodyte family (Troglodyte Drone 9); the placed Clan Sergeants are Dwarven Soldiers by name, the Clan King (18) a Dwarven Lieutenant (230, level 20) with hit points of his own and a name, the Bat Queens (10) Inferno Bats (207, level 9). The King's key 12021 is MM7's Key to Snergle's Chambers (2108). Treasure level 3 (the brief's 2, one step up as the brief asks for the King and his hoard; the hold's chests say their own levels). Quest bits keep their provisional Xeen numbers (110030-110031). Music: MM7 cave track 18 for the brief's cave_deep, which the game refuses. exit:x1_shaft leads to X1 (xeen_x1.odm); exit:deep_cart still points at Emerald Island."

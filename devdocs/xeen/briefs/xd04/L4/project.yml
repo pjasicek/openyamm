@@ -32,12 +32,12 @@ neighbours:
     one_way: true
     notes: "X8 (Cloudreach) in the design: one way up the cloud stair, sealed by the coven's ward until Valia names the party Crusaders (M4). Stand-in until X8 exists: Emerald Island at the point XD-01 to XD-03 use."
   - id: exit:toad_meadow
-    to: 7out01.odm
+    to: xeen_x1.odm
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "In Toad Meadow on X1, in front of the Witch Tower's door, facing away from it."
-    direction: 180
-    notes: "X1 (Toad Meadow) in the design. The tower door opens from outside only to the Crystal Key that Old Valia gives (M4), which is X1's door, not this map's; from inside it always opens. Stand-in until X1 exists: Emerald Island."
+    arrival: [12288, -8987, 850]
+    arrival_hint: "In Toad Meadow on X1, in front of the Witch Tower's door (X1 thing:witch_tower_door, face at y -9387 on the tower's north side since X1's pass five), facing away from it, north."
+    direction: 90
+    notes: "X1 (Toad Meadow): arrival 400 north of the tower door's face (ground 850; X1 pass five moved the door from the south side to the north, the side the party comes from). The tower door opens from outside only to the Crystal Key that Old Valia gives (M4), which is X1's door, not this map's; from inside it always opens."
 qbits:
   alacorn_taken: 110045
   child_rescued_1: 110040
@@ -49,6 +49,8 @@ qbits:
   rosebud_heard: 110044
 items:
   alacorn: 214
+  coven_key: 2187
   crystal_key: 2110
   warden_ring: 629
-notes: "Xeen design brief, level L4: L3's crooked tower built with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M4 and promotion T1-A (devdocs/xeen/QUESTS.md): take the Alacorn of Falista to Old Valia. The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 to XD-03 are: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins: slot 1 Goblins (Goblin 4 / Gremlin 6 / Gremlin Guard 10) is MM7's Goblin family (Goblin 4, Hobgoblin 6, Goblin Lord 10, the same levels); slot 2 Witches (Wicked Witch 14) the Moon clerics (Acolyte of the Moon 10, in green robes), slot 3 Swamp Things (Giant Toad 11, the witches' familiars) the Bat family at tier 3 (Inferno Bat 9): MM6-8 have no toad. The Head Witch is a Cleric of the Moon (215, level 20) with hit points and a name of her own, the schoolmistress an Acolyte, the Goblin Warden a Goblin Lord who carries the cage ring, the four caged children Goblin peasants (half-turned, peaceful). The Alacorn of Falista 12033 is MM7's Unicorn Horn (214: an alicorn is a unicorn's horn), the warden's ring 12032 the Ring of Keys (629); the Crystal Key 12031 opens X1's door and is not used here. Quest bits keep their provisional Xeen numbers (110040-110047). Music: MM7 track 28 (the Temple of the Moon's) for the brief's tower_dark, which the game refuses as a name. Both neighbours point at Emerald Island until X1 and X8 are mounted beside this map."
+migrated: [ceiling_level_sides]
+notes: "Xeen design brief, level L4: L3's crooked tower built with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M4 and promotion T1-A (devdocs/xeen/QUESTS.md): take the Alacorn of Falista to Old Valia. The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 to XD-03 are: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins: slot 1 Goblins (Goblin 4 / Gremlin 6 / Gremlin Guard 10) is MM7's Goblin family (Goblin 4, Hobgoblin 6, Goblin Lord 10, the same levels); slot 2 Witches (Wicked Witch 14) the Moon clerics (Acolyte of the Moon 10, in green robes), slot 3 Swamp Things (Giant Toad 11, the witches' familiars) the Bat family at tier 3 (Inferno Bat 9): MM6-8 have no toad. The Head Witch is a Cleric of the Moon (215, level 20) with hit points and a name of her own, the schoolmistress an Acolyte, the Goblin Warden a Goblin Lord who carries the cage ring, the four caged children Goblin peasants (half-turned, peaceful). The Alacorn of Falista 12033 is MM7's Unicorn Horn (214: an alicorn is a unicorn's horn), the warden's ring 12032 the Ring of Keys (629); the Crystal Key 12031 opens X1's door and is not used here. Quest bits keep their provisional Xeen numbers (110040-110047). Music: MM7 track 28 (the Temple of the Moon's) for the brief's tower_dark, which the game refuses as a name. exit:toad_meadow leads to X1 (xeen_x1.odm); exit:cloudreach points at Emerald Island until X8 exists."

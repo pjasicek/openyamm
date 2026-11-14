@@ -1098,3 +1098,91 @@ platforms with `base` and `bottom_surface`, chests with `end_surface`, `top_surf
 Best: `ingame_r6/end/diff/06-double-door-shut.png` (0.97), `03-entry-door-back.png` (0.96), `12-hatch-shut.png` (0.99),
 `67-lower-passage.png` (0.85). Worst: `83-gate-shut.png` (0.40, texture offset), `85-queen-gate.png` (0.42, offset),
 `79-chest5-above.png` (the cave's terraced roof cuts the original's view), `87-bay-panel-near.png` (flat panel).
+
+## Ninth merge lines (2026-11-13, afternoon)
+
+Copy before: `output/studio_cal/mm6_hive/m9_backup/`. Every edit by `output/studio_cal/mm6_hive/tools_m9/edit_m9.py`
+(four recorded steps), every texture read off the original.
+
+- **Doorway reveals**: hvtrim1 32x32 on the doorways of doors 1 to 6, 9 to 12, 14, 28, 32, 36, 42; hvtrim4 on doors 7,
+  8, 13. The original's jambs inside the leaf's thickness are the 1-high faces that grow as each leaf folds up (3010,
+  3011 for door 1, and the like); doors 13 and 11 also have hvtrim1 jambs in the wall beyond the leaf (2449, 2451;
+  1591, 1592), which lie inside the rooms s6_low and s39_corridor here and stay their walls.
+- **Leaf undersides** (`bottom_surface`, the folded stubs): hvtrim1, except hvtrim4 on doors 1, 7, 8, 13 and oflrl32
+  on doors 3 and 14 (faces 3009, 1857, 3340, 2433, 1794, 2457; NOTES round six had door 1 as hvtrim1, the original's
+  3009 is hvtrim4).
+- **Door 30** (the Queen's gate): `top_surface` swhz3 32x32 (3376), `edge_surface` swhor1dk 64x64 (3368, 3374).
+  Doors 28 and 45 `edge_surface` hvtrim1 (3359; 2908, 2909).
+- **Chests**: chests 1, 3, 4, 5 as `kind: ch1` (end, middle and end on front and top, as the original's faces listed
+  in round six), fronts as the original's (3 and 5 `facing: w`), chest 4 `lid: v`; the build had warned that their
+  surfaces were the kind's middle over every side. Chest 4's v end strips are laid wrong by the studio (as the Forge's:
+  64x16 strips laid 16 across and 64 along); the middle is right.
+- **Offsets** from the fresh compare's list (sector 79): the ring wall's six movers hvwl1a `offset: [0, -47]` (10 753
+  rays at v -47; u differs per face and is left), the north gate's two halves hvwl6 `[64, -18]` (1 073 rays), door 30
+  hvwl6 `[16, -77]`. Tried first in `output/studio_cal/mm6_hive/m9_try/` (a theme offset did nothing: those walls are
+  the movers'). Others in the list are per-room v phases of many small walls (sectors 2, 34, 37, 46, 48, 50): left.
+- **Faces in one plane** (the lead's request): 19 before, 17 after; the original has 13. The two cell passages' water
+  pads ran 15 and 17 past their rooms onto the side tunnel's sill at its height: they now start at the rooms' ends
+  (y 5889; the original's pad 3110 reaches 5874, so the last 15 are sill, not water). The 17 left are all the north
+  gate's two halves lying inside each other when shut, as the original's records do (12 of its 13 pairs are these
+  faces); the rebuild has 5 more of the same gate (its ends at x 3264 and 5568 and the teeth's level faces at -1616).
+- Pictures (`output/studio_cal/mm6_hive/m9_pics/sheets/`): 03 door 1's jambs and underside, 05 door 13, 07 door 11
+  (the jambs as the original's), 08 door 14 (oflrl32 stub), 09 chest 4 (its lid's ends, the studio's fault above), 11
+  the gate (offset), 13 and 14 the Queen's gate sunk.
+- **Scores**: 97.7 % before and after (sector-weighted 97.663 both); **offset agreement 0.312 to 0.338**. Playtest four
+  of four after every change.
+- **Audit**: the lines add no finding. Missing hover names on evt:door36_cell and evt:switch33 are the original's
+  (event 33 has no title). hvwl3a squashed (0.43 to 0.49 down) on the small joint triangles at the south-west tunnel's
+  end (faces 1874 to 1878 of the build): the studio's laying of a tunnel's end fan; the original has no such faces.
+
+## Round seven (2026-11-13, evening): the user's walk
+
+Copy before: `output/studio_cal/mm6_hive/r7_backup/`. Edits recorded in `output/studio_cal/mm6_hive/tools_r7/`
+(`edit_r7.py` steps p1, p3, p2; small follow-ups inline, copies `rooms_before_p2.yml`, `objects_before_gate.yml`);
+`near.py` lists an export's faces round a point; `build.sh` builds into `build/` and installs into the scratch `root/`.
+Pictures (original, rebuild, difference, same camera): before `r7_before/diff/`, after `r7_after/diff/`, extra views of
+point 2 before `r7_p2/diff/`, the gate `r7_gate/diff/`.
+
+1. **(8339, 7179) the carved wall round the hatch button: the halves did not line up.** Original: the east cell's
+   north wall is straight at y 7433 from x 8445 to 8157: HVWL2LE 128 (2916), HVWL3LE 32 in two pieces round the
+   button (2247, 2248), HVWL2RE 128 (1815), then the chest niche 8455..8583 by 7561..7625 with its slanting west side
+   (2953). Rebuild: the wall ran askew from (8432, 7440) to (7680, 7408), the left panel cut to 115, so each panel sat
+   in its own plane and the picture broke at the strip. Fixed: the outline has the original's corners (8445, 7433),
+   (8157, 7433) and the niche's; panels 128, 32, 128 (`01-p1-button-seam.png`: agreement 0.78 to 0.81, the carving
+   continuous).
+2. **(-3481, 4032) "something missing".** Original: the two chest alcoves of sector 12 are parted by a wall 32 thick
+   (x -3247..-3215, faces 2847, 2848) reaching south to y 3889 and ending in a post of hvtrim4 (2849) from floor to
+   ceiling. Rebuild: the alcoves stopped at the tunnel's bevel (y 3951 to 3990) and the tunnel's fan of joint
+   triangles stood where the post is. A tunnel with a section takes no wall, pillar or platform, so the stretch x
+   -3646..-2811 became `room:s12_hall` (upright walls, floor and ceiling by points from the original's heights) between
+   `room:s10_tunnel` and `room:s10_tunnel_w`; its north wall carries the post (panel hvtrim4 on wall 4) and the alcoves
+   reach it at full width (`05-p2-tunnel-north.png`: the post as the original's). Sector 12 0.943 to 0.961. Left: the
+   hall's south side is upright where the original's tunnel has its bevel; a texture seam on the divider at y 3980
+   (the hall's wall against the alcove's).
+3. **(-3936, 7173) the keg room could not be entered.** Original: its doorway (portal 3223, sill -1352) stands in the
+   north-west tunnel's side where the tunnel climbs, and the tunnel's floor tilts up toward the sill (faces 3811,
+   2876, 385), so the party walks in. Rebuild: the tunnel's lower bevel and a 100-high wall under the doorway. A
+   tunnel takes no platforms (refused: "a tunnel ... takes no `platforms`"), so the climbing stretch round the doorway
+   is `room:s14_ramp` (upright walls; floor by points rising to -1352 along the doorway at 0.7 or less, `steep_floor`
+   for the corner triangles nobody walks) between `room:s14_tunnel_a` and `room:s14_tunnel`. The keg room's east end
+   is now the doorway's width, as the original's (no wall strips beside it, which had lain in one plane with the
+   ramp's wall). Probe and playtest walk in; `03-p3-corridor-step.png`, `07-p3-in-doorway.png`. Sector 73 0.871 to
+   0.946; all 104 rooms reached (`oymap solve`: never reached 0).
+4. **North gate, the lead's request**: the lower half is now a body to -1744 with three parts 256 high (the east one
+   ending at 5567), so no face of one half lies in a face of the other at the shut pose. `oymap audit --strict`:
+   faces in one plane 6 pairs, 6 as the original, **0 new** (was 17, 5 new); passes.
+
+Scores: `oymap compare` **97.7 %** (0.977; distances 98.1 %, textures 97.6 %, offsets 0.32) over 1273 points,
+`compare_r7/`. Playtest (304 steps, was 296: into the keg room, the keg used, out again) **four of four**
+(`run/play_r7_1..4.log`). Installed in `output/studio_play/rebuilds_root`; loads.
+
+Joints learnt: a tunnel mouth into a room must be square to the room's end wall (the last stretch along the wall's
+normal: bends moved 4 units to make it so), the end wall level and at least the section's width (260 here);
+corners of two rooms that share a slanted wall on one line in whole steps of one vector, or the compiler refuses a
+degenerate face; floor points closer than a few units on one wall (a tunnel end and a floor point 3.6 apart) do the
+same.
+
+Waits on the studio: `platforms` and `pillars` in a section tunnel (or the tunnel's wall between two openings taking
+a surface), so that a ramp to a side door or a post between two mouths does not need the tunnel cut into a box room
+with upright walls; the playtest runner reports `triggered_event: 0` for a decoration's event (the keg's 50 is hit,
+`run/last_r6.log` of the failed try).

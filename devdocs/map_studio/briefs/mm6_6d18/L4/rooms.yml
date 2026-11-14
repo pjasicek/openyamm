@@ -191,7 +191,7 @@ rooms:
           - {offset: 2048, length: 32, bottom: 736, height: 288, surface: {texture: d8wlble, size: [128, 256]}}
     ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
     platforms:
-      - {id: platform:tile31, at: [2752, 6880], size: [64, 64], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, notes: "Original event 31's tile (faces 654-657): 64 square, 16 high on the island, clicked."}
+      - {id: platform:tile31, at: [2752, 6880], size: [64, 64], rise: 16, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, base: 16, notes: "Original event 31's tile (faces 654-657): 64 square, 16 high on the island, clicked."}
       - {at: [1920, 5248], size: [256, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
       - {at: [1920, 6656], size: [256, 512], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
       - {at: [3200, 5248], size: [256, 256], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlctrm3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 736}
@@ -604,7 +604,7 @@ rooms:
           - {id: panel:fire_wall, offset: 1536, length: 256, bottom: 1052, height: 228, surface: {texture: vlcwl3a, size: [128, 256]}, notes: "Face 35, the wall over the north door (x 0 to 256, z 284 to 512), clicked: original event 91."}
     ends: {length: 32, surface: {texture: d8wlble, size: [128, 256]}}
     platforms:
-      - {id: platform:tile42, at: [-768, 3040], size: [64, 64], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, notes: "Original event 42's tile (faces 631-634): 64 square, 16 high on the island at the north wall's foot, clicked."}
+      - {id: platform:tile42, at: [-768, 3040], size: [64, 64], rise: 16, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, base: 16, notes: "Original event 42's tile (faces 631-634): 64 square, 16 high on the island at the north wall's foot, clicked."}
     levels:
       - id: level:s3_island
         outline: [[-1024, 2944], [-512, 2944], [-512, 3072], [-1024, 3072]]
@@ -728,8 +728,8 @@ rooms:
         surface: {texture: ctflor1, size: [128, 128]}
         notes: "The east bank, under the bridge."
     flights:
-      - {from: [4040, 640], to: [4362, 640], to_height: -1952, width: 256, steps: 6, riser: {texture: gset05, size: [256, 16]}, tread: {texture: ctflor4, size: [128, 128]}}
-      - {from: [5432, 640], to: [5110, 640], to_height: -1952, width: 256, steps: 6, riser: {texture: gset05, size: [256, 16]}, tread: {texture: ctflor4, size: [128, 128]}}
+      - {from: [4032, 640], to: [4352, 640], to_height: -1952, width: 256, steps: 6, riser: {texture: gset05, size: [256, 16]}, tread: {texture: ctflor4, size: [128, 128]}}
+      - {from: [5440, 640], to: [5120, 640], to_height: -1952, width: 256, steps: 6, riser: {texture: gset05, size: [256, 16]}, tread: {texture: ctflor4, size: [128, 128]}}
     notes: "A hall 2,816 by 1,280 with its floor (-2048) either side of a channel 768 wide: banks 128 wide at -2240 and between them 512 of lava at -2260, which flows out through the whole south side into the lava river. A bridge at -1952 crosses the channel, six steps of 16 up to it from each floor, and a ramp 128 wide leads from each floor down to its bank (192 over 512). Here the room's floor is the lava and the floors and banks are levels on the original's lines, so that the mouth to the river opens at the lava's height; the banks run on under the bridge, which is a free block 64 thick that the two stairs end on (`to_height`); the ramps are solid wedges (`top_slope`) from the bank's height up to the floor, as in the original. A pilaster 64 square stands in each corner, faced with `cttrim2` (the outline's notches). The west and north doors stand flush against a pilaster in the original; an opening needs 16 of wall at each side, so both stand 16 farther from it here."
   - id: room:s35
     name: "Tower corridor, lower (35)"
@@ -1163,9 +1163,9 @@ rooms:
       - wall: 11
         surface: {texture: d2wlactr, size: [128, 256]}
     platforms:
-      - {id: platform:tile41, at: [-2016, 5184], size: [64, 64], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, notes: "Original event 41's tile (faces 644-647): 64 square, 16 high on the island against the west wall, clicked."}
+      - {id: platform:tile41, at: [-2016, 5184], size: [64, 64], rise: 16, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: orfyr64b, size: [64, 64]}, base: 16, notes: "Original event 41's tile (faces 644-647): 64 square, 16 high on the island against the west wall, clicked."}
       - {at: [-1793, 5136], size: [178, 2014], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, base: 224}
-      - {at: [-1634, 5248], size: [194, 178], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, base: 224}
+      - {at: [-1620.5, 5248], size: [167, 178], rise: 32, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: d2wlactr, size: [128, 256]}, base: 224}
       - {at: [-1872, 5136], size: [20, 2014], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
       - {at: [-1713, 4654], size: [20, 1050], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}
       - {at: [-1713, 5730], size: [20, 826], rise: 64, surface: {texture: d2wlactr, size: [128, 256]}, base: 256}

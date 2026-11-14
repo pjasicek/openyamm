@@ -144,6 +144,18 @@ steps:
   - walk_to: {x: -5712, y: 4408, z: -1711, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
   # Up the north-west tunnel to door 5, which opens from this side only (the original's event 5), and back.
   - walk_to: {x: -4128, y: 6816, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
+  # Round seven (the user's walk): the keg room's doorway stands above the tunnel's floor where it climbs; the floor
+  # tilts up to its sill, as the original's, and the party walks in, uses the keg (event 23: the line and 20 hit
+  # points) and walks back out.
+  - walk_to: {x: -3960, y: 7150, z: -1400, radius: 64, timeout_seconds: 60, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4440, y: 7300, z: -1352, radius: 64, timeout_seconds: 60, clear_hostiles: 1500, z_tolerance: 16}
+  - assert: {party_position: {x: -4440, y: 7300, radius: 96, z_min: -1360, z_max: -1340}}
+  - set_pose: {map: mm6hive.blv, x: -4450, y: 7312, z: -1352, yaw_degrees: 180, pitch_degrees: -55}
+  - advance_runtime: {seconds: 0.3}
+  # The keg is found (its secondary event 50 is the keg's; the runner reports triggered_event 0 for a decoration).
+  - press_interact: {expect: {kind: event_target}}
+  - walk_to: {x: -3960, y: 7150, z: -1400, radius: 64, timeout_seconds: 60, clear_hostiles: 1500, z_tolerance: 96}
+  - walk_to: {x: -4128, y: 6816, z: -1536, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
   - walk_to: {x: -5600, y: 9280, z: -1176, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
   - walk_to: {x: -3136, y: 9456, z: -983, radius: 96, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}
   - walk_to: {x: -1600, y: 9219, z: -768, radius: 64, timeout_seconds: 150, clear_hostiles: 1500, z_tolerance: 96}

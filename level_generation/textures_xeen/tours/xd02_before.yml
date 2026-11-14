@@ -1,0 +1,149 @@
+output_dir: /home/pjasicek/github/OpenYAMM/output/studio_cal/xd02/textures_gen/before
+exit: true
+settle_seconds: 1.3
+shots:
+- name: vein-1
+  position: [6405, 3684, -1152]
+  yaw: 1.1741
+  pitch: -0.2355
+  commands: [render hud off]
+- name: vein-2
+  position: [12635, 6101, -192]
+  yaw: 2.7804
+  pitch: -0.1845
+  commands: [render hud off]
+- name: vein-3
+  position: [7378, 3364, -384]
+  yaw: 0.396
+  pitch: -0.1845
+  commands: [render hud off]
+- name: vein-4
+  position: [12438, 1104, -640]
+  yaw: -1.28
+  pitch: -0.2
+  commands: [render hud off]
+- name: vein-5
+  position: [6787, 2303, -651]
+  yaw: -0.7891
+  pitch: -0.0975
+  commands: [render hud off]
+- name: vein-6
+  position: [5631, 2301, -971]
+  yaw: -2.3599
+  pitch: -0.0975
+  commands: [render hud off]
+- name: cart-side-1
+  position: [4400, 4300, -1216]
+  yaw: 2.92
+  pitch: -0.2
+  commands: [render hud off]
+- name: cart-side-2
+  position: [5386, 2878, -1152]
+  yaw: 0.3514
+  pitch: -0.3097
+  commands: [render hud off]
+- name: trestle-car-waiting
+  position: [11870, 5184, -160]
+  yaw: 3.1416
+  pitch: -0.12
+  commands: [render hud off]
+- name: east-line
+  position: [9300, 4398, -384]
+  yaw: -0.7854
+  pitch: -0.05
+  commands: [render hud off]
+- name: gold-pool
+  position: [12700, 1408, -608]
+  yaw: 0.0
+  pitch: -0.12
+  commands: [render hud off]
+- name: gold-pool-close
+  position: [12760, 1300, -608]
+  yaw: 0.5
+  pitch: -0.55
+  commands: [render hud off]
+- name: red-grotto
+  position: [6208, 4130, -1184]
+  yaw: 1.5708
+  pitch: -0.1
+  commands: [render hud off]
+- name: red-pool-close
+  position: [6208, 4300, -1184]
+  yaw: 1.5708
+  pitch: -0.5
+  commands: [render hud off]
+- name: blue-grotto
+  position: [3200, 990, -864]
+  yaw: 3.1416
+  pitch: -0.1
+  commands: [render hud off]
+- name: blue-pool-close
+  position: [2900, 980, -864]
+  yaw: 3.1416
+  pitch: -0.45
+  commands: [render hud off]
+- name: chapel
+  position: [8512, 3700, -448]
+  yaw: -1.5708
+  pitch: 0.0
+  commands: [render hud off]
+- name: green-pool-close
+  position: [8512, 3450, -448]
+  yaw: -1.5708
+  pitch: -0.5
+  commands: [render hud off]
+- name: tally-panel
+  position: [6144, 7307, -288]
+  yaw: 1.0478
+  pitch: 0.0749
+  commands: [render hud off]
+- name: tally-room
+  position: [6420, 7200, -288]
+  yaw: 3.1416
+  pitch: 0.0
+  commands: [render hud off]
+- name: chalk-mark
+  position: [13268, 6157, -192]
+  yaw: 0.0
+  pitch: 0.469
+  commands: [render hud off]
+- name: chalk-mark-wide
+  position: [13250, 5950, -192]
+  yaw: 0.35
+  pitch: 0.05
+  commands: [render hud off]
+- name: clan-sign
+  position: [13592, 3648, 144]
+  yaw: 3.1416
+  pitch: -0.3303
+  commands: [render hud off]
+- name: web-wall
+  position: [3336, 992, -864]
+  yaw: 3.1416
+  pitch: -0.025
+  commands: [render hud off]
+- name: cocoon-web-wall
+  position: [3800, 1200, -864]
+  yaw: 3.1416
+  pitch: -0.05
+  commands: [render hud off]
+- name: hoist-at-rim
+  position: [7150, 3870, -384]
+  yaw: -2.36
+  pitch: -0.1
+  commands: [render hud off]
+- name: adit-portal
+  position: [13450, 3300, 0]
+  yaw: 0.0
+  pitch: 0.05
+  commands: [render hud off]
+- name: adit-arrival
+  position: [14120, 3392, 0]
+  yaw: 3.1416
+  pitch: 0.0
+  commands: [render hud off]
+- name: deep-station
+  position: [4600, 4450, -1216]
+  yaw: 3.1416
+  pitch: -0.02
+  commands: [render hud off]

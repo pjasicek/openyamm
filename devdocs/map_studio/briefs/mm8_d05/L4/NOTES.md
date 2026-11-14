@@ -10,6 +10,9 @@ Scratch data, the comparison reports of every round and the in-game pictures are
 
 ## Where it stands (2026-11-12, six rounds)
 
+The table below is round one's measure. Now (2026-11-13, round seven, the merged measure): **97.2 %**, playtest
+256 steps four of four; the sections per round follow, the last "Round seven: the user's walk".
+
 | Round | What changed | `oymap compare` score | distances | textures |
 |---|---|---|---|---|
 | 1 | first complete shell, objects and wiring | 70.3 % | 69.1 % | 79.0 % |
@@ -1022,3 +1025,161 @@ Nothing new was refused this round. `pictures` with `fold` on slide_up leaves, `
 - The scenario's `new_game_flow` party is one character; a walk that loots chests depends on one pack's room. Worth a
   line in the scenario docs, or a party of four.
 - `oymap audit` (this binary): door 6's coplanar warning named the door by its lock number (34), not its id.
+
+## Round seven (2026-11-13): the user's walk
+
+The user played round six's build (`output/studio_play/rebuilds_root`) and named five places. Backup of round six's
+end: `output/studio_cal/mm8_d05/r7_backup/`. Scratch: `output/studio_cal/mm8_d05/r7/` (loop `loop.sh <tag>`, playtests
+`play.sh`, `play4.sh`; one-off edits `edit_panels.py`, `edit_doors.py`, `edit_d.py`, each checked by its whole diff;
+the rest by hand). Studio binary: the ninth merge's `build/oymap` (13:55).
+
+**Pictures without Simon's greeting.** The map's arrival event opens Simon Templar's dialog, which covered the lead's
+captures. Every shot of this round is a screenshot tour whose shots run the console line `render hud off`, which
+leaves the dialog undrawn (the round-six tool `r6/pics.py` did the same); the one walk that needed input was a desktop
+input tour (`debug.menu_input_tour_path`) that closes the dialog with `key: Escape`, then `console: render hud off`,
+then steps forward (`r7/walk/step_*.tour.yml`). Script: `r7/walk/shoot.sh <original|rebuild> <tag> [root]` with a
+pose template; each folder's `binary.txt` names the game binary. Sheets (original left):
+`r7/walk/sheets_final/` (the five poses: original | round six as installed, game 470f8897 | round six on the fixed
+game e915bd50 | round seven on e915bd50), `sheets_arrival/` (arrival and box top, seven views), `sheets_tower_b/`
+(the tower's corners and ramps), `sheets_offs/` (maze ceiling, hall 8's lower wall, a maze door), `step_sheet/`.
+
+### Scores (744 points)
+
+| | score | shape (distances) | textures | offset agreement |
+|---|---|---|---|---|
+| start of round seven (ninth-merge binary) | 96.9 % | 97.0 % | 96.6 % | 0.519 |
+| tower: ramps, rails, open flights | 97.2 % | 97.4 % | 96.7 % | 0.52 |
+| hall 8's wall offset, doorways 256, closets 16 higher | 97.2 % | 97.4 % | 96.8 % | 0.579 |
+| end: box top in the lantern, maze ceilings' offsets | **97.2 %** | 97.4 % | 96.8 % | 0.598 |
+
+The score counts a picture at another phase whole (the default); `offset_agreement` is the share of rays whose
+picture also lies at the original's phase. `compare.py`: `counted (structure, scale, play): 15 in, 3 near, 17 out`
+(counts of rooms against sectors, as before). Rooms on foot from the start: 6 of 86 as the doors start (was 5: the
+box top is now the lantern's), 84 with every door out of the way; `oymap solve` 12 steps, the original's order.
+Reports `output/studio_cal/mm8_d05/compare_r7_start`, `compare_r7_a` to `compare_r7_d`.
+
+### Playtest
+
+**Passes, 256 of 256 steps, four runs of four** on the end build (`run/play_r7_d1..4.log`, game binary e915bd50 with
+the sector fix), and once on build b (`play_r7_b1.log`). New in the walk: a trap panel pressed twice goes out and
+lights again (light asserts), then is put out with the others; the walk crosses the box top, the three ramps and the
+south flight as before.
+
+### The user's five points
+
+1. **"Portal clipping" on the box's top** (-2982, -1573, 2432). Original: box and lantern are one sector (15); the
+   box's top (face 859, 2432) is the lantern's own floor. Round six: the top was a platform of `room:pyramid` (64) in
+   the plane of the lantern's floor opening, so the eye stood in the lantern (82) while the game drew from 64: black
+   above the box's walls. The game fix (a floor portal counts as floor only for the room above it; in the binary
+   since 14:31, e915bd50) does not cure this place: the top is 64's own solid floor exactly in the opening's plane,
+   it ties with 82's portal at the eye, and the lower sector wins (`sheets_final/01`, third column, still black on the
+   fixed game). **Done in the project**: the box's top is now the lantern's floor (`open:lantern_box` only over the
+   well of the upper flights, y -1408 to -1040; `platform:box_top` gone), as the original's sector 15 holds them. The
+   eye check no longer reports the top, and its coplanar pairs with the lantern's rim are gone. The arrival, the
+   box's top looking north, east, west and south and the top of the third ramp now look like the original's
+   (`sheets_final/01`, `sheets_arrival/02` to `06`). The box's top seen from below is the pyramid's flat top at 2432,
+   16 higher than the original's underside (2416). Left: `sheets_arrival/07` (placed by a tour on the east landing at
+   2304, eye above the lantern's floor) is still black in the tour; in a desktop run placed there and stepping up the
+   ramp (`step_sheet/`) the view is right on the fixed game, so this is the tour's placement (the game draws a placed
+   party from its floor's sector, the lead's note). The eye check still lists the east landing (2304), the third
+   ramp (2368) and its unseen rail: those the game fix covers after a step.
+2. **"Something missing" on the wall seen from the box's floor** (-2798, -1627, 1920). Original: the three upper
+   flights inside the box are **ramps**, slabs 16 thick (faces 864, 862, 860; undersides 881, 883): the second runs
+   along the box's north wall, and its underside and its 16-high front face are the diagonal stone edge on that wall.
+   Round six built them as steps solid down to their landings (a stepped mass, no diagonal). **Done**: three hanging
+   ramps (`platform:ramp_w`, `ramp_n`, `ramp_e`: `top_slope` with `thickness: 16`), and the original's six unseen
+   rails (T6502B faces 3394 to 3399, 3889, flag invisible, 64 high) along the ramps' open sides and the box's floor
+   and top edges as `visible: false` platforms (the one on the top's edge in `room:lantern`). `sheets_final/02`,
+   `sheets_tower_b/06`, `07`.
+3. **"Railing missing (in the corner)"** (-2680, -476, 1756; the user stood on the south flight's east rail).
+   Original: the rails are raking beams 32 wide and 96 deep, open under them, and they run on past the flights: along
+   the east landing's east edge (faces 3762 to 3764) and over its north edge (the east flight's north rail, 3765 to
+   3767, 3798, which runs to x -2704). Round six: the flights' `sides`, solid walls from their foot up, ending with the
+   flights. **Done**: the east and south flights are `open_below: 16` (the original's slabs) without `sides`; their
+   rails are beams as measured (raking, 96 deep), continued round the east landing; posts at the two corners where
+   the original has them (3790 to 3795, 3809 to 3813; the south-west rail's foot). `sheets_final/03`,
+   `sheets_tower_b/03`.
+4. **"Here as well"** (-3819, -257, 1389): the west landing's north edge. Original: a level rail x -4208 to -3984,
+   y -128 to -96, 1328 to 1424 (faces 3768, 3773 to 3775) joining the north flight's west rail to the east flight's
+   north rail. Round six had none (the floor showed through the corner). **Done**: a beam as measured.
+   `sheets_final/04`, `sheets_tower_b/04`. Also fixed in the tower: the north flight ends on the landing's edge
+   (y -320, the original's last riser) instead of 64 inside it (three coplanar pairs gone), and the east flight's and
+   south flight's side walls no longer overlap (one pair gone).
+5. **"Missing secret faces, otherwise good?"** (2253, 2321, -352, hall 8 looking east). Original: 22 faces of hall 8's
+   ceiling at -32 (T65A04, faces 1811 to 1856, listed in round six) carry the secret flag; for a party with
+   Perception they pulse red and trace the hidden walkway (`sheets_final/05`, left: the red band on the ceiling).
+   Also secret: the floor plates of the four heads and the fire stand in the great hall (faces 1296 to 1343, 3629,
+   3630). **Not sayable yet; nothing changed.** The ninth merge's `secret` is on wall panels only
+   (`walls[].panels[].secret`) and doors. Tried in `output/studio_cal/mm8_d05/repro/r7_secret_ceiling/`: the region
+   itself can be said today on a level ceiling: `ceiling_points` (the 41 corners of the walkway's trace, all at -32,
+   plus its four wall points), two `ceiling_lines` pairs along its north and south edges, and
+   `ceiling_surfaces: [{at: [3000, 1700], surface: {texture: t65a04, ...}}]` validates and builds; adding
+   `secret: true` to that entry is refused ("unknown key"). **What the studio needs:** `secret: true` on a
+   `ceiling_surfaces`/`floor_surfaces` entry (the meshSurface), and `secret: true` on `plates` (objects.yml) for the
+   heads' and stand's floor plates (the three plates without an event, 1324, 3629, 3630, would be plates with no
+   wiring). Event 451's `SetFacetBit(15, secret)` on the walkway after the third fall needs an effect such as
+   `{secret: platform:walk_a}` (a cog like `hide`/`show`).
+
+### The ninth merge's lines for this map
+
+- `geometry.eye_sector`: the box's top is fixed in the project (point 1); the east landing, the third ramp and its
+  rail stay listed, left to the game fix (right after a step on e915bd50).
+- `oymap audit`'s new checks. **Silent clicks**: the trap panels (events 64 to 71) were silent on a second press,
+  where the original's lights the panel again (map variable 12 counts down). Now each panel toggles (preset `script`
+  under the condition `trap and not solved`: out and dark, or lit again; `evt.SetTexture` by the switch's cog,
+  `evt.SetLight` by the light's number); the timer still wants all eight dark. The panels' remaining silences
+  (before the trap, after it is solved) are the original's (102 to 109). The other silent findings are the
+  original's too: the trap doors from inside once the trap runs (52, 87 = 63), the four step buttons once pressed
+  (72 to 75 = 513 to 516), and step events (83, 89, 92, 98 = 12, 451, 452, 101), which the check counts as clicks.
+  **Squashed pictures**: the niche chest's top (`cr_w128b` stretched over 128 by 48) now has `top_surface: t6502b`;
+  its two ends (t6502b stretched over 48 by 128) stand flush against the niche's side walls and are never seen; the
+  crusher pit's bank `t65b02` (faces 407 to 410) is laid from above on a bank steeper than the original's funnel (a
+  bank that rakes 416 over 254 where the original's funnel drops 272 then an upright shaft; gap 7 of round six), so
+  it reads 0.52 texels a unit down the slope. No floating, chest-title, hover-name or inside-each-other findings.
+  `state.never_read`: map variable 23 (step 4's `once`) is set and never tested, harmless.
+- **Offsets** (`oymap compare`'s list, then looked at in the game): hall 8's walls (t65a02, the t65b02 band, the
+  t65o11a course) lay half a tile along and 32 up from the original's: `offset: [64, 32]` on all three in
+  `theme:false_floor`. The maze's carved ceilings (t65a04c) lie half a tile apart from the original's: two themes,
+  `theme:maze_e` (sectors 23 to 26, `[64, 0]`) and `theme:maze_w` (27 to 31, `[64, 64]`, the commonest of their
+  mixed offsets); `sheets_offs/01` (the eagle carvings now centred as the original's). Left: the pyramid's roof
+  (t65c02, v 21 off with u varying face by face: the original lays each roof face its own way; one offset cannot say
+  it; not visible), the hall of stones' walls (mixed), the door leaves (below).
+- **Doorways** (seen in `sheets_offs/05` while checking the leaves' offsets): every slide-up leaf of the original is
+  256 high closed (doors 1, 5, 52 to 93, 108, 109: the leaf's top at the lintel, `move_length` 240 for the maze, 255,
+  254, 239 for the others, leaving the stub the original shows at the lintel when open), and the passages behind the
+  maze doors are 256 high (the T65B04 face at 16 below is the plug's own underside). Round six took the openings'
+  heights from the move length (239 to 255), cutting the bottom of every carved door picture. Now: 46 openings 256
+  high, travel the original's move length, and the 24 closets, the long passage (c27) and the cave's entry passage
+  (cave_in) at the original's ceiling (-384, were -400). The leaf's picture still lies 16 to 20 texels off the
+  original's phase (the original's picture rides with the moving edge, flag 0x40000, from its stored open pose); a
+  door picture has no `offset`.
+
+### What waits on the studio (most harmful first)
+
+1. `secret` on ceiling and floor regions (`ceiling_surfaces`/`floor_surfaces` entries) and on `plates`, and an effect
+   that makes faces secret (event 451): point 5.
+2. A raking beam with a level top: the box's three walls over the ramps (`room:pyramid` beams at x -3336, y -1016 and x -2680,
+   bottoms 1904 to 2032, 2032 to 2288, 2416 to 2288) rise above 2432 into the lantern (the build's warning; five `geometry.coplanar` pairs
+   with the lantern's walls, t65c02 on t65c02).
+3. A door picture's `offset` (or an anchor at the moving edge): the maze's 42 carved leaves, doors 1, 5, 108, 109.
+4. A steep bank's surface laid along the slope (the crusher pit), with the funnel over an upright shaft.
+5. Unchanged from round six: `secret` on one face of a leaf, door 1's leaves changed by event 11, a door's place in
+   a deep doorway, the wall carving under the niche, a step higher than 40, the tunnel's rough rock.
+
+### What waits on the game
+
+- A party placed (arrival, teleport, a tour's pose) on the east landing or the top of the third ramp, eye above the
+  lantern's floor, is drawn from the pyramid's sector (`sheets_arrival/07`); after a step the fixed game draws it
+  right. The arrival itself is now right in the project.
+
+### Tool defects
+
+- `oymap audit`: `click.silent` reports step events (pit, falls, walkway, alcoves) and the eradicating pit (event 92,
+  `SetValue(Eradicated, 0)`) as "a click shows nothing".
+- `oymap compare`: the door leaves' offsets in sectors 29 and 30 read -74 before and -90 after the leaves were made
+  256 high, while the pictures in the game moved closer to the original's; the measure of a leaf's phase is not
+  trusted here.
+- Screenshot tours keep a party placed by a pose in its floor's sector, so a pose cannot show what a player sees
+  after a step there (`sheets_arrival/07` against `step_sheet/`).
+- `r7/walk/shoot.sh` once wrote a tour file onto its own template (sed into the file it read); fixed by a separate
+  template file.

@@ -504,10 +504,10 @@ rooms:
       - {rise: 0, surface: {texture: a3b, size: [128, 256]}, outline: [[2432, -8160], [2688, -8160], [2688, -7648], [2432, -7648]], top_surface: {texture: a3b, size: [128, 256]}, top_slope: {to: 384, toward: south}}
       - {rise: 0, surface: {texture: a3b, size: [128, 256]}, outline: [[6016, -8160], [6272, -8160], [6272, -7648], [6016, -7648]], top_surface: {texture: a3b, size: [128, 256]}, top_slope: {to: 384, toward: south}}
     flights:
-      - {from: [3072, -5696], to: [3072, -6464], width: 256, steps: 12, sides: {height: 124, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
-      - {from: [2888, -6528], to: [2680, -6528], to_height: 1484, width: 256, steps: 4, sides: {height: 96, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
-      - {from: [5632, -5696], to: [5632, -6464], width: 256, steps: 12, sides: {height: 124, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
-      - {from: [5816, -6528], to: [6024, -6528], to_height: 1484, width: 256, steps: 4, sides: {height: 96, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [3072, -5696], to: [3072, -6400], width: 256, steps: 12, sides: {height: 124, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [2880, -6528], to: [2688, -6528], from_height: 1372, to_height: 1484, width: 256, steps: 4, sides: {height: 96, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [5632, -5696], to: [5632, -6400], width: 256, steps: 12, sides: {height: 124, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
+      - {from: [5824, -6528], to: [6016, -6528], from_height: 1372, to_height: 1484, width: 256, steps: 4, sides: {height: 96, thickness: 48, surface: {texture: a2j, size: [128, 256]}}, riser: {texture: a1b, size: [128, 256]}}
   - id: room:hall_well
     name: Stairs up through the hall floor
     outline: [[4816, -4416], [5072, -4416], [5072, -3840], [4816, -3840]]
@@ -568,7 +568,7 @@ rooms:
     floor: 1484
     ceiling: 2124
     platforms:
-      - {id: platform:top_landing, rise: 384, outline: [[6912, -5344], [7296, -5344], [7296, -4832], [7168, -4832], [7168, -4896], [6912, -4896], [6912, -4960], [7168, -4960], [7168, -5216], [6912, -5216]], top_surface: {texture: sfw7a, size: [128, 256]}}
+      - {id: platform:top_landing, rise: 384, outline: [[6914, -5344], [7296, -5344], [7296, -4832], [7170, -4832], [7170, -4898], [6914, -4898], [6914, -4960], [7168, -4960], [7168, -5216], [6914, -5216]], top_surface: {texture: sfw7a, size: [128, 256]}}
   - id: room:lift_w
     name: West lift
     outline: [[1984, -5152], [2240, -5152], [2240, -4704], [1984, -4704]]
@@ -580,7 +580,7 @@ rooms:
     floor: 1036
     ceiling: 1740
     platforms:
-      - {id: platform:mouth_slab, rise: 192, surface: {texture: a3b, size: [128, 256]}, outline: [[2240, -5120], [2336, -5024], [2368, -5024], [2368, -4832], [2336, -4832], [2240, -4736]], base: 256}
+      - {id: platform:mouth_slab, rise: 192, surface: {texture: a3b, size: [128, 256]}, outline: [[2242, -5118], [2336, -5024], [2368, -5024], [2368, -4832], [2336, -4832], [2242, -4738]], base: 256}
   - id: room:locker1
     name: Engineering wall locker 1
     outline: [[1248, -8224], [1392, -8224], [1392, -8096], [1248, -8096]]

@@ -591,13 +591,26 @@ events:
     preset: script
     source: room:hall8
     trigger: step
-    lua: |-
-      if IsAtLeast(MapVar(57), 1) then return end
-      if IsAtLeast(MapVar(56), 3) then return end
-      AddValue(MapVar(56), 1)
-      if IsAtLeast(MapVar(56), 3) then return end
-      SetValue(MapVar(57), 1)
-    notes: "Event 451: a fall from the walkway is counted (map variables 56 and 57 for the original's 13 and 14, which the build's named variables take) (once until the walkway is walked again). On the third the original marks the walkway's faces (SetFacetBit(15, IsSecret)); a face attribute an event changes has no word, so the count leads to nothing here."
+    condition: {map_var: {name: 56, equals: 2}, not: {map_var: 57}}
+    effects:
+      - secret:
+          of: platform:walk_a
+          face: top
+      - secret:
+          of: platform:walk_b
+          face: top
+      - add:
+          var:
+            map_var: 56
+          value: 1
+    else_effects:
+      - lua: |-
+          if IsAtLeast(MapVar(57), 1) then return end
+          if IsAtLeast(MapVar(56), 3) then return end
+          AddValue(MapVar(56), 1)
+          if IsAtLeast(MapVar(56), 3) then return end
+          SetValue(MapVar(57), 1)
+    notes: "Event 451: a fall from the walkway is counted (map variables 56 and 57 for the original's 13 and 14, which the build's named variables take) (once until the walkway is walked again). The third (the count at 2, armed) marks the walkway's top as secret, as the original's SetFacetBit(15, IsSecret) marks its 22 top faces, and counts it; the other falls as before."
   - id: evt:fire_stand
     preset: script
     source: plate:fire_a
@@ -647,77 +660,133 @@ events:
     opens: [door:d115]
     notes: "Event 453: crossing the patch of floor south of the stand opens the secret niche."
   - id: evt:panel_1
-    preset: switch
+    preset: script
     source: switch:panel_1
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_1}}]}
-    sets: {map_var: panel_1}
-    effects:
-      - lights_off: light:panel_1
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_1), 1) then
+          SetValue(MapVar(panel_1), 0)
+          evt.SetTexture(43, "t65b11c")
+          evt.SetLight(1, 1)
+      else
+          SetValue(MapVar(panel_1), 1)
+          evt.SetTexture(43, "t65b11b")
+          evt.SetLight(1, 0)
+      end
+    notes: "Event 102: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_1 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 43, the light by its number 1 (ids.lock.yml)."
   - id: evt:panel_2
-    preset: switch
+    preset: script
     source: switch:panel_2
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_2}}]}
-    sets: {map_var: panel_2}
-    effects:
-      - lights_off: light:panel_2
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_2), 1) then
+          SetValue(MapVar(panel_2), 0)
+          evt.SetTexture(44, "t65b11c")
+          evt.SetLight(2, 1)
+      else
+          SetValue(MapVar(panel_2), 1)
+          evt.SetTexture(44, "t65b11b")
+          evt.SetLight(2, 0)
+      end
+    notes: "Event 103: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_2 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 44, the light by its number 2 (ids.lock.yml)."
   - id: evt:panel_3
-    preset: switch
+    preset: script
     source: switch:panel_3
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_3}}]}
-    sets: {map_var: panel_3}
-    effects:
-      - lights_off: light:panel_3
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_3), 1) then
+          SetValue(MapVar(panel_3), 0)
+          evt.SetTexture(45, "t65b11c")
+          evt.SetLight(3, 1)
+      else
+          SetValue(MapVar(panel_3), 1)
+          evt.SetTexture(45, "t65b11b")
+          evt.SetLight(3, 0)
+      end
+    notes: "Event 104: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_3 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 45, the light by its number 3 (ids.lock.yml)."
   - id: evt:panel_4
-    preset: switch
+    preset: script
     source: switch:panel_4
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_4}}]}
-    sets: {map_var: panel_4}
-    effects:
-      - lights_off: light:panel_4
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_4), 1) then
+          SetValue(MapVar(panel_4), 0)
+          evt.SetTexture(46, "t65b11c")
+          evt.SetLight(4, 1)
+      else
+          SetValue(MapVar(panel_4), 1)
+          evt.SetTexture(46, "t65b11b")
+          evt.SetLight(4, 0)
+      end
+    notes: "Event 105: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_4 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 46, the light by its number 4 (ids.lock.yml)."
   - id: evt:panel_5
-    preset: switch
+    preset: script
     source: switch:panel_5
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_5}}]}
-    sets: {map_var: panel_5}
-    effects:
-      - lights_off: light:panel_5
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_5), 1) then
+          SetValue(MapVar(panel_5), 0)
+          evt.SetTexture(47, "t65b11c")
+          evt.SetLight(5, 1)
+      else
+          SetValue(MapVar(panel_5), 1)
+          evt.SetTexture(47, "t65b11b")
+          evt.SetLight(5, 0)
+      end
+    notes: "Event 106: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_5 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 47, the light by its number 5 (ids.lock.yml)."
   - id: evt:panel_6
-    preset: switch
+    preset: script
     source: switch:panel_6
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_6}}]}
-    sets: {map_var: panel_6}
-    effects:
-      - lights_off: light:panel_6
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_6), 1) then
+          SetValue(MapVar(panel_6), 0)
+          evt.SetTexture(48, "t65b11c")
+          evt.SetLight(6, 1)
+      else
+          SetValue(MapVar(panel_6), 1)
+          evt.SetTexture(48, "t65b11b")
+          evt.SetLight(6, 0)
+      end
+    notes: "Event 107: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_6 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 48, the light by its number 6 (ids.lock.yml)."
   - id: evt:panel_7
-    preset: switch
+    preset: script
     source: switch:panel_7
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_7}}]}
-    sets: {map_var: panel_7}
-    effects:
-      - lights_off: light:panel_7
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_7), 1) then
+          SetValue(MapVar(panel_7), 0)
+          evt.SetTexture(49, "t65b11c")
+          evt.SetLight(7, 1)
+      else
+          SetValue(MapVar(panel_7), 1)
+          evt.SetTexture(49, "t65b11b")
+          evt.SetLight(7, 0)
+      end
+    notes: "Event 108: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_7 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 49, the light by its number 7 (ids.lock.yml)."
   - id: evt:panel_8
-    preset: switch
+    preset: script
     source: switch:panel_8
     title: Button
-    condition: {all: [{map_var: trap}, {not: {map_var: panel_8}}]}
-    sets: {map_var: panel_8}
-    effects:
-      - lights_off: light:panel_8
-    notes: "Events 102 to 109: while the trap runs, pressing a lit panel puts it out (the original's second press lights it again and map variable 12 counts the dark ones; here each panel goes out once a run). The trap lights them (evt:crusher_trap); a pressed switch takes its `on` surface, dark, and its light goes out (the original's SetLight(n, 0))."
+    condition: {all: [{map_var: trap}, {not: {map_var: solved}}]}
+    lua: |-
+      if IsAtLeast(MapVar(panel_8), 1) then
+          SetValue(MapVar(panel_8), 0)
+          evt.SetTexture(50, "t65b11c")
+          evt.SetLight(8, 1)
+      else
+          SetValue(MapVar(panel_8), 1)
+          evt.SetTexture(50, "t65b11b")
+          evt.SetLight(8, 0)
+      end
+    notes: "Event 109: while the trap runs and is not solved, a press puts a lit panel out (its picture dark, its light off) and a second press lights it again, as the original's toggle (map variable 12 counts the dark ones there; here panel_8 says whether this one is dark, and the timer wants all eight dark). Before the trap and after it is solved a press does nothing, as in the original. Textures by the switch's cog 50, the light by its number 8 (ids.lock.yml)."
   - id: evt:pit_kill
     preset: script
     source: room:crusher

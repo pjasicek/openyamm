@@ -181,10 +181,18 @@ steps:
         click(59); wait(6)
         if door_state(74) ~= "open" or door_state(75) ~= "open" then error("the partition door did not open: " .. door_state(74) .. ", " .. door_state(75)) end
   - walk_to: {x: 2240, y: -7700, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
+  # Ninth merge lines (2026-11-13): the droids near the locker are killed before the party stands at it and while its
+  # shutter drops, so none dies at the party's feet: a droid killed there leaves its corpse round the party's eye, and
+  # the use key then picks the corpse (the old "chance failure", 3 runs of 10 with spawn group 51 as without; probes in
+  # output/studio_cal/mm7_7d23/m9_locker/ showed no living droid near and an Assassin Droid hit at distance 0).
+  - play_lua:
+      source: |
+        for _ = 1, 8 do clear_hostiles(1500); wait(0.5) end
   - walk_to: {x: 1600, y: -7392, z: 1484, radius: 80, timeout_seconds: 60, clear_hostiles: 600}
   - play_lua:
       source: |
-        click(58); wait(4)
+        click(58)
+        for _ = 1, 8 do clear_hostiles(1500); wait(0.5) end
         if door_state(73) ~= "open" then error("the locker's shutter did not open: " .. door_state(73)) end
   # Behind the shutter lies a Blaster Rifle (the original's sprite object 0). A spawned droid standing in the way
   # would take the use key, so the party's enemies near it are killed first, as a player would.
@@ -194,14 +202,13 @@ steps:
           id = tonumber(id)
           if id ~= 1406 and id ~= 1407 then while item_count(id) > 0 and discard(id) do end end
         end
-  # The lead, 2026-11-13: KNOWN CHANCE FAILURE, not fixed. A spawned droid (from the spawn points beside the locker)
-  # wanders into the locker's mouth and takes the use key in about 2 or 3 runs of 8, before and after the seventh
-  # merge alike. These droids are not counted hostile, so clearing does not remove them and waiting does not help.
-  # For round six: the original's spawn points there are in group 51 and the rebuild's in group 0 (spawns take no
-  # group yet); find what keeps the original's droids out of the locker, or check the rifle another way.
+  # (Was "KNOWN CHANCE FAILURE": the cause was a droid killed at the party's feet; see the ninth merge lines above.)
   - play_lua:
       source: |
         for _ = 1, 8 do clear_hostiles(1500); wait(0.5) end
+  # Droids walk up to the party unprovoked and turn hostile only at its side, so one may still die where the party
+  # stands; the party steps 130 aside before taking the rifle, as a player steps off a corpse.
+  - walk_to: {x: 1560, y: -7290, z: 1484, radius: 40, timeout_seconds: 30, clear_hostiles: 1500}
   - pick_up: {item_id: 867}
   # A Blaster lies on the station's floor (sprite objects 3 and 4).
   - walk_to: {x: 2240, y: -8200, z: 1484, radius: 64, timeout_seconds: 60, clear_hostiles: 600}

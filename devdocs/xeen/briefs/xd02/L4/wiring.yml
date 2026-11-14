@@ -1,17 +1,26 @@
 format: 0
-variables: [turntable_east, hoist_used]
+variables: [turntable_east, hoist_used, vein_sorting_mined, vein_flooded_mined, vein_rim_mined, vein_se_mined, vein_sw_mined, vein_rich_mined]
 events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "Mayor Gunther of Vertigo sent you here. The Mad Dwarf Clan has taken the Red Dwarves' mine, and their Clan King holds the Deep Mine below it. The way down is the Deep Line cart at the bottom of the Open Stope, past the Turntable; the clan keeps it chained, and their Tallymaster holds the brake key in the camp north of the Turntable."
+    notes: "Why the party is here (pass 3, the user: 'I don't know the intention of it, what quest was there'): QUESTS.md M3, Gunther's errand, until the Xeen world's quests exist in the game; once, on first entry."
   - id: evt:brake
     preset: switch
-    source: switch:brake
-    title: Brake wheel
+    source: platform:brake_wheel
+    title: Deep Line brake
     condition: {item: brake_key, consume: true}
-    locked_text: "The cart is chained to its brake; the chain is locked through the wheel."
     opens: [mover:chain]
-    once: true
     sets: {qbit: deep_line_unchained}
-    text: "The brake key turns: the chain falls away from the Deep Line cart. It is free to run."
-    notes: "set:unchain_deep_cart: the brake key (consumed) frees the cart; the qbit opens the Deep Line exit."
+    effects:
+      - message: "The clan's brake key opens the padlock. You spin the wheel: the chain drops off the Deep Line cart into the rail bed and the brake comes off. The cart is free: climb in at the buffer stop and it will run down the Deep Line to the Clan King's Deep Mine."
+    else_effects:
+      - lua: "if IsQBitSet(QBit(110021)) then evt.StatusText(\"The chain lies slack in the rail bed: the cart is free.\") else evt.SimpleMessage(\"The Deep Line cart is chained to this brake wheel, the chain padlocked through it. The padlock wants a heavy iron key: the clan keeps it, with the tallymaster in his tally room off the mess hall.\") end"
+    notes: "set:unchain_deep_cart: the brake key (consumed) frees the cart; the qbit opens the Deep Line exit and the cart (evt:deep_cart). Before: a message window says where the key is; when it is used: a message window says what changed and what to do next (pass 3: the user pressed it and could not tell what it did); after: the chain lies slack."
   - id: evt:chalk_mark
     preset: text
     source: panel:chalk_mark
@@ -20,15 +29,15 @@ events:
   - id: evt:chest_cocoon
     preset: chest
     source: chest:cocoon
-    title: Web-wrapped bundle
+    title: Chest
   - id: evt:chest_footlocker_1
     preset: chest
     source: chest:footlocker_1
-    title: Footlocker
+    title: Chest
   - id: evt:chest_footlocker_3
     preset: chest
     source: chest:footlocker_3
-    title: Footlocker
+    title: Chest
   - id: evt:chest_lamp_room
     preset: chest
     source: chest:lamp_room
@@ -36,12 +45,12 @@ events:
   - id: evt:chest_payroll
     preset: chest
     source: chest:payroll
-    title: Payroll chest
+    title: Chest
   - id: evt:chest_strongbox
     preset: chest
     source: chest:strongbox
-    title: The clan's strongbox
-    text: "Under the tally slates: a heavy iron key stamped with a cart wheel. The brake key of the Deep Line."
+    title: Chest
+    text: "Under the tally slates: the Deep Line's brake key, stamped with a cart wheel."
   - id: evt:clan_hostile
     preset: script
     trigger: load
@@ -51,12 +60,31 @@ events:
   - id: evt:clan_sign
     preset: text
     source: panel:clan_sign
-    title: Painted warning
+    title: Warning sign
     text: "Skulls daubed on a board: MAD DWARF CLAN. DIG ELSEWHERE."
+    window: true
+  - id: evt:deep_cart
+    preset: script
+    source: platform:deep_cart
+    title: Deep Line cart
+    condition: {qbit: deep_line_unchained}
+    locked_text: The cart is chained to the brake wheel by the north wall.
+    effects:
+      - lua: "evt.MoveToMap(15816, 12161, 1133, 1024, 0, 0, 0, 0, \"7out01.odm\")"
+    text: The cart runs down the Deep Line into the dark.
+    notes: "goal:unchain_deep_line: the cart itself is the ride down, as the player expects (exits[] sit only on a wall face: gap 6), with the exit face at the cutting's end kept. The Lua copies exit:deep_mine's arrival from project.yml (the exit preset's own line); change both when XD-03 exists."
+  - id: evt:deep_station_arrive
+    preset: script
+    source: room:deep_station
+    trigger: step
+    once: true
+    effects:
+      - lua: "evt.StatusText(\"The Deep Line: the clan's cart stands at the buffer stop, chained to a brake wheel.\", 5)"
+    notes: The goal in sight on arrival (pass 3).
   - id: evt:door_bunk
     preset: door
     source: door:bunk
-    title: Iron-banded door
+    title: Door
   - id: evt:door_chapel
     preset: door
     source: door:chapel
@@ -72,7 +100,7 @@ events:
   - id: evt:door_tally
     preset: door
     source: door:tally
-    title: Iron-banded door
+    title: Door
   - id: evt:door_vent_1
     preset: door
     source: door:vent_1
@@ -86,7 +114,7 @@ events:
     source: mover:east_cart
     title: Mine cart
     condition: {map_var: turntable_east}
-    locked_text: "The points at the Turntable are set for the trestle: the cart will not run the east line."
+    locked_text: The points at the Turntable are set for the trestle.
     toggles: [mover:east_cart, door:gate_east, door:gate_landing]
     text: The cart splashes off down the drowned line.
   - id: evt:east_landing
@@ -94,15 +122,33 @@ events:
     source: switch:east_landing
     title: Cart lever
     condition: {map_var: turntable_east}
-    locked_text: "The points at the Turntable are set for the trestle: the cart will not run the east line."
+    locked_text: The points at the Turntable are set for the trestle.
     toggles: [mover:east_cart, door:gate_east, door:gate_landing]
     text: The cart rumbles along the east line.
+  - id: evt:east_ride_landing
+    preset: switch
+    source: switch:east_ride_landing
+    title: Cart lever
+    condition: {map_var: turntable_east}
+    locked_text: The points at the Turntable are set for the trestle.
+    toggles: [mover:east_cart, door:gate_east, door:gate_landing]
+    text: The cart rumbles along the east line.
+    notes: "The riders' lever at the landing's stop (pass 3: every lever used from a cart faces its deck and is within reach at that stop)."
+  - id: evt:east_ride_turntable
+    preset: switch
+    source: switch:east_ride_turntable
+    title: Cart lever
+    condition: {map_var: turntable_east}
+    locked_text: The points at the Turntable are set for the trestle.
+    toggles: [mover:east_cart, door:gate_east, door:gate_landing]
+    text: The cart splashes off down the drowned line.
+    notes: The riders' lever at the Turntable's stop.
   - id: evt:east_turntable
     preset: switch
     source: switch:east_turntable
     title: Cart lever
     condition: {map_var: turntable_east}
-    locked_text: "The points at the Turntable are set for the trestle: the cart will not run the east line."
+    locked_text: The points at the Turntable are set for the trestle.
     toggles: [mover:east_cart, door:gate_east, door:gate_landing]
     text: The cart rumbles along the east line.
   - id: evt:exit_deep
@@ -110,8 +156,8 @@ events:
     source: exit:deep
     title: The Deep Line
     condition: {qbit: deep_line_unchained}
-    locked_text: "The Deep Line drops away into the dark; the cart that runs it is chained to its brake."
-    text: "You release the brake: the cart runs down the Deep Line into the dark."
+    locked_text: The Deep Line cart is chained to its brake wheel.
+    text: The cart runs down the Deep Line into the dark.
   - id: evt:exit_x1
     preset: exit
     source: exit:x1
@@ -121,7 +167,7 @@ events:
     source: exit:x4
     title: The west adit
     condition: {qbit: x4_adit_open}
-    locked_text: Rock fills the adit to the roof.
+    locked_text: Rock fills the adit to the roof. The winch might drag it away.
   - id: evt:hoist_cage
     preset: switch
     source: mover:hoist
@@ -132,41 +178,50 @@ events:
   - id: evt:hoist_floor
     preset: switch
     source: switch:hoist_floor
-    title: Hoist bell-pull
-    condition: {map_var: hoist_used}
-    locked_text: "The cage is here; climb in and work its lever."
+    title: Hoist lever
     toggles: [mover:hoist, door:hoist_gate]
+    sets: {map_var: hoist_used}
     text: The hoist cable sings.
+    notes: "Beside the cage's foot, within reach from inside the cage: it sends the cage up (with whoever stands in it) or calls it down, and takes the hoist's brake off for the rim's lever (pass 3: it refused until the cage had been clicked, and told a rider to 'work its lever')."
+  - id: evt:hoist_ride_rim
+    preset: switch
+    source: switch:hoist_ride_rim
+    title: Hoist lever
+    toggles: [mover:hoist, door:hoist_gate]
+    sets: {map_var: hoist_used}
+    text: The cage jerks and sinks down the shaft.
+    notes: "The riders' lever at the rim stop (pass 3: a lever used while riding faces the deck and is in reach at that stop)."
   - id: evt:hoist_rim
     preset: switch
     source: switch:hoist_rim
-    title: Hoist bell-pull
+    title: Hoist lever
     condition: {map_var: hoist_used}
-    locked_text: "The bell rings far below; nobody answers. The cage is braked at the bottom."
     toggles: [mover:hoist, door:hoist_gate]
+    else_effects:
+      - message: "The bell rings far below; nobody answers. The cage waits on the stope floor, braked: work it once from the floor and its brake comes off."
     text: The hoist cable sings.
   - id: evt:points
-    preset: script
+    preset: switch
     source: switch:points
     title: Points lever
-    condition: {map_var: turntable_east}
+    condition: {not: {map_var: turntable_east}}
     effects:
-      - set:
-          var:
-            map_var: turntable_east
-          value: 0
-      - lights_on: light:signal_trestle
-      - lights_off: light:signal_east
-    else_effects:
       - set:
           var:
             map_var: turntable_east
           value: 1
       - lights_on: light:signal_east
       - lights_off: light:signal_trestle
-      - text: "The turntable grinds round: the points are set for the east line. A green lamp lights over its gate."
-    text: "The turntable grinds round: the points are set for the trestle. A green lamp lights over its gate."
-    notes: "set:turntable: toggles turntable_east (the trestle by default); the green lamps show which line is live."
+    else_effects:
+      - set:
+          var:
+            map_var: turntable_east
+          value: 0
+      - lights_on: light:signal_trestle
+      - lights_off: light:signal_east
+      - text: "The turntable grinds round: the trestle line is live."
+    text: "The turntable grinds round: the east line is live."
+    notes: "set:turntable: toggles turntable_east (the trestle by default); the lever's handle is down while the east line is live, and the green lamps show which line is."
   - id: evt:pool_blue
     preset: script
     source: platform:blue_pool
@@ -244,24 +299,50 @@ events:
     text: "The old dry-stone wall slumps into the floor: a vault behind it."
   - id: evt:tablet
     preset: script
-    source: platform:chapel_tablet
+    source: panel:chapel_tablet
     title: The Red Dwarves' tablet
     effects:
       - message: "Carved in the old runes, the faces smashed above them: RED FOR THE ARM. GREEN FOR THE BACK. GOLD FOR THE EYE. BLUE FOR THE MIND. THE BLUE SLEEPS BEHIND THE SILK."
+  - id: evt:tally_enter
+    preset: script
+    source: room:tally_room
+    trigger: step
+    once: true
+    effects:
+      - lua: "evt.StatusText(\"The Tallymaster and his guards! The clan's strongbox stands behind his table.\", 5)"
+    notes: The boss and the key's chest named as the party comes in (pass 3).
   - id: evt:trestle_car
     preset: switch
     source: mover:trestle_car
     title: Trestle car
     condition: {not: {map_var: turntable_east}}
-    locked_text: "The points at the Turntable are set for the east line: the car will not run the trestle."
+    locked_text: The points at the Turntable are set for the east line.
     toggles: [mover:trestle_car, door:gate_station, door:gate_turntable]
     text: The car rolls out over the chasm.
+  - id: evt:trestle_ride_station
+    preset: switch
+    source: switch:trestle_ride_station
+    title: Car lever
+    condition: {not: {map_var: turntable_east}}
+    locked_text: The points at the Turntable are set for the east line.
+    toggles: [mover:trestle_car, door:gate_station, door:gate_turntable]
+    text: The car rolls out over the chasm.
+    notes: "The riders' lever at the Top Station's stop (pass 3, the user: 'how am I supposed to press that lever while being on the moving platform? the lever is from the other side')."
+  - id: evt:trestle_ride_turntable
+    preset: switch
+    source: switch:trestle_ride_turntable
+    title: Car lever
+    condition: {not: {map_var: turntable_east}}
+    locked_text: The points at the Turntable are set for the east line.
+    toggles: [mover:trestle_car, door:gate_station, door:gate_turntable]
+    text: The car rolls back up the trestle.
+    notes: The riders' lever at the Turntable's stop.
   - id: evt:trestle_station
     preset: switch
     source: switch:trestle_station
     title: Car lever
     condition: {not: {map_var: turntable_east}}
-    locked_text: "The points at the Turntable are set for the east line: the car will not run the trestle."
+    locked_text: The points at the Turntable are set for the east line.
     toggles: [mover:trestle_car, door:gate_station, door:gate_turntable]
     text: The car rumbles along the trestle.
   - id: evt:trestle_turntable
@@ -269,14 +350,16 @@ events:
     source: switch:trestle_turntable
     title: Car lever
     condition: {not: {map_var: turntable_east}}
-    locked_text: "The points at the Turntable are set for the east line: the car will not run the trestle."
+    locked_text: The points at the Turntable are set for the east line.
     toggles: [mover:trestle_car, door:gate_station, door:gate_turntable]
     text: The car rumbles along the trestle.
   - id: evt:vein_flooded
     preset: switch
     source: switch:vein_flooded
     title: Gold vein
-    once: true
+    condition: {not: {map_var: vein_flooded_mined}}
+    locked_text: Only bare rock is left where the seam was.
+    sets: {map_var: vein_flooded_mined}
     effects:
       - gold: 110
       - lights_off: light:glint_flooded
@@ -285,19 +368,23 @@ events:
     preset: switch
     source: switch:vein_rich
     title: Rich gold vein
+    condition: {not: {map_var: vein_rich_mined}}
+    locked_text: Only bare rock is left where the seam was.
     opens: [door:mole_rock]
-    once: true
+    sets: {map_var: vein_rich_mined}
     effects:
       - gold: 200
       - lights_off: light:glint_rich
       - lua: "evt.CameraShake(0.7, 1.5)"
-    text: You chip out a fat seam of gold - and the rock beside it caves in. Something was digging toward you.
+    text: "A fat seam of gold - and the rock beside it caves in!"
     notes: "set:rich_vein: the richest seam; the burrow behind it opens and the two tiger moles come out."
   - id: evt:vein_rim
     preset: switch
     source: switch:vein_rim
     title: Gold vein
-    once: true
+    condition: {not: {map_var: vein_rim_mined}}
+    locked_text: Only bare rock is left where the seam was.
+    sets: {map_var: vein_rim_mined}
     effects:
       - gold: 90
       - lights_off: light:glint_rim
@@ -306,7 +393,9 @@ events:
     preset: switch
     source: switch:vein_se
     title: Gold vein
-    once: true
+    condition: {not: {map_var: vein_se_mined}}
+    locked_text: Only bare rock is left where the seam was.
+    sets: {map_var: vein_se_mined}
     effects:
       - gold: 110
       - lights_off: light:glint_se
@@ -315,7 +404,9 @@ events:
     preset: switch
     source: switch:vein_sorting
     title: Gold vein
-    once: true
+    condition: {not: {map_var: vein_sorting_mined}}
+    locked_text: Only bare rock is left where the seam was.
+    sets: {map_var: vein_sorting_mined}
     effects:
       - gold: 120
       - lights_off: light:glint_sorting
@@ -324,7 +415,9 @@ events:
     preset: switch
     source: switch:vein_sw
     title: Gold vein
-    once: true
+    condition: {not: {map_var: vein_sw_mined}}
+    locked_text: Only bare rock is left where the seam was.
+    sets: {map_var: vein_sw_mined}
     effects:
       - gold: 80
       - lights_off: light:glint_sw
@@ -334,17 +427,19 @@ events:
     source: door:web_wall
     title: Thick old web
     action: open
-    text: "You cut the old web away; the thin rock screen behind it lifts. Blue light beyond."
+    text: "You cut the web away; the rock screen behind it lifts."
   - id: evt:winch
     preset: switch
     source: platform:winch
     title: Winch
+    condition: {not: {qbit: x4_adit_open}}
     opens: [mover:fall]
-    once: true
     effects:
       - qbit: x4_adit_open
       - lights_on: light:west_daylight
       - lua: "evt.CameraShake(1.2, 2.5)"
-    text: "You crank the winch: the props come out, and with a long roar the whole fall slides away down the old ore chute. Daylight shows at the end of the adit."
+    else_effects:
+      - text: "The winch's rope hangs slack: the fall is gone."
+    text: "The props come out and the whole fall slides away: daylight!"
     notes: "set:west_adit_winch: once; the fall goes, the X4 exit opens for good (qbit x4_adit_open)."
 notes: "Every mechanism is a preset with conditions and effects. Lua only for what no word says: the pools' per-character bits (IsPlayerBitSet / SetPlayerBit), the camera shakes (evt.CameraShake) and the clan's hostility (evt.SetMonsterRelation on load)."

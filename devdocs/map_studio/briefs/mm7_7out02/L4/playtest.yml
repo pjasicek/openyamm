@@ -13,8 +13,9 @@ steps:
   # East along the low ground: 3 cells.
   - walk_to: {x: -15360, y: 12288, z: 160, z_tolerance: 300, radius: 128, timeout_seconds: 90}
   - assert: {party_position: {x: -15360, y: 12288, radius: 200}}
-  # A built hall: the door of "Harmondale Townhall" (build.json: door at -13312, 13414, floor 32, looking south).
-  - set_pose: {map: calib_harmondale.odm, x: -13312, y: 13184, z: 192, yaw: 1.5708, pitch: 0}
+  # A built hall: the door of "Harmondale Townhall" (round five: door at -13376, 13542 under the veranda, as the
+  # original's left leaf; looking south).
+  - set_pose: {map: calib_harmondale.odm, x: -13376, y: 13300, z: 192, yaw: 1.5708, pitch: 0}
   - press_interact:
       expect:
         kind: event_target
@@ -24,8 +25,11 @@ steps:
         house_dialog: true
         source_id: 203
   - press_action: {action: cancel_dialog}
-  # A built shop with its gabled roof and its sign: "Tempered Steel" (door at -6600, 14624, floor 0, looking south).
-  - set_pose: {map: calib_harmondale.odm, x: -6600, y: 14394, z: 160, yaw: 1.5708, pitch: 0}
+  # A built shop with its gabled roof and its sign: "Tempered Steel" (round five: door at -6472, 14880 at the back of its open
+  # recess, as the original's; floor 0, looking south; set on the floor: at z 160 the eye stood inside the recess's
+  # ceiling and saw nothing).
+  - set_pose: {map: calib_harmondale.odm, x: -6472, y: 14650, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
   - press_interact:
       expect:
         kind: event_target
@@ -38,7 +42,8 @@ steps:
   # Round two: the house doors carry the original's lock. While the guild debt has failed (qbit 695) the same door
   # refuses ("This Door is Locked", no dialogue); cleared, it opens again.
   - setup_shortcut: {kind: set_qbit, id: 695, value: true}
-  - set_pose: {map: calib_harmondale.odm, x: -6600, y: 14394, z: 160, yaw: 1.5708, pitch: 0}
+  - set_pose: {map: calib_harmondale.odm, x: -6472, y: 14650, z: 0, yaw: 1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
   - press_interact:
       expect:
         kind: event_target
@@ -97,6 +102,22 @@ steps:
   - walk_to: {x: 8192, y: 4093, z: 400, z_tolerance: 200, radius: 96, timeout_seconds: 30}
   - advance_runtime: {seconds: 1.0}
   - assert: {qbit_set: [760]}
+  # Round five: the trap is the dais's top round the hatch's pit (four plates), the hatch lies in the top over the pit
+  # and the chest stands in the pit, as the original's Fort_. From the top's north edge a click on the closed hatch
+  # opens the chest under it: the game's pick passes the hatch's face and meets the chest, on the original exactly
+  # so (repro/hatch_pick in the scratch folder: event 117 at the same hit point). The chest holds the soldier's diary
+  # fragment (item 1509).
+  - set_pose: {map: calib_harmondale.odm, x: 8192, y: 4300, z: 400, yaw: -1.5708, pitch: -0.6}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - play_lua:
+      source: |
+        wait(1)
+        if not take_chest() then error("the fort's chest did not open: " .. status()) end
+        close()
+        if not has_item(1509) then error("no diary fragment in the fort's chest") end
   # Round three: the west gorge, now with its walls where the original's are (cliff lines, the rock fin between its
   # arms, the road on the original's cells): from inside the square down the gorge's floor; where the gorge crosses
   # the square's west edge (node 19) the game offers the way to Erathia, as in the original. Declined.

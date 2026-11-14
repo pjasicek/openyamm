@@ -44,6 +44,7 @@ events:
   evt:loft_chest: 14
   evt:mr_splits: 33
   evt:mrs_splits: 34
+  evt:nest: 37
   evt:notice_board: 15
   evt:office_door: 16
   evt:pair_slain: 17
@@ -63,6 +64,13 @@ events:
   evt:stash_chest: 29
   evt:stash_door: 30
   evt:street_doors: 31
+  evt:strongbox: 38
+  evt:tank_1: 39
+  evt:tank_2: 40
+  evt:tank_3: 41
+  evt:tank_4: 42
+  evt:tank_5: 43
+  evt:tank_6: 44
 doors:
   door:barn: 1
   door:barn.leaf2: 2
@@ -81,11 +89,13 @@ doors:
   mover:pen_4_bars: 21
   mover:pen_5_bars: 22
   mover:pen_6_bars: 23
+  switch:feeding_time: 7
 containers:
-  chest:desk: 0
+  chest:cabinet: 4
   chest:invoice: 1
   chest:loft: 2
   chest:stash: 3
+  chest:strongbox: 5
 cogs:
   switch:feeding_time: 1
 map_vars:
@@ -95,6 +105,7 @@ map_vars:
   once.feeding_time: 0
   once.mr_splits: 4
   once.mrs_splits: 6
+  once.nest: 8
   once.pair_slain: 2
   once.slime_bucket: 3
 lights:
@@ -114,3 +125,112 @@ lights:
   light:pen_6: 10
   light:pool: 11
   light:shaft_daylight: 12
+decorations:
+  deco:aisle_lantern: 0
+  deco:aisle_lantern_s: 1
+  deco:aisle_sacks_1: 2
+  deco:aisle_sacks_2: 3
+  deco:aisle_sacks_3: 4
+  deco:aisle_sacks_4: 5
+  deco:bay_barrels_1: 6
+  deco:bay_barrels_2: 7
+  deco:bay_cask: 8
+  deco:bay_lantern_e: 9
+  deco:bay_lantern_s: 10
+  deco:bay_lantern_w: 11
+  deco:bay_pallet_sacks_1: 12
+  deco:bay_pallet_sacks_2: 13
+  deco:bay_sacks_1: 14
+  deco:bay_sacks_2: 15
+  deco:culvert_bones: 16
+  deco:culvert_bucket: 17
+  deco:culvert_rock_1: 18
+  deco:culvert_rock_2: 19
+  deco:dock_barrel_1: 20
+  deco:dock_barrel_2: 21
+  deco:dock_cask: 22
+  deco:dock_lantern_e: 23
+  deco:dock_lantern_w: 24
+  deco:feed_bucket: 25
+  deco:feed_lantern: 26
+  deco:feed_lantern_w: 27
+  deco:feed_mash: 28
+  deco:feed_sacks_1: 29
+  deco:feed_sacks_2: 30
+  deco:feed_sacks_3: 31
+  deco:feed_sacks_4: 32
+  deco:feed_sacks_5: 33
+  deco:feed_sacks_6: 34
+  deco:feed_sacks_7: 35
+  deco:hall_barrel_1: 36
+  deco:hall_barrel_2: 37
+  deco:hall_barrel_3: 38
+  deco:hall_bucket: 39
+  deco:hall_chaff: 40
+  deco:hall_hanging_mid: 41
+  deco:hall_hanging_n: 42
+  deco:hall_hanging_s: 43
+  deco:hall_lantern_se: 44
+  deco:hall_lantern_sw: 45
+  deco:hall_lantern_w: 46
+  deco:hall_sacks_1: 47
+  deco:hall_sacks_2: 48
+  deco:hall_sacks_3: 49
+  deco:hall_sacks_4: 50
+  deco:hall_sacks_5: 51
+  deco:honeymoon_bones: 52
+  deco:honeymoon_bones_2: 53
+  deco:honeymoon_bowl_2: 54
+  deco:honeymoon_candle: 55
+  deco:honeymoon_candle_1: 56
+  deco:honeymoon_candle_2: 57
+  deco:honeymoon_candle_3: 58
+  deco:honeymoon_candle_4: 59
+  deco:honeymoon_corpse: 60
+  deco:honeymoon_nest: 61
+  deco:honeymoon_torch_e: 62
+  deco:honeymoon_torch_w: 63
+  deco:landing_torch: 64
+  deco:loft_lantern: 65
+  deco:loft_sacks_1: 66
+  deco:loft_sacks_2: 67
+  deco:loft_sacks_3: 68
+  deco:loft_sacks_4: 69
+  deco:loft_sacks_5: 70
+  deco:loft_sacks_6: 71
+  deco:office_bucket: 72
+  deco:office_bucket_2: 73
+  deco:office_candle: 74
+  deco:office_lantern: 75
+  deco:office_lantern_n: 76
+  deco:outfall_junk: 77
+  deco:outfall_trash: 78
+  deco:pen_1_bowl: 79
+  deco:pen_1_muck: 80
+  deco:pen_2_bowl: 81
+  deco:pen_2_muck: 82
+  deco:pen_3_bowl: 83
+  deco:pen_3_muck: 84
+  deco:pen_4_bowl: 85
+  deco:pen_4_muck: 86
+  deco:pen_5_bowl: 87
+  deco:pen_5_muck: 88
+  deco:pen_6_bowl: 89
+  deco:pen_6_muck: 90
+  deco:pens_bucket: 91
+  deco:pens_cage_1: 92
+  deco:pens_mash: 93
+  deco:pens_torch_1: 94
+  deco:pens_torch_13: 95
+  deco:pens_torch_15: 96
+  deco:pens_torch_5: 97
+  deco:shaft_bones: 98
+  deco:shaft_nest: 99
+  deco:shaft_trash: 100
+  deco:ship_barrel: 101
+  deco:ship_cask: 102
+  deco:ship_lantern_n: 103
+  deco:ship_lantern_s: 104
+  deco:ship_lantern_w: 105
+  deco:ship_small_barrel: 106
+  deco:stash_barrel: 107

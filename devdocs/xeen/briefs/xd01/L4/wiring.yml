@@ -8,26 +8,29 @@ events:
   - id: evt:bay_sign
     preset: text
     source: panel:bay_sign
-    title: Carved sign
-    text: JOE THE EXTERMINATOR - ALWAYS FIRST ON THE SCENE.
+    title: Sign
+    effects:
+      - message: JOE THE EXTERMINATOR - ALWAYS FIRST ON THE SCENE.
   - id: evt:cabinet
-    preset: text
-    source: platform:cabinet
-    title: Joe's filing cabinet
-    text: "Bills, filed by customer. 'Mayor's cellar: doom bugs removed, 400 gold.' 'Mayor's cellar: doom bugs removed again, 400 gold.' 'Mayor's cellar: slimes, 400 gold.' The drawer marked SUPPLIERS is empty."
+    preset: chest
+    source: chest:cabinet
+    title: Cabinet
   - id: evt:culvert_door
     preset: door
     source: door:culvert
     title: Iron door
   - id: evt:desk
-    preset: chest
-    source: chest:desk
+    preset: text
+    source: platform:desk
     title: Joe's desk
+    effects:
+      - message: "Bills, piled by customer. 'Mayor's cellar: doom bugs removed, 400 gold.' 'Mayor's cellar: doom bugs removed again, 400 gold.' 'Mayor's cellar: slimes, 400 gold.' Under them a list headed SUPPLIERS, with every line scratched out."
   - id: evt:feeding_sign
     preset: text
     source: panel:feeding_time
-    title: Painted label
-    text: FEEDING TIME
+    title: Sign
+    effects:
+      - message: FEEDING TIME
   - id: evt:feeding_time
     preset: switch
     source: switch:feeding_time
@@ -47,12 +50,13 @@ events:
   - id: evt:heart_sign
     preset: text
     source: panel:heart_sign
-    title: Painted sign
-    text: "MR & MRS WOBBLES - DO NOT SEPARATE"
+    title: Sign
+    effects:
+      - message: "MR & MRS WOBBLES - DO NOT SEPARATE"
   - id: evt:invoice_crate
     preset: chest
     source: chest:invoice
-    title: "Crate marked J. THE EXTERMINATOR, REAR DOOR"
+    title: Crate
     sets: {qbit: joe_invoice_found}
     text: "Under a puff of itching powder, an invoice: 'Breeder Slimes, 1 mated pair. Doom Bugs, 5 (assorted). Deliver to J. the Exterminator, rear door. Pay on delivery.'"
     notes: "goal:invoice and set:invoice_reveal: the invoice (joes_invoice) and the quest bit joe_invoice_found."
@@ -67,8 +71,9 @@ events:
   - id: evt:keep_out_sign
     preset: text
     source: panel:keep_out
-    title: Painted warning
-    text: "KEEP OUT (THIS MEANS YOU, GUNTHER)"
+    title: Sign
+    effects:
+      - message: "KEEP OUT (THIS MEANS YOU, GUNTHER)"
   - id: evt:lane
     preset: exit
     source: exit:lane
@@ -77,7 +82,8 @@ events:
     preset: text
     source: panel:ledger
     title: Joe's ledgers
-    text: "Pest removal, Mayor's cellar: 400 gold. Pest supply: 20 gold. Profit! The last line, underlined twice: Retirement fund - behind the Chow."
+    effects:
+      - message: "Pest removal, Mayor's cellar: 400 gold. Pest supply: 20 gold. Profit! The last line, underlined twice: Retirement fund - behind the Chow."
   - id: evt:loft_chest
     preset: chest
     source: chest:loft
@@ -92,7 +98,7 @@ events:
     effects:
       - summon:
           slot: 1
-          at: [1880, 6520, -416]
+          at: [1850, 7050, -416]
           count: 2
           tier: a
           group: 2
@@ -108,16 +114,26 @@ events:
     effects:
       - summon:
           slot: 1
-          at: [2330, 6520, -416]
+          at: [2560, 7050, -416]
           count: 2
           tier: a
           group: 2
     text: "Mrs Wobbles bursts and splits in two!"
+  - id: evt:nest
+    preset: text
+    source: deco:honeymoon_nest
+    title: Nest
+    once: true
+    effects:
+      - gold: 75
+    text: "You dig through the pair's nest of slime and straw and find the rival exterminator's purse: 75 gold."
+    notes: "The nest is searched (the user's walk: nothing said it could be clicked). Its hover name says Nest, the scroll on the straw beside it draws the eye, and it gives the rival's purse once."
   - id: evt:notice_board
     preset: text
     source: panel:notice_board
     title: Notice board
-    text: "JOE THE EXTERMINATOR. Pests gone or your money back! And, much smaller: (Money not back.)"
+    effects:
+      - message: "JOE THE EXTERMINATOR. Pests gone or your money back! And, much smaller: (Money not back.)"
   - id: evt:office_door
     preset: door
     source: door:office
@@ -172,8 +188,9 @@ events:
   - id: evt:pest_notice
     preset: text
     source: panel:pest_notice
-    title: Painted notice
-    text: "PEST OF THE MONTH: the Doom Bug. Last month: the Doom Bug. Next month: ask Joe."
+    title: Notice
+    effects:
+      - message: "PEST OF THE MONTH: the Doom Bug. Last month: the Doom Bug. Next month: ask Joe."
   - id: evt:river
     preset: exit
     source: exit:river
@@ -189,8 +206,9 @@ events:
   - id: evt:rules
     preset: text
     source: panel:rules
-    title: House rules
-    text: WAREHOUSE RULES. 1. No Gunther. 2. Do not feed the stock (Joe feeds the stock). 3. Do not pull the FEEDING TIME lever. 4. See rule 1.
+    title: Sign
+    effects:
+      - message: WAREHOUSE RULES. 1. No Gunther. 2. Do not feed the stock (Joe feeds the stock). 3. Do not pull the FEEDING TIME lever. 4. See rule 1.
   - id: evt:shipping_door
     preset: door
     source: door:shipping
@@ -200,9 +218,10 @@ events:
     source: panel:shutter
     title: Shuttered window
     condition: {stat: {name: PerceptionSkill, at_least: 3}}
+    effects:
+      - message: One shutter is loose. Through the gap a hand can reach the bar of the loading doors.
     else_effects:
-      - text: "A shuttered window, nailed fast."
-    text: One shutter is loose. Through the gap a hand can reach the bar of the loading doors.
+      - message: "A shuttered window, nailed fast."
   - id: evt:slime_bucket
     preset: script
     source: plate:bucket
@@ -218,7 +237,7 @@ events:
   - id: evt:stash_chest
     preset: chest
     source: chest:stash
-    title: Joe's retirement fund
+    title: Chest
   - id: evt:stash_door
     preset: door
     source: door:stash
@@ -234,4 +253,38 @@ events:
     action: open
     text: "The bar lifts, and the loading doors roll apart."
     notes: "entrance:street_doors: the warehouse key (the drunk's rumour on X1) or a character with Perception 3 (the loose shutter); either opens the doors for good."
+  - id: evt:strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:tank_1
+    preset: text
+    source: platform:tank_1
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_2
+    preset: text
+    source: platform:tank_2
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_3
+    preset: text
+    source: platform:tank_3
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_4
+    preset: text
+    source: platform:tank_4
+    title: Bug tank
+    text: "The glass of this tank is cracked low down, and it is empty but for slime. Whatever was in it is out."
+  - id: evt:tank_5
+    preset: text
+    source: platform:tank_5
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
+  - id: evt:tank_6
+    preset: text
+    source: platform:tank_6
+    title: Bug tank
+    text: "Doom bugs crawl over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS."
 notes: "Every mechanism is a preset; the scripts (the bucket trap, the pair's splits and their death check) are written with conditions and effects, no Lua."

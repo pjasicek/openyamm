@@ -110,6 +110,15 @@ a few maps of every world (AGENTS.md MM9 rules).
 
 ## 2a. The Python port
 
+**Dropped as a milestone deliverable on 2026-11-13** (the user asked the lead to decide). The rebuild loop gave the
+core a better target than parity with the Python kits: every word is measured against the shipped maps and played,
+which the kits never were. Nothing is ported for its own sake; a generic piece moves into the core only when a map
+needs it, as the rule "order by need" below already says, and the MM9 converters and project scripts keep their
+Python. **Set-piece import with face matching (S3) is dropped as well:** lifting faces from shipped maps into a
+project would skip the vocabulary the rebuilds test, and in new dungeons it brings the mixed-source look the user
+called a "Frankenstein's monster"; the shipped forms come in as measured words instead (lever and button kinds,
+chest kinds, door pictures). The section below is kept as the record of what was planned.
+
 The decision "the engine's C++ is the only implementation" means the generic Python that builds good maps today is
 re-expressed in the core. This is the bulk of S3 and S4, not a side effect of them. The Python stays the
 specification until its replacement passes parity.

@@ -7,8 +7,11 @@ start:
 doors:
   - id: door:armoury
     opening: open:armoury_door
-    kind: hinged
-    surface: {texture: bemvwal, size: [128, 256], fit: true}
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: bemvwal, size: [128, 256]}
+    tile: true
   - id: door:back_stair
     opening: open:back_stair_foot
     kind: hinged
@@ -18,19 +21,21 @@ doors:
     opening: open:barracks_doors_e
     kind: hinged
     hinge: right
-    surface: {texture: d2lgdor, size: [256, 256], fit: true}
+    surface: {texture: cvdor1, size: [128, 256], fit: true}
+    edge_surface: {texture: vlctrm3, size: [128, 128]}
     notes: "The barracks' heavy double door, east leaf (flung open by the alarm)."
   - id: door:barracks_w
     opening: open:barracks_doors_w
     kind: hinged
     hinge: left
-    surface: {texture: d2lgdor, size: [256, 256], fit: true}
+    surface: {texture: cvdor1, size: [128, 256], fit: true}
+    edge_surface: {texture: vlctrm3, size: [128, 128]}
     notes: West leaf.
   - id: door:crystal_wall
     opening: open:crystal_wall
     kind: slide_down
     speed: 48
-    surface: {texture: d3ystlwl, size: [256, 256], fit: true}
+    surface: {texture: xnquartzcv, size: [256, 256], fit: true}
     secret: true
     notes: "The singing crystal wall: a secret wall that sinks."
   - id: door:gate_e
@@ -39,6 +44,7 @@ doors:
     hinge: right
     speed: 40
     surface: {texture: d2lgdor, size: [256, 256], fit: true}
+    edge_surface: {texture: bemv16a, size: [16, 256]}
     notes: "The King's Gate, east leaf."
   - id: door:gate_w
     opening: open:gate_w
@@ -46,22 +52,28 @@ doors:
     hinge: left
     speed: 40
     surface: {texture: d2lgdor, size: [256, 256], fit: true}
+    edge_surface: {texture: bemv16a, size: [16, 256]}
     notes: "The King's Gate, west leaf."
   - id: door:hoard
     opening: open:hall_hoard
     kind: hinged
-    surface: {texture: d2lgdor, size: [256, 256], fit: true}
-    notes: "The small door behind the throne: the King's key."
+    surface: {texture: cvdor1, size: [128, 256], fit: true}
+    notes: "The King's stone door behind the throne (the Forge's slab door): the King's key."
   - id: door:sentry
     opening: open:sentry_door
-    kind: hinged
-    hinge: left
-    surface: {texture: bemvwal, size: [128, 256], fit: true}
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: bemvwal, size: [128, 256]}
+    tile: true
     notes: The plank door from the cut into the gallery.
   - id: door:tower
     opening: open:tower_door
-    kind: hinged
-    surface: {texture: bemvwal, size: [128, 256], fit: true}
+    kind: slide_left
+    leaves: 2
+    fold: true
+    surface: {texture: bemvwal, size: [128, 256]}
+    tile: true
     notes: The tower door at the top of its stair.
 movers:
   - id: mover:cage
@@ -83,7 +95,7 @@ movers:
       - {outline: [[3680, 7376], [4128, 7376], [4128, 7392], [3680, 7392]], bottom: 336, height: 16, surface: {texture: ch004i, size: [64, 64]}}
       - {outline: [[3680, 6960], [3696, 6960], [3696, 7376], [3680, 7376]], bottom: 336, height: 16, surface: {texture: ch004i, size: [64, 64]}}
       - {outline: [[4112, 6960], [4128, 6960], [4128, 7376], [4112, 7376]], bottom: 336, height: 16, surface: {texture: ch004i, size: [64, 64]}}
-      - {at: [3904, 7168], size: [8, 448], bottom: 336, height: 16, surface: {texture: ch004i, size: [64, 64]}, notes: Hanger bar}
+      - {at: [3904, 7168], size: [8, 416], bottom: 336, height: 16, surface: {texture: ch004i, size: [64, 64]}, notes: Hanger bar}
       - {at: [3904, 7168], size: [8, 8], bottom: 352, height: 1100, surface: {texture: ch004i, size: [64, 64]}, notes: Chain}
     notes: "The counterweight cage: an iron frame on a plank floor that rides 1536 up to the shaft head."
   - id: mover:deep_cart
@@ -94,24 +106,24 @@ movers:
     height: 24
     travel: [-768, 0, -384]
     speed: 128
-    surface: {texture: 7trimd, size: [128, 256]}
+    surface: {texture: xnrustirn, size: [64, 64]}
     top_surface: {texture: 7trimda, size: [256, 128]}
     parts:
-      - {outline: [[7072, 1000], [7088, 1000], [7088, 1176], [7072, 1176]], height: 56, notes: Front board}
-      - {outline: [[7088, 1000], [7296, 1000], [7296, 1016], [7088, 1016]], height: 40, notes: Side board}
-      - {outline: [[7088, 1160], [7296, 1160], [7296, 1176], [7088, 1176]], height: 40, notes: Side board}
+      - {outline: [[7072, 1000], [7088, 1000], [7088, 1176], [7072, 1176]], height: 64, surface: {texture: xnrustirn, size: [64, 64]}, notes: Front board}
+      - {outline: [[7088, 1000], [7296, 1000], [7296, 1016], [7088, 1016]], height: 64, surface: {texture: xnrustirn, size: [64, 64]}, notes: Side board}
+      - {outline: [[7088, 1160], [7296, 1160], [7296, 1176], [7088, 1176]], height: 64, surface: {texture: xnrustirn, size: [64, 64]}, notes: Side board}
       - {outline: [[7096, 988], [7140, 988], [7140, 1000], [7096, 1000]], bottom: 372, height: 36, surface: {texture: ch004i, size: [64, 64]}, notes: Wheel}
       - {outline: [[7096, 1176], [7140, 1176], [7140, 1188], [7096, 1188]], bottom: 372, height: 36, surface: {texture: ch004i, size: [64, 64]}, notes: Wheel}
       - {outline: [[7232, 988], [7276, 988], [7276, 1000], [7232, 1000]], bottom: 372, height: 36, surface: {texture: ch004i, size: [64, 64]}, notes: Wheel}
       - {outline: [[7232, 1176], [7276, 1176], [7276, 1188], [7232, 1188]], bottom: 372, height: 36, surface: {texture: ch004i, size: [64, 64]}, notes: Wheel}
-    notes: "The Deep Line cart: a plank wagon on iron wheels at the top of the line's last pitch; stepping onto it sends it down the trestle to the buffer stop (and back up), with the party on it."
+    notes: "The Deep Line cart: one of XD-02's riveted iron ore carts (xnrustirn) at the top of the line's last pitch; stepping onto it sends it down the trestle to the buffer stop (and back up), with the party in it."
   - id: mover:gate_bar_high
     room: room:kings_antechamber
     at: [3200, 4588]
-    size: [448, 24]
-    bottom: 240
+    size: [640, 24]
+    bottom: 192
     height: 32
-    travel: [0, 0, 176]
+    travel: [0, 0, 224]
     speed: 48
     surface: {texture: vlcgnrc3, size: [256, 256]}
     top_surface: {texture: vlcgnrc3, size: [256, 256]}
@@ -119,10 +131,10 @@ movers:
   - id: mover:gate_bar_low
     room: room:kings_antechamber
     at: [3200, 4588]
-    size: [448, 24]
-    bottom: 112
+    size: [640, 24]
+    bottom: 96
     height: 32
-    travel: [0, 0, 240]
+    travel: [0, 0, 256]
     speed: 48
     surface: {texture: vlcgnrc3, size: [256, 256]}
     top_surface: {texture: vlcgnrc3, size: [256, 256]}
@@ -220,7 +232,7 @@ lights:
     pulse: {intensity: [0.8, 1], frequency: 1.3, phase: 0.9}
   - id: light:forge_e
     room: room:king_hall
-    at: [3456, 6200]
+    at: [3520, 6216]
     height: 120
     radius: 600
     color: [255, 150, 70]
@@ -228,7 +240,7 @@ lights:
     notes: The east forge brazier's fire.
   - id: light:forge_w
     room: room:king_hall
-    at: [2944, 6200]
+    at: [2880, 6216]
     height: 120
     radius: 600
     color: [255, 150, 70]
@@ -243,14 +255,14 @@ lights:
     color: [255, 190, 110]
   - id: light:gate_e
     room: room:kings_antechamber
-    at: [3410, 4450]
+    at: [3550, 4470]
     height: 112
     radius: 650
     color: [255, 150, 70]
     pulse: {intensity: [0.8, 1], frequency: 1.2, phase: 0.4}
   - id: light:gate_w
     room: room:kings_antechamber
-    at: [2990, 4450]
+    at: [2850, 4470]
     height: 112
     radius: 650
     color: [255, 150, 70]
@@ -276,6 +288,13 @@ lights:
     radius: 700
     color: [90, 150, 255]
     pulse: {intensity: [0.4, 1], frequency: 0.2, phase: 0.66}
+  - id: light:geode_4
+    room: room:geode_grotto
+    at: [-60, 1840]
+    height: 96
+    radius: 700
+    color: [90, 150, 255]
+    pulse: {intensity: [0.4, 1], frequency: 0.2, phase: 0.5}
   - id: light:geode_crown
     room: room:geode_grotto
     at: [768, 1760]
@@ -290,6 +309,13 @@ lights:
     radius: 700
     color: [90, 150, 255]
     pulse: {intensity: [0.4, 1], frequency: 0.25}
+  - id: light:geode_lower_2
+    room: room:geode_lower
+    at: [1200, -380]
+    height: 96
+    radius: 700
+    color: [90, 150, 255]
+    pulse: {intensity: [0.4, 1], frequency: 0.25, phase: 0.5}
   - id: light:gutter_e
     room: room:king_hall
     at: [4416, 6032]
@@ -322,6 +348,12 @@ lights:
   - id: light:landing_mid
     room: room:deep_landing
     at: [6900, 900]
+    height: 300
+    radius: 600
+    color: [200, 150, 110]
+  - id: light:landing_south
+    room: room:deep_landing
+    at: [6900, 560]
     height: 300
     radius: 600
     color: [200, 150, 110]
@@ -433,6 +465,12 @@ lights:
     radius: 380
     color: [130, 110, 90]
     notes: A dim glow by the corpse.
+  - id: light:warren_2
+    room: room:mole_warren
+    at: [3700, -100]
+    height: 160
+    radius: 600
+    color: [130, 110, 90]
   - id: light:wrath
     room: room:king_hall
     at: [3200, 5728]
@@ -445,39 +483,51 @@ lights:
 switches:
   - id: switch:cage_call
     room: room:escape_shaft
-    wall: south
-    along: 0.6
-    height: 112
-    notes: "Bell-pull at the shaft's foot: calls the cage down."
+    kind: lever
+    reach: 24
+    at: [3648, 7330]
+    height: 160
+    size: [12, 48]
+    notes: "The cage lever at the shaft's foot: calls the cage down (a bell rings above)."
   - id: switch:cage_call_top
     room: room:escape_shaft
+    kind: lever
+    reach: 56
     wall: north
     along: 0.1
     floor_height: 1216
-    height: 112
-    notes: "Bell-pull at the shaft head: calls the cage up."
+    height: 160
+    size: [12, 48]
+    notes: "The cage lever at the shaft head: calls the cage up."
   - id: switch:lever_a
     room: room:lever_alcove
+    kind: lever
+    reach: 56
     wall: north
-    height: 112
-    size: [32, 64]
+    height: 160
+    size: [12, 48]
     notes: Lever A of the King's Gate.
   - id: switch:lever_b
     room: room:furnace_tower
+    kind: lever
+    reach: 56
     wall: west
-    height: 112
-    size: [32, 64]
+    height: 160
+    size: [12, 48]
     notes: Lever B of the King's Gate.
   - id: switch:shaft_lever
     room: room:king_hoard
+    kind: lever
+    reach: 56
     at: [3480, 7296]
-    height: 112
-    size: [32, 64]
+    height: 160
+    size: [12, 48]
     notes: "The shaft lever: releases the counterweight."
 chests:
   - id: chest:armoury
     room: room:armoury
     at: [6100, 4650]
+    kind: ch2
     facing: n
     treasure_level: 3
     random_items: 2
@@ -487,6 +537,8 @@ chests:
   - id: chest:hoard_1
     room: room:king_hoard
     at: [2960, 7200]
+    kind: ch3
+    lid: v
     facing: n
     treasure_level: 4
     random_items: 3
@@ -497,6 +549,8 @@ chests:
   - id: chest:hoard_2
     room: room:king_hoard
     at: [3300, 7200]
+    kind: ch3
+    lid: v
     facing: n
     treasure_level: 4
     random_items: 4
@@ -505,18 +559,18 @@ chests:
     notes: "The King's second chest: 350 gold and four rolls."
   - id: chest:prospector
     room: room:mole_warren
-    at: [4790, 520]
-    facing: e
-    size: [56, 40, 32]
-    surface: {texture: 7trimd, size: [128, 256]}
+    at: [4800, 520]
+    kind: 7gt002
+    facing: n
     treasure_level: 2
     random_items: 1
     gold: 100
     items: [222]
-    notes: The dead prospector's pack.
+    notes: The dead prospector's chest.
   - id: chest:vault
     room: room:red_dwarf_vault
     at: [-536, 120]
+    kind: 7gt002
     facing: n
     treasure_level: 3
     random_items: 2
@@ -549,7 +603,7 @@ spawns:
     notes: A sergeant's purse on a bunk.
   - id: spawn:item_geode
     room: room:geode_lower
-    at: [1100, 200]
+    at: [1300, -300]
     kind: item
     treasure_level: 3
     notes: Among the crystals of the lower terrace.
@@ -587,30 +641,35 @@ spawns:
     at: [4600, 700]
     slot: 3
     tier: a
+  - id: spawn:warren_south
+    room: room:mole_warren
+    at: [4700, -150]
+    slot: 3
+    tier: a
   - id: spawn:warren_west
     room: room:mole_warren
-    at: [3420, 480]
+    at: [3550, 100]
     slot: 3
     tier: a
 monsters:
   - id: monster:barracks_1
     room: room:barracks
     monster: 229
-    at: [4160, 4600]
+    at: [4160, 4560]
     facing: 270
     hostile: true
     group: 3
   - id: monster:barracks_2
     room: room:barracks
     monster: 229
-    at: [5184, 4600]
+    at: [5184, 4560]
     facing: 270
     hostile: true
     group: 3
   - id: monster:barracks_3
     room: room:barracks
     monster: 229
-    at: [4160, 4100]
+    at: [4160, 4140]
     facing: 270
     hostile: true
     group: 3
@@ -645,8 +704,8 @@ monsters:
     hidden: true
   - id: monster:clan_king
     room: room:king_hall
-    monster: 230
-    at: [3200, 6110]
+    monster: 231
+    at: [3200, 6130]
     facing: 270
     hostile: true
     group: 1
@@ -654,7 +713,7 @@ monsters:
     name: Clan King
     immobile: true
     carries: clan_king_key
-    notes: "The Clan King on the throne floor (a Dwarven Lieutenant, level 20, with 300 hit points of his own); he fights from the dais until his guard falls, then comes down (set:clan_king)."
+    notes: "The Clan King on the throne floor: a Dwarven Commander (231, level 30, 180 hit points, armour-breaking blows, never flees), the Dwarf family's top rank, a colour of his own among his Soldiers; `hp: 300` waits for the game to honour it. He fights from the dais until his guard falls (set:clan_king)."
   - id: monster:far_bank_1
     room: room:furnace_hall
     monster: 229
@@ -679,7 +738,7 @@ monsters:
   - id: monster:gate_guard_1
     room: room:kings_antechamber
     monster: 229
-    at: [3060, 4420]
+    at: [3040, 4380]
     facing: 270
     hostile: true
     group: 6
@@ -687,7 +746,7 @@ monsters:
   - id: monster:gate_guard_2
     room: room:kings_antechamber
     monster: 229
-    at: [3340, 4420]
+    at: [3360, 4380]
     facing: 270
     hostile: true
     group: 6
@@ -739,7 +798,7 @@ items:
   - id: item:prospector_potion
     room: room:mole_warren
     item: 222
-    at: [4740, 470]
+    at: [4720, 440]
   - id: item:rack_axe
     room: room:armoury
     item: 827
@@ -763,6 +822,7 @@ decorations:
     room: room:armoury
     decoration: TrchB00
     wall: west
+    along: 0.15
     height: 176
   - id: deco:barracks_barrel_1
     room: room:barracks
@@ -781,13 +841,13 @@ decorations:
     room: room:barracks
     decoration: nwtrchnf
     wall: east
-    along: 0.6
+    along: 0.254
     height: 176
   - id: deco:barracks_torch_3
     room: room:barracks
     decoration: nwtrchnf
-    at: [4300, 4864]
     wall: north
+    along: 0.742
     height: 176
   - id: deco:bowl_1
     room: room:barracks
@@ -829,7 +889,7 @@ decorations:
     room: room:deep_landing
     decoration: torch02
     wall: west
-    along: 0.5
+    along: 0.357
     height: 176
   - id: deco:crucible
     room: room:furnace_tower
@@ -860,33 +920,33 @@ decorations:
   - id: deco:forge_brazier_e
     room: room:king_hall
     decoration: brzier00
-    at: [3456, 6200]
+    at: [3520, 6216]
   - id: deco:forge_brazier_w
     room: room:king_hall
     decoration: brzier00
-    at: [2944, 6200]
+    at: [2880, 6216]
   - id: deco:gallery_torch_1
     room: room:furnace_hall
     decoration: TrchB00
-    at: [5120, 2800]
     floor_height: -128
     wall: east
-    height: 176
+    along: 0.4
+    height: 560
   - id: deco:gallery_torch_2
     room: room:furnace_hall
     decoration: TrchB00
-    at: [5120, 3500]
     floor_height: -128
     wall: east
-    height: 176
+    along: 0.865
+    height: 560
   - id: deco:gate_flambeau_e
     room: room:kings_antechamber
     decoration: flamb00
-    at: [3410, 4450]
+    at: [3550, 4470]
   - id: deco:gate_flambeau_w
     room: room:kings_antechamber
     decoration: flamb00
-    at: [2990, 4450]
+    at: [2850, 4470]
   - id: deco:geode_bones
     room: room:geode_grotto
     decoration: dec29
@@ -910,15 +970,23 @@ decorations:
   - id: deco:geode_crystal_4
     room: room:geode_grotto
     decoration: crclstr
-    at: [220, 1560]
+    at: [-100, 1700]
   - id: deco:geode_crystal_5
     room: room:geode_grotto
     decoration: crys6
-    at: [700, 2400]
+    at: [560, 2480]
   - id: deco:geode_crystal_6
     room: room:geode_grotto
     decoration: crys5
     at: [1250, 1350]
+  - id: deco:geode_crystal_7
+    room: room:geode_grotto
+    decoration: crys5
+    at: [0, 2240]
+  - id: deco:geode_crystal_8
+    room: room:geode_grotto
+    decoration: crclstr
+    at: [-220, 1960]
   - id: deco:geode_glow_1
     room: room:geode_grotto
     decoration: crystl0
@@ -935,6 +1003,14 @@ decorations:
     room: room:geode_grotto
     decoration: crystl0
     at: [180, 1800]
+  - id: deco:geode_glow_5
+    room: room:geode_grotto
+    decoration: crystl0
+    at: [-60, 1840]
+  - id: deco:geode_stalagmite_4
+    room: room:geode_grotto
+    decoration: stlmite1
+    at: [-160, 1480]
   - id: deco:goblet_1
     room: room:barracks
     decoration: 7dec48
@@ -942,7 +1018,25 @@ decorations:
   - id: deco:hall_bucket
     room: room:furnace_hall
     decoration: Bucket
-    at: [4050, 2350]
+    at: [4600, 2150]
+  - id: deco:hall_torch_s1
+    room: room:furnace_hall
+    decoration: TrchB00
+    wall: south
+    along: 0.3
+    height: 224
+  - id: deco:hall_torch_s2
+    room: room:furnace_hall
+    decoration: TrchB00
+    wall: south
+    along: 0.7
+    height: 224
+  - id: deco:hall_torch_w
+    room: room:furnace_hall
+    decoration: TrchB00
+    wall: west
+    along: 0.33
+    height: 224
   - id: deco:hoard_bowl
     room: room:king_hoard
     decoration: 7dec08
@@ -961,10 +1055,26 @@ decorations:
     wall: west
     along: 0.5
     height: 200
+  - id: deco:hoard_plates
+    room: room:king_hoard
+    decoration: dec39
+    at: [3260, 7060]
+  - id: deco:hoard_urn_1
+    room: room:king_hoard
+    decoration: tcurn
+    at: [2880, 7240]
+  - id: deco:hoard_urn_2
+    room: room:king_hoard
+    decoration: urn
+    at: [3520, 7240]
   - id: deco:king_goblets
     room: room:king_hall
     decoration: 7dec48
-    at: [2850, 6380]
+    at: [2800, 6400]
+  - id: deco:landing_barrel
+    room: room:deep_landing
+    decoration: bigbarel
+    at: [6700, 480]
   - id: deco:landing_bucket
     room: room:deep_landing
     decoration: Bucket
@@ -977,11 +1087,15 @@ decorations:
     room: room:deep_landing
     decoration: 6rock02
     at: [6900, 1420]
+  - id: deco:landing_rock_3
+    room: room:deep_landing
+    decoration: 6rock01
+    at: [7300, 520]
   - id: deco:ledge_lamp
     room: room:deep_landing
     decoration: torch02
     wall: east
-    along: 0.2
+    along: 0.4286
     height: 560
   - id: deco:line_lamp_1
     room: room:deep_line
@@ -1016,10 +1130,30 @@ decorations:
     room: room:geode_lower
     decoration: crclstr
     at: [1200, 350]
+  - id: deco:lower_crystal_5
+    room: room:geode_lower
+    decoration: crys6
+    at: [1450, -200]
+  - id: deco:lower_crystal_6
+    room: room:geode_lower
+    decoration: crclstr
+    at: [700, -480]
   - id: deco:lower_glow
     room: room:geode_lower
     decoration: crystl0
     at: [300, 500]
+  - id: deco:lower_glow_2
+    room: room:geode_lower
+    decoration: crystl0
+    at: [1200, -380]
+  - id: deco:lower_stalagmite_1
+    room: room:geode_lower
+    decoration: stlmite2
+    at: [1300, 380]
+  - id: deco:lower_stalagmite_2
+    room: room:geode_lower
+    decoration: stlmite3
+    at: [400, -250]
   - id: deco:memory_crystal
     room: room:red_dwarf_vault
     decoration: mcryst01
@@ -1041,14 +1175,14 @@ decorations:
   - id: deco:shaft_lamp
     room: room:escape_shaft
     decoration: torch02
-    at: [4416, 7300]
     floor_height: 1216
     wall: east
-    height: 176
+    along: 0.2
+    height: 1712
   - id: deco:skull_pile
     room: room:king_hall
     decoration: sklplrev
-    at: [3560, 6380]
+    at: [3600, 6400]
   - id: deco:slag_lump_1
     room: room:furnace_hall
     decoration: 6rock01
@@ -1080,12 +1214,12 @@ decorations:
   - id: deco:statue_e
     room: room:kings_antechamber
     decoration: 7dec54
-    at: [3560, 4150]
+    at: [3640, 4150]
     facing: 180
   - id: deco:statue_w
     room: room:kings_antechamber
     decoration: 7dec55
-    at: [2850, 4150]
+    at: [2760, 4150]
     facing: 0
   - id: deco:tower_sconce_1
     room: room:furnace_tower
@@ -1097,6 +1231,10 @@ decorations:
     decoration: scon100
     wall: south
     height: 200
+  - id: deco:warren_bones
+    room: room:mole_warren
+    decoration: dec29
+    at: [3700, -200]
   - id: deco:warren_dirt_1
     room: room:mole_warren
     decoration: 7dec01
@@ -1104,11 +1242,23 @@ decorations:
   - id: deco:warren_dirt_2
     room: room:mole_warren
     decoration: 6rock02
-    at: [4300, 760]
+    at: [3880, 120]
+  - id: deco:warren_dirt_3
+    room: room:mole_warren
+    decoration: 7dec01
+    at: [4800, -100]
   - id: deco:warren_rock
     room: room:mole_warren
     decoration: 6rock01
     at: [4000, 700]
+  - id: deco:warren_rock_2
+    room: room:mole_warren
+    decoration: 6rock02
+    at: [3200, 620]
+  - id: deco:warren_skull
+    room: room:mole_warren
+    decoration: 7dec20
+    at: [4500, 100]
 placeholders:
   - id: placeholder:cart_model
     room: room:deep_landing
@@ -1117,7 +1267,7 @@ placeholders:
     size: [224, 176, 96]
   - id: placeholder:gong_model
     room: room:furnace_hall
-    stands_for: A great bronze gong in a timber frame with a swing clip (built of six copper slabs until a model exists)
+    stands_for: A great bronze gong in a timber frame with a swing clip (built of eight slabs under one picture until a model exists)
     at: [4912, 3640]
     size: [240, 32, 320]
   - id: placeholder:rack_north
@@ -1134,7 +1284,7 @@ exits:
   - id: exit:deep_cart
     room: room:deep_line
     wall: east
-    size: [224, 256]
+    size: [256, 256]
     surface: {texture: c2b, size: [256, 256]}
     to: exit:deep_cart
     notes: "The Deep Line runs on up into the dark: back to the Red Dwarf Mines."

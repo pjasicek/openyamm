@@ -69,7 +69,7 @@ steps:
         if door_state(3) ~= "open" or door_state(4) ~= "open" or door_state(2) ~= "open" then
           error("the alarm did not open the barracks: " .. door_state(3) .. door_state(4) .. door_state(2))
         end
-        click(29); wait(1)
+        click(50); wait(1)
         seen = status()
         if not string.find(seen, "still hums", 1, true) then error("the gong rang twice: " .. seen) end
   - assert: {state_dump_map_var: {index: 8, value: 1}}
@@ -84,15 +84,21 @@ steps:
   - play_lua: {source: "wait(1)"}
   - assert: {party_position: {x: 5008, y: 1820, radius: 100, z_min: -520, z_max: -504}}
   - walk_to: {x: 4600, y: 2600, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
-  - walk_to: {x: 4330, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
-  - walk_to: {x: 4330, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
   - walk_to: {x: 4672, y: 4800, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
   - walk_to: {x: 4672, y: 5040, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
   - play_lua:
       source: |
         if door_state(14) ~= "closed" then error("the lower bar is not down at the start") end
+        status()
         click(36); wait(7)
         if door_state(14) ~= "open" then error("lever A did not lift the lower bar: " .. door_state(14)) end
+        if not string.find(status(), "grinds upward", 1, true) then error("lever A said nothing") end
+        click(36); wait(2)
+        local seen = status()
+        if not string.find(seen, "lever is down", 1, true) then error("lever A's second pull was silent: " .. seen) end
+        if door_state(14) ~= "open" then error("lever A's second pull lowered the bar") end
   - assert: {state_dump_map_var: {index: 6, value: 1}}
   # The armoury: its door, the clan's weapon chest (a field hammer), the axe by the rack.
   - walk_to: {x: 5350, y: 4480, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
@@ -112,8 +118,8 @@ steps:
   # Back into the hall and over the north span to the far bank and its guard.
   - walk_to: {x: 5700, y: 4480, z: -480, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
   - walk_to: {x: 5300, y: 4480, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
-  - walk_to: {x: 4330, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
-  - walk_to: {x: 4330, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
   - walk_to: {x: 4200, y: 3550, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
   - walk_to: {x: 3900, y: 3560, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
   - assert: {party_position: {x: 3900, y: 3560, radius: 80, z_min: -520, z_max: -504}}
@@ -127,10 +133,12 @@ steps:
   - walk_to: {x: 3200, y: 4520, z: -512, radius: 48, timeout_seconds: 30}
   - play_lua:
       source: |
-        status()
-        click(27); wait(3)
-        local seen = status()
-        if not string.find(seen, "barred", 1, true) then error("the gate did not say it was barred: " .. seen) end
+        click(27); wait(2)
+  - assert:
+      dialog: {text_contains: "barred from within"}
+  - play_lua:
+      source: |
+        if not close() then error("the barred gate opened no message window") end
         if door_state(6) ~= "closed" or door_state(7) ~= "closed" then error("the gate opened with one bar up") end
         if door_state(13) ~= "closed" then error("the upper bar is not down") end
   # The furnace tower: its stair, its door, lever B.
@@ -287,6 +295,15 @@ steps:
       source: |
         loot_chest(7)
         if not has_item(185) then error("the King's chest did not hold its ruby") end
+  # A heap of the King's gold: clicked, its coins once.
+  - walk_to: {x: 3130, y: 6980, z: -320, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        local before = gold()
+        click(45); wait(1)
+        if gold() ~= before + 150 then error("the heap of gold gave " .. (gold() - before)) end
+        click(45); wait(1)
+        if gold() ~= before + 150 then error("the heap of gold gave twice") end
   - walk_to: {x: 3480, y: 7230, z: -320, radius: 48, timeout_seconds: 30}
   - play_lua:
       source: |
@@ -304,7 +321,10 @@ steps:
   - execute_event: {id: 26}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  - assert: {map: 7out01.odm}
+  # On X1's hilltop in front of the shaft head, and down the hill on foot.
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: -1024, y: 17565, radius: 128, z_min: 1380, z_max: 1620}}
+  - walk_to: {x: -1024, y: 17100, z: 1363, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua:
       source: |
         if not qbit(110030) or not qbit(110031) then error("the bits did not survive the shaft") end

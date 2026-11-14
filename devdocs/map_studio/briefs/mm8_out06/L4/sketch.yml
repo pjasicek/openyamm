@@ -1,0 +1,2624 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "Coordinates are terrain cells: [x, y], x east, y south, origin the north-west corner; world X = (x - 64) x 512, world Y = (64 - y) x 512. First written by scripts from out06.odm (output/studio_cal/mm8_out06/scripts/), then worked over by hand."
+frame:
+  playable: [20, 20, 88, 88]
+  edges:
+    - {side: north, span: [20, 108], neighbour: edge:north}
+    - {side: west, span: [20, 108], neighbour: edge:west}
+    - {side: south, span: [20, 108], neighbour: edge:south}
+    - {side: east, span: [20, 108], neighbour: edge:east}
+  edge: {north: 0, east: 160, south: 0, west: 0}
+tile_sets: {dirt: gdtyl, water: 738, road: 774}
+heights:
+  points:
+    - {at: [97, 36], h: 3936}
+    - {at: [116, 23], h: 320}
+    - {at: [119, 20], h: 0}
+    - {at: [119, 18], h: 0}
+    - {at: [114, 25], h: 3840}
+    - {at: [90, 28], h: 2688}
+    - {at: [105, 105], h: 2816}
+    - {at: [112, 96], h: 2560}
+    - {at: [96, 80], h: 5632}
+    - {at: [125, 38], h: 3040}
+    - {at: [125, 51], h: 2112}
+    - {at: [126, 69], h: 3488}
+    - {at: [115, 90], h: 2016}
+    - {at: [117, 44], h: 2080}
+    - {at: [111, 59], h: 3072}
+    - {at: [110, 85], h: 3200}
+    - {at: [88, 15], h: 2432}
+    - {at: [125, 83], h: 1792}
+    - {at: [105, 32], h: 1952}
+    - {at: [109, 20], h: 3840}
+    - {at: [120, 54], h: 2304}
+    - {at: [94, 101], h: 2336}
+    - {at: [102, 13], h: 2336}
+    - {at: [41, 27], h: 2592}
+    - {at: [59, 65], h: 2176}
+    - {at: [101, 56], h: 2368}
+    - {at: [75, 16], h: 2400}
+    - {at: [120, 70], h: 0}
+    - {at: [117, 71], h: 2080}
+    - {at: [121, 20], h: 0}
+    - {at: [93, 79], h: 5632}
+    - {at: [90, 57], h: 2752}
+    - {at: [121, 18], h: 0}
+    - {at: [38, 27], h: 2656}
+    - {at: [124, 19], h: 1056}
+    - {at: [99, 36], h: 0}
+    - {at: [104, 21], h: 32}
+    - {at: [99, 92], h: 384}
+    - {at: [114, 23], h: 3840}
+    - {at: [96, 43], h: 2432}
+    - {at: [108, 48], h: 2016}
+    - {at: [108, 27], h: 0}
+    - {at: [116, 69], h: 32}
+    - {at: [110, 28], h: 0}
+    - {at: [103, 78], h: 416}
+    - {at: [122, 107], h: 2624}
+    - {at: [98, 84], h: 4480}
+    - {at: [59, 67], h: 224}
+    - {at: [88, 33], h: 1280}
+    - {at: [99, 119], h: 1344}
+    - {at: [124, 64], h: 0}
+    - {at: [112, 72], h: 1056}
+    - {at: [109, 62], h: 0}
+    - {at: [127, 63], h: 0}
+    - {at: [123, 66], h: 0}
+    - {at: [107, 59], h: 64}
+    - {at: [110, 115], h: 1920}
+    - {at: [74, 20], h: 0}
+    - {at: [95, 5], h: 1184}
+    - {at: [120, 68], h: 0}
+    - {at: [96, 83], h: 4480}
+    - {at: [25, 44], h: 256}
+    - {at: [110, 120], h: 0}
+    - {at: [98, 87], h: 4480}
+    - {at: [94, 96], h: 0}
+    - {at: [87, 52], h: 1280}
+    - {at: [91, 87], h: 4480}
+    - {at: [122, 95], h: 2208}
+    - {at: [120, 120], h: 544}
+    - {at: [103, 66], h: 1600}
+    - {at: [22, 65], h: 1088}
+    - {at: [102, 49], h: 320}
+    - {at: [23, 43], h: 256}
+    - {at: [91, 84], h: 4480}
+    - {at: [119, 73], h: 0}
+    - {at: [95, 36], h: 0}
+    - {at: [68, 48], h: 32}
+    - {at: [44, 31], h: 800}
+    - {at: [104, 39], h: 1024}
+    - {at: [72, 19], h: 0}
+    - {at: [36, 28], h: 800}
+    - {at: [111, 64], h: 0}
+    - {at: [127, 106], h: 0}
+    - {at: [127, 80], h: 0}
+    - {at: [122, 112], h: 0}
+    - {at: [120, 103], h: 0}
+    - {at: [118, 104], h: 0}
+    - {at: [116, 106], h: 0}
+    - {at: [109, 64], h: 0}
+    - {at: [69, 45], h: 32}
+    - {at: [32, 34], h: 1088}
+    - {at: [21, 43], h: 256}
+    - {at: [105, 115], h: 0}
+    - {at: [96, 87], h: 4480}
+    - {at: [78, 11], h: 0}
+    - {at: [20, 63], h: 1088}
+    - {at: [43, 29], h: 800}
+    - {at: [124, 49], h: 0}
+    - {at: [108, 120], h: 0}
+    - {at: [105, 36], h: 1088}
+    - {at: [91, 5], h: 0}
+    - {at: [123, 51], h: 0}
+    - {at: [69, 14], h: 0}
+    - {at: [64, 12], h: 672}
+    - {at: [25, 46], h: 256}
+    - {at: [24, 65], h: 1088}
+    - {at: [93, 99], h: 0}
+    - {at: [119, 17], h: 3840}
+    - {at: [118, 19], h: 3840}
+    - {at: [98, 36], h: 0}
+    - {at: [91, 28], h: 0}
+    - {at: [118, 21], h: 3840}
+    - {at: [115, 89], h: 0}
+    - {at: [96, 79], h: 5632}
+    - {at: [94, 79], h: 5632}
+    - {at: [116, 21], h: 3840}
+    - {at: [124, 81], h: 0}
+    - {at: [117, 90], h: 0}
+    - {at: [123, 83], h: 0}
+    - {at: [100, 50], h: 992}
+    - {at: [100, 36], h: 0}
+    - {at: [48, 29], h: 1056}
+    - {at: [126, 68], h: 3488}
+    - {at: [126, 80], h: 0}
+    - {at: [123, 6], h: 352}
+    - {at: [101, 100], h: 512}
+    - {at: [98, 86], h: 4480}
+    - {at: [97, 42], h: 2432}
+    - {at: [29, 42], h: 1184}
+    - {at: [118, 20], h: 3840}
+    - {at: [91, 27], h: 0}
+    - {at: [95, 79], h: 5632}
+    - {at: [118, 22], h: 3840}
+    - {at: [116, 90], h: 0}
+    - {at: [92, 29], h: 0}
+    - {at: [115, 21], h: 3840}
+    - {at: [117, 21], h: 3840}
+    - {at: [94, 78], h: 5632}
+    - {at: [84, 87], h: 1280}
+    - {at: [85, 87], h: 1280}
+    - {at: [86, 87], h: 1280}
+    - {at: [87, 87], h: 2784}
+    - {at: [87, 88], h: 2624}
+  ridges:
+    - {line: [[106, 20], [106, 22]], height: 2144, width: 2, notes: "Yaardrake's Cave: the mound's footprint and the mouth's floor (nodes 106, 107 of rows 20..22) at the mound's foot, 2144."}
+    - {line: [[108, 20], [108, 22]], height: 2880, notes: "The mound's back edge lies on the land: node 108 of rows 20..22 at its crest, 2880."}
+    - {line: [[105, 20], [105, 21], [105, 22]], height: [96, 992, 1632], notes: The cliff under the mouth (node 105 of rows 20..22).}
+    - {line: [[37, 40], [40, 40]], height: 800, notes: "The Mad Necromancer's Lab: the notch at the foot of its steps (nodes 37..40 of row 40 at 800)."}
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 9, 0, 0, 0, 7, 14, 0, 0, 0], [0, 0, 0, 5, 10, 2, 0, 18, 5, 2, 5, 2, 0, 17, 14, 0, 0, 3, 14, 2, 3, 42, 7, 32, 5, 0, 0, 27, 41, 0, 0, 3], [0, 0, 0, 5, 9, 2, 0, 9, 8, 21, 31, 23, 7, 5, 2, 10, 14, 0, 11, 1, 0, 1, 7, 6, 1, 8, 0, 3, 1, 3, 0, 0], [0, 0, 0, 5, 7, 1, 6, 11, 18, 41, 54, 40, 17, 5, 3, 12, 6, 12, 56, 46, 9, 45, 35, 3, 9, 50, 4, 8, 31, 6, 1, 0], [0, 0, 0, 7, 13, 7, 20, 28, 31, 42, 50, 39, 21, 15, 22, 22, 8, 0, 34, 27, 7, 15, 10, 5, 6, 5, 6, 83, 110, 110, 0, 14], [0, 0, 0, 0, 2, 10, 26, 40, 36, 37, 40, 35, 27, 30, 44, 44, 20, 0, 0, 3, 2, 0, 3, 26, 11, 2, 67, 109, 120, 120, 2, 2], [0, 0, 2, 10, 12, 14, 21, 31, 36, 66, 51, 40, 34, 36, 39, 34, 17, 1, 0, 0, 0, 0, 21, 7, 4, 11, 17, 42, 16, 38, 14, 1], [0, 0, 13, 34, 39, 28, 17, 25, 25, 25, 25, 55, 34, 30, 25, 19, 11, 4, 0, 0, 0, 10, 6, 3, 9, 6, 18, 3, 17, 34, 14, 0], [0, 2, 23, 49, 56, 43, 19, 19, 25, 25, 25, 41, 25, 25, 21, 21, 24, 22, 15, 2, 0, 32, 16, 10, 54, 3, 32, 5, 5, 6, 4, 0], [0, 1, 16, 38, 46, 39, 29, 31, 25, 25, 25, 32, 31, 28, 26, 27, 33, 40, 32, 9, 0, 4, 1, 6, 8, 24, 21, 1, 6, 1, 11, 56], [0, 0, 6, 18, 23, 23, 32, 26, 26, 27, 30, 33, 34, 32, 32, 27, 27, 36, 24, 5, 0, 5, 7, 49, 58, 8, 14, 8, 5, 24, 2, 1], [0, 2, 7, 9, 8, 8, 22, 30, 26, 27, 30, 30, 34, 31, 31, 34, 23, 1, 5, 1, 0, 4, 6, 40, 45, 14, 40, 32, 8, 29, 3, 1], [1, 11, 20, 17, 8, 8, 18, 24, 26, 30, 35, 38, 39, 33, 30, 32, 24, 10, 1, 0, 0, 7, 10, 10, 14, 28, 45, 38, 4, 6, 0, 28], [2, 13, 23, 21, 13, 12, 23, 27, 25, 31, 40, 43, 33, 33, 29, 33, 30, 23, 8, 0, 0, 40, 40, 13, 10, 60, 7, 9, 0, 48, 29, 3], [0, 6, 16, 23, 26, 27, 31, 28, 24, 27, 35, 33, 33, 31, 32, 36, 37, 35, 15, 0, 1, 35, 65, 11, 20, 42, 3, 79, 8, 7, 7, 0], [0, 1, 14, 36, 48, 34, 34, 26, 20, 19, 26, 33, 29, 29, 35, 39, 36, 31, 15, 2, 0, 5, 8, 1, 6, 24, 5, 25, 18, 13, 4, 0], [0, 1, 18, 46, 64, 54, 42, 31, 26, 19, 19, 34, 30, 29, 43, 7, 21, 17, 11, 9, 7, 0, 2, 8, 12, 40, 19, 0, 7, 5, 0, 73], [0, 0, 13, 37, 54, 51, 36, 32, 34, 40, 46, 39, 26, 21, 7, 7, 7, 8, 12, 14, 15, 3, 2, 6, 11, 29, 5, 19, 5, 58, 4, 58], [0, 0, 3, 15, 15, 20, 14, 17, 25, 39, 49, 35, 16, 8, 7, 10, 13, 13, 11, 12, 16, 17, 18, 28, 18, 13, 0, 23, 9, 4, 4, 1], [0, 0, 0, 1, 2, 8, 8, 8, 10, 20, 32, 22, 14, 12, 3, 7, 16, 17, 8, 2, 3, 62, 77, 176, 78, 19, 84, 5, 8, 99, 4, 0], [0, 0, 0, 0, 0, 0, 7, 8, 8, 10, 10, 6, 4, 6, 2, 2, 7, 10, 3, 3, 3, 89, 113, 140, 96, 17, 5, 24, 5, 4, 0, 24], [0, 0, 0, 0, 0, 0, 0, 6, 5, 8, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 68, 130, 140, 140, 23, 8, 67, 9, 0, 0, 3], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 40, 97, 111, 77, 21, 2, 3, 25, 0, 8, 3], [0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 3, 3, 3, 3, 3, 3, 3, 4, 4, 2, 0, 11, 26, 31, 17, 12, 2, 10, 10, 0, 68, 5], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 15, 6, 6, 10, 3, 0, 0, 0, 10, 7, 0, 41, 40, 1, 10, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 9, 15, 10, 8, 8, 0, 0, 7, 51, 5, 5, 11, 4, 3, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 3, 6, 5, 20, 27, 10, 4, 1, 0, 3, 9, 1, 17, 48, 0, 0, 23, 72, 11], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 24, 5, 6, 23, 19, 17, 12, 12, 7, 0, 0, 2, 1, 0, 4, 6, 0, 1, 25, 3], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 26, 23, 6, 10, 21, 15, 14, 14, 10, 2, 0, 58, 11, 4, 0, 20, 53, 7, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 19, 9, 18, 14, 16, 17, 16, 8, 6, 1, 0, 0, 4, 37, 6, 0, 17, 2, 1, 3, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 3, 4, 23, 14, 11, 8, 6, 4, 2, 1, 0, 0, 0, 9, 1, 11, 17, 0, 1, 4, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    notes: "The original's height at the middle node of every 4 x 4 block, units of 32 (an ODM's own step)."
+water:
+  bodies:
+    - id: water:sea
+      kind: sea
+      level: 0
+      polygon: [[0, 83], [5, 83], [5, 82], [8, 82], [8, 81], [20, 81], [20, 82], [21, 82], [21, 83], [22, 83], [22, 84], [23, 84], [23, 85], [24, 85], [27, 89], [29, 89], [30, 91], [34, 91], [34, 92], [35, 92], [35, 96], [36, 96], [36, 97], [42, 97], [42, 99], [45, 101], [45, 104], [44, 104], [44, 105], [42, 105], [42, 106], [41, 106], [40, 108], [38, 108], [37, 110], [35, 110], [35, 111], [34, 111], [34, 114], [32, 114], [32, 115], [31, 115], [31, 117], [29, 118], [29, 124], [31, 125], [31, 127], [32, 127], [32, 128], [0, 128]]
+    - id: water:tar
+      kind: pond
+      level: 800
+      polygon: [[34, 31], [35, 31], [36, 29], [42, 29], [42, 31], [43, 31], [43, 38], [34, 38]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 608
+      polygon: [[26, 34], [29, 34], [29, 36], [27, 36]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 800
+      polygon: [[51, 35], [52, 35], [52, 34], [54, 34], [53, 36], [51, 36]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 864
+      polygon: [[62, 39], [64, 39], [65, 43], [62, 43], [62, 42], [63, 42], [63, 40], [62, 40]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 832
+      polygon: [[31, 42], [35, 43], [35, 45], [32, 45], [32, 44], [31, 44]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 256
+      polygon: [[21, 44], [23, 44], [24, 46], [22, 46]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 960
+      polygon: [[44, 45], [47, 45], [47, 46], [46, 46], [47, 48], [44, 48]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 992
+      polygon: [[55, 46], [57, 45], [58, 47], [57, 47], [57, 48], [55, 48]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 32
+      polygon: [[69, 46], [71, 46], [73, 49], [71, 49]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 800
+      polygon: [[32, 53], [34, 52], [34, 53], [35, 53], [35, 56], [34, 56]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 1056
+      polygon: [[45, 57], [46, 57], [47, 55], [51, 55], [51, 58], [50, 58], [49, 60], [45, 60]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 960
+      polygon: [[63, 56], [64, 56], [64, 55], [66, 55], [65, 57], [63, 57]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 1088
+      polygon: [[21, 61], [23, 61], [23, 62], [24, 62], [24, 64], [22, 64], [22, 63], [21, 63]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 928
+      polygon: [[51, 62], [52, 62], [52, 61], [55, 61], [55, 64], [51, 64]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 608
+      polygon: [[37, 63], [38, 63], [38, 64], [40, 63], [42, 66], [38, 66], [38, 65], [37, 65]]
+      tile_set: tartyl
+    - id: water:tar
+      kind: pond
+      level: 224
+      polygon: [[59, 68], [61, 68], [61, 67], [65, 67], [65, 68], [66, 68], [66, 71], [65, 71], [65, 72], [60, 72], [60, 71], [59, 71]]
+      tile_set: tartyl
+roads:
+  - link: road:roads
+    line: [[70.5, 0.5], [69.5, 0.5], [69.5, 11.5], [67.5, 11.5], [67.5, 18.5], [70.5, 19.5], [70.5, 21.5], [75.5, 25.5], [75.5, 27.5], [80.5, 30.5], [80.5, 49.5], [79.5, 49.5], [79.5, 52.5], [77.5, 53.5], [76.5, 73.5], [75.5, 73.5], [75.5, 77.5], [74.5, 77.5], [75.5, 82.5]]
+    width: road
+    surface: pebbles
+    bed: [0, 0, 0, 96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 352, 352, 192, 256, 96]
+  - link: road:roads
+    line: [[0.5, 68.5], [10.5, 70.5], [10.5, 71.5], [12.5, 71.5], [12.5, 72.5], [14.5, 72.5], [16.5, 74.5], [26.5, 75.5], [26.5, 77.5], [30.5, 78.5], [37.5, 85.5], [39.5, 85.5], [41.5, 90.5]]
+    width: road
+    surface: pebbles
+    bed: [0, 416, 256, 544, 544, 480, 480, 320, 256, 256, 256, 96, 96]
+  - link: road:roads
+    line: [[75.5, 82.5], [74.5, 82.5], [74.5, 87.5], [64.5, 87.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96, 96, 96]
+  - link: road:roads
+    line: [[75.5, 82.5], [79.5, 82.5], [81.5, 84.5], [81.5, 88.5], [85.5, 88.5], [85.5, 86.5], [84.5, 86.5], [84.5, 78.5], [89.5, 78.5], [89.5, 80.5], [88.5, 80.5], [88.5, 88.5], [94.5, 88.5], [94.5, 86.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96, 96, 96, 1280, 2176, 1344, 1792, 2464, 2688, 2912, 3744, 4256, 4480]
+  - link: road:roads
+    line: [[64.5, 87.5], [55.5, 87.5], [55.5, 90.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96, 96]
+  - link: road:roads
+    line: [[64.5, 87.5], [64.5, 96.5], [62.5, 98.5], [55.5, 98.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96, 96, 96]
+  - link: road:roads
+    line: [[41.5, 90.5], [46.5, 90.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96]
+  - link: road:roads
+    line: [[41.5, 90.5], [37.5, 94.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 192]
+  - link: road:roads
+    line: [[46.5, 90.5], [55.5, 90.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96]
+  - link: road:roads
+    line: [[46.5, 90.5], [46.5, 98.5], [47.5, 99.5], [54.5, 99.5], [55.5, 98.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96, 96, 96, 96]
+  - link: road:roads
+    line: [[55.5, 90.5], [55.5, 98.5]]
+    width: road
+    surface: pebbles
+    bed: [96, 96]
+points:
+  - {id: entrance:north, at: [70, 21], facing: s}
+  - {id: entrance:west, at: [21, 75], facing: e}
+  - {id: entrance:south, at: [64, 108]}
+  - {id: entrance:east, at: [108, 64]}
+areas:
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [34, 60], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [86, 27], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [51, 69], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [38, 49], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 3
+    circle: {at: [22, 22], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [76, 35], r: 0.5}
+  - id: pop:monsters
+    count: 3
+    slot: 2
+    circle: {at: [61, 50], r: 2}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [38, 76], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [66, 60], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [31, 60], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [49, 65], r: 0.5}
+  - id: pop:monsters
+    count: 2
+    slot: 3
+    circle: {at: [48, 37], r: 2}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [23, 51], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [97, 63], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [90, 66], r: 0.5}
+  - id: pop:monsters
+    count: 2
+    slot: 1
+    circle: {at: [64, 49], r: 1.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [55, 59], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 3
+    circle: {at: [28, 42], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [47, 52], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [78, 39], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [76, 55], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [60, 61], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [32, 73], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [86, 71], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [52, 39], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 3
+    circle: {at: [54, 22], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [79, 28], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [28, 67], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [65, 48], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [26, 68], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 3
+    circle: {at: [23, 34], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [69, 32], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [26, 58], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [78, 47], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [71, 59], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [63, 29], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [34, 68], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [23, 78], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 3
+    circle: {at: [38, 44], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [100, 62], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [46, 72], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [30, 49], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [28, 49], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [58, 56], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [99, 72], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [56, 52], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 3
+    circle: {at: [36, 21], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [40, 59], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [28, 55], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [22, 57], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 2
+    circle: {at: [83, 66], r: 0.5}
+  - id: pop:monsters
+    count: 1
+    slot: 1
+    circle: {at: [90, 38], r: 0.5}
+  - id: pop:items
+    kind: items
+    count: 1
+    level: 6
+    circle: {at: [96, 84], r: 0.5}
+  - id: pop:items
+    kind: items
+    count: 6
+    level: 2
+    circle: {at: [104, 84], r: 4}
+scatter:
+  - decoration: rock22
+    count: 1
+    polygon: [[16, 0], [32, 0], [32, 16], [16, 16]]
+  - decoration: rock22
+    count: 1
+    polygon: [[32, 0], [48, 0], [48, 16], [32, 16]]
+  - decoration: tree28
+    count: 1
+    polygon: [[32, 0], [48, 0], [48, 16], [32, 16]]
+  - decoration: rock22
+    count: 1
+    polygon: [[48, 0], [64, 0], [64, 16], [48, 16]]
+  - decoration: tree28
+    count: 2
+    polygon: [[48, 0], [64, 0], [64, 16], [48, 16]]
+  - decoration: rock51
+    count: 1
+    polygon: [[64, 0], [80, 0], [80, 16], [64, 16]]
+  - decoration: rock51
+    count: 1
+    polygon: [[80, 0], [96, 0], [96, 16], [80, 16]]
+  - decoration: dec13
+    count: 1
+    polygon: [[0, 16], [16, 16], [16, 32], [0, 32]]
+  - decoration: dec17
+    count: 1
+    polygon: [[0, 16], [16, 16], [16, 32], [0, 32]]
+  - decoration: rock22
+    count: 1
+    polygon: [[0, 16], [16, 16], [16, 32], [0, 32]]
+  - decoration: tree28
+    count: 1
+    polygon: [[0, 16], [16, 16], [16, 32], [0, 32]]
+  - decoration: dec05
+    count: 3
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: dec13
+    count: 2
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: dec43
+    count: 1
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: rock22
+    count: 1
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: rock52
+    count: 2
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: rock53
+    count: 2
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: tree28
+    count: 5
+    polygon: [[16, 16], [32, 16], [32, 32], [16, 32]]
+  - decoration: dec05
+    count: 1
+    polygon: [[32, 16], [48, 16], [48, 32], [32, 32]]
+  - decoration: plant48
+    count: 1
+    polygon: [[32, 16], [48, 16], [48, 32], [32, 32]]
+  - decoration: rock22
+    count: 1
+    polygon: [[32, 16], [48, 16], [48, 32], [32, 32]]
+  - decoration: rock52
+    count: 2
+    polygon: [[32, 16], [48, 16], [48, 32], [32, 32]]
+  - decoration: tree28
+    count: 2
+    polygon: [[32, 16], [48, 16], [48, 32], [32, 32]]
+  - decoration: dec13
+    count: 1
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: dec16
+    count: 1
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: dec17
+    count: 2
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: plant48
+    count: 1
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: rock22
+    count: 1
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: rock53
+    count: 2
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: rock54
+    count: 1
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: tree28
+    count: 2
+    polygon: [[48, 16], [64, 16], [64, 32], [48, 32]]
+  - decoration: rock22
+    count: 1
+    polygon: [[64, 16], [80, 16], [80, 32], [64, 32]]
+  - decoration: rock51
+    count: 2
+    polygon: [[64, 16], [80, 16], [80, 32], [64, 32]]
+  - decoration: rock54
+    count: 2
+    polygon: [[64, 16], [80, 16], [80, 32], [64, 32]]
+  - decoration: tree28
+    count: 2
+    polygon: [[64, 16], [80, 16], [80, 32], [64, 32]]
+  - decoration: dec13
+    count: 1
+    polygon: [[80, 16], [96, 16], [96, 32], [80, 32]]
+  - decoration: rock51
+    count: 2
+    polygon: [[80, 16], [96, 16], [96, 32], [80, 32]]
+  - decoration: rock54
+    count: 1
+    polygon: [[80, 16], [96, 16], [96, 32], [80, 32]]
+  - decoration: tree28
+    count: 1
+    polygon: [[80, 16], [96, 16], [96, 32], [80, 32]]
+  - decoration: rock51
+    count: 1
+    polygon: [[96, 16], [112, 16], [112, 32], [96, 32]]
+  - decoration: rock54
+    count: 1
+    polygon: [[96, 16], [112, 16], [112, 32], [96, 32]]
+  - decoration: dec13
+    count: 1
+    polygon: [[0, 32], [16, 32], [16, 48], [0, 48]]
+  - decoration: dec16
+    count: 1
+    polygon: [[0, 32], [16, 32], [16, 48], [0, 48]]
+  - decoration: dec17
+    count: 1
+    polygon: [[0, 32], [16, 32], [16, 48], [0, 48]]
+  - decoration: rock22
+    count: 1
+    polygon: [[0, 32], [16, 32], [16, 48], [0, 48]]
+  - decoration: dec05
+    count: 4
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: dec13
+    count: 1
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: plant48
+    count: 1
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: rock22
+    count: 1
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: rock52
+    count: 1
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: rock53
+    count: 1
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: rock62
+    count: 1
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: tree28
+    count: 5
+    polygon: [[16, 32], [32, 32], [32, 48], [16, 48]]
+  - decoration: dec05
+    count: 18
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: dec13
+    count: 2
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: dec14
+    count: 2
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: rock22
+    count: 1
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: rock52
+    count: 1
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: rock53
+    count: 2
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: rock62
+    count: 4
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: tree28
+    count: 1
+    polygon: [[32, 32], [48, 32], [48, 48], [32, 48]]
+  - decoration: dec05
+    count: 13
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: dec13
+    count: 1
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: dec15
+    count: 2
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: dec16
+    count: 1
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: dec17
+    count: 2
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: rock22
+    count: 1
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: rock51
+    count: 2
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: rock52
+    count: 2
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: rock54
+    count: 1
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: rock61
+    count: 1
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: tree28
+    count: 1
+    polygon: [[48, 32], [64, 32], [64, 48], [48, 48]]
+  - decoration: dec13
+    count: 2
+    polygon: [[64, 32], [80, 32], [80, 48], [64, 48]]
+  - decoration: dec14
+    count: 2
+    polygon: [[64, 32], [80, 32], [80, 48], [64, 48]]
+  - decoration: dec16
+    count: 4
+    polygon: [[64, 32], [80, 32], [80, 48], [64, 48]]
+  - decoration: rock22
+    count: 1
+    polygon: [[64, 32], [80, 32], [80, 48], [64, 48]]
+  - decoration: rock51
+    count: 1
+    polygon: [[64, 32], [80, 32], [80, 48], [64, 48]]
+  - decoration: dec13
+    count: 1
+    polygon: [[80, 32], [96, 32], [96, 48], [80, 48]]
+  - decoration: dec16
+    count: 1
+    polygon: [[80, 32], [96, 32], [96, 48], [80, 48]]
+  - decoration: rock22
+    count: 1
+    polygon: [[80, 32], [96, 32], [96, 48], [80, 48]]
+  - decoration: rock51
+    count: 3
+    polygon: [[80, 32], [96, 32], [96, 48], [80, 48]]
+  - decoration: tree28
+    count: 2
+    polygon: [[80, 32], [96, 32], [96, 48], [80, 48]]
+  - decoration: dec13
+    count: 1
+    polygon: [[96, 32], [112, 32], [112, 48], [96, 48]]
+  - decoration: dec48
+    count: 1
+    polygon: [[96, 32], [112, 32], [112, 48], [96, 48]]
+  - decoration: rock51
+    count: 1
+    polygon: [[96, 32], [112, 32], [112, 48], [96, 48]]
+  - decoration: dec13
+    count: 1
+    polygon: [[0, 48], [16, 48], [16, 64], [0, 64]]
+  - decoration: dec17
+    count: 1
+    polygon: [[0, 48], [16, 48], [16, 64], [0, 64]]
+  - decoration: rock22
+    count: 1
+    polygon: [[0, 48], [16, 48], [16, 64], [0, 64]]
+  - decoration: tree28
+    count: 1
+    polygon: [[0, 48], [16, 48], [16, 64], [0, 64]]
+  - decoration: dec05
+    count: 1
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: dec13
+    count: 3
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: dec15
+    count: 4
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: dec16
+    count: 1
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: dec17
+    count: 3
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: plant48
+    count: 1
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: rock22
+    count: 3
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: rock53
+    count: 1
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: tree28
+    count: 3
+    polygon: [[16, 48], [32, 48], [32, 64], [16, 64]]
+  - decoration: dec13
+    count: 1
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: dec14
+    count: 4
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: dec15
+    count: 1
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: dec16
+    count: 1
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: dec17
+    count: 3
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: rock22
+    count: 1
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: rock53
+    count: 2
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: rock62
+    count: 2
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: tree28
+    count: 4
+    polygon: [[32, 48], [48, 48], [48, 64], [32, 64]]
+  - decoration: dec05
+    count: 7
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: dec13
+    count: 1
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: dec14
+    count: 2
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: dec15
+    count: 4
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: dec16
+    count: 3
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: plant48
+    count: 1
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: rock22
+    count: 1
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: rock52
+    count: 2
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: rock61
+    count: 1
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: rock62
+    count: 3
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: tree28
+    count: 2
+    polygon: [[48, 48], [64, 48], [64, 64], [48, 64]]
+  - decoration: dec05
+    count: 4
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: dec13
+    count: 2
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: dec14
+    count: 2
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: dec15
+    count: 2
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: dec16
+    count: 2
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: plant48
+    count: 3
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: rock22
+    count: 1
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: rock52
+    count: 4
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: tree28
+    count: 2
+    polygon: [[64, 48], [80, 48], [80, 64], [64, 64]]
+  - decoration: dec15
+    count: 1
+    polygon: [[80, 48], [96, 48], [96, 64], [80, 64]]
+  - decoration: rock51
+    count: 4
+    polygon: [[80, 48], [96, 48], [96, 64], [80, 64]]
+  - decoration: rock52
+    count: 1
+    polygon: [[80, 48], [96, 48], [96, 64], [80, 64]]
+  - decoration: rock51
+    count: 1
+    polygon: [[96, 48], [112, 48], [112, 64], [96, 64]]
+  - decoration: rock22
+    count: 2
+    polygon: [[0, 64], [16, 64], [16, 80], [0, 80]]
+  - decoration: tree28
+    count: 2
+    polygon: [[0, 64], [16, 64], [16, 80], [0, 80]]
+  - decoration: dec13
+    count: 3
+    polygon: [[16, 64], [32, 64], [32, 80], [16, 80]]
+  - decoration: dec14
+    count: 1
+    polygon: [[16, 64], [32, 64], [32, 80], [16, 80]]
+  - decoration: dec17
+    count: 3
+    polygon: [[16, 64], [32, 64], [32, 80], [16, 80]]
+  - decoration: rock53
+    count: 2
+    polygon: [[16, 64], [32, 64], [32, 80], [16, 80]]
+  - decoration: rock56
+    count: 2
+    polygon: [[16, 64], [32, 64], [32, 80], [16, 80]]
+  - decoration: tree28
+    count: 3
+    polygon: [[16, 64], [32, 64], [32, 80], [16, 80]]
+  - decoration: dec13
+    count: 2
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: dec16
+    count: 2
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: plant48
+    count: 5
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: rock22
+    count: 2
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: rock53
+    count: 1
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: rock56
+    count: 3
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: rock61
+    count: 1
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: tree28
+    count: 8
+    polygon: [[32, 64], [48, 64], [48, 80], [32, 80]]
+  - decoration: dec05
+    count: 4
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: dec14
+    count: 2
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: dec15
+    count: 1
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: dec16
+    count: 2
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: plant48
+    count: 1
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: rock22
+    count: 3
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: rock56
+    count: 2
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: tree28
+    count: 4
+    polygon: [[48, 64], [64, 64], [64, 80], [48, 80]]
+  - decoration: dec05
+    count: 1
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: dec13
+    count: 2
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: dec14
+    count: 4
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: dec15
+    count: 3
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: dec16
+    count: 1
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: dec17
+    count: 13
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: plant42
+    count: 1
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: plant48
+    count: 2
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: rock22
+    count: 1
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: rock52
+    count: 2
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: rock56
+    count: 2
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: tree28
+    count: 4
+    polygon: [[64, 64], [80, 64], [80, 80], [64, 80]]
+  - decoration: dec13
+    count: 1
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: dec14
+    count: 1
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: dec15
+    count: 10
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: dec16
+    count: 2
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: dec17
+    count: 19
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: plant48
+    count: 1
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: rock22
+    count: 1
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: rock51
+    count: 3
+    polygon: [[80, 64], [96, 64], [96, 80], [80, 80]]
+  - decoration: dec05
+    count: 2
+    polygon: [[96, 64], [112, 64], [112, 80], [96, 80]]
+  - decoration: dec13
+    count: 1
+    polygon: [[96, 64], [112, 64], [112, 80], [96, 80]]
+  - decoration: rock51
+    count: 2
+    polygon: [[96, 64], [112, 64], [112, 80], [96, 80]]
+  - decoration: dec15
+    count: 1
+    polygon: [[16, 80], [32, 80], [32, 96], [16, 96]]
+  - decoration: rock22
+    count: 1
+    polygon: [[16, 80], [32, 80], [32, 96], [16, 96]]
+  - decoration: rock53
+    count: 1
+    polygon: [[16, 80], [32, 80], [32, 96], [16, 96]]
+  - decoration: tree28
+    count: 2
+    polygon: [[16, 80], [32, 80], [32, 96], [16, 96]]
+  - decoration: dec15
+    count: 1
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: dec17
+    count: 3
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: plant48
+    count: 1
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: rock22
+    count: 2
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: rock53
+    count: 1
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: rock56
+    count: 6
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: tree28
+    count: 2
+    polygon: [[32, 80], [48, 80], [48, 96], [32, 96]]
+  - decoration: dec03
+    count: 1
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: dec14
+    count: 1
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: dec15
+    count: 3
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: dec17
+    count: 6
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: plant48
+    count: 2
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: rock22
+    count: 1
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: rock53
+    count: 2
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: rock56
+    count: 4
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: tree28
+    count: 5
+    polygon: [[48, 80], [64, 80], [64, 96], [48, 96]]
+  - decoration: dec03
+    count: 8
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: dec14
+    count: 2
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: dec17
+    count: 4
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: plant42
+    count: 1
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: plant48
+    count: 4
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: rock52
+    count: 5
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: rock56
+    count: 2
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: tree28
+    count: 2
+    polygon: [[64, 80], [80, 80], [80, 96], [64, 96]]
+  - decoration: dec03
+    count: 2
+    polygon: [[80, 80], [96, 80], [96, 96], [80, 96]]
+  - decoration: dec14
+    count: 2
+    polygon: [[80, 80], [96, 80], [96, 96], [80, 96]]
+  - decoration: dec15
+    count: 1
+    polygon: [[80, 80], [96, 80], [96, 96], [80, 96]]
+  - decoration: dec17
+    count: 17
+    polygon: [[80, 80], [96, 80], [96, 96], [80, 96]]
+  - decoration: rock54
+    count: 1
+    polygon: [[80, 80], [96, 80], [96, 96], [80, 96]]
+  - decoration: dec05
+    count: 37
+    polygon: [[96, 80], [112, 80], [112, 96], [96, 96]]
+  - decoration: dec14
+    count: 1
+    polygon: [[96, 80], [112, 80], [112, 96], [96, 96]]
+  - decoration: dec14
+    count: 1
+    polygon: [[32, 96], [48, 96], [48, 112], [32, 112]]
+  - decoration: rock53
+    count: 1
+    polygon: [[32, 96], [48, 96], [48, 112], [32, 112]]
+  - decoration: tree28
+    count: 1
+    polygon: [[32, 96], [48, 96], [48, 112], [32, 112]]
+  - decoration: dec13
+    count: 1
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: dec14
+    count: 4
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: dec15
+    count: 6
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: dec17
+    count: 5
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: plant48
+    count: 1
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: rock52
+    count: 3
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: rock56
+    count: 3
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: tree28
+    count: 3
+    polygon: [[48, 96], [64, 96], [64, 112], [48, 112]]
+  - decoration: dec13
+    count: 2
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: dec14
+    count: 1
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: dec15
+    count: 3
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: dec16
+    count: 1
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: dec17
+    count: 1
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: rock56
+    count: 5
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: tree28
+    count: 4
+    polygon: [[64, 96], [80, 96], [80, 112], [64, 112]]
+  - decoration: dec13
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: dec14
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: dec15
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: dec16
+    count: 3
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: plant48
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: rock52
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: rock53
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: tree28
+    count: 1
+    polygon: [[80, 96], [96, 96], [96, 112], [80, 112]]
+  - decoration: rock53
+    count: 1
+    polygon: [[96, 96], [112, 96], [112, 112], [96, 112]]
+  - decoration: rock53
+    count: 1
+    polygon: [[32, 112], [48, 112], [48, 128], [32, 128]]
+  - decoration: rock56
+    count: 1
+    polygon: [[32, 112], [48, 112], [48, 128], [32, 128]]
+  - decoration: tree28
+    count: 1
+    polygon: [[32, 112], [48, 112], [48, 128], [32, 128]]
+  - decoration: rock56
+    count: 1
+    polygon: [[48, 112], [64, 112], [64, 128], [48, 128]]
+  - decoration: tree28
+    count: 2
+    polygon: [[48, 112], [64, 112], [64, 128], [48, 128]]
+  - decoration: rock53
+    count: 1
+    polygon: [[64, 112], [80, 112], [80, 128], [64, 128]]
+  - decoration: tree28
+    count: 2
+    polygon: [[64, 112], [80, 112], [80, 128], [64, 128]]
+  - decoration: rock53
+    count: 1
+    polygon: [[80, 112], [96, 112], [96, 128], [80, 128]]
+  - decoration: tree28
+    count: 1
+    polygon: [[80, 112], [96, 112], [96, 128], [80, 128]]
+  - decoration: rock53
+    count: 1
+    polygon: [[96, 112], [112, 112], [112, 128], [96, 128]]
+ground:
+  - material: gstyl
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "The ground under everything: grey stone (gstyl), as on the plateau tops and the open country."
+  - material: soil
+    polygon: [[0, 0], [83, 0], [83, 3], [81, 3], [81, 7], [83, 8], [83, 10], [85, 10], [85, 13], [82, 13], [80, 11], [74, 11], [74, 12], [69, 13], [69, 17], [73, 20], [79, 20], [82, 17], [85, 17], [85, 19], [88, 20], [87, 29], [84, 29], [83, 36], [84, 38], [91, 38], [92, 49], [86, 49], [83, 52], [83, 60], [86, 63], [93, 63], [94, 59], [97, 59], [97, 63], [93, 64], [91, 69], [81, 77], [81, 81], [83, 82], [82, 94], [87, 99], [90, 99], [90, 105], [92, 107], [97, 107], [98, 103], [102, 103], [102, 109], [105, 110], [105, 116], [102, 116], [102, 115], [94, 116], [94, 112], [92, 110], [86, 111], [86, 116], [88, 119], [95, 119], [95, 121], [98, 124], [104, 123], [105, 126], [112, 126], [112, 124], [114, 123], [114, 119], [117, 119], [119, 124], [124, 125], [125, 124], [124, 116], [116, 117], [116, 112], [109, 111], [110, 103], [117, 102], [117, 93], [120, 93], [121, 99], [128, 98], [128, 104], [125, 104], [124, 102], [122, 102], [122, 103], [118, 103], [117, 105], [117, 112], [119, 113], [128, 112], [128, 128], [33, 128], [32, 126], [30, 125], [30, 118], [32, 117], [32, 115], [35, 114], [35, 111], [37, 111], [38, 109], [40, 109], [42, 106], [46, 104], [46, 102], [43, 100], [43, 97], [36, 97], [36, 92], [30, 91], [29, 89], [27, 89], [24, 86], [24, 84], [22, 84], [20, 81], [9, 81], [6, 83], [0, 83]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[88, 0], [92, 0], [92, 3], [88, 3]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[99, 0], [108, 0], [107, 6], [108, 6], [108, 9], [110, 9], [110, 12], [107, 12], [107, 10], [105, 9], [99, 9], [99, 6], [100, 6]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[116, 0], [123, 0], [122, 9], [124, 9], [125, 7], [128, 7], [128, 16], [119, 15], [119, 13], [117, 12], [118, 3], [116, 3]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[90, 8], [93, 8], [93, 10], [98, 10], [98, 18], [103, 18], [103, 21], [102, 21], [103, 29], [100, 29], [98, 27], [98, 24], [99, 24], [98, 19], [92, 19], [93, 13], [92, 11], [90, 11]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[108, 37], [110, 36], [111, 26], [114, 26], [114, 31], [116, 33], [118, 34], [121, 33], [122, 27], [121, 25], [117, 25], [117, 22], [119, 19], [122, 19], [122, 24], [125, 24], [126, 19], [128, 19], [128, 34], [122, 34], [121, 39], [116, 39], [116, 42], [114, 43], [114, 45], [111, 45], [111, 43], [108, 43]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[101, 42], [105, 42], [105, 46], [102, 46]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[122, 44], [125, 44], [125, 47], [122, 47]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[112, 52], [113, 52], [113, 49], [123, 48], [123, 51], [117, 52], [116, 56], [113, 56]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[94, 51], [97, 51], [97, 54], [94, 54]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[105, 54], [108, 54], [108, 57], [105, 57]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[107, 64], [112, 64], [115, 58], [123, 59], [124, 56], [128, 56], [128, 63], [124, 62], [121, 67], [116, 67], [115, 70], [107, 69]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[123, 75], [128, 75], [128, 80], [123, 80]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[110, 76], [114, 76], [114, 81], [110, 80]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[115, 83], [123, 83], [124, 87], [128, 87], [128, 92], [126, 92], [125, 90], [122, 90], [121, 92], [117, 92], [115, 90]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[84, 86], [87, 86], [87, 90], [84, 90]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[106, 90], [111, 90], [111, 93], [109, 95], [106, 95]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[104, 98], [107, 98], [107, 101], [104, 101]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: soil
+    polygon: [[103, 118], [106, 118], [106, 121], [103, 121]]
+    notes: "Dirt wider than the line the build lays between kinds: yards, beaches, the bare ground of the town."
+  - material: gstyl
+    polygon: [[122, 3], [123, 3], [123, 9], [122, 9]]
+    notes: Grey stone inside the dust (gstyl).
+structures:
+  - id: thing:building_1
+    kind: building
+    at: [56.5, 88.5]
+    size: [3, 2.5]
+    textures: {door: t19b03b, gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [108, 52], size: [1216, 960], textures: {roof: t19a05b}, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, door, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall]}, roof: hip, roof_height: 208, eaves: 0, fascia: 0, hip: 608, ridge: 0, ridge_along: ew}
+    door:
+      bay: 4
+      part: p1
+      wall: n
+    title: The Blood Bank
+    house: 284
+  - id: thing:building_2
+    kind: building
+    at: [49.5, 100]
+    size: [3, 3.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [512, 384], size: [528, 1280], textures: {door: t19b03d1, roof: t19a05b}, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, door, t19b03d2, wall], s: [wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: hip, roof_height: 184, eaves: 0, fascia: 0, hip: 96, ridge: 0, ridge_along: ns}
+      - {id: p2, at: [256, 752], size: [1040, 528], textures: {roof: t19a05b}, wall_height: 279, walls: {e: [wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall]}, roof: hip, roof_height: 224, eaves: 0, fascia: 0, hip: 96, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: n
+    title: Cathedral of Night
+    house: 307
+  - id: thing:building_3
+    kind: building
+    at: [67, 84.5]
+    size: [2.5, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [48, 264], size: [1152, 640], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b04b, t19b04b, t19b06], n: [t19b07, t19b01, t19b01, t19b01, t19b04b, t19b01, t19b01, t19b01, t19b06], s: [t19b07, t19b01, t19b01, t19b01, door, t19b01, t19b01, t19b01, t19b06], w: [t19b07, t19b04b, t19b04b, t19b01, t19b06]}, roof: hip, roof_height: 96, eaves: 0, fascia: 16, hip: 576, ridge: 0, ridge_along: ew}
+    door:
+      bay: 4
+      part: p1
+      wall: s
+    title: Kelvin's Home
+    house: 596
+  - id: thing:building_4
+    kind: building
+    at: [53.5, 88]
+    size: [2, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [228, 144], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19b07, door, t19b04b, t19b06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a06], w: [t19a07, gn_mtl02, gn_mtl02, t19a06]}, roof: hip, roof_height: 168, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: e
+    title: Roggen Hall
+    house: 587
+  - id: thing:building_5
+    kind: building
+    at: [50.5, 87.5]
+    size: [2, 3]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [224, 392], size: [512, 768], textures: {door: t19b03c1}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], n: [t19a07, t19a02, t19a02, t19a06], s: [t19a07, door, t19b03c2, t19a06], w: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06]}, roof: gable, roof_height: 400, eaves: 96, fascia: 16, ridge: 16, ridge_along: ns}
+    floor: 96
+    door:
+      bay: 1
+      part: p1
+      wall: s
+    title: House Fiddlebone
+    house: 604
+    notes: "06n_poor1S_1: walls 512 by 768 from 96 to 352, a steep gable to 752 along the long side, its ends reaching 160 past the end walls (not said: a gable reaches out at its eaves only) and a flared skirt at 288 (not said); the double door in the middle of the front."
+  - id: thing:building_6
+    kind: building
+    at: [50, 96.5]
+    size: [2, 2.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [256, 292], size: [512, 768], textures: {door: t19b03c1}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], n: [t19a07, t19a02, t19a02, t19a06], s: [t19a07, door, t19b03c2, t19a06], w: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06]}, roof: gable, roof_height: 400, eaves: 96, fascia: 16, ridge: 16, ridge_along: ns}
+    floor: 96
+    door:
+      bay: 1
+      part: p1
+      wall: s
+    title: Brightsprear Hall
+    house: 583
+    notes: "06n_poor1S: walls 512 by 768 from 96 to 352, a steep gable to 752 along the long side, its ends reaching 160 past the end walls (not said: a gable reaches out at its eaves only) and a flared skirt at 288 (not said); the double door in the middle of the front."
+  - id: thing:building_7
+    kind: building
+    at: [47, 95]
+    size: [1.5, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [308, 80], size: [384, 896], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b01, t19b01, t19b04b, t19b01, t19b01, t19b01], n: [t19b01, t19b04b, t19b01], s: [t19b01, t19b04b, t19b01], w: [wall, wall, wall, wall, t19b01, door, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 32, hip: 112, ridge: 0, ridge_along: ns}
+      - {id: p2, at: [52, 80], size: [256, 512], textures: {roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b04b, t19b01, t19b01, t19b01], n: [t19b04b, t19b01], s: [t19b01, t19b01], w: [t19b01, t19b04b, t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ew, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+    door:
+      bay: 5
+      part: p1
+      wall: w
+    title: Dirthmoore Cottage
+    house: 581
+  - id: thing:building_8
+    kind: building
+    at: [49.5, 91]
+    size: [2.5, 1.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [224, 288], size: [384, 384], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b04b, t19b01], n: [t19b01, door, t19b01], s: [t19b01, t19b01, t19b01], w: [t19b01, t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 32, hip: 112, ridge: 0, ridge_along: ew, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+      - {id: p2, at: [608, 32], size: [512, 640], textures: {roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b04b, t19b01, t19b04b, t19b01], n: [t19b01, t19b04b, t19b04b, t19b01], s: [t19b04b, t19b01, t19b01, t19b01], w: [t19b01, t19b01, wall, wall, wall]}, roof: hip, roof_height: 144, eaves: 0, fascia: 24, hip: 112, ridge: 0, ridge_along: ns}
+    door:
+      bay: 1
+      part: p1
+      wall: n
+    title: Tantilion's House
+    house: 606
+  - id: thing:building_9
+    kind: building
+    at: [52.5, 90.5]
+    size: [2, 2]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [128, 284], size: [640, 512], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl03}, wall_height: 256, walls: {e: [t19a07, t19b04a, t19a12, t19a06], n: [t19a07, t19b04a, door, t19a12, t19a06], s: [t19a07, t19a01, t19a01, t19a01, t19a06], w: [t19a07, t19b04a, t19a12, t19a06]}, roof: gable, roof_height: 192, eaves: 0, fascia: 16, ridge: 0, ridge_along: ns}
+    door:
+      bay: 2
+      part: p1
+      wall: n
+    title: House Mercutura
+    house: 586
+  - id: thing:building_10
+    kind: building
+    at: [52.5, 97]
+    size: [2, 1.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [16, 32], size: [896, 384], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b04b, t19b01], n: [t19b01, t19b01, t19b01, t19b04b, t19b01, t19b01, t19b01], s: [wall, wall, wall, wall, t19b01, door, t19b01], w: [t19b01, t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 32, hip: 112, ridge: 0, ridge_along: ew}
+      - {id: p2, at: [16, 416], size: [512, 256], textures: {roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b01], n: [t19b04b, t19b01, t19b01, t19b01], s: [t19b01, t19b04b, t19b04b, t19b01], w: [t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 24, hip: 112, ridge: 0, ridge_along: ns, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+    door:
+      bay: 5
+      part: p1
+      wall: s
+    title: Nightwood Estate
+    house: 584
+  - id: thing:building_11
+    kind: building
+    at: [72, 82]
+    size: [1.5, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [208, 64], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19b07, door, t19b04b, t19b06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a06], w: [t19a07, gn_mtl02, gn_mtl02, t19a06]}, roof: hip, roof_height: 176, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: e
+    title: Veritas Estate
+    house: 598
+  - id: thing:building_12
+    kind: building
+    at: [56, 96]
+    size: [3, 2]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [380, 256], size: [768, 512], textures: {door: t19b03c1}, wall_height: 256, walls: {e: [t19a07, t19a02, t19a02, t19a06], n: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], w: [t19a07, door, t19b03c2, t19a06]}, roof: gable, roof_height: 400, eaves: 96, fascia: 16, ridge: 16, ridge_along: ew}
+    floor: 96
+    door:
+      bay: 1
+      part: p1
+      wall: w
+    title: Infaustus' House
+    house: 590
+    notes: "06n_poor1W: walls 512 by 768 from 96 to 352, a steep gable to 752 along the long side, its ends reaching 160 past the end walls (not said: a gable reaches out at its eaves only) and a flared skirt at 288 (not said); the double door in the middle of the front."
+  - id: thing:building_13
+    kind: building
+    at: [71.5, 88]
+    size: [3, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [112, 128], size: [1152, 640], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b04b, t19b04b, t19b01, t19b06], n: [t19b07, t19b01, t19b01, t19b01, door, t19b01, t19b01, t19b01, t19b06], s: [t19b07, t19b01, t19b01, t19b01, t19b04b, t19b01, t19b01, t19b01, t19b06], w: [t19b07, t19b01, t19b04b, t19b04b, t19b06]}, roof: hip, roof_height: 96, eaves: 0, fascia: 16, hip: 576, ridge: 0, ridge_along: ew}
+    door:
+      bay: 4
+      part: p1
+      wall: n
+    title: Crane Cottage
+    house: 673
+  - id: thing:building_14
+    kind: building
+    at: [60.5, 96]
+    size: [2.5, 1.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [128, 64], size: [896, 384], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b04b, t19b01], n: [t19b01, t19b01, t19b01, t19b04b, t19b01, t19b01, t19b01], s: [wall, wall, wall, wall, t19b01, door, t19b01], w: [t19b01, t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 32, hip: 112, ridge: 0, ridge_along: ew}
+      - {id: p2, at: [128, 448], size: [512, 256], textures: {roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b01], n: [t19b04b, t19b01, t19b01, t19b01], s: [t19b01, t19b04b, t19b04b, t19b01], w: [t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 24, hip: 112, ridge: 0, ridge_along: ns, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+    door:
+      bay: 5
+      part: p1
+      wall: s
+    title: Whisper Hall
+    house: 592
+  - id: thing:building_15
+    kind: building
+    at: [69.5, 87.5]
+    size: [1.5, 2.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [112, 348], size: [512, 768], textures: {door: t19b03c1}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], n: [t19a07, door, t19b03c2, t19a06], s: [t19a07, t19a02, t19a02, t19a06], w: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06]}, roof: gable, roof_height: 400, eaves: 96, fascia: 16, ridge: 16, ridge_along: ns}
+    floor: 96
+    door:
+      bay: 1
+      part: p1
+      wall: n
+    title: Stillwater Estate
+    house: 599
+    notes: "06n_poor1N: walls 512 by 768 from 96 to 352, a steep gable to 752 along the long side, its ends reaching 160 past the end walls (not said: a gable reaches out at its eaves only) and a flared skirt at 288 (not said); the double door in the middle of the front."
+  - id: thing:well_1
+    kind: well
+    at: [60.062, 93.219]
+    height: 80
+    radius: 128
+    frame: {height: 184, posts: [64, 24], beam: 32}
+    textures: {roof: T1cabs}
+    title: Drink from the well
+    lua: |-
+      if not IsAtLeast(BaseIntellect, 16) then
+          AddValue(BaseIntellect, 2)
+          evt.StatusText("Intellect +2 (permanent)")
+          SetAutonote(220)
+          return
+      end
+      evt.StatusText("Refreshing")
+    notes: "well1N, event 101 of the original."
+  - id: thing:building_16
+    kind: building
+    at: [43.5, 91]
+    size: [2, 1.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [88, 240], size: [896, 512], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b01, t19b06], n: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06], s: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06], w: [t19b07, t19b01, t19b01, t19b06]}, roof: hip, roof_height: 256, eaves: 0, fascia: 16, hip: 96, ridge: 0, ridge_along: ew}
+    door:
+      bay: 3
+      part: p1
+      wall: n
+    title: Taleshire Hall
+    house: 577
+  - id: thing:building_17
+    kind: building
+    at: [44.5, 93]
+    size: [1.5, 2]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [120, 264], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19b07, door, t19b04b, t19b06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a06], w: [t19a07, t19a01, t19a01, t19a06]}, roof: hip, roof_height: 176, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: e
+    title: Nightcrawler Estate
+    house: 578
+  - id: thing:building_18
+    kind: building
+    at: [47, 88.5]
+    size: [2.5, 1.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [264, 176], size: [896, 512], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b01, t19b06], n: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06], s: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06], w: [t19b07, t19b01, t19b01, t19b06]}, roof: hip, roof_height: 248, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ew}
+    door:
+      bay: 3
+      part: p1
+      wall: s
+    title: Mistspring Residence
+    house: 579
+  - id: thing:building_19
+    kind: building
+    at: [48, 97.5]
+    size: [2, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [232, 112], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19b07, door, t19b04b, t19b06], w: [t19a07, t19a01, t19a01, t19a06]}, roof: hip, roof_height: 168, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: s
+    title: House of Lathaen
+    house: 582
+  - id: thing:building_20
+    kind: building
+    at: [53, 94]
+    size: [2, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [248, 72], size: [512, 896], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06], n: [t19b07, t19b01, t19b01, t19b06], s: [t19b07, t19b01, t19b01, t19b06], w: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06]}, roof: hip, roof_height: 248, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ns}
+    door:
+      bay: 3
+      part: p1
+      wall: e
+    title: House Shador
+    house: 585
+  - id: thing:building_21
+    kind: building
+    at: [56, 91.5]
+    size: [2, 2.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [252, 152], size: [512, 896], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06], n: [t19b07, t19b01, t19b01, t19b06], s: [t19b07, t19b01, t19b01, t19b06], w: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06]}, roof: hip, roof_height: 248, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ns}
+    door:
+      bay: 3
+      part: p1
+      wall: w
+    title: Hallien's Cottage
+    house: 588
+  - id: thing:building_22
+    kind: building
+    at: [56, 94]
+    size: [2, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [252, 168], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a06], w: [t19b07, door, t19b04b, t19b06]}, roof: hip, roof_height: 168, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: w
+    title: Roberts Residence
+    house: 589
+  - id: thing:building_23
+    kind: building
+    at: [59, 96.5]
+    size: [1.5, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [64, 64], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19b07, door, t19b04b, t19b06], w: [t19a07, t19a01, t19a01, t19a06]}, roof: hip, roof_height: 176, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: s
+    title: House of Journey
+    house: 591
+  - id: thing:building_24
+    kind: building
+    at: [62.5, 94]
+    size: [1.5, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [104, 224], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19b07, door, t19b04b, t19b06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a06], w: [t19a07, t19a01, t19a01, t19a06]}, roof: hip, roof_height: 168, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: e
+    title: Steeleye Estate
+    house: 593
+  - id: thing:building_25
+    kind: building
+    at: [62.5, 92]
+    size: [1.5, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [96, 24], size: [512, 896], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06], n: [t19b07, t19b01, t19b01, t19b06], s: [t19b07, t19b01, t19b01, t19b06], w: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06]}, roof: hip, roof_height: 248, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ns}
+    door:
+      bay: 3
+      part: p1
+      wall: e
+    title: House of Benefice
+    house: 594
+  - id: thing:building_26
+    kind: building
+    at: [61, 88]
+    size: [3, 3]
+    textures: {gable: t19a02, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a02, window: t19a04b}
+    parts:
+      - {id: front_w, at: [200, 304], size: [448, 96], wall_height: 320, walls: {e: [wall], n: [wall, wall, wall, wall], s: [wall, wall, wall, wall], w: [wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: front_e, at: [904, 304], size: [448, 96], wall_height: 320, walls: {e: [wall], n: [wall, wall, wall, wall], s: [wall, wall, wall, wall], w: [wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: gate, at: [648, 304], size: [256, 96], bottom: 240, textures: {post_left: t19a02, post_right: t19a02, trim: t19b10a, wall: t19a02, window: t19a02}, wall_height: 80, walls: {n: [wall, wall], s: [wall, wall]}, windows: none, roof: none, eaves: 0, fascia: 0, notes: "The gate is a pointed arch (its sides slope from 256 to 416, t19b10a); here a flat lintel at 336, half-way up the arch."}
+      - {id: base, at: [200, 688], size: [1152, 768], textures: {roof: t19b10b, wall: t19b10b}, wall_height: 64, walls: {e: [wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: house, at: [200, 688], size: [1152, 768], bottom: 64, textures: {door: t19b03b}, wall_height: 256, walls: {e: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], n: [t19b07, t19b04b, t19b04b, t19b04b, door, t19b04b, t19b04b, t19b04b, t19b06], s: [t19b07, t19b01, t19b01, t19b01, t19b01, t19b01, t19b01, t19b01, t19b06], w: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b06]}, roof: none, eaves: 0, fascia: 0}
+      - {id: upper, at: [200, 304], size: [1152, 1152], bottom: 320, textures: {roof: t19a05b, trim: t19a02}, wall_height: 256, walls: {e: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], n: [t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b], s: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], w: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b06]}, roof: hip, roof_height: 352, eaves: 64, fascia: 0, hip: 416, ridge_along: ns}
+    door:
+      bay: 4
+      part: house
+      wall: n
+    title: House Umberpool
+    house: 595
+    notes: "06n_rich2N from its faces: a hall on a base course 64 (t19b10b), the upper storey (416 to 672, a row of windows t19b04b) over the whole footprint and over an open hall behind the front wall (t19a02, 96 to 416) with its gate; two steps up to the door; hip roof with eaves 64 to a ridge at 1024."
+  - id: thing:building_27
+    kind: building
+    at: [71, 84]
+    size: [3, 3]
+    textures: {gable: t19a02, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a02, window: t19a04b}
+    parts:
+      - {id: front_n, at: [1128, 128], size: [96, 448], wall_height: 320, walls: {e: [wall, wall, wall, wall], n: [wall], s: [wall], w: [wall, wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: front_s, at: [1128, 832], size: [96, 448], wall_height: 320, walls: {e: [wall, wall, wall, wall], n: [wall], s: [wall], w: [wall, wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: gate, at: [1128, 576], size: [96, 256], bottom: 240, textures: {post_left: t19a02, post_right: t19a02, trim: t19b10a, wall: t19a02, window: t19a02}, wall_height: 80, walls: {e: [wall, wall], w: [wall, wall]}, windows: none, roof: none, eaves: 0, fascia: 0, notes: "The gate is a pointed arch (its sides slope from 256 to 416, t19b10a); here a flat lintel at 336, half-way up the arch."}
+      - {id: base, at: [72, 128], size: [768, 1152], textures: {roof: t19b10b, wall: t19b10b}, wall_height: 64, walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: house, at: [72, 128], size: [768, 1152], bottom: 64, textures: {door: t19b03b}, wall_height: 256, walls: {e: [t19b07, t19b04b, t19b04b, t19b04b, door, t19b04b, t19b04b, t19b04b, t19b06], n: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], s: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], w: [t19b07, t19b01, t19b01, t19b01, t19b01, t19b01, t19b01, t19b01, t19b06]}, roof: none, eaves: 0, fascia: 0}
+      - {id: upper, at: [72, 128], size: [1152, 1152], bottom: 320, textures: {roof: t19a05b, trim: t19a02}, wall_height: 256, walls: {e: [t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b], n: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], s: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b06], w: [t19b07, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b04b, t19b06]}, roof: hip, roof_height: 352, eaves: 64, fascia: 0, hip: 416, ridge_along: ew}
+    door:
+      bay: 4
+      part: house
+      wall: e
+    title: Caverhill Hall
+    house: 597
+    notes: "06n_rich2E from its faces (House Umberpool's model turned east): a hall on a base course 64 (t19b10b), the upper storey (416 to 672, a row of windows t19b04b) over the whole footprint and over an open hall behind the front wall (t19a02, 96 to 416) with its gate; two steps up to the door t19b03b; hip roof with eaves 64 to a ridge at 1024."
+  - id: thing:building_28
+    kind: building
+    at: [76.5, 80.5]
+    size: [2.5, 1.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [248, 128], size: [896, 512], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b01, t19b06], n: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06], s: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06], w: [t19b07, t19b01, t19b01, t19b06]}, roof: hip, roof_height: 248, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ew}
+    door:
+      bay: 3
+      part: p1
+      wall: s
+    title: Gallowswell Manor
+    house: 603
+  - id: thing:building_29
+    kind: building
+    at: [75, 83]
+    size: [1.5, 2.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [240, 176], size: [512, 896], textures: {door: t19b03b, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b01, t19b04c, t19b01, t19b01, t19b06], n: [t19b07, t19b01, t19b01, t19b06], s: [t19b07, t19b01, t19b01, t19b06], w: [t19b07, t19b04c, t19b04c, door, t19b04c, t19b04c, t19b06]}, roof: hip, roof_height: 248, eaves: 0, fascia: 24, hip: 96, ridge: 0, ridge_along: ns}
+    door:
+      bay: 3
+      part: p1
+      wall: w
+    title: Bith Estate
+    house: 675
+  - id: thing:building_30
+    kind: building
+    at: [75, 85.5]
+    size: [2, 2]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [272, 280], size: [512, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a06], n: [t19a07, t19a01, t19a01, t19a06], s: [t19a07, t19a01, t19a01, t19a06], w: [t19b07, door, t19b04b, t19b06]}, roof: hip, roof_height: 168, eaves: 0, fascia: 0, hip: 256, ridge: 0, ridge_along: ew}
+    door:
+      bay: 1
+      part: p1
+      wall: w
+    title: Fellburn Residence
+    house: 602
+  - id: thing:building_31
+    kind: building
+    at: [47, 91]
+    size: [2, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [152, 96], size: [512, 768], textures: {door: t19b03d1, roof: t19a05b, trim: t19a05b}, wall_height: 256, walls: {e: [t19b07, wall, wall, t19b04b, t19b01, t19b06], n: [t19b07, t19b01, t19b04b, t19b06], s: [t19b07, t19b01, t19b04b, t19b06], w: [t19b07, t19b04b, door, t19b03d2, t19b04b, t19b06]}, roof: gable, roof_height: 240, eaves: 0, fascia: 16, ridge: 0, ridge_along: ns}
+    door:
+      bay: 2
+      part: p1
+      wall: w
+    title: House Arachnia
+    house: 580
+  - id: thing:building_32
+    kind: building
+    at: [79.5, 85.5]
+    size: [2, 3]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04c}
+    parts:
+      - {id: p1, at: [136, 176], size: [384, 1152], textures: {roof: t19a05b, trim: t19b10a}, wall_height: 256, walls: {e: [t19b07, t19b06, wall, wall, wall, wall, wall, t19b07, t19b06], n: [t19a07, t19a12, t19a06], s: [t19a07, t19a12, t19a06], w: [t19b07, t19b04c, t19b04c, t19b06, wall, t19b07, t19b04c, t19b04c, t19b06]}, roof: hip, roof_height: 112, eaves: 0, fascia: 8, hip: 96, ridge: 0, ridge_along: ns}
+      - {id: p2, at: [520, 432], size: [256, 640], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19b07, t19b04c, door, t19b04c, t19b06], n: [t19b07, t19b06], s: [t19b07, t19b06], w: [t19b04c, t19b06, wall, t19b07, t19b04c]}, roof: gable, roof_height: 88, eaves: 0, fascia: 0, ridge: 0, ridge_along: ns, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+    door:
+      bay: 2
+      part: p2
+      wall: e
+    title: House Wallace
+    house: 609
+  - id: thing:building_33
+    kind: building
+    at: [65, 88]
+    size: [2, 2.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04a}
+    parts:
+      - {id: p1, at: [64, 64], size: [896, 512], textures: {door: t19b03b, roof: t19a05b}, wall_height: 256, walls: {e: [t19b07, t19b01, t19b01, t19b06], n: [t19b07, t19b04a, t19b04a, t19b04a, t19b04a, t19b04a, t19b06], s: [t19b01, t19b01, t19b01, t19b01, t19b01, t19b01, t19b01], w: [t19b07, t19b04a, door, t19b06]}, roof: hip, roof_height: 240, eaves: 0, fascia: 0, hip: 128, ridge: 0, ridge_along: ew}
+      - {id: corral, at: [64, 704], size: [896, 576], railing: {height: 112, posts: 16, depth: 16, rail: 16, every: 1024}, holes: [{at: [80, 720], size: [864, 544], depth: 24}], textures: {pit: Trim9_32a, rail: Trim9_32a, railing: Trim9_32, roof: TRIM1_16a, wall: Trim9_32a}, wall_height: 16, walls: {e: [wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0, notes: "The corral of 06n_stableW: a rail 16 on the ground (said as the part, its middle a hole whose floor lies under the land) and one 112 up on corner posts. The original posts run up to 352, above the rail."}
+    door:
+      bay: 2
+      part: p1
+      wall: w
+    title: Guild Caravans
+    house: 456
+  - id: thing:building_34
+    kind: building
+    at: [67.5, 88]
+    size: [1.5, 1.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [48, 128], size: [640, 512], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl03}, wall_height: 256, walls: {e: [t19a07, t19b04a, t19a12, t19a06], n: [t19a07, t19b04a, door, t19a12, t19a06], s: [t19a07, t19a01, t19a01, t19a01, t19a06], w: [t19a07, t19b04a, t19a12, t19a06]}, roof: gable, roof_height: 192, eaves: 0, fascia: 16, ridge: 0, ridge_along: ns}
+    door:
+      bay: 2
+      part: p1
+      wall: n
+    title: Deverbero Residence
+    house: 605
+  - id: thing:obelisk_1
+    kind: obelisk
+    at: [101.594, 54.688]
+    height: 1280
+    width: 128
+    title: Obelisk
+    lua: |-
+      if IsQBitSet(QBit(191)) then return end
+      evt.StatusText("inesonmid")
+      SetAutonote(15)
+      SetQBit(QBit(191))
+    notes: Event 150 of the original.
+  - id: thing:shop_sign_1
+    kind: sign
+    at: [80.875, 83.6484]
+    same_event_as: building:thing:building_37
+    height: 256
+    width: 64
+    post: 32
+    textures: {board: sgalch, wall: t14abcd10}
+    board_height: 64
+    arms:
+      - {toward: w}
+    notes: "SignPost_W: a post 32 square to 352, an arm 96 to the west, the board 64 under it."
+  - id: thing:building_36
+    kind: building
+    at: [86.5, 52.5]
+    size: [3, 5]
+    textures: {door: t09a03a, gable: t09a01, post_left: t09a01, post_right: t09a01, roof: t09a05b, trim: t09a01, wall: t09a01, window: t09a04b}
+    parts:
+      - {id: p1, at: [144, 936], size: [1280, 768], textures: {door: t09a03a, roof: t09a05b}, wall_height: 560, walls: {e: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], n: [t09a01, t09a01, t09a01, t09a01, wall, wall, t09a01, t09a01, t09a01, t09a01], s: [t09a01, t09a01, t09a01, t09a01, wall, wall, t09a01, t09a01, t09a01, t09a01], w: [t09a01, t09a01, door, t09a03b, t09a01, t09a01]}, upper_walls: {e: [t09a01, t09a04b, t09a04b, t09a04b, t09a04b, t09a01], n: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], s: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], w: [t09a01, t09a04b, t09a01, t09a01, t09a04b, t09a01]}, roof: flat, eaves: 0, fascia: 48}
+      - {id: p2, at: [656, 680], size: [256, 1280], wall_height: 256, walls: {e: [t09a01, t09a01, wall, wall, wall, wall, wall, wall, t09a01, t09a01], n: [t09a01, t09a01], s: [t09a01, t09a01], w: [t09a01, t09a01, wall, wall, wall, wall, wall, wall, t09a01, t09a01]}, roof: none, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+      - {id: p3, at: [400, 1960], size: [768, 512], textures: {roof: t09a05b}, wall_height: 512, walls: {e: [t09a01, t09a01, t09a01, t09a01], n: [t09a01, t09a01, wall, wall, t09a01, t09a01], s: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], w: [t09a01, t09a01, t09a01, t09a01]}, upper_walls: {e: [t09a01, t09a01, t09a01, t09a01], n: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], s: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], w: [t09a01, t09a01, t09a01, t09a01]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: p4, at: [400, 168], size: [768, 512], textures: {roof: t09a05b}, wall_height: 512, walls: {e: [t09a01, t09a01, t09a01, t09a01], n: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], s: [t09a01, t09a01, wall, wall, t09a01, t09a01], w: [t09a01, t09a01, t09a01, t09a01]}, upper_walls: {e: [t09a01, t09a01, t09a01, t09a01], n: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], s: [t09a01, t09a01, t09a01, t09a01, t09a01, t09a01], w: [t09a01, t09a01, t09a01, t09a01]}, roof: flat, eaves: 0, fascia: 0}
+    floor: 1280
+    door:
+      bay: 2
+      part: p1
+      wall: w
+    title: Enter the Vampire Crypt
+    into: {map: d21.blv, at: [-457, -1749, 1], facing: 512}
+    hint: Vampire Crypt
+  - id: thing:building_37
+    kind: building
+    at: [79.5, 81]
+    size: [2.5, 2.5]
+    turn: -45
+    textures: {door: t19a03b, gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: gn_mtl03, trim: gn_mtl03, wall: t19a12, window: t19a04b}
+    parts:
+      - {id: plinth, at: [278, 278], size: [724, 724], climb: 40, textures: {roof: gn_mtl03, wall: gn_mtl01}, wall_height: 16, walls: {e: [wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: skirt, at: [278, 278], size: [724, 724], bottom: 16, taper: 0.751, textures: {wall: gn_mtl02}, wall_height: 48, roof: none, eaves: 0, fascia: 0, notes: The original plinth slopes from 724 square at 112 to the kiosk (544) at 160.}
+      - {id: kiosk, at: [368, 368], size: [544, 544], bottom: 64, wall_height: 256, walls: {e: [t19a07, t19a12, t19a01, t19a06], n: [t19a07, t19a12, t19a12, t19a06], s: [t19a07, t19a12, t19a12, t19a06], w: [t19a07, door, t19a01, t19a06]}, roof: cone, eaves: 22, fascia: 16, tiers: [[45, 80], [113, 64], [91, 144], [45, 208]], ridge: 0}
+    floor: 96
+    door:
+      bay: 1
+      part: kiosk
+      wall: w
+    doors:
+      - {part: kiosk, wall: e, bay: 2, title: Wolves' Bane, lua: "if IsQBitSet(QBit(239)) then return end\nAddValue(InventoryItem(332), 332)\nSetQBit(QBit(239))"}
+    title: Wolves' Bane
+    house: 113
+    notes: "06n_alchemistW measured from its faces: a kiosk 544 square turned 45 degrees on a plinth 724 square, its roof flaring out over the walls in four tiers to a spike at 928. The original's event 454 is one wall face (t19a01) on the north-east side: said as a second door with the wall's own picture."
+  - id: thing:fountain_1
+    kind: fountain
+    at: [51, 95]
+    height: 192
+    radius: 400
+    pillar: 240
+    title: Drink from the fountain
+    lua: |-
+      if not IsQBitSet(QBit(305)) then
+          SetQBit(QBit(305))
+      end
+      if not IsAtLeast(MaxSpellPoints, 0) then
+          AddValue(CurrentSpellPoints, 25)
+          evt.StatusText("You mind clears, and you recover some Mana")
+          SetAutonote(222)
+          return
+      end
+      evt.StatusText("Refreshing")
+    hint: Fountain
+    notes: "Fountain, Fountain_1: events 104 (the water) and 449 (the stone) of the original."
+  - id: thing:building_38
+    kind: building
+    at: [55.5, 84.5]
+    size: [3, 2.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05a, trim: gn_mtl01, wall: t19a01, window: t19a01}
+    parts:
+      - {id: skirt, shape: outline, outline: [[64, 353], [272, 76], [1264, 76], [1472, 353], [1472, 759], [1264, 1036], [272, 1036], [64, 759]], taper: 0.83, textures: {wall: t19a05a}, wall_height: 32, roof: none, eaves: 0, fascia: 0, notes: "The outer course slopes from 96 to 128 over 96 (t19a05a); one taper for both axes."}
+      - {id: plinth, shape: outline, outline: [[160, 385], [320, 172], [1216, 172], [1376, 385], [1376, 727], [1216, 940], [320, 940], [160, 727]], climb: 32, textures: {roof: t19a05a, wall: t19a02}, wall_height: 64, walls: {"0": [wall, wall], "1": [wall, wall, wall, wall, wall, wall, wall], "2": [wall, wall], "3": [wall, wall, wall], "4": [wall, wall], "5": [wall, wall, wall, wall, wall, wall, wall], "6": [wall, wall], "7": [wall, wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: plinth2, shape: outline, outline: [[256, 417], [368, 268], [1168, 268], [1280, 417], [1280, 695], [1168, 844], [368, 844], [256, 695]], bottom: 64, climb: 32, textures: {roof: t19a05a, wall: t19a02}, wall_height: 24, walls: {"0": [wall], "1": [wall, wall, wall, wall, wall, wall], "2": [wall], "3": [wall, wall], "4": [wall], "5": [wall, wall, wall, wall, wall, wall], "6": [wall], "7": [wall, wall]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall, shape: outline, outline: [[288, 428], [384, 300], [1152, 300], [1248, 428], [1248, 684], [1152, 812], [384, 812], [288, 684]], bottom: 88, porches: [{wall: "5", bays: [2, 3], depth: 128, recess: true}], textures: {door: t19b03c1, roof: t19a05b}, wall_height: 256, walls: {"5": [t19a07, t19a01, door, t19b03c2, t19a01, t19a06]}, roof: hip, roof_height: 120, eaves: 32, fascia: 16}
+    floor: 96
+    door:
+      bay: 2
+      part: hall
+      wall: "5"
+    title: Supple Leather
+    house: 40
+    notes: "06n_armor_S, _S_1: hall on an outline with cut corners on a plinth, its double door recessed in the south front. Plinth tops t19a05a, the tiers at the original's offsets with the sloping outer course. Not said: the steps before the door."
+  - id: thing:building_39
+    kind: building
+    at: [43.5, 88]
+    size: [3, 2]
+    plinth: 128
+    textures: {base: t19b10a, gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, shape: outline, outline: [[256, 100], [1408, 100], [1408, 996], [1024, 996], [1024, 484], [640, 484], [640, 996], [256, 996]], signs: [{wall: "2", bay: 0, texture: sgTvrn, size: [64, 64], bottom: 128, out: 8}, {wall: "6", bay: 2, texture: sgTvrn, size: [64, 64], bottom: 128, out: 8}], textures: {door: t19a03a, roof: t19a05b}, wall_height: 256, walls: {"0": [t19b07, t19b04b, t19b04b, t19b01, t19b04b, t19b01, t19b04b, t19b04b, t19b06], "1": [t19b07, t19b01, t19b01, t19b01, t19b01, t19b04b, t19b06], "2": [wall, t19a12b, t19a06], "3": [t19a01, t19a01, t19a01, t19a06], "4": [t19a07, door, t19a06], "5": [t19a07, t19a01, t19a01, t19a01], "6": [t19a07, t19a12b, wall], "7": [t19b07, t19b04b, t19b01, t19b01, t19b01, t19b01, t19b06]}, roof: hip, roof_height: 112, eaves: 16, fascia: 0, ridge: 0, notes: "The middle and both wings as one outline that bends in under one hip roof, as the original's (roof words)."}
+    foundation: 160
+    door:
+      bay: 1
+      part: p1
+      wall: "4"
+    title: Black Company
+    house: 233
+    notes: "06n_tav_S, _S_1: floor on a base course 128 (t19b10a); the court between the wings open, eight steps of 16 up to a landing before the door; four spikes on the roof. One roof over the three parts (roof words)."
+  - id: thing:building_40
+    kind: building
+    at: [59.5, 84.5]
+    size: [3.5, 2.5]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: plinth, shape: outline, outline: [[8, 300], [392, 108], [1288, 108], [1672, 300], [1672, 940], [1288, 1196], [1096, 1196], [1096, 1068], [584, 1068], [584, 1196], [392, 1196], [8, 940]], textures: {roof: t19a05a, wall: t19b11a}, wall_height: 32, walls: {"0": [wall, wall, wall], "1": [wall, wall, wall, wall, wall, wall, wall], "10": [wall, wall, wall, wall], "11": [wall, wall, wall, wall, wall], "2": [wall, wall, wall], "3": [wall, wall, wall, wall, wall], "4": [wall, wall, wall, wall], "5": [wall, wall], "6": [wall], "7": [wall, wall, wall, wall], "8": [wall], "9": [wall]}, roof: flat, eaves: 0, fascia: 0, notes: "The front cut back 128 between the corner pyramids (x 576 to 1088), one top over the outline that bends in (batch S4R)."}
+      - {id: hall, shape: outline, outline: [[200, 364], [456, 236], [1224, 236], [1480, 364], [1480, 876], [1224, 1004], [456, 1004], [200, 876]], bottom: 32, signs: [{wall: "5", bay: 0, texture: sgWeap, size: [64, 64], bottom: 128, out: 8}, {wall: "5", bay: 5, texture: sgWeap, size: [64, 64], bottom: 128, out: 8}], textures: {door: t19b03c1, roof: t19a05b, trim: t19a02, wall: t19b01}, wall_height: 256, walls: {"0": [t19b01, t19b01], "1": [t19b07, t19b01, t19b01, t19b01, t19b01, t19b06], "2": [t19b01, t19b01], "3": [t19b07, t19b04b, t19b04b, t19b06], "4": [t19b01, t19b01], "5": [t19b06, t19b07, door, t19b03c2, t19b06, t19b07], "6": [t19b01, t19b01], "7": [t19b07, t19b04b, t19b04b, t19b06]}, roof: hip, roof_height: 224, eaves: 32, fascia: 48, hip: 288, ridge_along: ew}
+    door:
+      bay: 2
+      part: hall
+      wall: "5"
+    title: Blooded Daggers and Blades
+    house: 5
+    notes: "06n_weap_S, _S_1 from their faces: a hall with cut corners on a plinth 32 (t19b11a, top t19a05a), a frieze 48 (t19a02) under eaves 32, a hip to a ridge at 656 with two spikes, signs sgWeap either side of the door, eight pyramids at the plinth's corners. Not said: the eaves' edge band (t19b11a 32)."
+  - id: thing:building_41
+    kind: building
+    at: [76.5, 83]
+    size: [3, 2]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04a}
+    parts:
+      - {id: plinth, shape: outline, outline: [[240, 182], [508, 48], [1028, 48], [1296, 182], [1296, 711], [1031, 976], [505, 976], [240, 711]], textures: {roof: t19a05a, wall: gn_mtl03}, wall_height: 16, walls: {"0": [gn_mtl03, gn_mtl03], "1": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03], "2": [gn_mtl03, gn_mtl03], "3": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03], "4": [gn_mtl03, gn_mtl03, gn_mtl03], "5": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03], "6": [gn_mtl03, gn_mtl03, gn_mtl03], "7": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall, shape: outline, outline: [[256, 192], [512, 64], [1024, 64], [1280, 192], [1280, 704], [1024, 960], [512, 960], [256, 704]], bottom: 16, porches: [{wall: "1", depth: 512, recess: true, notes: "The original recess narrows twice by 45-degree cheeks (512 to 256 wide); one width here."}], signs: [{wall: "0", bay: 1, texture: sgMAGIC, size: [64, 64], bottom: 192, out: 8}, {wall: "2", bay: 0, texture: sgMAGIC, size: [64, 64], bottom: 192, out: 8}], textures: {door: t19a03c1, roof: t19a05b, trim: t19a05b, wall: t19a01}, wall_height: 256, walls: {"0": [t19a01, t19a01], "1": [t19a01, door, t19a03c2, t19a01], "2": [t19a01, t19a01], "3": [t19a07, [t19a04a, 256], t19a06], "4": [t19a07, t19a01, t19a06], "5": [t19a07, [t19a04a, 256], t19a06], "6": [t19a07, t19a01, t19a06], "7": [t19a07, [t19a04a, 256], t19a06]}, roof: hip, eaves: 16, fascia: 16, tiers: [[144, 96]]}
+    door:
+      bay: 1
+      part: hall
+      wall: "1"
+    title: Mystical Mayhem
+    house: 80
+    notes: "06n_magic_N, _N_1 from their faces: a hall with cut corners on a plinth 16 (t19a05a), a recess 512 wide and deep under the roof with the double door at its back, a hip in one ring (144 in, 96 up) to a flat top at 480, two spikes. Not said: the recess narrowing by two 45-degree cheeks; signs on the cheeks' corners."
+  - id: thing:building_42
+    kind: building
+    at: [64, 84.5]
+    size: [2.5, 3]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: hall, at: [184, 168], size: [768, 768], signs: [{wall: s, bay: 2, texture: sgTRAIN, size: [64, 64], bottom: 384, out: 8, offset: 64}], textures: {roof: t19a05b, trim: t19a05b}, wall_height: 512, walls: {e: [t19b07, t19b01, t19b01, t19b01, t19b01, t19b06], n: [t19b07, t19b01, t19b01, t19b01, t19b01, t19b06], s: [t19b07, t19b06, t19b01, t19b01, t19b07, t19b06], w: [t19b07, t19b01, t19b01, t19b01, t19b01, t19b06]}, upper_walls: {e: [t19a07, [t19a04a, 512], t19a06], n: [t19a07, [t19a04a, 512], t19a06], s: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], w: [t19a07, [t19a04a, 512], t19a06]}, roof: hip, roof_height: 172, eaves: 32, fascia: 0, hip: 416}
+      - {id: entry, at: [440, 920], size: [256, 32], bottom: 128, textures: {door: t19a03c1, roof: t19a01, wall: t19a01}, wall_height: 256, walls: {n: [[wall, 256]], s: [[t19a07, 32], [door, 96], [t19a03c2, 96], [t19a06, 32]]}, roof: flat, eaves: 0, fascia: 0, notes: "The door stands 128 up at the head of the steps; said as a frame part 16 proud of the wall (32 deep, half in it)."}
+    door:
+      bay: 1
+      part: entry
+      wall: s
+    title: Assassin's School
+    house: 1568
+    notes: "06n_training_S, _S_1 from their faces: a block 768 square of two storeys (t19b below, t19a with windows above), a pyramid roof (eaves 32) with a spike, the double door 128 up over four steps of 32 and a landing, the sign over it, pyramids at the four corners. Not said: the steps' sloping cheek walls."
+  - id: thing:building_43
+    kind: building
+    at: [65, 90.5]
+    size: [2, 3]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl02, roof: t19a05b, trim: gn_mtl02, wall: t19a01, window: t19a04a}
+    parts:
+      - {id: plinth, shape: outline, outline: [[182, 1296], [48, 1028], [48, 508], [182, 240], [711, 240], [976, 505], [976, 1031], [711, 1296]], textures: {roof: t19a05a, wall: gn_mtl03}, wall_height: 16, walls: {"0": [gn_mtl03, gn_mtl03], "1": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03], "2": [gn_mtl03, gn_mtl03], "3": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03], "4": [gn_mtl03, gn_mtl03, gn_mtl03], "5": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03], "6": [gn_mtl03, gn_mtl03, gn_mtl03], "7": [gn_mtl03, gn_mtl03, gn_mtl03, gn_mtl03]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall, shape: outline, outline: [[192, 1280], [64, 1024], [64, 512], [192, 256], [704, 256], [960, 512], [960, 1024], [704, 1280]], bottom: 16, porches: [{wall: "1", depth: 512, recess: true, notes: "The original recess narrows twice by 45-degree cheeks (512 to 256 wide); one width here."}], signs: [{wall: "0", bay: 1, texture: sgSPELL, size: [64, 64], bottom: 192, out: 8}, {wall: "2", bay: 0, texture: sgSPELL, size: [64, 64], bottom: 192, out: 8}], textures: {door: t19a03c1, roof: t19a05b, trim: t19a05b, wall: t19a01}, wall_height: 256, walls: {"0": [t19a01, t19a01], "1": [t19a01, door, t19a03c2, t19a01], "2": [t19a01, t19a01], "3": [t19a07, [t19a04a, 256], t19a06], "4": [t19a07, t19a01, t19a06], "5": [t19a07, [t19a04a, 256], t19a06], "6": [t19a07, t19a01, t19a06], "7": [t19a07, [t19a04a, 256], t19a06]}, roof: hip, eaves: 16, fascia: 16, tiers: [[144, 96]]}
+    door:
+      bay: 1
+      part: hall
+      wall: "1"
+    title: Guild of Dark
+    house: 175
+    notes: "06n_magic_W, _W_1: the magic shop model turned to face west (as Mystical Mayhem)."
+  - id: thing:chest_1
+    kind: chest
+    at: [56.984, 90.672]
+    chest: {level: 2, random_items: 4, trapped: true}
+  - id: thing:chest_2
+    kind: chest
+    at: [66, 89.391]
+    chest: {level: 3, random_items: 4, trapped: true}
+  - id: thing:chest_3
+    kind: chest
+    at: [61.562, 91.156]
+    chest: {level: 3, random_items: 6, trapped: true}
+  - id: thing:chest_4
+    kind: chest
+    at: [38.391, 33.875]
+    chest: {level: 5, random_items: 8, trapped: true}
+  - id: thing:chest_5
+    kind: chest
+    at: [48.094, 93]
+    chest: {level: 1, random_items: 3, trapped: true}
+  - id: thing:chest_6
+    kind: chest
+    at: [102.281, 42.469]
+    turn: 90
+    chest: {level: 4, random_items: 6, trapped: true}
+  - id: thing:building_44
+    kind: building
+    at: [58.5, 99]
+    size: [2.5, 2]
+    textures: {gable: t19b01, post_left: t19b07, post_right: t19b06, ridge: gn_mtl03, roof: t19a05b, trim: gn_mtl03, wall: t19b01, window: t19b04b}
+    parts:
+      - {id: p1, at: [192, 384], size: [384, 384], textures: {door: t19b03a, roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b04b, t19b01], n: [t19b01, door, t19b01], s: [t19b01, t19b01, t19b01], w: [t19b01, t19b04b, t19b01]}, roof: hip, roof_height: 144, eaves: 0, fascia: 32, hip: 112, ridge: 0, ridge_along: ew, notes: Shortened to meet the other part instead of running through it (their walls lay in one plane and fought).}
+      - {id: p2, at: [576, 128], size: [512, 640], textures: {roof: t19a05b, trim: gn_mtl01}, wall_height: 256, walls: {e: [t19b01, t19b04b, t19b01, t19b04b, t19b01], n: [t19b01, t19b04b, t19b04b, t19b01], s: [t19b04b, t19b01, t19b01, t19b01], w: [t19b01, t19b01, wall, wall, wall]}, roof: hip, roof_height: 144, eaves: 0, fascia: 24, hip: 112, ridge: 0, ridge_along: ns}
+    door:
+      bay: 1
+      part: p1
+      wall: n
+    title: Wargreen's Lab
+    house: 608
+  - id: thing:building_45
+    kind: building
+    at: [56, 99]
+    size: [1.5, 2.5]
+    textures: {gable: t19a01, post_left: t19a07, post_right: t19a06, ridge: gn_mtl01, roof: t19a05b, trim: gn_mtl01, wall: t19a01, window: t19a04b}
+    parts:
+      - {id: p1, at: [144, 208], size: [512, 768], textures: {door: t19b03c1}, wall_height: 256, walls: {e: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06], n: [t19a07, door, t19b03c2, t19a06], s: [t19a07, t19a02, t19a02, t19a06], w: [t19a07, t19a01, t19a01, t19a01, t19a01, t19a06]}, roof: gable, roof_height: 400, eaves: 96, fascia: 16, ridge: 16, ridge_along: ns}
+    floor: 96
+    door:
+      bay: 1
+      part: p1
+      wall: n
+    title: Fist Residence
+    house: 607
+    notes: "06n_poor1N_1: walls 512 by 768 from 96 to 352, a steep gable to 752 along the long side, its ends reaching 160 past the end walls (not said: a gable reaches out at its eaves only) and a flared skirt at 288 (not said); the double door in the middle of the front."
+  - id: thing:rune_post_rings
+    kind: decoration
+    at: [57.88, 71.88]
+    decoration: dec13
+    title: Rune post
+    lua: |-
+      if IsQBitSet(QBit(279)) or not IsAtLeast(DisarmTrapSkill, 5) then return end
+      local pick = ({138, 139, 140, 141})[math.random(1, 4)]
+      evt.SummonRandomItem(2, pick, -3136, -4032, 348, 1000, 1, true)
+      SetQBit(QBit(279))
+    notes: "Event 495 of the original: with Disarm Trap 5 a thing once."
+  - id: thing:rune_post_boosts
+    kind: decoration
+    at: [40, 48.88]
+    decoration: dec15
+    title: Rune post
+    lua: |-
+      if IsQBitSet(QBit(280)) or not IsAtLeast(DisarmTrapSkill, 7) then return end
+      local pick = ({240, 241, 242, 243, 244, 245})[math.random(1, 6)]
+      evt.SummonItem(pick, -12288, 7744, 988, 1000, 1, true)
+      SetQBit(QBit(280))
+    notes: "Event 496 of the original: with Disarm Trap 7 a thing once."
+  - id: thing:rune_post_reagents
+    kind: decoration
+    at: [74.75, 87.88]
+    decoration: dec17
+    title: Rune post
+    lua: |-
+      if IsQBitSet(QBit(281)) or not IsAtLeast(DisarmTrapSkill, 3) then return end
+      local pick = ({200, 205, 210, 215, 220})[math.random(1, 5)]
+      evt.SummonItem(pick, 5504, -12224, 96, 1000, 1, true)
+      SetQBit(QBit(281))
+    notes: "Event 494 of the original: with Disarm Trap 3 a thing once."
+  - id: thing:necromancers_guild
+    kind: building
+    at: [91.5, 79]
+    size: [6, 8]
+    textures: {door: t07a01, post_left: T05a01c, post_right: T05a01c, roof: t05a01, trim: T05b01C, wall: T05a01c, window: T05a01c}
+    windows: none
+    parts:
+      - {id: hall, at: [1024, 128], size: [1024, 3712], wall_height: 1280, roof: flat, eaves: 0, fascia: 0, ridge: 0, parapet: 128, battlements: true}
+      - {id: hall_roof, at: [1024, 128], size: [1024, 3712], bottom: 1408, wall_height: 16, roof: gable, roof_height: 512, eaves: 0, fascia: 0, ridge: 0, ridge_along: ns}
+      - {id: tower_w, at: [0, 2816], size: [1024, 1024], textures: {roof: t05a05}, wall_height: 1280, roof: hip, roof_height: 1117, eaves: 0, fascia: 0, cap: 768, ridge: 0}
+      - {id: tower_e, at: [2048, 2816], size: [1024, 1024], textures: {roof: t05a05}, wall_height: 1280, roof: hip, roof_height: 1117, eaves: 0, fascia: 0, cap: 768, ridge: 0}
+      - {id: shaft_w, at: [352, 3168], size: [320, 320], bottom: 2048, taper: 2.4, textures: {wall: t09a01}, wall_height: 2048, roof: none}
+      - {id: shaft_e, at: [2400, 3168], size: [320, 320], bottom: 2048, taper: 2.4, textures: {wall: t09a01}, wall_height: 2048, roof: none}
+      - {id: cap_w, at: [128, 2944], size: [768, 768], bottom: 4096, textures: {roof: GNecWal3, wall: GNecWal3}, wall_height: 256, roof: flat, eaves: 0, fascia: 0}
+      - {id: cap_e, at: [2176, 2944], size: [768, 768], bottom: 4096, textures: {roof: GNecWal3, wall: GNecWal3}, wall_height: 256, roof: flat, eaves: 0, fascia: 0}
+    floor: 4480
+    door:
+      part: hall
+      wall: s
+    title: Enter the Necromancers' Guild
+    into: {map: d19.blv, at: [0, 64, 0], facing: 512, screen: {house: 371, picture: 1}}
+    hint: Necromancers' Guild
+    notes: "d19entrance (6 models) measured from its faces: the hall 1024 by 3712 with walls of 1280 (T05a01c) and battlements of 128 (T05b01C), a gable over it to 6400 (t05a01); towers 1024 square at its south end, walls to 5760, shoulders (t05a05) drawing in to a shaft 320 square at 6528 that flares to 768 at 8576 (t09a01), a cap 768 square to 8832 (GNecWal3). The gate: a pointed arch 320 wide in the hall's south wall (t07a01), event 501 on an invisible face in it."
+  - id: thing:mad_necromancers_lab
+    kind: building
+    at: [34.75, 28.75]
+    size: [7.25, 9]
+    textures: {door: T01A03B, post_left: T01A12C, post_right: T01A12C, roof: T01A05B, trim: T01A12B, wall: T01A12C}
+    windows: none
+    parts:
+      - {id: wing_w_n, shape: outline, outline: [[0, 2432], [1280, 1536], [1088, 2560], [0, 2560]], textures: {roof: T01A05B}, wall_height: 512, walls: {"0": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "1": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "2": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "3": [T01A12C]}, upper_walls: {"0": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "1": [T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B], "2": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "3": [T01A12B]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: wing_w_s, shape: outline, outline: [[0, 2560], [1088, 2560], [1280, 3264], [1280, 4096], [640, 4608], [0, 4096]], textures: {roof: T01A05B}, wall_height: 512, walls: {"0": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "1": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "2": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "3": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "4": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "5": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C]}, upper_walls: {"0": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "1": [T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B], "2": [[T01A04B, 384], [T01A04B, 384], [T01A12B, 64]], "3": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "4": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "5": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: wing_e_n, shape: outline, outline: [[2432, 1536], [3712, 2432], [3712, 2560], [2624, 2560]], textures: {roof: T01A05B}, wall_height: 512, walls: {"0": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "1": [T01A12C], "2": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "3": [T01A12D, T01A12D, T01A12D, T01A12D, T01A12D, T01A12D, T01A12D, T01A12D]}, upper_walls: {"0": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "1": [T01A12B], "2": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "3": [T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: wing_e_s, shape: outline, outline: [[2624, 2560], [3712, 2560], [3712, 4096], [3072, 4608], [2432, 4096], [2432, 3264]], textures: {roof: T01A05B}, wall_height: 512, walls: {"0": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "1": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "2": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "3": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "4": [T01A12D, T01A12D, T01A12D, T01A12D, T01A12D, T01A12D], "5": [T01A12D, T01A12D, T01A12D, T01A12D, T01A12D, T01A12D]}, upper_walls: {"0": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "1": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "2": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "3": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "4": [[T01A12B, 64], [T01A04B, 384], [T01A04B, 384]], "5": [T01A04B, T01A04B, T01A04B, T01A04B, T01A04B, T01A04B]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall, shape: outline, outline: [[1024, 0], [2688, 0], [3072, 768], [2432, 1536], [1280, 1536], [640, 768]], textures: {roof: T01A01C}, wall_height: 256, walls: {"0": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "1": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "2": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "3": [[T01A12D, 480], [T01A12C, 256], [T01A12D, 416]], "4": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C], "5": [T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C, T01A12C]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall_door, shape: outline, outline: [[1024, 0], [2688, 0], [3072, 768], [2432, 1536], [1280, 1536], [640, 768]], bottom: 256, textures: {roof: T01A01C}, wall_height: 256, walls: {"0": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "1": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "2": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "3": [[T01A12B, 224], [T01A04B, 128], [T01A06A, 128], [door, 128], [T01A03C, 128], [T01A07A, 128], [T01A04B, 128], [T01A12B, 160]], "4": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "5": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall_upper, shape: outline, outline: [[1024, 0], [2688, 0], [3072, 768], [2432, 1536], [1280, 1536], [640, 768]], bottom: 512, textures: {roof: T01A01C}, wall_height: 256, walls: {"0": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "1": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "2": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "3": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "4": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C], "5": [T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C, T01A01C]}, roof: flat, eaves: 0, fascia: 0}
+      - {id: hall_top, shape: outline, outline: [[1024, 0], [2688, 0], [3072, 768], [2432, 1536], [1280, 1536], [640, 768]], bottom: 768, textures: {roof: T01A02B}, wall_height: 256, walls: {"0": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "1": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "2": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "3": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "4": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B], "5": [T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B, T01A12B]}, roof: hip, roof_height: 860, eaves: 0, fascia: 0, ridge: 0}
+      - {id: gate_arch_w, at: [1280, 4032], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 16, windows: none, roof: lean_to, roof_height: 176, eaves: 0, fascia: 0, roof_low: w}
+      - {id: gate_arch_m, at: [1664, 4032], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 192, windows: none, roof: flat, eaves: 0, fascia: 0}
+      - {id: gate_arch_e, at: [2048, 4032], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 16, windows: none, roof: lean_to, roof_height: 176, eaves: 0, fascia: 0, roof_low: e}
+      - {id: arch_2_w, at: [1280, 3264], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 16, windows: none, roof: lean_to, roof_height: 176, eaves: 0, fascia: 0, roof_low: w}
+      - {id: arch_2_m, at: [1664, 3264], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 192, windows: none, roof: flat, eaves: 0, fascia: 0}
+      - {id: arch_2_e, at: [2048, 3264], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 16, windows: none, roof: lean_to, roof_height: 176, eaves: 0, fascia: 0, roof_low: e}
+      - {id: arch_3_w, at: [1088, 2496], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 16, windows: none, roof: lean_to, roof_height: 176, eaves: 0, fascia: 0, roof_low: w}
+      - {id: arch_3_m, at: [1472, 2496], size: [768, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 192, windows: none, roof: flat, eaves: 0, fascia: 0}
+      - {id: arch_3_e, at: [2240, 2496], size: [384, 64], bottom: 512, textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 16, windows: none, roof: lean_to, roof_height: 176, eaves: 0, fascia: 0, roof_low: e}
+      - {id: gate_post_w, at: [1280, 4032], size: [352, 64], textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 512, windows: none, roof: flat, eaves: 0, fascia: 0}
+      - {id: gate_post_e, at: [2080, 4032], size: [352, 64], textures: {post_left: T01A01A, post_right: T01A01A, roof: T01A01A, trim: T01A01A, wall: T01A01A, window: T01A01A}, wall_height: 512, windows: none, roof: flat, eaves: 0, fascia: 0}
+    floor: 800
+    door:
+      part: hall_door
+      wall: "3"
+    title: Enter the Mad Necromancer's Lab
+    into: {map: d20.blv, at: [-900, -127, 1], facing: 520, screen: {house: 372, picture: 1}}
+    hint: Mad Necromancer's Lab
+    notes: "d20out_S_1, _S, _S_2 measured from their faces: two five-sided wings 512 high (T01A12C under T01A12B; inner sides T01A12C/D under T01A04B, stepping in to widen the passage under the third arch; each wing two convex parts, an outline being convex), the hall a six-sided outline in four rows of panels (T01A12C/D, the door row, T01A01C, T01A12B) under a pyramid to 2684 (T01A02B) with its door 256 up at the walk; the passage open to the sky under three arch ribs 64 deep (1312 to 1504; the original's three facets each side said as one slope), the first the gate on two posts from the tar. The ribs' carved boss (a 120 square relief at 1352..1472 on the gate) not said."
+  - id: thing:lab_steps
+    kind: stairs
+    line: [[38.375, 39.56445], [38.375, 39.0625]]
+    width: 448
+    rise: 256
+    tread: 32
+    textures: {top: T01A01A, wall: T01A01A}
+    notes: "d20out_S_3: eight steps of 32 (T01A01A) from the tar at 800 up to the deck at 1056."
+  - id: thing:lab_cheek_w
+    kind: platform
+    at: [37.875, 39.34375]
+    size: [64, 288]
+    height: 256
+    textures: {top: t05a01, wall: t05a01}
+    notes: "The steps' west cheek wall (t05a01), 800 to 1056."
+  - id: thing:lab_cheek_e
+    kind: platform
+    at: [38.875, 39.34375]
+    size: [64, 288]
+    height: 256
+    textures: {top: t05a01, wall: t05a01}
+    notes: "The steps' east cheek wall (t05a01), 800 to 1056."
+  - id: thing:lab_causeway
+    kind: bridge
+    line: [[38.375, 39.0625], [38.375, 35]]
+    height: 1056
+    width: 448
+    thickness: 64
+    piers: 0
+    textures: {deck: t05a01, side: t05a01}
+    notes: "d20out_S_3: the deck 448 wide and 64 thick at 1056 over the tar, no piers, from the steps to the landing."
+  - id: thing:lab_landing
+    kind: building
+    at: [34.75, 28.75]
+    size: [7.25, 9]
+    textures: {door: t05a01, post_left: t05a01, post_right: t05a01, roof: t05a01, trim: t05a01, wall: t05a01, window: t05a01}
+    windows: none
+    parts:
+      - {id: landing, shape: outline, outline: [[1632, 3200], [1376, 2944], [1248, 2560], [1376, 2176], [1760, 2048], [2016, 2048], [2400, 2176], [2464, 2560], [2400, 2944], [2080, 3200]], bottom: 192, textures: {roof: t05a01}, wall_height: 64, roof: flat, eaves: 0, fascia: 0}
+      - {id: strip, at: [1760, 1536], size: [256, 512], bottom: 192, textures: {roof: t05a01}, wall_height: 64, roof: flat, eaves: 0, fascia: 0}
+    floor: 800
+    door: none
+    notes: "d20out_S_3: the ten-sided landing (1216 wide, s 2048 to 3200) and the strip 256 wide to the door, slabs 64 thick at 1056 over the tar."
+  - id: thing:dock_arm
+    kind: bridge
+    line: [[37, 94.5], [32.9025, 94.5]]
+    height: 264
+    width: 256
+    textures: {deck: bwooda1, side: bwoodb1}
+    notes: "Dock_W_2: the deck at 264 (bwooda1, rails btrima1 flush), from its gate frame west."
+  - id: thing:dock_ramp
+    kind: stairs
+    line: [[37.4375, 94.5], [37, 94.5]]
+    width: 192
+    rise: 72
+    ramp: true
+    textures: {top: bwooda1, wall: bwoodb1}
+    notes: "Dock_W_2: the ramp from the shore (192) up to the deck (264), bwooda1."
+  - id: thing:dock_gate
+    kind: wall
+    line: [[37.03125, 94.75], [37.03125, 94.25]]
+    height: 392
+    thickness: 32
+    gates:
+      - {at: [37.03125, 94.5], width: 192, height: 360}
+    textures: {top: btrima2, wall: btrima1}
+    notes: "Dock_W_2: the gate frame over the pier's land end, posts 32 square from the land (192) to 584 and the beam over 552; its knee braces (45 degrees, 520 to 552) not said."
+  - id: thing:dock_north
+    kind: bridge
+    line: [[32.66, 94.25], [32.66, 92.69]]
+    height: 264
+    width: 256
+    kerb: 64
+    textures: {deck: btrima1}
+    notes: "Dock_W, Dock_W_2: timber pier decks at 264 on posts (T05a10 to 328)."
+  - id: thing:dock_head
+    kind: bridge
+    line: [[32.34, 94.25], [32.34, 96.31]]
+    height: 264
+    width: 576
+    kerb: 64
+    textures: {deck: btrima1}
+    notes: "Dock_W, Dock_W_2: timber pier decks at 264 on posts (T05a10 to 328)."
+  - id: thing:boat_smoke
+    kind: model
+    from: {map: out06.odm, models: [79, 80, 81, 82, 83]}
+    title: Smoke
+    house: 481
+    hint: Smoke
+    click: [81]
+    notes: "The smuggler's ship Smoke at the pier, taken whole from the original (no form says a ship); its gangway (model 81) runs the boat service (event 183), the other faces say its name (184)."
+  - id: thing:cave_mouth
+    kind: model
+    from: {map: out06.odm, models: [48, 49]}
+    title: Enter the Cave
+    into: {map: d49.blv, at: [9690, 1334, 1176], facing: 1024}
+    hint: A Cave
+    click: [49]
+    notes: "d49out_W, _W_1 taken whole: a hollow rock skin of VOLTYL (no floor, no back) 1024 square from 2144 to 2880, its mouth 756 wide and 648 high, 292 deep to the black face (solid01) that enters the cave. No form says a rock mound with a mouth; the land under it is set by the ridges `cave_shelf`, `cave_back` and `cave_cliff` as the original's."
+  - id: thing:building_41_spike_1
+    kind: obelisk
+    at: [77.5, 84]
+    raise: 384
+    height: 256
+    width: 128
+    taper: 0.95
+    tip: 240
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A spike of the roof (gn_mtl, 128 square, 480 to 736)."
+  - id: thing:building_41_spike_2
+    kind: obelisk
+    at: [78.5, 84]
+    raise: 384
+    height: 256
+    width: 128
+    taper: 0.95
+    tip: 240
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A spike of the roof (gn_mtl, 128 square, 480 to 736)."
+  - id: thing:building_43_spike_1
+    kind: obelisk
+    at: [66, 92.5]
+    raise: 384
+    height: 256
+    width: 128
+    taper: 0.95
+    tip: 240
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A spike of the roof (gn_mtl, 128 square, 480 to 736)."
+  - id: thing:building_43_spike_2
+    kind: obelisk
+    at: [66, 91.5]
+    raise: 384
+    height: 256
+    width: 128
+    taper: 0.95
+    tip: 240
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A spike of the roof (gn_mtl, 128 square, 480 to 736)."
+  - id: thing:tavern_steps
+    kind: stairs
+    line: [[45.125, 89.9453], [45.125, 89.0703]]
+    width: 384
+    rise: 128
+    tread: 16
+    textures: {top: t19a05a, wall: t19b10a}
+    notes: "Black Company's court: eight steps of 16 (t19a05a, risers t19b10a)."
+  - id: thing:tavern_landing
+    kind: platform
+    at: [45.125, 89.0078]
+    size: [384, 64]
+    height: 128
+    textures: {top: t19a05a, wall: t19b10a}
+  - id: thing:tavern_spike_1
+    kind: obelisk
+    at: [44.375, 88.5703]
+    raise: 496
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike at a corner of the flat roof top (592 to 784).
+  - id: thing:tavern_spike_2
+    kind: obelisk
+    at: [45.875, 88.5703]
+    raise: 496
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike at a corner of the flat roof top (592 to 784).
+  - id: thing:tavern_spike_3
+    kind: obelisk
+    at: [44.375, 89.6953]
+    raise: 496
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike at a corner of the flat roof top (592 to 784).
+  - id: thing:tavern_spike_4
+    kind: obelisk
+    at: [45.875, 89.6953]
+    raise: 496
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike at a corner of the flat roof top (592 to 784).
+  - id: thing:armor_spike_1
+    kind: obelisk
+    at: [56.3125, 85.5859]
+    raise: 464
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike on the ridge (560 to 752).
+  - id: thing:armor_spike_2
+    kind: obelisk
+    at: [57, 85.5859]
+    raise: 464
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike on the ridge (560 to 752).
+  - id: thing:armor_spike_3
+    kind: obelisk
+    at: [57.6875, 85.5859]
+    raise: 464
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike on the ridge (560 to 752).
+  - id: thing:weapon_spike_1
+    kind: obelisk
+    at: [60.5156, 85.7109]
+    raise: 560
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike on the ridge (656 to 848).
+  - id: thing:weapon_spike_2
+    kind: obelisk
+    at: [61.7656, 85.7109]
+    raise: 560
+    height: 192
+    width: 64
+    taper: 0.95
+    tip: 176
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: A spike on the ridge (656 to 848).
+  - id: thing:weapon_pyramid_1
+    kind: obelisk
+    at: [59.5781, 85.1484]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_2
+    kind: obelisk
+    at: [59.5781, 86.2734]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_3
+    kind: obelisk
+    at: [60.3281, 84.7734]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_4
+    kind: obelisk
+    at: [60.3281, 86.7734]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_5
+    kind: obelisk
+    at: [61.9531, 84.7734]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_6
+    kind: obelisk
+    at: [61.9531, 86.7734]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_7
+    kind: obelisk
+    at: [62.7031, 85.1484]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:weapon_pyramid_8
+    kind: obelisk
+    at: [62.7031, 86.2734]
+    raise: 32
+    height: 128
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl01, wall: gn_mtl01}
+    notes: "A pyramid on the plinth (gn_mtl, 64 square, 128 to 256)."
+  - id: thing:stable_sign
+    kind: sign
+    at: [65.1406, 89.3906]
+    same_event_as: building:thing:building_33
+    height: 256
+    width: 64
+    post: 24
+    textures: {board: sgSTABL, wall: Trim9_32}
+    board_height: 64
+    arms:
+      - {toward: w}
+    notes: "The stable's sign hangs from an arm on the corral's north-west post (Trim9_32, 288 to 352)."
+  - id: thing:training_steps
+    kind: stairs
+    line: [[65.1094, 87.0156], [65.1094, 86.6406]]
+    width: 192
+    rise: 128
+    tread: 32
+    textures: {top: t19a05a, wall: t19b10b}
+  - id: thing:training_landing
+    kind: platform
+    at: [65.1094, 86.5]
+    size: [192, 144]
+    height: 128
+    textures: {top: t19a05a, wall: t19b10b}
+  - id: thing:training_spike
+    kind: obelisk
+    at: [65.1094, 85.5781]
+    raise: 684
+    height: 132
+    width: 64
+    taper: 0.9
+    tip: 120
+    textures: {top: gn_mtl02, wall: gn_mtl02}
+    notes: The roof's spike (780 to 912).
+  - id: thing:training_pyramid_1
+    kind: obelisk
+    at: [64.2344, 84.7031]
+    raise: 0
+    height: 256
+    width: 128
+    taper: 0.5
+    tip: 128
+    textures: {top: gn_mtl02, wall: gn_mtl02}
+    notes: "A corner pyramid: 128 square to 224 drawing in to 64, then a spike to 352."
+  - id: thing:training_pyramid_2
+    kind: obelisk
+    at: [65.9844, 84.7031]
+    raise: 0
+    height: 256
+    width: 128
+    taper: 0.5
+    tip: 128
+    textures: {top: gn_mtl02, wall: gn_mtl02}
+    notes: "A corner pyramid: 128 square to 224 drawing in to 64, then a spike to 352."
+  - id: thing:training_pyramid_3
+    kind: obelisk
+    at: [64.2344, 86.4531]
+    raise: 0
+    height: 256
+    width: 128
+    taper: 0.5
+    tip: 128
+    textures: {top: gn_mtl02, wall: gn_mtl02}
+    notes: "A corner pyramid: 128 square to 224 drawing in to 64, then a spike to 352."
+  - id: thing:training_pyramid_4
+    kind: obelisk
+    at: [65.9844, 86.4531]
+    raise: 0
+    height: 256
+    width: 128
+    taper: 0.5
+    tip: 128
+    textures: {top: gn_mtl02, wall: gn_mtl02}
+    notes: "A corner pyramid: 128 square to 224 drawing in to 64, then a spike to 352."
+  - id: thing:umberpool_step_1
+    kind: platform
+    at: [62.5156, 89.0312]
+    size: [256, 64]
+    height: 32
+    textures: {top: t19a05a, wall: t19a02}
+  - id: thing:umberpool_step_2
+    kind: platform
+    at: [62.5156, 89.2188]
+    size: [256, 128]
+    height: 64
+    textures: {top: t19a05a, wall: t19a02}
+  - id: thing:caverhill_step_1
+    kind: platform
+    at: [72.95312, 85.375]
+    size: [64, 256]
+    height: 32
+    textures: {top: t19a05a, wall: t19a02}
+    notes: "Caverhill Hall's door step (06n_rich2E: tops t19a05a at 128 and 160)."
+  - id: thing:caverhill_step_2
+    kind: platform
+    at: [72.76562, 85.375]
+    size: [128, 256]
+    height: 64
+    textures: {top: t19a05a, wall: t19a02}
+    notes: "Caverhill Hall's door step (06n_rich2E: tops t19a05a at 128 and 160)."
+actors:
+  - {monster: "50", at: [46.5, 90.75], spread: 0, group: 25}
+  - {monster: "50", at: [56, 98.5], spread: 0, group: 25}
+  - {monster: "50", at: [64.5, 94.25], spread: 0, group: 25}
+  - {monster: "50", at: [64.5, 87.5], spread: 0, group: 25}
+  - {monster: "50", at: [55.5, 88], spread: 0, group: 25}
+  - {monster: "50", at: [52.5, 90.75], spread: 0, group: 25}
+  - {monster: "50", at: [46.75, 98.25], spread: 0, group: 25}
+  - {monster: "50", at: [73.75, 87.5], spread: 0, group: 25}
+  - {monster: "50", at: [74.5, 84], spread: 0, group: 25}
+  - {monster: "50", at: [78.25, 82.5], spread: 0, group: 25}
+  - {monster: "50", at: [40.5, 92], spread: 0, group: 25}
+  - {monster: "49", at: [49.25, 99.5], spread: 0, group: 26}
+  - {monster: "49", at: [60.5, 87.5], count: 2, spread: 1, group: 26}
+  - {monster: "49", at: [71.5, 87.75], spread: 0, group: 25}
+  - {monster: "49", at: [49.25, 90.5], spread: 0, group: 26}
+  - {monster: "49", at: [53, 99.75], spread: 0, group: 26}
+  - {monster: "49", at: [64.5, 91], spread: 0, group: 26}
+  - {monster: "49", at: [81, 84.5], spread: 0, group: 26}
+  - {monster: "56", at: [39.25, 93.5], spread: 0, group: 38}
+  - {monster: "56", at: [59.25, 98.5], spread: 0, group: 38}
+  - {monster: "56", at: [57, 87.5], spread: 0, group: 38}
+  - {monster: "56", at: [69, 87.5], spread: 0, group: 38}
+  - {monster: "56", at: [74.5, 85.5], spread: 0, group: 38}
+  - {monster: "56", at: [76.25, 81.75], count: 2, spread: 1.25, group: 38}
+  - {monster: "56", at: [62.75, 87.5], spread: 0, group: 38}
+events:
+  - id: evt:group10_hostile
+    trigger: load
+    lua: "evt.SetMonGroupBit(10, MonsterBits.Hostile, 1)"
+    notes: "Load event 4 of the original: the monsters of actor group 10 are hostile."
+  - id: evt:town_sounds
+    trigger: timer
+    every: 600
+    lua: |-
+      local pick = math.random(1, 6)
+      local places = {{-6976, -15104}, {2176, -11904}, {-2496, -16480}, {-10400, -12800}, {7872, -9664}}
+      if places[pick] then evt.PlaySound(347, places[pick][1], places[pick][2]) end
+    notes: "Timer 479 of the original (every 20 half minutes): sound 347 at one of five places in town, or none."
+  - id: evt:well_sound
+    trigger: timer
+    every: 450
+    lua: "if math.random(1, 6) <= 2 then evt.PlaySound(325, 864, -13024) end"
+    notes: "Timer 490 of the original (every 15 half minutes): sound 325 by the stable, one time in three."

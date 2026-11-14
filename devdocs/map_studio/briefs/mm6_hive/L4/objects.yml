@@ -14,6 +14,7 @@ doors:
     speed: 85
     surface: {texture: hvdord, size: [256, 256]}
     back_surface: {texture: hvwl3spa, size: [256, 256]}
+    bottom_surface: {texture: hvtrim4, size: [32, 32]}
     notes: The original's leaf shows the wall's texture to the side it does not open from.
   - id: door:d10
     opening: open:s30_tunnel__s39_corridor
@@ -25,6 +26,7 @@ doors:
     speed: 85
     surface: {texture: hvdorc, size: [256, 256]}
     back_surface: {texture: hvwl1a, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     tile: true
     notes: "Original: opens only from the tunnel side (event 10)."
   - id: door:d11
@@ -36,6 +38,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdore, size: [256, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     notes: "Original: opens from its north side (event 11); from the crossing it says The Door Won't Budge (event 21). One-sided doors cannot be said, so it waits for door 9, which stands on the only way to its north side."
   - id: door:d12
     opening: open:s39_corridor__s19_tunnel
@@ -47,6 +50,7 @@ doors:
     speed: 85
     surface: {texture: hvwl1a, size: [128, 256]}
     back_surface: {texture: hvdord, size: [256, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     tile: true
     notes: "Original: opens only from the tunnel side (event 12)."
   - id: door:d13
@@ -58,6 +62,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdord, size: [256, 256]}
+    bottom_surface: {texture: hvtrim4, size: [32, 32]}
   - id: door:d14
     opening: open:s36_vestibule__s35_e
     kind: slide_up
@@ -67,6 +72,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdore, size: [256, 256]}
+    bottom_surface: {texture: oflrl32, size: [32, 32]}
   - id: door:d2
     opening: open:s47_passage__s46_cell
     kind: slide_up
@@ -76,6 +82,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorf, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
   - id: door:d28
     opening: open:s65_low__s65_west
     kind: slide_left
@@ -85,6 +92,7 @@ doors:
     thickness: 32
     speed: 150
     surface: {texture: hvdorc, size: [256, 256]}
+    edge_surface: {texture: hvtrim1, size: [32, 32]}
     notes: "The original's leaf folds south against its jamb (door 28: 250 toward -y)."
   - id: door:d3
     opening: open:s49_passage__s48_cell
@@ -95,6 +103,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorf, size: [128, 256]}
+    bottom_surface: {texture: oflrl32, size: [32, 32]}
   - id: door:d30
     opening: open:s79_ring_n__s77_queen
     kind: slide_down
@@ -102,7 +111,9 @@ doors:
     state: closed
     thickness: 128
     speed: 500
-    surface: {texture: hvwl6, size: [128, 256]}
+    surface: {texture: hvwl6, size: [128, 256], offset: [16, -77]}
+    edge_surface: {texture: swhor1dk, size: [64, 64]}
+    top_surface: {texture: swhz3, size: [32, 32]}
     tile: true
     notes: "The original opens this on entering the map once quest bit 1204 is set (event 100) and when the reactor dies with the Ritual held (the supplement): door 30, a block 1008 wide and 1279 high whose top sinks 1273 into the floor (it folds toward the sill)."
   - id: door:d32
@@ -114,6 +125,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorf, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     notes: "Opened by the switch in the south cell (event 31); it has no handler of its own."
   - id: door:d36
     opening: open:s45_passage__s45_cell
@@ -124,6 +136,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorf, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     notes: Toggled by the switch in the closet off the west hall (event 33). From the passage it says The Door Won't Budge (event 21).
   - id: door:d4
     opening: open:s69_top__s3_gallery
@@ -135,6 +148,7 @@ doors:
     speed: 85
     surface: {texture: hvdorc, size: [256, 256]}
     back_surface: {texture: hvwl2a, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     tile: true
     notes: "In the original this door has a handler only on its corridor side (event 4): it cannot be opened from the gallery. A door event cannot be given to one side, so it waits for the stair door (d42), which is on the only other way to the corridor."
   - id: door:d42
@@ -146,6 +160,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorc, size: [256, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
   - id: door:d45
     opening: open:s1_lock__s3_gallery
     kind: slide_left
@@ -155,6 +170,7 @@ doors:
     state: closed
     thickness: 32
     speed: 60
+    edge_surface: {texture: hvtrim1, size: [32, 32]}
     pictures:
       - [{texture: hvdord, size: [256, 256]}, {texture: hvdord, size: [256, 256]}]
     notes: "Doors 45 and 46 of the original: two leaves 256 wide that part in the middle, each folding 250 toward its jamb (only the free edge moves), each with the whole hvdord picture (faces 2086, 2904, 2905, 2906)."
@@ -167,6 +183,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorf, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
     notes: "Original: opens from the tunnel side (event 5); from the chamber it says The Door Won't Budge (event 21). Both sides open it here: the tunnel behind is reached from the south-west pit in the same step."
   - id: door:d6
     opening: open:s37_east_hall__s64_passage
@@ -177,6 +194,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorg, size: [128, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
   - id: door:d7
     opening: open:s51_passage__s50_cell
     kind: slide_up
@@ -186,6 +204,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdorf, size: [128, 256]}
+    bottom_surface: {texture: hvtrim4, size: [32, 32]}
   - id: door:d8
     opening: open:s65_upper__s65_ramp1
     kind: slide_up
@@ -196,6 +215,7 @@ doors:
     speed: 85
     surface: {texture: hvwl5a, size: [128, 256]}
     back_surface: {texture: hvdore, size: [256, 256]}
+    bottom_surface: {texture: hvtrim4, size: [32, 32]}
     tile: true
     notes: "As the original's leaf: the wall's texture (hvwl5a) toward the guard room, a door (hvdore) toward the ramp."
   - id: door:d9
@@ -207,6 +227,7 @@ doors:
     thickness: 32
     speed: 85
     surface: {texture: hvdord, size: [256, 256]}
+    bottom_surface: {texture: hvtrim1, size: [32, 32]}
 movers:
   - id: mover:button16
     room: room:s48_cell
@@ -301,7 +322,7 @@ movers:
     height: 640
     travel: [0, 0, 639]
     speed: 500
-    surface: {texture: hvwl6, size: [128, 256]}
+    surface: {texture: hvwl6, size: [128, 256], offset: [64, -18]}
     parts:
       - {at: [3456, 25286], size: [384, 128], bottom: 512, height: 128}
       - {at: [4224, 25286], size: [384, 128], bottom: 512, height: 128}
@@ -311,16 +332,16 @@ movers:
     room: room:s79_reactor
     at: [4416, 25286]
     size: [2304, 128]
-    height: 640
+    height: 512
     travel: [0, 0, -638]
     speed: 500
-    surface: {texture: hvwl6, size: [128, 256]}
+    surface: {texture: hvwl6, size: [128, 256], offset: [64, -18]}
     top_surface: {texture: hvwl6, size: [128, 256]}
     parts:
-      - {at: [3840, 25286], size: [384, 128], height: 128, top_surface: {texture: hvflord, size: [128, 128]}}
-      - {at: [4608, 25286], size: [384, 128], height: 128, top_surface: {texture: hvflord, size: [128, 128]}}
-      - {at: [5376, 25286], size: [384, 128], height: 128, top_surface: {texture: hvflord, size: [128, 128]}}
-    notes: "The lower half of the north gate (door 51 of the original): a comb from the floor to -1616 with three teeth to -1488 between the upper half's, shut at the start; it sinks into the floor when opened, leaving its teeth standing 128 high (the original's body stops 1 above the floor, here 2, so the teeth stand 130)."
+      - {at: [3840, 25286], size: [384, 128], height: 256, top_surface: {texture: hvflord, size: [128, 128]}}
+      - {at: [4608, 25286], size: [384, 128], height: 256, top_surface: {texture: hvflord, size: [128, 128]}}
+      - {at: [5375.5, 25286], size: [383, 128], height: 256, top_surface: {texture: hvflord, size: [128, 128]}}
+    notes: "The lower half of the north gate (door 51 of the original): a comb from the floor to -1616 with three teeth to -1488 between the upper half's, shut at the start; it sinks into the floor when opened, leaving its teeth standing 128 high (the original's body stops 1 above the floor, here 2, so the teeth stand 130). Round seven: built as a body to -1744 (the upper half's teeth's foot) with three parts 256 high, so no face of one half lies in a face of the other when shut (5 pairs the original does not have); the east part ends at 5567, 1 short of the upper half's end, as the original's comb does."
   - id: mover:hatch_1
     room: room:s4_hall
     at: [767, 8806.5]
@@ -400,7 +421,7 @@ movers:
     height: 1279
     travel: [0, 0, -1281]
     speed: 500
-    surface: {texture: hvwl1a, size: [128, 256]}
+    surface: {texture: hvwl1a, size: [128, 256], offset: [0, -47]}
     top_surface: {texture: hvflord, size: [128, 128]}
   - id: mover:ring_nw
     room: room:s79_reactor
@@ -408,7 +429,7 @@ movers:
     height: 1279
     travel: [0, 0, -1281]
     speed: 500
-    surface: {texture: hvwl1a, size: [128, 256]}
+    surface: {texture: hvwl1a, size: [128, 256], offset: [0, -47]}
     top_surface: {texture: hvflord, size: [128, 128]}
   - id: mover:ring_se
     room: room:s79_reactor
@@ -416,7 +437,7 @@ movers:
     height: 1279
     travel: [0, 0, -1281]
     speed: 500
-    surface: {texture: hvwl1a, size: [128, 256]}
+    surface: {texture: hvwl1a, size: [128, 256], offset: [0, -47]}
     top_surface: {texture: hvflord, size: [128, 128]}
   - id: mover:ring_se_stub
     room: room:s79_reactor
@@ -424,7 +445,7 @@ movers:
     height: 1279
     travel: [0, 0, -1281]
     speed: 500
-    surface: {texture: hvwl1a, size: [128, 256]}
+    surface: {texture: hvwl1a, size: [128, 256], offset: [0, -47]}
     top_surface: {texture: hvflord, size: [128, 128]}
   - id: mover:ring_sw
     room: room:s79_reactor
@@ -432,7 +453,7 @@ movers:
     height: 1279
     travel: [0, 0, -1281]
     speed: 500
-    surface: {texture: hvwl1a, size: [128, 256]}
+    surface: {texture: hvwl1a, size: [128, 256], offset: [0, -47]}
     top_surface: {texture: hvflord, size: [128, 128]}
     notes: "The ring wall round the reactor (door 53 of the original): 128 thick, 1279 high, standing at the start; it sinks into the floor when the map is entered after the reactor is destroyed (event 100). Six convex segments: the four sides and the two stubs beside the steps; the north side is the gate."
   - id: mover:ring_sw_stub
@@ -441,7 +462,7 @@ movers:
     height: 1279
     travel: [0, 0, -1281]
     speed: 500
-    surface: {texture: hvwl1a, size: [128, 256]}
+    surface: {texture: hvwl1a, size: [128, 256], offset: [0, -47]}
     top_surface: {texture: hvflord, size: [128, 128]}
 plates:
   - id: plate:lock_entry
@@ -473,8 +494,8 @@ plates:
     notes: "Water pad in front of door 5 (x -1540 to -1412 in the original); the doorway's wall is 16 nearer."
   - id: plate:pad_keg
     room: room:s73_keg
-    at: [-4440, 7240]
-    size: [236, 236]
+    at: [-4444, 7238]
+    size: [222, 222]
     surface: {texture: orwtr64, size: [64, 64]}
   - id: plate:pad_north_tunnel
     room: room:s30_tunnel
@@ -671,10 +692,7 @@ chests:
   - id: chest:c1
     room: room:s58_cell
     at: [4608, 10144]
-    size: [96, 64, 64]
-    surface: {texture: ch1frntb, size: [64, 64]}
-    end_surface: {texture: ch1side, size: [64, 64]}
-    top_surface: {texture: ch1topb, size: [64, 64]}
+    kind: ch1
     treasure_level: 6
     random_items: 2
   - id: chest:c2
@@ -692,29 +710,23 @@ chests:
   - id: chest:c3
     room: room:s50_cell
     at: [8519, 7593]
-    size: [96, 64, 64]
-    surface: {texture: ch1frntb, size: [64, 64]}
-    end_surface: {texture: ch1side, size: [64, 64]}
-    top_surface: {texture: ch1topb, size: [64, 64]}
+    kind: ch1
+    facing: w
     treasure_level: 6
     random_items: 2
   - id: chest:c4
     room: room:s12_alcove_e
     at: [-2843, 4182]
+    kind: ch1
+    lid: v
     facing: n
-    size: [96, 64, 64]
-    surface: {texture: ch1frntb, size: [64, 64]}
-    end_surface: {texture: ch1side, size: [64, 64]}
-    top_surface: {texture: ch1tpbv, size: [64, 64]}
     treasure_level: 6
     random_items: 2
   - id: chest:c5
     room: room:s34_cave
     at: [-6888, 14460]
-    size: [96, 64, 64]
-    surface: {texture: ch1frntb, size: [64, 64]}
-    end_surface: {texture: ch1side, size: [64, 64]}
-    top_surface: {texture: ch1topb, size: [64, 64]}
+    kind: ch1
+    facing: w
     treasure_level: 6
     random_items: 2
 spawns:

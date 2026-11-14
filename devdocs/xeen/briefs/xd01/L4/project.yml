@@ -22,20 +22,20 @@ map_stats:
     - {monster: Dragonfly, tier: 1, per_marker: [2, 3], weight: 50}
 neighbours:
   - id: exit:vertigo_riverbank
-    to: 7out01.odm
+    to: xeen_x1.odm
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "On Vertigo's riverbank below the warehouse, beside the culvert grate."
-    direction: 180
+    arrival: [-1536, 4900, 620]
+    arrival_hint: "On Vertigo's riverbank in front of the culvert grate (X1 thing:culvert_grate, face at y 5291), facing away from it, south toward Joe's yard."
+    direction: 270
     one_way: true
-    notes: "Stand-in until X1 (Vertigo Meadows) exists: Emerald Island beside the Temple of the Moon's entrance, the only outdoor arrival point measured in a studio project. The culvert grate is lifted from the inside (set:culvert_grate, qbit culvert_grate_open); afterwards X1's riverbank grate is a second way in."
+    notes: "X1 (Vertigo Meadows): 400 in front of the culvert grate's door face, on the bank (ground about 604). The culvert grate is lifted from the inside (set:culvert_grate, qbit culvert_grate_open); afterwards X1's riverbank grate is a second way in."
   - id: exit:vertigo_street
-    to: 7out01.odm
+    to: xeen_x1.odm
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "In Vertigo's warehouse lane, in front of the loading doors of Joe's warehouse, facing away from them."
+    arrival: [-1930, 2918, 640]
+    arrival_hint: "In Vertigo's warehouse lane, in front of the loading doors of Joe's warehouse (X1 thing:warehouse_door, face at x -1530), facing away from them, west."
     direction: 180
-    notes: "Stand-in until X1 exists (as exit:vertigo_riverbank). The lock of the street doors (warehouse key or Perception 3) is in this map: the party arrives on Joe's covered loading dock, outside the doors, and the doors are the map's first event (wiring evt:loading_doors)."
+    notes: "X1 (Vertigo Meadows): 400 west of the warehouse doorway's face, on the lane (ground 640). The lock of the street doors (warehouse key or Perception 3) is in this map: the party arrives on Joe's covered loading dock, outside the doors, and the doors are the map's first event (wiring evt:loading_doors)."
 qbits:
   culvert_grate_open: 110012
   joe_invoice_found: 110010
@@ -45,4 +45,4 @@ items:
   pen_key: 2110
   warehouse_key: 2176
 migrated: [ceiling_level_sides]
-notes: "Xeen design brief, level L4: L3's rooms redrawn with the studio's words of 2026-11-12 (sixteen-sided cistern under a brick dome, pens behind barred gates, the culvert as a tunnel with a cross-section, the loft as a gallery inside the grain hall under a ridged roof, stairs with treads), themes, objects and wiring; a playable map (NOTES.md). Story step M2 (devdocs/xeen/QUESTS.md). The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins, each to be replaced by the Xeen row when it is registered: encounter slot 1 Oozes (Slime 2) is MM7's Rat family (Giant Rat 2), slot 2 Swarms (Doom Bug 2) is the Dragonfly family (Dragonfly 2); the two Breeder Slimes are MM7 Fire Rats (monster 387, the Rat family's C rank: level 6, 21 hit points; no ooze will do: every ooze row of MM6-MM8 is level 12 or more and immune to physical damage); the pen slimes are Giant Rats (385). Items: warehouse_key 12001 is MM6's Store Room Key (2176), pen_key 12003 the plain Key (2110), joes_invoice 12002 MM7's Bill of Sale (1530). Quest bits keep their provisional Xeen numbers (110010-110012). Music is the MM7 dungeon track 18 in place of the name dungeon_light, which the game refuses. Both neighbours point at Emerald Island until X1 exists."
+notes: "Xeen design brief, level L4: L3's rooms redrawn with the studio's words of 2026-11-12 (sixteen-sided cistern under a brick dome, pens behind barred gates, the culvert as a tunnel with a cross-section, the loft as a gallery inside the grain hall under a ridged roof, stairs with treads), themes, objects and wiring; a playable map (NOTES.md). Story step M2 (devdocs/xeen/QUESTS.md). The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins, each to be replaced by the Xeen row when it is registered: encounter slot 1 Oozes (Slime 2) is MM7's Rat family (Giant Rat 2), slot 2 Swarms (Doom Bug 2) is the Dragonfly family (Dragonfly 2); the two Breeder Slimes are MM7 Fire Rats (monster 387, the Rat family's C rank: level 6, 21 hit points; no ooze will do: every ooze row of MM6-MM8 is level 12 or more and immune to physical damage); the pen slimes are Giant Rats (385). Items: warehouse_key 12001 is MM6's Store Room Key (2176), pen_key 12003 the plain Key (2110), joes_invoice 12002 MM7's Bill of Sale (1530). Quest bits keep their provisional Xeen numbers (110010-110012). Music is the MM7 dungeon track 18 in place of the name dungeon_light, which the game refuses. Both neighbours lead to X1 (xeen_x1.odm), each to its own door."

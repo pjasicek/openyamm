@@ -2253,7 +2253,7 @@ rooms:
           - {offset: 32, length: 224, bottom: 0, height: 16, surface: {texture: cttrim3, size: [32, 32]}}
           - {offset: 32, length: 224, bottom: 480, height: 32, surface: {texture: cttrim3, size: [32, 32]}}
     platforms:
-      - {id: platform:podium, at: [21664, -2944], size: [64, 64], rise: 96, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: desktop, size: [128, 64]}, top_slope: {to: 128, toward: south}, notes: "Original faces 4560 to 4564: the lich's podium, 64 square, its desk top (event 34, clicked) sloping from 96 at the north to 128 at the south. A block clicked (round three: a mover that never moved, with a level top)."}
+      - {id: platform:podium, at: [21664, -2944], size: [64, 64], rise: 96, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: desktop, size: [128, 64], offset: [32, 32]}, top_slope: {to: 128, toward: south}, notes: "Original faces 4560 to 4564: the lich's podium, 64 square, its desk top (event 34, clicked) sloping from 96 at the north to 128 at the south. A block clicked (round three: a mover that never moved, with a level top)."}
     notes: "Original sector 193. Wall 7 panel: round three, the original's faces 4358 (an edge strip, the whole height) and 4396. Wall 7 panel: round three, the original's face 4394, a trim strip beside the alcove, 256 high. Round six: the three sarcophagus niches are rooms of their own, 256 high under a CTTRIM5 band (256 to 320) with CTTRIM4 jambs 32 wide and 256 high either side, ctwl2RE at the corners (faces 4352 to 4396); rounds one to five drew the niches up to the ceiling."
   - id: room:s193_a
     name: The lich's study (reached only by teleport)
@@ -3891,6 +3891,9 @@ openings:
     along: 0.5
     width: full
     height: 384
+    threshold: {texture: crdrf2, size: [128, 128]}
+    reveal: {texture: bemsv32c, size: [32, 128]}
+    notes: "Door record 1's doorway: the original's east jamb (face 3856) is BemSV32c, the red strip beside the open leaf; its sill is CrDRf2 (face 4188)."
   - id: open:s156_s156_a
     from: room:s156
     to: room:s156_a

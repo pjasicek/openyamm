@@ -612,3 +612,212 @@ close: every kind of chest and the ladder looked at where a player uses them). T
 retexture), `shots3_try2/`, `shots3_prev/`, `shots3_prev2/`. Showing the change best, each beside its `shots2/` twin:
 `01-dock-arrival`, `06-bay-crates`, `10-hall-from-barn-doors` (the ship-window loft front gone), `08-office-desk`,
 `17-aisle-rules`; `42-outfall-river-grate` shows the sci-fi grate gone.
+
+## Generated textures (2026-11-13)
+
+The "Textures to generate" list above, made by Codex image generation with the family's shipped masters as
+references and installed in `output/studio_play/xeen_root` only (sources, prompts, raw returns, checks:
+`level_generation/textures_xeen/`, its README). Every texture is x4 art (master 4x the size below), cooked like the
+shipped surface textures. The stand-ins are gone from the project; nothing else changed.
+
+| Name | What | Size | Family | Where used |
+|---|---|---|---|---|
+| `xnjoesign` | Joe's sign on three dark planks: JOE THE EXTERMINATOR, ALWAYS FIRST ON THE SCENE, a slime under a boot | 256 x 128 | MM8 Pirate Outpost `t66` wood | `panel:bay_sign` |
+| `xnnotice` | Plank notice board, a yellowed sheet nailed on: JOE THE EXTERMINATOR / PESTS GONE OR YOUR MONEY BACK! / (money not back), two scraps | 128 x 128 | `t66` wood | `panel:notice_board` |
+| `xnheartsgn` | Red-painted plank: MR & MRS WOBBLES, a heart, DO NOT SEPARATE | 128 x 32 | `t66` wood, by the MM6 brick | `panel:heart_sign` (now `fit`) |
+| `xnfeedsgn` | Plank: FEEDING TIME and an arrow down | 128 x 32 | `t66` wood | `panel:feeding_time` (now `fit`) |
+| `xnrules` | Upright plank: WAREHOUSE RULES 1. NO GUNTHER 2. DO NOT FEED THE STOCK 3. DO NOT PULL THE LEVER 4. SEE RULE 1 | 128 x 256 | `t66` wood | `panel:rules` |
+| `xnpestntc` | Paper poster on a plank: PEST OF THE MONTH, a drawn doom bug, THE DOOM BUG | 128 x 256 | `t66` wood | `panel:pest_notice` |
+| `xnkeepout` | Two planks: skull and crossbones, KEEP OUT, THIS MEANS YOU, GUNTHER | 256 x 128 | `t66` wood | `panel:keep_out` |
+| `xnheartgt` | Weathered plank gate with braces, painted red, a big white heart | 128 x 256 | MM6 `d6dorb` / MM8 `gkp103a` | `door:heart_gate` |
+| `xnbugtank` | Glass tank side in an iron frame, green slime and doom bugs behind it | 64 x 128 | MM6 sewer iron, MM7 slime | the six tanks (`fit`) |
+| `xntonics` | Plank shelves of stoppered bottles and jars of green tonic and powder, labels (tiles both ways) | 128 x 256 | MM6 cellar planks (`d1ceil1`), MM7 `7winerack` layout | shipping room east wall |
+| `xnshutter` | Two plank shutters, the right leaf hanging askew on one nail | 256 x 256 | `t66` wood | `panel:shutter` |
+
+The words are the dungeon's own (the panels' texts in wiring.yml; the bay sign follows its clicked text rather than
+L4's "JOE'S EXTERMINATING"), and every sign lettered cleanly, so none fell back to a wordless board. The pictures are
+made at the proportions of the face that shows them and stored squeezed in the power-of-two size, so the face's
+stretch (`fit`) shows them undistorted: the shutter is 2:1 art in a 256 x 256 texture, the tank side 1:1 art in
+64 x 128, the two cellar boards 3:1 art in 128 x 32. The two cellar boards were `scale` 1.5 and 1.25 and showed only
+three quarters of the stand-in; they are `fit` now. Tank sides 30 wide (the tanks' ends) and the cracked tank (48
+high) show the picture squeezed.
+
+Pictures: `output/studio_cal/xd01/textures_gen/before/` (the stand-ins, taken from the play root before the change)
+and `after/` (the same cameras, the play root after it), side by side in `textures_gen/pairs.jpg`. They show the
+signs readable at their places, the heart gate and its board in the cistern, the shutter on the dock. Weaker: the
+tanks read as green slime boxes, the bugs only close up; the tonic rack stands behind the shipping room's crate stack
+(60 units of gap), so `17-tonic-rack` looks down on it from the crates' height, as a player hardly sees it. The
+shutter is a little more orange than the dock's planks.
+
+Playtests on the play root after the change: `playtest.yml` 4 of 4 (110 steps), `playtest_perception.yml` 4 of 4
+(`output/studio_cal/textures_gen_tests/four.out`).
+
+## Third pass: the user's walk (2026-11-13)
+
+The user played the map (from `output/studio_play/xeen_root`) and reported, with positions, that its main rooms were
+cramped and ten things he could not read; his poses are `output/studio_cal/xd01/user_walk1/tour.yml`. This pass makes
+the main rooms bigger and fixes what the project can say. The project before it is in
+`output/studio_cal/xd01/pass3_backup/`; scratch, scripts, roots and pictures in `output/studio_cal/xd01/pass3/`
+(`go.sh` builds against the play root's assets and installs into the private root `root/`, a hard-link copy of the
+play root; `root_before/` is the play root as it stood; `test.sh` runs the playtests).
+
+Scripted (each kept there, each diff read): `shift.py` moved the grain hall and aisle north by 256 and the whole
+cellar and culvert by (+256, +512), every coordinate of every room of the group and of every object in it (pure
+translation; tunnel sections, sizes and heights untouched); `edit_p3.py` redrew the six enlarged rooms and their
+contents, the office's furniture, the tanks, the lever, the nest; `signs_p3.py` turned the signs into message windows;
+`fix_p3.py` and `fix2_p3.py` are the corrections after the build's coplanar check and after the first look in the game.
+The playtests were edited by hand (coordinates, message-window checks, the nest).
+
+### Room sizes (`scale_bands.py`)
+
+| Figure | Before | After | Shipped p25 / median |
+|---|---|---|---|
+| Bigger rooms: upper-quarter room floor area | 0.72 M (10th percentile, below p25) | **1.77 M (53rd)** | 1.06 M / 1.64 M |
+| Largest room | 4.24 M | 4.25 M | 3.68 M / 6.13 M |
+| Typical ceiling height (median of all 26 sectors) | 448 | 448 | 394 / 521 |
+| Taller rooms: upper-quarter height | 544 (44th) | **576 (50th)** | 522 / 570 |
+| Typical doorway width | 256 | 256 | 256 / 256 |
+| Floor area (`metrics`) | 15.1 M | 21.7 M (now inside the S band, 20-35) | |
+
+Per room (sector floor area as the measure counts it, with platform tops; `pass3/sectors_before.txt`,
+`sectors_after.txt`):
+
+| Room | Before | After | What changed |
+|---|---|---|---|
+| Grain hall | 4.24 M, roof to 1,088 | 4.25 M | unchanged, moved north 256 |
+| Loading bay | 1.73 M (1,280 x 1,024, roof 512) | 2.61 M (1,664 x 1,280, roof 640) | four stacks with 256+ aisles, two three crates high; the cart way clear down the middle |
+| Feed store | 0.58 M (672 x 608 past the neck, 448 high) | 2.41 M (1,440 x 1,312, 576 high) | a real store: joists, a pallet of sacks, crates of feed, sacks round the stash door |
+| Cistern | 2.28 M | 2.31 M | unchanged in plan (the pens and their bars as they were); tanks and lever |
+| Shipping room | 0.90 M (1,002 x 802, 448 high) | 2.08 M (1,514 x 1,250, 576 high) | two stacks, the table, two tonic racks, the chute in the new north-east corner |
+| Aisle | 0.89 M (448 wide, 576 to 448) | 2.06 M (896 x 2,048, 704 to 512) | crates at the south end, a stack in the middle to walk round; KEEP OUT in the middle of its north wall |
+| Honeymoon pen | 0.72 M (960 x 672 past the neck) | 1.77 M (1,520 x 1,280, dome to 320) | room to fight the pair and their splits |
+| Joe's office | 0.48 M (640 x 864, 384 high) | 0.90 M (896 x 1,056, 448 high) | bigger, not to the median: an office (below) |
+| Dock, ramp, stairs, landing, pens, stash, culvert | | unchanged | the pens and closets stay small, as the user said |
+
+The upper quarter is the 7th largest of 26 sectors, so seven rooms had to reach the median: the hall, bay, cistern,
+aisle, shipping room, feed store and honeymoon pen. The office was made bigger (0.90 M) but not a 1.6 M office; the
+brief's areas (plan.yml) were the first pass's and are now under the built ones for these rooms (a departure: the
+user's word). The plan is kept: the same rooms in the same order and joins, the cellar under the river wall north of
+the warehouse, the stair from the aisle's north wall; the cellar moved east 256 so the stair comes out of the middle
+of the wider aisle. `oymap solve` opens it in the same six steps as before, all 26 sectors reached; `validate` clean.
+
+### His points, what was done, and the pictures
+
+Pictures: before `pass3/shots_before/` (the play root as he played it, HUD off), after `pass3/shots_after/` and
+`shots_after2/` (the second look after corrections), side by side in `pass3/pairs_1.jpg` to `pairs_4.jpg`; every
+interactive thing before and after `pass3/things_before/contact.png` and `pass3/things_after/contact.png`.
+
+1. **Cramped main rooms**: above. Pictures `11-bay-from-ramp`, `12-bay-ne-corner`, `13-aisle-south`,
+   `15-feed-store`, `16-shipping`, `17-honeymoon`, `14-office-from-door` (pairs 3 and 4).
+2. **A crate suspended**, and at (-441.7, 341.1) "thought this was a chest": the thing at his pose was Joe's
+   strongbox, a block in MM8's chest pictures (`gt002c`, `gt002g`) that did not open. It is now a real chest of the
+   pirate maps' kind (`kind: gt002`, title Chest, 12 gold) in the south-west corner (`01-strongbox-crate`,
+   `01b-strongbox`). No crate in the project stands off its support: every upper crate is whole on the one under it
+   and the hoist crate hangs on a rope that reaches the beam; I did not find a floating crate by the office in the
+   game, and his picture of it is not among the captures. The new stacks were looked at in the game
+   (`12-bay-ne-corner`, `13-aisle-south`, `16-shipping`).
+3. **At (-499.3, 780.7) "thought this was a chest", and signs should open messages**: the tall drawer cabinet
+   (`t1cab`) was a clicked panel with a joke. In the Pirate Outpost and the Abandoned Pirate Keep that cabinet is a
+   chest (titled Chest), so here it is one too: `chest:cabinet`, 128 x 64 x 256 against the north wall as d06 builds
+   it (drawer front one picture tall and wide), title **Cabinet**, holding the pen key, 50 gold and one item
+   (`04b-cabinet`). Every sign and notice (the bay sign, notice board, shutter, ledgers, Pest of the Month, house
+   rules, KEEP OUT, FEEDING TIME, MR & MRS WOBBLES) now opens a **message window** (`message` effect) and shows a
+   hover name (Sign, Notice, Notice board, Shuttered window, Joe's ledgers); the playtests assert each window's text
+   and close it.
+4. **At (-338.5, 514.6) stretched texture, and no idea it was lootable**: the desk was a chest wearing the cabinet's
+   picture stretched over 224 x 72. It is now a plain desk (d06's furniture wood, a pedestal under an overhanging
+   top, the candle on it) that is not a chest; a click shows Joe's bills in a message window (`05-desk`,
+   `shots_after2/02-05-desk`). What it held went to the cabinet.
+5. **At (-480.4, 319.0) "bucket in the air"**: the bucket stands on a plank ledge over the inside of the door, 12
+   over the door's top (`shots_after2/03-06-bucket`). (A decoration's `height` counts from the platform under it;
+   the first try put the bucket into the ceiling.)
+6. **At (2129.9, 5350.8) the Escaton door**: since replaced by the generated `xnheartgt`, a red braced plank gate with a
+   white heart; looked at, it fits the cellar's wood and brick (`07-heart-gate`). Kept.
+7. **At (2294.3, 5548.4) the button**: the studio's default plate `t1swdd` (MM6's red button) became a lever
+   (`kind: lever`, the shipped maps' post and arm that sinks when pulled; MM6's, as in Gharik's Forge and Castle
+   Darkmoor, the cellar's family is MM6 brick and stone), 16 x 64 with a reach of 64 so it reads from the stair, the
+   painted label lifted clear above it (`08-lever`, `shots_after2/05-08b-lever-close`). It also no longer lies over
+   two wall faces (the old plate crossed the footing band).
+8. **At (2642.2, 4561.8) "what are these?"**: the bug tanks now stand on stone plinths 128 high (the shelves had hung
+   on the wall), each with an iron foot, four iron corner posts and an iron lid round the generated glass sides; the
+   cracked one has no lid and shows its slime. Each is clicked: hover name **Bug tank** and a line ("Doom bugs crawl
+   over each other in green slime behind the dirty glass. A label: BREEDING STOCK. DO NOT TAP THE GLASS.")
+   (`09-bug-tanks`, `09b-bug-tanks-close`). Still weak: the glass is an opaque picture under the pool's green light, so
+   from across the cistern they read as framed green boxes; the bugs show only close.
+9. **At (2021.7, 6384.4) "had no idea I should have clicked it"**: the pair's nest (a mound decoration, whose own hover
+   name is "dirt") now has hover name **Nest** and a click: searched once, the rival exterminator's purse, 75 gold
+   (the playtest checks the gold and that it gives it once). The reason to go and click it is visible from the gate:
+   the rival's scroll lies on the straw beside it in the candle-light (`shots_after2/06-10-nest`). What exactly he
+   meant is a guess; the nest was the thing under his cursor.
+10. **Portal clipping at (-435.92, 310.339)** between yaw 1.431 and 1.363: in his pair the right edge of the view
+    (toward the open office door and the counter window) shows wall faces of another depth over the door leaf; my
+    retakes (`02-portal-a`, `03-portal-b` before and after) show the same at the right edge. The office's east side
+    did not change in this pass; the cause is the code agent's.
+
+Also from the walk's rules: every chest's hover name is a container's (Chest, Cabinet, Crate: the invoice crate was
+"Crate marked J. THE EXTERMINATOR, REAR DOOR", the stash chest "Joe's retirement fund"); faces in one plane that
+the project caused are gone (the hall's six posts reached into the tie beams' sides, the store's crossing joists, the
+dock's hoist arm, the new tanks' posts).
+
+### Playtests
+
+On the final build in the private root (`pass3/run/four/result.out`): `playtest.yml` (now 128 steps) four runs of
+four, `playtest_perception.yml` (8 steps) four of four; one earlier run of each on the first build passed too
+(`run/try1/`). New coordinates throughout (hall +256 north, cellar +256 east +512 north, the enlarged rooms' own
+places); the signs are checked as message windows (`assert: dialog` and `close()`); the cabinet is looted for the pen
+key (event 32), the desk's bills read (event 4), the nest searched (event 37). The pair now stand 960 to 1,080 from the
+party when the heart gate opens, so the fight's sweeps reach 1,250 (they reached 1,100); the Fire Rat count stays
+limited to the pen. Nothing depends on what a chest rolls: only the cabinet (the key and one random item) and the
+invoice crate are looted.
+
+Every interactive thing was pictured from where it is used, before and after use (`pass3/things_after/`, 41 things, 107 pictures; `things_before/` 33 things): the lever sinks when pulled, stays down on a second pull and lights the red lamp; the cabinet, strongbox, desk, nest and the six tanks show their hover names. Installed into `output/studio_play/xeen_root` after the four runs (`oymap install ... --build output/studio_cal/xd01/pass3/build`).
+
+### What waits on the studio
+
+- **Sliding leaves against their jambs** (`geometry.coplanar` when open): the barn doors, the street doors and the
+  stash's secret door, as before this pass; door frames are code batch nine's.
+- **Portal clipping in the office** (point 10): the code agent's.
+- **Batch nine's checks** (floating things, stretched pictures, chest hover names, cues on clicked things, signs as
+  message windows, defaults from another world) have not merged; this pass answers them by hand. When they merge, the
+  project should be built again to see whether they still find anything.
+- **Glass**: no see-through face, so the tanks cannot show their bugs from afar; the same as the pens' bars before
+  the movers.
+- The step plate under the office door shows as a clicked panel with no name in `oymap things` (`evt:slime_bucket`):
+  it is stepped on, not clicked.
+
+### What looks worse
+
+- The bay, aisle and stores are bigger with the same number of lanterns plus one each; their far corners are darker
+  (the bay's north-west, the store's west end).
+- The desk is plainer than the old chest-desk with drawers (it had to stop looking like something that opens).
+- The feed store is big for what it holds: sacks, a pallet, two crate stacks; it reads as an empty storeroom.
+
+## Exits to Vertigo (2026-11-13)
+
+Both exits now lead to X1 (`xeen_x1.odm`):
+- `exit:vertigo_street` (the yard gate, evt:lane 12): arrival [-1930, 2918, 640], facing 180 (west), in the warehouse
+  lane in front of X1's warehouse doors (`thing:warehouse_door`, face at x -1530), facing away from them.
+- `exit:vertigo_riverbank` (the culvert sill, evt:river 24): arrival [-1536, 4900, 620], facing 270 (south), on the
+  riverbank in front of X1's culvert grate (`thing:culvert_grate`, face at y 5291), facing away from it.
+
+`playtest.yml` leaves by the river and checks map and position on X1, then walks off along the bank;
+`playtest_perception.yml` now ends by the lane gate, checks map and position and walks off along the lane.
+
+Backup before the change: `output/studio_cal/xd01/exits_backup/`. Build `output/studio_cal/xd01/exits_build/` (against
+`output/studio_play/xeen_root`); only the exit's `evt.MoveToMap` line changed in the built Lua (the .blv and scene are
+byte-equal to the build of the backup). Installed in `xeen_root`. Arrival points were read from X1's build
+(`output/studio_cal/x1/build/export.json`: the doorway models' faces; ground from its height map), 400 units in front of
+the door face, clear of the doorway model, on open ground; the playtest walks off from there. Pictures of every arrival,
+facing out and turned back to the door: `output/studio_cal/x1/exits_pics/sheet.jpg`. On first arrival on X1 from a
+dungeon Mayor Gunther's errand window opens (X1's one-shot timer), as on a new game there.
+
+## The stash barrel (2026-11-14)
+
+One playtest in eight failed at the stash (`playtest.yml:212`): the party stuck in the stash doorway at about
+(840, 4690), jumped, and the walk ended mid-jump at (849, 4531, -305). The cause was the stash's keg (`smlbarel`,
+radius 30) at (876, 4636), 68 inside the doorway on the straight line from the feed store to the chest; whether the
+party slid round it or caught on it depended on a few units of its start (`output/studio_cal/xd01/probe.yml`: 4 of
+24 starts stuck before, 0 of 24 after). Not the door: door 15 slides fully into the wall (x 560-752) and leaves no
+ledge. The keg now stands in the stash's far corner (510, 4380). Rebuilt (`output/studio_cal/xd01/build`) and installed
+in `xeen_root`; playtest 8 of 8 and playtest_perception 4 of 4 (`output/studio_cal/xd01/final/`). Backup of the
+project before the change: `output/studio_cal/xd01/stash_backup/`.

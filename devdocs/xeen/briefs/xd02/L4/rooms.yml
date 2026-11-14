@@ -81,52 +81,55 @@ defaults: {theme: theme:red_workings, ambient: 20}
 rooms:
   - id: room:adit_mouth
     name: Adit mouth
-    outline: [[13312, 3008], [14336, 3008], [14336, 3776], [13312, 3776]]
+    outline: [[13312, 2752], [14592, 2752], [14592, 4032], [13312, 4032]]
     floor: 0
     ceiling: 448
     theme: theme:timbered_room
     walls:
       - wall: west
         panels:
-          - {id: panel:clan_sign, offset: 48, length: 160, bottom: 176, height: 80, surface: {texture: warnsign, size: [256, 128], fit: true}, notes: "The clan's warning: skulls daubed on a board."}
+          - {id: panel:clan_sign, offset: 176, length: 256, bottom: 160, height: 128, surface: {texture: xnclansgn, size: [256, 128], fit: true}, notes: "The clan's warning: skulls daubed on a board."}
     platforms:
-      - {at: [13472, 3024], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [13472, 3760], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [13824, 3024], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [13824, 3760], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [14176, 3024], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [14176, 3760], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [14304, 3104], size: [48, 48], rise: 400, surface: {texture: t3d2abs, size: [32, 256]}, notes: Portal post}
-      - {at: [14304, 3680], size: [48, 48], rise: 400, surface: {texture: t3d2abs, size: [32, 256]}, notes: Portal post}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[13330, 3331], [14300, 3331], [14300, 3341], [13330, 3341]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[13330, 3443], [14300, 3443], [14300, 3453], [13330, 3453]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 144, surface: {texture: ch1topb, size: [64, 64], fit: true}, outline: [[13488, 3594], [13712, 3594], [13712, 3706], [13488, 3706]], top_surface: {texture: ch1topb, size: [64, 64], fit: true}, notes: "An ore cart off the rails by the north wall, where the clan tipped it."}
-      - {rise: 48, surface: {texture: ch004i, size: [64, 64]}, outline: [[13506, 3706], [13554, 3706], [13554, 3722], [13506, 3722]], top_surface: {texture: ch004i, size: [64, 64]}, base: 40}
-      - {rise: 48, surface: {texture: ch004i, size: [64, 64]}, outline: [[13646, 3706], [13694, 3706], [13694, 3722], [13646, 3722]], top_surface: {texture: ch004i, size: [64, 64]}, base: 40}
+      - {at: [13512, 2768], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [13512, 4016], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [13952, 2768], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [13952, 4016], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [14392, 2768], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [14392, 4016], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [14560, 3104], size: [48, 48], rise: 400, surface: {texture: t3d2abs, size: [32, 256]}, notes: Portal post}
+      - {at: [14560, 3680], size: [48, 48], rise: 400, surface: {texture: t3d2abs, size: [32, 256]}, notes: Portal post}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[13330, 3331], [14556, 3331], [14556, 3341], [13330, 3341]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[13330, 3443], [14556, 3443], [14556, 3453], [13330, 3453]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {at: [13600, 3900], size: [160, 80], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
+      - {at: [13600, 3900], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: An ore cart the clan pushed off the rails against the north wall.}
+      - {at: [13540, 3834], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [13660, 3834], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [13540, 3966], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [13660, 3966], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
     beams:
-      - path: [[13472, 3008], [13472, 3776]]
+      - path: [[13512, 2752], [13512, 4032]]
         width: 32
         depth: 32
         bottom: 384
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[13824, 3008], [13824, 3776]]
+      - path: [[13952, 2752], [13952, 4032]]
         width: 32
         depth: 32
         bottom: 384
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[14176, 3008], [14176, 3776]]
+      - path: [[14392, 2752], [14392, 4032]]
         width: 32
         depth: 32
         bottom: 384
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[14304, 3008], [14304, 3776]]
+      - path: [[14560, 2752], [14560, 4032]]
         width: 48
         depth: 48
         bottom: 400
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Portal lintel
     ambient: 8
-    notes: "The timbered portal: daylight through the east wall (the X1 exit face, sky behind it), three timber sets of dark posts and cap beams under plank lagging, rails from the party's feet west down the drift, an ore cart at the rail head. Level (L3's 64 fall is in the haul drift)."
+    notes: "The timbered portal hall, 1280 square: daylight through the east wall (the X1 exit face, sky behind it), three timber sets of dark posts and cap beams under plank lagging, rails from the party's feet west to the drift, an ore cart tipped against the north wall. Level (L3's 64 fall is in the haul drift)."
   - id: room:blue_grotto
     name: Blue grotto
     outline: [[2944, 768], [2944, 1216], [2688, 1408], [2304, 1408], [2048, 1216], [1984, 960], [2112, 704], [2432, 576], [2752, 576]]
@@ -135,13 +138,13 @@ rooms:
     ceiling: -320
     theme: theme:cave
     platforms:
-      - {id: platform:blue_pool, rise: 28, surface: {texture: crstont, size: [256, 256]}, outline: [[2744, 808], [2744, 1155], [2556, 1272], [2308, 1272], [2152, 1146], [2120, 960], [2214, 788], [2434, 708], [2636, 708]], top_surface: {texture: 6wtrtyl, size: [128, 128]}, notes: The blue pool's water (clicked).}
+      - {id: platform:blue_pool, rise: 28, surface: {texture: xnbasblu, size: [128, 128]}, outline: [[2744, 808], [2744, 1155], [2556, 1272], [2308, 1272], [2152, 1146], [2120, 960], [2214, 788], [2434, 708], [2636, 708]], top_surface: {texture: 6wtrtyl, size: [128, 128]}, notes: The blue pool's water (clicked).}
     levels:
       - id: level:blue_pool
         outline: [[2752, 800], [2752, 1160], [2560, 1280], [2304, 1280], [2144, 1150], [2112, 960], [2208, 780], [2432, 700], [2640, 700]]
         floor: -896
-        edge: {texture: crstont, size: [256, 256]}
-        surface: {texture: crstont, size: [256, 256]}
+        edge: {texture: xnbasblu, size: [128, 128]}
+        surface: {texture: xnbasblu, size: [128, 128]}
     ambient: 24
     notes: "Round grotto behind the web wall, its floor nearly all a shallow pool of glowing blue water (sunk 32), a rim of rock at the web wall."
   - id: room:bunk_cut
@@ -216,12 +219,12 @@ rooms:
       - {at: [11424, 5072], size: [40, 40], rise: 1561, surface: {texture: t3d2abs, size: [32, 256]}, notes: Trestle leg}
       - {at: [11424, 5296], size: [40, 40], rise: 1561, surface: {texture: t3d2abs, size: [32, 256]}, notes: Trestle leg}
     beams:
-      - path: [[9888, 5052], [9888, 5316]]
+      - path: [[9888, 5092], [9888, 5276]]
         width: 24
         depth: 40
         bottom: -488
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[9888, 5052], [9888, 5316]]
+      - path: [[9888, 5092], [9888, 5276]]
         width: 24
         depth: 32
         bottom: -1008
@@ -238,12 +241,12 @@ rooms:
         bottom: -968
         bottom_end: -528
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[10272, 5052], [10272, 5316]]
+      - path: [[10272, 5092], [10272, 5276]]
         width: 24
         depth: 40
         bottom: -434
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[10272, 5052], [10272, 5316]]
+      - path: [[10272, 5092], [10272, 5276]]
         width: 24
         depth: 32
         bottom: -954
@@ -260,12 +263,12 @@ rooms:
         bottom: -914
         bottom_end: -474
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[10656, 5052], [10656, 5316]]
+      - path: [[10656, 5092], [10656, 5276]]
         width: 24
         depth: 40
         bottom: -379
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[10656, 5052], [10656, 5316]]
+      - path: [[10656, 5092], [10656, 5276]]
         width: 24
         depth: 32
         bottom: -899
@@ -282,12 +285,12 @@ rooms:
         bottom: -859
         bottom_end: -419
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[11040, 5052], [11040, 5316]]
+      - path: [[11040, 5092], [11040, 5276]]
         width: 24
         depth: 40
         bottom: -325
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[11040, 5052], [11040, 5316]]
+      - path: [[11040, 5092], [11040, 5276]]
         width: 24
         depth: 32
         bottom: -845
@@ -304,12 +307,12 @@ rooms:
         bottom: -805
         bottom_end: -365
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[11424, 5052], [11424, 5316]]
+      - path: [[11424, 5092], [11424, 5276]]
         width: 24
         depth: 40
         bottom: -271
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[11424, 5052], [11424, 5316]]
+      - path: [[11424, 5092], [11424, 5276]]
         width: 24
         depth: 32
         bottom: -791
@@ -345,30 +348,30 @@ rooms:
   - id: room:chute_1
     name: Ore chute 1
     space: room:sorting_floor
-    outline: [[12640, 6784], [12896, 6784], [12896, 7040], [12640, 7040]]
+    outline: [[12640, 6976], [12896, 6976], [12896, 7232], [12640, 7232]]
     floor: 192
     ceiling: 960
     theme: theme:red_workings
     ambient: 28
-    notes: "The mouth of an ore chute, a black shaft 384 up the wall; bats roost in it."
+    notes: "The mouth of an ore chute, a black shaft 384 up the wall. Nothing spawns in it: bats placed here (pass 2) stayed in it, out of the party's reach."
   - id: room:chute_2
     name: Ore chute 2
     space: room:sorting_floor
-    outline: [[12960, 6784], [13216, 6784], [13216, 7040], [12960, 7040]]
+    outline: [[12960, 6976], [13216, 6976], [13216, 7232], [12960, 7232]]
     floor: 192
     ceiling: 960
     theme: theme:red_workings
     ambient: 28
-    notes: "The mouth of an ore chute, a black shaft 384 up the wall; bats roost in it."
+    notes: "The mouth of an ore chute, a black shaft 384 up the wall. Nothing spawns in it: bats placed here (pass 2) stayed in it, out of the party's reach."
   - id: room:chute_3
     name: Ore chute 3
     space: room:sorting_floor
-    outline: [[13280, 6784], [13536, 6784], [13536, 7040], [13280, 7040]]
+    outline: [[13280, 6976], [13536, 6976], [13536, 7232], [13280, 7232]]
     floor: 192
     ceiling: 960
     theme: theme:red_workings
     ambient: 28
-    notes: "The mouth of an ore chute, a black shaft 384 up the wall; bats roost in it."
+    notes: "The mouth of an ore chute, a black shaft 384 up the wall. Nothing spawns in it: bats placed here (pass 2) stayed in it, out of the party's reach."
   - id: room:collapsed_adit
     name: Collapsed west adit
     outline: [[2432, 4960], [3456, 4960], [3456, 5408], [2432, 5408]]
@@ -380,9 +383,8 @@ rooms:
       - {at: [3300, 5392], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [3000, 4976], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [3000, 5392], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {id: platform:winch, at: [2880, 5344], size: [160, 64], rise: 64, surface: {texture: t3d2abe, size: [256, 32]}, end_surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: d2ceil2, size: [256, 256]}, base: 48, notes: The winch's drum on its frame (clicked).}
-      - {at: [2788, 5344], size: [24, 24], rise: 128, surface: {texture: t3d2abs, size: [32, 256]}, notes: Winch frame}
-      - {at: [2972, 5344], size: [24, 24], rise: 128, surface: {texture: t3d2abs, size: [32, 256]}, notes: Winch frame}
+      - {id: platform:winch, rise: 80, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[2972, 5321], [2941, 5352], [2899, 5352], [2868, 5321], [2868, 5279], [2899, 5248], [2941, 5248], [2972, 5279]], top_surface: {texture: d2ceil2, size: [256, 256]}, notes: "The winch: a capstan drum of dark timber, its rope made fast round the fall's props (clicked)."}
+      - {rise: 28, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[2950, 5312], [2932, 5330], [2908, 5330], [2890, 5312], [2890, 5288], [2908, 5270], [2932, 5270], [2950, 5288]], top_surface: {texture: xnrustirn, size: [64, 64]}, base: 80, notes: The capstan's iron head}
     beams:
       - path: [[3300, 4960], [3300, 5408]]
         width: 32
@@ -394,8 +396,20 @@ rooms:
         depth: 32
         bottom: 640
         surface: {texture: t3d2abe, size: [256, 32]}
+      - path: [[2830, 5300], [3010, 5300]]
+        width: 12
+        depth: 12
+        bottom: 340
+        surface: {texture: t3d2abe, size: [256, 32]}
+        notes: Capstan bar
+      - path: [[2920, 5210], [2920, 5390]]
+        width: 12
+        depth: 12
+        bottom: 348
+        surface: {texture: t3d2abe, size: [256, 32]}
+        notes: Capstan bar
     ambient: 22
-    notes: "The old west adit, 1024 long and 448 wide: the fall fills its west end to the roof (a mover that the winch sends down an ore chute under the floor); the winch on its frame in front of the fall; the X4 exit face is the west wall behind the fall."
+    notes: "The old west adit, 1024 long and 448 wide: the fall fills its west end to the roof (a mover that the winch sends down an ore chute under the floor); the winch (a capstan) in front of the fall; the X4 exit face is the west wall behind the fall."
   - id: room:crawl
     name: Low crawl
     space: room:spider_galleries
@@ -430,60 +444,73 @@ rooms:
     notes: A rock-cut way 960 long falling 64 north-west from the stope floor to the Deep Line station.
   - id: room:deep_station
     name: Deep Line station
-    outline: [[4422, 4214], [4874, 4666], [4682, 4896], [3968, 4896], [3776, 4608], [3840, 4288], [4160, 4160]]
+    outline: [[4422, 4214], [4874, 4666], [4682, 4896], [3968, 4896], [3776, 4608], [3840, 4288], [3648, 3760], [3776, 3216], [4320, 3040], [4776, 3296], [4840, 3860]]
     floor: -1216
     ceiling: -768
     theme: theme:rock_tunnel
     platforms:
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[3860, 4387], [4560, 4387], [4560, 4397], [3860, 4397]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[3860, 4499], [4560, 4499], [4560, 4509], [3860, 4509]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {at: [3928, 4448], size: [48, 288], rise: 56, surface: {texture: ch004i, size: [64, 64]}, top_surface: {texture: ch004i, size: [64, 64]}, notes: The buffer stop before the Deep Line}
-      - {rise: 72, surface: {texture: ch1topb, size: [64, 64], fit: true}, outline: [[3948, 4376], [4172, 4376], [4172, 4520], [3948, 4520]], top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, notes: "The Deep Line cart, chained to its brake."}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[3964, 4378], [4012, 4378], [4012, 4394], [3964, 4394]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[3964, 4502], [4012, 4502], [4012, 4518], [3964, 4518]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[4108, 4378], [4156, 4378], [4156, 4394], [4108, 4394]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[4108, 4502], [4156, 4502], [4156, 4518], [4108, 4518]], top_surface: {texture: ch004i, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[3860, 4387], [4560, 4387], [4560, 4397], [3860, 4397]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[3860, 4499], [4560, 4499], [4560, 4509], [3860, 4509]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {at: [3928, 4448], size: [48, 288], rise: 56, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: The buffer stop before the Deep Line}
+      - {at: [4060, 4448], size: [160, 80], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
+      - {id: platform:deep_cart, at: [4060, 4448], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "The Deep Line cart, chained to its brake; clicked, it rides down the Deep Line once the brake is off (wiring evt:deep_cart)."}
+      - {at: [4000, 4382], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [4120, 4382], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [4000, 4514], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [4120, 4514], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[4000, 3420], [4010, 3420], [4380, 4330], [4370, 4330]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Spur rail into the bay}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[4104, 3378], [4114, 3378], [4484, 4288], [4474, 4288]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Spur rail into the bay}
+      - {rise: 0, surface: {texture: crdrf1, size: [128, 128]}, outline: [[4380, 3200], [4640, 3330], [4700, 3560], [4520, 3600], [4330, 3420]], top_surface: {texture: crdrf1, size: [128, 128]}, top_heights: [24, 40, 64, 48, 32], notes: Spoil heap in the bay}
+      - {at: [4239, 4856], size: [48, 48], rise: 96, surface: {texture: t3d2abs, size: [32, 256]}, top_surface: {texture: t3d2abs, size: [32, 256]}, notes: The brake's iron-capped post}
+      - {id: platform:brake_wheel, rise: 10, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[4269, 4868], [4251, 4886], [4227, 4886], [4209, 4868], [4209, 4844], [4227, 4826], [4251, 4826], [4269, 4844]], top_surface: {texture: xnrustirn, size: [64, 64]}, base: 96, notes: "The Deep Line's brake: an iron hand wheel on its post (clicked), the chain padlocked to it."}
+      - {at: [4257, 4874], size: [8, 8], rise: 16, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 106, notes: A handle on the brake wheel's rim}
+      - {at: [4221, 4874], size: [8, 8], rise: 16, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 106, notes: A handle on the brake wheel's rim}
+      - {at: [4221, 4838], size: [8, 8], rise: 16, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 106, notes: A handle on the brake wheel's rim}
+      - {at: [4257, 4838], size: [8, 8], rise: 16, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 106, notes: A handle on the brake wheel's rim}
     ambient: 20
-    notes: "Rock-cut station about 1100 by 736, 448 high; rails run west to the buffer stop before the Deep Line's mouth (the XD-03 exit face in the west wall); the chained cart on them, the brake wheel on the north wall."
+    notes: "Rock-cut station 1230 by 1860, 448 high: rails run west along its north side to the buffer stop before the Deep Line's mouth (the XD-03 exit face behind it), the chained cart on them, the brake wheel on its post by the north wall; south of the rails the old marshalling bay with a spur of rails, a cart and spoil."
   - id: room:dwarf_shrine
     name: Red Dwarf chapel
-    outline: [[9152, 2871], [9152, 3401], [8777, 3776], [8247, 3776], [7872, 3401], [7872, 2871], [8247, 2496], [8777, 2496]]
+    outline: [[9280, 2645], [9280, 3307], [8868, 3776], [8284, 3776], [7872, 3307], [7872, 2645], [8284, 2176], [8868, 2176]]
     floor: -448
-    ceiling: 64
+    ceiling: 128
     theme: theme:dwarf_chapel
+    walls:
+      - wall: 6
+        panels:
+          - {id: panel:chapel_tablet, at: centre, length: 256, bottom: 144, height: 128, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "The Red Dwarves' tablet: a bronze plaque of runes set in the south wall over its ledge, facing the door."}
     pillars:
-      - {at: [8882, 3289], size: [96, 96], facing: 22.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8665, 3506], size: [96, 96], facing: 67.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8359, 3506], size: [96, 96], facing: 112.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8142, 3289], size: [96, 96], facing: 157.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8142, 2983], size: [96, 96], facing: 202.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8359, 2766], size: [96, 96], facing: 247.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8665, 2766], size: [96, 96], facing: 292.5, surface: {texture: d7trim8, size: [64, 64]}}
-      - {at: [8882, 2983], size: [96, 96], facing: 337.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8983, 3167], size: [96, 96], facing: 22.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8744, 3438], size: [96, 96], facing: 67.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8408, 3438], size: [96, 96], facing: 112.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8169, 3167], size: [96, 96], facing: 157.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8169, 2785], size: [96, 96], facing: 202.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8408, 2514], size: [96, 96], facing: 247.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8744, 2514], size: [96, 96], facing: 292.5, surface: {texture: d7trim8, size: [64, 64]}}
+      - {at: [8983, 2785], size: [96, 96], facing: 337.5, surface: {texture: d7trim8, size: [64, 64]}}
     platforms:
-      - {id: platform:green_pool, rise: 28, surface: {texture: d7trim8, size: [64, 64]}, outline: [[8667, 3200], [8576, 3291], [8448, 3291], [8357, 3200], [8357, 3072], [8448, 2981], [8576, 2981], [8667, 3072]], top_surface: {texture: 7slimywtr, size: [128, 128]}, notes: The green pool's water (clicked to drink).}
-      - {at: [8512, 2544], size: [288, 48], rise: 112, surface: {texture: d7trim8, size: [64, 64]}, end_surface: {texture: d7trim8, size: [64, 64]}, top_surface: {texture: d7trim8, size: [64, 64]}, notes: The tablet's plinth}
-      - {id: platform:chapel_tablet, at: [8512, 2540], size: [256, 32], rise: 128, surface: {texture: sign128, size: [256, 128], fit: true}, end_surface: {texture: d7trim8, size: [64, 64]}, top_surface: {texture: d7trim8, size: [64, 64]}, base: 112, notes: "The Red Dwarves' tablet on its plinth against the south wall: a bronze plaque of runes."}
-      - {at: [8512, 2600], size: [320, 72], rise: 16, surface: {texture: d7trim8, size: [64, 64]}, top_surface: {texture: d7flor4, size: [128, 128]}, notes: The tablet's step}
+      - {id: platform:green_pool, rise: 28, surface: {texture: xnbasgrn, size: [128, 128]}, outline: [[8731, 3040], [8640, 3131], [8512, 3131], [8421, 3040], [8421, 2912], [8512, 2821], [8640, 2821], [8731, 2912]], top_surface: {texture: 7slimywtr, size: [128, 128]}, notes: The green pool's water (clicked to drink).}
+      - {rise: 112, surface: {texture: d7trim8, size: [64, 64]}, outline: [[8416, 2180], [8736, 2180], [8736, 2228], [8416, 2228]], top_surface: {texture: d7trim8, size: [64, 64]}, notes: The tablet's ledge of dressed stone against the south wall}
+      - {rise: 16, surface: {texture: d7trim8, size: [64, 64]}, outline: [[8400, 2228], [8752, 2228], [8752, 2300], [8400, 2300]], top_surface: {texture: d7flor4, size: [128, 128]}, notes: The step before the tablet}
     levels:
       - id: level:green_pool
-        outline: [[8675, 3203], [8579, 3299], [8445, 3299], [8349, 3203], [8349, 3069], [8445, 2973], [8579, 2973], [8675, 3069]]
+        outline: [[8739, 3043], [8643, 3139], [8509, 3139], [8413, 3043], [8413, 2909], [8509, 2813], [8643, 2813], [8739, 2909]]
         floor: -480
-        edge: {texture: d7trim8, size: [64, 64]}
-        surface: {texture: d7trim8, size: [64, 64]}
+        edge: {texture: xnbasgrn, size: [128, 128]}
+        surface: {texture: xnbasgrn, size: [128, 128]}
     ceiling_levels:
-      - outline: [[8789, 3251], [8627, 3413], [8397, 3413], [8235, 3251], [8235, 3021], [8397, 2859], [8627, 2859], [8789, 3021]]
-        ceiling: 352
+      - outline: [[8853, 3091], [8691, 3253], [8461, 3253], [8299, 3091], [8299, 2861], [8461, 2699], [8691, 2699], [8853, 2861]]
+        ceiling: 416
         top_scale: 0.35
         edge: {texture: d7trim8, size: [64, 64]}
         surface: {texture: d7ceil2, size: [128, 128]}
     parapets:
-      - path: [[8693, 3211], [8587, 3317], [8437, 3317], [8331, 3211], [8331, 3061], [8437, 2955], [8587, 2955], [8693, 3061], [8693, 3211]]
+      - path: [[8757, 3051], [8651, 3157], [8501, 3157], [8395, 3051], [8395, 2901], [8501, 2795], [8651, 2795], [8757, 2901], [8757, 3051]]
         height: 24
         thickness: 20
         surface: {texture: d7trim8, size: [64, 64]}
     ambient: 12
-    notes: "Octagon 1280 across, 512 high to its flat ring, a stone lantern over the pool rising to 800; eight dressed pillars on a ring 400 out; the green pool sunk 32 in the middle behind a kerb (its water a platform 4 under the floor, clicked); the tablet against the south wall facing the door."
+    notes: "Octagon 1408 by 1600, 576 high to its flat ring, a stone lantern over the pool rising to 864; eight dressed pillars on a ring round the pool; the green pool sunk 32 in the middle behind a kerb (its water a platform 4 under the floor, clicked); the tablet against the south wall facing the door."
   - id: room:east_landing
     name: Buffer landing
     space: room:east_line
@@ -502,8 +529,8 @@ rooms:
     ceiling: -40
     theme: theme:drowned_line
     platforms:
-      - {rise: 8, surface: {texture: ch004i, size: [64, 64]}, outline: [[9207, 4405], [10775, 2837], [10782, 2844], [9214, 4412]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 8, surface: {texture: ch004i, size: [64, 64]}, outline: [[9286, 4484], [10854, 2916], [10861, 2923], [9293, 4491]], top_surface: {texture: ch004i, size: [64, 64]}}
+      - {rise: 8, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[9207, 4405], [10775, 2837], [10782, 2844], [9214, 4412]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 8, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[9286, 4484], [10854, 2916], [10861, 2923], [9293, 4491]], top_surface: {texture: xnrustirn, size: [64, 64]}}
     ambient: 22
     notes: "The east line: a straight drowned rail tunnel 2260 long running south-east from the Turntable's gate to the buffer landing, its floor black water 40 under the gate sills with the rails just showing; the cart runs it (objects.yml mover:east_cart). L3's incline and drowned stretch in one straight room: a mover runs in one straight line."
   - id: room:flooded_working
@@ -519,7 +546,7 @@ rooms:
       - {surface: {texture: crstont, size: [256, 256]}, outline: [[11880, 1640], [12160, 1600], [12220, 1760], [12000, 1850], [11860, 1760]]}
     platforms:
       - {at: [10912, 1648], size: [128, 608], rise: 24, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Plank walkway on trestles}
-      - {at: [11744, 1408], size: [1696, 128], rise: 24, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Plank walkway to the dry hump}
+      - {at: [11784, 1408], size: [1616, 128], rise: 24, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Plank walkway to the dry hump}
       - {at: [10912, 1072], size: [128, 544], rise: 24, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Plank walkway south}
       - {at: [11400, 864], size: [848, 128], rise: 24, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Plank walkway along the south shore}
     ambient: 22
@@ -591,10 +618,12 @@ rooms:
     ceiling: 224
     theme: theme:dwarf_vault
     platforms:
-      - {at: [13800, 6400], size: [96, 96], rise: 40, surface: {texture: cbedsqr, size: [128, 128]}, top_surface: {texture: cbedsqr, size: [128, 128]}, notes: A stool fallen against the wall}
-      - {at: [14150, 6000], size: [96, 64], rise: 192, surface: {texture: cbedsqr, size: [128, 128]}, top_surface: {texture: cbedsqr, size: [128, 128]}, notes: An empty pay rack}
+      - {rise: 12, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[13896, 5952], [14104, 5952], [14104, 6000], [13896, 6000]], top_surface: {texture: d2ceil2, size: [256, 256]}, base: 56, notes: "The empty pay rack's lower shelf, against the south wall (pass 3: the rack was a 192-high orange slab and the stool a low one; the user asked what they were)."}
+      - {rise: 12, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[13896, 5952], [14104, 5952], [14104, 6000], [13896, 6000]], top_surface: {texture: d2ceil2, size: [256, 256]}, base: 128, notes: The empty pay rack's upper shelf}
+      - {at: [13916, 5972], size: [24, 24], rise: 176, surface: {texture: t3d2abs, size: [32, 256]}, top_surface: {texture: t3d2abs, size: [32, 256]}, notes: The pay rack's post}
+      - {at: [14084, 5972], size: [24, 24], rise: 176, surface: {texture: t3d2abs, size: [32, 256]}, top_surface: {texture: t3d2abs, size: [32, 256]}, notes: The pay rack's post}
     ambient: 22
-    notes: "512 square vault one 32 step up from the sorting floor, behind a dry-stone wall that sinks (a secret door)."
+    notes: "512 square vault one 32 step up from the sorting floor, behind a dry-stone wall that sinks (a secret door): the payroll chest and an empty timber pay rack of two shelves against the south wall (the fallen stool, a block that read as nothing, is gone)."
   - id: room:gold_hump
     name: Dry hump
     space: room:flooded_working
@@ -603,13 +632,13 @@ rooms:
     ceiling: -224
     theme: theme:cave
     platforms:
-      - {id: platform:gold_pool, rise: 28, surface: {texture: crstont, size: [256, 256]}, outline: [[13168, 1408], [13137, 1502], [13057, 1560], [12959, 1560], [12879, 1502], [12848, 1408], [12879, 1314], [12959, 1256], [13057, 1256], [13137, 1314]], top_surface: {texture: orertlga, size: [256, 256]}, notes: The gold pool's water (clicked to drink).}
+      - {id: platform:gold_pool, rise: 28, surface: {texture: xnbasgld, size: [128, 128]}, outline: [[13168, 1408], [13137, 1502], [13057, 1560], [12959, 1560], [12879, 1502], [12848, 1408], [12879, 1314], [12959, 1256], [13057, 1256], [13137, 1314]], top_surface: {texture: xngoldwtr, size: [128, 128], liquid: liquid}, notes: The gold pool's water (clicked to drink).}
     levels:
       - id: level:gold_pool
         outline: [[13176, 1408], [13144, 1507], [13060, 1568], [12956, 1568], [12872, 1507], [12840, 1408], [12872, 1309], [12956, 1248], [13060, 1248], [13144, 1309]]
         floor: -640
-        edge: {texture: crstont, size: [256, 256]}
-        surface: {texture: crstont, size: [256, 256]}
+        edge: {texture: xnbasgld, size: [128, 128]}
+        surface: {texture: xnbasgld, size: [128, 128]}
     ambient: 24
     notes: "The dry hump: a rock shelf one step (32) out of the flood, the gold pool sunk 32 in it."
   - id: room:lamp_room
@@ -619,10 +648,10 @@ rooms:
     ceiling: 192
     theme: theme:timbered_room
     platforms:
-      - {id: platform:lamp_rack, rise: 12, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[12400, 3904], [12464, 3904], [12464, 4544], [12400, 4544]], top_surface: {texture: d2ceil2, size: [256, 256]}, base: 120, notes: "The lamp rack's shelf along the long east wall; the miners' lamps hang over it."}
-      - {at: [12432, 3920], size: [24, 24], rise: 132, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12432, 4528], size: [24, 24], rise: 132, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12432, 4224], size: [24, 24], rise: 132, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {id: platform:lamp_rack, rise: 12, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[12400, 3904], [12480, 3904], [12480, 4544], [12400, 4544]], top_surface: {texture: d2ceil2, size: [256, 256]}, base: 120, notes: "The lamp rack's shelf along the long east wall; the miners' lamps hang over it."}
+      - {at: [12432, 3920], size: [24, 24], rise: 120, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12432, 4528], size: [24, 24], rise: 120, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12432, 4224], size: [24, 24], rise: 120, surface: {texture: t3d2abs, size: [32, 256]}}
     ambient: 18
     notes: "The wedge: the slanted west wall is the short side, the east wall the long one with the lamp rack. 384 high; a 128 wall with a plank door to the Top Station."
   - id: room:main_drift
@@ -633,14 +662,14 @@ rooms:
     ceiling: 448
     theme: theme:timbered_tunnel
     platforms:
-      - {at: [13040, 3216], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [13040, 3568], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12560, 3760], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12912, 3760], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12560, 4120], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12912, 4120], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12560, 4480], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {at: [12912, 4480], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [13040, 3216], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [13040, 3568], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12560, 3760], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12912, 3760], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12560, 4120], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12912, 4120], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12560, 4480], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [12912, 4480], size: [36, 36], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
     beams:
       - path: [[13040, 3200], [13040, 3584]]
         width: 32
@@ -722,13 +751,13 @@ rooms:
     ceiling: -640
     theme: theme:cave
     platforms:
-      - {id: platform:red_pool, rise: 28, surface: {texture: crstont, size: [256, 256]}, outline: [[6088, 4488], [6328, 4488], [6390, 4580], [6208, 4692], [6026, 4580]], top_surface: {texture: lavatyl, size: [128, 128]}, notes: "The red pool's water (clicked): drawn by the lava shader, without the lava flag."}
+      - {id: platform:red_pool, rise: 28, surface: {texture: xnbasred, size: [128, 128]}, outline: [[6088, 4488], [6328, 4488], [6390, 4580], [6208, 4692], [6026, 4580]], top_surface: {texture: lavatyl, size: [128, 128], liquid: liquid}, notes: "The red pool's water (clicked): drawn by the lava shader, without the lava flag."}
     levels:
       - id: level:red_pool
         outline: [[6080, 4480], [6336, 4480], [6400, 4580], [6208, 4700], [6016, 4580]]
         floor: -1216
-        edge: {texture: crstont, size: [256, 256]}
-        surface: {texture: crstont, size: [256, 256]}
+        edge: {texture: xnbasred, size: [128, 128]}
+        surface: {texture: xnbasred, size: [128, 128]}
     ambient: 26
     notes: "Teardrop grotto one step (32) below the stope floor off its north side; the red pool sunk 32 in its point."
   - id: room:repair_niche
@@ -740,48 +769,49 @@ rooms:
     theme: theme:timbered_room
     platforms:
       - {at: [5504, 5720], size: [384, 96], rise: 56, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: The wheelwright bench}
-      - {rise: 72, surface: {texture: ch1topb, size: [64, 64], fit: true}, outline: [[5308, 5488], [5532, 5488], [5532, 5632], [5308, 5632]], top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, notes: "A cart up on blocks, one wheel off."}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[5324, 5490], [5372, 5490], [5372, 5506], [5324, 5506]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[5324, 5614], [5372, 5614], [5372, 5630], [5324, 5630]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[5468, 5490], [5516, 5490], [5516, 5506], [5468, 5506]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[5468, 5614], [5516, 5614], [5516, 5630], [5468, 5630]], top_surface: {texture: ch004i, size: [64, 64]}}
+      - {at: [5368, 5560], size: [64, 96], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: A block under the cart}
+      - {at: [5472, 5560], size: [64, 96], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: A block under the cart}
+      - {at: [5420, 5560], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "A cart up on blocks, one wheel off."}
+      - {at: [5360, 5494], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5480, 5494], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5360, 5626], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
     ambient: 24
     notes: "Side niche 512 by 384 where carts were mended; the spiders' den of the line."
   - id: room:sorting_floor
     name: Sorting floor
-    outline: [[12160, 5696], [13568, 5696], [13568, 6720], [12544, 6720]]
+    outline: [[12160, 5696], [13568, 5696], [13568, 6912], [12616, 6912]]
     floor: -192
     ceiling: 576
     theme: theme:red_workings
     walls:
       - wall: 1
         panels:
-          - {id: panel:chalk_mark, offset: 397, length: 128, bottom: 288, height: 64, surface: {texture: runeeyvlij, size: [64, 64], fit: true}, notes: An old Red Dwarf chalk mark over the dry-stone wall.}
+          - {id: panel:chalk_mark, offset: 397, length: 112, bottom: 256, height: 112, surface: {texture: xnchalk, size: [64, 64], fit: true}, notes: An old Red Dwarf chalk mark over the dry-stone wall.}
     platforms:
       - {at: [12864, 6016], size: [512, 96], rise: 48, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Sorting table}
       - {at: [13056, 6400], size: [512, 96], rise: 48, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Sorting table}
-      - {rise: 24, surface: {texture: crdrf1, size: [128, 128]}, outline: [[12608, 6560], [12800, 6560], [12800, 6656], [12608, 6656]], top_surface: {texture: crdrf1, size: [128, 128]}, notes: Spilled ore under the first chute.}
+      - {rise: 24, surface: {texture: crdrf1, size: [128, 128]}, outline: [[12608, 6752], [12800, 6752], [12800, 6848], [12608, 6848]], top_surface: {texture: crdrf1, size: [128, 128]}, notes: Spilled ore under the first chute.}
     beams:
-      - path: [[12544, 6720], [13568, 6720]]
+      - path: [[12616, 6896], [13568, 6896]]
         width: 32
         depth: 32
         bottom: 448
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Lintel over the three chute mouths
-      - path: [[12864, 5696], [12864, 6720]]
+      - path: [[12864, 5696], [12864, 6912]]
         width: 32
         depth: 40
         bottom: 280
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Beam the first lantern hangs from
-      - path: [[13056, 5696], [13056, 6720]]
+      - path: [[13056, 5696], [13056, 6912]]
         width: 32
         depth: 40
         bottom: 280
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Beam the second lantern hangs from
     ambient: 16
-    notes: "Trapezoid hall 1408 by 1024, 768 high; three ore chutes open as dark square shafts 384 up its north wall; two sorting tables; a gold vein on the slanted west wall; the old chalk-marked east wall hides the strongroom."
+    notes: "Trapezoid hall 1408 by 1216, 768 high; three ore chutes open as dark square shafts 384 up its north wall; two sorting tables under two lanterns hung from beams; a gold vein on the slanted west wall; the old chalk-marked east wall hides the strongroom."
   - id: room:spider_galleries
     name: Spider galleries
     outline: [[5713, 1110], [5305, 1280], [4800, 1344], [4416, 1472], [4032, 1664], [3584, 1600], [3264, 1408], [3072, 1216], [3072, 768], [3264, 448], [3712, 320], [4160, 512], [4544, 384], [5056, 320], [5504, 448], [5888, 704]]
@@ -793,6 +823,8 @@ rooms:
     pillars:
       - {surface: {texture: crstont, size: [256, 256]}, outline: [[3820, 760], [3980, 720], [4060, 1000], [3940, 1180], [3800, 1060]]}
       - {surface: {texture: crstont, size: [256, 256]}, outline: [[4720, 640], [4880, 600], [4960, 820], [4860, 1040], [4700, 960]]}
+    platforms:
+      - {rise: 64, surface: {texture: xnweb, size: [128, 128]}, outline: [[3240, 1090], [3300, 1050], [3390, 1060], [3420, 1120], [3360, 1170], [3270, 1160]], top_surface: {texture: xnweb, size: [128, 128]}, notes: "The cocooned miner: a body wrapped in thick old web on the floor."}
     ambient: 17
     notes: "Three old side workings run together into one web-hung warren about 2800 by 1350, split by two rock islands; the crawl comes in at the east; the cocoon in the western working; the web wall to the blue grotto is the straight west wall."
   - id: room:stope_floor
@@ -830,15 +862,19 @@ rooms:
       - {at: [5459, 2571], size: [16, 16], rise: 76, surface: {texture: t3d2abs, size: [32, 256]}, base: 128}
       - {rise: 0, surface: {texture: crdrf1, size: [128, 128]}, outline: [[5900, 2700], [6160, 2620], [6300, 2760], [6220, 2930], [5960, 2950], [5860, 2830]], top_surface: {texture: crdrf1, size: [128, 128]}, top_heights: [40, 24, 56, 72, 96, 64], notes: Spoil heap}
       - {rise: 0, surface: {texture: crdrf1, size: [128, 128]}, outline: [[6500, 3150], [6720, 3100], [6820, 3260], [6700, 3400], [6520, 3360]], top_surface: {texture: crdrf1, size: [128, 128]}, top_heights: [32, 56, 80, 48, 64], notes: Spoil heap}
-      - {rise: 72, surface: {texture: ch1topb, size: [64, 64], fit: true}, outline: [[5989, 3282], [6183, 3394], [6111, 3518], [5917, 3406]], top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, notes: An abandoned ore cart.}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[6002, 3291], [6043, 3315], [6035, 3329], [5994, 3305]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[5940, 3399], [5981, 3423], [5973, 3437], [5932, 3413]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[6127, 3363], [6168, 3387], [6160, 3401], [6119, 3377]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 30, surface: {texture: ch004i, size: [64, 64]}, outline: [[6065, 3471], [6106, 3495], [6098, 3509], [6057, 3485]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 144, surface: {texture: ch1topb, size: [64, 64], fit: true}, outline: [[5629, 3086], [5706, 2876], [5811, 2914], [5734, 3124]], top_surface: {texture: ch1topb, size: [64, 64], fit: true}, notes: An abandoned cart on its side.}
-      - {rise: 48, surface: {texture: ch004i, size: [64, 64]}, outline: [[5740, 3107], [5757, 3062], [5772, 3068], [5756, 3113]], top_surface: {texture: ch004i, size: [64, 64]}, base: 40}
-      - {rise: 48, surface: {texture: ch004i, size: [64, 64]}, outline: [[5788, 2976], [5805, 2931], [5820, 2936], [5803, 2981]], top_surface: {texture: ch004i, size: [64, 64]}, base: 40}
-      - {rise: 1146, surface: {texture: ch004i, size: [64, 64]}, outline: [[6920, 3583], [6928, 3592], [6920, 3600], [6911, 3592]], top_surface: {texture: ch004i, size: [64, 64]}, solid: false, notes: "The hoist cable, from the head frame to the floor."}
+      - {at: [6050, 3400], size: [160, 80], rise: 24, facing: 36.8699, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
+      - {at: [6050, 3400], size: [180, 100], rise: 88, facing: 36.8699, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "An abandoned ore cart, full of ore."}
+      - {at: [6041.6, 3311.2], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [6137.6, 3383.2], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5962.4, 3416.8], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [6058.4, 3488.8], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5720, 3000], size: [160, 80], rise: 24, facing: -53.1301, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
+      - {at: [5720, 3000], size: [180, 100], rise: 88, facing: -53.1301, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "An abandoned ore cart, half full."}
+      - {at: [5631.2, 3008.4], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5703.2, 2912.4], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5736.8, 3087.6], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [5808.8, 2991.6], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {rise: 1146, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[6920, 3583], [6928, 3592], [6920, 3600], [6911, 3592]], top_surface: {texture: xnrustirn, size: [64, 64]}, solid: false, notes: "The hoist cable, from the head frame to the floor."}
     beams:
       - path: [[6887, 3330], [7008, 3040]]
         width: 12
@@ -907,7 +943,7 @@ rooms:
       - path: [[6887, 3330], [7158, 3512]]
         width: 12
         depth: 16
-        bottom: -328
+        bottom: -326
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Rail across the rim ledge's open north end
       - path: [[7078, 3592], [6894, 3408]]
@@ -924,12 +960,12 @@ rooms:
         bottom_end: -10
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Head frame arm
-      - path: [[7012, 3500], [6828, 3684]]
+      - path: [[7000, 3670], [6890, 3560]]
         width: 32
         depth: 40
         bottom: -6
         surface: {texture: t3d2abe, size: [256, 32]}
-        notes: Head frame cross-head with the sheave's axle
+        notes: "Head frame: the sheave beam out of the rock between the arms, the cable hanging from its end"
     ambient: 18
     notes: "The Open Stope: a sixteen-sided pit 2240 across and about 1600 high from its floor to a ragged roof. A spiral of rock benches 320 wide runs 0.6 of a turn clockwise down its walls from the rim ledge (-384, east-north-east) round the east, south and west to the floor (-1152, west-north-west): five ramps (160 or 128 down over 437) alternating with five level ledges, all open to the pit behind a timber rail on posts. The floor is deep rock up to 640, red rock above; two spoil heaps, two abandoned carts, the hoist at the north-east side under its head frame."
   - id: room:stope_gallery
@@ -962,27 +998,27 @@ rooms:
     notes: "The rim behind the pit's wall: a ledge 384 wide round the north-east, open to the stope over the whole east-north-east wall onto the spiral's first ledge (the reveal), the hoist gate in its north-east wall."
   - id: room:tally_room
     name: Tally room
-    outline: [[6528, 6944], [6528, 7456], [6080, 7712], [5632, 7456], [5632, 6944], [6080, 6688]]
+    outline: [[6528, 6790], [6528, 7610], [5811, 8019], [5094, 7610], [5094, 6790], [5811, 6381]]
     floor: -288
-    ceiling: 160
+    ceiling: 288
     theme: theme:dwarf_hall
     walls:
       - wall: 1
         panels:
-          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: sign22, size: [256, 64]}}
+          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
       - wall: 2
         panels:
-          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: sign22, size: [256, 64]}}
+          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
       - wall: 4
         panels:
-          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: sign22, size: [256, 64]}}
+          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
       - wall: 5
         panels:
-          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: sign22, size: [256, 64]}}
+          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
     platforms:
-      - {at: [5952, 7200], size: [256, 128], rise: 40, surface: {texture: cbedsqr, size: [128, 128]}, top_surface: {texture: cbedsqr, size: [128, 128]}, notes: The tallymaster's table}
+      - {at: [5600, 7200], size: [256, 128], rise: 40, surface: {texture: cbedsqr, size: [128, 128]}, top_surface: {texture: cbedsqr, size: [128, 128]}, notes: The tallymaster's table}
     ambient: 14
-    notes: "Hexagon 896 across the flats, 448 high; the clan's tallies of stolen ore chalked on the walls (carved plaques stand for them); the tallymaster's table facing the door, the strongbox behind it."
+    notes: "Hexagon 1434 across the flats, 576 high; the clan's tallies of stolen ore chalked on slabs on four walls; the tallymaster's table facing the door, the tallymaster behind it, the strongbox behind him against the west wall."
   - id: room:tally_steps
     name: Tally steps
     space: room:tally_room
@@ -995,7 +1031,7 @@ rooms:
     notes: Three steps of 32 up from the mess hall to the iron-bound door.
   - id: room:top_station
     name: Top Station
-    outline: [[11712, 4736], [12992, 4736], [12992, 5632], [11712, 5632]]
+    outline: [[11712, 4736], [13376, 4736], [13376, 5632], [11712, 5632]]
     floor: -192
     ceiling: 320
     theme: theme:timbered_room
@@ -1007,8 +1043,10 @@ rooms:
       - {at: [12480, 5616], size: [32, 32], rise: 448, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [12864, 4752], size: [32, 32], rise: 448, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [12864, 5616], size: [32, 32], rise: 448, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[11904, 5123], [12700, 5123], [12700, 5133], [11904, 5133]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[11904, 5235], [12700, 5235], [12700, 5245], [11904, 5245]], top_surface: {texture: ch004i, size: [64, 64]}}
+      - {at: [13248, 4752], size: [32, 32], rise: 448, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {at: [13248, 5616], size: [32, 32], rise: 448, surface: {texture: t3d2abs, size: [32, 256]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[11904, 5123], [12700, 5123], [12700, 5133], [11904, 5133]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[11904, 5235], [12700, 5235], [12700, 5245], [11904, 5245]], top_surface: {texture: xnrustirn, size: [64, 64]}}
       - {rise: 40, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[12800, 4952], [12960, 4952], [12960, 5048], [12800, 5048]], top_surface: {texture: d2ceil2, size: [256, 256]}, notes: A plank bench by the drift's mouth.}
     beams:
       - path: [[12096, 4736], [12096, 5632]]
@@ -1026,8 +1064,13 @@ rooms:
         depth: 40
         bottom: 256
         surface: {texture: t3d2abe, size: [256, 32]}
+      - path: [[13248, 4736], [13248, 5632]]
+        width: 32
+        depth: 40
+        bottom: 256
+        surface: {texture: t3d2abe, size: [256, 32]}
     ambient: 16
-    notes: "Rock hall 1280 by 896, 512 high, its plank roof on three cap beams; the loading platform (32) along the west wall, the trestle gate in that wall (the car waits beyond it). Doors to the lamp room (south) and the foot drift (north-west); open to the haul drift (south-east) and the sorting floor (north-east)."
+    notes: "Rock hall 1664 by 896, 512 high, its plank roof on four cap beams; the loading platform (32) along the west wall, the trestle gate in that wall (the car waits beyond it). Doors to the lamp room (south) and the foot drift (north-west); open to the haul drift (south) and the sorting floor (north-east)."
   - id: room:turntable
     name: The Turntable
     outline: [[9472, 4960], [9472, 5408], [9352, 5696], [9024, 6024], [8736, 6144], [8288, 6144], [8000, 6024], [7672, 5696], [7552, 5408], [7552, 4960], [7672, 4672], [8000, 4344], [8288, 4224], [8736, 4224], [9024, 4344], [9352, 4672]]
@@ -1036,13 +1079,13 @@ rooms:
     ceiling_points: [[8512, 5184, 352], [8992, 5383, 230], [8734, 5720, 267], [8267, 5775, 234], [8032, 5383, 271], [7976, 4962, 238], [8267, 4593, 275], [8711, 4704, 242], [9048, 4962, 279]]
     theme: theme:red_workings
     platforms:
-      - {id: platform:turntable_disc, rise: 16, surface: {texture: ch004i, size: [64, 64]}, outline: [[8728, 5242], [8670, 5342], [8570, 5400], [8454, 5400], [8354, 5342], [8296, 5242], [8296, 5126], [8354, 5026], [8454, 4968], [8570, 4968], [8670, 5026], [8728, 5126]], top_surface: {texture: d2ceil2, size: [256, 256]}, notes: "The timber turntable disc on its iron ring, 448 across."}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[8297, 5123], [8727, 5123], [8727, 5133], [8297, 5133]], top_surface: {texture: ch004i, size: [64, 64]}, base: 16}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[8297, 5235], [8727, 5235], [8727, 5245], [8297, 5245]], top_surface: {texture: ch004i, size: [64, 64]}, base: 16}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[8740, 5123], [9460, 5123], [9460, 5133], [8740, 5133]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[8740, 5235], [9460, 5235], [9460, 5245], [8740, 5245]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[8627, 4983], [9137, 4473], [9144, 4480], [8634, 4990]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[8706, 5062], [9216, 4552], [9223, 4559], [8713, 5069]], top_surface: {texture: ch004i, size: [64, 64]}}
+      - {id: platform:turntable_disc, rise: 16, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8728, 5242], [8670, 5342], [8570, 5400], [8454, 5400], [8354, 5342], [8296, 5242], [8296, 5126], [8354, 5026], [8454, 4968], [8570, 4968], [8670, 5026], [8728, 5126]], top_surface: {texture: d2ceil2, size: [256, 256]}, notes: "The timber turntable disc on its iron ring, 448 across."}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8297, 5123], [8727, 5123], [8727, 5133], [8297, 5133]], top_surface: {texture: xnrustirn, size: [64, 64]}, base: 16}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8297, 5235], [8727, 5235], [8727, 5245], [8297, 5245]], top_surface: {texture: xnrustirn, size: [64, 64]}, base: 16}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8740, 5123], [9460, 5123], [9460, 5133], [8740, 5133]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8740, 5235], [9460, 5235], [9460, 5245], [8740, 5245]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8627, 4983], [9137, 4473], [9144, 4480], [8634, 4990]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[8706, 5062], [9216, 4552], [9223, 4559], [8713, 5069]], top_surface: {texture: xnrustirn, size: [64, 64]}}
       - {id: platform:lever_post, at: [8880, 4860], size: [48, 48], rise: 120, surface: {texture: t3d2abs, size: [32, 256]}, top_surface: {texture: t3d2abs, size: [32, 256]}, notes: The points lever's post beside the disc.}
     ambient: 14
     notes: "Round cavern 1920 across under a low uneven roof (512 at the walls, 736 at the crown); the timber turntable disc in the middle with rails to the trestle gate (east) and the east line's gate (south-east); the points lever on a post beside the disc. Exits: trestle (east), foot drift (north-east), mess hall (north), west line (west), stope gallery (south-west), chapel doors (south), east line (south-east)."
@@ -1059,9 +1102,12 @@ rooms:
       - {at: [7200, 5328], size: [32, 32], rise: 352, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [6600, 5040], size: [32, 32], rise: 352, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [6600, 5328], size: [32, 32], rise: 352, surface: {texture: t3d2abs, size: [32, 256]}}
-      - {rise: 144, surface: {texture: ch1topb, size: [64, 64], fit: true}, outline: [[6097, 5113], [6319, 5144], [6303, 5255], [6081, 5224]], top_surface: {texture: ch1topb, size: [64, 64], fit: true}, notes: "The derailed cart, on its side."}
-      - {rise: 48, surface: {texture: ch004i, size: [64, 64]}, outline: [[6099, 5226], [6147, 5233], [6144, 5249], [6097, 5242]], top_surface: {texture: ch004i, size: [64, 64]}, base: 40}
-      - {rise: 48, surface: {texture: ch004i, size: [64, 64]}, outline: [[6238, 5246], [6285, 5253], [6283, 5268], [6236, 5262]], top_surface: {texture: ch004i, size: [64, 64]}, base: 40}
+      - {at: [6200, 5104], size: [160, 80], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
+      - {at: [6200, 5104], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "The derailed cart, shoved off the line against the south wall."}
+      - {at: [6140, 5038], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [6260, 5038], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [6140, 5170], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [6260, 5170], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
     ambient: 22
     notes: "Derailed rail tunnel rising 320 west over 1536 (0.21), its lagging rising with it; a cart lies on its side."
   - id: room:west_line_landing
@@ -1072,8 +1118,8 @@ rooms:
     ceiling: 320
     theme: theme:timbered_room
     platforms:
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[5136, 5123], [5872, 5123], [5872, 5133], [5136, 5133]], top_surface: {texture: ch004i, size: [64, 64]}}
-      - {rise: 6, surface: {texture: ch004i, size: [64, 64]}, outline: [[5136, 5235], [5872, 5235], [5872, 5245], [5136, 5245]], top_surface: {texture: ch004i, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[5136, 5123], [5872, 5123], [5872, 5133], [5136, 5133]], top_surface: {texture: xnrustirn, size: [64, 64]}}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[5136, 5235], [5872, 5235], [5872, 5245], [5136, 5245]], top_surface: {texture: xnrustirn, size: [64, 64]}}
       - {at: [5300, 5008], size: [32, 32], rise: 320, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [5300, 5360], size: [32, 32], rise: 320, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [5700, 5008], size: [32, 32], rise: 320, surface: {texture: t3d2abs, size: [32, 256]}}

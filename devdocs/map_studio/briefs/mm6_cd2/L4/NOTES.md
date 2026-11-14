@@ -1461,3 +1461,31 @@ now (all three used); `unseen_barrier` is still refused as written (`opens` on a
 - What the red tint on the original's lever walls is (above).
 - Event 61 to 63's `SubtractValue(655595, 10)`: the exporter does not name variable 655595; taken over as the original's
   call.
+
+## Ninth merge lines (2026-11-13, afternoon)
+
+The ninth merge's proven lines (indoor code batch nine), each checked against the original's export first. Copy
+before: `output/studio_cal/mm6_cd2/m9_backup/`.
+
+- **Door edges**: door:d01 `edge_surface` bemsv32c 32x128 (the original's 3855), door:d04 bemv32c 32x256 (3876),
+  door:d05 bemvdk 32x256 (3909), all at 1:1 as the original lays them.
+- **Door 1's far jamb**: `open:s155_s156` `reveal` bemsv32c 32x128 (the original's east jamb, face 3856: the red strip
+  beside the open leaf) and `threshold` crdrf2 (its sill, 4188; it had taken the wall's d2wctra).
+- **The podium**: its desk top `offset: [32, 32]`; evt:podium sets `{set_texture: {of: platform:podium, to: deskside,
+  face: top}}` (the original's SetTexture(-4560)), which round six could not say.
+- **The crystal**: both Lua lines `evt.SetSprite(325, ...)` are `set_sprite: {of: deco:d329, to: crysdisc}`.
+- Pictures beside the original (`output/studio_cal/mm6_cd2/m9_pics/sheets/`, tool
+  `output/studio_cal/m9/tools/pairs.py m9_pics/spec.yml`): 03 and 04 (door 1 open: the red strip now
+  as the original's), 06 (door 4), 08 (door 5), 09 and 10 (the podium before and after: deskside on the top alone), 11
+  and 12 (the crystal before and after). Still different there and not the lines' doing: the original's fog in the
+  rooms round door 1, door 5's doorway top and sill (the wall's d2wctra where the original has ceiling and floor
+  textures), a red cloth item on the podium room's floor in the original.
+- **Scores**: `oymap compare` 99.2 % before and after (sector-weighted 99.17 both), offset agreement 0.312 both (the
+  podium's top is a handful of rays). Playtest four of four (`output/studio_cal/mm6_cd2/m9_play/`).
+- **Audit**: the lines add no finding. Of batch nine's findings: the silent clicks (23) are the original's (its
+  events 26, 35, 36, 47 to 52, 57, 61 to 63 are silent the same way; 20 there); the cubes' and the portcullis's missing
+  hover names are the original's (events 2 and 29 to 33 have no title); `texture.squashed` on d2wctra and d2ceil3
+  (rooms s075, s080, s158) is the studio's laying of a doorway's top under a vaulted roof (`ceiling_points`): the top
+  is laid as a wall (u along x, v from z) where the original continues the roof's projection (faces 1385 to 1404,
+  u from x, v from y); lavatyl on the study panel is a liquid (no picture). Faces in one plane: none (the original 3).
+- Installed into `output/studio_play/rebuilds_root` (the user's play copy) from `output/studio_cal/mm6_cd2/m9_build`.

@@ -1,0 +1,18 @@
+- {name: bay-sign, pose: {position: [704, 330, 0], yaw: 1.5708, pitch: 0.28}}
+- {name: notice-board, pose: {position: [900, -700, 128], yaw: 0.41, pitch: 0.0}}
+- {name: dock-arrival, pose: {position: [768, -1010, 128], yaw: 1.5708, pitch: 0.05}}
+- {name: shutter, texture: gt003b, upright: true, distance: 380}
+- {name: rules, texture: sign06-1, box: [1500, 1500, 3000, 3000], upright: true, distance: 260}
+- {name: pest-notice, texture: sign06-1, box: [-2000, 0, 1400, 1500], upright: true, distance: 260}
+- {name: keep-out, texture: warnsign, upright: true, distance: 360}
+- {name: aisle-rules, pose: {position: [2150, 2250, 0], yaw: 0.88, pitch: 0.05}}
+- {name: heart-gate, texture: gcrydoor, upright: true, distance: 420}
+- {name: heart-sign, texture: sign01-2, upright: true, distance: 300}
+- {name: feeding-time, texture: sign01-3, upright: true, distance: 260}
+- {name: cistern-lever-heart-gate, pose: {position: [2200, 5250, -384], yaw: 1.25, pitch: 0.05}}
+- {name: cistern-from-stair, pose: {position: [2112, 4230, -384], yaw: 1.5708, pitch: 0.08}}
+- {name: bug-tanks, texture: 7slimywtr, box: [2250, 4150, 2950, 5450], upright: true, distance: 220}
+- {name: bug-tanks-2, texture: 7slimywtr, box: [2250, 4150, 2950, 5450], upright: true, distance: 220, index: 3}
+- {name: cistern-bug-tanks, pose: {position: [2450, 4700, -384], yaw: -0.55, pitch: 0.0}}
+- {name: tonic-rack, pose: {position: [3500, 5700, -128], yaw: 0.0, pitch: -0.45}}
+- {name: shipping-room, pose: {position: [2760, 5620, -384], yaw: 0.6, pitch: 0.0}}

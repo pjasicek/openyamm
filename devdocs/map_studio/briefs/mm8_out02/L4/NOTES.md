@@ -5,6 +5,129 @@ Scratch: `output/studio_cal/mm8_out02/`. Round two used `output/studio_lead/oyma
 `r2_backup/`, its measures in `r2cNN/` (start `r2c0`, end `r2c10`), pictures in `r2_town0/` (start) and
 `r2p1_town/`, `r2p1_worst/` (end).
 
+## Round five (2026-11-13, `openyamm-studio/build/oymap` of the ninth merge, 13:55)
+
+Project before round five: `output/studio_cal/mm8_out02/r5_backup/`. Scratch: `output/studio_cal/mm8_out02/r5/`;
+measures `cmp_start`, `cmp_start_m8` (the project as found, measured with `output/studio_lead/oymap_before_merge9`
+on a copy), `cmp_a` (goal one), `cmp_b` (end), each with `_old` (`--without rim`), by `scripts/measure5.sh`.
+
+| Part | Start, old binary | Start | After the proof lines (a) | End (b) |
+|---|---|---|---|---|
+| **total** | **92.20** | **92.22** | **92.22** | **92.18** |
+| total `--without rim` | 91.52 | 91.54 | 91.54 | 91.50 |
+| heights | 88.22 | 88.22 | 88.22 | 88.22 |
+| relief | 76.87 | 76.87 | 76.87 | 76.87 |
+| cliffs | 96.81 | 96.81 | 96.81 | 96.81 |
+| water | 96.54 | 96.54 | 96.54 | 96.54 |
+| ground | 91.67 | 91.67 | 91.67 | 91.67 |
+| roads | 93.03 | 93.03 | 93.03 | 93.03 |
+| buildings | 90.29 | 90.29 | 90.32 | 90.36 |
+| decorations | 99.63 | 99.81 | 99.81 | 99.81 |
+| spawns | 98.31 | 98.31 | 98.31 | 98.31 |
+| events | 99.39 | 99.39 | 99.39 | 98.79 |
+| rim (skyline) | 88.17 | 88.17 | 88.17 | 88.17 |
+
+**Decorations**: 99.63 to 99.81 from the merge alone (scatter seeded by each entry's own words; same project, old
+against new binary); nothing of this round moved them. **Events** 99.39 to 98.79 from one cause: Caori's Curios'
+sign on its post is a thing of its own with the shop's name (one event only in the rebuild; the original's sign
+faces carry the shop's name event 196). Buildings 90.29 to 90.36.
+
+Walk (`playtest.yml`, 136 steps): passes two runs of two on the final project, twice (`r5/walk_b_1..2.log`; again on the game binary rebuilt at 15:13 by another session, `r5/walk_e_1..2.log`), eleven walks
+without a jump; the council hall's door now used at the original's bay (pose x 12800 to 12928).
+
+### Applied: the proof lines (`output/studio_s4h/scripts/proof_r.py`, `proof3.py r`), checked against the faces
+
+- **Council hall's canopy** (02sw_corner_ 57, 60): a porch without posts over bays 1 and 2 of the upper hall's south
+  wall, 128 out, t14abcd11 under it. While checking, **the door moved to the original's bay** (`scripts/council5.py`):
+  the wall is t14c07, the window t14c12c, the door t14c03 (x 12864..12992), t14c01, t14c06; round four had the door
+  at bay 1 (the window's place), so the canopy hung over the window and half the door. `04-e106-council-hall.png`
+  0.85, `08-council-canopy-wide.png` 0.79.
+- **The terrace's railing** before Needful Things (02nw_corner_ 32-60): t14abcd10 posts, a t14abcd11 rail 192 to
+  208, as the proof. `07-needful-from-street.png` 0.76.
+- **sgMAGIC on Needful Things' wall**, 320 to 384 over the third bay, as the proof.
+- **Both wells** (well1N, well1W): ring 256 across, 80 high, post to 216, no roof, as the proof; **the form is still
+  not the original's**: the original's well has two tapered T1cabs uprights on the ring's rim at its north and south
+  ends (64 by 24 at the foot to 24 by 24 at 184) and a beam 24 by 32 across them at 184 to 216, a windlass frame; the
+  proof's `post` is one square post in the water's middle. From the west the two read alike
+  (`pics_final/diff/01-well2-w.png` 0.77), from the east and north the frame differs (`27-well1-e.png` 0.71). Kept
+  (nearer than round four's roofed well); gap 1.
+
+### Applied: other wrong forms of round four
+
+- **Shop signs on walls** (`scripts/signs5.py`, which finds the part, wall and bay under each of the original's sg*
+  faces): sgtrain (Gymnasium), sgtvrn (Kessel's Kantina), sgweap (Keen Edge), sgspell (Vexation's Hexes, upper storey),
+  sgarm (the Polished Shield), sginn (the inn's entrance, by hand: an outline part's wall '2'): 64 by 64 over the bay
+  nearest the original's board (32 to 64 off its middle), bottoms over the wall's foot as the original's. And
+  (`scripts/signs5b.py`) the Self Guild's board hung across its east wall (`hang`; top 224, the original's 256:
+  the arm must stay 32 under the wall's top) and Caori's Curios' sign as a post with one arm south and sgMAGIC
+  hanging from it (`kind: sign`, board 152 to 216). Pictures `11-sign-train.png` 0.81, `12-sign-tvrn.png` 0.85,
+  `14-sign-spell.png` 0.81, `18-sign-caori.png` 0.82, `pics_retake/diff/03-sign-selfguild-ne.png` 0.52 (the board
+  as the original's; the Self Guild's roof behind it is the flat-topped block of round three, a hip in the original).
+  Not drawn: sgalch (02ne_corner_ y -7328: the rebuild's north-east block has no wall there), sgbank (32 west of
+  the end of the bank's part p8), the second tavern's sign under its balcony and the stable's on a stall post.
+- **Door slabs of the poor lanes** (`scripts/steps5.py`): Botham Hall, Dotes Family Hovel, Hall of the Tracker, House
+  of Nosewort, Jack's Hovel, Holden's Hovel: `door.step` 64 out, as wide as the door, its top level with the floor
+  (`height: 0, front: 0`), t14a05b, as each 02delf_poor house's slab; Aznog's Hovel a stoop 128 out falling 16
+  (t14a05, the original's two slabs). Built, but they show little: the rebuild levels the land under a plot to its
+  floor, where the original's houses stand on a base course 32 over the street (`20-step-jack.png` 0.78,
+  `22-step-aznog.png` 0.63: Aznog's slab is under the land at its front).
+- **The four cut-corner middle houses** (02delf_med1W_1, 02delf_med1S_1, 02delf_med1S, 02delf_med1W: market_middle 1
+  to 3 and the waterfront Hostel; `scripts/cutcorner5.py`): one body on an outline with the two front corners cut 128
+  (t14abcd02), walls 256, a t14d01 band 32, a hip 192 high whose ridge starts 160 inside the front (read from the
+  models' top vertices); round four had two crossing boxes, a gable with a band of 64 and a hip with one of 112 to
+  120 (the stone gable end over a thick band of round four's pictures). `24-house-market2.png` 0.87,
+  `26-house-market3.png` 0.78, `pics_retake/diff/01-house-hostel-nw.png` 0.80, `23-house-market1.png` 0.64 (land
+  behind). The back end is hipped where the original's is a gable.
+
+### Decided against, and why
+
+- The wells' frame as two platforms and a bridge-beam: three things for one model, the beam a bridge (a form faked
+  with another), and the drink event split; kept the proof's post and listed the gap.
+- The fountains (square, with spouts), the vault's hatch (a round hatch by a rail), the caves' mouths, the tomb, the
+  south-east block's porch (round four's list): not reached this round.
+
+### Gaps (most harmful first)
+
+1. **A well's windlass frame** (two uprights on the rim and a beam): `post` is one post in the middle. Field:
+   `frame: {posts: [w, d], beam: [w, h], taper}` on a well.
+2. **A thing's faces carrying a building's event** (Caori's sign says the shop's name in the original): a sign is
+   its own event. Field: `same_event_as: building:<id>` (the same field as Harmondale's trap needs).
+3. **A plot on a base course over the street** (the poor lanes' houses 32 over the land, their door slabs standing
+   out): a plot's land is levelled to its floor. Field: `plinth` (the floor this much over the land round it).
+4. **A roof with one hip end and one gable end** (the four cut-corner houses).
+5. Round four's gaps 3 (Caori's and Needful Things' overlap) and round three's 1 to 4 stand; 1 (railing) and 2 (wall
+   sign) are closed.
+
+### Tool defects (round five)
+
+- The shop signs' bays: a sign stands over the middle of a bay, so a board off a bay's middle (six of eight here, 32
+  to 64 off) cannot be placed where the original's is. `signs[].offset` would.
+- See Harmondale's NOTES (round five) for the rest.
+
+### Pictures (round five; same camera in both maps)
+
+- **Changed places** (`r5/pics_final/`, 28 pairs, 0.725; retakes in `r5/pics_retake/` where a tree stood in front):
+  best `24-house-market2.png` 0.87, `12-sign-tvrn.png` 0.85, `04-e106-council-hall.png` 0.85; worst
+  `17-sign-selfguild.png` 0.36 and `25-house-hostel.png` 0.42 (trees in front of the camera in both maps; retaken),
+  `15-sign-arm.png` 0.49 (the Polished Shield's block: the rebuild's long flat thatch roof over the street front where
+  the original has a gable and a porch roof on posts: round four's south-east block, still open).
+- **Interactive things** (`r5/pics_things5/`, round four's 162 cameras, contact sheets `r5/things5_sheet_*.png`):
+  162 pairs, 0.678 (round four 0.676). Up: the cut-corner houses (`e27` 0.55 to 0.77, `e28` 0.50 to 0.71, `e25`
+  0.66 to 0.85, `e23`/`e24` 0.48 to 0.56), the wells (0.64 to 0.72, 0.68 to 0.74), the council hall (0.80 to 0.84).
+  Down: none by more than 0.06 (`e120-chest-5` 0.50 to 0.44, `e58` 0.59 to 0.54: the Hostel's front from close by,
+  its hip now the original's but its floor 32 under the original's). Worst, all of them wrong forms still open
+  (`things5_sheet_01.png`): the caves' mouths (`45-e134`, `60-e155`, `44-e133`: 0.00 to 0.42, the doorway stands
+  elsewhere in its mound), the south-east block (`14-e103`, `15-e104`: the original's Polished Shield front has a
+  porch roof on posts, the rebuild a flat block), the Oracle (`20-e110`, `22-e111`: the original's door and windows
+  stand at the back of a porch recessed under the roof on a wooden floor; the rebuild's front is flush). The words
+  for these two exist now (`porches` with `posts`, `recess`): the next round's first items.
+- `oymap things`: `r5/things_orig.txt` 162, `r5/things_end.txt` 165, none without a hover name in either.
+
+### Scripted (round five, `output/studio_cal/mm8_out02/scripts/`)
+
+`measure5.sh`, `walk5.sh`, `pics5.sh` (with Harmondale's `cams5.py`, `texbox.py`); edits: `signs5.py`, `signs5b.py`,
+`steps5.py`, `cutcorner5.py`, `council5.py` (the YAML-rewriting ones checked by diff: only the plots named changed).
+
 ## Round four (2026-11-13, `openyamm-studio/build/oymap` of the eighth merge, 11:19)
 
 Project before round four: `output/studio_cal/mm8_out02/r4_backup/`. Scratch of this round:
@@ -512,3 +635,88 @@ change was measured (`scripts/measure.sh cNN`) and kept only where the score ros
   either scene; possibly the day's sky.
 - The fountain: `out02.lua` gives gold and the town-portal bit; the MMerge handler (`oymap flow`) opens the
   dimension door. The rebuild follows `out02.lua`.
+
+## Cleanup: z-fighting and town feel (2026-11-14, `openyamm-studio/build/oymap` of the fourteenth merge)
+
+Backup before: `output/studio_cal/mm8_out02/cleanup_backup/`. Scripts: `output/studio_cal/mm8_out02/cleanup/edit_r.py`
+(trims box parts to where they meet, slicing their bay lists), `edit_r2.py`, `edit_r_tf.py`; `cleanup_parts.py` lists a building's parts.
+
+**Faces in one plane: 205 to 46** (1 the original's ship; the original 7). Changed:
+- Aznog's Hovel (lanes_poor 9): p2 was p1 again: dropped (28 pairs).
+- market_rich 1, 2: p1 only south of / west of p2; market_rich 6, 7: the low wing only where it stands out of the hall, flat-topped.
+- waterfront_rich 1: p3 lay wholly inside p1 (a second east front): dropped; p2 only north of p1.
+- ne_block: p1 stops at p4, p2 only east of p4 and north of p3; the tavern's door and sign are p3's (its west wall had the
+  same door bay over p2's); p6 only its lean-to over p4's top (ridge kept at 616).
+- oracle: p2 (the cross roof) hangs on p1's fascia at 272 with a 16 band (ridge kept at 400).
+- The two pier arms end at their heads' sides; the council ramp 32 wider into the terrace (the original's ramp has no east side).
+
+Left (45), with why: nw_block (23 pairs, 13 parts): its parts lie in each other (Keen Edge's p3 wholly inside p7, its
+door inside p7's outline); it needs a redraw from 02nw_corner_'s faces, not a trim. Its steps beside the terrace (8
+pairs, under 640 square units each). The body/wing soffits of market_rich 3-5 and waterfront_rich 2 (8): two 64 eaves
+meeting at the join (no per-wall eaves). dancing_ogre p1/p5 (5, 5120 units). building_1 hall/towers (2): round flat tops
+at one height overlapping (the original's d45out_S has tops at 2304 in several models too). ne_block p4/p6 (3, was 3 at 107k
+units, now 15k). Council ramp (3: its foot under ground against terrace_west, its side against `middle`).
+
+**Town feel**: magic shop to alchemist 5693 to 5690 (the shipped top 5677 is this original's): the Apothecary's front at
+the original's y -7328 (02ne_corner_), 112 north of where it stood; the remaining 13 units are the door's bay middle
+against the original's face middle. Nothing else outside.
+
+**Score** 92.18 to 92.18 % (every part unchanged). **Walk** two of two. **Installed** in `rebuilds_root` with terrain
+materials; desktop load check impossible (no display). **Pictures**: `output/studio_cal/mm8_out02/cu_pics/before.png`, `after.png`.
+
+## North-west block (2026-11-14, `openyamm-studio/build/oymap` with batches O-A to O-F)
+
+Backup before: `output/studio_cal/mm8_out02/nw_backup/`. Work in `output/studio_cal/mm8_out02/nw/`: `faces.py` (a
+model's faces in the plot's frame; `orig_faces.txt` is 02nw_corner_, models 50-54), `edit_nw.py` (the redraw),
+`edit_eaves.py`, `edit_ogre.py`, `edit_ne.py`, `edit_ramp.py`, `check.sh` (fmt, build, install, audit, compare).
+
+**Faces in one plane: 46 to 3** (1 the original's ship; the original 7). Changed:
+- nw_block, redrawn from 02nw_corner_ part by part, no part inside another: Caori's Curios is one twelve-sided tower
+  (p1: middle 368,1500, sides 128 at 256 out, walls t14a01 to 768 with t14a05 above 256, door t14a03 south, t14a04b
+  west and north, eaves 64, cone to 1280); the box under it and the fourteen-sided p8 are gone. Keen Edge's ground storey
+  is three boxes that meet (p6 west block 1648..2032 x 988..2012 with sgWeap on its east end, p3 the door block
+  2032..2288 x 860..1756 with the door t14d03 at 2032..2160 as the original's, p7 the corner 1904..2032 x 860..988),
+  flat tops at 256 (the roof walk); its upper storey p10 (1648..2032 x 1628..2012) and p12 (an outline with the cut
+  corner 2288,1756 to 2032,2012), hip roofs to 704 with eaves 64 except where they meet. Vexation's Hexes' gable 64
+  high with eaves 32 (was 48 and a 16 fascia). Every bay's texture as the original's faces.
+- The street steps and the deck steps lie exactly in the terrace's recess and the deck's stairwell (they were one or
+  two units off and cut into p4, p4c, p5, p5b).
+- market_rich 3-5, waterfront_rich 2: the wing's eaves only on its three outer walls (`eaves_walls: [1, 2, 3]`).
+- dancing_ogre p1: fascia 32 (the original's band t14abcd11 384..416), not 40 into p5's wall.
+- ne_block p6: the lean-to starts on p4's top (616) with no walls or fascia, still to 640.
+- Council ramp: 4 north, same length and slope, its foot and top end off the walls' planes.
+
+Left (2 new): building_1's round tops at 2304 overlapping the hall's (the original's d45out_S has such tops too).
+
+**Score** 92.18 to 92.19 %: heights 88.22, relief 76.85, cliffs 96.72, water 96.54, ground 91.67, roads 93.03,
+buildings 90.43 to 90.46 (90.53 after the redraw; the wings' missing side eaves and the ramp cost 0.07), decorations
+99.81, spawns 98.31, events 98.79, rim 88.17. Region F5 (the block) 91.6 to 91.7 %.
+
+**Gaps** (words missing):
+- Eaves along part of a wall: the original's wing soffits start at the body's wall; `eaves_walls` takes whole walls,
+  so 128 of each wing side has no eaves (market_rich 3-5, waterfront_rich 2). Field: `eaves_walls` entries with a
+  stretch, or eaves clipped where they enter another part.
+- One roof over two parts: Keen Edge's upper storey is not convex (an L with a cut corner) under one hip roof; drawn as
+  two hips meeting. Field: an outline part that may be concave, or `roof_with: <part>`.
+- A parapet on some walls only: the roof walks of Keen Edge and the Hexes have a low wall (t14a05b top at 320) on
+  their east edge only; not drawn. Field: `parapet_walls`.
+
+**Walk** two of two. **Pictures**: plan views `output/studio_cal/mm8_out02/nw/pics/nw_original_before_after_x3.png`
+(original, before, after), whole maps `original.png`, `before.png`, `after.png`.
+
+## Roof words (2026-11-14, `openyamm-studio/build/oymap` of the nineteenth merge)
+
+Backup `output/studio_cal/mm8_out02/roofwords_backup/`; edits by `output/studio_cal/mm8_out02/roofwords/edit.py`
+(batch S4R's gate edits `keen2`, `parapet`, `wings3`); checks `roofwords/rw.sh`, `walk.sh`.
+- Keen Edge's upper storey: p10 and p12 as one outline (an L with its corner cut) under one hip roof, eaves 64 and
+  192 over wall 0 (the roof walk's corner) through `eaves_walls`. Gate: tops overlap 0.670 to 0.929.
+- Keen Edge's roof walk: `parapet: 64` on p3 with `parapet_walls: [{wall: e, from: 256}, {wall: n, to: 96}]`, top
+  t14a05b. Gate: tops 1.000.
+- market_rich 3-5, waterfront_rich 2: the wings' eaves from the body's wall onward (`{wall: 0, to: 128}`, `{wall: 4,
+  from: 448}`), the bodies' eaves stopped across the wings (wall 3, gap 192 to 1088). Gate: undersides 0.749 to 0.889.
+- Not done: the Sanctum's peaked roof over its non-convex hall (three cones in the original; the concave outline takes
+  hip or gable roofs, not a cone).
+
+**Score** 92.19 to 92.20 % (buildings 90.46 to 90.52; other parts unchanged). **Pairs** 3 to 3 (1 as the
+original). **Walk** two of two (136 steps). Installed in `rebuilds_root` with terrain materials. **Pictures** to take
+(no display): Keen Edge's L roof and parapet, the Hostel's wing soffits, each beside the original.

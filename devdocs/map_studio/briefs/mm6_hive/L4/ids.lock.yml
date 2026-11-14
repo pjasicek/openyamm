@@ -1,10 +1,14 @@
 format: 0
 sectors:
   room:s10_tunnel: 90
+  room:s10_tunnel_w: 103
   room:s12_alcove_e: 98
   room:s12_alcove_w: 99
+  room:s12_hall: 104
   room:s13_j49: 1
+  room:s14_ramp: 101
   room:s14_tunnel: 91
+  room:s14_tunnel_a: 102
   room:s19_tunnel: 92
   room:s1_lock: 2
   room:s20_tunnel: 93
@@ -216,3 +220,6 @@ map_vars:
   protected: 8
   queen_killed: 13
   reactor_killed: 12
+decorations:
+  deco:keg: 0
+  deco:skull_pile: 1

@@ -20,45 +20,45 @@ events:
     source: mover:cage
     title: Counterweight cage
     condition: {qbit: escape_shaft_open}
-    locked_text: "The cage will not move: its counterweight is chained fast."
+    locked_text: "The cage will not move: its counterweight is chained fast. The chain's lever must be near, in the King's hoard."
     toggles: [mover:cage]
     text: The counterweight drops past you in the dark and the cage creaks up the shaft.
   - id: evt:cage_call
     preset: switch
     source: switch:cage_call
-    title: Bell-pull
+    title: Cage lever
     condition: {qbit: escape_shaft_open}
-    locked_text: "The bell rings; the cage does not come."
+    locked_text: "A bell rings far above, but the cage does not come: its counterweight is chained fast."
     closes: [mover:cage]
     text: The cage comes down the shaft.
   - id: evt:cage_call_top
     preset: switch
     source: switch:cage_call_top
-    title: Bell-pull
+    title: Cage lever
     condition: {qbit: escape_shaft_open}
-    locked_text: "The bell rings; the cage does not come."
+    locked_text: "A bell rings far above, but the cage does not come: its counterweight is chained fast."
     opens: [mover:cage]
     text: The cage comes up the shaft.
   - id: evt:chest_armoury
     preset: chest
     source: chest:armoury
-    title: Weapon chest
+    title: Chest
   - id: evt:chest_hoard_1
     preset: chest
     source: chest:hoard_1
-    title: The King's chest
+    title: Chest
   - id: evt:chest_hoard_2
     preset: chest
     source: chest:hoard_2
-    title: The King's chest
+    title: Chest
   - id: evt:chest_prospector
     preset: chest
     source: chest:prospector
-    title: Prospector's pack
+    title: Chest
   - id: evt:chest_vault
     preset: chest
     source: chest:vault
-    title: Red Dwarf chest
+    title: Chest
   - id: evt:clan_hostile
     preset: script
     trigger: load
@@ -129,11 +129,20 @@ events:
       - passable: platform:cluster_4_2
     text: "You prise a gem out of the cluster; the rest crumbles to glittering dust."
     notes: "poi:gem_clusters: one low gem each, once; the cluster is gone afterwards."
+  - id: evt:crystal_hum
+    preset: text
+    source: room:geode_lower
+    trigger: step
+    once: true
+    text: "A faint hum, like a bell struck long ago, comes from the crystal in the west wall."
+    notes: "The clue to the singing crystal wall (a secret door): it hums as the party comes down the terrace steps."
   - id: evt:crystal_wall
     preset: door
     source: door:crystal_wall
     title: Crystal wall
     action: open
+    effects:
+      - lua: "evt.PlaySound(42270, 96, 384)"
     text: "The crystal wall hums under your hand, rings like a bell, and sinks into the floor."
   - id: evt:deep_cart
     preset: switch
@@ -163,10 +172,11 @@ events:
   - id: evt:door_hoard
     preset: door
     source: door:hoard
-    title: Small iron door
+    title: The King's door
     condition: {item: clan_king_key}
-    locked_text: A small iron door with the King's own lock.
     action: open
+    else_effects:
+      - message: A stone door behind the throne with the King's own lock in it. It will not move. The Clan King carries its key on him.
   - id: evt:door_sentry
     preset: door
     source: door:sentry
@@ -185,29 +195,64 @@ events:
     source: exit:x1
     title: "The shaft head: the hills north of Vertigo"
     condition: {qbit: escape_shaft_open}
-    locked_text: The hatch is barred from outside.
+    locked_text: The hatch is barred from outside until the shaft's counterweight runs free.
     text: "You push up the hatch: daylight, wind and the hills north of Vertigo."
   - id: evt:gate_e
     preset: door
     source: door:gate_e
     title: The King's Gate
     condition: {all: [{map_var: gate_bar_a}, {map_var: gate_bar_b}]}
-    locked_text: The gate is barred from within.
     action: open
     opens: [door:gate_w]
+    else_effects:
+      - message: "The King's Gate is barred from within: two iron bars lie across its leaves in their brackets. The clan lifts them with levers, one for each bar: one hangs in the barracks behind the bunks, the other in the furnace tower beyond the far bank."
     text: The King's Gate swings open.
   - id: evt:gate_w
     preset: door
     source: door:gate_w
     title: The King's Gate
     condition: {all: [{map_var: gate_bar_a}, {map_var: gate_bar_b}]}
-    locked_text: The gate is barred from within.
     action: open
     opens: [door:gate_e]
+    else_effects:
+      - message: "The King's Gate is barred from within: two iron bars lie across its leaves in their brackets. The clan lifts them with levers, one for each bar: one hangs in the barracks behind the bunks, the other in the furnace tower beyond the far bank."
     text: The King's Gate swings open.
+  - id: evt:gold_heap_1
+    preset: script
+    source: platform:gold_heap_1
+    title: Heap of gold
+    once: true
+    effects:
+      - gold: 150
+      - hide: platform:gold_heap_1
+      - passable: platform:gold_heap_1
+    text: "You shovel the King's coins into your packs: 150 gold."
+    notes: "The hoard: a heap of coins, taken once."
+  - id: evt:gold_heap_2
+    preset: script
+    source: platform:gold_heap_2
+    title: Heap of gold
+    once: true
+    effects:
+      - gold: 100
+      - hide: platform:gold_heap_2
+      - passable: platform:gold_heap_2
+    text: "You shovel the King's coins into your packs: 100 gold."
+    notes: "The hoard: a heap of coins, taken once."
+  - id: evt:gold_heap_3
+    preset: script
+    source: platform:gold_heap_3
+    title: Heap of gold
+    once: true
+    effects:
+      - gold: 100
+      - hide: platform:gold_heap_3
+      - passable: platform:gold_heap_3
+    text: "You shovel the King's coins into your packs: 100 gold."
+    notes: "The hoard: a heap of coins, taken once."
   - id: evt:gong
     preset: script
-    source: platform:gong
+    source: platform:gong_1
     title: The great gong
     condition: {not: {map_var: alarm_rung}}
     opens: [door:barracks_e, door:barracks_w, door:back_stair]
@@ -217,11 +262,130 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
     notes: "poi:gong / set:gong_alarm: rung by the party, the barracks doors burst open and its torches are lit."
+  - id: evt:gong_2
+    preset: script
+    source: platform:gong_2
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
+  - id: evt:gong_3
+    preset: script
+    source: platform:gong_3
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
+  - id: evt:gong_4
+    preset: script
+    source: platform:gong_4
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
+  - id: evt:gong_5
+    preset: script
+    source: platform:gong_5
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
+  - id: evt:gong_6
+    preset: script
+    source: platform:gong_6
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
+  - id: evt:gong_7
+    preset: script
+    source: platform:gong_7
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
+  - id: evt:gong_8
+    preset: script
+    source: platform:gong_8
+    title: The great gong
+    condition: {not: {map_var: alarm_rung}}
+    opens: [door:barracks_e, door:barracks_w, door:back_stair]
+    effects:
+      - set:
+          var:
+            map_var: alarm_rung
+          value: 1
+      - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+    else_effects:
+      - text: The gong still hums.
+    text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
+    notes: "The same as evt:gong, for another slab of the gong (a clicked event has one source)."
   - id: evt:gutter_burn
     preset: script
     trigger: timer
@@ -275,10 +439,10 @@ events:
           value: 1
       - set_texture:
           of: platform:gutter_w
-          to: orfyrlga
+          to: xnslag
       - set_texture:
           of: platform:gutter_e
-          to: orfyrlga
+          to: xnslag
       - lights_off: [light:forge_w, light:forge_e, light:hall_south]
       - lights_on: [light:gutter_w, light:gutter_e, light:wrath]
       - lua: "evt.CameraShake(1.0, 1.5)"
@@ -300,17 +464,33 @@ events:
     source: switch:lever_a
     title: Lever
     opens: [mover:gate_bar_low]
-    once: true
-    sets: {map_var: gate_bar_a}
-    text: "The lever drops with a clank; far off, something heavy grinds upward."
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(gate_bar_a), 1) then
+              evt.StatusText("The lever is down; the King's Gate's lower bar stays up.")
+          else
+              evt.StatusText("The lever drops with a clank; far off, the King's Gate's lower bar grinds upward.")
+          end
+      - set:
+          var:
+            map_var: gate_bar_a
+          value: 1
   - id: evt:lever_b
     preset: switch
     source: switch:lever_b
     title: Lever
     opens: [mover:gate_bar_high]
-    once: true
-    sets: {map_var: gate_bar_b}
-    text: "The lever drops with a clank; far off, something heavy grinds upward."
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(gate_bar_b), 1) then
+              evt.StatusText("The lever is down; the King's Gate's upper bar stays up.")
+          else
+              evt.StatusText("The lever drops with a clank; far off, the King's Gate's upper bar grinds upward.")
+          end
+      - set:
+          var:
+            map_var: gate_bar_b
+          value: 1
   - id: evt:sentry_count
     preset: script
     trigger: timer
@@ -334,7 +514,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
     text: "The sentry hammers the great gong! Doors crash open in the barracks."
     notes: "set:gong_alarm: about six seconds after seeing the party, if still alive, the sentry rings the gong."
   - id: evt:sentry_seen
@@ -352,20 +532,24 @@ events:
     preset: switch
     source: switch:shaft_lever
     title: Shaft lever
-    once: true
     effects:
+      - lua: |-
+          if QBit(110031) then
+              evt.StatusText("The lever is over; the cage in the shaft runs free.")
+          else
+              evt.StatusText("The lever comes over: a chain runs out with a roar somewhere above. The cage in the shaft is free.")
+              evt.CameraShake(0.5, 1.0)
+          end
       - qbit: escape_shaft_open
-      - lua: "evt.CameraShake(0.5, 1.0)"
-    text: "The lever comes over: a chain runs out with a roar somewhere above. The cage in the shaft is free."
     notes: goal:escape_shaft / poi:shaft_lever.
   - id: evt:statue_e
     preset: text
     source: deco:statue_e
     title: Statue of a Red Dwarf king
-    text: A Red Dwarf king in stone. The clan has hacked his face away.
+    text: "A Red Dwarf king carved in stone, older than the clan. Fresh axe marks scar his plinth: the Mad Dwarves have no love for the old kings."
   - id: evt:statue_w
     preset: text
     source: deco:statue_w
     title: Statue of a Red Dwarf king
-    text: A Red Dwarf king in stone. The clan has hacked his face away.
+    text: "A Red Dwarf king carved in stone, older than the clan. Fresh axe marks scar his plinth: the Mad Dwarves have no love for the old kings."
 notes: "Every mechanism is a preset with conditions and effects. Lua only where no word fits: the clan's hostility (evt.SetMonsterRelation on load) and the camera shakes (evt.CameraShake)."

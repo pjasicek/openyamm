@@ -54,6 +54,8 @@ events:
   evt:circle: 14
   evt:cloud_stair: 15
   evt:crying: 16
+  evt:cue_lodge: 50
+  evt:cue_schoolroom: 51
   evt:cupboard: 17
   evt:door_bedchamber: 18
   evt:door_dormitory: 19
@@ -67,6 +69,7 @@ events:
   evt:hatch: 27
   evt:head_witch_dead: 28
   evt:hoist: 29
+  evt:hoist_gate: 52
   evt:pier_off: 30
   evt:pier_on: 31
   evt:recipe: 32
@@ -82,6 +85,7 @@ events:
   evt:vat_green: 41
   evt:vat_toad: 42
   evt:ward: 43
+  evt:winch: 49
 doors:
   door:bedchamber: 1
   door:bookcase: 2
@@ -104,6 +108,10 @@ doors:
   door:ward: 19
   door:warden: 20
   door:warden.leaf2: 21
+  mover:cage_1: 26
+  mover:cage_2: 27
+  mover:cage_3: 28
+  mover:cage_4: 29
   mover:hoist: 22
   switch:brake: 23
   switch:call_bottom: 24
@@ -125,6 +133,8 @@ map_vars:
   once.brake: 4
   once.circle: 8
   once.crying: 10
+  once.cue_lodge: 15
+  once.cue_schoolroom: 16
   once.familiars: 11
   once.head_witch_dead: 12
   once.roof: 13
@@ -140,3 +150,105 @@ lights:
   light:vat_1: 7
   light:vat_2: 8
   light:vat_3: 9
+decorations:
+  deco:altar_goblet: 0
+  deco:altar_pot: 1
+  deco:altar_skull: 2
+  deco:balcony_sconce_1: 3
+  deco:balcony_sconce_2: 4
+  deco:bed_candle_1: 5
+  deco:bed_candle_2: 6
+  deco:bed_goblet: 7
+  deco:bed_hanging_cage: 8
+  deco:brazier_1: 9
+  deco:brazier_2: 10
+  deco:brazier_3: 11
+  deco:brazier_4: 12
+  deco:broken_balcony_bones: 13
+  deco:bucket: 14
+  deco:cask_1: 15
+  deco:circle_candle_1: 16
+  deco:circle_candle_2: 17
+  deco:circle_candle_3: 18
+  deco:circle_candle_4: 19
+  deco:circle_candle_5: 20
+  deco:circle_candle_6: 21
+  deco:desk_candle_1: 22
+  deco:desk_candle_2: 23
+  deco:dorm_bowl: 24
+  deco:dorm_bucket: 25
+  deco:dorm_plates: 26
+  deco:dorm_sconce: 27
+  deco:dorm_trash: 28
+  deco:foodbowl: 29
+  deco:gallery_cask: 30
+  deco:gallery_cask_2: 31
+  deco:gallery_torch_1: 32
+  deco:gallery_torch_2: 33
+  deco:gallery_torch_3: 34
+  deco:gallery_torch_4: 35
+  deco:gate_cask: 36
+  deco:gate_sacks: 37
+  deco:gate_torch_e: 38
+  deco:gate_torch_east: 39
+  deco:gate_torch_w: 40
+  deco:gate_torch_west: 41
+  deco:hanging_cage_1: 42
+  deco:hanging_cage_2: 43
+  deco:hanging_cage_3: 44
+  deco:hidden_candle: 45
+  deco:hoist_cask: 46
+  deco:hoist_lantern: 47
+  deco:hoist_sacks: 48
+  deco:landing_f3_lantern: 49
+  deco:landing_sconce: 50
+  deco:larder_bucket: 51
+  deco:larder_cask: 52
+  deco:larder_mushrooms_1: 53
+  deco:larder_mushrooms_2: 54
+  deco:larder_torch: 55
+  deco:lodge_candle: 56
+  deco:lodge_plates: 57
+  deco:lodge_torch: 58
+  deco:loft_lantern: 59
+  deco:loft_mushrooms: 60
+  deco:loft_sacks: 61
+  deco:loft_sacks_2: 62
+  deco:pens_bones: 63
+  deco:pens_bones_2: 64
+  deco:pens_bowl: 65
+  deco:pens_old_cage: 66
+  deco:pens_sacks: 67
+  deco:pens_torch_1: 68
+  deco:pens_torch_2: 69
+  deco:pens_trash_1: 70
+  deco:pens_trash_2: 71
+  deco:pier_torch_n: 72
+  deco:pier_torch_s: 73
+  deco:rosebud_torch: 74
+  deco:sacks_1: 75
+  deco:sacks_2: 76
+  deco:sanctum_torch_w: 77
+  deco:sanctum_torch_w2: 78
+  deco:school_sconce: 79
+  deco:skull_1: 80
+  deco:skull_2: 81
+  deco:skull_3: 82
+  deco:skull_niche_candles_n: 83
+  deco:skull_niche_candles_s: 84
+  deco:skull_pile: 85
+  deco:stair_lantern_1: 86
+  deco:stair_lantern_2: 87
+  deco:stoking_pot_1: 88
+  deco:stoking_pot_2: 89
+  deco:stoking_pot_3: 90
+  deco:stoking_pot_4: 91
+  deco:vat_bubbling: 92
+  deco:vat_green: 93
+  deco:vat_hall_cask: 94
+  deco:vat_hall_lantern: 95
+  deco:vat_hall_mushrooms: 96
+  deco:vat_hall_pot: 97
+  deco:vat_hall_sacks: 98
+  deco:vat_hall_sacks_2: 99
+  deco:vat_toad: 100

@@ -13,23 +13,68 @@ This session did two jobs:
    of map *briefs*: four calibration rebuilds of shipped maps, and the Xeen Act I dungeons (§2). This work is ongoing.
    It moves in rounds driven by the Map Studio session's messages, which relay the user's in-game reviews.
 
+## 0. State on 2026-11-14: the decisions after the reviews are applied
+
+Three reviews (`reviews/SCALE_AND_DENSITY.md`, `STORY_AND_ATMOSPHERE.md`, `COMBAT_AND_PROGRESSION.md`, 2026-11-13) led
+to the user's decisions of 2026-11-14 (README, top). They are applied to WORLD_DESIGN, MAPS, QUESTS, MONSTERS_AND_ITEMS,
+PRODUCTION and README's summary; nothing in `briefs/` or the built maps was changed.
+
+- **Progression:** the combat review's per-map table is MAPS §0 (party levels, monster bands, groups, Tres, counts,
+  kill XP). Acts: I 1–7, II 7–20, III 18–30, IV 30–42, V 42–55, VI 55–65 (optional to 70); about 62–65 at the end as
+  played. Families split to at most 2.5× and 25 levels (66 families); MM6–MM8 treasure table; training caps; boss rows;
+  bolster rows.
+- **Vertigo Meadows (X1)** keeps four dungeon sites: XD-01; XD-02 with XD-03 below it (entered by XD-02's cart; its
+  shaft head on X1 is a one-way exit); XD-04; XD-05. XD-06 Temple of Yak moved to X2 (fairy woods); FD-05 Dungeon of
+  Death became the lower half of FD-04 Dragon Tower on X7 (FD-05 retired). X2 and X3 swapped places in the grid, so
+  X1's west road leads to the hub X2 (X3 now borders X2, X4 and X5).
+- **Dungeons:** 58 (24 S, 30 M, 4 L) + 2 town BLVs + the arena; 69 BLV files with the sky maps, planes and P5. S is
+  6–15 sectors and 15–30 monsters; XD-03 and XD-05 are M as built; XD-01 stays the upper-bound S. L: Darzog's Tower,
+  Castle Xeen, the Great Pyramid, Castle Alamar; Blackfang a large M, the Dragon Cave an M.
+- **Story:** short original lines may be quoted (WORLD_DESIGN §1 Voice; MAPS lists them per map); Artemus suspects
+  Darzog and no Roland spoiler before M21; Crodo's dreams in M1 and two Crodo bottles; Burlock's M35 line for the
+  interleaved order; answer-givers for the source's riddles; Newcastle's deed 12,000.
+- **Assumed, the user may change:** Darkside's amber days and failing sun (WORLD_DESIGN §4, PRODUCTION E8); Xeen as a
+  separate world with a native party (WORLD_DESIGN §1.1); the goblin slate kept as ours (§1.2).
+- **Per map:** POI budgets, day-one services on X3/X4/X5, adjacency fixes (D1–D6 road).
+- **New engine items:** E11 damage from one weapon (Lord Xeen), E12 time-of-day gates, E13 gem payment (was O3),
+  E14 boss rows. The jail for theft is open (recommended: drop).
+- **The built maps** change later in their own passes: [CHANGES_FOR_BUILT_MAPS.md](CHANGES_FOR_BUILT_MAPS.md).
+
+**Not reconciled** (left as stated, for the user or the lead):
+- The adopted table puts 70–80 monsters in the four L set pieces; shipped L dungeons hold 120–180 (scale review §2).
+  Raising them adds about 0.55M party kill XP (two to three late levels) unless something else is cut.
+- The adopted table's outdoor counts (hubs 135, wilderness 110–135, trap maps 90–110) are below the scale review's
+  role bands (hubs 160–220, wilderness 140–185, trap 130–170). The table wins for now (MONSTERS_AND_ITEMS §3).
+- The scale review's outdoor packs of 1–3 per marker against the table's groups of 2–4 (X1's orcs 3–5): the table's
+  groups are kept; the encounter-area layout rule is taken.
+- The scale review's target of half S dungeons needs XD-10, DD-02 and DD-06 to become S; the adopted table keeps them
+  M (the world is 41 % S).
+- X1 has four dungeon sites but five BLVs (the Deep Mine below the Red Dwarf Mines). If "3–4 dungeons" counts BLVs,
+  XD-03 would need its own map elsewhere, which would break the built XD-02/XD-03/X1 links.
+- XD-13, XD-25 and XD-26 were missing from the combat table; their rows in MAPS §0 are computed with its rules.
+- The review page (`review.html`) still shows the first grid (X2 and X3 the other way round) and the old numbers.
+
 ## 1. Xeen world design (`devdocs/xeen/`)
 
-Start with [README.md](README.md): the index, the summary, and the **ten open questions** for the user.
+Start with [README.md](README.md): the index, the summary, the decisions of 2026-11-13 and 2026-11-14, and the open
+questions.
 
 | File | Contents |
 | --- | --- |
 | `WORLD_DESIGN.md` | Concept; decisions D1–D9; two faces (Cloudside, Darkside); 13 surface maps, 3 sky maps, 4 planes and a finale; travel; Fly; visuals; towns; teachers |
 | `QUESTS.md` | Main quest M1–M42 in six acts; 54 side quests; composite promotions (5 tier-1, a Light/Dark tier 2, 5 racial); Newcastle and Kalindra; systems |
-| `MAPS.md` | One sheet per outdoor map; dungeon table (XD-, DD-, FD-); layout sketches. The XD-01–05 rows follow the briefs |
-| `MONSTERS_AND_ITEMS.md` | Conversion rules; 51 families (about 41 reuse installed models); density; treasure; items; artifacts |
-| `PRODUCTION.md` | World package and id ranges; engine work E1–E10 (E10: a world music table, since names are rejected); content routes; mock-ups MU-1–7; phases; the lean variant |
+| `MAPS.md` | The adopted per-map table (§0); one sheet per outdoor map; dungeon table (XD-, DD-, FD-); original lines per map; layout sketches. The XD-01–05 rows follow the briefs |
+| `CHANGES_FOR_BUILT_MAPS.md` | What X1 and XD-01 to XD-05 must change after 2026-11-14 |
+| `reviews/` | The three reviews of 2026-11-13 |
+| `MONSTERS_AND_ITEMS.md` | Conversion rules; 66 families (about 52 reuse installed models); density by map role; treasure on the MM6–MM8 table; items; artifacts; training caps |
+| `PRODUCTION.md` | World package and id ranges; engine work E1–E14 (E10: a world music table, since names are rejected; E11–E14 from the reviews); content routes; mock-ups MU-1–7; phases; the lean variant |
 | `PLAN_YAML_NEEDS.md` | What Xeen asked of Map Studio's plan format. Sent, and folded into the studio's schema |
 | `review.html` | The review page, published privately at https://claude.ai/artifact/FA4PpnWpTm6b8tdr8cEV3Q |
 | `research/` | The evidence. MM4 and MM5 content inventories; decoded Xeen monster, item, class and spell tables; MM6–MM9 calibration; map craft (`research/map_craft/` holds two census scripts and their JSON) |
 | `briefs/xd01`–`xd05/` | Act I dungeon briefs at L1, L2 and L3 (§2) |
 
-**Blocked on the user:** README's open questions are unanswered. These matter most:
+**Still open with the user:** README's open questions (the 2026-11-14 decisions settled text, scope of X1, progression
+and dungeon sizes). These matter most:
 - Fly or Fleet Foot.
 - Interleaving the two faces.
 - Full or lean scope.
@@ -40,7 +85,7 @@ Start with [README.md](README.md): the index, the summary, and the **ten open qu
 Everything Xeen past Act I waits on these, and the Act I briefs are provisional until then.
 
 Design decisions taken while writing the briefs, already in the docs:
-- XD-03 is size S.
+- XD-03 is size M (since 2026-11-14; it was S).
 - The Alacorn returns to Valia; it is not a party relic.
 - The Witch Tower vat gives +2 to one random stat, which keeps Act I's permanent stat budget at about +10 per
   character.
@@ -184,12 +229,13 @@ Still not drawable, waiting on c5's queue:
    Then update `devdocs/xeen/MAPS.md`.
 4. **Outdoor follow-ups:** R6-1–8 in SCHEMA_GAPS.md, when c5 asks or when S4 (outdoor builds) arrives.
 5. **Xeen beyond Act I**, after the user's answers:
-   - The X1 Vertigo Meadows outdoor brief (L1–L3 with a `sketch.yml`).
-   - The Act II maps.
+   - The built maps' passes in [CHANGES_FOR_BUILT_MAPS.md](CHANGES_FOR_BUILT_MAPS.md) (X1 first: the west road
+     to X2, the Temple of Yak door removed, density and POIs).
+   - The Act II maps (X2 with XD-06, XD-21, XD-27; then X4, X3).
 
 ### Open with the user
 
 - **Possible MM6 data bug, unverified.** The Warlord's Fortress quest chest (chest 11 in
   `assets_dev/worlds/mm6/maps/6d16.scene.yml`) stores item 2128 "Discharge Papers". Its event says it gives the Eagle
   Statuette (2073 in `items.txt`). It needs one in-game check. Not fixed: it is outside the brief work.
-- The ten Xeen open questions in README.md.
+- The Xeen open questions in README.md, and the "Not reconciled" list in §0.

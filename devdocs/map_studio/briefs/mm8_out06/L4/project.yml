@@ -1,0 +1,53 @@
+format: 0
+id: calib_shadowspire
+name: Shadowspire
+world: mm8
+kind: outdoor
+profile: odm
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9806
+  reference: out06.odm
+neighbours:
+  - id: door:cave
+    to: d49.blv
+    kind: door
+  - id: door:mad_necromancers_lab
+    to: d20.blv
+    kind: door
+  - id: door:necromancers_guild
+    to: d19.blv
+    kind: door
+  - id: door:vampire_crypt
+    to: d21.blv
+    kind: door
+  - id: edge:east
+    to: out04.odm
+    kind: edge
+    side: east
+    days: 10
+    one_way: true
+    notes: "Ironsand Desert, 10 days, as the original travel row."
+  - id: edge:north
+    to: out04.odm
+    kind: edge
+    side: north
+    days: 5
+    one_way: true
+    notes: "Ironsand Desert, as the original travel row; one way so that the shipped map keeps its own row."
+  - id: edge:south
+    to: out02.odm
+    kind: edge
+    side: south
+    days: 10
+    one_way: true
+    notes: "Ravenshore by the sea, 10 days, as the original travel row."
+  - id: edge:west
+    to: out02.odm
+    kind: edge
+    side: west
+    days: 5
+    one_way: true
+    notes: "Ravenshore, as the original travel row."
+notes: "Calibration rebuild of Shadowspire (MM8 out06.odm), S4 held-out map; first sketch written from the original by output/studio_cal/mm8_out06/scripts/gen_skeleton.py and describe.py, then worked over."

@@ -1,9 +1,9 @@
 format: 0
 start:
   room: room:cave_mouth
-  offset: [0, 224]
-  facing: n
-  notes: "At the foot of the mouth ramp (its low north end), facing up the cave; the exit panel is behind, at the top of the ramp."
+  at: [-1171, -4160]
+  facing: 56
+  notes: "Near the foot of the mouth cave (its low north end), facing as Emerald Island's entrance event sends the party in (MoveToMap direction 320 of 2048 = 56 degrees; the user found 'n' wrong, 2026-11-13); the exit panel is behind, at the top of the cave. Round seven: given by its point (where round six's offset put it), since the cave's outline changed."
 doors:
   - id: door:double_n
     opening: open:door_hall_n_anteroom_n
@@ -12,10 +12,11 @@ doors:
     fold: true
     state: closed
     speed: 50
+    edge_surface: {texture: twb1a, size: [128, 256]}
     pictures:
       - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
       - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
-    notes: "The north wing's double door (door hall to anteroom), as the original's door records 7 and 8: two leaves that part sideways at 50 a second, each folding against its jamb (`fold`: the original's leaves move only their free edge, 160 of 192, and shrink into the wall's slot, leaving a stub). The original's leaves carry one round seal between them in four quarter textures that meet at the doorway's centre: seen from either side, the viewer's left leaf shows t1d1a over t1d1c and the right leaf t1d1b over t1d1d (four separate bitmaps; none of the faces carries a flip flag, so no picture is mirrored). `pictures` in two rows of two say exactly that, each at its own size from the doorway's middle, and read the same from the anteroom (no `back_pictures`). Opens for good on a click on the door or on the button beside it."
+    notes: "The north wing's double door (door hall to anteroom), as the original's door records 7 and 8: two leaves that part sideways at 50 a second, each folding against its jamb (`fold`: the original's leaves move only their free edge, 160 of 192, and shrink into the wall's slot, leaving a stub). The original's leaves carry one round seal between them in four quarter textures that meet at the doorway's centre: seen from either side, the viewer's left leaf shows t1d1a over t1d1c and the right leaf t1d1b over t1d1d (four separate bitmaps; none of the faces carries a flip flag, so no picture is mirrored). `pictures` in two rows of two say exactly that, each at its own size from the doorway's middle, and read the same from the anteroom (no `back_pictures`). Opens for good on a click on the door or on the button beside it. Round seven: the leaves' free edges wear twb1a (`edge_surface`), as the original's leaf edges (face 1530 of door record 6)."
   - id: door:double_s
     opening: open:door_hall_s_anteroom_s
     kind: slide_left
@@ -23,10 +24,11 @@ doors:
     fold: true
     state: closed
     speed: 50
+    edge_surface: {texture: twb1a, size: [128, 256]}
     pictures:
       - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
       - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
-    notes: "Mirror of door:double_n, on the critical path to the library."
+    notes: "Mirror of door:double_n, on the critical path to the library. Round seven: the leaves' free edges wear twb1a (`edge_surface`), as the original's leaf edges (face 1530 of door record 6)."
   - id: door:secret_wall
     opening: open:library_hidden_passage
     kind: slide_up
@@ -59,6 +61,7 @@ chests:
     size: [128, 64, 256]
     surface: {texture: 7t1cab, size: [128, 256]}
     end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
     random_levels: [2, 1, 1]
     notes: "Cabinet against the alcove's south wall, beside the arch. Plan: 3 random items of treasure levels 2, 1, 1. Each roll at its own level, as the original's chest record 1 (event 21)."
   - id: chest:cabinet_2
@@ -67,6 +70,7 @@ chests:
     size: [128, 64, 256]
     surface: {texture: 7t1cab, size: [128, 256]}
     end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
     random_levels: [2, 1, 1, 1]
     notes: "Cabinet against the alcove's south wall, at its back. Plan: 4 random items of levels 2, 1, 1, 1. Each roll at its own level, as the original's chest record 2 (event 22)."
   - id: chest:cabinet_3
@@ -75,6 +79,7 @@ chests:
     size: [128, 64, 256]
     surface: {texture: 7t1cab, size: [128, 256]}
     end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
     random_levels: [2, 1, 1]
     notes: "Cabinet against the alcove's north wall, at its back. Plan: 3 random items of levels 2, 1, 1. Each roll at its own level, as the original's chest record 3 (event 23)."
   - id: chest:cabinet_4
@@ -83,6 +88,7 @@ chests:
     size: [128, 64, 256]
     surface: {texture: 7t1cab, size: [128, 256]}
     end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
     random_levels: [3, 2, 1]
     notes: "Cabinet against the alcove's north wall, beside the arch. Plan: 3 random items of levels 3, 2, 1. Each roll at its own level, as the original's chest record 4 (event 24)."
   - id: chest:cabinet_hat
@@ -92,6 +98,7 @@ chests:
     size: [128, 64, 256]
     surface: {texture: 7t1cab, size: [128, 256]}
     end_surface: {texture: 7t1cabs, size: [64, 128]}
+    top_surface: {texture: 7t1cabs, size: [64, 128]}
     random_levels: [3, 2, 1]
     items: [wealthy_hat]
     notes: "The cabinet against the alcove's back (west) wall, facing the arch: the Wealthy Hat (scavenger hunt) and 3 random items of levels 3, 2, 1, as the original's chest record 5 (event 25)."

@@ -1,18 +1,21 @@
-# Playtest of the Red Dwarf Mines (XD-02, L4): a level-6 party walks in by the adit, reads the clan's warning, takes the
-# Torch Light scroll off the lamp rack, chips the sorting floor's vein, finds the strongroom behind the chalk mark and
-# loots the payroll chest; rides the trestle car over the chasm to the Turntable, walks back by the foot drift (the
-# rockfall comes down behind it once), calls the car back with the station's lever and rides it again; sets the points
-# east, sees the trestle car refuse, rides the east cart down the drowned line, crosses the flooded working on its
-# planks (tiger moles), chips its vein, drinks the gold pool (twice: once only), rides back and sets the points back;
-# fights into the tally room and takes the brake key from the clan's strongbox; reads the chapel's tablet and drinks
-# the green pool; walks the west line through both ventilation doors, finds the west adit's exit shut, works the winch
-# (the fall goes, x4_adit_open); goes through the low gallery to the rim, chips the rim's vein, walks the spiral of
-# ledges and ramps down the Open Stope, chips the south-east ramp's vein, crawls into the spider galleries, cuts the web
-# wall and drinks the blue pool, chips the south-west ramp's vein, comes down to the floor, drinks the red pool (Might
-# +2, and once only), mines the rich vein (the burrow breaks open: two tiger moles), rides the hoist up to the rim and
-# down again (calling it with the rim's bell-pull in between), and at the Deep Line station finds the line shut, frees
-# the cart with the brake key and rides down the Deep Line (the exit asks first; the stand-in neighbour is Emerald
-# Island).
+# Playtest of the Red Dwarf Mines (XD-02, L4): a level-6 party walks in by the adit (Gunther's errand shown once on
+# arrival), reads the clan's warning, takes the Torch Light scroll off the lamp rack, chips the sorting floor's vein,
+# finds the strongroom behind the chalk mark and loots the payroll chest; rides the trestle car over the chasm to the
+# Turntable by the riders' lever beside the station's gate, walks back by the foot drift (the rockfall comes down
+# behind it once), calls the car back with the station's lever and rides it again, back up by the riders' lever at
+# the Turntable's gate and down again; sets the points east, sees the trestle car refuse, rides the east cart down the
+# drowned line by its riders' lever, crosses the flooded working on its planks (tiger moles), chips its vein, drinks
+# the gold pool (twice: once only), rides back by the landing's riders' lever and sets the points back; fights into
+# the tally room (the Tallymaster named on entering) and takes the brake key from the clan's strongbox; reads the
+# chapel's tablet and drinks the green pool; walks the west line through both ventilation doors, finds the west adit's
+# exit shut, works the winch (the fall goes, x4_adit_open); goes through the low gallery to the rim, chips the rim's
+# vein, walks the spiral of ledges and ramps down the Open Stope, chips the south-east ramp's vein, crawls into the
+# spider galleries, cuts the web wall and drinks the blue pool, chips the south-west ramp's vein, comes down to the
+# floor, drinks the red pool (Might +2, and once only), mines the rich vein (the burrow breaks open: two tiger moles),
+# rides the hoist up to the rim by the floor's lever from inside the cage and down again by the riders' lever at the
+# rim stop (calling it with the rim's bell-pull in between), and at the Deep Line station finds the line and the cart
+# chained, frees the cart with the brake key (a window says what changed) and rides the cart down the Deep Line (the
+# exit asks first; the stand-in neighbour is Emerald Island).
 # Event, door, map-variable and light numbers are ids.lock.yml's. Nothing depends on chance: only the payroll chest
 # (fixed amethyst) and the strongbox (fixed key) are looted, after packs are checked for room, and every walk past a
 # spawn point clears hostiles near it; the placed tally guards and moles are met and killed by clear_hostiles where a
@@ -34,14 +37,16 @@ steps:
           - {name: Sefa, class: Sorcerer, level: 6, skills: [], equipment: {}}
   - assert: {map: xeen_xd02.blv}
   - setup_shortcut: {kind: immortal, value: true}
-  - assert: {party_position: {x: 14120, y: 3392, radius: 64, z_min: -8, z_max: 8}}
-  # The adit mouth: the clan's warning on the west wall.
-  - play_lua:
-      source: |
-        status()
-        click(9); wait(1)
-        local seen = status()
-        if not string.find(seen, "MAD DWARF CLAN", 1, true) then error("the clan's warning did not read: " .. seen) end
+  - assert: {party_position: {x: 14376, y: 3392, radius: 64, z_min: -8, z_max: 8}}
+  # The arrival: Gunther's errand in a message window, once, a moment after entering (a one-shot timer: a load event's
+  # window is never shown). The headless runner does not open windows from timers, so the step asserts the event ran.
+  - play_lua: {source: "wait(3)"}
+  - assert: {state_dump_map_var: {index: 17, value: 1}}
+  # The adit mouth: the clan's warning on the west wall, in a message window.
+  - play_lua: {source: "click(9); wait(1)"}
+  - assert:
+      dialog: {text_contains: "MAD DWARF CLAN"}
+  - play_lua: {source: "if not close() then error('the clan sign opened no message window') end"}
   # Down the haul drift (bats round the bend) to the Top Station.
   - walk_to: {x: 13000, y: 3392, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 12736, y: 4400, z: -150, radius: 96, timeout_seconds: 60, clear_hostiles: 1200}
@@ -58,22 +63,26 @@ steps:
   - walk_to: {x: 12288, y: 4830, z: -192, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   # The sorting floor: the vein in the slanted west wall pays once.
   - walk_to: {x: 12600, y: 5900, z: -192, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
-  - walk_to: {x: 12520, y: 6200, z: -192, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
+  - walk_to: {x: 12540, y: 6280, z: -192, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
       source: |
         local before = gold()
         click(41); wait(1)
         if gold() ~= before + 120 then error("the sorting floor's vein did not pay 120: " .. before .. " -> " .. gold()) end
+        status()
         click(41); wait(1)
         if gold() ~= before + 120 then error("the sorting floor's vein paid twice") end
+        local seen = status()
+        if not string.find(seen, "bare rock", 1, true) then error("the mined vein's second click said nothing: " .. seen) end
   # The chalk mark, and the dry-stone wall under it, which sinks: the forgotten strongroom and its payroll chest.
   - walk_to: {x: 13440, y: 6157, z: -192, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
+  # Since the tenth merge only signs, tablets and the like open a message window: the chalk mark is a status line.
   - play_lua:
       source: |
         status()
         click(2); wait(1)
         local seen = status()
-        if not string.find(seen, "strongbox", 1, true) then error("the chalk mark did not read: " .. seen) end
+        if not string.find(seen, "strongbox", 1, true) then error("the chalk mark said nothing: " .. seen) end
         if door_state(12) ~= "closed" then error("the strongroom wall does not start shut") end
         click(32); wait(5)
         if door_state(12) ~= "open" then error("the strongroom wall did not sink: " .. door_state(12)) end
@@ -93,9 +102,9 @@ steps:
         if door_state(22) ~= "closed" or door_state(7) ~= "open" or door_state(8) ~= "closed" then
           error("the car and its gates do not start at the Top Station: " .. door_state(22) .. door_state(7) .. door_state(8))
         end
-        click(34); wait(12)
+        click(53); wait(12)
         if door_state(22) ~= "open" or door_state(7) ~= "closed" or door_state(8) ~= "open" then
-          error("the car did not run to the Turntable: " .. door_state(22) .. door_state(7) .. door_state(8))
+          error("the riders' lever at the station did not run the car: " .. door_state(22) .. door_state(7) .. door_state(8))
         end
   - assert: {party_position: {x: 9890, y: 5184, radius: 200, z_min: -392, z_max: -372}}
   - walk_to: {x: 9200, y: 5184, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
@@ -129,6 +138,18 @@ steps:
         click(34); wait(12)
         if door_state(22) ~= "open" then error("the car did not run a second time: " .. door_state(22)) end
   - assert: {party_position: {x: 9890, y: 5184, radius: 200, z_min: -392, z_max: -372}}
+  # The riders' lever at the Turntable's stop takes the car (and the party on it) back up to the station, and the
+  # station's riders' lever brings it down again.
+  - play_lua:
+      source: |
+        click(54); wait(12)
+        if door_state(22) ~= "closed" or door_state(7) ~= "open" then error("the riders' lever at the Turntable did not run the car back") end
+  - assert: {party_position: {x: 11470, y: 5184, radius: 200, z_min: -168, z_max: -150}}
+  - play_lua:
+      source: |
+        click(53); wait(12)
+        if door_state(22) ~= "open" then error("the riders' lever at the station did not run the car again") end
+  - assert: {party_position: {x: 9890, y: 5184, radius: 200, z_min: -392, z_max: -372}}
   - walk_to: {x: 9200, y: 5184, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   # The points lever: east. The trestle car now refuses; the east cart runs.
   - walk_to: {x: 8960, y: 4870, z: -384, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
@@ -144,15 +165,15 @@ steps:
   - play_lua:
       source: |
         if door_state(18) ~= "closed" or door_state(5) ~= "open" then error("the east cart does not wait at the Turntable") end
-        click(17); wait(14)
-        if door_state(18) ~= "open" or door_state(6) ~= "open" then error("the east cart did not run: " .. door_state(18) .. door_state(6)) end
+        click(50); wait(14)
+        if door_state(18) ~= "open" or door_state(6) ~= "open" then error("the riders' lever did not run the east cart: " .. door_state(18) .. door_state(6)) end
   - assert: {party_position: {x: 10727, y: 2971, radius: 200, z_min: -392, z_max: -372}}
   # The buffer landing, down into the flooded working, along the planks (tiger moles) to the dry hump.
   - walk_to: {x: 11000, y: 2800, z: -400, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 10900, y: 2150, z: -620, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 10912, y: 1600, z: -616, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 11744, y: 1408, z: -616, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
-  - walk_to: {x: 12400, y: 1000, z: -640, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
+  - walk_to: {x: 12540, y: 1180, z: -640, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
       source: |
         local before = gold()
@@ -177,8 +198,8 @@ steps:
   - walk_to: {x: 10727, y: 2971, z: -384, radius: 32, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
       source: |
-        click(17); wait(14)
-        if door_state(18) ~= "closed" or door_state(5) ~= "open" or door_state(6) ~= "closed" then error("the east cart did not come back") end
+        click(49); wait(14)
+        if door_state(18) ~= "closed" or door_state(5) ~= "open" or door_state(6) ~= "closed" then error("the landing's riders' lever did not bring the east cart back") end
   - assert: {party_position: {x: 9341, y: 4357, radius: 200, z_min: -392, z_max: -372}}
   - walk_to: {x: 8960, y: 4870, z: -384, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua: {source: "click(26); wait(2)"}
@@ -193,9 +214,11 @@ steps:
       source: |
         open_door(14, 13)
         if door_state(13) ~= "open" then error("the tally door did not open") end
-  - clear_hostiles: {radius: 900}
-  - assert: {actor_count: {monster_id: 229, near: [6000, 7200, 600], max: 0}}
-  - walk_to: {x: 5880, y: 7200, z: -288, radius: 64, timeout_seconds: 60, clear_hostiles: 900}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_count: {monster_id: 229, near: [5800, 7200, 900], max: 0}}
+  - assert: {actor_count: {monster_id: 230, near: [5800, 7200, 900], max: 0}}
+  - walk_to: {x: 5320, y: 7200, z: -288, radius: 64, timeout_seconds: 60, clear_hostiles: 900}
+  - assert: {state_dump_map_var: {index: 19, value: 1}}
   - play_lua:
       source: |
         log("packs before the strongbox: " .. pack_items())
@@ -217,9 +240,12 @@ steps:
         open_door(11, 2)
         if door_state(2) ~= "open" or door_state(3) ~= "open" then error("the chapel doors did not open") end
   - walk_to: {x: 8512, y: 3700, z: -448, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
-  - walk_to: {x: 8512, y: 2720, z: -448, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
-  - play_lua: {source: "click(33); wait(1); close(); wait(1)"}
-  - walk_to: {x: 8512, y: 3420, z: -448, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
+  - walk_to: {x: 8576, y: 2420, z: -448, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
+  - play_lua: {source: "click(33); wait(1)"}
+  - assert:
+      dialog: {text_contains: "BLUE SLEEPS BEHIND THE SILK"}
+  - play_lua: {source: "if not close() then error('the tablet opened no message window') end; wait(1)"}
+  - walk_to: {x: 8576, y: 3260, z: -448, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
       source: |
         status()
@@ -254,6 +280,10 @@ steps:
         click(44); wait(12)
         if door_state(19) ~= "open" then error("the winch did not send the fall away: " .. door_state(19)) end
         if not qbit(110020) then error("the winch did not set x4_adit_open") end
+        status()
+        click(44); wait(1)
+        seen = status()
+        if not string.find(seen, "slack", 1, true) then error("the winch's second turn said nothing: " .. seen) end
   - assert: {map: xeen_xd02.blv}
   - walk_to: {x: 2600, y: 5184, z: 256, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - assert: {party_position: {x: 2600, y: 5184, radius: 100, z_min: 248, z_max: 264}}
@@ -268,6 +298,16 @@ steps:
         local before = gold()
         click(39); wait(1)
         if gold() ~= before + 90 then error("the rim's vein did not pay 90") end
+  # The rim's hoist lever before the cage has been ridden: it says why nothing comes.
+  - walk_to: {x: 7080, y: 3800, z: -384, radius: 48, timeout_seconds: 60, clear_hostiles: 400}
+  - play_lua: {source: "click(25); wait(1)"}
+  - assert:
+      dialog: {text_contains: "braked"}
+  - play_lua:
+      source: |
+        if not close() then error("the rim's hoist lever opened no message window") end
+        if door_state(20) ~= "closed" then error("the rim's lever moved the braked cage") end
+  - walk_to: {x: 7560, y: 3460, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 400}
   # Down the spiral: ledge, ramp, ledge, ramp to the south-south-west ledge, the south-east ramp's vein on the way.
   - walk_to: {x: 7095, y: 3247, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 500}
   - walk_to: {x: 7168, y: 2880, z: -464, radius: 64, timeout_seconds: 60, clear_hostiles: 800}
@@ -345,15 +385,15 @@ steps:
   - clear_hostiles: {radius: 900}
   - assert: {actor_count: {monster_id: 412, near: [6800, 4120, 500], max: 0}}
   - pick_up: {item_id: 203}
-  # The hoist: into the cage, up to the rim; out; the rim's bell-pull sends it down and brings it up again; back in
-  # and down.
+  # The hoist: into the cage, up to the rim by the floor's lever (in reach from the cage); out; the rim's bell-pull
+  # sends it down and brings it up again; back in and down by the riders' lever at the rim stop.
   - walk_to: {x: 6760, y: 3430, z: -1152, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 6920, y: 3592, z: -1150, radius: 32, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
       source: |
         if door_state(20) ~= "closed" or door_state(9) ~= "closed" then error("the hoist does not wait at the bottom with its gate shut") end
-        click(23); wait(10)
-        if door_state(20) ~= "open" or door_state(9) ~= "open" then error("the hoist did not ride up: " .. door_state(20) .. door_state(9)) end
+        click(24); wait(10)
+        if door_state(20) ~= "open" or door_state(9) ~= "open" then error("the floor's lever did not send the cage up: " .. door_state(20) .. door_state(9)) end
   - assert: {party_position: {x: 6920, y: 3592, radius: 80, z_min: -392, z_max: -374}}
   - walk_to: {x: 7080, y: 3800, z: -384, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
@@ -365,8 +405,8 @@ steps:
   - walk_to: {x: 6920, y: 3592, z: -382, radius: 32, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua:
       source: |
-        click(23); wait(10)
-        if door_state(20) ~= "closed" then error("the cage did not ride down") end
+        click(51); wait(10)
+        if door_state(20) ~= "closed" then error("the riders' lever at the rim did not take the cage down") end
   - assert: {party_position: {x: 6920, y: 3592, radius: 80, z_min: -1160, z_max: -1140}}
   # The Deep Line station: the line shut, the brake key frees the cart, and down the Deep Line.
   - walk_to: {x: 5600, y: 3650, z: -1152, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
@@ -379,14 +419,31 @@ steps:
         click(20); wait(1)
         local seen = status()
         if not string.find(seen, "chained", 1, true) then error("the Deep Line did not say its cart was chained: " .. seen) end
+        status()
+        click(47); wait(1)
+        seen = status()
+        if not string.find(seen, "chained", 1, true) then error("the chained cart did not say so: " .. seen) end
         if door_state(17) ~= "closed" then error("the chain does not start in place") end
         click(1); wait(3)
+  # The brake's window says what changed and what to do next.
+  - assert:
+      dialog: {text_contains: "brake comes off"}
+  - play_lua:
+      source: |
+        if not close() then error("the brake opened no message window") end
+        wait(3)
         if door_state(17) ~= "open" then error("the brake key did not free the cart") end
         if not qbit(110021) then error("the brake did not set deep_line_unchained") end
         if has_item(2111) then error("the brake key was not taken by the brake") end
+        status()
+        click(1); wait(1)
+        local again = status()
+        if not string.find(again, "slack", 1, true) then error("the freed brake's second click said nothing: " .. again) end
+  - assert: {state_dump_map_var: {index: 18, value: 1}}
   - assert: {map: xeen_xd02.blv}
-  - walk_to: {x: 3960, y: 4560, z: -1216, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
-  - execute_event: {id: 20}
+  # Into the cart: it runs down the Deep Line (the exit face at the cutting's end does the same).
+  - walk_to: {x: 4250, y: 4560, z: -1216, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
+  - execute_event: {id: 47}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
   - assert: {map: 7out01.odm}
@@ -394,3 +451,14 @@ steps:
       source: |
         if not qbit(110020) or not qbit(110021) then error("a quest bit was lost on leaving") end
         if not has_item(181) or not has_item(300) then error("the payroll amethyst or the lamp scroll was lost") end
+  # Back into the mine at the portal (its start) and out by the portal to X1 (Vertigo Meadows).
+  - load_map: {map: xeen_xd02.blv}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: xeen_xd02.blv}
+  - execute_event: {id: 21}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  # On X1 in front of the timbered portal, and down the mine lane on foot.
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: -10240, y: 16131, radius: 128, z_min: 1100, z_max: 1260}}
+  - walk_to: {x: -10240, y: 15700, z: 1120, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}

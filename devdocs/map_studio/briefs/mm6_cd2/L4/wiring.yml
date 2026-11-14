@@ -13,8 +13,10 @@ events:
     effects:
       - give_item: 2172
       - qbit: 1217
-      - lua: "evt.SetSprite(325, 1, \"crysdisc\")"
-    notes: "Original event 57: the Memory Crystal Delta (item 2172) and the seer's quest item bit 1217, unless the party has it or the Oracle is done (quest bit 1126); the crystal's picture turns to crysdisc (the original's SetSprite 329). An indoor decoration's picture has no effect word: Lua with the decoration's entity number in the build (325, deco:d329), which moves when decorations before it in objects.yml change."
+      - set_sprite:
+          of: deco:d329
+          to: crysdisc
+    notes: "Original event 57: the Memory Crystal Delta (item 2172) and the seer's quest item bit 1217, unless the party has it or the Oracle is done (quest bit 1126); the crystal's picture turns to crysdisc (the original's SetSprite 329). Ninth merge: `set_sprite` on deco:d329 (was Lua with the build's entity number 325)."
   - id: evt:cube_crystal_e
     preset: teleport
     source: platform:cube_crystal_e
@@ -351,8 +353,10 @@ events:
     trigger: load
     condition: {any: [{qbit: 1126}, {item: 2172}]}
     effects:
-      - lua: "evt.SetSprite(325, 1, \"crysdisc\")"
-    notes: "Original event 58: the crystal's picture stays crysdisc once taken (entity 325 of the build, as evt:crystal)."
+      - set_sprite:
+          of: deco:d329
+          to: crysdisc
+    notes: "Original event 58: the crystal's picture stays crysdisc once taken (set_sprite, as evt:crystal)."
   - id: evt:on_load_hall
     preset: script
     trigger: load
@@ -412,8 +416,12 @@ events:
     locked_text: The Book is destroyed
     effects:
       - qbit: 1033
+      - set_texture:
+          of: platform:podium
+          to: deskside
+          face: top
     text: The Book of Liches is destroyed
-    notes: "Original event 34: destroys the Book of Liches (quest bit 1033, the merged number of the original's bit 9), which ends the summons of events 26 and 47 to 52. Not said: the desk top's texture turning to deskside."
+    notes: "Original event 34: destroys the Book of Liches (quest bit 1033, the merged number of the original's bit 9), which ends the summons of events 26 and 47 to 52. The desk top turns to deskside (the original's SetTexture(-4560), its top alone; ninth merge)."
   - id: evt:sarcophagus61
     preset: script
     source: panel:sarcophagus61

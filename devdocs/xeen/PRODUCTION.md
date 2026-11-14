@@ -1,6 +1,7 @@
 # Xeen: production plan
 
-Proposal, 2026-11-12. Part of the [Xeen world design](README.md). What has to exist in the engine, how each kind of
+Proposal, 2026-11-12; revised 2026-11-14 for the user's decisions after the three reviews (README, "Decisions of
+2026-11-14"; `reviews/`). Part of the [Xeen world design](README.md). What has to exist in the engine, how each kind of
 content is made, which mock-ups come before any geometry, and in what order. Effort figures are from this repository's
 track record (`research/MAP_CRAFT_CALIBRATION.md` §5.3, `research/MM678_CALIBRATION.md` §6).
 
@@ -40,11 +41,19 @@ Nothing here is large; most of it removes MM9-only assumptions so that any third
 | E3 | **Two faces in one world**: Town Portal page, loading screens, death map and default sky per face | WORLD_DESIGN D1 | Probably a second continent id owned by the same world. Investigate first; pick whichever needs the fewest special cases |
 | E4 | **Fall-through on sky maps**: a fall below the cloud floor moves the party to the surface map underneath at the matching position | Sky maps (X8, X9, D7) and the plane entrances | A trigger volume or floor face with an event plus one shared Lua helper that maps positions; check what `evt.MoveToMap` and the open-air BLV already allow |
 | E5 | **World-rim falls** on ODMs: walking off the rim cliff kills (or teleports) the party | WORLD_DESIGN D9 | A rim-side trigger strip; the visual is data (`below_horizon: sky`) |
-| E6 | **Staged maps**: show and hide BModel groups, faces and actor groups by qbit at map load, and open or close houses by qbit | Newcastle, Castle Kalindra, five liberated towns | `SetFacetBit`, `SetMonGroupBit` exist in `game/events/EventRuntime.cpp`; verify outdoor BModel visibility and house gating |
+| E6 | **Staged maps**: show and hide BModel groups, faces and actor groups by qbit at map load, open or close houses by qbit, and choose the map's sky preset by qbit | Newcastle, Castle Kalindra, five liberated towns, Darkside's failing sun (E8) | `SetFacetBit`, `SetMonGroupBit` exist in `game/events/EventRuntime.cpp`; verify outdoor BModel visibility and house gating |
 | E7 | **Per-map rules**: no Fly on open-air sky and plane maps; no spellcasting in Darzog's Tower; local always-overcast weather for Nightshadow | WORLD_DESIGN §3.4, XD-12 | Small map flags if they do not exist |
-| E8 | **`xeen_darkside_dusk` sky preset** and the world's `terrain_materials/world.yml` (snow mapped onto an MM8 tile family; verify) | Visual identity | Data only, per `level_generation/lighting/SKY_RENDERING.md` |
+| E8 | **Darkside sky presets** `xeen_darkside_day`, `xeen_darkside_fading`, `xeen_darkside_failing` (an amber day band under a pale, small sun, normal nights; chosen by qbit through E6) and the world's `terrain_materials/world.yml` (snow mapped onto an MM8 tile family; verify) | Visual identity; WORLD_DESIGN §4 (assumed, the user may change) | Data only, per `level_generation/lighting/SKY_RENDERING.md` |
 | E9 | **ODM ambient sounds** (lava, waterfalls, wind at the rim) | Map craft | BLV has them, ODM not (MAP_CRAFT §4.3) |
 | E10 | **A music table for the world** (track names to numbers), or numeric tracks on every map card | The Act I briefs name tracks (`cave`, `tower_dark` …), and the game refuses a map whose music is not a number ("invalid redbook track") | Found by the briefs' test builds, 2026-11-12 |
+| E11 | **Damage only from one weapon**: Lord Xeen takes damage only from the Slayer Sword, none from area spells | M35 | Per-actor Lua behaviour (`devdocs/ACTOR_SCRIPTING_INVESTIGATION.md`); check whether a damage filter hook exists |
+| E12 | **Time-of-day gates**: the Nightshadow coffin opens only at night; the Queen can be carried out only after nightfall | Q-C7, M27 | Probably plain Lua over the game clock |
+| E13 | **Gem payment** in dialogue vendors (talking skulls, the Dragon Tax, gemsmiths, Slick) | Core touches (`reviews/STORY_AND_ATMOSPHERE.md` F10); was O3 | Can be plain Lua over gem items |
+| E14 | **One monster_data row per boss** with its HP multiplier and treasure; scene `hp` is not read (XD-01, XD-03, XD-04, XD-05 notes) | MONSTERS_AND_ITEMS §1 | Data, but the stand-in builds need the rows before their bosses play right |
+
+Not engine work: a companion that travels with the party (Corak in the Soul Box, M32–M33) is a quest item, since Corak
+never speaks on the road. Open: the source's jail for theft ("one year in jail") has no MM6–MM8 counterpart; recommended:
+drop it (or a fine plus aging), the user may decide.
 
 ### 2.2 Optional
 
@@ -52,7 +61,6 @@ Nothing here is large; most of it removes MM9-only assumptions so that any third
 | --- | --- | --- |
 | O1 | Energy and Magic damage weapon enchants; golem, insect and beast slaying | Xeen's item flavour (MONSTERS_AND_ITEMS §4.2) |
 | O2 | Light/Dark promotion choice per character in the promotion dialogue | QUESTS §3.2 (otherwise per party, MM7 style) |
-| O3 | Gem payment in dialogue vendors (talking skulls, dragon tax, gemsmiths) | Can be plain Lua over gem items |
 
 ## 3. Content routes
 
@@ -60,18 +68,21 @@ Nothing here is large; most of it removes MM9-only assumptions so that any third
 | --- | --- | --- | --- |
 | Surface ODMs (13) | Building kit at native scale, planned terrain and road graph, headless build, terrain materials, minimap, bake, tours | Brackenford (`level_generation/OUTDOOR_CALIBRATION.md`, `VISUAL_CALIBRATION.md`), Hesper out1 | 1–2 days and 3–5 user review rounds each |
 | Open-air BLVs (3 sky, 4 planes, finale, Shangri-La) | MM9's outdoor BLV route | `level_generation/projects/mm9r_common/outdoor_blv.py`, `devdocs/INDOOR_OPEN_SKY.md` | about 1 day each; smaller than ODMs |
-| Dungeons (~54) | Hesper's BLV kit and plans, walkability audit | `design/kreegan_world/DUNGEON_PLAYBOOK.md`, `hesper_stage/blv_kit.py` | 0.5–1 day each once a kit and its textures exist |
+| Dungeons (58) | Hesper's BLV kit and plans, walkability audit | `design/kreegan_world/DUNGEON_PLAYBOOK.md`, `hesper_stage/blv_kit.py` | 0.5–1 day each once a kit and its textures exist |
 | Building and dungeon kits | Six style kits: Cloudside town (half-timber), royal castle (white stone), witch/wizard towers (dark timber, slate), Darkside town (low slate stone), Sandcaster sandstone, Ancient tech (Alamar, pods, Castle Xeen machines; Hesper's sci-fi kits are the starting point) | Surface textures through `level_generation/textures_x4/PLAYBOOK.md` style generation | — |
 | Creatures (10–13 new + ~41 recoloured families) | creature-to-3D (HD master references, Meshy, playbooks, colour tiers) | `.agents/skills/creature-to-3d`, the playbooks in CLAUDE.md | per creature project |
 | Decorations | Reuse engine `mm6_/mm7_/mm8_deco_*` models; new props (rim crystals, cloud-stone, Ancient machinery, sundials, gongs, pedestals) through the prop route; world rows in the world package | `devdocs/WORLD_DECORATION_CONTRIBUTIONS.md` | — |
 | Items (60–90 rows, ~15 artifacts) | Data rows + icons through the icon pipeline | MM9 items as the pattern | — |
 | NPC portraits | Restored from Xeen's own face sprites (`sprites/*/` portraits) or generated, through the dense64 portrait route | `level_generation/ui/hud_inventory/BATCHING_DENSE64.md` | — |
-| Text | 300–380 named NPCs, ~45 side quests, ~42 main steps; English source, localisation keys per `devdocs/LOCALIZATION.md` | — | the largest writing job |
+| Text | 300–380 named NPCs, 54 side quests, 42 main steps; English source, localisation keys per `devdocs/LOCALIZATION.md` | — | the largest writing job |
 | Music | Xeen's music is in a custom sequence format and is not usable directly; reuse MM6–MM8 tracks per area or commission new ones | — | user decision |
 
-**What may ship.** The source's art, music and text are references. The world ships new maps, generated or restored art
-and rewritten text, the same principle as the rest of this repository; whether restored Xeen portraits or sprites may be
-used is the user's call (README, open questions).
+**What may ship.** The source's art and music are references. The world ships new maps and generated or restored art,
+the same principle as the rest of this repository; whether restored Xeen portraits or sprites may be used is the
+user's call (README, open questions). Text: short original MM4/MM5 lines (signs, NPC quips, jokes, Joe's invoice, the
+guidebook) may be quoted or closely paraphrased; longer text is rewritten in the original's spirit (decision of
+2026-11-14). Every map's L4 NOTES list at least three short original lines from its source map with their `aaze`
+reference (MAPS.md names them).
 
 ## 4. Mock-ups before geometry
 
@@ -97,9 +108,9 @@ The review page linked from [README.md](README.md) already has MU-1 schematics a
 | --- | --- | --- | --- |
 | **0. Decisions and groundwork** | User answers the open questions. E1–E3, E6, E8; world package skeleton; MU-3/MU-6 plans in Map Studio's shared `plan.yml` schema (`devdocs/map_studio/`; Xeen's needs in [PLAN_YAML_NEEDS.md](PLAN_YAML_NEEDS.md)), no separate Xeen plan tool | The world mounts and starts | days |
 | **1. Vertical slice: Act I** | X1 Vertigo Meadows with Vertigo; XD-01 to XD-05; 8 families (orcs, toads, snakes, skeletons, zombies, slimes, mad dwarves, goblins/witches); M1–M4, Q-C20–Q-C22; promotion T1-A; Adventurer's Inn | Map craft at Xeen's look, a town, a dungeon kit, quests, a promotion. **Stop for the user's verdict before scaling up** | 1 ODM, 5 BLVs |
-| **2. Cloudside** | X2–X7, X8, X9; Cloudside dungeons; Acts II, IV (Cloudside half), V (Castle Xeen); Newcastle; liberated towns; tier-1 promotions | A complete Clouds game ending at Lord Xeen. The pyramid says "the moons are not aligned" until phase 3 | 6 ODMs, 2 sky, ~22 BLVs |
-| **3. Darkside** | D1–D7; Darkside dungeons; Acts III–V Darkside half; Castle Kalindra; tier-2 promotions; pyramid opens at M7 | The interleaved middle | 6 ODMs, 1 sky, ~26 BLVs |
-| **4. Finale and polish** | P1–P5, FD-01 to FD-05; balance pass (`tools/` density and level audits like MM9's); playthrough tests under `tests/playthrough/xeen/` per act; side-quest scenarios; MAW balance file; lighting bakes | The ending; release | 5 small maps, 5 BLVs |
+| **2. Cloudside** | X2–X7, X8, X9; Cloudside dungeons; Acts II, IV (Cloudside half), V (Castle Xeen); Newcastle; liberated towns; tier-1 promotions; the built Act I maps' changes ([CHANGES_FOR_BUILT_MAPS.md](CHANGES_FOR_BUILT_MAPS.md)) | A complete Clouds game ending at Lord Xeen. The pyramid says "the moons are not aligned" until phase 3 | 6 ODMs, 2 sky, 20 dungeon BLVs + Shangri-La + the arena |
+| **3. Darkside** | D1–D7; Darkside dungeons; Acts III–V Darkside half; Castle Kalindra; tier-2 promotions; pyramid opens at M7 | The interleaved middle | 6 ODMs, 1 sky, 29 dungeon BLVs + Bosco's Hall |
+| **4. Finale and polish** | P1–P5, FD-01 to FD-04; balance pass (`tools/` density and level audits like MM9's); playthrough tests under `tests/playthrough/xeen/` per act; side-quest scenarios; MAW balance file; lighting bakes | The ending; release | 5 small maps, 4 BLVs |
 
 For scale: Hesper built 22 maps in about 10 days with many parallel agents and is still unfinished; this world is
 roughly three to four Hespers of maps plus two games of writing. Phase 1 is the honest estimate-maker: measure it,
@@ -109,8 +120,9 @@ then re-plan phases 2–4.
 
 If the full plan is too large: merge X3 into X2 (Newcastle and Nightshadow move to Rivercity's south bank), merge D5
 into D6 (the pyramid and the Northern Tower join the Forbidden Zone), one Cloudside sky map holding both X8 and X9 as
-separate archipelagos, one elemental plane with four sleeper shrines, and the Dragon Tower, Dungeon of Death and
-Sheltem's Pod cut. Result: 13 ODMs → **11**, sky 3 → 2, planes 4 → 1, dungeons 54 → about 45. The story is unchanged.
+separate archipelagos, one elemental plane with four sleeper shrines, and FD-04 (the Dragon Tower with the Dungeon of
+Death) and Sheltem's Pod cut. Result: 13 ODMs → **11**, sky 3 → 2, planes 4 → 1, dungeons 58 → about 49. The story is
+unchanged.
 
 ## 6. Risks
 
@@ -118,7 +130,8 @@ Sheltem's Pod cut. Result: 13 ODMs → **11**, sky 3 → 2, planes 4 → 1, dung
 | --- | --- |
 | Volume: two games of maps and writing | Phase 1 slice first; the lean variant; reuse of 41 monster models and the engine decoration set |
 | Maps that look empty or flat (Hesper's verdict) | MAPS checklist and MU-3/MU-4 approval before geometry; relief ≥ 2,500; every open patch has a written purpose |
-| Two easy starts colliding | Interleaving (D4), Darkside's early maps raised to the open-middle band |
+| Two easy starts colliding | Interleaving (D4), Darkside's early maps raised to the open-middle band (MAPS §0) |
+| The late game running away in XP and levels | The adopted per-map table (MAPS §0): families capped at 100, bosses at 125, late dungeons S/M, planes 30 monsters; re-count after each act and trim an act more than 15 % over |
 | Fly trivialising the sky and the castles | WORLD_DESIGN §3.4 rules; or the MM9 no-Fly rule |
 | Number inflation of the source leaking in | QUESTS reward rules; no permanent levels; balance pass in phase 4 |
 | MM6–MM9 regressions from engine work | E1–E3 are generalisations with tests; validate MM6–MM9 start, travel and Town Portal after each |

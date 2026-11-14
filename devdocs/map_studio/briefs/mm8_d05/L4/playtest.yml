@@ -312,6 +312,15 @@ steps:
 - assert: {light: {key: 52, "on": true}}
 - assert: {light: {key: 55, "on": true}}
 - assert: {light: {key: 59, "on": true}}
+# Round seven: a panel toggles, as the original's (events 102 to 109): out, lit again, and out once more below.
+- play_lua: {source: 'click(64); wait(1)
+
+      '}
+- assert: {light: {key: 52, "on": false}}
+- play_lua: {source: 'click(64); wait(1)
+
+      '}
+- assert: {light: {key: 52, "on": true}}
 - play_lua: {source: 'click(64); wait(1); click(65); wait(1); click(66); wait(1); click(67); wait(1); click(68); wait(1); click(69); wait(1); click(70); wait(1)
 
       if door_state(17) ~= "closed" then error("the far door opened with a panel lit") end

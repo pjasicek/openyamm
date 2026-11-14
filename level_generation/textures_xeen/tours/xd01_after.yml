@@ -1,0 +1,94 @@
+output_dir: /home/pjasicek/github/OpenYAMM/output/studio_cal/xd01/textures_gen/after
+exit: true
+settle_seconds: 1.3
+shots:
+- name: bay-sign
+  position: [704, 330, 0]
+  yaw: 1.5708
+  pitch: 0.28
+  commands: [render hud off]
+- name: notice-board
+  position: [900, -700, 128]
+  yaw: 0.41
+  pitch: 0.0
+  commands: [render hud off]
+- name: dock-arrival
+  position: [768, -1010, 128]
+  yaw: 1.5708
+  pitch: 0.05
+  commands: [render hud off]
+- name: shutter
+  position: [384, -956, 128]
+  yaw: 1.5708
+  pitch: 0.021
+  commands: [render hud off]
+- name: rules
+  position: [2108, 2512, 0]
+  yaw: 0.0
+  pitch: 0.1726
+  commands: [render hud off]
+- name: pest-notice
+  position: [-80, 700, 64]
+  yaw: 1.5708
+  pitch: 0.2702
+  commands: [render hud off]
+- name: keep-out
+  position: [2128, 2520, 0]
+  yaw: 1.5708
+  pitch: 0.5239
+  commands: [render hud off]
+- name: aisle-rules
+  position: [2150, 2250, 0]
+  yaw: 0.88
+  pitch: 0.05
+  commands: [render hud off]
+- name: heart-gate
+  position: [2112, 5364, -384]
+  yaw: 1.5708
+  pitch: -0.0571
+  commands: [render hud off]
+- name: heart-sign
+  position: [2112, 5460, -384]
+  yaw: 1.5708
+  pitch: 0.469
+  commands: [render hud off]
+- name: feeding-time
+  position: [2319, 5459, -384]
+  yaw: 1.1779
+  pitch: 0.092
+  commands: [render hud off]
+- name: cistern-lever-heart-gate
+  position: [2200, 5250, -384]
+  yaw: 1.25
+  pitch: 0.05
+  commands: [render hud off]
+- name: cistern-from-stair
+  position: [2112, 4230, -384]
+  yaw: 1.5708
+  pitch: 0.08
+  commands: [render hud off]
+- name: bug-tanks
+  position: [2636, 5106, -384]
+  yaw: 0.4008
+  pitch: -0.0363
+  commands: [render hud off]
+- name: bug-tanks-2
+  position: [2587, 4696, -384]
+  yaw: -0.4008
+  pitch: -0.0363
+  commands: [render hud off]
+- name: cistern-bug-tanks
+  position: [2450, 4700, -384]
+  yaw: -0.55
+  pitch: 0.0
+  commands: [render hud off]
+- name: tonic-rack
+  position: [3500, 5700, -128]
+  yaw: 0.0
+  pitch: -0.45
+  commands: [render hud off]
+- name: shipping-room
+  position: [2760, 5620, -384]
+  yaw: 0.6
+  pitch: 0.0
+  commands: [render hud off]

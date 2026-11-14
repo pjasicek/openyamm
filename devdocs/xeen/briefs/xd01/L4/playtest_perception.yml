@@ -14,11 +14,21 @@ steps:
       source: |
         if has_item(2176) then error("the party already carries the warehouse key") end
         if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the street doors do not start shut") end
-        status()
         click(27); wait(1)
-        local seen = status()
-        if not string.find(seen, "shutter is loose", 1, true) then error("Perception 3 did not find the loose shutter: " .. seen) end
+  - assert:
+      dialog: {text_contains: "shutter is loose"}
+  - play_lua:
+      source: |
+        if not close() then error("the shutter opened no message window") end
         click(31); wait(3)
         if door_state(16) ~= "open" or door_state(17) ~= "open" then error("the street doors did not open for Perception 3: " .. door_state(16) .. " " .. door_state(17)) end
   - walk_to: {x: 768, y: 400, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1500}
   - assert: {party_position: {x: 768, y: 400, radius: 160, z_min: -8, z_max: 8}}
+  # Out by the yard gate onto Warehouse Lane: X1 in front of the warehouse doors.
+  - execute_event: {id: 12}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  # On X1's warehouse lane in front of the loading doors, and off along the lane on foot.
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: -1930, y: 2918, radius: 128, z_min: 600, z_max: 700}}
+  - walk_to: {x: -2458, y: 3277, z: 640, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}

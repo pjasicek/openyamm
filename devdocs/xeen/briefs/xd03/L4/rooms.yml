@@ -33,9 +33,9 @@ themes:
     door: {texture: d2lgdor, size: [256, 256], fit: true}
     notes: "The forge floor: big dressed blocks and soot-black brick up to 576, raw grey volcanic rock above it to the rough roof; flagstones cracked by heat with the glow in their seams."
   - id: theme:geode
-    wall: {texture: crstont, size: [256, 256]}
+    wall: {texture: xnquartz, size: [256, 256]}
     floor: {texture: crdrf1, size: [128, 128]}
-    ceiling: {texture: crstont, size: [256, 256]}
+    ceiling: {texture: xnquartz, size: [256, 256]}
     reveal: {texture: c2b, size: [256, 256]}
     notes: "The geode: blue-green crystal walls and crown, a floor of crushed blue crystal."
   - id: theme:hoard
@@ -51,7 +51,7 @@ themes:
       - {height: 96, surface: {texture: vlcwl3a, size: [128, 256]}}
       - {height: 576, surface: {texture: ctwl5, size: [256, 256]}}
       - {height: 704, surface: {texture: vlctrm3, size: [128, 128]}}
-    ends: {length: 128, surface: {texture: ctwl5le, size: [128, 256], fit: true}}
+    ends: {length: 128, surface: {texture: ctwl5le, size: [128, 256]}}
     floor: {texture: vlcflore, size: [128, 128]}
     ceiling: {texture: d2ceil3, size: [256, 256]}
     reveal: {texture: vlctrm3, size: [128, 128]}
@@ -115,7 +115,7 @@ rooms:
     name: Sergeants' barracks
     outline: [[3904, 3840], [5440, 3840], [5440, 4864], [3904, 4864]]
     floor: -512
-    ceiling: -64
+    ceiling: 64
     theme: theme:clan_hold
     platforms:
       - {at: [4160, 4736], size: [384, 160], rise: 40, surface: {texture: bemvwal, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: Bunk bench}
@@ -128,35 +128,35 @@ rooms:
       - path: [[4288, 3840], [4288, 4864]]
         width: 32
         depth: 32
-        bottom: -96
+        bottom: 32
         surface: {texture: bemh16a, size: [256, 16]}
       - path: [[4672, 3840], [4672, 4864]]
         width: 32
         depth: 32
-        bottom: -96
+        bottom: 32
         surface: {texture: bemh16a, size: [256, 16]}
       - path: [[5056, 3840], [5056, 4864]]
         width: 32
         depth: 32
-        bottom: -96
+        bottom: 32
         surface: {texture: bemh16a, size: [256, 16]}
     ambient: 24
-    notes: "1536 x 1024, 448 high, under a plank ceiling on three beams: bunk benches along the walls, a trestle table, the lever alcove in the north wall; dark until the alarm."
+    notes: "1536 x 1024, 576 high, under a plank ceiling on three beams: bunk benches along the walls, a trestle table, the lever alcove in the north wall; dark until the alarm."
   - id: room:deep_landing
     name: Deep landing
-    outline: [[6144, 768], [6272, 640], [7552, 640], [7680, 768], [7680, 1408], [7552, 1536], [6272, 1536], [6144, 1408]]
+    outline: [[6144, 512], [6272, 384], [7552, 384], [7680, 512], [7680, 1408], [7552, 1536], [6272, 1536], [6144, 1408]]
     floor: 0
     rough: {step: 192, depth: 36}
     ceiling: 640
-    ceiling_points: [[7680, 768, 896], [7680, 1408, 896], [7552, 640, 832], [7552, 1536, 832], [7104, 1088, 1024], [6464, 1088, 768], [6144, 768, 576], [6144, 1408, 576]]
+    ceiling_points: [[7680, 768, 896], [7680, 1408, 896], [7552, 384, 768], [7552, 1536, 832], [7104, 1088, 1024], [6464, 1088, 768], [6144, 768, 576], [6144, 1408, 576], [6912, 512, 704]]
     theme: theme:deep_rock
     platforms:
-      - {at: [7168, 1048], size: [24, 24], rise: 280, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
-      - {at: [7168, 1128], size: [24, 24], rise: 280, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
-      - {at: [6976, 1048], size: [24, 24], rise: 184, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
-      - {at: [6976, 1128], size: [24, 24], rise: 184, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
-      - {at: [6784, 1048], size: [24, 24], rise: 88, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
-      - {at: [6784, 1128], size: [24, 24], rise: 88, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
+      - {at: [7168, 1048], size: [24, 24], rise: 256, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
+      - {at: [7168, 1128], size: [24, 24], rise: 256, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
+      - {at: [6976, 1048], size: [24, 24], rise: 160, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
+      - {at: [6976, 1128], size: [24, 24], rise: 160, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
+      - {at: [6784, 1048], size: [24, 24], rise: 64, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
+      - {at: [6784, 1128], size: [24, 24], rise: 64, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Trestle post}
       - {rise: 4, surface: {texture: ch004i, size: [64, 64]}, outline: [[6240, 1034], [6600, 1034], [6600, 1046], [6240, 1046]], top_surface: {texture: ch004i, size: [64, 64]}, notes: Rail on the floor}
       - {rise: 4, surface: {texture: ch004i, size: [64, 64]}, outline: [[6240, 1130], [6600, 1130], [6600, 1142], [6240, 1142]], top_surface: {texture: ch004i, size: [64, 64]}, notes: Rail on the floor}
       - {at: [6224, 1088], size: [48, 224], rise: 112, surface: {texture: trim9_32a, size: [64, 32]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: "The buffer stop: a baulk of timber across the rails"}
@@ -197,30 +197,30 @@ rooms:
         bottom_end: 16
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Stringer under the rail
-      - path: [[7168, 1024], [7168, 1152]]
-        width: 24
+      - path: [[7168, 1020], [7168, 1156]]
+        width: 28
         depth: 24
         bottom: 256
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Cap of a trestle bent
-      - path: [[6976, 1024], [6976, 1152]]
-        width: 24
+      - path: [[6976, 1020], [6976, 1156]]
+        width: 28
         depth: 24
         bottom: 160
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Cap of a trestle bent
-      - path: [[6784, 1024], [6784, 1152]]
-        width: 24
+      - path: [[6784, 1020], [6784, 1156]]
+        width: 28
         depth: 24
         bottom: 64
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Cap of a trestle bent
     ambient: 22
-    notes: "Rock platform at the foot of the Deep Line, 1536 x 896, its roof rising to 1024 where the line comes down out of the east wall. The Deep Line's last pitch is a timber trestle falling 384 from the mouth ledge to the floor; the cart (a mover) runs down it and back with the party on it; a buffer stop at the west end."
+    notes: "Rock platform at the foot of the Deep Line, 1536 x 1152, its roof rising to 1024 where the line comes down out of the east wall. The Deep Line's last pitch is a timber trestle falling 384 from the mouth ledge to the floor; the cart (a mover) runs down it and back with the party on it; a buffer stop at the west end."
   - id: room:deep_line
     name: Deep Line head
     space: room:deep_landing
-    outline: [[7744, 960], [8320, 960], [8320, 1216], [7744, 1216]]
+    outline: [[7744, 928], [8320, 928], [8320, 1248], [7744, 1248]]
     floor: 384
     ceiling: 640
     theme: theme:deep_rock
@@ -228,12 +228,12 @@ rooms:
       - {rise: 4, surface: {texture: ch004i, size: [64, 64]}, outline: [[7744, 1032], [8304, 1032], [8304, 1044], [7744, 1044]], top_surface: {texture: ch004i, size: [64, 64]}, notes: Rail}
       - {rise: 4, surface: {texture: ch004i, size: [64, 64]}, outline: [[7744, 1132], [8304, 1132], [8304, 1144], [7744, 1144]], top_surface: {texture: ch004i, size: [64, 64]}, notes: Rail}
     beams:
-      - path: [[7904, 960], [7904, 1216]]
+      - path: [[7904, 928], [7904, 1248]]
         width: 32
         depth: 32
         bottom: 576
         surface: {texture: trim9_32a, size: [64, 32]}
-      - path: [[8160, 960], [8160, 1216]]
+      - path: [[8160, 928], [8160, 1248]]
         width: 32
         depth: 32
         bottom: 576
@@ -268,23 +268,40 @@ rooms:
       - {id: platform:north_span, rise: 48, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[3920, 3312], [4352, 3744], [3808, 3744], [3648, 3584]], top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: vlcwl3a, size: [128, 256]}, base: 80, notes: "The north span: a broad stone slab over the channel's head, 270 wide at the far bank, 660 at the near; no rails."}
       - {id: platform:south_bridge, rise: 48, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[2960, 2352], [3096, 2488], [2824, 2760], [2688, 2624]], top_surface: {texture: vlcflora, size: [128, 128]}, bottom_surface: {texture: vlcwl3a, size: [128, 256]}, base: 80, notes: "The south bridge: a narrow slab 192 wide near the channel's foot; no rails."}
       - {rise: 192, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[4544, 1916], [4544, 2180], [4356, 2368], [4092, 2368], [3904, 2180], [3904, 1916], [4092, 1728], [4356, 1728]], top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: "The smelter's furnace: a stone base round the stack."}
-      - {id: platform:furnace_mouth, at: [4224, 2376], size: [176, 16], rise: 144, surface: {texture: orfyrlga, size: [256, 256]}, end_surface: {texture: vlcwl3a, size: [128, 256]}, base: 16, notes: "The smelter's cold furnace mouth on its north face, still glowing."}
-      - {at: [4224, 2388], size: [240, 24], rise: 24, surface: {texture: vlcgnrc3, size: [256, 256]}, top_surface: {texture: vlcgnrc3, size: [256, 256]}, base: 160, notes: The mouth's iron lintel}
+      - {id: platform:furnace_mouth, at: [4224, 2404], size: [176, 72], rise: 144, surface: {texture: xnslag, size: [256, 256]}, end_surface: {texture: vlcwl3a, size: [128, 256]}, base: 16, notes: "The smelter's cold furnace mouth on its north face, still glowing."}
+      - {at: [4224, 2432], size: [240, 24], rise: 24, surface: {texture: vlcgnrc3, size: [256, 256]}, top_surface: {texture: vlcgnrc3, size: [256, 256]}, base: 160, notes: The mouth's iron lintel}
       - {at: [4912, 3640], size: [320, 96], rise: 32, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 384, notes: The gong's plinth}
       - {at: [4776, 3640], size: [24, 24], rise: 320, surface: {texture: bemv16a, size: [16, 256]}, base: 416, notes: Gong frame post}
       - {at: [5048, 3640], size: [24, 24], rise: 320, surface: {texture: bemv16a, size: [16, 256]}, base: 416, notes: Gong frame post}
-      - {at: [4912, 3640], size: [96, 12], rise: 32, surface: {texture: ctflor5, size: [128, 128]}, end_surface: {texture: ctflor5, size: [128, 128]}, top_surface: {texture: ctflor5, size: [128, 128]}, base: 480}
-      - {at: [4912, 3640], size: [160, 12], rise: 32, surface: {texture: ctflor5, size: [128, 128]}, end_surface: {texture: ctflor5, size: [128, 128]}, top_surface: {texture: ctflor5, size: [128, 128]}, base: 512}
-      - {id: platform:gong, at: [4912, 3640], size: [192, 12], rise: 32, surface: {texture: ctflor5, size: [128, 128]}, end_surface: {texture: ctflor5, size: [128, 128]}, top_surface: {texture: ctflor5, size: [128, 128]}, base: 544, notes: "The great gong (clicked): a bronze disc built of six slabs hanging in its frame."}
-      - {at: [4912, 3640], size: [192, 12], rise: 32, surface: {texture: ctflor5, size: [128, 128]}, end_surface: {texture: ctflor5, size: [128, 128]}, top_surface: {texture: ctflor5, size: [128, 128]}, base: 576}
-      - {at: [4912, 3640], size: [160, 12], rise: 32, surface: {texture: ctflor5, size: [128, 128]}, end_surface: {texture: ctflor5, size: [128, 128]}, top_surface: {texture: ctflor5, size: [128, 128]}, base: 608}
-      - {at: [4912, 3640], size: [96, 12], rise: 32, surface: {texture: ctflor5, size: [128, 128]}, end_surface: {texture: ctflor5, size: [128, 128]}, top_surface: {texture: ctflor5, size: [128, 128]}, base: 640}
+      - {id: platform:gong_1, at: [4912, 3640], size: [90, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [34, 0]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 648, notes: "The great gong (clicked): one of its eight bronze slabs."}
+      - {id: platform:gong_2, at: [4912, 3640], size: [150, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [14, 16]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 624}
+      - {id: platform:gong_3, at: [4912, 3640], size: [174, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [6, 32]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 600}
+      - {id: platform:gong_4, at: [4912, 3640], size: [192, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [0, 48]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 576}
+      - {id: platform:gong_5, at: [4912, 3640], size: [192, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [0, 64]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 552}
+      - {id: platform:gong_6, at: [4912, 3640], size: [174, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [6, 80]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 528}
+      - {id: platform:gong_7, at: [4912, 3640], size: [150, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [14, 96]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 504}
+      - {id: platform:gong_8, at: [4912, 3640], size: [90, 12], rise: 24, surface: {texture: xngong, size: [128, 128], scale: 1.5, offset: [34, 112]}, end_surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: vlcgnrc1, size: [256, 256]}, base: 480}
+      - {at: [4872, 3640], size: [8, 8], rise: 64, surface: {texture: ch004i, size: [64, 64]}, base: 672, notes: Gong chain}
+      - {at: [4952, 3640], size: [8, 8], rise: 64, surface: {texture: ch004i, size: [64, 64]}, base: 672, notes: Gong chain}
+      - {rise: 80, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[2847, 2465], [2983, 2601], [2937, 2647], [2801, 2511]], notes: South bridge's pier}
+      - {rise: 80, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[2960, 2352], [3096, 2488], [3048, 2536], [2912, 2400]], notes: South bridge's abutment}
+      - {rise: 80, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[2688, 2624], [2736, 2576], [2872, 2712], [2824, 2760]], notes: South bridge's abutment}
+      - {rise: 80, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[3920, 3312], [4352, 3744], [4256, 3744], [3872, 3360]], notes: North span's abutment}
+      - {rise: 80, surface: {texture: vlcwl3a, size: [128, 256]}, outline: [[3648, 3584], [3696, 3536], [3904, 3744], [3808, 3744]], notes: North span's abutment}
+      - {at: [3008, 1560], size: [128, 48], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [3584, 1560], size: [128, 48], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [4352, 1560], size: [128, 48], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [4736, 1560], size: [128, 48], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [2688, 3752], size: [128, 48], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [4592, 3752], size: [128, 48], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [2584, 2816], size: [48, 128], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
+      - {at: [2584, 3584], size: [48, 128], rise: 672, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: Pilaster}
     levels:
       - id: level:slag
         outline: [[2592, 1984], [4352, 3744], [3808, 3744], [2592, 2528]]
         floor: -640
         edge: {texture: vlcwl1, size: [128, 256]}
-        surface: {texture: orfyrlga, size: [256, 256]}
+        surface: {texture: xnslag, size: [256, 256]}
         notes: "The slag channel: 384 wide and 128 deep, running at 45 degrees from under the north span to the west wall; molten slag underfoot (lava in objects.yml floors)."
       - id: level:gallery
         outline: [[4704, 2432], [5120, 2432], [5120, 3776], [4704, 3776]]
@@ -297,7 +314,7 @@ rooms:
       - {from: [3151, 2791], to: [3275, 2667], width: 352, steps: 4, riser: {texture: vlcwl3a, size: [128, 256]}, tread: {texture: vlcflora, size: [128, 128]}, notes: "The slag steps: four steps out of the main reach onto the near bank, beside the south bridge."}
       - {from: [2692, 2332], to: [2816, 2208], width: 224, steps: 4, riser: {texture: vlcwl1, size: [128, 256]}, tread: {texture: vlcflora, size: [128, 128]}, notes: "The drain steps: the way out of the south reach, beside the breach."}
     parapets:
-      - path: [[4900, 2444], [4716, 2444], [4716, 3764]]
+      - path: [[4900, 2456], [4724, 2456], [4724, 3764]]
         height: 64
         thickness: 24
         surface: {texture: vlcwl3a, size: [128, 256]}
@@ -318,7 +335,7 @@ rooms:
         surface: {texture: vlcgnrc3, size: [256, 256]}
         notes: The south bridge's iron edge
     beams:
-      - path: [[4752, 3640], [5072, 3640]]
+      - path: [[4776, 3640], [5048, 3640]]
         width: 24
         depth: 24
         bottom: 224
@@ -337,7 +354,7 @@ rooms:
         surface: {texture: bemh16a, size: [256, 16]}
         notes: Soot-black roof timber
     ambient: 22
-    notes: "One hall round a ruined smelter, 2560 x 2240, cut by the slag channel at 45 degrees (a sunken level): the near bank south-east, the far bank a triangle north-west. The north span covers the channel's head, the south bridge crosses near its foot, the slag steps and the drain steps climb out. The gong gallery is a balcony 384 up along the east wall with its stair at its south end and the gong at its north end. Rough rock roof 832 to 1216 over the floor."
+    notes: "One hall round a ruined smelter, 2560 x 2240, cut by the slag channel at 45 degrees (a sunken level): the near bank south-east, the far bank a triangle north-west. The north span covers the channel's head, the south bridge crosses near its foot, the slag steps and the drain steps climb out. The gong gallery is a balcony 384 up along the east wall with its stair at its south end and the gong at its north end. Rough rock roof 832 to 1216 over the floor. Pass two: pilasters of dressed granite against the south, west and north walls (the roof timbers rest on two), stone piers under the bridges, the gong of eight slabs under one picture."
   - id: room:furnace_tower
     name: Furnace tower
     outline: [[1472, 2944], [1856, 2944], [2048, 3136], [2048, 3520], [1856, 3712], [1472, 3712], [1280, 3520], [1280, 3136]]
@@ -366,7 +383,7 @@ rooms:
   - id: room:geode_descent
     name: Geode descent
     space: room:geode_grotto
-    outline: [[1408, 1536], [1856, 1536], [1856, 1760], [1408, 1760]]
+    outline: [[1408, 1504], [1856, 1504], [1856, 1792], [1408, 1792]]
     floor: -512
     slope: {to: -640, toward: west}
     ceiling: -64
@@ -386,15 +403,15 @@ rooms:
     notes: Four steps of 32 down to the lower terrace.
   - id: room:geode_grotto
     name: Geode grotto
-    outline: [[1088, 1024], [1344, 1280], [1344, 1920], [1152, 2304], [768, 2496], [384, 2368], [128, 1984], [128, 1472], [320, 1152], [448, 1024]]
+    outline: [[1088, 1024], [1344, 1280], [1344, 1920], [1152, 2368], [704, 2624], [192, 2560], [-192, 2240], [-320, 1664], [-128, 1216], [192, 1024]]
     floor: -640
     rough: {step: 160, depth: 48}
-    ceiling: -128
-    ceiling_points: [[768, 1760, 320], [576, 1408, 192], [1024, 1984, 192], [960, 1344, 128], [448, 2048, 128]]
+    ceiling: -64
+    ceiling_points: [[640, 1792, 384], [448, 1408, 256], [1024, 1984, 256], [960, 1344, 192], [256, 2176, 256], [-96, 1728, 192], [0, 2176, 128], [-64, 1344, 128]]
     theme: theme:geode
     pillars:
-      - {surface: {texture: crstont, size: [256, 256]}, outline: [[832, 1728], [880, 1792], [848, 1872], [768, 1888], [704, 1824], [720, 1744]], notes: Crystal column}
-      - {surface: {texture: crstont, size: [256, 256]}, outline: [[560, 1360], [608, 1408], [592, 1472], [528, 1488], [480, 1440], [496, 1376]], notes: Crystal column}
+      - {surface: {texture: xnquartz, size: [256, 256]}, outline: [[832, 1728], [880, 1792], [848, 1872], [768, 1888], [704, 1824], [720, 1744]], notes: Crystal column}
+      - {surface: {texture: xnquartz, size: [256, 256]}, outline: [[560, 1360], [608, 1408], [592, 1472], [528, 1488], [480, 1440], [496, 1376]], notes: Crystal column}
     platforms:
       - {id: platform:cluster_1_0, at: [360, 1300], size: [40, 40], rise: 112, surface: {texture: crflr3, size: [128, 128]}, top_surface: {texture: crflr3, size: [128, 128]}, top_size: [4, 4], notes: Gem cluster 1 (clicked)}
       - {id: platform:cluster_1_1, at: [396, 1320], size: [28, 28], rise: 80, surface: {texture: crflr3, size: [128, 128]}, top_surface: {texture: crflr3, size: [128, 128]}, top_size: [4, 4], notes: Gem cluster 1}
@@ -406,16 +423,18 @@ rooms:
       - {id: platform:cluster_3_1, at: [936, 2320], size: [28, 28], rise: 80, surface: {texture: crflr3, size: [128, 128]}, top_surface: {texture: crflr3, size: [128, 128]}, top_size: [4, 4], notes: Gem cluster 3}
       - {id: platform:cluster_3_2, at: [870, 2324], size: [24, 24], rise: 64, surface: {texture: crflr3, size: [128, 128]}, top_surface: {texture: crflr3, size: [128, 128]}, top_size: [4, 4], notes: Gem cluster 3}
     ambient: 24
-    notes: "The upper terrace: the hollow of the geode, its crown 960 over the floor, two crystal columns, webs between the crystals, the bat queens in its crown."
+    notes: "The upper terrace: the hollow of the geode, its crown 1024 over the floor, two crystal columns, the bat queens in its crown."
   - id: room:geode_lower
     name: Geode lower terrace
     space: room:geode_grotto
-    outline: [[256, 64], [1216, 64], [1344, 448], [1088, 704], [320, 704], [128, 576], [128, 192]]
+    outline: [[192, -384], [704, -640], [1344, -576], [1664, -192], [1600, 320], [1344, 640], [1088, 704], [320, 704], [128, 576], [128, 192]]
     floor: -768
     rough: {step: 160, depth: 40}
-    ceiling: -256
-    ceiling_points: [[704, 384, -64], [384, 320, -128], [1024, 320, -128]]
+    ceiling: -128
+    ceiling_points: [[800, 0, 64], [400, 320, -32], [1200, 256, 0], [800, -400, -32], [1300, -200, -32]]
     theme: theme:geode
+    pillars:
+      - {surface: {texture: xnquartz, size: [256, 256]}, outline: [[1104, -240], [1168, -192], [1152, -96], [1072, -64], [1008, -128], [1024, -208]], notes: Crystal column}
     platforms:
       - {id: platform:cluster_4_0, at: [500, 160], size: [40, 40], rise: 112, surface: {texture: crflr3, size: [128, 128]}, top_surface: {texture: crflr3, size: [128, 128]}, top_size: [4, 4], notes: Gem cluster 4 (clicked)}
       - {id: platform:cluster_4_1, at: [536, 180], size: [28, 28], rise: 80, surface: {texture: crflr3, size: [128, 128]}, top_surface: {texture: crflr3, size: [128, 128]}, top_size: [4, 4], notes: Gem cluster 4}
@@ -436,12 +455,12 @@ rooms:
     platforms:
       - {id: platform:gutter_w, rise: 4, surface: {texture: vlcgnrc2, size: [256, 256]}, outline: [[1890, 5634], [2078, 5634], [2078, 6430], [1890, 6430]], top_surface: {texture: vlcgnrc2, size: [256, 256]}, notes: The west gutter's bed (its surface turns to slag by event).}
       - {id: platform:gutter_e, rise: 4, surface: {texture: vlcgnrc2, size: [256, 256]}, outline: [[4322, 5634], [4510, 5634], [4510, 6430], [4322, 6430]], top_surface: {texture: vlcgnrc2, size: [256, 256]}, notes: The east gutter's bed.}
-      - {at: [3200, 6208], size: [448, 224], rise: 32, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 192, notes: The throne's plinth}
-      - {id: platform:throne, at: [3200, 6200], size: [112, 64], rise: 72, surface: {texture: vlcgnrc3, size: [256, 256]}, top_surface: {texture: vlcgnrc3, size: [256, 256]}, base: 224, top_size: [208, 112], notes: "The anvil throne's seat: an anvil."}
-      - {at: [3200, 6304], size: [256, 32], rise: 176, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 224, notes: The throne's back.}
-      - {at: [3200, 6304], size: [224, 40], rise: 192, surface: {texture: ctceil3, size: [128, 128], fit: true}, end_surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 400, notes: "The throne's crest: a skull carved in the stone."}
-      - {at: [2944, 6200], size: [96, 96], rise: 48, surface: {texture: vlcwl3a, size: [128, 256]}, base: 192, notes: Forge brazier stand}
-      - {at: [3456, 6200], size: [96, 96], rise: 48, surface: {texture: vlcwl3a, size: [128, 256]}, base: 192, notes: Forge brazier stand}
+      - {at: [3200, 6216], size: [448, 272], rise: 32, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 192, notes: The throne's plinth}
+      - {id: platform:throne, at: [3200, 6240], size: [112, 64], rise: 72, surface: {texture: vlcgnrc3, size: [256, 256]}, top_surface: {texture: vlcgnrc3, size: [256, 256]}, base: 224, top_size: [208, 112], notes: "The anvil throne's seat: an anvil."}
+      - {at: [3200, 6328], size: [256, 32], rise: 176, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 224, notes: The throne's back.}
+      - {at: [3200, 6328], size: [224, 40], rise: 192, surface: {texture: xncrest, size: [128, 128], fit: true}, end_surface: {texture: trim11_16, size: [16, 64]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, base: 400, notes: "The throne's crest: a skull carved in the stone."}
+      - {at: [2880, 6216], size: [96, 96], rise: 48, surface: {texture: vlcwl3a, size: [128, 256]}, base: 192, notes: Forge brazier stand}
+      - {at: [3520, 6216], size: [96, 96], rise: 48, surface: {texture: vlcwl3a, size: [128, 256]}, base: 192, notes: Forge brazier stand}
     levels:
       - id: level:gutter_w
         outline: [[1888, 5632], [2080, 5632], [2080, 6432], [1888, 6432]]
@@ -465,19 +484,19 @@ rooms:
       - outline: [[3760, 5496], [3760, 5960], [3432, 6288], [2968, 6288], [2640, 5960], [2640, 5496], [2968, 5168], [3432, 5168]]
         ceiling: 704
         top_outline: [[3648, 5542], [3648, 5914], [3386, 6176], [3014, 6176], [2752, 5914], [2752, 5542], [3014, 5280], [3386, 5280]]
-        edge: {texture: crstont, size: [256, 256]}
+        edge: {texture: xnquartz, size: [256, 256]}
       - outline: [[3648, 5542], [3648, 5914], [3386, 6176], [3014, 6176], [2752, 5914], [2752, 5542], [3014, 5280], [3386, 5280]]
         ceiling: 928
         top_outline: [[3488, 5609], [3488, 5847], [3319, 6016], [3081, 6016], [2912, 5847], [2912, 5609], [3081, 5440], [3319, 5440]]
-        edge: {texture: crstont, size: [256, 256]}
+        edge: {texture: xnquartz, size: [256, 256]}
       - outline: [[3488, 5609], [3488, 5847], [3319, 6016], [3081, 6016], [2912, 5847], [2912, 5609], [3081, 5440], [3319, 5440]]
         ceiling: 1088
         top_outline: [[3312, 5682], [3312, 5774], [3246, 5840], [3154, 5840], [3088, 5774], [3088, 5682], [3154, 5616], [3246, 5616]]
-        edge: {texture: crstont, size: [256, 256]}
+        edge: {texture: xnquartz, size: [256, 256]}
       - outline: [[3312, 5682], [3312, 5774], [3246, 5840], [3154, 5840], [3088, 5774], [3088, 5682], [3154, 5616], [3246, 5616]]
         ceiling: 1152
         top_scale: 0
-        edge: {texture: d3ystlwl, size: [256, 256], fit: true}
+        edge: {texture: xnquartzcv, size: [256, 256], fit: true}
     flights:
       - {from: [3200, 5712], to: [3200, 6016], width: 1024, steps: 6, riser: {texture: vlcwl3a, size: [128, 256]}, tread: {texture: ctflor1, size: [128, 128]}, notes: "The stepped dais: six steps of 32 up to the throne floor."}
     ambient: 21
@@ -488,22 +507,26 @@ rooms:
     floor: -320
     ceiling: 128
     theme: theme:hoard
+    platforms:
+      - {id: platform:gold_heap_1, at: [3130, 7160], size: [192, 128], rise: 40, surface: {texture: xncoins, size: [128, 128]}, top_surface: {texture: xncoins, size: [128, 128]}, top_size: [96, 56], notes: A heap of the King's gold coins (clicked).}
+      - {id: platform:gold_heap_2, at: [2920, 6990], size: [176, 128], rise: 40, surface: {texture: xncoins, size: [128, 128]}, top_surface: {texture: xncoins, size: [128, 128]}, top_size: [88, 56], notes: A heap of the King's gold coins (clicked).}
+      - {id: platform:gold_heap_3, at: [3420, 7010], size: [176, 128], rise: 40, surface: {texture: xncoins, size: [128, 128]}, top_surface: {texture: xncoins, size: [128, 128]}, top_size: [88, 56], notes: A heap of the King's gold coins (clicked).}
     ambient: 18
     notes: "A vault behind the throne, widening from 512 at its door to 768 at the back, 768 deep and 448 high."
   - id: room:kings_antechamber
     name: Antechamber
-    outline: [[2688, 3840], [3712, 3840], [3456, 4608], [2944, 4608]]
+    outline: [[2560, 3840], [3840, 3840], [3584, 4608], [2816, 4608]]
     floor: -512
     ceiling: 192
     theme: theme:clan_hold
     platforms:
-      - {at: [2960, 4560], size: [32, 48], rise: 480, surface: {texture: vlcgnrc3, size: [256, 256]}, notes: Bar bracket}
-      - {at: [3440, 4560], size: [32, 48], rise: 480, surface: {texture: vlcgnrc3, size: [256, 256]}, notes: Bar bracket}
+      - {at: [2880, 4560], size: [32, 48], rise: 480, surface: {texture: vlcgnrc3, size: [256, 256]}, notes: Bar bracket}
+      - {at: [3520, 4560], size: [32, 48], rise: 480, surface: {texture: vlcgnrc3, size: [256, 256]}, notes: Bar bracket}
     ceiling_levels:
       - ceiling: 448
         top_scale: [0, 1]
     ambient: 22
-    notes: "A wedge 1024 wide at the hall narrowing to 512 at the King's Gate under a pointed vault: the two hacked statues against its slanting walls, two flambeaux, the gate's two iron bars (movers)."
+    notes: "A wedge 1280 wide at the hall narrowing to 768 at the King's Gate under a pointed vault: the two hacked statues against its slanting walls, two flambeaux, the gate's two iron bars (movers)."
   - id: room:lever_alcove
     name: Lever alcove
     space: room:barracks
@@ -515,18 +538,20 @@ rooms:
     notes: "A niche behind the bunks: lever A on its back wall."
   - id: room:mole_warren
     name: Mole warren
-    outline: [[3200, 256], [3584, 0], [4352, 0], [4864, 256], [4992, 640], [4608, 896], [4224, 896], [3712, 896], [3328, 768]]
+    outline: [[2944, 128], [3392, -384], [4352, -512], [4992, -256], [5312, 320], [4992, 768], [4608, 896], [4224, 896], [3712, 896], [3200, 768]]
     floor: -768
-    floor_points: [[3584, 0, -800], [4864, 256, -784], [3400, 500, -736], [4600, 500, -800]]
+    floor_points: [[3584, 0, -800], [4864, 256, -784], [3400, 500, -736], [4600, 500, -800], [3800, -300, -800], [4600, -300, -784], [5100, 300, -776]]
     rough: {step: 128, depth: 40}
-    ceiling: -352
-    ceiling_points: [[3968, 160, -384], [4352, 704, -384], [3500, 640, -416], [4800, 450, -400], [4096, 448, -320]]
+    ceiling: -224
+    ceiling_points: [[3968, 160, -176], [4352, 704, -224], [3500, 640, -240], [4800, 450, -200], [4096, 448, -160], [3900, -250, -192], [4700, -200, -208], [3250, 200, -256]]
     theme: theme:warren
     pillars:
       - {surface: {texture: c2b, size: [256, 256]}, outline: [[3712, 352], [3904, 320], [3968, 448], [3872, 576], [3712, 544], [3648, 448]], notes: Rock core}
       - {surface: {texture: c2b, size: [256, 256]}, outline: [[4352, 352], [4544, 384], [4576, 512], [4448, 576], [4320, 528], [4288, 432]], notes: Rock core}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[3200, 256], [3360, 192], [3424, 320], [3328, 448], [3184, 400]], notes: Rock core}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[4096, -256], [4288, -320], [4384, -160], [4256, -32], [4064, -96]], notes: Rock core}
     ambient: 26
-    notes: "A knot of burrows round two rock cores, low and uneven; the dead prospector in the east burrow."
+    notes: "A knot of burrows round four rock cores, uneven and dark; the dead prospector in the east burrow."
   - id: room:red_dwarf_vault
     name: Red Dwarf vault
     outline: [[-512, 0], [-128, 0], [64, 192], [64, 576], [-128, 768], [-512, 768], [-704, 576], [-704, 192]]
@@ -544,34 +569,34 @@ rooms:
   - id: room:sentry_cut
     name: Sentry cut
     path: [[6528, 1600, 0], [6528, 2112, 0], [6272, 2368, 0], [6272, 2752, 0], [5824, 2752, -64], [5184, 2752, -128]]
-    width: 256
+    width: 320
     floor: 0
     ceiling: 384
     theme: theme:deep_rock
     platforms:
-      - {at: [6420, 1820], size: [24, 24], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
-      - {at: [6636, 1820], size: [24, 24], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
-      - {at: [6420, 2060], size: [24, 24], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
-      - {at: [6636, 2060], size: [24, 24], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
-      - {at: [5600, 2644], size: [24, 24], rise: 330, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
-      - {at: [5600, 2860], size: [24, 24], rise: 330, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
+      - {at: [6388, 1820], size: [20, 20], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
+      - {at: [6668, 1820], size: [20, 20], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
+      - {at: [6388, 2060], size: [20, 20], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
+      - {at: [6668, 2060], size: [20, 20], rise: 340, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
+      - {at: [5600, 2612], size: [20, 20], rise: 330, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
+      - {at: [5600, 2892], size: [20, 20], rise: 330, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: Timber set post}
     beams:
-      - path: [[6408, 1820], [6648, 1820]]
-        width: 32
+      - path: [[6368, 1820], [6688, 1820]]
+        width: 28
         depth: 28
         bottom: 340
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Cap of a timber set
-      - path: [[6408, 2060], [6648, 2060]]
-        width: 32
+      - path: [[6368, 2060], [6688, 2060]]
+        width: 28
         depth: 28
         bottom: 340
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Cap of a timber set
-      - path: [[5600, 2632], [5600, 2872]]
-        width: 32
+      - path: [[5600, 2592], [5600, 2912]]
+        width: 28
         depth: 24
-        bottom: 240
+        bottom: 244
         surface: {texture: trim9_32a, size: [64, 32]}
         notes: Cap of a timber set
     ambient: 24
@@ -579,7 +604,7 @@ rooms:
   - id: room:sentry_lookout
     name: Lookout niche
     space: room:sentry_cut
-    outline: [[6464, 2432], [6720, 2432], [6720, 2688], [6464, 2688]]
+    outline: [[6528, 2432], [6848, 2432], [6848, 2816], [6528, 2816]]
     floor: 0
     ceiling: 320
     theme: theme:deep_rock
@@ -588,7 +613,7 @@ rooms:
   - id: room:tower_stair
     name: Tower stair
     space: room:furnace_tower
-    outline: [[2112, 3200], [2496, 3200], [2496, 3456], [2112, 3456]]
+    outline: [[2112, 3168], [2496, 3168], [2496, 3488], [2112, 3488]]
     floor: -512
     slope: {to: -256, toward: west, steps: 8}
     ceiling: -128
@@ -599,7 +624,7 @@ rooms:
   - id: room:warren_mouth
     name: Burrow mouth
     space: room:mole_warren
-    outline: [[3840, 960], [4096, 960], [4096, 1472], [3840, 1472]]
+    outline: [[3808, 960], [4128, 960], [4128, 1472], [3808, 1472]]
     floor: -512
     slope: {to: -768, toward: south}
     ceiling: -128
@@ -612,7 +637,7 @@ openings:
     from: room:barracks
     to: room:armoury
     link: link:barracks_armoury
-    width: 128
+    width: 256
     height: 256
   - id: open:back_stair_foot
     from: room:back_stair
@@ -620,8 +645,8 @@ openings:
     from_wall: north
     to_wall: south
     link: link:barracks_gong_back_stair
-    width: 224
-    height: 320
+    width: 128
+    height: 256
   - id: open:barracks_alcove
     from: room:barracks
     to: room:lever_alcove
@@ -633,37 +658,37 @@ openings:
     from_wall: north
     to_wall: south
     link: link:furnace_barracks
-    along: 0.58
-    width: 144
-    height: 320
+    along: 0.5724
+    width: 128
+    height: 256
   - id: open:barracks_doors_w
     from: room:furnace_hall
     to: room:barracks
     from_wall: north
     to_wall: south
-    along: 0.72
-    width: 144
-    height: 320
+    along: 0.7039
+    width: 128
+    height: 256
   - id: open:breach_descent
     from: room:geode_breach
     to: room:geode_descent
-    width: 192
+    width: 256
     height: 384
   - id: open:crystal_wall
     from: room:geode_lower
     to: room:red_dwarf_vault
     link: link:geode_vault
-    width: 192
-    height: 320
+    width: 256
+    height: 256
   - id: open:cut_lookout
     from: room:sentry_cut
     to: room:sentry_lookout
-    width: 192
-    height: 288
+    width: 256
+    height: 320
   - id: open:descent_geode
     from: room:geode_descent
     to: room:geode_grotto
-    width: 192
+    width: 256
     height: 384
   - id: open:far_antechamber
     from: room:furnace_hall
@@ -680,15 +705,15 @@ openings:
     from: room:kings_antechamber
     to: room:king_hall
     link: link:antechamber_king_hall
-    along: 0.2656
-    width: 208
-    height: 384
+    along: 0.2917
+    width: 256
+    height: 256
   - id: open:gate_w
     from: room:kings_antechamber
     to: room:king_hall
-    along: 0.7344
-    width: 208
-    height: 384
+    along: 0.7083
+    width: 256
+    height: 256
   - id: open:geode_flight
     from: room:geode_grotto
     to: room:geode_flight
@@ -710,12 +735,12 @@ openings:
     from: room:furnace_hall
     to: room:warren_mouth
     link: link:furnace_mole_warren
-    width: 224
+    width: 256
     height: 320
   - id: open:head_ledge
     from: room:deep_line
     to: room:deep_landing
-    width: 224
+    width: 256
     height: 256
   - id: open:hoard_shaft
     from: room:king_hoard
@@ -727,14 +752,14 @@ openings:
     from: room:deep_landing
     to: room:sentry_cut
     link: link:landing_sentry_cut
-    width: 224
+    width: 256
     height: 320
   - id: open:sentry_door
     from: room:sentry_cut
     to: room:furnace_hall
     link: link:sentry_cut_gong
-    width: 192
-    height: 288
+    width: 256
+    height: 256
   - id: open:stairhead
     from: room:furnace_hall
     to: room:back_stair_head
@@ -748,17 +773,17 @@ openings:
   - id: open:tower_door
     from: room:tower_stair
     to: room:furnace_tower
-    width: 224
-    height: 320
+    width: 256
+    height: 256
   - id: open:tower_stair_foot
     from: room:furnace_hall
     to: room:tower_stair
     link: link:furnace_tower_bridge
-    width: 224
+    width: 256
     height: 320
   - id: open:warren_mouth
     from: room:warren_mouth
     to: room:mole_warren
-    width: 224
+    width: 256
     height: 320
 notes: "L4 of the Deep Mine (XD-03): L3's plan redrawn with the studio's words of 2026-11-13 (one furnace hall with the slag channel as a sunken level, bridges as hanging slabs, the gong gallery as a balcony, the King's hall with a crystal dome, gutters, a dais and the anvil throne in it; the Deep Line's last pitch as a trestle the cart rides down). Whole map units, x east and y north, heights against the arrival datum (the landing's floor 0). First written by output/studio_cal/xd03/tools/gen_rooms.py; see NOTES.md."

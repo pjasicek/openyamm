@@ -65,13 +65,14 @@ doors:
     notes: "The original's d57: one leaf, slides north into the wall."
   - id: door:corr_cell4
     opening: open:corr_cell4
-    kind: slide_left
+    kind: slide_right
+    fold: true
     state: closed
     thickness: 32
     speed: 50
     surface: {texture: a2b, size: [128, 256]}
     back_surface: {texture: a2b, size: [128, 256]}
-    notes: "The original's d59: one leaf, slides east into the wall."
+    notes: "The original's d59: one leaf whose free edge moves 191 west: it folds against the west jamb (ninth merge round; it slid east into the wall, its face in cell 3's wall plane)."
   - id: door:corr_lift_e1
     opening: open:corr_lift_e1
     kind: slide_left
@@ -283,7 +284,8 @@ lifts:
     notes: "door 9: rises through the hole in the bay's floor. 16 narrower than the original (1056): the hole must stand 16 from the bay's west wall, and the original's pit is flush with it. The rim round the pit (door 38) is mover:cargo_rim; event 151 moves both."
   - id: lift:east_lower
     room: room:lift_e1
-    size: [256, 256]
+    at: [7039, -4767]
+    size: [254, 254]
     travel: 448
     thickness: 9
     speed: 100
@@ -291,8 +293,8 @@ lifts:
     notes: "door 50, a plate 9 thick (events 155, 156, 473, 474)"
   - id: lift:east_upper
     room: room:lift_e2
-    at: [7040, -5088]
-    size: [256, 256]
+    at: [7041, -5088]
+    size: [254, 256]
     travel: 384
     thickness: 9
     speed: 100
@@ -315,7 +317,8 @@ lifts:
     notes: "door 18, event 153: works without power"
   - id: lift:west
     room: room:lift_w
-    size: [256, 448]
+    at: [2111, -4928]
+    size: [254, 448]
     travel: 448
     speed: 50
     surface: {texture: sfw7b, size: [128, 256]}
@@ -2034,161 +2037,193 @@ spawns:
     at: [844, -224]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m04
     room: room:deck
     at: [2796, -9324]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m05
     room: room:hall
     at: [3660, -6700]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m06
     room: room:cross_n
     at: [8896, -4160]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m07
     room: room:captain
     at: [7024, -9632]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m08
     room: room:hall
     at: [3632, -5040]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m10
     room: room:cargo_e
     at: [7680, -2444]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m12
     room: room:crew_w
     at: [2000, -6056]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m13
     room: room:cell3
     at: [7276, -6408]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m16
     room: room:hangar
     at: [-424, 516]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m17
     room: room:vest
     at: [2128, -7256]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m19
     room: room:closet
     at: [2100, 752]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m22
     room: room:cell1
     at: [7276, -4260]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m23
     room: room:hall
     at: [4776, -6728]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m24
     room: room:cargo_low
     at: [2856, 540]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m27
     room: room:reactor_up
     at: [5212, -1188]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m28
     room: room:cell2
     at: [7292, -5500]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m31
     room: room:cargo_low
     at: [3036, 136]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m32
     room: room:cell4
     at: [6828, -7020]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m35
     room: room:reactor_up
     at: [3356, -1284]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m38
     room: room:hub_top
     at: [8952, -5084]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m39
     room: room:cross_s
     at: [8924, -6144]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m40
     room: room:deck
     at: [5936, -9308]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m41
     room: room:corr_top
     at: [8140, -5112]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m42
     room: room:bridge_w
     at: [1752, -7620]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m44
     room: room:cargo_e
     at: [8672, -1368]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m45
     room: room:corr_w
     at: [1444, -3628]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m48
     room: room:cargo_w
     at: [1320, -2496]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m49
     room: room:corr_low
     at: [3072, -1472]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m50
     room: room:hall
     at: [5044, -4968]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m51
     room: room:corr_e
     at: [6608, -3896]
     slot: 1
     radius: 32
+    group: 51
   - id: spawn:m52
     room: room:corr_e
     at: [6524, -6004]
     slot: 1
     radius: 32
+    group: 51
 monsters:
   - id: monster:droid00
     room: room:hangar

@@ -130,6 +130,39 @@ prototypes in `output/studio_s4e/scripts/`) but called by nothing and not in the
    `new_game_flow` party is one character with one pack (the cause of its step-175 failure: the idol needs a free
    2x4 block).
 
+17. **From XD-04, the Witches' Tower** (its NOTES.md, repros under `output/studio_cal/xd04/repro/`): a room open to
+   the sky; an effect on a wrong answer to a question; moving a monster out of a cage; using an item on a monster;
+   indoor fog or steam; `solve` does not count an item lying in the map (`solve_floor_item`); `things` puts a
+   cabinet's stand point 160 behind its wall (`things_stand_point`); a surface `offset` refused (XD-03's gong was cut
+   into six strips for it; also item 3 of batch nine).
+
+18. **From XD-04's second pass** (its NOTES.md tool defects): `audit` reports `thing.floating` for decorations the
+   build accepts with `hangs: true` from a beam (four braziers); `oymap things` does not list what a cage's event
+   moves; `things_shots.py` runs locked events without their item; the playtest's `status()` loses step-event lines;
+   an event has one title (a hoisted cage still hovers "Locked cage").
+
+19. **From the Abandoned Temple's round seven** (the user's walk; repro `output/studio_cal/mm8_d05/repro/r7_secret_ceiling/`):
+   `secret` on `ceiling_surfaces`/`floor_surfaces` entries and on `plates` (the walkway traced on hall 8's ceiling,
+   the floor plates of the heads and the fire stand: the user asked for them); an effect that makes faces secret
+   (event 451); a raking beam with a level top; an offset on door pictures; a surface laid along a steep bank; the
+   silent-click check counting step events as clicks.
+
+20. **From the user's walk through XD-02's second pass:** checks for every map: a monster or spawn point in a space
+   it cannot leave toward the party or the party cannot reach (solve's reach, fliers included); a switch used from a
+   mover whose use point is not reachable from the mover's deck at its stops; a new dungeon without an arrival text
+   (a warning for projects marked new).
+
+21. **From the Hive's round seven and the Lab:** platforms and pillars inside a tunnel with a cross-section (refused
+   today: `output/studio_cal/mm6_hive/tools_r7/edit_r7.py` step `p3try`); a scene `mist` word (the Lab's green floor
+   mist); the exit's transition picture; ring kerbs; a lintel's own texture; rooms joined across the wrong pair of
+   facing walls without `from_wall`/`to_wall`; `solve`/`compare` stopping at faces the game ignores; the scenario
+   runner's `triggered_event: 0` for decoration events.
+
+22. **From XD-05's second pass:** the "rests on nothing" check takes one height for a block's top (a stalactite whose
+   top follows a sloping roof is reported hanging from nothing); a decoration with no runtime art (MM6's `stltite1-3`
+   in MM7) placed without a warning; wall torches without `height` stand on the floor in front of the wall (default
+   them to the shipped height); a cave tunnel's corners are not rounded unless given points; a stalactite word.
+
 ## Outdoor, in order
 
 1. **The rim:** finish `core/OutdoorRim` (read the head of `OutdoorRim.cpp` and the measurements first), wire it into
@@ -158,6 +191,82 @@ prototypes in `output/studio_s4e/scripts/`) but called by nothing and not in the
    open pavilion shrines, a slender obelisk, signposts, recessed porch doors, crenellated gates, porches, hips without
    gables, front step slabs, wall signs, a door canopy, an open railing, fountains and wells, a cave mouth's arch
    (Ravenshore's Smuggler's Cove); a lit interior that the original keeps dark (Harmondale's stable).
+
+9. **From outdoor round five** (both NOTES.md "Round five"): `same_event_as` (a step trap of several plates, a sign
+   carrying its shop's event); a recess reaching an end wall refused with a message about depth; bay texture names
+   without a digit refused; `raise` below zero accepted silently; `signs[].offset` (signs only at bay middles);
+   `plinth` (houses standing on a base above the street, so door slabs show); windlass wells (two tapered uprights
+   and a beam); an A-frame whose walls slope to the ground; the scenario runner gives no warning when `set_pose` puts
+   the eye in a ceiling.
+
+10. **Outdoor coplanar check** (the user saw z-fighting on Shadowspire's buildings, 2026-11-13): `geometry.coplanar`
+   covers BLV faces only; outdoor model faces in one plane over each other (overlapping parts, stacked identical
+   parts, bands and signs flush on walls) need the same check in `build` and `audit`, matched against the original.
+
+11. **Town words from Vertigo pass two** (2026-11-13): a waterfall down a cliff (vertical animated water, spray), a
+   gate arch over a road, a battered (sloping) wall base along a long run, battlements on `kind: wall`, fences, carts,
+   more than three ground kinds per map (dark soil, rock cliffs), finer plot placement than half cells.
+12. **New Sorpigal round two's words:** a porch `floor` measured from the land, eaves on one wall, posts on chosen
+   walls, a partial `sill`, a recess of two widths, a roof band's underside texture, `doors[].same_event_as`.
+
+13. **Shadowspire round two's defects:** stairs without `ramp` ignore `textures.top` (treads in the wall texture);
+   railing rails overlap flush at corner posts; a sign's picture 1 unit in front of a board of the same size; gable
+   roofs with eaves 96 overlap the gable wall at the ridge. Words: a sheer rock column, non-convex outlines (a front
+   notch), railing posts taller than the rail, pointed arches, recesses of several widths.
+
+14. **`kind: cave_mouth`** (Shadowspire round three; the survey finds the same on Emerald Island, Regna, Murmurwoods,
+   Ravage Roaming, the Land of the Giants, Mount Nighon, Barrow Downs): `at`, `turn`, footprint `size`, `crest`, mouth
+   `width/height/depth`, arch `sides`, `textures` (shell a ground tile or rock; door solid01), `into`/`hint`,
+   `roughness`/`seed`. Lowering: a faceted shell without floor or back, a tunnel to one dark event face; sets the
+   terrain under the mouth and front to the floor height and the back row to the crest; warns where the land behind
+   is lower than the crest. Section "Buildings built into the terrain" in OUTDOOR_REBUILD_PROCEDURE.md.
+15. **Shadowspire round three's defects:** a hanging part (`bottom` > 0) with a `porches` recess keeps its underside
+   across the recess, lying on the plinth top facing the other way (visible flicker: building_41/43); opposite-facing
+   coplanar pairs must count where both faces can be seen; `kind: stairs` refuses exactly 45 degrees.
+
+16. **Scatter words from the tree-spacing round** (section "Tree spacing (measured)" in OUTDOOR_REBUILD_PROCEDURE.md):
+   `spacing_group` (spacing across entries of one stand), `kinds: {decoration: weight}` (kinds mixed tree by tree),
+   `close_share`/`close_spacing`, `edge_thin: {width, keep}`; `clusters` must not pack at half a cell by default;
+   document that spacing about 0.6/sqrt(density) gives the shipped evenness; the "found no place" warning names its
+   entries.
+
+17. **The cleanup's words:** a level terrace area in `heights` (Harmondale's town terraces come out as ramps on the
+   coarse grid), eaves per wall (parts meeting at a join overlap their eaves: Harmondale's town hall, four Ravenshore
+   houses), a recess under a hanging part without drawing its underside across it (New Sorpigal's temple).
+
+18. **Ravenshore's north-west block words:** eaves along part of a wall (from a join onward), one roof over two
+   meeting parts (or concave outline parts), `parapet_walls` (a parapet on chosen walls only).
+
+19. **Audit: solid decorations in a doorway's way** (XD-01's stash keg, 2026-11-14): a decoration whose radius plus the
+   party's comes within a door or opening's clear width, 0-128 inside it, catches the party one walk in six. `audit`
+   should warn for every solid decoration within (its radius + the party's) of the straight line through a doorway.
+
+20. **Castle Ironfist's words** (repros in `output/studio_cal/mm6_outd3/repro/<name>/run.sh`): `inner_stair_to_roof`
+   (a stair or ramp inside a part up to its roof: the castle's library and tower doors are unreachable without it),
+   `gate_in_short_block` (an arched gate through a short thick block), `board_with_event` (sign boards with their own
+   events), `arched_recess`, `barrel_vault` roofs, `plate_in_slab` (a plate flush in a platform),
+   `doorway_frame_width` (now merged as `frame_width`: check), `recess_open_corner`.
+
+21. **Erathia's words and defects** (NOTES.md of `mm7_7out03`, repros in `output/studio_cal/mm7_7out03/repro/`): sheer
+   land beside drops of 1200+ (43 % of its height error); a roof round an open court; a wall thicker than 1024 with a
+   gate taller than the wall and a passage along it; a door recess in a part's wall; a basin sunk into a platform; one
+   name event shared by many things (19 extra events); a hint on a tent; per-arch spans on a bridge; a pent roof; a
+   grating in a culvert; a turf hood; a pavilion roof; a face shown by an event; `Hhr1bWALL` refused for mm7.
+   Defects: diagonal sign arms overlap at the post; a door cut into a gable lies on it; deck posts collide at chamfered
+   corners; `oymap install` takes the way back from `arrival_side` (pointed Harmondale's edge at the rebuild).
+
+22. **`kind: waterfall` rebuilt** (Vertigo pass five): today a ribbon laid over the terrain every 64, so never steeper
+   than the drop over one 512 cell, lying flat as a skirt past the cliff's foot, no top water, no sides. Shipped falls
+   (Alvar: 2,880 over ~1,000, 50 upright faces per sheet, the top water a separate face at the lip; Emerald: a channel
+   stepping 684 then 448) want: its own sheet independent of the terrain, upright or with `lean`, from `top` (the
+   stream's level at the lip) to `foot` (the pool's level), ending at the foot water; optional top water to the lip;
+   optional rock sides or a `cut` notching the lip; width from the stream. Also: a plot over higher land ignores
+   `floor: 0`. Vertigo builds its falls as a building in the water until then.
+
+23. **`kind: waterfall` finish** (Vertigo, 2026-11-14): the top water face is a shade darker than the stream's water and
+   its upstream edge and sides over the banks show; the sheet's texture breaks along its triangles' diagonals; no foam
+   or spray decoration at the foot. Outside the word: MM7 tints terrain slopes by dirt (`cliff_from` in world.yml), so
+   rim cliffs beside falls are earth-coloured.
 
 ## Not studio work (for the user)
 
