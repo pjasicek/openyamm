@@ -471,7 +471,8 @@ def reference_colors(world, config, names):
         other = None
         for name in used:
             rule = matching_rule(config["tiles"], name)
-            if material in rule.get("materials", []):
+            # A tile with no art of its own (Shadowspire's gdrdscap, drawn with `shape_from`) gives no colours.
+            if material in rule.get("materials", []) and (tile_art_directory(world) / f"{name}.png").exists():
                 pixels = tile_pixels(world, name)
                 samples.append(pixels[..., :3][pixels[..., 3] > 0.5])
                 other = next(m for m in rule["materials"] if m != material)
@@ -542,7 +543,10 @@ def water_mask(world, names, rules, texels):
                 elif rules[name].get("water"):
                     cache[name] = np.ones((texels, texels))
                 else:
-                    alpha = tile_pixels(world, name)[..., 3]
+                    # A tile drawn with another's shape (Shadowspire's roads: `shape_from`) may have no art of its
+                    # own (gdrdscap, gdrdcros): its coverage is that tile's.
+                    shape = rules[name].get("shape_from")
+                    alpha = tile_pixels(world, name.replace(shape[0], shape[1], 1) if shape else name)[..., 3]
                     step = alpha.shape[0] // texels
                     cache[name] = 1.0 - alpha.reshape(texels, step, texels, step).mean(axis=(1, 3))
             mask[gy * texels:(gy + 1) * texels, gx * texels:(gx + 1) * texels] = cache[name]

@@ -16,7 +16,9 @@ sky: {mode: open, sky_texture: plansky3}     # sky_texture and preset are option
   It follows the game's time of day (`IndoorWorldRuntime::gameMinutes`): sun, moon, stars and the preset's day cycle.
 - **Keys.** `mode: open` (the only mode). `sky_texture`: an original sky texture whose `legacy_<name>` preset the sky
   takes (`sky.yml` aliases; the old MM9 imports name `plansky3`), as an outdoor map's sky texture does; empty for the
-  default. `preset`: a named preset that overrides the automatic choice. Unknown keys are refused.
+  default. `preset`: a named preset that overrides the automatic choice. Unknown keys are refused. A map whose floor
+  has gaps looking down into the sky needs a preset with `below_horizon: sky` (MM7 Celeste: `above_clouds`, the clear
+  day cycle); the outdoor presets fill everything below the horizon with flat fog, which terrain hides outdoors.
 - **What stays.** The sky faces remain faces: collision, missiles, picking and the bake (`bake_indoor.py` reads the BLV)
   are unchanged. The indoor fog, billboards and effects keep their flat fog (`u_skyFog` is reset after the sky pass).
   Without the block, sky faces keep the projected indoor sky (MM6–MM8 behaviour).

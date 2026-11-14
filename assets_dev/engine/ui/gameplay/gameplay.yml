@@ -1210,6 +1210,53 @@ elements:
   interactive: true
   notes: Manually rendered layered buff panel, anchored below OutdoorTopBar by the shared resolver; compact Android
     size +7%.
+- id: SoloUnitFrame
+  anchor_space: screen
+  anchor: top_left
+  offset_x: 7.47
+  offset_y: 6.4
+  width: 220
+  height: 84
+  z_index: 200
+  notes: 'The solo run''s unit frame (devdocs/solo_action/HUD.md, the study''s frame=wow): in the top-left corner,
+    which the solo HUD frees by moving OutdoorTopBar to the top right (GameplayScreenRuntime::resolveHudLayoutElement);
+    its parts (medallion, box, bars, coin, weapon socket, the scroll and potion sockets, buff rows) are laid out in code
+    (game/ui/SoloHudLayout.h) and drawn by GameplaySoloHud. Shown only in a solo run.'
+- id: SoloActionBar
+  anchor: top_left
+  anchor_space: screen
+  offset_x: 7.47
+  offset_y: 94.9
+  width: 51.2
+  height: 382.4
+  z_index: 200
+  notes: 'The solo run''s action bar: one column of keys 1-0 down the left edge under the unit frame (the user''s
+    layout, level_generation/ui/solo_action_hud_20261113 view=a3: 64 px slots at 1600 x 900). Drawn by
+    GameplaySoloHud in the native frame pieces; on a screen too short for it the slots shrink to fit. The panel size and
+    the three slot elements decide the grid (SoloHudLayout.h soloActionBarGrid): one slot wide is the column; a wider
+    panel gives 2 x 5 (175.3 x 81.7), one row of ten (334 x 49.7) or 2 x 10 (334 x 81.7).'
+  children:
+  - id: SoloActionSlot
+    anchor: top_left
+    offset_x: 8.53
+    offset_y: 8.53
+    width: 34.13
+    height: 34.13
+    notes: The first slot (top left); its size is every slot's.
+  - id: SoloActionSlotRight
+    anchor: top_left
+    offset_x: 45.33
+    offset_y: 8.53
+    width: 34.13
+    height: 34.13
+    notes: The next slot in a row; the gap is its offset less the first's and a slot.
+  - id: SoloActionSlotBelow
+    anchor: top_left
+    offset_x: 8.53
+    offset_y: 45.33
+    width: 34.13
+    height: 34.13
+    notes: The first slot of the next row; the row gap likewise.
 - id: OutdoorFlyBuffIcon
   anchor_space: screen
   anchor: top_left

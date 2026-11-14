@@ -474,6 +474,19 @@ elements:
       align_x: left
       align_y: top
       scale: 0.85
+  # The items left in a stacked shelf slot (MAW's alchemists), in a pill at the icon's lower right.
+  - id: DialogueShopStackCount
+    anchor: top_left
+    visible: false
+    width: 24
+    height: 12
+    text:
+      value: '{count}'
+      font: SMALLNUM
+      color: '#e6c36c'
+      align_x: center
+      align_y: middle
+      scale: 1
   - id: DialogueShopLedgerColumn
     anchor: top_left
     visible: false

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the melee contact effects: slash, thrust and crush (original OpenYAMM artwork, CC0).
+"""Generate the melee contact effects: slash, thrust, crush and claw (original OpenYAMM artwork, CC0).
 
 Writes:
   assets_source/engine/effects/authored/textures/melee_*.png  procedural frames (lossless sources, local)
@@ -413,6 +413,45 @@ def slash_recipe(suffix, size, opacity, glow, heavy):
     return components
 
 
+# The claw rake: three thinner arcs side by side across the blow (local +Y), each a step behind the one before, as
+# three talons drawn through the contact point. Dragons' claws and bite (devdocs/solo_action/DRAGON.md).
+RAKE_STREAKS = 3
+RAKE_SIZE = 0.62
+RAKE_SPACING = 0.16      # between neighbouring streaks, as a fraction of the arc's logical height
+RAKE_STAGGER = 0.025     # seconds between the streaks
+RAKE_TINT = (255, 196, 160)
+
+
+def rake_offsets(size, outward=0.0):
+    """The local offset of each rake streak: the arc's rim through the contact point, the streaks spread about it."""
+    base = arc_offset(size * RAKE_SIZE, outward)
+    spread = RAKE_SPACING * ARC_LOGICAL[1] * size
+    return [(base[0], round(base[1] + (index - (RAKE_STREAKS - 1) / 2) * spread, 2), 0.0)
+            for index in range(RAKE_STREAKS)]
+
+
+def claw_recipe(suffix, size, opacity, glow, heavy):
+    sweep = round(len(ARC_FRAMES) / ARC_FPS, 3)
+    linger = round(sweep + (0.2 if heavy else 0.15), 3)
+    tint = HEAVY_TINT if heavy else RAKE_TINT
+    streak = size * RAKE_SIZE
+    components = []
+    for index, offset in enumerate(rake_offsets(size)):
+        start = round(index * RAKE_STAGGER, 3)
+        end = round(start + sweep, 3)
+        components += [
+            layer("melee_arc_glow", start, end, "additive", [(0, streak * 1.08)], [key(0, tint, glow)], offset),
+            layer("melee_arc", start, end, "alpha", [(0, streak)], [key(0, WHITE, opacity)], offset),
+            layer("melee_arc_end", end, round(end + linger - sweep, 3), "alpha", [(0, streak), (1, streak * 1.03)],
+                  fade(WHITE, opacity), offset),
+        ]
+    components.append(layer("melee_flare", 0.03, 0.12, "additive", [(0, 0.4 * size), (1, 0.9 * size)],
+                            fade((255, 235, 215), 0), camera_facing=True))
+    if heavy:
+        components.append(layer("melee_ring", 0.03, 0.24, "additive", [(0, 0.3), (1, 1.2)], fade(HEAVY_TINT, 110)))
+    return components
+
+
 def thrust_recipe(suffix, size, opacity, glow, heavy):
     sweep = round(len(THRUST_FRAMES) / THRUST_FPS, 3)
     linger = round(sweep + (0.16 if heavy else 0.12), 3)
@@ -472,6 +511,18 @@ def miss_recipe(name):
             layer("melee_thrust_end", sweep, round(sweep + 0.08, 3), "alpha", [(0, 0.9)], fade(WHITE, 150), offset),
         ]
     sweep = round(len(ARC_FRAMES) / ARC_FPS, 3)
+    if name == "claw":
+        streak = 0.9 * RAKE_SIZE
+        components = []
+        for index, offset in enumerate(rake_offsets(0.9, outward=0.45)):
+            start = round(index * RAKE_STAGGER, 3)
+            components += [
+                layer("melee_arc", start, round(start + sweep, 3), "alpha", [(0, streak)], [key(0, WHITE, 150)],
+                      offset),
+                layer("melee_arc_end", round(start + sweep, 3), round(start + sweep + 0.1, 3), "alpha",
+                      [(0, streak)], fade(WHITE, 150), offset),
+            ]
+        return components
     offset = arc_offset(0.9, outward=0.45)
     return [
         layer("melee_arc_glow", 0, sweep, "additive", [(0, 0.97)], [key(0, GLOW_TINT, 170)], offset),
@@ -523,6 +574,10 @@ def accent_recipe(name, tint):
         return [layer("melee_arc_glow", 0, sweep, "additive", [(0, 1.18)], [key(0, tint, 40)], offset),
                 layer("melee_arc_glow_end", sweep, round(sweep + 0.18, 3), "additive", [(0, 1.18), (1, 1.24)],
                       fade(tint, 40), offset)]
+    if name == "claw":
+        sweep = round(len(ARC_FRAMES) / ARC_FPS, 3)
+        return [layer("melee_arc_glow", 0, sweep, "additive", [(0, RAKE_SIZE * 1.18)], [key(0, tint, 40)], offset)
+                for offset in rake_offsets(1.0)]
     if name == "thrust":
         sweep = round(len(THRUST_FRAMES) / THRUST_FPS, 3)
         offset = thrust_offset(1.0)
@@ -601,6 +656,7 @@ CLASSES = [
     ("slash", "Sword and axe: a bright arc swept through the contact point", slash_recipe),
     ("thrust", "Spear and dagger: a straight streak ending in a puncture flash at the contact point", thrust_recipe),
     ("crush", "Mace, staff, club and fists: a radial burst and a shock ring, no arc", crush_recipe),
+    ("claw", "Dragon claws and bite: a rake of three streaks swept through the contact point", claw_recipe),
 ]
 STRENGTH_NOTES = {"_light": "glancing blow", "": "normal blow", "_heavy": "critical hit or kill, larger and warmer"}
 

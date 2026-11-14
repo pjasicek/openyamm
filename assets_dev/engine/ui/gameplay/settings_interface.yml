@@ -475,7 +475,7 @@ elements:
     - id: SettingsInterfaceGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 385.1108
+      offset_y: 424.0361
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -492,7 +492,7 @@ elements:
     - id: SettingsInterfaceGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 543.2702
+      offset_y: 582.1955
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -509,7 +509,7 @@ elements:
     - id: SettingsInterfaceGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 712.9464
+      offset_y: 751.8717
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -874,10 +874,56 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsInterfaceEnemyHealthBarEffectsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 380.8441
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Effect icons
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceEnemyHealthBarEffectsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 397.0526
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Show the spells on each enemy under its bar, with the time left swept clockwise.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceEnemyHealthBarEffectsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 378.6277
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsInterfaceQuestMarkersLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 410.7108
+      offset_y: 449.6361
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -894,7 +940,7 @@ elements:
     - id: SettingsInterfaceQuestMarkersDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 426.9193
+      offset_y: 465.8446
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -911,7 +957,7 @@ elements:
     - id: SettingsInterfaceQuestMarkersControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 408.4945
+      offset_y: 447.4198
       width: 70.4
       height: 32.158
       z_index: 10
@@ -923,7 +969,7 @@ elements:
     - id: SettingsInterfaceMapStyleLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 449.6361
+      offset_y: 488.5614
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -940,7 +986,7 @@ elements:
     - id: SettingsInterfaceMapStyleDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 465.8446
+      offset_y: 504.7699
       width: 395.2
       height: 23.0336
       z_index: 10
@@ -958,7 +1004,7 @@ elements:
     - id: SettingsInterfaceMapStyleControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 457.5238
+      offset_y: 496.4491
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -977,7 +1023,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 500.0782
+      offset_y: 539.0035
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -994,7 +1040,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 516.2867
+      offset_y: 555.212
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1011,7 +1057,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 497.8619
+      offset_y: 536.7872
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1023,7 +1069,7 @@ elements:
     - id: SettingsInterfacePartyFrameLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 568.8702
+      offset_y: 607.7955
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1040,7 +1086,7 @@ elements:
     - id: SettingsInterfacePartyFrameDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 585.0787
+      offset_y: 624.004
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1057,7 +1103,7 @@ elements:
     - id: SettingsInterfacePartyFrameControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 566.6539
+      offset_y: 605.5792
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1069,7 +1115,7 @@ elements:
     - id: SettingsInterfaceItemButtonsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 607.7955
+      offset_y: 646.7208
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1086,7 +1132,7 @@ elements:
     - id: SettingsInterfaceItemButtonsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 624.004
+      offset_y: 662.9293
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1103,7 +1149,7 @@ elements:
     - id: SettingsInterfaceItemButtonsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 611.3376
+      offset_y: 650.2629
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1115,7 +1161,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 658.2376
+      offset_y: 697.1629
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1132,7 +1178,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 674.4461
+      offset_y: 713.3714
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1149,7 +1195,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 661.7797
+      offset_y: 700.705
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1161,7 +1207,7 @@ elements:
     - id: SettingsInterfaceRarityGlowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 738.5464
+      offset_y: 777.4717
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1178,7 +1224,7 @@ elements:
     - id: SettingsInterfaceRarityGlowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 754.7549
+      offset_y: 793.6802
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -1195,7 +1241,7 @@ elements:
     - id: SettingsInterfaceRarityGlowControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 740.6757
+      offset_y: 779.601
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -1211,10 +1257,57 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
+    - id: SettingsInterfaceLootSparkleLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 816.397
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Sparkle on all loot
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceLootSparkleDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 832.6055
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Every item on the ground glints faintly white, so small finds show in tall grass. Valuable items keep their
+          colours.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceLootSparkleControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 819.9391
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsInterfaceShopListViewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 777.4717
+      offset_y: 866.8391
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1231,7 +1324,7 @@ elements:
     - id: SettingsInterfaceShopListViewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 793.6802
+      offset_y: 883.0476
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1249,7 +1342,7 @@ elements:
     - id: SettingsInterfaceShopListViewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 781.0138
+      offset_y: 870.3812
       width: 70.4
       height: 32.158
       z_index: 10

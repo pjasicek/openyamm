@@ -70,5 +70,6 @@ decorations:
     yaw: facing
   - name: mm9_well
     model: worlds/mm9/models/mm9_deco_well.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 255.3
     yaw: facing

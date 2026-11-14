@@ -8,7 +8,8 @@
 #                                     Alchemy point of the party's best Grandmaster alchemist
 #   combat_recovery: {value: N, only_when_enemies_near: true}   a drink needs a ready member: the drinker if ready,
 #                                     else the active member, else the first ready one; near monsters it costs them N
-#                                     recovery ticks
+#                                     recovery ticks; in turn-based combat it always costs the ready member N ticks
+#                                     and the turn
 #   all_recipes_known: true           the recipe book lists every recipe from the start
 #
 # potions: <item id>:

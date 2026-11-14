@@ -346,7 +346,7 @@ for a reader change, a test of the older layout.
 | First target | **A playable MAW: phases 1–7** ([README.md](README.md) §4.6). Phases 8 (content) and 9 (challenge modes, randomizer) come after |
 | MAW version | Port the behaviour of MAW commit `ef23ee17` (`/home/pjasicek/github/Maw-Mod-MMMerge`), since synced to `8967ae88` ([UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md)). Follow the code, not MAW's README |
 | MAW bugs | Default: fix each bug listed in [README.md](README.md) §6 and in the specs, and record it as a deviation (§4). Ask the user only where a fix changes balance noticeably |
-| Crafting (2026-10-23) | The Mirror copies no artifacts; the Emerald of Power sells; every alchemist and magic shop may stock crafting items; dimension-map drops get 4/3/2 affixes at 10/20/70 %; Doom's caps use exact arithmetic (138); the Workbench opens from the inventory only; crafting is instant and Apply ×N runs the whole batch; our own crafting item icons through the icon pipeline |
+| Crafting (2026-10-23) | The Mirror copies no artifacts; the Emerald of Power sells; every magic shop may stock crafting items (alchemists too until 2026-11-13, when the user took them out: alchemists sell potions and reagents only); dimension-map drops get 4/3/2 affixes at 10/20/70 %; Doom's caps use exact arithmetic (138); the Workbench opens from the inventory only; crafting is instant and Apply ×N runs the whole batch; our own crafting item icons through the icon pipeline |
 
 Still open: the decisions owed in [GAPS.md](GAPS.md) §11 (ask the user; do not guess).
 

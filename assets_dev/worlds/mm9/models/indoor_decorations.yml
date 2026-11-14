@@ -8,6 +8,7 @@ decorations:
     yaw: facing
   - name: mm9_barrel03
     model: worlds/mm9/models/mm9_deco_barrel03.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 122.9
     yaw: facing
   - name: mm9_bed
@@ -298,10 +299,12 @@ decorations:
     yaw: facing
   - name: mm9_jar
     model: worlds/mm9/models/mm9_deco_jar.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 22.9
     yaw: facing
   - name: mm9_jarbroken
     model: worlds/mm9/models/mm9_deco_jarbroken.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 19.2
     yaw: facing
   - name: mm9_lichengine
@@ -499,6 +502,7 @@ decorations:
     yaw: facing
   - name: mm9_well_x100
     model: worlds/mm9/models/mm9_deco_well.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 255.3
     yaw: facing
   # --- MM9 Chasm of the Dead props (level_generation/props/mm9_chasmofthedead_claude/) ---
@@ -626,10 +630,12 @@ decorations:
     yaw: facing
   - name: mm9_tumbler1
     model: worlds/mm9/models/mm9_deco_tumbler1.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 32.5
     yaw: facing
   - name: mm9_urn1
     model: worlds/mm9/models/mm9_deco_urn1.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 79.7
     yaw: facing
   - name: mm9_urn2
@@ -643,6 +649,7 @@ decorations:
     yaw: facing
   - name: mm9_pillarfallen
     model: worlds/mm9/models/mm9_deco_pillarfallen.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 41.0
     yaw: facing
   - name: mm9_urn2tip1
@@ -664,6 +671,7 @@ decorations:
     yaw: facing
   - name: mm9_barrel03_x100
     model: worlds/mm9/models/mm9_deco_barrel03.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 81.9
     yaw: facing
   - name: mm9_bed_x125
@@ -684,6 +692,7 @@ decorations:
     yaw: facing
   - name: mm9_bucket01
     model: worlds/mm9/models/mm9_deco_bucket01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 32.4
     yaw: facing
   - name: mm9_cabinet04ns
@@ -978,6 +987,7 @@ decorations:
     yaw: facing
   - name: mm9_pitcher01
     model: worlds/mm9/models/mm9_deco_pitcher01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 41.4
     yaw: facing
   - name: mm9_platestack1
@@ -1356,6 +1366,7 @@ decorations:
     yaw: facing
   - name: mm9_bucket01_x90
     model: worlds/mm9/models/mm9_deco_bucket01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 29.1
     yaw: facing
   - name: mm9_bucket02
@@ -1416,6 +1427,7 @@ decorations:
     yaw: facing
   - name: mm9_woodbin
     model: worlds/mm9/models/mm9_deco_woodbin.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 73.5
     yaw: facing
   # --- MM9 Thjorad Mine props (level_generation/props/mm9_thjoradmine_claude/) ---
@@ -1451,11 +1463,13 @@ decorations:
     yaw: facing
   - name: mm9_chestrusty01
     model: worlds/mm9/models/mm9_deco_chestrusty01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     parts: [worlds/mm9/models/mm9_deco_chestrusty01_lid01.glb]
     height: 38.4
     yaw: facing
   - name: mm9_chestrusty01_x200
     model: worlds/mm9/models/mm9_deco_chestrusty01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     parts: [worlds/mm9/models/mm9_deco_chestrusty01_lid01.glb]
     height: 76.9
     yaw: facing
@@ -1882,6 +1896,7 @@ decorations:
     yaw: facing
   - name: mm9_bowl04
     model: worlds/mm9/models/mm9_deco_bowl04.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 7.4
     yaw: facing
   - name: mm9_broom
@@ -1918,6 +1933,7 @@ decorations:
     yaw: facing
   - name: mm9_cup02
     model: worlds/mm9/models/mm9_deco_cup02.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 13.0
     yaw: facing
   - name: mm9_dragontrophy
@@ -2002,6 +2018,7 @@ decorations:
     yaw: facing
   - name: mm9_pitcher01_x75
     model: worlds/mm9/models/mm9_deco_pitcher01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 31.1
     yaw: facing
   - name: mm9_podium01_x85
@@ -2357,6 +2374,7 @@ decorations:
     yaw: facing
   - name: mm9_basket01
     model: worlds/mm9/models/mm9_deco_basket01.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 58.8
     yaw: facing
   - name: mm9_bed_x100
@@ -3314,6 +3332,7 @@ decorations:
     yaw: facing
   - name: mm9_sigmundseated
     model: worlds/mm9/models/mm9_deco_sigmundseated.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 138.3
     yaw: facing
   - name: mm9_clansoldierdeadb

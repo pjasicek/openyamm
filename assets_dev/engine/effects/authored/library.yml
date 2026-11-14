@@ -891,6 +891,41 @@ effects:
     - {time: 0.3, rgb: [255, 245, 215], transparency: 25}
     - {time: 1, rgb: [240, 220, 170], transparency: 255}
     motion_keys: []
+- id: openyamm:fx/item_sparkle/plain
+  display_name: Item sparkle, plain loot
+  # Any item worth nothing special (OY-618, the loot_sparkle setting): a faint white glint now and then that drifts up
+  # and is brightest about half a grass height over the item, so small loot lying in tall grass can be spotted;
+  # sparser than the coins.
+  duration_seconds: 8
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 8
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 1
+    emission_interval_seconds: 0.35
+    particle_lifetime_seconds: 1.4
+    emission_shape: plane
+    radius: 3
+    plane_direction: [0, 0, 1]
+    velocity: 4
+    wind_direction: [0, 0, 1]
+    wind_amount: 55
+    random_roll: true
+    spin_speed: 1.5
+    scale_keys:
+    - {time: 0, value: 0.03}
+    - {time: 0.5, value: 0.21}
+    - {time: 1, value: 0.04}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 255}
+    - {time: 0.5, rgb: [240, 244, 255], transparency: 80}
+    - {time: 1, rgb: [200, 210, 230], transparency: 255}
+    motion_keys: []
 - id: openyamm:fx/energy_beam
   display_name: Energy beam
   # A beam (scripted: evt.Beam / evt.BeamToParty): a steady energy line from the effect to its beam target, until it is

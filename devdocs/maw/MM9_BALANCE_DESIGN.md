@@ -270,7 +270,7 @@ Built (2026-11-09, second step):
 - **MM9's shops under MAW**: MM9's vendors sell fixed stock (vendor_stock), which never reached MAW's shop rules, so
   its gear sold at item power 0. `ItemRules::rollsFixedShopStock` (Standard no, MAW yes): the vendor keeps its items,
   MAW rolls their power, rarity and enchantments as shop stock at the vendor's tiers, at each restock
-  (`ensureHouseStockGenerated`). Crafting gems: MM9's apothecaries take the alchemist's place; MM9's "Magic" vendors
+  (`ensureHouseStockGenerated`). Crafting gems: MM9's apothecaries (rings, amulets) take the magic shop's place; MM9's "Magic" vendors
   sell spellbooks, so neither the gem swap nor the reroll offer applies to them (`sellsCraftingMaterials`, `magicShop`
   in `MawItemRules.cpp`). Test: `MawMm9ShopRuntimeTests.cpp` (runtime tests; needs the MM9 package).
 - **Quest gold bonus for MM9's quests**: MM9 pays its quests in a talk's exit handler (the map Lua's

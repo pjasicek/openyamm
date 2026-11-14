@@ -1,0 +1,39 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/crossbow_set_20261114/ingame/live2/outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel equip 0 0 63
+  - wait: 2
+  - console: viewmodel trace on
+  - action: attack
+  - wait: 0.2
+  - capture: live1_a
+  - wait: 0.35
+  - capture: live1_b
+  - wait: 0.65
+  - capture: live1_c
+  - wait: 1.0
+  - action: attack
+  - wait: 0.2
+  - capture: live2_a
+  - wait: 0.35
+  - capture: live2_b
+  - wait: 0.65
+  - capture: live2_c
+  - wait: 1.0
+  - action: attack
+  - wait: 0.2
+  - capture: live3_a
+  - wait: 0.35
+  - capture: live3_b
+  - wait: 0.65
+  - capture: live3_c
+  - wait: 1.0
+  - action: attack
+  - wait: 0.2
+  - capture: live4_a
+  - wait: 0.35
+  - capture: live4_b
+  - wait: 0.65
+  - capture: live4_c
+  - wait: 1.0

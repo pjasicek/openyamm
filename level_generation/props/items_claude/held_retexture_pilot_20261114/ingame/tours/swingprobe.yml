@@ -1,0 +1,52 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/held_retexture_pilot_20261114/ingame/swingprobe
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel held item001
+  - wait: 1
+  - console: viewmodel clips
+  - console: viewmodel pose onehandattackright 0.05
+  - wait: 0.4
+  - capture: onehandattackright_0.05
+  - console: viewmodel pose onehandattackright 0.15
+  - wait: 0.4
+  - capture: onehandattackright_0.15
+  - console: viewmodel pose onehandattackright 0.20
+  - wait: 0.4
+  - capture: onehandattackright_0.20
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.4
+  - capture: onehandattackright_0.30
+  - console: viewmodel pose onehandattackright 0.40
+  - wait: 0.4
+  - capture: onehandattackright_0.40
+  - console: viewmodel pose onehandattackleft 0.05
+  - wait: 0.4
+  - capture: onehandattackleft_0.05
+  - console: viewmodel pose onehandattackleft 0.15
+  - wait: 0.4
+  - capture: onehandattackleft_0.15
+  - console: viewmodel pose onehandattackleft 0.20
+  - wait: 0.4
+  - capture: onehandattackleft_0.20
+  - console: viewmodel pose onehandattackleft 0.30
+  - wait: 0.4
+  - capture: onehandattackleft_0.30
+  - console: viewmodel pose onehandattackleft 0.40
+  - wait: 0.4
+  - capture: onehandattackleft_0.40
+  - console: viewmodel pose onehandattackrightchop 0.05
+  - wait: 0.4
+  - capture: onehandattackrightchop_0.05
+  - console: viewmodel pose onehandattackrightchop 0.15
+  - wait: 0.4
+  - capture: onehandattackrightchop_0.15
+  - console: viewmodel pose onehandattackrightchop 0.20
+  - wait: 0.4
+  - capture: onehandattackrightchop_0.20
+  - console: viewmodel pose onehandattackrightchop 0.30
+  - wait: 0.4
+  - capture: onehandattackrightchop_0.30
+  - console: viewmodel pose onehandattackrightchop 0.40
+  - wait: 0.4
+  - capture: onehandattackrightchop_0.40

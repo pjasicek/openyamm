@@ -473,6 +473,7 @@ decorations:
     height: 66
   - name: 7dec11
     model: engine/models/mm7_deco_7dec11.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 185
   - name: 7dec10
     model: engine/models/mm7_deco_7dec10.glb

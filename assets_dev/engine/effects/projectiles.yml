@@ -2,7 +2,8 @@
 # case projectile_visuals_draw_no_native_sprites checks it): solid projectiles are 3D models
 # (engine/models/projectiles.yml), the rest are drawn by these effects or their recipe's particles.
 # flight replaces the recipe's trail particles or flat beam while it flies; settled plays while it lies on the ground;
-# impact replaces the recipe's impact burst and native impact sprite (the impact light stays); impact_follows_target
+# impact replaces the recipe's impact burst and native impact sprite (the impact light stays); presented_impact
+# replaces impact when another spell borrows the recipe's look (presentationSpellId); impact_follows_target
 # keeps the impact on the struck actor. Spells that strike at once (Implosion, Inferno, Prismatic Light...) play their
 # impact on each actor they strike. For a debuff applied at once (Shrinking Ray), flight is a visual-only bolt from the
 # party to the target and the impact plays when it arrives. return_flight flies from each impact back to the casting
@@ -36,6 +37,9 @@ projectiles:
     flight: openyamm:fx/projectile/flame_gout
     sprite: hidden
     impact: openyamm:fx/impact/fireball
+    # A dragon's own breath borrows this look but is a Fire Bolt by the rules (no area): the dragons' fire impact,
+    # not the 512-radius explosion that filled the screen at short range (devdocs/solo_action/DRAGON.md).
+    presented_impact: openyamm:fx/impact/fire_large
     light: {rgb: [255, 140, 50], radius: 240}
   incinerate:
     flight: openyamm:fx/projectile/incinerate

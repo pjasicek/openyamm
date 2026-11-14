@@ -113,6 +113,13 @@ In the debug console, `screenshot coast` saves `output/screenshots/coast.png` re
 working directory. Names allow letters, digits, underscores and hyphens; existing named images are overwritten.
 The command closes the console before capture so its text does not cover the screenshot.
 
+`pin <text>` (debug console) pins a note for the Map Studio: it writes `<date>-<time>-<map stem>.yml` (pins format 1:
+the text, world, map, the pose as `loc` prints it, the time, and the project and revision from a `<stem>.studio.yml`
+beside the map when the studio installed it) and the next frame as the `.png` of the same name into the pin inbox,
+`[debug] pin_inbox_path` (default `pins_inbox` in the user data folder; `--isolated` runs use the repository's
+`pins_inbox/`, not the run folder). A `;` in the text ends the command, as everywhere in the console.
+See `devdocs/map_studio/S5_BROWSER_EDITOR.md` 2.10.
+
 ## Video capture
 
 `video start /absolute/clip.mp4 [fps]` (debug console, default 60 fps) records every frame, HUD included, into an
@@ -133,7 +140,9 @@ scripts (`output/trailer_2_0/`, git-ignored) are a worked example.
 
 `--ruleset <id>[:<option>...]` starts the isolated new game under a ruleset package from `assets_dev/engine/rulesets/`,
 for example `--ruleset maw` (MAW's defaults) or `--ruleset maw:hell:horizontal`. Options are difficulty, progression
-and challenge-mode ids in any order, plus `randomizer`, `friendlyfire` (hits on non-hostile monsters count) and `nobow` (MAW's Bow preference off);
+and challenge-mode ids in any order, plus `randomizer`, `friendlyfire` (hits on non-hostile monsters count), `nobow` (MAW's Bow preference off) and `solo`
+(the augmented solo run: a party of one with the solo HUD and, with `[debug] view_model_path`, the first-person arms;
+devdocs/solo_action/HUD.md);
 unlisted ones keep the package defaults, and an option the package does not offer fails the preparation. It cannot be combined with `--save` (a save keeps its own ruleset) or
 `--menu` (choose the ruleset on the New Game screen). The game binary takes the same `--ruleset` argument for a
 direct start without a save, and headless scenarios accept it as `new_game_flow: {ruleset: maw:hell:horizontal}`.
@@ -176,7 +185,8 @@ currently active field. `pointer_down`, `pointer_move` and `pointer_up` accept t
 The cursor check verifies visibility and disabled relative mode on the game window, independently of desktop focus.
 For gameplay checks, `action: quest` (or another keyboard binding INI key) presses the native gameplay action.
 `console: menu` opens the pause menu (gameplay reads Escape from the real keyboard, which a tour cannot press).
-`right_down: [x, y]` and `right_up: [x, y]` hold/release RMB for inspectors and modern cursor interaction.
+`right_down: [x, y]` and `right_up: [x, y]` hold/release RMB for inspectors and modern cursor interaction;
+`middle_down: ~` and `middle_up: ~` hold/release the middle button (the prototype view model's block).
 These operations use the same input frame as the real controls; they do not invoke UI renderer callbacks.
 For repeatable camera-rotation profiling in modern controls, `look_rate: [-400, 0]` supplies relative mouse
 motion in pixels per second during subsequent `wait` steps. `look_rate: [0, 0]` stops it. This uses ordinary

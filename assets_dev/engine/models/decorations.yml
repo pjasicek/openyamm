@@ -1288,6 +1288,7 @@ decorations:
     lod_pixels: [500, 200, 80]
   - name: plant37
     model: engine/models/mm8_deco_plant37.glb
+    z_offset: 1  # its flat base lies on the floor and flickered (the lead, 2026-11-13)
     height: 2
     height_jitter: 0.1
     lod_pixels: [300, 120, 60]

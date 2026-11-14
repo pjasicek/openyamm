@@ -1,0 +1,15 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/held_retexture_pilot_20261114/ingame/before/ground
+exit: true
+steps:
+  - wait: 3
+  - console: loc
+  - console: item drop 1 -9930 -11200 200
+  - wait: 2
+  - console: item drop 812 -9860 -11200 200
+  - wait: 2
+  - console: item drop 5 -9790 -11200 200
+  - wait: 2
+  - console: item drop 814 -9720 -11200 200
+  - wait: 2
+  - wait: 1
+  - capture: 00_ground

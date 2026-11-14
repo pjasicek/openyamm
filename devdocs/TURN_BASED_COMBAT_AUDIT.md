@@ -101,6 +101,10 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 - **Fix.** In TB, Attack and Quick Cast act on the press only (`AttackActionConfig::turnBased`,
   `QuickCastActionConfig::turnBased`): no held repeat and no firing when a member becomes ready while the key is
   down. A press while nobody may act does nothing, as in the original.
+- **Follow-up (2026-11-13, Discord).** Acting on the press only took away holding the key to attack continuously,
+  which the original allows through key repeat. A held key now repeats in TB after the 0.5 s first-repeat pause,
+  then every 0.14 s; Fast attack repeat does not shorten the pause there, so a tap still acts for one member.
+  `single_press_one_member.yml` checks that a 0.6 s hold swings for two members.
 
 ### TB-2: item regeneration stops
 
@@ -129,7 +133,14 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 - **Scenario.** The front member drinks Cure Wounds (health 10 -> 40): member 1 next (member 0 before the fix).
 - **Fix.** In TB the queue's ready member pays the drink (`InventoryItemUseContext::turnBasedReadyMember`; none while
   monsters act, and the drink is refused). `GameplayItemService` spends that member's turn with the drink's recovery
-  (100 ticks in Standard). Under MAW, a drink with no monsters near still costs nothing, as in real time.
+  (100 ticks in Standard).
+- **Follow-up (2026-11-14, Discord OY-204).** Players still drank two potions and attacked in one round under MAW.
+  MAW charges its 60 ticks only near monsters that have seen the party (the yellow alert, `zzAlchemy.lua`), and
+  the turn queue takes every hostile monster within reach whether it has seen the party or not, so the drink was free
+  and the member kept the turn. In TB a drink now always spends the ready member's turn (60 ticks under MAW, so two
+  drinks fit one 100-initiative turn; MAW's own value). Every way of drinking (inventory, portrait, basebar potion
+  list, quick potion keys, solo action bar) goes through `GameplayItemService::tryUseHeldItemOnPartyMember`.
+  `maw_potion_spends_turn.yml` drinks from the inventory and with the quick potion key.
 
 ### TB-4: a scroll read off turn is free
 

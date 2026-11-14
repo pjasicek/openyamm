@@ -1,0 +1,27 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/xbow_hold
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel weapons ours
+  - console: viewmodel held crsbow1
+  - wait: 2
+  - capture: a_bow_idle
+  - console: viewmodel pose bowattack 0.5
+  - wait: 0.5
+  - capture: b_bowattack_0_5
+  - console: viewmodel pose bowattack 1.0
+  - wait: 0.5
+  - capture: b_bowattack_1_0
+  - console: viewmodel pose bowattack 1.5
+  - wait: 0.5
+  - capture: b_bowattack_1_5
+  - console: viewmodel pose off
+  - console: viewmodel held raygun1
+  - wait: 2
+  - capture: c_gun_idle
+  - console: viewmodel pose onehandcasttarget 0.35
+  - wait: 0.5
+  - capture: d_gun_cast
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: e_gun_block

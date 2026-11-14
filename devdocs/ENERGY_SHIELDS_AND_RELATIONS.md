@@ -76,7 +76,10 @@ relations:
 ```
 
 - `relation`: `friendly`/`neutral` (0) or hostile with the engine's engagement ranges `close` (1 024), `short`
-  (2 560), `medium` (5 120), `long` (the party engagement range); 0–4 also work.
+  (2 560), `medium` (5 120), `long` (the party engagement range); 0–4 also work. Toward the party the range is how
+  far a monster notices it before it has engaged it (`GameplayActorService::partyNoticeRange`, the original's
+  `_SelectTarget` for hostility type 0; `hostile.txt`'s Party row works the same, e.g. Rats 2); once it has detected
+  the party, been hit or alerted, it keeps the engagement range.
 - `to`: `party`, `any` (every monster, MM ones included) or one or more factions. Later rules override earlier ones
   for the same pair. A pair no active rule covers keeps the engine table's relation (`hostile.txt`).
 - `until_qbit` / `after_qbit`: the rule holds while the QBit is clear / once it is set. QBits are party state and

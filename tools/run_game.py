@@ -116,6 +116,11 @@ def prepare(args, run, binary, metadata):
     if not asset_path.is_absolute():
         asset_path = (Path.cwd() if args.assets else source.parent) / asset_path
     settings['assets']['root'] = str(asset_path.resolve(strict=True))
+    # Pins typed in an isolated run (`pin <text>`) go to the inbox of the settings they came from, not the run folder.
+    pin_inbox = Path(settings['debug'].get('pin_inbox_path') or 'pins_inbox')
+    if not pin_inbox.is_absolute():
+        pin_inbox = source.parent / pin_inbox
+    settings['debug']['pin_inbox_path'] = str(pin_inbox)
     # Owned paths/startup controls cannot be redirected by inherited settings or --set.
     settings['startup'].update(start_in_main_menu='true' if args.menu else 'false', save_file='')
     settings['debug'].update(start_world=args.world, start_map_file=args.map or '', override_start_position='false')

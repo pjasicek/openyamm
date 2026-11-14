@@ -32,8 +32,11 @@ def scales(*values):
 
 
 def sprite(texture, scale, rgb, transparency=0, blend="additive", stretch=None, velocity_aligned=False,
-           pulse=None):
-    """A sprite fixed on the projectile. pulse=(period_seconds, low, high) breathes its scale."""
+           pulse=None, grow_in=None):
+    """A sprite fixed on the projectile. pulse=(period_seconds, low, high) breathes its scale; grow_in=seconds
+    widens it from a 25th of its scale at launch (a breath that leaves at the viewer's own mouth, 32 units before the
+    eye: even a sixth of the glow covered three quarters of the view there; growing as it flies keeps it under about
+    40 % of the view's half height all the way)."""
     component = {"type": "sprite", "sprite_resource": SPRITE + texture, "blend": blend}
     if velocity_aligned:
         component["alignment"] = "velocity"
@@ -43,6 +46,8 @@ def sprite(texture, scale, rgb, transparency=0, blend="additive", stretch=None, 
         period, low, high = pulse
         component["repeat_count"] = int(DURATION / period)
         component["scale_keys"] = scales((0, scale * low), (0.5, scale * high), (1, scale * low))
+    elif grow_in:
+        component["scale_keys"] = scales((0, round(scale / 25, 4)), (round(grow_in / DURATION, 5), scale))
     else:
         component["scale_keys"] = scales(scale)
     component["color_keys"] = [key(0, rgb, transparency)]
@@ -116,6 +121,12 @@ def sparks(rgb_start, rgb_end, interval=0.05, velocity=80, lifetime=0.45, scale=
     return shed(texture, scales(scale, scale_end), [key(0, rgb_start, 0), key(1, rgb_end, 255)], lifetime,
                 interval=interval, radius=radius, velocity=velocity, wind=wind, velocity_aligned=True,
                 stretch=stretch, per_emission=per_emission)
+
+
+def later(component, start_seconds):
+    """A projectile component that starts after start_seconds of flight instead of at launch."""
+    component["start_seconds"] = start_seconds
+    return component
 
 
 def flame_tongue(scale, scale_end, lifetime, distance, colors, radius=4, velocity=30, grow=None):
@@ -247,15 +258,20 @@ def fire_effects():
                 flame_tongue(0.5, 0.09, 0.16, 10, [key(0, (255, 180, 95), 60), key(0.4, (240, 85, 20), 130),
                                              key(1, (130, 25, 8), 255)], radius=7, velocity=40),
                 sparks((255, 210, 120), (255, 70, 15), interval=0.025, velocity=110, lifetime=0.6)]),
+        # A solo dragon breathes this from its own mouth, 32 units before the eye (devdocs/solo_action/DRAGON.md): the
+        # head widens over its first 0.45 s (about 380 units at Fire Bolt's 768 per second) and the trail starts after
+        # 0.3 s (about 260 units), so the flame tongues and smoke it leaves in the world never pile up on the eye.
         effect("flame_gout", "Flame gout (projectile)",
                "Dragon Breath and Flame Blast: a gout of breathed flame that widens as it flies, heavy smoke.",
-               [sprite("glow", 1.3, (255, 95, 25), 195),
-                sprite("fireball", 0.55, (255, 185, 120), 35),
-                sprite("glow", 0.22, (255, 235, 190)),
-                smoke(0.3, 0.6, 0.6, 16, FIRE_SMOKE, velocity=30, radius=12),
-                flame_tongue(0.32, 0.058, 0.26, 7, [key(0, (255, 200, 120), 60), key(0.35, (255, 110, 30), 120),
-                                             key(1, (140, 30, 8), 255)], radius=8, velocity=70, grow=2.0),
-                sparks((255, 205, 120), (255, 70, 15), interval=0.03, velocity=120)]),
+               [sprite("glow", 1.3, (255, 95, 25), 195, grow_in=0.45),
+                sprite("fireball", 0.55, (255, 185, 120), 35, grow_in=0.45),
+                sprite("glow", 0.22, (255, 235, 190), grow_in=0.45),
+                later(smoke(0.3, 0.6, 0.6, 16, FIRE_SMOKE, velocity=30, radius=12), 0.3),
+                later(flame_tongue(0.32, 0.058, 0.26, 7, [key(0, (255, 200, 120), 60),
+                                                         key(0.35, (255, 110, 30), 120),
+                                                         key(1, (140, 30, 8), 255)], radius=8, velocity=70,
+                                   grow=2.0), 0.3),
+                later(sparks((255, 205, 120), (255, 70, 15), interval=0.03, velocity=120), 0.3)]),
         effect("incinerate", "Incinerate (projectile)",
                "Incinerate spell: the hottest look, a white core and a narrow white-centred flame lance with "
                "wisps peeling off and almost no smoke.",

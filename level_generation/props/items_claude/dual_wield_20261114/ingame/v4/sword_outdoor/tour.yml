@@ -1,0 +1,47 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/dual_wield_20261114/ingame/v4/sword_outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel equip 1 4
+  - wait: 2.5
+  - capture: idle
+  - console: viewmodel pose dualattackright 0.30
+  - wait: 0.6
+  - capture: right
+  - console: viewmodel pose dualattackleft 0.30
+  - wait: 0.6
+  - capture: left
+  - console: viewmodel pose dualattackpower 0.40
+  - wait: 0.6
+  - capture: cross
+  - console: viewmodel pose dualattackright 0.45
+  - wait: 0.6
+  - capture: dualattackright_0.45
+  - console: viewmodel pose dualattackright 0.55
+  - wait: 0.6
+  - capture: dualattackright_0.55
+  - console: viewmodel pose dualattackright 0.62
+  - wait: 0.6
+  - capture: dualattackright_0.62
+  - console: viewmodel pose dualattackright 0.72
+  - wait: 0.6
+  - capture: dualattackright_0.72
+  - console: viewmodel pose dualequip 0.35
+  - wait: 0.6
+  - capture: dualequip_0.35
+  - console: viewmodel pose dualequip 0.5
+  - wait: 0.6
+  - capture: dualequip_0.5
+  - console: viewmodel pose dualequip 0.65
+  - wait: 0.6
+  - capture: dualequip_0.65
+  - console: viewmodel pose dualattackbackpower 0.3
+  - wait: 0.6
+  - capture: dualattackbackpower_0.3
+  - console: viewmodel pose dualattackbackpower 0.6
+  - wait: 0.6
+  - capture: dualattackbackpower_0.6
+  - console: viewmodel pose dualattackpower 0.55
+  - wait: 0.6
+  - capture: dualattackpower_0.55
+  - console: viewmodel pose off

@@ -1,0 +1,45 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/held_retexture_pilot_20261114/ingame/after/indoor
+exit: true
+steps:
+  - wait: 3
+  - console: loc
+  - console: viewmodel held item001
+  - wait: 1.2
+  - capture: 10_item001_idle
+  - console: viewmodel pose onehandattackleft 0.15
+  - wait: 0.4
+  - capture: 11_item001_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.4
+  - capture: 12_item001_swing2
+  - console: viewmodel pose off
+  - console: viewmodel held 7item010
+  - wait: 1.2
+  - capture: 20_7item010_idle
+  - console: viewmodel pose onehandattackleft 0.15
+  - wait: 0.4
+  - capture: 21_7item010_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.4
+  - capture: 22_7item010_swing2
+  - console: viewmodel pose off
+  - console: viewmodel held item005
+  - wait: 1.2
+  - capture: 30_item005_idle
+  - console: viewmodel pose onehandattackleft 0.15
+  - wait: 0.4
+  - capture: 31_item005_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.4
+  - capture: 32_item005_swing2
+  - console: viewmodel pose off
+  - console: viewmodel held 7item012
+  - wait: 1.2
+  - capture: 40_7item012_idle
+  - console: viewmodel pose onehandattackleft 0.15
+  - wait: 0.4
+  - capture: 41_7item012_swing
+  - console: viewmodel pose onehandattackright 0.30
+  - wait: 0.4
+  - capture: 42_7item012_swing2
+  - console: viewmodel pose off

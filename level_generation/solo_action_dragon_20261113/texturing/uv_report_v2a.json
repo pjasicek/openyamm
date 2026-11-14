@@ -1,0 +1,77 @@
+{
+ "chart_mode": "partuv",
+ "charts_used": "partuv",
+ "xatlas_charts": 46,
+ "start_charts": 46,
+ "charts": 11,
+ "merged": 3,
+ "reverted": 1,
+ "use": 0.5799,
+ "margin_px": 4,
+ "size": 4096,
+ "max_cost": 2.0,
+ "merge_below": 12,
+ "head_factor": 1.0,
+ "method": "MINIMUM_STRETCH",
+ "packer": "sparrow",
+ "packer_used": "sparrow",
+ "sparrow_k": 1.155534822421248,
+ "fallbacks": [],
+ "partuv_threshold": 1.08,
+ "max_stretch": 1.25,
+ "seam_rounds": 6,
+ "seam_stretch": 1.25,
+ "seam_log": [
+  {
+   "round": 0,
+   "tried": 20,
+   "kept": 16,
+   "charts": 28
+  },
+  {
+   "round": 1,
+   "tried": 10,
+   "kept": 9,
+   "charts": 19
+  },
+  {
+   "round": 2,
+   "tried": 6,
+   "kept": 5,
+   "charts": 14
+  },
+  {
+   "round": 3,
+   "tried": 3,
+   "kept": 2,
+   "charts": 12
+  },
+  {
+   "round": 4,
+   "tried": 2,
+   "kept": 1,
+   "charts": 11
+  },
+  {
+   "round": 5,
+   "tried": 1,
+   "kept": 0,
+   "charts": 11
+  }
+ ],
+ "seams": {
+  "total_len": 5.63,
+  "visible_len": 3.39,
+  "exposed_len": 3.55,
+  "hidden_len": 0.4,
+  "hidden_share_pct": 7.0,
+  "note": "creature sizes; visible = length x face visibility from 72 cameras (exposed >= 0.5, hidden < 0.15)"
+ },
+ "weld": {
+  "distance": 1e-05,
+  "vertices_before": 3334,
+  "vertices_after": 3334,
+  "result": "nothing to weld"
+ },
+ "correct_aspect": false
+}

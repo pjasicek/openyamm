@@ -168,6 +168,12 @@ settings:
   name: Damage trail
   type: toggle
   desc: Briefly show recently lost health behind the current fill.
+- id: enemy_health_bar_effects
+  section: interface
+  group: Enemy health bars
+  name: Effect icons
+  type: toggle
+  desc: Show the spells on each enemy under its bar, with the time left swept clockwise.
 - id: quest_markers
   section: interface
   group: Exploration
@@ -218,6 +224,12 @@ settings:
   - [always, Always]
   desc: Outline items in their rarity colour (rulesets with rarities, such as MAW).
   game_ruleset: maw
+- id: loot_sparkle
+  section: interface
+  group: Items
+  name: Sparkle on all loot
+  type: toggle
+  desc: Every item on the ground glints faintly white, so small finds show in tall grass. Valuable items keep their colours.
 - id: shop_list_view
   section: interface
   group: Items
@@ -753,6 +765,9 @@ bindings:
 - id: always_run_toggle
   name: Toggle always run
   group: Movement
+- id: auto_walk
+  name: Auto-walk on/off (Forward or Backward stops it)
+  group: Movement
 - id: fly_up
   name: Fly up
   group: Movement
@@ -777,6 +792,9 @@ bindings:
 - id: zoom_out
   name: Zoom out
   group: Camera
+- id: cursor_mode
+  name: Free cursor on/off (modern controls; the world keeps running)
+  group: Camera
 - id: attack
   name: Attack
   group: Combat
@@ -800,6 +818,9 @@ bindings:
   group: Combat
 - id: upkeep
   name: Cast upkeep spells
+  group: Combat
+- id: swap_weapon
+  name: Swap melee weapon and bow (solo run)
   group: Combat
 - id: cast
   name: Open spellbook
@@ -871,8 +892,7 @@ bindings:
   name: Quick load
   group: System
 # MAW's keys (devdocs/maw/GAPS.md §11 D.18): listed only in a MAW game's pause menu. `context` is the page a key acts
-# on; keys of different contexts may share a key (A picks the alchemist on the inventory page and moves left in play;
-# MAW's E is our Use key).
+# on; keys of different contexts may share a key.
 - id: unstuck
   name: Get unstuck
   group: MAW
@@ -885,11 +905,6 @@ bindings:
   name: Gather corpses and crafting items
   group: MAW
   ruleset: maw
-- id: alchemist_pick
-  name: Alchemist takes alchemy items
-  group: MAW
-  ruleset: maw
-  context: inventory
 - id: skill_cover
   name: Switch Cover
   group: MAW

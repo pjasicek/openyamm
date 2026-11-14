@@ -1,0 +1,7 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/held_retexture_pilot_20261114/ingame/dimprobe
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel held item001
+  - wait: 1.5
+  - capture: 6d05

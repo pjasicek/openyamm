@@ -1,0 +1,15 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/club_auto
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel equip 1660 0
+  - wait: 2.5
+  - console: viewmodel pose onehandattackright 0.4
+  - wait: 0.5
+  - capture: item_1660
+  - console: viewmodel pose off
+  - console: viewmodel equip 862 0
+  - wait: 2.5
+  - console: viewmodel pose onehandattackright 0.4
+  - wait: 0.5
+  - capture: item_862

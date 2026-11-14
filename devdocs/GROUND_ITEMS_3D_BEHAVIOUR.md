@@ -147,8 +147,11 @@ Pick targeting stays deliberately more forgiving than physics and separate from 
   enchantments (as a shop buys them): green from 1000, purple from 2500, gold with rising motes for artifacts, relics
   and named uniques, red for quest items (base value 0), sparse warm white for coin heaps. `WorldFxSystem` loops
   `openyamm:fx/item_sparkle/*` (glint sprites, `engine/effects/authored/library.yml`) for each such item within 3072
-  units of the party, its emitter jumping between random points over the item's top so the glints cover it. Plain
-  items cost nothing; a sparkling one keeps 3-6 particles alive. Unidentified items sparkle too.
+  units of the party, its emitter jumping between random points over the item's top so the glints cover it. Every
+  other item (`WorldItemSparkle::Plain`, OY-618) glints faintly white (`item_sparkle/plain`), its glints drifting up
+  to be brightest half a grass height over it, so small loot shows in tall grass; Settings > Interface > Sparkle on
+  all loot (`[gameplay] loot_sparkle`, on by default) turns only that one off. A sparkling item keeps 3-6 particles
+  alive. Unidentified items sparkle too; placed items not yet takeable do not.
 
 ## 6. Retiring the ground-item sprites
 

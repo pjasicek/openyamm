@@ -1,0 +1,192 @@
+# The special skills (talents) of an augmented solo run under MAW (devdocs/solo_action/TALENTS.md, design in
+# devdocs/solo_action/BALANCE_AND_TALENTS.md §5.0). Only a MAW solo run reads them; a ruleset may replace this table
+# like any other. Numbers are first guesses to tune in play.
+#
+# Each talent:
+#   id, name, tree (melee, ranged, caster), kind (passive, active), max_rank.
+#   icon_item (an inventory icon name) or icon_spell (a spell id): placeholder art until talents have icons of their own.
+#   requires: the mastery the tree's skill needs before the talent can be learned (none, expert, master). The tree's skill
+#     is the equipped melee weapon's skill or Armsmaster for melee, Bow for ranged, the best magic school for caster.
+#   per_rank: a passive's percent (or amount) per rank.
+#   cooldown, cooldown_per_rank (added per rank above the first; negative shortens), duration, duration_per_rank: seconds.
+#   targets, share (percent of a normal blow or shot), distance (world units), arc (degrees either side of the view).
+#   text: the effect line on the Talents page; {value} is the current rank's number.
+levels_per_point: 10
+talents:
+  - id: weapon_training
+    name: Weapon Training
+    tree: melee
+    kind: passive
+    max_rank: 5
+    icon_item: item004
+    per_rank: 2
+    text: "+{value} % Might, Endurance and Speed"
+  - id: cleave
+    name: Cleave
+    tree: melee
+    kind: active
+    max_rank: 3
+    icon_item: 7item024
+    requires: expert
+    cooldown: 12
+    cooldown_per_rank: -2
+    targets: 5
+    share: 60
+    arc: 60
+    text: "A sweep: the target and up to four more in the arc take a blow at 60 %"
+  - id: whirlwind
+    name: Whirlwind
+    tree: melee
+    kind: active
+    max_rank: 3
+    icon_spell: 93
+    requires: master
+    cooldown: 20
+    cooldown_per_rank: -3
+    share: 50
+    arc: 180
+    text: "Every monster within reach around you takes a blow at 50 %"
+  - id: frenzy
+    name: Frenzy
+    tree: melee
+    kind: active
+    max_rank: 3
+    icon_spell: 5
+    requires: expert
+    cooldown: 30
+    duration: 6
+    duration_per_rank: 1
+    per_rank: 25
+    text: "+25 % attack speed for {value} s"
+  - id: charge
+    name: Charge
+    tree: melee
+    kind: active
+    max_rank: 3
+    icon_item: 7item115
+    requires: expert
+    cooldown: 25
+    cooldown_per_rank: -3
+    distance: 2500
+    duration: 1.5
+    text: "Dash to the target, strike and stagger it for 1.5 s"
+  - id: shield_wall
+    name: Shield Wall
+    tree: melee
+    kind: active
+    max_rank: 3
+    icon_item: lshield2
+    requires: expert
+    cooldown: 60
+    cooldown_per_rank: -10
+    duration: 6
+    per_rank: 50
+    text: "With a shield: 50 % less damage for 6 s"
+  - id: marksman
+    name: Marksman
+    tree: ranged
+    kind: passive
+    max_rank: 5
+    icon_item: 7item043
+    per_rank: 2
+    text: "+{value} % Accuracy and Speed"
+  - id: volley
+    name: Volley
+    tree: ranged
+    kind: active
+    max_rank: 3
+    icon_spell: 26
+    requires: expert
+    cooldown: 12
+    cooldown_per_rank: -2
+    targets: 5
+    share: 60
+    arc: 30
+    text: "An arrow at each of up to five monsters in a cone, at 60 %"
+  - id: disengage
+    name: Disengage
+    tree: ranged
+    kind: active
+    max_rank: 3
+    icon_spell: 16
+    requires: expert
+    cooldown: 15
+    cooldown_per_rank: -2
+    distance: 420
+    text: "Leap back 4 m"
+  - id: pinning_shot
+    name: Pinning Shot
+    tree: ranged
+    kind: active
+    max_rank: 3
+    icon_spell: 81
+    requires: expert
+    cooldown: 10
+    duration: 4
+    duration_per_rank: 1
+    text: "A shot that slows the target by half for {value} s"
+  - id: steady_aim
+    name: Steady Aim
+    tree: ranged
+    kind: passive
+    max_rank: 3
+    icon_spell: 46
+    per_rank: 3
+    text: "After standing still for 1 s: +{value} % Luck (critical chance)"
+  - id: attunement
+    name: Attunement
+    tree: caster
+    kind: passive
+    max_rank: 5
+    icon_spell: 83
+    per_rank: 2
+    text: "+{value} % Intellect, Personality, Endurance, spell damage and healing"
+  - id: blink
+    name: Blink
+    tree: caster
+    kind: active
+    max_rank: 3
+    icon_spell: 31
+    requires: expert
+    cooldown: 15
+    cooldown_per_rank: -2
+    distance: 1600
+    text: "Teleport 15 m forward"
+  - id: spell_surge
+    name: Spell Surge
+    tree: caster
+    kind: active
+    max_rank: 3
+    icon_spell: 11
+    requires: master
+    cooldown: 45
+    cooldown_per_rank: -5
+    per_rank: 50
+    text: "The next spell costs no SP and hits 50 % harder"
+  - id: mana_font
+    name: Mana Font
+    tree: caster
+    kind: passive
+    max_rank: 5
+    icon_spell: 47
+    per_rank: 1
+    text: "+{value} SP per 5 s per 10 levels"
+  - id: purify
+    name: Purify
+    tree: caster
+    kind: active
+    max_rank: 3
+    icon_spell: 72
+    requires: expert
+    cooldown: 30
+    cooldown_per_rank: -5
+    duration: 5
+    text: "Cure one condition, and 5 s of immunity to it"
+  - id: resolve
+    name: Resolve
+    tree: caster
+    kind: passive
+    max_rank: 5
+    icon_spell: 75
+    per_rank: 2
+    text: "+{value} % to all resistances"

@@ -1,0 +1,16 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/t4check/blaster_outdoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit onehand w_blaster.glb 0
+  - wait: 2
+  - console: viewmodel tier 4
+  - wait: 1.2
+  - capture: t4_idle
+  - console: viewmodel pose onehandattackforwardpower 0.45
+  - wait: 0.5
+  - capture: t4_swing
+  - console: viewmodel pose onehandblockidle 0.5
+  - wait: 0.5
+  - capture: t4_swing2
+  - console: viewmodel pose off

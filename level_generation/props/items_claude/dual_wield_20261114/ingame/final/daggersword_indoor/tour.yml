@@ -1,0 +1,17 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/dual_wield_20261114/ingame/final/daggersword_indoor
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel equip 3 22
+  - wait: 2.5
+  - capture: idle
+  - console: viewmodel pose dualattackright 0.30
+  - wait: 0.6
+  - capture: right
+  - console: viewmodel pose dualattackleft 0.30
+  - wait: 0.6
+  - capture: left
+  - console: viewmodel pose dualattackpower 0.40
+  - wait: 0.6
+  - capture: cross
+  - console: viewmodel pose off

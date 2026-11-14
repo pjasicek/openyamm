@@ -28,6 +28,8 @@ __pycache__/
 # Local captures, packaged builds, user configuration and authoring archives.
 /output/
 /logs/
+# Pins typed in the game's console (`pin <text>`), waiting for `oymap pins import`.
+/pins_inbox/
 /openyamm.log
 /ai_trace.log
 /.codex

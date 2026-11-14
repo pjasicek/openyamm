@@ -52,6 +52,10 @@ These rules apply to all AI-generated contributions in this repository.
   [Releases](packaging/RELEASE.md) and [Incremental updates](packaging/UPDATER_PLAN.md).
 - Saves and changed maps: each saved map state records its map's layout identity, and a map rebuilt since the save
   resets its state when entered (party state kept); see [Saved map states](devdocs/SAVED_MAP_STATE_IDENTITY.md).
+- When the user explicitly asks for mockups, always also build an HTML viewer page for them without being asked:
+  one page that shows every mockup live (scaled to fit, with a link to full size), switches between them and
+  their states, lists what each shows, and includes the captures. Keep it beside the mockups (`viewer.html`), publish
+  it as an Artifact with the mockups' files, and give the user its link. Delegated mockup work includes the viewer.
 - Start searches in relevant source directories; include `reference/`, `mm9/`, generated assets, and build trees only
   when needed.
 - Development compile command: `cmake --build build --target openyamm -j25`.
@@ -98,6 +102,8 @@ These rules apply to all AI-generated contributions in this repository.
   only the affected segments or quests (`run.py NN`). A change that deliberately alters a story path (an item made a
   world item, an event renumbered) updates the segments it breaks in the same change. How they are built, extended
   and debugged: the [Playthrough playbook](tests/playthrough/PLAYBOOK.md).
+- For the solo action mode research and the first-person view model prototype (held weapon and shield, swings that
+  land at the blow, shield block, `[debug] view_model_path`), start with [Solo action mode](devdocs/solo_action/README.md).
 - For scripted monsters, bosses or encounters (per-actor Lua behaviours over the shared AI), start with
   [Actor scripting](devdocs/ACTOR_SCRIPTING_INVESTIGATION.md).
 - For in-engine cinematics (camera cutscenes with letterbox, fades, sounds, subtitles and actor steps: a map's

@@ -1,0 +1,56 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/props/items_claude/view_model_weapons_20261114/ingame/sets/shift
+exit: true
+steps:
+  - wait: 3
+  - console: viewmodel kit twohand w_zztest_s24.glb 0
+  - wait: 2
+  - capture: s24_twohand_a_idle
+  - console: viewmodel pose twohandattackleft 0.30
+  - wait: 0.5
+  - capture: s24_twohand_twohandattackleft
+  - console: viewmodel pose twohandattackright 0.30
+  - wait: 0.5
+  - capture: s24_twohand_twohandattackright
+  - console: viewmodel pose twohandattackpower 0.4
+  - wait: 0.5
+  - capture: s24_twohand_twohandattackpower
+  - console: viewmodel pose off
+  - console: viewmodel kit staff w_zztest_s24.glb 0
+  - wait: 2
+  - capture: s24_staff_a_idle
+  - console: viewmodel pose staffattackleft 0.30
+  - wait: 0.5
+  - capture: s24_staff_staffattackleft
+  - console: viewmodel pose staffattackright 0.30
+  - wait: 0.5
+  - capture: s24_staff_staffattackright
+  - console: viewmodel pose staffattackpower 0.4
+  - wait: 0.5
+  - capture: s24_staff_staffattackpower
+  - console: viewmodel pose off
+  - console: viewmodel kit twohand w_zztest_s34.glb 0
+  - wait: 2
+  - capture: s34_twohand_a_idle
+  - console: viewmodel pose twohandattackleft 0.30
+  - wait: 0.5
+  - capture: s34_twohand_twohandattackleft
+  - console: viewmodel pose twohandattackright 0.30
+  - wait: 0.5
+  - capture: s34_twohand_twohandattackright
+  - console: viewmodel pose twohandattackpower 0.4
+  - wait: 0.5
+  - capture: s34_twohand_twohandattackpower
+  - console: viewmodel pose off
+  - console: viewmodel kit staff w_zztest_s34.glb 0
+  - wait: 2
+  - capture: s34_staff_a_idle
+  - console: viewmodel pose staffattackleft 0.30
+  - wait: 0.5
+  - capture: s34_staff_staffattackleft
+  - console: viewmodel pose staffattackright 0.30
+  - wait: 0.5
+  - capture: s34_staff_staffattackright
+  - console: viewmodel pose staffattackpower 0.4
+  - wait: 0.5
+  - capture: s34_staff_staffattackpower
+  - console: viewmodel pose off

@@ -392,6 +392,12 @@ presets:
       - {texture: clouds_cumulus, scale: 0.105, speed: 0.0027, direction_deg: 20, coverage: 0.45, softness: 0.30,
          opacity: 1.0, curvature: 0.13}
 
+  # Sky cities seen from above (MM7 Celeste, an open-sky BLV): the clear day cycle, with the sky and its clouds
+  # continuing below the horizon where the floor's gaps look down, instead of the flat fog that terrain hides outdoors.
+  above_clouds:
+    inherits: clear
+    below_horizon: sky
+
   # Always-dark exteriors: a permanent overcast night.
   always_dark:
     inherits: overcast

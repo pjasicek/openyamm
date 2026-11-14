@@ -1,0 +1,22 @@
+# Clean gameplay background for the solo HUD mockups (2026-11-13).
+# ./tools/run_game.sh --isolated solohud --world mm6 --map oute3.odm --set video.resolution=1600x900 \
+#   --set video.window_mode=windowed --set debug.console=true --set gameplay.enemy_health_bars=off \
+#   --set debug.menu_input_tour_path=$PWD/level_generation/ui/solo_action_hud_20261113/tours/background.yml --seconds 45
+# Party start pose in New Sorpigal: (-9728, -11319, 161), yaw 1.571, pitch -8.6. The HUD is switched off; four goblins
+# are spawned in front and held in place. Run it a second time without "render hud off" (and with
+# gameplay.enemy_health_bars=target) for capture_hud.png, the source of the native top bar, minimap and buff panels.
+output_dir: ../art_capture
+exit: true
+steps:
+  - wait: 3
+  - console: render hud off
+  - console: actor spawn 271 1 -10020 -10200 161
+  - console: actor immobile last on
+  - console: actor spawn 272 1 -9330 -10120 161
+  - console: actor immobile last on
+  - console: actor spawn 271 1 -9550 -9850 161
+  - console: actor immobile last on
+  - console: actor spawn 273 1 -9690 -10880 161
+  - console: actor immobile last on
+  - wait: 2.5
+  - capture: capture_clean

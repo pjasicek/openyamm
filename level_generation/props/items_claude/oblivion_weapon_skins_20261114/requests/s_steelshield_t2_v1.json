@@ -1,0 +1,14 @@
+{
+ "model_url": "@file:work/s_steelshield/upload_meshy.glb",
+ "ai_model": "meshy-7",
+ "enable_original_uv": true,
+ "enable_pbr": true,
+ "texture_resolution": "4k",
+ "target_formats": [
+  "glb"
+ ],
+ "multiview_image_urls": [
+  "@file:work/s_steelshield/masters_t2/01_front.png",
+  "@file:work/s_steelshield/masters_t2/02_back.png"
+ ]
+}

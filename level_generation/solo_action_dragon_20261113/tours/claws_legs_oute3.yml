@@ -1,0 +1,63 @@
+# The forelegs' every clip held on screen, HUD off, for checking the digit roots and wrists (the 2026-11-14 skin fix).
+# cd /home/pjasicek/github/OpenYAMM && SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated claws_legs_oute3 --world mm6 \
+#   --map oute3.odm --ruleset maw:solo --set video.resolution=1600x900 --set debug.console=true \
+#   --set debug.menu_input_tour_path=$PWD/level_generation/solo_action_dragon_20261113/tours/claws_legs_oute3.yml --seconds 60
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/solo_action_dragon_20261113/renders/engine/legs_oute3
+exit: true
+steps:
+  - wait: 3
+  - console: testparty apply early solo_dragon
+  - console: render hud off
+  - wait: 3
+  - console: viewmodel pose clawsidle 0.0
+  - wait: 0.4
+  - capture: 00_clawsidle_0_0
+  - console: viewmodel pose clawsidle 1.5
+  - wait: 0.4
+  - capture: 01_clawsidle_1_5
+  - console: viewmodel pose clawsforward 0.25
+  - wait: 0.4
+  - capture: 02_clawsforward_0_25
+  - console: viewmodel pose clawsfastforward 0.35
+  - wait: 0.4
+  - capture: 03_clawsfastforward_0_35
+  - console: viewmodel pose clawsequip 0.4
+  - wait: 0.4
+  - capture: 04_clawsequip_0_4
+  - console: viewmodel pose clawsattackright 0.1
+  - wait: 0.4
+  - capture: 05_clawsattackright_0_1
+  - console: viewmodel pose clawsattackright 0.2
+  - wait: 0.4
+  - capture: 06_clawsattackright_0_2
+  - console: viewmodel pose clawsattackright 0.36
+  - wait: 0.4
+  - capture: 07_clawsattackright_0_36
+  - console: viewmodel pose clawsattackleft 0.1
+  - wait: 0.4
+  - capture: 08_clawsattackleft_0_1
+  - console: viewmodel pose clawsattackleft 0.2
+  - wait: 0.4
+  - capture: 09_clawsattackleft_0_2
+  - console: viewmodel pose clawsattackleft 0.36
+  - wait: 0.4
+  - capture: 10_clawsattackleft_0_36
+  - console: viewmodel pose clawsbite 0.25
+  - wait: 0.4
+  - capture: 11_clawsbite_0_25
+  - console: viewmodel pose clawsblockidle 0.4
+  - wait: 0.4
+  - capture: 12_clawsblockidle_0_4
+  - console: viewmodel pose clawsblockhit 0.15
+  - wait: 0.4
+  - capture: 13_clawsblockhit_0_15
+  - console: viewmodel pose clawsbreath 0.2
+  - wait: 0.4
+  - capture: 14_clawsbreath_0_2
+  - console: viewmodel pose clawsbreath 0.42
+  - wait: 0.4
+  - capture: 15_clawsbreath_0_42
+  - console: viewmodel pose clawsbreath 0.75
+  - wait: 0.4
+  - capture: 16_clawsbreath_0_75
+  - console: viewmodel pose off

@@ -193,6 +193,11 @@ parties:
     members:
       - {name: Lone, class: Sorcerer, promoted: ArchMage}
 
+  - id: solo_dragon
+    title: "A party of one dragon (the solo run's clawed forelegs: testparty early solo_dragon solo)"
+    members:
+      - {name: Kaltharax, class: Dragon, promoted: GreatWyrm, race: Dragon}
+
 kits:
   - id: healing
     title: "Cure Wounds and Magic Potions"

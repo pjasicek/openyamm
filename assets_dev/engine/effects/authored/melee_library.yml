@@ -2358,6 +2358,1165 @@ effects:
     - {time: 0, rgb: [180, 110, 255], transparency: 0}
     - {time: 1, rgb: [180, 110, 255], transparency: 255}
     motion_keys: []
+# Dragon claws and bite: a rake of three streaks swept through the contact point; glancing blow.
+- id: openyamm:fx/melee/claw_light
+  display_name: Melee claw light
+  duration_seconds: 0.333
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-27.28, -28.31, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.536}
+    color_keys:
+    - {time: 0, rgb: [255, 196, 160], transparency: 150}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-27.28, -28.31, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.496}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 70}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0.133
+    end_seconds: 0.283
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-27.28, -28.31, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.496}
+    - {time: 1, value: 0.511}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 70}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 4
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-27.28, -12.31, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.536}
+    color_keys:
+    - {time: 0, rgb: [255, 196, 160], transparency: 150}
+    motion_keys: []
+  - id: 5
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-27.28, -12.31, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.496}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 70}
+    motion_keys: []
+  - id: 6
+    type: sprite
+    start_seconds: 0.158
+    end_seconds: 0.308
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-27.28, -12.31, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.496}
+    - {time: 1, value: 0.511}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 70}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 7
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-27.28, 3.69, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.536}
+    color_keys:
+    - {time: 0, rgb: [255, 196, 160], transparency: 150}
+    motion_keys: []
+  - id: 8
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-27.28, 3.69, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.496}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 70}
+    motion_keys: []
+  - id: 9
+    type: sprite
+    start_seconds: 0.183
+    end_seconds: 0.333
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-27.28, 3.69, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.496}
+    - {time: 1, value: 0.511}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 70}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 10
+    type: sprite
+    start_seconds: 0.03
+    end_seconds: 0.12
+    sprite_resource: openyamm:effect-sprite/melee_flare
+    blend: additive
+    scale_keys:
+    - {time: 0, value: 0.32}
+    - {time: 1, value: 0.72}
+    color_keys:
+    - {time: 0, rgb: [255, 235, 215], transparency: 0}
+    - {time: 1, rgb: [255, 235, 215], transparency: 255}
+    motion_keys: []
+# Dragon claws and bite: a rake of three streaks swept through the contact point; normal blow.
+- id: openyamm:fx/melee/claw
+  display_name: Melee claw
+  duration_seconds: 0.333
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.67}
+    color_keys:
+    - {time: 0, rgb: [255, 196, 160], transparency: 90}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.62}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0.133
+    end_seconds: 0.283
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.62}
+    - {time: 1, value: 0.639}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 4
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.67}
+    color_keys:
+    - {time: 0, rgb: [255, 196, 160], transparency: 90}
+    motion_keys: []
+  - id: 5
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.62}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    motion_keys: []
+  - id: 6
+    type: sprite
+    start_seconds: 0.158
+    end_seconds: 0.308
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.62}
+    - {time: 1, value: 0.639}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 7
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.67}
+    color_keys:
+    - {time: 0, rgb: [255, 196, 160], transparency: 90}
+    motion_keys: []
+  - id: 8
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.62}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    motion_keys: []
+  - id: 9
+    type: sprite
+    start_seconds: 0.183
+    end_seconds: 0.333
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.62}
+    - {time: 1, value: 0.639}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 10
+    type: sprite
+    start_seconds: 0.03
+    end_seconds: 0.12
+    sprite_resource: openyamm:effect-sprite/melee_flare
+    blend: additive
+    scale_keys:
+    - {time: 0, value: 0.4}
+    - {time: 1, value: 0.9}
+    color_keys:
+    - {time: 0, rgb: [255, 235, 215], transparency: 0}
+    - {time: 1, rgb: [255, 235, 215], transparency: 255}
+    motion_keys: []
+# Dragon claws and bite: a rake of three streaks swept through the contact point; critical hit or kill, larger and warmer.
+- id: openyamm:fx/melee/claw_heavy
+  display_name: Melee claw heavy
+  duration_seconds: 0.383
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-42.62, -44.24, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.837}
+    color_keys:
+    - {time: 0, rgb: [255, 228, 180], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-42.62, -44.24, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.775}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0.133
+    end_seconds: 0.333
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-42.62, -44.24, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.775}
+    - {time: 1, value: 0.798}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 4
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-42.62, -19.24, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.837}
+    color_keys:
+    - {time: 0, rgb: [255, 228, 180], transparency: 40}
+    motion_keys: []
+  - id: 5
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-42.62, -19.24, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.775}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    motion_keys: []
+  - id: 6
+    type: sprite
+    start_seconds: 0.158
+    end_seconds: 0.358
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-42.62, -19.24, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.775}
+    - {time: 1, value: 0.798}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 7
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-42.62, 5.76, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.837}
+    color_keys:
+    - {time: 0, rgb: [255, 228, 180], transparency: 40}
+    motion_keys: []
+  - id: 8
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-42.62, 5.76, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.775}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    motion_keys: []
+  - id: 9
+    type: sprite
+    start_seconds: 0.183
+    end_seconds: 0.383
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-42.62, 5.76, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.775}
+    - {time: 1, value: 0.798}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 0}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 10
+    type: sprite
+    start_seconds: 0.03
+    end_seconds: 0.12
+    sprite_resource: openyamm:effect-sprite/melee_flare
+    blend: additive
+    scale_keys:
+    - {time: 0, value: 0.5}
+    - {time: 1, value: 1.125}
+    color_keys:
+    - {time: 0, rgb: [255, 235, 215], transparency: 0}
+    - {time: 1, rgb: [255, 235, 215], transparency: 255}
+    motion_keys: []
+  - id: 11
+    type: sprite
+    start_seconds: 0.03
+    end_seconds: 0.24
+    sprite_resource: openyamm:effect-sprite/melee_ring
+    blend: additive
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.3}
+    - {time: 1, value: 1.2}
+    color_keys:
+    - {time: 0, rgb: [255, 228, 180], transparency: 110}
+    - {time: 1, rgb: [255, 228, 180], transparency: 255}
+    motion_keys: []
+# Missed claw: a faint blow passing beside the target.
+- id: openyamm:fx/melee/claw_miss
+  display_name: Melee claw miss
+  duration_seconds: 0.283
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0.0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-30.69, -0.46, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.558}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 150}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0.133
+    end_seconds: 0.233
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-30.69, -0.46, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.558}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 150}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0.025
+    end_seconds: 0.158
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-30.69, 17.54, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.558}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 150}
+    motion_keys: []
+  - id: 4
+    type: sprite
+    start_seconds: 0.158
+    end_seconds: 0.258
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-30.69, 17.54, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.558}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 150}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+  - id: 5
+    type: sprite
+    start_seconds: 0.05
+    end_seconds: 0.183
+    sprite_resource: openyamm:effect-sprite/melee_arc
+    blend: alpha
+    offset: [-30.69, 35.54, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.558}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 150}
+    motion_keys: []
+  - id: 6
+    type: sprite
+    start_seconds: 0.183
+    end_seconds: 0.283
+    sprite_resource: openyamm:effect-sprite/melee_arc_end
+    blend: alpha
+    offset: [-30.69, 35.54, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.558}
+    color_keys:
+    - {time: 0, rgb: [255, 255, 255], transparency: 150}
+    - {time: 1, rgb: [255, 255, 255], transparency: 255}
+    motion_keys: []
+# Fire weapon accent over a claw, spawned with it.
+- id: openyamm:fx/melee/claw_element_fire
+  display_name: Melee claw fire
+  duration_seconds: 0.55
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [255, 130, 45], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [255, 130, 45], transparency: 40}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [255, 130, 45], transparency: 40}
+    motion_keys: []
+  - id: 4
+    type: sprite
+    start_seconds: 0.02
+    end_seconds: 0.34
+    sprite_resource: openyamm:effect-sprite/fire_burst
+    blend: additive
+    scale_keys:
+    - {time: 0, value: 0.45}
+    - {time: 1, value: 0.8}
+    color_keys:
+    - {time: 0, rgb: [255, 190, 120], transparency: 20}
+    - {time: 1, rgb: [255, 190, 120], transparency: 255}
+    motion_keys: []
+  - id: 5
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/flame_lick
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 10
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.45
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 120
+    gravity: -300
+    random_roll: true
+    spin_speed: 2.0
+    scale_keys:
+    - {time: 0, value: 0.45}
+    - {time: 1, value: 0.15}
+    color_keys:
+    - {time: 0, rgb: [255, 170, 70], transparency: 20}
+    - {time: 1, rgb: [255, 170, 70], transparency: 255}
+    motion_keys: []
+  - id: 6
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/spark
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 10
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.5
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 260
+    gravity: 250
+    scale_keys:
+    - {time: 0, value: 0.16}
+    - {time: 1, value: 0.05}
+    color_keys:
+    - {time: 0, rgb: [255, 190, 90], transparency: 0}
+    - {time: 1, rgb: [255, 190, 90], transparency: 255}
+    motion_keys: []
+# Air weapon accent over a claw, spawned with it.
+- id: openyamm:fx/melee/claw_element_air
+  display_name: Melee claw air
+  duration_seconds: 0.27
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [150, 170, 255], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [150, 170, 255], transparency: 40}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [150, 170, 255], transparency: 40}
+    motion_keys: []
+  - id: 4
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/electric
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 3
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.14
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 30
+    random_roll: true
+    spin_speed: 6.0
+    scale_keys:
+    - {time: 0, value: 0.6}
+    - {time: 1, value: 0.75}
+    color_keys:
+    - {time: 0, rgb: [175, 195, 255], transparency: 0}
+    - {time: 1, rgb: [175, 195, 255], transparency: 255}
+    motion_keys: []
+  - id: 5
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/streak
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 8
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.22
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 320
+    alignment: velocity
+    stretch_u: 2.5
+    scale_keys:
+    - {time: 0, value: 0.1}
+    - {time: 1, value: 0.05}
+    color_keys:
+    - {time: 0, rgb: [190, 210, 255], transparency: 0}
+    - {time: 1, rgb: [190, 210, 255], transparency: 255}
+    motion_keys: []
+# Water weapon accent over a claw, spawned with it.
+- id: openyamm:fx/melee/claw_element_water
+  display_name: Melee claw water
+  duration_seconds: 0.5
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [140, 215, 255], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [140, 215, 255], transparency: 40}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [140, 215, 255], transparency: 40}
+    motion_keys: []
+  - id: 4
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 7
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.45
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 70
+    gravity: 80
+    random_roll: true
+    spin_speed: 3.0
+    scale_keys:
+    - {time: 0, value: 0.2}
+    - {time: 1, value: 0.05}
+    color_keys:
+    - {time: 0, rgb: [200, 240, 255], transparency: 0}
+    - {time: 1, rgb: [200, 240, 255], transparency: 255}
+    motion_keys: []
+  - id: 5
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/dust_cloud
+    particle_space: world
+    blend: alpha
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.45
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 25
+    scale_keys:
+    - {time: 0, value: 0.35}
+    - {time: 1, value: 0.7}
+    color_keys:
+    - {time: 0, rgb: [200, 235, 255], transparency: 170}
+    - {time: 1, rgb: [200, 235, 255], transparency: 255}
+    motion_keys: []
+# Body weapon accent over a claw, spawned with it.
+- id: openyamm:fx/melee/claw_element_body
+  display_name: Melee claw body
+  duration_seconds: 0.55
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [130, 225, 85], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [130, 225, 85], transparency: 40}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [130, 225, 85], transparency: 40}
+    motion_keys: []
+  - id: 4
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/melee_drop
+    particle_space: world
+    blend: alpha
+    sprites_per_emission: 8
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.45
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 200
+    gravity: 650
+    scale_keys:
+    - {time: 0, value: 0.9}
+    - {time: 1, value: 0.6}
+    color_keys:
+    - {time: 0, rgb: [120, 210, 70], transparency: 30}
+    - {time: 1, rgb: [120, 210, 70], transparency: 255}
+    motion_keys: []
+  - id: 5
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/smoke_puff
+    particle_space: world
+    blend: alpha
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.5
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 25
+    scale_keys:
+    - {time: 0, value: 0.3}
+    - {time: 1, value: 0.6}
+    color_keys:
+    - {time: 0, rgb: [120, 200, 80], transparency: 175}
+    - {time: 1, rgb: [120, 200, 80], transparency: 255}
+    motion_keys: []
+# Light weapon accent over a claw, spawned with it.
+- id: openyamm:fx/melee/claw_element_light
+  display_name: Melee claw light
+  duration_seconds: 0.55
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [255, 232, 150], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [255, 232, 150], transparency: 40}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [255, 232, 150], transparency: 40}
+    motion_keys: []
+  - id: 4
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/soft_star
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 7
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.5
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 70
+    gravity: -120
+    scale_keys:
+    - {time: 0, value: 0.18}
+    - {time: 1, value: 0.05}
+    color_keys:
+    - {time: 0, rgb: [255, 240, 185], transparency: 0}
+    - {time: 1, rgb: [255, 240, 185], transparency: 255}
+    motion_keys: []
+# Dark weapon accent over a claw, spawned with it.
+- id: openyamm:fx/melee/claw_element_dark
+  display_name: Melee claw dark
+  duration_seconds: 0.55
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -35.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [165, 85, 255], transparency: 40}
+    motion_keys: []
+  - id: 2
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, -15.39, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [165, 85, 255], transparency: 40}
+    motion_keys: []
+  - id: 3
+    type: sprite
+    start_seconds: 0
+    end_seconds: 0.133
+    sprite_resource: openyamm:effect-sprite/melee_arc_glow
+    blend: additive
+    offset: [-34.1, 4.61, 0.0]
+    alignment: world_plane
+    plane_right: [1.0, 0.0, 0.0]
+    plane_up: [0.0, 1.0, 0.0]
+    scale_keys:
+    - {time: 0, value: 0.732}
+    color_keys:
+    - {time: 0, rgb: [165, 85, 255], transparency: 40}
+    motion_keys: []
+  - id: 4
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/smoke_puff
+    particle_space: world
+    blend: alpha
+    sprites_per_emission: 3
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.5
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 30
+    scale_keys:
+    - {time: 0, value: 0.3}
+    - {time: 1, value: 0.65}
+    color_keys:
+    - {time: 0, rgb: [70, 30, 110], transparency: 120}
+    - {time: 1, rgb: [70, 30, 110], transparency: 255}
+    motion_keys: []
+  - id: 5
+    type: sprite_system
+    start_seconds: 0.03
+    end_seconds: 0.05
+    sprite_resource: openyamm:effect-sprite/soft_star
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 5
+    emission_interval_seconds: 0.02
+    particle_lifetime_seconds: 0.45
+    emission_shape: sphere
+    radius: 2.0
+    plane_direction: [0.0, 0.0, 1.0]
+    velocity: 60
+    gravity: 90
+    scale_keys:
+    - {time: 0, value: 0.15}
+    - {time: 1, value: 0.05}
+    color_keys:
+    - {time: 0, rgb: [180, 110, 255], transparency: 0}
+    - {time: 1, rgb: [180, 110, 255], transparency: 255}
+    motion_keys: []
 # Flesh and leather: a spurt of blood arcing down with a fine mist; glancing blow.
 - id: openyamm:fx/melee/contact/blood_light
   display_name: Melee contact blood_light
