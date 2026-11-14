@@ -3893,12 +3893,33 @@ items:
   - potions
   - turn-based
   reported: '2026-10-29'
-  updated: '2026-11-07'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1565443067862065213
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1565443697615831233
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571148004994453547
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571149729159450726
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571188679198646323
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571188847918719169
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571188934975688796
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571189702013489254
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571189940492964012
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571190038874816603
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571191765082308760
   commit: 399cd39a9
-  resolution: Potions cost the active member 100 recovery ticks; v1.21.
+  resolution: 'Working tree, 2026-11-14 (not yet released): under MAW a drink cost recovery only near monsters that had noticed
+    the party, so in turn-based mode it was often free; in turn-based mode a drink now always spends the member''s turn, by
+    every drinking path (InventoryItemUseRuntime.cpp); scenario tests/scenarios/turn_based/maw_potion_spends_turn.yml.'
+  notes: '2026-11-14: reported again in turn-based combat: drinking potions does not pass the turn (two red potions and then
+    an attack in one round), at least from the basebar potion list; other players see it too.
+
+
+    Open for the user: MAW''s drink costs 60 of a 100-tick turn, so two drinks per turn remain possible; 100 would be a one-line
+    change.
+
+
+    User, 2026-11-14: a turn-based drink costs a whole turn (100 ticks) under MAW too; done in the working tree (InventoryItemUseRuntime.cpp,
+    unit test in MawContentUiTests).'
 - id: OY-205
   kind: feature
   status: open
@@ -4603,12 +4624,19 @@ items:
   - maw
   - items
   reported: '2026-10-31'
-  updated: '2026-11-07'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566046244999008338
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566048613535318147
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566049012363173961
-  notes: Needs confirmation from MAW's source whether unidentified scrolls are blocked; standard MM allows it.
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571150564803354787
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571189299083214849
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571189416721121423
+  notes: 'Needs confirmation from MAW''s source whether unidentified scrolls are blocked; standard MM allows it.
+
+
+    2026-11-14: the basebar scroll list names unidentified scrolls, so a player can see what they are before identifying them,
+    and wants to identify them first.'
 - id: OY-243
   kind: bug
   status: needs-info
@@ -4819,7 +4847,8 @@ items:
   notes: Original games place broken items in some chests; need the source of the drop to tell whether it is wrong.
 - id: OY-253
   kind: bug
-  status: not-a-bug
+  status: done
+  priority: low
   title: Alchemist sells crafting materials; shop stock fixed across reloads
   summary: An alchemist supplier stocks MAW crafting materials, and shop items do not change when the game is reloaded; the
     reporter asks whether both are intended.
@@ -4827,15 +4856,16 @@ items:
   - maw
   - shops
   reported: '2026-10-31'
-  updated: '2026-11-07'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566132438017769594
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566132752896626862
-  priority: low
-  resolution: 'Crafting materials at alchemists are the user''s decision of 2026-10-23 (HANDOFF.md section 1, Crafting: "every
-    alchemist and magic shop may stock crafting items"), implemented in MawItemRules.cpp:2385-2420. Shop stock is part of
-    the save and rerolls only when the shop''s refresh time passes, as in MM6-MM8 and MAW (MAW rerolls in ShopItemsGenerated,
-    zzMaw-Items.lua:3986-3988). Loading a save restores the stock it held.'
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570907670452502629
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178590928900207
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178653923156209
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178665771798612
+  resolution: 'Working tree, 2026-11-14 (not yet released): by the owner''s new decision (2026-11-13), alchemists sell potions
+    and reagents only; the crafting materials stay with the magic shops.'
   notes: 'Investigated 2026-11-07 (effort S): Crafting materials at alchemists are the user''s decision of 2026-10-23 (HANDOFF.md
     section 1, Crafting: "every alchemist and magic shop may stock crafting items"), implemented in MawItemRules.cpp:2385-2420.
     Shop stock is part of the save and rerolls only when the shop''s refresh time passes, as in MM6-MM8 and MAW (MAW rerolls
@@ -5182,14 +5212,30 @@ items:
   - save
   - bounties
   reported: '2026-10-31'
-  updated: '2026-11-07'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1566114502401855589
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1566115871825465526
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1567568161337901129
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1567569465057476641
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1567610406095163453
-  notes: 'Recommendation: keep the saved stock (deterministic shops) unless the originals re-rolled on load.'
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571170212454338591
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571172239284502633
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571172261468315752
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571173004476551229
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571173757656244255
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175636670746737
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175653603155980
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175696888496151
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175711652323339
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175736063299616
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175819102126211
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571176203170349098
+  notes: 'Recommendation: keep the saved stock (deterministic shops) unless the originals re-rolled on load.
+
+
+    2026-11-14: asked again (new stock when first visiting a shop). The owner prefers deterministic guild spellbooks as in
+    MM9: one of each spell of the guild''s masteries, so Town Portal or Lloyd''s Beacon are never missing.'
 - id: OY-270
   kind: bug
   status: done
@@ -8228,7 +8274,7 @@ items:
   - save
   - maw
   reported: '2026-11-04'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1566574247621431367/1567566671080722453
   - https://discord.com/channels/1563263436400623696/1566574247621431367/1567955807700652214
@@ -8237,10 +8283,21 @@ items:
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569633477521969155
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569634902993928244
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569637322306101354
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570757774063706153
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570757940288159835
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570760152292921347
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570760563901075489
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570764477799071758
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570764601753342084
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570767117656006720
   notes: 'Recommendation: a cross-save stash breaks balance and the per-save model; a hideout map is the owner''s own idea
     and larger (new map, services). Low priority. 2026-11-13: Asked again as a chest shared between runs, chosen at new game.
     Owner hesitant: items should not move between an easy MAW run and Beyond Madness; would discuss with MAW''s author. Another
-    player does not mind if it is optional. See also OY-510 (Castle Harmondale as a base).'
+    player does not mind if it is optional. See also OY-510 (Castle Harmondale as a base).
+
+
+    2026-11-13: asked again: a storage that never resets, ideally reachable on every continent (Adventurer''s Inn, a tavern
+    or stable menu); Castle Harmondale and the Ravenshore guild do not reset but Enroth has nothing.'
 - id: OY-424
   kind: bug
   status: needs-info
@@ -8370,11 +8427,27 @@ items:
   - projectiles
   - ai
   reported: '2026-11-05'
-  updated: '2026-11-07'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1566574247621431367/1568008313117999338
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571145324351725670
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571145414005100679
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571145480652455947
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571145546263961601
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571145833204818055
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571161985364660285
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571162268954009693
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571162845234733067
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571163256851136587
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571164450143338537
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571166691621343334
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571166965668520048
   notes: 'The other side of OY-218 (homing missiles cannot be dodged); homing is the ruleset_homing setting. Recommendation:
-    consider together with OY-218, e.g. a small lead/spread for non-homing shots.'
+    consider together with OY-218, e.g. a small lead/spread for non-homing shots.
+
+
+    2026-11-14: discussed again; players suggest two homing toggles, one for monsters'' missiles and one for the party''s.
+    The owner believes MAW intends homing missiles that can be dodged only behind geometry.'
 - id: OY-430
   kind: feature
   status: needs-decision
@@ -8443,14 +8516,18 @@ items:
   - portraits
   - party-creation
   reported: '2026-11-05'
-  updated: '2026-11-07'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1565682544471572481/1567908654118600846
   - https://discord.com/channels/1563263436400623696/1565682544471572481/1567909880583430277
   - https://discord.com/channels/1563263436400623696/1565682544471572481/1567930604492685344
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571149809262268548
   notes: 'In progress in the working tree: level_generation/ui/hud_inventory/mm9_pc_dolls/README.md installs 20 families into
     engine/icons_x2 and character_data.txt rows 9001-9024 (uncommitted). Close once the portrait picker offers them at MM6-MM8
-    starts.'
+    starts.
+
+
+    2026-11-14: asked to use the MM9 hireling portraits for player characters too.'
 - id: OY-434
   kind: feature
   status: done
@@ -9085,7 +9162,7 @@ items:
     levels matches MAW (OY-243).
 - id: OY-463
   kind: bug
-  status: needs-info
+  status: done
   priority: low
   title: A ridge edge swallows a Fire Bolt aimed at a monster behind it
   summary: An outdoor Fire Bolt aimed at a mage standing in a gully vanishes at the edge of the slope in front (video).
@@ -9094,11 +9171,23 @@ items:
   - collision
   - outdoor
   reported: '2026-11-08'
-  updated: '2026-11-08'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1569064967196516592
-  notes: Possibly the native terrain triangles stick up above the smoothed drawn terrain (OY-140) and stop the bolt. Ask for
-    the map and position, or a save.
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571146307517681717
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571146476904513546
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571147018649206856
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571147189768556586
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571147258836291595
+  resolution: 'Working tree, 2026-11-14 (not yet released): same fix as OY-610: a shot blocked low on its target aims at a
+    higher clear point.'
+  notes: 'Possibly the native terrain triangles stick up above the smoothed drawn terrain (OY-140) and stop the bolt. Ask
+    for the map and position, or a save.
+
+
+    2026-11-14: confirmed by the owner: party shots start at 60 % of the party''s height and aim at 60 % of the target''s,
+    so on small slopes terrain blocks them while monsters still hit the party. Fix: when the aim line is blocked by terrain
+    but a higher point on the target (the head) is clear, aim there.'
 - id: OY-464
   kind: bug
   status: needs-info
@@ -9452,7 +9541,7 @@ items:
   - rendering
   - indoor
   reported: '2026-11-12'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570365631692283956
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570365954943230063
@@ -9462,9 +9551,16 @@ items:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570468842872905780
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570515710478786612
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570573435812454410
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571192467985010891
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571193525486489610
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571194957870403747
   notes: 'The developer confirmed it is portal clipping of the converted geometry, fixed most of it and asked for locations.
     The Ravensford and Sturmford coordinates come from debug-console "loc" output in the screenshots; the other two have no
-    location yet. Likely the same topic exists in #mm9.'
+    location yet. Likely the same topic exists in #mm9.
+
+
+    2026-11-14: more in Ravensford: a temple window missing seen from inside, a missing texture inside a house, and a doorway
+    that shows a void.'
 - id: OY-483
   kind: bug
   status: done
@@ -9525,13 +9621,22 @@ items:
   - portraits
   - mm9
   reported: '2026-11-12'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570394593818583040
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570399319415197838
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570399806575353968
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571177168099090464
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571178772294668289
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571178838765998105
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571179575885570089
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571180451182420160
   notes: 'The developer said he did his best and will leave it as it is. Recommendation: low; per-head scale/feather fixes
-    if those two families are named (another player suggested a different body for the left one).'
+    if those two families are named (another player suggested a different body for the left one).
+
+
+    2026-11-14: reported again (elf heads too small, half-orc head pasted on); the owner would replace them with better art,
+    and the reporter offered to redraw them.'
 - id: OY-487
   kind: bug
   status: done
@@ -9985,7 +10090,7 @@ items:
   - world
   - inventory
   reported: '2026-11-09'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569333849060540559
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569348802039652535
@@ -9993,9 +10098,18 @@ items:
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569355670602645555
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569404103413596244
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1569410041856008197
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570760728850341899
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570760744885030943
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570761019608014940
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570761537700896810
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571164873709330535
   notes: 'Owner (2026-11-09): Harmondale can become a personal hideout once restored. Recommendation: the free rest and a
     stash are small and fit; guest rooms, trophies and crafters are new map content (medium to large), do later if at all.
-    Related to OY-423.'
+    Related to OY-423.
+
+
+    2026-11-13: the owner considers making Castle Harmondale a personal hideout (as Path of Exile''s); a player also suggested
+    a castle management minigame there.'
 - id: OY-511
   kind: feature
   status: needs-decision
@@ -10940,18 +11054,21 @@ items:
   - auras
   - hirelings
   reported: '2026-11-12'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570509060577566761
-  resolution: 'Working tree, 2026-11-13: MAW''s auras on members (Bless, Fate, Preservation, Regeneration, Hammerhands, Pain
-    Reflection, Fire Aura, Vampiric Aura) reach MM9 hirelings too, and end with them; the party-wide ones already did as party
-    buffs. MAW''s Heroism (a percent of the members'' damage) still does not raise a hireling''s blow. Test: MawSpellClassTests
-    OY-559.'
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570925397980348417
+  resolution: 'Working tree, 2026-11-14 (not yet released): MAW''s regeneration loops (MawSkillRules::updateRegeneration)
+    now heal hirelings with the aura, in real time and per turn; Standard''s spell already did; unit test in MawSpellClassTests.'
   notes: 'MM9 hirelings are kept apart from Party::members() and only systems that opt in see them (Party.h:420-445; they
     have their own buffs array). MAW has no hirelings of this kind, so there is no upstream rule. Recommendation: let the
     party-wide auras (resistances, Regeneration, Heroism and similar) cover hirelings, since they fight beside the party;
     small to medium (each aura effect must opt in). Decide which auras count. Accepted by the user on 2026-11-13: party auras
-    reach MM9 hirelings.'
+    reach MM9 hirelings.
+
+
+    2026-11-13, after v2.3 shipped the fix: a player reports that the Regeneration aura does not work on MM9 followers. Check
+    that the aura''s healing tick runs for hirelings, not only that the buff reaches them.'
 - id: OY-560
   kind: feedback
   status: done
@@ -11099,14 +11216,21 @@ items:
   - items
   - balance
   reported: '2026-11-07'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1568597448727859262
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1568607328469647442
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570871913750728745
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570882675869491281
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570884009687388270
   notes: 'MAW sets item stats from its own table and keeps only the engine powers Carnage, Water Walking and Feather Fall
     (MawItemRules.cpp:524-533; rulesets/maw/data/items.yml:164 gives 1350 only armour). In Standard the cloak also lacks the
     power today because Special items'' named enchantments are never read (OY-553). Recommendation: keep MAW''s behaviour
-    unless the MAW author agrees (would be a DEVIATIONS row); fix OY-553 for Standard.'
+    unless the MAW author agrees (would be a DEVIATIONS row); fix OY-553 for Standard.
+
+
+    2026-11-13: after v2.3 (OY-553) the Noblebone Bow still does not explode and the Moon Cloak gives no Dark Magic in MAW
+    games, since MAW ignores the item''s own enchantments.'
 - id: OY-567
   kind: bug
   status: done
@@ -11185,7 +11309,7 @@ items:
     the key or the gameplay input does not wait for its release after a menu closes.
 - id: OY-571
   kind: bug
-  status: needs-info
+  status: open
   priority: low
   title: 'MAW: crowd control seems to have no diminishing returns'
   summary: A player feels repeated crowd-control effects on monsters do not get shorter.
@@ -11194,12 +11318,29 @@ items:
   - spells
   - combat
   reported: '2026-11-13'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570606209503993867
-  notes: Diminishing returns are implemented (MawRules::diminishedCrowdControlSeconds, MawRules.h:206-209, per monster and
-    group 2 and 3 as MAW's calcDebuffDuration; mace/staff paralysis shares it). Ask which spell or effect, on which monster,
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570752478113431633
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570754704760377397
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570756037219188841
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570756116164382814
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570756212465860749
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570756713655566480
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570757135904673835
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570757320441331723
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570757383872061582
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571166470627401789
+  notes: 'Diminishing returns are implemented (MawRules::diminishedCrowdControlSeconds, MawRules.h:206-209, per monster and
+    group 2 and 3 as MAW''s calcDebuffDuration; mace/staff paralysis shares it). Ask which spell or effect, on which monster,
     real time or turn-based.
+
+
+    2026-11-13: the reporter can stun-lock bosses with a novice Stun and quotes MAW''s changelog: crowd control always lands;
+    diminishing returns per group from the share of the last 20 s under CC (<15 % full, 15-30 % 75 %, 30-45 % 50 %, 45-60
+    % 25 %, 60 %+ immune); groups: none for Slow, Armor/Damage Halved, Melee Only, Shrinking Ray; Fear, Charm, Berserk, Enslave;
+    Paralyze, Stun. Later: ascension raises duration, mana cost and recovery; skill lowers recovery; bosses always get half
+    duration but count the full time; duration / (1 + resistance / 100). The owner will implement it from the patch notes.'
 - id: OY-572
   kind: bug
   status: new
@@ -11501,7 +11642,7 @@ items:
     check with a short run before deciding. Related to the Lobber placement in OY-585.'
 - id: OY-587
   kind: bug
-  status: needs-info
+  status: not-a-bug
   title: 'MM9: ranged monsters do not shoot at a party swimming in water'
   summary: Outdoors in MM9, skeletons with a ranged attack stood on the shore and did not shoot at the party while it swam,
     which makes water a safe spot to fight from. Seen with MAW (map progress bar on the screenshot).
@@ -11511,9 +11652,18 @@ items:
   - swimming
   - maw
   reported: '2026-11-13'
-  updated: '2026-11-13'
+  updated: '2026-11-14'
   sources:
   - https://discord.com/channels/1563263436400623696/1570034244229529615/1570656073449214054
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570703391179542689
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570704161165541377
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570704190596972585
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570704235002335249
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570705520753512521
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570833063955538163
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1570833462989037600
+  resolution: 'MAW''s balance: on the first MM9 maps the monsters have no bow attacks, and these skeletons are melee only
+    (only the skull throwers cast); the reporter confirmed it was MAW on Beyond Madness and expected.'
   notes: 'Not settled by reading. MM9 water facts exist only indoors (IndoorWorldRuntime.cpp:12207 sets targetInWater; MM9_MONSTER_AI_PLAN.md:
     "outdoors a swimmer is a crawler"), so no water rule should block outdoor shots; candidates are MAW''s ranged-attack limit
     to the aggro range (OY-458) or the line of sight to a swimming party''s eye. Ask for the map and the monster''s name,
@@ -11660,3 +11810,924 @@ items:
   - https://discord.com/channels/1563263436400623696/1565682544471572481/1569951336710021202
   resolution: Declined for now by the owner on Discord 2026-11-11 ("no, at least not at first"); MM9 uses MMerge's skills
     and spells.
+- id: OY-595
+  kind: bug
+  status: done
+  title: 'MAW: Sort sends every member''s alchemy items to one character'
+  summary: In MAW, sorting any member's inventory moved all potions, reagents and crafting materials into the first character.
+    The cause was the MAW alchemist pick (the A key on the inventory page), easy to set by accident and shown nowhere.
+  tags:
+  - maw
+  - inventory
+  - alchemy
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570768536043790409
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570872504539676723
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570882638179471401
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570885003464806502
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570885257555607613
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570885682673615080
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570887511771840593
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570888023548104855
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570917144726601760
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570917217455837337
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570922954584490025
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570925139774804060
+  resolution: 'Working tree, 2026-11-14 (not yet released): the owner removed the alchemist pick; the bags'' Alchemy and Crafting
+    tags decide where sorted items go.'
+- id: OY-596
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: A separate button for the party-wide sort
+  summary: Players found the party-wide sort (Ctrl + Sort) by accident or not at all and ask for a second button next to Sort.
+  tags:
+  - inventory
+  - ui
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570774135754461257
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570776202879434795
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570776556379447407
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570885942955352275
+  notes: 'Recommendation: accept; cheap. Either a second button or at least a tooltip on Sort that names Ctrl.'
+- id: OY-597
+  kind: bug
+  status: new
+  title: 'MM9: Sigmund shows as hostile and cannot be talked to after the gossip quest'
+  summary: In MM9 (Sigmund lives in Thronheim) the NPC Sigmund shows as an enemy on Wizard Eye after the gossip quest is finished,
+    so the party cannot talk to him. Another player suggests charming him.
+  tags:
+  - mm9
+  - npc
+  - quests
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570774454890405978
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570774508611309679
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570818455752671384
+- id: OY-598
+  kind: bug
+  status: new
+  title: 'MM6 Temple of the Moon: the altar puzzle is already solved'
+  summary: In MM6's Temple of the Moon the doors opened without touching any altar, and the altars only did damage.
+  tags:
+  - mm6
+  - events
+  - dungeons
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570779954021539841
+- id: OY-599
+  kind: bug
+  status: done
+  title: Fast attack repeat does nothing in turn-based mode
+  summary: With the Fast attack repeat setting on, holding Attack acts once per press in turn-based combat; it repeats only
+    in real time.
+  tags:
+  - combat
+  - turn-based
+  - controls
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570787602242740256
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570925727807836372
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570926078682333347
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570926163864326298
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570930638859538483
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570932185907601429
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570932356347601026
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570932377478234183
+  resolution: 'Working tree, 2026-11-14 (not yet released): the owner fixed it for v2.4 (Discord, 2026-11-13).'
+- id: OY-600
+  kind: bug
+  status: new
+  title: 'MM9 Thjorad Mine: floating items and an unstable rolling minecart'
+  summary: In MM9's Thjorad mine some items float, and the animated rolling minecart flickers and sometimes disappears at
+    a distance.
+  tags:
+  - mm9
+  - models
+  - rendering
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570890303936929964
+- id: OY-601
+  kind: bug
+  status: new
+  title: 'MM9 Thjorad Mine: boarded walls do not break as the puzzles describe'
+  summary: 'Two boarded walls in MM9''s Thjorad mine do not work right: the one the water spigot should burst, and wall 7a
+    that the lamp shot from the mine cart at 7b should blow apart through the barrels. Players also describe the intended
+    solutions (shoot the torch, crash a mine car, open a water valve).'
+  tags:
+  - mm9
+  - dungeons
+  - events
+  - destructibles
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1565682544471572481/1570889429462294623
+  - https://discord.com/channels/1563263436400623696/1565682544471572481/1570889513985638524
+  - https://discord.com/channels/1563263436400623696/1565682544471572481/1570891157700083906
+  - https://discord.com/channels/1563263436400623696/1565682544471572481/1570891669589590110
+  - https://discord.com/channels/1563263436400623696/1565682544471572481/1570893244957597808
+  - https://discord.com/channels/1563263436400623696/1570034244229529615/1571134171018039367
+- id: OY-602
+  kind: bug
+  status: needs-info
+  priority: low
+  title: A party member answers "how rude" when the merchant only thanked them
+  summary: Sometimes, after entering and leaving a shop without buying, the merchant says a normal goodbye but a party member
+    replies with the line meant for a rude merchant (cheapskate, tightwad).
+  tags:
+  - audio
+  - houses
+  - voices
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570906239855099997
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570907816078868522
+  notes: Ask which world (MM6?) and which shop.
+- id: OY-603
+  kind: bug
+  status: new
+  priority: low
+  title: 'Peasant woman model: torn chin and neck seen up close'
+  summary: A close-up screenshot of a 3D peasant woman in a town shows a broken jaw and neck outline under her face.
+  tags:
+  - models
+  - npc
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570920049164685394
+  notes: Screenshot only; identify the model (outdoor town, blue bodice, headband).
+- id: OY-604
+  kind: bug
+  status: new
+  title: 'MM9: followers cannot be talked to; talking jumps to the hireling dialogue'
+  summary: In Chedian a player could not speak to the followers, and talking to people switched to the hireling conversation.
+    Others answer that double-clicking the follower's portrait with the cursor (hold the right mouse button) works.
+  tags:
+  - mm9
+  - npc
+  - hirelings
+  - ui
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570976252112666687
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1570976292151496795
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571018134947897345
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571044786754945075
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571044799409164449
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571044908653875240
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571063625689337988
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571064552865538089
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571064577196691517
+- id: OY-605
+  kind: bug
+  status: done
+  title: 'MAW: the Emerald Island dragon and the rats do not fight each other'
+  summary: In MAW the dragon cave on Emerald Island is meant to have the dragon and the rats fight each other, which gives
+    the party time to kill the dragon (a DPS check). In OpenYAMM all of them go for the party, so on Madness the cave cannot
+    be cleared without glitching the dragon.
+  tags:
+  - maw
+  - mm7
+  - ai
+  - relations
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570728003733037097
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570734505495494698
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570766164983025665
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570771393522565233
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570750387969855491
+  resolution: 'Working tree, 2026-11-14 (not yet released): a monster that has not engaged the party notices it only within
+    its relation''s range (1024/2560/5120, as the original, MM8 0x401237 and OpenEnroth Actor::_SelectTarget); the far rats
+    leave the party alone while the dragon hunts them (GameplayActorService::partyNoticeRange; scenario tests/scenarios/mm7/dragon_lair_rats_and_dragon.yml).'
+  notes: 'Check the monsters'' relations for that map (devdocs/ENERGY_SHIELDS_AND_RELATIONS.md, relations.yml) against MAW.
+
+
+    Open for the user: the rule affects every MM6-MM8 monster with relation 1-3 (6, 20 and 62 classes); outdoors relation-3
+    monsters notice at 5120 instead of 10240.'
+- id: OY-606
+  kind: feedback
+  status: needs-info
+  title: 'MAW: monsters walk too slowly outdoors and can be kited forever'
+  summary: Outdoors, monsters (for example the pirates on Dagger Wound) can be kited indefinitely even while the party walks;
+    indoors speeds feel right. The party's own speed matches MAW. MAW monsters may strafe forward rather than walk.
+  tags:
+  - maw
+  - ai
+  - balance
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570734081468145678
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570751683053617193
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570754759701303367
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570754827783512159
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570755413857665037
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570755819618701385
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570756008781942826
+  notes: The owner asked for a side-by-side video of the same area in MAW and OpenYAMM; the reporter will send one.
+- id: OY-607
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: Show crowd-control diminishing-return timers on monster health bars
+  summary: Once crowd control has diminishing returns, show on a monster's health bar how resistant it currently is.
+  tags:
+  - maw
+  - ui
+  - combat
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570753441075040379
+  notes: 'Recommendation: after OY-571; a small icon or tint on the target health bar, cheap once the uptime is tracked.'
+- id: OY-608
+  kind: bug
+  status: done
+  title: 'MAW: a Puller boss keeps pulling the party after it dies'
+  summary: The Puller boss's pull effect continued after the boss was dead.
+  tags:
+  - maw
+  - bosses
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570901921760546950
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570904279592730816
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570905217418010817
+  resolution: 'Working tree, 2026-11-14 (not yet released): the owner fixed it (a pushed party''s jump now ends as a normal
+    jump does).'
+- id: OY-609
+  kind: bug
+  status: needs-info
+  priority: low
+  title: 'MAW: the New Sorpigal bosses all gather on the small island'
+  summary: Every boss in New Sorpigal seemed to be on the small island.
+  tags:
+  - maw
+  - mm6
+  - bosses
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570905387895361537
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570906161929265246
+  notes: Ask for a screenshot of the map and the save.
+- id: OY-610
+  kind: bug
+  status: done
+  title: 'MAW: a dragon''s ranged attack sometimes does not home'
+  summary: From time to time the ranged (breath) attack of a dragon character does not home on its target.
+  tags:
+  - maw
+  - combat
+  - projectiles
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570942600863686687
+  resolution: 'Working tree, 2026-11-14 (not yet released): the breath had no target (and so no homing) whenever the line
+    to 60 % of the monster was blocked by a slope; party shots now aim at the lowest clear point up to 90 % of the monster
+    and homing steers there (GameMechanics::clearPartyShotAimHeight; scenario tests/scenarios/rulesets/maw_dragon_breath_over_ridge.yml).'
+  notes: 'Open for the user: homing now steers at the aim point (usually 60 %) instead of 70 %; a monster hidden even at 90
+    % still gets no homing, where MAW homes anyway.'
+- id: OY-611
+  kind: bug
+  status: done
+  priority: low
+  title: Map progress plate shows no monster count for a party of one
+  summary: Above a lone character's portrait the map progress plate shows only the percentage; with a full party it also shows
+    the killed and total monster counts.
+  tags:
+  - ui
+  - hud
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1570950811977121802
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571144486187172003
+  resolution: 'Working tree, 2026-11-14 (not yet released): the progress tab may widen left over a narrow (one-member) frame
+    before it drops the counts (GameplayMapProgressBar fitTab); full-party plate unchanged.'
+- id: OY-612
+  kind: bug
+  status: new
+  priority: low
+  title: 'MM7 Temple of Baa (Avlee): a Priest of the Moon is friendly'
+  summary: In the Temple of Baa in Avlee a Priest of the Moon down the left hallway near the jail cells is friendly.
+  tags:
+  - mm7
+  - monsters
+  - relations
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571115623474401351
+  notes: Compare with OY-347 (friendly Priest of the Moon in the Grand Temple of the Moon).
+- id: OY-613
+  kind: bug
+  status: new
+  title: 'Celeste: the sky looks wrong (white below the walkways)'
+  summary: A screenshot of Celeste shows the walkways over a flat white void instead of sky.
+  tags:
+  - mm7
+  - sky
+  - rendering
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571126696483102853
+  notes: OY-339 opened Celeste's sky faces to the Enhanced sky in v2.0; check the lower hemisphere.
+- id: OY-614
+  kind: bug
+  status: needs-info
+  title: 'MAW: buff effects are sometimes lost'
+  summary: A player sometimes loses the effect of buffs (video and character sheet only).
+  tags:
+  - maw
+  - spells
+  - buffs
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571152217061462072
+  notes: Ask which buffs, when they vanish (map change, rest, time) and for a save.
+- id: OY-615
+  kind: feature
+  status: done
+  title: 'MAW: item popup in MAW''s layout, stats in their colours'
+  summary: 'Players asked for MAW''s tooltip order: quality bonus, the base stats with each stat name in its colour, the special
+    without the "Special:" label, then the legendary affix.'
+  tags:
+  - maw
+  - ui
+  - items
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571171727516500051
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571176744529170553
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571177118690181182
+  resolution: 'Working tree, 2026-11-14 (not yet released): MAW items list quality bonus, base stats (stat name in MAW''s
+    colour, value white), special, legendary, then attack speed and levels; artifacts colour their stats too (MawItemRules::inspectLines).'
+- id: OY-616
+  kind: bug
+  status: done
+  title: 'Workbench: a catalyst cannot boost a weaker copy of a potion'
+  summary: The alchemy Workbench always mixed the strongest copy of a potion, so a catalyst gained nothing when that copy
+    was already at the alchemist's limit or above the catalyst, even while a weaker copy was carried.
+  tags:
+  - alchemy
+  - workbench
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571177004579946571
+  resolution: 'Working tree, 2026-11-14 (not yet released): a catalyst mix uses the copy it raises most (AlchemyBenchRuntime
+    findMixItems), with a unit test.'
+- id: OY-617
+  kind: bug
+  status: new
+  title: 'MAW: staggered monsters stop attacking'
+  summary: Monsters staggered by hits then do not want to attack.
+  tags:
+  - maw
+  - combat
+  - ai
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571181571736608979
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571181653324202055
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571181702594826353
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571181833905901670
+- id: OY-618
+  kind: feature
+  status: done
+  title: 'Make ground loot visible: sparkles on every item, Wizard Eye dots by kind'
+  summary: 'Small items such as reagents are lost in tall grass. Ideas: a generic white sparkle on all ground loot (the owner
+    is open to it), and Wizard Eye dots or shapes by kind (reagents, items, friendly, hostile).'
+  tags:
+  - ui
+  - items
+  - minimap
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571182578742853745
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571183222036103181
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571183599728988193
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571183609631739975
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571189224604962919
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571189595213668352
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571189798826287297
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571190631995281601
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571191117284642890
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571191431580885104
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571191627295236261
+  resolution: 'Working tree, 2026-11-14 (not yet released): every ground item without a special sparkle gives a faint white
+    rising glint (WorldItemSparkle::Plain, effect openyamm:fx/item_sparkle/plain), setting Interface > Items > "Sparkle on
+    all loot", on by default.'
+  notes: 'Recommendation: accept the sparkle (cheap, the owner leans to it); the minimap dot kinds are a separate, larger
+    UI change.
+
+
+    Accepted by the user on 2026-11-14 (the generic sparkle on all ground loot; the minimap dot kinds were not decided).
+
+
+    Open for the user: strength of the glint; whether MAW items hidden by the loot filter should glint.
+
+
+    User, 2026-11-14: keep the strength; items hidden by the MAW loot filter keep glinting.'
+- id: OY-619
+  kind: bug
+  status: new
+  priority: low
+  title: 'MAW: camping on dirt costs 3 food; MAW takes 2'
+  summary: Resting on a dirt surface cost 3 food where vanilla MAW takes 2 rations.
+  tags:
+  - maw
+  - rest
+  - food
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571185245037006958
+- id: OY-620
+  kind: bug
+  status: needs-info
+  priority: low
+  title: 'MM9 Ravensford: stripes at the sides of a dialogue'
+  summary: A screenshot of the Old Man's dialogue in Ravensford with a report of stripes left and right; it is unclear what
+    is meant.
+  tags:
+  - mm9
+  - ui
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571189346504020010
+- id: OY-621
+  kind: bug
+  status: needs-info
+  priority: low
+  title: The mouse wheel does something unexpected in play
+  summary: A player asks what turning the mouse wheel does in play (video).
+  tags:
+  - controls
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571191450522357874
+- id: OY-622
+  kind: bug
+  status: needs-info
+  priority: low
+  title: The mouse wheel does not scroll the Progress page's map list
+  summary: On the journal's Progress page the list of maps cannot be scrolled with the mouse wheel.
+  tags:
+  - ui
+  - journal
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571196306167308318
+  notes: '2026-11-14: not reproduced: the wheel scrolls the Progress list 3 rows a step since 2026-10-25 (GameplayOverlayInputController.cpp:2994-3013),
+    checked with input tours on one-member and full parties. Ask the reporter for version, platform, control scheme and any
+    key bound to the wheel.'
+- id: OY-623
+  kind: feature
+  status: done
+  title: Spellbooks show which members know the spell
+  summary: At a guild and in a spellbook's description, show which characters already know the spell.
+  tags:
+  - ui
+  - spells
+  - shops
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570723152831582241
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570760457994637395
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570760531902726185
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570764335775490109
+  resolution: 'Working tree, 2026-11-14 (not yet released): the owner added markers for the members who know the spell under
+    the book in its popup and on the shop list (SpellbookKnowledgeMarkers).'
+  notes: Compare OY-106 (MAW's spell stats in the book).
+- id: OY-624
+  kind: feature
+  status: done
+  priority: low
+  title: Loop the music at party creation
+  summary: The party creation music should loop.
+  tags:
+  - audio
+  - menu
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570735409380724839
+  resolution: 'Working tree, 2026-11-14 (not yet released): party creation had no music at all (the menu track stopped on
+    New Game); the main menu track now loops on through the continent choice and party creation and stops when the game starts.'
+  notes: 'Recommendation: accept; trivial.
+
+
+    Accepted by the user on 2026-11-14.
+
+
+    Open: a dedicated party-creation track if one is wanted.
+
+
+    User, 2026-11-14: keep the main menu track playing without a break until the game loads.'
+- id: OY-625
+  kind: feature
+  status: needs-decision
+  title: Combat statistics with a resettable segment, and a training dummy
+  summary: Beside the playthrough totals, keep a segment of combat statistics (damage, DPS) that can be reset any time, and
+    add a training dummy for testing builds and gear.
+  tags:
+  - statistics
+  - combat
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570819279366922431
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570820071046119537
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570844466170953790
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1570853325807558772
+  notes: 'Recommendation: the resettable segment is cheap on top of the Statistics page; the dummy is a separate map object.'
+- id: OY-626
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: Healing in the combat log
+  summary: Show heals in the combat log.
+  tags:
+  - combat
+  - ui
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571137542063915069
+  notes: 'Recommendation: accept; a third filter beside Dealt and Taken.'
+- id: OY-627
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: Option to turn off the switch to battle music
+  summary: A player finds MM9's battle track annoying and asks for a setting that keeps the map music in combat.
+  tags:
+  - audio
+  - settings
+  - mm9
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571153014712958987
+  notes: 'Recommendation: accept; a setting.'
+- id: OY-628
+  kind: feature
+  status: done
+  priority: low
+  title: Auto-walk
+  summary: A toggle that keeps the party walking forward, as in the Elder Scrolls games.
+  tags:
+  - controls
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571153707347878083
+  resolution: 'Working tree, 2026-11-14 (not yet released): bindable "Auto Walk" action (default Num Lock in both schemes):
+    latches forward movement; stops on its key, Forward or Back, any window or menu, turn-based mode and map change.'
+  notes: 'Recommendation: accept; a key binding that latches forward movement.
+
+
+    Accepted by the user on 2026-11-14, as a bindable action.
+
+
+    Open for the user: keep Num Lock as the default or leave it unbound; translation templates not regenerated yet.
+
+
+    User, 2026-11-14: keep Num Lock as the default.'
+- id: OY-629
+  kind: bug
+  status: done
+  title: MM9 sounds replace the MM6-MM8 spell sounds (heals)
+  summary: With MM9 mounted, healing and other spells played MM9's sounds in MM6-MM8 too.
+  tags:
+  - audio
+  - mm9
+  - spells
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1566574247621431367/1570897046590718003
+  - https://discord.com/channels/1563263436400623696/1566574247621431367/1570902282671886429
+  - https://discord.com/channels/1563263436400623696/1566574247621431367/1570902291479797801
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571154045064716389
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571156976799318047
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571158057352962222
+  resolution: 'Working tree, 2026-11-14 (not yet released): a world''s subfolder sound (MM9''s spells/heal.wav) no longer
+    answers for the engine''s bare sound name (SoundCatalog indexes top-level files last); the owner says it ships in v2.4.'
+- id: OY-630
+  kind: feature
+  status: done
+  title: Alchemists sell their goods in stacks
+  summary: 'Alchemy shopping is a chore: alchemists should stock reagents, low potions and empty bottles in larger stacks.'
+  tags:
+  - maw
+  - shops
+  - alchemy
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178015894020189
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178039037927485
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571179269835460662
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178724173287465
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571179045826203780
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571179569464090647
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571179828357496914
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571197873461264509
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571197988439728250
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571198014737875070
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571198061927989370
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571198470130372630
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571198592411111707
+  resolution: 'Working tree, 2026-11-14 (not yet released): MAW alchemists stock potions, bottles and reagents by the stack
+    and every shop its spell scrolls, sold one at a time (MawItemRules stackShopConsumables).'
+  notes: 'Open question from the channel: the stacked potions'' power (map level, play level or the Alchemy skill).'
+- id: OY-631
+  kind: feedback
+  status: needs-decision
+  title: Contributed patches for v2.3 (six fixes and options)
+  summary: 'A contributor posted six patches on v2.3: MAW skill cards say the mastery and toggle text once; menu text keeps
+    its colour codes when it wraps; cook_models works without assets_source; MM8 history uses the leader''s pronouns (%32-%34);
+    MM7 bosses keep their map stats (Clanker''s Evil Eye, the Emerald Island dragon); optional "as in the original" random
+    corpse loot, shop goods and companions (save version 180). They also offer to translate the Arcomage cards.'
+  tags:
+  - contribution
+  - localization
+  - mm7
+  - mm8
+  - maw
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571175335024791563
+  notes: 'Recommendation: review each patch on its own; 2, 3 and 4 look like small safe fixes, 5 should be checked against
+    the MAW boss rules (OY-385), 6 changes the save version and needs a design decision. Accept the Arcomage translation offer.'
+- id: OY-632
+  kind: feature
+  status: done
+  priority: low
+  title: A short click guard after a window opens
+  summary: After clicking the Dimensional Travel pedestal, the next click lands in the window that just opened and selects
+    something unintended; a short pause before the new window takes clicks would help.
+  tags:
+  - ui
+  - controls
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571197903911788544
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571198167251288214
+  resolution: 'Working tree, 2026-11-14 (not yet released): after a click opens a window from play, the opening button counts
+    only once released and further clicks within 250 ms are dropped (GameInputSystem::guardClicksAfterWindowOpened); keys
+    are never held; unit tests. Android taps are not guarded.'
+  notes: 'Recommendation: accept for windows opened by a world click (ignore clicks for ~200 ms or until the button is released).
+
+
+    Accepted by the user on 2026-11-14.'
+- id: OY-633
+  kind: feature
+  status: needs-decision
+  title: 'MAW: a disenchanting skill that turns items into crafting materials'
+  summary: 'The owner''s idea: a skill that, with a chance based on the item''s strength, turns an item into crafting materials,
+    so drops have a use besides gold. Players like it; one worries it gives too much since high crafting items are scarce.'
+  tags:
+  - maw
+  - crafting
+  - skills
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570789680474095617
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570789743875334237
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570789815098548276
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570789930018541660
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570789978122883123
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570793692900626445
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570797595130073149
+  notes: 'Recommendation: worth trying as a MAW option with conservative rates (lower tiers more likely than the item''s own).'
+- id: OY-634
+  kind: bug
+  status: new
+  title: 'Text still in English after v2.3 (follow-up to issue #31)'
+  summary: 'Chinese players list text that stays English in 2.3: 78 tr() strings missing from the templates (Battle Orders
+    upkeep list, Load screen playthrough labels, updater messages, "All continents", "+{experience} experience", "Quest Book");
+    text drawn without tr() (party creation voice labels, Open/Touch hovers, the shop item "The Light of Life", "PivotWallTrap2",
+    the text after an MM9 well, internal class ids on Battle Orders member cards); translated strings not looked up (barrel
+    names, Workbench item names); MM9 dialogue topics such as "Prices" and "Magic Portals"; and still to check: roster party
+    names, monster names on the health bar, text in the world map picture. They supply translations and new zh-cn files.'
+  tags:
+  - localization
+  - ui
+  - mm9
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570817282530353213
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570828881374748795
+  notes: 'Regenerate the templates (tools/l10n.py) and add the supplement; displayClassName() for the Battle Orders cards.
+    Details in GitHub issue #31.'
+- id: OY-635
+  kind: feature
+  status: needs-decision
+  title: 'MAW: dragons with a second class get no spell points from items'
+  summary: Since 2.3 a dragon-race character of another class no longer gains spell points from items (MAW's rule for Knights,
+    Trolls, Thieves, Death Knights and dragons). A player liked OpenYAMM's earlier behaviour and says the MAW author wants
+    to change it.
+  tags:
+  - maw
+  - classes
+  - items
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570864906595475506
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570865025919230026
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570865277099442177
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570865894274633749
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570866175162847384
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570866188903383233
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570866888173686857
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570881885863936184
+  notes: 'Recommendation: keep MAW''s rule unless the MAW author confirms the change (see OY-407).'
+- id: OY-636
+  kind: bug
+  status: new
+  title: 'MAW: item skill bonuses exceed the skill''s own level'
+  summary: A Moon Cloak gives +23 Dark Magic to a character with Dark Magic 20, while MAW caps an item's skill bonus at the
+    skill's own value. A dragon's Dodge item bonus also does not show the triple bonus.
+  tags:
+  - maw
+  - skills
+  - items
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570885350182748312
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570885417912504414
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570885730438348842
+- id: OY-637
+  kind: feature
+  status: done
+  priority: low
+  title: Cursor mode toggle under modern controls
+  summary: GrayFace's patch lets the middle mouse button switch mouse look off, leaving a free cursor while the world keeps
+    running; a player asks for the same in the modern preset (the classic preset and holding the right button exist).
+  tags:
+  - controls
+  - ui
+  reported: '2026-11-13'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570909748377948222
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1570933135485435975
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571044556827533487
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571044594391453699
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571133826426474547
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571135082373189737
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571137748386054176
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571138154264793230
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571138384993194015
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571139117071212684
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571142477325402153
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571144022083371132
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571145248342679583
+  resolution: 'Working tree, 2026-11-14 (not yet released): bindable "Free Cursor" toggle (default middle mouse button) for
+    modern controls: mouse look off, no pause; on a solo run with the view model the middle button stays the shield block.'
+  notes: 'Recommendation: accept as a bindable toggle (middle button unbound by default, since it blocks with the view model
+    shield).
+
+
+    Accepted by the user on 2026-11-14.
+
+
+    Open for the user: a separate default for solo runs; world clicks attack in modern controls unless smart click is on.
+
+
+    User, 2026-11-14: agreed to a separate default on solo runs; the first-person view model is still a debug prototype ([debug]
+    view_model_path), so that waits until the solo action mode ships.'
+- id: OY-638
+  kind: feature
+  status: needs-decision
+  title: 'MAW: switch bosses on or off, and scale monsters apart from the difficulty'
+  summary: Easier difficulties make bosses rare; players ask for a setting to switch bosses on or off (each kind), or to set
+    monster health and damage independently of the difficulty.
+  tags:
+  - maw
+  - bosses
+  - settings
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571092053381750855
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571094065502748733
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571094164865814654
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571094956192305233
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571095254965428278
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571134565928411209
+  notes: 'Recommendation: a boss frequency setting is cheap; separate monster scaling interferes with MAW''s balance model
+    and should wait.'
+- id: OY-639
+  kind: feature
+  status: declined
+  title: 'MAW solo: the health potion key has no cooldown'
+  summary: MAW gives a solo character a health-potion key with a 15 s cooldown; in OpenYAMM the quick potion key works without
+    a pause. Players disagree whether a cooldown is wanted when the inventory has none.
+  tags:
+  - maw
+  - solo
+  - potions
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571190328394915942
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571193599482273907
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571193665827901472
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571194224387424347
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571194403328884798
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571194660024615053
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571195086291730445
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571195242416181329
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571197501988405330
+  notes: 'Recommendation: no cooldown; every way of drinking should cost the same recovery (see OY-204).
+
+
+    2026-11-14: the user asked to check what MAW does before deciding.
+
+
+    2026-11-14, MAW checked: zzMAW-Skills.lua:1050-1089 — solo only, key G, strongest Cure Wounds (222) in member 0''s pack,
+    heals round(power^1.4)+10, no recovery cost, 15 s real-time cooldown (also in turn-based); a mana key V (223) likewise.
+    OpenYAMM does not port these keys by decision (devdocs/maw/HANDOFF.md, GAPS L7.6); a lone character drinks through the
+    normal keys, which cost MAW''s recovery (and now the turn). Recommendation: no cooldown, as the user''s solo balance decision
+    R2 of 2026-11-13 (devdocs/solo_action/BALANCE_AND_TALENTS.md).
+
+
+    User, 2026-11-14: no cooldown; a drink just takes its action time.'
+  resolution: 'Declined by the user on 2026-11-14: no solo potion cooldown; every way of drinking costs the normal action
+    (recovery) time, and a whole turn in turn-based combat (OY-204).'
+- id: OY-640
+  kind: bug
+  status: done
+  priority: low
+  title: Quick potion key says "No 0 left"
+  summary: 'Pressing the quick potion key printed "No 0 left": the slot holds an item id whose item row has no name.'
+  tags:
+  - ui
+  - potions
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571195547266842646
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571195651146907811
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571195700790689856
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571196552418951283
+  resolution: 'Working tree, 2026-11-14 (not yet released): an unassigned quick slot (item id 0, the table''s placeholder
+    row named "0") now reads "Empty slot"; the quick potion keys also work in MM9 now (they sat inside the follower-key block).'
+  notes: GameplayItemService::useQuickItemKind (GameplayItemService.cpp:691) names the slot's item; a slot pointing at an
+    empty table row should read "Empty slot". Find how the slot got that id.
+- id: OY-641
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: 'Transmogrification: wear one item''s look with another''s stats'
+  summary: Show a preferred item's appearance while wearing a stronger one, without crowding the inventory.
+  tags:
+  - items
+  - paperdoll
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1566574247621431367/1571068284030292103
+  - https://discord.com/channels/1563263436400623696/1566574247621431367/1571068439550885962
+  - https://discord.com/channels/1563263436400623696/1566574247621431367/1571092602327928944
+  notes: 'Recommendation: decline for now; little value in a first-person game with paperdolls only.'
