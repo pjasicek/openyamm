@@ -470,7 +470,8 @@ TEST_CASE("party portrait frame defaults on and persists menu changes")
     std::filesystem::remove(path);
 }
 
-TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key and are in the bindings menu")
+TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key (but a solo run's action bar) and are "
+          "in the bindings menu")
 {
     const std::array<std::pair<KeyboardAction, SDL_Scancode>, 5> followerKeys = {{
         {KeyboardAction::FollowerPanel, SDL_SCANCODE_0}, {KeyboardAction::Follower1, SDL_SCANCODE_6},
@@ -490,7 +491,10 @@ TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key
 
         for (const KeyboardBindingDefinition &other : keyboardBindingDefinitions())
         {
-            if (other.action != action)
+            // A solo run's action bar has the number keys too, in its own context (it wins in a solo run).
+            const bool soloBar =
+                other.action >= KeyboardAction::ActionBar1 && other.action <= KeyboardAction::ActionBar10;
+            if (other.action != action && !soloBar)
             {
                 CAPTURE(other.iniKey);
                 CHECK_FALSE((other.defaultBinding.kind == InputBindingKind::Keyboard
@@ -498,6 +502,28 @@ TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key
             }
         }
     }
+}
+
+TEST_CASE("A solo run's action bar is ten rebindable keys, 1-0 by default, in the bindings menu")
+{
+    std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/ui/menu/settings_catalog.yml");
+    const std::string catalog{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+    const std::array<SDL_Scancode, 10> keys = {SDL_SCANCODE_1, SDL_SCANCODE_2, SDL_SCANCODE_3, SDL_SCANCODE_4,
+        SDL_SCANCODE_5, SDL_SCANCODE_6, SDL_SCANCODE_7, SDL_SCANCODE_8, SDL_SCANCODE_9, SDL_SCANCODE_0};
+
+    for (size_t slot = 0; slot < keys.size(); ++slot)
+    {
+        const KeyboardAction action = KeyboardAction(size_t(KeyboardAction::ActionBar1) + slot);
+        const KeyboardBindingDefinition &definition = keyboardBindingDefinition(action);
+        CAPTURE(definition.iniKey);
+        CHECK(definition.implemented);
+        CHECK_EQ(definition.defaultBinding.kind, InputBindingKind::Keyboard);
+        CHECK_EQ(definition.defaultBinding.scancode, keys[slot]);
+        CHECK_NE(catalog.find("- id: " + std::string(definition.iniKey) + "\n"), std::string::npos);
+        // The party's number keys 1-5 are reserved, but not for the bar.
+        CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(keys[slot]), action));
+    }
+    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_1), KeyboardAction::Attack));
 }
 
 TEST_CASE("auto-walk, the free cursor and a solo run's weapon cycling have their own default keys in both schemes")

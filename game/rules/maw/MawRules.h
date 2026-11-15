@@ -71,6 +71,7 @@ public:
     const MawItemRules &itemRules() const;
     const MawSpellRules &spellRules() const;
     const MawClassRules &classRules() const;
+    const MawCraftingRules &craftingRules() const;
     const RulesetOptions &options() const;
     // A difficulty change: every number sized by the balance model is resolved again.
     void setOptions(const RulesetOptions &options);

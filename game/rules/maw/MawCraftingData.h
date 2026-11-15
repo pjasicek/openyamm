@@ -67,6 +67,7 @@ public:
     const MawCraftMaterial *material(uint32_t itemId) const;
     const MawCraftMaterial *potion(uint32_t itemId) const;
     const std::unordered_map<uint32_t, MawCraftMaterial> &materials() const;
+    const std::unordered_map<uint32_t, MawCraftMaterial> &potions() const;
 
     double gemDropChance() const;
     double bossDropExtra() const;

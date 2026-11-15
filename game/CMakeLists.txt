@@ -372,6 +372,7 @@ add_library(openyamm_game STATIC
     ui/EnemyHealthBarRenderer.cpp
     ui/GameplayHudRenderer.cpp
     ui/GameplayUiSkin.cpp
+    ui/HudDrawList.cpp
     ui/GameplayPortraitGems.cpp
     ui/GameplayBuffHud.cpp
     ui/GameplaySoloHud.cpp

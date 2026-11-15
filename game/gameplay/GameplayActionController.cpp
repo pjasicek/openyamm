@@ -1467,7 +1467,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             config.pWorldRuntime);
     std::optional<CharacterAttackMode> orderedMode;
 
-    const bool talentBlow = config.talentExtraBlow || config.talentShot || config.talentShare != 1.0f;
+    const bool talentBlow = config.talentBlow;
 
     for (const BattleOrder &order : pAttacker->battleOrders)
     {
@@ -1638,6 +1638,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     }
     attackContext.partyCount = config.pParty != nullptr ? int(std::max<size_t>(1, config.pParty->members().size())) : 1;
     attackContext.pRng = &rng;
+    attackContext.extraBlow = config.talentExtraBlow;
     gameRulesFor(config.pParty).combat.resolveCharacterAttack(attack, attackContext);
 
     if (config.talentShare != 1.0f && attack.damage > 0)

@@ -265,6 +265,59 @@ TEST_CASE("MAW Unstoppable bosses shrug off crowd control")
     CHECK_EQ(paralyses(unstoppable), 0);
 }
 
+TEST_CASE("A solo talent's extra blow leaves Retaliation's stacks to the main blow and paralyses nothing")
+{
+    RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    MawRules rules(soloOptions, MawMapLevels{});
+    ItemTable items;
+    Character knight = member(20);
+    knight.skills["Retaliation"] = {"Retaliation", 10, SkillMastery::Grandmaster};
+    const ActorRulesetFacts target = bossFacts(MawBossAffix::Thorn);
+    std::mt19937 rng(5);
+    const auto strike = [&](bool extraBlow)
+    {
+        CharacterAttackOnMonster context;
+        context.pCharacter = &knight;
+        context.pItemTable = &items;
+        context.pTargetFacts = &target;
+        context.minimumDamage = 10;
+        context.maximumDamage = 20;
+        context.pRng = &rng;
+        context.extraBlow = extraBlow;
+        CharacterAttackResult attack;
+        attack.mode = CharacterAttackMode::Melee;
+        attack.canAttack = true;
+        attack.attackBonus = 100000;
+        rules.gameRules().combat.resolveCharacterAttack(attack, context);
+        return attack;
+    };
+
+    // The extra blows struck first (Sweeping Blows' and Cleave's other monsters) neither spend the stacks nor
+    // paralyse; the main blow after them does both.
+    int extraParalyses = 0;
+    int mainParalyses = 0;
+    for (int swing = 0; swing < 100; ++swing)
+    {
+        knight.rulesetState.runtime.retaliationStacks = 3;
+        for (int extra = 0; extra < 3; ++extra)
+        {
+            extraParalyses += strike(true).paralyzeTarget ? 1 : 0;
+        }
+        CHECK_EQ(knight.rulesetState.runtime.retaliationStacks, 3);
+        mainParalyses += strike(false).paralyzeTarget ? 1 : 0;
+        CHECK_EQ(knight.rulesetState.runtime.retaliationStacks, 0);
+    }
+    CHECK_EQ(extraParalyses, 0);
+    CHECK_GT(mainParalyses, 50);
+
+    // Outside a solo run a blow marked extra is an ordinary blow.
+    rules.setOptions(RulesetOptions{});
+    knight.rulesetState.runtime.retaliationStacks = 3;
+    strike(true);
+    CHECK_EQ(knight.rulesetState.runtime.retaliationStacks, 0);
+}
+
 TEST_CASE("MAW Berserker bosses hit up to twice as hard as their health runs out")
 {
     CHECK(mawBerserkerDamageMultiplier(100, 100) == doctest::Approx(1));

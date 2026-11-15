@@ -23,7 +23,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 183;
+constexpr uint32_t SaveVersion = 184;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -314,6 +314,9 @@ constexpr uint32_t SaveVersionSoloRun = 181;
 constexpr uint32_t SaveVersionSoloTalents = 182;
 // A battle order's HP condition can read the member's own HP (BattleOrder::ownHealth); older orders read the allies'.
 constexpr uint32_t SaveVersionOwnHealthOrders = 183;
+// An outdoor actor's Aggressor bit (OutdoorWorldRuntime::MapActorState::aggressor), set by a party hit and its faction's
+// alert; older saves load it as false.
+constexpr uint32_t SaveVersionOutdoorAggressor = 184;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -4304,6 +4307,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.drawScale);
     writeValue(writer, value.patrolPoints);
     writeValue(writer, value.heldItems);
+    writeValue(writer, value.aggressor);
 }
 
 // Versions 133-168 saved the reach of a far hit after provokedByParty; it is read and dropped.
@@ -4477,7 +4481,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionOutdoorSpawnMm9AiPlacement || readValue(reader, value.mm9Ai))
         && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
         && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints))
-        && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems));
+        && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems))
+        && (reader.version() < SaveVersionOutdoorAggressor || readValue(reader, value.aggressor));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestItemState &value)

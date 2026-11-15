@@ -181,8 +181,9 @@ For turn-based combat ([TURN_BASED_COMBAT_AUDIT.md](../../devdocs/TURN_BASED_COM
 `press_action: combat` toggles turn-based mode, `turn_based_turns: {count, max_seconds}` plays turns through the input
 path (Pass whenever the party may; a turn counts when it reaches its movement phase), and `assert: {turn_based:
 {active, stage, front_member, actor_index, actor_queued, actor_effect, effect_min, effect_max, report}}` checks the turn
-engine (`front_member` is the member the queue waits for, or `none`; `actor_effect: slow | stun | paralyze` with
-`effect_min`/`effect_max` checks the remaining seconds of a monster's effect; `report` prints the queue).
+engine (`front_member` is the member the queue waits for, or `none`; `actor_effect: slow | stun | paralyze | fear |
+control` with `effect_min`/`effect_max` checks the remaining seconds of a monster's effect, control being its charm,
+berserk or enslavement, and `actor_index` may be `last`; `report` prints the queue).
 `assert: {member_points: {member_index, spell_points_min, spell_points_max, health_min, health_max}}` checks a member's
 points, `setup_shortcut: {kind: set_member_points, member_index, health, spell_points}` sets them, and `buff` takes
 `remaining_min`/`remaining_max` in game seconds. The driver applies a completed turn's game time after each gameplay

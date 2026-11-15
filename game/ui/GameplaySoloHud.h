@@ -63,17 +63,27 @@ struct BuffTileHit
 };
 
 std::optional<BuffTileHit> buffTileAt(GameplayScreenRuntime &context, int width, int height, float x, float y);
-// The bar slot (Character::actionBar index, 0-9) whose number key 1-0 is held, Shift and Ctrl up; the first held wins.
+// The bar slot (Character::actionBar index, 0-9) whose key (KeyboardAction::ActionBar1-10, the number keys 1-0 by
+// default) is held, Shift and Ctrl up; the first held wins.
 std::optional<size_t> heldBarSlot(const GameplayInputFrame &input);
-// Whether that slot's number key went down this frame.
+// Whether that slot's key went down this frame.
 bool barSlotPressed(const GameplayInputFrame &input, size_t slot);
-// A bar slot's key as its slot shows it ("1" to "0").
-std::string barKeyName(size_t slot);
+// A bar slot's key as its slot shows it: the bound key's name ("1" to "0" by default).
+std::string barKeyName(const GameplayScreenRuntime &context, size_t slot);
 // The bar's panel (with its scale) and a slot of keys 1-0 in screen pixels, as drawn; none outside a solo HUD.
 std::optional<GameplayResolvedHudLayoutElement> barPanelRect(GameplayScreenRuntime &context, int width, int height);
 std::optional<SoloHudRect> barSlotRect(GameplayScreenRuntime &context, int width, int height, size_t slot);
 // The slot of keys 1-0 under a point.
 std::optional<size_t> barSlotAt(GameplayScreenRuntime &context, int width, int height, float x, float y);
+// The filled bar key the right button holds the pointer over in play (its chooser closed), for its inspect popup:
+// the spell's, the item's or the weapon's card, or the talent's text (GameplayHudOverlaySupport).
+struct BarInspectHit
+{
+    ActionBarSlot slot;
+    GameplayResolvedHudLayoutElement rect;
+};
+
+std::optional<BarInspectHit> barInspectAt(GameplayScreenRuntime &context, int width, int height);
 // What a bar slot shows as its icon (a spell's, a talent's, the item's or the weapon's), fitted into the box.
 void renderSlotIcon(GameplayScreenRuntime &context, const GameplayObsidianPainter &painter, const Character &member,
     const ActionBarSlot &slot, const GameplayObsidianRect &icon, bool dim);

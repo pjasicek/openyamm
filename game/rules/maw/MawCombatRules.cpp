@@ -38,6 +38,22 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// A solo talent's extra blow (Cleave's other monsters, Sweeping Blows; user, 2026-11-15): its leech and on-hit gains
+// are a third as strong, and the special on-hit effects (stuns, paralysis, slows, pushes, artifact spells, Death
+// Grasp, Retaliation's stacks) are the main blow's alone. Only a solo run's talents make extra blows; any other game
+// is untouched.
+constexpr double ExtraBlowShare = 1.0 / 3.0;
+
+bool soloExtraBlow(const RulesetOptions &options, bool extraBlow)
+{
+    return extraBlow && options.soloRun;
+}
+
+double extraBlowShare(const RulesetOptions &options, const PartyHitOnMonster &hit)
+{
+    return soloExtraBlow(options, hit.extraBlow) ? ExtraBlowShare : 1.0;
+}
+
 constexpr uint32_t FirstPlayerStyleMonsterSpell = 100;
 // Recovery ticks to real seconds, as the engine converts attack recovery.
 constexpr float MawRealtimeRecoveryScale = 2.133333333333333f;
@@ -1689,11 +1705,17 @@ void MawCombatRules::resolveCharacterAttack(
         }
 
         // An item's stun (Thor) is the engine's: a stagger, outside diminishing returns (MAW leaves it to the engine).
-        attack.stunTarget = attack.itemStunTarget && !mawIgnoresCrowdControl(*context.pTargetFacts);
+        // A solo talent's extra blow stuns, paralyses and spends Retaliation's stacks on nothing: the main blow does.
+        const bool extraBlow = soloExtraBlow(m_rules.options(), context.extraBlow);
+        attack.stunTarget = attack.itemStunTarget && !extraBlow && !mawIgnoresCrowdControl(*context.pTargetFacts);
         attack.stunSeconds = StaggerStunSeconds;
         attack.paralyzeTarget = false;
-        applyWeaponStun(m_rules, attack, context, delay.damageMultiplier, targetLevel);
-        applyRetaliation(attack, context);
+
+        if (!extraBlow)
+        {
+            applyWeaponStun(m_rules, attack, context, delay.damageMultiplier, targetLevel);
+            applyRetaliation(attack, context);
+        }
 
         if (skillMastery(character, "Cover") >= SkillMastery::Grandmaster)
         {
@@ -3160,8 +3182,12 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
 
     // A dragon's bite throws its target along the blow once Dragon Ability reaches Fangs: 800 × fang / level^0.75
     // falling to nothing over 60 × its root frames, about 400 × mult^1.5 units at 60 frames a second (DM:599-610, zzClasses:471-484).
-    if (hit.melee && !hit.killed && mawIsDragon(*pMember) && hit.pWorld != nullptr && hit.targetActorIndex
-        && hit.pTarget->level > 0)
+    // A solo talent's extra blow: none of the special on-hit effects below (the push, Snake's Slow, the artifacts'
+    // spells); the main blow has them.
+    const bool extraBlow = soloExtraBlow(m_rules.options(), hit.extraBlow);
+
+    if (hit.melee && !hit.killed && !extraBlow && mawIsDragon(*pMember) && hit.pWorld != nullptr
+        && hit.targetActorIndex && hit.pTarget->level > 0)
     {
         const int fang = skillLevel(*pMember, "Unarmed");
         GameplayRuntimeActorState target = {};
@@ -3200,7 +3226,7 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
     }
 
     // Snake and Finality cast Slow on the monster they strike, at the wielder's Sword skill (zzzMaw_Artifacts.lua:124-138).
-    if (hit.melee && hit.pWorld != nullptr && hit.targetActorIndex && party.itemTable() != nullptr)
+    if (hit.melee && !extraBlow && hit.pWorld != nullptr && hit.targetActorIndex && party.itemTable() != nullptr)
     {
         for (const HeldWeapon &weapon : heldWeapons(*pMember, *party.itemTable(), true, false))
         {
@@ -3235,7 +3261,8 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
 
     // Splitter, Thor, Percival and Hades cast a spell on the monster they strike, at the wielder's skill in the
     // weapon; Thor only when it survives (zzzMaw_Artifacts.lua:52-64, 175-271). A broken one casts nothing.
-    if (hit.pWorld != nullptr && hit.targetActorIndex && hit.spellId == 0 && party.itemTable() != nullptr)
+    if (!extraBlow && hit.pWorld != nullptr && hit.targetActorIndex && hit.spellId == 0
+        && party.itemTable() != nullptr)
     {
         for (const HeldWeapon &weapon : heldWeapons(*pMember, *party.itemTable(), hit.melee, !hit.melee))
         {
@@ -3382,18 +3409,6 @@ std::optional<int> MawCombatRules::spellRecoveryTicks(
     cast.skillLevel = uint32_t(skillLevel(caster, *school));
     cast.partyCount = int(party.members().size());
     return m_rules.gameRules().spells.recoveryTicks(cast, spellNumbersAtMastery(*pSpell, cast.mastery).recoveryTicks);
-}
-
-// A solo talent's extra blow (Cleave's other monsters, Sweeping Blows): its leech and on-hit gains are a third as
-// strong (user, 2026-11-15). Only a solo run's talents make extra blows; any other game gains in full.
-namespace
-{
-constexpr double ExtraBlowShare = 1.0 / 3.0;
-
-double extraBlowShare(const RulesetOptions &options, const PartyHitOnMonster &hit)
-{
-    return hit.extraBlow && options.soloRun ? ExtraBlowShare : 1.0;
-}
 }
 
 void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) const
@@ -3699,7 +3714,8 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
         // minute, refreshed on every hit (DM:770-779).
         constexpr int GraspCost = 15;
 
-        if (member.rulesetState.classToggleOn(96) && member.spellPoints >= GraspCost && hit.pWorld != nullptr
+        if (member.rulesetState.classToggleOn(96) && !soloExtraBlow(m_rules.options(), hit.extraBlow)
+            && member.spellPoints >= GraspCost && hit.pWorld != nullptr
             && hit.targetActorIndex && !mawIgnoresCrowdControl(*hit.pTarget)
             && hit.pWorld->debuffActor(*hit.targetActorIndex, GameplayActorHitDebuff::DarkGrasp, 2.0f, 1.0f))
         {

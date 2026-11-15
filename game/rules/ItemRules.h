@@ -169,12 +169,17 @@ public:
     // Whether the inventory has the item search field (MAW, for its many bags; user 2026-11-04).
     virtual bool inventorySearch() const;
     // Lines the rules add to the inspect popup below the item's type and stats (MAW: enchantments, level required).
+    // craftPreview: also, in grey, what crafting would add to the item next (the Craftable stats setting; MAW: the
+    // Hourglass's enchantment, the Eye of Void's special, the bonus power and its cap).
     virtual std::vector<ItemInspectLine> inspectLines(
         const InventoryItem &item,
         const ItemDefinition &itemDefinition,
         const StandardItemEnchantTable *pStandardTable,
         const SpecialItemEnchantTable *pSpecialTable,
-        const Character *pViewer) const;
+        const Character *pViewer,
+        bool craftPreview) const;
+    // Whether the rules have such a preview (the Craftable stats setting and its key); Standard has no crafting.
+    virtual bool previewsCrafting() const;
 
     // A member's merchant value (the percent off house prices, up to 100) when the rules compute it themselves (MAW:
     // skill x mastery plus Glamour, no reputation); nothing for Standard's skill, bonus and reputation.

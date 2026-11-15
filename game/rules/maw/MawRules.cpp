@@ -147,6 +147,11 @@ const MawClassRules &MawRules::classRules() const
     return m_classes;
 }
 
+const MawCraftingRules &MawRules::craftingRules() const
+{
+    return m_crafting;
+}
+
 const RulesetOptions &MawRules::options() const
 {
     return m_options;

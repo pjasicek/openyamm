@@ -134,6 +134,7 @@ public:
     bgfx::ProgramHandle hudTexturedProgramHandle() const;
     bgfx::UniformHandle hudTextureSamplerHandle() const;
     bgfx::ProgramHandle hudTintedProgramHandle() const;
+    bgfx::ProgramHandle hudDrawListProgramHandle() const;
     bgfx::UniformHandle hudTintUniformHandle() const;
     void prepareHudView(int width, int height) const;
     void submitHudTextureQuad(
@@ -919,6 +920,8 @@ private:
     bgfx::ProgramHandle m_programHandle;
     bgfx::ProgramHandle m_texturedProgramHandle;
     bgfx::ProgramHandle m_hudTintedProgramHandle;
+    // The HUD draw list's program: the texture times the vertex colour.
+    bgfx::ProgramHandle m_hudDrawListProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_indoorLitProgramHandle;
     // Faces whose textures have surface material maps, with the samplers and uniforms of those maps, and the
     // frame's video settings for them.

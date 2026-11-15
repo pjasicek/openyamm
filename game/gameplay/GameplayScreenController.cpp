@@ -20,6 +20,7 @@
 #include "game/ui/GameplayJournalProgress.h"
 #include "game/ui/GameplayQuickItems.h"
 #include "game/ui/GameplaySoloBarSelector.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 #include "game/ui/GameplayUiRenderer.h"
 #include "game/ui/RestHourglassAnimation.h"
@@ -426,6 +427,15 @@ bool GameplayScreenController::canUpdateStandardWorldInspectOverlayFromMouse(
         return false;
     }
 
+    // A solo run's bar key under the pointer shows its own popup.
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
+
+    if (pInput != nullptr && context.soloHud()
+        && GameplaySoloHud::barSlotAt(context, config.width, config.height, pInput->pointerX, pInput->pointerY))
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -529,7 +539,8 @@ void GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
         return;
     }
 
-    if (updateRenderedHudItemInspectOverlay(context, width, height, requireOpaqueHitTest))
+    if (updateRenderedHudItemInspectOverlay(context, width, height, requireOpaqueHitTest)
+        || GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromSoloBar(context, width, height))
     {
         applySharedItemInspectSkillInteraction(context);
     }

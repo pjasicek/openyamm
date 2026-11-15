@@ -131,6 +131,9 @@ struct CharacterAttackOnMonster
     bool targetHostile = true;
     int partyCount = 1;
     std::mt19937 *pRng = nullptr;
+    // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows): no stun or paralysis, and Retaliation's
+    // stacks stay for the main blow.
+    bool extraBlow = false;
 };
 
 // A party member's hit that landed on a monster.
@@ -150,7 +153,8 @@ struct PartyHitOnMonster
     IGameplayWorldRuntime *pWorld = nullptr;
     std::optional<size_t> targetActorIndex;
     // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows): its leech and the class's on-hit gains
-    // (a dragon's bite SP, a Death Knight's SP and Blood Leech, a Shaman's and a Seraph's) are a third as strong.
+    // (a dragon's bite SP, a Death Knight's SP and Blood Leech, a Shaman's and a Seraph's) are a third as strong, and
+    // the special on-hit effects (pushes, slows, artifact spells, Death Grasp) are the main blow's alone.
     bool extraBlow = false;
 };
 

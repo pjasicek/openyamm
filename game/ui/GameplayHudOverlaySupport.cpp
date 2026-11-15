@@ -8,6 +8,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/items/InventoryBags.h"
+#include "game/items/QuickItemSlots.h"
 #include "game/items/ItemRuntime.h"
 #include "game/mm9/Mm9HirelingHud.h"
 #include "game/mm9/Mm9HirelingTable.h"
@@ -16,6 +17,7 @@
 #include "game/party/SpellSchool.h"
 #include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/SoloTalents.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayJournalAuras.h"
@@ -669,6 +671,78 @@ bool GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromRenderedHudItem
     return false;
 }
 
+bool GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromSoloBar(
+    GameplayScreenRuntime &context, int width, int height)
+{
+    const std::optional<GameplaySoloHud::BarInspectHit> bar = GameplaySoloHud::barInspectAt(context, width, height);
+    const Party *pParty = context.partyReadOnly();
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+
+    if (!bar || pMember == nullptr || context.itemTable() == nullptr
+        || (bar->slot.kind != ActionBarSlotKind::Item && bar->slot.kind != ActionBarSlotKind::Weapon))
+    {
+        return false;
+    }
+
+    GameplayUiController::ItemInspectOverlayState &overlay = context.itemInspectOverlay();
+    overlay = {};
+    const size_t memberIndex = pParty->activeMemberIndex();
+
+    if (bar->slot.kind == ActionBarSlotKind::Item)
+    {
+        // The bottle or scroll the key would use; the kind alone when none is left.
+        overlay.objectDescriptionId = bar->slot.item.itemId;
+        const int bags = std::max(1, pParty->rules().items.bagCount(*pParty));
+
+        if (const std::optional<QuickItemSlots::Location> location =
+                QuickItemSlots::findItem(*pMember, bar->slot.item, bags))
+        {
+            if (const InventoryItem *pItem =
+                    InventoryBags::itemInBagAt(*pMember, location->bag, location->gridX, location->gridY))
+            {
+                overlay.hasItemState = true;
+                overlay.itemState = *pItem;
+                overlay.sourceType = GameplayUiController::ItemInspectSourceType::Inventory;
+                overlay.sourceMemberIndex = memberIndex;
+                overlay.sourceBag = location->bag;
+                overlay.sourceGridX = location->gridX;
+                overlay.sourceGridY = location->gridY;
+            }
+        }
+    }
+    else
+    {
+        // The swap key shows the bow, as its icon does; the attack key the main hand's weapon.
+        const EquipmentSlot slot = bar->slot.id == ActionBarWeaponSwapId ? EquipmentSlot::Bow : EquipmentSlot::MainHand;
+        const std::optional<InventoryItem> item = pParty->equippedItem(memberIndex, slot);
+
+        if (!item)
+        {
+            return false;
+        }
+
+        overlay.objectDescriptionId = item->objectDescriptionId;
+        overlay.hasItemState = true;
+        overlay.itemState = *item;
+        overlay.sourceType = GameplayUiController::ItemInspectSourceType::Equipment;
+        overlay.sourceMemberIndex = memberIndex;
+        overlay.sourceEquipmentSlot = slot;
+    }
+
+    if (overlay.objectDescriptionId == 0)
+    {
+        overlay = {};
+        return false;
+    }
+
+    overlay.active = true;
+    overlay.sourceX = bar->rect.x;
+    overlay.sourceY = bar->rect.y;
+    overlay.sourceWidth = bar->rect.width;
+    overlay.sourceHeight = bar->rect.height;
+    return true;
+}
+
 void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
     GameplayScreenRuntime &context,
     int width,
@@ -1181,6 +1255,26 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
     {
         return;
     }
+    // A solo run's bar key that holds a talent: its text at the rank learnt (spells and items have their own cards).
+    if (const std::optional<GameplaySoloHud::BarInspectHit> bar = GameplaySoloHud::barInspectAt(context, width, height);
+        bar && bar->slot.kind == ActionBarSlotKind::Talent && bar->slot.id < soloTalentTable().talents().size()
+        && pParty->activeMember() != nullptr)
+    {
+        const TalentDefinition &talent = soloTalentTable().talents()[bar->slot.id];
+        const int rank = talentRank(*pParty->activeMember(), talent.id);
+        overlay.title = Engine::tr(talent.name);
+        overlay.body = talent.kind == TalentKind::Active
+            ? Engine::tr("Active · cooldown {seconds} s",
+                  {{"seconds", int64_t(std::lround(talentCooldownSeconds(talent, std::max(rank, 1))))}})
+            : Engine::tr("Passive");
+        appendPopupBodyLine(overlay.body, rank > 0
+            ? Engine::tr("Now (rank {rank}): {effect}",
+                  {{"rank", int64_t(rank)}, {"effect", talentEffectText(talent, rank)}})
+            : Engine::tr("Next (rank {rank}): {effect}",
+                  {{"rank", int64_t(rank + 1)}, {"effect", talentEffectText(talent, rank + 1)}}));
+        anchor(bar->rect);
+        return;
+    }
     // A solo HUD draws no hero or skull panel: its tiles (above) stand for them.
     for (GameplayBuffPresentation panel : {GameplayBuffPresentation::Hero, GameplayBuffPresentation::Skull})
     {
@@ -1426,87 +1520,86 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
     GameplayUiController::SpellInspectOverlayState &overlay = context.spellInspectOverlay();
     overlay = {};
 
-    if (width <= 0 || height <= 0 || !context.spellbookReadOnly().active || context.spellTable() == nullptr)
+    if (width <= 0 || height <= 0 || context.spellTable() == nullptr)
     {
         return;
     }
 
-    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
-
-    if (pInput == nullptr || !pInput->rightMouseButton.held)
+    // The spell under the held right button: a spellbook page's picture, or a solo run's bar key that holds a spell.
+    struct Inspected
     {
-        return;
-    }
-
-    // Not over the Battle Orders window or the spell menu; and not before a right click would have opened the menu.
-    const GameplayUiController::SpellbookSpellMenuState &spellMenu = context.spellbookReadOnly().spellMenu;
-
-    if (GameplayBattleOrders::isOpen(context) || GameplayBattleOrders::spellMenuOpen(context)
-        || (spellMenu.rightPressSpellId != 0
-            && SDL_GetTicks() - spellMenu.rightPressTicks < GameplayBattleOrders::SpellMenuClickMilliseconds))
+        uint32_t spellId = 0;
+        GameplayScreenRuntime::ResolvedHudLayoutElement sourceRect;
+    };
+    const auto spellbookSpellUnderPointer = [&context, width, height]() -> std::optional<Inspected>
     {
-        return;
-    }
+        const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
 
-    const float mouseX = pInput->pointerX;
-    const float mouseY = pInput->pointerY;
-
-    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(context.spellbookReadOnly().school);
-
-    if (pDefinition == nullptr || !context.activeMemberHasSpellbookSchool(context.spellbookReadOnly().school))
-    {
-        return;
-    }
-
-    // A class with its own spellbook look (MAW's Death Knight and Thief lines) has its spell pictures elsewhere on the
-    // page: the spell under the pointer there, or none.
-    const SpellbookSkinPage *pSkinPage =
-        activeSpellbookSkinPage(context.partyReadOnly(), context.spellbookReadOnly().school);
-    uint32_t skinSpellId = 0;
-    GameplayScreenRuntime::ResolvedHudLayoutElement skinSpellRect;
-
-    if (pSkinPage != nullptr)
-    {
-        const GameplayScreenRuntime::HudLayoutElement *pRootLayout =
-            context.findHudLayoutElement(SpellbookRootLayoutId);
-        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> root = pRootLayout != nullptr
-            ? context.resolveHudLayoutElement(
-                SpellbookRootLayoutId, width, height, pRootLayout->width, pRootLayout->height)
-            : std::nullopt;
-
-        for (const SpellbookSkinSpell &spell : pSkinPage->spells)
+        if (pInput == nullptr || !pInput->rightMouseButton.held)
         {
-            if (root && context.activeMemberKnowsSpell(spell.spellId)
-                && GameplayHudCommon::isPointerInsideResolvedElement(
-                    spellbookSkinScreenRect(*root, spell.rect), mouseX, mouseY))
-            {
-                skinSpellId = spell.spellId;
-                skinSpellRect = spellbookSkinScreenRect(*root, spell.rect);
-                break;
-            }
-        }
-    }
-
-    for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
-    {
-        const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
-
-        if (!context.activeMemberKnowsSpell(spellId))
-        {
-            continue;
+            return std::nullopt;
         }
 
-        GameplayScreenRuntime::ResolvedHudLayoutElement sourceRect = skinSpellRect;
+        // Not over the Battle Orders window or the spell menu; and not before a right click would have opened the
+        // menu.
+        const GameplayUiController::SpellbookSpellMenuState &spellMenu = context.spellbookReadOnly().spellMenu;
+
+        if (GameplayBattleOrders::isOpen(context) || GameplayBattleOrders::spellMenuOpen(context)
+            || (spellMenu.rightPressSpellId != 0
+                && SDL_GetTicks() - spellMenu.rightPressTicks < GameplayBattleOrders::SpellMenuClickMilliseconds))
+        {
+            return std::nullopt;
+        }
+
+        const float mouseX = pInput->pointerX;
+        const float mouseY = pInput->pointerY;
+
+        const SpellbookSchoolUiDefinition *pDefinition =
+            findSpellbookSchoolUiDefinition(context.spellbookReadOnly().school);
+
+        if (pDefinition == nullptr || !context.activeMemberHasSpellbookSchool(context.spellbookReadOnly().school))
+        {
+            return std::nullopt;
+        }
+
+        // A class with its own spellbook look (MAW's Death Knight and Thief lines) has its spell pictures elsewhere
+        // on the page: the spell under the pointer there, or none.
+        const SpellbookSkinPage *pSkinPage =
+            activeSpellbookSkinPage(context.partyReadOnly(), context.spellbookReadOnly().school);
 
         if (pSkinPage != nullptr)
         {
-            if (spellId != skinSpellId)
+            const GameplayScreenRuntime::HudLayoutElement *pRootLayout =
+                context.findHudLayoutElement(SpellbookRootLayoutId);
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> root = pRootLayout != nullptr
+                ? context.resolveHudLayoutElement(
+                    SpellbookRootLayoutId, width, height, pRootLayout->width, pRootLayout->height)
+                : std::nullopt;
+
+            for (const SpellbookSkinSpell &spell : pSkinPage->spells)
+            {
+                if (root && spell.spellId >= pDefinition->firstSpellId
+                    && spell.spellId < pDefinition->firstSpellId + pDefinition->spellCount
+                    && context.activeMemberKnowsSpell(spell.spellId)
+                    && GameplayHudCommon::isPointerInsideResolvedElement(
+                        spellbookSkinScreenRect(*root, spell.rect), mouseX, mouseY))
+                {
+                    return Inspected{spell.spellId, spellbookSkinScreenRect(*root, spell.rect)};
+                }
+            }
+
+            return std::nullopt;
+        }
+
+        for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
+        {
+            const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
+
+            if (!context.activeMemberKnowsSpell(spellId))
             {
                 continue;
             }
-        }
-        else
-        {
+
             const uint32_t spellOrdinal = spellOffset + 1;
             const std::string layoutId = spellbookSpellLayoutId(context.spellbookReadOnly().school, spellOrdinal);
             const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
@@ -1519,77 +1612,91 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
             const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 context.resolveHudLayoutElement(layoutId, width, height, pLayout->width, pLayout->height);
 
-            if (!resolved || !GameplayHudCommon::isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
+            if (resolved && GameplayHudCommon::isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
             {
-                continue;
-            }
-
-            sourceRect = *resolved;
-        }
-
-        const SpellEntry *pSpellEntry = context.spellTable()->findById(spellId);
-
-        if (pSpellEntry == nullptr)
-        {
-            return;
-        }
-
-        overlay.active = true;
-        overlay.spellId = spellId;
-        const SpellbookSchoolUiDefinition *pSpellSchoolDefinition = findSpellbookSchoolUiDefinitionForSpellId(spellId);
-        const GameplayUiController::SpellbookSchool spellSchool =
-            pSpellSchoolDefinition != nullptr ? pSpellSchoolDefinition->school : context.spellbookReadOnly().school;
-        const Party *pParty = context.partyReadOnly();
-        const Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
-        const SkillMastery casterMastery = spellInspectCasterMasteryForSpell(pActiveMember, spellId);
-        const GameRules &rules = gameRulesFor(pParty);
-        const std::optional<std::string> schoolSkill = resolveMagicSkillName(spellId);
-        // The cost the caster would pay (the rules may change it); the table cost when they cannot cast it.
-        const std::optional<uint32_t> casterManaCost = pActiveMember != nullptr
-            ? PartySpellSystem::manaCost(*pParty, *pActiveMember, *context.spellTable(), spellId)
-            : std::nullopt;
-
-        overlay.school = Engine::localize(spellbookSchoolDisplayName(spellSchool), "skill");
-
-        if (pActiveMember != nullptr && schoolSkill)
-        {
-            const std::string schoolName = rules.skills.skillDisplayName(*pActiveMember, *schoolSkill);
-
-            if (schoolName != displaySkillName(*schoolSkill))
-            {
-                overlay.school = Engine::localize(schoolName, "skill");
+                return Inspected{spellId, *resolved};
             }
         }
 
-        overlay.manaCost = casterManaCost
-            ? int(*casterManaCost)
-            : std::max(0, spellInspectManaCostForMastery(*pSpellEntry, casterMastery));
-        overlay.hasManaCost = true;
-        const SpellTooltipText text = pActiveMember != nullptr
-            ? partySpellTooltip(*pParty, *pActiveMember, *pSpellEntry)
-            : SpellTooltipText {pSpellEntry->name, pSpellEntry->description,
-                  {pSpellEntry->normalText, pSpellEntry->expertText, pSpellEntry->masterText,
-                      pSpellEntry->grandmasterText}};
-        // The table's text in the interface language; a ruleset's own text (MAW) arrives translated and filled in.
-        const auto masteryLine = [&text](size_t mastery, std::string label)
-        {
-            return text.masteryLines[mastery].empty()
-                ? std::string()
-                : Engine::tr("{mastery}: {text}",
-                             {{"mastery", label}, {"text", Engine::localizeKnown(text.masteryLines[mastery])}});
-        };
-        overlay.title = Engine::localize(text.name);
-        overlay.body = Engine::localizeKnown(text.description);
-        overlay.normal = masteryLine(0, Engine::tr("Normal"));
-        overlay.expert = masteryLine(1, Engine::tr("Expert"));
-        overlay.master = masteryLine(2, Engine::tr("Master"));
-        overlay.grandmaster = masteryLine(3, Engine::tr("Grand Master"));
-        overlay.sourceX = sourceRect.x;
-        overlay.sourceY = sourceRect.y;
-        overlay.sourceWidth = std::max(1.0f, sourceRect.width);
-        overlay.sourceHeight = std::max(1.0f, sourceRect.height);
+        return std::nullopt;
+    };
+
+    std::optional<Inspected> inspected;
+
+    if (context.spellbookReadOnly().active)
+    {
+        inspected = spellbookSpellUnderPointer();
+    }
+    else if (const std::optional<GameplaySoloHud::BarInspectHit> bar =
+                 GameplaySoloHud::barInspectAt(context, width, height);
+        bar && bar->slot.kind == ActionBarSlotKind::Spell)
+    {
+        inspected = Inspected{bar->slot.id, bar->rect};
+    }
+
+    const SpellEntry *pSpellEntry = inspected ? context.spellTable()->findById(inspected->spellId) : nullptr;
+
+    if (pSpellEntry == nullptr)
+    {
         return;
     }
+
+    const uint32_t spellId = inspected->spellId;
+    const GameplayScreenRuntime::ResolvedHudLayoutElement &sourceRect = inspected->sourceRect;
+    overlay.active = true;
+    overlay.spellId = spellId;
+    const SpellbookSchoolUiDefinition *pSpellSchoolDefinition = findSpellbookSchoolUiDefinitionForSpellId(spellId);
+    const GameplayUiController::SpellbookSchool spellSchool =
+        pSpellSchoolDefinition != nullptr ? pSpellSchoolDefinition->school : context.spellbookReadOnly().school;
+    const Party *pParty = context.partyReadOnly();
+    const Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    const SkillMastery casterMastery = spellInspectCasterMasteryForSpell(pActiveMember, spellId);
+    const GameRules &rules = gameRulesFor(pParty);
+    const std::optional<std::string> schoolSkill = resolveMagicSkillName(spellId);
+    // The cost the caster would pay (the rules may change it); the table cost when they cannot cast it.
+    const std::optional<uint32_t> casterManaCost = pActiveMember != nullptr
+        ? PartySpellSystem::manaCost(*pParty, *pActiveMember, *context.spellTable(), spellId)
+        : std::nullopt;
+
+    overlay.school = Engine::localize(spellbookSchoolDisplayName(spellSchool), "skill");
+
+    if (pActiveMember != nullptr && schoolSkill)
+    {
+        const std::string schoolName = rules.skills.skillDisplayName(*pActiveMember, *schoolSkill);
+
+        if (schoolName != displaySkillName(*schoolSkill))
+        {
+            overlay.school = Engine::localize(schoolName, "skill");
+        }
+    }
+
+    overlay.manaCost = casterManaCost
+        ? int(*casterManaCost)
+        : std::max(0, spellInspectManaCostForMastery(*pSpellEntry, casterMastery));
+    overlay.hasManaCost = true;
+    const SpellTooltipText text = pActiveMember != nullptr
+        ? partySpellTooltip(*pParty, *pActiveMember, *pSpellEntry)
+        : SpellTooltipText {pSpellEntry->name, pSpellEntry->description,
+              {pSpellEntry->normalText, pSpellEntry->expertText, pSpellEntry->masterText,
+                  pSpellEntry->grandmasterText}};
+    // The table's text in the interface language; a ruleset's own text (MAW) arrives translated and filled in.
+    const auto masteryLine = [&text](size_t mastery, std::string label)
+    {
+        return text.masteryLines[mastery].empty()
+            ? std::string()
+            : Engine::tr("{mastery}: {text}",
+                         {{"mastery", label}, {"text", Engine::localizeKnown(text.masteryLines[mastery])}});
+    };
+    overlay.title = Engine::localize(text.name);
+    overlay.body = Engine::localizeKnown(text.description);
+    overlay.normal = masteryLine(0, Engine::tr("Normal"));
+    overlay.expert = masteryLine(1, Engine::tr("Expert"));
+    overlay.master = masteryLine(2, Engine::tr("Master"));
+    overlay.grandmaster = masteryLine(3, Engine::tr("Grand Master"));
+    overlay.sourceX = sourceRect.x;
+    overlay.sourceY = sourceRect.y;
+    overlay.sourceWidth = std::max(1.0f, sourceRect.width);
+    overlay.sourceHeight = std::max(1.0f, sourceRect.height);
 }
 
 void GameplayHudOverlaySupport::renderGameplayMouseLookOverlay(
@@ -1664,6 +1771,19 @@ void GameplayHudOverlaySupport::renderGameplayMouseLookOverlay(
     {
         GameplaySoloHud::renderCrosshairBrackets(context, centerX, centerY, overlayScale);
     }
+}
+
+bool GameplayHudOverlaySupport::showsCraftPreview(GameplayScreenRuntime &context)
+{
+    const std::string &mode = context.settingsSnapshot().craftPreview;
+
+    if (mode == "off" || !gameRulesFor(context.partyReadOnly()).items.previewsCrafting())
+    {
+        return false;
+    }
+
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
+    return mode == "always" || (pInput != nullptr && pInput->action(KeyboardAction::ShowCraftableStats).held);
 }
 
 void GameplayHudOverlaySupport::renderItemRarityGlow(
@@ -2010,7 +2130,8 @@ std::string GameplayHudOverlaySupport::itemSearchText(
         item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer));
 
     for (const ItemInspectLine &line : rules.inspectLines(
-             item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer))
+             item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer,
+             false))
     {
         add(line.text);
     }

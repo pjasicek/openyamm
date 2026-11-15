@@ -74,7 +74,8 @@ std::vector<CompareLine> itemLines(const GameplayScreenRuntime &context, const I
     }
 
     for (const ItemInspectLine &line : itemRules.inspectLines(
-             item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer))
+             item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer,
+             false))
     {
         lines.push_back({line.text, abgrFromRgb(line.singleColor())});
     }

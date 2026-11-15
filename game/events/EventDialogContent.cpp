@@ -841,6 +841,44 @@ std::vector<uint32_t> collectSelectableResidentNpcIds(
     return collectSelectableResidentNpcIdsImpl(houseEntry, npcDialogTable, eventRuntimeState);
 }
 
+namespace
+{
+// The line every hireling's description ends with. The table holds it only joined to each profession's own first
+// line, so it is named here for the translators to have it on its own.
+constexpr std::string_view HirelingCostLine = Engine::trNoop("%01 takes %17 percent of all gold you find.");
+
+// A profession's description in the interface language. A ruleset may replace one line of the table's text (MAW's
+// hireling bonuses), and the result is then no text of any table: such a text is looked up line by line.
+std::string localizeProfessionText(const std::string &text)
+{
+    std::string whole = Engine::localizeKnown(text);
+
+    if (whole != text || text.find('\n') == std::string::npos)
+    {
+        return whole;
+    }
+
+    std::string lines;
+    size_t begin = 0;
+
+    while (begin <= text.size())
+    {
+        const size_t end = std::min(text.find('\n', begin), text.size());
+        const std::string line = text.substr(begin, end - begin);
+        lines += line == HirelingCostLine ? Engine::tr(HirelingCostLine) : Engine::localizeKnown(line);
+
+        if (end < text.size())
+        {
+            lines += '\n';
+        }
+
+        begin = end + 1;
+    }
+
+    return lines;
+}
+}
+
 std::string formatNpcProfessionText(
     std::string text,
     const NpcEntry &npc,
@@ -858,7 +896,7 @@ std::string formatNpcProfessionText(
 
     // The table's text and the values put in its codes, in the interface language; a caller that joined texts has
     // translated them already.
-    text = Engine::localizeKnown(text);
+    text = localizeProfessionText(text);
     const std::string memberName = pActiveMember != nullptr ? pActiveMember->name : Engine::tr("traveler");
     const std::string className = pActiveMember != nullptr ? Engine::localize(pActiveMember->className, "class")
                                                            : Engine::tr("traveler");

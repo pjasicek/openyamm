@@ -1021,7 +1021,24 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     const GameplayActorTargetPolicyState &target,
     const std::unordered_map<uint32_t, int32_t> *pRelationOverrides) const
 {
-    GameplayActorTargetPolicyResult result = resolveFactionTargetPolicy(actor, target);
+    return resolveTargetPolicy(actor, target, pRelationOverrides, true);
+}
+
+GameplayActorTargetPolicyResult GameplayActorService::resolveTargetPolicy(
+    const GameplayActorTargetPolicyState &actor,
+    const GameplayActorTargetPolicyState &target,
+    const std::unordered_map<uint32_t, int32_t> *pRelationOverrides,
+    bool allowStrikeBack) const
+{
+    // A monster hit by another fights it back at long range, whatever their factions (MM6-MM8 lastCharacterIdToHit;
+    // OE Actor::FindClosestActor): how Evenmorn's gargoyles answer the ghosts. Only while that attacker is still its
+    // enemy in its own right (faction, a map's relation row, Berserk, the party's side): the grudge ends with the
+    // reason for the blow, so two monsters of a pack stop fighting when the Berserk that set them on each other ends.
+    const bool strikesBack = allowStrikeBack
+        && actor.lastActorAttackerId
+        && *actor.lastActorAttackerId == target.actorId
+        && resolveTargetPolicy(target, actor, pRelationOverrides, false).canTarget;
+    GameplayActorTargetPolicyResult result = resolveFactionTargetPolicy(actor, target, strikesBack);
 
     if (pRelationOverrides == nullptr || pRelationOverrides->empty())
     {
@@ -1074,7 +1091,8 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
 
 GameplayActorTargetPolicyResult GameplayActorService::resolveFactionTargetPolicy(
     const GameplayActorTargetPolicyState &actor,
-    const GameplayActorTargetPolicyState &target) const
+    const GameplayActorTargetPolicyState &target,
+    bool strikesBack) const
 {
     GameplayActorTargetPolicyResult result = {};
     const bool actorIsPartyControlled = isPartyControlledActor(actor.controlMode);
@@ -1106,10 +1124,6 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveFactionTargetPolicy
     // living creature"; the original makes it hostile at long range to all but its own group).
     const bool berserk = actor.controlMode == GameplayActorControlMode::Berserk
         || target.controlMode == GameplayActorControlMode::Berserk;
-    // A monster hit by another fights it back at long range, whatever their factions (MM6-MM8 lastCharacterIdToHit;
-    // OE Actor::FindClosestActor): how Evenmorn's gargoyles answer the ghosts.
-    const bool strikesBack = actor.lastActorAttackerId && *actor.lastActorAttackerId == target.actorId;
-
     const int factionRelation = m_pMonsterTable != nullptr
         ? m_pMonsterTable->getRelationBetweenMonsters(actorRelationMonsterId, targetRelationMonsterId)
         : 0;

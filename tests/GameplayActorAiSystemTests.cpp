@@ -393,7 +393,15 @@ TEST_CASE("shared actor service makes a berserk monster and every other monster 
 TEST_CASE("shared actor service makes a monster fight back the monster that last hit it")
 {
     MonsterTable monsterTable = {};
-    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(4)}));
+    // Evenmorn's one-sided feud (hostile.txt, a column's monster towards a row's): ghosts attack gargoyles, gargoyles
+    // have nothing against ghosts.
+    REQUIRE(monsterTable.loadRelationsFromRows({
+        {"", "Party", "Gargoyle", "Ghost"},
+        {"Party", "0", "4", "4"},
+        {"Gargoyle", "0", "0", "4"},
+        {"Ghost", "0", "0", "0"},
+    }));
 
     GameplayActorService service = {};
     service.bindTables(&monsterTable, nullptr);
@@ -405,12 +413,13 @@ TEST_CASE("shared actor service makes a monster fight back the monster that last
     victim.height = 128;
 
     OpenYAMM::Game::GameplayActorTargetPolicyState attacker = {};
-    attacker.monsterId = 2;
+    attacker.monsterId = 4;
     attacker.actorId = 7;
     attacker.hostileToParty = true;
     attacker.height = 128;
 
-    // No faction feud: they ignore each other until one is hit.
+    // The gargoyle ignores the ghost that hunts it until the ghost hits it.
+    CHECK(service.resolveActorTargetPolicy(attacker, victim).canTarget);
     CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
 
     victim.lastActorAttackerId = 7;
@@ -427,6 +436,44 @@ TEST_CASE("shared actor service makes a monster fight back the monster that last
     victim.group = 3;
     attacker.group = 3;
     CHECK_FALSE(service.resolveActorTargetPolicy(victim, attacker).canTarget);
+}
+
+TEST_CASE("shared actor service ends a monster's grudge with the Berserk that caused it")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    // Two monsters of a pack, no feud between them.
+    OpenYAMM::Game::GameplayActorTargetPolicyState berserkActor = {};
+    berserkActor.monsterId = 1;
+    berserkActor.actorId = 3;
+    berserkActor.hostileToParty = true;
+    berserkActor.controlMode = GameplayActorControlMode::Berserk;
+    berserkActor.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState packMate = {};
+    packMate.monsterId = 1;
+    packMate.actorId = 4;
+    packMate.hostileToParty = true;
+    packMate.height = 128;
+
+    // They traded blows while the spell lasted.
+    berserkActor.lastActorAttackerId = packMate.actorId;
+    packMate.lastActorAttackerId = berserkActor.actorId;
+    CHECK(service.resolveActorTargetPolicy(berserkActor, packMate).canTarget);
+    CHECK(service.resolveActorTargetPolicy(packMate, berserkActor).canTarget);
+
+    // The spell ends: neither is the other's enemy in its own right, so neither grudge holds.
+    berserkActor.controlMode = GameplayActorControlMode::None;
+    CHECK_FALSE(service.resolveActorTargetPolicy(berserkActor, packMate).canTarget);
+    CHECK_FALSE(service.resolveActorTargetPolicy(packMate, berserkActor).canTarget);
+
+    // A map's relation row keeps a grudge alive as a faction feud does.
+    const std::unordered_map<uint32_t, int32_t> overrides = {{GameplayActorService::relationOverrideKey(1, 1), 4}};
+    CHECK(service.resolveActorTargetPolicy(packMate, berserkActor, &overrides).canTarget);
 }
 
 TEST_CASE("shared actor service notices the party within the relation's range until engaged (OY-605)")

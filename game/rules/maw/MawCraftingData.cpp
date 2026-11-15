@@ -149,6 +149,11 @@ const std::unordered_map<uint32_t, MawCraftMaterial> &MawCraftingData::materials
     return m_materials;
 }
 
+const std::unordered_map<uint32_t, MawCraftMaterial> &MawCraftingData::potions() const
+{
+    return m_potions;
+}
+
 double MawCraftingData::gemDropChance() const
 {
     return m_gemDropChance;

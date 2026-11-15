@@ -7,6 +7,7 @@
 #include "game/party/QuickItemSlot.h"
 #include "game/rules/MonsterRules.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/HudReading.h"
 #include "game/ui/SoloBarSelectorModel.h"
 
 #include <bgfx/bgfx.h>
@@ -821,14 +822,11 @@ struct GameplayOverlayInteractionState
     bool gameplayHudQuickCastRequested = false;
     bool gameplayHudAttackRequested = false;
     // Whether the party carries any scroll and any potion, for the HUD's two item buttons (GameplayQuickItems):
-    // listing the party's items walks every bag, so the buttons read it a few times a second.
-    std::array<bool, 2> quickItemButtonCarried = {};
-    uint64_t quickItemButtonCarriedTicks = 0;
-    // The map progress bar's last reading (GameplayMapProgressBar): the count walks every actor of the map, so the
-    // HUD reads it a few times a second, not on every frame and for every element that asks where the bar's tab is.
-    std::optional<RulesetMapProgress> mapProgressReading;
-    const IGameplayWorldRuntime *pMapProgressReadingWorld = nullptr;
-    uint64_t mapProgressReadingTicks = 0;
+    // listing the party's items walks every bag.
+    HudReading<std::array<bool, 2>, const Party *> quickItemButtonCarried;
+    // The map progress bar's numbers (GameplayMapProgressBar): the count walks every actor of the map, and the bar,
+    // its tab's bounds and the solo HUD's buff rows all ask for it in one frame.
+    HudReading<std::optional<RulesetMapProgress>, const IGameplayWorldRuntime *> mapProgress;
     // A solo run's action-bar swap slot (a weapon slot with id 1) was pressed: swap the melee weapon and the bow.
     bool soloWeaponSwapRequested = false;
     // A solo run's action bar asked for a talent (its index in the talent table), used by the world interaction frame.

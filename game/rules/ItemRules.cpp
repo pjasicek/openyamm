@@ -215,9 +215,15 @@ std::vector<ItemInspectLine> ItemRules::inspectLines(
     const ItemDefinition &,
     const StandardItemEnchantTable *,
     const SpecialItemEnchantTable *,
-    const Character *) const
+    const Character *,
+    bool) const
 {
     return {};
+}
+
+bool ItemRules::previewsCrafting() const
+{
+    return false;
 }
 
 std::optional<int> ItemRules::merchantValue(const Character &) const

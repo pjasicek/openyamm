@@ -253,7 +253,7 @@ void drawRow(GameplayScreenRuntime &context, const GameplayBenchPainter &painter
     const std::string &type = row.typeText;
     const Rect detailArea = {nameX, area.y + 21 * s, nameWidth, 12 * s, s};
     const std::vector<ItemInspectLine> inspect = itemRules.inspectLines(
-        item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer);
+        item, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable(), pViewer, false);
     const std::string shownType = fitted(context, "DialogueShopLedgerDetail", type, nameWidth, s);
     painter.text("DialogueShopLedgerDetail", detailArea, shownType);
 

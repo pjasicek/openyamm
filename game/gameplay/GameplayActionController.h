@@ -169,9 +169,10 @@ public:
         // from the press, so the time it took is taken off.
         bool swingSoundPlayed = false;
         float recoverySpentSeconds = 0.0f;
-        // A solo run's talent blow (devdocs/solo_action/TALENTS.md): the weapon attack whatever the battle orders say,
-        // at this share of its damage. An extra blow (Cleave's and Whirlwind's other targets, Volley's other arrows)
-        // plays no sound and costs no recovery; a shot prefers the bow even in melee reach.
+        // A solo run's talent blow (devdocs/solo_action/TALENT_INTERACTIONS.md): the weapon attack whatever the battle
+        // orders say (Charge's 100 % blow too), at this share of its damage. An extra blow (Cleave's other monsters,
+        // Sweeping Blows) plays no sound and costs no recovery; a shot prefers the bow even in melee reach.
+        bool talentBlow = false;
         float talentShare = 1.0f;
         bool talentExtraBlow = false;
         bool talentShot = false;

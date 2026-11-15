@@ -1025,6 +1025,8 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     bgfx::UniformHandle invalidUniformHandle = BGFX_INVALID_HANDLE;
     hudRenderBackend.texturedProgramHandle =
         m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudTexturedProgramHandle() : invalidProgramHandle;
+    hudRenderBackend.drawListProgramHandle =
+        m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudDrawListProgramHandle() : invalidProgramHandle;
     hudRenderBackend.tintedProgramHandle =
         m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudTintedProgramHandle() : invalidProgramHandle;
     hudRenderBackend.tintUniformHandle =

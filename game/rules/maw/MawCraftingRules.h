@@ -38,6 +38,19 @@ public:
     // enchantment's reach with the strongest gem, and the exact step the Hourglass and the Eye of Void would make
     // (from the item's own craft stream, as their preview does).
     std::vector<std::string> craftOutlook(const InventoryItem &target, const CraftingContext &context) const override;
+    // The item as the next step of each kind would leave it, from its own craft stream as the Workbench previews the
+    // step: the Hourglass's second enchantment, the Eye of Void's special and, on an item without enchantments,
+    // Enchant Item's stat (its strength is the potion's); empty where the step does not apply. The inspect popup's
+    // grey lines (MAW's Alt view, Tooltip.lua:295-350, 434-474).
+    struct Forecast
+    {
+        std::optional<InventoryItem> secondEnchant;
+        std::optional<InventoryItem> special;
+        std::optional<InventoryItem> firstEnchant;
+        // How far the Crafting Cube raises the item's power for this owner.
+        int powerCap = 0;
+    };
+    Forecast forecast(const InventoryItem &target, const CraftingContext &context) const;
 
     // The strongest enchantment of a Primordial drop at this difficulty, the gems' cap at tier 20 on a x1 item:
     // round(ceil(100 x difficulty power) x 1.25), 125 up to Hell, 131 Nightmare, 138 Doom, 150 Insanity and Madness.
@@ -47,6 +60,11 @@ public:
     int gemCap(int tier, double slotMultiplier, bool skillEnchant) const;
 
 private:
+    // The step of this kind on the item with the material that always does the same (no potion that picks among
+    // several specials); not possible when there is none.
+    CraftResult stepWith(
+        MawCraftOperation operation, const InventoryItem &target, const CraftingContext &context,
+        uint32_t *pMaterialId = nullptr) const;
     // The Eye and the Hourglass activate a map's next affix, the Emerald adds 5 power, the Crafting Cube moves it to
     // another cleared place of the same kind.
     CraftResult craftDimensionMap(CraftResult result, const InventoryItem &material, MawCraftOperation operation) const;

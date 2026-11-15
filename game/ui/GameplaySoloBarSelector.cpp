@@ -438,7 +438,7 @@ void assign(GameplayScreenRuntime &context, const ActionBarSlot &slot, const std
     if (pMember != nullptr)
     {
         soloBarAssign(pMember->actionBar, selector.slot, slot);
-        const std::string key = GameplaySoloHud::barKeyName(selector.slot);
+        const std::string key = GameplaySoloHud::barKeyName(context, selector.slot);
         context.setStatusBarEvent(slot.kind == ActionBarSlotKind::Empty
                 ? Engine::tr("Key {key} is empty", {{"key", key}})
                 : Engine::tr("{name} is on key {key}", {{"name", name}, {"key", key}}));
@@ -804,7 +804,7 @@ void GameplaySoloBarSelector::render(GameplayScreenRuntime &context, int width, 
 
     const GameplayObsidianPainter painter(context, frame->page);
     const float scale = frame->page.scale;
-    const std::string key = GameplaySoloHud::barKeyName(selector.slot);
+    const std::string key = GameplaySoloHud::barKeyName(context, selector.slot);
 
     // The chosen key on the bar gets the selected rim, as the popups mark their member.
     if (const std::optional<SoloHudRect> slot = GameplaySoloHud::barSlotRect(context, width, height, selector.slot))
@@ -899,7 +899,8 @@ void GameplaySoloBarSelector::render(GameplayScreenRuntime &context, int width, 
             const GameplayObsidianRect pin = painter.rect(right - 9, area.y + 6, 9, 9);
             painter.fill(pin, abgr(0x1c2524));
             painter.frame(pin, selected ? ChipOnBorder : abgr(0x6b6a4e));
-            painter.text(TextFont, 7, Gold, GameplaySoloHud::barKeyName(*entry.onKey), right - 4.5f, area.y + 6.6f, 1);
+            painter.text(TextFont, 7, Gold, GameplaySoloHud::barKeyName(context, *entry.onKey), right - 4.5f,
+                area.y + 6.6f, 1);
             right -= 12;
         }
         painter.text(NameFont, 9, selected ? Gold : Ivory, painter.fitted(NameFont, 9, entry.name, right - textX),

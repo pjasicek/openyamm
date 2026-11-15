@@ -140,7 +140,9 @@ public:
         const ItemDefinition &itemDefinition,
         const StandardItemEnchantTable *pStandardTable,
         const SpecialItemEnchantTable *pSpecialTable,
-        const Character *pViewer) const override;
+        const Character *pViewer,
+        bool craftPreview) const override;
+    bool previewsCrafting() const override;
     // One base enchantment as the inspect popup reads it ("Might +12" with the slot's read multipliers, a resistance as
     // the share of damage it stops with the viewer's Legendary 16 in it); `first` is the item's first slot.
     // The stat's name is in the stat's colour, its amount white.
@@ -308,7 +310,9 @@ double mawEnchantSlotMultiplier(const ItemDefinition &itemDefinition, const MawB
 // The stat or skill a base enchantment (standard enchant id 1-24) raises, as the player reads it (translated).
 std::string mawEnchantStatName(const StandardItemEnchantTable *pTable, int type);
 // An artifact's item text without MMMerge's "(Special ...)" part and a leading "(...)" summary.
-std::string mawArtifactDescription(const std::string &notes);
+// `notes` is the item's English text, which tells the notes to cut; `shown` is the text they are cut from, the
+// English itself or its translation.
+std::string mawArtifactDescription(const std::string &notes, const std::string &shown);
 
 // The read-time strength of a base enchantment (Formulas.vitalityEnchantPower, the resistance +10 and ring halving):
 // `type` is the standard enchant id 1-24, `first` whether it sits in the first slot.

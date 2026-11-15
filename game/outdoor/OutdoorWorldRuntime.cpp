@@ -2947,6 +2947,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     const bool authoredMm9CivilianHostility = state.mm9Civilian && actor.hostilityType != 0;
     const bool templateHostility = !state.mm9Civilian && monsterTable.isHostileToParty(relationMonsterId);
     state.hostileToParty = authoredAggressor || authoredMm9CivilianHostility || templateHostility;
+    state.aggressor = authoredAggressor;
     state.hostilityType = actor.hostilityType;
 
     if (state.hostilityType == 0 && state.hostileToParty && pStats != nullptr)
@@ -4115,7 +4116,7 @@ OutdoorTargetFacts resolveOutdoorTargetFacts(
     const float worldSenseRange = mm9Sight
         ? pGameplayActorService->partyEngagementRange(actorPolicyState)
         : pGameplayActorService->partyNoticeRange(actorPolicyState,
-            actor.hasDetectedParty || actor.angeredByParty || actor.provokedByParty,
+            actor.hasDetectedParty || actor.angeredByParty || actor.provokedByParty || actor.aggressor,
             pEventRuntimeState != nullptr ? &pEventRuntimeState->monsterRelationOverrides : nullptr);
     const float partySenseRange = mm9Sight && worldSenseRange > 0.0f
         ? mm9SenseRange(worldSenseRange, mm9Sight->range, GameplayActorService::MaximumPartyEngagementRange)
@@ -7258,6 +7259,7 @@ void OutdoorWorldRuntime::refreshConditionalMonsterRelations()
 
         const bool hostile = m_pMonsterTable->isHostileToParty(relationMonsterId);
         actor.angeredByParty = false;
+        actor.aggressor = actor.aggressor && hostile;
         actor.hostileToParty = hostile;
         actor.hasDetectedParty = actor.hasDetectedParty && hostile;
     }
@@ -16288,6 +16290,7 @@ void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMas
             }
 
             actor.angeredByParty = false;
+            actor.aggressor = actor.aggressor && hostileToParty;
             actor.hostileToParty = hostileToParty;
             actor.hasDetectedParty = hostileToParty;
             if (hostileToParty)
@@ -18692,9 +18695,9 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(
     float partyY,
     float partyZ)
 {
-    // Only friendly actors change here, and a monster hostile on its own rouses no friendly ally: hitting a raiding
-    // warlock must not turn the town warlocks of its class (see the indoor alert).
-    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr || !alertsFriendlyActors)
+    // A monster hostile on its own rouses only allies that are hostile too: hitting a raiding warlock must not turn the
+    // town warlocks of its class (see the indoor alert).
+    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
     {
         return;
     }
@@ -18716,10 +18719,8 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(
 
         MapActorState &otherActor = m_mapActors[otherActorIndex];
 
-        // Allies already hostile keep their current action; re-alerting them on every party hit would
-        // cancel their attacks and snap their facing for the whole group under rapid fire.
-        if (otherActor.hostileToParty || isActorUnavailableForCombat(otherActor)
-            || outdoorActorFightsForParty(otherActor))
+        if (isActorUnavailableForCombat(otherActor) || outdoorActorFightsForParty(otherActor)
+            || (!alertsFriendlyActors && !otherActor.hostileToParty))
         {
             continue;
         }
@@ -18757,8 +18758,18 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(
             continue;
         }
 
-        setMapActorHostileToParty(otherActorIndex, partyX, partyY, partyZ, true);
-        otherActor.angeredByParty = true;
+        // MM8's alert sets hostility type 4 and the Aggressor bit (0x439354, 0x43935a), not encounter memory: the
+        // ally notices the party at the engagement range once its AI runs. Allies already hostile keep their current
+        // action; resetting it on every party hit would cancel their attacks and snap their facing for the whole
+        // group under rapid fire.
+        if (!otherActor.hostileToParty)
+        {
+            setMapActorHostileToParty(otherActorIndex, partyX, partyY, partyZ, true);
+            otherActor.angeredByParty = true;
+        }
+
+        otherActor.aggressor = true;
+        otherActor.hostilityType = 4;
     }
 }
 
@@ -19062,6 +19073,10 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         setMapActorHostileToParty(actorIndex, partyX, partyY, partyZ, false);
         actor.angeredByParty = alertsFriendlyActors;
         actor.provokedByParty = !died;
+        // MM8's hit reaction sets hostility type 4 (0x403366) and its faction alert the Aggressor bit (0x439298): it
+        // comes for the party from any distance its AI runs at, not only within its relation's range.
+        actor.aggressor = true;
+        actor.hostilityType = 4;
     }
     else if (!died && !actor.hostileToParty && actor.mm9Civilian)
     {
@@ -20107,6 +20122,7 @@ bool OutdoorWorldRuntime::resurrectMapActor(size_t actorIndex, int health, bool 
     actor.hostilityType = friendlyToParty ? 0 : actor.hostilityType;
     actor.alertStatusBit = false;
     actor.angeredByParty = false;
+    actor.aggressor = false;
     actor.hostileToParty = !friendlyToParty
         && m_pMonsterTable != nullptr
         && m_pGameplayActorService != nullptr

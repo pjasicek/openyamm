@@ -894,16 +894,14 @@ void renderItemButtons(GameplayScreenRuntime &context, const Party &party, int w
     const Painter paint(context);
     GameplayOverlayInteractionState &state = context.interactionState();
     const QuickItemPopupKind open = state.quickItemPopup;
-    // The buttons only grey when the party carries none: read four times a second, not listed on every frame.
-    constexpr uint64_t CarriedReadingMilliseconds = 250;
-    const uint64_t now = SDL_GetTicks();
-
-    if (state.quickItemButtonCarriedTicks == 0 || now - state.quickItemButtonCarriedTicks >= CarriedReadingMilliseconds)
-    {
-        state.quickItemButtonCarried = {popupItemCount(context, party, QuickItemPopupKind::Scrolls) > 0,
-            popupItemCount(context, party, QuickItemPopupKind::Potions) > 0};
-        state.quickItemButtonCarriedTicks = std::max<uint64_t>(now, 1);
-    }
+    // The buttons only grey when the party carries none: at most a quarter second old, not listed on every frame.
+    constexpr uint64_t MaxAgeMilliseconds = 250;
+    const std::array<bool, 2> carried = state.quickItemButtonCarried.get(&party, SDL_GetTicks(), MaxAgeMilliseconds,
+        [&context, &party]()
+        {
+            return std::array<bool, 2>{popupItemCount(context, party, QuickItemPopupKind::Scrolls) > 0,
+                popupItemCount(context, party, QuickItemPopupKind::Potions) > 0};
+        });
 
     for (const QuickItemPopupKind kind : {QuickItemPopupKind::Scrolls, QuickItemPopupKind::Potions})
     {
@@ -916,7 +914,7 @@ void renderItemButtons(GameplayScreenRuntime &context, const Party &party, int w
 
         // Only the icon (user, 2026-11-02), greyed when the party carries none. In the ornament's socket the carving is
         // the button; with the frame hidden a round obsidian plate of its own stands in its place.
-        const bool carried = state.quickItemButtonCarried[kind == QuickItemPopupKind::Potions ? 1 : 0];
+        const bool carriesAny = carried[kind == QuickItemPopupKind::Potions ? 1 : 0];
 
         if (itemButtonsInSockets(context))
         {
@@ -935,7 +933,7 @@ void renderItemButtons(GameplayScreenRuntime &context, const Party &party, int w
         const bool potions = kind == QuickItemPopupKind::Potions;
         const float iconSize = button->radius * 1.7f;
         paint.icon(potions ? PotionButtonIcon : ScrollButtonIcon, {button->x - iconSize / 2, button->y - iconSize / 2,
-            iconSize, iconSize}, !carried);
+            iconSize, iconSize}, !carriesAny);
     }
 }
 

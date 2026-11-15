@@ -1,0 +1,46 @@
+id: rulesets.maw_berserk_ends
+title: "Ruleset - MAW Berserk: the monsters it set on each other stop fighting when it ends"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, regression]
+steps:
+  - note:
+      text: >-
+        Discord, 2026-11-15: "Berserk seems to last indefinitely". The spell's time ran out as MAW says (4.5 game
+        minutes at Grandmaster, 9 s, over 1 + resistance / 100), but each of the two monsters remembered the other as
+        the one that last hit it and they fought on to the death. A monster fights back its attacker only while that
+        attacker is still its enemy in its own right (GameplayActorService::resolveTargetPolicy).
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free, friendly_fire: true}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Mind
+            class: Cleric
+            level: 30
+            skills: []
+            equipment: {}
+          - name: Two
+            class: Knight
+            level: 30
+            skills: []
+            equipment: {}
+  - setup_shortcut: {kind: immortal, value: true}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - spawn_actor: {monster_id: 195, count: 2, near_party: true}
+  - advance_runtime: {seconds: 0.1}
+  - cast_spell: {member_index: 0, spell_id: 62, skill: 10, mastery: 4, scroll: true, actor_index: last}
+  - assert: {turn_based: {actor_index: last, actor_effect: control, effect_min: 4.0, effect_max: 9.0}}
+  # While it lasts the two fight each other.
+  - advance_runtime: {seconds: 6}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 1}
+  # It ends, and so does their fight: both are still alive a minute later (one was dead within 25 seconds).
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {actor_index: last, actor_effect: control, effect_max: 0.0}}
+  - advance_runtime: {seconds: 60}
+  - assert:
+      actor_count: {monster_id: 195, min: 2, max: 2}

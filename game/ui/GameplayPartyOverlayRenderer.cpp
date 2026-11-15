@@ -6471,7 +6471,8 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
             *pItemDefinition,
             context.standardItemEnchantTable(),
             context.specialItemEnchantTable(),
-            pViewer);
+            pViewer,
+            GameplayHudOverlaySupport::showsCraftPreview(context));
         ownRulesetLineCount = rulesetLines.size();
 
         if (pViewer != nullptr)

@@ -470,6 +470,7 @@ private:
     // shown once its view is up: building the view clears the status bar.
     std::string m_mapStateResetNotice;
     FramePerformanceDiagnostics m_framePerformanceDiagnostics;
+    GameplayUiRuntime::HudDrawListStats m_loggedHudDrawListStats;
     uint32_t m_lastFramePerformanceLogTick = 0;
     DebugConsole m_debugConsole;
     GameImGuiBgfxRenderer m_debugConsoleRenderer;

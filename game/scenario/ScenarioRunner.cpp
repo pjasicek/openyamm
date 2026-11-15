@@ -6489,10 +6489,11 @@ bool assertTurnBased(
             queued ? "true" : "false");
     }
 
-    // A monster's spell effect (slow, stun or paralyze): its remaining real-time-equivalent seconds.
+    // A monster's spell effect (slow, stun, paralyze, fear, or control: charm, berserk and enslavement): its remaining
+    // real-time-equivalent seconds.
     if (node["actor_effect"])
     {
-        const size_t actorIndex = node["actor_index"].as<size_t>(0);
+        const size_t actorIndex = node["actor_index"] ? scenarioActorIndex(context, node["actor_index"]) : 0;
         const std::string effect = node["actor_effect"].as<std::string>();
         GameplayActorInspectState inspectState = {};
         GameplayRuntimeActorState runtimeState = {};
@@ -6505,13 +6506,15 @@ bool assertTurnBased(
             remaining = effect == "slow" ? std::optional<float>(inspectState.slowRemainingSeconds)
                 : effect == "stun"       ? std::optional<float>(inspectState.stunRemainingSeconds)
                 : effect == "paralyze"   ? std::optional<float>(inspectState.paralyzeRemainingSeconds)
+                : effect == "fear"       ? std::optional<float>(inspectState.fearRemainingSeconds)
+                : effect == "control"    ? std::optional<float>(inspectState.controlRemainingSeconds)
                                          : std::nullopt;
         }
 
         if (!remaining)
         {
-            failures.push_back(stepLocation(step) + ": turn_based actor_effect needs an actor and slow, stun or "
-                "paralyze");
+            failures.push_back(stepLocation(step) + ": turn_based actor_effect needs an actor and slow, stun, "
+                "paralyze, fear or control");
             return false;
         }
 

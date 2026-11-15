@@ -1191,6 +1191,7 @@ GameplayActionController::PartyAttackExecutionResult executePartyAttack(
             .recoverySpentSeconds = viewModelSwingShown ? runtime.viewModelLink().swingWaitSeconds
                 : pTalentBlow != nullptr                ? pTalentBlow->recoverySpent
                                                         : 0.0f,
+            .talentBlow = pTalentBlow != nullptr,
             .talentShare = pTalentBlow != nullptr ? pTalentBlow->share : 1.0f,
             .talentExtraBlow = pTalentBlow != nullptr && pTalentBlow->extra,
             .talentShot = pTalentBlow != nullptr && pTalentBlow->shot,

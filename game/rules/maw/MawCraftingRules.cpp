@@ -366,18 +366,7 @@ std::vector<std::string> MawCraftingRules::craftOutlook(
     for (const MawCraftOperation operation : {MawCraftOperation::AddSecondEnchant, MawCraftOperation::AddSpecial})
     {
         uint32_t materialId = 0;
-
-        for (const auto &[itemId, material] : m_rules.craftingData().materials())
-        {
-            if (material.operation == operation && (materialId == 0 || itemId < materialId))
-            {
-                materialId = itemId;
-            }
-        }
-
-        InventoryItem material = {};
-        material.objectDescriptionId = materialId;
-        const CraftResult result = materialId != 0 ? craft(target, material, context) : CraftResult{};
+        const CraftResult result = stepWith(operation, target, context, &materialId);
 
         if (result.possible && !result.hiddenOutcome)
         {
@@ -386,6 +375,57 @@ std::vector<std::string> MawCraftingRules::craftOutlook(
     }
 
     return lines;
+}
+
+CraftResult MawCraftingRules::stepWith(
+    MawCraftOperation operation,
+    const InventoryItem &target,
+    const CraftingContext &context,
+    uint32_t *pMaterialId) const
+{
+    const MawCraftingData &data = m_rules.craftingData();
+    uint32_t materialId = 0;
+
+    for (const std::unordered_map<uint32_t, MawCraftMaterial> *pMaterials : {&data.materials(), &data.potions()})
+    {
+        for (const auto &[itemId, material] : *pMaterials)
+        {
+            if (material.operation == operation && material.specialChoices.empty()
+                && (materialId == 0 || itemId < materialId))
+            {
+                materialId = itemId;
+            }
+        }
+
+        if (materialId != 0)
+        {
+            break;
+        }
+    }
+
+    if (pMaterialId != nullptr)
+    {
+        *pMaterialId = materialId;
+    }
+
+    InventoryItem material = {};
+    material.objectDescriptionId = materialId;
+    return materialId != 0 ? craft(target, material, context) : CraftResult{};
+}
+
+MawCraftingRules::Forecast MawCraftingRules::forecast(const InventoryItem &target, const CraftingContext &context) const
+{
+    Forecast forecast;
+    forecast.powerCap = std::min(context.ownerLevel / 5, ItemPowerCap);
+    const auto step = [&](MawCraftOperation operation) -> std::optional<InventoryItem>
+    {
+        const CraftResult result = stepWith(operation, target, context);
+        return result.possible && !result.hiddenOutcome ? std::optional<InventoryItem>(result.target) : std::nullopt;
+    };
+    forecast.secondEnchant = step(MawCraftOperation::AddSecondEnchant);
+    forecast.special = step(MawCraftOperation::AddSpecial);
+    forecast.firstEnchant = step(MawCraftOperation::AddFirstEnchant);
+    return forecast;
 }
 
 int MawCraftingRules::primordialMaxStrength() const

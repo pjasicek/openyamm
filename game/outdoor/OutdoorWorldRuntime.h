@@ -335,6 +335,10 @@ public:
         // A party hit woke it: it acts out to the engagement range until it comes within the full-AI range or loses
         // the party, so backing off after a shot does not leave it standing beyond the full-AI range as in MM8.
         bool provokedByParty = false;
+        // MM's Aggressor attribute (indoor actors keep it in their attributes): a party hit or its faction's alert set
+        // it (MM8 0x439278), and the map can author it. It notices the party at the engagement range, not only within
+        // its relation's (GameplayActorService::partyNoticeRange), until it is made friendly.
+        bool aggressor = false;
         ActorAiState aiState = ActorAiState::Standing;
         ActorAnimation animation = ActorAnimation::Standing;
         float animationTimeTicks = 0.0f;

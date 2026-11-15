@@ -32,6 +32,9 @@ public:
         int width,
         int height,
         bool requireOpaqueHitTest);
+    // A solo run's bar key under the held right button that holds a potion or scroll (the one it would use) or a
+    // weapon (the equipped one it attacks with or swaps to).
+    static bool tryPopulateItemInspectOverlayFromSoloBar(GameplayScreenRuntime &context, int width, int height);
 
     static void updateCharacterInspectOverlay(
         GameplayScreenRuntime &context,
@@ -57,6 +60,9 @@ public:
     // A glow around an item's icon in the colour the rules give its name (MAW's rarities, none for Common), else teal for
     // an artifact, relic or special item, drawn just before the icon: its silhouette in that colour in two rings around
     // it. The rarity_glow setting: always, while the Show Item Rarity key is held, or never.
+    // showsCraftPreview: whether item popups add, in grey, what crafting would add to the item next (rules with
+    // crafting: MAW). The craft_preview setting: always, while the Show Craftable Stats key is held, or never.
+    static bool showsCraftPreview(GameplayScreenRuntime &context);
     static void renderItemRarityGlow(
         GameplayScreenRuntime &context,
         const InventoryItem &item,

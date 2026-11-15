@@ -2950,6 +2950,8 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
           [this](int width, int height, float mouseWheelDelta, float deltaSeconds)
           {
               renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+              // The frame's HUD is drawn here, once, in the order it was submitted (devdocs/HUD_RENDERING.md).
+              m_gameSession.gameplayUiRuntime().flushHudDrawList();
               drawLoadingOverlay();
               updateScreenshotCaptureFrame();
           },
@@ -11567,6 +11569,7 @@ uint32_t GameApplication::renderLoadingOverlayProgress(int progressPercent)
 
     m_loadingOverlayCurrentProgressPercent = std::clamp(progressPercent, 0, 100);
     SDL_PumpEvents();
+    m_gameSession.gameplayUiRuntime().flushHudDrawList();
     drawLoadingOverlay();
     return bgfx::frame();
 }
@@ -11603,6 +11606,9 @@ bool GameApplication::logFramePerformanceDiagnostics(uint32_t currentTick)
             ? diagnostics.totalNanoseconds - measuredNanoseconds
             : 0;
 
+    // What the HUD drew per frame (devdocs/HUD_RENDERING.md): a HUD change that adds draws shows here.
+    const GameplayUiRuntime::HudDrawListStats hudStats = m_gameSession.gameplayUiRuntime().hudDrawListStats();
+    const uint64_t frames = std::max<uint64_t>(diagnostics.frames, 1);
     std::cout << "[GameFramePerf]"
               << " frames=" << diagnostics.frames
               << " active_screen_frames=" << diagnostics.activeScreenFrames
@@ -11652,8 +11658,11 @@ bool GameApplication::logFramePerformanceDiagnostics(uint32_t currentTick)
               << " avg_performance_trace_log_us=" << nanosecondsToMicroseconds(averageNanoseconds(
                   diagnostics.performanceTraceLogNanoseconds,
                   diagnostics.frames))
+              << " avg_hud_draws=" << (hudStats.draws - m_loggedHudDrawListStats.draws) / frames
+              << " avg_hud_primitives=" << (hudStats.primitives - m_loggedHudDrawListStats.primitives) / frames
               << '\n';
 
+    m_loggedHudDrawListStats = hudStats;
     m_framePerformanceDiagnostics = {};
     return true;
 }
@@ -12246,6 +12255,7 @@ void GameApplication::shutdownRenderer()
     {
         // bgfx defers freeing destroyed handles until the next frame. Map transitions reconstruct the renderer
         // immediately, so advance the resource lifecycle before the next map starts allocating handles.
+        m_gameSession.gameplayUiRuntime().flushHudDrawList();
         drawLoadingOverlay();
         bgfx::frame();
     }
@@ -14656,6 +14666,7 @@ void GameApplication::updateScreenshotCaptureFrame()
             >= static_cast<uint32_t>(m_settings.effectStatsDelaySeconds * 1000.0f))
     {
         m_debugLaunchEffectStatsLogged = true;
+        m_gameSession.gameplayUiRuntime().logNextHudDrawList();
         WorldFxSystem &worldFx = m_pMapSceneRuntime->kind() == SceneKind::Outdoor
             ? m_outdoorGameView.worldFxSystem() : m_indoorRenderer.worldFxSystem();
         const EffectRenderer::Diagnostics &diagnostics = m_pMapSceneRuntime->kind() == SceneKind::Outdoor

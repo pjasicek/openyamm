@@ -3622,6 +3622,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     view.m_screenTintProgramHandle = loadProgramHandle("vs_screen_color", "fs_cubes");
     view.m_texturedTerrainProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_shadowmaps_texture");
     view.m_hudTintedProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_menu_tint");
+    view.m_hudDrawListProgramHandle = loadProgramHandle("vs_hud", "fs_hud");
     view.m_spellAreaPreviewProgramHandle = loadProgramHandle("vs_spell_area_preview", "fs_spell_area_preview");
     view.m_outdoorLitBillboardProgramHandle =
         loadProgramHandle("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");

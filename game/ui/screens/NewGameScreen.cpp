@@ -444,12 +444,16 @@ int maximumStatValueForRule(const RaceStatRule &rule)
     return rule.maximumValue;
 }
 
-bool isPrintableNameCharacter(char character)
+// A name takes letters and digits of any script (Chinese, Cyrillic, accented Latin), and of the ASCII signs only the
+// space, the apostrophe and the hyphen: names go into sentences with {placeholders} and into file names.
+bool isNameCharacter(uint32_t point)
 {
-    return std::isalnum(static_cast<unsigned char>(character)) != 0
-        || character == ' '
-        || character == '\''
-        || character == '-';
+    if (point < 0x80)
+    {
+        return std::isalnum(static_cast<int>(point)) != 0 || point == ' ' || point == '\'' || point == '-';
+    }
+
+    return Engine::Utf8::isTypeable(point);
 }
 
 std::string characterCreationSkillDisplayName(const std::string &skillName)
@@ -569,14 +573,8 @@ void NewGameScreen::handleSdlEvent(const SDL_Event &event)
             return;
         }
 
-        for (size_t i = 0; pText[i] != '\0' && m_state.nameEditBuffer.size() < MaximumNameLength; ++i)
-        {
-            if (isPrintableNameCharacter(pText[i]))
-            {
-                m_state.nameEditBuffer.push_back(pText[i]);
-            }
-        }
-
+        // Whole characters: the limit and the filter count characters, not the bytes of a Chinese one.
+        Engine::Utf8::appendTyped(m_state.nameEditBuffer, pText, MaximumNameLength, isNameCharacter);
         return;
     }
 
@@ -1100,7 +1098,7 @@ void NewGameScreen::deleteNameEditCharacter()
 {
     if (m_state.nameEditing && !m_state.nameEditBuffer.empty())
     {
-        m_state.nameEditBuffer.pop_back();
+        Engine::Utf8::popBack(m_state.nameEditBuffer);
     }
 }
 

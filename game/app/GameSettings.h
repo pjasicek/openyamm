@@ -89,7 +89,7 @@ inline std::optional<CombatLogMode> parseCombatLogModeValue(std::string_view val
     return std::nullopt;
 }
 
-// "off", "hold" or "always" (gameplay.rarity_glow).
+// "off", "hold" or "always" (gameplay.rarity_glow, gameplay.craft_preview).
 inline bool validRarityGlowValue(std::string_view value)
 {
     return value == "off" || value == "hold" || value == "always";
@@ -468,6 +468,9 @@ struct GameSettings
     // rarities, such as MAW; Common items have none; artifacts, relics and special items glow teal): "off", "hold"
     // (while the Show Item Rarity key, Left Alt, is held) or "always".
     std::string rarityGlow = "always";
+    // Item popups show, in grey, what crafting would add to the item next: "off", "hold" (the Show Craftable Stats
+    // key) or "always" (gameplay.craft_preview; rulesets with crafting, such as MAW).
+    std::string craftPreview = "hold";
     // HUD state the game remembers across map loads and saves: the follower panel beside the minimap (shown when the
     // party has followers) and the minimap zoom step (0 zoomed out, 1 default, 2 zoomed in).
     bool followerPanel = true;

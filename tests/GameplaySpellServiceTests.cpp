@@ -666,6 +666,19 @@ TEST_CASE("battle orders: a spell with no target passes to the next order, and a
         CHECK_EQ(result.actingMemberIndex, 0);
         CHECK_EQ(scene.casts, 1);
     }
+    SUBCASE("a solo talent's blow at full share (Charge) ignores the orders and Hold: the weapon attacks")
+    {
+        pHealer->battleOrders = {lifedrain};
+        pHealer->battleOrderFallback = Game::BattleOrderFallback::Hold;
+        config.directTargetActorIndex = world.addActor(spellTargetActor(300.0f, true));
+        config.talentBlow = true;
+        const Game::GameplayActionController::PartyAttackExecutionResult result =
+            Game::GameplayActionController::executePartyAttack(config);
+        CHECK_FALSE(result.held);
+        CHECK(result.actionPerformed);
+        CHECK_EQ(result.actingMemberIndex, 0);
+        CHECK_EQ(scene.casts, 0);
+    }
     SUBCASE("an order that is off is skipped")
     {
         lifedrain.enabled = false;

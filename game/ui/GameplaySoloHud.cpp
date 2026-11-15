@@ -63,9 +63,13 @@ constexpr uint32_t Expiring = abgr(0xf2c66b);
 constexpr uint32_t TextOutline = abgr(0x050708);
 constexpr uint32_t ClassText = abgr(0xd9d2b6);
 
-constexpr std::array<SDL_Scancode, 10> BarKeys = {SDL_SCANCODE_1, SDL_SCANCODE_2, SDL_SCANCODE_3, SDL_SCANCODE_4,
-    SDL_SCANCODE_5, SDL_SCANCODE_6, SDL_SCANCODE_7, SDL_SCANCODE_8, SDL_SCANCODE_9, SDL_SCANCODE_0};
-constexpr std::array<const char *, 10> BarKeyNames = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+// The bar's keys: rebindable actions, the number keys 1-0 by default.
+constexpr size_t BarKeyCount = 10;
+
+KeyboardAction barAction(size_t slot)
+{
+    return KeyboardAction(size_t(KeyboardAction::ActionBar1) + slot);
+}
 
 // The Obsidian painter with its ellipse open to the solo HUD.
 class SoloPainter : public GameplayObsidianPainter
@@ -906,7 +910,7 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
     }
     if (key)
     {
-        keys.push_back({BarKeyNames[*key], area.x + area.width - 1.4f, area.y + 1.0f, 2});
+        keys.push_back({GameplaySoloHud::barKeyName(context, *key), area.x + area.width - 1.4f, area.y + 1.0f, 2});
     }
 }
 }
@@ -1119,9 +1123,9 @@ std::optional<size_t> GameplaySoloHud::heldBarSlot(const GameplayInputFrame &inp
     {
         return std::nullopt;
     }
-    for (size_t slot = 0; slot < BarKeys.size(); ++slot)
+    for (size_t slot = 0; slot < BarKeyCount; ++slot)
     {
-        if (input.isScancodeHeld(BarKeys[slot]))
+        if (input.action(barAction(slot)).held)
         {
             return slot;
         }
@@ -1131,12 +1135,31 @@ std::optional<size_t> GameplaySoloHud::heldBarSlot(const GameplayInputFrame &inp
 
 bool GameplaySoloHud::barSlotPressed(const GameplayInputFrame &input, size_t slot)
 {
-    return slot < BarKeys.size() && input.scancodePressCount(BarKeys[slot]) > 0;
+    return slot < BarKeyCount && input.action(barAction(slot)).pressed;
 }
 
-std::string GameplaySoloHud::barKeyName(size_t slot)
+std::string GameplaySoloHud::barKeyName(const GameplayScreenRuntime &context, size_t slot)
 {
-    return slot < BarKeyNames.size() ? BarKeyNames[slot] : std::string();
+    if (slot >= BarKeyCount)
+    {
+        return {};
+    }
+    // Short enough for a slot's corner: a key's name, M4 for a mouse button, WU and WD for the wheel.
+    const InputBinding binding = context.settingsSnapshot().keyboard.binding(barAction(slot));
+    switch (binding.kind)
+    {
+    case InputBindingKind::Keyboard:
+        return keyboardBindingDisplayName(binding.scancode);
+    case InputBindingKind::MouseButton:
+        return "M" + std::to_string(int(binding.mouseButton));
+    case InputBindingKind::MouseWheelUp:
+        return "WU";
+    case InputBindingKind::MouseWheelDown:
+        return "WD";
+    case InputBindingKind::None:
+        break;
+    }
+    return {};
 }
 
 std::optional<GameplayResolvedHudLayoutElement> GameplaySoloHud::barPanelRect(GameplayScreenRuntime &context,
@@ -1183,6 +1206,27 @@ std::optional<size_t> GameplaySoloHud::barSlotAt(GameplayScreenRuntime &context,
         }
     }
     return std::nullopt;
+}
+
+std::optional<GameplaySoloHud::BarInspectHit> GameplaySoloHud::barInspectAt(GameplayScreenRuntime &context,
+    int width, int height)
+{
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
+    const Party *pParty = context.partyReadOnly();
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    if (pInput == nullptr || pMember == nullptr || !pInput->rightMouseButton.held || !context.soloHud()
+        || context.currentHudScreenState() != GameplayHudScreenState::Gameplay
+        || context.interactionState().soloBarSelector.open)
+    {
+        return std::nullopt;
+    }
+    const std::optional<size_t> slot = barSlotAt(context, width, height, pInput->pointerX, pInput->pointerY);
+    const std::optional<SoloHudRect> rect = slot ? barSlotRect(context, width, height, *slot) : std::nullopt;
+    if (!rect || pMember->actionBar[*slot].kind == ActionBarSlotKind::Empty)
+    {
+        return std::nullopt;
+    }
+    return BarInspectHit{pMember->actionBar[*slot], {rect->x, rect->y, rect->width, rect->height, 1.0f}};
 }
 
 void GameplaySoloHud::renderSlotIcon(GameplayScreenRuntime &context, const GameplayObsidianPainter &painter,

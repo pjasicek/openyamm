@@ -68,6 +68,8 @@ enum class KeyboardAction : uint8_t
     KnightCharge,
     // Held: items glow in their rarity colour (the gameplay.rarity_glow setting "hold").
     ShowItemRarity,
+    // Held: item popups show what crafting would add (the gameplay.craft_preview setting "hold").
+    ShowCraftableStats,
     // MMMerge's four extra quick spells (ExtraQuickSpells.lua): cast the active member's slot, else attack.
     QuickSpell1,
     QuickSpell2,
@@ -126,6 +128,18 @@ enum class KeyboardAction : uint8_t
     CursorMode,
     // A solo run's weapon cycling the other way (see NextWeapon).
     PreviousWeapon,
+    // A solo run's action bar (devdocs/solo_action/HUD.md): use slot 1-10, by default the number keys 1-0. In a solo
+    // run they win over the party's number keys, the bags' and the followers'.
+    ActionBar1,
+    ActionBar2,
+    ActionBar3,
+    ActionBar4,
+    ActionBar5,
+    ActionBar6,
+    ActionBar7,
+    ActionBar8,
+    ActionBar9,
+    ActionBar10,
     Count
 };
 

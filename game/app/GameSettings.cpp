@@ -1108,6 +1108,14 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "craft_preview"))
+    {
+        if (validRarityGlowValue(*value))
+        {
+            settings.craftPreview = *value;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "context_action_popup"))
     {
         bool parsed = settings.contextActionPopup;
@@ -2646,6 +2654,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("loot_sparkle", boolValue(settings.lootSparkle));
     serializer.add("context_action_popup", boolValue(settings.contextActionPopup));
     serializer.add("rarity_glow", settings.rarityGlow);
+    serializer.add("craft_preview", settings.craftPreview);
     serializer.add("follower_panel", boolValue(settings.followerPanel));
     serializer.add("minimap_zoom", std::clamp(settings.minimapZoom, 0, 2));
     serializer.section("startup");

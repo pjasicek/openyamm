@@ -80,6 +80,9 @@ add_executable(openyamm_unit_tests
     GameplayRuleRegressionTests.cpp
     GameInputSystemTests.cpp
     GlUniformCacheTests.cpp
+    HudDrawListTests.cpp
+    HudReadingTests.cpp
+    ../game/ui/HudDrawList.cpp
     AwardRuntimeTests.cpp
     GameplayProjectileServiceTests.cpp
     FontAssetTests.cpp

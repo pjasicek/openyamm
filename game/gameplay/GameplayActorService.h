@@ -232,9 +232,17 @@ public:
     int effectiveArmorClass(int baseArmorClass, const GameplayActorSpellEffectState &state) const;
 
 private:
+    // allowStrikeBack: whether the actor's grudge against the monster that last hit it counts; off for the question
+    // "is that attacker still my enemy in its own right" a grudge asks of the other side.
+    GameplayActorTargetPolicyResult resolveTargetPolicy(
+        const GameplayActorTargetPolicyState &actor,
+        const GameplayActorTargetPolicyState &target,
+        const std::unordered_map<uint32_t, int32_t> *pRelationOverrides,
+        bool allowStrikeBack) const;
     GameplayActorTargetPolicyResult resolveFactionTargetPolicy(
         const GameplayActorTargetPolicyState &actor,
-        const GameplayActorTargetPolicyState &target) const;
+        const GameplayActorTargetPolicyState &target,
+        bool strikesBack) const;
     const MonsterTable *m_pMonsterTable = nullptr;
     const SpellTable *m_pSpellTable = nullptr;
     float m_partyEngagementRange = MaximumPartyEngagementRange;

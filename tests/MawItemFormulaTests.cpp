@@ -28,7 +28,7 @@ namespace
 std::string inspectLine(const ItemRules &items, const InventoryItem &item, const ItemDefinition &definition,
     const Character *pViewer, const std::string &text)
 {
-    for (const ItemInspectLine &line : items.inspectLines(item, definition, nullptr, nullptr, pViewer))
+    for (const ItemInspectLine &line : items.inspectLines(item, definition, nullptr, nullptr, pViewer, false))
     {
         if (line.text == text)
         {

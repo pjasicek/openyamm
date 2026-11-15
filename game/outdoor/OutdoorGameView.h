@@ -739,6 +739,8 @@ private:
     bgfx::ProgramHandle m_texturedTerrainProgramHandle;
     // HUD quads multiplied by a colour, such as tinted text.
     bgfx::ProgramHandle m_hudTintedProgramHandle = BGFX_INVALID_HANDLE;
+    // The HUD draw list's program: the texture times the vertex colour.
+    bgfx::ProgramHandle m_hudDrawListProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_spellAreaPreviewProgramHandle;
     bgfx::ProgramHandle m_outdoorLitBillboardProgramHandle;
     bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;

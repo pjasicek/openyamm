@@ -13,6 +13,7 @@
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayHudLayoutCache.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/HudDrawList.h"
 #include "game/ui/UiLayoutManager.h"
 
 #include <array>
@@ -34,6 +35,9 @@ class SpriteAtlasCache;
 
 struct GameplayHudRenderBackend
 {
+    // The HUD draw list's program (vs_hud, fs_hud): the texture times the vertex colour. Everything on the HUD view
+    // draws with it; the two below remain for quads placed in the world (submitWorldHudQuadBatch).
+    bgfx::ProgramHandle drawListProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle texturedProgramHandle = BGFX_INVALID_HANDLE;
     // Draws quads multiplied by tintUniformHandle, such as coloured text.
     bgfx::ProgramHandle tintedProgramHandle = BGFX_INVALID_HANDLE;
@@ -346,6 +350,20 @@ public:
     void submitHudQuadBatch(
         std::span<const GameplayHudBatchQuad> quads,
         TextureFilterProfile filterProfile = TextureFilterProfile::Ui) const;
+    // Draws what the HUD functions above have collected since the last flush (devdocs/HUD_RENDERING.md). Called
+    // before every frame is presented, and before anything else draws into the HUD view.
+    void flushHudDrawList() const;
+    // What the HUD view has drawn since the game started, for the performance log's per-frame averages.
+    struct HudDrawListStats
+    {
+        uint64_t draws = 0;
+        uint64_t primitives = 0;
+        uint64_t vertices = 0;
+    };
+    const HudDrawListStats &hudDrawListStats() const;
+    // Prints the next flush's draws, one line each with its texture and primitive count ([HudDraw]): what a HUD
+    // change costs in draws, and which textures break its batches.
+    void logNextHudDrawList() const;
     void submitWorldHudQuadBatch(std::span<const GameplayHudBatchQuad> quads,
         uint16_t viewId, const bx::Vec3 &origin, const bx::Vec3 &right, const bx::Vec3 &up,
         TextureFilterProfile filterProfile = TextureFilterProfile::UiIllustration) const;
@@ -476,7 +494,34 @@ private:
         HudLayoutResolutionCacheKeyEqual> m_hudLayoutResolutionCache;
     std::vector<GameplayHudTextureData> m_hudTextureHandles;
     // UV scales of cooked HUD art padded to whole 4x4 blocks, by texture handle (see GameplayHudTextureData::uScale).
-    std::unordered_map<uint16_t, std::array<float, 2>> m_hudTextureUvScales;
+    // How a texture draws through the HUD draw list, for the handles that need more than their own texture as it
+    // is: cooked art is padded (its UVs are scaled), and a solid colour's 1x1 texture draws as that colour's texel
+    // of the shared palette, so every solid colour on the HUD shares one texture and can share a draw.
+    struct HudDrawTexture
+    {
+        float uScale = 1.0f;
+        float vScale = 1.0f;
+        std::optional<GameplayHudPaletteColor> paletteColor;
+    };
+    std::unordered_map<uint16_t, HudDrawTexture> m_hudDrawTextures;
+    // Where a primitive's vertices go: the draw state, and the primitive's UVs as that state's texture takes them.
+    struct HudDrawTarget
+    {
+        HudDrawState state;
+        HudDrawTexture texture;
+
+        float u(float value) const
+        {
+            return texture.paletteColor ? texture.paletteColor->u : value * texture.uScale;
+        }
+
+        float v(float value) const
+        {
+            return texture.paletteColor ? texture.paletteColor->v : value * texture.vScale;
+        }
+    };
+    HudDrawTarget hudDrawTarget(bgfx::TextureHandle textureHandle, TextureFilterProfile filterProfile,
+        uint32_t samplerFlags) const;
     std::unordered_map<std::string, size_t> m_hudTextureIndexByName;
     std::unordered_map<std::string, std::string> m_dynamicHudTextureContentSignatures;
     std::vector<GameplayHudFontData> m_hudFontHandles;
@@ -494,6 +539,11 @@ private:
     bool m_townPortalDestinationsLoaded = false;
     GameplayHudRenderBackend m_hudRenderBackend;
     mutable HudArcMeshCache m_hudArcMeshCache;
+    mutable HudDrawList m_hudDrawList;
+    mutable HudDrawListStats m_hudDrawListStats;
+    mutable bool m_logNextHudDrawList = false;
+    void logHudDrawList() const;
+    void hudPrimitivesAdded() const;
     SpriteAtlasCache *m_pSpriteAtlasCache = nullptr;
     ActorModelPreview *m_pActorModelPreview = nullptr;
     ActorModelPreview *m_pActorTalkPortrait = nullptr;

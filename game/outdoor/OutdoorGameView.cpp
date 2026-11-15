@@ -2753,6 +2753,7 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
 
     GameplayHudRenderBackend hudRenderBackend = {};
     hudRenderBackend.texturedProgramHandle = m_texturedTerrainProgramHandle;
+    hudRenderBackend.drawListProgramHandle = m_hudDrawListProgramHandle;
     hudRenderBackend.tintedProgramHandle = m_hudTintedProgramHandle;
     hudRenderBackend.tintUniformHandle = m_hudTintUniformHandle;
     hudRenderBackend.textureSamplerHandle = m_terrainTextureSamplerHandle;
@@ -3304,6 +3305,7 @@ void OutdoorGameView::shutdown()
         m_screenTintProgramHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
         m_hudTintedProgramHandle = BGFX_INVALID_HANDLE;
+        m_hudDrawListProgramHandle = BGFX_INVALID_HANDLE;
         m_spellAreaPreviewProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorLitBillboardProgramHandle = BGFX_INVALID_HANDLE;
         m_worldFxRenderResources.reset();
@@ -3416,6 +3418,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_hudTintedProgramHandle);
         m_hudTintedProgramHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_hudDrawListProgramHandle))
+    {
+        bgfx::destroy(m_hudDrawListProgramHandle);
+        m_hudDrawListProgramHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_spellAreaPreviewProgramHandle))
