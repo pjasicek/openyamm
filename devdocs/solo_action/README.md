@@ -197,7 +197,8 @@ the arms. `viewmodel fx <school|off>` with a held cast pose shows the glow for r
 
 **Talent effects (MAW solo run).** Onslaught's red and yellow hand dots are built but off for now; an active talent that is not a cast makes the weapon glint with gold sparks while its clip
 plays, Shield Wall the guarding hands (no shield is shown). Cleave lands at its clip's blow like a swing. Details:
-[TALENT_TREE_V2_BUILD.md](TALENT_TREE_V2_BUILD.md).
+[TALENT_TREE_V2_BUILD.md](TALENT_TREE_V2_BUILD.md); how talent blows meet leech, class gains and item effects:
+[TALENT_INTERACTIONS.md](TALENT_INTERACTIONS.md).
 
 **Casting in Oblivion and here.** Measured on the clips' hand travel: `casttarget` casts with the left hand (the right
 barely moves), `castself` and `casttouch` with both hands, the `onehandcast*` clips with the left hand while the

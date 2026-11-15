@@ -3384,6 +3384,18 @@ std::optional<int> MawCombatRules::spellRecoveryTicks(
     return m_rules.gameRules().spells.recoveryTicks(cast, spellNumbersAtMastery(*pSpell, cast.mastery).recoveryTicks);
 }
 
+// A solo talent's extra blow (Cleave's other monsters, Sweeping Blows): its leech and on-hit gains are a third as
+// strong (user, 2026-11-15). Only a solo run's talents make extra blows; any other game gains in full.
+namespace
+{
+constexpr double ExtraBlowShare = 1.0 / 3.0;
+
+double extraBlowShare(const RulesetOptions &options, const PartyHitOnMonster &hit)
+{
+    return hit.extraBlow && options.soloRun ? ExtraBlowShare : 1.0;
+}
+}
+
 void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) const
 {
     Character &member = *party.member(hit.memberIndex);
@@ -3451,11 +3463,13 @@ void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) cons
     // A dimension map's weaker leech cuts the heal before the floor, which it leaves whole (DM:1229-1230, CMB-15).
     heal *= 1 - m_rules.mapAffix(MawMapAffix::Leech).value_or(0) / 100;
 
-    // A solo talent's extra blow has no floor: one swing through a crowd heals by its damage, not once per monster.
-    if (share > 0 && !hit.extraBlow)
+    if (share > 0)
     {
         heal = std::max(heal, floor);
     }
+
+    // A solo talent's extra blow leeches a third: one swing through a crowd does not heal fully once per monster.
+    heal *= extraBlowShare(m_rules.options(), hit);
 
     if (heal > 0)
     {
@@ -3523,6 +3537,8 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
             - m_rules.gameRules().spells.reservedSpellPoints(party, hit.memberIndex);
         member.spellPoints = std::max(member.spellPoints, std::min(maximum, member.spellPoints + int(amount)));
     };
+    // A solo talent's extra blow gains a third of what a blow does.
+    const double gain = extraBlowShare(m_rules.options(), hit);
 
     const bool meleeBlow = hit.melee && hit.type == CombatDamageType::Physical;
     const bool arrow = !hit.melee && hit.spellId == 0;
@@ -3629,7 +3645,7 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
 
         if (lowest)
         {
-            party.healMember(*lowest, heal);
+            party.healMember(*lowest, int(mawRound(heal * gain)));
             Character &healed = *party.member(*lowest);
 
             if (healed.health > 0)
@@ -3643,26 +3659,26 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
         // Mind returns spell points, Body hit points (DM:673-693).
         if (const double spellPoints = mawShamanMindSpellPoints(member); spellPoints > 0)
         {
-            addSpellPoints(spellPoints);
+            addSpellPoints(spellPoints * gain);
         }
 
         if (const int heal = mawShamanBodyHeal(member); heal > 0)
         {
-            party.healMember(hit.memberIndex, heal);
+            party.healMember(hit.memberIndex, int(mawRound(heal * gain)));
         }
     }
-    else if (line == "dragon" && mawIsDragon(member) && !hit.extraBlow)
+    else if (line == "dragon" && mawIsDragon(member))
     {
         // A dragon's bite refills its fixed pool: 10 SP a hit, 20 for a Great Wyrm; the bite needs the race, the pool
-        // the class (DM:599-627). A solo talent's extra blow (Cleave, Sweeping Blows) gives none.
-        addSpellPoints(canonicalClassName(member.className) == "GreatWyrm" ? 20 : 10);
+        // the class (DM:599-627).
+        addSpellPoints(mawRound((canonicalClassName(member.className) == "GreatWyrm" ? 20 : 10) * gain));
     }
     else if (line == "death_knight")
     {
         // 10, 15 or 20 SP a hit by promotion, half again for a killing blow (MCC:17-21).
         const std::string className = canonicalClassName(member.className);
         const double perHit = className == "LichKing" ? 20 : className == "DeathLord" ? 15 : 10;
-        addSpellPoints(perHit * (hit.killed ? 1.5 : 1));
+        addSpellPoints(perHit * (hit.killed ? 1.5 : 1) * gain);
 
         // Blood Leech heals max(FullHP^0.5 s^1.5 / 70 (1 + m/4), 2s) a hit for 6 SP, the Superior one twice that for
         // 12, the cost not checked against the pool (DM:743-768).
@@ -3674,8 +3690,9 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
             const double full = member.maxHealth + member.permanentBonuses.maxHealth + member.magicalBonuses.maxHealth;
             const double heal =
                 std::max(std::sqrt(full) * std::pow(blood, 1.5) / 70 * (1 + mastery / 4.0), 2 * blood);
-            member.spellPoints = std::max(0, member.spellPoints - (superior ? 12 : 6));
-            party.healMember(hit.memberIndex, int(mawRound(heal * (superior ? 2 : 1))));
+            // An extra blow's heal and cost are both a third.
+            member.spellPoints = std::max(0, member.spellPoints - int(mawRound((superior ? 12 : 6) * gain)));
+            party.healMember(hit.memberIndex, int(mawRound(heal * (superior ? 2 : 1) * gain)));
         }
 
         // Death Grasp spends 15 SP a hit while the pool has them to hold the target in Dark Grasp for one game

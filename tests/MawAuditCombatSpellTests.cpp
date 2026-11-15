@@ -1131,14 +1131,25 @@ TEST_CASE("The leech floor reads the full Speed and keeps whole under dimension 
     REQUIRE(rules.mapAffix(MawMapAffix::Leech).has_value());
     CHECK_EQ(healed(), plain);
 
-    // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows) has no floor: it heals by its damage alone.
+    // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows) leeches a third, in a solo run only.
     hit.extraBlow = true;
-    CHECK_LT(healed(), plain);
+    CHECK_EQ(healed(), plain);
+    RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    rules.setOptions(soloOptions);
+    hit.extraBlow = false;
+    const int solo = healed();
+    REQUIRE_GT(solo, 3);
+    hit.extraBlow = true;
+    CHECK_LT(healed(), solo);
+    CHECK_GE(healed(), solo / 3 - 1);
 }
 
-TEST_CASE("A dragon's bite gives spell points, a solo talent's extra blow none")
+TEST_CASE("A dragon's bite gives spell points, a solo talent's extra blow a third (solo runs only)")
 {
-    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    MawRules rules(soloOptions, MawMapLevels{});
     Character dragon = auditMember("Dragon", 20);
     dragon.raceId = 5;
     Party party = auditParty(rules, {dragon});
@@ -1156,7 +1167,13 @@ TEST_CASE("A dragon's bite gives spell points, a solo talent's extra blow none")
     bite.extraBlow = true;
     member.spellPoints = 0;
     rules.gameRules().combat.applyPartyHitEffects(party, bite);
-    CHECK_EQ(member.spellPoints, 0);
+    CHECK_EQ(member.spellPoints, 3);
+
+    // Outside a solo run nothing is cut, even for a blow marked extra.
+    rules.setOptions(RulesetOptions{});
+    member.spellPoints = 0;
+    rules.gameRules().combat.applyPartyHitEffects(party, bite);
+    CHECK_EQ(member.spellPoints, 10);
 }
 
 TEST_CASE("An Assassin's Subtlety stacks speed their spells too (CMB-19)")
