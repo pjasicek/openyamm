@@ -292,6 +292,25 @@ Built as layout A behind a Skills / Talents switch, not as a separate page: see 
   
   The solo HUD draws instead of the party portraits, not on top of them, so its cost replaces theirs.
 
+  **Measured and corrected on 2026-11-15.** As first built the HUD cost about 130 µs of main-thread time and 173
+  draws a frame at the New Sorpigal start (1020–1085 FPS against 1380–1420 with the party HUD; the dragon hands
+  were not the cost). After the pass: about 55 µs and 52 draws more than the party HUD, 1150–1230 FPS against
+  1360–1395. What it changed, and the rules for anything added to this HUD:
+  - Solid fills and frames go through `GameplayObsidianPainter::addFill`/`addFrame` into a `Quads` list and one
+    `submit`: the colours share the HUD palette texture, so a list is one draw whatever it holds. A frame was four
+    draws, a fill built a texture name string and looked it up.
+  - Things repeated per slot or tile are collected across the row and drawn once: the action bar draws all slot
+    backings, then the contents, then all frames, then all key labels (`painter.texts`, two draws for any number
+    of lines).
+  - Outlined text is its eight copies in one `texts` call (four draws with the text itself, it was eighteen); a run
+    that repeats the previous text reuses its glyph layout.
+  - Nothing that walks the map's actors or the party's bags runs per frame: the MAW progress reading (asked three
+    times a frame by the bar, the tab's bounds and the buff rows) is read ten times a second, the scroll and potion
+    buttons' "carries any" four times a second (`GameplayOverlayInteractionState`).
+  - What is left is spread thin (the unit frame's ovals, arcs and texts). Going further means keeping the HUD's quad
+    list between frames and rebuilding it when its inputs change; not done.
+  How to measure it again: [perf workflow](../../tools/PERF_PROFILING.md#fastest-route-where-does-the-frame-time-go).
+
 ## Stages
 
 Each stage builds (`cmake --build build --target openyamm -j25`), runs its unit tests, and is checked with
@@ -494,7 +513,7 @@ only while `GameplayScreenRuntime::soloHud()` holds; party games are unchanged (
 - `left_party_unchanged` (a MAW party game with `view_model_path` set).
 
 **Tests.** `tests/SoloRunTests.cpp` adds the column grid and the sockets' place, and the self text queue (kinds,
-amounts, the shield's blocked points, the cap of 16).
+amounts, the cap of 16).
 
 ## Alert glow (built 2026-11-14, replacing the alert gem)
 

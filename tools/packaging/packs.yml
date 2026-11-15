@@ -31,6 +31,9 @@ packages:
       sprites:           {buckets: 3}
       sprites_new:       {buckets: 1, group: first_dir}
       world_items:       {buckets: 3, group: model}
+      # The first-person view model (from 2.4): arms, dragon forelegs and held weapon and shield tiers with their
+      # textures (2.4: 408 MB desktop, 134 MB android).
+      view_model:        {buckets: {desktop: 7, android: 3}, group: model}
       # The optional rulesets (engine/rulesets/<id>, devdocs/maw/HANDOFF.md): small text and YAML, one pack. They
       # live in the engine package because releases up to 1.10 accept only /engine and /worlds/<id> mounts.
       rulesets:          {buckets: 1}

@@ -7,6 +7,11 @@ staff attack isn't that good" and "the sword should also have a vertical slash".
 work it references (swings fitted to MM's recovery, chop variants in the combo, staves on the two-handed set, the
 whoosh at swing start) is being built separately.
 
+**No shield on screen (user, 2026-11-14):** the arms never show a shield, whatever the off hand holds: a character
+with a weapon and a shield is drawn with the weapon alone, and a guard (Shield Wall) plays the weapon set's own
+`blockidle`. `Kit` has no shield fields since; the shield passages below are the earlier design. The steel shield
+template and its skins (`s_steelshield*.glb`) are no longer drawn.
+
 ## Where the models come from today
 
 All held models in the prototype are **Oblivion's** (private, `reference/oblivion_poc/`, never shipped): the steel
@@ -185,8 +190,10 @@ for comparison, and `viewmodel held <icon>` holds any icon's model (contact shee
 ## Bow swap (built 2026-11-14)
 
 In a solo run the player can swap the arms and the attack between the melee weapon and the bow:
-- **Key:** `KeyboardAction::SwapWeapon`, default mouse button 4 (every letter is taken), rebindable in Controls
-  (`swap_weapon`, group Combat).
+- **Keys:** `KeyboardAction::NextWeapon` and `PreviousWeapon`, by default the mouse wheel down and up, rebindable in
+  Controls (`next_weapon` and `previous_weapon`, group Combat). Of two weapons the next and the previous are the same
+  one, so either swaps. One turn of the wheel is several steps: a change within 250 ms of the last is ignored, and so
+  is one with the right button held, where the wheel scrolls the inspected item's text.
 - **Action bar:** a weapon slot with id `ActionBarWeaponSwapId` (1). The bar's prefill adds it when a bow is equipped,
   and it shows the weapon it swaps to.
 - **With the bow drawn:** the arms play the equip clips and hold the bow, and **Attack shoots even at melee range**.
@@ -219,12 +226,18 @@ kinds Oblivion lacks. Record, route, credits and verdicts:
   `tests/HeldWeaponTests.cpp`. Checked in game with `viewmodel equip`: Iron Longsword low, Dark Elven Longsword mid,
   Templar's Sword high, Elsenrail legendary. Under MAW the halberds are `Weapon2`, so their value counts half like
   every two-handed weapon's (Common Halberd 250 -> 125: low), as intended.
+- **Loot rarity (2026-11-14):** an item rolled with a loot rarity (`ItemRulesetFields::lootRarity`, MAW) shows at
+  least its rarity's tier (`loot_rarity_tiers`: Common low, Uncommon and Rare mid, Epic high, Ancient, Primordial,
+  Legendary and Celestial legendary); the base value can still raise it, never lower it. The user found a Legendary
+  Archangel Broadsword (value 29,000 by MAW's own pricing, a broadsword at base price) held as a plain blade. Checked
+  with `testparty apply early|mid|endgame` in a MAW solo run: rare and epic gear high (the base value), legendary gear
+  legendary.
 - **Short swords (2026-11-14):** one-handed swords named cutlass, scimitar, sabre/saber or falchion are held.yml kind
   `shortsword` (`make_held_table.py` `classify`), drawn with `w_shortsword.glb` through `kind_templates`; every other
   one-handed sword keeps the longsword. Checked in game: Cutlass beside an Iron Longsword.
 - **Files:** a template `w_<name>.glb` has its skins beside it as `w_<name>_t<tier>.glb`; the view model takes the skin
-  when it exists, else the template (`FirstPersonViewModel::skinAttachment`). `Kit::weaponTier` and `shieldTier` carry
-  the tier, set by `GameApplication::renderFirstPersonViewModel` from the main hand (or bow) and the shield.
+  when it exists, else the template (`FirstPersonViewModel::skinAttachment`). `Kit::weaponTier` (and `offTier` when dual
+  wielding) carry the tier, set by `GameApplication::renderFirstPersonViewModel` from the main hand (or bow).
 - **Console:** `viewmodel tier <0-9|auto>` draws every template in one tier (0: the plain template).
 - **Made:** every template in tiers 1-4: `w_longsword`, `w_shortsword`, `w_claymore`, `w_dagger`, `w_mace`,
   `w_waraxe`, `w_battleaxe`, `w_warhammer`, `w_staff` (and `w_staff_grip`, the same paint), `w_bow`,

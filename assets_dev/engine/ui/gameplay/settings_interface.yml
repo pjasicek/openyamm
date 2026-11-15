@@ -509,7 +509,7 @@ elements:
     - id: SettingsInterfaceGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 751.8717
+      offset_y: 790.797
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -1204,10 +1204,56 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsInterfacePotionExpiryWarningsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 747.605
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Potion wear-off warnings
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfacePotionExpiryWarningsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 763.8135
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Name a potion's effect in the status bar ten game minutes before it ends.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfacePotionExpiryWarningsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 745.3887
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsInterfaceRarityGlowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 777.4717
+      offset_y: 816.397
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1224,7 +1270,7 @@ elements:
     - id: SettingsInterfaceRarityGlowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 793.6802
+      offset_y: 832.6055
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -1241,7 +1287,7 @@ elements:
     - id: SettingsInterfaceRarityGlowControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 779.601
+      offset_y: 818.5263
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -1260,7 +1306,7 @@ elements:
     - id: SettingsInterfaceLootSparkleLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 816.397
+      offset_y: 855.3223
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1277,7 +1323,7 @@ elements:
     - id: SettingsInterfaceLootSparkleDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 832.6055
+      offset_y: 871.5308
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1295,7 +1341,7 @@ elements:
     - id: SettingsInterfaceLootSparkleControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 819.9391
+      offset_y: 858.8644
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1307,7 +1353,7 @@ elements:
     - id: SettingsInterfaceShopListViewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 866.8391
+      offset_y: 905.7644
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1324,7 +1370,7 @@ elements:
     - id: SettingsInterfaceShopListViewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 883.0476
+      offset_y: 921.9729
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1342,7 +1388,7 @@ elements:
     - id: SettingsInterfaceShopListViewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 870.3812
+      offset_y: 909.3065
       width: 70.4
       height: 32.158
       z_index: 10

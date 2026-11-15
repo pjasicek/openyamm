@@ -17,7 +17,7 @@ import glb_io
 
 name = sys.argv[1]
 work = os.path.join(PROJECT, 'work', name)
-tdoc, tbin = glb_io.read(os.path.join(REPO, 'assets_dev', 'engine', 'view_model', f'{name}.glb'))
+tdoc, tbin = glb_io.read(os.path.join(REPO, 'assets_source', 'engine', 'view_model', f'{name}.glb'))
 _, tprim = glb_io.mesh_primitive(tdoc)
 tp = glb_io.accessor(tdoc, tbin, tprim['attributes']['POSITION']).astype(np.float64)
 tt = glb_io.accessor(tdoc, tbin, tprim['indices']).astype(np.int64).reshape(-1, 3)

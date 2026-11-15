@@ -32,8 +32,9 @@ its gates) appends 24 clips to an arms GLB that already holds the dual-wield and
 mesh, skin and texture is copied byte for byte. It refuses input that already holds pole clips.
 `../crossbow_set_20261114/scripts/rebake_arms.sh [race ...]` bakes every race from the pristine copies
 (`reference/oblivion_poc/glb/pristine_predual/`): the dual clips and the crossbow set into scratch files, then the pole
-set into the arms in place (hard links stay one file: `assets_dev/engine/view_model/arms.glb` is
-`reference/oblivion_poc/glb/arms_hd_human.glb`). Run it again after changing any of the three bakes; about 1.5 minutes
+set into the arms in place (`reference/oblivion_poc/glb/arms_hd_<race>.glb`), and installs the human arms as the engine's
+(`tools/install_model.py --view-model --name arms.glb`: the source into `assets_source/engine/view_model/`, the cooked
+copy and the text keys into `assets_dev/engine/view_model/`). Run it again after changing any of the three bakes; about 1.5 minutes
 a race.
 
 How a clip is made, as the crossbow set's: per frame, the pole's place relative to the eye (Camera01) comes from

@@ -28,9 +28,10 @@ node and clip contract of `game/render/FirstPersonViewModel`. Installed on 2026-
    weights by distance to the bone segments (digits only near their own column), keys every clip with IK targets and
    bakes them. Exports `dragon_forelegs.glb` (clips `claws<action>`) and `dragon_forelegs_h2h.glb` (the same motion
    under `handtohand<action>` and `casttarget`, for the arms' unarmed kit), each with its `.textkeys.json`. With
-   `--install <dir>` it copies `dragon_forelegs.glb` and its text keys there; the engine's copy is made with
-   `blender -b --python scripts/build_forelegs.py -- --mesh texturing/foreleg_textured.glb --out export --install
-   ../../assets_dev/engine/view_model` (from this folder; the rebuild is byte-identical to the export).
+   `--install <OpenYAMM checkout>` it installs `dragon_forelegs.glb` through `tools/install_model.py --view-model` (the
+   source into `assets_source/engine/view_model/`, the cooked copy into `assets_dev`) and copies its text keys beside the
+   runtime copy: `blender -b --python scripts/build_forelegs.py -- --mesh texturing/foreleg_textured.glb --out export
+   --install ../..` (from this folder; the rebuild is byte-identical to the export).
 6. **Check.** `scripts/render_claws.py` renders the exported GLB from its Camera01 at the view model's 60° vertical
    field of view; `scripts/compose_claws.py` mirrors each frame (the engine mirrors X) and composites it over the HUD
    study's New Sorpigal scene (`renders/forelegs_*`).

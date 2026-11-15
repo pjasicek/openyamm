@@ -38,3 +38,7 @@ unique_tier: 4
 # legendary look is for the uniques and the most valuable bases.
 enchanted_bonus: 1
 enchanted_max_tier: 3
+# An item rolled with a loot rarity (MAW) shows at least its rarity's tier: its value grows with its level, so the
+# base value says little (a Legendary Archangel Broadsword is a broadsword at base price). In order Common, Uncommon,
+# Rare, Epic, Ancient, Primordial, Legendary, Celestial.
+loot_rarity_tiers: [1, 2, 2, 3, 4, 4, 4, 4]

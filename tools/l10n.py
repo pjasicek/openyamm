@@ -300,6 +300,10 @@ def parse_po(text):
                 match = re.match(r"#\|\s*msgid\s+(\".*\")", line)
                 if match:
                     target.previous = _po_unquote(match.group(1))
+                else:
+                    continuation = re.match(r"#\|\s*(\".*\")", line)
+                    if continuation and target.previous is not None:
+                        target.previous += _po_unquote(continuation.group(1))
             else:
                 target.translator.append(line[1:].strip())
             continue

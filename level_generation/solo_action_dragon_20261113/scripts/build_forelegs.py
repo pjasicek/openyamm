@@ -1,7 +1,7 @@
 """Build the Dragon's first-person forelegs: rig one foreleg mesh, mirror it, key the clips, export the view model.
 
 blender -b --python build_forelegs.py -- --mesh <foreleg.glb|procedural> --out <dir> [--name dragon_forelegs]
-    [--install <OpenYAMM>/assets_dev/engine/view_model]
+    [--install <OpenYAMM checkout>]
 
 The mesh is one right foreleg hanging down along -Z from its shoulder cut, as in references_hd/00_three_quarter.png
 (Meshy keeps the image's up as +Z and its front as -Y). Landmarks come from the geometry: the shoulder cut at the
@@ -19,6 +19,7 @@ motion under the handtohand names so today's engine plays it on an unarmed kit.
 import json
 import math
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -624,13 +625,15 @@ def main():
     (out / f'{name}_h2h.textkeys.json').write_text(json.dumps(h2h_keys, indent=1))
     print('EXPORTED', out / f'{name}.glb', len(baked), 'clips')
     if options.get('install'):
-        # The engine reads engine/view_model raw (no cooking): the export and its text keys, copied as they are.
-        install = Path(options['install'])
-        install.mkdir(parents=True, exist_ok=True)
-        for file in (f'{name}.glb', f'{name}.textkeys.json'):
-            shutil.copyfile(out / file, install / file)
-            (install / file).chmod(0o644)
-        print('INSTALLED', install / f'{name}.glb')
+        # The export goes in as a view model source (assets_source/engine/view_model/) with its cooked runtime copy
+        # (tools/install_model.py --view-model); the text keys sit beside the runtime copy, where the game reads them.
+        repo = Path(options['install'])
+        subprocess.run(['python3', str(repo / 'tools' / 'install_model.py'), str(out / f'{name}.glb'), '--view-model'],
+            cwd=repo, check=True)
+        keys_path = repo / 'assets_dev' / 'engine' / 'view_model' / f'{name}.textkeys.json'
+        shutil.copyfile(out / f'{name}.textkeys.json', keys_path)
+        keys_path.chmod(0o644)
+        print('INSTALLED', repo / 'assets_source' / 'engine' / 'view_model' / f'{name}.glb')
 
 
 main()

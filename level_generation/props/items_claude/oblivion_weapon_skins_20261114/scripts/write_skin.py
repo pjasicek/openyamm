@@ -24,7 +24,7 @@ sys.path.insert(0, HERE)
 import glb_io
 
 name, tier, maps, out = sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4]
-doc, binary = glb_io.read(os.path.join(REPO, 'assets_dev', 'engine', 'view_model', f'{name}.glb'))
+doc, binary = glb_io.read(os.path.join(REPO, 'assets_source', 'engine', 'view_model', f'{name}.glb'))
 views = [glb_io.view_bytes(doc, binary, i) for i in range(len(doc['bufferViews']))]
 new = copy.deepcopy(doc)
 mesh_index, prim = glb_io.mesh_primitive(doc, 'Bow' if name == 'w_bow' else None)

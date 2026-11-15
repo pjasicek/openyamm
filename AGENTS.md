@@ -214,6 +214,11 @@ These rules apply to all AI-generated contributions in this repository.
   `pgrep -f <text>`: your own `bash -c` command line, heredoc or launcher
   contains that text, so the wait matches itself and never ends. Run one sequential queue script rather than chained
   background waiters.
+- For "the FPS dropped" or "this mode is slower" questions, start with the fastest route in the
+  [perf workflow](tools/PERF_PROFILING.md#fastest-route-where-does-the-frame-time-go): two visible isolated runs for
+  the numbers (`[FramePerf]`, `[GameFramePerf]`, draws), then `perf record --call-graph dwarf` on the ordinary build,
+  `perf script --no-inline -F tid,ip,sym` and `tools/perf_stacks.py` (per thread: inclusive time, callees, callers).
+  Always pass `--no-inline`; never use `perf report -g` on this binary (addr2line runs for minutes at full CPU).
 - For CPU profiling, use `./tools/profile_game.sh` with its saved command-prefix approval; the user authorized
   this reusable OpenYAMM profiling wrapper. `--enable-user-perf` sets `perf_event_paranoid=2` until reboot when
   needed; administrator authentication is separate from sandbox approval. See [perf workflow](tools/PERF_PROFILING.md).

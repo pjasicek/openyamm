@@ -13,9 +13,10 @@ and mid: every club is valued below the mid band; "Club" below). These are our a
   in `meshy/<job>/`, requests in `requests/`, ledger `creature_3d_progress.json` (identity
   `engine:view-model-weapons`). `work/`, `meshy/`, `review/` and `ingame/` are git-ignored; scripts, requests and this
   README are tracked.
-- **Runtime copies:** `assets_dev/engine/view_model/w_<kind>.glb` (the template: a copy of the mid-tier skin) and
-  `w_<kind>_t1..t4.glb`, copied from `work/<kind>/t<tier>/`. The view model folder is loaded raw (no cooking), as for
-  the Oblivion skins. Never edit the runtime copies; re-run `scripts/post.py skin` and copy again.
+- **Installed:** `w_<kind>.glb` (the template: the mid-tier skin under the template's name) and `w_<kind>_t1..t4.glb`
+  from `work/<kind>/t<tier>/`, each with `python3 tools/install_model.py <glb> --view-model [--name w_<kind>.glb]`:
+  the source goes to `assets_source/engine/view_model/`, the cooked runtime copy to `assets_dev/engine/view_model/`
+  (cooked since 2026-11-14). Never edit or copy the runtime copies; re-run `scripts/post.py skin` and install again.
 
 ## Route
 

@@ -309,3 +309,19 @@ with nothing round it reads as random. Keep `town_feel.py` inside its ranges (gr
 About half walk the streets alone (300-2,000 from a house door, 2,000-4,700 from each other); the rest stand in pairs
 350-850 apart at gates, bridges and the town's edges. One guard to every two to six townsfolk; a pair at each gate
 and bridge, singles on the streets, never in a yard; peaceful, the world's town guard kind.
+
+
+## Projects edited by hand (S5b1, 2026-11-15)
+
+A project whose `project.yml` carries `edited_by_hand` (a person changed it in the studio, or someone ran
+`oymap protect`) is changed only by operations (`oymap edit`, MCP `map_edit`, the request list), never by writing its
+files. Read `hand_objects` in every edit result (objects a person changed last that your change touches) and leave
+them alone unless the person asked. Never set or clear the mark: only a person does. Rename an object with the
+`rename` operation, never by changing its id in the files (the lock and pins follow a rename).
+
+
+## Land made by hand (S5b2, 2026-11-15)
+
+`heights.strokes`, `heights.smooth`, `heights.patches` and `heights.hand_made` are a person's work: agents never write,
+move or clear them, and never set `hand_made` (refused on rebuilds anyway). On land a person shaped, read heights
+with `view.terrain_query` (height and slope at points, or a profile) rather than reconstructing them from the words.

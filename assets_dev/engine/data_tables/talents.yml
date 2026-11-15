@@ -10,6 +10,7 @@
 #   needs: another talent that must have a rank first.
 #   per_rank: a passive's percent (or amount) per rank; per_rank_calm: the same out of combat (no yellow alert).
 #   cooldown, cooldown_per_rank (added per rank above the first; negative shortens), duration, duration_per_rank: seconds.
+#   cooldown_per_attack: seconds each ordinary weapon attack (melee or bow, not a talent's blow) takes off the cooldown.
 #   targets, share (percent of a normal blow or shot), share_per_skill (percent per point of the tree's weapon skill,
 #     added to share), share_cap, distance (world units), arc (degrees either side of the view).
 #   text: the effect line on the Talents page; {value} is the current rank's number.
@@ -33,11 +34,11 @@ talents:
     icon_item: talent_cleave
     requires: expert
     cooldown: 12
-    cooldown_per_rank: -2
+    cooldown_per_rank: -3
     targets: 64
     share: 150
     arc: 60
-    text: "A burst: every monster in the 120° arc in front takes a blow at 150 %"
+    text: "A burst: every monster in the 120° arc in front takes a blow at 150 %; cooldown 12, 9 or 6 s"
   - id: sweeping_blows
     name: Sweeping Blows
     tree: arms
@@ -70,9 +71,10 @@ talents:
     requires: expert
     cooldown: 25
     cooldown_per_rank: -3
+    cooldown_per_attack: 1
     distance: 2500
     duration: 1.5
-    text: "Dash to the target, strike and stagger it for 1.5 s"
+    text: "Dash to the target, strike and stagger it for 1.5 s; each ordinary attack takes 1 s off the cooldown"
   - id: shield_wall
     name: Shield Wall
     tree: arms
@@ -104,9 +106,9 @@ talents:
     cooldown_per_rank: -2
     targets: 2
     share: 75
-    arc: 30
+    arc: 12
     per_rank: 1
-    text: "Fires 2, 3 or 4 arrows (by rank) over ±30°, 75 % each; each hits the first monster in its line (bows only)"
+    text: "One shot of 2, 3 or 4 arrows (by rank) fanned over ±12°, 75 % each; each hits the first monster in its line"
   - id: piercing_arrows
     name: Piercing Arrows
     tree: archery
@@ -118,8 +120,7 @@ talents:
     share: 30
     share_per_skill: 0.25
     share_cap: 50
-    arc: 8
-    text: "Every bow shot also hits {value} more behind the target at 30 % + 0.25 % per Bow point (at most 50 %)"
+    text: "Every arrow of a bow shot flies on through {value} more monsters at 30 % + 0.25 % per Bow point (at most 50 %)"
   - id: pinning_shot
     name: Pinning Shot
     tree: archery

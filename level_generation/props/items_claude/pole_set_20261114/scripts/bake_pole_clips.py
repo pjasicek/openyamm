@@ -47,7 +47,7 @@ PREFIX = 'pole'
 # left. So the right fist holds the shaft with the axe blade down, and a chop (the head pitched down from overhead)
 # leads with the blade.
 BASE = np.array([[0.0, 0.0, -1.0], [1.0, 0.0, 0.0], [0.0, -1.0, 0.0]])
-# The pole templates (assets_dev/engine/view_model/w_<kind>.glb, Weapon node space): the tip and where the head
+# The pole templates (assets_source/engine/view_model/w_<kind>.glb, Weapon node space): the tip and where the head
 # begins along +Y, and the butt; for the gates.
 HEADS = {'spear': (60.0, 88.0, -30.0), 'trident': (48.0, 96.0, -22.0), 'halberd': (36.0, 98.0, -22.0)}
 

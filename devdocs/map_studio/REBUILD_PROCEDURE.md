@@ -273,3 +273,12 @@ python3 openyamm-studio/calibration/pins_page.py   # output/studio_review/pins.h
 - **Tool defects**: every wrong result, crash, misleading message or check that should exist, with the command that
   shows it.
 - What you were unsure of in the original (a room you could not read, a mechanism you did not understand).
+
+
+## Projects edited by hand (S5b1, 2026-11-15)
+
+A project whose `project.yml` carries `edited_by_hand` (a person changed it in the studio, or someone ran
+`oymap protect`) is changed only by operations (`oymap edit`, MCP `map_edit`, the request list), never by writing its
+files. Read `hand_objects` in every edit result (objects a person changed last that your change touches) and leave
+them alone unless the person asked. Never set or clear the mark: only a person does. Rename an object with the
+`rename` operation, never by changing its id in the files (the lock and pins follow a rename).

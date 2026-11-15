@@ -203,8 +203,9 @@ Captures in `level_generation/solo_action_dragon_20261113/renders/engine/`, the 
 
 What was built, item by item:
 
-1. **Install and kit.** `scripts/build_forelegs.py --install assets_dev/engine/view_model` copies the export and its text
-   keys to `assets_dev/engine/view_model/dragon_forelegs.glb` (loaded raw, like the arms). The forelegs are a second view
+1. **Install and kit.** `scripts/build_forelegs.py --install <OpenYAMM checkout>` installs the export as a view model
+   source (`assets_source/engine/view_model/dragon_forelegs.glb`, `tools/install_model.py --view-model`) cooked into
+   `assets_dev/engine/view_model/`, with its text keys beside the cooked copy. The forelegs are a second view
    model (`GameApplication::m_dragonViewModel`): a member for whom `ClassRules::isDragon` holds (MAW: the portrait's
    race) gets `FirstPersonViewModel::dragonKit()` (`WeaponSet::Claws`, prefix `claws`, no weapon, shield or bow) on
    `packagedModelPath()`'s forelegs; everyone else the arms as before. A change between the two (another member, a
@@ -238,7 +239,8 @@ Defaults chosen for the open decisions (changeable):
   the same melee attack. A slow recovery no longer breaks a combo: a blow within a second of the member being ready
   again continues it (a MAW dragon's recovery is about 1.8 s, longer after a blow taken), for the arms too.
 - **Basic breath:** one fire bolt as now.
-- **Block:** the block button raises the Scales guard (`clawsblockidle`); visual only, no rule change.
+- **Block:** none. The held block was removed from the solo run (user, 2026-11-14); the Scales guard clip
+  (`clawsblockidle`) stays in the model for a talent that holds it.
 - **Tint:** one (the charcoal and red of the masters).
 - Talents: out of scope.
 
@@ -273,5 +275,5 @@ Defaults were chosen on 2026-11-14 ("Built in the engine"); each can still chang
 - Bite: the fifth blow of the combo now; a dedicated Bite key instead?
 - Basic breath: one fire bolt now; a short cone needs new rules.
 - Breath look: the `dragon_breath` recipe now; the monster dragons' `dragon_fire` and `fire_large` are the other option.
-- Block: the Scales guard is visual only; reduce damage with Scales learned (a rule change)?
+- The Scales guard: unused since the held block was removed; a talent (Harden Scales) could hold it.
 - Tint: one now; the player dragon's colour ramps later.

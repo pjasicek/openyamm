@@ -275,8 +275,8 @@ Real monster numbers, B tier, from `ruleset mapmonsters`:
   - Hits are multiplied by base/100, so weapon speed does not change DPS.
   - Measured recoveries of the solo Champion: 0.95 s at level 20, 0.42–0.72 s from level 100. Damage per second is
     damage × hit rate / recovery.
-- **Shield block (prototype):** a raised shield takes 40/55/70/85 % off physical hits by mastery and cannot attack
-  (`GameplayCombatController::shieldBlockedDamage`, GameplayCombatController.cpp:1377-1391).
+- **Shield block (prototype, removed 2026-11-14 by the user's decision):** a raised shield took 40/55/70/85 % off
+  physical hits by mastery and could not attack. A solo run has no held block.
 
 ### 2.4 Experience
 

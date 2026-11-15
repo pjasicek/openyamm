@@ -3,6 +3,56 @@
 Run these commands from the repository root. `build-prof` keeps release optimization and adds debug information
 for source locations and sampled call stacks. It does not enable gprof instrumentation.
 
+## Fastest route: where does the frame time go?
+
+For "the FPS dropped" or "mode A is slower than mode B", profile the ordinary `build/game/openyamm`: no profiling
+build is needed. The release binary keeps its symbols, and DWARF unwinding works from its `.eh_frame`. About two
+minutes end to end:
+
+```sh
+# 1. Numbers first. Each run prints its record folder; run.json has the median FPS, measurement.log the per-second
+#    [FramePerf] (loop, render callback, bgfx frame), [GameFramePerf] (update, world, HUD) and [GpuFrameResources]
+#    (draws, triangles) lines. Run each case twice; single seconds swing by 10 %.
+SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated case_a --world mm6 --save saves/a.oysav \
+  --warmup 5 --seconds 12 --visible
+
+# 2. Profile the same run: start it in the background, attach once it is in gameplay, wait for it to exit.
+(SDL_AUDIODRIVER=dummy ./tools/run_game.sh --isolated case_a_prof --world mm6 --save saves/a.oysav \
+  --warmup 5 --seconds 13 --visible > /dev/null 2>&1 &)
+sleep 14
+perf record -F 1500 --call-graph dwarf,16384 -p "$(pgrep -x openyamm | head -1)" -o /tmp/a.data -- sleep 5
+sleep 8
+
+# 3. Text, then the summary. Never leave out --no-inline.
+perf script -i /tmp/a.data --no-inline -F tid,ip,sym > /tmp/a.txt
+tools/perf_stacks.py /tmp/a.txt                                  # threads by share; the busiest one's functions
+tools/perf_stacks.py /tmp/a.txt --thread 1 --frame-us 600 --under renderGameplayHudArt
+tools/perf_stacks.py /tmp/a.txt --thread 1 --frame-us 600 --children GameplaySoloHud::renderHud
+tools/perf_stacks.py /tmp/a.txt --thread 1 --callers tolower
+```
+
+Rules that cost an hour when ignored (2026-11-15):
+
+- **`--no-inline` on every `perf script` and `perf report`.** Without it perf resolves inlined frames through
+  `addr2line`, one process at 100 % CPU for minutes, and the report looks hung. With it the 230 MB capture above
+  converts in under a second. `perf report -g` on this binary is slow even so: use `perf script` and
+  `tools/perf_stacks.py`.
+- **`--call-graph dwarf`, not `-g`.** The build has no frame pointers, so `-g` stacks end in `[unknown]` after one
+  frame. Without call stacks at all (`perf record -F 2000 -p PID`), self time per function still works.
+- **Which thread is the limit.** Thread 0 in the tool's list is normally bgfx's render thread (GL driver, uniform
+  commits, one entry per draw), thread 1 the main thread. In `[FramePerf]`, `avg_bgfx_frame_us` well above 50 means
+  the main thread waits for the render thread: cut draws and uniform work, not game code. A run at half the
+  resolution (`--set video.resolution=800x450`) with the same FPS rules out pixel cost.
+- **`--frame-us`** turns shares into microseconds of a frame: pass the thread's busy time per frame
+  (`avg_render_callback_us` for the main thread).
+- **Compare two cases** by running the tool on both captures with the same `--under`; an old binary from `output/`
+  can stand in as a baseline through `--binary`, but only with saves and assets it can load.
+- **A quiet machine.** Another session compiling in the checkout triples the frame times: check `uptime` and
+  `pgrep -x cc1plus` before trusting a run, and repeat it if either shows load.
+- Wait for the game by its exact name (`pgrep -x openyamm`), never `pgrep -f`.
+
+The sections below are the longer route: a profiling build with source lines and the gameplay-gated launcher.
+
 ## Reusable approval wrapper
 
 Use `./tools/profile_game.sh` as the command-prefix approval, including for future agent runs. It delegates to

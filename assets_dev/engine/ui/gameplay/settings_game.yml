@@ -441,7 +441,7 @@ elements:
     - id: SettingsGameGroup1
       anchor: top_left
       offset_x: 0.0
-      offset_y: 247.5268
+      offset_y: 297.9689
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -713,10 +713,57 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameRulesetSoloLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 243.2601
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Solo run
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameRulesetSoloDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 259.4686
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: One adventurer in first person, with an action bar and talents. A party of one can become a solo run at
+          any time; it stays one for the rest of the adventure.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameRulesetSoloControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 246.8021
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsGameRulesetHomingLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 273.1268
+      offset_y: 323.5689
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -733,7 +780,7 @@ elements:
     - id: SettingsGameRulesetHomingDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 289.3353
+      offset_y: 339.7774
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -750,7 +797,7 @@ elements:
     - id: SettingsGameRulesetHomingControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 270.9104
+      offset_y: 321.3525
       width: 70.4
       height: 32.158
       z_index: 10
@@ -762,7 +809,7 @@ elements:
     - id: SettingsGameRulesetFriendlyFireLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 312.0521
+      offset_y: 362.4942
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -779,7 +826,7 @@ elements:
     - id: SettingsGameRulesetFriendlyFireDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 328.2606
+      offset_y: 378.7027
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -796,7 +843,7 @@ elements:
     - id: SettingsGameRulesetFriendlyFireControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 309.8357
+      offset_y: 360.2778
       width: 70.4
       height: 32.158
       z_index: 10
@@ -808,7 +855,7 @@ elements:
     - id: SettingsGameRulesetTrainerHintsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 350.9774
+      offset_y: 401.4195
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -825,7 +872,7 @@ elements:
     - id: SettingsGameRulesetTrainerHintsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 367.1859
+      offset_y: 417.628
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -842,7 +889,7 @@ elements:
     - id: SettingsGameRulesetTrainerHintsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 348.761
+      offset_y: 399.2031
       width: 70.4
       height: 32.158
       z_index: 10
@@ -854,7 +901,7 @@ elements:
     - id: SettingsGameRulesetBowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 389.9027
+      offset_y: 440.3448
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -871,7 +918,7 @@ elements:
     - id: SettingsGameRulesetBowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 406.1112
+      offset_y: 456.5533
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -888,7 +935,7 @@ elements:
     - id: SettingsGameRulesetBowControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 387.6863
+      offset_y: 438.1284
       width: 70.4
       height: 32.158
       z_index: 10
@@ -900,7 +947,7 @@ elements:
     - id: SettingsGameRulesetLootFilterLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 428.828
+      offset_y: 479.2701
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -917,7 +964,7 @@ elements:
     - id: SettingsGameRulesetLootFilterDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 445.0365
+      offset_y: 495.4786
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -934,7 +981,7 @@ elements:
     - id: SettingsGameRulesetLootFilterControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 430.9573
+      offset_y: 481.3994
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -953,7 +1000,7 @@ elements:
     - id: SettingsGameRulesetDisintegrateLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 467.7533
+      offset_y: 518.1954
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -970,7 +1017,7 @@ elements:
     - id: SettingsGameRulesetDisintegrateDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 483.9618
+      offset_y: 534.4039
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -987,7 +1034,7 @@ elements:
     - id: SettingsGameRulesetDisintegrateControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 465.5369
+      offset_y: 515.9791
       width: 70.4
       height: 32.158
       z_index: 10

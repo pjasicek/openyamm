@@ -2568,16 +2568,22 @@ items:
   - decorations
   - outdoor
   reported: '2026-10-26'
-  updated: '2026-11-07'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1564370866525962322
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571365212563705906
   notes: 'Investigated 2026-11-07 (effort M): The terrain is drawn on a Catmull-Rom smoothed surface that may sit up to 32
     units off the native triangles (OutdoorGeometryUtils outdoorSmoothedTerrainHeight; level_generation/terrain/materials/README.md:28-31).
     Actors stay on the native collision height: updateActorLook and model placement use state.preciseZ plus zOffset. Only
     resting ground items are placed on the drawn ground (OutdoorGameView.cpp:2481-2503 item ground sampler). On convex crests
     and slopes the drawn ground is lower than the native surface, so creatures appear to float, as in the screenshot. Recommendation:
     Offset each terrain-standing actor model''s render height by renderedHeight(x, y) minus the native height, rendering only
-    and keeping collision, as the item sampler does.'
+    and keeping collision, as the item sampler does.
+
+
+    2026-11-15: A decoration case: MM7 Harmondale''s beacon fire (decoration 564, dec61, mm7_deco_dec61.glb at (-3931, 7443,
+    2617) in 7out02) stands at the scene height on the native ground; its flat base hangs over the drawn smoothed ground on
+    the steep hill. Recommendation: sink ground-mounted decoration models to the lowest drawn ground under their base.'
 - id: OY-141
   kind: bug
   status: done
@@ -4721,7 +4727,7 @@ items:
   - ui
   - hud
   reported: '2026-10-31'
-  updated: '2026-11-07'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566111800787869796
   - https://discord.com/channels/1563263436400623696/1563263444684111966/1566772721776459816
@@ -4729,9 +4735,19 @@ items:
   - https://discord.com/channels/1563263436400623696/1563263444684111966/1566786733859676220
   - https://discord.com/channels/1563263436400623696/1563263444684111966/1566786876499689586
   - https://discord.com/channels/1563263436400623696/1563263444684111966/1566861275441406185
-  notes: The overlapping window is the turn-based Pass button; combat log lines are also cut off. Owner plans two-line entries
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571267701731495958
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571249450758701077
+  notes: 'The overlapping window is the turn-based Pass button; combat log lines are also cut off. Owner plans two-line entries
     or a smaller font and moving the turn-based controls (or the log). A player suggested a top strip right of the buffs with
     3-4 scrollable lines and adjustable transparency/height.
+
+
+    2026-11-15: Still on v2.3: the turn dock (gameplay.yml ObsidianTurnDock, bottom-left 69x33 with its Pass button, z 200)
+    lies inside the docked combat log (gameplay.yml:1940, 176x136, z 205); the log''s placement avoids only the party frame
+    (GameplayCombatLogPanel.cpp:617-635), and clicks test the turn dock first (GameplayHudInputController.cpp:453-462), so
+    clicking the log there switches turn-based off. A player asks to stop that or move the log. Recommendation: lift the log
+    above the dock while turn-based is on, and let the topmost widget take the click.'
+  priority: normal
 - id: OY-247
   kind: bug
   status: not-a-bug
@@ -4856,7 +4872,7 @@ items:
   - maw
   - shops
   reported: '2026-10-31'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566132438017769594
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566132752896626862
@@ -4864,13 +4880,21 @@ items:
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178590928900207
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178653923156209
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1571178665771798612
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571331482515939402
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571333813865422879
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571333953049329866
   resolution: 'Working tree, 2026-11-14 (not yet released): by the owner''s new decision (2026-11-13), alchemists sell potions
     and reagents only; the crafting materials stay with the magic shops.'
   notes: 'Investigated 2026-11-07 (effort S): Crafting materials at alchemists are the user''s decision of 2026-10-23 (HANDOFF.md
     section 1, Crafting: "every alchemist and magic shop may stock crafting items"), implemented in MawItemRules.cpp:2385-2420.
     Shop stock is part of the save and rerolls only when the shop''s refresh time passes, as in MM6-MM8 and MAW (MAW rerolls
     in ShopItemsGenerated, zzMaw-Items.lua:3986-3988). Loading a save restores the stock it held. Recommendation: Close and
-    answer the reporter: intended. The stock changes when the shop restocks, not on load.'
+    answer the reporter: intended. The stock changes when the shop restocks, not on load.
+
+
+    2026-11-15: Raised again on v2.3 (alchemists stock crafting items; testers disagree whether vanilla offers them at high
+    gold). In 2.4 (d81e300cb9) only magic shops and MM9 apothecaries sell crafting materials, gated by party gold (MawItemRules.cpp:2592-2600,
+    2705-2725); alchemists sell reagents and potions.'
 - id: OY-254
   kind: bug
   status: done
@@ -5031,9 +5055,13 @@ items:
   - maw
   - alchemy
   reported: '2026-10-31'
-  updated: '2026-11-07'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566162592349683806
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571339383380906194
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571339510711722165
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571339621843865642
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571342502106235043
   priority: low
   resolution: 'The bench groups recipes by the potion table''s Required mastery (AlchemyBenchRuntime.cpp:96-102, GameplayAlchemyBenchView.cpp:79-90).
     MAW''s own Data/Tables/Potion settings.txt gives the black potions 252-261 Master (3) and only 262-263 Grandmaster (4),
@@ -5044,7 +5072,11 @@ items:
     (3) and only 262-263 Grandmaster (4), and OpenYAMM keeps those values. MMMerge''s mixing reads that column (RemoveItemsLimits.lua
     ReqM). The confusion comes from MAW''s skill text "GM: Allows to make black potions" (zzAlchemy.lua:709), which OpenYAMM''s
     texts.yml repeats. Recommendation: Close: the grouping matches MAW''s mechanics. Optionally reword the Alchemy Master/Grandmaster
-    text (texts.yml) so it no longer says Grandmaster is needed for every black potion.'
+    text (texts.yml) so it no longer says Grandmaster is needed for every black potion.
+
+
+    2026-11-15: Raised again: black potions listed under Master on the Workbench. Still MAW''s potion table; the skill text
+    saying Grandmaster makes black potions is what misleads.'
 - id: OY-262
   kind: bug
   status: needs-info
@@ -9171,7 +9203,7 @@ items:
   - collision
   - outdoor
   reported: '2026-11-08'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1569064967196516592
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1571146307517681717
@@ -9179,6 +9211,8 @@ items:
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1571147018649206856
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1571147189768556586
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1571147258836291595
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571275191643017380
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571276242366242819
   resolution: 'Working tree, 2026-11-14 (not yet released): same fix as OY-610: a shot blocked low on its target aims at a
     higher clear point.'
   notes: 'Possibly the native terrain triangles stick up above the smoothed drawn terrain (OY-140) and stop the bolt. Ask
@@ -9187,7 +9221,13 @@ items:
 
     2026-11-14: confirmed by the owner: party shots start at 60 % of the party''s height and aim at 60 % of the target''s,
     so on small slopes terrain blocks them while monsters still hit the party. Fix: when the aim line is blocked by terrain
-    but a higher point on the target (the head) is clear, aim there.'
+    but a higher point on the target (the head) is clear, aim there.
+
+
+    2026-11-15: Two testers on v2.3: monsters hit the party over slopes and walls while the party''s shots hit the slope.
+    d81e300cb9 (2.4) aims a party shot blocked low on a target behind a slope at the lowest clear point up to the head, and
+    homing steers there (partyShotAimHeight, OutdoorWorldRuntime.cpp:17866-17890, indoors IndoorWorldRuntime.cpp:19387). Ask
+    them to retest on 2.4 with a save or location if it persists.'
 - id: OY-464
   kind: bug
   status: needs-info
@@ -9610,7 +9650,7 @@ items:
   resolution: 'v2.2: the enemy health bar shows the monster''s name in the interface language.'
 - id: OY-486
   kind: feedback
-  status: needs-decision
+  status: done
   priority: low
   title: MM9 portrait heads look wrong on the paperdolls (seam box, small elf head)
   summary: On the paperdolls of the new portraits a horned head shows the edge of its cut-out against the body, and a male
@@ -9621,7 +9661,7 @@ items:
   - portraits
   - mm9
   reported: '2026-11-12'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570394593818583040
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1570399319415197838
@@ -9631,12 +9671,23 @@ items:
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1571178838765998105
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1571179575885570089
   - https://discord.com/channels/1563263436400623696/1563532826832535633/1571180451182420160
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571212514895728660
   notes: 'The developer said he did his best and will leave it as it is. Recommendation: low; per-head scale/feather fixes
     if those two families are named (another player suggested a different body for the left one).
 
 
     2026-11-14: reported again (elf heads too small, half-orc head pasted on); the owner would replace them with better art,
-    and the reporter offered to redraw them.'
+    and the reporter offered to redraw them.
+
+
+    2026-11-15: A player contributed redrawn heads for 9pc05bod and 9pc07bod (male elves: larger, matched to the neck) and
+    9pc11bod (horned half-orc: no box round the head, small swept-back horns that helmets cover); only the head and neck rows
+    change, the rest is byte-identical, as drop-in icons_x2 replacements (local attachments 1571212514895728660_*.png with
+    a before/after sheet). Recommendation: review the sheet and install them if they read well.'
+  resolution: 'Working tree, 2026-11-15 (not yet released): the player-contributed heads for 9pc05bod, 9pc07bod and 9pc11bod
+    are installed in assets_dev/engine/icons_x2 (larger elf heads matched to the neck; the half-orc without the box round
+    its head, small horns under every helmet); rows from 110 down are unchanged. The user approved after the before/after
+    sheet.'
 - id: OY-487
   kind: bug
   status: done
@@ -11143,13 +11194,17 @@ items:
   - bosses
   - mutators
   reported: '2026-11-12'
-  updated: '2026-11-13'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570541138304172056
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570543210584088657
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571321981016608860
   resolution: 'MAW does both: its CalcDamageToPlayer swaps the party with the boss on a hit, and its CalcDamageToMonster zeroes
     the party''s damage and swaps the boss with active hostile monsters (zzMaw-Monsters.lua:3315-3318, 3372-3380). OpenYAMM
     follows it (MawCombatRules.cpp:3729-3733 and deflectsPartyHit :3747-3775), limited to monsters in the engagement range.'
+  notes: '2026-11-15: Reported again as a swap "before the hit". The swap happens when the hit lands and that hit does no
+    damage (OutdoorWorldRuntime.cpp:19004-19008, IndoorWorldRuntime.cpp:20037, MawCombatRules.cpp:3815-3843), so it looks
+    like a swap before the blow. Same answer.'
 - id: OY-564
   kind: feedback
   status: done
@@ -11309,7 +11364,7 @@ items:
     the key or the gameplay input does not wait for its release after a menu closes.
 - id: OY-571
   kind: bug
-  status: open
+  status: done
   priority: low
   title: 'MAW: crowd control seems to have no diminishing returns'
   summary: A player feels repeated crowd-control effects on monsters do not get shorter.
@@ -11318,7 +11373,7 @@ items:
   - spells
   - combat
   reported: '2026-11-13'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570606209503993867
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570752478113431633
@@ -11331,6 +11386,10 @@ items:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570757320441331723
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570757383872061582
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1571166470627401789
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571270874185736273
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571275930318671984
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571276010668691479
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571276032076554253
   notes: 'Diminishing returns are implemented (MawRules::diminishedCrowdControlSeconds, MawRules.h:206-209, per monster and
     group 2 and 3 as MAW''s calcDebuffDuration; mace/staff paralysis shares it). Ask which spell or effect, on which monster,
     real time or turn-based.
@@ -11340,7 +11399,13 @@ items:
     diminishing returns per group from the share of the last 20 s under CC (<15 % full, 15-30 % 75 %, 30-45 % 50 %, 45-60
     % 25 %, 60 %+ immune); groups: none for Slow, Armor/Damage Halved, Melee Only, Shrinking Ray; Fear, Charm, Berserk, Enslave;
     Paralyze, Stun. Later: ascension raises duration, mana cost and recovery; skill lowers recovery; bosses always get half
-    duration but count the full time; duration / (1 + resistance / 100). The owner will implement it from the patch notes.'
+    duration but count the full time; duration / (1 + resistance / 100). The owner will implement it from the patch notes.
+
+
+    2026-11-15: A tester still perma-stunned packs on v2.3; the owner said 2.4 fixes it.'
+  resolution: 'v2.4 (d81e300cb9): Stun shares the crowd-control history with the other spells and weapon stuns, and a boss
+    holds half the time but records the whole, as MAW''s CC rework (MawRules.h, diminishedCrowdControlSeconds). The owner
+    tested it for 2.4.'
 - id: OY-572
   kind: bug
   status: new
@@ -11353,14 +11418,20 @@ items:
   - tooltip
   - ui
   reported: '2026-11-13'
-  updated: '2026-11-13'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570612299876667423
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570617156637556767
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570620357742825563
-  notes: MawItemRules.cpp:2950-3013 returns no lines when the member cannot equip the item (no equip plan) or when the change
-    rounds to 0 %, and caches by item, member index and equipment, not by the member's other state. Check which member index
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571314495253389332
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571320664063873167
+  notes: 'MawItemRules.cpp:2950-3013 returns no lines when the member cannot equip the item (no equip plan) or when the change
+    rounds to 0 %, and caches by item, member index and equipment, not by the member''s other state. Check which member index
     chests and the inventory pass (active member vs. bag owner).
+
+
+    2026-11-15: Asked again with a video whether the Vitality calculation is right; another tester thinks Power and Vitality
+    do not work at all or come out wrong.'
 - id: OY-573
   kind: feature
   status: done
@@ -12007,13 +12078,16 @@ items:
   - ai
   - relations
   reported: '2026-11-13'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1570728003733037097
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1570734505495494698
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1570766164983025665
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1570771393522565233
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570750387969855491
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571324601022152715
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571329729510772857
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571335848270635109
   resolution: 'Working tree, 2026-11-14 (not yet released): a monster that has not engaged the party notices it only within
     its relation''s range (1024/2560/5120, as the original, MM8 0x401237 and OpenEnroth Actor::_SelectTarget); the far rats
     leave the party alone while the dragon hunts them (GameplayActorService::partyNoticeRange; scenario tests/scenarios/mm7/dragon_lair_rats_and_dragon.yml).'
@@ -12021,7 +12095,11 @@ items:
 
 
     Open for the user: the rule affects every MM6-MM8 monster with relation 1-3 (6, 20 and 62 classes); outdoors relation-3
-    monsters notice at 5120 instead of 10240.'
+    monsters notice at 5120 instead of 10240.
+
+
+    2026-11-15: Reported again on v2.3 (the dragon does not fight the rats, the party dies to the rats); the fix is in the
+    2.4 working tree.'
 - id: OY-606
   kind: feedback
   status: needs-info
@@ -12033,7 +12111,7 @@ items:
   - ai
   - balance
   reported: '2026-11-13'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589096608370698/1570734081468145678
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570751683053617193
@@ -12042,7 +12120,15 @@ items:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570755413857665037
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570755819618701385
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1570756008781942826
-  notes: The owner asked for a side-by-side video of the same area in MAW and OpenYAMM; the reporter will send one.
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571264584696725648
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571270021991375033
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571270558216097922
+  notes: 'The owner asked for a side-by-side video of the same area in MAW and OpenYAMM; the reporter will send one.
+
+
+    2026-11-15: Another kiting video on v2.3, and the party escapes melee monsters while walking. Backward movement on foot
+    always uses walk speed, running or not (OutdoorMovementDriver.cpp:314-317, 897-899), as the original (OpenEnroth fBackwardWalkSpeedMultiplier
+    1.0); MAW''s faster backward-run hook is disabled (zMaw-hooks.lua:86-88). So the question stays the monsters'' speed.'
 - id: OY-607
   kind: feature
   status: needs-decision
@@ -12054,10 +12140,16 @@ items:
   - ui
   - combat
   reported: '2026-11-13'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1570753441075040379
-  notes: 'Recommendation: after OY-571; a small icon or tint on the target health bar, cheap once the uptime is tracked.'
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571347334963527792
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571347373299470387
+  notes: 'Recommendation: after OY-571; a small icon or tint on the target health bar, cheap once the uptime is tracked.
+
+
+    2026-11-15: Asked again as an option: icons with the remaining time of each active crowd control on the health bar, not
+    only the diminishing-return timers.'
 - id: OY-608
   kind: bug
   status: done
@@ -12504,17 +12596,25 @@ items:
   - ui
   - controls
   reported: '2026-11-14'
-  updated: '2026-11-14'
+  updated: '2026-11-15'
   sources:
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1571197903911788544
   - https://discord.com/channels/1563263436400623696/1563533122488766614/1571198167251288214
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571203512115667145
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571209241337925764
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571211164816244849
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571211192687394987
   resolution: 'Working tree, 2026-11-14 (not yet released): after a click opens a window from play, the opening button counts
     only once released and further clicks within 250 ms are dropped (GameInputSystem::guardClicksAfterWindowOpened); keys
     are never held; unit tests. Android taps are not guarded.'
   notes: 'Recommendation: accept for windows opened by a world click (ignore clicks for ~200 ms or until the button is released).
 
 
-    Accepted by the user on 2026-11-14.'
+    Accepted by the user on 2026-11-14.
+
+
+    2026-11-15: Another player hit it at the New Sorpigal fountain; one asked for a confirmation before one-way trips (early
+    travel to Emerald Island). The owner said the click guard is in.'
 - id: OY-633
   kind: feature
   status: needs-decision
@@ -12731,3 +12831,750 @@ items:
   - https://discord.com/channels/1563263436400623696/1566574247621431367/1571068439550885962
   - https://discord.com/channels/1563263436400623696/1566574247621431367/1571092602327928944
   notes: 'Recommendation: decline for now; little value in a first-person game with paperdolls only.'
+- id: OY-642
+  kind: bug
+  status: done
+  title: Entering or leaving an elemental plane rests the party and removes its buffs
+  summary: 'MM8: going through the gateway to the Plane of Fire, Air or Water, or back out, silently passed five days: the
+    party was fully healed, lost every buff and five food. The dialog announced no journey.'
+  tags:
+  - mm8
+  - mm7
+  - travel
+  - buffs
+  reported: '2026-11-14'
+  updated: '2026-11-14'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571277919865540711
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571281015996026981
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571287897288482850
+  resolution: 'Working tree, 2026-11-14 (not yet released): an event''s map move between two outdoor maps no longer counts
+    as a five-day walk; only a walk over a map edge rests the party and costs food. Scenario tests/scenarios/mm8/plane_gateway_keeps_buffs.yml.'
+  notes: 'GameplayDialogController.cpp treated every confirmed evt.MoveToMap from one .odm to another as a walk (outdoorMapMoveTravelDays,
+    since aac7660ee0): five days, restAndHealAll, five food. That matched only the three outdoor planes'' gateways, their
+    exits and MM7''s swim up out of the Shoals. The reference engine''s confirm of an event transition (UIMSG_OnIndoorEntryExit)
+    passes no time; only UIMSG_OnTravelByFoot rests.'
+- id: OY-643
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: 'Party creation: party board shows the best mastery each skill can reach'
+  summary: The party board column at party creation shows what is picked now; a player wants the highest mastery each member's
+    class can reach, to check that the party covers every skill it needs.
+  tags:
+  - party-creation
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571221479171952770
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571221758852206593
+  notes: 'The skill columns already colour skills by best mastery (C2 layout). Recommendation: small; let the party board
+    show each skill''s best reachable mastery across the party (or toggle between now and best).'
+- id: OY-644
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: 'Contributed map: a reworked Celeste for MM7'
+  summary: A modder offers a reworked Celeste (Heroes 3 style buildings, open-air architecture, every shop and guild plus
+    extra houses) made for MMMerge with its textures and DAT file; an OBJ can be shared. The author means it to replace the
+    original Celeste. Several players want it.
+  tags:
+  - mm7
+  - maps
+  - contribution
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571228683895705742
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571235757128159357
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571235796927647805
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571237375118413935
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571238469592678481
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571241412123689161
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571243043472932970
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571243542079213700
+  notes: 'The owner likes it and asked where it should sit. Recommendation: take it as an optional replacement once the author
+    shares the OBJ and textures under a licence we can ship; its houses, services and events must map onto Celeste''s (extra
+    houses can stay empty). Moderate: import as a BLV, rebind events, check OY-613''s sky.'
+- id: OY-645
+  kind: feature
+  status: done
+  priority: low
+  title: 'Battle orders: condition on the caster''s own HP'
+  summary: A player wants a "my HP is below N %" condition beside the ally HP condition, for example to drink or heal oneself
+    first.
+  tags:
+  - battle-orders
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571232736059068528
+  notes: 'The ally condition takes the lowest HP share among reachable members (devdocs/BATTLE_ORDERS.md:20). Recommendation:
+    small; the same condition restricted to the acting member.
+
+
+    Accepted by the user on 2026-11-15.'
+  resolution: 'Working tree, 2026-11-15 (not yet released): the Battle Orders HP row has "any ally" and "own" chips; own reads
+    the acting member''s HP (BattleOrder::ownHealth, BattleOrderSituation::ownHealthShare; save version 183; scenario key
+    own_hp_below). Unit test in BattleOrdersTests; checked in a game run.'
+- id: OY-646
+  kind: feature
+  status: done
+  priority: low
+  title: Drag the scroll bar of the Progress page's map list
+  summary: A player wants to drag the scroll bar thumb of the Progress page's map list with the mouse.
+  tags:
+  - ui
+  - maw
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571236810963681372
+  notes: 'Recommendation: small; make the thumb draggable in the shared list scroll bar so every list gets it.
+
+
+    Accepted by the user on 2026-11-15.'
+  resolution: 'Working tree, 2026-11-15 (not yet released): a press on the Progress map list''s scroll bar grabs its thumb,
+    which follows the pointer until release (journalProgressScrollAt, JournalScreenState::progressScrollDragging). Checked
+    in a game run.'
+- id: OY-647
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: 'Turn-based: a timeline of who acts next'
+  summary: A player asks for an initiative timeline in turn-based combat (like Final Fantasy X's), showing the order in which
+    party members and monsters act.
+  tags:
+  - turn-based
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571239588738109462
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571239611550666981
+  notes: 'Recommendation: moderate; a strip of portraits and monster icons read from the turn queue (devdocs/TURN_BASED_COMBAT_AUDIT.md),
+    drawn only in turn-based mode.'
+- id: OY-648
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: Experience for kills made by or of mind-controlled monsters
+  summary: A monster that dies while under the party's mind control (Berserk, Charm), or that a berserk or charmed monster
+    kills, gives the party no experience; a player asks that it should. MAW does not give it either.
+  tags:
+  - maw
+  - spells
+  - experience
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571337276473213112
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571337825889030205
+  notes: 'Recommendation: give the party the experience when the killer is under the party''s control or the victim dies under
+    it; small, in the kill-credit path. A deviation from MAW, so a setting or a DEVIATIONS.md entry.'
+- id: OY-649
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: Warn before a potion buff runs out
+  summary: A player wants a notice when potion buffs are about to end.
+  tags:
+  - ui
+  - buffs
+  - potions
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571355996700549212
+  notes: 'OY-508 made Fly''s and Wizard Eye''s indicators blink in their last ten game minutes. Recommendation: small; blink
+    a member''s buff icon the same way in its last minutes, computed where the icons are drawn (no per-frame polling).'
+- id: OY-650
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: 'Workbench: mix only from reagents and base potions'
+  summary: A player wants a Workbench option that never uses already brewed higher potions as ingredients, so mixing does
+    not consume potions they meant to keep.
+  tags:
+  - maw
+  - alchemy
+  - workbench
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571359291170885735
+  notes: 'Recommendation: small; a bench toggle that limits ingredient lookup to reagents and the base potions of the recipe.'
+- id: OY-651
+  kind: feature
+  status: done
+  priority: low
+  title: 'MAW sort: overflow into the next bag group'
+  summary: When all four bags of a group are marked for a kind (for example alchemy) and full, a player wants sorting to put
+    the rest into the next bag group instead of leaving it.
+  tags:
+  - maw
+  - inventory
+  - bags
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571230929798693008
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571230935213674528
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571247167761285292
+  notes: 'Recommendation: small to moderate; sort fills marked bags of the next group when the current one is full, before
+    unmarked bags.
+
+
+    Accepted by the user on 2026-11-15.'
+  resolution: 'Working tree, 2026-11-15 (not yet released): sorting every bag of a tab sends what finds no bag of its kind
+    there to the free places of the other tabs'' bags of its kind, the next tab first, before any bag of another kind (InventoryBags
+    packIntoTaggedBags); the other tabs keep their items. Unit test in QuickItemSlotTests.'
+- id: OY-652
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: 'Turn-based: mana regenerates while waiting'
+  summary: A player noticed spell points regenerate while passing turns in turn-based combat.
+  tags:
+  - turn-based
+  - maw
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571210418297249885
+  resolution: 'By design: the original regenerates HP and SP once per turn (devdocs/TURN_BASED_COMBAT_AUDIT.md TB-2), and
+    MAW''s regeneration runs on game time (zzMaw-Timers.lua:17-45), which advances per turn. OY-355 restored this.'
+- id: OY-653
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: 'MAW: Cover at Novice already covers ranged hits'
+  summary: A player at Novice Cover sees it take hits they expected only at Expert; another tester says the masteries should
+    be Novice attacks, Expert ranged attacks, Master spells, Grandmaster +15 %.
+  tags:
+  - maw
+  - skills
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571217620013948959
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571222750503370772
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571222921014149192
+  resolution: 'Matches MAW''s code: Novice covers any physical Attack1/Attack2 (arrows included), Expert any non-physical
+    attack, Master spells (zzMAW-Skills.lua:1048-1054; ours MawSkillFormulas.cpp:44-47 via MawCombatRules.cpp:2519). MAW''s
+    own Expert text says "Projectiles" (zzMAW-Skills.lua:2035) but its code does not do that. Grandmaster matches (MawCombatRules.cpp:1697-1700).'
+  notes: 'Optional: reword Normal to "Covers physical attacks, melee or ranged".'
+- id: OY-654
+  kind: bug
+  status: open
+  priority: normal
+  title: 'Turn-based: the party cannot fly up or down'
+  summary: With Fly on, the party cannot rise or descend during turn-based combat.
+  tags:
+  - turn-based
+  - movement
+  - spells
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571241556327792881
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571322338484428875
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571322622082293961
+  notes: 'Fly Up and Fly Down are always cleared in turn-based (TurnBasedCombatRuntime.cpp:610-611, 654-655) since the first
+    turn-based version (95efd4d0c8), not as a deliberate rule. OpenEnroth blocks only Jump in turn-based; fly up/down are
+    not gated and cost no movement (KeyboardInputHandler.cpp:189-192, 318-334). Recommendation: allow vertical flight in the
+    movement stage, free as in the original. Small.'
+- id: OY-655
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: Turn-based mode ends on entering or leaving a dungeon
+  summary: Turn-based combat switches off when the party changes map.
+  tags:
+  - turn-based
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571242824882720769
+  resolution: 'As the original: a map change ends turn-based (GameSession.cpp:631-636; OpenEnroth Game.cpp:1592-1593 on every
+    map load). Keeping it across maps would be a feature request.'
+- id: OY-656
+  kind: bug
+  status: open
+  priority: normal
+  title: 'Turn-based: poison drains HP in real time during the monsters'' turns'
+  summary: 'Poison drains too fast in turn-based combat: it keeps ticking while the monsters act. In real time a player also
+    finds it fast.'
+  tags:
+  - turn-based
+  - maw
+  - conditions
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571330259863998505
+  notes: 'Real time matches MAW: once a second, 20 s base +5 s per new poison up to 50 s, 0.25/0.5/1 % of full HP (MawCombatRules.cpp:2928-2985;
+    MAW poisonTimer zzMaw-Items.lua:1306-1356). In turn-based, updateCombat runs with the frame time whenever monster AI runs
+    (GameSession.cpp:1165-1192), so poison ticks in wall-clock time during the monster stages; MAW ticks on game time (about
+    1.7 s per turn). Same class of bug as TB-2. Recommendation: move the poison tick into the per-turn advance, as updateRegeneration.'
+- id: OY-657
+  kind: bug
+  status: open
+  priority: normal
+  title: Inferno Bats (and other melee monsters with a missile) shoot almost every recovery
+  summary: The Inferno Bat fires its ranged attack too many times in a row.
+  tags:
+  - monsters
+  - ai
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571328374440206497
+  notes: 'Inferno Bat is monster 207 (monster_data.txt:211): recovery 50, melee Attack1, Fire missile Attack2 at 15 %. Out
+    of melee range our AI turns a rolled Attack1 into the ranged Attack2 regardless of the 15 % (GameplayActorAiSystem.cpp:1306-1316);
+    only the distance commit chance (15-84 %, :1213-1262) remains. OpenEnroth fires Attack2 only when the roll picked it and
+    otherwise closes in (Actor.cpp:2756-2770). Probable cause, not reproduced. Recommendation: respect the Attack2 chance
+    at range and pursue on a melee roll; check every monster whose Attack2 is a missile.'
+- id: OY-658
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: 'MAW: a status boss cannot inflict its condition on an immune member'
+  summary: After an Antidote made a member immune to poison, a Poison boss did not poison them; a player says MAW bosses inflict
+    their condition through immunity.
+  tags:
+  - maw
+  - bosses
+  - conditions
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571333195880861810
+  resolution: 'Deliberate deviation #10 (user decision 2026-10-23, devdocs/maw/DEVIATIONS.md:17): MAW writes Poison3 directly
+    past immunity (zzMaw-Monsters.lua:3309-3312); we apply it through the normal condition path where immunity blocks it (MawCombatRules.cpp:3750-3774).'
+  notes: The user may revisit the deviation now that a player expects MAW's behaviour.
+- id: OY-659
+  kind: bug
+  status: needs-info
+  priority: low
+  title: Monster infighting looks one-sided (wolves vs centaurs, lizardmen vs pirates)
+  summary: In MAW, Ravenshore's wolves and centaurs fight each other, which testers think wrong; the wolves damage the centaurs
+    but not the reverse, and on Dagger Wound the Lizardmen do no damage to the pirates (New Sorpigal similar).
+  tags:
+  - maw
+  - monsters
+  - relations
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571252001076154449
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571254172500885575
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571260063543197859
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571260408474640425
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571260536765554761
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571262659758919791
+  notes: 'Hostility is by design: our hostile.txt is byte-identical to MMerge''s; Dire Wolf and Centaur are hostile both ways
+    (2/2), and Wimpy Pirates vs Lizardmen too (peasants 4/3, warriors 4/4). The one-sided damage is unconfirmed; guesses:
+    the monster-vs-monster hit roll uses the attacker''s raw level against the target''s ruleset-scaled AC (OutdoorWorldRuntime.cpp:18335-18339),
+    and damage is a third of MAW damage against MAW-scaled HP (MawCombatRules.cpp:813-822). Recommendation: reproduce on Dagger
+    Wound with the combat log''s monster-against-monster lines; if the hit roll, use the scaled level. Testers also list intended
+    feuds: Evenmorn ghosts vs gargoyles, Garrote Gorge dragons vs nagas.'
+- id: OY-660
+  kind: bug
+  status: done
+  priority: high
+  title: 'MM8 Plane of Water: no spells or attacks ("can''t do that in water")'
+  summary: In MM8's Plane of Water the party could not cast spells, and attacks were refused with a message that it cannot
+    be done in water.
+  tags:
+  - mm8
+  - spells
+  - water
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571216378017480715
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571220126035091467
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571223585987764405
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571276976570765333
+  resolution: 'v2.4 (d81e300cb9): only a map''s own restriction blocks casting (PartySpellSystem.cpp:1375-1385, GameplayScreenRuntime.cpp:1660-1665);
+    v2.3 blocked every map flagged underwater, which elemw is. Only MM7''s Shoals keeps the restriction. Scenario tests/scenarios/mm8/plane_of_water_casting.yml.'
+  notes: The refused attacks were probably battle-order spell casts hitting the same check (guess).
+- id: OY-661
+  kind: bug
+  status: open
+  priority: low
+  title: 'MM9: Water Walk does nothing'
+  summary: Water Walk has no effect in MM9; the party still swims. The spell can be cast and spends mana.
+  tags:
+  - mm9
+  - spells
+  - water
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571245025801666561
+  notes: 'Every MM9 map is a BLV with water volumes; the indoor swim code (IndoorPartyRuntime.cpp stepInWater, IndoorWater.h)
+    never checks the Water Walk buff, which works only on outdoor water tiles (OutdoorMovementDriver.cpp:837, 908). Open in
+    the design (MM9_WATER_SWIMMING_DESIGN.md:75, 230). Recommendation: hold the party on the volume surface while Water Walk
+    is on; until then refuse the cast in MM9.'
+- id: OY-662
+  kind: bug
+  status: needs-info
+  priority: low
+  title: 'MM7 Barrow XV: stuck at the waterfall'
+  summary: The party got stuck in the waterfall inside Barrow XV; jumping did not free it (a save was reloaded).
+  tags:
+  - mm7
+  - collision
+  - indoor
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571276817799708693
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571277868602888323
+  notes: 'mdr05.blv: moat floor z 320, ledges z 384; the waterfall is 12 steep slope faces (336-347) from z 328 to 832 between
+    walls 646 and 647, about x 2816-3328, y -768 to -504. A jump (~90 units) clears 64, so the guess is the party wedged on
+    a slope too steep to stand on (normal z ~0.46 vs 0.71), never grounded and unable to jump, or under the slope. Ask for
+    a save or position; reproduce headless near (3070, -480, 320). The Unstuck setting frees the party meanwhile.'
+- id: OY-663
+  kind: bug
+  status: open
+  priority: normal
+  title: Casting on a party member also uses the object under the crosshair
+  summary: Choosing a member for a spell such as Heal or Cure Weakness, with the crosshair on a door, chest or NPC, also opens
+    or uses that object; a trapped chest was opened this way.
+  tags:
+  - spells
+  - input
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571339160223219763
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571339178589823036
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571339236173553755
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571339464276574259
+  notes: 'The portrait click casts on press; while the target is pending the interaction latches reset each frame (GameplayInteractionController.cpp:2288-2298)
+    and afterwards only the attack is held until release (suppressAttackUntilRelease, 2275-2279; GameplayScreenState.cpp:20-33).
+    Next frame mouse look resumes with the button down and Smart left click (off by default, GameSettings.h:221) turns it
+    into Use on the crosshair (2547-2588). Probable path; ask whether Smart left click is on. Recommendation: after a pending-target
+    cast block every left-button world action until release.'
+- id: OY-664
+  kind: bug
+  status: needs-info
+  priority: low
+  title: Walking straight into an outdoor step does not climb it
+  summary: Walking head-on into a low marble step in front of a large door stops the party; at an angle it climbs.
+  tags:
+  - movement
+  - collision
+  - outdoor
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571234412358803497
+  notes: Outdoor model steps climb through a floor probe ahead of the party (OutdoorMovementController.cpp:2193-2219, needs
+    headroom) or a hit on a floor face (2726-2748); a straight hit on the riser is a wall and the slide cancels the move.
+    Plausible from the code, not reproduced. Map unknown (perhaps the Castle Harmondale entrance). Ask for the map and position,
+    then walk into it headless.
+- id: OY-665
+  kind: bug
+  status: needs-info
+  priority: low
+  title: MM9 cities open to the sky show the sky box's edges
+  summary: In MM9 cities built as indoor maps open to the sky, the sky shows box edges and seams.
+  tags:
+  - mm9
+  - sky
+  - rendering
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571295298603589672
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571317344808992962
+  notes: 'Open-sky indoor maps leave out sky-flagged faces and draw the outdoor sky behind them (devdocs/INDOOR_OPEN_SKY.md:11-15);
+    the converter textures MM9''s sky box with skymarker.dtx aliased to sky04 (outdoor_blv_draft.py:98, outdoor_blv.py:60).
+    Guess: some sky-box faces lack the sky flag and draw as lit, fogged walls. Not OY-613 (Celeste). Ask which city; list
+    skymarker faces without the flag across MM9 builds and fix in mm9r_common.'
+- id: OY-666
+  kind: bug
+  status: needs-info
+  priority: low
+  title: MAW Gather Loot (G) does not pull something lying in water
+  summary: Loot lying in water near a fight is not pulled to the party with the gather key.
+  tags:
+  - maw
+  - loot
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571249450758701077
+  notes: 'G is MAW''s Gather Loot: at most 30 lootable corpses and 30 crafting items (ids 1041-1070 and the Dimension map)
+    (MawItemRules.cpp:2963-2972, GameplayActionController.cpp:2323-2361); ordinary dropped items never move, and water is
+    not excluded (OutdoorWorldRuntime.cpp:7629-7690). By design if it was an ordinary item; a bug if a corpse. Ask which,
+    and for a save.'
+- id: OY-667
+  kind: feedback
+  status: not-a-bug
+  priority: low
+  title: Flame Blast hits fewer monsters now that monsters are 3D
+  summary: Players find it harder to catch a whole pack with Flame Blast since the monsters became 3D; the sprites used to
+    pile up. Another suggests larger areas for area spells.
+  tags:
+  - spells
+  - monsters
+  - maw
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571224685637799952
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571226589813800971
+  resolution: Flame Blast uses Fireball's 512-unit area measured to each monster's edge (GameplayProjectileService.cpp:32,
+    340-347, 2837-2849); monster spacing dates from April 2026 (f436781397), before the 3D models, which change only the look.
+    Packs only looked stacked as sprites.
+  notes: If the balance should change, widen Flame Blast's radius alone. A player likes that bodies blocking corners make
+    choke points.
+- id: OY-668
+  kind: bug
+  status: needs-info
+  priority: low
+  title: Parts of a castle glow at night
+  summary: Some walls of a castle (probably Castle Harmondale) are evenly bright at night while a matching tower beside them
+    is dark.
+  tags:
+  - lighting
+  - mm7
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563532826832535633/1571249948446560308
+  notes: Uneven, unshaded brightness suggests faces without baked lighting rather than a light. The 7out02 bake is from 2026-11-07
+    and skips faces hidden while it runs (tools/lighting/baked_outdoors/STATUS.md:54), so castle parts an event shows later
+    (the repaired castle) may draw at full brightness (guess). Ask for the map and whether the castle was repaired; check
+    those faces' bake coverage.
+- id: OY-669
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: 'MAW Horizontal: the Level tooltip still lists bolster levels; Monster scaling has no effect'
+  summary: In a solo MAW game with Horizontal progression the Level tooltip lists a bolster per continent, and the global
+    Monster scaling setting seems to matter though its text says Standard games only; toggling it changes nothing. The player
+    also asks for Monster scaling per save.
+  tags:
+  - maw
+  - progression
+  - settings
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571223434246230128
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571227044677816371
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571227090995388428
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571236112306016257
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571236283336888515
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571237702345691382
+  - https://discord.com/channels/1563263436400623696/1563533122488766614/1571237089272664213
+  resolution: 'MAW''s Stats popup prints the bolster in every progression mode (zzMaw-Stats.lua:543-553; ours MawSkillRules.cpp:1133-1138);
+    in Horizontal it only caps monster levels on starter maps, others use the band x 2.5 (MawMonsterLevels.cpp:555-569). The
+    setting does not reach MAW: MawMonsterRules::resolveMonster forces bolster off (MawMonsterRules.cpp:567-570), hence no
+    change.'
+  notes: 'Small wording issue: the "Standard games only" text replaces the description in any game in progress, Standard included,
+    and the toggle stays clickable (MainMenuScreen.cpp:233-235). Recommendation: show it and grey the toggle only under a
+    non-Standard ruleset; optionally say in the Horizontal tooltip that bolster only caps starter maps. Per-save Monster scaling
+    matters only for Standard games: owner''s call.'
+- id: OY-670
+  kind: bug
+  status: open
+  priority: normal
+  title: Trash heaps and ore smiths always give the same item
+  summary: Every trash pile gives the same kind of item (a leather piece first, whichever pile), and ore trading repeats the
+    same way; MMerge picks at random.
+  tags:
+  - events
+  - items
+  - random
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571245970631426270
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571246720627511431
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571280290209341461
+  - https://discord.com/channels/1563263436400623696/1563589096608370698/1571244457775603875
+  notes: 'Trash heaps always start in state 0 (InteractiveDecorationRules.cpp:585-590), so each runs event 281 and gives armour
+    (Global.lua:3966-3988); MMerge rolls Seed = random(3) per click for weapon, armour or misc (GlobalEventsNewHandler.lua:363-386).
+    The event RNG is not saved and reseeds from event id ^ step ^ game minute (EventRuntime.cpp:1308-1324, also generateRandomEventItem),
+    so after a reload the first pile or ore smith repeats. Recommendation: roll the heap''s type per click as MMerge, and
+    seed the event RNG unpredictably on load.'
+- id: OY-671
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: 'MAW: wolves (almost) never drop pelts'
+  summary: Wolves seem never to drop pelts; testers recall MAW lowered reagent drops (wolf pelt, ogre ear, wasp stinger).
+  tags:
+  - maw
+  - loot
+  - monsters
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571248120870863030
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571248274797502615
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571248382075342930
+  resolution: 'Matches MAW: 20 % base pelt drop (monster_death_drops.txt:5-7), MAW cancels 80 % of drops (zzMaw-Monsters.lua:3944-3948)
+    and 80 % of the rest for these items (:4198-4213); ours mirrors it (MawMonsterRules.cpp:1040-1053), about 0.8 % per wolf.'
+  notes: The 20 % base is marked inferred in the table, not checked against MM8-Rel.exe.
+- id: OY-672
+  kind: bug
+  status: open
+  priority: low
+  title: MAW Progress lists maps without monsters as uncleared (Merchant House of Alvar)
+  summary: The Progress page lists the Merchant House of Alvar with 0 % slain and a completion reward waiting, though it has
+    no monsters and can never be cleared.
+  tags:
+  - maw
+  - progress
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571239858435915928
+  notes: 'd09.scene.yml has no spawns or actors; the list takes any map whose encounter-table level is above 0 (MawProgress.cpp:91-96),
+    and a visit shows the reward flag (GameplayJournalProgress.cpp:135) while completion needs counted monsters (MawMonsterRules.cpp:465-468).
+    MAW tracks only indoor maps with monsters (mapvars.monsterMap, zzMaw-Monsters.lua:2664). Recommendation: leave out maps
+    with no counted or hidden monsters, or mark them "nothing to clear".'
+- id: OY-673
+  kind: bug
+  status: not-a-bug
+  priority: low
+  title: 'MM8 Ravenshore: "kill all Dire Wolves" also needs the Dire Wolf Den'
+  summary: A player cleared the Dire Wolves outside but never got the "killed all" message and wondered whether the den must
+    be cleared too.
+  tags:
+  - mm8
+  - quests
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571255308339380398
+  resolution: 'As the original: both areas must be cleared; the first only sets QBit 141, the second sets 140 and shows the
+    message, on leaving the den (d08.lua:122-137) or within ten minutes outside (out02.lua:135, 912-927); same as GrayFace''s
+    Out02.txt:1220-1245 and D08.txt:164-184.'
+- id: OY-674
+  kind: bug
+  status: needs-info
+  priority: low
+  title: A +skill item's bonus does not show at once
+  summary: After putting on an item with a skill bonus, the bonus does not appear immediately.
+  tags:
+  - items
+  - skills
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571305475436449903
+  notes: Every equip path rebuilds bonuses (Party.cpp:6342, 6358, 6379, 6512) and the character screen rebuilds its skill
+    data every frame (GameplayPartyOverlayRenderer.cpp:9075-9081); no stale cache found. MAW's cap on item skill bonuses (MawItemRules.cpp:480,
+    848; see OY-636) may make values look wrong. Ask which item and skill, how it was equipped, and whether it appears later
+    or only after reopening.
+- id: OY-675
+  kind: bug
+  status: open
+  priority: low
+  title: 'Rest: Wait until Dawn waits until 6 AM instead of 5 AM'
+  summary: Wait until Dawn stops at 6 AM; the original stops at 5 AM.
+  tags:
+  - rest
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571349659316650077
+  notes: 'GameplayOverlayInputController.cpp:1012 uses DawnMinuteOfDay = 6 h; the original waits to the next 5 AM (OpenEnroth
+    Engine.cpp:1470-1473), and our inn and training code already use 5 AM (HouseInteraction.cpp:87-99). Recommendation: use
+    minutesUntilNextDawn(). Trivial.'
+- id: OY-676
+  kind: bug
+  status: open
+  priority: low
+  title: MAW resistance potion texts are misleading
+  summary: Testers were unsure whether the resistance potions (for example Self Resistance) raise primary stats; they do,
+    without stacking with the same spells, but the texts do not say so clearly.
+  tags:
+  - maw
+  - potions
+  - texts
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571338914357317823
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571340840750547007
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571342465032519806
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571344028488966176
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571346086193528974
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571346126970421249
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571346699778265261
+  notes: 'Self Resistance (250) casts the Mind and Body Resistance auras (potion_effects.yml:202-207), which also raise Personality
+    and Might by a share, highest source only (MawSkillRules.cpp:405-431). The text "Raises your Mind and Body Resistance,
+    and Personality and Might by {stat}%" (texts.yml:1244; 249 at :1242) reads as if the resistances rise by that share, gives
+    no flat amount and no stacking note; MAW''s names only the resistances (zzAlchemy.lua:498-499). Recommendation: state
+    the flat resistance and the separate stat share, and that the stat part does not stack with the spells or Day of the Gods.'
+- id: OY-677
+  kind: bug
+  status: open
+  priority: low
+  title: The cursor jumps to the screen centre when a house opens
+  summary: Entering a house puts the mouse pointer in the middle of the screen; the original leaves it where it was.
+  tags:
+  - input
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571342305317879983
+  notes: 'Leaving mouse look warps the cursor to the window centre (OutdoorGameView.cpp:3855-3868, IndoorGameView.cpp:1976).
+    Recommendation: remember the cursor position when mouse look starts and restore it when a dialogue or house releases it.'
+- id: OY-678
+  kind: feature
+  status: needs-decision
+  priority: low
+  title: 'MAW: Swift bosses walk over water'
+  summary: In MAW, Swift bosses cross water because of a movement quirk its author decided to keep; testers want the same
+    in OpenYAMM, where they do not.
+  tags:
+  - maw
+  - bosses
+  - mutators
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571229358910210078
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571230057123422219
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571234736947601541
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571235553641242826
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571237881597661377
+  notes: 'MAW moves a Swift monster by its last displacement every tick, skipping collision (zzMaw-Monsters.lua:3600-3624);
+    we double its speed instead, a recorded deviation (devdocs/maw/COMBAT.md:767, 1356). Recommendation: let Swift bosses
+    treat deep water as walkable rather than copy the teleport. Small.'
+- id: OY-679
+  kind: bug
+  status: open
+  priority: low
+  title: '"You are drowning!" shows while Water Breathing protects everyone'
+  summary: With a Water Breathing potion the game still says the party is drowning, and the party must jump in and out rather
+    than walk on water.
+  tags:
+  - water
+  - potions
+  - ui
+  reported: '2026-11-15'
+  updated: '2026-11-15'
+  sources:
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571334151695503571
+  - https://discord.com/channels/1563263436400623696/1563589245061308518/1571336189162557583
+  notes: 'Swimming is right: the potion only makes members immune to drowning damage (Party.cpp:9161-9164, 3056), as the original
+    per-character immunity and vanilla MAW (a tester confirms); walking on water needs Water Walk. But "You are drowning!"
+    prints whenever drowning would tick, even if every member is immune (OutdoorPartyRuntime.cpp:88-91); the original shows
+    it only when someone takes damage. Recommendation: print it only on real damage.'

@@ -2,7 +2,7 @@
 
 Usage: blender --background --python prep.py -- <template> [max_aspect] [min_faces]
 
-Reads assets_dev/engine/view_model/<template>.glb (Oblivion's mesh; never changed: positions, triangles, node name and
+Reads assets_source/engine/view_model/<template>.glb (the template's source; Oblivion's mesh; never changed: positions, triangles, node name and
 transform stay, only vertex sharing at the new seams and the UVs change) and writes into work/<template>/:
   layout.blend        the mesh with the new UVs and the template's split normals (locked once an upload went to Meshy)
   uv_report.json      uv_atlas report plus the segmentation cuts
@@ -29,7 +29,7 @@ argv = sys.argv[sys.argv.index('--') + 1:]
 NAME = argv[0]
 MAX_ASPECT = float(argv[1]) if len(argv) > 1 else 4.0
 MIN_FACES = int(argv[2]) if len(argv) > 2 else 0
-SRC = os.path.join(REPO, 'assets_dev', 'engine', 'view_model', f'{NAME}.glb')
+SRC = os.path.join(REPO, 'assets_source', 'engine', 'view_model', f'{NAME}.glb')
 OUT = os.path.join(PROJECT, 'work', NAME)
 os.makedirs(OUT, exist_ok=True)
 

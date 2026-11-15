@@ -11,9 +11,10 @@ are tracked; `ingame/` is git-ignored by the level_generation rules.
 `scripts/bake_dual_clips.py <in.glb> <in.textkeys.json> <out.glb> <out.textkeys.json>` (numpy only, about 6 s) appends
 22 clips and one node to an arms GLB; every existing clip, mesh, skin and texture is copied byte for byte. It refuses
 input that already holds dual clips, so always bake from the pristine copies kept in
-`reference/oblivion_poc/glb/pristine_predual/` (all ten races, as of 2026-11-14 00:43). The output is written in place,
-so hard links stay one file: `assets_dev/engine/view_model/arms.glb` is the same file as
-`reference/oblivion_poc/glb/arms_hd_human.glb` (and the studio play roots' copies).
+`reference/oblivion_poc/glb/pristine_predual/` (all ten races, as of 2026-11-14 00:43). The output is written in place
+into `reference/oblivion_poc/glb/arms_hd_<race>.glb`; since 2026-11-14 the engine's arms are installed from there with
+`tools/install_model.py --view-model --name arms.glb` (`../crossbow_set_20261114/scripts/rebake_arms.sh` does it), no
+longer shared with `assets_dev` as a hard link.
 
 ```sh
 P=reference/oblivion_poc/glb/pristine_predual; S=level_generation/props/items_claude/dual_wield_20261114/scripts

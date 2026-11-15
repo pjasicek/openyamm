@@ -92,6 +92,12 @@ settings:
   name: MM9 loot in MM6-MM8
   type: toggle
   desc: Drops and chests in Enroth, Antagarich and Jadame can hold Might and Magic IX's weapons, armour and jewellery.
+- id: workbench_keep_mixed_potions
+  section: gameplay
+  group: Alchemy
+  name: Workbench keeps mixed potions
+  type: toggle
+  desc: The Workbench brews only from reagents and the basic potions. A recipe that needs a mixed potion brews a fresh one, so the ones you carry are kept. Two potions you put in the slots yourself still mix.
 - id: skip_event_cutscenes
   section: gameplay
   group: Story
@@ -213,6 +219,12 @@ settings:
   name: Quick item rings
   type: toggle
   desc: A button at each portrait opens its ring of six quick slots; the Potions key opens the ring, not the list.
+- id: potion_expiry_warnings
+  section: interface
+  group: Party
+  name: Potion wear-off warnings
+  type: toggle
+  desc: Name a potion's effect in the status bar ten game minutes before it ends.
 - id: rarity_glow
   section: interface
   group: Items
@@ -701,6 +713,13 @@ settings:
   name: Randomizer
   type: toggle
   desc: Chosen once at the start; fixed for the whole adventure.
+- id: ruleset_solo
+  section: game
+  group: Ruleset
+  name: Solo run
+  type: toggle
+  desc: One adventurer in first person, with an action bar and talents. A party of one can become a solo run at any
+    time; it stays one for the rest of the adventure.
 - id: ruleset_homing
   section: game
   group: Preferences
@@ -819,8 +838,11 @@ bindings:
 - id: upkeep
   name: Cast upkeep spells
   group: Combat
-- id: swap_weapon
-  name: Swap melee weapon and bow (solo run)
+- id: next_weapon
+  name: Next weapon, melee or bow (solo run)
+  group: Combat
+- id: previous_weapon
+  name: Previous weapon, melee or bow (solo run)
   group: Combat
 - id: cast
   name: Open spellbook

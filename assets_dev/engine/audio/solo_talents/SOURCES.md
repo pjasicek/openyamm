@@ -4,8 +4,10 @@ Sounds of the MAW solo run's talents (`devdocs/solo_action/TALENT_TREE_V2_BUILD.
 
 | File | Plays | Source |
 | --- | --- | --- |
-| `talent_cleave.wav` | Cleave, at the blow (`useSoloTalent`) | ElevenLabs, `level_generation/sounds/solo_talents_20261114/jobs.yml` |
-| `talent_charge.wav` | Charge, as the dash starts (`useSoloTalent`) | the same |
+| `talent_cleave.wav` | Cleave, once per monster struck, at it (`useSoloTalent`) | the user's `CleaveTarget.ogg` (`level_generation/sounds/solo_talents_20261114/supplied/`), converted to WAV |
+| | | (the ElevenLabs take stays in that folder's `out/talent_cleave/`) |
+| `talent_charge.wav` | Charge, as the dash starts (`useSoloTalent`) | ElevenLabs, `level_generation/sounds/solo_talents_20261114/jobs.yml` |
+| `talent_blink.wav` | Blink, where the party arrives (`queueTalentMovePresentation`) | the user's `569766.ogg` (`supplied/`), converted to WAV |
 | `talent_cheat_death.wav` | Cheat Death saving the solo (`MawCombatRules`) | the same |
 
 The user's first Cleave and Charge sounds (`CleaveTarget.ogg`, `568712.ogg`) are kept in that folder's `supplied/`;

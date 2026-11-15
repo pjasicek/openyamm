@@ -120,6 +120,16 @@ beside the map when the studio installed it) and the next frame as the `.png` of
 `pins_inbox/`, not the run folder). A `;` in the text ends the command, as everywhere in the console.
 See `devdocs/map_studio/S5_BROWSER_EDITOR.md` 2.10.
 
+Two more launch directives serve the Map Studio's Play here (S5_BROWSER_EDITOR.md 2.10, D13), one-shot like the
+capture keys (read, never written back): `--set debug.startup_console_file=/absolute/start.console` runs that file's
+console commands once the first map has loaded (one per line, `#` comments, as `exec`), and
+`--set debug.exit_pose_path=/absolute/exit_pose.yml` writes where the party stands when the game closes: the world,
+the map and the pose `loc` prints (`position`, `yaw_radians`, `pitch_degrees`, `heading_yaw_units`, shaped as a pin's
+pose). `tp <x> <y> <z> [yaw-radians [pitch-degrees]]` takes the facing in `loc`'s units, so a start file of one
+`tp` line puts the party at a camera. `--extra-mount <folder>` (isolated runs) reads a development folder in front of
+the asset root, as the game's own option, in the preparation and the run: the studio's mount of builds. Headless
+check: `tests/scenarios/debug/play_here.yml`.
+
 ## Video capture
 
 `video start /absolute/clip.mp4 [fps]` (debug console, default 60 fps) records every frame, HUD included, into an
@@ -185,8 +195,7 @@ currently active field. `pointer_down`, `pointer_move` and `pointer_up` accept t
 The cursor check verifies visibility and disabled relative mode on the game window, independently of desktop focus.
 For gameplay checks, `action: quest` (or another keyboard binding INI key) presses the native gameplay action.
 `console: menu` opens the pause menu (gameplay reads Escape from the real keyboard, which a tour cannot press).
-`right_down: [x, y]` and `right_up: [x, y]` hold/release RMB for inspectors and modern cursor interaction;
-`middle_down: ~` and `middle_up: ~` hold/release the middle button (the prototype view model's block).
+`right_down: [x, y]` and `right_up: [x, y]` hold/release RMB for inspectors and modern cursor interaction.
 These operations use the same input frame as the real controls; they do not invoke UI renderer callbacks.
 For repeatable camera-rotation profiling in modern controls, `look_rate: [-400, 0]` supplies relative mouse
 motion in pixels per second during subsequent `wait` steps. `look_rate: [0, 0]` stops it. This uses ordinary

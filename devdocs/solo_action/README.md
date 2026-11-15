@@ -36,6 +36,16 @@ recovery, which counts from the press, so the rate of attacks is unchanged. Rule
   after the licence risk was raised (Bethesda still sells Oblivion). Our own arms, rig, clips and held weapons remain
   the long-term replacement.
 
+## Converting a game (user, 2026-11-14)
+
+A game with a ruleset whose party is one adventurer can become a solo run at any time: Settings, Game, Ruleset,
+**Solo run** (`ruleset_solo` in `engine/ui/menu/settings_catalog.yml`; the debug console's `ruleset solo` does the
+same). It asks first, says the MM9 hirelings stay but take no part in combat, and cannot be undone: the row is greyed in
+a solo run and in a party of more than one, and `GameApplication::applyRulesetOptions` refuses both (never back, only
+a party of one). On applying, the session's options and both copies of the party (the scene's and the session's) get the
+flag, and `makeSoloRunParty` fills the action bar as for a new solo run; the save keeps the flag. Talents need nothing:
+their points come from the level, so a converted character has every point its level has earned.
+
 ## References
 
 No single game has all of it. Skyrim is the closest whole (one character, sword and shield with an active block and
@@ -73,20 +83,22 @@ own arms; the engine side does not depend on them beyond the clip and node names
   two-sided, since the single-sided hand shell shows its palm's inside through the thumb's web in a fist.
 - The kit follows the active member's main hand: sword, axe, mace (one- or two-handed by `ItemRules::wield`), dagger,
   staff, and spears, tridents, halberds and poleaxes (their own `pole` set since 2026-11-14, by the item's held.yml
-  kind: WEAPONS.md "Pole set"), fists without a weapon; a shield in the off hand is drawn and
-  blocks. An archer (nothing in the main hand, a bow in the bow slot) draws the bow. Clip names are `<set><action>` with sets `onehand`, `twohand`, `staff`, `bow`, `handtohand`; `dual`, `crossbow` and `pole` are baked into the arms (WEAPONS.md).
+  kind: WEAPONS.md "Pole set"), fists without a weapon. A shield is never drawn
+  (user, 2026-11-14): the off hand stays empty, and a guard plays the weapon set's own block.
+  An archer (nothing in the main hand, a bow in the bow slot) draws the bow. Clip names are `<set><action>` with sets `onehand`, `twohand`, `staff`, `bow`, `handtohand`; `dual`, `crossbow` and `pole` are baked into the arms (WEAPONS.md).
 - Oblivion's text keys drive the timing: `Hit` is the blow, `a:L`/`a:R` where a further attack chains into the other
   side (attacks combine right, left, right as in Oblivion), `Blend: N` the crossfade, `Attach` when an equip clip's
   weapon reaches the hand.
 - Debug console: `viewmodel pose <clip> <seconds>` holds a frame, `viewmodel kit <set> <weapon.glb|none> <0|1>`
-  overrides the kit, `viewmodel clips` lists clips with their Hit times. Input tours gained `middle_down`/`middle_up`.
+  overrides the kit, `viewmodel clips` lists clips with their Hit times.
 
 Run it: `./tools/run_game.sh --isolated arms --world mm6 --map oute3.odm --ruleset maw:solo --visible --seconds 0`.
-Middle mouse blocks.
+No input is fixed to a key: the solo run's keys (the weapon cycling on the wheel, the Free Cursor on the middle button)
+are bindings in Controls.
 
 **A dragon draws its own forelegs** (built 2026-11-14, [DRAGON.md](DRAGON.md) "Built in the engine"): a member for
 whom `ClassRules::isDragon` holds (MAW: the portrait's race) shows `assets_dev/engine/view_model/dragon_forelegs.glb`
-(our own art, the `claws` set: rakes right and left, a bite on the fifth blow, the Scales guard on block, the breath at
+(our own art, the `claws` set: rakes right and left, a bite on the fifth blow, a Scales guard clip nothing plays since the held block went, the breath at
 range released at its clip's Hit from the mouth) as a second view model; everyone else keeps the arms. To see it, add
 `--set debug.console=true` to the run above and type `testparty apply early solo_dragon` in the console.
 
@@ -132,10 +144,9 @@ hand mesh itself.
   current kit; `viewmodel trace on` prints each swing's clip, rate and blow, and the active member's recovery.
 - **Blow direction.** At the blow the view model projects the blade tip's motion on screen; the melee hit effect
   (`MeleeContactEffectInput::blowDirection`) takes that direction instead of the attacker's portrait side.
-- **Shield block.** Holding the block with a shield raises it (`Party::shieldRaisedMember`, transient): a physical
-  monster blow or missile loses 40 % (Normal), 55 % (Expert), 70 % (Master) or 85 % (Grandmaster), and the block-hit
-  clip plays (`GameplayCombatController::shieldBlockedDamage`, tests/ShieldBlockTests.cpp). Raised, the arm does not
-  swing. Not yet: facing (a blow from behind is blocked too), stamina, a shield bash.
+- **No held shield block (user, 2026-11-14).** The prototype's block (the middle button raised the shield, which took
+  40 to 85 % of a physical blow by Shield mastery) is removed with its party state, block-hit clip and test. A shield
+  protects through its armour class and the Shield Wall talent, which still holds the block pose while it lasts.
 - **Cast then release, fitted to the recovery.** A quick or action-bar spell (GameplayInputController) and an Attack
   whose battle orders hold an enabled spell (GameplayInteractionController) wait like a swing (`ViewModelLink`:
   `waitIsCast`, `quickCastWaiting`): the arms play the kit's cast clip fitted to the spell's recovery at the caster's
@@ -183,6 +194,10 @@ Air pale blue-white, Water cyan, Earth amber-green, Spirit gold, Mind violet, Bo
 violet (additive light cannot darken), others a neutral arcane lilac. The palm is between the wrist and the four
 knuckle joints; the glow is drawn over the hand (light in the palm shows through the fingers), the trail behind
 the arms. `viewmodel fx <school|off>` with a held cast pose shows the glow for review.
+
+**Talent effects (MAW solo run).** Onslaught's red and yellow hand dots are built but off for now; an active talent that is not a cast makes the weapon glint with gold sparks while its clip
+plays, Shield Wall the guarding hands (no shield is shown). Cleave lands at its clip's blow like a swing. Details:
+[TALENT_TREE_V2_BUILD.md](TALENT_TREE_V2_BUILD.md).
 
 **Casting in Oblivion and here.** Measured on the clips' hand travel: `casttarget` casts with the left hand (the right
 barely moves), `castself` and `casttouch` with both hands, the `onehandcast*` clips with the left hand while the
@@ -245,7 +260,7 @@ code reading (the test characters had no spell orders).
   wielding; our item models as held weapons and their grip table): [WEAPONS.md](WEAPONS.md). Built since: the dual,
   crossbow and pole sets (WEAPONS.md); our ground
   models are held in a solo run (`engine/world_items/held.yml`, "Held weapons in the game") and the melee/bow swap
-  (`swap_weapon`, mouse 4; with the bow drawn Attack shoots even at melee range, "Bow swap").
+  (`next_weapon` and `previous_weapon`, the wheel; with the bow drawn Attack shoots even at melee range, "Bow swap").
 - **Own arms** to replace Oblivion's: one rig with the same node names (`Camera01`, `Weapon`, `Bip01 L ForearmTwist`)
   and clip names, material sets by armour and race; Oblivion's clips remain the timing reference.
 
@@ -277,4 +292,4 @@ Full record: [level_generation/solo_action_arms_20261113/README.md](../../level_
 
 The study's list (portrait placement, HP/SP echo, second bar row, buff panels, point rate, magic talents, a signature
 skill, special skills in party mode) and: whether solo mode is a new-game option on Standard and MAW or its own
-ruleset; cleave as proposed; block facing and stamina; whether bows are in scope.
+ruleset; cleave as proposed; whether bows are in scope.

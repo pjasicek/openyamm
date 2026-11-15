@@ -154,7 +154,7 @@ def value_noise(x, seed):
 
 
 def template(name):
-    doc, binary = glb_io.read(os.path.join(REPO, 'assets_dev', 'engine', 'view_model', f'{name}.glb'))
+    doc, binary = glb_io.read(os.path.join(REPO, 'assets_source', 'engine', 'view_model', f'{name}.glb'))
     mesh, prim = glb_io.mesh_primitive(doc, 'Bow' if name == 'w_bow' else None)
     pos = glb_io.accessor(doc, binary, prim['attributes']['POSITION']).astype(np.float64)
     nrm = glb_io.accessor(doc, binary, prim['attributes']['NORMAL']).astype(np.float64)

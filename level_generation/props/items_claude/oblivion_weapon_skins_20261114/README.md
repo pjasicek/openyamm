@@ -1,7 +1,8 @@
 # Oblivion weapon tier skins (2026-11-14)
 
 New high-resolution textures ("skins") for the Oblivion first-person weapon templates of the solo run
-(`assets_dev/engine/view_model/`, devdocs/solo_action/WEAPONS.md "Tier skins (2026-11-14)"), one per item tier, picked
+(sources in `assets_source/engine/view_model/`, cooked into `assets_dev`; devdocs/solo_action/WEAPONS.md "Tier skins
+(2026-11-14)"), one per item tier, picked
 in game by the item's tier. The pilot made the one-handed sword (`w_longsword`), the two-handed sword (`w_claymore`),
 the mace (`w_mace`) and the bow (`w_bow`) in three tiers; the rollout (approved by the user the same day) added a
 fourth, **legendary** tier and every other template: `w_shortsword`, `w_dagger`, `w_waraxe`, `w_battleaxe`,
@@ -42,8 +43,8 @@ it drew their far sides: guards, pommels and grips lit from behind and near blac
 <glb>...` reverses the corner order of each primitive that mostly disagrees with its normals (the `[0, 2, 1]` flip;
 `--check` only reports, a fixed file is left alone) and permutes a layout made on the old order
 (`uv_template.npy`, `maps/uv_tris.npz`). It rewrote all 12 templates in place (`w_*.glb`, `w_staff_grip.glb`,
-`s_steelshield.glb`); `assets_dev/engine/view_model/` and `reference/oblivion_poc/glb/` share them as hard links, so
-both are fixed. Pre-fix originals: `work/templates_backup_20261114/` (0 % of triangles with their normals; now 100 %, the
+`s_steelshield.glb`), then shared with `assets_dev/engine/view_model/` as hard links. Since 2026-11-14 the templates'
+sources are `assets_source/engine/view_model/` and `assets_dev` holds cooked copies: run it on a source, then cook. Pre-fix originals: `work/templates_backup_20261114/` (0 % of triangles with their normals; now 100 %, the
 bow 99.6 %: string slivers). In game the plain templates' guards, pommels and grips now read lit outdoors (the dungeon
 is dim for every skin and template alike).
 
@@ -89,8 +90,9 @@ is dim for every skin and template alike).
 6. `scripts/write_skin.py`: the skin GLB from the template's own JSON: nodes, names, transforms, the bow's animations,
    morph and arrow kept; the weapon primitive rebuilt and its material's three images replaced, an `emissiveTexture`
    (factor 1) added when `emissive.png` exists. Checked per skin: the same triangles by position. `w_staff_grip` takes
-   the staff's layout and paint (`UV_FROM`; `post.py` writes it beside the staff's, `SAME_PAINT`). Installed by copying
-   `work/<template>/t<tier>/*_t<tier>.glb` into `assets_dev/engine/view_model/`.
+   the staff's layout and paint (`UV_FROM`; `post.py` writes it beside the staff's, `SAME_PAINT`). Installed with
+   `python3 tools/install_model.py work/<template>/t<tier>/<skin>_t<tier>.glb --view-model` (the source into
+   `assets_source/engine/view_model/`, the cooked copy into `assets_dev`; never copy into `assets_dev` directly).
 
 Fixes in the rollout:
 - **Seam lines** (the claymore's quillons): the metal mask was blurred against the empty gutter, so island borders fell

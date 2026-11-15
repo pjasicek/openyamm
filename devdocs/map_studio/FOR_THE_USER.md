@@ -82,3 +82,19 @@ goblin slate beside the original's skull lines (the lead assumes the reviews' pr
 **Committed 2026-11-14 (by openyamm-03 for 2.4, local, not pushed):** items 1 and 9 (status-line durations, the 22 bindings,
 `tools/terrain_materials.py`, the pin command) in d81e300cb9 and 4f9cbaf221; the Map Studio and Xeen records in fab2e72847
 (without `briefs/mm7_7out03`, still in work). Left out: `openyamm-studio/`, `.github/workflows/studio.yml`, `output/`.
+
+13. S5a4's game changes (2026-11-14, approved: the start-of-map console file and the exit pose), to commit when you
+    like: `game/app/GameSettings.{h,cpp}`, `game/app/GameApplication.{h,cpp}` (also carries other sessions' edits;
+    S5a4's are an include, `tp`, two methods, two hooks), `game/debug/ExitPose.{h,cpp}` (new), `game/CMakeLists.txt`,
+    `game/scenario/ScenarioDocument.h`, `ScenarioYamlLoader.cpp`, `ScenarioRunner.cpp`, `ScenarioRuntimeDriver.{h,cpp}`,
+    `tests/ExitPoseTests.cpp` (new), `tests/CMakeLists.txt`, `tests/scenarios/debug/play_here.yml` and
+    `play_here_start.console` (new), `tests/scenarios/README.md`, `tools/run_game.py`, `tools/RUN_GAME.md`.
+    **Please confirm two small extras the agent added beyond the approval:** `tp` takes an optional yaw (radians) and
+    pitch (degrees), so Play here starts facing the browser's view; `tools/run_game.py --extra-mount`.
+
+14. S5 is complete except what needs you (2026-11-15). Your decisions: (a) deploy the hosted page (the four things in
+    S5.md "S5c": the studio in the repository, an origin, a publishing step, the download's default origin); (b) start
+    S6 (MM9 profiles and extras) and/or S7 (consolidation: the game links the studio's core and `editor/` is deleted
+    per EDITOR_RETIREMENT.md: a large change to the game); (c) optionally a performance pass on the missed hosted
+    budgets (Chrome's first open, indoor commit p95 in the browser, outdoor 3D after a commit, the 2.98 MB core).
+    Optional hands-on checks any time: `openyamm-studio/build-s4/oymap studio`, open the link, walk a map, pin it.

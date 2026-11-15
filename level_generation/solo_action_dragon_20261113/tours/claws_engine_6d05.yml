@@ -29,11 +29,10 @@ steps:
   - console: viewmodel pose clawsbite 0.25
   - wait: 0.5
   - capture: 04_bite
-  - console: viewmodel pose off
-  - middle_down: ~
-  - wait: 1
+  - console: viewmodel pose clawsblockidle 0.5
+  - wait: 0.5
   - capture: 05_guard
-  - middle_up: ~
+  - console: viewmodel pose off
   - console: viewmodel fx fire
   - console: viewmodel pose clawsbreath 0.3
   - wait: 0.5

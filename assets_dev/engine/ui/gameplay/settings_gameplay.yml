@@ -499,7 +499,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Story
+        value: Alchemy
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -509,7 +509,24 @@ elements:
     - id: SettingsGameplayGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 581.7946
+      offset_y: 604.8282
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Story
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup6
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 673.6202
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -920,10 +937,57 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsGameplaySkipEventCutscenesLabel
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 538.6026
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Workbench keeps mixed potions
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 554.8111
+      width: 435.7333
+      height: 34.5504
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: The Workbench brews only from reagents and the basic potions. A recipe that needs a mixed potion brews
+          a fresh one, so the ones you carry are kept. Two potions you put in the slots yourself still mix.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 547.9031
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplaySkipEventCutscenesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 630.4282
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -940,7 +1004,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 554.8111
+      offset_y: 646.6367
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -957,7 +1021,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 536.3863
+      offset_y: 628.2119
       width: 70.4
       height: 32.158
       z_index: 10
@@ -969,7 +1033,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 607.3946
+      offset_y: 699.2202
       width: 382.9333
       height: 14.0752
       z_index: 10
@@ -986,7 +1050,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 623.6031
+      offset_y: 715.4287
       width: 382.9333
       height: 23.0336
       z_index: 10
@@ -1003,7 +1067,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 619.0157
+      offset_y: 710.8413
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1012,7 +1076,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsValue
       anchor: top_left
       offset_x: 497.0666
-      offset_y: 621.149
+      offset_y: 712.9746
       width: 26.6667
       height: 11.7333
       z_index: 10

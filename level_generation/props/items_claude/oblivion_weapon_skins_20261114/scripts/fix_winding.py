@@ -6,9 +6,9 @@ it drew their far sides (guards, pommels and grips near black, a blade's back). 
 primitive whose triangles mostly disagree with their normals (the same [0, 2, 1] flip write_skin.py made for the skins)
 and leaves a primitive that already agrees alone, so it can run twice.
 
-The file is rewritten in place (same inode): assets_dev/engine/view_model/<template>.glb is hard-linked to
-reference/oblivion_poc/glb/<template>.glb and to the studio play roots, which all follow. The pre-fix originals are in
-work/templates_backup_20261114/.
+The file is rewritten in place. Run it on the template's source, assets_source/engine/view_model/<template>.glb, then
+cook the runtime copy (python3 tools/cook_models.py --only engine/view_model/<template>.glb); assets_dev holds only the
+cooked copy since 2026-11-14. The pre-fix originals are in work/templates_backup_20261114/.
 
 A layout made on the old order (work/<template>/uv_template.npy and maps/uv_tris.npz, one UV per template corner) is
 permuted with it, so prep.py's output stays valid for later skins.

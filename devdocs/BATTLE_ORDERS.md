@@ -18,7 +18,8 @@ turn-based combat. The same in every ruleset (Standard and MAW). The design is t
     exclusive and a maximum inclusive, so the two presets meet exactly. An order with a distance fails when there is no
     target.
   - **An ally's HP is below** N % (10–90): the lowest HP share among the members a heal can still reach (not dead,
-    eradicated or stoned).
+    eradicated or stoned). The row's *own* chip makes it the acting member's own HP instead (`BattleOrder::ownHealth`,
+    OY-645; save version 183), for a drink or a self-heal before the attack.
   - **Keep SP after casting** at least N % (0–80): spells only, against the member's reachable maximum.
   - **Place**: anywhere, indoors or outdoors, as the spells tell the two apart (a map open to the sky is outdoors,
     `IGameplayWorldRuntime::isOpenAirMap`). For a spell that works in both but is worth casting in one: Sparks
