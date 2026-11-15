@@ -393,7 +393,7 @@ TEST_CASE("Lone Discipline: a solo character reaches Expert Bodybuilding whateve
     CHECK(solo.gameRules().skills.masteryCap(sorcerer, "Sword", SkillMastery::None) == SkillMastery::None);
 }
 
-TEST_CASE("In a solo run a MAW dragon's items count 2.5 times, not three times")
+TEST_CASE("A MAW dragon's items count three times, in a solo run too")
 {
     RulesetOptions soloOptions;
     soloOptions.soloRun = true;
@@ -420,8 +420,8 @@ TEST_CASE("In a solo run a MAW dragon's items count 2.5 times, not three times")
     REQUIRE(mightHuman > 0);
     REQUIRE(dodgingHuman > 0);
     CHECK_EQ(worn(standard, 5).first, 3 * mightHuman);
-    CHECK_EQ(worn(solo, 5).first, mightHuman + int(std::lround(1.5 * mightHuman)));
-    CHECK_EQ(worn(solo, 5).second, dodgingHuman + int(std::lround(1.5 * dodgingHuman)));
+    CHECK_EQ(worn(solo, 5).first, 3 * mightHuman);
+    CHECK_EQ(worn(solo, 5).second, 3 * dodgingHuman);
     CHECK_EQ(worn(solo, 0).first, mightHuman);
 }
 

@@ -1726,9 +1726,9 @@ void MawItemRules::applyEquippedEnchantEffects(
         return;
     }
 
-    // A dragon-race wearer's items count three times over (zzMaw-Items.lua:3002-3014); in an OpenYAMM solo run 2.5
-    // times (the user's decision, 2026-11-14: the solo Dragon was the one build that needed no help).
-    const double extraShares = m_rules.options().soloRun ? 1.5 : 2.0;
+    // A dragon-race wearer's items count three times over (zzMaw-Items.lua:3002-3014), in a solo run too (the user
+    // reverted the solo run's 2.5 times on 2026-11-15).
+    constexpr double extraShares = 2.0;
 
     // Its Dodging and Unarmed additions too, the dragon's Scales and Fangs, still within twice the trained skill
     // (IT:3003-3015).

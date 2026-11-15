@@ -18,7 +18,7 @@ see no change.
 - **Innate, no points: Lone Discipline** (not shown on the page). Every solo class can learn Bodybuilding (even one
   that normally cannot) up to Expert at once, Master after the first promotion, Grandmaster after the final one (a
   class whose own cap is higher keeps it).
-- **Dragon items ×2.5** in a solo run (built in 2.4, `MawItemRules`).
+- **Dragon items ×3** in a solo run, as in MAW (the 2.4 build's ×2.5 was reverted on 2026-11-15, `MawItemRules`).
 
 | Tree | Talent | Kind, ranks | Effect |
 | --- | --- | --- | --- |
