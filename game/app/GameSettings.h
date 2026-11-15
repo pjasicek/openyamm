@@ -369,6 +369,12 @@ struct GameSettings
     uint32_t screenshotBurstCount = 1;
     float screenshotBurstIntervalMs = 100.0f;
     std::string screenshotTourPath;
+    // A file of debug console commands run once, after the first map has loaded ([debug] startup_console_file): the
+    // Map Studio's Play here puts the party at the browser's camera with it (`tp x y z yaw pitch`), and test switches.
+    std::string startupConsoleFile;
+    // Where the party stood when the game closed, written on exit ([debug] exit_pose_path; game/debug/ExitPose.h):
+    // the Map Studio moves its camera there.
+    std::string exitPosePath;
     // An AI arena (tests/scenarios/mm9/ai/README.md) set up once gameplay starts.
     std::string aiArenaPath;
     // Indoor hole view (tools/indoor_hole_sweep.py): the main view clears to magenta, an open sky's faces draw as faces
@@ -409,6 +415,11 @@ struct GameSettings
     bool enemyHealthBarDamageTrail = true;
     // The spells on each enemy as icons under its bar, with the time left swept clockwise.
     bool enemyHealthBarEffects = true;
+    // A potion's effect entering its last ten game minutes is named in the status bar (Party::ExpiringPotionEffect).
+    bool potionExpiryWarnings = true;
+    // The Workbench never uses up carried mixed potions: it brews them from reagents and the basic potions
+    // (AlchemyChainPlanner's keepMixedPotions).
+    bool workbenchKeepMixedPotions = false;
     // On by default; only MM9 marks quest givers, so the other worlds show nothing either way.
     bool questMarkers = true;
     // Maps with a painted map (MM9's) show it on the minimap and the journal map; false shows the MM6-MM8 line map

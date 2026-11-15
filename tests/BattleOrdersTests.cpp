@@ -42,6 +42,18 @@ TEST_CASE("battle orders: an ally's HP and the SP a cast keeps")
     heal.allyHealthBelowPercent = 40;
     CHECK_FALSE(battleOrderConditionsHold(heal, situation, 5));
 
+    // Own HP (OY-645): the member's share alone, whatever the allies'.
+    situation.ownHealthShare = 0.8f;
+    heal.allyHealthBelowPercent = 50;
+    heal.ownHealth = true;
+    CHECK_FALSE(battleOrderConditionsHold(heal, situation, 5));
+    situation.ownHealthShare = 0.3f;
+    situation.lowestAllyHealthShare = 1.0f;
+    CHECK(battleOrderConditionsHold(heal, situation, 5));
+    heal.ownHealth = false;
+    CHECK_FALSE(battleOrderConditionsHold(heal, situation, 5));
+    situation.lowestAllyHealthShare = 0.4f;
+
     BattleOrder bolt;
     bolt.spellName = "Light Bolt";
     bolt.keepSpellPointsPercent = 30;

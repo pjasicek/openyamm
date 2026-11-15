@@ -559,6 +559,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.blastMinimumDamage = request.blastMinimumDamage;
         projectile.blastMaximumDamage = request.blastMaximumDamage;
         projectile.critical = request.critical;
+        projectile.pierceLeft = request.pierceCount;
+        projectile.pierceShare = request.pierceShare;
         projectile.useActorHitChance = request.useActorHitChance;
         projectile.turnBasedPendingAction = request.turnBasedPendingAction;
         projectile.lifetimeTicks = request.definition.lifetimeTicks;
@@ -636,6 +638,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.blastMinimumDamage = request.blastMinimumDamage;
     projectile.blastMaximumDamage = request.blastMaximumDamage;
     projectile.critical = request.critical;
+    projectile.pierceLeft = request.pierceCount;
+    projectile.pierceShare = request.pierceShare;
     projectile.useActorHitChance = request.useActorHitChance;
     projectile.turnBasedPendingAction = request.turnBasedPendingAction;
     projectile.sectorId = request.sectorId;
@@ -2328,6 +2332,30 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
     }
 
     result.endPoint = facts.collision.point;
+
+    // A piercing arrow (a solo run's Piercing Arrows) strikes the monster and flies on through it, at its share of
+    // the first damage for the next; a blast, a wall or the last pierce ends it. A monster it misses it passes without
+    // spending a pierce.
+    if (directActorImpact && projectile.pierceLeft > 0 && impactRadius <= 0.0f)
+    {
+        projectile.piercedActorIds.push_back(facts.collision.actorId);
+        if (result.directActorImpact && result.directActorImpact->hit)
+        {
+            if (projectile.pierceDamage == 0)
+            {
+                projectile.pierceDamage = projectile.damage;
+            }
+            --projectile.pierceLeft;
+            projectile.damage =
+                std::max(1, int(std::lround(float(projectile.pierceDamage) * projectile.pierceShare)));
+            projectile.critical = false;
+        }
+        // It flies straight on: no turning back to the monster it homed on.
+        projectile.homing.reset();
+        result.applyMotionEnd = true;
+        return result;
+    }
+
     result.expireProjectile = true;
     return result;
 }
@@ -2450,6 +2478,13 @@ bool GameplayProjectileService::canProjectileCollideWithActor(
     }
 
     if (projectile.sourceKind == ProjectileState::SourceKind::Actor && actorFacts.actorId == projectile.sourceId)
+    {
+        return false;
+    }
+
+    // A piercing arrow passes the monsters it has already struck.
+    if (std::find(projectile.piercedActorIds.begin(), projectile.piercedActorIds.end(), actorFacts.actorId)
+        != projectile.piercedActorIds.end())
     {
         return false;
     }

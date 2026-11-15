@@ -180,6 +180,34 @@ void FirstPersonViewModelFx::releaseCast(const std::vector<Vec3> &palms, const V
     stopCastGlow();
 }
 
+void FirstPersonViewModelFx::setHandEmbers(const std::vector<Vec3> &points, float strength)
+{
+    m_emberPoints = points;
+    m_emberStrength = points.empty() ? 0.0f : std::clamp(strength, 0.0f, 1.0f);
+}
+
+void FirstPersonViewModelFx::sparkle(const Vec3 &hilt, const Vec3 &tip, float spread, const Vec3 &color,
+    float deltaSeconds)
+{
+    std::uniform_real_distribution<float> unit(-1.0f, 1.0f);
+    m_sparkleDebt += std::clamp(deltaSeconds, 0.0f, 0.1f) * 90.0f;
+    while (m_sparkleDebt >= 1.0f)
+    {
+        m_sparkleDebt -= 1.0f;
+        // Along the blade from a little above the hand to just past the tip.
+        const float along = 0.15f + 0.9f * (unit(m_random) * 0.5f + 0.5f);
+        Mote mote;
+        mote.position = add(mix(hilt, tip, along), Vec3{unit(m_random) * spread, unit(m_random) * spread,
+            unit(m_random) * spread});
+        mote.velocity = {unit(m_random) * 6.0f, unit(m_random) * 6.0f, 3.0f + unit(m_random) * 6.0f};
+        mote.life = 0.2f + 0.2f * (unit(m_random) * 0.5f + 0.5f);
+        mote.size = 0.5f + 0.45f * (unit(m_random) * 0.5f + 0.5f);
+        mote.color = mix(color, {1.0f, 1.0f, 1.0f}, 0.35f * (unit(m_random) * 0.5f + 0.5f));
+        mote.star = (m_random() % 2) == 0;
+        m_motes.push_back(mote);
+    }
+}
+
 void FirstPersonViewModelFx::spawnMote(const Vec3 &palm, const Vec3 &color, bool gathering)
 {
     std::uniform_real_distribution<float> unit(-1.0f, 1.0f);
@@ -213,6 +241,31 @@ void FirstPersonViewModelFx::update(float deltaSeconds)
             m_spawnDebt -= 1.0f;
             spawnMote(m_glowPalms[m_random() % m_glowPalms.size()], m_glowColor, true);
         }
+    }
+    if (m_emberStrength > 0.0f)
+    {
+        // About a dozen dots a second per hand at one stack, about 60 at the most.
+        std::uniform_real_distribution<float> unit(-1.0f, 1.0f);
+        m_emberDebt += delta * (12.0f + 48.0f * m_emberStrength) * float(m_emberPoints.size());
+        while (m_emberDebt >= 1.0f)
+        {
+            m_emberDebt -= 1.0f;
+            const Vec3 &point = m_emberPoints[m_random() % m_emberPoints.size()];
+            Mote mote;
+            mote.position = add(point, Vec3{unit(m_random) * 3.5f, unit(m_random) * 3.5f, unit(m_random) * 3.0f});
+            // Rising slowly (+Z), drifting a little.
+            mote.velocity = {unit(m_random) * 3.0f, unit(m_random) * 3.0f,
+                7.0f + 6.0f * (unit(m_random) * 0.5f + 0.5f)};
+            mote.life = 0.55f + 0.4f * (unit(m_random) * 0.5f + 0.5f);
+            mote.size = 0.55f + 0.35f * (unit(m_random) * 0.5f + 0.5f) + 0.45f * m_emberStrength;
+            // Red to yellow.
+            mote.color = mix(Vec3{1.0f, 0.1f, 0.04f}, Vec3{1.0f, 0.78f, 0.15f}, unit(m_random) * 0.5f + 0.5f);
+            m_motes.push_back(mote);
+        }
+    }
+    else
+    {
+        m_emberDebt = 0.0f;
     }
     for (Mote &mote : m_motes)
     {

@@ -13,10 +13,9 @@ namespace
 constexpr float DirectionalPowerSpeed = 60.0f;
 }
 
-FirstPersonViewModel::Kit FirstPersonViewModel::kitFor(const std::string &skillGroup, bool twoHanded, bool shield)
+FirstPersonViewModel::Kit FirstPersonViewModel::kitFor(const std::string &skillGroup, bool twoHanded)
 {
     Kit kit;
-    kit.shield = shield;
     if (skillGroup == "Sword")
     {
         kit.set = twoHanded ? WeaponSet::TwoHand : WeaponSet::OneHand;
@@ -61,8 +60,6 @@ FirstPersonViewModel::Kit FirstPersonViewModel::kitFor(const std::string &skillG
         kit.set = WeaponSet::Bow;
         kit.weapon = "w_bow.glb";
     }
-    // A staff or a bow fills both hands: no shield on the arm.
-    kit.shield = shield && kit.set != WeaponSet::Staff && kit.set != WeaponSet::Bow && kit.set != WeaponSet::TwoHand;
     return kit;
 }
 
@@ -77,20 +74,20 @@ FirstPersonViewModel::Kit FirstPersonViewModel::kitForHands(const std::string &m
 {
     if (mainTwoHanded || !dualWieldable(mainSkillGroup) || !dualWieldable(offSkillGroup))
     {
-        return kitFor(mainSkillGroup, mainTwoHanded, offSkillGroup == "Shield");
+        return kitFor(mainSkillGroup, mainTwoHanded);
     }
     // Each hand its own template; a two-handed weapon held in one hand (a Minotaur's battle axe) keeps its larger one.
     Kit kit;
     kit.set = WeaponSet::Dual;
-    kit.weapon = kitFor(mainSkillGroup, mainLarge, false).weapon;
-    kit.offWeapon = kitFor(offSkillGroup, offLarge, false).weapon;
+    kit.weapon = kitFor(mainSkillGroup, mainLarge).weapon;
+    kit.offWeapon = kitFor(offSkillGroup, offLarge).weapon;
     kit.heavy = mainLarge || offLarge;
     return kit;
 }
 
 FirstPersonViewModel::Kit FirstPersonViewModel::kitForBow(const std::string &heldKind)
 {
-    Kit kit = kitFor("Bow", false, false);
+    Kit kit = kitFor("Bow", false);
     if (heldKind == "crossbow")
     {
         // Both hands on the crossbow, the stock in the right fist: its own set and template (held_tiers.yml
@@ -113,15 +110,11 @@ FirstPersonViewModel::Kit FirstPersonViewModel::kitForHeldKind(const Kit &kit, c
         return kit;
     }
     // Both hands on the shaft, low, the head in view: the pole set, whatever the skill group's kit (a spear's staff
-    // grip, a poleaxe's battle axe, a Spear Master's one hand with a shield). held_tiers.yml kind_templates draws each
+    // grip, a poleaxe's battle axe, a Spear Master's one hand). held_tiers.yml kind_templates draws each
     // kind's own template (spear, trident, halberd); the spear is the fallback without those rules.
     Kit pole = kit;
     pole.set = WeaponSet::Pole;
     pole.weapon = "w_spear.glb";
-    pole.shield = false;
-    pole.shieldModel.clear();
-    pole.shieldIcon.clear();
-    pole.shieldTier = 0;
     pole.heavy = false;
     return pole;
 }

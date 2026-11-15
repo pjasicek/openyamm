@@ -27,6 +27,9 @@ struct OutdoorMovementInput
     bool turnBasedMovementStep = false;
     bool turnBasedPhysicsStep = false;
     float movementSpeedScale = 1.0f;
+    // The party's own speed (Party::movementMultiplier: a solo's Quickfoot, MM9's Fleet Foot, MAW's dimension slow).
+    // Unlike movementSpeedScale (an analogue stick's share, 0..1) it may exceed 1.
+    float partySpeedMultiplier = 1.0f;
     float flyHeightDelta = 0.0f;
 };
 

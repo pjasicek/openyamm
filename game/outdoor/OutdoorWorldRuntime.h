@@ -853,7 +853,8 @@ public:
     void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
         bool attacked,
-        bool actionPerformed) override;
+        bool actionPerformed,
+        bool missed) override;
     bool worldInteractionReady() const override;
     bool worldInspectModeActive() const override;
     GameplayWorldPickRequest buildWorldPickRequest(const GameplayWorldPickRequestInput &input) const override;
@@ -1346,6 +1347,9 @@ public:
         bool turnBasedPendingAction = false;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
+        // ProjectileState::pierceLeft and pierceShare.
+        uint8_t pierceCount = 0;
+        float pierceShare = 0.0f;
     };
 
     struct MonsterVisualState

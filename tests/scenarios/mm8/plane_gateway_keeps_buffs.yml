@@ -1,0 +1,41 @@
+id: mm8.plane_gateway_keeps_buffs
+title: MM8 - a gateway to an elemental plane is a doorway, not a journey; buffs, food and wounds stay as they were
+world: mm8
+mode: faithful
+tags: [mm8, events, travel, regression]
+steps:
+  - note:
+      text: >-
+        An event's map move between two outdoor maps (the gateways to the Planes of Fire, Air and Water and the ways
+        back, MM7's swim up out of the Shoals) was taken for a five-day walk: the party rested, lost its buffs and
+        five food. Only a walk over a map's edge is a journey; the original's transition dialog passes no time.
+  - new_game_flow:
+      start_map: out04.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Necromancer, level: 10, skills: [{name: Fire Magic, level: 5, mastery: 2}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: C, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: D, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - cast_spell: {member_index: 0, spell_id: 5, skill: 5, mastery: 2}
+  - assert:
+      buff: {spell_id: 5, present: true}
+      food: 10
+  # Event 504, "Enter the Plane of Fire".
+  - execute_event: {id: 504}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert:
+      map: elemf.odm
+      buff: {spell_id: 5, present: true}
+      food: 10
+  # Event 505, "Leave the Plane of Fire".
+  - execute_event: {id: 505}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert:
+      map: out04.odm
+      buff: {spell_id: 5, present: true}
+      food: 10

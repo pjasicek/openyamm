@@ -1199,6 +1199,14 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
     {
         parseBoolValue(*value, settings.enemyHealthBarEffects);
     }
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "potion_expiry_warnings"))
+    {
+        parseBoolValue(*value, settings.potionExpiryWarnings);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "workbench_keep_mixed_potions"))
+    {
+        parseBoolValue(*value, settings.workbenchKeepMixedPotions);
+    }
 
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "save_list_order"))
     {
@@ -2190,6 +2198,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         settings.screenshotTourPath = trimCopy(*value);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "startup_console_file"))
+    {
+        settings.startupConsoleFile = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "exit_pose_path"))
+    {
+        settings.exitPosePath = trimCopy(*value);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "debug", "ai_arena_path"))
     {
         settings.aiArenaPath = trimCopy(*value);
@@ -2606,6 +2624,8 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("enemy_health_bar_values", settings.enemyHealthBarValues);
     serializer.add("enemy_health_bar_damage_trail", boolValue(settings.enemyHealthBarDamageTrail));
     serializer.add("enemy_health_bar_effects", boolValue(settings.enemyHealthBarEffects));
+    serializer.add("potion_expiry_warnings", boolValue(settings.potionExpiryWarnings));
+    serializer.add("workbench_keep_mixed_potions", boolValue(settings.workbenchKeepMixedPotions));
     serializer.add("quest_markers", boolValue(settings.questMarkers));
     serializer.add("map_style", settings.paintedMaps ? "painted" : "lines");
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");

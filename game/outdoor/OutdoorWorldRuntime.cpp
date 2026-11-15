@@ -15769,6 +15769,12 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
 
         if (impact.queuePartyProjectileActorEvent)
         {
+            // A missile whose hit roll failed floats "Miss" over the monster.
+            if (!impact.hit)
+            {
+                recordPartyAttackWorldResult(impact.actorIndex, false, true, true);
+            }
+
             if (m_pGameplayCombatController != nullptr)
             {
                 m_pGameplayCombatController->recordPartyProjectileActorImpact(
@@ -18458,14 +18464,19 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
         actor.velocityY = knockback.y;
         actor.velocityZ = knockback.z;
 
-        // A kill by a monster fighting for the party: the rules' reward.
-        if (pSourceActor != nullptr && outdoorActorFightsForParty(*pSourceActor) && m_pParty != nullptr
-            && m_pMonsterTable != nullptr)
+        // A kill by a monster fighting for the party, or by or of a charmed or berserk one: the rules' reward.
+        const bool byPartyAlly = pSourceActor != nullptr && outdoorActorFightsForParty(*pSourceActor);
+        const bool mindControlled = pSourceActor != nullptr && pSourceActor != &actor
+            && (gameplayActorMindControlled(gameplayActorControlModeFromOutdoor(pSourceActor->controlMode))
+                || gameplayActorMindControlled(gameplayActorControlModeFromOutdoor(actor.controlMode)));
+
+        if ((byPartyAlly || mindControlled) && m_pParty != nullptr && m_pMonsterTable != nullptr)
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
                 MonsterKillReward reward = killReward(actor, *pStats);
-                reward.byPartyAlly = true;
+                reward.byPartyAlly = byPartyAlly;
+                reward.mindControlled = mindControlled;
                 m_pParty->grantMonsterKillExperience(reward);
             }
         }
@@ -19337,6 +19348,8 @@ bool OutdoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPr
     worldRequest.blastMinimumDamage = request.blastMinimumDamage;
     worldRequest.blastMaximumDamage = request.blastMaximumDamage;
     worldRequest.critical = request.critical;
+    worldRequest.pierceCount = request.pierceCount;
+    worldRequest.pierceShare = request.pierceShare;
     worldRequest.sourceX = request.source.x;
     worldRequest.sourceY = request.source.y;
     worldRequest.sourceZ = request.source.z;
@@ -19380,7 +19393,8 @@ bool OutdoorWorldRuntime::castPartyAttackSpell(const GameplayPartyAttackSpellReq
 void OutdoorWorldRuntime::recordPartyAttackWorldResult(
     std::optional<size_t> actorIndex,
     bool attacked,
-    bool actionPerformed)
+    bool actionPerformed,
+    bool missed)
 {
     if (actorIndex && actionPerformed && *actorIndex < m_mapActors.size())
     {
@@ -19395,6 +19409,7 @@ void OutdoorWorldRuntime::recordPartyAttackWorldResult(
                 .z = actor.preciseZ,
                 .height = static_cast<float>(actor.height),
                 .killed = false,
+                .miss = missed,
             });
     }
 
@@ -22991,6 +23006,8 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.explosionRadius = request.explosionRadius;
     spawnRequest.blastMinimumDamage = request.blastMinimumDamage;
     spawnRequest.blastMaximumDamage = request.blastMaximumDamage;
+    spawnRequest.pierceCount = request.pierceCount;
+    spawnRequest.pierceShare = request.pierceShare;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     spawnRequest.sourceX = request.sourceX;

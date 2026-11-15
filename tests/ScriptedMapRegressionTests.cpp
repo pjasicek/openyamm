@@ -755,11 +755,13 @@ public:
         return false;
     }
 
-    void recordPartyAttackWorldResult(std::optional<size_t> actorIndex, bool attacked, bool actionPerformed) override
+    void recordPartyAttackWorldResult(std::optional<size_t> actorIndex, bool attacked, bool actionPerformed,
+        bool missed) override
     {
         (void)actorIndex;
         (void)attacked;
         (void)actionPerformed;
+        (void)missed;
     }
 
     bool worldInteractionReady() const override

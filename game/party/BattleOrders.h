@@ -68,8 +68,11 @@ struct BattleOrder
     bool enabled = true;
     // The target's distance from the party, in game units; no target fails it.
     std::optional<BattleOrderDistance> distance;
-    // Some member (the caster included) is below this share of their HP, in percent.
+    // Some member (the caster included) is below this share of their HP, in percent; with ownHealth, the acting
+    // member alone.
     std::optional<uint8_t> allyHealthBelowPercent;
+    // The HP condition reads the acting member's own HP instead of the lowest ally's (OY-645).
+    bool ownHealth = false;
     // The cast must leave at least this share of the caster's SP, in percent.
     std::optional<uint8_t> keepSpellPointsPercent;
     BattleOrderPlace place = BattleOrderPlace::Anywhere;
@@ -87,6 +90,8 @@ struct BattleOrderSituation
     std::optional<float> targetDistance;
     // The lowest share of HP among the members who can still be healed (0..1).
     float lowestAllyHealthShare = 1.0f;
+    // The acting member's own share of HP (0..1).
+    float ownHealthShare = 1.0f;
     int spellPoints = 0;
     int maximumSpellPoints = 0;
     // The map follows the indoor spell rules (not open to the sky).
@@ -96,7 +101,7 @@ struct BattleOrderSituation
 // A bound as a distance: the melee reach is the blow's exact reach.
 float battleOrderDistanceBound(uint16_t units);
 bool battleOrderDistanceHolds(const BattleOrderDistance &distance, std::optional<float> targetDistance);
-// The order's own conditions (distance, an ally's HP, SP kept after the cast's manaCost, the place); not whether the
+// The order's own conditions (distance, an ally's or the member's own HP, SP kept after the cast's manaCost, the place); not whether the
 // spell or weapon can be used.
 bool battleOrderConditionsHold(const BattleOrder &order, const BattleOrderSituation &situation, uint32_t manaCost = 0);
 

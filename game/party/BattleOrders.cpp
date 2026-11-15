@@ -47,8 +47,9 @@ bool battleOrderConditionsHold(const BattleOrder &order, const BattleOrderSituat
         return false;
     }
 
-    if (order.allyHealthBelowPercent
-        && situation.lowestAllyHealthShare * 100.0f >= float(*order.allyHealthBelowPercent))
+    const float healthShare = order.ownHealth ? situation.ownHealthShare : situation.lowestAllyHealthShare;
+
+    if (order.allyHealthBelowPercent && healthShare * 100.0f >= float(*order.allyHealthBelowPercent))
     {
         return false;
     }

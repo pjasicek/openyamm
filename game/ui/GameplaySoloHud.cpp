@@ -102,10 +102,14 @@ void outlinedText(const SoloPainter &painter, const std::string &font, float hei
     const float pixel = 1.0f / std::max(0.01f, painter.scale());
     constexpr std::array<std::array<float, 2>, 8> Offsets = {{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {1, -1},
         {-1, 1}, {1, 1}}};
+    // The eight copies together: two draws, not sixteen.
+    std::vector<SoloPainter::Label> copies;
+    copies.reserve(Offsets.size());
     for (const std::array<float, 2> &offset : Offsets)
     {
-        painter.text(font, height, TextOutline, value, x + offset[0] * pixel, y + offset[1] * pixel, align);
+        copies.push_back({value, x + offset[0] * pixel, y + offset[1] * pixel, align});
     }
+    painter.texts(font, height, TextOutline, copies);
     painter.text(font, height, colour, value, x, y, align);
 }
 
@@ -486,15 +490,17 @@ void renderMeter(GameplayScreenRuntime &context, const SoloPainter &painter, con
     float trail, float reserved, bool health, const std::string &label)
 {
     const GameplayObsidianRect box = painter.at(area);
-    painter.fill(box, Dark);
+    SoloPainter::Quads under;
+    painter.addFill(under, box, Dark);
     const float inset = std::max(1.0f, painter.scale() * 0.5f);
     const GameplayResolvedHudLayoutElement inner = {box.x + inset, box.y + inset, box.width - 2 * inset,
         box.height - 2 * inset, painter.scale()};
     if (health && trail > amount)
     {
         const GameplayResolvedHudLayoutElement segment = GameplayUiSkin::meterSegment(inner, amount, trail, false);
-        painter.fill({segment.x, segment.y, segment.width, segment.height}, TrailFill);
+        painter.addFill(under, {segment.x, segment.y, segment.width, segment.height}, TrailFill);
     }
+    painter.submit(under);
     const std::optional<GameplayHudTextureHandle> texture = health
         ? GameplayUiSkin::healthMeterTexture(context, amount)
         : context.gameplayUiRuntime().ensureHudTextureLoaded("obsidian_hud_meter_sp");
@@ -504,12 +510,14 @@ void renderMeter(GameplayScreenRuntime &context, const SoloPainter &painter, con
         context.gameplayUiRuntime().submitHudTexturedQuad(texture->textureHandle, segment.x, segment.y,
             segment.width, segment.height, 0, 0, amount, 1);
     }
+    SoloPainter::Quads over;
     if (reserved > 0)
     {
         const GameplayResolvedHudLayoutElement segment = GameplayUiSkin::meterSegment(inner, 1 - reserved, 1, false);
-        painter.fill({segment.x, segment.y, segment.width, segment.height}, ReservedFill);
+        painter.addFill(over, {segment.x, segment.y, segment.width, segment.height}, ReservedFill);
     }
-    painter.frame(box, Brass);
+    painter.addFrame(over, box, Brass);
+    painter.submit(over);
     outlinedText(painter, "Arrus", area.height * 0.72f, Ivory, label, area.x + area.width / 2,
         area.y + area.height * 0.11f, 1);
 }
@@ -717,10 +725,7 @@ std::string selfTextLine(const Party::SelfTextEvent &event)
     switch (event.kind)
     {
         case Party::SelfTextEvent::Kind::Damage:
-            return event.blocked > 0
-                ? Engine::tr("-{damage} ({blocked} blocked)", {{"damage", int64_t(event.amount)},
-                    {"blocked", int64_t(event.blocked)}})
-                : "-" + std::to_string(event.amount);
+            return "-" + std::to_string(event.amount);
         case Party::SelfTextEvent::Kind::Heal:
             return "+" + std::to_string(event.amount);
         case Party::SelfTextEvent::Kind::ConditionGained:
@@ -762,7 +767,7 @@ void renderSelfText(GameplayScreenRuntime &context, int width, int height)
         {
             const bool amount = event.kind == Party::SelfTextEvent::Kind::Damage
                 || event.kind == Party::SelfTextEvent::Kind::Heal;
-            if (event.memberIndex == activeMember && (!amount || event.amount + event.blocked > floor))
+            if (event.memberIndex == activeMember && (!amount || event.amount > floor))
             {
                 lines.push_back({selfTextLine(event), selfTextColour(event.kind), now});
             }
@@ -808,19 +813,19 @@ void renderSelfText(GameplayScreenRuntime &context, int width, int height)
     }
 }
 
+// A slot's contents over its backing, which renderHud has drawn for the whole bar. Its frame and key label go into
+// the bar's lists: the slots do not overlap, so the bar draws every frame in one draw and the labels in two.
 void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, const Party &party,
     const Character &member, const ActionBarSlot &slot, const SoloHudRect &area, std::optional<size_t> key,
-    float recoveryProgress)
+    float recoveryProgress, SoloPainter::Quads &frames, std::vector<SoloPainter::Label> &keys)
 {
     const GameplayObsidianRect box = painter.at(area);
     if (slot.kind == ActionBarSlotKind::Empty)
     {
-        painter.fill(box, EmptyFill);
-        painter.frame(box, EmptyEdge);
+        painter.addFrame(frames, box, EmptyEdge);
     }
     else
     {
-        painter.fill(box, SlotFill);
         const float inset = 1.6f;
         const GameplayObsidianRect icon = painter.rect(area.x + inset, area.y + inset, area.width - 2 * inset,
             area.height - 2 * inset);
@@ -897,11 +902,11 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
             painter.text("SMALLNUM", 6.0f, *count == 0 ? abgr(0xff8a78) : Ivory, std::to_string(*count),
                 area.x + area.width - 1.4f, area.y + area.height - 7.4f, 2);
         }
-        painter.frame(box, talentEffectOn ? TalentGold : Brass);
+        painter.addFrame(frames, box, talentEffectOn ? TalentGold : Brass);
     }
     if (key)
     {
-        painter.text("SMALLNUM", 6.0f, Ivory, BarKeyNames[*key], area.x + area.width - 1.4f, area.y + 1.0f, 2);
+        keys.push_back({BarKeyNames[*key], area.x + area.width - 1.4f, area.y + 1.0f, 2});
     }
 }
 }
@@ -973,6 +978,8 @@ void GameplaySoloHud::renderHud(GameplayScreenRuntime &context, int width, int h
     const GameplayResolvedHudLayoutElement *bar = &resolvedBar->panel;
     const SoloActionBarGrid *grid = &resolvedBar->grid;
     const SoloPainter painter(context, *bar);
+    // Everything under the slots' contents, in one draw.
+    SoloPainter::Quads backing;
     if (context.settingsSnapshot().partyFrame || context.currentHudScreenState() != GameplayHudScreenState::Gameplay)
     {
         GameplayUiSkin::renderPanel(context, *bar, false, 0.5f);
@@ -980,24 +987,39 @@ void GameplaySoloHud::renderHud(GameplayScreenRuntime &context, int width, int h
     else
     {
         // With the frame setting off the slots stand on a soft shadow, as the party's portraits keep a backing.
-        painter.fill(painter.rect(0, 0, resolvedBar->layoutWidth, bar->height / bar->scale), abgr(0x000000, 0x60));
+        painter.addFill(backing, painter.rect(0, 0, resolvedBar->layoutWidth, bar->height / bar->scale),
+            abgr(0x000000, 0x60));
     }
     // A thin brass rule between keys 5 and 6 splits the column into two blocks of five.
     if (grid->columns == 1 && grid->rows == 10)
     {
         const float ruleY = grid->padY + 5 * (grid->slot + grid->gapY) - grid->gapY / 2 - 0.3f;
-        painter.fill(painter.rect(grid->padX + 2, ruleY, grid->slot - 4, 0.6f), abgr(0xa8925f, 0xb0));
+        painter.addFill(backing, painter.rect(grid->padX + 2, ruleY, grid->slot - 4, 0.6f), abgr(0xa8925f, 0xb0));
     }
+    for (size_t row = 0; row < grid->rows; ++row)
+    {
+        for (size_t column = 0; column < grid->columns; ++column)
+        {
+            const bool empty =
+                pMember->actionBar[soloActionBarSlotAt(*grid, row, column)].kind == ActionBarSlotKind::Empty;
+            painter.addFill(backing, painter.at(soloActionSlotRect(*grid, row, column)), empty ? EmptyFill : SlotFill);
+        }
+    }
+    painter.submit(backing);
     const float progress = soloRecoveryProgress(pMember->recoverySecondsRemaining, pMember->recoveryTotalSeconds);
+    SoloPainter::Quads frames;
+    std::vector<SoloPainter::Label> keys;
     for (size_t row = 0; row < grid->rows; ++row)
     {
         for (size_t column = 0; column < grid->columns; ++column)
         {
             const size_t slot = soloActionBarSlotAt(*grid, row, column);
             renderSlot(context, painter, *pParty, *pMember, pMember->actionBar[slot],
-                soloActionSlotRect(*grid, row, column), soloActionBarKeyOfSlot(slot), progress);
+                soloActionSlotRect(*grid, row, column), soloActionBarKeyOfSlot(slot), progress, frames, keys);
         }
     }
+    painter.submit(frames);
+    painter.texts("SMALLNUM", 6.0f, Ivory, keys);
     renderSelfText(context, width, height);
 }
 

@@ -87,20 +87,59 @@ public:
 
     void fill(const Rect &area, uint32_t colour) const
     {
-        if (const std::optional<GameplayHudTextureHandle> texture = solid(colour);
-            texture && area.width > 0 && area.height > 0)
-        {
-            m_context.submitHudTexturedQuad(*texture, area.x, area.y, area.width, area.height);
-        }
+        Quads quads;
+        addFill(quads, area, colour);
+        submit(quads);
     }
 
     void frame(const Rect &area, uint32_t colour) const
     {
+        Quads quads;
+        addFrame(quads, area, colour);
+        submit(quads);
+    }
+
+    // Fills and frames collected to draw together: solid colours share the HUD palette texture, so however many
+    // rectangles and colours a list holds, submit() draws them in one draw (in the order added).
+    using Quads = std::vector<GameplayHudBatchQuad>;
+
+    void addFill(Quads &quads, const Rect &area, uint32_t colour) const
+    {
+        if (area.width <= 0 || area.height <= 0)
+        {
+            return;
+        }
+
+        if (const std::optional<GameplayHudPaletteColor> shade =
+                m_context.gameplayUiRuntime().ensureHudPaletteColor(colour))
+        {
+            quads.push_back(gameplayHudPaletteQuad(*shade, area.x, area.y, area.width, area.height));
+        }
+        else if (const std::optional<GameplayHudTextureHandle> texture = solid(colour))
+        {
+            // The palette is full: the colour's own texture, a draw of its own.
+            GameplayHudBatchQuad quad;
+            quad.textureHandle = texture->textureHandle;
+            quad.x = area.x;
+            quad.y = area.y;
+            quad.width = area.width;
+            quad.height = area.height;
+            quads.push_back(quad);
+        }
+    }
+
+    void addFrame(Quads &quads, const Rect &area, uint32_t colour) const
+    {
         const float line = std::max(1.0f, std::round(m_page.scale * 0.6f));
-        fill({area.x, area.y, area.width, line}, colour);
-        fill({area.x, area.y + area.height - line, area.width, line}, colour);
-        fill({area.x, area.y, line, area.height}, colour);
-        fill({area.x + area.width - line, area.y, line, area.height}, colour);
+        addFill(quads, {area.x, area.y, area.width, line}, colour);
+        addFill(quads, {area.x, area.y + area.height - line, area.width, line}, colour);
+        addFill(quads, {area.x, area.y, line, area.height}, colour);
+        addFill(quads, {area.x + area.width - line, area.y, line, area.height}, colour);
+    }
+
+    void submit(const Quads &quads) const
+    {
+        m_context.submitHudQuadBatch(quads);
     }
 
     // A text's width in page units.
@@ -126,6 +165,51 @@ public:
         m_context.renderHudTextLine(font, colour, value, std::round(left), std::round(m_page.y + y * m_page.scale),
             textScale);
         return measured / m_page.scale;
+    }
+
+    // A line of text for texts(): its top left in page units, aligned as text() aligns.
+    struct Label
+    {
+        std::string value;
+        float x = 0;
+        float y = 0;
+        int align = 0;
+    };
+
+    // Lines of one font, height and colour drawn together, in two draws however many there are.
+    void texts(const std::string &font, float height, uint32_t colour, const std::vector<Label> &labels) const
+    {
+        const float textScale = fontScale(m_context, font, height, m_page.scale);
+        std::vector<GameplayHudTextRun> runs;
+        runs.reserve(labels.size());
+        const std::string *pMeasured = nullptr;
+        float measured = 0;
+
+        for (const Label &label : labels)
+        {
+            if (label.value.empty())
+            {
+                continue;
+            }
+
+            float left = m_page.x + label.x * m_page.scale;
+
+            if (label.align != 0)
+            {
+                // An outline's copies repeat one text: measure it once.
+                if (pMeasured == nullptr || *pMeasured != label.value)
+                {
+                    measured = m_context.measureHudTextWidth(font, label.value) * textScale;
+                    pMeasured = &label.value;
+                }
+
+                left -= label.align == 1 ? measured / 2 : measured;
+            }
+
+            runs.push_back({label.value, std::round(left), std::round(m_page.y + label.y * m_page.scale)});
+        }
+
+        m_context.renderHudTextRuns(font, colour, runs, textScale);
     }
 
     // The text cut with an ellipsis to fit the width (page units).

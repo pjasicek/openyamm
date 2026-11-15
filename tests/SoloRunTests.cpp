@@ -166,7 +166,6 @@ TEST_CASE("solo run: hits, heals and conditions queue self combat text, at most 
     party.seed(Party::createDefaultSeed());
     Character &member = *party.member(0);
     member.health = member.maxHealth = 200;
-    party.noteShieldBlock(12);
     REQUIRE(party.applyDamageToMember(0, 30, ""));
     REQUIRE(party.healMember(0, 10));
     REQUIRE(party.applyMemberCondition(0, CharacterCondition::Weak));
@@ -175,7 +174,6 @@ TEST_CASE("solo run: hits, heals and conditions queue self combat text, at most 
     REQUIRE(events.size() == 4);
     CHECK(events[0].kind == Party::SelfTextEvent::Kind::Damage);
     CHECK(events[0].amount == 30);
-    CHECK(events[0].blocked == 12);
     CHECK(events[1].kind == Party::SelfTextEvent::Kind::Heal);
     CHECK(events[1].amount == 10);
     CHECK(events[2].kind == Party::SelfTextEvent::Kind::ConditionGained);

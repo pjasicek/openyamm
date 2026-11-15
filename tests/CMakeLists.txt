@@ -27,7 +27,6 @@ add_executable(openyamm_unit_tests
     QuickItemSlotTests.cpp
     EffectSystemTests.cpp
     EnergyShieldTests.cpp
-    ShieldBlockTests.cpp
     SoloRunTests.cpp
     HeldWeaponTests.cpp
     SoloTalentTests.cpp
@@ -168,6 +167,8 @@ add_executable(openyamm_unit_tests
     ../game/debug/ScreenshotTour.cpp
     PinInboxTests.cpp
     ../game/debug/PinInbox.cpp
+    ExitPoseTests.cpp
+    ../game/debug/ExitPose.cpp
     AiArenaTests.cpp
     ../game/debug/AiArena.cpp
     ../game/gameplay/ActorAiTrace.cpp

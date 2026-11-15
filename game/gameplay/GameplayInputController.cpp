@@ -854,20 +854,12 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
 
     // The Free Cursor key (OY-637, GrayFace's middle button): mouse look off and the cursor free over play, the world
     // running and the party moving as under the classic controls, until pressed again. It acts only over play, where
-    // mouse look could be on; screens opened meanwhile keep the mode. A solo run's arms keep the middle button for
-    // their shield block (devdocs/solo_action/README.md).
-    const InputBinding cursorModeBinding = settings.keyboard.binding(KeyboardAction::CursorMode);
-    const bool armsTakeCursorModeButton =
-        context.soloHud()
-        && cursorModeBinding.kind == InputBindingKind::MouseButton
-        && cursorModeBinding.mouseButton == SDL_BUTTON_MIDDLE;
-
+    // mouse look could be on; screens opened meanwhile keep the mode.
     if (!modernControls)
     {
         gameplayMouseLookState.freeCursorToggled = false;
     }
     else if (mouseLookPossible
-        && !armsTakeCursorModeButton
         && isActionNewlyPressed(context, KeyboardAction::CursorMode, config.pInputFrame, config.pKeyboardState))
     {
         gameplayMouseLookState.freeCursorToggled = !gameplayMouseLookState.freeCursorToggled;

@@ -31,6 +31,14 @@ public:
     // The spell leaves: a flash and a burst of sparks from each palm, forward (+Y).
     void releaseCast(const std::vector<std::array<float, 3>> &palms, const std::array<float, 3> &color);
 
+    // A solo run's Onslaught: red and yellow dots rising off the hands (MM9's redyeldots), more and larger as the
+    // stacks grow (strength 0..1). No points or no strength spawns nothing.
+    void setHandEmbers(const std::vector<std::array<float, 3>> &points, float strength);
+    // A talent's glint this frame: sparks along the weapon from hilt to tip (or around one point when they meet,
+    // within spread), at about 90 a second.
+    void sparkle(const std::array<float, 3> &hilt, const std::array<float, 3> &tip, float spread,
+        const std::array<float, 3> &color, float deltaSeconds);
+
     void update(float deltaSeconds);
     void render(uint16_t viewId, float time);
     void shutdown();
@@ -78,6 +86,10 @@ private:
     float m_glowCharge = 0.0f;
     bool m_glowing = false;
     float m_spawnDebt = 0.0f;
+    std::vector<std::array<float, 3>> m_emberPoints;
+    float m_emberStrength = 0.0f;
+    float m_emberDebt = 0.0f;
+    float m_sparkleDebt = 0.0f;
     // A release flash at each palm, fading out.
     std::vector<std::array<float, 3>> m_flashPalms;
     std::array<float, 3> m_flashColor = {};

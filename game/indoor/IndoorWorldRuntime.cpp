@@ -8944,6 +8944,12 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
         }
         else if (impact.queuePartyProjectileActorEvent && m_pGameplayCombatController != nullptr)
         {
+            // A missile whose hit roll failed floats "Miss" over the monster.
+            if (!impact.hit)
+            {
+                recordPartyAttackWorldResult(impact.actorIndex, false, true, true);
+            }
+
             m_pGameplayCombatController->recordPartyProjectileActorImpact(
                 projectile.sourceId,
                 projectile.sourcePartyMemberIndex,
@@ -19961,8 +19967,17 @@ void IndoorWorldRuntime::rewardKillByActor(size_t victimIndex, uint32_t sourceAc
         });
     const size_t sourceIndex = size_t(source - m_mapActorAiStates.begin());
 
-    if (source == m_mapActorAiStates.end() || sourceIndex >= pMapDeltaData->actors.size()
-        || !actorFightsForParty(pMapDeltaData->actors[sourceIndex], *source))
+    if (source == m_mapActorAiStates.end() || sourceIndex >= pMapDeltaData->actors.size() || sourceIndex == victimIndex)
+    {
+        return;
+    }
+
+    // A kill by a monster fighting for the party, or by or of a charmed or berserk one: the rules' reward.
+    const bool byPartyAlly = actorFightsForParty(pMapDeltaData->actors[sourceIndex], *source);
+    const bool mindControlled = gameplayActorMindControlled(source->spellEffects.controlMode)
+        || gameplayActorMindControlled(m_mapActorAiStates[victimIndex].spellEffects.controlMode);
+
+    if (!byPartyAlly && !mindControlled)
     {
         return;
     }
@@ -19973,7 +19988,8 @@ void IndoorWorldRuntime::rewardKillByActor(size_t victimIndex, uint32_t sourceAc
             m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(victim)))
     {
         MonsterKillReward reward = killReward(victim, m_mapActorAiStates[victimIndex], *pStats);
-        reward.byPartyAlly = true;
+        reward.byPartyAlly = byPartyAlly;
+        reward.mindControlled = mindControlled;
         m_pParty->grantMonsterKillExperience(reward);
     }
 }
@@ -20438,6 +20454,8 @@ bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPro
     spawnRequest.blastMinimumDamage = request.blastMinimumDamage;
     spawnRequest.blastMaximumDamage = request.blastMaximumDamage;
     spawnRequest.critical = request.critical;
+    spawnRequest.pierceCount = request.pierceCount;
+    spawnRequest.pierceShare = request.pierceShare;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     spawnRequest.sourceX = request.source.x;
@@ -20554,7 +20572,8 @@ bool IndoorWorldRuntime::castPartyAttackSpell(const GameplayPartyAttackSpellRequ
 void IndoorWorldRuntime::recordPartyAttackWorldResult(
     std::optional<size_t> actorIndex,
     bool attacked,
-    bool actionPerformed)
+    bool actionPerformed,
+    bool missed)
 {
     if (actorIndex && actionPerformed)
     {
@@ -20575,6 +20594,7 @@ void IndoorWorldRuntime::recordPartyAttackWorldResult(
                     .z = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z),
                     .height = pAiState != nullptr ? static_cast<float>(pAiState->collisionHeight) : 128.0f,
                     .killed = false,
+                    .miss = missed,
                 });
         }
     }

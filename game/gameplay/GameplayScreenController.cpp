@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayScreenController.h"
 #include "engine/Localization.h"
+#include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayFormationBuilder.h"
 #include "game/ui/GameplayLootSummaryRenderer.h"
 
@@ -29,11 +30,103 @@
 #include <array>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+std::string expiringPotionEffectName(
+    const Party &party, const Party::ExpiringPotionEffect &expiring, const SpellTable *pSpellTable)
+{
+    switch (expiring.kind)
+    {
+        case Party::ExpiringPotionEffect::Kind::PartyBuff:
+            return Engine::localize(GameplayBuffHudDefinitions[size_t(expiring.partyBuff)].pName, "spell");
+        case Party::ExpiringPotionEffect::Kind::CharacterBuff:
+            return Engine::localize(GameplayPersonalBuffNames[size_t(expiring.characterBuff)], "spell");
+        case Party::ExpiringPotionEffect::Kind::RulesetEffect:
+        {
+            const Character *pMember = party.member(expiring.memberIndex);
+
+            if (pMember == nullptr)
+            {
+                return {};
+            }
+
+            // The buff list's own line for it (immunities share one line, named by their first condition).
+            for (const GameplayPotionEffectLine &line : gameplayPotionEffectLines(*pMember, pSpellTable))
+            {
+                if (line.kind == expiring.rulesetEffect
+                    && (line.kind == TimedPotionEffect::Kind::Immunity || line.key == expiring.rulesetEffectKey))
+                {
+                    return line.name;
+                }
+            }
+
+            return {};
+        }
+    }
+
+    return {};
+}
+
+// Potions' effects that entered their last ten game minutes (Party::ExpiringPotionEffect) are named on one status
+// line, each with its drinker, when the setting asks. Nothing to do on most frames: the party's list is empty.
+void announceExpiringPotionEffects(GameplayScreenRuntime &context)
+{
+    Party *pParty = context.party();
+
+    if (pParty == nullptr || pParty->expiringPotionEffects().empty())
+    {
+        return;
+    }
+
+    if (context.settingsSnapshot().potionExpiryWarnings)
+    {
+        std::vector<std::string> names;
+
+        for (const Party::ExpiringPotionEffect &expiring : pParty->expiringPotionEffects())
+        {
+            std::string name = expiringPotionEffectName(*pParty, expiring, context.spellTable());
+            const Character *pDrinker = expiring.kind == Party::ExpiringPotionEffect::Kind::CharacterBuff
+                ? pParty->combatant(expiring.memberIndex)
+                : expiring.kind == Party::ExpiringPotionEffect::Kind::RulesetEffect
+                ? pParty->member(expiring.memberIndex)
+                : nullptr;
+
+            if (name.empty())
+            {
+                continue;
+            }
+
+            if (pDrinker != nullptr && pParty->members().size() > 1)
+            {
+                name = Engine::tr("{effect} ({name})", {{"effect", name}, {"name", pDrinker->name}});
+            }
+
+            if (std::find(names.begin(), names.end(), name) == names.end())
+            {
+                names.push_back(std::move(name));
+            }
+        }
+
+        if (!names.empty())
+        {
+            std::string list;
+
+            for (const std::string &name : names)
+            {
+                list += (list.empty() ? "" : Engine::tr(", ")) + name;
+            }
+
+            context.setStatusBarEvent(Engine::tr("Wearing off soon: {effects}", {{"effects", list}}), 4.0f);
+        }
+    }
+
+    pParty->clearExpiringPotionEffects();
+}
+
 // What a save from when the ruleset had more bags could not fit into the members' bags (InventoryBags::
 // fitIntoBagCount) falls at the party's feet once the world runs; an item the world refuses waits for the next frame.
 // A member whose open bag is past the bags there are now (a party of one's other tabs once another member joins)
@@ -217,6 +310,7 @@ void GameplayScreenController::updateSharedFrameState(
     context.updatePartyPortraitAnimations(deltaSeconds);
     context.updateDelayedSpeechReactions(deltaSeconds);
     context.consumePendingPartyAudioRequests();
+    announceExpiringPotionEffects(context);
 
     GameplayUiController::JournalScreenState &journalScreen = context.journalScreenState();
 

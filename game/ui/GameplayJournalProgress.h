@@ -26,6 +26,8 @@ enum class JournalProgressTargetKind : uint8_t
     Guide,
     // The "All continents" chip beside the filters: every continent's maps in one list by level.
     AllContinents,
+    // The map list's scroll bar: a press drags its thumb (OY-646).
+    ScrollBar,
 };
 
 struct JournalProgressTarget
@@ -45,6 +47,11 @@ bool journalHasProgressTab(const GameplayScreenRuntime &context);
 bool ensureJournalProgress(GameplayScreenRuntime &context, GameplayUiController::JournalScreenState &journal);
 // The maps of the shown continent (of every continent with "All continents" on) that pass the filter, by level.
 std::vector<const RulesetProgressMap *> journalProgressMaps(const GameplayUiController::JournalScreenState &journal);
+// The map list's scroll that centres the scroll bar's thumb on the pointer's height (screen y), for dragging it.
+size_t journalProgressScrollAt(
+    const GameplayUiController::JournalScreenState &journal,
+    const GameplayResolvedHudLayoutElement &page,
+    float y);
 JournalProgressTarget journalProgressTargetAt(
     const GameplayScreenRuntime &context,
     const GameplayUiController::JournalScreenState &journal,

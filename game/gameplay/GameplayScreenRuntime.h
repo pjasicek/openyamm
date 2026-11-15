@@ -525,6 +525,12 @@ public:
         float textX,
         float textY,
         float fontScale) const;
+    // Lines of one font, colour and scale drawn together: their shadows in one draw, then the lines in one.
+    void renderHudTextRuns(
+        const std::string &fontName,
+        uint32_t colorAbgr,
+        std::span<const GameplayHudTextRun> runs,
+        float fontScale) const;
 
     void resetHudTransientState() const;
     void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const;
@@ -582,10 +588,11 @@ public:
         bool meleeSwings = false;
         uint32_t swingSerial = 0;
         bool swingWaiting = false;
-        // A solo run's weapon swap (KeyboardAction::SwapWeapon, the action bar's swap slot): the bow is drawn instead
-        // of the melee weapon and Attack shoots, even at melee range. Transient: a loaded game starts with the melee
-        // weapon.
+        // A solo run's weapon cycling (KeyboardAction::NextWeapon and PreviousWeapon, the action bar's swap slot): the
+        // bow is drawn instead of the melee weapon and Attack shoots, even at melee range. Transient: a loaded game
+        // starts with the melee weapon. The tick of the last change keeps one turn of the wheel to one change.
         bool bowSelected = false;
+        uint64_t weaponCycleTickNanoseconds = 0;
         // Game time since the swing started (the view model's clock, slow motion included) and the active member's
         // melee recovery when it started: the swing is played to fit that recovery, which counts from the press.
         float swingWaitSeconds = 0.0f;
@@ -598,6 +605,9 @@ public:
         // A solo run's talent the arms show (cleave, whirlwind, charge, blink ...): FirstPersonViewModel plays its clip.
         uint32_t talentSerial = 0;
         std::string talentClip;
+        // A talent whose strike waits for its clip's blow as a swing does (swingWaiting): Cleave lands mid-swing, at
+        // the blow's release (GameplayInteractionController).
+        std::optional<uint32_t> talentAtBlow;
         // The waited action is a cast (an Attack whose battle orders hold a spell, or a quick or action-bar spell):
         // the arms play a cast clip fitted to the spell's recovery and the spell leaves at its release key. castSelf
         // picks the self clip (heals, buffs); castSchool colours the hand.

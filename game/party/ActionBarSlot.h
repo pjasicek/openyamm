@@ -17,7 +17,7 @@ enum class ActionBarSlotKind : uint8_t
     // `item` names a kind of potion or scroll, used as a quick item slot is.
     Item,
     // The weapon attack (Attack's own action), for players who want the swing on a key; `id` ActionBarWeaponSwapId
-    // instead swaps the melee weapon and the bow (KeyboardAction::SwapWeapon).
+    // instead swaps the melee weapon and the bow (as KeyboardAction::NextWeapon does).
     Weapon,
     // A special skill (talent) of a MAW solo run: `id` is its index in the talent table (game/rules/SoloTalents.h).
     Talent,

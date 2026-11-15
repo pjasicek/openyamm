@@ -8,7 +8,9 @@
 #include <cstdint>
 #include <functional>
 #include <optional>
+#include <span>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -67,6 +69,19 @@ struct AlchemyBook
 {
     std::vector<AlchemyBookEntry> entries;
     size_t totalResultCount = 0;
+    // Potions brewed from two potions by any recipe, known or not, apart from the bottle-and-reagent ones: what the
+    // Workbench leaves in the packs when it keeps mixed potions (GameSettings::workbenchKeepMixedPotions).
+    std::unordered_set<uint32_t> mixedPotionItemIds;
+
+    bool isMixedPotion(uint32_t itemId) const
+    {
+        return mixedPotionItemIds.contains(itemId);
+    }
+
+    bool usesMixedPotion(const AlchemyRecipe &recipe) const
+    {
+        return isMixedPotion(recipe.targetItemId) || isMixedPotion(recipe.heldItemId);
+    }
 };
 
 struct AlchemistInfo
@@ -131,6 +146,13 @@ struct AlchemyItemCount
     uint32_t count = 0;
 };
 
+// One carried copy of an item, by its power.
+struct AlchemyItemPower
+{
+    uint32_t itemId = 0;
+    uint16_t power = 0;
+};
+
 // How to brew a potion from what the party carries, brewing any missing ingredient first from known recipes.
 struct AlchemyChainPlan
 {
@@ -143,6 +165,8 @@ struct AlchemyChainPlan
     // Carried items the plan uses up, and potions it brews along the way.
     std::vector<AlchemyItemCount> used;
     std::vector<AlchemyItemCount> brewedFirst;
+    // Carried mixed potions the plan leaves alone (keepMixedPotions): its mixes take the copies it brews.
+    std::vector<AlchemyItemPower> kept;
     // Why not even one potion can be brewed.
     AlchemyChainBlock block = AlchemyChainBlock::None;
     uint32_t blockItemId = 0;
@@ -157,7 +181,9 @@ struct AlchemyChainOutcome
 };
 
 // Plans brewing chains over a snapshot of the party's ingredients. Only known recipes the alchemist can safely mix
-// are used, so a plan never explodes. Carried potions are used before brewing replacements, strongest first.
+// are used, so a plan never explodes. Carried potions are used before brewing replacements, strongest first; keeping
+// mixed potions, the carried ones (AlchemyBook::isMixedPotion) are left out and brewed fresh from reagents and the
+// basic potions.
 class AlchemyChainPlanner
 {
 public:
@@ -165,7 +191,8 @@ public:
         const Party &party,
         const AlchemyBook &book,
         const AlchemistInfo &alchemist,
-        const AlchemyBenchTables &tables);
+        const AlchemyBenchTables &tables,
+        bool keepMixedPotions = false);
 
     AlchemyChainPlan plan(uint32_t resultItemId, uint32_t maxBrews) const;
 
@@ -187,6 +214,7 @@ private:
     uint32_t m_alchemistLevel = 0;
     uint32_t m_bottleItemId = 0;
     std::vector<std::pair<uint32_t, uint16_t>> m_carried;
+    std::vector<AlchemyItemPower> m_kept;
 };
 
 class AlchemyBenchRuntime
@@ -210,12 +238,18 @@ public:
     // The notes of every mix that brews the potion; unlocking them teaches the bench all of its recipes.
     static std::vector<uint32_t> potionNoteIds(uint32_t potionItemId, const AlchemyBenchTables &tables);
 
-    // Bottle and reagent recipes are always known; potion recipes are known once their potion note is.
+    // Bottle and reagent recipes are always known; potion recipes are known once their potion note is. Keeping mixed
+    // potions, the entries' direct counts leave out the recipes that would use carried mixed potions.
     static AlchemyBook buildBook(
         const AlchemyBenchTables &tables,
         const std::vector<AlchemyIngredient> &ingredients,
         SkillMastery alchemistMastery,
-        const AutonoteLookup &isAutonoteUnlocked);
+        const AutonoteLookup &isAutonoteUnlocked,
+        bool keepMixedPotions = false);
+    // The ingredients without the book's mixed potions: what the bench picks recipes from while keeping them.
+    static std::vector<AlchemyIngredient> withoutMixedPotions(
+        const std::vector<AlchemyIngredient> &ingredients,
+        const AlchemyBook &book);
 
     // The entry's recipe that brews the most potions, preferring stronger ingredients.
     static std::optional<AlchemyRecipe> pickRecipe(
@@ -228,9 +262,13 @@ public:
         const AlchemyBenchTables &tables,
         const AutonoteLookup &isAutonoteUnlocked);
 
-    // Mixes the strongest carried held item into the strongest carried target item. Unhandled results leave
-    // both items where they were.
-    static AlchemyMixOutcome mix(Party &party, const AlchemyRecipe &recipe, const AlchemyBenchTables &tables);
+    // Mixes the strongest carried held item into the strongest carried target item, past the kept copies. Unhandled
+    // results leave both items where they were.
+    static AlchemyMixOutcome mix(
+        Party &party,
+        const AlchemyRecipe &recipe,
+        const AlchemyBenchTables &tables,
+        std::span<const AlchemyItemPower> kept = {});
 
     // Runs a plan's steps as real mixes, stopping at the first one that does not succeed.
     static AlchemyChainOutcome brewChain(Party &party, const AlchemyChainPlan &plan, const AlchemyBenchTables &tables);

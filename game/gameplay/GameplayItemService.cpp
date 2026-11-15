@@ -1342,6 +1342,7 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
         data.mergedReagentSettingTable()};
     GameplayUiController::AlchemyBenchState &bench = runtime.characterScreen().alchemyBench;
     const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(*pParty);
+    const bool keepMixedPotions = runtime.settingsSnapshot().workbenchKeepMixedPotions;
     const AlchemyBook book = AlchemyBenchRuntime::buildBook(
         tables,
         AlchemyBenchRuntime::collectIngredients(*pParty, tables),
@@ -1349,8 +1350,9 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
         [&runtime](uint32_t autonoteId)
         {
             return runtime.isAutonoteUnlocked(autonoteId);
-        });
-    const AlchemyChainPlan plan = AlchemyChainPlanner(*pParty, book, alchemist, tables)
+        },
+        keepMixedPotions);
+    const AlchemyChainPlan plan = AlchemyChainPlanner(*pParty, book, alchemist, tables, keepMixedPotions)
         .plan(bench.selectedResultItemId, brewAll ? MaxChainBrews : 1);
 
     if (plan.brewCount == 0)

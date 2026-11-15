@@ -1268,11 +1268,19 @@ const GameplayHudFontData *GameplayHudCommon::findHudFont(
     const std::vector<GameplayHudFontData> &fonts,
     const std::string &fontName)
 {
-    const std::string normalizedFontName = toLowerCopy(fontName);
+    // Stored names are lower case; this runs for every text line drawn, so compare in place.
+    const auto sameName = [&fontName](const std::string &stored)
+    {
+        return stored.size() == fontName.size()
+            && std::equal(stored.begin(), stored.end(), fontName.begin(), [](char left, char right)
+               {
+                   return left == char(std::tolower(static_cast<unsigned char>(right)));
+               });
+    };
 
     for (const GameplayHudFontData &fontHandle : fonts)
     {
-        if (fontHandle.fontName == normalizedFontName)
+        if (sameName(fontHandle.fontName))
         {
             return &fontHandle;
         }
@@ -1701,6 +1709,12 @@ bool GameplayHudCommon::loadHudFont(
     const std::string &fontName,
     std::vector<GameplayHudFontData> &fonts)
 {
+    // Asked for every text line drawn: a font already loaded needs no request list.
+    if (!fontName.empty() && findHudFont(fonts, fontName) != nullptr)
+    {
+        return true;
+    }
+
     return loadHudFonts(pAssetFileSystem, {fontName}, fonts);
 }
 

@@ -2823,6 +2823,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                         return {GameplayJournalPointerTargetType::ProgressGuide, 0};
                     case JournalProgressTargetKind::AllContinents:
                         return {GameplayJournalPointerTargetType::ProgressAllContinents, 0};
+                    case JournalProgressTargetKind::ScrollBar:
+                        return {GameplayJournalPointerTargetType::ProgressScrollBar, 0};
                     case JournalProgressTargetKind::None:
                         break;
                 }
@@ -3123,6 +3125,10 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 break;
             }
 
+            case GameplayJournalPointerTargetType::ProgressScrollBar:
+                // Dragged from the press, not activated on release.
+                break;
+
             case GameplayJournalPointerTargetType::PrevPageButton:
                 adjustPage(-1);
                 break;
@@ -3336,6 +3342,36 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         }
     }
 
+    const auto resolveProgressPage =
+        [&view, screenWidth, screenHeight]() -> std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement>
+        {
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement("JournalProgressPage");
+            return pLayout != nullptr
+                ? view.resolveHudLayoutElement("JournalProgressPage", screenWidth, screenHeight, pLayout->width,
+                    pLayout->height)
+                : std::nullopt;
+        };
+
+    // The Progress list's scroll bar follows the held pointer (OY-646).
+    if (journalScreen.progressScrollDragging)
+    {
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> page = resolveProgressPage();
+
+        if (journalPointerState.leftButtonPressed && page
+            && journalScreen.view == GameplayUiController::JournalView::Progress)
+        {
+            journalScreen.progressScroll = journalProgressScrollAt(journalScreen, *page, journalPointerState.y);
+        }
+        else
+        {
+            journalScreen.progressScrollDragging = false;
+            view.interactionState().journalClickLatch = false;
+            view.interactionState().journalPressedTarget = noneJournalTarget;
+        }
+
+        return true;
+    }
+
     if (journalScreen.mapDragActive && journalTrainerMapShown(journalScreen))
     {
         const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> page = resolveTrainerPage();
@@ -3428,6 +3464,19 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             view.interactionState().journalClickLatch = true;
             view.interactionState().journalPressedTarget = noneJournalTarget;
             return true;
+        }
+
+        // A press on the Progress list's scroll bar drags its thumb.
+        if (pressedTarget.type == GameplayJournalPointerTargetType::ProgressScrollBar)
+        {
+            if (const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> page = resolveProgressPage())
+            {
+                journalScreen.progressScrollDragging = true;
+                journalScreen.progressScroll = journalProgressScrollAt(journalScreen, *page, journalPointerState.y);
+                view.interactionState().journalClickLatch = true;
+                view.interactionState().journalPressedTarget = noneJournalTarget;
+                return true;
+            }
         }
 
         // A press on a trainer's map drags it.

@@ -67,6 +67,10 @@ std::string rulesetSettingValue(const RulesetOptions &options, const std::string
     {
         return flag(options.randomizer);
     }
+    if (id == "ruleset_solo")
+    {
+        return flag(options.soloRun);
+    }
     if (id == "ruleset_homing")
     {
         return flag(options.preferences.homingProjectiles);
@@ -107,6 +111,10 @@ void setRulesetSettingValue(RulesetOptions &options, const std::string &id, cons
     else if (id == "ruleset_progression")
     {
         options.progression = parseRulesetProgression(value).value_or(options.progression);
+    }
+    else if (id == "ruleset_solo")
+    {
+        options.soloRun = value == "true";
     }
     else if (id == "ruleset_homing")
     {
@@ -857,6 +865,11 @@ bool MainMenuScreen::settingEnabled(const Setting &setting) const
     {
         return !rulesetChallengeModeProgression(applied.challengeMode) && setting.options.size() > 1;
     }
+    if (setting.id == "ruleset_solo")
+    {
+        // A party of one may become a solo run; a solo run stays one.
+        return !applied.soloRun && m_currentGame->partySize == 1;
+    }
     return setting.group == "Preferences";
 }
 
@@ -1035,6 +1048,26 @@ void MainMenuScreen::editSetting(const Setting &setting, const std::string &valu
 {
     if (setting.section == GameSection)
     {
+        if (setting.id == "ruleset_solo" && value == "true" && !m_rulesetDraft.soloRun)
+        {
+            const std::string hirelings = m_currentGame->hirelingCount > 0
+                ? " " + Engine::tr("Your hirelings stay with you but take no part in combat.")
+                : std::string();
+            confirm(Engine::tr("Make This a Solo Run?"),
+                    Engine::tr("Your adventurer goes on in first person, with an action bar and talents, and the "
+                               "party stays one for the rest of the adventure. This cannot be undone.")
+                        + hirelings,
+                    {Engine::tr("Cancel"), Engine::tr("Solo Run")},
+                    [this, setting, value](int choice)
+                    {
+                        if (choice == 1)
+                        {
+                            setRulesetSettingValue(m_rulesetDraft, setting.id, value);
+                        }
+                    });
+            m_status.clear();
+            return;
+        }
         if (setting.id == "ruleset_difficulty" && value == rulesetDifficultyId(RulesetDifficulty::Nightmare)
             && m_rulesetDraft.difficulty != RulesetDifficulty::Nightmare)
         {

@@ -34,6 +34,7 @@ uint64_t chainCountsKey(const GameplayAlchemyBenchModel &model)
         mixIn((uint64_t(entry.resultItemId) << 32) | (uint64_t(entry.recipes.size()) << 1) | entry.masteryAllows);
     }
 
+    mixIn(model.keepMixedPotions ? 1 : 0);
     return hash;
 }
 
@@ -48,7 +49,7 @@ std::vector<uint32_t> cachedChainCounts(
 
     if (key != state.chainCountsKey || state.chainCounts.size() != model.book.entries.size())
     {
-        const AlchemyChainPlanner planner(party, model.book, model.alchemist, benchTables);
+        const AlchemyChainPlanner planner(party, model.book, model.alchemist, benchTables, model.keepMixedPotions);
         state.chainCounts.clear();
 
         for (const AlchemyBookEntry &entry : model.book.entries)
@@ -159,8 +160,12 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         }
     }
 
-    model.book =
-        AlchemyBenchRuntime::buildBook(*benchTables, model.ingredients, model.alchemist.mastery, isAutonoteUnlocked);
+    model.keepMixedPotions = context.settingsSnapshot().workbenchKeepMixedPotions;
+    model.book = AlchemyBenchRuntime::buildBook(
+        *benchTables, model.ingredients, model.alchemist.mastery, isAutonoteUnlocked, model.keepMixedPotions);
+    model.mixingIngredients = model.keepMixedPotions
+        ? AlchemyBenchRuntime::withoutMixedPotions(model.ingredients, model.book)
+        : model.ingredients;
     const AlchemyRecipe currentRecipe = {state.targetItemId, state.heldItemId};
     model.preview = AlchemyBenchRuntime::preview(*pParty, currentRecipe, *benchTables, isAutonoteUnlocked);
     model.chainCounts = cachedChainCounts(context, *pParty, model, *benchTables);
@@ -226,11 +231,16 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         }
     }
 
-    // A chosen recipe the slots cannot mix directly is brewed as a chain, or explains what blocks it.
-    const bool directMixPossible = model.preview.outcome == AlchemyPreviewOutcome::Known
-        || model.preview.outcome == AlchemyPreviewOutcome::TooDifficult
-        || model.preview.outcome == AlchemyPreviewOutcome::Unknown
-        || model.preview.outcome == AlchemyPreviewOutcome::KnownExplosive;
+    // A chosen recipe the slots cannot mix directly is brewed as a chain, or explains what blocks it. Keeping mixed
+    // potions, a recipe chosen from the book that would use carried ones is brewed as a chain too, which brews them
+    // fresh; slots filled by hand mix what they show.
+    const bool keepsSlotPotions = model.keepMixedPotions && state.selectedResultItemId != 0
+        && model.book.usesMixedPotion(currentRecipe);
+    const bool directMixPossible = !keepsSlotPotions
+        && (model.preview.outcome == AlchemyPreviewOutcome::Known
+            || model.preview.outcome == AlchemyPreviewOutcome::TooDifficult
+            || model.preview.outcome == AlchemyPreviewOutcome::Unknown
+            || model.preview.outcome == AlchemyPreviewOutcome::KnownExplosive);
 
     if (model.selectedEntryIndex && !directMixPossible
         && state.selectedResultItemId == model.book.entries[*model.selectedEntryIndex].resultItemId)
@@ -242,6 +252,12 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         {
             model.mixAllCount = model.chainCounts[*model.selectedEntryIndex];
         }
+    }
+
+    if (keepsSlotPotions && !model.chainMode)
+    {
+        model.keptPotionsBlockMix = true;
+        model.mixAllCount = 0;
     }
 
     return model;
@@ -261,7 +277,8 @@ AlchemyChainPlan GameplayAlchemyBenchView::planChain(
         return {};
     }
 
-    return AlchemyChainPlanner(*pParty, model.book, model.alchemist, *benchTables).plan(resultItemId, maxBrews);
+    return AlchemyChainPlanner(*pParty, model.book, model.alchemist, *benchTables, model.keepMixedPotions)
+        .plan(resultItemId, maxBrews);
 }
 
 std::string GameplayAlchemyBenchView::masteryName(uint8_t mastery)
@@ -283,8 +300,9 @@ std::string GameplayAlchemyBenchView::masteryName(uint8_t mastery)
 bool GameplayAlchemyBenchView::mixEnabled(const GameplayAlchemyBenchModel &model)
 {
     return model.chainMode
-        || model.preview.outcome == AlchemyPreviewOutcome::Known
-        || model.preview.outcome == AlchemyPreviewOutcome::Unknown;
+        || (!model.keptPotionsBlockMix
+            && (model.preview.outcome == AlchemyPreviewOutcome::Known
+                || model.preview.outcome == AlchemyPreviewOutcome::Unknown));
 }
 
 float GameplayAlchemyBenchView::maximumRecipeScroll(

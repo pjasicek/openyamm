@@ -5,6 +5,7 @@
 #include "game/mm9/Mm9Formation.h"
 #include "game/party/Party.h"
 #include "game/party/QuickItemSlot.h"
+#include "game/rules/MonsterRules.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/SoloBarSelectorModel.h"
 
@@ -224,6 +225,14 @@ struct GameplayHudBatchQuad
     uint16_t scissorHeight = 0;
     // Multiplies the texture; runs of quads with a tint draw with the HUD tint program.
     uint32_t tintAbgr = 0xffffffffu;
+};
+
+// A text line and where its top left goes, for lines drawn together (GameplayUiRuntime::renderHudFontLayerRuns).
+struct GameplayHudTextRun
+{
+    std::string text;
+    float x = 0.0f;
+    float y = 0.0f;
 };
 
 // One layer of HUD text: a font atlas and the colour its glyphs are multiplied by at draw time.
@@ -536,6 +545,8 @@ enum class GameplayJournalPointerTargetType
     ProgressMap,
     ProgressGuide,
     ProgressAllContinents,
+    // The map list's scroll bar (a press drags it).
+    ProgressScrollBar,
     // The aura panel's targets (GameplayJournalAuras.h), packed into noteId.
     AuraPanel,
     // The Trainers notes' finder targets (GameplayJournalTrainers.h), packed into noteId.
@@ -809,6 +820,15 @@ struct GameplayOverlayInteractionState
     GameplayWorldHit gameplayHudPressedContextActionHit = {};
     bool gameplayHudQuickCastRequested = false;
     bool gameplayHudAttackRequested = false;
+    // Whether the party carries any scroll and any potion, for the HUD's two item buttons (GameplayQuickItems):
+    // listing the party's items walks every bag, so the buttons read it a few times a second.
+    std::array<bool, 2> quickItemButtonCarried = {};
+    uint64_t quickItemButtonCarriedTicks = 0;
+    // The map progress bar's last reading (GameplayMapProgressBar): the count walks every actor of the map, so the
+    // HUD reads it a few times a second, not on every frame and for every element that asks where the bar's tab is.
+    std::optional<RulesetMapProgress> mapProgressReading;
+    const IGameplayWorldRuntime *pMapProgressReadingWorld = nullptr;
+    uint64_t mapProgressReadingTicks = 0;
     // A solo run's action-bar swap slot (a weapon slot with id 1) was pressed: swap the melee weapon and the bow.
     bool soloWeaponSwapRequested = false;
     // A solo run's action bar asked for a talent (its index in the talent table), used by the world interaction frame.

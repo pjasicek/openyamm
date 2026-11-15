@@ -905,6 +905,12 @@ BattleOrderSituation battleOrderSituation(
     {
         situation.spellPoints = pMember->spellPoints;
         situation.maximumSpellPoints = party.reachableMaximumSpellPoints(memberIndex);
+        const int maximumHealth = party.reachableMaximumHealth(memberIndex);
+
+        if (maximumHealth > 0)
+        {
+            situation.ownHealthShare = std::max(0.0f, float(pMember->health) / float(maximumHealth));
+        }
     }
 
     return situation;
@@ -1166,7 +1172,8 @@ GameplayActionController::PartyAttackExecutionResult executeHirelingAttack(
 
     if (config.pWorldRuntime != nullptr)
     {
-        config.pWorldRuntime->recordPartyAttackWorldResult(result.targetActorIndex, attacked, actionPerformed);
+        config.pWorldRuntime->recordPartyAttackWorldResult(result.targetActorIndex, attacked, actionPerformed,
+            attack.mode == CharacterAttackMode::Melee && targetInMeleeRange && actionPerformed && !attacked);
     }
 
     result.actionPerformed = actionPerformed;
@@ -1641,6 +1648,15 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         attack.maximumDamage = scaled(attack.maximumDamage);
     }
 
+    // Multishot's fan: as many headings as its arrows, each shot as the bow shoots (a Master bow's two arrows).
+    uint8_t arrowsPerHeading = 1;
+    if (config.talentFanArrows > 1 && attack.mode == CharacterAttackMode::Bow)
+    {
+        arrowsPerHeading = std::max<uint8_t>(1, attack.projectileCount);
+        attack.projectileCount = config.talentFanArrows;
+        attack.projectileSpreadArcRadians = config.talentFanArcRadians;
+    }
+
     result.attack = attack;
 
     if (attack.canAttack && attack.mode != CharacterAttackMode::Melee
@@ -1927,6 +1943,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                     attack.projectileSpreadArcRadians > 0.0f ? std::nullopt : result.targetActorIndex,
                 .homing = attack.homing,
                 .critical = attack.criticalDamage,
+                .pierceCount = attack.mode == CharacterAttackMode::Bow ? config.pierceCount : uint8_t(0),
+                .pierceShare = config.pierceShare,
             };
             if (attack.projectileSpreadArcRadians > 0.0f)
             {
@@ -1943,14 +1961,32 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                         attack.projectileCount,
                         projectileIndex,
                         attack.projectileSpreadArcRadians);
-                    projectileRequest.target = toRuntimeWorldPoint(WorldPoint{
-                        .x = rangedSource.x + std::cos(yawRadians) * fanDistance,
-                        .y = rangedSource.y + std::sin(yawRadians) * fanDistance,
-                        .z = rangedTarget.z,
-                    });
-                    projectileRequest.damage = damageDistribution(rng);
                     projectileRequest.critical = false;
-                    attacked = config.pWorldRuntime->spawnPartyAttackProjectile(projectileRequest) || attacked;
+                    // The volley's arrows leave close together, a few units apart across the aim, each on its own
+                    // heading; a Master bow's second arrow flies a few degrees beside the heading's first.
+                    for (uint8_t copy = 0; copy < arrowsPerHeading; ++copy)
+                    {
+                        constexpr float PairOffsetRadians = 3.0f * 3.14159265f / 180.0f;
+                        constexpr float SourceSpacing = 4.0f;
+                        const float arrowYaw = yawRadians
+                            + (arrowsPerHeading > 1 ? (float(copy) - float(arrowsPerHeading - 1) * 0.5f) : 0.0f)
+                                * PairOffsetRadians;
+                        const float arrows = float(attack.projectileCount) * float(arrowsPerHeading);
+                        const float across = (float(projectileIndex * arrowsPerHeading + copy) - (arrows - 1) * 0.5f)
+                            * SourceSpacing;
+                        projectileRequest.source = toRuntimeWorldPoint(WorldPoint{
+                            .x = rangedSource.x + std::sin(aimYawRadians) * across,
+                            .y = rangedSource.y - std::cos(aimYawRadians) * across,
+                            .z = rangedSource.z,
+                        });
+                        projectileRequest.target = toRuntimeWorldPoint(WorldPoint{
+                            .x = rangedSource.x + std::cos(arrowYaw) * fanDistance,
+                            .y = rangedSource.y + std::sin(arrowYaw) * fanDistance,
+                            .z = rangedTarget.z,
+                        });
+                        projectileRequest.damage = damageDistribution(rng);
+                        attacked = config.pWorldRuntime->spawnPartyAttackProjectile(projectileRequest) || attacked;
+                    }
                 }
             }
             else
@@ -2061,7 +2097,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
 
     if (config.pWorldRuntime != nullptr)
     {
-        config.pWorldRuntime->recordPartyAttackWorldResult(result.targetActorIndex, attacked, actionPerformed);
+        config.pWorldRuntime->recordPartyAttackWorldResult(result.targetActorIndex, attacked, actionPerformed,
+            attack.mode == CharacterAttackMode::Melee && hadMeleeTarget && actionPerformed && !attacked);
     }
 
     result.actionPerformed = actionPerformed;

@@ -304,10 +304,6 @@ bool FirstPersonViewModel::ensureLoaded(const std::string &path, const Engine::A
         {
             m_weaponNode = uint32_t(node);
         }
-        else if (name == "Bip01 L ForearmTwist")
-        {
-            m_shieldNode = uint32_t(node);
-        }
         else if (name == "Bip01 L Hand")
         {
             m_leftHandNode = uint32_t(node);
@@ -651,18 +647,6 @@ void FirstPersonViewModel::applyKit(const Kit &kit, bool weaponInHand)
                 m_offBladeTip);
         }
     }
-    if (kit.shield && m_shieldNode != UINT32_MAX)
-    {
-        if (std::optional<Engine::ModelAttachment> held = heldAttachment(kit.shieldModel, kit.shieldIcon, m_shieldNode,
-                nullptr))
-        {
-            attachments.push_back(*held);
-        }
-        else if (std::shared_ptr<const Engine::ModelAsset> shield = skinAttachment("s_steelshield.glb", kit.shieldTier))
-        {
-            attachments.push_back({shield, m_shieldNode, 0});
-        }
-    }
     m_instances.setAttachments(m_handle, std::move(attachments));
     if (m_instances.contains(m_bowHandle))
     {
@@ -727,9 +711,9 @@ void FirstPersonViewModel::startAction(const ClipInfo &info, bool waitsForBlow, 
     m_actionSeconds = 0.0f;
     m_actionRate = rate;
     m_actionWaitsForBlow = waitsForBlow;
-    m_actionIsBlockHit = false;
     m_actionIsSwing = false;
     m_actionTrails = false;
+    m_actionGlint = false;
     m_actionIsCast = false;
     m_actionIsBite = false;
 }
@@ -763,7 +747,7 @@ std::optional<std::array<float, 2>> FirstPersonViewModel::nodeScreenPoint(uint32
     return std::array<float, 2>{clip.x, clip.y};
 }
 
-void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit)
+void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit, float recoverySeconds)
 {
     // Each talent borrows a clip of the set (devdocs/solo_action/TALENTS.md): Cleave a sideways power attack,
     // Whirlwind two sweeps at speed, Charge the forward lunge, Volley the bow shot, the rest a cast.
@@ -798,7 +782,18 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
     }
     if (first)
     {
-        startAction(*first, false, talent == "whirlwind" ? WhirlwindRate : TalentRate);
+        // Cleave's strike and the bow talents' shot wait for this clip's blow or release (gameplay's talentAtBlow), as
+        // an ordinary attack does, and play fitted to the member's recovery like it: the talent costs the time of an
+        // attack and quickens with attack speed.
+        const bool waited = talent == "cleave" || talent == "volley";
+        float rate = talent == "whirlwind" ? WhirlwindRate : TalentRate;
+        if (waited && recoverySeconds > 0.0f)
+        {
+            const float span = first->chainSeconds >= 0.0f ? first->chainSeconds
+                : first->hitSeconds >= 0.0f ? std::min(first->duration, first->hitSeconds + 0.3f) : first->duration;
+            rate = std::clamp(span / recoverySeconds, 1.0f, 3.5f);
+        }
+        startAction(*first, waited, rate);
         m_actionTrails = talent == "cleave" || talent == "whirlwind" || talent == "charge";
         if (talent != "cleave" && talent != "whirlwind" && talent != "charge" && talent != "volley")
         {
@@ -806,6 +801,14 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
             m_actionIsCast = true;
             m_actionCastHands = castHands(m_asset->clips[first->index].name);
             m_actionCastColor = schoolColor("");
+        }
+        // Cleave, Charge, Multishot, Pinning Shot: the weapon glints (a cast already glows in the hand).
+        m_actionGlint = !m_actionIsCast;
+        if (m_trace)
+        {
+            std::cout << "viewmodel trace t=" << m_clock << " talent " << talent << " "
+                      << m_asset->clips[first->index].name << " hit at +"
+                      << (first->hitSeconds >= 0.0f ? first->hitSeconds / m_actionRate : -1.0f) << '\n';
         }
     }
 }
@@ -996,6 +999,58 @@ std::vector<std::array<float, 3>> FirstPersonViewModel::castPalms(uint8_t hands)
         }
     }
     return palms;
+}
+
+std::vector<std::array<float, 3>> FirstPersonViewModel::handPoints() const
+{
+    if (m_kit && m_kit->set == WeaponSet::Claws)
+    {
+        std::vector<std::array<float, 3>> points;
+        for (const uint32_t node : {m_clawTipLeftNode, m_clawTipRightNode})
+        {
+            if (const Engine::ModelMatrix *pTip = node != UINT32_MAX ? m_instances.nodeMatrix(m_handle, node) : nullptr)
+            {
+                points.push_back({(*pTip)[12], (*pTip)[13], (*pTip)[14]});
+            }
+        }
+        return points;
+    }
+    return castPalms(3);
+}
+
+void FirstPersonViewModel::updateTalentEffects(const Input &input, float delta)
+{
+    // Gold, apart from every school's and element's colour.
+    constexpr std::array<float, 3> GlintColor = {1.0f, 0.82f, 0.4f};
+    m_fx.setHandEmbers(input.onslaught > 0.0f ? handPoints() : std::vector<std::array<float, 3>>(), input.onslaught);
+    if (m_action && m_actionGlint)
+    {
+        bool weapon = false;
+        for (const bool offHand : {false, true})
+        {
+            if (const auto points = bladePoints(offHand))
+            {
+                m_fx.sparkle(points->first, points->second, 0.8f, GlintColor, delta);
+                weapon = true;
+            }
+        }
+        if (!weapon)
+        {
+            // Fists and talons: around the hands.
+            for (const std::array<float, 3> &point : handPoints())
+            {
+                m_fx.sparkle(point, point, 2.5f, GlintColor, delta);
+            }
+        }
+    }
+    if (input.talentBlock)
+    {
+        // Shield Wall: the guarding hands glint (no shield is shown).
+        for (const std::array<float, 3> &point : handPoints())
+        {
+            m_fx.sparkle(point, point, 5.0f, GlintColor, delta * 0.4f);
+        }
+    }
 }
 
 std::optional<std::pair<std::array<float, 3>, std::array<float, 3>>> FirstPersonViewModel::bladePoints(
@@ -1279,23 +1334,12 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
     }
     if (m_seenSerials && input.talentSerial != m_lastTalentSerial && !(m_action && m_actionWaitsForBlow))
     {
-        startTalent(input.talentClip, kit);
+        startTalent(input.talentClip, kit, input.swingRecoverySeconds);
     }
     m_lastTalentSerial = input.talentSerial;
-    const bool blocking = input.blockHeld && !(m_action && !m_actionIsBlockHit);
-    if (m_seenSerials && input.shieldBlockSerial != m_lastShieldBlockSerial && blocking)
-    {
-        if (std::optional<ClipInfo> hit = kit.shield ? clip("blockhit") : setClip("blockhit"))
-        {
-            startAction(*hit, false);
-            m_actionIsBlockHit = true;
-        }
-    }
     m_lastSwingSerial = input.swingSerial;
     m_lastActionSerial = input.actionSerial;
-    m_lastShieldBlockSerial = input.shieldBlockSerial;
     m_seenSerials = true;
-    output.shieldRaised = kit.shield && input.blockHeld && !(m_action && !m_actionIsBlockHit);
 
     bool releaseBlow = false;
     if (m_action)
@@ -1343,8 +1387,10 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
                 const std::pair<ClipInfo, float> next = m_actionQueue.front();
                 m_actionQueue.erase(m_actionQueue.begin());
                 const bool trails = m_actionTrails;
+                const bool glint = m_actionGlint;
                 startAction(next.first, false, next.second);
                 m_actionTrails = trails;
+                m_actionGlint = glint;
             }
         }
     }
@@ -1373,9 +1419,9 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
     if (clipIndex == UINT32_MAX)
     {
         std::optional<ClipInfo> loop;
-        if (input.blockHeld || input.talentBlock)
+        if (input.talentBlock)
         {
-            loop = kit.shield ? clip("blockidle") : setClip("blockidle");
+            loop = setClip("blockidle");
         }
         const float speed = std::hypot(m_moveVelocity[0], m_moveVelocity[1]);
         if (!loop && speed > WalkSpeedThreshold)
@@ -1411,6 +1457,7 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
         updateBow(clipIndex, time, delta, transition, restart);
     }
     updateTrail(delta, kit, m_heldPose.has_value(), clipIndex, time);
+    updateTalentEffects(input, delta);
     if (m_heldPose && m_fxPreview && clipIndex != UINT32_MAX)
     {
         m_fx.setCastGlow(castPalms(castHands(m_asset->clips[clipIndex].name)), *m_fxPreview, 1.0f);
@@ -1681,7 +1728,6 @@ void FirstPersonViewModel::shutdown()
     m_failed = false;
     m_cameraNode = UINT32_MAX;
     m_weaponNode = UINT32_MAX;
-    m_shieldNode = UINT32_MAX;
     m_kit.reset();
     m_action.reset();
     m_seenSerials = false;

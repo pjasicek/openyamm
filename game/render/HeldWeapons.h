@@ -102,6 +102,9 @@ struct HeldSkinRules
     // An enchanted copy is raised by this many tiers, at most to enchantedMaxTier (never lowered by it).
     uint8_t enchantedBonus = 1;
     uint8_t enchantedMaxTier = 3;
+    // The least tier of an item rolled with a loot rarity (ItemRulesetFields::lootRarity, MAW's Common 1 to Celestial
+    // 8), at index lootRarity - 1: such an item's value grows with its level, so its rarity speaks for its look.
+    std::vector<uint8_t> lootRarityTiers;
 };
 
 // The item facts the tier depends on.
@@ -111,6 +114,8 @@ struct HeldSkinItem
     std::string equipStat;
     bool unique = false;
     bool enchanted = false;
+    // The copy's loot rarity, 0 for none (ItemRulesetFields::lootRarity).
+    uint8_t lootRarity = 0;
 };
 
 bool parseHeldSkinRules(const std::string &text, const std::string &path, HeldSkinRules &rules, std::string &error);

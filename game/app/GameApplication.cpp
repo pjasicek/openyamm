@@ -9,6 +9,7 @@
 
 #include "game/StringUtils.h"
 #include "game/app/ProfilingControl.h"
+#include "game/debug/ExitPose.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/debug/MawTestParties.h"
 #include "game/debug/PinInbox.h"
@@ -3133,8 +3134,8 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "ruleset",
-        .description = "Show the game's ruleset; change its difficulty or MAW's level banks.",
-        .usage = "ruleset [difficulty <id> | banks <mm8> <mm7> <mm6> <mm9> | maplevels <file.tsv> [banked]"
+        .description = "Show the game's ruleset; change its difficulty or MAW's level banks; make it a solo run.",
+        .usage = "ruleset [difficulty <id> | solo | banks <mm8> <mm7> <mm6> <mm9> | maplevels <file.tsv> [banked]"
                  " | aura <member 1-5> <spell id> | counter <member 1-5> <amount>]",
         .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
@@ -3178,6 +3179,19 @@ void GameApplication::registerDebugConsoleCommands()
                     return commandResult(false, "The ruleset does not offer that difficulty.");
                 }
                 m_gameSession.setRulesetOptions(options);
+                return commandResult(true, describe());
+            }
+            // As the Settings' Solo run row: a party of one becomes a solo run for good.
+            if (context.args.size() == 1 && toLowerCopy(context.args[0]) == "solo")
+            {
+                RulesetOptions options = selection.options;
+                options.soloRun = true;
+                std::string error;
+                if (selection.isStandard() || !applyRulesetOptions(options, error))
+                {
+                    return commandResult(false,
+                        error.empty() ? "Usage: ruleset solo (in a game with a ruleset)" : error);
+                }
                 return commandResult(true, describe());
             }
             if (context.args.size() == 5 && toLowerCopy(context.args[0]) == "banks" && pMawRules != nullptr)
@@ -5493,7 +5507,8 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "talent",
         .description = "A MAW solo run's talents (devdocs/solo_action/TALENTS.md): set a rank, forget them, list them.",
-        .usage = "talent <id> <rank> | talent reset | talent list | talent page | talent use <id> | talent clearbar",
+        .usage = "talent <id> <rank> | talent reset | talent list | talent page | talent use <id> | talent clearbar"
+                 " | talent stacks <onslaught stacks>",
         .callback = [this, commandResult, activeParty](const DebugConsole::CommandContext &context)
         {
             const std::vector<std::string> &args = context.args;
@@ -5514,6 +5529,13 @@ void GameApplication::registerDebugConsoleCommands()
             if (!m_gameSession.gameplayScreenRuntime().soloTalents())
             {
                 return commandResult(false, "talents exist only in a MAW solo run");
+            }
+            if (args.size() == 2 && args[0] == "stacks")
+            {
+                // Onslaught's stacks for review, lasting its 30 s.
+                pMember->talentState.onslaughtStacks = std::max(0, std::atoi(args[1].c_str()));
+                pMember->talentState.onslaughtSeconds = pMember->talentState.onslaughtStacks > 0 ? 30.0f : 0.0f;
+                return commandResult(true, "onslaught stacks " + std::to_string(pMember->talentState.onslaughtStacks));
             }
             if (args.size() == 1 && args[0] == "reset")
             {
@@ -5543,10 +5565,20 @@ void GameApplication::registerDebugConsoleCommands()
             if (args.size() == 1 && args[0] == "list")
             {
                 std::ostringstream out;
+                const SoloTalentState &state = pMember->talentState;
                 for (const TalentDefinition &talent : soloTalentTable().talents())
                 {
-                    out << talent.id << '=' << talentRank(*pMember, talent.id) << ' ';
+                    out << talent.id << '=' << talentRank(*pMember, talent.id);
+                    const auto cooldown = state.cooldownSeconds.find(talent.id);
+                    if (cooldown != state.cooldownSeconds.end() && cooldown->second > 0.0f)
+                    {
+                        out << " (cooldown " << cooldown->second << " s)";
+                    }
+                    out << ' ';
                 }
+                out << "| shield wall " << state.shieldWallSeconds << " s, onslaught " << state.onslaughtStacks
+                    << " for " << state.onslaughtSeconds << " s, cheat death " << state.cheatDeathSeconds
+                    << " s (cooldown " << state.cheatDeathCooldown << " s)";
                 return commandResult(true, out.str());
             }
             // A keystone is bound (1) or unbound (0) directly, whatever the level's slots.
@@ -5592,7 +5624,7 @@ void GameApplication::registerDebugConsoleCommands()
         .name = "viewmodel",
         .description = "Prototype first-person view model: hold a clip, override the kit, list clips.",
         .usage = "viewmodel pose <clip> <seconds> | viewmodel pose off | viewmodel kit <set> <weapon|none> "
-            "<shield 0|1> | viewmodel kit dual <weapon> <off-hand weapon> | viewmodel kit auto | viewmodel clips | "
+            "| viewmodel kit dual <weapon> <off-hand weapon> | viewmodel kit auto | viewmodel clips | "
             "viewmodel trace on|off | "
             "viewmodel path <clip> <file.json> [samples] | viewmodel held <icon> | viewmodel weapons oblivion|ours | "
             "viewmodel tier <n|auto> | viewmodel equip <main item id|0> <off-hand item id|0> [bow item id|0]",
@@ -5649,7 +5681,8 @@ void GameApplication::registerDebugConsoleCommands()
                 activeViewModel().overrideKit(std::nullopt);
                 return commandResult(true, "kit follows the active member");
             }
-            if (args.size() == 4 && args[0] == "kit")
+            // A fourth word after a non-dual kit (older tours' shield flag) is ignored: no shield is shown.
+            if ((args.size() == 3 || args.size() == 4) && args[0] == "kit" && (args[1] != "dual" || args.size() == 4))
             {
                 FirstPersonViewModel::Kit kit;
                 const std::string &set = args[1];
@@ -5661,20 +5694,18 @@ void GameApplication::registerDebugConsoleCommands()
                     : set == "pole" ? FirstPersonViewModel::WeaponSet::Pole
                     : FirstPersonViewModel::WeaponSet::HandToHand;
                 kit.weapon = args[2] == "none" ? std::string() : args[2];
-                kit.shield = args[3] == "1";
                 // viewmodel kit dual <main weapon> <off-hand weapon>: dual wielding the two templates, heavy when
                 // either is a two-handed one (a MAW Minotaur's axes).
                 if (set == "dual")
                 {
                     kit.set = FirstPersonViewModel::WeaponSet::Dual;
-                    kit.shield = false;
                     kit.offWeapon = args[3];
                     kit.heavy = kit.weapon == "w_battleaxe.glb" || kit.weapon == "w_claymore.glb"
                         || kit.weapon == "w_warhammer.glb" || kit.offWeapon == "w_battleaxe.glb"
                         || kit.offWeapon == "w_claymore.glb" || kit.offWeapon == "w_warhammer.glb";
                 }
                 m_firstPersonViewModel.overrideKit(kit);
-                return commandResult(true, "kit " + set + " " + args[2] + " shield " + args[3]);
+                return commandResult(true, "kit " + set + " " + args[2] + (set == "dual" ? " " + args[3] : ""));
             }
             if (args.size() == 1 && args[0] == "clips")
             {
@@ -5703,23 +5734,17 @@ void GameApplication::registerDebugConsoleCommands()
                     return commandResult(false, "no item with a ground model has icon " + args[1]);
                 }
                 const std::string &model = pItems->groundModel(pFound->itemId).model;
-                FirstPersonViewModel::Kit kit;
                 if (pFound->skillGroup == "Shield")
                 {
-                    kit = FirstPersonViewModel::kitFor("Sword", false, true);
-                    kit.shieldModel = model;
-                    kit.shieldIcon = icon;
+                    return commandResult(false, "shields are not shown in first person");
                 }
-                else
-                {
-                    kit = pFound->skillGroup == "Bow"
-                        ? FirstPersonViewModel::kitForBow(m_firstPersonViewModel.heldKind(icon))
-                        : FirstPersonViewModel::kitForHeldKind(
-                            FirstPersonViewModel::kitFor(pFound->skillGroup, pFound->equipStat == "Weapon2", false),
-                            m_firstPersonViewModel.heldKind(icon));
-                    kit.heldModel = model;
-                    kit.heldIcon = icon;
-                }
+                FirstPersonViewModel::Kit kit = pFound->skillGroup == "Bow"
+                    ? FirstPersonViewModel::kitForBow(m_firstPersonViewModel.heldKind(icon))
+                    : FirstPersonViewModel::kitForHeldKind(
+                        FirstPersonViewModel::kitFor(pFound->skillGroup, pFound->equipStat == "Weapon2"),
+                        m_firstPersonViewModel.heldKind(icon));
+                kit.heldModel = model;
+                kit.heldIcon = icon;
                 m_firstPersonViewModel.overrideKit(kit);
                 return commandResult(true, "holding " + pFound->name + " (" + icon + ")");
             }
@@ -5775,7 +5800,7 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(bool(file), (file ? "wrote " : "could not write ") + args[2]);
             }
             return commandResult(false, "Usage: viewmodel pose <clip> <seconds> | pose off | kit <set> <weapon|none> "
-                "<shield 0|1> | kit auto | clips");
+                "| kit dual <weapon> <off-hand weapon> | kit auto | clips");
         },
         // Equipping items changes the game; the rest only shows the arms.
         .readOnlyWith = [](const std::vector<std::string> &args) { return args.empty() || args[0] != "equip"; }});
@@ -7934,13 +7959,13 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "tp",
-        .description = "Teleport the party on the current map.",
-        .usage = "tp <x> <y> <z>",
+        .description = "Teleport the party on the current map; optionally facing as `loc` prints it.",
+        .usage = "tp <x> <y> <z> [yaw-radians [pitch-degrees]]",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
-            if (context.args.size() < 3)
+            if (context.args.size() < 3 || context.args.size() > 5)
             {
-                return commandResult(false, "Usage: tp <x> <y> <z>");
+                return commandResult(false, "Usage: tp <x> <y> <z> [yaw-radians [pitch-degrees]]");
             }
 
             const std::optional<float> x = parseFloatArgument(context.args[0]);
@@ -7952,19 +7977,45 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(false, "Invalid coordinates.");
             }
 
+            // The facing in the units `loc` prints (the Map Studio's Play here passes its camera's).
+            const std::optional<float> yaw =
+                context.args.size() >= 4 ? parseFloatArgument(context.args[3]) : std::optional<float>(0.0f);
+            const std::optional<float> pitchDegrees =
+                context.args.size() >= 5 ? parseFloatArgument(context.args[4]) : std::optional<float>(0.0f);
+
+            if (!yaw || !pitchDegrees || !std::isfinite(*yaw) || !std::isfinite(*pitchDegrees))
+            {
+                return commandResult(false, "Invalid facing.");
+            }
+
             if (m_pMapSceneRuntime == nullptr)
             {
                 return commandResult(false, "No active map runtime.");
             }
 
+            const bool facing = context.args.size() >= 4;
+            const float pitchRadians = std::clamp(*pitchDegrees, -89.0f, 89.0f) * Pi / 180.0f;
+
             if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor && m_pOutdoorPartyRuntime != nullptr)
             {
                 m_pOutdoorPartyRuntime->teleportTo(*x, *y, *z);
+
+                if (facing)
+                {
+                    m_outdoorGameView.setCameraAngles(*yaw, pitchRadians);
+                }
             }
             else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
             {
                 IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
                 pIndoorRuntime->partyRuntime().teleportPartyPosition(*x, *y, *z);
+
+                if (facing)
+                {
+                    const IndoorMoveState &moveState = pIndoorRuntime->partyRuntime().movementState();
+                    m_indoorRenderer.setCameraPosition(moveState.x, moveState.y, moveState.eyeZ());
+                    m_indoorRenderer.setCameraAngles(*yaw, pitchRadians);
+                }
             }
 
             synchronizeSessionFromRuntime();
@@ -9584,10 +9635,6 @@ void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, i
             }
         };
         holdOurs(pMember->equipment.mainHand, pMainHand, kit.heldModel, kit.heldIcon);
-        if (kit.shield)
-        {
-            holdOurs(pMember->equipment.offHand, pOffHand, kit.shieldModel, kit.shieldIcon);
-        }
         if (kit.set == FirstPersonViewModel::WeaponSet::Dual)
         {
             holdOurs(pMember->equipment.offHand, pOffHand, kit.offHeldModel, kit.offHeldIcon);
@@ -9603,10 +9650,10 @@ void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, i
             return viewModel.skinTier({.value = pItem->value,
                 .equipStat = pItem->equipStat,
                 .unique = pItem->rarity != ItemRarity::Common || state.rarity != ItemRarity::Common,
-                .enchanted = state.standardEnchantId != 0 || state.specialEnchantId != 0});
+                .enchanted = state.standardEnchantId != 0 || state.specialEnchantId != 0,
+                .lootRarity = state.rulesetFields.lootRarity});
         };
         kit.weaponTier = skinTier(pMainHand, pMember->equipmentRuntime.mainHand);
-        kit.shieldTier = kit.shield ? skinTier(pOffHand, pMember->equipmentRuntime.offHand) : 0;
         kit.offTier = kit.set == FirstPersonViewModel::WeaponSet::Dual
             ? skinTier(pOffHand, pMember->equipmentRuntime.offHand) : 0;
         // An archer (nothing in the main hand), or a solo run's swap to the bow, draws the bow; the swap needs one.
@@ -9628,13 +9675,11 @@ void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, i
         .partyX = world.partyX(),
         .partyY = world.partyY(),
         .yawRadians = world.gameplayCameraYawRadians(),
-        .blockHeld = m_gameInputSystem.frame().middleMouseButton.held,
         .kit = kit,
         .swingSerial = link.swingSerial,
         .swingRecoverySeconds = link.swingRecoverySeconds,
         .actionSerial = link.actionSerial,
         .action = action,
-        .shieldBlockSerial = pParty != nullptr ? pParty->shieldBlockSerial() : 0,
         .memberRecoverySeconds = pMember != nullptr ? pMember->recoverySecondsRemaining : 0.0f,
         .talentSerial = link.talentSerial,
         .talentClip = link.talentClip,
@@ -9660,11 +9705,6 @@ void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, i
     {
         link.blowReleased = true;
         link.blowDirection = output.blowDirection;
-    }
-    if (pParty != nullptr)
-    {
-        pParty->setShieldRaisedMember(output.shieldRaised ? std::optional<size_t>(pParty->activeMemberIndex())
-            : std::nullopt);
     }
     const bool outdoor = m_pMapSceneRuntime->kind() == SceneKind::Outdoor;
     Engine::ModelRenderer &renderer = outdoor ? m_outdoorGameView.modelRenderer() : m_indoorRenderer.modelRenderer();
@@ -9825,6 +9865,13 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 void GameApplication::shutdownApplication()
 {
+    if (!m_settings.exitPosePath.empty())
+    {
+        std::string message;
+        writeExitPoseFile(m_settings.exitPosePath, message);
+        std::cout << "Exit pose: " << message << std::endl;
+    }
+
     m_gameSession.playthroughStatistics().endPlaythrough();
     setGameplayProfilingEnabled(false);
     m_screenManager.setActiveScreen(nullptr);
@@ -10437,6 +10484,10 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
                 && (boundGameRules().monsters.mapRefillForced(selectedMap->map.fileName)
                     || timedMapRespawnDue(selectedMap->map, pSavedOutdoorState->locationInfo, currentMapDay));
         boundGameRules().monsters.mapLoaded(selectedMap->map.fileName, outdoorTimedRespawn);
+        for (size_t index = 0; index < m_pOutdoorPartyRuntime->party().members().size(); ++index)
+        {
+            endMapTalentEffects(*m_pOutdoorPartyRuntime->party().member(index));
+        }
         const bool restoreSavedOutdoorState = pSavedOutdoorState != nullptr && !outdoorTimedRespawn;
         const int32_t previousOutdoorProcessedRespawnCount =
             pSavedOutdoorState != nullptr ? pSavedOutdoorState->locationInfo.respawnCount : 0;
@@ -10696,6 +10747,10 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
                     pSavedIndoorState->mapDeltaData->locationInfo,
                     currentMapDay));
         boundGameRules().monsters.mapLoaded(selectedMap->map.fileName, indoorTimedRespawn);
+        for (size_t index = 0; index < party.members().size(); ++index)
+        {
+            endMapTalentEffects(*party.member(index));
+        }
         // Arena encounters last for one visit. Loading a save resumes that visit; returning refills it.
         const bool restoreSavedIndoorState = pSavedIndoorState != nullptr && !indoorTimedRespawn
             && (!selectedMap->map.runtimeRestrictions.isArena || m_loadingSavedGameRuntime);
@@ -13033,8 +13088,32 @@ bool GameApplication::applyRulesetOptions(const RulesetOptions &options, std::st
             {{"ruleset", m_gameDataLoader.activeRuleset().name}});
         return false;
     }
+    // A party of one may become a solo run (devdocs/solo_action/README.md, "Converting a game"); a solo run stays one.
+    const bool becomesSolo = options.soloRun && !current.options.soloRun;
+    // The party in play is the scene's own copy while a map is loaded; the session keeps its own.
+    std::optional<Party> &sessionParty = m_gameSession.partyState();
+    Party *pLiveParty = m_pMapSceneRuntime != nullptr ? &m_pMapSceneRuntime->party()
+        : sessionParty ? &*sessionParty : nullptr;
+    if ((current.options.soloRun && !options.soloRun)
+        || (becomesSolo && (pLiveParty == nullptr || pLiveParty->members().size() != 1)))
+    {
+        error = Engine::tr("Only a party of one adventurer can become a solo run.");
+        return false;
+    }
 
     m_gameSession.setRulesetOptions(options);
+    if (becomesSolo)
+    {
+        // As a new solo run starts: the action bar filled from the member's spells.
+        for (Party *pParty : {pLiveParty, sessionParty ? &*sessionParty : nullptr})
+        {
+            if (pParty != nullptr && pParty->members().size() == 1)
+            {
+                pParty->setSoloRun(true);
+                makeSoloRunParty(*pParty);
+            }
+        }
+    }
     return true;
 }
 
@@ -13074,6 +13153,13 @@ void GameApplication::openMenuScreen(bool paused)
     if (paused && !m_gameSession.ruleset().isStandard())
     {
         currentGame = MainMenuScreen::CurrentGame{m_gameSession.ruleset(), m_gameDataLoader.activeRuleset(), {}};
+        const Party *pParty = m_pMapSceneRuntime != nullptr ? &m_pMapSceneRuntime->party()
+            : m_gameSession.partyState() ? &*m_gameSession.partyState() : nullptr;
+        if (pParty != nullptr)
+        {
+            currentGame->partySize = pParty->members().size();
+            currentGame->hirelingCount = pParty->combatantCount() - pParty->members().size();
+        }
 
         if (const RecentLootDrops *pRecentDrops = boundGameRules().items.recentLootDrops())
         {
@@ -14518,6 +14604,15 @@ void GameApplication::updateScreenshotCaptureFrame()
             applied ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error, message);
     }
 
+    if (!m_debugLaunchStartupConsoleRun && !m_settings.startupConsoleFile.empty())
+    {
+        m_debugLaunchStartupConsoleRun = true;
+        std::string message;
+        const bool ran = runStartupConsoleFile(m_settings.startupConsoleFile, message);
+        std::cout << "Startup console file: " << message << std::endl;
+        m_debugConsole.addMessage(ran ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error, message);
+    }
+
     if (!m_debugLaunchModelSpawned && !m_settings.modelSpawnPath.empty())
     {
         WorldFxSystem &worldFx = m_pMapSceneRuntime->kind() == SceneKind::Outdoor
@@ -14861,6 +14956,44 @@ bool GameApplication::loadAndApplyAiArena(const std::filesystem::path &arenaPath
         + " monsters (actors " + (m_aiArenaActorIndices.empty() ? std::string("none")
             : std::to_string(m_aiArenaActorIndices.front()) + "-" + std::to_string(m_aiArenaActorIndices.back()))
         + "), trace log " + m_aiArenaTrace.logPath().string();
+    return true;
+}
+
+bool GameApplication::runStartupConsoleFile(const std::filesystem::path &path, std::string &message)
+{
+    registerDebugConsoleCommands();
+    const DebugConsole::CommandResult result = m_debugConsole.executeFile(path.string());
+    message = result.message;
+    return result.success;
+}
+
+bool GameApplication::writeExitPoseFile(const std::filesystem::path &path, std::string &message)
+{
+    IGameplayWorldRuntime *pWorld = m_pMapSceneRuntime != nullptr ? m_gameSession.activeWorldRuntime() : nullptr;
+
+    if (pWorld == nullptr)
+    {
+        message = "no map is loaded: no exit pose";
+        return false;
+    }
+
+    const ConsolePartyPose partyPose = consolePartyPose(*pWorld);
+    ExitPose pose;
+    pose.mapFileName = m_gameSession.currentMapFileName();
+    pose.worldId = worldIdOfMap(pose.mapFileName);
+    pose.x = partyPose.x;
+    pose.y = partyPose.y;
+    pose.footZ = partyPose.footZ;
+    pose.yawRadians = partyPose.yawRadians;
+    pose.pitchDegrees = partyPose.pitchDegrees;
+    pose.headingYawUnits = partyPose.headingYawUnits;
+
+    if (!writeExitPose(path, pose, message))
+    {
+        return false;
+    }
+
+    message = "wrote " + path.string();
     return true;
 }
 

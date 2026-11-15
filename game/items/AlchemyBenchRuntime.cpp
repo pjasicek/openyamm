@@ -69,17 +69,57 @@ InventoryItem *itemAt(Party &party, const ItemLocation &location)
         : nullptr;
 }
 
+// The carried copies of an item the bench sets aside: one copy of each kept power. Copies of one item and power are
+// interchangeable, so which of them stays does not matter.
+std::vector<ItemLocation> keptCopies(const Party &party, uint32_t itemId, std::span<const AlchemyItemPower> kept)
+{
+    std::vector<uint16_t> powers;
+
+    for (const AlchemyItemPower &copy : kept)
+    {
+        if (copy.itemId == itemId)
+        {
+            powers.push_back(copy.power);
+        }
+    }
+
+    std::vector<ItemLocation> copies;
+
+    if (powers.empty())
+    {
+        return copies;
+    }
+
+    forEachCarriedItem(party,
+        [&](const ItemLocation &location, const InventoryItem &item)
+        {
+            const auto found = item.objectDescriptionId == itemId
+                ? std::find(powers.begin(), powers.end(), item.standardEnchantPower)
+                : powers.end();
+
+            if (found != powers.end())
+            {
+                powers.erase(found);
+                copies.push_back(location);
+            }
+        });
+    return copies;
+}
+
 std::optional<ItemLocation> findStrongestItem(
     const Party &party,
     uint32_t itemId,
-    const std::optional<ItemLocation> &excluded)
+    const std::optional<ItemLocation> &excluded,
+    std::span<const AlchemyItemPower> kept = {})
 {
+    const std::vector<ItemLocation> keptLocations = keptCopies(party, itemId, kept);
     std::optional<ItemLocation> best;
     uint16_t bestPower = 0;
     forEachCarriedItem(party,
         [&](const ItemLocation &location, const InventoryItem &item)
         {
-            if (item.objectDescriptionId != itemId || location == excluded)
+            if (item.objectDescriptionId != itemId || location == excluded
+                || std::find(keptLocations.begin(), keptLocations.end(), location) != keptLocations.end())
             {
                 return;
             }
@@ -142,18 +182,22 @@ struct MixLocations
 // most, the stronger result between equal gains. The strongest copy gains nothing once the alchemist's limit or the
 // catalyst's own power caps the result (Discord, 2026-11-14: a weak potion could not be boosted on the bench while a
 // stronger copy of it was carried).
-MixLocations findMixItems(const Party &party, const AlchemyRecipe &recipe, const AlchemyBenchTables &tables)
+MixLocations findMixItems(
+    const Party &party,
+    const AlchemyRecipe &recipe,
+    const AlchemyBenchTables &tables,
+    std::span<const AlchemyItemPower> kept = {})
 {
     const uint32_t catalystItemId = tables.potionSettingTable.catalystPotionItemId();
     const bool catalystTarget = recipe.targetItemId == catalystItemId;
 
     if (catalystItemId == 0 || catalystTarget == (recipe.heldItemId == catalystItemId))
     {
-        const std::optional<ItemLocation> target = findStrongestItem(party, recipe.targetItemId, std::nullopt);
-        return {target, findStrongestItem(party, recipe.heldItemId, target)};
+        const std::optional<ItemLocation> target = findStrongestItem(party, recipe.targetItemId, std::nullopt, kept);
+        return {target, findStrongestItem(party, recipe.heldItemId, target, kept)};
     }
 
-    const std::optional<ItemLocation> catalyst = findStrongestItem(party, catalystItemId, std::nullopt);
+    const std::optional<ItemLocation> catalyst = findStrongestItem(party, catalystItemId, std::nullopt, kept);
     const InventoryItem *pCatalyst = catalyst ? itemAt(party, *catalyst) : nullptr;
 
     if (pCatalyst == nullptr)
@@ -163,13 +207,15 @@ MixLocations findMixItems(const Party &party, const AlchemyRecipe &recipe, const
 
     const uint32_t potionItemId = catalystTarget ? recipe.heldItemId : recipe.targetItemId;
     const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(party);
+    const std::vector<ItemLocation> keptLocations = keptCopies(party, potionItemId, kept);
     std::optional<ItemLocation> best;
     int bestGain = 0;
     int bestResult = 0;
     forEachCarriedItem(party,
         [&](const ItemLocation &location, const InventoryItem &potion)
         {
-            if (potion.objectDescriptionId != potionItemId)
+            if (potion.objectDescriptionId != potionItemId
+                || std::find(keptLocations.begin(), keptLocations.end(), location) != keptLocations.end())
             {
                 return;
             }
@@ -195,7 +241,7 @@ MixLocations findMixItems(const Party &party, const AlchemyRecipe &recipe, const
 
     if (!best)
     {
-        best = findStrongestItem(party, potionItemId, std::nullopt);
+        best = findStrongestItem(party, potionItemId, std::nullopt, kept);
     }
 
     return catalystTarget ? MixLocations{catalyst, best} : MixLocations{best, catalyst};
@@ -496,7 +542,8 @@ AlchemyBook AlchemyBenchRuntime::buildBook(
     const AlchemyBenchTables &tables,
     const std::vector<AlchemyIngredient> &ingredients,
     SkillMastery alchemistMastery,
-    const AutonoteLookup &isAutonoteUnlocked)
+    const AutonoteLookup &isAutonoteUnlocked,
+    bool keepMixedPotions)
 {
     AlchemyBook book = {};
     std::unordered_map<uint32_t, size_t> entryIndices;
@@ -540,6 +587,7 @@ AlchemyBook AlchemyBenchRuntime::buildBook(
             }
 
             resultItemIds.insert(*resultItemId);
+            book.mixedPotionItemIds.insert(*resultItemId);
             AlchemyBookEntry &entry = entryFor(*resultItemId, false);
             const bool duplicate = std::any_of(entry.recipes.begin(), entry.recipes.end(),
                 [heldItemId, targetItemId](const AlchemyRecipe &known)
@@ -565,6 +613,7 @@ AlchemyBook AlchemyBenchRuntime::buildBook(
         }
 
         resultItemIds.insert(noted->resultItemId);
+        book.mixedPotionItemIds.insert(noted->resultItemId);
 
         if (!tables.potionSettingTable.effects().allRecipesKnown() && !isAutonoteUnlocked(note.autonoteId))
         {
@@ -584,6 +633,12 @@ AlchemyBook AlchemyBenchRuntime::buildBook(
         {
             entry.recipes.push_back(recipe);
         }
+    }
+
+    // The basic potions stay usable, even where a mixing recipe also makes one.
+    for (const MergedReagentSettingEntry &reagent : tables.reagentSettingTable.entries())
+    {
+        book.mixedPotionItemIds.erase(reagent.resultItemId);
     }
 
     const AlchemyIngredient *pBottles = findIngredient(ingredients, bottleItemId);
@@ -609,7 +664,10 @@ AlchemyBook AlchemyBenchRuntime::buildBook(
 
         for (const AlchemyRecipe &recipe : entry.recipes)
         {
-            entry.brewableCount = std::max(entry.brewableCount, brewableCount(recipe, ingredients));
+            if (!keepMixedPotions || !book.usesMixedPotion(recipe))
+            {
+                entry.brewableCount = std::max(entry.brewableCount, brewableCount(recipe, ingredients));
+            }
         }
     }
 
@@ -621,6 +679,23 @@ AlchemyBook AlchemyBenchRuntime::buildBook(
         });
     book.totalResultCount = resultItemIds.size();
     return book;
+}
+
+std::vector<AlchemyIngredient> AlchemyBenchRuntime::withoutMixedPotions(
+    const std::vector<AlchemyIngredient> &ingredients,
+    const AlchemyBook &book)
+{
+    std::vector<AlchemyIngredient> kept;
+
+    for (const AlchemyIngredient &ingredient : ingredients)
+    {
+        if (!book.isMixedPotion(ingredient.itemId))
+        {
+            kept.push_back(ingredient);
+        }
+    }
+
+    return kept;
 }
 
 std::optional<AlchemyRecipe> AlchemyBenchRuntime::pickRecipe(
@@ -744,11 +819,14 @@ AlchemyPreview AlchemyBenchRuntime::preview(
 }
 
 AlchemyMixOutcome AlchemyBenchRuntime::mix(
-    Party &party, const AlchemyRecipe &pickedRecipe, const AlchemyBenchTables &tables)
+    Party &party,
+    const AlchemyRecipe &pickedRecipe,
+    const AlchemyBenchTables &tables,
+    std::span<const AlchemyItemPower> kept)
 {
     AlchemyMixOutcome outcome = {};
     const AlchemyRecipe recipe = bottleAsTarget(pickedRecipe, tables);
-    const MixLocations locations = findMixItems(party, recipe, tables);
+    const MixLocations locations = findMixItems(party, recipe, tables, kept);
     const std::optional<ItemLocation> &targetLocation = locations.target;
     const std::optional<ItemLocation> &heldLocation = locations.held;
     const int bagCount = bagCountOf(party);
@@ -948,7 +1026,8 @@ AlchemyChainPlanner::AlchemyChainPlanner(
     const Party &party,
     const AlchemyBook &book,
     const AlchemistInfo &alchemist,
-    const AlchemyBenchTables &tables)
+    const AlchemyBenchTables &tables,
+    bool keepMixedPotions)
     : m_book(book)
     , m_tables(tables)
     , m_alchemistLevel(alchemist.level)
@@ -959,7 +1038,11 @@ AlchemyChainPlanner::AlchemyChainPlanner(
         {
             const std::optional<AlchemyIngredientKind> kind = ingredientKind(item.objectDescriptionId, tables);
 
-            if (kind.has_value())
+            if (keepMixedPotions && book.isMixedPotion(item.objectDescriptionId))
+            {
+                m_kept.push_back({item.objectDescriptionId, item.standardEnchantPower});
+            }
+            else if (kind.has_value())
             {
                 m_carried.push_back({item.objectDescriptionId, ingredientPower(item, *kind, tables, alchemist)});
             }
@@ -1093,6 +1176,7 @@ bool AlchemyChainPlanner::tryRecipe(
 AlchemyChainPlan AlchemyChainPlanner::plan(uint32_t resultItemId, uint32_t maxBrews) const
 {
     AlchemyChainPlan plan = {};
+    plan.kept = m_kept;
     Stock stock;
 
     for (const auto &[itemId, power] : m_carried)
@@ -1184,7 +1268,7 @@ AlchemyChainOutcome AlchemyBenchRuntime::brewChain(
 
     for (const AlchemyChainStep &step : plan.steps)
     {
-        outcome.lastMix = mix(party, step.recipe, tables);
+        outcome.lastMix = mix(party, step.recipe, tables, plan.kept);
 
         if (!outcome.lastMix.result.success)
         {

@@ -526,3 +526,68 @@ TEST_CASE("alchemy chain planner names the step that blocks a chain")
     CHECK_EQ(tooHard.block, AlchemyChainBlock::NeedsMastery);
     CHECK_EQ(tooHard.blockItemId, HasteItemId);
 }
+
+TEST_CASE("alchemy chain planner keeps carried mixed potions when asked and brews them fresh")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    for (int index = 0; index < 3; ++index)
+    {
+        addItem(party, 0, BottleItemId);
+    }
+    addItem(party, 0, WidowsweepBerriesItemId);
+    addItem(party, 0, WidowsweepBerriesItemId);
+    addItem(party, 0, PoppyPodItemId);
+    addItem(party, 0, CureDiseaseItemId, 9);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const AlchemyBook book = knownBook(party, tables, {CureDiseaseNoteId, HasteNoteId});
+    CHECK(book.isMixedPotion(CureDiseaseItemId));
+    CHECK(book.isMixedPotion(HasteItemId));
+    CHECK_FALSE(book.isMixedPotion(CureWoundsItemId));
+    CHECK_FALSE(book.isMixedPotion(BottleItemId));
+
+    const AlchemyChainPlan plan =
+        AlchemyChainPlanner(party, book, level4Alchemist(), tables, true).plan(HasteItemId, 99);
+
+    // As with nothing carried: Cure Disease is brewed first, the carried one is set aside.
+    CHECK_EQ(plan.brewCount, 1u);
+    CHECK_EQ(plan.steps.size(), 5u);
+    CHECK_EQ(countOf(plan.brewedFirst, CureDiseaseItemId), 1u);
+    CHECK_EQ(countOf(plan.used, CureDiseaseItemId), 0u);
+    REQUIRE_EQ(plan.kept.size(), 1u);
+    CHECK_EQ(plan.kept.front().itemId, CureDiseaseItemId);
+
+    const AlchemyChainOutcome outcome = AlchemyBenchRuntime::brewChain(party, plan, tables);
+    CHECK_EQ(outcome.brewedCount, 1u);
+    CHECK_EQ(party.inventoryItemCount(HasteItemId), 1);
+    REQUIRE_EQ(party.inventoryItemCount(CureDiseaseItemId), 1);
+    // The very potion carried before, though the one brewed on the way was weaker.
+    for (const InventoryItem &item : party.member(0)->inventory)
+    {
+        if (item.objectDescriptionId == CureDiseaseItemId)
+        {
+            CHECK_EQ(item.standardEnchantPower, 9);
+        }
+    }
+
+    // The book's direct counts leave the carried mixed potion out too.
+    Party direct = makeParty(gameData, 1);
+    giveAlchemy(direct, 0, 4, SkillMastery::Expert);
+    addItem(direct, 0, CureWoundsItemId, 5);
+    addItem(direct, 0, CureDiseaseItemId, 9);
+    const std::vector<AlchemyIngredient> ingredients = AlchemyBenchRuntime::collectIngredients(direct, tables);
+    const auto hasteCount = [&](bool keep)
+    {
+        const AlchemyBook counted = AlchemyBenchRuntime::buildBook(tables, ingredients, SkillMastery::Expert,
+            unlocked({CureDiseaseNoteId, HasteNoteId}), keep);
+        const auto found = std::find_if(counted.entries.begin(), counted.entries.end(),
+            [](const AlchemyBookEntry &entry)
+            {
+                return entry.resultItemId == HasteItemId;
+            });
+        return found != counted.entries.end() ? found->brewableCount : 0u;
+    };
+    CHECK_EQ(hasteCount(false), 1u);
+    CHECK_EQ(hasteCount(true), 0u);
+}

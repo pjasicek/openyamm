@@ -2551,6 +2551,83 @@ void GameplayUiRuntime::submitWorldHudQuadBatch(std::span<const GameplayHudBatch
     }
 }
 
+namespace
+{
+// A font layer's glyph quads, submitted in bounded batches in the order they were added.
+class HudFontQuadBatch
+{
+public:
+    HudFontQuadBatch(const GameplayUiRuntime &runtime, TextureFilterProfile filter,
+        const GameplayResolvedHudLayoutElement *pClip)
+        : m_runtime(runtime)
+        , m_filter(filter)
+        , m_pClip(pClip)
+    {
+    }
+
+    void add(bgfx::TextureHandle textureHandle, float x, float y, float quadWidth, float quadHeight, float u0,
+        float v0, float u1, float v1, uint32_t tintAbgr)
+    {
+        if (quadWidth <= 0.0f || quadHeight <= 0.0f)
+        {
+            return;
+        }
+        if (m_pClip != nullptr)
+        {
+            const float left = std::max(x, m_pClip->x);
+            const float top = std::max(y, m_pClip->y);
+            const float right = std::min(x + quadWidth, m_pClip->x + m_pClip->width);
+            const float bottom = std::min(y + quadHeight, m_pClip->y + m_pClip->height);
+            if (left >= right || top >= bottom)
+            {
+                return;
+            }
+            const float uSpan = u1 - u0;
+            const float vSpan = v1 - v0;
+            u1 = u0 + uSpan * (right - x) / quadWidth;
+            v1 = v0 + vSpan * (bottom - y) / quadHeight;
+            u0 += uSpan * (left - x) / quadWidth;
+            v0 += vSpan * (top - y) / quadHeight;
+            x = left;
+            y = top;
+            quadWidth = right - left;
+            quadHeight = bottom - top;
+        }
+        GameplayHudBatchQuad &quad = m_quads[m_quadCount++];
+        quad = {};
+        quad.textureHandle = textureHandle;
+        quad.tintAbgr = tintAbgr;
+        quad.x = x;
+        quad.y = y;
+        quad.width = quadWidth;
+        quad.height = quadHeight;
+        quad.u0 = u0;
+        quad.v0 = v0;
+        quad.u1 = u1;
+        quad.v1 = v1;
+        if (m_quadCount == m_quads.size())
+        {
+            flush();
+        }
+    }
+
+    void flush()
+    {
+        // Font quads do not use per-quad scissor overrides.
+        m_runtime.submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(m_quads.data(), m_quadCount), m_filter);
+        m_quadCount = 0;
+    }
+
+private:
+    const GameplayUiRuntime &m_runtime;
+    TextureFilterProfile m_filter;
+    const GameplayResolvedHudLayoutElement *m_pClip = nullptr;
+    // Bound scratch space and preserve glyph/layer order, including unusually long unwrapped lines.
+    std::array<GameplayHudBatchQuad, 128> m_quads;
+    size_t m_quadCount = 0;
+};
+}
+
 void GameplayUiRuntime::renderHudFontLayer(
     const GameplayHudFontHandle &font,
     const GameplayHudFontLayer &layer,
@@ -2567,80 +2644,76 @@ void GameplayUiRuntime::renderHudFontLayer(
         return;
     }
 
-    // Bound scratch space and preserve glyph/layer order, including unusually long unwrapped lines.
-    std::array<GameplayHudBatchQuad, 128> quads;
-    size_t quadCount = 0;
-    const TextureFilterProfile filter = pFont->smooth
-        ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text;
-    const auto flush = [this, &quads, &quadCount, filter]()
+    HudFontQuadBatch batch(*this, pFont->smooth ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text,
+        pClip);
+    GameplayHudCommon::renderHudFontLayer(*pFont, layer, text, textX, textY, fontScale,
+        [&batch](bgfx::TextureHandle textureHandle, float x, float y, float quadWidth, float quadHeight, float u0,
+            float v0, float u1, float v1, TextureFilterProfile, uint32_t tintAbgr)
+        {
+            batch.add(textureHandle, x, y, quadWidth, quadHeight, u0, v0, u1, v1, tintAbgr);
+        });
+    batch.flush();
+}
+
+void GameplayUiRuntime::renderHudFontLayerRuns(
+    const GameplayHudFontHandle &font,
+    const GameplayHudFontLayer &layer,
+    std::span<const GameplayHudTextRun> runs,
+    float fontScale) const
+{
+    const GameplayHudFontData *pFont = hudFontData(font);
+
+    if (pFont == nullptr || !hasHudRenderResources() || !bgfx::isValid(layer.textureHandle))
     {
-        // Font quads do not use per-quad scissor overrides.
-        submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(quads.data(), quadCount), filter);
-        quadCount = 0;
+        return;
+    }
+
+    HudFontQuadBatch batch(*this, pFont->smooth ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text,
+        nullptr);
+
+    // A run that repeats the one before it (an outline's copies) takes that run's glyphs, moved: laid out once.
+    struct Glyph
+    {
+        bgfx::TextureHandle textureHandle;
+        float x;
+        float y;
+        float width;
+        float height;
+        float u0;
+        float v0;
+        float u1;
+        float v1;
+        uint32_t tintAbgr;
     };
 
-    GameplayHudCommon::renderHudFontLayer(
-        *pFont,
-        layer,
-        text,
-        textX,
-        textY,
-        fontScale,
-        [&quads, &quadCount, &flush, pClip](bgfx::TextureHandle submittedTextureHandle,
-               float x,
-               float y,
-               float quadWidth,
-               float quadHeight,
-               float u0,
-               float v0,
-               float u1,
-               float v1,
-               TextureFilterProfile,
-               uint32_t tintAbgr)
+    std::vector<Glyph> glyphs;
+    const GameplayHudTextRun *pLaidOut = nullptr;
+
+    for (const GameplayHudTextRun &run : runs)
+    {
+        if (pLaidOut == nullptr || pLaidOut->text != run.text)
         {
-            if (quadWidth <= 0.0f || quadHeight <= 0.0f)
-            {
-                return;
-            }
-            if (pClip != nullptr)
-            {
-                const float left = std::max(x, pClip->x);
-                const float top = std::max(y, pClip->y);
-                const float right = std::min(x + quadWidth, pClip->x + pClip->width);
-                const float bottom = std::min(y + quadHeight, pClip->y + pClip->height);
-                if (left >= right || top >= bottom)
+            glyphs.clear();
+            pLaidOut = &run;
+            GameplayHudCommon::renderHudFontLayer(*pFont, layer, run.text, run.x, run.y, fontScale,
+                [&glyphs](bgfx::TextureHandle textureHandle, float x, float y, float quadWidth, float quadHeight,
+                    float u0, float v0, float u1, float v1, TextureFilterProfile, uint32_t tintAbgr)
                 {
-                    return;
-                }
-                const float uSpan = u1 - u0;
-                const float vSpan = v1 - v0;
-                u1 = u0 + uSpan * (right - x) / quadWidth;
-                v1 = v0 + vSpan * (bottom - y) / quadHeight;
-                u0 += uSpan * (left - x) / quadWidth;
-                v0 += vSpan * (top - y) / quadHeight;
-                x = left;
-                y = top;
-                quadWidth = right - left;
-                quadHeight = bottom - top;
-            }
-            GameplayHudBatchQuad &quad = quads[quadCount++];
-            quad = {};
-            quad.textureHandle = submittedTextureHandle;
-            quad.tintAbgr = tintAbgr;
-            quad.x = x;
-            quad.y = y;
-            quad.width = quadWidth;
-            quad.height = quadHeight;
-            quad.u0 = u0;
-            quad.v0 = v0;
-            quad.u1 = u1;
-            quad.v1 = v1;
-            if (quadCount == quads.size())
-            {
-                flush();
-            }
-        });
-    flush();
+                    glyphs.push_back({textureHandle, x, y, quadWidth, quadHeight, u0, v0, u1, v1, tintAbgr});
+                });
+        }
+
+        const float moveX = run.x - pLaidOut->x;
+        const float moveY = run.y - pLaidOut->y;
+
+        for (const Glyph &glyph : glyphs)
+        {
+            batch.add(glyph.textureHandle, glyph.x + moveX, glyph.y + moveY, glyph.width, glyph.height, glyph.u0,
+                glyph.v0, glyph.u1, glyph.v1, glyph.tintAbgr);
+        }
+    }
+
+    batch.flush();
 }
 
 bool GameplayUiRuntime::ensurePortraitRuntimeLoaded()

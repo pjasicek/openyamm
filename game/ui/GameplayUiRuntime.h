@@ -359,6 +359,13 @@ public:
         float textY,
         float fontScale,
         const GameplayResolvedHudLayoutElement *pClip = nullptr) const;
+    // Several lines of one font layer in one batch: an outline's copies or a row of labels cost one draw, not one
+    // each. Lines that overlap draw in the order given.
+    void renderHudFontLayerRuns(
+        const GameplayHudFontHandle &font,
+        const GameplayHudFontLayer &layer,
+        std::span<const GameplayHudTextRun> runs,
+        float fontScale) const;
     bool ensurePortraitRuntimeLoaded();
     void resetPortraitFxStates(size_t memberCount);
     void resetPortraitPresentationState(size_t memberCount);

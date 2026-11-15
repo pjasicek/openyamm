@@ -31,6 +31,7 @@ add_library(openyamm_game STATIC
     debug/VideoCapture.cpp
     debug/ScreenshotTour.cpp
     debug/PinInbox.cpp
+    debug/ExitPose.cpp
     debug/AiArena.cpp
     debug/AiArenaOverlay.cpp
     debug/MenuInputTour.cpp

@@ -12,7 +12,7 @@ uint64_t ExperienceRules::experienceForNextLevel(uint32_t level) const
 
 uint32_t ExperienceRules::grantKillExperience(Party &party, const MonsterKillReward &kill) const
 {
-    if (kill.byPartyAlly)
+    if (kill.byPartyAlly || kill.mindControlled)
     {
         return 0;
     }

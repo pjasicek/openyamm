@@ -57,6 +57,8 @@ struct TalentDefinition
     float perRankCalm = 0.0f;
     float cooldown = 0.0f;
     float cooldownPerRank = 0.0f;
+    // Seconds each ordinary weapon attack (melee or bow, not a talent's blow) takes off the running cooldown (Charge).
+    float cooldownPerAttack = 0.0f;
     float duration = 0.0f;
     float durationPerRank = 0.0f;
     int targets = 0;
@@ -115,6 +117,9 @@ void resetTalents(Character &character);
 int keystoneSlots(const SoloTalentTable &table, const Character &character);
 int keystonesBound(const SoloTalentTable &table, const Character &character);
 bool hasKeystone(const Character &character, std::string_view id);
+// The member leaves the map (any load of another map: travel, Town Portal, Lloyd's Beacon, a door): Onslaught's stacks
+// end (user, 2026-11-14).
+void endMapTalentEffects(Character &character);
 // Why the keystone cannot be bound now (empty: it can): already bound, or no open slot.
 std::string keystoneBindRefusal(const SoloTalentTable &table, const Character &character, const TalentDefinition &keystone);
 bool bindKeystone(const SoloTalentTable &table, Character &character, std::string_view id);

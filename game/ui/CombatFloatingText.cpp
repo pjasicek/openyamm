@@ -1,5 +1,6 @@
 #include "game/ui/CombatFloatingText.h"
 
+#include "engine/Localization.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
@@ -22,6 +23,8 @@ constexpr uint32_t opaqueAbgr(uint32_t red, uint32_t green, uint32_t blue)
 constexpr uint32_t DamageColor = opaqueAbgr(250, 226, 150);
 // A hit a raised energy shield took whole, apart from body damage.
 constexpr uint32_t ShieldColor = opaqueAbgr(150, 220, 255);
+// A miss: a pale grey word, quieter than a number.
+constexpr uint32_t MissColor = opaqueAbgr(200, 200, 196);
 
 constexpr float HitSeconds = 0.6f;
 constexpr float HitFadeSeconds = 0.225f;
@@ -148,8 +151,22 @@ void CombatFloatingText::update(float deltaSeconds, const std::vector<GameplayCo
     {
         const int amount = event.damage > 0 ? event.damage : event.shieldDamage;
 
-        if (event.actorIndex >= actorCount || amount <= 0)
+        if (event.actorIndex >= actorCount || (amount <= 0 && !event.miss))
         {
+            continue;
+        }
+
+        if (amount <= 0)
+        {
+            m_entries.push_back(Entry{
+                .actorIndex = event.actorIndex,
+                .text = Engine::tr("Miss"),
+                .origin = {event.x, event.y, GameplayUiSkin::combatDamageTextOriginZ(event.z, event.height)},
+                .ageSeconds = 0.0f,
+                .durationSeconds = HitSeconds,
+                .colorAbgr = MissColor,
+                .critical = false,
+            });
             continue;
         }
 

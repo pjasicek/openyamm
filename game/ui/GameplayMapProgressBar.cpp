@@ -8,6 +8,8 @@
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiRuntime.h"
 
+#include <SDL3/SDL.h>
+
 #include <algorithm>
 #include <limits>
 #include <array>
@@ -336,7 +338,20 @@ std::optional<RulesetMapProgress> currentProgress(GameplayScreenRuntime &context
         return std::nullopt;
     }
 
-    return pParty->rules().monsters.mapProgress(*context.worldRuntime());
+    // Read ten times a second: the bar's numbers change only when something dies or the map does.
+    constexpr uint64_t ReadingMilliseconds = 100;
+    GameplayOverlayInteractionState &state = context.interactionState();
+    const uint64_t now = SDL_GetTicks();
+
+    if (state.pMapProgressReadingWorld != context.worldRuntime() || state.mapProgressReadingTicks == 0
+        || now - state.mapProgressReadingTicks >= ReadingMilliseconds)
+    {
+        state.mapProgressReading = pParty->rules().monsters.mapProgress(*context.worldRuntime());
+        state.pMapProgressReadingWorld = context.worldRuntime();
+        state.mapProgressReadingTicks = std::max<uint64_t>(now, 1);
+    }
+
+    return state.mapProgressReading;
 }
 }
 

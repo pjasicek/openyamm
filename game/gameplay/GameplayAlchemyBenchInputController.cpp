@@ -270,10 +270,13 @@ void activate(
                     continue;
                 }
 
-                // Carried ingredients first; otherwise the slots show the pair a chain would finally mix.
-                std::optional<AlchemyRecipe> recipe = AlchemyBenchRuntime::pickRecipe(entry, model.ingredients);
+                // Carried ingredients first; otherwise the slots show the pair a chain would finally mix. Keeping
+                // mixed potions, the carried ones do not count.
+                std::optional<AlchemyRecipe> recipe = AlchemyBenchRuntime::pickRecipe(entry, model.mixingIngredients);
 
-                if (recipe && AlchemyBenchRuntime::brewableCount(*recipe, model.ingredients) == 0)
+                if (recipe
+                    && (AlchemyBenchRuntime::brewableCount(*recipe, model.mixingIngredients) == 0
+                        || (model.keepMixedPotions && model.book.usesMixedPotion(*recipe))))
                 {
                     const AlchemyChainPlan chain =
                         GameplayAlchemyBenchView::planChain(context, model, entry.resultItemId, 1);

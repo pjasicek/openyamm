@@ -670,7 +670,8 @@ public:
     void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
         bool attacked,
-        bool actionPerformed) override;
+        bool actionPerformed,
+        bool missed) override;
     bool worldInteractionReady() const override;
     bool worldInspectModeActive() const override;
     GameplayWorldPickRequest buildWorldPickRequest(const GameplayWorldPickRequestInput &input) const override;

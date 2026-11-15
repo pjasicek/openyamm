@@ -98,12 +98,16 @@ uint32_t MawExperienceRules::grantKillExperience(Party &party, const MonsterKill
     // A monster the ruleset never resolved (no facts) is worth what the table says.
     if (kill.facts.empty())
     {
-        return ExperienceRules::grantKillExperience(party, kill);
+        MonsterKillReward tableKill = kill;
+        tableKill.byPartyAlly = kill.byPartyAlly && !kill.mindControlled;
+        tableKill.mindControlled = false;
+        return ExperienceRules::grantKillExperience(party, tableKill);
     }
 
     // A kill by a monster fighting for the party (a wisp, the reanimated) gives each conscious member an equal share
-    // of the monster's experience: no toughness ratio, cap or bank (zzMaw-Monsters.lua:4082-4095).
-    if (kill.byPartyAlly)
+    // of the monster's experience: no toughness ratio, cap or bank (zzMaw-Monsters.lua:4082-4095). A kill by or of a
+    // charmed or berserk monster is the party's own (DEVIATIONS 192; MAW pays nothing for it).
+    if (kill.byPartyAlly && !kill.mindControlled)
     {
         const std::vector<Character> &members = party.members();
         const size_t consciousCount = size_t(std::count_if(members.begin(), members.end(), conscious));

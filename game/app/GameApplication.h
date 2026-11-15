@@ -338,6 +338,10 @@ private:
     // log goes (empty: none).
     bool applyAiArena(const AiArena &arena, const std::filesystem::path &logPath, std::string &error);
     bool loadAndApplyAiArena(const std::filesystem::path &arenaPath, std::string &message);
+    // The launch directive debug.startup_console_file: its commands run once the first map has loaded.
+    bool runStartupConsoleFile(const std::filesystem::path &path, std::string &message);
+    // The launch directive debug.exit_pose_path: where the party stands, written when the game closes.
+    bool writeExitPoseFile(const std::filesystem::path &path, std::string &message);
     void runTourConsoleLine(const std::string &line, std::string_view logPrefix);
     bool advanceDebugGameMinutes(float minutes);
     bool setDebugClockMinute(int targetMinute);
@@ -491,6 +495,7 @@ private:
     bool m_debugLaunchModelSpawned = false;
     bool m_debugLaunchActorsSpawned = false;
     bool m_debugLaunchAiArenaApplied = false;
+    bool m_debugLaunchStartupConsoleRun = false;
     // The AI arena in play (console `arena`, debug.ai_arena_path, scenario ai_arena) and its decision trace, which the
     // active world runtime is bound to.
     std::optional<AiArena> m_aiArena;

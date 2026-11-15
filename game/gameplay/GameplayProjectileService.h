@@ -125,6 +125,12 @@ public:
         // A party missile or spell whose damage was a critical hit, for the status line and combat log where it
         // lands; not saved.
         bool critical = false;
+        // A solo run's Piercing Arrows: monsters it may still pass through after striking one, the share of its first
+        // damage each takes, and the ones it has struck (it never strikes one twice). Not saved.
+        uint8_t pierceLeft = 0;
+        float pierceShare = 0.0f;
+        int pierceDamage = 0;
+        std::vector<uint32_t> piercedActorIds;
         // An event's missile (evt.FireMissile): it passes the party, whose damage the event deals itself, and bursts
         // at its target when its flight time ends unless it strikes something first; saved.
         bool eventMissile = false;
@@ -219,6 +225,9 @@ public:
         int blastMaximumDamage = 0;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
+        // ProjectileState::pierceLeft and pierceShare.
+        uint8_t pierceCount = 0;
+        float pierceShare = 0.0f;
         // An event's missile (ProjectileState::eventMissile), reaching its target in flightSeconds (0: at the
         // object's speed).
         bool eventMissile = false;

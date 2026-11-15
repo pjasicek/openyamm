@@ -6,14 +6,20 @@
 #include <cstdint>
 #include <cstring>
 #include <unordered_map>
+#include <vector>
 
 namespace OpenYAMM
 {
 
 // Render-thread-only shadow of uniform values stored in GL program objects.
+// bgfx re-commits every uniform of a program on each draw that sets any, so this check runs for every array element
+// of every draw: values are kept in a table indexed by location, never in a hash map per element.
 class GlUniformCache
 {
 public:
+    // Locations past this are not shadowed and always upload. Drivers number locations densely from zero.
+    static constexpr size_t MaxShadowedLocations = 4096;
+
     GlUniformCache() = default;
     GlUniformCache(const GlUniformCache&) = delete;
     GlUniformCache& operator=(const GlUniformCache&) = delete;
@@ -31,26 +37,34 @@ public:
         {
             return false;
         }
-        assert(pData != nullptr && elementSize > 0 && elementSize <= 16 * sizeof(float));
+        assert(pData != nullptr && elementSize > 0 && elementSize <= MaxElementSize);
         if (m_pCurrentValues == nullptr)
         {
             return true;
         }
 
+        const size_t end = size_t(location) + size_t(count);
+        if (end > MaxShadowedLocations)
+        {
+            return true;
+        }
+        if (m_pCurrentValues->size() < end)
+        {
+            m_pCurrentValues->resize(end);
+        }
+
         bool changed = false;
         const std::byte* pBytes = static_cast<const std::byte*>(pData);
-        for (int index = 0; index < count; ++index)
+        Value* pValue = m_pCurrentValues->data() + location;
+        const uint8_t state = uint8_t(elementSize | (transpose ? TransposeBit : 0));
+        for (int index = 0; index < count; ++index, ++pValue, pBytes += elementSize)
         {
-            Value& value = (*m_pCurrentValues)[location + index];
-            if (value.size != elementSize || value.transpose != transpose
-                || std::memcmp(value.bytes.data(), pBytes, elementSize) != 0)
+            if (pValue->state != state || std::memcmp(pValue->bytes.data(), pBytes, elementSize) != 0)
             {
-                std::memcpy(value.bytes.data(), pBytes, elementSize);
-                value.size = elementSize;
-                value.transpose = transpose;
+                std::memcpy(pValue->bytes.data(), pBytes, elementSize);
+                pValue->state = state;
                 changed = true;
             }
-            pBytes += elementSize;
         }
         return changed;
     }
@@ -76,14 +90,18 @@ public:
     }
 
 private:
+    static constexpr size_t MaxElementSize = 16 * sizeof(float);
+    static constexpr uint8_t TransposeBit = 0x80;
+
     struct Value
     {
-        std::array<std::byte, 16 * sizeof(float)> bytes;
-        size_t size = 0;
-        bool transpose = false;
+        std::array<std::byte, MaxElementSize> bytes;
+        // Element size in bytes, with TransposeBit for a transposed matrix; zero: nothing uploaded yet.
+        uint8_t state = 0;
     };
 
-    using ProgramValues = std::unordered_map<uint32_t, Value>;
+    // Indexed by uniform location. The map keeps each program's table at one address while others are added.
+    using ProgramValues = std::vector<Value>;
     std::unordered_map<uint32_t, ProgramValues> m_programs;
     ProgramValues* m_pCurrentValues = nullptr;
 };

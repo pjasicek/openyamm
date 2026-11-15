@@ -94,7 +94,10 @@ present}}` checks a journal map pin (`maw_bounty.yml`). `press_action: {action, 
 binding by its settings name (`attack`, `cast_ready`, `follower_1`, ...), held for one frame by default, and `setup_shortcut: {kind: hire_follower, id}` hires
 an NPC as a follower (`follower_keys.yml`). `assert: {quick_item_ring: {open, member_index}}` checks the potion
 radial's ring and `assert: {quick_item_popup: {kind, member_index}}` the basebar's potion or scroll popup
-(`potion_slot_keys.yml`). Each run saves into its own temporary folder (`openyamm_scenario_saves/<id>-<random>`),
+(`potion_slot_keys.yml`). `debug_launch: {startup_console_file: <path>}` runs a start-of-map console file as the
+game does for `debug.startup_console_file`, and `debug_launch: {exit_pose: true, expect_contains: [...]}` writes the
+exit pose file of `debug.exit_pose_path` into the run's folder and checks its text (`debug/play_here.yml`, the Map
+Studio's Play here). Each run saves into its own temporary folder (`openyamm_scenario_saves/<id>-<random>`),
 removed when it ends, so parallel runs of one scenario do not share saves.
 
 For loads that must fail: `save_game: {name, required_package_schema: {package, schema}}` rewrites the save to need a

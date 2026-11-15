@@ -240,6 +240,48 @@ TEST_CASE("MAW kills by the party's allies give each conscious member a share; a
     CHECK_EQ(standard.grantKillExperience(party, table), usual);
 }
 
+TEST_CASE("MAW pays a kill by or of a charmed or berserk monster as the party's own (DEVIATIONS 192)")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    rules.setCurrentMap("d08.blv");
+    const ExperienceRules &experience = rules.gameRules().experience;
+    MonsterKillReward kill;
+    kill.facts.level = 20;
+    kill.facts.familyLevel = 20;
+    kill.facts.experience = 5000;
+    kill.maxHp = 500;
+
+    Party ownKillParty = mawTestParty(rules);
+    const uint32_t ownKill = experience.grantKillExperience(ownKillParty, kill);
+    const double ownKillBank = rules.state().bankedExperience;
+    REQUIRE_GT(ownKill, 0u);
+    REQUIRE_GT(ownKillBank, 0.0);
+
+    // Charmed or berserk killer (or victim): the same reward and bank as the party's own blow.
+    Party mindControlParty = mawTestParty(rules);
+    kill.mindControlled = true;
+    CHECK_EQ(experience.grantKillExperience(mindControlParty, kill), ownKill);
+    CHECK_EQ(rules.state().bankedExperience, doctest::Approx(ownKillBank * 2));
+
+    // Also when the killer is an ally for good and its victim the charmed one.
+    Party allyParty = mawTestParty(rules);
+    kill.byPartyAlly = true;
+    CHECK_EQ(experience.grantKillExperience(allyParty, kill), ownKill);
+
+    // The party's own ally still pays nothing.
+    kill.partyAlly = true;
+    CHECK_EQ(experience.grantKillExperience(allyParty, kill), 0u);
+
+    // Standard is unchanged: nothing for a monster's kill.
+    const ExperienceRules standard;
+    MonsterKillReward table;
+    table.baseExperience = 400;
+    table.baseHitPoints = 50;
+    table.mindControlled = true;
+    CHECK_EQ(standard.grantKillExperience(mindControlParty, table), 0u);
+}
+
 TEST_CASE("MAW counts a bounty boss's kill only for the map it was posted for (MON-15)")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());

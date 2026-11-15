@@ -654,6 +654,13 @@ JournalProgressTarget journalProgressTargetAt(
 
     const size_t count = journalProgressMaps(journal).size();
 
+    // The scroll bar right of the rows, a little wider than drawn to be easy to grab.
+    if (count > JournalProgressVisibleRows
+        && pageRect(page, ListRight - 3, RowTop, 10, JournalProgressVisibleRows * RowHeight).contains(x, y))
+    {
+        return {JournalProgressTargetKind::ScrollBar, 0};
+    }
+
     for (size_t row = 0; row < JournalProgressVisibleRows; ++row)
     {
         const size_t index = journal.progressScroll + row;
@@ -666,6 +673,27 @@ JournalProgressTarget journalProgressTargetAt(
     }
 
     return {};
+}
+
+size_t journalProgressScrollAt(
+    const GameplayUiController::JournalScreenState &journal,
+    const GameplayResolvedHudLayoutElement &page,
+    float y)
+{
+    const size_t count = journalProgressMaps(journal).size();
+
+    if (count <= JournalProgressVisibleRows || page.scale <= 0.0f)
+    {
+        return 0;
+    }
+
+    // As drawn in renderJournalProgress: the thumb's share of the track is the share of rows shown.
+    const size_t maxScroll = count - JournalProgressVisibleRows;
+    const float trackHeight = JournalProgressVisibleRows * RowHeight;
+    const float thumb = trackHeight * JournalProgressVisibleRows / count;
+    const float thumbTop = (y - page.y) / page.scale - RowTop - thumb / 2;
+    const float share = std::clamp(thumbTop / (trackHeight - thumb), 0.0f, 1.0f);
+    return std::min(maxScroll, size_t(std::lround(share * float(maxScroll))));
 }
 
 void renderJournalProgress(

@@ -28,6 +28,9 @@ struct MonsterKillReward
     // rewards only the party's own kills, and those in full.
     bool partyAlly = false;
     bool byPartyAlly = false;
+    // A monster killed a monster and one of the two was charmed or berserk (gameplayActorMindControlled). Standard
+    // gives nothing for it; MAW pays it as the party's own kill (DEVIATIONS 192).
+    bool mindControlled = false;
 };
 
 // How far the party has cleared the map it is on, counted after a kill.

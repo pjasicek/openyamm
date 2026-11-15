@@ -34,6 +34,9 @@ class MainMenuScreen : public MenuDesignScreen
         RulesetDefinition definition;
         // The drops the loot filter saw this session, to try a preset on (ItemRules::recentLootDrops).
         std::deque<RecentLootDrop> recentLootDrops;
+        // The party's adventurers and MM9 hirelings: a party of one may become a solo run (the Solo run row).
+        size_t partySize = 0;
+        size_t hirelingCount = 0;
     };
     MainMenuScreen(const Engine::AssetFileSystem &assets, const GameDataRepository &gameData, GameAudioSystem *pAudio,
                    const GameSettings &settings, Actions actions, std::string &settingsSection, bool paused = false,

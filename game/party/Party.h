@@ -568,6 +568,29 @@ public:
         size_t memberIndex = 0;
     };
 
+    // A potion's effect that just entered its last PotionExpiryWarningSeconds (advanceTimedStates): a party or
+    // personal buff applied without a spell, or a ruleset potion effect. The gameplay screen announces it.
+    struct ExpiringPotionEffect
+    {
+        enum class Kind : uint8_t
+        {
+            PartyBuff,
+            CharacterBuff,
+            RulesetEffect,
+        };
+
+        Kind kind = Kind::PartyBuff;
+        // The combatant (CharacterBuff) or member (RulesetEffect); unused for a party buff.
+        size_t memberIndex = 0;
+        PartyBuffId partyBuff = PartyBuffId::TorchLight;
+        CharacterBuffId characterBuff = CharacterBuffId::Bless;
+        TimedPotionEffect::Kind rulesetEffect = TimedPotionEffect::Kind::Immunity;
+        uint32_t rulesetEffectKey = 0;
+    };
+
+    // Ten game minutes (twenty real seconds), as Fly and Wizard Eye blink before they end (OY-508).
+    static constexpr float PotionExpiryWarningSeconds = 600.0f;
+
     static PartySeed createDefaultSeed();
 
     void setItemTable(const ItemTable *pItemTable);
@@ -648,23 +671,6 @@ public:
     void applyMovementEffects(const OutdoorMovementEffects &effects);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
     void setDebugDamageImmune(bool enabled);
-    // The prototype first-person view model's block (FirstPersonViewModel): the member holding a shield up this
-    // frame, whose shield takes part of a monster's physical blow or missile. Transient, never saved.
-    void setShieldRaisedMember(std::optional<size_t> memberIndex)
-    {
-        m_shieldRaisedMember = memberIndex;
-    }
-    std::optional<size_t> shieldRaisedMember() const
-    {
-        return m_shieldRaisedMember;
-    }
-    // Counts the blows a raised shield took, so the view model can show each one; the points it took go with the
-    // next hit's self combat text.
-    void noteShieldBlock(int blockedDamage = 0)
-    {
-        ++m_shieldBlockSerial;
-        m_pendingBlockedDamage = std::max(0, blockedDamage);
-    }
     // The solo HUD's self combat text (GameplaySoloHud): what befell a member, pushed as it happens and taken where
     // the HUD draws. Transient; at most SelfTextEventLimit wait (a party game never takes them).
     struct SelfTextEvent
@@ -679,17 +685,11 @@ public:
         Kind kind = Kind::Damage;
         size_t memberIndex = 0;
         int amount = 0;
-        // Points a raised shield took off the hit.
-        int blocked = 0;
         CharacterCondition condition = CharacterCondition::Weak;
     };
     std::vector<SelfTextEvent> takeSelfTextEvents()
     {
         return std::exchange(m_selfTextEvents, {});
-    }
-    uint32_t shieldBlockSerial() const
-    {
-        return m_shieldBlockSerial;
     }
     void setDebugUnlimitedMana(bool enabled);
     bool applyDamageToMember(
@@ -1134,6 +1134,8 @@ public:
     const std::string &lastStatus() const;
     const std::vector<PendingAudioRequest> &pendingAudioRequests() const;
     void clearPendingAudioRequests();
+    const std::vector<ExpiringPotionEffect> &expiringPotionEffects() const;
+    void clearExpiringPotionEffects();
     void rebuildMagicalBonusesFromBuffs();
     // The most members a party holds.
     static constexpr size_t MaxMembers = 5;
@@ -1243,9 +1245,6 @@ private:
     uint32_t m_arcomageWinCount = 0;
     uint32_t m_arcomageLossCount = 0;
     bool m_debugDamageImmune = false;
-    std::optional<size_t> m_shieldRaisedMember;
-    uint32_t m_shieldBlockSerial = 0;
-    int m_pendingBlockedDamage = 0;
     std::vector<SelfTextEvent> m_selfTextEvents;
     float m_rulesMovementMultiplier = 1.0f;
     float m_spellMovementMultiplier = 1.0f;
@@ -1290,5 +1289,6 @@ private:
     bool m_floorBurnResisted = false;
     std::vector<uint32_t> m_objectiveQBits;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;
+    std::vector<ExpiringPotionEffect> m_expiringPotionEffects;
 };
 }

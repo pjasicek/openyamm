@@ -1,0 +1,26 @@
+# The launch directives behind the Map Studio's Play here (devdocs/map_studio/S5_BROWSER_EDITOR.md 2.10, D13):
+# debug.startup_console_file runs a file of console commands once the first map has loaded (the studio's file puts
+# the party at its camera: `tp x y z yaw-radians pitch-degrees`), and debug.exit_pose_path writes where the party
+# stands when the game closes (the pose `loc` prints, with the map and world), which the studio's camera follows.
+# `debug_launch` does each as the game does it; the writer's and the settings' unit tests are tests/ExitPoseTests.cpp.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/debug/play_here.yml --scenario-no-color
+id: debug.play_here
+title: "Debug launch: the start console file puts the party at a pose, the exit pose file says where it stands"
+world: mm6
+mode: faithful
+tags: [debug, console, map_studio]
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+  - debug_launch: {startup_console_file: tests/scenarios/debug/play_here_start.console, expect_contains: "Ran 1 commands"}
+  - console: {line: loc, expect_contains: "position=(640.000, 6976.000, 192.000) heading_yaw_units=512"}
+  - console: {line: loc, expect_contains: "pitch_degrees=-12.500"}
+  - debug_launch:
+      exit_pose: true
+      expect_contains:
+        - "world: \"mm6\""
+        - "map: \"6d01.blv\""
+        - "position: [640.000, 6976.000, 192.000]"
+        - "yaw_radians: 1.571"
+        - "pitch_degrees: -12.500"
+        - "heading_yaw_units: 512"

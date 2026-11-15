@@ -52,6 +52,7 @@ enum class ScenarioStepKind
     GrantItem,
     RulesetBanks,
     ConsoleCommand,
+    DebugLaunch,
     WalkTo,
     ClearHostiles,
     PlayLua,

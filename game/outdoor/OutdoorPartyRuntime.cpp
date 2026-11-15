@@ -44,7 +44,8 @@ void OutdoorPartyRuntime::update(
 {
     m_movementStatusText.clear();
     OutdoorMovementInput rulesInput = input;
-    rulesInput.movementSpeedScale *= m_party.movementMultiplier();
+    // Not folded into movementSpeedScale, which the driver clamps to 1 (it cut every speed-up outdoors).
+    rulesInput.partySpeedMultiplier = m_party.movementMultiplier();
     m_movementDriver.update(rulesInput, deltaSeconds, pPerformanceDiagnostics);
 
     uint64_t stageBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;

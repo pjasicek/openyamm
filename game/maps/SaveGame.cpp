@@ -23,7 +23,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 182;
+constexpr uint32_t SaveVersion = 183;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -312,6 +312,8 @@ constexpr uint32_t SaveVersionUpkeepOrders = 176;
 constexpr uint32_t SaveVersionSoloRun = 181;
 // The talents a MAW solo run's character learned (Character::talentRanks); older saves have none.
 constexpr uint32_t SaveVersionSoloTalents = 182;
+// A battle order's HP condition can read the member's own HP (BattleOrder::ownHealth); older orders read the allies'.
+constexpr uint32_t SaveVersionOwnHealthOrders = 183;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1537,6 +1539,7 @@ void writeValue(BinaryWriter &writer, const BattleOrder &value)
     writeValue(writer, value.keepSpellPointsPercent);
     writeValue(writer, value.place);
     writeValue(writer, value.renewBelowMinutes);
+    writeValue(writer, value.ownHealth);
 }
 
 bool readValue(BinaryReader &reader, BattleOrder &value)
@@ -1548,7 +1551,8 @@ bool readValue(BinaryReader &reader, BattleOrder &value)
         && readValue(reader, value.allyHealthBelowPercent)
         && readValue(reader, value.keepSpellPointsPercent)
         && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.place))
-        && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.renewBelowMinutes));
+        && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.renewBelowMinutes))
+        && (reader.version() < SaveVersionOwnHealthOrders || readValue(reader, value.ownHealth));
 }
 
 void writeValue(BinaryWriter &writer, const Character &value)

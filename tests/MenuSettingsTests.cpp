@@ -500,14 +500,16 @@ TEST_CASE("MMMerge's follower keys default to 0 and 6-9, clash with no other key
     }
 }
 
-TEST_CASE("auto-walk defaults to Num Lock and the free cursor to the middle button in both control schemes")
+TEST_CASE("auto-walk, the free cursor and a solo run's weapon cycling have their own default keys in both schemes")
 {
     std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/ui/menu/settings_catalog.yml");
     const std::string catalog{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
     const InputBinding numLock = keyboardInputBinding(SDL_SCANCODE_NUMLOCKCLEAR);
     const InputBinding middleButton = mouseButtonInputBinding(SDL_BUTTON_MIDDLE);
-    const std::array<std::pair<KeyboardAction, InputBinding>, 2> keys = {{
-        {KeyboardAction::AutoWalk, numLock}, {KeyboardAction::CursorMode, middleButton}}};
+    const std::array<std::pair<KeyboardAction, InputBinding>, 4> keys = {{
+        {KeyboardAction::AutoWalk, numLock}, {KeyboardAction::CursorMode, middleButton},
+        {KeyboardAction::NextWeapon, mouseWheelInputBinding(-1.0f)},
+        {KeyboardAction::PreviousWeapon, mouseWheelInputBinding(1.0f)}}};
 
     CHECK_EQ(inputBindingName(numLock), "Num_Lock");
     CHECK(sameMenuBinding(parseInputBindingName("Num_Lock"), numLock));

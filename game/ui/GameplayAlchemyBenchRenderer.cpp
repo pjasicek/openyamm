@@ -398,8 +398,10 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
                 return;
             }
 
-            // A used-up ingredient stays visible, faded, so the player still sees what was mixed.
-            const AlchemyIngredient *pIngredient = AlchemyBenchRuntime::findIngredient(model->ingredients, itemId);
+            // A used-up ingredient stays visible, faded, so the player still sees what was mixed. A chain sees the
+            // carried mixed potions the Workbench keeps as missing: it brews them first.
+            const AlchemyIngredient *pIngredient = AlchemyBenchRuntime::findIngredient(
+                model->chainMode || model->keptPotionsBlockMix ? model->mixingIngredients : model->ingredients, itemId);
             const bool missing = pIngredient == nullptr
                 || (heldSlot && state.targetItemId == state.heldItemId && pIngredient->count < 2);
             painter.itemIcon(pItemTable->get(itemId), {slot->x + 8 * s, slot->y + 6 * s, slot->width - 16 * s,

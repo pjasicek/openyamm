@@ -59,22 +59,19 @@ public:
         Pole,
     };
 
-    // What the arms hold: an animation set, a weapon model (empty: bare hands) and whether a shield is carried.
+    // What the arms hold: an animation set and a weapon model (empty: bare hands). A shield is never shown (the user,
+    // 2026-11-14): the arms hold only the weapon, and a guard plays the weapon set's own block.
     struct Kit
     {
         WeaponSet set = WeaponSet::HandToHand;
         std::string weapon;
-        bool shield = false;
-        // Our own ground item models held instead of Oblivion's templates (a solo run): the asset path and icon of the
-        // weapon (or bow) and of the shield; empty, or an icon without a grip in held.yml, keeps the template.
+        // Our own ground item model held instead of Oblivion's template (a solo run): the asset path and icon of the
+        // weapon (or bow); empty, or an icon without a grip in held.yml, keeps the template.
         std::string heldModel;
         std::string heldIcon;
-        std::string shieldModel;
-        std::string shieldIcon;
-        // The skin tier of the weapon (or bow) template and of the shield template (heldSkinTier; 0: the template
-        // itself): w_<name>_t<tier>.glb beside the template when it exists.
+        // The skin tier of the weapon (or bow) template (heldSkinTier; 0: the template itself): w_<name>_t<tier>.glb
+        // beside the template when it exists.
         uint8_t weaponTier = 0;
-        uint8_t shieldTier = 0;
         // Dual wielding: the off hand's template, our model and icon, and its skin tier, held in the left hand's
         // OffHandWeapon node (the Weapon node mirrored). heavy: a two-handed weapon held in one hand (a MAW Minotaur's
         // axes), whose swings may play slower than Oblivion's own pace.
@@ -100,7 +97,6 @@ public:
         float partyX = 0.0f;
         float partyY = 0.0f;
         float yawRadians = 0.0f;
-        bool blockHeld = false;
         Kit kit;
         // A swing gameplay started and waits on (its blow is reported in Output), and the member's melee recovery
         // when it started: the swing plays fast enough to reach its chain point when the recovery ends.
@@ -109,7 +105,6 @@ public:
         // Another attack action or a cast, shown when it happens.
         uint32_t actionSerial = 0;
         Action action = Action::Melee;
-        uint32_t shieldBlockSerial = 0;
         // The active member's remaining recovery, for the trace only.
         float memberRecoverySeconds = 0.0f;
         // A solo run's talent to show (cleave, whirlwind, charge, volley, blink ...) and whether Shield Wall holds the
@@ -117,6 +112,9 @@ public:
         uint32_t talentSerial = 0;
         std::string talentClip;
         bool talentBlock = false;
+        // A solo run's Onslaught stacks, 0..1 of the most any rank holds: red and yellow dots on the hands. Not passed
+        // for now (the user turned the dots off, 2026-11-14): GameApplication leaves it 0.
+        float onslaught = 0.0f;
         // The waited action (swingSerial) is a cast: a cast clip fitted to swingRecoverySeconds plays instead of a
         // swing, its release reported as the blow; castSelf picks the self clip. castColor tints the casting hand.
         bool swingIsCast = false;
@@ -135,17 +133,15 @@ public:
         // The swing gameplay waits on reached its blow this update, with the blade's direction across the screen.
         bool blowReleased = false;
         std::optional<std::array<float, 2>> blowDirection;
-        // A shield is held up (block with a shield, no swing under way).
-        bool shieldRaised = false;
         // While a cast gathers or leaves: its casting palm on screen (normalized device x right, y up), where gameplay
         // starts the spell's missile.
         std::optional<std::array<float, 2>> castHandScreen;
     };
 
     // The kit for a main-hand weapon's skill group (empty: none) and whether it is wielded two-handed.
-    static Kit kitFor(const std::string &skillGroup, bool twoHanded, bool shield);
+    static Kit kitFor(const std::string &skillGroup, bool twoHanded);
     // The kit for both hands: a melee weapon in each (both dualWieldable, the main one not wielded two-handed) is the
-    // Dual kit; anything else in the off hand is kitFor's (a shield on the arm, nothing else shown). large: the item's
+    // Dual kit; with anything else in the off hand (a shield included) it is kitFor's, the off hand empty. large: the item's
     // table type is two-handed (Weapon2), as a Minotaur's one-handed battle axe: the larger template, and heavy when
     // either hand holds one.
     static Kit kitForHands(const std::string &mainSkillGroup, bool mainTwoHanded, bool mainLarge,
@@ -263,7 +259,9 @@ private:
     // attack (by the movement direction) to close the round.
     std::optional<ClipInfo> nextSwing(char side, float forward, float left);
     // Starts a talent's clips (Whirlwind: two sweeps back to back).
-    void startTalent(const std::string &talent, const Kit &kit);
+    // recoverySeconds: the member's recovery for the talent's attack; a talent whose strike waits for its clip (Cleave,
+    // the bow talents) plays fitted to it, as a swing does. 0: the talents' own pace.
+    void startTalent(const std::string &talent, const Kit &kit, float recoverySeconds);
     std::optional<std::array<float, 2>> bladeScreenPoint(bool offHand = false) const;
     // The arms have the dual clips and the OffHandWeapon node; without them a Dual kit is shown as OneHand.
     bool dualReady() const;
@@ -278,6 +276,10 @@ private:
     // A palm's centre in the arms' space (between the wrist and the knuckles).
     std::optional<std::array<float, 3>> palmPoint(bool left) const;
     std::vector<std::array<float, 3>> castPalms(uint8_t hands) const;
+    // Both palms, or a dragon's two talon tips (its forelegs have no fingers).
+    std::vector<std::array<float, 3>> handPoints() const;
+    // Onslaught's dots on the hands, a talent's glint on the weapon, and Shield Wall's on the guarding hands.
+    void updateTalentEffects(const Input &input, float delta);
     // The blade's hilt and tip in the arms' space (offHand: the off-hand blade); none without a weapon in that hand.
     std::optional<std::pair<std::array<float, 3>, std::array<float, 3>>> bladePoints(bool offHand = false) const;
     void startCast(const ClipInfo &info, bool waitsForBlow, float rate, const std::array<float, 3> &color);
@@ -306,7 +308,6 @@ private:
     Engine::ModelInstanceHandle m_handle;
     uint32_t m_cameraNode = UINT32_MAX;
     uint32_t m_weaponNode = UINT32_MAX;
-    uint32_t m_shieldNode = UINT32_MAX;
     uint32_t m_leftHandNode = UINT32_MAX;
     uint32_t m_offHandNode = UINT32_MAX;
     // A dragon's talon tips (the slash direction of a rake) and mouth (the breath's start).
@@ -335,7 +336,7 @@ private:
     // The weapon model's far end in the weapon node's space: the blade tip whose screen path gives a blow's direction.
     std::array<float, 3> m_bladeTip = {};
     std::array<float, 3> m_offBladeTip = {};
-    // A running one-shot clip (swing, cast, block hit, equip) and its time.
+    // A running one-shot clip (swing, cast, equip) and its time.
     std::optional<ClipInfo> m_action;
     float m_actionSeconds = 0.0f;
     // Clip seconds per second for the running action: above 1 when a swing is fitted to a short recovery.
@@ -348,14 +349,12 @@ private:
     char m_nextSwingSide = 'R';
     bool m_actionRestart = false;
     bool m_actionWaitsForBlow = false;
-    bool m_actionIsBlockHit = false;
     // A swing asked for before the running one reached its chain key: it starts there.
     bool m_swingQueued = false;
     bool m_weaponHidden = false;
     float m_loopSeconds = 0.0f;
     uint32_t m_lastSwingSerial = 0;
     uint32_t m_lastActionSerial = 0;
-    uint32_t m_lastShieldBlockSerial = 0;
     uint32_t m_lastTalentSerial = 0;
     // Clips queued after the running one (a talent's second sweep) and their rate.
     std::vector<std::pair<ClipInfo, float>> m_actionQueue;
@@ -382,6 +381,8 @@ private:
     std::array<uint32_t, 4> m_rightKnuckles = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
     // The running action draws the weapon trail (a swing or a melee talent), or is a cast with its hands and colour.
     bool m_actionTrails = false;
+    // The running action is an active talent that is not a cast: sparks along the weapon (or talons) while it plays.
+    bool m_actionGlint = false;
     bool m_actionIsCast = false;
     uint8_t m_actionCastHands = 0;
     std::array<float, 3> m_actionCastColor = {};

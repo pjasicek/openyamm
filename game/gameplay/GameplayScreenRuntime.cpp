@@ -4892,6 +4892,23 @@ void GameplayScreenRuntime::renderHudTextLine(
     renderHudFontLayer(*font, hudFontMainLayer(*font, colorAbgr), text, textX, textY, fontScale);
 }
 
+void GameplayScreenRuntime::renderHudTextRuns(
+    const std::string &fontName,
+    uint32_t colorAbgr,
+    std::span<const GameplayHudTextRun> runs,
+    float fontScale) const
+{
+    const std::optional<HudFontHandle> font = runs.empty() ? std::nullopt : findHudFont(fontName);
+
+    if (!font)
+    {
+        return;
+    }
+
+    uiRuntime().renderHudFontLayerRuns(*font, font->shadowTextureHandle, runs, fontScale);
+    uiRuntime().renderHudFontLayerRuns(*font, hudFontMainLayer(*font, colorAbgr), runs, fontScale);
+}
+
 void GameplayScreenRuntime::resetHudTransientState() const
 {
     uiRuntime().clearRenderedInspectableHudItems();

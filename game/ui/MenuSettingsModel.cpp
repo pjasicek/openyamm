@@ -110,6 +110,14 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.enemyHealthBarEffects ? "true" : "false";
     }
+    if (id == "potion_expiry_warnings")
+    {
+        return settings.potionExpiryWarnings ? "true" : "false";
+    }
+    if (id == "workbench_keep_mixed_potions")
+    {
+        return settings.workbenchKeepMixedPotions ? "true" : "false";
+    }
     if (id == "show_hits")
     {
         return settings.showHits ? "true" : "false";
@@ -520,6 +528,16 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.enemyHealthBarEffects = value == "true";
+        return true;
+    }
+    if (id == "potion_expiry_warnings" || id == "workbench_keep_mixed_potions")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        (id == "potion_expiry_warnings" ? settings.potionExpiryWarnings : settings.workbenchKeepMixedPotions) =
+            value == "true";
         return true;
     }
     if (id == "show_hits")

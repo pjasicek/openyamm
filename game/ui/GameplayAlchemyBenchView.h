@@ -34,6 +34,10 @@ struct GameplayAlchemyBenchModel
     AlchemistInfo alchemist;
     std::string alchemistName;
     std::vector<AlchemyIngredient> ingredients;
+    // What the book's recipes are picked from: the ingredients, without the mixed potions while the Workbench keeps
+    // them (GameSettings::workbenchKeepMixedPotions).
+    bool keepMixedPotions = false;
+    std::vector<AlchemyIngredient> mixingIngredients;
     std::vector<size_t> visibleIngredients;
     AlchemyBook book;
     std::vector<GameplayAlchemyBenchRow> rows;
@@ -46,6 +50,9 @@ struct GameplayAlchemyBenchModel
     // The selected recipe needs ingredients brewed first; chain is the plan for one potion.
     bool chainMode = false;
     std::optional<AlchemyChainPlan> chain;
+    // The slots hold a book recipe that would use carried mixed potions the Workbench keeps, and no chain can brew
+    // them: Mix stays off.
+    bool keptPotionsBlockMix = false;
 };
 
 struct GameplayAlchemyBenchRowRect

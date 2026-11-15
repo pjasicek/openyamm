@@ -298,6 +298,15 @@ bool parseHeldSkinRules(const std::string &text, const std::string &path, HeldSk
                 parsed.kindTemplates[entry.first.as<std::string>()] = own;
             }
         }
+        for (const int tier : root["loot_rarity_tiers"].as<std::vector<int>>(std::vector<int>()))
+        {
+            if (tier < 1 || tier > tierCount)
+            {
+                error = path + ": loot_rarity_tiers must be within the tiers";
+                return false;
+            }
+            parsed.lootRarityTiers.push_back(uint8_t(tier));
+        }
         parsed.tierCount = uint8_t(tierCount);
         parsed.uniqueTier = uint8_t(uniqueTier);
         parsed.enchantedBonus = uint8_t(enchantedBonus);
@@ -343,6 +352,10 @@ uint8_t heldSkinTier(const HeldSkinRules &rules, const HeldSkinItem &item)
     if (item.enchanted)
     {
         tier = std::max(tier, std::min(tier + int(rules.enchantedBonus), int(rules.enchantedMaxTier)));
+    }
+    if (item.lootRarity > 0 && item.lootRarity <= rules.lootRarityTiers.size())
+    {
+        tier = std::max(tier, int(rules.lootRarityTiers[item.lootRarity - 1]));
     }
     return uint8_t(std::clamp(tier, 1, int(rules.tierCount)));
 }

@@ -486,6 +486,8 @@ public:
         std::string progressSelectedMap;
         std::string progressHoveredMap;
         size_t progressScroll = 0;
+        // The map list's scroll bar thumb is held by the mouse.
+        bool progressScrollDragging = false;
         // The aura panel: the chosen aura (spell id), the list's scroll and whether its Move-to menu is open.
         uint32_t auraSelected = 0;
         size_t auraScroll = 0;

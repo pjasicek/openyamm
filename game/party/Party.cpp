@@ -46,6 +46,13 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+// A timed potion effect entered its last minutes this step and still runs (a long rest that ends it says nothing).
+bool potionExpiryWarningStarts(float previousRemainingSeconds, float remainingSeconds)
+{
+    return previousRemainingSeconds > Party::PotionExpiryWarningSeconds && remainingSeconds > 0.0f
+        && remainingSeconds <= Party::PotionExpiryWarningSeconds;
+}
+
 // An implant's family (no two of a family add up): its set id `family:<name>`, else its canonical id's name without the
 // tier (dermal_2 -> dermal).
 std::string implantFamily(const ItemDefinition &item)
@@ -2854,6 +2861,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_lastStatus.clear();
     m_heldItemIdForQueries = 0;
     m_pendingAudioRequests.clear();
+    m_expiringPotionEffects.clear();
     recordEverOwnedItemsFromCurrentState();
     rebuildMagicalBonusesFromBuffs();
     ++m_dialogueEligibilityRevision;
@@ -3032,6 +3040,7 @@ void Party::seed(const PartySeed &seed)
     m_lastStatus.clear();
     m_heldItemIdForQueries = 0;
     m_pendingAudioRequests.clear();
+    m_expiringPotionEffects.clear();
     normalizeFormationCells();
     recordEverOwnedItemsFromCurrentState();
     rebuildMagicalBonusesFromBuffs();
@@ -3353,7 +3362,7 @@ bool Party::applyDamageToMember(
         const bool wasDead = member.conditions.test(static_cast<size_t>(CharacterCondition::Dead));
         const bool wasUnconscious = member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious));
         member.health -= damage;
-        pushSelfTextEvent({SelfTextEvent::Kind::Damage, memberIndex, damage, std::exchange(m_pendingBlockedDamage, 0)});
+        pushSelfTextEvent({SelfTextEvent::Kind::Damage, memberIndex, damage});
         const bool preservationActive =
             m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
         updateMemberIncapacitatedCondition(member, preservationActive, m_gameMinutes);
@@ -7836,6 +7845,14 @@ void Party::advanceTimedStates(float deltaSeconds)
         const float previousRemainingSeconds = buff.remainingSeconds;
         buff.remainingSeconds = std::max(0.0f, buff.remainingSeconds - deltaSeconds);
 
+        if (buff.spellId == 0 && potionExpiryWarningStarts(previousRemainingSeconds, buff.remainingSeconds))
+        {
+            ExpiringPotionEffect expiring;
+            expiring.kind = ExpiringPotionEffect::Kind::PartyBuff;
+            expiring.partyBuff = PartyBuffId(&buff - m_partyBuffs.data());
+            m_expiringPotionEffects.push_back(expiring);
+        }
+
         if (previousRemainingSeconds > 0.0f && buff.remainingSeconds <= 0.0f)
         {
             buffsChanged = true;
@@ -7869,6 +7886,15 @@ void Party::advanceTimedStates(float deltaSeconds)
 
             const float previousRemainingSeconds = buff.remainingSeconds;
             buff.remainingSeconds = std::max(0.0f, buff.remainingSeconds - deltaSeconds);
+
+            if (buff.spellId == 0 && potionExpiryWarningStarts(previousRemainingSeconds, buff.remainingSeconds))
+            {
+                ExpiringPotionEffect expiring;
+                expiring.kind = ExpiringPotionEffect::Kind::CharacterBuff;
+                expiring.memberIndex = memberIndex;
+                expiring.characterBuff = CharacterBuffId(&buff - pBuffs->data());
+                m_expiringPotionEffects.push_back(expiring);
+            }
 
             if (isSpellId(buff.spellId, SpellId::Regeneration))
             {
@@ -7941,11 +7967,24 @@ void Party::advanceTimedStates(float deltaSeconds)
     {
         // Potions' immunities, skill levels and auras run out.
         const size_t potionEffectsBefore = member.rulesetState.potionEffects.size();
+        const size_t memberIndex = size_t(&member - m_members.data());
         std::erase_if(
             member.rulesetState.potionEffects,
-            [deltaSeconds](TimedPotionEffect &effect)
+            [this, deltaSeconds, memberIndex](TimedPotionEffect &effect)
             {
+                const float previousRemainingSeconds = effect.remainingSeconds;
                 effect.remainingSeconds -= deltaSeconds;
+
+                if (potionExpiryWarningStarts(previousRemainingSeconds, effect.remainingSeconds))
+                {
+                    ExpiringPotionEffect expiring;
+                    expiring.kind = ExpiringPotionEffect::Kind::RulesetEffect;
+                    expiring.memberIndex = memberIndex;
+                    expiring.rulesetEffect = effect.kind;
+                    expiring.rulesetEffectKey = effect.key;
+                    m_expiringPotionEffects.push_back(expiring);
+                }
+
                 return effect.remainingSeconds <= 0;
             });
         buffsChanged = buffsChanged || member.rulesetState.potionEffects.size() != potionEffectsBefore;
@@ -8412,7 +8451,7 @@ bool Party::clearMemberCondition(size_t memberIndex, CharacterCondition conditio
 
     if (pMember->conditions.test(static_cast<size_t>(condition)))
     {
-        pushSelfTextEvent({SelfTextEvent::Kind::ConditionCleared, memberIndex, 0, 0, condition});
+        pushSelfTextEvent({SelfTextEvent::Kind::ConditionCleared, memberIndex, 0, condition});
     }
     pMember->conditions.reset(static_cast<size_t>(condition));
     pMember->conditionStartGameMinutes[static_cast<size_t>(condition)] = 0.0f;
@@ -8457,7 +8496,7 @@ bool Party::applyMemberCondition(
     {
         pMember->conditionStartGameMinutes[static_cast<size_t>(condition)] = std::max(0.0f, gameMinutes);
         recordConditionStatistics(memberIndex, condition);
-        pushSelfTextEvent({SelfTextEvent::Kind::ConditionGained, memberIndex, 0, 0, condition});
+        pushSelfTextEvent({SelfTextEvent::Kind::ConditionGained, memberIndex, 0, condition});
 
         switch (condition)
         {
@@ -8885,6 +8924,16 @@ const std::vector<Party::PendingAudioRequest> &Party::pendingAudioRequests() con
 void Party::clearPendingAudioRequests()
 {
     m_pendingAudioRequests.clear();
+}
+
+const std::vector<Party::ExpiringPotionEffect> &Party::expiringPotionEffects() const
+{
+    return m_expiringPotionEffects;
+}
+
+void Party::clearExpiringPotionEffects()
+{
+    m_expiringPotionEffects.clear();
 }
 
 void Party::queueSound(SoundId soundId)

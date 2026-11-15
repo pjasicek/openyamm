@@ -175,6 +175,14 @@ public:
         float talentShare = 1.0f;
         bool talentExtraBlow = false;
         bool talentShot = false;
+        // Multishot: the bow shot leaves as this many arrows fanned evenly over the arc (radians, the whole width),
+        // each on its own heading, hitting the first monster in its line.
+        uint8_t talentFanArrows = 0;
+        float talentFanArcRadians = 0.0f;
+        // Piercing Arrows: every arrow of a bow shot flies on through this many more monsters at pierceShare of its
+        // damage.
+        uint8_t pierceCount = 0;
+        float pierceShare = 0.0f;
         // A solo run with the bow in the arms (swapped in, ViewModelLink::bowSelected, or an archer with no main-hand
         // weapon): Attack shoots even at melee range, where a party member would strike with the bow's melee fallback
         // (or fists). The one rule a solo run changes.

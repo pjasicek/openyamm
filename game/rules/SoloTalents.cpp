@@ -154,6 +154,7 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
             talent.perRankCalm = node["per_rank_calm"].as<float>(0.0f);
             talent.cooldown = node["cooldown"].as<float>(0.0f);
             talent.cooldownPerRank = node["cooldown_per_rank"].as<float>(0.0f);
+            talent.cooldownPerAttack = node["cooldown_per_attack"].as<float>(0.0f);
             talent.duration = node["duration"].as<float>(0.0f);
             talent.durationPerRank = node["duration_per_rank"].as<float>(0.0f);
             talent.targets = node["targets"].as<int>(0);
@@ -369,6 +370,12 @@ int keystonesBound(const SoloTalentTable &table, const Character &character)
 {
     return int(std::count_if(table.keystones().begin(), table.keystones().end(),
         [&character](const TalentDefinition &keystone) { return hasKeystone(character, keystone.id); }));
+}
+
+void endMapTalentEffects(Character &character)
+{
+    character.talentState.onslaughtStacks = 0;
+    character.talentState.onslaughtSeconds = 0.0f;
 }
 
 bool hasKeystone(const Character &character, std::string_view id)

@@ -199,6 +199,83 @@ TEST_CASE("sorting every bag sends crafting and alchemy items to the bags tagged
     CHECK_EQ(InventoryBags::itemsInBag(member, 3)[0].objectDescriptionId, 1050u);
 }
 
+TEST_CASE("sorting a tab sends what finds no bag of its kind there to the next tab's bags of its kind (OY-651)")
+{
+    using OpenYAMM::Game::BagTag;
+    using OpenYAMM::Game::Party;
+    using OpenYAMM::Game::PartySeed;
+    namespace InventoryBags = OpenYAMM::Game::InventoryBags;
+
+    // A reagent (222) as large as a whole bag, so each takes one bag; a sword (1) of one cell.
+    const auto item = [](uint32_t itemId, bool wholeBag)
+    {
+        InventoryItem result;
+        result.objectDescriptionId = itemId;
+        result.width = wholeBag ? uint8_t(Character::InventoryWidth) : 1;
+        result.height = wholeBag ? uint8_t(Character::InventoryHeight) : 1;
+        return result;
+    };
+    const auto bagTagOf = [](const InventoryItem &stored) -> std::optional<BagTag>
+    {
+        return stored.objectDescriptionId == 222 ? std::optional<BagTag>(BagTag::Alchemy) : std::nullopt;
+    };
+
+    PartySeed seed;
+    seed.members = {Character{}};
+    Party party;
+    party.seed(seed);
+    Character &member = *party.member(0);
+    constexpr int BagCount = 8;
+
+    // Tab I (bags 0-3) all alchemy bags, holding five bag-sized reagents and a sword (more than fits: the sort reads
+    // a bag's items as a list); tab II has an untagged bag 4 with a shield in it and the alchemy bag 5.
+    for (uint8_t bag = 0; bag < 4; ++bag)
+    {
+        InventoryBags::toggleTag(member, bag, BagTag::Alchemy);
+    }
+
+    InventoryBags::toggleTag(member, 5, BagTag::Alchemy);
+    member.inventory = {item(222, true)};
+    member.rulesetState.storedBags[1] = {item(222, true)};
+    member.rulesetState.storedBags[2] = {item(222, true)};
+    member.rulesetState.storedBags[3] = {item(222, true)};
+    InventoryItem shield = item(2, false);
+    member.rulesetState.storedBags[4] = {shield};
+    // A fifth reagent and the sword in bag 3 too: a sort takes every item of the tab's bags as one list.
+    member.rulesetState.storedBags[3].push_back(item(222, true));
+    member.rulesetState.storedBags[3].push_back(item(1, false));
+
+    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, BagCount, bagTagOf));
+
+    // Tab I's four alchemy bags take four reagents; the fifth goes to tab II's alchemy bag, not its untagged one, and
+    // the sword to tab II's untagged bag beside the shield.
+    for (uint8_t bag = 0; bag < 4; ++bag)
+    {
+        REQUIRE_EQ(InventoryBags::itemsInBag(member, bag).size(), 1u);
+        CHECK_EQ(InventoryBags::itemsInBag(member, bag)[0].objectDescriptionId, 222u);
+    }
+
+    REQUIRE_EQ(InventoryBags::itemsInBag(member, 5).size(), 1u);
+    CHECK_EQ(InventoryBags::itemsInBag(member, 5)[0].objectDescriptionId, 222u);
+    REQUIRE_EQ(InventoryBags::itemsInBag(member, 4).size(), 2u);
+    CHECK_EQ(InventoryBags::itemsInBag(member, 4)[0].objectDescriptionId, 2u);
+    CHECK_EQ(InventoryBags::itemsInBag(member, 4)[1].objectDescriptionId, 1u);
+    CHECK_EQ(member.rulesetState.currentBag, 0);
+
+    // Without the next tab (four bags) the same items no longer fit: nothing changes.
+    Party small;
+    small.seed(seed);
+    Character &alone = *small.member(0);
+
+    for (uint8_t bag = 0; bag < 4; ++bag)
+    {
+        InventoryBags::toggleTag(alone, bag, BagTag::Alchemy);
+    }
+
+    alone.inventory = {item(222, true), item(222, true), item(222, true), item(222, true), item(222, true)};
+    CHECK_FALSE(InventoryBags::sortPartyBags(small, {0}, true, 4, bagTagOf));
+}
+
 TEST_CASE("giving the party an item keeps every pointer to its members valid")
 {
     using OpenYAMM::Game::Party;

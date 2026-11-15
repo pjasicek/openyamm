@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <array>
 #include <functional>
+#include <map>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -201,82 +202,122 @@ std::vector<InventoryItem> packIntoBags(
     return leftovers;
 }
 
-// packIntoBags for a member whose bags carry tags: an item with a tag goes to the bags with that tag first, then to the
-// untagged bags, then to the bags of the other tag; an item without one to the untagged bags first. Each item takes the
-// first bag of its order with room (pickups route by the tags the same way, placeInTaggedBag).
+// The tag of a member's bag, if any.
+std::optional<BagTag> tagOfBag(const Character &character, int bag)
+{
+    for (const BagTag tag : {BagTag::Crafting, BagTag::Alchemy})
+    {
+        if (InventoryBags::hasTag(character, uint8_t(bag), tag))
+        {
+            return tag;
+        }
+    }
+
+    return std::nullopt;
+}
+
+// packIntoBags for a sort of every bag of the open tab when the member's bags carry tags or the member has other tabs.
+// An item with a tag goes to the bags with that tag first, then to the untagged bags, then to the bags of the other tag;
+// an item without one to the untagged bags first (pickups route by the tags the same way, placeInTaggedBag). Each rank
+// tries the tab's bags, then the free places of the other tabs' bags, the next tab first and round (OY-651): a tab whose
+// alchemy bags are full sends the rest of its reagents to the next tab's alchemy bags, not into its own other bags.
+// Items placed in other tabs are added to `otherTabs` by bag; the tab's own bags are packed afresh into `bags`.
 std::vector<InventoryItem> packIntoTaggedBags(
     const std::vector<InventoryItem> &items,
     const BagRange &range,
+    int bagCount,
     const Character &character,
     const std::function<std::optional<BagTag>(const InventoryItem &)> &bagTagOf,
-    std::vector<std::vector<InventoryItem>> &bags)
+    std::vector<std::vector<InventoryItem>> &bags,
+    std::map<uint8_t, std::vector<InventoryItem>> &otherTabs)
 {
     const int count = std::max(1, range.bagCount);
-    // Packed bag `bag` is the range's bag firstBag + bag.
-    const auto tagOfBag = [&character, &range](int bag) -> std::optional<BagTag>
-    {
-        for (const BagTag tag : {BagTag::Crafting, BagTag::Alchemy})
-        {
-            if (InventoryBags::hasTag(character, uint8_t(range.firstBag + bag), tag))
-            {
-                return tag;
-            }
-        }
+    // The other tabs' bags, the next tab first and round.
+    std::vector<int> otherBags;
+    const int tabs = InventoryBags::tabCount(bagCount);
+    const int openTab = range.firstBag / InventoryBags::TabBags;
 
-        return std::nullopt;
-    };
+    for (int step = 1; step < tabs; ++step)
+    {
+        const int first = (openTab + step) % tabs * InventoryBags::TabBags;
+
+        for (int bag = first; bag < std::min(bagCount, first + InventoryBags::TabBags); ++bag)
+        {
+            otherBags.push_back(bag);
+        }
+    }
+
     bool tagged = false;
 
     for (int bag = 0; bag < count; ++bag)
     {
-        tagged = tagged || tagOfBag(bag).has_value();
+        tagged = tagged || tagOfBag(character, range.firstBag + bag).has_value();
     }
 
-    if (!tagged || !bagTagOf)
+    if (otherBags.empty() && (!tagged || !bagTagOf))
     {
         return packIntoBags(items, count, bags);
     }
 
     bags.assign(size_t(count), {});
     std::vector<BagGrid> grids(bags.size());
+    // The other tabs' bags keep their items: only their free places are used.
+    std::vector<BagGrid> otherGrids;
+
+    for (const int bag : otherBags)
+    {
+        otherGrids.push_back(occupiedCells(InventoryBags::itemsInBag(character, uint8_t(bag))));
+    }
+
     std::vector<InventoryItem> leftovers;
 
     for (InventoryItem item : items)
     {
         item.width = std::max<uint8_t>(1, item.width);
         item.height = std::max<uint8_t>(1, item.height);
-        const std::optional<BagTag> itemTag = bagTagOf(item);
-        std::vector<int> order;
-
-        for (const int pass : {0, 1, 2})
+        const std::optional<BagTag> itemTag = bagTagOf ? bagTagOf(item) : std::nullopt;
+        const auto rankOf = [&itemTag](std::optional<BagTag> bagTag)
         {
-            for (int bag = 0; bag < count; ++bag)
-            {
-                const std::optional<BagTag> bagTag = tagOfBag(bag);
-                const int rank = itemTag && bagTag == itemTag ? 0 : !bagTag ? 1 : 2;
-
-                if (rank == pass)
-                {
-                    order.push_back(bag);
-                }
-            }
-        }
-
+            return itemTag && bagTag == itemTag ? 0 : !bagTag ? 1 : 2;
+        };
         bool placed = false;
 
-        for (const int bag : order)
+        for (int pass = 0; pass < 3 && !placed; ++pass)
         {
-            const std::optional<std::pair<uint8_t, uint8_t>> place =
-                firstFreePlace(grids[size_t(bag)], item.width, item.height);
-
-            if (place)
+            for (int bag = 0; bag < count && !placed; ++bag)
             {
-                item.gridX = place->first;
-                item.gridY = place->second;
-                occupy(grids[size_t(bag)], item);
-                bags[size_t(bag)].push_back(item);
-                placed = true;
-                break;
+                if (rankOf(tagOfBag(character, range.firstBag + bag)) != pass)
+                {
+                    continue;
+                }
+
+                if (const std::optional<std::pair<uint8_t, uint8_t>> place =
+                        firstFreePlace(grids[size_t(bag)], item.width, item.height))
+                {
+                    item.gridX = place->first;
+                    item.gridY = place->second;
+                    occupy(grids[size_t(bag)], item);
+                    bags[size_t(bag)].push_back(item);
+                    placed = true;
+                }
+            }
+
+            for (size_t other = 0; other < otherBags.size() && !placed; ++other)
+            {
+                if (rankOf(tagOfBag(character, otherBags[other])) != pass)
+                {
+                    continue;
+                }
+
+                if (const std::optional<std::pair<uint8_t, uint8_t>> place =
+                        firstFreePlace(otherGrids[other], item.width, item.height))
+                {
+                    item.gridX = place->first;
+                    item.gridY = place->second;
+                    occupy(otherGrids[other], item);
+                    otherTabs[uint8_t(otherBags[other])].push_back(item);
+                    placed = true;
+                }
             }
         }
 
@@ -378,6 +419,8 @@ bool sortPartyBags(
 {
     const ItemTable *pItemTable = party.itemTable();
     std::vector<std::vector<std::vector<InventoryItem>>> packed(party.members().size());
+    // What each member's sort put into their other tabs' bags.
+    std::vector<std::map<uint8_t, std::vector<InventoryItem>>> otherTabs(party.members().size());
 
     for (const size_t memberIndex : members)
     {
@@ -393,7 +436,8 @@ bool sortPartyBags(
         sortByMawOrder(items, pItemTable);
         // Sorting every bag honours the member's bag tags; the open bag alone has nowhere else to send an item.
         const std::vector<InventoryItem> leftOver = allBags
-            ? packIntoTaggedBags(items, bagRange, *pMember, bagTagOf, packed[memberIndex])
+            ? packIntoTaggedBags(items, bagRange, bagCount, *pMember, bagTagOf, packed[memberIndex],
+                otherTabs[memberIndex])
             : packIntoBags(items, 1, packed[memberIndex]);
 
         if (!leftOver.empty())
@@ -406,6 +450,13 @@ bool sortPartyBags(
     {
         Character &member = *party.member(memberIndex);
         storeBags(member, std::move(packed[memberIndex]), allBags, sortedBagRange(member, bagCount));
+
+        // The open bag is in the sorted tab, so these are all stored bags.
+        for (auto &[bag, added] : otherTabs[memberIndex])
+        {
+            std::vector<InventoryItem> &stored = member.rulesetState.storedBags[bag];
+            stored.insert(stored.end(), added.begin(), added.end());
+        }
     }
 
     return true;

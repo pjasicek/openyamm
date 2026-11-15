@@ -396,6 +396,10 @@ public:
     MawRules *mawRules();
     // Runs a debug console line as typed; output gets what the console printed. False when it reported an error.
     bool runConsoleLine(const std::string &line, std::string &output, std::string &failure);
+    // The launch directives debug.startup_console_file and debug.exit_pose_path, done as the game does them; output
+    // is the console's report, or the exit pose file's text.
+    bool runStartupConsoleFile(const std::filesystem::path &path, std::string &output, std::string &failure);
+    bool writeExitPose(const std::filesystem::path &path, std::string &output, std::string &failure);
     // Puts the item into the member's pack, or with `equipSlot` onto the member (whatever was there goes to the pack).
     bool grantItem(
         size_t memberIndex,

@@ -177,13 +177,15 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F11, 0}, true},
     {KeyboardAction::QuestBook, "quest_book", Engine::trNoop("Quest Book"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
-    {KeyboardAction::SwapWeapon, "swap_weapon", Engine::trNoop("Swap Melee and Bow"), KeyboardBindingPage::Hidden,
-        KeyboardBindingColumn::Left, 0, {InputBindingKind::MouseButton, SDL_SCANCODE_UNKNOWN, 4}, true},
+    {KeyboardAction::NextWeapon, "next_weapon", Engine::trNoop("Next Weapon"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::MouseWheelDown, SDL_SCANCODE_UNKNOWN, 0}, true},
     {KeyboardAction::AutoWalk, "auto_walk", Engine::trNoop("Auto Walk"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_NUMLOCKCLEAR, 0}, true},
-    // The middle button, as in GrayFace's patch; a solo run's arms keep it for their shield block.
+    // The middle button, as in GrayFace's patch.
     {KeyboardAction::CursorMode, "cursor_mode", Engine::trNoop("Free Cursor"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::MouseButton, SDL_SCANCODE_UNKNOWN, SDL_BUTTON_MIDDLE}, true},
+    {KeyboardAction::PreviousWeapon, "previous_weapon", Engine::trNoop("Previous Weapon"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::MouseWheelUp, SDL_SCANCODE_UNKNOWN, 0}, true},
 }};
 
 const std::array<KeyboardScancodeName, 98> KeyboardScancodeNames = {{

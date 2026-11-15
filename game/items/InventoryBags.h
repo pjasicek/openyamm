@@ -60,8 +60,10 @@ bool sortAllBags(Character &character, int bagCount, const ItemTable *pItemTable
 // Sorts the open bags (allBags: every bag of the open bag's tab) of the members in sortAllBags' order, MAW's party
 // sorts (T, G; Ctrl and Ctrl+Shift on Sort); every member's items stay with that member (MAW's alchemist, who took the
 // party's alchemy items, is retired: the Workbench reaches every member's bags). Sorting every bag also honours the bag
-// tags (ours; MAW's sort has none): an item bagTagOf tags goes to the member's bags with that tag first. False, with
-// nothing changed, when a member's items no longer fit.
+// tags (ours; MAW's sort has none): an item bagTagOf tags goes to the member's bags with that tag first. With more than
+// one tab, what finds no bag of its kind in the open tab goes to the free places of the other tabs' bags of its kind,
+// the next tab first (OY-651), before any bag of another kind. False, with nothing changed, when a member's items no
+// longer fit.
 bool sortPartyBags(
     Party &party,
     const std::vector<size_t> &members,

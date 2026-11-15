@@ -205,6 +205,19 @@ TEST_CASE("held weapon tiers: value bands, two-handed scale, uniques and enchant
     CHECK(heldSkinTier(four, {.value = 700, .equipStat = "Weapon", .enchanted = true}) == 3);
     CHECK(heldSkinTier(four, {.value = 6000, .equipStat = "Weapon", .enchanted = true}) == 4);
     CHECK(heldSkinTier(four, {.value = 10, .equipStat = "Weapon", .unique = true}) == 4);
+
+    // A loot rarity (MAW) lifts the tier to its own, never lowers it: a Legendary broadsword at base price is legendary.
+    HeldSkinRules rarity;
+    REQUIRE(parseHeldSkinRules("schema: openyamm.heldTiers.v1\ntiers: 4\nvalue_bands: [150, 600, 5000]\n"
+                               "loot_rarity_tiers: [1, 2, 2, 3, 4, 4, 4, 4]\n",
+        "test", rarity, error));
+    CHECK(heldSkinTier(rarity, {.value = 400, .equipStat = "Weapon", .lootRarity = 7}) == 4);
+    CHECK(heldSkinTier(rarity, {.value = 400, .equipStat = "Weapon", .lootRarity = 4}) == 3);
+    CHECK(heldSkinTier(rarity, {.value = 700, .equipStat = "Weapon", .lootRarity = 1}) == 3);
+    CHECK(heldSkinTier(rarity, {.value = 100, .equipStat = "Weapon", .lootRarity = 9}) == 1);
+    CHECK_FALSE(parseHeldSkinRules("schema: openyamm.heldTiers.v1\ntiers: 4\nvalue_bands: [150, 600, 5000]\n"
+                                   "loot_rarity_tiers: [1, 5]\n",
+        "t", rarity, error));
     HeldSkinRules rejected;
     CHECK_FALSE(parseHeldSkinRules("schema: openyamm.heldTiers.v1\ntiers: 3\nvalue_bands: [150, 600]\n"
                                    "enchanted_max_tier: 4\n",
@@ -309,7 +322,6 @@ TEST_CASE("dual wielding: a melee weapon in each hand is the dual kit, anything 
     CHECK(swords.set == ViewModel::WeaponSet::Dual);
     CHECK(swords.weapon == "w_longsword.glb");
     CHECK(swords.offWeapon == "w_longsword.glb");
-    CHECK_FALSE(swords.shield);
     CHECK_FALSE(swords.heavy);
 
     const ViewModel::Kit daggerSword = ViewModel::kitForHands("Sword", false, false, "Dagger", false);
@@ -326,10 +338,11 @@ TEST_CASE("dual wielding: a melee weapon in each hand is the dual kit, anything 
     CHECK(minotaur.offWeapon == "w_battleaxe.glb");
     CHECK(minotaur.heavy);
 
-    // A shield, an empty off hand, a weapon wielded two-handed or a staff, spear or bow: the main hand's kit as before.
-    CHECK(ViewModel::kitForHands("Sword", false, false, "Shield", false) == ViewModel::kitFor("Sword", false, true));
-    CHECK(ViewModel::kitForHands("Sword", false, false, "", false) == ViewModel::kitFor("Sword", false, false));
-    CHECK(ViewModel::kitForHands("Sword", true, true, "Dagger", false) == ViewModel::kitFor("Sword", true, false));
+    // A shield (never shown), an empty off hand, a weapon wielded two-handed or a staff, spear or bow: the main hand's
+    // kit as before.
+    CHECK(ViewModel::kitForHands("Sword", false, false, "Shield", false) == ViewModel::kitFor("Sword", false));
+    CHECK(ViewModel::kitForHands("Sword", false, false, "", false) == ViewModel::kitFor("Sword", false));
+    CHECK(ViewModel::kitForHands("Sword", true, true, "Dagger", false) == ViewModel::kitFor("Sword", true));
     CHECK(ViewModel::kitForHands("Spear", false, false, "Sword", false).set == ViewModel::WeaponSet::TwoHand);
     CHECK(ViewModel::kitForHands("", false, false, "Dagger", false).set == ViewModel::WeaponSet::HandToHand);
     CHECK_FALSE(ViewModel::dualWieldable("Bow"));
@@ -366,10 +379,9 @@ TEST_CASE("crossbows: the drawn bow's held kind picks the crossbow set, any othe
     const ViewModel::Kit crossbow = ViewModel::kitForBow("crossbow");
     CHECK(crossbow.set == ViewModel::WeaponSet::Crossbow);
     CHECK(crossbow.weapon == "w_crossbow.glb");
-    CHECK_FALSE(crossbow.shield);
-    CHECK(ViewModel::kitForBow("bow") == ViewModel::kitFor("Bow", false, false));
+    CHECK(ViewModel::kitForBow("bow") == ViewModel::kitFor("Bow", false));
     // An icon without a held.yml row has no kind: the bow set as before.
-    CHECK(ViewModel::kitForBow("") == ViewModel::kitFor("Bow", false, false));
+    CHECK(ViewModel::kitForBow("") == ViewModel::kitFor("Bow", false));
     CHECK(ViewModel::kitForBow("bow").set == ViewModel::WeaponSet::Bow);
 
     // The engine's table: every crossbow icon is of the crossbow kind, so the bow slot draws the crossbow set.
@@ -395,11 +407,9 @@ TEST_CASE("pole weapons: spears, tridents, polearms and poleaxes get the pole se
         "spear");
     CHECK(spear.set == ViewModel::WeaponSet::Pole);
     CHECK(spear.weapon == "w_spear.glb");
-    CHECK_FALSE(spear.shield);
     const ViewModel::Kit master = ViewModel::kitForHeldKind(
         ViewModel::kitForHands("Spear", false, false, "Shield", false), "trident");
     CHECK(master.set == ViewModel::WeaponSet::Pole);
-    CHECK_FALSE(master.shield);
     // A poleaxe is an Axe item (the battle axe's kit before), a halberd a Spear one: both the pole set.
     CHECK(ViewModel::kitForHeldKind(ViewModel::kitForHands("Axe", true, true, "", false), "poleaxe").set
         == ViewModel::WeaponSet::Pole);
@@ -461,7 +471,7 @@ TEST_CASE("dragon view model: a dragon gets the clawed forelegs, everyone else t
     // portrait's race), then the claws kit on the forelegs model, else the weapon kit on the arms.
     const auto kitOf = [](bool dragon)
     {
-        return dragon ? ViewModel::dragonKit() : ViewModel::kitFor("Sword", false, true);
+        return dragon ? ViewModel::dragonKit() : ViewModel::kitFor("Sword", false);
     };
     Character dragon;
     dragon.className = "Dragon";
@@ -478,7 +488,6 @@ TEST_CASE("dragon view model: a dragon gets the clawed forelegs, everyone else t
     CHECK(claws.set == ViewModel::WeaponSet::Claws);
     CHECK(claws.weapon.empty());
     CHECK(claws.offWeapon.empty());
-    CHECK_FALSE(claws.shield);
     CHECK(ViewModel::packagedModelPath(claws) == "engine/view_model/dragon_forelegs.glb");
 
     const ViewModel::Kit arms = kitOf(standard.isDragon(knight));

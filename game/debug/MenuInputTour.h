@@ -44,7 +44,6 @@ class MenuInputTour
     bool m_release = false;
     bool m_pointerHeld = false;
     bool m_rightPointerHeld = false;
-    bool m_middlePointerHeld = false;
     std::array<bool, SDL_SCANCODE_COUNT> m_heldKeys = {};
     std::array<bool, KeyboardActionCount> m_heldActions = {};
     SDL_Scancode m_releaseKey = SDL_SCANCODE_UNKNOWN;

@@ -2552,6 +2552,12 @@ bool readScenarioBattleOrders(
             order.allyHealthBelowPercent = uint8_t(std::clamp(orderNode["ally_hp_below"].as<int>(), 1, 100));
         }
 
+        if (orderNode["own_hp_below"])
+        {
+            order.allyHealthBelowPercent = uint8_t(std::clamp(orderNode["own_hp_below"].as<int>(), 1, 100));
+            order.ownHealth = true;
+        }
+
         if (orderNode["keep_sp"])
         {
             order.keepSpellPointsPercent = uint8_t(std::clamp(orderNode["keep_sp"].as<int>(), 0, 100));
@@ -3871,6 +3877,81 @@ bool runConsoleCommand(
     {
         failures.push_back(stepLocation(step) + ": console output lacks \"" + expected + "\": " + output);
         return false;
+    }
+
+    return true;
+}
+
+// debug_launch: {startup_console_file | exit_pose: true, expect_contains: text or list}: the launch directives the
+// Map Studio's Play here gives the game (debug.startup_console_file, debug.exit_pose_path), done here as the game does
+// them: the console file's commands run as once the first map has loaded; the exit pose is written as when the game
+// closes, into the run's folder, and its text must hold every expect_contains.
+bool runDebugLaunch(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    std::vector<std::string> expected;
+    const YAML::Node expectNode = step.payload["expect_contains"];
+
+    if (expectNode && expectNode.IsSequence())
+    {
+        for (const YAML::Node &item : expectNode)
+        {
+            expected.push_back(item.as<std::string>(""));
+        }
+    }
+    else if (expectNode)
+    {
+        expected.push_back(expectNode.as<std::string>(""));
+    }
+
+    seedRuntimeDriverFromContext(context);
+    std::string output;
+    std::string failure;
+
+    if (const YAML::Node fileNode = step.payload["startup_console_file"])
+    {
+        if (!context.runtimeDriver->runStartupConsoleFile(fileNode.as<std::string>(""), output, failure))
+        {
+            failures.push_back(stepLocation(step) + ": " + failure);
+            return false;
+        }
+
+        std::cout << "STARTUP CONSOLE FILE: " << output << '\n';
+    }
+    else if (step.payload["exit_pose"].as<bool>(false))
+    {
+        const std::filesystem::path path = context.saveGameRootPath / "exit_pose.yml";
+
+        if (!context.runtimeDriver->writeExitPose(path, output, failure))
+        {
+            failures.push_back(stepLocation(step) + ": " + failure);
+            return false;
+        }
+
+        std::cout << "EXIT POSE: " << output << '\n';
+    }
+    else
+    {
+        failures.push_back(stepLocation(step) + ": debug_launch takes startup_console_file or exit_pose: true");
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+
+    for (const std::string &text : expected)
+    {
+        if (output.find(text) == std::string::npos)
+        {
+            failures.push_back(stepLocation(step) + ": debug_launch output lacks \"" + text + "\": " + output);
+            return false;
+        }
     }
 
     return true;
@@ -12167,6 +12248,9 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::ConsoleCommand:
             stepSuccess = runConsoleCommand(context, step, result.failures);
+            break;
+        case ScenarioStepKind::DebugLaunch:
+            stepSuccess = runDebugLaunch(context, step, result.failures);
             break;
         case ScenarioStepKind::QuickLoad:
             stepSuccess = runQuickLoad(context, step, result.failures);

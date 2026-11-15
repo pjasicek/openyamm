@@ -143,6 +143,8 @@ enum class Control
     SliderTrack,
     // A place chip: a BattleOrderPlace.
     Place,
+    // Whose HP the HP condition reads: 0 the lowest ally's, 1 the member's own (BattleOrder::ownHealth).
+    HealthWho,
 };
 
 struct Hit
@@ -388,7 +390,9 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
 
     if (order.allyHealthBelowPercent)
     {
-        parts.push_back(Engine::tr("an ally below {percent} % HP", {{"percent", int64_t(*order.allyHealthBelowPercent)}}));
+        const int64_t percent = int64_t(*order.allyHealthBelowPercent);
+        parts.push_back(order.ownHealth ? Engine::tr("own HP below {percent} %", {{"percent", percent}})
+                                        : Engine::tr("an ally below {percent} % HP", {{"percent", percent}}));
     }
 
     if (order.keepSpellPointsPercent && order.kind == BattleOrderKind::Spell)
@@ -537,6 +541,8 @@ struct EditorRects
     Rect renewToggle;
     Rect renewTrack;
     Rect allyToggle;
+    // The HP row's chips: any ally, own.
+    std::array<Rect, 2> healthWho;
     Rect allyTrack;
     Rect keepToggle;
     Rect keepTrack;
@@ -581,6 +587,15 @@ EditorRects editorRects(const Layout &layout, bool upkeep)
 
     const float step = upkeep ? 38 : 32;
     rects.allyToggle = pageRect(layout, left, y, right - left, 13);
+    const float whoWidth = 46;
+    float whoX = right - 30 - 2 * whoWidth - 4;
+
+    for (Rect &chip : rects.healthWho)
+    {
+        chip = pageRect(layout, whoX, y - 1, whoWidth, 14);
+        whoX += whoWidth + 4;
+    }
+
     rects.allyTrack = pageRect(layout, left + 14, y + 17, right - left - 18, 8);
     y += step;
     rects.keepToggle = pageRect(layout, left, y, right - left, 13);
@@ -917,6 +932,14 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
             if (editor.placeChips[chip].contains(x, y))
             {
                 return {Control::Place, chip};
+            }
+        }
+
+        for (size_t chip = 0; chip < editor.healthWho.size(); ++chip)
+        {
+            if (editor.healthWho[chip].contains(x, y))
+            {
+                return {Control::HealthWho, chip};
             }
         }
 
@@ -1572,8 +1595,16 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     // An ally's HP.
     {
         const int percent = order.allyHealthBelowPercent.value_or(50);
-        rowText(rects.allyToggle, Engine::tr("An ally's HP is below"), std::to_string(percent) + " %",
-            order.allyHealthBelowPercent.has_value(), true);
+        const bool on = order.allyHealthBelowPercent.has_value();
+        rowText(rects.allyToggle, Engine::tr("HP is below"), std::to_string(percent) + " %", on, true);
+        const std::array<std::string, 2> whoLabels = {Engine::tr("any ally"), Engine::tr("own")};
+
+        for (size_t chip = 0; chip < whoLabels.size(); ++chip)
+        {
+            drawChip(painter, layout, rects.healthWho[chip], whoLabels[chip], on && order.ownHealth == (chip == 1),
+                hover.control == Control::HealthWho && hover.index == chip);
+        }
+
         drawSlider(painter, rects.allyTrack, float(percent - AllyMinimum) / float(AllyMaximum - AllyMinimum),
             std::nullopt, order.allyHealthBelowPercent.has_value(), std::nullopt);
     }
@@ -2474,6 +2505,14 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             if (pSelected != nullptr)
             {
                 pSelected->place = BattleOrderPlace(hit.index);
+            }
+            break;
+        case Control::HealthWho:
+            if (pSelected != nullptr)
+            {
+                // Choosing whose HP also ticks the condition.
+                pSelected->ownHealth = hit.index == 1;
+                pSelected->allyHealthBelowPercent = pSelected->allyHealthBelowPercent.value_or(50);
             }
             break;
     }

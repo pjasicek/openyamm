@@ -114,15 +114,18 @@ enum class KeyboardAction : uint8_t
     Upkeep,
     // The Journal on its Quests page, as MM7's Quest key opens the quest book (OY-481); unbound by default.
     QuestBook,
-    // A solo run's swap between the melee weapon and the bow (devdocs/solo_action/WEAPONS.md "Bow swap"): with the bow
-    // drawn, Attack shoots even at melee range. Every letter is taken: mouse button 4 (the side button).
-    SwapWeapon,
+    // A solo run's weapon cycling (devdocs/solo_action/WEAPONS.md "Bow swap"): the next weapon of the melee weapon
+    // and the bow; with the bow drawn, Attack shoots even at melee range. The wheel, down for the next one
+    // (PreviousWeapon is wheel up).
+    NextWeapon,
     // Auto-walk (OY-628): toggles walking forward as if Forward were held, as in the Elder Scrolls games. Num Lock, the
     // usual auto-run key elsewhere, is free in both control schemes.
     AutoWalk,
     // The free cursor of the modern controls (OY-637), as GrayFace's patch gives the middle button: mouse look off and
     // the cursor free while the world keeps running, until pressed again.
     CursorMode,
+    // A solo run's weapon cycling the other way (see NextWeapon).
+    PreviousWeapon,
     Count
 };
 

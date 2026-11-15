@@ -170,6 +170,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::SetRuleset, {"options"}},
         {ScenarioStepKind::RulesetBanks, {"mm8", "mm7", "mm6", "mm9", "completed_maps", "dimension_quest_done"}},
         {ScenarioStepKind::ConsoleCommand, {"line", "expect_contains"}},
+        {ScenarioStepKind::DebugLaunch, {"startup_console_file", "exit_pose", "expect_contains"}},
         {ScenarioStepKind::WalkTo, concatKeys({PoseKeys, {"to", "via", "radius", "timeout_seconds", "clear_hostiles",
             "expect_map", "plan", "node_limit", "close_dialogs", "expect", "z_tolerance"}})},
         {ScenarioStepKind::ClearHostiles, {"radius", "min"}},
@@ -581,6 +582,12 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "console")
     {
         kind = ScenarioStepKind::ConsoleCommand;
+        return true;
+    }
+
+    if (value == "debug_launch")
+    {
+        kind = ScenarioStepKind::DebugLaunch;
         return true;
     }
 

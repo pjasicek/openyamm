@@ -35,6 +35,7 @@
 #include <cctype>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <iomanip>
 #include <limits>
 #include <sstream>
@@ -290,6 +291,18 @@ struct ScenarioGameApplicationAccess
         }
 
         return success;
+    }
+
+    static bool runStartupConsoleFile(GameApplication &application, const std::filesystem::path &path,
+        std::string &message)
+    {
+        return application.runStartupConsoleFile(path, message);
+    }
+
+    static bool writeExitPoseFile(GameApplication &application, const std::filesystem::path &path,
+        std::string &message)
+    {
+        return application.writeExitPoseFile(path, message);
     }
 
     static OutdoorPartyRuntime *outdoorPartyRuntime(GameApplication &application)
@@ -3080,6 +3093,37 @@ bool ScenarioRuntimeDriver::runConsoleLine(const std::string &line, std::string 
         return false;
     }
 
+    return true;
+}
+
+bool ScenarioRuntimeDriver::runStartupConsoleFile(
+    const std::filesystem::path &path,
+    std::string &output,
+    std::string &failure)
+{
+    if (!ScenarioGameApplicationAccess::runStartupConsoleFile(m_application, path, output))
+    {
+        failure = "startup console file: " + output;
+        return false;
+    }
+
+    return true;
+}
+
+bool ScenarioRuntimeDriver::writeExitPose(const std::filesystem::path &path, std::string &output, std::string &failure)
+{
+    std::string message;
+
+    if (!ScenarioGameApplicationAccess::writeExitPoseFile(m_application, path, message))
+    {
+        failure = "exit pose: " + message;
+        return false;
+    }
+
+    std::ifstream file(path, std::ios::binary);
+    std::ostringstream text;
+    text << file.rdbuf();
+    output = text.str();
     return true;
 }
 
