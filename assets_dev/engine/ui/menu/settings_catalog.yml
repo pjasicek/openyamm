@@ -236,6 +236,17 @@ settings:
   - [always, Always]
   desc: Outline items in their rarity colour (rulesets with rarities, such as MAW).
   game_ruleset: maw
+- id: craft_preview
+  section: interface
+  group: Items
+  name: Craftable stats
+  type: select
+  options:
+  - ['off', 'Off']
+  - [hold, Hold key]
+  - [always, Always]
+  desc: An item's description shows in grey what crafting would add to it next, and its bonus power (rulesets with crafting, such as MAW).
+  game_ruleset: maw
 - id: loot_sparkle
   section: interface
   group: Items
@@ -913,6 +924,47 @@ bindings:
 - id: quick_load
   name: Quick load
   group: System
+# A solo run's action bar: its own context, so its keys may be the party's, the bags' and the followers' number keys.
+- id: action_bar_1
+  name: Action bar slot 1
+  group: Solo run
+  context: solo_bar
+- id: action_bar_2
+  name: Action bar slot 2
+  group: Solo run
+  context: solo_bar
+- id: action_bar_3
+  name: Action bar slot 3
+  group: Solo run
+  context: solo_bar
+- id: action_bar_4
+  name: Action bar slot 4
+  group: Solo run
+  context: solo_bar
+- id: action_bar_5
+  name: Action bar slot 5
+  group: Solo run
+  context: solo_bar
+- id: action_bar_6
+  name: Action bar slot 6
+  group: Solo run
+  context: solo_bar
+- id: action_bar_7
+  name: Action bar slot 7
+  group: Solo run
+  context: solo_bar
+- id: action_bar_8
+  name: Action bar slot 8
+  group: Solo run
+  context: solo_bar
+- id: action_bar_9
+  name: Action bar slot 9
+  group: Solo run
+  context: solo_bar
+- id: action_bar_10
+  name: Action bar slot 10
+  group: Solo run
+  context: solo_bar
 # MAW's keys (devdocs/maw/GAPS.md §11 D.18): listed only in a MAW game's pause menu. `context` is the page a key acts
 # on; keys of different contexts may share a key.
 - id: unstuck
@@ -948,6 +1000,11 @@ bindings:
   ruleset: maw
 - id: show_item_rarity
   name: Show item rarity (hold)
+  group: MAW
+  ruleset: maw
+  context: inventory
+- id: show_craftable_stats
+  name: Show craftable stats (hold)
   group: MAW
   ruleset: maw
   context: inventory

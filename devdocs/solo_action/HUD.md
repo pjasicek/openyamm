@@ -307,8 +307,9 @@ Built as layout A behind a Skills / Talents switch, not as a separate page: see 
   - Nothing that walks the map's actors or the party's bags runs per frame: the MAW progress reading (asked three
     times a frame by the bar, the tab's bounds and the buff rows) is read ten times a second, the scroll and potion
     buttons' "carries any" four times a second (`GameplayOverlayInteractionState`).
-  - What is left is spread thin (the unit frame's ovals, arcs and texts). Going further means keeping the HUD's quad
-    list between frames and rebuilding it when its inputs change; not done.
+  - The same day the whole HUD moved to one draw list ([HUD rendering](../HUD_RENDERING.md)): the solo HUD is 110
+    draws and 1285–1375 FPS against the party HUD's 65 draws and 1410–1470. All HUD draws together now cost about
+    50 µs of the frame, so what is left here (the unit frame's ovals, arcs and texts) is not worth more work.
   How to measure it again: [perf workflow](../../tools/PERF_PROFILING.md#fastest-route-where-does-the-frame-time-go).
 
 ## Stages
@@ -419,8 +420,10 @@ under MAW.
   `Character::recoveryTotalSeconds` (transient) is set by `Party::applyRecoveryToMember`.
 
 **Keys and slots.** `Character::actionBar` (twenty `ActionBarSlot`s: empty, spell, item kind, weapon, talent reserved),
-saved. In a solo HUD keys 1–0 (read as scancodes, Shift up) drive the bar: number keys no longer select members, and
-the followers' 6–9 are left to the follower panel. A spell slot casts through the quick spell's path
+saved. In a solo HUD the bar's keys (Shift up) drive it: the rebindable actions `ActionBar1`–`ActionBar10` (Controls,
+"Solo run" group, their own `solo_bar` context; the number keys 1–0 by default, since 2026-11-15; were fixed scancodes),
+and each slot shows its bound key's name. With the default keys the number keys no longer select members, and the
+followers' 6–9 are left to the follower panel. A spell slot casts through the quick spell's path
 (`QuickSpellState::barSpellName`, `GameplaySpellService::tryStartQuickSpellCast`'s new `barSpellName`): the same
 hold, repeat, recovery and attack fallback. An item slot uses the kind as a quick item slot does
 (`GameplayItemService::useQuickItemKind`). The weapon slot pulses Attack.
@@ -429,6 +432,16 @@ hold, repeat, recovery and attack fallback. An item slot uses the kind as a quic
 action bar (N)" in a solo HUD (first empty of keys 1–0). The basebar's potion and scroll popups put a kind on the bar
 with a right click (and take it off), and so does the Talents page for a learned active talent. To choose the key
 itself, hold Ctrl and click a key or press its number: the slot selector (below, built 2026-11-14). No drag yet.
+
+**Inspecting a key (user, 2026-11-15).** A held right button on a filled key shows what it holds, beside the key, in
+the popups the rest of the game uses (`GameplaySoloHud::barInspectAt`):
+- a spell gets the spellbook's spell card (`updateSpellInspectOverlay`);
+- a potion or scroll gets the item card of the bottle the key would use, or of the kind when none is left;
+- the attack key gets the main hand's weapon card, and the swap key the bow's
+  (`GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromSoloBar`);
+- a talent gets its kind, cooldown and effect at the rank learnt, in the buff popup (`updateBuffInspectOverlay`).
+
+While the pointer is on the bar, the world under it is not inspected.
 
 **Tests.** `tests/SoloRunTests.cpp`: the option id and badge, the save round trip of the flag and the bar (and a party
 save staying a party game), the bar's pre-fill, the grid for 2 × 5, one row and 2 × 10, recovery and sweep fractions,
@@ -546,7 +559,7 @@ can put there (`game/ui/GameplaySoloBarSelector.{h,cpp}`; the pure filter and as
   what goes on it" in the status line. Letting go resumes play. Not while an action is bound to the held Ctrl key, and
   with the debug turbo movement (`[debug] turbo_movement`, also Ctrl) not while a movement key is held: Ctrl pressed
   standing still arms the bar, a movement key then gives it back to the turbo.
-- **Opening.** Ctrl and a bar key 1-0 (the bar's keys are scancodes, there are no `ActionBar1..10` actions), or a Ctrl
+- **Opening.** Ctrl and a bar key (`ActionBar1`–`ActionBar10`, 1-0 by default), or a Ctrl
   click on a key (also under the cursor of the classic controls). Neither fires the key. Hovering a key with the
   cursor free says "Ctrl+click: choose what goes on this key" (empty) or the thing's name. With the selector open,
   Ctrl and another key moves it to that key.

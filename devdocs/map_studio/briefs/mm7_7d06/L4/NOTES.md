@@ -817,3 +817,15 @@ arch and vault now the original's). Worst: `18-west-island-north.png` 0.67 and `
 (the island's leaning faces), `02-mouth-to-exit.png` 0.75 (the exit wall's pentagon against a rectangle). Interactive
 things: `things_r7/rebuilt/contact.png` beside `things_r7/original/contact.png`. Installed into
 `output/studio_play/rebuilds_root` and loaded (`r7_loadcheck.png`).
+
+## Playtest flake at the alcove cabinets (2026-11-15)
+
+Copy before: `output/studio_cal/mm7_7d06/flake/backup/`. Merges 33 and 34 each failed one run in four at
+`loot_chest(16); loot_chest(20)` with "no Wealthy Hat". The map is not the cause: its chests are the original's records
+1 to 7 item for item (the hat cabinet, chest 4, is record 5: 1433, -3, -2, -1), and the hat is always in the cabinet
+(a fixed record is placed before the random rolls). The scenario's party is one member with one 14 by 9 pack; the
+start kit and the random rolls of the rock-face chests and cabinet 16 (the chest seed is random per session) can fill
+it, and take-all then leaves the hat in the chest ("Inventory full."; not on the cursor or the ground). The game trace
+of a failing run shows the hat and a chain mail left in chest 4; a second take after discarding got the hat. Measured
+3 failures in 76 runs before the fix. The playtest now empties the packs before the cabinets (as before the library)
+and loots the hat cabinet first; 52 of 52 runs pass (`output/studio_cal/mm7_7d06/flake/runs/final*`).

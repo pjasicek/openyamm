@@ -12,7 +12,7 @@ is an ordinary hit for the rules (`MawCombatRules::applyPartyHitEffects`). Three
 
 | Kind | Made by | Damage | Recovery, sound | Battle orders |
 | --- | --- | --- | --- | --- |
-| **Paying blow** | Cleave's first monster (the crosshair's, else the nearest in the arc), Charge, Pinning Shot | the talent's share (Cleave 150 %, Charge and Pinning Shot 100 %) | pays the recovery, less the clip's time already spent; plays the attack sound | skipped, except Charge's 100 % blow (see open points) |
+| **Paying blow** | Cleave's first monster (the crosshair's, else the nearest in the arc), Charge, Pinning Shot | the talent's share (Cleave 150 %, Charge and Pinning Shot 100 %) | pays the recovery, less the clip's time already spent; plays the attack sound | skipped (`PartyAttackConfig::talentBlow`) |
 | **Extra blow** (`PartyHitOnMonster::extraBlow`) | Cleave's other monsters; Sweeping Blows' 1/2/3 monsters beside an ordinary swing | Cleave 150 %; Sweeping Blows 30 % + 0.25 % per weapon-skill point, at most 50 % | none (the paying blow or the swing pays); no attack sound (Cleave plays `talent_cleave` at each monster struck) | skipped |
 | **Talent shot** | Multishot's arrows (2/3/4 headings, twice with a Master bow) | 75 % each | one recovery for the volley | skipped |
 
@@ -22,22 +22,28 @@ the first is struck at the talent's share (30 % + per weapon skill) and is an or
 ## Per hit, by kind
 
 "Full" means exactly as an ordinary attack's hit. "⅓" is `ExtraBlowShare` in `MawCombatRules.cpp` (user, 2026-11-15:
-"make the sweeping leech 33% as effective ... including other onhit stuff").
+"make the sweeping leech 33% as effective ... including other onhit stuff"). "**none**" is the main blow's alone (user,
+2026-11-15: "these special onhits should only apply to the main target"). Retaliation used to spend its stacks on the
+first monster struck, an extra blow (they strike before the paying blow), so a Knight's burst landed at Sweeping Blows'
+30 % on a side monster; now the main target always gets it.
 
 | Effect | Paying blow | Extra blow | Talent shot (Multishot) | Pierced monster |
 | --- | --- | --- | --- | --- |
 | Leech (weapons' Vampiric/Darkness, Vampire race, Death Knight, aura 91, a dragon's Regeneration, Bloodthirst), floor included | full | **⅓** (floor included) | full, ranged rate | full, ranged rate |
 | Dragon's bite SP (10, Great Wyrm 20) | full | **⅓** (3 / 7) | — | — |
-| Dragon's bite push (Fangs) | full | full | — | — |
+| Dragon's bite push (Fangs) | full | **none** | — | — |
 | Death Knight: SP a hit (10/15/20, ×1.5 on a kill) | full | **⅓** | full (physical arrows) | full |
 | Death Knight: Blood Leech heal and its SP cost | full | **⅓** both | full | full |
-| Death Knight: Death Grasp (15 SP, holds the monster) | full | full (each monster grasped costs 15 SP) | full | full |
+| Death Knight: Death Grasp (15 SP, holds the monster) | full | **none** (no SP spent) | full | full |
 | Shaman: Mind SP, Body heal | full | **⅓** | — (melee only) | — |
 | Seraph: Body heal on the weakest member | full | **⅓** | — (melee only) | — |
 | Assassin: energy cost and refund, combo points, Subtlety | full | full | full (arrows half, as MAW) | full |
 | Elementalist: a weapon hit clears the stacks | yes | yes | yes | yes |
 | Grandmaster spear stack, Legendary 29 (+1 % damage taken) | full | full | full | full |
-| Artifacts' on-hit spells (Splitter, Thor, Percival, Hades; Snake and Finality's Slow) | full | full | full | full |
+| Artifacts' on-hit spells (Splitter, Thor and its push, Percival, Hades; Snake and Finality's Slow) | full | **none** | full | full |
+| Mace and staff paralysis (Master: skill against the monster's level × 15 % / 10 %; 2 s, 4 s at Grandmaster) | full | **none** | — | — |
+| An item's stagger (Thor's stun) | full | **none** | — | — |
+| Retaliation: its stacks' bonus damage and paralysis chance (spends the stacks) | full | **none** (the stacks stay for the paying blow) | — | — |
 | Legendary 24: a kill restores 10 % HP and 5 % SP | full | full | full | full |
 | Onslaught: a kill adds a stack | yes | yes | yes | yes |
 | Regenerating boss counts the hit; Doom modes wake the monsters near | yes | yes | yes | yes |
@@ -61,17 +67,18 @@ extra blow.
 - **Multishot leeches in full per arrow:** eight arrows (rank 3, Master bow) into a crowd heal eight times, floor
   included, at the ranged rate.
 - **Pierced monsters leech in full,** floor included, at the ranged rate.
-- **Legendary 24 and Death Grasp** act in full on extra blows.
-- **Charge's blow consults the battle orders:** its share is 100 % and it is neither extra nor a shot, so
-  `GameplayActionController::executePartyAttack` does not treat it as a talent blow; an order may pick another attack
-  (a spell, the bow) for it.
+- **Legendary 24** (a kill restores 10 % HP and 5 % SP) acts in full on an extra blow's kill.
 
 ## Code
 
 - `GameplayInteractionController.cpp`: `useSoloTalent` (Cleave, Charge, Multishot, Pinning Shot),
   `strikeFollowUpTalentBlows` (Sweeping Blows), `executePartyAttack` (Piercing Arrows' count, the per-attack
   cooldowns).
-- `GameplayActionController.cpp`: `PartyAttackConfig::talentShare`, `talentExtraBlow`, `talentShot`; the hit's
-  `extraBlow`.
-- `MawCombatRules.cpp`: `applyPartyHitEffects`, `applyLeech`, `applyClassHitEffects`, `extraBlowShare`.
-- Tests: `tests/MawAuditCombatSpellTests.cpp` ("The leech floor ...", "A dragon's bite gives spell points ...").
+- `GameplayActionController.cpp`: `PartyAttackConfig::talentBlow` (skips the battle orders), `talentShare`,
+  `talentExtraBlow`, `talentShot`; the hit's `extraBlow`. Until 2026-11-15 a talent blow was guessed from its share, so
+  Charge's 100 % blow went through the battle orders (a spell or shoot order could replace it, Hold drop it).
+- `MawCombatRules.cpp`: `applyPartyHitEffects`, `applyLeech`, `applyClassHitEffects`, the melee branch of
+  `resolveCharacterAttack` (weapon stun, item stagger, Retaliation), `soloExtraBlow` and `extraBlowShare`;
+  `CharacterAttackOnMonster::extraBlow` and `PartyHitOnMonster::extraBlow` carry the kind.
+- Tests: `tests/MawAuditCombatSpellTests.cpp` ("The leech floor ...", "A dragon's bite gives spell points ..."),
+  `tests/MawBossAffixTests.cpp` ("A solo talent's extra blow leaves Retaliation's stacks to the main blow ...").

@@ -12099,7 +12099,12 @@ items:
 
 
     2026-11-15: Reported again on v2.3 (the dragon does not fight the rats, the party dies to the rats); the fix is in the
-    2.4 working tree.'
+    2.4 working tree.
+
+
+    2026-11-15 follow-up (working tree): outdoors a monster hit beyond its relation range stood still (Dagger Wound''s
+    wimpy pirates, relation 1, shot from 4000). A party hit now marks the victim and its classmates within 4096 aggressors
+    (MM8 hostility type 4), so they come for the party (tests/scenarios/mm8_outdoor_hit_aggressor.yml).'
 - id: OY-606
   kind: feedback
   status: needs-info

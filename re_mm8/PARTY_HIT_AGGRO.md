@@ -25,6 +25,10 @@ OpenYAMM deviates here on purpose (the user, 2026-11-09, replacing the 2026-10-2
 - Outdoors a monster the party hits stays active out to the 10240 engagement range until it comes within the full-AI
   range (`provokedByParty`), ahead of other monsters in the 48 full-AI slots, so a party backing off after a shot does
   not leave it standing beyond the full-AI range.
+- Since the relation notice ranges (OY-605), a hit also marks the monster an aggressor, as MM8's hostility type 4,
+  and the faction alert marks its classmates within 4096, hostile ones included: they notice the party at the
+  engagement range, not only within their relation's range (`MapActorState::aggressor` outdoors, the Aggressor
+  attribute indoors; `tests/scenarios/mm8_outdoor_hit_aggressor.yml`).
 
 Every monster keeps MM8's 5120 missile reach, which also holds for monsters whose only attack is a missile
 (`GameplayActorAiSystem`); at the party it is no longer than the party's own reach (`ActorAiFrameFacts::partyHitReach`,

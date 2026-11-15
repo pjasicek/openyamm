@@ -214,6 +214,11 @@ These rules apply to all AI-generated contributions in this repository.
   `pgrep -f <text>`: your own `bash -c` command line, heredoc or launcher
   contains that text, so the wait matches itself and never ends. Run one sequential queue script rather than chained
   background waiters.
+- For anything drawn on the gameplay HUD or the fullscreen gameplay screens, follow
+  [HUD rendering](devdocs/HUD_RENDERING.md): draw only through the HUD functions (they fill one draw list that is
+  drawn once per frame, in call order); read game state when drawing and keep no "changed" flags; a number that
+  needs a walk over actors or bags goes through `HudReading`; group fills, frames and text lines of a row into one
+  call. Check a change with `avg_hud_draws` in the run log and the `[HudDraw]` listing.
 - For "the FPS dropped" or "this mode is slower" questions, start with the fastest route in the
   [perf workflow](tools/PERF_PROFILING.md#fastest-route-where-does-the-frame-time-go): two visible isolated runs for
   the numbers (`[FramePerf]`, `[GameFramePerf]`, draws), then `perf record --call-graph dwarf` on the ordinary build,

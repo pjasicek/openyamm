@@ -16,8 +16,9 @@ see no change.
 - **Trees** name what they train: Arms (was melee), Archery (bows only, never a Dragon's breath), Arcana (was caster),
   plus Any tree.
 - **Innate, no points: Lone Discipline** (not shown on the page). Every solo class can learn Bodybuilding (even one
-  that normally cannot) up to Expert at once, Master after the first promotion, Grandmaster after the final one (a
-  class whose own cap is higher keeps it).
+  that normally cannot) up to Expert at once, Master after the first promotion, Grandmaster after the final one, and
+  Regeneration (at a temple; user, 2026-11-15) up to Expert at once and Master after the final promotion. A class
+  whose own cap is higher keeps it; neither skill is given, only learnable (`MawSkillRules::masteryCap`).
 - **Dragon items ×3** in a solo run, as in MAW (the 2.4 build's ×2.5 was reverted on 2026-11-15, `MawItemRules`).
 
 | Tree | Talent | Kind, ranks | Effect |
@@ -122,8 +123,9 @@ Mana Font. Saved ranks of removed talents are ignored and their points come back
 - **Extra blows gain a third** (user, 2026-11-15): Cleave's other monsters and Sweeping Blows' blows are
   `PartyHitOnMonster::extraBlow`, and in a solo run their leech (floor included) and their classes' on-hit gains (a
   dragon's bite SP, a Death Knight's SP and Blood Leech, a Shaman's and a Seraph's) are a third
-  (`MawCombatRules` `ExtraBlowShare`). The blow that pays the recovery gains in full. Every talent's interactions:
-  [TALENT_INTERACTIONS.md](TALENT_INTERACTIONS.md).
+  (`MawCombatRules` `ExtraBlowShare`). The special on-hit effects (stuns, paralysis, pushes, slows, artifact
+  spells, Death Grasp, Retaliation's stacks) are the main blow's alone. The blow that pays the recovery gains in full.
+  Every talent's interactions: [TALENT_INTERACTIONS.md](TALENT_INTERACTIONS.md).
 - **Arms effects** (`FirstPersonViewModelFx`): Onslaught's red and yellow dots rise off both hands (a dragon's talon
   tips; **off for now**, user 2026-11-14: `GameApplication` does not pass `Input::onslaught`), about 12 a second per hand at one stack and 60 at thirty, larger as they grow (`Input::onslaught`, stacks / 30);
   a non-cast active talent (Cleave, Charge, Multishot, Pinning Shot) sends gold sparks along the weapon (blade, bow;

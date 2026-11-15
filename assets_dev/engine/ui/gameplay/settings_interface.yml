@@ -1303,10 +1303,64 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-    - id: SettingsInterfaceLootSparkleLabel
+    - id: SettingsInterfaceCraftPreviewLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 855.3223
+      width: 395.2
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Craftable stats
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceCraftPreviewDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 871.5308
+      width: 395.2
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: An item's description shows in grey what crafting would add to it next, and its bonus power (rulesets with
+          crafting, such as MAW).
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceCraftPreviewControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 863.21
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{craft_preview}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+    - id: SettingsInterfaceLootSparkleLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 905.7644
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1323,7 +1377,7 @@ elements:
     - id: SettingsInterfaceLootSparkleDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 871.5308
+      offset_y: 921.9729
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1341,7 +1395,7 @@ elements:
     - id: SettingsInterfaceLootSparkleControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 858.8644
+      offset_y: 909.3065
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1353,7 +1407,7 @@ elements:
     - id: SettingsInterfaceShopListViewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 905.7644
+      offset_y: 956.2065
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1370,7 +1424,7 @@ elements:
     - id: SettingsInterfaceShopListViewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 921.9729
+      offset_y: 972.415
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1388,7 +1442,7 @@ elements:
     - id: SettingsInterfaceShopListViewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 909.3065
+      offset_y: 959.7486
       width: 70.4
       height: 32.158
       z_index: 10

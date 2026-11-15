@@ -195,11 +195,23 @@ steps:
   - lua_event:
       source: |
         if evt.CheckMonstersKilled(ActorKillCheck.Group, 54, 1, false) then error("the dormitory's guard or captain (group 54) was killed by the walk") end
+  # The hat cabinet (event 20, chest 4: the original's chest record 5, 1433 then rolls of levels 3, 2, 1) always holds
+  # the Wealthy Hat: a fixed record is placed before the random ones. What is not guaranteed is room for it: the
+  # scenario's party is one member with one 14 by 9 pack, which the start kit and the random rolls of the two rock-face
+  # chests and cabinet 16 can fill, and take-all leaves in the chest what does not fit ("Inventory full.", nothing on
+  # the cursor or the ground). About one run in twenty the hat stayed in the cabinet that way. So the packs are emptied
+  # first, as a player makes room (as before the library), and the hat cabinet is looted before cabinet 16: its
+  # contents fill at most its 9 by 9 grid, which an empty pack holds.
   - play_lua:
       source: |
-        loot_chest(16)
+        log("packs before the alcove cabinets: " .. pack_items() .. ", held " .. held())
+        for id in string.gmatch(pack_items(), "(%d+)x%d+") do
+          id = tonumber(id)
+          while item_count(id) > 0 and discard(id) do end
+        end
         loot_chest(20)
         if not has_item(1433) then error("no Wealthy Hat from the alcove cabinet") end
+        loot_chest(16)
         log("cabinets looted, wealthy hat taken; gold " .. gold())
   - walk_to: {x: -5800, y: 6784, z: -416, radius: 96, timeout_seconds: 120, clear_hostiles: 1500}
 # Round six: a player who wants the Longbow (the scavenger hunt's) kills the captain for it: he carries it (the original's

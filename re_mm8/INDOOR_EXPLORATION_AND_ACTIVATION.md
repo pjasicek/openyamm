@@ -232,7 +232,8 @@ hostile dragon struck in Garrote Gorge rouse the Dragon Hunters (all "Dragon ...
 party are skipped. OpenYAMM keeps its rule that peasants and guard groups 38/55 alert one another.
 
 One deliberate deviation: a victim **hostile on its own** (by its map, its monster template or an event) alerts no
-friendly actor; indoors it still marks hostile allies Aggressor with hostility type 4. MM8 has no such test, so
+friendly actor; it still marks hostile allies Aggressor with hostility type 4 (outdoors since 2026-11-15). MM8 has no
+such test, so
 striking a raiding warlock of Mount Nighon's hostile group 56 near town would turn the friendly town warlocks of the
 same class. A victim the party made hostile (it was struck while friendly, or alerted by such a strike) keeps
 rallying its class, so the alert still spreads from villager to villager; the runtimes remember this as
@@ -531,7 +532,7 @@ detection in these ways only:
 | Hearing | Removed on 2026-11-04 at the user's request: it woke monsters through walls and ceilings. It was horizontal edge distance up to 512 and feet within 256 of the party's height, without a wall test. |
 | Neighbour wake | A monster that newly detects the party (sight or its own AI gaining sight) or is hit by the party wakes every unaware hostile monster within 128 (3D, centre to centre, feet within 256) with full line of sight between the two, without a count limit. Woken monsters do not wake others. The radius was 1024 from 2026-11-04 to 2026-11-12 and 512 with at most five woken before that. A scene opts out with `actor_detection: {wakes: none}` (MM9's outdoor regions; devdocs/INDOOR_OPEN_SKY.md "Monster wakes"). |
 | Damage | Unchanged: the struck monster detects the party; its neighbours now wake as above. |
-| Relation range (2026-11-14, OY-605) | Sight within 5120 detects only within the range of the monster's relation to the party (`hostile.txt` Party row 1-3: 1024, 2560, 5120; `GameplayActorService::partyNoticeRange`), as the original's `_SelectTarget` (MM8 `0x401489`: `ranges[relation]` while the actor's hostility type is 0). Farther, it thinks (AI list) without noticing the party, so it can fight the monsters it hates: the Dragon's Lair (`7d28`) rats, relation 2, leave a party 3000 away to the dragon. An aggressor, angered or already engaged monster keeps the engagement range. Outdoors the same range gates the party target. |
+| Relation range (2026-11-14, OY-605) | Sight within 5120 detects only within the range of the monster's relation to the party (`hostile.txt` Party row 1-3: 1024, 2560, 5120; `GameplayActorService::partyNoticeRange`), as the original's `_SelectTarget` (MM8 `0x401489`: `ranges[relation]` while the actor's hostility type is 0). Farther, it thinks (AI list) without noticing the party, so it can fight the monsters it hates: the Dragon's Lair (`7d28`) rats, relation 2, leave a party 3000 away to the dragon. An aggressor, angered or already engaged monster keeps the engagement range. Outdoors the same range gates the party target. A party hit makes its victim an aggressor, and the faction alert its classmates within 4096, hostile ones included, indoors and outdoors (2026-11-15; outdoors `MapActorState::aggressor`, saved since save version 184): a wimpy pirate shot from 4000 comes for the party (`tests/scenarios/mm8_outdoor_hit_aggressor.yml`). |
 
 The same-sector scheduling pass is unchanged: monsters in the party's feet sector still enter full AI, but they
 engage only once they see the party. Remembered detection, the 30/48 caps, faction alerts (hostility only) and

@@ -893,7 +893,8 @@ def extract_yaml(template):
         texts = ruleset / "data" / "texts.yml"
         if texts.is_file():
             extract_text_yaml(template, texts, "engine", every_string=True)
-    for name in ("character_selection.yml", "teacher_ledger.yml", "potion_effects.yml", "race_skills.yml"):
+    for name in ("character_selection.yml", "teacher_ledger.yml", "potion_effects.yml", "race_skills.yml",
+                 "talents.yml"):
         if (ENGINE / "data_tables" / name).is_file():
             extract_text_yaml(template, ENGINE / "data_tables" / name, "engine")
     if (ENGINE / "ui/certificates.yml").is_file():

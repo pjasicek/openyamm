@@ -98,3 +98,22 @@ goblin slate beside the original's skull lines (the lead assumes the reviews' pr
     per EDITOR_RETIREMENT.md: a large change to the game); (c) optionally a performance pass on the missed hosted
     budgets (Chrome's first open, indoor commit p95 in the browser, outdoor 3D after a commit, the 2.98 MB core).
     Optional hands-on checks any time: `openyamm-studio/build-s4/oymap studio`, open the link, walk a map, pin it.
+
+**Committed 2026-11-15 08:58 (openyamm-03, 2.4, local, not pushed):** item 13 (S5a4's game features incl. the `tp` yaw/pitch and `--extra-mount` extras) and the map_studio records in cf9638e72f and 73d14a8c46.
+
+15. S7 plan written (14:03): `devdocs/map_studio/S7_PLAN.md`. Three things for you before the editor goes:
+    (a) The plan builds the shared core library around the 44 shared game/engine sources where they stand (CMake only,
+        objects checked byte-equal) instead of moving them into `core/` (moving rewrites 827 includes in 493 files; an
+        optional follow-up, S7b). OK?
+    (b) Deleting `editor/` loses, with no replacement: hand editing of faces in the old GUI, OBJ/GLB model import,
+        new-map creation in the old editor, mesh-to-metadata seeding and the editor's own regression suites. No script
+        was found relying on them. Confirm that is fine.
+    (c) Your local MM9 rebuild scripts (`output/mm9_rework/final_r*/r*.sh`) build the target `openyamm-editor`, and the
+        MM9 orchestrator handoff tells the next run to copy them: they will need the new build line (the plan lists it).
+
+16. S6's game changes (14:39; details in `devdocs/map_studio/S6_PLAN.md` and S5.md "S6"), none made, each needs your yes:
+    G1 scene overlays may carry ladders (small); G2 cinematics overlays merged by cinematic id (small); G3 named mods in
+    the game: `mods/<id>/mod.yml`, an enabled list, a switch (Mods page or console), table contributions, id-range
+    checks (medium; this is S6's exit "a mod switched off in the game"); G4 move the cinematic library parser into its
+    own file so the studio can use it (move only, small); G5 overlays may add actors and items (medium: base actor
+    indices and saves).
