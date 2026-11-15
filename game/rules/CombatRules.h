@@ -149,6 +149,9 @@ struct PartyHitOnMonster
     // The world and the actor hit, for effects on the monster (null when not known).
     IGameplayWorldRuntime *pWorld = nullptr;
     std::optional<size_t> targetActorIndex;
+    // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows): it leeches only its damage's share,
+    // without the leech floor, and a dragon's bite gives it no spell points.
+    bool extraBlow = false;
 };
 
 // A party member's missile reaching a monster.

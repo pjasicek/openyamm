@@ -117,7 +117,13 @@ Mana Font. Saved ranks of removed talents are ignored and their points come back
 - **Cleave strikes at its clip's blow** (with the arms shown): the press starts the clip and the cooldown and sets
   `ViewModelLink::talentAtBlow` with `swingWaiting`; the blow's release runs `useSoloTalent(..., atBlow)`, which picks
   the targets in the arc then. Without arms it strikes at once. Trace: `viewmodel trace on` logs the talent's clip and
-  its hit time.
+  its hit time. A dragon's forelegs have no power attacks: Cleave plays the claws' sideways swipe (`clawsattackleft`,
+  blow at 0.2 s). Before 2026-11-15 they played nothing and the strike waited for the 2 s fallback.
+- **Extra blows leech by their damage only** (user, 2026-11-15, "lets not make this too strong"): Cleave's other
+  monsters and Sweeping Blows' blows are `PartyHitOnMonster::extraBlow`. They get no leech floor and no dragon bite SP;
+  the blow that pays the recovery keeps both. The heal is still the share of the bar the hit took, so killing blows on
+  weaker monsters still heal well. Measured on a level-100 Great Wyrm against three Chaos Overlords: Cleave gave +20 SP
+  (was +60) and +514 HP from each of the two kills.
 - **Arms effects** (`FirstPersonViewModelFx`): Onslaught's red and yellow dots rise off both hands (a dragon's talon
   tips; **off for now**, user 2026-11-14: `GameApplication` does not pass `Input::onslaught`), about 12 a second per hand at one stack and 60 at thirty, larger as they grow (`Input::onslaught`, stacks / 30);
   a non-cast active talent (Cleave, Charge, Multishot, Pinning Shot) sends gold sparks along the weapon (blade, bow;

@@ -1130,6 +1130,33 @@ TEST_CASE("The leech floor reads the full Speed and keeps whole under dimension 
     rules.setCurrentMap("6d02.blv");
     REQUIRE(rules.mapAffix(MawMapAffix::Leech).has_value());
     CHECK_EQ(healed(), plain);
+
+    // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows) has no floor: it heals by its damage alone.
+    hit.extraBlow = true;
+    CHECK_LT(healed(), plain);
+}
+
+TEST_CASE("A dragon's bite gives spell points, a solo talent's extra blow none")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Character dragon = auditMember("Dragon", 20);
+    dragon.raceId = 5;
+    Party party = auditParty(rules, {dragon});
+    Character &member = *party.member(0);
+    member.maxSpellPoints = 60;
+    const ActorRulesetFacts target;
+    PartyHitOnMonster bite;
+    bite.memberIndex = 0;
+    bite.pTarget = &target;
+    bite.damage = 50;
+    bite.melee = true;
+    member.spellPoints = 0;
+    rules.gameRules().combat.applyPartyHitEffects(party, bite);
+    CHECK_EQ(member.spellPoints, 10);
+    bite.extraBlow = true;
+    member.spellPoints = 0;
+    rules.gameRules().combat.applyPartyHitEffects(party, bite);
+    CHECK_EQ(member.spellPoints, 0);
 }
 
 TEST_CASE("An Assassin's Subtlety stacks speed their spells too (CMB-19)")

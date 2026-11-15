@@ -3451,7 +3451,8 @@ void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) cons
     // A dimension map's weaker leech cuts the heal before the floor, which it leaves whole (DM:1229-1230, CMB-15).
     heal *= 1 - m_rules.mapAffix(MawMapAffix::Leech).value_or(0) / 100;
 
-    if (share > 0)
+    // A solo talent's extra blow has no floor: one swing through a crowd heals by its damage, not once per monster.
+    if (share > 0 && !hit.extraBlow)
     {
         heal = std::max(heal, floor);
     }
@@ -3650,10 +3651,10 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
             party.healMember(hit.memberIndex, heal);
         }
     }
-    else if (line == "dragon" && mawIsDragon(member))
+    else if (line == "dragon" && mawIsDragon(member) && !hit.extraBlow)
     {
         // A dragon's bite refills its fixed pool: 10 SP a hit, 20 for a Great Wyrm; the bite needs the race, the pool
-        // the class (DM:599-627).
+        // the class (DM:599-627). A solo talent's extra blow (Cleave, Sweeping Blows) gives none.
         addSpellPoints(canonicalClassName(member.className) == "GreatWyrm" ? 20 : 10);
     }
     else if (line == "death_knight")

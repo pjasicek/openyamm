@@ -759,6 +759,8 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
     {
         first = setClip("attackleftpower");
         first = first ? first : setClip("attackrightpower");
+        // A dragon's forelegs have no power attacks: the sideways claw swipe.
+        first = first ? first : setClip("attackleft");
     }
     else if (talent == "whirlwind")
     {

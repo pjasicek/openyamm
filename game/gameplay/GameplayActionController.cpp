@@ -1734,6 +1734,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                 hit.killed = killed;
                 hit.pWorld = config.pWorldRuntime;
                 hit.targetActorIndex = target->actorIndex;
+                hit.extraBlow = config.talentExtraBlow;
                 gameRulesFor(config.pParty).combat.applyPartyHitEffects(party, hit);
 
                 // A kill may shorten the blow's recovery (MAW's Legendary 11), before it is applied below.
