@@ -5,6 +5,7 @@
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawItemRules.h"
 #include "game/rules/maw/MawRules.h"
+#include "game/rules/maw/MawSoloTalents.h"
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
@@ -424,6 +425,16 @@ CharacterCombatRows mawCombatRows(
     if (mawIsDragon(character))
     {
         applyDragonRows(rules, character, stats, rows);
+    }
+
+    // A solo run's Resolve raises these resistances too: they are most of a late character's (devdocs/solo_action).
+    if (rules.options().soloRun)
+    {
+        for (int *pResistance : {&rows.resistances.fire, &rows.resistances.air, &rows.resistances.water,
+                 &rows.resistances.earth, &rows.resistances.mind, &rows.resistances.body})
+        {
+            *pResistance += MawSoloTalents::resolveShare(character, *pResistance);
+        }
     }
 
     return rows;

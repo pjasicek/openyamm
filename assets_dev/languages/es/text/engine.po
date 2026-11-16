@@ -99097,7 +99097,7 @@ msgid "Hard"
 msgstr "Difícil"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:697 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2690
+#: assets_dev/engine/ui/menu/settings_catalog.yml:697 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2692
 msgid "Hell"
 msgstr "Infierno"
 
@@ -102552,7 +102552,7 @@ msgstr "¡{name} contrae una enfermedad, pero obtiene un objeto!"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:627 assets_dev/engine/ui/gameplay/actor_inspect.yml:413 game/mm9/Mm9HirelingHud.cpp:38
-#: game/mm9/Mm9HirelingHud.cpp:52 game/rules/maw/MawItemRules.cpp:812 game/ui/GameplayStatisticsScreen.cpp:60
+#: game/mm9/Mm9HirelingHud.cpp:52 game/rules/maw/MawItemRules.cpp:814 game/ui/GameplayStatisticsScreen.cpp:60
 msgid "Physical"
 msgstr "Físico"
 
@@ -102579,8 +102579,8 @@ msgstr "Físico"
 #: assets_dev/engine/data_tables/monster_data.txt:587 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/monster_data.txt:77
 #: assets_dev/engine/data_tables/monster_data.txt:78 assets_dev/engine/data_tables/monster_data.txt:79 assets_dev/engine/rulesets/maw/patches/monster_data.txt:18
 #: assets_dev/engine/rulesets/maw/patches/monster_data.txt:236 assets_dev/engine/ui/gameplay/actor_inspect.yml:197 assets_dev/engine/ui/gameplay/character.yml:969
-#: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:86 game/rules/maw/MawItemRules.cpp:2291
-#: game/rules/maw/MawItemRules.cpp:2690 game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:324
+#: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:86 game/rules/maw/MawItemRules.cpp:2293
+#: game/rules/maw/MawItemRules.cpp:2692 game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:324
 #: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:61
 msgid "Fire"
 msgstr "Fuego"
@@ -102658,7 +102658,7 @@ msgstr "Mente"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:32 assets_dev/engine/ui/gameplay/actor_inspect.yml:341 assets_dev/engine/ui/gameplay/character.yml:1109
-#: game/mm9/Mm9HirelingHud.cpp:45 game/rules/maw/MawClassRules.cpp:91 game/rules/maw/MawItemRules.cpp:2290
+#: game/mm9/Mm9HirelingHud.cpp:45 game/rules/maw/MawClassRules.cpp:91 game/rules/maw/MawItemRules.cpp:2292
 #: game/rules/maw/MawItemRules.cpp:395 game/ui/GameplayHudOverlaySupport.cpp:331 game/ui/GameplayStatisticsScreen.cpp:62
 #: game/ui/HouseShopLedger.cpp:73
 msgid "Body"
@@ -103166,7 +103166,7 @@ msgstr "Represalia"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:436 game/party/SkillData.cpp:419 game/rules/SoloTalents.cpp:380
-#: game/rules/maw/MawItemRules.cpp:3300 game/ui/GameplayAlchemyBenchView.cpp:398 game/ui/GameplayHudOverlaySupport.cpp:1689
+#: game/rules/maw/MawItemRules.cpp:3302 game/ui/GameplayAlchemyBenchView.cpp:398 game/ui/GameplayHudOverlaySupport.cpp:1689
 #: game/ui/GameplayJournalAuras.cpp:101 game/ui/GameplayJournalTrainers.cpp:63 game/ui/screens/NewGameScreenPartySheet.cpp:83
 #: game/ui/screens/PartyCreationSheet.cpp:18
 msgid "Expert"
@@ -103175,14 +103175,14 @@ msgstr "Experto"
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:435 assets_dev/engine/data_tables/english/class.txt:26 assets_dev/engine/data_tables/monster_data.txt:310
 #: assets_dev/engine/data_tables/npc_topic.txt:815 assets_dev/engine/data_tables/npc_topic.txt:816 game/party/SkillData.cpp:421
-#: game/rules/SoloTalents.cpp:380 game/rules/maw/MawItemRules.cpp:3300 game/ui/GameplayAlchemyBenchView.cpp:400
+#: game/rules/SoloTalents.cpp:380 game/rules/maw/MawItemRules.cpp:3302 game/ui/GameplayAlchemyBenchView.cpp:400
 #: game/ui/GameplayHudOverlaySupport.cpp:1690 game/ui/GameplayJournalAuras.cpp:102 game/ui/GameplayJournalTrainers.cpp:63
 #: game/ui/screens/NewGameScreenPartySheet.cpp:84 game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Master"
 msgstr "Maestro"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3300
+#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3302
 #: game/ui/GameplayAlchemyBenchView.cpp:402 game/ui/GameplayJournalAuras.cpp:102 game/ui/screens/NewGameScreenPartySheet.cpp:84
 #: game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Grandmaster"
@@ -104489,7 +104489,7 @@ msgid "Add a first enchantment"
 msgstr "Añadir un primer encantamiento"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCraftingRules.cpp:338 game/rules/maw/MawItemRules.cpp:2711
+#: game/rules/maw/MawCraftingRules.cpp:338 game/rules/maw/MawItemRules.cpp:2713
 msgid "Item Bonus Power: {power}/{cap}"
 msgstr "Poder adicional del objeto: {power}/{cap}"
 
@@ -104524,7 +104524,7 @@ msgid "Works on weapons, armour and jewellery only"
 msgstr "Solo funciona en armas, armaduras y joyas"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCraftingRules.cpp:519 game/rules/maw/MawItemRules.cpp:3179
+#: game/rules/maw/MawCraftingRules.cpp:519 game/rules/maw/MawItemRules.cpp:3181
 msgid "Identify the item first"
 msgstr "Identificad primero el objeto"
 
@@ -104734,267 +104734,267 @@ msgid "Legendary"
 msgstr "Legendario"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:1273
+#: game/rules/maw/MawItemRules.cpp:1275
 msgid "I have already bought an item like that."
 msgstr "Ya he comprado un objeto como ese."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:1289
+#: game/rules/maw/MawItemRules.cpp:1291
 msgid ""
 "No, no -- you will still need that item. Come back once the task it is for is done."
 msgstr ""
 "No, no... todavía necesitaréis ese objeto. Volved cuando hayáis terminado la tarea para la que sirve."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2219
+#: game/rules/maw/MawItemRules.cpp:2221
 msgid "Potion Deleted in Austerity"
 msgstr "Poción eliminada en Austeridad"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2225
+#: game/rules/maw/MawItemRules.cpp:2227
 msgid "{map} Map"
 msgstr "Mapa de {map}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2246
+#: game/rules/maw/MawItemRules.cpp:2248
 msgid "{rarity} {item}"
 msgstr "{rarity} {item}"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:46 game/rules/maw/MawItemRules.cpp:2288
+#: assets_dev/engine/data_tables/english/Global.txt:46 game/rules/maw/MawItemRules.cpp:2290
 msgid "Cold"
 msgstr "Frío"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2289
+#: game/rules/maw/MawItemRules.cpp:2291
 msgid "Electrical"
 msgstr "Electricidad"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2295
+#: game/rules/maw/MawItemRules.cpp:2297
 msgid ""
 "Adds {amount} to spell damage and +{intellect} Intellect and personality."
 msgstr ""
 "Añade {amount} al daño de los hechizos y +{intellect} a Intelecto y Personalidad."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2301
+#: game/rules/maw/MawItemRules.cpp:2303
 msgid ""
 "Adds {amount} points of Fire damage to Bow attacks and +{might} Might."
 msgstr ""
 "Añade {amount} puntos de daño de Fuego a los ataques con Arco y +{might} a Fuerza."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2301
+#: game/rules/maw/MawItemRules.cpp:2303
 msgid ""
 "Adds {amount} points of Fire damage to Melee attacks and +{might} Might."
 msgstr ""
 "Añade {amount} puntos de daño de Fuego a los ataques mano a mano y +{might} a Fuerza."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2301
+#: game/rules/maw/MawItemRules.cpp:2303
 msgid "Missile"
 msgstr "Proyectil"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2307
+#: game/rules/maw/MawItemRules.cpp:2309
 msgid "Adds {amount} points of {kind} damage."
 msgstr "Añade {amount} puntos de daño de {kind}."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2366 game/rules/maw/MawItemRules.cpp:2386
+#: game/rules/maw/MawItemRules.cpp:2368 game/rules/maw/MawItemRules.cpp:2388
 msgid "{stat} +{amount}"
 msgstr "{stat} +{amount}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2382
+#: game/rules/maw/MawItemRules.cpp:2384
 msgid "{stat} +{percent}%"
 msgstr "{stat} +{percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2413
+#: game/rules/maw/MawItemRules.cpp:2415
 msgid "Map Level: {level}"
 msgstr "Nivel del mapa: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2416
+#: game/rules/maw/MawItemRules.cpp:2418
 msgid "+{percent}% craft items drop chances"
 msgstr "+{percent}% de probabilidad de botín de materiales de fabricación"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2419
+#: game/rules/maw/MawItemRules.cpp:2421
 msgid "+{percent}% item quality"
 msgstr "+{percent}% de calidad de los objetos"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2421
+#: game/rules/maw/MawItemRules.cpp:2423
 msgid "+{percent}% monster density"
 msgstr "+{percent}% de densidad de monstruos"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2441 game/ui/GameplayHudOverlaySupport.cpp:1228 game/ui/GameplayHudOverlaySupport.cpp:1334
+#: game/rules/maw/MawItemRules.cpp:2443 game/ui/GameplayHudOverlaySupport.cpp:1228 game/ui/GameplayHudOverlaySupport.cpp:1334
 #: game/ui/GameplayPartyOverlayRenderer.cpp:2761 game/ui/GameplayPartyOverlayRenderer.cpp:2770
 msgid "Power: {power}"
 msgstr "Poder: {power}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2466
+#: game/rules/maw/MawItemRules.cpp:2468
 msgid "{stat}: Immune"
 msgstr "{stat}: Inmune"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2496
+#: game/rules/maw/MawItemRules.cpp:2498
 msgid "Slows its target on hit"
 msgstr "Ralentiza a su objetivo al golpear"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2496
+#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2498
 msgid "Vampiric"
 msgstr "Vampírica"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2503
+#: game/rules/maw/MawItemRules.cpp:2505
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit"
 msgstr "Añade {minimum}-{maximum} de daño de tipo {kind} a cada golpe"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2503
+#: game/rules/maw/MawItemRules.cpp:2505
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit, slows"
 msgstr ""
 "Añade {minimum}-{maximum} de daño de tipo {kind} a cada golpe y ralentiza"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2510
+#: game/rules/maw/MawItemRules.cpp:2512
 msgid "{kind} damage on hit"
 msgstr "{kind}: daño al golpear"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2510
+#: game/rules/maw/MawItemRules.cpp:2512
 msgid "{kind} damage on hit, slows"
 msgstr "{kind}: daño al golpear, ralentiza"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2520
+#: game/rules/maw/MawItemRules.cpp:2522
 msgid "x{factor} damage vs {kind}"
 msgstr "x{factor} de daño contra {kind}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2527
+#: game/rules/maw/MawItemRules.cpp:2529
 msgid "+50% skill in {skill}"
 msgstr "+50% de habilidad en {skill}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2539
+#: game/rules/maw/MawItemRules.cpp:2541
 msgid "Regenerates Hit Points"
 msgstr "Regenera Puntos de Golpe"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2544
+#: game/rules/maw/MawItemRules.cpp:2546
 msgid "Regenerates Spell Points"
 msgstr "Regenera Puntos de Hechizo"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2549
+#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2551
 msgid "Swift"
 msgstr "Veloz"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2562
+#: game/rules/maw/MawItemRules.cpp:2564
 msgid "Artifact level: {level}"
 msgstr "Nivel del artefacto: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2580
+#: game/rules/maw/MawItemRules.cpp:2582
 msgid "Quality bonus: +{percent}%"
 msgstr "Bonificación de calidad: +{percent}%"
 
-#: game/rules/maw/MawItemRules.cpp:2627
+#: game/rules/maw/MawItemRules.cpp:2629
 msgid "{stat} +X"
 msgstr ""
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2655
+#: game/rules/maw/MawItemRules.cpp:2657
 msgid "Current bonus Damage: {percent}%"
 msgstr "Daño adicional actual: {percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2661
+#: game/rules/maw/MawItemRules.cpp:2663
 msgid "Current Reduction: {percent}%"
 msgstr "Reducción actual: {percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2668
+#: game/rules/maw/MawItemRules.cpp:2670
 msgid "Grows with its wearer up to level {level}"
 msgstr "Crece con su portador hasta el nivel {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2681
+#: game/rules/maw/MawItemRules.cpp:2683
 msgid "Attack speed: {speed}"
 msgstr "Velocidad de ataque: {speed}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2690
+#: game/rules/maw/MawItemRules.cpp:2692
 msgid "Flame"
 msgstr "Llama"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/english/spells.txt:12 assets_dev/engine/data_tables/items.txt:1114 assets_dev/engine/data_tables/items.txt:1214
 #: assets_dev/engine/data_tables/items.txt:1814 assets_dev/engine/data_tables/items.txt:1916 assets_dev/engine/data_tables/items.txt:312
-#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2690
+#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2692
 msgid "Inferno"
 msgstr "Infierno"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2693
+#: game/rules/maw/MawItemRules.cpp:2695
 msgid "{aura} Aura: adds {damage} Fire Damage to any attack"
 msgstr "Aura de {aura}: añade {damage} de daño de Fuego a cualquier ataque"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2700
+#: game/rules/maw/MawItemRules.cpp:2702
 msgid "Vampiric Aura: damage done will restore player HP."
 msgstr "Aura Vampírica: el daño causado restaura Puntos de Golpe al jugador."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2704
+#: game/rules/maw/MawItemRules.cpp:2706
 msgid "Item level: {level}"
 msgstr "Nivel del objeto: {level}"
 
-#: game/rules/maw/MawItemRules.cpp:2713
+#: game/rules/maw/MawItemRules.cpp:2715
 msgid "Item Bonus Power: {power}"
 msgstr ""
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2722
+#: game/rules/maw/MawItemRules.cpp:2724
 msgid "Level required: {level}"
 msgstr "Nivel requerido: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3173
+#: game/rules/maw/MawItemRules.cpp:3175
 msgid "Not enough disarm skill"
 msgstr "Habilidad de Desarmar Trampa insuficiente"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3280
+#: game/rules/maw/MawItemRules.cpp:3282
 msgid "{name}: {change}%"
 msgstr "{name}: {change}%"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3283
+#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3285
 msgid "Power"
 msgstr "Poder"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3284 game/rules/maw/MawSkillRules.cpp:1872 game/rules/maw/MawSkillRules.cpp:927
+#: game/rules/maw/MawItemRules.cpp:3286 game/rules/maw/MawSkillRules.cpp:1872 game/rules/maw/MawSkillRules.cpp:927
 msgid "Vitality"
 msgstr "Vitalidad"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3299
+#: game/rules/maw/MawItemRules.cpp:3301
 msgid "Novice"
 msgstr "Normal"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3303
+#: game/rules/maw/MawItemRules.cpp:3305
 msgid "You need at least {mastery} skill in {school} Magic to open the book"
 msgstr ""
 "Necesitáis al menos nivel {mastery} en Magia de {school} para abrir el libro"
@@ -105014,227 +105014,230 @@ msgstr "+{amount} a todas las Resistencias."
 msgid "+{amount} to all Seven Statistics."
 msgstr "+{amount} a las siete Estadísticas."
 
+#: game/rules/maw/MawItemRules.cpp:425
+msgid "Reduces physical damage taken by 15% (does not stack)."
+msgstr ""
+
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:423
+#: game/rules/maw/MawItemRules.cpp:427
 msgid "Meditation Skill +{amount}"
 msgstr "Habilidad de Meditación +{amount}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:425
+#: game/rules/maw/MawItemRules.cpp:429
 msgid "Leech 10% of magical damage, increases cast speed (does not stack)."
 msgstr ""
 "Absorbe el 10% del daño mágico y aumenta la velocidad de lanzamiento (no acumulable)."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:428
+#: game/rules/maw/MawItemRules.cpp:432
 msgid "+{amount} to Seven Stats, HP, SP, Armor, Resistances."
 msgstr ""
 "+{amount} a las siete Estadísticas, Pts.de Golpe, Pts.de Hechizo, Armadura y Resistencias."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:430
+#: game/rules/maw/MawItemRules.cpp:434
 msgid "+{amount} to Endurance, Armor, Hit points."
 msgstr "+{amount} a Resistencia, Armadura y Puntos de Golpe."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:432
+#: game/rules/maw/MawItemRules.cpp:436
 msgid "+{amount} Hit points and Regenerate Hit points over time."
 msgstr "+{amount} Puntos de Golpe y regenera Puntos de Golpe con el tiempo."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:434
+#: game/rules/maw/MawItemRules.cpp:438
 msgid "+{amount} Speed and Accuracy."
 msgstr "+{amount} a Velocidad y Precisión."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:436
+#: game/rules/maw/MawItemRules.cpp:440
 msgid "+{amount} Spell points and Meditation Skill +{meditation}"
 msgstr "+{amount} Puntos de Hechizo y Habilidad de Meditación +{meditation}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:438
+#: game/rules/maw/MawItemRules.cpp:442
 msgid "+{amount} Endurance and +{second} Armor."
 msgstr "+{amount} a Resistencia y +{second} a Armadura."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:440
+#: game/rules/maw/MawItemRules.cpp:444
 msgid "+{amount} Intellect and Luck."
 msgstr "+{amount} a Intelecto y Suerte."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:442
+#: game/rules/maw/MawItemRules.cpp:446
 msgid "+{amount} Fire Resistance and Regenerate Hit points over time."
 msgstr "+{amount} a Res.Fuego y regenera Puntos de Golpe con el tiempo."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:444
+#: game/rules/maw/MawItemRules.cpp:448
 msgid "+{amount} Spell points, Speed, Intellect."
 msgstr "+{amount} a Puntos de Hechizo, Velocidad e Intelecto."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:446
+#: game/rules/maw/MawItemRules.cpp:450
 msgid "+{amount} Endurance and Accuracy."
 msgstr "+{amount} a Resistencia y Precisión."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:448
+#: game/rules/maw/MawItemRules.cpp:452
 msgid "+{amount} Might and Personality."
 msgstr "+{amount} a Fuerza y Personalidad."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:450
+#: game/rules/maw/MawItemRules.cpp:454
 msgid "+{amount} Endurance and Regenerate Hit points over time."
 msgstr "+{amount} a Resistencia y regenera Puntos de Golpe con el tiempo."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:452
+#: game/rules/maw/MawItemRules.cpp:456
 msgid "+{amount} Luck and Meditation Skill +{meditation}"
 msgstr "+{amount} a Suerte y Habilidad de Meditación +{meditation}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:454
+#: game/rules/maw/MawItemRules.cpp:458
 msgid "+{amount} Might and Endurance."
 msgstr "+{amount} a Fuerza y Resistencia."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:456
+#: game/rules/maw/MawItemRules.cpp:460
 msgid "+{amount} Intellect and Personality."
 msgstr "+{amount} a Intelecto y Personalidad."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:458
+#: game/rules/maw/MawItemRules.cpp:462
 msgid "Regenerates Hit Points and Meditation Skill +{amount}"
 msgstr "Regenera Puntos de Golpe y Habilidad de Meditación +{amount}"
 
+#: game/rules/maw/MawItemRules.cpp:464
+msgid "+20 Air Resistance."
+msgstr ""
+
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:460
+#: game/rules/maw/MawItemRules.cpp:466
 msgid "+{amount} Personality and Accuracy."
 msgstr "+{amount} a Personalidad y Precisión."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:462
+#: game/rules/maw/MawItemRules.cpp:468
 msgid "+{amount} Intellect and Might."
 msgstr "+{amount} a Intelecto y Fuerza."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:464
+#: game/rules/maw/MawItemRules.cpp:470
 msgid "+{amount} Intellect and Accuracy."
 msgstr "+{amount} a Intelecto y Precisión."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:466
+#: game/rules/maw/MawItemRules.cpp:472
 msgid "+{amount} Might, Intellect and Personality."
 msgstr "+{amount} a Fuerza, Intelecto y Personalidad."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:468
+#: game/rules/maw/MawItemRules.cpp:474
 msgid "+{amount} Elemental Resistances."
 msgstr "+{amount} a las Resistencias elementales."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:470
+#: game/rules/maw/MawItemRules.cpp:476
 msgid "+{amount} Body and mind Resistances."
 msgstr "+{amount} a las Resistencias de Cuerpo y Mente."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:628
-msgid "Permanent Shield"
-msgstr "Escudo permanente"
-
-# machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:633
+#: game/rules/maw/MawItemRules.cpp:635
 msgid "Permanent Water Walk"
 msgstr "Andar sobre el Agua permanente"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:638
+#: game/rules/maw/MawItemRules.cpp:640
 msgid "Permanent Feather Fall for the party"
 msgstr "Frenar Caída permanente para el grupo"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:648 game/rules/maw/MawMonsterInspect.cpp:26 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:650 game/rules/maw/MawMonsterInspect.cpp:26 game/ui/GameplayBuffHud.cpp:53
 msgid "Curse"
 msgstr "Maldición"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:649 game/rules/maw/MawMonsterInspect.cpp:27 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:651 game/rules/maw/MawMonsterInspect.cpp:27 game/ui/GameplayBuffHud.cpp:53
 msgid "Weakness"
 msgstr "Debilidad"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:650 game/rules/maw/MawMonsterInspect.cpp:28 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:652 game/rules/maw/MawMonsterInspect.cpp:28 game/ui/GameplayBuffHud.cpp:53
 msgid "Sleep"
 msgstr "Sueño"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/english/spells.txt:135 assets_dev/engine/data_tables/monster_data.txt:155 assets_dev/engine/data_tables/spells.txt:134
-#: game/rules/maw/MawItemRules.cpp:651 game/rules/maw/MawMonsterInspect.cpp:29 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:653 game/rules/maw/MawMonsterInspect.cpp:29 game/ui/GameplayBuffHud.cpp:53
 msgid "Fear"
 msgstr "Miedo"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:652 game/rules/maw/MawMonsterInspect.cpp:30 game/ui/GameplayBuffHud.cpp:54
+#: game/rules/maw/MawItemRules.cpp:654 game/rules/maw/MawMonsterInspect.cpp:30 game/ui/GameplayBuffHud.cpp:54
 msgid "Insanity"
 msgstr "Locura"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:169 game/rules/maw/MawItemRules.cpp:654 game/ui/GameplayBuffHud.cpp:54
+#: assets_dev/engine/data_tables/english/Global.txt:169 game/rules/maw/MawItemRules.cpp:656 game/ui/GameplayBuffHud.cpp:54
 #: game/ui/GameplayBuffHud.cpp:55
 msgid "Poison"
 msgstr "Veneno"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:656 game/ui/GameplayBuffHud.cpp:55 game/ui/GameplayBuffHud.cpp:56
+#: game/rules/maw/MawItemRules.cpp:658 game/ui/GameplayBuffHud.cpp:55 game/ui/GameplayBuffHud.cpp:56
 #: game/ui/GameplayCombatLogPanel.cpp:172
 msgid "Disease"
 msgstr "Enfermedad"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:657 game/rules/maw/MawMonsterInspect.cpp:37 game/ui/GameplayBuffHud.cpp:56
+#: game/rules/maw/MawItemRules.cpp:659 game/rules/maw/MawMonsterInspect.cpp:37 game/ui/GameplayBuffHud.cpp:56
 msgid "Paralysis"
 msgstr "Parálisis"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/items.txt:620 assets_dev/engine/data_tables/items.txt:621 assets_dev/engine/rulesets/maw/patches/items.txt:161
-#: assets_dev/engine/rulesets/maw/patches/items.txt:168 game/rules/maw/MawItemRules.cpp:658 game/rules/maw/MawMonsterInspect.cpp:40
+#: assets_dev/engine/rulesets/maw/patches/items.txt:168 game/rules/maw/MawItemRules.cpp:660 game/rules/maw/MawMonsterInspect.cpp:40
 #: game/ui/GameplayBuffHud.cpp:57
 msgid "Stone"
 msgstr "Piedra"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:683 game/ui/GameplayBuffHud.cpp:116
+#: game/rules/maw/MawItemRules.cpp:685 game/ui/GameplayBuffHud.cpp:116
 msgid "Immune to {conditions}"
 msgstr "Inmune a {conditions}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:813
+#: game/rules/maw/MawItemRules.cpp:815
 msgid "Demon"
 msgstr "Demonio"
 
 # imported from SP (MMMerge localization)
 #: assets_dev/engine/data_tables/arcomage_cards.txt:98 assets_dev/engine/data_tables/english/Global.txt:694 assets_dev/engine/data_tables/english/class.txt:12
 #: assets_dev/engine/data_tables/house_data.txt:776 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/npc_topic.txt:793
-#: game/rules/maw/MawItemRules.cpp:813 game/ui/screens/NewGameScreenPartySheet.cpp:51
+#: game/rules/maw/MawItemRules.cpp:815 game/ui/screens/NewGameScreenPartySheet.cpp:51
 msgid "Dragon"
 msgstr "Dragón"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:813
+#: game/rules/maw/MawItemRules.cpp:815
 msgid "Elemental"
 msgstr "Elemental"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/arcomage_cards.txt:85 assets_dev/engine/data_tables/monster_data.txt:596 game/rules/maw/MawItemRules.cpp:813
+#: assets_dev/engine/data_tables/arcomage_cards.txt:85 assets_dev/engine/data_tables/monster_data.txt:596 game/rules/maw/MawItemRules.cpp:815
 msgid "Ogre"
 msgstr "Ogro"
 
 # imported from SP (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:106 game/rules/maw/MawItemRules.cpp:814
+#: assets_dev/engine/data_tables/english/Global.txt:106 game/rules/maw/MawItemRules.cpp:816
 msgid "Elf"
 msgstr "Elfo"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:814
+#: game/rules/maw/MawItemRules.cpp:816
 msgid "Undead"
 msgstr "No muerto"
 
@@ -112524,6 +112527,10 @@ msgstr "Certificado de finalización"
 #: game/ui/screens/WinGameScreen.cpp:187
 msgid "Completed on {date}"
 msgstr "Completado el {date}"
+
+# machine translation (Claude), review
+#~ msgid "Permanent Shield"
+#~ msgstr "Escudo permanente"
 
 # machine translation (Claude), review
 #~ msgid "Toggle double speed"

@@ -43,7 +43,7 @@ see no change.
 | Archery | Quickfoot | passive 3 | +3/6/9 % movement speed; +15/30/45 % out of combat (no yellow alert) |
 | Arcana | Blink | active 3 | Unchanged |
 | Arcana | Spell Surge | active 3 | Unchanged |
-| Arcana | Resolve | passive 5 | Unchanged |
+| Arcana | Resolve | passive 5 | 2 % a rank of every resistance, the armour and Shield skills', staves' and Luck's included (MAW's sheet rows; before, only the base and magical ones, about a tenth of a late character's) |
 | Arcana | Overload | passive 3 | Area spells +10/20/30 % per monster near the target beyond the first (at most 3 more) |
 | Arcana | Binding Circle | active 3 | Every hostile within 500 is held (slowed to a standstill) for 2/2.5/3 s; cooldown 20/18/16 s |
 | Any | Bloodthirst | passive 5 | +2 % leech on melee, bow and spells per rank (user 2026-11-16; was 3 ranks of 2 %, then 5 and 10 of 1 %); the leech floor's ÷5 shrinks by 0.5 a rank, ÷2.5 at rank 5 |

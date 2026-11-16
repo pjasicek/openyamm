@@ -2,8 +2,10 @@
 #include "game/party/Party.h"
 #include "game/rules/SoloTalents.h"
 #include "game/rules/CombatRules.h"
+#include "game/rules/maw/MawCharacterSheet.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawSoloTalents.h"
+#include "game/tables/ItemTable.h"
 
 #include <doctest/doctest.h>
 
@@ -420,6 +422,7 @@ TEST_CASE("solo talents: passives add their share of the base stats")
     character.talentRanks["conditioning"] = 1;
     character.talentRanks["resolve"] = 5;
     character.baseResistances.fire = 40;
+    character.permanentBonuses.resistances.fire = 30;
     character.magicalBonuses.resistances.fire = 10;
     MawSoloTalents::applyPassives(character);
     // Conditioning's first rank: 10 % of each of the seven base stats.
@@ -435,8 +438,8 @@ TEST_CASE("solo talents: passives add their share of the base stats")
     eleven.talentRanks["conditioning"] = 11;
     MawSoloTalents::applyPassives(eleven);
     CHECK(eleven.magicalBonuses.might == 20);
-    // Resolve: 10 % of the 50 fire resistance.
-    CHECK(character.magicalBonuses.resistances.fire == 15);
+    // Resolve: 10 % of the 80 base, permanent and magical fire resistance.
+    CHECK(character.magicalBonuses.resistances.fire == 18);
     // Spells no longer take a passive's share.
     CHECK(MawSoloTalents::spellDamageScale(character) == doctest::Approx(1.0));
 
@@ -506,6 +509,29 @@ TEST_CASE("solo talents: Shield Wall, Unbroken and Cheat Death")
     CHECK(MawSoloTalents::absorbDamage(character, 200, 1000) == 10);
     // On cooldown it does not save again.
     CHECK(MawSoloTalents::cheatDeath(character, 800, 50, 1000) == 800);
+}
+
+TEST_CASE("solo talents: Resolve raises MAW's sheet resistances (armour skills, staves, Luck) in a solo run")
+{
+    BoundTable bound;
+    RulesetOptions options;
+    options.soloRun = true;
+    MawRules rules(options, MawMapLevels{});
+    ItemTable items;
+    Character member = fighter(300);
+    member.talentRanks["resolve"] = 5;
+    // Luck 1000: 200 to every resistance row, and 10 % more at five ranks.
+    const CharacterCombatRows solo = mawCombatRows(rules, member, items, {100, 100, 1000});
+    CHECK(solo.resistances.fire == 220);
+    CHECK(solo.resistances.mind == 220);
+
+    member.talentRanks.erase("resolve");
+    CHECK(mawCombatRows(rules, member, items, {100, 100, 1000}).resistances.fire == 200);
+
+    // Outside a solo run the talent does nothing.
+    member.talentRanks["resolve"] = 5;
+    MawRules party(RulesetOptions{}, MawMapLevels{});
+    CHECK(mawCombatRows(party, member, items, {100, 100, 1000}).resistances.fire == 200);
 }
 
 TEST_CASE("solo talents: Spell Suppression is the last cut of a hit that is not physical")

@@ -53,7 +53,6 @@ void applyPassives(Character &member)
     CharacterStatBonuses &bonus = member.magicalBonuses;
     const float conditioning = passivePercent(member, "conditioning");
     const float aim = member.talentState.steadyAimOn ? passivePercent(member, "steady_aim") : 0.0f;
-    const float resolve = passivePercent(member, "resolve");
 
     bonus.might += share(member.might, conditioning);
     bonus.intellect += share(member.intellect, conditioning);
@@ -63,24 +62,30 @@ void applyPassives(Character &member)
     bonus.speed += share(member.speed, conditioning);
     bonus.luck += share(member.luck, conditioning + aim);
 
-    if (resolve > 0.0f)
+    if (talentRank(member, "resolve") > 0)
     {
         CharacterResistanceSet &res = bonus.resistances;
         const CharacterResistanceSet &base = member.baseResistances;
-        const auto raise = [resolve](int &value, int baseValue)
+        const CharacterResistanceSet &permanent = member.permanentBonuses.resistances;
+        const auto raise = [&member](int &value, int baseValue, int permanentValue)
         {
-            value += int(std::lround(double(std::max(0, value + baseValue)) * resolve / 100.0));
+            value += resolveShare(member, value + baseValue + permanentValue);
         };
-        raise(res.fire, base.fire);
-        raise(res.air, base.air);
-        raise(res.water, base.water);
-        raise(res.earth, base.earth);
-        raise(res.mind, base.mind);
-        raise(res.body, base.body);
-        raise(res.spirit, base.spirit);
-        raise(res.light, base.light);
-        raise(res.dark, base.dark);
+        raise(res.fire, base.fire, permanent.fire);
+        raise(res.air, base.air, permanent.air);
+        raise(res.water, base.water, permanent.water);
+        raise(res.earth, base.earth, permanent.earth);
+        raise(res.mind, base.mind, permanent.mind);
+        raise(res.body, base.body, permanent.body);
+        raise(res.spirit, base.spirit, permanent.spirit);
+        raise(res.light, base.light, permanent.light);
+        raise(res.dark, base.dark, permanent.dark);
     }
+}
+
+int resolveShare(const Character &member, int resistance)
+{
+    return int(std::lround(double(std::max(0, resistance)) * passivePercent(member, "resolve") / 100.0));
 }
 
 void update(Party &party, float partyX, float partyY, bool calm, float deltaSeconds)

@@ -15,6 +15,9 @@ namespace MawSoloTalents
 // The passives' stat and resistance shares (Conditioning, Resolve, Steady Aim while still), added to the magical
 // bonuses after the class bonuses.
 void applyPassives(Character &member);
+// Resolve: its share of a resistance (0 without it). applyPassives adds it for the base, permanent and magical
+// resistances; MAW's sheet rows (armour and Shield skills, staves, Luck) add it for theirs.
+int resolveShare(const Character &member, int resistance);
 // Ticks cooldowns and timed effects, Onslaught's stacks, Cheat Death, Steady Aim's stillness and Quickfoot's speed
 // (`calm`: no yellow alert); refreshes the stats when Steady Aim turns on or off.
 void update(Party &party, float partyX, float partyY, bool calm, float deltaSeconds);
