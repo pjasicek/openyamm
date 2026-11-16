@@ -96,6 +96,9 @@ struct MawGameState
     // Where each fixed aura came from: the lowercase map file of its scroll or pedestal, which entering another
     // outdoor map ends, or empty for a temple's, which leaving the map ends (SP:2693-2730).
     std::unordered_map<uint32_t, std::string> fixedAuraMaps;
+    // A solo run's scroll auras: the game minute each ends, on any map (the user, 2026-11-16). A fixed aura listed
+    // here ends only then.
+    std::unordered_map<uint32_t, double> fixedAuraEndMinutes;
     // Dimension maps by lowercase target map file name, the quest, and what the map kill drop has failed since it last
     // dropped (vars.mapDropFailures).
     std::unordered_map<std::string, MawDimensionRun> dimensionRuns;

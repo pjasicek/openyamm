@@ -202,6 +202,24 @@ bool conscious(const Character &member)
         && !member.conditions.test(size_t(CharacterCondition::Eradicated));
 }
 
+// Auto-repair: the best Repair skill x mastery of the members who can act; it mends every broken item whose repair
+// difficulty it reaches (S:1314-1333).
+int autoRepairLevel(const Party &party)
+{
+    int repair = 0;
+
+    for (const Character &member : party.members())
+    {
+        if (conscious(member) && !member.conditions.test(size_t(CharacterCondition::Paralyzed))
+            && !member.conditions.test(size_t(CharacterCondition::Asleep)))
+        {
+            repair = std::max(repair, skillLevel(member, "RepairItem") * int(skillMastery(member, "RepairItem")));
+        }
+    }
+
+    return repair;
+}
+
 // The party member side of calcMawDamage for this character, without the hit.
 constexpr uint16_t ShieldingSpecial = 36;
 // The legendary affixes combat reads (legendary_affixes.yml); EnchantDamageLegendary (19) is below.
@@ -1048,6 +1066,20 @@ MawCombatRules::MawCombatRules(MawRules &rules)
                 hit.amount = 0;
             }
         });
+    m_damageToMonster.add(
+        "solo-early-cut",
+        [this](MonsterDamageHit &hit)
+        {
+            // A solo run's early monster cut, the HP half: the party's hits count for more, which is the monster's HP
+            // divided by the cut without touching its HP, experience or loot (POWER_CURVE_DIRECTION.md §8). Last, so
+            // it scales everything the other stages added.
+            const double cut = m_rules.options().soloRun ? m_rules.soloMonsterCut() : 1.0;
+
+            if (cut > 1.0 && hit.attackerFacts.level <= 0 && hit.amount > 0)
+            {
+                hit.amount = int(mawRound(hit.amount * cut));
+            }
+        });
 
     m_damageToCharacter.add(
         "damage-recompute",
@@ -1097,6 +1129,19 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             }
 
             hit.amount = std::max(0, int(mawRound(damage)));
+        });
+    m_damageToCharacter.add(
+        "solo-early-cut",
+        [this](CharacterDamageHit &hit)
+        {
+            // A solo run's early monster cut, the damage half: a monster's hit is divided before armour, resistances
+            // and the class's flat cut see it, as if the monster were that much weaker. Falls and traps are not cut.
+            const double cut = m_rules.options().soloRun ? m_rules.soloMonsterCut() : 1.0;
+
+            if (cut > 1.0 && mawMonsterHit(hit) && hit.amount > 0)
+            {
+                hit.amount = std::max(1, int(mawRound(hit.amount / cut)));
+            }
         });
     m_damageToCharacter.add(
         "map-energy",
@@ -1259,6 +1304,17 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             }
 
             hit.amount = int(mawRound(amount));
+        });
+    m_damageToCharacter.add(
+        "solo-spell-suppression",
+        [this](CharacterDamageHit &hit)
+        {
+            // A solo run's Spell Suppression: the last cut of a hit that is not physical, from a monster, a trap or
+            // anything else, after the 90 % cap of armour and resistances (user, 2026-11-16).
+            if (m_rules.options().soloRun && hit.amount > 0 && hit.type != CombatDamageType::Physical)
+            {
+                hit.amount = int(mawRound(hit.amount * MawSoloTalents::nonPhysicalDamageScale(*hit.pCharacter)));
+            }
         });
 }
 
@@ -2195,7 +2251,7 @@ int MawCombatRules::rollSpellDamage(const CharacterSpellCast &cast, bool *pCriti
 {
     const int damage = rollSpellDamageBeforeTalents(cast, pCritical);
 
-    // A solo run's Attunement and Spell Surge talents, and Overload on an area spell into a crowd.
+    // A solo run's Spell Surge talent, and Overload on an area spell into a crowd.
     if (m_rules.options().soloRun && cast.pCaster != nullptr && damage > 0)
     {
         const double overload = cast.pSpell != nullptr && isAreaSpell(uint32_t(cast.pSpell->id))
@@ -2442,8 +2498,10 @@ int MawCombatRules::trapDamage(
     const int perception = int(skillMastery(member, "Perception"));
     const CharacterSheetSummary sheet = characterSheet(member, pItemTable, pStandardTable, pSpecialTable);
     MawMitigationInputs inputs = characterMitigation(m_rules, member, sheet, pItemTable, partyCount);
-    inputs.damage = model.monsterDamage(std::max(1.0, m_rules.state().totalLevel()))
-        * std::min((11 - 2 * perception) / 10.0, 1.0);
+    // MAW measures it at the party's total level; ours at the map's monsters' mean level where that is higher, so a
+    // party that goes ahead of its level meets the map's traps (deviation 193).
+    const double level = std::max({1.0, m_rules.state().totalLevel(), m_rules.mapMeanMonsterLevel().value_or(0.0)});
+    inputs.damage = model.monsterDamage(level) * std::min((11 - 2 * perception) / 10.0, 1.0);
     inputs.type = type;
     // A trap is measured against the victim's own level; legendaries 18 and 22 cut it before the class's flat
     // reduction, as a monster's hit (ST:761-776).
@@ -2490,9 +2548,9 @@ bool MawCombatRules::bowDisabled() const
 float MawCombatRules::monsterMissileHomingLockRate(uint32_t spellId) const
 {
     // MAW re-aims while the missile points within 0.5° of the party, tested once a rendered frame, so its grip grows
-    // with the frame rate. Ours is the same at any frame rate and firmer, 300° a second (user, 2026-10-27): a party
-    // strafing on foot or flying (768 a second) is still hit, one flying fast straight across the flight escapes.
-    constexpr float LockRadiansPerSecond = 300.0f * 3.14159265f / 180.0f;
+    // with the frame rate. Ours is a rate, the same at any frame rate, set to MAW's intent (its author, 2026-11-16): a
+    // strafe (384 a second) is hit, a run straight across the flight (768) escapes, a run at 45° sometimes does.
+    constexpr float LockRadiansPerSecond = 60.0f * 3.14159265f / 180.0f;
     constexpr std::array<uint32_t, 6> NeverHoming = {9, 15, 22, 24, 32, 93};
 
     if (std::find(NeverHoming.begin(), NeverHoming.end(), spellId) != NeverHoming.end())
@@ -2793,19 +2851,7 @@ void MawCombatRules::updateArtifacts(Party &party, IGameplayWorldRuntime &world)
             || member.conditions.test(size_t(CharacterCondition::Petrified))
             || member.conditions.test(size_t(CharacterCondition::Eradicated));
     };
-
-    // Auto-repair: the best Repair skill x mastery of the members who can act mends every broken item whose repair
-    // difficulty it reaches (S:1314-1333).
-    int repair = 0;
-
-    for (const Character &member : party.members())
-    {
-        if (!out(member) && conscious(member) && !member.conditions.test(size_t(CharacterCondition::Paralyzed))
-            && !member.conditions.test(size_t(CharacterCondition::Asleep)))
-        {
-            repair = std::max(repair, skillLevel(member, "RepairItem") * int(skillMastery(member, "RepairItem")));
-        }
-    }
+    const int repair = autoRepairLevel(party);
 
     bool repaired = false;
 
@@ -3133,6 +3179,12 @@ CombatDamageType MawCombatRules::partySpellDamageType(uint32_t spellId, CombatDa
 {
     constexpr uint32_t Blades = 39;
     return spellId == Blades ? CombatDamageType::Physical : tableType;
+}
+
+bool MawCombatRules::autoRepairs(const Party &party, const ItemDefinition &item) const
+{
+    const int repair = autoRepairLevel(party);
+    return repair > 0 && item.identifyRepairDifficulty <= repair;
 }
 
 bool MawCombatRules::immuneToMonsterSpecialAttacks(const Character &member) const

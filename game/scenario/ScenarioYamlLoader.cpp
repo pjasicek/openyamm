@@ -184,7 +184,7 @@ const std::vector<StepKeys> &stepKeyTable()
             "second_enchant", "special", "rarity", "drop_level", "item_power", "charges", "identified", "equip",
             "roll_level", "boss", "seed", "dimension_map", "legendary"}},
         {ScenarioStepKind::UseItem, {"item_id", "member_index", "expect"}},
-        {ScenarioStepKind::TurnBasedTurns, {"count", "max_seconds"}},
+        {ScenarioStepKind::TurnBasedTurns, {"count", "max_seconds", "game_speed"}},
         {ScenarioStepKind::RightClickPortrait, {"item_id", "carrier_index", "member_index", "inventory", "release",
             "expect"}},
         {ScenarioStepKind::CastSpell, {"member_index", "spell_id", "skill", "mastery", "actor_index", "target_member",
@@ -807,6 +807,46 @@ ScenarioLoadResult ScenarioYamlLoader::load(const std::filesystem::path &path) c
                 result.document.tags.push_back(tagNode.as<std::string>());
             }
         }
+    }
+
+    if (const YAML::Node modsNode = root["mods"])
+    {
+        ScenarioMods mods;
+        const std::string location = formatLocation(path, modsNode.Mark().line + 1);
+
+        if (!modsNode.IsMap())
+        {
+            result.errors.push_back(location + ": field 'mods' must be a mapping");
+        }
+        else if (modsNode["user_data"])
+        {
+            mods.userData = modsNode["user_data"].as<bool>(false);
+
+            if (!mods.userData || modsNode["fixture"] || modsNode["enabled"])
+            {
+                result.errors.push_back(location + ": 'mods' takes user_data: true alone, or a fixture");
+            }
+        }
+        else if (!modsNode["fixture"] || !modsNode["fixture"].IsScalar())
+        {
+            result.errors.push_back(location + ": 'mods' needs a fixture folder or user_data: true");
+        }
+        else
+        {
+            mods.fixture = path.parent_path() / modsNode["fixture"].as<std::string>();
+
+            if (const YAML::Node enabledNode = modsNode["enabled"])
+            {
+                mods.enabled = std::vector<std::string>();
+
+                for (const YAML::Node &idNode : enabledNode)
+                {
+                    mods.enabled->push_back(idNode.as<std::string>(""));
+                }
+            }
+        }
+
+        result.document.mods = mods;
     }
 
     if (!root["steps"] || !root["steps"].IsSequence())

@@ -66,6 +66,9 @@ struct SoloBarSelectorState
     std::optional<size_t> hoveredButton;
     // The click that opened or closed it, held: neither the selector nor the world takes it until it is let go.
     bool pointerLatch = false;
+    // A plain click on a key of the bar (the selector closed) uses that key as its own key would: held while the
+    // button stays down, so a spell on it repeats as a held key does.
+    std::optional<size_t> clickedSlot;
     // Escape was down last frame: a press acts once, on its way down.
     bool escapeHeld = false;
     // Ctrl is held over plain gameplay (the selector closed): the game pauses, the cursor is free and every key of the

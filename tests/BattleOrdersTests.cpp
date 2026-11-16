@@ -167,7 +167,11 @@ TEST_CASE("battle orders: a save keeps each member's orders, fallback and upkeep
     bolt.spellName = "Light Bolt";
     bolt.keepSpellPointsPercent = 30;
     bolt.place = BattleOrderPlace::Indoors;
-    member.battleOrders = {heal, shoot, bolt};
+    BattleOrder powerShot;
+    powerShot.kind = BattleOrderKind::Talent;
+    powerShot.talentId = "power_shot";
+    powerShot.distance = BattleOrderDistance{BattleOrderMeleeReach, BattleOrderMaximumDistance};
+    member.battleOrders = {powerShot, heal, shoot, bolt};
     member.battleOrderFallback = BattleOrderFallback::Hold;
     BattleOrder bless;
     bless.spellName = "Bless";

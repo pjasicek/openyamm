@@ -11,6 +11,7 @@
 #include "game/rules/GameRules.h"
 #include "game/tables/SpellTable.h"
 #include "game/ui/GameplayHudCommon.h"
+#include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -203,6 +204,23 @@ std::string spellName(const GameplayScreenRuntime &context, uint32_t spellId)
     return Engine::localize(pParty != nullptr && !pParty->members().empty()
             ? partySpellName(pParty, pParty->members().front(), *pSpell) : pSpell->name,
         "spell");
+}
+
+// A blessing's source and when it ends: a temple's, this place's (a scroll or pedestal) or a solo run's scroll's.
+std::string blessingName(const AuraReportEntry &entry)
+{
+    return entry.scrollSecondsLeft ? Engine::tr("Scroll blessing")
+        : entry.templeBlessing     ? Engine::tr("Temple blessing")
+                                   : Engine::tr("Blessing of this place");
+}
+
+std::string blessingEnd(const AuraReportEntry &entry)
+{
+    return entry.scrollSecondsLeft
+        ? Engine::tr("Ends in {duration}",
+            {{"duration", GameplayHudOverlaySupport::formatRemainingDuration(*entry.scrollSecondsLeft)}})
+        : entry.templeBlessing ? Engine::tr("Ends on the next map")
+                               : Engine::tr("Ends on another outdoor map");
 }
 
 std::string memberName(const Party &party, std::optional<size_t> memberIndex)
@@ -837,7 +855,9 @@ void renderJournalAuras(
         paint.text(TextFont, TextHeight, dim ? Dim : Ivory,
             paint.fitted(TextFont, TextHeight, spellName(context, entry.spellId), 86), 28, y + 4);
         const std::string holder = entry.holder ? memberName(*pParty, entry.holder)
-            : entry.templeBlessing ? Engine::tr("Temple") : Engine::tr("Place");
+            : entry.scrollSecondsLeft ? Engine::tr("Scroll")
+            : entry.templeBlessing    ? Engine::tr("Temple")
+                                      : Engine::tr("Place");
         paint.text(TextFont, SmallHeight, Body, paint.fitted(TextFont, SmallHeight, holder, 50), 118, y + 5);
         paint.text(TextFont, 8.5f, Gold, reservedText(entry, true), 203, y + 4.6f, 2);
         paint.pill(entry.state, 232, y + 3.5f);
@@ -895,8 +915,7 @@ void renderJournalAuras(
             + Dot + Engine::tr("level {level}", {{"level", entry.level}});
         const std::string byLine = pHolder != nullptr
             ? Engine::tr("Held by {holder}", {{"holder", holderName}}) + Dot + strength
-            : (entry.templeBlessing ? Engine::tr("Temple blessing") : Engine::tr("Blessing of this place")) + Dot
-                + Engine::tr("skill 7, Master, level 40");
+            : blessingName(entry) + Dot + Engine::tr("skill 7, Master, level 40");
         paint.text(TextFont, 8.5f, Muted, paint.fitted(TextFont, 8.5f, byLine, Right - 320), 320, 151);
         float y = 172;
         const auto note = [&](const std::string &value, uint32_t colour, float height = SmallHeight)
@@ -987,8 +1006,11 @@ void renderJournalAuras(
 
                 break;
             case AuraState::Blessing:
-                stateNote = entry.templeBlessing ? Engine::tr("ends on the next map")
-                                                 : Engine::tr("ends on another outdoor map");
+                stateNote = entry.scrollSecondsLeft
+                    ? Engine::tr("ends in {duration}",
+                        {{"duration", GameplayHudOverlaySupport::formatRemainingDuration(*entry.scrollSecondsLeft)}})
+                    : entry.templeBlessing ? Engine::tr("ends on the next map")
+                                           : Engine::tr("ends on another outdoor map");
                 break;
             case AuraState::Active:
             case AuraState::Suspended:
@@ -1165,8 +1187,8 @@ void renderJournalAuras(
         const bool moveHover = hovered.kind == JournalAuraTargetKind::MoveMenu;
         paint.button(move, Engine::tr("Move to"), false, canMove(entry), moveHover || journal.auraMoveMenuOpen,
             moveHover && mouseDown, true);
-        const std::string buttonNote = pHolder != nullptr ? Engine::tr("Release: free, no recovery")
-            : entry.templeBlessing ? Engine::tr("Ends on the next map") : Engine::tr("Ends on another outdoor map");
+        const std::string buttonNote =
+            pHolder != nullptr ? Engine::tr("Release: free, no recovery") : blessingEnd(entry);
         float noteY = ButtonTop + 0.5f;
 
         for (const std::string &line : paint.wrapped(TextFont, 7.5f, buttonNote, 62))

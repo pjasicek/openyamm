@@ -2331,25 +2331,76 @@ void GameplayUiRuntime::submitHudTexturedEllipse(
     {
         return;
     }
+    // The ellipse is clipped to the part whose UVs lie inside the image, so a view that reaches past the image's
+    // edge (the minimap centred on a party near the map border) draws nothing there instead of smeared edge texels.
+    struct EllipsePoint
+    {
+        float x;
+        float y;
+        float u;
+        float v;
+    };
     constexpr uint16_t segments = 96;
+    constexpr size_t maxPoints = segments + 8;
+    std::array<EllipsePoint, maxPoints> points = {};
+    size_t pointCount = 0;
+    for (uint16_t i = 0; i < segments; ++i)
+    {
+        const float angle = i * 6.28318530718f / segments;
+        const float s = 0.5f + 0.5f * std::cos(angle);
+        const float t = 0.5f + 0.5f * std::sin(angle);
+        points[pointCount++] = {x + width * s, y + height * t, u0 + (u1 - u0) * s, v0 + (v1 - v0) * t};
+    }
+    const auto clipAgainst = [&](auto distance)
+    {
+        std::array<EllipsePoint, maxPoints> clipped = {};
+        size_t clippedCount = 0;
+        for (size_t i = 0; i < pointCount && clippedCount + 2 <= maxPoints; ++i)
+        {
+            const EllipsePoint &a = points[i];
+            const EllipsePoint &b = points[(i + 1) % pointCount];
+            const float da = distance(a);
+            const float db = distance(b);
+            if (da >= 0.0f)
+            {
+                clipped[clippedCount++] = a;
+            }
+            if ((da >= 0.0f) != (db >= 0.0f))
+            {
+                const float f = da / (da - db);
+                clipped[clippedCount++] = {a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, a.u + (b.u - a.u) * f,
+                    a.v + (b.v - a.v) * f};
+            }
+        }
+        points = clipped;
+        pointCount = clippedCount;
+    };
+    clipAgainst([](const EllipsePoint &p) { return p.u; });
+    clipAgainst([](const EllipsePoint &p) { return 1.0f - p.u; });
+    clipAgainst([](const EllipsePoint &p) { return p.v; });
+    clipAgainst([](const EllipsePoint &p) { return 1.0f - p.v; });
+    if (pointCount < 3)
+    {
+        return;
+    }
+
     const HudDrawTarget target = hudDrawTarget(textureHandle, TextureFilterProfile::Ui, HudClampSampler);
-    const HudDrawList::Primitive fan = m_hudDrawList.add(target.state, segments + 1, segments * 3);
+    const uint32_t triangleCount = uint32_t(pointCount - 2);
+    const HudDrawList::Primitive fan = m_hudDrawList.add(target.state, uint32_t(pointCount), triangleCount * 3);
     if (fan.pVertices == nullptr)
     {
         return;
     }
-    fan.pVertices[0] = {x + width * 0.5f, y + height * 0.5f, HudAlphaCutUntinted, target.u((u0 + u1) * 0.5f),
-        target.v((v0 + v1) * 0.5f)};
-    for (uint16_t i = 0; i < segments; ++i)
+    for (size_t i = 0; i < pointCount; ++i)
     {
-        const float angle = i * 6.28318530718f / segments;
-        const float u = 0.5f + 0.5f * std::cos(angle);
-        const float v = 0.5f + 0.5f * std::sin(angle);
-        fan.pVertices[i + 1] = {x + width * u, y + height * v, HudAlphaCutUntinted, target.u(u0 + (u1 - u0) * u),
-            target.v(v0 + (v1 - v0) * v)};
+        fan.pVertices[i] = {points[i].x, points[i].y, HudAlphaCutUntinted, target.u(points[i].u),
+            target.v(points[i].v)};
+    }
+    for (uint32_t i = 0; i < triangleCount; ++i)
+    {
         fan.pIndices[i * 3] = fan.firstVertex;
         fan.pIndices[i * 3 + 1] = uint16_t(fan.firstVertex + i + 1);
-        fan.pIndices[i * 3 + 2] = uint16_t(fan.firstVertex + (i + 1) % segments + 1);
+        fan.pIndices[i * 3 + 2] = uint16_t(fan.firstVertex + i + 2);
     }
     hudPrimitivesAdded();
 }

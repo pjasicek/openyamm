@@ -3,6 +3,7 @@
 #include "game/app/KeyboardBindings.h"
 
 #include <cstddef>
+#include <optional>
 #include <string>
 
 namespace OpenYAMM::Game
@@ -32,10 +33,13 @@ bool takesPointerAction(const GameplayScreenRuntime &context, KeyboardAction act
 
 // On plain gameplay with the bar shown: holding Ctrl arms the bar (see armed); Ctrl and a bar key, or a Ctrl click on
 // a slot, opens the selector. Not while an action is bound to that Ctrl key, nor while the debug turbo movement (Ctrl)
-// moves the party. True when the frame's click was its own. `allowed` is false while anything else is open;
-// `pointerAllowed` while the cursor is free.
+// moves the party. A plain click on a slot uses it (see clickedBarSlot). True when the frame's click was its own.
+// `allowed` is false while anything else is open; `pointerAllowed` while the cursor is free.
 bool handleBarInput(GameplayScreenRuntime &context, const GameplayInputFrame &input, int width, int height,
     bool allowed, bool pointerAllowed);
+// The slot of keys 1-0 a plain left click went down on, while that button stays down: it acts as that slot's key held
+// (its press on the click's frame).
+std::optional<size_t> clickedBarSlot(const GameplayScreenRuntime &context);
 // The open window's keys, typing, wheel and clicks (the game is paused under it).
 void handleInput(GameplayScreenRuntime &context, const GameplayInputFrame &input, int width, int height);
 // The window beside the bar, or the lit keys while armed, over the HUD.

@@ -1114,6 +1114,8 @@ CorpseLoot MawMonsterRules::corpseLoot(const CorpseLootContext &context) const
     constexpr uint32_t Morcarack = 160;
     const bool affixBoss = pFacts->bossAffix != 0;
     result.boss = affixBoss || context.uniqueNameId == Morcarack;
+    // An Omnipotent boss's drop is Celestial, one loot tier up (zzMaw-Items.lua:235-237, OmnipotentLoot).
+    result.omnipotent = pFacts->bossAffix == uint8_t(MawBossAffix::Omnipotent);
     MonsterTable::LootPrototype &loot = result.loot;
     const int level = pFacts->level;
     const MawMonsterFamily family = mawMonsterFamily(context.pMonsterTable, stats.id);

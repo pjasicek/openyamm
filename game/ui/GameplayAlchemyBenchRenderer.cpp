@@ -26,6 +26,9 @@ namespace
 using namespace GameplayBenchColors;
 using Rect = GameplayResolvedHudLayoutElement;
 
+// An open power list covers the buttons under the slots, so it is opaque.
+constexpr uint32_t PowerListFillColor = 0xff1c1812u;
+
 std::string itemName(const ItemTable &itemTable, uint32_t itemId)
 {
     const ItemDefinition *pDefinition = itemTable.get(itemId);
@@ -378,6 +381,32 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
             context.addRenderedInspectableHudItem(inspectable);
         };
     const uint64_t brewedElapsedTicks = SDL_GetTicks() - state.brewedTicks;
+    // The button under a slot whose item comes at several powers: the power in use, and an arrow for its list.
+    const auto renderPowerButton =
+        [&](const Rect &slot, uint8_t slotNumber)
+        {
+            const GameplayAlchemyBenchSlotPowers &powers = GameplayAlchemyBenchView::slotPowers(*model, slotNumber);
+            const Rect button = GameplayAlchemyBenchView::powerButton(slot);
+            const float s = slot.scale;
+            painter.well(button,
+                model->powerListSlot == slotNumber || powers.chosen ? SelectedBorderColor : WellBorderColor);
+
+            if (painter.hovered(button))
+            {
+                painter.fill(button, HoverColor);
+            }
+
+            const uint32_t color = powers.chosen ? GameplayUiSkin::Ivory : DimTextColor;
+            painter.text("AlchemyBenchSlotPowerLabel",
+                {button.x, button.y + 1.5f * s, button.width - 8 * s, 10 * s, s},
+                Engine::tr("power {power}", {{"power", int64_t(powers.power)}}), color);
+
+            for (int row = 0; row < 3; ++row)
+            {
+                painter.fill({button.x + button.width - (9.5f - row) * s, button.y + (4.5f + row) * s,
+                    (5 - 2 * row) * s, s, s}, color);
+            }
+        };
     const auto renderSlot =
         [&](const char *pLayoutId, uint32_t itemId, uint16_t power, bool heldSlot)
         {
@@ -416,6 +445,15 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
                 && preview.outcome != AlchemyPreviewOutcome::Incomplete
                 && power > 0;
             const bool brewedFirst = missing && model->chainMode;
+            const GameplayAlchemyBenchSlotPowers &powers = heldSlot ? model->heldPowers : model->targetPowers;
+
+            // Carried at several powers, the power line is a button that lists them.
+            if (!missing && GameplayAlchemyBenchView::powerButtonShown(powers))
+            {
+                renderPowerButton(*slot, heldSlot ? 2 : 1);
+                return;
+            }
+
             painter.text("AlchemyBenchSlotPowerLabel", {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
                 brewedFirst ? Engine::tr("brewed first") : missing ? Engine::tr("missing")
                 : powerKnown ? Engine::tr("power {power}", {{"power", int64_t(power)}}) : "",
@@ -481,10 +519,20 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
             painter.itemIcon(pItemTable->get(chainResultItemId), bannerIconBox);
             addInspectable(chainResultItemId, model->chain->resultPower, *resultSlot);
             painter.text("AlchemyBenchSlotNameLabel", nameArea, itemName(*pItemTable, chainResultItemId));
-            painter.text("AlchemyBenchSlotPowerLabel", {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
-                model->chain->resultPower > 0
-                    ? Engine::tr("power ~{power}", {{"power", int64_t(model->chain->resultPower)}}) : "",
-                DimTextColor);
+
+            // The ingredients come at several powers: the chain can aim at one of the powers they reach.
+            if (GameplayAlchemyBenchView::powerButtonShown(model->resultPowers))
+            {
+                renderPowerButton(*resultSlot, 3);
+            }
+            else
+            {
+                painter.text("AlchemyBenchSlotPowerLabel",
+                    {nameArea.x, nameArea.y + 10 * s, nameArea.width, 10 * s, s},
+                    model->chain->resultPower > 0
+                        ? Engine::tr("power ~{power}", {{"power", int64_t(model->chain->resultPower)}}) : "",
+                    DimTextColor);
+            }
         }
         else if (previewNamesResult)
         {
@@ -688,6 +736,59 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
         const size_t visibleRows = GameplayAlchemyBenchView::ingredientVisibleRows(*grid);
         GameplayUiSkin::renderScrollbar(context, *grid, maximumRow > 0 ? float(scrollRow) / float(maximumRow) : 0.0f,
             float(visibleRows) / float(visibleRows + maximumRow), interaction.alchemyBenchScrollDrag == 2);
+    }
+
+    // The open power list, last so that it lies over the buttons and the ingredients.
+    const std::optional<Rect> powerListSlot = model->powerListSlot == 0 ? std::nullopt
+        : painter.rect(GameplayAlchemyBenchView::powerListSlotLayoutId(model->powerListSlot));
+
+    if (powerListSlot)
+    {
+        const GameplayAlchemyBenchSlotPowers &powers =
+            GameplayAlchemyBenchView::slotPowers(*model, model->powerListSlot);
+        const Rect list = GameplayAlchemyBenchView::powerList(powers, *powerListSlot);
+        const float s = list.scale;
+        painter.fill(list, PowerListFillColor);
+        painter.frame(list, SelectedBorderColor);
+
+        for (const GameplayAlchemyBenchPowerRowRect &row
+            : GameplayAlchemyBenchView::powerListRows(powers, *powerListSlot, state.powerListScroll))
+        {
+            const AlchemyPowerOption *pOption = row.rowIndex > 0 ? &powers.options[row.rowIndex - 1] : nullptr;
+            const bool selected = pOption != nullptr ? powers.chosen == pOption->power : !powers.chosen;
+            const Rect &area = row.rect;
+
+            if (selected)
+            {
+                painter.fill(area, SelectedRowColor);
+            }
+            else if (painter.hovered(area))
+            {
+                painter.fill(area, HoverColor);
+            }
+
+            const Rect textArea = {area.x + 3 * s, area.y + 1.5f * s, area.width - 12 * s, area.height, s};
+            painter.text("AlchemyBenchRowLabel", textArea, pOption != nullptr
+                ? Engine::tr("power {power}", {{"power", int64_t(pOption->power)}})
+                : Engine::tr("Automatic"), selected ? GameplayUiSkin::Ivory : DimTextColor);
+
+            // A chain's powers are brewed, not carried: they have no count.
+            if (pOption != nullptr && pOption->count > 0)
+            {
+                painter.text("AlchemyBenchRowCount", textArea,
+                    Engine::tr("x{count}", {{"count", int64_t(pOption->count)}}), DimTextColor);
+            }
+        }
+
+        const size_t maximumRow = GameplayAlchemyBenchView::maximumPowerListScroll(powers);
+
+        if (maximumRow > 0)
+        {
+            const float visibleRows = float(GameplayAlchemyBenchView::PowerListVisibleRows);
+            GameplayUiSkin::renderScrollbar(context, list,
+                float(std::min(state.powerListScroll, maximumRow)) / float(maximumRow),
+                visibleRows / (visibleRows + float(maximumRow)), false);
+        }
     }
 
     if (draggedItemId != 0)

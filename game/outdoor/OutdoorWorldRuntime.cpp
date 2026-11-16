@@ -737,11 +737,10 @@ constexpr float OutdoorPathSpatialGridCellSize = 512.0f;
 constexpr float OutdoorGroundPathMinWaypointReachDistance = 48.0f;
 constexpr float OutdoorGroundPathMaxWaypointReachDistance = 128.0f;
 constexpr float OutdoorActorWaterRestrictionBModelSupportRise = 128.0f;
+// Catch-up limits per frame in real time; the game speed (setGameSpeed) multiplies them.
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float ProjectileUpdateStepSeconds = 1.0f / 60.0f;
 constexpr int MaxProjectileUpdateStepsPerFrame = 4;
-constexpr float MaxAccumulatedProjectileUpdateSeconds =
-    ProjectileUpdateStepSeconds * static_cast<float>(MaxProjectileUpdateStepsPerFrame);
 constexpr int JournalRevealWidth = 88;
 constexpr int JournalRevealHeight = 88;
 constexpr int JournalRevealBytesPerRow = 11;
@@ -8380,6 +8379,11 @@ void OutdoorWorldRuntime::advanceTurnBasedActorTimers(float seconds)
     hideExpiredSummons();
 }
 
+void OutdoorWorldRuntime::setGameSpeed(float speed)
+{
+    m_gameSpeed = std::max(1.0f, speed);
+}
+
 void OutdoorWorldRuntime::setTurnBasedActorMode(ActorTurnBasedMode mode)
 {
     const bool enteringWait =
@@ -10129,8 +10133,7 @@ void OutdoorWorldRuntime::updateActorFrameGlobalEffects(
     updateGameplayScreenOverlay(deltaSeconds);
     updateArmageddon(deltaSeconds, partyX, partyY, partyZ);
     m_actorUpdateAccumulatorSeconds =
-        std::min(m_actorUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedActorUpdateSeconds);
-
+        std::min(m_actorUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedActorUpdateSeconds * m_gameSpeed);
 }
 
 std::vector<bool> OutdoorWorldRuntime::selectOutdoorActiveActors(float partyX, float partyY, float partyZ)
@@ -15754,7 +15757,9 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     projectile.sourceZ,
                     GameplayProjectileService::projectileShieldTier(projectile),
                     GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
-                    projectile.critical))
+                    projectile.critical,
+                    // An arrow's Chaining Arrows leap (it struck a monster before) makes no flinch.
+                    projectile.chainStruckActorIds.empty()))
             {
                 appliedDamage = 0;
             }
@@ -15787,7 +15792,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     projectile.spellId,
                     impact.hit,
                     killed,
-                    projectile.critical);
+                    projectile.critical,
+                    projectile.hitCredit);
             }
         }
         else if (impact.applyNonPartyProjectileDamage)
@@ -15957,7 +15963,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                         projectile.sourceZ,
                         GameplayProjectileService::projectileShieldTier(projectile),
                         GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
-                        projectile.critical))
+                        projectile.critical,
+                        projectile.chainStruckActorIds.empty()))
                 {
                     appliedDamage = 0;
                 }
@@ -16067,6 +16074,15 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
         projectileService().expireProjectile(projectile, frameResult.endPoint);
     }
 
+    if (frameResult.chainArrow && frameResult.directActorImpact)
+    {
+        projectileService().chainArrow(
+            projectile,
+            *this,
+            *frameResult.directActorImpact,
+            frameResult.endPoint.value_or(GameplayWorldPoint{projectile.x, projectile.y, projectile.z}));
+    }
+
     if (frameResult.deathBlossomFalloutPoint)
     {
         spawnDeathBlossomFalloutProjectiles(
@@ -16156,6 +16172,10 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         return;
     }
 
+    const GameplayWorldPoint partyNow = {partyX, partyY, partyZ};
+    const GameplayWorldPoint partyPreviousFrame = m_projectilePreviousFramePartyPosition.value_or(partyNow);
+    m_projectilePreviousFramePartyPosition = partyNow;
+
     const bool hasActiveProjectile =
         std::any_of(
             projectileService().projectiles().begin(),
@@ -16171,16 +16191,24 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         return;
     }
 
-    m_projectileUpdateAccumulatorSeconds =
-        std::min(m_projectileUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedProjectileUpdateSeconds);
+    const int maxProjectileUpdateSteps =
+        static_cast<int>(std::ceil(static_cast<float>(MaxProjectileUpdateStepsPerFrame) * m_gameSpeed));
+    m_projectileUpdateAccumulatorSeconds = std::min(
+        m_projectileUpdateAccumulatorSeconds + deltaSeconds,
+        ProjectileUpdateStepSeconds * static_cast<float>(maxProjectileUpdateSteps));
 
+    const int projectileStepsThisFrame = std::min(
+        maxProjectileUpdateSteps,
+        static_cast<int>(m_projectileUpdateAccumulatorSeconds / ProjectileUpdateStepSeconds));
     int projectileUpdateStepCount = 0;
 
     while (m_projectileUpdateAccumulatorSeconds >= ProjectileUpdateStepSeconds
-        && projectileUpdateStepCount < MaxProjectileUpdateStepsPerFrame)
+        && projectileUpdateStepCount < maxProjectileUpdateSteps)
     {
         std::vector<ProjectileState> &projectiles = projectileService().projectiles();
         const size_t projectileCount = projectiles.size();
+        const GameplayWorldPoint partyAtStep = GameplayProjectileService::partyPositionAtStep(
+            partyPreviousFrame, partyNow, projectileUpdateStepCount, projectileStepsThisFrame);
 
         for (size_t projectileIndex = 0;
              projectileIndex < projectileCount && projectileIndex < projectiles.size();
@@ -16194,7 +16222,8 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
             }
 
             if (projectile.homing
-                && steerOutdoorHomingProjectile(projectile, ProjectileUpdateStepSeconds, partyX, partyY, partyZ))
+                && steerOutdoorHomingProjectile(
+                    projectile, ProjectileUpdateStepSeconds, partyAtStep.x, partyAtStep.y, partyAtStep.z))
             {
                 projectileService().expireProjectile(projectile);
                 continue;
@@ -18986,7 +19015,8 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     float partyZ,
     ShieldAttackTier shieldTier,
     const ShieldHitModifiers &shieldModifiers,
-    bool critical)
+    bool critical,
+    bool hitReaction)
 {
     if (actorIndex >= m_mapActors.size() || damage <= 0)
     {
@@ -19131,7 +19161,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     }
     else
     {
-        if (damage > 0 && beginMapActorHitReaction(actorIndex))
+        if (hitReaction && damage > 0 && beginMapActorHitReaction(actorIndex))
         {
             faceMapActorReaction(actor, partyX - actor.preciseX, partyY - actor.preciseY);
             const bx::Vec3 knockback = actorKnockbackVelocity(
@@ -19180,10 +19210,11 @@ bool OutdoorWorldRuntime::applyPartyAttackMeleeDamage(
     const GameplayWorldPoint &source,
     ShieldAttackTier shieldTier,
     const ShieldHitModifiers &shieldModifiers,
-    bool critical)
+    bool critical,
+    bool hitReaction)
 {
     return applyPartyAttackToMapActor(
-        actorIndex, damage, source.x, source.y, source.z, shieldTier, shieldModifiers, critical);
+        actorIndex, damage, source.x, source.y, source.z, shieldTier, shieldModifiers, critical, hitReaction);
 }
 
 bool OutdoorWorldRuntime::applyPartyAttackMeleeBModelDamage(size_t bModelIndex, int damage)
@@ -19363,8 +19394,10 @@ bool OutdoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPr
     worldRequest.blastMinimumDamage = request.blastMinimumDamage;
     worldRequest.blastMaximumDamage = request.blastMaximumDamage;
     worldRequest.critical = request.critical;
-    worldRequest.pierceCount = request.pierceCount;
-    worldRequest.pierceShare = request.pierceShare;
+    worldRequest.chainCount = request.chainCount;
+    worldRequest.chainShare = request.chainShare;
+    worldRequest.chainRadius = request.chainRadius;
+    worldRequest.hitCredit = request.hitCredit;
     worldRequest.sourceX = request.source.x;
     worldRequest.sourceY = request.source.y;
     worldRequest.sourceZ = request.source.z;
@@ -20173,6 +20206,11 @@ int OutdoorWorldRuntime::effectiveMapActorArmorClass(size_t actorIndex) const
     }
 
     return m_pGameplayActorService->effectiveArmorClass(baseArmorClass, buildGameplayActorSpellEffectState(actor));
+}
+
+bool OutdoorWorldRuntime::hasClearLineBetween(const GameplayWorldPoint &from, const GameplayWorldPoint &to) const
+{
+    return hasClearOutdoorLineOfSight({from.x, from.y, from.z}, {to.x, to.y, to.z});
 }
 
 std::vector<size_t> OutdoorWorldRuntime::collectMapActorIndicesWithinRadius(
@@ -23022,8 +23060,10 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.explosionRadius = request.explosionRadius;
     spawnRequest.blastMinimumDamage = request.blastMinimumDamage;
     spawnRequest.blastMaximumDamage = request.blastMaximumDamage;
-    spawnRequest.pierceCount = request.pierceCount;
-    spawnRequest.pierceShare = request.pierceShare;
+    spawnRequest.chainCount = request.chainCount;
+    spawnRequest.chainShare = request.chainShare;
+    spawnRequest.chainRadius = request.chainRadius;
+    spawnRequest.hitCredit = request.hitCredit;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     spawnRequest.sourceX = request.sourceX;

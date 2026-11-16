@@ -29,6 +29,8 @@ struct LootFilterFacts
 {
     std::optional<LootFilterGroup> group;
     std::optional<RulesetLootKind> kind;
+    // The finer type Custom rules name; none for a weapon of a skill no rule names (a blaster).
+    std::optional<LootItemType> type;
     // The gear's rarity, 1 Common .. 6 Primordial.
     int rarity = 0;
     // The item's level (MAW's drop level); 0 when it has none, which no level rule takes.
@@ -37,12 +39,8 @@ struct LootFilterFacts
     bool alwaysKept = false;
 };
 
-enum class LootFilterVerdict : uint8_t
-{
-    Keep,
-    Gold,
-    Ground,
-};
+// The filter's decision is what a Custom rule does: keep, gold or ground.
+using LootFilterVerdict = LootFilterAction;
 
 // A preset's column for one group: rarities up to goldUpTo turn into gold (0: none), and the next one does once the
 // item's level is at least levelGap below the party's (0: never).
@@ -65,6 +63,18 @@ const char *lootFilterGroupName(LootFilterGroup group);
 // "Common" .. "Primordial" for 1-6; empty otherwise.
 const char *lootFilterRarityName(int rarity);
 const char *lootFilterKindName(RulesetLootKind kind);
+// "Sword" .. "Gems".
+const char *lootItemTypeName(LootItemType type);
+// The type an item of this equip stat and skill group is; none for the items no rule names.
+std::optional<LootItemType> lootItemType(const std::string &equipStat, const std::string &skillGroup);
+// The bits of the weapons, the armour, the jewellery or the kinds without rarity (RulesetLootFilterRule::types).
+uint32_t lootItemTypesOfGroup(LootFilterGroup group);
+uint32_t lootItemTypesWithoutRarity();
+// The filter as Custom rules that do what it does ("from the preset you had"); a Custom filter comes back as it is.
+RulesetLootFilter lootFilterAsCustom(const RulesetLootFilter &filter);
+// The Custom rule that decides a drop (its index), or none when "Everything else" does; none for a drop always kept.
+std::optional<size_t> matchingLootFilterRule(const RulesetLootFilter &filter, const LootFilterFacts &facts,
+    int partyLevel);
 // A cell of the window's grid: "keep", "gold" or "gold if 20+ levels below".
 std::string lootFilterCellText(RulesetLootFilterPreset preset, LootFilterGroup group, int rarity);
 LootFilterVerdict evaluateLootFilter(const RulesetLootFilter &filter, const LootFilterFacts &facts, int partyLevel);
@@ -100,6 +110,9 @@ struct LootFilterTrial
     size_t drops = 0;
     size_t filtered = 0;
     int gold = 0;
+    // Custom: how many of the drops each rule decided, and "Everything else".
+    std::array<size_t, RulesetLootFilterMaxRules> byRule = {};
+    size_t byOtherwise = 0;
 };
 LootFilterTrial tryLootFilter(const RulesetLootFilter &filter, const std::deque<RecentLootDrop> &drops);
 }

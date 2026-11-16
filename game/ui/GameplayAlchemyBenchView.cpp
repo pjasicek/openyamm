@@ -71,6 +71,81 @@ std::vector<uint32_t> cachedChainCounts(
     return counts;
 }
 
+// The powers the selected recipe's chain can aim at and, at the chosen one, how many potions Brew All makes: planned
+// again only when the ingredients, the known recipes, the selection or the choice change. Returns the aim of the
+// chosen power, while the chain still reaches it.
+std::optional<uint16_t> cachedChainAim(
+    GameplayScreenRuntime &context,
+    const AlchemyChainPlanner &planner,
+    const GameplayAlchemyBenchModel &model,
+    uint32_t resultItemId)
+{
+    GameplayUiController::AlchemyBenchState &state = context.characterScreen().alchemyBench;
+    uint64_t key = planner.stockKey();
+
+    for (const uint64_t value
+        : {chainCountsKey(model), uint64_t(resultItemId), uint64_t(state.chainPower ? *state.chainPower + 1u : 0u)})
+    {
+        key = (key ^ value) * 1099511628211ull;
+    }
+
+    const auto chosenAim =
+        [&state]() -> std::optional<uint16_t>
+        {
+            for (const AlchemyChainPowerOption &option : state.chainPowers)
+            {
+                if (state.chainPower == option.power)
+                {
+                    return option.aim;
+                }
+            }
+
+            return std::nullopt;
+        };
+
+    if (key != state.chainPowersKey)
+    {
+        state.chainPowers = planner.powerOptions(resultItemId);
+        const std::optional<uint16_t> aim = chosenAim();
+        state.chainPowerBrewCount = aim ? planner.plan(resultItemId, MaxChainBrews, aim).brewCount : 0;
+        state.chainPowersKey = key;
+    }
+
+    return chosenAim();
+}
+
+// A slot's power options: every power its item is carried at, without the copy the other slot's choice takes.
+GameplayAlchemyBenchSlotPowers carriedPowers(
+    const Party &party,
+    const AlchemyBenchTables &benchTables,
+    uint32_t itemId,
+    const std::optional<uint16_t> &chosen,
+    uint32_t otherItemId,
+    const std::optional<uint16_t> &otherChosen,
+    uint16_t power)
+{
+    GameplayAlchemyBenchSlotPowers powers = {};
+    powers.options = AlchemyBenchRuntime::powerOptions(party, itemId, benchTables);
+    powers.chosen = chosen;
+    powers.power = power;
+
+    if (otherItemId == itemId && otherChosen)
+    {
+        const auto taken = std::find_if(powers.options.begin(), powers.options.end(),
+            [&otherChosen](const AlchemyPowerOption &option)
+            {
+                return option.power == *otherChosen;
+            });
+
+        if (taken != powers.options.end() && --taken->count == 0)
+        {
+            powers.options.erase(taken);
+        }
+    }
+
+    return powers;
+}
+
 std::string tierHeader(const AlchemyBookEntry &entry)
 {
     if (entry.reagentRecipe)
@@ -167,7 +242,10 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         ? AlchemyBenchRuntime::withoutMixedPotions(model.ingredients, model.book)
         : model.ingredients;
     const AlchemyRecipe currentRecipe = {state.targetItemId, state.heldItemId};
-    model.preview = AlchemyBenchRuntime::preview(*pParty, currentRecipe, *benchTables, isAutonoteUnlocked);
+    model.powerChoice = AlchemyBenchRuntime::availableChoice(
+        *pParty, currentRecipe, {state.targetPower, state.heldPower}, *benchTables);
+    model.preview =
+        AlchemyBenchRuntime::preview(*pParty, currentRecipe, *benchTables, isAutonoteUnlocked, model.powerChoice);
     model.chainCounts = cachedChainCounts(context, *pParty, model, *benchTables);
     const bool previewNamesResult = model.preview.outcome == AlchemyPreviewOutcome::Known
         || model.preview.outcome == AlchemyPreviewOutcome::TooDifficult;
@@ -225,8 +303,10 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
 
         if (entry.masteryAllows && entry.resultItemId == model.preview.resultItemId)
         {
-            model.mixAllCount = entry.reagentRecipe
-                ? entry.brewableCount
+            // Chosen powers mix only their own copies; filling bottles otherwise runs through every reagent.
+            model.mixAllCount = model.powerChoice.any()
+                ? AlchemyBenchRuntime::brewableCount(*pParty, currentRecipe, model.powerChoice, *benchTables)
+                : entry.reagentRecipe ? entry.brewableCount
                 : AlchemyBenchRuntime::brewableCount(currentRecipe, model.ingredients);
         }
     }
@@ -245,12 +325,23 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
     if (model.selectedEntryIndex && !directMixPossible
         && state.selectedResultItemId == model.book.entries[*model.selectedEntryIndex].resultItemId)
     {
-        model.chain = planChain(context, model, state.selectedResultItemId, 1);
+        const AlchemyChainPlanner planner(
+            *pParty, model.book, model.alchemist, *benchTables, model.keepMixedPotions);
+        const std::optional<uint16_t> aim = cachedChainAim(context, planner, model, state.selectedResultItemId);
+        model.chain = planner.plan(state.selectedResultItemId, 1, aim);
         model.chainMode = model.chain->brewCount > 0;
 
         if (model.chainMode)
         {
-            model.mixAllCount = model.chainCounts[*model.selectedEntryIndex];
+            model.mixAllCount = aim ? state.chainPowerBrewCount : model.chainCounts[*model.selectedEntryIndex];
+            model.resultPowers.chosen = aim ? state.chainPower : std::nullopt;
+            model.resultPowers.power = model.chain->resultPower;
+
+            // Strongest first, as the slots list theirs.
+            for (auto option = state.chainPowers.rbegin(); option != state.chainPowers.rend(); ++option)
+            {
+                model.resultPowers.options.push_back({option->power, 0});
+            }
         }
     }
 
@@ -260,6 +351,18 @@ std::optional<GameplayAlchemyBenchModel> GameplayAlchemyBenchView::buildModel(Ga
         model.mixAllCount = 0;
     }
 
+    // The slots' copies can be chosen while the slots themselves are mixed: a chain picks its own.
+    if (directMixPossible && !model.chainMode)
+    {
+        model.targetPowers = carriedPowers(*pParty, *benchTables, state.targetItemId, model.powerChoice.targetPower,
+            state.heldItemId, model.powerChoice.heldPower, model.preview.targetPower);
+        model.heldPowers = carriedPowers(*pParty, *benchTables, state.heldItemId, model.powerChoice.heldPower,
+            state.targetItemId, model.powerChoice.targetPower, model.preview.heldPower);
+    }
+
+    const bool listShown = state.powerListSlot >= 1 && state.powerListSlot <= PowerListSlotCount
+        && powerButtonShown(slotPowers(model, state.powerListSlot));
+    model.powerListSlot = listShown ? state.powerListSlot : 0;
     return model;
 }
 
@@ -267,7 +370,8 @@ AlchemyChainPlan GameplayAlchemyBenchView::planChain(
     const GameplayScreenRuntime &context,
     const GameplayAlchemyBenchModel &model,
     uint32_t resultItemId,
-    uint32_t maxBrews)
+    uint32_t maxBrews,
+    const std::optional<uint16_t> &power)
 {
     const Party *pParty = context.partyReadOnly();
     const std::optional<AlchemyBenchTables> benchTables = tables(context);
@@ -277,8 +381,10 @@ AlchemyChainPlan GameplayAlchemyBenchView::planChain(
         return {};
     }
 
-    return AlchemyChainPlanner(*pParty, model.book, model.alchemist, *benchTables, model.keepMixedPotions)
-        .plan(resultItemId, maxBrews);
+    const AlchemyChainPlanner planner(
+        *pParty, model.book, model.alchemist, *benchTables, model.keepMixedPotions);
+    return planner.plan(resultItemId, maxBrews,
+        power ? planner.aimForPower(resultItemId, *power) : std::optional<uint16_t>());
 }
 
 std::string GameplayAlchemyBenchView::masteryName(uint8_t mastery)
@@ -336,6 +442,68 @@ std::vector<GameplayAlchemyBenchRowRect> GameplayAlchemyBenchView::visibleRows(
 
         rects.push_back({index, {list.x + RecipeListPadding * list.scale, y,
             list.width - (2 * RecipeListPadding + 6) * list.scale, height, list.scale}});
+    }
+
+    return rects;
+}
+
+const char *GameplayAlchemyBenchView::powerListSlotLayoutId(uint8_t slot)
+{
+    return slot == 3 ? "AlchemyBenchResultSlot" : slot == 2 ? "AlchemyBenchHeldSlot" : "AlchemyBenchTargetSlot";
+}
+
+const GameplayAlchemyBenchSlotPowers &GameplayAlchemyBenchView::slotPowers(
+    const GameplayAlchemyBenchModel &model,
+    uint8_t slot)
+{
+    return slot == 3 ? model.resultPowers : slot == 2 ? model.heldPowers : model.targetPowers;
+}
+
+bool GameplayAlchemyBenchView::powerButtonShown(const GameplayAlchemyBenchSlotPowers &powers)
+{
+    return powers.options.size() > 1;
+}
+
+GameplayResolvedHudLayoutElement GameplayAlchemyBenchView::powerButton(const GameplayResolvedHudLayoutElement &slot)
+{
+    // Where the slot's power line is, under its name.
+    const float s = slot.scale;
+    return {slot.x, slot.y + slot.height + 11.5f * s, slot.width, 12 * s, s};
+}
+
+size_t GameplayAlchemyBenchView::maximumPowerListScroll(const GameplayAlchemyBenchSlotPowers &powers)
+{
+    const size_t rows = powers.options.size() + 1;
+    return rows > PowerListVisibleRows ? rows - PowerListVisibleRows : 0;
+}
+
+GameplayResolvedHudLayoutElement GameplayAlchemyBenchView::powerList(
+    const GameplayAlchemyBenchSlotPowers &powers,
+    const GameplayResolvedHudLayoutElement &slot)
+{
+    const float s = slot.scale;
+    const GameplayResolvedHudLayoutElement button = powerButton(slot);
+    const size_t rows = std::min(powers.options.size() + 1, PowerListVisibleRows);
+    return {slot.x - 12 * s, button.y + button.height + s, slot.width + 24 * s,
+        (float(rows) * PowerListRowHeight + 2 * PowerListPadding) * s, s};
+}
+
+std::vector<GameplayAlchemyBenchPowerRowRect> GameplayAlchemyBenchView::powerListRows(
+    const GameplayAlchemyBenchSlotPowers &powers,
+    const GameplayResolvedHudLayoutElement &slot,
+    size_t scrollRow)
+{
+    std::vector<GameplayAlchemyBenchPowerRowRect> rects;
+    const GameplayResolvedHudLayoutElement list = powerList(powers, slot);
+    const float s = list.scale;
+    const size_t first = std::min(scrollRow, maximumPowerListScroll(powers));
+    const size_t last = std::min(powers.options.size() + 1, first + PowerListVisibleRows);
+
+    for (size_t row = first; row < last; ++row)
+    {
+        rects.push_back({row, {list.x + PowerListPadding * s,
+            list.y + (PowerListPadding + float(row - first) * PowerListRowHeight) * s,
+            list.width - 2 * PowerListPadding * s, PowerListRowHeight * s, s}});
     }
 
     return rects;

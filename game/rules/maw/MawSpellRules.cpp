@@ -53,6 +53,25 @@ uint32_t auraBuffSkill(const MawAuraSource &source)
 {
     return uint32_t(std::max(0.0, source.skill));
 }
+
+// A scroll read in a solo run holds its aura for a game day, wherever the party goes.
+constexpr double SoloScrollAuraMinutes = 24.0 * 60.0;
+
+// The time an aura's buff is set to: a timed aura's time left, else AuraSeconds.
+float auraBuffSeconds(const MawAuraSource &source)
+{
+    return source.secondsLeft > 0 ? source.secondsLeft : AuraSeconds;
+}
+
+// Whether an aura's buff needs setting again: a held one before half of AuraSeconds has run out, a timed one when its
+// buff's time strays from the aura's (a new scroll read).
+bool auraBuffRunsOff(const MawAuraSource &source, float remainingSeconds)
+{
+    constexpr float TimedToleranceSeconds = 60.0f;
+    return source.secondsLeft > 0 ? std::abs(remainingSeconds - source.secondsLeft) > TimedToleranceSeconds
+                                  : remainingSeconds < AuraSeconds / 2;
+}
+
 constexpr uint32_t HourOfPower = 86;
 constexpr uint32_t DayOfProtection = 85;
 constexpr uint32_t Preservation = 50;
@@ -714,19 +733,6 @@ int MawSpellRules::castRecoveryTicks(
 
 std::optional<int> MawSpellRules::healAmount(const CharacterSpellCast &cast) const
 {
-    const std::optional<int> amount = healAmountBeforeTalents(cast);
-
-    // A solo run's Attunement talent heals more.
-    if (amount && m_rules.options().soloRun && cast.pCaster != nullptr)
-    {
-        return int(std::lround(*amount * MawSoloTalents::healScale(*cast.pCaster)));
-    }
-
-    return amount;
-}
-
-std::optional<int> MawSpellRules::healAmountBeforeTalents(const CharacterSpellCast &cast) const
-{
     const uint32_t spellId = uint32_t(cast.pSpell->id);
     const std::optional<MawHealSpell> heal = mawHealSpell(spellId, cast.mastery, insanityHeals(m_rules));
 
@@ -1021,6 +1027,12 @@ std::optional<std::string> MawSpellRules::heldBuffText(const Party &party, uint3
 
     if (held != m_rules.state().auraHolders.end() && held->second == MawGameState::FixedAuraHolder)
     {
+        // A solo run's scroll aura shows the time its buff has left.
+        if (m_rules.state().fixedAuraEndMinutes.contains(spellId))
+        {
+            return std::nullopt;
+        }
+
         const auto fixed = m_rules.state().fixedAuraMaps.find(spellId);
         const bool temple = fixed != m_rules.state().fixedAuraMaps.end() && fixed->second.empty();
         return Engine::tr(temple ? "Temple blessing" : "Blessing of this place");
@@ -1084,6 +1096,16 @@ bool MawSpellRules::castSourceBuff(Party &party, uint32_t spellId, BuffSource so
 
     state.auraHolders[spellId] = MawGameState::FixedAuraHolder;
     state.fixedAuraMaps[spellId] = source == BuffSource::Temple ? std::string() : m_rules.currentMap();
+
+    if (source == BuffSource::Scroll && m_rules.options().soloRun)
+    {
+        state.fixedAuraEndMinutes[spellId] = double(party.gameMinutes()) + SoloScrollAuraMinutes;
+    }
+    else
+    {
+        state.fixedAuraEndMinutes.erase(spellId);
+    }
+
     updateAuras(party, 0.0f);
     return true;
 }
@@ -1218,6 +1240,7 @@ std::optional<AuraCastResult> MawSpellRules::castAura(Party &party, size_t caste
     // A member takes over a scroll's, pedestal's or temple's aura.
     holders[spellId] = uint32_t(casterIndex);
     m_rules.state().fixedAuraMaps.erase(spellId);
+    m_rules.state().fixedAuraEndMinutes.erase(spellId);
     return AuraCastResult::Held;
 }
 
@@ -1240,6 +1263,7 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
     m_auraSeconds = 0.0f;
     std::unordered_map<uint32_t, uint32_t> &holders = m_rules.state().auraHolders;
     std::unordered_map<uint32_t, std::string> &fixedMaps = m_rules.state().fixedAuraMaps;
+    std::unordered_map<uint32_t, double> &fixedEnds = m_rules.state().fixedAuraEndMinutes;
     std::unordered_map<uint32_t, MawAuraSource> sources;
 
     // A new map ends the temple's auras, and an outdoor one the scroll and pedestal auras of other maps (SP:2693-2730).
@@ -1252,7 +1276,8 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
 
         for (auto it = fixedMaps.begin(); it != fixedMaps.end() && !firstUpdate;)
         {
-            if (it->second.empty() || (outdoor && it->second != map))
+            // A solo run's scroll aura keeps its time instead.
+            if (!fixedEnds.contains(it->first) && (it->second.empty() || (outdoor && it->second != map)))
             {
                 holders.erase(it->first);
                 it = fixedMaps.erase(it);
@@ -1268,13 +1293,19 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         // A scroll, pedestal or temple holds its aura at skill 7, Master, level 40 (getSpecialBuffSkill).
         if (it->second == MawGameState::FixedAuraHolder)
         {
-            if (!fixedMaps.contains(it->first))
+            const auto end = fixedEnds.find(it->first);
+            const float secondsLeft =
+                end != fixedEnds.end() ? float((end->second - double(party.gameMinutes())) * 60.0) : 0.0f;
+
+            if (!fixedMaps.contains(it->first) || (end != fixedEnds.end() && secondsLeft <= 0))
             {
+                fixedMaps.erase(it->first);
+                fixedEnds.erase(it->first);
                 it = holders.erase(it);
                 continue;
             }
 
-            sources[it->first] = MawAuraSource{7, 3, 40, 0};
+            sources[it->first] = MawAuraSource{7, 3, 40, 0, secondsLeft};
             ++it;
             continue;
         }
@@ -1477,13 +1508,13 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
         const PartyBuffState *pBuff = party.partyBuff(buffId);
 
         if (pBuff == nullptr || pBuff->power != slot.power || pBuff->spellId != slot.spellId
-            || pBuff->remainingSeconds < AuraSeconds / 2)
+            || auraBuffRunsOff(*slot.pSource, pBuff->remainingSeconds))
         {
             const SkillMastery mastery = buffId == PartyBuffId::ProtectionFromMagic
                 ? SkillMastery::Grandmaster
                 : SkillMastery(slot.pSource->mastery);
-            party.applyPartyBuff(buffId, AuraSeconds, slot.power, slot.spellId, auraBuffSkill(*slot.pSource),
-                mastery, slot.pSource->holder);
+            party.applyPartyBuff(buffId, auraBuffSeconds(*slot.pSource), slot.power, slot.spellId,
+                auraBuffSkill(*slot.pSource), mastery, slot.pSource->holder);
         }
     }
 
@@ -1512,10 +1543,11 @@ void MawSpellRules::updateAuras(Party &party, float deltaSeconds) const
             const CharacterBuffState *pBuff = party.characterBuff(memberIndex, buffId);
 
             if (pBuff == nullptr || pBuff->power != slot.power || pBuff->spellId != slot.spellId
-                || pBuff->remainingSeconds < AuraSeconds / 2)
+                || auraBuffRunsOff(*slot.pSource, pBuff->remainingSeconds))
             {
-                party.applyCharacterBuff(memberIndex, buffId, AuraSeconds, slot.power, slot.spellId,
-                    auraBuffSkill(*slot.pSource), SkillMastery(slot.pSource->mastery), slot.pSource->holder);
+                party.applyCharacterBuff(memberIndex, buffId, auraBuffSeconds(*slot.pSource), slot.power,
+                    slot.spellId, auraBuffSkill(*slot.pSource), SkillMastery(slot.pSource->mastery),
+                    slot.pSource->holder);
             }
         }
     }
@@ -1677,6 +1709,7 @@ std::optional<std::string> MawSpellRules::removeAllBuffs(Party &) const
 {
     m_rules.state().auraHolders.clear();
     m_rules.state().fixedAuraMaps.clear();
+    m_rules.state().fixedAuraEndMinutes.clear();
     return Engine::tr("All buffs have been removed");
 }
 

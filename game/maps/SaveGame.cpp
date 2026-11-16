@@ -7,6 +7,7 @@
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
+#include <array>
 #include <bitset>
 #include <cctype>
 #include <cmath>
@@ -23,7 +24,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 184;
+constexpr uint32_t SaveVersion = 190;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -317,6 +318,24 @@ constexpr uint32_t SaveVersionOwnHealthOrders = 183;
 // An outdoor actor's Aggressor bit (OutdoorWorldRuntime::MapActorState::aggressor), set by a party hit and its faction's
 // alert; older saves load it as false.
 constexpr uint32_t SaveVersionOutdoorAggressor = 184;
+// An indoor actor's first-fill position (MapDeltaActor::fillPosition, fillSectorId), where MAW's Nightmare revival
+// raises it; older saves have none and their slain rise where they fell until the map refills.
+constexpr uint32_t SaveVersionActorFillPosition = 185;
+// A Custom loot filter's rules (RulesetLootFilter::rules, otherwise); older saves have none.
+constexpr uint32_t SaveVersionLootFilterRules = 186;
+// A solo run character's talent state (Character::talentState: cooldowns, Onslaught's stacks and the timed effects);
+// older saves load every cooldown ready and every effect off.
+constexpr uint32_t SaveVersionSoloTalentState = 187;
+// A MAW solo run's scroll auras end after a game day (MawGameState::fixedAuraEndMinutes); older saves have none, so
+// their scroll auras keep ending with the map.
+constexpr uint32_t SaveVersionMawScrollAuraEnds = 188;
+// A battle order may name a solo talent (BattleOrder::talentId), and Power Shot replaced Pinning Shot: an older save's
+// Pinning Shot ranks and cooldown become Power Shot's (migratePinningShot).
+constexpr uint32_t SaveVersionTalentOrders = 189;
+// Talent ranks are two bytes (Character::talentRanks: Conditioning has no last rank), and Conditioning replaced Weapon
+// Training, Marksman and Attunement: an older save's ranks in those are dropped and their points come back
+// (migrateRemovedTalents).
+constexpr uint32_t SaveVersionWideTalentRanks = 190;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -806,6 +825,40 @@ bool readValue(BinaryReader &reader, ActionBarSlot &value)
     return true;
 }
 
+void writeValue(BinaryWriter &writer, const SoloTalentState &value)
+{
+    writeValue(writer, value.cooldownSeconds);
+    writeValue(writer, value.shieldWallSeconds);
+    writeValue(writer, value.spellSurgeArmed);
+    writeValue(writer, value.surgeDamageSeconds);
+    writeValue(writer, value.onslaughtStacks);
+    writeValue(writer, value.onslaughtSeconds);
+    writeValue(writer, value.cheatDeathSeconds);
+    writeValue(writer, value.cheatDeathCooldown);
+    writeValue(writer, value.stillSeconds);
+    writeValue(writer, value.lastX);
+    writeValue(writer, value.lastY);
+    writeValue(writer, value.hasLastPosition);
+    writeValue(writer, value.steadyAimOn);
+}
+
+bool readValue(BinaryReader &reader, SoloTalentState &value)
+{
+    return readValue(reader, value.cooldownSeconds)
+        && readValue(reader, value.shieldWallSeconds)
+        && readValue(reader, value.spellSurgeArmed)
+        && readValue(reader, value.surgeDamageSeconds)
+        && readValue(reader, value.onslaughtStacks)
+        && readValue(reader, value.onslaughtSeconds)
+        && readValue(reader, value.cheatDeathSeconds)
+        && readValue(reader, value.cheatDeathCooldown)
+        && readValue(reader, value.stillSeconds)
+        && readValue(reader, value.lastX)
+        && readValue(reader, value.lastY)
+        && readValue(reader, value.hasLastPosition)
+        && readValue(reader, value.steadyAimOn);
+}
+
 void writeValue(BinaryWriter &writer, const CharacterSkill &value)
 {
     writeValue(writer, value.name);
@@ -1136,6 +1189,7 @@ void writeValue(BinaryWriter &writer, const MawGameState &value)
     writeValue(writer, value.bountiesClaimed);
     writeValue(writer, value.usedStatDecorations);
     writeValue(writer, value.madnessDeaths);
+    writeValue(writer, value.fixedAuraEndMinutes);
 }
 
 void writeValue(BinaryWriter &writer, const MawMapVisit &value)
@@ -1192,7 +1246,8 @@ bool readValue(BinaryReader &reader, MawGameState &value)
                 && readValue(reader, value.dimensionRunsCleared)
                 && readValue(reader, value.bountiesClaimed)))
         && (reader.version() < SaveVersionMawUsedStatDecorations || readValue(reader, value.usedStatDecorations))
-        && (reader.version() < SaveVersionMawMadnessDeaths || readValue(reader, value.madnessDeaths));
+        && (reader.version() < SaveVersionMawMadnessDeaths || readValue(reader, value.madnessDeaths))
+        && (reader.version() < SaveVersionMawScrollAuraEnds || readValue(reader, value.fixedAuraEndMinutes));
 }
 
 // Before the tier was saved apart: a drop's rarity tells its tier (crafted changes before then cannot be told).
@@ -1543,6 +1598,7 @@ void writeValue(BinaryWriter &writer, const BattleOrder &value)
     writeValue(writer, value.place);
     writeValue(writer, value.renewBelowMinutes);
     writeValue(writer, value.ownHealth);
+    writeValue(writer, value.talentId);
 }
 
 bool readValue(BinaryReader &reader, BattleOrder &value)
@@ -1555,7 +1611,8 @@ bool readValue(BinaryReader &reader, BattleOrder &value)
         && readValue(reader, value.keepSpellPointsPercent)
         && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.place))
         && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.renewBelowMinutes))
-        && (reader.version() < SaveVersionOwnHealthOrders || readValue(reader, value.ownHealth));
+        && (reader.version() < SaveVersionOwnHealthOrders || readValue(reader, value.ownHealth))
+        && (reader.version() < SaveVersionTalentOrders || readValue(reader, value.talentId));
 }
 
 void writeValue(BinaryWriter &writer, const Character &value)
@@ -1631,6 +1688,7 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.battleOrderFallback);
     writeValue(writer, value.upkeepOrders);
     writeValue(writer, value.talentRanks);
+    writeValue(writer, value.talentState);
 }
 
 // Saves before SaveVersionWideExperience hold a character's experience in 32 bits.
@@ -1649,6 +1707,75 @@ bool readCharacterExperience(BinaryReader &reader, uint64_t &experience)
     }
 
     experience = narrowExperience;
+    return true;
+}
+
+// Power Shot replaced Pinning Shot in the archery tree (2026-11-16): the ranks spent on it, and its running cooldown,
+// carry over.
+void migratePinningShot(Character &value)
+{
+    if (const auto rank = value.talentRanks.find("pinning_shot"); rank != value.talentRanks.end())
+    {
+        value.talentRanks["power_shot"] = rank->second;
+        value.talentRanks.erase(rank);
+    }
+
+    if (const auto cooldown = value.talentState.cooldownSeconds.find("pinning_shot");
+        cooldown != value.talentState.cooldownSeconds.end())
+    {
+        value.talentState.cooldownSeconds["power_shot"] = cooldown->second;
+        value.talentState.cooldownSeconds.erase(cooldown);
+    }
+}
+
+// Conditioning replaced Weapon Training, Marksman and Attunement (2026-11-16): their ranks go, so their points are free
+// to spend again. The action bar keeps talents by their place in the table, and the three left the shipped table at
+// places 0, 6 and 12 (of 19): a talent key after them moves up by one for each of them before it. They were passives,
+// which the bar never holds, so a key on one of them is emptied.
+void migrateRemovedTalents(Character &value)
+{
+    for (const char *pId : {"weapon_training", "marksman", "attunement"})
+    {
+        value.talentRanks.erase(pId);
+    }
+
+    constexpr std::array<uint32_t, 3> RemovedPlaces = {0, 6, 12};
+
+    for (ActionBarSlot &slot : value.actionBar)
+    {
+        if (slot.kind != ActionBarSlotKind::Talent)
+        {
+            continue;
+        }
+
+        if (std::find(RemovedPlaces.begin(), RemovedPlaces.end(), slot.id) != RemovedPlaces.end())
+        {
+            slot = {};
+            continue;
+        }
+
+        slot.id -= uint32_t(std::count_if(RemovedPlaces.begin(), RemovedPlaces.end(),
+            [&slot](uint32_t place) { return place < slot.id; }));
+    }
+}
+
+// Talent ranks before SaveVersionWideTalentRanks: one byte each.
+bool readNarrowTalentRanks(BinaryReader &reader, std::unordered_map<std::string, uint16_t> &ranks)
+{
+    std::unordered_map<std::string, uint8_t> narrow;
+
+    if (!readValue(reader, narrow))
+    {
+        return false;
+    }
+
+    ranks.clear();
+
+    for (const auto &[id, rank] : narrow)
+    {
+        ranks[id] = rank;
+    }
+
     return true;
 }
 
@@ -1731,11 +1858,24 @@ bool readValue(BinaryReader &reader, Character &value)
         && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrders))
         && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrderFallback))
         && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.upkeepOrders))
-        && (reader.version() < SaveVersionSoloTalents || readValue(reader, value.talentRanks));
+        && (reader.version() < SaveVersionSoloTalents
+            || (reader.version() < SaveVersionWideTalentRanks ? readNarrowTalentRanks(reader, value.talentRanks)
+                                                               : readValue(reader, value.talentRanks)))
+        && (reader.version() < SaveVersionSoloTalentState || readValue(reader, value.talentState));
 
     if (read && reader.version() < SaveVersionBattleOrders)
     {
         setAttackSpell(legacyAttackSpellName, value.battleOrders, value.battleOrderFallback);
+    }
+
+    if (read && reader.version() < SaveVersionTalentOrders)
+    {
+        migratePinningShot(value);
+    }
+
+    if (read && reader.version() < SaveVersionWideTalentRanks)
+    {
+        migrateRemovedTalents(value);
     }
 
     return read;
@@ -3671,6 +3811,8 @@ void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
     writeValue(writer, value.drawScale);
     writeValue(writer, value.posed);
     writeValue(writer, value.heldItems);
+    writeValue(writer, value.fillPosition);
+    writeValue(writer, value.fillSectorId);
 }
 
 bool readHitPoints(BinaryReader &reader, int32_t &value)
@@ -3769,7 +3911,9 @@ bool readValue(BinaryReader &reader, MapDeltaActor &value)
         && (reader.version() < SaveVersionActorMm9AiPlacement || readValue(reader, value.mm9Ai))
         && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
         && (reader.version() < SaveVersionActorPosed || readValue(reader, value.posed))
-        && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems));
+        && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems))
+        && (reader.version() < SaveVersionActorFillPosition
+            || (readValue(reader, value.fillPosition) && readValue(reader, value.fillSectorId)));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
@@ -5159,6 +5303,20 @@ bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
         && (reader.version() < SaveVersionMapLayoutIdentity || readValue(reader, value.mapLayoutIdentity));
 }
 
+void writeValue(BinaryWriter &writer, const RulesetLootFilterRule &value)
+{
+    writeValue(writer, value.types);
+    writeValue(writer, value.rarityAtMost);
+    writeValue(writer, value.levelsBelow);
+    writeValue(writer, value.action);
+}
+
+bool readValue(BinaryReader &reader, RulesetLootFilterRule &value)
+{
+    return readValue(reader, value.types) && readValue(reader, value.rarityAtMost)
+        && readValue(reader, value.levelsBelow) && readValue(reader, value.action);
+}
+
 void writeValue(BinaryWriter &writer, const RulesetSelection &value)
 {
     writeValue(writer, value.id);
@@ -5175,6 +5333,8 @@ void writeValue(BinaryWriter &writer, const RulesetSelection &value)
     writeValue(writer, value.options.preferences.trainerHints);
     writeValue(writer, value.options.preferences.bowDisabled);
     writeValue(writer, value.options.soloRun);
+    writeValue(writer, value.options.preferences.lootFilter.rules);
+    writeValue(writer, value.options.preferences.lootFilter.otherwise);
 }
 
 // The retired per-game loot choice of saves 172 to 177 (SaveVersionOtherWorldsLootRetired).
@@ -5226,6 +5386,9 @@ bool readValue(BinaryReader &reader, RulesetSelection &value)
             || readValue(reader, value.options.preferences.bowDisabled))
         && skipRetiredOtherWorldsLoot(reader)
         && (reader.version() < SaveVersionSoloRun || readValue(reader, value.options.soloRun))
+        && (reader.version() < SaveVersionLootFilterRules
+            || (readValue(reader, value.options.preferences.lootFilter.rules)
+                && readValue(reader, value.options.preferences.lootFilter.otherwise)))
         && !value.id.empty()
         && rulesetOptionsValid(value.options);
 }

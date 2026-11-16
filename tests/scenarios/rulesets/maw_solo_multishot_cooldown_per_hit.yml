@@ -1,0 +1,50 @@
+id: rulesets.maw_solo_multishot_cooldown_per_hit
+title: "Ruleset - solo run: an ordinary attack that hits takes one second off Multishot's cooldown, its chained hits none"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Multishot's cooldown_per_hit (talents.yml): each ordinary weapon attack that hits a monster takes 1 s off the
+        cooldown, once per attack (ProjectileState::hitCredit, spent by the shot's first arrow to hit). Multishot
+        (rank 1, 10 s) is fired at empty ground; 5 s later one ordinary shot hits the first Mercenary Captain and
+        chains (Chaining Arrows rank 3) to two more. The cooldown falls from 4.93 s by the 1.33 s the runtime ticks in the
+        1.5 s step and by 1 s for the shot: 2.6 s left. No credit would leave 3.6 s, a credit for each of the three hits
+        0.6 s. Accuracy 500 makes every hit roll certain under MAW.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 20
+            accuracy: 500
+            skills:
+              - {name: Bow, level: 8, mastery: 2}
+            equipment: {}
+  - grant_item: {item_id: 56, equip: bow}
+  - console: {line: "talent piercing_arrows 3", expect_contains: "piercing_arrows"}
+  - console: {line: "talent multishot 1", expect_contains: "multishot"}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - clear_hostiles: {radius: 6000}
+  - advance_runtime: {seconds: 0.1}
+  - console: {line: "talent use multishot", expect_contains: "using"}
+  - advance_runtime: {seconds: 5.0}
+  - console: {line: "talent list", expect_contains: "multishot=1 (cooldown 4.9"}
+  # As in maw_solo_chaining_arrows.yml: the first Captain in the shot's line, two more within 1024 of each other off it.
+  - spawn_actor: {monster_id: 195, x: -9028, y: -11319, z: 200}
+  - spawn_actor: {monster_id: 195, x: -8928, y: -10969, z: 200}
+  - spawn_actor: {monster_id: 195, x: -8928, y: -10619, z: 200}
+  - assert:
+      recovering_members: 0
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  - advance_runtime: {seconds: 1.5}
+  - assert:
+      actor_count: {name: Mercenary Captain, hurt: true, min: 3, max: 3}
+  - console: {line: "talent list", expect_contains: "multishot=1 (cooldown 2.6 s)"}

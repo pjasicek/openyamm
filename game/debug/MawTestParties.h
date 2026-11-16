@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -61,6 +62,42 @@ struct MawTestPartyParty
     std::vector<MawTestPartyMember> members;
 };
 
+// One worn item written out in full (the solo simulation's kits, devdocs/maw/solo_sim).
+struct MawTestPartyExactItem
+{
+    int slot = 0;
+    uint32_t itemId = 0;
+    uint16_t enchantId = 0;
+    uint16_t enchantPower = 0;
+    uint16_t secondEnchantId = 0;
+    uint16_t secondEnchantPower = 0;
+    uint16_t specialEnchantId = 0;
+    uint16_t itemPower = 0;
+    uint8_t rarity = 0;
+    uint16_t dropLevel = 0;
+    uint16_t legendaryAffixId = 0;
+    uint8_t qualityPercent = 0;
+    uint8_t ancientTier = 0;
+};
+
+// A one-member party's build written out in full, in place of the stage's generic stats, skills and rolled gear:
+// the seven stats (Might, Intellect, Personality, Endurance, Accuracy, Speed, Luck), its skills with their masteries
+// and what it wears.
+struct MawTestPartyBuild
+{
+    // The party it is for (MawTestPartyParty::id).
+    std::string party;
+    std::array<uint32_t, 7> stats = {};
+    struct Skill
+    {
+        std::string name;
+        uint32_t level = 1;
+        uint32_t mastery = 1;
+    };
+    std::vector<Skill> skills;
+    std::vector<MawTestPartyExactItem> worn;
+};
+
 struct MawTestPartyStage
 {
     std::string id;
@@ -86,6 +123,10 @@ struct MawTestPartyStage
     std::string map;
     // The party it plays without one named.
     std::string party;
+    // Builds written out in full for some parties (`builds`); the others get the generic stats, skills and gear.
+    std::vector<MawTestPartyBuild> builds;
+
+    const MawTestPartyBuild *build(const std::string &partyId) const;
 };
 
 struct MawTestPartyCatalog

@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -46,19 +47,29 @@ struct TalentDefinition
     std::string text;
     TalentTree tree = TalentTree::Arms;
     TalentKind kind = TalentKind::Passive;
+    // The last rank (at most 50); `max_rank: unlimited` (Conditioning) sets the highest rank a save holds and
+    // unlimitedRanks.
     int maxRank = 1;
+    bool unlimitedRanks = false;
     std::string iconItem;
     uint32_t iconSpell = 0;
     TalentRequirement requirement = TalentRequirement::None;
     // Another talent that must have a rank first (empty: none).
     std::string needs;
     float perRank = 0.0f;
+    // A passive's value at rank 1 (`first_rank`) when it differs from per_rank; each rank after adds per_rank.
+    std::optional<float> firstRank;
     // A passive's value per rank out of combat (no yellow alert); 0 when it has none.
     float perRankCalm = 0.0f;
     float cooldown = 0.0f;
     float cooldownPerRank = 0.0f;
     // Seconds each ordinary weapon attack (melee or bow, not a talent's blow) takes off the running cooldown (Charge).
     float cooldownPerAttack = 0.0f;
+    // The same for each ordinary weapon attack that hits a monster, once per attack (Multishot).
+    float cooldownPerHit = 0.0f;
+    // The same for each critical hit of an ordinary attack's own arrow or blow (Power Shot); a Chaining Arrows leap
+    // and a Sweeping Blows blow are not the attack's own.
+    float cooldownPerCritical = 0.0f;
     float duration = 0.0f;
     float durationPerRank = 0.0f;
     int targets = 0;
@@ -66,8 +77,12 @@ struct TalentDefinition
     // Percent added to `share` per point of the tree's weapon skill, and the share's ceiling (0: none).
     float sharePerSkill = 0.0f;
     float shareCap = 0.0f;
+    // An active's share at each rank (`share_by_rank`, Power Shot), in place of `share`; empty: `share` at every rank.
+    std::vector<float> shareByRank;
     float distance = 0.0f;
     float arc = 0.0f;
+    // An active's recovery (and its clip's time) as a percent of an ordinary attack's (`recovery`; Cleave, Power Shot).
+    float recovery = 100.0f;
 };
 
 class SoloTalentTable
@@ -81,11 +96,21 @@ public:
     const std::vector<TalentDefinition> &keystones() const;
     const TalentDefinition *findKeystone(std::string_view id) const;
     const std::vector<uint32_t> &keystoneLevels() const;
+    // The solo run's early monster cut (`early_monster_cut`, devdocs/solo_action/POWER_CURVE_DIRECTION.md §8): what a
+    // monster's damage is divided by, and a solo's damage on monsters multiplied by, at a character level. Linear
+    // between the table's points, the first value below them and 1 past the last; 1 when the table has none.
+    double earlyMonsterCut(double level) const;
+    // The solo run's experience surcharge (`experience_surcharge`): how much more each level past 100 costs per level
+    // above 100 for the solo character, in place of MAW's 0.005. None when the table has none.
+    std::optional<double> experienceSurcharge() const;
 
 private:
     std::vector<TalentDefinition> m_talents;
     std::vector<TalentDefinition> m_keystones;
     std::vector<uint32_t> m_keystoneLevels;
+    // [character level, divisor], rising levels.
+    std::vector<std::pair<double, double>> m_earlyMonsterCut;
+    std::optional<double> m_experienceSurcharge;
     uint32_t m_levelsPerPoint = 15;
 };
 
@@ -126,7 +151,7 @@ bool bindKeystone(const SoloTalentTable &table, Character &character, std::strin
 // The level at which the next keystone slot opens (0: none left).
 uint32_t nextKeystoneLevel(const SoloTalentTable &table, const Character &character);
 
-// A share that grows with the tree's weapon skill (Sweeping Blows, Piercing Arrows), as a fraction: share +
+// A share that grows with the tree's weapon skill (Sweeping Blows, Chaining Arrows), as a fraction: share +
 // share_per_skill x skill, at most share_cap.
 float talentSkillShare(const TalentDefinition &talent, const Character &character);
 
@@ -135,8 +160,18 @@ int talentTreeMastery(const Character &character, TalentTree tree);
 
 // A rank's numbers: the cooldown and the duration (seconds), and a passive's value.
 float talentCooldownSeconds(const TalentDefinition &talent, int rank);
+// The seconds before the character may use the active again (0: ready).
+float talentCooldownRemaining(const Character &character, std::string_view id);
+// An ordinary weapon attack (not a talent's blow) takes the talents' cooldown_per_attack off their running cooldowns,
+// or their cooldown_per_hit for the attack's hit on a monster.
+void shortenTalentCooldowns(const SoloTalentTable &table, Character &character, bool hit);
+// A critical hit of an ordinary attack's own arrow or blow takes the talents' cooldown_per_crit off their running
+// cooldowns, once for each such arrow or blow.
+void shortenTalentCooldownsOnCritical(const SoloTalentTable &table, Character &character);
 float talentDurationSeconds(const TalentDefinition &talent, int rank);
 float talentValue(const TalentDefinition &talent, int rank);
+// An active's share of a normal blow or shot at a rank, as a fraction (share_by_rank, else share).
+float talentShareAtRank(const TalentDefinition &talent, int rank);
 
 // The effect line with the rank's number in it.
 std::string talentEffectText(const TalentDefinition &talent, int rank);
@@ -152,7 +187,7 @@ struct TalentTargetCandidate
     bool usable = false;
 };
 
-// Cleave, Sweeping Blows, Multishot and Piercing Arrows pick their targets: the usable monsters whose body is within `reach` of the party and
+// Cleave and Sweeping Blows pick their targets: the usable monsters whose body is within `reach` of the party and
 // whose centre lies within `arcDegrees` either side of the view (180: all around), nearest first, at most `maxCount`.
 std::vector<size_t> pickTalentTargets(const std::vector<TalentTargetCandidate> &candidates, float partyX, float partyY,
     float partyZ, float yawRadians, float reach, float arcDegrees, size_t maxCount);

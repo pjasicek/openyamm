@@ -81,6 +81,7 @@ TEST_CASE("MAW potion effects load with MAW's drinking rules")
     CHECK_EQ(effects.timedSecondsPerPower(), 0.0f);
     CHECK_EQ(effects.fixedDurationSeconds(), 6 * 3600.0f);
     CHECK_EQ(effects.grandmasterAlchemySecondsPerSkill(), 360.0f);
+    CHECK_EQ(effects.soloDurationSeconds(), 24 * 3600.0f);
     CHECK_EQ(effects.combatRecoveryTicks(), 60.0f);
     CHECK(effects.combatRecoveryOnlyNearEnemies());
     CHECK(effects.allRecipesKnown());
@@ -221,6 +222,22 @@ TEST_CASE("MAW potions: power cap and requirement, charges, combat recovery and 
     party.member(0)->ageModifier = 7;
     drink(party, potions, 260, 1);
     CHECK_EQ(CharacterAgeReferenceYear - int(party.members()[0].birthYear) + party.members()[0].ageModifier, 20);
+}
+
+TEST_CASE("a solo run's potions last a game day")
+{
+    REQUIRE_MESSAGE(
+        OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    MergedPotionSettingTable potions = OpenYAMM::Tests::regressionGameData().mergedPotionSettingTable;
+    potions.setEffects(mawPotionEffects());
+    Party party = mawParty(rules);
+    party.setSoloRun(true);
+
+    drink(party, potions, 228, 120);
+    REQUIRE_FALSE(party.members()[0].rulesetState.potionEffects.empty());
+    CHECK_EQ(party.members()[0].rulesetState.potionEffects.front().remainingSeconds, 24 * 3600.0f);
 }
 
 TEST_CASE("MAW healing potions heal by the expected pool of a character of the potion's level")

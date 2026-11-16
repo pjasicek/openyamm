@@ -4,6 +4,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayActorShields.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
+#include "game/gameplay/GameplayWorldPoint.h"
 #include "game/items/WorldItemShape.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
@@ -14,6 +15,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -578,13 +580,6 @@ struct GameplayHeldItemDropRequest
     float yawRadians = 0.0f;
 };
 
-struct GameplayWorldPoint
-{
-    float x = 0.0f;
-    float y = 0.0f;
-    float z = 0.0f;
-};
-
 struct GameplayPartyAttackActorFacts
 {
     size_t actorIndex = 0;
@@ -683,10 +678,14 @@ struct GameplayPartyAttackProjectileRequest
     bool homing = false;
     // Its damage was a critical hit (CharacterAttackResult::criticalDamage).
     bool critical = false;
-    // A solo run's Piercing Arrows: it flies on through this many more monsters, each struck at pierceShare of its
-    // damage (ProjectileState::pierceLeft).
-    uint8_t pierceCount = 0;
-    float pierceShare = 0.0f;
+    // A solo run's Chaining Arrows: it leaps on from the monster it strikes to this many more, each within
+    // chainRadius of the one before and struck at chainShare of its damage (ProjectileState::chainLeft).
+    uint8_t chainCount = 0;
+    float chainShare = 0.0f;
+    float chainRadius = 0.0f;
+    // A solo run's ordinary bow attack: one credit its arrows share, spent by the first of them to hit a monster
+    // (ProjectileState::hitCredit).
+    std::shared_ptr<bool> hitCredit;
 };
 
 struct GameplayPartyAttackFallbackQuery
@@ -904,6 +903,13 @@ public:
     }
     virtual void stopTurnBasedActorMovement()
     {
+    }
+    // How many times faster than real time the frames run (fast mode times the turn-based speed settings). The
+    // world's per-frame catch-up limits, which absorb a hitch, are in real time and scale with it, so actors and
+    // missiles get the whole sped-up frame time the turn engine counts.
+    virtual void setGameSpeed(float speed)
+    {
+        (void)speed;
     }
     // The turn engine schedules turn-based actor actions; the world applies them to actor AI.
     virtual void setTurnBasedActorMode(ActorTurnBasedMode mode)
@@ -1131,6 +1137,14 @@ public:
         (void)viewPitchRadians;
         (void)viewAspectRatio;
         return collectMapActorIndicesWithinRadius(centerX, centerY, centerZ, radius, true, sourceX, sourceY, sourceZ);
+    }
+    // Whether nothing of the map stands on the straight line between two points (a chaining arrow's way from the
+    // monster it struck to the next). A world without a map blocks nothing.
+    virtual bool hasClearLineBetween(const GameplayWorldPoint &from, const GameplayWorldPoint &to) const
+    {
+        (void)from;
+        (void)to;
+        return true;
     }
     // Items lying on the ground (their models replace the sprites, GROUND_ITEMS_3D_PLAN.md). None by default.
     virtual void collectWorldItemPresentationStates(std::vector<GameplayWorldItemPresentationState> &items) const
@@ -1376,14 +1390,16 @@ public:
         return std::nullopt;
     }
     // shieldTier: what the blow is to an energy shield (GameplayActorShields); shieldModifiers: what the weapon's tech
-    // skill adds to it.
+    // skill adds to it. hitReaction false: the monster neither flinches nor is knocked back (a solo run's Sweeping
+    // Blows and an arrow's Chaining Arrows leaps).
     virtual bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
         const ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false) = 0;
+        bool critical = false,
+        bool hitReaction = true) = 0;
     virtual bool applyPartyAttackMeleeBModelDamage(size_t bModelIndex, int damage)
     {
         (void)bModelIndex;

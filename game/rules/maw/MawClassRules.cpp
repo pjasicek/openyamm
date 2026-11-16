@@ -56,6 +56,9 @@ enum Race : uint32_t
     Dwarf = 9,
 };
 
+// A vampire's Preservation at night and in dungeons, in game seconds.
+constexpr float VampirePreservationSeconds = 5.0f * 60.0f;
+
 // The skills a race gets 3 levels in, and a tenth of the character's own level (S:2348-2400).
 struct RaceSkills
 {
@@ -320,6 +323,7 @@ void MawClassRules::applyClassBonuses(Character &member) const
     if (m_rules.options().soloRun)
     {
         MawSoloTalents::applyPassives(member);
+        m_rules.setSoloMonsterCut(MawSoloTalents::earlyMonsterCut(member));
     }
 }
 
@@ -422,6 +426,12 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
     if (m_rules.options().soloRun)
     {
         MawSoloTalents::update(party, world.partyX(), world.partyY(), !partyHasYellowAlert(world), deltaSeconds);
+
+        // The early monster cut follows the character's level as its experience grows.
+        if (const Character *pMember = party.member(0))
+        {
+            m_rules.setSoloMonsterCut(MawSoloTalents::earlyMonsterCut(*pMember));
+        }
     }
     m_rules.updateStoryBands(party);
     scaleHirelings(party);
@@ -597,11 +607,14 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
     {
         const CharacterBuffState *pBuff = party.characterBuff(memberIndex, CharacterBuffId::Preservation);
 
-        // Five game minutes, refreshed.
-        if (party.members()[memberIndex].raceId == Vampire && (pBuff == nullptr || pBuff->remainingSeconds < 5))
+        // Kept at five game minutes (zzMaw-Spells.lua:1058, Game.Time + const.Minute*5): it outlasts the 50 game
+        // seconds a turn-based turn passes between the updates of the monsters' stages, and lingers five minutes
+        // after the night ends.
+        if (party.members()[memberIndex].raceId == Vampire
+            && (pBuff == nullptr || pBuff->remainingSeconds < VampirePreservationSeconds))
         {
-            party.applyCharacterBuff(
-                memberIndex, CharacterBuffId::Preservation, 10, 0, 0, 0, SkillMastery::None, uint32_t(memberIndex));
+            party.applyCharacterBuff(memberIndex, CharacterBuffId::Preservation, VampirePreservationSeconds, 0, 0, 0,
+                SkillMastery::None, uint32_t(memberIndex));
         }
     }
 }

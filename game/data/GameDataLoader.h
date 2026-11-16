@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "game/arcomage/ArcomageTypes.h"
 #include "game/gameplay/TrainerDirectory.h"
+#include "game/content/NamedMods.h"
 #include "game/content/RulesetDefinition.h"
 #include "game/tables/AwardTable.h"
 #include "game/tables/ChestTable.h"
@@ -81,6 +82,9 @@ public:
     // The ruleset whose table overrides the next load applies; Standard (no overrides) until set.
     void setActiveRuleset(const RulesetDefinition &ruleset);
     const RulesetDefinition &activeRuleset() const;
+    // The named mods that are on, in their order (mountNamedMods): their table rows apply after the ruleset's on
+    // every load (devdocs/NAMED_MODS.md). None until set.
+    void setNamedMods(std::vector<NamedModManifest> mods);
     // The paths of the active ruleset's table contributions the last load applied, so a test can find one that no
     // loader reads (audit DAT-1: map_stats.txt was skipped for weeks).
     const std::set<std::string> &appliedRulesetContributions() const;
@@ -292,7 +296,8 @@ private:
     // Every skill teacher from the loaded tables, with trainer_places.txt (and the mounted worlds' own rows), the
     // Ledger of Teachers' teacher_ledger.yml and, when MM9 is mounted, Chedian's actor teachers.
     bool loadTrainerDirectory(const Engine::AssetFileSystem &assetFileSystem);
-    // Applies the active ruleset's override or replacement of this engine table, if it has one.
+    // Applies the active ruleset's override or replacement of this engine table, if it has one, then the named mods'
+    // rows of it.
     bool applyActiveRulesetTable(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &virtualPath,
@@ -302,6 +307,7 @@ private:
     std::vector<LoadedTableSummary> m_loadedTables;
     std::string m_activeWorldId = "mm8";
     RulesetDefinition m_activeRuleset = standardRulesetDefinition();
+    std::vector<NamedModManifest> m_namedMods;
     mutable std::set<std::string> m_appliedRulesetContributions;
     bool m_actorModelsEnabled = false;
     bool m_surfaceMaterials = false;

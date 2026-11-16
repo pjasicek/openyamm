@@ -6,6 +6,7 @@
 #include "game/tables/PortraitEnums.h"
 
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -43,6 +44,8 @@ public:
         bool killed = false;
         // A party missile's or spell's damage was a critical hit.
         bool critical = false;
+        // A solo run's ordinary bow attack's shared credit (ProjectileState::hitCredit).
+        std::shared_ptr<bool> hitCredit;
     };
 
     struct PendingCombatEventContext
@@ -134,7 +137,8 @@ public:
         int spellId,
         bool hit,
         bool killed,
-        bool critical = false);
+        bool critical = false,
+        std::shared_ptr<bool> hitCredit = nullptr);
     const std::vector<CombatEvent> &pendingCombatEvents() const;
     void clearPendingCombatEvents();
     void handleAndClearPendingCombatEvents(PendingCombatEventContext &context);
@@ -166,7 +170,8 @@ private:
         int spellId,
         bool hit,
         bool killed,
-        bool critical = false);
+        bool critical = false,
+        std::shared_ptr<bool> hitCredit = nullptr);
     static void handlePendingCombatEvents(
         PendingCombatEventContext &context,
         const std::vector<CombatEvent> &events);

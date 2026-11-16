@@ -94,7 +94,6 @@ std::string packageMountFolder(const std::string &package)
     return package == "engine" ? package : "worlds/" + package;
 }
 
-constexpr const char *EditorDevelopmentRootName = "assets_editor_dev";
 constexpr const char *EngineDevelopmentRootName = "engine";
 constexpr const char *WorldsDevelopmentRootName = "worlds";
 constexpr const char *DefaultActiveWorldId = "mm8";
@@ -115,6 +114,8 @@ std::string utf8String(const std::filesystem::path &path)
     const std::u8string text = path.generic_u8string();
     return std::string(text.begin(), text.end());
 }
+// The mod files the log names at a start; later ones are counted.
+constexpr size_t LoggedModFileCount = 100;
 constexpr const char *SkyTextureDirectoryName = "sky_textures";
 constexpr const char *LegacyDirectoryName = "_legacy";
 constexpr const char *SingleAssetPackageName = "assets.zip";
@@ -184,16 +185,6 @@ constexpr std::array<VirtualPathAlias, 2> RootPathAliases = {
     VirtualPathAlias{"Music", "music"},
     VirtualPathAlias{"_legacy", "_legacy"}
 };
-
-std::filesystem::path deriveEditorDevelopmentRoot(const std::filesystem::path &assetRoot)
-{
-    if (assetRoot.filename() == EditorDevelopmentRootName)
-    {
-        return assetRoot;
-    }
-
-    return assetRoot.parent_path() / EditorDevelopmentRootName;
-}
 
 std::string toLowerAscii(std::string value)
 {
@@ -591,7 +582,8 @@ bool AssetFileSystem::initialize(
             return false;
         }
 
-        if (!mountLanguagePack(true) || !mountMods(m_installedContentOptions.modsRoot))
+        // The named mods behind the loose folders: a player's own loose file still wins.
+        if (!mountLanguagePack(true) || !mountNamedMods(true) || !mountMods(m_installedContentOptions.modsRoot))
         {
             shutdown();
             return false;
@@ -606,6 +598,13 @@ bool AssetFileSystem::initialize(
         }
 
         if (!mountDevelopmentPackageRoots(assetRoot, m_activeWorldId))
+        {
+            shutdown();
+            return false;
+        }
+
+        // Named mods behind the extra mount: a map build played from its folder wins over an installed mod.
+        if (!mountNamedMods(false))
         {
             shutdown();
             return false;
@@ -635,39 +634,6 @@ bool AssetFileSystem::initialize(
     }
 
     m_developmentRoot = assetRoot;
-    m_editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
-
-    if (packagedAssetRoot)
-    {
-        return true;
-    }
-
-    const std::filesystem::path editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
-    std::error_code createDirectoriesError;
-    std::filesystem::create_directories(editorDevelopmentRoot, createDirectoriesError);
-
-    if (createDirectoriesError)
-    {
-        std::cerr << "Could not create editor development root " << editorDevelopmentRoot << ": "
-                  << createDirectoriesError.message() << '\n';
-        shutdown();
-        return false;
-    }
-
-    const std::filesystem::path editorWorldRoot =
-        editorDevelopmentRoot / WorldsDevelopmentRootName / m_activeWorldId;
-    std::filesystem::create_directories(editorWorldRoot, createDirectoriesError);
-
-    if (createDirectoriesError)
-    {
-        std::cerr << "Could not create editor world package root " << editorWorldRoot << ": "
-                  << createDirectoriesError.message() << '\n';
-        shutdown();
-        return false;
-    }
-
-    m_editorDevelopmentRoot = editorDevelopmentRoot;
-
     return true;
 }
 
@@ -687,6 +653,34 @@ bool AssetFileSystem::switchActiveWorld(const std::string &activeWorldId)
     return initialize(basePath, assetRoot, assetScaleTier, assetScaleProfile, activeWorldId, installedContentOptions);
 }
 
+bool AssetFileSystem::setNamedMods(const std::vector<std::string> &modIds)
+{
+    if (!isInitialized())
+    {
+        return false;
+    }
+
+    if (modIds == m_installedContentOptions.namedMods)
+    {
+        return true;
+    }
+
+    const std::filesystem::path basePath = m_basePath;
+    const std::filesystem::path assetRoot = m_developmentRoot;
+    const AssetScaleTier assetScaleTier = m_assetScaleTier;
+    const AssetScaleProfile assetScaleProfile = m_assetScaleProfile;
+    const std::string activeWorldId = m_activeWorldId;
+    InstalledContentOptions installedContentOptions = m_installedContentOptions;
+    installedContentOptions.namedMods = modIds;
+
+    return initialize(basePath, assetRoot, assetScaleTier, assetScaleProfile, activeWorldId, installedContentOptions);
+}
+
+const InstalledContentOptions &AssetFileSystem::installedContentOptions() const
+{
+    return m_installedContentOptions;
+}
+
 bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoot)
 {
     if (isAndroidApkAssetRoot(assetRoot))
@@ -698,7 +692,6 @@ bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoo
 
         m_activeWorldId = DefaultActiveWorldId;
         m_developmentRoot = assetRoot;
-        m_editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
         return true;
     }
 
@@ -711,7 +704,6 @@ bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoo
 
         m_activeWorldId = DefaultActiveWorldId;
         m_developmentRoot = assetRoot;
-        m_editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
         return true;
     }
 
@@ -728,7 +720,6 @@ bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoo
     }
 
     m_developmentRoot = assetRoot;
-    m_editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
     return true;
 }
 
@@ -812,6 +803,13 @@ bool AssetFileSystem::mountExtraDevelopmentRoot(const std::filesystem::path &ext
         std::cerr << "Extra mount is not a directory: " << extraRoot << '\n';
         return false;
     }
+
+    return mountDevelopmentOverlayRoot(extraRoot);
+}
+
+bool AssetFileSystem::mountDevelopmentOverlayRoot(const std::filesystem::path &extraRoot)
+{
+    std::error_code error;
 
     // The same places a development root's files are read from, each in front of the root's own: the folder itself,
     // its engine and active world packages, and the map folders of every world merged by name. The active world's
@@ -1190,13 +1188,50 @@ bool AssetFileSystem::mountMods(const std::filesystem::path &modsRoot)
             continue;
         }
 
+        // A named mod's folder and the list that switches them on (mountNamedMods) are not loose files.
+        if ((name == "enabled.yml" && entry->is_regular_file(typeError))
+            || (entry->is_directory(typeError) && std::filesystem::is_regular_file(entry->path() / "mod.yml", typeError)))
+        {
+            continue;
+        }
+
         std::cout << "Mods: ignoring " << utf8String(entry->path()) << ": mods holds only engine and worlds\n";
     }
 
     std::sort(folders.begin(), folders.end());
     // Enough to recognise a mod in a log; someone who extracted a whole pack learns the count.
-    constexpr size_t LoggedFileCount = 100;
+    size_t loggedFileBudget = LoggedModFileCount;
+    const size_t fileCount = logModFiles(folders, "Mods: ", loggedFileBudget);
+
+    for (const auto &[folder, package] : folders)
+    {
+        if (!mountSearchRootAt(folder, "/" + package, false))
+        {
+            return false;
+        }
+    }
+
+    if (fileCount > LoggedModFileCount)
+    {
+        std::cout << "Mods: and " << fileCount - LoggedModFileCount << " more files\n";
+    }
+
+    if (fileCount > 0)
+    {
+        std::cout << "Mods: " << fileCount << (fileCount == 1 ? " file" : " files") << " from " << utf8String(modsRoot)
+                  << '\n';
+    }
+
+    return true;
+}
+
+size_t AssetFileSystem::logModFiles(
+    std::vector<std::pair<std::filesystem::path, std::string>> &folders,
+    const std::string &logPrefix,
+    size_t &loggedFileBudget) const
+{
     size_t fileCount = 0;
+    std::vector<std::pair<std::filesystem::path, std::string>> foldersWithFiles;
 
     for (const auto &[folder, package] : folders)
     {
@@ -1222,12 +1257,12 @@ bool AssetFileSystem::mountMods(const std::filesystem::path &modsRoot)
         std::sort(files.begin(), files.end());
 
         // Before mounting, so the game's own files are what the mod files are compared with.
-        for (size_t index = 0; index < files.size() && fileCount + index < LoggedFileCount; ++index)
+        for (size_t index = 0; index < files.size() && loggedFileBudget > 0; ++index, --loggedFileBudget)
         {
             const std::string &file = files[index];
             const bool replaces = PHYSFS_exists(file.c_str()) != 0;
             const std::optional<std::string> spelling = replaces ? std::nullopt : findCaseInsensitiveVirtualPath(file);
-            std::cout << "Mods: " << file;
+            std::cout << logPrefix << file;
 
             if (replaces)
             {
@@ -1244,22 +1279,78 @@ bool AssetFileSystem::mountMods(const std::filesystem::path &modsRoot)
         }
 
         fileCount += files.size();
+        foldersWithFiles.emplace_back(folder, package);
+    }
 
-        if (!mountSearchRootAt(folder, "/" + package, false))
+    folders = std::move(foldersWithFiles);
+    return fileCount;
+}
+
+bool AssetFileSystem::mountNamedMods(bool packagedRoot)
+{
+    const std::filesystem::path &modsRoot = m_installedContentOptions.modsRoot;
+
+    if (m_installedContentOptions.namedMods.empty() || modsRoot.empty())
+    {
+        return true;
+    }
+
+    size_t loggedFileBudget = LoggedModFileCount;
+
+    for (const std::string &modId : m_installedContentOptions.namedMods)
+    {
+        const std::filesystem::path modRoot = modsRoot / modId;
+        std::error_code error;
+
+        // The game chose the list from the folder at its start; a folder gone since is an error, not silence.
+        if (modId.empty() || modId.find_first_of("/\\.") != std::string::npos
+            || !std::filesystem::is_directory(modRoot, error))
+        {
+            std::cerr << "Mods: named mod " << modId << " is not a folder in " << utf8String(modsRoot) << '\n';
+            return false;
+        }
+
+        // Its package folders, as mods/ holds them: engine/ and worlds/<id>/. Its manifest and tables/ are read by the
+        // game, not mounted in a release.
+        std::vector<std::pair<std::filesystem::path, std::string>> folders;
+
+        if (std::filesystem::is_directory(modRoot / EngineDevelopmentRootName, error))
+        {
+            folders.emplace_back(modRoot / EngineDevelopmentRootName, EngineDevelopmentRootName);
+        }
+
+        for (std::filesystem::directory_iterator world(modRoot / WorldsDevelopmentRootName, error), end;
+             !error && world != end; world.increment(error))
+        {
+            std::error_code typeError;
+
+            if (world->is_directory(typeError))
+            {
+                folders.emplace_back(world->path(), std::string(WorldsDevelopmentRootName) + "/"
+                    + utf8String(world->path().filename()));
+            }
+        }
+
+        std::sort(folders.begin(), folders.end());
+        const size_t fileCount = logModFiles(folders, "Mods: " + modId + ": ", loggedFileBudget);
+
+        if (packagedRoot)
+        {
+            for (const auto &[folder, package] : folders)
+            {
+                if (!mountSearchRootAt(folder, "/" + package, false))
+                {
+                    return false;
+                }
+            }
+        }
+        else if (!mountDevelopmentOverlayRoot(modRoot))
         {
             return false;
         }
-    }
 
-    if (fileCount > LoggedFileCount)
-    {
-        std::cout << "Mods: and " << fileCount - LoggedFileCount << " more files\n";
-    }
-
-    if (fileCount > 0)
-    {
-        std::cout << "Mods: " << fileCount << (fileCount == 1 ? " file" : " files") << " from " << utf8String(modsRoot)
-                  << '\n';
+        std::cout << "Mods: " << modId << ": " << fileCount << (fileCount == 1 ? " file" : " files") << " from "
+                  << utf8String(modRoot) << '\n';
     }
 
     return true;
@@ -1889,11 +1980,6 @@ const std::filesystem::path &AssetFileSystem::getDevelopmentRoot() const
     return m_developmentRoot;
 }
 
-const std::filesystem::path &AssetFileSystem::getEditorDevelopmentRoot() const
-{
-    return m_editorDevelopmentRoot;
-}
-
 const std::string &AssetFileSystem::getActiveWorldId() const
 {
     return m_activeWorldId;
@@ -1966,7 +2052,6 @@ void AssetFileSystem::shutdown()
     m_isInitialized = false;
     m_basePath.clear();
     m_developmentRoot.clear();
-    m_editorDevelopmentRoot.clear();
     m_activeWorldId = DefaultActiveWorldId;
     m_assetScaleTier = AssetScaleTier::X1;
     m_assetScaleProfile = createUniformAssetScaleProfile(AssetScaleTier::X1);

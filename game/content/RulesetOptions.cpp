@@ -144,6 +144,30 @@ std::optional<RulesetDifficulty> rulesetChallengeModeDifficulty(RulesetChallenge
     return std::nullopt;
 }
 
+namespace
+{
+bool lootFilterRulesValid(const RulesetLootFilter &filter)
+{
+    const auto validAction = [](LootFilterAction action) { return action <= LootFilterAction::Ground; };
+
+    if (filter.rules.size() > RulesetLootFilterMaxRules || !validAction(filter.otherwise))
+    {
+        return false;
+    }
+
+    for (const RulesetLootFilterRule &rule : filter.rules)
+    {
+        if (rule.types >= (1u << LootItemTypeCount) || rule.rarityAtMost < 1 || rule.rarityAtMost > 6
+            || !validAction(rule.action))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+}
+
 std::string_view rulesetLootFilterPresetId(RulesetLootFilterPreset preset)
 {
     return optionNames(LootFilterPresetNames, preset).id;
@@ -178,6 +202,25 @@ RulesetLootFilter rulesetLootFilterWithPreset(RulesetLootFilterPreset preset, bo
     }
 
     return filter;
+}
+
+std::string rulesetLootFilterValue(const RulesetLootFilter &filter)
+{
+    std::string value = std::string(rulesetLootFilterPresetId(filter.preset)) + ":" + std::to_string(filter.goldKinds)
+        + ":" + (filter.leaveOnGround ? "ground" : "gold");
+
+    if (filter.preset == RulesetLootFilterPreset::Custom)
+    {
+        value += "|" + std::to_string(int(filter.otherwise));
+
+        for (const RulesetLootFilterRule &rule : filter.rules)
+        {
+            value += ";" + std::to_string(rule.types) + "," + std::to_string(rule.rarityAtMost) + ","
+                + std::to_string(rule.levelsBelow) + "," + std::to_string(int(rule.action));
+        }
+    }
+
+    return value;
 }
 
 RulesetLootFilter rulesetLootFilterFromLegacyRarity(uint8_t rarity)
@@ -243,7 +286,8 @@ bool rulesetOptionsValid(const RulesetOptions &options)
         && static_cast<size_t>(options.progression) < ProgressionNames.size()
         && static_cast<size_t>(options.challengeMode) < ChallengeModeNames.size()
         && static_cast<size_t>(options.preferences.lootFilter.preset) < LootFilterPresetNames.size()
-        && options.preferences.lootFilter.goldKinds < (1u << RulesetLootKindCount);
+        && options.preferences.lootFilter.goldKinds < (1u << RulesetLootKindCount)
+        && lootFilterRulesValid(options.preferences.lootFilter);
 }
 
 std::string describeRulesetSelection(const RulesetSelection &selection, const std::string &rulesetName)

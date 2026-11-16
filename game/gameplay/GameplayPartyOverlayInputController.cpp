@@ -2254,6 +2254,7 @@ bool GameplayPartyOverlayInputController::openWorkbench(GameplayScreenRuntime &c
     bench.active = true;
     bench.targetItemId = 0;
     bench.heldItemId = 0;
+    bench.clearPowerChoices();
     bench.selectedResultItemId = 0;
     bench.recipeSearchActive = false;
     bench.clearBrewResult();
@@ -4052,6 +4053,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
+                // An item with no use of its own that the rules make travel (MAW's dimension maps).
+                if (useAction == InventoryItemUseAction::None && context.itemService().tryUseHeldTravelItem(context))
+                {
+                    return;
+                }
+
                 const ItemDefinition *pItemDefinition =
                     context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
 
@@ -4129,6 +4136,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
                 {
                     context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
+                    return;
+                }
+
+                // An item with no use of its own that the rules make travel (MAW's dimension maps).
+                if (useAction == InventoryItemUseAction::None && context.itemService().tryUseHeldTravelItem(context))
+                {
                     return;
                 }
 

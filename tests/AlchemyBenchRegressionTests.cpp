@@ -591,3 +591,274 @@ TEST_CASE("alchemy chain planner keeps carried mixed potions when asked and brew
     CHECK_EQ(hasteCount(false), 1u);
     CHECK_EQ(hasteCount(true), 0u);
 }
+
+TEST_CASE("alchemy bench mixes the copies of the powers the player chose")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 2);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    addItem(party, 0, CureWoundsItemId, 2);
+    addItem(party, 0, CureWoundsItemId, 8);
+    addItem(party, 1, CureWoundsItemId, 2);
+    addItem(party, 1, CureDiseaseItemId, 6);
+    addItem(party, 1, CureDiseaseItemId, 10);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const AlchemyRecipe haste = {CureWoundsItemId, CureDiseaseItemId};
+
+    const std::vector<AlchemyPowerOption> options = AlchemyBenchRuntime::powerOptions(party, CureWoundsItemId, tables);
+    REQUIRE_EQ(options.size(), 2u);
+    CHECK_EQ(options[0].power, 8u);
+    CHECK_EQ(options[0].count, 1u);
+    CHECK_EQ(options[1].power, 2u);
+    CHECK_EQ(options[1].count, 2u);
+
+    // Left to the bench, both slots take their strongest copy.
+    const AlchemyPreview strongest = AlchemyBenchRuntime::preview(party, haste, tables, unlocked({HasteNoteId}));
+    CHECK_EQ(strongest.targetPower, 8u);
+    CHECK_EQ(strongest.heldPower, 10u);
+    CHECK_EQ(strongest.resultPower, 9u);
+
+    const AlchemyPowerChoice weakest = {uint16_t(2), uint16_t(6)};
+    const AlchemyPreview chosen = AlchemyBenchRuntime::preview(party, haste, tables, unlocked({HasteNoteId}), weakest);
+    CHECK_EQ(chosen.outcome, AlchemyPreviewOutcome::Known);
+    CHECK_EQ(chosen.targetPower, 2u);
+    CHECK_EQ(chosen.heldPower, 6u);
+    CHECK_EQ(chosen.resultPower, 4u);
+
+    // One slot chosen, the other left to the bench.
+    const AlchemyPreview mixed =
+        AlchemyBenchRuntime::preview(party, haste, tables, unlocked({HasteNoteId}), {uint16_t(2), std::nullopt});
+    CHECK_EQ(mixed.targetPower, 2u);
+    CHECK_EQ(mixed.heldPower, 10u);
+
+    // Two weak Cure Wounds, one weak Cure Disease.
+    CHECK_EQ(AlchemyBenchRuntime::brewableCount(party, haste, weakest, tables), 1u);
+    CHECK_EQ(AlchemyBenchRuntime::brewableCount(party, haste, {uint16_t(2), std::nullopt}, tables), 2u);
+
+    const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(party, haste, tables, {}, weakest);
+    REQUIRE(outcome.result.success);
+    CHECK_EQ(outcome.resultItem.objectDescriptionId, HasteItemId);
+    CHECK_EQ(outcome.resultItem.standardEnchantPower, 4u);
+
+    // The strong copies are still there, and the used-up power 6 is no longer a choice.
+    const std::vector<AlchemyPowerOption> left = AlchemyBenchRuntime::powerOptions(party, CureWoundsItemId, tables);
+    REQUIRE_EQ(left.size(), 2u);
+    CHECK_EQ(left[0].power, 8u);
+    CHECK_EQ(left[1].count, 1u);
+    const AlchemyPowerChoice remaining = AlchemyBenchRuntime::availableChoice(party, haste, weakest, tables);
+    CHECK_EQ(remaining.targetPower, std::optional<uint16_t>(2));
+    CHECK_FALSE(remaining.heldPower.has_value());
+
+    // A chosen power without a copy mixes nothing.
+    const AlchemyMixOutcome none = AlchemyBenchRuntime::mix(party, haste, tables, {}, weakest);
+    CHECK_FALSE(none.result.handled);
+    CHECK_EQ(party.inventoryItemCount(CureDiseaseItemId), 1);
+}
+
+TEST_CASE("alchemy bench power choices of one potion in both slots take separate copies")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    addItem(party, 0, CureWoundsItemId, 3);
+    addItem(party, 0, CureWoundsItemId, 9);
+    addItem(party, 0, CureWoundsItemId, 5);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const AlchemyRecipe pair = {CureWoundsItemId, CureWoundsItemId};
+
+    // The held slot's chosen copy is found first; the target left to the bench takes the strongest of the rest.
+    const AlchemyPreview heldChosen =
+        AlchemyBenchRuntime::preview(party, pair, tables, unlocked({}), {std::nullopt, uint16_t(9)});
+    CHECK_EQ(heldChosen.heldPower, 9u);
+    CHECK_EQ(heldChosen.targetPower, 5u);
+
+    // Only one copy has power 9: both slots cannot choose it.
+    const AlchemyPowerChoice both =
+        AlchemyBenchRuntime::availableChoice(party, pair, {uint16_t(9), uint16_t(9)}, tables);
+    CHECK_EQ(both.targetPower, std::optional<uint16_t>(9));
+    CHECK_FALSE(both.heldPower.has_value());
+
+    CHECK_EQ(AlchemyBenchRuntime::brewableCount(party, pair, {uint16_t(3), uint16_t(5)}, tables), 1u);
+    CHECK_EQ(AlchemyBenchRuntime::brewableCount(party, pair, {std::nullopt, uint16_t(3)}, tables), 1u);
+}
+
+TEST_CASE("alchemy bench catalyst boosts the chosen copy instead of the one it raises most")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const uint32_t catalystItemId = tables.potionSettingTable.catalystPotionItemId();
+    REQUIRE_NE(catalystItemId, 0u);
+    addItem(party, 0, CureWoundsItemId, 30);
+    addItem(party, 0, CureWoundsItemId, 2);
+    addItem(party, 0, CureWoundsItemId, 10);
+    addItem(party, 0, catalystItemId, 20);
+    addItem(party, 0, catalystItemId, 12);
+    const AlchemyRecipe boost = {CureWoundsItemId, catalystItemId};
+
+    const AlchemyPowerChoice choice = {uint16_t(10), uint16_t(12)};
+    const AlchemyPreview preview = AlchemyBenchRuntime::preview(party, boost, tables, unlocked({}), choice);
+    CHECK_EQ(preview.outcome, AlchemyPreviewOutcome::Known);
+    CHECK_EQ(preview.targetPower, 10u);
+    CHECK_EQ(preview.heldPower, 12u);
+    CHECK_EQ(preview.resultPower, 12u);
+
+    REQUIRE(AlchemyBenchRuntime::mix(party, boost, tables, {}, choice).result.success);
+    std::multiset<uint16_t> powers;
+
+    for (const AlchemyPowerOption &option : AlchemyBenchRuntime::powerOptions(party, CureWoundsItemId, tables))
+    {
+        powers.insert(option.power);
+    }
+
+    CHECK_EQ(powers, std::multiset<uint16_t>{2, 12, 30});
+    const std::vector<AlchemyPowerOption> catalysts = AlchemyBenchRuntime::powerOptions(party, catalystItemId, tables);
+    REQUIRE_EQ(catalysts.size(), 1u);
+    CHECK_EQ(catalysts[0].power, 20u);
+}
+
+TEST_CASE("alchemy bench tells a swapped bottle and reagent their own slots' powers")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    addItem(party, 0, BottleItemId);
+    addItem(party, 0, WidowsweepBerriesItemId);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const std::vector<AlchemyPowerOption> reagent =
+        AlchemyBenchRuntime::powerOptions(party, WidowsweepBerriesItemId, tables);
+    REQUIRE_EQ(reagent.size(), 1u);
+    REQUIRE_GT(reagent[0].power, 0u);
+
+    // The reagent in the target slot is mixed as the held item, and still reads as the target slot's power.
+    const AlchemyPreview preview =
+        AlchemyBenchRuntime::preview(party, {WidowsweepBerriesItemId, BottleItemId}, tables, unlocked({}));
+    CHECK_EQ(preview.outcome, AlchemyPreviewOutcome::Known);
+    CHECK_EQ(preview.targetPower, reagent[0].power);
+    CHECK_EQ(preview.heldPower, 0u);
+}
+
+TEST_CASE("alchemy chain planner aims at a power with the weakest ingredients that reach it")
+{
+    constexpr uint32_t WolfsEyeItemId = 201;
+    constexpr uint32_t GogBloodItemId = 202;
+    constexpr uint32_t PhoenixFeatherItemId = 204;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 2);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+
+    for (int index = 0; index < 6; ++index)
+    {
+        addItem(party, 1, BottleItemId);
+    }
+
+    // Cure Wounds reagents of four strengths, and two for Cure Weakness.
+    addItem(party, 0, WidowsweepBerriesItemId);
+    addItem(party, 0, WidowsweepBerriesItemId);
+    addItem(party, 0, WolfsEyeItemId);
+    addItem(party, 0, GogBloodItemId);
+    addItem(party, 0, PhoenixFeatherItemId);
+    addItem(party, 0, PoppyPodItemId);
+    addItem(party, 0, PoppyPodItemId);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const AlchemyBook book = knownBook(party, tables, {CureDiseaseNoteId, HasteNoteId});
+    const AlchemyChainPlanner planner(party, book, level4Alchemist(), tables);
+
+    const AlchemyChainPlan strongest = planner.plan(HasteItemId, 1);
+    REQUIRE_EQ(strongest.brewCount, 1u);
+    // Without an aim the steps leave the copies to the bench.
+    CHECK_FALSE(strongest.steps.back().choice.any());
+
+    const std::vector<AlchemyChainPowerOption> options = planner.powerOptions(HasteItemId);
+    REQUIRE_GE(options.size(), 3u);
+    CHECK_LT(options.front().power, strongest.resultPower);
+    CHECK_GE(options.back().power, strongest.resultPower);
+
+    for (size_t index = 0; index < options.size(); ++index)
+    {
+        // Weakest first, and each aim brews exactly the power it is listed with.
+        if (index > 0)
+        {
+            CHECK_GT(options[index].power, options[index - 1].power);
+        }
+
+        const AlchemyChainPlan aimed = planner.plan(HasteItemId, 1, options[index].aim);
+        REQUIRE_EQ(aimed.brewCount, 1u);
+        CHECK_EQ(aimed.resultPower, options[index].power);
+        CHECK(aimed.steps.back().choice.targetPower.has_value());
+        CHECK(aimed.steps.back().choice.heldPower.has_value());
+        CHECK_EQ(planner.aimForPower(HasteItemId, options[index].power), std::optional<uint16_t>(options[index].aim));
+    }
+
+    // Nothing brews past the strongest power.
+    CHECK_EQ(planner.plan(HasteItemId, 1, uint16_t(options.back().power + 1)).brewCount, 0u);
+    CHECK_FALSE(planner.aimForPower(HasteItemId, uint16_t(options.back().power + 1)).has_value());
+
+    // Brewing follows the plan copy by copy: the weakest potion leaves the Phoenix Feather alone.
+    {
+        Party weakParty = party;
+        const AlchemyChainPlan weakest = planner.plan(HasteItemId, 1, options.front().aim);
+        const AlchemyChainOutcome outcome = AlchemyBenchRuntime::brewChain(weakParty, weakest, tables);
+        REQUIRE_EQ(outcome.brewedCount, 1u);
+        CHECK_EQ(outcome.lastBrewed.standardEnchantPower, options.front().power);
+        CHECK_EQ(weakParty.inventoryItemCount(PhoenixFeatherItemId), 1);
+        CHECK_EQ(weakParty.inventoryItemCount(WidowsweepBerriesItemId), 0);
+    }
+
+    for (const AlchemyChainPowerOption &option : options)
+    {
+        Party brewingParty = party;
+        const AlchemyChainOutcome outcome =
+            AlchemyBenchRuntime::brewChain(brewingParty, planner.plan(HasteItemId, 1, option.aim), tables);
+        REQUIRE_EQ(outcome.brewedCount, 1u);
+        CHECK_EQ(outcome.lastBrewed.standardEnchantPower, option.power);
+    }
+
+    // Every potion of a longer plan reaches the aim, and the brewing gives what was planned.
+    const AlchemyChainPlan all = planner.plan(HasteItemId, 99, options.front().aim);
+    CHECK_EQ(all.brewCount, 2u);
+    Party allParty = party;
+    const AlchemyChainOutcome brewedAll = AlchemyBenchRuntime::brewChain(allParty, all, tables);
+    CHECK_EQ(brewedAll.brewedCount, 2u);
+    CHECK_EQ(brewedAll.stepsDone, all.steps.size());
+
+    for (const AlchemyPowerOption &brewed : AlchemyBenchRuntime::powerOptions(allParty, HasteItemId, tables))
+    {
+        CHECK_GE(brewed.power, options.front().power);
+    }
+}
+
+TEST_CASE("alchemy chain planner aims with carried potions before brewing stronger ones")
+{
+    constexpr uint32_t PhoenixFeatherItemId = 204;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 4, SkillMastery::Expert);
+    addItem(party, 0, BottleItemId);
+    addItem(party, 0, BottleItemId);
+    addItem(party, 0, WidowsweepBerriesItemId);
+    addItem(party, 0, PhoenixFeatherItemId);
+    addItem(party, 0, CureDiseaseItemId, 9);
+    addItem(party, 0, CureDiseaseItemId, 40);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    const AlchemyBook book = knownBook(party, tables, {CureDiseaseNoteId, HasteNoteId});
+    const AlchemyChainPlanner planner(party, book, level4Alchemist(), tables);
+
+    // The lowest aim takes the weak Cure Disease and the weak reagent: (5 + 9) / 2.
+    const AlchemyChainPlan weakest = planner.plan(HasteItemId, 1, uint16_t(0));
+    REQUIRE_EQ(weakest.brewCount, 1u);
+    CHECK_EQ(weakest.resultPower, 7u);
+    CHECK_EQ(weakest.steps.size(), 2u);
+
+    // One above it, the stronger Cure Disease makes up for the weak reagent.
+    const AlchemyChainPlan next = planner.plan(HasteItemId, 1, uint16_t(8));
+    REQUIRE_EQ(next.brewCount, 1u);
+    CHECK_GE(next.resultPower, 8u);
+    CHECK_EQ(countOf(next.used, PhoenixFeatherItemId) + countOf(next.used, WidowsweepBerriesItemId), 1u);
+
+    Party brewingParty = party;
+    const AlchemyChainOutcome outcome = AlchemyBenchRuntime::brewChain(brewingParty, next, tables);
+    REQUIRE_EQ(outcome.brewedCount, 1u);
+    CHECK_EQ(outcome.lastBrewed.standardEnchantPower, next.resultPower);
+}

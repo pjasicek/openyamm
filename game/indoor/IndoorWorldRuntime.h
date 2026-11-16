@@ -416,6 +416,7 @@ public:
     void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
     void advanceTurnBasedActorTimers(float seconds) override;
+    void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
@@ -534,6 +535,7 @@ public:
         float sourceX,
         float sourceY,
         float sourceZ) const override;
+    bool hasClearLineBetween(const GameplayWorldPoint &from, const GameplayWorldPoint &to) const override;
     std::vector<size_t> collectVisibleMapActorIndicesWithinRadius(
         float centerX,
         float centerY,
@@ -652,14 +654,16 @@ public:
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
         const ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false);
+        bool critical = false,
+        bool hitReaction = true);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
         const ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false) override;
+        bool critical = false,
+        bool hitReaction = true) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -946,6 +950,8 @@ private:
     bool materializeTreasureSpawn(size_t spawnIndex, const IndoorSpawn &spawn);
     void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
+    // Records each first-fill actor's place for MAW's Nightmare revival (MapDeltaActor::fillPosition).
+    void recordFillPositions();
     RuntimeGeometryCache &runtimeGeometryCache() const;
     struct LootGatherSpot
     {
@@ -1168,7 +1174,11 @@ private:
     void attachTrueAim(uint32_t firstProjectileId, const MapActorAiState &source, ActorAiTargetKind targetKind,
         size_t targetActorIndex, uint32_t spellId);
     // One step of a homing projectile toward its target's current position; true when it is to expire.
-    bool steerIndoorHomingProjectile(GameplayProjectileService::ProjectileState &projectile, float deltaSeconds);
+    // party: the party's feet at this projectile step (GameplayProjectileService::partyPositionAtStep).
+    bool steerIndoorHomingProjectile(
+        GameplayProjectileService::ProjectileState &projectile,
+        float deltaSeconds,
+        const GameplayWorldPoint &party);
     bool monsterNeverStaggers(int16_t monsterId) const;
     // The original game drops a monster's Meteor Shower indoors: only a monster with the indoor_meteor_shower
     // modifier keeps it castable here, so the others pick another attack. A map open to the sky (isOpenAirMap) keeps
@@ -1293,7 +1303,11 @@ private:
     uint64_t m_bloodSplatRevision = 0;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
     float m_projectileUpdateAccumulatorSeconds = 0.0f;
+    // The party's position at the previous projectile update, for homing between frames (partyPositionAtStep).
+    std::optional<GameplayWorldPoint> m_projectilePreviousFramePartyPosition;
     float m_worldItemUpdateAccumulatorSeconds = 0.0f;
+    // setGameSpeed: the catch-up limits above are this many times their real-time length.
+    float m_gameSpeed = 1.0f;
     // The party's quest-bit revision the placed world items' visibility was last evaluated at.
     uint64_t m_placedWorldItemRevision = 0;
     float m_immolationTickAccumulatorGameMinutes = 0.0f;

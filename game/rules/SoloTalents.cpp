@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <limits>
 #include <sstream>
 
 namespace OpenYAMM::Game
@@ -104,6 +105,27 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
             m_keystoneLevels.push_back(level.as<uint32_t>());
         }
         std::sort(m_keystoneLevels.begin(), m_keystoneLevels.end());
+        m_earlyMonsterCut.clear();
+        for (const YAML::Node &point : root["early_monster_cut"])
+        {
+            if (!point.IsSequence() || point.size() != 2 || point[1].as<double>() < 1.0)
+            {
+                error = "early_monster_cut takes [level, divisor] pairs with a divisor of 1 or more";
+                return false;
+            }
+            m_earlyMonsterCut.emplace_back(point[0].as<double>(), point[1].as<double>());
+        }
+        std::sort(m_earlyMonsterCut.begin(), m_earlyMonsterCut.end());
+        m_experienceSurcharge.reset();
+        if (root["experience_surcharge"])
+        {
+            m_experienceSurcharge = root["experience_surcharge"].as<double>();
+            if (*m_experienceSurcharge < 0)
+            {
+                error = "experience_surcharge cannot be negative";
+                return false;
+            }
+        }
         for (const YAML::Node &node : root["keystones"])
         {
             TalentDefinition keystone;
@@ -142,7 +164,9 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
                 return false;
             }
             talent.kind = kind == "active" ? TalentKind::Active : TalentKind::Passive;
-            talent.maxRank = std::clamp(node["max_rank"].as<int>(1), 1, 9);
+            talent.unlimitedRanks = node["max_rank"].as<std::string>("") == "unlimited";
+            talent.maxRank = talent.unlimitedRanks ? int(std::numeric_limits<uint16_t>::max())
+                                                   : std::clamp(node["max_rank"].as<int>(1), 1, 50);
             talent.iconItem = node["icon_item"].as<std::string>("");
             talent.iconSpell = node["icon_spell"].as<uint32_t>(0);
             const std::string requirement = node["requires"].as<std::string>("none");
@@ -151,18 +175,40 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
                                                          : TalentRequirement::None;
             talent.needs = node["needs"].as<std::string>("");
             talent.perRank = node["per_rank"].as<float>(0.0f);
+            if (node["first_rank"])
+            {
+                talent.firstRank = node["first_rank"].as<float>();
+            }
             talent.perRankCalm = node["per_rank_calm"].as<float>(0.0f);
             talent.cooldown = node["cooldown"].as<float>(0.0f);
             talent.cooldownPerRank = node["cooldown_per_rank"].as<float>(0.0f);
             talent.cooldownPerAttack = node["cooldown_per_attack"].as<float>(0.0f);
+            talent.cooldownPerHit = node["cooldown_per_hit"].as<float>(0.0f);
+            talent.cooldownPerCritical = node["cooldown_per_crit"].as<float>(0.0f);
             talent.duration = node["duration"].as<float>(0.0f);
             talent.durationPerRank = node["duration_per_rank"].as<float>(0.0f);
             talent.targets = node["targets"].as<int>(0);
             talent.share = node["share"].as<float>(100.0f);
             talent.sharePerSkill = node["share_per_skill"].as<float>(0.0f);
             talent.shareCap = node["share_cap"].as<float>(0.0f);
+            talent.shareByRank.clear();
+            for (const YAML::Node &share : node["share_by_rank"])
+            {
+                talent.shareByRank.push_back(share.as<float>());
+            }
+            if (!talent.shareByRank.empty() && int(talent.shareByRank.size()) != talent.maxRank)
+            {
+                error = "talent " + talent.id + ": share_by_rank needs one share per rank";
+                return false;
+            }
             talent.distance = node["distance"].as<float>(0.0f);
             talent.arc = node["arc"].as<float>(0.0f);
+            talent.recovery = node["recovery"].as<float>(100.0f);
+            if (talent.recovery <= 0.0f)
+            {
+                error = "talent " + talent.id + ": recovery must be above 0";
+                return false;
+            }
             if (find(talent.id) != nullptr || findKeystone(talent.id) != nullptr)
             {
                 error = "talent " + talent.id + " is listed twice";
@@ -219,6 +265,38 @@ const TalentDefinition *SoloTalentTable::findKeystone(std::string_view id) const
 const std::vector<uint32_t> &SoloTalentTable::keystoneLevels() const
 {
     return m_keystoneLevels;
+}
+
+std::optional<double> SoloTalentTable::experienceSurcharge() const
+{
+    return m_experienceSurcharge;
+}
+
+double SoloTalentTable::earlyMonsterCut(double level) const
+{
+    if (m_earlyMonsterCut.empty())
+    {
+        return 1.0;
+    }
+
+    if (level <= m_earlyMonsterCut.front().first)
+    {
+        return m_earlyMonsterCut.front().second;
+    }
+
+    for (size_t index = 1; index < m_earlyMonsterCut.size(); ++index)
+    {
+        const std::pair<double, double> &from = m_earlyMonsterCut[index - 1];
+        const std::pair<double, double> &to = m_earlyMonsterCut[index];
+
+        if (level <= to.first)
+        {
+            return from.second + (to.second - from.second) * (level - from.first) / (to.first - from.first);
+        }
+    }
+
+    // Past the table the cut is over, whatever its last value.
+    return 1.0;
 }
 
 const SoloTalentTable &soloTalentTable()
@@ -326,7 +404,7 @@ bool learnTalent(const SoloTalentTable &table, Character &character, std::string
     {
         return false;
     }
-    uint8_t &rank = character.talentRanks[pTalent->id];
+    uint16_t &rank = character.talentRanks[pTalent->id];
     ++rank;
     if (rank == 1 && pTalent->kind == TalentKind::Active)
     {
@@ -439,6 +517,39 @@ float talentCooldownSeconds(const TalentDefinition &talent, int rank)
     return std::max(1.0f, talent.cooldown + talent.cooldownPerRank * float(std::max(rank, 1) - 1));
 }
 
+float talentCooldownRemaining(const Character &character, std::string_view id)
+{
+    const auto found = character.talentState.cooldownSeconds.find(std::string(id));
+    return found != character.talentState.cooldownSeconds.end() ? std::max(0.0f, found->second) : 0.0f;
+}
+
+void shortenTalentCooldowns(const SoloTalentTable &table, Character &character, bool hit)
+{
+    for (const TalentDefinition &talent : table.talents())
+    {
+        const float seconds = hit ? talent.cooldownPerHit : talent.cooldownPerAttack;
+        const auto found = character.talentState.cooldownSeconds.find(talent.id);
+
+        if (seconds > 0.0f && found != character.talentState.cooldownSeconds.end())
+        {
+            found->second = std::max(0.0f, found->second - seconds);
+        }
+    }
+}
+
+void shortenTalentCooldownsOnCritical(const SoloTalentTable &table, Character &character)
+{
+    for (const TalentDefinition &talent : table.talents())
+    {
+        const auto found = character.talentState.cooldownSeconds.find(talent.id);
+
+        if (talent.cooldownPerCritical > 0.0f && found != character.talentState.cooldownSeconds.end())
+        {
+            found->second = std::max(0.0f, found->second - talent.cooldownPerCritical);
+        }
+    }
+}
+
 float talentDurationSeconds(const TalentDefinition &talent, int rank)
 {
     return std::max(0.0f, talent.duration + talent.durationPerRank * float(std::max(rank, 1) - 1));
@@ -448,9 +559,23 @@ float talentValue(const TalentDefinition &talent, int rank)
 {
     if (talent.kind == TalentKind::Active)
     {
-        return talent.durationPerRank != 0.0f ? talentDurationSeconds(talent, rank) : talent.perRank;
+        return !talent.shareByRank.empty()      ? talentShareAtRank(talent, rank) * 100.0f
+            : talent.durationPerRank != 0.0f ? talentDurationSeconds(talent, rank)
+                                             : talent.perRank;
+    }
+    if (talent.firstRank && rank > 0)
+    {
+        return *talent.firstRank + talent.perRank * float(rank - 1);
     }
     return talent.perRank * float(rank);
+}
+
+float talentShareAtRank(const TalentDefinition &talent, int rank)
+{
+    const float percent = talent.shareByRank.empty()
+        ? talent.share
+        : talent.shareByRank[size_t(std::clamp(rank, 1, int(talent.shareByRank.size())) - 1)];
+    return std::max(0.0f, percent) / 100.0f;
 }
 
 std::string talentEffectText(const TalentDefinition &talent, int rank)

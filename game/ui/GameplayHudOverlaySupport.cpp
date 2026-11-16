@@ -1540,13 +1540,9 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
             return std::nullopt;
         }
 
-        // Not over the Battle Orders window or the spell menu; and not before a right click would have opened the
-        // menu.
-        const GameplayUiController::SpellbookSpellMenuState &spellMenu = context.spellbookReadOnly().spellMenu;
-
-        if (GameplayBattleOrders::isOpen(context) || GameplayBattleOrders::spellMenuOpen(context)
-            || (spellMenu.rightPressSpellId != 0
-                && SDL_GetTicks() - spellMenu.rightPressTicks < GameplayBattleOrders::SpellMenuClickMilliseconds))
+        // Not over the Battle Orders window or the spell menu. The description shows at once while the button is
+        // down; a quick release still opens the menu (GameplayPartyOverlayInputController).
+        if (GameplayBattleOrders::isOpen(context) || GameplayBattleOrders::spellMenuOpen(context))
         {
             return std::nullopt;
         }

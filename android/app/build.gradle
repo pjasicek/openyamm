@@ -93,7 +93,6 @@ android {
                     "-DOPENYAMM_SDL3_SOURCE_DIR=${sdl3SourceDir.absolutePath}",
                     "-DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF",
                     "-DOPENYAMM_BUILD_TESTS=OFF",
-                    "-DOPENYAMM_BUILD_EDITOR=OFF",
                     "-DOPENYAMM_BUILD_TOOLS=OFF",
                     "-DOPENYAMM_DEV_ASSETS_DIR=assets",
                     "-DOPENYAMM_WINDOW_WIDTH=1280",

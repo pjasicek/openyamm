@@ -9797,4 +9797,15 @@ void makeSoloRunParty(Party &party)
         prefillSoloActionBar(*pMember);
     }
 }
+
+void giveSoloRunStartScrolls(Party &party)
+{
+    // Water Walk, Jump, Town Portal, Fly and Lloyd's Beacon.
+    constexpr std::array<uint32_t, 5> ScrollItemIds = {326, 315, 330, 320, 332};
+
+    for (uint32_t itemId : ScrollItemIds)
+    {
+        party.tryGrantItem(itemId);
+    }
+}
 }

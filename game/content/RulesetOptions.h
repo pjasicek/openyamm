@@ -5,6 +5,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -62,6 +63,59 @@ enum class RulesetLootKind : uint8_t
 };
 inline constexpr size_t RulesetLootKindCount = 5;
 
+// The item types a custom rule names (RulesetLootFilterRule::types, a bit each): weapons by skill, body armour by skill,
+// the other armour slots, the two jewellery slots and the kinds without rarity. Stored in saves; never renumber.
+enum class LootItemType : uint8_t
+{
+    Sword = 0,
+    Dagger = 1,
+    Axe = 2,
+    Spear = 3,
+    Mace = 4,
+    Club = 5,
+    Staff = 6,
+    Bow = 7,
+    Throwing = 8,
+    Leather = 9,
+    Chain = 10,
+    Plate = 11,
+    Shield = 12,
+    Helm = 13,
+    Belt = 14,
+    Cloak = 15,
+    Gauntlets = 16,
+    Boots = 17,
+    Ring = 18,
+    Amulet = 19,
+    Wands = 20,
+    Scrolls = 21,
+    Potions = 22,
+    Reagents = 23,
+    Gems = 24,
+};
+inline constexpr size_t LootItemTypeCount = 25;
+
+// What becomes of a drop: kept, turned into gold, or left on the ground greyed. Stored in saves.
+enum class LootFilterAction : uint8_t
+{
+    Keep = 0,
+    Gold = 1,
+    Ground = 2,
+};
+
+// A Custom filter's rule: the item types it names, the highest rarity it takes (1 Common .. 6 Primordial; the kinds
+// without rarity ignore it) and, when not 0, how many levels below the party's the item must be.
+struct RulesetLootFilterRule
+{
+    uint32_t types = 0;
+    uint8_t rarityAtMost = 2;
+    uint8_t levelsBelow = 0;
+    LootFilterAction action = LootFilterAction::Gold;
+
+    bool operator==(const RulesetLootFilterRule &) const = default;
+};
+inline constexpr size_t RulesetLootFilterMaxRules = 8;
+
 struct RulesetLootFilter
 {
     // Off until the player picks a preset: nothing a new game drops turns into gold unasked (OY-216).
@@ -69,6 +123,10 @@ struct RulesetLootFilter
     uint8_t goldKinds = 0;
     // A filtered drop stays an item, greyed (no rarity glow), instead of turning into gold.
     bool leaveOnGround = false;
+    // Custom only: the rules checked from the top, the first that fits deciding, and what becomes of a drop none fits.
+    // Each rule carries its own action; goldKinds and leaveOnGround are the presets'.
+    std::vector<RulesetLootFilterRule> rules;
+    LootFilterAction otherwise = LootFilterAction::Keep;
 
     bool turnsKindIntoGold(RulesetLootKind kind) const
     {
@@ -146,6 +204,9 @@ std::string_view rulesetLootFilterPresetName(RulesetLootFilterPreset preset);
 std::optional<RulesetLootFilterPreset> parseRulesetLootFilterPreset(std::string_view id);
 // A preset with the kinds without rarity it turns into gold, keeping what becomes of a filtered drop.
 RulesetLootFilter rulesetLootFilterWithPreset(RulesetLootFilterPreset preset, bool leaveOnGround = false);
+// The settings row's value for the whole filter, so any change to it counts: "regular:2:gold", and a Custom filter's
+// rules after a '|'.
+std::string rulesetLootFilterValue(const RulesetLootFilter &filter);
 // Saves before version 126 stored MAW's own filter, a rarity (0 off, 1 Common .. 6 Primordial) at or below which every
 // drop turned into gold: the nearest preset.
 RulesetLootFilter rulesetLootFilterFromLegacyRarity(uint8_t rarity);

@@ -10,6 +10,7 @@
 #include "game/events/ScriptedEventProgram.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/maps/SaveGame.h"
+#include "game/rules/LootFilter.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/SpellTable.h"
 
@@ -506,6 +507,21 @@ TEST_CASE("saves keep the ruleset and its options")
     const std::optional<OpenYAMM::Game::GameSaveData> restored = roundTrip(save, error);
     REQUIRE_MESSAGE(restored.has_value(), error);
     CHECK(restored->ruleset == save.ruleset);
+
+    // A Custom filter keeps its rules and what becomes of everything else.
+    OpenYAMM::Game::RulesetLootFilter &custom = save.ruleset.options.preferences.lootFilter;
+    custom = OpenYAMM::Game::lootFilterAsCustom(custom);
+    custom.rules.push_back({1u << unsigned(OpenYAMM::Game::LootItemType::Belt), 5, 30,
+        OpenYAMM::Game::LootFilterAction::Gold});
+    custom.otherwise = OpenYAMM::Game::LootFilterAction::Ground;
+    const std::optional<OpenYAMM::Game::GameSaveData> customRestored = roundTrip(save, error);
+    REQUIRE_MESSAGE(customRestored.has_value(), error);
+    CHECK(customRestored->ruleset == save.ruleset);
+    CHECK_EQ(customRestored->ruleset.options.preferences.lootFilter.rules.size(), custom.rules.size());
+
+    // A rule outside its ranges is a damaged save.
+    custom.rules.back().rarityAtMost = 9;
+    CHECK_FALSE(roundTrip(save, error).has_value());
     CHECK_EQ(restored->saveName, "ruleset check");
 
     const std::optional<OpenYAMM::Game::GameSaveData> standard = roundTrip(minimalSave(), error);
@@ -579,6 +595,13 @@ void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveDat
     std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
     const size_t nameAndPreviewSize =
         sizeof(uint64_t) + save.saveName.size() + sizeof(uint64_t) + save.previewBmp.size();
+    // The loot filter's Custom rules (version 186) follow the solo run byte: an empty list and the otherwise action.
+    constexpr size_t LootRulesSize = sizeof(uint64_t) + sizeof(uint8_t);
+    REQUIRE(save.ruleset.options.preferences.lootFilter.rules.empty());
+    const size_t rulesOffset = HeaderSize + sizeof(summarySize) + summarySize - PlaythroughSize - nameAndPreviewSize
+        - LootRulesSize;
+    eraseBytes(bytes, rulesOffset, LootRulesSize);
+    summarySize -= uint32_t(LootRulesSize);
     const size_t soloOffset =
         HeaderSize + sizeof(summarySize) + summarySize - PlaythroughSize - nameAndPreviewSize - sizeof(bool);
     REQUIRE_EQ(bytes[soloOffset], uint8_t(save.ruleset.options.soloRun ? 1 : 0));
@@ -609,6 +632,13 @@ void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveDat
             bytes.begin() + static_cast<std::ptrdiff_t>(talentsOffset + sizeof(uint64_t)),
             [](uint8_t byte) { return byte == 0; }));
         eraseBytes(bytes, talentsOffset, sizeof(uint64_t));
+        // The talent state (version 187), all zero: the empty cooldowns' count, eight floats, an int and three bools.
+        constexpr size_t TalentStateSize = sizeof(uint64_t) + 8 * sizeof(float) + sizeof(int32_t) + 3 * sizeof(bool);
+        REQUIRE(talentsOffset + TalentStateSize <= bytes.size());
+        REQUIRE(std::all_of(bytes.begin() + static_cast<std::ptrdiff_t>(talentsOffset),
+            bytes.begin() + static_cast<std::ptrdiff_t>(talentsOffset + TalentStateSize),
+            [](uint8_t byte) { return byte == 0; }));
+        eraseBytes(bytes, talentsOffset, TalentStateSize);
         it = bytes.begin() + static_cast<std::ptrdiff_t>(offset);
         ++found;
     }

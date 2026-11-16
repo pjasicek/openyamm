@@ -1,6 +1,8 @@
 #include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
 #include "game/rules/SoloTalents.h"
+#include "game/rules/CombatRules.h"
+#include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawSoloTalents.h"
 
 #include <doctest/doctest.h>
@@ -20,7 +22,6 @@ const char *TestTable = R"(
 levels_per_point: 15
 keystone_levels: [150, 300]
 talents:
-  - {id: weapon_training, name: Weapon Training, tree: arms, kind: passive, max_rank: 5, per_rank: 2, text: "+{value} %"}
   - {id: cleave, name: Cleave, tree: arms, kind: active, max_rank: 3, requires: expert, cooldown: 12,
      cooldown_per_rank: -2, targets: 64, share: 150, arc: 60, duration: 1}
   - {id: sweeping_blows, name: Sweeping Blows, tree: arms, kind: passive, max_rank: 3, requires: expert, needs: cleave,
@@ -29,12 +30,16 @@ talents:
   - {id: shield_wall, name: Shield Wall, tree: arms, kind: active, max_rank: 3, requires: expert, cooldown: 60,
      duration: 6, per_rank: 50}
   - {id: quickfoot, name: Quickfoot, tree: archery, kind: passive, max_rank: 3, per_rank: 3, per_rank_calm: 15}
-  - {id: attunement, name: Attunement, tree: arcana, kind: passive, max_rank: 5, per_rank: 2}
+  - {id: steady_aim, name: Steady Aim, tree: archery, kind: passive, max_rank: 3, per_rank: 10}
   - {id: resolve, name: Resolve, tree: arcana, kind: passive, max_rank: 5, per_rank: 2}
   - {id: spell_surge, name: Spell Surge, tree: arcana, kind: active, max_rank: 3, requires: master, cooldown: 45,
      per_rank: 50}
   - {id: overload, name: Overload, tree: arcana, kind: passive, max_rank: 3, requires: expert, per_rank: 10, targets: 3}
-  - {id: bloodthirst, name: Bloodthirst, tree: any, kind: passive, max_rank: 3, per_rank: 2}
+  - {id: bloodthirst, name: Bloodthirst, tree: any, kind: passive, max_rank: 5, per_rank: 2}
+  - {id: conditioning, name: Conditioning, tree: any, kind: passive, max_rank: unlimited, first_rank: 10,
+     per_rank: 1, text: "+{value} %"}
+  - {id: spell_suppression, name: Spell Suppression, tree: any, kind: passive, max_rank: 41, first_rank: 8,
+     per_rank: 0.8}
 keystones:
   - {id: cheat_death, name: Cheat Death, cooldown: 180, duration: 2}
   - {id: unbroken, name: Unbroken}
@@ -83,18 +88,155 @@ TEST_CASE("solo talents: the shipped table loads (tree v2)")
     SoloTalentTable table;
     std::string error;
     REQUIRE_MESSAGE(table.loadFromYaml(text.str(), error), error);
-    CHECK(table.talents().size() == 19);
-    CHECK(table.levelsPerPoint() == 10);
+    CHECK(table.talents().size() == 18);
+    CHECK(table.levelsPerPoint() == 5);
     CHECK(table.keystones().size() == 2);
     CHECK(table.keystoneLevels() == std::vector<uint32_t>{150, 300});
     REQUIRE(table.find("cleave") != nullptr);
     CHECK(table.find("cleave")->share == doctest::Approx(150));
+    REQUIRE(table.find("multishot") != nullptr);
+    CHECK(table.find("multishot")->cooldownPerHit == doctest::Approx(1.0f));
+    CHECK(table.find("multishot")->cooldownPerAttack == doctest::Approx(0.0f));
     REQUIRE(table.find("sweeping_blows") != nullptr);
     CHECK(table.find("sweeping_blows")->needs == "cleave");
     CHECK(table.find("whirlwind") == nullptr);
     CHECK(table.find("purify") == nullptr);
     CHECK(table.findKeystone("cheat_death") != nullptr);
     CHECK(table.findKeystone("unbroken") != nullptr);
+    // Power Shot replaced Pinning Shot (2026-11-16), in its place in the table: the action bar keeps talents by index.
+    CHECK(table.find("pinning_shot") == nullptr);
+    const TalentDefinition *pPowerShot = table.find("power_shot");
+    REQUIRE(pPowerShot != nullptr);
+    REQUIRE(table.find("piercing_arrows") != nullptr);
+    CHECK(pPowerShot == table.find("piercing_arrows") + 1);
+    CHECK(pPowerShot->kind == TalentKind::Active);
+    CHECK(talentShareAtRank(*pPowerShot, 1) == doctest::Approx(1.35f));
+    CHECK(talentShareAtRank(*pPowerShot, 2) == doctest::Approx(1.70f));
+    CHECK(talentShareAtRank(*pPowerShot, 3) == doctest::Approx(2.00f));
+    CHECK(talentCooldownSeconds(*pPowerShot, 1) == doctest::Approx(6.0f));
+    CHECK(talentCooldownSeconds(*pPowerShot, 2) == doctest::Approx(5.0f));
+    CHECK(talentCooldownSeconds(*pPowerShot, 3) == doctest::Approx(4.0f));
+    CHECK(talentValue(*pPowerShot, 2) == doctest::Approx(170.0f));
+    // A critical hit of an ordinary attack takes 0.5 s off Power Shot's cooldown (2026-11-16).
+    CHECK(pPowerShot->cooldownPerCritical == doctest::Approx(0.5f));
+    // Conditioning replaced Weapon Training, Marksman and Attunement (2026-11-16); Bloodthirst has five ranks of 2 %,
+    // Steady Aim 10 % a rank.
+    CHECK(table.find("weapon_training") == nullptr);
+    CHECK(table.find("marksman") == nullptr);
+    CHECK(table.find("attunement") == nullptr);
+    const TalentDefinition *pConditioning = table.find("conditioning");
+    REQUIRE(pConditioning != nullptr);
+    CHECK(pConditioning->tree == TalentTree::Any);
+    CHECK(pConditioning->unlimitedRanks);
+    CHECK(talentValue(*pConditioning, 40) == doctest::Approx(49.0f));
+    REQUIRE(table.find("bloodthirst") != nullptr);
+    CHECK(table.find("bloodthirst")->maxRank == 5);
+    CHECK(talentValue(*table.find("bloodthirst"), 5) == doctest::Approx(10.0f));
+    REQUIRE(table.find("steady_aim") != nullptr);
+    CHECK(talentValue(*table.find("steady_aim"), 3) == doctest::Approx(30.0f));
+    // Spell Suppression: 8 % at rank 1, 0.8 % a rank after, 40 % at its last rank 41; last in the table so the action
+    // bar's indexes keep. Conditioning: 10 % at rank 1, 1 % a rank after.
+    const TalentDefinition *pSuppression = table.find("spell_suppression");
+    REQUIRE(pSuppression != nullptr);
+    CHECK(pSuppression->tree == TalentTree::Any);
+    CHECK(pSuppression->maxRank == 41);
+    CHECK(talentValue(*pSuppression, 1) == doctest::Approx(8.0f));
+    CHECK(talentValue(*pSuppression, 2) == doctest::Approx(8.8f));
+    CHECK(talentValue(*pSuppression, 41) == doctest::Approx(40.0f));
+    CHECK(talentValue(*pConditioning, 1) == doctest::Approx(10.0f));
+    CHECK(table.talents().back().id == "spell_suppression");
+}
+
+TEST_CASE("solo talents: an unlimited talent takes every point the character has")
+{
+    BoundTable bound;
+    const TalentDefinition &conditioning = *bound.table.find("conditioning");
+    CHECK(conditioning.unlimitedRanks);
+    // Level 1500 at one point per 15 levels: 100 points, all of them into Conditioning.
+    Character character = fighter(1500);
+    for (int point = 0; point < 100; ++point)
+    {
+        REQUIRE(learnTalent(bound.table, character, "conditioning"));
+    }
+    CHECK(talentRank(character, "conditioning") == 100);
+    CHECK_FALSE(learnTalent(bound.table, character, "conditioning"));
+    // Past 255: ranks are two bytes.
+    character.level = 15 * 400;
+    for (int point = 0; point < 300; ++point)
+    {
+        REQUIRE(learnTalent(bound.table, character, "conditioning"));
+    }
+    CHECK(talentRank(character, "conditioning") == 400);
+    // A bounded talent still stops at its last rank.
+    SoloTalentTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadFromYaml("talents:\n  - {id: a, name: A, tree: any, max_rank: 60}\n", error), error);
+    CHECK(table.find("a")->maxRank == 50);
+    CHECK_FALSE(table.find("a")->unlimitedRanks);
+}
+
+TEST_CASE("solo talents: share_by_rank needs one share per rank")
+{
+    SoloTalentTable table;
+    std::string error;
+    CHECK_FALSE(table.loadFromYaml(R"(
+talents:
+  - {id: power_shot, name: Power Shot, tree: archery, kind: active, max_rank: 3, share_by_rank: [135, 170]}
+)",
+        error));
+    CHECK(error.find("share_by_rank") != std::string::npos);
+}
+
+TEST_CASE("solo run: the early monster cut is read from the table, fades between its points and follows earned levels")
+{
+    std::filesystem::path path = "assets_dev/engine/data_tables/talents.yml";
+    for (int up = 0; up < 4 && !std::filesystem::exists(path); ++up)
+    {
+        path = std::filesystem::path("..") / path;
+    }
+    REQUIRE(std::filesystem::exists(path));
+    std::ifstream file(path);
+    std::stringstream text;
+    text << file.rdbuf();
+    SoloTalentTable shipped;
+    std::string error;
+    REQUIRE_MESSAGE(shipped.loadFromYaml(text.str(), error), error);
+    // The shipped cut: 2.5 at the start, linear between the points, over from level 75.
+    CHECK(shipped.earlyMonsterCut(1) == doctest::Approx(2.5));
+    CHECK(shipped.earlyMonsterCut(5) == doctest::Approx(2.0));
+    CHECK(shipped.earlyMonsterCut(10) == doctest::Approx(1.6));
+    CHECK(shipped.earlyMonsterCut(30) == doctest::Approx(1.5));
+    CHECK(shipped.earlyMonsterCut(50) == doctest::Approx(1.4));
+    CHECK(shipped.earlyMonsterCut(60) == doctest::Approx(1.24));
+    CHECK(shipped.earlyMonsterCut(75) == doctest::Approx(1.0));
+    CHECK(shipped.earlyMonsterCut(500) == doctest::Approx(1.0));
+    // The shipped experience surcharge, half of MAW's.
+    REQUIRE(shipped.experienceSurcharge().has_value());
+    CHECK(*shipped.experienceSurcharge() == doctest::Approx(0.0025));
+
+    // No list, no cut; a divisor below 1 is refused; past a list that ends above 1 the cut is over all the same.
+    SoloTalentTable none;
+    REQUIRE(none.loadFromYaml("talents: []", error));
+    CHECK(none.earlyMonsterCut(1) == doctest::Approx(1.0));
+    CHECK_FALSE(none.experienceSurcharge().has_value());
+    SoloTalentTable bad;
+    CHECK_FALSE(bad.loadFromYaml("early_monster_cut: [[1, 0.5]]\ntalents: []", error));
+    SoloTalentTable shortList;
+    REQUIRE(shortList.loadFromYaml("early_monster_cut: [[1, 3], [20, 2]]\ntalents: []", error));
+    CHECK(shortList.earlyMonsterCut(20) == doctest::Approx(2.0));
+    CHECK(shortList.earlyMonsterCut(21) == doctest::Approx(1.0));
+
+    // The character's cut goes by the level its experience has earned, trained or not.
+    bindSoloTalentTable(&shipped);
+    Character member = fighter(5);
+    member.experience = 0;
+    CHECK(MawSoloTalents::earlyMonsterCut(member) == doctest::Approx(2.0));
+    // 190,000 experience is level 20 on MAW's curve (500 x 20 x 19).
+    member.experience = 190000;
+    CHECK(MawSoloTalents::earlyMonsterCut(member) == doctest::Approx(1.55));
+    member.level = 100;
+    CHECK(MawSoloTalents::earlyMonsterCut(member) == doctest::Approx(1.0));
+    bindSoloTalentTable(nullptr);
 }
 
 TEST_CASE("solo talents: one point every fifteen levels; keystones and removed talents cost nothing")
@@ -106,7 +248,7 @@ TEST_CASE("solo talents: one point every fifteen levels; keystones and removed t
     character.level = 47;
     CHECK(talentPointsTotal(bound.table, character) == 3);
     CHECK(nextTalentPointLevel(bound.table, character) == 60);
-    character.talentRanks["weapon_training"] = 2;
+    character.talentRanks["resolve"] = 2;
     character.talentRanks["unbroken"] = 1;
     // A talent the table no longer has (an older save's Whirlwind) gives its points back.
     character.talentRanks["whirlwind"] = 3;
@@ -114,11 +256,64 @@ TEST_CASE("solo talents: one point every fifteen levels; keystones and removed t
     CHECK(talentPointsAvailable(bound.table, character) == 1);
 }
 
+TEST_CASE("solo talents: an ordinary attack takes cooldown_per_attack off, its hit cooldown_per_hit")
+{
+    SoloTalentTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadFromYaml(R"(
+talents:
+  - {id: charge, name: Charge, tree: arms, kind: active, max_rank: 3, cooldown: 25, cooldown_per_attack: 1}
+  - {id: multishot, name: Multishot, tree: archery, kind: active, max_rank: 3, cooldown: 10, cooldown_per_hit: 1}
+  - {id: cleave, name: Cleave, tree: arms, kind: active, max_rank: 3, cooldown: 12}
+)", error), error);
+    Character character = fighter(50);
+    character.talentState.cooldownSeconds = {{"charge", 10.0f}, {"multishot", 0.5f}, {"cleave", 6.0f}};
+    shortenTalentCooldowns(table, character, false);
+    CHECK(character.talentState.cooldownSeconds["charge"] == doctest::Approx(9.0f));
+    CHECK(character.talentState.cooldownSeconds["multishot"] == doctest::Approx(0.5f));
+    shortenTalentCooldowns(table, character, true);
+    CHECK(character.talentState.cooldownSeconds["charge"] == doctest::Approx(9.0f));
+    CHECK(character.talentState.cooldownSeconds["multishot"] == doctest::Approx(0.0f));
+    CHECK(character.talentState.cooldownSeconds["cleave"] == doctest::Approx(6.0f));
+    // A cooldown not running is not started.
+    Character fresh = fighter(50);
+    shortenTalentCooldowns(table, fresh, true);
+    CHECK(fresh.talentState.cooldownSeconds.empty());
+}
+
+TEST_CASE("solo talents: a critical hit takes cooldown_per_crit off, once for each")
+{
+    SoloTalentTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadFromYaml(R"(
+talents:
+  - {id: power_shot, name: Power Shot, tree: archery, kind: active, max_rank: 3, cooldown: 6, cooldown_per_crit: 0.5}
+  - {id: multishot, name: Multishot, tree: archery, kind: active, max_rank: 3, cooldown: 10, cooldown_per_hit: 1}
+)", error), error);
+    Character character = fighter(50);
+    character.talentState.cooldownSeconds = {{"power_shot", 4.0f}, {"multishot", 5.0f}};
+    // Two critical arrows of one shot: a second each.
+    shortenTalentCooldownsOnCritical(table, character);
+    shortenTalentCooldownsOnCritical(table, character);
+    CHECK(character.talentState.cooldownSeconds["power_shot"] == doctest::Approx(3.0f));
+    CHECK(character.talentState.cooldownSeconds["multishot"] == doctest::Approx(5.0f));
+    // A hit without a critical leaves Power Shot alone.
+    shortenTalentCooldowns(table, character, true);
+    CHECK(character.talentState.cooldownSeconds["power_shot"] == doctest::Approx(3.0f));
+    character.talentState.cooldownSeconds["power_shot"] = 0.2f;
+    shortenTalentCooldownsOnCritical(table, character);
+    CHECK(character.talentState.cooldownSeconds["power_shot"] == doctest::Approx(0.0f));
+    // Not running: not started.
+    Character fresh = fighter(50);
+    shortenTalentCooldownsOnCritical(table, fresh);
+    CHECK(fresh.talentState.cooldownSeconds.empty());
+}
+
 TEST_CASE("solo talents: mastery locks and talents that need another first")
 {
     BoundTable bound;
     Character character = fighter(200);
-    const TalentDefinition &training = *bound.table.find("weapon_training");
+    const TalentDefinition &training = *bound.table.find("resolve");
     const TalentDefinition &cleave = *bound.table.find("cleave");
     const TalentDefinition &sweeping = *bound.table.find("sweeping_blows");
     const TalentDefinition &bloodthirst = *bound.table.find("bloodthirst");
@@ -135,10 +330,10 @@ TEST_CASE("solo talents: mastery locks and talents that need another first")
 
     // No points left, and the last rank.
     Character spent = fighter(15);
-    spent.talentRanks["weapon_training"] = 1;
+    spent.talentRanks["resolve"] = 1;
     CHECK_FALSE(talentLearnRefusal(bound.table, spent, training).empty());
     Character full = fighter(200);
-    full.talentRanks["weapon_training"] = 5;
+    full.talentRanks["resolve"] = 5;
     CHECK_FALSE(talentLearnRefusal(bound.table, full, training).empty());
 }
 
@@ -198,7 +393,7 @@ TEST_CASE("solo talents: a save keeps the learned ranks and keystones")
     party.seed(Party::createDefaultSeed());
     REQUIRE_FALSE(party.members().empty());
     party.member(0)->talentRanks["cleave"] = 2;
-    party.member(0)->talentRanks["attunement"] = 4;
+    party.member(0)->talentRanks["conditioning"] = 300;
     party.member(0)->talentRanks["cheat_death"] = 1;
     save.party = party.snapshot();
 
@@ -212,7 +407,7 @@ TEST_CASE("solo talents: a save keeps the learned ranks and keystones")
     REQUIRE_MESSAGE(loaded.has_value(), error);
     REQUIRE_FALSE(loaded->party.members.empty());
     CHECK(loaded->party.members[0].talentRanks.at("cleave") == 2);
-    CHECK(loaded->party.members[0].talentRanks.at("attunement") == 4);
+    CHECK(loaded->party.members[0].talentRanks.at("conditioning") == 300);
     CHECK(loaded->party.members[0].talentRanks.at("cheat_death") == 1);
 }
 
@@ -220,21 +415,39 @@ TEST_CASE("solo talents: passives add their share of the base stats")
 {
     BoundTable bound;
     Character character = fighter(60);
-    character.talentRanks["weapon_training"] = 3;
-    character.talentRanks["attunement"] = 2;
+    character.accuracy = 60;
+    character.luck = 80;
+    character.talentRanks["conditioning"] = 1;
     character.talentRanks["resolve"] = 5;
     character.baseResistances.fire = 40;
     character.magicalBonuses.resistances.fire = 10;
     MawSoloTalents::applyPassives(character);
-    CHECK(character.magicalBonuses.might == 6);
-    // Endurance takes Weapon Training's 6 % and Attunement's 4 %.
+    // Conditioning's first rank: 10 % of each of the seven base stats.
+    CHECK(character.magicalBonuses.might == 10);
+    CHECK(character.magicalBonuses.intellect == 3);
+    CHECK(character.magicalBonuses.personality == 2);
     CHECK(character.magicalBonuses.endurance == 5);
-    CHECK(character.magicalBonuses.speed == 2);
-    CHECK(character.magicalBonuses.intellect == 1);
+    CHECK(character.magicalBonuses.accuracy == 6);
+    CHECK(character.magicalBonuses.speed == 4);
+    CHECK(character.magicalBonuses.luck == 8);
+    // Rank 11: 10 % and ten ranks of 1 %, 20 %.
+    Character eleven = fighter(60);
+    eleven.talentRanks["conditioning"] = 11;
+    MawSoloTalents::applyPassives(eleven);
+    CHECK(eleven.magicalBonuses.might == 20);
     // Resolve: 10 % of the 50 fire resistance.
     CHECK(character.magicalBonuses.resistances.fire == 15);
-    CHECK(MawSoloTalents::spellDamageScale(character) == doctest::Approx(1.04));
-    CHECK(MawSoloTalents::healScale(character) == doctest::Approx(1.04));
+    // Spells no longer take a passive's share.
+    CHECK(MawSoloTalents::spellDamageScale(character) == doctest::Approx(1.0));
+
+    // Steady Aim while still adds its Luck to Conditioning's.
+    Character still = fighter(60);
+    still.luck = 80;
+    still.talentRanks["conditioning"] = 1;
+    still.talentRanks["steady_aim"] = 3;
+    still.talentState.steadyAimOn = true;
+    MawSoloTalents::applyPassives(still);
+    CHECK(still.magicalBonuses.luck == 32);
 }
 
 TEST_CASE("solo talents: Onslaught stacks on kills, up to ten per rank, and runs out")
@@ -269,7 +482,7 @@ TEST_CASE("solo talents: Shield Wall, Unbroken and Cheat Death")
 {
     BoundTable bound;
     Character character = fighter(300);
-    character.talentRanks["weapon_training"] = 1;
+    character.talentRanks["conditioning"] = 1;
     // Shield Wall needs a shield in hand.
     character.talentState.shieldWallSeconds = 3;
     CHECK(MawSoloTalents::absorbDamage(character, 100, 1000) == 100);
@@ -295,6 +508,68 @@ TEST_CASE("solo talents: Shield Wall, Unbroken and Cheat Death")
     CHECK(MawSoloTalents::cheatDeath(character, 800, 50, 1000) == 800);
 }
 
+TEST_CASE("solo talents: Spell Suppression is the last cut of a hit that is not physical")
+{
+    BoundTable bound;
+    RulesetOptions options;
+    options.soloRun = true;
+    MawRules rules(options, MawMapLevels{});
+    Character member = fighter(300);
+    member.maxHealth = 50000;
+    member.health = 50000;
+    const auto run = [&](CombatDamageType type, std::vector<DamageStageRecord> &records)
+    {
+        CharacterDamageHit hit;
+        hit.amount = 20000;
+        hit.type = type;
+        hit.pCharacter = &member;
+        hit.monsterAttack = true;
+        hit.attackerLevel = 300;
+        hit.attackerFacts.level = 300;
+        hit.attackerFacts.familyLevel = 300;
+        hit.attackerFacts.tier = 2;
+        hit.attackerFacts.attack1Damage = 20000;
+        std::mt19937 rng(9);
+        hit.pRng = &rng;
+        records.clear();
+        return rules.gameRules().combat.damageToCharacterStages().run(hit, &records);
+    };
+    std::vector<DamageStageRecord> records;
+    const int plainFire = run(CombatDamageType::Fire, records);
+    const int plainPhysical = run(CombatDamageType::Physical, records);
+    REQUIRE(plainFire > 100);
+    REQUIRE(plainPhysical > 100);
+
+    member.talentRanks["spell_suppression"] = 41;
+    CHECK(MawSoloTalents::nonPhysicalDamageScale(member) == doctest::Approx(0.6));
+    const int suppressed = run(CombatDamageType::Fire, records);
+    // The last stage, after the mitigation and its floor: what the hit would have been, less 40 %.
+    REQUIRE_FALSE(records.empty());
+    CHECK(records.back().stage == "solo-spell-suppression");
+    CHECK(records.back().before == plainFire);
+    CHECK(suppressed == doctest::Approx(plainFire * 0.6).epsilon(0.001));
+    // A physical hit keeps all of it.
+    CHECK(run(CombatDamageType::Physical, records) == plainPhysical);
+
+    // Outside a solo run the ranks do nothing.
+    MawRules party(RulesetOptions{}, MawMapLevels{});
+    std::vector<DamageStageRecord> partyRecords;
+    CharacterDamageHit hit;
+    hit.amount = 20000;
+    hit.type = CombatDamageType::Fire;
+    hit.pCharacter = &member;
+    hit.monsterAttack = true;
+    hit.attackerLevel = 300;
+    hit.attackerFacts.level = 300;
+    hit.attackerFacts.familyLevel = 300;
+    hit.attackerFacts.tier = 2;
+    hit.attackerFacts.attack1Damage = 20000;
+    std::mt19937 rng(9);
+    hit.pRng = &rng;
+    const int partyTaken = party.gameRules().combat.damageToCharacterStages().run(hit, &partyRecords);
+    CHECK(partyRecords.back().before == partyTaken);
+}
+
 TEST_CASE("solo talents: Spell Surge, Overload and Bloodthirst")
 {
     BoundTable bound;
@@ -315,8 +590,11 @@ TEST_CASE("solo talents: Spell Surge, Overload and Bloodthirst")
 
     CHECK(MawSoloTalents::leechBonus(character) == doctest::Approx(0.0));
     CHECK(MawSoloTalents::leechFloorDivisor(character) == doctest::Approx(5.0));
-    character.talentRanks["bloodthirst"] = 3;
-    CHECK(MawSoloTalents::leechBonus(character) == doctest::Approx(0.06));
+    character.talentRanks["bloodthirst"] = 2;
+    CHECK(MawSoloTalents::leechBonus(character) == doctest::Approx(0.04));
+    CHECK(MawSoloTalents::leechFloorDivisor(character) == doctest::Approx(4.0));
+    character.talentRanks["bloodthirst"] = 5;
+    CHECK(MawSoloTalents::leechBonus(character) == doctest::Approx(0.10));
     CHECK(MawSoloTalents::leechFloorDivisor(character) == doctest::Approx(2.5));
 }
 

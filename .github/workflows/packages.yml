@@ -158,8 +158,10 @@ jobs:
             /LICENSE
             /COPYRIGHT
             /cmake/
+            /core/
             /engine/
             /game/
+            /third_party/cgltf/
             /packaging/licenses/
             /tools/openyamm_shaderc_stubs.cpp
             /tools/cook_sprite_atlases_main.cpp
@@ -183,7 +185,7 @@ jobs:
       - name: Build the sprite atlas cooker
         run: |
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF -DOPENYAMM_BUILD_EDITOR=OFF \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF \
             -DOPENYAMM_BUILD_TOOLS=OFF -DSDL_ALSA=OFF -DSDL_JACK=OFF -DSDL_KMSDRM=OFF -DSDL_PIPEWIRE=OFF \
             -DSDL_PULSEAUDIO=OFF -DSDL_SNDIO=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_WAYLAND=OFF -DSDL_X11=OFF
           cmake --build build --target openyamm_sprite_atlas_cook --parallel 4
@@ -232,8 +234,10 @@ jobs:
             /LICENSE
             /COPYRIGHT
             /cmake/
+            /core/
             /engine/
             /game/
+            /third_party/cgltf/
             /packaging/
             /tools/openyamm_shaderc_stubs.cpp
             /tools/cook_sprite_atlases_main.cpp
@@ -254,7 +258,7 @@ jobs:
       - name: Build the host shader compiler
         run: |
           cmake -S . -B build-host -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF -DOPENYAMM_BUILD_EDITOR=OFF \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF \
             -DOPENYAMM_BUILD_TOOLS=OFF -DSDL_ALSA=OFF -DSDL_JACK=OFF -DSDL_KMSDRM=OFF -DSDL_PIPEWIRE=OFF \
             -DSDL_PULSEAUDIO=OFF -DSDL_SNDIO=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_WAYLAND=OFF -DSDL_X11=OFF
           cmake --build build-host --target openyamm_shaderc
@@ -265,7 +269,7 @@ jobs:
         run: |
           cmake -S . -B build-windows -G Ninja -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/mingw-w64-x86_64.cmake \
-            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=OFF -DOPENYAMM_BUILD_EDITOR=OFF \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=OFF \
             -DOPENYAMM_BUILD_TOOLS=OFF -DOPENYAMM_HOST_SHADERC="$PWD/build-host/openyamm_shaderc" \
             -DOPENYAMM_RELEASE_THIN=ON -DOPENYAMM_RELEASE_VERSION="$VERSION"
           cmake --build build-windows --target openyamm_release_package
@@ -323,8 +327,10 @@ jobs:
             /LICENSE
             /COPYRIGHT
             /cmake/
+            /core/
             /engine/
             /game/
+            /third_party/cgltf/
             /packaging/
             /tests/
             /third_party/doctest/
@@ -368,7 +374,7 @@ jobs:
           VERSION: ${{ needs.meta.outputs.version }}
         run: |
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=ON -DOPENYAMM_BUILD_EDITOR=OFF \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=ON \
             -DOPENYAMM_BUILD_TOOLS=OFF -DOPENYAMM_COOK_ON_BUILD=OFF -DOPENYAMM_STATIC_LIBSTDCXX=ON \
             -DOPENYAMM_RUNTIME_SHADER_PATH=runtime/shaders -DOPENYAMM_RELEASE_THIN=ON \
             -DOPENYAMM_RELEASE_VERSION="$VERSION"
@@ -424,8 +430,10 @@ jobs:
             /LICENSE
             /COPYRIGHT
             /cmake/
+            /core/
             /engine/
             /game/
+            /third_party/cgltf/
             /packaging/
             /tests/
             /third_party/doctest/
@@ -464,7 +472,7 @@ jobs:
           build() {
             cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
               -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 \
-              -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=ON -DOPENYAMM_BUILD_EDITOR=OFF \
+              -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON -DOPENYAMM_BUILD_TESTS=ON \
               -DOPENYAMM_BUILD_TOOLS=OFF -DOPENYAMM_COOK_ON_BUILD=OFF -DOPENYAMM_RELEASE_THIN=ON \
               -DOPENYAMM_RELEASE_VERSION="$VERSION" &&
               cmake --build build --target openyamm_release_package openyamm_unit_tests
@@ -558,8 +566,10 @@ jobs:
             /LICENSE
             /COPYRIGHT
             /cmake/
+            /core/
             /engine/
             /game/
+            /third_party/cgltf/
             /android/
             /packaging/licenses/
             /tools/openyamm_shaderc_stubs.cpp
@@ -599,7 +609,7 @@ jobs:
       - name: Build the host shader compiler
         run: |
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF -DOPENYAMM_BUILD_EDITOR=OFF \
+            -DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=OFF -DOPENYAMM_BUILD_TESTS=OFF \
             -DOPENYAMM_BUILD_TOOLS=OFF -DSDL_ALSA=OFF -DSDL_JACK=OFF -DSDL_KMSDRM=OFF -DSDL_PIPEWIRE=OFF \
             -DSDL_PULSEAUDIO=OFF -DSDL_SNDIO=OFF -DSDL_UNIX_CONSOLE_BUILD=ON -DSDL_WAYLAND=OFF -DSDL_X11=OFF
           cmake --build build --target openyamm_shaderc

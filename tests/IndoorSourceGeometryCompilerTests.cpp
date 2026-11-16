@@ -1,8 +1,8 @@
 #include "doctest/doctest.h"
 
-#include "editor/document/IndoorGeometryMetadata.h"
-#include "editor/import/IndoorSourceGeometryCompiler.h"
-#include "editor/import/IndoorDerivedGeometry.h"
+#include "core/compile/IndoorGeometryMetadata.h"
+#include "core/compile/IndoorSourceGeometryCompiler.h"
+#include "core/compile/IndoorDerivedGeometry.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/FaceEnums.h"
@@ -68,6 +68,8 @@ struct SourceFixture
     }
 };
 }
+
+TEST_SUITE_BEGIN("indoor_source_compiler");
 
 TEST_CASE("indoor derived data removes floor triangulation seams and excludes moving faces from BSP")
 {
@@ -730,3 +732,5 @@ TEST_CASE("indoor derived data keeps long thin triangles far from the origin pla
     std::string error;
     CHECK_MESSAGE(generateIndoorDerivedGeometry(geometry, {}, true, true, error), error);
 }
+
+TEST_SUITE_END();

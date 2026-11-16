@@ -1,0 +1,27 @@
+# Saves and scene overlays, part 2 of 3: the save of part 1 loaded WITH the test overlay (mount). The Abandoned
+# Temple's layout identity differs (one more actor and floor item), so its state is reset deterministically: map
+# variable 41 back to 0, the overlay's actor there; the party (gold, QBit) and New Sorpigal's state are kept. Then
+# a save with the overlay, for part 3.
+id: scene_overlays.load_with_overlay
+title: A save from before an overlay resets that map, keeping the party
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - load_game: {name: before_overlay, path: output/scene_overlays/before_overlay.oysav}
+  - assert:
+      map: 6d02.blv
+  - assert:
+      state_dump_map_var: {index: 41, value: 0}
+  - assert: {gold: 4321}
+  - assert: {qbit_set: [10001]}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {near: [-29280, -10496, 64], min: 1, max: 1}
+  - lua_event: {source: "SetValue(MapVar(41), 5)"}
+  - save_game: {name: with_overlay, path: output/scene_overlays/with_overlay.oysav}
+  - load_map:
+      map: oute3.odm
+  - assert:
+      state_dump_map_var: {index: 40, value: 7}

@@ -196,6 +196,44 @@ TEST_CASE("MAW scroll, pedestal and temple buffs hold fixed auras until the map 
     CHECK_FALSE(standardGameRules().spells.castSourceBuff(party, 3, BuffSource::Scroll));
 }
 
+TEST_CASE("a MAW solo run's scroll auras last a game day on any map")
+{
+    RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    MawRules rules(soloOptions, MawMapLevels{});
+    const SpellRules &spells = rules.gameRules().spells;
+    PartySeed seed;
+    seed.members = {member("Ariel", "Knight", 10)};
+    Party party;
+    party.seed(seed);
+    party.setRules(&rules.gameRules());
+    party.setSoloRun(true);
+    party.setGameMinutes(1000.0f);
+    rules.setCurrentMap("oute3.odm");
+    spells.updateAuras(party, 0.5f);
+
+    // The scroll's Fire Resistance shows its own time, not the place's blessing, and survives another outdoor map.
+    REQUIRE(spells.castSourceBuff(party, 3, BuffSource::Scroll));
+    const PartyBuffState *pResistance = party.partyBuff(PartyBuffId::FireResistance);
+    REQUIRE(pResistance != nullptr);
+    CHECK(pResistance->remainingSeconds == doctest::Approx(24 * 3600.0f));
+    CHECK_FALSE(spells.heldBuffText(party, 3).has_value());
+    rules.setCurrentMap("outd3.odm");
+    spells.updateAuras(party, 0.5f);
+    CHECK(party.partyBuff(PartyBuffId::FireResistance) != nullptr);
+
+    // A pedestal's aura keeps MAW's end with the map.
+    REQUIRE(tryApplyEventSpellBuffs(party, 14, 10, 3));
+    CHECK_FALSE(rules.state().fixedAuraEndMinutes.contains(14));
+
+    // A day later the scroll's aura is gone.
+    party.setGameMinutes(1000.0f + 24 * 60 + 1);
+    spells.updateAuras(party, 0.5f);
+    CHECK(party.partyBuff(PartyBuffId::FireResistance) == nullptr);
+    CHECK_FALSE(rules.state().auraHolders.contains(3));
+    CHECK(rules.state().fixedAuraEndMinutes.empty());
+}
+
 TEST_CASE("MAW auras on members reach MM9 hirelings and end with them (OY-559)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});

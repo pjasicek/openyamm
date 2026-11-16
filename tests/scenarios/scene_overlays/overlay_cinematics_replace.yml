@@ -1,0 +1,26 @@
+# Cinematics overlays (G2 of devdocs/map_studio/S6_PLAN.md): merged by id after the map's own file. Needs the test
+# mount (run.sh): isleofashes_scenetest.cinematics.yml replaces book_sinking (17 s, the sink, event 31014 giving key
+# 28, at 4.5 s) by a 3-second one that sinks at 1 s, and adds overlay_flyby.
+id: scene_overlays.cinematics_replace
+title: An overlay's cinematic replaces the map's of the same id and adds another
+world: mm9
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: "book_sinking (3 s)"}
+  - console: {line: cinematic list, expect_contains: "overlay_flyby (2 s)"}
+  - assert: {qbit_clear: [90028]}
+  - console: {line: cinematic play book_sinking, expect_contains: Playing book_sinking}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: playing book_sinking}
+  - assert: {qbit_clear: [90028]}
+  - advance_runtime: {seconds: 1.0}
+  - note: {text: "the overlay's sink cue (1 s) has run; the map's own would wait until 4.5 s"}
+  - assert: {qbit_set: [90028]}
+  - advance_runtime: {seconds: 2.5}
+  - console: {line: cinematic play overlay_flyby, expect_contains: Playing overlay_flyby}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: playing overlay_flyby}
+  - advance_runtime: {seconds: 2.5}

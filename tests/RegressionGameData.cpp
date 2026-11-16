@@ -743,6 +743,14 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
     }
 
     data.houseTable.applyMapWorlds(mapStats);
+    const std::optional<std::string> soloShopStockText =
+        assetFileSystem.readTextFile(engineDataTablePath("solo_shop_stock.yml"));
+
+    if (!soloShopStockText || !data.houseTable.loadSoloStockYaml(*soloShopStockText, failure))
+    {
+        failure = "could not load solo_shop_stock.yml for regression tests: " + failure;
+        return false;
+    }
 
     if (!mapStats.applyMergedOutdoorTravels(outdoorTravels))
     {

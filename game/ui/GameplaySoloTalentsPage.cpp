@@ -57,6 +57,8 @@ constexpr uint32_t Rule = abgr(0x907d9a, 0xab);
 constexpr uint32_t HoverFill = abgr(0xe3c185, 0x22);
 constexpr uint32_t IconBack = abgr(0x151b1c);
 constexpr uint32_t PipOff = abgr(0x3a3428);
+// Ranks drawn as pips; a talent with more ranks shows one bar.
+constexpr int MaxRankPips = 10;
 constexpr uint32_t Backdrop = abgr(0x0b0e10, 0xf4);
 constexpr uint32_t CardFill = abgr(0x000000, 0x50);
 
@@ -351,14 +353,29 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
                 painter.frame(painter.rect(row.x - 2, row.y - 2, IconSize + 4, IconSize + 4), Gold);
             }
         }
-        const std::string rankText = std::to_string(rank) + "/" + std::to_string(talent.maxRank);
+        // A talent without a last rank shows its rank alone, and no pips.
+        const std::string rankText = std::to_string(rank)
+            + (talent.unlimitedRanks ? std::string() : "/" + std::to_string(talent.maxRank));
         const float rankWidth = painter.width("Lucida", 11, rankText) + 4;
         painter.text("Fondamento", 14, locked ? Grey : rank > 0 ? Ivory : Body,
             painter.fitted("Fondamento", 14, Engine::tr(talent.name), textWidth - rankWidth), textX, row.y);
         painter.text("Lucida", 11, rank > 0 ? Gold : Grey, rankText, row.x + RowWidth - 4, row.y + 2, 2);
-        for (int pip = 0; pip < talent.maxRank; ++pip)
+        // Up to ten ranks a pip each; more (Spell Suppression's 41) one bar as wide as ten pips, filled by the share.
+        if (!talent.unlimitedRanks && talent.maxRank <= MaxRankPips)
         {
-            painter.fill(painter.rect(textX + float(pip) * 11, row.y + 21, 7, 7), pip < rank ? Gold : PipOff);
+            for (int pip = 0; pip < talent.maxRank; ++pip)
+            {
+                painter.fill(painter.rect(textX + float(pip) * 11, row.y + 21, 7, 7), pip < rank ? Gold : PipOff);
+            }
+        }
+        else if (!talent.unlimitedRanks)
+        {
+            constexpr float BarWidth = MaxRankPips * 11 - 4;
+            painter.fill(painter.rect(textX, row.y + 21, BarWidth, 7), PipOff);
+            if (rank > 0)
+            {
+                painter.fill(painter.rect(textX, row.y + 21, BarWidth * float(rank) / float(talent.maxRank), 7), Gold);
+            }
         }
     }
 

@@ -1,0 +1,53 @@
+id: rulesets.maw_solo_chaining_arrows_indoor
+title: "Ruleset - solo run: indoors a Chaining Arrows shot leaps on to the monsters beside its target"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        The indoor half of maw_solo_chaining_arrows.yml: one arrow hurts all three Minotaurs, of which only the first
+        stands in the shot's line, so the other two take the leaps. The leap asks the map's own line of sight
+        (IGameplayWorldRuntime::hasClearLineBetween). Accuracy 5000 makes every hit roll certain against a Minotaur's
+        armour under MAW.
+  - new_game_flow:
+      start_map: d06.blv
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 20
+            accuracy: 5000
+            skills:
+              - {name: Bow, level: 8, mastery: 2}
+            equipment: {}
+  - grant_item: {item_id: 56, equip: bow}
+  - console: {line: "talent piercing_arrows 3", expect_contains: "piercing_arrows"}
+  - set_pose: {map: d06.blv, x: 296, y: -640, z: 0, yaw_degrees: 180, pitch: 0}
+  - clear_hostiles: {radius: 3000}
+  # Minotaur Battleleaders: one straight ahead (west), the others 200 and 350 north of it, off the shot's line.
+  - spawn_actor: {monster_id: 66, x: -104, y: -640, z: 0}
+  - spawn_actor: {monster_id: 66, x: -104, y: -440, z: 0}
+  - spawn_actor: {monster_id: 66, x: -104, y: -290, z: 0}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_visible: {actor_index: last-2, report_state: true}
+  - assert:
+      actor_visible: {actor_index: last-1, report_state: true}
+  - assert:
+      actor_visible: {actor_index: last, report_state: true}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  - advance_runtime: {seconds: 1.0}
+  - assert:
+      actor_visible: {actor_index: last-2, report_state: true}
+  - assert:
+      actor_visible: {actor_index: last-1, report_state: true}
+  - assert:
+      actor_visible: {actor_index: last, report_state: true}
+  - assert:
+      actor_count: {monster_id: 66, hurt: true, min: 3, max: 3}

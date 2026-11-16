@@ -6,6 +6,7 @@
 #include "game/events/EvtEnums.h"
 #include "game/party/Party.h"
 #include "game/rules/RandomStreams.h"
+#include "game/rules/SoloTalents.h"
 #include "game/tables/MapStats.h"
 
 #include <algorithm>
@@ -161,6 +162,7 @@ void MawRules::setOptions(const RulesetOptions &options)
 {
     m_options = options;
     m_models.clear();
+    m_soloCharacterCurve.reset();
     m_monsterLevels = {};
 }
 
@@ -407,6 +409,25 @@ std::optional<double> MawRules::mapMonsterLevel() const
     return std::nullopt;
 }
 
+std::optional<double> MawRules::mapMeanMonsterLevel() const
+{
+    const std::vector<int> &levels = m_monsterLevels.nativeLevels;
+
+    if (m_monsterLevels.mapFileName != lowercase(m_currentMap) || levels.empty())
+    {
+        return std::nullopt;
+    }
+
+    double sum = 0;
+
+    for (int level : levels)
+    {
+        sum += level;
+    }
+
+    return sum / double(levels.size());
+}
+
 double MawRules::mapDropLevel() const
 {
     // The lower middle of the map's own B rows (MawMapDropLevel).
@@ -582,6 +603,33 @@ int MawRules::partyStaffResistance() const
 void MawRules::setPartyStaffResistance(int resistance)
 {
     m_partyStaffResistance = resistance;
+}
+
+double MawRules::soloMonsterCut() const
+{
+    return m_soloMonsterCut;
+}
+
+void MawRules::setSoloMonsterCut(double cut)
+{
+    m_soloMonsterCut = std::max(cut, 1.0);
+}
+
+const MawExperienceCurve &MawRules::characterCurve() const
+{
+    const std::optional<double> surcharge = soloTalentTable().experienceSurcharge();
+
+    if (!m_options.soloRun || !surcharge)
+    {
+        return mawExperienceCurve();
+    }
+
+    if (!m_soloCharacterCurve || m_soloCharacterCurve->surchargePerLevel() != *surcharge)
+    {
+        m_soloCharacterCurve.emplace(*surcharge);
+    }
+
+    return *m_soloCharacterCurve;
 }
 
 bool MawRules::takeUnstuck(double gameMinutes)

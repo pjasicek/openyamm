@@ -94,10 +94,8 @@ std::string rulesetSettingValue(const RulesetOptions &options, const std::string
     }
     if (id == "ruleset_loot_filter")
     {
-        // The whole filter, so a changed kind or "stay on the ground" counts as a change too.
-        const RulesetLootFilter &filter = options.preferences.lootFilter;
-        return std::string(rulesetLootFilterPresetId(filter.preset)) + ":" + std::to_string(filter.goldKinds) + ":"
-            + (filter.leaveOnGround ? "ground" : "gold");
+        // The whole filter, so a changed kind, "stay on the ground" or a Custom rule counts as a change too.
+        return rulesetLootFilterValue(options.preferences.lootFilter);
     }
     return {};
 }
@@ -138,7 +136,7 @@ void setRulesetSettingValue(RulesetOptions &options, const std::string &id, cons
     }
     else if (id == "ruleset_loot_filter")
     {
-        // A preset id, or the whole filter as rulesetSettingValue writes it.
+        // A preset id, or a preset filter as rulesetSettingValue writes it (Custom rules are made in the window).
         const size_t separator = value.find(':');
         const std::optional<RulesetLootFilterPreset> preset = parseRulesetLootFilterPreset(value.substr(0, separator));
         if (preset)
@@ -1337,7 +1335,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
             }
             if (selectBox(id, rect, display, enabled))
             {
+                // A Custom filter opens on its rules.
                 m_lootFilterOpen = true;
+                m_lootFilterRules = m_rulesetDraft.preferences.lootFilter.preset == RulesetLootFilterPreset::Custom;
+                m_lootFilterRule = m_rulesetDraft.preferences.lootFilter.rules.empty() ? -1 : 0;
             }
         }
         else if (setting.type == "steps")

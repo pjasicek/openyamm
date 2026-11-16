@@ -105,9 +105,8 @@ public:
     bool protectionFromMagicRaisesResistances() const override;
 
 private:
-    // The cost and the heal before a solo run's talents change them.
+    // The cost before a solo run's talents change it.
     int manaCostBeforeTalents(const CharacterSpellCast &cast, int tableCost) const;
-    std::optional<int> healAmountBeforeTalents(const CharacterSpellCast &cast) const;
     int reservedPoints(const Party &party, size_t memberIndex, bool health) const;
     // What holding the aura would cost the member, as castAura reckons it.
     AuraReservationCost auraCost(const Party &party, size_t memberIndex, uint32_t spellId) const;

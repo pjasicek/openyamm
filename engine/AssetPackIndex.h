@@ -68,6 +68,10 @@ struct InstalledContentOptions
 {
     // <user data>/mods: its engine/ and worlds/<id>/ folders mount in front of the packs. Empty: no mods.
     std::filesystem::path modsRoot;
+    // The named mods to mount (devdocs/NAMED_MODS.md): the folders <modsRoot>/<id>/, in this order, each in front of
+    // the ones before it and behind the loose engine/ and worlds/ folders. The game chooses them at its start
+    // (Game::mountNamedMods); they mount over a release's packs and over a development root alike. Empty: none.
+    std::vector<std::string> namedMods;
     // [updates] keep_modified_packs: a pack whose size differs from the index is mounted anyway.
     bool acceptModifiedPacks = false;
     // The interface language (devdocs/LOCALIZATION.md), on every asset root: the fonts/, audio/ and videos/ folders of

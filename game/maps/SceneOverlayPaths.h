@@ -17,4 +17,13 @@ std::vector<std::string> buildSceneOverlayPathCandidates(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &sceneFileName,
     const std::string &rulesetRoot);
+
+// A map's cinematics overlays: `<stem>_<name>.cinematics.yml` beside its `<stem>.cinematics.yml`, merged by cinematic
+// id after the map's own file (devdocs/mm9_rework/MM9_CUTSCENES.md), in the scene overlays' order.
+bool isCinematicsOverlayFileName(const std::string &entryName, const std::string &cinematicsFileName);
+
+std::vector<std::string> buildCinematicsOverlayPathCandidates(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &cinematicsFileName,
+    const std::string &rulesetRoot);
 }

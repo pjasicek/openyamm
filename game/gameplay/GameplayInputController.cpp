@@ -1041,17 +1041,23 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
 
         // A solo run's action bar (devdocs/solo_action/HUD.md): keys 1-0 use the active member's slot. A spell casts
         // through the quick spell's path (its hold, repeat, recovery and attack fallback), a potion or scroll kind is
-        // used as a quick item slot is, the weapon slot attacks.
+        // used as a quick item slot is, the weapon slot attacks. A left click on a key acts as that key held while the
+        // button stays down.
         std::string heldBarSpell;
         if (context.soloHud() && config.pInputFrame != nullptr)
         {
             Party *pBarParty = context.party();
-            const std::optional<size_t> barSlot = GameplaySoloHud::heldBarSlot(*config.pInputFrame);
+            const GameplayInputFrame &barInput = *config.pInputFrame;
+            const std::optional<size_t> keySlot = GameplaySoloHud::heldBarSlot(barInput);
+            const std::optional<size_t> clickedSlot =
+                barInput.leftMouseButton.held ? GameplaySoloBarSelector::clickedBarSlot(context) : std::nullopt;
+            const std::optional<size_t> barSlot = keySlot ? keySlot : clickedSlot;
             const Character *pBarMember = pBarParty != nullptr ? pBarParty->activeMember() : nullptr;
             if (barSlot && pBarMember != nullptr)
             {
                 const ActionBarSlot &slot = pBarMember->actionBar[*barSlot];
-                const bool pressed = GameplaySoloHud::barSlotPressed(*config.pInputFrame, *barSlot);
+                const bool pressed = keySlot ? GameplaySoloHud::barSlotPressed(barInput, *barSlot)
+                                             : barInput.leftMouseButton.pressed;
                 if (slot.kind == ActionBarSlotKind::Spell && context.spellTable() != nullptr)
                 {
                     if (const SpellEntry *pSpell = context.spellTable()->findById(int(slot.id)))
@@ -1061,7 +1067,11 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 }
                 else if (slot.kind == ActionBarSlotKind::Item && pressed)
                 {
-                    context.itemService().useQuickItemKind(context, pBarParty->activeMemberIndex(), slot.item);
+                    // A bar key drinks or reads the strongest of its kind first (user, 2026-11-16); the bar has no
+                    // weakest-first choice, so a key saved with the old default drinks the strongest too.
+                    QuickItemSlot strongest = slot.item;
+                    strongest.bottleRule = QuickItemBottleRule::Strongest;
+                    context.itemService().useQuickItemKind(context, pBarParty->activeMemberIndex(), strongest);
                 }
                 else if (slot.kind == ActionBarSlotKind::Weapon && pressed)
                 {

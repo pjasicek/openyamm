@@ -452,6 +452,74 @@ TEST_CASE("AssetFileSystem mounts mods in front of the packs only when mods/ hol
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("AssetFileSystem mounts named mods over the packs in their order, behind the loose mods folders")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets";
+    const std::filesystem::path modsRoot = temporaryRoot / "mods";
+    writeZipFile(assetRoot / "packs/engine.core.zip", {
+        {"data_tables/house_data.txt", "game-houses"},
+        {"data_tables/spells.txt", "game-spells"},
+        {"data_tables/items.txt", "game-items"}
+    });
+    writeZipFile(assetRoot / "packs/mm6.core.zip", {{"maps/d01.blv", "game-map"}});
+    writeZipFile(assetRoot / "packs/mm8.core.zip", {{"maps/d05.blv", "game-mm8-map"}});
+    writeCorePackIndex(assetRoot, {"engine", "mm6", "mm8"});
+    const AssetScaleProfile profile = createUniformAssetScaleProfile(AssetScaleTier::X1);
+
+    writeTextFile(modsRoot / "first" / "mod.yml", "format: 1\nid: first\nname: First\nversion: 1\n");
+    writeTextFile(modsRoot / "first" / "engine" / "data_tables" / "spells.txt", "first-spells");
+    writeTextFile(modsRoot / "first" / "engine" / "data_tables" / "items.txt", "first-items");
+    writeTextFile(modsRoot / "first" / "worlds" / "mm6" / "maps" / "studio06.blv", "first-map");
+    writeTextFile(modsRoot / "first" / "tables" / "map_stats.txt.append.txt", "rows");
+    writeTextFile(modsRoot / "second" / "mod.yml", "format: 1\nid: second\nname: Second\nversion: 1\n");
+    writeTextFile(modsRoot / "second" / "engine" / "data_tables" / "spells.txt", "second-spells");
+    writeTextFile(modsRoot / "second" / "worlds" / "mm6" / "events" / "maps" / "d01_second.lua", "second-overlay");
+    writeTextFile(modsRoot / "enabled.yml", "format: 1\nenabled: [first, second]\n");
+    // The loose layout of the same folder: in front of the named mods.
+    writeTextFile(modsRoot / "engine" / "data_tables" / "house_data.txt", "loose-houses");
+    writeTextFile(modsRoot / "engine" / "data_tables" / "items.txt", "loose-items");
+
+    InstalledContentOptions looseOnly;
+    looseOnly.modsRoot = modsRoot;
+    AssetFileSystem fs;
+    REQUIRE(fs.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1, profile, "mm6", looseOnly));
+    // Without the game's choice the named mods' folders mount nothing; the loose files do, as before.
+    const std::vector<std::string> looseMounts = fs.getSearchPaths();
+    CHECK(fs.readTextFile("engine/data_tables/spells.txt") == std::optional<std::string>("game-spells"));
+    CHECK(fs.readTextFile("engine/data_tables/house_data.txt") == std::optional<std::string>("loose-houses"));
+    CHECK_FALSE(fs.exists("worlds/mm6/maps/studio06.blv"));
+
+    REQUIRE(fs.setNamedMods({"first", "second"}));
+    CHECK(fs.readTextFile("engine/data_tables/spells.txt") == std::optional<std::string>("second-spells"));
+    CHECK(fs.readTextFile("engine/data_tables/items.txt") == std::optional<std::string>("loose-items"));
+    CHECK(fs.readTextFile("engine/data_tables/house_data.txt") == std::optional<std::string>("loose-houses"));
+    CHECK(fs.readTextFile("worlds/mm6/maps/studio06.blv") == std::optional<std::string>("first-map"));
+    CHECK(fs.readTextFile("Data/games/studio06.blv") == std::optional<std::string>("first-map"));
+    CHECK(fs.readTextFile("worlds/mm6/events/maps/d01_second.lua") == std::optional<std::string>("second-overlay"));
+    const std::vector<std::string> scripts = fs.enumerate("events/maps");
+    CHECK(std::find(scripts.begin(), scripts.end(), "d01_second.lua") != scripts.end());
+    // The manifest and the table rows are the game's to read, not mounted files.
+    CHECK_FALSE(fs.exists("mod.yml"));
+    CHECK_FALSE(fs.exists("tables/map_stats.txt.append.txt"));
+
+    // The other order puts the other mod in front.
+    REQUIRE(fs.setNamedMods({"second", "first"}));
+    CHECK(fs.readTextFile("engine/data_tables/spells.txt") == std::optional<std::string>("first-spells"));
+
+    // A world switch keeps them; none on gives the loose mounts back exactly.
+    REQUIRE(fs.switchActiveWorld("mm8"));
+    CHECK(fs.readTextFile("engine/data_tables/spells.txt") == std::optional<std::string>("first-spells"));
+    REQUIRE(fs.switchActiveWorld("mm6"));
+    REQUIRE(fs.setNamedMods({}));
+    CHECK(fs.getSearchPaths() == looseMounts);
+
+    // A chosen mod whose folder is gone stops the mount instead of silently playing without it.
+    CHECK_FALSE(fs.setNamedMods({"third"}));
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("AssetFileSystem reads an extra development mount in front of a development root")
 {
     using namespace OpenYAMM::Engine;

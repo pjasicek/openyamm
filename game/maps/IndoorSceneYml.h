@@ -83,6 +83,9 @@ struct IndoorSceneInitialState
     std::vector<IndoorSceneFaceAttributeOverride> faceAttributeOverrides;
     std::vector<IndoorSceneDecorationFlag> decorationFlags;
     std::vector<MapDeltaActor> actors;
+    // How many of the actors scene overlays added (`authored_content.actors`, after the scene file's own): a ruleset's
+    // pack reserve is checked against the scene file's actors only.
+    size_t overlayActorCount = 0;
     // A ruleset overlay's pack reserve (MapDeltaData::packReserve).
     std::vector<MapDeltaPackReserveActor> packReserve;
     std::vector<MapDeltaSpriteObject> spriteObjects;

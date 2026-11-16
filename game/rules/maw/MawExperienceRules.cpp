@@ -58,7 +58,7 @@ MawExperienceRules::MawExperienceRules(MawRules &rules)
 uint64_t MawExperienceRules::experienceForNextLevel(uint32_t level) const
 {
     // MAW clamps the requirement below 2^31, which makes training free from level 1041 (README §6); we do not.
-    return uint64_t(mawRound(mawExperienceForLevel(double(level) + 1)));
+    return uint64_t(mawRound(m_rules.characterCurve().experienceForLevel(double(level) + 1)));
 }
 
 int MawExperienceRules::questGoldBonus(int gold, uint32_t continentId) const
@@ -186,7 +186,9 @@ MawMemberKillExperience mawMemberKillExperience(
 {
     MawBalanceModel &model = rules.model(std::max(1, partySize));
     // How tough the monster is for this member: its HP over the HP of a monster of the member's level. The dimension
-    // +HP affix stays out: MAW's ratio reads the health without it (zzzMaw_Experience.lua:191, DEVIATIONS 59).
+    // +HP affix stays out: MAW's ratio reads the health without it (zzzMaw_Experience.lua:191, DEVIATIONS 59). The
+    // level is read on MAW's curve even in a solo run with its own surcharge, so the solo earns what MAW gives and
+    // only turns it into more levels.
     const double memberLevel =
         std::max(1.0, std::min(mawLevelForExperience(member.experience), rules.state().totalLevel()));
     const double healthAffix = rules.mapAffix(MawMapAffix::MonsterHealth).value_or(0);

@@ -23,7 +23,8 @@ struct GameplayInputFrame;
 // menu: a right click on a spell assigns it.
 namespace GameplayBattleOrders
 {
-// A right click on a spell up to this long opens its menu; held longer, the spell's description shows instead.
+// A right click on a spell released within this long opens its menu; the description shows while the button is
+// down, and held longer it stays instead.
 constexpr uint64_t SpellMenuClickMilliseconds = 300;
 
 enum class Preset

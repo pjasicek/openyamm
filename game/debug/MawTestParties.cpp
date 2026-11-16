@@ -626,6 +626,57 @@ bool MawTestPartyCatalog::loadFromYaml(const std::string &text, std::string &err
                 stageEntry.questBits.push_back(bit.as<uint32_t>());
             }
 
+            for (const auto &buildNode : node["builds"])
+            {
+                MawTestPartyBuild build;
+                build.party = lowerCopy(buildNode.first.as<std::string>());
+                const YAML::Node &body = buildNode.second;
+
+                if (!body["stats"] || body["stats"].size() != build.stats.size())
+                {
+                    errorMessage = "stage " + stageEntry.id + ": build " + build.party + " needs seven stats";
+                    return false;
+                }
+
+                for (size_t statIndex = 0; statIndex < build.stats.size(); ++statIndex)
+                {
+                    build.stats[statIndex] = body["stats"][statIndex].as<uint32_t>();
+                }
+
+                for (const auto &skillNode : body["skills"])
+                {
+                    build.skills.push_back({skillNode.first.as<std::string>(), skillNode.second[0].as<uint32_t>(),
+                        skillNode.second[1].as<uint32_t>()});
+                }
+
+                for (const YAML::Node &itemNode : body["worn"])
+                {
+                    if (itemNode.size() < 13)
+                    {
+                        errorMessage = "stage " + stageEntry.id + ": build " + build.party + " has a short worn item";
+                        return false;
+                    }
+
+                    MawTestPartyExactItem item;
+                    item.slot = itemNode[0].as<int>();
+                    item.itemId = itemNode[1].as<uint32_t>();
+                    item.enchantId = itemNode[2].as<uint16_t>();
+                    item.enchantPower = itemNode[3].as<uint16_t>();
+                    item.secondEnchantId = itemNode[4].as<uint16_t>();
+                    item.secondEnchantPower = itemNode[5].as<uint16_t>();
+                    item.specialEnchantId = itemNode[6].as<uint16_t>();
+                    item.itemPower = itemNode[7].as<uint16_t>();
+                    item.rarity = uint8_t(itemNode[8].as<int>());
+                    item.dropLevel = itemNode[9].as<uint16_t>();
+                    item.legendaryAffixId = itemNode[10].as<uint16_t>();
+                    item.qualityPercent = uint8_t(itemNode[11].as<int>());
+                    item.ancientTier = uint8_t(itemNode[12].as<int>());
+                    build.worn.push_back(item);
+                }
+
+                stageEntry.builds.push_back(build);
+            }
+
             if (!parseRarity(stageEntry.gear.rarity))
             {
                 errorMessage = "stage " + stageEntry.id + ": unknown gear rarity " + stageEntry.gear.rarity;
@@ -663,6 +714,19 @@ bool MawTestPartyCatalog::loadFromYaml(const std::string &text, std::string &err
     }
 
     return true;
+}
+
+const MawTestPartyBuild *MawTestPartyStage::build(const std::string &partyId) const
+{
+    for (const MawTestPartyBuild &entry : builds)
+    {
+        if (entry.party == lowerCopy(partyId))
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
 }
 
 const MawTestPartyStage *MawTestPartyCatalog::stage(const std::string &id) const
@@ -813,6 +877,7 @@ std::string applyMawTestParty(
     const GameRules &gameRules = party.rules();
     std::mt19937 rng(seed);
     std::vector<Character> members = mawTestPartyShells(request, data);
+    const MawTestPartyBuild *pBuild = members.size() == 1 ? stage.build(request.pParty->id) : nullptr;
 
     for (Character &member : members)
     {
@@ -827,6 +892,26 @@ std::string applyMawTestParty(
         member.speed = stat;
         member.luck = stat;
         grantSkills(member, gameRules, data.getClassSkillTable(), stage.skillLevel);
+
+        // A build written out in full for this one-member party replaces the generic stats and skills.
+        if (pBuild != nullptr)
+        {
+            member.might = pBuild->stats[0];
+            member.intellect = pBuild->stats[1];
+            member.personality = pBuild->stats[2];
+            member.endurance = pBuild->stats[3];
+            member.accuracy = pBuild->stats[4];
+            member.speed = pBuild->stats[5];
+            member.luck = pBuild->stats[6];
+            member.skills.clear();
+
+            for (const MawTestPartyBuild::Skill &skill : pBuild->skills)
+            {
+                const std::string name = canonicalSkillName(skill.name);
+                member.skills[name] = {name, skill.level, SkillMastery(std::clamp<uint32_t>(skill.mastery, 1, 4))};
+            }
+        }
+
         learnSpells(member, gameRules, data.getSpellTable());
         GameMechanics::refreshCharacterBaseResources(member, true, &data.getClassMultiplierTable());
     }
@@ -874,7 +959,44 @@ std::string applyMawTestParty(
     size_t refused = 0;
     std::set<std::string> refusals;
 
-    for (size_t memberIndex = 0; memberIndex < party.memberCount(); ++memberIndex)
+    // The build's own items, as written.
+    for (const MawTestPartyExactItem &exact : pBuild != nullptr ? pBuild->worn : std::vector<MawTestPartyExactItem>())
+    {
+        if (data.getItemTable().get(exact.itemId) == nullptr || exact.slot < 0 || exact.slot > int(EquipmentSlot::Ring6))
+        {
+            ++refused;
+            continue;
+        }
+
+        InventoryItem item =
+            ItemGenerator::makeInventoryItem(exact.itemId, data.getItemTable(), ItemGenerationMode::Generic);
+        item.standardEnchantId = exact.enchantId;
+        item.standardEnchantPower = exact.enchantPower;
+        item.specialEnchantId = exact.specialEnchantId;
+        item.rulesetFields.secondStandardEnchantId = exact.secondEnchantId;
+        item.rulesetFields.secondStandardEnchantPower = exact.secondEnchantPower;
+        item.rulesetFields.itemPower = exact.itemPower;
+        item.rulesetFields.lootRarity = exact.rarity;
+        item.rulesetFields.dropLevel = exact.dropLevel;
+        item.rulesetFields.legendaryAffixId = exact.legendaryAffixId;
+        item.rulesetFields.qualityPercent = exact.qualityPercent;
+        item.rulesetFields.ancientTier = exact.ancientTier;
+        item.identified = true;
+        std::optional<InventoryItem> held;
+
+        if (party.tryEquipItemOnMember(0, EquipmentSlot(exact.slot), item, std::nullopt, true, held))
+        {
+            ++worn;
+        }
+        else
+        {
+            ++refused;
+            refusals.insert(party.lastStatus());
+            grantToBags(party, item, 0);
+        }
+    }
+
+    for (size_t memberIndex = 0; pBuild == nullptr && memberIndex < party.memberCount(); ++memberIndex)
     {
         const std::vector<GearPick> picks = chooseGear(*party.member(memberIndex), data.getItemTable(), rules.itemData());
 

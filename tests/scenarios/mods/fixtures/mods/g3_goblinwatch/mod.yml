@@ -1,0 +1,15 @@
+format: 1
+id: g3_goblinwatch
+name: "G3 test: Goblinwatch renamed, with a coin"
+version: "1.0"
+author: OpenYAMM tests
+description: "A hand-written named mod for tests/scenarios/mods: a map_stats.txt cell and a script overlay of 6d01.blv."
+worlds: [mm6]
+maps:
+  - file: 6d01.blv
+    world: mm6
+    kind: overlay
+    files: [worlds/mm6/events/maps/6d01_g3_goblinwatch.lua]
+tables:
+  - table: map_stats.txt
+    override: tables/map_stats.txt.override.txt

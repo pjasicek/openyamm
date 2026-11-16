@@ -9,6 +9,7 @@
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/SoloTalents.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/SpellTable.h"
 #include "game/gameplay/ActorNameText.h"
@@ -41,6 +42,8 @@ struct BreakItemCandidate
     InventoryItem *pInventoryItem = nullptr;
     EquippedItemRuntimeState *pEquippedRuntime = nullptr;
     const ItemDefinition *pItemDefinition = nullptr;
+    // The slot of an equipped candidate.
+    std::optional<EquipmentSlot> slot;
 };
 
 struct MonsterImpactHitCheck
@@ -848,7 +851,7 @@ std::vector<BreakItemCandidate> collectBreakItemCandidates(
                 "Everlasting") == pItemDefinition->contentEffect.flags.end()
             && itemMatchesBreakSpecial(*pItemDefinition, specialAttackKind))
         {
-            candidates.push_back({nullptr, pRuntimeState, pItemDefinition});
+            candidates.push_back({nullptr, pRuntimeState, pItemDefinition, slot});
         }
     }
 
@@ -1109,6 +1112,17 @@ bool rollMonsterHitCondition(const MonsterHitCondition &condition, std::mt19937 
         || std::uniform_int_distribution<int>(0, 99)(rng) < condition.chancePercent;
 }
 
+// A solo run's held weapon (main hand, off hand, bow) that the rules' auto-repair would mend anyway (MAW's Repair skill)
+// does not break: it would only swap the arms to the other weapon until the next repair tick (user, 2026-11-16).
+bool soloKeepsAutoRepairedWeapon(const Party &party, const BreakItemCandidate &candidate)
+{
+    const bool weapon = candidate.slot
+        && (*candidate.slot == EquipmentSlot::MainHand || *candidate.slot == EquipmentSlot::OffHand
+            || *candidate.slot == EquipmentSlot::Bow);
+    return weapon && candidate.pItemDefinition != nullptr && party.soloRun()
+        && party.rules().combat.autoRepairs(party, *candidate.pItemDefinition);
+}
+
 bool applyMonsterSpecialAttack(
     GameplayCombatController::PendingCombatEventContext &context,
     const GameplayCombatController::CombatEvent &event,
@@ -1235,6 +1249,10 @@ bool applyMonsterSpecialAttack(
             applied = true;
         }
     }
+    else if (pBreakCandidate != nullptr && soloKeepsAutoRepairedWeapon(context.party, *pBreakCandidate))
+    {
+        return false;
+    }
     else if (pBreakCandidate != nullptr)
     {
         // A hardened item stays a candidate, as in the original game; the attack just fails to break it.
@@ -1357,7 +1375,8 @@ GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjec
     int spellId,
     bool hit,
     bool killed,
-    bool critical)
+    bool critical,
+    std::shared_ptr<bool> hitCredit)
 {
     CombatEvent event = {};
     event.type = CombatEventType::PartyProjectileActorImpact;
@@ -1369,6 +1388,7 @@ GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjec
     event.hit = hit;
     event.killed = killed;
     event.critical = hit && critical;
+    event.hitCredit = std::move(hitCredit);
     return event;
 }
 
@@ -1870,6 +1890,28 @@ void GameplayCombatController::handlePendingCombatEvents(
                 }
 
                 context.party.rules().combat.applyPartyHitEffects(context.party, hit);
+            }
+
+            // A solo run's ordinary bow attack: its first arrow to hit a monster takes the talents' cooldown_per_hit
+            // off their cooldowns (Multishot).
+            if (event.hit && event.damage > 0 && event.hitCredit && *event.hitCredit)
+            {
+                *event.hitCredit = false;
+
+                if (Character *pShooter = context.party.member(event.sourcePartyMemberIndex))
+                {
+                    shortenTalentCooldowns(soloTalentTable(), *pShooter, true);
+                }
+            }
+
+            // Each critical arrow of that attack takes cooldown_per_crit off (Power Shot). Only the attack's own arrows
+            // carry the credit: a Chaining Arrows leap drops it, and a leap is never critical.
+            if (event.hit && event.damage > 0 && event.critical && event.hitCredit)
+            {
+                if (Character *pShooter = context.party.member(event.sourcePartyMemberIndex))
+                {
+                    shortenTalentCooldownsOnCritical(soloTalentTable(), *pShooter);
+                }
             }
 
             if (event.hit
@@ -2434,7 +2476,8 @@ void GameplayCombatController::recordPartyProjectileActorImpact(
     int spellId,
     bool hit,
     bool killed,
-    bool critical)
+    bool critical,
+    std::shared_ptr<bool> hitCredit)
 {
     m_pendingCombatEvents.push_back(
         buildPartyProjectileActorImpactEvent(
@@ -2445,7 +2488,8 @@ void GameplayCombatController::recordPartyProjectileActorImpact(
             spellId,
             hit,
             killed,
-            critical));
+            critical,
+            std::move(hitCredit)));
 }
 
 const std::vector<GameplayCombatController::CombatEvent> &GameplayCombatController::pendingCombatEvents() const

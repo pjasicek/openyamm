@@ -701,14 +701,6 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_spell_area_preview.sc"
         "fragment"
         "fs_spell_area_preview.bin")
-    openyamm_compile_bgfx_shader(
-        "${CMAKE_SOURCE_DIR}/game/shaders/vs_editor_preview_material.sc"
-        "vertex"
-        "vs_editor_preview_material.bin")
-    openyamm_compile_bgfx_shader(
-        "${CMAKE_SOURCE_DIR}/game/shaders/fs_editor_preview_material.sc"
-        "fragment"
-        "fs_editor_preview_material.bin")
 
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_terrain_decoration.sc"
@@ -798,8 +790,6 @@ function(openyamm_configure_runtime_shaders)
         vs_model_instanced.bin vs_model_shadow_instanced.bin fs_model_prepassed.bin vs_model_skinned_instanced.bin
         vs_spell_area_preview.bin
         fs_spell_area_preview.bin
-        vs_editor_preview_material.bin
-        fs_editor_preview_material.bin
     )
     list(APPEND runtimeShaderNames
         vs_outdoor_bmodel_lightmap.bin fs_outdoor_bmodel_lightmap.bin

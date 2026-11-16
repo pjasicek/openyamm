@@ -2437,14 +2437,115 @@ bool parseIndoorSceneActorNode(
     return true;
 }
 
+// One floor item (sprite object) of a scene: initial_state.sprite_objects, and an overlay's
+// authored_content.sprite_objects.
+bool parseIndoorSceneSpriteObjectNode(
+    const YAML::Node &spriteObjectNode,
+    MapDeltaSpriteObject &spriteObject,
+    std::string &errorMessage)
+{
+    if (!spriteObjectNode.IsMap())
+    {
+        errorMessage = "sprite object entry must be a map";
+        return false;
+    }
+
+    std::string rawContainingItemHex;
+
+    if (!readScalarNode(spriteObjectNode, "sprite_id", spriteObject.spriteId, errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "object_description_id",
+            spriteObject.objectDescriptionId,
+            errorMessage)
+        || !readScalarNode(spriteObjectNode, "yaw_angle", spriteObject.yawAngle, errorMessage)
+        || !readScalarNode(spriteObjectNode, "sound_id", spriteObject.soundId, errorMessage)
+        || !readScalarNode(spriteObjectNode, "attributes", spriteObject.attributes, errorMessage)
+        || !readScalarNode(spriteObjectNode, "sector_id", spriteObject.sectorId, errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "time_since_created",
+            spriteObject.timeSinceCreated,
+            errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "temporary_lifetime",
+            spriteObject.temporaryLifetime,
+            errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "glow_radius_multiplier",
+            spriteObject.glowRadiusMultiplier,
+            errorMessage)
+        || !readScalarNode(spriteObjectNode, "spell_id", spriteObject.spellId, errorMessage)
+        || !readScalarNode(spriteObjectNode, "spell_level", spriteObject.spellLevel, errorMessage)
+        || !readScalarNode(spriteObjectNode, "spell_skill", spriteObject.spellSkill, errorMessage)
+        || !readScalarNode(spriteObjectNode, "field54", spriteObject.field54, errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "spell_caster_pid",
+            spriteObject.spellCasterPid,
+            errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "spell_target_pid",
+            spriteObject.spellTargetPid,
+            errorMessage)
+        || !readScalarNode(spriteObjectNode, "lod_distance", spriteObject.lodDistance, errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "spell_caster_ability",
+            spriteObject.spellCasterAbility,
+            errorMessage)
+        || !readScalarNode(
+            spriteObjectNode,
+            "raw_containing_item_hex",
+            rawContainingItemHex,
+            errorMessage)
+        || !parsePositionNode(
+            spriteObjectNode["position"],
+            spriteObject.x,
+            spriteObject.y,
+            spriteObject.z,
+            errorMessage)
+        || !parsePositionNode(
+            spriteObjectNode["velocity"],
+            spriteObject.velocityX,
+            spriteObject.velocityY,
+            spriteObject.velocityZ,
+            errorMessage)
+        || !parsePositionNode(
+            spriteObjectNode["initial_position"],
+            spriteObject.initialX,
+            spriteObject.initialY,
+            spriteObject.initialZ,
+            errorMessage))
+    {
+        return false;
+    }
+
+    if (!parseHexBytes(
+            rawContainingItemHex,
+            SpriteObjectContainingItemSize,
+            spriteObject.rawContainingItem,
+            errorMessage))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 // The scene's actors as a ruleset overlay's pack reserve was made against them: FNV-1a 64 over
-// "monster_id,x,y,z;" of each actor in order, in hex (tools/maw/mm9_pack_reserve.py writes the same).
-std::string scenePackReserveCheck(const std::vector<MapDeltaActor> &actors)
+// "monster_id,x,y,z;" of each of the first actorCount actors in order, in hex (tools/maw/mm9_pack_reserve.py writes
+// the same).
+std::string scenePackReserveCheck(const std::vector<MapDeltaActor> &actors, size_t actorCount)
 {
     uint64_t hash = 0xcbf29ce484222325ull;
 
-    for (const MapDeltaActor &actor : actors)
+    for (size_t actorIndex = 0; actorIndex < actorCount; ++actorIndex)
     {
+        const MapDeltaActor &actor = actors[actorIndex];
         const std::string text = std::to_string(actor.monsterId) + "," + std::to_string(actor.x) + ","
             + std::to_string(actor.y) + "," + std::to_string(actor.z) + ";";
 
@@ -2468,9 +2569,11 @@ bool applyScenePackReserve(const YAML::Node &node, IndoorSceneInitialState &init
     try
     {
         const std::string check = node["scene_check"].as<std::string>("");
+        // Made against the scene file's actors: those an overlay added stand after them and do not count.
+        const size_t sceneActorCount = initialState.actors.size() - initialState.overlayActorCount;
 
-        if (node["scene_actors"].as<size_t>(0) != initialState.actors.size()
-            || check != scenePackReserveCheck(initialState.actors))
+        if (node["scene_actors"].as<size_t>(0) != sceneActorCount
+            || check != scenePackReserveCheck(initialState.actors, sceneActorCount))
         {
             std::cerr << "Scene pack reserve not used: made for other scene actors (" << check
                       << "); rerun tools/maw/mm9_pack_reserve.py\n";
@@ -3038,92 +3141,9 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
 
     for (const YAML::Node &spriteObjectNode : spriteObjectsNode)
     {
-        if (!spriteObjectNode.IsMap())
-        {
-            errorMessage = "sprite object entry must be a map";
-            return std::nullopt;
-        }
-
         MapDeltaSpriteObject spriteObject = {};
-        std::string rawContainingItemHex;
 
-        if (!readScalarNode(spriteObjectNode, "sprite_id", spriteObject.spriteId, errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "object_description_id",
-                spriteObject.objectDescriptionId,
-                errorMessage)
-            || !readScalarNode(spriteObjectNode, "yaw_angle", spriteObject.yawAngle, errorMessage)
-            || !readScalarNode(spriteObjectNode, "sound_id", spriteObject.soundId, errorMessage)
-            || !readScalarNode(spriteObjectNode, "attributes", spriteObject.attributes, errorMessage)
-            || !readScalarNode(spriteObjectNode, "sector_id", spriteObject.sectorId, errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "time_since_created",
-                spriteObject.timeSinceCreated,
-                errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "temporary_lifetime",
-                spriteObject.temporaryLifetime,
-                errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "glow_radius_multiplier",
-                spriteObject.glowRadiusMultiplier,
-                errorMessage)
-            || !readScalarNode(spriteObjectNode, "spell_id", spriteObject.spellId, errorMessage)
-            || !readScalarNode(spriteObjectNode, "spell_level", spriteObject.spellLevel, errorMessage)
-            || !readScalarNode(spriteObjectNode, "spell_skill", spriteObject.spellSkill, errorMessage)
-            || !readScalarNode(spriteObjectNode, "field54", spriteObject.field54, errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "spell_caster_pid",
-                spriteObject.spellCasterPid,
-                errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "spell_target_pid",
-                spriteObject.spellTargetPid,
-                errorMessage)
-            || !readScalarNode(spriteObjectNode, "lod_distance", spriteObject.lodDistance, errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "spell_caster_ability",
-                spriteObject.spellCasterAbility,
-                errorMessage)
-            || !readScalarNode(
-                spriteObjectNode,
-                "raw_containing_item_hex",
-                rawContainingItemHex,
-                errorMessage)
-            || !parsePositionNode(
-                spriteObjectNode["position"],
-                spriteObject.x,
-                spriteObject.y,
-                spriteObject.z,
-                errorMessage)
-            || !parsePositionNode(
-                spriteObjectNode["velocity"],
-                spriteObject.velocityX,
-                spriteObject.velocityY,
-                spriteObject.velocityZ,
-                errorMessage)
-            || !parsePositionNode(
-                spriteObjectNode["initial_position"],
-                spriteObject.initialX,
-                spriteObject.initialY,
-                spriteObject.initialZ,
-                errorMessage))
-        {
-            return std::nullopt;
-        }
-
-        if (!parseHexBytes(
-                rawContainingItemHex,
-                SpriteObjectContainingItemSize,
-                spriteObject.rawContainingItem,
-                errorMessage))
+        if (!parseIndoorSceneSpriteObjectNode(spriteObjectNode, spriteObject, errorMessage))
         {
             return std::nullopt;
         }
@@ -3438,6 +3458,59 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
                 sceneData.hasSpawns = true;
             }
         }
+
+        // Actors and floor items an overlay places, as the scene's initial_state records them: after the base
+        // scene's (whose indices stay) and the earlier overlays'.
+        if (const YAML::Node actorsNode = authoredContentNode["actors"])
+        {
+            if (!actorsNode.IsSequence())
+            {
+                errorMessage = "authored_content.actors must be a sequence";
+                return false;
+            }
+
+            std::vector<MapDeltaActor> &actors = sceneData.initialState.actors;
+            actors.reserve(actors.size() + actorsNode.size());
+
+            for (const YAML::Node &actorNode : actorsNode)
+            {
+                MapDeltaActor actor = {};
+
+                if (!parseIndoorSceneActorNode(actorNode, actors.size(), actor, errorMessage))
+                {
+                    errorMessage = "authored_content.actors: " + errorMessage;
+                    return false;
+                }
+
+                actors.push_back(std::move(actor));
+                ++sceneData.initialState.overlayActorCount;
+            }
+        }
+
+        if (const YAML::Node spriteObjectsNode = authoredContentNode["sprite_objects"])
+        {
+            if (!spriteObjectsNode.IsSequence())
+            {
+                errorMessage = "authored_content.sprite_objects must be a sequence";
+                return false;
+            }
+
+            std::vector<MapDeltaSpriteObject> &spriteObjects = sceneData.initialState.spriteObjects;
+            spriteObjects.reserve(spriteObjects.size() + spriteObjectsNode.size());
+
+            for (const YAML::Node &spriteObjectNode : spriteObjectsNode)
+            {
+                MapDeltaSpriteObject spriteObject = {};
+
+                if (!parseIndoorSceneSpriteObjectNode(spriteObjectNode, spriteObject, errorMessage))
+                {
+                    errorMessage = "authored_content.sprite_objects: " + errorMessage;
+                    return false;
+                }
+
+                spriteObjects.push_back(std::move(spriteObject));
+            }
+        }
     }
 
     if (const YAML::Node removalsNode = rootNode["removals"])
@@ -3622,6 +3695,19 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         ambientNode && !parseAmbientSoundsNode(ambientNode, sceneData.ambientSounds, errorMessage))
     {
         return false;
+    }
+
+    // An overlay's ladders replace the base scene's.
+    if (const YAML::Node laddersNode = rootNode["ladders"])
+    {
+        std::vector<IndoorLadder> ladders;
+
+        if (!parseIndoorLaddersNode(laddersNode, ladders, errorMessage))
+        {
+            return false;
+        }
+
+        sceneData.ladders = std::move(ladders);
     }
 
     return true;

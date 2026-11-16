@@ -1,0 +1,11 @@
+# Test overlay (tests/scenarios/scene_overlays/): the Bath House's ladders replaced by this list, Ladder0 renamed
+# overlay_ladder and a second ladder elsewhere.
+format_version: 1
+kind: indoor_scene_overlay
+source:
+  geometry_file: "bathhouse.blv"
+ladders:
+  - {id: overlay_ladder, bottom: [9154.56, 296.96, -1256.96], top: [9154.56, 296.96, -1064.96], facing_degrees: 0,
+     width: 92.16, reach: 48, top_exit: [9277.44, 296.96, -1064.96], grab_at_top: true}
+  - {id: overlay_spare, bottom: [0, 0, 0], top: [0, 0, 300], facing_degrees: 90, width: 64, reach: 48,
+     top_exit: [0, 100, 300]}

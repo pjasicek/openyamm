@@ -1,7 +1,6 @@
 #include "game/rules/maw/MawExperienceCurve.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 
 namespace OpenYAMM::Game
@@ -9,66 +8,76 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr int MaxTableLevel = 2000;
-
-// Experience to go from `level` to the next.
-double experienceStep(double level)
-{
-    return 1000 * level * std::max(1 + (level - 100) * 0.005, 1.0);
 }
 
-const std::array<double, MaxTableLevel + 1> &experienceTable()
+MawExperienceCurve::MawExperienceCurve(double surchargePerLevel)
+    : m_surchargePerLevel(surchargePerLevel)
+    , m_table(MaxTableLevel + 1, 0.0)
 {
-    static const std::array<double, MaxTableLevel + 1> Table = []
+    for (int level = 2; level <= MaxTableLevel; ++level)
     {
-        std::array<double, MaxTableLevel + 1> table = {};
-
-        for (int level = 2; level <= MaxTableLevel; ++level)
-        {
-            table[size_t(level)] = table[size_t(level - 1)] + experienceStep(level - 1);
-        }
-
-        return table;
-    }();
-    return Table;
-}
+        m_table[size_t(level)] = m_table[size_t(level - 1)] + step(level - 1);
+    }
 }
 
-double mawExperienceForLevel(double level)
+double MawExperienceCurve::step(double level) const
+{
+    return 1000 * level * std::max(1 + (level - 100) * m_surchargePerLevel, 1.0);
+}
+
+double MawExperienceCurve::experienceForLevel(double level) const
 {
     if (level <= 1)
     {
         return 0;
     }
 
-    const std::array<double, MaxTableLevel + 1> &table = experienceTable();
-
     if (level >= MaxTableLevel)
     {
-        return table[MaxTableLevel] + (level - MaxTableLevel) * experienceStep(MaxTableLevel);
+        return m_table[MaxTableLevel] + (level - MaxTableLevel) * step(MaxTableLevel);
     }
 
     const double whole = std::floor(level);
-    return table[size_t(whole)] + (level - whole) * experienceStep(whole);
+    return m_table[size_t(whole)] + (level - whole) * step(whole);
 }
 
-double mawLevelForExperience(double experience)
+double MawExperienceCurve::levelForExperience(double experience) const
 {
     if (experience <= 0)
     {
         return 1;
     }
 
-    const std::array<double, MaxTableLevel + 1> &table = experienceTable();
-
-    if (experience >= table[MaxTableLevel])
+    if (experience >= m_table[MaxTableLevel])
     {
-        return MaxTableLevel + (experience - table[MaxTableLevel]) / experienceStep(MaxTableLevel);
+        return MaxTableLevel + (experience - m_table[MaxTableLevel]) / step(MaxTableLevel);
     }
 
     // The highest level whose requirement does not exceed the experience.
-    const auto above = std::upper_bound(table.begin() + 1, table.end(), experience);
-    const int level = int(above - table.begin()) - 1;
-    return level + (experience - table[size_t(level)]) / experienceStep(level);
+    const auto above = std::upper_bound(m_table.begin() + 1, m_table.end(), experience);
+    const int level = int(above - m_table.begin()) - 1;
+    return level + (experience - m_table[size_t(level)]) / step(level);
+}
+
+double MawExperienceCurve::surchargePerLevel() const
+{
+    return m_surchargePerLevel;
+}
+
+const MawExperienceCurve &mawExperienceCurve()
+{
+    static const MawExperienceCurve Curve(MawExperienceSurcharge);
+    return Curve;
+}
+
+double mawExperienceForLevel(double level)
+{
+    return mawExperienceCurve().experienceForLevel(level);
+}
+
+double mawLevelForExperience(double experience)
+{
+    return mawExperienceCurve().levelForExperience(experience);
 }
 
 double mawBolsteredLevel(double floorLevel, double levels)

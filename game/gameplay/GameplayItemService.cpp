@@ -412,6 +412,12 @@ GameplayItemService::GameplayItemService(GameSession &session)
 {
 }
 
+bool GameplayItemService::tryUseHeldTravelItem(GameplayScreenRuntime &runtime)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    return heldItem.active && tryUseTravelItem(runtime, heldItem);
+}
+
 bool GameplayItemService::tryUseHeldItemOnPartyMember(
     GameplayScreenRuntime &runtime,
     size_t memberIndex,
@@ -433,7 +439,7 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         return false;
     }
 
-    if (tryUseTravelItem(runtime, heldItem))
+    if (tryUseHeldTravelItem(runtime))
     {
         return true;
     }
@@ -1173,12 +1179,15 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
     const size_t alchemistIndex = alchemist.memberIndex.value_or(pParty->activeMemberIndex());
     const uint32_t bottleItemId = tables.potionSettingTable.emptyBottleItemId();
     AlchemyRecipe recipe = {bench.targetItemId, bench.heldItemId};
+    // The copies the player chose by power; a choice no carried copy has is dropped, as the bench shows it.
+    const AlchemyPowerChoice choice =
+        AlchemyBenchRuntime::availableChoice(*pParty, recipe, {bench.targetPower, bench.heldPower}, tables);
     // A mix the party had not tried, that records a potion note, is a discovery.
     const bool untried = AlchemyBenchRuntime::preview(*pParty, recipe, tables,
         [&runtime](uint32_t autonoteId)
         {
             return runtime.isAutonoteUnlocked(autonoteId);
-        }).outcome == AlchemyPreviewOutcome::Unknown;
+        }, choice).outcome == AlchemyPreviewOutcome::Unknown;
     InventoryItemMixResult lastResult = {};
     InventoryItem brewedItem = {};
     uint32_t mixedCount = 0;
@@ -1186,7 +1195,7 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
 
     while (true)
     {
-        const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(*pParty, recipe, tables);
+        const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(*pParty, recipe, tables, {}, choice);
 
         if (!outcome.result.handled)
         {
@@ -1217,6 +1226,17 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
 
         if (!mixAll || bottleOverflow)
         {
+            break;
+        }
+
+        // Chosen powers mix only their own copies: once those are used up, Mix All stops.
+        if (choice.any())
+        {
+            if (AlchemyBenchRuntime::brewableCount(*pParty, recipe, choice, tables) > 0)
+            {
+                continue;
+            }
+
             break;
         }
 
@@ -1292,9 +1312,13 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
             {{"potion", brewedName}, {"power", int64_t(brewedItem.standardEnchantPower)}});
     }
 
-    // The slots keep the mixed pair, faded once the party runs out, and the result slot shows what was brewed.
+    // The slots keep the mixed pair, faded once the party runs out, and the result slot shows what was brewed. A
+    // chosen power stays while copies of it remain; after the last one the bench picks again.
     bench.targetItemId = recipe.targetItemId;
     bench.heldItemId = recipe.heldItemId;
+    const AlchemyPowerChoice remaining = AlchemyBenchRuntime::availableChoice(*pParty, recipe, choice, tables);
+    bench.targetPower = remaining.targetPower;
+    bench.heldPower = remaining.heldPower;
     bench.clearBrewResult();
     bench.brewedTicks = SDL_GetTicks();
     bench.brewedExploded = lastResult.failureDamageLevel != 0;
@@ -1306,6 +1330,7 @@ bool GameplayItemService::mixAlchemyBench(GameplayScreenRuntime &runtime, bool m
         bench.brewedCount = mixedCount;
         bench.brewedDiscovery = discovery;
         bench.selectedResultItemId = brewedItem.objectDescriptionId;
+        bench.chainPower.reset();
         bench.brewedScrollPending = true;
     }
 
@@ -1352,8 +1377,17 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
             return runtime.isAutonoteUnlocked(autonoteId);
         },
         keepMixedPotions);
+    // The power chosen from the result slot's list, while the chain reaches it.
+    const auto chosenAim =
+        [&]() -> std::optional<uint16_t>
+        {
+            return bench.chainPower
+                ? AlchemyChainPlanner(*pParty, book, alchemist, tables, keepMixedPotions)
+                    .aimForPower(bench.selectedResultItemId, *bench.chainPower)
+                : std::nullopt;
+        };
     const AlchemyChainPlan plan = AlchemyChainPlanner(*pParty, book, alchemist, tables, keepMixedPotions)
-        .plan(bench.selectedResultItemId, brewAll ? MaxChainBrews : 1);
+        .plan(bench.selectedResultItemId, brewAll ? MaxChainBrews : 1, chosenAim());
 
     if (plan.brewCount == 0)
     {
@@ -1361,6 +1395,13 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
     }
 
     const AlchemyChainOutcome outcome = AlchemyBenchRuntime::brewChain(*pParty, plan, tables);
+
+    // The choice stays while what is left still brews a potion of that power.
+    if (!chosenAim())
+    {
+        bench.chainPower.reset();
+    }
+
     InventoryItemMixResult result = outcome.lastMix.result;
     const ItemDefinition *pBrewed = tables.itemTable.get(outcome.lastBrewed.objectDescriptionId);
     const std::string brewedName = pBrewed != nullptr ? Engine::localize(pBrewed->name) : Engine::tr("potion");

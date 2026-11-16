@@ -468,12 +468,15 @@ PotionDrinkOutcome applyPotionEffects(
 }
 
 // How long a potion's timed effects last: Standard a number of minutes per point of power; MAW a fixed time plus
-// minutes per Alchemy point of the party's best Grandmaster alchemist.
+// minutes per Alchemy point of the party's best Grandmaster alchemist. A solo run's are at least the table's solo
+// time (plus that alchemist's minutes).
 float potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power)
 {
+    const float soloSeconds = party.soloRun() ? effects.soloDurationSeconds() : 0.0f;
+
     if (effects.timedSecondsPerPower() > 0)
     {
-        return effects.timedSecondsPerPower() * static_cast<float>(power);
+        return std::max(effects.timedSecondsPerPower() * static_cast<float>(power), soloSeconds);
     }
 
     int bestGrandmasterSkill = 0;
@@ -489,7 +492,7 @@ float potionDurationSeconds(const Party &party, const PotionEffectTable &effects
         }
     }
 
-    return effects.fixedDurationSeconds()
+    return std::max(effects.fixedDurationSeconds(), soloSeconds)
         + effects.grandmasterAlchemySecondsPerSkill() * static_cast<float>(bestGrandmasterSkill);
 }
 

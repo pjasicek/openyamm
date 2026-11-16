@@ -1427,7 +1427,7 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
             }
             else if (empty != bar.begin() + ActionBarSlotCount / 2)
             {
-                *empty = {ActionBarSlotKind::Item, 0, {entry.itemId, QuickItemBottleRule::Weakest}};
+                *empty = {ActionBarSlotKind::Item, 0, {entry.itemId, QuickItemBottleRule::Strongest}};
             }
             else
             {

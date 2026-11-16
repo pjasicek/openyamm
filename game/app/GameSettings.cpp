@@ -1964,9 +1964,11 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
             continue;
         }
 
-        const InputBinding binding = parseInputBindingName(trimCopy(*value));
+        const std::string name = trimCopy(*value);
+        const InputBinding binding = parseInputBindingName(name);
 
-        if (binding.kind != InputBindingKind::None)
+        // "Unbound" (what an unbound action saves) loads back unbound; an unreadable name keeps the default.
+        if (binding.kind != InputBindingKind::None || name == inputBindingName(InputBinding{}))
         {
             settings.keyboard.setBinding(definition.action, binding);
         }

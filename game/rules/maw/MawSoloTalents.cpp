@@ -2,6 +2,7 @@
 
 #include "game/party/Party.h"
 #include "game/rules/SoloTalents.h"
+#include "game/rules/maw/MawExperienceCurve.h"
 
 #include <algorithm>
 #include <cmath>
@@ -25,8 +26,8 @@ float passivePercent(const Character &member, std::string_view id)
     return pTalent != nullptr ? talentValue(*pTalent, rank) : 0.0f;
 }
 
-// A share of a base stat, rounded; the "+2 %" of Weapon Training and the others reads the character's own base stat
-// (what training and potions raised), not items or buffs, so the passives do not compound with each other.
+// A share of a base stat, rounded; Conditioning's and Steady Aim's percent reads the character's own base stat (what
+// training and potions raised), not items or buffs, so the passives do not compound with each other.
 int share(uint32_t base, float percent)
 {
     return int(std::lround(double(base) * percent / 100.0));
@@ -50,22 +51,17 @@ void applyPassives(Character &member)
     }
 
     CharacterStatBonuses &bonus = member.magicalBonuses;
-    const float weapon = passivePercent(member, "weapon_training");
-    const float marksman = passivePercent(member, "marksman");
-    const float attunement = passivePercent(member, "attunement");
+    const float conditioning = passivePercent(member, "conditioning");
+    const float aim = member.talentState.steadyAimOn ? passivePercent(member, "steady_aim") : 0.0f;
     const float resolve = passivePercent(member, "resolve");
 
-    bonus.might += share(member.might, weapon);
-    bonus.endurance += share(member.endurance, weapon + attunement);
-    bonus.speed += share(member.speed, weapon + marksman);
-    bonus.accuracy += share(member.accuracy, marksman);
-    bonus.intellect += share(member.intellect, attunement);
-    bonus.personality += share(member.personality, attunement);
-
-    if (member.talentState.steadyAimOn)
-    {
-        bonus.luck += share(member.luck, passivePercent(member, "steady_aim"));
-    }
+    bonus.might += share(member.might, conditioning);
+    bonus.intellect += share(member.intellect, conditioning);
+    bonus.personality += share(member.personality, conditioning);
+    bonus.endurance += share(member.endurance, conditioning);
+    bonus.accuracy += share(member.accuracy, conditioning);
+    bonus.speed += share(member.speed, conditioning);
+    bonus.luck += share(member.luck, conditioning + aim);
 
     if (resolve > 0.0f)
     {
@@ -237,15 +233,9 @@ int cheatDeath(Character &member, int damage, int currentHealth, int maximumHeal
 
 double spellDamageScale(const Character &caster)
 {
-    const double surge = caster.talentState.spellSurgeArmed || caster.talentState.surgeDamageSeconds > 0.0f
+    return caster.talentState.spellSurgeArmed || caster.talentState.surgeDamageSeconds > 0.0f
         ? 1.0 + tablePercent("spell_surge", 50.0f) / 100.0
         : 1.0;
-    return (1.0 + passivePercent(caster, "attunement") / 100.0) * surge;
-}
-
-double healScale(const Character &caster)
-{
-    return 1.0 + passivePercent(caster, "attunement") / 100.0;
 }
 
 double overloadScale(const Character &caster, int monstersNearTarget)
@@ -269,8 +259,13 @@ double leechBonus(const Character &member)
 
 double leechFloorDivisor(const Character &member)
 {
-    constexpr double Divisors[] = {5.0, 4.0, 3.0, 2.5};
-    return Divisors[std::clamp(talentRank(member, "bloodthirst"), 0, 3)];
+    // Five ranks: ÷5 without it, half a step per rank down to ÷2.5.
+    return 5.0 - 0.5 * std::clamp(talentRank(member, "bloodthirst"), 0, 5);
+}
+
+double nonPhysicalDamageScale(const Character &member)
+{
+    return std::clamp(1.0 - passivePercent(member, "spell_suppression") / 100.0, 0.0, 1.0);
 }
 
 bool nextSpellFree(const Character &caster)
@@ -286,5 +281,12 @@ void spendSurge(Character &caster)
         // A missile rolls its damage when it lands: a few seconds' window keeps the surge on it.
         caster.talentState.surgeDamageSeconds = 3.0f;
     }
+}
+
+double earlyMonsterCut(const Character &member)
+{
+    // MAW's curve: a solo's own surcharge only starts at level 100, after the cut has ended.
+    const double earnedLevel = std::floor(mawLevelForExperience(double(member.experience)));
+    return soloTalentTable().earlyMonsterCut(std::max(double(member.level), earnedLevel));
 }
 }

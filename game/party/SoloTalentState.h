@@ -6,8 +6,9 @@
 namespace OpenYAMM::Game
 {
 // A character's transient special-skill (talent) state in a MAW solo run (devdocs/solo_action/TALENTS.md): the
-// actives' cooldowns and the timed effects they leave. Never saved: a load starts every cooldown ready and every effect
-// off. The learned ranks and bound keystones are saved separately (Character::talentRanks).
+// actives' cooldowns and the timed effects they leave. Saved with the character (SaveGame.cpp, from save 187), so a
+// load resumes cooldowns, Onslaught's stacks and every effect where the save left them. The learned ranks and bound
+// keystones are saved separately (Character::talentRanks).
 struct SoloTalentState
 {
     // Seconds left before each active (by talent id) may be used again.

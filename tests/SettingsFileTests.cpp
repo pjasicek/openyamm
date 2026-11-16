@@ -254,3 +254,19 @@ TEST_CASE("the fast attack repeat setting is off by default and loads back on")
     CHECK(loaded.fastAttackRepeat);
     CHECK(contains(savedNames(loaded), "gameplay.fast_attack_repeat"));
 }
+
+TEST_CASE("an unbound action loads back unbound, not as its default key")
+{
+    using OpenYAMM::Game::InputBindingKind;
+    using OpenYAMM::Game::KeyboardAction;
+
+    GameSettings settings = GameSettings::createDefault();
+    REQUIRE_EQ(settings.keyboard.binding(KeyboardAction::NextWeapon).kind, InputBindingKind::MouseWheelDown);
+    const GameSettings loaded = loadText(
+        "[profile]\nname=desktop\nversion=5\n[input]\nnext_weapon=Unbound\nfly_down=MouseWheelDown\n");
+    CHECK_EQ(loaded.keyboard.binding(KeyboardAction::NextWeapon).kind, InputBindingKind::None);
+    CHECK_EQ(loaded.keyboard.binding(KeyboardAction::FlyDown).kind, InputBindingKind::MouseWheelDown);
+    // An unreadable name keeps the default.
+    const GameSettings garbled = loadText("[profile]\nname=desktop\nversion=5\n[input]\nnext_weapon=NoSuchKey\n");
+    CHECK_EQ(garbled.keyboard.binding(KeyboardAction::NextWeapon).kind, InputBindingKind::MouseWheelDown);
+}

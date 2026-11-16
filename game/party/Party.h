@@ -147,8 +147,8 @@ struct Character
     // special skills. Saved; party games keep it empty and never read it.
     std::array<ActionBarSlot, ActionBarSlotCount> actionBar = {};
     // The special skills (talents) learned in a MAW solo run, by talent id: their ranks (devdocs/solo_action/TALENTS.md).
-    // Saved; empty in every other game.
-    std::unordered_map<std::string, uint8_t> talentRanks;
+    // Saved; empty in every other game. Two bytes: Conditioning has no last rank.
+    std::unordered_map<std::string, uint16_t> talentRanks;
     // Their cooldowns and timed effects. Not saved.
     SoloTalentState talentState;
     // Battle orders (game/party/BattleOrders.h): what Attack does, tried in order, then the fallback. Saved; they
@@ -305,6 +305,9 @@ class Party;
 // A new solo run's party: the first member alone (with the first's character buffs), its action bar filled. Every new
 // game path with RulesetOptions::soloRun calls it once (New Game, the debug start, scenarios).
 void makeSoloRunParty(Party &party);
+// A new solo run's travel scrolls, one each of Water Walk, Jump, Town Portal, Fly and Lloyd's Beacon (user,
+// 2026-11-15). Every new game path that starts a solo run gives them once; turning an existing game solo does not.
+void giveSoloRunStartScrolls(Party &party);
 
 struct SpellEntry;
 

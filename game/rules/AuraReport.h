@@ -102,6 +102,8 @@ struct AuraReportEntry
     // A blessing: a temple's (it ends on the next map) or this place's (a scroll or pedestal: it ends on another
     // outdoor map).
     bool templeBlessing = false;
+    // A solo run's scroll blessing: the game seconds it has left, on any map.
+    std::optional<float> scrollSecondsLeft;
     AuraReservationCost cost;
     // The strength it holds at: the school skill (counted up to its cap), mastery (1-4) and level.
     std::string schoolSkill;

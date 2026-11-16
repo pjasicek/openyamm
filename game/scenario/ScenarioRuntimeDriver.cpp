@@ -645,10 +645,12 @@ bool ScenarioRuntimeDriver::startNewGame(
     // As a new game from party creation: the ruleset's own start.
     Party &sessionParty = *session.partyState();
     sessionParty.rules().experience.prepareNewParty(sessionParty);
-    // A solo run (RulesetOptions::soloRun), as from party creation: one member, its action bar filled.
+    // A solo run (RulesetOptions::soloRun), as from party creation: one member, its action bar filled, its travel
+    // scrolls.
     if (ruleset.options.soloRun)
     {
         makeSoloRunParty(sessionParty);
+        giveSoloRunStartScrolls(sessionParty);
     }
     session.setGameMinutes(9.0f * 60.0f);
     static_cast<void>(continentId);
@@ -4349,7 +4351,12 @@ const TurnBasedCombatRuntime &ScenarioRuntimeDriver::turnBasedCombat() const
     return ScenarioGameApplicationAccess::gameSession(m_application).turnBasedCombatRuntime();
 }
 
-bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int &completed, std::string &failure)
+bool ScenarioRuntimeDriver::playTurnBasedTurns(
+    int turns,
+    float maxSeconds,
+    float gameSpeed,
+    int &completed,
+    std::string &failure)
 {
     completed = 0;
     GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
@@ -4370,11 +4377,15 @@ bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int 
     GameplayButtonInputState &pass = input.actions[keyboardActionIndex(KeyboardAction::Pass)];
     bool inMovement = turnBased.stage() == TurnBasedCombatStage::Movement;
     float elapsedSeconds = 0.0f;
+    // The live game hands the gameplay and the world each frame's time times the game speed (GameApplication).
+    const float frameSeconds = RuntimeStepSeconds * gameSpeed;
+    session.setGameSpeed(gameSpeed);
 
     while (completed < turns)
     {
         if (elapsedSeconds > maxSeconds)
         {
+            session.setGameSpeed(1.0f);
             failure = "turn_based_turns completed " + std::to_string(completed) + " of " + std::to_string(turns)
                 + " turns in " + std::to_string(maxSeconds) + " s";
             return false;
@@ -4387,7 +4398,7 @@ bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int 
         pass.held = press;
         pass.pressed = press;
 
-        session.updateGameplay(input, RuntimeStepSeconds, false);
+        session.updateGameplay(input, frameSeconds, false);
         ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
         session.bindCurrentGameplayInputFrame(nullptr);
 
@@ -4395,12 +4406,12 @@ bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int 
             && !session.sharedWorldInteractionBlockedThisFrame()
             && !session.gameplayScreenState().pendingSpellTarget().active)
         {
-            pWorldRuntime->updateWorld(RuntimeStepSeconds);
+            pWorldRuntime->updateWorld(frameSeconds);
             IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
 
             if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
             {
-                static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(RuntimeStepSeconds * 1000.0f);
+                static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(frameSeconds * 1000.0f);
             }
         }
 
@@ -4408,6 +4419,7 @@ bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int 
 
         if (!turnBased.active())
         {
+            session.setGameSpeed(1.0f);
             failure = "turn-based mode ended during turn_based_turns";
             return false;
         }
@@ -4420,6 +4432,7 @@ bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int 
     pass = {};
     session.updateGameplay(input, 0.0f, false);
     session.bindCurrentGameplayInputFrame(nullptr);
+    session.setGameSpeed(1.0f);
     return true;
 }
 

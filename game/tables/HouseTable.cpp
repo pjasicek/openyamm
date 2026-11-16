@@ -6,6 +6,8 @@
 #include "game/tables/ItemTable.h"
 #include "game/items/ItemEnchantTables.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
@@ -1632,6 +1634,52 @@ std::optional<std::string> HouseTable::getName(uint32_t houseId) const
     }
 
     return entryIt->second.name;
+}
+
+bool HouseTable::loadSoloStockYaml(const std::string &text, std::string &errorMessage)
+{
+    try
+    {
+        const YAML::Node houses = YAML::Load(text)["houses"];
+
+        for (const auto &house : houses)
+        {
+            const uint32_t houseId = house.first.as<uint32_t>();
+            const auto entry = m_entries.find(houseId);
+
+            if (entry == m_entries.end())
+            {
+                errorMessage = "unknown house " + std::to_string(houseId);
+                return false;
+            }
+
+            entry->second.soloStock.clear();
+
+            for (const YAML::Node &stack : house.second)
+            {
+                HouseEntry::SoloStockItem item;
+                item.itemId = stack["item"].as<uint32_t>();
+                const YAML::Node quantity = stack["quantity"];
+                item.minQuantity = quantity.IsSequence() ? quantity[0].as<uint32_t>() : quantity.as<uint32_t>(1);
+                item.maxQuantity = quantity.IsSequence() ? quantity[1].as<uint32_t>() : item.minQuantity;
+
+                if (item.minQuantity == 0 || item.maxQuantity < item.minQuantity)
+                {
+                    errorMessage = "house " + std::to_string(houseId) + " has a bad quantity";
+                    return false;
+                }
+
+                entry->second.soloStock.push_back(item);
+            }
+        }
+    }
+    catch (const YAML::Exception &exception)
+    {
+        errorMessage = exception.what();
+        return false;
+    }
+
+    return true;
 }
 
 const HouseEntry *HouseTable::get(uint32_t houseId) const

@@ -2,6 +2,7 @@
 #include "game/scenario/ScenarioRunner.h"
 
 #include "engine/AssetFileSystem.h"
+#include "game/content/NamedMods.h"
 #include "game/data/GameDataLoader.h"
 #include "game/debug/AiArena.h"
 #include "game/debug/GameplayDebugTrace.h"
@@ -36,6 +37,7 @@ extern "C"
 #include <cmath>
 #include <cstdlib>
 #include <exception>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -2509,9 +2511,9 @@ bool readScenarioBattleOrders(
         }
 
         if (!orderNode.IsMap() || int(bool(orderNode["spell"])) + int(bool(orderNode["melee"]))
-            + int(bool(orderNode["shoot"])) != 1)
+            + int(bool(orderNode["shoot"])) + int(bool(orderNode["talent"])) != 1)
         {
-            failure = "a battle order needs exactly one of spell, melee or shoot";
+            failure = "a battle order needs exactly one of spell, melee, shoot or talent";
             return false;
         }
 
@@ -2528,6 +2530,12 @@ bool readScenarioBattleOrders(
 
             order.kind = BattleOrderKind::Spell;
             order.spellName = pSpell->name;
+        }
+        else if (orderNode["talent"])
+        {
+            // A solo run's active talent by its talents.yml id; the table is checked when the order is used.
+            order.kind = BattleOrderKind::Talent;
+            order.talentId = orderNode["talent"].as<std::string>();
         }
         else
         {
@@ -11782,8 +11790,9 @@ bool runAssert(
     return success;
 }
 
-// turn_based_turns: {count, max_seconds}: plays turn-based turns through the live input path, the party passing
-// every action and ending every movement phase, until `count` turns reached their movement phase.
+// turn_based_turns: {count, max_seconds, game_speed}: plays turn-based turns through the live input path, the party
+// passing every action and ending every movement phase, until `count` turns reached their movement phase. game_speed
+// (default 1) plays each 1/30 s frame that many times faster, as fast mode and the turn-based speed settings do.
 bool runTurnBasedTurns(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -11796,10 +11805,17 @@ bool runTurnBasedTurns(
 
     const int turns = step.payload["count"].as<int>(1);
     const float maxSeconds = step.payload["max_seconds"].as<float>(30.0f * float(std::max(1, turns)));
+    const float gameSpeed = step.payload["game_speed"].as<float>(1.0f);
     int completed = 0;
     std::string failure;
 
-    if (!context.runtimeDriver->playTurnBasedTurns(turns, maxSeconds, completed, failure))
+    if (!std::isfinite(gameSpeed) || gameSpeed <= 0.0f)
+    {
+        failures.push_back(stepLocation(step) + ": turn_based_turns game_speed must be positive");
+        return false;
+    }
+
+    if (!context.runtimeDriver->playTurnBasedTurns(turns, maxSeconds, gameSpeed, completed, failure))
     {
         failures.push_back(stepLocation(step) + ": " + failure);
         return false;
@@ -12143,9 +12159,56 @@ ScenarioRunResult ScenarioRunner::run(
     context.totalStepCount = document.steps.size();
 
     // Scenarios play the game's own content: no mods and no language pack. Only the development mount is passed
-    // on, so a map build can be played from its folder (--extra-mount).
+    // on, so a map build can be played from its folder (--extra-mount), and a scenario's own `mods` (its fixture
+    // copied into a folder of the run, or the user data's mods folder); the game mounts the named mods among them that
+    // are on (GameApplication::loadGameData).
     Engine::InstalledContentOptions scenarioContent;
     scenarioContent.extraMountRoot = scenarioConfig.installedContent.extraMountRoot;
+    std::filesystem::path scenarioModsCopy;
+
+    if (document.mods && document.mods->userData)
+    {
+        scenarioContent.modsRoot = scenarioConfig.installedContent.modsRoot;
+    }
+    else if (document.mods)
+    {
+        scenarioModsCopy = std::filesystem::temp_directory_path() / "openyamm_scenario_mods" / runFolder.str();
+        std::error_code copyError;
+        std::filesystem::create_directories(scenarioModsCopy, copyError);
+        std::filesystem::copy(document.mods->fixture, scenarioModsCopy,
+            std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing, copyError);
+
+        if (copyError || !std::filesystem::is_directory(document.mods->fixture))
+        {
+            result.failures.push_back("could not copy the mods fixture " + document.mods->fixture.string());
+            std::filesystem::remove_all(scenarioModsCopy, copyError);
+            return result;
+        }
+
+        if (document.mods->enabled)
+        {
+            std::ofstream enabledFile(scenarioModsCopy / EnabledModListFileName, std::ios::binary | std::ios::trunc);
+            enabledFile << formatEnabledModList(*document.mods->enabled);
+        }
+
+        scenarioContent.modsRoot = scenarioModsCopy;
+    }
+
+    // The copy goes with the run, however it ends.
+    struct ModsCopyRemoval
+    {
+        std::filesystem::path folder;
+
+        ~ModsCopyRemoval()
+        {
+            std::error_code removeError;
+
+            if (!folder.empty())
+            {
+                std::filesystem::remove_all(folder, removeError);
+            }
+        }
+    } modsCopyRemoval{scenarioModsCopy};
 
     if (!context.assetFileSystem.initialize(
             basePath,
@@ -12157,6 +12220,21 @@ ScenarioRunResult ScenarioRunner::run(
     {
         result.failures.push_back("could not initialize asset file system");
         return result;
+    }
+
+    // The scenario's own loader reads the tables too: the mods mount here first, with their rows for it. The game's
+    // start (GameApplication::loadGameData) then reads the same folder and keeps the same mounts.
+    if (document.mods)
+    {
+        NamedModCatalog modCatalog;
+
+        if (!mountNamedMods(context.assetFileSystem, modCatalog))
+        {
+            result.failures.push_back("could not mount the scenario's named mods");
+            return result;
+        }
+
+        context.gameDataLoader.setNamedMods(modCatalog.mountedManifests());
     }
 
     scenarioLog(context, ScenarioLogColor::Blue, "Scenario run: " + document.id);

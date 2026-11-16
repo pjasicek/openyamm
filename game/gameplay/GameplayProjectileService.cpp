@@ -559,8 +559,10 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.blastMinimumDamage = request.blastMinimumDamage;
         projectile.blastMaximumDamage = request.blastMaximumDamage;
         projectile.critical = request.critical;
-        projectile.pierceLeft = request.pierceCount;
-        projectile.pierceShare = request.pierceShare;
+        projectile.chainLeft = request.chainCount;
+        projectile.chainShare = request.chainShare;
+        projectile.chainRadius = request.chainRadius;
+        projectile.hitCredit = request.hitCredit;
         projectile.useActorHitChance = request.useActorHitChance;
         projectile.turnBasedPendingAction = request.turnBasedPendingAction;
         projectile.lifetimeTicks = request.definition.lifetimeTicks;
@@ -638,8 +640,10 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.blastMinimumDamage = request.blastMinimumDamage;
     projectile.blastMaximumDamage = request.blastMaximumDamage;
     projectile.critical = request.critical;
-    projectile.pierceLeft = request.pierceCount;
-    projectile.pierceShare = request.pierceShare;
+    projectile.chainLeft = request.chainCount;
+    projectile.chainShare = request.chainShare;
+    projectile.chainRadius = request.chainRadius;
+    projectile.hitCredit = request.hitCredit;
     projectile.useActorHitChance = request.useActorHitChance;
     projectile.turnBasedPendingAction = request.turnBasedPendingAction;
     projectile.sectorId = request.sectorId;
@@ -1031,6 +1035,122 @@ void GameplayProjectileService::settleProjectile(ProjectileState &projectile) co
         appendProjectileTraceSummary(trace, projectile);
         gameplayProjectileTraceWrite(trace.str());
     );
+}
+
+bool GameplayProjectileService::chainArrow(
+    ProjectileState &projectile,
+    const IGameplayWorldRuntime &world,
+    const ProjectileDirectActorImpact &impact,
+    const GameplayWorldPoint &hitPoint)
+{
+    // Its turn rate while it flies to the next monster: it leaves aimed at it, so this only follows its steps.
+    constexpr float ChainTurnRadiansPerSecond = 6.2831853f;
+    constexpr float FallbackSpeed = 2000.0f;
+
+    if (projectile.isExpired)
+    {
+        return false;
+    }
+
+    projectile.chainStruckActorIds.push_back(impact.actorId);
+    // Only the shot's own hit counts for cooldown_per_hit, never a leap's.
+    projectile.hitCredit.reset();
+
+    if (impact.hit)
+    {
+        if (projectile.chainDamage == 0)
+        {
+            projectile.chainDamage = projectile.damage;
+        }
+
+        --projectile.chainLeft;
+        projectile.damage = std::max(1, int(std::lround(float(projectile.chainDamage) * projectile.chainShare)));
+        projectile.critical = false;
+    }
+
+    // No turning back to the monster it homed on.
+    projectile.homing.reset();
+    const auto aimHeightOf = [](const GameplayRuntimeActorState &actor)
+    {
+        return actor.targetHeight > 0.0f ? actor.targetHeight : float(actor.height) * 0.7f;
+    };
+    GameplayRuntimeActorState struck = {};
+    std::optional<size_t> targetIndex;
+    GameplayRuntimeActorState target = {};
+
+    // Every monster of the map is asked, as Chain Lightning asks: an arrow that struck a monster in a room the party
+    // has not entered leaps on there too.
+    if (projectile.chainRadius > 0.0f && world.actorRuntimeState(impact.actorIndex, struck))
+    {
+        const float fromX = struck.preciseX;
+        const float fromY = struck.preciseY;
+        const float fromZ = struck.preciseZ + float(struck.height) * 0.5f;
+        float targetDistance = projectile.chainRadius;
+        const std::vector<uint32_t> &struckIds = projectile.chainStruckActorIds;
+
+        for (size_t actorIndex = 0; actorIndex < world.mapActorCount(); ++actorIndex)
+        {
+            GameplayRuntimeActorState actor = {};
+
+            if (actorIndex == impact.actorIndex || !world.actorRuntimeState(actorIndex, actor) || actor.isDead
+                || actor.isInvisible || actor.currentHp <= 0 || !actor.hostileToParty
+                || std::find(struckIds.begin(), struckIds.end(), actor.actorId) != struckIds.end())
+            {
+                continue;
+            }
+
+            // To its body, nearest first.
+            const float distance = std::sqrt(std::pow(actor.preciseX - fromX, 2.0f)
+                + std::pow(actor.preciseY - fromY, 2.0f)
+                + std::pow(actor.preciseZ + float(actor.height) * 0.5f - fromZ, 2.0f)) - float(actor.radius);
+
+            if (distance > targetDistance || (targetIndex && distance == targetDistance)
+                || !world.hasClearLineBetween(
+                    hitPoint, {actor.preciseX, actor.preciseY, actor.preciseZ + aimHeightOf(actor)}))
+            {
+                continue;
+            }
+
+            targetIndex = actorIndex;
+            target = actor;
+            targetDistance = distance;
+        }
+    }
+
+    if (!targetIndex)
+    {
+        expireProjectile(projectile, hitPoint);
+        return false;
+    }
+
+    const float currentSpeed = std::sqrt(projectile.velocityX * projectile.velocityX
+        + projectile.velocityY * projectile.velocityY + projectile.velocityZ * projectile.velocityZ);
+    const float speed = currentSpeed > 1.0f ? currentSpeed : FallbackSpeed;
+    const float aimHeight = aimHeightOf(target);
+    const float toX = target.preciseX - hitPoint.x;
+    const float toY = target.preciseY - hitPoint.y;
+    const float toZ = target.preciseZ + aimHeight - hitPoint.z;
+    const float toLength = std::sqrt(toX * toX + toY * toY + toZ * toZ);
+    projectile.x = hitPoint.x;
+    projectile.y = hitPoint.y;
+    projectile.z = hitPoint.z;
+
+    if (toLength > 0.001f)
+    {
+        projectile.velocityX = toX / toLength * speed;
+        projectile.velocityY = toY / toLength * speed;
+        projectile.velocityZ = toZ / toLength * speed;
+    }
+
+    ProjectileHoming homing = {};
+    homing.targetKind = ProjectileHoming::TargetKind::Actor;
+    homing.targetActorIndex = *targetIndex;
+    homing.targetActorId = target.actorId;
+    homing.targetAimHeight = aimHeight;
+    homing.turnRadiansPerSecond = ChainTurnRadiansPerSecond;
+    homing.speed = speed;
+    projectile.homing = homing;
+    return true;
 }
 
 std::optional<GameplayProjectileService::ProjectileSpawnRequest> GameplayProjectileService::buildChainSpawnRequest(
@@ -2093,6 +2213,24 @@ bool GameplayProjectileService::steerHomingProjectile(
     return false;
 }
 
+GameplayWorldPoint GameplayProjectileService::partyPositionAtStep(
+    const GameplayWorldPoint &previousFrame,
+    const GameplayWorldPoint &currentFrame,
+    int stepIndex,
+    int stepCount)
+{
+    if (stepCount <= 0 || stepIndex + 1 >= stepCount)
+    {
+        return currentFrame;
+    }
+
+    const float fraction = float(stepIndex + 1) / float(stepCount);
+    return {
+        previousFrame.x + (currentFrame.x - previousFrame.x) * fraction,
+        previousFrame.y + (currentFrame.y - previousFrame.y) * fraction,
+        previousFrame.z + (currentFrame.z - previousFrame.z) * fraction};
+}
+
 GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::updateProjectileFrame(
     ProjectileState &projectile,
     const ProjectileFrameFacts &facts) const
@@ -2333,26 +2471,13 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
 
     result.endPoint = facts.collision.point;
 
-    // A piercing arrow (a solo run's Piercing Arrows) strikes the monster and flies on through it, at its share of
-    // the first damage for the next; a blast, a wall or the last pierce ends it. A monster it misses it passes without
-    // spending a pierce.
-    if (directActorImpact && projectile.pierceLeft > 0 && impactRadius <= 0.0f)
+    // An arrow with chains left (a solo run's Chaining Arrows) does not end at the monster it strikes: the world
+    // applies the hit, then leaps it on to the next monster or ends it there (chainArrow). A blast or a wall ends it,
+    // and so does a miss before its first hit (the shot's own target): only a hit starts the chain.
+    if (directActorImpact && result.directActorImpact && projectile.chainLeft > 0 && impactRadius <= 0.0f
+        && (result.directActorImpact->hit || projectile.chainDamage > 0))
     {
-        projectile.piercedActorIds.push_back(facts.collision.actorId);
-        if (result.directActorImpact && result.directActorImpact->hit)
-        {
-            if (projectile.pierceDamage == 0)
-            {
-                projectile.pierceDamage = projectile.damage;
-            }
-            --projectile.pierceLeft;
-            projectile.damage =
-                std::max(1, int(std::lround(float(projectile.pierceDamage) * projectile.pierceShare)));
-            projectile.critical = false;
-        }
-        // It flies straight on: no turning back to the monster it homed on.
-        projectile.homing.reset();
-        result.applyMotionEnd = true;
+        result.chainArrow = true;
         return result;
     }
 
@@ -2482,9 +2607,9 @@ bool GameplayProjectileService::canProjectileCollideWithActor(
         return false;
     }
 
-    // A piercing arrow passes the monsters it has already struck.
-    if (std::find(projectile.piercedActorIds.begin(), projectile.piercedActorIds.end(), actorFacts.actorId)
-        != projectile.piercedActorIds.end())
+    // A chaining arrow passes the monsters it has already struck.
+    if (std::find(projectile.chainStruckActorIds.begin(), projectile.chainStruckActorIds.end(), actorFacts.actorId)
+        != projectile.chainStruckActorIds.end())
     {
         return false;
     }

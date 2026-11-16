@@ -912,6 +912,11 @@ void GameSession::logTurnBasedFrameTraceIfNeeded(
 void GameSession::setGameSpeed(float speed)
 {
     m_gameSpeed = speed > 0.0f ? speed : 1.0f;
+
+    if (IGameplayWorldRuntime *pWorldRuntime = activeWorldRuntime())
+    {
+        pWorldRuntime->setGameSpeed(m_gameSpeed);
+    }
 }
 
 void GameSession::updateGameplay(

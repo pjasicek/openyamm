@@ -1,0 +1,14 @@
+# Test cinematics overlay (tests/scenarios/scene_overlays/): replaces the Isle of Ashes' book_sinking (17 s, the sink
+# at 4.5 s) by a 3-second one that sinks at 1 s, and adds overlay_flyby.
+format_version: 1
+kind: openyamm_cinematics
+cinematics:
+  book_sinking:
+    shots:
+      - {duration: 3, position: [92.2, 6625.3, 655.4], direction: [-0.4908, -0.7763, -0.3955]}
+    cues:
+      - {at: 1, event: 31014}
+  overlay_flyby:
+    letterbox: false
+    shots:
+      - {duration: 2, position: [5795.8, 7045.1, 2129.9], direction: [0.67, 0.6292, -0.3939]}

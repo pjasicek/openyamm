@@ -459,6 +459,19 @@ GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellR
 
     resolution.castResult = castSpell(runtime, request);
 
+    // A solo run has one character: a heal, cure or buff that wants a character goes to the hero without asking.
+    // MM9 hirelings, which come along but never act, are not picked this way.
+    if (resolution.castResult.status == PartySpellCastStatus::NeedCharacterTarget)
+    {
+        const Party *pParty = runtime.partyReadOnly();
+
+        if (pParty != nullptr && pParty->soloRun() && pParty->member(request.casterMemberIndex) != nullptr)
+        {
+            request.targetCharacterIndex = request.casterMemberIndex;
+            resolution.castResult = castSpell(runtime, request);
+        }
+    }
+
     if (resolution.castResult.succeeded())
     {
         applySuccessFeedback(runtime, request, spellName, resolution.castResult);

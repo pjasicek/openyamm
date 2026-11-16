@@ -3008,6 +3008,39 @@ TEST_CASE("house service shop standard stock generates and buys")
     CHECK_GT(harness.party().inventoryItemCount(), initialInventoryCount);
 }
 
+TEST_CASE("a solo run's alchemists in Ravenshore, Free Haven and Erathia stock invisibility scrolls")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const auto lastStandardItem = [&gameData](uint32_t houseId, bool solo)
+    {
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+        harness.party().setSoloRun(solo);
+        const OpenYAMM::Game::HouseEntry *pHouseEntry = gameData.houseTable.get(houseId);
+        REQUIRE(pHouseEntry != nullptr);
+        const std::vector<OpenYAMM::Game::InventoryItem> &stock = OpenYAMM::Game::HouseServiceRuntime::ensureStock(
+            harness.party(),
+            gameData.itemTable,
+            gameData.standardItemEnchantTable,
+            gameData.specialItemEnchantTable,
+            *pHouseEntry,
+            harness.worldRuntime().gameMinutes(),
+            OpenYAMM::Game::HouseStockMode::ShopStandard);
+        REQUIRE_FALSE(stock.empty());
+        return stock.back();
+    };
+    constexpr uint32_t InvisibilityScroll = 318;
+
+    for (const uint32_t houseId : {111u, 107u, 118u})
+    {
+        CAPTURE(houseId);
+        const OpenYAMM::Game::InventoryItem scrolls = lastStandardItem(houseId, true);
+        CHECK_EQ(scrolls.objectDescriptionId, InvisibilityScroll);
+        CHECK_GE(scrolls.quantity, 3u);
+        CHECK_LE(scrolls.quantity, 5u);
+        CHECK_NE(lastStandardItem(houseId, false).objectDescriptionId, InvisibilityScroll);
+    }
+}
+
 TEST_CASE("house service shop sells a stacked slot one item at a time")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

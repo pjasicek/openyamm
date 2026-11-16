@@ -1,0 +1,21 @@
+# Test overlay (tests/scenarios/scene_overlays/): one actor (immobile, so the scenarios find it where it was put)
+# and one floor item added to the Abandoned Temple, after
+# the map's own (devdocs/SAVED_MAP_STATE_IDENTITY.md: the map's layout identity counts them). Mounted only by the
+# scene_overlays scenarios through --extra-mount; never installed into assets_dev.
+format_version: 1
+kind: indoor_scene_overlay
+source:
+  geometry_file: "6d02.blv"
+authored_content:
+  actors:
+    - {name: "Overlay Sentry", npc_id: 0, attributes: 0, hp: 50, hostility_type: 0, monster_info_id: 636,
+       monster_id: 0, radius: 109, height: 64, move_speed: 24, position: {x: -29280, y: -10496, z: -2201},
+       sprite_ids: [3060, 3061, 3062, 3063], sector_id: 1, current_action_animation: 0, carried_item_id: 0,
+       group: 85, ally: 0, unique_name_index: 0, immobile: true}
+  sprite_objects:
+    - {sprite_id: 1, object_description_id: 1, position: {x: -24192, y: -7552, z: -2201},
+       velocity: {x: 0, y: 0, z: 0}, yaw_angle: 0, sound_id: 0, attributes: 0, sector_id: 3, time_since_created: 0,
+       temporary_lifetime: 0, glow_radius_multiplier: 0, spell_id: 0, spell_level: 0, spell_skill: 0, field54: 0,
+       spell_caster_pid: 0, spell_target_pid: 0, lod_distance: 0, spell_caster_ability: 0,
+       initial_position: {x: 0, y: 0, z: 0},
+       raw_containing_item_hex: "010000000000000000000000000000000000000000000000000000000000000000000000"}

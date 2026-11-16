@@ -20,6 +20,9 @@ enum class BattleOrderKind : uint8_t
     Melee,
     // The ranged weapon (bow, crossbow, wand, blaster; a dragon's breath); only with one.
     Shoot,
+    // A solo run's active talent (MAW solo, devdocs/solo_action/TALENTS.md); only when learned and off cooldown, and
+    // not in turn-based combat.
+    Talent,
 };
 
 // What Attack does when no order applies.
@@ -64,6 +67,8 @@ struct BattleOrder
     BattleOrderKind kind = BattleOrderKind::Spell;
     // The spell's table name (BattleOrderKind::Spell).
     std::string spellName;
+    // The talent's id in talents.yml (BattleOrderKind::Talent).
+    std::string talentId;
     // Off: skipped, its settings kept.
     bool enabled = true;
     // The target's distance from the party, in game units; no target fails it.

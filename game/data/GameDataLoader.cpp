@@ -1175,6 +1175,11 @@ void GameDataLoader::recordActiveRulesetSchema()
     }
 }
 
+void GameDataLoader::setNamedMods(std::vector<NamedModManifest> mods)
+{
+    m_namedMods = std::move(mods);
+}
+
 const RulesetDefinition &GameDataLoader::activeRuleset() const
 {
     return m_activeRuleset;
@@ -2634,6 +2639,17 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
         {
             m_houseTable.loadAnimationRows(animationRows);
         }
+    }
+
+    const std::string soloStockPath = engineDataTablePath("solo_shop_stock.yml");
+    const std::optional<std::string> soloStockText = readRulesetDataFile(assetFileSystem, soloStockPath);
+    std::string soloStockError;
+
+    if (!soloStockText || !m_houseTable.loadSoloStockYaml(*soloStockText, soloStockError))
+    {
+        std::cerr << "Failed to load " << soloStockPath << (soloStockError.empty() ? "" : ": " + soloStockError)
+                  << '\n';
+        return false;
     }
 
     return true;
@@ -4927,6 +4943,20 @@ bool GameDataLoader::applyActiveRulesetTable(
                 std::cerr << "Failed to append ruleset table columns " << columnsPath << ": " << error << '\n';
                 return false;
             }
+        }
+    }
+
+    // The named mods' rows, after the ruleset's. The start checked them against the tables without a ruleset
+    // (mountNamedMods); rows that do not apply under this one are left out, said in the log, and the game goes on.
+    if (!m_namedMods.empty())
+    {
+        std::vector<std::string> errors;
+        applyNamedModTables(rows, m_namedMods, virtualPath, errors);
+
+        for (const std::string &error : errors)
+        {
+            std::cerr << "Mods: rows left out of " << virtualPath << " under ruleset " << m_activeRuleset.id << ": "
+                      << error << '\n';
         }
     }
 

@@ -593,6 +593,35 @@ std::unordered_set<uint32_t> uniqueRecipeScrollItemIds(const ItemTable &itemTabl
     return itemIds;
 }
 
+// A solo run's shop always has its solo stacks (HouseEntry::soloStock, data_tables/solo_shop_stock.yml): they take the
+// fresh stock's last slots.
+void addSoloStock(
+    std::vector<InventoryItem> &stock,
+    const HouseEntry &houseEntry,
+    const Party &party,
+    const ItemTable &itemTable,
+    std::mt19937 &rng)
+{
+    if (!party.soloRun())
+    {
+        return;
+    }
+
+    size_t slot = stock.size();
+
+    for (const HouseEntry::SoloStockItem &stack : houseEntry.soloStock)
+    {
+        if (slot == 0 || itemTable.get(stack.itemId) == nullptr)
+        {
+            break;
+        }
+
+        --slot;
+        stock[slot] = ItemGenerator::makeInventoryItem(stack.itemId, itemTable, ItemGenerationMode::Shop);
+        stock[slot].quantity = std::uniform_int_distribution<uint32_t>(stack.minQuantity, stack.maxQuantity)(rng);
+    }
+}
+
 // The native alchemist rows (OpenEnroth GUIWindow_AlchemyShop::generateShopItems): the standard stock is six empty
 // bottles over random reagents, the special stock six random recipe scrolls over random potions.
 std::vector<InventoryItem> generateAlchemistStock(
@@ -1129,6 +1158,7 @@ Party::HouseStockState &ensureHouseStockGenerated(
     const ItemRules &itemRules = gameRulesFor(&party).items;
     itemRules.adjustShopStock(state.standardStock, houseEntry, party, itemTable, rng);
     itemRules.adjustShopStock(state.specialStock, houseEntry, party, itemTable, rng);
+    addSoloStock(state.standardStock, houseEntry, party, itemTable, rng);
     return state;
 }
 

@@ -14,7 +14,6 @@ add_library(openyamm_game STATIC
     render/WeatherRenderer.cpp
     render/WeatherRoofMap.cpp
     render/SkyPresets.cpp
-    render/SkyState.cpp
     render/SkyRenderer.cpp
     app/ScreenManager.cpp
     app/GameInputSystem.cpp
@@ -52,8 +51,6 @@ add_library(openyamm_game STATIC
     events/EventDialogContent.cpp
     events/EventRuntime.cpp
     events/MechanismAudio.cpp
-    events/MechanismDistance.cpp
-    events/ScriptedEventProgram.cpp
     events/ScriptedEventTimer.cpp
     tables/FaceAnimationTable.cpp
     fx/ParticleRecipes.cpp
@@ -104,7 +101,6 @@ add_library(openyamm_game STATIC
     gameplay/GameplayActorModifiers.cpp
     gameplay/CinematicRuntime.cpp
     gameplay/GameplayMonsterSpawn.cpp
-    maps/SceneOverlayOperations.cpp
     gameplay/MeleeContactEffects.cpp
     gameplay/GameplayActorService.cpp
     gameplay/GameplayDialogController.cpp
@@ -143,12 +139,11 @@ add_library(openyamm_game STATIC
     gameplay/TurnBasedCombatRuntime.cpp
     gameplay/TravelRuntime.cpp
     pathfinding/ActorPathRuntime.cpp
-    pathfinding/PathMap.cpp
-    pathfinding/PathPlanner.cpp
     audio/HouseVideoPlayer.cpp
     content/CompletionCertificates.cpp
     content/ContentManifest.cpp
     content/ContentTableComposer.cpp
+    content/NamedMods.cpp
     content/WorldDecorations.cpp
     content/RulesetDefinition.cpp
     content/RulesetOptions.cpp
@@ -159,12 +154,7 @@ add_library(openyamm_game STATIC
     items/ItemSearch.cpp
     items/QuickItemSlots.cpp
     items/InventoryItemMixingRuntime.cpp
-    maps/IndoorSceneYml.cpp
-    maps/SceneOverlayPaths.cpp
-    maps/MistYml.cpp
-    maps/MapItemSourceYml.cpp
     maps/MapPresentation.cpp
-    maps/MapDeltaData.cpp
     mm9/Mm9MapTransition.cpp
     mm9/Mm9BarrelRuntime.cpp
     mm9/Mm9PrimaryStats.cpp
@@ -179,11 +169,7 @@ add_library(openyamm_game STATIC
     mm9/Mm9Formation.cpp
     mm9/Mm9SkillTrainer.cpp
     mm9/Mm9QuestMarkers.cpp
-    maps/MechanismAudioYml.cpp
-    maps/OutdoorSceneYml.cpp
-    maps/TerrainTileData.cpp
     data/GameDataLoader.cpp
-    data/MapScriptSources.cpp
     outdoor/HeadlessOutdoorDiagnostics.cpp
     tables/HouseTable.cpp
     tables/IconFrameTable.cpp
@@ -195,25 +181,15 @@ add_library(openyamm_game STATIC
     tables/ItemTable.cpp
     indoor/IndoorRenderer.cpp
     indoor/IndoorGameView.cpp
-    indoor/IndoorCollisionPrimitives.cpp
-    indoor/IndoorGeometryUtils.cpp
     indoor/IndoorTerrainSurface.cpp
     indoor/IndoorOpenSkyWeather.cpp
-    indoor/IndoorMovers.cpp
-    indoor/IndoorDaylight.cpp
-    indoor/IndoorWater.cpp
     indoor/IndoorFaceDrawGroups.cpp
     indoor/IndoorLightingRuntime.cpp
-    indoor/IndoorMapData.cpp
-    indoor/IndoorMovementController.cpp
-    indoor/IndoorPathfindingBuilder.cpp
     indoor/IndoorPartyRuntime.cpp
     indoor/IndoorLightReach.cpp
-    indoor/IndoorPortalGraph.cpp
     indoor/IndoorPortalVisibility.cpp
     indoor/IndoorPortalDebugView.cpp
     indoor/IndoorRendererPortalDebug.cpp
-    indoor/IndoorSectorFaceGrid.cpp
     indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
     maps/DecorationModelPlacement.cpp
@@ -221,9 +197,7 @@ add_library(openyamm_game STATIC
     maps/DecorationModelManifest.cpp
     maps/DecorationModelSet.cpp
     maps/MapDecorationTextures.cpp
-    maps/MapIdentity.cpp
     maps/MapLayoutIdentity.cpp
-    maps/MapRegistry.cpp
     tables/MapStats.cpp
     gameplay/MasteryTeacherDialog.cpp
     gameplay/TrainerDirectory.cpp
@@ -231,7 +205,6 @@ add_library(openyamm_game STATIC
     tables/MonsterTable.cpp
     tables/MonsterShields.cpp
     tables/MonsterModifiers.cpp
-    tables/Mm9MonsterAi.cpp
     tables/MonsterRelationAddOns.cpp
     tables/MergedBaseTables.cpp
     tables/PotionEffectTable.cpp
@@ -303,7 +276,6 @@ add_library(openyamm_game STATIC
     indoor/IndoorBakedLighting.cpp
     indoor/IndoorBakeSceneExport.cpp
     render/IndoorStaticLighting.cpp
-    outdoor/OutdoorMapData.cpp
     outdoor/OutdoorNavigationData.cpp
     outdoor/OutdoorRenderData.cpp
     outdoor/OutdoorMechanismRuntime.cpp
@@ -313,11 +285,8 @@ add_library(openyamm_game STATIC
     outdoor/TerrainDecorationRenderer.cpp
     outdoor/OutdoorTerrainMaterials.cpp
     outdoor/OutdoorRenderer.cpp
-    outdoor/OutdoorGeometryUtils.cpp
     outdoor/OutdoorMeadow.cpp
-    outdoor/OutdoorMovementController.cpp
     outdoor/OutdoorMovementDriver.cpp
-    outdoor/OutdoorPathfindingBuilder.cpp
     outdoor/OutdoorPartyRuntime.cpp
     outdoor/OutdoorWorldRuntime.cpp
     outdoor/WeatherAudio.cpp
@@ -358,7 +327,6 @@ add_library(openyamm_game STATIC
     tables/SpellTable.cpp
     tables/SpellFxTable.cpp
     tables/TransitionTable.cpp
-    tables/SpriteTables.cpp
     tables/LiquidTable.cpp
     tables/TextureFrameTable.cpp
     outdoor/OutdoorGameView.cpp
@@ -478,6 +446,7 @@ target_compile_definitions(openyamm_game
 
 target_link_libraries(openyamm_game
     PRIVATE
+        openyamm_core
         openyamm_engine
         imgui::imgui
         Threads::Threads

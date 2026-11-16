@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -88,6 +89,18 @@ struct ScenarioStep
     size_t stepIndex = 0;
 };
 
+// A scenario's `mods` (devdocs/NAMED_MODS.md): the named mods it plays with. Other scenarios play none.
+struct ScenarioMods
+{
+    // `fixture`: a mods folder beside the scenario, copied into the run's folder, so a `mods enable` or `mods disable`
+    // in the run changes only the copy.
+    std::filesystem::path fixture;
+    // `enabled`: written as the copy's enabled.yml in place of the fixture's.
+    std::optional<std::vector<std::string>> enabled;
+    // `user_data: true`: the mods folder of the user data (--user-data), as the game reads it.
+    bool userData = false;
+};
+
 struct ScenarioDocument
 {
     std::string id;
@@ -95,6 +108,7 @@ struct ScenarioDocument
     std::string world;
     ScenarioMode mode = ScenarioMode::Hybrid;
     std::vector<std::string> tags;
+    std::optional<ScenarioMods> mods;
     std::vector<ScenarioStep> steps;
 };
 

@@ -60,7 +60,8 @@ spell cast is not: `maw_assassin_attack_spell.yml`); `spawn_actor: {monster_id, 
 bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the party's live missiles instead of
 the actors' (`maw_bow_disabled.yml`).
 A `new_game_flow` party member may carry `battle_orders: {fallback: weapon|hold, orders: [...]}`
-(devdocs/BATTLE_ORDERS.md): each order is `{spell: <table name>}`, `{melee: true}` or `{shoot: true}` with optional
+(devdocs/BATTLE_ORDERS.md): each order is `{spell: <table name>}`, `{melee: true}`, `{shoot: true}` or, for a MAW
+solo run, `{talent: <talents.yml id>}` with optional
 `distance: [min, max]`, `ally_hp_below` and `keep_sp` (percent), `place: anywhere|indoors|outdoors` and `enabled`; an
 optional `upkeep: [...]` beside `orders` is the member's upkeep list, spell orders that may also carry `renew_below`
 (game minutes). They are saved with the party.
@@ -165,6 +166,12 @@ out a map move an event of the step asked for (a cinematic's last event, an exit
 it the move stays pending for later steps (`assert: {map_transition_requested: ...}`). `console: cinematic list`,
 `cinematic play <id>` and `cinematic skip` drive and check a cinematic (`mm9r_isleofashes_blv/cinematic_*.yml`).
 
+Scene and cinematics overlays on shipped maps (an overlay's ladders, actors and floor items;
+`<stem>_<name>.cinematics.yml` merged by id; saves of a map made with and without an overlay): `scene_overlays/`,
+whose overlays sit in its own test mount (`scene_overlays/mount/`, passed with `--extra-mount`), never in `assets_dev`.
+Run them with `tests/scenarios/scene_overlays/run.sh`, which passes the mount where a scenario needs it and runs the
+three save scenarios in order, in one user-data folder.
+
 For swimming (scene `water_volumes`, devdocs/INDOOR_OPEN_SKY.md "Swimming"): `assert: {water: {state, eye_under,
 breath_min, breath_max, drowning_ticks_min, drowning_ticks_max, foot_z_min, foot_z_max}}` checks the party's water
 state (`dry`, `wading`, `falling`, `bed`, `submerged`, `surface`, `surface_jump`), its breath (1 full, 1 with the eye
@@ -178,8 +185,9 @@ actors hidden, the arena's monsters spawned, the party placed, the decision trac
 counts decision trace lines and `ai_trace_dump: {actor_index | arena_monster, decisions_only, last}` prints them.
 
 For turn-based combat ([TURN_BASED_COMBAT_AUDIT.md](../../devdocs/TURN_BASED_COMBAT_AUDIT.md), `turn_based/`):
-`press_action: combat` toggles turn-based mode, `turn_based_turns: {count, max_seconds}` plays turns through the input
-path (Pass whenever the party may; a turn counts when it reaches its movement phase), and `assert: {turn_based:
+`press_action: combat` toggles turn-based mode, `turn_based_turns: {count, max_seconds, game_speed}` plays turns through
+the input path (Pass whenever the party may; a turn counts when it reaches its movement phase; `game_speed` multiplies
+each 1/30 s frame as fast mode and the turn-based speed settings do), and `assert: {turn_based:
 {active, stage, front_member, actor_index, actor_queued, actor_effect, effect_min, effect_max, report}}` checks the turn
 engine (`front_member` is the member the queue waits for, or `none`; `actor_effect: slow | stun | paralyze | fear |
 control` with `effect_min`/`effect_max` checks the remaining seconds of a monster's effect, control being its charm,

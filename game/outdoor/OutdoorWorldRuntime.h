@@ -837,16 +837,18 @@ public:
         float targetZ);
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
+    // hitReaction false: no flinch and no knockback (IGameplayWorldRuntime::applyPartyAttackMeleeDamage).
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ,
         ShieldAttackTier shieldTier = ShieldAttackTier::Physical, const ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false);
+        bool critical = false, bool hitReaction = true);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source,
         ShieldAttackTier shieldTier,
         const ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false) override;
+        bool critical = false,
+        bool hitReaction = true) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -914,6 +916,7 @@ public:
         float sourceX,
         float sourceY,
         float sourceZ) const override;
+    bool hasClearLineBetween(const GameplayWorldPoint &from, const GameplayWorldPoint &to) const override;
     std::vector<size_t> collectVisibleMapActorIndicesWithinRadius(
         float centerX,
         float centerY,
@@ -1087,6 +1090,7 @@ public:
     bool turnBasedActorActionInProgress() const override;
     void stopTurnBasedActorMovement() override;
     void advanceTurnBasedActorTimers(float seconds) override;
+    void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
@@ -1351,9 +1355,11 @@ public:
         bool turnBasedPendingAction = false;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
-        // ProjectileState::pierceLeft and pierceShare.
-        uint8_t pierceCount = 0;
-        float pierceShare = 0.0f;
+        // ProjectileState::chainLeft, chainShare, chainRadius and hitCredit.
+        uint8_t chainCount = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
+        std::shared_ptr<bool> hitCredit;
     };
 
     struct MonsterVisualState
@@ -1853,6 +1859,10 @@ private:
     float m_mm9FoundPlayerAccumulatorSeconds = 0.0f;
     float m_actorAiTraceAccumulatorSeconds = 0.0f;
     float m_projectileUpdateAccumulatorSeconds = 0.0f;
+    // The party's position at the previous projectile update, for homing between frames (partyPositionAtStep).
+    std::optional<GameplayWorldPoint> m_projectilePreviousFramePartyPosition;
+    // setGameSpeed: the catch-up limits above are this many times their real-time length.
+    float m_gameSpeed = 1.0f;
     float m_immolationTickAccumulatorGameMinutes = 0.0f;
     uint32_t m_immolationTickSequence = 0;
     bool m_actorAiUpdateQueued = false;

@@ -23,6 +23,9 @@ public:
         GameplayScreenRuntime &runtime,
         size_t memberIndex,
         bool keepCharacterScreenOpen);
+    // The held item when the rules make it travel (MAW's dimension maps): it is used up and the party goes to the map
+    // it names. False for every other item, which stays in hand.
+    bool tryUseHeldTravelItem(GameplayScreenRuntime &runtime);
     // The member's quick item slot (the potion radial): the matching potion or scroll from the member's bags, else
     // another member's (QuickItemSlots::findPartyItem), used on the member as a held item is (a scroll casts, a potion is drunk under the rules' recovery). What remains goes back
     // where it lay. False, with a status line, when nothing was used.

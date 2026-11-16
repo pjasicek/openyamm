@@ -156,23 +156,25 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         {
             if (allowWorldSimulation)
             {
+                // Named fields: a positional list put the wheel's flight step into partySpeedMultiplier when that
+                // field was added before it, and the party runtime overwrote it (wheel flight did nothing).
                 const OutdoorMovementInput movementInput = {
-                    allowCameraMovementInput && moveForwardPressed,
-                    allowCameraMovementInput && moveBackwardPressed,
-                    allowCameraMovementInput && strafeLeftPressed,
-                    allowCameraMovementInput && strafeRightPressed,
-                    allowCameraMovementInput && jumpPressed,
-                    allowCameraMovementInput && flyUpPressed && !wheelFlyUp,
-                    allowCameraMovementInput && flyDownPressed && !wheelFlyDown,
-                    runWalkModifier,
-                    turboSpeed,
-                    view.m_cameraYawRadians,
-                    view.m_cameraPitchRadians,
-                    !classicControls,
-                    input.turnBasedMovementStep,
-                    input.turnBasedPhysicsStep,
-                    input.movementSpeedScale,
-                    allowCameraMovementInput ? flyHeightDelta : 0.0f
+                    .forward = allowCameraMovementInput && moveForwardPressed,
+                    .backward = allowCameraMovementInput && moveBackwardPressed,
+                    .left = allowCameraMovementInput && strafeLeftPressed,
+                    .right = allowCameraMovementInput && strafeRightPressed,
+                    .jump = allowCameraMovementInput && jumpPressed,
+                    .flyUp = allowCameraMovementInput && flyUpPressed && !wheelFlyUp,
+                    .flyDown = allowCameraMovementInput && flyDownPressed && !wheelFlyDown,
+                    .runWalkModifier = runWalkModifier,
+                    .turbo = turboSpeed,
+                    .yawRadians = view.m_cameraYawRadians,
+                    .pitchRadians = view.m_cameraPitchRadians,
+                    .usePitchForFlyingMovement = !classicControls,
+                    .turnBasedMovementStep = input.turnBasedMovementStep,
+                    .turnBasedPhysicsStep = input.turnBasedPhysicsStep,
+                    .movementSpeedScale = input.movementSpeedScale,
+                    .flyHeightDelta = allowCameraMovementInput ? flyHeightDelta : 0.0f,
                 };
                 if (view.m_pOutdoorSceneRuntime != nullptr)
                 {

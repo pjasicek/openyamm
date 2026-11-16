@@ -775,13 +775,27 @@ bool mawRegenerationArtifact(uint32_t itemId, bool spellPoints)
                        : std::find(HealthArtifacts.begin(), HealthArtifacts.end(), itemId) != HealthArtifacts.end();
 }
 
-int mawWornRegenerationArtifacts(const Character &character, bool spellPoints)
+int mawWornRegenerationArtifacts(const MawRules &rules, const Character &character, bool spellPoints)
 {
+    const ItemTable *pItemTable = rules.itemTable();
     int count = 0;
 
     for (const EquippedSlot &slot : equippedSlots(character))
     {
-        if (slot.itemId != 0 && !slot.pState->broken && mawRegenerationArtifact(slot.itemId, spellPoints))
+        if (slot.itemId == 0 || slot.pState->broken)
+        {
+            continue;
+        }
+
+        // MM9's artifacts keep their fixed effects under MAW (MM9_BALANCE_DESIGN.md): one that regenerates (the Green
+        // Man, items.txt effect profile) counts as MAW's regeneration artifacts do, the flat rate being dropped as
+        // MAW drops every item's (applyStandardItemEffects).
+        const ItemDefinition *pItem = pItemTable != nullptr ? pItemTable->get(slot.itemId) : nullptr;
+        const float ownRegeneration = pItem == nullptr ? 0.0f
+            : spellPoints ? pItem->contentEffect.spellRegenPerSecond
+                          : pItem->contentEffect.healthRegenPerSecond;
+
+        if (mawRegenerationArtifact(slot.itemId, spellPoints) || ownRegeneration > 0.0f)
         {
             ++count;
         }
@@ -3047,6 +3061,7 @@ std::optional<LootFilterFacts> MawItemRules::lootFilterFacts(
         return std::nullopt;
     }
 
+    facts.type = lootItemType(stat, itemDefinition.skillGroup);
     const MawRarity rarity = mawShownRarity(item, m_rules.itemData());
     facts.rarity = std::min(int(rarity), LootFilterRarityCount);
     facts.itemLevel = item.rulesetFields.dropLevel;

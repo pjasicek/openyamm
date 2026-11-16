@@ -25,9 +25,10 @@ bool mawWearsLegendaryAffix(const Character &character, int affixId);
 int mawWornSpecialCount(const Character &character, std::initializer_list<uint16_t> specialIds);
 int mawWornItemCount(const Character &character, std::initializer_list<uint32_t> itemIds);
 // The artifacts that regenerate hit points or spell points, 0.2 % of the pool a second (artifactHpRegen,
-// artifactSpRegen, zzMaw-Items.lua:3844-3845), and how many of them the character wears.
+// artifactSpRegen, zzMaw-Items.lua:3844-3845), and how many of them the character wears, MM9's regenerating items
+// among them.
 bool mawRegenerationArtifact(uint32_t itemId, bool spellPoints);
-int mawWornRegenerationArtifacts(const Character &character, bool spellPoints);
+int mawWornRegenerationArtifacts(const MawRules &rules, const Character &character, bool spellPoints);
 // The product of the attack delay multipliers of the artifacts the character wears (x0.9 each, GetAttackDelay).
 double mawArtifactAttackDelayMultiplier(const MawRules &rules, const Character &character);
 // MAW's halberds (halberdItems, IT:1410): two-handed spears that count as two-handed axes too.

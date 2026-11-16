@@ -41,6 +41,7 @@
 #include "game/rules/ClassRules.h"
 #include "game/rules/CombatRules.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/maw/MawRules.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/JournalQuestTable.h"
@@ -4099,6 +4100,60 @@ TEST_CASE("monster break item leaves hardened equipment intact")
     controller.handleAndClearPendingCombatEvents(context);
 
     CHECK_FALSE(pMember->equipmentRuntime.mainHand.broken);
+}
+
+TEST_CASE("a solo run's weapon that auto-repair would mend is not broken by a monster")
+{
+    // MAW's auto-repair mends a broken item on its regeneration tick when the party's best Repair skill x mastery
+    // reaches its repair difficulty. In a solo run such a held weapon does not break at all: breaking it would only
+    // swap the arms to the other weapon until the tick (user, 2026-11-16). Outside a solo run, or without the skill,
+    // it breaks as before.
+    constexpr uint32_t ActorId = 83;
+    constexpr uint32_t RegularWeaponId = 31;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::ItemDefinition *pWeapon = gameData.itemTable.get(RegularWeaponId);
+    REQUIRE(pWeapon != nullptr);
+    REQUIRE(pWeapon->identifyRepairDifficulty <= 40);
+    OpenYAMM::Game::RulesetOptions soloOptions;
+    soloOptions.soloRun = true;
+    OpenYAMM::Game::MawRules maw(soloOptions, OpenYAMM::Game::MawMapLevels{});
+
+    const auto weaponBreaks = [&](bool solo, int repairLevel)
+    {
+        OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+        party.setItemTable(&gameData.itemTable);
+        party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+        party.setRules(&maw.gameRules());
+        party.setSoloRun(solo);
+        OpenYAMM::Game::Character *pMember = party.member(0);
+        REQUIRE(pMember != nullptr);
+        pMember->inventory.clear();
+        pMember->equipment.mainHand = RegularWeaponId;
+        if (repairLevel > 0)
+        {
+            pMember->skills["RepairItem"] = {"RepairItem", uint32_t(repairLevel), OpenYAMM::Game::SkillMastery::Grandmaster};
+        }
+
+        MonsterSpecialAttackTestWorldRuntime world = {};
+        world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+            .actorId = ActorId,
+            .monsterLevel = 100,
+            .attackBonus = 1000,
+            .specialAttackKind = OpenYAMM::Game::MonsterSpecialAttackKind::BreakWeapon,
+            .specialAttackLevel = 1,
+            .displayName = "Weapon Breaker",
+        };
+        OpenYAMM::Game::GameplayCombatController controller = {};
+        controller.recordMonsterMeleeImpact(ActorId, 0, 1000, OpenYAMM::Game::CombatDamageType::Physical,
+            OpenYAMM::Game::GameplayActorAttackAbility::Attack2);
+        OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+        controller.handleAndClearPendingCombatEvents(context);
+        return pMember->equipmentRuntime.mainHand.broken;
+    };
+
+    CHECK_FALSE(weaponBreaks(true, 10));
+    CHECK(weaponBreaks(false, 10));
+    CHECK(weaponBreaks(true, 0));
 }
 
 TEST_CASE("artifacts count as hardened")

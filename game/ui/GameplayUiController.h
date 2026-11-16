@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/party/CharacterState.h"
 #include "game/events/EventDialogContent.h"
+#include "game/items/AlchemyBenchRuntime.h"
 #include "game/items/CraftingRuntime.h"
 #include "game/items/InventoryBags.h"
 #include "game/party/Party.h"
@@ -582,6 +583,17 @@ public:
         // The held item is poured into the target item, as when dropping one item onto another in a pack.
         uint32_t targetItemId = 0;
         uint32_t heldItemId = 0;
+        // The power of the copy each slot mixes, where the player chose one from the slot's power list; the bench
+        // picks the copy otherwise. Cleared with the slot.
+        std::optional<uint16_t> targetPower;
+        std::optional<uint16_t> heldPower;
+        // The power the selected recipe's brew chain aims at, chosen from the result slot's power list; the chain
+        // brews from the strongest ingredients otherwise.
+        std::optional<uint16_t> chainPower;
+        // The open power list: 0 none, 1 the target slot's, 2 the held slot's, 3 the result slot's (a chain); and
+        // its first shown row.
+        uint8_t powerListSlot = 0;
+        size_t powerListScroll = 0;
         uint32_t selectedResultItemId = 0;
         bool showAllRecipes = false;
         std::string recipeSearch;
@@ -603,6 +615,11 @@ public:
         // Potions per recipe brewable by chaining, recomputed only when ingredients or known recipes change.
         uint64_t chainCountsKey = 0;
         std::vector<std::pair<uint32_t, uint32_t>> chainCounts;
+        // The powers the selected recipe's chain can aim at and, at the chosen one, the potions Brew All makes;
+        // planned again only when the ingredients, the known recipes, the selection or the choice change.
+        uint64_t chainPowersKey = 0;
+        std::vector<AlchemyChainPowerOption> chainPowers;
+        uint32_t chainPowerBrewCount = 0;
 
         void clearBrewResult()
         {
@@ -611,6 +628,15 @@ public:
             brewedCount = 0;
             brewedDiscovery = false;
             brewedExploded = false;
+        }
+
+        void clearPowerChoices()
+        {
+            targetPower.reset();
+            heldPower.reset();
+            chainPower.reset();
+            powerListSlot = 0;
+            powerListScroll = 0;
         }
     };
 

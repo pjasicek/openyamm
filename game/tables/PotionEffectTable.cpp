@@ -487,6 +487,8 @@ bool PotionEffectTable::loadFromYaml(const std::string &text, std::string &error
         m_timedSecondsPerPower = 0.0f;
         m_fixedDurationSeconds = 0.0f;
         m_grandmasterAlchemySecondsPerSkill = 0.0f;
+        m_soloDurationSeconds =
+            duration && duration["solo_hours"] ? std::max(0.0f, duration["solo_hours"].as<float>()) * 3600.0f : 0.0f;
 
         if (duration && duration["per_power_minutes"] && duration["per_power_minutes"].as<float>() > 0)
         {
@@ -594,6 +596,11 @@ float PotionEffectTable::fixedDurationSeconds() const
 float PotionEffectTable::grandmasterAlchemySecondsPerSkill() const
 {
     return m_grandmasterAlchemySecondsPerSkill;
+}
+
+float PotionEffectTable::soloDurationSeconds() const
+{
+    return m_soloDurationSeconds;
 }
 
 int PotionEffectTable::powerCap() const

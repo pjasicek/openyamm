@@ -1102,14 +1102,28 @@ int resolvePartyBuffPower(uint32_t spellId, uint32_t skillLevel, SkillMastery ma
     }
 }
 
+// A scroll read in a solo run: its buffs last a game day (the user, 2026-11-16), whatever the spell's own time.
+std::optional<float> soloScrollBuffSeconds(const Party &party, const PartySpellCastRequest &request)
+{
+    if (!request.fromScroll || !party.soloRun())
+    {
+        return std::nullopt;
+    }
+
+    return secondsFromHours(24.0f);
+}
+
+// `durationOverride` replaces every part's time (a solo run's scroll).
 void applyCompositePartyBuff(
     Party &party,
     uint32_t spellId,
     uint32_t skillLevel,
     SkillMastery mastery,
-    uint32_t casterMemberIndex)
+    uint32_t casterMemberIndex,
+    std::optional<float> durationOverride)
 {
-    const float durationSeconds = resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery);
+    const float durationSeconds =
+        durationOverride.value_or(resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery));
     const int power = resolvePartyBuffPower(spellId, skillLevel, mastery);
 
     switch (spellIdFromValue(spellId))
@@ -1126,9 +1140,9 @@ void applyCompositePartyBuff(
             break;
         case SpellId::HourOfPower:
         {
-            const float hasteDurationSeconds = mastery == SkillMastery::Master
+            const float hasteDurationSeconds = durationOverride.value_or(mastery == SkillMastery::Master
                 ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(3 * 4 * skillLevel))
-                : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(4 * 5 * skillLevel));
+                : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(4 * 5 * skillLevel)));
             party.applyPartyBuff(PartyBuffId::Heroism, durationSeconds, power, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::Shield, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::Stoneskin, durationSeconds, power, spellId, skillLevel, mastery, casterMemberIndex);
@@ -1162,7 +1176,6 @@ void applyCompositePartyBuff(
         }
         case SpellId::TravelersBoon:
         {
-            const float durationSeconds = resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery);
             party.applyPartyBuff(PartyBuffId::TorchLight, durationSeconds, 3, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::WizardEye, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::FeatherFall, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
@@ -1170,7 +1183,6 @@ void applyCompositePartyBuff(
         }
         case SpellId::Levitate:
         {
-            const float durationSeconds = resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery);
             party.applyPartyBuff(PartyBuffId::Levitate, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::WaterWalk, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::FeatherFall, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
@@ -1951,7 +1963,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
         // MM9's Fleet Foot keeps MM9's numbers whatever the ruleset does with Fly.
         const bool fleetFoot = rule->partyBuffId == PartyBuffId::FleetFoot;
-        const float durationSeconds = fleetFoot
+        const std::optional<float> soloScrollSeconds = soloScrollBuffSeconds(party, request);
+        const float durationSeconds = soloScrollSeconds ? *soloScrollSeconds
+            : fleetFoot
             ? fleetFootDurationSeconds(skillLevel, skillMastery)
             : spellRules.partyBuffSeconds(party, request.spellId, skillLevel, skillMastery, request.fromScroll)
                   .value_or(resolvePartyBuffDurationSeconds(request.spellId, skillLevel, skillMastery));
@@ -1969,7 +1983,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 request.spellId,
                 skillLevel,
                 skillMastery,
-                static_cast<uint32_t>(request.casterMemberIndex));
+                static_cast<uint32_t>(request.casterMemberIndex),
+                soloScrollSeconds);
         }
         else
         {
@@ -1990,7 +2005,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
     else if (rule->effectKind == PartySpellCastEffectKind::CharacterBuff)
     {
         // The party-wide forms reach the MM9 hirelings too (Party::combatantCount: the members alone elsewhere).
-        const float durationSeconds = resolveCharacterBuffDurationSeconds(request.spellId, skillLevel, skillMastery);
+        const float durationSeconds = soloScrollBuffSeconds(party, request)
+            .value_or(resolveCharacterBuffDurationSeconds(request.spellId, skillLevel, skillMastery));
         const int power = resolveCharacterBuffPower(request.spellId, skillLevel, skillMastery);
         auto applyBuffToMember =
             [&](size_t memberIndex, CharacterBuffId buffId)
@@ -2860,7 +2876,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
         {
             if (spellId == SpellId::Fate)
             {
-                const float durationSeconds = resolveCharacterBuffDurationSeconds(request.spellId, skillLevel, skillMastery);
+                const float durationSeconds = soloScrollBuffSeconds(party, request)
+                    .value_or(resolveCharacterBuffDurationSeconds(request.spellId, skillLevel, skillMastery));
                 const int power = resolveCharacterBuffPower(request.spellId, skillLevel, skillMastery);
                 party.applyCharacterBuff(
                     *request.targetCharacterIndex,

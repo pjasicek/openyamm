@@ -117,6 +117,11 @@ struct MapDeltaActor
     // Created after the map's first fill (summons, death summons, later event spawns): MAW's Nightmare revival raises
     // only the roster of the first fill.
     bool spawnedAfterFill = false;
+    // Where the first fill placed it (its room in fillSectorId), recorded when the map's first world update starts:
+    // MAW's Nightmare revival raises the slain there. None for actors spawned after the fill and for maps filled
+    // before SaveVersion 185, whose slain rise where they fell.
+    std::optional<std::array<int32_t, 3>> fillPosition;
+    int16_t fillSectorId = 0;
     // The party member whose spell summoned it, -1 for none (MM8's Summoner field: a caster's summon limit counts it).
     int32_t summonerMemberIndex = -1;
     float bolsterRewardMultiplier = 1.0f;

@@ -42,7 +42,7 @@ public:
     // The Bow preference (MAW's disableBow).
     bool bowDisabled() const override;
     // With the homing preference on, a monster missile keeps re-aiming at the party while the party moves across its
-    // flight slower than 300° a second (COMBAT.md §2.10, DEVIATIONS.md #181).
+    // flight slower than 60° a second (COMBAT.md §2.10, DEVIATIONS.md #181).
     // None for Meteor Shower, Sparks, Starburst, Poison Spray, Ice Blast and Shrapmetal (S:639-743).
     float monsterMissileHomingLockRate(uint32_t spellId) const override;
     // Traps and hazards hit as hard as a monster of the party's banked level (Damage.lua stage 4), less with
@@ -98,6 +98,8 @@ public:
     bool piercesConditionSave(const Party &party) const override;
     // Legendary 13: no special attack of a monster takes hold (zzMaw_Legendaries.lua:35-42).
     bool immuneToMonsterSpecialAttacks(const Character &member) const override;
+    // The auto-repair of the regeneration tick reaches the item's repair difficulty (S:1314-1333).
+    bool autoRepairs(const Party &party, const ItemDefinition &item) const override;
     // With the preference off (the default), hits on monsters not hostile to the party do nothing (DM:1197-1202).
     bool harmsFriendlyActors() const override;
     // A Swapper boss swaps places with every other living, visible, hostile monster in reach in turn and takes no
@@ -151,8 +153,9 @@ private:
     double leechBarShare(const Party &party, const PartyHitOnMonster &hit) const;
     // The recovery the caster would have after this spell, in ticks.
     std::optional<int> spellRecoveryTicks(const Party &party, const Character &caster, uint32_t spellId) const;
-    // MAW's trap damage (DM:1623-1652): the model damage at the party's total level, cut by Perception (x (11 - 2 m)
-    // / 10, at most 1), then the member's armour and resistances at their own level.
+    // MAW's trap damage (DM:1623-1652): the model damage at the party's total level or, where higher, the mean level
+    // of the map's own monsters (deviation 193), cut by Perception (x (11 - 2 m) / 10, at most 1), then the member's
+    // armour and resistances at their own level.
     int trapDamage(
         const Character &member,
         const ItemTable *pItemTable,

@@ -610,6 +610,30 @@ TEST_CASE("A vampire's night Preservation starts at 21:00 (CLS-6)")
     CHECK(party.characterBuff(0, CharacterBuffId::Preservation) != nullptr);
 }
 
+TEST_CASE("A vampire's night Preservation lasts five game minutes and outlasts a turn-based turn")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Character vampire = auditMember("Vampire", 20);
+    vampire.raceId = 1;
+    Party party = auditParty(rules, {vampire});
+    OpenYAMM::Tests::PartySpellTestWorldRuntime world;
+    world.bindParty(&party);
+    world.setCurrentHour(23);
+    rules.gameRules().classes.update(party, world, 0.5f);
+    const CharacterBuffState *pBuff = party.characterBuff(0, CharacterBuffId::Preservation);
+    REQUIRE(pBuff != nullptr);
+    // zzMaw-Spells.lua:1058: Game.Time + const.Minute*5.
+    CHECK_EQ(pBuff->remainingSeconds, doctest::Approx(300.0f));
+
+    // A completed turn passes 213 ticks, 49.92 game seconds, before the class rules run again (the monsters' stage).
+    party.advanceTimedStates(213.0f / 256.0f * 60.0f);
+    CHECK(party.characterBuff(0, CharacterBuffId::Preservation) != nullptr);
+    rules.gameRules().classes.update(party, world, 0.5f);
+    pBuff = party.characterBuff(0, CharacterBuffId::Preservation);
+    REQUIRE(pBuff != nullptr);
+    CHECK_EQ(pBuff->remainingSeconds, doctest::Approx(300.0f));
+}
+
 TEST_CASE("A Death Knight's arrows refill SP like blows (CLS-8, CMB-5)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});

@@ -804,7 +804,7 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
             m_actionCastHands = castHands(m_asset->clips[first->index].name);
             m_actionCastColor = schoolColor("");
         }
-        // Cleave, Charge, Multishot, Pinning Shot: the weapon glints (a cast already glows in the hand).
+        // Cleave, Charge, Multishot, Power Shot: the weapon glints (a cast already glows in the hand).
         m_actionGlint = !m_actionIsCast;
         if (m_trace)
         {

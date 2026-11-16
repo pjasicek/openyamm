@@ -1087,6 +1087,32 @@ TEST_CASE("a bow shot with no actor under the crosshair flies at a standing dest
         CHECK(shot.blastMinimumDamage <= shot.damage);
         CHECK(shot.damage <= shot.blastMaximumDamage);
     }
+    SUBCASE("a Master bow's second arrow rolls its own damage")
+    {
+        pArcher->skills["Bow"] = {"Bow", 10, Game::SkillMastery::Master};
+        world.faceStanding = false;
+        world.fallbackActors = {fallbackHostile(3, 2500.0f)};
+        bool differed = false;
+
+        for (uint32_t seed = 1; seed <= 20 && !differed; ++seed)
+        {
+            world.shots.clear();
+            config.randomSeed = seed;
+            const Game::GameplayActionController::PartyAttackExecutionResult result =
+                Game::GameplayActionController::executePartyAttack(config);
+            REQUIRE_EQ(world.shots.size(), 2);
+
+            for (const Game::GameplayPartyAttackProjectileRequest &shot : world.shots)
+            {
+                CHECK(shot.damage >= result.attack.minimumDamage);
+                CHECK(shot.damage <= result.attack.maximumDamage);
+            }
+
+            differed = world.shots[0].damage != world.shots[1].damage;
+        }
+
+        CHECK(differed);
+    }
     SUBCASE("a destructible within blow reach takes a blow, not an arrow")
     {
         config.directWorldTargetDistance = 100.0f;

@@ -1,0 +1,22 @@
+# Scene overlays may add actors and floor items to a shipped map (G5 of devdocs/map_studio/S6_PLAN.md). Needs the test
+# mount (run.sh in this folder passes --extra-mount mount): 6d02_scenetest.scene.yml adds an immobile actor at
+# (-29280, -10496) and an Iron Longsword (item 1) to the Abandoned Temple, after its own actor and items, on top of the
+# shipped 6d02_mist overlay.
+id: scene_overlays.actor_item
+title: An overlay's actor and floor item stand in a shipped map beside its own
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: 6d02.blv
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {near: [-29280, -10496, 64], min: 1, max: 1}
+  - note: {text: "the map's own actor (actor 0) stands where it did"}
+  - assert:
+      actor_count: {near: [-29280, -10240, 200], min: 1}
+  - set_pose: {map: 6d02.blv, x: -23900, y: -7552, z: -2201, yaw_degrees: 180}
+  - advance_runtime: {seconds: 0.5}
+  - pick_up: {item_id: 1}
+  - note: {text: "the map's own items (Cobra Eggs) lie where they did"}
+  - pick_up: {item_id: 2094}

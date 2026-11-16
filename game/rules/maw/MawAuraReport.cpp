@@ -439,6 +439,12 @@ std::optional<AuraReport> MawSpellRules::auraReport(const Party &party) const
         {
             const auto fixed = state.fixedAuraMaps.find(spellId);
             entry.templeBlessing = fixed != state.fixedAuraMaps.end() && fixed->second.empty();
+            const auto end = state.fixedAuraEndMinutes.find(spellId);
+
+            if (end != state.fixedAuraEndMinutes.end())
+            {
+                entry.scrollSecondsLeft = std::max(0.0f, float((end->second - double(party.gameMinutes())) * 60.0));
+            }
             entry.cost.free = true;
             entry.state = AuraState::Blessing;
         }

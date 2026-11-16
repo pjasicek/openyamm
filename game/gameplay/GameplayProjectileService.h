@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <functional>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <random>
 #include <string>
@@ -125,12 +126,18 @@ public:
         // A party missile or spell whose damage was a critical hit, for the status line and combat log where it
         // lands; not saved.
         bool critical = false;
-        // A solo run's Piercing Arrows: monsters it may still pass through after striking one, the share of its first
-        // damage each takes, and the ones it has struck (it never strikes one twice). Not saved.
-        uint8_t pierceLeft = 0;
-        float pierceShare = 0.0f;
-        int pierceDamage = 0;
-        std::vector<uint32_t> piercedActorIds;
+        // A solo run's Chaining Arrows (chainArrow): monsters it may still leap on to after striking one, the share of
+        // its first damage each takes, how far from the struck monster the next may stand, and the ones it has struck
+        // (it never strikes one twice). Not saved.
+        uint8_t chainLeft = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
+        int chainDamage = 0;
+        std::vector<uint32_t> chainStruckActorIds;
+        // A solo run's ordinary bow attack: true until one of its arrows hits a monster, which takes the talents'
+        // cooldown_per_hit off their cooldowns (GameplayCombatController); the attack's arrows share it, so the attack
+        // counts once. An arrow that leaps on (chainArrow) drops it: its chained hits count nothing. Not saved.
+        std::shared_ptr<bool> hitCredit;
         // An event's missile (evt.FireMissile): it passes the party, whose damage the event deals itself, and bursts
         // at its target when its flight time ends unless it strikes something first; saved.
         bool eventMissile = false;
@@ -225,9 +232,11 @@ public:
         int blastMaximumDamage = 0;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
-        // ProjectileState::pierceLeft and pierceShare.
-        uint8_t pierceCount = 0;
-        float pierceShare = 0.0f;
+        // ProjectileState::chainLeft, chainShare, chainRadius and hitCredit.
+        uint8_t chainCount = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
+        std::shared_ptr<bool> hitCredit;
         // An event's missile (ProjectileState::eventMissile), reaching its target in flightSeconds (0: at the
         // object's speed).
         bool eventMissile = false;
@@ -581,6 +590,9 @@ public:
         ProjectileMotionSegment motion;
         bool applyMotionEnd = false;
         bool expireProjectile = false;
+        // An arrow with chains left struck a monster: once the hit is applied the world leaps it on or ends it
+        // (chainArrow) in place of expireProjectile.
+        bool chainArrow = false;
         bool logCollision = false;
         bool logLifetimeExpiry = false;
 
@@ -752,6 +764,16 @@ public:
         const CombatRules &rules,
         const IGameplayWorldRuntime &world,
         size_t struckActorIndex) const;
+    // A solo run's Chaining Arrows, once the arrow's hit on `impact`'s monster is applied: it turns to the nearest
+    // other living hostile monster it has not struck, within chainRadius of the struck one and in clear sight of
+    // `hitPoint`, and homes on it at chainShare of its first damage; with none it ends there. A hit spends a chain, a
+    // miss on a leap's monster does not (a miss on the shot's own target ends the arrow before this). False when it
+    // ended.
+    bool chainArrow(
+        ProjectileState &projectile,
+        const IGameplayWorldRuntime &world,
+        const ProjectileDirectActorImpact &impact,
+        const GameplayWorldPoint &hitPoint);
     ProjectileSpawnEffects buildProjectileSpawnEffects(
         const ProjectileSpawnResult &result) const;
     ProjectileSpawnEffects buildProjectileSpawnEffects(
@@ -819,6 +841,15 @@ public:
         ProjectileState &projectile,
         const GameplayWorldPoint *pTarget,
         float deltaSeconds);
+    // The party moves once a rendered frame, the projectiles in fixed steps (stepCount of them this frame). Step
+    // stepIndex (from 0) sees the party that far from its position at the previous frame to its position now, so a
+    // missile homing on it steers the same at any frame rate (a lock tested per step would otherwise see two steps'
+    // movement in one at 30 fps).
+    static GameplayWorldPoint partyPositionAtStep(
+        const GameplayWorldPoint &previousFrame,
+        const GameplayWorldPoint &currentFrame,
+        int stepIndex,
+        int stepCount);
     static std::optional<ProjectileWardBlock> findProjectileWardBlock(
         const ProjectileState &projectile,
         const ProjectileMotionSegment &motion,

@@ -1372,7 +1372,7 @@ std::pair<double, double> MawSkillRules::regenerationPerSecond(const Party &part
         mawRegenerationPotionHealthPerSecond(fullHealth, potionSkill));
     // Regeneration specials and artifacts: 0.2 % of full HP a second each (S:1358-1362).
     const int healthItems = mawWornSpecialCount(member, {37, 44, 50, 54, 66})
-        + mawWornRegenerationArtifacts(member, false);
+        + mawWornRegenerationArtifacts(m_rules, member, false);
     healthPerSecond += 0.002 * fullHealth * healthItems;
 
     const int fullSpellPoints = Party::effectiveMaximumSpellPoints(member);
@@ -1388,7 +1388,7 @@ std::pair<double, double> MawSkillRules::regenerationPerSecond(const Party &part
         spellPerSecond *= 1 + std::clamp(double(reserved) / fullSpellPoints, 0.0, 1.0);
     }
     // Only the mana artifacts restore SP as items do; the SP specials raise Meditation instead (S:1455-1459).
-    spellPerSecond += 0.002 * pool * mawWornRegenerationArtifacts(member, true);
+    spellPerSecond += 0.002 * pool * mawWornRegenerationArtifacts(m_rules, member, true);
 
     // The Meditation aura gives nothing to dragons, the Thief line and Death Knights.
     if (const std::optional<MawAuraSource> meditationAura = m_rules.activeAura(MeditationAura);

@@ -17,6 +17,7 @@
 #include "game/rules/maw/MawCombatRules.h"
 #include "game/rules/maw/MawCraftingData.h"
 #include "game/rules/maw/MawItemData.h"
+#include "game/rules/maw/MawItemRules.h"
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawExperienceRules.h"
 #include "game/rules/maw/MawMonsterRules.h"
@@ -1209,6 +1210,50 @@ TEST_CASE("MAW Insanity: spellbooks cost more in shops by their place, training 
     const float multiplier = insanity.gameRules().skills.trainingPriceMultiplier(trainee, 2.0f);
     CHECK_EQ(multiplier, doctest::Approx(insanity.model(1).skill(50) + 4));
     CHECK_EQ(plain.gameRules().skills.trainingPriceMultiplier(trainee, 2.0f), doctest::Approx(2.0f));
+}
+
+TEST_CASE("MAW counts MM9's regenerating items as its regeneration artifacts (the Green Man)")
+{
+    const auto amulet = [](uint32_t itemId, const std::string &effectProfile)
+    {
+        std::vector<std::string> fields(26);
+        fields[0] = std::to_string(itemId);
+        fields[1] = "missing_test_icon";
+        fields[2] = "Amulet " + std::to_string(itemId);
+        fields[3] = "30000";
+        fields[4] = "Amulet";
+        fields[17] = "test";
+        fields[18] = "test:item/" + std::to_string(itemId);
+        fields[19] = std::to_string(itemId);
+        fields[25] = effectProfile;
+        return fields;
+    };
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+    ItemTable itemTable;
+    REQUIRE(itemTable.load(assetFileSystem, {amulet(10213, "test:item_effect/213"), amulet(10214, "")}, {}));
+    // MM9's The Green Man (worlds/mm9/data_tables/item_effects.txt): +1 hit point a second, no spell points.
+    std::vector<std::string> effect(40);
+    effect[0] = "10213";
+    effect[1] = "test:item_effect/213";
+    effect[2 + 25] = "1.0";
+    std::string error;
+    REQUIRE_MESSAGE(itemTable.loadContentEffectRows({effect}, error), error);
+
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    rules.setItemTable(&itemTable);
+    Character wearer;
+    wearer.equipment.amulet = 10213;
+    CHECK_EQ(mawWornRegenerationArtifacts(rules, wearer, false), 1);
+    CHECK_EQ(mawWornRegenerationArtifacts(rules, wearer, true), 0);
+
+    wearer.equipmentRuntime.amulet.broken = true;
+    CHECK_EQ(mawWornRegenerationArtifacts(rules, wearer, false), 0);
+
+    wearer.equipmentRuntime.amulet.broken = false;
+    wearer.equipment.amulet = 10214;
+    CHECK_EQ(mawWornRegenerationArtifacts(rules, wearer, false), 0);
 }
 
 TEST_CASE("MAW prices a world's spellbook as its own book of the same spell")

@@ -1,0 +1,23 @@
+id: rulesets.maw_solo_talent_state_save
+title: "Ruleset - a solo run's talent state (Onslaught's stacks and time left) survives a save and load"
+world: mm8
+mode: faithful
+tags: [rulesets, maw, solo, save]
+steps:
+  - note:
+      text: >-
+        Character::talentState is saved from save 187 on. A loaded save resumes it: the map load that ends Onslaught
+        when the party leaves a map does not run for a save being loaded.
+  - new_game_flow:
+      start_map: out02.odm
+      member_count: 1
+      ruleset: "maw:solo"
+  - console: {line: "talent onslaught 3", expect_contains: "onslaught"}
+  - console: {line: "talent stacks 4", expect_contains: "onslaught stacks 4"}
+  - save_game: {name: talent_state}
+  - console: {line: "talent stacks 0", expect_contains: "onslaught stacks 0"}
+  - load_game: {name: talent_state}
+  - console: {line: "talent list", expect_contains: "onslaught 4 for 60 s"}
+  # Leaving the map still ends Onslaught.
+  - load_map: {map: out01.odm}
+  - console: {line: "talent list", expect_contains: "onslaught 0 for 0 s"}

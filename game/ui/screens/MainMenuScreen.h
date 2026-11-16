@@ -81,6 +81,7 @@ class MainMenuScreen : public MenuDesignScreen
     // The loot filter's window over Settings (MainMenuLootFilter.cpp, level_generation/ui/maw_loot_progress_20261025
     // view A): it edits the ruleset draft's filter, applied with the other settings.
     void drawLootFilter();
+    void drawLootFilterRules();
     void loadCatalog();
     void editSetting(const Setting &setting, const std::string &value);
     void chooseSetting(const Setting &setting);
@@ -128,6 +129,9 @@ class MainMenuScreen : public MenuDesignScreen
     bool m_leaveAfterApply = false;
     bool m_suppressEscape = false;
     bool m_lootFilterOpen = false;
+    // The loot filter window shows the Custom rules, editing this one (-1: "Everything else").
+    bool m_lootFilterRules = false;
+    int m_lootFilterRule = -1;
     float m_displaySeconds = 0;
     float m_scroll = 0;
     // The settings slider the left button grabbed; it follows the pointer until release (sliderDragPosition).

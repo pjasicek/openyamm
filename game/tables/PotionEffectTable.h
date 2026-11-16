@@ -164,6 +164,9 @@ public:
     // Grandmaster alchemist.
     float fixedDurationSeconds() const;
     float grandmasterAlchemySecondsPerSkill() const;
+    // In a solo run timed effects last at least this many game seconds (plus the Grandmaster alchemist's minutes);
+    // 0 for no solo rule.
+    float soloDurationSeconds() const;
     // Potion power is clamped to this before any effect; 0 for no cap.
     int powerCap() const;
     // Recovery a drink costs a ready member, and whether only while monsters are near (0 for none). With a cost, a drink
@@ -180,6 +183,7 @@ private:
     float m_timedSecondsPerPower = 0.0f;
     float m_fixedDurationSeconds = 0.0f;
     float m_grandmasterAlchemySecondsPerSkill = 0.0f;
+    float m_soloDurationSeconds = 0.0f;
     int m_powerCap = 0;
     float m_combatRecoveryTicks = 0.0f;
     bool m_combatRecoveryOnlyNearEnemies = false;

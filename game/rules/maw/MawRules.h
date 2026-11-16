@@ -9,6 +9,7 @@
 #include "game/rules/maw/MawDimensionMaps.h"
 #include "game/rules/maw/MawTexts.h"
 #include "game/rules/maw/MawCraftingRules.h"
+#include "game/rules/maw/MawExperienceCurve.h"
 #include "game/rules/maw/MawExperienceRules.h"
 #include "game/rules/maw/MawGameState.h"
 #include "game/rules/maw/MawItemData.h"
@@ -49,6 +50,8 @@ struct MawAuraSource
     int mastery = 0;
     double level = 0;
     uint32_t holder = 0;
+    // A solo run's scroll aura: the game seconds it has left; 0 for an aura without an end.
+    float secondsLeft = 0;
 };
 
 // The MAW ruleset of one game (devdocs/maw/HANDOFF.md phase 3): its options, its level banks and the rules objects
@@ -139,6 +142,9 @@ public:
     // The level of the current map's own monsters: the lower middle of its B rows, when its levels were resolved
     // (MAW's mapMonsterLevel, MON:1930-1938).
     std::optional<double> mapMonsterLevel() const;
+    // The mean level of the current map's own B rows, when its levels were resolved: the map level the Journal's
+    // Progress tab shows (mapLevelSummary), as traps read it.
+    std::optional<double> mapMeanMonsterLevel() const;
     // The game's random root seed, for MAW's seeded rolls (bosses). In Beyond Madness it is also the run of the death
     // ledger: setting it (new game or load) opens that run, and a run left pending counts a death.
     uint64_t randomRootSeed() const;
@@ -173,6 +179,14 @@ public:
     // runtime only.
     int partyStaffResistance() const;
     void setPartyStaffResistance(int resistance);
+    // A solo run's early monster cut for its character's level now (MawSoloTalents::earlyMonsterCut): monsters' hits
+    // on the party are divided by it and the party's hits on monsters multiplied by it. 1 outside a solo run and
+    // past the cut's last level; runtime only, set as the character's bonuses are applied and on every class update.
+    double soloMonsterCut() const;
+    void setSoloMonsterCut(double cut);
+    // The curve the characters train by: MAW's, or in a solo run MAW's with the solo table's experience surcharge
+    // (SoloTalentTable::experienceSurcharge). Monster levels and the continent banks always follow MAW's.
+    const MawExperienceCurve &characterCurve() const;
     // MAW's unstuck key (zzMAW-Skills.lua:2501-2510): whether it may lift the party at this game minute; taking it
     // starts its five-minute wait. Runtime only, so a load makes it ready (MAW saves vars.lastUnstuck).
     bool takeUnstuck(double gameMinutes);
@@ -303,6 +317,9 @@ private:
     bool m_shadowBossNearby = false;
     std::optional<int> m_bountyLevel;
     int m_partyStaffResistance = 0;
+    double m_soloMonsterCut = 1.0;
+    // A solo run's character curve, built on first use and again when the options or the surcharge change.
+    mutable std::optional<MawExperienceCurve> m_soloCharacterCurve;
     double m_unstuckReadyGameMinutes = 0;
     bool m_austerityIdentifyRespecced = false;
     std::map<uint32_t, int> m_promotionWorlds;

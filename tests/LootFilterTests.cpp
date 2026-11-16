@@ -211,3 +211,140 @@ TEST_CASE("Sell trash picks plain gear, gear far below the party and gems")
     kept.alwaysKept = true;
     CHECK_FALSE(isSellTrash(kept, 60));
 }
+
+TEST_CASE("loot filter item types: weapons and body armour by skill, the other slots and kinds by equip stat")
+{
+    CHECK(lootItemType("Weapon", "Dagger") == LootItemType::Dagger);
+    CHECK(lootItemType("Weapon2", "Sword") == LootItemType::Sword);
+    CHECK(lootItemType("Weapon1or2", "Spear") == LootItemType::Spear);
+    CHECK(lootItemType("Missile", "Bow") == LootItemType::Bow);
+    CHECK(lootItemType("Missile", "Throwing") == LootItemType::Throwing);
+    CHECK(lootItemType("Armor", "Plate") == LootItemType::Plate);
+    CHECK(lootItemType("Shield", "Shield") == LootItemType::Shield);
+    CHECK(lootItemType("Belt", "Misc") == LootItemType::Belt);
+    CHECK(lootItemType("Ring", "Misc") == LootItemType::Ring);
+    CHECK(lootItemType("WeaponW", "Misc") == LootItemType::Wands);
+    CHECK(lootItemType("Herb", "Misc") == LootItemType::Reagents);
+    // Blasters and books name no type.
+    CHECK_FALSE(lootItemType("Weapon", "Blaster"));
+    CHECK_FALSE(lootItemType("Book", "Misc"));
+
+    CHECK((lootItemTypesOfGroup(LootFilterGroup::Weapons) & (1u << unsigned(LootItemType::Throwing))) != 0);
+    CHECK((lootItemTypesOfGroup(LootFilterGroup::Weapons) & (1u << unsigned(LootItemType::Leather))) == 0);
+    CHECK((lootItemTypesOfGroup(LootFilterGroup::Armour) & (1u << unsigned(LootItemType::Boots))) != 0);
+    CHECK_EQ(lootItemTypesOfGroup(LootFilterGroup::Jewellery),
+        (1u << unsigned(LootItemType::Ring)) | (1u << unsigned(LootItemType::Amulet)));
+}
+
+namespace
+{
+LootFilterFacts typed(LootItemType type, int rarity, int itemLevel = 0)
+{
+    LootFilterFacts facts;
+    facts.type = type;
+    facts.rarity = rarity;
+    facts.itemLevel = itemLevel;
+
+    if (type >= LootItemType::Wands)
+    {
+        facts.kind = RulesetLootKind(unsigned(type) - unsigned(LootItemType::Wands));
+    }
+    else
+    {
+        facts.group = type <= LootItemType::Throwing ? LootFilterGroup::Weapons
+            : type <= LootItemType::Boots            ? LootFilterGroup::Armour
+                                                     : LootFilterGroup::Jewellery;
+    }
+
+    return facts;
+}
+}
+
+TEST_CASE("loot filter Custom: a preset becomes rules that decide every drop as the preset did")
+{
+    for (const RulesetLootFilterPreset preset : {RulesetLootFilterPreset::Off, RulesetLootFilterPreset::Soft,
+             RulesetLootFilterPreset::Regular, RulesetLootFilterPreset::Strict, RulesetLootFilterPreset::VeryStrict})
+    {
+        for (const bool ground : {false, true})
+        {
+            RulesetLootFilter filter = rulesetLootFilterWithPreset(preset, ground);
+            filter.goldKinds |= 1u << unsigned(RulesetLootKind::Gems);
+            const RulesetLootFilter custom = lootFilterAsCustom(filter);
+            REQUIRE(custom.preset == RulesetLootFilterPreset::Custom);
+            CHECK(custom.otherwise == LootFilterAction::Keep);
+            CHECK_LE(custom.rules.size(), RulesetLootFilterMaxRules);
+
+            for (size_t type = 0; type < LootItemTypeCount; ++type)
+            {
+                for (int rarity = 1; rarity <= LootFilterRarityCount; ++rarity)
+                {
+                    for (const int itemLevel : {0, 5, 25, 35, 60})
+                    {
+                        const LootFilterFacts facts = typed(LootItemType(type), rarity, itemLevel);
+                        INFO("preset ", int(preset), " type ", type, " rarity ", rarity, " level ", itemLevel);
+                        CHECK(evaluateLootFilter(custom, facts, 60) == evaluateLootFilter(filter, facts, 60));
+                    }
+                }
+            }
+        }
+    }
+
+    // A Custom filter stays as it is.
+    RulesetLootFilter custom = lootFilterAsCustom(rulesetLootFilterWithPreset(RulesetLootFilterPreset::Regular));
+    custom.rules.push_back({1u << unsigned(LootItemType::Belt), 6, 0, LootFilterAction::Ground});
+    CHECK(lootFilterAsCustom(custom) == custom);
+}
+
+TEST_CASE("loot filter Custom: the first rule that fits decides, then everything else")
+{
+    const auto bit = [](LootItemType type) { return 1u << unsigned(type); };
+    RulesetLootFilter filter;
+    filter.preset = RulesetLootFilterPreset::Custom;
+    // Keep Epic and better daggers; every other belt or dagger to gold; Rare swords once 20 levels behind left on the
+    // ground; scrolls to gold whatever their rarity.
+    filter.rules = {
+        {bit(LootItemType::Dagger), 6, 0, LootFilterAction::Keep},
+        {bit(LootItemType::Belt) | bit(LootItemType::Dagger), 6, 0, LootFilterAction::Gold},
+        {bit(LootItemType::Sword), 3, 20, LootFilterAction::Ground},
+        {bit(LootItemType::Scrolls), 1, 0, LootFilterAction::Gold},
+    };
+    filter.rules[0].rarityAtMost = 6;
+    filter.rules[0].action = LootFilterAction::Keep;
+    // The first rule takes every dagger: order decides.
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Dagger, 1), 50) == LootFilterVerdict::Keep);
+    CHECK(matchingLootFilterRule(filter, typed(LootItemType::Dagger, 1), 50) == size_t(0));
+    std::swap(filter.rules[0], filter.rules[1]);
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Dagger, 1), 50) == LootFilterVerdict::Gold);
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Belt, 6), 50) == LootFilterVerdict::Gold);
+    // The level condition: only 20 or more levels below the party, never for an item without a level.
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Sword, 3, 30), 50) == LootFilterVerdict::Ground);
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Sword, 3, 31), 50) == LootFilterVerdict::Keep);
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Sword, 3, 0), 50) == LootFilterVerdict::Keep);
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Sword, 4, 1), 50) == LootFilterVerdict::Keep);
+    // The kinds without rarity ignore the rule's rarity.
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Scrolls, 3), 50) == LootFilterVerdict::Gold);
+    // What no rule takes, and a weapon of no named type, gets "everything else".
+    CHECK_FALSE(matchingLootFilterRule(filter, typed(LootItemType::Boots, 1), 50));
+    filter.otherwise = LootFilterAction::Ground;
+    CHECK(evaluateLootFilter(filter, typed(LootItemType::Boots, 1), 50) == LootFilterVerdict::Ground);
+    LootFilterFacts blaster = gear(LootFilterGroup::Weapons, 1);
+    CHECK(evaluateLootFilter(filter, blaster, 50) == LootFilterVerdict::Ground);
+    // Legendary, Celestial and artifacts are kept whatever the rules say.
+    LootFilterFacts legendary = typed(LootItemType::Belt, 6);
+    legendary.alwaysKept = true;
+    CHECK(evaluateLootFilter(filter, legendary, 50) == LootFilterVerdict::Keep);
+    CHECK_FALSE(matchingLootFilterRule(filter, legendary, 50));
+
+    // The trial counts the drops each rule decided; drops left on the ground pay no gold.
+    RecentLootDrops recent;
+    recent.add({typed(LootItemType::Belt, 2), 50, 100});
+    recent.add({typed(LootItemType::Belt, 3), 50, 100});
+    recent.add({typed(LootItemType::Boots, 1), 50, 100});
+    recent.add({legendary, 50, 100});
+    const LootFilterTrial trial = tryLootFilter(filter, recent.drops());
+    CHECK_EQ(trial.drops, 4u);
+    CHECK_EQ(trial.filtered, 3u);
+    CHECK_EQ(trial.gold, 200);
+    CHECK_EQ(trial.byRule[0], 2u);
+    CHECK_EQ(trial.byOtherwise, 1u);
+}

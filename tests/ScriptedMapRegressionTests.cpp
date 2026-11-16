@@ -732,7 +732,8 @@ public:
         const OpenYAMM::Game::GameplayWorldPoint &source,
         OpenYAMM::Game::ShieldAttackTier shieldTier,
         const OpenYAMM::Game::ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false) override
+        bool critical = false,
+        bool hitReaction = true) override
     {
         (void)actorIndex;
         (void)damage;
@@ -740,6 +741,7 @@ public:
         (void)shieldTier;
         (void)shieldModifiers;
         (void)critical;
+        (void)hitReaction;
         return false;
     }
 

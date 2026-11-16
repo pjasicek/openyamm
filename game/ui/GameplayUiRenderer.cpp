@@ -1076,24 +1076,27 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             const float minimapZoomHeight = minimapState.zoomHeight > 0.0f
                 ? minimapState.zoomHeight
                 : minimapState.zoom;
-            minimapState.uSpan = std::min(1.0f, pLayout->width / std::max(1.0f, minimapZoomWidth));
-            minimapState.vSpan = std::min(1.0f, pLayout->height / std::max(1.0f, minimapZoomHeight));
-            minimapState.u0 = std::clamp(
-                minimapState.partyU - minimapState.uSpan * 0.5f,
-                0.0f,
-                1.0f - minimapState.uSpan);
-            minimapState.v0 = std::clamp(
-                minimapState.partyV - minimapState.vSpan * 0.5f,
-                0.0f,
-                1.0f - minimapState.vSpan);
+            // The view stays centred on the party, as in MM6-MM8, also where it reaches past the map image (a
+            // party near the border of a map whose image has no margin); the map surface colour fills that part.
+            minimapState.uSpan = pLayout->width / std::max(1.0f, minimapZoomWidth);
+            minimapState.vSpan = pLayout->height / std::max(1.0f, minimapZoomHeight);
+            minimapState.u0 = minimapState.partyU - minimapState.uSpan * 0.5f;
+            minimapState.v0 = minimapState.partyV - minimapState.vSpan * 0.5f;
 
+            const std::optional<GameplayHudTextureHandle> backgroundTexture =
+                context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
+                    "__obsidian_indoor_minimap_background__", GameplayUiSkin::MapSurface);
             const std::optional<GameplayHudTextureHandle> minimapTexture = minimapState.vectorBackground
-                ? context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
-                    "__obsidian_indoor_minimap_background__", GameplayUiSkin::MapSurface)
+                ? std::nullopt
                 : context.gameplayUiRuntime().ensureHudTextureLoaded(minimapState.textureName);
+            flushQueuedHudQuads();
+            if (backgroundTexture)
+            {
+                context.gameplayUiRuntime().submitHudTexturedEllipse(backgroundTexture->textureHandle,
+                    resolved->x, resolved->y, resolved->width, resolved->height);
+            }
             if (minimapTexture)
             {
-                flushQueuedHudQuads();
                 context.gameplayUiRuntime().submitHudTexturedEllipse(minimapTexture->textureHandle,
                     resolved->x, resolved->y, resolved->width, resolved->height,
                     minimapState.u0, minimapState.v0, minimapState.u0 + minimapState.uSpan,

@@ -499,6 +499,10 @@ enum class GameplayAlchemyBenchPointerTargetType
     RecipeRow,
     RecipeSearch,
     Ingredient,
+    // The button under a slot that opens its power list (its index: 1 target, 2 held, 3 result), and a row of
+    // the open list (its index; 0 is Automatic).
+    PowerButton,
+    PowerOption,
     // The Workbench's tab strip and its Crafting tab.
     AlchemyTab,
     CraftingTab,

@@ -63,6 +63,14 @@ struct HouseEntry
         std::vector<DeterministicStockItem> items;
     };
 
+    // A stack a solo run's shop always has (data_tables/solo_shop_stock.yml).
+    struct SoloStockItem
+    {
+        uint32_t itemId = 0;
+        uint32_t minQuantity = 1;
+        uint32_t maxQuantity = 1;
+    };
+
     struct StockRule
     {
         int quality = 0;
@@ -176,6 +184,8 @@ struct HouseEntry
     uint32_t deterministicStockGenerationVersion = 0;
     std::vector<DeterministicStockPage> deterministicStandardStockPages;
     std::vector<DeterministicStockPage> deterministicSpecialStockPages;
+    // In a solo run each fresh standard stock gives its last slots to these, in order from the last.
+    std::vector<SoloStockItem> soloStock;
 };
 
 class HouseTable
@@ -212,6 +222,8 @@ public:
         const MapStats &mapStats
     );
     bool applyHouseExits(const MergedHouseExitTable &houseExits, const MapStats &mapStats);
+    // A solo run's extra shop stock (data_tables/solo_shop_stock.yml) onto its houses.
+    bool loadSoloStockYaml(const std::string &text, std::string &errorMessage);
     void applyMapWorlds(const MapStats &mapStats);
     std::optional<std::string> getName(uint32_t houseId) const;
     const HouseEntry *get(uint32_t houseId) const;

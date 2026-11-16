@@ -10,8 +10,10 @@
 #include "game/party/SpellIds.h"
 #include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/SoloTalents.h"
 #include "game/tables/SpellTable.h"
 #include "game/ui/GameplayObsidianPainter.h"
+#include "game/ui/GameplaySoloHud.h"
 #include "game/ui/SpellbookUiLayout.h"
 
 #include <SDL3/SDL.h>
@@ -153,12 +155,14 @@ struct Hit
     size_t index = 0;
 };
 
-// A palette entry: a spell, the two weapon orders, or clearing the armed quick key.
+// A palette entry: a spell, the two weapon orders, a solo run's active talent (its index in the talent table), or
+// clearing the armed quick key.
 struct PaletteEntry
 {
     BattleOrderKind kind = BattleOrderKind::Spell;
     uint32_t spellId = 0;
     bool clear = false;
+    uint32_t talentIndex = 0;
 };
 
 struct Layout
@@ -302,6 +306,27 @@ std::string spellDisplayName(const GameplayScreenRuntime &context, const Charact
     return Engine::localize(partySpellName(context.partyReadOnly(), member, spell), "spell");
 }
 
+// A talent order's talent, in the solo run's talent table (none when the table lacks it).
+const TalentDefinition *orderTalent(const BattleOrder &order)
+{
+    return order.kind == BattleOrderKind::Talent ? soloTalentTable().find(order.talentId) : nullptr;
+}
+
+std::optional<uint32_t> talentIndexOf(std::string_view id)
+{
+    const std::vector<TalentDefinition> &talents = soloTalentTable().talents();
+
+    for (size_t index = 0; index < talents.size(); ++index)
+    {
+        if (talents[index].id == id)
+        {
+            return uint32_t(index);
+        }
+    }
+
+    return std::nullopt;
+}
+
 std::string orderName(const GameplayScreenRuntime &context, const Character &member, const BattleOrder &order)
 {
     switch (order.kind)
@@ -310,6 +335,11 @@ std::string orderName(const GameplayScreenRuntime &context, const Character &mem
             return Engine::tr("Melee");
         case BattleOrderKind::Shoot:
             return Engine::tr("Shoot");
+        case BattleOrderKind::Talent:
+        {
+            const TalentDefinition *pTalent = orderTalent(order);
+            return pTalent != nullptr ? Engine::tr(pTalent->name) : order.talentId;
+        }
         case BattleOrderKind::Spell:
             break;
     }
@@ -382,6 +412,13 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
     {
         parts.push_back(Engine::tr("with a ranged weapon"));
     }
+    else if (order.kind == BattleOrderKind::Talent)
+    {
+        // Used whenever it is ready (learned, off cooldown); never in turn-based combat.
+        parts.push_back(orderTalent(order) == nullptr || talentRank(member, order.talentId) <= 0
+                ? Engine::tr("not learned")
+                : Engine::tr("when ready"));
+    }
 
     if (order.distance)
     {
@@ -450,7 +487,10 @@ std::vector<PaletteEntry> paletteEntries(const GameplayScreenRuntime &context, c
         }
 
         std::string name = entry.kind == BattleOrderKind::Melee ? Engine::tr("Melee")
-            : entry.kind == BattleOrderKind::Shoot ? Engine::tr("Shoot") : std::string();
+            : entry.kind == BattleOrderKind::Shoot ? Engine::tr("Shoot")
+            : entry.kind == BattleOrderKind::Talent && entry.talentIndex < soloTalentTable().talents().size()
+                ? Engine::tr(soloTalentTable().talents()[entry.talentIndex].name)
+                : std::string();
         const SpellEntry *pSpell = entry.kind == BattleOrderKind::Spell && context.spellTable() != nullptr
             ? context.spellTable()->findById(int(entry.spellId)) : nullptr;
 
@@ -499,6 +539,20 @@ std::vector<PaletteEntry> paletteEntries(const GameplayScreenRuntime &context, c
     {
         entries.push_back({BattleOrderKind::Melee, 0, false});
         entries.push_back({BattleOrderKind::Shoot, 0, false});
+
+        // A MAW solo run's learned active talents, in the table's order.
+        if (context.soloTalents())
+        {
+            const std::vector<TalentDefinition> &talents = soloTalentTable().talents();
+
+            for (size_t index = 0; index < talents.size(); ++index)
+            {
+                if (talents[index].kind == TalentKind::Active && talentRank(member, talents[index].id) > 0)
+                {
+                    entries.push_back({BattleOrderKind::Talent, 0, false, uint32_t(index)});
+                }
+            }
+        }
     }
 
     std::erase_if(entries, [&matches](const PaletteEntry &entry) { return !matches(entry); });
@@ -1162,6 +1216,15 @@ void drawOrderIcon(GameplayScreenRuntime &context, const GameplayObsidianPainter
     const float inset = std::max(1.0f, painter.scale());
     const Rect inner = {box.x + inset, box.y + inset, box.width - 2 * inset, box.height - 2 * inset};
 
+    if (order.kind == BattleOrderKind::Talent)
+    {
+        if (const std::optional<uint32_t> index = talentIndexOf(order.talentId))
+        {
+            GameplaySoloHud::renderSlotIcon(context, painter, member, {ActionBarSlotKind::Talent, *index}, inner, dim);
+        }
+        return;
+    }
+
     if (order.kind != BattleOrderKind::Spell)
     {
         drawWeaponIcon(context, inner, order.kind, dim);
@@ -1420,7 +1483,9 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     painter.text(TextFont, 8.5f, Muted,
         member.battleOrders.size() >= BattleOrderLimit ? limitText(false)
             : state.armedQuickSlot ? Engine::tr("Choose the spell for the quick key on the right")
-                                   : Engine::tr("+ Add an order: click a spell or weapon on the right"),
+                                   : context.soloTalents()
+                ? Engine::tr("+ Add an order: click a spell, weapon or talent on the right")
+                : Engine::tr("+ Add an order: click a spell or weapon on the right"),
         Margin + 10, addTop + 5);
 }
 
@@ -1648,8 +1713,9 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
     painter.frame(box, state.armedQuickSlot ? RowSelectedBorder : RowBorder);
     const std::string label = state.armedQuickSlot
         ? Engine::tr("Choose the spell for {key}", {{"key", Engine::tr(QuickSlotNames[*state.armedQuickSlot])}})
-        : state.upkeep ? Engine::tr("Add: {member}'s buffs, heals and cures", {{"member", member.name}})
-                       : Engine::tr("Add: {member}'s spells and weapons", {{"member", member.name}});
+        : state.upkeep        ? Engine::tr("Add: {member}'s buffs, heals and cures", {{"member", member.name}})
+        : context.soloTalents() ? Engine::tr("Add: spells, weapons and talents")
+                                : Engine::tr("Add: {member}'s spells and weapons", {{"member", member.name}});
     const Rect search = searchRect(layout);
     const float searchLeft = (search.x - layout.page.x) / layout.page.scale;
     painter.text(TextFont, 8.5f, Gold, painter.fitted(TextFont, 8.5f, label, searchLeft - layout.rightLeft - 14),
@@ -1682,6 +1748,12 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
         if (entry.clear)
         {
             centredText(painter, layout, TextFont, 9, Bad, "x", icon);
+        }
+        else if (entry.kind == BattleOrderKind::Talent)
+        {
+            const float inset = std::max(1.0f, painter.scale());
+            GameplaySoloHud::renderSlotIcon(context, painter, member, {ActionBarSlotKind::Talent, entry.talentIndex},
+                {icon.x + inset, icon.y + inset, icon.width - 2 * inset, icon.height - 2 * inset}, false);
         }
         else if (entry.kind != BattleOrderKind::Spell)
         {
@@ -1717,7 +1789,15 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
             : entry.kind == BattleOrderKind::Shoot ? Engine::tr("Shoot: the ranged weapon")
                                                    : std::string();
 
-        if (name.empty() && context.spellTable() != nullptr)
+        if (entry.kind == BattleOrderKind::Talent && entry.talentIndex < soloTalentTable().talents().size())
+        {
+            const TalentDefinition &talent = soloTalentTable().talents()[entry.talentIndex];
+            name = Engine::tr("{talent}: {effect}",
+                {{"talent", Engine::tr(talent.name)},
+                    {"effect", talentEffectText(talent, talentRank(member, talent.id))}});
+            name = painter.fitted(TextFont, 8.5f, name, layout.rightRight - layout.rightLeft - 16);
+        }
+        else if (name.empty() && context.spellTable() != nullptr)
         {
             if (const SpellEntry *pSpell = context.spellTable()->findById(int(entry.spellId)))
             {
@@ -2407,6 +2487,15 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             {
                 order.distance = BattleOrderDistance{BattleOrderMeleeReach, BattleOrderMaximumDistance};
             }
+            else if (entry.kind == BattleOrderKind::Talent)
+            {
+                if (entry.talentIndex >= soloTalentTable().talents().size())
+                {
+                    break;
+                }
+
+                order.talentId = soloTalentTable().talents()[entry.talentIndex].id;
+            }
 
             addOrder(context, member, order);
             break;
@@ -3007,6 +3096,11 @@ void GameplayBattleOrders::copyOrders(Character &member, const Character &source
             {
                 continue;
             }
+        }
+
+        if (order.kind == BattleOrderKind::Talent && talentRank(member, order.talentId) <= 0)
+        {
+            continue;
         }
 
         member.battleOrders.push_back(order);

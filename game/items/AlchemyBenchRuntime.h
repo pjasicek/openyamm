@@ -54,6 +54,26 @@ struct AlchemyRecipe
     uint32_t heldItemId = 0;
 };
 
+// The copy each slot mixes, by its power, where the player chose one; a slot without a choice is left to the bench,
+// which takes its strongest copy (and for a catalyst the copy it raises most).
+struct AlchemyPowerChoice
+{
+    std::optional<uint16_t> targetPower;
+    std::optional<uint16_t> heldPower;
+
+    bool any() const
+    {
+        return targetPower.has_value() || heldPower.has_value();
+    }
+};
+
+// One power an item is carried at, and how many copies have it.
+struct AlchemyPowerOption
+{
+    uint16_t power = 0;
+    uint32_t count = 0;
+};
+
 // One potion in the recipe book with the recipes the party knows for it.
 struct AlchemyBookEntry
 {
@@ -138,6 +158,15 @@ struct AlchemyChainStep
 {
     AlchemyRecipe recipe;
     uint32_t resultItemId = 0;
+    // The copies the step mixes, in a plan that aims at a power; a plan without an aim mixes the strongest.
+    AlchemyPowerChoice choice;
+};
+
+// A power a chain can brew its potion at, and the aim that makes the planner brew it.
+struct AlchemyChainPowerOption
+{
+    uint16_t power = 0;
+    uint16_t aim = 0;
 };
 
 struct AlchemyItemCount
@@ -184,6 +213,11 @@ struct AlchemyChainOutcome
 // are used, so a plan never explodes. Carried potions are used before brewing replacements, strongest first; keeping
 // mixed potions, the carried ones (AlchemyBook::isMixedPotion) are left out and brewed fresh from reagents and the
 // basic potions.
+//
+// A plan can aim at a power instead: every potion it brews then has at least that power, from the weakest copies
+// that reach it (each ingredient the weakest that is strong enough, a stronger first ingredient making up for a weak
+// second one), and its steps name the copies they mix. The search is greedy, not exhaustive: it can miss a power
+// only an unusual split of the ingredients reaches, but a plan it returns is always one the bench can brew.
 class AlchemyChainPlanner
 {
 public:
@@ -194,17 +228,40 @@ public:
         const AlchemyBenchTables &tables,
         bool keepMixedPotions = false);
 
-    AlchemyChainPlan plan(uint32_t resultItemId, uint32_t maxBrews) const;
+    AlchemyChainPlan plan(
+        uint32_t resultItemId,
+        uint32_t maxBrews,
+        const std::optional<uint16_t> &aim = std::nullopt) const;
+    // The powers one potion can be brewed at, weakest first, up to what strongest first gives; a wide range is
+    // thinned to about sixteen. Empty when the potion cannot be brewed.
+    std::vector<AlchemyChainPowerOption> powerOptions(uint32_t resultItemId) const;
+    // The aim that brews the potion at one of those powers.
+    std::optional<uint16_t> aimForPower(uint32_t resultItemId, uint16_t power) const;
+    // Changes whenever the ingredients the plans are made from do.
+    uint64_t stockKey() const;
 
 private:
     class Stock;
     struct Search;
 
-    bool obtain(uint32_t itemId, Stock &stock, Search &search, int depth) const;
-    bool brew(uint32_t resultItemId, Stock &stock, Search &search, int depth) const;
+    // The power needed of an ingredient or a result; without one, the strongest carried copy is taken.
+    using Need = std::optional<int>;
+
+    bool obtain(uint32_t itemId, const Need &need, Stock &stock, Search &search, int depth, uint16_t &power) const;
+    bool brew(uint32_t resultItemId, const Need &need, Stock &stock, Search &search, int depth) const;
+    bool fillBottle(const AlchemyBookEntry &entry, int need, Stock &stock, Search &search) const;
+    bool mixPotions(
+        const AlchemyBookEntry &entry,
+        const AlchemyRecipe &recipe,
+        const Need &targetNeed,
+        const Need &need,
+        Stock &stock,
+        Search &search,
+        int depth) const;
     bool tryRecipe(
         const AlchemyBookEntry &entry,
         const AlchemyRecipe &recipe,
+        const Need &need,
         Stock &stock,
         Search &search,
         int depth) const;
@@ -230,6 +287,24 @@ public:
         const std::vector<AlchemyIngredient> &ingredients,
         uint32_t itemId);
     static uint32_t brewableCount(const AlchemyRecipe &recipe, const std::vector<AlchemyIngredient> &ingredients);
+    // How many times the recipe can be mixed from the chosen copies alone; a slot without a choice takes its
+    // strongest copy each time.
+    static uint32_t brewableCount(
+        const Party &party,
+        const AlchemyRecipe &recipe,
+        const AlchemyPowerChoice &choice,
+        const AlchemyBenchTables &tables);
+    // The powers an item is carried at, strongest first: a reagent's is what it adds for the party's alchemist.
+    static std::vector<AlchemyPowerOption> powerOptions(
+        const Party &party,
+        uint32_t itemId,
+        const AlchemyBenchTables &tables);
+    // The choice without the powers no carried copy has: two copies when both slots choose one power of one item.
+    static AlchemyPowerChoice availableChoice(
+        const Party &party,
+        const AlchemyRecipe &recipe,
+        const AlchemyPowerChoice &choice,
+        const AlchemyBenchTables &tables);
     // Case-insensitive substring match; an empty search matches everything.
     static bool matchesSearch(const std::string &name, const std::string &search);
 
@@ -260,15 +335,17 @@ public:
         const Party &party,
         const AlchemyRecipe &recipe,
         const AlchemyBenchTables &tables,
-        const AutonoteLookup &isAutonoteUnlocked);
+        const AutonoteLookup &isAutonoteUnlocked,
+        const AlchemyPowerChoice &choice = {});
 
-    // Mixes the strongest carried held item into the strongest carried target item, past the kept copies. Unhandled
-    // results leave both items where they were.
+    // Mixes the strongest carried held item into the strongest carried target item, or the copies of the chosen
+    // powers, past the kept copies. Unhandled results leave both items where they were.
     static AlchemyMixOutcome mix(
         Party &party,
         const AlchemyRecipe &recipe,
         const AlchemyBenchTables &tables,
-        std::span<const AlchemyItemPower> kept = {});
+        std::span<const AlchemyItemPower> kept = {},
+        const AlchemyPowerChoice &choice = {});
 
     // Runs a plan's steps as real mixes, stopping at the first one that does not succeed.
     static AlchemyChainOutcome brewChain(Party &party, const AlchemyChainPlan &plan, const AlchemyBenchTables &tables);

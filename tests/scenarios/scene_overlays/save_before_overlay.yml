@@ -1,0 +1,23 @@
+# Saves and scene overlays, part 1 of 3 (run.sh runs them in order): a save made in the Abandoned Temple WITHOUT the
+# test overlay (no mount). The overlay adds an actor and an item, which the map's layout identity counts
+# (devdocs/SAVED_MAP_STATE_IDENTITY.md), so load_with_overlay.yml must find this map state reset.
+id: scene_overlays.save_before_overlay
+title: A save made in a shipped map without the overlay
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - lua_event: {source: "SetValue(MapVar(40), 7)"}
+  - load_map:
+      map: 6d02.blv
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {near: [-29280, -10496, 64], max: 0}
+  - set_pose: {map: 6d02.blv, x: -23900, y: -7552, z: -2201, yaw_degrees: 180}
+  - advance_runtime: {seconds: 0.5}
+  - lua_event: {source: "SetValue(MapVar(41), 9) SetValue(Gold, 4321)"}
+  - setup_shortcut: {kind: set_qbit, id: 10001}
+  - assert:
+      state_dump_map_var: {index: 41, value: 9}
+  - save_game: {name: before_overlay, path: output/scene_overlays/before_overlay.oysav}

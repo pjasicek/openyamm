@@ -18,6 +18,7 @@ class ItemTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 struct SpellEntry;
+struct ItemDefinition;
 
 // A hit on a monster, before its resistances.
 struct MonsterDamageHit
@@ -366,6 +367,9 @@ public:
     virtual bool piercesConditionSave(const Party &party) const;
     // Whether no special attack of a monster (conditions, drains, breaks) takes hold on this member. Standard: no.
     virtual bool immuneToMonsterSpecialAttacks(const Character &member) const;
+    // Whether the rules' own repair would mend this item if it broke now (MAW's auto-repair by the party's best Repair
+    // skill). Standard: never.
+    virtual bool autoRepairs(const Party &party, const ItemDefinition &item) const;
     // Whether the party's hits hurt monsters that are not hostile to it (MAW's friendly-fire preference). Standard:
     // always.
     virtual bool harmsFriendlyActors() const;
