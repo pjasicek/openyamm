@@ -1,0 +1,138 @@
+{
+  "map": "6d16.blv",
+  "world": "mm6",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 39,
+    "links": 39,
+    "components": 2,
+    "loops": 2
+  },
+  "scale": {
+    "floor_area_millions": 31.7,
+    "sector_floor_area": {
+      "count": 39,
+      "min": 1024,
+      "q1": 393216,
+      "median": 618496,
+      "q3": 1111584,
+      "max": 5496832
+    },
+    "sector_height": {
+      "count": 39,
+      "min": 10,
+      "q1": 266,
+      "median": 266,
+      "q3": 520,
+      "max": 778
+    },
+    "doorway_width": {
+      "count": 34,
+      "min": 2,
+      "q1": 2,
+      "median": 256,
+      "q3": 256,
+      "max": 362
+    },
+    "doorway_height": {
+      "count": 34,
+      "min": 256,
+      "q1": 256,
+      "median": 256,
+      "q3": 256,
+      "max": 320
+    },
+    "floor_level": {
+      "count": 797,
+      "min": -256,
+      "q1": 168,
+      "median": 424,
+      "q3": 568,
+      "max": 768
+    }
+  },
+  "mechanisms": {
+    "doors": 19,
+    "bound_events": 49,
+    "door_events": 19,
+    "trap_events": 0,
+    "local_teleports": 5,
+    "exits": 1,
+    "summon_events": 0,
+    "chest_events": 20,
+    "text_events": 11,
+    "secret_faces": 8,
+    "pressure_plates": 0,
+    "clickable_faces": 112
+  },
+  "density": {
+    "spawn_points": 43,
+    "fixed_actors": 0,
+    "unique_actors": 0,
+    "lights": 75,
+    "decorations": 130,
+    "spawn_points_per_area": 1.36,
+    "lights_per_area": 2.37,
+    "decorations_per_area": 4.1
+  },
+  "palette": {
+    "textures": 111,
+    "by_area": [{
+        "name": "d8ceild",
+        "share": 0.097
+      },
+      {
+        "name": "d2ceil1",
+        "share": 0.087
+      },
+      {
+        "name": "d1wlbct1",
+        "share": 0.081
+      },
+      {
+        "name": "d2flor1",
+        "share": 0.075
+      },
+      {
+        "name": "d2flor2",
+        "share": 0.071
+      },
+      {
+        "name": "d8florg",
+        "share": 0.068
+      },
+      {
+        "name": "d1wblnka",
+        "share": 0.067
+      },
+      {
+        "name": "d8ceila",
+        "share": 0.052
+      },
+      {
+        "name": "d8florf",
+        "share": 0.05
+      },
+      {
+        "name": "d8wlb",
+        "share": 0.049
+      },
+      {
+        "name": "d1wctra",
+        "share": 0.036
+      },
+      {
+        "name": "d8wldsp1",
+        "share": 0.027
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 39,
+    "reached_at_start": 4,
+    "reached_doors_clear": 38,
+    "walkable_area_millions": 27.66,
+    "unreached_spawn_points": 0
+  }
+}

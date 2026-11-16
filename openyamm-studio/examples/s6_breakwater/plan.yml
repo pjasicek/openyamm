@@ -1,0 +1,7 @@
+format: 0
+level: L3
+spaces:
+  - {id: room:yard, kind: room, size: M}
+  - {id: room:store, kind: room, size: S}
+links:
+  - {id: link:yard_store, from: room:yard, to: room:store, kind: open}

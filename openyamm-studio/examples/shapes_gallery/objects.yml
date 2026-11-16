@@ -1,0 +1,789 @@
+format: 0
+start:
+  room: room:hall
+  at: [256, 256]
+  facing: e
+doors:
+  - id: door:closet
+    opening: open:gallery_closet
+    kind: hinged
+    hinge: left
+    speed: 90
+  - id: door:leaf_fold
+    opening: open:leaf_hall_fold
+    kind: slide_left
+    leaves: 2
+    fold: true
+    pictures:
+      - [{texture: hvdord, size: [256, 256]}, {texture: hvdord, size: [256, 256]}]
+  - id: door:leaf_mirror
+    opening: open:pair_leaf_hall
+    kind: slide_up
+    back_surface: {texture: swpnl, size: [128, 256]}
+    pictures:
+      - [{texture: swaled, size: [128, 256]}, {texture: swaled, size: [128, 256], mirror: true}]
+  - id: door:leaf_part
+    opening: open:leaf_hall_part
+    kind: slide_right
+    travel: 160
+    surface: {texture: cvdor1, size: [128, 256]}
+    tile: true
+  - id: door:leaf_pass
+    opening: open:leaf_hall_pass
+    kind: slide_left
+    leaves: 2
+    split: across
+    fold: true
+    surface: {texture: hvdorc, size: [256, 256]}
+  - id: door:leaf_seal
+    opening: open:leaf_hall_seal
+    kind: slide_left
+    leaves: 2
+    fold: true
+    pictures:
+      - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
+      - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
+  - id: door:pair
+    opening: open:works_pair
+    kind: slide_left
+    leaves: 2
+    surface: {texture: t1d2, size: [256, 256]}
+    edge_surface: {texture: swr4dk, size: [64, 64]}
+    notes: "Its leaves' free edges show swr4dk at their size (`edge_surface`), as Control Center's doors' edges do."
+  - id: door:panels
+    opening: open:nave_panels
+    kind: slide_up
+    surface: {texture: t1d2, size: [256, 256]}
+    back_surface: {texture: bwooda1, size: [256, 256]}
+  - id: door:side
+    opening: open:works_side
+    kind: slide_right
+    notes: "Slides right, away from door:pair: both leaves of the pier between them would not fit in it (each goes 2 past its jamb, into the wall)."
+  - id: door:sided
+    opening: open:pass_sided
+    surface: {texture: hvdorc, size: [256, 256]}
+    notes: "A door with an event for each side of its leaf (wiring `side`): it opens from room:leaf_pass_cell only; from inside the cell it says that it will not budge."
+  - id: door:split
+    opening: open:works_split
+    kind: slide_up
+    leaves: 2
+  - id: door:vault
+    opening: open:trap_vault
+    kind: slide_up
+    secret: true
+lifts:
+  - id: lift:gallery
+    room: room:gallery
+    at: [1472, 1504]
+    size: [160, 160]
+    travel: 128
+    speed: 64
+  - id: lift:pod
+    room: room:pod_bay
+    at: [-2624, -448]
+    size: [160, 160]
+    travel: 264
+    thickness: 16
+    speed: 96
+  - id: lift:ws_lift
+    room: room:workshop
+    at: [-5600, -880]
+    size: [128, 128]
+    travel: 128
+    speed: 128
+    state: up
+    notes: "Starts raised: the monster over it stands on its top (328), not on the floor under it."
+movers:
+  - id: mover:bridge
+    room: room:pit
+    at: [-3392, 144]
+    size: [510, 160]
+    bottom: 160
+    height: 32
+    travel: [0, 256, 0]
+    speed: 128
+    top_surface: {texture: bwooda1, size: [256, 256]}
+    kerbs:
+      height: 24
+      width: 16
+    notes: "A bridge that slides sideways with its kerbs: at its start it lies along the south wall of the pit and joins nothing; at its end it lies between the two mouths. It stops 1 short of each wall: its ends in the walls' planes would lie over the next rooms' wall faces (those walls have no thickness) and flicker."
+  - id: mover:gate_block
+    room: room:gate_run
+    at: [-2272, -608]
+    size: [192, 64]
+    height: 384
+    travel: [0, 0, -386]
+    speed: 160
+    surface: {texture: t1d2, size: [256, 256]}
+    notes: "A gate block from wall to wall and floor to ceiling: it sinks into the floor (its top ends 2 below it)."
+  - id: mover:grow
+    room: room:pit_west
+    at: [-4192, 256]
+    size: [64, 160]
+    bottom: 160
+    height: 32
+    travel: [-448, 0, 0]
+    speed: 128
+    stretch: true
+    top_surface: {texture: bwooda1, size: [256, 256]}
+    kerbs:
+      height: 24
+      width: 16
+    notes: "A bridge that grows: a stub at the east mouth whose west end face travels 448 to the far mouth."
+  - id: mover:rig_button
+    room: room:rig
+    at: [-120, 437]
+    size: [32, 10]
+    bottom: 96
+    height: 32
+    travel: [0, -8, 0]
+    speed: 16
+    surface: {texture: t1trima, size: [32, 32], scale: 2}
+    notes: "A button that is pushed into its wall: at its end it stands 8 inside the south wall, where it is hidden."
+  - id: mover:rig_deck
+    room: room:rig
+    at: [-496, 568]
+    size: [128, 128]
+    height: 16
+    travel: [0, 0, 40]
+    speed: 48
+    top_surface: {texture: bwooda1, size: [256, 256]}
+    parts:
+      - {at: [-552, 512], size: [16, 16], height: 64}
+      - {at: [-552, 624], size: [16, 16], height: 64}
+    notes: "A deck that rises with what stands on it: two posts (parts of the mover), a chest and the button on its east side."
+  - id: mover:rig_gate_high
+    room: room:rig
+    at: [-400, 568]
+    size: [32, 272]
+    bottom: 128
+    height: 128
+    travel: [0, 0, 130]
+    speed: 64
+    surface: {texture: t1d2, size: [256, 256]}
+    notes: "The gate's upper half: it rises through the ceiling (256) and is hidden above it, its underside 2 over the ceiling's plane (in it the two would flicker)."
+  - id: mover:rig_gate_low
+    room: room:rig
+    at: [-400, 568]
+    size: [32, 272]
+    height: 128
+    travel: [0, 0, -130]
+    speed: 64
+    surface: {texture: t1d2, size: [256, 256]}
+    notes: "The gate's lower half: it sinks into the floor."
+  - id: mover:sink_plate
+    room: room:gate_run
+    at: [-2272, -448]
+    size: [96, 96]
+    height: 8
+    travel: [0, 0, -10]
+    speed: 16
+    surface: {texture: t1trima, size: [32, 32], scale: 2}
+    top_surface: {texture: d2ceil4, size: [256, 256]}
+  - id: mover:tram
+    room: room:gate_run
+    at: [-2272, -832]
+    size: [160, 160]
+    bottom: -56
+    height: 64
+    travel: [0, -176, 128]
+    speed: 64
+    top_surface: {texture: bwooda1, size: [256, 256]}
+    notes: "A block that travels sideways and up at once and carries the party: from the passage floor to the ledge of the room behind it."
+  - id: mover:wall
+    room: room:wall_run
+    at: [-2912, -640]
+    size: [192, 32]
+    height: 256
+    travel: [-192, 0, 0]
+    speed: 96
+    auto_return_seconds: 20
+    notes: A wall section from wall to wall and floor to ceiling that slides into the pocket beside the passage and comes back by itself.
+plates:
+  - id: plate:apse_lights_off
+    room: room:vault_apse
+    at: [3440, -1480]
+    size: [96, 96]
+    surface: {texture: bwooda1, size: [256, 256]}
+  - id: plate:apse_lights_on
+    room: room:vault_apse
+    at: [3250, -1480]
+    size: [96, 96]
+    surface: {texture: d2ceil4, size: [256, 256]}
+  - id: plate:chime
+    room: room:trap
+    at: [672, 944]
+    size: [96, 96]
+    surface: {texture: d2ceil4, size: [256, 256]}
+  - id: plate:gate
+    room: room:trap
+    at: [800, 800]
+    size: [128, 128]
+    rise: 4
+    surface: {texture: t1trima, size: [32, 32], scale: 2}
+  - id: plate:hall_mark
+    room: room:hall
+    at: [128, 640]
+    size: [96, 96]
+    notes: "Stepped on, it clears the secret flag of the hall's traced ceiling and sets it on itself (wiring `secret`, `clear_secret`)."
+  - id: plate:hall_pool
+    room: room:hall
+    at: [384, 900]
+    size: [128, 96]
+    surface: {texture: 6wtrtyl, size: [128, 128], liquid: water}
+    notes: "A water plate with the fluid bit (`liquid: water`), as the shipped water faces have it."
+  - id: plate:hall_secret
+    room: room:hall
+    at: [128, 900]
+    size: [96, 96]
+    secret: true
+    notes: "A secret plate without an event: a perceptive party sees it pulse (the Abandoned Temple's plates round its heads)."
+  - id: plate:hall_slime
+    room: room:hall
+    at: [384, 780]
+    size: [128, 64]
+    surface: {texture: orfyrlga, size: [256, 256], liquid: liquid, flow: right}
+    notes: "The Forge's fire floor (no liquid of the shader's) laid as a liquid that flows (`liquid: liquid`, `flow: right`): it ripples and runs east."
+  - id: plate:seal_draw
+    room: room:leaf_seal_cell
+    at: [-2368, 1856]
+    size: [128, 96]
+    notes: "Stepped on, it gives one scroll of three at random, twice at most (a count in a condition, `give_item` with `one_of`)."
+  - id: plate:tunnel_pad
+    room: room:tunnel
+    at: [4064, -1040]
+    size: [128, 160]
+    surface: {texture: d2ceil4, size: [256, 256]}
+    notes: "A plate in a tunnel: the flat floor's whole width between two lines square across the way (here 192 to 352 along the stretch after the bend)."
+floors:
+  - {id: floor:embers, of: level:ember_pit, kind: lava}
+  - {id: floor:pool, of: level:pool, kind: water}
+  - {id: floor:ws_pool, of: level:ws_pool, kind: liquid, notes: "Lava's picture (lavatyl) on the fluid bit alone: it does not burn."}
+ladders:
+  - {id: ladder:pit, room: room:false_pit, at: [3640, -1650], facing: w, height: 256, grab_at_top: false, surface: {texture: bwooda1, size: [256, 256]}}
+sounds:
+  - {id: sound:pit_drip, room: room:false_pit, at: [3764, -1700], sound: waterdrip.wav, radius: 700, wait: [1, 3]}
+lights:
+  - id: light:a_switched_dark
+    room: room:vault_apse
+    at: [3180, -1720]
+    height: 160
+    radius: 500
+    color: [255, 60, 40]
+    on: false
+  - id: light:a_switched_lamp
+    room: room:vault_apse
+    at: [3520, -1720]
+    height: 160
+    radius: 500
+    color: [60, 255, 80]
+  - id: light:atrium
+    room: room:atrium
+    height: 500
+    radius: 550
+    color: [200, 170, 255]
+  - id: light:bank
+    room: room:bank
+    radius: 500
+    color: [255, 220, 160]
+  - id: light:cave
+    room: room:cave
+    at: [256, 1856]
+    radius: 600
+    color: [160, 200, 255]
+  - id: light:closet
+    room: room:closet
+    radius: 350
+    color: [255, 220, 160]
+  - id: light:corridor
+    room: room:corridor
+    at: [1600, 256]
+    radius: 450
+    color: [255, 180, 120]
+  - id: light:crown_tunnel
+    room: room:crown_tunnel
+    at: [2860, -1596]
+    height: 120
+    radius: 500
+    color: [255, 220, 160]
+  - id: light:dome_north
+    room: room:dome_north
+    height: 400
+    radius: 900
+    color: [200, 220, 255]
+  - id: light:dome_south
+    room: room:dome_south
+    height: 400
+    radius: 900
+    color: [255, 230, 200]
+  - id: light:false_pit
+    room: room:false_pit
+    at: [3764, -1596]
+    height: 380
+    radius: 700
+    color: [255, 220, 160]
+  - id: light:far_bank
+    room: room:far_bank
+    radius: 500
+    color: [255, 220, 160]
+  - id: light:gallery
+    room: room:gallery
+    radius: 500
+    color: [255, 220, 160]
+  - id: light:gate_end
+    room: room:gate_end
+    radius: 250
+    color: [255, 220, 160]
+  - id: light:gate_run
+    room: room:gate_run
+    radius: 350
+    color: [255, 200, 140]
+  - id: light:grotto
+    room: room:grotto
+    radius: 450
+    color: [160, 200, 255]
+  - id: light:guard_post
+    room: room:guard_post
+    radius: 400
+    color: [255, 220, 160]
+  - id: light:gully_a
+    room: room:gully_a
+    at: [2352, -2400]
+    height: 250
+    radius: 900
+    color: [255, 220, 160]
+  - id: light:gully_b
+    room: room:gully_b
+    at: [2896, -2400]
+    height: 250
+    radius: 900
+    color: [200, 220, 255]
+  - id: light:hall
+    room: room:hall
+    at: [256, 256]
+    radius: 600
+    color: [255, 200, 140]
+  - id: light:hall_north
+    room: room:hall
+    at: [256, 832]
+    radius: 450
+    color: [255, 200, 140]
+  - id: light:hollow
+    room: room:hollow
+    at: [400, -1800]
+    radius: 900
+    color: [255, 220, 160]
+  - id: light:hollow_banks
+    room: room:hollow_banks
+    at: [1600, -1880]
+    radius: 900
+    color: [160, 200, 255]
+  - id: light:leaf_hall
+    room: room:leaf_hall
+    at: [-2624, 1400]
+    height: 256
+    radius: 1100
+    color: [255, 240, 210]
+  - id: light:loft
+    room: room:loft
+    at: [-900, 100]
+    radius: 750
+    color: [255, 220, 160]
+  - id: light:loft_west
+    room: room:loft
+    at: [-1380, 400]
+    radius: 700
+    color: [255, 220, 160]
+  - id: light:nave
+    room: room:nave
+    at: [512, -704]
+    height: 300
+    radius: 700
+    color: [200, 170, 255]
+  - id: light:nave_gallery
+    room: room:nave
+    at: [100, -200]
+    radius: 500
+    color: [255, 200, 140]
+  - id: light:pit
+    room: room:pit
+    height: 400
+    radius: 700
+    color: [200, 220, 255]
+  - id: light:pit_glow
+    room: room:false_pit
+    at: [3764, -1500]
+    floor_height: 160
+    height: 40
+    radius: 500
+    color: [80, 255, 120]
+    pulse: {intensity: [0.3, 1], radius: [300, 500], frequency: 0.5}
+  - id: light:pit_west
+    room: room:pit_west
+    height: 400
+    radius: 700
+    color: [200, 220, 255]
+  - id: light:pod_bay
+    room: room:pod_bay
+    at: [-2700, -380]
+    radius: 250
+    color: [255, 220, 160]
+  - id: light:pod_deck
+    room: room:pod_deck
+    at: [-2624, -700]
+    radius: 300
+    color: [200, 220, 255]
+  - id: light:ramp
+    room: room:ramp
+    radius: 400
+    color: [200, 200, 255]
+  - id: light:ramp_up
+    room: room:ramp_up
+    radius: 500
+    color: [255, 200, 140]
+  - id: light:rig
+    room: room:rig
+    at: [-200, 568]
+    radius: 500
+    color: [255, 220, 160]
+  - id: light:rig_deck
+    room: room:rig
+    at: [-496, 568]
+    radius: 350
+    color: [200, 220, 255]
+  - id: light:rotunda
+    room: room:rotunda
+    height: 200
+    radius: 500
+    color: [255, 220, 160]
+  - id: light:shrine
+    room: room:shrine
+    at: [2592, 1664]
+    height: 150
+    radius: 900
+    color: [255, 220, 160]
+  - id: light:shrine_crypt
+    room: room:shrine_crypt
+    radius: 350
+    color: [160, 200, 255]
+  - id: light:shrine_lantern
+    room: room:shrine
+    at: [2592, 1664]
+    height: 500
+    radius: 500
+    color: [255, 240, 200]
+  - id: light:shrine_rise
+    room: room:shrine_rise
+    radius: 450
+    color: [255, 200, 140]
+  - id: light:sided_cell
+    room: room:sided_cell
+    height: 256
+    radius: 512
+    color: [255, 240, 210]
+  - id: light:stairs
+    room: room:stairs
+    radius: 450
+    color: [255, 180, 120]
+  - id: light:steep
+    room: room:steep
+    radius: 600
+    color: [255, 220, 160]
+  - id: light:trap
+    room: room:trap
+    radius: 500
+    color: [255, 180, 120]
+  - id: light:trench
+    room: room:trench
+    at: [512, -2936]
+    radius: 900
+    color: [255, 220, 160]
+  - id: light:tube
+    room: room:tube
+    radius: 450
+    color: [200, 220, 255]
+  - id: light:tunnel_a
+    room: room:tunnel
+    at: [3452, -768]
+    height: 180
+    radius: 380
+    color: [255, 200, 160]
+  - id: light:tunnel_b
+    room: room:tunnel
+    at: [4064, -900]
+    height: 180
+    radius: 380
+    color: [255, 200, 160]
+  - id: light:tunnel_banks
+    room: room:tunnel_banks
+    at: [4576, -2080]
+    height: 220
+    radius: 400
+    color: [200, 255, 220]
+  - id: light:tunnel_cell
+    room: room:tunnel_cell
+    height: 250
+    radius: 450
+    color: [255, 220, 180]
+  - id: light:tunnel_hall
+    room: room:tunnel_hall
+    height: 300
+    radius: 480
+    color: [255, 220, 180]
+  - id: light:tunnel_nook
+    room: room:tunnel_nook
+    height: 180
+    radius: 280
+    color: [255, 220, 180]
+  - id: light:tunnel_on
+    room: room:tunnel_on
+    at: [4064, -1600]
+    height: 180
+    radius: 380
+    color: [200, 220, 255]
+  - id: light:tunnel_side
+    room: room:tunnel_side
+    height: 200
+    radius: 280
+    color: [255, 220, 180]
+  - id: light:undercroft
+    room: room:undercroft
+    radius: 420
+    color: [160, 200, 255]
+  - id: light:vault
+    room: room:vault
+    radius: 300
+    color: [255, 120, 80]
+  - id: light:vault_apse
+    room: room:vault_apse
+    at: [3344, -1596]
+    height: 200
+    radius: 700
+    color: [200, 220, 255]
+  - id: light:vault_run
+    room: room:vault_run
+    at: [3344, -2100]
+    height: 200
+    radius: 700
+    color: [255, 220, 160]
+  - id: light:wall_run
+    room: room:wall_run
+    at: [-2912, -450]
+    radius: 300
+    color: [255, 200, 140]
+  - id: light:wedges
+    room: room:wedges
+    at: [1552, -2936]
+    radius: 900
+    color: [255, 220, 160]
+  - id: light:well
+    room: room:well
+    radius: 350
+    color: [255, 200, 140]
+  - id: light:well_foot
+    room: room:well_foot
+    radius: 220
+    color: [255, 200, 140]
+  - id: light:works
+    room: room:works
+    at: [-2400, 256]
+    radius: 800
+    color: [255, 220, 160]
+  - id: light:works_west
+    room: room:works
+    at: [-2900, 256]
+    radius: 800
+    color: [255, 220, 160]
+switches:
+  - id: switch:bridge
+    room: room:works
+    wall: west
+    along: 0.5
+  - id: switch:gate
+    room: room:gate_run
+    wall: east
+    along: 0.85
+  - id: switch:grow
+    room: room:bank
+    wall: north
+  - id: switch:lectern
+    room: room:guard_post
+    block: platform:lectern
+    side: top
+    at: [-96, 928]
+    size: [16, 16]
+    notes: "A plate on the lectern's sloping top, in the top's plane (as Goblinwatch's console lays its sixteen)."
+  - id: switch:rig_deck
+    room: room:rig
+    block: mover:rig_deck
+    side: e
+    height: 8
+    size: [16, 12]
+    notes: "A button on the side of a mover: it rides with the deck."
+  - id: switch:rig_lever
+    room: room:rig
+    block: platform:lever_post
+    side: n
+    notes: "A lever on a post: a switch on the side of a platform that has an id."
+  - id: switch:wall
+    room: room:wall_run
+    wall: east
+    along: 0.9
+  - id: switch:ws_button
+    room: room:workshop
+    kind: button
+    wall: east
+    along: 0.5
+    notes: "MM7's push button: a block 16 out of the wall, pushed in and back out by its event (toggles)."
+  - id: switch:ws_lever
+    room: room:workshop
+    kind: lever
+    wall: west
+    along: 0.6
+    notes: "The Forge's lever: a post and an arm that sinks 16 and rises again (its event toggles the lift)."
+  - id: switch:ws_plate
+    room: room:workshop
+    wall: north
+    along: 0.75
+    notes: "A plate whose picture follows its state: used (t1swdu) and back (t1swdd)."
+  - id: switch:ws_post_lever
+    room: room:workshop
+    kind: lever
+    block: platform:ws_post
+    side: w
+    height: 122
+    notes: "A lever on a post whose event has a condition and else_effects: its arm follows the branch."
+chests:
+  - id: chest:desk
+    room: room:vault_apse
+    at: [3500, -1480]
+    facing: n
+    size: [128, 64, 72]
+    surface: {texture: bwooda1, size: [256, 256]}
+    top_surface: {texture: d2ceil4, size: [256, 256]}
+    random_items: 0
+    notes: "A desk: a chest whose top has a surface of its own (`top_surface`)."
+  - id: chest:fold_hoard
+    room: room:leaf_fold_cell
+    at: [-2848, 1900]
+    facing: s
+    random_levels: [3, 2, 1]
+    items: [2148]
+    notes: "A chest whose rolls each have a treasure level of their own (`random_levels`), after one fixed item (2148, a letter): written as the game's own chest record. The first opening shows it; later ones show chest:fold_spent in the same box."
+  - id: chest:fold_spent
+    random_items: 0
+    box_of: chest:fold_hoard
+    items: [2149]
+    notes: "A second set of contents for the box of chest:fold_hoard (`box_of`): its event opens this one with `open_chest` once the hoard has been seen."
+  - id: chest:gallery
+    room: room:gallery
+    offset: [0, 160]
+    kind: ch1
+    size: [72, 48, 44]
+    treasure_level: 1
+    random_items: 1
+    gold: 50
+  - id: chest:on_slab
+    room: room:shrine
+    at: [2336, 1920]
+    kind: ch1
+    facing: n
+    size: [72, 48, 44]
+    random_items: 1
+  - id: chest:rig_deck
+    room: room:rig
+    at: [-520, 568]
+    rides: mover:rig_deck
+    facing: n
+    random_items: 1
+    notes: "A chest on a mover: it stands on the deck's top and rides up with it."
+  - id: chest:under_slab
+    room: room:shrine
+    at: [2336, 1888]
+    floor_height: 256
+    kind: ch1
+    facing: e
+    size: [72, 48, 44]
+    random_items: 1
+  - id: chest:ws_mm6
+    room: room:workshop
+    at: [-5728, -360]
+    kind: ch3
+    lid: v
+    facing: e
+    random_items: 0
+    gold: 5
+    notes: "MM6's chest ch3: end, middle and end on its long sides, ch3side on its ends, and MM6's other lid (`lid: v`: ch3tplev, ch3tpbv, ch3tprev) as the Forge's carved chest has it."
+  - id: chest:ws_mm7
+    room: room:workshop
+    at: [-5952, -600]
+    kind: 7gt002
+    facing: n
+    random_items: 0
+    gold: 5
+    notes: "MM7's chest with a sloping lid, 80 high."
+spawns:
+  - id: spawn:pass_shelf
+    room: room:leaf_pass_cell
+    at: [-1900, 1408]
+    kind: item
+    treasure_level: 3
+    group: 51
+    notes: "An item spawn point: one roll of treasure level 3 when the map is first entered (nothing, gold or an item). In group 51, as MM7's shipped spawn records are (it does nothing on an item spawn point)."
+monsters:
+  - id: monster:boss
+    room: room:crown_tunnel
+    monster: Goblin A
+    at: [2760, -1596]
+    facing: e
+    hostile: true
+    group: 9
+    hp: 39
+    name: Blackwell Cooper
+    immobile: true
+  - id: monster:guard
+    room: room:guard_post
+    monster: Goblin Lord
+    at: [-256, 928]
+    facing: se
+    hostile: false
+    group: 7
+    immobile: true
+    notes: "A monster placed at its post: by its name in monster_data.txt, peaceful by the project's word (its kind is hostile: the build's load event clears the Hostile bit of group 7) and keeping its place."
+  - id: monster:sided_guard
+    room: room:sided_cell
+    monster: Goblin A
+    at: [-1560, 1460]
+    facing: w
+    hostile: false
+    group: 77
+    immobile: true
+    hidden: true
+    carries: 1
+    notes: "Starts invisible (`hidden`) and appears when the door opens ({show_actors: 77}); carries item 1, a longsword (`carries`), which it leaves when it dies."
+  - id: monster:ws_rider
+    room: room:workshop
+    monster: Goblin A
+    at: [-5600, -880]
+    facing: w
+    hostile: false
+    group: 78
+    immobile: true
+    notes: "Over the lift that starts raised: it stands on the lift's top."
+items:
+  - id: item:key
+    room: room:guard_post
+    item: Key to Goblinwatch
+    at: [-304, 864]
+    notes: "An item lying on the floor from the start; the walk picks it up."
+decorations:
+  - id: deco:sided_keg
+    room: room:sided_cell
+    decoration: smlbarel
+    at: [-1700, 1330]
+    notes: "A decoration as an event's source: clicked, it runs evt:sided_keg."
+  - id: deco:ws_crystal
+    room: room:workshop
+    decoration: mcryst01
+    at: [-5770, -900]
+    notes: "A crystal on the desk; the desk's event turns its picture to its empty stand (`set_sprite`)."

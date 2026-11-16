@@ -1,0 +1,477 @@
+format: 0
+level: L1
+spaces:
+  - id: room:s1
+    kind: room
+    size: M
+    area: 0.73
+    floor: [0, 192]
+    clear_height: 522
+  - id: room:s2
+    kind: room
+    size: S
+    area: 0.26
+    floor: 0
+    clear_height: 266
+  - id: room:s20
+    kind: room
+    size: M
+    area: 0.52
+    floor: [-256, 0]
+    clear_height: 522
+  - id: room:s21
+    kind: room
+    size: M
+    area: 0.79
+    floor: [-768, -256]
+    clear_height: 778
+  - id: room:s22
+    kind: room
+    size: M
+    area: 0.72
+    floor: -768
+    clear_height: 266
+  - id: room:s23
+    kind: room
+    size: M
+    area: 0.76
+    floor: -768
+    clear_height: 266
+  - id: room:s24
+    kind: room
+    size: M
+    area: 0.79
+    floor: [-768, -656]
+    clear_height: 266
+  - id: room:s25
+    kind: room
+    size: M
+    area: 0.76
+    floor: -768
+    clear_height: 266
+  - id: room:s26
+    kind: room
+    size: M
+    area: 0.79
+    floor: [-768, -656]
+    clear_height: 266
+  - id: room:s27
+    kind: room
+    size: XL
+    area: 3.64
+    floor: [-968, -784]
+    clear_height: 346
+  - id: room:s28
+    kind: room
+    size: M
+    area: 1.13
+    floor: [-968, -748]
+    clear_height: 510
+  - id: room:s29
+    kind: room
+    size: M
+    area: 1.48
+    floor: [-868, -698]
+    clear_height: 542
+  - id: room:s3
+    kind: room
+    size: S
+    area: 0.5
+    floor: 0
+    clear_height: 266
+  - id: room:s30
+    kind: room
+    size: M
+    area: 1.09
+    floor: [-868, -584]
+    clear_height: 414
+  - id: room:s31
+    kind: room
+    size: XL
+    area: 8.17
+    floor: [-832, -524]
+    clear_height: 530
+  - id: room:s32
+    kind: room
+    size: L
+    area: 2
+    floor: [-832, -492]
+    clear_height: 530
+  - id: room:s33
+    kind: room
+    size: XL
+    area: 3.17
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s34
+    kind: room
+    size: L
+    area: 2.08
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s35
+    kind: room
+    size: XL
+    area: 9.04
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s36
+    kind: room
+    size: S
+    area: 0.41
+    floor: -768
+    clear_height: 266
+  - id: room:s37
+    kind: room
+    size: S
+    area: 0.46
+    floor: -768
+    clear_height: 266
+  - id: room:s38
+    kind: room
+    size: XL
+    area: 7.68
+    floor: [-832, -460]
+    clear_height: 1042
+  - id: room:s39
+    kind: room
+    size: L
+    area: 2
+    floor: [-832, -492]
+    clear_height: 530
+  - id: room:s4
+    kind: room
+    size: L
+    area: 2.02
+    floor: [0, 510]
+    clear_height: 522
+  - id: room:s40
+    kind: room
+    size: XL
+    area: 3.17
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s41
+    kind: room
+    size: L
+    area: 2.08
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s42
+    kind: room
+    size: XL
+    area: 4.63
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s43
+    kind: room
+    size: XL
+    area: 4.25
+    floor: [-768, -588]
+    clear_height: 466
+  - id: room:s44
+    kind: room
+    size: XL
+    area: 6.89
+    floor: [128, 436]
+    clear_height: 978
+  - id: room:s45
+    kind: room
+    size: L
+    area: 1.79
+    floor: [0, 128]
+    clear_height: 394
+  - id: room:s46
+    kind: room
+    size: XS
+    area: 0.07
+    floor: -768
+    clear_height: 906
+  - id: room:s47
+    kind: room
+    size: M
+    area: 1.03
+    floor: [-1280, -768]
+    clear_height: 778
+  - id: room:s48
+    kind: room
+    size: M
+    area: 1.21
+    floor: [-768, -256]
+    clear_height: 778
+  - id: room:s49
+    kind: room
+    size: M
+    area: 1.22
+    floor: [-1280, -768]
+    clear_height: 778
+  - id: room:s5
+    kind: room
+    size: S
+    area: 0.29
+    floor: [-256, 0]
+    clear_height: 522
+  - id: room:s50
+    kind: room
+    size: XL
+    area: 3.67
+    floor: [-1280, -1216]
+    clear_height: 266
+  - id: room:s51
+    kind: room
+    size: L
+    area: 1.64
+    floor: [128, 319]
+    clear_height: 266
+  - id: room:s52
+    kind: room
+    size: S
+    area: 0.36
+    floor: [0, 96]
+    clear_height: 266
+  - id: room:s53
+    kind: room
+    size: S
+    area: 0.36
+    floor: 0
+    clear_height: 266
+  - id: room:s54
+    kind: room
+    size: S
+    area: 0.25
+    floor: -968
+    clear_height: 266
+  - id: room:s55
+    kind: room
+    size: S
+    area: 0.29
+    floor: [-968, -776]
+    clear_height: 474
+  - id: room:s56
+    kind: room
+    size: S
+    area: 0.31
+    floor: [-760, -632]
+    clear_height: 266
+  - id: room:s57
+    kind: room
+    size: XS
+    area: 0.15
+    floor: [-768, -640]
+    clear_height: 266
+  - id: room:s6
+    kind: room
+    size: S
+    area: 0.45
+    floor: [-512, -256]
+    clear_height: 522
+  - id: room:s7
+    kind: room
+    size: L
+    area: 1.57
+    floor: -512
+    clear_height: 266
+links:
+  - id: link:s1_s2
+    from: room:s1
+    to: room:s2
+    kind: door
+  - id: link:s1_s20
+    from: room:s1
+    to: room:s20
+    kind: door
+  - id: link:s1_s5
+    from: room:s1
+    to: room:s5
+    kind: door
+  - id: link:s20_s21
+    from: room:s20
+    to: room:s21
+    kind: open
+  - id: link:s21_s22
+    from: room:s21
+    to: room:s22
+    kind: open
+  - id: link:s21_s48
+    from: room:s21
+    to: room:s48
+    kind: door
+  - id: link:s22_s23
+    from: room:s22
+    to: room:s23
+    kind: open
+  - id: link:s22_s24
+    from: room:s22
+    to: room:s24
+    kind: open
+  - id: link:s22_s25
+    from: room:s22
+    to: room:s25
+    kind: open
+  - id: link:s22_s26
+    from: room:s22
+    to: room:s26
+    kind: open
+  - id: link:s22_s36
+    from: room:s22
+    to: room:s36
+    kind: open
+  - id: link:s23_s24
+    from: room:s23
+    to: room:s24
+    kind: open
+  - id: link:s25_s26
+    from: room:s25
+    to: room:s26
+    kind: open
+  - id: link:s27_s28
+    from: room:s27
+    to: room:s28
+    kind: open
+  - id: link:s27_s54
+    from: room:s27
+    to: room:s54
+    kind: open
+  - id: link:s28_s29
+    from: room:s28
+    to: room:s29
+    kind: open
+  - id: link:s29_s30
+    from: room:s29
+    to: room:s30
+    kind: open
+  - id: link:s29_s31
+    from: room:s29
+    to: room:s31
+    kind: open
+  - id: link:s2_s3
+    from: room:s2
+    to: room:s3
+    kind: open
+  - id: link:s30_s31
+    from: room:s30
+    to: room:s31
+    kind: open
+  - id: link:s31_s32
+    from: room:s31
+    to: room:s32
+    kind: open
+  - id: link:s32_s33
+    from: room:s32
+    to: room:s33
+    kind: open
+  - id: link:s33_s34
+    from: room:s33
+    to: room:s34
+    kind: open
+  - id: link:s34_s35
+    from: room:s34
+    to: room:s35
+    kind: open
+  - id: link:s35_s37
+    from: room:s35
+    to: room:s37
+    kind: open
+  - id: link:s36_s37
+    from: room:s36
+    to: room:s37
+    kind: open
+  - id: link:s36_s43
+    from: room:s36
+    to: room:s43
+    kind: open
+  - id: link:s38_s39
+    from: room:s38
+    to: room:s39
+    kind: open
+  - id: link:s38_s57
+    from: room:s38
+    to: room:s57
+    kind: open
+  - id: link:s39_s40
+    from: room:s39
+    to: room:s40
+    kind: open
+  - id: link:s3_s4
+    from: room:s3
+    to: room:s4
+    kind: open
+  - id: link:s3_s45
+    from: room:s3
+    to: room:s45
+    kind: door
+  - id: link:s40_s41
+    from: room:s40
+    to: room:s41
+    kind: open
+  - id: link:s41_s42
+    from: room:s41
+    to: room:s42
+    kind: open
+  - id: link:s42_s43
+    from: room:s42
+    to: room:s43
+    kind: open
+  - id: link:s44_s46
+    from: room:s44
+    to: room:s46
+    kind: open
+  - id: link:s44_s51
+    from: room:s44
+    to: room:s51
+    kind: door
+  - id: link:s45_s51
+    from: room:s45
+    to: room:s51
+    kind: door
+  - id: link:s46_s47
+    from: room:s46
+    to: room:s47
+    kind: open
+  - id: link:s47_s50
+    from: room:s47
+    to: room:s50
+    kind: open
+  - id: link:s48_s49
+    from: room:s48
+    to: room:s49
+    kind: open
+  - id: link:s49_s50
+    from: room:s49
+    to: room:s50
+    kind: open
+  - id: link:s4_s52
+    from: room:s4
+    to: room:s52
+    kind: door
+  - id: link:s4_s53
+    from: room:s4
+    to: room:s53
+    kind: door
+  - id: link:s54_s55
+    from: room:s54
+    to: room:s55
+    kind: open
+  - id: link:s55_s56
+    from: room:s55
+    to: room:s56
+    kind: open
+  - id: link:s5_s6
+    from: room:s5
+    to: room:s6
+    kind: open
+  - id: link:s6_s7
+    from: room:s6
+    to: room:s7
+    kind: door
+totals:
+  decorations: 178
+  doors: 38
+  fixed_actors: 0
+  floor_area_millions: 86.64
+  handlers: 55
+  lights: 159
+  links: 48
+  sectors: 45
+  spawn_points: 66
+notes: Derived from 6d01.blv by oymap import. The geometry stays in the base map.

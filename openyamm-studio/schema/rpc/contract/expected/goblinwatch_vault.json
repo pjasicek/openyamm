@@ -1,0 +1,4668 @@
+{
+ "00 open": {
+  "result": {
+   "revision": "181a419db7b6ba012e0b1af125dbcd41",
+   "lock_hash": "e37f4a882a091abfb2c5849bc3f16035",
+   "files": {
+    "project.yml": {
+     "tree": {
+      "format": 0,
+      "id": "vaultrewire",
+      "world": "mm6",
+      "kind": "indoor",
+      "profile": "dungeon",
+      "base": "6d01.blv",
+      "neighbours": [
+       {
+        "id": "exit:oute3",
+        "to": "oute3.odm",
+        "kind": "door"
+       }
+      ]
+     }
+    },
+    "plan.yml": {
+     "tree": {
+      "format": 0,
+      "level": "L1",
+      "spaces": [
+       {
+        "id": "room:s1",
+        "kind": "room",
+        "size": "M",
+        "area": 0.73,
+        "floor": [
+         0,
+         192
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s2",
+        "kind": "room",
+        "size": "S",
+        "area": 0.26,
+        "floor": 0,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s20",
+        "kind": "room",
+        "size": "M",
+        "area": 0.52,
+        "floor": [
+         -256,
+         0
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s21",
+        "kind": "room",
+        "size": "M",
+        "area": 0.79,
+        "floor": [
+         -768,
+         -256
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s22",
+        "kind": "room",
+        "size": "M",
+        "area": 0.72,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s23",
+        "kind": "room",
+        "size": "M",
+        "area": 0.76,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s24",
+        "kind": "room",
+        "size": "M",
+        "area": 0.79,
+        "floor": [
+         -768,
+         -656
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s25",
+        "kind": "room",
+        "size": "M",
+        "area": 0.76,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s26",
+        "kind": "room",
+        "size": "M",
+        "area": 0.79,
+        "floor": [
+         -768,
+         -656
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s27",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.64,
+        "floor": [
+         -968,
+         -784
+        ],
+        "clear_height": 346
+       },
+       {
+        "id": "room:s28",
+        "kind": "room",
+        "size": "M",
+        "area": 1.13,
+        "floor": [
+         -968,
+         -748
+        ],
+        "clear_height": 510
+       },
+       {
+        "id": "room:s29",
+        "kind": "room",
+        "size": "M",
+        "area": 1.48,
+        "floor": [
+         -868,
+         -698
+        ],
+        "clear_height": 542
+       },
+       {
+        "id": "room:s3",
+        "kind": "room",
+        "size": "S",
+        "area": 0.5,
+        "floor": 0,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s30",
+        "kind": "room",
+        "size": "M",
+        "area": 1.09,
+        "floor": [
+         -868,
+         -584
+        ],
+        "clear_height": 414
+       },
+       {
+        "id": "room:s31",
+        "kind": "room",
+        "size": "XL",
+        "area": 8.17,
+        "floor": [
+         -832,
+         -524
+        ],
+        "clear_height": 530
+       },
+       {
+        "id": "room:s32",
+        "kind": "room",
+        "size": "L",
+        "area": 2,
+        "floor": [
+         -832,
+         -492
+        ],
+        "clear_height": 530
+       },
+       {
+        "id": "room:s33",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.17,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s34",
+        "kind": "room",
+        "size": "L",
+        "area": 2.08,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s35",
+        "kind": "room",
+        "size": "XL",
+        "area": 9.04,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s36",
+        "kind": "room",
+        "size": "S",
+        "area": 0.41,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s37",
+        "kind": "room",
+        "size": "S",
+        "area": 0.46,
+        "floor": -768,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s38",
+        "kind": "room",
+        "size": "XL",
+        "area": 7.68,
+        "floor": [
+         -832,
+         -460
+        ],
+        "clear_height": 1042
+       },
+       {
+        "id": "room:s39",
+        "kind": "room",
+        "size": "L",
+        "area": 2,
+        "floor": [
+         -832,
+         -492
+        ],
+        "clear_height": 530
+       },
+       {
+        "id": "room:s4",
+        "kind": "room",
+        "size": "L",
+        "area": 2.02,
+        "floor": [
+         0,
+         510
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s40",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.17,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s41",
+        "kind": "room",
+        "size": "L",
+        "area": 2.08,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s42",
+        "kind": "room",
+        "size": "XL",
+        "area": 4.63,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s43",
+        "kind": "room",
+        "size": "XL",
+        "area": 4.25,
+        "floor": [
+         -768,
+         -588
+        ],
+        "clear_height": 466
+       },
+       {
+        "id": "room:s44",
+        "kind": "room",
+        "size": "XL",
+        "area": 6.89,
+        "floor": [
+         128,
+         436
+        ],
+        "clear_height": 978
+       },
+       {
+        "id": "room:s45",
+        "kind": "room",
+        "size": "L",
+        "area": 1.79,
+        "floor": [
+         0,
+         128
+        ],
+        "clear_height": 394
+       },
+       {
+        "id": "room:s46",
+        "kind": "room",
+        "size": "XS",
+        "area": 0.07,
+        "floor": -768,
+        "clear_height": 906
+       },
+       {
+        "id": "room:s47",
+        "kind": "room",
+        "size": "M",
+        "area": 1.03,
+        "floor": [
+         -1280,
+         -768
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s48",
+        "kind": "room",
+        "size": "M",
+        "area": 1.21,
+        "floor": [
+         -768,
+         -256
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s49",
+        "kind": "room",
+        "size": "M",
+        "area": 1.22,
+        "floor": [
+         -1280,
+         -768
+        ],
+        "clear_height": 778
+       },
+       {
+        "id": "room:s5",
+        "kind": "room",
+        "size": "S",
+        "area": 0.29,
+        "floor": [
+         -256,
+         0
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s50",
+        "kind": "room",
+        "size": "XL",
+        "area": 3.67,
+        "floor": [
+         -1280,
+         -1216
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s51",
+        "kind": "room",
+        "size": "L",
+        "area": 1.64,
+        "floor": [
+         128,
+         319
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s52",
+        "kind": "room",
+        "size": "S",
+        "area": 0.36,
+        "floor": [
+         0,
+         96
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s53",
+        "kind": "room",
+        "size": "S",
+        "area": 0.36,
+        "floor": 0,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s54",
+        "kind": "room",
+        "size": "S",
+        "area": 0.25,
+        "floor": -968,
+        "clear_height": 266
+       },
+       {
+        "id": "room:s55",
+        "kind": "room",
+        "size": "S",
+        "area": 0.29,
+        "floor": [
+         -968,
+         -776
+        ],
+        "clear_height": 474
+       },
+       {
+        "id": "room:s56",
+        "kind": "room",
+        "size": "S",
+        "area": 0.31,
+        "floor": [
+         -760,
+         -632
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s57",
+        "kind": "room",
+        "size": "XS",
+        "area": 0.15,
+        "floor": [
+         -768,
+         -640
+        ],
+        "clear_height": 266
+       },
+       {
+        "id": "room:s6",
+        "kind": "room",
+        "size": "S",
+        "area": 0.45,
+        "floor": [
+         -512,
+         -256
+        ],
+        "clear_height": 522
+       },
+       {
+        "id": "room:s7",
+        "kind": "room",
+        "size": "L",
+        "area": 1.57,
+        "floor": -512,
+        "clear_height": 266
+       }
+      ],
+      "links": [
+       {
+        "id": "link:s1_s2",
+        "from": "room:s1",
+        "to": "room:s2",
+        "kind": "door"
+       },
+       {
+        "id": "link:s1_s20",
+        "from": "room:s1",
+        "to": "room:s20",
+        "kind": "door"
+       },
+       {
+        "id": "link:s1_s5",
+        "from": "room:s1",
+        "to": "room:s5",
+        "kind": "door"
+       },
+       {
+        "id": "link:s20_s21",
+        "from": "room:s20",
+        "to": "room:s21",
+        "kind": "open"
+       },
+       {
+        "id": "link:s21_s22",
+        "from": "room:s21",
+        "to": "room:s22",
+        "kind": "open"
+       },
+       {
+        "id": "link:s21_s48",
+        "from": "room:s21",
+        "to": "room:s48",
+        "kind": "door"
+       },
+       {
+        "id": "link:s22_s23",
+        "from": "room:s22",
+        "to": "room:s23",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s24",
+        "from": "room:s22",
+        "to": "room:s24",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s25",
+        "from": "room:s22",
+        "to": "room:s25",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s26",
+        "from": "room:s22",
+        "to": "room:s26",
+        "kind": "open"
+       },
+       {
+        "id": "link:s22_s36",
+        "from": "room:s22",
+        "to": "room:s36",
+        "kind": "open"
+       },
+       {
+        "id": "link:s23_s24",
+        "from": "room:s23",
+        "to": "room:s24",
+        "kind": "open"
+       },
+       {
+        "id": "link:s25_s26",
+        "from": "room:s25",
+        "to": "room:s26",
+        "kind": "open"
+       },
+       {
+        "id": "link:s27_s28",
+        "from": "room:s27",
+        "to": "room:s28",
+        "kind": "open"
+       },
+       {
+        "id": "link:s27_s54",
+        "from": "room:s27",
+        "to": "room:s54",
+        "kind": "open"
+       },
+       {
+        "id": "link:s28_s29",
+        "from": "room:s28",
+        "to": "room:s29",
+        "kind": "open"
+       },
+       {
+        "id": "link:s29_s30",
+        "from": "room:s29",
+        "to": "room:s30",
+        "kind": "open"
+       },
+       {
+        "id": "link:s29_s31",
+        "from": "room:s29",
+        "to": "room:s31",
+        "kind": "open"
+       },
+       {
+        "id": "link:s2_s3",
+        "from": "room:s2",
+        "to": "room:s3",
+        "kind": "open"
+       },
+       {
+        "id": "link:s30_s31",
+        "from": "room:s30",
+        "to": "room:s31",
+        "kind": "open"
+       },
+       {
+        "id": "link:s31_s32",
+        "from": "room:s31",
+        "to": "room:s32",
+        "kind": "open"
+       },
+       {
+        "id": "link:s32_s33",
+        "from": "room:s32",
+        "to": "room:s33",
+        "kind": "open"
+       },
+       {
+        "id": "link:s33_s34",
+        "from": "room:s33",
+        "to": "room:s34",
+        "kind": "open"
+       },
+       {
+        "id": "link:s34_s35",
+        "from": "room:s34",
+        "to": "room:s35",
+        "kind": "open"
+       },
+       {
+        "id": "link:s35_s37",
+        "from": "room:s35",
+        "to": "room:s37",
+        "kind": "open"
+       },
+       {
+        "id": "link:s36_s37",
+        "from": "room:s36",
+        "to": "room:s37",
+        "kind": "open"
+       },
+       {
+        "id": "link:s36_s43",
+        "from": "room:s36",
+        "to": "room:s43",
+        "kind": "open"
+       },
+       {
+        "id": "link:s38_s39",
+        "from": "room:s38",
+        "to": "room:s39",
+        "kind": "open"
+       },
+       {
+        "id": "link:s38_s57",
+        "from": "room:s38",
+        "to": "room:s57",
+        "kind": "open"
+       },
+       {
+        "id": "link:s39_s40",
+        "from": "room:s39",
+        "to": "room:s40",
+        "kind": "open"
+       },
+       {
+        "id": "link:s3_s4",
+        "from": "room:s3",
+        "to": "room:s4",
+        "kind": "open"
+       },
+       {
+        "id": "link:s3_s45",
+        "from": "room:s3",
+        "to": "room:s45",
+        "kind": "door"
+       },
+       {
+        "id": "link:s40_s41",
+        "from": "room:s40",
+        "to": "room:s41",
+        "kind": "open"
+       },
+       {
+        "id": "link:s41_s42",
+        "from": "room:s41",
+        "to": "room:s42",
+        "kind": "open"
+       },
+       {
+        "id": "link:s42_s43",
+        "from": "room:s42",
+        "to": "room:s43",
+        "kind": "open"
+       },
+       {
+        "id": "link:s44_s46",
+        "from": "room:s44",
+        "to": "room:s46",
+        "kind": "open"
+       },
+       {
+        "id": "link:s44_s51",
+        "from": "room:s44",
+        "to": "room:s51",
+        "kind": "door"
+       },
+       {
+        "id": "link:s45_s51",
+        "from": "room:s45",
+        "to": "room:s51",
+        "kind": "door"
+       },
+       {
+        "id": "link:s46_s47",
+        "from": "room:s46",
+        "to": "room:s47",
+        "kind": "open"
+       },
+       {
+        "id": "link:s47_s50",
+        "from": "room:s47",
+        "to": "room:s50",
+        "kind": "open"
+       },
+       {
+        "id": "link:s48_s49",
+        "from": "room:s48",
+        "to": "room:s49",
+        "kind": "open"
+       },
+       {
+        "id": "link:s49_s50",
+        "from": "room:s49",
+        "to": "room:s50",
+        "kind": "open"
+       },
+       {
+        "id": "link:s4_s52",
+        "from": "room:s4",
+        "to": "room:s52",
+        "kind": "door"
+       },
+       {
+        "id": "link:s4_s53",
+        "from": "room:s4",
+        "to": "room:s53",
+        "kind": "door"
+       },
+       {
+        "id": "link:s54_s55",
+        "from": "room:s54",
+        "to": "room:s55",
+        "kind": "open"
+       },
+       {
+        "id": "link:s55_s56",
+        "from": "room:s55",
+        "to": "room:s56",
+        "kind": "open"
+       },
+       {
+        "id": "link:s5_s6",
+        "from": "room:s5",
+        "to": "room:s6",
+        "kind": "open"
+       },
+       {
+        "id": "link:s6_s7",
+        "from": "room:s6",
+        "to": "room:s7",
+        "kind": "door"
+       }
+      ],
+      "totals": {
+       "decorations": 178,
+       "doors": 38,
+       "fixed_actors": 0,
+       "floor_area_millions": 86.64,
+       "handlers": 55,
+       "lights": 159,
+       "links": 48,
+       "sectors": 45,
+       "spawn_points": 66
+      },
+      "notes": "Derived from 6d01.blv by oymap import. The geometry stays in the base map."
+     }
+    },
+    "wiring.yml": {
+     "tree": {
+      "format": 0,
+      "events": [
+       {
+        "id": "evt:key_a",
+        "preset": "script",
+        "replaces": "evt:e19",
+        "title": "A",
+        "lua": "evt.CastSpell(6, 3, 1, 2496, 4864, 360, 0, 0, 0)",
+        "notes": "Key A is the trap: a Fireball at the vault door."
+       },
+       {
+        "id": "evt:key_b",
+        "preset": "switch",
+        "replaces": "evt:e20",
+        "title": "B",
+        "condition": {
+         "not": {
+          "map_var": 2
+         }
+        },
+        "texture": {
+         "cog": -2011,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d57",
+         "door:d58"
+        ],
+        "closes": [
+         "door:d55",
+         "door:d56"
+        ],
+        "sets": {
+         "map_var": 2
+        }
+       },
+       {
+        "id": "evt:key_c",
+        "preset": "switch",
+        "replaces": "evt:e21",
+        "title": "C",
+        "condition": {
+         "not": {
+          "map_var": 3
+         }
+        },
+        "texture": {
+         "cog": -2012,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d55",
+         "door:d56"
+        ],
+        "closes": [
+         "door:d57",
+         "door:d58"
+        ],
+        "sets": {
+         "map_var": 3
+        }
+       },
+       {
+        "id": "evt:key_d",
+        "preset": "switch",
+        "replaces": "evt:e22",
+        "title": "D",
+        "condition": {
+         "not": {
+          "map_var": 4
+         }
+        },
+        "texture": {
+         "cog": -2013,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d57",
+         "door:d58"
+        ],
+        "closes": [
+         "door:d40",
+         "door:d52",
+         "door:d51"
+        ],
+        "sets": {
+         "map_var": 4
+        }
+       },
+       {
+        "id": "evt:key_e",
+        "preset": "switch",
+        "replaces": "evt:e23",
+        "title": "E",
+        "condition": {
+         "not": {
+          "map_var": 5
+         }
+        },
+        "texture": {
+         "cog": -2009,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d40",
+         "door:d52",
+         "door:d51"
+        ],
+        "closes": [
+         "door:d57",
+         "door:d58"
+        ],
+        "sets": {
+         "map_var": 5
+        }
+       },
+       {
+        "id": "evt:key_f",
+        "preset": "switch",
+        "replaces": "evt:e24",
+        "title": "F",
+        "condition": {
+         "not": {
+          "map_var": 6
+         }
+        },
+        "texture": {
+         "cog": -2008,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d55",
+         "door:d56"
+        ],
+        "closes": [
+         "door:d36",
+         "door:d47",
+         "door:d48"
+        ],
+        "sets": {
+         "map_var": 6
+        }
+       },
+       {
+        "id": "evt:key_g",
+        "preset": "switch",
+        "replaces": "evt:e25",
+        "title": "G",
+        "condition": {
+         "not": {
+          "map_var": 7
+         }
+        },
+        "texture": {
+         "cog": -2007,
+         "name": "t1swdu"
+        },
+        "closes": [
+         "door:d59",
+         "door:d60"
+        ],
+        "sets": {
+         "map_var": 7
+        }
+       },
+       {
+        "id": "evt:key_h",
+        "preset": "switch",
+        "replaces": "evt:e26",
+        "title": "H",
+        "condition": {
+         "not": {
+          "map_var": 8
+         }
+        },
+        "texture": {
+         "cog": -2006,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d36",
+         "door:d47",
+         "door:d48"
+        ],
+        "closes": [
+         "door:d38",
+         "door:d44"
+        ],
+        "sets": {
+         "map_var": 8
+        }
+       },
+       {
+        "id": "evt:key_i",
+        "preset": "switch",
+        "replaces": "evt:e27",
+        "title": "I",
+        "condition": {
+         "not": {
+          "map_var": 9
+         }
+        },
+        "texture": {
+         "cog": -2002,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d38",
+         "door:d44"
+        ],
+        "closes": [
+         "door:d36",
+         "door:d47",
+         "door:d48"
+        ],
+        "sets": {
+         "map_var": 9
+        }
+       },
+       {
+        "id": "evt:key_j",
+        "preset": "switch",
+        "replaces": "evt:e28",
+        "title": "J",
+        "condition": {
+         "not": {
+          "map_var": 10
+         }
+        },
+        "texture": {
+         "cog": -2003,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d40",
+         "door:d52",
+         "door:d51"
+        ],
+        "closes": [
+         "door:d36",
+         "door:d47",
+         "door:d48"
+        ],
+        "sets": {
+         "map_var": 10
+        }
+       },
+       {
+        "id": "evt:key_k",
+        "preset": "switch",
+        "replaces": "evt:e29",
+        "title": "K",
+        "condition": {
+         "not": {
+          "map_var": 11
+         }
+        },
+        "texture": {
+         "cog": -2004,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d57",
+         "door:d58"
+        ],
+        "closes": [
+         "door:d59",
+         "door:d60"
+        ],
+        "sets": {
+         "map_var": 11
+        }
+       },
+       {
+        "id": "evt:key_l",
+        "preset": "switch",
+        "replaces": "evt:e30",
+        "title": "L",
+        "condition": {
+         "not": {
+          "map_var": 12
+         }
+        },
+        "texture": {
+         "cog": -2005,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d55",
+         "door:d56"
+        ],
+        "closes": [
+         "door:d38",
+         "door:d44"
+        ],
+        "sets": {
+         "map_var": 12
+        }
+       },
+       {
+        "id": "evt:key_m",
+        "preset": "teleport",
+        "replaces": "evt:e31",
+        "title": "M",
+        "to": [
+         9000,
+         1916,
+         -767
+        ],
+        "direction": 22.5
+       },
+       {
+        "id": "evt:key_n",
+        "preset": "switch",
+        "replaces": "evt:e32",
+        "title": "N",
+        "condition": {
+         "not": {
+          "map_var": 13
+         }
+        },
+        "texture": {
+         "cog": -2000,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d36",
+         "door:d47",
+         "door:d48"
+        ],
+        "closes": [
+         "door:d40",
+         "door:d51",
+         "door:d52"
+        ],
+        "sets": {
+         "map_var": 13
+        }
+       },
+       {
+        "id": "evt:key_o",
+        "preset": "switch",
+        "replaces": "evt:e33",
+        "title": "O",
+        "condition": {
+         "not": {
+          "map_var": 14
+         }
+        },
+        "texture": {
+         "cog": -1999,
+         "name": "t1swdu"
+        },
+        "opens": [
+         "door:d59",
+         "door:d60"
+        ],
+        "closes": [
+         "door:d57",
+         "door:d58"
+        ],
+        "sets": {
+         "map_var": 14
+        }
+       },
+       {
+        "id": "evt:key_p",
+        "preset": "script",
+        "replaces": "evt:e34",
+        "title": "P",
+        "lua": "SetValue(MapVar(2), 0)\nSetValue(MapVar(3), 0)\nSetValue(MapVar(4), 0)\nSetValue(MapVar(5), 0)\nSetValue(MapVar(6), 0)\nSetValue(MapVar(7), 0)\nSetValue(MapVar(8), 0)\nSetValue(MapVar(9), 0)\nSetValue(MapVar(10), 0)\nSetValue(MapVar(11), 0)\nSetValue(MapVar(12), 0)\nSetValue(MapVar(13), 0)\nSetValue(MapVar(14), 0)\nevt.SetTexture(-2011, \"t1swdd\")\nevt.SetTexture(-2012, \"t1swdd\")\nevt.SetTexture(-2013, \"t1swdd\")\nevt.SetTexture(-2009, \"t1swdd\")\nevt.SetTexture(-2008, \"t1swdd\")\nevt.SetTexture(-2007, \"t1swdd\")\nevt.SetTexture(-2006, \"t1swdd\")\nevt.SetTexture(-2002, \"t1swdd\")\nevt.SetTexture(-2003, \"t1swdd\")\nevt.SetTexture(-2004, \"t1swdd\")\nevt.SetTexture(-2005, \"t1swdd\")\nevt.SetTexture(-2000, \"t1swdd\")\nevt.SetTexture(-1999, \"t1swdd\")\nevt.SetDoorState(40, DoorAction.Open)\nevt.SetDoorState(51, DoorAction.Open)\nevt.SetDoorState(52, DoorAction.Open)\nevt.SetDoorState(36, DoorAction.Open)\nevt.SetDoorState(47, DoorAction.Open)\nevt.SetDoorState(48, DoorAction.Open)\nevt.SetDoorState(38, DoorAction.Open)\nevt.SetDoorState(44, DoorAction.Open)\nevt.SetDoorState(55, DoorAction.Open)\nevt.SetDoorState(56, DoorAction.Open)\nevt.SetDoorState(57, DoorAction.Open)\nevt.SetDoorState(58, DoorAction.Open)\nevt.SetDoorState(59, DoorAction.Open)\nevt.SetDoorState(60, DoorAction.Open)",
+        "notes": "The reset key: every key works again and every vault door returns."
+       }
+      ]
+     }
+    },
+    "ids.lock.yml": {
+     "tree": {
+      "format": 0,
+      "sectors": {
+       "room:s1": 1,
+       "room:s2": 2,
+       "room:s20": 20,
+       "room:s21": 21,
+       "room:s22": 22,
+       "room:s23": 23,
+       "room:s24": 24,
+       "room:s25": 25,
+       "room:s26": 26,
+       "room:s27": 27,
+       "room:s28": 28,
+       "room:s29": 29,
+       "room:s3": 3,
+       "room:s30": 30,
+       "room:s31": 31,
+       "room:s32": 32,
+       "room:s33": 33,
+       "room:s34": 34,
+       "room:s35": 35,
+       "room:s36": 36,
+       "room:s37": 37,
+       "room:s38": 38,
+       "room:s39": 39,
+       "room:s4": 4,
+       "room:s40": 40,
+       "room:s41": 41,
+       "room:s42": 42,
+       "room:s43": 43,
+       "room:s44": 44,
+       "room:s45": 45,
+       "room:s46": 46,
+       "room:s47": 47,
+       "room:s48": 48,
+       "room:s49": 49,
+       "room:s5": 5,
+       "room:s50": 50,
+       "room:s51": 51,
+       "room:s52": 52,
+       "room:s53": 53,
+       "room:s54": 54,
+       "room:s55": 55,
+       "room:s56": 56,
+       "room:s57": 57,
+       "room:s6": 6,
+       "room:s7": 7
+      },
+      "events": {
+       "evt:e1": 1,
+       "evt:e10": 10,
+       "evt:e11": 11,
+       "evt:e12": 12,
+       "evt:e13": 13,
+       "evt:e14": 14,
+       "evt:e15": 15,
+       "evt:e16": 16,
+       "evt:e17": 17,
+       "evt:e18": 18,
+       "evt:e19": 19,
+       "evt:e2": 2,
+       "evt:e20": 20,
+       "evt:e21": 21,
+       "evt:e22": 22,
+       "evt:e23": 23,
+       "evt:e24": 24,
+       "evt:e25": 25,
+       "evt:e26": 26,
+       "evt:e27": 27,
+       "evt:e28": 28,
+       "evt:e29": 29,
+       "evt:e3": 3,
+       "evt:e30": 30,
+       "evt:e31": 31,
+       "evt:e32": 32,
+       "evt:e33": 33,
+       "evt:e34": 34,
+       "evt:e4": 4,
+       "evt:e41": 41,
+       "evt:e42": 42,
+       "evt:e43": 43,
+       "evt:e44": 44,
+       "evt:e45": 45,
+       "evt:e46": 46,
+       "evt:e47": 47,
+       "evt:e48": 48,
+       "evt:e49": 49,
+       "evt:e5": 5,
+       "evt:e50": 50,
+       "evt:e51": 51,
+       "evt:e55": 55,
+       "evt:e6": 6,
+       "evt:e60": 60,
+       "evt:e61": 61,
+       "evt:e62": 62,
+       "evt:e63": 63,
+       "evt:e64": 64,
+       "evt:e65": 65,
+       "evt:e65000": 65000,
+       "evt:e65001": 65001,
+       "evt:e66": 66,
+       "evt:e7": 7,
+       "evt:e8": 8,
+       "evt:e9": 9
+      },
+      "doors": {
+       "door:d1": 1,
+       "door:d10": 10,
+       "door:d11": 11,
+       "door:d12": 12,
+       "door:d13": 13,
+       "door:d14": 14,
+       "door:d15": 15,
+       "door:d16": 16,
+       "door:d17": 17,
+       "door:d18": 18,
+       "door:d2": 2,
+       "door:d23": 23,
+       "door:d3": 3,
+       "door:d30": 30,
+       "door:d31": 31,
+       "door:d32": 32,
+       "door:d36": 36,
+       "door:d38": 38,
+       "door:d4": 4,
+       "door:d40": 40,
+       "door:d44": 44,
+       "door:d45": 45,
+       "door:d46": 46,
+       "door:d47": 47,
+       "door:d48": 48,
+       "door:d5": 5,
+       "door:d51": 51,
+       "door:d52": 52,
+       "door:d55": 55,
+       "door:d56": 56,
+       "door:d57": 57,
+       "door:d58": 58,
+       "door:d59": 59,
+       "door:d6": 6,
+       "door:d60": 60,
+       "door:d7": 7,
+       "door:d8": 8,
+       "door:d9": 9
+      }
+     }
+    }
+   },
+   "ids": [
+    {
+     "id": "exit:oute3",
+     "file": "project.yml",
+     "list": "neighbours"
+    },
+    {
+     "id": "room:s1",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s2",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s20",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s21",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s22",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s23",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s24",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s25",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s26",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s27",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s28",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s29",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s3",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s30",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s31",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s32",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s33",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s34",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s35",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s36",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s37",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s38",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s39",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s4",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s40",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s41",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s42",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s43",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s44",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s45",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s46",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s47",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s48",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s49",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s5",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s50",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s51",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s52",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s53",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s54",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s55",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s56",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s57",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s6",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "room:s7",
+     "file": "plan.yml",
+     "list": "spaces"
+    },
+    {
+     "id": "link:s1_s2",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s1_s20",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s1_s5",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s20_s21",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s21_s22",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s21_s48",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s23",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s24",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s25",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s26",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s22_s36",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s23_s24",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s25_s26",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s27_s28",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s27_s54",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s28_s29",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s29_s30",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s29_s31",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s2_s3",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s30_s31",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s31_s32",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s32_s33",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s33_s34",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s34_s35",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s35_s37",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s36_s37",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s36_s43",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s38_s39",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s38_s57",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s39_s40",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s3_s4",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s3_s45",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s40_s41",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s41_s42",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s42_s43",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s44_s46",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s44_s51",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s45_s51",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s46_s47",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s47_s50",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s48_s49",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s49_s50",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s4_s52",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s4_s53",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s54_s55",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s55_s56",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s5_s6",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "link:s6_s7",
+     "file": "plan.yml",
+     "list": "links"
+    },
+    {
+     "id": "evt:key_a",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_b",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_c",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_d",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_e",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_f",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_g",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_h",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_i",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_j",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_k",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_l",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_m",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_n",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_o",
+     "file": "wiring.yml",
+     "list": "events"
+    },
+    {
+     "id": "evt:key_p",
+     "file": "wiring.yml",
+     "list": "events"
+    }
+   ],
+   "issues": [],
+   "keys": []
+  }
+ },
+ "01 validate": {
+  "result": {
+   "ok": true,
+   "with_assets": true,
+   "issues": [],
+   "notes": []
+  }
+ },
+ "02 build, dry run": {
+  "result": {
+   "map": "6d01.blv",
+   "kind": "overlay",
+   "counts": {
+    "replaced_events": 16
+   },
+   "files": [],
+   "warnings": [],
+   "ids_lock_changed": false
+  }
+ },
+ "03 things": {
+  "result": {
+   "map": "6d01.blv",
+   "world": "mm6",
+   "things": [
+    {
+     "event": 1,
+     "title": "Door",
+     "kind": "door",
+     "sector": 2,
+     "textures": {
+      "T1spclA": 2,
+      "T1trimA": 1
+     },
+     "faces": [
+      5,
+      1441,
+      1444
+     ],
+     "own_doors": [
+      1
+     ],
+     "low": [
+      448,
+      5984,
+      6
+     ],
+     "high": [
+      704,
+      6016,
+      256
+     ],
+     "middle": [
+      576,
+      6000,
+      131
+     ],
+     "stand": [
+      739,
+      6163,
+      0
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.1251,
+     "safe_to_use": true,
+     "effects": [
+      "door 1 close"
+     ],
+     "changes": [
+      "door 1 close (door 1): 11 faces (T1spclA 2, T1trimA 3, T1wl1ctL 2, T1wl2LEb 1, T1wl2REb 1, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 2,
+     "title": "Door",
+     "kind": "door",
+     "sector": 1,
+     "textures": {
+      "t1d2": 1
+     },
+     "faces": [
+      1432
+     ],
+     "own_doors": [
+      2
+     ],
+     "low": [
+      -320,
+      6272,
+      0
+     ],
+     "high": [
+      -65,
+      6272,
+      256
+     ],
+     "middle": [
+      -193,
+      6272,
+      128
+     ],
+     "stand": [
+      -193,
+      6502,
+      0
+     ],
+     "yaw": -1.5686,
+     "pitch": -0.1382,
+     "safe_to_use": true,
+     "effects": [
+      "door 2 close"
+     ],
+     "changes": [
+      "door 2 close (door 2): 11 faces (OFlr 2, T1trimA 2, T3C2 1, pending 2, t1c3 1, t1d1 1, t1d2 1, t1f3 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 3,
+     "title": "Door",
+     "kind": "door",
+     "sector": 7,
+     "textures": {
+      "T1spclA": 1,
+      "T1trimA": 1,
+      "d6DorA": 1
+     },
+     "faces": [
+      1435,
+      1436,
+      1437
+     ],
+     "own_doors": [
+      3
+     ],
+     "low": [
+      -1600,
+      5632,
+      -512
+     ],
+     "high": [
+      -1568,
+      5887,
+      -256
+     ],
+     "middle": [
+      -1584,
+      5760,
+      -384
+     ],
+     "stand": [
+      -1355,
+      5760,
+      -512
+     ],
+     "yaw": -3.1394,
+     "pitch": -0.1388,
+     "safe_to_use": true,
+     "effects": [
+      "door 3 close"
+     ],
+     "changes": [
+      "door 3 close (door 3): 10 faces (OFlr 1, OrErtLgA 1, T1spclA 1, T1trimA 2, T3C2 1, d6DorA 1, pending 1, t1c3 1, t1f3 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 4,
+     "title": "Door",
+     "kind": "door",
+     "sector": 16,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      241,
+      250,
+      252
+     ],
+     "own_doors": [
+      4
+     ],
+     "low": [
+      -2128,
+      6912,
+      -447
+     ],
+     "high": [
+      -2112,
+      7040,
+      -320
+     ],
+     "middle": [
+      -2120,
+      6976,
+      -384
+     ],
+     "stand": [
+      -1944,
+      6976,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1771,
+     "safe_to_use": true,
+     "effects": [
+      "door 4 close"
+     ],
+     "changes": [
+      "door 4 close (door 4): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 5,
+     "title": "Door",
+     "kind": "door",
+     "sector": 15,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      240,
+      249,
+      254
+     ],
+     "own_doors": [
+      5
+     ],
+     "low": [
+      -2128,
+      6528,
+      -447
+     ],
+     "high": [
+      -2112,
+      6656,
+      -320
+     ],
+     "middle": [
+      -2120,
+      6592,
+      -384
+     ],
+     "stand": [
+      -1944,
+      6592,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1771,
+     "safe_to_use": true,
+     "effects": [
+      "door 5 close"
+     ],
+     "changes": [
+      "door 5 close (door 5): 12 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 3)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 6,
+     "title": "Door",
+     "kind": "door",
+     "sector": 14,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      239,
+      248,
+      256
+     ],
+     "own_doors": [
+      6
+     ],
+     "low": [
+      -2128,
+      6144,
+      -447
+     ],
+     "high": [
+      -2112,
+      6272,
+      -320
+     ],
+     "middle": [
+      -2120,
+      6208,
+      -384
+     ],
+     "stand": [
+      -1944,
+      6208,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1771,
+     "safe_to_use": true,
+     "effects": [
+      "door 6 close"
+     ],
+     "changes": [
+      "door 6 close (door 6): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 7,
+     "title": "Door",
+     "kind": "door",
+     "sector": 11,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      201,
+      210,
+      218
+     ],
+     "own_doors": [
+      7
+     ],
+     "low": [
+      -2128,
+      5248,
+      -447
+     ],
+     "high": [
+      -2112,
+      5376,
+      -320
+     ],
+     "middle": [
+      -2120,
+      5312,
+      -384
+     ],
+     "stand": [
+      -1944,
+      5312,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1771,
+     "safe_to_use": true,
+     "effects": [
+      "door 7 close"
+     ],
+     "changes": [
+      "door 7 close (door 7): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 8,
+     "title": "Door",
+     "kind": "door",
+     "sector": 12,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      202,
+      211,
+      216
+     ],
+     "own_doors": [
+      8
+     ],
+     "low": [
+      -2128,
+      4864,
+      -447
+     ],
+     "high": [
+      -2112,
+      4992,
+      -320
+     ],
+     "middle": [
+      -2120,
+      4928,
+      -384
+     ],
+     "stand": [
+      -1944,
+      4928,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1771,
+     "safe_to_use": true,
+     "effects": [
+      "door 8 close"
+     ],
+     "changes": [
+      "door 8 close (door 8): 12 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 3)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 9,
+     "title": "Door",
+     "kind": "door",
+     "sector": 13,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      203,
+      212,
+      214
+     ],
+     "own_doors": [
+      9
+     ],
+     "low": [
+      -2128,
+      4480,
+      -447
+     ],
+     "high": [
+      -2112,
+      4608,
+      -320
+     ],
+     "middle": [
+      -2120,
+      4544,
+      -384
+     ],
+     "stand": [
+      -1944,
+      4544,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1771,
+     "safe_to_use": true,
+     "effects": [
+      "door 9 close"
+     ],
+     "changes": [
+      "door 9 close (door 9): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 10,
+     "title": "Door",
+     "kind": "door",
+     "sector": 10,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      167,
+      176,
+      178
+     ],
+     "own_doors": [
+      10
+     ],
+     "low": [
+      -1600,
+      4480,
+      -447
+     ],
+     "high": [
+      -1584,
+      4608,
+      -320
+     ],
+     "middle": [
+      -1592,
+      4544,
+      -384
+     ],
+     "stand": [
+      -1716,
+      4668,
+      -512
+     ],
+     "yaw": -0.7854,
+     "pitch": -0.1777,
+     "safe_to_use": true,
+     "effects": [
+      "door 10 close"
+     ],
+     "changes": [
+      "door 10 close (door 10): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 11,
+     "title": "Door",
+     "kind": "door",
+     "sector": 9,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      166,
+      175,
+      180
+     ],
+     "own_doors": [
+      11
+     ],
+     "low": [
+      -1600,
+      4864,
+      -447
+     ],
+     "high": [
+      -1584,
+      4992,
+      -320
+     ],
+     "middle": [
+      -1592,
+      4928,
+      -384
+     ],
+     "stand": [
+      -1716,
+      5052,
+      -512
+     ],
+     "yaw": -0.7854,
+     "pitch": -0.1777,
+     "safe_to_use": true,
+     "effects": [
+      "door 11 close"
+     ],
+     "changes": [
+      "door 11 close (door 11): 12 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 3)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 12,
+     "title": "Door",
+     "kind": "door",
+     "sector": 8,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      165,
+      174,
+      182
+     ],
+     "own_doors": [
+      12
+     ],
+     "low": [
+      -1600,
+      5248,
+      -447
+     ],
+     "high": [
+      -1584,
+      5376,
+      -320
+     ],
+     "middle": [
+      -1592,
+      5312,
+      -384
+     ],
+     "stand": [
+      -1716,
+      5436,
+      -512
+     ],
+     "yaw": -0.7854,
+     "pitch": -0.1777,
+     "safe_to_use": true,
+     "effects": [
+      "door 12 close"
+     ],
+     "changes": [
+      "door 12 close (door 12): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 13,
+     "title": "Door",
+     "kind": "door",
+     "sector": 17,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      277,
+      286,
+      294
+     ],
+     "own_doors": [
+      13
+     ],
+     "low": [
+      -1600,
+      6144,
+      -447
+     ],
+     "high": [
+      -1584,
+      6272,
+      -320
+     ],
+     "middle": [
+      -1592,
+      6208,
+      -384
+     ],
+     "stand": [
+      -1716,
+      6332,
+      -512
+     ],
+     "yaw": -0.7854,
+     "pitch": -0.1777,
+     "safe_to_use": true,
+     "effects": [
+      "door 13 close"
+     ],
+     "changes": [
+      "door 13 close (door 13): 11 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 14,
+     "title": "Door",
+     "kind": "door",
+     "sector": 18,
+     "textures": {
+      "OFlr1L32": 1,
+      "OrCeil": 1,
+      "SWFloor5a": 1
+     },
+     "faces": [
+      278,
+      287,
+      292
+     ],
+     "own_doors": [
+      14
+     ],
+     "low": [
+      -1600,
+      6528,
+      -447
+     ],
+     "high": [
+      -1584,
+      6656,
+      -320
+     ],
+     "middle": [
+      -1592,
+      6592,
+      -384
+     ],
+     "stand": [
+      -1716,
+      6716,
+      -512
+     ],
+     "yaw": -0.7854,
+     "pitch": -0.1777,
+     "safe_to_use": true,
+     "effects": [
+      "door 14 close"
+     ],
+     "changes": [
+      "door 14 close (door 14): 12 faces (Cbfbm16c 2, OFlr1L32 1, OFlrL32 2, OrCeil 1, SWFloor5a 1, d6wlALG 2, pending 3)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 15,
+     "title": "Door",
+     "kind": "door",
+     "sector": 19,
+     "textures": {
+      "OrCeil": 1,
+      "SWFloor5a": 1,
+      "T3T7": 1
+     },
+     "faces": [
+      279,
+      288,
+      290
+     ],
+     "own_doors": [
+      15
+     ],
+     "low": [
+      -1600,
+      6912,
+      -447
+     ],
+     "high": [
+      -1584,
+      7040,
+      -320
+     ],
+     "middle": [
+      -1592,
+      6976,
+      -384
+     ],
+     "stand": [
+      -1716,
+      7100,
+      -512
+     ],
+     "yaw": -0.7854,
+     "pitch": -0.1777,
+     "safe_to_use": true,
+     "effects": [
+      "door 15 close"
+     ],
+     "changes": [
+      "door 15 close (door 15): 11 faces (OFlrL32 2, OrCeil 1, SWFloor5a 1, T3T7 3, d6wlALG 2, pending 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 16,
+     "title": "Door",
+     "kind": "door",
+     "sector": 20,
+     "textures": {
+      "T1trimA": 1,
+      "d6dorD": 1
+     },
+     "faces": [
+      1447,
+      1448
+     ],
+     "own_doors": [
+      16
+     ],
+     "low": [
+      960,
+      6272,
+      1
+     ],
+     "high": [
+      992,
+      6528,
+      256
+     ],
+     "middle": [
+      976,
+      6400,
+      129
+     ],
+     "stand": [
+      1206,
+      6400,
+      0
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1361,
+     "safe_to_use": true,
+     "effects": [
+      "door 16 close"
+     ],
+     "changes": [
+      "door 16 close (door 16): 10 faces (T1trimA 3, T1wl1ctS 2, T1wl2LEb 1, T1wl2REb 1, d6dorD 1, pending 1, t1w11a 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 17,
+     "title": "Door",
+     "kind": "door",
+     "sector": 45,
+     "textures": {
+      "t1d2": 2
+     },
+     "faces": [
+      1976,
+      1977
+     ],
+     "own_doors": [
+      17
+     ],
+     "low": [
+      1136,
+      4736,
+      0
+     ],
+     "high": [
+      1168,
+      4991,
+      256
+     ],
+     "middle": [
+      1152,
+      4864,
+      128
+     ],
+     "stand": [
+      1382,
+      4864,
+      0
+     ],
+     "yaw": -3.1394,
+     "pitch": -0.1382,
+     "safe_to_use": true,
+     "effects": [
+      "door 17 close"
+     ],
+     "changes": [
+      "door 17 close (door 17): 11 faces (OFlr 3, T1spclA 1, T1wl1ctL 1, pending 2, t1c2 2, t1d2 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 18,
+     "title": "Door",
+     "kind": "door",
+     "sector": 48,
+     "textures": {
+      "T1trimA": 1,
+      "T3D3": 1,
+      "t1w11a": 1
+     },
+     "faces": [
+      332,
+      1422,
+      1426
+     ],
+     "own_doors": [
+      18
+     ],
+     "low": [
+      2752,
+      6784,
+      -255
+     ],
+     "high": [
+      2784,
+      7040,
+      0
+     ],
+     "middle": [
+      2768,
+      6912,
+      -128
+     ],
+     "stand": [
+      2998,
+      6912,
+      -310
+     ],
+     "yaw": 3.1416,
+     "pitch": 0.0975,
+     "safe_to_use": true,
+     "effects": [
+      "door 18 close"
+     ],
+     "changes": [
+      "door 18 close (door 18): 11 faces (T1trimA 3, T3D3 1, d6wlCctr 2, pending 2, t1w11a 3)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 19,
+     "title": "A",
+     "kind": "panel",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2010
+     ],
+     "own_doors": [],
+     "low": [
+      2192,
+      4880,
+      144
+     ],
+     "high": [
+      2208,
+      4896,
+      160
+     ],
+     "middle": [
+      2200,
+      4888,
+      152
+     ],
+     "stand": [
+      2324,
+      5012,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.6596,
+     "safe_to_use": true,
+     "effects": [
+      "CastSpell(6, 3, 1, 2496, 4864, 360, 0, 0, 0)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 20,
+     "title": "B",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2011
+     ],
+     "own_doors": [],
+     "low": [
+      2192,
+      4864,
+      144
+     ],
+     "high": [
+      2208,
+      4880,
+      160
+     ],
+     "middle": [
+      2200,
+      4872,
+      152
+     ],
+     "stand": [
+      2324,
+      4996,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.6596,
+     "safe_to_use": true,
+     "effects": [
+      "door 57 open",
+      "door 58 open",
+      "door 55 close",
+      "door 56 close",
+      "SetTexture(-2011, \"t1swdu\")",
+      "set map_var 2 = 1"
+     ],
+     "changes": [
+      "door 57 open (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 open (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 55 close (door 55): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 56 close (door 56): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "SetTexture(-2011, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 21,
+     "title": "C",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2012
+     ],
+     "own_doors": [],
+     "low": [
+      2192,
+      4848,
+      144
+     ],
+     "high": [
+      2208,
+      4864,
+      160
+     ],
+     "middle": [
+      2200,
+      4856,
+      152
+     ],
+     "stand": [
+      2324,
+      4980,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.6596,
+     "safe_to_use": true,
+     "effects": [
+      "door 55 open",
+      "door 56 open",
+      "door 57 close",
+      "door 58 close",
+      "SetTexture(-2012, \"t1swdu\")",
+      "set map_var 3 = 1"
+     ],
+     "changes": [
+      "door 55 open (door 55): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 56 open (door 56): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 57 close (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 close (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "SetTexture(-2012, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 22,
+     "title": "D",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2013
+     ],
+     "own_doors": [],
+     "low": [
+      2192,
+      4832,
+      144
+     ],
+     "high": [
+      2208,
+      4848,
+      160
+     ],
+     "middle": [
+      2200,
+      4840,
+      152
+     ],
+     "stand": [
+      2324,
+      4964,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.6596,
+     "safe_to_use": true,
+     "effects": [
+      "door 57 open",
+      "door 58 open",
+      "door 40 close",
+      "door 52 close",
+      "door 51 close",
+      "SetTexture(-2013, \"t1swdu\")",
+      "set map_var 4 = 1"
+     ],
+     "changes": [
+      "door 57 open (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 open (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 40 close (door 40): 5 faces (SWhz2 2, SWhz4 1, T3T5 2)",
+      "door 52 close (door 52): 7 faces (SWhz2 4, SWhz4 1, T3T5 2)",
+      "door 51 close (door 51): 8 faces (SWhz2 3, SWhz2dk 1, SWhz4 1, T3C2 1, T3T5 2)",
+      "SetTexture(-2013, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 23,
+     "title": "E",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2009
+     ],
+     "own_doors": [],
+     "low": [
+      2176,
+      4880,
+      128
+     ],
+     "high": [
+      2192,
+      4896,
+      144
+     ],
+     "middle": [
+      2184,
+      4888,
+      136
+     ],
+     "stand": [
+      2308,
+      5012,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.7142,
+     "safe_to_use": true,
+     "effects": [
+      "door 40 open",
+      "door 52 open",
+      "door 51 open",
+      "door 57 close",
+      "door 58 close",
+      "SetTexture(-2009, \"t1swdu\")",
+      "set map_var 5 = 1"
+     ],
+     "changes": [
+      "door 40 open (door 40): 5 faces (SWhz2 2, SWhz4 1, T3T5 2)",
+      "door 52 open (door 52): 7 faces (SWhz2 4, SWhz4 1, T3T5 2)",
+      "door 51 open (door 51): 8 faces (SWhz2 3, SWhz2dk 1, SWhz4 1, T3C2 1, T3T5 2)",
+      "door 57 close (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 close (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "SetTexture(-2009, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 24,
+     "title": "F",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2008
+     ],
+     "own_doors": [],
+     "low": [
+      2176,
+      4864,
+      128
+     ],
+     "high": [
+      2192,
+      4880,
+      144
+     ],
+     "middle": [
+      2184,
+      4872,
+      136
+     ],
+     "stand": [
+      2308,
+      4996,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.7142,
+     "safe_to_use": true,
+     "effects": [
+      "door 55 open",
+      "door 56 open",
+      "door 36 close",
+      "door 47 close",
+      "door 48 close",
+      "SetTexture(-2008, \"t1swdu\")",
+      "set map_var 6 = 1"
+     ],
+     "changes": [
+      "door 55 open (door 55): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 56 open (door 56): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 36 close (door 36): 11 faces (SWhz2 1, SWhz4 2, T3C2 2, T3T5 2, T3WBLTD 4)",
+      "door 47 close (door 47): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 48 close (door 48): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "SetTexture(-2008, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 25,
+     "title": "G",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2007
+     ],
+     "own_doors": [],
+     "low": [
+      2176,
+      4848,
+      128
+     ],
+     "high": [
+      2192,
+      4864,
+      144
+     ],
+     "middle": [
+      2184,
+      4856,
+      136
+     ],
+     "stand": [
+      2308,
+      4980,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.7142,
+     "safe_to_use": true,
+     "effects": [
+      "door 59 close",
+      "door 60 close",
+      "SetTexture(-2007, \"t1swdu\")",
+      "set map_var 7 = 1"
+     ],
+     "changes": [
+      "door 59 close (door 59): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 60 close (door 60): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "SetTexture(-2007, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 26,
+     "title": "H",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2006
+     ],
+     "own_doors": [],
+     "low": [
+      2176,
+      4832,
+      128
+     ],
+     "high": [
+      2192,
+      4848,
+      144
+     ],
+     "middle": [
+      2184,
+      4840,
+      136
+     ],
+     "stand": [
+      2308,
+      4964,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.7142,
+     "safe_to_use": true,
+     "effects": [
+      "door 36 open",
+      "door 47 open",
+      "door 48 open",
+      "door 38 close",
+      "door 44 close",
+      "SetTexture(-2006, \"t1swdu\")",
+      "set map_var 8 = 1"
+     ],
+     "changes": [
+      "door 36 open (door 36): 11 faces (SWhz2 1, SWhz4 2, T3C2 2, T3T5 2, T3WBLTD 4)",
+      "door 47 open (door 47): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 48 open (door 48): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 38 close (door 38): 15 faces (SWFloor6a 4, SWhz2 4, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 1)",
+      "door 44 close (door 44): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "SetTexture(-2006, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 27,
+     "title": "I",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2002
+     ],
+     "own_doors": [],
+     "low": [
+      2160,
+      4880,
+      112
+     ],
+     "high": [
+      2176,
+      4896,
+      128
+     ],
+     "middle": [
+      2168,
+      4888,
+      120
+     ],
+     "stand": [
+      2292,
+      5012,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.764,
+     "safe_to_use": true,
+     "effects": [
+      "door 38 open",
+      "door 44 open",
+      "door 36 close",
+      "door 47 close",
+      "door 48 close",
+      "SetTexture(-2002, \"t1swdu\")",
+      "set map_var 9 = 1"
+     ],
+     "changes": [
+      "door 38 open (door 38): 15 faces (SWFloor6a 4, SWhz2 4, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 1)",
+      "door 44 open (door 44): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 36 close (door 36): 11 faces (SWhz2 1, SWhz4 2, T3C2 2, T3T5 2, T3WBLTD 4)",
+      "door 47 close (door 47): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 48 close (door 48): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "SetTexture(-2002, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 28,
+     "title": "J",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2003
+     ],
+     "own_doors": [],
+     "low": [
+      2160,
+      4864,
+      112
+     ],
+     "high": [
+      2176,
+      4880,
+      128
+     ],
+     "middle": [
+      2168,
+      4872,
+      120
+     ],
+     "stand": [
+      2292,
+      4996,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.764,
+     "safe_to_use": true,
+     "effects": [
+      "door 40 open",
+      "door 52 open",
+      "door 51 open",
+      "door 36 close",
+      "door 47 close",
+      "door 48 close",
+      "SetTexture(-2003, \"t1swdu\")",
+      "set map_var 10 = 1"
+     ],
+     "changes": [
+      "door 40 open (door 40): 5 faces (SWhz2 2, SWhz4 1, T3T5 2)",
+      "door 52 open (door 52): 7 faces (SWhz2 4, SWhz4 1, T3T5 2)",
+      "door 51 open (door 51): 8 faces (SWhz2 3, SWhz2dk 1, SWhz4 1, T3C2 1, T3T5 2)",
+      "door 36 close (door 36): 11 faces (SWhz2 1, SWhz4 2, T3C2 2, T3T5 2, T3WBLTD 4)",
+      "door 47 close (door 47): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 48 close (door 48): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "SetTexture(-2003, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 29,
+     "title": "K",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2004
+     ],
+     "own_doors": [],
+     "low": [
+      2160,
+      4848,
+      112
+     ],
+     "high": [
+      2176,
+      4864,
+      128
+     ],
+     "middle": [
+      2168,
+      4856,
+      120
+     ],
+     "stand": [
+      2292,
+      4980,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.764,
+     "safe_to_use": true,
+     "effects": [
+      "door 57 open",
+      "door 58 open",
+      "door 59 close",
+      "door 60 close",
+      "SetTexture(-2004, \"t1swdu\")",
+      "set map_var 11 = 1"
+     ],
+     "changes": [
+      "door 57 open (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 open (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 59 close (door 59): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 60 close (door 60): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "SetTexture(-2004, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 30,
+     "title": "L",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2005
+     ],
+     "own_doors": [],
+     "low": [
+      2160,
+      4832,
+      112
+     ],
+     "high": [
+      2176,
+      4848,
+      128
+     ],
+     "middle": [
+      2168,
+      4840,
+      120
+     ],
+     "stand": [
+      2292,
+      4964,
+      128
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.764,
+     "safe_to_use": true,
+     "effects": [
+      "door 55 open",
+      "door 56 open",
+      "door 38 close",
+      "door 44 close",
+      "SetTexture(-2005, \"t1swdu\")",
+      "set map_var 12 = 1"
+     ],
+     "changes": [
+      "door 55 open (door 55): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 56 open (door 56): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 38 close (door 38): 15 faces (SWFloor6a 4, SWhz2 4, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 1)",
+      "door 44 close (door 44): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "SetTexture(-2005, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 31,
+     "title": "M",
+     "kind": "teleport",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2001
+     ],
+     "own_doors": [],
+     "low": [
+      2144,
+      4880,
+      96
+     ],
+     "high": [
+      2160,
+      4896,
+      112
+     ],
+     "middle": [
+      2152,
+      4888,
+      104
+     ],
+     "stand": [
+      2328,
+      4888,
+      128
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.8076,
+     "safe_to_use": false,
+     "effects": [
+      "teleport to 9000, 1916, -767 (direction, look, speed, house, icon: 128, 0, 0, 0, 0)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 32,
+     "title": "N",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      2000
+     ],
+     "own_doors": [],
+     "low": [
+      2144,
+      4864,
+      96
+     ],
+     "high": [
+      2160,
+      4880,
+      112
+     ],
+     "middle": [
+      2152,
+      4872,
+      104
+     ],
+     "stand": [
+      2328,
+      4872,
+      128
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.8076,
+     "safe_to_use": true,
+     "effects": [
+      "door 36 open",
+      "door 47 open",
+      "door 48 open",
+      "door 40 close",
+      "door 51 close",
+      "door 52 close",
+      "SetTexture(-2000, \"t1swdu\")",
+      "set map_var 13 = 1"
+     ],
+     "changes": [
+      "door 36 open (door 36): 11 faces (SWhz2 1, SWhz4 2, T3C2 2, T3T5 2, T3WBLTD 4)",
+      "door 47 open (door 47): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 48 open (door 48): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 40 close (door 40): 5 faces (SWhz2 2, SWhz4 1, T3T5 2)",
+      "door 51 close (door 51): 8 faces (SWhz2 3, SWhz2dk 1, SWhz4 1, T3C2 1, T3T5 2)",
+      "door 52 close (door 52): 7 faces (SWhz2 4, SWhz4 1, T3T5 2)",
+      "SetTexture(-2000, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 33,
+     "title": "O",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      1999
+     ],
+     "own_doors": [],
+     "low": [
+      2144,
+      4848,
+      96
+     ],
+     "high": [
+      2160,
+      4864,
+      112
+     ],
+     "middle": [
+      2152,
+      4856,
+      104
+     ],
+     "stand": [
+      2328,
+      4856,
+      128
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.8076,
+     "safe_to_use": true,
+     "effects": [
+      "door 59 open",
+      "door 60 open",
+      "door 57 close",
+      "door 58 close",
+      "SetTexture(-1999, \"t1swdu\")",
+      "set map_var 14 = 1"
+     ],
+     "changes": [
+      "door 59 open (door 59): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 60 open (door 60): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 57 close (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 close (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "SetTexture(-1999, \"t1swdu\"): 1 faces (T1swDd 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 34,
+     "title": "P",
+     "kind": "switch",
+     "sector": 45,
+     "textures": {
+      "T1swDd": 1
+     },
+     "faces": [
+      1998
+     ],
+     "own_doors": [],
+     "low": [
+      2144,
+      4832,
+      96
+     ],
+     "high": [
+      2160,
+      4848,
+      112
+     ],
+     "middle": [
+      2152,
+      4840,
+      104
+     ],
+     "stand": [
+      2328,
+      4840,
+      128
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.8076,
+     "safe_to_use": true,
+     "effects": [
+      "set map_var 2 = 0",
+      "set map_var 3 = 0",
+      "set map_var 4 = 0",
+      "set map_var 5 = 0",
+      "set map_var 6 = 0",
+      "set map_var 7 = 0",
+      "set map_var 8 = 0",
+      "set map_var 9 = 0",
+      "set map_var 10 = 0",
+      "set map_var 11 = 0",
+      "set map_var 12 = 0",
+      "set map_var 13 = 0",
+      "set map_var 14 = 0",
+      "SetTexture(-2011, \"t1swdd\")",
+      "SetTexture(-2012, \"t1swdd\")",
+      "SetTexture(-2013, \"t1swdd\")",
+      "SetTexture(-2009, \"t1swdd\")",
+      "SetTexture(-2008, \"t1swdd\")",
+      "SetTexture(-2007, \"t1swdd\")",
+      "SetTexture(-2006, \"t1swdd\")",
+      "SetTexture(-2002, \"t1swdd\")",
+      "SetTexture(-2003, \"t1swdd\")",
+      "SetTexture(-2004, \"t1swdd\")",
+      "SetTexture(-2005, \"t1swdd\")",
+      "SetTexture(-2000, \"t1swdd\")",
+      "SetTexture(-1999, \"t1swdd\")",
+      "door 40 open",
+      "door 51 open",
+      "door 52 open",
+      "door 36 open",
+      "door 47 open",
+      "door 48 open",
+      "door 38 open",
+      "door 44 open",
+      "door 55 open",
+      "door 56 open",
+      "door 57 open",
+      "door 58 open",
+      "door 59 open",
+      "door 60 open"
+     ],
+     "changes": [
+      "SetTexture(-2011, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2012, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2013, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2009, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2008, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2007, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2006, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2002, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2003, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2004, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2005, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-2000, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "SetTexture(-1999, \"t1swdd\"): 1 faces (T1swDd 1)",
+      "door 40 open (door 40): 5 faces (SWhz2 2, SWhz4 1, T3T5 2)",
+      "door 51 open (door 51): 8 faces (SWhz2 3, SWhz2dk 1, SWhz4 1, T3C2 1, T3T5 2)",
+      "door 52 open (door 52): 7 faces (SWhz2 4, SWhz4 1, T3T5 2)",
+      "door 36 open (door 36): 11 faces (SWhz2 1, SWhz4 2, T3C2 2, T3T5 2, T3WBLTD 4)",
+      "door 47 open (door 47): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 48 open (door 48): 7 faces (SWhz2 2, SWhz4 1, T3C2 2, T3T5 2)",
+      "door 38 open (door 38): 15 faces (SWFloor6a 4, SWhz2 4, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 1)",
+      "door 44 open (door 44): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 55 open (door 55): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 56 open (door 56): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 57 open (door 57): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)",
+      "door 58 open (door 58): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 59 open (door 59): 5 faces (SWFloor6a 2, SWhz2 2, SWhz4 1)",
+      "door 60 open (door 60): 14 faces (SWFloor6a 4, SWhz2 2, SWhz3dk 3, SWhz4 1, T3C2 2, T3F1 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 38,
+     "title": "",
+     "kind": "panel",
+     "sector": 44,
+     "textures": {
+      "BdkSV32b": 2,
+      "T3D2A": 1,
+      "T3D2B": 1
+     },
+     "faces": [
+      1252,
+      1470,
+      1471,
+      1474
+     ],
+     "own_doors": [
+      45,
+      46
+     ],
+     "low": [
+      5544,
+      4608,
+      128
+     ],
+     "high": [
+      5576,
+      5120,
+      384
+     ],
+     "middle": [
+      5560,
+      4864,
+      256
+     ],
+     "stand": [
+      6021,
+      4864,
+      128
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.0693,
+     "safe_to_use": true,
+     "effects": [],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 41,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 13,
+     "textures": {
+      "ch2frnt": 1
+     },
+     "faces": [
+      233
+     ],
+     "own_doors": [],
+     "low": [
+      -2192,
+      4512,
+      -448
+     ],
+     "high": [
+      -2192,
+      4576,
+      -384
+     ],
+     "middle": [
+      -2192,
+      4544,
+      -416
+     ],
+     "stand": [
+      -2016,
+      4544,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.3488,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 1"
+     ],
+     "changes": [],
+     "overlaps": [
+      "no place with a floor and a clear view found within 176 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 42,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 11,
+     "textures": {
+      "ch2frnt": 1
+     },
+     "faces": [
+      224
+     ],
+     "own_doors": [],
+     "low": [
+      -2192,
+      5280,
+      -448
+     ],
+     "high": [
+      -2192,
+      5344,
+      -384
+     ],
+     "middle": [
+      -2192,
+      5312,
+      -416
+     ],
+     "stand": [
+      -2016,
+      5312,
+      -512
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.3488,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 2"
+     ],
+     "changes": [],
+     "overlaps": [
+      "no place with a floor and a clear view found within 176 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 43,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 52,
+     "textures": {
+      "Ch1topB": 1,
+      "Ch1topRE": 1,
+      "ch1frLE": 1,
+      "ch1frRE": 1,
+      "ch1frntB": 1,
+      "ch1side": 2,
+      "ch1topLE": 1,
+      "d2ceil4": 1
+     },
+     "faces": [
+      1781,
+      1816,
+      1817,
+      1818,
+      1819,
+      1820,
+      1821,
+      1822,
+      1823
+     ],
+     "own_doors": [],
+     "low": [
+      -1200,
+      3920,
+      -640
+     ],
+     "high": [
+      18672,
+      8640,
+      96
+     ],
+     "middle": [
+      8736,
+      6280,
+      -272
+     ],
+     "stand": [
+      -4843,
+      17919,
+      -640
+     ],
+     "yaw": -0.7086,
+     "pitch": 0.0116,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 3"
+     ],
+     "changes": [],
+     "overlaps": [
+      "no place with a floor and a clear view found within 17884 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 44,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 19,
+     "textures": {
+      "ch2frnt": 1
+     },
+     "faces": [
+      1895
+     ],
+     "own_doors": [],
+     "low": [
+      -1456,
+      6944,
+      -448
+     ],
+     "high": [
+      -1456,
+      7008,
+      -384
+     ],
+     "middle": [
+      -1456,
+      6976,
+      -416
+     ],
+     "stand": [
+      -1632,
+      6976,
+      -512
+     ],
+     "yaw": 0,
+     "pitch": -0.3488,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 4"
+     ],
+     "changes": [],
+     "overlaps": [
+      "no place with a floor and a clear view found within 176 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 45,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 57,
+     "textures": {
+      "Ch1tpBv": 1,
+      "Ch1tpREv": 1,
+      "ch1frLE": 1,
+      "ch1frRE": 1,
+      "ch1frntB": 1,
+      "ch1tpLEv": 1
+     },
+     "faces": [
+      1804,
+      1805,
+      1806,
+      1807,
+      1810,
+      1811
+     ],
+     "own_doors": [],
+     "low": [
+      18608,
+      8528,
+      -704
+     ],
+     "high": [
+      18672,
+      8624,
+      -640
+     ],
+     "middle": [
+      18640,
+      8576,
+      -672
+     ],
+     "stand": [
+      18464,
+      8576,
+      -768
+     ],
+     "yaw": 0,
+     "pitch": -0.3488,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 5"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 46,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 50,
+     "textures": {
+      "Ch1tpBv": 1,
+      "Ch1tpREv": 1,
+      "ch1frLE": 1,
+      "ch1frntB": 1,
+      "ch1side": 1,
+      "ch1tpLEv": 1
+     },
+     "faces": [
+      1837,
+      1838,
+      1839,
+      1841,
+      1843,
+      1844
+     ],
+     "own_doors": [],
+     "low": [
+      11136,
+      5440,
+      -1280
+     ],
+     "high": [
+      11200,
+      5536,
+      -1216
+     ],
+     "middle": [
+      11168,
+      5488,
+      -1248
+     ],
+     "stand": [
+      11031,
+      5378,
+      -1280
+     ],
+     "yaw": 0.6765,
+     "pitch": -0.6296,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 6"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 47,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 50,
+     "textures": {
+      "Ch1tpBv": 1,
+      "Ch1tpREv": 1,
+      "ch1frLE": 1,
+      "ch1frntB": 1,
+      "ch1side": 2,
+      "ch1tpLEv": 1
+     },
+     "faces": [
+      1845,
+      1846,
+      1847,
+      1849,
+      1850,
+      1851,
+      1852
+     ],
+     "own_doors": [],
+     "low": [
+      11136,
+      5184,
+      -1280
+     ],
+     "high": [
+      11200,
+      5280,
+      -1216
+     ],
+     "middle": [
+      11168,
+      5232,
+      -1248
+     ],
+     "stand": [
+      10992,
+      5232,
+      -1280
+     ],
+     "yaw": 0,
+     "pitch": -0.6288,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 7",
+      "set map_var 21 = 1",
+      "SummonObject(2100, 9856, 4992, -1024, 512, 3, false)",
+      "SummonMonsters(2, 2, 3, 9856, 4992, -1024, 0, 0)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 48,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 50,
+     "textures": {
+      "Ch1tpBv": 1,
+      "Ch1tpREv": 1,
+      "ch1frLE": 1,
+      "ch1frntB": 1,
+      "ch1side": 2,
+      "ch1tpLEv": 1
+     },
+     "faces": [
+      1853,
+      1854,
+      1855,
+      1857,
+      1858,
+      1859,
+      1860
+     ],
+     "own_doors": [],
+     "low": [
+      11136,
+      4928,
+      -1280
+     ],
+     "high": [
+      11200,
+      5024,
+      -1216
+     ],
+     "middle": [
+      11168,
+      4976,
+      -1248
+     ],
+     "stand": [
+      10992,
+      4976,
+      -1280
+     ],
+     "yaw": 0,
+     "pitch": -0.6288,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 8"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 49,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 50,
+     "textures": {
+      "Ch1tpBv": 1,
+      "Ch1tpREv": 1,
+      "ch1frLE": 1,
+      "ch1frntB": 1,
+      "ch1side": 2,
+      "ch1tpLEv": 1
+     },
+     "faces": [
+      1861,
+      1862,
+      1863,
+      1865,
+      1866,
+      1867,
+      1868
+     ],
+     "own_doors": [],
+     "low": [
+      11136,
+      4672,
+      -1280
+     ],
+     "high": [
+      11200,
+      4768,
+      -1216
+     ],
+     "middle": [
+      11168,
+      4720,
+      -1248
+     ],
+     "stand": [
+      10992,
+      4720,
+      -1280
+     ],
+     "yaw": 0,
+     "pitch": -0.6288,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 9"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 50,
+     "title": "Chest",
+     "kind": "chest",
+     "sector": 56,
+     "textures": {
+      "Ch1topB": 1,
+      "Ch1topRE": 1,
+      "ch1frLE": 1,
+      "ch1frRE": 1,
+      "ch1frntB": 1,
+      "ch1topLE": 1
+     },
+     "faces": [
+      1793,
+      1794,
+      1796,
+      1797,
+      1799,
+      1800
+     ],
+     "own_doors": [],
+     "low": [
+      -20336,
+      8240,
+      -696
+     ],
+     "high": [
+      -20240,
+      8304,
+      -632
+     ],
+     "middle": [
+      -20288,
+      8272,
+      -664
+     ],
+     "stand": [
+      -20288,
+      8096,
+      -760
+     ],
+     "yaw": 1.5708,
+     "pitch": -0.3488,
+     "safe_to_use": false,
+     "effects": [
+      "open chest 10"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 51,
+     "title": "Exit Door",
+     "kind": "exit",
+     "sector": 1,
+     "textures": {
+      "t1d1": 1
+     },
+     "faces": [
+      16
+     ],
+     "own_doors": [],
+     "low": [
+      448,
+      6944,
+      192
+     ],
+     "high": [
+      704,
+      6944,
+      448
+     ],
+     "middle": [
+      576,
+      6944,
+      320
+     ],
+     "stand": [
+      576,
+      6714,
+      80
+     ],
+     "yaw": 1.5708,
+     "pitch": 0.3347,
+     "safe_to_use": false,
+     "effects": [
+      "leave to oute3.odm at -18400, -14982, 1600 (direction, look, speed, house, icon: 512, 0, 0, 0, 0)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 54,
+     "title": "",
+     "kind": "panel",
+     "sector": 31,
+     "textures": {
+      "D2flor5": 2
+     },
+     "faces": [
+      873,
+      874
+     ],
+     "own_doors": [],
+     "low": [
+      -12376,
+      7874,
+      -768
+     ],
+     "high": [
+      -10958,
+      9952,
+      -768
+     ],
+     "middle": [
+      -11667,
+      8913,
+      -768
+     ],
+     "stand": [
+      -9797,
+      8913,
+      -734
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.1034,
+     "safe_to_use": true,
+     "effects": [],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 55,
+     "title": "",
+     "kind": "panel",
+     "sector": 49,
+     "textures": {
+      "d6wlCctr": 1
+     },
+     "faces": [
+      1584
+     ],
+     "own_doors": [],
+     "low": [
+      10176,
+      7328,
+      -768
+     ],
+     "high": [
+      10176,
+      7456,
+      -512
+     ],
+     "middle": [
+      10176,
+      7392,
+      -640
+     ],
+     "stand": [
+      10000,
+      7392,
+      -768
+     ],
+     "yaw": 0,
+     "pitch": -0.1799,
+     "safe_to_use": true,
+     "effects": [
+      "set map_var 26 = 1",
+      "GiveItem(4, 21)"
+     ],
+     "changes": [],
+     "overlaps": []
+    },
+    {
+     "event": 57,
+     "title": "",
+     "kind": "panel",
+     "sector": 57,
+     "textures": {
+      "ch1side": 2
+     },
+     "faces": [
+      1808,
+      1809
+     ],
+     "own_doors": [],
+     "low": [
+      18608,
+      8528,
+      -704
+     ],
+     "high": [
+      18672,
+      8624,
+      -640
+     ],
+     "middle": [
+      18640,
+      8576,
+      -672
+     ],
+     "stand": [
+      18816,
+      8576,
+      -704
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.6288,
+     "safe_to_use": true,
+     "effects": [],
+     "changes": [],
+     "overlaps": [
+      "no place with a floor and a clear view found within 176 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 58,
+     "title": "",
+     "kind": "panel",
+     "sector": 56,
+     "textures": {
+      "ch1side": 2
+     },
+     "faces": [
+      1795,
+      1798
+     ],
+     "own_doors": [],
+     "low": [
+      -20336,
+      8240,
+      -696
+     ],
+     "high": [
+      -20240,
+      8304,
+      -632
+     ],
+     "middle": [
+      -20288,
+      8272,
+      -664
+     ],
+     "stand": [
+      -20112,
+      8272,
+      -696
+     ],
+     "yaw": 3.1416,
+     "pitch": -0.6288,
+     "safe_to_use": true,
+     "effects": [],
+     "changes": [],
+     "overlaps": [
+      "no place with a floor and a clear view found within 176 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 60,
+     "title": "Door",
+     "kind": "door",
+     "sector": 51,
+     "textures": {
+      "T3D2A": 1,
+      "T3D2B": 1
+     },
+     "faces": [
+      1475,
+      1476
+     ],
+     "own_doors": [
+      45,
+      46
+     ],
+     "low": [
+      5544,
+      4608,
+      128
+     ],
+     "high": [
+      5544,
+      5120,
+      384
+     ],
+     "middle": [
+      5544,
+      4864,
+      256
+     ],
+     "stand": [
+      5083,
+      4864,
+      128
+     ],
+     "yaw": 0,
+     "pitch": -0.0693,
+     "safe_to_use": true,
+     "effects": [
+      "door 45 close",
+      "door 46 close"
+     ],
+     "changes": [
+      "door 45 close (door 45): 10 faces (BdkSH32c 2, BdkSV32b 1, D2flor5 1, T3C2 1, T3D2A 1, T3D2B 1, T3F1 1, d2ceil4 1, pending 1)",
+      "door 46 close (door 46): 10 faces (BdkSH32c 2, BdkSV32b 1, D2flor5 1, T3C2 1, T3D2A 1, T3D2B 1, T3F1 1, d2ceil4 1, pending 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 61,
+     "title": "Door",
+     "kind": "door",
+     "sector": 3,
+     "textures": {
+      "t1d2": 1
+     },
+     "faces": [
+      1622
+     ],
+     "own_doors": [
+      23
+     ],
+     "low": [
+      -320,
+      4480,
+      0
+     ],
+     "high": [
+      -65,
+      4480,
+      256
+     ],
+     "middle": [
+      -193,
+      4480,
+      128
+     ],
+     "stand": [
+      -193,
+      4710,
+      0
+     ],
+     "yaw": -1.5686,
+     "pitch": -0.1382,
+     "safe_to_use": true,
+     "effects": [
+      "door 23 close"
+     ],
+     "changes": [
+      "door 23 close (door 23): 9 faces (OFlr 1, T1trimA 1, T3T2 2, T3T7 1, T3WSBP 2, t1c2 1, t1d2 1)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 62,
+     "title": "Switch",
+     "kind": "button",
+     "sector": 4,
+     "textures": {
+      "T3T5": 1
+     },
+     "faces": [
+      89
+     ],
+     "own_doors": [
+      31
+     ],
+     "low": [
+      -224,
+      2960,
+      192
+     ],
+     "high": [
+      -160,
+      2960,
+      256
+     ],
+     "middle": [
+      -192,
+      2960,
+      224
+     ],
+     "stand": [
+      -264,
+      3066,
+      96
+     ],
+     "yaw": -0.9741,
+     "pitch": -0.2447,
+     "safe_to_use": true,
+     "effects": [
+      "door 31 close",
+      "door 32 close"
+     ],
+     "changes": [
+      "door 31 close (door 31): 5 faces (T3T5 1, T3T7 4)",
+      "door 32 close (door 32): 26 faces (OrErt32 4, T1trimA 4, T3T6 2, T3WBSL 1, T3WSBP 12, T3wbll 1, T3wblr 2)"
+     ],
+     "overlaps": []
+    },
+    {
+     "event": 63,
+     "title": "",
+     "kind": "door",
+     "sector": 4,
+     "textures": {
+      "T3T6": 2
+     },
+     "faces": [
+      1626,
+      1627
+     ],
+     "own_doors": [
+      30
+     ],
+     "low": [
+      -832,
+      4480,
+      1
+     ],
+     "high": [
+      448,
+      4480,
+      256
+     ],
+     "middle": [
+      -192,
+      4480,
+      129
+     ],
+     "stand": [
+      -192,
+      3328,
+      0
+     ],
+     "yaw": 1.5708,
+     "pitch": -0.0273,
+     "safe_to_use": true,
+     "effects": [
+      "door 30 close"
+     ],
+     "changes": [
+      "door 30 close (door 30): 20 faces (T3T6 4, T3T7 6, T3WBSL 1, T3WSBP 4, T3WSBTD 2, T3wbsr 1, pending 2)"
+     ],
+     "overlaps": [
+      "no place with a floor and a clear view found within 1152 of it; the picture is taken from in front of it all the same"
+     ]
+    },
+    {
+     "event": 64,
+     "title": "",
+     "kind": "panel",
+     "sector": 44,
+     "textures": {
+      "OrFyr32": 4,
+      "SWall5": 6,
+      "SWhorzA": 12
+     },
+     "faces": [
+      1258,
+      1259,
+      1260,
+      1261,
+      1263,
+      1264,
+      1265,
+      1266,
+      1270,
+      1271,
+      1272,
+      1273,
+      1274,
+      1279,
+      1280,
+      1281,
+      1282,
+      1283,
+      1284,
+      1285,
+      2279,
+      2280
+     ],
+     "own_doors": [],
+     "low": [
+      6624,
+      4576,
+      128
+     ],
+     "high": [
+      7136,
+      5088,
+      512
+     ],
+     "middle": [
+      6880,
+      4832,
+      320
+     ],
+     "stand": [
+      7124,
+      5076,
+      166
+     ],
+     "yaw": -2.3562,
+     "pitch": -0.0174,
+     "safe_to_use": true,
+     "effects": [
+      "CastSpell(12, 15, 1, 0, 0, 0, 0, 0, 0)",
+      "set map_var 15 = 1"
+     ],
+     "changes": [],
+     "overlaps": []
+    }
+   ]
+  }
+ }
+}

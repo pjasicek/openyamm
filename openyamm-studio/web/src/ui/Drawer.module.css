@@ -1,0 +1,341 @@
+.drawer
+{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: var(--surface);
+}
+
+.tabs
+{
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-1);
+    padding: 0 var(--space-3);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-2);
+    flex: none;
+}
+
+.tab
+{
+    border: 0;
+    background: none;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--size-s);
+    font-weight: 600;
+    color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.tab[data-active]
+{
+    color: var(--text);
+    border-bottom-color: var(--accent);
+}
+
+.later
+{
+    margin-left: auto;
+    align-self: center;
+    color: var(--text-dim);
+    font-size: var(--size-s);
+    opacity: 0.7;
+}
+
+.count, .countBad, .countWarn
+{
+    margin-left: var(--space-2);
+    padding: 0 var(--space-2);
+    border-radius: 8px;
+    background: var(--surface-3);
+    font-weight: 600;
+}
+
+.countBad
+{
+    background: var(--bad-soft);
+    color: var(--bad);
+}
+
+.countWarn
+{
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.panel
+{
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.column
+{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.toolbar
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--line);
+    font-size: var(--size-s);
+    flex: none;
+}
+
+.spacer
+{
+    flex: 1;
+}
+
+.button
+{
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 0 var(--space-3);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.scroll
+{
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.sizer
+{
+    position: relative;
+    width: 100%;
+}
+
+.row
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0 var(--space-4);
+    font-size: var(--size-s);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--surface-2);
+}
+
+.head
+{
+    background: var(--surface-2);
+    font-weight: 600;
+    color: var(--text-dim);
+}
+
+.selected
+{
+    background: var(--accent-soft);
+}
+
+.code
+{
+    font-family: var(--mono);
+    color: var(--text-dim);
+    min-width: 72px;
+}
+
+.where
+{
+    font-family: var(--mono);
+    color: var(--text-dim);
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message
+{
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link
+{
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.link:disabled
+{
+    color: var(--text-dim);
+    cursor: default;
+}
+
+.empty
+{
+    padding: var(--space-5);
+    color: var(--text-dim);
+}
+
+.dim
+{
+    color: var(--text-dim);
+}
+
+.bad
+{
+    color: var(--bad);
+}
+
+.checking
+{
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.sev_error, .sev_warning, .sev_note
+{
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sev_error
+{
+    color: var(--bad);
+}
+
+.sev_warning
+{
+    color: var(--warn);
+}
+
+.sev_note
+{
+    color: var(--note);
+}
+
+.dot_error, .dot_warning, .dot_note
+{
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot_error
+{
+    background: var(--bad);
+}
+
+.dot_warning
+{
+    background: var(--warn);
+}
+
+.dot_note
+{
+    background: var(--note);
+}
+
+.pin
+{
+    display: grid;
+    grid-template-columns: 76px minmax(120px, 2fr) minmax(80px, 1fr) minmax(80px, 1fr) 64px 48px;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--surface-2);
+    font-size: var(--size-s);
+}
+
+.pinText
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.status_open, .status_claimed, .status_resolved, .status_accepted, .status_declined
+{
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+}
+
+.status_open
+{
+    color: var(--bad);
+}
+
+.status_claimed
+{
+    color: var(--warn);
+}
+
+.status_resolved
+{
+    color: var(--accent);
+}
+
+.status_accepted
+{
+    color: var(--good);
+}
+
+.status_declined
+{
+    color: var(--text-dim);
+}
+
+.outlineId
+{
+    font-family: var(--mono);
+    cursor: default;
+}
+
+/* Objects the last view build left out (S5b1, 2.4.2): listed before every severity. */
+.sev_skipped
+{
+    color: var(--warn);
+    font-weight: 600;
+}
+
+/* A fix the core offers for an issue (S5b1 part two): one transaction. */
+.fix
+{
+    flex: none;
+    max-width: 22em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: var(--space-2);
+    padding: 0 var(--space-2);
+    border: 1px solid var(--accent, var(--line-strong));
+    border-radius: var(--radius-s, 4px);
+    background: var(--surface);
+    color: var(--accent, var(--text));
+    font: inherit;
+    font-size: var(--size-xs, 11px);
+    cursor: pointer;
+}

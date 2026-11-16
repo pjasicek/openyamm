@@ -1,0 +1,70 @@
+/* The 3D view's travel scrubber (S5b2): a bar along the view's foot while a door, lift or mover is selected. */
+.scrubber
+{
+    position: absolute;
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: var(--size-s);
+    color: var(--text);
+    white-space: nowrap;
+    z-index: 3;
+}
+
+.name
+{
+    font-family: ui-monospace, monospace;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dim
+{
+    color: var(--text-dim);
+    font-weight: 400;
+}
+
+.end
+{
+    color: var(--text-dim);
+}
+
+.range
+{
+    flex: 1;
+    min-width: 60px;
+    accent-color: var(--accent, #d29a49);
+}
+
+.share
+{
+    min-width: 6.5em;
+    font-variant-numeric: tabular-nums;
+}
+
+.button
+{
+    padding: 0 var(--space-3);
+    height: 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.hold
+{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-dim);
+}

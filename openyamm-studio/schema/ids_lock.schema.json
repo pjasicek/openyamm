@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ids.lock.yml: stable ids and the engine numbers the build assigned them, schema v0",
+  "description": "Written by the build, kept in git. A number once given to an id is never given to another, so rebuilding a map keeps its event, door and sector numbers and saves see the same layout where nothing changed.",
+  "type": "object",
+  "required": [
+    "format"
+  ],
+  "properties": {
+    "format": {
+      "const": 0
+    },
+    "sectors": {
+      "description": "Room id to BLV sector index.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "events": {
+      "description": "Event id to map event number.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "doors": {
+      "description": "Door id to door number.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "containers": {
+      "description": "Chest id to loot container number.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "cogs": {
+      "description": "Object id to face cog number (for texture and facet changes).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "map_vars": {
+      "description": "Variable name to map variable index.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 74
+      }
+    },
+    "lights": {
+      "description": "Light id to the number `evt.SetLight` switches it by (the BLV light's id): the lights that a wiring event's `lights_on` or `lights_off` names, and the lights that start dark (`on: false`). Lights that are never switched have no number. A light that pulses (`pulse`) is switched by 40000 plus its number. In an overlay project: the base scene's pulsing lights by their key (`light:k<key>`) and the overlay's own from 49001; the key is the number `evt.SetLight` switches them by.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "sounds": {
+      "description": "Sound id to the scene's key of the placed sound (a script switches it by the map variable `AmbientSound<key>`). In an overlay project: the base scene's ambient sounds by their key (`sound:a<key>`) and the overlay's own from 60001.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "decorations": {
+      "description": "Decoration id to its number in the built map: the entity index `evt.SetSprite` changes its picture by. Not kept: written anew by every build in the order of objects.yml `decorations` (so a decoration added before another moves the other's number); the wiring effect `set_sprite` names the decoration by its id and needs none of this, a Lua text looks it up here.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "destructibles": {
+      "description": "Destructible id to the scene's destructible id (the number `evt.DestroyDestructible` and `evt.DamageDestructible` take). An overlay project's are the base map's (`destructible:k<id>`) and its own from 60001.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1,
+        "x-unit": "index"
+      }
+    },
+    "water": {
+      "description": "An overlay project's base water volumes: id to the volume's place in the base scene's `water_volumes` (from 0).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "x-unit": "index"
+      }
+    },
+    "spawns": {
+      "description": "An overlay project's base spawn points: id to the spawn's index in the base map.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "x-unit": "index"
+      }
+    },
+    "ladders": {
+      "description": "An overlay project's base ladders: id (`ladder:<name>`, the scene's ladder id in lower case) to the ladder's place in the base scene's `ladders` (from 0). Written by `oymap import`; a change or removal names one by it (objects.yml scene.changes, scene.removals).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "x-unit": "index"
+      }
+    },
+    "cinematics": {
+      "description": "An overlay project's base map's cinematics: id (`cinematic:<name>`, the name in the map's <stem>.cinematics.yml) to its place in that file (from 0). Written by `oymap import`. A wiring.yml cinematic of that id replaces the shipped one (the game merges a cinematics overlay by name); an overlay's events may play one by it ({cinematic: cinematic:<name>}).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "x-unit": "index"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-groups": [
+    [
+      "Lock",
+      [
+        "format"
+      ]
+    ],
+    [
+      "Map",
+      [
+        "sectors",
+        "events",
+        "doors",
+        "containers",
+        "cogs",
+        "map_vars",
+        "lights",
+        "sounds",
+        "decorations",
+        "destructibles"
+      ]
+    ],
+    [
+      "Overlay",
+      [
+        "water",
+        "spawns",
+        "ladders",
+        "cinematics"
+      ]
+    ]
+  ]
+}

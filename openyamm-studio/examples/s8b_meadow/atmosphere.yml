@@ -1,0 +1,10 @@
+format: 0
+open_sky: {mode: open, preset: fair, view: outdoor}
+daylight: {ambient_rgb: [60, 60, 60], sun_rgb: [255, 255, 255], night_scale_rgb: [134, 143, 168], sun_gain: 4}
+ground:
+  layers:
+    - {material: grass, textures: [cgrajnkrow], color: [64, 72, 24]}
+    - {material: dirt, textures: [thjodbs7wo], color: [78, 58, 40]}
+    - {material: rock, textures: [thjob3xi6b], color: [96, 84, 72]}
+  grass: worlds/mm9/terrain_decorations/drangheim_blv.yml
+notes: "The ground (S8b): the floor's three textures drawn as the world's grass, dirt and rock materials, blended as on an outdoor map; the world's slope material (cliff) on the knoll's steep sides, its variants (patchy grass, stony dirt) in patches; Drangheim's grass on the grass. Colours: about MM9's textures', lifted."

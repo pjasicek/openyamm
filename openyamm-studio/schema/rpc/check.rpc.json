@@ -1,0 +1,1008 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: check",
+  "description": "Checks of a project and of its built map.",
+  "x-group": "check",
+  "methods": {
+    "validate": {
+      "summary": "The project's files against their schemas and each other, which lowers the whole project (tier 0). With the session's asset root also what the build looks up there (decoration tables; outdoors the textures and models).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [
+        "not_a_project"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "use_assets": {
+            "description": "Default true: use the session's asset root when it has one. false checks the files alone (faster; decorations are then reported unchecked).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "ok",
+          "with_assets",
+          "issues",
+          "notes"
+        ],
+        "properties": {
+          "ok": {
+            "description": "No issue of severity error.",
+            "type": "boolean"
+          },
+          "with_assets": {
+            "description": "Whether the asset root was used.",
+            "type": "boolean"
+          },
+          "issues": {
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "notes": {
+            "description": "Said early, for the author: a world the asset root does not hold.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "things": {
+      "summary": "Every interactive thing of the project's map, built from the current files into a private folder and read as the game reads it: the faces one event is bound to, what kind of thing it is, what using it changes, and where a player stands to use it.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "has_errors",
+        "no_asset_root",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "world",
+          "things"
+        ],
+        "properties": {
+          "map": {
+            "description": "The built map's file name (xd01.blv).",
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "things": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/thing"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "audit": {
+      "summary": "A shipped or installed map as the game reads it (geometry, scene with overlays, event script with overlays), or a project built privately and read the same way: counts, faces in one plane against the original's, the wiring findings, optionally the walkable reach from the party start.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "no_mount"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          },
+          "reach": {
+            "description": "Also walk the map from the party start (indoor; seconds).",
+            "type": "boolean"
+          },
+          "original": {
+            "description": "The map whose faces in one plane are the original's (default: a project's map_stats.reference, else its base).",
+            "type": "string",
+            "minLength": 1
+          },
+          "strict": {
+            "description": "Every pair of faces in one plane the original lacks is an error.",
+            "type": "boolean"
+          },
+          "solve": {
+            "description": "Also the lock-and-key solve of an indoor map (check.solve's answer, as `solve`): one walk serves it and the order the questions are judged by, where an audit and a solve each walk the map (the scorecard's background check). Left out when the map is outdoor or its event handlers could not be read.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "world",
+          "overview",
+          "coplanar",
+          "reachability",
+          "scene_overlays",
+          "scripts",
+          "warnings",
+          "findings",
+          "errors"
+        ],
+        "properties": {
+          "map": {
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "overview": {
+            "type": "object",
+            "required": [
+              "sectors",
+              "bmodels",
+              "faces",
+              "doors",
+              "actors",
+              "spawns",
+              "decorations",
+              "lights",
+              "chests",
+              "loot_containers",
+              "handlers",
+              "bound_events"
+            ],
+            "properties": {
+              "sectors": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "bmodels": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "faces": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "doors": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "actors": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "spawns": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "decorations": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "lights": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "chests": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "loot_containers": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "handlers": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "bound_events": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "coplanar": {
+            "type": "object",
+            "required": [
+              "pairs",
+              "as_original",
+              "new",
+              "original"
+            ],
+            "properties": {
+              "pairs": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "as_original": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "new": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "original": {
+                "description": "The original matched against (empty: none).",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "reachability": {
+            "type": "object",
+            "required": [
+              "ran"
+            ],
+            "properties": {
+              "ran": {
+                "type": "boolean"
+              },
+              "skipped": {
+                "type": "string"
+              },
+              "sectors_with_floor": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "reached_at_start": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "reached_doors_open": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "spawns": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unreachable_spawns": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unreached_sectors": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "stopped_at": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/walk_stop"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "scene_overlays": {
+            "description": "Paths in the asset root (and mount).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "scripts": {
+            "description": "Paths in the asset root (and mount).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "warnings": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/finding"
+            }
+          },
+          "errors": {
+            "description": "Findings of severity error.",
+            "type": "integer",
+            "minimum": 0
+          },
+          "solve": {
+            "description": "The solve, when asked for (`solve`).",
+            "$ref": "#/methods/solve/result"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "solve": {
+      "summary": "The lock-and-key solve of an indoor map: the steps in which it opens up from the party start (waves), which events open what, which items each step needs, what is never reached, and the niches too small or too low to stand in. For a project, sector_rooms names the room of each sector.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "no_mount"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "sectors_with_floor",
+          "waves",
+          "never_reached",
+          "niches_not_reached",
+          "stopped_at",
+          "issues",
+          "waiting",
+          "notes",
+          "exits"
+        ],
+        "properties": {
+          "map": {
+            "type": "string"
+          },
+          "sectors_with_floor": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sector_rooms": {
+            "description": "A project's rooms by sector number.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "waves": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "sectors",
+                "opened_by",
+                "needs"
+              ],
+              "properties": {
+                "sectors": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "opened_by": {
+                  "$ref": "common.rpc.json#/$defs/strings"
+                },
+                "needs": {
+                  "$ref": "common.rpc.json#/$defs/strings"
+                },
+                "more_of": {
+                  "description": "A gate across one room opens no new sector, only more of one.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "sector",
+                      "cells"
+                    ],
+                    "properties": {
+                      "sector": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "cells": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "never_reached": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "niches_not_reached": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "stranded": {
+            "description": "Placed monsters and monster spawn points in sectors the solve never reaches: the party cannot get to them, nor they out to the party.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "index",
+                "at",
+                "sector"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "monster",
+                    "spawn point"
+                  ]
+                },
+                "index": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "name": {
+                  "type": "string"
+                },
+                "at": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "sector": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "stopped_at": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/walk_stop"
+            }
+          },
+          "issues": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "waiting": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "notes": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "exits": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "flow_event": {
+      "summary": "What one event handler tests and does on each way its tests can come out, every call with all its arguments, found by running it in a sandbox.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "no_mount",
+        "no_such_object"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map",
+          "event"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          },
+          "event": {
+            "description": "The event's number (project.query gives the number of a project's evt: id).",
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "event",
+          "title",
+          "paths",
+          "truncated"
+        ],
+        "properties": {
+          "map": {
+            "type": "string"
+          },
+          "event": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "tests",
+                "effects"
+              ],
+              "properties": {
+                "tests": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "what",
+                      "taken"
+                    ],
+                    "properties": {
+                      "what": {
+                        "type": "string"
+                      },
+                      "taken": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "effects": {
+                  "$ref": "common.rpc.json#/$defs/strings"
+                },
+                "error": {
+                  "description": "Why the run stopped on this path.",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "truncated": {
+            "description": "More paths than the sandbox follows.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "metrics": {
+      "summary": "The comparison metrics of a shipped map or a project (`oymap metrics`; CALIBRATION.md): structure, scale, mechanisms, density, palette and play, as one tree of numbers and short lists. calibration/scale_bands.py reads it.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "no_mount",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          },
+          "reach": {
+            "description": "Also the walkable reach from the party start (indoor; seconds).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "world",
+          "metrics"
+        ],
+        "properties": {
+          "map": {
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "metrics": {
+            "description": "`oymap metrics`'s JSON.",
+            "type": "object",
+            "x-tree": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "probe": {
+      "summary": "Why the party can or cannot walk straight between two points of an indoor map (`oymap probe`): the path map's account of the segment (which sample failed, why, at which face) and whether the game's planner finds a route at all.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "no_mount",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map",
+          "from",
+          "to"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          },
+          "from": {
+            "description": "x, y, z in world units.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "to": {
+            "description": "x, y, z in world units.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "doors_open": {
+            "description": "Every door open instead of as the map starts.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "lines"
+        ],
+        "properties": {
+          "map": {
+            "type": "string"
+          },
+          "lines": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": [
+        "code",
+        "severity",
+        "message",
+        "hint"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "error",
+            "warning",
+            "info"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "walk_stop": {
+      "type": "object",
+      "required": [
+        "from_sector",
+        "into_sector",
+        "face",
+        "at",
+        "why"
+      ],
+      "properties": {
+        "from_sector": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "into_sector": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "face": {
+          "type": "integer"
+        },
+        "at": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "why": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "thing": {
+      "type": "object",
+      "required": [
+        "event",
+        "title",
+        "kind",
+        "sector",
+        "textures",
+        "faces",
+        "own_doors",
+        "low",
+        "high",
+        "middle",
+        "stand",
+        "yaw",
+        "pitch",
+        "safe_to_use",
+        "effects",
+        "changes",
+        "overlaps"
+      ],
+      "properties": {
+        "event": {
+          "description": "The event number the faces are bound to.",
+          "type": "integer"
+        },
+        "id": {
+          "description": "The project's id of the event, when the lock names it.",
+          "type": "string"
+        },
+        "title": {
+          "description": "What the player reads on pointing at it; empty: nothing.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "door (its own faces are a door record it moves, larger than 96), lever or button (a small door record it moves), switch (moves other door records or changes textures), chest, exit (leaves the map), teleport, decoration (a clicked decoration), house (outdoors: enters a house), name (outdoors: a named face with no handler), panel (anything else clicked).",
+          "enum": [
+            "door",
+            "lever",
+            "button",
+            "switch",
+            "chest",
+            "exit",
+            "teleport",
+            "decoration",
+            "house",
+            "name",
+            "panel"
+          ]
+        },
+        "sector": {
+          "description": "Indoors the sector holding it; outdoors the model holding most of its faces.",
+          "type": "integer"
+        },
+        "room": {
+          "description": "The project's id of that sector or model, when the lock names it.",
+          "type": "string"
+        },
+        "textures": {
+          "description": "Textures of its faces and how many faces carry each.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "faces": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "own_doors": {
+          "description": "The door records its own faces belong to.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "low": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "high": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "middle": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "stand": {
+          "description": "Where a player stands to use it (the floor there).",
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "yaw": {
+          "description": "The way he looks from there, radians, 0 east, counter-clockwise.",
+          "type": "number",
+          "x-decimals": 4,
+          "x-unit": "radian"
+        },
+        "pitch": {
+          "description": "Down or up at its middle from the party's eye, radians, up positive.",
+          "type": "number",
+          "x-decimals": 4,
+          "x-unit": "radian"
+        },
+        "safe_to_use": {
+          "description": "Running its event in a picture tour is harmless.",
+          "type": "boolean"
+        },
+        "effects": {
+          "description": "What its handler does on its first path.",
+          "$ref": "common.rpc.json#/$defs/strings"
+        },
+        "changes": {
+          "description": "The faces those effects move or retexture.",
+          "$ref": "common.rpc.json#/$defs/strings"
+        },
+        "overlaps": {
+          "description": "Faces in one plane over this thing's, and clicked faces over more than one face behind them.",
+          "$ref": "common.rpc.json#/$defs/strings"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

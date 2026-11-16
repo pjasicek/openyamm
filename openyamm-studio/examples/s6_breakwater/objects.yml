@@ -1,0 +1,19 @@
+format: 1
+start:
+  room: room:yard
+  at: [900, 200]
+  facing: n
+decorations:
+  - {id: deco:barrel, room: room:yard, decoration: bigbarel, at: [880, 880]}
+lights:
+  - {id: light:yard, room: room:yard, radius: 1400, color: [255, 200, 140]}
+  - {id: light:store, room: room:store, radius: 900, color: [255, 190, 120]}
+destructibles:
+  - {id: destructible:barricade, of: platform:barricade, hp: 20, material: wood, sound: 41rockblast01.wav, on_destroyed: evt:barricade_down}
+  - {id: destructible:barrel, of: deco:barrel, hp: 5, material: wood, sound: 41rockblast01.wav, on_destroyed: evt:barrel_gold}
+water:
+  - {id: water:pool, of: level:pool, top: -16, tint: [0.1, 0.4, 0.6]}
+ladders:
+  - {id: ladder:pool, room: room:yard, at: [416, 890], facing: n, height: 192, floor_height: -192, exit: [416, 960], surface: {texture: t1w11a, size: [128, 256], uneven: true}}
+sounds:
+  - {id: sound:drip, room: room:yard, at: [300, 300], sound: 01_01.wav, radius: 900, wait: [3, 7], night_only: true}

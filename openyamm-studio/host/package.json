@@ -1,0 +1,19 @@
+{
+  "name": "oymap-host",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenYAMM Map Studio host: a thin process over `oymap serve` with the MCP server and a WebSocket endpoint",
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "bin": {
+    "oymap-host": "src/host.mjs"
+  },
+  "scripts": {
+    "test": "node test/mcp.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "ws": "^8.22.2",
+    "zod": "^4.6.7"
+  }
+}

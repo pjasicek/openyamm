@@ -1,0 +1,887 @@
+# The S3 acceptance walk through every new room shape: openyamm-studio/tests/run_shapes.sh builds, mounts and
+# plays it. The heights asserted are the proof that the steps and the ramp are walked, not jumped or fallen.
+id: studio.shapes_gallery.walk
+title: The Shapes Gallery, through every shape
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: studio02.blv
+  - assert: {map: studio02.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Events without a clicked object (map variables as ids.lock.yml numbers them: 0 the gate plate's once, 1
+  # in_vault, 2 chimes, 3 in_pit, 4 on_pedestal, 5 vault_burned). The load event has run (7 gold on top of the
+  # party's 10000); the vault's door starts shut.
+  - assert: {gold: 10007}
+  - play_lua:
+      source: |
+        if door_state(3) ~= "closed" then error("the vault door does not start shut") end
+  # Into the trigger room (its own floor is a step source: in_vault 0) and onto the raised plate: its step
+  # event opens the vault's door, once.
+  - walk_to: {x: 400, y: 800, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 650, y: 800, z: 0, radius: 40, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 0, value: 0}}
+  - walk_to: {x: 800, y: 800, z: 4, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: 800, y: 800, radius: 56, z_min: 2, z_max: 6}}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - play_lua:
+      source: |
+        wait(3)
+        if door_state(3) ~= "open" then error("the plate did not open the vault door: " .. door_state(3)) end
+  # The flat plate runs its event each time the party comes onto it: on, off, on again counts two.
+  - walk_to: {x: 672, y: 944, z: 0, radius: 30, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - walk_to: {x: 800, y: 944, z: 0, radius: 30, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - walk_to: {x: 672, y: 944, z: 0, radius: 30, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 2, value: 2}}
+  # A platform's top as a step source: the pedestal casts a fire bolt along the north wall.
+  - assert: {state_dump_map_var: {index: 4, value: 0}}
+  - walk_to: {x: 800, y: 656, z: 0, radius: 30, timeout_seconds: 60}
+  - walk_to: {x: 928, y: 656, z: 16, radius: 30, timeout_seconds: 60}
+  - assert: {party_position: {x: 928, y: 656, radius: 48, z_min: 12, z_max: 20}}
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  # A sunken level as a step source and as lava: its event runs and standing in it burns (the party is mortal
+  # for these seconds: an immortal party takes no damage). The timer has run all the while and done nothing: its
+  # condition (in_vault) does not hold.
+  - assert: {party_health: {full: true}}
+  - setup_shortcut: {kind: immortal, value: false}
+  - assert: {state_dump_map_var: {index: 3, value: 0}}
+  - assert: {state_dump_map_var: {index: 5, value: 0}}
+  - walk_to: {x: 928, y: 800, z: 0, radius: 30, timeout_seconds: 60}
+  - walk_to: {x: 928, y: 944, z: -16, radius: 30, timeout_seconds: 60}
+  - play_lua: {source: "wait(3)"}
+  - assert: {party_position: {x: 928, y: 944, radius: 48, z_min: -20, z_max: -12}}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - assert: {party_health: {full: false}}
+  - setup_shortcut: {kind: immortal, value: true}
+  # The vault's own floor sets in_vault; the timer reads it every two seconds and burns the party.
+  - walk_to: {x: 928, y: 800, z: 0, radius: 30, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 1, value: 0}}
+  - walk_to: {x: 1200, y: 800, z: 0, radius: 48, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - play_lua: {source: "wait(5)"}
+  - assert: {state_dump_map_var: {index: 5, value: 1}}
+  # Back on the trigger room's floor the variable is cleared.
+  - walk_to: {x: 900, y: 800, z: 0, radius: 40, timeout_seconds: 60}
+  - assert: {state_dump_map_var: {index: 1, value: 0}}
+  - walk_to: {x: 650, y: 800, z: 0, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 400, y: 800, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  # Round the L of the hall, past the pillar.
+  - walk_to: {x: 256, y: 880, z: 0, radius: 96, timeout_seconds: 60}
+  # The guard post west of the hall's north arm. A placed monster (a Goblin Lord, monster 273) stands at its post:
+  # peaceful by the project's word (its kind is hostile; the build's own load event clears its group's Hostile
+  # bit) and, being `immobile`, still there after a while.
+  - walk_to: {x: -128, y: 864, z: 0, radius: 48, timeout_seconds: 60}
+  - assert: {actor_count: {monster_id: 273, near: [-256, 928, 40], hostile: false, min: 1, max: 1}}
+  - play_lua: {source: "wait(4)"}
+  - assert: {actor_count: {monster_id: 273, near: [-256, 928, 40], hostile: false, min: 1, max: 1}}
+  # (The only hostile monster of the map is the boss in the tunnel off the apse, a Goblin, monster 271.)
+  - assert: {actor_count: {monster_id: 273, hostile: true, max: 0}}
+  - assert: {actor_count: {hostile: true, max: 1}}
+  # The key on the floor (item 2109) is picked up as a player picks it up.
+  - pick_up: {item_id: 2109}
+  - play_lua:
+      source: |
+        if not has_item(2109) then error("the key on the guard post's floor was not picked up") end
+  # A platform that is clicked and does not move (event 24 adds to map variable 7), and a wall panel that is read
+  # (event 23): the use key at each from in front of it.
+  - assert: {state_dump_map_var: {index: 7, value: 0}}
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 24
+      pose: {x: -150, y: 800, z: 0, map: studio02.blv, yaw: 3.14159, pitch: -0.6}
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 23
+      pose: {x: -200, y: 864, z: 0, map: studio02.blv, yaw: 3.14159, pitch: -0.25}
+  # A notice (a text titled as a sign) shows its text in a message window, as the shipped maps' signs do; the
+  # player reads it and closes it.
+  - assert:
+      dialog: {text_contains: "The guard keeps the key."}
+  - play_lua:
+      source: |
+        if not close() then error("the notice opened no message window") end
+  # The rig south of the guard post. A lever on a post (a switch on a platform's side, event 29) parts a gate of
+  # two halves: the upper (door 19) rises into the ceiling, the lower (door 20) sinks into the floor.
+  - walk_to: {x: -192, y: 800, z: 0, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: -192, y: 650, z: 0, radius: 40, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(19) ~= "closed" or door_state(20) ~= "closed" then error("the gate does not start shut") end
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 29
+      pose: {x: -200, y: 670, z: 0, map: studio02.blv, yaw: -1.5708, pitch: -0.5}
+  - play_lua:
+      source: |
+        wait(3)
+        if door_state(19) ~= "open" or door_state(20) ~= "open" then
+          error("the lever did not part the gate: " .. door_state(19) .. ", " .. door_state(20))
+        end
+  # A button in the south wall (a mover, door 17, clicked itself: event 26) is pushed 8 into the wall.
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 26
+      pose: {x: -120, y: 520, z: 0, map: studio02.blv, yaw: -1.5708, pitch: -0.55}
+  - play_lua:
+      source: |
+        wait(2)
+        if door_state(17) ~= "open" then error("the wall button was not pushed in: " .. door_state(17)) end
+  # Through the gate to the deck (door 18): the button on its side (a switch on a mover, event 28) sends it up
+  # and down, and rides with it; so do the chest on it and its two posts.
+  - walk_to: {x: -350, y: 568, z: 0, radius: 40, timeout_seconds: 60}
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 28
+      pose: {x: -350, y: 568, z: 0, map: studio02.blv, yaw: 3.14159, pitch: -1.08}
+  - play_lua:
+      source: |
+        wait(2)
+        if door_state(18) ~= "open" then error("the deck did not rise: " .. door_state(18)) end
+  # Raised by 40 the button is 40 higher: the use key finds it there.
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 28
+      pose: {x: -350, y: 568, z: 0, map: studio02.blv, yaw: 3.14159, pitch: -0.95}
+  - play_lua:
+      source: |
+        wait(2)
+        if door_state(18) ~= "closed" then error("the deck did not come down: " .. door_state(18)) end
+  # Onto the deck beside its chest, and up with it.
+  - walk_to: {x: -462, y: 568, z: 16, radius: 24, timeout_seconds: 60}
+  - assert: {party_position: {x: -462, y: 568, radius: 40, z_min: 12, z_max: 20}}
+  - play_lua:
+      source: |
+        click(28); wait(2)
+        if door_state(18) ~= "open" then error("the deck did not rise under the party: " .. door_state(18)) end
+  - assert: {party_position: {x: -462, y: 568, radius: 40, z_min: 52, z_max: 60}}
+  - play_lua: {source: "click(28); wait(2)"}
+  - assert: {party_position: {x: -462, y: 568, radius: 40, z_min: 12, z_max: 20}}
+  - walk_to: {x: -350, y: 568, z: 0, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: -192, y: 650, z: 0, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: -192, y: 800, z: 0, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: -128, y: 864, z: 0, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 880, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  # West of the hall: up the ramp under its parallel ceiling into the loft under the lean-to ceiling.
+  - walk_to: {x: 60, y: 256, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: -320, y: 256, z: 96, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -320, y: 256, radius: 70, z_min: 70, z_max: 125}}
+  - walk_to: {x: -700, y: 256, z: 192, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -700, y: 256, radius: 70, z_min: 188, z_max: 196}}
+  # Round the hole and the stairwell to the rotunda under its leaning dome, and back.
+  - walk_to: {x: -700, y: -40, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1380, y: -40, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1380, y: 256, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1792, y: 256, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -1792, y: 256, radius: 90, z_min: 188, z_max: 196}}
+  - walk_to: {x: -1380, y: 256, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1380, y: -40, z: 192, radius: 48, timeout_seconds: 60}
+  # The upper of the two doorways in the atrium's north wall: through it at the loft's height, then off its edge
+  # down to the atrium's floor.
+  - walk_to: {x: -864, y: -40, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -864, y: -200, z: 192, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: -864, y: -200, radius: 56, z_min: 188, z_max: 196}}
+  - walk_to: {x: -864, y: -420, z: -64, radius: 64, timeout_seconds: 60}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -864, y: -420, radius: 90, z_min: -68, z_max: -60}}
+  # Back through the lower doorway, straight under the upper one, into the undercroft.
+  - walk_to: {x: -864, y: -224, z: -64, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: -864, y: -224, radius: 56, z_min: -68, z_max: -60}}
+  - walk_to: {x: -864, y: -96, z: -64, radius: 48, timeout_seconds: 60}
+  # Up the stairwell: its ceiling is a hole in the loft's floor, and its top step ends one rise under that floor.
+  - walk_to: {x: -1184, y: -96, z: -64, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1184, y: 352, z: 64, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: -1184, y: 352, radius: 60, z_min: 60, z_max: 100}}
+  - walk_to: {x: -1184, y: 640, z: 192, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: -1184, y: 640, radius: 56, z_min: 188, z_max: 196}}
+  # Into the hole in the loft's floor: a fall through the floor's thickness onto the undercroft's floor.
+  - walk_to: {x: -864, y: 520, z: 192, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: -864, y: 520, radius: 56, z_min: 188, z_max: 196}}
+  - walk_to: {x: -864, y: 320, z: -64, radius: 48, timeout_seconds: 60}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: -864, y: 320, radius: 96, z_min: -68, z_max: -60}}
+  # Out by the stairwell again and back down the ramp to the hall.
+  - walk_to: {x: -864, y: -96, z: -64, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1184, y: -96, z: -64, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1184, y: 640, z: 192, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: -700, y: 480, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -700, y: 256, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 60, y: 256, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  # The split-level hall: in on the gallery, down the north flight to the sunken floor, across it, up the south
+  # flight, and back the same way.
+  - walk_to: {x: 512, y: 60, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 512, y: -200, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 512, y: -704, z: -128, radius: 64, timeout_seconds: 60}
+  # The party runs down the steps faster than it falls: let it land.
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 512, y: -704, radius: 90, z_min: -132, z_max: -124}}
+  - walk_to: {x: 512, y: -1210, z: 0, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 512, y: -1210, radius: 90, z_min: -4, z_max: 4}}
+  - walk_to: {x: 512, y: -704, z: -128, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 512, y: -200, z: 0, radius: 64, timeout_seconds: 60}
+  # East of the split-level hall: the panel room behind its door (door 4, event 12), whose leaf has a surface for
+  # each side.
+  - walk_to: {x: 940, y: -200, z: 0, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 940, y: -1024, z: 0, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        if door_state(4) ~= "closed" then error("the panel room's door does not start shut") end
+        click(12); wait(3)
+        if door_state(4) ~= "open" then error("the panel room's door did not open: " .. door_state(4)) end
+  - walk_to: {x: 1300, y: -1024, z: 0, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 1300, y: -1024, radius: 90, z_min: -4, z_max: 4}}
+  # The tunnel that climbs round a bend (a path room with a slope): 0 at its first point, 104 where the bend
+  # begins (384 of 949 units of path), 152 where it ends (565 of 949), 256 at its last point. The heights are
+  # the proof that the party walks up the floor.
+  - walk_to: {x: 1640, y: -1024, z: 0, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 1984, y: -1024, z: 104, radius: 32, timeout_seconds: 60}
+  - assert: {party_position: {x: 1984, y: -1024, radius: 48, z_min: 88, z_max: 120}}
+  - walk_to: {x: 2112, y: -896, z: 152, radius: 32, timeout_seconds: 60}
+  - assert: {party_position: {x: 2112, y: -896, radius: 48, z_min: 136, z_max: 168}}
+  - walk_to: {x: 2112, y: -704, z: 204, radius: 32, timeout_seconds: 60}
+  - assert: {party_position: {x: 2112, y: -704, radius: 48, z_min: 188, z_max: 220}}
+  - walk_to: {x: 2112, y: -400, z: 256, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: 2112, y: -400, radius: 64, z_min: 252, z_max: 260}}
+  # Up the flight with wooden treads onto the block, and up the steps with wooden treads behind the doorway.
+  - walk_to: {x: 2112, y: -200, z: 256, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 2060, y: -64, z: 256, radius: 32, timeout_seconds: 60}
+  - walk_to: {x: 2368, y: -64, z: 352, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: 2368, y: -64, radius: 56, z_min: 348, z_max: 356}}
+  - walk_to: {x: 2060, y: -64, z: 256, radius: 32, timeout_seconds: 60}
+  - walk_to: {x: 2400, y: -224, z: 256, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 2752, y: -224, z: 352, radius: 30, timeout_seconds: 60}
+  - assert: {party_position: {x: 2752, y: -224, radius: 46, z_min: 316, z_max: 388}}
+  - walk_to: {x: 2880, y: -224, z: 416, radius: 30, timeout_seconds: 60}
+  - assert: {party_position: {x: 2880, y: -224, radius: 46, z_min: 412, z_max: 420}}
+  # The tunnels east of the climbing tunnel's head. Through the six-sided mouth in the hall's wall into the tunnel
+  # (a `path` room with a `section`), through the doorway in its level side into the nook and back, up its ramp
+  # (a height at each path point), through the doorway in the climbing side (level on the floor at its higher
+  # jamb, 336) into the side room, round the mitred bend, through the joint with the next tunnel (open over the
+  # whole section) and out of its square end into the cell.
+  - walk_to: {x: 2400, y: -224, z: 256, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 2400, y: -416, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 2784, y: -700, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 3200, y: -768, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3200, y: -768, radius: 56, z_min: 252, z_max: 260}}
+  - walk_to: {x: 3296, y: -1056, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3296, y: -1056, radius: 56, z_min: 252, z_max: 260}}
+  - walk_to: {x: 3296, y: -768, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 3808, y: -768, z: 320, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 3808, y: -768, radius: 56, z_min: 308, z_max: 332}}
+  - walk_to: {x: 3808, y: -480, z: 320, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3808, y: -480, radius: 56, z_min: 316, z_max: 324}}
+  - walk_to: {x: 3900, y: -768, z: 343, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - walk_to: {x: 4064, y: -768, z: 384, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 4064, y: -1400, z: 384, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 4064, y: -1400, radius: 56, z_min: 380, z_max: 388}}
+  # On the way the party crossed the plate that lies across the tunnel's floor (map variable 6, tunnel_pads).
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  - walk_to: {x: 4064, y: -2080, z: 384, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  # Into the tube with banks through its eight-sided mouth, and up its south bank: 110 from the middle the bank
+  # stands 38 above the floor (it rises 74 over 90, which the party walks).
+  - walk_to: {x: 4576, y: -2080, z: 384, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 4576, y: -2080, radius: 56, z_min: 380, z_max: 388}}
+  - walk_to: {x: 4576, y: -2190, z: 422, radius: 30, z_tolerance: 14, timeout_seconds: 60}
+  - assert: {party_position: {x: 4576, y: -2190, radius: 48, z_min: 408, z_max: 436}}
+  # And back the same way to the head of the climbing tunnel.
+  - walk_to: {x: 4064, y: -2080, z: 384, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 4064, y: -768, z: 384, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 3200, y: -768, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 2784, y: -700, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 2400, y: -416, z: 256, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  # Back down the tunnel into the hall.
+  - walk_to: {x: 2400, y: -224, z: 256, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 2112, y: -400, z: 256, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 2112, y: -896, z: 152, radius: 32, timeout_seconds: 60}
+  - walk_to: {x: 1984, y: -1024, z: 104, radius: 32, timeout_seconds: 60}
+  - walk_to: {x: 1640, y: -1024, z: 0, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: 1640, y: -1024, radius: 56, z_min: -4, z_max: 28}}
+  - walk_to: {x: 1300, y: -1024, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 940, y: -1024, z: 0, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 940, y: -200, z: 0, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 512, y: -200, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 512, y: 60, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  # Onto the dais and off it again.
+  - walk_to: {x: 768, y: 160, z: 32, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 768, y: 160, radius: 80, z_min: 24, z_max: 48}}
+  - walk_to: {x: 900, y: 380, z: 0, radius: 64, timeout_seconds: 60}
+  # Through the bent corridor.
+  - walk_to: {x: 1300, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 1600, y: 256, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 1600, y: 760, z: 0, radius: 64, timeout_seconds: 60}
+  # Up the eight steps to the gallery.
+  - walk_to: {x: 1600, y: 1100, z: 128, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 1600, y: 1100, radius: 80, z_min: 96, z_max: 160}}
+  - walk_to: {x: 1600, y: 1600, z: 256, radius: 96, timeout_seconds: 60}
+  - assert: {party_position: {x: 1600, y: 1600, radius: 120, z_min: 250, z_max: 262}}
+  - play_lua:
+      source: |
+        loot_chest(1)
+  # The lift: stand on it, use it, and be carried up 128 units; use it again and come back down.
+  - walk_to: {x: 1472, y: 1504, z: 264, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(3); wait(4)
+        if door_state(2) ~= "open" then error("the lift did not rise: " .. door_state(2)) end
+  - assert: {party_position: {x: 1472, y: 1504, radius: 100, z_min: 380, z_max: 400}}
+  - play_lua:
+      source: |
+        click(3); wait(4)
+  - assert: {party_position: {x: 1472, y: 1504, radius: 100, z_min: 256, z_max: 272}}
+  - walk_to: {x: 1600, y: 1664, z: 256, radius: 64, timeout_seconds: 60}
+  # The closet's hinged door: shut until clicked, then it swings and the way is clear.
+  - play_lua:
+      source: |
+        if door_state(1) ~= "closed" then error("the closet door does not start shut") end
+        click(2); wait(3)
+        if door_state(1) ~= "open" then error("the closet door did not swing open: " .. door_state(1)) end
+  - walk_to: {x: 2048, y: 1664, z: 256, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 1600, y: 1600, z: 256, radius: 96, timeout_seconds: 60}
+  # Back down, and down the ramp into the cave.
+  - walk_to: {x: 1600, y: 760, z: 0, radius: 64, timeout_seconds: 90}
+  - walk_to: {x: 1600, y: 256, z: 0, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 900, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 256, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 120, y: 900, z: 0, radius: 96, timeout_seconds: 60}
+  - walk_to: {x: 256, y: 1344, z: -96, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 256, y: 1344, radius: 80, z_min: -130, z_max: -60}}
+  - walk_to: {x: 256, y: 1900, z: -192, radius: 96, timeout_seconds: 60}
+  - assert: {party_position: {x: 256, y: 1900, radius: 120, z_min: -200, z_max: -184}}
+  # Round the cave's inward bend.
+  - walk_to: {x: 300, y: 2200, z: -192, radius: 96, timeout_seconds: 60}
+  # Round the rock island and through the open mouth into the grotto.
+  - walk_to: {x: 20, y: 2060, z: -192, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: -150, y: 2250, z: -192, radius: 96, timeout_seconds: 60}
+  # The shrine wing behind the closet. Up the flight that ends on the edge of the hanging slab.
+  - set_pose: {map: studio02.blv, x: 2750, y: 1900, z: 256, yaw_degrees: 180}
+  - walk_to: {x: 2620, y: 1888, z: 256, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 2336, y: 1840, z: 352, radius: 56, timeout_seconds: 60}
+  - assert: {party_position: {x: 2336, y: 1840, radius: 80, z_min: 344, z_max: 360}}
+  # Through the two openings that rise into the tube's gable ends, into the room under the steep ceiling.
+  - walk_to: {x: 2880, y: 1664, z: 256, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 3264, y: 1664, z: 256, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 3680, y: 1664, z: 256, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 3680, y: 1664, radius: 96, z_min: 248, z_max: 264}}
+  # Back, and down the stairwell of twelve steps into the crypt.
+  - walk_to: {x: 2880, y: 1664, z: 256, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: 2256, y: 1520, z: 256, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 2256, y: 1392, z: 224, radius: 40, timeout_seconds: 60}
+  - walk_to: {x: 2560, y: 1392, z: -96, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 2800, y: 1440, z: -128, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 2800, y: 1440, radius: 96, z_min: -136, z_max: -120}}
+  # Up again, and down the steps under the coffer.
+  - walk_to: {x: 2256, y: 1392, z: 224, radius: 40, timeout_seconds: 90}
+  - walk_to: {x: 2256, y: 1520, z: 256, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: 2256, y: 1520, radius: 64, z_min: 248, z_max: 264}}
+  - walk_to: {x: 2752, y: 1330, z: 256, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: 2752, y: 736, z: 0, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: 2752, y: 736, radius: 96, z_min: -8, z_max: 8}}
+  # The works wing west of the rotunda: doors that slide sideways and doors of two leaves, movers, a thin lift
+  # through a floor hole (door numbers as ids.lock.yml has them). A shut door stops a straight walk; opened, the
+  # walk goes through.
+  - set_pose: {map: studio02.blv, x: -2304, y: 256, z: 192, yaw_degrees: 90}
+  - play_lua:
+      source: |
+        for _, door in ipairs({6, 7, 8, 9, 10}) do
+          if door_state(door) ~= "closed" then error("door " .. door .. " does not start shut") end
+        end
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -2304, y: 560, z: 192, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -2304, y: 750, z: 192, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 8
+  - play_lua:
+      source: |
+        click(18); wait(3)
+        if door_state(8) ~= "open" then error("the sideways door did not open: " .. door_state(8)) end
+  - walk_to: {x: -2304, y: 960, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -2304, y: 960, radius: 80, z_min: 188, z_max: 196}}
+  # Two leaves that part sideways: one click moves both.
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -2688, y: 560, z: 192, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -2688, y: 750, z: 192, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 8
+  - play_lua:
+      source: |
+        click(16); wait(2)
+        if door_state(6) ~= "open" or door_state(7) ~= "open" then
+          error("the two leaves did not part: " .. door_state(6) .. ", " .. door_state(7))
+        end
+  - walk_to: {x: -2688, y: 960, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -2688, y: 960, radius: 80, z_min: 188, z_max: 196}}
+  # Two leaves that part up and down.
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -3040, y: 560, z: 192, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -3040, y: 750, z: 192, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 8
+  - play_lua:
+      source: |
+        click(19); wait(2)
+        if door_state(9) ~= "open" or door_state(10) ~= "open" then
+          error("the split door did not part: " .. door_state(9) .. ", " .. door_state(10))
+        end
+  - walk_to: {x: -3040, y: 960, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -3040, y: 960, radius: 80, z_min: 188, z_max: 196}}
+  # The gate block stands from wall to wall and floor to ceiling; the lever sinks it and the plate before it.
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -2272, y: -380, z: 192, yaw_degrees: 270, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -2272, y: -535, z: 192, yaw_degrees: 270, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 12
+  - play_lua:
+      source: |
+        if door_state(12) ~= "closed" then error("the gate block does not start up") end
+        click(14); wait(4)
+        if door_state(12) ~= "open" or door_state(14) ~= "open" then
+          error("the gate block or the plate did not sink: " .. door_state(12) .. ", " .. door_state(14))
+        end
+  - walk_to: {x: -2272, y: -700, z: 192, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -2272, y: -700, radius: 64, z_min: 188, z_max: 196}}
+  # The carrying block travels 176 south and 128 up at once: the party on it is carried along both.
+  - walk_to: {x: -2272, y: -832, z: 200, radius: 24, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(20); wait(5)
+        if door_state(15) ~= "open" then error("the carrying block did not travel: " .. door_state(15)) end
+  - assert: {party_position: {x: -2272, y: -1008, radius: 40, z_min: 324, z_max: 332}}
+  - walk_to: {x: -2272, y: -1280, z: 320, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -2272, y: -1280, radius: 64, z_min: 316, z_max: 324}}
+  - walk_to: {x: -2272, y: -1008, z: 328, radius: 24, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(20); wait(5)
+  - assert: {party_position: {x: -2272, y: -832, radius: 40, z_min: 196, z_max: 204}}
+  # The wall section shuts the passage; the lever slides it into its pocket, and it comes back by itself.
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -2912, y: -400, z: 192, yaw_degrees: 270, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -2912, y: -585, z: 192, yaw_degrees: 270, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 8
+  - play_lua:
+      source: |
+        if door_state(16) ~= "closed" then error("the wall section does not start shut") end
+        click(21); wait(3)
+        if door_state(16) ~= "open" then error("the wall section did not slide away: " .. door_state(16)) end
+  - walk_to: {x: -2912, y: -1150, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -2912, y: -1150, radius: 80, z_min: 188, z_max: 196}}
+  - play_lua:
+      max_seconds: 40
+      source: |
+        wait(24)
+        if door_state(16) ~= "closed" then error("the wall section did not come back: " .. door_state(16)) end
+  # The pod lift is a floor 16 thick under a hole in the deck: it carries the party up through the hole.
+  - set_pose: {map: studio02.blv, x: -2624, y: -350, z: 192, yaw_degrees: 270}
+  - walk_to: {x: -2624, y: -448, z: 200, radius: 24, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(17); wait(4)
+        if door_state(5) ~= "open" then error("the pod lift did not rise: " .. door_state(5)) end
+  - assert: {party_position: {x: -2624, y: -448, radius: 40, z_min: 460, z_max: 468}}
+  - walk_to: {x: -2624, y: -720, z: 464, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -2624, y: -720, radius: 64, z_min: 460, z_max: 468}}
+  # Raised, the shaft under it is open: the party walks through under the lift.
+  - set_pose: {map: studio02.blv, x: -2624, y: -350, z: 192, yaw_degrees: 270}
+  - walk_to: {x: -2624, y: -540, z: 192, radius: 24, timeout_seconds: 60}
+  - assert: {party_position: {x: -2624, y: -540, radius: 40, z_min: 188, z_max: 196}}
+  # The bridge lies along the pit's south wall until the lever slides it between the two mouths.
+  - set_pose: {map: studio02.blv, x: -2900, y: 400, z: 192, yaw_degrees: 180}
+  - play_lua:
+      source: |
+        if door_state(11) ~= "closed" then error("the bridge does not start aside") end
+        click(13); wait(3)
+        if door_state(11) ~= "open" then error("the bridge did not slide: " .. door_state(11)) end
+  - walk_to: {x: -3392, y: 400, z: 192, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: -3900, y: 400, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -3900, y: 400, radius: 80, z_min: 188, z_max: 196}}
+  # The bridge carries the party: standing on it, the party rides 256 back to the south wall and out again, and
+  # does not drop into the pit (a part that slides level carries only because its record has `carry`).
+  - set_pose: {map: studio02.blv, x: -3392, y: 400, z: 192, yaw_degrees: 180}
+  - play_lua:
+      source: |
+        click(13); wait(3)
+        if door_state(11) ~= "closed" then error("the bridge did not slide back: " .. door_state(11)) end
+  - assert: {party_position: {x: -3392, y: 144, radius: 24, z_min: 188, z_max: 196}}
+  - play_lua:
+      source: |
+        click(13); wait(3)
+        if door_state(11) ~= "open" then error("the bridge did not slide out again: " .. door_state(11)) end
+  - assert: {party_position: {x: -3392, y: 400, radius: 24, z_min: 188, z_max: 196}}
+  - walk_to: {x: -3900, y: 400, z: 192, radius: 64, timeout_seconds: 60}
+  # The stub at the bank's west mouth grows 448 across the second pit.
+  - play_lua:
+      source: |
+        if door_state(13) ~= "closed" then error("the growing bridge does not start as a stub") end
+        click(15); wait(5)
+        if door_state(13) ~= "open" then error("the bridge did not grow: " .. door_state(13)) end
+  - walk_to: {x: -4416, y: 256, z: 192, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: -4900, y: 256, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -4900, y: 256, radius: 80, z_min: 188, z_max: 196}}
+  # Through the far bank's west doorway into the south dome, and through the mouth in two parts into the north dome.
+  - walk_to: {x: -5728, y: 256, z: 192, radius: 64, timeout_seconds: 60}
+  - walk_to: {x: -5728, y: 1000, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -5728, y: 1000, radius: 80, z_min: 188, z_max: 196}}
+  # Uneven floors, banks and wedges (south of the nave). The hollow's floor is one plane rising to the south-east,
+  # with level sills at its mouths: the heights asserted are the plane's. A block stands on the slope.
+  - set_pose: {map: studio02.blv, x: 512, y: -1200, z: 0, yaw_degrees: 270}
+  - walk_to: {x: 512, y: -1500, z: 35, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 512, y: -1500, radius: 56, z_min: 25, z_max: 45}}
+  - walk_to: {x: 600, y: -1950, z: 100, radius: 48, z_tolerance: 40, timeout_seconds: 60}
+  - walk_to: {x: 300, y: -2200, z: 135, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 300, y: -2200, radius: 56, z_min: 125, z_max: 145}}
+  - walk_to: {x: 760, y: -2050, z: 173, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 760, y: -2050, radius: 48, z_min: 169, z_max: 177}}
+  # Into the hollow with banks: its level floor, and up the south bank (0.71 for each unit, walked).
+  - walk_to: {x: 900, y: -1752, z: 130, radius: 40, z_tolerance: 30, timeout_seconds: 60}
+  - walk_to: {x: 1100, y: -1752, z: 144, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1500, y: -1880, z: 144, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 1500, y: -1880, radius: 56, z_min: 140, z_max: 148}}
+  - walk_to: {x: 1700, y: -2300, z: 233, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 1700, y: -2300, radius: 56, z_min: 222, z_max: 244}}
+  - walk_to: {x: 1100, y: -1752, z: 144, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 700, y: -2100, z: 150, radius: 60, z_tolerance: 40, timeout_seconds: 60}
+  # The trench: down its north bank, across its floor and up its south bank; the funnel; the mound.
+  - walk_to: {x: 320, y: -2340, z: 155, radius: 40, z_tolerance: 20, timeout_seconds: 60}
+  - walk_to: {x: 320, y: -2500, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 512, y: -2670, z: 98, radius: 30, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 512, y: -2670, radius: 48, z_min: 86, z_max: 110}}
+  - walk_to: {x: 512, y: -2816, z: 32, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 512, y: -2816, radius: 48, z_min: 28, z_max: 36}}
+  - walk_to: {x: 512, y: -2960, z: 96, radius: 30, z_tolerance: 12, timeout_seconds: 60}
+  - walk_to: {x: 512, y: -3064, z: 160, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 512, y: -3064, radius: 48, z_min: 156, z_max: 164}}
+  - walk_to: {x: 288, y: -3264, z: 64, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 288, y: -3264, radius: 48, z_min: 60, z_max: 68}}
+  - walk_to: {x: 512, y: -3264, z: 160, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 768, y: -3232, z: 224, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 768, y: -3232, radius: 48, z_min: 220, z_max: 228}}
+  # The wedges: up the ramp block into the loft, onto the block with a height at each corner, then the flight to
+  # the landing under another (`to_height`) and the open flight that leaves it (`from_height`).
+  - walk_to: {x: 960, y: -2936, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1300, y: -2936, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1450, y: -3100, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1600, y: -3100, z: 172, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 1600, y: -3100, radius: 48, z_min: 164, z_max: 180}}
+  - walk_to: {x: 2000, y: -3100, z: 272, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 2250, y: -3100, z: 288, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 2250, y: -3100, radius: 56, z_min: 284, z_max: 292}}
+  - walk_to: {x: 2000, y: -3100, z: 272, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1450, y: -3100, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1450, y: -3300, z: 200, radius: 30, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 1450, y: -3300, radius: 48, z_min: 188, z_max: 212}}
+  - walk_to: {x: 1450, y: -3100, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1450, y: -2900, z: 160, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1840, y: -2860, z: 160, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1840, y: -2560, z: 256, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 1840, y: -2560, radius: 48, z_min: 252, z_max: 260}}
+  - walk_to: {x: 1580, y: -2560, z: 320, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 1264, y: -2560, z: 384, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 1264, y: -2560, radius: 48, z_min: 380, z_max: 388}}
+  # The gully behind the wedge loft: its mouth to the east is the cave's whole section and follows the floor's bank
+  # and the roof's lean. Through it on the level floor, up the bank beyond (0.4 for each unit: 348 at y -2150),
+  # and back through the mouth across the bank, where a level sill would have left a wall.
+  - set_pose: {map: studio02.blv, x: 2272, y: -3000, z: 288, yaw_degrees: 90}
+  - walk_to: {x: 2272, y: -2600, z: 288, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 2900, y: -2600, z: 288, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 2900, y: -2600, radius: 56, z_min: 284, z_max: 292}}
+  - walk_to: {x: 2900, y: -2150, z: 348, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 2900, y: -2150, radius: 56, z_min: 336, z_max: 360}}
+  - walk_to: {x: 2352, y: -2150, z: 348, radius: 40, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 2352, y: -2150, radius: 56, z_min: 336, z_max: 360}}
+  # The dais across the foot of the bank (a level over uneven floor, its top at 336): onto it from the bank, where
+  # the floor comes up to it.
+  - walk_to: {x: 2220, y: -2190, z: 332, radius: 30, z_tolerance: 12, timeout_seconds: 60}
+  - walk_to: {x: 2220, y: -2300, z: 336, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 2220, y: -2300, radius: 48, z_min: 332, z_max: 340}}
+  # The hanging ramp in the gully's other half: a slab 16 thick from 16 over the floor (304) up to the landing at
+  # 384; half way up it the party stands at 344.
+  - walk_to: {x: 2900, y: -2400, z: 288, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 3088, y: -2300, z: 288, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 3088, y: -2496, z: 344, radius: 30, z_tolerance: 12, timeout_seconds: 60}
+  - assert: {party_position: {x: 3088, y: -2496, radius: 48, z_min: 334, z_max: 354}}
+  - walk_to: {x: 3088, y: -2716, z: 384, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3088, y: -2716, radius: 48, z_min: 380, z_max: 388}}
+  # The arch in the gully's east wall stands on the bank: through it where its sill is the passage's floor (320),
+  # along the vaulted passage and up the flight that ends in the doorway at its north end: three treads (344, 368,
+  # 392) and the apse's floor (416) as the top step, under a mouth that is the vault's whole profile.
+  - walk_to: {x: 2900, y: -2400, z: 288, radius: 40, z_tolerance: 8, timeout_seconds: 60}
+  - walk_to: {x: 3040, y: -2230, z: 316, radius: 30, z_tolerance: 12, timeout_seconds: 60}
+  - walk_to: {x: 3344, y: -2230, z: 320, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3344, y: -2230, radius: 48, z_min: 316, z_max: 324}}
+  - walk_to: {x: 3344, y: -1948, z: 368, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3344, y: -1948, radius: 40, z_min: 364, z_max: 372}}
+  - walk_to: {x: 3344, y: -1700, z: 416, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3344, y: -1700, radius: 48, z_min: 412, z_max: 420}}
+  # A boss stands in the tunnel off the apse (a Goblin with three times a Goblin's hit points and a name of its own);
+  # a timer event waits for its death (`kills`) and then, once, sets a map variable (boss_dead, number 9).
+  - assert: {state_dump_map_var: {index: 9, value: 0}}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        local killed = clear_hostiles(900)
+        if killed ~= 1 then error("the boss was to be the one enemy within reach; killed " .. killed) end
+        wait(5)
+  - assert: {state_dump_map_var: {index: 9, value: 1}}
+  # Into the tunnel whose section has one highest point, and back.
+  - walk_to: {x: 2800, y: -1596, z: 416, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 2800, y: -1596, radius: 48, z_min: 412, z_max: 420}}
+  - walk_to: {x: 3344, y: -1596, z: 416, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  # Two plates in the apse switch its two coloured lights (the map's first two lights: the red one starts dark, the
+  # green one lit). The western plate lights the red and darkens the green; the eastern one the other way round.
+  - walk_to: {x: 3250, y: -1480, z: 416, radius: 24, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {light: {key: 0, "on": true}}
+  - assert: {light: {key: 1, "on": false}}
+  - walk_to: {x: 3440, y: -1480, z: 416, radius: 24, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {light: {key: 0, "on": false}}
+  - assert: {light: {key: 1, "on": true}}
+  # The pit behind the apse: onto the floor that is solid and not drawn (the north half: the party stands at 416
+  # over a pit it can see into), then onto the one that is drawn and not solid (the south half: it falls through to
+  # the pit's floor at 160).
+  - walk_to: {x: 3764, y: -1500, z: 416, radius: 30, z_tolerance: 8, timeout_seconds: 60}
+  - assert: {party_position: {x: 3764, y: -1500, radius: 48, z_min: 412, z_max: 420}}
+  - walk_to: {x: 3764, y: -1700, z: 160, radius: 60, z_tolerance: 300, timeout_seconds: 60, plan: false}
+  - play_lua:
+      source: |
+        wait(2)
+  - assert: {party_position: {x: 3764, y: -1700, radius: 90, z_min: 156, z_max: 164}}
+  # Out of the pit by its ladder (a strip of the scene against the west wall, under the doorway: the game climbs it)
+  # through the floor that is not solid, and set down in the apse's doorway.
+  - climb: {ladder: pit, timeout_seconds: 30}
+  - assert: {party_position: {x: 3576, y: -1650, radius: 80, z_min: 412, z_max: 420}}
+  # The hall of door leaves, north of the cell behind the sideways door (door numbers as ids.lock.yml has them:
+  # 21 and 22 the folding double door, 23 the door of two pictures, 24 the one that opens part of its way, 25 and
+  # 26 the lower and upper half that pass each other, 27 and 28 the sealed door).
+  - set_pose: {map: studio02.blv, x: -2304, y: 960, z: 192, yaw_degrees: 90}
+  - walk_to: {x: -2304, y: 1280, z: 192, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        for _, door in ipairs({21, 22, 23, 24, 25, 26, 27, 28}) do
+          if door_state(door) ~= "closed" then error("door " .. door .. " does not start shut") end
+        end
+  # Two leaves that fold against their jambs: the doorway is the cell's whole wall, 512 wide, and the next cell
+  # stands 32 beside it. Shut, they stop a straight walk; folded, the walk goes through.
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -2848, y: 1440, z: 192, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -2848, y: 1640, z: 192, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 8
+  - play_lua:
+      source: |
+        click(34); wait(3)
+        if door_state(21) ~= "open" or door_state(22) ~= "open" then
+          error("the two leaves did not fold: " .. door_state(21) .. ", " .. door_state(22))
+        end
+  - walk_to: {x: -2848, y: 1824, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -2848, y: 1824, radius: 80, z_min: 188, z_max: 196}}
+  # The sealed door: four quarters on two folding leaves.
+  - walk_to: {x: -2368, y: 1500, z: 192, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(38); wait(3)
+        if door_state(27) ~= "open" or door_state(28) ~= "open" then
+          error("the sealed door did not open: " .. door_state(27) .. ", " .. door_state(28))
+        end
+  - walk_to: {x: -2368, y: 1824, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -2368, y: 1824, radius: 80, z_min: 188, z_max: 196}}
+  # A lower and an upper half that pass each other, each folding to its own jamb.
+  - movement_segment:
+      input: forward
+      seconds: 3
+      actor_collision: false
+      actor_ai: false
+      start: {map: studio02.blv, x: -2400, y: 1408, z: 192, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: studio02.blv, x: -2136, y: 1408, z: 192, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 50
+      tolerance_z: 8
+  - play_lua:
+      source: |
+        click(37); wait(3)
+        if door_state(25) ~= "open" or door_state(26) ~= "open" then
+          error("the two halves did not pass: " .. door_state(25) .. ", " .. door_state(26))
+        end
+  - walk_to: {x: -1952, y: 1408, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -1952, y: 1408, radius: 80, z_min: 188, z_max: 196}}
+  # A door with an event for each side of its leaf (wiring `side`): used from this cell its face runs the door event
+  # (41), which also shows the guard who starts invisible behind it (`hidden`, actor 2, group 77); used from inside
+  # its face runs only "The door won't budge." (42).
+  - assert: {actor_visible: {actor_index: 2, hidden: true}}
+  - set_pose: {map: studio02.blv, x: -1904, y: 1408, z: 192, yaw: 0, pitch: 0}
+  - press_interact:
+      expect: {kind: event_target, triggered_event: 41}
+  - play_lua:
+      source: |
+        wait(3)
+        if door_state(29) ~= "open" then error("the door did not open from outside: " .. door_state(29)) end
+  - assert: {actor_visible: {actor_index: 2, hidden: false}}
+  - walk_to: {x: -1680, y: 1408, z: 192, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -1680, y: 1408, radius: 64, z_min: 188, z_max: 196}}
+  - play_lua:
+      source: |
+        click(41)
+        for _ = 1, 20 do if door_state(29) == "closed" then break end wait(0.5) end
+        if door_state(29) ~= "closed" then error("the door did not close: " .. door_state(29)) end
+  - set_pose: {map: studio02.blv, x: -1752, y: 1408, z: 192, yaw: 3.14159, pitch: -0.25}
+  - press_interact:
+      expect: {kind: event_target, triggered_event: 42}
+  - play_lua:
+      source: |
+        wait(2)
+        if door_state(29) == "open" then error("the door opened from inside") end
+        click(41); wait(3)
+  # A keg (a decoration) runs an event when used (43): the screen across the cell becomes passable (`passable`) and
+  # takes another texture (`set_texture`); the party walks through it. (After it the game picks through the shut
+  # door 29 from either side, so the door's sides are tried first: output/studio_obj4/sided_probe3.yml.)
+  - set_pose: {map: studio02.blv, x: -1700, y: 1480, z: 192, yaw: -1.5708, pitch: -0.7}
+  - press_interact:
+      expect: {kind: event_target, name: Keg}
+  - walk_to: {x: -1568, y: 1320, z: 192, radius: 40, timeout_seconds: 60}
+  - assert: {party_position: {x: -1568, y: 1320, radius: 56, z_min: 188, z_max: 196}}
+  - walk_to: {x: -1680, y: 1408, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -1952, y: 1408, z: 192, radius: 64, timeout_seconds: 60}
+  # A leaf that moves 160 of its 224: the way through is the 160 at the doorway's south side.
+  - walk_to: {x: -2900, y: 1376, z: 192, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(36); wait(3)
+        if door_state(24) ~= "open" then error("the leaf did not open: " .. door_state(24)) end
+  - walk_to: {x: -3296, y: 1376, z: 192, radius: 48, timeout_seconds: 60}
+  - assert: {party_position: {x: -3296, y: 1376, radius: 64, z_min: 188, z_max: 196}}
+  # The door of two pictures, from behind: through it into the cell of the double door.
+  - walk_to: {x: -2688, y: 1250, z: 192, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        click(35); wait(3)
+        if door_state(23) ~= "open" then error("the door of two pictures did not open: " .. door_state(23)) end
+  - walk_to: {x: -2688, y: 960, z: 192, radius: 64, timeout_seconds: 60}
+  - assert: {party_position: {x: -2688, y: 960, radius: 80, z_min: 188, z_max: 196}}
+  # In the cell behind the folding doors: a chest whose rolls have levels of their own after one fixed item, and
+  # one chest of two: the first opening shows the hoard (its letter, item 2148), every later one the second contents
+  # of the same box (item 2149), chosen by the map variable hoard_seen (number 10 by ids.lock.yml).
+  - walk_to: {x: -2848, y: 1500, z: 192, radius: 48, timeout_seconds: 60}
+  - walk_to: {x: -2848, y: 1800, z: 192, radius: 48, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        loot_chest(39)
+        if not has_item(2148) then error("the hoard did not hold its letter") end
+        if has_item(2149) then error("the first opening showed the second contents") end
+        loot_chest(39)
+        if not has_item(2149) then error("the second opening did not show the second contents") end
+  - assert: {state_dump_map_var: {index: 10, value: 1}}
+  # In the sealed cell a plate gives one scroll of three at random, twice at most (the map variable seal_draws,
+  # number 11, counts; its condition asks for less than 2). The game puts a given item on the cursor; the walk
+  # stows it as a player would.
+  - walk_to: {x: -2368, y: 1740, z: 192, radius: 30, timeout_seconds: 60}
+  - walk_to: {x: -2368, y: 1860, z: 192, radius: 24, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        wait(1); if held() ~= 0 then stow() end
+  - walk_to: {x: -2368, y: 1740, z: 192, radius: 30, timeout_seconds: 60}
+  - walk_to: {x: -2368, y: 1860, z: 192, radius: 24, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        wait(1); if held() ~= 0 then stow() end
+  - walk_to: {x: -2368, y: 1740, z: 192, radius: 30, timeout_seconds: 60}
+  - walk_to: {x: -2368, y: 1860, z: 192, radius: 24, timeout_seconds: 60}
+  - play_lua:
+      source: |
+        wait(1); if held() ~= 0 then stow() end
+        local scrolls = item_count(1961) + item_count(1973) + item_count(1976)
+        if scrolls ~= 2 then error("three steps onto the plate gave " .. scrolls .. " scrolls, not 2") end
+  - assert: {state_dump_map_var: {index: 11, value: 2}}
+  # The workshop south of the south dome (2026-11-13: what the user found playing Gharik's Forge). The lift starts
+  # raised (door 30) and the monster over it stands on its top; the lever on the west wall is a post and an arm
+  # (door 32) that sinks and rises again as its event toggles the lift; the button on the east wall (door 31) is
+  # pushed in and comes back out; the plate's picture follows its state (map variable 17, toggle.ws_plate); the
+  # lever on the post (door 33) follows its event's condition (ws_flag, 18): down where it holds, up where not.
+  - set_pose: {map: studio02.blv, x: -5728, y: -560, z: 192, yaw_degrees: 270}
+  - assert: {actor_count: {near: [-5600, -880, 64], hostile: false, min: 1, max: 1}}
+  - play_lua:
+      source: |
+        if door_state(30) ~= "open" then error("the workshop's lift does not start raised: " .. door_state(30)) end
+        if door_state(32) ~= "closed" then error("the lever's arm does not start up: " .. door_state(32)) end
+  - interact_target:
+      method: keyboard
+      has_hit: true
+      can_activate: true
+      kind: event_target
+      triggered_event: 46
+      pose: {x: -5976, y: -742, z: 192, map: studio02.blv, yaw: 3.14159, pitch: -0.3}
+  - play_lua:
+      source: |
+        wait(3)
+        if door_state(32) ~= "open" then error("the lever's arm did not sink: " .. door_state(32)) end
+        if door_state(30) ~= "closed" then error("the lever did not lower the lift: " .. door_state(30)) end
+        click(46); wait(3)
+        if door_state(32) ~= "closed" then error("the lever's arm did not rise again: " .. door_state(32)) end
+        if door_state(30) ~= "open" then error("the lever did not raise the lift again: " .. door_state(30)) end
+        click(45); wait(3)
+        if door_state(31) ~= "open" then error("the button was not pushed in: " .. door_state(31)) end
+        click(45); wait(3)
+        if door_state(31) ~= "closed" then error("the button did not come back out: " .. door_state(31)) end
+        click(49); wait(3)
+  - assert: {state_dump_map_var: {index: 17, value: 1}}
+  - play_lua: {source: "click(49); wait(3)"}
+  - assert: {state_dump_map_var: {index: 17, value: 0}}
+  - play_lua:
+      source: |
+        click(50); wait(2)
+        if door_state(33) ~= "open" then error("the post lever's arm did not sink: " .. door_state(33)) end
+        click(50); wait(2)
+        if door_state(33) ~= "closed" then error("the post lever's arm did not rise on the other branch") end
+  - assert: {state_dump_map_var: {index: 18, value: 0}}

@@ -1,0 +1,23 @@
+format: 0
+level: L1
+spaces:
+  - id: room:s1
+    kind: room
+    size: XL
+    area: 6426.31
+    floor: [-985, 3496]
+    clear_height: 5407
+totals:
+  ambient_sounds: 176
+  decorations: 62
+  destructibles: 2
+  doors: 4
+  fixed_actors: 77
+  floor_area_millions: 6426.31
+  handlers: 31
+  lights: 21
+  links: 0
+  sectors: 1
+  spawn_points: 8
+  water_volumes: 1
+notes: Derived from isleofashes.blv by oymap import. The geometry stays in the base map.

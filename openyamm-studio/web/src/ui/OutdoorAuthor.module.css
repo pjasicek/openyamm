@@ -1,0 +1,285 @@
+/* Author mode outdoors (S5b2): the rail's extras, the project setting, the building panel and its wall bay strip. */
+
+.combo
+{
+    width: 110px;
+    height: 22px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+}
+
+.extra
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+
+.townFeel
+{
+    margin-top: auto;
+    padding: var(--space-3) var(--space-2) 0;
+    border-top: 1px solid var(--line);
+    font-size: var(--size-s);
+}
+
+.townTitle
+{
+    margin: 0 0 var(--space-2);
+    font-size: var(--size-s);
+    font-weight: 700;
+}
+
+.townTitle span
+{
+    display: block;
+    font-weight: 400;
+}
+
+.rules
+{
+    margin: 0 0 var(--space-3);
+    padding-left: var(--space-4);
+    line-height: 1.4;
+}
+
+.warn
+{
+    color: var(--warn);
+}
+
+.good
+{
+    color: var(--good);
+}
+
+.dim
+{
+    color: var(--text-dim);
+}
+
+.check
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--size-m);
+}
+
+/* The building panel above a building's or a part's form. */
+
+.panel
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+}
+
+.panelTitle
+{
+    margin: 0;
+    font-size: var(--size-m);
+    font-weight: 700;
+}
+
+.row
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--size-s);
+}
+
+.rowLabel
+{
+    min-width: 54px;
+    color: var(--text-dim);
+}
+
+.chip, .chipOn
+{
+    height: 22px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.chipOn
+{
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.wall
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.wallHead
+{
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: var(--size-s);
+}
+
+.wallName
+{
+    font-weight: 700;
+}
+
+.strip
+{
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+}
+
+.bay, .bayDoor, .bayWindow, .bayPost, .bayOn
+{
+    flex: none;
+    width: 34px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 9px;
+    line-height: 1.1;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.bayWindow
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.bayPost
+{
+    width: 18px;
+    background: var(--surface-3);
+}
+
+.bayDoor
+{
+    border-color: var(--plan-door);
+    background: var(--bad-soft);
+    color: var(--plan-door);
+    font-weight: 700;
+}
+
+.bayOn
+{
+    outline: 2px solid var(--plan-select);
+    outline-offset: 1px;
+}
+
+.menu
+{
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    padding: var(--space-2);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+    font-size: var(--size-s);
+    z-index: 30;
+}
+
+.menuItem
+{
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    border-radius: 3px;
+    background: none;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+}
+
+.menuItem:hover, .menuItem[data-highlighted]
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.houses
+{
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.house, .houseOn
+{
+    display: flex;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: none;
+    background: none;
+    color: var(--text);
+    font-size: var(--size-s);
+    text-align: left;
+    cursor: pointer;
+}
+
+.house:hover
+{
+    background: var(--surface-2);
+}
+
+.houseOn
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.houseNumber
+{
+    min-width: 30px;
+    font-family: var(--mono);
+    color: var(--text-dim);
+}
+
+.search
+{
+    flex: 1;
+    min-width: 100px;
+    height: 22px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+}

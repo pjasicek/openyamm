@@ -1,0 +1,29 @@
+# The vault keys of Goblinwatch, played the same way on the shipped map and on the map with the rewire overlay:
+# openyamm-studio/tests/run_rewire.sh runs it on both and requires the same log.
+id: studio.goblinwatch_vault.keys
+title: Goblinwatch's vault keys
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: 6d01.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua:
+      source: |
+        local function doors(label, ids)
+          local parts = {}
+          for _, id in ipairs(ids) do parts[#parts + 1] = id .. "=" .. door_state(id) end
+          log(label .. ": " .. table.concat(parts, " "))
+        end
+        local all = {36, 38, 40, 44, 47, 48, 51, 52, 55, 56, 57, 58, 59, 60}
+        doors("start", all)
+        for _, key in ipairs({20, 23, 26, 21, 29, 20, 33, 27}) do
+          click(key); wait(6)
+          doors("after key event " .. key, all)
+        end
+        click(34); wait(6)
+        doors("after the reset key", all)
+        click(20); wait(6)
+        doors("key B again after the reset", all)
+        click(31); wait(1)
+  - assert: {party_position: {x: 9000, y: 1916, radius: 200, z_min: -900, z_max: -600}}

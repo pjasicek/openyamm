@@ -1,0 +1,616 @@
+{
+ "base": "isleofashes.blv",
+ "world": "mm9",
+ "profile": "region",
+ "bounds": [
+  -32512,
+  -32512,
+  32512,
+  32512
+ ],
+ "scene_keys": [
+  "removals",
+  "pulsing_lights",
+  "ambient_sounds",
+  "destructibles"
+ ],
+ "things": [
+  {
+   "id": "sound:a527",
+   "kind": "sound",
+   "origin": "base",
+   "state": "changed",
+   "at": [
+    -12657,
+    -553,
+    1475
+   ],
+   "radius": 2560,
+   "label": "ambient/birds/woodpeck02.wav"
+  },
+  {
+   "id": "destructible:k520",
+   "kind": "destructible",
+   "origin": "base",
+   "state": "changed",
+   "at": [
+    -655,
+    5407,
+    471
+   ],
+   "label": "FortWall"
+  },
+  {
+   "id": "spawn:s6",
+   "kind": "spawn",
+   "origin": "base",
+   "state": "removed",
+   "at": [
+    1824,
+    1696,
+    815
+   ],
+   "radius": 32,
+   "label": "item roll 1"
+  },
+  {
+   "id": "light:beacon",
+   "kind": "light",
+   "origin": "added",
+   "state": "added",
+   "at": [
+    1400,
+    4800,
+    1000
+   ],
+   "radius": 1200,
+   "label": "pulsing light 49001"
+  },
+  {
+   "id": "sound:beacon_fire",
+   "kind": "sound",
+   "origin": "added",
+   "state": "added",
+   "at": [
+    1400,
+    4800,
+    950
+   ],
+   "radius": 2400,
+   "label": "ambient/bell.wav"
+  },
+  {
+   "id": "destructible:fort_gate",
+   "kind": "destructible",
+   "origin": "added",
+   "state": "added",
+   "at": [
+    1291,
+    4291,
+    1260
+   ],
+   "label": "fort_gate"
+  },
+  {
+   "id": "sound:a574",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -15442,
+    2970,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a575",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -13804,
+    3789,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a576",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -9216,
+    -4731,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a577",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -12165,
+    -4731,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a578",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -15442,
+    -4076,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a579",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -15770,
+    -2109,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a580",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -15770,
+    840,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a581",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -13804,
+    5755,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a582",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -11182,
+    5755,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a583",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -8561,
+    5755,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a584",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -7250,
+    5100,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a585",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -7905,
+    3133,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a586",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -6595,
+    1167,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a587",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -7250,
+    -799,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a588",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -8561,
+    -2109,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a589",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10199,
+    -8008,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a590",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10527,
+    -9318,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a591",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10854,
+    -10957,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a592",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10854,
+    -12595,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a593",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10854,
+    -14561,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a594",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10854,
+    -16855,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a595",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10854,
+    -18821,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a596",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -10527,
+    -20132,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a597",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -9216,
+    -20460,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a598",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -7578,
+    -20787,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a599",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -7250,
+    -22098,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a600",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -4956,
+    -22098,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a601",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -2990,
+    -22098,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a602",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    -696,
+    -22098,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a603",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    942,
+    -21115,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a604",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    3236,
+    -21115,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a605",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    4874,
+    -20787,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a606",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    5530,
+    -19149,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a607",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    5857,
+    -17183,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a608",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    6185,
+    -14889,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a609",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    8151,
+    -14234,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a610",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    8479,
+    -11612,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a611",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    9134,
+    -9974,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a612",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    8151,
+    -7680,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  },
+  {
+   "id": "sound:a613",
+   "kind": "sound",
+   "origin": "base",
+   "state": "kept",
+   "at": [
+    8151,
+    -5714,
+    164
+   ],
+   "radius": 3072,
+   "label": "ambient/water/waves02.wav"
+  }
+ ],
+ "issues": []
+}

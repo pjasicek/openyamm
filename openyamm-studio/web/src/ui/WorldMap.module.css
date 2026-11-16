@@ -1,0 +1,180 @@
+/* The project list's world view (S6_PLAN.md 2.9). Colours from the tokens. */
+.view
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.dim
+{
+    margin: 0;
+    color: var(--text-dim);
+    max-width: 980px;
+}
+
+.bad
+{
+    color: var(--bad);
+}
+
+.tabs
+{
+    display: flex;
+    gap: var(--space-2);
+}
+
+.tab, .tabOn
+{
+    height: 26px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.tabOn
+{
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    font-weight: 600;
+}
+
+.legend
+{
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.chip
+{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.scroll
+{
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--canvas);
+    max-height: 72vh;
+}
+
+/* At its own size (a unit a pixel): the frame scrolls rather than the names shrinking. */
+.picture
+{
+    display: block;
+    max-width: none;
+}
+
+.edge, .edgeLit
+{
+    pointer-events: stroke;
+}
+
+.line, .lineVia
+{
+    stroke: var(--line-strong);
+    stroke-width: 1.6;
+    fill: none;
+}
+
+.lineVia
+{
+    stroke-dasharray: 6 4;
+}
+
+.edgeLit .line, .edgeLit .lineVia
+{
+    stroke: var(--accent);
+    stroke-width: 2.6;
+}
+
+.arrowHead
+{
+    fill: var(--line-strong);
+}
+
+.edgeLabel
+{
+    font-size: 11px;
+    fill: var(--text-dim);
+    text-anchor: middle;
+}
+
+.map
+{
+    cursor: default;
+}
+
+.map[role="button"]
+{
+    cursor: pointer;
+}
+
+.box
+{
+    stroke-width: 1.4;
+}
+
+.name
+{
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--text);
+}
+
+.file
+{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    fill: var(--text-dim);
+}
+
+.new .box
+{
+    fill: var(--good-soft);
+    stroke: var(--good);
+}
+
+.rebuild .box
+{
+    fill: var(--accent-soft);
+    stroke: var(--accent);
+}
+
+.overlay .box
+{
+    fill: var(--geom-soft);
+    stroke: var(--geom);
+}
+
+.shipped .box
+{
+    fill: var(--surface-2);
+    stroke: var(--line-strong);
+    stroke-dasharray: 4 3;
+}
+
+.outdoor .box
+{
+    stroke-width: 2.4;
+}
+
+.map[role="button"]:hover .box, .map[role="button"]:focus .box
+{
+    stroke-width: 3;
+}
+
+.map:focus
+{
+    outline: none;
+}

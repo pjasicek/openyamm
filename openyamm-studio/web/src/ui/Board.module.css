@@ -1,0 +1,212 @@
+/* The switch board (S5_BROWSER_EDITOR.md 3.7). Colours from the tokens. */
+.board
+{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: var(--surface);
+    font-size: var(--size-s);
+}
+
+.empty
+{
+    padding: var(--space-5);
+    color: var(--text-dim);
+    background: var(--surface);
+    height: 100%;
+}
+
+.legend
+{
+    margin: 0;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--line);
+    color: var(--text-dim);
+}
+
+.legend b
+{
+    color: var(--text);
+}
+
+.scroll
+{
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.table
+{
+    border-collapse: collapse;
+}
+
+.table th, .table td
+{
+    border: 1px solid var(--line);
+}
+
+.corner
+{
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface-2);
+    color: var(--text-dim);
+    font-weight: 400;
+    text-align: left;
+}
+
+.column
+{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 110px;
+    padding: var(--space-2) var(--space-1);
+    background: var(--surface-2);
+    vertical-align: bottom;
+}
+
+.column .link
+{
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+.row
+{
+    position: sticky;
+    left: 0;
+    padding: 0 var(--space-3);
+    background: var(--surface-2);
+    text-align: left;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.link
+{
+    border: 0;
+    padding: 0;
+    background: none;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.cell
+{
+    padding: 0;
+    text-align: center;
+}
+
+.on, .off
+{
+    width: 30px;
+    height: 26px;
+    border: 0;
+    background: none;
+    font-family: var(--mono);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.on
+{
+    background: color-mix(in srgb, var(--plan-link) 30%, transparent);
+    color: var(--text);
+}
+
+.off:hover:not(:disabled), .on:hover:not(:disabled)
+{
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.off:disabled, .on:disabled
+{
+    color: var(--text-dim);
+    cursor: default;
+}
+
+.selected > th, .selected
+{
+    background: var(--accent-soft);
+}
+
+.mark
+{
+    font-family: var(--mono);
+    font-weight: 700;
+}
+
+/* The map's variables above the board (S5b1 part two). */
+.variables
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--line);
+    color: var(--text);
+}
+
+.dim
+{
+    color: var(--text-dim);
+}
+
+.variable
+{
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface-raised, var(--surface));
+}
+
+.variableName,
+.variableX,
+.variableAdd
+{
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    padding: 2px var(--space-2);
+    cursor: pointer;
+}
+
+.variableName
+{
+    font-family: var(--font-mono, ui-monospace, monospace);
+}
+
+.variableX
+{
+    color: var(--text-dim);
+}
+
+.variableAdd
+{
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s, 4px);
+}
+
+.variableInput
+{
+    width: 11em;
+    font: inherit;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    padding: 2px var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s, 4px);
+    background: var(--canvas);
+    color: var(--text);
+}

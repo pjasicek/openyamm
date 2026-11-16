@@ -1,0 +1,138 @@
+{
+  "map": "6d18.blv",
+  "world": "mm6",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 47,
+    "links": 50,
+    "components": 1,
+    "loops": 4
+  },
+  "scale": {
+    "floor_area_millions": 56.63,
+    "sector_floor_area": {
+      "count": 47,
+      "min": 126976,
+      "q1": 262144,
+      "median": 516608,
+      "q3": 1249792,
+      "max": 8880128
+    },
+    "sector_height": {
+      "count": 47,
+      "min": 266,
+      "q1": 394,
+      "median": 521,
+      "q3": 649,
+      "max": 4601
+    },
+    "doorway_width": {
+      "count": 39,
+      "min": 1,
+      "q1": 256,
+      "median": 256,
+      "q3": 256,
+      "max": 2304
+    },
+    "doorway_height": {
+      "count": 39,
+      "min": 126,
+      "q1": 256,
+      "median": 256,
+      "q3": 256,
+      "max": 1152
+    },
+    "floor_level": {
+      "count": 473,
+      "min": -2260,
+      "q1": -1152,
+      "median": -352,
+      "q3": 0,
+      "max": 1152
+    }
+  },
+  "mechanisms": {
+    "doors": 53,
+    "bound_events": 45,
+    "door_events": 28,
+    "trap_events": 0,
+    "local_teleports": 5,
+    "exits": 1,
+    "summon_events": 0,
+    "chest_events": 7,
+    "text_events": 3,
+    "secret_faces": 4,
+    "pressure_plates": 65,
+    "clickable_faces": 309
+  },
+  "density": {
+    "spawn_points": 35,
+    "fixed_actors": 0,
+    "unique_actors": 0,
+    "lights": 83,
+    "decorations": 95,
+    "spawn_points_per_area": 0.62,
+    "lights_per_area": 1.47,
+    "decorations_per_area": 1.68
+  },
+  "palette": {
+    "textures": 88,
+    "by_area": [{
+        "name": "vlcwl1lg",
+        "share": 0.126
+      },
+      {
+        "name": "orfyrlga",
+        "share": 0.088
+      },
+      {
+        "name": "ctwl2",
+        "share": 0.07
+      },
+      {
+        "name": "ctwl5",
+        "share": 0.07
+      },
+      {
+        "name": "vlcwl3a",
+        "share": 0.055
+      },
+      {
+        "name": "vlcflora",
+        "share": 0.051
+      },
+      {
+        "name": "vlcgnrc1",
+        "share": 0.049
+      },
+      {
+        "name": "ctceil1",
+        "share": 0.043
+      },
+      {
+        "name": "vlcwl1a",
+        "share": 0.037
+      },
+      {
+        "name": "d2wlactr",
+        "share": 0.035
+      },
+      {
+        "name": "vlctrm3",
+        "share": 0.034
+      },
+      {
+        "name": "vlcflore",
+        "share": 0.025
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 47,
+    "reached_at_start": 5,
+    "reached_doors_clear": 22,
+    "walkable_area_millions": 23.96,
+    "unreached_spawn_points": 36
+  }
+}

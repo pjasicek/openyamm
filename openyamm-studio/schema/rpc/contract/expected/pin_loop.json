@@ -1,0 +1,940 @@
+{
+ "00 status, first sight": {
+  "result": {
+   "revision": "642d90046c35fe8133d02112cc81caeb",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": []
+  }
+ },
+ "01 a pin from the studio with its picture": {
+  "result": {
+   "counter": 1,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The hall is too dark.",
+    "on": "room:hall",
+    "file": "rooms.yml",
+    "at": [
+     412,
+     980,
+     0
+    ],
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      400,
+      700,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -10,
+     "heading_yaw_units": 512
+    },
+    "picture": ".oymap/pins/pictures/p1.jpg",
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "open"
+   }
+  }
+ },
+ "02 a picture that is no picture": {
+  "error": {
+   "code": -32000,
+   "message": "the picture is neither PNG nor JPEG",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "03 a picture that is not base64": {
+  "error": {
+   "code": -32000,
+   "message": "the picture is not base64",
+   "data": {
+    "kind": "bad_request"
+   }
+  }
+ },
+ "04 claim it": {
+  "result": {
+   "counter": 2,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The hall is too dark.",
+    "on": "room:hall",
+    "file": "rooms.yml",
+    "at": [
+     412,
+     980,
+     0
+    ],
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      400,
+      700,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -10,
+     "heading_yaw_units": 512
+    },
+    "picture": ".oymap/pins/pictures/p1.jpg",
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "claimed",
+    "claimed_by": "agent:contract"
+   }
+  }
+ },
+ "05 the agent changes the map": {
+  "result": {
+   "applied": true,
+   "revision_before": "642d90046c35fe8133d02112cc81caeb",
+   "revision_after": "0df82194a1496381133355c70f6126b3",
+   "changes": [
+    "objects.yml: light:hall_east changed radius (1100 -> 1300)"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "start": {
+       "room": "room:entry",
+       "offset": [
+        0,
+        -128
+       ],
+       "facing": "n"
+      },
+      "doors": [
+       {
+        "id": "door:gate",
+        "opening": "open:hall_passage",
+        "speed": 96,
+        "notes": "Raised by the lever in the guard room."
+       },
+       {
+        "id": "door:guard",
+        "opening": "open:hall_guard"
+       },
+       {
+        "id": "door:store",
+        "opening": "open:hall_store"
+       },
+       {
+        "id": "door:vault",
+        "opening": "open:passage_vault"
+       }
+      ],
+      "lights": [
+       {
+        "id": "light:entry",
+        "room": "room:entry",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:guard",
+        "room": "room:guard",
+        "radius": 900,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:hall_east",
+        "room": "room:hall",
+        "offset": [
+         320,
+         0
+        ],
+        "radius": 1300,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:hall_west",
+        "room": "room:hall",
+        "offset": [
+         -320,
+         0
+        ],
+        "radius": 1100,
+        "color": [
+         255,
+         190,
+         120
+        ]
+       },
+       {
+        "id": "light:passage",
+        "room": "room:passage",
+        "radius": 700,
+        "color": [
+         255,
+         170,
+         100
+        ]
+       },
+       {
+        "id": "light:store",
+        "room": "room:store",
+        "radius": 800,
+        "color": [
+         255,
+         170,
+         100
+        ]
+       },
+       {
+        "id": "light:vault",
+        "room": "room:vault",
+        "radius": 1000,
+        "color": [
+         255,
+         210,
+         150
+        ]
+       }
+      ],
+      "switches": [
+       {
+        "id": "switch:gate_lever",
+        "room": "room:guard",
+        "wall": "east",
+        "height": 112,
+        "size": [
+         48,
+         48
+        ],
+        "off": {
+         "texture": "t1swdd",
+         "size": [
+          16,
+          16
+         ]
+        },
+        "on": "t1swdu"
+       }
+      ],
+      "chests": [
+       {
+        "id": "chest:store",
+        "room": "room:store",
+        "offset": [
+         -192,
+         192
+        ],
+        "kind": "ch1",
+        "facing": 315,
+        "treasure_level": 1,
+        "random_items": 2,
+        "gold": 60,
+        "items": [
+         "vault_key"
+        ]
+       },
+       {
+        "id": "chest:vault",
+        "room": "room:vault",
+        "offset": [
+         0,
+         224
+        ],
+        "kind": "ch1",
+        "treasure_level": 2,
+        "random_items": 4,
+        "gold": 400
+       }
+      ],
+      "spawns": [
+       {
+        "id": "spawn:guard_a",
+        "room": "room:guard",
+        "offset": [
+         128,
+         128
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:guard_b",
+        "room": "room:guard",
+        "offset": [
+         160,
+         -160
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:hall",
+        "room": "room:hall",
+        "offset": [
+         0,
+         256
+        ],
+        "slot": 2
+       },
+       {
+        "id": "spawn:store_a",
+        "room": "room:store",
+        "offset": [
+         128,
+         -128
+        ],
+        "slot": 1
+       },
+       {
+        "id": "spawn:store_b",
+        "room": "room:store",
+        "offset": [
+         96,
+         160
+        ],
+        "slot": 1
+       }
+      ],
+      "decorations": [
+       {
+        "id": "deco:torch_entry_e",
+        "room": "room:entry",
+        "decoration": "6torch01",
+        "wall": "east",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_entry_w",
+        "room": "room:entry",
+        "decoration": "6torch01",
+        "wall": "west",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_guard",
+        "room": "room:guard",
+        "decoration": "6torch01",
+        "wall": "north",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_hall_n1",
+        "room": "room:hall",
+        "decoration": "6torch01",
+        "wall": "north",
+        "along": 0.25,
+        "height": 208
+       },
+       {
+        "id": "deco:torch_hall_n2",
+        "room": "room:hall",
+        "decoration": "6torch01",
+        "wall": "north",
+        "along": 0.75,
+        "height": 208
+       },
+       {
+        "id": "deco:torch_vault_e",
+        "room": "room:vault",
+        "decoration": "6torch01",
+        "wall": "east",
+        "height": 176
+       },
+       {
+        "id": "deco:torch_vault_w",
+        "room": "room:vault",
+        "decoration": "6torch01",
+        "wall": "west",
+        "height": 176
+       }
+      ],
+      "exits": [
+       {
+        "id": "exit:door",
+        "room": "room:entry",
+        "wall": "south",
+        "to": "exit:new_sorpigal"
+       }
+      ]
+     }
+    }
+   },
+   "sequence": 1
+  }
+ },
+ "06 resolve with pictures": {
+  "result": {
+   "counter": 3,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The hall is too dark.",
+    "on": "room:hall",
+    "file": "rooms.yml",
+    "at": [
+     412,
+     980,
+     0
+    ],
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      400,
+      700,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -10,
+     "heading_yaw_units": 512
+    },
+    "picture": ".oymap/pins/pictures/p1.jpg",
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "resolved",
+    "claimed_by": "agent:contract",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Raised the east light to 1300.",
+      "revision": "0df82194a1496381133355c70f6126b3",
+      "status": "resolved",
+      "pictures": [
+       ".oymap/pins/pictures/p1-r1.png"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "07 keep the picture": {
+  "result": {
+   "counter": 4,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The hall is too dark.",
+    "on": "room:hall",
+    "file": "rooms.yml",
+    "at": [
+     412,
+     980,
+     0
+    ],
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      400,
+      700,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -10,
+     "heading_yaw_units": 512
+    },
+    "picture": "review/pictures/p1.jpg",
+    "keep": true,
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "resolved",
+    "claimed_by": "agent:contract",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Raised the east light to 1300.",
+      "revision": "0df82194a1496381133355c70f6126b3",
+      "status": "resolved",
+      "pictures": [
+       ".oymap/pins/pictures/p1-r1.png"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "08 keep a pin that is not there": {
+  "error": {
+   "code": -32000,
+   "message": "the project has no pin pin:p9",
+   "data": {
+    "kind": "no_such_pin"
+   }
+  }
+ },
+ "09 the person accepts": {
+  "result": {
+   "counter": 5,
+   "pin": {
+    "id": "pin:p1",
+    "text": "The hall is too dark.",
+    "on": "room:hall",
+    "file": "rooms.yml",
+    "at": [
+     412,
+     980,
+     0
+    ],
+    "source": "studio",
+    "world": "mm6",
+    "map": "studio01.blv",
+    "pose": {
+     "position": [
+      400,
+      700,
+      0
+     ],
+     "yaw_radians": 1.5708,
+     "pitch_degrees": -10,
+     "heading_yaw_units": 512
+    },
+    "picture": "review/pictures/p1.jpg",
+    "keep": true,
+    "author": "user",
+    "revision": "642d90046c35fe8133d02112cc81caeb",
+    "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+    "status": "accepted",
+    "claimed_by": "agent:contract",
+    "replies": [
+     {
+      "author": "agent:contract",
+      "text": "Raised the east light to 1300.",
+      "revision": "0df82194a1496381133355c70f6126b3",
+      "status": "resolved",
+      "pictures": [
+       ".oymap/pins/pictures/p1-r1.png"
+      ]
+     },
+     {
+      "author": "user",
+      "revision": "0df82194a1496381133355c70f6126b3",
+      "status": "accepted"
+     }
+    ]
+   }
+  }
+ },
+ "10 history": {
+  "result": {
+   "revision": "0df82194a1496381133355c70f6126b3",
+   "count": 1,
+   "entries": [
+    {
+     "sequence": 1,
+     "kind": "transaction",
+     "author": "agent:contract",
+     "label": "a brighter hall",
+     "revision_before": "642d90046c35fe8133d02112cc81caeb",
+     "revision_after": "0df82194a1496381133355c70f6126b3",
+     "changes": [
+      "objects.yml: light:hall_east changed radius (1100 -> 1300)"
+     ],
+     "undone": false,
+     "objects": [
+      "objects.yml#light:hall_east"
+     ]
+    }
+   ]
+  }
+ },
+ "11 history, the latest one": {
+  "result": {
+   "revision": "0df82194a1496381133355c70f6126b3",
+   "count": 1,
+   "entries": [
+    {
+     "sequence": 1,
+     "kind": "transaction",
+     "author": "agent:contract",
+     "label": "a brighter hall",
+     "revision_before": "642d90046c35fe8133d02112cc81caeb",
+     "revision_after": "0df82194a1496381133355c70f6126b3",
+     "changes": [
+      "objects.yml: light:hall_east changed radius (1100 -> 1300)"
+     ],
+     "undone": false,
+     "objects": [
+      "objects.yml#light:hall_east"
+     ]
+    }
+   ]
+  }
+ },
+ "13 status: the file named, nothing recorded": {
+  "result": {
+   "revision": "0df82194a1496381133355c70f6126b3",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": [],
+   "unreadable": [
+    {
+     "file": "wiring.yml",
+     "message": "not valid YAML: yaml-cpp: error at line 5, column 7: end of sequence flow not found"
+    }
+   ]
+  }
+ },
+ "15 status: readable": {
+  "result": {
+   "revision": "0df82194a1496381133355c70f6126b3",
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "outside_changes": []
+  }
+ },
+ "16 history: no entry for it": {
+  "result": {
+   "revision": "0df82194a1496381133355c70f6126b3",
+   "count": 1,
+   "entries": [
+    {
+     "sequence": 1,
+     "kind": "transaction",
+     "author": "agent:contract",
+     "label": "a brighter hall",
+     "revision_before": "642d90046c35fe8133d02112cc81caeb",
+     "revision_after": "0df82194a1496381133355c70f6126b3",
+     "changes": [
+      "objects.yml: light:hall_east changed radius (1100 -> 1300)"
+     ],
+     "undone": false,
+     "objects": [
+      "objects.yml#light:hall_east"
+     ]
+    }
+   ]
+  }
+ },
+ "17 mesh: every face owned": {
+  "result": {
+   "revision": "0df82194a1496381133355c70f6126b3",
+   "view_revision": "0df82194a1496381133355c70f6126b3",
+   "stale": false,
+   "lock_hash": "d5bfa3193bdec18e86e9d468fe593d00",
+   "kind": "indoor",
+   "world": "mm6",
+   "file": ".oymap/view/0df82194a1496381133355c70f6126b3-d5bfa319-a62be0edce73.mesh",
+   "bytes": 20592,
+   "counts": {
+    "vertices": 492,
+    "triangles": 276,
+    "faces": 108
+   },
+   "sections": {
+    "positions": {
+     "offset": 0,
+     "count": 1476
+    },
+    "normals": {
+     "offset": 5904,
+     "count": 1476
+    },
+    "uvs": {
+     "offset": 11808,
+     "count": 984
+    },
+    "indices": {
+     "offset": 15744,
+     "count": 828
+    },
+    "triangle_faces": {
+     "offset": 19056,
+     "count": 276
+    },
+    "face_owners": {
+     "offset": 20160,
+     "count": 108
+    }
+   },
+   "groups": [
+    {
+     "texture": "ch1frle",
+     "first": 0,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frntb",
+     "first": 24,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1frre",
+     "first": 48,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1side",
+     "first": 72,
+     "count": 24,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topb",
+     "first": 96,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1tople",
+     "first": 108,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "ch1topre",
+     "first": 120,
+     "count": 12,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "d2ceil4",
+     "first": 132,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "oflr",
+     "first": 228,
+     "count": 96,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 324,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1swdd",
+     "first": 330,
+     "count": 6,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1trima",
+     "first": 336,
+     "count": 120,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1w11a",
+     "first": 456,
+     "count": 324,
+     "uv_unit": "texel",
+     "kind": "surface"
+    },
+    {
+     "texture": "t1d2",
+     "first": 780,
+     "count": 48,
+     "uv_unit": "texel",
+     "kind": "moving"
+    }
+   ],
+   "owners": [
+    {
+     "id": ""
+    },
+    {
+     "id": "room:entry/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:entry",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:guard",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:hall",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:passage",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:store",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/0",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/1",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/2",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault/walls/3",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "room:vault",
+     "file": "rooms.yml"
+    },
+    {
+     "id": "switch:gate_lever",
+     "file": "objects.yml"
+    },
+    {
+     "id": "exit:door",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "chest:vault",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:gate",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:guard",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:store",
+     "file": "objects.yml"
+    },
+    {
+     "id": "door:vault",
+     "file": "objects.yml"
+    }
+   ],
+   "bounds": {
+    "min": [
+     -960,
+     0,
+     0
+    ],
+    "max": [
+     1856,
+     3520,
+     512
+    ]
+   }
+  },
+  "mesh_sha256": "a62be0edce739d19ad05c3dcd03bcb35eba6cb295d4b67fffcde4e1dae117cea",
+  "mesh_bytes_match": true
+ }
+}

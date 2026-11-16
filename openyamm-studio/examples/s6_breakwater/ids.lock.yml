@@ -1,0 +1,23 @@
+format: 0
+sectors:
+  room:store: 1
+  room:yard: 2
+events:
+  evt:arrival: 3
+  evt:arrival_done: 5
+  evt:arrival_lamp: 4
+  evt:barrel_gold: 2
+  evt:barricade_down: 1
+cogs:
+  deco:barrel: 2
+  platform:barricade: 1
+map_vars:
+  arrival_seen: 1
+  arrived: 0
+sounds:
+  sound:drip: 1
+decorations:
+  deco:barrel: 0
+destructibles:
+  destructible:barrel: 2
+  destructible:barricade: 1

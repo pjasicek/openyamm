@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: game",
+  "description": "The game, run by the host (never by a core): headless scenarios with the session's mount in front of the asset root, and Play here's game window. Host methods: the core has no handler for them and does not list them.",
+  "x-group": "game",
+  "methods": {
+    "playtest": {
+      "summary": "Runs a headless scenario file in the game with the installed builds mounted in front of the asset root (or the shipped maps only), and returns the log lines (PLAY, FAIL, ASSERT, Scenario, WALK, CLICK) and whether it passed. Takes up to a few minutes.",
+      "since": 1,
+      "lane": "host",
+      "backends": [
+        "host"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "bad_request",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "scenario",
+          "world"
+        ],
+        "properties": {
+          "scenario": {
+            "description": "The scenario .yml (a path the host can read).",
+            "type": "string",
+            "minLength": 1
+          },
+          "world": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "shipped": {
+            "description": "Play the shipped maps only, without the installed builds (to compare).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "passed",
+          "log"
+        ],
+        "properties": {
+          "passed": {
+            "type": "boolean"
+          },
+          "log": {
+            "description": "The scenario lines, at most 60, then a count of the rest.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "play_here": {
+      "summary": "Play here (S5_BROWSER_EDITOR.md 2.10, 3.6): builds the project, installs it into the host's mount of builds (with an outdoor map's terrain material file) and starts the game on it at the pose, through tools/run_game.sh --isolated with the launch directives debug.startup_console_file (`tp` to the pose) and debug.exit_pose_path. Answers once the game is started; the host's notices game_started and game_exited follow, the latter with where the party stood when the game closed. The browser's own: the host answers it, a core never does.",
+      "since": 1,
+      "lane": "host",
+      "backends": [
+        "host"
+      ],
+      "exposed": false,
+      "writes": "mount",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "has_errors",
+        "bad_request",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "pose"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "pose": {
+            "description": "Where the party stands and looks, as the game's `loc` gives it: the feet, yaw in radians from east toward north, pitch in degrees up.",
+            "type": "object",
+            "required": [
+              "position",
+              "yaw_radians",
+              "pitch_degrees"
+            ],
+            "properties": {
+              "position": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "yaw_radians": {
+                "type": "number"
+              },
+              "pitch_degrees": {
+                "type": "number",
+                "minimum": -89,
+                "maximum": 89
+              },
+              "heading_yaw_units": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          },
+          "visible": {
+            "description": "Show the game's window (the person pressed Play here); else it starts minimised, as agents' runs do.",
+            "type": "boolean"
+          },
+          "commands": {
+            "description": "More console lines for the start file, run after the party is put at the pose (test switches: `gold 5000`, `qbit set 12`).",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\n\\r;]*$"
+            },
+            "maxItems": 64
+          },
+          "seconds": {
+            "description": "Close the game this many seconds after the map loaded (scripted runs); absent: it stays until closed.",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 3600
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "run",
+          "map",
+          "world",
+          "kind"
+        ],
+        "properties": {
+          "run": {
+            "description": "The run's name (its folder under output/studio_host/play and tools/run_game.sh's temporary one).",
+            "type": "string"
+          },
+          "map": {
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "indoor",
+              "outdoor"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

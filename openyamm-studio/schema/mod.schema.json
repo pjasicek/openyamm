@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "mod.yml: a mod's manifest (devdocs/map_studio/S6_PLAN.md item M), written by `oymap mod pack`",
+  "description": "A mod is a folder: this manifest, the files it brings under engine/ and worlds/<world>/ as the game's packages hold them, and under tables/ the rows of engine tables it changes (<table>.override.txt: \"key<TAB>column<TAB>value\" with columns as #<index>, the rulesets' override format) and adds (<table>.append.txt, rows in the table's own layout). `oymap mod install` installs it into a game's mods folder: `merged` (the loose mods/engine and mods/worlds folders, which the game mounts in front of every named mod; tables composed from the game's own and every installed mod's rows) or `named` (mods/<id>/ and mods/enabled.yml, the game's named mods: devdocs/NAMED_MODS.md; the game composes their table rows itself and switches one off by its `mods disable <id>` console command, from its next start).",
+  "type": "object",
+  "required": [
+    "format",
+    "id",
+    "name",
+    "version"
+  ],
+  "additionalProperties": false,
+  "x-groups": [
+    [
+      "Mod",
+      [
+        "format",
+        "id",
+        "name",
+        "version",
+        "author",
+        "description"
+      ]
+    ],
+    [
+      "Contents",
+      [
+        "worlds",
+        "maps",
+        "tables",
+        "map_numbers",
+        "idRanges"
+      ]
+    ]
+  ],
+  "properties": {
+    "format": {
+      "const": 1
+    },
+    "id": {
+      "description": "Lower case letters, digits and underscores: the folder's name in a named install.",
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "worlds": {
+      "description": "The worlds whose maps it brings or changes.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "x-flow": true
+    },
+    "maps": {
+      "description": "Its maps: a new map, or an overlay of a shipped one (its scene and script overlays).",
+      "type": "array",
+      "x-key": "file",
+      "items": {
+        "type": "object",
+        "required": [
+          "file",
+          "world",
+          "kind"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "description": "The map file (a new map's, or the shipped map an overlay changes).",
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "new",
+              "overlay"
+            ]
+          },
+          "project": {
+            "description": "The Map Studio project it was built from (its id).",
+            "type": "string"
+          },
+          "source_revision": {
+            "description": "The project's source revision the build was made from.",
+            "type": "string"
+          },
+          "files": {
+            "description": "Its files in the mod, by path.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "tables": {
+      "description": "Engine tables it changes, with the files of its rows.",
+      "type": "array",
+      "x-key": "table",
+      "items": {
+        "type": "object",
+        "required": [
+          "table"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "table": {
+            "description": "A table of engine/data_tables (map_stats.txt).",
+            "type": "string"
+          },
+          "override": {
+            "description": "Its changed cells.",
+            "type": "string"
+          },
+          "append": {
+            "description": "Its added rows.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "map_numbers": {
+      "description": "The map_stats numbers its new maps take (another mod must not use them).",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "x-flow": true,
+      "x-unit": "index"
+    },
+    "idRanges": {
+      "description": "The numbers the mod declares as its own, by domain, as a world's world.yml and a ruleset's ruleset.yml declare theirs ({begin, end}): `maps`, the map_stats numbers of its new maps. The studio proposes a new project of the mod the first free number of its range (mod.map_number) and warns of ranges that overlap the world's or another mod's.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "maps": {
+          "description": "The map_stats numbers its new maps take.",
+          "type": "object",
+          "required": [
+            "begin",
+            "end"
+          ],
+          "additionalProperties": false,
+          "x-flow": true,
+          "properties": {
+            "begin": {
+              "type": "integer",
+              "minimum": 1,
+              "x-unit": "index"
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1,
+              "x-unit": "index"
+            }
+          }
+        }
+      }
+    }
+  }
+}

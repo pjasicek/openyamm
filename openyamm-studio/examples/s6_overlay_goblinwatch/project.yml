@@ -1,0 +1,10 @@
+format: 0
+id: s6_lamps
+world: mm6
+kind: indoor
+profile: dungeon
+base: 6d01.blv
+neighbours:
+  - id: exit:oute3
+    to: "oute3.odm at -18400, -14982, 1600 (direction, look, speed, house, icon: 512, 0, 0, 0, 0)"
+    kind: door

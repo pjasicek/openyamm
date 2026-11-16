@@ -1,0 +1,735 @@
+.object
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.section
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-bottom: var(--space-3);
+}
+
+.sectionTitle
+{
+    margin: var(--space-3) 0 var(--space-2);
+    font-size: var(--size-s);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--space-1);
+}
+
+.row
+{
+    display: grid;
+    grid-template-columns: minmax(84px, 34%) 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--row-height);
+}
+
+.row[data-missing]
+{
+    background: var(--bad-soft);
+}
+
+.label
+{
+    color: var(--text-dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.control
+{
+    min-width: 0;
+}
+
+.tools
+{
+    display: inline-flex;
+    gap: var(--space-1);
+    align-items: center;
+    margin-left: auto;
+}
+
+.icon, .help
+{
+    width: 20px;
+    height: 20px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0;
+    line-height: 18px;
+    font-size: var(--size-s);
+}
+
+.icon:hover:not(:disabled), .help:hover
+{
+    border-color: var(--line-strong);
+    color: var(--text);
+}
+
+.icon:disabled
+{
+    opacity: 0.35;
+    cursor: default;
+}
+
+.help
+{
+    border-color: var(--line);
+    border-radius: 50%;
+}
+
+.positioner
+{
+    z-index: 10;
+}
+
+.helpPopup
+{
+    max-width: 340px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+    font-size: var(--size-s);
+    line-height: 1.5;
+}
+
+.input, .textarea
+{
+    width: 100%;
+    min-width: 0;
+    height: 24px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.textarea
+{
+    height: auto;
+    padding: var(--space-2) var(--space-3);
+    resize: vertical;
+    font-family: var(--mono);
+    font-size: var(--size-s);
+}
+
+.input:focus, .textarea:focus
+{
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+}
+
+.input[data-bad]
+{
+    border-color: var(--bad);
+    background: var(--bad-soft);
+}
+
+.withSuffix
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+}
+
+.unit, .table, .noUnit, .idKind
+{
+    flex: none;
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.table
+{
+    padding: 0 var(--space-2);
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.noUnit
+{
+    padding: 0 var(--space-2);
+    border-radius: var(--radius);
+    background: var(--warn-soft);
+    color: var(--warn);
+}
+
+.idKind
+{
+    font-family: var(--mono);
+}
+
+.const
+{
+    font-family: var(--mono);
+    color: var(--text-dim);
+}
+
+.switch
+{
+    position: relative;
+    display: inline-block;
+    flex: none;
+    box-sizing: border-box;
+    width: 30px;
+    height: 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: var(--surface-2);
+    padding: 0;
+    cursor: pointer;
+}
+
+.switch[data-checked]
+{
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.thumb
+{
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-left: 1px;
+    border-radius: 50%;
+    background: var(--surface);
+    transition: transform 0.12s;
+}
+
+.thumb[data-checked]
+{
+    transform: translateX(14px);
+}
+
+.select, .comboTrigger
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-width: 110px;
+    height: 24px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+}
+
+.comboGroup
+{
+    display: flex;
+    flex: 1;
+    min-width: 0;
+}
+
+.comboGroup .input
+{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.comboTrigger
+{
+    min-width: 0;
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.selectIcon
+{
+    color: var(--text-dim);
+}
+
+.popup
+{
+    min-width: var(--anchor-width);
+    max-height: min(320px, var(--available-height));
+    overflow-y: auto;
+    padding: var(--space-2) 0;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.2);
+}
+
+.item
+{
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-2) var(--space-4);
+    cursor: default;
+    outline: none;
+}
+
+.item[data-highlighted]
+{
+    background: var(--accent-soft);
+}
+
+.item[data-selected]
+{
+    font-weight: 600;
+}
+
+.empty
+{
+    padding: var(--space-3) var(--space-4);
+    color: var(--text-dim);
+}
+
+.empty:empty
+{
+    display: none;
+}
+
+.addMenu
+{
+    width: 380px;
+}
+
+.groupLabel
+{
+    padding: var(--space-3) var(--space-4) var(--space-1);
+    font-size: var(--size-s);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+}
+
+.addName
+{
+    font-weight: 600;
+}
+
+.addDesc
+{
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.block, .listRow
+{
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.blockHead, .listHead
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--row-height);
+    padding: 0 var(--space-2) 0 0;
+}
+
+.blockTrigger
+{
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    gap: var(--space-3);
+    height: var(--row-height);
+    padding: 0 var(--space-3);
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-dim);
+}
+
+.chevron
+{
+    display: inline-block;
+    font-size: 10px;
+    transition: transform 0.12s;
+}
+
+.blockTrigger[data-panel-open] .chevron
+{
+    transform: rotate(90deg);
+}
+
+.blockBody
+{
+    padding: var(--space-2) var(--space-3) var(--space-3) var(--space-5);
+    border-top: 1px solid var(--line);
+}
+
+.badge
+{
+    flex: none;
+    padding: 0 var(--space-2);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--text-dim);
+    font-size: var(--size-s);
+}
+
+.list
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.key
+{
+    font-family: var(--mono);
+    color: var(--text);
+}
+
+.summary
+{
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--size-s);
+}
+
+.linkButton, .addField
+{
+    align-self: flex-start;
+    padding: var(--space-1) var(--space-2);
+    border: none;
+    background: none;
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.linkButton:disabled
+{
+    color: var(--text-dim);
+    cursor: default;
+}
+
+.addField
+{
+    margin-top: var(--space-2);
+}
+
+.addKey
+{
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.tuple
+{
+    display: flex;
+    gap: var(--space-2);
+}
+
+.slot
+{
+    flex: 1;
+    min-width: 0;
+}
+
+.geom
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.geomHead
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.geomSvg
+{
+    flex: none;
+    width: 40px;
+    height: 40px;
+    background: var(--geom-soft);
+    border-radius: var(--radius);
+}
+
+.geomPoly, .geomLine
+{
+    fill: none;
+    stroke: var(--geom);
+    stroke-width: 3;
+    stroke-linejoin: round;
+}
+
+.geomPoly
+{
+    fill: var(--geom-soft);
+}
+
+.geomText
+{
+    flex: 1;
+    min-width: 0;
+    font-family: var(--mono);
+    font-size: var(--size-s);
+}
+
+.dim
+{
+    color: var(--text-dim);
+    font-family: var(--font);
+}
+
+.mapButton
+{
+    flex: none;
+    height: 22px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--geom);
+    border-radius: var(--radius);
+    background: var(--geom-soft);
+    color: var(--geom);
+    font-size: var(--size-s);
+}
+
+.geomPoints
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.pointRow
+{
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.unionBar
+{
+    padding: var(--space-2) 0 var(--space-3);
+}
+
+.unionInline
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.unionInline > :last-child
+{
+    flex: 1;
+    min-width: 0;
+}
+
+.toggleGroup
+{
+    display: inline-flex;
+    flex: none;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.toggle
+{
+    padding: 1px var(--space-3);
+    border: none;
+    background: var(--surface);
+    color: var(--text-dim);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.toggle + .toggle
+{
+    border-left: 1px solid var(--line-strong);
+}
+
+.toggle[data-pressed]
+{
+    background: var(--accent);
+    color: var(--surface);
+}
+
+.note
+{
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.raw
+{
+    display: block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius);
+    background: var(--warn-soft);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    overflow-wrap: anywhere;
+}
+
+.bespoke
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+/* Read-only values (S5a2: Review mode; the form edits from S5b1). */
+.value
+{
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    overflow-wrap: anywhere;
+}
+
+.idLink
+{
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    cursor: pointer;
+    text-align: left;
+}
+
+.idLink:hover
+{
+    text-decoration: underline;
+}
+
+.longText
+{
+    white-space: pre-wrap;
+    font-size: var(--size-s);
+    color: var(--text);
+}
+
+/* S5b1: editing. Narrow inputs in the tool options, a greyed effective value ("not written"), keyed rows. */
+.narrow
+{
+    width: 72px;
+}
+
+.wide
+{
+    width: 100%;
+}
+
+.input[data-effective]::placeholder
+{
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.effective
+{
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.from
+{
+    margin-left: var(--space-2);
+    font-size: var(--size-s);
+    color: var(--text-dim);
+}
+
+.rowTools
+{
+    display: inline-flex;
+    flex: none;
+    gap: 1px;
+}
+
+.keyInput
+{
+    width: 110px;
+    height: 20px;
+    padding: 0 var(--space-2);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: none;
+    font-family: var(--mono);
+    color: var(--text);
+}
+
+.keyInput:hover, .keyInput:focus
+{
+    border-color: var(--line);
+    background: var(--surface);
+}
+
+.addRow
+{
+    align-self: flex-start;
+    margin-top: var(--space-1);
+}
+
+.textButton
+{
+    height: 22px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+.textButton:hover:not(:disabled)
+{
+    border-color: var(--line-strong);
+    background: var(--surface-2);
+}
+
+.textButton:disabled
+{
+    opacity: 0.45;
+    cursor: default;
+}
+
+.points
+{
+    display: grid;
+    grid-template-columns: 24px 1fr 1fr;
+    gap: var(--space-1) var(--space-2);
+    align-items: center;
+}
+
+.notWritten
+{
+    opacity: 0.75;
+}

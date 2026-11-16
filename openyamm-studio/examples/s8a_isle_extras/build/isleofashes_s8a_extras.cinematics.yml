@@ -1,0 +1,26 @@
+format_version: 1
+kind: openyamm_cinematics
+source: "Written by oymap build from the Map Studio project \"s8a_extras\" (wiring.yml cinematics). Change the project, not this file."
+cinematics:
+  book_sinking:
+    shots:
+      - duration: 3
+        position: [92, 6625, 655]
+        look_at: [-399, 5849, 260]
+    cues:
+      - at: 1
+        event: 31014
+    note: "Replaces the Isle's own (17 s, the sink at 4.5 s) by a shot of 3 s that sinks the boat at 1 s."
+  s8a_guard_watch:
+    letterbox: false
+    shots:
+      - duration: 2
+        position: [1500, 3250, 1250]
+        look_at_actor: 77
+    cues:
+      - at: 0.5
+        actor: 77
+        action: face
+        look_at: [1324, 3440, 1000]
+      - at: 1
+        sound: Events/stonecrumble.wav

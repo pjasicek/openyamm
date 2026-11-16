@@ -1,0 +1,118 @@
+format: 0
+level: L2
+pitch: "The cellars under a ruined gatehouse outside New Sorpigal: a square entry, a tall hall with a store room and a guard room off it, and a short passage north to the strong room. Rats in the store, goblins in the guard room. The passage is shut by a gate worked from the guard room, and the strong room by a locked door whose key lies in the store room chest. A first, ten-minute dungeon."
+purpose: "A small starter dungeon that teaches the three ways a door opens (a push, a lever elsewhere, a key)."
+mood: "Damp grey masonry, torchlight, low ceilings except in the hall."
+spaces:
+  - id: room:entry
+    name: Entry
+    kind: room
+    size: M
+    floor: 0
+    clear_height: 384
+    purpose: "Arrival and exit; safe."
+  - id: room:guard
+    name: Guard room
+    kind: room
+    size: M
+    floor: 0
+    clear_height: 384
+    purpose: "Holds the lever that raises the passage gate; the dungeon's fight."
+    population:
+      - {slot: 2, groups: 2, strength: pack}
+  - id: room:hall
+    name: Hall
+    kind: room
+    size: M
+    floor: 0
+    clear_height: 512
+    purpose: "The hub; every other room opens off it."
+    population:
+      - {slot: 2, groups: 1, strength: light}
+  - id: room:passage
+    name: Passage
+    kind: corridor
+    size: S
+    floor: 0
+    clear_height: 320
+    purpose: Short run between the gate and the strong room door.
+  - id: room:store
+    name: Store room
+    kind: room
+    size: S
+    floor: 0
+    clear_height: 384
+    purpose: Holds the strong room key.
+    population:
+      - {slot: 1, groups: 2, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 1, item: vault_key}
+  - id: room:vault
+    name: Strong room
+    kind: room
+    size: M
+    floor: 0
+    clear_height: 384
+    purpose: The goal.
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+links:
+  - id: link:entry_hall
+    from: room:entry
+    to: room:hall
+    kind: open
+  - id: link:hall_guard
+    from: room:hall
+    to: room:guard
+    kind: door
+  - id: link:hall_passage
+    from: room:hall
+    to: room:passage
+    kind: door
+    condition: {map_var: gate_raised}
+    opened_by: poi:gate_lever
+  - id: link:hall_store
+    from: room:hall
+    to: room:store
+    kind: door
+  - id: link:passage_vault
+    from: room:passage
+    to: room:vault
+    kind: door
+    condition: {item: vault_key}
+entrances:
+  - id: entrance:door
+    space: room:entry
+    kind: both
+    neighbour: exit:new_sorpigal
+    facing: n
+critical_path: [room:entry, room:hall, room:store, room:hall, room:guard, room:hall, room:passage, room:vault]
+goals:
+  - id: goal:vault_chest
+    space: room:vault
+    kind: use
+    what: Open the strong room chest.
+keys:
+  - id: key:gate_lever
+    grants: {map_var: gate_raised}
+    found_in: room:guard
+    how: lever
+  - id: key:vault_key
+    grants: {item: vault_key}
+    found_in: room:store
+    how: chest
+points_of_interest:
+  - id: poi:gate_lever
+    space: room:guard
+    kind: lever
+    behaviour: Raises the passage gate for good.
+mechanisms:
+  - {kind: click door, count: 2}
+  - {kind: lever-operated gate, count: 1}
+  - {kind: keyed door, count: 1}
+  - {kind: lever, count: 1}
+totals:
+  chests: 2
+  doors: 4
+  rooms: 6
+  spawn_points: 5

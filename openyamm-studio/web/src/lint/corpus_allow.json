@@ -1,0 +1,6 @@
+{
+  "range rooms.schema.json#/$defs/surface/properties/scale": "A multiplier, not a share: map units covered by one texel (2 lays the picture at twice its size); 'ratio' is the form's x unit for both.",
+  "range objects.schema.json#/properties/lights/items/properties/pulse/properties/phase": "A phase in swings wraps round: xd02's 1.32 is 0.32. The description says 0 to 1, the useful span; the lowering takes any number.",
+  "range sketch.schema.json#/$defs/part/properties/taper": "A multiplier, not a share: the top's width against the foot's, 0.05 to 4 (0.5 draws in, 2.4 flares); 'ratio' is the form's x unit for both.",
+  "range sketch.schema.json#/properties/structures/items/properties/spread": "A multiplier, not a share: the waterfall's foot as wide as the lip times this, 1 to 3 (x1's 1.7); 'ratio' is the form's x unit for both."
+}

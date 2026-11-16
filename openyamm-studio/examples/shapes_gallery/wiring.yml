@@ -1,0 +1,352 @@
+format: 0
+variables: [ws_flag, boss_dead, chimes, hoard_seen, in_pit, in_vault, left_once, on_pedestal, podium_uses, seal_draws, tunnel_pads, vault_burned]
+events:
+  - id: evt:apse_lights_off
+    preset: script
+    source: plate:apse_lights_off
+    trigger: step
+    effects:
+      - lights_off: light:a_switched_dark
+      - lights_on: [light:a_switched_lamp]
+  - id: evt:apse_lights_on
+    preset: script
+    source: plate:apse_lights_on
+    trigger: step
+    effects:
+      - lights_on: light:a_switched_dark
+      - lights_off: [light:a_switched_lamp]
+  - id: evt:arrive
+    preset: text
+    trigger: load
+    effects:
+      - gold: 7
+    text: The gallery of shapes lies before you.
+  - id: evt:boss_dead
+    preset: text
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:boss}}
+    once: true
+    sets: {map_var: boss_dead}
+    text: The tunnel falls silent.
+  - id: evt:bridge_lever
+    preset: switch
+    source: switch:bridge
+    title: Bridge lever
+    toggles: [mover:bridge]
+  - id: evt:chime
+    preset: text
+    source: plate:chime
+    trigger: step
+    effects:
+      - add:
+          var:
+            map_var: chimes
+          value: 1
+    text: A chime sounds.
+  - id: evt:closet_door
+    preset: door
+    source: door:closet
+    title: Closet door
+  - id: evt:desk
+    preset: chest
+    source: chest:desk
+    title: Desk
+  - id: evt:ember_pit
+    preset: text
+    source: level:ember_pit
+    trigger: step
+    sets: {map_var: in_pit}
+    text: Embers crunch underfoot.
+  - id: evt:fold_hoard
+    preset: chest
+    source: chest:fold_hoard
+    title: Chest
+    condition: {not: {map_var: hoard_seen}}
+    effects:
+      - set:
+          var:
+            map_var: hoard_seen
+          value: 1
+    else_effects:
+      - open_chest: chest:fold_spent
+    notes: "One chest of two: the hoard the first time, the second contents after."
+  - id: evt:gallery_chest
+    preset: chest
+    source: chest:gallery
+    title: Chest
+  - id: evt:gate_lever
+    preset: switch
+    source: switch:gate
+    title: Gate lever
+    opens: [mover:gate_block, mover:sink_plate]
+  - id: evt:grow_lever
+    preset: switch
+    source: switch:grow
+    title: Lever of the growing bridge
+    toggles: [mover:grow]
+  - id: evt:hall_mark
+    preset: script
+    source: plate:hall_mark
+    trigger: step
+    effects:
+      - clear_secret: region:hall_trace
+      - secret: plate:hall_mark
+    notes: "The traced ceiling stops pulsing; the plate starts."
+  - id: evt:leaf_fold
+    preset: door
+    source: door:leaf_fold
+    title: Folding double door
+  - id: evt:leaf_mirror
+    preset: door
+    source: door:leaf_mirror
+    title: Door of two pictures
+  - id: evt:leaf_part
+    preset: door
+    source: door:leaf_part
+    title: Door that opens part of its way
+  - id: evt:leaf_pass
+    preset: door
+    source: door:leaf_pass
+    title: Door of a lower and an upper half
+  - id: evt:leaf_seal
+    preset: door
+    source: door:leaf_seal
+    title: Sealed door
+  - id: evt:lectern
+    preset: switch
+    source: switch:lectern
+    title: Switch on the lectern
+    effects:
+      - text: The plate on the lectern clicks.
+  - id: evt:lift
+    preset: switch
+    source: lift:gallery
+    title: Lift
+    toggles: [lift:gallery]
+  - id: evt:notice
+    preset: text
+    source: panel:notice
+    title: Notice
+    text: The guard keeps the key.
+  - id: evt:pair_door
+    preset: door
+    source: door:pair
+    title: Double door
+  - id: evt:panels_door
+    preset: door
+    source: door:panels
+    title: Door of the panel room
+  - id: evt:pedestal
+    preset: script
+    source: platform:pedestal
+    trigger: step
+    effects:
+      - set:
+          var:
+            map_var: on_pedestal
+          value: 1
+      - cast:
+          spell: 2
+          from: [960, 1008, 128]
+          to: [640, 1008, 128]
+          mastery: expert
+          level: 1
+      - text: A bolt of fire leaps along the wall.
+  - id: evt:plate_gate
+    preset: switch
+    source: plate:gate
+    trigger: step
+    opens: [door:vault]
+    once: true
+    text: The plate sinks and a door grinds open.
+  - id: evt:pod_lift
+    preset: switch
+    source: lift:pod
+    title: Pod lift
+    toggles: [lift:pod]
+  - id: evt:podium
+    preset: script
+    source: platform:podium
+    title: Podium
+    effects:
+      - add:
+          var:
+            map_var: podium_uses
+          value: 1
+      - text: The podium is cold to the touch.
+  - id: evt:rig_button
+    preset: switch
+    source: mover:rig_button
+    title: Button
+    opens: [mover:rig_button]
+    text: The button sinks into the wall.
+  - id: evt:rig_chest
+    preset: chest
+    source: chest:rig_deck
+    title: Chest on the deck
+  - id: evt:rig_deck
+    preset: switch
+    source: switch:rig_deck
+    title: Deck button
+    toggles: [mover:rig_deck]
+  - id: evt:rig_lever
+    preset: switch
+    source: switch:rig_lever
+    title: Gate lever
+    toggles: [mover:rig_gate_high, mover:rig_gate_low]
+  - id: evt:seal_draw
+    preset: script
+    source: plate:seal_draw
+    trigger: step
+    condition: {map_var: {name: seal_draws, below: 2}}
+    effects:
+      - add:
+          var:
+            map_var: seal_draws
+          value: 1
+      - give_item:
+          one_of: [1961, 1973, 1976]
+      - lua: "if IsAtLeast(MapVar(seal_draws), 2) then evt.StatusText(\"The seal is spent.\") end"
+  - id: evt:side_door
+    preset: door
+    source: door:side
+    title: Sliding door
+  - id: evt:sided_keg
+    preset: script
+    source: deco:sided_keg
+    title: Keg
+    effects:
+      - text: Something clicks behind the screen.
+      - passable: platform:sided_screen
+      - set_texture:
+          of: platform:sided_screen
+          to: d2ceil4
+  - id: evt:sided_leave
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: left_once
+          value: 1
+    notes: "Runs when the party leaves the map (`trigger: leave`)."
+  - id: evt:sided_open
+    preset: door
+    source: door:sided
+    side: room:leaf_pass_cell
+    title: Door
+    effects:
+      - show_actors: 77
+  - id: evt:sided_stuck
+    preset: text
+    source: door:sided
+    side: room:sided_cell
+    text: The door won't budge.
+  - id: evt:split_door
+    preset: door
+    source: door:split
+    title: Split door
+  - id: evt:tram
+    preset: switch
+    source: mover:tram
+    title: Carrying block
+    toggles: [mover:tram]
+  - id: evt:trap_floor
+    preset: script
+    source: room:trap
+    trigger: step
+    effects:
+      - set:
+          var:
+            map_var: in_vault
+          value: 0
+  - id: evt:tunnel_pad
+    preset: script
+    source: plate:tunnel_pad
+    trigger: step
+    effects:
+      - add:
+          var:
+            map_var: tunnel_pads
+          value: 1
+  - id: evt:vault_floor
+    preset: script
+    source: room:vault
+    trigger: step
+    effects:
+      - set:
+          var:
+            map_var: in_vault
+          value: 1
+      - text: The vault's air shimmers with heat.
+  - id: evt:vault_heat
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {map_var: in_vault}
+    effects:
+      - damage:
+          amount: 3
+          kind: fire
+      - set:
+          var:
+            map_var: vault_burned
+          value: 1
+      - text: The heat of the vault burns you.
+  - id: evt:wall_lever
+    preset: switch
+    source: switch:wall
+    title: Wall lever
+    opens: [mover:wall]
+  - id: evt:ws_button
+    preset: switch
+    source: switch:ws_button
+    title: Button
+    toggles: [lift:ws_lift]
+  - id: evt:ws_desk
+    preset: script
+    source: platform:ws_desk
+    title: Desk
+    effects:
+      - set_texture:
+          of: platform:ws_desk
+          to: deskside
+          face: top
+      - set_sprite:
+          of: deco:ws_crystal
+          to: crysdisc
+    notes: "The desk's top alone turns to deskside and the crystal on it to its empty stand, as Castle Darkmoor's podium and crystal."
+  - id: evt:ws_lever
+    preset: switch
+    source: switch:ws_lever
+    title: Lever
+    toggles: [lift:ws_lift]
+  - id: evt:ws_mm6
+    preset: chest
+    source: chest:ws_mm6
+    title: Chest
+  - id: evt:ws_mm7
+    preset: chest
+    source: chest:ws_mm7
+    title: Chest
+  - id: evt:ws_plate
+    preset: switch
+    source: switch:ws_plate
+    title: Switch
+    toggles: [lift:ws_lift]
+  - id: evt:ws_post_lever
+    preset: switch
+    source: switch:ws_post_lever
+    title: Lever
+    condition: {not: {map_var: ws_flag}}
+    effects:
+      - set:
+          var:
+            map_var: ws_flag
+          value: 1
+    else_effects:
+      - set:
+          var:
+            map_var: ws_flag
+          value: 0

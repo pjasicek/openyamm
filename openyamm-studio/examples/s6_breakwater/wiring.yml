@@ -1,0 +1,46 @@
+format: 0
+events:
+  - id: evt:arrival
+    preset: script
+    trigger: load
+    condition: {not: {map_var: arrived}}
+    effects:
+      - set: {var: {map_var: arrived}, value: 1}
+      - cinematic: {id: cinematic:arrival, then: evt:arrival_done}
+  - id: evt:arrival_lamp
+    preset: text
+    trigger: call
+    text: Someone has barred the store.
+  - id: evt:arrival_done
+    preset: script
+    trigger: call
+    effects:
+      - set: {var: {map_var: arrival_seen}, value: 1}
+      - gold: 1
+  - id: evt:barricade_down
+    preset: text
+    trigger: call
+    text: The boards give way.
+  - id: evt:barrel_gold
+    preset: text
+    trigger: call
+    text: Coins spill out of the broken barrel.
+    effects:
+      - gold: 25
+variables: [arrived, arrival_seen]
+cinematics:
+  - id: cinematic:arrival
+    shots:
+      - {seconds: 2.5, at: [120, 120, 420], look_at: deco:barrel, fov: 70}
+      - seconds: 3
+        at: [800, 300, 200]
+        look_at: [1120, 384, 128]
+        easing: smooth
+        keys:
+          - {seconds: 3, at: [960, 384, 180], look_at: [1120, 384, 128]}
+      - {seconds: 1, party: true}
+    cues:
+      - {at: 0, fade: in, seconds: 1}
+      - {at: 2.5, subtitle: "The store is barred from within.", seconds: 2.5}
+      - {at: 3, event: evt:arrival_lamp}
+      - {at: 5, shake: 0.3, seconds: 1}

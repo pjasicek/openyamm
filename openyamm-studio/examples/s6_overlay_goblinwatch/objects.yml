@@ -1,0 +1,22 @@
+format: 1
+scene:
+  lights:
+    - id: light:vault_glow
+      position: [7456, 3164, 256]
+      color: [120, 180, 255]
+      intensity: [0.4, 1]
+      radius: [300, 700]
+      frequency: 0.7
+      notes: A blue glow where the first treasure roll lies.
+  sounds:
+    - id: sound:drip
+      position: [7456, 3164, 200]
+      sound: 01_01.wav
+      radius: 900
+      wait: [3, 8]
+  spawns:
+    - id: spawn:extra_guard
+      position: [7300, 3000, 128]
+      slot: 1
+  removals: [spawn:s1]
+notes: "S6's overlay example on an MM6 map (devdocs/map_studio/S6_PLAN.md item O): a pulsing light and a placed sound that Goblinwatch's scene never had, one spawn point more and one less. Build with --assets; it writes 6d01_s6_lamps.scene.yml."

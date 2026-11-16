@@ -1,0 +1,138 @@
+{
+  "map": "sci-fi.blv",
+  "world": "mm6",
+  "kind": "indoor",
+  "structure": {
+    "sectors": 92,
+    "links": 113,
+    "components": 2,
+    "loops": 23
+  },
+  "scale": {
+    "floor_area_millions": 177,
+    "sector_floor_area": {
+      "count": 87,
+      "min": 8192,
+      "q1": 492694,
+      "median": 846656,
+      "q3": 1483942,
+      "max": 42188800
+    },
+    "sector_height": {
+      "count": 87,
+      "min": 10,
+      "q1": 315,
+      "median": 339,
+      "q3": 522,
+      "max": 1073
+    },
+    "doorway_width": {
+      "count": 105,
+      "min": 1,
+      "q1": 128,
+      "median": 256,
+      "q3": 395,
+      "max": 2005
+    },
+    "doorway_height": {
+      "count": 105,
+      "min": 98,
+      "q1": 255,
+      "median": 256,
+      "q3": 305,
+      "max": 768
+    },
+    "floor_level": {
+      "count": 540,
+      "min": -985,
+      "q1": 196,
+      "median": 393,
+      "q3": 643,
+      "max": 1320
+    }
+  },
+  "mechanisms": {
+    "doors": 27,
+    "bound_events": 64,
+    "door_events": 24,
+    "trap_events": 1,
+    "local_teleports": 0,
+    "exits": 1,
+    "summon_events": 0,
+    "chest_events": 14,
+    "text_events": 1,
+    "secret_faces": 0,
+    "pressure_plates": 20,
+    "clickable_faces": 180
+  },
+  "density": {
+    "spawn_points": 80,
+    "fixed_actors": 0,
+    "unique_actors": 0,
+    "lights": 392,
+    "decorations": 1,
+    "spawn_points_per_area": 0.45,
+    "lights_per_area": 2.21,
+    "decorations_per_area": 0.01
+  },
+  "palette": {
+    "textures": 66,
+    "by_area": [{
+        "name": "swfloor2b",
+        "share": 0.255
+      },
+      {
+        "name": "swll4dk",
+        "share": 0.19
+      },
+      {
+        "name": "swll5dk",
+        "share": 0.098
+      },
+      {
+        "name": "swcirc2",
+        "share": 0.064
+      },
+      {
+        "name": "swflorc",
+        "share": 0.059
+      },
+      {
+        "name": "swflora",
+        "share": 0.049
+      },
+      {
+        "name": "swankdk",
+        "share": 0.045
+      },
+      {
+        "name": "swall5",
+        "share": 0.036
+      },
+      {
+        "name": "sky_nit2",
+        "share": 0.034
+      },
+      {
+        "name": "swwala",
+        "share": 0.027
+      },
+      {
+        "name": "swrdk2",
+        "share": 0.022
+      },
+      {
+        "name": "swall1",
+        "share": 0.022
+      }
+    ]
+  },
+  "play": {
+    "walked": true,
+    "sectors_with_floor": 87,
+    "reached_at_start": 38,
+    "reached_doors_clear": 86,
+    "walkable_area_millions": 166.21,
+    "unreached_spawn_points": 0
+  }
+}

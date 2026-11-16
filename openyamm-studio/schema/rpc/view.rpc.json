@@ -1,0 +1,1537 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: view",
+  "description": "What the browser draws, made by the core from the project's own lowering (S5_BROWSER_EDITOR.md 2.9): view.layout gives every object's resolved place for the plan view, view.mesh the map's faces for the 3D view. Indoors both come from the lowering the core already ran for the revision (the edit's own lowering), not from a build: no compiler, BSP or GLB. Outdoors they come from a dry build. A project whose lowering stops at an error has no view of its own revision: the answer is the last view this core made of the project in the session, marked stale (view_revision names it), or the has_errors refusal when there is none. Positions are map units, x east, y north, z up.",
+  "x-group": "view",
+  "methods": {
+    "layout": {
+      "summary": "Every object's resolved place: rooms (outline, floor and ceiling as built), openings (where in which walls), doors, lifts and movers, things that stand somewhere (chests, monsters, items, decorations, lights, spawn points, the start; switches and exits at the middle of their faces), and outdoors the land's heights and the models' boxes. What the plan view draws and what a pick on the plan maps back to.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "has_errors"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "view_revision",
+          "stale",
+          "kind",
+          "world",
+          "bounds",
+          "rooms",
+          "openings",
+          "doors",
+          "lifts",
+          "things"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "view_revision": {
+            "description": "The revision the layout was made from: equal to revision unless stale.",
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "stale": {
+            "description": "The project's own revision does not lower (it has errors): this is the last layout made of it.",
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "indoor",
+              "outdoor",
+              "overlay"
+            ]
+          },
+          "world": {
+            "type": "string"
+          },
+          "bounds": {
+            "$ref": "#/$defs/view_box"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_room"
+            }
+          },
+          "openings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_opening"
+            }
+          },
+          "doors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_door"
+            }
+          },
+          "lifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_lift"
+            }
+          },
+          "things": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_thing"
+            }
+          },
+          "start": {
+            "$ref": "#/$defs/view_start"
+          },
+          "land": {
+            "description": "Outdoors: the land as built.",
+            "$ref": "#/$defs/view_land"
+          },
+          "models": {
+            "description": "Outdoors: the models (buildings and other structures) and their boxes.",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_model"
+            }
+          },
+          "skipped": {
+            "description": "A view build (S5_BROWSER_EDITOR.md 2.4.2): the objects the lowering could not lower, left out of this view with what depends on them; the issues carry a note (code skipped) for each. The client draws their last good mesh marked stale.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "skipped_issues": {
+            "description": "With skipped: a note (code skipped) per object left out, and the errors the view build reached that the full check had stopped before.",
+            "$ref": "common.rpc.json#/$defs/issues"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "mesh": {
+      "summary": "The map's visible faces as binary buffers, grouped by texture, with a provenance table naming the project object each face comes from. The bytes are written to a cache file under the project's .oymap/view/ (named by the view's revision and lock hash) and named in `file`; the host serves them on its byte route (/mesh/<project>/<name>) and the hosted worker hands them over as a buffer. Layout of the file (little-endian, each section 4-byte aligned, offsets and counts in `sections`): positions float32 x,y,z per vertex (map units); normals float32 x,y,z per vertex (unit length); uvs float32 u,v per vertex in texels of the face's texture (divide by the texture's own size, as the game does), except where the group says uv_unit unit (0..1 across the texture); indices uint32, three per triangle, each group's triangles contiguous; triangle_faces uint32, one per triangle, the face it belongs to; face_owners uint32, one per face, a place in `owners` (0: none).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "has_errors"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "view_revision",
+          "stale",
+          "lock_hash",
+          "kind",
+          "world",
+          "file",
+          "bytes",
+          "counts",
+          "sections",
+          "groups",
+          "owners",
+          "bounds"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "view_revision": {
+            "description": "The revision the mesh was made from: equal to revision unless stale.",
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "stale": {
+            "description": "The project's own revision does not lower (it has errors): this is the last mesh made of it.",
+            "type": "boolean"
+          },
+          "lock_hash": {
+            "$ref": "common.rpc.json#/$defs/lock_hash"
+          },
+          "kind": {
+            "enum": [
+              "indoor",
+              "outdoor",
+              "overlay"
+            ]
+          },
+          "world": {
+            "description": "The world whose textures the faces name (project.yml world).",
+            "type": "string"
+          },
+          "file": {
+            "description": "The cache file, relative to the project: .oymap/view/<view revision>-<first 8 digits of the lock hash>-<first 12 digits of the bytes' hash>.mesh (a name never stands for two contents, as the host serves it immutable).",
+            "type": "string",
+            "pattern": "^\\.oymap/view/[0-9a-f]+-[0-9a-z]+-[0-9a-f]{12}\\.mesh$"
+          },
+          "bytes": {
+            "description": "The file's size.",
+            "type": "integer",
+            "minimum": 0
+          },
+          "counts": {
+            "type": "object",
+            "required": [
+              "vertices",
+              "triangles",
+              "faces"
+            ],
+            "properties": {
+              "vertices": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "triangles": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "faces": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "sections": {
+            "type": "object",
+            "required": [
+              "positions",
+              "normals",
+              "uvs",
+              "indices",
+              "triangle_faces",
+              "face_owners"
+            ],
+            "properties": {
+              "positions": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "normals": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "uvs": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "indices": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "triangle_faces": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "face_owners": {
+                "$ref": "#/$defs/mesh_section"
+              }
+            },
+            "additionalProperties": false
+          },
+          "groups": {
+            "description": "Runs of triangles that share a texture, in the order of `indices`.",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/mesh_group"
+            }
+          },
+          "owners": {
+            "description": "The objects faces come from; the first entry is the empty owner (id \"\").",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/mesh_owner"
+            }
+          },
+          "bounds": {
+            "$ref": "#/$defs/view_box"
+          },
+          "skipped": {
+            "description": "A view build (S5_BROWSER_EDITOR.md 2.4.2): the objects the lowering could not lower, left out of this view with what depends on them; the issues carry a note (code skipped) for each. The client draws their last good mesh marked stale.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "skipped_issues": {
+            "description": "With skipped: a note (code skipped) per object left out, and the errors the view build reached that the full check had stopped before.",
+            "$ref": "common.rpc.json#/$defs/issues"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "render": {
+      "summary": "A labelled drawing of a shipped map or a project from its data, as PNG: plan (top down) or iso. Indoor: sectors numbered and coloured, doors red with their numbers, portals green, S the party start, yellow dots spawn points. Outdoor: terrain by height, buildings numbered, clickable faces orange.",
+      "since": 1,
+      "lane": "jobs",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "no_asset_root",
+        "not_a_project",
+        "has_errors",
+        "no_such_map",
+        "bad_request",
+        "no_mount"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "map"
+        ],
+        "properties": {
+          "map": {
+            "$ref": "common.rpc.json#/$defs/map_target"
+          },
+          "world": {
+            "description": "The world of a shipped map (mm6, mm7, mm8, mm9); a project names its own.",
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "built": {
+            "description": "Read with the session's mount of installed builds in front of the asset root (after build.install).",
+            "type": "boolean"
+          },
+          "view": {
+            "enum": [
+              "plan",
+              "iso"
+            ]
+          },
+          "size": {
+            "description": "The longer side in pixels (default 1024).",
+            "type": "integer",
+            "minimum": 128,
+            "maximum": 2048
+          },
+          "labels": {
+            "description": "Numbers and names on the drawing (default true).",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "map",
+          "width",
+          "height",
+          "png_base64"
+        ],
+        "properties": {
+          "map": {
+            "description": "The map file drawn (a project's built map).",
+            "type": "string"
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "png_base64": {
+            "description": "The PNG, base64 (no path: the picture is the answer).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "original_mesh": {
+      "summary": "The project's original (its map_stats.reference, or the shipped map it overlays) as the views draw a mesh, read from the session's asset root: indoor every visible face as the map file stores it, each owned by its sector (sector:<n>, no file); outdoor the land by its tiles and the models. Written beside the project's own view meshes (.oymap/view/); the Compare view draws it beside the rebuild, moved by compare.run's vertical_offset.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "bad_request",
+        "no_asset_root",
+        "no_such_map",
+        "failed"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "original": {
+            "description": "Another shipped map of the project's world instead of its own original. A shipped map's file name, never a path.",
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+\\.(blv|odm)$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "original",
+          "world",
+          "kind",
+          "file",
+          "bytes",
+          "counts",
+          "sections",
+          "groups",
+          "owners",
+          "bounds"
+        ],
+        "properties": {
+          "original": {
+            "description": "The original's map file.",
+            "type": "string"
+          },
+          "world": {
+            "description": "The world whose textures the faces name (project.yml world).",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "indoor",
+              "outdoor",
+              "overlay"
+            ]
+          },
+          "file": {
+            "description": "The cache file, relative to the project: .oymap/view/<view revision>-<first 8 digits of the lock hash>-<first 12 digits of the bytes' hash>.mesh (a name never stands for two contents, as the host serves it immutable).",
+            "type": "string",
+            "pattern": "^\\.oymap/view/[0-9a-f]+-[0-9a-z]+-[0-9a-f]{12}\\.mesh$"
+          },
+          "bytes": {
+            "description": "The file's size.",
+            "type": "integer",
+            "minimum": 0
+          },
+          "counts": {
+            "type": "object",
+            "required": [
+              "vertices",
+              "triangles",
+              "faces"
+            ],
+            "properties": {
+              "vertices": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "triangles": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "faces": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          },
+          "sections": {
+            "type": "object",
+            "required": [
+              "positions",
+              "normals",
+              "uvs",
+              "indices",
+              "triangle_faces",
+              "face_owners"
+            ],
+            "properties": {
+              "positions": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "normals": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "uvs": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "indices": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "triangle_faces": {
+                "$ref": "#/$defs/mesh_section"
+              },
+              "face_owners": {
+                "$ref": "#/$defs/mesh_section"
+              }
+            },
+            "additionalProperties": false
+          },
+          "groups": {
+            "description": "Runs of triangles that share a texture, in the order of `indices`.",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/mesh_group"
+            }
+          },
+          "owners": {
+            "description": "The objects faces come from; the first entry is the empty owner (id \"\").",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/mesh_owner"
+            }
+          },
+          "bounds": {
+            "$ref": "#/$defs/view_box"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "render_sketch": {
+      "summary": "The plan picture of an outdoor project's sketch.yml (`oymap render-sketch`): land, water, roads, districts, plots, points, areas, drawn from what can be read (also a sketch that still has issues). As PNG bytes in the answer.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "size": {
+            "description": "Pixels across (256 to 4096; default 1024).",
+            "type": "integer",
+            "minimum": 256,
+            "maximum": 4096
+          },
+          "region": {
+            "description": "x, y, width, depth in cells: only that part of the map.",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "labels": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "width",
+          "height",
+          "png_base64"
+        ],
+        "properties": {
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "png_base64": {
+            "description": "The PNG, base64.",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "layout_at": {
+      "summary": "History's \"show as it was\" (S5_BROWSER_EDITOR.md 3.12): view.layout's members for the project as it stood before (side before, the default) or after (side after) a history entry, lowered from the files of then (each file taken back through the entries after it), for the views to draw as a ghost over the current. Indoor and outdoor projects (outdoor since S5b2: the land and the models). Nothing is kept or written.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "has_errors",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "sequence"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "sequence": {
+            "description": "The history entry (edit.history's sequence).",
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "description": "Before the entry (default) or after it.",
+            "enum": [
+              "before",
+              "after"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "sequence",
+          "side",
+          "revision",
+          "kind",
+          "world",
+          "bounds",
+          "rooms",
+          "openings",
+          "doors",
+          "lifts",
+          "things"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "enum": [
+              "before",
+              "after"
+            ]
+          },
+          "revision": {
+            "description": "The source revision of the files of then.",
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "kind": {
+            "enum": [
+              "indoor",
+              "outdoor"
+            ]
+          },
+          "world": {
+            "type": "string"
+          },
+          "skipped": {
+            "description": "Objects the lowering of then left out.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "bounds": {
+            "$ref": "#/$defs/view_box"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_room"
+            }
+          },
+          "openings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_opening"
+            }
+          },
+          "doors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_door"
+            }
+          },
+          "lifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_lift"
+            }
+          },
+          "things": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_thing"
+            }
+          },
+          "start": {
+            "$ref": "#/$defs/view_start"
+          },
+          "land": {
+            "description": "Outdoors: the land as it was.",
+            "$ref": "#/$defs/view_land"
+          },
+          "models": {
+            "description": "Outdoors: the models as they were.",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/view_model"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "terrain_query": {
+      "summary": "The built land of an outdoor project, asked by place (S5_BROWSER_EDITOR.md 3.18: how agents read land a person made by hand, instead of reading its rows): the height and slope at points, and a profile along a line. From the current view's map (the stored heights, as the game has them); stale when the project's own revision does not lower.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "has_errors",
+        "bad_request"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "points": {
+            "description": "Places [x, y] in cells (fractions allowed) to give the height and slope at.",
+            "type": "array",
+            "maxItems": 4096,
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "line": {
+            "description": "A profile: heights every `step` cells from `from` to `to`.",
+            "type": "object",
+            "required": [
+              "from",
+              "to"
+            ],
+            "properties": {
+              "from": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "to": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "step": {
+                "description": "Cells between samples, 0.25 to 16 (1 when left out).",
+                "type": "number",
+                "minimum": 0.25,
+                "maximum": 16
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "view_revision",
+          "stale",
+          "points"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "view_revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "stale": {
+            "type": "boolean"
+          },
+          "skipped": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "skipped_issues": {
+            "type": "array",
+            "items": {
+              "$ref": "common.rpc.json#/$defs/issue"
+            }
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "at",
+                "height",
+                "slope"
+              ],
+              "properties": {
+                "at": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "x-decimals": 3
+                  }
+                },
+                "height": {
+                  "description": "Map units, as stored (steps of 32 between the nodes, weighed by distance).",
+                  "type": "integer"
+                },
+                "slope": {
+                  "description": "Degrees from level, from the heights half a cell either way.",
+                  "type": "number",
+                  "x-decimals": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "profile": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "at",
+                "height"
+              ],
+              "properties": {
+                "at": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "x-decimals": 3
+                  }
+                },
+                "height": {
+                  "type": "integer"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "overlay": {
+      "summary": "An overlay project's scene things on its base map (devdocs/map_studio/S6_PLAN.md, item O; S8a), for the plan view and agents: the base map's pulsing lights, ambient sounds, destructibles, water volumes, spawn points and ladders, each with its id in ids.lock.yml and what the project does to it (kept, changed, removed), and the project's own additions (objects.yml `scene`: also monsters and floor items, which the game appends after the base map's) where the built overlay puts them; with the base map's bounds and profile (region, city, dungeon), and its cinematics with what the project's of the same name do to them. Read from the session's asset root (the base map's own scene, without other overlays).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "none",
+      "assets": "required",
+      "errors": [
+        "not_a_project",
+        "bad_request",
+        "no_asset_root",
+        "no_such_map"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "base",
+          "world",
+          "profile",
+          "bounds",
+          "scene_keys",
+          "things",
+          "issues"
+        ],
+        "properties": {
+          "base": {
+            "description": "The base map's file.",
+            "type": "string"
+          },
+          "world": {
+            "type": "string"
+          },
+          "profile": {
+            "enum": [
+              "region",
+              "city",
+              "dungeon"
+            ]
+          },
+          "bounds": {
+            "description": "[min x, min y, max x, max y] of the base map's vertices.",
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "scene_keys": {
+            "description": "The scene overlay's keys the project writes (empty: it changes no scene).",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "things": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "kind",
+                "origin",
+                "state",
+                "at",
+                "label"
+              ],
+              "properties": {
+                "id": {
+                  "description": "Its id: in ids.lock.yml for a base thing, in objects.yml `scene` for an addition.",
+                  "type": "string"
+                },
+                "kind": {
+                  "enum": [
+                    "light",
+                    "sound",
+                    "destructible",
+                    "water",
+                    "spawn",
+                    "ladder",
+                    "monster",
+                    "item"
+                  ]
+                },
+                "origin": {
+                  "enum": [
+                    "base",
+                    "added"
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "kept",
+                    "changed",
+                    "removed",
+                    "added"
+                  ]
+                },
+                "at": {
+                  "description": "Its place [x, y, z]: a light's or sound's position, a destructible's centre, a water volume's middle at its surface, a spawn point, a ladder's foot, a monster's or an item's place.",
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "radius": {
+                  "description": "A light's largest reach, a sound's hearing distance, a spawn's spread, a monster's body.",
+                  "type": "integer"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "polygons": {
+                  "description": "A water volume's pieces on the plan.",
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "cinematics": {
+            "description": "The base map's cinematics and the project's (wiring.yml `cinematics`, written as `<stem>_<project id>.cinematics.yml`, which the game merges by name after the map's own): a base one kept or replaced by the project's of its name, the project's others added. Absent when neither has any.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "state"
+              ],
+              "properties": {
+                "id": {
+                  "description": "`cinematic:<name>`.",
+                  "type": "string"
+                },
+                "state": {
+                  "enum": [
+                    "kept",
+                    "replaced",
+                    "added"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "issues": {
+            "description": "What stops the overlay from building (its additions are then left out).",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "file",
+                "path",
+                "message"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "view_point": {
+      "description": "A point [x, y] in map units, rounded to integers.",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "view_box": {
+      "type": "object",
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "max": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        }
+      },
+      "additionalProperties": false
+    },
+    "mesh_section": {
+      "description": "A part of the mesh file: its byte offset and the number of its elements (floats or uint32).",
+      "type": "object",
+      "required": [
+        "offset",
+        "count"
+      ],
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "mesh_group": {
+      "type": "object",
+      "required": [
+        "texture",
+        "first",
+        "count",
+        "uv_unit",
+        "kind"
+      ],
+      "properties": {
+        "texture": {
+          "description": "The texture's name as the map names it (lower case); empty for faces without one.",
+          "type": "string"
+        },
+        "first": {
+          "description": "The group's first place in `indices`.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "count": {
+          "description": "How many indices (three per triangle).",
+          "type": "integer",
+          "minimum": 0
+        },
+        "uv_unit": {
+          "enum": [
+            "texel",
+            "unit"
+          ]
+        },
+        "kind": {
+          "description": "surface: walls, floors, ceilings, models; liquid: a texture the game draws as a liquid (no picture); terrain: the outdoor land, one tile texture per cell; moving: the faces of a door, lift or mover.",
+          "enum": [
+            "surface",
+            "liquid",
+            "terrain",
+            "moving"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "mesh_owner": {
+      "description": "The project object a face comes from: a top-level id, with the wall or part where the lowering knows it (room:hall/walls/3), and its file where the id alone is in more than one file.",
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "file": {
+          "$ref": "common.rpc.json#/$defs/file_name"
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_room": {
+      "type": "object",
+      "required": [
+        "id",
+        "sector",
+        "outline",
+        "floor",
+        "ceiling"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sector": {
+          "description": "The room's sector number in the built map.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "outline": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view_point"
+          }
+        },
+        "floor": {
+          "type": "integer"
+        },
+        "ceiling": {
+          "type": "integer"
+        },
+        "floor_to": {
+          "description": "A floor that rises or falls: its other height.",
+          "type": "integer"
+        },
+        "ceiling_to": {
+          "description": "A ceiling that slopes: its other height.",
+          "type": "integer"
+        },
+        "levels": {
+          "description": "Parts of the floor at another height (levels, platforms, treads): outline and height.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "outline",
+              "height"
+            ],
+            "properties": {
+              "outline": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/view_point"
+                }
+              },
+              "height": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_opening": {
+      "type": "object",
+      "required": [
+        "id",
+        "from",
+        "to",
+        "bottom",
+        "top"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "from": {
+          "description": "The room it opens from.",
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "a": {
+          "description": "A wall opening: its two ends on the plan, in the `from` room's wall.",
+          "$ref": "#/$defs/view_point"
+        },
+        "b": {
+          "$ref": "#/$defs/view_point"
+        },
+        "outline": {
+          "description": "An opening in a floor: the hole's outline.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view_point"
+          }
+        },
+        "bottom": {
+          "type": "integer"
+        },
+        "top": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_door": {
+      "type": "object",
+      "required": [
+        "id",
+        "opening"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "opening": {
+          "type": "string"
+        },
+        "hinged": {
+          "type": "boolean"
+        },
+        "leaves": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "starts_open": {
+          "description": "The map starts it open (a door), raised (a lift) or at its end (a mover).",
+          "type": "boolean"
+        },
+        "moves": {
+          "description": "How its faces move, one per mechanism (a door of two sliding leaves has two).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view_move"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_lift": {
+      "type": "object",
+      "required": [
+        "id",
+        "mover"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "mover": {
+          "description": "A mover (objects.yml movers) rather than a lift.",
+          "type": "boolean"
+        },
+        "starts_open": {
+          "description": "The map starts it open (a door), raised (a lift) or at its end (a mover).",
+          "type": "boolean"
+        },
+        "moves": {
+          "description": "How its faces move, one per mechanism (a door of two sliding leaves has two).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view_move"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_thing": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "at"
+      ],
+      "properties": {
+        "id": {
+          "description": "The project id, or a name the build gave it (an outdoor decoration of a scatter).",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "chest",
+            "monster",
+            "item",
+            "decoration",
+            "light",
+            "spawn",
+            "sound",
+            "ladder",
+            "entity",
+            "switch",
+            "exit"
+          ]
+        },
+        "at": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "name": {
+          "description": "What it is: a decoration's name, a monster's, a switch's kind (plate, lever, button).",
+          "type": "string"
+        },
+        "radius": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "facing": {
+          "description": "Degrees, counter-clockwise from east. A switch or an exit: the way its face looks (into the room); a plate on a block's top has none.",
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_start": {
+      "type": "object",
+      "required": [
+        "at",
+        "facing"
+      ],
+      "properties": {
+        "at": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "facing": {
+          "description": "Degrees, counter-clockwise from east.",
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_land": {
+      "type": "object",
+      "required": [
+        "size",
+        "cell",
+        "height_unit",
+        "heights",
+        "water"
+      ],
+      "properties": {
+        "size": {
+          "description": "Cells along a side (128).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cell": {
+          "description": "Map units per cell (512). Cell (0, 0) is the north-west corner; x east, y south in cells.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "height_unit": {
+          "description": "Map units per height step of `heights`.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "heights": {
+          "description": "size x size heights, row by row from the north, in height steps.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "water": {
+          "description": "size x size flags, 1 where the cell's tile is water.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_model": {
+      "type": "object",
+      "required": [
+        "id",
+        "min",
+        "max"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "min": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "max": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        }
+      },
+      "additionalProperties": false
+    },
+    "view_move": {
+      "type": "object",
+      "description": "How one mechanism of a door, lift or mover moves (S5b2: the 3D view's travel scrubber): the middle of its faces as view.mesh draws them (closed, at its start), and either the shift to open (to its end) or, a hinged leaf, the turn about its pivot.",
+      "required": [
+        "at"
+      ],
+      "properties": {
+        "at": {
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "by": {
+          "description": "From closed (its start) to open (its end), map units.",
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "pivot": {
+          "description": "A hinged leaf: the foot of its vertical hinge line.",
+          "$ref": "common.rpc.json#/$defs/point3i"
+        },
+        "degrees": {
+          "description": "A hinged leaf: the turn to open, degrees counter-clockwise seen from above.",
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

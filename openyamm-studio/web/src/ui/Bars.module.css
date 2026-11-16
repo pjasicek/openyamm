@@ -1,0 +1,173 @@
+.title
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: var(--bar-height);
+    padding: 0 var(--space-4);
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.brand
+{
+    border: 0;
+    background: none;
+    padding: 0;
+    font-weight: 700;
+    font-size: var(--size-l);
+    cursor: pointer;
+}
+
+.project
+{
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    min-width: 0;
+    overflow: hidden;
+}
+
+.name
+{
+    font-weight: 600;
+}
+
+.key, .revision
+{
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.spacer
+{
+    flex: 1;
+}
+
+.modes, .views
+{
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.modeOn, .modeOff, .view
+{
+    padding: var(--space-1) var(--space-4);
+    border: 0;
+    background: var(--surface);
+    font-size: var(--size-s);
+}
+
+.modeOn
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.modeOff
+{
+    color: var(--text-dim);
+    cursor: not-allowed;
+    border-left: 1px solid var(--line);
+}
+
+.view + .view
+{
+    border-left: 1px solid var(--line);
+}
+
+.view[data-pressed]
+{
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.tip
+{
+    padding: var(--space-2) var(--space-3);
+    background: var(--text);
+    color: var(--surface);
+    border-radius: var(--radius);
+    font-size: var(--size-s);
+}
+
+.status
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    height: var(--status-height);
+    padding: 0 var(--space-4);
+    background: var(--surface-2);
+    border-top: 1px solid var(--line);
+    font-size: var(--size-s);
+    white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.cell
+{
+    font-family: var(--mono);
+}
+
+.ok
+{
+    color: var(--good);
+    font-weight: 600;
+}
+
+.bad
+{
+    color: var(--bad);
+    font-weight: 600;
+}
+
+.stale
+{
+    color: var(--warn);
+    font-weight: 600;
+}
+
+.note
+{
+    color: var(--warn);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.change
+{
+    color: var(--accent);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.presence
+{
+    color: var(--text-dim);
+}
+
+.presence b
+{
+    color: var(--good);
+}
+
+.hint
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--accent);
+    max-width: 50%;
+}

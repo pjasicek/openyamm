@@ -1,0 +1,41 @@
+# S6 items D, W and C on the studio's test map: the arrival cinematic plays and runs its done event; the barricade
+# and the barrel break and run their events; the pool is water the party sinks into.
+id: studio.s6.breakwater
+title: The Breakwater Store's destructibles break and its pool is water
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: studio06.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ragnar
+            class: Knight
+            level: 10
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: arrival}
+  - advance_runtime: {seconds: 8}
+  - assert: {gold: 1}
+  - console: {line: destructible 1 damage 19}
+  - console: {line: destructible 1 state, expect_contains: "hp 1, standing"}
+  - console: {line: destructible 1 damage 1}
+  - console: {line: destructible 1 state, expect_contains: broken}
+  - console: {line: destructible 2 damage 5}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: destructible 2 state, expect_contains: broken}
+  - assert: {gold: 26}
+  - set_pose: {map: studio06.blv, x: 400, y: 700, z: -180, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - assert:
+      water:
+        foot_z_max: -100
+  - set_pose: {map: studio06.blv, x: 900, y: 200, z: 0, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      water:
+        state: dry

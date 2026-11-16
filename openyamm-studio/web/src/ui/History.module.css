@@ -1,0 +1,47 @@
+/* The History drawer's own parts (S5b1): notices, the links and buttons under an entry. */
+.noticeEntry
+{
+    background: var(--bad-soft);
+}
+
+.notice
+{
+    color: var(--bad);
+    font-weight: 600;
+}
+
+.actions
+{
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    margin-top: var(--space-1);
+}
+
+.actions:empty
+{
+    display: none;
+}
+
+.link
+{
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: var(--size-s);
+    cursor: pointer;
+}
+
+/* "show as it was" while its ghost is drawn (S5b1 part two). */
+.ghostOn
+{
+    padding: 1px var(--space-2);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-s, 4px);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font: inherit;
+    cursor: pointer;
+}

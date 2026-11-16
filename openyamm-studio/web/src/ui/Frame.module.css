@@ -1,0 +1,150 @@
+.frame
+{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--inspector-width);
+    grid-template-rows: var(--bar-height) auto minmax(0, 1fr) var(--drawer-height) var(--status-height);
+    grid-template-areas:
+        "title title"
+        "failed failed"
+        "views inspector"
+        "drawer inspector"
+        "status status";
+    height: 100%;
+    min-height: 0;
+}
+
+.title
+{
+    grid-area: title;
+    min-width: 0;
+}
+
+.failed
+{
+    grid-area: failed;
+    padding: var(--space-3) var(--space-4);
+    background: var(--bad-soft);
+    color: var(--bad);
+}
+
+.views
+{
+    grid-area: views;
+    min-height: 0;
+    min-width: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.viewsInner
+{
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+}
+
+/* Author mode (S5b1): the stage bar under the title, the tool rail at the left (3.1). */
+.frame[data-author]
+{
+    grid-template-columns: var(--rail-author-width) minmax(0, 1fr) var(--inspector-width);
+    grid-template-rows: var(--bar-height) auto auto minmax(0, 1fr) var(--drawer-height) var(--status-height);
+    grid-template-areas:
+        "title title title"
+        "stages stages stages"
+        "failed failed failed"
+        "rail views inspector"
+        "rail drawer inspector"
+        "status status status";
+}
+
+.stages
+{
+    grid-area: stages;
+    min-width: 0;
+}
+
+.rail
+{
+    grid-area: rail;
+    min-height: 0;
+}
+
+.notes
+{
+    position: absolute;
+    top: 40px;
+    right: var(--space-4);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+    max-width: min(560px, 70%);
+    pointer-events: none;
+}
+
+.note_change, .note_pins, .note_presence
+{
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+    font-size: var(--size-m);
+    color: var(--text);
+}
+
+.note_pins
+{
+    border-left-color: var(--plan-pin);
+}
+
+.note_presence
+{
+    border-left-color: var(--good);
+}
+
+.inspector
+{
+    grid-area: inspector;
+    min-height: 0;
+}
+
+.drawer
+{
+    grid-area: drawer;
+    min-height: 0;
+    min-width: 0;
+    border-top: 1px solid var(--line);
+}
+
+.status
+{
+    grid-area: status;
+    min-width: 0;
+}
+
+.listPage
+{
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) var(--status-height);
+    height: 100%;
+}
+
+/* A paired hosted page (S5c): the banner above the host's project list, in the list's row. */
+.listColumn
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.listColumn > main
+{
+    flex: 1;
+    min-height: 0;
+}

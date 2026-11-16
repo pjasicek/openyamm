@@ -1,0 +1,1003 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: edit",
+  "description": "Changing a project through operations, applied as one transaction: all or nothing, checked, written in canonical form under the project lock, kept in the history.",
+  "x-group": "edit",
+  "methods": {
+    "apply": {
+      "summary": "Applies a list of operations as one transaction. Nothing is written unless every operation applies and, unless allow_errors, no issue of severity error appears that was not there before. The files changed are written in canonical form with the keys of format 1; a person's first change (author user) marks the project as edited by hand (project.yml edited_by_hand).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "stale_revision",
+        "bad_operation",
+        "new_errors"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "ops"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "ops": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/op"
+            }
+          },
+          "expect_revision": {
+            "description": "Apply only when the project is at this revision; otherwise the error stale_revision.",
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "dry_run": {
+            "description": "Check and report, write nothing.",
+            "type": "boolean"
+          },
+          "allow_errors": {
+            "description": "Write even when the change adds issues of severity error. For tests and deliberate steps by agents.",
+            "type": "boolean"
+          },
+          "author": {
+            "description": "Who makes the change, kept in the history entry: user, or agent:<name> (default agent).",
+            "type": "string",
+            "pattern": "^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+          },
+          "label": {
+            "description": "A short label for the history entry.",
+            "type": "string"
+          },
+          "merge_key": {
+            "description": "A repeated edit (\"drag door:gate speed\"): folded into the latest history entry when that one has the same author and merge key, is the latest and is less than 5 seconds old (S5_BROWSER_EDITOR.md 2.6 item 6).",
+            "type": "string",
+            "minLength": 1
+          },
+          "rebase": {
+            "description": "With expect_revision stale: apply on the current revision when nothing the operations touch changed since (or their test steps hold), instead of refusing (2.7). The browser always sets it.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "applied",
+          "revision_before",
+          "revision_after",
+          "changes",
+          "outside_changes",
+          "new_issues",
+          "fixed_issues",
+          "files"
+        ],
+        "properties": {
+          "applied": {
+            "description": "Whether files were written: false for a dry run and for a change that changes nothing.",
+            "type": "boolean"
+          },
+          "revision_before": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "revision_after": {
+            "description": "The revision after the transaction (for a dry run: the one it would give).",
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "changes": {
+            "description": "The semantic diff: \"objects.yml: added door:gate\", \"rooms.yml: room:hall changed outline\".",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "outside_changes": {
+            "description": "An edit made outside the tool, found and recorded before this transaction.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "new_issues": {
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "fixed_issues": {
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "files": {
+            "description": "Each file the transaction changes, as it is (or for a dry run would be) after it, in canonical form: the client replaces its copy with these.",
+            "$ref": "common.rpc.json#/$defs/file_trees"
+          },
+          "ids_allocated": {
+            "description": "Ids the core gave to added objects without one, as file#id (\"objects.yml#light:hall_1\").",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "keys_allocated": {
+            "description": "Keys the core wrote for sub-objects without one (\"rooms.yml rooms[3].pillars[0]: pillar1\").",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "notes": {
+            "description": "Things worth knowing that did not stop the change: a lua text naming a renamed id, lock entries and pins that followed a rename.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "sequence": {
+            "description": "The history entry written (absent for a dry run or no change).",
+            "type": "integer",
+            "minimum": 1
+          },
+          "merged": {
+            "description": "The change was folded into the latest entry (merge_key).",
+            "type": "boolean"
+          },
+          "rebased_over": {
+            "description": "A rebase: the entries since expect_revision it was applied over.",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "hand_edited": {
+            "$ref": "#/$defs/hand_mark"
+          },
+          "hand_objects": {
+            "description": "Objects a person changed last that this change changes, as far as the kept history shows (told to agents in a project edited by hand).",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "outside_notice": {
+            "description": "The notice of the outside entry recorded before this change: a project edited by hand rewritten from outside (objects a person changed last that it replaced, keys it dropped) and the step to revert it.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "outside_sequence": {
+            "description": "The outside entry recorded before this change.",
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "history": {
+      "summary": "The project's history, newest last: transactions and edits found on disk (outside), each with its author, label, time and semantic changes. An entry later undone says so (`undone`); a revert entry (S5b1, D4) names the entry it reverts (`reverts`). Records an edit made outside the tool first, as project.status does.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "record",
+      "assets": "none",
+      "errors": [
+        "not_a_project",
+        "locked"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "limit": {
+            "description": "At most this many of the latest entries (default 50).",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "count",
+          "entries"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "count": {
+            "description": "Entries in the history (all, not only those returned).",
+            "type": "integer",
+            "minimum": 0
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/history_entry"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "undo": {
+      "summary": "Undo (S5_BROWSER_EDITOR.md 2.7): a new history entry that reverts the author's latest entry that is neither an undo nor reverted already, object by object, validated like any transaction. An object changed since is a conflict, left alone unless force. The revert of a rename runs as the opposite rename; the id lock's numbers and the hand-edit mark are never undone.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "nothing_to_undo",
+        "new_errors"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "author": {
+            "description": "Whose undo or redo, and the revert entry's author: user, or agent:<name> (default user for edit.undo and edit.redo).",
+            "type": "string",
+            "pattern": "^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+          },
+          "force": {
+            "description": "Put back objects changed since the reverted entry too (otherwise they are listed as conflicts and left alone).",
+            "type": "boolean"
+          },
+          "allow_errors": {
+            "description": "Write even when the revert adds issues of severity error (a person confirming).",
+            "type": "boolean"
+          },
+          "label": {
+            "description": "The revert entry's label (default: undo: <the reverted entry's label>).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "reverts",
+          "changes",
+          "conflicts",
+          "new_issues",
+          "files"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "reverts": {
+            "description": "The entry reverted.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "sequence": {
+            "description": "The revert entry written (absent when nothing changed).",
+            "type": "integer",
+            "minimum": 1
+          },
+          "changes": {
+            "description": "\"undone: rooms.yml: room:hall changed outline\" (redone: for redo, reverted: for edit.revert): what the revert changed.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "conflicts": {
+            "description": "Objects (file#id) the reverted entry changed and someone changed since: left alone unless force.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "notes": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "new_issues": {
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "files": {
+            "description": "Each file the revert changes, in canonical form.",
+            "$ref": "common.rpc.json#/$defs/file_trees"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "redo": {
+      "summary": "Redo: reverts the author's latest undo not reverted yet, while the author has made no other change since (a new change ends the redo chain).",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "nothing_to_undo",
+        "new_errors"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "author": {
+            "description": "Whose undo or redo, and the revert entry's author: user, or agent:<name> (default user for edit.undo and edit.redo).",
+            "type": "string",
+            "pattern": "^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+          },
+          "force": {
+            "description": "Put back objects changed since the reverted entry too (otherwise they are listed as conflicts and left alone).",
+            "type": "boolean"
+          },
+          "allow_errors": {
+            "description": "Write even when the revert adds issues of severity error (a person confirming).",
+            "type": "boolean"
+          },
+          "label": {
+            "description": "The revert entry's label (default: undo: <the reverted entry's label>).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "reverts",
+          "changes",
+          "conflicts",
+          "new_issues",
+          "files"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "reverts": {
+            "description": "The entry reverted.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "sequence": {
+            "description": "The revert entry written (absent when nothing changed).",
+            "type": "integer",
+            "minimum": 1
+          },
+          "changes": {
+            "description": "\"undone: rooms.yml: room:hall changed outline\" (redone: for redo, reverted: for edit.revert): what the revert changed.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "conflicts": {
+            "description": "Objects (file#id) the reverted entry changed and someone changed since: left alone unless force.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "notes": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "new_issues": {
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "files": {
+            "description": "Each file the revert changes, in canonical form.",
+            "$ref": "common.rpc.json#/$defs/file_trees"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "revert": {
+      "summary": "Reverts any one entry of the history (\"Revert this entry\"), object by object, as an undo does: for an outside rewrite of a project edited by hand, the one step its notice names.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": [
+        "native",
+        "wasm"
+      ],
+      "exposed": true,
+      "writes": "project",
+      "assets": "optional",
+      "errors": [
+        "not_a_project",
+        "locked",
+        "nothing_to_undo",
+        "new_errors"
+      ],
+      "params": {
+        "type": "object",
+        "required": [
+          "project",
+          "sequence"
+        ],
+        "properties": {
+          "project": {
+            "$ref": "common.rpc.json#/$defs/project_path"
+          },
+          "sequence": {
+            "description": "The entry to revert.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "author": {
+            "description": "Whose undo or redo, and the revert entry's author: user, or agent:<name> (default user for edit.undo and edit.redo).",
+            "type": "string",
+            "pattern": "^(user|agent(:[A-Za-z0-9_.-]+)?)$"
+          },
+          "force": {
+            "description": "Put back objects changed since the reverted entry too (otherwise they are listed as conflicts and left alone).",
+            "type": "boolean"
+          },
+          "allow_errors": {
+            "description": "Write even when the revert adds issues of severity error (a person confirming).",
+            "type": "boolean"
+          },
+          "label": {
+            "description": "The revert entry's label (default: undo: <the reverted entry's label>).",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": [
+          "revision",
+          "reverts",
+          "changes",
+          "conflicts",
+          "new_issues",
+          "files"
+        ],
+        "properties": {
+          "revision": {
+            "$ref": "common.rpc.json#/$defs/revision"
+          },
+          "reverts": {
+            "description": "The entry reverted.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "sequence": {
+            "description": "The revert entry written (absent when nothing changed).",
+            "type": "integer",
+            "minimum": 1
+          },
+          "changes": {
+            "description": "\"undone: rooms.yml: room:hall changed outline\" (redone: for redo, reverted: for edit.revert): what the revert changed.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "conflicts": {
+            "description": "Objects (file#id) the reverted entry changed and someone changed since: left alone unless force.",
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "notes": {
+            "$ref": "common.rpc.json#/$defs/strings"
+          },
+          "new_issues": {
+            "$ref": "common.rpc.json#/$defs/issues"
+          },
+          "files": {
+            "description": "Each file the revert changes, in canonical form.",
+            "$ref": "common.rpc.json#/$defs/file_trees"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "op": {
+      "description": "One operation. add, set and remove address objects of the top-level lists by id; patch changes part of an object or of a file.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/op_add"
+        },
+        {
+          "$ref": "#/$defs/op_set"
+        },
+        {
+          "$ref": "#/$defs/op_replace"
+        },
+        {
+          "$ref": "#/$defs/op_remove"
+        },
+        {
+          "$ref": "#/$defs/op_patch"
+        },
+        {
+          "$ref": "#/$defs/op_rename"
+        },
+        {
+          "$ref": "#/$defs/op_set_value"
+        },
+        {
+          "$ref": "#/$defs/op_replace_file"
+        },
+        {
+          "$ref": "#/$defs/op_name"
+        }
+      ],
+      "x-discriminator": {
+        "property": "op"
+      }
+    },
+    "op_add": {
+      "description": "Adds an object to a collection: every top-level list of a source file whose items have an id (doors, lights, rooms, openings, events, spaces, ...). Without an id the core gives one (<kind>:<room or kind>_<n>, returned in ids_allocated). Pins have their own methods (pins.*); the id lock is written by builds.",
+      "type": "object",
+      "required": [
+        "op",
+        "to",
+        "value"
+      ],
+      "properties": {
+        "op": {
+          "const": "add"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^[a-z_]+$"
+        },
+        "value": {
+          "description": "The object; checked against its file's schema with the rest of the transaction.",
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "common.rpc.json#/$defs/object_id"
+            }
+          },
+          "x-tree": true
+        },
+        "file": {
+          "description": "The file of the collection, where two files have a list of that name (events: wiring.yml, sketch.yml).",
+          "$ref": "common.rpc.json#/$defs/file_name"
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_set": {
+      "description": "Sets fields of an object; a null value removes the field. Its id changes only by op rename.",
+      "type": "object",
+      "required": [
+        "op",
+        "id",
+        "fields"
+      ],
+      "properties": {
+        "op": {
+          "const": "set"
+        },
+        "id": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "file": {
+          "$ref": "#/$defs/id_file"
+        },
+        "fields": {
+          "type": "object",
+          "x-tree": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_remove": {
+      "description": "Removes an object.",
+      "type": "object",
+      "required": [
+        "op",
+        "id"
+      ],
+      "properties": {
+        "op": {
+          "const": "remove"
+        },
+        "id": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "file": {
+          "$ref": "#/$defs/id_file"
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_patch": {
+      "description": "Changes part of one object (id; with file when the id is in more than one file) or of one file (file alone) by JSON Patch steps (RFC 6902), applied in order. Pointers are relative to the object or the file. A pointer segment into a keyed list (its schema's x-key: a room's pillars, platforms, levels; a mover's parts) names the item by its key, into a list whose items are maps with an id by its id (S5_BROWSER_EDITOR.md 2.6 item 3, a stated departure from RFC 6901); a key is changed by op rename, not by a patch; into any other list it is a position, or - to append. test steps make a patch safe against changes made since it was written. An object's id and the file ids.lock.yml are not patched.",
+      "type": "object",
+      "required": [
+        "op",
+        "patch"
+      ],
+      "properties": {
+        "op": {
+          "const": "patch"
+        },
+        "id": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "file": {
+          "$ref": "#/$defs/id_file"
+        },
+        "patch": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/patch_step"
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "id"
+          ]
+        },
+        {
+          "required": [
+            "file"
+          ]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "id_file": {
+      "description": "The file the object is in. Ids are unique within a file, not across files (a plan's space and the room that realises it share an id): an id found in more than one file is refused without it.",
+      "$ref": "common.rpc.json#/$defs/file_name"
+    },
+    "pointer": {
+      "description": "A JSON pointer with at least one segment (/outline/2, /parts/p3/walls/s); ~1 is a slash and ~0 a tilde in a segment.",
+      "type": "string",
+      "pattern": "^(/([^/~]|~[01])*)+$"
+    },
+    "patch_step": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/patch_value_step"
+        },
+        {
+          "$ref": "#/$defs/patch_remove_step"
+        },
+        {
+          "$ref": "#/$defs/patch_from_step"
+        }
+      ]
+    },
+    "patch_value_step": {
+      "description": "add inserts (into a list: before the position or key; - appends) or sets a map key; replace changes a value that exists; test fails the transaction unless the value equals.",
+      "type": "object",
+      "required": [
+        "op",
+        "path",
+        "value"
+      ],
+      "properties": {
+        "op": {
+          "enum": [
+            "add",
+            "replace",
+            "test"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/pointer"
+        },
+        "value": {
+          "description": "Any JSON value.",
+          "x-tree": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_remove_step": {
+      "type": "object",
+      "required": [
+        "op",
+        "path"
+      ],
+      "properties": {
+        "op": {
+          "const": "remove"
+        },
+        "path": {
+          "$ref": "#/$defs/pointer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_from_step": {
+      "description": "move removes the value at from and adds it at path; copy adds a copy.",
+      "type": "object",
+      "required": [
+        "op",
+        "from",
+        "path"
+      ],
+      "properties": {
+        "op": {
+          "enum": [
+            "move",
+            "copy"
+          ]
+        },
+        "from": {
+          "$ref": "#/$defs/pointer"
+        },
+        "path": {
+          "$ref": "#/$defs/pointer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "history_entry": {
+      "type": "object",
+      "required": [
+        "sequence",
+        "kind",
+        "author",
+        "revision_before",
+        "revision_after",
+        "changes",
+        "undone"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "kind": {
+          "description": "transaction, outside (found on disk), revert (an undo, a redo or a revert of a chosen entry), migration (oymap migrate), build (histories older than S5a1).",
+          "enum": [
+            "transaction",
+            "outside",
+            "build",
+            "revert",
+            "migration"
+          ]
+        },
+        "author": {
+          "description": "user, agent:<name>, or outside (not attributed: `oymap record` attributes it).",
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "time": {
+          "description": "When the entry was written (local time, as the core stamps it); absent in entries older than S5a3.",
+          "type": "string"
+        },
+        "revision_before": {
+          "type": "string"
+        },
+        "revision_after": {
+          "type": "string"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "undone": {
+          "description": "Reverted by a later revert entry that is itself in effect.",
+          "type": "boolean"
+        },
+        "reverts": {
+          "description": "The sequence of the entry this one reverts (revert entries, S5b1).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "revert_kind": {
+          "description": "For revert entries: undo, redo or revert.",
+          "enum": [
+            "undo",
+            "redo",
+            "revert"
+          ]
+        },
+        "merged": {
+          "description": "How many edits were folded into this entry (merge_key); absent for one.",
+          "type": "integer",
+          "minimum": 2
+        },
+        "objects": {
+          "description": "The objects the entry changed (rooms.yml#room:hall, project.yml#/map_stats).",
+          "$ref": "common.rpc.json#/$defs/strings"
+        },
+        "notice": {
+          "description": "An error notice: a project edited by hand rewritten from outside.",
+          "$ref": "common.rpc.json#/$defs/strings"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hand_mark": {
+      "description": "The project's hand-edit mark (S5_BROWSER_EDITOR.md 2.8), present when the project is edited by hand: change it through operations, never by running a generator again.",
+      "type": "object",
+      "required": [
+        "since",
+        "revision",
+        "message"
+      ],
+      "properties": {
+        "since": {
+          "type": "string"
+        },
+        "revision": {
+          "description": "The source revision before the first hand change: a diff from it shows all the hand work.",
+          "type": "string"
+        },
+        "set_now": {
+          "description": "Set by this change.",
+          "type": "boolean"
+        },
+        "history_known_from": {
+          "description": "The kept history does not reach back to the mark (a fresh clone): objects changed by hand before this time are not known.",
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_replace": {
+      "description": "Replaces the whole object (the Source tab's Apply); its id is kept.",
+      "type": "object",
+      "required": [
+        "op",
+        "id",
+        "value"
+      ],
+      "properties": {
+        "op": {
+          "const": "replace"
+        },
+        "id": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "file": {
+          "$ref": "#/$defs/id_file"
+        },
+        "value": {
+          "type": "object",
+          "x-tree": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_name": {
+      "description": "Gives a sub-object an id of its own (id: the object, path: the sub-object, as /platforms/platform2), so that a switch, a floor or an event can name it (a platform, a level of a room). The core makes the id (<kind>:<the object's name>_<n>, the kind its id field accepts) and returns it in ids_allocated. Refused when the sub-object has an id already or takes none.",
+      "type": "object",
+      "required": [
+        "op",
+        "id",
+        "path"
+      ],
+      "properties": {
+        "op": {
+          "const": "name"
+        },
+        "id": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "file": {
+          "$ref": "#/$defs/id_file"
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_rename": {
+      "description": "Renames an id (from, to; with file where the id is in more than one file): every reference in the source files, the id lock's entries (their numbers kept) and the pins follow. Or a sub-object's key (id, path /pillars/pillar2, to big). Its undo is the opposite rename.",
+      "type": "object",
+      "required": [
+        "op",
+        "to"
+      ],
+      "properties": {
+        "op": {
+          "const": "rename"
+        },
+        "from": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*(:[a-z0-9][a-z0-9_]*)?$"
+        },
+        "id": {
+          "$ref": "common.rpc.json#/$defs/object_id"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "file": {
+          "$ref": "#/$defs/id_file"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "from"
+          ]
+        },
+        {
+          "required": [
+            "id",
+            "path"
+          ]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "op_set_value": {
+      "description": "Sets a value outside the lists by its path of keys (map_stats.treasure_level); null removes it.",
+      "type": "object",
+      "required": [
+        "op",
+        "file",
+        "path",
+        "value"
+      ],
+      "properties": {
+        "op": {
+          "const": "set_value"
+        },
+        "file": {
+          "$ref": "common.rpc.json#/$defs/file_name"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "x-tree": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "op_replace_file": {
+      "description": "Replaces a whole source file by a text (the Source tab on a file); written in canonical form.",
+      "type": "object",
+      "required": [
+        "op",
+        "file",
+        "text"
+      ],
+      "properties": {
+        "op": {
+          "const": "replace_file"
+        },
+        "file": {
+          "$ref": "common.rpc.json#/$defs/file_name"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

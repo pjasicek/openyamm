@@ -1,0 +1,10 @@
+# Every build tree (build/, build-wasm/ and the workstreams' build-<name>/)
+/build*/
+/emsdk/
+/out/
+# S5c: the staged hosted site (web/scripts/stage_hosted.mjs) and its test runs and native references
+/hosted_site/
+/s5c_work/
+# npm install and npm run build (the host serves web/dist; rebuild it after a checkout)
+/web/node_modules/
+/web/dist/

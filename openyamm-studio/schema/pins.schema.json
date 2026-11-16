@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "review/pins.yml: review pins, format 1",
+  "description": "Notes pinned to an object or a place of the map by a person (in the game with `pin <text>`, or in the studio) or an agent, and what became of them: claimed by an agent, resolved with a reply, accepted or reopened by the person. The project's review document, not part of its source: it has its own change counter (`counter`) and its own log (.oymap/pins/log.jsonl), and a pin never changes the source revision. Written by `oymap pins` and the pins methods. A format 0 file (one `reply` text per pin) is read as format 1 and written as format 1 on the next change.",
+  "type": "object",
+  "required": [
+    "format"
+  ],
+  "properties": {
+    "format": {
+      "const": 1
+    },
+    "counter": {
+      "description": "One more for every change of this document (a pin added, claimed, answered, accepted ...). The pins' own counter: the map's source revision never moves with it.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "pins": {
+      "description": "In the order they were made.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pin"
+      }
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "pin": {
+      "type": "object",
+      "required": [
+        "id",
+        "text"
+      ],
+      "properties": {
+        "id": {
+          "description": "pin:p<n>, given by the core.",
+          "$ref": "common.schema.json#/$defs/id"
+        },
+        "text": {
+          "description": "What the person asks for or points out.",
+          "type": "string"
+        },
+        "on": {
+          "description": "The object the pin is about: a top-level id (door:gate, room:vault), or a keyed sub-object of one in a file of format 1 (room:hall/pillars/pillar2, room:hall/walls/n/panels/panel1).",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_]*(/[a-z_]+/[a-z0-9][a-z0-9_:]*)*$"
+        },
+        "file": {
+          "description": "The file of `on` where the id is in more than one file (ids are unique per file: a plan's space and its room share one).",
+          "enum": [
+            "project.yml",
+            "plan.yml",
+            "sketch.yml",
+            "rooms.yml",
+            "objects.yml",
+            "wiring.yml",
+            "atmosphere.yml"
+          ]
+        },
+        "at": {
+          "description": "A place on the map, [x, y, z] in map units, when the pin is about no object.",
+          "$ref": "common.schema.json#/$defs/point3"
+        },
+        "source": {
+          "description": "Where the pin was made: in the game (`pin <text>`), in the studio, or by an agent.",
+          "enum": [
+            "game",
+            "studio",
+            "agent"
+          ]
+        },
+        "world": {
+          "description": "The world the map was played in (mm6, mm7, mm8, ...).",
+          "type": "string"
+        },
+        "map": {
+          "description": "The map file the pin was made on (6d01.blv).",
+          "type": "string"
+        },
+        "pose": {
+          "description": "Where the person stood and looked, as the game's `loc` prints it (units named in each field, not converted).",
+          "type": "object",
+          "required": [
+            "position"
+          ],
+          "properties": {
+            "position": {
+              "description": "The party's feet, [x, y, z] in map units.",
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "x-flow": true
+            },
+            "yaw_radians": {
+              "type": "number"
+            },
+            "pitch_degrees": {
+              "type": "number"
+            },
+            "heading_yaw_units": {
+              "description": "The heading in the game's 2048 units (the `goto` command's).",
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "picture": {
+          "description": "The picture made with the pin, relative to the project folder: .oymap/pins/pictures/<pin>.png (outside git), or review/pictures/<pin>.png when kept.",
+          "type": "string"
+        },
+        "keep": {
+          "description": "The picture is kept in review/pictures/ (in git) on purpose.",
+          "type": "boolean"
+        },
+        "author": {
+          "description": "Who made the pin: user, or agent:<name>.",
+          "type": "string"
+        },
+        "created": {
+          "description": "Local time, 2026-11-20T10:12:05.",
+          "type": "string"
+        },
+        "revision": {
+          "description": "The source revision the pin was made against: for a game pin the one the installed map was built from (its <stem>.studio.yml).",
+          "type": "string"
+        },
+        "lock_hash": {
+          "description": "The hash of the id lock the map was built with.",
+          "type": "string"
+        },
+        "status": {
+          "description": "open (a pin without one is open), claimed (an agent works on it), resolved (the agent says what it did), accepted (the person agrees), declined (it will not be done).",
+          "enum": [
+            "open",
+            "claimed",
+            "resolved",
+            "accepted",
+            "declined"
+          ]
+        },
+        "claimed_by": {
+          "description": "The agent working on the pin (agent:<name>).",
+          "type": "string"
+        },
+        "from": {
+          "description": "The inbox file a game pin was imported from.",
+          "type": "string"
+        },
+        "replies": {
+          "description": "The thread, oldest first.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reply"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "reply": {
+      "type": "object",
+      "required": [
+        "author"
+      ],
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "revision": {
+          "description": "The source revision when the reply was written (after the agent's change).",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status this reply set, if it set one.",
+          "enum": [
+            "open",
+            "claimed",
+            "resolved",
+            "accepted",
+            "declined"
+          ]
+        },
+        "pictures": {
+          "description": "Pictures with the reply (the game's after picture), relative to the project folder.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

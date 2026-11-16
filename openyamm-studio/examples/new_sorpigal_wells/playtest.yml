@@ -1,0 +1,15 @@
+# New Sorpigal's wells and fountains, used the same way on the shipped map and on the map with the rewire overlay:
+# openyamm-studio/tests/run_rewire.sh runs it on both and requires the same log.
+id: studio.new_sorpigal_wells.drink
+title: New Sorpigal's wells and fountains
+world: mm6
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  - play_lua:
+      source: |
+        for _, well in ipairs({109, 109, 110, 131, 131, 140, 150, 150, 110}) do
+          click(well); wait(1)
+          log("event " .. well .. ": " .. status() .. " | gold " .. gold() .. " | " .. party())
+        end

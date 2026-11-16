@@ -1,0 +1,12 @@
+format: 0
+id: studio09
+name: The Hollow Meadow
+world: mm9
+kind: indoor
+profile: region
+map_stats:
+  id: 9309
+  reference: drangheim.blv
+  encounter_chance: 0
+  treasure_level: 1
+notes: "S8b's test map (devdocs/map_studio/S8_PLAN.md): a hollow open to the sky whose ground is drawn as terrain (atmosphere.yml `ground`): a grass hill to the north, a dirt track across the middle, a rock knoll to the south whose steep sides take the world's cliff. Plain on purpose."

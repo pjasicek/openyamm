@@ -1,0 +1,2169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "wiring.yml: behaviour presets and their connections, schema v0",
+  "description": "What happens when the player uses something, walks onto a floor, when time passes or when the map is entered (`trigger`). Each entry becomes one map event; the build writes its Lua. In a project with a `base` map the events replace the base map's own (`replaces`) and compile to a Lua overlay; doors, chests and variables are then named by the base map's numbers.",
+  "type": "object",
+  "required": [
+    "format"
+  ],
+  "properties": {
+    "format": {
+      "const": 0
+    },
+    "variables": {
+      "description": "Names of this map's variables (map vars), so presets can say map_var: gate_open.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
+    },
+    "events": {
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "preset"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "evt"
+            ]
+          },
+          "preset": {
+            "description": "door: clicking the door opens or closes it. switch: using a switch moves doors (its `opens`, `closes` and `toggles` lists); its source may also be a lift, a mover or a door, which then moves only what the lists name. chest: opens a chest. exit: leaves the map. teleport: moves the party within the map. text: shows a line. script: runs the Lua given in `lua` (for what no preset covers).",
+            "enum": [
+              "door",
+              "switch",
+              "chest",
+              "exit",
+              "teleport",
+              "text",
+              "script"
+            ]
+          },
+          "source": {
+            "description": "The object the player uses: a door, switch, lift, mover, chest or exit of objects.yml, or a platform or a wall panel of rooms.yml that has an `id` (a block or a piece of wall that is clicked and does not move: every face of the platform, or the panel, runs the event; presets switch, text, teleport and script). With `trigger: step`, the floor the party walks onto: a room (its own floor: not its levels, platforms, flights or plates), a level or platform that has an `id` in rooms.yml, or a plate of objects.yml. Not given with `trigger: timer` or `load`, nor when the event replaces one of the base map's (`replaces`).",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "door",
+              "switch",
+              "lift",
+              "mover",
+              "chest",
+              "exit",
+              "platform",
+              "panel",
+              "room",
+              "level",
+              "plate",
+              "decoration"
+            ]
+          },
+          "question": {
+            "description": "The event asks the player a question first (a typed answer, as the shipped maps' sarcophagi and riddles do): what the event does (its preset's work, `effects`, `lua`) happens only when the answer is one of `answers`; any other answer shows `wrong_text` if given and does nothing else. `once`, `condition`, `locked_text` and `else_effects` act before the question is asked. Example: {id: evt:sarcophagus, preset: script, source: platform:sarcophagus, condition: {not: {map_var: robbed}}, question: {message: \"Steal from the dead?\", ask: \"Steal (Yes/No)?\", answers: [Yes, Y]}, effects: [{set: {var: {map_var: robbed}, value: 1}}, {give_item: 35}, {subtract: {var: ReputationInCurrentLocation, value: 10}}]}.",
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "ask",
+              "answers"
+            ],
+            "properties": {
+              "ask": {
+                "description": "The question, on the line the player types the answer into.",
+                "type": "string",
+                "minLength": 1
+              },
+              "answers": {
+                "description": "The answers that count as right (the game compares them without regard to case).",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "message": {
+                "description": "A message window shown with the question (the shipped sarcophagi's \"Steal from the dead?\").",
+                "type": "string"
+              },
+              "wrong_text": {
+                "description": "A status line for any other answer.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "side": {
+            "description": "A door's event for one side of its leaf only: the room (of the door's opening) it is used from; the leaf's faces toward that room run it, those toward the other room do not (the edges go with the opening's `from` side). A door may then have a second event with the other room as its `side` (the shipped doors that open from one side and say \"The door won't budge\" from the other), or none (a door that opens only from one side). Without `side` the event runs from both sides, and the door has no other. Example: {id: evt:cell_door, preset: door, source: door:cell, side: room:guard_room}; {id: evt:cell_stuck, preset: text, source: door:cell, side: room:cell, text: \"The door won't budge.\"}.",
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "room"
+            ]
+          },
+          "trigger": {
+            "description": "What runs the event. click (default): the player uses `source`. step: the party walks onto the floor named by `source` (and `sources`): a room (its own floor), a level or platform with an `id`, a plate, or a lift or a mover of objects.yml (walked onto on its top; a moving part runs one event, so one that a step event names is not also clicked); it runs each time the party comes onto it from a floor that does not run the same event, also when it lands or is teleported there, and once only with `once: true`. timer: every `every` seconds while the party is in the map, no `source`. load: when the map is entered, no `source`. leave: when the party leaves the map (by any exit, a teleport into another map or a travel), no `source`: what the map should hold when the party next comes (a door shut again, a variable reset; the map's state is kept with the save). call: run by something else of the map, no `source`: a destructible's `on_destroyed` or `on_damaged` (objects.yml), a cinematic's `event` cue. Events not run by a click take the presets switch, text, teleport and script. Examples: {id: evt:trap, preset: switch, trigger: step, source: plate:trap, closes: [door:cell]}; {id: evt:lava_on, preset: script, trigger: step, source: room:forge, effects: [{set: {var: {map_var: on_lava}, value: 1}}]}; {id: evt:burn, preset: script, trigger: timer, every: 2, condition: {map_var: on_lava}, effects: [{damage: {amount: 25, kind: fire}}]}; {id: evt:enter, preset: text, trigger: load, text: \"The air is hot.\"}.",
+            "enum": [
+              "click",
+              "step",
+              "timer",
+              "load",
+              "leave",
+              "call"
+            ]
+          },
+          "every": {
+            "description": "trigger: timer: the seconds between two runs, a whole number (the map's clock counts half minutes of game time, one second of play each). The first run comes one interval after the map is entered. Example: every: 2.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535,
+            "x-unit": "seconds"
+          },
+          "sources": {
+            "description": "trigger: step: further floors that run the same event (rooms, levels and platforms with an `id`, plates). Example: sources: [room:bank_west, level:island].",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "room",
+                "level",
+                "platform",
+                "plate",
+                "lift",
+                "mover"
+              ]
+            }
+          },
+          "replaces": {
+            "$ref": "common.schema.json#/$defs/id",
+            "description": "Overlay projects: the base map's event this one takes the place of (its id in ids.lock.yml, such as evt:e20). The faces and decorations bound to that event then run this.",
+            "x-id-kinds": [
+              "evt"
+            ]
+          },
+          "title": {
+            "description": "The hint shown when the player points at it: all a player is told that a thing does something. Every handler of the shipped maps has one. Default for a clicked event: Door (door), Chest (chest), Exit (exit), Lever, Button or Switch (switch, by the switch's kind); a clicked `text`, `teleport` or `script` without one is warned of. A chest is named for what it is, as the shipped maps' are (Chest, Cabinet, Crate, Sarcophagus, Bag, Storage Container): another name (\"Joe's desk\") is warned of, since it does not tell the player that it opens.",
+            "type": "string"
+          },
+          "condition": {
+            "description": "What must hold for the preset to act (the lock).",
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "locked_text": {
+            "description": "Shown when the condition does not hold.",
+            "type": "string"
+          },
+          "action": {
+            "description": "door preset: toggle (default) or open (opens and stays open).",
+            "enum": [
+              "toggle",
+              "open"
+            ]
+          },
+          "door": {
+            "$ref": "common.schema.json#/$defs/id",
+            "description": "door preset in an overlay: the door it moves (door:d12 of ids.lock.yml).",
+            "x-id-kinds": [
+              "door"
+            ]
+          },
+          "container": {
+            "description": "chest preset in an overlay: the base map's chest number.",
+            "type": "integer",
+            "minimum": 0,
+            "x-unit": "index"
+          },
+          "to": {
+            "description": "teleport preset: where the party lands, [x, y, z].",
+            "$ref": "common.schema.json#/$defs/point3",
+            "x-geom": {
+              "shape": "point3",
+              "space": "map"
+            }
+          },
+          "direction": {
+            "description": "teleport preset: the way the party faces, degrees (0 east, 90 north).",
+            "type": "number",
+            "x-unit": "deg"
+          },
+          "texture": {
+            "description": "A face texture the event changes: the faces' cog number and the new texture's name.",
+            "type": "object",
+            "x-flow": true,
+            "required": [
+              "cog",
+              "name"
+            ],
+            "properties": {
+              "cog": {
+                "type": "integer",
+                "x-unit": "index"
+              },
+              "name": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,10}$"
+              }
+            },
+            "additionalProperties": false
+          },
+          "lua": {
+            "description": "script preset: the handler's body as Lua, run after the condition (it works with every `trigger`; it may be left out when `effects` say it all). Other presets: extra Lua lines run last. A handler's order is: the condition (when it fails: else_effects, locked_text, stop), doors (opens, closes, toggles), texture, sets, effects, text, lua. The build runs the handler in a sandbox and refuses a call to a function the game does not have; `oymap flow` on a shipped map shows the calls shipped handlers make (evt.SetDoorState(id, DoorAction.Open), evt.StatusText(text), SetValue(MapVar(n), value), IsAtLeast(MapVar(n), 1), evt.MoveToMap(...)). A map variable declared in `variables` is named in Lua text as `MapVar(its_name)`: the build writes its number there (the numbers are the lock's and follow no order of declaration), and warns where Lua or YAML names by number a variable that a declared name took.",
+            "type": "string"
+          },
+          "opens": {
+            "description": "The doors the event opens, the lifts it raises and the movers it sends to their end (ids of objects.yml `doors`, `lifts` and `movers`). A door of two leaves moves both. This is the work of a switch preset; every other preset takes the lists too: a door preset moves them after its own door (an airlock: {preset: door, source: door:inner, closes: [door:outer]}), a chest, exit, teleport, text or script preset before its own work. Example: opens: [door:gate, mover:bridge].",
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "lift",
+                "mover",
+                "switch"
+              ]
+            }
+          },
+          "closes": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "lift",
+                "mover",
+                "switch"
+              ]
+            },
+            "description": "The doors the event closes, the lifts it lowers and the movers it sends back to their start (any preset; see `opens`)."
+          },
+          "toggles": {
+            "type": "array",
+            "items": {
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "lift",
+                "mover",
+                "switch"
+              ]
+            },
+            "description": "The doors, lifts and movers the event sends to their other end each time (any preset; see `opens`)."
+          },
+          "once": {
+            "description": "The event works only the first time (the build keeps a map variable for it): presets switch, door, text, teleport and script, and any event with `trigger: step`, `timer`, `load` or `leave`; refused on a chest or an exit. Without it every event runs again each time it is used (a door event toggles its door on every click, or opens it with `action: open`).",
+            "type": "boolean"
+          },
+          "sets": {
+            "description": "State the preset sets when it acts: {map_var: name} or {qbit: n}.",
+            "$ref": "common.schema.json#/$defs/condition"
+          },
+          "effects": {
+            "description": "What the event does besides its preset's own work, in order; each step is one key: {gold: 100} or {gold: -5} (give or take gold), {add: {var: BaseLuck, value: 2}}, {subtract: {...}}, {set: {var: HP, value: 0}} (`var` is the name of a selector of the game's scripts, such as Gold, HP, SP, BaseLuck, MightBonus, or {map_var: n}; `oymap script-reference` lists them), {autonote: 391}, {qbit: n}, {clear_qbit: n}, {award: n} (every member of the party takes the award, as the shipped scripts give one; {award: {id: n, who: current}} for the member who used the thing alone; {clear_award: n} takes it back; the scripts' tables Awards, QBits, Inventory and AutonotesBits are no `var` of add, subtract or set), {message: \"...\"} (a message window with the text, which the player closes: a terminal's screen, a plaque; `text` is one line in the status bar), {give_item: id}, {give_item: {one_of: [id, id, id]}} (one of the list at random, each as likely as the others), {give_item: {level: 6, kind: 25}} (a random item of a treasure level 1 to 6 and of an item kind, the items table's kind number; without `kind` any kind: Warlord's Fortress's flambeau, evt.GiveItem(6, 25)), {take_item: id}, {open_chest: chest:spent} (shows a chest's contents as the chest preset shows its source's: with `else_effects`, one chest of two chosen by the condition; the chest named may be one without a box of its own, objects.yml `box_of`), {text: \"...\"}, {lua: \"...\"} (Lua lines; `MapVar(name)` with a name declared in `variables` is turned into the variable's number, so Lua text need not copy numbers from ids.lock.yml); {damage: {amount: 25, kind: fire, who: all}} hurts the party (kind: air, body, cold, dark, earth, electric, energy, fire, light, magic, mind, physical (default), poison, spirit, water; who: all (default) or current; {damage: 25} is physical damage to all); {cast: {spell: 2, from: [x, y, z], to: [x, y, z], mastery: expert, level: 1}} casts a spell from a point toward another (spell: its number, 2 is Fire Bolt; mastery normal (default), expert, master, grandmaster; level default 1); {summon: {slot: 1, at: [x, y, z], count: 3, tier: a}} puts monsters of the map card's encounter slot 1 to 3 at a point (tier a (default), b, c; count default 1; group default 0); {teleport: {to: [x, y, z], direction: 90}} moves the party within the map; {leave: <a neighbour of project.yml>} takes the party to that map, as an exit does, from any event (a cart at the end of its line; the neighbour's `arrival`, `direction` and `screen`); {shake: {strength: 1, seconds: 2}} shakes the view (1 a strong quake, at most 4; seconds at most 30), with `at: [x, y, z]` and `radius: [<felt fully within>, <not felt past>]` felt only near a place; {player_bit: 59} and {clear_player_bit: 59} set and clear a bit of the member who used the thing (with the condition {not: {player_bit: 59}}, once per character); {lights_on: [light:tube_1, light:tube_2]} and {lights_off: light:tube_3} switch lights of objects.yml on and off (one id or a list; each named light gets a number in ids.lock.yml `lights`, and a light may start dark with `on: false` in objects.yml); {show_actors: 56} and {hide_actors: 56} make the placed monsters of that `group` (objects.yml `monsters`), and the monsters spawned by spawn points of that `group`, visible or invisible: neither drawn nor acting while invisible; `hidden: true` starts them so. Faces: {set_texture: {of: door:gate, to: cfb1}} gives the faces of a door or a plate, or of a platform, raised level, wall panel or floor or ceiling region (`floor_surfaces`, `ceiling_surfaces` entry) of rooms.yml with an `id`, a new texture (with `face: top`, a platform's or level's top alone: Castle Darkmoor's podium, {set_texture: {of: platform:podium, to: deskside, face: top}}); {passable: id} and {solid: id} let the party through or not; {hide: id} and {show: id} stop and start drawing them; {secret: id} and {clear_secret: id} set and clear the engine's secret flag on them (the faces then pulse for a party whose Perception finds secrets, or stop: the Abandoned Temple's event 451 marks the walkway after the third fall), {secret: {of: platform:walk, face: top}} on a platform's or level's top alone (each by a cog number ids.lock.yml `cogs` keeps; a top alone as `<id>.top`). {set_sprite: {of: deco:crystal, to: crysdisc}} changes a decoration's picture (by its number in the built map, which ids.lock.yml `decorations` keeps).",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/effect"
+            }
+          },
+          "else_effects": {
+            "description": "The same kind of steps, done when the condition does not hold (before `locked_text`): the dry well that still notes itself in the journal.",
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/effect"
+            }
+          },
+          "text": {
+            "description": "Shown when the preset acts: on a clicked `text` preset whose `title` names a thing to read (sign, notice, book, scroll, note, slate, terminal, tablet, plaque, inscription) in a message window the player closes, as the shipped maps' signs show theirs (`window` says which outright); otherwise, and on every other preset and trigger, whatever its length, as a line in the status bar held by its length (`seconds`).",
+            "type": "string"
+          },
+          "window": {
+            "description": "A clicked `text` preset: true shows its `text` in a message window the player closes (a thing meant to be read: a person's words that give a clue), false as a line in the status bar. Default: a window where the title names a sign, notice, book, scroll, note, slate, terminal, tablet, plaque or inscription; any other text, whatever its length, is a status line (the user, 2026-11-13: not a window that stops the game for every remark).",
+            "type": "boolean"
+          },
+          "seconds": {
+            "description": "How long the event's lines in the status bar stay (its `text`, `locked_text`, effects' `text`, a question's `wrong_text`), 1 to 15 seconds. Default by length: a text over 30 characters 2 seconds and one more for each 15 characters, at most 6; a shorter one the game's 2. Kept short on purpose: while a line shows the game hides hover names, and a later line replaces it at once. Written as evt.StatusText(text, seconds) (the game takes it since 2026-11-13).",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 15,
+            "x-unit": "seconds"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Event",
+            [
+              "id",
+              "preset",
+              "title",
+              "notes"
+            ]
+          ],
+          [
+            "Runs on",
+            [
+              "trigger",
+              "source",
+              "sources",
+              "side",
+              "every",
+              "replaces"
+            ]
+          ],
+          [
+            "Lock",
+            [
+              "condition",
+              "locked_text",
+              "question",
+              "once"
+            ]
+          ],
+          [
+            "Preset",
+            [
+              "action",
+              "door",
+              "container",
+              "to",
+              "direction",
+              "opens",
+              "closes",
+              "toggles",
+              "texture"
+            ]
+          ],
+          [
+            "Does",
+            [
+              "sets",
+              "effects",
+              "else_effects",
+              "text",
+              "window",
+              "seconds",
+              "lua"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "cinematics": {
+      "description": "In-engine cutscenes (devdocs/mm9_rework/MM9_CUTSCENES.md): camera shots one after another with cues on a timeline, written as the map's `<stem>.cinematics.yml` and played by the effect {cinematic: <id>} (evt.PlayCinematic). While one plays the party's input and the HUD are off and the world goes on; the player may skip it (Escape), and then its event cues still run. Gameplay steps belong in `event` cues (wiring events with `trigger: call`), never in sounds or subtitles. In an overlay project (project.yml `base`) they are written as `<stem>_<project id>.cinematics.yml`, which the game merges by name after the map's own file: a cinematic with the id of one of the base map's (ids.lock.yml `cinematics`, `cinematic:book_sinking`) replaces it, another is added; its cues name the base map's events by their lock ids (`evt:e31014`) and the overlay's own monsters (objects.yml scene.monsters). Example: {id: cinematic:arrival, shots: [{seconds: 3, at: [900, 200, 300], look_at: deco:barrel}, {seconds: 2, party: true}], cues: [{at: 0, fade: in, seconds: 1}, {at: 2, event: evt:door_opens}]}.",
+      "type": "array",
+      "x-sort": "id",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "shots"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "common.schema.json#/$defs/id",
+            "x-id-kinds": [
+              "cinematic"
+            ]
+          },
+          "skippable": {
+            "description": "Escape, Space or Return ends it (its event cues still run). Default true.",
+            "type": "boolean"
+          },
+          "letterbox": {
+            "description": "Bars at the top and bottom. Default true.",
+            "type": "boolean"
+          },
+          "letterbox_seconds": {
+            "description": "How long the bars take to come in. Default 0.5.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5,
+            "x-unit": "seconds"
+          },
+          "shots": {
+            "description": "The camera's shots, one after another.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "seconds"
+              ],
+              "x-flow": true,
+              "properties": {
+                "seconds": {
+                  "description": "How long the shot lasts.",
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "x-unit": "seconds"
+                },
+                "party": {
+                  "description": "true: the party's own view for this shot (no camera words).",
+                  "type": "boolean"
+                },
+                "at": {
+                  "description": "A point [x, y, z] (absolute), or the id of something the build placed (a decoration, light, spawn, switch, exit, placed monster or the start): its place, `offset` added.",
+                  "type": [
+                    "array",
+                    "string"
+                  ],
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "x-unit": "map",
+                  "x-geom": false,
+                  "x-labels": [
+                    "point",
+                    "object id"
+                  ]
+                },
+                "offset": {
+                  "description": "Added to `at` when it names an object: [x, y, z].",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "x-flow": true,
+                  "x-unit": "map",
+                  "x-geom": false
+                },
+                "look_at": {
+                  "description": "What the camera looks at: a point [x, y, z] or an object's id (as `at`). Or give `yaw` and `pitch`.",
+                  "type": [
+                    "array",
+                    "string"
+                  ],
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "x-unit": "map",
+                  "x-geom": false,
+                  "x-labels": [
+                    "point",
+                    "object id"
+                  ]
+                },
+                "yaw": {
+                  "description": "The camera's heading, degrees counter-clockwise from east (with `pitch`).",
+                  "type": "number",
+                  "x-unit": "deg"
+                },
+                "pitch": {
+                  "description": "Degrees up (negative down).",
+                  "type": "number",
+                  "x-unit": "deg"
+                },
+                "fov": {
+                  "description": "The vertical field of view, 10 to 120 degrees. Default the game's 60.",
+                  "type": "number",
+                  "minimum": 10,
+                  "maximum": 120,
+                  "x-unit": "deg"
+                },
+                "easing": {
+                  "description": "How a moving camera goes between its keys: smooth (the default), linear, spline.",
+                  "enum": [
+                    "smooth",
+                    "linear",
+                    "spline"
+                  ]
+                },
+                "keys": {
+                  "description": "A moving camera: more places after the shot's own (`at` and its aim at 0), each at its `seconds`.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "seconds",
+                      "at"
+                    ],
+                    "x-flow": true,
+                    "properties": {
+                      "seconds": {
+                        "description": "When this key is reached, from the shot's start (the first key at 0).",
+                        "type": "number",
+                        "minimum": 0,
+                        "x-unit": "seconds"
+                      },
+                      "at": {
+                        "description": "A point [x, y, z] (absolute), or the id of something the build placed (a decoration, light, spawn, switch, exit, placed monster or the start): its place, `offset` added.",
+                        "type": [
+                          "array",
+                          "string"
+                        ],
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "x-unit": "map",
+                        "x-geom": false,
+                        "x-labels": [
+                          "point",
+                          "object id"
+                        ]
+                      },
+                      "offset": {
+                        "description": "Added to `at` when it names an object: [x, y, z].",
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "x-flow": true,
+                        "x-unit": "map",
+                        "x-geom": false
+                      },
+                      "look_at": {
+                        "description": "What the camera looks at: a point [x, y, z] or an object's id (as `at`). Or give `yaw` and `pitch`.",
+                        "type": [
+                          "array",
+                          "string"
+                        ],
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "x-unit": "map",
+                        "x-geom": false,
+                        "x-labels": [
+                          "point",
+                          "object id"
+                        ]
+                      },
+                      "yaw": {
+                        "description": "The camera's heading, degrees counter-clockwise from east (with `pitch`).",
+                        "type": "number",
+                        "x-unit": "deg"
+                      },
+                      "pitch": {
+                        "description": "Degrees up (negative down).",
+                        "type": "number",
+                        "x-unit": "deg"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-key": "#"
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false,
+              "x-groups": [
+                [
+                  "Shot",
+                  [
+                    "seconds",
+                    "party",
+                    "fov",
+                    "easing",
+                    "notes"
+                  ]
+                ],
+                [
+                  "Camera",
+                  [
+                    "at",
+                    "offset",
+                    "look_at",
+                    "yaw",
+                    "pitch"
+                  ]
+                ],
+                [
+                  "Moving",
+                  [
+                    "keys"
+                  ]
+                ]
+              ]
+            },
+            "x-key": "#"
+          },
+          "cues": {
+            "description": "What happens when, besides the camera.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "at"
+              ],
+              "x-flow": true,
+              "properties": {
+                "at": {
+                  "description": "Seconds from the cinematic's start.",
+                  "type": "number",
+                  "minimum": 0,
+                  "x-unit": "seconds"
+                },
+                "event": {
+                  "description": "Runs a wiring event (its id; give it `trigger: call`): the gameplay steps of the scene. It runs also when the player skips. In an overlay project also one of the base map's events by its id in ids.lock.yml (evt:e<number>).",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "event"
+                  ]
+                },
+                "sound": {
+                  "description": "A sound by name, as evt.PlaySoundName takes it.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "subtitle": {
+                  "description": "A line under the picture.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "fade": {
+                  "description": "in: from black; out: to black.",
+                  "enum": [
+                    "in",
+                    "out"
+                  ]
+                },
+                "letterbox": {
+                  "description": "Bars in (true) or out (false); without a letterbox cue the cinematic's own bars apply.",
+                  "type": "boolean"
+                },
+                "shake": {
+                  "description": "Shakes the camera, 0 to 1 (1 strong).",
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "x-unit": "ratio"
+                },
+                "seconds": {
+                  "description": "How long a fade, subtitle, shake or letterbox lasts, or a monster's move or turn.",
+                  "type": "number",
+                  "minimum": 0,
+                  "x-unit": "seconds"
+                },
+                "monster": {
+                  "description": "A placed monster of objects.yml (`monsters`; in an overlay project `scene.monsters`) the cue moves (with `action`).",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "monster"
+                  ]
+                },
+                "action": {
+                  "description": "With `monster`: show, hide, place (at `to`), move (to `to` over `seconds`), face (toward `look_at`).",
+                  "enum": [
+                    "show",
+                    "hide",
+                    "place",
+                    "move",
+                    "face"
+                  ]
+                },
+                "to": {
+                  "description": "Where a monster is placed or moves to: a point or an object's id.",
+                  "type": [
+                    "array",
+                    "string"
+                  ],
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "x-unit": "map",
+                  "x-geom": false,
+                  "x-labels": [
+                    "point",
+                    "object id"
+                  ]
+                },
+                "look_at": {
+                  "description": "Where a monster turns to (action face).",
+                  "type": [
+                    "array",
+                    "string"
+                  ],
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "x-unit": "map",
+                  "x-geom": false,
+                  "x-labels": [
+                    "point",
+                    "object id"
+                  ]
+                },
+                "notes": {
+                  "$ref": "common.schema.json#/$defs/notes"
+                }
+              },
+              "additionalProperties": false,
+              "x-groups": [
+                [
+                  "When",
+                  [
+                    "at",
+                    "seconds",
+                    "notes"
+                  ]
+                ],
+                [
+                  "Picture and sound",
+                  [
+                    "fade",
+                    "letterbox",
+                    "subtitle",
+                    "sound",
+                    "shake"
+                  ]
+                ],
+                [
+                  "Gameplay",
+                  [
+                    "event"
+                  ]
+                ],
+                [
+                  "Monsters",
+                  [
+                    "monster",
+                    "action",
+                    "to",
+                    "look_at"
+                  ]
+                ]
+              ]
+            },
+            "x-key": "#"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false,
+        "x-groups": [
+          [
+            "Cinematic",
+            [
+              "id",
+              "skippable",
+              "letterbox",
+              "letterbox_seconds",
+              "notes"
+            ]
+          ],
+          [
+            "Timeline",
+            [
+              "shots",
+              "cues"
+            ]
+          ]
+        ]
+      },
+      "x-key": "id"
+    },
+    "notes": {
+      "$ref": "common.schema.json#/$defs/notes"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "effect": {
+      "description": "One step of an event's `effects` or `else_effects`: one key, the step's word, with its value (the words are listed with `effects`).",
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "gold"
+          ],
+          "properties": {
+            "gold": {
+              "description": "Gold given (or taken, below 0).",
+              "type": "number",
+              "x-unit": "gold"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "add"
+          ],
+          "properties": {
+            "add": {
+              "description": "{var: <a selector of the game's scripts, or {map_var: <name or number>}>, value: <number, default 1>}.",
+              "type": "object",
+              "properties": {
+                "var": {
+                  "description": "A selector of the game's scripts (Gold, HP, SP, BaseLuck ...), or {map_var: n}.",
+                  "type": [
+                    "string",
+                    "object"
+                  ],
+                  "properties": {
+                    "map_var": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ],
+                      "x-unit": "index",
+                      "x-labels": [
+                        "number",
+                        "name"
+                      ]
+                    }
+                  },
+                  "x-labels": [
+                    "selector",
+                    "map variable"
+                  ]
+                },
+                "value": {
+                  "type": "number",
+                  "x-unit": "none"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "subtract"
+          ],
+          "properties": {
+            "subtract": {
+              "description": "{var: <a selector of the game's scripts, or {map_var: <name or number>}>, value: <number, default 1>}.",
+              "type": "object",
+              "properties": {
+                "var": {
+                  "description": "A selector of the game's scripts (Gold, HP, SP, BaseLuck ...), or {map_var: n}.",
+                  "type": [
+                    "string",
+                    "object"
+                  ],
+                  "properties": {
+                    "map_var": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ],
+                      "x-unit": "index",
+                      "x-labels": [
+                        "number",
+                        "name"
+                      ]
+                    }
+                  },
+                  "x-labels": [
+                    "selector",
+                    "map variable"
+                  ]
+                },
+                "value": {
+                  "type": "number",
+                  "x-unit": "none"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "set"
+          ],
+          "properties": {
+            "set": {
+              "description": "{var: <a selector of the game's scripts, or {map_var: <name or number>}>, value: <number, default 1>}.",
+              "type": "object",
+              "properties": {
+                "var": {
+                  "description": "A selector of the game's scripts (Gold, HP, SP, BaseLuck ...), or {map_var: n}.",
+                  "type": [
+                    "string",
+                    "object"
+                  ],
+                  "properties": {
+                    "map_var": {
+                      "type": [
+                        "integer",
+                        "string"
+                      ],
+                      "x-unit": "index",
+                      "x-labels": [
+                        "number",
+                        "name"
+                      ]
+                    }
+                  },
+                  "x-labels": [
+                    "selector",
+                    "map variable"
+                  ]
+                },
+                "value": {
+                  "type": "number",
+                  "x-unit": "none"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "autonote"
+          ],
+          "properties": {
+            "autonote": {
+              "description": "An autonote put in the journal: its number.",
+              "type": "integer",
+              "x-unit": "index"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "qbit"
+          ],
+          "properties": {
+            "qbit": {
+              "description": "The quest bit: its number, or a name of project.yml qbits.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "number",
+                "name"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "clear_qbit"
+          ],
+          "properties": {
+            "clear_qbit": {
+              "description": "The quest bit: its number, or a name of project.yml qbits.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "number",
+                "name"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "award"
+          ],
+          "properties": {
+            "award": {
+              "description": "An award (its number, or a name of project.yml awards) for every member, or {id: <award>, who: current} for the member who used the thing.",
+              "type": [
+                "integer",
+                "string",
+                "object"
+              ],
+              "properties": {
+                "id": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ],
+                  "x-unit": "index",
+                  "x-labels": [
+                    "number",
+                    "name"
+                  ]
+                },
+                "who": {
+                  "enum": [
+                    "all",
+                    "current"
+                  ]
+                }
+              },
+              "x-unit": "index",
+              "x-labels": [
+                "number",
+                "name",
+                "for one member"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "clear_award"
+          ],
+          "properties": {
+            "clear_award": {
+              "description": "An award (its number, or a name of project.yml awards) for every member, or {id: <award>, who: current} for the member who used the thing.",
+              "type": [
+                "integer",
+                "string",
+                "object"
+              ],
+              "properties": {
+                "id": {
+                  "type": [
+                    "integer",
+                    "string"
+                  ],
+                  "x-unit": "index",
+                  "x-labels": [
+                    "number",
+                    "name"
+                  ]
+                },
+                "who": {
+                  "enum": [
+                    "all",
+                    "current"
+                  ]
+                }
+              },
+              "x-unit": "index",
+              "x-labels": [
+                "number",
+                "name",
+                "for one member"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "player_bit"
+          ],
+          "properties": {
+            "player_bit": {
+              "description": "The number of a bit of the member who used the thing.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "bit number",
+                "other (refused by the build)"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "clear_player_bit"
+          ],
+          "properties": {
+            "clear_player_bit": {
+              "description": "The number of a bit of the member who used the thing.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "bit number",
+                "other (refused by the build)"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "give_item"
+          ],
+          "properties": {
+            "give_item": {
+              "description": "An item (its number, or a name of project.yml items); {one_of: [<item>, ...]} for one of a list at random; {level: <treasure level 1 to 6>, kind: <the items table's kind number>} for a random item.",
+              "type": [
+                "integer",
+                "string",
+                "object"
+              ],
+              "properties": {
+                "one_of": {
+                  "type": "array",
+                  "items": {
+                    "type": [
+                      "integer",
+                      "string"
+                    ],
+                    "x-unit": "index",
+                    "x-labels": [
+                      "number",
+                      "name"
+                    ]
+                  }
+                },
+                "level": {
+                  "type": "integer",
+                  "x-unit": "none"
+                },
+                "kind": {
+                  "type": "integer",
+                  "x-unit": "index"
+                }
+              },
+              "x-unit": "index",
+              "x-labels": [
+                "item number",
+                "item name",
+                "drawn at random"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "take_item"
+          ],
+          "properties": {
+            "take_item": {
+              "description": "The item: its number, or a name declared in project.yml items.",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "x-unit": "index",
+              "x-labels": [
+                "number",
+                "name"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "description": "A line in the status bar.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "message"
+          ],
+          "properties": {
+            "message": {
+              "description": "The text of a message window the player closes.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "damage"
+          ],
+          "properties": {
+            "damage": {
+              "description": "{amount: <1 or more>, kind: <default physical>, who: <all (default) or current>}, or the amount alone.",
+              "type": [
+                "number",
+                "object"
+              ],
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "x-unit": "count"
+                },
+                "kind": {
+                  "enum": [
+                    "air",
+                    "body",
+                    "cold",
+                    "dark",
+                    "earth",
+                    "electric",
+                    "energy",
+                    "fire",
+                    "light",
+                    "magic",
+                    "mind",
+                    "physical",
+                    "poison",
+                    "spirit",
+                    "water"
+                  ]
+                },
+                "who": {
+                  "enum": [
+                    "all",
+                    "current"
+                  ]
+                }
+              },
+              "x-unit": "count",
+              "x-labels": [
+                "amount",
+                "in detail"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "cast"
+          ],
+          "properties": {
+            "cast": {
+              "description": "{spell: <its number>, from: [x, y, z], to: [x, y, z], mastery: <normal (default), expert, master or grandmaster>, level: <skill level, default 1>}.",
+              "type": "object",
+              "properties": {
+                "spell": {
+                  "type": "integer",
+                  "x-unit": "index"
+                },
+                "from": {
+                  "$ref": "common.schema.json#/$defs/point3"
+                },
+                "to": {
+                  "$ref": "common.schema.json#/$defs/point3"
+                },
+                "mastery": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "normal",
+                        "expert",
+                        "master",
+                        "grandmaster"
+                      ]
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 4,
+                      "x-unit": "index"
+                    }
+                  ],
+                  "x-labels": [
+                    "name",
+                    "number"
+                  ]
+                },
+                "level": {
+                  "type": "integer",
+                  "x-unit": "none"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "summon"
+          ],
+          "properties": {
+            "summon": {
+              "description": "{slot: <1 to 3, the map card's encounter slot>, at: [x, y, z], count: <default 1>, tier: <a (default), b or c>, group: <default 0>}.",
+              "type": "object",
+              "properties": {
+                "slot": {
+                  "type": "integer",
+                  "x-unit": "index"
+                },
+                "at": {
+                  "$ref": "common.schema.json#/$defs/point3"
+                },
+                "count": {
+                  "type": "integer",
+                  "x-unit": "count"
+                },
+                "tier": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "a",
+                        "b",
+                        "c"
+                      ]
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 3,
+                      "x-unit": "index"
+                    }
+                  ],
+                  "x-labels": [
+                    "letter",
+                    "number"
+                  ]
+                },
+                "group": {
+                  "type": "integer",
+                  "x-unit": "none"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "teleport"
+          ],
+          "properties": {
+            "teleport": {
+              "description": "{to: [x, y, z], direction: <degrees, 0 east, 90 north; default 0>}: a place on this map.",
+              "type": "object",
+              "properties": {
+                "to": {
+                  "$ref": "common.schema.json#/$defs/point3"
+                },
+                "direction": {
+                  "type": "number",
+                  "x-unit": "deg"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "leave"
+          ],
+          "properties": {
+            "leave": {
+              "description": "The project.yml neighbour the party leaves to.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "neighbour"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "shake"
+          ],
+          "properties": {
+            "shake": {
+              "description": "{strength: <above 0, 1 a strong quake, at most 4>, seconds: <above 0, at most 30>}, with `at: [x, y, z]` and `radius: [<felt fully within>, <not felt past>]` together for a shake felt near a place.",
+              "type": "object",
+              "properties": {
+                "strength": {
+                  "type": "number",
+                  "x-unit": "none"
+                },
+                "seconds": {
+                  "type": "number",
+                  "x-unit": "seconds"
+                },
+                "at": {
+                  "$ref": "common.schema.json#/$defs/point3"
+                },
+                "radius": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "x-unit": "map",
+                  "x-geom": false
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "lights_on"
+          ],
+          "properties": {
+            "lights_on": {
+              "description": "Lights of objects.yml: one id, or a list of them.",
+              "anyOf": [
+                {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "light"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/id",
+                    "x-id-kinds": [
+                      "light"
+                    ]
+                  }
+                }
+              ],
+              "x-labels": [
+                "one",
+                "a list"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "lights_off"
+          ],
+          "properties": {
+            "lights_off": {
+              "description": "Lights of objects.yml: one id, or a list of them.",
+              "anyOf": [
+                {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "light"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "common.schema.json#/$defs/id",
+                    "x-id-kinds": [
+                      "light"
+                    ]
+                  }
+                }
+              ],
+              "x-labels": [
+                "one",
+                "a list"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "open_chest"
+          ],
+          "properties": {
+            "open_chest": {
+              "description": "A chest of objects.yml whose contents are shown.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "chest"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "show_actors"
+          ],
+          "properties": {
+            "show_actors": {
+              "description": "The `group` number of placed monsters and spawn points.",
+              "type": "integer",
+              "x-unit": "none"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "hide_actors"
+          ],
+          "properties": {
+            "hide_actors": {
+              "description": "The `group` number of placed monsters and spawn points.",
+              "type": "integer",
+              "x-unit": "none"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "set_texture"
+          ],
+          "properties": {
+            "set_texture": {
+              "description": "{of: <a door, plate, platform, level, wall panel or region with an id>, to: <texture name, at most 10 characters>, face: top (a platform's or level's top alone)}.",
+              "type": "object",
+              "properties": {
+                "of": {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "door",
+                    "plate",
+                    "platform",
+                    "level",
+                    "panel",
+                    "region"
+                  ]
+                },
+                "to": {
+                  "type": "string"
+                },
+                "face": {
+                  "description": "`top`: the top of a platform or raised level alone.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "set_sprite"
+          ],
+          "properties": {
+            "set_sprite": {
+              "description": "{of: <a decoration of objects.yml>, to: <a sprite or decoration picture name>}.",
+              "type": "object",
+              "properties": {
+                "of": {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "decoration"
+                  ]
+                },
+                "to": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "passable"
+          ],
+          "properties": {
+            "passable": {
+              "description": "Faces the party passes through from now on.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "plate",
+                "platform",
+                "level",
+                "panel",
+                "region"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "solid"
+          ],
+          "properties": {
+            "solid": {
+              "description": "Faces that stop the party again.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "plate",
+                "platform",
+                "level",
+                "panel",
+                "region"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "show"
+          ],
+          "properties": {
+            "show": {
+              "description": "Faces drawn again.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "plate",
+                "platform",
+                "level",
+                "panel",
+                "region"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "hide"
+          ],
+          "properties": {
+            "hide": {
+              "description": "Faces no longer drawn.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "door",
+                "plate",
+                "platform",
+                "level",
+                "panel",
+                "region"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "secret"
+          ],
+          "properties": {
+            "secret": {
+              "description": "Marks secret: the faces of a door, plate, platform, level, wall panel or region with an id, or {of: <id>, face: top}} for a platform's or level's top alone.",
+              "anyOf": [
+                {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "door",
+                    "plate",
+                    "platform",
+                    "level",
+                    "panel",
+                    "region"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "of": {
+                      "$ref": "common.schema.json#/$defs/id",
+                      "x-id-kinds": [
+                        "door",
+                        "plate",
+                        "platform",
+                        "level",
+                        "panel",
+                        "region"
+                      ]
+                    },
+                    "face": {
+                      "description": "`top`: the top of a platform or raised level alone.",
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "x-labels": [
+                "faces",
+                "one face"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "clear_secret"
+          ],
+          "properties": {
+            "clear_secret": {
+              "description": "Clears the secret flag of: the faces of a door, plate, platform, level, wall panel or region with an id, or {of: <id>, face: top}} for a platform's or level's top alone.",
+              "anyOf": [
+                {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "door",
+                    "plate",
+                    "platform",
+                    "level",
+                    "panel",
+                    "region"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "of": {
+                      "$ref": "common.schema.json#/$defs/id",
+                      "x-id-kinds": [
+                        "door",
+                        "plate",
+                        "platform",
+                        "level",
+                        "panel",
+                        "region"
+                      ]
+                    },
+                    "face": {
+                      "description": "`top`: the top of a platform or raised level alone.",
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "x-labels": [
+                "faces",
+                "one face"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "destroy"
+          ],
+          "properties": {
+            "destroy": {
+              "description": "Breaks a destructible of objects.yml (or, in an overlay project, one of the base map's or the overlay's own) at once: evt.DestroyDestructible.",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "destructible"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "damage_destructible"
+          ],
+          "properties": {
+            "damage_destructible": {
+              "description": "{of: <destructible>, amount: <hit points>}: hurts it as a blow would (evt.DamageDestructible).",
+              "type": "object",
+              "required": [
+                "of",
+                "amount"
+              ],
+              "x-flow": true,
+              "properties": {
+                "of": {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "destructible"
+                  ]
+                },
+                "amount": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "x-unit": "count"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "breakable"
+          ],
+          "properties": {
+            "breakable": {
+              "description": "Blows and missiles hurt it from now on (evt.SetDestructibleDamage on).",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "destructible"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "unbreakable"
+          ],
+          "properties": {
+            "unbreakable": {
+              "description": "Blows and missiles no longer hurt it (evt.SetDestructibleDamage off).",
+              "$ref": "common.schema.json#/$defs/id",
+              "x-id-kinds": [
+                "destructible"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "cinematic"
+          ],
+          "properties": {
+            "cinematic": {
+              "description": "Plays a cinematic of `cinematics` (its id), or {id: <cinematic>, then: <wiring event run when it ends, played or skipped>}. In an overlay project also one of the base map's cinematics by its id in ids.lock.yml (`cinematic:<name>`).",
+              "anyOf": [
+                {
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "cinematic"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "$ref": "common.schema.json#/$defs/id",
+                      "x-id-kinds": [
+                        "cinematic"
+                      ]
+                    },
+                    "then": {
+                      "$ref": "common.schema.json#/$defs/id",
+                      "x-id-kinds": [
+                        "event"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "x-labels": [
+                "cinematic",
+                "cinematic, then an event"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "lua"
+          ],
+          "properties": {
+            "lua": {
+              "description": "Lua lines (MapVar(name) takes a name of `variables`).",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "x-variant": [
+        {
+          "label": "gold",
+          "when": {
+            "present": "gold"
+          }
+        },
+        {
+          "label": "add to a value",
+          "when": {
+            "present": "add"
+          }
+        },
+        {
+          "label": "subtract from a value",
+          "when": {
+            "present": "subtract"
+          }
+        },
+        {
+          "label": "set a value",
+          "when": {
+            "present": "set"
+          }
+        },
+        {
+          "label": "autonote",
+          "when": {
+            "present": "autonote"
+          }
+        },
+        {
+          "label": "set a quest bit",
+          "when": {
+            "present": "qbit"
+          }
+        },
+        {
+          "label": "clear a quest bit",
+          "when": {
+            "present": "clear_qbit"
+          }
+        },
+        {
+          "label": "give an award",
+          "when": {
+            "present": "award"
+          }
+        },
+        {
+          "label": "take an award",
+          "when": {
+            "present": "clear_award"
+          }
+        },
+        {
+          "label": "set a character bit",
+          "when": {
+            "present": "player_bit"
+          }
+        },
+        {
+          "label": "clear a character bit",
+          "when": {
+            "present": "clear_player_bit"
+          }
+        },
+        {
+          "label": "give an item",
+          "when": {
+            "present": "give_item"
+          }
+        },
+        {
+          "label": "take an item",
+          "when": {
+            "present": "take_item"
+          }
+        },
+        {
+          "label": "status line",
+          "when": {
+            "present": "text"
+          }
+        },
+        {
+          "label": "message window",
+          "when": {
+            "present": "message"
+          }
+        },
+        {
+          "label": "hurt the party",
+          "when": {
+            "present": "damage"
+          }
+        },
+        {
+          "label": "cast a spell",
+          "when": {
+            "present": "cast"
+          }
+        },
+        {
+          "label": "summon monsters",
+          "when": {
+            "present": "summon"
+          }
+        },
+        {
+          "label": "teleport",
+          "when": {
+            "present": "teleport"
+          }
+        },
+        {
+          "label": "leave the map",
+          "when": {
+            "present": "leave"
+          }
+        },
+        {
+          "label": "shake the view",
+          "when": {
+            "present": "shake"
+          }
+        },
+        {
+          "label": "lights on",
+          "when": {
+            "present": "lights_on"
+          }
+        },
+        {
+          "label": "lights off",
+          "when": {
+            "present": "lights_off"
+          }
+        },
+        {
+          "label": "open a chest",
+          "when": {
+            "present": "open_chest"
+          }
+        },
+        {
+          "label": "show monsters",
+          "when": {
+            "present": "show_actors"
+          }
+        },
+        {
+          "label": "hide monsters",
+          "when": {
+            "present": "hide_actors"
+          }
+        },
+        {
+          "label": "change a texture",
+          "when": {
+            "present": "set_texture"
+          }
+        },
+        {
+          "label": "change a decoration",
+          "when": {
+            "present": "set_sprite"
+          }
+        },
+        {
+          "label": "let through",
+          "when": {
+            "present": "passable"
+          }
+        },
+        {
+          "label": "make solid",
+          "when": {
+            "present": "solid"
+          }
+        },
+        {
+          "label": "show",
+          "when": {
+            "present": "show"
+          }
+        },
+        {
+          "label": "hide",
+          "when": {
+            "present": "hide"
+          }
+        },
+        {
+          "label": "mark secret",
+          "when": {
+            "present": "secret"
+          }
+        },
+        {
+          "label": "clear secret",
+          "when": {
+            "present": "clear_secret"
+          }
+        },
+        {
+          "label": "break a destructible",
+          "when": {
+            "present": "destroy"
+          }
+        },
+        {
+          "label": "hurt a destructible",
+          "when": {
+            "present": "damage_destructible"
+          }
+        },
+        {
+          "label": "let blows hurt a destructible",
+          "when": {
+            "present": "breakable"
+          }
+        },
+        {
+          "label": "stop blows hurting a destructible",
+          "when": {
+            "present": "unbreakable"
+          }
+        },
+        {
+          "label": "play a cinematic",
+          "when": {
+            "present": "cinematic"
+          }
+        },
+        {
+          "label": "Lua",
+          "when": {
+            "present": "lua"
+          }
+        }
+      ]
+    }
+  }
+}

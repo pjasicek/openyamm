@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Map Studio RPC: walk",
+  "description": "Walk mode (S5_BROWSER_EDITOR.md 2.10, 3.6; D7): the game's own movement controllers moving a party of the game's size over a built map. The browser's WebAssembly worker serves these (the host never forwards them: exposed false); the native core serves them too, for the contract suite's recorded walk and as the fallback lane. One walk per core (per worker, per `oymap serve`). The files are paths in the core's own file system: in the worker, the copies it fetched from the host (the built map, its <stem>.walk.yml and <stem>.walk.terrain beside it, and the asset root's decoration table). Collision is the game's; events, monsters and traps do not run; doors move only when toggled, straight to their open or shut end. The walk's yaw becomes a direction through the core's own sin and cos, so a recorded walk gives the same poses natively and in WebAssembly (`bits`).",
+  "x-group": "walk",
+  "methods": {
+    "load": {
+      "summary": "Reads a built map and its movement state and makes the walk: the party stands where the map starts it until walk.place. Replaces any walk this core had.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": ["native", "wasm"],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": ["bad_request"],
+      "params": {
+        "type": "object",
+        "required": ["map", "state", "decorations"],
+        "properties": {
+          "map": { "description": "The built .blv or .odm.", "type": "string", "minLength": 1 },
+          "state": { "description": "Its <stem>.walk.yml, written by the build beside it.", "type": "string", "minLength": 1 },
+          "decorations": { "description": "The asset root's engine/data_tables/decoration_data.txt.", "type": "string", "minLength": 1 },
+          "terrain": { "description": "Outdoors: its <stem>.walk.terrain, written by the build beside it.", "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": ["kind", "faces", "decoration_colliders", "party", "doors", "pose"],
+        "properties": {
+          "kind": { "enum": ["indoor", "outdoor"] },
+          "faces": { "description": "The map's faces (outdoors: its models').", "type": "integer" },
+          "decoration_colliders": { "description": "Decorations the party bumps into.", "type": "integer" },
+          "party": { "$ref": "#/$defs/walk_party" },
+          "doors": {
+            "description": "The doors, lifts and movers walk.toggle moves (indoors), by project id, as the map starts them.",
+            "type": "array",
+            "items": { "$ref": "#/$defs/walk_door" }
+          },
+          "pose": { "$ref": "#/$defs/walk_pose" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "place": {
+      "summary": "Puts the party where an eye at that point would be (the studio's camera); the next steps let it settle on the floor as the game does.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": ["native", "wasm"],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": ["bad_request"],
+      "params": {
+        "type": "object",
+        "required": ["eye"],
+        "properties": {
+          "eye": {
+            "description": "[x, y, z] of the eye, world units.",
+            "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3
+          }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": ["pose"],
+        "properties": { "pose": { "$ref": "#/$defs/walk_pose" } },
+        "additionalProperties": false
+      }
+    },
+    "step": {
+      "summary": "Moves the party for `frames` frames of `seconds` each with the keys held and facing `yaw_radians`, as the game's frame does (an accumulator and 1/128 s movement steps); the pose after the last.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": ["native", "wasm"],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": ["bad_request"],
+      "params": {
+        "type": "object",
+        "required": ["yaw_radians", "buttons", "seconds"],
+        "properties": {
+          "yaw_radians": { "description": "Facing, radians from east (+x) toward north (+y).", "type": "number" },
+          "buttons": { "$ref": "#/$defs/walk_buttons" },
+          "seconds": { "description": "The frame's length (the game caps the movement owed at 0.1 s).", "type": "number", "minimum": 0, "maximum": 1 },
+          "frames": { "description": "Frames of the same input (1 when absent).", "type": "integer", "minimum": 1, "maximum": 100000 }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": ["pose"],
+        "properties": { "pose": { "$ref": "#/$defs/walk_pose" } },
+        "additionalProperties": false
+      }
+    },
+    "replay": {
+      "summary": "A recorded walk: frame after frame of [yaw_radians, buttons, seconds], and at a frame `toggle` a door (before that frame). Returns the pose after the last frame and a hash of every frame's pose bits, the same in the native and the WebAssembly core.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": ["native", "wasm"],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": ["bad_request", "no_such_object"],
+      "params": {
+        "type": "object",
+        "required": ["eye", "frames"],
+        "properties": {
+          "eye": {
+            "description": "Where the walk starts: as walk.place.",
+            "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3
+          },
+          "frames": {
+            "type": "array",
+            "maxItems": 100000,
+            "items": {
+              "description": "[yaw_radians, buttons, seconds].",
+              "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3
+            }
+          },
+          "toggles": {
+            "description": "Doors toggled before a frame: {frame, door}.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["frame", "door"],
+              "properties": {
+                "frame": { "type": "integer", "minimum": 0 },
+                "door": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "trace_every": { "description": "Also return every n-th frame's pose bits (0 or absent: none).", "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": ["frames", "hash", "pose"],
+        "properties": {
+          "frames": { "type": "integer" },
+          "hash": { "description": "FNV-1a 64 of every frame's pose bits, 16 hex digits.", "type": "string" },
+          "pose": { "$ref": "#/$defs/walk_pose" },
+          "trace": { "description": "Every trace_every-th frame's pose bits.", "$ref": "common.rpc.json#/$defs/strings" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "toggle": {
+      "summary": "Opens a shut door, lift or mover of the project at once, or shuts an open one: its end state as an event would leave it. Indoors only.",
+      "since": 1,
+      "lane": "interactive",
+      "backends": ["native", "wasm"],
+      "exposed": false,
+      "writes": "none",
+      "assets": "none",
+      "errors": ["bad_request", "no_such_object"],
+      "params": {
+        "type": "object",
+        "required": ["door"],
+        "properties": { "door": { "description": "Its project id (door:closet).", "type": "string", "minLength": 1 } },
+        "additionalProperties": false
+      },
+      "result": {
+        "type": "object",
+        "required": ["door", "open"],
+        "properties": {
+          "door": { "type": "string" },
+          "open": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "walk_buttons": {
+      "description": "The keys held, added: 1 forward, 2 back, 4 strafe left, 8 strafe right, 16 run, 32 jump.",
+      "type": "integer", "minimum": 0, "maximum": 63
+    },
+    "walk_party": {
+      "description": "The game's party: collision radius and height, the eye over the feet, the highest step (outdoors).",
+      "type": "object",
+      "required": ["radius", "height", "eye_height", "max_step_height"],
+      "properties": {
+        "radius": { "type": "number", "x-decimals": 2, "x-unit": "world" },
+        "height": { "type": "number", "x-decimals": 2, "x-unit": "world" },
+        "eye_height": { "type": "number", "x-decimals": 2, "x-unit": "world" },
+        "max_step_height": { "type": "number", "x-decimals": 2, "x-unit": "world" }
+      },
+      "additionalProperties": false
+    },
+    "walk_door": {
+      "type": "object",
+      "required": ["id", "open"],
+      "properties": {
+        "id": { "type": "string" },
+        "open": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "walk_pose": {
+      "description": "Where the party is.",
+      "type": "object",
+      "required": ["position", "eye_z", "grounded", "landed", "bits"],
+      "properties": {
+        "position": {
+          "description": "The feet: [x, y, z].",
+          "type": "array", "items": { "type": "number", "x-decimals": 3 }, "minItems": 3, "maxItems": 3, "x-unit": "world"
+        },
+        "eye_z": { "type": "number", "x-decimals": 3, "x-unit": "world" },
+        "vertical_velocity": { "type": "number", "x-decimals": 3 },
+        "grounded": { "type": "boolean" },
+        "landed": { "description": "Came down during the last step.", "type": "boolean" },
+        "sector": { "description": "Indoors: the sector of the feet.", "type": "integer" },
+        "eye_sector": { "description": "Indoors: the sector of the eye.", "type": "integer" },
+        "room": { "description": "Indoors: the project room of that sector.", "type": "string" },
+        "model": { "description": "Outdoors: the model stood on.", "type": "integer" },
+        "face": { "description": "The face stood on (indoors the map's, outdoors the model's).", "type": "integer" },
+        "on_water": { "description": "Outdoors: on water.", "type": "boolean" },
+        "bits": { "description": "x, y, feet and vertical velocity as their float bits, 8 hex digits each.", "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

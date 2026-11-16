@@ -1,0 +1,238 @@
+.inspector
+{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: var(--surface);
+    border-left: 1px solid var(--line);
+}
+
+.tabsRoot
+{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.tabs
+{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0;
+    padding: 0 var(--space-2);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-2);
+    flex: none;
+}
+
+.tab
+{
+    border: 0;
+    background: none;
+    padding: var(--space-2) 6px;
+    font-size: var(--size-s);
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.tab[data-active]
+{
+    color: var(--text);
+    border-bottom-color: var(--accent);
+}
+
+.header
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--line);
+    flex: none;
+}
+
+.id
+{
+    font-family: var(--mono);
+    font-weight: 600;
+}
+
+.panel
+{
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: var(--space-3) var(--space-4);
+}
+
+.form
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.expand
+{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--text-dim);
+    font-size: var(--size-s);
+    align-self: flex-end;
+}
+
+.switch
+{
+    position: relative;
+    width: 28px;
+    height: 16px;
+    border-radius: 8px;
+    border: 0;
+    background: var(--line-strong);
+    padding: 0;
+    cursor: pointer;
+}
+
+.switch[data-checked]
+{
+    background: var(--accent);
+}
+
+.thumb
+{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--surface);
+    transition: transform 0.12s;
+}
+
+.thumb[data-checked]
+{
+    transform: translateX(12px);
+}
+
+.dim
+{
+    color: var(--text-dim);
+}
+
+.notes
+{
+    white-space: pre-wrap;
+}
+
+.issues
+{
+    margin: 0;
+    padding-left: var(--space-5);
+    font-size: var(--size-s);
+}
+
+.issue_error
+{
+    color: var(--bad);
+}
+
+.issue_warning
+{
+    color: var(--warn);
+}
+
+.issue_note
+{
+    color: var(--note);
+}
+
+.source
+{
+    font-size: var(--size-s);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.source :global(.cm-editor)
+{
+    background: var(--surface);
+    color: var(--text);
+}
+
+.source :global(.cm-gutters)
+{
+    background: var(--surface-2);
+    color: var(--text-dim);
+    border-right: 1px solid var(--line);
+}
+
+/* S5b1: editing. */
+.editing
+{
+    margin-left: auto;
+    font-size: var(--size-s);
+    color: var(--accent);
+}
+
+.sourceTab
+{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.sourceBar
+{
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.apply
+{
+    height: 24px;
+    padding: 0 var(--space-5);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.apply:disabled
+{
+    opacity: 0.45;
+    cursor: default;
+}
+
+.sourceError
+{
+    color: var(--bad);
+    font-size: var(--size-s);
+}
+
+/* A spawn point's map card slot (project.resolve). */
+.slotNote
+{
+    margin: 0 0 var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s, 4px);
+    background: var(--surface);
+}
+
+.fileSelect
+{
+    margin: 0 var(--space-2);
+    font: inherit;
+}

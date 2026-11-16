@@ -1,0 +1,8672 @@
+{
+ "00 a ladder placed on the plan": {
+  "result": {
+   "applied": true,
+   "revision_before": "67f79ec891bb9b047b48bc10e0b97d88",
+   "revision_after": "ec4b6ab4b4649ac98831e57ff48dc883",
+   "changes": [
+    "objects.yml: changed scene.ladders"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "ladders": [
+        {
+         "id": "ladder:new_1",
+         "position": [
+          1400,
+          3310,
+          656
+         ],
+         "facing": "n",
+         "height": 342
+        },
+        {
+         "id": "ladder:s8a_wall",
+         "position": [
+          1324,
+          3310,
+          656
+         ],
+         "facing": "n",
+         "height": 342,
+         "exit": [
+          1324,
+          3440
+         ],
+         "notes": "Up the fort's south wall, from the shore path (656) onto the walk behind it (998)."
+        }
+       ],
+       "monsters": [
+        {
+         "id": "monster:s8a_guard",
+         "position": [
+          1800,
+          3500,
+          987
+         ],
+         "monster": 9183,
+         "facing": "w",
+         "immobile": true,
+         "notes": "A Skeletoid of the MM9 tables on the fort's walk; actor 77, after the Isle's own 77."
+        }
+       ],
+       "items": [
+        {
+         "id": "item:s8a_sword",
+         "position": [
+          1450,
+          3450,
+          995
+         ],
+         "item": 1
+        }
+       ]
+      },
+      "notes": "S8a's overlay example (devdocs/map_studio/S8_PLAN.md): a ladder, a monster, a floor item and a cinematic added to the Isle of Ashes, and its shipped book_sinking replaced. Build with --assets; it writes isleofashes_s8a_extras.scene.yml, .cinematics.yml and .lua. Played headless by playtest.yml."
+     }
+    }
+   },
+   "sequence": 1
+  }
+ },
+ "01 the project's monster moved": {
+  "result": {
+   "applied": true,
+   "revision_before": "ec4b6ab4b4649ac98831e57ff48dc883",
+   "revision_after": "f62a92c8e9638ccd017ec7aa1025e753",
+   "changes": [
+    "objects.yml: changed scene.monsters[0].position[0]"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "ladders": [
+        {
+         "id": "ladder:new_1",
+         "position": [
+          1400,
+          3310,
+          656
+         ],
+         "facing": "n",
+         "height": 342
+        },
+        {
+         "id": "ladder:s8a_wall",
+         "position": [
+          1324,
+          3310,
+          656
+         ],
+         "facing": "n",
+         "height": 342,
+         "exit": [
+          1324,
+          3440
+         ],
+         "notes": "Up the fort's south wall, from the shore path (656) onto the walk behind it (998)."
+        }
+       ],
+       "monsters": [
+        {
+         "id": "monster:s8a_guard",
+         "position": [
+          1700,
+          3500,
+          990
+         ],
+         "monster": 9183,
+         "facing": "w",
+         "immobile": true,
+         "notes": "A Skeletoid of the MM9 tables on the fort's walk; actor 77, after the Isle's own 77."
+        }
+       ],
+       "items": [
+        {
+         "id": "item:s8a_sword",
+         "position": [
+          1450,
+          3450,
+          995
+         ],
+         "item": 1
+        }
+       ]
+      },
+      "notes": "S8a's overlay example (devdocs/map_studio/S8_PLAN.md): a ladder, a monster, a floor item and a cinematic added to the Isle of Ashes, and its shipped book_sinking replaced. Build with --assets; it writes isleofashes_s8a_extras.scene.yml, .cinematics.yml and .lua. Played headless by playtest.yml."
+     }
+    }
+   },
+   "sequence": 2
+  }
+ },
+ "02 an item added": {
+  "result": {
+   "applied": true,
+   "revision_before": "f62a92c8e9638ccd017ec7aa1025e753",
+   "revision_after": "677622620d0fbad7c70256be72d30df3",
+   "changes": [
+    "objects.yml: changed scene.items"
+   ],
+   "outside_changes": [],
+   "new_issues": [],
+   "fixed_issues": [],
+   "files": {
+    "objects.yml": {
+     "tree": {
+      "format": 1,
+      "scene": {
+       "ladders": [
+        {
+         "id": "ladder:new_1",
+         "position": [
+          1400,
+          3310,
+          656
+         ],
+         "facing": "n",
+         "height": 342
+        },
+        {
+         "id": "ladder:s8a_wall",
+         "position": [
+          1324,
+          3310,
+          656
+         ],
+         "facing": "n",
+         "height": 342,
+         "exit": [
+          1324,
+          3440
+         ],
+         "notes": "Up the fort's south wall, from the shore path (656) onto the walk behind it (998)."
+        }
+       ],
+       "monsters": [
+        {
+         "id": "monster:s8a_guard",
+         "position": [
+          1700,
+          3500,
+          990
+         ],
+         "monster": 9183,
+         "facing": "w",
+         "immobile": true,
+         "notes": "A Skeletoid of the MM9 tables on the fort's walk; actor 77, after the Isle's own 77."
+        }
+       ],
+       "items": [
+        {
+         "id": "item:new_1",
+         "position": [
+          1500,
+          3450,
+          995
+         ],
+         "item": 1
+        },
+        {
+         "id": "item:s8a_sword",
+         "position": [
+          1450,
+          3450,
+          995
+         ],
+         "item": 1
+        }
+       ]
+      },
+      "notes": "S8a's overlay example (devdocs/map_studio/S8_PLAN.md): a ladder, a monster, a floor item and a cinematic added to the Isle of Ashes, and its shipped book_sinking replaced. Build with --assets; it writes isleofashes_s8a_extras.scene.yml, .cinematics.yml and .lua. Played headless by playtest.yml."
+     }
+    }
+   },
+   "sequence": 3
+  }
+ },
+ "03 the overlay described": {
+  "result": {
+   "base": "isleofashes.blv",
+   "world": "mm9",
+   "profile": "region",
+   "bounds": [
+    -32512,
+    -32512,
+    32512,
+    32512
+   ],
+   "scene_keys": [
+    "ladders",
+    "authored_content"
+   ],
+   "things": [
+    {
+     "id": "sound:a527",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12657,
+      -553,
+      1475
+     ],
+     "radius": 2560,
+     "label": "ambient/birds/woodpeck02.wav"
+    },
+    {
+     "id": "sound:a574",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -15442,
+      2970,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a575",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -13804,
+      3789,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a576",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9216,
+      -4731,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a577",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -12165,
+      -4731,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a578",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -15442,
+      -4076,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a579",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -15770,
+      -2109,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a580",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -15770,
+      840,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a581",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -13804,
+      5755,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a582",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11182,
+      5755,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a583",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -8561,
+      5755,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a584",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7250,
+      5100,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a585",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7905,
+      3133,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a586",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6595,
+      1167,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a587",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7250,
+      -799,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a588",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -8561,
+      -2109,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a589",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10199,
+      -8008,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a590",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10527,
+      -9318,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a591",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10854,
+      -10957,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a592",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10854,
+      -12595,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a593",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10854,
+      -14561,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a594",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10854,
+      -16855,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a595",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10854,
+      -18821,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a596",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -10527,
+      -20132,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a597",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9216,
+      -20460,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a598",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7578,
+      -20787,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a599",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7250,
+      -22098,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a600",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4956,
+      -22098,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a601",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2990,
+      -22098,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a602",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -696,
+      -22098,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a603",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      942,
+      -21115,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a604",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3236,
+      -21115,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a605",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      4874,
+      -20787,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a606",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5530,
+      -19149,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a607",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5857,
+      -17183,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a608",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6185,
+      -14889,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a609",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      8151,
+      -14234,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a610",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      8479,
+      -11612,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a611",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      9134,
+      -9974,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a612",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      8151,
+      -7680,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a613",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      8151,
+      -5714,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a614",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6185,
+      -4731,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a615",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      4547,
+      -5714,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a616",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2908,
+      -6369,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a617",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      287,
+      -5714,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a618",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2335,
+      -6697,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a619",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4956,
+      -7025,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a620",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7578,
+      -7025,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a621",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5038,
+      -2273,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a622",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6021,
+      -1126,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a623",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      4874,
+      922,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a624",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      4219,
+      2314,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a625",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5366,
+      3133,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a626",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5366,
+      5018,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a627",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3809,
+      6001,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a628",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1270,
+      6328,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a629",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -287,
+      5837,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a630",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1925,
+      4608,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a631",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3072,
+      3297,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a632",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3809,
+      1495,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a633",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3809,
+      -799,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a634",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2007,
+      -1290,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a635",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -369,
+      -2191,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a636",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1597,
+      -2191,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a637",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3072,
+      -1126,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a638",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18391,
+      8540,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a639",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18309,
+      10179,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a640",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -16671,
+      10342,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a641",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -16425,
+      8622,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a642",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -16671,
+      7148,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a643",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18391,
+      7066,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a644",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3482,
+      12472,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a645",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3809,
+      14356,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a646",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4301,
+      17224,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a647",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3973,
+      15667,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a648",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -5693,
+      17388,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a649",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7004,
+      16650,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a650",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7086,
+      15094,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a651",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -8397,
+      14111,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a652",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9134,
+      15094,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a653",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9380,
+      16159,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a654",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9380,
+      17633,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a655",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9380,
+      19026,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a656",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -8888,
+      20337,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a657",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -8397,
+      21402,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a658",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6840,
+      21402,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a659",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4956,
+      21402,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a660",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3645,
+      20828,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a661",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1925,
+      20419,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a662",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -860,
+      19436,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a663",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -614,
+      18043,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a664",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      369,
+      17388,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a665",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      287,
+      15995,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a666",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      287,
+      14438,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a667",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      123,
+      12964,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a668",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -778,
+      12145,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a669",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2007,
+      11981,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a670",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      9216,
+      7393,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a671",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      8233,
+      7721,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a672",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7905,
+      9032,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a673",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7905,
+      10424,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a674",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7578,
+      11735,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a675",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6431,
+      12227,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a676",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5366,
+      12390,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a677",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5857,
+      13537,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a678",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      6758,
+      14766,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a679",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7578,
+      15667,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a680",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      9462,
+      15913,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a681",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10035,
+      14766,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a682",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      11592,
+      14356,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a683",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12247,
+      12964,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a684",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12739,
+      11981,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a685",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12575,
+      10670,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a686",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12165,
+      9114,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a687",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      11510,
+      8294,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a688",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10527,
+      7393,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a689",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      11919,
+      -2273,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a690",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12657,
+      -1618,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a691",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      13967,
+      -717,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a692",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      14787,
+      430,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a693",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      14295,
+      1577,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a694",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      14049,
+      2806,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a695",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      15032,
+      3871,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a696",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      15196,
+      5263,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a697",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16343,
+      5427,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a698",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      17408,
+      4444,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a699",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      18309,
+      3297,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a700",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      17244,
+      2232,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a701",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16998,
+      758,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a702",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      16916,
+      -881,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a703",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      15688,
+      -1864,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a704",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      14705,
+      -2929,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a705",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      13722,
+      -3994,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a706",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12329,
+      -4567,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a707",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      11674,
+      -3256,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/water/waves02.wav"
+    },
+    {
+     "id": "sound:a708",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11837,
+      -3420,
+      2785
+     ],
+     "radius": 3072,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a709",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11510,
+      3461,
+      2785
+     ],
+     "radius": 3072,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a710",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11510,
+      1495,
+      2785
+     ],
+     "radius": 3072,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a711",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11837,
+      -143,
+      2785
+     ],
+     "radius": 3072,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a712",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -11837,
+      -1782,
+      2785
+     ],
+     "radius": 3072,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a713",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7905,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a714",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4628,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a715",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2007,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a716",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      614,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a717",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3236,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a718",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5857,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a719",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      8479,
+      -9974,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a720",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      5857,
+      -7352,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a721",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3236,
+      -7352,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a722",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      614,
+      -7352,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a723",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2007,
+      -7352,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a724",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7250,
+      -13906,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a725",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3318,
+      -13906,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a726",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      614,
+      -13906,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a727",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      4547,
+      -13906,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a728",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      614,
+      -16527,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a729",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -696,
+      -20460,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a730",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -4628,
+      -20460,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a731",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7250,
+      -17838,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a732",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -3318,
+      -16527,
+      2785
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a733",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -205,
+      5018,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a734",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2744,
+      5018,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a735",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2744,
+      2314,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a736",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -532,
+      2396,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a737",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1761,
+      184,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a738",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1597,
+      266,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a739",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      4628,
+      184,
+      3441
+     ],
+     "radius": 5632,
+     "label": "ambient/wind/canyon_wind02.wav"
+    },
+    {
+     "id": "sound:a740",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -16753,
+      7066,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a741",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -18063,
+      10342,
+      164
+     ],
+     "radius": 3072,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a742",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      12329,
+      -4076,
+      164
+     ],
+     "radius": 7168,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a743",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      15278,
+      4936,
+      164
+     ],
+     "radius": 7168,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a744",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -7496,
+      15012,
+      164
+     ],
+     "radius": 7168,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a745",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -2417,
+      18616,
+      1147
+     ],
+     "radius": 7168,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a746",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10527,
+      16732,
+      164
+     ],
+     "radius": 7168,
+     "label": "ambient/birds/seagulls 02b.wav"
+    },
+    {
+     "id": "sound:a562",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2918,
+      -16241,
+      425
+     ],
+     "radius": 512,
+     "label": "ambient/torchlight.wav"
+    },
+    {
+     "id": "sound:a765",
+     "kind": "sound",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      2918,
+      -16241,
+      425
+     ],
+     "radius": 512,
+     "label": "ambient/torchlight.wav"
+    },
+    {
+     "id": "destructible:k7",
+     "kind": "destructible",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      10122,
+      10194,
+      1004
+     ],
+     "label": "FortWall0"
+    },
+    {
+     "id": "destructible:k520",
+     "kind": "destructible",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -655,
+      5407,
+      471
+     ],
+     "label": "FortWall"
+    },
+    {
+     "id": "water:bluewater0",
+     "kind": "water",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3293,
+      -283,
+      0
+     ],
+     "label": "BlueWater0",
+     "polygons": [
+      [
+       [
+        -41329,
+        38854
+       ],
+       [
+        -41329,
+        43766
+       ],
+       [
+        -36417,
+        43766
+       ],
+       [
+        -36417,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        33938
+       ],
+       [
+        -41329,
+        38854
+       ],
+       [
+        -36417,
+        38854
+       ],
+       [
+        -36417,
+        33938
+       ]
+      ],
+      [
+       [
+        -36417,
+        38854
+       ],
+       [
+        -36417,
+        43766
+       ],
+       [
+        -31501,
+        43766
+       ],
+       [
+        -31501,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        29023
+       ],
+       [
+        -41329,
+        33938
+       ],
+       [
+        -36417,
+        33938
+       ],
+       [
+        -36417,
+        29023
+       ]
+      ],
+      [
+       [
+        -36417,
+        33938
+       ],
+       [
+        -36417,
+        38854
+       ],
+       [
+        -31501,
+        38854
+       ],
+       [
+        -31501,
+        33938
+       ]
+      ],
+      [
+       [
+        -31501,
+        38854
+       ],
+       [
+        -31501,
+        43766
+       ],
+       [
+        -26586,
+        43766
+       ],
+       [
+        -26586,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        24108
+       ],
+       [
+        -41329,
+        29023
+       ],
+       [
+        -36417,
+        29023
+       ],
+       [
+        -36417,
+        24108
+       ]
+      ],
+      [
+       [
+        -36417,
+        29023
+       ],
+       [
+        -36417,
+        33938
+       ],
+       [
+        -31501,
+        33938
+       ],
+       [
+        -31501,
+        29023
+       ]
+      ],
+      [
+       [
+        -31501,
+        33938
+       ],
+       [
+        -31501,
+        38854
+       ],
+       [
+        -26586,
+        38854
+       ],
+       [
+        -26586,
+        33938
+       ]
+      ],
+      [
+       [
+        -26586,
+        38854
+       ],
+       [
+        -26586,
+        43766
+       ],
+       [
+        -21671,
+        43766
+       ],
+       [
+        -21671,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        19193
+       ],
+       [
+        -41329,
+        24108
+       ],
+       [
+        -36417,
+        24108
+       ],
+       [
+        -36417,
+        19193
+       ]
+      ],
+      [
+       [
+        -36417,
+        24108
+       ],
+       [
+        -36417,
+        29023
+       ],
+       [
+        -31501,
+        29023
+       ],
+       [
+        -31501,
+        24108
+       ]
+      ],
+      [
+       [
+        -31501,
+        29023
+       ],
+       [
+        -31501,
+        33938
+       ],
+       [
+        -26586,
+        33938
+       ],
+       [
+        -26586,
+        29023
+       ]
+      ],
+      [
+       [
+        -26586,
+        33938
+       ],
+       [
+        -26586,
+        38854
+       ],
+       [
+        -21671,
+        38854
+       ],
+       [
+        -21671,
+        33938
+       ]
+      ],
+      [
+       [
+        -21671,
+        38854
+       ],
+       [
+        -21671,
+        43766
+       ],
+       [
+        -16756,
+        43766
+       ],
+       [
+        -16756,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        14278
+       ],
+       [
+        -41329,
+        19193
+       ],
+       [
+        -36417,
+        19193
+       ],
+       [
+        -36417,
+        14278
+       ]
+      ],
+      [
+       [
+        -36417,
+        19193
+       ],
+       [
+        -36417,
+        24108
+       ],
+       [
+        -31501,
+        24108
+       ],
+       [
+        -31501,
+        19193
+       ]
+      ],
+      [
+       [
+        -31501,
+        24108
+       ],
+       [
+        -31501,
+        29023
+       ],
+       [
+        -26586,
+        29023
+       ],
+       [
+        -26586,
+        24108
+       ]
+      ],
+      [
+       [
+        -26586,
+        29023
+       ],
+       [
+        -26586,
+        33938
+       ],
+       [
+        -21671,
+        33938
+       ],
+       [
+        -21671,
+        29023
+       ]
+      ],
+      [
+       [
+        -21671,
+        33938
+       ],
+       [
+        -21671,
+        38854
+       ],
+       [
+        -16756,
+        38854
+       ],
+       [
+        -16756,
+        33938
+       ]
+      ],
+      [
+       [
+        -16756,
+        38854
+       ],
+       [
+        -16756,
+        43766
+       ],
+       [
+        -11841,
+        43766
+       ],
+       [
+        -11841,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        9362
+       ],
+       [
+        -41329,
+        14278
+       ],
+       [
+        -36417,
+        14278
+       ],
+       [
+        -36417,
+        9362
+       ]
+      ],
+      [
+       [
+        -36417,
+        14278
+       ],
+       [
+        -36417,
+        19193
+       ],
+       [
+        -31501,
+        19193
+       ],
+       [
+        -31501,
+        14278
+       ]
+      ],
+      [
+       [
+        -31501,
+        19193
+       ],
+       [
+        -31501,
+        24108
+       ],
+       [
+        -26586,
+        24108
+       ],
+       [
+        -26586,
+        19193
+       ]
+      ],
+      [
+       [
+        -26586,
+        24108
+       ],
+       [
+        -26586,
+        29023
+       ],
+       [
+        -21671,
+        29023
+       ],
+       [
+        -21671,
+        24108
+       ]
+      ],
+      [
+       [
+        -21671,
+        29023
+       ],
+       [
+        -21671,
+        33938
+       ],
+       [
+        -16756,
+        33938
+       ],
+       [
+        -16756,
+        29023
+       ]
+      ],
+      [
+       [
+        -16756,
+        33938
+       ],
+       [
+        -16756,
+        38854
+       ],
+       [
+        -11841,
+        38854
+       ],
+       [
+        -11841,
+        33938
+       ]
+      ],
+      [
+       [
+        -11841,
+        38854
+       ],
+       [
+        -11841,
+        43766
+       ],
+       [
+        -6925,
+        43766
+       ],
+       [
+        -6925,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        4447
+       ],
+       [
+        -41329,
+        9362
+       ],
+       [
+        -36417,
+        9362
+       ],
+       [
+        -36417,
+        4447
+       ]
+      ],
+      [
+       [
+        -36417,
+        9362
+       ],
+       [
+        -36417,
+        14278
+       ],
+       [
+        -31501,
+        14278
+       ],
+       [
+        -31501,
+        9362
+       ]
+      ],
+      [
+       [
+        -31501,
+        14278
+       ],
+       [
+        -31501,
+        19193
+       ],
+       [
+        -26586,
+        19193
+       ],
+       [
+        -26586,
+        14278
+       ]
+      ],
+      [
+       [
+        -26586,
+        19193
+       ],
+       [
+        -26586,
+        24108
+       ],
+       [
+        -21671,
+        24108
+       ],
+       [
+        -21671,
+        19193
+       ]
+      ],
+      [
+       [
+        -21671,
+        24108
+       ],
+       [
+        -21671,
+        29023
+       ],
+       [
+        -16756,
+        29023
+       ],
+       [
+        -16756,
+        24108
+       ]
+      ],
+      [
+       [
+        -16756,
+        29023
+       ],
+       [
+        -16756,
+        33938
+       ],
+       [
+        -11841,
+        33938
+       ],
+       [
+        -11841,
+        29023
+       ]
+      ],
+      [
+       [
+        -11841,
+        33938
+       ],
+       [
+        -11841,
+        38854
+       ],
+       [
+        -6925,
+        38854
+       ],
+       [
+        -6925,
+        33938
+       ]
+      ],
+      [
+       [
+        -6925,
+        38854
+       ],
+       [
+        -6925,
+        43766
+       ],
+       [
+        -2010,
+        43766
+       ],
+       [
+        -2010,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -468
+       ],
+       [
+        -41329,
+        4447
+       ],
+       [
+        -36417,
+        4447
+       ],
+       [
+        -36417,
+        -468
+       ]
+      ],
+      [
+       [
+        -36417,
+        4447
+       ],
+       [
+        -36417,
+        9362
+       ],
+       [
+        -31501,
+        9362
+       ],
+       [
+        -31501,
+        4447
+       ]
+      ],
+      [
+       [
+        -31501,
+        9362
+       ],
+       [
+        -31501,
+        14278
+       ],
+       [
+        -26586,
+        14278
+       ],
+       [
+        -26586,
+        9362
+       ]
+      ],
+      [
+       [
+        -26586,
+        14278
+       ],
+       [
+        -26586,
+        19193
+       ],
+       [
+        -21671,
+        19193
+       ],
+       [
+        -21671,
+        14278
+       ]
+      ],
+      [
+       [
+        -21671,
+        19193
+       ],
+       [
+        -21671,
+        24108
+       ],
+       [
+        -16756,
+        24108
+       ],
+       [
+        -16756,
+        19193
+       ]
+      ],
+      [
+       [
+        -16756,
+        24108
+       ],
+       [
+        -16756,
+        29023
+       ],
+       [
+        -11841,
+        29023
+       ],
+       [
+        -11841,
+        24108
+       ]
+      ],
+      [
+       [
+        -11841,
+        29023
+       ],
+       [
+        -11841,
+        33938
+       ],
+       [
+        -6925,
+        33938
+       ],
+       [
+        -6925,
+        29023
+       ]
+      ],
+      [
+       [
+        -6925,
+        33938
+       ],
+       [
+        -6925,
+        38854
+       ],
+       [
+        -2010,
+        38854
+       ],
+       [
+        -2010,
+        33938
+       ]
+      ],
+      [
+       [
+        -2010,
+        38854
+       ],
+       [
+        -2010,
+        43766
+       ],
+       [
+        2905,
+        43766
+       ],
+       [
+        2905,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -5383
+       ],
+       [
+        -41329,
+        -468
+       ],
+       [
+        -36417,
+        -468
+       ],
+       [
+        -36417,
+        -5383
+       ]
+      ],
+      [
+       [
+        -36417,
+        -468
+       ],
+       [
+        -36417,
+        4447
+       ],
+       [
+        -31501,
+        4447
+       ],
+       [
+        -31501,
+        -468
+       ]
+      ],
+      [
+       [
+        -31501,
+        4447
+       ],
+       [
+        -31501,
+        9362
+       ],
+       [
+        -26586,
+        9362
+       ],
+       [
+        -26586,
+        4447
+       ]
+      ],
+      [
+       [
+        -26586,
+        9362
+       ],
+       [
+        -26586,
+        14278
+       ],
+       [
+        -21671,
+        14278
+       ],
+       [
+        -21671,
+        9362
+       ]
+      ],
+      [
+       [
+        -21671,
+        14278
+       ],
+       [
+        -21671,
+        19193
+       ],
+       [
+        -16756,
+        19193
+       ],
+       [
+        -16756,
+        14278
+       ]
+      ],
+      [
+       [
+        -16756,
+        19193
+       ],
+       [
+        -16756,
+        24108
+       ],
+       [
+        -11841,
+        24108
+       ],
+       [
+        -11841,
+        19193
+       ]
+      ],
+      [
+       [
+        -11841,
+        24108
+       ],
+       [
+        -11841,
+        29023
+       ],
+       [
+        -6925,
+        29023
+       ],
+       [
+        -6925,
+        24108
+       ]
+      ],
+      [
+       [
+        -6925,
+        29023
+       ],
+       [
+        -6925,
+        33938
+       ],
+       [
+        -2010,
+        33938
+       ],
+       [
+        -2010,
+        29023
+       ]
+      ],
+      [
+       [
+        -2010,
+        33938
+       ],
+       [
+        -2010,
+        38854
+       ],
+       [
+        2905,
+        38854
+       ],
+       [
+        2905,
+        33938
+       ]
+      ],
+      [
+       [
+        2905,
+        38854
+       ],
+       [
+        2905,
+        43766
+       ],
+       [
+        7820,
+        43766
+       ],
+       [
+        7820,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -10298
+       ],
+       [
+        -41329,
+        -5383
+       ],
+       [
+        -36417,
+        -5383
+       ],
+       [
+        -36417,
+        -10298
+       ]
+      ],
+      [
+       [
+        -36417,
+        -5383
+       ],
+       [
+        -36417,
+        -468
+       ],
+       [
+        -31501,
+        -468
+       ],
+       [
+        -31501,
+        -5383
+       ]
+      ],
+      [
+       [
+        -31501,
+        -468
+       ],
+       [
+        -31501,
+        4447
+       ],
+       [
+        -26586,
+        4447
+       ],
+       [
+        -26586,
+        -468
+       ]
+      ],
+      [
+       [
+        -26586,
+        4447
+       ],
+       [
+        -26586,
+        9362
+       ],
+       [
+        -21671,
+        9362
+       ],
+       [
+        -21671,
+        4447
+       ]
+      ],
+      [
+       [
+        -21671,
+        9362
+       ],
+       [
+        -21671,
+        14278
+       ],
+       [
+        -16756,
+        14278
+       ],
+       [
+        -16756,
+        9362
+       ]
+      ],
+      [
+       [
+        -16756,
+        14278
+       ],
+       [
+        -16756,
+        19193
+       ],
+       [
+        -11841,
+        19193
+       ],
+       [
+        -11841,
+        14278
+       ]
+      ],
+      [
+       [
+        -11841,
+        19193
+       ],
+       [
+        -11841,
+        24108
+       ],
+       [
+        -6925,
+        24108
+       ],
+       [
+        -6925,
+        19193
+       ]
+      ],
+      [
+       [
+        -6925,
+        24108
+       ],
+       [
+        -6925,
+        29023
+       ],
+       [
+        -2010,
+        29023
+       ],
+       [
+        -2010,
+        24108
+       ]
+      ],
+      [
+       [
+        -2010,
+        29023
+       ],
+       [
+        -2010,
+        33938
+       ],
+       [
+        2905,
+        33938
+       ],
+       [
+        2905,
+        29023
+       ]
+      ],
+      [
+       [
+        2905,
+        33938
+       ],
+       [
+        2905,
+        38854
+       ],
+       [
+        7820,
+        38854
+       ],
+       [
+        7820,
+        33938
+       ]
+      ],
+      [
+       [
+        7820,
+        38854
+       ],
+       [
+        7820,
+        43766
+       ],
+       [
+        12736,
+        43766
+       ],
+       [
+        12736,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -15214
+       ],
+       [
+        -41329,
+        -10298
+       ],
+       [
+        -36417,
+        -10298
+       ],
+       [
+        -36417,
+        -15214
+       ]
+      ],
+      [
+       [
+        -36417,
+        -10298
+       ],
+       [
+        -36417,
+        -5383
+       ],
+       [
+        -31501,
+        -5383
+       ],
+       [
+        -31501,
+        -10298
+       ]
+      ],
+      [
+       [
+        -31501,
+        -5383
+       ],
+       [
+        -31501,
+        -468
+       ],
+       [
+        -26586,
+        -468
+       ],
+       [
+        -26586,
+        -5383
+       ]
+      ],
+      [
+       [
+        -26586,
+        -468
+       ],
+       [
+        -26586,
+        4447
+       ],
+       [
+        -21671,
+        4447
+       ],
+       [
+        -21671,
+        -468
+       ]
+      ],
+      [
+       [
+        -21671,
+        4447
+       ],
+       [
+        -21671,
+        9362
+       ],
+       [
+        -16756,
+        9362
+       ],
+       [
+        -16756,
+        4447
+       ]
+      ],
+      [
+       [
+        -16756,
+        9362
+       ],
+       [
+        -16756,
+        14278
+       ],
+       [
+        -11841,
+        14278
+       ],
+       [
+        -11841,
+        9362
+       ]
+      ],
+      [
+       [
+        -11841,
+        14278
+       ],
+       [
+        -11841,
+        19193
+       ],
+       [
+        -6925,
+        19193
+       ],
+       [
+        -6925,
+        14278
+       ]
+      ],
+      [
+       [
+        -6925,
+        19193
+       ],
+       [
+        -6925,
+        24108
+       ],
+       [
+        -2010,
+        24108
+       ],
+       [
+        -2010,
+        19193
+       ]
+      ],
+      [
+       [
+        -2010,
+        24108
+       ],
+       [
+        -2010,
+        29023
+       ],
+       [
+        2905,
+        29023
+       ],
+       [
+        2905,
+        24108
+       ]
+      ],
+      [
+       [
+        2905,
+        29023
+       ],
+       [
+        2905,
+        33938
+       ],
+       [
+        7820,
+        33938
+       ],
+       [
+        7820,
+        29023
+       ]
+      ],
+      [
+       [
+        7820,
+        33938
+       ],
+       [
+        7820,
+        38854
+       ],
+       [
+        12736,
+        38854
+       ],
+       [
+        12736,
+        33938
+       ]
+      ],
+      [
+       [
+        12736,
+        38854
+       ],
+       [
+        12736,
+        43766
+       ],
+       [
+        17651,
+        43766
+       ],
+       [
+        17651,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -20129
+       ],
+       [
+        -41329,
+        -15214
+       ],
+       [
+        -36417,
+        -15214
+       ],
+       [
+        -36417,
+        -20129
+       ]
+      ],
+      [
+       [
+        -36417,
+        -15214
+       ],
+       [
+        -36417,
+        -10298
+       ],
+       [
+        -31501,
+        -10298
+       ],
+       [
+        -31501,
+        -15214
+       ]
+      ],
+      [
+       [
+        -31501,
+        -10298
+       ],
+       [
+        -31501,
+        -5383
+       ],
+       [
+        -26586,
+        -5383
+       ],
+       [
+        -26586,
+        -10298
+       ]
+      ],
+      [
+       [
+        -26586,
+        -5383
+       ],
+       [
+        -26586,
+        -468
+       ],
+       [
+        -21671,
+        -468
+       ],
+       [
+        -21671,
+        -5383
+       ]
+      ],
+      [
+       [
+        -21671,
+        -468
+       ],
+       [
+        -21671,
+        4447
+       ],
+       [
+        -16756,
+        4447
+       ],
+       [
+        -16756,
+        -468
+       ]
+      ],
+      [
+       [
+        -16756,
+        4447
+       ],
+       [
+        -16756,
+        9362
+       ],
+       [
+        -11841,
+        9362
+       ],
+       [
+        -11841,
+        4447
+       ]
+      ],
+      [
+       [
+        -11841,
+        9362
+       ],
+       [
+        -11841,
+        14278
+       ],
+       [
+        -6925,
+        14278
+       ],
+       [
+        -6925,
+        9362
+       ]
+      ],
+      [
+       [
+        -6925,
+        14278
+       ],
+       [
+        -6925,
+        19193
+       ],
+       [
+        -2010,
+        19193
+       ],
+       [
+        -2010,
+        14278
+       ]
+      ],
+      [
+       [
+        -2010,
+        19193
+       ],
+       [
+        -2010,
+        24108
+       ],
+       [
+        2905,
+        24108
+       ],
+       [
+        2905,
+        19193
+       ]
+      ],
+      [
+       [
+        2905,
+        24108
+       ],
+       [
+        2905,
+        29023
+       ],
+       [
+        7820,
+        29023
+       ],
+       [
+        7820,
+        24108
+       ]
+      ],
+      [
+       [
+        7820,
+        29023
+       ],
+       [
+        7820,
+        33938
+       ],
+       [
+        12736,
+        33938
+       ],
+       [
+        12736,
+        29023
+       ]
+      ],
+      [
+       [
+        12736,
+        33938
+       ],
+       [
+        12736,
+        38854
+       ],
+       [
+        17651,
+        38854
+       ],
+       [
+        17651,
+        33938
+       ]
+      ],
+      [
+       [
+        17651,
+        38854
+       ],
+       [
+        17651,
+        43766
+       ],
+       [
+        22566,
+        43766
+       ],
+       [
+        22566,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -25044
+       ],
+       [
+        -41329,
+        -20129
+       ],
+       [
+        -36417,
+        -20129
+       ],
+       [
+        -36417,
+        -25044
+       ]
+      ],
+      [
+       [
+        -36417,
+        -20129
+       ],
+       [
+        -36417,
+        -15214
+       ],
+       [
+        -31501,
+        -15214
+       ],
+       [
+        -31501,
+        -20129
+       ]
+      ],
+      [
+       [
+        -31501,
+        -15214
+       ],
+       [
+        -31501,
+        -10298
+       ],
+       [
+        -26586,
+        -10298
+       ],
+       [
+        -26586,
+        -15214
+       ]
+      ],
+      [
+       [
+        -26586,
+        -10298
+       ],
+       [
+        -26586,
+        -5383
+       ],
+       [
+        -21671,
+        -5383
+       ],
+       [
+        -21671,
+        -10298
+       ]
+      ],
+      [
+       [
+        -21671,
+        -5383
+       ],
+       [
+        -21671,
+        -468
+       ],
+       [
+        -16756,
+        -468
+       ],
+       [
+        -16756,
+        -5383
+       ]
+      ],
+      [
+       [
+        -16756,
+        -468
+       ],
+       [
+        -16756,
+        4447
+       ],
+       [
+        -11841,
+        4447
+       ],
+       [
+        -11841,
+        -468
+       ]
+      ],
+      [
+       [
+        -11841,
+        4447
+       ],
+       [
+        -11841,
+        9362
+       ],
+       [
+        -6925,
+        9362
+       ],
+       [
+        -6925,
+        4447
+       ]
+      ],
+      [
+       [
+        -6925,
+        9362
+       ],
+       [
+        -6925,
+        14278
+       ],
+       [
+        -2010,
+        14278
+       ],
+       [
+        -2010,
+        9362
+       ]
+      ],
+      [
+       [
+        -2010,
+        14278
+       ],
+       [
+        -2010,
+        19193
+       ],
+       [
+        2905,
+        19193
+       ],
+       [
+        2905,
+        14278
+       ]
+      ],
+      [
+       [
+        2905,
+        19193
+       ],
+       [
+        2905,
+        24108
+       ],
+       [
+        7820,
+        24108
+       ],
+       [
+        7820,
+        19193
+       ]
+      ],
+      [
+       [
+        7820,
+        24108
+       ],
+       [
+        7820,
+        29023
+       ],
+       [
+        12736,
+        29023
+       ],
+       [
+        12736,
+        24108
+       ]
+      ],
+      [
+       [
+        12736,
+        29023
+       ],
+       [
+        12736,
+        33938
+       ],
+       [
+        17651,
+        33938
+       ],
+       [
+        17651,
+        29023
+       ]
+      ],
+      [
+       [
+        17651,
+        33938
+       ],
+       [
+        17651,
+        38854
+       ],
+       [
+        22566,
+        38854
+       ],
+       [
+        22566,
+        33938
+       ]
+      ],
+      [
+       [
+        22566,
+        38854
+       ],
+       [
+        22566,
+        43766
+       ],
+       [
+        27481,
+        43766
+       ],
+       [
+        27481,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -29959
+       ],
+       [
+        -41329,
+        -25044
+       ],
+       [
+        -36417,
+        -25044
+       ],
+       [
+        -36417,
+        -29959
+       ]
+      ],
+      [
+       [
+        -36417,
+        -25044
+       ],
+       [
+        -36417,
+        -20129
+       ],
+       [
+        -31501,
+        -20129
+       ],
+       [
+        -31501,
+        -25044
+       ]
+      ],
+      [
+       [
+        -31501,
+        -20129
+       ],
+       [
+        -31501,
+        -15214
+       ],
+       [
+        -26586,
+        -15214
+       ],
+       [
+        -26586,
+        -20129
+       ]
+      ],
+      [
+       [
+        -26586,
+        -15214
+       ],
+       [
+        -26586,
+        -10298
+       ],
+       [
+        -21671,
+        -10298
+       ],
+       [
+        -21671,
+        -15214
+       ]
+      ],
+      [
+       [
+        -21671,
+        -10298
+       ],
+       [
+        -21671,
+        -5383
+       ],
+       [
+        -16756,
+        -5383
+       ],
+       [
+        -16756,
+        -10298
+       ]
+      ],
+      [
+       [
+        -16756,
+        -5383
+       ],
+       [
+        -16756,
+        -468
+       ],
+       [
+        -11841,
+        -468
+       ],
+       [
+        -11841,
+        -5383
+       ]
+      ],
+      [
+       [
+        -11841,
+        -468
+       ],
+       [
+        -11841,
+        4447
+       ],
+       [
+        -6925,
+        4447
+       ],
+       [
+        -6925,
+        -468
+       ]
+      ],
+      [
+       [
+        -6925,
+        4447
+       ],
+       [
+        -6925,
+        9362
+       ],
+       [
+        -2010,
+        9362
+       ],
+       [
+        -2010,
+        4447
+       ]
+      ],
+      [
+       [
+        -2010,
+        9362
+       ],
+       [
+        -2010,
+        14278
+       ],
+       [
+        2905,
+        14278
+       ],
+       [
+        2905,
+        9362
+       ]
+      ],
+      [
+       [
+        2905,
+        14278
+       ],
+       [
+        2905,
+        19193
+       ],
+       [
+        7820,
+        19193
+       ],
+       [
+        7820,
+        14278
+       ]
+      ],
+      [
+       [
+        7820,
+        19193
+       ],
+       [
+        7820,
+        24108
+       ],
+       [
+        12736,
+        24108
+       ],
+       [
+        12736,
+        19193
+       ]
+      ],
+      [
+       [
+        12736,
+        24108
+       ],
+       [
+        12736,
+        29023
+       ],
+       [
+        17651,
+        29023
+       ],
+       [
+        17651,
+        24108
+       ]
+      ],
+      [
+       [
+        17651,
+        29023
+       ],
+       [
+        17651,
+        33938
+       ],
+       [
+        22566,
+        33938
+       ],
+       [
+        22566,
+        29023
+       ]
+      ],
+      [
+       [
+        22566,
+        33938
+       ],
+       [
+        22566,
+        38854
+       ],
+       [
+        27481,
+        38854
+       ],
+       [
+        27481,
+        33938
+       ]
+      ],
+      [
+       [
+        27481,
+        38854
+       ],
+       [
+        27481,
+        43766
+       ],
+       [
+        32396,
+        43766
+       ],
+       [
+        32396,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -34874
+       ],
+       [
+        -41329,
+        -29959
+       ],
+       [
+        -36417,
+        -29959
+       ],
+       [
+        -36417,
+        -34874
+       ]
+      ],
+      [
+       [
+        -36417,
+        -29959
+       ],
+       [
+        -36417,
+        -25044
+       ],
+       [
+        -31501,
+        -25044
+       ],
+       [
+        -31501,
+        -29959
+       ]
+      ],
+      [
+       [
+        -31501,
+        -25044
+       ],
+       [
+        -31501,
+        -20129
+       ],
+       [
+        -26586,
+        -20129
+       ],
+       [
+        -26586,
+        -25044
+       ]
+      ],
+      [
+       [
+        -26586,
+        -20129
+       ],
+       [
+        -26586,
+        -15214
+       ],
+       [
+        -21671,
+        -15214
+       ],
+       [
+        -21671,
+        -20129
+       ]
+      ],
+      [
+       [
+        -21671,
+        -15214
+       ],
+       [
+        -21671,
+        -10298
+       ],
+       [
+        -16756,
+        -10298
+       ],
+       [
+        -16756,
+        -15214
+       ]
+      ],
+      [
+       [
+        -16756,
+        -10298
+       ],
+       [
+        -16756,
+        -5383
+       ],
+       [
+        -11841,
+        -5383
+       ],
+       [
+        -11841,
+        -10298
+       ]
+      ],
+      [
+       [
+        -11841,
+        -5383
+       ],
+       [
+        -11841,
+        -468
+       ],
+       [
+        -6925,
+        -468
+       ],
+       [
+        -6925,
+        -5383
+       ]
+      ],
+      [
+       [
+        -6925,
+        -468
+       ],
+       [
+        -6925,
+        4447
+       ],
+       [
+        -2010,
+        4447
+       ],
+       [
+        -2010,
+        -468
+       ]
+      ],
+      [
+       [
+        -2010,
+        4447
+       ],
+       [
+        -2010,
+        9362
+       ],
+       [
+        2905,
+        9362
+       ],
+       [
+        2905,
+        4447
+       ]
+      ],
+      [
+       [
+        2905,
+        9362
+       ],
+       [
+        2905,
+        14278
+       ],
+       [
+        7820,
+        14278
+       ],
+       [
+        7820,
+        9362
+       ]
+      ],
+      [
+       [
+        7820,
+        14278
+       ],
+       [
+        7820,
+        19193
+       ],
+       [
+        12736,
+        19193
+       ],
+       [
+        12736,
+        14278
+       ]
+      ],
+      [
+       [
+        12736,
+        19193
+       ],
+       [
+        12736,
+        24108
+       ],
+       [
+        17651,
+        24108
+       ],
+       [
+        17651,
+        19193
+       ]
+      ],
+      [
+       [
+        17651,
+        24108
+       ],
+       [
+        17651,
+        29023
+       ],
+       [
+        22566,
+        29023
+       ],
+       [
+        22566,
+        24108
+       ]
+      ],
+      [
+       [
+        22566,
+        29023
+       ],
+       [
+        22566,
+        33938
+       ],
+       [
+        27481,
+        33938
+       ],
+       [
+        27481,
+        29023
+       ]
+      ],
+      [
+       [
+        27481,
+        33938
+       ],
+       [
+        27481,
+        38854
+       ],
+       [
+        32396,
+        38854
+       ],
+       [
+        32396,
+        33938
+       ]
+      ],
+      [
+       [
+        32396,
+        38854
+       ],
+       [
+        32396,
+        43766
+       ],
+       [
+        37312,
+        43766
+       ],
+       [
+        37312,
+        38854
+       ]
+      ],
+      [
+       [
+        -41329,
+        -39790
+       ],
+       [
+        -41329,
+        -34874
+       ],
+       [
+        -36417,
+        -34874
+       ],
+       [
+        -36417,
+        -39790
+       ]
+      ],
+      [
+       [
+        -36417,
+        -40120
+       ],
+       [
+        -41329,
+        -40120
+       ],
+       [
+        -41329,
+        -39790
+       ],
+       [
+        -36417,
+        -39790
+       ]
+      ],
+      [
+       [
+        -36417,
+        -34874
+       ],
+       [
+        -36417,
+        -29959
+       ],
+       [
+        -31501,
+        -29959
+       ],
+       [
+        -31501,
+        -34874
+       ]
+      ],
+      [
+       [
+        -31501,
+        -29959
+       ],
+       [
+        -31501,
+        -25044
+       ],
+       [
+        -26586,
+        -25044
+       ],
+       [
+        -26586,
+        -29959
+       ]
+      ],
+      [
+       [
+        -26586,
+        -25044
+       ],
+       [
+        -26586,
+        -20129
+       ],
+       [
+        -21671,
+        -20129
+       ],
+       [
+        -21671,
+        -25044
+       ]
+      ],
+      [
+       [
+        -21671,
+        -20129
+       ],
+       [
+        -21671,
+        -15214
+       ],
+       [
+        -16756,
+        -15214
+       ],
+       [
+        -16756,
+        -20129
+       ]
+      ],
+      [
+       [
+        -16756,
+        -15214
+       ],
+       [
+        -16756,
+        -10298
+       ],
+       [
+        -11841,
+        -10298
+       ],
+       [
+        -11841,
+        -15214
+       ]
+      ],
+      [
+       [
+        -11841,
+        -10298
+       ],
+       [
+        -11841,
+        -5383
+       ],
+       [
+        -6925,
+        -5383
+       ],
+       [
+        -6925,
+        -10298
+       ]
+      ],
+      [
+       [
+        -6925,
+        -5383
+       ],
+       [
+        -6925,
+        -468
+       ],
+       [
+        -2010,
+        -468
+       ],
+       [
+        -2010,
+        -5383
+       ]
+      ],
+      [
+       [
+        -2010,
+        -468
+       ],
+       [
+        -2010,
+        4447
+       ],
+       [
+        2905,
+        4447
+       ],
+       [
+        2905,
+        -468
+       ]
+      ],
+      [
+       [
+        2905,
+        4447
+       ],
+       [
+        2905,
+        9362
+       ],
+       [
+        7820,
+        9362
+       ],
+       [
+        7820,
+        4447
+       ]
+      ],
+      [
+       [
+        7820,
+        9362
+       ],
+       [
+        7820,
+        14278
+       ],
+       [
+        12736,
+        14278
+       ],
+       [
+        12736,
+        9362
+       ]
+      ],
+      [
+       [
+        12736,
+        14278
+       ],
+       [
+        12736,
+        19193
+       ],
+       [
+        17651,
+        19193
+       ],
+       [
+        17651,
+        14278
+       ]
+      ],
+      [
+       [
+        17651,
+        19193
+       ],
+       [
+        17651,
+        24108
+       ],
+       [
+        22566,
+        24108
+       ],
+       [
+        22566,
+        19193
+       ]
+      ],
+      [
+       [
+        22566,
+        24108
+       ],
+       [
+        22566,
+        29023
+       ],
+       [
+        27481,
+        29023
+       ],
+       [
+        27481,
+        24108
+       ]
+      ],
+      [
+       [
+        27481,
+        29023
+       ],
+       [
+        27481,
+        33938
+       ],
+       [
+        32396,
+        33938
+       ],
+       [
+        32396,
+        29023
+       ]
+      ],
+      [
+       [
+        32396,
+        33938
+       ],
+       [
+        32396,
+        38854
+       ],
+       [
+        37312,
+        38854
+       ],
+       [
+        37312,
+        33938
+       ]
+      ],
+      [
+       [
+        37312,
+        38854
+       ],
+       [
+        37312,
+        43766
+       ],
+       [
+        42227,
+        43766
+       ],
+       [
+        42227,
+        38854
+       ]
+      ],
+      [
+       [
+        42557,
+        43766
+       ],
+       [
+        42557,
+        43435
+       ],
+       [
+        42557,
+        38854
+       ],
+       [
+        42227,
+        38854
+       ],
+       [
+        42227,
+        43766
+       ]
+      ],
+      [
+       [
+        -36417,
+        -39790
+       ],
+       [
+        -36417,
+        -34874
+       ],
+       [
+        -31501,
+        -34874
+       ],
+       [
+        -31501,
+        -39790
+       ]
+      ],
+      [
+       [
+        -31501,
+        -40120
+       ],
+       [
+        -36417,
+        -40120
+       ],
+       [
+        -36417,
+        -39790
+       ],
+       [
+        -31501,
+        -39790
+       ]
+      ],
+      [
+       [
+        -31501,
+        -34874
+       ],
+       [
+        -31501,
+        -29959
+       ],
+       [
+        -26586,
+        -29959
+       ],
+       [
+        -26586,
+        -34874
+       ]
+      ],
+      [
+       [
+        -26586,
+        -29959
+       ],
+       [
+        -26586,
+        -25044
+       ],
+       [
+        -21671,
+        -25044
+       ],
+       [
+        -21671,
+        -29959
+       ]
+      ],
+      [
+       [
+        -21671,
+        -25044
+       ],
+       [
+        -21671,
+        -20129
+       ],
+       [
+        -16756,
+        -20129
+       ],
+       [
+        -16756,
+        -25044
+       ]
+      ],
+      [
+       [
+        -16756,
+        -20129
+       ],
+       [
+        -16756,
+        -15214
+       ],
+       [
+        -11841,
+        -15214
+       ],
+       [
+        -11841,
+        -20129
+       ]
+      ],
+      [
+       [
+        -11841,
+        -15214
+       ],
+       [
+        -11841,
+        -10298
+       ],
+       [
+        -6925,
+        -10298
+       ],
+       [
+        -6925,
+        -15214
+       ]
+      ],
+      [
+       [
+        -6925,
+        -10298
+       ],
+       [
+        -6925,
+        -5383
+       ],
+       [
+        -2010,
+        -5383
+       ],
+       [
+        -2010,
+        -10298
+       ]
+      ],
+      [
+       [
+        -2010,
+        -5383
+       ],
+       [
+        -2010,
+        -468
+       ],
+       [
+        2905,
+        -468
+       ],
+       [
+        2905,
+        -5383
+       ]
+      ],
+      [
+       [
+        2905,
+        -468
+       ],
+       [
+        2905,
+        4447
+       ],
+       [
+        7820,
+        4447
+       ],
+       [
+        7820,
+        -468
+       ]
+      ],
+      [
+       [
+        7820,
+        4447
+       ],
+       [
+        7820,
+        9362
+       ],
+       [
+        12736,
+        9362
+       ],
+       [
+        12736,
+        4447
+       ]
+      ],
+      [
+       [
+        12736,
+        9362
+       ],
+       [
+        12736,
+        14278
+       ],
+       [
+        17651,
+        14278
+       ],
+       [
+        17651,
+        9362
+       ]
+      ],
+      [
+       [
+        17651,
+        14278
+       ],
+       [
+        17651,
+        19193
+       ],
+       [
+        22566,
+        19193
+       ],
+       [
+        22566,
+        14278
+       ]
+      ],
+      [
+       [
+        22566,
+        19193
+       ],
+       [
+        22566,
+        24108
+       ],
+       [
+        27481,
+        24108
+       ],
+       [
+        27481,
+        19193
+       ]
+      ],
+      [
+       [
+        27481,
+        24108
+       ],
+       [
+        27481,
+        29023
+       ],
+       [
+        32396,
+        29023
+       ],
+       [
+        32396,
+        24108
+       ]
+      ],
+      [
+       [
+        32396,
+        29023
+       ],
+       [
+        32396,
+        33938
+       ],
+       [
+        37312,
+        33938
+       ],
+       [
+        37312,
+        29023
+       ]
+      ],
+      [
+       [
+        37312,
+        33938
+       ],
+       [
+        37312,
+        38854
+       ],
+       [
+        42227,
+        38854
+       ],
+       [
+        42227,
+        33938
+       ]
+      ],
+      [
+       [
+        42557,
+        38854
+       ],
+       [
+        42557,
+        38520
+       ],
+       [
+        42557,
+        33938
+       ],
+       [
+        42227,
+        33938
+       ],
+       [
+        42227,
+        38854
+       ]
+      ],
+      [
+       [
+        -31501,
+        -39790
+       ],
+       [
+        -31501,
+        -34874
+       ],
+       [
+        -26586,
+        -34874
+       ],
+       [
+        -26586,
+        -39790
+       ]
+      ],
+      [
+       [
+        -26586,
+        -40120
+       ],
+       [
+        -31501,
+        -40120
+       ],
+       [
+        -31501,
+        -39790
+       ],
+       [
+        -26586,
+        -39790
+       ]
+      ],
+      [
+       [
+        -26586,
+        -34874
+       ],
+       [
+        -26586,
+        -29959
+       ],
+       [
+        -21671,
+        -29959
+       ],
+       [
+        -21671,
+        -34874
+       ]
+      ],
+      [
+       [
+        -21671,
+        -29959
+       ],
+       [
+        -21671,
+        -25044
+       ],
+       [
+        -16756,
+        -25044
+       ],
+       [
+        -16756,
+        -29959
+       ]
+      ],
+      [
+       [
+        -16756,
+        -25044
+       ],
+       [
+        -16756,
+        -20129
+       ],
+       [
+        -11841,
+        -20129
+       ],
+       [
+        -11841,
+        -25044
+       ]
+      ],
+      [
+       [
+        -11841,
+        -20129
+       ],
+       [
+        -11841,
+        -15214
+       ],
+       [
+        -6925,
+        -15214
+       ],
+       [
+        -6925,
+        -20129
+       ]
+      ],
+      [
+       [
+        -6925,
+        -15214
+       ],
+       [
+        -6925,
+        -10298
+       ],
+       [
+        -2010,
+        -10298
+       ],
+       [
+        -2010,
+        -15214
+       ]
+      ],
+      [
+       [
+        -2010,
+        -10298
+       ],
+       [
+        -2010,
+        -5383
+       ],
+       [
+        2905,
+        -5383
+       ],
+       [
+        2905,
+        -10298
+       ]
+      ],
+      [
+       [
+        2905,
+        -5383
+       ],
+       [
+        2905,
+        -468
+       ],
+       [
+        7820,
+        -468
+       ],
+       [
+        7820,
+        -5383
+       ]
+      ],
+      [
+       [
+        7820,
+        -468
+       ],
+       [
+        7820,
+        4447
+       ],
+       [
+        12736,
+        4447
+       ],
+       [
+        12736,
+        -468
+       ]
+      ],
+      [
+       [
+        12736,
+        4447
+       ],
+       [
+        12736,
+        9362
+       ],
+       [
+        17651,
+        9362
+       ],
+       [
+        17651,
+        4447
+       ]
+      ],
+      [
+       [
+        17651,
+        9362
+       ],
+       [
+        17651,
+        14278
+       ],
+       [
+        22566,
+        14278
+       ],
+       [
+        22566,
+        9362
+       ]
+      ],
+      [
+       [
+        22566,
+        14278
+       ],
+       [
+        22566,
+        19193
+       ],
+       [
+        27481,
+        19193
+       ],
+       [
+        27481,
+        14278
+       ]
+      ],
+      [
+       [
+        27481,
+        19193
+       ],
+       [
+        27481,
+        24108
+       ],
+       [
+        32396,
+        24108
+       ],
+       [
+        32396,
+        19193
+       ]
+      ],
+      [
+       [
+        32396,
+        24108
+       ],
+       [
+        32396,
+        29023
+       ],
+       [
+        37312,
+        29023
+       ],
+       [
+        37312,
+        24108
+       ]
+      ],
+      [
+       [
+        37312,
+        29023
+       ],
+       [
+        37312,
+        33938
+       ],
+       [
+        42227,
+        33938
+       ],
+       [
+        42227,
+        29023
+       ]
+      ],
+      [
+       [
+        42557,
+        33938
+       ],
+       [
+        42557,
+        33605
+       ],
+       [
+        42557,
+        29023
+       ],
+       [
+        42227,
+        29023
+       ],
+       [
+        42227,
+        33938
+       ]
+      ],
+      [
+       [
+        -26586,
+        -39790
+       ],
+       [
+        -26586,
+        -34874
+       ],
+       [
+        -21671,
+        -34874
+       ],
+       [
+        -21671,
+        -39790
+       ]
+      ],
+      [
+       [
+        -21671,
+        -40120
+       ],
+       [
+        -26586,
+        -40120
+       ],
+       [
+        -26586,
+        -39790
+       ],
+       [
+        -21671,
+        -39790
+       ]
+      ],
+      [
+       [
+        -21671,
+        -34874
+       ],
+       [
+        -21671,
+        -29959
+       ],
+       [
+        -16756,
+        -29959
+       ],
+       [
+        -16756,
+        -34874
+       ]
+      ],
+      [
+       [
+        -16756,
+        -29959
+       ],
+       [
+        -16756,
+        -25044
+       ],
+       [
+        -11841,
+        -25044
+       ],
+       [
+        -11841,
+        -29959
+       ]
+      ],
+      [
+       [
+        -11841,
+        -25044
+       ],
+       [
+        -11841,
+        -20129
+       ],
+       [
+        -6925,
+        -20129
+       ],
+       [
+        -6925,
+        -25044
+       ]
+      ],
+      [
+       [
+        -6925,
+        -20129
+       ],
+       [
+        -6925,
+        -15214
+       ],
+       [
+        -2010,
+        -15214
+       ],
+       [
+        -2010,
+        -20129
+       ]
+      ],
+      [
+       [
+        -2010,
+        -15214
+       ],
+       [
+        -2010,
+        -10298
+       ],
+       [
+        2905,
+        -10298
+       ],
+       [
+        2905,
+        -15214
+       ]
+      ],
+      [
+       [
+        2905,
+        -10298
+       ],
+       [
+        2905,
+        -5383
+       ],
+       [
+        7820,
+        -5383
+       ],
+       [
+        7820,
+        -10298
+       ]
+      ],
+      [
+       [
+        7820,
+        -5383
+       ],
+       [
+        7820,
+        -468
+       ],
+       [
+        12736,
+        -468
+       ],
+       [
+        12736,
+        -5383
+       ]
+      ],
+      [
+       [
+        12736,
+        -468
+       ],
+       [
+        12736,
+        4447
+       ],
+       [
+        17651,
+        4447
+       ],
+       [
+        17651,
+        -468
+       ]
+      ],
+      [
+       [
+        17651,
+        4447
+       ],
+       [
+        17651,
+        9362
+       ],
+       [
+        22566,
+        9362
+       ],
+       [
+        22566,
+        4447
+       ]
+      ],
+      [
+       [
+        22566,
+        9362
+       ],
+       [
+        22566,
+        14278
+       ],
+       [
+        27481,
+        14278
+       ],
+       [
+        27481,
+        9362
+       ]
+      ],
+      [
+       [
+        27481,
+        14278
+       ],
+       [
+        27481,
+        19193
+       ],
+       [
+        32396,
+        19193
+       ],
+       [
+        32396,
+        14278
+       ]
+      ],
+      [
+       [
+        32396,
+        19193
+       ],
+       [
+        32396,
+        24108
+       ],
+       [
+        37312,
+        24108
+       ],
+       [
+        37312,
+        19193
+       ]
+      ],
+      [
+       [
+        37312,
+        24108
+       ],
+       [
+        37312,
+        29023
+       ],
+       [
+        42227,
+        29023
+       ],
+       [
+        42227,
+        24108
+       ]
+      ],
+      [
+       [
+        42557,
+        29023
+       ],
+       [
+        42557,
+        28689
+       ],
+       [
+        42557,
+        24108
+       ],
+       [
+        42227,
+        24108
+       ],
+       [
+        42227,
+        29023
+       ]
+      ],
+      [
+       [
+        -21671,
+        -39790
+       ],
+       [
+        -21671,
+        -34874
+       ],
+       [
+        -16756,
+        -34874
+       ],
+       [
+        -16756,
+        -39790
+       ]
+      ],
+      [
+       [
+        -16756,
+        -40120
+       ],
+       [
+        -21671,
+        -40120
+       ],
+       [
+        -21671,
+        -39790
+       ],
+       [
+        -16756,
+        -39790
+       ]
+      ],
+      [
+       [
+        -16756,
+        -34874
+       ],
+       [
+        -16756,
+        -29959
+       ],
+       [
+        -11841,
+        -29959
+       ],
+       [
+        -11841,
+        -34874
+       ]
+      ],
+      [
+       [
+        -11841,
+        -29959
+       ],
+       [
+        -11841,
+        -25044
+       ],
+       [
+        -6925,
+        -25044
+       ],
+       [
+        -6925,
+        -29959
+       ]
+      ],
+      [
+       [
+        -6925,
+        -25044
+       ],
+       [
+        -6925,
+        -20129
+       ],
+       [
+        -2010,
+        -20129
+       ],
+       [
+        -2010,
+        -25044
+       ]
+      ],
+      [
+       [
+        -2010,
+        -20129
+       ],
+       [
+        -2010,
+        -15214
+       ],
+       [
+        2905,
+        -15214
+       ],
+       [
+        2905,
+        -20129
+       ]
+      ],
+      [
+       [
+        2905,
+        -15214
+       ],
+       [
+        2905,
+        -10298
+       ],
+       [
+        7820,
+        -10298
+       ],
+       [
+        7820,
+        -15214
+       ]
+      ],
+      [
+       [
+        7820,
+        -10298
+       ],
+       [
+        7820,
+        -5383
+       ],
+       [
+        12736,
+        -5383
+       ],
+       [
+        12736,
+        -10298
+       ]
+      ],
+      [
+       [
+        12736,
+        -5383
+       ],
+       [
+        12736,
+        -468
+       ],
+       [
+        17651,
+        -468
+       ],
+       [
+        17651,
+        -5383
+       ]
+      ],
+      [
+       [
+        17651,
+        -468
+       ],
+       [
+        17651,
+        4447
+       ],
+       [
+        22566,
+        4447
+       ],
+       [
+        22566,
+        -468
+       ]
+      ],
+      [
+       [
+        22566,
+        4447
+       ],
+       [
+        22566,
+        9362
+       ],
+       [
+        27481,
+        9362
+       ],
+       [
+        27481,
+        4447
+       ]
+      ],
+      [
+       [
+        27481,
+        9362
+       ],
+       [
+        27481,
+        14278
+       ],
+       [
+        32396,
+        14278
+       ],
+       [
+        32396,
+        9362
+       ]
+      ],
+      [
+       [
+        32396,
+        14278
+       ],
+       [
+        32396,
+        19193
+       ],
+       [
+        37312,
+        19193
+       ],
+       [
+        37312,
+        14278
+       ]
+      ],
+      [
+       [
+        37312,
+        19193
+       ],
+       [
+        37312,
+        24108
+       ],
+       [
+        42227,
+        24108
+       ],
+       [
+        42227,
+        19193
+       ]
+      ],
+      [
+       [
+        42557,
+        24108
+       ],
+       [
+        42557,
+        23774
+       ],
+       [
+        42557,
+        19193
+       ],
+       [
+        42227,
+        19193
+       ],
+       [
+        42227,
+        24108
+       ]
+      ],
+      [
+       [
+        -16756,
+        -39790
+       ],
+       [
+        -16756,
+        -34874
+       ],
+       [
+        -11841,
+        -34874
+       ],
+       [
+        -11841,
+        -39790
+       ]
+      ],
+      [
+       [
+        -11841,
+        -40120
+       ],
+       [
+        -16756,
+        -40120
+       ],
+       [
+        -16756,
+        -39790
+       ],
+       [
+        -11841,
+        -39790
+       ]
+      ],
+      [
+       [
+        -11841,
+        -34874
+       ],
+       [
+        -11841,
+        -29959
+       ],
+       [
+        -6925,
+        -29959
+       ],
+       [
+        -6925,
+        -34874
+       ]
+      ],
+      [
+       [
+        -6925,
+        -29959
+       ],
+       [
+        -6925,
+        -25044
+       ],
+       [
+        -2010,
+        -25044
+       ],
+       [
+        -2010,
+        -29959
+       ]
+      ],
+      [
+       [
+        -2010,
+        -25044
+       ],
+       [
+        -2010,
+        -20129
+       ],
+       [
+        2905,
+        -20129
+       ],
+       [
+        2905,
+        -25044
+       ]
+      ],
+      [
+       [
+        2905,
+        -20129
+       ],
+       [
+        2905,
+        -15214
+       ],
+       [
+        7820,
+        -15214
+       ],
+       [
+        7820,
+        -20129
+       ]
+      ],
+      [
+       [
+        7820,
+        -15214
+       ],
+       [
+        7820,
+        -10298
+       ],
+       [
+        12736,
+        -10298
+       ],
+       [
+        12736,
+        -15214
+       ]
+      ],
+      [
+       [
+        12736,
+        -10298
+       ],
+       [
+        12736,
+        -5383
+       ],
+       [
+        17651,
+        -5383
+       ],
+       [
+        17651,
+        -10298
+       ]
+      ],
+      [
+       [
+        17651,
+        -5383
+       ],
+       [
+        17651,
+        -468
+       ],
+       [
+        22566,
+        -468
+       ],
+       [
+        22566,
+        -5383
+       ]
+      ],
+      [
+       [
+        22566,
+        -468
+       ],
+       [
+        22566,
+        4447
+       ],
+       [
+        27481,
+        4447
+       ],
+       [
+        27481,
+        -468
+       ]
+      ],
+      [
+       [
+        27481,
+        4447
+       ],
+       [
+        27481,
+        9362
+       ],
+       [
+        32396,
+        9362
+       ],
+       [
+        32396,
+        4447
+       ]
+      ],
+      [
+       [
+        32396,
+        9362
+       ],
+       [
+        32396,
+        14278
+       ],
+       [
+        37312,
+        14278
+       ],
+       [
+        37312,
+        9362
+       ]
+      ],
+      [
+       [
+        37312,
+        14278
+       ],
+       [
+        37312,
+        19193
+       ],
+       [
+        42227,
+        19193
+       ],
+       [
+        42227,
+        14278
+       ]
+      ],
+      [
+       [
+        42557,
+        19193
+       ],
+       [
+        42557,
+        18859
+       ],
+       [
+        42557,
+        14278
+       ],
+       [
+        42227,
+        14278
+       ],
+       [
+        42227,
+        19193
+       ]
+      ],
+      [
+       [
+        -11841,
+        -39790
+       ],
+       [
+        -11841,
+        -34874
+       ],
+       [
+        -6925,
+        -34874
+       ],
+       [
+        -6925,
+        -39790
+       ]
+      ],
+      [
+       [
+        -6925,
+        -40120
+       ],
+       [
+        -11841,
+        -40120
+       ],
+       [
+        -11841,
+        -39790
+       ],
+       [
+        -6925,
+        -39790
+       ]
+      ],
+      [
+       [
+        -6925,
+        -34874
+       ],
+       [
+        -6925,
+        -29959
+       ],
+       [
+        -2010,
+        -29959
+       ],
+       [
+        -2010,
+        -34874
+       ]
+      ],
+      [
+       [
+        -2010,
+        -29959
+       ],
+       [
+        -2010,
+        -25044
+       ],
+       [
+        2905,
+        -25044
+       ],
+       [
+        2905,
+        -29959
+       ]
+      ],
+      [
+       [
+        2905,
+        -25044
+       ],
+       [
+        2905,
+        -20129
+       ],
+       [
+        7820,
+        -20129
+       ],
+       [
+        7820,
+        -25044
+       ]
+      ],
+      [
+       [
+        7820,
+        -20129
+       ],
+       [
+        7820,
+        -15214
+       ],
+       [
+        12736,
+        -15214
+       ],
+       [
+        12736,
+        -20129
+       ]
+      ],
+      [
+       [
+        12736,
+        -15214
+       ],
+       [
+        12736,
+        -10298
+       ],
+       [
+        17651,
+        -10298
+       ],
+       [
+        17651,
+        -15214
+       ]
+      ],
+      [
+       [
+        17651,
+        -10298
+       ],
+       [
+        17651,
+        -5383
+       ],
+       [
+        22566,
+        -5383
+       ],
+       [
+        22566,
+        -10298
+       ]
+      ],
+      [
+       [
+        22566,
+        -5383
+       ],
+       [
+        22566,
+        -468
+       ],
+       [
+        27481,
+        -468
+       ],
+       [
+        27481,
+        -5383
+       ]
+      ],
+      [
+       [
+        27481,
+        -468
+       ],
+       [
+        27481,
+        4447
+       ],
+       [
+        32396,
+        4447
+       ],
+       [
+        32396,
+        -468
+       ]
+      ],
+      [
+       [
+        32396,
+        4447
+       ],
+       [
+        32396,
+        9362
+       ],
+       [
+        37312,
+        9362
+       ],
+       [
+        37312,
+        4447
+       ]
+      ],
+      [
+       [
+        37312,
+        9362
+       ],
+       [
+        37312,
+        14278
+       ],
+       [
+        42227,
+        14278
+       ],
+       [
+        42227,
+        9362
+       ]
+      ],
+      [
+       [
+        42557,
+        14278
+       ],
+       [
+        42557,
+        13944
+       ],
+       [
+        42557,
+        9362
+       ],
+       [
+        42227,
+        9362
+       ],
+       [
+        42227,
+        14278
+       ]
+      ],
+      [
+       [
+        -6925,
+        -39790
+       ],
+       [
+        -6925,
+        -34874
+       ],
+       [
+        -2010,
+        -34874
+       ],
+       [
+        -2010,
+        -39790
+       ]
+      ],
+      [
+       [
+        -2010,
+        -40120
+       ],
+       [
+        -6925,
+        -40120
+       ],
+       [
+        -6925,
+        -39790
+       ],
+       [
+        -2010,
+        -39790
+       ]
+      ],
+      [
+       [
+        -2010,
+        -34874
+       ],
+       [
+        -2010,
+        -29959
+       ],
+       [
+        2905,
+        -29959
+       ],
+       [
+        2905,
+        -34874
+       ]
+      ],
+      [
+       [
+        2905,
+        -29959
+       ],
+       [
+        2905,
+        -25044
+       ],
+       [
+        7820,
+        -25044
+       ],
+       [
+        7820,
+        -29959
+       ]
+      ],
+      [
+       [
+        7820,
+        -25044
+       ],
+       [
+        7820,
+        -20129
+       ],
+       [
+        12736,
+        -20129
+       ],
+       [
+        12736,
+        -25044
+       ]
+      ],
+      [
+       [
+        12736,
+        -20129
+       ],
+       [
+        12736,
+        -15214
+       ],
+       [
+        17651,
+        -15214
+       ],
+       [
+        17651,
+        -20129
+       ]
+      ],
+      [
+       [
+        17651,
+        -15214
+       ],
+       [
+        17651,
+        -10298
+       ],
+       [
+        22566,
+        -10298
+       ],
+       [
+        22566,
+        -15214
+       ]
+      ],
+      [
+       [
+        22566,
+        -10298
+       ],
+       [
+        22566,
+        -5383
+       ],
+       [
+        27481,
+        -5383
+       ],
+       [
+        27481,
+        -10298
+       ]
+      ],
+      [
+       [
+        27481,
+        -5383
+       ],
+       [
+        27481,
+        -468
+       ],
+       [
+        32396,
+        -468
+       ],
+       [
+        32396,
+        -5383
+       ]
+      ],
+      [
+       [
+        32396,
+        -468
+       ],
+       [
+        32396,
+        4447
+       ],
+       [
+        37312,
+        4447
+       ],
+       [
+        37312,
+        -468
+       ]
+      ],
+      [
+       [
+        37312,
+        4447
+       ],
+       [
+        37312,
+        9362
+       ],
+       [
+        42227,
+        9362
+       ],
+       [
+        42227,
+        4447
+       ]
+      ],
+      [
+       [
+        42557,
+        9362
+       ],
+       [
+        42557,
+        9029
+       ],
+       [
+        42557,
+        4447
+       ],
+       [
+        42227,
+        4447
+       ],
+       [
+        42227,
+        9362
+       ]
+      ],
+      [
+       [
+        -2010,
+        -39790
+       ],
+       [
+        -2010,
+        -34874
+       ],
+       [
+        2905,
+        -34874
+       ],
+       [
+        2905,
+        -39790
+       ]
+      ],
+      [
+       [
+        2905,
+        -40120
+       ],
+       [
+        -2010,
+        -40120
+       ],
+       [
+        -2010,
+        -39790
+       ],
+       [
+        2905,
+        -39790
+       ]
+      ],
+      [
+       [
+        2905,
+        -34874
+       ],
+       [
+        2905,
+        -29959
+       ],
+       [
+        7820,
+        -29959
+       ],
+       [
+        7820,
+        -34874
+       ]
+      ],
+      [
+       [
+        7820,
+        -29959
+       ],
+       [
+        7820,
+        -25044
+       ],
+       [
+        12736,
+        -25044
+       ],
+       [
+        12736,
+        -29959
+       ]
+      ],
+      [
+       [
+        12736,
+        -25044
+       ],
+       [
+        12736,
+        -20129
+       ],
+       [
+        17651,
+        -20129
+       ],
+       [
+        17651,
+        -25044
+       ]
+      ],
+      [
+       [
+        17651,
+        -20129
+       ],
+       [
+        17651,
+        -15214
+       ],
+       [
+        22566,
+        -15214
+       ],
+       [
+        22566,
+        -20129
+       ]
+      ],
+      [
+       [
+        22566,
+        -15214
+       ],
+       [
+        22566,
+        -10298
+       ],
+       [
+        27481,
+        -10298
+       ],
+       [
+        27481,
+        -15214
+       ]
+      ],
+      [
+       [
+        27481,
+        -10298
+       ],
+       [
+        27481,
+        -5383
+       ],
+       [
+        32396,
+        -5383
+       ],
+       [
+        32396,
+        -10298
+       ]
+      ],
+      [
+       [
+        32396,
+        -5383
+       ],
+       [
+        32396,
+        -468
+       ],
+       [
+        37312,
+        -468
+       ],
+       [
+        37312,
+        -5383
+       ]
+      ],
+      [
+       [
+        37312,
+        -468
+       ],
+       [
+        37312,
+        4447
+       ],
+       [
+        42227,
+        4447
+       ],
+       [
+        42227,
+        -468
+       ]
+      ],
+      [
+       [
+        42557,
+        4447
+       ],
+       [
+        42557,
+        4113
+       ],
+       [
+        42557,
+        -468
+       ],
+       [
+        42227,
+        -468
+       ],
+       [
+        42227,
+        4447
+       ]
+      ],
+      [
+       [
+        2905,
+        -39790
+       ],
+       [
+        2905,
+        -34874
+       ],
+       [
+        7820,
+        -34874
+       ],
+       [
+        7820,
+        -39790
+       ]
+      ],
+      [
+       [
+        7820,
+        -40120
+       ],
+       [
+        2905,
+        -40120
+       ],
+       [
+        2905,
+        -39790
+       ],
+       [
+        7820,
+        -39790
+       ]
+      ],
+      [
+       [
+        7820,
+        -34874
+       ],
+       [
+        7820,
+        -29959
+       ],
+       [
+        12736,
+        -29959
+       ],
+       [
+        12736,
+        -34874
+       ]
+      ],
+      [
+       [
+        12736,
+        -29959
+       ],
+       [
+        12736,
+        -25044
+       ],
+       [
+        17651,
+        -25044
+       ],
+       [
+        17651,
+        -29959
+       ]
+      ],
+      [
+       [
+        17651,
+        -25044
+       ],
+       [
+        17651,
+        -20129
+       ],
+       [
+        22566,
+        -20129
+       ],
+       [
+        22566,
+        -25044
+       ]
+      ],
+      [
+       [
+        22566,
+        -20129
+       ],
+       [
+        22566,
+        -15214
+       ],
+       [
+        27481,
+        -15214
+       ],
+       [
+        27481,
+        -20129
+       ]
+      ],
+      [
+       [
+        27481,
+        -15214
+       ],
+       [
+        27481,
+        -10298
+       ],
+       [
+        32396,
+        -10298
+       ],
+       [
+        32396,
+        -15214
+       ]
+      ],
+      [
+       [
+        32396,
+        -10298
+       ],
+       [
+        32396,
+        -5383
+       ],
+       [
+        37312,
+        -5383
+       ],
+       [
+        37312,
+        -10298
+       ]
+      ],
+      [
+       [
+        37312,
+        -5383
+       ],
+       [
+        37312,
+        -468
+       ],
+       [
+        42227,
+        -468
+       ],
+       [
+        42227,
+        -5383
+       ]
+      ],
+      [
+       [
+        42557,
+        -468
+       ],
+       [
+        42557,
+        -802
+       ],
+       [
+        42557,
+        -5383
+       ],
+       [
+        42227,
+        -5383
+       ],
+       [
+        42227,
+        -468
+       ]
+      ],
+      [
+       [
+        7820,
+        -39790
+       ],
+       [
+        7820,
+        -34874
+       ],
+       [
+        12736,
+        -34874
+       ],
+       [
+        12736,
+        -39790
+       ]
+      ],
+      [
+       [
+        12736,
+        -40120
+       ],
+       [
+        7820,
+        -40120
+       ],
+       [
+        7820,
+        -39790
+       ],
+       [
+        12736,
+        -39790
+       ]
+      ],
+      [
+       [
+        12736,
+        -34874
+       ],
+       [
+        12736,
+        -29959
+       ],
+       [
+        17651,
+        -29959
+       ],
+       [
+        17651,
+        -34874
+       ]
+      ],
+      [
+       [
+        17651,
+        -29959
+       ],
+       [
+        17651,
+        -25044
+       ],
+       [
+        22566,
+        -25044
+       ],
+       [
+        22566,
+        -29959
+       ]
+      ],
+      [
+       [
+        22566,
+        -25044
+       ],
+       [
+        22566,
+        -20129
+       ],
+       [
+        27481,
+        -20129
+       ],
+       [
+        27481,
+        -25044
+       ]
+      ],
+      [
+       [
+        27481,
+        -20129
+       ],
+       [
+        27481,
+        -15214
+       ],
+       [
+        32396,
+        -15214
+       ],
+       [
+        32396,
+        -20129
+       ]
+      ],
+      [
+       [
+        32396,
+        -15214
+       ],
+       [
+        32396,
+        -10298
+       ],
+       [
+        37312,
+        -10298
+       ],
+       [
+        37312,
+        -15214
+       ]
+      ],
+      [
+       [
+        37312,
+        -10298
+       ],
+       [
+        37312,
+        -5383
+       ],
+       [
+        42227,
+        -5383
+       ],
+       [
+        42227,
+        -10298
+       ]
+      ],
+      [
+       [
+        42557,
+        -5383
+       ],
+       [
+        42557,
+        -5717
+       ],
+       [
+        42557,
+        -10298
+       ],
+       [
+        42227,
+        -10298
+       ],
+       [
+        42227,
+        -5383
+       ]
+      ],
+      [
+       [
+        12736,
+        -39790
+       ],
+       [
+        12736,
+        -34874
+       ],
+       [
+        17651,
+        -34874
+       ],
+       [
+        17651,
+        -39790
+       ]
+      ],
+      [
+       [
+        17651,
+        -40120
+       ],
+       [
+        12736,
+        -40120
+       ],
+       [
+        12736,
+        -39790
+       ],
+       [
+        17651,
+        -39790
+       ]
+      ],
+      [
+       [
+        17651,
+        -34874
+       ],
+       [
+        17651,
+        -29959
+       ],
+       [
+        22566,
+        -29959
+       ],
+       [
+        22566,
+        -34874
+       ]
+      ],
+      [
+       [
+        22566,
+        -29959
+       ],
+       [
+        22566,
+        -25044
+       ],
+       [
+        27481,
+        -25044
+       ],
+       [
+        27481,
+        -29959
+       ]
+      ],
+      [
+       [
+        27481,
+        -25044
+       ],
+       [
+        27481,
+        -20129
+       ],
+       [
+        32396,
+        -20129
+       ],
+       [
+        32396,
+        -25044
+       ]
+      ],
+      [
+       [
+        32396,
+        -20129
+       ],
+       [
+        32396,
+        -15214
+       ],
+       [
+        37312,
+        -15214
+       ],
+       [
+        37312,
+        -20129
+       ]
+      ],
+      [
+       [
+        37312,
+        -15214
+       ],
+       [
+        37312,
+        -10298
+       ],
+       [
+        42227,
+        -10298
+       ],
+       [
+        42227,
+        -15214
+       ]
+      ],
+      [
+       [
+        42557,
+        -10298
+       ],
+       [
+        42557,
+        -10632
+       ],
+       [
+        42557,
+        -15214
+       ],
+       [
+        42227,
+        -15214
+       ],
+       [
+        42227,
+        -10298
+       ]
+      ],
+      [
+       [
+        17651,
+        -39790
+       ],
+       [
+        17651,
+        -34874
+       ],
+       [
+        22566,
+        -34874
+       ],
+       [
+        22566,
+        -39790
+       ]
+      ],
+      [
+       [
+        22566,
+        -40120
+       ],
+       [
+        17651,
+        -40120
+       ],
+       [
+        17651,
+        -39790
+       ],
+       [
+        22566,
+        -39790
+       ]
+      ],
+      [
+       [
+        22566,
+        -34874
+       ],
+       [
+        22566,
+        -29959
+       ],
+       [
+        27481,
+        -29959
+       ],
+       [
+        27481,
+        -34874
+       ]
+      ],
+      [
+       [
+        27481,
+        -29959
+       ],
+       [
+        27481,
+        -25044
+       ],
+       [
+        32396,
+        -25044
+       ],
+       [
+        32396,
+        -29959
+       ]
+      ],
+      [
+       [
+        32396,
+        -25044
+       ],
+       [
+        32396,
+        -20129
+       ],
+       [
+        37312,
+        -20129
+       ],
+       [
+        37312,
+        -25044
+       ]
+      ],
+      [
+       [
+        37312,
+        -20129
+       ],
+       [
+        37312,
+        -15214
+       ],
+       [
+        42227,
+        -15214
+       ],
+       [
+        42227,
+        -20129
+       ]
+      ],
+      [
+       [
+        42557,
+        -15214
+       ],
+       [
+        42557,
+        -15547
+       ],
+       [
+        42557,
+        -20129
+       ],
+       [
+        42227,
+        -20129
+       ],
+       [
+        42227,
+        -15214
+       ]
+      ],
+      [
+       [
+        22566,
+        -39790
+       ],
+       [
+        22566,
+        -34874
+       ],
+       [
+        27481,
+        -34874
+       ],
+       [
+        27481,
+        -39790
+       ]
+      ],
+      [
+       [
+        27481,
+        -40120
+       ],
+       [
+        22566,
+        -40120
+       ],
+       [
+        22566,
+        -39790
+       ],
+       [
+        27481,
+        -39790
+       ]
+      ],
+      [
+       [
+        27481,
+        -34874
+       ],
+       [
+        27481,
+        -29959
+       ],
+       [
+        32396,
+        -29959
+       ],
+       [
+        32396,
+        -34874
+       ]
+      ],
+      [
+       [
+        32396,
+        -29959
+       ],
+       [
+        32396,
+        -25044
+       ],
+       [
+        37312,
+        -25044
+       ],
+       [
+        37312,
+        -29959
+       ]
+      ],
+      [
+       [
+        37312,
+        -25044
+       ],
+       [
+        37312,
+        -20129
+       ],
+       [
+        42227,
+        -20129
+       ],
+       [
+        42227,
+        -25044
+       ]
+      ],
+      [
+       [
+        42557,
+        -20129
+       ],
+       [
+        42557,
+        -20463
+       ],
+       [
+        42557,
+        -25044
+       ],
+       [
+        42227,
+        -25044
+       ],
+       [
+        42227,
+        -20129
+       ]
+      ],
+      [
+       [
+        27481,
+        -39790
+       ],
+       [
+        27481,
+        -34874
+       ],
+       [
+        32396,
+        -34874
+       ],
+       [
+        32396,
+        -39790
+       ]
+      ],
+      [
+       [
+        32396,
+        -40120
+       ],
+       [
+        27481,
+        -40120
+       ],
+       [
+        27481,
+        -39790
+       ],
+       [
+        32396,
+        -39790
+       ]
+      ],
+      [
+       [
+        32396,
+        -34874
+       ],
+       [
+        32396,
+        -29959
+       ],
+       [
+        37312,
+        -29959
+       ],
+       [
+        37312,
+        -34874
+       ]
+      ],
+      [
+       [
+        37312,
+        -29959
+       ],
+       [
+        37312,
+        -25044
+       ],
+       [
+        42227,
+        -25044
+       ],
+       [
+        42227,
+        -29959
+       ]
+      ],
+      [
+       [
+        42557,
+        -25044
+       ],
+       [
+        42557,
+        -25378
+       ],
+       [
+        42557,
+        -29959
+       ],
+       [
+        42227,
+        -29959
+       ],
+       [
+        42227,
+        -25044
+       ]
+      ],
+      [
+       [
+        32396,
+        -39790
+       ],
+       [
+        32396,
+        -34874
+       ],
+       [
+        37312,
+        -34874
+       ],
+       [
+        37312,
+        -39790
+       ]
+      ],
+      [
+       [
+        37312,
+        -40120
+       ],
+       [
+        32396,
+        -40120
+       ],
+       [
+        32396,
+        -39790
+       ],
+       [
+        37312,
+        -39790
+       ]
+      ],
+      [
+       [
+        37312,
+        -34874
+       ],
+       [
+        37312,
+        -29959
+       ],
+       [
+        42227,
+        -29959
+       ],
+       [
+        42227,
+        -34874
+       ]
+      ],
+      [
+       [
+        42557,
+        -29959
+       ],
+       [
+        42557,
+        -30293
+       ],
+       [
+        42557,
+        -34874
+       ],
+       [
+        42227,
+        -34874
+       ],
+       [
+        42227,
+        -29959
+       ]
+      ],
+      [
+       [
+        37312,
+        -39790
+       ],
+       [
+        37312,
+        -34874
+       ],
+       [
+        42227,
+        -34874
+       ],
+       [
+        42227,
+        -39790
+       ]
+      ],
+      [
+       [
+        42227,
+        -40120
+       ],
+       [
+        37312,
+        -40120
+       ],
+       [
+        37312,
+        -39790
+       ],
+       [
+        42227,
+        -39790
+       ]
+      ],
+      [
+       [
+        42557,
+        -34874
+       ],
+       [
+        42557,
+        -35208
+       ],
+       [
+        42557,
+        -39790
+       ],
+       [
+        42227,
+        -39790
+       ],
+       [
+        42227,
+        -34874
+       ]
+      ],
+      [
+       [
+        42557,
+        -39790
+       ],
+       [
+        42557,
+        -40120
+       ],
+       [
+        42227,
+        -40120
+       ],
+       [
+        42227,
+        -39790
+       ]
+      ]
+     ]
+    },
+    {
+     "id": "spawn:s0",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -1120,
+      4768,
+      21
+     ],
+     "radius": 32,
+     "label": "item roll 3"
+    },
+    {
+     "id": "spawn:s1",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6112,
+      -18528,
+      1087
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s2",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -6112,
+      -18400,
+      1108
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s3",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      -9696,
+      -11104,
+      178
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s4",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      3488,
+      -13664,
+      534
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s5",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      7328,
+      -11616,
+      93
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s6",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      1824,
+      1696,
+      815
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "spawn:s7",
+     "kind": "spawn",
+     "origin": "base",
+     "state": "kept",
+     "at": [
+      416,
+      -6624,
+      200
+     ],
+     "radius": 32,
+     "label": "item roll 1"
+    },
+    {
+     "id": "ladder:new_1",
+     "kind": "ladder",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      1400,
+      3310,
+      656
+     ],
+     "label": "ladder new_1, 342 high"
+    },
+    {
+     "id": "ladder:s8a_wall",
+     "kind": "ladder",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      1324,
+      3310,
+      656
+     ],
+     "label": "ladder s8a_wall, 342 high"
+    },
+    {
+     "id": "monster:s8a_guard",
+     "kind": "monster",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      1700,
+      3500,
+      990
+     ],
+     "radius": 19,
+     "label": "monster 9183, actor 77"
+    },
+    {
+     "id": "item:new_1",
+     "kind": "item",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      1500,
+      3450,
+      995
+     ],
+     "label": "item 1"
+    },
+    {
+     "id": "item:s8a_sword",
+     "kind": "item",
+     "origin": "added",
+     "state": "added",
+     "at": [
+      1450,
+      3450,
+      995
+     ],
+     "label": "item 1"
+    }
+   ],
+   "cinematics": [
+    {
+     "id": "cinematic:book_sinking",
+     "state": "replaced"
+    },
+    {
+     "id": "cinematic:s8a_guard_watch",
+     "state": "added"
+    }
+   ],
+   "issues": []
+  }
+ },
+ "04 built": {
+  "result": {
+   "map": "isleofashes.blv",
+   "kind": "overlay",
+   "counts": {
+    "replaced_events": 1
+   },
+   "files": [],
+   "warnings": [],
+   "ids_lock_changed": false
+  }
+ }
+}

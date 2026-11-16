@@ -1,0 +1,71 @@
+format: 0
+themes:
+  - id: theme:masonry
+    wall: {texture: t1w11a, size: [128, 256]}
+    floor: {texture: oflr, size: [128, 128]}
+    ceiling: {texture: d2ceil4, size: [256, 256]}
+    reveal: {texture: t1trima, size: [32, 32], scale: 2}
+    door: {texture: t1d2, size: [256, 256], fit: true}
+defaults: {theme: theme:masonry, ambient: 14}
+rooms:
+  - id: room:entry
+    name: Entry
+    outline: [[0, 0], [768, 0], [768, 768], [0, 768]]
+    floor: 0
+    ceiling: 384
+  - id: room:guard
+    name: Guard room
+    outline: [[1088, 960], [1856, 960], [1856, 1728], [1088, 1728]]
+    floor: 0
+    ceiling: 384
+  - id: room:hall
+    name: Hall
+    outline: [[-256, 832], [1024, 832], [1024, 1856], [-256, 1856]]
+    floor: 0
+    ceiling: 512
+  - id: room:passage
+    name: Passage
+    outline: [[256, 1920], [512, 1920], [512, 2688], [256, 2688]]
+    floor: 0
+    ceiling: 320
+  - id: room:store
+    name: Store room
+    outline: [[-960, 1088], [-320, 1088], [-320, 1728], [-960, 1728]]
+    floor: 0
+    ceiling: 384
+  - id: room:vault
+    name: Strong room
+    outline: [[-64, 2752], [832, 2752], [832, 3520], [-64, 3520]]
+    floor: 0
+    ceiling: 384
+openings:
+  - id: open:entry_hall
+    from: room:entry
+    to: room:hall
+    link: link:entry_hall
+    width: 192
+    height: 256
+  - id: open:hall_guard
+    from: room:hall
+    to: room:guard
+    link: link:hall_guard
+    width: 160
+    height: 256
+  - id: open:hall_passage
+    from: room:hall
+    to: room:passage
+    link: link:hall_passage
+    width: 192
+    height: 256
+  - id: open:hall_store
+    from: room:hall
+    to: room:store
+    link: link:hall_store
+    width: 160
+    height: 256
+  - id: open:passage_vault
+    from: room:passage
+    to: room:vault
+    link: link:passage_vault
+    width: 160
+    height: 256

@@ -1,0 +1,21 @@
+format: 1
+scene:
+  ladders:
+    - id: ladder:s8a_wall
+      position: [1324, 3310, 656]
+      facing: n
+      height: 342
+      exit: [1324, 3440]
+      notes: Up the fort's south wall, from the shore path (656) onto the walk behind it (998).
+  monsters:
+    - id: monster:s8a_guard
+      position: [1800, 3500, 987]
+      monster: 9183
+      facing: w
+      immobile: true
+      notes: A Skeletoid of the MM9 tables on the fort's walk; actor 77, after the Isle's own 77.
+  items:
+    - id: item:s8a_sword
+      position: [1450, 3450, 995]
+      item: 1
+notes: "S8a's overlay example (devdocs/map_studio/S8_PLAN.md): a ladder, a monster, a floor item and a cinematic added to the Isle of Ashes, and its shipped book_sinking replaced. Build with --assets; it writes isleofashes_s8a_extras.scene.yml, .cinematics.yml and .lua. Played headless by playtest.yml."

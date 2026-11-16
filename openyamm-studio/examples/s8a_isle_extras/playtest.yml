@@ -1,0 +1,66 @@
+# S8a: the Map Studio's Isle of Ashes overlay (examples/s8a_isle_extras), built and installed into a mount, read by the
+# game in front of assets_dev (--extra-mount): the overlay's ladder up the fort's wall climbed up and down, its
+# Skeletoid standing as actor 77 after the Isle's own 77 (the replaced humming stone tests its death by that number),
+# its longsword picked up, its new cinematic played, and the shipped book_sinking replaced by a 3-second one that sinks
+# the boat at 1 s (the Isle's own waits until 4.5 s). Run:
+#   SDL_AUDIODRIVER=dummy ./build/game/openyamm --asset-root assets_dev --extra-mount <mount> --world mm9 \
+#     --user-data <scratch> --headless-run-scenario openyamm-studio/examples/s8a_isle_extras/playtest.yml
+id: studio.s8a.isle_extras
+title: The Isle of Ashes overlay adds a ladder, a monster, an item and a cinematic, and replaces book_sinking
+world: mm9
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: isleofashes.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ragnar
+            class: Knight
+            level: 10
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 1}
+  # The ladder: from the shore path (656) up the wall onto the fort's walk (998), and down again.
+  - set_pose: {map: isleofashes.blv, x: 1324, y: 3200, z: 656, yaw_degrees: 90}
+  - advance_runtime: {seconds: 0.5}
+  - climb: {ladder: s8a_wall, timeout_seconds: 15}
+  - assert:
+      party_position: {x: 1324, y: 3440, radius: 96, z_min: 960}
+  - climb: {ladder: s8a_wall, down: true, timeout_seconds: 15}
+  - assert:
+      party_position: {x: 1324, y: 3290, radius: 200, z_max: 700}
+  # The item, on the walk.
+  - set_pose: {map: isleofashes.blv, x: 1450, y: 3560, z: 995, yaw_degrees: 270}
+  - advance_runtime: {seconds: 0.5}
+  - pick_up: {item_id: 1}
+  # The monster: one actor where the overlay put it, number 77; the humming stone (evt 390, replaced) gives 1 gold
+  # while it stands and 7 once it is dead (evt.CheckMonstersKilled(ActorIdOe, 77)).
+  - assert:
+      actor_count: {near: [1800, 3500, 64], min: 1, max: 1}
+  - execute_event: {id: 390}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {gold: 1}
+  - console: {line: actor damage 77 9999}
+  - advance_runtime: {seconds: 2}
+  - execute_event: {id: 390}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {gold: 8}
+  # The cinematics: the overlay's new one, and book_sinking as the overlay has it.
+  - console: {line: cinematic list, expect_contains: "s8a_guard_watch (2 s)"}
+  - console: {line: cinematic list, expect_contains: "book_sinking (3 s)"}
+  - console: {line: cinematic play s8a_guard_watch, expect_contains: Playing s8a_guard_watch}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: cinematic list, expect_contains: playing s8a_guard_watch}
+  - advance_runtime: {seconds: 2.5}
+  - assert: {qbit_clear: [90028]}
+  - console: {line: cinematic play book_sinking, expect_contains: Playing book_sinking}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_clear: [90028]}
+  - advance_runtime: {seconds: 1.0}
+  - note: {text: "the overlay's sink cue (1 s) has run; the Isle's own would wait until 4.5 s"}
+  - assert: {qbit_set: [90028]}
+  - advance_runtime: {seconds: 2.5}
