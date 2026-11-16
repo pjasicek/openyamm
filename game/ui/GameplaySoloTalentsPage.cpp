@@ -33,7 +33,9 @@ constexpr float KeystoneWidth = 200;
 constexpr float TreeHeaderTop = 126;
 constexpr float RowTop = 152;
 constexpr float RowHeight = 36;
-constexpr float AnyTop = 374;
+// The Any tree: a header like the trees' and its talents in the trees' three columns, a second row past three.
+constexpr float AnyHeaderTop = 340;
+constexpr float AnyTop = 366;
 constexpr float RowWidth = ColumnWidth - 8;
 constexpr float IconSize = 30;
 constexpr float CardLeft = 594;
@@ -125,14 +127,16 @@ std::vector<TalentRow> layoutRows()
             }
         }
     }
-    // The Any-tree line.
-    float x = ColumnLeft + 96;
+    // The Any tree, in the trees' columns.
+    size_t anyCount = 0;
     for (size_t index = 0; index < talents.size(); ++index)
     {
         if (talents[index].tree == TalentTree::Any)
         {
-            rows.push_back({index, x, AnyTop});
-            x += ColumnWidth;
+            const size_t column = anyCount % Trees.size();
+            const size_t line = anyCount / Trees.size();
+            rows.push_back({index, ColumnLeft + float(column) * ColumnWidth, AnyTop + float(line) * RowHeight});
+            ++anyCount;
         }
     }
     // The keystones' strip.
@@ -309,7 +313,7 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
         painter.text("Fondamento", 17, Gold, treeName(Trees[column]), ColumnLeft + float(column) * ColumnWidth + 2,
             TreeHeaderTop);
     }
-    painter.text("Fondamento", 17, Gold, treeName(TalentTree::Any), ColumnLeft + 2, AnyTop + 4);
+    painter.text("Fondamento", 17, Gold, treeName(TalentTree::Any), ColumnLeft + 2, AnyHeaderTop);
 
     for (const TalentRow &row : layoutRows())
     {

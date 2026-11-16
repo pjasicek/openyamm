@@ -5613,6 +5613,9 @@ void GameApplication::registerDebugConsoleCommands()
             {
                 GameplayUiController::CharacterScreenState &screen =
                     m_gameSession.gameplayScreenRuntime().characterScreen();
+                screen.open = true;
+                screen.source = GameplayUiController::CharacterScreenSource::Party;
+                screen.sourceIndex = pParty->activeMemberIndex();
                 screen.page = GameplayUiController::CharacterPage::Skills;
                 screen.talentsView = true;
                 return commandResult(true, "talents page");
