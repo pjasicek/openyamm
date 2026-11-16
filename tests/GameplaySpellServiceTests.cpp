@@ -953,6 +953,77 @@ TEST_CASE("upkeep: a press casts the first due spell of a ready member's list")
         CHECK_EQ(scene.casts, 0);
         CHECK_FALSE(party.hasPartyBuff(Game::PartyBuffId::TorchLight));
     }
+
+    // Potions (devdocs/BATTLE_ORDERS.md "Potions"): Haste, a timed buff in the Standard rules.
+    constexpr uint32_t HasteItemId = 228;
+    const auto carry = [&party, &loader](size_t memberIndex, uint32_t itemId, uint16_t power)
+    {
+        Game::InventoryItem item;
+        item.objectDescriptionId = itemId;
+        item.standardEnchantPower = power;
+        const Game::ItemDefinition *pDefinition = loader.getItemTable().get(itemId);
+        REQUIRE(pDefinition != nullptr);
+        item.width = std::max<uint8_t>(1, pDefinition->inventoryWidth);
+        item.height = std::max<uint8_t>(1, pDefinition->inventoryHeight);
+        REQUIRE(party.tryAutoPlaceItemInMemberInventory(memberIndex, item));
+    };
+    const auto potionOrder = [](uint32_t itemId, uint8_t stockDrinks)
+    {
+        Game::BattleOrder potion;
+        potion.kind = Game::BattleOrderKind::Potion;
+        potion.potionItemId = itemId;
+        potion.renewBelowMinutes = 30;
+        potion.stockDrinks = stockDrinks;
+        return potion;
+    };
+
+    SUBCASE("a due potion is drunk from another member's bags, and not again while its buff lasts")
+    {
+        carry(1, HasteItemId, 10);
+        pCaster->upkeepOrders = {potionOrder(HasteItemId, 0)};
+        const Game::GameplayActionController::PartyUpkeepResult first = press();
+        CHECK(first.castStarted);
+        CHECK_EQ(first.actingMemberIndex, 0);
+        CHECK(party.hasCharacterBuff(0, Game::CharacterBuffId::Haste));
+        CHECK_EQ(party.inventoryItemCount(HasteItemId), 0);
+        CHECK_EQ(scene.casts, 0);
+
+        carry(1, HasteItemId, 10);
+        pCaster->recoverySecondsRemaining = 0.0f;
+        REQUIRE(party.setActiveMemberIndex(0));
+        CHECK_FALSE(press().attempted);
+        CHECK_EQ(party.inventoryItemCount(HasteItemId), 1);
+    }
+    SUBCASE("a due potion nobody carries is passed over")
+    {
+        pCaster->upkeepOrders = {potionOrder(HasteItemId, 0), order(Game::SpellId::TorchLight)};
+        const Game::GameplayActionController::PartyUpkeepResult result = press();
+        CHECK(result.castStarted);
+        CHECK(party.hasPartyBuff(Game::PartyBuffId::TorchLight));
+    }
+    SUBCASE("auto-brew brews the missing stock first, then the press drinks it")
+    {
+        settings.upkeepAutoBrew = true;
+        pCaster->skills["Alchemy"] = {"Alchemy", 4, Game::SkillMastery::Expert};
+        // Haste's recipe and the Cure Disease it is mixed from.
+        party.setAutonote(32, true);
+        party.setAutonote(35, true);
+
+        for (int bottle = 0; bottle < 3; ++bottle)
+        {
+            carry(0, 220, 0);
+        }
+
+        carry(0, 200, 0);
+        carry(0, 200, 0);
+        carry(0, 210, 0);
+        pCaster->upkeepOrders = {potionOrder(HasteItemId, 1)};
+        CHECK(press().castStarted);
+        CHECK(party.hasCharacterBuff(0, Game::CharacterBuffId::Haste));
+        // Brewed and drunk: the stock is short again until the next press brews more.
+        CHECK_EQ(party.inventoryItemCount(HasteItemId), 0);
+        CHECK_EQ(party.inventoryItemCount(220), 2);
+    }
 }
 
 namespace

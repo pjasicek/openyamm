@@ -36,6 +36,8 @@ public:
         uint32_t alchemyLevel) const override;
     // "Can't benefit anymore" (zzAlchemy.lua:211, 240).
     std::optional<std::string> noBenefitText() const override;
+    // The potion's aura beats the party's own aura of the spell (memberAura's comparison, buffStrength).
+    bool potionAuraCounts(uint32_t spellId, int power) const override;
 
 private:
     MawRules &m_rules;

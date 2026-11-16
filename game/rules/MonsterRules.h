@@ -153,8 +153,9 @@ public:
     // The encounter counts and tier mix a map spawns with (MAW: more and stronger monsters on harder difficulties).
     virtual void adjustMapEncounters(MapStatsEntry &map) const;
     // The map whose load begins, as its assets are about to be read (MAW: it becomes the rules' current map, and a
-    // dimension map's monster families replace its own, so their art loads with it). Standard: nothing.
-    virtual void enterMap(MapStatsEntry &map, const MonsterTable &monsterTable) const;
+    // dimension map's monster families replace its own, so their art loads with it, and all are the party's enemies
+    // through the map's own relation cells). Standard: nothing.
+    virtual void enterMap(MapStatsEntry &map, MonsterTable &monsterTable) const;
     // The tier ('A' to 'C') an encounter spawn takes after the map's rules (MAW: a dimension map's affix raises some);
     // `seed` keys the roll. Standard: the rolled tier.
     virtual char spawnTier(const MapStatsEntry &map, char tier, uint32_t seed) const;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/party/QuickItemSlot.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -11,8 +13,8 @@ namespace OpenYAMM::Game
 // Battle orders (devdocs/BATTLE_ORDERS.md): what a member's Attack does. The orders are tried top to bottom and the
 // first whose conditions all hold and that can be carried out now is done; when none can, the fallback. Set in the
 // Battle Orders window (the spellbook's button, the Battle Orders key); the same in every ruleset.
-// A member's upkeep list (Character::upkeepOrders) is made of the same orders, spells only: the Upkeep key casts the
-// first that is due (PartySpellSystem::upkeepNeed).
+// A member's upkeep list (Character::upkeepOrders) is made of the same orders, spells and potions: the Upkeep key casts
+// or drinks the first that is due (PartySpellSystem::upkeepNeed, PotionUpkeep::potionDue).
 enum class BattleOrderKind : uint8_t
 {
     Spell,
@@ -23,6 +25,9 @@ enum class BattleOrderKind : uint8_t
     // A solo run's active talent (MAW solo, devdocs/solo_action/TALENTS.md); only when learned and off cooldown, and
     // not in turn-based combat.
     Talent,
+    // Upkeep only: a potion the member drinks while one of its timed effects is gone or running out
+    // (game/items/PotionUpkeep.h).
+    Potion,
 };
 
 // What Attack does when no order applies.
@@ -49,6 +54,8 @@ constexpr uint16_t BattleOrderMeleeReach = 407;
 constexpr uint16_t BattleOrderMaximumDistance = 5120;
 // The most orders in a member's attack list, and in their upkeep list.
 constexpr size_t BattleOrderLimit = 16;
+// The most drinks of a potion its upkeep order keeps in stock (BattleOrder::stockDrinks).
+constexpr uint8_t UpkeepStockMaximumDrinks = 50;
 // An upkeep order's "renew when under" time, in game minutes.
 constexpr uint16_t UpkeepRenewMinimumMinutes = 5;
 constexpr uint16_t UpkeepRenewMaximumMinutes = 120;
@@ -84,6 +91,15 @@ struct BattleOrder
     // Upkeep only: the buff is cast again while fewer game minutes of it are left (upkeepBuffDue); unset, only once
     // it is gone.
     std::optional<uint16_t> renewBelowMinutes;
+    // The potion's item id (BattleOrderKind::Potion), and which carried bottle is drunk.
+    uint32_t potionItemId = 0;
+    QuickItemBottleRule bottleRule = QuickItemBottleRule::Strongest;
+    // The drinks of the potion the party keeps: with the Upkeep auto-brew setting on, a press first brews the missing
+    // ones (game/items/PotionUpkeep.h). 0 brews none.
+    uint8_t stockDrinks = 0;
+    // The power the brewed potions have at least, from the weakest ingredients that reach it; unset, the strongest the
+    // ingredients make. Only bottles of at least this power count toward the stock.
+    std::optional<uint16_t> brewPower;
 
     bool operator==(const BattleOrder &) const = default;
 };

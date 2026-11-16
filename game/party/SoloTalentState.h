@@ -31,5 +31,9 @@ struct SoloTalentState
     float lastY = 0.0f;
     bool hasLastPosition = false;
     bool steadyAimOn = false;
+    // Manathirst: monsters an area spell gave SP for in the current short window, and the seconds it still lasts (not
+    // saved: it lasts a fraction of a second).
+    int areaManaLeechHits = 0;
+    float areaManaLeechSeconds = 0.0f;
 };
 }

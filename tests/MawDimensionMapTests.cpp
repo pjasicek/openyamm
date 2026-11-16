@@ -536,3 +536,50 @@ TEST_CASE("MAW dimension affixes 25 and 33 slow the party near enemies and weake
     CHECK(party.rulesMovementMultiplier() == doctest::Approx(1.0f));
     CHECK(rules.buffScale() == doctest::Approx(1.0));
 }
+
+TEST_CASE("a MAW dimension run makes its families the party's enemies, on its own map only")
+{
+    std::vector<std::vector<std::string>> rows;
+
+    for (const auto &[firstId, picture] : {std::pair<int, const char *>{85, "Dire Wolf"}, {280, "Griffin"},
+             {391, "Roc"}})
+    {
+        rows.push_back(monsterRow(firstId, std::string(picture) + " A", 10));
+        rows.push_back(monsterRow(firstId + 1, std::string(picture) + " B", 15));
+        rows.push_back(monsterRow(firstId + 2, std::string(picture) + " C", 20));
+    }
+
+    // No hostile.txt: every family is friendly to the party, as MMMerge's table leaves rocs and griffins.
+    MonsterTable monsters;
+    REQUIRE(monsters.loadStatsFromRows(rows));
+    REQUIRE_FALSE(monsters.isHostileToParty(391));
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, MawItemData{}, MawPromotionData{}, MawCraftingData{},
+        MawTextData{}, installedDimensionData());
+    const MonsterRules &monsterRules = rules.gameRules().monsters;
+    MawDimensionRun run;
+    run.families = {391, 280, 85};
+    run.power = 10;
+    rules.state().dimensionRuns["d14.blv"] = run;
+
+    // A map without a run keeps the table's relations.
+    MapStatsEntry other = {};
+    other.fileName = "d13.blv";
+    monsterRules.enterMap(other, monsters);
+    CHECK_FALSE(monsters.isHostileToParty(391));
+    CHECK_FALSE(monsters.isHostileToParty(85));
+
+    MapStatsEntry map = {};
+    map.fileName = "d14.blv";
+    monsterRules.enterMap(map, monsters);
+    CHECK_EQ(map.encounter1.pictureName, "Roc");
+
+    for (int16_t monsterId : {85, 86, 87, 280, 281, 282, 391, 392, 393})
+    {
+        CHECK(monsters.isHostileToParty(monsterId));
+    }
+
+    // Monsters outside the run's families are untouched, and the next map load starts from the table again.
+    CHECK_FALSE(monsters.isHostileToParty(100));
+    monsters.clearMapFactionRelations();
+    CHECK_FALSE(monsters.isHostileToParty(391));
+}

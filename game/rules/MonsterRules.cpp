@@ -24,7 +24,7 @@ void MonsterRules::adjustMapEncounters(MapStatsEntry &) const
 {
 }
 
-void MonsterRules::enterMap(MapStatsEntry &, const MonsterTable &) const
+void MonsterRules::enterMap(MapStatsEntry &, MonsterTable &) const
 {
 }
 

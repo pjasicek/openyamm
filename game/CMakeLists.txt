@@ -149,6 +149,7 @@ add_library(openyamm_game STATIC
     content/RulesetOptions.cpp
     items/InventoryItemUseRuntime.cpp
     items/AlchemyBenchRuntime.cpp
+    items/PotionUpkeep.cpp
     items/CraftingRuntime.cpp
     items/InventoryBags.cpp
     items/ItemSearch.cpp

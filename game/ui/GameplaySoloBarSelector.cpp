@@ -166,6 +166,14 @@ std::optional<SoloBarSelectorEntry> entryFor(GameplayScreenRuntime &context, con
         return entry;
     }
 
+    if (slot.kind == ActionBarSlotKind::Upkeep)
+    {
+        entry.category = SoloBarSelectorTab::Actions;
+        entry.name = Engine::tr("Upkeep");
+        entry.detail = Engine::tr("Casts or drinks what is due; hold to go on");
+        return entry;
+    }
+
     if (slot.kind == ActionBarSlotKind::Weapon)
     {
         const bool swap = slot.id == ActionBarWeaponSwapId;
@@ -184,8 +192,8 @@ std::optional<SoloBarSelectorEntry> entryFor(GameplayScreenRuntime &context, con
 }
 
 // Everything the key can hold, once, when the selector opens: the known spells in book order, the learned active
-// talents in the table's order, the potions and scrolls carried by name, then the weapon actions. What the key holds
-// now stays listed even when it is no longer known or carried.
+// talents in the table's order, the weapon actions and Upkeep, then the potions and scrolls carried by name. What the
+// key holds now stays listed even when it is no longer known or carried.
 std::vector<SoloBarSelectorEntry> buildEntries(GameplayScreenRuntime &context, const Party &party,
     const Character &member, size_t slot)
 {
@@ -238,6 +246,8 @@ std::vector<SoloBarSelectorEntry> buildEntries(GameplayScreenRuntime &context, c
     {
         candidates.push_back({ActionBarSlotKind::Weapon, ActionBarWeaponSwapId, {}});
     }
+
+    candidates.push_back({ActionBarSlotKind::Upkeep, 0, {}});
 
     std::vector<SoloBarSelectorEntry> entries;
 

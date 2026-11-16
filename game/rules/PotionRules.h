@@ -43,6 +43,9 @@ public:
     // The status text when a potion can do nothing more for its drinker (a stat potion's limit reached). Standard:
     // none, the item's "can not be used that way".
     virtual std::optional<std::string> noBenefitText() const;
+    // Whether a potion's copy of an aura (potion_effects.yml aura_buff) at this power would count, so an upkeep drink
+    // is worth it. MAW: only the stronger of it and the party's aura counts. Standard has no aura potions: true.
+    virtual bool potionAuraCounts(uint32_t spellId, int power) const;
 };
 
 const PotionRules &standardPotionRules();

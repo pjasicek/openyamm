@@ -12,6 +12,7 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
 #include "game/ui/HouseShopLedgerCategory.h"
+#include "game/ui/HudReading.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -341,6 +342,8 @@ public:
         bool paletteSearchActive = false;
         // Escape acts once per press: it clears the search, then closes the window.
         bool escapeLatch = false;
+        // The potions the upkeep palette offers (carried, or with a known recipe), by name; read twice a second.
+        HudReading<std::vector<uint32_t>, const Party *> upkeepPotions;
     };
 
     // The short menu a right click on a spell in the spellbook opens: Quick Cast, the quick spells, the orders.

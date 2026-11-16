@@ -214,6 +214,9 @@ struct AlchemyChainOutcome
 // mixed potions, the carried ones (AlchemyBook::isMixedPotion) are left out and brewed fresh from reagents and the
 // basic potions.
 //
+// Reserved items keep their strongest `count` copies out of the plans, as the kept mixed potions are: what the Upkeep
+// list keeps in stock (game/items/PotionUpkeep.h) is not mixed into other potions.
+//
 // A plan can aim at a power instead: every potion it brews then has at least that power, from the weakest copies
 // that reach it (each ingredient the weakest that is strong enough, a stronger first ingredient making up for a weak
 // second one), and its steps name the copies they mix. The search is greedy, not exhaustive: it can miss a power
@@ -226,7 +229,8 @@ public:
         const AlchemyBook &book,
         const AlchemistInfo &alchemist,
         const AlchemyBenchTables &tables,
-        bool keepMixedPotions = false);
+        bool keepMixedPotions = false,
+        std::span<const AlchemyItemCount> reserved = {});
 
     AlchemyChainPlan plan(
         uint32_t resultItemId,

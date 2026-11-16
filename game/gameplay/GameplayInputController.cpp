@@ -1014,6 +1014,8 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
     GameplayOverlayInteractionState &interactionState = context.interactionState();
     const bool quickCastButtonRequested = interactionState.gameplayHudQuickCastRequested;
     interactionState.gameplayHudQuickCastRequested = false;
+    // A solo run's Upkeep bar slot, held: as the Upkeep key held.
+    bool heldBarUpkeep = false;
 
     if (canRunStandardGameplayAction && config.processQuickCast)
     {
@@ -1082,6 +1084,10 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 else if (slot.kind == ActionBarSlotKind::Talent && pressed)
                 {
                     context.interactionState().soloTalentRequested = slot.id;
+                }
+                else if (slot.kind == ActionBarSlotKind::Upkeep)
+                {
+                    heldBarUpkeep = true;
                 }
             }
         }
@@ -1236,7 +1242,8 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             GameplayActionController::updateUpkeepAction(
                 screenState.upkeepActionState(),
                 canRunStandardGameplayAction
-                    && isActionHeld(context, KeyboardAction::Upkeep, config.pInputFrame, config.pKeyboardState),
+                    && (heldBarUpkeep
+                        || isActionHeld(context, KeyboardAction::Upkeep, config.pInputFrame, config.pKeyboardState)),
                 turnBased);
 
         if (upkeepDecision.shouldAttemptUpkeep && config.canBeginQuickCast)

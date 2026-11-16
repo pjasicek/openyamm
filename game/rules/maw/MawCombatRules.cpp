@@ -3492,7 +3492,11 @@ void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) cons
         share += MawSoloTalents::leechBonus(member);
     }
 
-    if ((share == 0 && leech.spell == 0 && !drainSpell) || hit.pTarget->level <= 0 || party.itemTable() == nullptr)
+    // Manathirst: the same share of the SP bar back, with its own floor (solo run only, never a breath).
+    const double manaShare = m_rules.options().soloRun && !breath ? MawSoloTalents::manaLeechShare(member) : 0;
+
+    if ((share == 0 && leech.spell == 0 && !drainSpell && manaShare == 0) || hit.pTarget->level <= 0
+        || party.itemTable() == nullptr)
     {
         return;
     }
@@ -3506,7 +3510,8 @@ void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) cons
     const double elementalShare = counted > 0 ? std::min<double>(hit.elementalDamage, counted) / counted : 0;
     double heal = spell ? bar * share : bar * (1 - elementalShare) * share + bar * elementalShare * leech.spell;
     heal += drainSpell ? bar * 0.1 : 0;
-    double floor = 0;
+    // The floor's attack scale: the recovery of the attack or spell per 100.
+    double attackScale = 0;
 
     if (!spell)
     {
@@ -3517,18 +3522,37 @@ void MawCombatRules::applyLeech(Party &party, const PartyHitOnMonster &hit) cons
                 party.specialItemEnchantTable())
                 .speed.actual,
             m_rules.auraSkill(5, &member));
-        floor = full * share / floorDivisor * delay.delay / 100;
+        attackScale = delay.delay / 100.0;
     }
     else if (const std::optional<int> recovery = spellRecoveryTicks(party, member, hit.spellId))
     {
         // An area spell's floor is less: / 2.5, and / 4 for Fire Spike, Meteor Shower and Starburst.
-        floor = full * share / floorDivisor * *recovery / 100;
-        floor /= isAreaSpell(hit.spellId) ? 2.5 : 1;
-        floor /= hit.spellId == 9 || hit.spellId == 22 || hit.spellId == 43 ? 4 : 1;
+        attackScale = *recovery / 100.0;
+        attackScale /= isAreaSpell(hit.spellId) ? 2.5 : 1;
+        attackScale /= hit.spellId == 9 || hit.spellId == 22 || hit.spellId == 43 ? 4 : 1;
     }
 
+    double floor = full * share / floorDivisor * attackScale;
     // A dimension map's weaker leech cuts the heal before the floor, which it leaves whole (DM:1229-1230, CMB-15).
-    heal *= 1 - m_rules.mapAffix(MawMapAffix::Leech).value_or(0) / 100;
+    const double mapLeech = 1 - m_rules.mapAffix(MawMapAffix::Leech).value_or(0) / 100;
+    heal *= mapLeech;
+
+    // Manathirst gives SP the way the heal is worked out: the same share of the SP bar as the heal's of the HP bar (the
+    // bar share is in HP: it is turned into a share of full HP first), at least its floor, a third for an extra blow,
+    // and an area spell's from at most three monsters at once.
+    if (manaShare > 0 && full > 0
+        && (!spell || !isAreaSpell(hit.spellId) || MawSoloTalents::takeAreaManaLeech(member)))
+    {
+        const int fullMana = Party::effectiveMaximumSpellPoints(member);
+        const double mana = std::max(bar / full * manaShare * fullMana * mapLeech,
+                                fullMana * manaShare / MawSoloTalents::manaLeechFloorDivisor(member) * attackScale)
+            * extraBlowShare(m_rules.options(), hit);
+
+        if (fullMana > 0 && member.spellPoints < fullMana && mana > 0)
+        {
+            member.spellPoints = std::min(fullMana, member.spellPoints + int(std::ceil(mana)));
+        }
+    }
 
     if (share > 0)
     {

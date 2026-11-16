@@ -24,7 +24,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 190;
+constexpr uint32_t SaveVersion = 191;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -336,6 +336,9 @@ constexpr uint32_t SaveVersionTalentOrders = 189;
 // Training, Marksman and Attunement: an older save's ranks in those are dropped and their points come back
 // (migrateRemovedTalents).
 constexpr uint32_t SaveVersionWideTalentRanks = 190;
+// An upkeep order may be a potion (BattleOrder::potionItemId, bottleRule, stockDrinks, brewPower); older saves have
+// spells only.
+constexpr uint32_t SaveVersionPotionUpkeep = 191;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -821,7 +824,7 @@ bool readValue(BinaryReader &reader, ActionBarSlot &value)
         return false;
     }
 
-    value.kind = kind <= uint8_t(ActionBarSlotKind::Talent) ? ActionBarSlotKind(kind) : ActionBarSlotKind::Empty;
+    value.kind = kind <= uint8_t(ActionBarSlotKind::Upkeep) ? ActionBarSlotKind(kind) : ActionBarSlotKind::Empty;
     return true;
 }
 
@@ -1599,6 +1602,25 @@ void writeValue(BinaryWriter &writer, const BattleOrder &value)
     writeValue(writer, value.renewBelowMinutes);
     writeValue(writer, value.ownHealth);
     writeValue(writer, value.talentId);
+    writeValue(writer, value.potionItemId);
+    writeValue(writer, uint8_t(value.bottleRule));
+    writeValue(writer, value.stockDrinks);
+    writeValue(writer, value.brewPower);
+}
+
+bool readPotionUpkeep(BinaryReader &reader, BattleOrder &value)
+{
+    uint8_t bottleRule = 0;
+
+    if (!readValue(reader, value.potionItemId) || !readValue(reader, bottleRule)
+        || !readValue(reader, value.stockDrinks) || !readValue(reader, value.brewPower))
+    {
+        return false;
+    }
+
+    value.bottleRule = bottleRule == uint8_t(QuickItemBottleRule::Weakest) ? QuickItemBottleRule::Weakest
+                                                                           : QuickItemBottleRule::Strongest;
+    return true;
 }
 
 bool readValue(BinaryReader &reader, BattleOrder &value)
@@ -1612,7 +1634,8 @@ bool readValue(BinaryReader &reader, BattleOrder &value)
         && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.place))
         && (reader.version() < SaveVersionUpkeepOrders || readValue(reader, value.renewBelowMinutes))
         && (reader.version() < SaveVersionOwnHealthOrders || readValue(reader, value.ownHealth))
-        && (reader.version() < SaveVersionTalentOrders || readValue(reader, value.talentId));
+        && (reader.version() < SaveVersionTalentOrders || readValue(reader, value.talentId))
+        && (reader.version() < SaveVersionPotionUpkeep || readPotionUpkeep(reader, value));
 }
 
 void writeValue(BinaryWriter &writer, const Character &value)

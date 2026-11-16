@@ -35,7 +35,7 @@ public:
     // Monster density (devdocs/maw/data/difficulty.yml density_rules), raised on a dimension map.
     void adjustMapEncounters(MapStatsEntry &map) const override;
     // A dimension map's families replace the map's own.
-    void enterMap(MapStatsEntry &map, const MonsterTable &monsterTable) const override;
+    void enterMap(MapStatsEntry &map, MonsterTable &monsterTable) const override;
     // A dimension map's "higher tier" affix.
     char spawnTier(const MapStatsEntry &map, char tier, uint32_t seed) const override;
     // "dimensional_maps": the Dimensional Maps quest of the Oracle, Judge Grey and the Seer

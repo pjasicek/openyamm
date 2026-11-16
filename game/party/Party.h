@@ -682,6 +682,8 @@ public:
         {
             Damage,
             Heal,
+            // A regeneration tick (healMember's regeneration flag): the HUD shows these summed, not one by one.
+            Regeneration,
             ConditionGained,
             ConditionCleared,
         };
@@ -1083,7 +1085,8 @@ public:
         size_t memberIndex, CharacterCondition condition, float gameMinutes, float expireGameMinutes);
     bool clearMemberCondition(size_t memberIndex, CharacterCondition condition);
     bool hasMemberConditionImmunity(size_t memberIndex, CharacterCondition condition) const;
-    bool healMember(size_t memberIndex, int amount);
+    // regeneration: a periodic tick rather than a heal, which the solo HUD's self combat text sums over time.
+    bool healMember(size_t memberIndex, int amount, bool regeneration = false);
     // Changes a member's HP outside combat (drains, shared life), up to full: no shields, no speech; conditions follow.
     void adjustMemberHealth(size_t memberIndex, int amount);
     bool reviveMember(size_t memberIndex, int health, bool applyWeak);

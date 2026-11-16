@@ -41,6 +41,17 @@ constexpr double UnbrokenThreshold = 0.30;
 // Cheat Death: what a fatal hit leaves, and the cut that follows.
 constexpr double CheatDeathHealthLeft = 0.05;
 constexpr double CheatDeathDamageTaken = 0.05;
+// Manathirst: an area spell gives SP for at most this many monsters within the window after its first hit (a Fireball
+// lands at once; a Meteor Shower's stones fall within it).
+constexpr int AreaManaLeechMonsters = 3;
+constexpr float AreaManaLeechWindowSeconds = 0.5f;
+
+// Bloodthirst's and Manathirst's leech floor divisor at a rank: ÷5 without it, half a step a rank down to ÷2.5 at the
+// fifth.
+double thirstFloorDivisor(int rank)
+{
+    return 5.0 - 0.5 * std::clamp(rank, 0, 5);
+}
 }
 
 void applyPassives(Character &member)
@@ -113,6 +124,7 @@ void update(Party &party, float partyX, float partyY, bool calm, float deltaSeco
         state.surgeDamageSeconds = std::max(0.0f, state.surgeDamageSeconds - deltaSeconds);
         state.cheatDeathSeconds = std::max(0.0f, state.cheatDeathSeconds - deltaSeconds);
         state.cheatDeathCooldown = std::max(0.0f, state.cheatDeathCooldown - deltaSeconds);
+        state.areaManaLeechSeconds = std::max(0.0f, state.areaManaLeechSeconds - deltaSeconds);
         state.onslaughtSeconds = std::max(0.0f, state.onslaughtSeconds - deltaSeconds);
 
         if (state.onslaughtSeconds <= 0.0f)
@@ -264,8 +276,36 @@ double leechBonus(const Character &member)
 
 double leechFloorDivisor(const Character &member)
 {
-    // Five ranks: ÷5 without it, half a step per rank down to ÷2.5.
-    return 5.0 - 0.5 * std::clamp(talentRank(member, "bloodthirst"), 0, 5);
+    return thirstFloorDivisor(talentRank(member, "bloodthirst"));
+}
+
+double manaLeechShare(const Character &member)
+{
+    return passivePercent(member, "manathirst") / 100.0;
+}
+
+double manaLeechFloorDivisor(const Character &member)
+{
+    return thirstFloorDivisor(talentRank(member, "manathirst"));
+}
+
+bool takeAreaManaLeech(Character &member)
+{
+    SoloTalentState &state = member.talentState;
+
+    if (state.areaManaLeechSeconds <= 0.0f)
+    {
+        state.areaManaLeechHits = 0;
+        state.areaManaLeechSeconds = AreaManaLeechWindowSeconds;
+    }
+
+    if (state.areaManaLeechHits >= AreaManaLeechMonsters)
+    {
+        return false;
+    }
+
+    ++state.areaManaLeechHits;
+    return true;
 }
 
 double nonPhysicalDamageScale(const Character &member)

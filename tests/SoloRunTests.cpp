@@ -180,6 +180,13 @@ TEST_CASE("solo run: hits, heals and conditions queue self combat text, at most 
     CHECK(events[3].kind == Party::SelfTextEvent::Kind::ConditionCleared);
     CHECK(party.takeSelfTextEvents().empty());
 
+    // A regeneration tick is its own kind, so the HUD can sum the ticks into one line.
+    REQUIRE(party.healMember(0, 3, true));
+    const std::vector<Party::SelfTextEvent> ticks = party.takeSelfTextEvents();
+    REQUIRE(ticks.size() == 1);
+    CHECK(ticks[0].kind == Party::SelfTextEvent::Kind::Regeneration);
+    CHECK(ticks[0].amount == 3);
+
     for (int hit = 0; hit < 20; ++hit)
     {
         party.applyDamageToMember(0, 1, "");

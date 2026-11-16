@@ -13,6 +13,7 @@
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/InventoryBags.h"
+#include "game/items/PotionUpkeep.h"
 #include "game/items/QuickItemSlots.h"
 #include "game/party/SpellIds.h"
 #include "game/rules/GameRules.h"
@@ -1448,6 +1449,144 @@ bool GameplayItemService::brewAlchemyChain(GameplayScreenRuntime &runtime, bool 
 
     applyMixResultEffects(runtime, *pParty, alchemist.memberIndex.value_or(pParty->activeMemberIndex()), result, true);
     return outcome.brewedCount > 0;
+}
+
+std::string GameplayItemService::restockUpkeepPotions(GameplayScreenRuntime &runtime, bool quietWhenFull)
+{
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr || !m_session.hasDataRepository())
+    {
+        return {};
+    }
+
+    const GameDataRepository &data = m_session.data();
+    const AlchemyBenchTables tables = {
+        data.itemTable(),
+        data.potionMixingTable(),
+        data.potionNoteTable(),
+        data.mergedPotionSettingTable(),
+        data.mergedReagentSettingTable()};
+    GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+
+    // A returned bottle without room goes to the cursor, which must be free for it.
+    if (heldItem.active)
+    {
+        if (quietWhenFull)
+        {
+            return {};
+        }
+
+        const std::string text = Engine::tr("Put down the held item first");
+        runtime.setStatusBarEvent(text);
+        return text;
+    }
+
+    const PotionUpkeep::RestockOutcome outcome = PotionUpkeep::restock(*pParty, tables,
+        data.mergedPotionSettingTable().effects(),
+        [&runtime](uint32_t autonoteId)
+        {
+            return runtime.isAutonoteUnlocked(autonoteId);
+        },
+        runtime.settingsSnapshot().workbenchKeepMixedPotions);
+    const auto potionName = [&tables](uint32_t itemId)
+    {
+        const ItemDefinition *pDefinition = tables.itemTable.get(itemId);
+        return pDefinition != nullptr ? Engine::localize(pDefinition->name) : Engine::tr("potion");
+    };
+    std::vector<std::string> brewed;
+    std::string shortfall;
+
+    for (const PotionUpkeep::RestockLine &line : outcome.lines)
+    {
+        const std::string name = potionName(line.itemId);
+
+        if (line.brewedBottles > 0)
+        {
+            brewed.push_back(line.brewedBottles == 1 ? name
+                    : Engine::tr("{count} x {potion}", {{"count", int64_t(line.brewedBottles)}, {"potion", name}}));
+        }
+
+        if (line.complete || !shortfall.empty())
+        {
+            continue;
+        }
+
+        // The first potion still short, and why.
+        const std::string blockName = potionName(line.blockItemId);
+
+        switch (line.block)
+        {
+            case AlchemyChainBlock::MissingBottle:
+                shortfall = Engine::tr("{potion}: no empty bottle", {{"potion", name}});
+                break;
+            case AlchemyChainBlock::MissingReagent:
+                shortfall = Engine::tr("{potion}: a reagent for {step} is missing",
+                    {{"potion", name}, {"step", blockName}});
+                break;
+            case AlchemyChainBlock::UnknownRecipe:
+                shortfall = Engine::tr("{potion}: the {step} recipe is unknown",
+                    {{"potion", name}, {"step", blockName}});
+                break;
+            case AlchemyChainBlock::NeedsMastery:
+                shortfall = Engine::tr("{potion}: {step} needs more Alchemy", {{"potion", name}, {"step", blockName}});
+                break;
+            case AlchemyChainBlock::None:
+                shortfall = line.powerUnreached
+                    ? Engine::tr("{potion}: the ingredients do not reach its power", {{"potion", name}})
+                    : Engine::tr("{potion}: not enough ingredients", {{"potion", name}});
+                break;
+        }
+    }
+
+    std::string text;
+
+    if (!brewed.empty())
+    {
+        std::string list;
+
+        for (const std::string &part : brewed)
+        {
+            list += (list.empty() ? "" : ", ") + part;
+        }
+
+        text = Engine::tr("Upkeep brewed {potions}", {{"potions", list}});
+    }
+
+    if (!shortfall.empty())
+    {
+        text += (text.empty() ? Engine::tr("Upkeep could not brew") + " " : std::string(". ")) + shortfall;
+    }
+
+    if (outcome.overflowItem)
+    {
+        heldItem = {};
+        heldItem.active = true;
+        heldItem.item = *outcome.overflowItem;
+        pParty->setHeldItemForQueries(heldItem.item);
+        text += (text.empty() ? "" : ". ") + Engine::tr("No room for the empty bottle.");
+    }
+
+    if (text.empty() && !quietWhenFull)
+    {
+        text = PotionUpkeep::stockTargets(*pParty).empty() ? Engine::tr("No upkeep potion keeps a stock")
+                                                           : Engine::tr("The upkeep potions are in stock");
+    }
+
+    if (outcome.brewedAny())
+    {
+        InventoryItemMixResult result = outcome.lastMix.result;
+        result.statusText = text;
+        const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(*pParty);
+        applyMixResultEffects(runtime, *pParty, alchemist.memberIndex.value_or(pParty->activeMemberIndex()), result,
+            true);
+    }
+    else if (!text.empty())
+    {
+        runtime.setStatusBarEvent(text);
+    }
+
+    return text;
 }
 
 void GameplayItemService::updateReadableScrollOverlayForHeldItem(

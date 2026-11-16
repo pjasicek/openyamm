@@ -4,6 +4,7 @@
 #include "game/ui/GameplayOverlayTypes.h"
 
 #include <cstddef>
+#include <string>
 
 namespace OpenYAMM::Game
 {
@@ -49,6 +50,10 @@ public:
     bool mixAlchemyBench(GameplayScreenRuntime &runtime, bool mixAll);
     // Brews the bench's selected recipe, brewing missing ingredients first from known recipes.
     bool brewAlchemyChain(GameplayScreenRuntime &runtime, bool brewAll);
+    // Brews what the upkeep lists' potion stock lacks (PotionUpkeep::restock: the Upkeep key's auto-brew and the
+    // potion popup's Brew button) and says in the status line what it brewed and what it could not; returns that
+    // text. With `quietWhenFull` nothing is said when the stock lacks nothing.
+    std::string restockUpkeepPotions(GameplayScreenRuntime &runtime, bool quietWhenFull);
     // A crafting material held over an item (right-click) opens the Workbench's Crafting tab with both in place; the
     // material goes back to the party. False when the held item is no material or the item takes none.
     bool openWorkbenchForHeldMaterial(GameplayScreenRuntime &runtime, const CraftItemRef &target);

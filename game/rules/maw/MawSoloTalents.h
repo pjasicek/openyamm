@@ -37,6 +37,12 @@ double overloadScale(const Character &caster, int monstersNearTarget);
 // Bloodthirst: the leech share added to melee, bow and spells, and the divisor of the leech floor (5 without it).
 double leechBonus(const Character &member);
 double leechFloorDivisor(const Character &member);
+// Manathirst: the share of the SP bar given back the way leech heals, and its floor divisor (5 without it).
+double manaLeechShare(const Character &member);
+double manaLeechFloorDivisor(const Character &member);
+// Manathirst: whether an area spell's hit on one more monster still gives SP. One cast counts at most three monsters:
+// the hits within a short window after the first.
+bool takeAreaManaLeech(Character &member);
 // Spell Suppression: what is left of a hit that is not physical (1: none), the last cut after armour, resistances and
 // their 90 % cap.
 double nonPhysicalDamageScale(const Character &member);

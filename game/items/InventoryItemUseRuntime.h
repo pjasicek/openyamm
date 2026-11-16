@@ -17,6 +17,7 @@ class ItemTable;
 struct ItemDefinition;
 class MergedPotionSettingTable;
 class MergedReagentSettingTable;
+class PotionEffectTable;
 
 enum class InventoryItemUseAction : uint8_t
 {
@@ -161,6 +162,10 @@ public:
         size_t memberIndex,
         const InventoryItem &item,
         const MergedPotionSettingTable &potionSettingTable);
+    // How long a potion's timed effects last: Standard a number of minutes per point of power; MAW a fixed time plus
+    // minutes per Alchemy point of the party's best Grandmaster alchemist. A solo run's are at least the table's solo
+    // time (plus that alchemist's minutes).
+    static float potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power);
     // Whether a drink costs a ready member recovery under the rules' potion effects.
     static bool drinkRecoveryApplies(const MergedPotionSettingTable *pPotionSettingTable);
     // Who pays a drink's recovery: the drinker if ready (unless the active member pays), else the active member, else

@@ -852,6 +852,9 @@ struct GameplayOverlayInteractionState
         uint64_t startTicks = 0;
     };
     std::vector<SoloSelfTextLine> soloSelfText;
+    // Regeneration ticks waiting to show as one line: their sum and the SDL tick the first of them came at.
+    int soloRegenerationPending = 0;
+    uint64_t soloRegenerationStartTicks = 0;
     // The solo action bar's slot selector (GameplaySoloBarSelector), open over the paused game. Transient.
     SoloBarSelectorState soloBarSelector;
     std::optional<size_t> personalBuffPopupMember;
@@ -879,6 +882,9 @@ struct GameplayOverlayInteractionState
     size_t quickItemPopupScroll = 0;
     std::optional<size_t> quickItemPopupHovered;
     std::optional<size_t> quickItemPopupKeyEntry;
+    // The potion popup's Upkeep view: the chosen member's upkeep potions with their stock, in place of what the party
+    // carries.
+    bool quickItemPopupUpkeep = false;
     // The MM9 formation builder (GameplayFormationBuilder): open over the paused game while it edits.
     Mm9FormationBuilderState formationBuilder;
     bool formationToggleLatch = false;

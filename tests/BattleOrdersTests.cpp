@@ -180,7 +180,15 @@ TEST_CASE("battle orders: a save keeps each member's orders, fallback and upkeep
     torch.spellName = "Torch Light";
     torch.place = BattleOrderPlace::Indoors;
     torch.enabled = false;
-    member.upkeepOrders = {bless, torch, heal};
+    BattleOrder champion;
+    champion.kind = BattleOrderKind::Potion;
+    champion.potionItemId = 245;
+    champion.renewBelowMinutes = 60;
+    champion.stockDrinks = 10;
+    champion.brewPower = 120;
+    champion.bottleRule = QuickItemBottleRule::Weakest;
+    member.upkeepOrders = {bless, torch, heal, champion};
+    member.actionBar[3] = {ActionBarSlotKind::Upkeep, 0, {}};
     save.party = party.snapshot();
 
     const uint64_t ticks = uint64_t(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -195,4 +203,5 @@ TEST_CASE("battle orders: a save keeps each member's orders, fallback and upkeep
     CHECK(loaded->party.members.front().battleOrders == member.battleOrders);
     CHECK(loaded->party.members.front().battleOrderFallback == BattleOrderFallback::Hold);
     CHECK(loaded->party.members.front().upkeepOrders == member.upkeepOrders);
+    CHECK(loaded->party.members.front().actionBar[3].kind == ActionBarSlotKind::Upkeep);
 }

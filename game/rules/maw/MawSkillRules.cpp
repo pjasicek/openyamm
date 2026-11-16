@@ -1582,7 +1582,7 @@ void MawSkillRules::updateRegeneration(Party &party, const IGameplayWorldRuntime
         if (health > 0)
         {
             track.healthCarry -= health;
-            party.healMember(index, health);
+            party.healMember(index, health, true);
             track.lastHealth = member.health;
         }
 

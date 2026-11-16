@@ -2504,20 +2504,42 @@ bool readScenarioBattleOrders(
     {
         BattleOrder order;
 
-        if (forUpkeep && (!orderNode.IsMap() || !orderNode["spell"]))
+        if (forUpkeep && (!orderNode.IsMap() || int(bool(orderNode["spell"])) + int(bool(orderNode["potion"])) != 1))
         {
-            failure = "an upkeep order needs a spell";
+            failure = "an upkeep order needs a spell or a potion";
             return false;
         }
 
         if (!orderNode.IsMap() || int(bool(orderNode["spell"])) + int(bool(orderNode["melee"]))
-            + int(bool(orderNode["shoot"])) + int(bool(orderNode["talent"])) != 1)
+            + int(bool(orderNode["shoot"])) + int(bool(orderNode["talent"])) + int(bool(orderNode["potion"])) != 1)
         {
-            failure = "a battle order needs exactly one of spell, melee, shoot or talent";
+            failure = "a battle order needs exactly one of spell, melee, shoot, talent or potion";
             return false;
         }
 
-        if (orderNode["spell"])
+        if (orderNode["potion"])
+        {
+            if (!forUpkeep)
+            {
+                failure = "a potion order belongs in the upkeep list";
+                return false;
+            }
+
+            // An upkeep potion by item id, with its stock in drinks, the power it is brewed at and the bottle drunk.
+            order.kind = BattleOrderKind::Potion;
+            order.potionItemId = orderNode["potion"].as<uint32_t>();
+            order.stockDrinks = uint8_t(std::clamp(orderNode["stock"].as<int>(0), 0, int(UpkeepStockMaximumDrinks)));
+
+            if (orderNode["brew_power"])
+            {
+                order.brewPower = uint16_t(std::clamp(orderNode["brew_power"].as<int>(), 1, 0xFFFF));
+            }
+
+            order.bottleRule = orderNode["bottle"].as<std::string>("strongest") == "weakest"
+                ? QuickItemBottleRule::Weakest
+                : QuickItemBottleRule::Strongest;
+        }
+        else if (orderNode["spell"])
         {
             const SpellEntry *pSpell =
                 context.gameDataLoader.getSpellTable().findByName(orderNode["spell"].as<std::string>());

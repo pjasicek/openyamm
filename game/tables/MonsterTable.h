@@ -281,6 +281,8 @@ public:
     // The loaded map's replacements for hostile.txt cells, as MMMerge's LocalHostileTxt() and map scripts: how
     // `faction` treats `otherFaction` (0 is the party), in the table's faction numbers. Each map load clears them.
     void setMapFactionRelation(uint32_t faction, uint32_t otherFaction, int relation);
+    // The same for how the monster's faction treats the party.
+    void setMapRelationToParty(int16_t monsterId, int relation);
     void clearMapFactionRelations();
     MonsterRelationAddOns &relationAddOns()
     {

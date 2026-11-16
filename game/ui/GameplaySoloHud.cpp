@@ -186,6 +186,8 @@ struct BuffTile
 };
 
 void drawItemIcon(GameplayScreenRuntime &context, const std::string &iconName, const GameplayObsidianRect &icon);
+// The Upkeep slot's icon: the potion button's flask.
+constexpr char UpkeepSlotIcon[] = "item178";
 
 const char *characterBuffIcon(CharacterBuffId id)
 {
@@ -731,6 +733,7 @@ std::string selfTextLine(const Party::SelfTextEvent &event)
         case Party::SelfTextEvent::Kind::Damage:
             return "-" + std::to_string(event.amount);
         case Party::SelfTextEvent::Kind::Heal:
+        case Party::SelfTextEvent::Kind::Regeneration:
             return "+" + std::to_string(event.amount);
         case Party::SelfTextEvent::Kind::ConditionGained:
             return Engine::localizeKnown(GameMechanics::conditionName(event.condition));
@@ -746,7 +749,8 @@ uint32_t selfTextColour(Party::SelfTextEvent::Kind kind)
     switch (kind)
     {
         case Party::SelfTextEvent::Kind::Damage: return abgr(0xff7a66);
-        case Party::SelfTextEvent::Kind::Heal: return abgr(0x8fe07a);
+        case Party::SelfTextEvent::Kind::Heal:
+        case Party::SelfTextEvent::Kind::Regeneration: return abgr(0x8fe07a);
         case Party::SelfTextEvent::Kind::ConditionGained: return abgr(0xf0c45a);
         case Party::SelfTextEvent::Kind::ConditionCleared: return abgr(0xb8b49c);
     }
@@ -758,23 +762,50 @@ void renderSelfText(GameplayScreenRuntime &context, int width, int height)
     constexpr size_t MaximumLines = 8;
     constexpr uint64_t HoldMilliseconds = 1400;
     constexpr uint64_t FadeMilliseconds = 800;
-    std::vector<GameplayOverlayInteractionState::SoloSelfTextLine> &lines = context.interactionState().soloSelfText;
+    // Regeneration ticks (MAW's come ten times a second) show as one line per half second, with their sum.
+    constexpr uint64_t RegenerationMilliseconds = 500;
+    GameplayOverlayInteractionState &state = context.interactionState();
+    std::vector<GameplayOverlayInteractionState::SoloSelfTextLine> &lines = state.soloSelfText;
     const uint64_t now = SDL_GetTicks();
     if (Party *pParty = context.party())
     {
         const size_t activeMember = pParty->activeMemberIndex();
         const Character *pMember = pParty->activeMember();
-        // Below 1 % of maximum HP a tick (MAW's regeneration and auras, a leech) would only flicker: left out.
+        // Below 1 % of maximum HP an amount (an aura tick, a leech, half a second of slow regeneration) would only
+        // flicker: left out.
         const int floor = pMember != nullptr
             ? GameMechanics::calculateEffectiveCharacterMaxHealth(*pMember) / 100 : 0;
         for (const Party::SelfTextEvent &event : pParty->takeSelfTextEvents())
         {
+            if (event.memberIndex != activeMember)
+            {
+                continue;
+            }
+            if (event.kind == Party::SelfTextEvent::Kind::Regeneration)
+            {
+                if (state.soloRegenerationPending == 0)
+                {
+                    state.soloRegenerationStartTicks = now;
+                }
+                state.soloRegenerationPending += event.amount;
+                continue;
+            }
             const bool amount = event.kind == Party::SelfTextEvent::Kind::Damage
                 || event.kind == Party::SelfTextEvent::Kind::Heal;
-            if (event.memberIndex == activeMember && (!amount || event.amount > floor))
+            if (!amount || event.amount > floor)
             {
                 lines.push_back({selfTextLine(event), selfTextColour(event.kind), now});
             }
+        }
+        if (state.soloRegenerationPending > 0 && now - state.soloRegenerationStartTicks >= RegenerationMilliseconds)
+        {
+            const Party::SelfTextEvent sum = {Party::SelfTextEvent::Kind::Regeneration, activeMember,
+                state.soloRegenerationPending};
+            if (sum.amount > floor)
+            {
+                lines.push_back({selfTextLine(sum), selfTextColour(sum.kind), now});
+            }
+            state.soloRegenerationPending = 0;
         }
     }
     std::erase_if(lines, [now](const GameplayOverlayInteractionState::SoloSelfTextLine &line)
@@ -876,6 +907,10 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
                 count = QuickItemSlots::countPartyItems(party, slot.item,
                     std::max(1, party.rules().items.bagCount(party)));
             }
+        }
+        else if (slot.kind == ActionBarSlotKind::Upkeep)
+        {
+            drawItemIcon(context, UpkeepSlotIcon, icon);
         }
         if (noMana)
         {
@@ -1250,6 +1285,10 @@ void GameplaySoloHud::renderSlotIcon(GameplayScreenRuntime &context, const Gamep
         {
             drawItemIcon(context, pItem->iconName, icon);
         }
+    }
+    else if (slot.kind == ActionBarSlotKind::Upkeep)
+    {
+        drawItemIcon(context, UpkeepSlotIcon, icon);
     }
     if (dim && slot.kind != ActionBarSlotKind::Spell)
     {

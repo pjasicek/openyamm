@@ -42,6 +42,7 @@ talents:
      per_rank: 1, text: "+{value} %"}
   - {id: spell_suppression, name: Spell Suppression, tree: any, kind: passive, max_rank: 41, first_rank: 8,
      per_rank: 0.8}
+  - {id: manathirst, name: Manathirst, tree: any, kind: passive, max_rank: 5, per_rank: 2}
 keystones:
   - {id: cheat_death, name: Cheat Death, cooldown: 180, duration: 2}
   - {id: unbroken, name: Unbroken}
@@ -90,7 +91,7 @@ TEST_CASE("solo talents: the shipped table loads (tree v2)")
     SoloTalentTable table;
     std::string error;
     REQUIRE_MESSAGE(table.loadFromYaml(text.str(), error), error);
-    CHECK(table.talents().size() == 18);
+    CHECK(table.talents().size() == 19);
     CHECK(table.levelsPerPoint() == 5);
     CHECK(table.keystones().size() == 2);
     CHECK(table.keystoneLevels() == std::vector<uint32_t>{150, 300});
@@ -136,8 +137,8 @@ TEST_CASE("solo talents: the shipped table loads (tree v2)")
     CHECK(talentValue(*table.find("bloodthirst"), 5) == doctest::Approx(10.0f));
     REQUIRE(table.find("steady_aim") != nullptr);
     CHECK(talentValue(*table.find("steady_aim"), 3) == doctest::Approx(30.0f));
-    // Spell Suppression: 8 % at rank 1, 0.8 % a rank after, 40 % at its last rank 41; last in the table so the action
-    // bar's indexes keep. Conditioning: 10 % at rank 1, 1 % a rank after.
+    // Spell Suppression: 8 % at rank 1, 0.8 % a rank after, 40 % at its last rank 41. Conditioning: 10 % at rank 1,
+    // 1 % a rank after. Manathirst, the newest, is last in the table so the action bar's indexes keep.
     const TalentDefinition *pSuppression = table.find("spell_suppression");
     REQUIRE(pSuppression != nullptr);
     CHECK(pSuppression->tree == TalentTree::Any);
@@ -146,7 +147,9 @@ TEST_CASE("solo talents: the shipped table loads (tree v2)")
     CHECK(talentValue(*pSuppression, 2) == doctest::Approx(8.8f));
     CHECK(talentValue(*pSuppression, 41) == doctest::Approx(40.0f));
     CHECK(talentValue(*pConditioning, 1) == doctest::Approx(10.0f));
-    CHECK(table.talents().back().id == "spell_suppression");
+    CHECK(table.talents().back().id == "manathirst");
+    CHECK(table.talents().back().maxRank == 5);
+    CHECK(talentValue(table.talents().back(), 5) == doctest::Approx(10.0f));
 }
 
 TEST_CASE("solo talents: an unlimited talent takes every point the character has")
@@ -622,6 +625,16 @@ TEST_CASE("solo talents: Spell Surge, Overload and Bloodthirst")
     character.talentRanks["bloodthirst"] = 5;
     CHECK(MawSoloTalents::leechBonus(character) == doctest::Approx(0.10));
     CHECK(MawSoloTalents::leechFloorDivisor(character) == doctest::Approx(2.5));
+
+    // Manathirst: the same shape for the SP bar.
+    CHECK(MawSoloTalents::manaLeechShare(character) == doctest::Approx(0.0));
+    CHECK(MawSoloTalents::manaLeechFloorDivisor(character) == doctest::Approx(5.0));
+    character.talentRanks["manathirst"] = 1;
+    CHECK(MawSoloTalents::manaLeechShare(character) == doctest::Approx(0.02));
+    CHECK(MawSoloTalents::manaLeechFloorDivisor(character) == doctest::Approx(4.5));
+    character.talentRanks["manathirst"] = 5;
+    CHECK(MawSoloTalents::manaLeechShare(character) == doctest::Approx(0.10));
+    CHECK(MawSoloTalents::manaLeechFloorDivisor(character) == doctest::Approx(2.5));
 }
 
 TEST_CASE("solo talents: Sweeping Blows' share grows with the weapon skill up to its cap")

@@ -9,6 +9,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/InventoryBags.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/items/PotionUpkeep.h"
 #include "game/items/QuickItemSlots.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
@@ -16,6 +17,9 @@
 #include "game/rules/GameRules.h"
 #include "game/rules/ItemRules.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/MergedBaseTables.h"
+#include "game/tables/PotionEffectTable.h"
+#include "game/ui/GameplayBattleOrders.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
@@ -717,6 +721,105 @@ size_t popupItemCount(GameplayScreenRuntime &context, const Party &party, QuickI
     return count;
 }
 
+// One potion of the chosen member's upkeep list in the popup's Upkeep view: its order, what it is carried and kept
+// at, and how it stands on the member.
+struct UpkeepRow
+{
+    size_t orderIndex = 0;
+    uint32_t itemId = 0;
+    std::string name;
+    std::string icon;
+    bool enabled = true;
+    uint32_t carried = 0;
+    uint32_t stock = 0;
+    bool due = false;
+    // The least time its effects have left; none when nothing it gives counts (the party's own is stronger).
+    std::optional<float> secondsLeft;
+};
+
+std::vector<UpkeepRow> upkeepRows(GameplayScreenRuntime &context, const Party &party, size_t memberIndex)
+{
+    std::vector<UpkeepRow> rows;
+    const Character *pMember = party.member(memberIndex);
+    const ItemTable *pItemTable = context.itemTable();
+    const MergedPotionSettingTable *pSettings = context.mergedPotionSettingTable();
+
+    if (pMember == nullptr || pItemTable == nullptr || pSettings == nullptr)
+    {
+        return rows;
+    }
+
+    const PotionEffectTable &effects = pSettings->effects();
+
+    for (size_t index = 0; index < pMember->upkeepOrders.size(); ++index)
+    {
+        const BattleOrder &order = pMember->upkeepOrders[index];
+        const PotionDefinition *pPotion =
+            order.kind == BattleOrderKind::Potion ? effects.find(order.potionItemId) : nullptr;
+        const ItemDefinition *pDefinition = pItemTable->get(order.potionItemId);
+
+        if (pPotion == nullptr || pDefinition == nullptr)
+        {
+            continue;
+        }
+
+        const PotionUpkeep::OrderBottle bottle = PotionUpkeep::orderBottle(party, memberIndex, order, effects);
+        UpkeepRow row;
+        row.orderIndex = index;
+        row.itemId = order.potionItemId;
+        row.name = Engine::localize(pDefinition->name);
+        row.icon = pDefinition->iconName;
+        row.enabled = order.enabled;
+        row.carried = PotionUpkeep::carriedDrinks(party, *pPotion, effects, order.brewPower);
+        row.stock = order.stockDrinks;
+        row.due = PotionUpkeep::potionDue(party, memberIndex, *pPotion, bottle.power,
+            InventoryItemUseRuntime::potionDurationSeconds(party, effects, bottle.power), order.renewBelowMinutes);
+        row.secondsLeft = PotionUpkeep::secondsLeft(party, memberIndex, *pPotion, bottle.power);
+        rows.push_back(std::move(row));
+    }
+
+    return rows;
+}
+
+// Game seconds as "5 h 20 min" or "12 min".
+std::string durationText(float seconds)
+{
+    const int minutes = int(std::ceil(seconds / 60.0f));
+    return minutes >= 60 ? Engine::tr("{hours} h {minutes} min", {{"hours", int64_t(minutes / 60)},
+                                                                 {"minutes", int64_t(minutes % 60)}})
+                         : Engine::tr("{minutes} min", {{"minutes", int64_t(minutes)}});
+}
+
+// One bottle's drinks: what the stock's - and + chips change it by.
+uint8_t bottleStep(GameplayScreenRuntime &context, uint32_t itemId)
+{
+    const MergedPotionSettingTable *pSettings = context.mergedPotionSettingTable();
+    const PotionDefinition *pPotion = pSettings != nullptr ? pSettings->effects().find(itemId) : nullptr;
+    return uint8_t(std::max(1, pPotion != nullptr ? pPotion->charges : 1));
+}
+
+// Whether the potion can go in the upkeep list (it has a timed effect), and whether the member's list has it.
+bool upkeepPotion(GameplayScreenRuntime &context, uint32_t itemId)
+{
+    const MergedPotionSettingTable *pSettings = context.mergedPotionSettingTable();
+    const PotionDefinition *pPotion = pSettings != nullptr ? pSettings->effects().find(itemId) : nullptr;
+    return pPotion != nullptr && PotionUpkeep::isUpkeepPotion(*pPotion);
+}
+
+bool inUpkeep(const Character &member, uint32_t itemId)
+{
+    return std::any_of(member.upkeepOrders.begin(), member.upkeepOrders.end(), [itemId](const BattleOrder &order)
+        { return order.kind == BattleOrderKind::Potion && order.potionItemId == itemId; });
+}
+
+// The stock chips of an Upkeep row: 0 the -, 1 the +.
+Box stockChip(const Box &row, size_t chip, float k)
+{
+    const float size = 26 * k;
+    return {row.x + row.width - 8 * k - float(2 - chip) * (size + 4 * k) + 4 * k, row.y + (row.height - size) / 2,
+        size, size};
+}
+
 // The popup, centred over the scene above the frame (user, 2026-11-02: symmetric, roomy and readable, no dimming): the
 // header (title, the member, their HP and SP, Close), a hint line, the entries in two columns with a scrollbar, and
 // for potions the footer describing the hovered one. Its contents are drawn in `k`, the study's pixels at
@@ -725,6 +828,11 @@ struct PopupLayout
 {
     Box panel;
     Box close;
+    // Potions: the Upkeep view's switch, and in that view the footer's Brew now, Auto-brew and Battle Orders.
+    Box upkeepTab;
+    Box brewButton;
+    Box autoBrewButton;
+    Box ordersButton;
     Box memberChip;
     Box bars;
     Box list;
@@ -771,6 +879,11 @@ std::optional<PopupLayout> popupLayout(GameplayScreenRuntime &context, int width
     layout.memberChip = {panel.x + 150 * k, panel.y + 9 * k, 200 * k, 46 * k};
     layout.bars = {layout.memberChip.x + layout.memberChip.width + 16 * k, panel.y + 18 * k, 112 * k, 29 * k};
     layout.footer = {panel.x, panel.y + panel.height - footerHeight, panel.width, footerHeight};
+    layout.upkeepTab = {layout.close.x - 8 * k - 104 * k, layout.close.y, 104 * k, 36 * k};
+    const float buttonY = layout.footer.y + 40 * k;
+    layout.brewButton = {panel.x + 16 * k, buttonY, 130 * k, 32 * k};
+    layout.autoBrewButton = {layout.brewButton.x + layout.brewButton.width + 12 * k, buttonY, 170 * k, 32 * k};
+    layout.ordersButton = {panel.x + panel.width - 16 * k - 170 * k, buttonY, 170 * k, 32 * k};
     layout.list = {panel.x + 12 * k, panel.y + 92 * k, panel.width - 38 * k,
         panel.height - 92 * k - footerHeight - (footerHeight > 0 ? 6 * k : 12 * k)};
     layout.rowHeight = 48 * k;
@@ -818,6 +931,15 @@ Box keyChip(const Box &entry, size_t slot, float k)
     const float right = entry.x + entry.width - 8 * k;
     return {right - float(QuickItemSlotCount - slot) * (chip + gap) + gap, entry.y + (entry.height - chip) / 2, chip,
         chip};
+}
+
+// Left of the quick-slot chips, for a potion the upkeep list takes: the chip that puts it in the member's upkeep list
+// (or takes it out).
+Box upkeepChip(const Box &entry, float k)
+{
+    const Box first = keyChip(entry, 0, k);
+    const float width = 70 * k;
+    return {first.x - 82 * k - width - 4 * k, first.y, width, first.height};
 }
 
 std::string carrierNames(const Party &party, const std::vector<size_t> &carriers)
@@ -964,12 +1086,171 @@ void renderPopupBar(const Painter &paint, const Box &box, int value, int maximum
         box.x + box.width + 8 * k, box.y - 2 * k);
 }
 
+// The Upkeep view's list and footer: the member's upkeep potions with what is carried and kept, how each stands on
+// the member, the stock's - and + chips; the footer's Brew now, Auto-brew and Battle Orders.
+void renderUpkeepView(GameplayScreenRuntime &context, const Party &party, const PopupLayout &layout,
+    const std::vector<UpkeepRow> &rows, const Character &member)
+{
+    const Painter paint(context);
+    const GameplayOverlayInteractionState &state = context.interactionState();
+    const float k = layout.k;
+    const size_t scroll = std::min(state.quickItemPopupScroll, popupMaxScroll(layout, rows.size()));
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
+    const auto hot = [pInput](const Box &box)
+    {
+        return pInput != nullptr && box.contains(pInput->pointerX, pInput->pointerY);
+    };
+
+    for (size_t index = 0; index < rows.size(); ++index)
+    {
+        const std::optional<Box> box = popupEntryBox(layout, index, scroll);
+
+        if (!box)
+        {
+            continue;
+        }
+
+        const UpkeepRow &row = rows[index];
+        const bool hovered = state.quickItemPopupHovered == index;
+        paint.fill(*box, hovered ? ChipOnFill : RowFill);
+        paint.frame(*box, std::max(1.0f, k), hovered ? ChipOnBorder : RowBorder);
+        paint.icon(row.icon, {box->x + 4 * k, box->y + 2 * k, 44 * k, 44 * k}, !row.enabled || row.carried == 0);
+        const float textX = box->x + 56 * k;
+        const Box minus = stockChip(*box, 0, k);
+        const std::string stockText = row.stock > 0 ? std::to_string(row.carried) + " / " + std::to_string(row.stock)
+                                                    : std::to_string(row.carried);
+        const float stockWidth = paint.width(TextFont, 14 * k, stockText);
+        paint.text(TextFont, 14 * k, row.stock > 0 && row.carried < row.stock ? Warn : Ivory, stockText,
+            minus.x - 8 * k, box->y + 15 * k, 2);
+        const float textRight = minus.x - 16 * k - stockWidth;
+        paint.text(NameFont, 16 * k, row.enabled ? Ivory : Muted,
+            paint.fitted(NameFont, 16 * k, row.name, textRight - textX), textX, box->y + 6 * k);
+
+        std::string status;
+        uint32_t statusColour = Muted;
+
+        if (!row.enabled)
+        {
+            status = Engine::tr("off");
+        }
+        else if (!row.secondsLeft)
+        {
+            status = Engine::tr("a stronger one is in force");
+        }
+        else if (row.due)
+        {
+            status = *row.secondsLeft > 0
+                ? Engine::tr("due: {time} left", {{"time", durationText(*row.secondsLeft)}})
+                : Engine::tr("due now");
+            statusColour = Warn;
+        }
+        else
+        {
+            status = Engine::tr("{time} left", {{"time", durationText(*row.secondsLeft)}});
+            statusColour = Good;
+        }
+
+        if (row.carried == 0)
+        {
+            status += "  \xB7  " + Engine::tr("none carried");
+            statusColour = Bad;
+        }
+
+        paint.text(TextFont, 11 * k, statusColour, paint.fitted(TextFont, 11 * k, status, textRight - textX), textX,
+            box->y + 28 * k);
+
+        for (size_t chip = 0; chip < 2; ++chip)
+        {
+            const Box chipBox = stockChip(*box, chip, k);
+            const bool chipHot = hot(chipBox);
+            paint.fill(chipBox, chipHot ? ChipOnFill : ChipFill);
+            paint.frame(chipBox, std::max(1.0f, k), chipHot ? ChipOnBorder : ChipBorder);
+            paint.text(TextFont, 15 * k, chipHot ? Ivory : Body, chip == 0 ? "-" : "+",
+                chipBox.x + chipBox.width / 2, chipBox.y + 4 * k, 1);
+        }
+    }
+
+    if (rows.empty())
+    {
+        float y = layout.list.y + 10 * k;
+
+        for (const std::string &line : {
+                 Engine::tr("No potions in {name}'s upkeep.", {{"name", member.name}}),
+                 Engine::tr("Right-click a potion in the Potions list and choose Upkeep, or add them in Battle Orders.")})
+        {
+            paint.text(TextFont, 14 * k, Muted, paint.fitted(TextFont, 14 * k, line, layout.list.width - 16 * k),
+                layout.list.x + 8 * k, y);
+            y += 20 * k;
+        }
+    }
+
+    const size_t maxScroll = popupMaxScroll(layout, rows.size());
+
+    if (maxScroll > 0)
+    {
+        const Box &track = layout.track;
+        paint.fill(track, Track);
+        const float thumb = track.height * float(layout.visibleRows) / float(popupRowCount(rows.size()));
+        const float offset = (track.height - thumb) * float(scroll) / float(maxScroll);
+        paint.fill({track.x - k, track.y + offset, track.width + 2 * k, thumb}, abgr(0x6a8dac));
+    }
+
+    // The footer: what keeps them up, then the buttons.
+    const Box &footer = layout.footer;
+    paint.fill({footer.x, footer.y, footer.width, std::max(1.0f, k)}, abgr(0x3a4234));
+    const InputBinding key = context.settingsSnapshot().keyboard.binding(KeyboardAction::Upkeep);
+    const bool autoBrew = context.settingsSnapshot().upkeepAutoBrew;
+    const std::string keyText = key.kind == InputBindingKind::None
+        ? Engine::tr("The Upkeep key (not set) drinks what is due, one press at a time.")
+        : Engine::tr("{key} drinks what is due, one press at a time.", {{"key", inputBindingDisplayName(key)}});
+    paint.text(TextFont, 13 * k, Body,
+        paint.fitted(TextFont, 13 * k,
+            keyText + " "
+                + (autoBrew ? Engine::tr("A press brews the missing stock first.")
+                            : Engine::tr("Brew now fills the stock.")),
+            footer.width - 32 * k),
+        footer.x + 16 * k, footer.y + 12 * k);
+    // A button; the Auto-brew one carries its tick box at the left.
+    const auto button = [&](const Box &box, const std::string &label, std::optional<bool> tick)
+    {
+        const bool buttonHot = hot(box);
+        const bool on = tick.value_or(false);
+        paint.fill(box, on || buttonHot ? ChipOnFill : ChipFill);
+        paint.frame(box, std::max(1.0f, k), on || buttonHot ? ChipOnBorder : ChipBorder);
+        float centre = box.x + box.width / 2;
+
+        if (tick)
+        {
+            const Box tickBox = {box.x + 12 * k, box.y + (box.height - 14 * k) / 2, 14 * k, 14 * k};
+            paint.fill(tickBox, abgr(0x0b1111));
+            paint.frame(tickBox, std::max(1.0f, k), on ? ChipOnBorder : abgr(0x7a7052));
+
+            if (on)
+            {
+                paint.fill({tickBox.x + 4 * k, tickBox.y + 4 * k, 6 * k, 6 * k}, Gold);
+            }
+
+            centre += 12 * k;
+        }
+
+        paint.text("Fondamento", 16 * k, on ? Ivory : abgr(0xe8d1a4), label, centre, box.y + 6 * k, 1);
+    };
+    button(layout.brewButton, Engine::tr("Brew now"), std::nullopt);
+    button(layout.autoBrewButton, Engine::tr("Auto-brew"), autoBrew);
+    button(layout.ordersButton, Engine::tr("Battle Orders"), std::nullopt);
+}
+
 void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, int height)
 {
     const GameplayOverlayInteractionState &state = context.interactionState();
     const QuickItemPopupKind kind = state.quickItemPopup;
-    const std::vector<PopupEntry> entries = popupEntries(context, party, kind);
-    const std::optional<PopupLayout> layout = popupLayout(context, width, height, kind, entries.size());
+    const bool upkeepView = kind == QuickItemPopupKind::Potions && state.quickItemPopupUpkeep;
+    const std::vector<PopupEntry> entries =
+        upkeepView ? std::vector<PopupEntry>{} : popupEntries(context, party, kind);
+    const std::vector<UpkeepRow> rows =
+        upkeepView ? upkeepRows(context, party, state.quickItemPopupMember) : std::vector<UpkeepRow>{};
+    const std::optional<PopupLayout> layout =
+        popupLayout(context, width, height, kind, upkeepView ? rows.size() : entries.size());
     const std::optional<GameplayResolvedHudLayoutElement> bar = basebarRect(context, width, height);
     const Character *pMember = party.member(state.quickItemPopupMember);
     const ItemTable *pItemTable = context.itemTable();
@@ -1051,7 +1332,28 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
     paint.frame(close, std::max(1.0f, k), ChipOnBorder);
     paint.text("Fondamento", 19 * k, abgr(0xe8d1a4), Engine::tr("Close"), close.x + close.width / 2,
         close.y + 7 * k, 1);
+
+    // Potions: the Upkeep view's switch.
+    if (potions)
+    {
+        const Box &tab = layout->upkeepTab;
+        paint.fill(tab, upkeepView ? ChipOnFill : ChipFill);
+        paint.frame(tab, std::max(1.0f, k), upkeepView ? ChipOnBorder : ChipBorder);
+        paint.text("Fondamento", 19 * k, upkeepView ? Ivory : abgr(0xe8d1a4), Engine::tr("Upkeep"),
+            tab.x + tab.width / 2, tab.y + 7 * k, 1);
+    }
+
     paint.fill({panel.x, panel.y + 64 * k, panel.width, std::max(1.0f, k)}, abgr(0x3a4234));
+
+    if (upkeepView)
+    {
+        paint.text(TextFont, 12 * k, Muted, Engine::tr("Click a potion to drink it now; click a portrait to choose whose"),
+            panel.x + 16 * k, panel.y + 68 * k);
+        paint.text(TextFont, 12 * k, Muted, Engine::tr("- / +: one bottle less or more in stock"),
+            panel.x + panel.width - 16 * k, panel.y + 68 * k, 2);
+        renderUpkeepView(context, party, *layout, rows, *pMember);
+        return;
+    }
 
     // The hint line.
     paint.text(TextFont, 12 * k, Muted,
@@ -1129,8 +1431,17 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
                 subX, box->y + 28 * k);
         }
 
-        // The member's quick slots holding this kind.
+        // The member's quick slots holding this kind, and U when it is in their upkeep list.
         float pinX = box->x + 2 * k;
+
+        if (potions && inUpkeep(*pMember, entry.itemId))
+        {
+            const Box pin = {pinX, box->y + 2 * k, 15 * k, 15 * k};
+            paint.fill(pin, abgr(0x1c2524));
+            paint.frame(pin, std::max(1.0f, k), abgr(0x6b6a4e));
+            paint.text(TextFont, 10 * k, Good, "U", pin.x + pin.width / 2, pin.y + 1 * k, 1);
+            pinX += 17 * k;
+        }
 
         for (size_t slot = 0; slot < QuickItemSlotCount; ++slot)
         {
@@ -1148,12 +1459,24 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
         if (state.quickItemPopupKeyEntry == index)
         {
             const Box first = keyChip(*box, 0, k);
-            const Box strip = {first.x - 82 * k, box->y + 3 * k, box->x + box->width - 4 * k - (first.x - 82 * k),
+            const bool canUpkeep = potions && upkeepPotion(context, entry.itemId);
+            const float stripLeft = canUpkeep ? upkeepChip(*box, k).x - 4 * k : first.x - 82 * k;
+            const Box strip = {stripLeft, box->y + 3 * k, box->x + box->width - 4 * k - stripLeft,
                 box->height - 6 * k};
             paint.fill(strip, abgr(0x0b1212, 0xf4));
             paint.frame(strip, std::max(1.0f, k), ChipOnBorder);
-            paint.text(TextFont, 11 * k, Body, Engine::tr("Quick slot"), strip.x + 8 * k,
+            paint.text(TextFont, 11 * k, Body, Engine::tr("Quick slot"), first.x - 74 * k,
                 strip.y + strip.height / 2 - 7 * k);
+
+            if (canUpkeep)
+            {
+                const Box chipBox = upkeepChip(*box, k);
+                const bool on = inUpkeep(*pMember, entry.itemId);
+                paint.fill(chipBox, on ? ChipOnFill : ChipFill);
+                paint.frame(chipBox, std::max(1.0f, k), on ? ChipOnBorder : ChipBorder);
+                paint.text(TextFont, 12 * k, on ? Ivory : Body, Engine::tr("Upkeep"), chipBox.x + chipBox.width / 2,
+                    chipBox.y + 6 * k, 1);
+            }
 
             for (size_t slot = 0; slot < QuickItemSlotCount; ++slot)
             {
@@ -1275,8 +1598,13 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
 {
     GameplayOverlayInteractionState &state = context.interactionState();
     const QuickItemPopupKind kind = state.quickItemPopup;
-    const std::vector<PopupEntry> entries = popupEntries(context, party, kind);
-    const std::optional<PopupLayout> layout = popupLayout(context, width, height, kind, entries.size());
+    const bool upkeepView = kind == QuickItemPopupKind::Potions && state.quickItemPopupUpkeep;
+    const std::vector<PopupEntry> entries =
+        upkeepView ? std::vector<PopupEntry>{} : popupEntries(context, party, kind);
+    const std::vector<UpkeepRow> rows =
+        upkeepView ? upkeepRows(context, party, state.quickItemPopupMember) : std::vector<UpkeepRow>{};
+    const size_t listed = upkeepView ? rows.size() : entries.size();
+    const std::optional<PopupLayout> layout = popupLayout(context, width, height, kind, listed);
 
     if (!layout || party.member(state.quickItemPopupMember) == nullptr)
     {
@@ -1284,13 +1612,13 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
         return false;
     }
 
-    const size_t maxScroll = popupMaxScroll(*layout, entries.size());
+    const size_t maxScroll = popupMaxScroll(*layout, listed);
     state.quickItemPopupScroll = std::min(state.quickItemPopupScroll, maxScroll);
     const float x = input.pointerX;
     const float y = input.pointerY;
     std::optional<size_t> under;
 
-    for (size_t index = 0; pointerAllowed && index < entries.size(); ++index)
+    for (size_t index = 0; pointerAllowed && index < listed; ++index)
     {
         const std::optional<Box> box = popupEntryBox(*layout, index, state.quickItemPopupScroll);
 
@@ -1355,6 +1683,34 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
             }
         }
 
+        // The Upkeep chip puts the potion in the member's upkeep list, or takes it out.
+        const uint32_t itemId = box ? entries[entryIndex].itemId : 0;
+
+        if (box && left && kind == QuickItemPopupKind::Potions && upkeepPotion(context, itemId)
+            && upkeepChip(*box, layout->k).contains(x, y))
+        {
+            std::vector<BattleOrder> &upkeep = member.upkeepOrders;
+
+            if (inUpkeep(member, itemId))
+            {
+                std::erase_if(upkeep, [itemId](const BattleOrder &order)
+                    { return order.kind == BattleOrderKind::Potion && order.potionItemId == itemId; });
+                context.setStatusBarEvent(Engine::tr("Taken out of {name}'s upkeep", {{"name", member.name}}));
+            }
+            else if (upkeep.size() >= BattleOrderLimit)
+            {
+                context.setStatusBarEvent(
+                    Engine::tr("At most {count} upkeep entries", {{"count", int64_t(BattleOrderLimit)}}));
+            }
+            else if (context.mergedPotionSettingTable() != nullptr)
+            {
+                upkeep.push_back(PotionUpkeep::newOrder(itemId, context.mergedPotionSettingTable()->effects()));
+                context.setStatusBarEvent(Engine::tr("Added to {name}'s upkeep", {{"name", member.name}}));
+            }
+
+            return true;
+        }
+
         if (box && box->contains(x, y))
         {
             return true;
@@ -1365,6 +1721,64 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
     {
         closePopup(context);
         return true;
+    }
+
+    if (left && kind == QuickItemPopupKind::Potions && layout->upkeepTab.contains(x, y))
+    {
+        state.quickItemPopupUpkeep = !state.quickItemPopupUpkeep;
+        state.quickItemPopupScroll = 0;
+        state.quickItemPopupHovered.reset();
+        return true;
+    }
+
+    // The Upkeep view: a row's stock chips, a row drunk now, the footer's buttons.
+    if (upkeepView && left)
+    {
+        const size_t memberIndex = state.quickItemPopupMember;
+
+        if (layout->brewButton.contains(x, y))
+        {
+            context.itemService().restockUpkeepPotions(context, false);
+            return true;
+        }
+
+        if (layout->autoBrewButton.contains(x, y))
+        {
+            GameSettings &settings = context.mutableSettings();
+            settings.upkeepAutoBrew = !settings.upkeepAutoBrew;
+            context.commitSettingsChange();
+            return true;
+        }
+
+        if (layout->ordersButton.contains(x, y))
+        {
+            closePopup(context);
+            GameplayBattleOrders::openUpkeep(context, memberIndex);
+            return true;
+        }
+
+        if (under)
+        {
+            const UpkeepRow &row = rows[*under];
+            const std::optional<Box> box = popupEntryBox(*layout, *under, state.quickItemPopupScroll);
+            BattleOrder &order = member.upkeepOrders[row.orderIndex];
+
+            for (size_t chip = 0; box && chip < 2; ++chip)
+            {
+                if (stockChip(*box, chip, layout->k).contains(x, y))
+                {
+                    const int step = bottleStep(context, row.itemId);
+                    order.stockDrinks = uint8_t(std::clamp(int(order.stockDrinks) + (chip == 0 ? -step : step), 0,
+                        int(UpkeepStockMaximumDrinks)));
+                    return true;
+                }
+            }
+
+            const QuickItemSlot kindToDrink = {order.potionItemId, order.bottleRule};
+            closePopup(context);
+            context.itemService().useQuickItemKind(context, memberIndex, kindToDrink);
+            return true;
+        }
     }
 
     // The buttons: the open one closes its popup, the other switches to its own.
@@ -1405,7 +1819,7 @@ bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &
         return true;
     }
 
-    if (under)
+    if (under && !upkeepView)
     {
         const PopupEntry &entry = entries[*under];
 

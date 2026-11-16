@@ -467,35 +467,6 @@ PotionDrinkOutcome applyPotionEffects(
     return PotionDrinkOutcome::Drunk;
 }
 
-// How long a potion's timed effects last: Standard a number of minutes per point of power; MAW a fixed time plus
-// minutes per Alchemy point of the party's best Grandmaster alchemist. A solo run's are at least the table's solo
-// time (plus that alchemist's minutes).
-float potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power)
-{
-    const float soloSeconds = party.soloRun() ? effects.soloDurationSeconds() : 0.0f;
-
-    if (effects.timedSecondsPerPower() > 0)
-    {
-        return std::max(effects.timedSecondsPerPower() * static_cast<float>(power), soloSeconds);
-    }
-
-    int bestGrandmasterSkill = 0;
-
-    for (const Character &member : party.members())
-    {
-        const CharacterSkill *pAlchemy = member.findSkill("Alchemy");
-
-        if (pAlchemy != nullptr && pAlchemy->mastery >= SkillMastery::Grandmaster)
-        {
-            bestGrandmasterSkill =
-                std::max(bestGrandmasterSkill, static_cast<int>(pAlchemy->level) + member.skillBonus("Alchemy"));
-        }
-    }
-
-    return std::max(effects.fixedDurationSeconds(), soloSeconds)
-        + effects.grandmasterAlchemySecondsPerSkill() * static_cast<float>(bestGrandmasterSkill);
-}
-
 // Who pays a potion's recovery: the drinker when ready (MAW; not when the active member pays, as in the original
 // games), else the active member, else the first ready one.
 std::optional<size_t> potionRecoveryPayer(const Party &party, size_t drinkerIndex, bool activeMemberPays)
@@ -874,6 +845,32 @@ InventoryItemUseResult makeFailure(
     result.speechId = speechId;
     return result;
 }
+}
+
+float InventoryItemUseRuntime::potionDurationSeconds(const Party &party, const PotionEffectTable &effects, int power)
+{
+    const float soloSeconds = party.soloRun() ? effects.soloDurationSeconds() : 0.0f;
+
+    if (effects.timedSecondsPerPower() > 0)
+    {
+        return std::max(effects.timedSecondsPerPower() * static_cast<float>(power), soloSeconds);
+    }
+
+    int bestGrandmasterSkill = 0;
+
+    for (const Character &member : party.members())
+    {
+        const CharacterSkill *pAlchemy = member.findSkill("Alchemy");
+
+        if (pAlchemy != nullptr && pAlchemy->mastery >= SkillMastery::Grandmaster)
+        {
+            bestGrandmasterSkill =
+                std::max(bestGrandmasterSkill, static_cast<int>(pAlchemy->level) + member.skillBonus("Alchemy"));
+        }
+    }
+
+    return std::max(effects.fixedDurationSeconds(), soloSeconds)
+        + effects.grandmasterAlchemySecondsPerSkill() * static_cast<float>(bestGrandmasterSkill);
 }
 
 InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(

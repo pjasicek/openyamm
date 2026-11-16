@@ -1295,26 +1295,64 @@ AlchemyChainPlanner::AlchemyChainPlanner(
     const AlchemyBook &book,
     const AlchemistInfo &alchemist,
     const AlchemyBenchTables &tables,
-    bool keepMixedPotions)
+    bool keepMixedPotions,
+    std::span<const AlchemyItemCount> reserved)
     : m_book(book)
     , m_tables(tables)
     , m_alchemistLevel(alchemist.level)
     , m_bottleItemId(tables.potionSettingTable.emptyBottleItemId())
 {
+    // The reserved items' copies, strongest first: the first `count` of each are kept.
+    std::unordered_map<uint32_t, std::vector<std::pair<uint16_t, uint16_t>>> reservable;
+
     forEachCarriedItem(party,
         [&](const ItemLocation &, const InventoryItem &item)
         {
             const std::optional<AlchemyIngredientKind> kind = ingredientKind(item.objectDescriptionId, tables);
+            const bool reservedItem = std::any_of(reserved.begin(), reserved.end(),
+                [&item](const AlchemyItemCount &count) { return count.itemId == item.objectDescriptionId; });
 
             if (keepMixedPotions && book.isMixedPotion(item.objectDescriptionId))
             {
                 m_kept.push_back({item.objectDescriptionId, item.standardEnchantPower});
+            }
+            else if (kind.has_value() && reservedItem)
+            {
+                reservable[item.objectDescriptionId].push_back(
+                    {item.standardEnchantPower, ingredientPower(item, *kind, tables, alchemist)});
             }
             else if (kind.has_value())
             {
                 m_carried.push_back({item.objectDescriptionId, ingredientPower(item, *kind, tables, alchemist)});
             }
         });
+
+    for (const AlchemyItemCount &count : reserved)
+    {
+        const auto found = reservable.find(count.itemId);
+
+        if (found == reservable.end())
+        {
+            continue;
+        }
+
+        std::vector<std::pair<uint16_t, uint16_t>> &copies = found->second;
+        std::sort(copies.begin(), copies.end(), std::greater<>());
+
+        for (size_t index = 0; index < copies.size(); ++index)
+        {
+            if (index < count.count)
+            {
+                m_kept.push_back({count.itemId, copies[index].first});
+            }
+            else
+            {
+                m_carried.push_back({count.itemId, copies[index].second});
+            }
+        }
+
+        reservable.erase(found);
+    }
 }
 
 bool AlchemyChainPlanner::obtain(

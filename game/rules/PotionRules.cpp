@@ -35,6 +35,11 @@ std::optional<std::string> PotionRules::noBenefitText() const
     return std::nullopt;
 }
 
+bool PotionRules::potionAuraCounts(uint32_t, int) const
+{
+    return true;
+}
+
 const PotionRules &standardPotionRules()
 {
     static const PotionRules Rules;

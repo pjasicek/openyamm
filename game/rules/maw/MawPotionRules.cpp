@@ -4,6 +4,7 @@
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/party/Party.h"
 #include "game/rules/SkillRules.h"
+#include "game/rules/maw/MawAuras.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/PotionEffectTable.h"
@@ -93,5 +94,13 @@ double MawPotionRules::estimatedPool(PotionPool pool, int level) const
 {
     MawBalanceModel &model = m_rules.model(5);
     return pool == PotionPool::HitPoints ? model.health(std::max(1, level)) : model.mana(std::max(1, level));
+}
+
+bool MawPotionRules::potionAuraCounts(uint32_t spellId, int power) const
+{
+    const std::optional<MawAuraSource> aura = m_rules.activeAura(spellId);
+    return !aura
+        || mawAuraStrength(spellId, mawPotionAuraSkill(spellId, power), mawPotionAuraLevel(power))
+            > mawAuraStrength(spellId, aura->skill, aura->level);
 }
 }

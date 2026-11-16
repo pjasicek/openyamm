@@ -17,8 +17,8 @@ struct Character;
 struct GameplayInputFrame;
 
 // The Battle Orders window (devdocs/BATTLE_ORDERS.md; the chosen study level_generation/ui/combat_orders_20261108,
-// layout A): each member's attack orders with their conditions, the fallback, the upkeep list (the spells the Upkeep
-// key keeps up) and the quick keys (Quick Cast, Quick Spell 1-4), over the open spellbook. Opened by the spellbook's
+// layout A): each member's attack orders with their conditions, the fallback, the upkeep list (the spells and potions
+// the Upkeep key keeps up, with the potions' stock and the auto-brew tick) and the quick keys (Quick Cast, Quick Spell 1-4), over the open spellbook. Opened by the spellbook's
 // Battle Orders button or the Battle Orders key (which opens the book with it). Also the spellbook's short spell
 // menu: a right click on a spell assigns it.
 namespace GameplayBattleOrders
@@ -38,6 +38,9 @@ enum class Preset
 bool isOpen(const GameplayScreenRuntime &context);
 // Opens the window on the active member, over the open spellbook.
 void open(GameplayScreenRuntime &context, bool closesBook);
+// Opens the window on the member's upkeep list, with the book when it is closed (the potion popup's Battle Orders
+// button).
+void openUpkeep(GameplayScreenRuntime &context, size_t memberIndex);
 // Closes the window, and the book when the window was opened with it.
 void close(GameplayScreenRuntime &context);
 void render(GameplayScreenRuntime &context, int width, int height);
@@ -78,7 +81,7 @@ enum class UpkeepPreset
 // of Power's Heroism), each renewed from the default time left on; Torch Light indoors only. Healing: Heal for an
 // ally below 90 % HP, then the cures. Returns how many it added.
 size_t addUpkeepPreset(Character &member, const Party &party, const SpellTable &spellTable, UpkeepPreset preset);
-// Another member's upkeep list, without the spells this member cannot cast.
+// Another member's upkeep list, without the spells this member cannot cast; potions are copied as they are.
 void copyUpkeep(Character &member, const Character &source, const Party &party, const SpellTable &spellTable);
 }
 }

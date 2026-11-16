@@ -7,10 +7,13 @@
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/MeleeContactEffects.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/items/PotionUpkeep.h"
 #include "game/mm9/Mm9HirelingCombat.h"
 #include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/PartySpellSystem.h"
@@ -21,6 +24,7 @@
 #include "game/rules/SoloTalents.h"
 #include "game/StringUtils.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/MergedBaseTables.h"
 #include "game/tables/MonsterProjectileTable.h"
 #include "game/tables/MonsterTable.h"
 
@@ -2240,6 +2244,17 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
     Party &party = *config.pParty;
     const size_t memberCount = party.members().size();
     const bool turnBased = config.pRuntime->turnBasedCombatRuntime().active();
+
+    // Auto-brew: a fresh press first brews what the potion stock lacks, so a potion that ran out can be drunk now. What
+    // it brewed stays in the status line over the drink's.
+    std::string restockText;
+
+    if (config.pressedThisFrame && config.pRuntime->settingsSnapshot().upkeepAutoBrew
+        && !PotionUpkeep::stockTargets(party).empty())
+    {
+        restockText = config.pRuntime->itemService().restockUpkeepPotions(*config.pRuntime, true);
+    }
+
     // Who may cast: in turn-based mode the member whose turn it is; in real time the ready members, the active first.
     std::vector<size_t> casters;
 
@@ -2268,8 +2283,11 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
     }
 
     bool anyOrder = false;
-    // A due spell its caster cannot pay for, for the message.
+    // A due spell its caster cannot pay for, and a due potion nobody carries, for the message.
     std::string unaffordable;
+    std::string missingPotion;
+    const MergedPotionSettingTable *pPotionSettings = config.pRuntime->mergedPotionSettingTable();
+    const ItemTable *pItemTable = config.pRuntime->itemTable();
 
     for (const Character &member : party.members())
     {
@@ -2285,6 +2303,62 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
 
         for (const BattleOrder &order : member.upkeepOrders)
         {
+            // A potion (devdocs/BATTLE_ORDERS.md "Potions"): the bottle its rule picks from the member's bags first,
+            // drunk when one of its timed effects is due at that bottle's power.
+            if (order.enabled && order.kind == BattleOrderKind::Potion)
+            {
+                const PotionDefinition *pPotion =
+                    pPotionSettings != nullptr ? pPotionSettings->effects().find(order.potionItemId) : nullptr;
+
+                if (pPotion == nullptr || !battleOrderConditionsHold(order, situation))
+                {
+                    continue;
+                }
+
+                const PotionEffectTable &effects = pPotionSettings->effects();
+                const PotionUpkeep::OrderBottle bottle = PotionUpkeep::orderBottle(party, memberIndex, order, effects);
+
+                if (!PotionUpkeep::potionDue(party, memberIndex, *pPotion, bottle.power,
+                        InventoryItemUseRuntime::potionDurationSeconds(party, effects, bottle.power),
+                        order.renewBelowMinutes))
+                {
+                    continue;
+                }
+
+                if (!bottle.location)
+                {
+                    const ItemDefinition *pDefinition =
+                        pItemTable != nullptr ? pItemTable->get(order.potionItemId) : nullptr;
+
+                    if (missingPotion.empty() && pDefinition != nullptr)
+                    {
+                        missingPotion = Engine::localize(pDefinition->name);
+                    }
+
+                    continue;
+                }
+
+                // The drinker becomes the active member, as a caster does, and the selection moves on after the drink.
+                party.setActiveMemberIndex(memberIndex);
+                const bool drunk = config.pRuntime->itemService().useCarriedItem(*config.pRuntime, memberIndex,
+                    *bottle.location);
+                result.attempted = true;
+                result.castStarted = drunk;
+                result.actingMemberIndex = memberIndex;
+
+                if (drunk && !turnBased)
+                {
+                    party.switchToNextReadyMember();
+                }
+
+                if (!restockText.empty())
+                {
+                    config.pRuntime->setStatusBarEvent(restockText);
+                }
+
+                return result;
+            }
+
             const SpellEntry *pSpellEntry = order.enabled && order.kind == BattleOrderKind::Spell
                 ? config.pSpellTable->findByName(order.spellName, spellKnownBy(member))
                 : nullptr;
@@ -2342,11 +2416,12 @@ GameplayActionController::PartyUpkeepResult GameplayActionController::executePar
         }
     }
 
-    if (config.pressedThisFrame)
+    if (config.pressedThisFrame && restockText.empty())
     {
-        config.pRuntime->setStatusBarEvent(!anyOrder ? Engine::tr("No upkeep spells set (Battle Orders)")
+        config.pRuntime->setStatusBarEvent(!anyOrder ? Engine::tr("Nothing set to keep up (Battle Orders)")
             : !unaffordable.empty()
                 ? Engine::tr("Upkeep: not enough spell points for {spell}", {{"spell", unaffordable}})
+            : !missingPotion.empty() ? Engine::tr("Upkeep: no {potion} left", {{"potion", missingPotion}})
                 : casters.empty() ? Engine::tr("Upkeep: nobody is ready")
                                   : Engine::tr("Upkeep: nothing to cast"));
     }

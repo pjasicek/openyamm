@@ -5,13 +5,21 @@
 #include "game/audio/GameAudioSystem.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/items/AlchemyBenchRuntime.h"
+#include "game/items/InventoryBags.h"
+#include "game/items/PotionUpkeep.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/ItemRules.h"
 #include "game/rules/SoloTalents.h"
+#include "game/tables/ItemTable.h"
+#include "game/tables/MergedBaseTables.h"
+#include "game/tables/PotionEffectTable.h"
 #include "game/tables/SpellTable.h"
+#include "game/ui/GameplayAlchemyBenchView.h"
 #include "game/ui/GameplayObsidianPainter.h"
 #include "game/ui/GameplaySoloHud.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -97,9 +105,11 @@ constexpr std::array<std::string_view, 5> QuickSlotNames = {Engine::trNoop("Quic
 // The "Start from" chips: the four plans, then the menu of the other members' orders.
 constexpr std::array<std::string_view, 5> PresetNames = {Engine::trNoop("Fighter"), Engine::trNoop("Archer"),
     Engine::trNoop("Caster"), Engine::trNoop("Healer"), Engine::trNoop("Copy from...")};
-// The upkeep list's "Add" chips: the buffs and the healing the member knows, then the same menu.
-constexpr std::array<std::string_view, 3> UpkeepPresetNames = {Engine::trNoop("Buffs"), Engine::trNoop("Healing"),
-    Engine::trNoop("Copy from...")};
+// The upkeep list's "Add" chips: the buffs and the healing the member knows, the potions the party carries, then the
+// same menu.
+constexpr std::array<std::string_view, 4> UpkeepPresetNames = {Engine::trNoop("Buffs"), Engine::trNoop("Healing"),
+    Engine::trNoop("Potions"), Engine::trNoop("Copy from...")};
+constexpr size_t UpkeepPotionsPreset = 2;
 constexpr std::array<std::string_view, 2> ListNames = {Engine::trNoop("On Attack"), Engine::trNoop("Upkeep")};
 constexpr std::array<std::string_view, 3> PlaceNames = {Engine::trNoop("Anywhere"), Engine::trNoop("Indoors"),
     Engine::trNoop("Outdoors")};
@@ -112,6 +122,9 @@ enum class Slider
     Keep,
     // Upkeep's "renew when under".
     Renew,
+    // An upkeep potion's stock in drinks, and the power it is brewed at.
+    Stock,
+    Power,
 };
 
 enum class Control
@@ -147,6 +160,10 @@ enum class Control
     Place,
     // Whose HP the HP condition reads: 0 the lowest ally's, 1 the member's own (BattleOrder::ownHealth).
     HealthWho,
+    // An upkeep potion's bottle: 0 the strongest, 1 the weakest (BattleOrder::bottleRule).
+    BottleRule,
+    // The auto-brew tick beside the Upkeep key (GameSettings::upkeepAutoBrew).
+    AutoBrew,
 };
 
 struct Hit
@@ -163,6 +180,8 @@ struct PaletteEntry
     uint32_t spellId = 0;
     bool clear = false;
     uint32_t talentIndex = 0;
+    // An upkeep potion's item id (BattleOrderKind::Potion).
+    uint32_t potionItemId = 0;
 };
 
 struct Layout
@@ -327,10 +346,118 @@ std::optional<uint32_t> talentIndexOf(std::string_view id)
     return std::nullopt;
 }
 
+const PotionEffectTable *potionEffects(const GameplayScreenRuntime &context)
+{
+    return context.mergedPotionSettingTable() != nullptr ? &context.mergedPotionSettingTable()->effects() : nullptr;
+}
+
+const PotionDefinition *orderPotion(const GameplayScreenRuntime &context, const BattleOrder &order)
+{
+    const PotionEffectTable *pEffects = potionEffects(context);
+    return order.kind == BattleOrderKind::Potion && pEffects != nullptr ? pEffects->find(order.potionItemId) : nullptr;
+}
+
+std::string potionName(const GameplayScreenRuntime &context, uint32_t itemId)
+{
+    const ItemDefinition *pDefinition = context.itemTable() != nullptr ? context.itemTable()->get(itemId) : nullptr;
+    return pDefinition != nullptr ? Engine::localize(pDefinition->name) : Engine::tr("potion");
+}
+
+// The drinks of an upkeep potion the party carries, at least at the power its stock is brewed at.
+uint32_t carriedPotionDrinks(const GameplayScreenRuntime &context, const BattleOrder &order)
+{
+    const PotionDefinition *pPotion = orderPotion(context, order);
+    const Party *pParty = context.partyReadOnly();
+    return pPotion != nullptr && pParty != nullptr
+        ? PotionUpkeep::carriedDrinks(*pParty, *pPotion, *potionEffects(context), order.brewPower)
+        : 0;
+}
+
+// The highest power the brew-power slider offers: the rules' cap (MAW's 500), else 100.
+int brewPowerLimit(const GameplayScreenRuntime &context)
+{
+    const PotionEffectTable *pEffects = potionEffects(context);
+    return pEffects != nullptr && pEffects->powerCap() > 0 ? pEffects->powerCap() : 100;
+}
+
+// The potions the upkeep list can take, by name: the upkeep potions the party carries (carriedOnly), or also those
+// whose recipe the party's alchemist knows, so a stock can start from nothing.
+std::vector<uint32_t> listUpkeepPotions(const GameplayScreenRuntime &context, bool carriedOnly)
+{
+    std::vector<uint32_t> itemIds;
+    const Party *pParty = context.partyReadOnly();
+    const PotionEffectTable *pEffects = potionEffects(context);
+
+    if (pParty == nullptr || pEffects == nullptr)
+    {
+        return itemIds;
+    }
+
+    const auto add = [&itemIds, pEffects](uint32_t itemId)
+    {
+        const PotionDefinition *pPotion = pEffects->find(itemId);
+
+        if (pPotion != nullptr && PotionUpkeep::isUpkeepPotion(*pPotion)
+            && std::find(itemIds.begin(), itemIds.end(), itemId) == itemIds.end())
+        {
+            itemIds.push_back(itemId);
+        }
+    };
+    const int bags = std::max(1, pParty->rules().items.bagCount(*pParty));
+
+    for (const Character &member : pParty->members())
+    {
+        for (int bag = 0; bag < bags; ++bag)
+        {
+            for (const InventoryItem &item : InventoryBags::itemsInBag(member, uint8_t(bag)))
+            {
+                add(item.objectDescriptionId);
+            }
+        }
+    }
+
+    const std::optional<AlchemyBenchTables> tables = GameplayAlchemyBenchView::tables(context);
+
+    if (!carriedOnly && tables)
+    {
+        const AlchemyBook book = AlchemyBenchRuntime::buildBook(*tables,
+            AlchemyBenchRuntime::collectIngredients(*pParty, *tables),
+            AlchemyBenchRuntime::resolveAlchemist(*pParty).mastery,
+            [&context](uint32_t autonoteId) { return context.isAutonoteUnlocked(autonoteId); });
+
+        for (const AlchemyBookEntry &entry : book.entries)
+        {
+            add(entry.resultItemId);
+        }
+    }
+
+    std::sort(itemIds.begin(), itemIds.end(), [&context](uint32_t left, uint32_t right)
+        {
+            return potionName(context, left) < potionName(context, right);
+        });
+    return itemIds;
+}
+
+const std::vector<uint32_t> &upkeepPotions(const GameplayScreenRuntime &context)
+{
+    constexpr uint64_t MaxAgeMilliseconds = 500;
+    return context.spellbook().battleOrders.upkeepPotions.get(context.partyReadOnly(), SDL_GetTicks(),
+        MaxAgeMilliseconds, [&context]() { return listUpkeepPotions(context, false); });
+}
+
+// A new upkeep order for the potion (PotionUpkeep::newOrder).
+BattleOrder upkeepOrderForPotion(const GameplayScreenRuntime &context, uint32_t itemId)
+{
+    const PotionEffectTable *pEffects = potionEffects(context);
+    return pEffects != nullptr ? PotionUpkeep::newOrder(itemId, *pEffects) : BattleOrder{};
+}
+
 std::string orderName(const GameplayScreenRuntime &context, const Character &member, const BattleOrder &order)
 {
     switch (order.kind)
     {
+        case BattleOrderKind::Potion:
+            return potionName(context, order.potionItemId);
         case BattleOrderKind::Melee:
             return Engine::tr("Melee");
         case BattleOrderKind::Shoot:
@@ -390,7 +517,21 @@ std::string conditionSummary(const GameplayScreenRuntime &context, const Charact
     {
         const SpellEntry *pSpell = orderSpell(context, member, order);
 
-        if (pSpell != nullptr && !isUpkeepBuff(uint32_t(pSpell->id)))
+        if (order.kind == BattleOrderKind::Potion)
+        {
+            parts.push_back(order.renewBelowMinutes
+                    ? Engine::tr("under {minutes} min left", {{"minutes", int64_t(*order.renewBelowMinutes)}})
+                    : Engine::tr("when it has run out"));
+
+            if (order.stockDrinks > 0)
+            {
+                parts.push_back(order.brewPower
+                        ? Engine::tr("keeps {drinks} drinks of power {power}+",
+                            {{"drinks", int64_t(order.stockDrinks)}, {"power", int64_t(*order.brewPower)}})
+                        : Engine::tr("keeps {drinks} drinks", {{"drinks", int64_t(order.stockDrinks)}}));
+            }
+        }
+        else if (pSpell != nullptr && !isUpkeepBuff(uint32_t(pSpell->id)))
         {
             parts.push_back(Engine::tr("when someone needs it"));
         }
@@ -498,6 +639,10 @@ std::vector<PaletteEntry> paletteEntries(const GameplayScreenRuntime &context, c
         {
             name = Engine::localize(partySpellName(context.partyReadOnly(), member, *pSpell), "spell");
         }
+        else if (entry.kind == BattleOrderKind::Potion)
+        {
+            name = potionName(context, entry.potionItemId);
+        }
 
         return Engine::Utf8::lower(name).find(wanted) != std::string::npos;
     };
@@ -532,6 +677,18 @@ std::vector<PaletteEntry> paletteEntries(const GameplayScreenRuntime &context, c
             {
                 entries.push_back({BattleOrderKind::Spell, spellId, false});
             }
+        }
+    }
+
+    // The upkeep list's potions, after the spells.
+    if (!quickKey && upkeep)
+    {
+        for (const uint32_t itemId : upkeepPotions(context))
+        {
+            PaletteEntry entry;
+            entry.kind = BattleOrderKind::Potion;
+            entry.potionItemId = itemId;
+            entries.push_back(entry);
         }
     }
 
@@ -600,6 +757,13 @@ struct EditorRects
     Rect allyTrack;
     Rect keepToggle;
     Rect keepTrack;
+    // An upkeep potion's stock and brew power, and its bottle row: its label, then the two chips.
+    Rect stockToggle;
+    Rect stockTrack;
+    Rect powerToggle;
+    Rect powerTrack;
+    Rect bottleLabel;
+    std::array<Rect, 2> bottleChips;
     // The place row: its label, then the three chips.
     Rect placeLabel;
     std::array<Rect, 3> placeChips;
@@ -609,13 +773,48 @@ struct EditorRects
 constexpr float PlaceLabelWidth = 40;
 
 // The selected order's editor in page units, the rectangles in screen pixels: an attack order's distance, or an
-// upkeep spell's renew time, then the ally's HP, the SP kept and the place.
-EditorRects editorRects(const Layout &layout, bool upkeep)
+// upkeep spell's renew time, then the ally's HP, the SP kept and the place; an upkeep potion's renew time, stock,
+// brew power, bottle and place.
+EditorRects editorRects(const Layout &layout, bool upkeep, bool potion = false)
 {
     const float left = layout.rightLeft + 10;
     const float right = layout.rightRight - 10;
     EditorRects rects;
     float y = EditorTop + 38;
+
+    if (potion)
+    {
+        for (const auto &[toggle, track] : {std::pair<Rect *, Rect *>{&rects.renewToggle, &rects.renewTrack},
+                 {&rects.stockToggle, &rects.stockTrack}, {&rects.powerToggle, &rects.powerTrack}})
+        {
+            *toggle = pageRect(layout, left, y, right - left, 13);
+            *track = pageRect(layout, left + 14, y + 18, right - left - 18, 8);
+            y += 34;
+        }
+
+        const float rowLabelWidth = PlaceLabelWidth;
+        rects.bottleLabel = pageRect(layout, left, y, rowLabelWidth, 15);
+        const float bottleWidth = (right - left - rowLabelWidth - 4) / 2;
+
+        for (size_t chip = 0; chip < rects.bottleChips.size(); ++chip)
+        {
+            rects.bottleChips[chip] =
+                pageRect(layout, left + rowLabelWidth + float(chip) * (bottleWidth + 4), y, bottleWidth, 15);
+        }
+
+        y += 21;
+        rects.placeLabel = pageRect(layout, left, y, PlaceLabelWidth, 15);
+        const float placeWidth = (right - left - PlaceLabelWidth - 8) / 3;
+        float placeX = left + PlaceLabelWidth;
+
+        for (Rect &chip : rects.placeChips)
+        {
+            chip = pageRect(layout, placeX, y, placeWidth, 15);
+            placeX += placeWidth + 4;
+        }
+
+        return rects;
+    }
 
     if (upkeep)
     {
@@ -727,6 +926,12 @@ size_t scrollAt(const Layout &layout, const Character &member, const WindowState
 Rect upkeepKeyRect(const Layout &layout)
 {
     return pageRect(layout, Margin + 84, QuickTop + 3, 92, 24);
+}
+
+// The auto-brew tick and its label at the right end of the Upkeep key's row.
+Rect autoBrewRect(const Layout &layout)
+{
+    return pageRect(layout, layout.width - Margin - 170, QuickTop + 3, 170, 24);
 }
 
 // The list switch's two chips, over the rows: their widths depend on the text.
@@ -935,6 +1140,11 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
         return {Control::UpkeepKey};
     }
 
+    if (state.upkeep && autoBrewRect(layout).contains(x, y))
+    {
+        return {Control::AutoBrew};
+    }
+
     const size_t columns = paletteColumns(layout);
     const std::vector<PaletteEntry> entries =
         paletteEntries(context, member, state.armedQuickSlot.has_value(), state.paletteSearch, state.upkeep);
@@ -965,13 +1175,47 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
 
     if (state.selectedOrder && *state.selectedOrder < orders.size())
     {
-        const EditorRects editor = editorRects(layout, state.upkeep);
         const BattleOrder &order = orders[*state.selectedOrder];
+        const bool potion = order.kind == BattleOrderKind::Potion;
+        const EditorRects editor = editorRects(layout, state.upkeep, potion);
         // An attack order's distance (not a blow's: its reach is the distance); an upkeep buff's renew time.
         const bool melee = order.kind == BattleOrderKind::Melee || state.upkeep;
         const bool spell = order.kind == BattleOrderKind::Spell;
         const SpellEntry *pSpell = state.upkeep ? orderSpell(context, member, order) : nullptr;
-        const bool renews = pSpell != nullptr && isUpkeepBuff(uint32_t(pSpell->id));
+        const bool renews = potion || (pSpell != nullptr && isUpkeepBuff(uint32_t(pSpell->id)));
+        const auto nearPotionTrack = [x, y, &layout](const Rect &track)
+        {
+            const float pad = 4 * layout.page.scale;
+            return Rect{track.x - pad, track.y - pad, track.width + 2 * pad, track.height + 2 * pad}.contains(x, y);
+        };
+
+        for (size_t chip = 0; chip < editor.bottleChips.size() && potion; ++chip)
+        {
+            if (editor.bottleChips[chip].contains(x, y))
+            {
+                return {Control::BottleRule, chip};
+            }
+        }
+
+        if (potion && nearPotionTrack(editor.stockTrack))
+        {
+            return {Control::SliderTrack, size_t(Slider::Stock)};
+        }
+
+        if (potion && nearPotionTrack(editor.powerTrack))
+        {
+            return {Control::SliderTrack, size_t(Slider::Power)};
+        }
+
+        if (potion && editor.stockToggle.contains(x, y))
+        {
+            return {Control::ConditionToggle, size_t(Slider::Stock)};
+        }
+
+        if (potion && editor.powerToggle.contains(x, y))
+        {
+            return {Control::ConditionToggle, size_t(Slider::Power)};
+        }
 
         for (size_t chip = 0; chip < editor.distancePresets.size() && !melee; ++chip)
         {
@@ -989,7 +1233,7 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
             }
         }
 
-        for (size_t chip = 0; chip < editor.healthWho.size(); ++chip)
+        for (size_t chip = 0; chip < editor.healthWho.size() && !potion; ++chip)
         {
             if (editor.healthWho[chip].contains(x, y))
             {
@@ -1018,7 +1262,7 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
             return {Control::SliderTrack, size_t(Slider::Distance)};
         }
 
-        if (nearTrack(editor.allyTrack))
+        if (!potion && nearTrack(editor.allyTrack))
         {
             return {Control::SliderTrack, size_t(Slider::Ally)};
         }
@@ -1033,7 +1277,7 @@ Hit hitTest(const GameplayScreenRuntime &context, const GameplayObsidianPainter 
             return {Control::ConditionToggle, size_t(Slider::Distance)};
         }
 
-        if (editor.allyToggle.contains(x, y))
+        if (!potion && editor.allyToggle.contains(x, y))
         {
             return {Control::ConditionToggle, size_t(Slider::Ally)};
         }
@@ -1057,7 +1301,7 @@ void playSound(const GameplayScreenRuntime &context, SoundId sound)
 
 std::string limitText(bool upkeep)
 {
-    return upkeep ? Engine::tr("At most {count} upkeep spells", {{"count", int64_t(BattleOrderLimit)}})
+    return upkeep ? Engine::tr("At most {count} upkeep entries", {{"count", int64_t(BattleOrderLimit)}})
                   : Engine::tr("At most {count} orders", {{"count", int64_t(BattleOrderLimit)}});
 }
 
@@ -1068,7 +1312,11 @@ bool addOrder(GameplayScreenRuntime &context, Character &member, BattleOrder ord
     WindowState &state = window(context);
     std::vector<BattleOrder> &orders = shownOrders(member, state);
     const bool listed = state.upkeep && std::any_of(orders.begin(), orders.end(),
-        [&order](const BattleOrder &other) { return other.spellName == order.spellName; });
+        [&order](const BattleOrder &other)
+        {
+            return other.kind == order.kind && other.spellName == order.spellName
+                && other.potionItemId == order.potionItemId;
+        });
 
     if (orders.size() >= BattleOrderLimit || listed)
     {
@@ -1098,13 +1346,31 @@ BattleOrder upkeepOrderFor(const SpellEntry &spell)
     return order;
 }
 
-void setSlider(const Layout &layout, BattleOrder &order, Slider slider, bool maximum, float pointerX, bool upkeep)
+void setSlider(const Layout &layout, BattleOrder &order, Slider slider, bool maximum, float pointerX, bool upkeep,
+    int powerLimit)
 {
-    const EditorRects editor = editorRects(layout, upkeep);
+    const EditorRects editor = editorRects(layout, upkeep, order.kind == BattleOrderKind::Potion);
     const Rect &track = slider == Slider::Distance ? editor.distanceTrack
         : slider == Slider::Renew ? editor.renewTrack
+        : slider == Slider::Stock ? editor.stockTrack
+        : slider == Slider::Power ? editor.powerTrack
         : slider == Slider::Ally ? editor.allyTrack : editor.keepTrack;
     const float position = track.width > 0 ? std::clamp((pointerX - track.x) / track.width, 0.0f, 1.0f) : 0.0f;
+
+    if (slider == Slider::Stock)
+    {
+        order.stockDrinks = uint8_t(std::clamp(int(std::round(position * (UpkeepStockMaximumDrinks - 1))) + 1, 1,
+            int(UpkeepStockMaximumDrinks)));
+        return;
+    }
+
+    if (slider == Slider::Power)
+    {
+        const int step = std::max(1, powerLimit / 100);
+        const int value = int(std::round(position * float(powerLimit) / float(step))) * step;
+        order.brewPower = uint16_t(std::clamp(value, 1, powerLimit));
+        return;
+    }
 
     if (slider == Slider::Renew)
     {
@@ -1186,11 +1452,11 @@ void drawIconWell(const GameplayObsidianPainter &painter, const Rect &box, uint3
     painter.frame(box, border);
 }
 
-// A weapon order's icon: a sword or a bow from the item icons.
-void drawWeaponIcon(GameplayScreenRuntime &context, const Rect &box, BattleOrderKind kind, bool dim)
+// An item icon fitted into the box.
+void drawItemIcon(GameplayScreenRuntime &context, const Rect &box, const std::string &iconName, bool dim)
 {
-    const std::optional<GameplayHudTextureHandle> texture = context.gameplayUiRuntime().ensureItemIconTextureLoaded(
-        kind == BattleOrderKind::Melee ? "7item009" : "7item043");
+    const std::optional<GameplayHudTextureHandle> texture =
+        context.gameplayUiRuntime().ensureItemIconTextureLoaded(iconName);
 
     if (!texture || texture->width <= 0 || texture->height <= 0)
     {
@@ -1210,6 +1476,22 @@ void drawWeaponIcon(GameplayScreenRuntime &context, const Rect &box, BattleOrder
     context.submitHudQuadBatch({quad});
 }
 
+// A weapon order's icon: a sword or a bow from the item icons.
+void drawWeaponIcon(GameplayScreenRuntime &context, const Rect &box, BattleOrderKind kind, bool dim)
+{
+    drawItemIcon(context, box, kind == BattleOrderKind::Melee ? "7item009" : "7item043", dim);
+}
+
+void drawPotionIcon(GameplayScreenRuntime &context, const Rect &box, uint32_t itemId, bool dim)
+{
+    const ItemDefinition *pDefinition = context.itemTable() != nullptr ? context.itemTable()->get(itemId) : nullptr;
+
+    if (pDefinition != nullptr)
+    {
+        drawItemIcon(context, box, pDefinition->iconName, dim);
+    }
+}
+
 void drawOrderIcon(GameplayScreenRuntime &context, const GameplayObsidianPainter &painter, const Character &member,
     const BattleOrder &order, const Rect &box, bool dim)
 {
@@ -1222,6 +1504,12 @@ void drawOrderIcon(GameplayScreenRuntime &context, const GameplayObsidianPainter
         {
             GameplaySoloHud::renderSlotIcon(context, painter, member, {ActionBarSlotKind::Talent, *index}, inner, dim);
         }
+        return;
+    }
+
+    if (order.kind == BattleOrderKind::Potion)
+    {
+        drawPotionIcon(context, inner, order.potionItemId, dim);
         return;
     }
 
@@ -1334,8 +1622,8 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     const std::string hint = !state.upkeep
         ? Engine::tr("top to bottom; the first order whose conditions all hold is used")
         : upkeepKey.kind == InputBindingKind::None
-            ? Engine::tr("the Upkeep key (not set) casts the first that is due")
-            : Engine::tr("{key} casts the first that is due; hold it to go on",
+            ? Engine::tr("the Upkeep key (not set) casts or drinks the first that is due")
+            : Engine::tr("{key} casts or drinks the first that is due; hold it to go on",
                 {{"key", inputBindingDisplayName(upkeepKey)}});
     painter.text(TextFont, 8.5f, Muted, painter.fitted(TextFont, 8.5f, hint, layout.leftRight - hintLeft), hintLeft,
         77.5f);
@@ -1379,6 +1667,14 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
                 painter.text(TextFont, 8, Muted, Engine::tr("{points} SP", {{"points", int64_t(*cost)}}),
                     textLeft + nameWidth + 5, top + 5);
             }
+        }
+        else if (order.kind == BattleOrderKind::Potion && textLeft + nameWidth + 40 < textRight)
+        {
+            // The drinks carried, red below the stock.
+            const uint32_t carried = carriedPotionDrinks(context, order);
+            painter.text(TextFont, 8, carried < order.stockDrinks || carried == 0 ? Bad : Muted,
+                Engine::trn("{count} drink", "{count} drinks", uint64_t(carried), {{"count", int64_t(carried)}}),
+                textLeft + nameWidth + 5, top + 5);
         }
 
         painter.text(TextFont, 8.5f, order.enabled ? abgr(0xcfe2f2) : Disabled,
@@ -1436,7 +1732,8 @@ void renderOrders(GameplayScreenRuntime &context, const GameplayObsidianPainter 
             const float addTop = RowTop + float(orders.size()) * RowPitch;
             painter.frame(pageRect(layout, Margin, addTop, layout.leftRight - Margin, 20), abgr(0x3a3f35));
             painter.text(TextFont, 8.5f, Muted,
-                painter.fitted(TextFont, 8.5f, Engine::tr("+ Add a spell to keep up: click it on the right"),
+                painter.fitted(TextFont, 8.5f,
+                    Engine::tr("+ Add a spell or a potion to keep up: click it on the right"),
                     layout.leftRight - Margin - 20),
                 Margin + 10, addTop + 5);
         }
@@ -1544,12 +1841,12 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
             left, EditorTop + 8);
         float y = EditorTop + 30;
         const std::string hint = !orders.empty()
-            ? (state.upkeep ? Engine::tr("Select a spell to set when it is cast.")
+            ? (state.upkeep ? Engine::tr("Select a spell or potion to set when it is used.")
                             : Engine::tr("Select an order to set when it is used."))
             : state.upkeep
-                ? Engine::tr("The buffs, heals and cures {member} keeps up. The Upkeep key casts the first that is "
-                             "due, at its usual cost. Add spells on the right, or the member's buffs or healing "
-                             "below.", {{"member", member.name}})
+                ? Engine::tr("The buffs, heals, cures and potions {member} keeps up. The Upkeep key casts or "
+                             "drinks the first that is due, at its usual cost. Add spells and potions on the right, "
+                             "or the member's buffs, healing or carried potions below.", {{"member", member.name}})
                 : Engine::tr("{member} attacks with the weapon: a blow in reach, the ranged weapon beyond. Add a spell "
                              "to cast it first, or start from a plan below.", {{"member", member.name}});
 
@@ -1568,13 +1865,15 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
     const bool spell = order.kind == BattleOrderKind::Spell;
     const std::string title = std::to_string(selected + 1) + " \xC2\xB7 " + orderName(context, member, order);
     painter.text(TitleFont, 13, Ivory, painter.fitted(TitleFont, 13, title, right - left), left, EditorTop + 8);
+    const bool potion = order.kind == BattleOrderKind::Potion;
     painter.text(TextFont, 8.5f, Muted,
         painter.fitted(TextFont, 8.5f,
-            state.upkeep ? Engine::tr("Cast when it is due and every ticked condition holds.")
-                         : Engine::tr("Used when every ticked condition holds; none ticked: always."),
+            potion ? Engine::tr("Drunk when it is due; auto-brew keeps the stock.")
+                : state.upkeep ? Engine::tr("Cast when it is due and every ticked condition holds.")
+                               : Engine::tr("Used when every ticked condition holds; none ticked: always."),
             right - left),
         left, EditorTop + 24);
-    const EditorRects rects = editorRects(layout, state.upkeep);
+    const EditorRects rects = editorRects(layout, state.upkeep, potion);
     const float s = layout.page.scale;
     const auto rowText = [&painter, &layout, s](const Rect &toggle, const std::string &label, const std::string &value,
                              bool on, bool usable)
@@ -1585,6 +1884,65 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
         painter.text(TextFont, 9, !usable ? Disabled : on ? ChipOnText : Body, label, x + 14, y);
         painter.text(TextFont, 9, !usable ? Disabled : on ? Ivory : Muted, value, x + toggle.width / s, y, 2);
     };
+
+    const auto placeRow = [&]()
+    {
+        const float labelX = (rects.placeLabel.x - layout.page.x) / s;
+        const float labelY = (rects.placeLabel.y - layout.page.y) / s + 3;
+        painter.text(TextFont, 9, order.place != BattleOrderPlace::Anywhere ? ChipOnText : Body,
+            painter.fitted(TextFont, 9, Engine::tr("Place"), PlaceLabelWidth - 4), labelX, labelY);
+
+        for (size_t chip = 0; chip < rects.placeChips.size(); ++chip)
+        {
+            drawChip(painter, layout, rects.placeChips[chip], Engine::tr(PlaceNames[chip]),
+                size_t(order.place) == chip, hover.control == Control::Place && hover.index == chip);
+        }
+    };
+
+    // An upkeep potion: its renew time, the drinks kept in stock, the power they are brewed at, the bottle drunk.
+    if (potion)
+    {
+        const int minutes = order.renewBelowMinutes.value_or(UpkeepRenewDefaultMinutes);
+        rowText(rects.renewToggle, Engine::tr("Renew when less is left than"),
+            Engine::tr("{minutes} min", {{"minutes", int64_t(minutes)}}), order.renewBelowMinutes.has_value(), true);
+        drawSlider(painter, rects.renewTrack,
+            float(minutes - UpkeepRenewMinimumMinutes) / float(UpkeepRenewMaximumMinutes - UpkeepRenewMinimumMinutes),
+            std::nullopt, order.renewBelowMinutes.has_value(), std::nullopt);
+
+        const bool stocked = order.stockDrinks > 0;
+        const int drinks = stocked ? order.stockDrinks : 10;
+        const uint32_t carried = carriedPotionDrinks(context, order);
+        rowText(rects.stockToggle, Engine::tr("Keep in stock"),
+            stocked ? Engine::tr("{drinks} drinks ({carried} carried)",
+                          {{"drinks", int64_t(drinks)}, {"carried", int64_t(carried)}})
+                    : Engine::tr("{carried} carried", {{"carried", int64_t(carried)}}),
+            stocked, true);
+        drawSlider(painter, rects.stockTrack, float(drinks - 1) / float(UpkeepStockMaximumDrinks - 1), std::nullopt,
+            stocked, std::nullopt);
+
+        const int powerLimit = brewPowerLimit(context);
+        const int power = order.brewPower.value_or(uint16_t(powerLimit / 4));
+        rowText(rects.powerToggle, Engine::tr("Brew at power at least"),
+            order.brewPower ? std::to_string(power) : Engine::tr("the strongest"), order.brewPower.has_value(),
+            stocked);
+        drawSlider(painter, rects.powerTrack, float(power) / float(powerLimit), std::nullopt,
+            stocked && order.brewPower.has_value(), std::nullopt);
+
+        const float labelX = (rects.bottleLabel.x - layout.page.x) / s;
+        painter.text(TextFont, 9, Body, painter.fitted(TextFont, 9, Engine::tr("Drink"), PlaceLabelWidth - 4), labelX,
+            (rects.bottleLabel.y - layout.page.y) / s + 3);
+        const std::array<std::string, 2> bottles = {Engine::tr("Strongest"), Engine::tr("Weakest")};
+
+        for (size_t chip = 0; chip < rects.bottleChips.size(); ++chip)
+        {
+            drawChip(painter, layout, rects.bottleChips[chip], bottles[chip],
+                (order.bottleRule == QuickItemBottleRule::Weakest) == (chip == 1),
+                hover.control == Control::BottleRule && hover.index == chip);
+        }
+
+        placeRow();
+        return;
+    }
 
     // An upkeep buff's renew time.
     if (state.upkeep)
@@ -1688,19 +2046,7 @@ void renderEditor(GameplayScreenRuntime &context, const GameplayObsidianPainter 
         }
     }
 
-    // The place.
-    {
-        const float labelX = (rects.placeLabel.x - layout.page.x) / s;
-        const float labelY = (rects.placeLabel.y - layout.page.y) / s + 3;
-        painter.text(TextFont, 9, order.place != BattleOrderPlace::Anywhere ? ChipOnText : Body,
-            painter.fitted(TextFont, 9, Engine::tr("Place"), PlaceLabelWidth - 4), labelX, labelY);
-
-        for (size_t chip = 0; chip < rects.placeChips.size(); ++chip)
-        {
-            drawChip(painter, layout, rects.placeChips[chip], Engine::tr(PlaceNames[chip]),
-                size_t(order.place) == chip, hover.control == Control::Place && hover.index == chip);
-        }
-    }
+    placeRow();
 }
 
 void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter &painter, const Layout &layout,
@@ -1713,7 +2059,7 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
     painter.frame(box, state.armedQuickSlot ? RowSelectedBorder : RowBorder);
     const std::string label = state.armedQuickSlot
         ? Engine::tr("Choose the spell for {key}", {{"key", Engine::tr(QuickSlotNames[*state.armedQuickSlot])}})
-        : state.upkeep        ? Engine::tr("Add: {member}'s buffs, heals and cures", {{"member", member.name}})
+        : state.upkeep        ? Engine::tr("Add: {member}'s spells and potions", {{"member", member.name}})
         : context.soloTalents() ? Engine::tr("Add: spells, weapons and talents")
                                 : Engine::tr("Add: {member}'s spells and weapons", {{"member", member.name}});
     const Rect search = searchRect(layout);
@@ -1754,6 +2100,10 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
             const float inset = std::max(1.0f, painter.scale());
             GameplaySoloHud::renderSlotIcon(context, painter, member, {ActionBarSlotKind::Talent, entry.talentIndex},
                 {icon.x + inset, icon.y + inset, icon.width - 2 * inset, icon.height - 2 * inset}, false);
+        }
+        else if (entry.kind == BattleOrderKind::Potion)
+        {
+            drawPotionIcon(context, icon, entry.potionItemId, false);
         }
         else if (entry.kind != BattleOrderKind::Spell)
         {
@@ -1796,6 +2146,17 @@ void renderPalette(GameplayScreenRuntime &context, const GameplayObsidianPainter
                 {{"talent", Engine::tr(talent.name)},
                     {"effect", talentEffectText(talent, talentRank(member, talent.id))}});
             name = painter.fitted(TextFont, 8.5f, name, layout.rightRight - layout.rightLeft - 16);
+        }
+        else if (entry.kind == BattleOrderKind::Potion)
+        {
+            BattleOrder order;
+            order.kind = BattleOrderKind::Potion;
+            order.potionItemId = entry.potionItemId;
+            const uint32_t carried = carriedPotionDrinks(context, order);
+            name = potionName(context, entry.potionItemId) + ": "
+                + (carried > 0 ? Engine::trn("{count} drink carried", "{count} drinks carried", uint64_t(carried),
+                                     {{"count", int64_t(carried)}})
+                               : Engine::tr("none carried, auto-brew can brew it"));
         }
         else if (name.empty() && context.spellTable() != nullptr)
         {
@@ -1914,7 +2275,8 @@ void renderUpkeepKey(GameplayScreenRuntime &context, const GameplayObsidianPaint
             boxWidth - 8),
         box);
     const float textLeft = (box.x + box.width - layout.page.x) / layout.page.scale + 10;
-    const float available = layout.width - Margin - textLeft;
+    const Rect autoBrew = autoBrewRect(layout);
+    const float available = (autoBrew.x - layout.page.x) / layout.page.scale - 10 - textLeft;
     painter.text(TextFont, 8.5f, Body,
         painter.fitted(TextFont, 8.5f,
             state.capturingUpkeepKey ? Engine::tr("Press the key to use. Escape keeps the old one.")
@@ -1924,9 +2286,26 @@ void renderUpkeepKey(GameplayScreenRuntime &context, const GameplayObsidianPaint
     painter.text(TextFont, 8.5f, state.upkeepKeyRefusal.empty() ? Muted : Bad,
         painter.fitted(TextFont, 8.5f,
             !state.upkeepKeyRefusal.empty() ? state.upkeepKeyRefusal
-                : Engine::tr("One key for the whole party: each ready member casts what is due on their list."),
+                : Engine::tr("One key for the whole party: each ready member uses what is due on their list."),
             available),
         textLeft, QuickTop + 17);
+
+    // Auto-brew (GameSettings::upkeepAutoBrew): a press first brews the stocked potions that are short.
+    const bool on = context.settingsSnapshot().upkeepAutoBrew;
+    const float s = layout.page.scale;
+
+    if (hover.control == Control::AutoBrew)
+    {
+        painter.fill(autoBrew, HoverFill);
+    }
+
+    drawTick(painter, {autoBrew.x + 4 * s, autoBrew.y + 3 * s, 9 * s, 9 * s}, on);
+    const float brewLeft = (autoBrew.x - layout.page.x) / s + 18;
+    const float brewWidth = autoBrew.width / s - 20;
+    painter.text(TextFont, 9, on ? ChipOnText : Body,
+        painter.fitted(TextFont, 9, Engine::tr("Auto-brew potions"), brewWidth), brewLeft, QuickTop + 4);
+    painter.text(TextFont, 8.5f, Muted,
+        painter.fitted(TextFont, 8.5f, Engine::tr("brews the stock first"), brewWidth), brewLeft, QuickTop + 17);
 }
 
 void renderWindow(GameplayScreenRuntime &context, int width, int height)
@@ -2121,6 +2500,30 @@ void GameplayBattleOrders::open(GameplayScreenRuntime &context, bool closesBook)
     menu(context).open = false;
 }
 
+void GameplayBattleOrders::openUpkeep(GameplayScreenRuntime &context, size_t memberIndex)
+{
+    const bool bookOpen = context.spellbookReadOnly().active;
+
+    if (!bookOpen)
+    {
+        context.openSpellbookOverlay();
+    }
+
+    open(context, !bookOpen);
+    const Party *pParty = context.partyReadOnly();
+
+    if (!isOpen(context) || pParty == nullptr || pParty->member(memberIndex) == nullptr)
+    {
+        return;
+    }
+
+    WindowState &state = window(context);
+    state.memberIndex = memberIndex;
+    state.upkeep = true;
+    state.selectedOrder =
+        pParty->member(memberIndex)->upkeepOrders.empty() ? std::nullopt : std::optional<size_t>(0);
+}
+
 void GameplayBattleOrders::close(GameplayScreenRuntime &context)
 {
     if (window(context).closesBook)
@@ -2253,7 +2656,7 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         if (state.selectedOrder && *state.selectedOrder < shownOrders(member, state).size())
         {
             setSlider(layout, shownOrders(member, state)[*state.selectedOrder], Slider(state.draggedSlider),
-                state.draggingMaximum, input.pointerX, state.upkeep);
+                state.draggingMaximum, input.pointerX, state.upkeep, brewPowerLimit(context));
         }
 
         if (!input.leftMouseButton.held)
@@ -2406,10 +2809,27 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         case Control::Preset:
             if (state.upkeep)
             {
-                // The upkeep chips add to the list what it lacks; the last added spell is selected.
+                // The upkeep chips add to the list what it lacks; the last added entry is selected.
                 const size_t before = orders.size();
-                addUpkeepPreset(member, *pParty, *context.spellTable(),
-                    hit.index == 0 ? UpkeepPreset::Buffs : UpkeepPreset::Healing);
+
+                if (hit.index == UpkeepPotionsPreset)
+                {
+                    for (const uint32_t itemId : listUpkeepPotions(context, true))
+                    {
+                        const bool listed = std::any_of(orders.begin(), orders.end(), [itemId](const BattleOrder &order)
+                            { return order.kind == BattleOrderKind::Potion && order.potionItemId == itemId; });
+
+                        if (!listed && orders.size() < BattleOrderLimit)
+                        {
+                            orders.push_back(upkeepOrderForPotion(context, itemId));
+                        }
+                    }
+                }
+                else
+                {
+                    addUpkeepPreset(member, *pParty, *context.spellTable(),
+                        hit.index == 0 ? UpkeepPreset::Buffs : UpkeepPreset::Healing);
+                }
 
                 if (orders.size() == before)
                 {
@@ -2471,7 +2891,11 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
             BattleOrder order;
             order.kind = entry.kind;
 
-            if (entry.kind == BattleOrderKind::Spell)
+            if (entry.kind == BattleOrderKind::Potion)
+            {
+                order = upkeepOrderForPotion(context, entry.potionItemId);
+            }
+            else if (entry.kind == BattleOrderKind::Spell)
             {
                 const SpellEntry *pSpell = context.spellTable()->findById(int(entry.spellId));
 
@@ -2513,6 +2937,23 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
         case Control::UpkeepKey:
             // Toggled above with the focus.
             break;
+        case Control::AutoBrew:
+        {
+            GameSettings &settings = context.mutableSettings();
+            settings.upkeepAutoBrew = !settings.upkeepAutoBrew;
+            context.commitSettingsChange();
+            playSound(context, SoundId::ClickSkill);
+            context.setStatusBarEvent(settings.upkeepAutoBrew
+                    ? Engine::tr("The Upkeep key brews the stocked potions first")
+                    : Engine::tr("The Upkeep key brews no potions"));
+            break;
+        }
+        case Control::BottleRule:
+            if (pSelected != nullptr)
+            {
+                pSelected->bottleRule = hit.index == 1 ? QuickItemBottleRule::Weakest : QuickItemBottleRule::Strongest;
+            }
+            break;
         case Control::ScrollBar:
             state.draggingScroll = true;
             state.listScroll = scrollAt(layout, member, state, input.pointerY);
@@ -2531,6 +2972,16 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                 {
                     order.renewBelowMinutes =
                         order.renewBelowMinutes ? std::nullopt : std::optional<uint16_t>(UpkeepRenewDefaultMinutes);
+                }
+                else if (Slider(hit.index) == Slider::Stock)
+                {
+                    order.stockDrinks = order.stockDrinks > 0 ? 0 : upkeepOrderForPotion(context,
+                        order.potionItemId).stockDrinks;
+                }
+                else if (Slider(hit.index) == Slider::Power)
+                {
+                    order.brewPower = order.brewPower ? std::nullopt
+                                                      : std::optional<uint16_t>(uint16_t(brewPowerLimit(context) / 4));
                 }
                 else if (Slider(hit.index) == Slider::Ally)
                 {
@@ -2587,7 +3038,8 @@ void GameplayBattleOrders::handleInput(GameplayScreenRuntime &context, const Gam
                     state.draggingMaximum = std::abs(at - high) <= std::abs(at - low);
                 }
 
-                setSlider(layout, order, slider, state.draggingMaximum, input.pointerX, state.upkeep);
+                setSlider(layout, order, slider, state.draggingMaximum, input.pointerX, state.upkeep,
+                    brewPowerLimit(context));
             }
             break;
         case Control::Place:
@@ -3198,6 +3650,13 @@ void GameplayBattleOrders::copyUpkeep(
 
     for (const BattleOrder &order : source.upkeepOrders)
     {
+        // Anyone drinks a potion.
+        if (order.kind == BattleOrderKind::Potion)
+        {
+            member.upkeepOrders.push_back(order);
+            continue;
+        }
+
         const SpellEntry *pSpell = spellTable.findByName(order.spellName, spellKnownBy(member));
 
         if (pSpell != nullptr && member.knowsSpell(uint32_t(pSpell->id))

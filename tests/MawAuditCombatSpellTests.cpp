@@ -10,6 +10,7 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/SoloTalents.h"
 #include "game/rules/SpellRules.h"
 #include "game/rules/maw/MawClassRules.h"
 #include "game/rules/maw/MawClassSpells.h"
@@ -1101,6 +1102,85 @@ TEST_CASE("A dragon's breath takes the mean of two rolls, so very low breaths ar
     // One roll lands below 75 at least 6 % of the time (a roll under 60, x 1.25 at most); the mean of two under 100 at
     // most 2 % (x 0.75 at least).
     CHECK_LT(low, Breaths * 4 / 100);
+}
+
+TEST_CASE("Manathirst gives SP back the way leech heals; an area spell's counts at most three monsters")
+{
+    REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(), OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    std::ifstream input(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/data_tables/talents.yml");
+    const std::string yaml{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+    SoloTalentTable talents;
+    std::string error;
+    REQUIRE_MESSAGE(talents.loadFromYaml(yaml, error), error);
+    bindSoloTalentTable(&talents);
+
+    RulesetOptions options;
+    options.soloRun = true;
+    MawRules rules(options, MawMapLevels{}, installedItemData());
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(OpenYAMM::Tests::regressionGameData());
+    party.setRules(&rules.gameRules());
+    Character &mage = *party.member(0);
+    mage.className = "Sorcerer";
+    mage.equipment = {};
+    mage.maxSpellPoints = 4000;
+    const int fullMana = Party::effectiveMaximumSpellPoints(mage);
+    REQUIRE_GT(fullMana, 1000);
+    ActorRulesetFacts target;
+    target.level = 20;
+    target.maxHp = 1000;
+    PartyHitOnMonster hit;
+    hit.memberIndex = 0;
+    hit.pTarget = &target;
+    hit.damage = 1;
+    hit.melee = true;
+    const auto gained = [&]()
+    {
+        mage.spellPoints = 0;
+        rules.gameRules().combat.applyPartyHitEffects(party, hit);
+        return mage.spellPoints;
+    };
+
+    // Without the talent a blow gives no SP; at rank 5 its floor does (10 %, ÷2.5 per 100 recovery).
+    CHECK_EQ(gained(), 0);
+    mage.talentRanks["manathirst"] = 5;
+    const int floor = gained();
+    CHECK_GT(floor, 0);
+    // A blow that takes a monster's whole bar gives more: the share of the SP bar the heal is of the HP bar, so a
+    // twentieth of a reference monster's HP gives a twentieth of 10 % of the bar (not the whole bar), and never past it.
+    MawBalanceModel &model = rules.model(1);
+    const double reference = model.monsterHealth(target.level);
+    target.maxHp = int(reference);
+    hit.damage = int(reference / 20);
+    const int bar = gained();
+    CHECK_GE(bar, floor);
+    CHECK_LE(bar, std::max(floor, int(std::ceil(fullMana * 0.10 / 20)) + 1));
+    hit.damage = target.maxHp;
+    CHECK_GT(gained(), bar);
+    CHECK_LE(gained(), int(std::ceil(fullMana * 0.10)) + 1);
+    mage.spellPoints = fullMana - 1;
+    rules.gameRules().combat.applyPartyHitEffects(party, hit);
+    CHECK_EQ(mage.spellPoints, fullMana);
+
+    // A Fireball gives SP for its first three monsters; the window ends and the next cast counts again.
+    hit.melee = false;
+    hit.spellId = uint32_t(SpellId::Fireball);
+    std::vector<int> fireball;
+    for (int monster = 0; monster < 5; ++monster)
+    {
+        fireball.push_back(gained());
+    }
+    CHECK_GT(fireball[0], 0);
+    CHECK_GT(fireball[2], 0);
+    CHECK_EQ(fireball[3], 0);
+    CHECK_EQ(fireball[4], 0);
+    mage.talentState.areaManaLeechSeconds = 0;
+    CHECK_GT(gained(), 0);
+
+    // Outside a solo run the talent does nothing.
+    rules.setOptions(RulesetOptions{});
+    mage.talentState = {};
+    CHECK_EQ(gained(), 0);
+    bindSoloTalentTable(nullptr);
 }
 
 TEST_CASE("The leech floor reads the full Speed and keeps whole under dimension affix 32 (CMB-13, CMB-15)")

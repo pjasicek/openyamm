@@ -21,6 +21,8 @@ enum class ActionBarSlotKind : uint8_t
     Weapon,
     // A special skill (talent) of a MAW solo run: `id` is its index in the talent table (game/rules/SoloTalents.h).
     Talent,
+    // The Upkeep key's action (devdocs/BATTLE_ORDERS.md "Upkeep"): held, it casts and drinks what is due.
+    Upkeep,
 };
 
 struct ActionBarSlot

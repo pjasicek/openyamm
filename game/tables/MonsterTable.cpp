@@ -1568,6 +1568,11 @@ void MonsterTable::setMapFactionRelation(uint32_t faction, uint32_t otherFaction
     m_mapFactionRelations[mapFactionRelationKey(faction, otherFaction)] = relation;
 }
 
+void MonsterTable::setMapRelationToParty(int16_t monsterId, int relation)
+{
+    setMapFactionRelation(uint32_t(relationIndexForMonsterId(monsterId)), 0, relation);
+}
+
 void MonsterTable::clearMapFactionRelations()
 {
     m_mapFactionRelations.clear();

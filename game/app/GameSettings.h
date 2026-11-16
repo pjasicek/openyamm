@@ -420,6 +420,9 @@ struct GameSettings
     // The Workbench never uses up carried mixed potions: it brews them from reagents and the basic potions
     // (AlchemyChainPlanner's keepMixedPotions).
     bool workbenchKeepMixedPotions = false;
+    // A fresh press of the Upkeep key first brews what the upkeep lists' potion stock lacks (devdocs/BATTLE_ORDERS.md
+    // "Potions"); set in the Battle Orders window's upkeep list.
+    bool upkeepAutoBrew = false;
     // On by default; only MM9 marks quest givers, so the other worlds show nothing either way.
     bool questMarkers = true;
     // Maps with a painted map (MM9's) show it on the minimap and the journal map; false shows the MM6-MM8 line map

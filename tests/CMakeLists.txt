@@ -79,6 +79,7 @@ add_executable(openyamm_unit_tests
     GameplayBolsterRuntimeTests.cpp
     GameplaySaveLoadUiSupportTests.cpp
     AlchemyBenchRegressionTests.cpp
+    PotionUpkeepTests.cpp
     GameplayRuleRegressionTests.cpp
     GameInputSystemTests.cpp
     GlUniformCacheTests.cpp
@@ -343,6 +344,7 @@ add_executable(openyamm_unit_tests
     ../game/fx/ParticleSystem.cpp
     ../game/fx/MistWisps.cpp
     ../game/items/AlchemyBenchRuntime.cpp
+    ../game/items/PotionUpkeep.cpp
     ../game/items/CraftingRuntime.cpp
     ../game/items/InventoryBags.cpp
     ../game/items/ItemSearch.cpp

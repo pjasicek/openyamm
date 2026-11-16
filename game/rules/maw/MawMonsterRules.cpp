@@ -32,6 +32,8 @@ constexpr int MawDifficultyIndex = 3;
 // The named map variable that marks a bounty hunt's map.
 constexpr const char *BountyMapVariable = "MawBounty";
 constexpr int BossLevelCap = 255;
+// hostile.txt's cell for a monster that attacks the party at any range.
+constexpr int HostileRelation = 4;
 // The affixes a boss rolls from (SkillList, zzMaw-Monsters.lua:3122): the fourteen an Omnipotent boss has, then the
 // four it has not.
 constexpr std::array<MawBossAffix, 18> RolledBossAffixes = {
@@ -1727,7 +1729,7 @@ void MawMonsterRules::mapLoaded(const std::string &mapFileName, bool refilled) c
     }
 }
 
-void MawMonsterRules::enterMap(MapStatsEntry &map, const MonsterTable &monsterTable) const
+void MawMonsterRules::enterMap(MapStatsEntry &map, MonsterTable &monsterTable) const
 {
     m_rules.setCurrentMap(map.fileName);
     const MawDimensionRun *pRun = m_rules.dimensionRun(map.fileName);
@@ -1752,6 +1754,14 @@ void MawMonsterRules::enterMap(MapStatsEntry &map, const MonsterTable &monsterTa
         {
             encounters[slot]->pictureName = pStats->pictureName.substr(0, pStats->pictureName.size() - 2);
             encounters[slot]->monsterName = encounters[slot]->pictureName;
+        }
+
+        // Every family is the party's enemy on the run, also those hostile.txt leaves friendly (rocs, golems, the
+        // human fighters and mages): MAW spawns them friendly, which a party without friendly fire cannot clear
+        // (DEVIATIONS.md).
+        if (monsterTable.getRelationToParty(pRun->families[slot]) <= 0)
+        {
+            monsterTable.setMapRelationToParty(pRun->families[slot], HostileRelation);
         }
     }
 
